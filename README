@@ -25,6 +25,39 @@ This will allows the portal to load it up as a plugin with no additional configu
 
 Lastly, you will need one or more instances of the Deltacloud framework running for the portal to talk to.  Directions for this can be found in the Deltacloud-framework documentation. (which can be found here: git://git.fedorahosted.org/git/deltacloud/framework.git/)
 
+=== Building the RPM ===
+(# denotes root below)
+1. First, get a fully updated F11 installed.
+
+2. Set up passwordless sudo:
+
+# visudo
+
+And add the following line:
+
+<your_username>   ALL=(ALL)       NOPASSWD: ALL
+
+Save and quit visudo.
+
+3. Set up a minimal rpmmacros file.
+
+echo "%_topdir      %(echo \$HOME)/rpmbuild" > ~/.rpmmacros
+
+4. From root of project:
+
+./autogen.sh; make publish
+
+5. Create /etc/yum.repos.d/deltacloud-local.repo, change the baseurl to your local deltacloud-cache/deltacloud directory, which you created above.
+
+[deltacloud-local]
+name=Deltacloud-local
+baseurl=file:///home/deltacloud-user/deltacloud-cache/deltacloud
+enabled=1
+metadata_expire=1
+gpgcheck=0
+
+6. # yum install deltacloud-portal
+
 === Getting Started ===
 For these steps, we will assume the mock driver is setup and running in a framework on http://localhost:3000/api, and your portal is running on http://localhost:3001
 
