@@ -1,4 +1,6 @@
 class Provider < ActiveRecord::Base
+  require 'util/deltacloud'
+
   has_many :cloud_accounts,  :dependent => :destroy
   has_many :flavors,  :dependent => :destroy
   has_many :images,  :dependent => :destroy
