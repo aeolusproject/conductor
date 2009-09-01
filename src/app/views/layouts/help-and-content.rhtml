@@ -1,0 +1,6 @@
+<div id="help-div">
+  <%= link_to image_tag("icon_help.png"),
+      {:controller => 'help', :action => @help_section, :anchor => @anchor},
+      :id=>"help-link", :popup => true, :title => "Help" %>
+</div>
+<%= yield %>

@@ -1,0 +1,25 @@
+<% if @provider.portal_pools.size == 0 %>
+<h1>There are no pools to display</h1>
+<% else %>
+    <table>
+      <thead>
+        <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Instances</th>
+        </tr>
+      </thead>
+      <tbody>
+  <%@provider.portal_pools.each {|pool| %>
+        <tr>
+          <td><%= pool.name %></td>
+          <td><%= pool.instances.count %></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+<% end %>
+<%= link_to "Add a pool", {:controller => "portal_pool", :action => "new", :provider => @provider}, :class => "actionlink" %>
+<% form_tag :action => 'destroy' do %>
+  <%=hidden_field :provider, :id %>
+  <%= submit_tag "Delete Provider", :class => "submit_link" %>
+<% end %>

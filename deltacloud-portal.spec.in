@@ -1,0 +1,162 @@
+%define pbuild %{_builddir}/%{name}-%{version}
+%define app_root %{_datadir}/%{name}
+%define acehome  %{_datadir}/ace
+
+Summary: The Deltacloud Portal
+Name: deltacloud-portal
+Version: @VERSION@
+Release: 0%{?dist}%{?extra_release}
+Source0: http://deltacloud.org/files/%{name}-%{version}.tar.gz
+#Entire source code is GPL except for vendor/plugins/will_paginate and
+#public/javascripts/jquery.*, which is both MIT and GPL
+License: GPLv2+ and MIT and BSD
+Group: Applications/System
+Requires: ruby >= 1.8.1
+Requires: ruby(abi) = 1.8
+Requires: rubygem(activerecord) >= 2.1.1-2
+Requires: rubygem(activeldap) >= 0.10.0
+Requires: rubygem(rails) >= 2.1.1
+Requires: rubygem(mongrel) >= 1.0.1
+%if 0%{?fedora} >= 11
+Requires: rubygem(gettext_rails)
+%else
+Requires: rubygem(gettext)
+%endif
+Requires: ruby-flexmock
+Requires: postgresql-server
+Requires: ruby-postgres
+Requires: pwgen
+Requires: httpd >= 2.0
+Requires(post):  /sbin/chkconfig
+Requires(preun): /sbin/chkconfig
+Requires(preun): /sbin/service
+BuildRequires: ruby >= 1.8.1
+BuildRequires: ruby-devel
+BuildRequires: rubygem(gettext)
+BuildRequires: rubygem(rake) >= 0.7
+BuildArch: noarch
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+URL: http://deltacloud.org/
+
+%description
+The Portal for deltacloud.
+
+%prep
+%setup -q
+
+%build
+
+%install
+test "x%{buildroot}" != "x" && rm -rf %{buildroot}
+mkdir %{buildroot}
+
+%{__install} -d -m0755 %{buildroot}%{_bindir}
+%{__install} -d -m0755 %{buildroot}%{_datadir}
+%{__install} -d -m0755 %{buildroot}%{_sbindir}
+%{__install} -d -m0755 %{buildroot}%{_initrddir}
+%{__install} -d -m0755 %{buildroot}%{_sysconfdir}/sysconfig
+%{__install} -d -m0755 %{buildroot}%{_sysconfdir}/httpd/conf.d
+%{__install} -d -m0755 %{buildroot}%{_sysconfdir}/%{name}
+%{__install} -d -m0755 %{buildroot}%{_sysconfdir}/%{name}/db
+%{__install} -d -m0755 %{buildroot}%{_sysconfdir}/logrotate.d
+%{__install} -d -m0755 %{buildroot}%{_localstatedir}/lib/%{name}
+%{__install} -d -m0755 %{buildroot}%{_localstatedir}/log/%{name}
+%{__install} -d -m0755 %{buildroot}%{_localstatedir}/run/%{name}
+%{__install} -d -m0755 %{buildroot}%{app_root}
+%{__install} -d -m0755 %{buildroot}/%{acehome}
+
+# Creating these files now to make sure the logfiles will be owned
+# by dcloud:dcloud. This is a temporary workaround while we've still
+# got root-owned daemon processes. Once we resolve that issue
+# these files will no longer be added explicitly here.
+touch %{buildroot}%{_localstatedir}/log/%{name}/mongrel.log
+touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
+touch %{buildroot}%{_localstatedir}/log/%{name}/taskomatic.log
+%{__install} -p -m0644 %{pbuild}/conf/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d
+%{__install} -p -m0644 %{pbuild}/conf/%{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+
+%{__install} -Dp -m0755 %{pbuild}/conf/deltacloud-mongrel-rails %{buildroot}%{_initrddir}
+%{__install} -Dp -m0644 %{pbuild}/conf/deltacloud-mongrel-rails.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-mongrel-rails
+%{__install} -Dp -m0644 %{pbuild}/conf/deltacloud-rails.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-rails
+%{__install} -Dp -m0755 %{pbuild}/conf/deltacloud-taskomatic %{buildroot}%{_initrddir}
+
+# copy over all of the src directory...
+%{__cp} -a %{pbuild}/src/* %{buildroot}%{app_root}
+
+
+# move configs to /etc, keeping symlinks for Rails
+%{__mv} %{buildroot}%{app_root}/config/database.yml %{buildroot}%{_sysconfdir}/%{name}
+%{__mv} %{buildroot}%{app_root}/config/environments/development.rb %{buildroot}%{_sysconfdir}/%{name}
+%{__mv} %{buildroot}%{app_root}/config/environments/production.rb %{buildroot}%{_sysconfdir}/%{name}
+%{__mv} %{buildroot}%{app_root}/config/environments/test.rb %{buildroot}%{_sysconfdir}/%{name}
+%{__ln_s} %{_sysconfdir}/%{name}/database.yml %{buildroot}%{app_root}/config
+%{__ln_s} %{_sysconfdir}/%{name}/development.rb %{buildroot}%{app_root}/config/environments
+%{__ln_s} %{_sysconfdir}/%{name}/production.rb %{buildroot}%{app_root}/config/environments
+%{__ln_s} %{_sysconfdir}/%{name}/test.rb %{buildroot}%{app_root}/config/environments
+
+# remove the files not needed for the installation
+%{__rm} -f %{buildroot}%{app_root}/task-omatic/.gitignore
+%{__rm} -f %{buildroot}%{app_root}/vendor/plugins/will_paginate/.gitignore
+%{__rm} -f %{buildroot}%{app_root}/vendor/plugins/will_paginate/.manifest
+
+%{__rm} -rf %{buildroot}%{app_root}/tmp
+%{__mkdir} %{buildroot}%{_localstatedir}/lib/%{name}/tmp
+%{__ln_s} %{_localstatedir}/lib/%{name}/tmp %{buildroot}%{app_root}/tmp
+
+%clean
+rm -rf %{buildroot}
+
+%pre
+getent group dcloud >/dev/null || /usr/sbin/groupadd -g 109 -r dcloud 2>/dev/null || :
+getent passwd dcloud >/dev/null || \
+    /usr/sbin/useradd -u 109 -g dcloud -c "dcloud" \
+    -s /sbin/nologin -r -d /var/dcloud dcloud 2> /dev/null || :
+
+%post
+# script
+%define daemon_chkconfig_post(d:) \
+/sbin/chkconfig --list %{-d*} >& /dev/null \
+LISTRET=$? \
+/sbin/chkconfig --add %{-d*} \
+if [ $LISTRET -ne 0 ]; then \
+    /sbin/chkconfig %{-d*} on \
+fi \
+%{nil}
+
+# if this is the initial RPM install, then we want to turn the new services
+# on; otherwise, we respect the choices the administrator already has made.
+# check this by seeing if each daemon is already installed
+%daemon_chkconfig_post -d deltacloud-mongrel-rails
+%daemon_chkconfig_post -d deltacloud-taskomatic
+
+%preun
+if [ "$1" = 0 ] ; then
+  /sbin/service deltacloud-mongrel-rails stop > /dev/null 2>&1
+  /sbin/service deltacloud-taskomatic stop > /dev/null 2>&1
+  /sbin/chkconfig --del deltacloud-mongrel-rails
+  /sbin/chkconfig --del deltacloud-taskomatic
+fi
+
+%files
+%defattr(-,root,root,0755)
+%{_initrddir}/deltacloud-mongrel-rails
+%{_initrddir}/deltacloud-taskomatic
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-mongrel-rails
+%config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-rails
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
+%doc README AUTHORS COPYING
+%attr(-, dcloud, dcloud) %{_localstatedir}/lib/%{name}
+%attr(-, dcloud, dcloud) %{_localstatedir}/run/%{name}
+%attr(-, dcloud, dcloud) %{_localstatedir}/log/%{name}
+%{app_root}
+%dir %{_sysconfdir}/%{name}
+%dir %{_sysconfdir}/%{name}/db
+%config(noreplace) %{_sysconfdir}/%{name}/database.yml
+%config(noreplace) %{_sysconfdir}/%{name}/development.rb
+%config(noreplace) %{_sysconfdir}/%{name}/production.rb
+%config(noreplace) %{_sysconfdir}/%{name}/test.rb
+
+%changelog
+* Fri Sep  1 2009  <sseago@redhat.com> - 0.0.1-1
+- Initial build.

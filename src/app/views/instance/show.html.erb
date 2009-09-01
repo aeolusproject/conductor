@@ -1,0 +1,29 @@
+<% if @instances.size == 0 %>
+<h1>There are no pools to display</h1>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+      <th scope="col">Actions</th>
+      <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@instances.each {|instance| %>
+        <tr>
+          <td>
+            <%instance.get_action_list.each {|action|%>
+              <%= link_to action, :controller => "instance",
+                                  :action => "instance_action",
+                                  :id => instance,
+	                          :instance_action => action %>
+	      <br/>
+	    <% } %>
+          </td>
+          <td><div><%= instance.name %></div></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+<% end %>
+<%= link_to "Add a new instance", :controller => "instance", :action => "new", :id => @pool, :provider => @provider%>

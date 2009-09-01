@@ -1,0 +1,18 @@
+weekly
+rotate 52
+compress
+missingok
+notifempty
+
+/var/log/deltacloud-portal/taskomatic.log {
+  postrotate
+      /etc/init.d/deltacloud-taskomatic restart
+  endscript
+}
+
+/var/log/deltacloud-portal/rails.log /var/log/deltacloud-portal/mongrel.log {
+  sharedscripts
+  postrotate
+      /etc/init.d/deltacloud-mongrel-rails restart
+  endscript
+}

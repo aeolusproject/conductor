@@ -1,0 +1,86 @@
+#!/bin/bash
+#
+#
+# deltacloud-mongrel-rails       startup script for deltacloud-mongrel-rails
+#
+# chkconfig: - 97 03
+# description: deltacloud-mongrel-rails is an essential component of the \
+#    deltacloud Portal.
+#
+
+[ -r /etc/sysconfig/deltacloud-rails ] && . /etc/sysconfig/deltacloud-rails
+
+[ -r /etc/sysconfig/deltacloud-mongrel-rails ] && . /etc/sysconfig/deltacloud-mongrel-rails
+
+RAILS_ENV="${RAILS_ENV:-production}"
+DELTACLOUD_DIR="${DELTACLOUD_DIR:-/usr/share/deltacloud-portal}"
+MONGREL_LOG="${MONGREL_LOG:-/var/log/deltacloud-portal/mongrel.log}"
+MONGREL_PID="${MONGREL_PID:-/var/run/deltacloud-portal/mongrel.pid}"
+MONGREL_LOCKFILE="${MONGREL_LOCKFILE:-/var/lock/subsys/deltacloud-mongrel-rails }"
+USER="${USER:-dcloud}"
+GROUP="${GROUP:-dcloud}"
+PREFIX="${PREFIX:-/deltacloud}"
+
+MONGREL_PROG=mongrel_rails
+ADDR=127.0.0.1
+RETVAL=0
+
+. /etc/init.d/functions
+
+start() {
+    echo -n "Starting deltacloud-mongrel-rails: "
+
+    $MONGREL_PROG start -c $DELTACLOUD_DIR -l $MONGREL_LOG -P $MONGREL_PID \
+	-a $ADDR -e $RAILS_ENV --user $USER --group $GROUP \
+	-d --prefix=$PREFIX
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] && touch $MONGREL_LOCKFILE ; then
+	echo_success
+	echo
+    else
+	echo_failure
+	echo
+    fi
+
+}
+
+stop() {
+    echo -n "Shutting down deltacloud-mongrel-rails: "
+    $MONGREL_PROG stop -c $DELTACLOUD_DIR -P $MONGREL_PID
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] && rm -f $MONGREL_LOCKFILE ; then
+	echo_success
+	echo
+    else
+	echo_failure
+	echo
+    fi
+}
+
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    restart)
+	stop
+	start
+	;;
+    reload)
+        ;;
+    force-reload)
+        restart
+        ;;
+    status)
+	status $MONGREL_PROG
+	RETVAL=$?
+	;;
+    *)
+      echo "Usage: deltacloud-mongrel-rails {start|stop|restart|status}"
+      exit 1
+  ;;
+esac
+
+exit $RETVAL

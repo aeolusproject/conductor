@@ -1,0 +1,56 @@
+<% if 1 ==2  %>
+<% if controller.controller_name == "portal_pool" %>
+  <script>
+    $(document).ready(function(){
+      $tabs = $("#hardware_nav_tabs").tabs({
+          pool_type: "hardware",
+          selected: <%if params[:tab]%><%=params[:tab]%><%else%>0<%end%>
+      });      
+    });
+  </script>
+  <ul id="hardware_nav_tabs" class="ui-tabs-nav">
+    <li id="nav_summary"><%= link_to "Summary", {:action => 'show', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_hosts">  <%= link_to "Hosts", {:action => 'show_hosts', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_storage"><%= link_to "Storage", {:action => 'show_storage', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_vmpool"> <%= link_to "Virtual Machine Pools", {:action => 'show_vms', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_access"> <%= link_to "User Access", {:action => 'show_users', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_tasks">  <%= link_to "Tasks", {:action => 'show_tasks', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+  </ul>
+<% elsif controller.controller_name == "resources" and @pool != nil %>
+  <script>
+    $(document).ready(function(){
+      $tabs = $("#resources_nav_tabs").tabs({
+          pool_type: "resource",
+          selected: <%if params[:tab]%><%=params[:tab]%><%else%>0<%end%>
+      });
+    });
+  </script>
+  <ul id="resources_nav_tabs" class="ui-tabs-nav">
+    <li id="nav_summary" class="ui-tabs-selected"><%= link_to "Summary", {:action => 'show', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_vmpool"> <%= link_to "Virtual Machines", {:action => 'show_vms', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_access"> <%= link_to "User Access", {:action => 'show_users', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_tasks">  <%= link_to "Tasks", {:action => 'show_tasks', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+  </ul>
+<% elsif controller.controller_name == "smart_pools"  %>
+  <script>
+    $(document).ready(function(){
+      $tabs = $("#smart_pools_nav_tabs").tabs({
+          pool_type: "smart",
+          selected: <%if params[:tab]%><%=params[:tab]%><%else%>0<%end%>
+      });
+    });
+  </script>
+  <ul id="smart_pools_nav_tabs" class="ui-tabs-nav">
+    <li id="nav_summary" class="ui-tabs-selected"><%= link_to "Summary", {:action => 'show', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_hosts">  <%= link_to "Hosts", {:action => 'show_hosts', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_storage"><%= link_to "Storage", {:action => 'show_storage', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_pools"> <%= link_to "Pools", {:action => 'show_pools', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_vms"> <%= link_to "Virtual Machines", {:action => 'show_vms', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+    <li id="nav_access"> <%= link_to "User Access", {:action => 'show_users', :id => @pool.id, :nolayout => :true}, :title => "content area" %></li>
+  </ul>
+<% elsif controller.controller_name == "search"  %>
+  <ul id="search_nav_tabs" class="ui-tabs-nav">
+    <li id="nav_search" class="ui-tabs-selected"><a href="#">Search Results</a></li>
+  </ul>
+<% end %>
+<% end %>

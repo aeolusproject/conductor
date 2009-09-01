@@ -1,0 +1,152 @@
+<script type="text/javascript">
+    var treeTimer, urlObj;
+    var processRecursive = true;
+    var recursiveTreeTempl, treeItemTempl, tree_url;
+    $(document).ready(function(){
+      recursiveTreeTempl = TrimPath.parseDOMTemplate("nav_tree_template");
+      treeItemTempl = TrimPath.parseDOMTemplate("nav_tree_updater_template");
+      urlObj = {
+        "HardwarePool" : "<%=  url_for :controller =>'/hardware', :action => 'show' %>",
+        "VmResourcePool" : "<%=  url_for :controller =>'/resources', :action => 'show' %>",
+        "SmartPool" : "<%=  url_for :controller =>'/smart_pools', :action => 'show' %>",
+        "DirectoryPool" : null
+      }
+      tree_url = "<%=  url_for :controller =>"/tree", :action => "return_filtered_list" %>";
+      processTree();
+      treeTimer = setInterval(processTree,15000);
+      $('div.nav-dashboard a').bind('click', function(e){
+          if(this === e.target){
+              var myURL = $(this).attr('href');
+              $('.current').removeClass('current');
+              $(this).parent().addClass('current');
+              $.ajax({
+                url: this.href,
+                dataType: 'html',
+                data: {ajax:true},
+                success: handleTabsAndContent,
+                error: function(xhr) {$.jGrowl(xhr.status + ' ' + xhr.statusText);}
+              });
+              e.preventDefault();
+          }
+      });
+      $('div.nav-networks a').bind('click', function(e){
+          if(this === e.target){
+              var myURL = $(this).attr('href');
+              $('.current').removeClass('current');
+              $(this).parent().addClass('current');
+              $.ajax({
+                url: this.href,
+                dataType: 'html',
+                success: handleTabsAndContent,
+                error: function(xhr) {$.jGrowl(xhr.status + ' ' + xhr.statusText);}
+              });
+              e.preventDefault();
+          }
+      });
+      $('#nav_tree_form ul.ovirt-tree li').livequery(
+        function(){
+          $(this)
+          .children('div')
+          .bind('click',function(){
+            $('#nav_tree_form ul.ovirt-tree li div').removeClass('current');
+            var thisHref = (urlObj[$(this).attr('class')] !=null) ? urlObj[$(this).attr('class')] + '/' + this.id :null;
+            $('div.nav-dashboard').removeClass('current');
+            $('div.nav-networks').removeClass('current');
+            $(this).toggleClass('current');
+            currentNode = this.id;
+            if ($tabs != null) {
+              var tabType = $tabs.data("pool_type.tabs");
+              ($(this).attr('class').toLowerCase().indexOf(tabType) == -1) ?selected_tab = 0 :selected_tab = $tabs.data("selected.tabs");
+            }
+            if (thisHref != null) {
+              $.ajax({
+                url: thisHref,
+                type: 'GET',
+                data: {ajax:true,tab:selected_tab},
+                dataType: 'html',
+                success: handleTabsAndContent,
+                error: function(xhr) {$.jGrowl(xhr.status + ' ' + xhr.statusText);}
+              });
+            }
+          });
+        },function(){
+          $(this)
+          .children('div')
+          .unbind('click');
+        }
+      );
+      $('#nav_tree_form ul.ovirt-tree li:has(ul)').livequery(
+        function(){
+          $(this)
+            .children('span.hitarea')
+            .click(function(event){
+              if (this == event.target) {
+                  if($(this).siblings('ul').size() >0) {
+                      $(this)
+                        .toggleClass('expanded')
+                        .toggleClass('expandable')
+                        .siblings('ul').slideToggle("normal");
+                  }
+              }
+            });
+        },function(){
+            $(this).children('span.hitarea')
+              .removeClass('expanded expandable')
+              .unbind('click');
+        }
+      );
+    });
+</script>
+
+<!-- Output elements -->
+<% selected = "current" if controller.controller_name == "dashboard" && params[:action] == "index" %>
+<div class="nav-dashboard <%= selected %>">
+  <%= link_to "Dashboard", {:controller => "dashboard"} %>
+</div>
+<% network_selected = "current" if controller.controller_name == "network" %>
+
+<%if HardwarePool.get_default_pool.can_modify(@user) -%>
+  <div class="nav-networks <%= network_selected %>">
+    <%= link_to "Networks", {:controller => "network", :action => "list", :ajax => true}, { :id => "networks"} %>
+  </div>
+<% end -%>
+<form id="nav_tree_form">
+  <div class="nav-tree">
+    <ul id="nav_tree" class="ovirt-tree"></ul>
+  </div>
+</form>
+
+<!-- Template content -->
+<!-- TODO: possibly move these templates into external files-->
+<textarea id="nav_tree_updater_template" style="display:none;">
+  <li>
+    <input type="checkbox" name="item[]" value="${id}-${name}" style="display:none" checked="checked"/>
+    <span class="hitarea {if defined('children')} expandable{/if}">&nbsp;</span><div id="${id}" class="${type}">${name}</div>
+  </li>
+</textarea>
+<textarea id="nav_tree_template" style="display:none;">
+  {macro htmlList(list, optionalListType)}
+    {var listType = optionalListType != null ? optionalListType : "ul"}
+    <${listType} style="display:none;">
+      {for item in list}
+        <li>
+          <input type="checkbox" name="item[]" value="${item.id}-${item.name}" style="display:none" checked="checked"/>
+          <span class="hitarea {if item.children} expandable{/if}">&nbsp;</span><div id="${item.id}" class="${item.type}">${item.name}</div>
+          {if item.children}
+            ${htmlList(item.children)}
+          {/if}
+        </li>
+      {/for}
+    </${listType}>
+  {/macro}
+
+  {for item in pools}
+    <li>
+      <input type="checkbox" name="item[]" value="${item.id}-${item.name}" style="display:none" checked="checked"/>
+      <span class="hitarea {if item.children} expandable{/if}">&nbsp;</span><div id="${item.id}" class="${item.type}">${item.name}</div>
+      {if item.children}
+        ${htmlList(item.children)}
+      {/if}
+    </li>
+  {/for}
+</textarea>

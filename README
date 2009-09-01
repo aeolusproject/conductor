@@ -1,0 +1,34 @@
+Deltacloud Portal provides a web UI in front of the Deltacloud API. With Deltacloud Portal, your users can:
+
+  * View image status and stats across clouds, all in one place
+  * Migrate instances from one cloud to another
+  * Manage images locally and provision them on any cloud
+
+=== Setup ===
+In addition to this Delatcloud Portal application, you will need to check out some other projects from git. You can 'git clone' the following (this process will be simplified soon):
+
+There are a few prerequisites to getting your deltacloud portal application running.
+
+The first is to have the correct rubygems installed. Assuming you have ruby and rails installed, you can get a basic app running pretty simply.  If you try to start the application, you should get a warning from rails telling you which gems are missing.  At this point, you can either install the missing gems with yum (most should be available in rpms format for fedora users), or gem install <gemname> (you may wish to do that as root, depending on your system configuration).
+
+The second is to have the database properly setup and configured (directions for this step can be found in config/database.yml).
+
+The Deltacloud Portal depends on deltacloud-client-ruby.  This has a gemspec available, but currently the easiest way to include it in the app is to get check it out from its temporary home on github into vendor/plugins in the portal app like this:
+[user@plugins]$ git clone git://github.com/bobmcwhirter/deltacloud-client-ruby.git
+
+This will allows the portal to load it up as a plugin with no additional configuration needed.
+
+Lastly, you will need one or more instances of the Deltacloud framework running for the portal to talk to.  Directions for this can be found in the Deltacloud-framework documentation. (which can be found here: git://github.com/bobmcwhirter/deltacloud-framework.git)
+
+=== Getting Started ===
+For these steps, we will assume the mock driver is setup and running in a framework on http://localhost:3000/api, and your portal is running on http://localhost:3001
+
+Taskomatic is a separate process that checks for tasks needing to be handled for portal instances.  This can be run from the commandline from the taskomatic directory with 'ruby taskomatic -n'.  If you are running in development mode, you can point taskomatic there by exporting 'RAILS_ENV=development'.  Taskomatic needs to be running to do things like 'start an instance'.
+
+When you navigate to the main page of your app, you will be presented with an 'Add cloud provider' form.  'Name' can be whatever you like, types currently suppoerted are mock, ec2, and rhevm.  'URL' is the url pointing to your framework (http://localhost:3000/api for our example).
+
+Upon successful completion of the form, you will be brought to the main page for that provider.  Here you would click 'Add a pool'.  This form asks you fro the username and password for the account on the provider's service that you wish to connect to.  Then just provide a name for what we will call this 'pool'.  Completion of this form will attempt to connect to the provider associated with this pool and gather some information such as a list of instances that this user has access to and can be started.
+
+Completion of this form brings you to the main page for the newly created pool.  Click 'Add a new instance' here.  For some providers (especially ec2), it can sometimes take a little while to get all the data back, so if you go to the new instance for and see no images, you may need to wait a short time and then try again.
+
+At this point, you should have a list of available instances for your provider/pool combination, with available actions for each instance in your list.  Note that in the current version, this page will need to be refreshed in order to see and changes that may occur in the 'State' column, which tells you the status of your instance.

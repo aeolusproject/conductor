@@ -1,0 +1,66 @@
+#!/bin/bash
+#
+#
+# deltacloud-taskomatic       startup script for deltacloud-taskomatic
+#
+# chkconfig: - 97 03
+# description: deltacloud-taskomatic is an essential component of the \
+#    deltacloud Portal.
+#
+
+[ -r /etc/sysconfig/deltacloud-rails ] && . /etc/sysconfig/deltacloud-rails
+
+export RAILS_ENV="${RAILS_ENV:-production}"
+export COBBLER_YML="${COBBLER_YML:-/usr/share/deltacloud-portal/config/cobbler.yml}"
+
+DAEMON=/usr/share/deltacloud-portal/task-omatic/taskomatic.rb
+TASKOMATIC_LOCKFILE="${TASKOMATIC_LOCKFILE:-/var/lock/subsys/deltacloud-taskomatic }"
+
+. /etc/init.d/functions
+
+start() {
+    echo -n "Starting deltacloud-taskomatic: "
+    daemon $DAEMON
+    RETVAL=$?
+    echo
+    if [ $RETVAL -eq 0 ]; then
+        touch  $TASKOMATIC_LOCKFILE
+    fi
+}
+
+stop() {
+    echo -n "Shutting down deltacloud-taskomatic: "
+    killproc taskomatic.rb
+    RETVAL=$?
+    echo
+    if [ $RETVAL -eq 0 ]; then
+        rm  $TASKOMATIC_LOCKFILE
+    fi
+}
+
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    restart)
+	stop
+	start
+	;;
+    reload)
+        ;;
+    force-reload)
+        restart
+        ;;
+    status)
+	status $DAEMON
+	RETVAL=$?
+	;;
+    *)
+      echo "Usage: deltacloud-taskomatic {start|stop|restart|status}"
+      exit 1
+  ;;
+esac
+exit $RETVAL

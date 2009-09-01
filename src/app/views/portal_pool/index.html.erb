@@ -1,0 +1,8 @@
+<% if @pools.size == 0 %>
+<h1>There are no pools to display</h1>
+<% else %>
+  <%@pools.each {|pool| %>
+    <%= pool.name %><br/>
+  <% } %>
+<% end %>
+<%= link_to "Add a pool", :controller => "portal_pool", :action => "new", :provider => @provider%>
