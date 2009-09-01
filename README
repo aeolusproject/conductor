@@ -6,6 +6,11 @@ Deltacloud Portal provides a web UI in front of the Deltacloud API. With Deltacl
 
 === Setup ===
 In addition to this Delatcloud Portal application, you will need to check out some other projects from git. You can 'git clone' the following (this process will be simplified soon):
+* git://git.fedorahosted.org/git/deltacloud/framework.git/
+* git://git.fedorahosted.org/git/deltacloud/driver-mock.git/
+* (the following two are optional)
+* git://git.fedorahosted.org/git/deltacloud/driver-ec2.git/
+* git://git.fedorahosted.org/git/deltacloud/driver-rhevm.git/
 
 There are a few prerequisites to getting your deltacloud portal application running.
 
@@ -13,12 +18,12 @@ The first is to have the correct rubygems installed. Assuming you have ruby and 
 
 The second is to have the database properly setup and configured (directions for this step can be found in config/database.yml).
 
-The Deltacloud Portal depends on deltacloud-client-ruby.  This has a gemspec available, but currently the easiest way to include it in the app is to get check it out from its temporary home on github into vendor/plugins in the portal app like this:
-[user@plugins]$ git clone git://github.com/bobmcwhirter/deltacloud-client-ruby.git
+The Deltacloud Portal depends on deltacloud-client-ruby.  This has a gemspec available, but currently the easiest way to include it in the app is to get check it out into vendor/plugins in the portal app like this:
+[user@plugins]$ git clone git://git.fedorahosted.org/git/deltacloud/client-ruby.git/
 
 This will allows the portal to load it up as a plugin with no additional configuration needed.
 
-Lastly, you will need one or more instances of the Deltacloud framework running for the portal to talk to.  Directions for this can be found in the Deltacloud-framework documentation. (which can be found here: git://github.com/bobmcwhirter/deltacloud-framework.git)
+Lastly, you will need one or more instances of the Deltacloud framework running for the portal to talk to.  Directions for this can be found in the Deltacloud-framework documentation. (which can be found here: git://git.fedorahosted.org/git/deltacloud/framework.git/)
 
 === Getting Started ===
 For these steps, we will assume the mock driver is setup and running in a framework on http://localhost:3000/api, and your portal is running on http://localhost:3001
