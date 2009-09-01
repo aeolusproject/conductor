@@ -4,8 +4,17 @@ Deltacloud Portal provides a web UI in front of the Deltacloud API. With Deltacl
   * Migrate instances from one cloud to another
   * Manage images locally and provision them on any cloud
 
+=== Prerequisites ===
+git clone git://git.fedorahosted.org/git/deltacloud/portal.git/
+
+The Deltacloud Portal depends on deltacloud-client-ruby.  This has a gemspec available, but currently the easiest way to include it in the app is to get check it out into vendor/plugins in the portal app like this:
+[user@plugins]$ git clone git://git.fedorahosted.org/git/deltacloud/client-ruby.git/
+
+This will allows the portal to load it up as a plugin with no additional configuration needed.
+
 === Building the RPM ===
 (# denotes root below)
+
 1. First, get a fully updated F11 installed.
 
 2. Set up passwordless sudo:
@@ -22,7 +31,7 @@ Save and quit visudo.
 
 echo "%_topdir      %(echo \$HOME)/rpmbuild" > ~/.rpmmacros
 
-4. From root of project:
+4. From root of wherever you checked out the project:
 
 ./autogen.sh; make publish
 
@@ -45,16 +54,11 @@ In addition to this Delatcloud Portal application, you will need to check out so
 * git://git.fedorahosted.org/git/deltacloud/driver-ec2.git/
 * git://git.fedorahosted.org/git/deltacloud/driver-rhevm.git/
 
-There are a few prerequisites to getting your deltacloud portal application running.
+There are a few steps to getting your Deltacloud Portal application running.
 
 The first is to have the correct rubygems installed. If you followed the steps in 'Buidling the RPM', you can safely skip this step, as the dependencies should all be installed already. Assuming you have ruby and rails installed, you can get a basic app running pretty simply.  If you try to start the application, you should get a warning from rails telling you which gems are missing.  At this point, you can either install the missing gems with yum (most should be available in rpms format for fedora users), or gem install <gemname> (you may wish to do that as root, depending on your system configuration).
 
 The second is to have the database properly setup and configured (directions for this step can be found in config/database.yml).
-
-The Deltacloud Portal depends on deltacloud-client-ruby.  This has a gemspec available, but currently the easiest way to include it in the app is to get check it out into vendor/plugins in the portal app like this:
-[user@plugins]$ git clone git://git.fedorahosted.org/git/deltacloud/client-ruby.git/
-
-This will allows the portal to load it up as a plugin with no additional configuration needed.
 
 Lastly, you will need one or more instances of the Deltacloud framework running for the portal to talk to.  Directions for this can be found in the Deltacloud-framework documentation. (which can be found here: git://git.fedorahosted.org/git/deltacloud/framework.git/)
 
