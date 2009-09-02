@@ -14,13 +14,14 @@
 #
 #   rake db:drop:all
 #   rake db:create:all
-#   rake db:migrate
+#   rake db:migrate (if you want production rather than the default of 'development', simply export RAILS_ENV=production before running this command)
 #   rake db:test:prepare
 #
 # And when there are changes to the database, simply run:
 #
 #   rake db:migrate
 #   rake db:test:prepare
+# for the environment you wish to update.
 #
 #   On a local system you may need to edit this file to have only the following
 #   /var/lib/pgsql/data/pg_hba.conf
