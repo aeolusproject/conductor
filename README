@@ -4,15 +4,51 @@ Deltacloud Portal provides a web UI in front of the Deltacloud API. With Deltacl
   * Migrate instances from one cloud to another
   * Manage images locally and provision them on any cloud
 
-=== Prerequisites ===
-git clone git://git.fedorahosted.org/git/deltacloud/portal.git/
 
-The Deltacloud Portal depends on deltacloud-client-ruby.  This has a gemspec available, but currently the easiest way to include it in the app is to get check it out into vendor/plugins in the portal app like this:
-[user@plugins]$ git clone git://git.fedorahosted.org/git/deltacloud/client-ruby.git/
+=== Preface ===
 
-This will allows the portal to load it up as a plugin with no additional configuration needed.
+There are three ways you can install the portal application (though all require the framework to be set up as well):
+  1. Install the RPM, found here: http://deltacloud.org/download.html (Note that since this is not in a yum repo yet, you will have to install whatever dependencies this fails on)
+  2. Build the RPM from source (this will also get you a local yum repo, so you get all dependencies for 'free')
+  3. Run as a development build from the directory of your choice, using rails scripts
 
-=== Building the RPM ===
+
+=== Section 1 - Prerequisites ===
+
+1. A working install of Fedora 11 (or any other platform that supports at least Ruby on Rails 2.3.2)
+2. Set up the framework application, as we need that for the portal to talk to:
+   A. Create some directory to hold all the deltacloud projects
+   B. 'git clone' the following (this process will be simplified soon):
+     * git://git.fedorahosted.org/git/deltacloud/framework.git/
+     * git://git.fedorahosted.org/git/deltacloud/driver-mock.git/
+     * git://git.fedorahosted.org/git/deltacloud/client-ruby.git/
+     * (the following two are optional)
+     * git://git.fedorahosted.org/git/deltacloud/driver-ec2.git/
+     * git://git.fedorahosted.org/git/deltacloud/driver-rhevm.git/
+   C. Follow the directions in the framework README to set it up. We recommend using the mock driver to start with for simplicity, which has a un/pw in client-ruby/credentials.yml
+
+
+=== Section 2 - Installing the RPM ===
+
+  1. Get the RPM from http://deltacloud.org/download.html
+  2. install with rpm -ivh <rpm>
+  3. You will need the following, though you may wish to just get the list from trying to install the RPM above, and try again:
+    * httpd >= 2.0
+    * postgresql-server  
+    * pwgen  
+    * ruby >= 1.8.1
+    * ruby-flexmock  
+    * ruby-postgres  
+    * rubygem(activeldap) >= 0.10.0
+    * rubygem(activerecord) >= 2.1.1-2
+    * rubygem(gettext_rails)  
+    * rubygem(mongrel) >= 1.0.1
+    * rubygem(rails) >= 2.3.2
+  4. Continue to Section 5 - Database setup
+
+
+=== Section 3 - Building the RPM ===
+
 (# denotes root below)
 
 1. First, get a fully updated F11 installed.
@@ -46,23 +82,57 @@ gpgcheck=0
 
 6. # yum install deltacloud-portal
 
-=== Setup ===
-In addition to this Delatcloud Portal application, you will need to check out some other projects from git. You can 'git clone' the following (this process will be simplified soon):
-* git://git.fedorahosted.org/git/deltacloud/framework.git/
-* git://git.fedorahosted.org/git/deltacloud/driver-mock.git/
-* (the following two are optional)
-* git://git.fedorahosted.org/git/deltacloud/driver-ec2.git/
-* git://git.fedorahosted.org/git/deltacloud/driver-rhevm.git/
+7. Continue to Section 5 - Database setup 
 
-There are a few steps to getting your Deltacloud Portal application running.
 
-The first is to have the correct rubygems installed. If you followed the steps in 'Buidling the RPM', you can safely skip this step, as the dependencies should all be installed already. Assuming you have ruby and rails installed, you can get a basic app running pretty simply.  If you try to start the application, you should get a warning from rails telling you which gems are missing.  At this point, you can either install the missing gems with yum (most should be available in rpms format for fedora users), or gem install <gemname> (you may wish to do that as root, depending on your system configuration).
+=== Section 4 - Development setup ===
 
-The second is to have the database properly setup and configured (directions for this step can be found in config/database.yml).
+If you will be developing, you need to get the source code from our git repository:
+  git clone git://git.fedorahosted.org/git/deltacloud/portal.git/
 
-Lastly, you will need one or more instances of the Deltacloud framework running for the portal to talk to.  Directions for this can be found in the Deltacloud-framework documentation. (which can be found here: git://git.fedorahosted.org/git/deltacloud/framework.git/)
+The Deltacloud Portal depends on deltacloud-client-ruby.  This has a gemspec available, but currently the easiest way to include it in the app is to check it out into vendor/plugins in the portal app like this:
+  [user@plugins]$ git clone git://git.fedorahosted.org/git/deltacloud/client-ruby.git/
+
+This will allow the portal to load it up as a plugin with no additional configuration needed.
+
+Next, you need to have the correct rubygems installed. If you followed the steps in 'Section 3 - Building the RPM', you can safely skip this step, as the dependencies should all be installed already. Assuming you have ruby and rails installed, you can get a basic app running pretty simply.  If you try to start the application, you should get a warning from rails telling you which gems are missing.  At this point, you can either install the missing gems with yum (most should be available in RPM format for fedora users), or gem install <gemname> (you may wish to do that as root, depending on your system configuration).
+
+
+=== Section 5 - Database setup ===
+
+  1. Assuming you have installed postgres and the ruby-postgres package, you now need to configure your postgres database.  This entails running initdb and starting postgres (for Fedora users, this would be:
+     * sudo /sbin/service postgresql initdb
+     * sudo /sbin/service postgresql start
+  2. Next, switch to the postgres user (on Fedora - sudo su - postgres):
+     * $ psql
+     * $ CREATE USER dcloud WITH PASSWORD 'v23zj59an' CREATEDB;
+     * $ \q
+     * $ exit
+  3. On a local system you may need to edit pg_hba.conf to have only the following:
+     *(/var/lib/pgsql/data/pg_hba.conf)
+     *   local all all trust
+     *   host all all 127.0.0.1 255.255.255.255 trust
+  4. From wherever you have the portal app, in the src dir, run the following commands to set up the tables:
+     * rake db:create:all
+     * rake db:migrate (if you want production rather than the default of 'development', simply export RAILS_ENV=production before running this command)
+     * rake db:test:prepare
+
+
+=== Section 6 - Finishing Setup ===
+
+You should now have everyting configured and installed to run the portal.  If you followed either of the RPM instructions, you can now run:
+  * service deltacloud-mongrel-rails start
+  * service deltacloud-taskomatic start
+
+If you followed the development steps:
+  * cd to your src directory and run ruby script/server
+  * in another terminal cd to the src/task-omatic directory and 'export RAILS_ENV=development; ruby taskomatic.rb -n'
+
+Lastly, you will need one or more instances of the Deltacloud framework running for the portal to talk to.  Directions for this can be found in the framework documentation(which can be found here: git://git.fedorahosted.org/git/deltacloud/framework.git/).  Assuming everything is installed for that, start a framework up in the framework directory with 'ruby script/server -p 3001' (so it is on a different port than our portal app).  You should now be ready to try out the portal application.
+
 
 === Getting Started ===
+
 For these steps, we will assume the mock driver is setup and running in a framework on http://localhost:3001/api, and your portal is running on http://localhost:3000 (this will just be http://localhost/deltacloud if you are running through apache, and can be started with 'service deltacloud-mongrel-rails start')
 
 Taskomatic is a separate process that checks for tasks needing to be handled for portal instances. (If you installed the rpm, you can simply start the deltacloud-taskomatic service)  This can be run from the commandline from the taskomatic directory with 'ruby taskomatic -n'.  If you are running in development mode, you can point taskomatic there by exporting 'RAILS_ENV=development'.  Taskomatic needs to be running to do things like 'start an instance'.
