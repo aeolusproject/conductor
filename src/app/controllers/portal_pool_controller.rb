@@ -1,4 +1,6 @@
 class PortalPoolController < ApplicationController
+  before_filter :require_user
+
   def index
     render :action => 'new'
   end

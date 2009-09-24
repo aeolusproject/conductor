@@ -30,6 +30,10 @@ There are three ways you can install the portal application (though all require 
 
 === Section 2 - Installing the RPM ===
 
+  NOTE: until we get an RPM of authlogic built, you must install this manually
+        with 'sudo gem install authlogic'. This will eventually be an RPM dependency
+	for deltacloud-portal.
+
   1. Get the RPM from http://deltacloud.org/download.html
   2. install with rpm -ivh <rpm>
   3. You will need the following, though you may wish to just get the list from trying to install the RPM above, and try again:
@@ -48,6 +52,10 @@ There are three ways you can install the portal application (though all require 
 
 
 === Section 3 - Building the RPM ===
+
+  NOTE: until we get an RPM of authlogic built, you must install this manually
+        with 'sudo gem install authlogic'. This will eventually be an RPM dependency
+	for deltacloud-portal.
 
 (# denotes root below)
 

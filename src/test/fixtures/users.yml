@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# one:
+#   column: value
+#
+# two:
+#   column: value
+test_user:
+  login: tuser
+  email: tuser@example.com
+  password_salt: <%= salt = Authlogic::Random.hex_token %>
+  crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt("testpass" + salt) %>
+  persistence_token: 5136b29cb04a5b8840fe74451b8bdf83531f57c072826eaf63a5c05e71828ed58fc5359a2f22b02e54298d64e043a870bc03d898249dd7f577f6c5418d5ba5a6
+  single_access_token: YxaPK0smnUj2t9Pq0xuK
+  perishable_token: XZO-3xU2OIqHAUJOkDMX

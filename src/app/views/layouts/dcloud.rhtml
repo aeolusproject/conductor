@@ -69,7 +69,7 @@
    </div>
 
    <div id="side">
-     <%= render :partial => '/layouts/main_nav' %>
+     <%= render :partial => '/layouts/main_nav' unless @current_user.nil? %>
    </div>
 
    <div id="tabs-and-content-container">

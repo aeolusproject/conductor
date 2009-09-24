@@ -1,0 +1,9 @@
+<div class="dcloud_form">
+  <h2>Register</h2>
+
+  <% form_for @user, :url => account_path do |f| %>
+    <%= f.error_messages %>
+    <%= render :partial => "form", :object => f %>
+    <%= f.submit "Register" %>
+  <% end %>
+</div>
