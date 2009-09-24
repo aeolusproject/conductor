@@ -1,4 +1,4 @@
-AC_INIT([deltacloud-portal], [0.0.1], [libcloud-list@redhat.com])
+AC_INIT([deltacloud-portal], [0.0.2], [deltacloud-devel@lists.fedoraproject.org])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability tar-pax])
 AC_PROG_CC
 AC_CONFIG_HEADERS([config.h])
