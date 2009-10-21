@@ -1,0 +1,47 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# one:
+#   column: value
+#
+# two:
+#   column: value
+instance_controller:
+  name: Instance Controller
+  scope: PortalPool
+  privileges: instance_control, instance_view, pool_view
+instance_controller_with_monitoring:
+  name: Instance Controller With Monitoring
+  scope: PortalPool
+  privileges: instance_control, instance_view, pool_view, stats_view
+instance_creator_and_user:
+  name: Instance Creator and User
+  scope: PortalPool
+  privileges: instance_control, instance_view, pool_view, stats_view, instance_modify, quota_view, set_perms, view_perms
+self_service_pool_user:
+  name: Self-service Pool User
+  scope: PortalPool
+  privileges: instance_control, instance_view, pool_view, stats_view, instance_modify, quota_view, set_perms, view_perms, account_modify
+pool_creator:
+  name: Pool Creator
+  scope: Provider
+  privileges: provider_view, pool_modify, pool_view, quota_view
+pool_administrator:
+  name: Pool Administrator
+  scope: Provider
+  privileges: provider_view, pool_modify, pool_view, quota_modify, quota_view, account_modify, account_view, stats_view, set_perms, view_perms
+account_administrator:
+  name: Account Administrator
+  scope: CloudAccount
+  privileges: account_modify, account_view, stats_view, set_perms, view_perms
+account_user:
+  name: Account User
+  scope: CloudAccount
+  privileges: account_view
+provider_administrator:
+  name: Provider Administrator
+  scope: BasePortalObject
+  privileges: provider_modify, provider_view, stats_view
+site_administrator:
+  name: Site Administrator
+  scope: BasePortalObject
+  privileges: provider_modify, provider_view, account_modify, account_view, user_modify, user_view, set_perms, view_perms, pool_modify, pool_view, quota_modify, quota_view, stats_view, instance_modify, instance_control, instance_view

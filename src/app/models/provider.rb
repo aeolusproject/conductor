@@ -34,6 +34,10 @@ class Provider < ActiveRecord::Base
   validates_presence_of :cloud_type
   validates_presence_of :url
 
+  has_many :permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "permissions.id ASC"
+
   def connect
     begin
       return DeltaCloud.new(nil, nil, url)

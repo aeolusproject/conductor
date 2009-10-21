@@ -30,6 +30,10 @@ class PortalPool < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :cloud_account_id
 
+  has_many :permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "permissions.id ASC"
+
   def populate_realms_and_images
     client = cloud_account.connect
     realms = client.realms

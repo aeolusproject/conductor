@@ -35,6 +35,10 @@ class CloudAccount < ActiveRecord::Base
   validates_uniqueness_of :username, :scope => :provider_id
   validates_presence_of :password
 
+  has_many :permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "permissions.id ASC"
+
   def connect
     begin
       return DeltaCloud.new(username, password, provider.url)
