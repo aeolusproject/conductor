@@ -17,7 +17,8 @@ class Provider < ActiveRecord::Base
     begin
       return DeltaCloud.new(nil, nil, url)
     rescue Exception => e
-      #TODO: log or return an exception
+      logger.error("Error connecting to framework: #{e.message}")
+      logger.error("Backtrace: #{e.backtrace.join("\n")}")
       return nil
     end
   end
