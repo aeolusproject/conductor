@@ -1,6 +1,5 @@
-# 
-# Copyright (C) 2008 Red Hat, Inc.
-# Written by Scott Seago <sseago@redhat.com>
+#
+# Copyright (C) 2009 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,6 +15,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
+
+# Filters added to this controller apply to all controllers in the application.
+# Likewise, all the methods added will be available for all controllers.
 
 module TaskHelper
 end

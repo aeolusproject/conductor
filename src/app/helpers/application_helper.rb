@@ -1,6 +1,5 @@
-# 
-# Copyright (C) 2008 Red Hat, Inc.
-# Written by Scott Seago <sseago@redhat.com>
+#
+# Copyright (C) 2009 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +16,8 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-# Methods added to this helper will be available to all templates in the application.
+# Filters added to this controller apply to all controllers in the application.
+# Likewise, all the methods added will be available for all controllers.
 
 require 'rubygems'
 gem 'rails'
