@@ -19,20 +19,26 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class Image < ActiveRecord::Base
-  has_many :instances
-  belongs_to :provider
+class CreateHardwareProfiles < ActiveRecord::Migration
+  def self.up
+    create_table :hardware_profiles do |t|
+      t.string  :external_key, :null => false
+      t.string  :name, :null => false, :limit => 1024
+      t.float   :memory, :null => false
+      t.float   :storage, :null => false
+      t.string  :architecture, :null => false
+      t.integer :provider_id
+      t.integer :lock_version, :default => 0
+      t.timestamps
+    end
 
-  belongs_to :master_image, :class_name => "Image",
-             :foreign_key => "master_image_id"
-  has_many :provider_images, :class_name => "Image",
-             :foreign_key => "master_image_id"
+    create_table "hardware_profile_map", :force => true, :id => false do |t|
+      t.column "master_hardware_profile_id", :integer
+      t.column "provider_hardware_profile_id", :integer
+end
+  end
 
-  validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => :provider_id
-
-  validates_presence_of :name
-
-  validates_presence_of :architecture
-
+  def self.down
+    drop_table :hardware_profiles
+  end
 end

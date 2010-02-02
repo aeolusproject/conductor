@@ -1,7 +1,10 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+admin_permission:
+  role: site_administrator
+  user: test_admin
+  permission_object: base_portal_object (BasePortalObject)
+user_permission:
+  role: instance_creator_and_user
+  user: test_user
+  permission_object: test_pool (PortalPool)

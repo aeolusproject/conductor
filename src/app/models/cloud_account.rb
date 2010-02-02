@@ -21,13 +21,11 @@
 
 class CloudAccount < ActiveRecord::Base
   belongs_to :provider
-  has_many :portal_pools,  :dependent => :destroy
+  has_many :pool_accounts, :dependent => :destroy
+  has_many :portal_pools, :through => :pool_accounts
+  has_many :instances
 
   # what form does the account quota take?
-
-  # we aren't yet defining the local user object
-  # has_many :portal_users
-
 
   validates_presence_of :provider_id
 

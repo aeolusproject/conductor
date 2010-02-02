@@ -1,0 +1,5 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+test_pool_mock_account:
+  cloud_account: mock_account
+  portal_pool: test_pool

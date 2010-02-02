@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009 Red Hat, Inc.
+# Copyright (C) 2010 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,22 +18,12 @@
 
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
+class PoolAccount < ActiveRecord::Base
+  belongs_to :cloud_account
+  belongs_to :portal_pool
+  belongs_to :quota
 
-class Flavor < ActiveRecord::Base
-  has_many :instances
-  belongs_to :provider
+  validates_presence_of :cloud_account_id
+  validates_presence_of :portal_pool_id
 
-  validates_presence_of :provider_id
-
-  validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => :provider_id
-
-  validates_presence_of :name
-
-  validates_presence_of :storage
-  validates_numericality_of :storage
-  validates_presence_of :memory
-  validates_numericality_of :memory
-
-  validates_presence_of :architecture
 end

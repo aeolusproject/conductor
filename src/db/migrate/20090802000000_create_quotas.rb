@@ -1,5 +1,6 @@
 #
 # Copyright (C) 2009 Red Hat, Inc.
+# Written by Scott Seago <sseago@redhat.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,23 +17,20 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
+class CreateQuotas < ActiveRecord::Migration
+  def self.up
+    create_table :quotas do |t|
+      t.integer :running_cpus
+      t.integer :running_memory
+      t.integer :running_instances
+      t.integer :total_storage
+      t.integer :total_instances
+      t.integer :lock_version, :default => 0
+      t.timestamps
+    end
+  end
 
-class Image < ActiveRecord::Base
-  has_many :instances
-  belongs_to :provider
-
-  belongs_to :master_image, :class_name => "Image",
-             :foreign_key => "master_image_id"
-  has_many :provider_images, :class_name => "Image",
-             :foreign_key => "master_image_id"
-
-  validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => :provider_id
-
-  validates_presence_of :name
-
-  validates_presence_of :architecture
-
+  def self.down
+    drop_table :quotas
+  end
 end

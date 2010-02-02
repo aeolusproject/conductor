@@ -23,10 +23,9 @@ class Provider < ActiveRecord::Base
   require 'util/deltacloud'
 
   has_many :cloud_accounts,  :dependent => :destroy
-  has_many :flavors,  :dependent => :destroy
+  has_many :hardware_profiles,  :dependent => :destroy
   has_many :images,  :dependent => :destroy
   has_many :realms,  :dependent => :destroy
-  has_many :portal_pools, :through=>:cloud_accounts
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -48,18 +47,18 @@ class Provider < ActiveRecord::Base
     end
   end
 
-  def populate_flavors
-    flavors = connect.flavors
+  def populate_hardware_profiles
+    hardware_profiles = connect.hardware_profiles
     # FIXME: this should probably be in the same transaction as provider.save
     self.transaction do
-      flavors.each do |flavor|
-        ar_flavor = Flavor.new(:external_key => flavor.id,
-                               :name => flavor.name ? flavor.name : flavor.id,
-                               :memory => flavor.memory,
-                               :storage => flavor.storage,
-                               :architecture => flavor.architecture,
+      hardware_profiles.each do |hardware_profile|
+        ar_hardware_profile = HardwareProfile.new(:external_key => hardware_profile.id,
+                               :name => hardware_profile.name ? hardware_profile.name : hardware_profile.id,
+                               :memory => hardware_profile.memory,
+                               :storage => hardware_profile.storage,
+                               :architecture => hardware_profile.architecture,
                                :provider_id => id)
-        ar_flavor.save!
+        ar_hardware_profile.save!
       end
     end
   end

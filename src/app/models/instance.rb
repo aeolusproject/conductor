@@ -21,8 +21,16 @@
 
 class Instance < ActiveRecord::Base
   belongs_to :portal_pool
-  belongs_to :flavor
+  belongs_to :cloud_account
+
+  belongs_to :hardware_profile
+  belongs_to :provider_hardware_profile, :class_name => "HardwareProfile",
+             :foreign_key => "provider_hardware_profile_id"
+
   belongs_to :image
+  belongs_to :provider_image, :class_name => "Image",
+             :foreign_key => "provider_image_id"
+
   belongs_to :realm
 
   validates_presence_of :portal_pool_id
