@@ -1,0 +1,32 @@
+# SQLite version 3.x
+#   gem install sqlite3-ruby (not necessary on OS X Leopard)
+
+# If you are running the aggregator from an rpm, and wish to use
+# sqlite, you will need to mv this file to database.yml.  The .sqlite3 file can be put
+# in any location you desire, just update the relative paths below to point
+# to the correct location.  Also, you will need to take the following 2 steps:
+# 1. Run rake db:migrate (as root) to create the db file and set it to be owned by the dcloud user
+# 2. Make sure the dir that the above file lives in is also writable by this user.
+development:
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test: &TEST
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000
+
+production:
+  adapter: sqlite3
+  database: db/production.sqlite3
+  pool: 5
+  timeout: 5000
+
+cucumber:
+  <<: *TEST
