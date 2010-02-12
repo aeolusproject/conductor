@@ -22,17 +22,44 @@
 class Image < ActiveRecord::Base
   has_many :instances
   belongs_to :provider
+  belongs_to :portal_pool
 
-  belongs_to :master_image, :class_name => "Image",
-             :foreign_key => "master_image_id"
-  has_many :provider_images, :class_name => "Image",
-             :foreign_key => "master_image_id"
+  has_and_belongs_to_many :aggregator_images,
+                          :class_name => "Image",
+                          :join_table => "image_map",
+                          :foreign_key => "provider_image_id",
+                          :association_foreign_key => "aggregator_image_id"
+
+  has_and_belongs_to_many :provider_images,
+                          :class_name => "Image",
+                          :join_table => "image_map",
+                          :foreign_key => "aggregator_image_id",
+                          :association_foreign_key => "provider_image_id"
 
   validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => :provider_id
+  validates_uniqueness_of :external_key, :scope => [:provider_id, :portal_pool_id]
 
   validates_presence_of :name
 
-  validates_presence_of :architecture
+  validates_presence_of :architecture, :if => :provider
 
+  def validate
+    if (provider.nil? and portal_pool.nil?)
+      errors.add(:provider, "provider or pool must be specified")
+      errors.add(:portal_pool, "provider or pool must be specified")
+    elsif (!provider.nil? and !portal_pool.nil?)
+      errors.add(:provider, "provider or pool must be blank")
+      errors.add(:portal_pool, "provider or pool must be blank")
+    elsif provider.nil?
+      if !aggregator_images.empty?
+        errors.add(:aggregator_images,
+                   "Aggregator image only allowed for provider images")
+      end
+    elsif portal_pool.nil?
+      if !provider_images.empty?
+        errors.add(:provider_images,
+                   "Provider images only allowed for aggregator images")
+      end
+    end
+  end
 end

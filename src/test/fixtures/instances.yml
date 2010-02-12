@@ -4,9 +4,7 @@ test_instance:
   external_key: test_instance
   name: test_instance
   hardware_profile: c1_xlarge_frontend
-  provider_hardware_profile: c1_xlarge_backend
   image: fedora_13_image_frontend
-  provider_image: fedora_13_image_backend
   realm: us_realm
   portal_pool: test_pool
   cloud_account: mock_account

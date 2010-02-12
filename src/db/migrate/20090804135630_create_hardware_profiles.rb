@@ -28,17 +28,19 @@ class CreateHardwareProfiles < ActiveRecord::Migration
       t.float   :storage, :null => false
       t.string  :architecture, :null => false
       t.integer :provider_id
+      t.integer :portal_pool_id
       t.integer :lock_version, :default => 0
       t.timestamps
     end
 
     create_table "hardware_profile_map", :force => true, :id => false do |t|
-      t.column "master_hardware_profile_id", :integer
+      t.column "aggregator_hardware_profile_id", :integer
       t.column "provider_hardware_profile_id", :integer
-end
+    end
   end
 
   def self.down
+    drop_table :hardware_profile_map
     drop_table :hardware_profiles
   end
 end

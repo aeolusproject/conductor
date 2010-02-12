@@ -24,16 +24,12 @@ class Instance < ActiveRecord::Base
   belongs_to :cloud_account
 
   belongs_to :hardware_profile
-  belongs_to :provider_hardware_profile, :class_name => "HardwareProfile",
-             :foreign_key => "provider_hardware_profile_id"
-
   belongs_to :image
-  belongs_to :provider_image, :class_name => "Image",
-             :foreign_key => "provider_image_id"
-
   belongs_to :realm
 
   validates_presence_of :portal_pool_id
+  validates_presence_of :hardware_profile_id
+  validates_presence_of :image_id
 
   #validates_presence_of :external_key
   # TODO: can we do uniqueness validation on indirect association

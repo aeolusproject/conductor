@@ -25,6 +25,9 @@ class PortalPool < ActiveRecord::Base
   has_many :instances,  :dependent => :destroy
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
 
+  has_many :images,  :dependent => :destroy
+  has_many :hardware_profiles,  :dependent => :destroy
+
 
   validates_presence_of :cloud_account_id
 
@@ -36,6 +39,18 @@ class PortalPool < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+
+  def realms
+    realm_list = []
+    cloud_accounts.each do |cloud_account|
+      prefix = cloud_account.provider.name +
+               AGGREGATOR_REALM_PROVIDER_DELIMITER + cloud_account.username
+      cloud_account.provider.realms.each do |realm|
+        realm_list << prefix + AGGREGATOR_REALM_ACCOUNT_DELIMITER + realm.name
+      end
+    end
+  end
+
 
   def populate_realms_and_images
     cloud_accounts.each do |cloud_account|

@@ -30,4 +30,6 @@ class Realm < ActiveRecord::Base
 
   validates_presence_of :name
 
+  AGGREGATOR_REALM_PROVIDER_DELIMITER = ":"
+  AGGREGATOR_REALM_ACCOUNT_DELIMITER = "/"
 end

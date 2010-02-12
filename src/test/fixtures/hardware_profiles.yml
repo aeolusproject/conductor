@@ -41,32 +41,32 @@ m1_small_frontend:
   memory: 1.7
   storage: 160
   architecture: i386
-  provider_hardware_profiles: m1_small_frontend
+  provider_hardware_profiles: m1_small_backend
 m1_large_frontend:
   external_key: m1-large
   name: m1-large
   memory: 7.5
   storage: 850
   architecture: x86_64
-  provider_hardware_profiles: m1_large_frontend
+  provider_hardware_profiles: m1_large_backend
 m1_xlarge_frontend:
   external_key: m1-xlarge
   name: m1-xlarge
   memory: 15
   storage: 1690
   architecture: x86_64
-  provider_hardware_profiles: m1_xlarge_frontend
+  provider_hardware_profiles: m1_xlarge_backend
 c1_medium_frontend:
   external_key: c1-medium
   name: c1-medium
   memory: 1.7
   storage: 350
   architecture: x86_64
-  provider_hardware_profiles: c1_medium_frontend
+  provider_hardware_profiles: c1_medium_backend
 c1_xlarge_frontend:
   external_key: c1-xlarge
   name: c1-xlarge
   memory: 7
   storage: 1690
   architecture: x86_64
-  provider_hardware_profiles: c1_xlarge_frontend
+  provider_hardware_profiles: c1_xlarge_backend

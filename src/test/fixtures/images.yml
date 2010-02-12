@@ -9,4 +9,4 @@ fedora_13_image_frontend:
   external_key: fedora_13
   name: fedora_13
   architecture: x86_64
-  provider_images: fedora_13_image_frontend
+  provider_images: fedora_13_image_backend

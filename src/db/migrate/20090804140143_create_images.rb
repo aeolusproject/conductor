@@ -26,13 +26,18 @@ class CreateImages < ActiveRecord::Migration
       t.string  :name, :null => false, :limit => 1024
       t.string  :architecture, :null => false
       t.integer :provider_id
-      t.integer :master_image_id
+      t.integer :portal_pool_id
       t.integer :lock_version, :default => 0
       t.timestamps
+    end
+    create_table "image_map", :force => true, :id => false do |t|
+      t.column "aggregator_image_id", :integer
+      t.column "provider_image_id", :integer
     end
   end
 
   def self.down
+    drop_table :image_map
     drop_table :images
   end
 end

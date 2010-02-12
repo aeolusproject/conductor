@@ -24,21 +24,22 @@ class HardwareProfile < ActiveRecord::Base
   has_many :provider_instances, :class_name => "Instance",
            :foreign_key => "provider_hardware_profile_id"
   belongs_to :provider
+  belongs_to :portal_pool
 
-  has_and_belongs_to_many :master_hardware_profiles,
+  has_and_belongs_to_many :aggregator_hardware_profiles,
                           :class_name => "HardwareProfile",
                           :join_table => "hardware_profile_map",
                           :foreign_key => "provider_hardware_profile_id",
-                          :association_foreign_key => "master_hardware_profile_id"
+                          :association_foreign_key => "aggregator_hardware_profile_id"
 
   has_and_belongs_to_many :provider_hardware_profiles,
                           :class_name => "HardwareProfile",
                           :join_table => "hardware_profile_map",
-                          :foreign_key => "master_hardware_profile_id",
+                          :foreign_key => "aggregator_hardware_profile_id",
                           :association_foreign_key => "provider_hardware_profile_id"
 
   validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => :provider_id
+  validates_uniqueness_of :external_key, :scope => [:provider_id, :portal_pool_id]
 
   validates_presence_of :name
 
@@ -47,5 +48,31 @@ class HardwareProfile < ActiveRecord::Base
   validates_presence_of :memory
   validates_numericality_of :memory
 
-  validates_presence_of :architecture
+  validates_presence_of :architecture, :if => :provider
+
+  def validate
+    if (provider.nil? and portal_pool.nil?)
+      if !aggregator_hardware_profiles.empty?
+        errors.add(:aggregator_hardware_profiles,
+                   "Aggregator profiles are not allowed for custom Instance profiles")
+      end
+      if !provider_hardware_profiles.empty?
+        errors.add(:provider_hardware_profiles,
+                   "Provider profiles are not allowed for custom Instance profiles")
+      end
+    elsif (!provider.nil? and !portal_pool.nil?)
+      errors.add(:provider, "provider or pool must be blank")
+      errors.add(:portal_pool, "provider or pool must be blank")
+    elsif provider.nil?
+      if !aggregator_hardware_profiles.empty?
+        errors.add(:aggregator_hardware_profiles,
+                   "Aggregator profiles only allowed for provider profiles")
+      end
+    elsif portal_pool.nil?
+      if !provider_hardware_profiles.empty?
+        errors.add(:provider_hardware_profiles,
+                   "Provider profiles only allowed for aggregator profiles")
+      end
+    end
+  end
 end
