@@ -29,12 +29,11 @@ class PortalPool < ActiveRecord::Base
   has_many :hardware_profiles,  :dependent => :destroy
 
 
-  validates_presence_of :cloud_account_id
 
   validates_presence_of :owner_id
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :owner_id
-  validates_uniqueness_of :exported_as
+  validates_uniqueness_of :exported_as, :if => :exported_as
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
@@ -44,16 +43,20 @@ class PortalPool < ActiveRecord::Base
     realm_list = []
     cloud_accounts.each do |cloud_account|
       prefix = cloud_account.provider.name +
-               AGGREGATOR_REALM_PROVIDER_DELIMITER + cloud_account.username
+               Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER +
+               cloud_account.username
+      realm_list << prefix
       cloud_account.provider.realms.each do |realm|
-        realm_list << prefix + AGGREGATOR_REALM_ACCOUNT_DELIMITER + realm.name
+        realm_list << prefix + Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
+                      realm.name
       end
     end
+    realm_list
   end
 
-
-  def populate_realms_and_images
-    cloud_accounts.each do |cloud_account|
+  # FIXME: for already-mapped accounts, update rather than add new
+  def populate_realms_and_images(accounts=cloud_accounts)
+    accounts.each do |cloud_account|
       client = cloud_account.connect
       realms = client.realms
       if client.driver_name == "ec2"
@@ -77,10 +80,11 @@ class PortalPool < ActiveRecord::Base
         end
         images.each do |image|
           #ignore if it exists
-          #FIXME: we need to handle keeping in sync forupdates as well as
+          #FIXME: we need to handle keeping in sync for updates as well as
           # account permissions
-          unless Image.find_by_external_key_and_provider_id(image.id,
+          ar_image = Image.find_by_external_key_and_provider_id(image.id,
                                                      cloud_account.provider.id)
+          unless ar_image
             ar_image = Image.new(:external_key => image.id,
                                  :name => image.name ? image.name :
                                           (image.description ? image.description :
@@ -89,6 +93,24 @@ class PortalPool < ActiveRecord::Base
                                  :provider_id => cloud_account.provider.id)
             ar_image.save!
           end
+          # FIXME: what do we ue for external_key values for front end images?
+          # FIXME: this will break if multiple imported accounts (from different
+          #        providers) use the same external key
+          front_end_image = Image.new(:external_key => ar_image.external_key,
+                                  :name => ar_image.name,
+                                  :architecture => ar_image.architecture,
+                                  :portal_pool_id => id)
+          front_end_image.save!
+        end
+        cloud_account.provider.hardware_profiles.each do |hardware_profile|
+          front_hardware_profile = HardwareProfile.new(:external_key =>
+                                                       hardware_profile.external_key,
+                               :name => hardware_profile.name,
+                               :memory => hardware_profile.memory,
+                               :storage => hardware_profile.storage,
+                               :architecture => hardware_profile.architecture,
+                               :portal_pool_id => id)
+          front_hardware_profile.save!
         end
       end
     end

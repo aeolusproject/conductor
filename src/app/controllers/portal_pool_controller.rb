@@ -27,10 +27,9 @@ class PortalPoolController < ApplicationController
   end
 
   def show
-    @instances = Instance.find(:all, :conditions => {:portal_pool_id => params[:id]})
     #FIXME: clean this up, many error cases here
     @pool = PortalPool.find(params[:id])
-    @provider = @pool.cloud_account.provider
+    @instances = @pool.instances
   end
 
   def new
@@ -41,10 +40,16 @@ class PortalPoolController < ApplicationController
 
   def create
     @account = CloudAccount.find_or_create(params[:account])
+    #FIXME: owner is set to current user for self-service account creation,
+    # but in the more general case we need a way for the admin to pick
+    # a user
+    # FIXME: automatically grant owner access rights to the pool
+    params[:portal_pool][:owner_id] = @current_user.id
     #FIXME: This should probably be in a transaction
     if @account.save
-      @portal_pool = @account.portal_pools.build(params[:portal_pool])
-      if @portal_pool.save && @portal_pool.populate_realms_and_images
+      @portal_pool = PortalPool.new(params[:portal_pool])
+      @portal_pool.cloud_accounts << @account
+      if @portal_pool.save && @portal_pool.populate_realms_and_images([@account])
         flash[:notice] = "Pool added."
         redirect_to :action => 'show', :id => @portal_pool.id
       else

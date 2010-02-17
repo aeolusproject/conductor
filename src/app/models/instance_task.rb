@@ -44,8 +44,11 @@ class InstanceTask < Task
   # automatic transitions from transient states.
   def self.valid_actions_for_instance_state(state, instance, user=nil)
     actions = []
-    c_state = instance.portal_pool.cloud_account.connect.instance_state(state)
-    if c_state
+    # FIXME: cloud_account won't always be set here, but we're requiring
+    #        front end realm for now.
+    cloud_account = instance.cloud_account
+    c_state = cloud_account.connect.instance_state(state) unless cloud_account.nil?
+    if !cloud_account.nil? and c_state
       transitions = c_state.transitions
       transitions.each do |transition|
         # FIXME if we allow actions based on the expected state after

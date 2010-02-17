@@ -5,24 +5,24 @@
   <% form_tag :action => 'create' do-%>
   <ul>
     <li><label>Name<span>Name for this new Instance</span></label><%= text_field :instance, :name, :class => "txtfield" %></li>
-    <% if @flavors.size > 0 %>
-      <li><label>Flavor<span>Pick your flavor</span></label>
-        <%= select("instance", "flavor_id", @flavors.collect {|p| [ p.name, p.id ] }, { :include_blank => true }) %>
+    <% if @pool.hardware_profiles.size > 0 %>
+      <li><label>Hardware Profile<span>Pick your hardware profile</span></label>
+        <%= select("instance", "hardware_profile_id",
+                   @pool.hardware_profiles.collect {|p| [ p.name, p.id ] },
+                   { :include_blank => true }) %>
       </li>
     <% end %>
-    <% if @images.size > 0 %>
+    <% if @pool.images.size > 0 %>
       <li><label>Image<span>Choose a bundled image to use</span></label>
-        <%= select("instance", "image_id", @images.collect {|i| [ truncate(i.name, 29, '...'), i.id ] }, { :include_blank => true }) %>
+        <%= select("instance", "image_id", @pool.images.collect {|i| [ truncate(i.name, 29, '...'), i.id ] }, { :include_blank => true }) %>
       </li>
     <% end %>
-    <% if @realms.size > 0 %>
+    <% if @pool.realms.size > 0 %>
       <li><label>Realm<span>Choose a realm</span></label>
-        <%= select("instance", "realm_id", @realms.collect {|r| [ r.name, r.id ] }, { :include_blank => true }) %>
+        <%= select("instance", "front_end_realm", @pool.realms, { :include_blank => false }) %>
       </li>
     <% end %>
   </ul>
-    <input id="instance_provider_id" type="hidden" value="<%=@provider_id%>" name="provider_id"/>
-    <%#= hidden_field :provider, :provider_id %>
     <%= hidden_field :instance,  :portal_pool_id %>
     <%= submit_tag "Save", :class => "submit" %>
     <% end %>

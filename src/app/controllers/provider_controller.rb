@@ -32,7 +32,7 @@ class ProviderController < ApplicationController
 
   def new
     @provider = Provider.new(params[:provider])
-    if request.post? && @provider.save && @provider.populate_flavors
+    if request.post? && @provider.save && @provider.populate_hardware_profiles
       flash[:notice] = "Provider added."
       redirect_to :action => "show", :id => @provider
     end

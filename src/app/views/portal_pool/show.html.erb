@@ -7,7 +7,7 @@
       <th scope="col">Actions</th>
       <th scope="col">Name</th>
       <th scope="col">State</th>
-      <th scope="col">Flavor</th>
+      <th scope="col">Hardware Profile</th>
       <th scope="col">Image</th>
       </tr>
     </thead>
@@ -28,11 +28,11 @@
           </td>
           <td><%= instance.name %></td>
           <td><%= instance.state %></td>
-          <td><%= instance.flavor.name %></td>
+          <td><%= instance.hardware_profile.name %></td>
           <td><%= instance.image.name %></td>
         </tr>
       <% } %>
     </tbody>
   </table>
 <% end %>
-<%= link_to "Add a new instance", {:controller => "instance", :action => "new", :id => @pool, :provider => @provider}, :class=>"actionlink"%>
+<%= link_to "Add a new instance", {:controller => "instance", :action => "new", :id => @pool}, :class=>"actionlink"%>

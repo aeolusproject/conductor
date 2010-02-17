@@ -48,7 +48,8 @@ class Provider < ActiveRecord::Base
   end
 
   def populate_hardware_profiles
-    hardware_profiles = connect.hardware_profiles
+    # FIXME: once API has hw profiles, change the below
+    hardware_profiles = connect.flavors
     # FIXME: this should probably be in the same transaction as provider.save
     self.transaction do
       hardware_profiles.each do |hardware_profile|
@@ -61,6 +62,10 @@ class Provider < ActiveRecord::Base
         ar_hardware_profile.save!
       end
     end
+  end
+
+  def portal_pools
+    cloud_accounts.collect {|account| account.portal_pools}.flatten
   end
 
   # TODO: implement or remove - this is meant to contain a hash of

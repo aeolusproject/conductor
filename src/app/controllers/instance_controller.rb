@@ -32,12 +32,11 @@ class InstanceController < ApplicationController
   def show
     @instances = Instance.find(:all, :conditions => {:portal_pool_id => params[:id]})
     @pool = PortalPool.find(params[:id])
-    @provider = @pool.cloud_account.provider
   end
 
   def new
     @instance = Instance.new({:portal_pool_id => params[:id]})
-    _new(params[:provider])
+    @pool = PortalPool.find(params[:id])
   end
 
   def create
@@ -46,18 +45,18 @@ class InstanceController < ApplicationController
     #FIXME: This should probably be in a transaction
     if @instance.save
 
-      @task = InstanceTask.new({:user        => @instance.portal_pool.cloud_account.username,
+      @task = InstanceTask.new({:user        => current_user,
                                 :task_target => @instance,
                                 :action      => InstanceTask::ACTION_CREATE})
       if @task.save
         flash[:notice] = "Instance added."
         redirect_to :controller => "portal_pool", :action => 'show', :id => @instance.portal_pool_id
       else
-        _new(params[:provider_id])
+        @pool = @instance.portal_pool
         render :action => 'new'
       end
     else
-      _new(params[:provider_id])
+      @pool = PortalPool.find(@instance.portal_pool_id)
       render :action => 'new'
     end
   end
@@ -80,15 +79,6 @@ class InstanceController < ApplicationController
   end
 
   def delete
-  end
-
-  private
-
-  def _new(provider)
-    @flavors = Flavor.find(:all, :conditions => {:provider_id => provider})
-    @images = Image.find(:all, :conditions => {:provider_id => provider})
-    @realms = Realm.find(:all, :conditions => {:provider_id => provider})
-    @provider_id = provider
   end
 
 end
