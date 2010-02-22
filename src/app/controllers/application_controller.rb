@@ -47,10 +47,6 @@ class ApplicationController < ActionController::Base
     return @layout
   end
 
-  def get_login_user
-    "deltacloudadmin"
-  end
-
   def get_nav_items
     @providers = Provider.find(:all)
   end

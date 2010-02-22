@@ -69,7 +69,7 @@ class InstanceController < ApplicationController
       raise ActionError.new("#{action} is an invalid action.")
     end
     #permissons check here
-    @task = @instance.queue_action(get_login_user, action, action_args)
+    @task = @instance.queue_action(@current_user, action, action_args)
     unless @task
       raise ActionError.new("#{action} cannot be performed on this instance.")
     end
