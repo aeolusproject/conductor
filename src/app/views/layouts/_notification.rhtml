@@ -1,4 +1,4 @@
-<div id="notification">
+<div id="notification" <%if flash[:error]%>class="error-align"<%end%>>
   <%= link_to "", params, :id => "close-notify" %>
   <% if flash[:error] %>
       <% if !flash[:error][:successes].nil? && !flash[:error][:successes].empty? %>
