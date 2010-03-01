@@ -43,7 +43,8 @@ class ApplicationController < ActionController::Base
     if(params[:component_layout])
       return (ENV["RAILS_ENV"] != "production")?'components/' << params[:component_layout]:'dcloud'
     end
-    return 'dcloud'
+    @layout = 'dcloud'
+    return @layout
   end
 
   def get_login_user
@@ -106,7 +107,7 @@ class ApplicationController < ActionController::Base
     @ajax = params[:ajax]
     @nolayout = params[:nolayout]
     if @layout
-      render :layout => @layout
+      render :layout => 'dcloud'
     elsif @ajax
       render :template => 'layouts/popup-error', :layout => 'tabs-and-content'
     elsif @nolayout
@@ -222,7 +223,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_back_or_default(default)
-    redirect_to(session[:return_to] || default)
+    redirect_to(default || session[:return_to])
     session[:return_to] = nil
   end
 end
