@@ -1,0 +1,18 @@
+#!/usr/bin/ruby
+#FIXME: this should really be a rake task, then we get half of this stuff for free
+$: << File.join(File.dirname(__FILE__), '../dutils')
+
+require 'active_record_env'
+
+# Get configuration options...
+username = ARGV[0]
+user = User.find_by_login(username)
+if user
+  puts "Granting administrator privileges for #{username}..."
+  perm = Permission.new(:user => user,
+                           :role => Role.find_by_name("Administrator"),
+                           :permission_object => BasePortalObject.general_permission_scope)
+  perm.save!
+else
+  puts "Unable to verify user: login=#{username}"
+end
