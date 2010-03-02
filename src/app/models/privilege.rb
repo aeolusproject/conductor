@@ -73,4 +73,12 @@ class Privilege < ActiveRecord::Base
                                           # actions)
   USER_VIEW         = "user_view"         # can view a user's profile data
 
+  FULL_PRIVILEGE_LIST = [PERM_SET, PERM_VIEW,
+                         INSTANCE_MODIFY, INSTANCE_CONTROL, INSTANCE_VIEW,
+                         STATS_VIEW,
+                         ACCOUNT_MODIFY, ACCOUNT_VIEW,
+                         POOL_MODIFY, POOL_VIEW,
+                         QUOTA_MODIFY, QUOTA_VIEW,
+                         PROVIDER_MODIFY, PROVIDER_VIEW,
+                         USER_MODIFY, USER_VIEW]
 end

@@ -20,6 +20,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class PortalPool < ActiveRecord::Base
+  include PermissionedObject
   has_many :pool_accounts, :dependent => :destroy
   has_many :cloud_accounts, :through => :pool_accounts
   has_many :instances,  :dependent => :destroy

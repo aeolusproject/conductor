@@ -51,6 +51,13 @@ class ApplicationController < ActionController::Base
     @providers = Provider.find(:all)
   end
 
+  perm_helper_string = ""
+  Privilege::FULL_PRIVILEGE_LIST.each do |privilege|
+    perm_helper_string += "def has_#{privilege}?; " +
+      "check_privilege(\"#{privilege}\") end; "
+  end
+  master_helper_module.module_eval perm_helper_string
+
   protected
   # permissions checking
 

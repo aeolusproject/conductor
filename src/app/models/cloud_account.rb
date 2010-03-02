@@ -20,6 +20,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class CloudAccount < ActiveRecord::Base
+  include PermissionedObject
   belongs_to :provider
   has_many :pool_accounts, :dependent => :destroy
   has_many :portal_pools, :through => :pool_accounts

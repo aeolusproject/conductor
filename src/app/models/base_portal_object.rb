@@ -18,6 +18,8 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 class BasePortalObject < ActiveRecord::Base
+
+  include PermissionedObject
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"

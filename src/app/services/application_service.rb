@@ -38,21 +38,21 @@ module ApplicationService
     end
   end
 
-  # Including class must provide a GET_LOGIN_USER
+  # @current_user must be defined
 
-  def set_perms(perm_obj)
-    #FIXME: define perms for deltacloud
+  def check_privilege(privilege)
+    ((@perm_obj and @perm_obj.has_privilege(@current_user, privilege)) or
+     BasePortalObject.general_permission_scope.has_privilege(@current_user,
+                                                             privilege))
   end
-
   def authorized?(privilege, perm_obj=nil)
-    #FIXME: define perms for deltacloud
-    return true
+    @perm_obj = perm_obj
+    check_privilege(privilege)
   end
-  def authorized!(privilege, perm_obj=nil)
+  def require_privilege(privilege, perm_obj=nil)
     unless authorized?(privilege, perm_obj)
       raise PermissionError.new(
                'You have insufficient privileges to perform action.')
     end
   end
-
 end
