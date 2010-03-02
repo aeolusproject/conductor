@@ -18,11 +18,9 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 class Permission < ActiveRecord::Base
-  belongs_to :pool
   belongs_to :role
   belongs_to :user
 
-  validates_presence_of :pool_id
   validates_presence_of :role_id
 
   validates_presence_of :user_id
