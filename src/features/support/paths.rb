@@ -11,6 +11,24 @@ module NavigationHelpers
     when /the home\s?page/
       '/'
 
+    when /the new account page/
+      register_path
+
+    when /the provider list page/
+      '/'
+
+    when /the login page/
+      login_path
+
+    when /the account page/
+      account_path
+
+    when /the login error page/
+      user_session_path
+
+    when /the new provider page/
+      new_provider_path
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

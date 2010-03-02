@@ -51,3 +51,6 @@ production:
   username: dcloud
   password: v23zj59an
   host: localhost
+
+cucumber:
+  <<: *TEST
