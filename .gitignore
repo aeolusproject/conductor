@@ -15,3 +15,4 @@ ovirt-server*.gz
 ovirt-server.spec
 schema.rb
 log/
+database.yml
