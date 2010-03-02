@@ -34,16 +34,20 @@ class InstanceController < ApplicationController
   def show
     @instances = Instance.find(:all, :conditions => {:portal_pool_id => params[:id]})
     @pool = PortalPool.find(params[:id])
+    require_privilege(Privilege::INSTANCE_VIEW,@pool)
   end
 
   def new
     @instance = Instance.new({:portal_pool_id => params[:id]})
     @pool = PortalPool.find(params[:id])
+    require_privilege(Privilege::INSTANCE_MODIFY,@pool)
   end
 
   def create
     @instance = Instance.new(params[:instance])
     @instance.state = Instance::STATE_NEW
+    require_privilege(Privilege::INSTANCE_MODIFY,
+                      PortalPool.find(@instance.portal_pool_id))
     #FIXME: This should probably be in a transaction
     if @instance.save
 
@@ -69,6 +73,7 @@ class InstanceController < ApplicationController
     action = params[:instance_action]
     action_args = params[:action_data]
     @instance = Instance.find(params[:id])
+    require_privilege(Privilege::INSTANCE_CONTROL,@instance.portal_pool)
     unless @instance.valid_action?(action)
       raise ActionError.new("#{action} is an invalid action.")
     end

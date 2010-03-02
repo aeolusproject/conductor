@@ -29,6 +29,7 @@ class PortalPoolController < ApplicationController
   def show
     #FIXME: clean this up, many error cases here
     @pool = PortalPool.find(params[:id])
+    require_privilege(Privilege::INSTANCE_VIEW,@pool)
     @instances = @pool.instances
   end
 
@@ -36,9 +37,17 @@ class PortalPoolController < ApplicationController
     @portal_pool = PortalPool.new
     @account = CloudAccount.new
     @account.provider_id = params[:provider]
+    # FIXME: 'new pool' form will only require the POOL_MODIFY priv once the
+    # account bits are pulled out
+    require_privilege(Privilege::POOL_MODIFY)
+    require_privilege(Privilege::ACCOUNT_MODIFY, Provider.find(params[:provider]))
   end
 
   def create
+    # FIXME: 'new pool' form will only require the POOL_MODIFY priv once the
+    # account bits are pulled out
+    require_privilege(Privilege::POOL_MODIFY)
+    require_privilege(Privilege::ACCOUNT_MODIFY, Provider.find(params[:account][:provider_id]))
     @account = CloudAccount.find_or_create(params[:account])
     #FIXME: owner is set to current user for self-service account creation,
     # but in the more general case we need a way for the admin to pick
@@ -50,6 +59,12 @@ class PortalPoolController < ApplicationController
       @portal_pool = PortalPool.new(params[:portal_pool])
       @portal_pool.cloud_accounts << @account
       if @portal_pool.save && @portal_pool.populate_realms_and_images([@account])
+        perm = Permission.new(:user => @portal_pool.owner,
+                          :role => Role.find_by_name("Instance Creator and User"),
+                          :permission_object => @portal_pool)
+        perm.save!
+        # FIXME: do we need any more handling around save failures? What if perm
+        #        creation fails?
         flash[:notice] = "Pool added."
         redirect_to :action => 'show', :id => @portal_pool.id
       else

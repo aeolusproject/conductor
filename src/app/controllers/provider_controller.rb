@@ -23,14 +23,17 @@ class ProviderController < ApplicationController
   before_filter :require_user
 
   def index
+    # FIXME: this should be something other than 'new' here
     render :action => 'new'
   end
 
   def show
     @provider = Provider.find(:first, :conditions => {:id => params[:id]})
+    require_privilege(Privilege::PROVIDER_VIEW, @provider)
   end
 
   def new
+    require_privilege(Privilege::PROVIDER_MODIFY)
     @provider = Provider.new(params[:provider])
     if request.post? && @provider.save && @provider.populate_hardware_profiles
       flash[:notice] = "Provider added."
@@ -41,6 +44,7 @@ class ProviderController < ApplicationController
   def destroy
     if request.post?
       p =Provider.find(params[:provider][:id])
+      require_privilege(Privilege::PROVIDER_MODIFY, p)
       p.destroy
     end
     redirect_to :action => "index"
