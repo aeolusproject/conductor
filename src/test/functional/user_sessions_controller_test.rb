@@ -3,7 +3,7 @@ require 'test_helper'
 class UserSessionsControllerTest < ActionController::TestCase
   fixtures :users
   test "should get new" do
-    get :login
+    get :new
     assert_response :success
   end
 
@@ -15,8 +15,8 @@ class UserSessionsControllerTest < ActionController::TestCase
   end
 
   test "should destroy user session" do
-    post :create, :user_session => { :login => "tuser", :password => "testpass" }
-    delete :logout
+    post :create, :user_session => { :login => "tomuser", :password => "testpass" }
+    delete :destroy
     assert_nil UserSession.find
     assert_redirected_to login_path
   end
