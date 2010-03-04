@@ -10,9 +10,9 @@ notifempty
   endscript
 }
 
-/var/log/deltacloud-portal/rails.log /var/log/deltacloud-portal/mongrel.log {
+/var/log/deltacloud-portal/rails.log /var/log/deltacloud-portal/thin.log {
   sharedscripts
   postrotate
-      /etc/init.d/deltacloud-mongrel-rails restart
+      /etc/init.d/deltacloud-aggregator restart
   endscript
 }

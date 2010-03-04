@@ -1,0 +1,18 @@
+# root directory of the Deltacloud Aggregator Rails application
+#DELTACLOUD_DIR=/usr/share/deltacloud-portal
+
+# location of the logfile
+#THIN_LOG=/var/log/deltacloud-portal/thin.log
+
+# location of the lockfile
+#THIN_LOCKFILE=/var/lock/subsys/deltacloud-portal
+
+# location of the file containing running process ID
+#THIN_PID=/var/run/deltacloud-portal/thin.pid
+
+# user and group under which Rails application runs
+#USER=dcloud
+#GROUP=dcloud
+
+# URL prefix for Rails application
+#PREFIX=/deltacloud

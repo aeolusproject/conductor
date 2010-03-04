@@ -46,7 +46,7 @@ There are three ways you can install the portal application (though all require 
     * rubygem(activeldap) >= 0.10.0
     * rubygem(activerecord) >= 2.1.1-2
     * rubygem(gettext_rails)  
-    * rubygem(mongrel) >= 1.0.1
+    * rubygem(thin) >= 1.2.5
     * rubygem(rails) >= 2.3.2
   4. Continue to Section 5 - Database setup
 
@@ -129,7 +129,7 @@ Next, you need to have the correct rubygems installed. If you followed the steps
 === Section 6 - Finishing Setup ===
 
 You should now have everyting configured and installed to run the portal.  If you followed either of the RPM instructions, you can now run:
-  * service deltacloud-mongrel-rails start
+  * service deltacloud-aggregator start
   * service deltacloud-taskomatic start
 
 If you followed the development steps:
@@ -141,7 +141,7 @@ Lastly, you will need one or more instances of the Deltacloud framework running 
 
 === Getting Started ===
 
-For these steps, we will assume the mock driver is setup and running in a framework on http://localhost:3001/api, and your portal is running on http://localhost:3000 (this will just be http://localhost/deltacloud if you are running through apache, and can be started with 'service deltacloud-mongrel-rails start')
+For these steps, we will assume the mock driver is setup and running in a framework on http://localhost:3001/api, and your portal is running on http://localhost:3000 (this will just be http://localhost/deltacloud if you are running through apache, and can be started with 'service deltacloud-aggregator start')
 
 Taskomatic is a separate process that checks for tasks needing to be handled for portal instances. (If you installed the rpm, you can simply start the deltacloud-taskomatic service)  This can be run from the commandline from the taskomatic directory with 'ruby taskomatic -n'.  If you are running in development mode, you can point taskomatic there by exporting 'RAILS_ENV=development'.  Taskomatic needs to be running to do things like 'start an instance'.
 

@@ -16,7 +16,7 @@ Requires: ruby(abi) = 1.8
 Requires: rubygem(activerecord) >= 2.1.1-2
 Requires: rubygem(activeldap) >= 0.10.0
 Requires: rubygem(rails) >= 2.1.1
-Requires: rubygem(mongrel) >= 1.0.1
+Requires: rubygem(thin) >= 1.2.5
 %if 0%{?fedora} >= 11
 Requires: rubygem(gettext_rails)
 %else
@@ -69,14 +69,14 @@ mkdir %{buildroot}
 # by dcloud:dcloud. This is a temporary workaround while we've still
 # got root-owned daemon processes. Once we resolve that issue
 # these files will no longer be added explicitly here.
-touch %{buildroot}%{_localstatedir}/log/%{name}/mongrel.log
+touch %{buildroot}%{_localstatedir}/log/%{name}/thin.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/taskomatic.log
 %{__install} -p -m0644 %{pbuild}/conf/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d
 %{__install} -p -m0644 %{pbuild}/conf/%{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
-%{__install} -Dp -m0755 %{pbuild}/conf/deltacloud-mongrel-rails %{buildroot}%{_initrddir}
-%{__install} -Dp -m0644 %{pbuild}/conf/deltacloud-mongrel-rails.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-mongrel-rails
+%{__install} -Dp -m0755 %{pbuild}/conf/deltacloud-aggregator %{buildroot}%{_initrddir}
+%{__install} -Dp -m0644 %{pbuild}/conf/deltacloud-aggregator.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-aggregator
 %{__install} -Dp -m0644 %{pbuild}/conf/deltacloud-rails.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-rails
 %{__install} -Dp -m0755 %{pbuild}/conf/deltacloud-taskomatic %{buildroot}%{_initrddir}
 
@@ -126,23 +126,23 @@ fi \
 # if this is the initial RPM install, then we want to turn the new services
 # on; otherwise, we respect the choices the administrator already has made.
 # check this by seeing if each daemon is already installed
-%daemon_chkconfig_post -d deltacloud-mongrel-rails
+%daemon_chkconfig_post -d deltacloud-aggregator
 %daemon_chkconfig_post -d deltacloud-taskomatic
 
 %preun
 if [ "$1" = 0 ] ; then
-  /sbin/service deltacloud-mongrel-rails stop > /dev/null 2>&1
+  /sbin/service deltacloud-aggregator stop > /dev/null 2>&1
   /sbin/service deltacloud-taskomatic stop > /dev/null 2>&1
-  /sbin/chkconfig --del deltacloud-mongrel-rails
+  /sbin/chkconfig --del deltacloud-aggregator
   /sbin/chkconfig --del deltacloud-taskomatic
 fi
 
 %files
 %defattr(-,root,root,0755)
-%{_initrddir}/deltacloud-mongrel-rails
+%{_initrddir}/deltacloud-aggregator
 %{_initrddir}/deltacloud-taskomatic
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
-%config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-mongrel-rails
+%config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-aggregator
 %config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-rails
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %doc README AUTHORS COPYING
