@@ -40,7 +40,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :account, :controller => "users"
   map.resources :users
   map.root  :login
-  map.resources :provider
+  # Temporarily disable this route, provider stuff is not restful yet.
+  # Will be re-enabled in upcoming patch
+  # map.resources :provider
 
 
   # Allow downloading Web Service WSDL as a file with an extension
