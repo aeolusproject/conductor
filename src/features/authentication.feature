@@ -3,16 +3,20 @@ Feature: User authentication
   As a user
   I must register and log in
 
+  @register
   Scenario: Register as new user
     Given I am on the homepage
-    When I follow "Register"
+    When I follow "Create one now"
     Then I should be on the new account page
+    And I should see "New Account"
     When I fill in the following:
-      | login | testuser |
-      | email    | testuser@example.com |
-      | password | secret |
-      | password confirmation | secret |
-    And I press "Register"
+      | Choose a username | testuser             |
+      | Choose a password | secret               |
+      | Confirm password  | secret               |
+      | First name        | Joe                  |
+      | Last name         | Tester               |
+      | Email             | testuser@example.com |
+    And I press "Create Account"
     Then I should be on the account page
     And I should see "User registered!"
 
@@ -35,7 +39,7 @@ Feature: User authentication
     And I am on the homepage
     When I want to edit my profile
     And I follow "Edit"
-    Then I should see "Edit My Profile"
+    Then I should see "Edit my profile"
     When I fill in "email" with "changed@example.com"
     And I press "Update"
     Then I should be on the account page
@@ -47,5 +51,5 @@ Feature: User authentication
     When I follow "Log out"
     Then I should be logged out
     And I should see "Logout successful!"
-    And I should see "Register"
-    And I should see "Login"
+    And I should see "Create one now."
+    And I should see "Please sign in"

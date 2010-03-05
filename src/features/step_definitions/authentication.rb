@@ -5,7 +5,7 @@ end
 def login(login, password)
   user
   visit path_to("the login page")
-  fill_in "Login", :with => login
+  fill_in "Username", :with => login
   fill_in "Password", :with => password
   click_button "Login"
 end
