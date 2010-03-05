@@ -3,8 +3,8 @@ Factory.define :user do |u|
   u.email 'myuser@example.com'
   u.password 'secret'
   u.password_confirmation 'secret'
-  #u.first_name 'John'
-  #u.last_name 'Smith'
+  u.first_name 'John'
+  u.last_name 'Smith'
 end
 
 Factory.define :tuser, :parent => :user do |u|
