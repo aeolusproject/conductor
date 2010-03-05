@@ -19,8 +19,8 @@ DELTACLOUD_CACHE_DIR	?= $(HOME)/deltacloud-cache
 
 EXTRA_DIST =			\
   .gitignore			\
-  deltacloud-portal.spec		\
-  deltacloud-portal.spec.in	\
+  deltacloud-aggregator.spec		\
+  deltacloud-aggregator.spec.in	\
   conf					\
   src
 

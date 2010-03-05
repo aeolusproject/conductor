@@ -1,0 +1,176 @@
+%define app_root %{_datadir}/%{name}
+%define doc_root %{_datadir}/%{name}-doc
+
+Name:     deltacloud-aggregator
+Version:  @VERSION@
+Release:  0%{?dist}%{?extra_release}
+Summary:  The Deltacloud Aggregator
+
+Group:    Applications/System
+License:  GPLv2+ and MIT and BSD
+URL:      http://deltacloud.org
+
+# until official source tarballs exist, checkout from source via
+# git clone git://git.fedorahosted.org/deltacloud/portal.git deltacloud-aggregator-0.0.2
+# tar czvf deltacloud-aggregator-0.0.2.tar.gz deltacloud-aggregator-0.0.2
+Source0:    deltacloud-aggregator-%{version}.tar.gz
+BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+BuildArch:  noarch
+
+Requires: ruby >= 1.8.1
+Requires: ruby(abi) = 1.8
+Requires: rubygem(rails) >= 2.1.1
+Requires: rubygem(daemons)
+Requires: rubygem(gettext_rails)
+Requires: postgresql
+Requires: postgresql-server
+Requires: ruby-postgres
+
+%package daemons
+Summary:   Deltacloud Aggregator daemons config
+Group:     Applications/Internet
+License:   GPLv2+
+Requires: %{name} = %{version}-%{release}
+Requires: httpd >= 2.0
+#Requires: rubygem(thin) >= 1.2.5
+Requires(post): chkconfig
+Requires(preun): chkconfig
+Requires(preun): initscripts
+
+
+%package doc
+Summary: Deltacloud Aggregator documentation and test suite
+Group:   Documentation
+Requires: %{name} = %{version}-%{release}
+
+%description
+The Aggregator for Deltacloud.
+
+%description daemons
+The configuration necessary to run and proxy the Deltacloud Aggregator.
+
+%description doc
+Documentation and tests for the Deltacloud Aggregator
+
+%prep
+%setup -q
+
+%build
+
+%install
+%{__rm} -rf %{buildroot}
+%{__mkdir} -p %{buildroot}
+%{__mkdir} -p %{buildroot}%{app_root}
+%{__mkdir} -p %{buildroot}%{doc_root}
+%{__mkdir} -p %{buildroot}%{_initrddir}
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/sysconfig
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/httpd/conf.d
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d
+
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
+%{__mkdir} -p %{buildroot}%{_localstatedir}/lib/%{name}
+%{__mkdir} -p %{buildroot}%{_localstatedir}/log/%{name}
+%{__mkdir} -p %{buildroot}%{_localstatedir}/run/%{name}
+
+# copy over all of the src directory...
+%{__cp} -R src/* %{buildroot}/%{app_root}
+
+# move documentation to the correct place
+mv %{buildroot}/%{app_root}/doc %{buildroot}/%{app_root}/test %{buildroot}/%{doc_root}
+
+# copy over init scripts and various config
+%{__cp} conf/deltacloud-aggregator conf/deltacloud-taskomatic %{buildroot}%{_initrddir}
+%{__cp} conf/deltacloud-portal.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/deltacloud-aggregator.conf
+%{__cp} conf/deltacloud-portal.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/deltacloud-aggregator
+%{__cp} conf/deltacloud-aggregator.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-aggregator
+%{__cp} conf/deltacloud-rails.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-rails
+
+# move rails config to /etc, creating symlinks
+%{__mv} %{buildroot}%{app_root}/config/database.yml %{buildroot}%{_sysconfdir}/%{name}
+%{__mv} %{buildroot}%{app_root}/config/environments/development.rb %{buildroot}%{_sysconfdir}/%{name}
+%{__mv} %{buildroot}%{app_root}/config/environments/production.rb %{buildroot}%{_sysconfdir}/%{name}
+%{__mv} %{buildroot}%{app_root}/config/environments/test.rb %{buildroot}%{_sysconfdir}/%{name}
+%{__ln_s} %{_sysconfdir}/%{name}/database.yml %{buildroot}%{app_root}/config
+%{__ln_s} %{_sysconfdir}/%{name}/development.rb %{buildroot}%{app_root}/config/environments
+%{__ln_s} %{_sysconfdir}/%{name}/production.rb %{buildroot}%{app_root}/config/environments
+%{__ln_s} %{_sysconfdir}/%{name}/test.rb %{buildroot}%{app_root}/config/environments
+
+# Creating these files now to make sure the logfiles will be owned
+# by dcloud:dcloud. This is a temporary workaround while we've still
+# got root-owned daemon processes. Once we resolve that issue
+# these files will no longer be added explicitly here.
+touch %{buildroot}%{_localstatedir}/log/%{name}/mongrel.log
+touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
+touch %{buildroot}%{_localstatedir}/log/%{name}/taskomatic.log
+
+# remove the files not needed for the installation
+%{__rm} -f  %{buildroot}%{app_root}/task-omatic/.gitignore
+%{__rm} -f  %{buildroot}%{app_root}/vendor/plugins/will_paginate/.gitignore
+%{__rm} -f  %{buildroot}%{app_root}/vendor/plugins/will_paginate/.manifest
+
+%{__rm} -rf %{buildroot}%{app_root}/tmp
+%{__mkdir} %{buildroot}%{_localstatedir}/lib/%{name}/tmp
+%{__ln_s} %{_localstatedir}/lib/%{name}/tmp %{buildroot}%{app_root}/tmp
+
+
+%clean
+%{__rm} -rf %{buildroot}
+
+#%check
+#rake spec
+
+%pre daemons
+getent group dcloud >/dev/null || /usr/sbin/groupadd -g 109 -r dcloud 2>/dev/null || :
+getent passwd dcloud >/dev/null || \
+    /usr/sbin/useradd -u 109 -g dcloud -c "dcloud" \
+    -s /sbin/nologin -r -d /var/dcloud dcloud 2> /dev/null || :
+
+%post daemons
+# Register the httpd service
+/sbin/chkconfig --add deltacloud-taskomatic
+/sbin/chkconfig --add deltacloud-aggregator
+
+%preun daemons
+if [ $1 = 0 ]; then
+/sbin/service deltacloud-taskomatic stop > /dev/null 2>&1
+/sbin/chkconfig --del deltacloud-taskomatic
+/sbin/service deltacloud-aggregator stop > /dev/null 2>&1
+/sbin/chkconfig --del deltacloud-aggregator
+fi
+
+%files
+%defattr(-,root,root,-)
+%{app_root}
+%dir %{_sysconfdir}/%{name}
+%config(noreplace) %{_sysconfdir}/%{name}/database.yml
+%config(noreplace) %{_sysconfdir}/%{name}/development.rb
+%config(noreplace) %{_sysconfdir}/%{name}/production.rb
+%config(noreplace) %{_sysconfdir}/%{name}/test.rb
+%doc README AUTHORS COPYING
+
+%files daemons
+%defattr(-,root,root,-)
+%{_initrddir}/deltacloud-aggregator
+%{_initrddir}/deltacloud-taskomatic
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-aggregator
+%config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-rails
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
+%attr(-, dcloud, dcloud) %{_localstatedir}/lib/%{name}
+%attr(-, dcloud, dcloud) %{_localstatedir}/run/%{name}
+%attr(-, dcloud, dcloud) %{_localstatedir}/log/%{name}
+%doc README AUTHORS COPYING
+
+%files doc
+%defattr(-,root,root,-)
+%{doc_root}
+%doc README AUTHORS COPYING
+
+%changelog
+* Wed Feb 18 2010 Mohammed Morsi <mmorsi@redhat.com> - 0.0.2-1
+- renamed portal to aggregator
+- updated / cleaned up package
+
+* Fri Sep  1 2009  <sseago@redhat.com> - 0.0.1-1
+- Initial build.
+

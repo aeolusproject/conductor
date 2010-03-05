@@ -48,7 +48,7 @@ class TaskOmatic
 
   include MonitorMixin
 
-  $logfile = '/var/log/deltacloud-portal/taskomatic.log'
+  $logfile = '/var/log/deltacloud-aggregator/taskomatic.log'
 
   def initialize()
     super()

@@ -5,15 +5,15 @@
 #
 # chkconfig: - 97 03
 # description: deltacloud-taskomatic is an essential component of the \
-#    deltacloud Portal.
+#    deltacloud aggregator.
 #
 
 [ -r /etc/sysconfig/deltacloud-rails ] && . /etc/sysconfig/deltacloud-rails
 
 export RAILS_ENV="${RAILS_ENV:-production}"
-export COBBLER_YML="${COBBLER_YML:-/usr/share/deltacloud-portal/config/cobbler.yml}"
+export COBBLER_YML="${COBBLER_YML:-/usr/share/deltacloud-aggregator/config/cobbler.yml}"
 
-DAEMON=/usr/share/deltacloud-portal/task-omatic/taskomatic.rb
+DAEMON=/usr/share/deltacloud-aggregator/task-omatic/taskomatic.rb
 TASKOMATIC_LOCKFILE="${TASKOMATIC_LOCKFILE:-/var/lock/subsys/deltacloud-taskomatic }"
 
 . /etc/init.d/functions
