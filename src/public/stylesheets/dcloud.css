@@ -14,7 +14,7 @@ fieldset {
 	padding: 18px 0 10px 10px;
 }
 
-fieldset ul li input {
+ul li input {
 	border:2px solid #becfe4;
 	color:#333;
 	display:block;
@@ -63,7 +63,7 @@ input, select {
     -moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	margin-top: 54px;
-	width: 500px ;
+	width: 550px ;
 	margin-left: auto ;
 	margin-right: auto ;
 	padding: 36px;
@@ -89,7 +89,7 @@ input, select {
 	display: block;
 	float: left;
 	padding: 3px 0 24px 0;
-	width: 160px;
+	width: 175px;
 	font-size: 1.4em;
 	color: #616161;
 }
@@ -120,7 +120,6 @@ input, select {
 
 .dcloud_form .submit {
     float: right;
-    margin-top: 18px;
     display: inline;
     clear:both;
 }
