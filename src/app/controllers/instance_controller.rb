@@ -19,6 +19,8 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+require 'util/taskomatic'
+
 class InstanceController < ApplicationController
   before_filter :require_user
 
@@ -49,6 +51,8 @@ class InstanceController < ApplicationController
                                 :task_target => @instance,
                                 :action      => InstanceTask::ACTION_CREATE})
       if @task.save
+        task_impl = Taskomatic.new(@task)
+        task_impl.instance_create
         flash[:notice] = "Instance added."
         redirect_to :controller => "portal_pool", :action => 'show', :id => @instance.portal_pool_id
       else
@@ -73,6 +77,10 @@ class InstanceController < ApplicationController
     unless @task
       raise ActionError.new("#{action} cannot be performed on this instance.")
     end
+
+    task_impl = Taskomatic.new(@task)
+    task_impl.send "instance_#{action}"
+
     alert = "#{@instance.name}: #{action} was successfully queued."
     flash[:notice] = alert
     redirect_to :controller => "portal_pool", :action => 'show', :id => @instance.portal_pool_id
