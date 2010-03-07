@@ -122,11 +122,9 @@ Next, you need to have the correct rubygems installed. If you followed the steps
 
 You should now have everyting configured and installed to run the portal.  If you followed either of the RPM instructions, you can now run:
   * service deltacloud-mongrel-rails start
-  * service deltacloud-taskomatic start
 
 If you followed the development steps:
   * cd to your src directory and run ruby script/server
-  * in another terminal cd to the src/task-omatic directory and 'export RAILS_ENV=development; ruby taskomatic.rb -n'
 
 Lastly, you will need one or more instances of the Deltacloud framework running for the portal to talk to.  Directions for this can be found in the framework documentation(which can be found here: git://git.fedorahosted.org/git/deltacloud/framework.git/).  Assuming everything is installed for that, start a framework up in the framework directory with 'ruby script/server -p 3001' (so it is on a different port than our portal app).  You should now be ready to try out the portal application.
 
@@ -134,8 +132,6 @@ Lastly, you will need one or more instances of the Deltacloud framework running 
 === Getting Started ===
 
 For these steps, we will assume the mock driver is setup and running in a framework on http://localhost:3001/api, and your portal is running on http://localhost:3000 (this will just be http://localhost/deltacloud if you are running through apache, and can be started with 'service deltacloud-mongrel-rails start')
-
-Taskomatic is a separate process that checks for tasks needing to be handled for portal instances. (If you installed the rpm, you can simply start the deltacloud-taskomatic service)  This can be run from the commandline from the taskomatic directory with 'ruby taskomatic -n'.  If you are running in development mode, you can point taskomatic there by exporting 'RAILS_ENV=development'.  Taskomatic needs to be running to do things like 'start an instance'.
 
 When you navigate to the main page of your app, you will be presented with an 'Add cloud provider' form.  'Name' can be whatever you like, types currently suppoerted are mock, ec2, and rhevm.  'URL' is the url pointing to your framework (http://localhost:3001/api for our example).
 
