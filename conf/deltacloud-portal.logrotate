@@ -4,12 +4,6 @@ compress
 missingok
 notifempty
 
-/var/log/deltacloud-aggregator/taskomatic.log {
-  postrotate
-      /etc/init.d/deltacloud-taskomatic restart
-  endscript
-}
-
 /var/log/deltacloud-aggregator/rails.log /var/log/deltacloud-aggregator/thin.log {
   sharedscripts
   postrotate
