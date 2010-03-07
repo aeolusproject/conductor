@@ -71,14 +71,12 @@ mkdir %{buildroot}
 # these files will no longer be added explicitly here.
 touch %{buildroot}%{_localstatedir}/log/%{name}/mongrel.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
-touch %{buildroot}%{_localstatedir}/log/%{name}/taskomatic.log
 %{__install} -p -m0644 %{pbuild}/conf/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d
 %{__install} -p -m0644 %{pbuild}/conf/%{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 %{__install} -Dp -m0755 %{pbuild}/conf/deltacloud-mongrel-rails %{buildroot}%{_initrddir}
 %{__install} -Dp -m0644 %{pbuild}/conf/deltacloud-mongrel-rails.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-mongrel-rails
 %{__install} -Dp -m0644 %{pbuild}/conf/deltacloud-rails.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-rails
-%{__install} -Dp -m0755 %{pbuild}/conf/deltacloud-taskomatic %{buildroot}%{_initrddir}
 
 # copy over all of the src directory...
 %{__cp} -a %{pbuild}/src/* %{buildroot}%{app_root}
@@ -95,7 +93,6 @@ touch %{buildroot}%{_localstatedir}/log/%{name}/taskomatic.log
 %{__ln_s} %{_sysconfdir}/%{name}/test.rb %{buildroot}%{app_root}/config/environments
 
 # remove the files not needed for the installation
-%{__rm} -f %{buildroot}%{app_root}/task-omatic/.gitignore
 %{__rm} -f %{buildroot}%{app_root}/vendor/plugins/will_paginate/.gitignore
 %{__rm} -f %{buildroot}%{app_root}/vendor/plugins/will_paginate/.manifest
 
@@ -127,20 +124,16 @@ fi \
 # on; otherwise, we respect the choices the administrator already has made.
 # check this by seeing if each daemon is already installed
 %daemon_chkconfig_post -d deltacloud-mongrel-rails
-%daemon_chkconfig_post -d deltacloud-taskomatic
 
 %preun
 if [ "$1" = 0 ] ; then
   /sbin/service deltacloud-mongrel-rails stop > /dev/null 2>&1
-  /sbin/service deltacloud-taskomatic stop > /dev/null 2>&1
   /sbin/chkconfig --del deltacloud-mongrel-rails
-  /sbin/chkconfig --del deltacloud-taskomatic
 fi
 
 %files
 %defattr(-,root,root,0755)
 %{_initrddir}/deltacloud-mongrel-rails
-%{_initrddir}/deltacloud-taskomatic
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-mongrel-rails
 %config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-rails
