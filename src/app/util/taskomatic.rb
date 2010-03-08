@@ -1,6 +1,6 @@
-#
+ #
 # Copyright (C) 2010 Red Hat, Inc.
-# Written by Ian Main <imain@redhat.com>
+#  Written by Ian Main <imain@redhat.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,9 +36,9 @@ end
 
 class Taskomatic
 
-  def initialize(task)
+  def initialize(task, logger)
     @task = task
-    @logger = Logger.new('Taskomatic')
+    @logger = logger
   end
 
   def instance_create
