@@ -35,3 +35,8 @@ end
 Then /^I should be logged out$/ do
   UserSession.find.should == nil
 end
+
+Then /^I should have one private pool named "([^\"]*)"$/ do |login|
+  PortalPool.find_by_name(login).should_not be_nil
+  PortalPool.find_by_name(login).permissions.size.should == 1
+end

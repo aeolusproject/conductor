@@ -19,6 +19,7 @@ Feature: User authentication
     And I press "Create Account"
     Then I should be on the account page
     And I should see "User registered!"
+    And I should have one private pool named "testuser"
 
   Scenario: Log in as registered user
     Given I am a registered user
