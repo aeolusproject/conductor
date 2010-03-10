@@ -34,45 +34,29 @@ class PortalPoolController < ApplicationController
   end
 
   def new
+    require_privilege(Privilege::POOL_MODIFY)
     @portal_pool = PortalPool.new
     @account = CloudAccount.new
-    @account.provider_id = params[:provider]
-    # FIXME: 'new pool' form will only require the POOL_MODIFY priv once the
-    # account bits are pulled out
-    require_privilege(Privilege::POOL_MODIFY)
-    require_privilege(Privilege::ACCOUNT_MODIFY, Provider.find(params[:provider]))
   end
 
   def create
-    # FIXME: 'new pool' form will only require the POOL_MODIFY priv once the
-    # account bits are pulled out
     require_privilege(Privilege::POOL_MODIFY)
-    require_privilege(Privilege::ACCOUNT_MODIFY, Provider.find(params[:account][:provider_id]))
-    @account = CloudAccount.find_or_create(params[:account])
+
     #FIXME: owner is set to current user for self-service account creation,
     # but in the more general case we need a way for the admin to pick
     # a user
-    # FIXME: automatically grant owner access rights to the pool
     params[:portal_pool][:owner_id] = @current_user.id
+
     #FIXME: This should probably be in a transaction
-    if @account.save
-      @portal_pool = PortalPool.new(params[:portal_pool])
-      @portal_pool.cloud_accounts << @account
-      if @portal_pool.save && @portal_pool.populate_realms_and_images([@account])
-        perm = Permission.new(:user => @portal_pool.owner,
+    @portal_pool = PortalPool.new(params[:portal_pool])
+    perm = Permission.new(:user => @portal_pool.owner,
                           :role => Role.find_by_name("Instance Creator and User"),
                           :permission_object => @portal_pool)
-        perm.save!
-        # FIXME: do we need any more handling around save failures? What if perm
-        #        creation fails?
-        flash[:notice] = "Pool added."
-        redirect_to :action => 'show', :id => @portal_pool.id
-      else
-        render :action => 'new'
-      end
-    else
-      render :action => 'new'
-    end
+    perm.save!
+    # FIXME: do we need any more handling around save failures? What if perm
+    #        creation fails?
+    flash[:notice] = "Pool added."
+    redirect_to :action => 'show', :id => @portal_pool.id
   end
 
   def delete

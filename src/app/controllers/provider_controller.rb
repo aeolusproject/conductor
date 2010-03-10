@@ -50,4 +50,22 @@ class ProviderController < ApplicationController
     redirect_to :action => "index"
   end
 
+  def accounts
+     @provider = Provider.find(params[:id])
+     require_privilege(Privilege::PROVIDER_VIEW, @provider)
+  end
+
+  def new_account
+     @provider = Provider.find(params[:id])
+     require_privilege(Privilege::PROVIDER_VIEW, @provider)
+  end
+
+  def create_account
+     require_privilege(Privilege::PROVIDER_MODIFY)
+     @acct = CloudAccount.find_or_create(params[:account])
+     @provider = Provider.find(params[:account][:provider_id])
+     @provider.cloud_accounts << @acct
+     redirect_to :action => 'accounts', :id => @provider.id
+  end
+
 end

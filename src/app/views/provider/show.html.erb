@@ -18,7 +18,7 @@
     </tbody>
   </table>
 <% end %>
-<%= link_to "Add a pool", {:controller => "portal_pool", :action => "new", :provider => @provider}, :class => "actionlink" %>
+<%= link_to "Add a pool",     {:controller => "portal_pool", :action => "new", :provider => @provider}, :class => "actionlink" %>
 <% form_tag :action => 'destroy' do %>
   <%=hidden_field :provider, :id %>
   <%= submit_tag "Delete Provider", :class => "submit_link" %>
