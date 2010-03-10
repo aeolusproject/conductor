@@ -1,9 +1,9 @@
-namespace :grant do
-  desc 'Grant admin privileges to user'
-  task :admin_privileges, [:login] => :environment do |t, args|
+namespace :dc do
+  desc 'Grant administrator privileges to registred user'
+  task :site_admin, [:login] => :environment do |t, args|
 
     unless args.login
-      puts "Usage: rake grant:admin_privileges[<user>]"
+      puts "Usage: rake dc:site_admin[user]"
       exit(1)
     end
 
