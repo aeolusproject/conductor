@@ -26,6 +26,8 @@ def dcloud_to_instance_state(state_str)
       return Instance::STATE_RUNNING
     when 'STOPPED'
       return Instance::STATE_STOPPED
+    when 'TERMINATED'
+      return Instance::STATE_STOPPED
     when 'SHUTTING_DOWN'
       return Instance::STATE_SHUTTING_DOWN
   else
@@ -122,6 +124,26 @@ class Taskomatic
     end
     @task.time_ended = Time.now
     @task.save!
+  end
+
+  # FIXME: this should probably eventually enforce a max refresh rate to prevent
+  # too many refreshes  causing scalability problems. In addition this will need
+  # to be handled by the scheduler
+  def pool_refresh(pool)
+    account_clients = {}
+    pool.instances.each do |instance|
+      if instance.cloud_account and instance.state != Instance::STATE_NEW
+        account_clients[instance.cloud_account_id] ||= instance.cloud_account.connect
+        api_instance = account_clients[instance.cloud_account_id].instance(instance.external_key)
+        if api_instance
+          @logger.debug("updating instance state for #{instance.name}: #{instance.external_key}. #{api_instance}")
+          instance.state = dcloud_to_instance_state(api_instance.state)
+          instance.save!
+        else
+          instance.destroy
+        end
+      end
+    end
   end
 end
 

@@ -19,6 +19,8 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+require 'util/taskomatic'
+
 class PortalPoolController < ApplicationController
   before_filter :require_user
 
@@ -30,6 +32,9 @@ class PortalPoolController < ApplicationController
     #FIXME: clean this up, many error cases here
     @pool = PortalPool.find(params[:id])
     require_privilege(Privilege::INSTANCE_VIEW,@pool)
+    # pass nil into Taskomatic as we're not working off a task here
+    Taskomatic.new(nil,logger).pool_refresh(@pool)
+    @pool.reload
     @instances = @pool.instances
   end
 
