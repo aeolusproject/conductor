@@ -43,10 +43,15 @@ class Privilege < ActiveRecord::Base
   STATS_VIEW        = "stats_view"        # can view monitoring data for
                                           # instances
 
-  # account privileges normally checked at the provider level, although
-  # account-specific overrides could be a future enhancement.
+  # to create(i.e. import) an account on a provider (but not added to
+  # a pool) needs ACCOUNT_MODIFY on the provider.
+  # to add a new provider account (i.e. import) to a pool needs
+  # ACCOUNT_ADD on  the pool
+  # to add an existing provider account to a pool needs ACCOUNT_ADD
+  # on the pool _and_ ACCOUNT_ADD on the account.
   ACCOUNT_MODIFY    = "account_modify"    # can create or modify cloud accounts
-  ACCOUNT_VIEW      = "account_view"      # can create or modify cloud accounts
+  ACCOUNT_VIEW      = "account_view"      # can view cloud accounts
+  ACCOUNT_ADD       = "account_add"       # can add an account to a pool
 
   # pool privileges normally checked at the provider level
   # (and at the account level for choosing which accounts are visible on the
@@ -76,7 +81,7 @@ class Privilege < ActiveRecord::Base
   FULL_PRIVILEGE_LIST = [PERM_SET, PERM_VIEW,
                          INSTANCE_MODIFY, INSTANCE_CONTROL, INSTANCE_VIEW,
                          STATS_VIEW,
-                         ACCOUNT_MODIFY, ACCOUNT_VIEW,
+                         ACCOUNT_MODIFY, ACCOUNT_ADD, ACCOUNT_VIEW,
                          POOL_MODIFY, POOL_VIEW,
                          QUOTA_MODIFY, QUOTA_VIEW,
                          PROVIDER_MODIFY, PROVIDER_VIEW,

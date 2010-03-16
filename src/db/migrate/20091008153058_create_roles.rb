@@ -63,7 +63,7 @@ class CreateRoles < ActiveRecord::Migration
                                   "quota_view",
                                   "set_perms",
                                   "view_perms",
-                                  "account_modify"]},
+                                  "account_add"]},
              "Pool Creator" =>
                  {:role_scope => "Provider",
                   :privileges => ["provider_view",
@@ -78,19 +78,31 @@ class CreateRoles < ActiveRecord::Migration
                                   "quota_view",
                                   "quota_modify",
                                   "account_view",
+                                  "account_add",
                                   "account_modify",
                                   "set_perms",
                                   "view_perms"]},
+             "Provider Administrator" =>
+                 {:role_scope => "Provider",
+                  :privileges => ["provider_modify",
+                                  "provider_view",
+                                  "account_modify",
+                                  "account_view"]},
              "Account Administrator" =>
                  {:role_scope => "CloudAccount",
                   :privileges => ["set_perms",
                                   "view_perms",
                                   "account_view",
+                                  "account_add",
                                   "account_modify"]},
              "Account User" =>
                  {:role_scope => "CloudAccount",
+                  :privileges => ["account_view",
+                                  "account_add"]},
+             "Account Viewer" =>
+                 {:role_scope => "CloudAccount",
                   :privileges => ["account_view"]},
-             "Provider Administrator" =>
+             "Provider Creator" =>
                  {:role_scope => "BasePortalObject",
                   :privileges => ["provider_modify",
                                   "provider_view"]},
@@ -99,6 +111,7 @@ class CreateRoles < ActiveRecord::Migration
                   :privileges => ["provider_modify",
                                   "provider_view",
                                   "account_modify",
+                                  "account_add",
                                   "account_view",
                                   "user_modify",
                                   "user_view",
