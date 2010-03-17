@@ -9,7 +9,6 @@ describe ProviderController do
     activate_authlogic
   end
 
-
   it "should provide ui to view accounts" do
      UserSession.create(@admin)
      get :accounts, :id => @provider.id
@@ -31,5 +30,16 @@ describe ProviderController do
      get :new_account
      response.should_not be_success
   end
+
+  it "should provide ui to view hardware profiles" do
+     UserSession.create(@admin)
+     provider = @admin_permission.permission_object
+
+     get :hardware_profiles, :id => provider.id
+     response.should be_success
+     assigns[:hardware_profiles].size.should == provider.hardware_profiles.size
+     response.should render_template("hardware_profiles")
+  end
+
 
 end

@@ -29,5 +29,15 @@ describe PortalPoolController do
      response.should redirect_to("http://test.host/portal_pool/show/#{id}")
   end
 
+  it "should provide ui to view hardware profiles" do
+     UserSession.create(@admin)
+     pool = Factory :tpool
+
+     get :hardware_profiles, :id => pool.id
+     response.should be_success
+     assigns[:hardware_profiles].size.should == pool.hardware_profiles.size
+     response.should render_template("hardware_profiles")
+  end
+
 
 end

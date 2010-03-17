@@ -79,7 +79,6 @@ class Provider < ActiveRecord::Base
   def validate
     if !nil_or_empty(url)
       errors.add("url", "must be a valid provider url") unless valid_framework?
-      puts errors.inspect
     end
   end
 
