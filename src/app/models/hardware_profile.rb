@@ -64,14 +64,14 @@ class HardwareProfile < ActiveRecord::Base
       errors.add(:provider, "provider or pool must be blank")
       errors.add(:portal_pool, "provider or pool must be blank")
     elsif provider.nil?
-      if !aggregator_hardware_profiles.empty?
-        errors.add(:aggregator_hardware_profiles,
-                   "Aggregator profiles only allowed for provider profiles")
-      end
-    elsif portal_pool.nil?
       if !provider_hardware_profiles.empty?
         errors.add(:provider_hardware_profiles,
-                   "Provider profiles only allowed for aggregator profiles")
+                   "Provider profiles only allowed for provider profiles")
+      end
+    elsif portal_pool.nil?
+      if !aggregator_hardware_profiles.empty?
+        errors.add(:aggregator_hardware_profiles,
+                   "Aggregator profiles only allowed for pool profiles")
       end
     end
   end

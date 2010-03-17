@@ -16,14 +16,14 @@ describe UserSessionsController do
   end
 
   it "should create user session" do
-    post :create, :user_session => { :login => "tuser", :password => "secret" }
+    post :create, :user_session => { :login => @tuser.login, :password => "secret" }
     UserSession.find.should_not == nil
     @tuser.should == UserSession.find.user
     response.should redirect_to(account_path)
   end
 
   it "should destroy user session" do
-    post :create, :user_session => { :login => "tuser", :password => "secret" }
+    post :create, :user_session => { :login => @tuser.login, :password => "secret" }
     delete :destroy
     UserSession.find.should == nil
     response.should redirect_to(login_path)

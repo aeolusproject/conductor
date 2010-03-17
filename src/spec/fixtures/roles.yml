@@ -20,7 +20,7 @@ instance_creator_and_user:
 self_service_pool_user:
   name: Self-service Pool User
   scope: PortalPool
-  privileges: instance_control, instance_view, pool_view, stats_view, instance_modify, quota_view, set_perms, view_perms, account_modify
+  privileges: instance_control, instance_view, pool_view, stats_view, instance_modify, quota_view, set_perms, view_perms, account_add
 pool_creator:
   name: Pool Creator
   scope: Provider
@@ -28,20 +28,28 @@ pool_creator:
 pool_administrator:
   name: Pool Administrator
   scope: Provider
-  privileges: provider_view, pool_modify, pool_view, quota_modify, quota_view, account_modify, account_view, stats_view, set_perms, view_perms
+  privileges: provider_view, pool_modify, pool_view, quota_modify, quota_view, account_modify, account_add, account_view, stats_view, set_perms, view_perms
+provider_administrator:
+  name: Provider Administrator
+  scope: Provider
+  privileges: provider_modify, provider_view, account_modify, account_view
 account_administrator:
   name: Account Administrator
   scope: CloudAccount
-  privileges: account_modify, account_view, stats_view, set_perms, view_perms
+  privileges: account_modify, account_view, stats_view, set_perms, view_perms, account_add
 account_user:
   name: Account User
   scope: CloudAccount
+  privileges: account_view, account_add
+account_viewer:
+  name: Account Viewer
+  scope: CloudAccount
   privileges: account_view
-provider_administrator:
-  name: Provider Administrator
+provider_creator:
+  name: Provider Creator
   scope: BasePortalObject
   privileges: provider_modify, provider_view, stats_view
-site_administrator:
-  name: Site Administrator
+administrator:
+  name: Administrator
   scope: BasePortalObject
-  privileges: provider_modify, provider_view, account_modify, account_view, user_modify, user_view, set_perms, view_perms, pool_modify, pool_view, quota_modify, quota_view, stats_view, instance_modify, instance_control, instance_view
+  privileges: provider_modify, provider_view, account_modify, account_add, account_view, user_modify, user_view, set_perms, view_perms, pool_modify, pool_view, quota_modify, quota_view, stats_view, instance_modify, instance_control, instance_view

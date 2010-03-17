@@ -3,7 +3,6 @@ require 'spec_helper'
 describe ProviderController do
 
   before(:each) do
-    Factory :base_portal_object
     @admin_permission = Factory :provider_admin_permission
     @provider = @admin_permission.permission_object
     @admin = @admin_permission.user

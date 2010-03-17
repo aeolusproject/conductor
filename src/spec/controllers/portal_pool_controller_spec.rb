@@ -21,13 +21,12 @@ describe PortalPoolController do
   end
 
   it "should provider means to create new pool" do
-     @instance_creator = Factory :instance_creator
-
      UserSession.create(@admin)
      lambda do
        post :create, :portal_pool => { :name => 'foopool' }
      end.should change(PortalPool, :count).by(1)
-     response.should redirect_to('http://test.host/portal_pool/show/1')
+     id = PortalPool.find(:first, :conditions => ['name = ?', 'foopool']).id
+     response.should redirect_to("http://test.host/portal_pool/show/#{id}")
   end
 
 
