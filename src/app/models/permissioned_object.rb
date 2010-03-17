@@ -80,4 +80,23 @@ module PermissionedObject
                                      { :user => user.id,
                                        :priv => privilege }])
   end
+
+  # Any methods here will be able to use the context of the
+  # ActiveRecord model the module is included in.
+  def self.included(base)
+    base.class_eval do
+      def self.list_for_user(user, privilege)
+        if BasePortalObject.general_permission_scope.has_privilege(user, privilege)
+          all
+        else
+          find(:all, :include => {:permissions => {:role => :privileges}},
+               :conditions => ["permissions.user_id=:user and
+                                privileges.name=:priv",
+                               {:user => user.id,
+                                :priv => privilege }])
+        end
+      end
+    end
+  end
+
 end

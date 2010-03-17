@@ -48,7 +48,10 @@ class ApplicationController < ActionController::Base
   end
 
   def get_nav_items
-    @providers = Provider.find(:all)
+    if !current_user.nil?
+        @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+        @pools = PortalPool.list_for_user(@current_user, Privilege::POOL_VIEW)
+    end
   end
 
   perm_helper_string = ""

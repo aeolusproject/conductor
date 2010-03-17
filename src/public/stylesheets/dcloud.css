@@ -210,24 +210,25 @@ ul#providers li a:hover {
   background: #efefef;
 }
 
-ul#providers li ul {
+ul#portal_pools {
   list-style-type: none;
   line-height: 36px;
   margin: 0;
   padding: 0 0 0 10px;
 }
 
-ul#providers li ul li {
+ul#portal_pools li {
   border-bottom: none;
 }
 
-ul#providers li ul li a {
+ul#portal_pools li a {
+  display: block;
   line-height: 36px;
   padding-left: 32px;
   border-bottom: none;
 }
 
-ul#providers li ul li a:hover {
+ul#portal_pools li a:hover {
   background: #efefef url(../images/icon_vmpool.png) no-repeat 2px 50%;
 }
 
