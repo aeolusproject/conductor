@@ -1,0 +1,24 @@
+<% if @hardware_profiles.size == 0 %>
+<h1>There are no hardware profiles to display</h1>
+<% else %>
+    <table>
+      <thead>
+        <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Memory</th>
+        <th scope="col">Storage</th>
+        <th scope="col">Architecture</th>
+        </tr>
+      </thead>
+      <tbody>
+  <%@hardware_profiles.each {|hp| %>
+       <tr>
+          <td><%= hp.name %></td>
+          <td><%= hp.memory %></td>
+          <td><%= hp.storage %></td>
+          <td><%= hp.architecture %></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+<% end %>

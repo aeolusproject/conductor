@@ -38,6 +38,12 @@ class PortalPoolController < ApplicationController
     @instances = @pool.instances
   end
 
+  def hardware_profiles
+    @pool = PortalPool.find(params[:id])
+    @hardware_profiles = @pool.hardware_profiles
+    require_privilege(Privilege::POOL_VIEW, @pool)
+  end
+
   def new
     require_privilege(Privilege::POOL_MODIFY)
     @portal_pool = PortalPool.new

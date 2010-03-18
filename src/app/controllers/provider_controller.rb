@@ -50,6 +50,12 @@ class ProviderController < ApplicationController
     redirect_to :action => "index"
   end
 
+  def hardware_profiles
+    @provider = Provider.find(params[:id])
+    @hardware_profiles = @provider.hardware_profiles
+    require_privilege(Privilege::PROVIDER_VIEW, @provider)
+  end
+
   def accounts
      @provider = Provider.find(params[:id])
      require_privilege(Privilege::ACCOUNT_VIEW, @provider)

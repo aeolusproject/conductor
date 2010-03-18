@@ -36,3 +36,4 @@
   </table>
 <% end %>
 <%= link_to "Add a new instance", {:controller => "instance", :action => "new", :id => @pool}, :class=>"actionlink"%>
+<%= link_to "Hardware Profiles",  {:action => "hardware_profiles", :id => @pool.id}, :class=>"actionlink"%>
