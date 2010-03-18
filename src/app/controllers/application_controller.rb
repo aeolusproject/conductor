@@ -56,8 +56,8 @@ class ApplicationController < ActionController::Base
 
   perm_helper_string = ""
   Privilege::FULL_PRIVILEGE_LIST.each do |privilege|
-    perm_helper_string += "def has_#{privilege}?; " +
-      "check_privilege(\"#{privilege}\") end; "
+    perm_helper_string += "def has_#{privilege}?(obj=@perm_obj); " +
+      "check_privilege(\"#{privilege}\", obj) end; "
   end
   master_helper_module.module_eval perm_helper_string
 

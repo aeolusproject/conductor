@@ -40,14 +40,14 @@ module ApplicationService
 
   # @current_user must be defined
 
-  def check_privilege(privilege)
-    ((@perm_obj and @perm_obj.has_privilege(@current_user, privilege)) or
+  def check_privilege(privilege, perm_obj)
+    ((perm_obj and perm_obj.has_privilege(@current_user, privilege)) or
      BasePortalObject.general_permission_scope.has_privilege(@current_user,
                                                              privilege))
   end
   def authorized?(privilege, perm_obj=nil)
     @perm_obj = perm_obj
-    check_privilege(privilege)
+    check_privilege(privilege,@perm_obj)
   end
   def require_privilege(privilege, perm_obj=nil)
     unless authorized?(privilege, perm_obj)
