@@ -1,0 +1,23 @@
+<% if @pool.cloud_accounts.size == 0 %>
+<h1>There are no accounts to display</h1>
+<% else %>
+    <table>
+      <thead>
+        <tr>
+        <th scope="col">Provider</th>
+        <th scope="col">Username</th>
+        </tr>
+      </thead>
+      <tbody>
+  <%@pool.cloud_accounts.each {|account| %>
+        <tr>
+          <td><%= account.provider.name %></td>
+          <td><%= account.username %></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+<% end %>
+<%= link_to "View/Add Existing Cloud Accounts", {:controller => "cloud_accounts",:action => "accounts_for_pool", :pool_id => @pool}, :class=>"actionlink" %>
+<%= link_to "Add a New Cloud Account", {:controller => "cloud_accounts",:action => "new_from_pool", :pool_id => @pool}, :class=>"actionlink" %><br/>
+

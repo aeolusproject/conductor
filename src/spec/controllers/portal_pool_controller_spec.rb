@@ -39,5 +39,13 @@ describe PortalPoolController do
      response.should render_template("hardware_profiles")
   end
 
+  it "should get cloud accounts" do
+     @pool  = Factory :tpool
+     UserSession.create(@admin)
+     get :accounts, :id => @pool.id
+     response.should be_success
+     response.should render_template("accounts")
+     @pool.should_not == nil
+  end
 
 end
