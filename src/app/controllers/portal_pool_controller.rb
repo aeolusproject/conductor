@@ -77,4 +77,9 @@ class PortalPoolController < ApplicationController
 
   def delete
   end
+
+  def images
+    @pool = PortalPool.find(params[:portal_pool])
+    require_privilege(Privilege::POOL_VIEW, @pool)
+  end
 end
