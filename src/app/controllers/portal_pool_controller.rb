@@ -84,8 +84,32 @@ class PortalPoolController < ApplicationController
   def delete
   end
 
+
   def images
     @pool = PortalPool.find(params[:portal_pool])
     require_privilege(Privilege::POOL_VIEW, @pool)
   end
+
+  def accounts_for_pool
+    @pool =  PortalPool.find(params[:pool_id])
+    require_privilege(Privilege::ACCOUNT_ADD,@pool)
+    @cloud_accounts = []
+    all_accounts = CloudAccount.all
+    all_accounts.each {|account|
+      if authorized?(Privilege::ACCOUNT_VIEW,account) && authorized?(Privilege::ACCOUNT_ADD,account)
+        @cloud_accounts << account unless @pool.cloud_accounts.map{|x| x.id}.include?(account.id)
+      end
+    }
+  end
+
+  def add_account
+    @portal_pool = PortalPool.find(params[:portal_pool])
+    @cloud_account = CloudAccount.find(params[:cloud_account])
+    @portal_pool.cloud_accounts << @cloud_account unless @portal_pool.cloud_accounts.map{|x| x.id}.include?(@cloud_account.id)
+    @portal_pool.save!
+    @portal_pool.populate_realms_and_images([@cloud_account])
+    redirect_to :action => 'show', :id => @portal_pool.id
+  end
+
+
 end

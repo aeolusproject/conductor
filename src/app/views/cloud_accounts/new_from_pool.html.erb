@@ -1,0 +1,11 @@
+<h2 class="greeting">New Cloud Account</h2>
+
+<div class="dcloud_form">
+  <% form_for @cloud_account, :url => { :action => "create_from_pool" } do |f| %>
+    <%= f.error_messages %>
+      <%= render :partial => "form", :object => f %>
+    <%= hidden_field :pool, :id %>
+    <%= f.submit "Create Cloud Account", :class => "submit" %>
+  <% end %>
+  <%= link_to "Cancel", root_path, :class => 'actionlink'  %>
+</div>

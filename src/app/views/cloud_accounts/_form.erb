@@ -1,0 +1,13 @@
+<ul>
+  <li>
+    <%= form.label :username, "Cloud Account username" %>
+    <%= form.text_field :username %>
+  </li>
+  <li>
+    <%= form.label :password, "Cloud Account password" %>
+    <%= form.password_field :password %>
+  </li>
+  <li>
+     <%= select("provider", "id", @providers.map{|p| [p.name,p.id]} , { :include_blank => false }) %>
+  </li>
+</ul>

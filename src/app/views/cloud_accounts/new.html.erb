@@ -1,0 +1,14 @@
+<% if @providers.size == 0 %>
+<h1>No Providers available to associate with a new cloud account</h1>
+<% else %>
+<h2 class="greeting">New Cloud Account</h2>
+
+<div class="dcloud_form">
+  <% form_for @cloud_account, :url => { :action => "create" } do |f| %>
+    <%= f.error_messages %>
+      <%= render :partial => "form", :object => f %>
+    <%= f.submit "Create Cloud Account", :class => "submit" %>
+  <% end %>
+  <%= link_to "Cancel", root_path, :class => 'actionlink'  %>
+</div>
+<% end %>
