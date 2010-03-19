@@ -43,9 +43,7 @@ class PortalPool < ActiveRecord::Base
   def realms
     realm_list = []
     cloud_accounts.each do |cloud_account|
-      prefix = cloud_account.provider.name +
-               Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER +
-               cloud_account.username
+      prefix = cloud_account.account_prefix_for_realm
       realm_list << prefix
       cloud_account.provider.realms.each do |realm|
         realm_list << prefix + Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
@@ -94,10 +92,9 @@ class PortalPool < ActiveRecord::Base
                                  :provider_id => cloud_account.provider.id)
             ar_image.save!
           end
-          # FIXME: what do we ue for external_key values for front end images?
-          # FIXME: this will break if multiple imported accounts (from different
-          #        providers) use the same external key
-          front_end_image = Image.new(:external_key => ar_image.external_key,
+          front_end_image = Image.new(:external_key =>
+                                         cloud_account.account_prefix_for_realm +
+                                         ar_image.external_key,
                                   :name => ar_image.name,
                                   :architecture => ar_image.architecture,
                                   :portal_pool_id => id)
@@ -105,6 +102,7 @@ class PortalPool < ActiveRecord::Base
         end
         cloud_account.provider.hardware_profiles.each do |hardware_profile|
           front_hardware_profile = HardwareProfile.new(:external_key =>
+                                         cloud_account.account_prefix_for_realm +
                                                        hardware_profile.external_key,
                                :name => hardware_profile.name,
                                :memory => hardware_profile.memory,

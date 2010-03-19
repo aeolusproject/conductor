@@ -35,11 +35,7 @@ class CloudAccountsController < ApplicationController
     @pool = PortalPool.find(params[:pool_id])
     require_privilege(Privilege::ACCOUNT_ADD,@pool)
     @cloud_account = CloudAccount.new
-    @providers = []
-    all_providers = Provider.all
-    all_providers.each {|provider|
-      @providers << provider if authorized?(Privilege::PROVIDER_VIEW,provider)
-    }
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
   end
 
 
@@ -53,13 +49,20 @@ class CloudAccountsController < ApplicationController
 
   def create_from_pool
     @pool = PortalPool.find(params[:pool][:id])
-    @cloud_account = CloudAccount.new(params[:cloud_account])
-    @provider = Provider.find(params[:provider][:id])
-    @cloud_account.provider = @provider
-    @cloud_account.save!
-    @pool.cloud_accounts << @cloud_account unless @pool.cloud_accounts.map{|x| x.id}.include?(@cloud_account.id)
-    @pool.save!
-    @pool.populate_realms_and_images([@cloud_account])
+    require_privilege(Privilege::ACCOUNT_ADD,@pool)
+    PortalPool.transaction do
+      @cloud_account = CloudAccount.new(params[:cloud_account])
+      @provider = Provider.find(params[:provider][:id])
+      @cloud_account.provider = @provider
+      @cloud_account.save!
+      @pool.cloud_accounts << @cloud_account unless @pool.cloud_accounts.map{|x| x.id}.include?(@cloud_account.id)
+      @pool.save!
+      @pool.populate_realms_and_images([@cloud_account])
+      perm = Permission.new(:user => @current_user,
+                            :role => Role.find_by_name("Account Administrator"),
+                            :permission_object => @cloud_account)
+      perm.save!
+    end
     redirect_to :controller => "portal_pool", :action => 'show', :id => @pool.id
   end
 

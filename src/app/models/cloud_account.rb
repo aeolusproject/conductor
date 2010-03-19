@@ -52,4 +52,8 @@ class CloudAccount < ActiveRecord::Base
     a = CloudAccount.find_by_username_and_provider_id(account["username"], account["provider_id"])
     return a.nil? ? CloudAccount.new(account) : a
   end
+
+  def account_prefix_for_realm
+    provider.name + Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER + username
+  end
 end
