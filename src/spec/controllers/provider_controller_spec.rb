@@ -41,5 +41,15 @@ describe ProviderController do
      response.should render_template("hardware_profiles")
   end
 
+  it "should provide ui to view realms" do
+     UserSession.create(@admin)
+     provider = @admin_permission.permission_object
+
+     get :realms, :id => provider.id
+     response.should be_success
+     assigns[:realm_names].size.should == provider.realms.size
+     response.should render_template("realms")
+  end
+
 
 end

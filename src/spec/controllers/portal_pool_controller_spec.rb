@@ -48,4 +48,14 @@ describe PortalPoolController do
      @pool.should_not == nil
   end
 
+  it "should provide ui to view realms" do
+     UserSession.create(@admin)
+     pool = Factory :tpool
+
+     get :realms, :id => pool.id
+     response.should be_success
+     assigns[:realm_names].size.should == pool.realms.size
+     response.should render_template("realms")
+  end
+
 end
