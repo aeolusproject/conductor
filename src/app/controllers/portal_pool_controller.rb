@@ -49,6 +49,12 @@ class PortalPoolController < ApplicationController
     require_privilege(Privilege::ACCOUNT_VIEW,@pool)
   end
 
+  def realms
+    @pool = PortalPool.find(params[:id])
+    @realm_names = @pool.realms
+    require_privilege(Privilege::POOL_VIEW,@pool)
+  end
+
   def new
     require_privilege(Privilege::POOL_MODIFY)
     @portal_pool = PortalPool.new

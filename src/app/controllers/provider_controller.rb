@@ -61,6 +61,12 @@ class ProviderController < ApplicationController
      require_privilege(Privilege::ACCOUNT_VIEW, @provider)
   end
 
+  def realms
+    @provider = Provider.find(params[:id])
+    @realm_names = @provider.realms.collect { |r| r.name }
+    require_privilege(Privilege::PROVIDER_VIEW, @provider)
+  end
+
   def new_account
      @provider = Provider.find(params[:id])
      require_privilege(Privilege::ACCOUNT_MODIFY, @provider)

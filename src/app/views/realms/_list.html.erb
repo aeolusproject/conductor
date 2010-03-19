@@ -1,0 +1,18 @@
+<% if @realm_names.size == 0 %>
+<h1>There are no realms to display</h1>
+<% else %>
+    <table>
+      <thead>
+        <tr>
+        <th scope="col">Name</th>
+        </tr>
+      </thead>
+      <tbody>
+  <%@realm_names.each {|realm_name| %>
+       <tr>
+          <td><%= realm_name %></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+<% end %>
