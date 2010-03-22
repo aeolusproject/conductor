@@ -94,6 +94,7 @@ class PortalPool < ActiveRecord::Base
           end
           front_end_image = Image.new(:external_key =>
                                          cloud_account.account_prefix_for_realm +
+                                         Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
                                          ar_image.external_key,
                                   :name => ar_image.name,
                                   :architecture => ar_image.architecture,

@@ -35,7 +35,7 @@ class CloudAccountsController < ApplicationController
     @pool = PortalPool.find(params[:pool_id])
     require_privilege(Privilege::ACCOUNT_ADD,@pool)
     @cloud_account = CloudAccount.new
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+    @providers = Provider.all
   end
 
 

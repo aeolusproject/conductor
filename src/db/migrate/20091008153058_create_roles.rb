@@ -63,6 +63,7 @@ class CreateRoles < ActiveRecord::Migration
                                   "quota_view",
                                   "set_perms",
                                   "view_perms",
+                                  "account_view",
                                   "account_add"]},
              "Pool Creator" =>
                  {:role_scope => "Provider",
