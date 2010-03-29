@@ -56,4 +56,8 @@ class CloudAccount < ActiveRecord::Base
   def account_prefix_for_realm
     provider.name + Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER + username
   end
+
+  def name
+    username
+  end
 end

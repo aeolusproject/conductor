@@ -61,6 +61,8 @@ class ApplicationController < ActionController::Base
   end
   master_helper_module.module_eval perm_helper_string
 
+  helper_method :check_privilege
+
   protected
   # permissions checking
 

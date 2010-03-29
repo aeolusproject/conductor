@@ -6,6 +6,7 @@
         <tr>
         <th scope="col">Provider</th>
         <th scope="col">Username</th>
+        <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -13,6 +14,13 @@
         <tr>
           <td><%= account.provider.name %></td>
           <td><%= account.username %></td>
+          <td>
+            <%= link_to "User access",
+                        {:controller => "permissions",
+                         :action => "list",
+                         :cloud_account_id => account.id},
+                        :class=>"actionlink" if has_view_perms?(account) %>
+          </td>
         </tr>
       <% } %>
     </tbody>
