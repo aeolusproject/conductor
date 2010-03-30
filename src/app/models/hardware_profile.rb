@@ -42,11 +42,12 @@ class HardwareProfile < ActiveRecord::Base
   validates_uniqueness_of :external_key, :scope => [:provider_id, :pool_id]
 
   validates_presence_of :name
+  validates_uniqueness_of :name
 
   validates_presence_of :storage
-  validates_numericality_of :storage
+  validates_numericality_of :storage, :greater_than => 0
   validates_presence_of :memory
-  validates_numericality_of :memory
+  validates_numericality_of :memory, :greater_than => 0
 
   validates_presence_of :architecture, :if => :provider
 
