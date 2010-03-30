@@ -4,6 +4,8 @@ describe UsersController do
   fixtures :all
   before(:each) do
     @tuser = Factory :tuser
+    @admin_permission = Factory :admin_permission
+    @admin = @admin_permission.user
     activate_authlogic
   end
 
@@ -35,7 +37,8 @@ describe UsersController do
         p.permissions.any? {
           |perm| perm.role.name.eql?('Self-service Pool User')
         }.should be_true
-        response.should redirect_to(account_path)
+        id = User.find(:first, :conditions => ['login = ?', "tuser2"]).id
+        response.should redirect_to("http://test.host/users/show/#{id}")
       end
 
       it "fails to create pool" do
@@ -57,6 +60,26 @@ describe UsersController do
         response.should  render_template('new')
       end
     end
+  end
+
+  it "should allow an admin to create user" do
+    UserSession.create(@admin)
+    lambda {
+      post :create, :user => { :login => "tuser3", :email => "tuser3@example.com",
+                               :password => "testpass",
+                               :password_confirmation => "testpass" }
+    }.should change{ User.count }
+    id = User.find(:first, :conditions => ['login = ?', "tuser3"]).id
+    response.should redirect_to("http://test.host/users/show/#{id}")
+  end
+
+  it "should not allow a regular user to create user" do
+    UserSession.create(@tuser)
+    lambda {
+      post :create, :user => { :login => "tuser4", :email => "tuser4@example.com",
+                               :password => "testpass",
+                               :password_confirmation => "testpass" }
+    }.should_not change{ User.count }
   end
 
   it "should show user" do

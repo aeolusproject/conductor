@@ -20,7 +20,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class UsersController < ApplicationController
-  before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => [:show, :edit, :update]
 
   def new
@@ -28,18 +27,23 @@ class UsersController < ApplicationController
   end
 
   def create
+    require_privilege(Privilege::USER_MODIFY) unless current_user.nil?
     @user = User.new(params[:user])
     @registration = RegistrationService.new(@user)
     if @registration.save
       flash[:notice] = "User registered!"
-      redirect_back_or_default account_url
+      redirect_back_or_default url_for(:action => :show, :id => @user.id)
     else
       render :action => :new
     end
   end
 
   def show
-    @user = @current_user
+    if params.has_key?(:id) && params[:id] != "show"
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
   end
 
   def edit

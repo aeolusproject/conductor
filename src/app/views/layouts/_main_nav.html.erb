@@ -1,6 +1,8 @@
 <%=link_to "Add a provider", {:controller => "provider", :action => "new"}, :class => "actionlink" %>
 
 <%=link_to "Add a pool",     {:controller => "portal_pool", :action => "new"}, :class => "actionlink" %>
+
+<%= link_to "Add a user",   {:controller => "users", :action => "new"}, :class=>"actionlink" if has_user_modify?(BasePortalObject.general_permission_scope) %>
 <%= link_to "User access",  {:controller => "permissions", :action => "list"}, :class=>"actionlink" if has_view_perms?(BasePortalObject.general_permission_scope) %>
 <h3>Providers</h3>
 <ul id="providers">
