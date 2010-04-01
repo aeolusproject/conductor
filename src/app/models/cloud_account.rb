@@ -23,7 +23,7 @@ class CloudAccount < ActiveRecord::Base
   include PermissionedObject
   belongs_to :provider
   has_many :pool_accounts, :dependent => :destroy
-  has_many :portal_pools, :through => :pool_accounts
+  has_many :pools, :through => :pool_accounts
   has_many :instances
 
   # what form does the account quota take?

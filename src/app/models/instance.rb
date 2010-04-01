@@ -20,24 +20,24 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Instance < ActiveRecord::Base
-  belongs_to :portal_pool
+  belongs_to :pool
   belongs_to :cloud_account
 
   belongs_to :hardware_profile
   belongs_to :image
   belongs_to :realm
 
-  validates_presence_of :portal_pool_id
+  validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id
   validates_presence_of :image_id
 
   #validates_presence_of :external_key
   # TODO: can we do uniqueness validation on indirect association
-  # -- portal_pool.account.provider
+  # -- pool.account.provider
   #validates_uniqueness_of :external_key, :scope => :provider_id
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :portal_pool_id
+  validates_uniqueness_of :name, :scope => :pool_id
 
   # FIXME: for now, hardware profile is required, realm is optional, although for RHEV-M,
   # hardware profile may be optional too

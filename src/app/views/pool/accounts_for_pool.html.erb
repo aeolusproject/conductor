@@ -28,8 +28,8 @@
 <% @cloud_accounts.each {|a| %>
 <tr>
 <td><%= a.provider.name %></td>
-<td><%= a.username %> <%= link_to "Add this account", {:controller=> "portal_pool",
-  :action => "add_account", :portal_pool => @pool, :cloud_account => a}, :class => "actionlink" %></td>
+<td><%= a.username %> <%= link_to "Add this account", {:controller=> "pool",
+  :action => "add_account", :pool => @pool, :cloud_account => a}, :class => "actionlink" %></td>
 </tr>
 <% } %>
 </table>

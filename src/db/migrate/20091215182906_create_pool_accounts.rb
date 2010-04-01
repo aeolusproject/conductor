@@ -23,7 +23,7 @@ class CreatePoolAccounts < ActiveRecord::Migration
   def self.up
     create_table :pool_accounts do |t|
       t.integer :cloud_account_id, :null => false
-      t.integer :portal_pool_id,      :null => false
+      t.integer :pool_id,      :null => false
       t.integer :quota_id
       t.integer :lock_version, :default => 0
       t.timestamps

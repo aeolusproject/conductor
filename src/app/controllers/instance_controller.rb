@@ -27,19 +27,19 @@ class InstanceController < ApplicationController
   def index
   end
 
-  # Right now this is essentially a duplicate of PortalPoolController#show,
+  # Right now this is essentially a duplicate of PoolController#show,
     # but really it should be a single instance should we decide to have a page
     # for that.  Redirect on create was all that brought you here anyway, so
     # should be unused for the moment.
   def show
-    @instances = Instance.find(:all, :conditions => {:portal_pool_id => params[:id]})
-    @pool = PortalPool.find(params[:id])
+    @instances = Instance.find(:all, :conditions => {:pool_id => params[:id]})
+    @pool = Pool.find(params[:id])
     require_privilege(Privilege::INSTANCE_VIEW,@pool)
   end
 
   def new
-    @instance = Instance.new({:portal_pool_id => params[:id]})
-    @pool = PortalPool.find(params[:id])
+    @instance = Instance.new({:pool_id => params[:id]})
+    @pool = Pool.find(params[:id])
     require_privilege(Privilege::INSTANCE_MODIFY,@pool)
   end
 
@@ -47,7 +47,7 @@ class InstanceController < ApplicationController
     @instance = Instance.new(params[:instance])
     @instance.state = Instance::STATE_NEW
     require_privilege(Privilege::INSTANCE_MODIFY,
-                      PortalPool.find(@instance.portal_pool_id))
+                      Pool.find(@instance.pool_id))
     #FIXME: This should probably be in a transaction
     if @instance.save
 
@@ -58,13 +58,13 @@ class InstanceController < ApplicationController
         task_impl = Taskomatic.new(@task,logger)
         task_impl.instance_create
         flash[:notice] = "Instance added."
-        redirect_to :controller => "portal_pool", :action => 'show', :id => @instance.portal_pool_id
+        redirect_to :controller => "pool", :action => 'show', :id => @instance.pool_id
       else
-        @pool = @instance.portal_pool
+        @pool = @instance.pool
         render :action => 'new'
       end
     else
-      @pool = PortalPool.find(@instance.portal_pool_id)
+      @pool = Pool.find(@instance.pool_id)
       render :action => 'new'
     end
   end
@@ -73,7 +73,7 @@ class InstanceController < ApplicationController
     action = params[:instance_action]
     action_args = params[:action_data]
     @instance = Instance.find(params[:id])
-    require_privilege(Privilege::INSTANCE_CONTROL,@instance.portal_pool)
+    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
     unless @instance.valid_action?(action)
       raise ActionError.new("#{action} is an invalid action.")
     end
@@ -88,7 +88,7 @@ class InstanceController < ApplicationController
 
     alert = "#{@instance.name}: #{action} was successfully queued."
     flash[:notice] = alert
-    redirect_to :controller => "portal_pool", :action => 'show', :id => @instance.portal_pool_id
+    redirect_to :controller => "pool", :action => 'show', :id => @instance.pool_id
   end
 
   def delete

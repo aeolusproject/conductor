@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe ProviderController do
 
+  fixtures :all
   before(:each) do
     @admin_permission = Factory :provider_admin_permission
     @provider = @admin_permission.permission_object

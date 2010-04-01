@@ -20,6 +20,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Quota < ActiveRecord::Base
-  has_one :portal_pool
+  has_one :pool
   has_one :pool_account
 end

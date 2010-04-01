@@ -21,7 +21,7 @@
 
 require 'util/taskomatic'
 
-class PortalPoolController < ApplicationController
+class PoolController < ApplicationController
   before_filter :require_user
 
   def index
@@ -30,7 +30,7 @@ class PortalPoolController < ApplicationController
 
   def show
     #FIXME: clean this up, many error cases here
-    @pool = PortalPool.find(params[:id])
+    @pool = Pool.find(params[:id])
     require_privilege(Privilege::INSTANCE_VIEW,@pool)
     # pass nil into Taskomatic as we're not working off a task here
     Taskomatic.new(nil,logger).pool_refresh(@pool)
@@ -39,25 +39,25 @@ class PortalPoolController < ApplicationController
   end
 
   def hardware_profiles
-    @pool = PortalPool.find(params[:id])
+    @pool = Pool.find(params[:id])
     @hardware_profiles = @pool.hardware_profiles
     require_privilege(Privilege::POOL_VIEW, @pool)
   end
 
   def accounts
-    @pool = PortalPool.find(params[:id])
+    @pool = Pool.find(params[:id])
     require_privilege(Privilege::ACCOUNT_VIEW,@pool)
   end
 
   def realms
-    @pool = PortalPool.find(params[:id])
+    @pool = Pool.find(params[:id])
     @realm_names = @pool.realms
     require_privilege(Privilege::POOL_VIEW,@pool)
   end
 
   def new
     require_privilege(Privilege::POOL_MODIFY)
-    @portal_pool = PortalPool.new
+    @pool = Pool.new
     @account = CloudAccount.new
   end
 
@@ -67,18 +67,18 @@ class PortalPoolController < ApplicationController
     #FIXME: owner is set to current user for self-service account creation,
     # but in the more general case we need a way for the admin to pick
     # a user
-    params[:portal_pool][:owner_id] = @current_user.id
+    params[:pool][:owner_id] = @current_user.id
 
     #FIXME: This should probably be in a transaction
-    @portal_pool = PortalPool.new(params[:portal_pool])
-    perm = Permission.new(:user => @portal_pool.owner,
+    @pool = Pool.new(params[:pool])
+    perm = Permission.new(:user => @pool.owner,
                           :role => Role.find_by_name("Instance Creator and User"),
-                          :permission_object => @portal_pool)
+                          :permission_object => @pool)
     perm.save!
     # FIXME: do we need any more handling around save failures? What if perm
     #        creation fails?
     flash[:notice] = "Pool added."
-    redirect_to :action => 'show', :id => @portal_pool.id
+    redirect_to :action => 'show', :id => @pool.id
   end
 
   def delete
@@ -86,12 +86,12 @@ class PortalPoolController < ApplicationController
 
 
   def images
-    @pool = PortalPool.find(params[:portal_pool])
+    @pool = Pool.find(params[:pool])
     require_privilege(Privilege::POOL_VIEW, @pool)
   end
 
   def accounts_for_pool
-    @pool =  PortalPool.find(params[:pool_id])
+    @pool =  Pool.find(params[:pool_id])
     require_privilege(Privilege::ACCOUNT_VIEW,@pool)
     @cloud_accounts = []
     all_accounts = CloudAccount.list_for_user(@current_user, Privilege::ACCOUNT_ADD)
@@ -101,16 +101,16 @@ class PortalPoolController < ApplicationController
   end
 
   def add_account
-    @portal_pool = PortalPool.find(params[:portal_pool])
+    @pool = Pool.find(params[:pool])
     @cloud_account = CloudAccount.find(params[:cloud_account])
-    require_privilege(Privilege::ACCOUNT_ADD,@portal_pool)
+    require_privilege(Privilege::ACCOUNT_ADD,@pool)
     require_privilege(Privilege::ACCOUNT_ADD,@cloud_account)
-    PortalPool.transaction do
-      @portal_pool.cloud_accounts << @cloud_account unless @portal_pool.cloud_accounts.map{|x| x.id}.include?(@cloud_account.id)
-      @portal_pool.save!
-      @portal_pool.populate_realms_and_images([@cloud_account])
+    Pool.transaction do
+      @pool.cloud_accounts << @cloud_account unless @pool.cloud_accounts.map{|x| x.id}.include?(@cloud_account.id)
+      @pool.save!
+      @pool.populate_realms_and_images([@cloud_account])
     end
-    redirect_to :action => 'show', :id => @portal_pool.id
+    redirect_to :action => 'show', :id => @pool.id
   end
 
 

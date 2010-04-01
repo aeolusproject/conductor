@@ -13,7 +13,7 @@ describe RegistrationService do
   describe "#save" do
 
     context "adding valid user with no errors" do
-      it "should create user, portal_pool and self-service permission" do
+      it "should create user, pool and self-service permission" do
         user = User.new({:login => 'gooduser',
                         :email => 'guser@example.com',
                         :password => 'password',
@@ -33,7 +33,7 @@ describe RegistrationService do
 	}
       end
 
-      it "should return portal_pool errors if pool create fails" do
+      it "should return pool errors if pool create fails" do
         #TODO: implement this test.  We should check this, but not sure of best
         # way right now.
       end

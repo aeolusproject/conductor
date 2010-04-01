@@ -7,4 +7,4 @@ admin_permission:
 user_permission:
   role: instance_creator_and_user
   user: test_user
-  permission_object: test_pool (PortalPool)
+  permission_object: test_pool (Pool)

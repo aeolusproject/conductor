@@ -19,7 +19,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class PortalPool < ActiveRecord::Base
+class Pool < ActiveRecord::Base
   include PermissionedObject
   has_many :pool_accounts, :dependent => :destroy
   has_many :cloud_accounts, :through => :pool_accounts
@@ -63,7 +63,7 @@ class PortalPool < ActiveRecord::Base
       else
         images = client.images
       end
-      # FIXME: this should probably be in the same transaction as portal_pool.save
+      # FIXME: this should probably be in the same transaction as pool.save
       self.transaction do
         realms.each do |realm|
           #ignore if it exists
@@ -98,7 +98,7 @@ class PortalPool < ActiveRecord::Base
                                          ar_image.external_key,
                                   :name => ar_image.name,
                                   :architecture => ar_image.architecture,
-                                  :portal_pool_id => id)
+                                  :pool_id => id)
           front_end_image.save!
         end
         cloud_account.provider.hardware_profiles.each do |hardware_profile|
@@ -109,7 +109,7 @@ class PortalPool < ActiveRecord::Base
                                :memory => hardware_profile.memory,
                                :storage => hardware_profile.storage,
                                :architecture => hardware_profile.architecture,
-                               :portal_pool_id => id)
+                               :pool_id => id)
           front_hardware_profile.save!
         end
       end

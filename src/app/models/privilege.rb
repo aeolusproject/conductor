@@ -62,7 +62,7 @@ class Privilege < ActiveRecord::Base
 
   # quota privileges normally checked at the pool or account level,
   # depending on which quota level we're dealing with
-  # (account level for cloud-imposed quota, pool level for portal quota)
+  # (account level for cloud-imposed quota, pool level for aggregator quota)
   QUOTA_MODIFY      = "quota_modify"      # can create or modify a quota
   QUOTA_VIEW        = "quota_view"        # can view a quota
 

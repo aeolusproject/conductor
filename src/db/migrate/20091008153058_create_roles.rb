@@ -33,18 +33,18 @@ class CreateRoles < ActiveRecord::Migration
 
     #create default roles
     roles = {"Instance Controller" =>
-                 {:role_scope => "PortalPool",
+                 {:role_scope => "Pool",
                   :privileges => ["instance_control",
                                   "instance_view",
                                   "pool_view"]},
              "Instance Controller With Monitoring" =>
-                 {:role_scope => "PortalPool",
+                 {:role_scope => "Pool",
                   :privileges => ["instance_control",
                                   "instance_view",
                                   "pool_view",
                                   "stats_view"]},
              "Instance Creator and User" =>
-                 {:role_scope => "PortalPool",
+                 {:role_scope => "Pool",
                   :privileges => ["instance_control",
                                   "instance_view",
                                   "pool_view",
@@ -54,7 +54,7 @@ class CreateRoles < ActiveRecord::Migration
                                   "set_perms",
                                   "view_perms"]},
              "Self-service Pool User" =>
-                 {:role_scope => "PortalPool",
+                 {:role_scope => "Pool",
                   :privileges => ["instance_control",
                                   "instance_view",
                                   "pool_view",

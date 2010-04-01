@@ -9,10 +9,10 @@ class RegistrationService
     begin
     User.transaction do
       @user.save!
-      @portal_pool = PortalPool.create!({ :name => @user.login, :owner => @user})
+      @pool = Pool.create!({ :name => @user.login, :owner => @user})
       Permission.create!({:user => @user,
                           :role => Role.find_by_name("Self-service Pool User"),
-                          :permission_object => @portal_pool})
+                          :permission_object => @pool})
     end
     rescue
       false

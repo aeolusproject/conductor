@@ -29,7 +29,7 @@ describe UsersController do
                                    :password => "testpass",
                                    :password_confirmation => "testpass" }
         }.should change{ User.count }
-        p = PortalPool.find_by_name("tuser2")
+        p = Pool.find_by_name("tuser2")
         p.should_not be_nil
         assigns[:user].login.should == p.owner.login
         p.name.should == "tuser2"
@@ -45,7 +45,7 @@ describe UsersController do
         lambda {
           post :create, :user => {}
         }.should_not change{ User.count }
-        p = PortalPool.find_by_name("tuser2")
+        p = Pool.find_by_name("tuser2")
         p.should be_nil
         returned_user = assigns[:user]
         returned_user.errors.empty?.should be_false

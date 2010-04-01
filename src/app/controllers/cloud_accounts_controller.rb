@@ -32,7 +32,7 @@ class CloudAccountsController < ApplicationController
   end
 
   def new_from_pool
-    @pool = PortalPool.find(params[:pool_id])
+    @pool = Pool.find(params[:pool_id])
     require_privilege(Privilege::ACCOUNT_ADD,@pool)
     @cloud_account = CloudAccount.new
     @providers = Provider.all
@@ -48,9 +48,9 @@ class CloudAccountsController < ApplicationController
   end
 
   def create_from_pool
-    @pool = PortalPool.find(params[:pool][:id])
+    @pool = Pool.find(params[:pool][:id])
     require_privilege(Privilege::ACCOUNT_ADD,@pool)
-    PortalPool.transaction do
+    Pool.transaction do
       @cloud_account = CloudAccount.new(params[:cloud_account])
       @provider = Provider.find(params[:provider][:id])
       @cloud_account.provider = @provider
@@ -63,7 +63,7 @@ class CloudAccountsController < ApplicationController
                             :permission_object => @cloud_account)
       perm.save!
     end
-    redirect_to :controller => "portal_pool", :action => 'show', :id => @pool.id
+    redirect_to :controller => "pool", :action => 'show', :id => @pool.id
   end
 
 

@@ -24,7 +24,7 @@ class HardwareProfile < ActiveRecord::Base
   has_many :provider_instances, :class_name => "Instance",
            :foreign_key => "provider_hardware_profile_id"
   belongs_to :provider
-  belongs_to :portal_pool
+  belongs_to :pool
 
   has_and_belongs_to_many :aggregator_hardware_profiles,
                           :class_name => "HardwareProfile",
@@ -39,7 +39,7 @@ class HardwareProfile < ActiveRecord::Base
                           :association_foreign_key => "provider_hardware_profile_id"
 
   validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => [:provider_id, :portal_pool_id]
+  validates_uniqueness_of :external_key, :scope => [:provider_id, :pool_id]
 
   validates_presence_of :name
 
@@ -51,7 +51,7 @@ class HardwareProfile < ActiveRecord::Base
   validates_presence_of :architecture, :if => :provider
 
   def validate
-    if (provider.nil? and portal_pool.nil?)
+    if (provider.nil? and pool.nil?)
       if !aggregator_hardware_profiles.empty?
         errors.add(:aggregator_hardware_profiles,
                    "Aggregator profiles are not allowed for custom Instance profiles")
@@ -60,15 +60,15 @@ class HardwareProfile < ActiveRecord::Base
         errors.add(:provider_hardware_profiles,
                    "Provider profiles are not allowed for custom Instance profiles")
       end
-    elsif (!provider.nil? and !portal_pool.nil?)
+    elsif (!provider.nil? and !pool.nil?)
       errors.add(:provider, "provider or pool must be blank")
-      errors.add(:portal_pool, "provider or pool must be blank")
+      errors.add(:pool, "provider or pool must be blank")
     elsif provider.nil?
       if !provider_hardware_profiles.empty?
         errors.add(:provider_hardware_profiles,
                    "Provider profiles only allowed for provider profiles")
       end
-    elsif portal_pool.nil?
+    elsif pool.nil?
       if !aggregator_hardware_profiles.empty?
         errors.add(:aggregator_hardware_profiles,
                    "Aggregator profiles only allowed for pool profiles")

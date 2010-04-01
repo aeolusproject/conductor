@@ -29,7 +29,7 @@ class Permission < ActiveRecord::Base
 
   belongs_to :permission_object,   :polymorphic => true
   # type-specific associations
-  belongs_to :portal_pool,         :class_name => "PortalPool",
+  belongs_to :pool,                :class_name => "Pool",
                                    :foreign_key => "permission_object_id"
   belongs_to :provider,            :class_name => "Provider",
                                    :foreign_key => "permission_object_id"

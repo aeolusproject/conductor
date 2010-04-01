@@ -26,6 +26,5 @@
     </tbody>
   </table>
 <% end %>
-<%= link_to "View/Add Existing Cloud Accounts", {:controller => "portal_pool",:action => "accounts_for_pool", :pool_id => @pool}, :class=>"actionlink" %>
+<%= link_to "View/Add Existing Cloud Accounts", {:controller => "pool",:action => "accounts_for_pool", :pool_id => @pool}, :class=>"actionlink" %>
 <%= link_to "Add a New Cloud Account", {:controller => "cloud_accounts",:action => "new_from_pool", :pool_id => @pool}, :class=>"actionlink" %><br/>
-

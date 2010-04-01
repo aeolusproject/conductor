@@ -19,5 +19,21 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-module PortalPoolHelper
+class CreatePools < ActiveRecord::Migration
+  def self.up
+    create_table :pools do |t|
+      t.string :name, :null => false
+      t.string :exported_as
+      t.integer :owner_id, :null => false
+      t.integer :quota_id
+      t.integer :lock_version, :default => 0
+      t.timestamps
+    end
+
+  end
+
+  def self.down
+    drop_table :cloud_accounts_pools
+    drop_table :pools
+  end
 end

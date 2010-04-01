@@ -20,10 +20,10 @@
 # Likewise, all the methods added will be available for all controllers.
 class PoolAccount < ActiveRecord::Base
   belongs_to :cloud_account
-  belongs_to :portal_pool
+  belongs_to :pool
   belongs_to :quota
 
   validates_presence_of :cloud_account_id
-  validates_presence_of :portal_pool_id
+  validates_presence_of :pool_id
 
 end

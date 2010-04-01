@@ -23,5 +23,5 @@ class User < ActiveRecord::Base
   acts_as_authentic
 
   has_many :permissions
-  has_many :owned_pools, :class_name => "PortalPool", :foreign_key => "owner_id"
+  has_many :owned_pools, :class_name => "Pool", :foreign_key => "owner_id"
 end

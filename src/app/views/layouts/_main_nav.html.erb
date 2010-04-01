@@ -1,6 +1,6 @@
 <%=link_to "Add a provider", {:controller => "provider", :action => "new"}, :class => "actionlink" %>
 
-<%=link_to "Add a pool",     {:controller => "portal_pool", :action => "new"}, :class => "actionlink" %>
+<%=link_to "Add a pool",     {:controller => "pool", :action => "new"}, :class => "actionlink" %>
 
 <%= link_to "Add a user",   {:controller => "users", :action => "new"}, :class=>"actionlink" if has_user_modify?(BasePortalObject.general_permission_scope) %>
 <%= link_to "User access",  {:controller => "permissions", :action => "list"}, :class=>"actionlink" if has_view_perms?(BasePortalObject.general_permission_scope) %>
@@ -23,15 +23,15 @@
   <% end %>
 </ul>
 <h3>Pools</h3>
-<ul id="portal_pools">
+<ul id="pools">
   <% if !@pools.nil? %>
   <% @pools.each { |pool| %>
-  <% if controller.controller_name == "portal_pool" && pool.id == cur_id
+  <% if controller.controller_name == "pool" && pool.id == cur_id
     selected_pool = "selected"
   else selected_pool = ""
   end %>
   <li><%= link_to  pool.name,
-    {:controller => "portal_pool", :action => "show", :id => pool},
+    {:controller => "pool", :action => "show", :id => pool},
      :class => "poolname #{selected_pool}" %></li>
   <% } %>
   <% end %>

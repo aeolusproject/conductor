@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PortalPoolController do
+describe PoolController do
 
   before(:each) do
     @admin_permission = Factory :admin_permission
@@ -23,10 +23,10 @@ describe PortalPoolController do
   it "should provider means to create new pool" do
      UserSession.create(@admin)
      lambda do
-       post :create, :portal_pool => { :name => 'foopool' }
-     end.should change(PortalPool, :count).by(1)
-     id = PortalPool.find(:first, :conditions => ['name = ?', 'foopool']).id
-     response.should redirect_to("http://test.host/portal_pool/show/#{id}")
+       post :create, :pool => { :name => 'foopool' }
+     end.should change(Pool, :count).by(1)
+     id = Pool.find(:first, :conditions => ['name = ?', 'foopool']).id
+     response.should redirect_to("http://test.host/pool/show/#{id}")
   end
 
   it "should provide ui to view hardware profiles" do

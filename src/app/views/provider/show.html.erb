@@ -1,4 +1,4 @@
-<% if @provider.portal_pools.size == 0 %>
+<% if @provider.pools.size == 0 %>
 <h1>There are no pools to display</h1>
 <% else %>
     <table>
@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-  <%@provider.portal_pools.each {|pool| %>
+  <%@provider.pools.each {|pool| %>
         <tr>
           <td><%= pool.name %></td>
           <td><%= pool.instances.count %></td>
@@ -18,7 +18,7 @@
     </tbody>
   </table>
 <% end %>
-<%= link_to "Add a pool",     {:controller => "portal_pool", :action => "new", :provider => @provider}, :class => "actionlink" %>
+<%= link_to "Add a pool",     {:controller => "pool", :action => "new", :provider => @provider}, :class => "actionlink" %>
 <%= link_to "Realms",  {:action => "realms", :id => @provider.id}, :class=>"actionlink"%>
 <%= link_to "Accounts",  {:action => "accounts", :id => @provider.id}, :class=>"actionlink"%>
 <%= link_to "User access",  {:controller => "permissions", :action => "list", :provider_id => @provider.id}, :class=>"actionlink" if has_view_perms? %>

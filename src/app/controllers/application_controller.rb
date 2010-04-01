@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
   def get_nav_items
     if !current_user.nil?
         @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
-        @pools = PortalPool.list_for_user(@current_user, Privilege::POOL_VIEW)
+        @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
     end
   end
 

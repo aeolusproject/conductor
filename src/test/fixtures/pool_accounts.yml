@@ -2,4 +2,4 @@
 
 test_pool_mock_account:
   cloud_account: mock_account
-  portal_pool: test_pool
+  pool: test_pool

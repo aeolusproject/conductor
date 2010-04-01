@@ -7,19 +7,19 @@
 #   column: value
 instance_controller:
   name: Instance Controller
-  scope: PortalPool
+  scope: Pool
   privileges: instance_control, instance_view, pool_view
 instance_controller_with_monitoring:
   name: Instance Controller With Monitoring
-  scope: PortalPool
+  scope: Pool
   privileges: instance_control, instance_view, pool_view, stats_view
 instance_creator_and_user:
   name: Instance Creator and User
-  scope: PortalPool
+  scope: Pool
   privileges: instance_control, instance_view, pool_view, stats_view, instance_modify, quota_view, set_perms, view_perms
 self_service_pool_user:
   name: Self-service Pool User
-  scope: PortalPool
+  scope: Pool
   privileges: instance_control, instance_view, pool_view, stats_view, instance_modify, quota_view, set_perms, view_perms, account_add
 pool_creator:
   name: Pool Creator

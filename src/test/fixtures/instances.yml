@@ -6,7 +6,7 @@ test_instance:
   hardware_profile: c1_xlarge_frontend
   image: fedora_13_image_frontend
   realm: us_realm
-  portal_pool: test_pool
+  pool: test_pool
   cloud_account: mock_account
   public_address:
   private_address:

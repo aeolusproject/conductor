@@ -67,8 +67,8 @@ class PermissionsController < ApplicationController
     if !params[:permission_object_type].nil?
       @permission_object = 
         params[:permission_object_type].constantize.find(params[:permission_object_id])
-    elsif !params[:portal_pool_id].nil?
-      @permission_object = PortalPool.find params[:portal_pool_id]
+    elsif !params[:pool_id].nil?
+      @permission_object = Pool.find params[:pool_id]
     elsif !params[:provider_id].nil?
       @permission_object = Provider.find params[:provider_id]
     elsif !params[:cloud_account_id].nil?

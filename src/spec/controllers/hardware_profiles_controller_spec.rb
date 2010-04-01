@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe HardwareProfilesController do
 
+  fixtures :all
   before(:each) do
     @admin_permission = Factory :admin_permission
     @admin = @admin_permission.user

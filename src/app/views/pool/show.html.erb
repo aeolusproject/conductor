@@ -37,7 +37,7 @@
 <% end %>
 <%= link_to "Add a new instance", {:controller => "instance", :action => "new", :id => @pool}, :class=>"actionlink"%>
 <%= link_to "Back end Accounts",  {:action => "accounts", :id => @pool.id}, :class=>"actionlink"%>
-<%= link_to "User access",  {:controller => "permissions", :action => "list", :portal_pool_id => @pool.id}, :class=>"actionlink" if has_view_perms? %>
+<%= link_to "User access",  {:controller => "permissions", :action => "list", :pool_id => @pool.id}, :class=>"actionlink" if has_view_perms? %>
 <%= link_to "Hardware Profiles",  {:action => "hardware_profiles", :id => @pool.id}, :class=>"actionlink"%>
-<%=link_to "View Images", {:controller => "portal_pool", :action => "images", :portal_pool => @pool}, :class => "actionlink" %>
+<%=link_to "View Images", {:controller => "pool", :action => "images", :pool => @pool}, :class => "actionlink" %>
 <%= link_to "Realms",  {:action => "realms", :id => @pool.id}, :class=>"actionlink"%>
