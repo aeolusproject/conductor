@@ -3,7 +3,7 @@
 admin_permission:
   role: site_administrator
   user: test_admin
-  permission_object: base_portal_object (BasePortalObject)
+  permission_object: base_permission_object (BasePermissionObject)
 user_permission:
   role: instance_creator_and_user
   user: test_user

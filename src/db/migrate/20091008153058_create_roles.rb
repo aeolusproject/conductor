@@ -104,11 +104,11 @@ class CreateRoles < ActiveRecord::Migration
                  {:role_scope => "CloudAccount",
                   :privileges => ["account_view"]},
              "Provider Creator" =>
-                 {:role_scope => "BasePortalObject",
+                 {:role_scope => "BasePermissionObject",
                   :privileges => ["provider_modify",
                                   "provider_view"]},
              "Administrator" =>
-                 {:role_scope => "BasePortalObject",
+                 {:role_scope => "BasePermissionObject",
                   :privileges => ["provider_modify",
                                   "provider_view",
                                   "account_modify",

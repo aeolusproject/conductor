@@ -17,7 +17,7 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-class BasePortalObject < ActiveRecord::Base
+class BasePermissionObject < ActiveRecord::Base
 
   include PermissionedObject
   has_many :permissions, :as => :permission_object, :dependent => :destroy,

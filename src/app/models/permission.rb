@@ -27,15 +27,15 @@ class Permission < ActiveRecord::Base
   validates_uniqueness_of :user_id, :scope => [:permission_object_id,
                                                :permission_object_type]
 
-  belongs_to :permission_object,   :polymorphic => true
+  belongs_to :permission_object,      :polymorphic => true
   # type-specific associations
-  belongs_to :pool,                :class_name => "Pool",
-                                   :foreign_key => "permission_object_id"
-  belongs_to :provider,            :class_name => "Provider",
-                                   :foreign_key => "permission_object_id"
-  belongs_to :cloud_account,       :class_name => "CloudAccount",
-                                   :foreign_key => "permission_object_id"
-  belongs_to :base_portal_object,  :class_name => "BasePortalObject",
-                                   :foreign_key => "permission_object_id"
+  belongs_to :pool,                   :class_name => "Pool",
+                                      :foreign_key => "permission_object_id"
+  belongs_to :provider,               :class_name => "Provider",
+                                      :foreign_key => "permission_object_id"
+  belongs_to :cloud_account,          :class_name => "CloudAccount",
+                                      :foreign_key => "permission_object_id"
+  belongs_to :base_permission_object, :class_name => "BasePermissionObject",
+                                      :foreign_key => "permission_object_id"
 
 end

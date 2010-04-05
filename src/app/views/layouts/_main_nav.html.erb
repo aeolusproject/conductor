@@ -2,8 +2,8 @@
 
 <%=link_to "Add a pool",     {:controller => "pool", :action => "new"}, :class => "actionlink" %>
 
-<%= link_to "Add a user",   {:controller => "users", :action => "new"}, :class=>"actionlink" if has_user_modify?(BasePortalObject.general_permission_scope) %>
-<%= link_to "User access",  {:controller => "permissions", :action => "list"}, :class=>"actionlink" if has_view_perms?(BasePortalObject.general_permission_scope) %>
+<%= link_to "Add a user",   {:controller => "users", :action => "new"}, :class=>"actionlink" if has_user_modify?(BasePermissionObject.general_permission_scope) %>
+<%= link_to "User access",  {:controller => "permissions", :action => "list"}, :class=>"actionlink" if has_view_perms?(BasePermissionObject.general_permission_scope) %>
 <h3>Providers</h3>
 <ul id="providers">
   <% cur_id = params[:id].to_i %>

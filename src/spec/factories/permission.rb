@@ -4,7 +4,7 @@ end
 
 Factory.define :admin_permission, :parent => :permission do |p|
   p.role { |r| Role.find(:first, :conditions => ['name = ?', 'Administrator']) }
-  p.permission_object { |r| BasePortalObject.general_permission_scope }
+  p.permission_object { |r| BasePermissionObject.general_permission_scope }
   p.user { |u| u.association(:admin_user) }
 end
 

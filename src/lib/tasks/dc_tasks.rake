@@ -20,7 +20,7 @@ namespace :dc do
     end
 
     user.permissions << Permission.new(:role => Role.find_by_name('Administrator'),
-                                       :permission_object => BasePortalObject.general_permission_scope
+                                       :permission_object => BasePermissionObject.general_permission_scope
                                       )
     puts "Granting administrator privileges for #{args.login}..."
   end

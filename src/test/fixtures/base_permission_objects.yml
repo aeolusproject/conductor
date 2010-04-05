@@ -5,5 +5,5 @@
 #
 # two:
 #   column: value
-base_portal_object:
+base_permission_object:
   name: general_permission_scope

@@ -47,9 +47,9 @@ account_viewer:
   privileges: account_view
 provider_creator:
   name: Provider Creator
-  scope: BasePortalObject
+  scope: BasePermissionObject
   privileges: provider_modify, provider_view, stats_view
 administrator:
   name: Administrator
-  scope: BasePortalObject
+  scope: BasePermissionObject
   privileges: provider_modify, provider_view, account_modify, account_add, account_view, user_modify, user_view, set_perms, view_perms, pool_modify, pool_view, quota_modify, quota_view, stats_view, instance_modify, instance_control, instance_view

@@ -86,7 +86,7 @@ module PermissionedObject
   def self.included(base)
     base.class_eval do
       def self.list_for_user(user, privilege)
-        if BasePortalObject.general_permission_scope.has_privilege(user, privilege)
+        if BasePermissionObject.general_permission_scope.has_privilege(user, privilege)
           all
         else
           find(:all, :include => {:permissions => {:role => :privileges}},

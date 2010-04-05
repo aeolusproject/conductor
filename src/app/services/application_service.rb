@@ -42,8 +42,8 @@ module ApplicationService
 
   def check_privilege(privilege, perm_obj)
     ((perm_obj and perm_obj.has_privilege(@current_user, privilege)) or
-     BasePortalObject.general_permission_scope.has_privilege(@current_user,
-                                                             privilege))
+     BasePermissionObject.general_permission_scope.has_privilege(@current_user,
+                                                                 privilege))
   end
   def authorized?(privilege, perm_obj=nil)
     @perm_obj = perm_obj
