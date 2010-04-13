@@ -40,6 +40,7 @@ class Image < ActiveRecord::Base
   validates_uniqueness_of :external_key, :scope => [:provider_id, :pool_id]
 
   validates_presence_of :name
+  validates_length_of :name, :maximum => 1024
 
   validates_presence_of :architecture, :if => :provider
 
