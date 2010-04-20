@@ -38,6 +38,7 @@ class Instance < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id
+  validates_length_of :name, :maximum => 1024
 
   # FIXME: for now, hardware profile is required, realm is optional, although for RHEV-M,
   # hardware profile may be optional too
