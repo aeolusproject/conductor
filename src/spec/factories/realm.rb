@@ -1,6 +1,7 @@
 Factory.define :realm do |r|
   r.sequence(:name) { |n| "realm#{n}" }
   r.sequence(:external_key) { |n| "key#{n}" }
+  r.association(:provider)
 end
 
 Factory.define :realm1, :parent => :realm do |r|

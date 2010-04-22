@@ -29,6 +29,17 @@ module NavigationHelpers
     when /the new provider page/
       new_provider_path
 
+    when /the new pool page/
+      new_pool_path
+
+    when /the show pool page/
+      pool_path
+
+    when /the pool realms page/
+      pool_realms_path
+
+    when /the pool hardware profiles page/
+      hardware_profiles_pool_path
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

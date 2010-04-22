@@ -21,6 +21,14 @@ Webrat.configure do |config|
   config.open_error_files = false # Set to true if you want error pages to pop up in the browser
 end
 
+Provider.class_eval do
+   alias_method :original_validate, :validate
+   def validate
+     if !nil_or_empty(url)
+        #  errors.add("url", "must be a valid provider url") unless valid_framework?
+     end
+   end
+end
 
 # If you set this to false, any error raised from within your app will bubble
 # up to your step definition and out to cucumber unless you catch it somewhere

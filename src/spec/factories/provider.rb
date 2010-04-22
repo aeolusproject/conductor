@@ -1,5 +1,7 @@
 Factory.define :provider do |p|
   p.sequence(:name) { |n| "provider#{n}" }
+  p.cloud_type 'mock'
+  p.url { |p| "http://www." + p.name + ".com/api" }
 end
 
 Factory.define :mock_provider, :parent => :provider do |p|
