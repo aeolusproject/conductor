@@ -84,9 +84,8 @@ class PoolController < ApplicationController
   def delete
   end
 
-
   def images
-    @pool = Pool.find(params[:pool])
+    @pool = Pool.find(params[:id])
     require_privilege(Privilege::POOL_VIEW, @pool)
   end
 
@@ -112,6 +111,5 @@ class PoolController < ApplicationController
     end
     redirect_to :action => 'show', :id => @pool.id
   end
-
 
 end

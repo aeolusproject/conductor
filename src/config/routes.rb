@@ -31,6 +31,10 @@ ActionController::Routing::Routes.draw do |map|
 
   # You can have the root of your site routed by hooking up '' 
   # -- just remember to delete public/index.html.
+
+
+  map.resources :pool
+
   map.connect '', :controller => 'provider'
 
   map.login 'login', :controller => "user_sessions", :action => "new"
@@ -40,10 +44,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :account, :controller => "users"
   map.resources :users
   map.root  :login
+
   # Temporarily disable this route, provider stuff is not restful yet.
   # Will be re-enabled in upcoming patch
   # map.resources :provider
-
 
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'
