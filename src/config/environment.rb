@@ -44,6 +44,7 @@ Rails::Initializer.run do |config|
   config.gem "gettext", :lib => "gettext_activerecord"
   config.gem "authlogic"
   config.gem "deltacloud-client", :lib => "deltacloud"
+  config.gem "haml"
 
   # Only load the plugins named here, in the order given. By default, all plugins
   # in vendor/plugins are loaded in alphabetical order.
