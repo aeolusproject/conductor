@@ -41,9 +41,9 @@ class ApplicationController < ActionController::Base
 
   def choose_layout
     if(params[:component_layout])
-      return (ENV["RAILS_ENV"] != "production")?'components/' << params[:component_layout]:'dcloud'
+      return (ENV["RAILS_ENV"] != "production")?'components/' << params[:component_layout]:'aggregator'
     end
-    @layout = 'dcloud'
+    @layout = 'aggregator'
     return @layout
   end
 
@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
     @ajax = params[:ajax]
     @nolayout = params[:nolayout]
     if @layout
-      render :layout => 'dcloud'
+      render :layout => 'aggregator'
     elsif @ajax
       render :template => 'layouts/popup-error', :layout => 'tabs-and-content'
     elsif @nolayout
