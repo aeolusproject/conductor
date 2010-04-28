@@ -35,7 +35,7 @@ describe UsersController do
         p.name.should == "tuser2"
         p.permissions.size.should == 1
         p.permissions.any? {
-          |perm| perm.role.name.eql?('Self-service Pool User')
+          |perm| perm.role.name.eql?('Instance Creator and User')
         }.should be_true
         id = User.find(:first, :conditions => ['login = ?', "tuser2"]).id
         response.should redirect_to("http://test.host/users/show/#{id}")

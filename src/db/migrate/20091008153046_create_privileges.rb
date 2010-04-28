@@ -30,7 +30,7 @@ class CreatePrivileges < ActiveRecord::Migration
     privileges = ["set_perms", "view_perms",
                   "instance_modify", "instance_control", "instance_view",
                   "stats_view",
-                  "account_modify", "account_add", "account_view",
+                  "account_modify", "account_view",
                   "pool_modify", "pool_view",
                   "quota_modify", "quota_view",
                   "provider_modify", "provider_view",

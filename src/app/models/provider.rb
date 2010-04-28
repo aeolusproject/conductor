@@ -66,7 +66,7 @@ class Provider < ActiveRecord::Base
   end
 
   def pools
-    cloud_accounts.collect {|account| account.pools}.flatten
+    cloud_accounts.collect {|account| account.pools}.flatten.uniq
   end
 
   # TODO: implement or remove - this is meant to contain a hash of

@@ -33,7 +33,6 @@ class CreatePools < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :cloud_accounts_pools
     drop_table :pools
   end
 end

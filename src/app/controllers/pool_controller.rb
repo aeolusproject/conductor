@@ -44,11 +44,6 @@ class PoolController < ApplicationController
     require_privilege(Privilege::POOL_VIEW, @pool)
   end
 
-  def accounts
-    @pool = Pool.find(params[:id])
-    require_privilege(Privilege::ACCOUNT_VIEW,@pool)
-  end
-
   def realms
     @pool = Pool.find(params[:id])
     @realm_names = @pool.realms
@@ -58,7 +53,6 @@ class PoolController < ApplicationController
   def new
     require_privilege(Privilege::POOL_MODIFY)
     @pool = Pool.new
-    @account = CloudAccount.new
   end
 
   def create
@@ -87,29 +81,6 @@ class PoolController < ApplicationController
   def images
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::POOL_VIEW, @pool)
-  end
-
-  def accounts_for_pool
-    @pool =  Pool.find(params[:pool_id])
-    require_privilege(Privilege::ACCOUNT_VIEW,@pool)
-    @cloud_accounts = []
-    all_accounts = CloudAccount.list_for_user(@current_user, Privilege::ACCOUNT_ADD)
-    all_accounts.each {|account|
-      @cloud_accounts << account unless @pool.cloud_accounts.map{|x| x.id}.include?(account.id)
-    }
-  end
-
-  def add_account
-    @pool = Pool.find(params[:pool])
-    @cloud_account = CloudAccount.find(params[:cloud_account])
-    require_privilege(Privilege::ACCOUNT_ADD,@pool)
-    require_privilege(Privilege::ACCOUNT_ADD,@cloud_account)
-    Pool.transaction do
-      @pool.cloud_accounts << @cloud_account unless @pool.cloud_accounts.map{|x| x.id}.include?(@cloud_account.id)
-      @pool.save!
-      @pool.populate_realms_and_images([@cloud_account])
-    end
-    redirect_to :action => 'show', :id => @pool.id
   end
 
 end

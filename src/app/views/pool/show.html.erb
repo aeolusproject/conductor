@@ -36,7 +36,6 @@
   </table>
 <% end %>
 <%= link_to "Add a new instance", {:controller => "instance", :action => "new", :id => @pool}, :class=>"actionlink"%>
-<%= link_to "Back end Accounts",  {:action => "accounts", :id => @pool.id}, :class=>"actionlink"%>
 <%= link_to "User access",  {:controller => "permissions", :action => "list", :pool_id => @pool.id}, :class=>"actionlink" if has_view_perms? %>
 <%= link_to "Hardware Profiles",  {:action => "hardware_profiles", :id => @pool.id}, :class=>"actionlink"%>
 <%=link_to "View Images", {:controller => "pool", :action => "images", :id => @pool}, :class => "actionlink" %>

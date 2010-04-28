@@ -21,5 +21,5 @@
 
 class Quota < ActiveRecord::Base
   has_one :pool
-  has_one :pool_account
+  has_one :cloud_account
 end

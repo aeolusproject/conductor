@@ -21,10 +21,9 @@
 
 class Pool < ActiveRecord::Base
   include PermissionedObject
-  has_many :pool_accounts, :dependent => :destroy
-  has_many :cloud_accounts, :through => :pool_accounts
   has_many :instances,  :dependent => :destroy
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :quota
 
   has_many :images,  :dependent => :destroy
   has_many :hardware_profiles,  :dependent => :destroy
@@ -40,9 +39,20 @@ class Pool < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
+  def cloud_accounts
+    accounts = []
+    instances.each do |instance|
+      if instance.cloud_account and !accounts.include?(instance.cloud_account)
+        accounts << instance.cloud_account
+      end
+    end
+  end
+
+  #FIXME: do we still allow explicit cloud/account choice via realm selection?
+  #FIXME: How is account list for realm defined without explicit pool-account relationship?
   def realms
     realm_list = []
-    cloud_accounts.each do |cloud_account|
+    CloudAccount.all.each do |cloud_account|
       prefix = cloud_account.account_prefix_for_realm
       realm_list << prefix
       cloud_account.provider.realms.each do |realm|
@@ -54,7 +64,8 @@ class Pool < ActiveRecord::Base
   end
 
   # FIXME: for already-mapped accounts, update rather than add new
-  def populate_realms_and_images(accounts=cloud_accounts)
+  # FIXME: this needs to be revised to handle the removal of the account-pool association
+  def populate_realms_and_images(accounts=CloudAccount.all)
     accounts.each do |cloud_account|
       client = cloud_account.connect
       realms = client.realms

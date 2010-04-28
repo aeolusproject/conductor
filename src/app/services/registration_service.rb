@@ -11,7 +11,7 @@ class RegistrationService
       @user.save!
       @pool = Pool.create!({ :name => @user.login, :owner => @user})
       Permission.create!({:user => @user,
-                          :role => Role.find_by_name("Self-service Pool User"),
+                          :role => Role.find_by_name("Instance Creator and User"),
                           :permission_object => @pool})
     end
     rescue

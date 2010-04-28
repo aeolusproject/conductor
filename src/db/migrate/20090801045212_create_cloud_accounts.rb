@@ -25,6 +25,7 @@ class CreateCloudAccounts < ActiveRecord::Migration
       t.string :username, :null => false
       t.string :password, :null => false
       t.integer :provider_id, :null => false
+      t.integer :quota_id
       t.integer :lock_version, :default => 0
       t.timestamps
     end

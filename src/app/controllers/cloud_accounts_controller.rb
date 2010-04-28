@@ -31,39 +31,12 @@ class CloudAccountsController < ApplicationController
     }
   end
 
-  def new_from_pool
-    @pool = Pool.find(params[:pool_id])
-    require_privilege(Privilege::ACCOUNT_ADD,@pool)
-    @cloud_account = CloudAccount.new
-    @providers = Provider.all
-  end
-
-
   def create
     @cloud_account = CloudAccount.new(params[:cloud_account])
     @provider = Provider.find(params[:provider][:id])
     require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
     @cloud_account.provider = @provider
     @cloud_account.save!
-  end
-
-  def create_from_pool
-    @pool = Pool.find(params[:pool][:id])
-    require_privilege(Privilege::ACCOUNT_ADD,@pool)
-    Pool.transaction do
-      @cloud_account = CloudAccount.new(params[:cloud_account])
-      @provider = Provider.find(params[:provider][:id])
-      @cloud_account.provider = @provider
-      @cloud_account.save!
-      @pool.cloud_accounts << @cloud_account unless @pool.cloud_accounts.map{|x| x.id}.include?(@cloud_account.id)
-      @pool.save!
-      @pool.populate_realms_and_images([@cloud_account])
-      perm = Permission.new(:user => @current_user,
-                            :role => Role.find_by_name("Account Administrator"),
-                            :permission_object => @cloud_account)
-      perm.save!
-    end
-    redirect_to :controller => "pool", :action => 'show', :id => @pool.id
   end
 
   def edit

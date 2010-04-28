@@ -39,15 +39,6 @@ describe PoolController do
      response.should render_template("hardware_profiles")
   end
 
-  it "should get cloud accounts" do
-     @pool  = Factory :tpool
-     UserSession.create(@admin)
-     get :accounts, :id => @pool.id
-     response.should be_success
-     response.should render_template("accounts")
-     @pool.should_not == nil
-  end
-
   it "should provide ui to view realms" do
      UserSession.create(@admin)
      pool = Factory :tpool

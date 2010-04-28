@@ -43,26 +43,16 @@ class Privilege < ActiveRecord::Base
   STATS_VIEW        = "stats_view"        # can view monitoring data for
                                           # instances
 
-  # to create(i.e. import) an account on a provider (but not added to
-  # a pool) needs ACCOUNT_MODIFY on the provider.
-  # to add a new provider account (i.e. import) to a pool needs
-  # ACCOUNT_ADD on  the pool
-  # to add an existing provider account to a pool needs ACCOUNT_ADD
-  # on the pool _and_ ACCOUNT_ADD on the account.
+  # to create(i.e. import) an account on a provider needs ACCOUNT_MODIFY on the
+  # provider.
   ACCOUNT_MODIFY    = "account_modify"    # can create or modify cloud accounts
   ACCOUNT_VIEW      = "account_view"      # can view cloud accounts
-  ACCOUNT_ADD       = "account_add"       # can add an account to a pool
 
-  # pool privileges normally checked at the provider level
-  # (and at the account level for choosing which accounts are visible on the
-  # new pool form), although
-  # pool-specific overrides could be a future enhancement.
   POOL_MODIFY       = "pool_modify"       # can create or modify a pool
   POOL_VIEW         = "pool_view"         # can view a pool
 
   # quota privileges normally checked at the pool or account level,
   # depending on which quota level we're dealing with
-  # (account level for cloud-imposed quota, pool level for aggregator quota)
   QUOTA_MODIFY      = "quota_modify"      # can create or modify a quota
   QUOTA_VIEW        = "quota_view"        # can view a quota
 
@@ -81,7 +71,7 @@ class Privilege < ActiveRecord::Base
   FULL_PRIVILEGE_LIST = [PERM_SET, PERM_VIEW,
                          INSTANCE_MODIFY, INSTANCE_CONTROL, INSTANCE_VIEW,
                          STATS_VIEW,
-                         ACCOUNT_MODIFY, ACCOUNT_ADD, ACCOUNT_VIEW,
+                         ACCOUNT_MODIFY, ACCOUNT_VIEW,
                          POOL_MODIFY, POOL_VIEW,
                          QUOTA_MODIFY, QUOTA_VIEW,
                          PROVIDER_MODIFY, PROVIDER_VIEW,
