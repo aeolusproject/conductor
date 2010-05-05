@@ -26,7 +26,6 @@ class CreateImages < ActiveRecord::Migration
       t.string  :name, :null => false, :limit => 1024
       t.string  :architecture, :null => false
       t.integer :provider_id
-      t.integer :pool_id
       t.integer :lock_version, :default => 0
       t.timestamps
     end

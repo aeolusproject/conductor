@@ -55,68 +55,27 @@ describe HardwareProfile do
     @hp.should_not be_valid
   end
 
-  it "should reject Aggregator profiles for custom Instance profiles" do
-    @hp.aggregator_hardware_profiles << @hp
-    @hp.should_not be_valid
-    @hp.should have(1).error_on(:aggregator_hardware_profiles)
-    @hp.errors.on(:aggregator_hardware_profiles).should eql(
-      "Aggregator profiles are not allowed for custom Instance profiles")
-
-    @hp.aggregator_hardware_profiles.clear
-    @hp.should be_valid
- end
-
-  it "should reject Provider profiles for custom Instance profiles" do
-    @hp.provider_hardware_profiles << @hp
-    @hp.should_not be_valid
-    @hp.should have(1).error_on(:provider_hardware_profiles)
-    @hp.errors.on(:provider_hardware_profiles).should eql(
-      "Provider profiles are not allowed for custom Instance profiles")
-
-    @hp.provider_hardware_profiles.clear
-    @hp.should be_valid
-  end
-
-  it "should require either provider or pool to be blank" do
-    @hp.provider = Provider.new
-    @hp.pool = Pool.new
-    @hp.should_not be_valid
-    @hp.should have(1).error_on(:provider)
-    @hp.errors.on(:provider).should eql("provider or pool must be blank")
-    @hp.should have(1).error_on(:pool)
-    @hp.errors.on(:pool).should eql("provider or pool must be blank")
-
+  it "should allow Aggregator profiles only for provider profiles" do
     @hp.provider = nil
-    @hp.should be_valid
-
-    @hp.provider = Provider.new
-    @hp.pool = nil
-    @hp.should be_valid
-  end
-
-  it "should allow Provider profiles only for provider profiles" do
-    @hp.provider = nil
-    @hp.pool = Pool.new
-
-    @hp.provider_hardware_profiles << @hp
-    @hp.should have(1).error_on(:provider_hardware_profiles)
-    @hp.errors.on(:provider_hardware_profiles).should eql(
-      "Provider profiles only allowed for provider profiles")
-
-    @hp.provider_hardware_profiles.clear
-    @hp.should be_valid
-  end
-
-  it "should allow Aggregator profiles only for pool profiles" do
-    @hp.provider = Provider.new
-    @hp.pool = nil
 
     @hp.aggregator_hardware_profiles << @hp
     @hp.should have(1).error_on(:aggregator_hardware_profiles)
     @hp.errors.on(:aggregator_hardware_profiles).should eql(
-      "Aggregator profiles only allowed for pool profiles")
+      "Aggregator profiles only allowed for provider profiles")
 
     @hp.aggregator_hardware_profiles.clear
+    @hp.should be_valid
+  end
+
+  it "should allow Provider profiles only for aggregator profiles" do
+    @hp.provider = Provider.new
+
+    @hp.aggregator_hardware_profiles << @hp
+    @hp.should have(1).error_on(:provider_hardware_profiles)
+    @hp.errors.on(:provider_hardware_profiles).should eql(
+      "Provider profiles only allowed for aggregator profiles")
+
+    @hp.provider_hardware_profiles.clear
     @hp.should be_valid
   end
 

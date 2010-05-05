@@ -48,4 +48,16 @@ describe CloudAccountsController do
     response.should_not be_success
   end
 
+  it "should provide ui to create new account" do
+     UserSession.create(@admin)
+     get :new, :provider_id => @provider.id
+     response.should be_success
+     response.should render_template("new")
+  end
+
+  it "should fail to grant access to account UIs for unauthenticated user" do
+     get :new
+     response.should_not be_success
+  end
+
 end

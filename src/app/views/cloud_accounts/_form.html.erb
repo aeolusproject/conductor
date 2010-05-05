@@ -3,7 +3,7 @@
 <%= hidden_field :cloud_account,  :id %>
 <%= hidden_field :cloud_account, :provider_id, :value => @provider.id %>
 <ul>
-<% if @cloud_account.nil? %>
+<% if @cloud_account.id.nil? %>
 <li><label>UserName<span>UserName for the account you wish to connect to this pool.</span></label><%= text_field :cloud_account, :username %></li>
 <% end %>
 <li><label>Password<span>Password for the account you wish to connect to this pool.</span></label><%=password_field :cloud_account, :password %></li>

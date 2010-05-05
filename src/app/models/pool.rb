@@ -48,6 +48,14 @@ class Pool < ActiveRecord::Base
     end
   end
 
+  def images
+    Image.find(:all, :conditions => {:provider_id => nil})
+  end
+
+  def hardware_profiles
+    HardwareProfile.find(:all, :conditions => {:provider_id => nil})
+  end
+
   #FIXME: do we still allow explicit cloud/account choice via realm selection?
   #FIXME: How is account list for realm defined without explicit pool-account relationship?
   def realms
@@ -62,70 +70,5 @@ class Pool < ActiveRecord::Base
     end
     realm_list
   end
-
-  # FIXME: for already-mapped accounts, update rather than add new
-  # FIXME: this needs to be revised to handle the removal of the account-pool association
-  def populate_realms_and_images(accounts=CloudAccount.all)
-    accounts.each do |cloud_account|
-      client = cloud_account.connect
-      realms = client.realms
-      if client.driver_name == "ec2"
-        images = client.images(:owner_id=>:self)
-      else
-        images = client.images
-      end
-      # FIXME: this should probably be in the same transaction as pool.save
-      self.transaction do
-        realms.each do |realm|
-          #ignore if it exists
-          #FIXME: we need to handle keeping in sync forupdates as well as
-          # account permissions
-          unless Realm.find_by_external_key_and_provider_id(realm.id,
-                                                            cloud_account.provider.id)
-            ar_realm = Realm.new(:external_key => realm.id,
-                                 :name => realm.name ? realm.name : realm.id,
-                                 :provider_id => cloud_account.provider.id)
-            ar_realm.save!
-          end
-        end
-        images.each do |image|
-          #ignore if it exists
-          #FIXME: we need to handle keeping in sync for updates as well as
-          # account permissions
-          ar_image = Image.find_by_external_key_and_provider_id(image.id,
-                                                     cloud_account.provider.id)
-          unless ar_image
-            ar_image = Image.new(:external_key => image.id,
-                                 :name => image.name ? image.name :
-                                          (image.description ? image.description :
-                                                               image.id),
-                                 :architecture => image.architecture,
-                                 :provider_id => cloud_account.provider.id)
-            ar_image.save!
-          end
-          front_end_image = Image.new(:external_key =>
-                                         cloud_account.account_prefix_for_realm +
-                                         Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                         ar_image.external_key,
-                                  :name => ar_image.name,
-                                  :architecture => ar_image.architecture,
-                                  :pool_id => id)
-          front_end_image.save!
-        end
-        cloud_account.provider.hardware_profiles.each do |hardware_profile|
-          front_hardware_profile = HardwareProfile.new(:external_key =>
-                                         cloud_account.account_prefix_for_realm +
-                                                       hardware_profile.external_key,
-                               :name => hardware_profile.name,
-                               :memory => hardware_profile.memory,
-                               :storage => hardware_profile.storage,
-                               :architecture => hardware_profile.architecture,
-                               :pool_id => id)
-          front_hardware_profile.save!
-        end
-      end
-    end
-  end
-
 
 end

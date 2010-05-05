@@ -17,18 +17,8 @@ describe ProviderController do
      response.should render_template("accounts")
   end
 
-  it "should provide ui to create new account" do
-     UserSession.create(@admin)
-     get :new_account, :id => @provider.id
-     response.should be_success
-     response.should render_template("new_account")
-  end
-
   it "should fail to grant access to account UIs for unauthenticated user" do
      get :accounts
-     response.should_not be_success
-
-     get :new_account
      response.should_not be_success
   end
 

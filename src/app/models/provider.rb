@@ -61,6 +61,18 @@ class Provider < ActiveRecord::Base
                                :architecture => hardware_profile.architecture,
                                :provider_id => id)
         ar_hardware_profile.save!
+        front_hwp = HardwareProfile.new(:external_key =>
+                                        name +
+                                        Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
+                                        ar_hardware_profile.external_key,
+                                        :name => name +
+                                        Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
+                                        ar_hardware_profile.name,
+                                        :memory => ar_hardware_profile.memory,
+                                        :storage => ar_hardware_profile.storage,
+                                        :architecture => ar_hardware_profile.architecture)
+        front_hwp.provider_hardware_profiles << ar_hardware_profile
+        front_hwp.save!
       end
     end
   end

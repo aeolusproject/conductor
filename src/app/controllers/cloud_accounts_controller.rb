@@ -23,20 +23,21 @@ class CloudAccountsController < ApplicationController
   before_filter :require_user
 
   def new
+    @provider = Provider.find(params[:provider_id])
     @cloud_account = CloudAccount.new
-    @providers = []
-    all_providers = Provider.all
-    all_providers.each {|provider|
-      @providers << provider if authorized?(Privilege::PROVIDER_VIEW,provider)
-    }
+    require_privilege(Privilege::ACCOUNT_MODIFY, @provider)
   end
 
   def create
-    @cloud_account = CloudAccount.new(params[:cloud_account])
-    @provider = Provider.find(params[:provider][:id])
+    @provider = Provider.find(params[:cloud_account][:provider_id])
     require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
-    @cloud_account.provider = @provider
-    @cloud_account.save!
+    @cloud_account = CloudAccount.new(params[:cloud_account])
+    if request.post? && @cloud_account.save && @cloud_account.populate_realms_and_images
+      flash[:notice] = "Provider account added."
+      redirect_to :controller => "provider", :action => "accounts", :id => @provider
+    else
+      render :action => "new"
+    end
   end
 
   def edit

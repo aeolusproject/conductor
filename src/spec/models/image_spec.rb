@@ -46,33 +46,8 @@ describe Image do
     i.should be_valid
   end
 
-  it "should have either a provider or a pool specified" do
-    i = Factory.build(:image, :provider => nil, :pool => nil)
-    i.should have(1).error_on(:provider)
-    i.should have(1).error_on(:pool)
-    i.errors.on(:provider).should eql(
-      "provider or pool must be specified")
-    i.errors.on(:pool).should eql(
-      "provider or pool must be specified")
-
-    i.provider = @provider
-    i.should be_valid
-
-    i.pool = Factory.build(:pool)
-    i.should have(1).error_on(:provider)
-    i.should have(1).error_on(:pool)
-    i.errors.on(:provider).should eql(
-      "provider or pool must be blank")
-    i.errors.on(:pool).should eql(
-      "provider or pool must be blank")
-
-    i.provider = nil
-    i.should be_valid
-  end
-
   it "should have provider images only if it has a provider" do
-    i = Factory.create(:image, :pool => Pool.new,
-                     :provider => nil)
+    i = Factory.create(:image, :provider => nil)
 
     i.aggregator_images << i
     i.should have(1).error_on(:aggregator_images)

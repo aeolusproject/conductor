@@ -8,7 +8,6 @@ Factory.define :image do |i|
   i.provider { |p| Provider.new }
 end
 
-Factory.define :pool_image, :parent => :image do |i|
+Factory.define :front_end_image, :parent => :image do |i|
   i.provider nil
-  i.association(:pool)
 end

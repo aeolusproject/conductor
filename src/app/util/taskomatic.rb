@@ -50,6 +50,14 @@ class Taskomatic
     begin
       client = @task.instance.cloud_account.connect
       realm = @task.instance.realm.external_key rescue nil
+
+      # Map aggregator HWP/image to back-end provider HWP/image in instance
+      unless @task.instance.image.provider_image?
+        @task.instance.image = @task.instance.image.provider_images[0]
+      end
+      unless @task.instance.hardware_profile.provider_hardware_profile?
+        @task.instance.hardware_profile = @task.instance.hardware_profile.provider_hardware_profiles[0]
+      end
       dcloud_instance = client.create_instance(@task.instance.image.external_key,
                                                :flavor => @task.instance.hardware_profile.external_key,
                                                :realm => realm,

@@ -20,4 +20,4 @@
     </tbody>
   </table>
 <% end %>
-<%= link_to "Add an account", {:action => "new_account", :id => @provider}, :class => "actionlink" %>
+<%= link_to "Add an account", {:controller => "cloud_accounts", :action => "new", :provider_id => @provider}, :class => "actionlink" %>

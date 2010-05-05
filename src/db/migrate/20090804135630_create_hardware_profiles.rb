@@ -28,7 +28,6 @@ class CreateHardwareProfiles < ActiveRecord::Migration
       t.float   :storage, :null => false
       t.string  :architecture, :null => false
       t.integer :provider_id
-      t.integer :pool_id
       t.integer :lock_version, :default => 0
       t.timestamps
     end

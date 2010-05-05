@@ -45,19 +45,3 @@ Feature: Manage Pools
 	  When I follow "Realms"
 	  Then I should see "Europe"
 	  And I should see "United States"
-
-  Scenario: View Pool's Images
-	Given I own a pool named "mockpool"
-	And the Pool has the following Images:
-	| name      | architecture |
-	| Fedora 10 | x86_64       |
-	| Fedora 10 | i386         |
-	| JBoss     | i386         |
-	And I am on the homepage
-	When I follow "mockpool"
-	Then I should be on the show pool page
-	When I follow "View Images"
-	Then I should see the following:
-	| Fedora 10 | x86_64 |
-	| Fedora 10 | i386   |
-	| JBoss     | i386   |

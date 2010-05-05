@@ -22,7 +22,6 @@
 class Image < ActiveRecord::Base
   has_many :instances
   belongs_to :provider
-  belongs_to :pool
 
   has_and_belongs_to_many :aggregator_images,
                           :class_name => "Image",
@@ -37,26 +36,25 @@ class Image < ActiveRecord::Base
                           :association_foreign_key => "provider_image_id"
 
   validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => [:provider_id, :pool_id]
+  validates_uniqueness_of :external_key, :scope => [:provider_id]
 
   validates_presence_of :name
   validates_length_of :name, :maximum => 1024
 
   validates_presence_of :architecture, :if => :provider
 
+
+  def provider_image?
+    !provider.nil?
+  end
+
   def validate
-    if (provider.nil? and pool.nil?)
-      errors.add(:provider, "provider or pool must be specified")
-      errors.add(:pool, "provider or pool must be specified")
-    elsif (!provider.nil? and !pool.nil?)
-      errors.add(:provider, "provider or pool must be blank")
-      errors.add(:pool, "provider or pool must be blank")
-    elsif provider.nil?
+    if provider.nil?
       if !aggregator_images.empty?
         errors.add(:aggregator_images,
                    "Aggregator image only allowed for provider images")
       end
-    elsif pool.nil?
+    else
       if !provider_images.empty?
         errors.add(:provider_images,
                    "Provider images only allowed for aggregator images")

@@ -63,7 +63,68 @@ class CloudAccount < ActiveRecord::Base
     provider.name + Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER + username
   end
 
+  def pools
+    pools = []
+    instances.each do |instance|
+      pools << instance.pool
+    end
+  end
+
   def name
     username
   end
+
+  # FIXME: for already-mapped accounts, update rather than add new
+  def populate_realms_and_images
+    client = connect
+    realms = client.realms
+    # FIXME: the "self" filtering has to go as soon as we have a decent image selection UI
+    if client.driver_name == "ec2"
+      images = client.images(:owner_id=>:self)
+    else
+      images = client.images
+    end
+    # FIXME: this should probably be in the same transaction as cloud_account.save
+    self.transaction do
+      realms.each do |realm|
+        #ignore if it exists
+        #FIXME: we need to handle keeping in sync forupdates as well as
+        # account permissions
+        unless Realm.find_by_external_key_and_provider_id(realm.id,
+                                                          provider.id)
+          ar_realm = Realm.new(:external_key => realm.id,
+                               :name => realm.name ? realm.name : realm.id,
+                               :provider_id => provider.id)
+          ar_realm.save!
+        end
+      end
+      images.each do |image|
+        #ignore if it exists
+        #FIXME: we need to handle keeping in sync for updates as well as
+        # account permissions
+        ar_image = Image.find_by_external_key_and_provider_id(image.id,
+                                                              provider.id)
+        unless ar_image
+          ar_image = Image.new(:external_key => image.id,
+                               :name => image.name ? image.name :
+                               (image.description ? image.description :
+                                image.id),
+                               :architecture => image.architecture,
+                               :provider_id => provider.id)
+          ar_image.save!
+          front_end_image = Image.new(:external_key =>
+                                      provider.name +
+                                      Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
+                                      ar_image.external_key,
+                                      :name => provider.name +
+                                      Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
+                                      ar_image.name,
+                                      :architecture => ar_image.architecture)
+          front_end_image.provider_images << ar_image
+          front_end_image.save!
+        end
+      end
+    end
+  end
+
 end
