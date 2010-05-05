@@ -4,15 +4,8 @@
 
   <h2>Create an Account for this Provider</h2><br />
 
-  <% form_tag :action => 'create_account' do -%>
-    <fieldset>
-    <legend>Account</legend>
-    <ul>
-    <li><label>UserName<span>UserName for the account you wish to connect to this pool.</span></label><%= text_field :account, :username %></li>
-    <li><label>Password<span>Password for the account you wish to connect to this pool.</span></label><%=password_field :account, :password %></li>
-    </ul>
-    <%=hidden_field :account, :provider_id, :value => @provider.id %>
-    </fieldset>
-    <%= submit_tag "Save", :class => "submit" %>
+  <% form_tag :action => 'create_account' do |form| -%>
+    <%= render :partial => 'cloud_accounts/form' %>
   <% end %>
+
 </div>

@@ -66,5 +66,33 @@ class CloudAccountsController < ApplicationController
     redirect_to :controller => "pool", :action => 'show', :id => @pool.id
   end
 
+  def edit
+    @cloud_account = CloudAccount.find(params[:id])
+    @provider = @cloud_account.provider
+    require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
+  end
 
+  def update
+    @cloud_account = CloudAccount.find(params[:cloud_account][:id])
+    require_privilege(Privilege::ACCOUNT_MODIFY,@cloud_account.provider)
+    if @cloud_account.update_attributes(params[:cloud_account])
+      flash[:notice] = "Cloud Account updated!"
+      redirect_to :controller => 'provider', :action => 'accounts', :id => @cloud_account.provider.id
+    else
+      render :action => :edit
+    end
+  end
+
+  def destroy
+    acct = CloudAccount.find(params[:id])
+    provider = acct.provider
+    require_privilege(Privilege::ACCOUNT_MODIFY,provider)
+    if acct.destroyable?
+      CloudAccount.destroy(params[:id])
+      flash[:notice] = "Cloud Account destroyed"
+    else
+      flash[:notice] = "Cloud Account could not be destroyed"
+    end
+    redirect_to :controller => 'provider', :action => 'accounts', :id => provider.id
+  end
 end

@@ -74,8 +74,8 @@ class ProviderController < ApplicationController
 
   def create_account
      require_privilege(Privilege::ACCOUNT_MODIFY)
-     @acct = CloudAccount.find_or_create(params[:account])
-     @provider = Provider.find(params[:account][:provider_id])
+     @acct = CloudAccount.find_or_create(params[:cloud_account])
+     @provider = Provider.find(params[:cloud_account][:provider_id])
      @provider.cloud_accounts << @acct
      redirect_to :action => 'accounts', :id => @provider.id
   end

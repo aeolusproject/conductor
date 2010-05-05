@@ -38,6 +38,13 @@ class CloudAccount < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
+
+  before_destroy {|entry| entry.destroyable? }
+
+  def destroyable?
+    self.instances.empty?
+  end
+
   def connect
     begin
       return DeltaCloud.new(username, password, provider.url)

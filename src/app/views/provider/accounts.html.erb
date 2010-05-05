@@ -5,12 +5,16 @@
       <thead>
         <tr>
         <th scope="col">Username</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
   <%@provider.cloud_accounts.each {|acct| %>
         <tr>
           <td><%= acct.username %></td>
+          <td><%= link_to "Edit",   {:controller => 'cloud_accounts', :action => 'edit', :id => acct.id}    if has_account_modify?(@provider) %></td>
+          <td><%= link_to "Delete", {:controller => 'cloud_accounts', :action => 'destroy', :id => acct.id} if has_account_modify?(@provider) && acct.destroyable? %></td>
         </tr>
       <% } %>
     </tbody>
