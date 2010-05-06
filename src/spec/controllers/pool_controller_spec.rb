@@ -26,7 +26,7 @@ describe PoolController do
        post :create, :pool => { :name => 'foopool' }
      end.should change(Pool, :count).by(1)
      id = Pool.find(:first, :conditions => ['name = ?', 'foopool']).id
-     response.should redirect_to("http://test.host/pool/show/#{id}")
+     response.should redirect_to("http://test.host/pool/#{id}")
   end
 
   it "should provide ui to view hardware profiles" do
