@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe UserSessionsController do
-
+  fixtures :all
   before(:each) do
     @tuser = Factory :tuser
     activate_authlogic

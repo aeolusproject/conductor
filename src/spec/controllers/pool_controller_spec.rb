@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe PoolController do
-
+  fixtures :all
   before(:each) do
     @admin_permission = Factory :admin_permission
     @admin = @admin_permission.user
