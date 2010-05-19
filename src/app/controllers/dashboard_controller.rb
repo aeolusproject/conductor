@@ -21,6 +21,7 @@
 
 class DashboardController < ApplicationController
   layout "dashboard"
+  before_filter :require_user
 
   def index
     render :action => :summary

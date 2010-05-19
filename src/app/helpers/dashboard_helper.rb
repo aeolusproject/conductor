@@ -1,5 +1,4 @@
-#
-# Copyright (C) 2009 Red Hat, Inc.
+# Copyright (C) 2010 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,27 +18,5 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class UserSessionsController < ApplicationController
-  before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => :destroy
-
-  def new
-    @user_session = UserSession.new
-  end
-
-  def create
-    @user_session = UserSession.new(params[:user_session])
-    if @user_session.save
-      flash[:notice] = "Login successful!"
-      redirect_back_or_default :controller => 'dashboard'
-    else
-      render :action => :new
-    end
-  end
-
-  def destroy
-    current_user_session.destroy
-    flash[:notice] = "Logout successful!"
-    redirect_back_or_default login_url
-  end
+module DashboardHelper
 end
