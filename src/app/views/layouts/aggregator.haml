@@ -67,4 +67,4 @@
       #main
         #content_area
           = render :partial => '/layouts/notification'
-          = yield # the rest of the center and right hand side
+          = (yield(:content) or yield) # content is set if we're using a sub template
