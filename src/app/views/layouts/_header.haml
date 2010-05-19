@@ -1,0 +1,17 @@
+.header_logo
+  %span Deltacloud Aggregator
+  %ul.nav
+    %li
+      = link_to 'Dashboard'
+    %li
+      = link_to 'Instances'
+    %li
+      = link_to 'Templates'
+    %li
+      = link_to 'Settings'
+
+.header_info
+  #hi-username
+    = link_to @current_user.login, { :controller => "users", :action => "show"} unless @current_user.nil?
+  = link_to 'Log out', logout_url unless @current_user.nil?
+  = link_to 'Log in', login_url if @current_user.nil?

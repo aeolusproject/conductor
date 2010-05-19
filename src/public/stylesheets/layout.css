@@ -139,10 +139,11 @@ a { color:#000000; text-decoration: none;}
   font-size: 100%;
   color: #B5B5B5;
 }
-.header_info a:link    { color: #B5B5B5; text-decoration: none; }   
-.header_info a:active  { color: #B5B5B5; text-decoration: none; }
-.header_info a:visited { color: #B5B5B5; text-decoration: none; }
-.header_info a:hover   { color: #FFFFFF; text-decoration: none; }
+.header_info a         { font-weight: bold; }
+.header_info a:link    { color: #000; text-decoration: none; }
+.header_info a:active  { color: #000; text-decoration: none; }
+.header_info a:visited { color: #000; text-decoration: none; }
+.header_info a:hover   { color: #000; text-decoration: none; }
 
 #help-div {
   position: fixed;

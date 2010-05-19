@@ -6,6 +6,25 @@
     position:absolute;
     top:10px;
     left:10px;
+  color: #B5B5B5;
+}
+
+.header_logo span {
+    text-transform: uppercase;
+}
+
+ul.nav {
+  padding: 0;
+  padding-top: 1em;
+  margin: 0;
+  white-space: nowrap;
+  list-style-type: none;
+}
+
+ul.nav li {
+    display: inline;
+    font-size: 120%;
+    padding-right: 1em;
 }
 
 .header_menu_wrapper {
