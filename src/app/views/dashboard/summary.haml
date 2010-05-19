@@ -26,6 +26,24 @@
       %input{ :id => "hide_getting_started", :type => "checkbox" }
         Thanks, don't show this again
 
+#actions_dashboard_section
+  %h2
+    Actions
+  - if @current_user.permissions.collect { |p| p.role }.find { |r| r.name == "Administrator" }
+    %a{:href => url_for(:controller => "cloud_accounts", :action => "new")}
+      Add a Provider Account
+    %a{:href => url_for(:controller => "provider", :action => "new")}
+      Add a Provider
+    %a{:href => url_for(:controller => "", :action => "")}
+      Create a Template
+    %a{:href => url_for(:controller => "users", :action => "new")}
+      Create a User
+  - else
+    %a{:href => url_for(:controller => "", :action => "")}
+      Launch Instances
+    %a{:href => url_for(:controller => "", :action => "")}
+      Enter a help ticket
+
 :javascript
   $("#hide_getting_started").click(function(){
     $('#getting_started_dashboard_section').hide();
