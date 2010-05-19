@@ -19,7 +19,7 @@ describe UserSessionsController do
     post :create, :user_session => { :login => @tuser.login, :password => "secret" }
     UserSession.find.should_not == nil
     @tuser.should == UserSession.find.user
-    response.should redirect_to(account_path)
+    response.should redirect_to("http://test.host/dashboard")
   end
 
   it "should destroy user session" do
