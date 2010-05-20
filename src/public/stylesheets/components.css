@@ -1,6 +1,4 @@
-/****************
-     header style
-**/
+/* header style */
 
 .header_logo {
     position:absolute;
@@ -68,332 +66,44 @@ ul.nav li {
 #help-link {
 }
 
-/*  ----- Toolbar Navigation --------  */
-#toolbar_nav {
-    background: #E5E5E5;
-    float: left;
-}
-#toolbar_nav img{
-    vertical-align: middle;
-}
-#toolbar_nav ul{
-    list-style-type: none;
-    margin:0;
-    padding: 0;
-}
-#toolbar_nav li {
-    margin: 0;
-    padding: 0 10px 0 10px;
-    position: relative;
-    float: left;
-    line-height: 2.3;
-    height: 28px;
-    border-right: 1px solid #5A7A8E;
-    border-left: 1px solid #93B2C4;
-    background: #000000 url(../images/bg_toolbarheader.png) repeat-x top;
-}
-#toolbar_nav li:hover {
-    background: #4B95B8;
-    color: #FFFFFF;
-}
-#toolbar_nav li.current {
-    background: #4B95B8;
-}
-#toolbar_nav li, #toolbar_nav li a {
-    text-decoration: none;
-    text-align: center;
-    color: #FFFFFF;
-}
-#toolbar_nav ul ul {
-    position: absolute;
-    top: 28px;
-    left: 0;
-    width: 100%;
-    display: none;
-}
-#toolbar_nav ul li:hover ul{
-   display: block;
-   z-index: 1;
-   background: #D1DDE8;
-}
-#toolbar_nav ul ul li{
-   width: 200px;
-   background: #DEE7EB;
-   color: #000000;
-   text-align: left;
-   cursor: pointer;
-}
-#toolbar_nav ul ul li a{
-   width: 200px;
-   background: #DEE7EB;
-   color: #000000;
-   text-align: left;
-   cursor: pointer;
-}
-#toolbar_nav ul ul li:hover a {
-    background: #D1DDE8;
+/* dashboard style */
+#getting_started_dashboard_section {
+  background: #F2F2F2;
+  width: 850px;
+  font-size: .9em;
+  padding: 10px;
+  border: 1px solid black;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
 }
 
-/***  the no grid items block ***/
-.no-grid-items {
-    padding: 45px;
-    margin: 50px;
-    height: 150px;
-    border: 1px solid #c9e7f7;
-    vertical-align: middle;
-}
-
-.no-grid-items img{
-	float:left;
-}
-
-.no-grid-items-text{
-  float: left;
-  padding-left: 20px;
-}
-
-.no-grid-items-text h2{
-	margin: 0.8em 0 0;
-	font-family: Arial, sans-serif;
-}
-
-.no-grid-items-text p{
-	color:#999999;
-}
-
-.no-grid-items-button{
-	margin: 2.5em 0 0 0;
-}
-
-
-
-/***************************
- *      Graphing Style
- **************************/
-/* availability graphs on hardware resource summary tab */
-#availability_graphs{ }
-.availability_graph { float: left;padding: 0 0 20px 0;}
-.availability_graph_left { float: left; width: 50px;}
-.availability_graph_right { float: left; margin-top: 7px; margin-left: 30px; margin-right: 75px; min-width: 100px; color:#666666;}
-#available_cpu, #available_memory, #available_vms,
-#available_vcpu, #available_vram, #available_vm_quotas {margin-left:0;width:100px;height:70px}
-.availability_total{ font-size: 130%; padding: 10px 0 0 0; color:#000000;}
-
-/* history graphs on hardware / resource summary tab */
-#history_graphs { position: relative; height: 315px; overflow: hidden; margin-left: 0; margin-top: 0; }
-#history_graphs_control { position: absolute; z-index: 1; height: 20px; width: 98%; border: 1px solid #CCCCCC; background: #EEEEEE; }
-.history_graphs_menu { float: left; width: 118px; }
-.history_graphs_legend { float: right; height: 20px; width: 45%; }
-.history_graphs_legend font { float: right; padding-top: 3px; }
-#history_graphs_graphs {  position: absolute; overflow: hidden; height: 260px; width: 98%; border: 1px solid #CCCCCC; }
-#history_graph_menu_header img{ vertical-align: middle; }
-.history_graphs_menu ul {
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-    list-style-type: none;
-    border-right: 1px solid #CCCCCC;
-}
-.history_graphs_menu ul li {
-    height: 17px;
-    background: #EEEEEE;
-    text-align: justify;
-    padding-left: 7px;
-    padding-top:  3px;
-    cursor: pointer;
-    width: 110px;
-}
-.history_graphs_menu .history_graph_menu_item{
-    display: none;
-    border-right: 1px solid #CCCCCC;
-    width: 120px;
-}
-.history_graphs_menu .history_graph_menu_item a{
-    text-decoration: none;
-    color: black;
-}
-.history_graphs_menu .history_graph_menu_fitem {
-    border-top: 1px solid #CCCCCC;
-}
-.history_graphs_menu .history_graph_menu_litem {
-    border-bottom: 1px solid #CCCCCC;
-}
-.history_graphs_menu:hover ul li {
-    background: #CCCCCC;
-}
-.history_graphs_menu:hover .history_graph_menu_item {
-    display: block;
-    background: #CCFFFF;
-}
-.history_graph{
-  height: 210px;
-  position: relative;
-  float: left;
-}
-#cpu_history_1,  #load_history_1,  #memory_history_1,
-#cpu_history_7,  #load_history_7,  #memory_history_7,
-#cpu_history_30, #load_history_30, #memory_history_30
-{
-  height: 250px; width: 1200px; position: absolute; left: -70px;
-}
-
-/* snapshot graphs on hardware / resource summary tab */
-#snapshot_graphs th    { background: #EEEEEE; text-align: left; padding-left: 10px;border:1px solid #CCCCCC;}
-#snapshot_graphs td {
-  padding-left: 10px;
-  padding-right: 10px;
-  white-space: nowrap;
-  background: #FFFFFF;
-  border:1px solid #CCCCCC;
-}
-.snapshot_graph_container{
-  width: 180px;
-  height: 10px;
-  border:#666666 solid 1px;
-}
-.snapshot_graph{
-  height: 10px;
-}
-
-/* load graphs in flexigrid */
-.load_graph {
-  padding: 0px !important;
-  height: 10px;
-  border:#666666 solid 1px;
-  width: 100px;
-}
-
-.load_graph_low {background: url(../images/chart_horiz_blue.png) repeat-x;}
-.load_graph_high {background: url(../images/chart_horiz_orange.png) repeat-x;}
-
-/*************************
- *   details pane style  *
- *************************/
-.detail-pane-chart {
-    height: 50px;
-    width: 375px;
-}
-
-
-/*************************
- *    new popup components
- *************************/
-.popup-content-selection {
-   float: left;
-   width: 45%;
-   padding-left: 20px;
-   padding-top: 10px;
-}
-
-.popup-content-selection select{
-   min-width: 200px;
-}
-
-.popup-content-footer{
-  width: 99%;
-  float: left;
-}
-
-.selected_popup_content {
-   padding-left: 20px;
-   min-height: 50px;
-   float: left;
-   width: 96%;
-}
-
-#selected_popup_content_header {
+#getting_started_dashboard_section p {
   padding-bottom: 5px;
-  font-weight: bold;
 }
 
-#selected_popup_content_expanded{
-  padding-bottom: 50px;
+#getting_started_dashboard_section ul {
+  width: 100%;
+  height: 120px;
+  padding-left: 7px;
 }
 
-.selected_popup_content_left {
+#getting_started_dashboard_section ul li{
+  display: inline;
   float: left;
-  width: 40%;
-  padding-bottom: 15px;
+  width: 205px;
+  padding: 0 7px 0 10px;
+  border-right: 1px solid black;
 }
 
-.selected_popup_content_right {
-  float: left;
-  width: 40%;
-  padding-bottom: 15px;
-}
-
-/* classes for task state icons */
-.state-canceled {
-  background:url(../images/icon-canceled-11px.png) top center no-repeat;
-  height: 11px;
-}
-.state-failed {
-  background:url(../images/icon-failed-11px.png) top center no-repeat;
-  height: 11px;
-}
-.state-finished {
-  background:url(../images/icon-finished-11px.png) top center no-repeat;
-  height: 11px;
-}
-.state-paused {
-  background:url(../images/icon-paused-11px.png) top center no-repeat;
-  height: 11px;
-}
-.state-queued {
-  background:url(../images/icon-queued-11px.png) top center no-repeat;
-  height: 11px;
-}
-.state-running {
-  background:url(../images/icon-running-11px.png) top center no-repeat;
-  height: 11px;
-}
-
-.vm_form_section {padding-left: 2em;}
-
-#vm_network_config .i {
-  float: left;
-}
-
-.vm_network_config_row {
-   min-width: 500px;
-}
-
-#vm_network_config_header_network,
-#vm_network_config_header_mac,
-#vm_network_config_header_ip{
-  float: left;
+#getting_started_dashboard_section ul li:last-child {
+  border-right: none;
   width: 150px;
 }
 
-.vm_network_config_net,
-.vm_network_config_mac{
-  float: left;
-  width: 150px;
+#getting_started_dashboard_section img {
+  height: 91px;
 }
 
-.vm_network_config_ip{
-  float: left;
-  max-width: 150px;
-}
-
-.vm_network_config_net select,
-.vm_network_config_mac input,
-.vm_network_config_ip input {
-  width: 130px;
-}
-
-.vm_network_config_remove {
-  float: left;
-  color: #0033CC;
-  padding-top: 5px;
-  padding-left: 5px;
-}
-.vm_network_config_remove:hover {
-  cursor: pointer;
-}
-
-#vm_network_config_add {
-  color: #0033CC;
-}
-#vm_network_config_add:hover {
-  cursor: pointer;
+#getting_started_links a {
+  float: right;
 }

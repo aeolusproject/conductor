@@ -264,3 +264,16 @@ ul#pools li a:hover {
 .instance_action_list li.first {
   border-left: none;
 }
+
+/* Style for button links */
+a.button_link {
+  border: 1px solid black;
+  text-decoration : none;
+  padding : 4px;
+  margin-bottom: 3px;
+  display: block;
+  background: #666666;
+  color: white;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}

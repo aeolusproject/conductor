@@ -1,2 +1,33 @@
-%h1 Summary
-%p located in app/views/dashboard/summary.haml
+- unless @hide_getting_started
+  #getting_started_dashboard_section
+    %p
+      Welcome to your Deltacloud dashboard where you can track your cloud resource
+      usage. Here's what you need to know to get started
+    %ul
+      %li
+        %img{:src => "images/getting_started_pools.png"}
+        Deltacloud organizes your cloud machines in collections called pools
+      %li
+        %img{:src => "images/getting_started_accounts.png"}
+        A pool can be connected to multiple <b>cloud provider accounts</b>
+      %li
+        %img{:src => "images/getting_started_pool_permissions.png"}
+        You have one personal pool and you may have access to more shared pools
+      %li
+        %img{:src => "images/getting_started_check.png"}
+        %p
+          Ready to work in the cloud?</p>
+        #getting_started_links
+          %a{:class => "button_link", :href => url_for(:controller => :pool, :action => :show, :id => @current_users_pool.id)}
+            Go to my personal pool
+          %a{:href => url_for(:controller => :user, :action => :pools, :id => @current_user.id)}
+            Show all my pools
+    %p
+      %input{ :id => "hide_getting_started", :type => "checkbox" }
+        Thanks, don't show this again
+
+:javascript
+  $("#hide_getting_started").click(function(){
+    $('#getting_started_dashboard_section').hide();
+    $.post("#{url_for(:action => 'hide_getting_started')}");
+  });
