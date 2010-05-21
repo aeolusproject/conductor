@@ -1,0 +1,3 @@
+This is custom build of jquery.ui and cotains components we currently need.
+jquery-ui-1.8.1.custom.min.js: all caomponents packed together
+ui/minified: individual components
