@@ -15,7 +15,7 @@ Given /^the Pool has the following Hardware Profiles:$/ do |table|
 end
 
 Given /^the Pool has the following Realms named "([^\"]*)"$/ do |names|
-  @cloud_account = Factory :cloud_account
+  @cloud_account = Factory :mock_cloud_account
   @provider = @cloud_account.provider
 
   names.split(", ").each do |name|

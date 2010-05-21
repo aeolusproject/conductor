@@ -5,7 +5,7 @@ Factory.define :cloud_account do |f|
 end
 
 Factory.define :mock_cloud_account, :parent => :cloud_account do |f|
-  f.sequence(:username) { |n| "testMockUser#(n)" }
-  f.password "testMockPassword"
+  f.username "mockuser"
+  f.password "mockpassword"
   f.provider { |p| p.association(:mock_provider) }
 end

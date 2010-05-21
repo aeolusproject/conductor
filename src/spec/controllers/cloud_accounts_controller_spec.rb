@@ -23,9 +23,14 @@ describe CloudAccountsController do
 
   it "should allow users with account modify permission to update a cloud account" do
     UserSession.create(@admin)
-    post :update, :cloud_account => { :id => @cloud_account.id, :password => 'foobar' }
+
+    @cloud_account.password = "foobar"
+    @cloud_account.stub!(:valid_credentials).and_return(true)
+    @cloud_account.save
+
+    post :update, :cloud_account => { :id => @cloud_account.id, :password => 'mockpassword' }
     response.should redirect_to("http://test.host/provider/accounts/#{@provider.id}")
-    CloudAccount.find(@cloud_account.id).password.should == "foobar"
+    CloudAccount.find(@cloud_account.id).password.should == "mockpassword"
   end
 
   it "should allow users with account modify permission to delete a cloud account" do

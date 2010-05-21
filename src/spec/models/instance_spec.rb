@@ -90,12 +90,14 @@ describe Instance do
     provider = Factory.build(:mock_provider2)
     provider.stub!(:connect).and_return(mock('DeltaCloud'))
     provider.save!
-    cloud_account = CloudAccount.new(:provider_id => provider.id,
-                                     :username => 'john doe',
-                                     :password => 'asdf')
+
+    cloud_account = Factory.build(:cloud_account, :provider => provider,
+                                                  :username => 'john doe',
+                                                  :password => 'asdf')
+    cloud_account.stub!(:valid_credentials?).and_return(true)
     cloud_account.save!
-    @instance = Factory.create(:instance,
-                               :cloud_account_id => cloud_account.id)
+
+    @instance = Factory.create(:instance, :cloud_account => cloud_account)
     @instance.front_end_realm.should eql('mock2:john doe')
 
     realm = Factory.create(:realm, :name => 'a realm',
