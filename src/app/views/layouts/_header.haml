@@ -1,14 +1,13 @@
+- menu = [ { :text => "Dashboard", :controller => "dashboard" }, |
+  { :text => "Instances", :controller => "instance" }, |
+  { :text => "Templates", :controller => "templates" }, |
+  { :text => "Settings", :controller => "settings" } ] |
 .header_logo
   %span Deltacloud Aggregator
   %ul.nav
-    %li
-      = link_to 'Dashboard', dashboard_path
-    %li
-      = link_to 'Instances', instance_path
-    %li
-      = link_to 'Templates', templates_path
-    %li
-      = link_to 'Settings', settings_path
+    - menu.each do |item|
+      %li{ :class => ("selected" if item[:controller] == controller.controller_name) }
+        = link_to item[:text], { :controller => item[:controller] }
 
 .header_info
   #hi-username

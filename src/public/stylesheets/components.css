@@ -9,6 +9,7 @@
 
 .header_logo span {
     text-transform: uppercase;
+    margin-left: 5px;
 }
 
 ul.nav {
@@ -22,7 +23,11 @@ ul.nav {
 ul.nav li {
     display: inline;
     font-size: 120%;
-    padding-right: 1em;
+    padding: 5px;
+}
+
+ul.nav li.selected {
+    background: #cacaca;
 }
 
 .header_menu_wrapper {
