@@ -20,6 +20,11 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Instance < ActiveRecord::Base
+  include SearchFilter
+
+  cattr_reader :per_page
+  @@per_page = 15
+
   belongs_to :pool
   belongs_to :cloud_account
 
@@ -55,6 +60,19 @@ class Instance < ActiveRecord::Base
   validates_inclusion_of :state,
      :in => [STATE_NEW, STATE_PENDING, STATE_RUNNING,
              STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED]
+
+  # used to get sorting column in controller and in view to generate datatable definition and
+  # html table structure
+  COLUMNS = [
+    {:id => 'id', :header => '<input type="checkbox" id="image_id_all" onclick="checkAll(event)">', :opts => {:checkbox_id => 'image_id', :searchable => false, :sortable => false, :width => '1px', :class => 'center'}},
+    {:id => 'actions', :header => 'Actions', :opts => {:width => "15%", :sortable => false}},
+    {:id => 'name', :header => 'Name', :opts => {:width => "25%"}},
+    {:id => 'state', :header => 'State', :opts => {:width => "15%"}},
+    {:id => 'hwprofile', :header => 'HW profile', :opts => {:width => "15%"}},
+    {:id => 'image', :header => 'Image', :opts => {:sortable => false}},
+  ]
+
+  SEARCHABLE_COLUMNS = %w(name state)
 
   def get_action_list(user=nil)
     # return empty list rather than nil

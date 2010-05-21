@@ -1,29 +1,91 @@
+<script type="text/javascript">
+  function showImages(ev) {
+    $("#images_table_wrapper").css('display', 'block');
+    images_dialog = $("#images_table_wrapper").dialog({
+      title: "Select image for new instance",
+      dialogClass: 'flora',
+      width: 600,
+      height: 500,
+      modal: true,
+      overlay: {opacity: 0.2, background: "black"}
+    });
+  }
+
+  function selectImage(ev) {
+    var image_id = dataTable_images_table.fnGetData(ev.target.parentNode)[0];
+    var image_name = dataTable_images_table.fnGetData(ev.target.parentNode)[1];
+    $("#images_table_wrapper").css('display', 'none');
+    $("#images_table_wrapper").dialog('close');
+    $('input[name="image_selector"]').attr('value', image_name);
+    $('input[name="instance[image_id]"]').attr('value', image_id);
+  }
+
+  function poolSelected(field) {
+    location.href = '<%= url_for(:action => "new") %>?' + $("#instance_form").serialize();
+  }
+</script>
+
 <div class="dcloud_form">
   <%= error_messages_for 'instance' %>
 
   <h2>Add a New Instance</h2><br />
-  <% form_tag :action => 'create' do-%>
+  <% form_tag({:action => 'create'},
+              :id => "instance_form") do-%>
   <ul>
     <li><label>Name<span>Name for this new Instance</span></label><%= text_field :instance, :name, :class => "txtfield" %></li>
-    <% if @pool.hardware_profiles.size > 0 %>
+
+    <li><label>Image<span>Choose a bundled image to use</span></label>
+    <input type="button" style="cursor:pointer" onclick="showImages(event)" name="image_selector" value="<%= @instance.image ? @instance.image.name : "click to select image"%>"/>
+    </li>
+    <input type=hidden name="instance[image_id]" value="<%= @instance.image ? @instance.image.id : '' %>">
+
+    <li><label>Pool<span>Pick your pool</span></label>
+      <%= select("instance", "pool_id",
+                 @pools.collect {|p| [ p.name, p.id ] },
+                 { :include_blank => true },
+                 {:onchange => "poolSelected(this)"}) %>
+    </li>
+
+    <% if @instance.pool and @instance.pool.hardware_profiles.size > 0 %>
       <li><label>Hardware Profile<span>Pick your hardware profile</span></label>
         <%= select("instance", "hardware_profile_id",
-                   @pool.hardware_profiles.collect {|p| [ p.name, p.id ] },
+                   @instance.pool.hardware_profiles.collect {|p| [ p.name, p.id ] },
                    { :include_blank => true }) %>
       </li>
     <% end %>
-    <% if @pool.images.size > 0 %>
-      <li><label>Image<span>Choose a bundled image to use</span></label>
-        <%= select("instance", "image_id", @pool.images.collect {|i| [ truncate(i.name, 29, '...'), i.id ] }, { :include_blank => true }) %>
-      </li>
-    <% end %>
-    <% if @pool.realms.size > 0 %>
+    <% if @instance.pool and @instance.pool.realms.size > 0 %>
       <li><label>Realm<span>Choose a realm</span></label>
-        <%= select("instance", "front_end_realm", @pool.realms, { :include_blank => false }) %>
+        <%= select("instance", "front_end_realm", @instance.pool.realms, { :include_blank => false }) %>
       </li>
     <% end %>
   </ul>
-    <%= hidden_field :instance,  :pool_id %>
     <%= submit_tag "Save", :class => "submit" %>
     <% end %>
+</div>
+
+<%= datatable(
+  Image::COLUMNS_SIMPLE.map {|c| c[:opts]},
+  {
+    :table_dom_id => 'images_table',
+    :per_page => Image::per_page,
+    :sort_by => "[2, 'asc']",
+    :serverside => true,
+    :ajax_source => url_for(:controller => 'image', :action => 'images_paginate') + "?mode=simple",
+    :append => ".fnSetFilteringDelay()",
+    :click_callback => "function(event) {selectImage(event)}",
+  }
+) %>
+
+<div style="display:none" id="images_table_wrapper">
+  <table class="datatable display" id="images_table">
+    <thead>
+      <tr>
+        <% Image::COLUMNS_SIMPLE.each do |c| %>
+          <%= "<th>#{c[:header]}</th>" %>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
 </div>

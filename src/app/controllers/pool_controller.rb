@@ -78,9 +78,55 @@ class PoolController < ApplicationController
   def delete
   end
 
-  def images
+  def instances_paginate
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::POOL_VIEW, @pool)
+
+    # datatables sends pagination in format:
+    #   iDisplayStart - start index
+    #   iDisplayLength - num of recs
+    # => we need to count page num
+    page = params[:iDisplayStart].to_i / Instance::per_page
+
+    order_col_rec = Instance::COLUMNS[params[:iSortCol_0].to_i]
+    order_col = Instance::COLUMNS[2] unless order_col_rec && order_col_rec[:opts][:searchable]
+    order = order_col[:id] + " " + (params[:sSortDir_0] == 'desc' ? 'desc' : 'asc')
+
+    @instances = Instance.search_filter(params[:sSearch], Instance::SEARCHABLE_COLUMNS).paginate(
+      :page => page + 1,
+      :order => order,
+      :conditions => {:pool_id => @pool.id}
+    )
+
+    render :json => {
+      :sEcho => params[:sEcho],
+      :iTotalRecords => @instances.total_entries,
+      :iTotalDisplayRecords => @instances.total_entries,
+      :aaData => @instances.map {|i| [i.id, "", i.name, i.state, i.hardware_profile.name, i.image.name]}
+    }
   end
 
+
+  def accounts_for_pool
+    @pool =  Pool.find(params[:pool_id])
+    require_privilege(Privilege::ACCOUNT_VIEW,@pool)
+    @cloud_accounts = []
+    all_accounts = CloudAccount.list_for_user(@current_user, Privilege::ACCOUNT_ADD)
+    all_accounts.each {|account|
+      @cloud_accounts << account unless @pool.cloud_accounts.map{|x| x.id}.include?(account.id)
+    }
+  end
+
+  def add_account
+    @pool = Pool.find(params[:pool])
+    @cloud_account = CloudAccount.find(params[:cloud_account])
+    require_privilege(Privilege::ACCOUNT_ADD,@pool)
+    require_privilege(Privilege::ACCOUNT_ADD,@cloud_account)
+    Pool.transaction do
+      @pool.cloud_accounts << @cloud_account unless @pool.cloud_accounts.map{|x| x.id}.include?(@cloud_account.id)
+      @pool.save!
+      @pool.populate_realms_and_images([@cloud_account])
+    end
+    redirect_to :action => 'show', :id => @pool.id
+  end
 end

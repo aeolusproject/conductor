@@ -1,42 +1,41 @@
-<% if @instances.size == 0 %>
-<h1>There are no instances to display</h1>
-<% else %>
-  <table>
-    <thead>
-      <tr>
-      <th scope="col">Actions</th>
-      <th scope="col">Name</th>
-      <th scope="col">State</th>
-      <th scope="col">Hardware Profile</th>
-      <th scope="col">Image</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%@instances.each {|instance| %>
-        <tr>
-          <td>
-            <ul class="instance_action_list">
-            <%instance.get_action_list.each {|action|%>
-              <li>
-              <%= link_to action, :controller => "instance",
-                                  :action => "instance_action",
-                                  :id => instance,
-	                          :instance_action => action %>
-              </li>
-	    <% } %>
-            </ul>
-          </td>
-          <td><%= instance.name %></td>
-          <td><%= instance.state %></td>
-          <td><%= instance.hardware_profile.name %></td>
-          <td><%= instance.image.name %></td>
-        </tr>
-      <% } %>
-    </tbody>
-  </table>
-<% end %>
-<%= link_to "Add a new instance", {:controller => "instance", :action => "new", :id => @pool}, :class=>"actionlink"%>
+<script type="text/javascript">
+  function clickRow(ev) {
+    var box = $('input[name="image_id[]"]', ev.target.parentNode);
+    if ($(ev.target).attr('name') != "image_id[]")
+      box.attr('checked', !box.attr('checked'));
+  }
+
+  function checkAll(ev) {
+    $('input[name="image_id[]"]', dataTable_instances_table).attr('checked', $(ev.target).attr('checked'))
+  }
+</script>
+
+<%= datatable(
+  Instance::COLUMNS.map {|c| c[:opts]},
+  {
+    :table_dom_id => 'instances_table',
+    :per_page => Instance::per_page,
+    :sort_by => "[3, 'asc']",
+    :serverside => true,
+    :ajax_source => url_for(:controller => 'pool', :action => 'instances_paginate') + "/#{@pool.id}",
+    :append => ".fnSetFilteringDelay()",
+    :persist_state => false,
+    :click_callback => "function(ev) {clickRow(ev);}",
+  }
+) %>
+
+<table class="datatable display" id="instances_table">
+  <thead>
+    <tr>
+        <% Instance::COLUMNS.each do |c| %>
+          <%= "<th>#{c[:header]}</th>" %>
+        <% end %>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<%= link_to "Add a new instance", {:controller => "instance", :action => "new", "instance[pool_id]" => @pool}, :class=>"actionlink"%>
 <%= link_to "User access",  {:controller => "permissions", :action => "list", :pool_id => @pool.id}, :class=>"actionlink" if has_view_perms? %>
 <%= link_to "Hardware Profiles",  {:action => "hardware_profiles", :id => @pool.id}, :class=>"actionlink"%>
-<%=link_to "View Images", {:controller => "pool", :action => "images", :id => @pool}, :class => "actionlink" %>
 <%= link_to "Realms",  {:action => "realms", :id => @pool.id}, :class=>"actionlink"%>

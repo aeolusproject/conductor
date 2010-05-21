@@ -38,9 +38,9 @@ class InstanceController < ApplicationController
   end
 
   def new
-    @instance = Instance.new({:pool_id => params[:id]})
-    @pool = Pool.find(params[:id])
-    require_privilege(Privilege::INSTANCE_MODIFY,@pool)
+    @instance = Instance.new(params[:instance])
+    require_privilege(Privilege::POOL_VIEW, @instance.pool) if @instance.pool
+    @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
   end
 
   def create
