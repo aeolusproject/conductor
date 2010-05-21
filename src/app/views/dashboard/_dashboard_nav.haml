@@ -1,13 +1,14 @@
-%ul
-  %li
-    =link_to "Summary", dashboard_url + "/summary"
-  %li
-    = link_to "Alerts", dashboard_url + "/alerts"
-  %li
-    = link_to "Service Quality", dashboard_url + "/service_quality"
-  %li
-    = link_to "Quota Usage", dashboard_url + "/quota_usage"
-  %li
-    = link_to "Billing", dashboard_url + "/billing"
-  %li
-    = link_to "Help Tickets", dashboard_url + "/help_tickets"
+#dashboard-tabs
+  %ul
+    %li
+      = link_to "Summary", { :controller => "dashboard", :action => "index", :ajax => "true" }
+    %li
+      = link_to "Alerts", { :controller => "dashboard", :action => "alerts", :ajax => "true" }
+    %li
+      = link_to "Service Quality", { :controller => "dashboard", :action => "service_quality", :ajax => "true" }
+    %li
+      = link_to "Quota Usage", { :controller => "dashboard", :action => "quota_usage", :ajax => "true" }
+    %li
+      = link_to "Billing", { :controller => "dashboard", :action => "billing", :ajax => "true" }
+    %li
+      = link_to "Help Tickets", { :controller => "dashboard", :action => "help_tickets", :ajax => "true" }

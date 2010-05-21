@@ -277,3 +277,11 @@ a.button_link {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
 }
+
+#dashboard-tabs {
+  border: none;
+}
+
+#dashboard-tabs ul {
+  float: none;
+}

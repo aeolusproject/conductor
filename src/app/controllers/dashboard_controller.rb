@@ -20,13 +20,25 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class DashboardController < ApplicationController
-  layout "dashboard"
+  layout :layout
   before_filter :require_user
+
+  def layout
+    return "dashboard" unless ajax?
+  end
+
+  def ajax?
+    return params[:ajax] == "true"
+  end
 
   def index
     @hide_getting_started = cookies["#{@current_user.login}_hide_getting_started"]
     @current_users_pool = Pool.find(:first, :conditions => ['name = ?', @current_user.login])
-    render :action => :summary
+    if ajax?
+      render :action => :summary
+    else
+      render :action => :index
+    end
   end
 
   def hide_getting_started
