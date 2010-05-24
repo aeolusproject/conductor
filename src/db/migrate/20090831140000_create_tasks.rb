@@ -28,6 +28,7 @@ class CreateTasks < ActiveRecord::Migration
       t.string    :task_target_type
       t.string    :args
       t.timestamp :created_at
+      t.timestamp :time_submitted
       t.timestamp :time_started
       t.timestamp :time_ended
       t.text      :message

@@ -28,6 +28,7 @@ class Task < ActiveRecord::Base
   # moved associations here so that nested set :include directives work
 
   STATE_QUEUED       = "queued"
+  STATE_PENDING      = "pending"
   STATE_RUNNING      = "running"
   STATE_FINISHED     = "finished"
   STATE_PAUSED       = "paused"
@@ -35,7 +36,7 @@ class Task < ActiveRecord::Base
   STATE_CANCELED     = "canceled"
 
   COMPLETED_STATES = [STATE_FINISHED, STATE_FAILED, STATE_CANCELED]
-  WORKING_STATES   = [STATE_QUEUED, STATE_RUNNING, STATE_PAUSED]
+  WORKING_STATES   = [STATE_QUEUED, STATE_RUNNING, STATE_PAUSED, STATE_PENDING]
 
   validates_inclusion_of :type,
    :in => %w( InstanceTask )
@@ -48,6 +49,7 @@ class Task < ActiveRecord::Base
   #   depending on subclass, action, state
 
   TASK_STATES_OPTIONS = [["Queued", Task::STATE_QUEUED],
+                         ["Pending", Task::STATE_PENDING],
                          ["Running", Task::STATE_RUNNING],
                          ["Paused", Task::STATE_PAUSED],
                          ["Finished", Task::STATE_FINISHED],
@@ -90,6 +92,10 @@ class Task < ActiveRecord::Base
     ret_val = action
     ret_val += " #{args}" if args
     ret_val
+  end
+
+  def submission_time
+    time.started - time.submitted
   end
 
   def validate
