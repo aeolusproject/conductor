@@ -119,5 +119,12 @@ class Instance < ActiveRecord::Base
     self.realm = provider.realms.find_by_name(realm_name) unless realm_name.nil?
   end
 
+  def total_run_time
+    if state == STATE_RUNNING
+      acc_run_time + (Time.now - time_last_start)
+    else
+      acc_run_time
+    end
+  end
 
 end

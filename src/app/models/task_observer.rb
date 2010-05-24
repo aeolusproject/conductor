@@ -9,7 +9,6 @@ class TaskObserver < ActiveRecord::Observer
   end
 
   def update_timestamp(state_from, state_to, a_task)
-    puts state_to
     if state_to == Task::STATE_RUNNING
       a_task.time_started = Time.now
     elsif state_to == Task::STATE_PENDING

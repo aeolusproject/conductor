@@ -6,3 +6,7 @@ Factory.define :instance do |i|
   i.pool_id 1
   i.state "running"
 end
+
+Factory.define :pending_instance, :parent => :instance do |pi|
+  pi.state "pending"
+end

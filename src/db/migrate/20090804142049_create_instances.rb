@@ -21,18 +21,20 @@
 
 class CreateInstances < ActiveRecord::Migration
   def self.up
-    create_table :instances do |t|
-      t.string  :external_key
-      t.string  :name, :null => false, :limit => 1024
-      t.integer :hardware_profile_id, :null => false
-      t.integer :image_id, :null => false
-      t.integer :realm_id
-      t.integer :pool_id, :null => false
-      t.integer :cloud_account_id
-      t.string  :public_address
-      t.string  :private_address
-      t.string  :state
-      t.integer :lock_version, :default => 0
+    create_table  :instances do |t|
+      t.string    :external_key
+      t.string    :name, :null => false, :limit => 1024
+      t.integer   :hardware_profile_id, :null => false
+      t.integer   :image_id, :null => false
+      t.integer   :realm_id
+      t.integer   :pool_id, :null => false
+      t.integer   :cloud_account_id
+      t.string    :public_address
+      t.string    :private_address
+      t.string    :state
+      t.integer   :lock_version, :default => 0
+      t.integer   :acc_run_time, :default => 0
+      t.timestamp :time_last_start
       t.timestamps
     end
   end
