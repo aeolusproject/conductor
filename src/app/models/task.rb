@@ -95,7 +95,11 @@ class Task < ActiveRecord::Base
   end
 
   def submission_time
-    time.started - time.submitted
+    time_started - time_submitted
+  end
+
+  def runtime
+    time_ended - time_started
   end
 
   def validate
