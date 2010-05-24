@@ -34,11 +34,7 @@ class DashboardController < ApplicationController
   def index
     @hide_getting_started = cookies["#{@current_user.login}_hide_getting_started"]
     @current_users_pool = Pool.find(:first, :conditions => ['name = ?', @current_user.login])
-    if ajax?
-      render :action => :summary
-    else
-      render :action => :index
-    end
+    render :action => :summary
   end
 
   def hide_getting_started
