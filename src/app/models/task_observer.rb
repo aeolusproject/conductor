@@ -2,7 +2,7 @@ class TaskObserver < ActiveRecord::Observer
 
   END_STATES = [ Task::STATE_CANCELED, Task::STATE_FAILED, Task::STATE_FINISHED ]
 
-  def after_save(a_task)
+  def before_save(a_task)
     if a_task.changed?
       change = a_task.changes['state']
       if change

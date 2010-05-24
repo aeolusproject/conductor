@@ -1,6 +1,6 @@
 class InstanceObserver < ActiveRecord::Observer
 
-  def after_save(an_instance)
+  def before_save(an_instance)
     if an_instance.changed?
       change = an_instance.changes['state']
       if change

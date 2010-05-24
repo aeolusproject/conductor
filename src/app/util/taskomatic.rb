@@ -45,8 +45,6 @@ class Taskomatic
 
   def instance_create
 
-    @task.time_started = Time.now
-
     begin
       client = @task.instance.cloud_account.connect
       realm = @task.instance.realm.external_key rescue nil
@@ -55,9 +53,13 @@ class Taskomatic
       unless @task.instance.image.provider_image?
         @task.instance.image = @task.instance.image.provider_images[0]
       end
+
       unless @task.instance.hardware_profile.provider_hardware_profile?
         @task.instance.hardware_profile = @task.instance.hardware_profile.provider_hardware_profiles[0]
       end
+
+      @task.state = Task::STATE_PENDING
+      @task.save!
       dcloud_instance = client.create_instance(@task.instance.image.external_key,
                                                :flavor => @task.instance.hardware_profile.external_key,
                                                :realm => realm,
@@ -65,6 +67,11 @@ class Taskomatic
       if dcloud_instance.class == Net::HTTPInternalServerError
         @task.instance.state = Instance::STATE_CREATE_FAILED
         raise "Error creating dcloud instance, returned internal server error."
+        @task.state = TASK::STATE_FAILED
+        @task.failure_code = Task::FAILURE_PROVIDER_CONTACT_FAILED
+      else
+        @task.state = Task::STATE_RUNNING
+        @task.save!
       end
 
       @logger.info "Task instance create completed with key #{dcloud_instance.id} and state #{dcloud_instance.state}"
@@ -77,7 +84,7 @@ class Taskomatic
     else
       @task.state = Task::STATE_FINISHED
     end
-    @task.time_ended = Time.now
+
     @task.save!
   end
 
@@ -87,6 +94,9 @@ class Taskomatic
     begin
       client = @task.instance.cloud_account.connect
       dcloud_instance = client.instance(@task.instance.external_key)
+
+      @task.state = Task::STATE_PENDING
+      @task.save!
       dcloud_instance.send(action)
 
       @task.instance.state = dcloud_to_instance_state(dcloud_instance.state)
@@ -98,7 +108,6 @@ class Taskomatic
     else
       @task.state = Task::STATE_FINISHED
     end
-    @task.time_ended = Time.now
     @task.save!
   end
 
@@ -121,6 +130,8 @@ class Taskomatic
       client = @task.instance.cloud_account.connect
       dcloud_instance = client.instance(@task.instance.external_key)
 
+      @task.state = Task::STATE_PENDING
+      @task.save!
       dcloud_instance.destroy!
 
       @logger.info("Task Destroy completed.")
@@ -130,7 +141,6 @@ class Taskomatic
     else
       @task.state = Task::STATE_FINISHED
     end
-    @task.time_ended = Time.now
     @task.save!
   end
 
@@ -154,4 +164,3 @@ class Taskomatic
     end
   end
 end
-
