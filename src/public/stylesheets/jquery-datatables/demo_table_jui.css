@@ -165,10 +165,6 @@ table.display td {
 	padding: 3px 10px;
 }
 
-table.display tr {
-	cursor: pointer;
-}
-
 table.display td.center {
 	text-align: center;
 }
@@ -340,6 +336,7 @@ table.display tr.odd.row_selected td {
  * Sorting classes for columns
  */
 /* For the standard odd/even */
+/*
 tr.odd td.sorting_1 {
 	background-color: #D3D6FF;
 }
@@ -363,7 +360,7 @@ tr.even td.sorting_2 {
 tr.even td.sorting_3 {
 	background-color: #F9F9FF;
 }
-
+*/
 
 /* For the Conditional-CSS grading rows */
 /*
