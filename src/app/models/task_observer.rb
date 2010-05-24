@@ -1,5 +1,8 @@
 class TaskObserver < ActiveRecord::Observer
-    def after_save(a_task)
+
+  END_STATES = [ Task::STATE_CANCELED, Task::STATE_FAILED, Task::STATE_FINISHED ]
+
+  def after_save(a_task)
     if a_task.changed?
       change = a_task.changes['state']
       if change
@@ -13,6 +16,8 @@ class TaskObserver < ActiveRecord::Observer
       a_task.time_started = Time.now
     elsif state_to == Task::STATE_PENDING
       a_task.time_submitted = Time.now
+    elsif END_STATES.include?(state_to)
+      a_task.time_ended = Time.now
     end
   end
 
