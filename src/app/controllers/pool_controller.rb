@@ -98,11 +98,22 @@ class PoolController < ApplicationController
       :conditions => {:pool_id => @pool.id}
     )
 
+    recs = @instances.map do |i|
+      [
+        i.id,
+        i.get_action_list.map {|action| "<a href=\"#{url_for :controller => "instance", :action => "instance_action", :id => i.id, :instance_action => action}\">#{action}</a>"}.join(" | "),
+        i.name,
+        i.state,
+        i.hardware_profile.name,
+        i.image.name
+      ]
+    end
+
     render :json => {
       :sEcho => params[:sEcho],
       :iTotalRecords => @instances.total_entries,
       :iTotalDisplayRecords => @instances.total_entries,
-      :aaData => @instances.map {|i| [i.id, "", i.name, i.state, i.hardware_profile.name, i.image.name]}
+      :aaData => recs
     }
   end
 
