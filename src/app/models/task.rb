@@ -38,6 +38,16 @@ class Task < ActiveRecord::Base
   COMPLETED_STATES = [STATE_FINISHED, STATE_FAILED, STATE_CANCELED]
   WORKING_STATES   = [STATE_QUEUED, STATE_RUNNING, STATE_PAUSED, STATE_PENDING]
 
+  # Failures Codes
+  FAILURE_PROVIDER_NOT_FOUND = "provider_not_found"
+  FAILURE_PROVIDER_CONTACT_FAILED = "provider_contact_failed"
+  FAILURE_PROVIDER_RETURNED_FAILED = "provider_returned_failed"
+
+  FAILURE_CODES = [FAILURE_PROVIDER_NOT_FOUND, FAILURE_PROVIDER_CONTACT_FAILED, FAILURE_PROVIDER_RETURNED_FAILED]
+
+  validates_inclusion_of :failure_code,
+    :in => FAILURE_CODES + [nil]
+
   validates_inclusion_of :type,
    :in => %w( InstanceTask )
 

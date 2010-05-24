@@ -32,6 +32,7 @@ class CreateTasks < ActiveRecord::Migration
       t.timestamp :time_started
       t.timestamp :time_ended
       t.text      :message
+      t.string    :failure_code
       t.integer   :lock_version, :default => 0
     end
   end
