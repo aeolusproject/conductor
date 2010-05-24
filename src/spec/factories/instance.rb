@@ -7,6 +7,10 @@ Factory.define :instance do |i|
   i.state "running"
 end
 
-Factory.define :pending_instance, :parent => :instance do |pi|
-  pi.state "pending"
+Factory.define :pending_instance, :parent => :instance do |i|
+  i.state Instance::STATE_PENDING
+end
+
+Factory.define :new_instance, :parent => :instance do |i|
+  i.state Instance::STATE_NEW
 end

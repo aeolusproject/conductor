@@ -111,5 +111,28 @@ describe Instance do
     @instance.front_end_realm.should eql('mock2:john doe/different realm')
   end
 
+  it "should properly calculate the total time that the instance has been in a monitored state" do
+    instance = Factory :new_instance
+
+    [ Instance::STATE_PENDING, Instance::STATE_RUNNING, Instance::STATE_SHUTTING_DOWN, Instance::STATE_STOPPED ].each do |s|
+      # Test when instance is still in the same state
+      instance.state = s
+      instance.save
+
+      sleep(2)
+
+      instance.total_state_time(s).should >= 2
+      instance.total_state_time(s).should <= 3
+
+      # Test when instance has changed state
+      sleep(1)
+      instance.state = Instance::STATE_NEW
+      instance.save
+      sleep(1)
+
+      instance.total_state_time(s).should >= 3
+      instance.total_state_time(s).should <= 4
+    end
+  end
 
 end

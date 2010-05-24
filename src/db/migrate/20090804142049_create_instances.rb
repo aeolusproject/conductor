@@ -33,8 +33,14 @@ class CreateInstances < ActiveRecord::Migration
       t.string    :private_address
       t.string    :state
       t.integer   :lock_version, :default => 0
-      t.integer   :acc_run_time, :default => 0
-      t.timestamp :time_last_start
+      t.integer   :acc_pending_time, :default => 0
+      t.integer   :acc_running_time, :default => 0
+      t.integer   :acc_shutting_down_time, :default => 0
+      t.integer   :acc_stopped_time, :default => 0
+      t.timestamp :time_last_pending
+      t.timestamp :time_last_running
+      t.timestamp :time_last_shutting_down
+      t.timestamp :time_last_stopped
       t.timestamps
     end
   end

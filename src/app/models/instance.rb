@@ -57,8 +57,7 @@ class Instance < ActiveRecord::Base
   STATE_STOPPED        = "stopped"
   STATE_CREATE_FAILED  = "create_failed"
 
-  validates_inclusion_of :state,
-     :in => [STATE_NEW, STATE_PENDING, STATE_RUNNING,
+  STATES = [STATE_NEW, STATE_PENDING, STATE_RUNNING,
              STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED]
 
   # used to get sorting column in controller and in view to generate datatable definition and
@@ -73,6 +72,9 @@ class Instance < ActiveRecord::Base
   ]
 
   SEARCHABLE_COLUMNS = %w(name state)
+
+  validates_inclusion_of :state,
+     :in => STATES
 
   def get_action_list(user=nil)
     # return empty list rather than nil
@@ -119,11 +121,44 @@ class Instance < ActiveRecord::Base
     self.realm = provider.realms.find_by_name(realm_name) unless realm_name.nil?
   end
 
-  def total_run_time
-    if state == STATE_RUNNING
-      acc_run_time + (Time.now - time_last_start)
-    else
-      acc_run_time
+  # Returns the total time that this instance has been in the state
+  def total_state_time(state)
+
+    if !STATES.include?(state)
+      return "Error, could not calculate state time: invalid state"
+    end
+
+    case state
+      when STATE_PENDING
+        if self.state == STATE_PENDING
+          return acc_pending_time + (Time.now - time_last_pending)
+        else
+          return acc_pending_time
+        end
+
+      when STATE_RUNNING
+        if self.state == STATE_RUNNING
+          return acc_running_time + (Time.now - time_last_running)
+        else
+          return acc_running_time
+        end
+
+      when STATE_SHUTTING_DOWN
+        if self.state == STATE_SHUTTING_DOWN
+          return acc_shutting_down_time + (Time.now - time_last_shutting_down)
+        else
+          return acc_shutting_down_time
+        end
+
+      when STATE_STOPPED
+        if self.state == STATE_STOPPED
+          return acc_stopped_time + (Time.now - time_last_stopped)
+        else
+          return acc_stopped_time
+        end
+
+      else
+        return "Error, could not calculate state time: state is not monitored"
     end
   end
 
