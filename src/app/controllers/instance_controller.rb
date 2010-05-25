@@ -39,7 +39,7 @@ class InstanceController < ApplicationController
 
   def new
     @instance = Instance.new(params[:instance])
-    require_privilege(Privilege::POOL_VIEW, @instance.pool) if @instance.pool
+    require_privilege(Privilege::INSTANCE_MODIFY, @instance.pool) if @instance.pool
     @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
   end
 
