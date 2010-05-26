@@ -25,6 +25,15 @@ class HardwareProfile < ActiveRecord::Base
            :foreign_key => "provider_hardware_profile_id"
   belongs_to :provider
 
+  belongs_to :memory,       :class_name => "HardwareProfileProperty",
+                            :dependent => :destroy
+  belongs_to :storage,      :class_name => "HardwareProfileProperty",
+                            :dependent => :destroy
+  belongs_to :cpu,          :class_name => "HardwareProfileProperty",
+                            :dependent => :destroy
+  belongs_to :architecture, :class_name => "HardwareProfileProperty",
+                            :dependent => :destroy
+
   has_and_belongs_to_many :aggregator_hardware_profiles,
                           :class_name => "HardwareProfile",
                           :join_table => "hardware_profile_map",
@@ -43,12 +52,10 @@ class HardwareProfile < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:provider_id]
 
-  validates_presence_of :storage
-  validates_numericality_of :storage, :greater_than => 0
-  validates_presence_of :memory
-  validates_numericality_of :memory, :greater_than => 0
-
-  validates_presence_of :architecture, :if => :provider
+  validates_associated :memory
+  validates_associated :storage
+  validates_associated :cpu
+  validates_associated :architecture
 
   def provider_hardware_profile?
     !provider.nil?
@@ -67,5 +74,29 @@ class HardwareProfile < ActiveRecord::Base
                    "Provider profiles only allowed for aggregator profiles")
       end
     end
+  end
+
+  def add_properties(api_profile)
+    self.memory = new_property(api_profile.memory)
+    self.storage = new_property(api_profile.storage)
+    self.cpu = new_property(api_profile.cpu)
+    self.architecture = new_property(api_profile.architecture)
+  end
+  def new_property(prop)
+    return nil unless prop.present?
+    the_property = HardwareProfileProperty.new(:name  => prop.name,
+                                               :kind  => prop.kind,
+                                               :unit  => prop.unit,
+                                               :value => prop.value)
+    case prop.kind
+    when HardwareProfileProperty::RANGE
+      the_property.range_first = prop.range.first
+      the_property.range_last = prop.range.last
+    when HardwareProfileProperty::ENUM
+      the_property.property_enum_entries = prop.enum.entries.collect do |entry|
+        PropertyEnumEntry.new(:value => entry, :hardware_profile_property => the_property)
+      end
+    end
+    the_property
   end
 end

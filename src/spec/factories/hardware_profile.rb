@@ -3,29 +3,35 @@ Factory.define :hardware_profile do |p|
 end
 
 Factory.define :mock_hwp1, :parent => :hardware_profile do |p|
-  p.memory 1024
-  p.storage 100
+  p.memory { |p| p.association(:mock_hwp1_memory) }
+  p.storage { |p| p.association(:mock_hwp1_storage) }
+  p.cpu { |p| p.association(:mock_hwp1_cpu) }
+  p.architecture { |p| p.association(:mock_hwp1_arch) }
   p.external_key 'mock_hwp1_key'
-  p.architecture 'i686'
 end
 
 Factory.define :mock_hwp2, :parent => :hardware_profile do |p|
-  p.memory 2048
-  p.storage 400
+  p.memory { |p| p.association(:mock_hwp2_memory) }
+  p.storage { |p| p.association(:mock_hwp2_storage) }
+  p.cpu { |p| p.association(:mock_hwp2_cpu) }
+  p.architecture { |p| p.association(:mock_hwp2_arch) }
   p.external_key 'mock_hwp2_key'
-  p.architecture 'x86_64'
 end
 
-Factory.define :pool_hwp1, :parent => :hardware_profile do |p|
-  p.memory 2048
-  p.storage 400
-  p.external_key 'pool_hwp1_key'
-  p.architecture 'x86_64'
+Factory.define :agg_hwp1, :parent => :hardware_profile do |p|
+  p.memory { |p| p.association(:agg_hwp1_memory) }
+  p.storage { |p| p.association(:agg_hwp1_storage) }
+  p.cpu { |p| p.association(:agg_hwp1_cpu) }
+  p.architecture { |p| p.association(:agg_hwp1_arch) }
+  p.provider_hardware_profiles { |hp| [hp.association(:mock_hwp1)] }
+  p.external_key 'agg_hwp1_key'
 end
 
-Factory.define :hardware_profile_auto, :parent => :hardware_profile do |p|
-  p.external_key { |hp| hp.name + "_key" }
-  p.storage 160
-  p.memory 1024
-  p.architecture "i386"
+Factory.define :agg_hwp2, :parent => :hardware_profile do |p|
+  p.memory { |p| p.association(:agg_hwp2_memory) }
+  p.storage { |p| p.association(:agg_hwp2_storage) }
+  p.cpu { |p| p.association(:agg_hwp2_cpu) }
+  p.architecture { |p| p.association(:agg_hwp2_arch) }
+  p.provider_hardware_profiles { |hp| [hp.association(:mock_hwp2)] }
+  p.external_key 'agg_hwp2_key'
 end

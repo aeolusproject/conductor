@@ -7,6 +7,7 @@
         <th scope="col">Name</th>
         <th scope="col">Memory</th>
         <th scope="col">Storage</th>
+        <th scope="col">CPU</th>
         <th scope="col">Architecture</th>
         </tr>
       </thead>
@@ -14,9 +15,10 @@
   <%@hardware_profiles.each {|hp| %>
        <tr>
           <td><%= hp.name %></td>
-          <td><%= hp.memory %></td>
-          <td><%= hp.storage %></td>
-          <td><%= hp.architecture %></td>
+          <td><%= hp.memory.value if hp.memory %></td>
+          <td><%= hp.storage.value if hp.storage %></td>
+          <td><%= hp.cpu.value if hp.cpu %></td>
+          <td><%= hp.architecture.value if hp.architecture %></td>
         </tr>
       <% } %>
     </tbody>

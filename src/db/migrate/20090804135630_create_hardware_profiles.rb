@@ -21,12 +21,31 @@
 
 class CreateHardwareProfiles < ActiveRecord::Migration
   def self.up
+    create_table :hardware_profile_properties do |t|
+      t.string  :name, :null => false
+      t.string  :kind, :null => false
+      t.string  :unit, :null => false
+      t.string  :value, :null => false
+      t.string  :range_first
+      t.string  :range_last
+      t.integer :lock_version, :default => 0
+      t.timestamps
+    end
+
+    create_table :property_enum_entries do |t|
+      t.integer :hardware_profile_property_id, :null => false
+      t.string :value, :null => false
+      t.integer :lock_version, :default => 0
+      t.timestamps
+    end
+
     create_table :hardware_profiles do |t|
       t.string  :external_key, :null => false
       t.string  :name, :null => false, :limit => 1024
-      t.float   :memory, :null => false
-      t.float   :storage, :null => false
-      t.string  :architecture, :null => false
+      t.integer :memory_id
+      t.integer :storage_id
+      t.integer :cpu_id
+      t.integer :architecture_id
       t.integer :provider_id
       t.integer :lock_version, :default => 0
       t.timestamps

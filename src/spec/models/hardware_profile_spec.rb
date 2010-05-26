@@ -30,29 +30,16 @@ describe HardwareProfile do
 
   it "should require valid amount of memory" do
     [nil, "hello", -1].each do |fail_value|
-      @hp.memory = fail_value
+      @hp.memory.value = fail_value
       @hp.should_not be_valid
     end
   end
 
   it "should require valid amount of storage" do
     [nil, "hello", -1].each do |fail_value|
-      @hp.storage = fail_value
+      @hp.storage.value = fail_value
       @hp.should_not be_valid
     end
-  end
-
-  it "should not require architecture when there's no provider" do
-    @hp.architecture = nil
-    @hp.should be_valid
-  end
-
-  it "should require architecture when it's with provider" do
-    @hp.provider = Provider.new
-
-    @hp.should be_valid
-    @hp.architecture = nil
-    @hp.should_not be_valid
   end
 
   it "should allow Aggregator profiles only for provider profiles" do

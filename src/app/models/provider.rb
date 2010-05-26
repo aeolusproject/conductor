@@ -50,16 +50,17 @@ class Provider < ActiveRecord::Base
 
   def populate_hardware_profiles
     # FIXME: once API has hw profiles, change the below
-    hardware_profiles = connect.flavors
+    hardware_profiles = connect.hardware_profiles
     # FIXME: this should probably be in the same transaction as provider.save
     self.transaction do
       hardware_profiles.each do |hardware_profile|
-        ar_hardware_profile = HardwareProfile.new(:external_key => hardware_profile.id,
-                               :name => hardware_profile.name ? hardware_profile.name : hardware_profile.id,
-                               :memory => hardware_profile.memory,
-                               :storage => hardware_profile.storage,
-                               :architecture => hardware_profile.architecture,
-                               :provider_id => id)
+        ar_hardware_profile = HardwareProfile.new(:external_key =>
+                                                  hardware_profile.id,
+                                                  :name => hardware_profile.name ?
+                                                           hardware_profile.name :
+                                                           hardware_profile.id,
+                                                  :provider_id => id)
+        ar_hardware_profile.add_properties(hardware_profile)
         ar_hardware_profile.save!
         front_hwp = HardwareProfile.new(:external_key =>
                                         name +
@@ -67,10 +68,8 @@ class Provider < ActiveRecord::Base
                                         ar_hardware_profile.external_key,
                                         :name => name +
                                         Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                        ar_hardware_profile.name,
-                                        :memory => ar_hardware_profile.memory,
-                                        :storage => ar_hardware_profile.storage,
-                                        :architecture => ar_hardware_profile.architecture)
+                                        ar_hardware_profile.name)
+        front_hwp.add_properties(hardware_profile)
         front_hwp.provider_hardware_profiles << ar_hardware_profile
         front_hwp.save!
       end

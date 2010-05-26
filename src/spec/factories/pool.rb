@@ -5,5 +5,4 @@ end
 
 Factory.define :tpool, :parent => :pool do |p|
   p.name 'tpool'
-  p.hardware_profiles { |hp| [hp.association(:pool_hwp1)] }
 end
