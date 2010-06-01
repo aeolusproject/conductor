@@ -113,14 +113,8 @@ class ApplicationController < ActionController::Base
   def html_error_page(title, msg)
     @title = title
     @errmsg = msg
-    @ajax = params[:ajax]
-    @nolayout = params[:nolayout]
     if @layout
       render :layout => 'aggregator'
-    elsif @ajax
-      render :template => 'layouts/popup-error', :layout => 'tabs-and-content'
-    elsif @nolayout
-      render :template => 'layouts/popup-error', :layout => 'help-and-content'
     else
       render :template => 'layouts/popup-error', :layout => 'popup'
     end

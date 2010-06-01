@@ -1,17 +1,17 @@
 /* header style */
 
 .header_logo {
-    position:absolute;
-    top:10px;
-    left:10px;
+  position:absolute;
+  top:10px;
+  left:10px;
   color: #B5B5B5;
 }
 
 .header_logo span {
-    text-transform: uppercase;
-    margin-left: 5px;
-    font-weight: bold;
-    letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin-left: 5px;
+  font-weight: bold;
+  letter-spacing: -0.02em;
 }
 
 ul.nav {
@@ -23,10 +23,10 @@ ul.nav {
 }
 
 ul.nav li {
-    display: inline;
-    font-size: 120%;
-    padding: 3px 15px;
-    color : #b3b3b3;
+  display: inline;
+  font-size: 120%;
+  padding: 3px 15px;
+  color : #b3b3b3;
 }
 
 ul.nav li a {
@@ -35,18 +35,18 @@ ul.nav li a {
 }
 
 ul.nav li.selected {
-    background: #cbd6db !important;
-    border-radius: 16px;
-    -moz-border-radius: 16px;
-    -webkit-border-radius: 16px;
-    -moz-box-shadow: 0 1px 1px #efefef;
+  background: #cbd6db !important;
+  border-radius: 16px;
+  -moz-border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-box-shadow: 0 1px 1px #efefef;
 }
 
 ul.nav li:hover {
-    background: #dedede;
-    border-radius: 16px;
-    -moz-border-radius: 16px;
-    -webkit-border-radius: 16px;
+  background: #dedede;
+  border-radius: 16px;
+  -moz-border-radius: 16px;
+  -webkit-border-radius: 16px;
 }
 
 .header_menu_wrapper {
@@ -81,13 +81,6 @@ ul.nav li:hover {
 #hi-username{
   margin-right: 15px;
   float: left;
-}
-
-#search-form{
-  float: left;
-}
-
-#help-link {
 }
 
 /* dashboard style */

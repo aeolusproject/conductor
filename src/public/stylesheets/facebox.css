@@ -40,8 +40,6 @@
 }
 
 #facebox .body {
-  /*padding: 10px;*/
-  /*border: #999999 solid 1px;*/
   background: #fff;
   width: 370px;
 }
@@ -97,7 +95,7 @@
 
 
 .facebox_timfooter {
-  background: url(../images/fb_footer.jpg) repeat-x; 
-  height: 37px; 
+  background: url(../images/fb_footer.jpg) repeat-x;
+  height: 37px;
   padding: 9px 9px 0 9px;
 }
