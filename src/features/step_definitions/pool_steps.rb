@@ -48,3 +48,13 @@ Then /^I should see the following:$/ do |table|
     end
   end
 end
+
+Given /^the Pool has a quota with following capacities:$/ do |table|
+  quota_hash = { "pool_id" => @pool, "pool" => @pool}
+  table.hashes.each do |hash|
+    quota_hash[hash["resource"]] = hash["capacity"]
+  end
+
+  @quota = Factory(:quota, quota_hash)
+  puts @quota.pool_id
+end

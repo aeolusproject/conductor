@@ -20,11 +20,16 @@
 class CreateQuotas < ActiveRecord::Migration
   def self.up
     create_table :quotas do |t|
-      t.integer :running_cpus
-      t.integer :running_memory
-      t.integer :running_instances
-      t.integer :total_storage
-      t.integer :total_instances
+      t.string :running_cpus, :default => 0
+      t.string  :running_memory, :default => 0
+      t.integer :running_instances, :default => 0
+      t.string  :total_storage, :default => 0
+      t.integer :total_instances, :default => 0
+      t.string :maximum_running_cpus
+      t.string  :maximum_running_memory
+      t.integer :maximum_running_instances
+      t.string  :maximum_total_storage
+      t.integer :maximum_total_instances
       t.integer :lock_version, :default => 0
       t.timestamps
     end

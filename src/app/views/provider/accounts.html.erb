@@ -15,6 +15,7 @@
           <td><%= acct.username %></td>
           <td><%= link_to "Edit",   {:controller => 'cloud_accounts', :action => 'edit', :id => acct.id}    if has_account_modify?(@provider) %></td>
           <td><%= link_to "Delete", {:controller => 'cloud_accounts', :action => 'destroy', :id => acct.id} if has_account_modify?(@provider) && acct.destroyable? %></td>
+		  <td><%= link_to "Quota", {:controller => 'quota', :action => 'show', :id => acct.id, :parent_type => "cloud_account"} %></td>
         </tr>
       <% } %>
     </tbody>

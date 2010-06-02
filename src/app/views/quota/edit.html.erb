@@ -1,0 +1,21 @@
+<div class="dcloud_form">
+  <%= error_messages_for @parent_type %>
+  <%= error_messages_for 'quota' %>
+
+  <h2>Edit Quota for <%= @parent_type + ": " + @name%></legend></h2><br />
+
+  <% form_tag :action => 'update' do -%>
+    <%=hidden_field_tag 'id', @parent.id %>
+	<%=hidden_field_tag 'parent_type', @parent_type %>
+
+    <ul>
+      <li><label>Max Running Instances</label><%= text_field :quota, :maximum_running_instances %></li>
+	  <li><label>Max Running Memory</label><%= text_field :quota, :maximum_running_memory %></li>
+	  <li><label>Max Running CPUs</label><%= text_field :quota, :maximum_running_cpus %></li>
+	  <li><label>Max Total Instances</label><%= text_field :quota, :maximum_total_instances %></li>
+	  <li><label>Max Total Storage</label><%= text_field :quota, :maximum_total_storage %></li>
+    </ul>
+    </fieldset>
+    <%= submit_tag "Save", :class => "submit" %>
+  <% end %>
+</div>
