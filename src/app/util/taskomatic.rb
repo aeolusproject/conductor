@@ -45,6 +45,34 @@ class Taskomatic
 
   def instance_create
 
+    # This block assumes that all providers will put instance into running state after create,
+    # Therefore this block checks both whether the instance can be created and whether the instance
+    # can go to state running.
+    # TODO Modify this to handle generic case for providers
+    pool = @task.instance.pool
+    cloud_account = @task.instance.cloud_account
+
+    [pool, cloud_account].each do |parent|
+      quota = parent.quota
+      if quota
+        if !quota.can_create_instance?(@task.instance) || !quota.can_start_instance?(@task.instance)
+          @task.state = Task::STATE_FAILED
+          @task.instance.state = Instance::STATE_CREATE_FAILED
+
+          if parent.class == Pool
+            @task.failure_code =  Task::FAILURE_OVER_POOL_QUOTA
+          elsif parent.class == CloudAccount
+            @task.failure_code =  Task::FAILURE_OVER_CLOUD_ACCOUNT_QUOTA
+          end
+
+          @task.save!
+          @task.instance.save!
+
+          return @task
+        end
+      end
+    end
+
     begin
       client = @task.instance.cloud_account.connect
       realm = @task.instance.realm.external_key rescue nil
@@ -112,7 +140,25 @@ class Taskomatic
   end
 
   def instance_start
-    do_action(:start!)
+    pool = @task.instance.pool
+    cloud_account = @task.instance.cloud_account
+
+    [pool, cloud_account].each do |parent|
+      quota = parent.quota
+      if quota
+        if quota.can_start_instance?(@task.instance)
+          do_action(:start!)
+        else
+          @task.state = Task::STATE_FAILED
+          if parent.class == Pool
+            @task.failure_code =  Task::FAILURE_OVER_POOL_QUOTA
+          elsif parent.class == CloudAccount
+            @task.failure_code =  Task::FAILURE_OVER_CLOUD_ACCOUNT_QUOTA
+          end
+          @task.save!
+        end
+      end
+    end
   end
 
   def instance_stop
@@ -163,4 +209,5 @@ class Taskomatic
       end
     end
   end
+
 end
