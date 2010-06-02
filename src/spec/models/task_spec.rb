@@ -43,11 +43,6 @@ describe Task do
     @task.should_not be_valid
   end
 
-  it "should have 'started' time set if it ended" do
-    @task.attributes = @valid_attributes.except :time_started
-    @task.should_not be_valid
-  end
-
   it "should not be valid if it started before it was created" do
     @task.attributes = @valid_attributes
     @task.time_started = @task.created_at - 1.minute

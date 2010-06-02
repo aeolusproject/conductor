@@ -43,7 +43,9 @@ class Task < ActiveRecord::Base
   FAILURE_PROVIDER_CONTACT_FAILED = "provider_contact_failed"
   FAILURE_PROVIDER_RETURNED_FAILED = "provider_returned_failed"
 
-  FAILURE_CODES = [FAILURE_PROVIDER_NOT_FOUND, FAILURE_PROVIDER_CONTACT_FAILED, FAILURE_PROVIDER_RETURNED_FAILED]
+  FAILURE_OVER_POOL_QUOTA = "exceeded_pool_quota"
+
+  FAILURE_CODES = [FAILURE_PROVIDER_NOT_FOUND, FAILURE_PROVIDER_CONTACT_FAILED, FAILURE_PROVIDER_RETURNED_FAILED, FAILURE_OVER_POOL_QUOTA]
 
   validates_inclusion_of :failure_code,
     :in => FAILURE_CODES + [nil]
@@ -114,7 +116,8 @@ class Task < ActiveRecord::Base
 
   def validate
     errors.add("created_at", "Task started but does not have the creation time set") if time_started and created_at.nil?
-    errors.add("time_started", "Task ends but does not have the start time set") if time_ended and time_started.nil?
+    # Removed check on time_started exisiting. if time_ended does.  This can now occur, when the task fails before is starts.  e.g. When Over Qutoa
+    #errors.add("time_started", "Task ends but does not have the start time set") if time_ended and time_started.nil?
     errors.add("time_ended", "Tasks ends before it's started") unless time_ended.nil? or time_started.nil? or time_ended > time_started
     errors.add("time_started", "Tasks starts before it's created") unless time_started.nil? or created_at.nil? or time_started > created_at
   end

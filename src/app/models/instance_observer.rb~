@@ -60,8 +60,8 @@ class InstanceObserver < ActiveRecord::Observer
 	      quota.total_instances -= 1
 	    end
           end
-          quota.save!
         end
+        quota.save!
       end
     end
   end

@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe Instance do
   before(:each) do
-    @instance = Factory.build(:instance)
+    @quota = Factory :quota
+    @pool = Factory(:pool, :quota_id => @quota.id)
+    @instance = Factory.build(:instance, :pool_id => @pool.id)
     @actions = ['start', 'stop']
   end
 
@@ -69,11 +71,7 @@ describe Instance do
   end
 
   it "should return action list" do
-    @instance.get_action_list.should eql([])
-
-    InstanceTask.stub!(:valid_actions_for_instance_state).and_return(
-        @actions)
-    @instance.get_action_list.should eql(@actions)
+    @instance.get_action_list.should eql(["reboot", "stop"])
   end
 
   it "should be able to queue new actions" do

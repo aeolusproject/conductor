@@ -7,7 +7,7 @@ Factory.define :mock_hwp1, :parent => :hardware_profile do |p|
   p.storage { |p| p.association(:mock_hwp1_storage) }
   p.cpu { |p| p.association(:mock_hwp1_cpu) }
   p.architecture { |p| p.association(:mock_hwp1_arch) }
-  p.external_key 'mock_hwp1_key'
+  p.sequence(:external_key) { |n| "mock_hwp1_key#{n}" }
 end
 
 Factory.define :mock_hwp2, :parent => :hardware_profile do |p|
