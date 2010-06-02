@@ -32,6 +32,14 @@ class DashboardController < ApplicationController
   end
 
   def index
+    @providers = Provider.find(:all)
+
+    # FIXME remove general role based permission check, replace w/
+    # more granular / per-permission-object permission checks on the
+    # dashboard in the future (here and in dashboard views)
+    @is_admin = @current_user.permissions.collect { |p| p.role }.
+                              find { |r| r.name == "Administrator" }
+
     @hide_getting_started = cookies["#{@current_user.login}_hide_getting_started"]
     @current_users_pool = Pool.find(:first, :conditions => ['name = ?', @current_user.login])
     render :action => :summary

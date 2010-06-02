@@ -29,7 +29,7 @@
 #actions_dashboard_section
   %h2
     Actions
-  - if @current_user.permissions.collect { |p| p.role }.find { |r| r.name == "Administrator" }
+  - if @is_admin
     %a{:href => url_for(:controller => "cloud_accounts", :action => "new")}
       Add a Provider Account
     %a{:href => url_for(:controller => "provider", :action => "new")}
@@ -43,6 +43,24 @@
       Launch Instances
     %a{:href => url_for(:controller => "", :action => "")}
       Enter a help ticket
+
+#service_quality_dashboard_section
+  - if @is_admin
+    %h2
+      Provider Service Quality
+    .dashboard_section_summary
+      Average time to submit tasks to provider, 24 hours
+      <img src="images/dashboard_summary_prev.png" /><img src="images/dashboard_summary_next.png" />
+    - @providers.each do |provider|
+      .provider_service_quality_graph
+        <!-- FIXME include graph -->
+      .provider_service_quality_graph_summary
+        = provider.name
+        <!-- FIXME 'good/poor/average service... -->
+    <div style="clear: both;" />
+  - else
+    %h2
+      Service Quality
 
 :javascript
   $("#hide_getting_started").click(function(){
