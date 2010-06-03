@@ -40,7 +40,7 @@ class InstanceController < ApplicationController
   def new
     @instance = Instance.new(params[:instance])
     require_privilege(Privilege::INSTANCE_MODIFY, @instance.pool) if @instance.pool
-    @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
+    @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
   end
 
   def create
