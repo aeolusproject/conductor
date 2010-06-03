@@ -175,3 +175,36 @@ ul.nav li.selected {
   height: 15px;
   padding: 20px 0 24px 0;
 }
+
+#key_indicators_dashboard_section {
+  width: 390px;
+  height: 220px;
+  border: 1px solid black;
+  background: #F2F2F2;
+  padding: 5px 0 5px 15px;
+  margin: 10px 0px 10px 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+#key_indicators_dashboard_section ul {
+  float: left !important;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#key_indicators_dashboard_section ul li {
+  width: 80%;
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+#key_indicators_dashboard_section .count {
+  float: right;
+}
+
+#key_indicators_dashboard_section .instance_graph {
+  float: left;
+}

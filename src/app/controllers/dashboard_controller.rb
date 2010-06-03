@@ -42,6 +42,8 @@ class DashboardController < ApplicationController
 
     @hide_getting_started = cookies["#{@current_user.login}_hide_getting_started"]
     @current_users_pool = Pool.find(:first, :conditions => ['name = ?', @current_user.login])
+    @cloud_accounts = CloudAccount.list_for_user(@current_user, Privilege::ACCOUNT_VIEW)
+    @stats = Instance.get_user_instances_stats(@current_user)
     render :action => :summary
   end
 

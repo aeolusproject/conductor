@@ -44,6 +44,30 @@
     %a{:href => url_for(:controller => "", :action => "")}
       Enter a help ticket
 
+#key_indicators_dashboard_section
+  %h2
+    Key indicators
+  %ul
+    %li
+      Providers
+      .count= @providers.size
+    %li
+      Accounts
+      .count= @cloud_accounts.size
+    %li
+      Pools
+      .count= @pools.size
+    %li
+      Running instances
+      .count= @stats[:running_instances]
+    %li
+      Stopped instances
+      .count= @stats[:stopped_instances]
+    %li
+      Total instances
+      .count= @stats[:total_instances]
+  .instance_graph #instance_graph
+
 #service_quality_dashboard_section
   - if @is_admin
     %h2

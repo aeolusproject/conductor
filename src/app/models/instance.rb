@@ -21,6 +21,7 @@
 
 class Instance < ActiveRecord::Base
   include SearchFilter
+  include PermissionedObject
 
   cattr_reader :per_page
   @@per_page = 15
@@ -162,4 +163,25 @@ class Instance < ActiveRecord::Base
     end
   end
 
+  def self.get_user_instances_stats(user)
+    stats = {
+      :running_instances => 0,
+      :stopped_instances => 0,
+    }
+
+    instances = Instance.with_hardware_profile.list_for_user(user, Privilege::INSTANCE_VIEW)
+    instances.each do |i|
+      if i.state == Instance::STATE_RUNNING
+        stats[:running_instances] += 1
+      elsif i.state == Instance::STATE_STOPPED
+        stats[:stopped_instances] += 1
+      end
+    end
+    stats[:total_instances] = instances.size
+    return stats
+  end
+
+  named_scope :with_hardware_profile, lambda {
+      {:include => :hardware_profile}
+  }
 end
