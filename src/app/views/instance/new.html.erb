@@ -39,12 +39,21 @@
     </li>
     <input type=hidden name="instance[image_id]" value="<%= @instance.image ? @instance.image.id : '' %>">
 
+    <% if @instance.pool %>
+    <input type=hidden name="instance[pool_id]" value="<%= @instance.pool_id %>">
+      <% if (@pools.size > 1) %>
+        <li><label>Pool</label>
+          <%= @instance.pool.name %>
+        </li>
+      <% end %>
+    <% else %>
     <li><label>Pool<span>Pick your pool</span></label>
       <%= select("instance", "pool_id",
                  @pools.collect {|p| [ p.name, p.id ] },
                  { :include_blank => true },
                  {:onchange => "poolSelected(this)"}) %>
     </li>
+    <% end %>
 
     <% if @instance.pool and @instance.pool.hardware_profiles.size > 0 %>
       <li><label>Hardware Profile<span>Pick your hardware profile</span></label>
