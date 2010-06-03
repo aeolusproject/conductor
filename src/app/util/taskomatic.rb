@@ -50,40 +50,71 @@ class Taskomatic
     # can go to state running.
     # TODO Modify this to handle generic case for providers
     pool = @task.instance.pool
-    cloud_account = @task.instance.cloud_account
 
-    [pool, cloud_account].each do |parent|
-      quota = parent.quota
-      if quota
-        if !quota.can_create_instance?(@task.instance) || !quota.can_start_instance?(@task.instance)
-          @task.state = Task::STATE_FAILED
-          @task.instance.state = Instance::STATE_CREATE_FAILED
+    #find matching cloud account
+    if @task.instance.cloud_account
+      cloud_accounts = [@task.instance.cloud_account]
+    else
+      # FIXME: this provides a predictable order -- scheduler will eventually
+      # do something entirely different to determine preference
+      cloud_accounts = CloudAccount.find(:all, :order => 'created_at')
+    end
 
-          if parent.class == Pool
-            @task.failure_code =  Task::FAILURE_OVER_POOL_QUOTA
-          elsif parent.class == CloudAccount
-            @task.failure_code =  Task::FAILURE_OVER_CLOUD_ACCOUNT_QUOTA
-          end
+    if @task.instance.image.provider_image?
+      image_providers = Set.new([@task.instance.image])
+    else
+      image_providers = Set.new(@task.instance.image.provider_images.
+                                 collect { |image| image.provider})
+    end
 
-          @task.save!
-          @task.instance.save!
+    if @task.instance.hardware_profile.provider_hardware_profile?
+      hwp_providers = Set.new([@task.instance.hardware_profile])
+    else
+      hwp_providers = Set.new(@task.instance.hardware_profile.provider_hardware_profiles.
+                              collect { |hwp| hwp.provider })
+    end
 
-          return @task
-        end
-      end
+    matching_providers = hwp_providers & image_providers
+    cloud_accounts.delete_if do |acct|
+      !matching_providers.include?(acct.provider) or
+        (acct.quota and
+         (!acct.quota.can_create_instance?(@task.instance) or
+          !acct.quota.can_start_instance?(@task.instance)))
+    end
+
+    if pool.quota and
+        (!pool.quota.can_create_instance?(@task.instance) or
+         !pool.quota.can_start_instance?(@task.instance))
+      @task.failure_code =  Task::FAILURE_OVER_POOL_QUOTA
+    end
+    @task.failure_code = Task::FAILURE_PROVIDER_NOT_FOUND if cloud_accounts.empty?
+
+    unless @task.failure_code.nil?
+      @task.state = Task::STATE_FAILED
+      @task.instance.state = Instance::STATE_CREATE_FAILED
+      @task.save!
+      @task.instance.save!
+      return @task
     end
 
     begin
+      # take first matching cloud account
+      @task.instance.cloud_account = cloud_accounts[0]
       client = @task.instance.cloud_account.connect
       realm = @task.instance.realm.external_key rescue nil
 
       # Map aggregator HWP/image to back-end provider HWP/image in instance
       unless @task.instance.image.provider_image?
-        @task.instance.image = @task.instance.image.provider_images[0]
+        @task.instance.image = @task.instance.image.provider_images.
+          find(:first, :conditions => {:provider_id =>
+                 @task.instance.cloud_account.provider_id})
       end
 
       unless @task.instance.hardware_profile.provider_hardware_profile?
-        @task.instance.hardware_profile = @task.instance.hardware_profile.provider_hardware_profiles[0]
+        @task.instance.hardware_profile = @task.instance.hardware_profile.
+          provider_hardware_profiles.
+          find(:first, :conditions => {:provider_id =>
+                 @task.instance.cloud_account.provider_id})
       end
 
       @task.state = Task::STATE_PENDING

@@ -55,7 +55,7 @@
     <% end %>
     <% if @instance.pool and @instance.pool.realms.size > 0 %>
       <li><label>Realm<span>Choose a realm</span></label>
-        <%= select("instance", "front_end_realm", @instance.pool.realms, { :include_blank => false }) %>
+        <%= select("instance", "front_end_realm", @instance.pool.realms, { :include_blank => true }) %>
       </li>
     <% end %>
   </ul>
