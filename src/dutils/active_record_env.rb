@@ -23,7 +23,7 @@ require 'rubygems'
 
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 
-ENV['RAILS_ENV'] = 'production' unless ENV['RAILS_ENV']
+ENV['RAILS_ENV'] = 'development' unless ENV['RAILS_ENV']
 
 require File.dirname(__FILE__) + '/../config/boot'
 require "#{RAILS_ROOT}/config/environment"
