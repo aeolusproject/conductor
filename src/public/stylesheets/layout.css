@@ -30,6 +30,10 @@ img
 
 a { color:#000000; text-decoration: none;}
 
+h2, h3 {
+  font-weight: normal;
+}
+
 /************************** 
     oVirt layout components 
 **/
@@ -63,6 +67,13 @@ a { color:#000000; text-decoration: none;}
   width: 224px; 
   background-color:#FFFFFF;
   border-right: 1px #CCCCCC solid; 
+}
+
+#side h3 {
+  color: #999999;
+  font-size: 1em;
+  margin: 1em 1em .5em 1em;
+  text-transform: uppercase;
 }
 
 

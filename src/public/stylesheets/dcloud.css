@@ -156,17 +156,22 @@ input, select {
 }
 
 .actionlink {
-	color: blue;
+	color: #0075c0;
 	line-height: 36px;
 	font-size: 14px;
 	padding-left: 18px;
+}
+
+ul#providers + a.actionlink {
+  display: block;
+  border-bottom: 1px solid #ccc;
 }
 
 .submit_link {
 	background: none;
 	border:0;
 	text-decoration: underline;
-	color: blue;
+	color: #0075c0;
 	line-height: 36px;
 	font-size: 14px;
 	padding-left: 10px;
@@ -183,7 +188,7 @@ input, select {
 }
 
 #side a.actionlink {
-  color: blue;
+  color: #0075c0;
   line-height: 36px;
   font-size: 14px;
   padding-left: 10px;
@@ -192,22 +197,18 @@ input, select {
 ul#providers {
   list-style-type: none;
   margin: 0;
-  padding: 0;
-}
-
-ul#providers li {
-  border-bottom: 1px solid #ccc;
+  padding: 0 0 0 10px;
 }
 
 ul#providers li a {
   display: block;
   line-height: 36px;
-  padding-left: 10px;
+  padding-left: 32px;
 }
 
 ul#providers li a:hover {
-  color: #333;
-  background: #efefef;
+  background: #efefef url(../images/icon_provider.png) no-repeat 2px 50%;
+  color: #000;
 }
 
 ul#pools {
@@ -230,11 +231,21 @@ ul#pools li a {
 
 ul#pools li a:hover {
   background: #efefef url(../images/icon_vmpool.png) no-repeat 2px 50%;
+  color: #000;
 }
 
 
 .providername, .poolname {
   font-size: 14px;
+}
+
+.providername {
+  background: url(../images/icon_provider.png) no-repeat 2px 50%;
+}
+
+.providername.selected {
+  background: #5599B8 url(../images/icon_provider.png) no-repeat 2px 50%;
+  color: #FFF;
 }
 
 .poolname {
@@ -247,7 +258,7 @@ ul#pools li a:hover {
 }
 
 .poolname.selected {
-  background: #f2a922 url(../images/icon_vmpool.png) no-repeat 2px 50%;
+  background: #5599B8 url(../images/icon_vmpool.png) no-repeat 2px 50%;
   color: #FFF;
 }
 

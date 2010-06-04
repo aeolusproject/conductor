@@ -27,6 +27,10 @@
     </tbody>
   </table>
 <% end %>
+<%= link_to "Add a user",
+             {:controller => "users",
+              :action => "new"},
+              :class=>"actionlink" if has_user_modify?(BasePermissionObject.general_permission_scope) %>
 <%= link_to "Add a new permission record",
              {:action => "new",
               :permission_object_type => @permission_object.class,

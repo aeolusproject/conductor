@@ -28,8 +28,13 @@ ul.nav li {
 }
 
 ul.nav li.selected {
-    background: #e6e6e6;
-    color : #000;
+    background: #cbd6db !important;
+    -moz-border-radius: 16px;
+}
+
+ul.nav li:hover {
+    background: #dedede;
+    -moz-border-radius: 16px;
 }
 
 .header_menu_wrapper {
@@ -162,7 +167,7 @@ ul.nav li.selected {
   display: block;
   float: left;
   margin: 0px 15px 5px 0px;
-  color: blue;
+  color: #0075c0;
   text-decoration: underline;
 }
 

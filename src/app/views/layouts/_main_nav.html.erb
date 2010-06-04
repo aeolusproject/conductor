@@ -1,10 +1,5 @@
-<%=link_to "View images", {:controller => "image", :action => "show"}, :class => "actionlink" %>
-<%=link_to "Add a provider", {:controller => "provider", :action => "new"}, :class => "actionlink" %>
 
-<%=link_to "Add a pool",     {:controller => "pool", :action => "new"}, :class => "actionlink" %>
 
-<%= link_to "Add a user",   {:controller => "users", :action => "new"}, :class=>"actionlink" if has_user_modify?(BasePermissionObject.general_permission_scope) %>
-<%= link_to "User access",  {:controller => "permissions", :action => "list"}, :class=>"actionlink" if has_view_perms?(BasePermissionObject.general_permission_scope) %>
 <h3>Providers</h3>
 <ul id="providers">
   <% cur_id = params[:id].to_i %>
@@ -23,6 +18,7 @@
   <% } %>
   <% end %>
 </ul>
+<%=link_to "Add a provider", {:controller => "provider", :action => "new"}, :class => "actionlink" %>
 <h3>Pools</h3>
 <ul id="pools">
   <% if !@pools.nil? %>
@@ -37,3 +33,4 @@
   <% } %>
   <% end %>
 </ul>
+<%=link_to "Add a pool", {:controller => "pool", :action => "new"}, :class => "actionlink" %>
