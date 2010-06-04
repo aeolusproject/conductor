@@ -46,8 +46,6 @@ class Instance < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :pool_id
   validates_length_of :name, :maximum => 1024
 
-  # FIXME: for now, hardware profile is required, realm is optional, although for RHEV-M,
-  # hardware profile may be optional too
   validates_presence_of :hardware_profile_id
   validates_presence_of :image_id
 
@@ -115,11 +113,13 @@ class Instance < ActiveRecord::Base
   end
 
   def front_end_realm=(realm_name)
-    provider_name, tmpstr = realm_name.split(Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER,2)
-    account_name, realm_name = tmpstr.split(Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER,2)
-    provider = Provider.find_by_name(provider_name)
-    self.cloud_account = provider.cloud_accounts.find_by_username(account_name)
-    self.realm = provider.realms.find_by_name(realm_name) unless realm_name.nil?
+    unless realm_name.nil? or realm_name.empty?
+      provider_name, tmpstr = realm_name.split(Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER,2)
+      account_name, realm_name = tmpstr.split(Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER,2)
+      provider = Provider.find_by_name(provider_name)
+      self.cloud_account = provider.cloud_accounts.find_by_username(account_name)
+      self.realm = provider.realms.find_by_name(realm_name) unless realm_name.nil?
+    end
   end
 
   # Returns the total time that this instance has been in the state

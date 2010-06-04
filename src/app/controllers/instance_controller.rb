@@ -77,6 +77,9 @@ class InstanceController < ApplicationController
     @instance = Instance.new(params[:instance])
     require_privilege(Privilege::INSTANCE_MODIFY, @instance.pool) if @instance.pool
     @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
+    # FIXME: what error msg to show if no pool is selected and the user has
+    # permission on none?
+    @instance.pool = @pools[0] if (@instance.pool.nil? and (@pools.size == 1))
   end
 
   def create
