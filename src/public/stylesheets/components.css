@@ -248,6 +248,7 @@ ul.nav li.selected {
 
 #image_descriptor_form .pkglist .select_repository {
   float:right;
+  padding: 5px 0px 5px 0px;
 }
 
 #image_descriptor_form .pkglist .select_repository select {
@@ -409,6 +410,7 @@ ul.nav li.selected {
   color : #808080;
   font-size : 95%;
   padding-left : 1em;
+  padding-bottom: 10px;
 }
 
 #image_descriptor_form.dcloud_form .ui-tabs li span {
