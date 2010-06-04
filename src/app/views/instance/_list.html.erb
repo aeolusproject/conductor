@@ -1,0 +1,25 @@
+<%= datatable(
+  Instance::COLUMNS.map {|c| c[:opts]},
+  {
+    :table_dom_id => 'instances_table',
+    :per_page => Instance::per_page,
+    :sort_by => "[3, 'asc']",
+    :serverside => true,
+    :ajax_source => url_for(:controller => 'instance', :action => 'paginated'),
+    :append => ".fnSetFilteringDelay()",
+    :persist_state => false,
+    :click_callback => "function(ev) {clickRow(ev);}",
+  }
+) %>
+
+<table class="datatable display" id="instances_table">
+  <thead>
+    <tr>
+        <% Instance::COLUMNS.each do |c| %>
+          <%= "<th>#{c[:header]}</th>" %>
+        <% end %>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>

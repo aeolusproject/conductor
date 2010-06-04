@@ -27,6 +27,42 @@ class InstanceController < ApplicationController
   def index
   end
 
+  def paginated
+    # datatables sends pagination in format:
+    #   iDisplayStart - start index
+    #   iDisplayLength - num of recs
+    # => we need to count page num
+    page = params[:iDisplayStart].to_i / Instance::per_page
+
+    order_col_rec = Instance::COLUMNS[params[:iSortCol_0].to_i]
+    order_col = Instance::COLUMNS[2] unless order_col_rec && order_col_rec[:opts][:searchable]
+    order = order_col[:id] + " " + (params[:sSortDir_0] == 'desc' ? 'desc' : 'asc')
+
+    # FIXME only return those instances in pools which user has instance_view
+    @instances = Instance.search_filter(params[:sSearch], Instance::SEARCHABLE_COLUMNS).paginate(
+      :page => page + 1,
+      :order => order
+    )
+
+    recs = @instances.map do |i|
+      [
+        i.id,
+        i.get_action_list.map {|action| "<a href=\"#{url_for :controller => "instance", :action => "instance_action", :id => i.id, :instance_action => action}\">#{action}</a>"}.join(" | "),
+        i.name,
+        i.state,
+        i.hardware_profile.name,
+        i.image.name
+      ]
+    end
+
+    render :json => {
+      :sEcho => params[:sEcho],
+      :iTotalRecords => @instances.total_entries,
+      :iTotalDisplayRecords => @instances.total_entries,
+      :aaData => recs
+    }
+  end
+
   # Right now this is essentially a duplicate of PoolController#show,
     # but really it should be a single instance should we decide to have a page
     # for that.  Redirect on create was all that brought you here anyway, so
