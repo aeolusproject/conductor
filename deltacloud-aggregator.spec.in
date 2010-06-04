@@ -28,6 +28,7 @@ Requires: rubygem(will_paginate)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
+Requires: gnuplot >= 4.2.6
 
 %package daemons
 Summary:   Deltacloud Aggregator daemons config
