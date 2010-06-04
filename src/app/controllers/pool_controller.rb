@@ -29,6 +29,10 @@ class PoolController < ApplicationController
   end
 
   def show
+    @pool = Pool.find(params[:id])
+  end
+
+  def list
     #FIXME: clean this up, many error cases here
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::INSTANCE_VIEW,@pool)

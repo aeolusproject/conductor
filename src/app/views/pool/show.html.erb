@@ -1,42 +1,17 @@
 <script type="text/javascript">
-  function clickRow(ev) {
-    var box = $('input[name="image_id[]"]', ev.target.parentNode);
-    if ($(ev.target).attr('name') != "image_id[]")
-      box.attr('checked', !box.attr('checked'));
-  }
-
-  function checkAll(ev) {
-    $('input[name="image_id[]"]', dataTable_instances_table).attr('checked', $(ev.target).attr('checked'))
-  }
+  $(document).ready(function() {
+    $("#pool-tabs").tabs();
+  });
 </script>
 
-<%= datatable(
-  Instance::COLUMNS.map {|c| c[:opts]},
-  {
-    :table_dom_id => 'instances_table',
-    :per_page => Instance::per_page,
-    :sort_by => "[3, 'asc']",
-    :serverside => true,
-    :ajax_source => url_for(:controller => 'pool', :action => 'instances_paginate') + "/#{@pool.id}",
-    :append => ".fnSetFilteringDelay()",
-    :persist_state => false,
-    :click_callback => "function(ev) {clickRow(ev);}",
-  }
-) %>
-
-<table class="datatable display" id="instances_table">
-  <thead>
-    <tr>
-        <% Instance::COLUMNS.each do |c| %>
-          <%= "<th>#{c[:header]}</th>" %>
+<div id="pool-tabs">
+    <ul>
+        <li><%= link_to "Instances", {:action => "list", :id => @pool.id, :ajax => true} %></li>
+        <% if has_view_perms? %>
+          <li><%= link_to "User access",  {:controller => "permissions", :action => "list", :pool_id => @pool.id, :ajax => true} %></li>
         <% end %>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
-<%= link_to "Add a new instance", {:controller => "instance", :action => "new", "instance[pool_id]" => @pool}, :class=>"actionlink"%>
-<%= link_to "User access",  {:controller => "permissions", :action => "list", :pool_id => @pool.id}, :class=>"actionlink" if has_view_perms? %>
-<%= link_to "Hardware Profiles",  {:action => "hardware_profiles", :id => @pool.id}, :class=>"actionlink"%>
-<%= link_to "Realms",  {:action => "realms", :id => @pool.id}, :class=>"actionlink"%>
-<%= link_to "Quota",  {:controller => "quota", :action => "show", :id => @pool, :parent_type => "pool"}, :class=>"actionlink"%>
+        <li><%= link_to "Hardware Profiles",  {:action => "hardware_profiles", :id => @pool.id, :ajax => true} %></li>
+        <li><%= link_to "Realms",  {:action => "realms", :id => @pool.id, :ajax => true} %></li>
+        <li><%= link_to "Quota",  {:controller => "quota", :action => "show", :id => @pool, :parent_type => "pool", :ajax => true} %></li>
+    </ul>
+</div>

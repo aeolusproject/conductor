@@ -276,6 +276,11 @@ ul#pools li a:hover {
   border-left: none;
 }
 
+#instances_table_wrapper {
+  min-height: 0;
+  margin-bottom: 1em;
+}
+
 /* Style for button links */
 a.button_link {
   border: 1px solid black;
@@ -289,10 +294,10 @@ a.button_link {
   -webkit-border-radius: 5px;
 }
 
-#dashboard-tabs, #provider-tabs {
+#dashboard-tabs, #provider-tabs, #pool-tabs{
   border: none;
 }
 
-#dashboard-tabs ul, #provider-tabs ul {
+#dashboard-tabs ul, #provider-tabs ul, #pool-tabs ul{
   float: none;
 }
