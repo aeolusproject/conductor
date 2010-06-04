@@ -22,6 +22,7 @@
 class CreateCloudAccounts < ActiveRecord::Migration
   def self.up
     create_table :cloud_accounts do |t|
+      t.string :label
       t.string :username, :null => false
       t.string :password, :null => false
       t.integer :provider_id, :null => false

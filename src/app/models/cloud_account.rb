@@ -71,7 +71,7 @@ class CloudAccount < ActiveRecord::Base
   end
 
   def name
-    username
+    label.nil? || label == "" ? username : label
   end
 
   # FIXME: for already-mapped accounts, update rather than add new

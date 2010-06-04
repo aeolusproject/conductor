@@ -4,6 +4,7 @@
     <table>
       <thead>
         <tr>
+        <th scope="col">Label</th>
         <th scope="col">Username</th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -12,6 +13,7 @@
       <tbody>
   <%@provider.cloud_accounts.each {|acct| %>
         <tr>
+          <td><%= acct.label %></td>
           <td><%= acct.username %></td>
           <td><%= link_to "Edit",   {:controller => 'cloud_accounts', :action => 'edit', :id => acct.id}    if has_account_modify?(@provider) %></td>
           <td><%= link_to "Delete", {:controller => 'cloud_accounts', :action => 'destroy', :id => acct.id} if has_account_modify?(@provider) && acct.destroyable? %></td>
