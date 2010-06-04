@@ -40,6 +40,7 @@ class ApplicationController < ActionController::Base
   rescue_from PartialSuccessError, :with => :handle_partial_success_error
 
   def choose_layout
+    return nil if params[:ajax]
     if(params[:component_layout])
       return (ENV["RAILS_ENV"] != "production")?'components/' << params[:component_layout]:'aggregator'
     end

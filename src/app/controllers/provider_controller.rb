@@ -67,4 +67,8 @@ class ProviderController < ApplicationController
     require_privilege(Privilege::PROVIDER_VIEW, @provider)
   end
 
+  def settings
+    @provider = Provider.find(params[:id])
+  end
+
 end

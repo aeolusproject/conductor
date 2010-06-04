@@ -156,7 +156,7 @@ input, select {
 }
 
 .actionlink {
-	color: #0075c0;
+	color: #0075c0 !important;
 	line-height: 36px;
 	font-size: 14px;
 	padding-left: 18px;
@@ -289,10 +289,10 @@ a.button_link {
   -webkit-border-radius: 5px;
 }
 
-#dashboard-tabs {
+#dashboard-tabs, #provider-tabs {
   border: none;
 }
 
-#dashboard-tabs ul {
+#dashboard-tabs ul, #provider-tabs ul {
   float: none;
 }
