@@ -1,0 +1,16 @@
+#image_target_list{:class => 'target_list'}
+  - if @image_descriptor.image_descriptor_targets.empty?
+    .empty No images have been created yet.
+  -else
+    %ul
+      - @image_descriptor.image_descriptor_targets.each do |target|
+        %li
+          %span{:class => 'actions'}
+            = image_target_actions(@image_descriptor, target)
+          %span{:class => 'status'}
+            = target.status
+          = @all_targets[target.name]['name']
+          %p
+            = target.created_at
+          //%span{:style => 'float:right'}
+          //  Cancel

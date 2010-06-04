@@ -1,5 +1,10 @@
 - content_for :scripts do
   :javascript
+    $(document).ready(function() {
+      var refreshId = setInterval(function() {
+        $('#image_target_list').load('#{url_for :controller => 'image_descriptor', :action => 'targets', :id => @image_descriptor.id, :ajax => true}');
+      }, 10000);
+    });
     function toggle_build_form_visibility(ev) {
       if ($("#image_build_form").css('display') == 'none') {
         $("#image_build_form").css('display', 'block');
@@ -45,22 +50,7 @@
                 %span
                   = target['name']
         = submit_tag "Build"
-    .target_list
-      - if @image_descriptor.image_descriptor_targets.empty?
-        .empty No images have been created yet.
-      -else
-        %ul
-          - @image_descriptor.image_descriptor_targets.each do |target|
-            %li
-              %span{:class => 'actions'}
-                = image_target_actions(target)
-              %span{:class => 'status'}
-                = target.status
-              = @all_targets[target.name]['name']
-              %p
-                = target.created_at
-              //%span{:style => 'float:right'}
-              //  Cancel
+    = render :partial => 'targets'
 
 .submit
   = submit_tag "Cancel"

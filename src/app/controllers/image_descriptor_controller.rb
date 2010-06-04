@@ -21,7 +21,7 @@ class ImageDescriptorController < ApplicationController
       @tab = 'summary'
       if params[:targets]
         params[:targets].each do |target|
-          ImageDescriptorTarget.new_if_not_exists(:name => target, :image_descriptor_id => params[:image_descriptor][:id], :status => "waiting")
+          ImageDescriptorTarget.new_if_not_exists(:name => target, :image_descriptor_id => params[:image_descriptor][:id], :status => ImageDescriptorTarget::STATE_WAITING)
         end
       end
     end
@@ -53,6 +53,11 @@ class ImageDescriptorController < ApplicationController
       return
     end
     redirect_to :action => 'images', :tab => 'show'
+  end
+
+  def targets
+    @image_descriptor = ImageDescriptor.find(params[:id])
+    @all_targets = ImageDescriptorTarget.available_targets
   end
 
   def selected_packages

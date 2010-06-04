@@ -21,10 +21,10 @@ module ImageDescriptorHelper
     select_tag("repository", ["<option value='all' selected='selected'>All</option>"] + repositories.map{|repid, rep| "<option value=\"#{repid}\">#{rep['name']}</option>"}, {:onchange => "get_repository(event)"})
   end
 
-  def image_target_actions(target)
-    str = ''
+  def image_target_actions(descriptor, target)
+    str = '&nbsp;'
     if ImageDescriptorTarget::ACTIVE_STATES.include?(target.status)
-      str = link_to 'Cancel', {:controller => 'image_descriptor_target', :action => 'cancel', :id => target.id}
+      str = link_to 'Cancel', {:controller => 'image_descriptor_target', :action => 'cancel', :id => target.id, :descriptor_id => descriptor.id}
     end
     return str
   end
