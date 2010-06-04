@@ -1,0 +1,5 @@
+%ul
+  - @packages.keys.map {|group| group.to_s}.sort.each do |group|
+    %li
+      - pkgs = @packages[group].map {|p| p[:name]}.join("','")
+      = "#{group}<span class='select' onclick=\"select_group({group: '#{group}', pkgs: ['#{pkgs}']})\">Select</span>"

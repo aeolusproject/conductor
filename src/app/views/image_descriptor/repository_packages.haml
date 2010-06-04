@@ -1,0 +1,4 @@
+%ul
+  - @packages.each do |pkg|
+    %li
+      = "#{pkg[:name]}<span class='select' onclick=\"select_group({group: '#{pkg[:group]}', pkgs: ['#{pkg[:name]}']})\">Select</span>"

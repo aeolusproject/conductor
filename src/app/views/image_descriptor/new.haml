@@ -1,0 +1,9 @@
+= render :partial => "nav", :locals => {:tab => params[:tab]}
+
+#image_descriptor_form{:class => 'dcloud_form'}
+  = error_messages_for 'image_descriptor'
+
+  - form_tag :action => 'new' do
+    %input{:type => 'hidden', :name => 'tab', :value => @tab}
+    = hidden_field :image_descriptor, :id
+    = render :partial => @tab

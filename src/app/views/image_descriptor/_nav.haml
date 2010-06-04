@@ -1,0 +1,15 @@
+#image_descriptor_nav
+  %h2 Create a New Template Master
+  %ul{:class => 'nav'}
+    %li{:class => @tab == 'basics' ? 'selected' : nil}
+      %h4 BASICS
+      %p Basic RHEL LAMP
+    %li{:class => @tab == 'services' ? 'selected' : nil}
+      %h4 SERVICES
+      %p Add services
+    %li{:class => @tab == 'software' ? 'selected' : nil}
+      %h4 SOFTWARE
+      %p Add software
+    %li{:class => @tab == 'summary' ? 'selected' : nil}
+      %h4 SUMMARY
+      %p Create images

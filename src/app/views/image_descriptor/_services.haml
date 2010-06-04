@@ -1,0 +1,32 @@
+%ul
+  %li
+    %label Storage
+    = check_box_tag 'xml[services][amazon3_storage]', '1', @image_descriptor.xml.services.include?('amazon3_storage')
+    = label_tag 'xml[services][amazon3_storage]', 'Enable Amazon S3 storage', :class => "plain"
+    %span Provides cloud avare table storage.
+  %li
+    %label Inter-node Messaging
+    = check_box_tag 'xml[services][inter_node_messaging]', '1', @image_descriptor.xml.services.include?('inter_node_messaging')
+    = label_tag 'xml[services][inter_node_messaging]', 'Enable inter-node messaging', :class => "plain"
+    %span Provides cloud avare messaging.
+  %li
+    %label Availbility
+    = check_box_tag 'xml[services][availbility]', '1', @image_descriptor.xml.services.include?('availbility')
+    = label_tag 'xml[services][availbility]', 'Enable high availbility services', :class => "plain"
+    %span
+  %li
+    %label JBoss
+    = check_box_tag 'xml[services][jboss]', '1', @image_descriptor.xml.services.include?('jboss')
+    = label_tag 'xml[services][jboss]', 'Enable JBoss infrastructure', :class => "plain"
+    %span
+  %li
+    %label Cooling Tower
+    = check_box_tag 'xml[services][cooling_tower]', '1', @image_descriptor.xml.services.include?('cooling_tower')
+    = label_tag 'xml[services][cooling_tower]', 'Enable Cooling Tower', :class => "plain"
+    %span
+
+
+.submit
+  = submit_tag "Cancel"
+  = submit_tag "Back"
+  = submit_tag "Next"

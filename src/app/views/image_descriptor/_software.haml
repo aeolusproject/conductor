@@ -1,0 +1,72 @@
+- content_for :scripts do
+  :javascript
+    $(document).ready(function() {
+      $("#dashboard-tabs > ul > li > a").each(function(index) {
+        var link = $(this).attr("href") + "?ajax=true";
+        $(this).attr("href", link);
+      });
+      $("#dashboard-tabs").tabs({spinner: "Loading..."});
+
+      // when JS is enabled, hide the Dashboard content -- it'll be loaded
+      // by jquery UI tab using ajax
+      $("#dashboard-content").hide();
+      #{@image_descriptor.xml.packages.map {|group, pkgs| js_add_group_cmd(group, pkgs)}.join("\n")}
+    });
+    function remove_group(ev) {
+      $(ev.target).parent().remove();
+    };
+    function get_repository(ev) {
+      var rep = $(ev.target).val();
+      $("#dashboard-tabs > ul > li > a").each(function(index) {
+        var link = $(this).data('load.tabs');
+        if (link.search(/repository=[^$&]*/) == -1) {
+          link = link + "&repository=" + rep;
+        } else {
+          link = link.replace(/repository=[^$&]*/, "repository="+rep);
+        }
+        $("#dashboard-tabs").tabs('url', index, link);
+      });
+      $("#dashboard-tabs").tabs('load', $("#dashboard-tabs").tabs('option', 'selected'));
+    };
+    function select_package(group, pkgname, parent) {
+      if (!parent) parent = $("#selected_packages");
+      if (parent.find(".pkgname").filter(function() {return $(this).text() == pkgname}).length == 0) {
+        var node = $("<li><input type=checkbox name='xml[packages][]' value='" + group + '#' + pkgname + "' checked=true><span class='pkgname'>" + pkgname + "</span></li>").appendTo(parent);
+      }
+    };
+    function add_group(name) {
+      var group = $("<li><span class='group'>" + name + "</span><span class='select' onclick='remove_group(event)'>Remove</span><ul></ul></li>").appendTo("#selected_packages");
+      return group.find("ul");
+    };
+    function select_group(opts) {
+      var groups = $("#selected_packages li .group").filter(function() {return $(this).text() == opts.group});
+      //FIXME: if group exists, we abort adding group again, merging is not supported yet
+      if (groups.length > 0) return;
+      var group = add_group(opts.group);
+      for (var i = 0; i < opts.pkgs.length; i++) {
+        select_package(opts.group, opts.pkgs[i], group);
+      }
+    };
+
+- menu = [ { :text => "Groups", :action => "repository_packages_by_group" }, |
+  { :text => "Packages", :action => "repository_packages" }, ] |
+
+.pkglist_wrapper
+  .pkglist
+    #dashboard-tabs{ :class => "ui-tabs ui-widget ui-widget-content ui-corner-all" }
+      %ul{ :class => "ui-tabs ui-widget ui-widget-content ui-corner-all ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header" }
+        - menu.each do |item|
+          - selection_style = "ui-tabs-selected ui-state-active" if item[:action] == controller.action_name
+          %li{ :class => "#{selection_style} ui-state-default ui-corner-top", :style => 'clear: none' }
+            = "<a href=\"#{url_for :controller => "image_descriptor", :action => item[:action] }\"><span>#{item[:text]}</span></a>"
+        %li{ :class => "select_repository"}
+          = select_repository_tag(@repositories)
+  .pkglist{:style => "margin-left: 30px", :class => "left-pkglist"}
+    %div{:class => "ui-tabs ui-widget ui-widget-content ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header"}
+      Selected packages
+    %ul{:id => "selected_packages"}
+
+.submit
+  = submit_tag "Cancel"
+  = submit_tag "Back"
+  = submit_tag "Next"
