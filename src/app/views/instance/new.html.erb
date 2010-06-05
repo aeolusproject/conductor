@@ -2,7 +2,7 @@
   function showImages(ev) {
     $("#images_table_wrapper").css('display', 'block');
     images_dialog = $("#images_table_wrapper").dialog({
-      title: "Select image for new instance",
+      title: "Select template for new instance",
       dialogClass: 'flora',
       width: 600,
       height: 500,
@@ -34,8 +34,8 @@
   <ul>
     <li><label>Name<span>Name for this new Instance</span></label><%= text_field :instance, :name, :class => "txtfield" %></li>
 
-    <li><label>Image<span>Choose a bundled image to use</span></label>
-    <input type="button" style="cursor:pointer" onclick="showImages(event)" name="image_selector" value="<%= @instance.image ? @instance.image.name : "click to select image"%>"/>
+    <li><label>Template<span>Choose a template to use</span></label>
+    <input type="button" style="cursor:pointer" onclick="showImages(event)" name="image_selector" value="<%= @instance.image ? @instance.image.name : "click to select template"%>"/>
     </li>
     <input type=hidden name="instance[image_id]" value="<%= @instance.image ? @instance.image.id : '' %>">
 

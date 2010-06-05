@@ -67,7 +67,7 @@ class Instance < ActiveRecord::Base
     {:id => 'name', :header => 'Name', :opts => {:width => "25%"}},
     {:id => 'state', :header => 'State', :opts => {:width => "10%"}},
     {:id => 'hwprofile', :header => 'HW profile', :opts => {:width => "15%"}},
-    {:id => 'image', :header => 'Image', :opts => {:sortable => false, :width => "15%"}},
+    {:id => 'template', :header => 'Template', :opts => {:sortable => false, :width => "15%"}},
     {:id => 'provider', :header => 'Provider', :opts => {:width => "10%"}},
     {:id => 'account', :header => 'Account', :opts => {:width => "10%"}},
   ]
