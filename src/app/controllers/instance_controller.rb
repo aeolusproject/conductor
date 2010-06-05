@@ -51,7 +51,9 @@ class InstanceController < ApplicationController
         i.name,
         i.state,
         i.hardware_profile.name,
-        i.image.name
+        i.image.name,
+        i.cloud_account.nil? ? "" : i.cloud_account.provider.name,
+        i.cloud_account.nil? ? "" : i.cloud_account.name
       ]
     end
 

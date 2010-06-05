@@ -63,11 +63,13 @@ class Instance < ActiveRecord::Base
   # html table structure
   COLUMNS = [
     {:id => 'id', :header => '<input type="checkbox" id="image_id_all" onclick="checkAll(event)">', :opts => {:checkbox_id => 'image_id', :searchable => false, :sortable => false, :width => '1px', :class => 'center'}},
-    {:id => 'actions', :header => 'Actions', :opts => {:width => "15%", :sortable => false}},
+    {:id => 'actions', :header => 'Actions', :opts => {:width => "10%", :sortable => false}},
     {:id => 'name', :header => 'Name', :opts => {:width => "25%"}},
-    {:id => 'state', :header => 'State', :opts => {:width => "15%"}},
+    {:id => 'state', :header => 'State', :opts => {:width => "10%"}},
     {:id => 'hwprofile', :header => 'HW profile', :opts => {:width => "15%"}},
-    {:id => 'image', :header => 'Image', :opts => {:sortable => false}},
+    {:id => 'image', :header => 'Image', :opts => {:sortable => false, :width => "15%"}},
+    {:id => 'provider', :header => 'Provider', :opts => {:width => "10%"}},
+    {:id => 'account', :header => 'Account', :opts => {:width => "10%"}},
   ]
 
   SEARCHABLE_COLUMNS = %w(name state)
