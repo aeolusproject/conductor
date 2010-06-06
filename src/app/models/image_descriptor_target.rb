@@ -6,6 +6,7 @@ class ImageDescriptorTarget < ActiveRecord::Base
   #TODO: validations
   validates_presence_of :name
 
+  STATE_QUEUED = 'queued'
   STATE_WAITING = 'waiting'
   STATE_BUILDING = 'building'
   STATE_COMPLETE = 'complete'

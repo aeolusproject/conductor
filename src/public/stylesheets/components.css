@@ -448,7 +448,7 @@ ul.nav li.selected {
 /* mfojtik's hacks ;-) */
 
 #image_descriptor_nav h2 {
-  background : url('/images/h2_grad.png') repeat-x;
+  background : url('../images/h2_grad.png') repeat-x;
   height : 29px;
   font-weight : normal;
   padding : 10px 10px 0px 10px;

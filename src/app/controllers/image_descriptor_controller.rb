@@ -21,7 +21,7 @@ class ImageDescriptorController < ApplicationController
       @tab = 'summary'
       if params[:targets]
         params[:targets].each do |target|
-          ImageDescriptorTarget.new_if_not_exists(:name => target, :image_descriptor_id => params[:image_descriptor][:id], :status => ImageDescriptorTarget::STATE_WAITING)
+          ImageDescriptorTarget.new_if_not_exists(:name => target, :image_descriptor_id => params[:image_descriptor][:id], :status => ImageDescriptorTarget::STATE_QUEUED)
         end
       end
     end

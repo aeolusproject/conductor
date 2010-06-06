@@ -1,14 +1,14 @@
+rhevm:
+  name: RHEV-M
+
 ec2:
   name: Amazon EC2
 
 rackspace:
   name: RackSpace
 
-rhevm:
-  name: RHEV-M
+#gogrid:
+#  name: GoGrid
 
-gogrid:
-  name: GoGrid
-
-vmware_esx:
-  name: VMWare ESX
+#vmware_esx:
+#  name: VMWare ESX
