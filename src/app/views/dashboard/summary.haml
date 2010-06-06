@@ -79,7 +79,7 @@
       <img src="images/dashboard_summary_prev.png" /><img src="images/dashboard_summary_next.png" />
     - @providers.each do |provider|
       .provider_service_quality_graph
-        <!-- FIXME include graph -->
+        = "<object data='" + url_for(:action => :provider_qos_graph, :id => provider.id, :width => 100, :height => 50) + "' type='image/svg+xml' />"
       .provider_service_quality_graph_summary
         = provider.name
         <!-- FIXME 'good/poor/average service... -->

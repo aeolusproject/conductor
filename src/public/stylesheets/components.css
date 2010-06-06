@@ -166,7 +166,6 @@ ul.nav li.selected {
 .provider_service_quality_graph {
   width: 100px;
   height: 50px;
-  border: 1px solid black;
   float: left;
   margin: 0px 5px 0px 5px;
 }

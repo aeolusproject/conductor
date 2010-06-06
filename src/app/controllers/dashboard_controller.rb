@@ -31,6 +31,15 @@ class DashboardController < ApplicationController
     return params[:ajax] == "true"
   end
 
+  def provider_qos_graph(opts = {})
+    entity = nil
+    params[:provider] = Provider.find(params[:id])
+    graph = GraphService.dashboard_qos(current_user, params)[params[:provider]][Graph::QOS_AVG_TIME_TO_SUBMIT]
+    respond_to do |format|
+      format.svg  { render :xml => graph.svg}
+    end
+  end
+
   def index
     @providers = Provider.find(:all)
 
