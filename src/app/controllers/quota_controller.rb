@@ -51,13 +51,13 @@ class QuotaController < ApplicationController
         hwp = HardwareProfile.find(instance.hardware_profile_id)
         if instance.state == Instance::STATE_RUNNING
           @quota.running_instances += 1
-          @quota.running_memory += hwp.memory
-          #TODO Add CPUs
+          @quota.running_memory = @quota.running_memory.to_f + hwp.memory.value.to_f
+          @quota.running_cpus = @quota.running_cpus.to_f + hwp.cpu.value.to_f
         end
 
         if InstanceObserver::ACTIVE_STATES.include?(instance.state)
           @quota.total_instances += 1
-          @quota.total_storage += hwp.storage
+          @quota.total_storage = @quota.total_storage.to_f + hwp.storage.value.to_f
         end
       end
 
