@@ -74,10 +74,10 @@ class GraphService
       plot.set "lmargin","0"
       plot.set "rmargin","0"
       plot.set "tmargin","0"
-      plot.set "boxwidth 0.9 relative"
+      plot.set "boxwidth 0.9"
       plot.set "style fill solid 1.0"
       plot.set "xrange [.25:2.75]"
-      plot.set "yrange [0:#{max_value * 1.25}]" #we want to scale 25% larger to leave room for label
+      plot.set "yrange [0:#{max_value * 1.5}]" #we want to scale maxvalue 50% larger to leave room for label
 
       x = [1,2]
       #we'll just have zero values for the unexpected case where cloud_account has no quota
@@ -87,12 +87,21 @@ class GraphService
         y = [quota.running_instances,quota.maximum_running_instances]
       end
 
+
       #The two arrays above are three columns of data for gnuplot.
-      plot.data << Gnuplot::DataSet.new( [x, y] ) do |ds|
+      plot.data << Gnuplot::DataSet.new( [[x[0]], [y[0]]] ) do |ds|
         ds.using = "1:2"
-        ds.with = "boxes"
+        ds.with = 'boxes linecolor rgb "#8cc63f"'
         ds.notitle
       end
+
+      #The two arrays above are three columns of data for gnuplot.
+      plot.data << Gnuplot::DataSet.new( [[x[1]], [y[1]]] ) do |ds|
+        ds.using = "1:2"
+        ds.with = 'boxes linecolor rgb "#cccccc"'
+        ds.notitle
+      end
+
 
       plot.data << Gnuplot::DataSet.new( [x, y] ) do |ds|
         ds.using = "1:2:2"
@@ -157,7 +166,7 @@ class GraphService
       plot.arbitrary_lines << "unset ytics"
       plot.arbitrary_lines << "unset y2tics"
       plot.set "bmargin","0"
-      plot.set "lmargin","0"
+      plot.set "lmargin","1"
       plot.set "rmargin","0"
       plot.set "tmargin","0"
 
