@@ -35,7 +35,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :pool
 
-  map.connect '', :controller => 'provider'
+  map.connect '', :controller => 'dashboard'
 
   map.login 'login', :controller => "user_sessions", :action => "new"
   map.logout 'logout', :controller => "user_sessions", :action => "destroy"
