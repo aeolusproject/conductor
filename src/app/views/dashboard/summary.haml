@@ -90,7 +90,7 @@
       %li
         Total instances
         .count= @stats[:total_instances]
-    .instance_graph #instance_graph
+    .instance_graph
 
 .dashboard_column
   #quota_usage_dashboard_section
@@ -100,24 +100,9 @@
       Instance utilization by account
     - @cloud_accounts.each do |account|
       .account_quota_usage_graph_summary
-        = "Account " + account.username
-      .account_quota_usage_history_graph
-        <!-- FIXME include graph -->
+        = account.provider.name + ": " + account.name
       .account_quota_usage_current_graph
         %object{ :data => url_for(:action => :account_quota_graph, :id => account.id, :width => 100, :height => 50), :type => 'image/svg+xml'}
-      <div style="clear: both;" />
-    .dashboard_section_summary
-      <img src="images/dashboard_summary_next.png" /><img src="images/dashboard_summary_prev.png" />
-      %p
-        Quota usage by pool
-      <div style="clear: both;" />
-    - @pools.each do |pool|
-      .pool_quota_usage_summary
-        = pool.name
-      .pool_quota_usage_limit
-        <!-- FIXME 'quota limit met'... -->
-      .pool_quota_usage_instances
-        <!-- FIXME 'running instances'... -->
       <div style="clear: both;" />
 
 :javascript

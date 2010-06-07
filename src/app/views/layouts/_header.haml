@@ -13,6 +13,6 @@
 
 .header_info
   #hi-username
-    = link_to @current_user.login, { :controller => "users", :action => "show"} unless @current_user.nil?
+    = link_to @current_user.first_name + " " + @current_user.last_name, { :controller => "users", :action => "show"} unless @current_user.nil?
   = link_to 'Log out', logout_url unless @current_user.nil?
   = link_to 'Log in', login_url if @current_user.nil?
