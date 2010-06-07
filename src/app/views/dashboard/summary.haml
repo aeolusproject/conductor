@@ -35,10 +35,12 @@
         Add a Provider Account
       %a{:href => url_for(:controller => "provider", :action => "new")}
         Add a Provider
-      %a{:href => url_for(:controller => "", :action => "")}
+      %a{:href => url_for(:controller => "image_descriptor", :action => "new")}
         Create a Template
       %a{:href => url_for(:controller => "users", :action => "new")}
         Create a User
+      %a{:href => url_for(:controller => "instance", :action => "index")}
+        View Instances
     - else
       %a{:href => url_for(:controller => "", :action => "")}
         Launch Instances
