@@ -40,8 +40,20 @@ class DashboardController < ApplicationController
     end
   end
 
+  def account_quota_graph(opts = {})
+    entity = nil
+    params[:account] = CloudAccount.find(params[:id])
+    graph = GraphService.dashboard_quota(current_user, params)[params[:account]][Graph::QUOTA_INSTANCES_IN_USE]
+    respond_to do |format|
+      format.svg  { render :xml => graph.svg}
+    end
+  end
+
   def index
+    # FIXME filter to just those that the user has access to
     @providers = Provider.find(:all)
+    @cloud_accounts = CloudAccount.find(:all)
+    @pools = Pool.find(:all)
 
     # FIXME remove general role based permission check, replace w/
     # more granular / per-permission-object permission checks on the

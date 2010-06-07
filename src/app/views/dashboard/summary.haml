@@ -26,67 +26,97 @@
       %input{ :id => "hide_getting_started", :type => "checkbox" }
         Thanks, don't show this again
 
-#actions_dashboard_section
-  %h2
-    Actions
-  - if @is_admin
-    %a{:href => url_for(:controller => "cloud_accounts", :action => "new")}
-      Add a Provider Account
-    %a{:href => url_for(:controller => "provider", :action => "new")}
-      Add a Provider
-    %a{:href => url_for(:controller => "image_descriptor", :action => "new")}
-      Create a Template
-    %a{:href => url_for(:controller => "users", :action => "new")}
-      Create a User
-    %a{:href => url_for(:controller => "instance", :action => "index")}
-      View Instances
-  - else
-    %a{:href => url_for(:controller => "", :action => "")}
-      Launch Instances
-    %a{:href => url_for(:controller => "", :action => "")}
-      Enter a help ticket
-
-#key_indicators_dashboard_section
-  %h2
-    Key indicators
-  %ul
-    %li
-      Providers
-      .count= @providers.size
-    %li
-      Accounts
-      .count= @cloud_accounts.size
-    %li
-      Pools
-      .count= @pools.size
-    %li
-      Running instances
-      .count= @stats[:running_instances]
-    %li
-      Stopped instances
-      .count= @stats[:stopped_instances]
-    %li
-      Total instances
-      .count= @stats[:total_instances]
-  .instance_graph #instance_graph
-
-#service_quality_dashboard_section
-  - if @is_admin
+.dashboard_column
+  #actions_dashboard_section
     %h2
-      Provider Service Quality
+      Actions
+    - if @is_admin
+      %a{:href => url_for(:controller => "cloud_accounts", :action => "new")}
+        Add a Provider Account
+      %a{:href => url_for(:controller => "provider", :action => "new")}
+        Add a Provider
+      %a{:href => url_for(:controller => "", :action => "")}
+        Create a Template
+      %a{:href => url_for(:controller => "users", :action => "new")}
+        Create a User
+    - else
+      %a{:href => url_for(:controller => "", :action => "")}
+        Launch Instances
+      %a{:href => url_for(:controller => "", :action => "")}
+        Enter a help ticket
+
+  #service_quality_dashboard_section
+    - if @is_admin
+      %h2
+        Provider Service Quality
+      .dashboard_section_summary
+        %img{ :src => "images/dashboard_summary_next.png", :alt => "next" }
+        %img{ :src => "images/dashboard_summary_prev.png", :alt => "prev" }
+        %p
+          Average time to submit tasks to provider, 24 hours
+        %div{ :style => "clear:both"}
+      - @providers.each do |provider|
+        .provider_service_quality_graph
+          = "<object data='" + url_for(:action => :provider_qos_graph, :id => provider.id, :width => 100, :height => 50) + "' type='image/svg+xml' />"
+        .provider_service_quality_graph_summary
+          = provider.name
+          <!-- FIXME 'good/poor/average service... -->
+      <div style="clear: both;" />
+    - else
+      %h2
+        Service Quality
+
+  #key_indicators_dashboard_section
+    %h2
+      Key indicators
+    %ul
+      %li
+        Providers
+        .count= @providers.size
+      %li
+        Accounts
+        .count= @cloud_accounts.size
+      %li
+        Pools
+        .count= @pools.size
+      %li
+        Running instances
+        .count= @stats[:running_instances]
+      %li
+        Stopped instances
+        .count= @stats[:stopped_instances]
+      %li
+        Total instances
+        .count= @stats[:total_instances]
+    .instance_graph #instance_graph
+
+.dashboard_column
+  #quota_usage_dashboard_section
+    %h2
+      Quota Usage
     .dashboard_section_summary
-      Average time to submit tasks to provider, 24 hours
-      <img src="images/dashboard_summary_prev.png" /><img src="images/dashboard_summary_next.png" />
-    - @providers.each do |provider|
-      .provider_service_quality_graph
-        = "<object data='" + url_for(:action => :provider_qos_graph, :id => provider.id, :width => 100, :height => 50) + "' type='image/svg+xml' />"
-      .provider_service_quality_graph_summary
-        = provider.name
-        <!-- FIXME 'good/poor/average service... -->
-    <div style="clear: both;" />
-  - else
-    %h2
-      Service Quality
+      Instance utilization by account
+    - @cloud_accounts.each do |account|
+      .account_quota_usage_graph_summary
+        = "Account " + account.username
+      .account_quota_usage_history_graph
+        <!-- FIXME include graph -->
+      .account_quota_usage_current_graph
+        %object{ :data => url_for(:action => :account_quota_graph, :id => account.id, :width => 100, :height => 50), :type => 'image/svg+xml'}
+      <div style="clear: both;" />
+    .dashboard_section_summary
+      <img src="images/dashboard_summary_next.png" /><img src="images/dashboard_summary_prev.png" />
+      %p
+        Quota usage by pool
+      <div style="clear: both;" />
+    - @pools.each do |pool|
+      .pool_quota_usage_summary
+        = pool.name
+      .pool_quota_usage_limit
+        <!-- FIXME 'quota limit met'... -->
+      .pool_quota_usage_instances
+        <!-- FIXME 'running instances'... -->
+      <div style="clear: both;" />
 
 :javascript
   $("#hide_getting_started").click(function(){

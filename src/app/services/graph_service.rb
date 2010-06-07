@@ -56,8 +56,9 @@ class GraphService
     unless max_value = opts[:max_value]
       max_value = 100 unless max_value = Quota.maximum('maximum_running_instances')
     end
-    height = 80 unless height = opts[:height]
-    width = 150 unless width  = opts[:width]
+    height = 80 unless height = opts[:height].to_i
+    width = 150 unless width  = opts[:width].to_i
+
 
     raw_svg = ""
     gp = gnuplot_open
@@ -143,8 +144,8 @@ class GraphService
   def self.qos_avg_time_to_submit_graph (provider, opts = {})
     #things we're checking for in opts: :height, :width
 
-    height = 60 unless height = opts[:height]
-    width = 100 unless width  = opts[:width]
+    height = 60 unless height = opts[:height].to_i
+    width = 100 unless width  = opts[:width].to_i
 
     graph = Graph.new
     gp = gnuplot_open

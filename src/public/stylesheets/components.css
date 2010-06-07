@@ -74,20 +74,32 @@ ul.nav li.selected {
 }
 
 /* dashboard style */
+.dashboard_column{
+  float: left;
+  width: 47%;
+}
+
 .dashboard_section_summary {
   background: #F2F2F2;
   font-size: 0.8em;
   font-weight: bolder;
-  margin: 0 15px 10px 0;
+  margin: 10px 15px 10px 0;
   padding: 5px 0px 5px 5px;
 }
 
+.dashboard_section_summary p {
+  display: inline;
+  float: left;
+  margin: 3px 0 3px 0;
+}
+
 .dashboard_section_summary img:first-child {
-  padding-left: 40px;
+  padding-right: 5px;
 }
 
 .dashboard_section_summary img {
   vertical-align: middle;
+  float: right;
 }
 
 #getting_started_dashboard_section {
@@ -209,6 +221,67 @@ ul.nav li.selected {
 #key_indicators_dashboard_section .instance_graph {
   float: left;
 }
+
+#quota_usage_dashboard_section {
+  width: 390px;
+  border: 1px solid black;
+  padding: 5px 0 5px 15px;
+  margin: 10px 0px 10px 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.account_quota_usage_graph_summary {
+  font-size: 0.8em;
+  padding-left: 15px;
+  display: inline;
+  float: left;
+}
+
+.account_quota_usage_history_graph {
+  display: inline;
+  float: left;
+  margin-left: 10px;
+  border: 1px solid black;
+  width:  120px;
+  height: 20px;
+}
+
+.account_quota_usage_current_graph {
+  display: inline;
+  float: left;
+  margin-left: 10px;
+  width:  140px;
+  height: 50px;
+}
+
+.pool_quota_usage_summary {
+  display: inline;
+  float: left;
+  padding-left: 15px;
+  width: 15%;
+}
+
+.pool_quota_usage_limit {
+  display: inline;
+  float: left;
+  width: 33%;
+  height: 25px;
+  border: 1px solid black;
+  margin-left: 17px;
+}
+
+.pool_quota_usage_instances {
+  display: inline;
+  float: left;
+  width: 33%;
+  height: 25px;
+  border: 1px solid black;
+  margin-left: 17px;
+  margin-bottom: 15px;
+}
+
 
 #image_descriptor_form {
   width: 800px;
