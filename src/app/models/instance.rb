@@ -171,7 +171,9 @@ class Instance < ActiveRecord::Base
       :stopped_instances => 0,
     }
 
-    instances = Instance.with_hardware_profile.list_for_user(user, Privilege::INSTANCE_VIEW)
+    instances = []
+    pools = Pool.list_for_user(user, Privilege::INSTANCE_VIEW)
+    pools.each{|pool| pool.instances.each {|i| instances << i}}
     instances.each do |i|
       if i.state == Instance::STATE_RUNNING
         stats[:running_instances] += 1
