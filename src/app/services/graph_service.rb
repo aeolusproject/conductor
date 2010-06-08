@@ -1,6 +1,7 @@
 class GraphService
   require 'gnuplot'
   require 'nokogiri'
+  require 'scruffy'
 
   def self.dashboard_quota (user,opts = {})
     #FIXME add permission checks to filter what graphs user can get
@@ -44,6 +45,12 @@ class GraphService
     graphs
   end
 
+  def self.dashboard_instances_by_provider (user,opts = {})
+    #FIXME add permission checks to see if user can view this graph
+    graphs = Hash.new
+    graphs[Graph::INSTANCES_BY_PROVIDER_PIE] = instances_by_provider_pie(opts)
+  end
+
   private
   def self.gnuplot_open( persist=false )
     cmd = Gnuplot.gnuplot( persist ) or raise 'gnuplot not found'
@@ -56,8 +63,8 @@ class GraphService
     unless max_value = opts[:max_value]
       max_value = 100 unless max_value = Quota.maximum('maximum_running_instances')
     end
-    height = 80 unless height = opts[:height].to_i
-    width = 150 unless width  = opts[:width].to_i
+    height = 80 unless opts[:height].nil? ? nil : height = opts[:height].to_i
+    width = 150 unless  opts[:width].nil? ? nil : width  = opts[:width].to_i
 
 
     raw_svg = ""
@@ -153,8 +160,8 @@ class GraphService
   def self.qos_avg_time_to_submit_graph (provider, opts = {})
     #things we're checking for in opts: :height, :width
 
-    height = 60 unless height = opts[:height].to_i
-    width = 100 unless width  = opts[:width].to_i
+    height = 60 unless opts[:height].nil? ? nil : height = opts[:height].to_i
+    width = 100 unless  opts[:width].nil? ? nil : width  = opts[:width].to_i
 
     graph = Graph.new
     gp = gnuplot_open
@@ -190,6 +197,42 @@ class GraphService
     gp.close_write
     gp.read(nil,graph.svg)
     gp.close_read
+    graph
+  end
+
+  def self.instances_by_provider_pie (opts = {})
+    #things we're checking for in opts: :height, :width
+
+    height = 200 unless opts[:height].nil? ? nil : height = opts[:height].to_i
+    width =  300 unless  opts[:width].nil? ? nil : width  = opts[:width].to_i
+
+    graph = Graph.new
+
+    mytheme = Scruffy::Themes::Keynote.new
+    mytheme.background = :white
+    mytheme.marker = :black #sets the label text color
+
+    scruffy_graph = Scruffy::Graph.new({:theme => mytheme})
+    scruffy_graph.title = "Instances by Provider"
+    scruffy_graph.renderer = Scruffy::Renderers::Pie.new
+
+    pie_opts = {}
+    #FIXME query Instances table to get this information!
+    pie_opts[:"EC2"] = 55
+    pie_opts[:"RHEV-M"] = 78
+    pie_opts[:other] = 21
+
+    scruffy_graph.add :pie, '', pie_opts
+
+    raw_svg = scruffy_graph.render :width => width, :height => height
+
+    xml = Nokogiri::XML(raw_svg)
+    svg = xml.css 'svg'
+    svg.each do |node|
+      node.set_attribute 'viewBox',"0 0 #{width} #{height}"
+    end
+
+    graph.svg = xml.to_s
     graph
   end
 

@@ -29,6 +29,7 @@ Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
 Requires: gnuplot >= 4.2.6
+Requires: ruby-RMagick
 
 %package daemons
 Summary:   Deltacloud Aggregator daemons config
