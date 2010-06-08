@@ -51,9 +51,7 @@ class DashboardController < ApplicationController
 
   def index
     # FIXME filter to just those that the user has access to
-    @providers = Provider.find(:all)
     @cloud_accounts = CloudAccount.find(:all)
-    @pools = Pool.find(:all)
 
     # FIXME remove general role based permission check, replace w/
     # more granular / per-permission-object permission checks on the

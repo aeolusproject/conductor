@@ -18,7 +18,9 @@
   <% } %>
   <% end %>
 </ul>
-<%=link_to "Add a provider", {:controller => "provider", :action => "new"}, :class => "actionlink" %>
+<% if BasePermissionObject.general_permission_scope.has_privilege(@current_user, Privilege::PROVIDER_MODIFY) %>
+    <%= link_to "Add a provider", {:controller => "provider", :action => "new"}, :class => "actionlink" %>
+<% end %>
 <h3>Pools</h3>
 <ul id="pools">
   <% if !@pools.nil? %>
@@ -33,4 +35,6 @@
   <% } %>
   <% end %>
 </ul>
-<%=link_to "Add a pool", {:controller => "pool", :action => "new"}, :class => "actionlink" %>
+<% if BasePermissionObject.general_permission_scope.has_privilege(@current_user, Privilege::POOL_MODIFY) %>
+    <%= link_to "Add a pool", {:controller => "pool", :action => "new"}, :class => "actionlink" %>
+<% end %>
