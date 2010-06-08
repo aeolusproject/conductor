@@ -99,6 +99,11 @@
       Quota Usage
     .dashboard_section_summary
       Instance utilization by account
+    .account_quota_usage_graph_key
+      %img{:src => "images/quota_usage_key_running_instances.png", :width => 10, :heigth => 10}
+      Running
+      %img{:src => "images/quota_usage_key_instances_limit.png", :width => 10, :heigth => 10}
+      Limit
     - @cloud_accounts.each do |account|
       .account_quota_usage_graph_summary
         = account.provider.name + ": " + account.name
