@@ -212,7 +212,7 @@ class GraphService
     mytheme = Scruffy::Themes::Keynote.new
     mytheme.background = :white
     mytheme.marker = :black #sets the label text color
-    mytheme.colors = %w(#debce2 #7a43a2 #242277)
+    mytheme.colors = %w(#00689a #00b0e0)
 
     scruffy_graph = Scruffy::Graph.new({:theme => mytheme})
     scruffy_graph.renderer = Scruffy::Renderers::Pie.new
