@@ -212,16 +212,22 @@ class GraphService
     mytheme = Scruffy::Themes::Keynote.new
     mytheme.background = :white
     mytheme.marker = :black #sets the label text color
+    mytheme.colors = %w(#debce2 #7a43a2 #242277)
 
     scruffy_graph = Scruffy::Graph.new({:theme => mytheme})
-    scruffy_graph.title = "Instances by Provider"
     scruffy_graph.renderer = Scruffy::Renderers::Pie.new
 
     pie_opts = {}
-    #FIXME query Instances table to get this information!
-    pie_opts[:"EC2"] = 55
-    pie_opts[:"RHEV-M"] = 78
-    pie_opts[:other] = 21
+    providers = Provider.all
+    providers.each do |provider|
+      running_instances = 0
+      provider.cloud_accounts.each do |account|
+        running_instances = running_instances + account.quota.running_instances if account.quota
+      end
+      if running_instances > 0
+        pie_opts[:"#{provider.name}"] = running_instances
+      end
+    end
 
     scruffy_graph.add :pie, '', pie_opts
 
@@ -231,6 +237,19 @@ class GraphService
     svg = xml.css 'svg'
     svg.each do |node|
       node.set_attribute 'viewBox',"0 0 #{width} #{height}"
+    end
+
+    xml.root.traverse do |node|
+      if node.name == 'text'
+        if node.has_attribute? 'font-family'
+          node.set_attribute 'font-family','sans-serif'
+        end
+        if (node.has_attribute? 'font-size') && node.get_attribute('font-size').length > 0
+          size = node.get_attribute('font-size').to_f
+          size = size * 1.5
+          node.set_attribute 'font-size',size.to_s
+        end
+      end
     end
 
     graph.svg = xml.to_s
