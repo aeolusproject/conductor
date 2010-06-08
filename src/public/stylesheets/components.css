@@ -29,12 +29,16 @@ ul.nav li {
 
 ul.nav li.selected {
     background: #cbd6db !important;
+    border-radius: 16px;
     -moz-border-radius: 16px;
+    -webkit-border-radius: 16px;
 }
 
 ul.nav li:hover {
     background: #dedede;
+    border-radius: 16px;
     -moz-border-radius: 16px;
+    -webkit-border-radius: 16px;
 }
 
 .header_menu_wrapper {

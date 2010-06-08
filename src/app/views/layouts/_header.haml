@@ -8,7 +8,7 @@
   %span Deltacloud Aggregator
   %ul.nav
     - menu.each do |item|
-      %li{ :class => ("selected" if item[:controller] == controller.controller_name) }
+      %li{ :class => ("selected" if item[:controller] == controller.controller_name) }<
         = link_to item[:text], { :controller => item[:controller], :action => item[:action] }
 
 .header_info
