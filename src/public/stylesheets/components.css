@@ -10,6 +10,8 @@
 .header_logo span {
     text-transform: uppercase;
     margin-left: 5px;
+    font-weight: bold;
+    letter-spacing: -0.02em;
 }
 
 ul.nav {
@@ -23,8 +25,13 @@ ul.nav {
 ul.nav li {
     display: inline;
     font-size: 120%;
-    padding: 5px;
+    padding: 3px 15px;
     color : #b3b3b3;
+}
+
+ul.nav li a {
+   color: #313a3d;
+   text-shadow: 0 1px 1px #FFF;
 }
 
 ul.nav li.selected {
@@ -32,6 +39,7 @@ ul.nav li.selected {
     border-radius: 16px;
     -moz-border-radius: 16px;
     -webkit-border-radius: 16px;
+    -moz-box-shadow: 0 1px 1px #efefef;
 }
 
 ul.nav li:hover {
@@ -85,14 +93,14 @@ ul.nav li:hover {
 /* dashboard style */
 .dashboard_column{
   float: left;
-  width: 47%;
+  width: 50%;
 }
 
 .dashboard_section_summary {
   background: #F2F2F2;
   font-size: 0.8em;
   font-weight: bolder;
-  margin: 10px 15px 10px 0;
+  margin: 10px 0;
   padding: 5px 0px 5px 5px;
 }
 
@@ -155,15 +163,19 @@ ul.nav li:hover {
 
 #actions_dashboard_section {
   height: 100px;
-  border: 1px solid black;
-  padding: 5px 0 5px 15px;
-  margin: 10px 0px 10px 5px;
+  border: 1px solid #DDD;
+  padding: 15px;
+  margin: 5px 15px 15px 0px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
+  -moz-box-shadow: 0 1px 3px #ccc;
 }
 
 #actions_dashboard_section h2 {
   padding: 0;
+  margin: 0 0 15px;
+  letter-spacing: -0.02em;
+  color: #4b5d63;
 }
 
 #actions_dashboard_section a {
@@ -175,11 +187,19 @@ ul.nav li:hover {
 }
 
 #service_quality_dashboard_section {
-  border: 1px solid black;
-  padding: 5px 0 5px 15px;
-  margin: 10px 0px 10px 5px;
+  border: 1px solid #DDD;
+  padding: 15px;
+  margin: 0 15px 15px 0px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
+  -moz-box-shadow: 0 1px 3px #ccc;
+}
+
+#service_quality_dashboard_section h2 {
+  padding: 0;
+  margin: 0 0 15px;
+  letter-spacing: -0.02em;
+  color: #4b5d63;
 }
 
 .provider_service_quality_graph {
@@ -198,11 +218,19 @@ ul.nav li:hover {
 
 #key_indicators_dashboard_section {
   height: 220px;
-  border: 1px solid black;
-  padding: 5px 0 5px 15px;
-  margin: 10px 0px 10px 5px;
+  border: 1px solid #DDD;
+  padding: 15px;
+  margin: 0 15px 15px 0px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
+  -moz-box-shadow: 0 1px 3px #ccc;
+}
+
+#key_indicators_dashboard_section h2 {
+  padding: 0;
+  margin: 0 0 15px;
+  letter-spacing: -0.02em;
+  color: #4b5d63;
 }
 
 #key_indicators_dashboard_section ul {
@@ -233,21 +261,27 @@ ul.nav li:hover {
 }
 
 #quota_usage_dashboard_section {
-  width: 390px;
-  border: 1px solid black;
-  padding: 5px 0 5px 15px;
-  margin: 10px 0px 10px 5px;
+  border: 1px solid #DDD;
+  padding: 15px;
+  margin: 5px 15px 15px 0px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
+  -moz-box-shadow: 0 1px 3px #ccc;
+}
+
+#quota_usage_dashboard_section h2 {
+  padding: 0;
+  margin: 0 0 15px;
+  letter-spacing: -0.02em;
+  color: #4b5d63;
 }
 
 .account_quota_usage_graph_summary {
-  font-size: 0.8em;
-  padding-left: 15px;
+  padding: 15px 15px;
   display: inline;
   float: left;
-  width: 25%
+  width: 45%
 }
 
 .account_quota_usage_graph_key {
@@ -256,7 +290,7 @@ ul.nav li:hover {
   font-size: 0.8em;
   text-align: right;
   width: 100%;
-  height: 10px;
+  height: 20px;
   padding: 0 15px 0 0;
 }
 
@@ -272,7 +306,7 @@ ul.nav li:hover {
 .account_quota_usage_current_graph {
   display: inline;
   float: left;
-  margin-left: 10px;
+  margin: 0 0 10px 10px;
   width:  140px;
   height: 50px;
 }
