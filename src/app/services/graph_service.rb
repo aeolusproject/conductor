@@ -49,6 +49,7 @@ class GraphService
     #FIXME add permission checks to see if user can view this graph
     graphs = Hash.new
     graphs[Graph::INSTANCES_BY_PROVIDER_PIE] = instances_by_provider_pie(opts)
+    graphs
   end
 
   private

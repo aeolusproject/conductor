@@ -228,6 +228,12 @@ ul.nav li:hover {
   float: left;
 }
 
+#provider_instances_graph {
+  width: 230px;
+  height: 320px;
+  float: left;
+}
+
 #quota_usage_dashboard_section {
   width: 390px;
   border: 1px solid black;

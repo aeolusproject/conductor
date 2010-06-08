@@ -31,8 +31,7 @@ class DashboardController < ApplicationController
     return params[:ajax] == "true"
   end
 
-  def provider_qos_graph(opts = {})
-    entity = nil
+  def provider_qos_graph
     params[:provider] = Provider.find(params[:id])
     graph = GraphService.dashboard_qos(current_user, params)[params[:provider]][Graph::QOS_AVG_TIME_TO_SUBMIT]
     respond_to do |format|
@@ -40,10 +39,16 @@ class DashboardController < ApplicationController
     end
   end
 
-  def account_quota_graph(opts = {})
-    entity = nil
+  def account_quota_graph
     params[:account] = CloudAccount.find(params[:id])
     graph = GraphService.dashboard_quota(current_user, params)[params[:account]][Graph::QUOTA_INSTANCES_IN_USE]
+    respond_to do |format|
+      format.svg  { render :xml => graph.svg}
+    end
+  end
+
+  def provider_instances_graph
+    graph = GraphService.dashboard_instances_by_provider(current_user, params)[Graph::INSTANCES_BY_PROVIDER_PIE]
     respond_to do |format|
       format.svg  { render :xml => graph.svg}
     end

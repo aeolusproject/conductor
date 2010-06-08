@@ -90,7 +90,8 @@
       %li
         Total instances
         .count= @stats[:total_instances]
-    .instance_graph
+    #provider_instances_graph
+      %object{ :data => url_for(:action => :provider_instances_graph, :width => 220, :height => 290), :type => 'image/svg+xml'}
 
 .dashboard_column
   #quota_usage_dashboard_section
