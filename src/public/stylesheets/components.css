@@ -199,7 +199,6 @@ ul.nav li:hover {
 #key_indicators_dashboard_section {
   height: 220px;
   border: 1px solid black;
-  background: #F2F2F2;
   padding: 5px 0 5px 15px;
   margin: 10px 0px 10px 5px;
   -moz-border-radius: 5px;
@@ -230,7 +229,6 @@ ul.nav li:hover {
 
 #provider_instances_graph {
   width: 230px;
-  height: 320px;
   float: left;
 }
 
