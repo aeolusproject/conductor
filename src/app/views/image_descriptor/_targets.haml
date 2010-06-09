@@ -6,7 +6,9 @@
       - @image_descriptor.image_descriptor_targets.each do |target|
         %li
           %span{:class => 'actions'}
-            = image_target_actions(@image_descriptor, target)
+            &nbsp;
+            - if ImageDescriptorTarget::ACTIVE_STATES.include?(target.status)
+              = link_to 'Cancel', {:controller => 'image_descriptor_target', :action => 'cancel', :id => target.id, :descriptor_id => @image_descriptor.id}
           %span{:class => 'status'}
             = target.status
           = @all_targets[target.name]['name']

@@ -10,7 +10,7 @@
       // when JS is enabled, hide the Dashboard content -- it'll be loaded
       // by jquery UI tab using ajax
       $("#dashboard-content").hide();
-      #{@image_descriptor.xml.packages.map {|group, pkgs| js_add_group_cmd(group, pkgs)}.join("\n")}
+      #{@image_descriptor.xml.packages.map {|group, pkgs| "select_group({group: '#{group}', pkgs: ['#{pkgs.map {|p| p[:name]}.join("','")}']});"}.join("\n")}
     });
     function remove_group(ev) {
       $(ev.target).parent().remove();
@@ -66,7 +66,7 @@
               %li{ :class => "#{selection_style} ui-state-default ui-corner-top", :style => 'clear: none' }
                 = "<a href=\"#{url_for :controller => "image_descriptor", :action => item[:action] }\"><span>#{item[:text]}</span></a>"
             %li{ :class => "select_repository"}
-              = select_repository_tag(@repositories)
+              = select_tag("repository", ["<option value='all' selected='selected'>All</option>"] + @repositories.map{|repid, rep| "<option value=\"#{repid}\">#{rep['name']}</option>"}, {:onchange => "get_repository(event)"})
       .pkglist{:style => "margin-left: 30px", :class => "left-pkglist"}
         %div{:class => "ui-tabs ui-widget ui-widget-content ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header"}
           Selected packages
