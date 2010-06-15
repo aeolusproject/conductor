@@ -68,6 +68,9 @@ class Privilege < ActiveRecord::Base
                                           # actions)
   USER_VIEW         = "user_view"         # can view a user's profile data
 
+  IMAGE_VIEW        = "image_view"        # can view existing images (templates)
+  IMAGE_MODIFY      = "image_modify"      # can create or modify images (templates)
+
   FULL_PRIVILEGE_LIST = [PERM_SET, PERM_VIEW,
                          INSTANCE_MODIFY, INSTANCE_CONTROL, INSTANCE_VIEW,
                          STATS_VIEW,
@@ -75,5 +78,6 @@ class Privilege < ActiveRecord::Base
                          POOL_MODIFY, POOL_VIEW,
                          QUOTA_MODIFY, QUOTA_VIEW,
                          PROVIDER_MODIFY, PROVIDER_VIEW,
-                         USER_MODIFY, USER_VIEW]
+                         USER_MODIFY, USER_VIEW,
+                         IMAGE_VIEW, IMAGE_MODIFY]
 end

@@ -105,7 +105,9 @@ class CreateRoles < ActiveRecord::Migration
                                   "stats_view",
                                   "instance_modify",
                                   "instance_control",
-                                  "instance_view"]}
+                                  "instance_view",
+                                  "image_modify",
+                                  "image_view"]}
 
             }
     Role.transaction do

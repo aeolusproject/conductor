@@ -35,8 +35,6 @@
         Add a Provider Account
       %a{:href => url_for(:controller => "provider", :action => "new")}
         Add a Provider
-      %a{:href => url_for(:controller => "templates", :action => "new")}
-        Create a Template
       %a{:href => url_for(:controller => "users", :action => "new")}
         Create a User
       %a{:href => url_for(:controller => "instance", :action => "index")}
@@ -46,6 +44,9 @@
         Launch Instances
       %a{:href => url_for(:controller => "", :action => "")}
         Enter a help ticket
+    - if BasePermissionObject.general_permission_scope.can_modify_images(@current_user)
+      %a{:href => url_for(:controller => "templates", :action => "new")}
+        Create a Template
 
   #service_quality_dashboard_section
     - if @is_admin

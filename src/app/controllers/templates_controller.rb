@@ -1,6 +1,6 @@
 class TemplatesController < ApplicationController
   layout :layout
-  before_filter :require_user
+  before_filter :require_user, :check_permission
 
   def layout
     return "aggregator" unless ajax?
@@ -108,5 +108,9 @@ class TemplatesController < ApplicationController
   def update_xml
     @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
     @image_descriptor.update_xml_attributes!(params[:xml] || {})
+  end
+
+  def check_permission
+    require_privilege(Privilege::IMAGE_MODIFY)
   end
 end

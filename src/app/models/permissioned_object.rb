@@ -73,6 +73,13 @@ module PermissionedObject
     has_privilege(user, Privilege::USER_MODIFY)
   end
 
+  def can_view_images(user)
+    has_privilege(user, Privilege::IMAGE_VIEW)
+  end
+  def can_modify_images(user)
+    has_privilege(user, Privilege::IMAGE_MODIFY)
+  end
+
   def has_privilege(user, privilege)
     permissions.find(:first, :include => [:role => :privileges],
                      :conditions => ["permissions.user_id=:user and
