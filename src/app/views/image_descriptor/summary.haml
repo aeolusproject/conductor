@@ -1,0 +1,64 @@
+- content_for :scripts do
+  :javascript
+    $(document).ready(function() {
+      var refreshId = setInterval(function() {
+        $('#image_target_list').load('#{url_for :controller => 'image_descriptor', :action => 'targets', :id => @image_descriptor.id, :ajax => true}');
+      }, 10000);
+    });
+    function toggle_build_form_visibility(ev) {
+      if ($("#image_build_form").css('display') == 'none') {
+        $("#image_build_form").css('display', 'block');
+        $(ev.target).val('Cancel');
+      } else {
+        $("#image_build_form").css('display', 'none');
+        $(ev.target).val('Build Images');
+      }
+    }
+
+= render :partial => "nav"
+
+#image_descriptor_form{:class => 'dcloud_form'}
+  = error_messages_for 'image_descriptor'
+
+  - form_for @image_descriptor, :url => {:action => 'build', :id => @image_descriptor.id} do
+    .summary_panel
+      %ul{:class => 'side_panel'}
+        %li
+          BASICS
+          %label
+            = @image_descriptor.xml.name
+          %label
+            = @image_descriptor.xml.platform
+          %label
+            = @image_descriptor.xml.description
+        %li
+          SERVICES
+          - @image_descriptor.xml.services.each do |service|
+            %label
+              = service
+        //FIXME: software could take realy long space
+        //%li
+        //  SOFTWARE
+
+      %ul{:class => 'main_panel'}
+        .image_build_panel
+          %h3
+            Images
+            %input{:type => 'button', :value => "Build Images", :style => 'float:right', :onclick => 'toggle_build_form_visibility(event)'}
+          #image_build_form
+            %ul
+              %li
+                %label Image formats
+                %ul
+                  - @all_targets.each do |target_id, target|
+                    %li
+                    = check_box_tag 'targets[]', target_id, false
+                    %span
+                      = target['name']
+            = submit_tag "Build"
+        = render :partial => 'targets'
+
+    .submit
+      = submit_tag "Cancel", :name => "cancel"
+      = submit_tag "Back", :name => "back"
+      = submit_tag "Done", :name => "done"

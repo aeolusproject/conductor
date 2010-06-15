@@ -2,8 +2,6 @@ class ImageDescriptorController < ApplicationController
   layout :layout
   before_filter :require_user
 
-  TABS = %w(basics services software summary)
-
   def layout
     return "aggregator" unless ajax?
   end
@@ -13,46 +11,64 @@ class ImageDescriptorController < ApplicationController
   end
 
   def new
-    # FIXME: check permission, something like IMAGE_CREATE
-    if params[:commit] == 'Cancel' or params[:commit] == 'Done'
+    if params[:cancel]
       redirect_to :controller => "dashboard", :action => 'index'
-      return
-    elsif params[:commit] == 'Build'
-      @tab = 'summary'
-      if params[:targets]
-        params[:targets].each do |target|
-          ImageDescriptorTarget.new_if_not_exists(:name => target, :image_descriptor_id => params[:image_descriptor][:id], :status => ImageDescriptorTarget::STATE_QUEUED)
-        end
-      end
-    end
-
-    unless @tab
-      @old_tab = TABS.index(params[:tab]) || nil
-      next_idx = @old_tab ? @old_tab + (params[:commit] == 'Back' ? -1 : 1) : 0
-      @tab = (next_idx < 0 || next_idx > TABS.size) ? TABS[0] : TABS[next_idx]
-    end
-
-    @image_descriptor = params[:image_descriptor] && params[:image_descriptor][:id] ? ImageDescriptor.find(params[:image_descriptor][:id]) : ImageDescriptor.new
-    @image_descriptor.update_xml_attributes!(params[:xml] || {})
-
-    if @tab == 'summary'
-      @image_descriptor.complete = true
-      @image_descriptor.save!
-    end
-
-    if @tab == 'software'
-      @repositories = RepositoryManager.new.repositories
-    elsif @tab == 'summary'
-      @all_targets = ImageDescriptorTarget.available_targets
+    else
+      update_xml
     end
   end
 
-  def create
-    if params[:commit] == 'Cancel'
-      redirect_to :controller => "image", :action => 'show'
-      return
+  def services
+    if params[:cancel]
+      redirect_to :controller => "dashboard", :action => 'index'
+    else
+      update_xml
     end
-    redirect_to :action => 'images', :tab => 'show'
+  end
+
+  def software
+    if params[:cancel]
+      redirect_to :controller => "dashboard", :action => 'index'
+    else
+      update_xml
+      @repositories = RepositoryManager.new.repositories
+      if params[:back]
+        redirect_to :action => 'new', :id => params[:id]
+        return
+      end
+    end
+  end
+
+  def summary
+    if params[:cancel]
+      redirect_to :controller => "dashboard", :action => 'index'
+    else
+      @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
+      @image_descriptor.update_xml_attributes!(params[:xml] || {})
+      @image_descriptor.complete = true
+      @image_descriptor.save!
+      @all_targets = ImageDescriptorTarget.available_targets
+      if params[:back]
+        redirect_to :action => 'services', :id => params[:id]
+        return
+      end
+    end
+  end
+
+  def build
+    if params[:cancel] or params[:done]
+      redirect_to :controller => "dashboard", :action => 'index'
+    elsif params[:back]
+      redirect_to :action => 'software', :id => params[:id]
+    else
+      @all_targets = ImageDescriptorTarget.available_targets
+      if params[:targets]
+        params[:targets].each do |target|
+          ImageDescriptorTarget.new_if_not_exists(:name => target, :image_descriptor_id => params[:id], :status => ImageDescriptorTarget::STATE_QUEUED)
+        end
+      end
+      redirect_to :action => 'summary', :id => params[:id]
+    end
   end
 
   def targets
@@ -85,5 +101,12 @@ class ImageDescriptorController < ApplicationController
         @packages[group] += pkgs
       end
     end
+  end
+
+  private
+
+  def update_xml
+    @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
+    @image_descriptor.update_xml_attributes!(params[:xml] || {})
   end
 end

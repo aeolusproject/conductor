@@ -1,9 +1,22 @@
-= render :partial => "nav", :locals => {:tab => params[:tab]}
+= render :partial => "nav"
 
 #image_descriptor_form{:class => 'dcloud_form'}
   = error_messages_for 'image_descriptor'
 
-  - form_tag :action => 'new' do
-    %input{:type => 'hidden', :name => 'tab', :value => @tab}
-    = hidden_field :image_descriptor, :id
-    = render :partial => @tab
+  - form_for @image_descriptor, :url => {:action => 'services', :id => @image_descriptor.id} do
+    %ul
+      %li
+        %label Name
+        = text_field_tag 'xml[name]', @image_descriptor.xml.name
+        %span Provide a unique name for template master. Users will see this name when they choose this image to instantiate.
+      %li
+        %label Platform
+        = select_tag("xml[platform]", @image_descriptor.xml.platforms.map{|repid, rep| "<option value=\"#{repid}\" selected=\"#{repid == @image_descriptor.xml.platform ? 'selected' : ''}\">#{rep['name']}</option>"})
+        %span Choose the software operating system.
+      %li
+        %label Description
+        = text_area_tag("xml[description]", @image_descriptor.xml.description, :rows => 4)
+        %span Provide a description of your template master. Be descriptive to help users to identify the images created with this master.
+    .submit
+      = submit_tag "Cancel", :name => "cancel"
+      = submit_tag "Next", :name => "next"

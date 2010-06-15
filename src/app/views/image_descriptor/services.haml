@@ -1,0 +1,37 @@
+= render :partial => "nav"
+
+#image_descriptor_form{:class => 'dcloud_form'}
+  = error_messages_for 'image_descriptor'
+
+  - form_for @image_descriptor, :url => {:action => 'software', :id => @image_descriptor.id} do
+    = hidden_field :image_descriptor, :id
+    %ul
+      %li
+        %label Storage
+        = check_box_tag 'xml[services][amazon3_storage]', '1', @image_descriptor.xml.services.include?('amazon3_storage')
+        = label_tag 'xml[services][amazon3_storage]', 'Enable Amazon S3 storage', :class => "plain"
+        %span Provides cloud aware table storage for both user-data and guest-images and snapshots compatible with Amazon S3, for any (internal &amp; external)cloud deployment
+      %li
+        %label Inter-node Messaging
+        = check_box_tag 'xml[services][inter_node_messaging]', '1', @image_descriptor.xml.services.include?('inter_node_messaging')
+        = label_tag 'xml[services][inter_node_messaging]', 'Enable inter-node messaging', :class => "plain"
+        %span Provides cloud aware messaging to facilitate instance-to-instance and instance-to-external communication compatible with Amazon SQS, for any (internal &amp; external)cloud deployment
+      %li
+        %label Availability
+        = check_box_tag 'xml[services][availability]', '1', @image_descriptor.xml.services.include?('availability')
+        = label_tag 'xml[services][availability]', 'Enable high availability services', :class => "plain"
+        %span Provides REST API's that allow applications and administrators to inspect instances and know the active state and configuration. Choose high availability to actively maintain and manage application availability when run in cloud
+      %li
+        %label JBoss
+        = check_box_tag 'xml[services][jboss]', '1', @image_descriptor.xml.services.include?('jboss')
+        = label_tag 'xml[services][jboss]', 'Enable JBoss infrastructure', :class => "plain"
+        %span Provides cloud ready JBoss infrastructure to be run in public and internal clouds
+      %li
+        %label Cooling Tower
+        = check_box_tag 'xml[services][cooling_tower]', '1', @image_descriptor.xml.services.include?('cooling_tower')
+        = label_tag 'xml[services][cooling_tower]', 'Enable Cooling Tower', :class => "plain"
+        %span Provides multi-tenant, lightweight container for managing many cloud ready PaaS services inside a single instance
+    .submit
+      = submit_tag "Cancel", :name => "cancel"
+      = submit_tag "Back", :name => "back"
+      = submit_tag "Next", :name => "next"

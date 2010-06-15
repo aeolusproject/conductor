@@ -1,15 +1,16 @@
+- menu = [                                                                        |
+  { :id => 'new', :text => 'BASICS', :description => 'Basic RHEL LAMP' },         |
+  { :id => 'services', :text => 'SERVICES', :description => 'Add services' },     |
+  { :id => 'software', :text => 'SOFTWARE', :description => 'Add software' },     |
+  { :id => 'summary', :text => 'SUMMARY', :description => 'Create images' },      |
+]                                                                                 |
+
 #image_descriptor_nav
   %h2 Create a New Template Master
   %ul{:class => 'nav'}
-    %li{:class => @tab == 'basics' ? 'selected' : nil}
-      %h4 BASICS
-      %p Basic RHEL LAMP
-    %li{:class => @tab == 'services' ? 'selected' : nil}
-      %h4 SERVICES
-      %p Add services
-    %li{:class => @tab == 'software' ? 'selected' : nil}
-      %h4 SOFTWARE
-      %p Add software
-    %li{:class => @tab == 'summary' ? 'selected' : nil}
-      %h4 SUMMARY
-      %p Create images
+    - menu.each do |item|
+      %li{:class => controller.action_name == item[:id] ? 'selected' : nil}
+        %h4
+          = item[:text]
+        %p
+          = item[:description]

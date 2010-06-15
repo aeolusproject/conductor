@@ -51,22 +51,28 @@
 - menu = [ { :text => "Groups", :action => "repository_packages_by_group" }, |
   { :text => "Packages", :action => "repository_packages" }, ] |
 
-.pkglist_wrapper
-  .pkglist
-    #dashboard-tabs{ :class => "ui-tabs ui-widget ui-widget-content ui-corner-all" }
-      %ul{ :class => "ui-tabs ui-widget ui-widget-content ui-corner-all ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header" }
-        - menu.each do |item|
-          - selection_style = "ui-tabs-selected ui-state-active" if item[:action] == controller.action_name
-          %li{ :class => "#{selection_style} ui-state-default ui-corner-top", :style => 'clear: none' }
-            = "<a href=\"#{url_for :controller => "image_descriptor", :action => item[:action] }\"><span>#{item[:text]}</span></a>"
-        %li{ :class => "select_repository"}
-          = select_repository_tag(@repositories)
-  .pkglist{:style => "margin-left: 30px", :class => "left-pkglist"}
-    %div{:class => "ui-tabs ui-widget ui-widget-content ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header"}
-      Selected packages
-    %ul{:id => "selected_packages"}
+= render :partial => "nav"
 
-.submit
-  = submit_tag "Cancel"
-  = submit_tag "Back"
-  = submit_tag "Next"
+#image_descriptor_form{:class => 'dcloud_form'}
+  = error_messages_for 'image_descriptor'
+
+  - form_for @image_descriptor, :url => {:action => 'summary', :id => @image_descriptor.id} do
+    .pkglist_wrapper
+      .pkglist
+        #dashboard-tabs{ :class => "ui-tabs ui-widget ui-widget-content ui-corner-all" }
+          %ul{ :class => "ui-tabs ui-widget ui-widget-content ui-corner-all ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header" }
+            - menu.each do |item|
+              - selection_style = "ui-tabs-selected ui-state-active" if item[:action] == controller.action_name
+              %li{ :class => "#{selection_style} ui-state-default ui-corner-top", :style => 'clear: none' }
+                = "<a href=\"#{url_for :controller => "image_descriptor", :action => item[:action] }\"><span>#{item[:text]}</span></a>"
+            %li{ :class => "select_repository"}
+              = select_repository_tag(@repositories)
+      .pkglist{:style => "margin-left: 30px", :class => "left-pkglist"}
+        %div{:class => "ui-tabs ui-widget ui-widget-content ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header"}
+          Selected packages
+        %ul{:id => "selected_packages"}
+
+    .submit
+      = submit_tag "Cancel", :name => "cancel"
+      = submit_tag "Back", :name => "back"
+      = submit_tag "Next", :name => "next"
