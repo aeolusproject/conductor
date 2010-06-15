@@ -2,7 +2,7 @@
   :javascript
     $(document).ready(function() {
       var refreshId = setInterval(function() {
-        $('#image_target_list').load('#{url_for :controller => 'image_descriptor', :action => 'targets', :id => @image_descriptor.id, :ajax => true}');
+        $('#image_target_list').load('#{url_for :controller => 'templates', :action => 'targets', :id => @image_descriptor.id, :ajax => true}');
       }, 10000);
     });
     function toggle_build_form_visibility(ev) {

@@ -64,7 +64,7 @@
             - menu.each do |item|
               - selection_style = "ui-tabs-selected ui-state-active" if item[:action] == controller.action_name
               %li{ :class => "#{selection_style} ui-state-default ui-corner-top", :style => 'clear: none' }
-                = "<a href=\"#{url_for :controller => "image_descriptor", :action => item[:action] }\"><span>#{item[:text]}</span></a>"
+                = "<a href=\"#{url_for :controller => "templates", :action => item[:action] }\"><span>#{item[:text]}</span></a>"
             %li{ :class => "select_repository"}
               = select_tag("repository", ["<option value='all' selected='selected'>All</option>"] + @repositories.map{|repid, rep| "<option value=\"#{repid}\">#{rep['name']}</option>"}, {:onchange => "get_repository(event)"})
       .pkglist{:style => "margin-left: 30px", :class => "left-pkglist"}
