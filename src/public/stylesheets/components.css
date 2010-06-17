@@ -382,40 +382,95 @@ ul.nav li:hover {
 }
 
 #image_descriptor_form {
+  border : none;
+  padding : 1em 0;
+  background : none;
   width: 800px;
   margin: 20px;
   display: inline-block;
 }
 
-#image_descriptor_form ul li textarea {
-  width: 302px;
+/* dcloud form redefines all input fields */
+#image_descriptor_form input {
+  width: auto;
 }
 
-#image_descriptor_form ul li select {
+#image_descriptor_form ul li textarea,
+#image_descriptor_form ul li select,
+#image_descriptor_form ul li input[type=text] {
   width: 302px;
+  float : left;
+  border-top: 1px solid #7f7f7f;
+  background : #fff;
+  border-bottom: 1px solid #7f7f7f;
+  border-left : 1px solid #000;
+  border-right : 1px solid #000;
+  -moz-border-radius : 4px;
 }
 
-#image_descriptor_form ul li input {
-  width: 302px;
+#image_descriptor_form .description {
+  float : left;
+  width : 300px;
+  font-size : 95%;
+  padding-left : 1em;
+  padding-bottom: 20px;
+}
+
+#image_descriptor_form label {
+  color : #000;
+  font-size : 90%;
+  font-weight : bold;
+}
+
+#image_descriptor_form label.plain {
+  font-weight : normal;
 }
 
 #image_descriptor_form .pkglist {
-  float:left;
-  width:380px;
-  height:300px;
-  overflow:auto;
+  float: left;
+  width: 380px;
+  height: 300px;
+  overflow: auto;
   background-color: white;
-  border : 2px solid #ccc;
-  -moz-border-radius : 6px;
+  border: 2px solid #ccc;
+  -moz-border-radius: 6px;
 }
 
-#image_descriptor_form .pkglist .select_package,
-#image_descriptor_form .pkglist .select_group,
-#image_descriptor_form .pkglist .remove_group {
+#image_descriptor_form .submit {
+  padding-top: 20px;
+}
+
+#image_descriptor_form .pkglist .action_link {
   float:right;
   width: 60px !important;
-  cursor: pointer;
   color: blue;
+}
+
+#image_descriptor_form .selection_list > li {
+  padding-bottom: 10px;
+}
+
+#image_descriptor_form .groupkgs {
+  padding-left: 20px;
+}
+
+#image_descriptor_form .pkglist .ui-tabs {
+  padding : 0;
+}
+
+#image_descriptor_form .pkglist .ui-tabs .ui-tabs-panel {
+  padding : 1em 0.5em;
+}
+
+#image_descriptor_form .left-pkglist .ui-widget-header {
+  height : 26px;
+  padding : 10px;
+}
+
+#image_descriptor_form .pkglist ul.ui-tabs-nav {
+  background-color: white;
+  width : 379px;
+  height : 44px;
 }
 
 #image_descriptor_form .pkglist .select_repository {
@@ -427,29 +482,8 @@ ul.nav li:hover {
   width:150px;
 }
 
-#image_descriptor_form .pkglist_wrapper {
-  width:800px;
-}
-
-#image_descriptor_form .pkglist ul.ui-tabs-nav {
-  background-color: white;
-  width : 373px;
-  height : 44px;
-}
-
-#image_descriptor_form .pkglist ul li.select {
-  float : right;
-  margin-top : 5px;
-}
-
-#image_descriptor_form .groupkgs li {
-  padding-left: 20px;
-}
-
-#image_descriptor_form .side_panel label {
-  float: none;
-  font-size: 1em;
-  padding: 5px;
+#image_descriptor_form #selected_packages {
+  padding: 10px;
 }
 
 #image_descriptor_form .side_panel {
@@ -461,8 +495,14 @@ ul.nav li:hover {
   min-height: 300px;
 }
 
-#image_descriptor_form .submit {
-  padding-top: 20px;
+#image_descriptor_form .side_panel label {
+  float: none;
+  font-size: 1em;
+  padding: 5px;
+}
+
+#image_descriptor_form .side_panel li {
+  padding-bottom: 20px;
 }
 
 #image_descriptor_form .main_panel {
@@ -483,18 +523,15 @@ ul.nav li:hover {
   font-size: 1em;
 }
 
-#image_descriptor_form .side_panel li {
-  padding-bottom: 20px;
+#image_descriptor_form .expand_target_list_button {
+  float: right;
+  display: none;
 }
 
 #image_descriptor_form .target_list li {
   border: 1px solid #ccc;
   margin: 20px;
   padding: 5px;
-}
-
-#image_descriptor_form .groups_to_select > li {
-  padding-bottom: 10px;
 }
 
 #image_descriptor_form .target_list li .status {
@@ -510,84 +547,4 @@ ul.nav li:hover {
 #image_descriptor_form .target_list .empty {
   text-align: center;
   padding: 30px;
-}
-
-#image_descriptor_form .expand_target_list_button {
-  float: right;
-  display: none;
-}
-
-/* mfojtik's hacks ;-) */
-
-#image_descriptor_form.dcloud_form {
-  background : none;
-  border : none;
-  margin : 20px;
-  padding : 1em 0;
-}
-
-#image_descriptor_form.dcloud_form li {
-  clear : both;
-}
-
-#image_descriptor_form.dcloud_form label {
-  color : #000;
-  font-size : 90%;
-  font-weight : bold;
-}
-
-#image_descriptor_form.dcloud_form label.plain {
-  font-weight : normal;
-}
-
-#image_descriptor_form.dcloud_form span {
-  float : left;
-  width : 300px;
-  font-size : 95%;
-  padding-left : 1em;
-  padding-bottom: 10px;
-}
-
-#image_descriptor_form.dcloud_form .ui-tabs li span {
-  width : 60px;
-  padding-left : 0;
-}
-
-#image_descriptor_form.dcloud_form input[type=text],
-#image_descriptor_form.dcloud_form textarea,
-#image_descriptor_form.dcloud_form select {
-  float : left;
-  border-top: 1px solid #7f7f7f;
-  background : #fff;
-  border-bottom: 1px solid #7f7f7f;
-  border-left : 1px solid #000;
-  border-right : 1px solid #000;
-  -moz-border-radius : 4px;
-}
-
-#image_descriptor_form.dcloud_form select {
-  width : 312px;
-  float : left;
-}
-
-#selected_packages > li {
-  padding-top: 10px;
-  padding-left: 10px;
-}
-
-#image_descriptor_form.dcloud_form textarea {
-  width : 308px;
-}
-
-.pkglist .ui-tabs {
-  padding : 0;
-}
-
-.pkglist .ui-tabs .ui-tabs-panel {
-  padding : 1em 0.5em;
-}
-
-.left-pkglist .ui-tabs {
-  height : 26px;
-  padding : 10px;
 }

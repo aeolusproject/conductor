@@ -69,8 +69,7 @@
       .pkglist{:style => "margin-left: 30px", :class => "left-pkglist"}
         %div{:class => "ui-tabs ui-widget ui-widget-content ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header"}
           Selected packages
-        %ul{:id => "selected_packages"}
-          = render :partial => 'selected_packages'
+        = render :partial => 'selected_packages'
     .submit
       = submit_tag "Cancel", :name => "cancel"
       = submit_tag "Back", :name => "back"
