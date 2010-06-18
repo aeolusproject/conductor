@@ -1,13 +1,11 @@
+require 'util/repository_manager'
+
 class TemplatesController < ApplicationController
   layout :layout
   before_filter :require_user, :check_permission
 
   def layout
-    return "aggregator" unless ajax?
-  end
-
-  def ajax?
-    return params[:ajax] == "true"
+    request.xhr? ? false : 'aggregator'
   end
 
   def new
@@ -30,8 +28,23 @@ class TemplatesController < ApplicationController
     if params[:cancel]
       redirect_to :controller => "dashboard", :action => 'index'
     else
-      update_xml
-      @repositories = RepositoryManager.new.repositories
+      @repository_manager = RepositoryManager.new
+      @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
+      @groups = @repository_manager.all_groups(params[:repository])
+      if params[:tab].to_s == 'packages'
+        @selected_tab = 'packages'
+        @packages = @repository_manager.all_packages(params[:repository])
+      else
+        @selected_tab = 'groups'
+      end
+
+      if request.xhr?
+        render :partial => @selected_tab
+        return
+      end
+
+      @image_descriptor.update_xml_attributes!(params[:xml] || {})
+
       if params[:back]
         redirect_to :action => 'new', :id => params[:id]
         return
@@ -43,8 +56,7 @@ class TemplatesController < ApplicationController
     if params[:cancel]
       redirect_to :controller => "dashboard", :action => 'index'
     else
-      @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
-      @image_descriptor.update_xml_attributes!(params[:xml] || {})
+      update_xml
       @image_descriptor.complete = true
       @image_descriptor.save!
       @all_targets = ImageDescriptorTarget.available_targets
@@ -61,7 +73,6 @@ class TemplatesController < ApplicationController
     elsif params[:back]
       redirect_to :action => 'software', :id => params[:id]
     else
-      @all_targets = ImageDescriptorTarget.available_targets
       if params[:targets]
         params[:targets].each do |target|
           ImageDescriptorTarget.new_if_not_exists(:name => target, :image_descriptor_id => params[:id], :status => ImageDescriptorTarget::STATE_QUEUED)
@@ -76,34 +87,34 @@ class TemplatesController < ApplicationController
     @all_targets = ImageDescriptorTarget.available_targets
   end
 
-  def selected_packages
-    data = ImageDescriptor.find(params[:id]).xml.packages
+  def select_group
+    update_group_or_package(:add_group, params[:group])
   end
 
-  def repository_packages
-    @packages = []
-    rmanager = RepositoryManager.new
-    rmanager.repositories.keys.each do |repid|
-      next if params[:repository] and params[:repository] != 'all' and repid != params[:repository]
-      rep = rmanager.get_repository(repid)
-      @packages += rep.get_packages
-    end
+  def remove_group
+    update_group_or_package(:remove_group, params[:group])
   end
 
-  def repository_packages_by_group
-    @packages = {}
-    rmanager = RepositoryManager.new
-    rmanager.repositories.keys.each do |repid|
-      next if params[:repository] and params[:repository] != 'all' and repid != params[:repository]
-      rep = rmanager.get_repository(repid)
-      rep.get_packages_by_group.each do |group, pkgs|
-        @packages[group] ||= []
-        @packages[group] += pkgs
-      end
-    end
+  def select_package
+    update_group_or_package(:add_package, params[:package], params[:group])
   end
 
   private
+
+  def check_permission
+    #require_privilege(Privilege::IMAGE_MODIFY)
+  end
+
+  def update_group_or_package(method, *args)
+    @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
+    @image_descriptor.xml.send(method, *args)
+    @image_descriptor.save_xml!
+    if request.xhr?
+      render :partial => 'selected_packages'
+    else
+      redirect_to :action => 'software', :id => @image_descriptor
+    end
+  end
 
   def update_xml
     @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new

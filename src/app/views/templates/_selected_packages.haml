@@ -1,0 +1,10 @@
+- @image_descriptor.xml.all_packages_by_group.each do |group|
+  %li{:class => 'group'}
+    = group[:name]
+    %a{:class => 'remove_group', :href => url_for(:action => 'remove_group', :id => @image_descriptor, :group => group[:name])}
+      Remove
+  %ul{:class => 'groupkgs'}
+    - group[:pkgs].each do |pkg|
+      %li{:class => 'pkgname'}
+        %input{:type => 'checkbox', :name => 'xml[packages][]', :value => group[:name] + '#' + pkg[:name], :checked => pkg[:checked]}
+        = pkg[:name]

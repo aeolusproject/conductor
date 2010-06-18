@@ -2,25 +2,27 @@
   :javascript
     $(document).ready(function() {
       var refreshId = setInterval(function() {
-        $('#image_target_list').load('#{url_for :controller => 'templates', :action => 'targets', :id => @image_descriptor.id, :ajax => true}');
+        $('#image_target_list').load('#{url_for :controller => 'templates', :action => 'targets', :id => @image_descriptor}');
       }, 10000);
+      $(".expand_target_list_button").css('display', 'block');
+      $("#image_build_form").css('display', 'none');
+      $(".expand_target_list_button").toggle(
+        function(ev) {
+          $("#image_build_form").css('display', 'block');
+          $(this).val('Cancel');
+        }, function(ev) {
+          $("#image_build_form").css('display', 'none');
+          $(this).val('Build Images');
+        }
+      );
     });
-    function toggle_build_form_visibility(ev) {
-      if ($("#image_build_form").css('display') == 'none') {
-        $("#image_build_form").css('display', 'block');
-        $(ev.target).val('Cancel');
-      } else {
-        $("#image_build_form").css('display', 'none');
-        $(ev.target).val('Build Images');
-      }
-    }
 
 = render :partial => "nav"
 
 #image_descriptor_form{:class => 'dcloud_form'}
   = error_messages_for 'image_descriptor'
 
-  - form_for @image_descriptor, :url => {:action => 'build', :id => @image_descriptor.id} do
+  - form_for @image_descriptor, :url => {:action => 'build', :id => @image_descriptor} do
     .summary_panel
       %ul{:class => 'side_panel'}
         %li
@@ -44,7 +46,7 @@
         .image_build_panel
           %h3
             Images
-            %input{:type => 'button', :value => "Build Images", :style => 'float:right', :onclick => 'toggle_build_form_visibility(event)'}
+            %input{:type => 'button', :class => "expand_target_list_button", :value => "Build Images"}
           #image_build_form
             %ul
               %li

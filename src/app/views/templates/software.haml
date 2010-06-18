@@ -1,19 +1,33 @@
 - content_for :scripts do
   :javascript
     $(document).ready(function() {
-      $("#dashboard-tabs > ul > li > a").each(function(index) {
-        var link = $(this).attr("href") + "?ajax=true";
-        $(this).attr("href", link);
+      // FIXME: don't know, how to disable first ajax load.
+      // On ajax load, new data are only appended to existing content
+      // workaround is to delete existing content before load
+      $(".groups_to_select").remove();
+      $("#dashboard-tabs").tabs({
+        spinner: "Loading...",
+        load: function(event, ui) {
+          $("a.select_group").click(function(ev) {
+            $("#selected_packages").load($(ev.target).attr('href'), loadCallback);
+            return false;
+          });
+          $("a.select_package").click(function(ev) {
+            $("#selected_packages").load($(ev.target).attr('href'), loadCallback);
+            return false;
+          });
+        }
       });
-      $("#dashboard-tabs").tabs({spinner: "Loading..."});
-
       // when JS is enabled, hide the Dashboard content -- it'll be loaded
       // by jquery UI tab using ajax
       $("#dashboard-content").hide();
-      #{@image_descriptor.xml.packages.map {|group, pkgs| "select_group({group: '#{group}', pkgs: ['#{pkgs.map {|p| p[:name]}.join("','")}']});"}.join("\n")}
+      loadCallback();
     });
-    function remove_group(ev) {
-      $(ev.target).parent().remove();
+    function loadCallback() {
+      $("a.remove_group").click(function(ev) {
+        $("#selected_packages").load($(ev.target).attr('href'), loadCallback);
+        return false;
+      });
     };
     function get_repository(ev) {
       var rep = $(ev.target).val();
@@ -28,50 +42,35 @@
       });
       $("#dashboard-tabs").tabs('load', $("#dashboard-tabs").tabs('option', 'selected'));
     };
-    function select_package(group, pkgname, parent) {
-      if (!parent) parent = $("#selected_packages");
-      if (parent.find(".pkgname").filter(function() {return $(this).text() == pkgname}).length == 0) {
-        var node = $("<li><input type=checkbox name='xml[packages][]' value='" + group + '#' + pkgname + "' checked=true><span class='pkgname'>" + pkgname + "</span></li>").appendTo(parent);
-      }
-    };
-    function add_group(name) {
-      var group = $("<li><span class='group'>" + name + "</span><span class='select' onclick='remove_group(event)'>Remove</span><ul></ul></li>").appendTo("#selected_packages");
-      return group.find("ul");
-    };
-    function select_group(opts) {
-      var groups = $("#selected_packages li .group").filter(function() {return $(this).text() == opts.group});
-      //FIXME: if group exists, we abort adding group again, merging is not supported yet
-      if (groups.length > 0) return;
-      var group = add_group(opts.group);
-      for (var i = 0; i < opts.pkgs.length; i++) {
-        select_package(opts.group, opts.pkgs[i], group);
-      }
-    };
 
-- menu = [ { :text => "Groups", :action => "repository_packages_by_group" }, |
-  { :text => "Packages", :action => "repository_packages" }, ] |
+
+- menu = [ { :text => "Groups", :tab => "groups" }, |
+  { :text => "Packages", :tab => "packages" }, ] |
 
 = render :partial => "nav"
 
 #image_descriptor_form{:class => 'dcloud_form'}
   = error_messages_for 'image_descriptor'
 
-  - form_for @image_descriptor, :url => {:action => 'summary', :id => @image_descriptor.id} do
+  - form_for @image_descriptor, :url => {:action => 'summary', :id => @image_descriptor} do
+    = hidden_field_tag 'xml[set_packages]', true
     .pkglist_wrapper
       .pkglist
         #dashboard-tabs{ :class => "ui-tabs ui-widget ui-widget-content ui-corner-all" }
           %ul{ :class => "ui-tabs ui-widget ui-widget-content ui-corner-all ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header" }
             - menu.each do |item|
-              - selection_style = "ui-tabs-selected ui-state-active" if item[:action] == controller.action_name
+              - selection_style = "ui-tabs-selected ui-state-active" if item[:tab] == @selected_tab
               %li{ :class => "#{selection_style} ui-state-default ui-corner-top", :style => 'clear: none' }
-                = "<a href=\"#{url_for :controller => "templates", :action => item[:action] }\"><span>#{item[:text]}</span></a>"
+                = "<a href=\"#{url_for(:action => "software", :id => @image_descriptor, :tab => item[:tab])}\"><span>#{item[:text]}</span></a>"
             %li{ :class => "select_repository"}
-              = select_tag("repository", ["<option value='all' selected='selected'>All</option>"] + @repositories.map{|repid, rep| "<option value=\"#{repid}\">#{rep['name']}</option>"}, {:onchange => "get_repository(event)"})
+              = select_tag("repository", ["<option value='all' selected='selected'>All</option>"] + @repository_manager.repositories.map{|repid, rep| "<option value=\"#{repid}\">#{rep['name']}</option>"}, {:onchange => "get_repository(event)"})
+          - unless request.xhr?
+            = render :partial => @selected_tab
       .pkglist{:style => "margin-left: 30px", :class => "left-pkglist"}
         %div{:class => "ui-tabs ui-widget ui-widget-content ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header"}
           Selected packages
         %ul{:id => "selected_packages"}
-
+          = render :partial => 'selected_packages'
     .submit
       = submit_tag "Cancel", :name => "cancel"
       = submit_tag "Back", :name => "back"

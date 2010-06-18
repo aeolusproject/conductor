@@ -1,0 +1,11 @@
+%ul{:class => 'groups_to_select'}
+  - @groups.keys.sort.each do |group|
+    %li
+      - pkgs = @groups[group][:packages].keys.join("','")
+      = group
+      %a{:class => 'select_group', :href => url_for(:action => 'select_group', :id => params[:id], :group => group)}
+        Select
+      %ul{:class => 'groupkgs'}
+        - @groups[group][:packages].each do |pkg, type|
+          %li
+            = pkg

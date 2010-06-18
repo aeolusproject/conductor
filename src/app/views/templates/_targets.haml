@@ -8,7 +8,7 @@
           %span{:class => 'actions'}
             &nbsp;
             - if ImageDescriptorTarget::ACTIVE_STATES.include?(target.status)
-              = link_to 'Cancel', {:controller => 'image_descriptor_target', :action => 'cancel', :id => target.id, :descriptor_id => @image_descriptor.id}
+              = link_to 'Cancel', {:controller => 'image_descriptor_target', :action => 'cancel', :id => target, :descriptor_id => @image_descriptor}
           %span{:class => 'status'}
             = target.status
           = @all_targets[target.name]['name']

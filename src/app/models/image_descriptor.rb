@@ -1,4 +1,3 @@
-require 'util/repository_manager'
 require 'util/image_descriptor_xml'
 
 class ImageDescriptor < ActiveRecord::Base
@@ -7,14 +6,18 @@ class ImageDescriptor < ActiveRecord::Base
   #TODO: validations
 
   def update_xml_attributes!(opts = {})
-    doc = ImageDescriptorXML.new(self[:xml])
+    doc = xml
     doc.name = opts[:name] if opts[:name]
     doc.platform = opts[:platform] if opts[:platform]
     doc.description = opts[:description] if opts[:description]
-    doc.services = opts[:services] if opts[:services]
-    doc.packages = opts[:packages] if opts[:packages]
-    self[:xml] = doc.to_xml
-    @xml = doc
+    doc.services = (opts[:services] || []) if opts[:services] or opts[:set_services]
+    doc.packages = (opts[:packages] || []) if opts[:packages] or opts[:set_packages]
+    save_xml!
+  end
+
+  def save_xml!
+    self[:xml] = xml.to_xml
+    @xml = nil
     save!
   end
 
