@@ -24,4 +24,25 @@ namespace :dc do
                                       )
     puts "Granting administrator privileges for #{args.login}..."
   end
+
+
+  desc 'Download repository xml files'
+  task :download_repos => :environment do |t, args|
+    require 'util/repository_manager'
+
+    base_dir = "#{RAILS_ROOT}/config/image_descriptor_xmls"
+    Dir.mkdir(base_dir) unless File.directory?(base_dir)
+
+    mgr = RepositoryManager.new
+    mgr.repositories.keys.each do |repid|
+      rep = mgr.get_repository(repid)
+
+      %w(repomd primary group).each do |type|
+        path = "#{base_dir}/#{repid}.#{type}.xml"
+        puts "Downloading #{type} file for #{repid} repository -> #{path}"
+        File.open(path , "w") { |f| f.write rep.download_xml(type) }
+      end
+    end
+  end
+
 end

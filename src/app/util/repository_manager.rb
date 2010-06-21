@@ -25,13 +25,6 @@ class RepositoryManager
     def initialize(baseurl, id)
       @id = id
       @baseurl = baseurl
-      @repomd_uri = File.join(@baseurl, 'repodata', 'repomd.xml')
-      begin
-        repoio = open(@repomd_uri)
-      rescue
-        raise "failed to download repomd file #{@repomd_uri}"
-      end
-      @repomd = Nokogiri::XML(repoio)
     end
 
     def get_packages
@@ -66,7 +59,30 @@ class RepositoryManager
       return groups
     end
 
+    def download_xml(type)
+      begin
+        url = get_url(type)
+      rescue
+        return ''
+      end
+
+      xml_data = open(url)
+      if url =~ /\.gz$/
+        return Zlib::GzipReader.new(xml_data).read
+      else
+        return xml_data.read
+      end
+    end
+
     private
+
+    def get_xml(type)
+      begin
+        return File.open("#{RAILS_ROOT}/config/image_descriptor_xmls/#{@id}.#{type}.xml") { |f| f.read }
+      rescue
+        return download_xml(type)
+      end
+    end
 
     def get_group_packages(group_node)
       pkgs = {}
@@ -78,7 +94,7 @@ class RepositoryManager
 
     def get_packages_nodes
       unless @packages_nodes
-        data = get_xml(get_url('primary'))
+        data = get_xml('primary')
         xml = Nokogiri::XML(data)
         @packages_nodes = xml.xpath('/xmlns:metadata/xmlns:package')
       end
@@ -87,32 +103,28 @@ class RepositoryManager
 
     def get_groups_nodes
       unless @groups_nodes
-        # if there is no group definition, group list will be empty
-        begin
-          url = get_url('group')
-        rescue
-          return []
-        end
-        data = get_xml(url)
+        data = get_xml('group')
         xml = Nokogiri::XML(data)
         @groups_nodes = xml.xpath('/comps/group')
       end
       return @groups_nodes
     end
 
-    def get_xml(url)
-      xml_data = open(url)
-      if url =~ /\.gz$/
-        return Zlib::GzipReader.new(xml_data).read
+    def get_url(type)
+      if type == 'repomd'
+        return File.join(@baseurl, 'repodata', 'repomd.xml')
       else
-        return xml_data
+        location = repomd.xpath("/xmlns:repomd/xmlns:data[@type=\"#{type}\"]/xmlns:location").first
+        raise "location for #{type} data not found" unless location
+        return File.join(@baseurl, location['href'])
       end
     end
 
-    def get_url(type)
-      location = @repomd.xpath("/xmlns:repomd/xmlns:data[@type=\"#{type}\"]/xmlns:location").first
-      raise "location for #{type} data not found" unless location
-      return File.join(@baseurl, location['href'])
+    def repomd
+      unless @repomd
+        @repomd = Nokogiri::XML(get_xml('repomd'))
+      end
+      return @repomd
     end
   end
 
