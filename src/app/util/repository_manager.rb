@@ -134,7 +134,7 @@ class RepositoryManager
     unless @all_groups
       @all_groups = {}
       repositories.keys.each do |r|
-        next if repository and r != 'all' and repository == r
+        next if repository and repository != 'all' and repository != r
         get_repository(r).get_groups.each do |group, data|
           if @all_groups[group]
             @all_groups[group][:packages].merge!(data[:packages])
@@ -151,7 +151,7 @@ class RepositoryManager
     unless @all_packages
       @all_packages = []
       repositories.keys.each do |r|
-        next if repository and r != 'all' and repository == r
+        next if repository and repository != 'all' and repository != r
         @all_packages += get_repository(r).get_packages
       end
     end
