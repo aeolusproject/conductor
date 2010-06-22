@@ -1,20 +1,27 @@
-# {library_summary}
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2010 Red Hat, Inc.
 #
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
 #
-# This library is distributed in the hope that it will be useful,
+# This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+# MA  02110-1301, USA.  A copy of the GNU General Public License is
+# also available at http://www.gnu.org/copyleft/gpl.html.
+
+# This service is a very early attempt at integration with the Image Builder, and
+# should in no way be considered either stable or production-ready.
+# In order to use this service you must have the gem installed for image_builder_console.
+# This can be checked out from the image_builder repo (link on deltacloud.org), and built
+# locally.  Then keep a terminal open to run this in and run with:
+#   ruby image_builder_service.rb
 
 $: << File.join(File.dirname(__FILE__), "../dutils")
 require 'dutils'
