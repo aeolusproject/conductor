@@ -77,10 +77,18 @@ class RepositoryManager
     private
 
     def get_xml(type)
+      # FIXME: I'm not sure config is right dir for automatic storing of
+      # xml files, but this should be temporary solution until Image Repo is
+      # done
+      xml_dir = "#{RAILS_ROOT}/config/image_descriptor_xmls"
+      xml_file = "#{xml_dir}/#{@id}.#{type}.xml"
       begin
-        return File.open("#{RAILS_ROOT}/config/image_descriptor_xmls/#{@id}.#{type}.xml") { |f| f.read }
+        return File.open(xml_file) { |f| f.read }
       rescue
-        return download_xml(type)
+        xml = download_xml(type)
+        Dir.mkdir(xml_dir) unless File.directory?(xml_dir)
+        File.open(xml_file, 'w') { |f| f.write xml }
+        return xml
       end
     end
 
