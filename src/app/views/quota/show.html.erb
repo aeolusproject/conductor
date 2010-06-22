@@ -1,58 +1,27 @@
 <% if !@quota %>
 <h1>There is no Quota on this <%= @parent_type %></h1>
-<%= link_to "Create Quota", {:action => "new", :id => @parent, :parent_type => @parent_type}, :class=>"actionlink"%>
 <% else %>
     <table>
       <thead>
         <tr>
           <th scope="col">Resource</th>
           <th scope="col">Max Capacity</th>
-          <th scope="col">Used Capacity</th>
-          <th scope="col">Free Capacity</th>
-          <th scope="col">% Used</th>
+          <th scope="col">Used</th>
+          <th scope="col">Available</th>
         </tr>
       </thead>
       <tbody>
+        <% quota_resources = @quota.quota_resources
+           quota_resources.each_value do |quota_resource| %>
         <tr>
-          <td>Running Instances</td>
-          <td><%= sprintf("%.1f", @quota.maximum_running_instances) %></td>
-          <td><%= sprintf("%.1f", @quota.running_instances) %></td>
-          <td><%= sprintf("%.1f", @quota.maximum_running_instances - @quota.running_instances) %></td>
-          <td><%= 	percentage = (100.to_f / @quota.maximum_running_instances) * @quota.running_instances
-					sprintf("%.2f", percentage) %></td>
-        </tr>
-        <tr>
-          <td>Running Memory / MB</td>
-          <td><%= sprintf("%.1f", @quota.maximum_running_memory.to_f) %></td>
-          <td><%= sprintf("%.1f", @quota.running_memory.to_f) %></td>
-		  <td><%= sprintf("%.1f", @quota.maximum_running_memory.to_f - @quota.running_memory.to_f) %></td>
-		  <td><%= 	percentage = (100.to_f / @quota.maximum_running_memory.to_f) * @quota.running_memory.to_f
-					sprintf("%.2f", percentage) %></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Running CPUs</td>
-          <td><%= sprintf("%.1f", @quota.maximum_running_cpus) %></td>
-          <td><%= sprintf("%.1f", @quota.running_cpus) %></td>
-		  <td><%= sprintf("%.1f",@quota.maximum_running_cpus.to_f - @quota.running_cpus.to_f) %></td>
-          <td><%= sprintf("%.2f", (100.to_f / @quota.maximum_running_cpus.to_f) * @quota.running_cpus.to_f) %></td>
-        </tr>
-        <tr>
-          <td>Total Instances</td>
-          <td><%= sprintf("%.1f", @quota.maximum_total_instances) %></td>
-          <td><%= sprintf("%.1f", @quota.total_instances) %></td>
-		  <td><%= sprintf("%.1f", @quota.maximum_total_instances - @quota.total_instances) %></td>
-          <td><%= sprintf("%.2f", (100.to_f / @quota.maximum_total_instances) * @quota.total_instances) %></td>
-        </tr>
-        <tr>
-          <td>Total Storage / GB</td>
-          <td><%= sprintf("%.1f", @quota.maximum_total_storage.to_f) %></td>
-          <td><%= sprintf("%.1f", @quota.total_storage.to_f) %></td>
-		  <td><%= sprintf("%.1f", @quota.maximum_total_storage.to_f - @quota.total_storage.to_f) %></td>
-          <td><%= sprintf("%.2f", (100.to_f / @quota.maximum_total_storage.to_f) * @quota.total_storage.to_f) %></td>
-        </tr>
+          <td><%= quota_resource.name + " " + quota_resource.unit%></td>
+          <td><%= quota_resource.max %></td>
+          <td><%= quota_resource.used %></td>
+          <td><%= quota_resource.available %></td>
+      </tr>
+      <% end %>
     </tbody>
   </table>
   <%= link_to "Edit", {:action => "edit", :id => @parent, :parent_type => @parent_type}, :class=>"actionlink"%>
-  <%= link_to "Delete", {:action => "delete", :id => @parent, :parent_type => @parent_type}, :class=>"actionlink"%>
+  <%= link_to "Reset", {:action => "reset", :id => @parent, :parent_type => @parent_type}, :class=>"actionlink"%>
 <% end %>

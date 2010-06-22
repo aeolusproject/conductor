@@ -20,33 +20,24 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Quota < ActiveRecord::Base
+
+  QuotaResource = Struct.new(:name, :used, :max, :available, :unit)
+
+  NO_LIMIT = nil
+
   has_one :pool
   has_one :cloud_account
 
-  validates_presence_of :maximum_running_instances
-  validates_presence_of :maximum_running_memory
-  validates_presence_of :maximum_running_cpus
-
-  validates_presence_of :maximum_total_storage
-  validates_presence_of :maximum_total_instances
-
-  validates_numericality_of :maximum_running_instances
-  validates_numericality_of :maximum_running_memory
-  validates_numericality_of :maximum_running_cpus
-
-  validates_numericality_of :maximum_total_storage
-  validates_numericality_of :maximum_total_instances
-
-
   def can_create_instance?(instance)
-    # TODO Fix: When this returns failed, instance gets deleted at some point from database.  It should be kept for audit
     hwp = instance.hardware_profile
 
     potential_total_storage = total_storage.to_f + hwp.storage.value.to_f
     potential_total_instances = total_instances + 1
 
-    if maximum_total_instances >= potential_total_instances && maximum_total_storage.to_f >= potential_total_storage.to_f
-      return true
+    # check for no quota
+    if (Quota.no_limit(maximum_total_instances) || maximum_total_instances >= potential_total_instances) &&
+       (Quota.no_limit(maximum_total_storage) || maximum_total_storage.to_f >= potential_total_storage.to_f)
+         return true
     end
     return false
   end
@@ -58,17 +49,36 @@ class Quota < ActiveRecord::Base
     potential_running_memory = running_memory.to_f + hwp.memory.value.to_f
     potential_running_cpus = running_cpus.to_f + hwp.cpu.value.to_f
 
-    if maximum_running_instances >= potential_running_instances && maximum_running_memory.to_f >= potential_running_memory && maximum_running_cpus.to_f >= potential_running_cpus
+    if (Quota.no_limit(maximum_running_instances) || maximum_running_instances >= potential_running_instances) &&
+       (Quota.no_limit(maximum_running_memory) || maximum_running_memory.to_f >= potential_running_memory) &&
+       (Quota.no_limit(maximum_running_cpus) || maximum_running_cpus.to_f >= potential_running_cpus)
+         return true
+    end
+    return false
+  end
+
+  def quota_resources()
+    quota_resources =  {"running_instances" => QuotaResource.new("Running Instances", running_instances, maximum_running_instances, maximum_running_instances.to_f - running_instances.to_f, ""),
+            "running_memory" => QuotaResource.new("Running Memory", running_memory, maximum_running_memory, maximum_running_memory.to_f - running_memory.to_f, "MB"),
+            "running_cpus" => QuotaResource.new("Running CPUs", running_cpus, maximum_running_cpus, maximum_running_cpus.to_f - running_cpus.to_f, ""),
+            "total_instances" => QuotaResource.new("Total Instances", total_instances, maximum_total_instances, maximum_total_instances.to_f - total_instances.to_f, ""),
+            "total_storage" => QuotaResource.new("Total Storage", total_storage, maximum_total_storage, maximum_total_storage.to_f - total_storage.to_f, "GB")}
+
+    quota_resources.each_value do |quota_resource|
+      if Quota.no_limit(quota_resource.max)
+        quota_resource.max = "No Limit"
+        quota_resource.available = "N\A"
+      end
+    end
+
+    return quota_resources
+  end
+
+  def self.no_limit(resource)
+    if resource.to_s == NO_LIMIT.to_s
       return true
     end
     return false
   end
 
-  def validate
-    errors.add("maximum_running_instances", "cannot be less than the current running instances") if maximum_running_instances < running_instances
-    errors.add("maximum_running_memory", "cannot be less than the current running memory") if maximum_running_memory.to_f < running_memory.to_f
-    errors.add("maximum_running_cpus", "cannot be less than the current running CPUs") if maximum_running_cpus.to_f < running_cpus.to_f
-    errors.add("maximum_total_storage", "cannot be less than the current total storage") if maximum_total_storage.to_f < total_storage.to_f
-    errors.add("maximum_total_instances", "cannot be less than the current total instances") if maximum_total_instances < total_instances
-  end
 end

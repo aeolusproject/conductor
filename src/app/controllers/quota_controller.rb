@@ -30,51 +30,6 @@ class QuotaController < ApplicationController
     require_privilege(Privilege::QUOTA_VIEW, @parent)
   end
 
-  def new
-    @parent = get_parent_object(params)
-    @parent_type = params[:parent_type]
-    @name = get_parent_name(@parent, @parent_type)
-    require_privilege(Privilege::QUOTA_MODIFY, @parent)
-  end
-
-  def create
-    #TODO Should be in Transaction
-    @parent = get_parent_object(params)
-    @parent_type = params[:parent_type]
-    @quota = @parent.quota
-    if !@quota
-      require_privilege(Privilege::QUOTA_MODIFY, @parent)
-      @quota = Quota.new(params[:quota])
-
-      # Populate Current Pool totals to Quota
-      @parent.instances.each do |instance|
-        hwp = HardwareProfile.find(instance.hardware_profile_id)
-        if instance.state == Instance::STATE_RUNNING
-          @quota.running_instances += 1
-          @quota.running_memory = @quota.running_memory.to_f + hwp.memory.value.to_f
-          @quota.running_cpus = @quota.running_cpus.to_f + hwp.cpu.value.to_f
-        end
-
-        if InstanceObserver::ACTIVE_STATES.include?(instance.state)
-          @quota.total_instances += 1
-          @quota.total_storage = @quota.total_storage.to_f + hwp.storage.value.to_f
-        end
-      end
-
-      if @quota.save
-        flash[:notice] = "Quota Created!"
-        @parent.quota_id = @quota.id
-        @parent.save!
-        redirect_to :action => 'show', :id => @parent, :parent_type => @parent_type
-      else
-        render :action => :new
-      end
-    else
-      @parent.errors.add("quota_id", "There already exists a quota for this " + @parent_type)
-      render :action => :new
-    end
-  end
-
   def edit
     @parent = get_parent_object(params)
     @parent_type = params[:parent_type]
@@ -99,15 +54,22 @@ class QuotaController < ApplicationController
     end
   end
 
-  def delete
-    @parent = get_parent_object(params)
+  def reset
+    @parent = @parent = get_parent_object(params)
     @parent_type = params[:parent_type]
-    @quota = @parent.quota
     require_privilege(Privilege::QUOTA_MODIFY, @parent)
-    if @quota.delete
-      flash[:notice] = "Quota Deleted!"
-      redirect_to :action => 'show', :id => @parent, :parent_type => @parent_type
+
+    @quota = @parent.quota
+    @quota.maximum_running_cpus = Quota::NO_LIMIT
+    @quota.maximum_running_instances = Quota::NO_LIMIT
+    @quota.maximum_running_memory = Quota::NO_LIMIT
+    @quota.maximum_total_instances = Quota::NO_LIMIT
+    @quota.maximum_total_storage  = Quota::NO_LIMIT
+
+    if @quota.save!
+      flash[:notice] = "Quota updated!"
     end
+      redirect_to :action => 'show', :id => @parent, :parent_type => @parent_type
   end
 
   private
@@ -127,6 +89,15 @@ class QuotaController < ApplicationController
       return parent.username
     end
     #TODO Throw no match to pool or cloud account exception
+  end
+
+  def check_params_infinite_limits(params)
+    params.each_pair do |key, value|
+      if value == ""
+        params[key] = Quota::NO_LIMIT
+      end
+    end
+    return params
   end
 
 

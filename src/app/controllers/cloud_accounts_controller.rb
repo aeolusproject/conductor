@@ -32,6 +32,13 @@ class CloudAccountsController < ApplicationController
     @provider = Provider.find(params[:cloud_account][:provider_id])
     require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
     @cloud_account = CloudAccount.new(params[:cloud_account])
+
+    quota = Quota.new
+    quota.save!
+
+    @cloud_account.quota_id = quota.id
+    @cloud_account.save!
+
     if request.post? && @cloud_account.save && @cloud_account.populate_realms_and_images
       flash[:notice] = "Provider account added."
       redirect_to :controller => "provider", :action => "accounts", :id => @provider

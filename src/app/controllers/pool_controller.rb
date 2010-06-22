@@ -75,6 +75,13 @@ class PoolController < ApplicationController
     perm.save!
     # FIXME: do we need any more handling around save failures? What if perm
     #        creation fails?
+
+    quota = Quota.new
+    quota.save!
+
+    @pool.quota_id = quota.id
+    @pool.save!
+
     flash[:notice] = "Pool added."
     redirect_to :action => 'show', :id => @pool.id
   end
