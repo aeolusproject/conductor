@@ -20,6 +20,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 require 'util/taskomatic'
+require 'util/condormatic'
 
 class PoolController < ApplicationController
   before_filter :require_user
@@ -36,8 +37,8 @@ class PoolController < ApplicationController
     #FIXME: clean this up, many error cases here
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::INSTANCE_VIEW,@pool)
-    # pass nil into Taskomatic as we're not working off a task here
-    Taskomatic.new(nil,logger).pool_refresh(@pool)
+    # Go to condor and sync the database to the real instance states
+    condormatic_instances_sync_states
     @pool.reload
     @instances = @pool.instances
   end
@@ -153,4 +154,5 @@ class PoolController < ApplicationController
     end
     redirect_to :action => 'show', :id => @pool.id
   end
+  condormatic_classads_sync
 end
