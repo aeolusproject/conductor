@@ -1,3 +1,15 @@
+<script type="text/javascript">
+  function clickRow(ev) {
+    var box = $('input[name="image_id[]"]', ev.target.parentNode);
+    if ($(ev.target).attr('name') != "image_id[]")
+      box.attr('checked', !box.attr('checked'));
+  }
+
+  function checkAll(ev) {
+    $('input[name="image_id[]"]', dataTable_instances_table).attr('checked', $(ev.target).attr('checked'))
+  }
+</script>
+
 <%= datatable(
   Instance::COLUMNS.map {|c| c[:opts]},
   {
