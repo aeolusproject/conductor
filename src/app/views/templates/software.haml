@@ -28,6 +28,25 @@
         $("#selected_packages").load($(ev.target).attr('href'), loadCallback);
         return false;
       });
+      createTree();
+    };
+    function createTree() {
+      $("li.group").each(function() {
+        var group = $(this);
+        group.addClass("closed_folder");
+        $(".groupname", group).toggle(
+          function() {
+            group.removeClass("closed_folder");
+            group.addClass("opened_folder");
+            $("ul > li", group).removeClass("hidden");
+          }, function() {
+            group.removeClass("opened_folder");
+            group.addClass("closed_folder");
+            $("ul > li", group).addClass("hidden");
+          }
+        );
+      })
+      $("li.group > ul > li").addClass("hidden");
     };
     function get_repository(ev) {
       var rep = $(ev.target).val();

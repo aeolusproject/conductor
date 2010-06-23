@@ -1,7 +1,8 @@
 %ul{:id => "selected_packages", :class => "selection_list"}
   - @image_descriptor.xml.all_packages_by_group.each do |group|
     %li{:class => 'group'}
-      = group[:name]
+      %span{:class => "groupname"}
+        = group[:name]
       %a{:class => 'remove_group action_link', :href => url_for(:action => 'remove_group', :id => @image_descriptor, :group => group[:name])}
         Remove
       %ul{:class => 'groupkgs'}

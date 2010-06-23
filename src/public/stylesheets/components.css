@@ -446,8 +446,30 @@ ul.nav li:hover {
   color: blue;
 }
 
+#image_descriptor_form .closed_folder {
+  background-image: url(/images/dir_closed.png);
+  background-repeat: no-repeat;
+}
+
+#image_descriptor_form .opened_folder {
+  background-image: url(/images/dir_open.png);
+  background-repeat: no-repeat;
+}
+
+#image_descriptor_form .groupname {
+  cursor: pointer;
+}
+
+#image_descriptor_form .hidden {
+  display: none;
+}
+
 #image_descriptor_form .selection_list > li {
   padding-bottom: 10px;
+}
+
+#image_descriptor_form .group {
+  padding-left: 20px;
 }
 
 #image_descriptor_form .groupkgs {
@@ -482,7 +504,7 @@ ul.nav li:hover {
   width:150px;
 }
 
-#image_descriptor_form #selected_packages {
+#image_descriptor_form .selection_list {
   padding: 10px;
 }
 
