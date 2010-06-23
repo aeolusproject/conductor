@@ -24,6 +24,7 @@ RAILS_GEM_VERSION = '>= 2.3.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+require 'util/condormatic'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
@@ -80,5 +81,14 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
 
-
+  config.after_initialize do
+    begin
+      # This pulls all the possible classad matches from the database and puts
+      # them on condor on startup.  Note that this can fail because this is run on startup
+      # even for rake db:migrate etc. which won't work since the database doesn't exist
+      # yet.
+      condormatic_classads_sync
+    rescue Exception => ex
+    end
+  end
 end

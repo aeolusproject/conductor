@@ -19,7 +19,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-require 'util/taskomatic'
+require 'util/condormatic'
 
 class InstanceController < ApplicationController
   before_filter :require_user
@@ -96,8 +96,7 @@ class InstanceController < ApplicationController
                                 :task_target => @instance,
                                 :action      => InstanceTask::ACTION_CREATE})
       if @task.save
-        task_impl = Taskomatic.new(@task,logger)
-        task_impl.instance_create
+        condormatic_instance_create(@task)
         flash[:notice] = "Instance added."
         redirect_to :controller => "pool", :action => 'show', :id => @instance.pool_id
       else
@@ -124,8 +123,16 @@ class InstanceController < ApplicationController
       raise ActionError.new("#{action} cannot be performed on this instance.")
     end
 
-    task_impl = Taskomatic.new(@task,logger)
-    task_impl.send "instance_#{action}"
+    case action
+      when 'stop'
+        condormatic_instance_stop(@task)
+      when 'destroy'
+        condormatic_instance_destroy(@task)
+      when 'start'
+        condormatic_instance_create(@task)
+      else
+        raise ActionError.new("Sorry, action '#{action}' is currently not supported by condor backend.")
+    end
 
     alert = "#{@instance.name}: #{action} was successfully queued."
     flash[:notice] = alert

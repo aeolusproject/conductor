@@ -45,6 +45,7 @@ class CloudAccountsController < ApplicationController
     else
       render :action => "new"
     end
+    condormatic_classads_sync
   end
 
   def edit
