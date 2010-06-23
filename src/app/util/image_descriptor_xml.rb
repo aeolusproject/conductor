@@ -27,7 +27,9 @@ class ImageDescriptorXML
   # FIXME: temporary way to only add jboss until other
   # services are supported
   SERVICE_PACKAGE_GROUPS = {
-    'jboss' => 'JBoss Core Packages'
+    # FIXME: jboss service is disabled because we don't have public repo
+    # which contains groups for jboss
+    #'jboss' => 'JBoss Core Packages'
   }
 
   def initialize(xmlstr = "")
