@@ -167,6 +167,7 @@ class Taskomatic
     else
       @task.state = Task::STATE_FINISHED
     end
+
     @task.save!
   end
 
