@@ -66,9 +66,8 @@ Feature: Manage Pools
     Then I should be on the show pool page
     When I follow "Quota"
     Then I should see the following:
-    | Resource          | Max Capacity | Used Capacity | Free Capacity | % Used |
-    | Running Instances | 10           | 8             | 2             | 80.00  |
-    | Running Memory    | 10240        | 9240          | 1000          | 90.23  |
-    | Running CPUs      | 20           | 16            | 4             | 80.00  |
-    | Total Instances   | 15           | 15            | 0             | 100.00 |
-    | Total Storage     | 8500         | 8400          | 100           | 98.82  |
+    | Running Instances | 10           | 8             | 2             |
+    | Running Memory    | 10240        | 9240          | 1000          |
+    | Running CPUs      | 20           | 16            | 4             |
+    | Total Instances   | 15           | 15            | 0             |
+    | Total Storage     | 8500         | 8400          | 100           |
