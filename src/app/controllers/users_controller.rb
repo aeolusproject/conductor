@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     @registration = RegistrationService.new(@user)
     if @registration.save
       flash[:notice] = "User registered!"
-      redirect_back_or_default url_for(:action => :show, :id => @user.id)
+      redirect_back_or_default user_url(@user)
     else
       render :action => :new
     end

@@ -17,7 +17,7 @@ Feature: User authentication
       | Last name         | Tester               |
       | Email             | testuser@example.com |
     And I press "Create Account"
-    Then I should be on the account page
+    Then I should be on testuser's user page
     And I should see "User registered!"
     And I should have one private pool named "testuser"
 
@@ -26,7 +26,7 @@ Feature: User authentication
     And I am on the login page
     When I login
     Then I should see "Login successful!"
-    And I should be on the account page
+    And I should be on the dashboard page
 
   Scenario: Log in without password
     Given I am a registered user

@@ -20,6 +20,9 @@ module NavigationHelpers
     when /the login page/
       login_path
 
+    when /^(.*)'s user page$/i
+       user_path(User.find_by_login($1))
+
     when /the account page/
       account_path
 
@@ -38,8 +41,12 @@ module NavigationHelpers
     when /the pool realms page/
       pool_realms_path
 
+    when /the dashboard page/
+      dashboard_path
+
     when /the pool hardware profiles page/
       hardware_profiles_pool_path
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
