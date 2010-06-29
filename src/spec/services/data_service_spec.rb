@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DataService do
 
-  it "should calculate the quota usage for a provider with a numbner of cloud accounts" do
+  it "should calculate the total instance quota usage for a provider with a numbner of cloud accounts" do
     client = mock('DeltaCloud', :null_object => true)
     provider = Factory.build(:mock_provider)
     provider.stub!(:connect).and_return(client)
@@ -30,7 +30,7 @@ describe DataService do
 
   end
 
-  it "should calculate the total number of instances and maximum numbder of instances of a cloud account" do
+  it "should calculate the total number of instances and maximum number of instances of a cloud account" do
     client = mock('DeltaCloud', :null_object => true)
     provider = Factory.build(:mock_provider)
     provider.stub!(:connect).and_return(client)
@@ -40,11 +40,36 @@ describe DataService do
     cloud_account.stub!(:valid_credentials?).and_return(true)
     cloud_account.save!
 
-    quota = Factory(:quota, :maximum_total_instances => 50, :total_instances => 20)
+    quota = Factory(:quota,
+                    :maximum_running_instances => 40,
+                    :maximum_running_memory => 10240,
+                    :maximum_running_cpus => 10,
+                    :maximum_total_instances => 50,
+                    :maximum_total_storage => 500,
+                    :running_instances => 20,
+                    :running_memory => 4096,
+                    :running_cpus => 7,
+                    :total_instances => 20,
+                    :total_storage => 499)
     cloud_account.quota_id = quota.id
 
-    data_point = DataService.quota_utilisation(cloud_account)
+    data_point = DataService.quota_utilisation(cloud_account, Quota::RESOURCE_RUNNING_INSTANCES)
+    data_point.should == DataService::QuotaUsagePoint.new(20, 40)
+
+    data_point = DataService.quota_utilisation(cloud_account, Quota::RESOURCE_RUNNING_MEMORY)
+    data_point.should == DataService::QuotaUsagePoint.new(4096, 10240)
+
+    data_point = DataService.quota_utilisation(cloud_account, Quota::RESOURCE_RUNNING_CPUS)
+    data_point.should == DataService::QuotaUsagePoint.new(7, 10)
+
+    data_point = DataService.quota_utilisation(cloud_account, Quota::RESOURCE_TOTAL_INSTANCES)
     data_point.should == DataService::QuotaUsagePoint.new(20, 50)
+
+    data_point = DataService.quota_utilisation(cloud_account, Quota::RESOURCE_TOTAL_STORAGE)
+    data_point.should == DataService::QuotaUsagePoint.new(499, 500)
+
+    data_point = DataService.quota_utilisation(cloud_account, Quota::RESOURCE_OVERALL)
+    data_point.should == DataService::QuotaUsagePoint.new(499, 500)
   end
 
   it "should calculate the average, max and min task submission times" do

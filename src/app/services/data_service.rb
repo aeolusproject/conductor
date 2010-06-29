@@ -60,12 +60,45 @@ class DataService
     return QoSDataPoint.new(time, average_time, maximum_time, minimum_time)
   end
 
-  # Returns the Used and Maximum Number of Instances in Quota
-  def self.quota_utilisation(parent)
+  # Returns the Used and Maximum Resource Usage
+  def self.quota_utilisation(parent, resource_name)
     quota = parent.quota
-    if quota
-      return QuotaUsagePoint.new(quota.total_instances, quota.maximum_total_instances)
+
+    case resource_name
+      when Quota::RESOURCE_RUNNING_INSTANCES
+        return QuotaUsagePoint.new(quota.running_instances, quota.maximum_running_instances)
+      when Quota::RESOURCE_RUNNING_MEMORY
+        return QuotaUsagePoint.new(quota.running_memory.to_f, quota.maximum_running_memory.to_f)
+      when Quota::RESOURCE_RUNNING_CPUS
+        return QuotaUsagePoint.new(quota.running_cpus.to_f, quota.maximum_running_cpus.to_f)
+      when Quota::RESOURCE_TOTAL_INSTANCES
+        return QuotaUsagePoint.new(quota.total_instances, quota.maximum_total_instances)
+      when Quota::RESOURCE_TOTAL_STORAGE
+        return QuotaUsagePoint.new(quota.total_storage.to_f, quota.maximum_total_storage.to_f)
+      when Quota::RESOURCE_OVERALL
+        return self.overall_usage(parent)
+      else
+        return nil
     end
+  end
+
+  def self.overall_usage(parent)
+    usage_points = []
+    Quota::RESOURCE_NAMES.each do |resource_name|
+      usage_points << quota_utilisation(parent, resource_name)
+    end
+
+    worst_case = nil
+    usage_points.each do |usage_point|
+      if worst_case
+        if ((100 / worst_case.max) * worst_case.used) < ((100 / usage_point.max) * usage_point.used)
+          worst_case = usage_point
+        end
+      else
+        worst_case = usage_point
+      end
+    end
+    return worst_case
   end
 
   def self.total_quota_utilisation(provider)

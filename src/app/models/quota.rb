@@ -25,6 +25,16 @@ class Quota < ActiveRecord::Base
 
   NO_LIMIT = nil
 
+  RESOURCE_RUNNING_INSTANCES = "running_instances"
+  RESOURCE_RUNNING_MEMORY = "running_memory"
+  RESOURCE_RUNNING_CPUS = "running_cpus"
+  RESOURCE_TOTAL_INSTANCES = "total_instances"
+  RESOURCE_TOTAL_STORAGE = "total_storage"
+  RESOURCE_OVERALL = "overall"
+
+  RESOURCE_NAMES = [ RESOURCE_RUNNING_INSTANCES, RESOURCE_RUNNING_MEMORY, RESOURCE_RUNNING_CPUS,
+                RESOURCE_TOTAL_INSTANCES, RESOURCE_TOTAL_STORAGE ]
+
   has_one :pool
   has_one :cloud_account
 
