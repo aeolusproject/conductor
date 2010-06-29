@@ -23,18 +23,18 @@ Feature: Manage Pools
   Scenario: View Pool's Hardware Profiles
 	  Given I own a pool named "mockpool"
 	  And the Pool has the following Hardware Profiles:
-	  | name      | memory | storage | architecture |
-	  | m1-small  | 1.7    | 160.0   | i386         |
-	  | m1-large  | 7.5    | 850.0   | x86_64       |
-	  | m1-xlarge | 15.0   | 1690.0  | x86_64       |
+	  | name      | memory | cpu |storage  | architecture |
+	  | m1-small  | 1740   | 2   | 160.0   | i386         |
+	  | m1-large  | 4096   | 4   | 850.0   | x86_64       |
+	  | m1-xlarge | 8192   | 8   | 1690.0  | x86_64       |
 	  And I am on the homepage
 	  When I follow "mockpool"
 	  Then I should be on the show pool page
 	  When I follow "Hardware Profiles"
 	  Then I should see the following:
-	  | m1-small  | 1.7  | 160.0   | i386   |
-	  | m1-large  | 7.5  | 850.0   | x86_64 |
-	  | m1-xlarge | 15.0 | 1690.0  | x86_64 |
+	  | m1-small  | 1740 | 2 | 160.0  | i386   |
+	  | m1-large  | 4096 | 4 | 850.0  | x86_64 |
+	  | m1-xlarge | 8192 | 8 | 1690.0 | x86_64 |
 
   Scenario: View Pool's Realms
 	  Given I own a pool named "mockpool"

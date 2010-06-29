@@ -10,7 +10,16 @@ end
 
 Given /^the Pool has the following Hardware Profiles:$/ do |table|
   table.hashes.each do |hash|
-    @pool.hardware_profiles << Factory(:hardware_profile_auto, hash)
+    memory = Factory(:mock_hwp1_memory, :value => hash[:memory])
+    storage = Factory(:mock_hwp1_storage, :value => hash[:storage])
+    cpu = Factory(:mock_hwp1_cpu, :value => hash[:cpu])
+    arch = Factory(:mock_hwp1_arch, :value => hash[:architecture])
+    @pool.hardware_profiles << Factory(:mock_hwp1,
+                                       :name => hash[:name],
+                                       :memory => memory,
+                                       :cpu => cpu,
+                                       :storage => storage,
+                                       :architecture => arch)
   end
 end
 
