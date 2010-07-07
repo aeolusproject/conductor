@@ -37,8 +37,8 @@ describe UsersController do
         p.permissions.any? {
           |perm| perm.role.name.eql?('Instance Creator and User')
         }.should be_true
-        id = User.find(:first, :conditions => ['login = ?', "tuser2"]).id
-        response.should redirect_to("http://test.host/users/show/#{id}")
+        user = User.find(:first, :conditions => ['login = ?', "tuser2"])
+        response.should redirect_to(user_url(user))
       end
 
       it "fails to create pool" do
@@ -69,8 +69,8 @@ describe UsersController do
                                :password => "testpass",
                                :password_confirmation => "testpass" }
     }.should change{ User.count }
-    id = User.find(:first, :conditions => ['login = ?', "tuser3"]).id
-    response.should redirect_to("http://test.host/users/show/#{id}")
+    user = User.find(:first, :conditions => ['login = ?', "tuser3"])
+    response.should redirect_to(user_url(user))
   end
 
   it "should not allow a regular user to create user" do
