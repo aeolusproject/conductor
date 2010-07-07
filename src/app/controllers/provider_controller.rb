@@ -39,7 +39,6 @@ class ProviderController < ApplicationController
       flash[:notice] = "Provider added."
       redirect_to :action => "show", :id => @provider
     end
-    condormatic_classads_sync
   end
 
   def destroy
