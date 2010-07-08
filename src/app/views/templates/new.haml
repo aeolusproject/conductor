@@ -3,7 +3,7 @@
 #image_descriptor_form{:class => 'dcloud_form'}
   = error_messages_for 'image_descriptor'
 
-  - form_for @image_descriptor, :url => {:action => 'services', :id => @image_descriptor} do
+  - form_for @image_descriptor, :url => {:action => controller.action_name, :id => @image_descriptor} do
     %ul
       %li
         %label Name

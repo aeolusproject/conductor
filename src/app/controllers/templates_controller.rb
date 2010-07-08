@@ -2,83 +2,70 @@ require 'util/repository_manager'
 
 class TemplatesController < ApplicationController
   layout :layout
-  before_filter :require_user, :check_permission
+  before_filter :require_user, :check_permission, :check_for_cancel
 
   def layout
     request.xhr? ? false : 'aggregator'
   end
 
   def new
-    if params[:cancel]
-      redirect_to :controller => "dashboard", :action => 'index'
-    else
-      update_xml
+    update_xml
+    if params[:next]
+      redirect_to :action => 'services', :id => @image_descriptor
     end
   end
 
   def services
-    if params[:cancel]
-      redirect_to :controller => "dashboard", :action => 'index'
-    else
-      update_xml
+    update_xml
+    if params[:back]
+      redirect_to :action => 'new', :id => @image_descriptor
+    elsif params[:next]
+      redirect_to :action => 'software', :id => @image_descriptor
     end
   end
 
   def software
-    if params[:cancel]
-      redirect_to :controller => "dashboard", :action => 'index'
+    @repository_manager = RepositoryManager.new
+    @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
+    @groups = @repository_manager.all_groups(params[:repository])
+    if params[:tab].to_s == 'packages'
+      @selected_tab = 'packages'
+      @packages = @repository_manager.all_packages(params[:repository])
     else
-      @repository_manager = RepositoryManager.new
-      @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
-      @groups = @repository_manager.all_groups(params[:repository])
-      if params[:tab].to_s == 'packages'
-        @selected_tab = 'packages'
-        @packages = @repository_manager.all_packages(params[:repository])
-      else
-        @selected_tab = 'groups'
-      end
+      @selected_tab = 'groups'
+    end
 
-      if request.xhr?
-        render :partial => @selected_tab
-        return
-      end
+    if request.xhr?
+      render :partial => @selected_tab
+      return
+    end
 
-      @image_descriptor.update_xml_attributes!(params[:xml] || {})
+    @image_descriptor.update_xml_attributes!(params[:xml] || {})
 
-      if params[:back]
-        redirect_to :action => 'new', :id => params[:id]
-        return
-      end
+    if params[:back]
+      redirect_to :action => 'services', :id => @image_descriptor
+    elsif params[:next]
+      redirect_to :action => 'summary', :id => @image_descriptor
     end
   end
 
   def summary
-    if params[:cancel]
-      redirect_to :controller => "dashboard", :action => 'index'
-    else
-      update_xml
-      @image_descriptor.complete = true
-      @image_descriptor.save!
-      @all_targets = ImageDescriptorTarget.available_targets
-      if params[:back]
-        redirect_to :action => 'services', :id => params[:id]
-        return
-      end
-    end
-  end
-
-  def build
-    if params[:cancel] or params[:done]
-      redirect_to :controller => "dashboard", :action => 'index'
-    elsif params[:back]
-      redirect_to :action => 'software', :id => params[:id]
-    else
+    update_xml
+    @all_targets = ImageDescriptorTarget.available_targets
+    if params[:build]
       if params[:targets]
         params[:targets].each do |target|
           ImageDescriptorTarget.new_if_not_exists(:name => target, :image_descriptor_id => params[:id], :status => ImageDescriptorTarget::STATE_QUEUED)
         end
       end
-      redirect_to :action => 'summary', :id => params[:id]
+    else
+      if params[:back]
+        redirect_to :action => 'software', :id => @image_descriptor
+      elsif params[:done]
+        @image_descriptor.complete = true
+        @image_descriptor.save!
+        redirect_to :controller => 'dashboard', :action => 'index'
+      end
     end
   end
 
@@ -101,8 +88,16 @@ class TemplatesController < ApplicationController
 
   private
 
+  def check_for_cancel
+    if params[:cancel]
+      redirect_to :controller => "dashboard", :action => 'index'
+      return false
+    end
+    return true
+  end
+
   def check_permission
-    #require_privilege(Privilege::IMAGE_MODIFY)
+    require_privilege(Privilege::IMAGE_MODIFY)
   end
 
   def update_group_or_package(method, *args)
