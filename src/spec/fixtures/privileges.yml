@@ -37,3 +37,7 @@ user_modify:
   name: user_modify
 user_view:
   name: user_view
+image_modify:
+  name: image_modify
+image_view:
+  name: image_view
