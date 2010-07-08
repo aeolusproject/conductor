@@ -29,9 +29,7 @@ class PropertyEnumEntry < ActiveRecord::Base
                 :if => Proc.new{|p| p.hardware_profile_property.name ==
                                     HardwareProfileProperty::MEMORY or
                                  p.hardware_profile_property.name ==
-                                     HardwareProfileProperty::STORAGE }
-  validates_numericality_of :value, :greater_than => 0, :only_integer => true,
-                :if => Proc.new{|p| p.hardware_profile_property.name ==
-                                     HardwareProfileProperty::CPU }
-
+                                     HardwareProfileProperty::STORAGE or
+                                 p.hardware_profile_property.name ==
+                                   HardwareProfileProperty::CPU }
 end

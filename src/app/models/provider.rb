@@ -56,9 +56,7 @@ class Provider < ActiveRecord::Base
       hardware_profiles.each do |hardware_profile|
         ar_hardware_profile = HardwareProfile.new(:external_key =>
                                                   hardware_profile.id,
-                                                  :name => hardware_profile.name ?
-                                                           hardware_profile.name :
-                                                           hardware_profile.id,
+                                                  :name => hardware_profile.id,
                                                   :provider_id => id)
         ar_hardware_profile.add_properties(hardware_profile)
         ar_hardware_profile.save!

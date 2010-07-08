@@ -42,6 +42,20 @@ describe HardwareProfile do
     end
   end
 
+  it "should require valid amount of CPU" do
+    [nil, "hello", -1].each do |fail_value|
+      @hp.cpu.value = fail_value
+      @hp.should_not be_valid
+    end
+  end
+
+  it "should allow numerical amount of CPU" do
+    [2, 2.2].each do |fail_value|
+      @hp.cpu.value = fail_value
+      @hp.should be_valid
+    end
+  end
+
   it "should allow Aggregator profiles only for provider profiles" do
     @hp.provider = nil
 

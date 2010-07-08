@@ -26,9 +26,9 @@ class HardwareProfileProperty < ActiveRecord::Base
   CPU          = "cpu"
   ARCHITECTURE = "architecture"
 
-  FIXED = "fixed"
-  RANGE = "range"
-  ENUM  = "enum"
+  FIXED = :fixed
+  RANGE = :range
+  ENUM  = :enum
 
   UNIT_MB = "MB"
   UNIT_GB = "GB"
@@ -48,22 +48,14 @@ class HardwareProfileProperty < ActiveRecord::Base
   validates_presence_of :unit
   validates_presence_of :value
   validates_numericality_of :value, :greater_than => 0,
-                :if => Proc.new{|p| p.name == MEMORY or p.name == STORAGE }
-  validates_numericality_of :value, :greater_than => 0,
-                :if => Proc.new{|p| p.name == CPU }, :only_integer => true
+                :if => Proc.new{|p| p.name == MEMORY or p.name == STORAGE or p.name == CPU}
 
   validates_numericality_of :range_first, :greater_than => 0,
-                :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE) and
+                :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE or p.name == CPU) and
                                      p.kind == RANGE}
   validates_numericality_of :range_last, :greater_than => 0,
-                :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE) and
+                :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE or p.name == CPU) and
                                      p.kind == RANGE}
-  validates_numericality_of :range_first, :greater_than => 0,
-                :if => Proc.new{|p| (p.name == CPU) and
-                                     p.kind == RANGE}, :only_integer => true
-  validates_numericality_of :range_last, :greater_than => 0,
-                :if => Proc.new{|p| (p.name == CPU) and
-                                     p.kind == RANGE}, :only_integer => true
   validates_associated :property_enum_entries
   def validate
     case name
@@ -104,7 +96,6 @@ class HardwareProfileProperty < ActiveRecord::Base
                    "Range ending must only be specified for range properties")
       end
     end
-
   end
 end
 

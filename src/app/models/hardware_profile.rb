@@ -90,10 +90,10 @@ class HardwareProfile < ActiveRecord::Base
                                                :value => prop.value)
     case prop.kind
     when HardwareProfileProperty::RANGE
-      the_property.range_first = prop.range.first
-      the_property.range_last = prop.range.last
+      the_property.range_first = prop.range[:from]
+      the_property.range_last = prop.range[:to]
     when HardwareProfileProperty::ENUM
-      the_property.property_enum_entries = prop.enum.entries.collect do |entry|
+      the_property.property_enum_entries = prop.options.collect do |entry|
         PropertyEnumEntry.new(:value => entry, :hardware_profile_property => the_property)
       end
     end
