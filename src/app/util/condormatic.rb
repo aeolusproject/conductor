@@ -24,6 +24,7 @@ def condormatic_instance_create(task)
     realm = instance.realm rescue nil
 
     job_name = "job_#{instance.name}_#{instance.id}"
+    job_log = File.join('log', "condor-#{job_name}.log")
 
 
     # I use the 2>&1 to get stderr and stdout together because popen3 does not support
@@ -35,8 +36,8 @@ def condormatic_instance_create(task)
     Rails.logger.info "executable = #{job_name}\n"
     pipe.puts "grid_resource = dcloud $$(provider_url) $$(username) $$(password) $$(image_key) #{instance.name} $$(realm_key) $$(hardwareprofile_key)\n"
     Rails.logger.info "grid_resource = dcloud $$(provider_url) $$(username) $$(password) $$(image_key) #{instance.name} $$(realm_key) $$(hardwareprofile_key)\n"
-    pipe.puts "log = #{job_name}.log\n"
-    Rails.logger.info "log = #{job_name}.log\n"
+    pipe.puts "log = #{job_log}\n"
+    Rails.logger.info "log = #{job_log}\n"
 
     requirements = "requirements = hardwareprofile == \"#{instance.hardware_profile.id}\" && image == \"#{instance.image.id}\""
     requirements += " && realm == \"#{realm.name}\"" if realm != nil
