@@ -50,6 +50,7 @@ Rails::Initializer.run do |config|
   config.gem "nokogiri", :version => ">= 1.4.0"
   config.gem "gnuplot"
   config.gem "scruffy"
+  config.gem "compass", :version => ">= 0.10.2"
 
   config.active_record.observers = :instance_observer, :task_observer
   # Only load the plugins named here, in the order given. By default, all plugins

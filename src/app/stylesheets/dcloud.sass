@@ -1,0 +1,241 @@
+form
+  border: none
+  margin: 0
+  padding: 0
+  display: inline-block
+
+fieldset
+  border: 3px solid #efeff0
+  border-right: none
+  border-left: none
+  border-bottom: none
+  padding: 18px 0 10px 10px
+
+ul li input
+  border: 2px solid #becfe4
+  color: #333
+  display: block
+  float: left
+  outline-color: -moz-use-text-color
+  outline-style: none
+  outline-width: medium
+  padding: 3px
+  width: 302px
+
+legend
+  text-transform: uppercase
+  color: #9a9a9a
+  font-weight: bold
+
+input, select
+  font-family: "Lucida Grande","Luxi Sans","Bitstream Vera Sans","Trebuchet MS",helvetica,verdana,arial,sans-serif
+  font-size: 1.4em
+
+.fieldWithErrors
+  display: inline-block
+  padding: 3px
+  background: #fff7b2
+  border: 3px solid #fff7b2
+
+.errorExplanation
+  margin: 0 0 24px 0
+  padding: 9px
+  background: #fff7b2
+  color: #867a5e
+  -moz-border-radius: 3px
+
+#errorExplanation h2
+  font-size: 14px
+  font-weight: bold
+  color: #867a5e
+
+.dcloud_form
+  background: #e8e8e8
+  border: solid 8px #f5f5f5
+  -moz-border-radius: 10px
+  -webkit-border-radius: 10px
+  margin-top: 54px
+  width: 550px
+  margin-left: auto
+  margin-right: auto
+  padding: 36px
+  h2
+    font-size: 1.9em
+    font-weight: normal
+    color: #43728e
+    margin: 0 0 24px 0
+    padding: 0
+  ul
+    list-style-image: none
+    list-style-position: outside
+    list-style-type: none
+    margin: 0
+    padding: 0
+    label
+      display: block
+      float: left
+      padding: 3px 0 24px 0
+      width: 175px
+      font-size: 1.4em
+      color: #616161
+      span
+        display: block
+        float: left
+        width: 160px
+        font-size: .8em
+        color: #9a9a9a
+    li
+      clear: both
+  .txtfield
+    border: 2px solid #becfe4
+    color: #333
+    display: block
+    float: left
+    outline-color: -moz-use-text-color
+    outline-style: none
+    outline-width: medium
+    padding: 3px
+    width: 318px
+  .submit
+    float: right
+    display: inline
+    clear: both
+
+/* Styles for table
+
+#content_area table
+  width: 100%
+  border-collapse: collapse
+  th, td
+    border: 1px solid #e1e2e3
+    border-right: 0
+    border-left: 0
+    padding: 0
+    text-align: left
+    font-size: 14px
+    line-height: 24px
+    padding-left: 18px
+  th
+    background: none
+    border-top: none
+    a
+      display: block
+      text-decoration: none
+      &:hover
+        text-decoration: underline
+
+.actionlink
+  color: #0075c0 !important
+  line-height: 36px
+  font-size: 14px
+  padding-left: 18px
+
+ul#providers + a.actionlink
+  display: block
+  border-bottom: 1px solid #ccc
+
+.submit_link
+  background: none
+  border: 0
+  text-decoration: underline
+  color: #0075c0
+  line-height: 36px
+  font-size: 14px
+  padding-left: 10px
+  &:hover
+    cursor: pointer
+
+/* Styles for the left navigator
+
+#side
+  padding: 0
+  width: 229px
+  a.actionlink
+    color: #0075c0
+    line-height: 36px
+    font-size: 14px
+    padding-left: 10px
+
+
+$provider_icon: "/images/icon_provider.png"
+$pool_icon: "/images/icon_vmpool.png"
+
+ul
+  &#providers
+    list-style-type: none
+    margin: 0
+    padding: 0 0 0 10px
+    li a
+      display: block
+      line-height: 36px
+      padding-left: 32px
+      &:hover
+        background: #efefef url($provider_icon) no-repeat 2px 50%
+        color: #000
+  &#pools
+    list-style-type: none
+    line-height: 36px
+    margin: 0
+    padding: 0 0 0 10px
+    li
+      border-bottom: none
+      a
+        display: block
+        line-height: 36px
+        padding-left: 32px
+        border-bottom: none
+        &:hover
+          background: #efefef url($pool_icon) no-repeat 2px 50%
+          color: #000
+
+.providername, .poolname
+  font-size: 14px
+
+.providername
+  background: url($provider_icon) no-repeat 2px 50%
+  &.selected
+    background: #5599b8 url($provider_icon) no-repeat 2px 50%
+    color: #FFF
+
+.poolname
+  background: url($pool_icon) no-repeat 2px 50%
+
+.selected
+  background: #f2a922
+  color: #FFF
+
+.poolname.selected
+  background: #5599b8 url($pool_icon) no-repeat 2px 50%
+  color: #FFF
+
+.instance_action_list
+  padding: 0
+  li
+    padding: 0 0.3em
+    border-left: 1px solid #000
+    display: inline
+    &.first
+      border-left: none
+
+#instances_table_wrapper
+  min-height: 0
+  margin-bottom: 1em
+
+/* Style for button links
+
+a.button_link
+  border: 1px solid black
+  text-decoration: none
+  padding: 4px
+  margin-bottom: 3px
+  display: block
+  background: #666666
+  color: white
+  -moz-border-radius: 5px
+  -webkit-border-radius: 5px
+
+#dashboard-tabs, #provider-tabs, #pool-tabs
+  border: none
+
+#dashboard-tabs ul, #provider-tabs ul, #pool-tabs ul
+  float: none
