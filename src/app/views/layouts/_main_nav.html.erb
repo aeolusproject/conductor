@@ -1,26 +1,5 @@
+<% cur_id = params[:id].to_i %>
 
-
-<h3>Providers</h3>
-<ul id="providers">
-  <% cur_id = params[:id].to_i %>
-  <% if !@providers.nil? %>
-  <% @providers.each { |provider| %>
-    <%#Note that this is a temporary way to selected proper list item for demo, and is not expected to stay this way%>
-    <% if controller.controller_name == "provider" && provider.id == cur_id
-      selected_provider = "selected"
-    else
-      selected_provider = ""
-    end %>
-    <li><%= link_to  provider.name,
-         {:controller => "provider", :action => "show", :id => provider},
-         :class => "providername #{selected_provider}"%>
-   </li>
-  <% } %>
-  <% end %>
-</ul>
-<% if BasePermissionObject.general_permission_scope.has_privilege(@current_user, Privilege::PROVIDER_MODIFY) %>
-    <%= link_to "Add a provider", {:controller => "provider", :action => "new"}, :class => "actionlink" %>
-<% end %>
 <h3>Pools</h3>
 <ul id="pools">
   <% if !@pools.nil? %>

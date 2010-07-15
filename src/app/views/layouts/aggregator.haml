@@ -24,10 +24,10 @@
   %body
     #header
       = render :partial => '/layouts/header'
-    #side
-      = render :partial => '/layouts/main_nav' unless @current_user.nil?
-    #tabs-and-content-container
+    #content
+      - if ['instance', 'pool'].include? controller.controller_name
+        #side
+          = render :partial => '/layouts/main_nav' unless @current_user.nil?
       #main
-        #content_area
-          = render :partial => '/layouts/notification'
-          = (yield(:content) or yield) # content is set if we're using a sub template
+        = render :partial => '/layouts/notification'
+        = (yield(:content) or yield) # content is set if we're using a sub template
