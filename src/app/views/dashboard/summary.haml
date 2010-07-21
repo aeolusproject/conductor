@@ -60,7 +60,11 @@
         %div{ :style => "clear:both"}
       - @providers.each do |provider|
         .provider_service_quality_graph
-          = "<object data='" + url_for(:action => :provider_qos_graph, :id => provider.id, :width => 100, :height => 50) + "' type='image/svg+xml' />"
+          -end_time = Time.now
+          -start_time = end_time - (24 * 60 * 60)
+          -interval_length = 3600
+          -task_action = "create"
+          = "<object data='" + url_for(:action => :provider_qos_avg_time_to_submit_graph, :id => provider.id, :start_time => start_time, :end_time => end_time, :interval_length => interval_length, :task_action => task_action, :width => 100, :height => 50) + "' type='image/svg+xml' />"
         .provider_service_quality_graph_summary
           = provider.name
           <!-- FIXME 'good/poor/average service... -->
@@ -109,7 +113,7 @@
       .account_quota_usage_graph_summary
         = account.provider.name + ": " + account.name
       .account_quota_usage_current_graph
-        %object{ :data => url_for(:action => :account_quota_graph, :id => account.id, :width => 100, :height => 50), :type => 'image/svg+xml'}
+        %object{ :data => url_for(:action => :quota_usage_graph, :cloud_account_id => account.id, :resource_name => Quota::RESOURCE_RUNNING_INSTANCES, :width => 100, :height => 50), :type => 'image/svg+xml'}
       <div style="clear: both;" />
 
 :javascript
