@@ -17,7 +17,7 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-require 'rexml/document'
+require 'nokogiri'
 
 def condormatic_instance_create(task)
 
@@ -126,35 +126,10 @@ def condormatic_instances_sync_states
       instance.save!
     end
 
-    def find_value_int(job_ele, attrib)
-      if job_ele.attributes['n'] == attrib
-        cmd = job_ele.elements.each('i') do |i|
-          return i.text
-        end
-      end
-      return nil
-    end
-
-    def find_value_str(job_ele, attrib)
-      if job_ele.attributes['n'] == attrib
-        cmd = job_ele.elements.each('s') do |s|
-          return s.text
-        end
-      end
-      return nil
-    end
-
-    doc = REXML::Document.new(xml)
-    doc.elements.each('classads/c') do |jobs_ele|
-      job_name = nil
-      job_state = nil
-
-      jobs_ele.elements.each('a') do |job_ele|
-        value = find_value_str(job_ele, 'Cmd')
-        job_name = value if value != nil
-        value = find_value_int(job_ele, 'JobStatus')
-        job_state = value if value != nil
-      end
+    doc = Nokogiri::XML(xml)
+    doc.xpath('/classads/c').each do |jobs_ele|
+      job_name = (v = jobs_ele.at_xpath('./a[@n="Cmd"]/s')) ? v.text : nil
+      job_state= (v = jobs_ele.at_xpath('./a[@n="JobStatus"]/i')) ? v.text : nil
 
       Rails.logger.info "job name is #{job_name}"
       Rails.logger.info "job state is #{job_state}"
