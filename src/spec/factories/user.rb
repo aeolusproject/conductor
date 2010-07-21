@@ -15,3 +15,8 @@ end
 
 Factory.define :provider_admin_user, :parent => :user do |u|
 end
+
+Factory.define :pool_user, :parent => :user do |u|
+  u.sequence(:login) { |n| "pool_user#{n}" }
+  u.email { |e| "#{e.login}@example.com" }
+end
