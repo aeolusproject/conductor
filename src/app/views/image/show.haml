@@ -1,0 +1,20 @@
+- content_for :scripts do
+  :javascript
+    $(document).ready(function() {
+      // bind listener, which enables "create instance" button if
+      // only 1 row is selected
+      $("#images_table").click(function() {
+        var checked_count = $('input[name="ids[]"]:checked', $("#images_table")).length;
+        $('input[name="create_instance"]').attr('disabled', checked_count != 1);
+      });
+
+      // uncheck all on load and disable create button
+      $('input[name="ids[]"]:checked', $("#images_table")).attr('checked', false);
+      $('input[name="create_instance"]').attr('disabled', true);
+    });
+
+- buttons = capture_haml do
+  .action_buttons
+    = submit_tag "Create instance", :name => "create_instance"
+
+= render :partial => 'images', :locals => {:footer => buttons}

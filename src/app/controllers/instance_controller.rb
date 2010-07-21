@@ -23,57 +23,68 @@ require 'util/condormatic'
 
 class InstanceController < ApplicationController
   before_filter :require_user
+  layout :layout
+
+  def layout
+    return "aggregator" unless request.xhr?
+  end
 
   def index
-  end
+    require_privilege(Privilege::INSTANCE_VIEW)
 
-  def paginated
-    # datatables sends pagination in format:
-    #   iDisplayStart - start index
-    #   iDisplayLength - num of recs
-    # => we need to count page num
-    page = params[:iDisplayStart].to_i / Instance::per_page
-
-    order_col_rec = Instance::COLUMNS[params[:iSortCol_0].to_i]
-    order_col = Instance::COLUMNS[2] unless order_col_rec && order_col_rec[:opts][:searchable]
-    order = order_col[:id] + " " + (params[:sSortDir_0] == 'desc' ? 'desc' : 'asc')
-
-    # FIXME only return those instances in pools which user has instance_view
-    @instances = Instance.search_filter(params[:sSearch], Instance::SEARCHABLE_COLUMNS).paginate(
-      :page => page + 1,
-      :order => order
+    @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
+    @order = params[:order] || 'name'
+    @instances = Instance.search_filter(params[:search], Instance::SEARCHABLE_COLUMNS).paginate(
+      :page => params[:page] || 1,
+      :order => @order + ' ' + @order_dir
     )
 
-    recs = @instances.map do |i|
-      [
-        i.id,
-        i.get_action_list.map {|action| "<a href=\"#{url_for :controller => "instance", :action => "instance_action", :id => i.id, :instance_action => action}\">#{action}</a>"}.join(" | "),
-        i.name,
-        i.state,
-        i.hardware_profile.name,
-        i.image.name,
-        i.cloud_account.nil? ? "" : i.cloud_account.provider.name,
-        i.cloud_account.nil? ? "" : i.cloud_account.name
-      ]
+    if request.xhr? and params[:partial]
+      render :partial => 'instances'
+      return
+    end
+  end
+
+  def select_image
+    if params[:select]
+      redirect_to :action => 'new', 'instance[image_id]' => (params[:ids] || []).first
     end
 
-    render :json => {
-      :sEcho => params[:sEcho],
-      :iTotalRecords => @instances.total_entries,
-      :iTotalDisplayRecords => @instances.total_entries,
-      :aaData => recs
-    }
+    require_privilege(Privilege::IMAGE_VIEW)
+    @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
+    @order = params[:order] || 'name'
+    @images = Image.search_filter(params[:search], Image::SEARCHABLE_COLUMNS).paginate(
+      :page => params[:page] || 1,
+      :order => @order + ' ' + @order_dir,
+      :conditions => {:provider_id => nil}
+    )
+    @single_select = true
+
+    if request.xhr? and params[:partial]
+      render :partial => 'image/images'
+      return
+    end
   end
 
-  # Right now this is essentially a duplicate of PoolController#show,
-    # but really it should be a single instance should we decide to have a page
-    # for that.  Redirect on create was all that brought you here anyway, so
-    # should be unused for the moment.
-  def show
-    @instances = Instance.find(:all, :conditions => {:pool_id => params[:id]})
-    @pool = Pool.find(params[:id])
-    require_privilege(Privilege::INSTANCE_VIEW,@pool)
-  end
+  ## Right now this is essentially a duplicate of PoolController#show,
+  #  # but really it should be a single instance should we decide to have a page
+  #  # for that.  Redirect on create was all that brought you here anyway, so
+  #  # should be unused for the moment.
+  #def show
+  #  require_privilege(Privilege::INSTANCE_VIEW,@pool)
+  #  @pool = Pool.find(params[:id])
+  #  @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
+  #  @order = params[:order] || 'name'
+  #  @instances = Instance.search_filter(params[:search], Instance::SEARCHABLE_COLUMNS).paginate(
+  #    :page => params[:page] || 1,
+  #    :order => @order + ' ' + @order_dir,
+  #    :conditions => {:pool_id => @pool.id}
+  #  )
+  #  if request.xhr? and params[:partial]
+  #    render :partial => 'instances'
+  #    return
+  #  end
+  #end
 
   def new
     @instance = Instance.new(params[:instance])

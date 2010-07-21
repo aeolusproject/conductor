@@ -40,7 +40,20 @@ class PoolController < ApplicationController
     # Go to condor and sync the database to the real instance states
     condormatic_instances_sync_states
     @pool.reload
-    @instances = @pool.instances
+
+    @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
+    @order = params[:order] || 'name'
+
+    @instances = Instance.search_filter(params[:search], Instance::SEARCHABLE_COLUMNS).paginate(
+      :page => params[:page] || 1,
+      :order => @order + ' ' + @order_dir,
+      :conditions => {:pool_id => @pool.id}
+    )
+
+    if request.xhr? and params[:partial]
+      render :partial => 'instance/instances'
+      return
+    end
   end
 
   def hardware_profiles
@@ -89,48 +102,6 @@ class PoolController < ApplicationController
 
   def delete
   end
-
-  def instances_paginate
-    @pool = Pool.find(params[:id])
-    require_privilege(Privilege::POOL_VIEW, @pool)
-
-    # datatables sends pagination in format:
-    #   iDisplayStart - start index
-    #   iDisplayLength - num of recs
-    # => we need to count page num
-    page = params[:iDisplayStart].to_i / Instance::per_page
-
-    order_col_rec = Instance::COLUMNS[params[:iSortCol_0].to_i]
-    order_col = Instance::COLUMNS[2] unless order_col_rec && order_col_rec[:opts][:searchable]
-    order = order_col[:id] + " " + (params[:sSortDir_0] == 'desc' ? 'desc' : 'asc')
-
-    @instances = Instance.search_filter(params[:sSearch], Instance::SEARCHABLE_COLUMNS).paginate(
-      :page => page + 1,
-      :order => order,
-      :conditions => {:pool_id => @pool.id}
-    )
-
-    recs = @instances.map do |i|
-      [
-        i.id,
-        i.get_action_list.map {|action| "<a href=\"#{url_for :controller => "instance", :action => "instance_action", :id => i.id, :instance_action => action}\">#{action}</a>"}.join(" | "),
-        i.name,
-        i.state,
-        i.hardware_profile.name,
-        i.image.name,
-        i.cloud_account.nil? ? "" : i.cloud_account.provider.name,
-        i.cloud_account.nil? ? "" : i.cloud_account.name
-      ]
-    end
-
-    render :json => {
-      :sEcho => params[:sEcho],
-      :iTotalRecords => @instances.total_entries,
-      :iTotalDisplayRecords => @instances.total_entries,
-      :aaData => recs
-    }
-  end
-
 
   def accounts_for_pool
     @pool =  Pool.find(params[:pool_id])

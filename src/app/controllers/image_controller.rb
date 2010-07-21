@@ -26,57 +26,24 @@ class ImageController < ApplicationController
   end
 
   def show
-    # FIXME: check on privilege IMAGE_VIEW which currently doesn't exist
-    #require_privilege(Privilege::POOL_VIEW, @pool)
-  end
-
-  def images_paginate
-    # FIXME: check on privilege IMAGE_VIEW which currently doesn't exist
-    #require_privilege(Privilege::POOL_VIEW, @pool)
-
-    # datatables sends pagination in format:
-    #   iDisplayStart - start index
-    #   iDisplayLength - num of recs
-    # => we need to count page num
-    page = params[:iDisplayStart].to_i / Image::per_page
-
-    if params[:mode].to_s == 'simple'
-      simple_mode = true
-      cols = Image::COLUMNS_SIMPLE
-      default_order_col = 1
-    else
-      cols = Image::COLUMNS
-      simple_mode = false
-      default_order_col = 2
+    if params[:create_instance]
+      redirect_to :controller => 'instance', :action => 'new', 'instance[image_id]' => (params[:ids] || []).first
     end
 
-    order_col_rec = cols[params[:iSortCol_0].to_i]
-    order_col = cols[default_order_col] unless order_col_rec && order_col_rec[:opts][:searchable]
-    order = order_col[:id] + " " + (params[:sSortDir_0] == 'desc' ? 'desc' : 'asc')
+    require_privilege(Privilege::IMAGE_VIEW)
 
-    @images = Image.search_filter(params[:sSearch], Image::SEARCHABLE_COLUMNS).paginate(
-      :page => page + 1,
+    @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
+    @order = params[:order] || 'name'
+    @images = Image.search_filter(params[:search], Image::SEARCHABLE_COLUMNS).paginate(
+      :page => params[:page] || 1,
+      :order => @order + ' ' + @order_dir,
       :include => :instances,
-      :order => order,
       :conditions => {:provider_id => nil}
     )
 
-    expand_button_html = "<img src='/images/dir_closed.png'>"
-
-    data = @images.map do |i|
-      if simple_mode
-        [i.id, i.name, i.architecture, i.instances.size]
-      else
-        [i.id, expand_button_html, i.name, i.architecture, i.instances.size, "TODO: some description here?"]
-      end
+    if request.xhr? and params[:partial]
+      render :partial => 'images'
+      return
     end
-
-    render :json => {
-      :sEcho => params[:sEcho],
-      :iTotalRecords => @images.total_entries,
-      :iTotalDisplayRecords => @images.total_entries,
-      :aaData => data
-    }
   end
-
 end

@@ -1,28 +1,35 @@
 <script type="text/javascript">
-  function showImages(ev) {
-    $("#images_table_wrapper").css('display', 'block');
-    images_dialog = $("#images_table_wrapper").dialog({
-      title: "Select template for new instance",
-      dialogClass: 'flora',
-      width: 600,
-      height: 500,
-      modal: true,
-      overlay: {opacity: 0.2, background: "black"}
+  $(document).ready(function() {
+    $(".select_image").click(function() {
+      var wrapper = $("#select_template_dialog");
+      if (wrapper.length == 0) wrapper = $('<div id="select_template_dialog"></div>');
+      wrapper.dialog({
+        title: "Select template for new instance",
+        width: 600,
+        height: 500,
+        modal: true,
+        overlay: {opacity: 0.2, background: "black"}
+      });
+      wrapper.load('<%= url_for :action => 'select_image' %>', null, function() {
+        $(":submit[name=select]").click(function() {
+          var checkbox = $("input[name='ids[]']:checked").first();
+          var id = checkbox.val();
+          if (id !== undefined) {
+            var name = $(".image_name", checkbox.parent().parent()).text();
+            $(".select_image").text(name);
+            $("input[name='instance[image_id]']").val(id);
+          }
+          $("#select_template_dialog").dialog('close');
+          return false;
+        });
+      });
+      return false;
     });
-  }
 
-  function selectImage(ev) {
-    var image_id = dataTable_images_table.fnGetData(ev.target.parentNode)[0];
-    var image_name = dataTable_images_table.fnGetData(ev.target.parentNode)[1];
-    $("#images_table_wrapper").css('display', 'none');
-    $("#images_table_wrapper").dialog('close');
-    $('input[name="image_selector"]').attr('value', image_name);
-    $('input[name="instance[image_id]"]').attr('value', image_id);
-  }
-
-  function poolSelected(field) {
-    location.href = '<%= url_for(:action => "new") %>?' + $("#instance_form").serialize();
-  }
+    $("select[name='instance[pool_id]']").change(function() {
+      location.href = '<%= url_for(:action => "new") %>?' + $("#instance_form").serialize();
+    });
+  });
 </script>
 
 <div class="dcloud_form">
@@ -35,7 +42,7 @@
     <li><label>Name<span>Name for this new Instance</span></label><%= text_field :instance, :name, :class => "txtfield" %></li>
 
     <li><label>Template<span>Choose a template to use</span></label>
-    <input type="button" style="cursor:pointer" onclick="showImages(event)" name="image_selector" value="<%= @instance.image ? @instance.image.name : "click to select template"%>"/>
+    <%= link_to(@instance.image ? @instance.image.name : "Select template...", {:action => 'select_image'}, {:class => 'actionlink select_image'}) %>
     </li>
     <input type=hidden name="instance[image_id]" value="<%= @instance.image ? @instance.image.id : '' %>">
 
@@ -50,8 +57,7 @@
     <li><label>Pool<span>Pick your pool</span></label>
       <%= select("instance", "pool_id",
                  @pools.collect {|p| [ p.name, p.id ] },
-                 { :include_blank => true },
-                 {:onchange => "poolSelected(this)"}) %>
+                 { :include_blank => true }) %>
     </li>
     <% end %>
 
@@ -70,31 +76,4 @@
   </ul>
     <%= submit_tag "Save", :class => "submit" %>
     <% end %>
-</div>
-
-<%= datatable(
-  Image::COLUMNS_SIMPLE.map {|c| c[:opts]},
-  {
-    :table_dom_id => 'images_table',
-    :per_page => Image::per_page,
-    :sort_by => "[2, 'asc']",
-    :serverside => true,
-    :ajax_source => url_for(:controller => 'image', :action => 'images_paginate') + "?mode=simple",
-    :append => ".fnSetFilteringDelay()",
-    :click_callback => "function(event) {selectImage(event)}",
-  }
-) %>
-
-<div style="display:none" id="images_table_wrapper">
-  <table class="datatable display" id="images_table">
-    <thead>
-      <tr>
-        <% Image::COLUMNS_SIMPLE.each do |c| %>
-          <%= "<th>#{c[:header]}</th>" %>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
 </div>

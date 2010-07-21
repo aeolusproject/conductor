@@ -1,0 +1,21 @@
+- columns = [                                                               |
+  {:id => 'id', :header => ''},                                             |
+  {:id => 'name', :header => 'Name', :sortable => true},                    |
+  {:id => 'architecture', :header => 'Architecture', :sortable => true},    |
+  {:id => 'instances', :header => 'Instances'},                             |
+]                                                                           |
+
+- opts = { :order => @order,
+  :order_dir => @order_dir,
+  :title => 'list of templates',
+  :check_all => 'id',
+  :header => defined?(header) ? header : nil,
+  :footer => defined?(footer) ? footer : nil,
+  :single_select => @single_select || false }
+
+= paginated_table('images_table', columns, @images, opts) do |rec|
+  %tr{:class => "#{cycle('even', 'odd')}"}
+    %td= check_box_tag 'ids[]', rec.id
+    %td{:class => 'image_name'}= rec.name
+    %td= rec.architecture
+    %td= rec.instances.count

@@ -1,0 +1,5 @@
+- buttons = capture_haml do
+  .action_buttons
+    = submit_tag "Select", :name => "select"
+
+= render :partial => 'image/images', :locals => {:footer => buttons}

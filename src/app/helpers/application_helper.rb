@@ -58,4 +58,86 @@ module ApplicationHelper
     end
     day_str + hours_to_seconds
   end
+
+  def column_header(column, order, order_dir, check_all)
+    next_dir = order_dir.to_s == 'asc' ? 'desc' : 'asc'
+    if order and column[:id] == order
+      dir = order_dir.to_s == 'desc' ? 'desc' : 'asc'
+      cls = "ordercol #{dir}"
+    else
+      cls = nil
+    end
+
+    if column[:sortable]
+      label = link_to(
+        column[:header],
+        {:action => controller.action_name, :partial => true, :order => column[:id], :order_dir => next_dir, :search => params[:search]},
+        :class => cls)
+    elsif check_all.to_s == column[:id]
+      label = check_box_tag 'check_all'
+    else
+      label = column[:header]
+    end
+
+    content_tag 'th', label
+  end
+
+  def paginated_table(html_id, columns, data, opts = {})
+    search_url = url_for(:partial => true, :order => opts[:order], :order_dir => opts[:order_dir])
+
+    # for now submit url for base table form can be same as search url
+    # it's possible to change it in a future
+    submit_url = search_url
+
+    extend_table_js = "<script type=\"text/javascript\">Aggregator.extendTable({id: '##{html_id}',single_select:#{opts[:single_select] ? true : false}});#{opts[:load_callback]};</script>"
+    extend_sfield_js = "<script type=\"text/javascript\">Aggregator.extendTableSearchField({id: '##{html_id}'})</script>"
+
+    rows = data.map do |rec|
+      if block_given?
+        capture_haml{yield rec}
+      else
+        content_tag 'tr', :class => cycle('even', 'odd') do
+          columns.map { |c| content_tag 'td', rec[c[:id]] }
+        end
+      end
+    end
+
+    header_cols = columns.map {|c| column_header(c, opts[:order], opts[:order_dir], opts[:check_all])}
+
+    table = content_tag 'table' do
+      content_tag('thead', content_tag('tr', header_cols)) + content_tag('tbody', rows)
+    end
+
+    internal_header = content_tag 'div', :class => 'header' do
+      content_tag('div', opts[:title], :class => 'title')
+    end
+
+    internal_footer = content_tag 'div', :class => 'footer' do
+      will_paginate(data, :params => {:partial => true}).to_s +
+        page_entries_info(data).to_s
+    end
+
+    ajax_content = table + internal_footer + extend_table_js
+
+    if params[:partial] and request.xhr?
+      ajax_content
+    else
+      wrapped_table = content_tag 'div', :class => 'wrapped_table' do
+        internal_header +
+          content_tag('div', ajax_content, :class => 'wrapper')
+      end
+      base_form = content_tag 'form', :action => submit_url, :class => 'dtable_form' do
+        opts[:header].to_s + wrapped_table + opts[:footer].to_s
+      end
+
+      # search field is in separate form because of submitting on enter key
+      search_field = content_tag 'form', :action => search_url, :class => 'search_field' do
+        'Search ' + text_field_tag('search', params[:search], :size => 10, :value => params[:search]) + extend_sfield_js
+      end
+
+      content_tag 'div', :id => html_id, :class => "dtable #{opts[:class]}" do
+        base_form + search_field
+      end
+    end
+  end
 end
