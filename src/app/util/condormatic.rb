@@ -118,29 +118,22 @@ def condormatic_instances_sync_states
 
     raise ("Error calling condor_q -xml") if $? != 0
 
-    # Set them all to 'stopped' because if they aren't in the condor
-    # queue as jobs then they are not running, pending or anything else.
-    instances = Instance.find(:all)
-    instances.each do |instance|
-      instance.state = Instance::STATE_STOPPED
-      instance.save!
-    end
-
     doc = Nokogiri::XML(xml)
-    doc.xpath('/classads/c').each do |jobs_ele|
-      job_name = (v = jobs_ele.at_xpath('./a[@n="Cmd"]/s')) ? v.text : nil
-      job_state= (v = jobs_ele.at_xpath('./a[@n="JobStatus"]/i')) ? v.text : nil
+    jobs_state = {}
+    doc.xpath('/classads/c').each do |jobs|
+      job_name = (v = jobs.at_xpath('./a[@n="Cmd"]/s')) ? v.text : nil
+      job_state= (v = jobs.at_xpath('./a[@n="JobStatus"]/i')) ? v.text : nil
 
       Rails.logger.info "job name is #{job_name}"
       Rails.logger.info "job state is #{job_state}"
 
-      instance = Instance.find(:first, :conditions => {:condor_job_id => job_name})
+      jobs_state[job_name] = condor_to_instance_state(job_state) if job_name
+    end
 
-      if instance
-        instance.state = condor_to_instance_state(job_state)
-        instance.save!
-        Rails.logger.info "Instance state updated to #{condor_to_instance_state(job_state)}"
-      end
+    Instance.find(:all).each do |instance|
+      instance.state = jobs_state[instance.condor_job_id] || Instance::STATE_STOPPED
+      instance.save!
+      Rails.logger.info "Instance state updated to #{instance.state}"
     end
   rescue Exception => ex
     Rails.logger.error ex.message
