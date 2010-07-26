@@ -44,6 +44,9 @@ module NavigationHelpers
     when /the dashboard page/
       dashboard_path
 
+    when /the instances page/
+      instance_path
+
     when /the pool hardware profiles page/
       hardware_profiles_pool_path
 

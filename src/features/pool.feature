@@ -8,7 +8,7 @@ Feature: Manage Pools
     And I am logged in
 
   Scenario: Create a new Pool
-	Given I am on the homepage
+	Given I am on the instances page
 	And there is not a pool named "mockpool"
 	When I follow "Add a pool"
 	Then I should be on the new pool page
@@ -27,7 +27,7 @@ Feature: Manage Pools
 	  | m1-small  | 1740   | 2   | 160.0   | i386         |
 	  | m1-large  | 4096   | 4   | 850.0   | x86_64       |
 	  | m1-xlarge | 8192   | 8   | 1690.0  | x86_64       |
-	  And I am on the homepage
+	  And I am on the instances page
 	  When I follow "mockpool"
 	  Then I should be on the show pool page
 	  When I follow "Hardware Profiles"
@@ -39,7 +39,7 @@ Feature: Manage Pools
   Scenario: View Pool's Realms
 	  Given I own a pool named "mockpool"
 	  And the Pool has the following Realms named "Europe, United States"
-	  And I am on the homepage
+	  And I am on the instances page
 	  When I follow "mockpool"
 	  Then I should be on the show pool page
 	  When I follow "Realms"
@@ -61,7 +61,7 @@ Feature: Manage Pools
     | running_cpus              | 16       |
     | total_instances           | 15       |
     | total_storage             | 8400     |
-    And I am on the homepage
+    And I am on the instances page
     When I follow "mockpool"
     Then I should be on the show pool page
     When I follow "Quota"
