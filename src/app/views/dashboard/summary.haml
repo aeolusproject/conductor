@@ -31,8 +31,6 @@
     %h2
       Actions
     - if @is_admin
-      %a{:href => url_for(:controller => "cloud_accounts", :action => "new")}
-        Add a Provider Account
       %a{:href => url_for(:controller => "provider", :action => "new")}
         Add a Provider
       %a{:href => url_for(:controller => "users", :action => "new")}
