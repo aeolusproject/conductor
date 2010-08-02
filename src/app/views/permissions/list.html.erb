@@ -18,7 +18,7 @@
             <% if has_set_perms? %>
               <% form_tag :action => 'destroy' do %>
                 <%= hidden_field :permission, :id, :value => permission.id %>
-                <%= submit_tag "delete", :class => "submit_link" %>
+                <%= submit_tag "delete", :class => "submit_link", :id => "delete_#{permission.id}" %>
               <% end %>
             <% end %>
           </td>

@@ -50,6 +50,12 @@ module NavigationHelpers
     when /the pool hardware profiles page/
       hardware_profiles_pool_path
 
+    when /the permissions page/
+      url_for :action => 'list', :controller => 'permissions', :only_path => true
+
+    when /the new permission page/
+      url_for :action => 'new', :controller => 'permissions', :only_path => true
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
