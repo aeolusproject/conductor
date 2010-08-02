@@ -1,6 +1,5 @@
-<h2 class="greeting">Edit my profile.</h2>
-
 <div class="dcloud_form">
+  <h2>Edit my profile.</h2>
   <% form_for @user, :url => account_path do |f| %>
     <%= f.error_messages %>
       <%= render :partial => "form", :object => f %>

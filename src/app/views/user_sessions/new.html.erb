@@ -2,9 +2,8 @@
   TODO: decide if we want to have the concept of named Aggregators
   and add that below if so
 %>
-<h2 class="greeting">Welcome to the Deltacloud Aggregator.  Please sign in.</h2>
-
 <div class="dcloud_form">
+  <h2>Welcome to the Deltacloud Aggregator.  Please sign in.</h2>
   <% form_for @user_session, :url => user_session_path do |f| %>
     <%= f.error_messages %>
     <ul>
