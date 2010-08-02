@@ -38,6 +38,10 @@ class Provider < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
+  def set_cloud_type
+    self.cloud_type = connect.driver_name
+  end
+
   def connect
     begin
       return DeltaCloud.new(nil, nil, url)

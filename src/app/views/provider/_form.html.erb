@@ -5,7 +5,6 @@
   <% form_tag :controller => :provider, :action => 'new' do %>
     <ul>
     <li><label>Name<span>Provide a descriptive name for this provider connection.</span></label><%= text_field :provider, :name, :class => "txtfield" %></li>
-    <li><label>Type<span>Choose the type of provider connection.</span></label><%= select :provider, :cloud_type, [["Mock","Mock"],["EC2", "EC2"],["RHEV-M", "RHEV-M"]], :class => "txtfield" %></li>
     <li><label>URL<span>Enter the URL of the cloud provider.</span></label><%= text_field:provider,  :url, :class => "txtfield" %></li>
     </ul>
     <%= submit_tag "Save", :class => "submit" %>
