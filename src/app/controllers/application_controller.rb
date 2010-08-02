@@ -111,12 +111,12 @@ class ApplicationController < ActionController::Base
   end
 
   def html_error_page(title, msg)
-    @title = title
-    @errmsg = msg
-    if @layout
-      render :layout => 'aggregator'
+    if request.xhr?
+      render :template => 'layouts/popup-error', :layout => 'popup',
+             :locals => {:title => title, :errmsg => msg}
     else
-      render :template => 'layouts/popup-error', :layout => 'popup'
+      render :template => 'layouts/error', :layout => 'aggregator',
+             :locals => {:title => title, :errmsg => msg}
     end
   end
 
