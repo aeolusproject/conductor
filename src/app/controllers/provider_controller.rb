@@ -23,6 +23,7 @@ class ProviderController < ApplicationController
   before_filter :require_user
 
   def index
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
   end
 
   def show

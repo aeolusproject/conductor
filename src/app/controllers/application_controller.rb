@@ -30,8 +30,6 @@ class ApplicationController < ActionController::Base
   init_gettext "ovirt"
   layout :choose_layout
 
-  before_filter :get_nav_items
-
   # General error handlers, must be in order from least specific
   # to most specific
   rescue_from Exception, :with => :handle_general_error
@@ -46,13 +44,6 @@ class ApplicationController < ActionController::Base
     end
     @layout = 'aggregator'
     return @layout
-  end
-
-  def get_nav_items
-    if !current_user.nil?
-        @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
-        @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
-    end
   end
 
   perm_helper_string = ""
@@ -153,6 +144,13 @@ class ApplicationController < ActionController::Base
   # FIXME: what is the intent of this comment? don't define find_opts for array inputs
   def json_list(full_items, attributes, arg_list=[], find_opts={}, id_method=:id)
     render :json => json_hash(full_items, attributes, arg_list, find_opts, id_method).to_json
+  end
+
+  def get_nav_items
+    if !current_user.nil?
+        @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+        @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
+    end
   end
 
   private

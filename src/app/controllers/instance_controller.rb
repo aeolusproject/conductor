@@ -22,7 +22,7 @@
 require 'util/condormatic'
 
 class InstanceController < ApplicationController
-  before_filter :require_user
+  before_filter :require_user, :get_nav_items
   layout :layout
 
   def layout

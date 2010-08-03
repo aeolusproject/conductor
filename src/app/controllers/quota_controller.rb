@@ -21,6 +21,7 @@
 
 
 class QuotaController < ApplicationController
+  before_filter :require_user
 
   def show
     @parent = get_parent_object(params)

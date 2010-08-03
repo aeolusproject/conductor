@@ -22,6 +22,7 @@
 class DashboardController < ApplicationController
   layout :layout
   before_filter :require_user
+  before_filter :get_nav_items, :only => [:index]
 
   def layout
     return "dashboard" unless ajax?

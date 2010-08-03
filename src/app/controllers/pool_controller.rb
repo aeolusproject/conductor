@@ -23,7 +23,7 @@ require 'util/taskomatic'
 require 'util/condormatic'
 
 class PoolController < ApplicationController
-  before_filter :require_user
+  before_filter :require_user, :get_nav_items
 
   def index
     render :action => 'new'
