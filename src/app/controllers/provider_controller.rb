@@ -23,8 +23,6 @@ class ProviderController < ApplicationController
   before_filter :require_user
 
   def index
-    # FIXME: this should be something other than 'new' here
-    render :action => 'new'
   end
 
   def show

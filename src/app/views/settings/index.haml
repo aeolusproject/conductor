@@ -1,9 +1,2 @@
 %h1 Settings
-
-%h2 Providers
-%ul#providers
-  - @providers.each do |provider|
-    %li
-      = link_to provider.name, {:controller => "provider", :action => "show", :id => provider }, :class => "providername"
-- if BasePermissionObject.general_permission_scope.has_privilege(@current_user, Privilege::PROVIDER_MODIFY)
-  = link_to "Add a provider", {:controller => "provider", :action => "new"}, :class => "actionlink"
+= render :partial => 'provider/providers'
