@@ -35,10 +35,18 @@ class ProviderController < ApplicationController
   def new
     require_privilege(Privilege::PROVIDER_MODIFY)
     @provider = Provider.new(params[:provider])
-    if request.post? && @provider.set_cloud_type &&
-      @provider.save && @provider.populate_hardware_profiles
+    condormatic_classads_sync
+  end
+
+  def create
+    require_privilege(Privilege::PROVIDER_MODIFY)
+    @provider = Provider.new(params[:provider])
+    if @provider.set_cloud_type && @provider.save &&
+      @provider.populate_hardware_profiles
         flash[:notice] = "Provider added."
         redirect_to :action => "show", :id => @provider
+    else
+      render :action => "new"
     end
     condormatic_classads_sync
   end
