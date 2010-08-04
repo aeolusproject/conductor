@@ -46,22 +46,21 @@ class InstanceTask < Task
     actions = []
     # FIXME: cloud_account won't always be set here, but we're requiring
     #        front end realm for now.
-    cloud_account = instance.cloud_account
-    c_state = cloud_account.connect.instance_state(state) unless cloud_account.nil?
-    if !cloud_account.nil? and c_state
-      transitions = c_state.transitions
-      transitions.each do |transition|
-        # FIXME if we allow actions based on the expected state after
-        # automatic transitions, we need to call this method again with
-        # the state from transition.to passed in.
-        unless transition.action.nil?
-          add_action = true
-          if (instance and user)
-            # FIXME: check permissions here if we filter actions by permission
+    if cloud_account = instance.cloud_account and
+      conn = cloud_account.connect and c_state = conn.instance_state(state)
+        transitions = c_state.transitions
+        transitions.each do |transition|
+          # FIXME if we allow actions based on the expected state after
+          # automatic transitions, we need to call this method again with
+          # the state from transition.to passed in.
+          unless transition.action.nil?
+            add_action = true
+            if (instance and user)
+              # FIXME: check permissions here if we filter actions by permission
+            end
+            actions << transition.action if add_action
           end
-          actions << transition.action if add_action
         end
-      end
     end
     actions
   end
