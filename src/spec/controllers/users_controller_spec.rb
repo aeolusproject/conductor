@@ -99,4 +99,14 @@ describe UsersController do
     put :update, :id => @tuser.id, :user => { }
     response.should redirect_to(account_path)
   end
+
+  # checks whether proper error template is rendered when an exception raises
+  # "layouts/error" template should be displayed for all non-ajax error
+  # responses, "layouts/popup-error" should be displayed for ajax
+  # (see "Fixed error handling" patch for details)
+  it "should render error template when getting nonexisting user" do
+    UserSession.create(@tuser)
+    get :show, :id => "unknown_id"
+    response.should render_template("layouts/error")
+  end
 end
