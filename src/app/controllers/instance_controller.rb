@@ -32,6 +32,9 @@ class InstanceController < ApplicationController
   def index
     require_privilege(Privilege::INSTANCE_VIEW)
 
+    # go to condor and sync the database to the real instance states
+    condormatic_instances_sync_states
+
     @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
     @order = params[:order] || 'name'
     @instances = Instance.search_filter(params[:search], Instance::SEARCHABLE_COLUMNS).paginate(
