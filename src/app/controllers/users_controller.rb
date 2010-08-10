@@ -34,6 +34,7 @@ class UsersController < ApplicationController
       flash[:notice] = "User registered!"
       redirect_back_or_default user_url(@user)
     else
+      flash[:warning] = "user registration failed: #{@registration.error}"
       render :action => :new
     end
   end
