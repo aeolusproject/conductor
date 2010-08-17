@@ -133,4 +133,14 @@ describe Instance do
     end
   end
 
+  it "should return empty list of instance actions when connect to provider fails" do
+    provider = Factory.build(:mock_provider2)
+    cloud_account = Factory.build(:cloud_account, :provider => provider,
+                                                  :username => 'john doe',
+                                                  :password => 'asdf')
+    cloud_account.stub!(:connect).and_return(nil)
+    instance = Factory.create(:instance, :cloud_account => cloud_account)
+    instance.get_action_list.should be_empty
+  end
+
 end
