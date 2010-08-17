@@ -26,9 +26,9 @@ class HardwareProfileProperty < ActiveRecord::Base
   CPU          = "cpu"
   ARCHITECTURE = "architecture"
 
-  FIXED = :fixed
-  RANGE = :range
-  ENUM  = :enum
+  FIXED = 'fixed'
+  RANGE = 'range'
+  ENUM  = 'enum'
 
   UNIT_MB = "MB"
   UNIT_GB = "GB"

@@ -85,10 +85,10 @@ class HardwareProfile < ActiveRecord::Base
   def new_property(prop)
     return nil unless prop.present?
     the_property = HardwareProfileProperty.new(:name  => prop.name,
-                                               :kind  => prop.kind,
+                                               :kind  => prop.kind.to_s,
                                                :unit  => prop.unit,
                                                :value => prop.value)
-    case prop.kind
+    case prop.kind.to_s
     when HardwareProfileProperty::RANGE
       the_property.range_first = prop.range[:from]
       the_property.range_last = prop.range[:to]
