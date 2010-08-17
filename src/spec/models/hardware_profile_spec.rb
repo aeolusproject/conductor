@@ -80,4 +80,9 @@ describe HardwareProfile do
     @hp.should be_valid
   end
 
+  it "should have 'kind' attribute of hardware profile property set to string (not symbol)" do
+    api_prop = mock('DeltaCloud::HWP::FloatProperty', :unit => 'MB', :name => 'memory', :kind => :fixed, :value => 12288.0)
+    @hp.memory =@hp.new_property(api_prop)
+    @hp.memory.kind.should equal(@hp.memory.kind.to_s)
+  end
 end
