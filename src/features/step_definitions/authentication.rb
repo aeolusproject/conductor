@@ -23,6 +23,10 @@ Given /^I am logged in$/ do
   UserSession.find.should_not == nil
 end
 
+Given /^there are not any roles$/ do
+  Role.destroy_all
+end
+
 When /^I forget to enter my password$/ do
   login(user.login, nil)
 end
