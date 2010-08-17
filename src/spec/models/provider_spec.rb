@@ -60,6 +60,12 @@ describe Provider do
       provider2.should_not be_valid
     end
 
+    it "should set valid cloud type" do
+      @client.driver_name = @provider.cloud_type
+      @provider.cloud_type = nil
+      @provider.set_cloud_type
+      @provider.should be_valid
+    end
   end
 
   context "(using original connect method)" do
