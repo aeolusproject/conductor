@@ -51,6 +51,7 @@ Rails::Initializer.run do |config|
   config.gem "gnuplot"
   config.gem "scruffy"
   config.gem "compass", :version => ">= 0.10.2"
+  config.gem "compass-960-plugin", :lib => "ninesixty"
 
   config.active_record.observers = :instance_observer, :task_observer
   # Only load the plugins named here, in the order given. By default, all plugins
