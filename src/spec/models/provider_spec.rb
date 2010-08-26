@@ -66,6 +66,20 @@ describe Provider do
       @provider.set_cloud_type
       @provider.should be_valid
     end
+
+    it "should not destroy provider if deletion of associated cloud account fails" do
+      # TODO: front end HW profiles are not deleted with provider, which
+      # involves "External name is already used" error.
+      # This should be solved when implementing "Scripted import of Hardware Profiles
+      # from EC2" scenario, then it's possible to delete this line
+      # note: same situation will be with images
+      HardwareProfile.destroy_all
+
+      instance = Factory(:instance)
+      provider = instance.cloud_account.provider
+      provider.destroy
+      provider.destroyed?.should be_false
+    end
   end
 
   context "(using original connect method)" do
