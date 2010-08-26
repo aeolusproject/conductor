@@ -38,6 +38,23 @@ class Provider < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
+  before_destroy :destroyable?
+
+  # there is a destroy dependency for a cloud accounts association,
+  # but a cloud account is silently not destroyed when there is
+  # an instance for the cloud account
+  def destroyable?
+    unless self.cloud_accounts.empty?
+      self.cloud_accounts.each do |c|
+        unless c.instances.empty?
+          inst_list = c.instances.map {|i| i.name}.join(', ')
+          self.errors.add_to_base "there are instances for cloud account '#{c.name}': #{inst_list}"
+        end
+      end
+    end
+    return self.errors.empty?
+  end
+
   def set_cloud_type
     self.cloud_type = connect.driver_name
   end

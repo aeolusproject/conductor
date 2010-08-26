@@ -52,11 +52,18 @@ class ProviderController < ApplicationController
 
   def destroy
     if request.post?
-      p =Provider.find(params[:provider][:id])
+      @provider = Provider.find(params[:provider][:id])
       require_privilege(Privilege::PROVIDER_MODIFY, p)
-      p.destroy
+      if @provider.destroy and @provider.destroyed?
+        redirect_to :action => "index"
+      else
+        flash[:error] = {
+          :summary => "Failed to delete Provider",
+          :failures => @provider.errors.full_messages,
+        }
+        render :action => 'show'
+      end
     end
-    redirect_to :action => "index"
   end
 
   def hardware_profiles
