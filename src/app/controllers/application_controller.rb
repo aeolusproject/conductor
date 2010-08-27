@@ -27,7 +27,6 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
 
-  init_gettext "ovirt"
   layout :choose_layout
 
   # General error handlers, must be in order from least specific
@@ -183,7 +182,7 @@ class ApplicationController < ActionController::Base
         hash[:object] = ivar[1, ivar.size]
         hash[:errors] ||= []
         val.errors.each {|key,msg|
-          arr.push([key, val.errors.on_with_gettext_activerecord(key).to_a].to_a)
+          arr.push([key, msg.to_a].to_a)
         }
         hash[:errors] += arr
       end

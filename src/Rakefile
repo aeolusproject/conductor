@@ -9,21 +9,3 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 
 require 'tasks/rails'
-# Do not require 'gettext/utils' here, it breaks rdoc,
-# require it in tasks that actually need it instead
-
-desc "Create mo-files for L10n" 
-task :makemo do
- require 'gettext/utils'
- GetText.create_mofiles(true, "po", "locale")
-end
-
-desc "Update pot/po files to match new version." 
-task :updatepo do
- require 'gettext/utils'
- MY_APP_TEXT_DOMAIN = "ovirt" 
- MY_APP_VERSION     = "ovirt 0.0.1" 
- GetText.update_pofiles(MY_APP_TEXT_DOMAIN,
-                        Dir.glob("{app,lib}/**/*.{rb,rhtml}"),
-                        MY_APP_VERSION)
-end

@@ -1,6 +1,5 @@
-#
-# Copyright (C) 2009 Red Hat, Inc.
-# Written by Scott Seago <sseago@redhat.com>
+# Copyright (C) 2010 Red Hat, Inc.
+# Written by Mohammed Morsi <mmorsi@redhat.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,19 +16,19 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-class CreateQuotas < ActiveRecord::Migration
+class CreateInstanceEvents < ActiveRecord::Migration
   def self.up
-    create_table :quotas do |t|
-      t.integer :running_instances, :default => 0
-      t.integer :total_instances, :default => 0
-      t.integer :maximum_running_instances, :default => nil
-      t.integer :maximum_total_instances, :default => nil
-      t.integer :lock_version, :default => 0
+    create_table :instance_events do |t|
+      t.integer    :instance_id, :null => false
+      t.string     :event_type,  :null => false
+      t.datetime   :event_time
+      t.string     :status
+      t.string     :message
       t.timestamps
     end
   end
 
   def self.down
-    drop_table :quotas
+    drop_table :instance_events
   end
 end

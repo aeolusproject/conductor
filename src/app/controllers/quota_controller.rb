@@ -61,11 +61,8 @@ class QuotaController < ApplicationController
     require_privilege(Privilege::QUOTA_MODIFY, @parent)
 
     @quota = @parent.quota
-    @quota.maximum_running_cpus = Quota::NO_LIMIT
     @quota.maximum_running_instances = Quota::NO_LIMIT
-    @quota.maximum_running_memory = Quota::NO_LIMIT
     @quota.maximum_total_instances = Quota::NO_LIMIT
-    @quota.maximum_total_storage  = Quota::NO_LIMIT
 
     if @quota.save!
       flash[:notice] = "Quota updated!"

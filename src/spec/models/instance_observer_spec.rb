@@ -98,9 +98,7 @@ describe InstanceObserver do
   it "should not update quota on pool and cloud account when an instance is state new" do
     [@cloud_account_quota, @pool_quota].each do |quota|
       quota = Quota.find(quota)
-
       quota.total_instances.should == 0
-      quota.total_storage.to_f.should == 0.to_f
     end
   end
 
@@ -110,9 +108,7 @@ describe InstanceObserver do
       @instance.save
 
       quota = Quota.find(quota)
-
       quota.total_instances.should == 1
-      quota.total_storage.to_f.should == @hwp.storage.value.to_f
     end
   end
 
@@ -122,9 +118,7 @@ describe InstanceObserver do
 
     [@cloud_account_quota, @pool_quota].each do |quota|
       quota = Quota.find(quota)
-
       quota.total_instances.should == 0
-      quota.total_storage.to_f.should == 0.to_f
     end
   end
 
@@ -135,10 +129,6 @@ describe InstanceObserver do
     [@cloud_account_quota, @pool_quota].each do |quota|
       quota = Quota.find(quota.id)
       quota.running_instances.should == 1
-      quota.running_memory.to_f.should == @hwp.memory.value.to_f
-      quota.running_cpus.to_f.should == @hwp.cpu.value.to_f
-
-      quota.total_storage.to_f.should == @hwp.storage.value.to_f
       quota.total_instances.should == 1
     end
   end
@@ -153,11 +143,7 @@ describe InstanceObserver do
     [@cloud_account_quota, @pool_quota].each do |quota|
       quota = Quota.find(quota.id)
 
-      #TODO test for cpus
       quota.running_instances.should == 0
-      quota.running_memory.to_f.should == 0.to_f
-
-      quota.total_storage.to_f.should == @hwp.storage.value.to_f
       quota.total_instances.should == 1
     end
   end

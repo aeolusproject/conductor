@@ -1,6 +1,7 @@
-#
-# Copyright (C) 2009 Red Hat, Inc.
-# Written by Scott Seago <sseago@redhat.com>
+#!/usr/bin/env ruby
+
+# Copyright (C) 2010 Red Hat, Inc.
+# Written by Chris Lalancette <clalance@redhat.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,19 +18,42 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-class CreateQuotas < ActiveRecord::Migration
-  def self.up
-    create_table :quotas do |t|
-      t.integer :running_instances, :default => 0
-      t.integer :total_instances, :default => 0
-      t.integer :maximum_running_instances, :default => nil
-      t.integer :maximum_total_instances, :default => nil
-      t.integer :lock_version, :default => 0
-      t.timestamps
-    end
-  end
+$: << File.join(File.dirname(__FILE__), "../dutils")
+$: << File.join(File.dirname(__FILE__), "../config")
 
-  def self.down
-    drop_table :quotas
+require 'rubygems'
+require 'optparse'
+require 'socket'
+require 'dutils'
+
+port = 7890
+help = false
+
+optparse = OptionParser.new do |opts|
+
+opts.banner = <<BANNER
+Usage:
+condor_refreshd [options]
+
+Options:
+BANNER
+  opts.on( '-p', '--port PORT', 'Use PORT (default: 7890)') do |newport|
+    port = newport
   end
+  opts.on( '-h', '--help', '') { help = true }
+end
+
+optparse.parse!
+
+if help
+  puts optparse
+  exit(0)
+end
+
+socket = UDPSocket.new
+socket.bind(nil, port)
+while true
+  packet = socket.recvfrom(1024)
+  puts "Doing classad sync"
+  condormatic_classads_sync
 end
