@@ -175,11 +175,46 @@ end
 
 
 def condormatic_classads_sync
-
+  Rails.logger.info "Starting condormatic_classads_sync..."
   index = 0
   providers = Provider.find(:all)
-  Rails.logger.info "Syncing classads.."
 
+
+  # we first need to invalidate old ADS
+  # FIXME: this invalidates *all* ads, including those not really
+  # related to deltacloud.  It would be best if we could find a
+  # way to restrict the classads that we actually invalidate,
+  # but it seems that the invalidate only matches against Name,
+  # Machine, and SlotID.  Unfortunately classads don't seem to
+  # have a regex match, so we can't regex match on Name.  My
+  # attempts with Machine also failed, for unknown reasons.
+  #
+  # The other way we could go about invalidating the ones
+  # we care about is with something like:
+  #
+  # condor_status -startd -f "%s\n" Name
+  # 
+  # which will show only the names of the startd classads.
+  # Then we could do the regex matching in ruby, and iterate
+  # through the provider_combination_* ones.  This is a bit
+  # racy, though, so I'm more inclined to just invalidate
+  # everything at present.
+  Rails.logger.info "Starting classad invalidate..."
+  pipe = IO.popen("condor_advertise INVALIDATE_STARTD_ADS 2>&1", "w+")
+  pipe.puts 'MyType="Query"'
+  pipe.puts 'TargetType="Machine"'
+  pipe.close_write
+  out = pipe.read
+  pipe.close
+
+  Rails.logger.info "Did invalidate, output is #{out}"
+
+  if $? != 0
+    Rails.logger.error "Unable to invalidate classads: #{out}"
+    raise "Unable to invalidate classads, classad sync failed"
+  end
+
+  Rails.logger.info "Syncing classads.."
   providers.each do |provider|
     provider.cloud_accounts.each do |account|
       provider.images.each do |image|
