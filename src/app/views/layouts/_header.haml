@@ -1,8 +1,8 @@
-- menu = [ { :text => "Dashboard", :controller => "dashboard" }, |
-  { :text => "Instances", :controller => "instance" }, |
-  { :text => "Templates", :controller => "image", :action => "show" }, |
+- menu = [ { :text => t(:dashboard), :controller => "dashboard" }, |
+  { :text => t(:instances), :controller => "instance" }, |
+  { :text => t(:templates), :controller => "image", :action => "show" }, |
     ({ :text => "Users", :controller => "permissions", :action => "list" } if @current_user && has_view_perms?(BasePermissionObject.general_permission_scope)), |
-  { :text => "Settings", :controller => "settings" }, |
+  { :text => t(:settings), :controller => "settings" }, |
   ].find_all {|item| item != nil} |
 .header_logo
   %span Deltacloud Aggregator
@@ -14,5 +14,5 @@
 .header_info
   #hi-username
     = link_to @current_user.first_name + " " + @current_user.last_name, { :controller => "users", :action => "show"} unless @current_user.nil?
-  = link_to 'Log out', logout_url unless @current_user.nil?
-  = link_to 'Log in', login_url if @current_user.nil?
+  = link_to t(:logout), logout_url unless @current_user.nil?
+  = link_to t(:login), login_url if @current_user.nil?
