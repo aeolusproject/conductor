@@ -49,14 +49,8 @@ class DataServiceActiveRecord
         case resource_name
           when Quota::RESOURCE_RUNNING_INSTANCES
             return QuotaUsagePoint.new(quota.running_instances, quota.maximum_running_instances)
-          when Quota::RESOURCE_RUNNING_MEMORY
-            return QuotaUsagePoint.new(quota.running_memory.to_f, quota.maximum_running_memory.to_f)
-          when Quota::RESOURCE_RUNNING_CPUS
-            return QuotaUsagePoint.new(quota.running_cpus.to_f, quota.maximum_running_cpus.to_f)
           when Quota::RESOURCE_TOTAL_INSTANCES
             return QuotaUsagePoint.new(quota.total_instances, quota.maximum_total_instances)
-          when Quota::RESOURCE_TOTAL_STORAGE
-            return QuotaUsagePoint.new(quota.total_storage.to_f, quota.maximum_total_storage.to_f)
           when Quota::RESOURCE_OVERALL
             return self.overall_usage(parent)
           else

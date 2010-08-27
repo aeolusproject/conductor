@@ -42,34 +42,19 @@ describe DataServiceActiveRecord do
 
     quota = Factory(:quota,
                     :maximum_running_instances => 40,
-                    :maximum_running_memory => 10240,
-                    :maximum_running_cpus => 10,
                     :maximum_total_instances => 50,
-                    :maximum_total_storage => 500,
                     :running_instances => 20,
-                    :running_memory => 4096,
-                    :running_cpus => 7,
-                    :total_instances => 20,
-                    :total_storage => 499)
+                    :total_instances => 20)
     cloud_account.quota_id = quota.id
 
     data_point = DataServiceActiveRecord.quota_usage(cloud_account, Quota::RESOURCE_RUNNING_INSTANCES)
     data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(20, 40)
 
-    data_point = DataServiceActiveRecord.quota_usage(cloud_account, Quota::RESOURCE_RUNNING_MEMORY)
-    data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(4096, 10240)
-
-    data_point = DataServiceActiveRecord.quota_usage(cloud_account, Quota::RESOURCE_RUNNING_CPUS)
-    data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(7, 10)
-
     data_point = DataServiceActiveRecord.quota_usage(cloud_account, Quota::RESOURCE_TOTAL_INSTANCES)
     data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(20, 50)
 
-    data_point = DataServiceActiveRecord.quota_usage(cloud_account, Quota::RESOURCE_TOTAL_STORAGE)
-    data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(499, 500)
-
     data_point = DataServiceActiveRecord.quota_usage(cloud_account, Quota::RESOURCE_OVERALL)
-    data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(499, 500)
+    data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(20, 40)
   end
 
   it "should calculate the average, max and min task submission times" do

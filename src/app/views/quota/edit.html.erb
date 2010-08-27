@@ -10,10 +10,7 @@
 
     <ul>
       <li><label>Max Running Instances</label><%= text_field :quota, :maximum_running_instances %></li>
-	  <li><label>Max Running Memory</label><%= text_field :quota, :maximum_running_memory %></li>
-	  <li><label>Max Running CPUs</label><%= text_field :quota, :maximum_running_cpus %></li>
 	  <li><label>Max Total Instances</label><%= text_field :quota, :maximum_total_instances %></li>
-	  <li><label>Max Total Storage</label><%= text_field :quota, :maximum_total_storage %></li>
     </ul>
     </fieldset>
     <%= submit_tag "Save", :class => "submit" %>

@@ -52,22 +52,13 @@ Feature: Manage Pools
     And the Pool has a quota with following capacities:
     | resource                  | capacity |
     | maximum_running_instances | 10       |
-    | maximum_running_memory    | 10240    |
-    | maximum_running_cpus      | 20       |
     | maximum_total_instances   | 15       |
-    | maximum_total_storage     | 8500     |
     | running_instances         | 8        |
-    | running_memory            | 9240     |
-    | running_cpus              | 16       |
     | total_instances           | 15       |
-    | total_storage             | 8400     |
     And I am on the instances page
     When I follow "mockpool"
     Then I should be on the show pool page
     When I follow "Quota"
     Then I should see the following:
     | Running Instances | 10           | 8             | 2             |
-    | Running Memory    | 10240        | 9240          | 1000          |
-    | Running CPUs      | 20           | 16            | 4             |
     | Total Instances   | 15           | 15            | 0             |
-    | Total Storage     | 8500         | 8400          | 100           |
