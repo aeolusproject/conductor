@@ -19,21 +19,25 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class CreatePools < ActiveRecord::Migration
+class CreateZones < ActiveRecord::Migration
   def self.up
-    create_table :pools do |t|
+    create_table :zones do |t|
       t.string :name, :null => false
-      t.string :exported_as
-      t.integer :owner_id, :null => false
-      t.integer :quota_id
-      t.integer :zone_id, :null => false
+      t.string :description
       t.integer :lock_version, :default => 0
       t.timestamps
     end
+    create_table :cloud_accounts_zones, :id => false do |t|
+      t.integer :cloud_account_id, :null => false
+      t.integer :zone_id,          :null => false
+    end
 
+    default_zone = Zone.new(:name => "default", :description => "default zone")
+    default_zone.save!
   end
 
   def self.down
-    drop_table :pools
+    drop_table :cloud_accounts_zones
+    drop_table :zones
   end
 end

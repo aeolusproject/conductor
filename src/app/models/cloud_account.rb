@@ -24,6 +24,7 @@ class CloudAccount < ActiveRecord::Base
   belongs_to :provider
   belongs_to :quota
   has_many :instances
+  has_and_belongs_to_many :zones
 
   # what form does the account quota take?
 

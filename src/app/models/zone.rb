@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009 Red Hat, Inc.
+# Copyright (C) 2010 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,21 +19,19 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class CreatePools < ActiveRecord::Migration
-  def self.up
-    create_table :pools do |t|
-      t.string :name, :null => false
-      t.string :exported_as
-      t.integer :owner_id, :null => false
-      t.integer :quota_id
-      t.integer :zone_id, :null => false
-      t.integer :lock_version, :default => 0
-      t.timestamps
-    end
+class Zone < ActiveRecord::Base
 
+  DEFAULT_ZONE_KEY = "default_zone"
+
+  has_many :pools,  :dependent => :destroy
+  has_and_belongs_to_many :cloud_accounts
+
+  validates_presence_of :name
+  def self.default
+    MetadataObject.lookup(DEFAULT_ZONE_KEY)
   end
 
-  def self.down
-    drop_table :pools
+  def set_as_default
+    MetadataObject.set(DEFAULT_ZONE_KEY, self)
   end
 end

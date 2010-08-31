@@ -24,6 +24,7 @@ class Pool < ActiveRecord::Base
   has_many :instances,  :dependent => :destroy
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   belongs_to :quota
+  belongs_to :zone
 
   has_many :images,  :dependent => :destroy
   has_many :hardware_profiles,  :dependent => :destroy
@@ -32,6 +33,7 @@ class Pool < ActiveRecord::Base
 
   validates_presence_of :owner_id
   validates_presence_of :name
+  validates_presence_of :zone
   validates_uniqueness_of :name, :scope => :owner_id
   validates_uniqueness_of :exported_as, :if => :exported_as
 

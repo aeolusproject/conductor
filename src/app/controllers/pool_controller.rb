@@ -83,10 +83,6 @@ class PoolController < ApplicationController
 
     #FIXME: This should probably be in a transaction
     @pool = Pool.new(params[:pool])
-    perm = Permission.new(:user => @pool.owner,
-                          :role => Role.find_by_name("Instance Creator and User"),
-                          :permission_object => @pool)
-    perm.save!
     # FIXME: do we need any more handling around save failures? What if perm
     #        creation fails?
 
@@ -94,7 +90,13 @@ class PoolController < ApplicationController
     quota.save!
 
     @pool.quota_id = quota.id
+
+    @pool.zone = Zone.default
     @pool.save!
+    perm = Permission.new(:user => @pool.owner,
+                          :role => Role.find_by_name("Instance Creator and User"),
+                          :permission_object => @pool)
+    perm.save!
 
     flash[:notice] = "Pool added."
     redirect_to :action => 'show', :id => @pool.id

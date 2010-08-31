@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009 Red Hat, Inc.
+# Copyright (C) 2010 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,21 +19,42 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class CreatePools < ActiveRecord::Migration
-  def self.up
-    create_table :pools do |t|
-      t.string :name, :null => false
-      t.string :exported_as
-      t.integer :owner_id, :null => false
-      t.integer :quota_id
-      t.integer :zone_id, :null => false
-      t.integer :lock_version, :default => 0
-      t.timestamps
+class MetadataObject < ActiveRecord::Base
+
+  validates_presence_of :key
+  validates_uniqueness_of :key
+
+  validates_presence_of :value
+
+  def self.lookup(key)
+    metadata_obj = self.find_by_key(key)
+    if metadata_obj.nil?
+      nil
+    elsif metadata_obj.object_type and !metadata_obj.object_type.empty?
+      metadata_obj.object_type.constantize.find(metadata_obj.value)
+    else
+      metadata_obj.value
     end
-
   end
 
-  def self.down
-    drop_table :pools
+  def self.set(key, value)
+    metadata_obj = self.find_by_key(key)
+    metadata_obj = self.new(:key => key) unless metadata_obj
+
+    if value.is_a?(ActiveRecord::Base)
+      metadata_obj.object_type = value.class.to_s
+      metadata_obj.value = value.id
+    else
+      metadata_obj.value = value
+      metadata_obj.object_type = nil
+    end
+    metadata_obj.save!
+    metadata_obj
   end
+
+  def self.remove(key)
+    metadata_obj = self.find_by_key(key)
+    metadata_obj.destroy if metadata_obj
+  end
+
 end
