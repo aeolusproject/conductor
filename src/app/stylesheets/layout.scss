@@ -3,7 +3,8 @@
 html {
   font-size: small;
   min-width: 900px;
-  min-height: 400px; }
+  min-height: 400px;
+}
 
 body {
   font-family: "Lucida Grande", "Luxi Sans", "Bitstream Vera Sans", "Trebuchet MS", helvetica, verdana, arial, sans-serif;
@@ -12,17 +13,21 @@ body {
   width: 100%;
   height: 100%;
   background-color: #333333;
-  font-size: 90%; }
+  font-size: 90%;
+}
 
 img {
-  border-style: none; }
+  border-style: none;
+}
 
 a {
   color: black;
-  text-decoration: none; }
+  text-decoration: none;
+}
 
 h2, h3 {
-  font-weight: normal; }
+  font-weight: normal;
+}
 
 #header {
   padding: 0;
@@ -33,7 +38,8 @@ h2, h3 {
   width: 100%;
   height: 90px;
   overflow: hidden;
-  background: #535353 url(/images/bg_header.png) repeat-x top; }
+  background: #535353 url(/images/bg_header.png) repeat-x top;
+}
 
 #content {
   position: absolute;
@@ -42,7 +48,8 @@ h2, h3 {
   right: 0px;
   bottom: 0px;
   overflow: auto;
-  background-color: white; }
+  background-color: white;
+}
 
 #side {
   padding: 5px 0 0 5px;
@@ -59,7 +66,9 @@ h2, h3 {
     color: #999999;
     font-size: 1em;
     margin: 1em 1em 0.5em 1em;
-    text-transform: uppercase; } }
+    text-transform: uppercase;
+  }
+}
 
 #main {
   padding: 0;
@@ -68,7 +77,8 @@ h2, h3 {
   bottom: 0px;
   overflow: auto;
   background-color: white;
-  border-left: #cccccc solid 0px; }
+  border-left: #cccccc solid 0px;
+}
 
 /*  ----- Right side of Header -------- */
 
@@ -83,7 +93,10 @@ h2, h3 {
     font-weight: bold;
     &:link, &:active, &:visited, &:hover {
       color: black;
-      text-decoration: none; } } }
+      text-decoration: none;
+    }
+  }
+}
 
 #textfield_effect {
   border-width: 1px;
@@ -94,7 +107,8 @@ h2, h3 {
   font-size: 100%;
   color: white;
   width: 100px;
-  height: 16px; }
+  height: 16px;
+}
 
 /*  ----- Blue Tabbed Navigation -------- */
 
@@ -108,7 +122,8 @@ h2, h3 {
   li {
     margin: 0 1px 0 1px;
     padding: 0;
-    float: left; }
+    float: left;
+  }
   a {
     float: left;
     padding: 0 15px 0 15px;
@@ -120,65 +135,80 @@ h2, h3 {
     background: none;
     &:hover {
       color: white;
-      border-bottom: 5px solid #537585; }
+      border-bottom: 5px solid #537585;
+    }
     &:focus, &:active {
-      outline-style: none; } } }
+      outline-style: none;
+    }
+  }
+}
 
 .ui-tabs-selected a {
   color: white;
   outline-style: none;
   height: 24px;
   line-height: 1.6;
-  border-bottom: 5px solid #5599b8; }
+  border-bottom: 5px solid #5599b8;
+}
 
 .ui-tabs-hide {
-  /*display:none; */ }
+  /*display:none; */
+}
 
 /*  ----- PopUp Dialog -------- */
 
 .dialog_title {
   background: #dee7eb;
   padding: 15px;
-  width: 600px; }
+  width: 600px;
+}
 
 .dialog_title_small {
   background: #dee7eb;
   padding: 15px;
-  min-width: 500px; }
+  min-width: 500px;
+}
 
 .header {
   font-size: 180%;
-  line-height: 1.6; }
+  line-height: 1.6;
+}
 
 .dialog_body {
   overflow: auto;
-  height: 350px; }
+  height: 350px;
+}
 
 .confirm_dialog_title {
   width: 400px;
   padding: 15px;
   font-size: 110%;
-  background: url(/images/bg_warningMessage.png) top repeat-x; }
+  background: url(/images/bg_warningMessage.png) top repeat-x;
+}
 
 .confirm_dialog_header {
   background: url(/images/icon_warning.png) top left no-repeat;
   padding: 0 0 0 45px;
-  min-height: 36px; }
+  min-height: 36px;
+}
 
 .confirm_dialog_footer {
   height: 37px;
   text-align: right;
-  padding: 5px 9px 0 0; }
+  padding: 5px 9px 0 0;
+}
 
 .button {
   padding: 0 0 0 2px;
-  float: right; }
+  float: right;
+}
 
 .button_left_blue {
   background: url(/images/button_left.png) no-repeat;
   width: 6px;
   height: 29px;
-  float: left; }
+  float: left;
+}
 
 .button_middle_blue {
   background: url(/images/button_middle.png) repeat-x;
@@ -187,13 +217,15 @@ h2, h3 {
   color: white;
   line-height: 2.3;
   font-size: 105%;
-  display: block; }
+  display: block;
+}
 
 .button_right_blue {
   background: url(/images/button_right.png) no-repeat;
   width: 6px;
   height: 29px;
-  float: left; }
+  float: left;
+}
 
 .button_middle_blue a {
   color: white;
@@ -203,13 +235,16 @@ h2, h3 {
   &:hover {
     color: #e7eff6;
     text-decoration: none;
-    padding: 0 10px 0 10px; } }
+    padding: 0 10px 0 10px;
+  }
+}
 
 .button_left_grey {
   background: url(/images/button_left_grey.png) no-repeat;
   width: 6px;
   height: 29px;
-  float: left; }
+  float: left;
+}
 
 .button_middle_grey {
   background: url(/images/button_middle_grey.png) repeat-x;
@@ -218,13 +253,15 @@ h2, h3 {
   color: white;
   line-height: 2.3;
   font-size: 105%;
-  display: block; }
+  display: block;
+}
 
 .button_right_grey {
   background: url(/images/button_right_grey.png) no-repeat;
   width: 6px;
   height: 29px;
-  float: left; }
+  float: left;
+}
 
 .button_middle_grey a {
   color: white;
@@ -234,12 +271,16 @@ h2, h3 {
   &:hover {
     color: #e7eff6;
     text-decoration: none;
-    padding: 0 10px 0 10px; } }
+    padding: 0 10px 0 10px;
+  }
+}
 
 .fieldWithErrors {
   background-color: #ffb2b2;
-  border: 3px solid #ffb2b2; }
+  border: 3px solid #ffb2b2;
+}
 
 .errorExplanation {
   color: #333333;
-  padding: 2px; }
+  padding: 2px;
+}
