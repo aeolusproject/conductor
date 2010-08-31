@@ -1,3 +1,6 @@
+@import "grid";
+@import "text";
+
 @mixin border-radius($radius) {
   border-radius: $radius;
   -moz-border-radius: $radius;
