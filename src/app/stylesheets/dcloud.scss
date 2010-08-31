@@ -1,3 +1,5 @@
+@import "base";
+
 form {
   border: none;
   margin: 0;
@@ -48,7 +50,7 @@ input, select {
   padding: 9px;
   background: #fff7b2;
   color: #867a5e;
-  -moz-border-radius: 3px;
+  @include border-radius(3px);
 }
 
 #errorExplanation h2 {
@@ -60,8 +62,7 @@ input, select {
 .dcloud_form {
   background: #e8e8e8;
   border: solid 8px #f5f5f5;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
+  @include border-radius(10px);
   margin-top: 54px;
   width: 550px;
   margin-left: auto;
@@ -275,8 +276,7 @@ a.button_link {
   display: block;
   background: #666666;
   color: white;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  @include border-radius(5px);
 }
 
 #dashboard-tabs, #provider-tabs, #pool-tabs {

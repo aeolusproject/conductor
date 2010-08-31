@@ -1,3 +1,4 @@
+@import "base";
 /* header style */
 
 .header_logo {
@@ -30,16 +31,12 @@ ul.nav {
     }
     &.selected {
       background: #cbd6db !important;
-      border-radius: 16px;
-      -moz-border-radius: 16px;
-      -webkit-border-radius: 16px;
+      @include border-radius(16px);
       -moz-box-shadow: 0 1px 1px #efefef;
     }
     &:hover {
       background: #dedede;
-      border-radius: 16px;
-      -moz-border-radius: 16px;
-      -webkit-border-radius: 16px;
+      @include border-radius(16px);
     }
   }
 }
@@ -112,8 +109,7 @@ ul.nav {
   padding: 10px;
   margin: 10px 0px 10px 5px;
   border: 1px solid black;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  @include border-radius(5px);
   p {
     padding-bottom: 5px;
   }
@@ -147,8 +143,7 @@ ul.nav {
   border: 1px solid #dddddd;
   padding: 15px;
   margin: 5px 15px 15px 0px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  @include border-radius(5px);
   -moz-box-shadow: 0 1px 3px #cccccc;
   h2 {
     padding: 0;
@@ -169,8 +164,7 @@ ul.nav {
   border: 1px solid #dddddd;
   padding: 15px;
   margin: 0 15px 15px 0px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  @include border-radius(5px);
   -moz-box-shadow: 0 1px 3px #cccccc;
   h2 {
     padding: 0;
@@ -199,8 +193,7 @@ ul.nav {
   border: 1px solid #dddddd;
   padding: 15px;
   margin: 0 15px 15px 0px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  @include border-radius(5px);
   -moz-box-shadow: 0 1px 3px #cccccc;
   h2 {
     padding: 0;
@@ -237,9 +230,7 @@ ul.nav {
   border: 1px solid #dddddd;
   padding: 15px;
   margin: 5px 15px 15px 0px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
+  @include border-radius(5px);
   -moz-box-shadow: 0 1px 3px #cccccc;
   h2 {
     padding: 0;
@@ -366,7 +357,7 @@ ul.nav {
       border-bottom: 1px solid #7f7f7f;
       border-left: 1px solid black;
       border-right: 1px solid black;
-      -moz-border-radius: 4px;
+      @include border-radius(4px);
     }
   }
   .description {
@@ -391,7 +382,7 @@ ul.nav {
     overflow: auto;
     background-color: white;
     border: 2px solid #cccccc;
-    -moz-border-radius: 6px;
+    @include border-radius(6px);
   }
   .submit {
     padding-top: 20px;
