@@ -11,6 +11,19 @@ Provider.class_eval do
   def valid_framework?
     true
   end
+
+  def set_cloud_type
+    self.cloud_type = Factory(:mock_provider).cloud_type
+  end
+
+  def populate_hardware_profiles
+    [[:mock_hwp1, :agg_hwp1], [:mock_hwp2, :agg_hwp2]].each do |mp_name, ap_name|
+      mock = Factory(mp_name, :provider_id => self.id)
+      agg_mock = Factory(ap_name, :external_key => self.name + Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER + mock.name)
+      agg_mock.provider_hardware_profiles << mock
+    end
+    return true
+  end
 end
 
 CloudAccount.class_eval do

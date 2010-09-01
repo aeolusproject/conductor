@@ -14,9 +14,6 @@ module NavigationHelpers
     when /the new account page/
       register_path
 
-    when /the provider list page/
-      '/'
-
     when /the login page/
       login_path
 
@@ -29,8 +26,20 @@ module NavigationHelpers
     when /the login error page/
       user_session_path
 
+    when /the providers page/
+      url_for :controller => 'provider', :action => 'index', :only_path => true
+
     when /the new provider page/
-      new_provider_path
+      url_for :controller => 'provider', :action => 'new', :only_path => true
+
+    when /the show provider page/
+      url_for :controller => 'provider', :action => 'show', :only_path => true
+
+    when /the provider settings page/
+      url_for :controller => 'provider', :action => 'settings', :only_path => true
+
+    when /the settings page/
+      settings_path
 
     when /the new pool page/
       new_pool_path
