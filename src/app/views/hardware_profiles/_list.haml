@@ -1,0 +1,20 @@
+- if @hardware_profiles.size == 0
+  %h1 There are no hardware profiles to display
+- else
+  %table
+    %thead
+      %tr
+        %th{:scope => "col"} Name
+        %th{:scope => "col"} Memory
+        %th{:scope => "col"} Storage
+        %th{:scope => "col"} CPU
+        %th{:scope => "col"} Architecture
+    %tbody
+      - @hardware_profiles.each {|hp|
+      %tr
+        %td= hp.name
+        %td= hp.memory.value if hp.memory
+        %td= hp.storage.value if hp.storage
+        %td= hp.cpu.value if hp.cpu
+        %td= hp.architecture.value if hp.architecture
+      - }
