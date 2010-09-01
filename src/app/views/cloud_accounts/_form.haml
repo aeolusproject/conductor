@@ -1,0 +1,22 @@
+%fieldset
+  %legend Account
+  = hidden_field :cloud_account,  :id
+  = hidden_field :cloud_account, :provider_id, :value => @provider.id
+  %ul
+    %li
+      %label
+        Label
+        %span user-visible name for the account
+      = text_field :cloud_account, :label
+    - if @cloud_account.id.nil?
+      %li
+        %label
+          UserName
+          %span UserName for the provider account you wish to add.
+        = text_field :cloud_account, :username
+    %li
+      %label
+        Password
+        %span Password for the provider account you wish to add.
+      = password_field :cloud_account, :password
+= submit_tag "Save", :class => "submit"

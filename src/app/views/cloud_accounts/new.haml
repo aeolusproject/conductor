@@ -1,0 +1,8 @@
+.dcloud_form
+  = error_messages_for 'account'
+  %h2 Add a new Account from this Provider
+  %br/
+  - form_for @cloud_account, :url => { :action => "create" } do |f|
+    = f.error_messages
+    = render :partial => "form", :object => f
+    = link_to "Cancel", root_path, :class => 'actionlink'
