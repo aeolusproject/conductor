@@ -1,0 +1,20 @@
+- if @provider.cloud_accounts.size == 0
+  %h1 There are no accounts to display
+- else
+  %table
+    %thead
+      %tr
+        %th{:scope => "col"} Label
+        %th{:scope => "col"} Username
+        %th{:scope => "col"}
+        %th{:scope => "col"}
+    %tbody
+      - @provider.cloud_accounts.each {|acct|
+      %tr
+        %td= acct.label
+        %td= acct.username
+        %td= link_to "Edit",   {:controller => 'cloud_accounts', :action => 'edit', :id => acct.id}    if has_account_modify?(@provider)
+        %td= link_to "Delete", {:controller => 'cloud_accounts', :action => 'destroy', :id => acct.id} if has_account_modify?(@provider) && acct.destroyable?
+        %td= link_to "Quota", {:controller => 'quota', :action => 'show', :id => acct.id, :parent_type => "cloud_account"}
+      - }
+= link_to "Add an account", {:controller => "cloud_accounts", :action => "new", :provider_id => @provider}, :class => "actionlink"

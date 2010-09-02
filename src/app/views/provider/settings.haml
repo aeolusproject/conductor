@@ -1,0 +1,3 @@
+- form_tag({ :action => 'destroy' }, {:onsubmit => "return confirm('Really delete the provider?');"}) do
+  = hidden_field :provider, :id
+  = submit_tag "Delete Provider", :class => "submit_link"
