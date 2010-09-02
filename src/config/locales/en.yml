@@ -1,7 +1,30 @@
 en:
   dashboard: Dashboard
   instances: Instances
+  users: Users
   templates: Templates
   settings: Settings
   login: Log in
   logout: Log out
+  operate: Operate
+  monitor: Monitor
+  administer: Administer
+  system_settings: System Settings
+  manage_providers: Manage Providers
+  provider_summary: Provider Summary
+  provider_accounts: Provider Accounts
+  self_service_settings: Self-service Settings
+  manage_users: Manage Users
+  new_user: New User
+  edit_user: Edit User
+  new_pool: New Pool
+  edit_pool: Edit Pool
+  build: Build
+  template_management: Template Management
+  basic_template: Template Builder Basic Workflow
+  browse_packages: Browse Packages
+  grind_management: Grind Management
+  run: Run
+  manage_instances: Manage Instances
+  instance_details: Instance Details
+  launch_instance: Launch Instance
