@@ -1,0 +1,7 @@
+.dcloud_form
+  %h2 New Account
+  - form_for @user, :url => account_path do |f|
+    = f.error_messages
+    = render :partial => "form", :object => f
+    = f.submit "Create Account", :class => "submit"
+    = link_to "Cancel", root_path, :class => 'actionlink'

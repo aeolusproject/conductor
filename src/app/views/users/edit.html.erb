@@ -1,9 +1,0 @@
-<div class="dcloud_form">
-  <h2>Edit my profile.</h2>
-  <% form_for @user, :url => account_path do |f| %>
-    <%= f.error_messages %>
-      <%= render :partial => "form", :object => f %>
-    <%= f.submit "Update", :class => "submit" %>
-  <% end %>
-  <br /><%= link_to "Cancel", account_path, :class => 'actionlink'  %>
-</div>
