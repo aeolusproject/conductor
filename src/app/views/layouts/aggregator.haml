@@ -24,6 +24,8 @@
     #header
       = render :partial => '/layouts/header'
     #content
+      / NOTE: uncoment the following line to enable the new navigation
+      /= render_navigation(:expand_all => true)
       - if ['instance', 'pool'].include? controller.controller_name
         #side
           = render :partial => '/layouts/main_nav' unless @current_user.nil?
