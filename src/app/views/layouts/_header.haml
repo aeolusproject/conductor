@@ -1,15 +1,6 @@
-- menu = [ { :text => t(:dashboard), :controller => "dashboard" }, |
-  { :text => t(:instances), :controller => "instance" }, |
-  { :text => t(:templates), :controller => "image", :action => "show" }, |
-    ({ :text => "Users", :controller => "users", :action => "index" } if @current_user && has_view_perms?(BasePermissionObject.general_permission_scope)), |
-  { :text => t(:settings), :controller => "settings" }, |
-  ].find_all {|item| item != nil} |
 .header_logo
   %span Deltacloud Aggregator
-  %ul.nav
-    - menu.each do |item|
-      %li{ :class => ("selected" if item[:controller] == controller.controller_name) }<
-        = link_to item[:text], { :controller => item[:controller], :action => item[:action] }
+  = render_navigation
 
 .header_info
   #hi-username
