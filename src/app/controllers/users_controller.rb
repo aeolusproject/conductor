@@ -60,4 +60,8 @@ class UsersController < ApplicationController
       render :action => :edit
     end
   end
+
+  def index
+    @users = User.all
+  end
 end

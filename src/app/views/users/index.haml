@@ -1,0 +1,16 @@
+%table
+  %tr
+    %td login
+    %td email
+    %td first_name
+    %td last_name
+    %td current_login_at
+    %td last_login_at
+  -@users.each do |user|
+    %tr
+      %td= user.login
+      %td= user.email
+      %td= user.first_name
+      %td= user.last_name
+      %td= user.current_login_at
+      %td= user.last_login_at

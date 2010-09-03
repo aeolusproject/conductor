@@ -87,4 +87,7 @@ class ProviderController < ApplicationController
     @provider = Provider.find(params[:id])
   end
 
+  def list
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+  end
 end

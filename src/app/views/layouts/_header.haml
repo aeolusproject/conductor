@@ -1,7 +1,7 @@
 - menu = [ { :text => t(:dashboard), :controller => "dashboard" }, |
   { :text => t(:instances), :controller => "instance" }, |
   { :text => t(:templates), :controller => "image", :action => "show" }, |
-    ({ :text => "Users", :controller => "permissions", :action => "list" } if @current_user && has_view_perms?(BasePermissionObject.general_permission_scope)), |
+    ({ :text => "Users", :controller => "users", :action => "index" } if @current_user && has_view_perms?(BasePermissionObject.general_permission_scope)), |
   { :text => t(:settings), :controller => "settings" }, |
   ].find_all {|item| item != nil} |
 .header_logo

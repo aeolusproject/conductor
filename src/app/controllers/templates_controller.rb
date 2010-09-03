@@ -8,11 +8,23 @@ class TemplatesController < ApplicationController
     request.xhr? ? false : 'aggregator'
   end
 
+  def index
+  end
+
   def new
     update_xml
     if params[:next]
       redirect_to :action => 'services', :id => @image_descriptor
     end
+  end
+
+  def packages
+    repository_manager = RepositoryManager.new
+    @packages = repository_manager.get_packages
+  end
+
+  def builds
+    #This will be the list of builds associated with template specified by {id}
   end
 
   def services

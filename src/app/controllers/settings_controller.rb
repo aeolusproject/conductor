@@ -26,4 +26,8 @@ class SettingsController < ApplicationController
     @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
   end
 
+  def self_service
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+  end
+
 end

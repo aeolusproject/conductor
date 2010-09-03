@@ -1,0 +1,8 @@
+Packages:
+%br/
+- if @packages
+  - @packages.each do |package|
+    = package
+- else
+  no packages found
+  %br/

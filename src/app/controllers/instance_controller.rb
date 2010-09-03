@@ -89,6 +89,10 @@ class InstanceController < ApplicationController
   #  end
   #end
 
+  def show
+    @instance = Instance.find(params[:id])
+  end
+
   def new
     @instance = Instance.new(params[:instance])
     require_privilege(Privilege::INSTANCE_MODIFY, @instance.pool) if @instance.pool
