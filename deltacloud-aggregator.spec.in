@@ -145,7 +145,7 @@ fi
 %config(noreplace) %{_sysconfdir}/%{name}/development.rb
 %config(noreplace) %{_sysconfdir}/%{name}/production.rb
 %config(noreplace) %{_sysconfdir}/%{name}/test.rb
-%doc README AUTHORS COPYING
+%doc AUTHORS COPYING
 
 %files daemons
 %defattr(-,root,root,-)
@@ -157,12 +157,12 @@ fi
 %attr(-, dcloud, dcloud) %{_localstatedir}/lib/%{name}
 %attr(-, dcloud, dcloud) %{_localstatedir}/run/%{name}
 %attr(-, dcloud, dcloud) %{_localstatedir}/log/%{name}
-%doc README AUTHORS COPYING
+%doc AUTHORS COPYING
 
 %files doc
 %defattr(-,root,root,-)
 %{doc_root}
-%doc README AUTHORS COPYING
+%doc AUTHORS COPYING
 
 %changelog
 * Sat Mar 6 2010 Ian Main <imain@redhat.com> - 0.0.2-2
