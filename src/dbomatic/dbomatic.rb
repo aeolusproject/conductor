@@ -20,10 +20,39 @@ $: << File.join(File.dirname(__FILE__), "../dutils")
 require 'dutils'
 require 'nokogiri'
 require 'rb-inotify'
+require 'optparse'
 
-CONDOR_EVENT_LOG_DIR    =   "/var/log/condor"
-CONDOR_EVENT_LOG_FILE   =   "#{CONDOR_EVENT_LOG_DIR}/EventLog"
-EVENT_LOG_POS_FILE      =   "/var/run/dbomatic/event_log_position"
+help = false
+
+condor_event_log_dir    =   "/var/log/condor"
+dbomatic_run_dir        =   "/var/run/dbomatic"
+
+optparse = OptionParser.new do |opts|
+
+opts.banner = <<BANNER
+Usage:
+dbomatic [options]
+
+Options:
+BANNER
+  opts.on( '-p', '--path PATH', 'Use PATH to the condor log directory') do |newpath|
+    condor_event_log_dir = newpath
+  end
+  opts.on( '-r', '--run PATH', 'Use PATH to the dbomatic runtime directory') do |newpath|
+    dbomatic_run_dir = newpath
+  end
+  opts.on( '-h', '--help', '') { help = true }
+end
+
+optparse.parse!
+
+if help
+  puts optparse
+  exit(0)
+end
+
+CONDOR_EVENT_LOG_FILE   =   "#{condor_event_log_dir}/EventLog"
+EVENT_LOG_POS_FILE      =   "#{dbomatic_run_dir}/event_log_position"
 
 # Handle the event log's xml
 class CondorEventLog < Nokogiri::XML::SAX::Document
@@ -95,7 +124,7 @@ if File.exists? CONDOR_EVENT_LOG_FILE
 
 # if log file doesn't exist wait until it does
 else
-  notifier.watch(CONDOR_EVENT_LOG_DIR, :create){ |event|
+  notifier.watch(condor_event_log_dir, :create){ |event|
     if event.name == "EventLog"
       log_file = File.open(CONDOR_EVENT_LOG_FILE)
       parse_log_file log_file, parser
