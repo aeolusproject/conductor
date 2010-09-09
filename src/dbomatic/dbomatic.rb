@@ -89,10 +89,14 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       # table is updated. Extract instance name from event_cmd and query on that
       inst_name = @event_cmd[4,@event_cmd.size-4].gsub(/_[0-9]*$/, '')
       inst = Instance.find(:first, :conditions => ['name = ?', inst_name])
-      puts "Instance event #{inst.name} #{@event_type} #{@event_time}"
-      InstanceEvent.create! :instance => inst,
-                            :event_type => @event_type,
-                            :event_time => @event_time
+      if inst.nil?
+        puts "Unexpected nil instance, skipping..."
+      else
+        puts "Instance event #{inst.name} #{@event_type} #{@event_time}"
+        InstanceEvent.create! :instance => inst,
+                              :event_type => @event_type,
+                              :event_time => @event_time
+      end
       @tag = @event_type = @event_cmd = @event_time = nil
     end
   end
