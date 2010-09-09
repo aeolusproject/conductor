@@ -33,6 +33,10 @@ class PoolController < ApplicationController
     @pool = Pool.find(params[:id])
   end
 
+  def edit
+    @pool = Pool.find(params[:id])
+  end
+
   def list
     #FIXME: clean this up, many error cases here
     @pool = Pool.find(params[:id])
