@@ -9,6 +9,8 @@ class TemplatesController < ApplicationController
   end
 
   def index
+    @repository_manager = RepositoryManager.new
+    @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
   end
 
   def new

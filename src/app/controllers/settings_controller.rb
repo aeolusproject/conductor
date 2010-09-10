@@ -28,6 +28,7 @@ class SettingsController < ApplicationController
 
   def self_service
     @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+    @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
   end
 
 end

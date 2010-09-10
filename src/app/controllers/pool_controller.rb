@@ -74,6 +74,7 @@ class PoolController < ApplicationController
 
   def new
     require_privilege(Privilege::POOL_MODIFY)
+    @pools = Pool.list_for_user(@current_user, Privilege::POOL_MODIFY)
     @pool = Pool.new
   end
 
