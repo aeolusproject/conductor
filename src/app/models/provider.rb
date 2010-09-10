@@ -81,16 +81,24 @@ class Provider < ActiveRecord::Base
                                                   :provider_id => id)
         ar_hardware_profile.add_properties(hardware_profile)
         ar_hardware_profile.save!
-        front_hwp = HardwareProfile.new(:external_key =>
-                                        name +
-                                        Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                        ar_hardware_profile.external_key,
-                                        :name => name +
-                                        Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                        ar_hardware_profile.name)
-        front_hwp.add_properties(hardware_profile)
-        front_hwp.provider_hardware_profiles << ar_hardware_profile
-        front_hwp.save!
+
+        front_hwp = HardwareProfile.new(:external_key =>ar_hardware_profile.external_key,
+                                        :name => ar_hardware_profile.name)
+
+        # Omit creation of new front-end hardware profile if
+        # hardware profile with same external_key exists
+
+        avail_hwp = HardwareProfile.frontend.find(:all, :conditions => { :external_key => front_hwp.external_key })
+
+        if avail_hwp.empty?
+          front_hwp.add_properties(hardware_profile)
+          front_hwp.provider_hardware_profiles << ar_hardware_profile
+          front_hwp.save!
+        else
+          avail_hwp.each do |hwp|
+            hwp.provider_hardware_profiles << ar_hardware_profile
+          end
+        end
       end
     end
   end
