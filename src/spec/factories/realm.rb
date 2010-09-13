@@ -12,3 +12,6 @@ end
 
 Factory.define :realm3, :parent => :realm do |r|
 end
+
+Factory.define :realm4, :parent => :realm do |r|
+end

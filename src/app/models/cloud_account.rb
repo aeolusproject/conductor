@@ -38,6 +38,8 @@ class CloudAccount < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
+  has_one :instance_key, :dependent => :destroy
+  after_create :generate_cloud_account_key
 
   before_destroy {|entry| entry.destroyable? }
 
@@ -136,5 +138,15 @@ class CloudAccount < ActiveRecord::Base
   def validate
     errors.add_to_base("Login Credentials are Invalid for this Provider") unless valid_credentials?
   end
+
+  private
+  def generate_cloud_account_key
+    client = connect
+    if client.feature?(:instances, :authentication_key)
+      key = client.create_key(:name => "#{self.id}_#{self.name}")
+      InstanceKey.create(:cloud_account => self, :pem => key.pem, :name => key.id) if key
+    end
+  end
+
 
 end

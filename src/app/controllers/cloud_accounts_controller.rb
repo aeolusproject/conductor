@@ -68,6 +68,14 @@ class CloudAccountsController < ApplicationController
     end
   end
 
+  def key
+    @cloud_account = CloudAccount.find(params[:id])
+    require_privilege(Privilege::ACCOUNT_MODIFY,@cloud_account.provider)
+    unless @cloud_account.instance_key.nil?
+      render :text => @cloud_account.instance_key.pem
+    end
+  end
+
   def destroy
     acct = CloudAccount.find(params[:id])
     provider = acct.provider

@@ -120,3 +120,63 @@ Factory.define :agg_hwp2_arch, :parent => :hardware_profile_property do |p|
   p.unit 'label'
   p.value 'x86_64'
 end
+
+
+# EC2 Profiles:
+
+
+Factory.define :ec2_hwp1_memory, :parent => :hardware_profile_property do |p|
+  p.name 'memory'
+  p.kind 'fixed'
+  p.unit 'MB'
+  p.value 1740.8
+end
+
+Factory.define :ec2_hwp1_storage, :parent => :hardware_profile_property do |p|
+  p.name 'storage'
+  p.kind 'fixed'
+  p.unit 'GB'
+  p.value 160
+end
+
+Factory.define :ec2_hwp1_cpu, :parent => :hardware_profile_property do |p|
+  p.name 'cpu'
+  p.kind 'fixed'
+  p.unit 'count'
+  p.value 1.0
+end
+
+Factory.define :ec2_hwp1_arch, :parent => :hardware_profile_property do |p|
+  p.name 'architecture'
+  p.kind 'fixed'
+  p.unit 'label'
+  p.value 'i386'
+end
+
+Factory.define :agg_hwp3_memory, :parent => :hardware_profile_property do |p|
+  p.name 'memory'
+  p.kind 'fixed'
+  p.unit 'MB'
+  p.value 1740.8
+end
+
+Factory.define :agg_hwp3_storage, :parent => :hardware_profile_property do |p|
+  p.name 'storage'
+  p.kind 'fixed'
+  p.unit 'GB'
+  p.value 160
+end
+
+Factory.define :agg_hwp3_cpu, :parent => :hardware_profile_property do |p|
+  p.name 'cpu'
+  p.kind 'fixed'
+  p.unit 'count'
+  p.value 1
+end
+
+Factory.define :agg_hwp3_arch, :parent => :hardware_profile_property do |p|
+  p.name 'architecture'
+  p.kind 'fixed'
+  p.unit 'label'
+  p.value 'i386'
+end

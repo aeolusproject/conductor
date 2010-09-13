@@ -9,3 +9,9 @@ Factory.define :mock_cloud_account, :parent => :cloud_account do |f|
   f.password "mockpassword"
   f.provider { |p| p.association(:mock_provider) }
 end
+
+Factory.define :ec2_cloud_account, :parent => :cloud_account do |f|
+  f.username "mockuser"
+  f.password "mockpassword"
+  f.provider { |p| p.association(:ec2_provider) }
+end
