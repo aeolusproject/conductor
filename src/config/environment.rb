@@ -42,7 +42,7 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "authlogic"
-  config.gem "deltacloud-client", :lib => "deltacloud"
+  config.gem "deltacloud-client", :lib => "deltacloud", :version => ">= 0.0.9.6"
   config.gem "haml"
   config.gem "will_paginate"
   config.gem "nokogiri", :version => ">= 1.4.0"

@@ -128,21 +128,13 @@ class CloudAccount < ActiveRecord::Base
     end
   end
 
+  def valid_credentials?
+    DeltaCloud::valid_credentials?(username, password, provider.url)
+  end
+
   protected
   def validate
     errors.add_to_base("Login Credentials are Invalid for this Provider") unless valid_credentials?
-  end
-
-  private
-  def valid_credentials?
-    begin
-      deltacloud = DeltaCloud.new(username, password, provider.url)
-      #TODO This should be replaced by a DeltaCloud.test_credentials type method once/if it is implemented in the API
-      deltacloud.instances
-    rescue Exception => e
-      return false
-    end
-    return true
   end
 
 end
