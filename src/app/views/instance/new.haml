@@ -1,6 +1,6 @@
 :javascript
   $(document).ready(function() {
-    $(".select_image").click(function() {
+    $(".select_template").click(function() {
       var wrapper = $("#select_template_dialog");
       if (wrapper.length == 0) wrapper = $('<div id="select_template_dialog"></div>');
       wrapper.dialog({
@@ -10,14 +10,14 @@
         modal: true,
         overlay: {opacity: 0.2, background: "black"}
       });
-      wrapper.load('#{url_for :action => 'select_image'}', null, function() {
+      wrapper.load('#{url_for :action => 'select_template'}', null, function() {
         $(":submit[name=select]").click(function() {
           var checkbox = $("input[name='ids[]']:checked").first();
           var id = checkbox.val();
           if (id !== undefined) {
-            var name = $(".image_name", checkbox.parent().parent()).text();
-            $(".select_image").text(name);
-            $("input[name='instance[image_id]']").val(id);
+            var name = $(".template_name", checkbox.parent().parent()).text();
+            $(".select_template").text(name);
+            $("input[name='instance[template_id]']").val(id);
           }
           $("#select_template_dialog").dialog('close');
           return false;
@@ -45,8 +45,8 @@
         %label
           Template
           %span Choose a template to use
-        = link_to(@instance.image ? @instance.image.name : "Select template...", {:action => 'select_image'}, {:class => 'actionlink select_image'})
-    %input{:name => "instance[image_id]", :type => "hidden", :value => @instance.image ? @instance.image.id : ''}/
+        = link_to(@instance.template ? @instance.template.name : "Select template...", {:action => 'select_template'}, {:class => 'actionlink select_template'})
+    %input{:name => "instance[template_id]", :type => "hidden", :value => @instance.template ? @instance.template.id : ''}/
     - if @instance.pool
       %input{:name => "instance[pool_id]", :type => "hidden", :value => @instance.pool_id}/
     - if (@pools.size > 1)

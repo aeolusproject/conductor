@@ -19,6 +19,6 @@
     %td= rec.get_action_list.map {|action| link_to action, :controller => "instance", :action => "instance_action", :id => rec, :instance_action => action}.join(" | ")
     %td= rec.name
     %td Details
-    %td= rec.image.name
+    %td= rec.template.name
     %td= rec.state
     %td= rec.time_last_running

@@ -1,18 +1,18 @@
 #image_target_list{:class => 'target_list'}
-  - if @image_descriptor.image_descriptor_targets.empty?
+  - if @image_descriptor.images.empty?
     .empty No images have been created yet.
   -else
     %ul
-      - @image_descriptor.image_descriptor_targets.each do |target|
+      - @image_descriptor.images.each do |image|
         %li
           %span{:class => 'actions'}
             &nbsp;
-            - if ImageDescriptorTarget::ACTIVE_STATES.include?(target.status)
-              = link_to 'Cancel', {:controller => 'image_descriptor_target', :action => 'cancel', :id => target, :descriptor_id => @image_descriptor}
+            - if Image::ACTIVE_STATES.include?(image.status)
+              = link_to 'Cancel', {:controller => 'image', :action => 'cancel', :id => image, :template_id => @image_descriptor}
           %span{:class => 'status'}
-            = target.status
-          = @all_targets[target.name]['name']
+            = image.status
+          = @all_targets[image.target]['name']
           %p
-            = target.created_at
+            = image.created_at
           //%span{:style => 'float:right'}
           //  Cancel

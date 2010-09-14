@@ -46,23 +46,26 @@ class InstanceController < ApplicationController
     end
   end
 
-  def select_image
+  def select_template
     if params[:select]
-      redirect_to :action => 'new', 'instance[image_id]' => (params[:ids] || []).first
+      redirect_to :action => 'new', 'instance[template_id]' => (params[:ids] || []).first
     end
 
+    # FIXME: replace by template_view priv
     require_privilege(Privilege::IMAGE_VIEW)
     @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
-    @order = params[:order] || 'name'
-    @images = Image.search_filter(params[:search], Image::SEARCHABLE_COLUMNS).paginate(
+    @order = "templates.#{params[:order] || 'name'}"
+    @templates = Template.paginate(
       :page => params[:page] || 1,
       :order => @order + ' ' + @order_dir,
-      :conditions => {:provider_id => nil}
+      :include => {:images => :replicated_images},
+      :conditions => "replicated_images.uploaded = 't'"
     )
+    #:include => {:images => :replicated_images}, :conditions => "replicated_images.uploaded = 'f'"
     @single_select = true
 
     if request.xhr? and params[:partial]
-      render :partial => 'image/images'
+      render :partial => 'templates/templates'
       return
     end
   end

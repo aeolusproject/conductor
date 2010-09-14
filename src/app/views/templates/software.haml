@@ -82,7 +82,7 @@
               %li{ :class => "#{selection_style} ui-state-default ui-corner-top", :style => 'clear: none' }
                 = "<a href=\"#{url_for(:action => "software", :id => @image_descriptor, :tab => item[:tab])}\"><span>#{item[:text]}</span></a>"
             %li{ :class => "select_repository"}
-              = select_tag("repository", ["<option value='all' selected='selected'>All</option>"] + @repository_manager.repositories.map{|repid, rep| "<option value=\"#{repid}\">#{rep['name']}</option>"}, {:onchange => "get_repository(event)"})
+              = select_tag("repository", ["<option value='all' selected='selected'>All</option>"] + @repository_manager.repositories.map{|rep| "<option value=\"#{rep.id}\">#{rep.name}</option>"}, {:onchange => "get_repository(event)"})
           - unless request.xhr?
             = render :partial => @selected_tab
       .pkglist{:style => "margin-left: 30px", :class => "left-pkglist"}

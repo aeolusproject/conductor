@@ -40,7 +40,7 @@ class TemplatesController < ApplicationController
 
   def software
     @repository_manager = RepositoryManager.new
-    @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
+    @image_descriptor = params[:id] ? Template.find(params[:id]) : Template.new
     @groups = @repository_manager.all_groups(params[:repository])
     if params[:tab].to_s == 'packages'
       @selected_tab = 'packages'
@@ -59,33 +59,40 @@ class TemplatesController < ApplicationController
     if params[:back]
       redirect_to :action => 'services', :id => @image_descriptor
     elsif params[:next]
+      # template is complete, upload it
+      @image_descriptor.upload_template
+      @image_descriptor.update_attribute(:complete, true)
       redirect_to :action => 'summary', :id => @image_descriptor
     end
   end
 
   def summary
     update_xml
-    @all_targets = ImageDescriptorTarget.available_targets
+    @all_targets = Image.available_targets
     if params[:build]
       if params[:targets]
         params[:targets].each do |target|
-          ImageDescriptorTarget.new_if_not_exists(:name => target, :image_descriptor_id => params[:id], :status => ImageDescriptorTarget::STATE_QUEUED)
+          # TODO: support versioning
+          Image.new_if_not_exists(
+            :name => "#{@image_descriptor.xml.name}/#{target}",
+            :target => target,
+            :template_id => params[:id],
+            :status => Image::STATE_QUEUED
+          )
         end
       end
     else
       if params[:back]
         redirect_to :action => 'software', :id => @image_descriptor
       elsif params[:done]
-        @image_descriptor.complete = true
-        @image_descriptor.save!
         redirect_to :controller => 'dashboard', :action => 'index'
       end
     end
   end
 
   def targets
-    @image_descriptor = ImageDescriptor.find(params[:id])
-    @all_targets = ImageDescriptorTarget.available_targets
+    @image_descriptor = Template.find(params[:id])
+    @all_targets = Image.available_targets
   end
 
   def select_group
@@ -115,7 +122,7 @@ class TemplatesController < ApplicationController
   end
 
   def update_group_or_package(method, *args)
-    @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
+    @image_descriptor = params[:id] ? Template.find(params[:id]) : Template.new
     @image_descriptor.xml.send(method, *args)
     @image_descriptor.save_xml!
     if request.xhr?
@@ -126,7 +133,7 @@ class TemplatesController < ApplicationController
   end
 
   def update_xml
-    @image_descriptor = params[:id] ? ImageDescriptor.find(params[:id]) : ImageDescriptor.new
+    @image_descriptor = params[:id] ? Template.find(params[:id]) : Template.new
     @image_descriptor.update_xml_attributes!(params[:xml] || {})
   end
 

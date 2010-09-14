@@ -11,8 +11,8 @@
   :footer => defined?(footer) ? footer : nil,
   :single_select => @single_select || false }
 
-= paginated_table('images_table', columns, @images, opts) do |rec|
+= paginated_table('templates_table', columns, @templates, opts) do |rec|
   %tr{:class => "#{cycle('even', 'odd')}"}
     %td= check_box_tag 'ids[]', rec.id
-    %td{:class => 'image_name'}= rec.image.name
+    %td{:class => 'template_name'}= rec.name
     /%td= rec.instances.count

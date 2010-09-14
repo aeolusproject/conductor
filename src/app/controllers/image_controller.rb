@@ -25,6 +25,11 @@ class ImageController < ApplicationController
   def index
   end
 
+  def cancel
+    Image.update(params[:id], :status => Image::STATE_CANCELED)
+    redirect_to :controller => 'templates', :action => 'new', :params => {'image_descriptor[id]' => params[:template_id], :tab => 'software'}
+  end
+
   def show
     if params[:create_instance]
       redirect_to :controller => 'instance', :action => 'new', 'instance[image_id]' => (params[:ids] || []).first
@@ -37,8 +42,7 @@ class ImageController < ApplicationController
     @images = Image.search_filter(params[:search], Image::SEARCHABLE_COLUMNS).paginate(
       :page => params[:page] || 1,
       :order => @order + ' ' + @order_dir,
-      :include => :instances,
-      :conditions => {:provider_id => nil}
+      :include => :instances
     )
 
     if request.xhr? and params[:partial]
