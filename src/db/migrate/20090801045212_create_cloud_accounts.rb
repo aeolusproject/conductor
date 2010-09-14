@@ -28,6 +28,9 @@ class CreateCloudAccounts < ActiveRecord::Migration
       t.integer :provider_id, :null => false
       t.integer :quota_id
       t.integer :lock_version, :default => 0
+      t.string  :account_number
+      t.text    :x509_cert_priv
+      t.text    :x509_cert_pub
       t.timestamps
     end
   end

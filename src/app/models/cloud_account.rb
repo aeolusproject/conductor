@@ -101,32 +101,6 @@ class CloudAccount < ActiveRecord::Base
           ar_realm.save!
         end
       end
-      images.each do |image|
-        #ignore if it exists
-        #FIXME: we need to handle keeping in sync for updates as well as
-        # account permissions
-        ar_image = Image.find_by_external_key_and_provider_id(image.id,
-                                                              provider.id)
-        unless ar_image
-          ar_image = Image.new(:external_key => image.id,
-                               :name => image.name ? image.name :
-                               (image.description ? image.description :
-                                image.id),
-                               :architecture => image.architecture,
-                               :provider_id => provider.id)
-          ar_image.save!
-          front_end_image = Image.new(:external_key =>
-                                      provider.name +
-                                      Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                      ar_image.external_key,
-                                      :name => provider.name +
-                                      Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                      ar_image.name,
-                                      :architecture => ar_image.architecture)
-          front_end_image.provider_images << ar_image
-          front_end_image.save!
-        end
-      end
     end
   end
 

@@ -47,8 +47,8 @@ class ImageBuilderService
   end
 
   def check_for_queued
-    queue = ImageDescriptorTarget.find(:all, :conditions => {:status => ImageDescriptorTarget::STATE_QUEUED})
-    cur_builds = ImageDescriptorTarget.find(:all, :conditions => "build_id IS NOT NULL AND status != 'complete'")
+    queue = Image.find(:all, :conditions => {:status => Image::STATE_QUEUED})
+    cur_builds = Image.find(:all, :conditions => "build_id IS NOT NULL AND status != 'complete'")
     if queue.size > 0 || cur_builds.size > 0
       puts "========================================"
       puts "Queued Builds: " + queue.size.to_s
@@ -66,7 +66,7 @@ class ImageBuilderService
       puts "========================================"
       puts "target: " + descriptor_target.name + ", status: " + descriptor_target.status
       puts "========================================"
-      ab = @console.build_image(descriptor_target.image_descriptor.xml.to_xml, descriptor_target.name)
+      ab = @console.build_image(descriptor_target.template.xml.to_xml, descriptor_target.name)
       if ab
         update_build_list(ab, descriptor_target)
         descriptor_target.build_id = ab.object_id.to_s
@@ -112,8 +112,8 @@ class ImageBuilderService
     puts "========================================"
     puts "Getting ar object to update using " + obj[:build].target.inspect + " and " + obj[:ar_id].inspect + " ..."
     puts "========================================"
-    idt = ImageDescriptorTarget.find(:first, :conditions => { :name => obj[:build].target.to_s,
-                                                              :image_descriptor_id => obj[:ar_id].to_i })
+    idt = Image.find(:first, :conditions => { :name => obj[:build].target.to_s,
+                                                              :template_id => obj[:ar_id].to_i })
     puts "========================================"
     puts "Updating with status: " + new_status
     puts "========================================"
@@ -143,7 +143,7 @@ class ImageBuilderService
 
   def update_build_list(ab, target)
     @activebuilds <<
-          { :ar_id => target.image_descriptor.id,
+          { :ar_id => target.template.id,
             :build => ab,
             :status => target.status,
             :build_id => ab.object_id.to_s

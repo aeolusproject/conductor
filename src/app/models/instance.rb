@@ -30,13 +30,13 @@ class Instance < ActiveRecord::Base
   belongs_to :cloud_account
 
   belongs_to :hardware_profile
-  belongs_to :image
+  belongs_to :template
   belongs_to :realm
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
 
   validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id
-  validates_presence_of :image_id
+  validates_presence_of :template_id
 
   #validates_presence_of :external_key
   # TODO: can we do uniqueness validation on indirect association
@@ -46,9 +46,6 @@ class Instance < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id
   validates_length_of :name, :maximum => 1024
-
-  validates_presence_of :hardware_profile_id
-  validates_presence_of :image_id
 
   STATE_NEW            = "new"
   STATE_PENDING        = "pending"

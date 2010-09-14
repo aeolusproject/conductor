@@ -22,49 +22,42 @@
 class Image < ActiveRecord::Base
   include SearchFilter
 
+  before_save :generate_uuid
+
   cattr_reader :per_page
   @@per_page = 15
 
-  has_many :instances
-  belongs_to :provider
-
-  has_and_belongs_to_many :aggregator_images,
-                          :class_name => "Image",
-                          :join_table => "image_map",
-                          :foreign_key => "provider_image_id",
-                          :association_foreign_key => "aggregator_image_id"
-
-  has_and_belongs_to_many :provider_images,
-                          :class_name => "Image",
-                          :join_table => "image_map",
-                          :foreign_key => "aggregator_image_id",
-                          :association_foreign_key => "provider_image_id"
-
-  validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => [:provider_id]
+  belongs_to :template
+  has_many :replicated_images, :dependent => :destroy
+  has_many :providers, :through => :replicated_images
 
   validates_presence_of :name
   validates_length_of :name, :maximum => 1024
+  validates_presence_of :status
+  validates_presence_of :target
+  validates_presence_of :template_id
 
-  validates_presence_of :architecture, :if => :provider
+  SEARCHABLE_COLUMNS = %w(name)
 
-  SEARCHABLE_COLUMNS = %w(name architecture)
+  STATE_QUEUED = 'queued'
+  STATE_WAITING = 'waiting'
+  STATE_BUILDING = 'building'
+  STATE_COMPLETE = 'complete'
+  STATE_CANCELED = 'canceled'
 
-  def provider_image?
-    !provider.nil?
+  ACTIVE_STATES = [ STATE_WAITING, STATE_BUILDING ]
+
+  def self.new_if_not_exists(data)
+    unless find_by_template_id(data[:template_id], :conditions => {:target => data[:target]})
+      Image.new(data).save!
+    end
   end
 
-  def validate
-    if provider.nil?
-      if !aggregator_images.empty?
-        errors.add(:aggregator_images,
-                   "Aggregator image only allowed for provider images")
-      end
-    else
-      if !provider_images.empty?
-        errors.add(:provider_images,
-                   "Provider images only allowed for aggregator images")
-      end
-    end
+  def self.available_targets
+    return YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_targets.yml")
+  end
+
+  def generate_uuid
+    self.uuid ||= "image-#{self.template_id}-#{Time.now.to_f.to_s}"
   end
 end

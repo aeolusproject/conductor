@@ -23,10 +23,10 @@ class Provider < ActiveRecord::Base
   require 'util/deltacloud'
   include PermissionedObject
 
-  has_many :cloud_accounts,  :dependent => :destroy
-  has_many :hardware_profiles,  :dependent => :destroy
-  has_many :images,  :dependent => :destroy
-  has_many :realms,  :dependent => :destroy
+  has_many :cloud_accounts, :dependent => :destroy
+  has_many :hardware_profiles, :dependent => :destroy
+  has_many :replicated_images, :dependent => :destroy
+  has_many :realms, :dependent => :destroy
 
   validates_presence_of :name
   validates_uniqueness_of :name
