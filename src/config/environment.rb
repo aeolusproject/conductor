@@ -51,6 +51,7 @@ Rails::Initializer.run do |config|
   config.gem "compass", :version => ">= 0.10.2"
   config.gem "compass-960-plugin", :lib => "ninesixty"
   config.gem "simple-navigation"
+  config.gem "typhoeus"
 
   config.active_record.observers = :instance_observer, :task_observer
   # Only load the plugins named here, in the order given. By default, all plugins

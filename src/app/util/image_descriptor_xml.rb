@@ -51,9 +51,11 @@ class ImageDescriptorXML
   end
 
   def platform=(str)
-    # FIXME: we remove all repos beacouse we don't know which one is for
+    # FIXME: we remove all repos because we don't know which one is for
     # platform
-    recreate_repo_nodes(str)
+    # update: we don't add platform repo, image builder chooses right one from OS
+    # name, but we add all other repos
+    recreate_repo_nodes
     node = get_or_create_node('os')
     node.content = str
   end
@@ -206,19 +208,12 @@ class ImageDescriptorXML
     parent << n
   end
 
-  def recreate_repo_nodes(platform)
-    unless repconf = platforms[platform]
-      raise "unknown platform #{platform}"
-    end
-
+  def recreate_repo_nodes
     repo_node = get_or_create_node('repos')
     repo_node.xpath('.//repo').remove
-    rnode = get_or_create_node('repo', repo_node)
-    rnode.content = repconf['baseurl']
-
-    repository_manager.repositories.each do |rname, repo|
+    repository_manager.repositories.each do |repo|
       rnode = get_or_create_node('repo', repo_node)
-      rnode.content = repo['baseurl']
+      rnode.content = repo.yumurl
     end
   end
 
@@ -246,9 +241,6 @@ class ImageDescriptorXML
   end
 
   def repository_manager
-    unless @repository_manager
-      @repository_manager = RepositoryManager.new
-    end
-    return @repository_manager
+    @repository_manager ||= RepositoryManager.new
   end
 end
