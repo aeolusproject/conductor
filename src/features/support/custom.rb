@@ -24,10 +24,23 @@ Provider.class_eval do
     end
     return true
   end
+
 end
 
 CloudAccount.class_eval do
   def valid_credentials?
     true
+  end
+  
+  alias :generate_cloud_account_key_original :generate_cloud_account_key 
+
+  def generate_cloud_account_key
+  end
+
+  def instance_key
+    @key = mock('Key', :null_object => true)
+    @key.stub!(:pem).and_return("PEM")
+    @key.stub!(:id).and_return("1_user")
+    @key   
   end
 end
