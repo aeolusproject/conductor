@@ -10,23 +10,23 @@ describe TemplatesController do
     activate_authlogic
   end
 
-  it "should allow a user with image_modify permission to create new image_descriptor" do
+  it "should allow a user with image_modify permission to create new template" do
      UserSession.create(@admin)
      lambda do
        post :new, :xml => { :name => 'fooimg', :platform => 'fedora' }, :next => true
-     end.should change(ImageDescriptor, :count).by(1)
-     id = ImageDescriptor.find(:first, :order => 'created_at DESC').id
+     end.should change(Template, :count).by(1)
+     id = Template.find(:first, :order => 'created_at DESC').id
      response.should redirect_to("http://test.host/templates/services/#{id}")
   end
 
   it "should allow a user with image_modify permission to add service" do
      UserSession.create(@admin)
-     img = ImageDescriptor.new(:xml => '')
+     tpl = Template.new(:xml => '')
      lambda do
-       img.save!
-     end.should change(ImageDescriptor, :count).by(1)
-     post :services, :xml => { :xml => {:services => ['jboss']} }, :next => true, :id => img.id
-     response.should redirect_to("http://test.host/templates/software/#{img.id}")
+       tpl.save!
+     end.should change(Template, :count).by(1)
+     post :services, :xml => { :xml => {:services => ['jboss']} }, :next => true, :id => tpl.id
+     response.should redirect_to("http://test.host/templates/software/#{tpl.id}")
   end
 
   # FIXME: these two tests depends on jboss repository which defines 'JBoss Core
@@ -35,32 +35,32 @@ describe TemplatesController do
   #
   #it "should allow a user with image_modify permission to add and remove a group" do
   #   UserSession.create(@admin)
-  #   img = ImageDescriptor.new(:xml => '')
+  #   tpl = Template.new(:xml => '')
   #   lambda do
-  #     img.save!
-  #   end.should change(ImageDescriptor, :count).by(1)
-  #   post :select_group, :id => img.id, :group => 'JBoss Core Packages'
-  #   response.should redirect_to("http://test.host/templates/software/#{img.id}")
-  #   post :remove_group, :id => img.id, :group => 'JBoss Core Packages'
-  #   response.should redirect_to("http://test.host/templates/software/#{img.id}")
+  #     tpl.save!
+  #   end.should change(Template, :count).by(1)
+  #   post :select_group, :id => tpl.id, :group => 'JBoss Core Packages'
+  #   response.should redirect_to("http://test.host/templates/software/#{tpl.id}")
+  #   post :remove_group, :id => tpl.id, :group => 'JBoss Core Packages'
+  #   response.should redirect_to("http://test.host/templates/software/#{tpl.id}")
   #end
 
   #it "should allow a user with image_modify permission to add a package" do
   #   UserSession.create(@admin)
-  #   img = ImageDescriptor.new(:xml => '')
+  #   tpl = Template.new(:xml => '')
   #   lambda do
-  #     img.save!
-  #     post :select_package, :id => img.id, :package => 'jboss-rails', :group => 'JBoss Core Packages'
-  #   end.should change(ImageDescriptor, :count).by(1)
-  #   response.should redirect_to("http://test.host/templates/software/#{img.id}")
+  #     tpl.save!
+  #     post :select_package, :id => tpl.id, :package => 'jboss-rails', :group => 'JBoss Core Packages'
+  #   end.should change(Template, :count).by(1)
+  #   response.should redirect_to("http://test.host/templates/software/#{tpl.id}")
   #end
 
   it "should allow a user with image_modify permission to build image descriptor" do
      UserSession.create(@admin)
-     img = ImageDescriptor.new
+     tpl = Factory :template
      lambda do
-       post :summary, :id => img.id, :targets => ['rhevm'], :build => true
-     end.should change(ImageDescriptorTarget, :count).by(1)
+       post :summary, :id => tpl.id, :targets => ['ec2'], :build => true
+     end.should change(Image, :count).by(1)
   end
 
   it "should deny access to new template ui without image modify permission" do

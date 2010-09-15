@@ -44,3 +44,13 @@ CloudAccount.class_eval do
     @key   
   end
 end
+
+RepositoryManager.class_eval do
+  def config
+    [{
+      'baseurl' => 'http://pulptest',
+      'yumurl'  => 'http://pulptest',
+      'type'    => 'pulp',
+    }]
+  end
+end

@@ -24,11 +24,11 @@ describe Instance do
     @instance.should be_valid
   end
 
-  it "should require image to be set" do
-    @instance.image_id = nil
+  it "should require template to be set" do
+    @instance.template_id = nil
     @instance.should_not be_valid
 
-    @instance.image_id = 1
+    @instance.template_id = 1
     @instance.should be_valid
   end
 

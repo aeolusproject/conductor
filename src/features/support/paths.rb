@@ -65,6 +65,15 @@ module NavigationHelpers
     when /the new permission page/
       url_for :action => 'new', :controller => 'permissions', :only_path => true
 
+    when /the new template page/
+      url_for :action => 'new', :controller => 'templates', :only_path => true
+
+    when /the template services page/
+      url_for :action => 'services', :controller => 'templates', :only_path => true
+
+    when /the template software page/
+      url_for :action => 'software', :controller => 'templates', :only_path => true
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

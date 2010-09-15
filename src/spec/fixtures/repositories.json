@@ -1,0 +1,19 @@
+[ { "_id" : "jboss",
+    "arch" : "x86_64",
+    "errata" : "/repositories/jboss/errata/",
+    "id" : "jboss",
+    "name" : "jboss",
+    "packagegroupcategories" : "/repositories/jboss/packagegroupcategories/",
+    "packagegroups" : "/repositories/jboss/packagegroups/",
+    "packages" : "/repositories/jboss/packages/",
+    "source" : { "supported_types" : [ "yum",
+            "local",
+            "rhn"
+          ],
+        "type" : "yum",
+        "url" : "http://example/jboss"
+      },
+    "sync_schedule" : null,
+    "uri_ref" : "/repositories/jboss/",
+    "use_symlinks" : false
+  } ]
