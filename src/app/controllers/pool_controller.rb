@@ -41,8 +41,6 @@ class PoolController < ApplicationController
     #FIXME: clean this up, many error cases here
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::INSTANCE_VIEW,@pool)
-    # Go to condor and sync the database to the real instance states
-    condormatic_instances_sync_states
     @pool.reload
 
     @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
