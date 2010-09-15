@@ -44,7 +44,13 @@ BANNER
   opts.on( '-h', '--help', '') { help = true }
 end
 
+begin
 optparse.parse!
+rescue OptionParser::InvalidOption => e
+  puts e
+  puts optparse
+  exit(1)
+end
 
 if help
   puts optparse
