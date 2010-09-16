@@ -24,4 +24,7 @@ class User < ActiveRecord::Base
 
   has_many :permissions
   has_many :owned_pools, :class_name => "Pool", :foreign_key => "owner_id"
+  has_many :owned_instances, :class_name => "Instance", :foreign_key => "owner_id"
+
+  belongs_to :quota
 end

@@ -11,8 +11,11 @@ describe InstanceObserver do
    @pool_quota = Factory :quota
    @pool = Factory(:pool, :quota_id => @pool_quota.id)
 
+   @user_quota = Factory :quota
+   @user = Factory(:user, :quota_id => @user_quota.id)
+
    @hwp = Factory :mock_hwp1
-   @instance = Factory(:new_instance, :pool => @pool, :hardware_profile => @hwp, :cloud_account_id => @cloud_account.id)
+   @instance = Factory(:new_instance, :pool => @pool, :hardware_profile => @hwp, :cloud_account_id => @cloud_account.id, :owner => @user)
   end
 
   it "should set started at timestamp when instance goes to state pending" do
@@ -95,15 +98,15 @@ describe InstanceObserver do
     @instance.acc_stopped_time.should <= 2
   end
 
-  it "should not update quota on pool and cloud account when an instance is state new" do
-    [@cloud_account_quota, @pool_quota].each do |quota|
+  it "should not update quota on pool, user and cloud account when an instance is state new" do
+    [@cloud_account_quota, @pool_quota, @user_quota].each do |quota|
       quota = Quota.find(quota)
       quota.total_instances.should == 0
     end
   end
 
-  it "should update quota on pool and cloud account when an instance fgoes to state pending" do
-    [@cloud_account_quota, @pool_quota].each do |quota|
+  it "should update quota on pool, user and cloud account when an instance goes to state pending" do
+    [@cloud_account_quota, @pool_quota, @user_quota].each do |quota|
       @instance.state = Instance::STATE_PENDING
       @instance.save
 
@@ -112,35 +115,35 @@ describe InstanceObserver do
     end
   end
 
-  it "should update cloud account and pool quota when an instance goes into an inactive state" do
+  it "should update cloud accoun, pool  and user quota when an instance goes into an inactive state" do
     @instance.state = Instance::STATE_CREATE_FAILED
     @instance.save!
 
-    [@cloud_account_quota, @pool_quota].each do |quota|
+    [@cloud_account_quota, @pool_quota, @user_quota].each do |quota|
       quota = Quota.find(quota)
       quota.total_instances.should == 0
     end
   end
 
-  it "should update pool and cloud account quota when an instance state goes to running" do
+  it "should update pool, cloud account and user quota when an instance state goes to running" do
     @instance.state = Instance::STATE_RUNNING
     @instance.save!
 
-    [@cloud_account_quota, @pool_quota].each do |quota|
+    [@cloud_account_quota, @pool_quota, @user_quota].each do |quota|
       quota = Quota.find(quota.id)
       quota.running_instances.should == 1
       quota.total_instances.should == 1
     end
   end
 
-  it "should update a pool and cloud account quota when an instance state goes from running to another active state" do
+  it "should update a pool, cloud account and user quota when an instance state goes from running to another active state" do
     @instance.state = Instance::STATE_RUNNING
     @instance.save!
 
     @instance.state = Instance::STATE_SHUTTING_DOWN
     @instance.save!
 
-    [@cloud_account_quota, @pool_quota].each do |quota|
+    [@cloud_account_quota, @pool_quota, @user_quota].each do |quota|
       quota = Quota.find(quota.id)
 
       quota.running_instances.should == 0

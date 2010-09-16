@@ -5,6 +5,7 @@ Factory.define :user do |u|
   u.password_confirmation 'secret'
   u.first_name 'John'
   u.last_name 'Smith'
+  u.association :quota
 end
 
 Factory.define :tuser, :parent => :user do |u|

@@ -23,6 +23,7 @@ class Quota < ActiveRecord::Base
 
   has_one :pool
   has_one :cloud_account
+  has_one :user
 
   QuotaResource = Struct.new(:name, :used, :max, :available, :unit)
 
@@ -34,20 +35,26 @@ class Quota < ActiveRecord::Base
 
   RESOURCE_NAMES = [ RESOURCE_RUNNING_INSTANCES, RESOURCE_TOTAL_INSTANCES ]
 
-  def can_create_instance?(instance)
-    potential_total_instances = total_instances + 1
-    if (Quota.no_limit(maximum_total_instances) || maximum_total_instances >= potential_total_instances)
-         return true
+  def self.can_create_instance?(instance)
+    [instance.owner, instance.pool, instance.cloud_account].each do |parent|
+      quota = Quota.find(parent.quota_id)
+      potential_total_instances = quota.total_instances + 1
+      if !Quota.no_limit(quota.maximum_total_instances) && (quota.maximum_total_instances < potential_total_instances)
+        return false
+      end
     end
-    return false
+    return true
   end
 
-  def can_start_instance?(instance)
-    potential_running_instances = running_instances + 1
-    if (Quota.no_limit(maximum_running_instances) || maximum_running_instances >= potential_running_instances)
-         return true
+  def self.can_start_instance?(instance)
+    [instance.owner, instance.pool, instance.cloud_account].each do |parent|
+      quota = Quota.find(parent.quota_id)
+      potential_running_instances = quota.running_instances + 1
+      if !Quota.no_limit(quota.maximum_running_instances) && quota.maximum_running_instances < potential_running_instances
+        return false
+      end
     end
-    return false
+    return true
   end
 
   def quota_resources()

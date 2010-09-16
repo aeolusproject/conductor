@@ -27,6 +27,7 @@ class CreateInstances < ActiveRecord::Migration
       t.integer   :hardware_profile_id, :null => false
       t.integer   :image_id, :null => false
       t.integer   :realm_id
+      t.integer   :owner_id
       t.integer   :pool_id, :null => false
       t.integer   :cloud_account_id
       t.string    :public_address

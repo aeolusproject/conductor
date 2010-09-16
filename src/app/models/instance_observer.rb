@@ -35,9 +35,10 @@ class InstanceObserver < ActiveRecord::Observer
 
     hwp = an_instance.hardware_profile
     pool = an_instance.pool
+    user = an_instance.owner
     cloud_account = an_instance.cloud_account
 
-    [cloud_account, pool].each do |parent|
+    [cloud_account, pool, user].each do |parent|
       if parent
         quota = parent.quota
         if quota

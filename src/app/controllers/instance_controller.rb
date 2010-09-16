@@ -106,6 +106,7 @@ class InstanceController < ApplicationController
   def create
     @instance = Instance.new(params[:instance])
     @instance.state = Instance::STATE_NEW
+    @instance.owner_id = current_user
     require_privilege(Privilege::INSTANCE_MODIFY,
                       Pool.find(@instance.pool_id))
     #FIXME: This should probably be in a transaction

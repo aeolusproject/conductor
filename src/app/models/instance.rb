@@ -32,6 +32,7 @@ class Instance < ActiveRecord::Base
   belongs_to :hardware_profile
   belongs_to :image
   belongs_to :realm
+  belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
 
   validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id
