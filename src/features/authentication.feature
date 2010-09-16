@@ -44,7 +44,7 @@ Feature: User authentication
     And I am on the login page
     When I login
     Then I should see "Login successful!"
-    And I should be on the dashboard page
+    And I should be on the home page
 
   Scenario: Log in without password
     Given I am a registered user
