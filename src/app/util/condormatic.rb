@@ -37,8 +37,18 @@ def condormatic_instance_create(task)
     Rails.logger.info "universe = grid\n"
     pipe.puts "executable = #{job_name}\n"
     Rails.logger.info "executable = #{job_name}\n"
-    pipe.puts "grid_resource = dcloud $$(provider_url) $$(username) $$(password) $$(image_key) #{instance.name} $$(realm_key) $$(hardwareprofile_key)\n"
-    Rails.logger.info "grid_resource = dcloud $$(provider_url) $$(username) $$(password) $$(image_key) #{instance.name} $$(realm_key) $$(hardwareprofile_key)\n"
+
+    resource = "grid_resource = dcloud $$(provider_url) $$(username) $$(password) $$(image_key) #{instance.name}"
+    if realm != nil
+      resource += " $$(realm_key)"
+    else
+      resource += " NULL"
+    end
+    resource += " $$(hardwareprofile_key)\n"
+
+    pipe.puts resource
+    Rails.logger.info resource
+
     requirements = "requirements = hardwareprofile == \"#{instance.hardware_profile.id}\" && image == \"#{instance.image.id}\""
     requirements += " && realm == \"#{realm.name}\"" if realm != nil
     requirements += "\n"
