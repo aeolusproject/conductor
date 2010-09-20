@@ -1,7 +1,16 @@
 %h2 Providers
 %ul#providers
-  - @providers.each do |provider|
-    %li
-      = link_to provider.name, {:controller => "provider", :action => "show", :id => provider }, :class => "providername"
-- if BasePermissionObject.general_permission_scope.has_privilege(@current_user, Privilege::PROVIDER_MODIFY)
-  = link_to "Add a provider", {:controller => "provider", :action => "new"}, :class => "actionlink"
+#providers_nav.grid_3
+  %dl
+    %dt
+      = t('provider.providers')
+    - @providers.each do |provider|
+      %dd
+        %span
+        - selected = 'selected' if @provider and (provider.id == @provider.id)
+        %a{ :href => url_for(:controller => 'provider', :action => 'show', :id => provider), :class => selected }
+          = provider.name
+    - form_tag :controller => 'provider', :action => 'edit', :id => @provider do
+      = submit_tag t(:edit), :disabled => ('disabled' unless @provider and controller.action_name == 'show')
+    - form_tag({:controller => 'provider', :action => 'new'}, {:method => :get }) do
+      %input{ :type => 'submit', :value => t(:add), :disabled => ('disabled' unless @providers.length == 0) }

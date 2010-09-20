@@ -39,6 +39,9 @@ en:
   launch_instance: Launch Instance
   help: Help
   continue: Continue
+  edit: Edit
+  add: Add
+  save: Save
   settings:
     index:
       general_settings: General Settings
@@ -55,3 +58,13 @@ en:
       define_services_desc: View, edit and define services that DeltaCloud will offer. These services will be mapped to individual providers based on their capabilities.
       permissions: Permissions
       permissions_desc: Create and edit User Treatments that are applied to users. Treatments pair together Roles with Categories of Instances, Pools and Templates. Manage the categories, and define and edit Roles. Roles group together sets of permissions that are relevant to Pools, Templates and Instances.
+  provider:
+    providers: PROVIDERS
+    show:
+      provider_name: Provider Name
+      provider_url: Provider URL
+      caution_alt_text: Caution
+      enter_correct_url_msg: Please enter a correct URL format.
+      test_connection: Test Connection
+      required_field: Required field.
+      caution_image: Caution

@@ -21,9 +21,9 @@
 
 class ProviderController < ApplicationController
   before_filter :require_user
+  before_filter :load_providers, :only => [:index, :show, :accounts, :list]
 
   def index
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
   end
 
   def show
@@ -31,10 +31,19 @@ class ProviderController < ApplicationController
     require_privilege(Privilege::PROVIDER_VIEW, @provider)
   end
 
+  def edit
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
+    @provider = Provider.find(:first, :conditions => {:id => params[:id]})
+    require_privilege(Privilege::PROVIDER_MODIFY, @provider)
+    render :show
+  end
+
   def new
     require_privilege(Privilege::PROVIDER_MODIFY)
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
     @provider = Provider.new(params[:provider])
     condormatic_classads_sync
+    render :show
   end
 
   def create
@@ -46,6 +55,20 @@ class ProviderController < ApplicationController
         redirect_to :action => "show", :id => @provider
     else
       render :action => "new"
+    end
+    condormatic_classads_sync
+  end
+
+  def update
+    require_privilege(Privilege::PROVIDER_MODIFY)
+    @provider = Provider.find(:first, :conditions => {:id => params[:provider][:id]})
+    @provider.name = params[:provider][:name]
+
+    if @provider.save
+        flash[:notice] = "Provider updated."
+        redirect_to :action => "show", :id => @provider
+    else
+      render :action => "edit"
     end
     condormatic_classads_sync
   end
@@ -73,8 +96,8 @@ class ProviderController < ApplicationController
   end
 
   def accounts
-     @provider = Provider.find(params[:id])
-     require_privilege(Privilege::ACCOUNT_VIEW, @provider)
+    @provider = Provider.find(:first, :conditions => {:id => params[:id]})
+    require_privilege(Privilege::ACCOUNT_VIEW, @provider)
   end
 
   def realms
@@ -88,6 +111,10 @@ class ProviderController < ApplicationController
   end
 
   def list
+  end
+
+  protected
+  def load_providers
     @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
   end
 end
