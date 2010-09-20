@@ -63,7 +63,7 @@ EVENT_LOG_POS_FILE      =   "#{dbomatic_run_dir}/event_log_position"
 
 # Handle the event log's xml
 class CondorEventLog < Nokogiri::XML::SAX::Document
-  attr_accessor :tag, :event_type, :event_cmd, :event_time
+  attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type
 
   # Store the name of the event log attribute we're looking at
   def start_element(element, attributes)
@@ -79,15 +79,16 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         @event_cmd = string
       elsif @tag == "EventTime"
         @event_time = string
+      elsif @tag == "TriggerEventTypeName"
+        @trigger_type = string
       end
     end
   end
 
   # Create a new entry for events which we have all the neccessary data for
   def end_element(element)
-    if element == "c" && !@event_cmd.nil?
-      # Condor may write to event log before condormatic returns and instance
-      # table is updated. Extract instance name from event_cmd and query on that
+    if element == "c" and @event_type == "JobAdInformationEvent" and !@trigger_type.nil?
+
       inst_name = @event_cmd[4,@event_cmd.size-4].gsub(/_[0-9]*$/, '')
       inst = Instance.find(:first, :conditions => ['name = ?', inst_name])
       if inst.nil?
@@ -97,9 +98,27 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         InstanceEvent.create! :instance => inst,
                               :event_type => @event_type,
                               :event_time => @event_time
+
+        if @trigger_type == "ULOG_GRID_SUBMIT"
+          inst.state = Instance::STATE_PENDING
+          inst.save!
+        elsif @trigger_type == "ULOG_JOB_ABORTED" or @trigger_type == "ULOG_JOB_TERMINATED"
+          inst.state = Instance::STATE_STOPPED
+          inst.save!
+        elsif @trigger_type == "ULOG_EXECUTE"
+          inst.state = Instance::STATE_RUNNING
+          inst.save!
+        elsif @trigger_type == "ULOG_SUBMIT"
+          # ULOG_SUBMIT happens when the job is first submitted to condor.
+          # However, it's not a state that we care to export to users, but it's
+          # also not an error, so we just silently ignore it.
+        else
+          puts "Unexpected trigger type #{@trigger_type}, not updating instance state"
+        end
       end
-      @tag = @event_type = @event_cmd = @event_time = nil
+      @tag = @event_type = @event_cmd = @event_time = @trigger_type = nil
     end
+
   end
 end
 parser = Nokogiri::XML::SAX::PushParser.new(CondorEventLog.new)
@@ -116,6 +135,13 @@ def parse_log_file(log_file, parser)
   File.open(EVENT_LOG_POS_FILE, 'w') { |f| f.write log_file.pos.to_s }
 end
 
+# sync up the states that condor knows about with what is in the aggregator
+# database.  Note that there is still a chance that the state is changing
+# internally to condor while we are syncing the states here.  However, condor
+# will emit an event in that case, so it will be taken care of by the
+# EventLog parsing later on.
+condormatic_instances_sync_states
+
 notifier = INotify::Notifier.new
 log_file = nil
 
@@ -126,6 +152,9 @@ if File.exists? CONDOR_EVENT_LOG_FILE
   # incase of dbomatic restarts
   if File.exists?(EVENT_LOG_POS_FILE)
     File.open(EVENT_LOG_POS_FILE, 'r') { |f| log_file.pos = f.read.to_i }
+    # FIXME: we really need to parse from here to the end of the file.
+    # otherwise we won't get new events until something else causes the
+    # inotify watch to fire.
   end
 
   # Setup inotify watch for condor event log
