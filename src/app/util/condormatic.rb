@@ -27,6 +27,9 @@ def condormatic_instance_create(task)
 
     job_name = "job_#{instance.name}_#{instance.id}"
 
+    instance.condor_job_id = job_name
+    instance.save!
+
     # I use the 2>&1 to get stderr and stdout together because popen3 does not support
     # the ability to get the exit value of the command in ruby 1.8.
     pipe = IO.popen("condor_submit 2>&1", "w+")
@@ -53,9 +56,6 @@ def condormatic_instance_create(task)
 
     Rails.logger.info "$? (return value?) is #{$?}"
     raise ("Error calling condor_submit: #{out}") if $? != 0
-
-    instance.condor_job_id = job_name
-    instance.save!
 
   rescue Exception => ex
     task.state = Task::STATE_FAILED
