@@ -17,8 +17,22 @@ describe Quota do
   end
 
   it "should return true when asking if an instance can be created/started when there is sufficient quota space" do
-    Quota.can_create_instance?(@instance).should == true
-    Quota.can_start_instance?(@instance).should == true
+    Quota.can_create_instance?(@instance, @cloud_account).should == true
+    Quota.can_start_instance?(@instance, @cloud_account).should == true
+  end
+
+  it "should return true when asking if an instance can be created/started when using unlimited Quotas" do
+    @user.quota = Factory :unlimited_quota
+    @user.save!
+
+    @pool.quota = Factory :unlimited_quota
+    @pool.save!
+
+    @cloud_account.quota = Factory :unlimited_quota
+    @cloud_account.save!
+
+    Quota.can_create_instance?(@instance, @cloud_account).should == true
+    Quota.can_start_instance?(@instance, @cloud_account).should == true
   end
 
   it "should return false when asking if an instance can be created/started when the user quota is reached" do
@@ -26,8 +40,8 @@ describe Quota do
     @user_quota.running_instances = @user_quota.maximum_running_instances
     @user_quota.save!
 
-    Quota.can_create_instance?(@instance).should == false
-    Quota.can_start_instance?(@instance).should == false
+    Quota.can_create_instance?(@instance, @cloud_account).should == false
+    Quota.can_start_instance?(@instance, @cloud_account).should == false
   end
 
   it "should return false when asking if an instance can be created/started when the pool quota is reached" do
@@ -35,8 +49,8 @@ describe Quota do
     @pool_quota.running_instances = @pool_quota.maximum_running_instances
     @pool_quota.save!
 
-    Quota.can_create_instance?(@instance).should == false
-    Quota.can_start_instance?(@instance).should == false
+    Quota.can_create_instance?(@instance, @cloud_account).should == false
+    Quota.can_start_instance?(@instance, @cloud_account).should == false
   end
 
   it "should return false when asking if an instance can be created/started when the cloud account quota is reached" do
@@ -44,8 +58,8 @@ describe Quota do
     @cloud_account_quota.running_instances = @cloud_account_quota.maximum_running_instances
     @cloud_account_quota.save!
 
-    Quota.can_create_instance?(@instance).should == false
-    Quota.can_start_instance?(@instance).should == false
+    Quota.can_create_instance?(@instance, @cloud_account).should == false
+    Quota.can_start_instance?(@instance, @cloud_account).should == false
   end
 
   it "should return false when asking if an instance can be created/started when the all quotas are reached" do
@@ -61,8 +75,8 @@ describe Quota do
     @cloud_account_quota.running_instances = @cloud_account_quota.maximum_running_instances
     @cloud_account_quota.save!
 
-    Quota.can_create_instance?(@instance).should == false
-    Quota.can_start_instance?(@instance).should == false
+    Quota.can_create_instance?(@instance, @cloud_account).should == false
+    Quota.can_start_instance?(@instance, @cloud_account).should == false
   end
 
 end
