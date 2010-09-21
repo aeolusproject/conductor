@@ -63,7 +63,7 @@ EVENT_LOG_POS_FILE      =   "#{dbomatic_run_dir}/event_log_position"
 
 # Handle the event log's xml
 class CondorEventLog < Nokogiri::XML::SAX::Document
-  attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type
+  attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host
 
   # Store the name of the event log attribute we're looking at
   def start_element(element, attributes)
@@ -81,8 +81,74 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         @event_time = string
       elsif @tag == "TriggerEventTypeName"
         @trigger_type = string
+      elsif @tag == "GridResource"
+        @grid_resource = string
+      elsif @tag == "ExecuteHost"
+        @execute_host = string
       end
     end
+  end
+
+  def update_instance_event(inst)
+    InstanceEvent.create! :instance => inst,
+                          :event_type => @event_type,
+                          :event_time => @event_time
+  end
+
+  def update_instance_state(inst)
+    if @trigger_type == "ULOG_GRID_SUBMIT"
+      inst.state = Instance::STATE_PENDING
+    elsif @trigger_type == "ULOG_JOB_ABORTED" or @trigger_Type == "ULOG_JOB_TERMINATED"
+      inst.state = Instance::STATE_STOPPED
+    elsif @trigger_type == "ULOG_EXECUTE"
+      inst.state = Instance::STATE_RUNNING
+    elsif @trigger_type == "ULOG_SUBMIT"
+      # ULOG_SUBMIT happens when the job is first submitted to condor.
+      # However, it's not a state that we care to export to users, but it's
+      # also not an error, so we just silently ignore it.
+    else
+      puts "Unexpected trigger type #{@trigger_type}, not updating instance state"
+      return
+    end
+    inst.save!
+  end
+
+  def update_instance_cloud_id(inst)
+    # The GridResource/ExecuteHost string looks like this:
+    # dcloud http://localhost:3001/api <username> <password> <image_name> <instance_name> <realm_name> <hardware_profile_name>
+
+    if !@grid_resource.nil?
+      resource = @grid_resource
+    elsif !@execute_host.nil?
+      resource = @execute_host
+    else
+      puts "Unexpected nil GridResource/ExecuteHost field, skipping cloud id update"
+      return
+    end
+
+    args = resource.split
+    link = args[1]
+    username = args[2]
+    password = args[3]
+    if link.nil? or username.nil? or password.nil?
+      puts "Unexpected nil data from #{resource}, skipping cloud id update"
+      return
+    end
+
+    provider = Provider.find(:first, :conditions => ['url = ?', link])
+    if provider.nil?
+      puts "Could not find the provider with link #{link}, skipping cloud id update"
+      return
+    end
+
+    cloud_account = CloudAccount.find(:first, :conditions => ['provider_id = ? AND username = ? AND password = ?', provider.id, username, password])
+    if cloud_account.nil?
+      puts "Could not find the cloud account corresponding to #{link}, skipping cloud id update"
+      return
+    end
+
+    inst.cloud_account_id = cloud_account.id
+    inst.save!
   end
 
   # Create a new entry for events which we have all the neccessary data for
@@ -94,29 +160,11 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       if inst.nil?
         puts "Unexpected nil instance, skipping..."
       else
-        puts "Instance event #{inst.name} #{@event_type} #{@event_time}"
-        InstanceEvent.create! :instance => inst,
-                              :event_type => @event_type,
-                              :event_time => @event_time
-
-        if @trigger_type == "ULOG_GRID_SUBMIT"
-          inst.state = Instance::STATE_PENDING
-          inst.save!
-        elsif @trigger_type == "ULOG_JOB_ABORTED" or @trigger_type == "ULOG_JOB_TERMINATED"
-          inst.state = Instance::STATE_STOPPED
-          inst.save!
-        elsif @trigger_type == "ULOG_EXECUTE"
-          inst.state = Instance::STATE_RUNNING
-          inst.save!
-        elsif @trigger_type == "ULOG_SUBMIT"
-          # ULOG_SUBMIT happens when the job is first submitted to condor.
-          # However, it's not a state that we care to export to users, but it's
-          # also not an error, so we just silently ignore it.
-        else
-          puts "Unexpected trigger type #{@trigger_type}, not updating instance state"
-        end
+        update_instance_event(inst)
+        update_instance_state(inst)
+        update_instance_cloud_id(inst)
       end
-      @tag = @event_type = @event_cmd = @event_time = @trigger_type = nil
+      @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = nil
     end
 
   end
