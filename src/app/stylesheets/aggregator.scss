@@ -563,3 +563,9 @@ footer {
     }
   }
 }
+
+/* FIXME: this is a temporary fix so that the /provider/accounts/1 page
+fits the screen and is at least semi-usable */
+h3.first, h3.second, h3.third, h3.fourth, h3.fifth, h3.sixth, h3.seventh {
+  display: inline;
+}

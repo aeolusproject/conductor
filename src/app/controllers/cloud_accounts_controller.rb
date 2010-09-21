@@ -31,22 +31,29 @@ class CloudAccountsController < ApplicationController
   def create
     @provider = Provider.find(params[:cloud_account][:provider_id])
     require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
+    if not params[:cloud_account][:x509_cert_priv_file].nil?
+      params[:cloud_account][:x509_cert_priv] = params[:cloud_account][:x509_cert_priv_file].read
+    end
+    params[:cloud_account].delete :x509_cert_priv_file
+    if not params[:cloud_account][:x509_cert_pub_file].nil?
+      params[:cloud_account][:x509_cert_pub] = params[:cloud_account][:x509_cert_pub_file].read
+    end
+    params[:cloud_account].delete :x509_cert_pub_file
     @cloud_account = CloudAccount.new(params[:cloud_account])
     unless @cloud_account.valid_credentials?
       flash[:notice] = "The entered credential information is incorrect"
-      render :action => "new"
+      redirect_to :controller => "provider", :action => "accounts", :id => @provider
     else
       quota = Quota.new
+      quota.maximum_total_instances = quota_from_string(params[:quota][:maximum_total_instances])
       quota.save!
       @cloud_account.quota_id = quota.id
       @cloud_account.zones << Zone.default
       @cloud_account.save!
       if request.post? && @cloud_account.save && @cloud_account.populate_realms_and_images
         flash[:notice] = "Provider account added."
-        redirect_to :controller => "provider", :action => "accounts", :id => @provider
-      else
-        render :action => "new"
       end
+      redirect_to :controller => "provider", :action => "accounts", :id => @provider
       condormatic_classads_sync
     end
   end
@@ -55,6 +62,34 @@ class CloudAccountsController < ApplicationController
     @cloud_account = CloudAccount.find(params[:id])
     @provider = @cloud_account.provider
     require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
+  end
+
+  def update_accounts
+    params[:cloud_accounts].each do |id, attributes|
+      @cloud_account = CloudAccount.find(id)
+      require_privilege(Privilege::ACCOUNT_MODIFY, @cloud_account.provider)
+
+      # blank password means the user didn't change it -- don't update it then
+      if attributes.has_key? :password and String(attributes[:password]).empty?
+        attributes.delete :password
+      end
+      @cloud_account.quota.maximum_total_instances = quota_from_string(params[:quota][id][:maximum_total_instances])
+      private_cert = attributes[:x509_cert_priv]
+      if private_cert.nil?
+        attributes.delete :x509_cert_priv
+      else
+        attributes[:x509_cert_priv] = private_cert.read
+      end
+      public_cert = attributes[:x509_cert_pub]
+      if public_cert.nil?
+        attributes.delete :x509_cert_pub
+      else
+        attributes[:x509_cert_pub] = public_cert.read
+      end
+      @cloud_account.update_attributes!(attributes)
+      @cloud_account.quota.save!
+    end
+    redirect_to :controller => 'provider', :action => 'accounts', :id => params[:provider][:id]
   end
 
   def update
@@ -87,5 +122,15 @@ class CloudAccountsController < ApplicationController
       flash[:notice] = "Cloud Account could not be destroyed"
     end
     redirect_to :controller => 'provider', :action => 'accounts', :id => provider.id
+  end
+
+  private
+
+  def quota_from_string(quota_raw)
+    if quota_raw.nil? or quota_raw.empty? or quota_raw.downcase == 'unlimited'
+      return nil
+    else
+      return Integer(quota_raw)
+    end
   end
 end

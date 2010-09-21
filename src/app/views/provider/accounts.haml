@@ -1,22 +1,92 @@
-- if @provider.cloud_accounts.size == 0
-  %h1 There are no accounts to display
-- else
-  %table
-    %thead
-      %tr
-        %th{:scope => "col"} Label
-        %th{:scope => "col"} Username
-        %th{:scope => "col"} Key
-        %th{:scope => "col"}
-        %th{:scope => "col"}
-    %tbody
-      - @provider.cloud_accounts.each {|acct|
-      %tr
-        %td= acct.label
-        %td= acct.username
-        %td= (acct.instance_key.nil?) ? 'N/A' : link_to(acct.instance_key.name, :controller => :cloud_accounts, :action => :key, :id => acct.id)
-        %td= link_to "Edit",   {:controller => 'cloud_accounts', :action => 'edit', :id => acct.id}    if has_account_modify?(@provider)
-        %td= link_to "Delete", {:controller => 'cloud_accounts', :action => 'destroy', :id => acct.id} if has_account_modify?(@provider) && acct.destroyable?
-        %td= link_to "Quota", {:controller => 'quota', :action => 'show', :id => acct.id, :parent_type => "cloud_account"}
-      - }
-= link_to "Add an account", {:controller => "cloud_accounts", :action => "new", :provider_id => @provider}, :class => "actionlink"
+:javascript
+  function set_unlimited_quota(elem_id) {
+    $("#" + elem_id)[0].value = "unlimited";
+  }
+= render :partial => 'providers'
+#details.grid_13
+  = render_navigation(:level => 4)
+  - form_tag({:controller => 'cloud_accounts', :action => 'update_accounts'}, :multipart => true) do
+    %h2.wider
+      = t('.provider_accounts')
+    %h3.first
+      = t('.account_name')
+      %span.required *
+    %h3.second
+      = t('.user_name')
+      %span.required *
+    %h3.third
+      = t('.password')
+      %span.required *
+    %h3.fourth
+      = t('.quota_instances')
+      %span.required *
+    %h3.fifth
+      = t('.account_number')
+      %span.required *
+    %h3.sixth
+      = t('.account_private_cert')
+      %span.required *
+    %h3.seventh
+      = t('.account_public_cert')
+      %span.required *
+
+    = hidden_field :provider, :id, :value => @provider.id
+    - @provider.cloud_accounts.each do |acct|
+      .fieldGroup.clearfix
+        - disabled = 'disabled' unless has_account_modify?(@provider)
+        - cloud_account_id = "cloud_accounts[#{acct.id}]"
+        = text_field cloud_account_id, :label, :title => t('.account_name'), :value => acct.label, :disabled => disabled
+        = text_field cloud_account_id, :username, :title => t('.access_key'), :value => acct.username, :disabled => disabled
+        = password_field cloud_account_id, :password, :title => t('.secret_access_key'), :disabled => disabled
+        = text_field cloud_account_id, :account_number, :title => t('.account_number'), :value => acct.account_number, :disabled => disabled
+        = file_field cloud_account_id, :x509_cert_priv_file, :title => t('.account_private_cert'), :disabled => disabled
+        = file_field cloud_account_id, :x509_cert_pub_file, :title => t('.account_public_cert'), :disabled => disabled
+        = text_field "quota[#{acct.id}]", :maximum_total_instances, :title => t('.quota_instances'), :value => (acct.quota.maximum_total_instances.nil? ? "unlimited" : acct.quota.maximum_total_instances), :disabled => disabled, :id => "quota_instances#{acct.id}"
+        - remove_path = url_for :controller => 'cloud_accounts', :action => 'destroy', :id => acct.id if has_account_modify?(@provider) && acct.destroyable?
+        %a.button{ :href => remove_path, :name => "remove_acc_#{acct.id}", :class => ('disabled' unless remove_path) }
+          = t(:remove)
+      .subtext
+        %span
+          (
+          %a{ :href => '' }<>
+            = t('.test_account')
+          )
+        %span
+        %span
+        %span
+          (
+          %a{ :href => '#', :onclick => "set_unlimited_quota(\"quota_instances#{acct.id}\");" }<>
+            = t('.unlimited_quota')
+          )
+
+    #prefooter
+      %p.requirement
+        %span.required *
+        \-
+        = t('.required_field')
+      = submit_tag t(:reset), :name => 'reset_form' unless @provider.cloud_accounts.empty?
+      = submit_tag t(:save), :name => 'update_cloud_accounts' unless @provider.cloud_accounts.empty?
+  - form_tag({:controller => 'cloud_accounts', :action => 'create'}, :multipart => true) do
+    .fieldGroup.clearfix
+      = text_field :cloud_account, :label, :title => t('.account_name')
+      = text_field :cloud_account, :username, :title => t('.access_key')
+      = password_field :cloud_account, :password, :title => t('.secret_access_key')
+      = text_field :cloud_account, :account_number, :title => t('.account_number')
+      = file_field :cloud_account, :x509_cert_priv_file, :title => t('.account_private_cert')
+      = file_field :cloud_account, :x509_cert_pub_file, :title => t('.account_public_cert')
+      = text_field :quota, :maximum_total_instances, :title => t('.quota_instances'), :id => "new_quota_instances", :value => "unlimited"
+      = hidden_field :cloud_account, :provider_id, :value => @provider.id
+      = submit_tag t(:add)
+    .subtext
+      %span
+        (
+        %a{ :href => '' }<>
+          = t('.test_account')
+        )
+      %span
+      %span
+      %span
+        (
+        %a{ :href => '#', :onclick => 'set_unlimited_quota("new_quota_instances");' }<>
+          = t('.unlimited_quota')
+        )

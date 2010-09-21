@@ -11,6 +11,6 @@
         %a{ :href => url_for(:controller => 'provider', :action => 'show', :id => provider), :class => selected }
           = provider.name
     - form_tag :controller => 'provider', :action => 'edit', :id => @provider do
-      = submit_tag t(:edit), :disabled => ('disabled' unless @provider and controller.action_name == 'show')
+      = submit_tag t(:edit), :disabled => ('disabled' unless @provider and ['show', 'accounts'].include? controller.action_name)
     - form_tag({:controller => 'provider', :action => 'new'}, {:method => :get }) do
       %input{ :type => 'submit', :value => t(:add), :disabled => ('disabled' unless @providers.length == 0) }

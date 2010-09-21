@@ -42,6 +42,8 @@ en:
   edit: Edit
   add: Add
   save: Save
+  remove: Remove
+  reset: Reset
   settings:
     index:
       general_settings: General Settings
@@ -68,3 +70,15 @@ en:
       test_connection: Test Connection
       required_field: Required field.
       caution_image: Caution
+    accounts:
+      provider_accounts: Provider Accounts
+      account_name: Account Name
+      user_name: User Name
+      password: Password
+      quota_instances: Quota Instances
+      test_account: Test Account
+      unlimited_quota: Unlimited Quota
+      required_field: Required field.
+      account_number: Account Number
+      account_private_cert: EC2 x509 private key
+      account_public_cert: EC2 x509 public key

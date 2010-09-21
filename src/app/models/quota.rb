@@ -25,6 +25,9 @@ class Quota < ActiveRecord::Base
   has_one :cloud_account
   has_one :user
 
+  validates_numericality_of :maximum_total_instances, :greater_than_or_equal_to => 0, :allow_nil => true
+  validates_numericality_of :maximum_running_instances, :greater_than_or_equal_to => 0, :allow_nil => true
+
   QuotaResource = Struct.new(:name, :used, :max, :available, :unit)
 
   NO_LIMIT = nil
