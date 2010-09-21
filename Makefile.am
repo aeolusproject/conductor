@@ -38,6 +38,10 @@ RPMDIR		= $$(rpm --eval '%{_rpmdir}')
 RPM_FLAGS	= --define "deltacloud_cache_dir $(DELTACLOUD_CACHE_DIR)"
 RPM_FLAGS	+= $(if $(_deltacloud_dev),--define "extra_release .$(GIT_RELEASE)")
 
+SUBDIRS = src/classad_plugin
+
+ACLOCAL_AMFLAGS = -I m4
+
 rpms: dist
 	rpmbuild $(RPM_FLAGS) -ta $(distdir).tar.gz
 

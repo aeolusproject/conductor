@@ -51,6 +51,9 @@ def condormatic_instance_create(task)
 
     requirements = "requirements = hardwareprofile == \"#{instance.hardware_profile.id}\" && image == \"#{instance.image.id}\""
     requirements += " && realm == \"#{realm.name}\"" if realm != nil
+    # We may need to add some stuff to the provider classads like pool id, provider id etc.  This is mostly just
+    # to test and make sure this works for now.
+    requirements += " && deltacloud_quota_check(\"#{job_name}\", other.cloud_account_id)"
     requirements += "\n"
 
     pipe.puts requirements
@@ -198,6 +201,7 @@ def condormatic_classads_sync
             pipe.puts "provider_url=\"#{account.provider.url}\""
             pipe.puts "username=\"#{account.username}\""
             pipe.puts "password=\"#{account.password}\""
+            pipe.puts "cloud_account_id=\"#{account.id}\""
             pipe.close_write
 
             out = pipe.read
