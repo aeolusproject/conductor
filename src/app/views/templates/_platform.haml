@@ -1,0 +1,12 @@
+#clear
+  %h3 Platform
+  %ul
+    %li
+      %label Operating System
+      = select_tag("xml[platform]", @image_descriptor.xml.platforms.map{|repid, rep| "<option value=\"#{repid}\" selected=\"#{repid == @image_descriptor.xml.platform ? 'selected' : ''}\">#{rep['name']}</option>"}.join.html_safe)
+    %li
+      %label H/W Profile
+      = select_tag("xml[hw_profile]", options_for_select(@hardware_profiles.collect{|p| [ p.name, p.id ]}), {:included_blank => :true})
+    %li
+      %label Locale
+      =select_tag("xml[locale]", options_for_select(I18n.available_locales, I18n.locale.to_sym))

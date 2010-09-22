@@ -1,0 +1,7 @@
+#clear
+  %h3 Build Options
+  %label Image formats
+  - @all_targets.each do |target_id, target|
+    %br
+    = check_box_tag 'targets[]', target_id, false
+    = target['name']

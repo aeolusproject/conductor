@@ -17,8 +17,6 @@
       );
     });
 
-= render :partial => "nav"
-
 #image_descriptor_form{:class => 'dcloud_form'}
   = error_messages_for 'image_descriptor'
 
@@ -44,9 +42,6 @@
 
       %ul{:class => 'main_panel'}
         .image_build_panel
-          %h3
-            Images
-            %input{:type => 'button', :class => "expand_target_list_button", :value => "Build Images"}
           #image_build_form
             %ul
               %li

@@ -1,16 +1,12 @@
-%ul
-  %li
-    %label Name
-    = text_field_tag 'xml[name]', @image_descriptor.xml.name
-    %span Provide a unique name for template master. Users will see this name when they choose this image to instantiate.
-  %li
-    %label Platform
-    = select_tag("xml[platform]", @image_descriptor.xml.platforms.map{|repid, rep| "<option value=\"#{repid}\" selected=\"#{repid == @image_descriptor.xml.platform ? 'selected' : ''}\">#{rep['name']}</option>"})
-    %span Choose the software operating system.
-  %li
-    %label Description
-    = text_area_tag("xml[description]", @image_descriptor.xml.description, :rows => 4)
-    %span Provide a description of your template master. Be descriptive to help users to identify the images created with this master.
-.submit
-  = submit_tag "Cancel"
-  = submit_tag "Next"
+#clear
+  %h3 Basic Template Properties
+  %ul
+    %li
+      %label Name
+      = text_field_tag("xml[name]", @image_descriptor.xml.name)
+    %li
+      %label Description
+      = text_field_tag("xml[description]", @image_descriptor.xml.description, :rows =>4)
+    %li
+      %label Template Category
+      = select_tag("xml[category]", "<option>User - private</option>")

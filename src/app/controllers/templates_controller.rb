@@ -15,9 +15,29 @@ class TemplatesController < ApplicationController
 
   def new
     update_xml
-    if params[:next]
-      redirect_to :action => 'services', :id => @image_descriptor
+    @repository_manager = RepositoryManager.new
+    @image_descriptor = params[:id] ? Template.find(params[:id]) : Template.new
+    @groups = @repository_manager.all_groups(params[:repository])
+    @hardware_profiles = HardwareProfile.find(:all)
+    @all_targets = Image.available_targets
+    if params[:tab].to_s == 'packages'
+      @selected_tab = 'packages'
+      @packages = @repository_manager.all_packages(params[:repository])
+    else
+      @selected_tab = 'groups'
     end
+
+    if request.xhr?
+      render :partial => @selected_tab
+      return
+    end
+    if params[:build_and_monitor]
+      update_xml
+      redirect_to :action => 'summary', :id => @image_descriptor.id, :build=>"build", :targets =>params[:targets]
+    end
+    #if params[:next]
+    #  redirect_to :action => 'services', :id => @image_descriptor
+    #end
   end
 
   def packages
@@ -83,7 +103,7 @@ class TemplatesController < ApplicationController
       end
     else
       if params[:back]
-        redirect_to :action => 'software', :id => @image_descriptor
+        redirect_to :action => 'new', :id => @image_descriptor
       elsif params[:done]
         redirect_to :controller => 'dashboard', :action => 'index'
       end
