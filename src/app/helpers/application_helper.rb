@@ -82,6 +82,35 @@ module ApplicationHelper
     content_tag 'th', label
   end
 
+  # Fields example:
+  # [
+  #   { :name => 'Pool name', :sort_attr => 'name'},
+  #   { :name => 'Zone', :sortable => false},
+  # ]
+  def sortable_table_header(fields=[])
+    columns = fields.collect do |field|
+      if field[:sortable]==true or field[:sortable].nil?
+        order_dir = params[:order_dir] ? params[:order_dir] : 'desc'
+        class_name = (field[:sort_attr].to_s.eql?(params[:order_field]) ? 'active' : nil)
+        class_name += " desc" if "desc".eql?(params[:order_dir])
+        content_tag('th', :class => class_name) do
+          link_to(field[:name], :controller => params[:controller],
+            :action => params[:action], :order_field => field[:sort_attr],
+            :order_dir => order_dir.eql?('asc') ? 'desc' : 'asc')
+        end
+      else
+        content_tag('th') do
+          field[:name]
+        end
+      end
+    end
+    header = content_tag('thead') do
+      content_tag('tr') do
+        columns.join
+      end
+    end
+  end
+
   def paginated_table(html_id, columns, data, opts = {})
     search_url = url_for(:partial => true, :order => opts[:order], :order_dir => opts[:order_dir])
 
