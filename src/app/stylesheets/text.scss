@@ -6,3 +6,32 @@
 @import "960/text";
 
 @include text;
+
+/* Need to solve licensing first */
+@font-face {
+  font-family: 'Roadgeek E';
+  src: local('Roadgeek E'), local('RoadgeekE'),
+  url(/fonts/RoadgeekE.otf);
+}
+
+/* Placeholder font I created, derived from my RaveIn type. OFL. */
+@font-face {
+  font-family: 'FreeWay';
+  font-weight: bold;
+  src: local('FreeWay'), local('FreeWayBold'),
+  url(/fonts/FreeWay-Bold.otf);
+}
+
+  /* Safari doesn't seem to handle font-weight well */
+  @font-face {
+    font-family: 'FreeWay Bold';
+    src: url(/fonts/FreeWay-Bold.otf);
+  }
+
+body {
+  font: 12px/1.5 $screenfont;
+}
+
+h1,h2,h3,h4,h5 {
+  font-family: $headlinefont;
+}

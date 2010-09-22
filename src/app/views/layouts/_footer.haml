@@ -1,0 +1,11 @@
+%ul.container_16
+  - unless @current_user.nil?
+    %li
+      = link_to t(:logout), logout_url
+  %li
+    %a{ :href => ""}
+      = t(:configure)
+  %li
+    %a{ :href => ""}
+      = t(:about)
+  %li Copyright &copy; 2010 Red Hat, Inc.

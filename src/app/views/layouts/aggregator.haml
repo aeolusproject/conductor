@@ -1,34 +1,54 @@
 !!!
-%html{html_attrs}
+%html
   %head
-    %meta(http-equiv="content-type" content="text/html;charset=UTF-8")
+    %meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
     %title
-      Deltacloud
+      Red Hat Deltacloud
       = yield :title
 
-    = stylesheet_link_tag 'compiled/layout'
-    = stylesheet_link_tag 'compiled/components'
-    = stylesheet_link_tag 'compiled/dcloud'
+    = stylesheet_link_tag 'compiled/aggregator'
     = stylesheet_link_tag 'facebox'
     = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
     = stylesheet_link_tag 'jquery.loadmask'
 
+    / [if lt IE 9]
+      = javascript_include_tag "http://html5shiv.googlecode.com/svn/trunk/html5.js"
     = javascript_include_tag "jquery-1.4.2.min.js"
     = javascript_include_tag "application.js"
     = javascript_include_tag "facebox.js"
     = javascript_include_tag "jquery.ui-1.8.1/jquery-ui-1.8.1.custom.min.js"
     = javascript_include_tag "jquery.loadmask.min"
+    = javascript_include_tag "jquery.html5form"
+    = javascript_include_tag "aggregator"
 
     = yield :scripts
-  %body
-    #header
-      = render :partial => '/layouts/header'
-    #content
-      / NOTE: uncoment the following line to enable the new navigation
-      /= render_navigation(:expand_all => true)
-      - if ['instance', 'pool'].include? controller.controller_name
-        #side
-          = render :partial => '/layouts/main_nav' unless @current_user.nil?
-      #main
+  - if controller.respond_to?(:section_id)
+    - section_id = controller.section_id
+  - else
+    - section_id = "generic"
+  %body{:id => section_id}
+    %div#head
+      %header.container_16
+        = render :partial => '/layouts/header'
+    - if current_user.nil?
+      #formwindow
+        = yield
+    - else
+      #subheader
+        %form#s.container_16
+          .prefix_10.grid_6
+            %input{ :name => "s", :type => "search", :placeholder => "Search Cloud Aggregator"}
+            %button.action{:form => "s"} Search
+          %p.prefix_10.grid_6
+            %a{ :href => "" }
+              = t(:advanced_search)
+        %nav.container_16
+          = render_navigation(:expand_all => true, :level => 1..2)
+        %hr
+      %nav.subnav
+        = render_navigation(:expand_all => true, :level => 3)
+      #content.container_16
         = render :partial => '/layouts/notification'
         = (yield(:content) or yield) # content is set if we're using a sub template
+      %footer
+        = render :partial => "layouts/footer"

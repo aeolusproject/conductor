@@ -26,6 +26,7 @@ RAILS_GEM_VERSION = '>= 2.3.2' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 require 'util/condormatic'
 
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
   # Application configuration should go into files in config/initializers
@@ -84,6 +85,7 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 
   config.after_initialize do
+    Haml::Template.options[:format] = :html5
     begin
       # This pulls all the possible classad matches from the database and puts
       # them on condor on startup.  Note that this can fail because this is run on startup

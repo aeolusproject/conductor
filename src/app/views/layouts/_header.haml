@@ -1,9 +1,18 @@
-.header_logo
-  %span Deltacloud Aggregator
-  = render_navigation(:level => 2, :expand_all => true)
-
-.header_info
-  #hi-username
-    = link_to @current_user.first_name + " " + @current_user.last_name, { :controller => "users", :action => "show"} unless @current_user.nil?
-  = link_to t(:logout), logout_url unless @current_user.nil?
-  = link_to t(:login), login_url if @current_user.nil?
+%h1
+  %img.dc{:src => '/images/dc_logo.png'}
+  Cloud Aggregator
+- unless @current_user.nil?
+  %ul
+    %li.about
+      %a{:href => ""}
+        = t(:about)
+    %li.configure
+      %a{:href => ""}
+        = t(:configure)
+    %li.hello
+      %a{:href => ""}
+        = t(:hello)
+        %b
+          = @current_user.first_name + " " + @current_user.last_name
+    %li.logout
+      = link_to t(:logout), logout_url

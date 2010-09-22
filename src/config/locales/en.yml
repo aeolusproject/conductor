@@ -4,11 +4,16 @@ en:
   users: Users
   templates: Templates
   settings: Settings
+  about: About
+  configure: Configure
+  hello: Hello
+  advanced_search: Advanced Search
   login: Log in
   logout: Log out
-  operate: Operate
-  monitor: Monitor
-  administer: Administer
+  operation: Operation
+  monitor: Monitor System
+  browse_objects: Browse Objecs
+  administration: Administration
   system_settings: System Settings
   manage_providers: Manage Providers
   provider_summary: Provider Summary
@@ -17,14 +22,19 @@ en:
   manage_users: Manage Users
   new_user: New User
   edit_user: Edit User
+  pools_and_zones: "Pools & Zones"
   new_pool: New Pool
   edit_pool: Edit Pool
+  audit_report: Audit / Report
+  assistance_requests: Assistance Requests
   build: Build
-  template_management: Template Management
+  templates: Templates
   basic_template: Template Builder Basic Workflow
   browse_packages: Browse Packages
-  grind_management: Grind Management
-  run: Run
-  manage_instances: Manage Instances
+  grinds: Grinds
+  images: Images
+  runtime: Runtime
+  instance_management: Instance Management
   instance_details: Instance Details
   launch_instance: Launch Instance
+  help: Help
