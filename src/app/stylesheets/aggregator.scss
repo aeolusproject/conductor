@@ -1132,6 +1132,7 @@ a.iconbutton {
 
 /* basic image styling for buttons in older browsers */
 .no-cssgradients input[type='submit'], .no-cssgradients button, .no-cssgradients .button {
+
   /* FIXME image based buttons */
 }
 
@@ -1160,12 +1161,6 @@ a.iconbutton {
       color: #fff;
     }
   }
-}
-
-/* FIXME: this is a temporary fix so that the /provider/accounts/1 page
-fits the screen and is at least semi-usable */
-h3.first, h3.second, h3.third, h3.fourth, h3.fifth, h3.sixth, h3.seventh {
-  display: inline;
 }
 
 .nospace {
