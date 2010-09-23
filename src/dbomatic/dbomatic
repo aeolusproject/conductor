@@ -27,6 +27,7 @@ help = false
 
 condor_event_log_dir    =   "/var/log/condor"
 dbomatic_run_dir        =   "/var/run/dbomatic"
+dbomatic_log_dir        =   "/var/log/dbomatic"
 
 optparse = OptionParser.new do |opts|
 
@@ -36,11 +37,14 @@ dbomatic [options]
 
 Options:
 BANNER
-  opts.on( '-p', '--path PATH', 'Use PATH to the condor log directory') do |newpath|
+  opts.on( '-p', '--path PATH', "Use PATH to the condor log directory (defaults to #{condor_event_log_dir})") do |newpath|
     condor_event_log_dir = newpath
   end
-  opts.on( '-r', '--run PATH', 'Use PATH to the dbomatic runtime directory') do |newpath|
+  opts.on( '-r', '--run PATH', "Use PATH to the dbomatic runtime directory (defaults to #{dbomatic_run_dir})") do |newpath|
     dbomatic_run_dir = newpath
+  end
+  opts.on( '-l', '--log PATH', "Use PATH to the dbomatic log directory (defaults to #{dbomatic_log_dir}).  Use '-' for stdout") do |newpath|
+    dbomatic_log_dir = newpath
   end
   opts.on( '-h', '--help', '') { help = true }
 end
@@ -60,10 +64,23 @@ end
 
 CONDOR_EVENT_LOG_FILE   =   "#{condor_event_log_dir}/EventLog"
 EVENT_LOG_POS_FILE      =   "#{dbomatic_run_dir}/event_log_position"
+if dbomatic_log_dir == '-'
+  DBOMATIC_LOG_FILE = STDOUT
+else
+  DBOMATIC_LOG_FILE = "#{dbomatic_log_dir}/dbomatic.log"
+end
+
+logger = Logger.new(DBOMATIC_LOG_FILE)
+logger.level = Logger::DEBUG
+logger.info "DBOmatic starting up"
 
 # Handle the event log's xml
 class CondorEventLog < Nokogiri::XML::SAX::Document
   attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host
+
+  def initialize(logger)
+    @logger = logger
+  end
 
   # Store the name of the event log attribute we're looking at
   def start_element(element, attributes)
@@ -107,7 +124,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       # However, it's not a state that we care to export to users, but it's
       # also not an error, so we just silently ignore it.
     else
-      puts "Unexpected trigger type #{@trigger_type}, not updating instance state"
+      @logger.info "Unexpected trigger type #{@trigger_type}, not updating instance state"
       return
     end
     inst.save!
@@ -122,7 +139,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
     elsif !@execute_host.nil?
       resource = @execute_host
     else
-      puts "Unexpected nil GridResource/ExecuteHost field, skipping cloud id update"
+      @logger.info "Unexpected nil GridResource/ExecuteHost field, skipping cloud id update"
       return
     end
 
@@ -131,19 +148,19 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
     username = args[2]
     password = args[3]
     if link.nil? or username.nil? or password.nil?
-      puts "Unexpected nil data from #{resource}, skipping cloud id update"
+      @logger.error "Unexpected nil data from #{resource}, skipping cloud id update"
       return
     end
 
     provider = Provider.find(:first, :conditions => ['url = ?', link])
     if provider.nil?
-      puts "Could not find the provider with link #{link}, skipping cloud id update"
+      @logger.error "Could not find the provider with link #{link}, skipping cloud id update"
       return
     end
 
     cloud_account = CloudAccount.find(:first, :conditions => ['provider_id = ? AND username = ? AND password = ?', provider.id, username, password])
     if cloud_account.nil?
-      puts "Could not find the cloud account corresponding to #{link}, skipping cloud id update"
+      @logger.error "Could not find the cloud account corresponding to #{link}, skipping cloud id update"
       return
     end
 
@@ -158,7 +175,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       inst_name = @event_cmd[4,@event_cmd.size-4].gsub(/_[0-9]*$/, '')
       inst = Instance.find(:first, :conditions => ['name = ?', inst_name])
       if inst.nil?
-        puts "Unexpected nil instance, skipping..."
+        @logger.info "Unexpected nil instance, skipping..."
       else
         update_instance_event(inst)
         update_instance_state(inst)
@@ -169,7 +186,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
 
   end
 end
-parser = Nokogiri::XML::SAX::PushParser.new(CondorEventLog.new)
+parser = Nokogiri::XML::SAX::PushParser.new(CondorEventLog.new(logger))
 
 # XXX hack, condor event log doesn't seem to have a top level element
 # enclosing everything else in the doc (as standards conforming xml must).
