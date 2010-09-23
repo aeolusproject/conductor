@@ -1,61 +1,44 @@
-%table
-  %tr
-    %td :external_key
-    %td= @instance.external_key
-  %tr
-    %td :name
-    %td= @instance.name
-  %tr
-    %td :hardware_profile_id
-    %td= @instance.hardware_profile_id
-  %tr
-    %td :image_id
-    %td= @instance.image_id
-  %tr
-    %td :realm_id
-    %td= @instance.realm_id
-  %tr
-    %td :pool_id
-    %td= @instance.pool_id
-  %tr
-    %td :cloud_account_id
-    %td= @instance.cloud_account_id
-  %tr
-    %td :public_address
-    %td= @instance.public_address
-  %tr
-    %td :private_address
-    %td= @instance.private_address
-  %tr
-    %td :state
-    %td= @instance.state
-  %tr
-    %td :condor_job_id
-    %td= @instance.condor_job_id
-  %tr
-    %td :lock_version
-    %td= @instance.lock_version
-  %tr
-    %td :acc_pending_time
-    %td= @instance.acc_pending_time
-  %tr
-    %td :acc_running_time
-    %td= @instance.acc_running_time
-  %tr
-    %td :acc_shutting_down_time
-    %td= @instance.acc_shutting_down_time
-  %tr
-    %td :acc_stopped_time
-    %td= @instance.acc_stopped_time
-  %tr
-    %td :time_last_pending
-    %td= @instance.time_last_pending
-  %tr
-    %td :time_last_running
-    %td= @instance.time_last_running
-  %tr
-    %td :time_last_shutting_down
-    %td= @instance.time_last_shutting_down
-  %tr
-    %td :time_last_stopped
-    %td= @instance.time_last_stopped
+%h2 Instance Details
+- form_tag(:action => 'index') do
+  %ul
+    %li
+      = label_tag :ip_address, 'IP Address'
+      %span= @instance.public_ip_addresses
+    %li
+      = label_tag :operating_system, 'Operating system'
+      %span= @instance.template.xml.platform
+    %li
+      = label_tag :provider, 'Provider'
+      %span= @instance.cloud_account.provider.name
+    %li
+      = label_tag :base_template, 'Base Template'
+      %span= @instance.template.name
+    %li
+      = label_tag :architecture, 'Architecture'
+      %span= @instance.hardware_profile.architecture.value
+    %li
+      = label_tag :memory, 'Memory'
+      %span= @instance.hardware_profile.memory.value
+    %li
+      = label_tag :storage, 'Storage'
+      %span= @instance.hardware_profile.storage.value
+    %li
+      = label_tag :instantiation_time, 'Instantiation Time'
+      %span= @instance.created_at.strftime("%d-%b-%Y %H:%M:%S")
+    %li
+      = label_tag :uptime, 'Uptime'
+      %span= @instance.state == Instance::STATE_RUNNING ? @instance.total_state_time : 0 # returns 0, when instance is not running
+    %li
+      = label_tag :current_alerts, 'Current Alerts'
+      %span= 0
+    %li
+      = label_tag :console_connection, 'Console Connection'
+      %span= 'via SSH'
+    %li
+      = label_tag :owner, 'Owner'
+      %span= "#{@instance.owner.first_name} #{@instance.owner.last_name}"
+    %li
+      = label_tag :shared_to, 'Shared to'
+      %span= "N/A"
+
+  = submit_tag 'Back', :name => 'back'

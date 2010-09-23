@@ -33,84 +33,59 @@ class InstanceController < ApplicationController
     require_privilege(Privilege::INSTANCE_VIEW)
 
     @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
-    @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
-    @order = params[:order] || 'name'
-    @instances = Instance.search_filter(params[:search], Instance::SEARCHABLE_COLUMNS).paginate(
-      :page => params[:page] || 1,
-      :order => @order + ' ' + @order_dir
-    )
 
-    if request.xhr? and params[:partial]
-      render :partial => 'instances'
-      return
+    @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
+    @order_field = params[:order_field] || 'name'
+
+    # we can't use pool.instances, because we need custom sorting
+    @sorted_instances_by_pool = {}
+    Instance.find(
+      :all,
+      :include => [:template, :hardware_profile, :owner, :pool],
+      :order => @order_field + ' ' + @order_dir
+    ).each do |inst|
+      pool_id = inst.pool.id
+      next unless @pools.find {|p| p.id == pool_id}
+      (@sorted_instances_by_pool[pool_id] ||= []) << inst
     end
   end
-
-  def select_template
-    if params[:select]
-      redirect_to :action => 'new', 'instance[template_id]' => (params[:ids] || []).first
-    end
-
-    # FIXME: replace by template_view priv
-    require_privilege(Privilege::IMAGE_VIEW)
-    @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
-    @order = "templates.#{params[:order] || 'name'}"
-    @templates = Template.paginate(
-      :page => params[:page] || 1,
-      :order => @order + ' ' + @order_dir,
-      :include => {:images => :replicated_images},
-      :conditions => "replicated_images.uploaded = 't'"
-    )
-    #:include => {:images => :replicated_images}, :conditions => "replicated_images.uploaded = 'f'"
-    @single_select = true
-
-    if request.xhr? and params[:partial]
-      render :partial => 'templates/templates'
-      return
-    end
-  end
-
-  ## Right now this is essentially a duplicate of PoolController#show,
-  #  # but really it should be a single instance should we decide to have a page
-  #  # for that.  Redirect on create was all that brought you here anyway, so
-  #  # should be unused for the moment.
-  #def show
-  #  require_privilege(Privilege::INSTANCE_VIEW,@pool)
-  #  @pool = Pool.find(params[:id])
-  #  @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
-  #  @order = params[:order] || 'name'
-  #  @instances = Instance.search_filter(params[:search], Instance::SEARCHABLE_COLUMNS).paginate(
-  #    :page => params[:page] || 1,
-  #    :order => @order + ' ' + @order_dir,
-  #    :conditions => {:pool_id => @pool.id}
-  #  )
-  #  if request.xhr? and params[:partial]
-  #    render :partial => 'instances'
-  #    return
-  #  end
-  #end
 
   def show
     @instance = Instance.find(params[:id])
+    require_privilege(Privilege::INSTANCE_VIEW, @instance.pool)
   end
 
   def new
     @instance = Instance.new(params[:instance])
     require_privilege(Privilege::INSTANCE_MODIFY, @instance.pool) if @instance.pool
-    @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
-    # FIXME: what error msg to show if no pool is selected and the user has
-    # permission on none?
-    @instance.pool = @pools[0] if (@instance.pool.nil? and (@pools.size == 1))
+    # FIXME: we need to list only templates for particular user,
+    # => TODO: add TEMPLATE_* permissions
+    @templates = Template.paginate(
+      :page => params[:page] || 1,
+      :include => {:images => :replicated_images},
+      :conditions => "replicated_images.uploaded = 't'"
+    )
+  end
+
+  def configure
+    @instance = Instance.new(params[:instance])
+    require_privilege(Privilege::INSTANCE_MODIFY, @instance.pool)
   end
 
   def create
+    if params[:cancel]
+      redirect_to :action => 'new'
+      return
+    end
+
     @instance = Instance.new(params[:instance])
     @instance.state = Instance::STATE_NEW
     @instance.owner_id = current_user
+
     require_privilege(Privilege::INSTANCE_MODIFY,
                       Pool.find(@instance.pool_id))
     #FIXME: This should probably be in a transaction
-    if @instance.save
+    if @instance.save!
 
       @task = InstanceTask.new({:user        => current_user,
                                 :task_target => @instance,
@@ -118,27 +93,48 @@ class InstanceController < ApplicationController
       if @task.save
         condormatic_instance_create(@task)
         flash[:notice] = "Instance added."
-        redirect_to :controller => "pool", :action => 'show', :id => @instance.pool_id
+        redirect_to :action => 'index'
       else
         @pool = @instance.pool
-        render :action => 'new'
+        render :action => 'configure'
       end
     else
-      @pool = Pool.find(@instance.pool_id)
-      render :action => 'new'
+      #@pool = Pool.find(@instance.pool_id)
+      @hardware_profiles = HardwareProfile.all
+      render :action => 'configure'
     end
   end
 
   def instance_action
-    action = params[:instance_action]
-    action_args = params[:action_data]
-    @instance = Instance.find(params[:id])
-    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
-    unless @instance.valid_action?(action)
-      raise ActionError.new("#{action} is an invalid action.")
+    params.keys.each do |param|
+      if param =~ /^launch_instance_(\d+)$/
+        redirect_to :action => 'new', 'instance[pool_id]' => $1
+        return
+      end
     end
+
+    @instance = Instance.find((params[:id] || []).first)
+    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
+
+    if params[:instance_details]
+      render :action => 'show'
+      return
+    end
+
+    # action list will be longer (restart, start, stop..)
+    action = if params[:shutdown]
+               'stop'
+             #elsif params[:restart]
+             #  'restart'
+             end
+
+    unless @instance.valid_action?(action)
+      raise ActionError.new("'#{action}' is an invalid action.")
+    end
+
+    # not sure if task is used as everything goes through condor
     #permissons check here
-    @task = @instance.queue_action(@current_user, action, action_args)
+    @task = @instance.queue_action(@current_user, action)
     unless @task
       raise ActionError.new("#{action} cannot be performed on this instance.")
     end
@@ -154,9 +150,8 @@ class InstanceController < ApplicationController
         raise ActionError.new("Sorry, action '#{action}' is currently not supported by condor backend.")
     end
 
-    alert = "#{@instance.name}: #{action} was successfully queued."
-    flash[:notice] = alert
-    redirect_to :controller => "pool", :action => 'show', :id => @instance.pool_id
+    flash[:notice] = "#{@instance.name}: #{action} was successfully queued."
+    redirect_to :action => 'index'
   end
 
   def delete

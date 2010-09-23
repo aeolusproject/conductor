@@ -44,6 +44,7 @@ class CreateInstances < ActiveRecord::Migration
       t.timestamp :time_last_running
       t.timestamp :time_last_shutting_down
       t.timestamp :time_last_stopped
+      t.string    :public_ip_addresses
       t.timestamps
     end
   end

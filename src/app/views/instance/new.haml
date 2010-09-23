@@ -1,78 +1,14 @@
-:javascript
-  $(document).ready(function() {
-    $(".select_template").click(function() {
-      var wrapper = $("#select_template_dialog");
-      if (wrapper.length == 0) wrapper = $('<div id="select_template_dialog"></div>');
-      wrapper.dialog({
-        title: "Select template for new instance",
-        width: 600,
-        height: 500,
-        modal: true,
-        overlay: {opacity: 0.2, background: "black"}
-      });
-      wrapper.load('#{url_for :action => 'select_template'}', null, function() {
-        $(":submit[name=select]").click(function() {
-          var checkbox = $("input[name='ids[]']:checked").first();
-          var id = checkbox.val();
-          if (id !== undefined) {
-            var name = $(".template_name", checkbox.parent().parent()).text();
-            $(".select_template").text(name);
-            $("input[name='instance[template_id]']").val(id);
-          }
-          $("#select_template_dialog").dialog('close');
-          return false;
-        });
-      });
-      return false;
-    });
-
-    $("select[name='instance[pool_id]']").change(function() {
-      location.href = '#{url_for(:action => "new")}?' + $("#instance_form").serialize();
-    });
-  });
-.dcloud_form
-  = error_messages_for 'instance'
-  %h2 Add a New Instance
-  %br/
-  - form_tag({:action => 'create'}, :id => "instance_form") do
-    %ul
-      %li
-        %label
-          Name
-          %span Name for this new Instance
-        = text_field :instance, :name, :class => "txtfield"
-      %li
-        %label
-          Template
-          %span Choose a template to use
-        = link_to(@instance.template ? @instance.template.name : "Select template...", {:action => 'select_template'}, {:class => 'actionlink select_template'})
-    %input{:name => "instance[template_id]", :type => "hidden", :value => @instance.template ? @instance.template.id : ''}/
-    - if @instance.pool
-      %input{:name => "instance[pool_id]", :type => "hidden", :value => @instance.pool_id}/
-    - if (@pools.size > 1)
-      %li
-        %label Pool
-        = @instance.pool.name
-    - else
-      %li
-        %label
-          Pool
-          %span Pick your pool
-        = select("instance", "pool_id",           |
-          @pools.collect {|p| [ p.name, p.id ] }, |
-          { :include_blank => true })             |
-    - if @instance.pool and @instance.pool.hardware_profiles.size > 0
-      %li
-        %label
-          Hardware Profile
-          %span Pick your hardware profile
-        = select("instance", "hardware_profile_id",                         |
-          @instance.pool.hardware_profiles.collect {|p| [ p.name, p.id ] }, |
-          { :include_blank => true })                                       |
-    - if @instance.pool and @instance.pool.realms.size > 0
-      %li
-        %label
-          Realm
-          %span Choose a realm
-        = select("instance", "front_end_realm", @instance.pool.realms, { :include_blank => true })
-    = submit_tag "Save", :class => "submit"
+%h3 Show Templates
+%hr
+%ul
+  - @templates.each do |tpl|
+    %li
+      - form_tag(:action => 'configure') do
+        = hidden_field :instance, :template_id, :value => tpl.id
+        = hidden_field :instance, :pool_id, :value => @instance.pool.id
+        %img{:src => "/images/platform_#{tpl.platform}.png", :width => '32px', :height => '32px', :alt => tpl.platform}
+        %h3= tpl.name
+        %p= tpl.summary
+        = submit_tag 'Launch', :name => 'launch'
+= will_paginate(@templates)
+= page_entries_info(@templates)
