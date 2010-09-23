@@ -31,8 +31,10 @@
       %header.container_16
         = render :partial => '/layouts/header'
     - if current_user.nil?
-      #formwindow
-        = yield
+      #content.container_16
+        = render :partial => '/layouts/notification'
+        #formwindow
+          = yield
     - else
       #subheader
         %form#s.container_16
