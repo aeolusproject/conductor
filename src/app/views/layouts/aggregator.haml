@@ -49,6 +49,6 @@
         = render_navigation(:expand_all => true, :level => 3)
       #content.container_16
         = render :partial => '/layouts/notification'
-        = (yield(:content) or yield) # content is set if we're using a sub template
+        = yield
       %footer
         = render :partial => "layouts/footer"

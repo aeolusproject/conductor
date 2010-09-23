@@ -19,4 +19,44 @@
 # Likewise, all the methods added will be available for all controllers.
 
 module DashboardHelper
+
+  def monitor_quota_value(name, value, unit)
+    name=content_tag 'td', :class => 'first nowrap' do
+      name
+    end
+    value=content_tag 'td' do
+      content_tag 'div', :class => 'percentBlock' do
+        value
+      end
+    end
+    unit=content_tag 'td' do
+      unit
+    end
+    "#{name}#{value}#{unit}"
+  end
+
+  def monitor_bar_value(value, opts={})
+    bar=content_tag 'td' do
+      percent_block=content_tag 'div', :class => 'percentBlock' do
+        # TODO: Count text-indent value correctly here
+        bar_style = "width:#{value}%;text-indent:14%"
+        content_tag 'div', :class => 'percentBlockInner gradGreen', :style => bar_style do
+          "#{value}%"
+        end
+      end
+      if opts[:min] and opts[:max]
+        min=content_tag 'div', :class => 'min' do "#{opts[:min]}% Min" ; end
+        max=content_tag 'div', :class => 'min' do "#{opts[:max]}% Max" ; end
+        "#{percent_block}#{min}#{max}"
+      else
+        percent_block
+      end
+    end
+    total=content_tag 'td' do
+      "#{opts[:total]}"
+    end
+    "#{bar}#{total}"
+  end
+
+
 end

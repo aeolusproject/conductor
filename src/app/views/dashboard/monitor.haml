@@ -1,0 +1,156 @@
+%h2 Key Metrics
+%table{ :class => 'noborder' }
+  %thead
+    %tr
+      %th
+      %th{ :colspan => 2 } Aggregate quota
+      %th{ :colspan => 2 } Current usage
+      %th{ :colspan => 2 } Avg: Last 24 hours
+      %th{ :colspan => 2 } Avg: Last month
+      %th{ :colspan => 2 } Avg: Calendar year
+  %tbody
+    %tr
+      =monitor_quota_value "Number of Instances", '2.500', 'Instances'
+      =monitor_bar_value '32', :total => '2351'
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+    %tr
+      =monitor_quota_value "System Storage", '1.200', 'Templates'
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+    %tr
+      =monitor_quota_value "Operational Storage", '512', 'TB'
+      =monitor_bar_value '32', :total => '2351'
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+    %tr
+      =monitor_quota_value "Customed Network Traffic", '824', 'GB'
+      =monitor_bar_value '32', :total => '2351'
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+    %tr
+      =monitor_quota_value "Cost per hour", '824', '�'
+      =monitor_bar_value '32', :total => '102'
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+
+%h2 Aggregate quality of service
+%img{ :src => '/dev/null', :width => '943', :height => '381'}
+%div{ :class => 'grid_4' }
+  %h4 Show:
+  %ul
+    %li
+      %input{ :type => 'checkbox', :checked => 'checked', :name => 'instances' }
+      %label{ :for => 'instances' } Instances
+    %li
+      %input{ :type => 'checkbox', :checked => 'checked', :name => 'time_to' }
+      %label{ :for => 'time_to' } Time to
+    %li
+      %input{ :type => 'checkbox', :checked => 'checked', :name => 'launch_failures' }
+      %label{ :for => 'launch_failures' } Launch failures
+    %li
+      %input{ :type => 'checkbox', :checked => 'checked', :name => 'requests' }
+      %label{ :for => 'requests' } Requests
+    %li
+      %input{ :type => 'checkbox', :checked => 'checked', :name => 'retries' }
+      %label{ :for => 'retries' } Retries
+
+%div{ :class => 'grid_4' }
+  %h4 Set time scale:
+  %ul
+    %li
+      %input{ :type => 'radio', :checked => 'checked', :name => '1' }
+      %label{ :for => '1' } 30 minutes
+    %li
+      %input{ :type => 'radio', :checked => 'checked', :name => '2' }
+      %label{ :for => '2' } 2 hours
+    %li
+      %input{ :type => 'radio', :checked => 'checked', :name => '3' }
+      %label{ :for => '3' } 2 days
+    %li
+      %input{ :type => 'radio', :checked => 'checked', :name => '4' }
+      %label{ :for => '4' } 1 week
+    %li
+      %input{ :type => 'radio', :checked => 'checked', :name => '5' }
+      %label{ :for => '5' } 1 month
+
+%div{ :class => 'grid_8' }
+  %h4 Graph key:
+  %ul
+    %li
+      %img{:src => '/dev/null', :width => '80', :height => '20'}
+      INSTANCES
+    %li
+      %img{:src => '/dev/null', :width => '80', :height => '20'}
+      REQUESTS
+    %li
+      %img{:src => '/dev/null', :width => '80', :height => '20'}
+      TIME TO LAUNCH
+    %li
+      %img{:src => '/dev/null', :width => '80', :height => '20'}
+      FAILURES
+    %li
+      %img{:src => '/dev/null', :width => '80', :height => '20'}
+      RETRIES
+
+%h2 Statistics
+
+%h2 Quality of service provider
+%img{ :src => '/dev/null', :width => '943', :height => '381'}
+%div{ :class => 'grid_4' }
+  %h4 Show:
+  %ul
+    %li
+      %input{ :type => 'checkbox', :checked => 'checked', :name => 'instances' }
+      %label{ :for => 'instances' } Instances
+    %li
+      %input{ :type => 'checkbox', :checked => 'checked', :name => 'time_to' }
+      %label{ :for => 'time_to' } Time to
+    %li
+      %input{ :type => 'checkbox', :checked => 'checked', :name => 'launch_failures' }
+      %label{ :for => 'launch_failures' } Launch failures
+    %li
+      %input{ :type => 'checkbox', :checked => 'checked', :name => 'requests' }
+      %label{ :for => 'requests' } Requests
+    %li
+      %input{ :type => 'checkbox', :checked => 'checked', :name => 'retries' }
+      %label{ :for => 'retries' } Retries
+
+%div{ :class => 'grid_4' }
+  %h4 Set time scale:
+  %ul
+    %li
+      %input{ :type => 'radio', :checked => 'checked', :name => '1' }
+      %label{ :for => '1' } 30 minutes
+    %li
+      %input{ :type => 'radio', :checked => 'checked', :name => '2' }
+      %label{ :for => '2' } 2 hours
+    %li
+      %input{ :type => 'radio', :checked => 'checked', :name => '3' }
+      %label{ :for => '3' } 2 days
+    %li
+      %input{ :type => 'radio', :checked => 'checked', :name => '4' }
+      %label{ :for => '4' } 1 week
+    %li
+      %input{ :type => 'radio', :checked => 'checked', :name => '5' }
+      %label{ :for => '5' } 1 month
+
+%div{ :class => 'grid_8' }
+  %h4 Graph key:
+  %ul
+    %li
+      %img{:src => '/dev/null', :width => '80', :height => '20'}
+      INSTANCES
+    %li
+      %img{:src => '/dev/null', :width => '80', :height => '20'}
+      REQUESTS
+    %li
+      %img{:src => '/dev/null', :width => '80', :height => '20'}
+      TIME TO LAUNCH
+    %li
+      %img{:src => '/dev/null', :width => '80', :height => '20'}
+      FAILURES
+    %li
+      %img{:src => '/dev/null', :width => '80', :height => '20'}
+      RETRIES
