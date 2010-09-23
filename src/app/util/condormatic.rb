@@ -207,17 +207,17 @@ def condormatic_classads_sync
     pipe.close_write
     out = pipe.read
     pipe.close
+
+    Rails.logger.info "Did invalidate, output is #{out}"
+
+    if $? != 0
+      Rails.logger.error "Unable to invalidate classads: #{out}"
+      raise "Unable to invalidate classads, classad sync failed"
+    end
   rescue Errno::EPIPE
     # if we failed to run condor_advertise, then in all likelihood condor isn't
     # installed or isn't running.  In that case, there can't be any old
     # classads, so we just go on
-  end
-
-  Rails.logger.info "Did invalidate, output is #{out}"
-
-  if $? != 0
-    Rails.logger.error "Unable to invalidate classads: #{out}"
-    raise "Unable to invalidate classads, classad sync failed"
   end
 
   Rails.logger.info "Syncing classads.."
