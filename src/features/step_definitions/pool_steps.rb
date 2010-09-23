@@ -3,9 +3,9 @@ Given /^I am an authorised user$/ do
   @user = @admin_permission.user
 end
 
-Given /^I own a pool named "([^\"]*)"$/ do |name|
+Given /^I have Pool Creator permissions on a pool named "([^\"]*)"$/ do |name|
   @pool = Factory(:pool, :name => name)
-  @user.owned_pools << @pool
+  Factory(:pool_creator_permission, :user => @user, :permission_object => @pool)
 end
 
 Given /^the Pool has the following Hardware Profiles:$/ do |table|
@@ -65,6 +65,8 @@ Given /^the Pool has a quota with following capacities:$/ do |table|
   end
 
   @quota = Factory(:quota, quota_hash)
+  @quota.save!
+
   @pool.quota_id = @quota.id
   @pool.save
 end

@@ -31,7 +31,7 @@ describe UsersController do
         }.should change{ User.count }
         p = Pool.find_by_name("tuser2")
         p.should_not be_nil
-        assigns[:user].login.should == p.owner.login
+
         p.name.should == "tuser2"
         p.permissions.size.should == 1
         p.permissions.any? {

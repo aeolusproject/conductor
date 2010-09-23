@@ -14,8 +14,7 @@ class RegistrationService
     begin
     User.transaction do
       @user.save!
-      @pool = Pool.create!({ :name => @user.login, :owner => @user,
-                           :zone => Zone.default})
+      @pool = Pool.create!({ :name => @user.login, :zone => Zone.default})
 
       @quota = Quota.new
       @quota.save!

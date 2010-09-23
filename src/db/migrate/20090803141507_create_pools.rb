@@ -24,7 +24,6 @@ class CreatePools < ActiveRecord::Migration
     create_table :pools do |t|
       t.string :name, :null => false
       t.string :exported_as
-      t.integer :owner_id, :null => false
       t.integer :quota_id
       t.integer :zone_id, :null => false
       t.integer :lock_version, :default => 0

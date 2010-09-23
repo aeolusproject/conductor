@@ -58,8 +58,7 @@ describe DataServiceActiveRecord do
   end
 
   it "should calculate the average, max and min task submission times" do
-    user = Factory :user
-    pool = Factory(:pool, :owner => user)
+    pool = Factory(:pool)
     instance = Factory(:instance, :pool_id => pool.id)
 
     start_time = Time.utc(2010,"jan",1,20,15,1)
@@ -86,8 +85,7 @@ describe DataServiceActiveRecord do
   end
 
   it "should create data points for the average, max and min task submission times between two times at given intervals" do
-    user = Factory :user
-    pool = Factory(:pool, :owner => user)
+    pool = Factory(:pool)
     instance = Factory(:instance, :pool_id => pool.id)
 
     expected_averages = [ 20, 40, 60, 80, 100]
@@ -164,8 +162,7 @@ describe DataServiceActiveRecord do
     runtime3 = [100, 200, 300, 400, 500]
     runtimes = [runtime1, runtime2, runtime3]
 
-    user = Factory :pool_user
-    pool = Factory(:pool, :owner => user)
+    pool = Factory(:pool)
     cloud_account = Factory :mock_cloud_account
 
     for i in 0..2 do
@@ -188,8 +185,7 @@ describe DataServiceActiveRecord do
   end
 
   it "should generate the mean max and min instance runtimes of instances for a given cloud account or pool" do
-    user = Factory :pool_user
-    pool = Factory(:pool, :owner => user)
+    pool = Factory(:pool)
 
     cloud_account = Factory :mock_cloud_account
 
@@ -208,8 +204,7 @@ describe DataServiceActiveRecord do
   end
 
   it "should calculate the average time it takes a provider to complete a task between two times" do
-    user = Factory :pool_user
-    pool = Factory(:pool, :owner => user)
+    pool = Factory(:pool)
     cloud_account = Factory(:mock_cloud_account)
     instance = Factory(:instance, :pool => pool, :cloud_account => cloud_account)
 
@@ -246,8 +241,8 @@ describe DataServiceActiveRecord do
     start_time = Time.utc(2010,"jan",1,20,15,1)
     create_time = start_time + 1
     end_time = create_time + 1
-    user = Factory :pool_user
-    pool = Factory(:pool, :owner => user)
+
+    pool = Factory(:pool)
     cloud_account = Factory :mock_cloud_account
     instance = Factory(:instance, :pool => pool, :cloud_account => cloud_account)
 
@@ -293,8 +288,7 @@ describe DataServiceActiveRecord do
     failures = [5, 10, 15]
     number_of_instances = 20
 
-    user = Factory :pool_user
-    pool = Factory(:pool, :owner => user)
+    pool = Factory(:pool)
     cloud_account = Factory :mock_cloud_account
     instance = Factory(:instance, :pool => pool, :cloud_account => cloud_account)
 

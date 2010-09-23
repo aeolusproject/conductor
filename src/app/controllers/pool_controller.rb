@@ -78,11 +78,6 @@ class PoolController < ApplicationController
   def create
     require_privilege(Privilege::POOL_MODIFY)
 
-    #FIXME: owner is set to current user for self-service account creation,
-    # but in the more general case we need a way for the admin to pick
-    # a user
-    params[:pool][:owner_id] = @current_user.id
-
     #FIXME: This should probably be in a transaction
     @pool = Pool.new(params[:pool])
     # FIXME: do we need any more handling around save failures? What if perm
@@ -95,10 +90,6 @@ class PoolController < ApplicationController
 
     @pool.zone = Zone.default
     @pool.save!
-    perm = Permission.new(:user => @pool.owner,
-                          :role => Role.find_by_name("Instance Creator and User"),
-                          :permission_object => @pool)
-    perm.save!
 
     flash[:notice] = "Pool added."
     redirect_to :action => 'show', :id => @pool.id

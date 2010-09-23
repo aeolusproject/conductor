@@ -21,7 +21,7 @@ Feature: Manage Pools
 	And I should have a pool named "mockpool"
 
   Scenario: View Pool's Hardware Profiles
-	  Given I own a pool named "mockpool"
+	  Given I have Pool Creator permissions on a pool named "mockpool"
 	  And the Pool has the following Hardware Profiles:
 	  | name      | memory | cpu |storage  | architecture |
 	  | m1-small  | 1740   | 2   | 160.0   | i386         |
@@ -37,7 +37,7 @@ Feature: Manage Pools
 	  | m1-xlarge | 8192 | 8 | 1690.0 | x86_64 |
 
   Scenario: View Pool's Realms
-	  Given I own a pool named "mockpool"
+	  Given I have Pool Creator permissions on a pool named "mockpool"
 	  And the Pool has the following Realms named "Europe, United States"
 	  And I am on the instances page
 	  When I follow "mockpool"
@@ -48,7 +48,7 @@ Feature: Manage Pools
 
   @tag
   Scenario: View Pool's Quota Usage
-    Given I own a pool named "mockpool"
+    Given I have Pool Creator permissions on a pool named "mockpool"
     And the Pool has a quota with following capacities:
     | resource                  | capacity |
     | maximum_running_instances | 10       |
@@ -60,5 +60,5 @@ Feature: Manage Pools
     Then I should be on the show pool page
     When I follow "Quota"
     Then I should see the following:
-    | Running Instances | 10           | 8             | 2             |
-    | Total Instances   | 15           | 15            | 0             |
+    | Running Instances | 10           | 8             |
+    | Total Instances   | 15           | 15            |
