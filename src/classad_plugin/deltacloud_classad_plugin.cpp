@@ -49,7 +49,6 @@ deltacloud_quota_check(const char *name, const ArgumentList &arglist,
     bool val = false;
     char *ruby_string;
     std::stringstream method_args;
-    static int ruby_initialized = 0;
 
     result.SetBooleanValue(false);
 
@@ -86,43 +85,50 @@ deltacloud_quota_check(const char *name, const ArgumentList &arglist,
     }
     //print_value(fp, account_id, "account_id");
 
-    if (!ruby_initialized) {
-        ruby_init();
-        ruby_init_loadpath();
-    }
+    ruby_init();
+    ruby_init_loadpath();
 
-    method_args << "'" << instance_key << "', " << account_id;
+    method_args << "'" << DELTACLOUD_INSTALL_DIR << "/config/database.yml', '"
+		<< instance_key << "', " << account_id;
 
     asprintf(&ruby_string,
              "$: << '%s/classad_plugin'\n"
-             "$: << '%s/dutils'\n"
-             "$: << '%s/models'\n"
+             "$: << '%s/app/models'\n"
+             "logf = File.new('%s', 'a')\n"
+             "logf.puts \"Loading ruby support file from %s/classad_plugin\"\n"
              "begin\n"
              "   require 'classad_plugin.rb'\n"
-             "   classad_plugin(%s)\n"
+             "   ret = classad_plugin(logf, %s)\n"
              "rescue Exception => ex\n"
-             "   f = File.new('%s', 'a')\n"
-             "   f.write \"Error running classad plugin: #{ex.message}\"\n"
-             "   f.write ex.backtrace\n"
-             "   f.close\n"
-             "   false\n"
-             "end\n",
+             "   logf.puts \"Error running classad plugin: #{ex.message}\"\n"
+             "   logf.puts ex.backtrace\n"
+             "   ret = false\n"
+             "end\n"
+             "logf.close\n"
+             "ret",
              DELTACLOUD_INSTALL_DIR,
              DELTACLOUD_INSTALL_DIR,
+             LOGFILE,
              DELTACLOUD_INSTALL_DIR,
-             method_args.str().c_str(),
-             LOGFILE);
+             method_args.str().c_str());
 
+    fprintf(fp, "ruby string is %s\n", ruby_string);
     fflush(fp);
 
     res = rb_eval_string(ruby_string);
     free(ruby_string);
 
+    /* FIXME: I'd like to call ruby_finalize here, but it spews weird errors:
+     *
+     * Error running classad plugin: wrong argument type Mutex (expected Data)
+     */
+    //ruby_finalize();
+
+    fprintf(fp, "Returned result from ruby code was %s\n", (res == Qtrue) ? "true" : "false");
+
     if (res == Qtrue) {
         result.SetBooleanValue(true);
         val = true;
-    } else {
-        fprintf(fp, "Returned result from ruby code was %s\n", (res == Qtrue) ? "true" : "false");
     }
 
  do_ret:
