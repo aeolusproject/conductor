@@ -16,9 +16,10 @@ a {
   }
 }
 
+/* TEXT ENTRIES */
 input,textarea {
   @include inset-box-shadow(0,1px,1px,rgba(0, 0, 0, 0.2));
-  border: 1px solid #BBBCBA;
+  border: 1px solid darken($strokecl,20%);
   background-color: #f0f0f0;
   background: #f0f0f0 url(/images/input-bg.png) repeat-x 0 0;
   padding: 4px;
@@ -35,23 +36,34 @@ input,textarea {
     padding: 4px 30px 4px 10px;
     width: 80%;
   }
+  /* CHECKBOXES */
+  input[type="checkbox"] {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 2px;
+    &:focus {
+      border-width: 1px;
+      padding: 1px;
+    }
+  }
 
+/* BUTTONS */
 input[type='submit'],button,.button {
+  font-family: $screenfont; /* for some reason ff3.6 won't inherit from body */
+  font-size: 10px;
+  display: inline-block;
   background: -moz-linear-gradient(top, #f9f9f9, #f0f0f0, #e5e5e5, #e9e9e9);
   background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), color-stop(0.9, #e5e5e5), to(#e9e9e9));
-  box-shadow: none;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
+  @include no-box-shadow;
   border: 1px solid #555753;
   color: #221e1f;
   cursor: pointer;
-  font-size: 10px;
-  margin: 20px 0;
+  margin: 4px;
   padding: 4px 12px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-   text-shadow: 0 1px 0 #fff;
-   -webkit-text-shadow: 0 1px 0 #fff;
+  @include border-radius(5px);
+  @include text-shadow(0, 1px, 0, #fff);
+   min-height: 14px;
   .nomargin {
     margin: 0;
   }
@@ -59,6 +71,8 @@ input[type='submit'],button,.button {
     background: -moz-linear-gradient(top, #fff, #fff, #cfcfcf);
     background: -webkit-gradient(linear, left top, left bottom, from(#fff), color-stop(0.6, #fff), to(#cfcfcf));
     @include box-shadow(0, 1px, 2px, rgba(0,0,0,0.5));
+    text-decoration: none;
+    color: black;
   }
   &:active {
     background: -moz-linear-gradient(top, #c2c3c0, #e4e5e4);
@@ -67,9 +81,18 @@ input[type='submit'],button,.button {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     padding: 5px 12px 3px;
+    text-decoration: none;
+  }
+  &:focus {
+    text-decoration: none;
+    color: #000;
+    border-width: 2px;
+    padding: 3px 11px;
   }
   &.dialogbutton {
     float: right;
+    margin-left: 3px;
+    margin: 40px 4px 4px;
   }
 }
 
@@ -342,7 +365,8 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
     padding: 10px;
   }
   .dcloud_form {
-    margin: 20px;
+    margin: 40px;
+    overflow: hidden;
   }
   .errorExplanation {
     h2 {
@@ -356,24 +380,44 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
   margin-bottom: 60px;
 }
 
+/* FORMS */
+
+/* simple two column label + input pairs */
 .dcloud_form {
   fieldset {
     overflow: hidden;
     margin: 10px 0 0;
+    text-align: right;
     label {
-      width: 140px;
-      float: left;
-      text-align: right;
+      display: inline-block;
       font-weight: bold;
       padding: 4px 10px 0 0;
+      max-width: 10em;
     }
     input {
-
+      display: inline-block;
+      width: 20em;
+    }
+    .fieldWithErrors {
+      display: inline-block;
+      border: 0; margin: 0; padding: 0;
+      input {
+        background-color: lighten($errorcl, 45%);
+        color: $errorcl;
+      }
+      label {
+        color: $errorcl;
+      }
     }
   }
   .indented {
     margin: 10px 0 0;
-    padding-left: 150px;
+    text-align: right;
+    input[type="text"],label,a,div,p {
+      text-align: left;
+      display: inline-block;
+      width: 20em;
+    }
   }
 }
 
@@ -398,3 +442,14 @@ footer {
     bottom: 0; left: 0; right: 0;
   }
 }
+
+
+/* IE and other horror browser workarounds */
+
+/* basic image styling for buttons in older browsers */
+.no-cssgradients input[type='submit'], .no-cssgradients button, .no-cssgradients .button {
+  /* FIXME image based buttons */
+}
+
+/* when modalbox miss dropshadow set some border */
+.no-boxshadow .modalbox { border: 2px solid $strokecl; }

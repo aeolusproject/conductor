@@ -11,6 +11,9 @@ $formheadbg: #eee;
 $formheadfg: #333;
 
 $footerbg: #f3f3f3;
+$strokecl: #ddd;
+$errorcl: #cb292b;
+$warningcl: #f6a20a;
 
 $operationbg: #00a5dd;
 $administrationbg: #a7b40a;
@@ -36,6 +39,12 @@ $runtimebg: #d83e40;
   box-shadow: inset $x $y $blur $color;
   -moz-box-shadow: inset $x $y $blur $color;
   -webkit-box-shadow: inset $x $y $blur $color;
+}
+
+@mixin no-box-shadow {
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 @mixin text-shadow($x,$y,$blur,$color) {

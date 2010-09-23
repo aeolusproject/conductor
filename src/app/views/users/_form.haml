@@ -1,19 +1,18 @@
-%ul
-  %li
-    = form.label :login, "Choose a username"
-    = form.text_field :login
-  %li
-    = form.label :password, form.object.new_record? ? "Choose a password" : "Change password"
-    = form.password_field :password
-  %li
-    = form.label :password_confirmation, "Confirm password"
-    = form.password_field :password_confirmation
-  %li
-    = form.label :first_name
-    = form.text_field :first_name
-  %li
-    = form.label :last_name
-    = form.text_field :last_name
-  %li
-    = form.label :email
-    = form.text_field :email
+%fieldset
+  = form.label :login, "Choose a username:"
+  = form.text_field :login
+%fieldset
+  = form.label :password, form.object.new_record? ? "Choose a password:" : "Change password:"
+  = form.password_field :password
+%fieldset
+  = form.label :password_confirmation, "Confirm password:"
+  = form.password_field :password_confirmation
+%fieldset
+  = form.label :first_name
+  = form.text_field :first_name
+%fieldset
+  = form.label :last_name
+  = form.text_field :last_name
+%fieldset
+  = form.label :email
+  = form.text_field :email
