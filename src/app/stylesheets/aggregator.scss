@@ -94,8 +94,25 @@ input[type='submit'],button,.button {
     margin-left: 3px;
     margin: 40px 4px 4px;
   }
+  &.disabled {
+    cursor: default;
+    background: transparent;
+    /* @include no-box-shadow; */
+    &:hover {
+      background: transparent;
+    }
+  }
 }
 
+h2 {
+  font-size: 130%;
+  text-transform: uppercase;
+  color: $headercl;
+}
+
+.clear {
+  clear: both;
+}
 .action {
   background: url(/images/icons/action-icons.png) no-repeat 0 0;
   &:hover {
@@ -420,6 +437,78 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
     }
   }
 }
+
+/* WIZARD TILES */
+
+ul.tiles {
+  overflow: hidden;
+  li.grid_8 {
+    margin-bottom: 30px;
+    padding-left: 60px;
+    width: 400px !important;
+    position: relative;
+    img {
+      position: absolute;
+      background: url(/images/icons/config-icons.png) no-repeat 0 0;
+      width: 48px; height: 48px;
+      top: 0; left: 0;
+    }
+  }
+  button {
+    float: right;
+  }
+  .disabled {
+    opacity: 0.2;
+    button {
+      pointer: default;
+    }
+  }
+}
+
+/* CONFIG PANE ICONS */
+
+  #settings {
+    img { background-position: 0 -48px; }
+    &.disabled {
+      img { background-position: 0 0; }
+    }
+  }
+  #locales {
+    img { background-position: -48px -48px; }
+    &.disabled {
+      img { background-position: -48px 0; }
+    }
+  }
+  #users {
+    img { background-position: -144px -48px; }
+    &.disabled {
+      img { background-position: -144px 0; }
+    }
+  }
+  #providers {
+    img { background-position: -96px -48px; }
+    &.disabled {
+      img { background-position: -96px 0; }
+    }
+  }
+  #permissions {
+    img { background-position: -288px -48px; }
+    &.disabled {
+      img { background-position: -288px 0; }
+    }
+  }
+  #hardware {
+    img { background-position: -240px -48px; }
+    &.disabled {
+      img { background-position: -240px 0; }
+    }
+  }
+  #services {
+    img { background-position: -192px -48px; }
+    &.disabled {
+      img { background-position: -192px 0; }
+    }
+  }
 
 footer {
   font-size: 90%;
