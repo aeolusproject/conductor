@@ -5,6 +5,7 @@ class CreateTemplates < ActiveRecord::Migration
       t.binary  :xml, :null => false
       t.string  :uri
       t.string  :name
+      t.string  :platform
       t.text    :summary
       t.boolean :complete, :default => false
       t.timestamps

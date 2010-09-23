@@ -8,8 +8,12 @@ class Template < ActiveRecord::Base
   WAREHOUSE_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")
 
   validates_presence_of :uuid
-  #validates_presence_of :name
   validates_uniqueness_of :uuid
+  # uncomment this after reworking view (currently is used wizard,
+  # so there can be situation when save is called and name and platform can be
+  # unset)
+  #validates_presence_of :name
+  #validates_presence_of :platform
 
   def update_xml_attributes!(opts = {})
     doc = xml
@@ -47,6 +51,7 @@ class Template < ActiveRecord::Base
     self.uuid ||= "#{xml.name}-#{Time.now.to_f.to_s}"
     self.name = xml.name
     self.summary = xml.description
+    self.platform = xml.platform
   end
 
   def providers
