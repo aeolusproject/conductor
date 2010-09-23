@@ -200,12 +200,18 @@ def condormatic_classads_sync
   # racy, though, so I'm more inclined to just invalidate
   # everything at present.
   Rails.logger.info "Starting classad invalidate..."
-  pipe = IO.popen("condor_advertise INVALIDATE_STARTD_ADS 2>&1", "w+")
-  pipe.puts 'MyType="Query"'
-  pipe.puts 'TargetType="Machine"'
-  pipe.close_write
-  out = pipe.read
-  pipe.close
+  begin
+    pipe = IO.popen("condor_advertise INVALIDATE_STARTD_ADS 2>&1", "w+")
+    pipe.puts 'MyType="Query"'
+    pipe.puts 'TargetType="Machine"'
+    pipe.close_write
+    out = pipe.read
+    pipe.close
+  rescue Errno::EPIPE
+    # if we failed to run condor_advertise, then in all likelihood condor isn't
+    # installed or isn't running.  In that case, there can't be any old
+    # classads, so we just go on
+  end
 
   Rails.logger.info "Did invalidate, output is #{out}"
 
