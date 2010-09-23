@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
   $(window).scroll(positionFooter).resize(positionFooter).scroll();
-  $("form").html5form();
+  //$("form").html5form();
 });
 
 
