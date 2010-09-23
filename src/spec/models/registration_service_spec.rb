@@ -39,4 +39,26 @@ describe RegistrationService do
       end
     end
   end
+
+  it "should register a user with default pool/quota/role when default settings set" do
+    @user = Factory :user
+    @pool = Factory(:pool, :name => "default_pool")
+    @role = Role.find_by_name("Instance Creator and User")
+    @quota = Factory :quota
+
+    MetadataObject.set("allow_self_service_logins", "true")
+    MetadataObject.set("self_service_default_pool", @pool)
+    MetadataObject.set("self_service_default_role", @role)
+    MetadataObject.set("self_service_default_quota", @quota)
+
+    @registration_service = RegistrationService.new(@user)
+    @registration_service.save
+
+    @pools = Pool.list_for_user(@user, Privilege::INSTANCE_VIEW)
+    @pools.size.should == 1
+    @pools[0].name.should == "default_pool"
+
+    @user.quota.maximum_running_instances.should == @quota.maximum_running_instances
+    @user.quota.maximum_total_instances.should == @quota.maximum_total_instances
+  end
 end

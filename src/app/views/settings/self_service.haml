@@ -1,1 +1,19 @@
 Insert Page 3170 Implementation Here.
+(or 3121 -- Treatments page for Self-Service user treatment
+
+.dcloud_form
+  = error_messages_for @parent_type
+  = error_messages_for 'self_service_default_quota'
+  %h2
+    User Treatment: Self-service default
+  %br/
+  - form_for @self_service_default_quota, :url => { :action => 'update' } do |form|
+    %fieldset
+      %legend Account
+      = hidden_field :self_service_default_quota,  :id
+      %ul
+        %li
+          %label
+            quota (instances)
+          = text_field :self_service_default_quota, :maximum_running_instances
+    = submit_tag "Save", :class => "submit"

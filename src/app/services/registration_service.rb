@@ -14,21 +14,22 @@ class RegistrationService
     begin
     User.transaction do
       @user.save!
-      @pool = Pool.create!({ :name => @user.login, :zone => Zone.default})
 
-      @quota = Quota.new
-      @quota.save!
+      allow_self_service_logins = MetadataObject.lookup("allow_self_service_logins")
+      self_service_default_pool = MetadataObject.lookup("self_service_default_pool")
+      self_service_default_role = MetadataObject.lookup("self_service_default_role")
+      self_service_default_quota = MetadataObject.lookup("self_service_default_quota")
 
-      @pool.quota_id = @quota.id
-      @pool.save!
+      @user_quota = Quota.new(:maximum_running_instances => self_service_default_quota.maximum_running_instances,
+                              :maximum_total_instances => self_service_default_quota.maximum_total_instances)
+      @user_quota.save!
+      @user.quota = @user_quota
+      @user.save!
 
-      raise "Role 'Instance Creator and User' doesn't exist" unless
-        role = Role.find_by_name("Instance Creator and User")
+      Permission.create!({:user => @user, :role => self_service_default_role, :permission_object => self_service_default_pool})
 
-      Permission.create!({:user => @user,
-                          :role => role,
-                          :permission_object => @pool})
-    end
+      return true
+     end
     rescue
       Rails.logger.error $!.message
       Rails.logger.error $!.backtrace.join("\n  ")

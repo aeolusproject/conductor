@@ -31,10 +31,6 @@ class UsersController < ApplicationController
     require_privilege(Privilege::USER_MODIFY) unless current_user.nil?
     @user = User.new(params[:user])
 
-    #TODO Set Quota Values to SelfService Settings Default Quota
-    @user_quota = Quota.new
-    @user.quota_id = @user_quota.id
-
     @registration = RegistrationService.new(@user)
     if @registration.save
       flash[:notice] = "User registered!"

@@ -31,6 +31,20 @@ class CreateMetadataObjects < ActiveRecord::Migration
 
     default_zone = Zone.first
     MetadataObject.set("default_zone", default_zone) if default_zone
+
+    default_pool = Pool.find_by_name("default_pool")
+
+    default_quota = Quota.new
+    default_quota.save!
+
+    default_role = Role.find_by_name("Instance Creator and User")
+    settings = {"allow_self_service_logins" => "true",
+                "self_service_default_quota" => default_quota,
+                "self_service_default_pool" => default_pool,
+                "self_service_default_role" => default_role}
+    settings.each_pair do |key, value|
+      MetadataObject.set(key, value)
+    end
   end
 
   def self.down

@@ -7,6 +7,23 @@ describe UsersController do
     @admin_permission = Factory :admin_permission
     @admin = @admin_permission.user
     activate_authlogic
+
+    @allow_self_service_logins = Factory(:metadata_object, :key => "allow_self_service_logins", :value => "true")
+
+    @default_quota = Factory(:unlimited_quota)
+    @self_service_default_quota = Factory(:metadata_object, :key => "self_service_default_quota",
+                                                            :value => @default_quota,
+                                                            :object_type => "Quota")
+
+    @default_pool = Factory(:pool, :name => "default_pool")
+    @self_service_default_quota = Factory(:metadata_object, :key => "self_service_default_pool",
+                                                          :value => @default_pool,
+                                                          :object_type => "Pool")
+
+    @default_role = Role.find(:first, :conditions => ['name = ?', 'Instance Creator and User'])
+    @self_service_default_quota = Factory(:metadata_object, :key => "self_service_default_role",
+                                                          :value => @default_role,
+                                                          :object_type => "Role")
   end
 
   it "should call new method" do
@@ -29,14 +46,6 @@ describe UsersController do
                                    :password => "testpass",
                                    :password_confirmation => "testpass" }
         }.should change{ User.count }
-        p = Pool.find_by_name("tuser2")
-        p.should_not be_nil
-
-        p.name.should == "tuser2"
-        p.permissions.size.should == 1
-        p.permissions.any? {
-          |perm| perm.role.name.eql?('Instance Creator and User')
-        }.should be_true
         user = User.find(:first, :conditions => ['login = ?', "tuser2"])
         response.should redirect_to(user_url(user))
       end

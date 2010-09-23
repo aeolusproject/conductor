@@ -19,25 +19,6 @@ Feature: User authentication
     And I press "Create Account"
     Then I should be on testuser's user page
     And I should see "User registered!"
-    And I should have one private pool named "testuser"
-
-  @register
-  Scenario: Register as new user fails even if user is valid
-    Given I am on the homepage
-    And there are not any roles
-    When I follow "Create one now"
-    Then I should be on the new account page
-    And I should see "New Account"
-    When I fill in the following:
-      | Choose a username | testuser             |
-      | Choose a password | secret               |
-      | Confirm password  | secret               |
-      | First name        | Joe                  |
-      | Last name         | Tester               |
-      | Email             | testuser@example.com |
-    And I press "Create Account"
-    Then I should see "New Account"
-    And I should see "user registration failed"
 
   Scenario: Log in as registered user
     Given I am a registered user
