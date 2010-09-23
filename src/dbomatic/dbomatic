@@ -106,13 +106,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
     end
   end
 
-  def update_instance_event(inst)
-    InstanceEvent.create! :instance => inst,
-                          :event_type => @event_type,
-                          :event_time => @event_time
-  end
-
-  def update_instance_state(inst)
+  def update_instance_state_event(inst)
     if @trigger_type == "ULOG_GRID_SUBMIT"
       inst.state = Instance::STATE_PENDING
     elsif @trigger_type == "ULOG_JOB_ABORTED" or @trigger_Type == "ULOG_JOB_TERMINATED"
@@ -128,6 +122,10 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       return
     end
     inst.save!
+
+    InstanceEvent.create! :instance => inst,
+                          :event_type => inst.state,
+                          :event_time => @event_time
   end
 
   def update_instance_cloud_id(inst)
@@ -177,8 +175,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       if inst.nil?
         @logger.info "Unexpected nil instance, skipping..."
       else
-        update_instance_event(inst)
-        update_instance_state(inst)
+        update_instance_state_event(inst)
         update_instance_cloud_id(inst)
       end
       @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = nil
