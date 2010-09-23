@@ -1,8 +1,8 @@
-#id: fedora
-#name: Fedora
-#baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/11/Everything/x86_64/os/
-#type: xml
+id: fedora
+name: Fedora
+baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/11/Everything/x86_64/os/
+type: xml
 
-baseurl: https://admin:admin@localhost/pulp/api/
-yumurl: https://localhost/pulp/repos/
-type: pulp
+#baseurl: https://admin:admin@localhost/pulp/api/
+#yumurl: https://localhost/pulp/repos/
+#type: pulp
