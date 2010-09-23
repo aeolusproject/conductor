@@ -19,6 +19,8 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+require 'nokogiri'
+
 class CloudAccount < ActiveRecord::Base
   include PermissionedObject
   belongs_to :provider
@@ -106,6 +108,28 @@ class CloudAccount < ActiveRecord::Base
 
   def valid_credentials?
     DeltaCloud::valid_credentials?(username, password, provider.url)
+  end
+
+  def build_credentials
+    xml = Nokogiri::XML <<EOT
+<?xml version="1.0"?>
+<provider_credentials>
+  <ec2_credentials>
+    <account_number></account_number>
+    <access_key></access_key>
+    <secret_access_key></secret_access_key>
+    <certificate></certificate>
+    <key></key>
+  </ec2_credentials>
+</provider_credentials>
+EOT
+    node = xml.at_xpath('/provider_credentials/ec2_credentials')
+    node.at_xpath('./account_number').content = account_number
+    node.at_xpath('./access_key').content = username
+    node.at_xpath('./secret_access_key').content = password
+    node.at_xpath('./certificate').content = x509_cert_pub
+    node.at_xpath('./key').content = x509_cert_priv
+    return xml.to_s
   end
 
   protected
