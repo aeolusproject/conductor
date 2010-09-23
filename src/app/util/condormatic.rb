@@ -50,7 +50,7 @@ def condormatic_instance_create(task)
     Rails.logger.info resource
 
     requirements = "requirements = hardwareprofile == \"#{instance.hardware_profile.id}\" && image == \"#{instance.image.id}\""
-    requirements += " && realm == \"#{realm.name}\"" if realm != nil
+    requirements += " && realm == \"#{realm.id}\"" if realm != nil
     # We may need to add some stuff to the provider classads like pool id, provider id etc.  This is mostly just
     # to test and make sure this works for now.
     requirements += " && deltacloud_quota_check(\"#{job_name}\", other.cloud_account_id)"
@@ -234,7 +234,7 @@ def condormatic_classads_sync
             pipe.puts "\n# Stuff needed to match:"
             pipe.puts "hardwareprofile=\"#{hwp.aggregator_hardware_profiles[0].id}\""
             pipe.puts "image=\"#{image.aggregator_images[0].id}\""
-            pipe.puts "realm=\"#{realm.name}\""
+            pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
             pipe.puts "\n# Backend info to complete this job:"
             pipe.puts "image_key=\"#{image.external_key}\""
             pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""

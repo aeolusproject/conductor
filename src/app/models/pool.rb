@@ -55,19 +55,8 @@ class Pool < ActiveRecord::Base
     HardwareProfile.find(:all, :conditions => {:provider_id => nil})
   end
 
-  #FIXME: do we still allow explicit cloud/account choice via realm selection?
-  #FIXME: How is account list for realm defined without explicit pool-account relationship?
   def realms
-    realm_list = []
-    CloudAccount.all.each do |cloud_account|
-      prefix = cloud_account.account_prefix_for_realm
-      realm_list << prefix
-      cloud_account.provider.realms.each do |realm|
-        realm_list << prefix + Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                      realm.name
-      end
-    end
-    realm_list
+    Realm.find(:all, :conditions => { :provider_id => nil })
   end
 
 end

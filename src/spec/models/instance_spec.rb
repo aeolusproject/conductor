@@ -84,31 +84,6 @@ describe Instance do
     valid_task.should_not == false
   end
 
-  it "should be able to query and set up frontend realm" do
-    provider = Factory.build(:mock_provider2)
-    provider.stub!(:connect).and_return(mock('DeltaCloud'))
-    provider.save!
-
-    cloud_account = Factory.build(:cloud_account, :provider => provider,
-                                                  :username => 'john doe',
-                                                  :password => 'asdf')
-    cloud_account.stub!(:valid_credentials?).and_return(true)
-    cloud_account.save!
-
-    @instance = Factory.create(:instance, :cloud_account => cloud_account)
-    @instance.front_end_realm.should eql('mock2:john doe')
-
-    realm = Factory.create(:realm, :name => 'a realm',
-                           :provider_id => provider.id)
-    @instance.realm = realm
-    @instance.front_end_realm.should eql('mock2:john doe/a realm')
-
-    Factory.create(:realm, :name => 'different realm',
-                   :provider_id => provider.id)
-    @instance.front_end_realm = 'mock2:john doe/different realm'
-    @instance.front_end_realm.should eql('mock2:john doe/different realm')
-  end
-
   it "should properly calculate the total time that the instance has been in a monitored state" do
     instance = Factory :new_instance
 

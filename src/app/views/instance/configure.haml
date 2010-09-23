@@ -17,7 +17,7 @@
       = select :instance, :hardware_profile_id, @instance.pool.hardware_profiles.map {|p| [ p.name, p.id ]}, { :include_blank => true }
     %li
       = label :instance, :realm
-      = select :instance, :realm_id, @instance.pool.realms, { :include_blank => true }
+      = select :instance, :realm_id, @instance.pool.realms.map {|r| [ r.name, r.id ]}, { :include_blank => true }
 
   = submit_tag 'Cancel', :name => 'cancel'
   = submit_tag 'Launch', :name => 'launch'

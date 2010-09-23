@@ -90,25 +90,6 @@ class Instance < ActiveRecord::Base
     return task
   end
 
-  def front_end_realm
-    unless cloud_account.nil?
-      cloud_account.provider.name + Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER +
-        cloud_account.username + (realm.nil? ? "" :
-                                  (Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                   realm.name))
-    end
-  end
-
-  def front_end_realm=(realm_name)
-    unless realm_name.nil? or realm_name.empty?
-      provider_name, tmpstr = realm_name.split(Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER,2)
-      account_name, realm_name = tmpstr.split(Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER,2)
-      provider = Provider.find_by_name(provider_name)
-      self.cloud_account = provider.cloud_accounts.find_by_username(account_name)
-      self.realm = provider.realms.find_by_name(realm_name) unless realm_name.nil?
-    end
-  end
-
   # Returns the total time that this instance has been in the state
   def total_state_time(state)
 

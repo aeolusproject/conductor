@@ -64,10 +64,6 @@ class CloudAccount < ActiveRecord::Base
     return a.nil? ? CloudAccount.new(account) : a
   end
 
-  def account_prefix_for_realm
-    provider.name + Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER + username
-  end
-
   def pools
     pools = []
     instances.each do |instance|
@@ -101,6 +97,22 @@ class CloudAccount < ActiveRecord::Base
                                :name => realm.name ? realm.name : realm.id,
                                :provider_id => provider.id)
           ar_realm.save!
+
+          frontend_realm = Realm.new(:external_key => ar_realm.external_key,
+                                     :name => ar_realm.name,
+                                     :provider_id => nil)
+
+          available_realms = Realm.frontend.find(:all, :conditions => {
+            :external_key => frontend_realm.external_key })
+
+          if available_realms.empty?
+            frontend_realm.backend_realms << ar_realm
+            frontend_realm.save!
+          else
+            available_realms.each do |r|
+              r.backend_realms << ar_realm
+            end
+          end
         end
       end
     end

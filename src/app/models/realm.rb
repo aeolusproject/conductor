@@ -22,13 +22,53 @@
 class Realm < ActiveRecord::Base
   has_many :instances
   belongs_to :provider
+  named_scope :frontend, :conditions => { :provider_id => nil }
 
-  validates_presence_of :provider_id
+  has_and_belongs_to_many :frontend_realms,
+                          :class_name => "Realm",
+                          :join_table => "realm_map",
+                          :foreign_key => "backend_realm_id",
+                          :association_foreign_key => "frontend_realm_id"
+
+  has_and_belongs_to_many :backend_realms,
+                          :class_name => "Realm",
+                          :join_table => "realm_map",
+                          :foreign_key => "frontend_realm_id",
+                          :association_foreign_key => "backend_realm_id"
 
   validates_presence_of :external_key
   validates_uniqueness_of :external_key, :scope => :provider_id
 
   validates_presence_of :name
+
+  protected
+  def validate
+    if provider.nil? and !frontend_realms.empty?
+      errors.add(:frontend_realms, "Frontend realms are allowed for backend realms only.")
+    end
+
+
+    if !provider.nil? and !backend_realms.empty?
+      errors.add(:backend_realms, "Backend realms are allowed for frontend realms only.")
+    end
+
+    frontend_realms.each do |frealm|
+      if name != frealm.name
+        errors.add(:realms, "Frontend realm must have the same name as the appropriate backend realm.")
+      end
+      if external_key != frealm.external_key
+        errors.add(:realms, "Frontend realm must have the same external key as the appropriate backend realm.")
+      end
+    end
+    backend_realms.each do |brealm|
+      if name != brealm.name
+        errors.add(:realms, "Frontend realm must have the same name as the appropriate backend realm.")
+      end
+      if external_key != brealm.external_key
+        errors.add(:realms, "Frontend realm must have the same external key as the appropriate backend realm.")
+      end
+    end
+  end
 
   AGGREGATOR_REALM_PROVIDER_DELIMITER = ":"
   AGGREGATOR_REALM_ACCOUNT_DELIMITER = "/"
