@@ -48,5 +48,20 @@ var Aggregator = {
         wrapper.load(url, function() {$(".wrapper", table).unmask()});
       }, delay);
     });
+  },
+
+  positionFooter: function () {
+    var $footer = $('footer');
+    if ($(document.body).height() < $(window).height()) {
+      $footer.addClass('fixed');
+    } else {
+      $footer.removeClass('fixed');
+    }
   }
 }
+
+/* Aggregator JS */
+
+$(document).ready(function () {
+  $(window).scroll(Aggregator.positionFooter).resize(Aggregator.positionFooter).scroll();
+});
