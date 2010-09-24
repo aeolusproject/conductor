@@ -329,9 +329,10 @@ nav {
           float: left;
           max-width: 70px;
           a {
-            display: block;
+            display: table-cell;
+            vertical-align: middle;
+            height: 50px; /* easy click targets */
             color: #888;
-            min-height: 28px; /* easy click targets */
             padding: 8px 6px 4px;
           }
           &.selected {
@@ -350,10 +351,6 @@ nav {
           }
         }
       }
-    }
-    /* specialcase build group -- one line labels */
-    li.build>ul>li>a {
-      padding: 16px 6px 0;
     }
   }
 
