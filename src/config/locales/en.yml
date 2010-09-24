@@ -45,6 +45,19 @@ en:
   save: Save
   remove: Remove
   reset: Reset
+  create_account: Create Account
+  cancel: Cancel
+  choose_name: Choose a username
+  choose_password: Choose a password
+  change_password: Change password
+  confirm_password: Confirm password
+  first_name: First name
+  last_name: Last name
+  email: E-mail
+  maximum_running_instances: Maximum Running Instances
+  apply_treatment: Apply User Treatment
+  choose_treatment: Choose Treatment
+  apply: Apply
   settings:
     index:
       general_settings: General Settings
