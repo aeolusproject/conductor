@@ -1,8 +1,8 @@
-.dcloud_form
-  %h2 Edit my profile.
-  - form_for @user, :url => account_path do |f|
+.formwindow
+  %h2 Edit an Account
+  - form_for @user, :url => account_path, :html => {:id => "login"} do |f|
     = f.error_messages
     = render :partial => "form", :object => f
-    = f.submit "Update", :class => "submit"
+    = f.submit "Make Changes", :class => "formbutton"
     %br/
-    = link_to "Cancel", account_path, :class => 'actionlink'
+    = link_to "Cancel", account_path, :class => "formbuton"

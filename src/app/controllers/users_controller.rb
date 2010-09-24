@@ -66,4 +66,8 @@ class UsersController < ApplicationController
   def index
     @users = User.all
   end
+
+  def section_id
+    "loginpage"
+  end
 end
