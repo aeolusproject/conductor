@@ -26,4 +26,5 @@ class User < ActiveRecord::Base
   has_many :owned_instances, :class_name => "Instance", :foreign_key => "owner_id"
 
   belongs_to :quota
+  accepts_nested_attributes_for :quota
 end

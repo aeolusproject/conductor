@@ -50,16 +50,38 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = @current_user
+    @user = params[:id] ? User.find(params[:id]) : @current_user
+    if @user
+      if @user != @current_user
+        if !BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
+          flash[:notice] = "Invalid Permission to perform this operation"
+          redirect_to :dashboard
+        end
+      end
+    end
   end
 
   def update
-    @user = @current_user # makes our views "cleaner" and more consistent
-    if @user.update_attributes(params[:user])
-      flash[:notice] = "User updated!"
-      redirect_to account_url
-    else
-      render :action => :edit
+    if params[:make_changes] || params[:save]
+      @user = params[:user][:id] ? User.find(params[:user][:id]) : @current_user
+      if @user
+        if @user != @current_user
+          if !BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
+            flash[:notice] = "Invalid Permission to perform this operation"
+            redirect_to :dashboard
+          end
+        end
+        if @user.update_attributes(params[:user])
+          flash[:notice] = "User updated!"
+          redirect_to account_url
+        else
+          render :action => :edit
+        end
+      end
+    elsif  params[:reset]
+      redirect_to :action => "edit", :user => @user
+    elsif params[:back]
+      redirect_to users_path
     end
   end
 

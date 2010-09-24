@@ -81,6 +81,7 @@ module PermissionedObject
   end
 
   def has_privilege(user, privilege)
+    return false if user.nil?
     permissions.find(:first, :include => [:role => :privileges],
                      :conditions => ["permissions.user_id=:user and
                                       privileges.name=:priv",

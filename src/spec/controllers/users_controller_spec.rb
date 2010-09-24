@@ -105,7 +105,7 @@ describe UsersController do
 
   test "should update user" do
     UserSession.create(@tuser)
-    put :update, :id => @tuser.id, :user => { }
+    put :update, :id => @tuser.id, :user => { }, :save =>'true'
     response.should redirect_to(account_path)
   end
 
