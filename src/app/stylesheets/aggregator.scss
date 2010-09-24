@@ -319,10 +319,9 @@ nav {
         border-left: 1px solid #9F9F9F;
         border-right: 1px solid #9F9F9F;
         border-bottom: 1px solid #9F9F9F;
-        min-height: 56px; /* prevent shorter tabs */
         li { /* tab items */
           font-size: 95%;
-          margin: 0; padding: 4px 6px;
+          margin: 0; padding: 10px 8px 6px;
           text-align: center;
           font-family: $headlinefont;
           display: block;
@@ -331,9 +330,9 @@ nav {
           a {
             display: table-cell;
             vertical-align: middle;
-            height: 50px; /* easy click targets */
+            height: 38px; /* easy click targets */
             color: #888;
-            padding: 8px 6px 4px;
+            padding: 2px 6px; margin: 0;
           }
           &.selected {
             a {
