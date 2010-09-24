@@ -26,8 +26,8 @@ require 'optparse'
 help = false
 
 condor_event_log_dir    =   "/var/log/condor"
-dbomatic_run_dir        =   "/var/run/dbomatic"
-dbomatic_log_dir        =   "/var/log/dbomatic"
+dbomatic_run_dir        =   "/var/run/deltacloud-aggregator"
+dbomatic_log_dir        =   "/var/log/deltacloud-aggregator"
 
 optparse = OptionParser.new do |opts|
 

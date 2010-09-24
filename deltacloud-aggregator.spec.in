@@ -80,8 +80,6 @@ make
 %{__mkdir} -p %{buildroot}%{_localstatedir}/lib/%{name}
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/%{name}
 %{__mkdir} -p %{buildroot}%{_localstatedir}/run/%{name}
-%{__mkdir} -p %{buildroot}%{_localstatedir}/run/dbomatic
-%{__mkdir} -p %{buildroot}%{_localstatedir}/log/dbomatic
 
 # copy over all of the src directory...
 %{__cp} -R src/* %{buildroot}/%{app_root}
@@ -118,8 +116,8 @@ mv %{buildroot}/%{app_root}/doc %{buildroot}/%{app_root}/test %{buildroot}/%{doc
 # these files will no longer be added explicitly here.
 touch %{buildroot}%{_localstatedir}/log/%{name}/mongrel.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
-touch %{buildroot}%{_localstatedir}/log/dbomatic/dbomatic.log
-touch %{buildroot}%{_localstatedir}/run/dbomatic/event_log_position
+touch %{buildroot}%{_localstatedir}/log/%{name}/dbomatic.log
+touch %{buildroot}%{_localstatedir}/run/%{name}/event_log_position
 
 
 # remove the files not needed for the installation
@@ -179,8 +177,6 @@ fi
 %attr(-, dcloud, dcloud) %{_localstatedir}/lib/%{name}
 %attr(-, dcloud, dcloud) %{_localstatedir}/run/%{name}
 %attr(-, dcloud, dcloud) %{_localstatedir}/log/%{name}
-%attr(-, dcloud, dcloud) %{_localstatedir}/log/dbomatic
-%attr(-, dcloud, dcloud) %{_localstatedir}/run/dbomatic
 %doc AUTHORS COPYING
 
 %files doc
