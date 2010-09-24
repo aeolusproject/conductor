@@ -119,16 +119,61 @@ h2 {
 table {
   border-collapse: collapse;
   border: 1px solid $strokecl;
-  margin: 0; width: 100%;
+  margin: 0 0 40px; width: 100%;
   font-size: 95%;
-  th {
-    font-family: $headlinefont;
-    text-transform: capitalize;
-    background-color: lighten($strokecl,50%);
+  thead {
+    background-color: lighten($strokecl,8%);
+    th {
+      padding: 2px 6px;
+      font-family: $headlinefont;
+      color: lighten($headercl,20%);
+      text-transform: uppercase;
+      border-right: 1px dotted darken($strokecl,20%);
+    }
   }
   td {
-    padding: 3px;
+    padding: 4px;
     vertical-align: top;
+  }
+  &.noborder {
+    border: none;
+    thead {
+      background-color: transparent;
+      th {
+        border: none;
+        span {
+          color: lighten($headercl,30%);
+        }
+      }
+    }
+    td {
+      color: #888;
+      .percentBlock {
+        border:1px solid #909090;
+        padding: 0;
+        width:100px;
+        font-size: 9px;
+        text-align: center;
+        color: #555;
+        .percentBlockInner {
+        }
+        .gradGreen {
+          background-color: $graphgood;
+        }
+      }
+      .min {
+        background: url(/images/arrow-min.png) no-repeat top center;
+        float:left;
+        padding-top:5px;
+        width:50%;
+      }
+      .max {
+        background: url(/images/arrow-max.png) no-repeat top center;
+        float:right;
+        padding-top:5px;
+        width:50%;
+      }
+    }
   }
 }
 

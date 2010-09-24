@@ -46,7 +46,7 @@ module DashboardHelper
       end
       if opts[:min] and opts[:max]
         min=content_tag 'div', :class => 'min' do "#{opts[:min]}% Min" ; end
-        max=content_tag 'div', :class => 'min' do "#{opts[:max]}% Max" ; end
+        max=content_tag 'div', :class => 'max' do "#{opts[:max]}% Max" ; end
         "#{percent_block}#{min}#{max}"
       else
         percent_block
