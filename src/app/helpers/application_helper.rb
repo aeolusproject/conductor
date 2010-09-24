@@ -91,8 +91,11 @@ module ApplicationHelper
     columns = fields.collect do |field|
       if field[:sortable]==true or field[:sortable].nil?
         order_dir = params[:order_dir] ? params[:order_dir] : 'desc'
-        class_name = (field[:sort_attr].to_s.eql?(params[:order_field]) ? 'active' : nil)
-        class_name += " desc" if "desc".eql?(params[:order_dir])
+        if field[:sort_attr].to_s.eql?(params[:order_field])
+          class_name = 'active ' + ("desc".eql?(params[:order_dir]) ? 'desc' : 'asc')
+        else
+          class_name = nil
+        end
         content_tag('th', :class => class_name) do
           link_to(field[:name], :controller => params[:controller],
             :action => params[:action], :order_field => field[:sort_attr],
