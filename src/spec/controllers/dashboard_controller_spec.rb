@@ -13,7 +13,7 @@ describe DashboardController do
      UserSession.create(@admin)
      get :index
      response.should be_success
-     response.should render_template("summary")
+     response.should render_template("monitor")
   end
 
 end

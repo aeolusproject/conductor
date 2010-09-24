@@ -52,4 +52,4 @@ Feature: User authentication
     Then I should be logged out
     And I should see "Logout successful!"
     And I should see "Create one now."
-    And I should see "Please sign in"
+    And I should see "Log In"

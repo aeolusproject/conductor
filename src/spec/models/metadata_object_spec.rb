@@ -18,7 +18,7 @@ describe MetadataObject do
   end
 
   it "default zone should return valid zone" do
-    MetadataObject.lookup("default_zone").should be_a Zone
+    MetadataObject.lookup("default_zone").should be_a(Zone)
   end
 
   it "setting string value should work" do
@@ -28,7 +28,7 @@ describe MetadataObject do
 
   it "setting activerecord object value should work" do
     MetadataObject.set("test_obj", Factory(:pool))
-    MetadataObject.lookup("test_obj").should be_a Pool
+    MetadataObject.lookup("test_obj").should be_a(Pool)
   end
 
 end
