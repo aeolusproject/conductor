@@ -49,7 +49,7 @@ def condormatic_instance_create(task)
     pipe.puts resource
     Rails.logger.info resource
 
-    requirements = "requirements = hardwareprofile == \"#{instance.hardware_profile.id}\" && image == \"#{instance.image.id}\""
+    requirements = "requirements = hardwareprofile == \"#{instance.hardware_profile.id}\" && image == \"#{instance.template.id}\""
     requirements += " && realm == \"#{realm.id}\"" if realm != nil
     # We may need to add some stuff to the provider classads like pool id, provider id etc.  This is mostly just
     # to test and make sure this works for now.
@@ -223,7 +223,7 @@ def condormatic_classads_sync
   Rails.logger.info "Syncing classads.."
   providers.each do |provider|
     provider.cloud_accounts.each do |account|
-      provider.images.each do |image|
+      provider.replicated_images.each do |replicated_image|
         provider.hardware_profiles.each do |hwp|
           provider.realms.each do |realm|
             pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
@@ -233,10 +233,10 @@ def condormatic_classads_sync
             pipe.puts 'Requirements=true'
             pipe.puts "\n# Stuff needed to match:"
             pipe.puts "hardwareprofile=\"#{hwp.aggregator_hardware_profiles[0].id}\""
-            pipe.puts "image=\"#{image.aggregator_images[0].id}\""
+            pipe.puts "image=\"#{replicated_image.image.template.id}\""
             pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
             pipe.puts "\n# Backend info to complete this job:"
-            pipe.puts "image_key=\"#{image.external_key}\""
+            pipe.puts "image_key=\"#{replicated_image.provider_image_key}\""
             pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""
             pipe.puts "realm_key=\"#{realm.external_key}\""
             pipe.puts "provider_url=\"#{account.provider.url}\""
