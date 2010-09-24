@@ -157,6 +157,12 @@ class TemplatesController < ApplicationController
     @image_descriptor.update_xml_attributes!(params[:xml] || {})
   end
 
+  def assembly
+  end
+
+  def deployment_definition
+  end
+
   def check_permission
     require_privilege(Privilege::IMAGE_MODIFY)
   end
