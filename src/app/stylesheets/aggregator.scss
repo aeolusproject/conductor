@@ -110,9 +110,28 @@ h2 {
   color: $headercl;
 }
 
+
 .clear {
   clear: both;
 }
+
+
+table {
+  border-collapse: collapse;
+  border: 1px solid $strokecl;
+  margin: 0; width: 100%;
+  font-size: 95%;
+  th {
+    font-family: $headlinefont;
+    text-transform: capitalize;
+    background-color: lighten($strokecl,50%);
+  }
+  td {
+    padding: 3px;
+    vertical-align: top;
+  }
+}
+
 .action {
   background: url(/images/icons/action-icons.png) no-repeat 0 0;
   &:hover {
