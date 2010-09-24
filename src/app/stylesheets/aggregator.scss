@@ -532,7 +532,6 @@ footer {
   }
 }
 
-
 /* IE and other horror browser workarounds */
 
 /* basic image styling for buttons in older browsers */
@@ -542,3 +541,25 @@ footer {
 
 /* when modalbox miss dropshadow set some border */
 .no-boxshadow .modalbox { border: 2px solid $strokecl; }
+
+
+/* jQuery UI tabs overrides */
+
+.ui-widget-content { border: none; }
+.ui-tabs {
+  .ui-widget-header {
+    font-size: 90%;
+    background: transparent;
+  }
+  .ui-state-default {
+    background: transparent;
+    border: none;
+  }
+  .ui-state-active {
+    background-color: $dcprimary;
+    @include border-radius(5px);
+    &>a {
+      color: #fff;
+    }
+  }
+}
