@@ -11,7 +11,7 @@ SimpleNavigation::Configuration.run do |navigation|
           fourth_level.item :provider_summary, t(:provider_summary), { :controller => 'provider', :action => 'show', :id => (@provider.id if @provider) }, :highlights_on => /\/provider\/(show|edit|new)/
           fourth_level.item :provider_accounts, t(:provider_accounts), { :controller => 'provider', :action => 'accounts', :id => (@provider.id if @provider) }, :highlights_on => /\/provider\/accounts/
         end
-        third_level.item :self_service_settings, t(:self_service_settings), :controller => 'settings', :action => 'self-service'
+        third_level.item :self_service_settings, t(:self_service_settings), :controller => 'settings', :action => 'self_service'
         third_level.item :manage_users, t(:manage_users), :controller => 'users' do |fourth_level|
           fourth_level.item :new_user, t(:new_user), :controller => 'users', :action => 'new'
           fourth_level.item :edit_user, t(:edit_user), :controller => 'users', :action => 'edit'
