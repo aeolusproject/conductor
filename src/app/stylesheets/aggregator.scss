@@ -230,7 +230,7 @@ table {
 #subheader {
   background: lighten($headerbg,50%) url(/images/subheader-shade.png) repeat-x 0 0;
   position: relative;
-  min-height: 120px;
+  min-height: 130px;
   #s {
     font-size: 80%;
     text-align: right;
@@ -417,7 +417,7 @@ nav {
 
 /* image backgrounds for tabs */
 li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
-  background: url(/images/tab-bg.png) repeat-x 0 0;
+  background: #ddd url(/images/tab-bg.png) repeat-x 0 0;
 }
   li.operation.selected>ul { background-position: 0 -140px; }
   li.operation>ul { background-position: 0 -210px; }
