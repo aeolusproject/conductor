@@ -29,7 +29,7 @@
     %div#head
       %header.container_16
         = render :partial => '/layouts/header'
-    - if current_user.nil?
+    - if @current_user.nil?
       #content.container_16
         = render :partial => '/layouts/notification'
         #formwindow
