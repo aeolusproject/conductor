@@ -20,8 +20,8 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class UsersController < ApplicationController
-  before_filter :require_user, :only => [:show, :edit, :update]
-  before_filter :current_user, :only => [:new, :index]
+  before_filter :require_user, :only => [:show, :edit, :update, :index, :destroy]
+  before_filter :current_user, :only => [:new, :index, :destroy]
 
   def new
     @user = User.new
@@ -64,7 +64,41 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    if @current_user.permissions.collect { |p| p.role }.find { |r| r.name == "Administrator" }
+      @users = User.all
+      sort_order = params[:sort_by].nil? ? "login" : params[:sort_by]
+      if sort_order == "percentage_quota_used"
+        @users = User.all
+        @users.sort! {|x,y| y.quota.percentage_used <=> x.quota.percentage_used }
+      elsif sort_order == "quota"
+        @users = User.all
+        @users.sort! {|x,y| (x.quota.maximum_running_instances and y.quota.maximum_running_instances) ? x.quota.maximum_running_instances <=> y.quota.maximum_running_instances : (x ? 1 : -1) }
+      else
+        @users = User.find(:all, :order => sort_order)
+      end
+    else
+      flash[:notice] = "Invalid Permission to perform this operation"
+      redirect_to :dashboard
+    end
+  end
+
+  def destroy
+    if @current_user.permissions.collect { |p| p.role }.find { |r| r.name == "Administrator" }
+      if request.post? || request.delete?
+        @user = User.find(params[:id])
+        if @user.destroy
+          flash[:notice] = "User Deleted"
+        else
+          flash[:error] = {
+            :summary => "Failed to delete User",
+            :failures => @user.errors.full_messages,
+          }
+        end
+      end
+    else
+      flash[:notice] = "Invalid Permission to perform this operation"
+    end
+    redirect_to :dashboard
   end
 
   def section_id

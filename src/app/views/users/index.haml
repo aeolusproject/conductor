@@ -1,18 +1,64 @@
-%table
-  %thead
+%div
+  %dl
+    %dt
+      Users
+      %dd.edit
+        %span
+        = link_to "edit", edit_user_url(@users.first.id), :id => "edit_link"
+      %dd.delete
+        %span
+        = link_to "delete", user_url(@users.first.id), :id => "delete_link", :method => "delete"
+      %dd.create
+        %span
+        = link_to "create", new_user_url
+
+%div
+  %table
     %tr
-      %th login
-      %th email
-      %th first_name
-      %th last_name
-      %th current_login_at
-      %th last_login_at
-  -@users.each do |user|
-    %tbody
+      %th
+      %th= link_to "User ID", users_url(:sort_by => "login")
+      %th= link_to "Last Name", users_url(:sort_by => "last_name")
+      %th= link_to "First Name", users_url(:sort_by => "first_name")
+      %th= link_to "% Quota Used", users_url(:sort_by => "percentage_quota_used")
+      %th
+        =link_to "Quota", users_url(:sort_by => "quota")
+        %span (Instances)
+      %th= link_to "e-mail", users_url(:sort_by => "email")
+    -@users.each do |user|
       %tr
-        %td= user.login
-        %td= user.email
-        %td= user.first_name
+        %td
+          - if user == @users.first
+            %input{:checked => true, :name => "user_checkbox", :type => "checkbox", :onchange => "update_link(#{user.id})", :id => "user_checkbox_#{user.id}" }
+          - else
+            %input{:checked => false, :name => "user_checkbox", :type => "checkbox", :onchange => "update_link(#{user.id})", :id => "user_checkbox_#{user.id}" }
+        %td= link_to user.login, user, :id => user.id
         %td= user.last_name
-        %td= user.current_login_at
-        %td= user.last_login_at
+        %td= user.first_name
+        %td= sprintf("%.2f", user.quota.percentage_used)
+        %td= Quota.no_limit(user.quota.maximum_running_instances) ? "Unlimited" : user.quota.maximum_running_instances
+        %td= user.email
+
+:javascript
+  function update_link(id)
+  {
+    var checkbox = document.getElementById('user_checkbox_' + id)
+    var edit_link = document.getElementById('edit_link')
+    var delete_link = document.getElementById('delete_link')
+
+    if(checkbox.checked)
+    {
+      edit_link.href = "/users/" + id + "/edit"
+      delete_link.href = "/users/" + id
+
+      var checkboxes = document.getElementsByName("user_checkbox")
+      for(var i = 0; i < checkboxes.length; i++)
+      {
+         checkboxes[i].checked = false
+      }
+      checkbox.checked = true
+    }
+    else
+    {
+      checkbox.checked = true
+    }
+  }
