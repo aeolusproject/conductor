@@ -21,3 +21,7 @@
   = label_tag :bootable, 'Yes'
   = radio_button_tag :bootable, 'no', :disabled => true
   = label_tag :bootable, 'No'
+%p
+  %label{ :for => :template_group}
+    Template Group
+  = select_tag(:template_group, options_for_select([['User Private', 1]]))

@@ -9,6 +9,11 @@
         %img{:src => "/images/platform_#{tpl.platform}.png", :width => '32px', :height => '32px', :alt => tpl.platform}
         %h3= tpl.name
         %p= tpl.summary
+        %p
+          %label Group:
+          System
+          %label Version:
+          2.5
         = submit_tag 'Launch', :name => 'launch'
 = will_paginate(@templates)
 = page_entries_info(@templates)
