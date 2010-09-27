@@ -1,12 +1,23 @@
-#clear
-  %h3 Basic Template Properties
-  %ul
-    %li
-      %label Name
-      = text_field_tag("xml[name]", @image_descriptor.xml.name)
-    %li
-      %label Description
-      = text_field_tag("xml[description]", @image_descriptor.xml.description, :rows =>4)
-    %li
-      %label Template Category
-      = select_tag("xml[category]", "<option>User - private</option>")
+%h3 GENERAL INFORMATION
+%p
+  = text_field :tpl, :name, :value => @tpl.name || 'Template Name'
+  = text_field :tpl, :summary, :value => @tpl.summary || 'Template Description'
+  = text_field_tag 'current_version', 'Current Version', :disabled => true
+  %button{:type => 'button', :disabled => 'disabled'} New Version
+  %br
+  = text_field_tag 'logo', 'Choose Logo', :disabled => true
+  %button{:type => 'button', :disabled => 'disabled'} Choose File
+%p
+  %hr
+  = label :tpl, :platform, 'Platform choice'
+  = select :tpl, :platform, @tpl.xml.platforms.map {|id, p| [p['name'], id]}
+  / FIXME: it's currently possible to choose bad os<->version combination, for example
+  / RHEL 11, JS will be required to fix this
+  = select :tpl, :platform_version, @tpl.xml.platforms.map {|id, p| p['version'].to_s}.sort.uniq
+  = select :tpl, :architecture, @tpl.xml.platforms.map {|id, p| p['architecture']}.sort.uniq
+%p
+  = label_tag :bootable, 'Bootable'
+  = radio_button_tag :bootable, 'yes', true, :disabled => true
+  = label_tag :bootable, 'Yes'
+  = radio_button_tag :bootable, 'no', :disabled => true
+  = label_tag :bootable, 'No'

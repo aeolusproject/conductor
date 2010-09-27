@@ -1,11 +1,11 @@
-rhevm:
-  name: RHEV-M
+#rhevm:
+#  name: RHEV-M
 
 ec2:
   name: Amazon EC2
 
-rackspace:
-  name: RackSpace
+#rackspace:
+#  name: RackSpace
 
 #gogrid:
 #  name: GoGrid

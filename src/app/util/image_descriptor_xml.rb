@@ -50,18 +50,36 @@ class ImageDescriptorXML
     return get_node_text('name')
   end
 
+  def platform
+    node = @root.at_xpath('/image/os')
+    return node ? node['name'] : nil
+  end
+
   def platform=(str)
     # FIXME: we remove all repos because we don't know which one is for
     # platform
     # update: we don't add platform repo, image builder chooses right one from OS
     # name, but we add all other repos
     recreate_repo_nodes
-    node = get_or_create_node('os')
-    node.content = str
+    get_or_create_node('os')['name'] = str
   end
 
-  def platform
-    return get_node_text('os')
+  def platform_version
+    node = @root.at_xpath('/image/os')
+    return node ? node['version'] : nil
+  end
+
+  def platform_version=(str)
+    get_or_create_node('os')['version'] = str
+  end
+
+  def architecture
+    node = @root.at_xpath('/image/os')
+    return node ? node['architecture'] : nil
+  end
+
+  def architecture=(str)
+    get_or_create_node('os')['architecture'] = str
   end
 
   def platforms
@@ -196,6 +214,19 @@ class ImageDescriptorXML
     groups_node.xpath('.//group').remove
     groups.each do |group, pkgs|
       pkgs.each { |pkg| add_package_node(pkgs_node, pkg[:name], group) }
+      add_group_node(groups_node, group)
+    end
+  end
+
+  # FIXME: rewrite cleanly w/o recreating all nodes
+  def remove_package(package, grp = nil)
+    groups = packages_by_group
+    pkgs_node = get_or_create_node('packages')
+    pkgs_node.xpath('.//package').remove
+    groups_node = get_or_create_node('groups')
+    groups_node.xpath('.//group').remove
+    groups.each do |group, pkgs|
+      pkgs.select { |pkg| pkg[:name] != package }.each { |pkg| add_package_node(pkgs_node, pkg[:name], group) }
       add_group_node(groups_node, group)
     end
   end

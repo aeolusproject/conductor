@@ -44,3 +44,20 @@ end
 Then /^I should have a template named "([^"]*)"$/ do |name|
   Template.first(:order => 'created_at DESC').xml.name.should eql(name)
 end
+
+Then /^the "([^"]*)" field by name should contain "([^"]*)"$/ do |field, value|
+  field_value = field_named(field).value
+  if field_value.respond_to? :should
+    field_value.should =~ /#{value}/
+  else
+    assert_match(/#{value}/, field_value)
+  end
+end
+
+Then /^the page should contain "([^"]*)" selector$/ do |selector|
+  response.should have_selector(selector)
+end
+
+Then /^the page should not contain "([^"]*)" selector$/ do |selector|
+  response.should_not have_selector(selector)
+end

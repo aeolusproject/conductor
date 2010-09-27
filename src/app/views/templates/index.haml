@@ -1,1 +1,29 @@
-Insert page 4100 implementation.
+%h2 MANAGE TEMPLATES
+- form_tag(:action => 'action') do
+  %ul
+    %li ACTIONS
+    %li VIEW
+    %li
+      = check_box_tag 'views[]', 'templates', true, :disabled => true
+      = label_tag 'views[]', 'Templates'
+    %li MANAGE
+    %li= submit_tag "Edit", :name => "edit"
+    %li= submit_tag "Delete", :name => "delete"
+    %li= submit_tag "Rename", :name => "rename", :disabled => true
+    %li= submit_tag "Copy", :name => "copy", :disabled => true
+    %li BUILD
+    %li= submit_tag "Build", :name => "build"
+    %li CREATE NEW
+    %li= submit_tag "Template", :name => "new_template"
+    %li= submit_tag "Assembly", :name => "assembly"
+    %li= submit_tag "Deployment definition", :name => "deployment_definition"
+
+    %h3 TEMPLATES
+    = render :partial => 'templates'
+
+    %h3 ASSEMBLY
+    %table
+    = render :partial => 'templates'
+
+    %h3 DEPLOYMENT DEFINITIONS
+    = render :partial => 'templates'

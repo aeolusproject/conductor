@@ -1,0 +1,28 @@
+%h4 MANAGED CONTENT SELECTION
+%b Search for Content
+%br
+= text_field_tag 'search', 'Search Text', :disabled => true
+%a Advanced Search
+%br
+Repositories to Search:
+%a (Check all)
+%br
+- @repository_manager.repositories.each do |repo|
+  = check_box_tag 'repositories[]', repo.id, true
+  = label_tag 'repositories[]', repo.name
+%br
+= radio_button_tag :show_mode, 'group', true
+= label_tag :show_mode, 'Show by Group'
+= radio_button_tag :show_mode, 'type', false, :disabled => true
+= label_tag :show_mode, 'Show by Type'
+%hr
+%ul{:style => 'height: 300px; overflow: auto;'}
+  - @groups.keys.sort.each do |group|
+    %li
+      %b= group
+      = submit_tag "Add", :name => "select_group_#{group}", :id => "select_group_#{group}"
+      %ul
+        - @groups[group][:packages].each do |pkg, type|
+          %li
+            = pkg
+            = submit_tag "Add", :name => "select_package_#{pkg}", :id => "select_package_#{pkg}"

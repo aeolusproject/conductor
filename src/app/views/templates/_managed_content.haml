@@ -1,0 +1,10 @@
+%h3 MANAGED CONTENT TO BUNDLE
+%hr
+%ul
+  - @tpl.xml.packages.each do |pkg|
+    %li
+      = text_field_tag 'packages[]', pkg[:name], :disabled => true, :id => "selected_package_#{pkg[:name]}"
+      repository (we don't keep it now)
+      %button{:type => 'button', :disabled => 'disabled'} Config
+      %button{:type => 'button', :disabled => 'disabled'} Metadata
+      = submit_tag "Remove", :name => "remove_package_#{pkg[:name]}", :id => "remove_package_#{pkg[:name]}"

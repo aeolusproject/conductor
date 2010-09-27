@@ -1,166 +1,150 @@
 require 'util/repository_manager'
 
 class TemplatesController < ApplicationController
-  layout :layout
-  before_filter :require_user, :check_permission, :check_for_cancel
-
-  def layout
-    request.xhr? ? false : 'aggregator'
-  end
+  before_filter :require_user
+  before_filter :check_permission, :except => [:index, :builds]
 
   def index
-    @repository_manager = RepositoryManager.new
-    @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
+    # TODO: add template permission check
+    require_privilege(Privilege::IMAGE_VIEW)
+    @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
+    @order_field = params[:order_field] || 'name'
+    @templates = Template.find(
+      :all,
+      :include => :images,
+      :order => @order_field + ' ' + @order_dir
+    )
+  end
+
+  def action
+    if params[:new_template]
+      redirect_to :action => 'new'
+    elsif params[:assembly]
+      redirect_to :action => 'assembly'
+    elsif params[:deployment_definition]
+      redirect_to :action => 'deployment_definition'
+    elsif params[:delete]
+      redirect_to :action => 'delete', :id => params[:id].to_a.first
+    elsif params[:edit]
+      redirect_to :action => 'new', :id => params[:id].to_a.first
+    elsif params[:build]
+      redirect_to :action => 'build_form', 'image[template_id]' => params[:id].to_a.first
+    else
+      raise "Unknown action"
+    end
   end
 
   def new
-    update_xml
+    # can't use @template variable - is used by compass (or something other)
+    @tpl = Template.find_or_create(params[:id])
     @repository_manager = RepositoryManager.new
-    @image_descriptor = params[:id] ? Template.find(params[:id]) : Template.new
     @groups = @repository_manager.all_groups(params[:repository])
-    @hardware_profiles = HardwareProfile.find(:all)
-    @all_targets = Image.available_targets
-    if params[:tab].to_s == 'packages'
-      @selected_tab = 'packages'
-      @packages = @repository_manager.all_packages(params[:repository])
-    else
-      @selected_tab = 'groups'
-    end
-
-    if request.xhr?
-      render :partial => @selected_tab
-      return
-    end
-    if params[:build_and_monitor]
-      update_xml
-      redirect_to :action => 'summary', :id => @image_descriptor.id, :build=>"build", :targets =>params[:targets]
-    end
-    #if params[:next]
-    #  redirect_to :action => 'services', :id => @image_descriptor
-    #end
   end
 
-  def packages
-    repository_manager = RepositoryManager.new
-    @packages = repository_manager.get_packages
+  #def select_package
+  #  update_group_or_package(:add_package, params[:package], params[:group])
+  #  render :action => 'new'
+  #end
+
+  #def remove_package
+  #  update_group_or_package(:remove_package, params[:package], params[:group])
+  #  render :action => 'new'
+  #end
+
+  def create
+    @tpl = (params[:tpl] && !params[:tpl][:id].to_s.empty?) ? Template.find(params[:tpl][:id]) : Template.new(params[:tpl])
+    # this is crazy, but we have most attrs in xml and also in model,
+    # synchronize it at first to xml
+    @tpl.update_xml_attributes!(params[:tpl])
+
+    # if add/remove pkg/group, we only update xml and render 'new' template
+    # again
+    if update_selection
+      render :action => 'new'
+      return
+    end
+
+    if @tpl.save
+      flash[:notice] = "Template saved."
+      @tpl.set_complete
+      redirect_to :action => 'index'
+    else
+      @repository_manager = RepositoryManager.new
+      @groups = @repository_manager.all_groups(params[:repository])
+      render :action => 'new'
+    end
+  end
+
+  def build_form
+    raise "select template to build" unless params[:image] and params[:image][:template_id]
+    @image = Image.new(params[:image])
+    @all_targets = Image.available_targets
+  end
+
+  def build
+    if params[:cancel]
+      redirect_to :action => 'index'
+      return
+    end
+
+    @image = Image.new(params[:image])
+    @image.template.upload_template unless @image.template.uploaded
+    params[:targets].each do |target|
+      Image.new_if_not_exists(
+        :name => "#{@image.template.xml.name}/#{target}",
+        :target => target,
+        :template_id => @image.template_id,
+        :status => Image::STATE_QUEUED
+      )
+    end
+    redirect_to :action => 'builds'
   end
 
   def builds
-    #This will be the list of builds associated with template specified by {id}
+    @running_images = Image.all(:include => :template, :conditions => ['status IN (?)', Image::ACTIVE_STATES])
+    @completed_images = Image.all(:include => :template, :conditions => {:status => Image::STATE_COMPLETE})
+    require_privilege(Privilege::IMAGE_VIEW)
   end
 
-  def services
-    update_xml
-    if params[:back]
-      redirect_to :action => 'new', :id => @image_descriptor
-    elsif params[:next]
-      redirect_to :action => 'software', :id => @image_descriptor
-    end
-  end
-
-  def software
-    @repository_manager = RepositoryManager.new
-    @image_descriptor = params[:id] ? Template.find(params[:id]) : Template.new
-    @groups = @repository_manager.all_groups(params[:repository])
-    if params[:tab].to_s == 'packages'
-      @selected_tab = 'packages'
-      @packages = @repository_manager.all_packages(params[:repository])
-    else
-      @selected_tab = 'groups'
-    end
-
-    if request.xhr?
-      render :partial => @selected_tab
-      return
-    end
-
-    @image_descriptor.update_xml_attributes!(params[:xml] || {})
-
-    if params[:back]
-      redirect_to :action => 'services', :id => @image_descriptor
-    elsif params[:next]
-      # template is complete, upload it
-      @image_descriptor.upload_template
-      @image_descriptor.update_attribute(:complete, true)
-      redirect_to :action => 'summary', :id => @image_descriptor
-    end
-  end
-
-  def summary
-    update_xml
-    @all_targets = Image.available_targets
-    if params[:build]
-      if params[:targets]
-        params[:targets].each do |target|
-          # TODO: support versioning
-          Image.new_if_not_exists(
-            :name => "#{@image_descriptor.xml.name}/#{target}",
-            :target => target,
-            :template_id => params[:id],
-            :status => Image::STATE_QUEUED
-          )
-        end
-      end
-    else
-      if params[:back]
-        redirect_to :action => 'new', :id => @image_descriptor
-      elsif params[:done]
-        redirect_to :controller => 'dashboard', :action => 'index'
-      end
-    end
-  end
-
-  def targets
-    @image_descriptor = Template.find(params[:id])
-    @all_targets = Image.available_targets
-  end
-
-  def select_group
-    update_group_or_package(:add_group, params[:group])
-  end
-
-  def remove_group
-    update_group_or_package(:remove_group, params[:group])
-  end
-
-  def select_package
-    update_group_or_package(:add_package, params[:package], params[:group])
-  end
-
-  private
-
-  def check_for_cancel
-    if params[:cancel]
-      redirect_to :controller => "dashboard", :action => 'index'
-      return false
-    end
-    return true
-  end
-
-  def check_permission
-    require_privilege(Privilege::IMAGE_MODIFY)
-  end
-
-  def update_group_or_package(method, *args)
-    @image_descriptor = params[:id] ? Template.find(params[:id]) : Template.new
-    @image_descriptor.xml.send(method, *args)
-    @image_descriptor.save_xml!
-    if request.xhr?
-      render :partial => 'selected_packages'
-    else
-      redirect_to :action => 'software', :id => @image_descriptor
-    end
-  end
-
-  def update_xml
-    @image_descriptor = params[:id] ? Template.find(params[:id]) : Template.new
-    @image_descriptor.update_xml_attributes!(params[:xml] || {})
+  def delete
+    Template.destroy(params[:id].to_a)
+    redirect_to :action => 'index'
   end
 
   def assembly
   end
 
   def deployment_definition
+    @all_targets = Image.available_targets
+  end
+
+  private
+
+  def update_selection
+    # TODO: don't know better way how to select package and also save other form data than
+    # passing pkg/group as part of submit button name
+    params.keys.each do |param|
+      if param =~ /^select_package_(.*)$/
+        update_group_or_package(:add_package, $1, nil)
+        return true
+      elsif param =~ /^remove_package_(.*)$/
+        update_group_or_package(:remove_package, $1, nil)
+        return true
+      elsif param =~ /^select_group_(.*)$/
+        update_group_or_package(:add_group, $1)
+        return true
+      end
+    end
+    return false
+  end
+
+  def update_group_or_package(method, *args)
+    @repository_manager = RepositoryManager.new
+    @groups = @repository_manager.all_groups(params[:repository])
+    @tpl.xml.send(method, *args)
+    # we save template w/o validation (we can add package before name,... is
+    # set)
+    @tpl.save_xml!
   end
 
   def check_permission

@@ -8,30 +8,38 @@ Feature: Manage Templates
     And I am logged in
     And There is a mock pulp repository
 
-  Scenario: Add basic info to a new Template
-    Given I am on the homepage
-    When I follow "Create a Template"
+  Scenario: Create a new Template
+    Given I am on the templates page
+    When I press "Template"
     Then I should be on the new template page
-    And I should see "Create a New Template"
     When I fill in the following:
-      | xml_name         | mocktemplate  |
-      | xml_platform     | rhel          |
-      | xml_description  | mockdesc      |
-    And I press "Next"
-    Then I should be on the template services page
-    And I should have a template named "mocktemplate"
+      | tpl_name         | mocktemplate  |
+      | tpl_platform     | fedora        |
+      | tpl_platform     | 11            |
+      | tpl_summary      | mockdesc      |
+    When I press "Save"
+    Then I should be on the templates page
+    And I should see "Template saved"
+    And I should see "mocktemplate"
 
-  Scenario: Add a package to the template
-    Given There is a "mocktemplate" template
-    And I am on the template software page
-    And there is a package group
-    And no package is selected
-    When I follow "Select" within ".selection_list"
-    Then I should see "Remove" within "#selected_packages"
-
-  Scenario: Remove a package from the template
-    Given There is a "mocktemplate" template
-    And there is one selected package
-    And I jump on the "mocktemplate" template software page
-    When I follow "Remove" within "#selected_packages"
-    Then I should not see "Remove" within "#selected_packages"
+  Scenario: Add/Remove a package and a group to/from the template
+    Given I am on the templates page
+    When I press "Template"
+    Then I should be on the new template page
+    When I fill in the following:
+      | tpl_name         | mocktemplate  |
+    And I press "select_package_jboss-as5"
+    Then I should be on the create template page
+    And the "tpl[name]" field by name should contain "mocktemplate"
+    And the page should contain "#selected_package_jboss-as5" selector
+    When I press "remove_package_jboss-as5"
+    Then I should be on the create template page
+    And the page should not contain "#selected_package_jboss-as5" selector
+    When I press "select_group_JBoss Core Packages"
+    Then I should be on the create template page
+    And the "tpl[name]" field by name should contain "mocktemplate"
+    And the page should contain "#selected_package_jboss-jgroups" selector
+    When I press "Save"
+    Then I should be on the templates page
+    And I should see "Template saved"
+    And I should see "mocktemplate"

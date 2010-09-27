@@ -1,0 +1,35 @@
+%h2 BUILD REQUEST
+- form_for @image, :url => { :action => "build" } do
+  = hidden_field :image, :template_id
+  %h3 DEPLOYMENT DEFINITION
+  = label_tag :deploy_name, 'Deployment Definition Name'
+  = text_field_tag 'deploy_name', 'Deployment Name', :disabled => true
+  = text_field_tag 'deploy_description', 'Deployment Description', :disabled => true
+  %br
+  = check_box_tag 'use_for_machine', 1, true, :disabled => true
+  = label_tag 'use_for_machine', 'Use for Machine Definition Name and Description'
+  %br
+  = file_field :templates, :choose_logo, :value => 'Choose Logo', :disabled => true
+  = text_field :templates, :logo_text, :value => 'Logo Text (5 characters)', :disabled => true
+  %br
+  %label{ :for => :template_group}
+    Template Group
+  = select_tag(:template_group, options_for_select([['User Private', 1]]))
+
+  %h3 DEPLOYMENT OPTIONS
+  %hr
+  %b OS:
+  = @image.template.platform
+  %b OS Version:
+  = @image.template.platform_version
+  %h3 BUILD OPTIONS
+  %hr
+  %b Choose Provider Format:
+  %ul
+    - @all_targets.each do |target_id, target|
+      %li
+      = check_box_tag 'targets[]', target_id, false
+      = label_tag 'targets[]', target['name']
+
+  = submit_tag "Submit to Build", :name => "build"
+  = submit_tag "Cancel", :name => "cancel"

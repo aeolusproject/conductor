@@ -25,7 +25,7 @@ class RepositoryManager
   attr_reader :repositories
 
   def initialize(opts = {})
-    @config = opts[:config] || YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_package_repositories.yml")
+    @config = opts[:config] || load_config
     @config = [ @config ] if Hash === @config
     @repositories = get_repositories
   end
@@ -59,6 +59,10 @@ class RepositoryManager
   end
 
   private
+
+  def load_config
+    YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_package_repositories.yml")
+  end
 
   def get_repositories
     repositories = []

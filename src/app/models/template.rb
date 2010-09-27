@@ -4,7 +4,6 @@ require 'typhoeus'
 class Template < ActiveRecord::Base
   has_many :images,  :dependent => :destroy
   before_validation :update_attrs
-  before_save :discard_upload
 
   WAREHOUSE_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")
 
@@ -22,7 +21,7 @@ class Template < ActiveRecord::Base
     doc = xml
     doc.name = opts[:name] if opts[:name]
     doc.platform = opts[:platform] if opts[:platform]
-    doc.description = opts[:description] if opts[:description]
+    doc.description = opts[:summary] if opts[:summary]
     doc.platform_version = opts[:platform_version] if opts[:platform_version]
     doc.architecture = opts[:architecture] if opts[:architecture]
     doc.services = (opts[:services] || []) if opts[:services] or opts[:set_services]
@@ -44,7 +43,11 @@ class Template < ActiveRecord::Base
   def upload_template
     self.uri = File.join(WAREHOUSE_CONFIG['baseurl'], "template_#{id}")
     response = Typhoeus::Request.put(self.uri, :body => xml.to_xml, :timeout => 30000)
-    raise "failed to upload template" unless response.code == 200
+    if response.code == 200
+      update_attribute(:uploaded, true)
+    else
+      raise "failed to upload template (code #{response.code}): #{response.body}"
+    end
   end
 
   def update_attrs
@@ -69,8 +72,7 @@ class Template < ActiveRecord::Base
     id ? Template.find(id) : Template.new
   end
 
-  def discard_upload
-    uploaded =  false
-    return true
+  def set_complete
+    update_attributes(:complete => true, :uploaded => false)
   end
 end

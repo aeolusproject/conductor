@@ -2,13 +2,13 @@
 - form_tag :controller => 'templates' do
   #general_information
     %h3 General Information
-    = text_field :templates, :machine_name, :placeholder => 'Machine Name', :disabled => 'disabled'
-    = text_field :templates, :machine_description, :placeholder => 'Machine Description', :disabled => 'disabled'
-    = text_field :templates, :current_version, :placeholder => 'Current Version'
+    = text_field :templates, :machine_name, :value => 'Machine Name', :disabled => 'disabled'
+    = text_field :templates, :machine_description, :value => 'Machine Description', :disabled => 'disabled'
+    = text_field :templates, :current_version, :value => 'Current Version'
     %button{ :disabled => 'disabled' }
       New Version
-    = file_field :templates, :choose_logo, :placeholder => 'Choose Logo'
-    = text_field :templates, :logo_text, :placeholder => 'Logo Text (5 characters)'
+    = file_field :templates, :choose_logo, :value => 'Choose Logo'
+    = text_field :templates, :logo_text, :value => 'Logo Text (5 characters)'
     %label{ :for => :template_group}
       Template Group
     = select_tag(:template_group, options_for_select([['User Private', 1]]))
@@ -84,13 +84,13 @@
     %h3 Pre-boot Configuration
     %input{ :type => 'radio', :id => 'select_script', :name => 'configuration', :value => 'script' }
     %label{ :for => 'select_script' } Configure Via Script
-    = text_field :templates, :file_name, :placeholder => 'File Name'
+    = text_field :templates, :file_name, :value => 'File Name'
     %button{ :disabled => 'disabled' }
       Browse
 
     %input{ :type => 'radio', :id => 'select_puppet', :name => 'configuration', :value => 'puppet' }
     %label{ :for => 'select_puppet' } Configure Via Puppet
-    = text_field :templates, :corporate_security, :placeholder => 'Corporate Security'
+    = text_field :templates, :corporate_security, :value => 'Corporate Security'
     %button{ :disabled => 'disabled' }
       Browse
 

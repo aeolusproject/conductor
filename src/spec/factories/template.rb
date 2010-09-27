@@ -6,7 +6,7 @@ Factory.define :template do |i|
   <repos>
     <repo>https://localhost/pulp/repos/jboss2</repo>
   </repos>
-  <os>fedora</os>
+  <os name="Fedora" version="13" architecture="64-bit"/>
   <description/>
   <services/>
   <groups>

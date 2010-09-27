@@ -1,18 +1,29 @@
-- columns = [                                                               |
-  {:id => 'id', :header => ''},                                             |
-  {:id => 'name', :header => 'Name', :sortable => true},                    |
-]                                                                           |
+- template_columns = [                                            |
+  {:name => '', :sortable => false},                              |
+  {:name => 'NAME', :sort_attr => 'name'},                        |
+  {:name => 'OS', :sort_attr => 'platform'},                      |
+  {:name => 'VERSION', :sort_attr => 'platform_version'},         |
+  {:name => 'BOOTABLE', :sortable => false},                      |
+  {:name => 'ARCH', :sort_attr => 'architecture'},                |
+  {:name => 'TIMES USED', :sort_attr => 'images_count'},          |
+]                                                                 |
 
-- opts = { :order => @order,
-  :order_dir => @order_dir,
-  :title => 'list of templates',
-  :check_all => 'id',
-  :header => defined?(header) ? header : nil,
-  :footer => defined?(footer) ? footer : nil,
-  :single_select => @single_select || false }
-
-= paginated_table('templates_table', columns, @templates, opts) do |rec|
-  %tr{:class => "#{cycle('even', 'odd')}"}
-    %td= check_box_tag 'ids[]', rec.id
-    %td{:class => 'template_name'}= rec.name
-    /%td= rec.instances.count
+%table
+  = sortable_table_header(template_columns)
+  %tbody
+    - if @templates.empty?
+      %tr
+        %td{:colspan => 7} No Templates
+    - else
+      - @templates.each do |tpl|
+        %tr
+          %td= check_box_tag 'id[]', tpl.id
+          %td
+            %img{:src => "/image/#{tpl.platform}"}
+            = tpl.name
+          %td= tpl.platform
+          %td= tpl.platform_version
+          %td
+            %img{:src => '', :alt => 'yes'}
+          %td= tpl.architecture
+          %td= tpl.images.size

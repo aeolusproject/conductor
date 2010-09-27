@@ -46,7 +46,7 @@ CloudAccount.class_eval do
 end
 
 RepositoryManager.class_eval do
-  def config
+  def load_config
     [{
       'baseurl' => 'http://pulptest',
       'yumurl'  => 'http://pulptest',
