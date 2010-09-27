@@ -23,19 +23,21 @@ input,textarea {
   background-color: #f0f0f0;
   background: #f0f0f0 url(/images/input-bg.png) repeat-x 0 0;
   padding: 4px;
-  margin: 1px;
+  margin: 0;
   &:focus {
     border-width: 2px;
-    margin: 0;
+    padding: 3px;
     background-color: #fff;
     outline: none;
   }
 }
-
   input[type="search"] {
     @include border-radius(20px);
     padding: 4px 30px 4px 10px;
     width: 80%;
+    &:focus {
+      padding: 3px 29px 3px 9px;
+    }
   }
   /* CHECKBOXES and RADIOBUTTONS*/
   input[type="checkbox"],input[type="radio"] {
@@ -48,6 +50,14 @@ input,textarea {
       padding: 1px;
     }
   }
+
+/* compensate grid_* for padding+border of the inputboxes and textareas */
+input.grid_1 { width: 50px !important; }
+input.grid_2 { width: 110px !important; }
+input.grid_3 { width: 150px !important; }
+input.grid_4 { width: 210px !important; }
+input.grid_5 { width: 270px !important; }
+
 
 /* BUTTONS */
 input[type='submit'],button,.button {
@@ -223,6 +233,36 @@ table {
   }
   &:active {
     background: url(/images/icons/action-icons.png) no-repeat 0 0;
+  }
+}
+
+.actionsidebar {
+  border-right: 1px solid darken($footerbg, 10%);
+  width: 159px !important;
+  dt {
+    background-color: $footerbg;
+    border-bottom: 1px solid darken($footerbg, 10%);
+    border-top: 1px solid darken($footerbg, 10%);
+    color: $headercl;
+    font-family: $headlinefont;
+    font-size: 110%;
+    font-weight: bold;
+    margin: 3px 0 20px;
+    padding:14px 20px 12px;
+    text-transform: uppercase;
+  }
+  dd {
+    padding: 4px 4px 4px 10px;
+    margin: 0;
+    font-size: 110%;
+    &.selected {
+      background: url("/images/actionsidebar-bullet.png") no-repeat left center;
+      font-weight: bold;
+      color: $dcprimary;
+    }
+  }
+  form {
+    display: inline-block;
   }
 }
 
@@ -473,6 +513,35 @@ nav {
       }
     }
   }
+  &.subsubnav { /* in page tabs */
+    position: static;
+    overflow: hidden;
+    bottom: inherit;
+    left: inherit;
+    right: inherit;
+    margin-bottom: 2em;
+    &>ul {
+      display: block;
+      li {
+        display: block;
+        float: left;
+        a {
+          cursor: pointer;
+          font-family: $screenfont;
+          text-transform: none;
+          font-weight: normal;
+          color: black;
+          display: block;
+          padding: 6px 12px; margin-right: 10px;
+          &.selected {
+            color: #fff;
+            background-color: $dcprimary;
+            @include border-radius(5px);
+          }
+        }
+      }
+    }
+  }
 }
 
   /* color coding for the subnav */
@@ -531,6 +600,20 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
 
 /* FORMS */
 
+/* generic */
+label {
+  /* padding: 4px 10px 4px 0; so that it aligns to the padding of the inputboxes */
+  &.big {
+    text-transform: uppercase;
+    font-family: $headlinefont;
+    font-size: 110%;
+    font-weight: bold;
+    color: $formheadfg;
+  }
+}
+
+
+
 /* simple two column label + input pairs */
 .dcloud_form {
   fieldset {
@@ -569,6 +652,8 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
     }
   }
 }
+
+
 
 /* WIZARD TILES */
 

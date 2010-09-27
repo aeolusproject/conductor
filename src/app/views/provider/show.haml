@@ -1,28 +1,31 @@
 - readonly = controller.action_name == 'show' ? true : false
 = render :partial => 'providers'
 #details.grid_13
-  = render_navigation(:level => 4)
+  %nav.subsubnav
+    = render_navigation(:level => 4)
   - if controller.action_name == 'new'
     - form_action = 'create'
   - elsif controller.action_name == 'edit'
     - form_action = 'update'
-  - form_tag :controller => :provider, :action => form_action do
-    %h2.first
-      = t('.provider_name')
-      - unless readonly
-        %span.required
-          *
-    %h2.second
-      = t('.provider_url')
-      - unless readonly
-        %span.required
-          *
-    .fieldGroup.clearfix
-      = text_field :provider, :name, :title => t('.provider_name'), :value => (@provider.name if @provider), :disabled => ('disabled' if controller.action_name == 'show')
-      = text_field :provider, :url, :title => t('.provider_url'), :class => 'emailinput', :value => (@provider.url if @provider), :disabled => ('disabled' unless controller.action_name == 'new')
+  - form_tag :controller => :provider, :action => form_action, :class => "dcloud_form" do
+    %fieldset
+      %label.grid_4.alpha.big{ :for => "provider_name" }
+        = t('.provider_name')
+        - unless readonly
+          %span.required
+            *
+      %label.grid_5.big{ :for => "provider_url" }
+        = t('.provider_url')
+        - unless readonly
+          %span.required
+            *
+      /for error messages
+      %div.grid_4.omega &nbsp;
+      = text_field :provider, :name, :title => t('.provider_name'), :value => (@provider.name if @provider), :disabled => ('disabled' if controller.action_name == 'show'), :class => "clear grid_4 alpha"
+      = text_field :provider, :url, :title => t('.provider_url'), :class => 'emailinput', :value => (@provider.url if @provider), :disabled => ('disabled' unless controller.action_name == 'new'), :class => "grid_5"
       - if controller.action_name == 'edit':
         = hidden_field :provider, :id, :value => @provider.id
-      %p
+      .clear.prefix_4.grid_5.suffix_4.alpha.omega
         %span
           (
           %a{ :href => ''}<>
