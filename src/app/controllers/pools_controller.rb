@@ -21,12 +21,22 @@
 
 require 'util/condormatic'
 
-class PoolController < ApplicationController
+class PoolsController < ApplicationController
   before_filter :require_user, :get_nav_items
 
   def index
-    render :action => 'new'
+    @header = [
+      { :name => "Pool name", :sort_attr => :name },
+      { :name => "% Quota used", :sortable => false },
+      { :name => "Quota (Instances)", :sort_attr => "quotas.total_instances"},
+      { :name => "Zone", :sort_attr => "zones.name" }
+    ]
+    @pools = Pool.paginate(:all, :include => [ :quota, :zone ],
+      :page => params[:page] || 1,
+      :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
+    )
   end
+
 
   def show
     @pool = Pool.find(params[:id])

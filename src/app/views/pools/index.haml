@@ -1,0 +1,24 @@
+#pools_nav{:class => 'grid_3'}
+  %dl
+    %dt
+      Pools
+    %dd.create
+      =link_to 'New Pool', :action => :new
+
+#details{:class => 'grid_13'}
+  %h1 Manage Pools
+
+  %table
+    =sortable_table_header @header
+    %tbody
+    - @pools.each do |pool|
+      %tr
+        %td
+          =link_to pool.name, pool_url(pool.id)
+        %td
+          =((pool.quota.maximum_running_instances || 0)/100)*pool.quota.total_instances
+          ='%'
+        %td
+          =pool.quota.total_instances
+        %td
+          =pool.zone.name

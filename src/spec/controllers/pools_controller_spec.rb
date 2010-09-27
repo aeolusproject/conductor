@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PoolController do
+describe PoolsController do
   fixtures :all
   before(:each) do
     @admin_permission = Factory :admin_permission
@@ -26,7 +26,7 @@ describe PoolController do
        post :create, :pool => { :name => 'foopool' }
      end.should change(Pool, :count).by(1)
      id = Pool.find(:first, :conditions => ['name = ?', 'foopool']).id
-     response.should redirect_to("http://test.host/pool/#{id}")
+     response.should redirect_to("http://test.host/pools/#{id}")
   end
 
   it "should provide ui to view hardware profiles" do

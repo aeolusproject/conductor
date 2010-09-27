@@ -33,7 +33,7 @@ ActionController::Routing::Routes.draw do |map|
   # -- just remember to delete public/index.html.
 
 
-  map.resources :pool
+  map.resources :pools
 
   map.connect '', :controller => 'dashboard'
 

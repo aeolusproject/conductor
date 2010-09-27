@@ -4,16 +4,16 @@
 <ul id="pools">
   <% if !@pools.nil? %>
   <% @pools.each { |pool| %>
-  <% if controller.controller_name == "pool" && pool.id == cur_id
+  <% if controller.controller_name == "pools" && pool.id == cur_id
     selected_pool = "selected"
   else selected_pool = ""
   end %>
   <li><%= link_to  pool.name,
-    {:controller => "pool", :action => "show", :id => pool},
+    {:controller => "pools", :action => "show", :id => pool},
      :class => "poolname #{selected_pool}" %></li>
   <% } %>
   <% end %>
 </ul>
 <% if BasePermissionObject.general_permission_scope.has_privilege(@current_user, Privilege::POOL_MODIFY) %>
-    <%= link_to "Add a pool", {:controller => "pool", :action => "new"}, :class => "actionlink" %>
+    <%= link_to "Add a pool", {:controller => "pools", :action => "new"}, :class => "actionlink" %>
 <% end %>

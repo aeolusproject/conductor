@@ -17,9 +17,9 @@ SimpleNavigation::Configuration.run do |navigation|
           fourth_level.item :edit_user, t(:edit_user), :controller => 'users', :action => 'edit'
         end
       end
-      second_level.item :pools_and_zones, t(:pools_and_zones), :controller => 'pool' do |third_level|
-        third_level.item :new_pool, t(:new_pool), :controller => 'pool', :action => 'new'
-        third_level.item :edit_pool, t(:edit_pool), :controller => 'pool', :action => 'edit'
+      second_level.item :pools_and_zones, t(:pools_and_zones), :controller => 'pools' do |third_level|
+        third_level.item :new_pool, t(:new_pool), :controller => 'pools', :action => 'new'
+        third_level.item :edit_pool, t(:edit_pool), :controller => 'pools', :action => 'edit'
       end
       second_level.item :audit_report, t(:audit_report), '#', :class => 'disabled'
       second_level.item :assistance_requests, t(:assistance_requests), '#', :class => 'disabled'

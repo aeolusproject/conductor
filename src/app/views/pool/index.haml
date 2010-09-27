@@ -1,8 +1,0 @@
-- if @pools.size == 0
-  %h1 There are no pools to display
-- else
-  - @pools.each {|pool|
-  = pool.name
-  %br/
-  - }
-= link_to "Add a pool", :controller => "pool", :action => "new", :provider => @provider
