@@ -130,5 +130,5 @@ class PoolsController < ApplicationController
     end
     redirect_to :action => 'show', :id => @pool.id
   end
-  condormatic_classads_sync
+  kick_condor
 end

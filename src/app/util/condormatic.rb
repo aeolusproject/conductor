@@ -18,6 +18,7 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 require 'nokogiri'
+require 'socket'
 
 def condormatic_instance_create(task)
 
@@ -280,5 +281,25 @@ def condormatic_classads_sync
     end
 
     Rails.logger.info "done"
+  end
+end
+
+def kick_condor
+  begin
+    socket = Socket.new(Socket::AF_INET, Socket::SOCK_DGRAM, 0)
+    in_addr = Socket.pack_sockaddr_in(7890, 'localhost')
+    socket.connect(in_addr)
+    socket.write("kick")
+    socket.close
+  rescue
+    # if any of the above failed, it's possible that the condor_refreshd
+    # daemon is not running.  This is especially useful when running the
+    # spec tests, since you don't necessarily want condor running in that
+    # circumstance.
+    # FIXME: there are a couple of problems with ignoring errors here.  The
+    # first is that if this does actually fail, then it's unclear when in the
+    # future we will update the classads next.  The second problem is that
+    # if condor_refreshd died for some reason, but condor itself is running,
+    # condor could be running with stale data.
   end
 end
