@@ -252,13 +252,16 @@ table {
     text-transform: uppercase;
   }
   dd {
-    padding: 4px 4px 4px 10px;
     margin: 0;
     font-size: 110%;
-    &.selected {
-      background: url("/images/actionsidebar-bullet.png") no-repeat left center;
-      font-weight: bold;
-      color: $dcprimary;
+    a {
+      display: block;
+      padding: 4px 4px 4px 20px;
+      &.selected {
+        background: url("/images/actionsidebar-bullet.png") no-repeat left center;
+        font-weight: bold;
+        color: $dcprimary;
+      }
     }
   }
   form {
@@ -270,6 +273,7 @@ table {
   &>div {
     padding: 10px;
     @include border-radius(5px);
+    margin-bottom: 2em;
     ul {
       display: block;
       margin: 0;
@@ -546,11 +550,16 @@ nav {
 
   /* color coding for the subnav */
   #operation .subnav { background-color: $operationbg; }
-  #administration .subnav { background-color: $administrationbg; }
+  #administration .subnav,
+  #system_settings .subnav,
+  #loginpage .subnav { background-color: $administrationbg; }
   #build .subnav { background-color: $buildbg; }
   #runtime .subnav { background-color: $runtimebg; }
     #operation .subnav>ul>li a.selected { background: url(/images/selected-subnav-op.png) no-repeat bottom center; }
-    #administration .subnav>ul>li a.selected { background: url(/images/selected-subnav-ad.png) no-repeat bottom center; }
+    #administration .subnav>ul>li a.selected,
+    #system_settings .subnav>ul>li a.selected,
+    #loginpage .subnav>ul>li a.selected
+     { background: url(/images/selected-subnav-ad.png) no-repeat bottom center; }
     #build .subnav>ul>li a.selected { background: url(/images/selected-subnav-bu.png) no-repeat bottom center; }
     #runtime .subnav>ul>li a.selected { background: url(/images/selected-subnav-ru.png) no-repeat bottom center; }
 
@@ -593,7 +602,7 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
 }
 
 #content {
-  margin-top: 3em; /* FIXME temporary */
+  margin-top: 1em;
   margin-bottom: 60px;
   overflow: hidden;
 }
@@ -659,6 +668,7 @@ label {
 
 ul.tiles {
   overflow: hidden;
+  margin: 2em 0 0;
   li.grid_8 {
     margin-bottom: 30px;
     padding-left: 60px;
