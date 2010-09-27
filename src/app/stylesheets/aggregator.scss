@@ -478,6 +478,7 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
 #content {
   margin-top: 3em; /* FIXME temporary */
   margin-bottom: 60px;
+  overflow: hidden;
 }
 
 /* FORMS */
