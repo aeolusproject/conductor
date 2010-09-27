@@ -1,3 +1,6 @@
 # sets ruby on Rails environment / mode of operation
 # http://wiki.rubyonrails.org/rails/pages/Environments
-#RAILS_ENV=production
+#
+# NOTE: This needs to be set to some value in order for all of the
+# daemons to access the same database
+export RAILS_ENV=production

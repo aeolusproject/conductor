@@ -23,6 +23,7 @@ Requires: rubygem(daemons)
 Requires: rubygem(haml)
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate)
+Requires: rubygem(parseconfig)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
