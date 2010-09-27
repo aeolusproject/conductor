@@ -1,0 +1,80 @@
+#!/bin/bash
+#
+#
+# deltacloud-condor_refreshd       startup script for deltacloud-condor_refreshd
+#
+# chkconfig: - 97 03
+# description: deltacloud-condor_refreshd populates the Deltacloud Scheduler
+#    from the Deltacloud Aggregator db
+
+[ -r /etc/sysconfig/deltacloud-rails ] && . /etc/sysconfig/deltacloud-rails
+
+[ -r /etc/sysconfig/deltacloud-aggregator ] && . /etc/sysconfig/deltacloud-aggregator
+
+DELTACLOUD_DIR="${DELTACLOUD_DIR:-/usr/share/deltacloud-aggregator}"
+REFRESHD_LOG="${REFRESHD_LOG:-/var/log/deltacloud-aggregator/condor_refreshd.log}"
+REFRESHD_PID="${REFRESHD_PID:-/var/run/deltacloud-aggregator/condor_refreshd.pid}"
+REFRESHD_LOCKFILE="${REFRESHD_LOCKFILE:-/var/lock/subsys/deltacloud-condor_refreshd}"
+USER="${USER:-dcloud}"
+GROUP="${GROUP:-dcloud}"
+
+REFRESHD_PATH=/usr/share/deltacloud-aggregator/condor_refreshd
+REFRESHD_PROG=condor_refreshd
+REFRESHD_PID=/var/run/deltacloud-aggregator/condor_refreshd.pid
+
+. /etc/init.d/functions
+
+start() {
+    echo -n "Starting deltacloud-condor_refreshd: "
+
+    daemon --user=$USER $REFRESHD_PATH/$REFRESHD_PROG
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] && touch $REFRESHD_LOCKFILE ; then
+      echo_success
+      echo
+    else
+      echo_failure
+      echo
+    fi
+}
+
+stop() {
+    echo -n "Shutting down deltacloud-condor_refreshd: "
+    killproc -p $REFRESHD_PID $REFRESHD_PROG
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] && rm -f $REFRESHD_LOCKFILE ; then
+      echo_success
+      echo
+    else
+      echo_failure
+      echo
+    fi
+}
+
+case "$1" in
+    start)
+      start
+     ;;
+    stop)
+      stop
+      ;;
+    restart)
+      stop
+      start
+      ;;
+    reload)
+      ;;
+    force-reload)
+      restart
+      ;;
+    status)
+     status $REFRESHD_PROG
+     RETVAL=$?
+     ;;
+    *)
+      echo "Usage: deltacloud-condor_refreshd {start|stop|restart|status}"
+      exit 1
+  ;;
+esac
+
+exit $RETVAL
