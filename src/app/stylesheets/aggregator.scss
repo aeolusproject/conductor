@@ -158,7 +158,7 @@ table {
         .percentBlockInner {
         }
         .gradGreen {
-          background-color: $graphgood;
+          background-color: $goodcl;
         }
       }
       .min {
@@ -184,6 +184,29 @@ table {
   }
   &:active {
     background: url(/images/icons/action-icons.png) no-repeat 0 0;
+  }
+}
+
+#notification {
+  &>div {
+    padding: 10px;
+    @include border-radius(5px);
+    ul {
+      display: block;
+      margin: 0;
+      li {
+        display: block;
+        margin: 0;
+      }
+    }
+  }
+  .success {
+    background-color: lighten($goodcl,40%);
+    border: 1px solid $goodcl;
+  }
+  .error {
+    background-color: lighten($badcl,40%);
+    border: 1px solid $badcl;
   }
 }
 
