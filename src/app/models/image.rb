@@ -27,7 +27,7 @@ class Image < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  belongs_to :template
+  belongs_to :template, :counter_cache => true
   has_many :replicated_images, :dependent => :destroy
   has_many :providers, :through => :replicated_images
 
@@ -45,7 +45,7 @@ class Image < ActiveRecord::Base
   STATE_COMPLETE = 'complete'
   STATE_CANCELED = 'canceled'
 
-  ACTIVE_STATES = [ STATE_WAITING, STATE_BUILDING ]
+  ACTIVE_STATES = [ STATE_QUEUED, STATE_WAITING, STATE_BUILDING ]
 
   def self.new_if_not_exists(data)
     unless find_by_template_id(data[:template_id], :conditions => {:target => data[:target]})

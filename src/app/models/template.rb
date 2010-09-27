@@ -4,6 +4,7 @@ require 'typhoeus'
 class Template < ActiveRecord::Base
   has_many :images,  :dependent => :destroy
   before_validation :update_attrs
+  before_save :discard_upload
 
   WAREHOUSE_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")
 
@@ -12,14 +13,18 @@ class Template < ActiveRecord::Base
   # uncomment this after reworking view (currently is used wizard,
   # so there can be situation when save is called and name and platform can be
   # unset)
-  #validates_presence_of :name
-  #validates_presence_of :platform
+  validates_presence_of :name
+  validates_presence_of :platform
+  validates_presence_of :platform_version
+  validates_presence_of :architecture
 
   def update_xml_attributes!(opts = {})
     doc = xml
     doc.name = opts[:name] if opts[:name]
     doc.platform = opts[:platform] if opts[:platform]
     doc.description = opts[:description] if opts[:description]
+    doc.platform_version = opts[:platform_version] if opts[:platform_version]
+    doc.architecture = opts[:architecture] if opts[:architecture]
     doc.services = (opts[:services] || []) if opts[:services] or opts[:set_services]
     doc.packages = (opts[:packages] || []) if opts[:packages] or opts[:set_packages]
     save_xml!
@@ -28,7 +33,8 @@ class Template < ActiveRecord::Base
   def save_xml!
     self[:xml] = xml.to_xml
     @xml = nil
-    save!
+    update_attrs
+    save_without_validation!
   end
 
   def xml
@@ -38,12 +44,7 @@ class Template < ActiveRecord::Base
   def upload_template
     self.uri = File.join(WAREHOUSE_CONFIG['baseurl'], "template_#{id}")
     response = Typhoeus::Request.put(self.uri, :body => xml.to_xml, :timeout => 30000)
-    if response.code == 200
-      save!
-    else
-      raise "failed to upload template (return code #{response.code}): #{response.body}"
-    end
-    return true
+    raise "failed to upload template" unless response.code == 200
   end
 
   def update_attrs
@@ -52,6 +53,8 @@ class Template < ActiveRecord::Base
     self.name = xml.name
     self.summary = xml.description
     self.platform = xml.platform
+    self.platform_version = xml.platform_version
+    self.architecture = xml.architecture
   end
 
   def providers
@@ -60,5 +63,14 @@ class Template < ActiveRecord::Base
       :include => [:image, :provider],
       :conditions => {:images => {:template_id => self.id}}
     ).map {|p| p.provider}
+  end
+
+  def self.find_or_create(id)
+    id ? Template.find(id) : Template.new
+  end
+
+  def discard_upload
+    uploaded =  false
+    return true
   end
 end

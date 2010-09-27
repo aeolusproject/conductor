@@ -6,8 +6,12 @@ class CreateTemplates < ActiveRecord::Migration
       t.string  :uri
       t.string  :name
       t.string  :platform
+      t.string  :platform_version
+      t.string  :architecture
       t.text    :summary
       t.boolean :complete, :default => false
+      t.boolean :uploaded, :default => false
+      t.integer :images_count
       t.timestamps
     end
   end
