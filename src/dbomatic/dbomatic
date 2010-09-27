@@ -18,41 +18,49 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 $: << File.join(File.dirname(__FILE__), "../dutils")
+
+require 'rubygems'
 require 'dutils'
 require 'nokogiri'
 require 'rb-inotify'
 require 'optparse'
 
 help = false
-
+daemon = true
 condor_event_log_dir    =   "/var/log/condor"
 dbomatic_run_dir        =   "/var/run/deltacloud-aggregator"
 dbomatic_log_dir        =   "/var/log/deltacloud-aggregator"
+dbomatic_pid_dir        =   "/var/run/deltacloud-aggregator"
 
 optparse = OptionParser.new do |opts|
 
-opts.banner = <<BANNER
+  opts.banner = <<BANNER
 Usage:
 dbomatic [options]
 
 Options:
 BANNER
+  opts.on( '-f', '--pid-file PATH', "Use PATH to the dbomatic pid directory (defaults to #{dbomatic_pid_dir})") do |newpath|
+    dbomatic_pid_dir = newpath
+  end
+  opts.on( '-h', '--help', '') { help = true }
+  opts.on( '-l', '--log PATH', "Use PATH to the dbomatic log directory (defaults to #{dbomatic_log_dir}).  Use '-' for stdout") do |newpath|
+    dbomatic_log_dir = newpath
+  end
+  opts.on( '-n', '--nodaemon', 'Do not daemonize (useful in combination with -l for debugging)') { daemon = false }
   opts.on( '-p', '--path PATH', "Use PATH to the condor log directory (defaults to #{condor_event_log_dir})") do |newpath|
     condor_event_log_dir = newpath
   end
   opts.on( '-r', '--run PATH', "Use PATH to the dbomatic runtime directory (defaults to #{dbomatic_run_dir})") do |newpath|
     dbomatic_run_dir = newpath
   end
-  opts.on( '-l', '--log PATH', "Use PATH to the dbomatic log directory (defaults to #{dbomatic_log_dir}).  Use '-' for stdout") do |newpath|
-    dbomatic_log_dir = newpath
-  end
-  opts.on( '-h', '--help', '') { help = true }
 end
 
 begin
-optparse.parse!
+  optparse.parse!
 rescue OptionParser::InvalidOption => e
-  puts e
+  puts "Invalid option #{e.args}"
+  puts
   puts optparse
   exit(1)
 end
@@ -73,6 +81,24 @@ end
 logger = Logger.new(DBOMATIC_LOG_FILE)
 logger.level = Logger::DEBUG
 logger.info "DBOmatic starting up"
+
+# daemonize
+if daemon
+  # note that this requires 'active_support', which we get for free from dutils
+  Process.daemon
+end
+
+begin
+  DBOMATIC_PID_FILE = "#{dbomatic_pid_dir}/dbomatic.pid"
+  FileUtils.mkdir_p File.dirname(DBOMATIC_PID_FILE)
+  open(DBOMATIC_PID_FILE, "w") {|f| f.write(Process.pid) }
+  File.chmod(0644, DBOMATIC_PID_FILE)
+rescue => e
+  logger.error "#{e.backtrace.shift}: #{e.message}"
+  e.backtrace.each do |step|
+    logger.error "\tfrom #{step}"
+  end
+end
 
 # Handle the event log's xml
 class CondorEventLog < Nokogiri::XML::SAX::Document

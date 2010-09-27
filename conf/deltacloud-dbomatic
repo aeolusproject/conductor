@@ -19,14 +19,15 @@ USER="${USER:-dcloud}"
 GROUP="${GROUP:-dcloud}"
 
 DBOMATIC_PATH=/usr/share/deltacloud-aggregator/dbomatic
-DBOMATIC_PROC=dbomatic
+DBOMATIC_PROG=dbomatic
+DBOMATIC_PID=/var/run/deltacloud-aggregator/dbomatic.pid
 
 . /etc/init.d/functions
 
 start() {
     echo -n "Starting deltacloud-dbomatic: "
 
-    $DBOMATIC_PATH/$DBOMATIC_PROC&
+    daemon --user=$USER $DBOMATIC_PATH/$DBOMATIC_PROG
     RETVAL=$?
     if [ $RETVAL -eq 0 ] && touch $DBOMATIC_LOCKFILE ; then
       echo_success
@@ -39,7 +40,7 @@ start() {
 
 stop() {
     echo -n "Shutting down deltacloud-dbomatic: "
-    killall $DBOMATIC_PROC
+    killproc -p $DBOMATIC_PID $DBOMATIC_PROG
     RETVAL=$?
     if [ $RETVAL -eq 0 ] && rm -f $DBOMATIC_LOCKFILE ; then
       echo_success
