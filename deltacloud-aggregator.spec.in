@@ -19,7 +19,6 @@ BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 Requires: ruby >= 1.8.1
 Requires: ruby(abi) = 1.8
 Requires: rubygem(rails) >= 2.1.1
-Requires: rubygem(daemons)
 Requires: rubygem(haml)
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate)
@@ -30,6 +29,7 @@ Requires: ruby-postgres
 Requires: gnuplot >= 4.2.6
 Requires: ruby-RMagick
 Requires: classads >= 1.0
+Requires: condor >= 7.5.4
 
 BuildRequires: classads-devel >= 1.0
 
@@ -39,7 +39,7 @@ Group:     Applications/Internet
 License:   GPLv2+
 Requires: %{name} = %{version}-%{release}
 Requires: httpd >= 2.0
-#Requires: rubygem(thin) >= 1.2.5
+Requires: rubygem(thin) >= 1.2.5
 Requires(post): chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
@@ -84,6 +84,9 @@ make
 
 # copy over all of the src directory...
 %{__cp} -R src/* %{buildroot}/%{app_root}
+
+# we need to make sure there are no leftover logfiles getting pulled in
+rm -f %{buildroot}/%{app_root}/log/*
 
 # Remove this directory as the make install below will install the correct files to this dir.
 %{__rm} -rf %{buildroot}%{app_root}/classad_plugin
@@ -154,13 +157,19 @@ getent passwd dcloud >/dev/null || \
     -s /sbin/nologin -r -d /var/dcloud dcloud 2> /dev/null || :
 
 %post daemons
-# Register the httpd service
+# Register the services
 /sbin/chkconfig --add deltacloud-aggregator
+/sbin/chkconfig --add deltacloud-dbomatic
+/sbin/chkconfig --add deltacloud-condor_refreshd
 
 %preun daemons
 if [ $1 = 0 ]; then
 /sbin/service deltacloud-aggregator stop > /dev/null 2>&1
 /sbin/chkconfig --del deltacloud-aggregator
+/sbin/service deltacloud-dbomatic stop > /dev/null 2>&1
+/sbin/chkconfig --del deltacloud-dbomatic
+/sbin/service deltacloud-condor_refreshd stop > /dev/null 2>&1
+/sbin/chkconfig --del deltacloud-condor_refreshd
 fi
 
 %files
@@ -175,9 +184,9 @@ fi
 
 %files daemons
 %defattr(-,root,root,-)
-%attr(755, dcloud, dcloud) %{_initrddir}/deltacloud-aggregator
-%attr(755, dcloud, dcloud) %{_initrddir}/deltacloud-dbomatic
-%attr(755, dcloud, dcloud) %{_initrddir}/deltacloud-condor_refreshd
+%{_initrddir}/deltacloud-aggregator
+%{_initrddir}/deltacloud-dbomatic
+%{_initrddir}/deltacloud-condor_refreshd
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-aggregator
 %config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-rails
@@ -193,6 +202,10 @@ fi
 %doc AUTHORS COPYING
 
 %changelog
+* Mon Sep 27 2010 Chris Lalancette <clalance@redhat.com>
+- Added new rubygem-parseconfig dependency
+- Turn on services during install with chkconfig
+
 * Sat Mar 6 2010 Ian Main <imain@redhat.com> - 0.0.2-2
 - removed taskomatic from packaging.
 
