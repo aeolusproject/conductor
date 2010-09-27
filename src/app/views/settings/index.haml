@@ -5,8 +5,7 @@
       = t('.general_settings')
     %p
       = t('.general_settings_desc')
-    %button
-      = t(:continue)
+    = link_to t(:continue), {:controller => 'settings', :action => 'general_settings'}, :class => 'button'
   %li#locales.grid_8.disabled
     %img{:alt => "", :class => "icon", :src => "/images/blnk.png"}
     %h2
@@ -21,8 +20,7 @@
       = t('.manage_users')
     %p
       = t('.manage_users_desc')
-    %button
-      = t(:continue)
+    = link_to t(:continue), {:controller => 'users'}, :class => 'button'
   %li#hardware.grid_8.disabled
     %img{:alt => "", :class => "icon", :src => "/images/blnk.png"}
     %h2
@@ -37,8 +35,7 @@
       = t('.manage_providers')
     %p
       = t('.manage_providers_desc')
-    %button
-      = t(:continue)
+    = link_to t(:continue), {:controller => 'provider'}, :class => 'button'
   %li#services.grid_8.disabled
     %img{:alt => "", :class => "icon", :src => "/images/blnk.png"}
     %h2
@@ -53,5 +50,4 @@
       = t('.permissions')
     %p
       = t('.permissions_desc')
-    %button
-      = t(:continue)
+    = link_to t(:continue), {:controller => 'settings', :action => 'self_service'}, :class => 'button'

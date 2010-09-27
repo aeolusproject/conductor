@@ -42,6 +42,13 @@ class SettingsController < ApplicationController
    @self_service_default_quota = MetadataObject.lookup(SELF_SERVICE_DEFAULT_QUOTA)
  end
 
+ def general_settings
+   if !is_admin?
+     raise PermissionError.new('You have insufficient privileges to perform action.')
+     return
+   end
+ end
+
  def update
    KEYS.each do |key|
      if params[key]
