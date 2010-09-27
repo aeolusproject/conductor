@@ -46,7 +46,7 @@ class ProviderController < ApplicationController
     require_privilege(Privilege::PROVIDER_MODIFY)
     @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
     @provider = Provider.new(params[:provider])
-    condormatic_classads_sync
+    kick_condor
     render :show
   end
 
@@ -60,7 +60,7 @@ class ProviderController < ApplicationController
     else
       render :action => "new"
     end
-    condormatic_classads_sync
+    kick_condor
   end
 
   def update
@@ -74,7 +74,7 @@ class ProviderController < ApplicationController
     else
       render :action => "edit"
     end
-    condormatic_classads_sync
+    kick_condor
   end
 
   def destroy

@@ -92,7 +92,7 @@ Rails::Initializer.run do |config|
       # them on condor on startup.  Note that this can fail because this is run on startup
       # even for rake db:migrate etc. which won't work since the database doesn't exist
       # yet.
-      condormatic_classads_sync
+      kick_condor
     rescue Exception => ex
     end
   end

@@ -54,7 +54,7 @@ class CloudAccountsController < ApplicationController
         flash[:notice] = "Provider account added."
       end
       redirect_to :controller => "provider", :action => "accounts", :id => @provider
-      condormatic_classads_sync
+      kick_condor
     end
   end
 
