@@ -57,3 +57,17 @@ $badcl: red;
   -moz-text-shadow: $x $y $blur $color;
   -webkit-text-shadow: $x $y $blur $color;
 }
+
+@mixin column-count($c) {
+  -moz-column-count: $c;
+  -o-column-count: $c;
+  -webkit-column-count: $c;
+  column-count: $c;
+}
+
+@mixin column-gap($g) {
+  -moz-column-gap: $g;
+  -o-column-gap: $g;
+  -webkit-column-gap: $g;
+  column-gap: $g;
+}

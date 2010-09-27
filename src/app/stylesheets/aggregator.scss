@@ -31,13 +31,14 @@ input,textarea {
     outline: none;
   }
 }
+
   input[type="search"] {
     @include border-radius(20px);
     padding: 4px 30px 4px 10px;
     width: 80%;
   }
-  /* CHECKBOXES */
-  input[type="checkbox"] {
+  /* CHECKBOXES and RADIOBUTTONS*/
+  input[type="checkbox"],input[type="radio"] {
     background-color: transparent;
     border: none;
     margin: 0;
@@ -104,17 +105,38 @@ input[type='submit'],button,.button {
   }
 }
 
+h1 { font-size: 140%; }
 h2 {
   font-size: 130%;
   text-transform: uppercase;
   color: $headercl;
 }
 
+h3 { font-size: 120%; }
+h4 {
+  font-size: 110%;
+  &.legend {
+    margin-bottom: 4px;
+  }
+}
 
 .clear {
   clear: both;
 }
 
+.wrap { /* wrapper around floated elements */
+  overflow: hidden;
+  margin-bottom: 2em;
+}
+
+.twocolumn {
+  @include column-count(2);
+  @include column-gap(10px);
+}
+
+.placeholder {
+  margin-bottom: 2em;
+}
 
 table {
   border-collapse: collapse;
@@ -207,6 +229,15 @@ table {
   .error {
     background-color: lighten($badcl,40%);
     border: 1px solid $badcl;
+  }
+}
+
+ul.block {
+  display: block;
+  margin: 0;
+  li {
+    display: block;
+    margin: 0;
   }
 }
 
@@ -593,6 +624,21 @@ ul.tiles {
       img { background-position: -192px 0; }
     }
   }
+
+/* GRAPHS */
+
+.graphkey {
+  li {
+    padding: 2px 4px 2px 32px;
+    background: url(/images/graph-key.png) no-repeat 0 0;
+    height: 18px; overflow: hidden;
+  }
+  .instances { background-position: 0 0; }
+  .requests { background-position: 0 -18px; }
+  .ttl { background-position: 0 -36px; }
+  .failures { background-position: 0 -54px; }
+  .retries { background-position: 0 -72px; }
+}
 
 footer {
   font-size: 90%;
