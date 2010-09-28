@@ -1,20 +1,20 @@
 .formwindow
 - if has_user_modify?
-  %h2
-    EDITING USER:
+  %h2.grid_16
+    Editing User:
     = @user.first_name + " " + @user.last_name
-  %h3 BASIC USER INFORMATION
+  %h3.grid_16 Basic User Information
 - else
-  %h2 Edit an Account
+  %h2.grid_16 Edit an Account
 - form_for @user, :url => { :action => 'update' } do |f|
   = f.error_messages
   = hidden_field :user, :id, :value => @user.id
   = render :partial => "form", :object => f
-  - if has_user_modify?
-    = f.submit "Back", :class => "formbutton", :name => "back"
-    = f.submit "Reset", :class => "formbutton", :name => "reset"
-    = f.submit "Save", :class => "formbutton", :name => "save"
-  - else
-    = f.submit "Make Changes", :class => "formbutton", :name => "make_changes"
-  %br/
-  = link_to "Cancel", account_path, :class => "formbuton"
+  %fieldset.clear
+    = link_to "Cancel", account_path, :class => "formbutton button clear"
+    - if has_user_modify?
+      = f.submit "Back", :class => "formbutton button", :name => "back"
+      = f.submit "Reset", :class => "formbutton button", :name => "reset"
+      = f.submit "Save", :class => "formbutton button", :name => "save"
+    - else
+      = f.submit "Make Changes", :class => "formbutton button", :name => "make_changes"

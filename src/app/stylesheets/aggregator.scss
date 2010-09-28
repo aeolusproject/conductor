@@ -105,6 +105,14 @@ input[type='submit'],button,.button {
     margin-left: 3px;
     margin: 40px 4px 4px;
   }
+  &.formbutton {
+    display: inline-block;
+    margin-left: 3px;
+    margin: 40px 4px 4px;
+  }
+  &.actionlink {
+    margin: 40px 0 0;
+  }
   &.disabled {
     cursor: default;
     background: transparent;
@@ -581,7 +589,7 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
 .modalbox {
   margin: 150px auto;
   @include box-shadow(0,1px,5px,rgba(0, 0, 0, 0.6));
-  width: 500px;
+  width: 550px;
   overflow: hidden;
   h2 {
     background-color: $formheadbg;
@@ -608,11 +616,15 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
 }
 
 /* FORMS */
-
 /* generic */
 label {
-  /* padding: 4px 10px 4px 0; so that it aligns to the padding of the inputboxes */
+  text-align: right;
+  font-weight: bold;
+  &.la {
+    text-align: left;
+  }
   &.big {
+    text-align: left;
     text-transform: uppercase;
     font-family: $headlinefont;
     font-size: 110%;
@@ -661,8 +673,6 @@ label {
     }
   }
 }
-
-
 
 /* WIZARD TILES */
 

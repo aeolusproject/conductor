@@ -1,37 +1,37 @@
+%fieldset.clear
+  = form.label :login, "Choose a username:", :class => "grid_3 alpha"
+  = form.text_field :login, :class => "grid_5"
+%fieldset.clear
+  = form.label :password, form.object.new_record? ? "Choose a password:" : "Change password:", :class => "grid_3 alpha"
+  = form.password_field :password, :class => "grid_5"
 %fieldset
-  = form.label :login, "Choose a username:"
-  = form.text_field :login
-%fieldset
-  = form.label :password, form.object.new_record? ? "Choose a password:" : "Change password:"
-  = form.password_field :password
-%fieldset
-  = form.label :password_confirmation, "Confirm password:"
-  = form.password_field :password_confirmation
+  = form.label :password_confirmation, "Confirm password:", :class => "grid_3 alpha"
+  = form.password_field :password_confirmation, :class => "grid_5"
 -if has_user_modify?
-  %fieldset
-    = form.label :user_status
-    = radio_button_tag "user_status","Active",true
-    = label_tag "user_status", "Active"
-    = radio_button_tag "user_status","Inactive"
-    = label_tag "user_status", "Inactive"
-%fieldset
-  = form.label :first_name
-  = form.text_field :first_name
-%fieldset
-  = form.label :last_name
-  = form.text_field :last_name
-%fieldset
-  = form.label :email
-  = form.text_field :email
+  %fieldset.clear
+    = form.label :user_status, "User Status:", :class => "alpha grid_3"
+    .grid_5
+      = radio_button_tag "user_status","Active",true
+      = label_tag "user_status_active", "Active"
+      = radio_button_tag "user_status","Inactive"
+      = label_tag "user_status_inactive", "Inactive"
+%fieldset.clear
+  = form.label :first_name, "First Name:", :class => "alpha grid_3"
+  = form.text_field :first_name, :class => "grid_5"
+%fieldset.clear
+  = form.label :last_name, "Last Name:", :class => "alpha grid_3"
+  = form.text_field :last_name, :class => "grid_5"
+%fieldset.clear
+  = form.label :email, "E-Mail:", :class => "alpha grid_3"
+  = form.text_field :email, :class => "grid_5"
 -if has_user_modify?
-  %h3 USER TREATMENT
-  = label_tag 'apply_treatment', "Apply User Treatment:"
-  = select_tag 'user_treatment', options_for_select(["Choose Treatment"])
-  = submit_tag 'Apply', :disabled => true
-  %br/
-  %hr
+  %h3.grid_16 User Treatment
+  = label_tag 'apply_treatment', "Apply User Treatment:", :class => "alpha grid_3"
+  = select_tag 'user_treatment', options_for_select(["Choose Treatment"]), :class => "grid_5"
+  = submit_tag 'Apply', :disabled => true, :class => "grid_1"
+
   - form.fields_for :quota do |quota_form|
-    %fieldset
-      = quota_form.label :maximum_running_instances
-      = quota_form.text_field :maximum_running_instances
+    %fieldset.clear
+      = quota_form.label :maximum_running_instances, "Maximum Runnig Instances: ", :class => "alpha grid_3"
+      = quota_form.text_field :maximum_running_instances, :class => "grid_5"
       (instances)
