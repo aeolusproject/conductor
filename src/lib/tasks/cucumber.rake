@@ -43,27 +43,28 @@ begin
   task :features => :cucumber do
     STDERR.puts "*** The 'features' task is deprecated. See rake -T cucumber ***"
   end
-rescue LoadError
-  desc 'cucumber rake task not available (cucumber not installed)'
-  task :cucumber do
-    abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem or plugin'
+
+  namespace :hudson do
+    def report_path
+      "hudson/reports/features/"
+    end
+
+    Cucumber::Rake::Task.new({'cucumber'  => [:report_setup]}) do |t|
+      t.cucumber_opts = %{--profile default  --format junit --out #{report_path}}
+    end
+
+    task :report_setup do
+      rm_rf report_path
+      mkdir_p report_path
+    end
+
   end
-end
 
-end
-
-namespace :hudson do
-  def report_path
-    "hudson/reports/features/"
-  end
-
-  Cucumber::Rake::Task.new({'cucumber'  => [:report_setup]}) do |t|
-    t.cucumber_opts = %{--profile default  --format junit --out #{report_path}}
-  end
-
-  task :report_setup do
-    rm_rf report_path
-    mkdir_p report_path
+  rescue LoadError
+    desc 'cucumber rake task not available (cucumber not installed)'
+    task :cucumber do
+      abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem or plugin'
+    end
   end
 
 end
