@@ -23,4 +23,26 @@ describe TemplatesController do
     get :new
     response.should_not render_template("new")
   end
+
+  context "when a user has permission to build templates" do
+    #FIXME: The following functionality needs to come out of the controller
+
+    before(:each) do
+      UserSession.create(@admin)
+      @template = Factory.create(:template)
+    end
+
+    it "should create a new Image" do
+      lambda do
+        post :build, :image => {:template_id => @template.id}, :targets => ["mock"]
+      end.should change(Image, :count).by(1)
+    end
+
+    it "should create a new ReplicatedImage" do
+      mock = Factory.create(:mock_provider)
+      lambda do
+        post :build, :image => {:template_id => @template.id}, :targets => ["mock"]
+      end.should change(ReplicatedImage, :count).by(1)
+    end
+  end
 end

@@ -36,6 +36,7 @@ class Logger
   end
 end
 
+#TODO: Make this whole thing less fragile
 class ImageBuilderService
   def initialize()
     @console ||= ImageBuilderConsole.new
@@ -61,18 +62,23 @@ class ImageBuilderService
     }
   end
 
-  def build(descriptor_target)
+  def build(image)
     #targets.each do |t|
       puts "========================================"
-      puts "target: " + descriptor_target.name + ", status: " + descriptor_target.status
+      puts "target: " + image.target + ", status: " + image.status
       puts "========================================"
-      ab = @console.build_image(descriptor_target.template.xml.to_xml, descriptor_target.name)
+      # FIXME: this should be contained elsewhere (probably Image model) so we
+      # can keep logic out of here.  Also, this currently only handles one
+      # account, we will need to be able to specify at some point.
+      creds = image.replicated_images.first.provider.cloud_accounts.first.build_credentials
+      #TODO: switch this back to uri once ActiveBuild retrieves it properly
+      ab = @console.build_image(image.template.xml.to_xml, image.target, image.uuid, creds)
       if ab
-        update_build_list(ab, descriptor_target)
-        descriptor_target.build_id = ab.object_id.to_s
-        descriptor_target.save!
+        update_build_list(ab, image)
+        image.build_id = ab.object_id.to_s
+        image.save!
         puts "========================================"
-        puts "Build id saved as: " + descriptor_target.build_id
+        puts "Build id saved as: " + image.build_id
         puts "========================================"
       end
     #end
@@ -112,13 +118,20 @@ class ImageBuilderService
     puts "========================================"
     puts "Getting ar object to update using " + obj[:build].target.inspect + " and " + obj[:ar_id].inspect + " ..."
     puts "========================================"
-    idt = Image.find(:first, :conditions => { :name => obj[:build].target.to_s,
+    image = Image.find(:first, :conditions => { :target => obj[:build].target.to_s,
                                                               :template_id => obj[:ar_id].to_i })
     puts "========================================"
     puts "Updating with status: " + new_status
     puts "========================================"
-    idt.status = new_status
-    idt.save!
+    image.status = new_status
+    if new_status == 'complete'
+      ri = image.replicated_images.first
+      ri.provider_image_key = obj[:build].finished_image
+      ri.uploaded =true
+      ri.registered=true
+      ri.save!
+    end
+    image.save!
     puts "========================================"
     puts "database updated!"
     puts "========================================"

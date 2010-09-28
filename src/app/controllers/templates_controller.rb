@@ -87,15 +87,28 @@ class TemplatesController < ApplicationController
       return
     end
 
+    #FIXME: The following functionality needs to come out of the controller
     @image = Image.new(params[:image])
     @image.template.upload_template unless @image.template.uploaded
+    # FIXME: this will need to re-render build with error messages,
+    # just fails right now if anything is wrong (like no target selected).
     params[:targets].each do |target|
-      Image.new_if_not_exists(
+      i = Image.new_if_not_exists(
         :name => "#{@image.template.xml.name}/#{target}",
         :target => target,
         :template_id => @image.template_id,
         :status => Image::STATE_QUEUED
       )
+      # FIXME: This will need to be enhanced to handle multiple
+      # providers of same type, only one is supported right now
+      if i
+        image = Image.find_by_template_id(params[:image][:template_id],
+                                :conditions => {:target => target})
+        ReplicatedImage.create!(
+          :image_id => image.id,
+          :provider_id => Provider.find_by_cloud_type(target)
+        )
+      end
     end
     redirect_to :action => 'builds'
   end

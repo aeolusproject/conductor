@@ -41,7 +41,7 @@ class Template < ActiveRecord::Base
   end
 
   def upload_template
-    self.uri = File.join(WAREHOUSE_CONFIG['baseurl'], "template_#{id}")
+    self.uri = File.join(WAREHOUSE_CONFIG['baseurl'], "#{uuid}")
     response = Typhoeus::Request.put(self.uri, :body => xml.to_xml, :timeout => 30000)
     if response.code == 200
       update_attribute(:uploaded, true)
