@@ -22,7 +22,13 @@
 #
 #   rake db:drop:all
 #   rake db:create:all
-#   rake db:migrate (if you want production rather than the default of 'development', simply export RAILS_ENV=production before running this command)
+#
+#   If you are running this in /usr/share/deltacloud-aggregator, use:
+#   sudo RAILS_ENV=production rake db:migrate
+#
+#   or else just:
+#   rake db:migrate
+#
 #   rake db:test:prepare
 #
 # And when there are changes to the database, simply run:
