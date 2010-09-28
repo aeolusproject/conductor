@@ -1,4 +1,29 @@
 namespace :dc do
+  desc 'Create and register a new user'
+  task :create_user, [:login] => :environment do |t, args|
+    unless args.login && args.email && args.password
+      puts "Usage: rake dc:create_user[user] email=abc@xyz password=S3cR3t"
+      exit(1)
+    end
+
+    user = User.find_by_login(args.login)
+
+    if user
+      puts "User already exists: #{args.login}"
+      exit(1)
+    end
+
+    user = User.new(:login => args.login, :email => args.email,
+                    :password => args.password,
+                    :password_confirmation => args.password)
+    registration = RegistrationService.new(user)
+    if registration.save
+      puts "User registered"
+    else
+      puts "User registration failed: #{registration.error}"
+    end
+  end
+
   desc 'Grant administrator privileges to registred user'
   task :site_admin, [:login] => :environment do |t, args|
 
