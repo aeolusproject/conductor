@@ -10,7 +10,7 @@ Feature: Manage Templates
 
   Scenario: Create a new Template
     Given I am on the templates page
-    When I press "Template"
+    When I follow "Template"
     Then I should be on the new template page
     When I fill in the following:
       | tpl_name         | mocktemplate  |
@@ -24,7 +24,7 @@ Feature: Manage Templates
 
   Scenario: Add/Remove a package and a group to/from the template
     Given I am on the templates page
-    When I press "Template"
+    When I follow "Template"
     Then I should be on the new template page
     When I fill in the following:
       | tpl_name         | mocktemplate  |

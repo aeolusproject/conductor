@@ -282,6 +282,13 @@ table {
         color: $dcprimary;
       }
     }
+    ul {
+      display: block;
+      li {
+        display: block;
+        margin: 0;
+      }
+    }
   }
   form {
     display: inline-block;
