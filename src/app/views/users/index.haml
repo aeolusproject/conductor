@@ -38,6 +38,8 @@
         %td= sprintf("%.2f", user.quota.percentage_used)
         %td= Quota.no_limit(user.quota.maximum_running_instances) ? "Unlimited" : user.quota.maximum_running_instances
         %td= user.email
+        =link_to "", edit_user_url(user.id), :id => "edit_user_" + user.id.to_s
+        =link_to "", user_url(user.id), :id => "delete_user_" + user.id.to_s
 
 :javascript
   function update_link(id)
@@ -46,10 +48,13 @@
     var edit_link = document.getElementById('edit_link')
     var delete_link = document.getElementById('delete_link')
 
+    var edit_user_url = document.getElementById('edit_user_' + id)
+    var delete_user_url = document.getElementById('delete_user_' + id)
+
     if(checkbox.checked)
     {
-      edit_link.href = "/users/" + id + "/edit"
-      delete_link.href = "/users/" + id
+      edit_link.href = edit_user_url.href
+      delete_link.href = delete_user_url.href
 
       var checkboxes = document.getElementsByName("user_checkbox")
       for(var i = 0; i < checkboxes.length; i++)
