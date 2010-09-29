@@ -17,7 +17,7 @@
     - else
       - @templates.each do |tpl|
         %tr
-          %td= check_box_tag 'id[]', tpl.id
+          %td= check_box_tag 'ids[]', tpl.id
           %td
             %img{:src => "/image/#{tpl.platform}"}
             = tpl.name

@@ -24,11 +24,11 @@ class TemplatesController < ApplicationController
     elsif params[:deployment_definition]
       redirect_to :action => 'deployment_definition'
     elsif params[:delete]
-      redirect_to :action => 'delete', :id => params[:id].to_a.first
+      redirect_to :action => 'delete', :ids => params[:ids].to_a
     elsif params[:edit]
-      redirect_to :action => 'new', :id => params[:id].to_a.first
+      redirect_to :action => 'new', :id => get_selected_id
     elsif params[:build]
-      redirect_to :action => 'build_form', 'image[template_id]' => params[:id].to_a.first
+      redirect_to :action => 'build_form', 'image[template_id]' => get_selected_id
     else
       raise "Unknown action"
     end
@@ -107,7 +107,7 @@ class TemplatesController < ApplicationController
   end
 
   def delete
-    Template.destroy(params[:id].to_a)
+    Template.destroy(params[:ids].to_a)
     redirect_to :action => 'index'
   end
 
@@ -149,5 +149,14 @@ class TemplatesController < ApplicationController
 
   def check_permission
     require_privilege(Privilege::IMAGE_MODIFY)
+  end
+
+  def get_selected_id
+    ids = params[:ids].to_a
+    if ids.size != 1
+      raise "No template is selected" if ids.empty?
+      raise "You can select only one template" if ids.size > 1
+    end
+    return ids.first
   end
 end

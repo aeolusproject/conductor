@@ -19,7 +19,7 @@
   .grid_8.omega
     = radio_button_tag :bootable, 'yes', true, :disabled => true
     = label_tag :bootable, 'Yes'
-    = radio_button_tag :bootable, 'no', :disabled => true
+    = radio_button_tag :bootable, 'no', false, :disabled => true
     = label_tag :bootable, 'No'
 %fieldset
   %label{:for => :template_group, :class => 'grid_3 alpha'}
