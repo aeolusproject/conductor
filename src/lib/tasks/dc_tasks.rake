@@ -71,4 +71,20 @@ namespace :dc do
     end
   end
 
+  desc 'Create user "admin" for CloudEngine'
+  task :create_admin_user => :environment do
+    u = User.new
+    u.login = 'admin'
+    u.password, u.password_confirmation = 'password', 'password'
+    u.email = 'admin@deltacloud.org'
+    u.first_name = 'Administrator'
+    if u.save
+      puts "Created user 'admin' with password 'password'"
+    end
+    Rake::Task[:'dc:site_admin'].invoke('admin')
+  end
+
+  desc 'Setup CloudEngine and create admin user automatically'
+  task :setup => [ :"db:drop", :"db:create", :"db:migrate", :"dc:create_admin_user"]
+
 end
