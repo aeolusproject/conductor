@@ -1,11 +1,11 @@
 %fieldset.clear
-  = form.label :login, "Choose a username:", :class => "grid_3 alpha"
+  = form.label :login, t(:choose_name), :class => "grid_3 alpha"
   = form.text_field :login, :class => "grid_5"
 %fieldset.clear
-  = form.label :password, form.object.new_record? ? "Choose a password:" : "Change password:", :class => "grid_3 alpha"
+  = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password), :class => "grid_3 alpha"
   = form.password_field :password, :class => "grid_5"
 %fieldset
-  = form.label :password_confirmation, "Confirm password:", :class => "grid_3 alpha"
+  = form.label :password_confirmation, t(:confirm_password), :class => "grid_3 alpha"
   = form.password_field :password_confirmation, :class => "grid_5"
 -if has_user_modify?
   %fieldset.clear
@@ -16,22 +16,22 @@
       = radio_button_tag "user_status","Inactive"
       = label_tag "user_status_inactive", "Inactive"
 %fieldset.clear
-  = form.label :first_name, "First Name:", :class => "alpha grid_3"
+  = form.label :first_name, t(:first_name), :class => "alpha grid_3"
   = form.text_field :first_name, :class => "grid_5"
 %fieldset.clear
-  = form.label :last_name, "Last Name:", :class => "alpha grid_3"
+  = form.label :last_name, t(:last_name), :class => "alpha grid_3"
   = form.text_field :last_name, :class => "grid_5"
 %fieldset.clear
-  = form.label :email, "E-Mail:", :class => "alpha grid_3"
+  = form.label :email, t(:email), :class => "alpha grid_3"
   = form.text_field :email, :class => "grid_5"
 -if has_user_modify?
   %h3.grid_16 User Treatment
-  = label_tag 'apply_treatment', "Apply User Treatment:", :class => "alpha grid_3"
-  = select_tag 'user_treatment', options_for_select(["Choose Treatment"]), :class => "grid_5"
-  = submit_tag 'Apply', :disabled => true, :class => "grid_1"
+  = label_tag 'apply_treatment', t(:apply_treatment), :class => "alpha grid_3"
+  = select_tag 'user_treatment', options_for_select([t(:choose_treatment)]), :class => "grid_5"
+  = submit_tag t(:apply), :disabled => true
 
   - form.fields_for :quota do |quota_form|
     %fieldset.clear
-      = quota_form.label :maximum_running_instances, "Maximum Runnig Instances: ", :class => "alpha grid_3"
+      = quota_form.label :maximum_running_instances, t(:maximum_running_instances), :class => "alpha grid_3"
       = quota_form.text_field :maximum_running_instances, :class => "grid_5"
       (instances)
