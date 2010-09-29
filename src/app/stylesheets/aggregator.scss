@@ -275,7 +275,7 @@ table {
     text-transform: uppercase;
   }
   dd {
-    margin: 0;
+    margin: 0 0 0 20px;
     font-size: 110%;
     position: relative;
     a {
@@ -292,7 +292,7 @@ table {
       li {
         display: block;
         margin: 0;
-        padding: 0 4px 0 18px;
+        padding: 0 0 0 16px;
         position: relative;
       }
     }
@@ -308,6 +308,9 @@ table {
     &:hover {
       @include no-box-shadow;
       color: $dcprimary;
+      &[disabled] {
+        color: #000;
+      }
     }
   }
   span {
@@ -323,6 +326,9 @@ table {
   .copy span { background-position: -48px 0;}
   .build span { background-position: -64px 0;}
   .add span { background-position: -48px 0;}
+  label {
+    font-weight: normal;
+  }
 }
 
 #notification {

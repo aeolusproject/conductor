@@ -4,10 +4,9 @@
       %dt Actions
       %dd
         %h5 View
-        %ul
-          %li
-            = check_box_tag 'views[]', 'templates', true, :disabled => true
-            = label_tag 'views[]', 'Templates'
+        %p
+          = check_box_tag 'views[]', 'templates', true, :disabled => true
+          = label_tag 'views[]', 'Templates'
       %dd
         %h5 Manage
         %ul
@@ -40,7 +39,7 @@
             = submit_tag "Assembly", :name => "assembly", :class => "icon"
           %li.add
             %span
-            = submit_tag "Deployment definition", :name => "deployment_definition", :class => "icon"
+            = submit_tag "Deployment def.", :name => "deployment_definition", :class => "icon"
 
   .grid_13
     %h2 Manage Templates
