@@ -25,6 +25,10 @@ class InstanceController < ApplicationController
   before_filter :require_user, :get_nav_items
   layout :layout
 
+  def section_id
+    'runtime'
+  end
+
   def layout
     return "aggregator" unless request.xhr?
   end

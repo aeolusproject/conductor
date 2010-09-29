@@ -22,6 +22,10 @@
 class ImageController < ApplicationController
   before_filter :require_user
 
+  def section_id
+    'build'
+  end
+
   def index
   end
 

@@ -45,6 +45,10 @@ class ApplicationController < ActionController::Base
     return @layout
   end
 
+  def section_id
+    'generic'
+  end
+
   perm_helper_string = ""
   Privilege::FULL_PRIVILEGE_LIST.each do |privilege|
     perm_helper_string += "def has_#{privilege}?(obj=@perm_obj); " +

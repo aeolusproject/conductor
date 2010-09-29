@@ -27,6 +27,10 @@ class DashboardController < ApplicationController
     return params[:ajax] == "true"
   end
 
+  def section_id
+    'operation'
+  end
+
   def provider_qos_avg_time_to_submit_graph
     params[:provider] = Provider.find(params[:id])
     graph = GraphService.dashboard_qos_avg_time_to_submit_graph(current_user, params)[params[:provider]][Graph::QOS_AVG_TIME_TO_SUBMIT]

@@ -23,6 +23,10 @@ class ProviderController < ApplicationController
   before_filter :require_user
   before_filter :load_providers, :only => [:index, :show, :accounts, :list]
 
+  def section_id
+    'administration'
+  end
+
   def index
   end
 
