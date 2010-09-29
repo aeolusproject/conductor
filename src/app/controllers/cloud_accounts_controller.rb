@@ -45,7 +45,7 @@ class CloudAccountsController < ApplicationController
       redirect_to :controller => "provider", :action => "accounts", :id => @provider
     else
       quota = Quota.new
-      quota.maximum_total_instances = quota_from_string(params[:quota][:maximum_total_instances])
+      quota.maximum_running_instances = quota_from_string(params[:quota][:maximum_running_instances])
       quota.save!
       @cloud_account.quota_id = quota.id
       @cloud_account.zones << Zone.default
@@ -73,7 +73,7 @@ class CloudAccountsController < ApplicationController
       if attributes.has_key? :password and String(attributes[:password]).empty?
         attributes.delete :password
       end
-      @cloud_account.quota.maximum_total_instances = quota_from_string(params[:quota][id][:maximum_total_instances])
+      @cloud_account.quota.maximum_running_instances = quota_from_string(params[:quota][id][:maximum_running_instances])
       private_cert = attributes[:x509_cert_priv]
       if private_cert.nil?
         attributes.delete :x509_cert_priv
