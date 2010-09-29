@@ -30,6 +30,9 @@ input,textarea {
     background-color: #fff;
     outline: none;
   }
+  &.disabled, &[disabled] {
+    opacity: 0.4;
+  }
 }
   input[type="search"] {
     @include border-radius(20px);
@@ -52,8 +55,8 @@ input,textarea {
   }
 
 /* compensate grid_* for padding+border of the inputboxes and textareas */
-input.grid_1 { width: 50px !important; }
-input.grid_2 { width: 110px !important; }
+input.grid_1 { width: 40px !important; }
+input.grid_2 { width: 90px !important; }
 input.grid_3 { width: 150px !important; }
 input.grid_4 { width: 210px !important; }
 input.grid_5 { width: 270px !important; }
@@ -113,12 +116,14 @@ input[type='submit'],button,.button {
   &.actionlink {
     margin: 40px 0 0;
   }
-  &.disabled {
+  &.disabled, &[disabled] {
     cursor: default;
     background: transparent;
+    opacity: 0.4;
     /* @include no-box-shadow; */
     &:hover {
       background: transparent;
+      @include no-box-shadow;
     }
   }
 }
@@ -130,13 +135,20 @@ h2 {
   color: $headercl;
 }
 
-h3 { font-size: 120%; }
+h3 {
+  font-size: 120%;
+  text-transform: uppercase;
+  &.gap {
+    margin-top: 3em;
+  }
+}
 h4 {
   font-size: 110%;
   &.legend {
     margin-bottom: 4px;
   }
 }
+h5 { font-size: 100%; }
 
 .clear {
   clear: both;
@@ -152,9 +164,8 @@ h4 {
   @include column-gap(10px);
 }
 
-.placeholder {
-  margin-bottom: 2em;
-}
+.placeholder { margin-bottom: 2em; }
+.disabled { opacity: 0.4; }
 
 /* TABLES */
 
@@ -623,6 +634,12 @@ label {
   &.la {
     text-align: left;
   }
+  &.header {
+    text-align: left;
+    font-weight: normal;
+    font-size: 90%;
+    margin-bottom: 1em;
+  }
   &.big {
     text-align: left;
     text-transform: uppercase;
@@ -784,6 +801,19 @@ footer {
   }
 }
 
+/* RIGHT SIDEBAR */
+.sidebarcontainer {
+  /* height: 300px; overflow: scroll; */
+  display: block;
+  li {
+    display: block;
+    margin: 0;
+  }
+  h5 {
+    margin-top: 3em;
+  }
+}
+
 /* IE and other horror browser workarounds */
 
 /* basic image styling for buttons in older browsers */
@@ -820,4 +850,15 @@ footer {
 fits the screen and is at least semi-usable */
 h3.first, h3.second, h3.third, h3.fourth, h3.fifth, h3.sixth, h3.seventh {
   display: inline;
+}
+
+/* DEBUG GRID */
+#grid {
+  display: none;
+  position: fixed;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 1020px;
+  margin-left: -510px;
+  background: url(/images/960.png) repeat-y top center;
 }

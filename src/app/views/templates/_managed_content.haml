@@ -1,10 +1,14 @@
-%h3 MANAGED CONTENT TO BUNDLE
+%h3.gap Managed Content to Bundle
 %hr
-%ul
+%label.header.alpha.prefix_2.grid_2 Name:
+%label.header.omega.grid_2.suffix_5 Repository:
+%label.grid_2.alpha.clear Managed:
+.grid_9.omega
   - @tpl.xml.packages.each do |pkg|
-    %li
-      = text_field_tag 'packages[]', pkg[:name], :disabled => true, :id => "selected_package_#{pkg[:name]}"
-      repository (we don't keep it now)
-      %button{:type => 'button', :disabled => 'disabled'} Config
-      %button{:type => 'button', :disabled => 'disabled'} Metadata
-      = submit_tag "Remove", :name => "remove_package_#{pkg[:name]}", :id => "remove_package_#{pkg[:name]}"
+    %fieldset
+      = text_field_tag 'packages[]', pkg[:name], :disabled => true, :id => "selected_package_#{pkg[:name]}", :class => "alpha grid_2"
+      .grid_2 FIXME Repository
+      .grid_5.omega
+        %button{:type => 'button', :disabled => 'disabled'} Config
+        %button{:type => 'button', :disabled => 'disabled'} Metadata
+        = submit_tag "Remove", :name => "remove_package_#{pkg[:name]}", :id => "remove_package_#{pkg[:name]}"

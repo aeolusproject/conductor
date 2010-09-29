@@ -1,39 +1,50 @@
-%h2 TEMPLATE
+%h2.grid_16 Template
 - form_for @tpl, :url => { :action => "create" } do
   = error_messages_for 'tpl'
   = hidden_field :tpl, :id
-  %div{:style => 'float: right'}
-    = render :partial => 'content_selection'
-  = render :partial => 'basics'
-  %p
-    %h3 LOCAL CONTENT TO BUNDLE
-    %hr
-    = label_tag :local_bundle_name, 'Local'
-    %br
-    = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true
-    %button{:type => 'button', :disabled => 'disabled'} Browse
-    %button{:type => 'button', :disabled => 'disabled'} Config
-    %button{:type => 'button', :disabled => 'disabled'} Metadata
-    %button{:type => 'button', :disabled => 'disabled'} Remove
-    %br
-    = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true
-    %button{:type => 'button', :disabled => 'disabled'} Browse
-    %button{:type => 'button', :disabled => 'disabled'} Config
-    %button{:type => 'button', :disabled => 'disabled'} Metadata
-    %button{:type => 'button', :disabled => 'disabled'} Remove
-  %p
-    = render :partial => 'managed_content'
-  %p
-    %h3 PREBOOT CONFIGURATION
-    %hr
-    = radio_button_tag :configure_via_script, 'no', :disabled => true
-    = label_tag :configure_via_script, 'Configure Via Script'
-    = file_field_tag 'script_file', :disabled => true
-    %br
-    = radio_button_tag :configure_via_script, 'no', :disabled => true
-    = label_tag :configure_via_script, 'Configure Via Script'
-    = file_field_tag 'script_file', :disabled => true
+  .grid_11
+    = render :partial => 'basics'
 
-  %p
-    = submit_tag "Cancel", :name => "cancel"
-    = submit_tag "Save", :name => "save"
+    %h3.disabled.gap Local Content to Bundle
+    %hr
+    %fieldset
+      = label_tag :local_bundle_name, 'Local:', :class => "disabled grid_2 alpha"
+      = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true, :class => "grid_3"
+      .grid_6.omega
+        %button{:type => 'button', :disabled => 'disabled'} Browse
+        %button{:type => 'button', :disabled => 'disabled'} Config
+        %button{:type => 'button', :disabled => 'disabled'} Metadata
+        (
+        %a{:href => '#'} Remove
+        )
+      .grid_2.alpha
+        &nbsp;
+      = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true, :class => "grid_3"
+      .grid_6.omega
+        %button{:type => 'button', :disabled => 'disabled'} Browse
+        %button{:type => 'button', :disabled => 'disabled'} Config
+        %button{:type => 'button', :disabled => 'disabled'} Metadata
+        (
+        %a{:href => '#'} Remove
+        )
+
+    = render :partial => 'managed_content'
+
+    %h3.gap Preboot Configuration
+    %hr
+    %fieldset
+      .grid_4
+        = radio_button_tag :configure_via_script, 'no', :disabled => true
+        = label_tag :configure_via_script, 'Configure Via Script'
+      = file_field_tag 'script_file', :disabled => true, :class => 'grid_5'
+    %fieldset.clear
+      .grid_4
+        = radio_button_tag :configure_via_script, 'no', :disabled => true
+        = label_tag :configure_via_script, 'Configure Via Script'
+      = file_field_tag 'script_file', :disabled => true, :class => 'grid_5'
+
+    = submit_tag "Save", :name => "save", :class => "dialogbutton"
+    = submit_tag "Cancel", :name => "cancel", :class => "dialogbutton"
+
+  .grid_5
+    = render :partial => 'content_selection'
