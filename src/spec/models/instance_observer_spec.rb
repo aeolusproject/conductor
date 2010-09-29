@@ -55,7 +55,7 @@ describe InstanceObserver do
     @instance.state = Instance::STATE_RUNNING
     @instance.save
     # TODO: Remove this after RHEL5 time issue will be fixed
-    unless env['HUDSON_URL']
+    unless ENV['HUDSON_URL']
       @instance.acc_pending_time.should >= 1
       @instance.acc_pending_time.should <= 2
     end
@@ -84,7 +84,7 @@ describe InstanceObserver do
     @instance.save
 
     # TODO: Remove this after RHEL5 time issue will be fixed
-    unless env['HUDSON_URL']
+    unless ENV['HUDSON_URL']
       @instance.acc_shutting_down_time.should >= 1
       @instance.acc_shutting_down_time.should <= 2
     end

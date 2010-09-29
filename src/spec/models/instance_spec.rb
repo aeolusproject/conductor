@@ -95,7 +95,7 @@ describe Instance do
       sleep(2)
       
       # TODO: Remove this after RHEL5 time issue will be fixed
-      unless env['HUDSON_URL']
+      unless ENV['HUDSON_URL']
         instance.total_state_time(s).should >= 2
         instance.total_state_time(s).should <= 3
       end
