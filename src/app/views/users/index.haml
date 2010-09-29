@@ -1,4 +1,4 @@
-%div
+.grid_3.actionsidebar
   %dl
     %dt
       Users
@@ -12,18 +12,19 @@
         %span
         = link_to "create", new_user_url
 
-%div
+.grid_13
   %table
-    %tr
-      %th
-      %th= link_to "User ID", users_url(:sort_by => "login")
-      %th= link_to "Last Name", users_url(:sort_by => "last_name")
-      %th= link_to "First Name", users_url(:sort_by => "first_name")
-      %th= link_to "% Quota Used", users_url(:sort_by => "percentage_quota_used")
-      %th
-        =link_to "Quota", users_url(:sort_by => "quota")
-        %span (Instances)
-      %th= link_to "e-mail", users_url(:sort_by => "email")
+    %thead
+      %tr
+        %th
+        %th= link_to "User ID", users_url(:sort_by => "login")
+        %th= link_to "Last Name", users_url(:sort_by => "last_name")
+        %th= link_to "First Name", users_url(:sort_by => "first_name")
+        %th= link_to "% Quota Used", users_url(:sort_by => "percentage_quota_used")
+        %th
+          =link_to "Quota", users_url(:sort_by => "quota")
+          %span (Instances)
+        %th= link_to "e-mail", users_url(:sort_by => "email")
     -@users.each do |user|
       %tr
         %td
