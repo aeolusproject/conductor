@@ -1,5 +1,5 @@
-.actionsidebar.grid_3
-  - form_tag(:action => 'action') do
+- form_tag(:action => 'action') do
+  .actionsidebar.grid_3
     %dl
       %dt Actions
       %dd
@@ -13,43 +13,43 @@
         %ul
           %li.edit
             %span
-            = submit_tag "Edit", :name => "edit"
+            = submit_tag "Edit", :name => "edit", :class => "icon"
           %li.delete
             %span
-            = submit_tag "Delete", :name => "delete"
+            = submit_tag "Delete", :name => "delete", :class => "icon"
           %li.rename
             %span
-            = submit_tag "Rename", :name => "rename", :disabled => true
+            = submit_tag "Rename", :name => "rename", :disabled => true, :class => "icon"
           %li.copy
             %span
-            = submit_tag "Copy", :name => "copy", :disabled => true
+            = submit_tag "Copy", :name => "copy", :disabled => true, :class => "icon"
       %dd
         %h5 Build
         %ul
           %li.build
             %span
-            = submit_tag "Build", :name => "build"
+            = submit_tag "Build", :name => "build", :class => "icon"
       %dd
         %h5 Create New
         %ul
           %li.add
             %span
-            = submit_tag "Template", :name => "new_template"
+            = submit_tag "Template", :name => "new_template", :class => "icon"
           %li.add
             %span
-            = submit_tag "Assembly", :name => "assembly"
+            = submit_tag "Assembly", :name => "assembly", :class => "icon"
           %li.add
             %span
-            = submit_tag "Deployment definition", :name => "deployment_definition"
+            = submit_tag "Deployment definition", :name => "deployment_definition", :class => "icon"
 
-.grid_13
-  %h2 Manage Templates
-  %h3 Templates
-  = render :partial => 'templates'
+  .grid_13
+    %h2 Manage Templates
+    %h3 Templates
+    = render :partial => 'templates'
 
-  %h3 Assembly
-  %table
-  = render :partial => 'templates'
+    %h3 Assembly
+    %table
+    = render :partial => 'templates'
 
-  %h3 Deployment Definitions
-  = render :partial => 'templates'
+    %h3 Deployment Definitions
+    = render :partial => 'templates'
