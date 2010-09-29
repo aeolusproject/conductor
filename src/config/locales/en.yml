@@ -63,7 +63,7 @@ en:
       permissions_desc: Create and edit User Treatments that are applied to users. Treatments pair together Roles with Categories of Instances, Pools and Templates. Manage the categories, and define and edit Roles. Roles group together sets of permissions that are relevant to Pools, Templates and Instances.
     self_service:
       self_service_default: 'User Treatment: Self-service default'
-      quota: quota (instances)
+      quota: Quota
       account: Account
   provider:
     providers: PROVIDERS

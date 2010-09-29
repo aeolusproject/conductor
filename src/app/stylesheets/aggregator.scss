@@ -159,6 +159,10 @@ h5 { font-size: 100%; }
   margin-bottom: 2em;
 }
 
+.la {
+  text-align: left;
+}
+
 .twocolumn {
   @include column-count(2);
   @include column-gap(10px);
@@ -628,7 +632,7 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
 }
 
 #content {
-  margin-top: 1em;
+  margin-top: 2em;
   margin-bottom: 60px;
   overflow: hidden;
 }
@@ -638,9 +642,6 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
 label {
   text-align: right;
   font-weight: bold;
-  &.la {
-    text-align: left;
-  }
   &.header {
     text-align: left;
     font-weight: normal;
@@ -657,6 +658,13 @@ label {
   }
 }
 
+legend {
+  font-size: 130%;
+  font-family: $headlinefont;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: $headercl;
+}
 
 
 /* simple two column label + input pairs */

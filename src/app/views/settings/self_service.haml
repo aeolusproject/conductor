@@ -1,21 +1,25 @@
-.dcloud_form
+.actionsidebar.grid_3
+  %dl
+    %dd
+      %a.selected Self-Service User
+  %form
+    = submit_tag t(:edit), :disabled => 'disabled'
+    = submit_tag t(:new), :disabled => 'disabled'
+
+.dcloud_form.grid_13
   = error_messages_for @parent_type
   = error_messages_for 'self_service_default_quota'
   %h2
     = t('.self_service_default')
-  %ul
-    %li.selected Self-Service User
-  %form
-    = submit_tag t(:edit), :disabled => 'disabled'
-    = submit_tag t(:new), :disabled => 'disabled'
   - form_for @self_service_default_quota, :url => { :action => 'update' } do |form|
+    %h3
+      = t('.account')
+    = hidden_field :self_service_default_quota,  :id
     %fieldset
-      %legend
-        = t('.account')
-      = hidden_field :self_service_default_quota,  :id
-      %ul
-        %li
-          %label
-            = t('.quota')
-          = text_field :self_service_default_quota, :maximum_running_instances
-    = submit_tag t(:save), :class => "submit"
+      %label.grid_3.alpha
+        = t('.quota') + ":"
+      = text_field :self_service_default_quota, :maximum_running_instances, :class => 'grid_5'
+      .grid_2.la (instances)
+    .grid_13.omega.alpha.gap
+      %button.formbutton Reset
+      = submit_tag t(:save), :class => "submit formbutton"
