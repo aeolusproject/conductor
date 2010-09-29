@@ -31,7 +31,7 @@ SimpleNavigation::Configuration.run do |navigation|
         end
       end
       second_level.item :grinds, t(:grinds), :controller => 'templates', :action => 'builds'
-      second_level.item :images, t(:images), :controller => 'image', :action => 'show'
+      second_level.item :images, t(:images), '#', :class => 'disabled'
     end
     first_level.item :runtime, t(:runtime), '#', :class => 'runtime' do |second_level|
       second_level.item :instance_management, t(:instance_management), :controller => 'instance' do |third_level|
