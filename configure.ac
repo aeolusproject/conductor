@@ -13,6 +13,26 @@ AC_ARG_ENABLE(local,
   [  DELTACLOUD_INSTALL_DIR=`pwd`/src ], [  DELTACLOUD_INSTALL_DIR=$pkgdatadir ])
 AC_SUBST(DELTACLOUD_INSTALL_DIR)
 
+dnl
+dnl check for classads-devel
+dnl
+
+CLASSADS_REQUIRED=1.0.4
+
+AC_ARG_WITH([classads], AC_HELP_STRING([--with-classads=@<:@PFX@:>@],
+            [classads location]))
+
+if test "x$with_classads" = xno ; then
+    AC_MSG_CHECKING([for classads libraries >= $CLASSADS_REQUIRED])
+    AC_MSG_ERROR([classads >= $CLASSADS_REQUIRED is required for aggregator])
+elif test "x$with_classads" = "x"; then
+    fail=0
+    AC_CHECK_HEADERS([classad/classad_distribution.h],, [fail=1],[])
+    if test $fail = 1; then
+       AC_MSG_ERROR([You must install the classads development package to compile the aggregator])
+    fi
+fi
+
 # If using gcc and default CFLAGS, enable some warnings.
 test x"$ac_ct_CC:$CFLAGS" = 'xgcc:-g -O2' \
   && CFLAGS="$CFLAGS -Wshadow -Wall -Werror"
