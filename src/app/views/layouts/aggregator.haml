@@ -21,11 +21,7 @@
     /= javascript_include_tag "jquery.html5form"
 
     = yield :scripts
-  - if controller.respond_to?(:section_id)
-    - section_id = controller.section_id
-  - else
-    - section_id = "generic"
-  %body{:id => section_id}
+  %body{:id => controller.section_id}
     %div#head
       %header.container_16
         = render :partial => '/layouts/header'

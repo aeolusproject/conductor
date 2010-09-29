@@ -4,6 +4,10 @@ class TemplatesController < ApplicationController
   before_filter :require_user
   before_filter :check_permission, :except => [:index, :builds]
 
+  def section_id
+    'build'
+  end
+
   def index
     # TODO: add template permission check
     require_privilege(Privilege::IMAGE_VIEW)

@@ -24,6 +24,10 @@ require 'util/condormatic'
 class PoolsController < ApplicationController
   before_filter :require_user, :get_nav_items
 
+  def section_id
+    'administration'
+  end
+
   def index
     @header = [
       { :name => "Pool name", :sort_attr => :name },
