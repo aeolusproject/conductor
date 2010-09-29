@@ -8,7 +8,7 @@
         - selected = 'selected' if @provider and (provider.id == @provider.id)
         %a{ :href => url_for(:controller => 'provider', :action => 'show', :id => provider), :class => selected }
           = provider.name
-  - form_tag :controller => 'provider', :action => 'edit', :id => @provider do
+  - form_tag({:controller => 'provider', :action => 'edit'}, {:method => :post , :class => 'buttononly'}) do
     = submit_tag t(:edit), :disabled => ('disabled' unless @provider and ['show', 'accounts'].include? controller.action_name)
-  - form_tag({:controller => 'provider', :action => 'new'}, {:method => :get }) do
+  - form_tag({:controller => 'provider', :action => 'new'}, {:method => :get , :class => 'buttononly'}) do
     %input{ :type => 'submit', :value => t(:add), :disabled => ('disabled' unless @providers.length == 0) }

@@ -1,29 +1,46 @@
 .actionsidebar.grid_3
-  %dl
-    %dt Actions
-    %dd
-      %h5 VIEW
-      %ul
-        %li
-          = check_box_tag 'views[]', 'templates', true, :disabled => true
-          = label_tag 'views[]', 'Templates'
-    %dd
-      %h5 MANAGE
-      %ul
-        %li= link_to "Edit", {:controller => "templates", :action => "edit"}
-        %li= link_to "Delete", {:controller => "templates", :action => "delete"}
-        %li= link_to "Rename", {:controller => "templates", :action => "rename"}
-        %li= link_to "Copy", {:controller => "templates", :action => "copy"}
-    %dd
-      %h5 BUILD
-      %ul
-        %li= link_to "Build", {:controller => "templates", :action => "build_form"}
-    %dd
-      %h5 CREATE NEW
-      %ul
-        %li= link_to "Template", {:controller => "templates", :action => "new"}
-        %li= link_to "Assembly", {:controller => "templates", :action => "assembly"}
-        %li= link_to "Deployment Definition", {:controller => "templates", :action => "deployment_definition"}
+  - form_tag(:action => 'action') do
+    %dl
+      %dt Actions
+      %dd
+        %h5 View
+        %ul
+          %li
+            = check_box_tag 'views[]', 'templates', true, :disabled => true
+            = label_tag 'views[]', 'Templates'
+      %dd
+        %h5 Manage
+        %ul
+          %li.edit
+            %span
+            = submit_tag "Edit", :name => "edit"
+          %li.delete
+            %span
+            = submit_tag "Delete", :name => "delete"
+          %li.rename
+            %span
+            = submit_tag "Rename", :name => "rename", :disabled => true
+          %li.copy
+            %span
+            = submit_tag "Copy", :name => "copy", :disabled => true
+      %dd
+        %h5 Build
+        %ul
+          %li.build
+            %span
+            = submit_tag "Build", :name => "build"
+      %dd
+        %h5 Create New
+        %ul
+          %li.add
+            %span
+            = submit_tag "Template", :name => "new_template"
+          %li.add
+            %span
+            = submit_tag "Assembly", :name => "assembly"
+          %li.add
+            %span
+            = submit_tag "Deployment definition", :name => "deployment_definition"
 
 .grid_13
   %h2 Manage Templates

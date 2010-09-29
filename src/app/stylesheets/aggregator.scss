@@ -148,7 +148,7 @@ h4 {
     margin-bottom: 4px;
   }
 }
-h5 { font-size: 100%; }
+h5 { font-size: 100%; text-transform: uppercase; }
 
 .clear {
   clear: both;
@@ -291,11 +291,36 @@ table {
       li {
         display: block;
         margin: 0;
+        padding: 0 4px 0 18px;
+        position: relative;
+        span {
+          display: block;
+          position: absolute;
+          width: 16px; height: 16px;
+          left: 0; top: 50%; margin-top: -8px;
+          background: url(/images/icons/action-icons.png) no-repeat 0 0;
+        }
+        &.edit span { background-position: -16px 0;}
+        &.delete span { background-position: -32px 0;}
+        &.rename span { background-position: -80px 0;}
+        &.copy span { background-position: -48px 0;}
+        &.build span { background-position: -64px 0;}
+        &.add span { background-position: -48px 0;}
       }
     }
   }
-  form {
+  form.buttononly {
     display: inline-block;
+  }
+  input[type='submit'] {
+    border: none;
+    background: transparent;
+    font-size: 100%;
+    padding: 0;
+    &:hover {
+      @include no-box-shadow;
+      color: $dcprimary;
+    }
   }
 }
 
@@ -825,6 +850,7 @@ footer {
     margin: 0;
   }
   h5 {
+    text-transform: none;
     margin-top: 3em;
   }
 }
