@@ -12,3 +12,7 @@ ec2:
 
 #vmware_esx:
 #  name: VMWare ESX
+
+# For development, just uncomment this target to do fake image builds
+#mock:
+#  name: Mock

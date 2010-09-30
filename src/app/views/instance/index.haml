@@ -37,9 +37,7 @@ TODO (include michal's pool partial)
           - instances.each do |inst|
             %tr
               %td= check_box_tag 'id[]'
-              %td
-                / N/A for all (not supported yet)
-                %img{:src => '', :alt => 'n/a'}
+              %td=inst.state
               %td= inst.name
               %td= inst.hardware_profile.name
               %td= inst.template.name

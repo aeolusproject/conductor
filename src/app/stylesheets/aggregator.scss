@@ -128,7 +128,7 @@ input[type='submit'],button,.button {
   }
 }
 
-h1 { font-size: 140%; }
+h1 { font-size: 140%; text-transform: uppercase; }
 h2 {
   font-size: 130%;
   text-transform: uppercase;
@@ -275,8 +275,9 @@ table {
     text-transform: uppercase;
   }
   dd {
-    margin: 0;
+    margin: 0 0 0 20px;
     font-size: 110%;
+    position: relative;
     a {
       display: block;
       padding: 4px 4px 4px 20px;
@@ -291,21 +292,8 @@ table {
       li {
         display: block;
         margin: 0;
-        padding: 0 4px 0 18px;
+        padding: 0 0 0 16px;
         position: relative;
-        span {
-          display: block;
-          position: absolute;
-          width: 16px; height: 16px;
-          left: 0; top: 50%; margin-top: -8px;
-          background: url(/images/icons/action-icons.png) no-repeat 0 0;
-        }
-        &.edit span { background-position: -16px 0;}
-        &.delete span { background-position: -32px 0;}
-        &.rename span { background-position: -80px 0;}
-        &.copy span { background-position: -48px 0;}
-        &.build span { background-position: -64px 0;}
-        &.add span { background-position: -48px 0;}
       }
     }
   }
@@ -320,7 +308,26 @@ table {
     &:hover {
       @include no-box-shadow;
       color: $dcprimary;
+      &[disabled] {
+        color: #000;
+      }
     }
+  }
+  span {
+          display: block;
+          position: absolute;
+          width: 16px; height: 16px;
+          left: 0; top: 50%; margin-top: -8px;
+          background: url(/images/icons/action-icons.png) no-repeat 0 0;
+  }
+  .edit span { background-position: -16px 0;}
+  .delete span { background-position: -32px 0;}
+  .rename span { background-position: -80px 0;}
+  .copy span { background-position: -48px 0;}
+  .build span { background-position: -64px 0;}
+  .add span { background-position: -48px 0;}
+  label {
+    font-weight: normal;
   }
 }
 
@@ -870,9 +877,11 @@ footer {
 
 .ui-widget-content { border: none; }
 .ui-tabs {
+  margin-bottom: 1em;
   .ui-widget-header {
     font-size: 90%;
     background: transparent;
+    border: none;
   }
   .ui-state-default {
     background: transparent;

@@ -1,6 +1,6 @@
 fedora:
   name: Fedora
-  version: 11
+  version: 13
   architecture: 64-bit
   baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/11/Everything/x86_64/os/
 rhel:

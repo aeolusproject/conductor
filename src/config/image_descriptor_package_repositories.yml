@@ -1,6 +1,6 @@
 id: fedora
 name: Fedora
-baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/11/Everything/x86_64/os/
+baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/13/Everything/x86_64/os/
 type: xml
 
 #baseurl: https://admin:admin@localhost/pulp/api/

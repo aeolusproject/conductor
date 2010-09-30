@@ -1,16 +1,16 @@
-#pools_nav{:class => 'grid_3'}
+#pools_nav.grid_3.actionsidebar
   %dl
     %dt
       Pools
-    %dd.create
-      =link_to 'New Pool', :action => :new
+    %dd.add
+      %span
+      =link_to 'New Pool', :action => :new, :class => "button"
 
 #details{:class => 'grid_13'}
   %h1 Manage Pools
 
   %table
     =sortable_table_header @header
-    %tbody
     - @pools.each do |pool|
       %tr
         %td

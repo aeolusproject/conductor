@@ -1,1 +1,3 @@
-baseurl: http://localhost:9090/my_bucket/
+baseurl: http://localhost:9090/templates/
+# to set up the bucket, run:
+# curl -X PUT http://localhost:9090/templates

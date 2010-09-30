@@ -4,7 +4,6 @@
       = t('provider.providers')
     - @providers.each do |provider|
       %dd
-        %span
         - selected = 'selected' if @provider and (provider.id == @provider.id)
         %a{ :href => url_for(:controller => 'provider', :action => 'show', :id => provider), :class => selected }
           = provider.name
