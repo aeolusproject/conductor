@@ -85,6 +85,16 @@ namespace :dc do
   end
 
   desc 'Setup CloudEngine and create admin user automatically'
-  task :setup => [ :"db:drop", :"db:create", :"db:migrate", :"dc:create_admin_user"]
+  task :setup => :environment do
+    print "Reset database to clean state (YES/no)? "
+    STDOUT.flush
+    drop_db = STDIN.gets.chomp
+    unless drop_db.strip.eql?('no')
+      Rake::Task[:'db:drop'].invoke
+      Rake::Task[:'db:create'].invoke
+      Rake::Task[:'db:migrate'].invoke
+    end
+    Rake::Task[:'dc:create_admin_user'].invoke
+  end
 
 end
