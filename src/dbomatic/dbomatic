@@ -151,7 +151,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       # on the error.  For instance, if you are trying to start an instance
       # with a mismatched image and hardwareprofile architecture, the only
       # reasonable way out is to create a new instance.  Needs thought
-      inst.state = Instance::STATE_FAILED
+      inst.state = Instance::STATE_CREATE_FAILED
     else
       @logger.info "Unexpected trigger type #{@trigger_type}, not updating instance state"
       return
