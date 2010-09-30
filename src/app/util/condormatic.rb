@@ -161,6 +161,18 @@ def condormatic_instance_stop(task)
     Rails.logger.error("Error calling condor_rm (exit code #{$?}) on job: #{out}") if $? != 0
 end
 
+def condormatic_instance_reset_error(task)
+    instance = task.instance
+
+    Rails.logger.info("calling condor_rm -forcex -constraint 'Cmd == \"#{instance.condor_job_id}\"' 2>&1")
+    pipe = IO.popen("condor_rm -forcex -constraint 'Cmd == \"#{instance.condor_job_id}\"' 2>&1")
+    out = pipe.read
+    pipe.close
+
+    Rails.logger.info("condor_rm return status is #{$?}")
+    Rails.logger.error("Error calling condor_rm (exit code #{$?}) on job: #{out}") if $? != 0
+end
+
 def condormatic_instance_destroy(task)
     instance = task.instance
 
