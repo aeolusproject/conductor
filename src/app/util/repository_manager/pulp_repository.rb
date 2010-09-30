@@ -49,14 +49,15 @@ class PulpRepository < AbstractRepository
     groups = {}
     WrappedRestClient.get(@groups_url, HTTP_OPTS).each do |id, info|
       pkgs = {}
-      info['default_package_names'].each {|p| pkgs[p] = 'default'}
-      info['optional_package_names'].each {|p| pkgs[p] = 'optional'}
-      info['mandatory_package_names'].each {|p| pkgs[p] = 'mandatory'}
+      info['default_package_names'].each {|p| pkgs[p] = {:type => 'default'}}
+      info['optional_package_names'].each {|p| pkgs[p] = {:type => 'optional'}}
+      info['mandatory_package_names'].each {|p| pkgs[p] = {:type => 'mandatory'}}
       next if pkgs.empty?
       name = info['name']
       groups[name] = {
         :name => name,
         :description => info['description'].to_s,
+        :repository_id => @id,
         :packages => pkgs,
       }
     end

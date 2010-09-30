@@ -32,6 +32,7 @@ class CompsRepository < AbstractRepository
       groups[name] = {
         :name => name,
         :description => (t = g.at_xpath('description')) ? t.text : '',
+        :repository_id => @id,
         :packages => pkgs,
       }
     end
@@ -74,7 +75,7 @@ class CompsRepository < AbstractRepository
   def get_group_packages(group_node)
     pkgs = {}
     group_node.xpath('packagelist/packagereq').each do |p|
-      pkgs[p.text] = p.attr('type')
+      (pkgs[p.text] ||= {})[:type] = p.attr('type')
     end
     return pkgs
   end

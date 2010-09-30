@@ -57,10 +57,20 @@ class TemplatesController < ApplicationController
     # synchronize it at first to xml
     @tpl.update_xml_attributes!(params[:tpl])
 
-    # if add/remove pkg/group, we only update xml and render 'new' template
+    # if remove pkg, we only update xml and render 'new' template
     # again
-    if update_selection
-      render :action => 'new'
+    params.keys.each do |param|
+      if param =~ /^remove_package_(.*)$/
+        update_group_or_package(:remove_package, $1, nil)
+        render :action => 'new'
+        return
+      end
+    end
+
+    if params[:add_software_form]
+      @repository_manager = RepositoryManager.new
+      @groups = @repository_manager.all_groups_with_tagged_selected_packages(@tpl.xml.packages, params[:repository])
+      render :action => 'add_software_form'
       return
     end
 
@@ -71,6 +81,22 @@ class TemplatesController < ApplicationController
     else
       @repository_manager = RepositoryManager.new
       @groups = @repository_manager.all_groups(params[:repository])
+      render :action => 'new'
+    end
+  end
+
+  def add_software
+    @tpl = params[:template_id].to_s.empty? ? Template.new : Template.find(params[:template_id])
+    @repository_manager = RepositoryManager.new
+    @groups = @repository_manager.all_groups(params[:repository])
+    if params[:add_selected]
+      params[:groups].to_a.each { |group| @tpl.xml.add_group(group) }
+      params[:packages].to_a.each { |pkg| @tpl.xml.add_package(pkg, nil) }
+      @tpl.save_xml!
+    end
+    if params[:ajax]
+      render :partial => 'managed_content'
+    else
       render :action => 'new'
     end
   end
@@ -132,24 +158,6 @@ class TemplatesController < ApplicationController
   end
 
   private
-
-  def update_selection
-    # TODO: don't know better way how to select package and also save other form data than
-    # passing pkg/group as part of submit button name
-    params.keys.each do |param|
-      if param =~ /^select_package_(.*)$/
-        update_group_or_package(:add_package, $1, nil)
-        return true
-      elsif param =~ /^remove_package_(.*)$/
-        update_group_or_package(:remove_package, $1, nil)
-        return true
-      elsif param =~ /^select_group_(.*)$/
-        update_group_or_package(:add_group, $1)
-        return true
-      end
-    end
-    return false
-  end
 
   def update_group_or_package(method, *args)
     @repository_manager = RepositoryManager.new
