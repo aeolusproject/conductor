@@ -9,38 +9,54 @@
   {:name => 'STARTED BY', :sort_attr => 'users.last_name'},       |
 ]                                                                 |
 
-
-%h2 POOL STATUS
-TODO (include michal's pool partial)
-
-%h2 INSTANCES BY POOL
 - form_tag(:action => 'instance_action') do
-  %ul
-    %li ACTIONS
-    %li CONTROL INSTANCES
-    %li= submit_tag "Shutdown", :name => "shutdown"
-    %hr
-    %li MANAGE INSTANCES
-    %li= submit_tag "Instance Details", :name => "instance_details"
-  - @pools.each do |pool|
-    %hr
-    = pool.name
-    = submit_tag "Launch Instance", :name => "launch_instance_#{pool.id}"
-    Show All
-    %table
-      = sortable_table_header(columns)
-      %tbody
-        - if not instances = @sorted_instances_by_pool[pool.id] or instances.empty?
-          %tr
-            %td{:colspan => 8} No Instances
-        - else
-          - instances.each do |inst|
+  .actionsidebar.grid_3
+    %dl
+      %dt Actions
+      %dd
+        %h5 Control Instances
+        %ul
+          %li.delete
+            %span
+            = submit_tag "Shutdown", :name => "shutdown", :class => "icon"
+
+      %dd
+        %h5 Manage Instances
+        %ul
+          %li.info
+            %span
+            = submit_tag "Instance Details", :name => "instance_details", :class => "icon"
+
+  .grid_13
+    %h2 Pool Status
+
+    %h2 Instances by Pool
+    - @pools.each do |pool|
+      %h4.grid_4.alpha.nomargin= pool.name
+      .grid_2
+        = submit_tag "Launch Instance", :name => "launch_instance_#{pool.id}"
+      .grid_4
+        %input{:type => "radio"}
+        %label Show All
+        %input{:type => "radio"}
+        %label Summary View
+      .search.grid_3.omega
+        %input{:type => "search", :placeholder => "Search Instance"}
+        %button.action Search
+      %table.gap
+        = sortable_table_header(columns)
+        %tbody
+          - if not instances = @sorted_instances_by_pool[pool.id] or instances.empty?
             %tr
-              %td= check_box_tag 'id[]'
-              %td=inst.state
-              %td= inst.name
-              %td= inst.hardware_profile.name
-              %td= inst.template.name
-              %td= inst.public_ip_addresses
-              %td= inst.cloud_account ? inst.cloud_account.provider.name : ''
-              %td= "#{inst.owner.first_name} #{inst.owner.last_name}" # TODO, there is "started by" in comps pdf, but we don't save this info
+              %td{:colspan => 8} No Instances
+          - else
+            - instances.each do |inst|
+              %tr
+                %td= check_box_tag 'id[]'
+                %td=inst.state
+                %td= inst.name
+                %td= inst.hardware_profile.name
+                %td= inst.template.name
+                %td= inst.public_ip_addresses
+                %td= inst.cloud_account ? inst.cloud_account.provider.name : ''
+                %td= "#{inst.owner.first_name} #{inst.owner.last_name}" # TODO, there is "started by" in comps pdf, but we don't save this info

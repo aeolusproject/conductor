@@ -37,7 +37,6 @@ input,textarea {
   input[type="search"] {
     @include border-radius(20px);
     padding: 4px 30px 4px 10px;
-    width: 80%;
     &:focus {
       padding: 3px 29px 3px 9px;
     }
@@ -58,6 +57,7 @@ input,textarea {
 input.grid_1 { width: 40px !important; }
 input.grid_2 { width: 90px !important; }
 input.grid_3 { width: 150px !important; }
+  .grid_3 input[type="search"] { width: 118px; }
 input.grid_4 { width: 210px !important; }
 input.grid_5 { width: 270px !important; }
 
@@ -128,16 +128,12 @@ input[type='submit'],button,.button {
   }
 }
 
-h1 { font-size: 140%; text-transform: uppercase; }
-h2 {
-  font-size: 130%;
-  text-transform: uppercase;
-  color: $headercl;
-}
+h1,h2,h3,h4,h5 { text-transform: uppercase; color: $headercl; font-weight: bold; }
 
+h1 { font-size: 140%; }
+h2 { font-size: 130%; }
 h3 {
   font-size: 120%;
-  text-transform: uppercase;
   &.gap {
     margin-top: 3em;
   }
@@ -148,7 +144,7 @@ h4 {
     margin-bottom: 4px;
   }
 }
-h5 { font-size: 100%; text-transform: uppercase; }
+h5 { font-size: 80%; }
 
 .clear {
   clear: both;
@@ -159,9 +155,8 @@ h5 { font-size: 100%; text-transform: uppercase; }
   margin-bottom: 2em;
 }
 
-.la {
-  text-align: left;
-}
+.la { text-align: left; }
+.ra { text-align: right; }
 
 .twocolumn {
   @include column-count(2);
@@ -170,6 +165,7 @@ h5 { font-size: 100%; text-transform: uppercase; }
 
 .placeholder { margin-bottom: 2em; }
 .disabled { opacity: 0.4; }
+.nomargin { margin: 0; }
 
 /* TABLES */
 
@@ -247,6 +243,9 @@ table {
       }
     }
   }
+  &.gap {
+    margin-bottom: 7em;
+  }
 }
 
 .action {
@@ -271,11 +270,11 @@ table {
     font-size: 110%;
     font-weight: bold;
     margin: 3px 0 20px;
-    padding:14px 20px 12px;
+    padding:14px 10px 12px;
     text-transform: uppercase;
   }
   dd {
-    margin: 0 0 0 20px;
+    margin: 0 0 0 10px;
     font-size: 110%;
     position: relative;
     a {
@@ -285,6 +284,12 @@ table {
         background: url("/images/actionsidebar-bullet.png") no-repeat left center;
         font-weight: bold;
         color: $dcprimary;
+      }
+    }
+    h5 {
+      margin: 3em 0 .5em 0;
+      &:first-child {
+        margin: 0 0 .5em 0;
       }
     }
     ul {
@@ -436,6 +441,7 @@ ul.block {
       }
       input[type="search"] {
         border-color: $headerbg;
+        width: 80%;
       }
     }
     a {
@@ -738,6 +744,29 @@ legend {
   }
 }
 
+/* search forms */
+
+.search {
+  position: relative;
+  button {
+    position: absolute;
+    width: 16px; height: 16px;
+    text-indent: -200em;
+    right: 8px; top: 50%;
+    margin: -8px 0 0;
+    background-position: 0 0;
+    border: none;
+    padding: 0;
+    &:hover {
+      box-shadow: none;
+      -webkit-shadow: none;
+      -moz-box-shadow: none;
+    }
+  }
+  input[type="search"] {
+    float: right; /* webkit adds an extra padding and makes the widget narrower */
+  }
+}
 /* WIZARD TILES */
 
 ul.tiles {
