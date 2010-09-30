@@ -10,7 +10,7 @@
 
 - opts = { :order => @order,
   :order_dir => @order_dir,
-  :title => 'List of instances',
+  :title => "Instances for #{@pool.name}",
   :check_all => 'id' }
 
 = paginated_table('instances_table', columns, @instances, opts) do |rec|

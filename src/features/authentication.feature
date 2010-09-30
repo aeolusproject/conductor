@@ -15,7 +15,7 @@ Feature: User authentication
       | Confirm password  | secret               |
       | First name        | Joe                  |
       | Last name         | Tester               |
-      | Email             | testuser@example.com |
+      | E-mail            | testuser@example.com |
     And I press "Create Account"
     Then I should be on testuser's user page
     And I should see "User registered!"
@@ -39,9 +39,9 @@ Feature: User authentication
     And I am on the homepage
     When I want to edit my profile
     And I follow "Edit"
-    Then I should see "Edit my profile"
-    When I fill in "email" with "changed@example.com"
-    And I press "Update"
+    Then I should see "Edit an Account"
+    When I fill in "E-mail" with "changed@example.com"
+    And I press "Make Changes"
     Then I should be on the account page
     And I should see "User updated!"
 

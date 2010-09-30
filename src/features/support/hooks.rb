@@ -7,7 +7,7 @@ Before do
                                                           :value => @default_quota,
                                                           :object_type => "Quota")
 
-  @default_pool = Factory(:pool, :name => "default_pool")
+  @default_pool = Factory(:pool, :name => "default_pool", :quota => @default_quota)
   @self_service_default_pool = Factory(:metadata_object, :key => "self_service_default_pool",
                                                         :value => @default_pool,
                                                         :object_type => "Pool")

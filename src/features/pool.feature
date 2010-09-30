@@ -8,9 +8,9 @@ Feature: Manage Pools
     And I am logged in
 
   Scenario: Create a new Pool
-    Given I am on the instances page
+    Given I am on the pools page
     And there is not a pool named "mockpool"
-    When I follow "Add a pool"
+    When I follow "New pool"
     Then I should be on the new pool page
     And I should see "Create a new Pool"
     When I fill in "pool_name" with "mockpool"
