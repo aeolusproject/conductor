@@ -74,17 +74,19 @@ class CloudAccountsController < ApplicationController
         attributes.delete :password
       end
       @cloud_account.quota.maximum_running_instances = quota_from_string(params[:quota][id][:maximum_running_instances])
-      private_cert = attributes[:x509_cert_priv]
+      private_cert = attributes[:x509_cert_priv_file]
       if private_cert.nil?
         attributes.delete :x509_cert_priv
       else
         attributes[:x509_cert_priv] = private_cert.read
+        attributes.delete :x509_cert_priv_file
       end
-      public_cert = attributes[:x509_cert_pub]
+      public_cert = attributes[:x509_cert_pub_file]
       if public_cert.nil?
         attributes.delete :x509_cert_pub
       else
         attributes[:x509_cert_pub] = public_cert.read
+        attributes.delete :x509_cert_pub_file
       end
       @cloud_account.update_attributes!(attributes)
       @cloud_account.quota.save!
