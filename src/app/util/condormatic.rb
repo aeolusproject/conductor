@@ -106,7 +106,7 @@ def condor_to_instance_state(state_val)
     when '4'
       return Instance::STATE_STOPPED
     when '5'
-      return Instance::STATE_CREATE_FAILED
+      return Instance::STATE_ERROR
     when '6'
       return Instance::STATE_CREATE_FAILED
   else

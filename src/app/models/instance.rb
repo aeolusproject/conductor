@@ -53,9 +53,11 @@ class Instance < ActiveRecord::Base
   STATE_SHUTTING_DOWN  = "shutting_down"
   STATE_STOPPED        = "stopped"
   STATE_CREATE_FAILED  = "create_failed"
+  STATE_ERROR          = "error"
 
   STATES = [STATE_NEW, STATE_PENDING, STATE_RUNNING,
-             STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED]
+             STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED,
+             STATE_ERROR]
 
   SEARCHABLE_COLUMNS = %w(name state)
 

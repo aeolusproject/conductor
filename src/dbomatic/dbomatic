@@ -144,14 +144,22 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       # However, it's not a state that we care to export to users, but it's
       # also not an error, so we just silently ignore it.
     elsif @trigger_type == "ULOG_JOB_HELD"
-      # we failed to start the instance
+      # The job has some error condition.
+      #
       # FIXME: if this happens, we probably want to add the HoldReason field
       # to the database so we can display it to the user
       # FIXME: we also may want to delete this job from condor, depending
       # on the error.  For instance, if you are trying to start an instance
       # with a mismatched image and hardwareprofile architecture, the only
-      # reasonable way out is to create a new instance.  Needs thought
-      inst.state = Instance::STATE_CREATE_FAILED
+      # reasonable way out is to create a new instance.  Needs thought.
+      #  - I've added a condormatic_instance_reset_error() method to reset
+      #    error conditions such as this.  In the future we should give different
+      #    options based on the error condition.
+      # FIXME: Right now we don't parse out the HoldReason (or HoldReasonCode)
+      # so for now I'm going to set this to STATE_ERROR as there are multiple
+      # possible reasons for going into the 'held' state.
+
+      inst.state = Instance::STATE_ERROR
     else
       @logger.info "Unexpected trigger type #{@trigger_type}, not updating instance state"
       return
