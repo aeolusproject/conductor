@@ -7,52 +7,65 @@
 ]                                                                          |
 
 - form_tag :action => "" do
-  %ul
-    %li GRIND JOB ACTIONS
-    %li JOB QUEUE
-    %li= submit_tag "Show Job Details", :name => "job_details", :disabled => true
-    %li= submit_tag "Show Job Log", :name => "job_log", :disabled => true
+  .actionsidebar.grid_3
+    %dl
+      %dt Grind Job Actions
+      %dd
+        %h5 JOB QUEUE
+        %ul
+          %li.show
+            %span
+            = submit_tag "Show Job Details", :name => "job_details", :disabled => true, :class => "icon"
+          %li.show
+            %span
+            = submit_tag "Show Job Log", :name => "job_log", :disabled => true, :class => "icon"
 
-  %h3 STATUS
-  %hr
-  Image Warehouse Status: Green
-  %br
-  Total Grind in Queue:
-  = @running_images.size
-  %br
-  Number of VM's Grinding:
-  = @running_images.select {|i| i.status == Image::STATE_BUILDING}.size
-  %h3 RUNNING
-  %hr
-  %table
-    = sortable_table_header(columns)
-    %tbody
-      - if @running_images.empty?
-        %tr
-          %td{:colspan => 5} No Images
-      - else
-        - @running_images.each do |img|
+  .grid_13
+    %h1 Status
+    %section.wrap.status
+      %label.grid_4.alpha Image Warehouse Status:
+      .grid_3.suffix_6.omega
+        %span.good
+        Green
+
+      %label.grid_4.alpha Total Grind in Queue:
+      .grid_3.suffix_6.omega
+        = @running_images.size
+
+      %label.grid_4.alpha Number of VM's Grinding:
+      .grid_3.suffix_6.omega
+        = @running_images.select {|i| i.status == Image::STATE_BUILDING}.size
+
+    %h1 Running
+
+    %table
+      = sortable_table_header(columns)
+      %tbody
+        - if @running_images.empty?
           %tr
-            %td= img.template.name
-            %td= img.template.platform
-            %td= img.template.platform_version
-            %td= img.template.architecture
-            %td= img.status
+            %td{:colspan => 5} No Images
+        - else
+          - @running_images.each do |img|
+            %tr
+              %td= img.template.name
+              %td= img.template.platform
+              %td= img.template.platform_version
+              %td= img.template.architecture
+              %td= img.status
 
 
-  %h3 COMPLETED
-  %hr
-  %table
-    = sortable_table_header(columns)
-    %tbody
-      - if @completed_images.empty?
-        %tr
-          %td{:colspan => 5} No Images
-      - else
-        - @completed_images.each do |img|
+    %h1 Completed
+    %table
+      = sortable_table_header(columns)
+      %tbody
+        - if @completed_images.empty?
           %tr
-            %td= img.template.name
-            %td= img.template.platform
-            %td= img.template.platform_version
-            %td= img.template.architecture
-            %td OK
+            %td{:colspan => 5} No Images
+        - else
+          - @completed_images.each do |img|
+            %tr
+              %td= img.template.name
+              %td= img.template.platform
+              %td= img.template.platform_version
+              %td= img.template.architecture
+              %td OK

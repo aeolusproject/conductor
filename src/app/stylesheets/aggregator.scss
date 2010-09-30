@@ -146,6 +146,12 @@ h4 {
 }
 h5 { font-size: 80%; }
 
+h1,h2,h3,h4,h5 {
+  margin-top: 1em;
+  &:first-child {
+    margin-top: 0;
+  }
+}
 .clear {
   clear: both;
 }
@@ -166,6 +172,11 @@ h5 { font-size: 80%; }
 .placeholder { margin-bottom: 2em; }
 .disabled { opacity: 0.4; }
 .nomargin { margin: 0; }
+
+div,section,fieldset {
+  display: block;
+  overflow: hidden; /* force to wrap floats */
+}
 
 /* TABLES */
 
@@ -889,6 +900,24 @@ footer {
   h5 {
     text-transform: none;
     margin-top: 3em;
+  }
+}
+
+.status {
+  span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: url(/images/icons/status.png) no-repeat 0 0;
+    &.good {
+      background-position: 0 0;
+    }
+    &.ok {
+      background-position: 0 -10px;
+    }
+    &.bad {
+      background-position: 0 -20px;
+    }
   }
 }
 
