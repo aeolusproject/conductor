@@ -143,6 +143,15 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       # ULOG_SUBMIT happens when the job is first submitted to condor.
       # However, it's not a state that we care to export to users, but it's
       # also not an error, so we just silently ignore it.
+    elsif @trigger_type == "ULOG_JOB_HELD"
+      # we failed to start the instance
+      # FIXME: if this happens, we probably want to add the HoldReason field
+      # to the database so we can display it to the user
+      # FIXME: we also may want to delete this job from condor, depending
+      # on the error.  For instance, if you are trying to start an instance
+      # with a mismatched image and hardwareprofile architecture, the only
+      # reasonable way out is to create a new instance.  Needs thought
+      inst.state = Instance::STATE_FAILED
     else
       @logger.info "Unexpected trigger type #{@trigger_type}, not updating instance state"
       return
