@@ -13,6 +13,6 @@
       - link_to account_path do
         = t(:hello) + " "
         %b
-          = @current_user.first_name + " " + @current_user.last_name
+          = "#{@current_user.first_name} #{@current_user.last_name}"
     %li.logout
       = link_to t(:logout), logout_url
