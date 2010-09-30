@@ -1,7 +1,38 @@
+:javascript
+  $(document).ready(function() {
+    $(':submit[name=add_software_form]').click(function() {
+      $(this).css('display', 'none');
+      var div = $('#package_selection_list');
+      div.css('display', 'block');
+      div.addClass('loading');
+      // delete this styling when regular css #package_selection_list is done
+      div.css({'width': '600px', 'height': '300px', 'overflow': 'auto'});
+      var list_url = '#{url_for :action => 'create', :ajax => true, :add_software_form => true}';
+      var list_data = {'tpl[id]': $("input[name='tpl[id]']").val() || ''};
+      div.load(list_url, list_data, function() {
+        div.removeClass('loading');
+        $(':submit[name=add_selected]').click(function() {
+          var url = '#{url_for :action => 'add_software', :ajax => true, :add_selected => true}';
+          var data = {
+            'packages[]': $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get(),
+            'groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
+            'template_id': $("input[name='tpl[id]']").val() || ''
+          };
+          $('#selected_packages').load(url, data, function() {});
+          return false;
+        });
+        $(':submit[name=cancel]').click(function() {
+          div.css('display', 'none');
+          return false;
+        });
+      });
+      return false;
+    });
+  });
+
 %h2.grid_16 Template
 - form_for @tpl, :url => { :action => "create" } do
   = error_messages_for 'tpl'
-  = hidden_field :tpl, :id
   .grid_11
     = render :partial => 'basics'
 
@@ -29,6 +60,8 @@
         )
 
     = render :partial => 'managed_content'
+    = submit_tag "Add Software", :name => "add_software_form"
+    #package_selection_list{:style => 'display: none'}
 
     %h3.gap.clear Preboot Configuration
     %hr
@@ -45,6 +78,3 @@
 
     = submit_tag "Save", :name => "save", :class => "dialogbutton"
     = submit_tag "Cancel", :name => "cancel", :class => "dialogbutton"
-
-  .grid_5
-    = render :partial => 'content_selection'

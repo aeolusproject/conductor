@@ -58,6 +58,34 @@ class RepositoryManager
     return @all_packages
   end
 
+  def all_groups_with_tagged_selected_packages(pkgs, repository = nil)
+    groups = all_groups(repository)
+    groups.each_value do |group|
+      pkgs.each do |pkg|
+        next unless p = group[:packages][pkg[:name]]
+        p[:selected] = true
+      end
+      # if all non-optional packages are selected, mark all
+      # group as selected
+      group[:selected] = true
+      group[:packages].each_value do |pkg|
+        if pkg[:type] != 'optional' and !pkg[:selected]
+          group[:selected] = false
+          break
+        end
+      end
+    end
+    return groups
+  end
+
+  def repositories_hash
+    res = {}
+    @repositories.each do |r|
+      res[r.id] = r
+    end
+    res
+  end
+
   private
 
   def load_config

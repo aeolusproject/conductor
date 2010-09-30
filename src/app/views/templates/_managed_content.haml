@@ -1,14 +1,26 @@
-%h3.gap Managed Content to Bundle
-%hr
-%label.header.alpha.prefix_2.grid_2 Name:
-%label.header.omega.grid_2.suffix_5 Repository:
-%label.grid_2.alpha.clear Managed:
-.grid_9.omega
-  - @tpl.xml.packages.each do |pkg|
-    %fieldset
-      = text_field_tag 'packages[]', pkg[:name], :disabled => true, :id => "selected_package_#{pkg[:name]}", :class => "alpha grid_2"
-      .grid_2 FIXME Repository
-      .grid_5.omega
-        %button{:type => 'button', :disabled => 'disabled'} Config
-        %button{:type => 'button', :disabled => 'disabled'} Metadata
-        = submit_tag "Remove", :name => "remove_package_#{pkg[:name]}", :id => "remove_package_#{pkg[:name]}"
+#selected_packages
+  / we place template id into this partial, because
+  / if we want to add software with ajax, it's possible
+  / that template is not saved in db yet -> in this case
+  / template is saved when software is added and we have
+  / to pass template id back to new form
+  = hidden_field :tpl, :id
+  %h3.gap Managed Content to Bundle
+  %hr
+  %label.header.alpha.prefix_2.grid_2 Name:
+  %label.header.omega.grid_2.suffix_5 Repository:
+  %label.grid_2.alpha.clear Managed:
+  .grid_9.omega
+    - if @tpl.xml.packages.empty?
+      No selected packages
+    - else
+      - repos = @repository_manager.repositories_hash
+      - @tpl.xml.packages.each do |pkg|
+        - pkg_group = @groups.keys.find {|g| @groups[g][:packages][pkg[:name]]}
+        %fieldset
+          = text_field_tag 'packages[]', pkg[:name], :disabled => true, :id => "selected_package_#{pkg[:name]}", :class => "alpha grid_2"
+          .grid_2= (pkg_group and repo = repos[@groups[pkg_group][:repository_id]]) ? repo.name.to_s : '&nbsp;'
+          .grid_5.omega
+            %button{:type => 'button', :disabled => 'disabled'} Config
+            %button{:type => 'button', :disabled => 'disabled'} Metadata
+            = submit_tag "Remove", :name => "remove_package_#{pkg[:name]}", :id => "remove_package_#{pkg[:name]}"

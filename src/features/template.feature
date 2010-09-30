@@ -22,23 +22,22 @@ Feature: Manage Templates
     And I should see "Template saved"
     And I should see "mocktemplate"
 
-  Scenario: Add/Remove a package and a group to/from the template
+  Scenario: Add group and remove package to/from the template
     Given I am on the templates page
     When I press "Template"
     Then I should be on the new template page
     When I fill in the following:
       | tpl_name         | mocktemplate  |
-    And I press "select_package_jboss-as5"
-    Then I should be on the create template page
+    And I press "Add Software"
+    Then I should see "Managed Content Selection"
+    When I check "group_JBoss_Core_Packages"
+    And I press "Add Selected"
+    Then I should see "Managed Content to Bundle"
     And the "tpl[name]" field by name should contain "mocktemplate"
     And the page should contain "#selected_package_jboss-as5" selector
     When I press "remove_package_jboss-as5"
-    Then I should be on the create template page
+    Then I should see "Managed Content to Bundle"
     And the page should not contain "#selected_package_jboss-as5" selector
-    When I press "select_group_JBoss Core Packages"
-    Then I should be on the create template page
-    And the "tpl[name]" field by name should contain "mocktemplate"
-    And the page should contain "#selected_package_jboss-jgroups" selector
     When I press "Save"
     Then I should be on the templates page
     And I should see "Template saved"

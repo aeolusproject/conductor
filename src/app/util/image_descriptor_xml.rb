@@ -199,8 +199,8 @@ class ImageDescriptorXML
       groups_node = get_or_create_node('groups')
       add_group_node(groups_node, gname)
     end
-    group[:packages].each do |p, type|
-      next if type == 'optional'
+    group[:packages].each do |p, info|
+      next if info[:type] == 'optional'
       add_package(p, group[:name])
     end
   end
