@@ -126,9 +126,20 @@ input[type='submit'],button,.button {
       @include no-box-shadow;
     }
   }
+  &.iconbutton {
+    display: inline-block;
+  }
 }
 
-h1,h2,h3,h4,h5 { text-transform: uppercase; color: $headercl; font-weight: bold; }
+h1,h2,h3,h4,h5 {
+  text-transform: uppercase;
+  color: $headercl;
+  font-weight: bold;
+  margin-top: 1em;
+  &:first-child {
+    margin-top: 0;
+  }
+}
 
 h1 { font-size: 140%; }
 h2 { font-size: 130%; }
@@ -146,12 +157,6 @@ h4 {
 }
 h5 { font-size: 80%; }
 
-h1,h2,h3,h4,h5 {
-  margin-top: 1em;
-  &:first-child {
-    margin-top: 0;
-  }
-}
 .clear {
   clear: both;
 }
@@ -163,6 +168,8 @@ h1,h2,h3,h4,h5 {
 
 .la { text-align: left; }
 .ra { text-align: right; }
+.fr { float: right; }
+.fl { float: left; }
 
 .twocolumn {
   @include column-count(2);
