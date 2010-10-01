@@ -40,5 +40,9 @@
     %li
       = label_tag :shared_to, 'Shared to'
       %span= "N/A"
+    - if @instance.state == Instance::STATE_ERROR
+      %li
+        = label_tag :error, 'Error'
+        %span= @instance.last_error
 
   = submit_tag 'Back', :name => 'back'

@@ -53,7 +53,7 @@
           - else
             - instances.each do |inst|
               %tr
-                %td= check_box_tag 'id[]'
+                %td= check_box_tag 'id[]', inst.id
                 %td=inst.state
                 %td= inst.name
                 %td= inst.hardware_profile.name
