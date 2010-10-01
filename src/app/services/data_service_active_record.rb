@@ -136,7 +136,6 @@ class DataServiceActiveRecord
           compare_time = l.submission_time
         when TASK_COMPLETION_TIMES
           compare_time = l.runtime
-          puts compare_time
         when INSTANCE_RUN_TIMES
           compare_time = l.total_state_time(Instance::STATE_RUNNING)
         else
