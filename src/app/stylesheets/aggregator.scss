@@ -220,6 +220,7 @@ table {
   td {
     padding: 4px;
     vertical-align: top;
+    min-height: 16px;
   }
   &.noborder {
     border: none;
@@ -351,6 +352,25 @@ table {
   .add span { background-position: -48px 0;}
   label {
     font-weight: normal;
+  }
+}
+
+/* ICONS */
+
+img.icon {
+  width: 16px; height: 16px;
+  vertical-align: middle;
+  background: url(/images/icons/statusicons.png) no-repeat 0 0;
+  &.large {
+    width: 48px; height: 16px;
+  }
+  &.yes { background-position: -16px 0; }
+  &.no { background-position: -32px 0; }
+  &.platform {
+    background: url(/images/icons/platformicons.png) no-repeat 0 0;
+    &.rhel {
+      background-position: 0 0;
+    }
   }
 }
 
