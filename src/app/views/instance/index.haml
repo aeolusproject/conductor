@@ -32,14 +32,15 @@
 
     %h2 Instances by Pool
     - @pools.each do |pool|
-      .grid_6.alpha
-        %h4.fl.nomargin= pool.name
-        = submit_tag "Launch Instance", :name => "launch_instance_#{pool.id}", :class => "iconbutton fr"
-      .grid_4
-        %input{:type => "radio"}
-        %label Show All
-        %input{:type => "radio"}
-        %label Summary View
+      .grid_6.alpha.poolname
+        %h4= pool.name
+        = link_to image_tag("blnk.png", :border=>0) + "Launch Instance", {:controller => "instance", :action => "new", 'instance[pool_id]' => pool.id}, :class => "button iconbutton fr"
+
+      .grid_4.poolfilter
+        %input{:type => "radio", :id => "all_" + pool.id.to_s, :name => "filter_" + pool.id.to_s}
+        %label{:for => "all_" + pool.id.to_s} Show All
+        %input{:type => "radio", :id => "summary_" + pool.id.to_s, :name => "filter_" + pool.id.to_s}
+        %label{:for => "summary_" + pool.id.to_s} Summary View
       .search.grid_3.omega
         %input{:type => "search", :placeholder => "Search Instance"}
         %button.action Search

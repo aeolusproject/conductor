@@ -910,6 +910,9 @@ footer {
   }
 }
 
+/* PAGE SPECIFIC */
+
+/* GRINDS */
 .status {
   span {
     display: inline-block;
@@ -925,6 +928,43 @@ footer {
     &.bad {
       background-position: 0 -20px;
     }
+  }
+}
+
+/* INSTANCE MANAGEMENT */
+.poolname {
+  h4 {
+    float: left;
+    margin: 10px 0 0;
+  }
+}
+
+.poolfilter {
+  margin: 10px 0 0;
+  label {
+    font-weight: normal;
+    margin-right: 1em;
+  }
+}
+
+a.iconbutton {
+  padding: 4px 4px 4px 24px;
+  position: relative;
+  overflow: hidden;
+  @include border-radius(2px);
+  &:active  {
+    padding: 4px 4px 4px 24px;
+  }
+  &:focus {
+    padding: 3px 3px 3px 23px;
+  }
+  img {
+    position: absolute;
+    width: 18px;
+    height: 54px;
+    left: 0; top: 50%;
+    margin-top: -27px;
+    background: url(/images/icons/launchinstance.png) no-repeat 0 0;
   }
 }
 
