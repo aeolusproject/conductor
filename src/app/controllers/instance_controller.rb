@@ -125,33 +125,37 @@ class InstanceController < ApplicationController
       return
     end
 
-    # action list will be longer (restart, start, stop..)
-    action = if params[:shutdown]
-               'stop'
-             #elsif params[:restart]
-             #  'restart'
-             end
+    if params[:remove_failed]
+      action = remove_failed
+    else
+      # action list will be longer (restart, start, stop..)
+      action = if params[:shutdown]
+                 'stop'
+               #elsif params[:restart]
+               #  'restart'
+               end
 
-    unless @instance.valid_action?(action)
-      raise ActionError.new("'#{action}' is an invalid action.")
-    end
+      unless @instance.valid_action?(action)
+        raise ActionError.new("'#{action}' is an invalid action.")
+      end
 
-    # not sure if task is used as everything goes through condor
-    #permissons check here
-    @task = @instance.queue_action(@current_user, action)
-    unless @task
-      raise ActionError.new("#{action} cannot be performed on this instance.")
-    end
+      # not sure if task is used as everything goes through condor
+      #permissons check here
+      @task = @instance.queue_action(@current_user, action)
+      unless @task
+        raise ActionError.new("#{action} cannot be performed on this instance.")
+      end
 
-    case action
-      when 'stop'
-        condormatic_instance_stop(@task)
-      when 'destroy'
-        condormatic_instance_destroy(@task)
-      when 'start'
-        condormatic_instance_create(@task)
-      else
-        raise ActionError.new("Sorry, action '#{action}' is currently not supported by condor backend.")
+      case action
+        when 'stop'
+          condormatic_instance_stop(@task)
+        when 'destroy'
+          condormatic_instance_destroy(@task)
+        when 'start'
+          condormatic_instance_create(@task)
+        else
+          raise ActionError.new("Sorry, action '#{action}' is currently not supported by condor backend.")
+      end
     end
 
     flash[:notice] = "#{@instance.name}: #{action} was successfully queued."
@@ -159,6 +163,15 @@ class InstanceController < ApplicationController
   end
 
   def delete
+  end
+
+  def remove_failed
+    action ='remove failed'
+    raise ActionError.new("#{action} cannot be performed on this instance.") unless
+      @instance.state == Instance::STATE_ERROR
+    condormatic_instance_reset_error(@instance)
+    puts "== Attempting to remove instance #{@instance.name}"
+    action
   end
 
 end
