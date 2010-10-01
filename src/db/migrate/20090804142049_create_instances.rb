@@ -34,6 +34,7 @@ class CreateInstances < ActiveRecord::Migration
       t.string    :private_address
       t.string    :state
       t.string    :condor_job_id
+      t.string    :last_error
       t.integer   :instance_key_id
       t.integer   :lock_version, :default => 0
       t.integer   :acc_pending_time, :default => 0

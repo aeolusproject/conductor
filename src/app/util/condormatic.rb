@@ -128,17 +128,22 @@ def condormatic_instances_sync_states
 
     doc = Nokogiri::XML(xml)
     jobs_state = {}
+    jobs_error_msg = {}
     doc.xpath('/classads/c').each do |jobs|
+      job_hold_reason = (v = jobs.at_xpath('./a[@n="HoldReason"]/s')) ? v.text : nil
       job_name = (v = jobs.at_xpath('./a[@n="Cmd"]/s')) ? v.text : nil
       job_state= (v = jobs.at_xpath('./a[@n="JobStatus"]/i')) ? v.text : nil
 
       Rails.logger.info "job name is #{job_name}"
       Rails.logger.info "job state is #{job_state}"
+      Rails.logger.info "hold reason is #{job_hold_reason}"
 
       jobs_state[job_name] = condor_to_instance_state(job_state) if job_name
+      jobs_error_msg[job_name] = job_hold_reason if job_hold_reason
     end
 
     Instance.find(:all).each do |instance|
+      instance.last_error = jobs_error_msg[instance.condor_job_id] if jobs_error_msg.has_key?(instance.condor_job_id)
       instance.state = jobs_state[instance.condor_job_id] || Instance::STATE_STOPPED
       instance.save!
       Rails.logger.info "Instance state updated to #{instance.state}"

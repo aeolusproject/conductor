@@ -102,7 +102,7 @@ end
 
 # Handle the event log's xml
 class CondorEventLog < Nokogiri::XML::SAX::Document
-  attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host
+  attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host, :hold_reason
 
   def initialize(logger)
     @logger = logger
@@ -128,6 +128,8 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         @grid_resource = string
       elsif @tag == "ExecuteHost"
         @execute_host = string
+      elsif @tag == "HoldReason"
+        @hold_reason = string
       end
     end
   end
@@ -146,8 +148,6 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
     elsif @trigger_type == "ULOG_JOB_HELD"
       # The job has some error condition.
       #
-      # FIXME: if this happens, we probably want to add the HoldReason field
-      # to the database so we can display it to the user
       # FIXME: we also may want to delete this job from condor, depending
       # on the error.  For instance, if you are trying to start an instance
       # with a mismatched image and hardwareprofile architecture, the only
@@ -158,7 +158,11 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       # FIXME: Right now we don't parse out the HoldReason (or HoldReasonCode)
       # so for now I'm going to set this to STATE_ERROR as there are multiple
       # possible reasons for going into the 'held' state.
-
+      #
+      # FIXME: This only adds the error to the instance 'last_error' field.  We
+      # should really be logging this information into the event log but that is not
+      # set up at this time so for now this will do.
+      inst.last_error = @hold_reason
       inst.state = Instance::STATE_ERROR
     else
       @logger.info "Unexpected trigger type #{@trigger_type}, not updating instance state"
