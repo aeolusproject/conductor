@@ -3,7 +3,7 @@
 #
 # deltacloud-dbomatic       startup script for deltacloud-dbomatic
 #
-# chkconfig: - 97 03
+# chkconfig: - 99 01
 # description: deltacloud-dbomatic populates the Deltacloud Aggregator
 #    db from the Deltacloud scheduler's output.
 

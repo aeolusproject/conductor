@@ -3,7 +3,7 @@
 #
 # deltacloud-condor_refreshd       startup script for deltacloud-condor_refreshd
 #
-# chkconfig: - 97 03
+# chkconfig: - 99 01
 # description: deltacloud-condor_refreshd populates the Deltacloud Scheduler
 #    from the Deltacloud Aggregator db
 
