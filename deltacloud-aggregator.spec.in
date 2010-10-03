@@ -23,6 +23,19 @@ Requires: rubygem(haml)
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate)
 Requires: rubygem(parseconfig)
+Requires: rubygem(authlogic)
+Requires: rubygem(deltacloud-client)
+Requires: rubygem(gnuplot)
+Requires: rubygem(scruffy)
+Requires: rubygem(compass)
+Requires: rubygem(compass-960-plugin)
+Requires: rubygem(simple-navigation)
+Requires: rubygem(typhoeus)
+Requires: rubygem(rb-inotify)
+Requires: rubygem(builder)
+Requires: rubygem(json)
+Requires: rubygem(deltacloud-image-builder-agent)
+Requires: rubygem(imagebuilder-console)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
@@ -30,6 +43,7 @@ Requires: gnuplot >= 4.2.6
 Requires: ruby-RMagick
 Requires: classads >= 1.0
 Requires: condor >= 7.5.4
+Requires: iwhd
 
 BuildRequires: classads-devel >= 1.0
 
@@ -100,6 +114,7 @@ mv %{buildroot}/%{app_root}/doc %{buildroot}/%{app_root}/test %{buildroot}/%{doc
 %{__cp} conf/deltacloud-aggregator %{buildroot}%{_initrddir}
 %{__cp} conf/deltacloud-dbomatic %{buildroot}%{_initrddir}
 %{__cp} conf/deltacloud-condor_refreshd %{buildroot}%{_initrddir}
+%{__cp} conf/deltacloud-image_builder_service %{buildroot}%{_initrddir}
 %{__cp} conf/deltacloud-portal.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/deltacloud-aggregator.conf
 %{__cp} conf/deltacloud-portal.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/deltacloud-aggregator
 %{__cp} conf/deltacloud-aggregator.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-aggregator
@@ -118,6 +133,7 @@ fi
 %{__ln_s} %{_sysconfdir}/%{name}/development.rb %{buildroot}%{app_root}/config/environments
 %{__ln_s} %{_sysconfdir}/%{name}/production.rb %{buildroot}%{app_root}/config/environments
 %{__ln_s} %{_sysconfdir}/%{name}/test.rb %{buildroot}%{app_root}/config/environments
+%{__mkdir} %{buildroot}%{app_root}/config/image_descriptor_xmls
 
 # Creating these files now to make sure the logfiles will be owned
 # by dcloud:dcloud. This is a temporary workaround while we've still
@@ -128,7 +144,7 @@ touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/dbomatic.log
 touch %{buildroot}%{_localstatedir}/run/%{name}/event_log_position
 touch %{buildroot}%{_localstatedir}/log/%{name}/condor_refreshd.log
-
+touch %{buildroot}%{_localstatedir}/log/%{name}/image_builder_service.log
 
 # remove the files not needed for the installation
 %{__rm} -f  %{buildroot}%{app_root}/vendor/plugins/will_paginate/.gitignore
@@ -161,6 +177,7 @@ getent passwd dcloud >/dev/null || \
 /sbin/chkconfig --add deltacloud-aggregator
 /sbin/chkconfig --add deltacloud-dbomatic
 /sbin/chkconfig --add deltacloud-condor_refreshd
+/sbin/chkconfig --add deltacloud-image_builder_service
 
 %preun daemons
 if [ $1 = 0 ]; then
@@ -170,11 +187,15 @@ if [ $1 = 0 ]; then
 /sbin/chkconfig --del deltacloud-dbomatic
 /sbin/service deltacloud-condor_refreshd stop > /dev/null 2>&1
 /sbin/chkconfig --del deltacloud-condor_refreshd
+/sbin/service deltacloud-image_builder_service stop > /dev/null 2>&1
+/sbin/chkconfig --del deltacloud-image_builder_service
 fi
 
 %files
 %defattr(-,root,root,-)
 %{app_root}
+%attr(777, root, root) %{app_root}/config/image_descriptor_xmls
+%attr(777, root, root) %{app_root}/public
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/database.yml
 %config(noreplace) %{_sysconfdir}/%{name}/development.rb
@@ -187,6 +208,7 @@ fi
 %{_initrddir}/deltacloud-aggregator
 %{_initrddir}/deltacloud-dbomatic
 %{_initrddir}/deltacloud-condor_refreshd
+%{_initrddir}/deltacloud-image_builder_service
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-aggregator
 %config(noreplace) %{_sysconfdir}/sysconfig/deltacloud-rails
