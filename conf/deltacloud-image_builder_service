@@ -3,7 +3,7 @@
 #
 # deltacloud-image_builder_service       startup script for deltacloud-image_builder_service
 #
-# chkconfig: - 97 03
+# chkconfig: - 93 07
 # description: deltacloud-image_builder_service builds cloud images
 #    from the Deltacloud Aggregator db
 

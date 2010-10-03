@@ -3,7 +3,7 @@
 #
 # deltacloud-aggregator       startup script for deltacloud-aggregator
 #
-# chkconfig: - 97 03
+# chkconfig: - 99 01
 # description: deltacloud-aggregator is primary server process for the \
 #    Deltacloud Aggregator.
 #
