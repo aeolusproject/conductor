@@ -71,3 +71,10 @@ $badcl: red;
   -webkit-column-gap: $g;
   column-gap: $g;
 }
+
+@mixin column-break-before($break) {
+  -moz-column-break-before: $break;
+  -webkit-column-break-before: $break;
+  -o-column-break-before: $break;
+  column-break-before: $break;
+}

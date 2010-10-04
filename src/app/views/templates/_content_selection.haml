@@ -34,7 +34,7 @@
         %li
           = check_box_tag 'groups[]', group, group_sel, :disabled => group_sel, :id => "group_#{group_id}"
           = label_tag "group_#{group_id}", group
-          %ul.packages
+          %ul{:class => "packages group_#{group_id}"}
             - @groups[group][:packages].each do |pkg, info|
               - pkg_sel = info[:selected] ? true : false
               - pkg_id = pkg.gsub(/\s/, '_')

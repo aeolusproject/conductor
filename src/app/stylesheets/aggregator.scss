@@ -1044,13 +1044,15 @@ a.iconbutton {
   &>li {
     display: block;
     text-transform: uppercase;
-    margin: 0 0 .5em 0; padding: 0;
-    -moz-column-break-before: always;
-    column-break-before : always;
+    margin: 0 0 2em 0; padding: 0;
+    @include column-break-before(always);
   }
   .packages {
     display: block;
     margin: 1em 0 0 0;
+    &:first-child {
+      margin: 0;
+    }
     li {
       text-transform: none;
       display: block;
