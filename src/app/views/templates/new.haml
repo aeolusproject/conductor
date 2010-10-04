@@ -2,14 +2,16 @@
   $(document).ready(function() {
     var $container = $('#package_selection_list'),
     $submit = $('#add_software_button');
-    $submit.click(function() {
+    $submit.click(function(e) {
       var list_url = '#{url_for :action => 'create', :ajax => true, :add_software_form => true}';
       var list_data = {'tpl[id]': $("input[name='tpl[id]']").val() || ''};
+      e.preventDefault();
       $(this).hide();
       $container.empty().show().addClass('loading');
       $container.load(list_url, list_data, function() {
         $container.removeClass('loading');
-        $('#do_add_software').click(function() {
+        $('#do_add_software').click(function(e) {
+          e.preventDefault();
           var url = '#{url_for :action => 'add_software', :ajax => true, :add_selected => true}';
           var data = {
             'packages[]': $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get(),
@@ -17,15 +19,15 @@
             'template_id': $("input[name='tpl[id]']").val() || ''
           };
           $('#selected_packages').load(url, data, function() {});
-          return false;
-        });
-        $('#cancel_add_software').click(function() {
           $container.hide();
           $submit.show();
-          return false;
+        });
+        $('#cancel_add_software').click(function(e) {
+          e.preventDefault();
+          $container.hide();
+          $submit.show();
         });
       });
-      return false;
     });
   });
 
