@@ -6,10 +6,9 @@
       var list_url = '#{url_for :action => 'create', :ajax => true, :add_software_form => true}';
       var list_data = {'tpl[id]': $("input[name='tpl[id]']").val() || ''};
       $(this).hide();
-      $container.addClass('loading');
+      $container.empty().show().addClass('loading');
       $container.load(list_url, list_data, function() {
-        $container.removeClass('loading')
-          .css({'display': 'block'});
+        $container.removeClass('loading');
         $('#do_add_software').click(function() {
           var url = '#{url_for :action => 'add_software', :ajax => true, :add_selected => true}';
           var data = {
