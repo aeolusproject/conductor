@@ -10,7 +10,7 @@ AC_LANG([C++])
 
 AC_ARG_ENABLE(local,
   [  --enable-local   Set this flag if you are planning to run the aggregator without installing it.],
-  [  DELTACLOUD_INSTALL_DIR=`pwd`/src ], [  DELTACLOUD_INSTALL_DIR=$pkgdatadir ])
+  [  DELTACLOUD_INSTALL_DIR=`pwd`/src ], [  DELTACLOUD_INSTALL_DIR=$datadir/deltacloud-aggregator ])
 AC_SUBST(DELTACLOUD_INSTALL_DIR)
 
 dnl
