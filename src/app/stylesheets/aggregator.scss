@@ -1021,8 +1021,9 @@ a.iconbutton {
     overflow: auto;
     margin-top: 2em;
     &.loading {
-      height: 50px;
-      background-color: green;
+      display: block;
+      height: 100px;
+      background: url(/images/spinner.gif) no-repeat center center;
     }
     &>.grid_16 {
       margin: 0;
