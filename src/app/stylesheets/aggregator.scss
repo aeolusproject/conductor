@@ -66,7 +66,9 @@ input.grid_3 { width: 150px !important; }
   .grid_3 input[type="search"] { width: 118px; }
 input.grid_4 { width: 210px !important; }
 input.grid_5 { width: 270px !important; }
-
+input.grid_6 { width: 330px !important; }
+input.grid_7 { width: 390px !important; }
+input.grid_8 { width: 450px !important; }
 
 /* BUTTONS */
 input[type='submit'],button,.button {
@@ -1005,6 +1007,59 @@ a.iconbutton {
     background: url(/images/icons/launchinstance.png) no-repeat 0 0;
   }
 }
+
+/* TEMPLATES */
+
+#build {
+  #add_software_button {
+    margin-top: 2em;
+    font-size: 140%;
+  }
+
+  #package_selection_list {
+    display: block;
+    overflow: auto;
+    margin-top: 2em;
+    &.loading {
+      height: 50px;
+      background-color: green;
+    }
+    &>.grid_16 {
+      margin: 0;
+    }
+  }
+
+  .packagename {
+    opacity: 1;
+    color: #000;
+  }
+}
+
+.softwaregroups {
+  height: 600px;
+  overflow: auto;
+  display: block;
+  @include column-count(4);
+  &>li {
+    display: block;
+    text-transform: uppercase;
+    margin: 0 0 .5em 0; padding: 0;
+    -moz-column-break-before: always;
+    column-break-before : always;
+  }
+  .packages {
+    display: block;
+    margin: 1em 0 0 0;
+    li {
+      text-transform: none;
+      display: block;
+      label {
+        font-weight: normal;
+      }
+    }
+  }
+}
+
 
 /* IE and other horror browser workarounds */
 
