@@ -1,17 +1,16 @@
 :javascript
   $(document).ready(function() {
-    $(':submit[name=add_software_form]').click(function() {
-      $(this).css('display', 'none');
-      var div = $('#package_selection_list');
-      div.css('display', 'block');
-      div.addClass('loading');
-      // delete this styling when regular css #package_selection_list is done
-      div.css({'width': '600px', 'height': '300px', 'overflow': 'auto'});
+    var $container = $('#package_selection_list'),
+    $submit = $('#add_software_button');
+    $submit.click(function() {
       var list_url = '#{url_for :action => 'create', :ajax => true, :add_software_form => true}';
       var list_data = {'tpl[id]': $("input[name='tpl[id]']").val() || ''};
-      div.load(list_url, list_data, function() {
-        div.removeClass('loading');
-        $(':submit[name=add_selected]').click(function() {
+      $(this).hide();
+      $container.addClass('loading');
+      $container.load(list_url, list_data, function() {
+        $container.removeClass('loading')
+          .css({'display': 'block'});
+        $('#do_add_software').click(function() {
           var url = '#{url_for :action => 'add_software', :ajax => true, :add_selected => true}';
           var data = {
             'packages[]': $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get(),
@@ -21,8 +20,8 @@
           $('#selected_packages').load(url, data, function() {});
           return false;
         });
-        $(':submit[name=cancel]').click(function() {
-          div.css('display', 'none');
+        $('#cancel_add_software').click(function() {
+          $container.hide();
           return false;
         });
       });
@@ -30,17 +29,17 @@
     });
   });
 
-%h2.grid_16 Template
-- form_for @tpl, :url => { :action => "create" } do
-  = error_messages_for 'tpl'
-  .grid_11
+.grid_16
+  %h2 Template
+  - form_for @tpl, :url => { :action => "create" } do
+    = error_messages_for 'tpl'
     = render :partial => 'basics'
 
     %h3.disabled.gap Local Content to Bundle
     %hr
-    %fieldset
+    %fieldset.clearfix
       = label_tag :local_bundle_name, 'Local:', :class => "disabled grid_2 alpha"
-      = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true, :class => "grid_3"
+      = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true, :class => "grid_8"
       .grid_6.omega
         %button{:type => 'button', :disabled => 'disabled'} Browse
         %button{:type => 'button', :disabled => 'disabled'} Config
@@ -50,7 +49,7 @@
         )
       .grid_2.alpha
         &nbsp;
-      = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true, :class => "grid_3"
+      = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true, :class => "grid_8"
       .grid_6.omega
         %button{:type => 'button', :disabled => 'disabled'} Browse
         %button{:type => 'button', :disabled => 'disabled'} Config
@@ -60,21 +59,23 @@
         )
 
     = render :partial => 'managed_content'
-    = submit_tag "Add Software", :name => "add_software_form"
-    #package_selection_list{:style => 'display: none'}
+    .clearfix
+      .grid_14.alpha.prefix_2
+        = submit_tag "Add Software", :name => "add_software_form", :id => "add_software_button", :class => "iconbutton"
 
+    #package_selection_list{:style => 'display: none'}
     %h3.gap.clear Preboot Configuration
     %hr
-    %fieldset
-      .grid_4
+    %fieldset.clearfix
+      .grid_4.alpha
         = radio_button_tag :configure_via_script, 'no', :disabled => true
         = label_tag :configure_via_script, 'Configure Via Script'
-      = file_field_tag 'script_file', :disabled => true, :class => 'grid_5'
-    %fieldset.clear
-      .grid_4
+      = file_field_tag 'script_file', :disabled => true, :class => 'grid_12 omega'
+    %fieldset.clearfix
+      .grid_4.alpha
         = radio_button_tag :configure_via_script, 'no', :disabled => true
         = label_tag :configure_via_script, 'Configure Via Script'
-      = file_field_tag 'script_file', :disabled => true, :class => 'grid_5'
+      = file_field_tag 'script_file', :disabled => true, :class => 'grid_12 omega'
 
     = submit_tag "Save", :name => "save", :class => "dialogbutton"
     = submit_tag "Cancel", :name => "cancel", :class => "dialogbutton"

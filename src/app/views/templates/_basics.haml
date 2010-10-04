@@ -1,27 +1,30 @@
 %h3 General Information
-%fieldset
-  = text_field :tpl, :name, :value => @tpl.name || 'Template Name', :class => "grid_3 alpha"
-  = text_field :tpl, :summary, :value => @tpl.summary || 'Template Description', :class => "grid_3"
+%fieldset.clearfix
+  %label.grid_4.alpha.la Template Name:
+  %label.grid_7.la Summary:
+  %label.grid_3.suffix_2.omega.la Version:
+  = text_field :tpl, :name, :value => @tpl.name || 'Template Name', :class => "grid_4 alpha"
+  = text_field :tpl, :summary, :value => @tpl.summary || 'Template Description', :class => "grid_7"
   = text_field_tag 'current_version', 'Current Version', :disabled => true, :class => "grid_3"
   %button{:type => 'button', :disabled => 'disabled', :class => "grid_2 omega"} New Version
-%fieldset
-  = text_field_tag 'logo', 'Choose Logo', :disabled => true, :class => "grid_3 alpha"
-  %button{:type => 'button', :disabled => 'disabled', :class => "grid_2"} Choose File
-%fieldset.clear
-  = label :tpl, :platform, 'Platform Choice:', :class => "grid_3 alpha"
-  = select :tpl, :platform, @tpl.xml.platforms.map {|id, p| [p['name'], id]}, {}, {:class => 'grid_3'}
+%fieldset.clearfix
+  %label.grid_4.alpha Choose Logo:
+  %input{:type => 'file', :disabled => 'disabled', :class => "grid_7"}
+%fieldset.clearfix
+  = label :tpl, :platform, 'Platform Choice:', :class => "grid_4 alpha"
+  = select :tpl, :platform, @tpl.xml.platforms.map {|id, p| [p['name'], id]}, {}, {:class => 'grid_7'}
   / FIXME: it's currently possible to choose bad os<->version combination, for example
   / RHEL 11, JS will be required to fix this
-  = select :tpl, :platform_version, @tpl.xml.platforms.map {|id, p| p['version'].to_s}.sort.uniq, {}, {:class => 'grid_2'}
-  = select :tpl, :architecture, @tpl.xml.platforms.map {|id, p| p['architecture']}.sort.uniq, {}, {:class => 'grid_3 omega'}
-%fieldset
-  = label_tag :bootable, 'Bootable:', :class => "grid_3 alpha"
-  .grid_8.omega
+  = select :tpl, :platform_version, @tpl.xml.platforms.map {|id, p| p['version'].to_s}.sort.uniq, {}, {:class => 'grid_3'}
+  = select :tpl, :architecture, @tpl.xml.platforms.map {|id, p| p['architecture']}.sort.uniq, {}, {:class => 'grid_2 omega'}
+%fieldset.clearfix
+  = label_tag :bootable, 'Bootable:', :class => "grid_4 alpha"
+  .grid_12.omega
     = radio_button_tag :bootable, 'yes', true, :disabled => true
     = label_tag :bootable, 'Yes'
     = radio_button_tag :bootable, 'no', false, :disabled => true
     = label_tag :bootable, 'No'
-%fieldset
-  %label{:for => :template_group, :class => 'grid_3 alpha'}
+%fieldset.clearfix
+  %label{:for => :template_group, :class => 'grid_4 alpha'}
     Template Group:
-  = select_tag(:template_group, options_for_select([['User Private', 1]]), :class => 'grid_3')
+  = select_tag(:template_group, options_for_select([['User Private', 1]]), :class => 'grid_4')
