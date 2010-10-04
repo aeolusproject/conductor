@@ -27,6 +27,13 @@
           $container.hide();
           $submit.show();
         });
+        $(".softwaregroups input[type='checkbox']").click(function() {
+          if ($(this).attr("checked") === true) {
+            $(this).siblings("ul").find("input[type='checkbox']").attr("checked","checked");
+          } else {
+            $(this).siblings("ul").find("input[type='checkbox']").removeAttr("checked");
+          }
+        });
       });
     });
   });
