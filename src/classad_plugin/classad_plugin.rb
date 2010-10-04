@@ -8,13 +8,40 @@ require 'instance'
 require 'cloud_account'
 require 'pool'
 require 'quota'
-require 'parseconfig'
+
+class BashParser
+  def initialize(filename)
+    @config = {}
+
+    f = File.open(filename, 'r')
+    while (line = f.gets)
+      strip = line.strip.gsub(/#.*/, '').gsub(/^export /, '')
+      if strip.length == 0
+        next
+      end
+
+      x = strip.split('=')
+      if x.length != 2
+        next
+      end
+
+      @config[x[0]] = x[1]
+    end
+
+    f.close
+  end
+
+  def get_value(name)
+    @config[name]
+  end
+end
 
 def classad_plugin(logf, conf_path, instance_key, account_id)
   rails_env = "development"
+
   begin
-    config = ParseConfig.new('/etc/sysconfig/deltacloud-rails')
-    env = config.get_value("RAILS_ENV")
+    config = BashParser.new('/etc/sysconfig/deltacloud-rails')
+    env = config.get_value('RAILS_ENV')
     if not env.nil?
       rails_env = env
     end
@@ -23,7 +50,7 @@ def classad_plugin(logf, conf_path, instance_key, account_id)
     # hope for the best
   end
 
-  logf.puts "loading db config from #{conf_path}"
+  logf.puts "loading db config from #{conf_path}, using environment #{rails_env}"
   conf = YAML::load(File.open(conf_path))
   ActiveRecord::Base.establish_connection(conf[rails_env])
 
@@ -43,7 +70,9 @@ def classad_plugin(logf, conf_path, instance_key, account_id)
 
   logf.puts "checking quota.."
   ret = Quota.can_start_instance?(instance, cloud_account)
+  logf.puts "After checking quota, ret is #{ret}"
 
+  logf.puts "Disconnecting from the database"
   ActiveRecord::Base.connection.disconnect!
 
   return ret
