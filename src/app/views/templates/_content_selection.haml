@@ -24,9 +24,9 @@
     -#    = radio_button_tag :show_mode, 'type', false, :disabled => true
     -#    = label_tag :show_mode, 'Show by Type'
 
-    %fieldset.clearfix
-      = submit_tag "Add Selected", :name => "add_selected", :class => "grid_2 alpha", :id => "do_add_software"
-      = submit_tag "Cancel", :name => "cancel", :class => "grid_2", :id => "cancel_add_software"
+    -#%fieldset.clearfix
+    -#  = submit_tag "Add Selected", :name => "add_selected", :class => "grid_2 alpha", :id => "do_add_software"
+    -#  = submit_tag "Cancel", :name => "cancel", :class => "grid_2", :id => "cancel_add_software"
     %ul.softwaregroups
       - @groups.keys.sort.each do |group|
         - group_sel = @groups[group][:selected]
