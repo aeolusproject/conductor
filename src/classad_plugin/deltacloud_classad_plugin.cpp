@@ -12,7 +12,53 @@ using namespace std;
 using namespace classad;
 #endif
 
-void print_value(FILE *fp, Value val, const char *name)
+#define print_value(fp, val) _print_value(fp, val, #val)
+#define print_type(fp, val) _print_type(fp, val, #val)
+
+static void _print_type(FILE *fp, Value val, const char *name)
+{
+  fprintf(fp, "%s type is: ", name);
+
+  switch(val.GetType()) {
+  case Value::NULL_VALUE:
+    fprintf(fp, "NULL");
+    break;
+  case Value::ERROR_VALUE:
+    fprintf(fp, "Error");
+    break;
+  case Value::UNDEFINED_VALUE:
+    fprintf(fp, "Undefined");
+    break;
+  case Value::BOOLEAN_VALUE:
+    fprintf(fp, "Boolean");
+    break;
+  case Value::INTEGER_VALUE:
+    fprintf(fp, "Integer");
+    break;
+  case Value::REAL_VALUE:
+    fprintf(fp, "Real");
+    break;
+  case Value::LIST_VALUE:
+    fprintf(fp, "List");
+    break;
+  case Value::CLASSAD_VALUE:
+    fprintf(fp, "Classad");
+    break;
+  case Value::RELATIVE_TIME_VALUE:
+    fprintf(fp, "RelativeTime");
+    break;
+  case Value::ABSOLUTE_TIME_VALUE:
+    fprintf(fp, "AbsoluteTime");
+    break;
+  case Value::STRING_VALUE:
+    fprintf(fp, "String");
+    break;
+  }
+
+  fprintf(fp, "\n");
+}
+
+static void _print_value(FILE *fp, Value val, const char *name)
 {
     /* AFAICT the only way to get at the string in a 'Value' object is to use
      * the C++ stream operator <<,  so we set up a stringstream and write
@@ -56,7 +102,7 @@ deltacloud_quota_check(const char *name, const ArgumentList &arglist,
 
     if (arglist.size() != 2) {
       result.SetErrorValue();
-      fprintf(fp, "Expected 2 arguments, saw %d\n", arglist.size());
+      fprintf(fp, "Expected 2 arguments, saw %z\n", arglist.size());
       goto do_ret;
     }
 
@@ -71,19 +117,21 @@ deltacloud_quota_check(const char *name, const ArgumentList &arglist,
       goto do_ret;
     }
 
+    print_type(fp, instance_key);
+    print_value(fp, instance_key);
     if (instance_key.GetType() != Value::STRING_VALUE) {
       result.SetErrorValue();
       fprintf(fp, "Instance type was not a string\n");
       goto do_ret;
     }
-    //print_value(fp, instance_key, "instance_key");
 
+    print_type(fp, account_id);
+    print_value(fp, account_id);
     if (account_id.GetType() != Value::STRING_VALUE) {
       result.SetErrorValue();
       fprintf(fp, "Account ID type was not a string\n");
       goto do_ret;
     }
-    //print_value(fp, account_id, "account_id");
 
     ruby_init();
     ruby_init_loadpath();
