@@ -2,6 +2,9 @@
 - form_tag(:action => 'index') do
   %ul
     %li
+      = label_tag :name, 'Name'
+      %span= @instance.name
+    %li
       = label_tag :ip_address, 'IP Address'
       %span= @instance.public_ip_addresses
     %li
