@@ -64,6 +64,7 @@ input.grid_2 { width: 90px !important; }
   .grid_2 input[type="file"] { width: 90px; }
 input.grid_3 { width: 150px !important; }
   .grid_3 input[type="search"] { width: 118px; }
+  .grid_3 input[type="file"] { width: 150px; }
 input.grid_4 { width: 210px !important; }
 input.grid_5 { width: 270px !important; }
 input.grid_6 { width: 330px !important; }
@@ -781,6 +782,9 @@ legend {
   color: $headercl;
 }
 
+fieldset.gap {
+  margin-bottom: 7em;
+}
 
 /* simple two column label + input pairs */
 .dcloud_form {
@@ -1120,6 +1124,11 @@ a.iconbutton {
 fits the screen and is at least semi-usable */
 h3.first, h3.second, h3.third, h3.fourth, h3.fifth, h3.sixth, h3.seventh {
   display: inline;
+}
+
+.nospace {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* DEBUG GRID */
