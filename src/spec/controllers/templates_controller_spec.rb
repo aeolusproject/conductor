@@ -30,9 +30,13 @@ describe TemplatesController do
     before(:each) do
       UserSession.create(@admin)
       @template = Factory.create(:template)
+      hydra = Typhoeus::Hydra.hydra
+      hydra.stub(:put, %r{http://localhost:9090/templates/.*}).and_return(
+        Typhoeus::Response.new(:code => 200))
     end
 
     it "should create a new Image" do
+      mock = Factory.create(:mock_provider)
       lambda do
         post :build, :image => {:template_id => @template.id}, :targets => ["mock"]
       end.should change(Image, :count).by(1)
