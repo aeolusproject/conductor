@@ -90,6 +90,7 @@ en:
       caution_image: Caution
     accounts:
       provider_accounts: Provider Accounts
+      new_provider_account: New Account
       account_name: Account Name
       user_name: User Name
       password: Password
@@ -97,6 +98,6 @@ en:
       test_account: Test Account
       unlimited_quota: Unlimited Quota
       required_field: Required field.
-      account_number: Account Number
+      account_number: AWS Account ID
       account_private_cert: EC2 x509 private key
       account_public_cert: EC2 x509 public key

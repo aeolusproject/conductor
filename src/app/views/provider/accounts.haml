@@ -10,87 +10,121 @@
   %h1
     = t('.provider_accounts')
   - form_tag({:controller => 'cloud_accounts', :action => 'update_accounts'}, :multipart => true) do
-    %fieldset.clearfix.nomargin
-      %label.grid_2.la.alpha
-        = t('.account_name')
-        %span.required *
-      %label.grid_2.la
-        = t('.user_name')
-        %span.required *
-      %label.grid_2.la
-        = t('.password')
-        %span.required *
-      %label.grid_1.la
-        = t('.quota_instances')
-        %span.required *
-      %label.grid_1.la
-        = t('.account_number')
-        %span.required *
-      %label.grid_2.la
-        = t('.account_private_cert')
-        %span.required *
-      %label.grid_2.la
-        = t('.account_public_cert')
-        %span.required *
-      .grid_1.omega
+
 
     = hidden_field :provider, :id, :value => @provider.id
     - @provider.cloud_accounts.each do |acct|
-      %fieldset
+      %fieldset.clearfix.nomargin
+        %label.grid_4.la.alpha
+          = t('.account_name')
+          %span.required *
+        %label.grid_3.la
+          = t('.user_name')
+          %span.required *
+        %label.grid_3.la
+          = t('.password')
+          %span.required *
+        %label.grid_3.la.omega
+          = t('.quota_instances')
+          %span.required *
+      %fieldset.nomargin.clearfix
         - disabled = 'disabled' unless has_account_modify?(@provider)
         - cloud_account_id = "cloud_accounts[#{acct.id}]"
-        = text_field cloud_account_id, :label, :title => t('.account_name'), :value => acct.label, :disabled => disabled, :class => "grid_2 alpha"
-        = text_field cloud_account_id, :username, :title => t('.access_key'), :value => acct.username, :disabled => disabled, :class => "grid_2"
-        = password_field cloud_account_id, :password, :title => t('.secret_access_key'), :disabled => disabled, :class => "grid_2"
-        = text_field "quota[#{acct.id}]", :maximum_running_instances, :title => t('.quota_instances'), :value => (acct.quota.maximum_running_instances.nil? ? "unlimited" : acct.quota.maximum_running_instances), :disabled => disabled, :id => "quota_instances#{acct.id}", :class => "grid_1"
-        = text_field cloud_account_id, :account_number, :title => t('.account_number'), :value => acct.account_number, :disabled => disabled, :class => "grid_1"
-        .grid_2
+        = text_field cloud_account_id, :label, :title => t('.account_name'), :value => acct.label, :disabled => disabled, :class => "grid_4 alpha"
+        = text_field cloud_account_id, :username, :title => t('.access_key'), :value => acct.username, :disabled => disabled, :class => "grid_3"
+        = password_field cloud_account_id, :password, :title => t('.secret_access_key'), :disabled => disabled, :class => "grid_3"
+        = text_field "quota[#{acct.id}]", :maximum_running_instances, :title => t('.quota_instances'), :value => (acct.quota.maximum_running_instances.nil? ? "unlimited" : acct.quota.maximum_running_instances), :disabled => disabled, :id => "quota_instances#{acct.id}", :class => "grid_3 omega"
+      %fieldset.nomargin.clearfix
+        .grid_3.prefix_10.alpha.omega
+          (
+          %button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances#{acct.id}\");" }<>
+            = t('.unlimited_quota')
+          )
+      %fieldset.clearfix.nomargin
+        %label.grid_4.la.alpha
+          = t('.account_number')
+          %span.required *
+        %label.grid_3.la
+          = t('.account_private_cert')
+          %span.required *
+        %label.grid_3.la
+          = t('.account_public_cert')
+          %span.required *
+        .grid_3.omega
+      %fieldset.clearfix
+        = text_field cloud_account_id, :account_number, :title => t('.account_number'), :value => acct.account_number, :disabled => disabled, :class => "grid_4 alpha"
+        .grid_3
           = file_field cloud_account_id, :x509_cert_priv_file, :title => t('.account_private_cert'), :disabled => disabled
-        .grid_2
+        .grid_3
           = file_field cloud_account_id, :x509_cert_pub_file, :title => t('.account_public_cert'), :disabled => disabled
         - remove_path = url_for :controller => 'cloud_accounts', :action => 'destroy', :id => acct.id if has_account_modify?(@provider) && acct.destroyable?
-        .grid_1.omega
+        .grid_3.omega
           %a.button{ :href => remove_path, :name => "remove_acc_#{acct.id}", :class => "tiny #{'disabled' unless remove_path}" }
             = t(:remove)
-      .wrap
-        .grid_2.alpha
+          %span
+            &nbsp; (
+            %a{ :href => '' }<>
+              = t('.test_account')
+            )
+      %fieldset.clearfix.gap
+        = submit_tag t(:reset), :name => 'reset_form', :class => "dialogbutton" unless @provider.cloud_accounts.empty?
+        = submit_tag t(:save), :name => 'update_cloud_accounts', :class => "dialogbutton" unless @provider.cloud_accounts.empty?
+
+  %h2
+    = t('.new_provider_account')
+  - form_tag({:controller => 'cloud_accounts', :action => 'create'}, :multipart => true) do
+    = hidden_field :cloud_account, :provider_id, :value => @provider.id
+    %fieldset.clearfix.nomargin
+      %label.grid_4.la.alpha
+        = t('.account_name')
+        %span.required *
+      %label.grid_3.la
+        = t('.user_name')
+        %span.required *
+      %label.grid_3.la
+        = t('.password')
+        %span.required *
+      %label.grid_3.la.omega
+        = t('.quota_instances')
+        %span.required *
+    %fieldset.nomargin.clearfix
+      = text_field :cloud_account, :label, :title => t('.account_name'), :class => "grid_4 alpha"
+      = text_field :cloud_account, :username, :title => t('.access_key'), :class => "grid_3"
+      = password_field :cloud_account, :password, :title => t('.secret_access_key'), :class => "grid_3"
+      = text_field "quota", :maximum_running_instances, :title => t('.quota_instances'), :value =>  "unlimited",:id => "quota_instances", :class => "grid_3 omega"
+    %fieldset.nomargin.clearfix
+      .grid_3.prefix_10.alpha.omega
+        (
+        %button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances\");" }<>
+          = t('.unlimited_quota')
+        )
+    %fieldset.clearfix.nomargin
+      %label.grid_4.la.alpha
+        = t('.account_number')
+        %span.required *
+      %label.grid_3.la
+        = t('.account_private_cert')
+        %span.required *
+      %label.grid_3.la
+        = t('.account_public_cert')
+        %span.required *
+      .grid_3.omega
+    %fieldset.clearfix.nomargin
+      = text_field :cloud_account, :account_number, :title => t('.account_number'), :class => "grid_4 alpha"
+      .grid_3
+        = file_field :cloud_account, :x509_cert_priv_file, :title => t('.account_private_cert')
+      .grid_3
+        = file_field :cloud_account, :x509_cert_pub_file, :title => t('.account_public_cert')
+      - remove_path = url_for :controller => 'cloud_accounts', :action => 'destroy'
+      .grid_3.omega
+        %span
           (
           %a{ :href => '' }<>
             = t('.test_account')
           )
-        .grid_2.prefix_4
-          (
-          %a{ :href => '#', :onclick => "set_unlimited_quota(\"quota_instances#{acct.id}\");" }<>
-            = t('.unlimited_quota')
-          )
-
-      = submit_tag t(:reset), :name => 'reset_form' unless @provider.cloud_accounts.empty?
-      = submit_tag t(:save), :name => 'update_cloud_accounts' unless @provider.cloud_accounts.empty?
-  - form_tag({:controller => 'cloud_accounts', :action => 'create'}, :multipart => true) do
-    %fieldset.clearfix.nomargin
-      = text_field :cloud_account, :label, :title => t('.account_name'), :class => "grid_2 alpha"
-      = text_field :cloud_account, :username, :title => t('.access_key'), :class => "grid_2"
-      = password_field :cloud_account, :password, :title => t('.secret_access_key'), :class => "grid_2"
-      = text_field :quota, :maximum_running_instances, :title => t('.quota_instances'), :id => "new_quota_instances", :value => "unlimited", :class => "grid_1"
-      = text_field :cloud_account, :account_number, :title => t('.account_number'), :class => "grid_1"
-      .grid_2
-        = file_field :cloud_account, :x509_cert_priv_file, :title => t('.account_private_cert')
-      .grid_2
-        = file_field :cloud_account, :x509_cert_pub_file, :title => t('.account_public_cert')
-      = hidden_field :cloud_account, :provider_id, :value => @provider.id
-      .grid_1.omega
-        = submit_tag t(:add), :class => "tiny"
-    .wrap
-      .grid_2.alpha
-        (
-        %a{ :href => '' }<>
-          = t('.test_account')
-        )
-      .grid_2.prefix_4
-        (
-        %a{ :href => '#', :onclick => 'set_unlimited_quota("new_quota_instances");' }<>
-          = t('.unlimited_quota')
-        )
+    %fieldset.clearfix
+      .grid_13.alpha.omega
+        = submit_tag t(:add), :class => "ra nomargin dialogbutton"
     %section
       %p.requirement
         %span.required *
