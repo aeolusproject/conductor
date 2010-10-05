@@ -76,7 +76,7 @@ class InstanceController < ApplicationController
 
   def create
     if params[:cancel]
-      redirect_to :action => 'new'
+      redirect_to :action => 'new', :instance => {:pool_id => params[:instance][:pool_id]}
       return
     end
 
