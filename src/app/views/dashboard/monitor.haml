@@ -1,153 +1,154 @@
-%h2 Key Metrics
-%table{ :class => 'noborder' }
-  %thead
-    %tr
-      %th
-      %th{ :colspan => 2 } Aggregate quota
-      %th{ :colspan => 2 } Current usage
-      %th{ :colspan => 2 } Avg: Last 24 hours
-      %th{ :colspan => 2 } Avg: Last month
-      %th{ :colspan => 2 } Avg: Calendar year
-  %tbody
-    %tr
-      =monitor_quota_value "Number of Instances", '2.500', 'Instances'
-      =monitor_bar_value '32', :total => '2351'
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-    %tr
-      =monitor_quota_value "System Storage", '1.200', 'Templates'
-      =monitor_bar_value '32', :total => '2351'
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-    %tr
-      =monitor_quota_value "Operational Storage", '512', 'TB'
-      =monitor_bar_value '32', :total => '2351'
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-    %tr
-      =monitor_quota_value "Customed Network Traffic", '824', 'GB'
-      =monitor_bar_value '32', :total => '2351'
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-    %tr
-      =monitor_quota_value "Cost per hour", '824', '�'
-      =monitor_bar_value '32', :total => '102'
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
-      =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+.grid_16
+  %h2 Key Metrics
+  %table{ :class => 'noborder' }
+    %thead
+      %tr
+        %th
+        %th{ :colspan => 2 } Aggregate quota
+        %th{ :colspan => 2 } Current usage
+        %th{ :colspan => 2 } Avg: Last 24 hours
+        %th{ :colspan => 2 } Avg: Last month
+        %th{ :colspan => 2 } Avg: Calendar year
+    %tbody
+      %tr
+        =monitor_quota_value "Number of Instances", '2.500', 'Instances'
+        =monitor_bar_value '32', :total => '2351'
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+      %tr
+        =monitor_quota_value "System Storage", '1.200', 'Templates'
+        =monitor_bar_value '32', :total => '2351'
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+      %tr
+        =monitor_quota_value "Operational Storage", '512', 'TB'
+        =monitor_bar_value '32', :total => '2351'
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+      %tr
+        =monitor_quota_value "Customed Network Traffic", '824', 'GB'
+        =monitor_bar_value '32', :total => '2351'
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+      %tr
+        =monitor_quota_value "Cost per hour", '824', '�'
+        =monitor_bar_value '32', :total => '102'
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
 
-%h2 Aggregate quality of service
-%section.wrap.grid_16
-  %img{ :src => '/images/placeholder_rackspace_graph.png', :class => "placeholder" }
-  %div{ :class => 'grid_4 alpha' }
-    %h4.legend Show:
-    %ul.block.twocolumn
-      %li
-        %input{ :type => 'checkbox', :checked => 'checked', :name => 'instances', :id => 'instances' }
-        %label{ :for => 'instances' } Instances
-      %li
-        %input{ :type => 'checkbox', :checked => 'checked', :name => 'time_to', :id => 'time_to' }
-        %label{ :for => 'time_to' } Time to
-      %li
-        %input{ :type => 'checkbox', :checked => 'checked', :name => 'launch_failures', :id => 'launch_failures' }
-        %label{ :for => 'launch_failures' } Launch failures
-      %li
-        %input{ :type => 'checkbox', :checked => 'checked', :name => 'requests', :id => 'requests' }
-        %label{ :for => 'requests' } Requests
-      %li
-        %input{ :type => 'checkbox', :checked => 'checked', :name => 'retries', :id => 'retries' }
-        %label{ :for => 'retries' } Retries
+  %h2 Aggregate quality of service
+  %section.wrap
+    %img{ :src => '/images/placeholder_rackspace_graph.png', :class => "placeholder" }
+    %div{ :class => 'grid_4 alpha' }
+      %h4.legend Show:
+      %ul.block.twocolumn
+        %li
+          %input{ :type => 'checkbox', :checked => 'checked', :name => 'instances', :id => 'instances' }
+          %label{ :for => 'instances' } Instances
+        %li
+          %input{ :type => 'checkbox', :checked => 'checked', :name => 'time_to', :id => 'time_to' }
+          %label{ :for => 'time_to' } Time to
+        %li
+          %input{ :type => 'checkbox', :checked => 'checked', :name => 'launch_failures', :id => 'launch_failures' }
+          %label{ :for => 'launch_failures' } Launch failures
+        %li
+          %input{ :type => 'checkbox', :checked => 'checked', :name => 'requests', :id => 'requests' }
+          %label{ :for => 'requests' } Requests
+        %li
+          %input{ :type => 'checkbox', :checked => 'checked', :name => 'retries', :id => 'retries' }
+          %label{ :for => 'retries' } Retries
 
-  %div{ :class => 'grid_4' }
-    %h4.legend Set time scale:
-    %ul.block.twocolumn
-      %li
-        %input{ :type => 'radio', :checked => 'checked', :name => 'time1', :id => 'one' }
-        %label{ :for => 'one' } 30 minutes
-      %li
-        %input{ :type => 'radio', :checked => 'checked', :name => 'time1', :id => 'two' }
-        %label{ :for => 'two' } 2 hours
-      %li
-        %input{ :type => 'radio', :checked => 'checked', :name => 'time1', :id => 'three' }
-        %label{ :for => 'three' } 2 days
-      %li
-        %input{ :type => 'radio', :checked => 'checked', :name => 'time1', :id => 'four' }
-        %label{ :for => 'four' } 1 week
-      %li
-        %input{ :type => 'radio', :checked => 'checked', :name => 'time1', :id => 'five' }
-        %label{ :for => 'five' } 1 month
+    %div{ :class => 'grid_4' }
+      %h4.legend Set time scale:
+      %ul.block.twocolumn
+        %li
+          %input{ :type => 'radio', :checked => 'checked', :name => 'time1', :id => 'one' }
+          %label{ :for => 'one' } 30 minutes
+        %li
+          %input{ :type => 'radio', :checked => 'checked', :name => 'time1', :id => 'two' }
+          %label{ :for => 'two' } 2 hours
+        %li
+          %input{ :type => 'radio', :checked => 'checked', :name => 'time1', :id => 'three' }
+          %label{ :for => 'three' } 2 days
+        %li
+          %input{ :type => 'radio', :checked => 'checked', :name => 'time1', :id => 'four' }
+          %label{ :for => 'four' } 1 week
+        %li
+          %input{ :type => 'radio', :checked => 'checked', :name => 'time1', :id => 'five' }
+          %label{ :for => 'five' } 1 month
 
-  %div{ :class => 'grid_8 omega' }
-    %h4.legend Graph key:
-    %ul.block.graphkey
-      %li.instances
-        Instances
-      %li.requests
-        Requests
-      %li.ttl
-        Time to Launch
-      %li.failures
-        Failures
-      %li.retries
-        Retries
+    %div{ :class => 'grid_8 omega' }
+      %h4.legend Graph key:
+      %ul.block.graphkey
+        %li.instances
+          Instances
+        %li.requests
+          Requests
+        %li.ttl
+          Time to Launch
+        %li.failures
+          Failures
+        %li.retries
+          Retries
 
-%h2.clear Statistics
+  %h2.clear Statistics
 
-%h2 Quality of service provider
-%section.wrap
-  %img{ :src => '/images/placeholder_rackspace_graph2.png', :class => "placeholder" }
-  %div{ :class => 'grid_4' }
-    %h4.legend Show:
-    %ul.block.twocolumn
-      %li
-        %input{ :type => 'checkbox', :checked => 'checked', :name => 'instances2', :id => 'instances2' }
-        %label{ :for => 'instances2' } Instances
-      %li
-        %input{ :type => 'checkbox', :checked => 'checked', :name => 'time_to2', :id => 'time_to2' }
-        %label{ :for => 'time_to2' } Time to
-      %li
-        %input{ :type => 'checkbox', :checked => 'checked', :name => 'launch_failures2', :id => 'launch_failures2' }
-        %label{ :for => 'launch_failures2' } Launch failures
-      %li
-        %input{ :type => 'checkbox', :checked => 'checked', :name => 'requests2', :id => 'requests2' }
-        %label{ :for => 'requests2' } Requests
-      %li
-        %input{ :type => 'checkbox', :checked => 'checked', :name => 'retries2', :id => 'retries2' }
-        %label{ :for => 'retries2' } Retries
+  %h2 Quality of service provider
+  %section.wrap
+    %img{ :src => '/images/placeholder_rackspace_graph2.png', :class => "placeholder" }
+    %div{ :class => 'grid_4 alpha' }
+      %h4.legend Show:
+      %ul.block.twocolumn
+        %li
+          %input{ :type => 'checkbox', :checked => 'checked', :name => 'instances2', :id => 'instances2' }
+          %label{ :for => 'instances2' } Instances
+        %li
+          %input{ :type => 'checkbox', :checked => 'checked', :name => 'time_to2', :id => 'time_to2' }
+          %label{ :for => 'time_to2' } Time to
+        %li
+          %input{ :type => 'checkbox', :checked => 'checked', :name => 'launch_failures2', :id => 'launch_failures2' }
+          %label{ :for => 'launch_failures2' } Launch failures
+        %li
+          %input{ :type => 'checkbox', :checked => 'checked', :name => 'requests2', :id => 'requests2' }
+          %label{ :for => 'requests2' } Requests
+        %li
+          %input{ :type => 'checkbox', :checked => 'checked', :name => 'retries2', :id => 'retries2' }
+          %label{ :for => 'retries2' } Retries
 
-  %div{ :class => 'grid_4' }
-    %h4.legend Set time scale:
-    %ul.block.twocolumn
-      %li
-        %input{ :type => 'radio', :checked => 'checked', :name => 'time2', :id => 'one2' }
-        %label{ :for => 'one2' } 30 minutes
-      %li
-        %input{ :type => 'radio', :checked => 'checked', :name => 'time2', :id => 'two2' }
-        %label{ :for => 'two2' } 2 hours
-      %li
-        %input{ :type => 'radio', :checked => 'checked', :name => 'time2', :id => 'three2' }
-        %label{ :for => 'three2' } 2 days
-      %li
-        %input{ :type => 'radio', :checked => 'checked', :name => 'time2', :id => 'four2' }
-        %label{ :for => 'four2' } 1 week
-      %li
-        %input{ :type => 'radio', :checked => 'checked', :name => 'time2', :id => 'five2' }
-        %label{ :for => 'five2' } 1 month
+    %div{ :class => 'grid_4' }
+      %h4.legend Set time scale:
+      %ul.block.twocolumn
+        %li
+          %input{ :type => 'radio', :checked => 'checked', :name => 'time2', :id => 'one2' }
+          %label{ :for => 'one2' } 30 minutes
+        %li
+          %input{ :type => 'radio', :checked => 'checked', :name => 'time2', :id => 'two2' }
+          %label{ :for => 'two2' } 2 hours
+        %li
+          %input{ :type => 'radio', :checked => 'checked', :name => 'time2', :id => 'three2' }
+          %label{ :for => 'three2' } 2 days
+        %li
+          %input{ :type => 'radio', :checked => 'checked', :name => 'time2', :id => 'four2' }
+          %label{ :for => 'four2' } 1 week
+        %li
+          %input{ :type => 'radio', :checked => 'checked', :name => 'time2', :id => 'five2' }
+          %label{ :for => 'five2' } 1 month
 
-  %div{ :class => 'grid_8' }
-    %h4.legend Graph key:
-    %ul.block.graphkey
-      %li.instances
-        Instances
-      %li.requests
-        Requests
-      %li.ttl
-        Time to Launch
-      %li.failures
-        Failures
-      %li.retries
-        Retries
+    %div{ :class => 'grid_8 omega' }
+      %h4.legend Graph key:
+      %ul.block.graphkey
+        %li.instances
+          Instances
+        %li.requests
+          Requests
+        %li.ttl
+          Time to Launch
+        %li.failures
+          Failures
+        %li.retries
+          Retries
