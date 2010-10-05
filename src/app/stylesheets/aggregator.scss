@@ -554,13 +554,12 @@ nav {
       &>a { /* group labels */
         display: block;
         cursor: default;
-        /* color: desaturate(lighten($headerbg,50%),50%); */
-        color: rgba(255,255,255,0.4);
+        color: desaturate(lighten($headerbg,50%),50%);
         font-weight: normal;
         text-transform: uppercase;
         font-family: $headlinefont;
         &:hover, &:active {
-          color: rgba(255,255,255,0.4);
+          color: desaturate(lighten($headerbg,50%),50%);
           text-decoration: none;
         }
       }
@@ -601,7 +600,7 @@ nav {
           }
           &.disabled {
             a {
-              color: rgba(0,0,0,0.1);
+              color: #aaa;
               cursor: default;
               &:hover {
                 text-decoration: none;
