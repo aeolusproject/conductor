@@ -181,6 +181,12 @@ class ImageBuilderService
       ri.uploaded =true
       ri.registered=true
       ri.save!
+
+      # FIXME: Might be cleaner to do this in an active record observer instead.
+      @log.debug "========================================"
+      @log.debug "calling condor classad sync."
+      @log.debug "========================================"
+      kick_condor
     end
     image.save!
     @log.debug "========================================"
