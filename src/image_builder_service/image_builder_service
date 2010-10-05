@@ -17,11 +17,12 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-# This service is a very early attempt at integration with the Image Builder, and
-# should in no way be considered either stable or production-ready.
-# In order to use this service you must have the gem installed for image_builder_console.
-# This can be checked out from the image_builder repo (link on deltacloud.org), and built
-# locally.  Then keep a terminal open to run this in and run with:
+# This service is a very early attempt at integration with the Image Builder,
+# and should in no way be considered either stable or production-ready.
+# In order to use this service you must have the gem installed for
+# image_builder_console.
+# This can be checked out from the image_builder repo (link on deltacloud.org),
+# and built locally.  Then keep a terminal open to run this in and run with:
 #   ruby image_builder_service.rb
 
 $: << File.join(File.dirname(__FILE__), "../dutils")
@@ -84,18 +85,6 @@ logger.level = Logger::DEBUG
 if daemon
   # note that this requires 'active_support', which we get for free from dutils
   Process.daemon
-end
-
-begin
-  BUILDER_PID_FILE = "#{builder_pid_dir}/image_builder_service.pid"
-  FileUtils.mkdir_p File.dirname(BUILDER_PID_FILE)
-  open(BUILDER_PID_FILE, "w") {|f| f.write(Process.pid) }
-  File.chmod(0644, BUILDER_PID_FILE)
-rescue => e
-  logger.error "#{e.backtrace.shift}: #{e.message}"
-  e.backtrace.each do |step|
-    logger.error "\tfrom #{step}"
-  end
 end
 
 #TODO: Make this whole thing less fragile
@@ -227,4 +216,16 @@ class ImageBuilderService
   end
 end
 
-ImageBuilderService.new(logger, timeout)
+begin
+  BUILDER_PID_FILE = "#{builder_pid_dir}/image_builder_service.pid"
+  FileUtils.mkdir_p File.dirname(BUILDER_PID_FILE)
+  open(BUILDER_PID_FILE, "w") {|f| f.write(Process.pid) }
+  File.chmod(0644, BUILDER_PID_FILE)
+
+  ImageBuilderService.new(logger, timeout)
+rescue => e
+  logger.error "#{e.backtrace.shift}: #{e.message}"
+  e.backtrace.each do |step|
+    logger.error "\tfrom #{step}"
+  end
+end

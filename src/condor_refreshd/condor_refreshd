@@ -91,22 +91,22 @@ begin
   FileUtils.mkdir_p File.dirname(REFRESHD_PID_FILE)
   open(REFRESHD_PID_FILE, "w") {|f| f.write(Process.pid) }
   File.chmod(0644, REFRESHD_PID_FILE)
+
+  while true
+    begin
+      packet = socket.recvfrom(1024)
+      logger.info "Doing classad sync"
+      condormatic_classads_sync
+    rescue => e
+      logger.error "#{e.backtrace.shift}: #{e.message}"
+      e.backtrace.each do |step|
+        logger.error "\tfrom #{step}"
+      end
+    end
+  end
 rescue => e
   logger.error "#{e.backtrace.shift}: #{e.message}"
   e.backtrace.each do |step|
     logger.error "\tfrom #{step}"
-  end
-end
-
-while true
-  begin
-    packet = socket.recvfrom(1024)
-    logger.info "Doing classad sync"
-    condormatic_classads_sync
-  rescue => e
-    logger.error "#{e.backtrace.shift}: #{e.message}"
-    e.backtrace.each do |step|
-      logger.error "\tfrom #{step}"
-    end
   end
 end

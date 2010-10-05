@@ -88,18 +88,6 @@ if daemon
   Process.daemon
 end
 
-begin
-  DBOMATIC_PID_FILE = "#{dbomatic_pid_dir}/dbomatic.pid"
-  FileUtils.mkdir_p File.dirname(DBOMATIC_PID_FILE)
-  open(DBOMATIC_PID_FILE, "w") {|f| f.write(Process.pid) }
-  File.chmod(0644, DBOMATIC_PID_FILE)
-rescue => e
-  logger.error "#{e.backtrace.shift}: #{e.message}"
-  e.backtrace.each do |step|
-    logger.error "\tfrom #{step}"
-  end
-end
-
 # Handle the event log's xml
 class CondorEventLog < Nokogiri::XML::SAX::Document
   attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host, :hold_reason
@@ -230,12 +218,6 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
 
   end
 end
-parser = Nokogiri::XML::SAX::PushParser.new(CondorEventLog.new(logger))
-
-# XXX hack, condor event log doesn't seem to have a top level element
-# enclosing everything else in the doc (as standards conforming xml must).
-# Create one for parsing purposes.
-parser << "<events>"
 
 def parse_log_file(log_file, parser)
   while s = log_file.gets
@@ -244,49 +226,68 @@ def parse_log_file(log_file, parser)
   File.open(EVENT_LOG_POS_FILE, 'w') { |f| f.write log_file.pos.to_s }
 end
 
-# sync up the states that condor knows about with what is in the aggregator
-# database.  Note that there is still a chance that the state is changing
-# internally to condor while we are syncing the states here.  However, condor
-# will emit an event in that case, so it will be taken care of by the
-# EventLog parsing later on.
-condormatic_instances_sync_states
+begin
+  DBOMATIC_PID_FILE = "#{dbomatic_pid_dir}/dbomatic.pid"
+  FileUtils.mkdir_p File.dirname(DBOMATIC_PID_FILE)
+  open(DBOMATIC_PID_FILE, "w") {|f| f.write(Process.pid) }
+  File.chmod(0644, DBOMATIC_PID_FILE)
 
-notifier = INotify::Notifier.new
-log_file = nil
+  parser = Nokogiri::XML::SAX::PushParser.new(CondorEventLog.new(logger))
 
-if File.exists? CONDOR_EVENT_LOG_FILE
-  log_file = File.open(CONDOR_EVENT_LOG_FILE)
+  # XXX hack, condor event log doesn't seem to have a top level element
+  # enclosing everything else in the doc (as standards conforming xml must).
+  # Create one for parsing purposes.
+  parser << "<events>"
 
-  # persistantly store log position in filesystem
-  # incase of dbomatic restarts
-  if File.exists?(EVENT_LOG_POS_FILE)
-    File.open(EVENT_LOG_POS_FILE, 'r') { |f| log_file.pos = f.read.to_i }
-    # FIXME: we really need to parse from here to the end of the file.
-    # otherwise we won't get new events until something else causes the
-    # inotify watch to fire.
+  # sync up the states that condor knows about with what is in the aggregator
+  # database.  Note that there is still a chance that the state is changing
+  # internally to condor while we are syncing the states here.  However, condor
+  # will emit an event in that case, so it will be taken care of by the
+  # EventLog parsing later on.
+  condormatic_instances_sync_states
+
+  notifier = INotify::Notifier.new
+  log_file = nil
+
+  if File.exists? CONDOR_EVENT_LOG_FILE
+    log_file = File.open(CONDOR_EVENT_LOG_FILE)
+
+    # persistantly store log position in filesystem
+    # incase of dbomatic restarts
+    if File.exists?(EVENT_LOG_POS_FILE)
+      File.open(EVENT_LOG_POS_FILE, 'r') { |f| log_file.pos = f.read.to_i }
+      # FIXME: we really need to parse from here to the end of the file.
+      # otherwise we won't get new events until something else causes the
+      # inotify watch to fire.
+    end
+
+    # Setup inotify watch for condor event log
+    notifier.watch(CONDOR_EVENT_LOG_FILE, :modify){ |event|
+      parse_log_file log_file, parser
+    }
+
+    # if log file doesn't exist wait until it does
+  else
+    notifier.watch(condor_event_log_dir, :create){ |event|
+      if event.name == "EventLog"
+        log_file = File.open(CONDOR_EVENT_LOG_FILE)
+        parse_log_file log_file, parser
+
+        # Setup inotify watch for condor event log
+        notifier.watch(CONDOR_EVENT_LOG_FILE, :modify){ |event|
+          parse_log_file log_file, parser
+        }
+      end
+    }
   end
 
-  # Setup inotify watch for condor event log
-  notifier.watch(CONDOR_EVENT_LOG_FILE, :modify){ |event|
-    parse_log_file log_file, parser
-  }
+  notifier.run
 
-# if log file doesn't exist wait until it does
-else
-  notifier.watch(condor_event_log_dir, :create){ |event|
-    if event.name == "EventLog"
-      log_file = File.open(CONDOR_EVENT_LOG_FILE)
-      parse_log_file log_file, parser
-
-      # Setup inotify watch for condor event log
-      notifier.watch(CONDOR_EVENT_LOG_FILE, :modify){ |event|
-        parse_log_file log_file, parser
-      }
-    end
-  }
+  parser << "</events>"
+  parser.finish
+rescue => e
+  logger.error "#{e.backtrace.shift}: #{e.message}"
+  e.backtrace.each do |step|
+    logger.error "\tfrom #{step}"
+  end
 end
-
-notifier.run
-
-parser << "</events>"
-parser.finish
