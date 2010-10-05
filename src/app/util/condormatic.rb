@@ -241,33 +241,39 @@ def condormatic_classads_sync
   providers.each do |provider|
     provider.cloud_accounts.each do |account|
       provider.replicated_images.each do |replicated_image|
-        provider.hardware_profiles.each do |hwp|
-          provider.realms.each do |realm|
-            pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
+        # The replicated image entry gets put in the database as soon as we ask
+        # to have the image built, so we only want to generate classads for it if
+        # it is ready to be used.  When ready it will have an image key assigned
+        # to it.
+        if replicated_image.provider_image_key != nil
+          provider.hardware_profiles.each do |hwp|
+            provider.realms.each do |realm|
+              pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
 
-            pipe.puts "Name=\"provider_combination_#{index}\""
-            pipe.puts 'MyType="Machine"'
-            pipe.puts 'Requirements=true'
-            pipe.puts "\n# Stuff needed to match:"
-            pipe.puts "hardwareprofile=\"#{hwp.aggregator_hardware_profiles[0].id}\""
-            pipe.puts "image=\"#{replicated_image.image.template.id}\""
-            pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
-            pipe.puts "\n# Backend info to complete this job:"
-            pipe.puts "image_key=\"#{replicated_image.provider_image_key}\""
-            pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""
-            pipe.puts "realm_key=\"#{realm.external_key}\""
-            pipe.puts "provider_url=\"#{account.provider.url}\""
-            pipe.puts "username=\"#{account.username}\""
-            pipe.puts "password=\"#{account.password}\""
-            pipe.puts "cloud_account_id=\"#{account.id}\""
-            pipe.close_write
+              pipe.puts "Name=\"provider_combination_#{index}\""
+              pipe.puts 'MyType="Machine"'
+              pipe.puts 'Requirements=true'
+              pipe.puts "\n# Stuff needed to match:"
+              pipe.puts "hardwareprofile=\"#{hwp.aggregator_hardware_profiles[0].id}\""
+              pipe.puts "image=\"#{replicated_image.image.template.id}\""
+              pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
+              pipe.puts "\n# Backend info to complete this job:"
+              pipe.puts "image_key=\"#{replicated_image.provider_image_key}\""
+              pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""
+              pipe.puts "realm_key=\"#{realm.external_key}\""
+              pipe.puts "provider_url=\"#{account.provider.url}\""
+              pipe.puts "username=\"#{account.username}\""
+              pipe.puts "password=\"#{account.password}\""
+              pipe.puts "cloud_account_id=\"#{account.id}\""
+              pipe.close_write
 
-            out = pipe.read
-            pipe.close
+              out = pipe.read
+              pipe.close
 
-            Rails.logger.error "Unable to submit condor classad: #{out}" if $? != 0
+              Rails.logger.error "Unable to submit condor classad: #{out}" if $? != 0
 
-            index += 1
+              index += 1
+            end
           end
         end
       end
