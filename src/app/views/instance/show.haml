@@ -12,7 +12,7 @@
       %span= @instance.template.xml.platform
     %li
       = label_tag :provider, 'Provider'
-      %span= @instance.cloud_account.provider.name
+      %span= @instance.cloud_account.provider.name if @instance.cloud_account
     %li
       = label_tag :base_template, 'Base Template'
       %span= @instance.template.name
