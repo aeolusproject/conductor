@@ -89,7 +89,7 @@ en:
       account: Account
   provider:
     providers: PROVIDERS
-    show:
+    form:
       provider_name: Provider Name
       provider_url: Provider URL
       caution_alt_text: Caution
