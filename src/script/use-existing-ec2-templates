@@ -1,0 +1,81 @@
+#!/usr/bin/ruby
+# Copyright (C) 2010 Red Hat, Inc.
+# Written by Ian Main <imain@redhat.com>
+
+
+$: << File.join(File.dirname(__FILE__), "../dutils")
+
+require 'rubygems'
+require 'dutils'
+require 'optparse'
+
+
+def add_ec2_template(xml_info, summary, ec2_ami)
+
+  provider = Provider.find(:first)
+  if provider == nil || provider.cloud_type != "ec2"
+    puts "You need to set up an EC2 provider before you can run this script."
+    exit
+  end
+  
+  template = Template.new
+
+  # Incredibly, all the info actually comes from the xml..
+  template.xml = xml_info
+  template.summary = summary
+  template.complete=true
+  template.uploaded=true
+
+  template.save!
+
+  image = Image.new
+  image.name = template.name
+  image.build_id = "1234"
+  image.status = "complete"
+  image.target = "ec2"
+  image.template_id = template.id
+  image.save!
+
+  rep = ReplicatedImage.new
+  rep.image_id = image.id
+  rep.provider_id = provider.id
+  rep.provider_image_key = ec2_ami
+  rep.uploaded = true
+  rep.registered = true
+  rep.save!
+
+  puts "Saved image #{summary} for use."
+end
+  
+add_ec2_template("
+  <?xml version=\"1.0\"?>
+  <image>
+    <name>Amazon public fedora 8 image</name>
+  <repos>
+    <repo>http://download.fedoraproject.org/pub/fedora/linux/releases/8/Everything/i386/os/</repo>
+  </repos>
+  <os name=\"fedora\" version=\"8\" architecture=\"32-bit\"/>",
+  "Amazon public fedora 8 image",
+  "ami-f51aff9c")
+
+add_ec2_template("
+  <?xml version=\"1.0\"?>
+  <image>
+    <name>Amazon public fedora 8 64 bit image</name>
+  <repos>
+    <repo>http://download.fedoraproject.org/pub/fedora/linux/releases/8/Everything/x86_64/os/</repo>
+  </repos>
+  <os name=\"fedora\" version=\"8\" architecture=\"64-bit\"/>",
+  "Amazon public fedora 8 64 bit image",
+  "ami-f61dfd9f")
+
+add_ec2_template("
+  <?xml version=\"1.0\"?>
+  <image>
+    <name>Deltacloud demo Fedora 13 64 bit image</name>
+  <repos>
+    <repo>http://download.fedoraproject.org/pub/fedora/linux/releases/13/Everything/x86_64/os/</repo>
+  </repos>
+  <os name=\"fedora\" version=\"13\" architecture=\"64-bit\"/>",
+  "Deltacloud demo Fedora 13 64 bit image",
+  "ami-709d6919")
