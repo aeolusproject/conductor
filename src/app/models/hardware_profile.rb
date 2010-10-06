@@ -85,7 +85,7 @@ class HardwareProfile < ActiveRecord::Base
     self.architecture = new_property(api_profile.architecture)
   end
   def new_property(prop)
-    return nil unless prop.present?
+    return nil if prop.nil?
     the_property = HardwareProfileProperty.new(:name  => prop.name,
                                                :kind  => prop.kind.to_s,
                                                :unit  => prop.unit,
