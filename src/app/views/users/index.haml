@@ -1,13 +1,14 @@
+= form_tag :action => 'manage_user'
 .grid_3.actionsidebar
   %dl
     %dt
       Users
       %dd.edit
         %span
-        = link_to "edit", edit_user_url(@users.first.id), :id => "edit_link"
+        = submit_tag "edit", :class => "submit linkbutton"
       %dd.delete
         %span
-        = link_to "delete", user_url(@users.first.id), :id => "delete_link", :method => "delete"
+        = submit_tag "delete", :class => "submit linkbutton"
       %dd.create
         %span
         = link_to "create", new_user_url
@@ -28,10 +29,8 @@
     -@users.each do |user|
       %tr
         %td
-          - if user == @users.first
-            %input{:checked => true, :name => "user_checkbox", :type => "checkbox", :onchange => "update_link(#{user.id})", :id => "user_checkbox_#{user.id}" }
-          - else
-            %input{:checked => false, :name => "user_checkbox", :type => "checkbox", :onchange => "update_link(#{user.id})", :id => "user_checkbox_#{user.id}" }
+          - is_first_user = (user == @users.first)
+          %input{:checked => is_first_user, :name => "user_checkbox", :type => "checkbox", :value => user.id, :onchange => "update_link(#{user.id})", :id => "user_checkbox_#{user.id}" }
         %td= link_to user.login, user, :id => user.id
         %td= user.last_name
         %td= user.first_name
@@ -45,17 +44,8 @@
   function update_link(id)
   {
     var checkbox = document.getElementById('user_checkbox_' + id)
-    var edit_link = document.getElementById('edit_link')
-    var delete_link = document.getElementById('delete_link')
-
-    var edit_user_url = document.getElementById('edit_user_' + id)
-    var delete_user_url = document.getElementById('delete_user_' + id)
-
     if(checkbox.checked)
     {
-      edit_link.href = edit_user_url.href
-      delete_link.href = delete_user_url.href
-
       var checkboxes = document.getElementsByName("user_checkbox")
       for(var i = 0; i < checkboxes.length; i++)
       {
