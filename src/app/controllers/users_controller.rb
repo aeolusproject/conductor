@@ -104,6 +104,23 @@ class UsersController < ApplicationController
     end
   end
 
+  def manage_user
+    @current_user = current_user
+    type = params[:commit]
+    user_id = params[:user_checkbox]
+    if type && User.exists?(user_id)
+      if type == "edit"
+        redirect_to edit_user_url(user_id)
+      elsif type == "delete"
+        params[:id] = user_id
+        destroy
+      end
+    else
+      flash[:notice] = "Error performing this operation"
+      redirect_to users_path
+    end
+  end
+
   def destroy
     if @current_user.permissions.collect { |p| p.role }.find { |r| r.name == "Administrator" }
       if request.post? || request.delete?

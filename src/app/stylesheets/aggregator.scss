@@ -124,6 +124,24 @@ input[type='submit'],button,.button {
   &.actionlink {
     margin: 40px 0 0;
   }
+  &.linkbutton {
+    background: none;
+    border:0;
+    margin:4px 4px 4px 5px;
+    color: $dcprimary;
+    text-decoration: none;
+    font:13px/1.5 "Liberation Sans","Droid Sans",Helvetica,Arial,sans-serif;
+    &:hover {
+      @include box-shadow(0, 0, 0, rgba(0,0,0,0));
+      text-decoration: underline;
+      color: lighten($dcprimary,20%);
+    }
+    &:active {
+      color: darken($dcprimary, 20%);
+      font:13px/1.5 "Liberation Sans","Droid Sans",Helvetica,Arial,sans-serif;
+      margin:4px 4px 4px 5px;
+    }
+  }
   &.disabled, &[disabled] {
     cursor: default;
     background: transparent;
