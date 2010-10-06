@@ -56,10 +56,18 @@ class TemplatesController < ApplicationController
   #end
 
   def create
+    if params[:cancel]
+      redirect_to :action => 'index'
+      return
+    end
+
     @tpl = (params[:tpl] && !params[:tpl][:id].to_s.empty?) ? Template.find(params[:tpl][:id]) : Template.new(params[:tpl])
-    # this is crazy, but we have most attrs in xml and also in model,
-    # synchronize it at first to xml
-    @tpl.update_xml_attributes!(params[:tpl])
+
+    unless params[:add_software_form] and request.xhr?
+      # this is crazy, but we have most attrs in xml and also in model,
+      # synchronize it at first to xml
+      @tpl.update_xml_attributes!(params[:tpl])
+    end
 
     # if remove pkg, we only update xml and render 'new' template
     # again
