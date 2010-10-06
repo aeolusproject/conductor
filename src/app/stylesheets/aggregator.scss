@@ -218,6 +218,8 @@ h5 { font-size: 80%; }
 .placeholder { margin-bottom: 2em; }
 .disabled { opacity: 0.6; }
 .nomargin { margin: 0; }
+.nowrap { white-space: nowrap; }
+.gap { margin-bottom: 4em; }
 
 div,section,fieldset {
   display: block;
@@ -257,7 +259,7 @@ table {
     }
   }
   td {
-    padding: 4px;
+    padding: 2px;
     vertical-align: top;
     min-height: 16px;
   }
@@ -274,7 +276,12 @@ table {
     }
     td {
       color: #888;
+      &.graph {
+        width: 102px;
+        height: 4em;
+      }
       .percentBlock {
+        display: block;
         border:1px solid #909090;
         padding: 0;
         width:100px;
@@ -291,13 +298,13 @@ table {
         background: url(/images/arrow-min.png) no-repeat top center;
         float:left;
         padding-top:5px;
-        width:50%;
+        width:50px;
       }
       .max {
         background: url(/images/arrow-max.png) no-repeat top center;
-        float:right;
+        float:left;
         padding-top:5px;
-        width:50%;
+        width:50px;
       }
     }
   }
@@ -975,6 +982,13 @@ footer {
 }
 
 /* PAGE SPECIFIC */
+
+/* DASHBOARD */
+
+.currency {
+  font-size: 180%;
+  line-height: 70%;
+}
 
 /* GRINDS */
 .status {
