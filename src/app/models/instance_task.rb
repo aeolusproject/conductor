@@ -74,26 +74,4 @@ class InstanceTask < Task
   def self.label_and_action(action)
     return [action_label(action), action, action_icon(action)]
   end
-
-  # FIXME: need to pass in provider to filter start and destroy out for ec2
-  def self.get_instance_actions
-    return [["Start", InstanceTask::ACTION_START],
-            ["Stop", InstanceTask::ACTION_STOP],
-            ["Reboot", InstanceTask::ACTION_REBOOT_VM],
-            ["Destroy", InstanceTask::ACTION_DESTROY]]
-  end
-
-  # FIXME: most of these go away when ovirt model leaves
-  def vm
-    nil
-  end
-  def host
-    nil
-  end
-  def storage_volume
-    nil
-  end
-  def storage_pool
-    nil
-  end
 end
