@@ -164,9 +164,9 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
                             :event_type => inst.state,
                             :event_time => @event_time
     rescue => e
-      logger.error "#{e.backtrace.shift}: #{e.message}"
+      @logger.error "#{e.backtrace.shift}: #{e.message}"
       e.backtrace.each do |step|
-        logger.error "\tfrom #{step}"
+        @logger.error "\tfrom #{step}"
       end
     end
   end
@@ -225,9 +225,9 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = nil
       end
     rescue => e
-      logger.error "#{e.backtrace.shift}: #{e.message}"
+      @logger.error "#{e.backtrace.shift}: #{e.message}"
       e.backtrace.each do |step|
-        logger.error "\tfrom #{step}"
+        @logger.error "\tfrom #{step}"
       end
     end
   end
