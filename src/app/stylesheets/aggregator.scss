@@ -31,7 +31,7 @@ input,textarea {
     outline: none;
   }
   &.disabled, &[disabled] {
-    opacity: 0.4;
+    opacity: 0.6;
   }
 }
   input[type="search"] {
@@ -146,7 +146,7 @@ input[type='submit'],button,.button {
   &.disabled, &[disabled] {
     cursor: default;
     background: transparent;
-    opacity: 0.4;
+    opacity: 0.6;
     /* @include no-box-shadow; */
     &:hover {
       background: transparent;
@@ -216,7 +216,7 @@ h5 { font-size: 80%; }
 }
 
 .placeholder { margin-bottom: 2em; }
-.disabled { opacity: 0.4; }
+.disabled { opacity: 0.6; }
 .nomargin { margin: 0; }
 
 div,section,fieldset {
@@ -871,7 +871,7 @@ ul.tiles {
     float: right;
   }
   .disabled {
-    opacity: 0.2;
+    opacity: 0.6;
     button {
       pointer: default;
     }
