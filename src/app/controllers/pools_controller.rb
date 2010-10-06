@@ -130,7 +130,7 @@ class PoolsController < ApplicationController
     Pool.transaction do
       @pool.cloud_accounts << @cloud_account unless @pool.cloud_accounts.map{|x| x.id}.include?(@cloud_account.id)
       @pool.save!
-      @pool.populate_realms_and_images([@cloud_account])
+      @pool.populate_realms([@cloud_account])
     end
     redirect_to :action => 'show', :id => @pool.id
   end

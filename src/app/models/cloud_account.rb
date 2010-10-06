@@ -76,15 +76,9 @@ class CloudAccount < ActiveRecord::Base
   end
 
   # FIXME: for already-mapped accounts, update rather than add new
-  def populate_realms_and_images
+  def populate_realms
     client = connect
     realms = client.realms
-    # FIXME: the "self" filtering has to go as soon as we have a decent image selection UI
-    if client.driver_name == "ec2"
-      images = client.images(:owner_id=>:self)
-    else
-      images = client.images
-    end
     # FIXME: this should probably be in the same transaction as cloud_account.save
     self.transaction do
       realms.each do |realm|
