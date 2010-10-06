@@ -50,7 +50,7 @@ class CloudAccountsController < ApplicationController
       @cloud_account.quota_id = quota.id
       @cloud_account.zones << Zone.default
       @cloud_account.save!
-      if request.post? && @cloud_account.save && @cloud_account.populate_realms_and_images
+      if request.post? && @cloud_account.save && @cloud_account.populate_realms
         flash[:notice] = "Provider account added."
       end
       redirect_to :controller => "provider", :action => "accounts", :id => @provider
