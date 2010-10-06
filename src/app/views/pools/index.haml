@@ -7,8 +7,6 @@
       =link_to 'New Pool', :action => :new, :class => "button"
 
 #details{:class => 'grid_13'}
-  %h1 Manage Pools
-
   %table
     =sortable_table_header @header
     - @pools.each do |pool|
