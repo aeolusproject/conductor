@@ -156,11 +156,19 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       @logger.info "Unexpected trigger type #{@trigger_type}, not updating instance state"
       return
     end
-    inst.save!
 
-    InstanceEvent.create! :instance => inst,
-                          :event_type => inst.state,
-                          :event_time => @event_time
+    begin
+      inst.save!
+
+      InstanceEvent.create! :instance => inst,
+                            :event_type => inst.state,
+                            :event_time => @event_time
+    rescue => e
+      logger.error "#{e.backtrace.shift}: #{e.message}"
+      e.backtrace.each do |step|
+        logger.error "\tfrom #{step}"
+      end
+    end
   end
 
   def update_instance_cloud_id(inst)
@@ -203,19 +211,25 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
 
   # Create a new entry for events which we have all the neccessary data for
   def end_element(element)
-    if element == "c" and @event_type == "JobAdInformationEvent" and !@trigger_type.nil?
+    begin
+      if element == "c" and @event_type == "JobAdInformationEvent" and !@trigger_type.nil?
 
-      inst_name = @event_cmd[4,@event_cmd.size-4].gsub(/_[0-9]*$/, '')
-      inst = Instance.find(:first, :conditions => ['name = ?', inst_name])
-      if inst.nil?
-        @logger.info "Unexpected nil instance, skipping..."
-      else
-        update_instance_state_event(inst)
-        update_instance_cloud_id(inst)
+        inst_name = @event_cmd[4,@event_cmd.size-4].gsub(/_[0-9]*$/, '')
+        inst = Instance.find(:first, :conditions => ['name = ?', inst_name])
+        if inst.nil?
+          @logger.info "Unexpected nil instance, skipping..."
+        else
+          update_instance_state_event(inst)
+          update_instance_cloud_id(inst)
+        end
+        @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = nil
       end
-      @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = nil
+    rescue => e
+      logger.error "#{e.backtrace.shift}: #{e.message}"
+      e.backtrace.each do |step|
+        logger.error "\tfrom #{step}"
+      end
     end
-
   end
 end
 
@@ -281,7 +295,16 @@ begin
     }
   end
 
-  notifier.run
+  while true
+    begin
+      notifier.run
+    rescue => e
+      logger.error "#{e.backtrace.shift}: #{e.message}"
+      e.backtrace.each do |step|
+        logger.error "\tfrom #{step}"
+      end
+    end
+  end
 
   parser << "</events>"
   parser.finish
