@@ -75,6 +75,13 @@ class Instance < ActiveRecord::Base
     return_val
   end
 
+  # Provide method to check if requested action exists, so caller can decide
+  # if they want to throw an error of some sort before continuing
+  # (ie in service api)
+  def valid_action?(action)
+    return get_action_list.include?(action) ? true : false
+  end
+
   def queue_action(user, action, data = nil)
     return false unless get_action_list.include?(action)
     task = InstanceTask.new({ :user        => user,

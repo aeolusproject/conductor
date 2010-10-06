@@ -64,6 +64,12 @@ describe Instance do
   end
 
 
+  it "should tell apart valid and invalid actions" do
+    @instance.stub!(:get_action_list).and_return(@actions)
+    @instance.valid_action?('invalid action').should == false
+    @instance.valid_action?('start').should == true
+  end
+
   it "should return action list" do
     @instance.get_action_list.should eql(["reboot", "stop"])
   end

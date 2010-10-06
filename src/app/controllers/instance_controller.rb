@@ -135,6 +135,10 @@ class InstanceController < ApplicationController
                #  'restart'
                end
 
+      unless @instance.valid_action?(action)
+        raise ActionError.new("'#{action}' is an invalid action.")
+      end
+
       # not sure if task is used as everything goes through condor
       #permissons check here
       @task = @instance.queue_action(@current_user, action)

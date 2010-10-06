@@ -168,7 +168,8 @@ def condormatic_instance_stop(task)
 end
 
 def condormatic_instance_reset_error(instance)
-    condormatic_instance_stop(instance)
+
+  condormatic_instance_stop(instance)
     Rails.logger.info("calling condor_rm -forcex -constraint 'Cmd == \"#{instance.condor_job_id}\"' 2>&1")
     pipe = IO.popen("condor_rm -forcex -constraint 'Cmd == \"#{instance.condor_job_id}\"' 2>&1")
     out = pipe.read
