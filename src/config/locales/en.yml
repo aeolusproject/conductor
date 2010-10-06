@@ -10,10 +10,10 @@ en:
   advanced_search: Advanced Search
   login: Log in
   logout: Log out
-  operation: Operation
+  operation: Operate
   monitor: Dashboard
   browse_objects: Browse Objecs
-  administration: Administration
+  administration: Administer
   system_settings: System Settings
   manage_providers: Manage Providers
   provider_summary: Provider Summary
@@ -33,7 +33,7 @@ en:
   browse_packages: Browse Packages
   grinds: Grinds
   images: Images
-  runtime: Runtime
+  runtime: Run
   instance_management: Instance Management
   instance_details: Instance Details
   launch_instance: Launch Instance
