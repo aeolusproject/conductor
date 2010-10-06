@@ -32,12 +32,12 @@
           = yield
     - else
       #subheader
-        %form#s.container_16
+        %form#s.container_16.disabled{:disabled => "disabled"}
           .prefix_10.grid_6
-            %input{ :name => "s", :type => "search", :placeholder => "Search Cloud Aggregator"}
+            %input{ :name => "s", :type => "search", :placeholder => "Search Cloud Aggregator", :disabled => "disabled"}
             %button.action{:form => "s"} Search
           %p.prefix_10.grid_6
-            %a{ :href => "" }
+            %a.disabled
               = t(:advanced_search)
         %nav.container_16
           = render_navigation(:expand_all => true, :level => 1..2)
