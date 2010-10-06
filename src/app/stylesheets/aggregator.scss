@@ -625,6 +625,9 @@ nav {
       text-align: center;
       padding: 8px 0 0;
     }
+    &.disabled a {
+      cursor: default !important;
+    }
   }
 
   &.subnav { /* subnavigation */
