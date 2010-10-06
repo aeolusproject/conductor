@@ -82,13 +82,6 @@ class ImageDescriptorXML
     get_or_create_node('os')['architecture'] = str
   end
 
-  def platforms
-    unless @platforms
-      @platforms = YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_platform_repositories.yml")
-    end
-    return @platforms
-  end
-
   def description=(str)
     node = get_or_create_node('description')
     node.content = str

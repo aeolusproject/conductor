@@ -11,12 +11,11 @@
   %label.grid_4.alpha Choose Logo:
   %input{:type => 'file', :disabled => 'disabled', :class => "grid_7"}
 %fieldset.clearfix
+  - default = @tpl.platforms['fedora']
   = label :tpl, :platform, 'Platform Choice:', :class => "grid_4 alpha"
-  = select :tpl, :platform, @tpl.xml.platforms.map {|id, p| [p['name'], id]}, {}, {:class => 'grid_7'}
-  / FIXME: it's currently possible to choose bad os<->version combination, for example
-  / RHEL 11, JS will be required to fix this
-  = select :tpl, :platform_version, @tpl.xml.platforms.map {|id, p| p['version'].to_s}.sort.uniq, {}, {:class => 'grid_3'}
-  = select :tpl, :architecture, @tpl.xml.platforms.map {|id, p| p['architecture']}.sort.uniq, {}, {:class => 'grid_2 omega'}
+  = select :tpl, :platform, @tpl.platforms.map {|id, p| [p['name'], id]}, {:selected => @tpl.platform || 'fedora'}, {:class => 'grid_7'}
+  = select :tpl, :platform_version, @tpl.platforms.map {|id, p| p['version'].to_s}.sort.uniq, {:selected => @tpl.platform_version || default['version']}, {:class => 'grid_3'}
+  = select :tpl, :architecture, @tpl.platforms.map {|id, p| p['architecture']}.sort.uniq, {:selected => @tpl.architecture || default['architecture']}, {:class => 'grid_2 omega'}
 %fieldset.clearfix
   = label_tag :bootable, 'Bootable:', :class => "grid_4 alpha"
   .grid_12.omega
