@@ -3,12 +3,15 @@
   Cloud Aggregator
 - unless @current_user.nil?
   %ul
-    %li.about
-      %a{:href => ""}
-        = t(:about)
-    %li.configure
-      %a{:href => ""}
-        = t(:configure)
+    /
+      FIXME: commented out because these links don't do anything yet
+      %li.about
+        %a{:href => ""}
+          = t(:about)
+      %li.configure
+        %a{:href => ""}
+          = t(:configure)
+
     %li.hello
       - link_to account_path do
         = t(:hello) + " "
