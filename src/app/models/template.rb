@@ -75,4 +75,8 @@ class Template < ActiveRecord::Base
   def set_complete
     update_attributes(:complete => true, :uploaded => false)
   end
+
+  def platforms
+    @platforms ||= YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_platform_repositories.yml")
+  end
 end
