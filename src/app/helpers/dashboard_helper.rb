@@ -24,7 +24,7 @@ module DashboardHelper
     name=content_tag 'td', :class => 'first nowrap' do
       name
     end
-    value=content_tag 'td' do
+    value=content_tag 'td', :class => 'graph' do
       content_tag 'div', :class => 'percentBlock' do
         value
       end
@@ -36,7 +36,7 @@ module DashboardHelper
   end
 
   def monitor_bar_value(value, opts={})
-    bar=content_tag 'td' do
+    bar=content_tag 'td', :class => "graph" do
       percent_block=content_tag 'div', :class => 'percentBlock' do
         # TODO: Count text-indent value correctly here
         bar_style = "width:#{value}%;text-indent:14%"

@@ -1,3 +1,10 @@
+%section.gap
+  .grid_3.disabled
+    = radio_button_tag :dashboard, 'system', :checked => "checked"
+    %label{:for => 'dashboard_system'} View System Dashboard
+  .grid_13.disabled
+    = radio_button_tag :dashboard, 'user'
+    %label{:for => 'dashboard_user'} View User Dashboard
 .grid_16
   %h2 Key Metrics
   %table{ :class => 'noborder' }
@@ -35,7 +42,7 @@
         =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
         =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
       %tr
-        =monitor_quota_value "Cost per hour", '824', '�'
+        =monitor_quota_value "Cost per hour", '824', '<span class="currency">¤</span>'
         =monitor_bar_value '32', :total => '102'
         =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
         =monitor_bar_value '32', :total => '2351', :min => 13, :max => 83
@@ -97,6 +104,30 @@
           Retries
 
   %h2.clear Statistics
+  %table{ :class => 'noborder' }
+    %thead
+      %tr
+        %th
+        %th{ :colspan => 2 } Last Hour
+        %th{ :colspan => 2 } Last 24 Hours
+        %th{ :colspan => 2 } Last Month
+        %th{ :colspan => 2 } Calendar YTD
+    %tbody
+      %tr
+        =monitor_quota_value "Ratio New Accounts / Total Accounts:", '2.500', ''
+        =monitor_bar_value '1', :total => '23 of 2,200'
+        =monitor_bar_value '32', :total => '1,038 of 2,200', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '1,038 of 2,200', :min => 13, :max => 83
+      %tr
+        =monitor_quota_value "Ratio Archive Accounts / Total Accounts:", '1.200', ''
+        =monitor_bar_value '1', :total => '23 of 2,200'
+        =monitor_bar_value '32', :total => '1,038 of 2,200', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '1,038 of 2,200', :min => 13, :max => 83
+      %tr
+        =monitor_quota_value "Ratio Used Quota / Theoretical Quota:", '512', ''
+        =monitor_bar_value '1', :total => '23 of 2,200'
+        =monitor_bar_value '32', :total => '1,038 of 2,200', :min => 13, :max => 83
+        =monitor_bar_value '32', :total => '1,038 of 2,200', :min => 13, :max => 83
 
   %h2 Quality of service provider
   %section.wrap
