@@ -65,15 +65,7 @@ class RepositoryManager
         next unless p = group[:packages][pkg[:name]]
         p[:selected] = true
       end
-      # if all non-optional packages are selected, mark all
-      # group as selected
-      group[:selected] = true
-      group[:packages].each_value do |pkg|
-        if pkg[:type] != 'optional' and !pkg[:selected]
-          group[:selected] = false
-          break
-        end
-      end
+      group[:selected] = is_group_selected(group)
     end
     return groups
   end
@@ -87,6 +79,25 @@ class RepositoryManager
   end
 
   private
+
+  # returns true if all non-optional packages are selected
+  # (if there are only non-optional packages in the group,
+  # all packages must be selected)
+  def is_group_selected(group)
+    all = true
+    all_nonopt = true
+    only_opt = true
+    group[:packages].each_value do |pkg|
+      all = false unless pkg[:selected]
+      if pkg[:type] != 'optional'
+        only_opt = false
+        if !pkg[:selected]
+          all_nonopt = false
+        end
+      end
+    end
+    return only_opt ? all : all_nonopt
+  end
 
   def load_config
     YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_package_repositories.yml")
