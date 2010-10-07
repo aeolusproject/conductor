@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     @registration = RegistrationService.new(@user)
     if @registration.save
       flash[:notice] = "User registered!"
-      redirect_back_or_default user_url(@user)
+      redirect_to users_path
     else
       flash[:warning] = "user registration failed: #{@registration.error}"
       render :action => :new
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
       if @user != @current_user
         if !BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
           flash[:notice] = "Invalid Permission to perform this operation"
-          redirect_to :dashboard
+          redirect_to users_path
         end
       end
     end
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
         end
         if @user.update_attributes(params[:user])
           flash[:notice] = "User updated!"
-          redirect_to account_url
+          redirect_to users_path
         else
           render :action => :edit
         end
@@ -135,7 +135,7 @@ class UsersController < ApplicationController
     else
       flash[:notice] = "Invalid Permission to perform this operation"
     end
-    redirect_to :dashboard
+    redirect_to users_path
   end
 
   def section_id
