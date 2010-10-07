@@ -214,8 +214,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
     begin
       if element == "c" and @event_type == "JobAdInformationEvent" and !@trigger_type.nil?
 
-        inst_name = @event_cmd[4,@event_cmd.size-4].gsub(/_[0-9]*$/, '')
-        inst = Instance.find(:first, :conditions => ['name = ?', inst_name])
+        inst = Instance.find(:first, :conditions => ['condor_job_id = ?', @event_cmd])
         if inst.nil?
           @logger.info "Unexpected nil instance, skipping..."
         else
