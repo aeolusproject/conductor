@@ -270,9 +270,9 @@ begin
     # incase of dbomatic restarts
     if File.exists?(EVENT_LOG_POS_FILE)
       File.open(EVENT_LOG_POS_FILE, 'r') { |f| log_file.pos = f.read.to_i }
-      # FIXME: we really need to parse from here to the end of the file.
-      # otherwise we won't get new events until something else causes the
-      # inotify watch to fire.
+      logger.info "Replaying old events..."
+      parse_log_file log_file, parser
+      logger.info "done"
     end
 
     # Setup inotify watch for condor event log
