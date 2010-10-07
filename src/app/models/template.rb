@@ -24,8 +24,6 @@ class Template < ActiveRecord::Base
     doc.description = opts[:summary] if opts[:summary]
     doc.platform_version = opts[:platform_version] if opts[:platform_version]
     doc.architecture = opts[:architecture] if opts[:architecture]
-    doc.services = (opts[:services] || []) if opts[:services] or opts[:set_services]
-    doc.packages = (opts[:packages] || []) if opts[:packages] or opts[:set_packages]
     save_xml!
   end
 
