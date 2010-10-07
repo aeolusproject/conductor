@@ -45,16 +45,6 @@ class TemplatesController < ApplicationController
     @groups = @repository_manager.all_groups(params[:repository])
   end
 
-  #def select_package
-  #  update_group_or_package(:add_package, params[:package], params[:group])
-  #  render :action => 'new'
-  #end
-
-  #def remove_package
-  #  update_group_or_package(:remove_package, params[:package], params[:group])
-  #  render :action => 'new'
-  #end
-
   def create
     if params[:cancel]
       redirect_to :action => 'index'
@@ -73,7 +63,7 @@ class TemplatesController < ApplicationController
     # again
     params.keys.each do |param|
       if param =~ /^remove_package_(.*)$/
-        update_group_or_package(:remove_package, $1, nil)
+        update_group_or_package(:remove_package, $1)
         render :action => 'new'
         return
       end
@@ -103,7 +93,7 @@ class TemplatesController < ApplicationController
     @groups = @repository_manager.all_groups(params[:repository])
     if params[:add_selected]
       params[:groups].to_a.each { |group| @tpl.xml.add_group(group) }
-      params[:packages].to_a.each { |pkg| @tpl.xml.add_package(pkg, nil) }
+      params[:packages].to_a.each { |pkg| @tpl.xml.add_package(pkg) }
       @tpl.save_xml!
     end
     if params[:ajax]
