@@ -30,7 +30,7 @@
       %tr
         %td
           - is_first_user = (user == @users.first)
-          %input{:checked => is_first_user, :name => "user_checkbox", :type => "checkbox", :value => user.id, :onchange => "update_link(#{user.id})", :id => "user_checkbox_#{user.id}" }
+          %input{:checked => is_first_user, :name => "user_checkbox", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
         %td= link_to user.login, user, :id => user.id
         %td= user.last_name
         %td= user.first_name
@@ -41,20 +41,22 @@
         =link_to "", user_url(user.id), :id => "delete_user_" + user.id.to_s
 
 :javascript
-  function update_link(id)
-  {
-    var checkbox = document.getElementById('user_checkbox_' + id)
-    if(checkbox.checked)
-    {
-      var checkboxes = document.getElementsByName("user_checkbox")
-      for(var i = 0; i < checkboxes.length; i++)
-      {
-         checkboxes[i].checked = false
+  $(document).ready(function () {
+    var $checkboxes = $("input[type='checkbox']");
+    $checkboxes.change(function () {
+      var $checked = $("input[type='checkbox']:checked"),
+      $edit = $("dd.edit"),
+      $delete = $("dd.delete");
+      if ($checked.length === 0) {
+        //disable the edit and delete action if there is none selected
+        $edit.hide(200);
+        $delete.hide(200);
+      } else if ($checked.length > 1) {
+        $edit.hide(200);
+        $delete.show(200);
+      } else {
+        $edit.show(200);
+        $delete.show(200);
       }
-      checkbox.checked = true
-    }
-    else
-    {
-      checkbox.checked = true
-    }
-  }
+    }).change();
+  });
