@@ -11,9 +11,8 @@
   = hidden_field :user, :id, :value => @user.id
   = render :partial => "form", :object => f
   %fieldset.clear
-    = link_to "Cancel", account_path, :class => "formbutton button clear"
+    = link_to "Cancel", users_path, :class => "formbutton button clear"
     - if has_user_modify?
-      = f.submit "Back", :class => "formbutton button", :name => "back"
       = f.submit "Reset", :class => "formbutton button", :name => "reset"
       = f.submit "Save", :class => "formbutton button", :name => "save"
     - else

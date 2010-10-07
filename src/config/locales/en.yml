@@ -20,6 +20,10 @@ en:
   provider_accounts: Provider Accounts
   self_service_settings: Self-service Settings
   manage_users: Manage Users
+  define_services: Define Services
+  define_profiles: Define Profiles
+  define_locales: Define Locales
+  permissions: Permissions
   new_user: New User
   edit_user: Edit User
   pools_and_zones: "Pools & Zones"

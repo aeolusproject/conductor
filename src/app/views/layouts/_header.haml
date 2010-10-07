@@ -13,7 +13,7 @@
           = t(:configure)
 
     %li.hello
-      - link_to "#{account_path}/edit" do
+      - link_to :controller => 'users', :action => 'edit', :id => @current_user.id do
         = t(:hello) + " "
         %b
           = "#{@current_user.first_name} #{@current_user.last_name}"
