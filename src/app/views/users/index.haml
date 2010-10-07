@@ -31,14 +31,12 @@
         %td
           - is_first_user = (user == @users.first)
           %input{:checked => is_first_user, :name => "user_checkbox", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
-        %td= link_to user.login, user, :id => user.id
+        %td= link_to user.login, {:action => "edit", :id => user.id}
         %td= user.last_name
         %td= user.first_name
         %td= sprintf("%.2f", user.quota.percentage_used)
         %td= Quota.no_limit(user.quota.maximum_running_instances) ? "Unlimited" : user.quota.maximum_running_instances
         %td= user.email
-        =link_to "", edit_user_url(user.id), :id => "edit_user_" + user.id.to_s
-        =link_to "", user_url(user.id), :id => "delete_user_" + user.id.to_s
 
 :javascript
   $(document).ready(function () {

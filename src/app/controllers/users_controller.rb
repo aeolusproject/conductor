@@ -110,7 +110,7 @@ class UsersController < ApplicationController
     user_id = params[:user_checkbox]
     if type && User.exists?(user_id)
       if type == "edit"
-        redirect_to edit_user_url(user_id)
+        redirect_to :action => 'edit', :id => user_id
       elsif type == "delete"
         params[:id] = user_id
         destroy
