@@ -82,18 +82,4 @@ class InstanceTask < Task
             ["Reboot", InstanceTask::ACTION_REBOOT_VM],
             ["Destroy", InstanceTask::ACTION_DESTROY]]
   end
-
-  # FIXME: most of these go away when ovirt model leaves
-  def vm
-    nil
-  end
-  def host
-    nil
-  end
-  def storage_volume
-    nil
-  end
-  def storage_pool
-    nil
-  end
 end
