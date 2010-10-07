@@ -125,7 +125,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
   def update_instance_state_event(inst)
     if @trigger_type == "ULOG_GRID_SUBMIT"
       inst.state = Instance::STATE_PENDING
-    elsif @trigger_type == "ULOG_JOB_ABORTED" or @trigger_Type == "ULOG_JOB_TERMINATED"
+    elsif @trigger_type == "ULOG_JOB_ABORTED" or @trigger_type == "ULOG_JOB_TERMINATED"
       inst.state = Instance::STATE_STOPPED
     elsif @trigger_type == "ULOG_EXECUTE"
       inst.state = Instance::STATE_RUNNING
