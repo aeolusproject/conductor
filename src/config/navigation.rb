@@ -16,8 +16,8 @@ SimpleNavigation::Configuration.run do |navigation|
         third_level.item :define_services, t(:define_profiles), '#'
         third_level.item :define_services, t(:define_locales), '#'
         third_level.item :manage_users, t(:manage_users), :controller => 'users' do |fourth_level|
-          fourth_level.item :new_user, t(:new_user), :controller => 'users', :action => 'new'
-          fourth_level.item :edit_user, t(:edit_user), :controller => 'users', :action => 'edit'
+          fourth_level.item :new_user, t(:new_user), {:controller => 'users', :action => 'new'}, :highlights_on => /\/users\/new/
+          fourth_level.item :edit_user, t(:edit_user), {:controller => 'users', :action => 'edit'},  :highlights_on => /\/users\/edit/
         end
         third_level.item :define_services, t(:permissions), '#'
       end
