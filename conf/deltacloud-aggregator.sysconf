@@ -11,8 +11,8 @@
 #THIN_PID=/var/run/deltacloud-aggregator/thin.pid
 
 # user and group under which Rails application runs
-#USER=dcloud
-#GROUP=dcloud
+#THIN_USER=dcloud
+#THIN_GROUP=dcloud
 
 # URL prefix for Rails application
 #PREFIX=/deltacloud
