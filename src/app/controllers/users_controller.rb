@@ -80,8 +80,6 @@ class UsersController < ApplicationController
       end
     elsif  params[:reset]
       redirect_to :action => "edit", :user => @user
-    elsif params[:back]
-      redirect_to users_path
     end
   end
 
