@@ -47,13 +47,10 @@
       var $checked = $("input[type='checkbox']:checked"),
       $edit = $("dd.edit"),
       $delete = $("dd.delete");
-      if ($checked.length === 0) {
-        //disable the edit and delete action if there is none selected
+      if ($checked.length != 1) {
+        //disable the edit and delete action if there is none or more than 1 selected
         $edit.hide(200);
         $delete.hide(200);
-      } else if ($checked.length > 1) {
-        $edit.hide(200);
-        $delete.show(200);
       } else {
         $edit.show(200);
         $delete.show(200);
