@@ -11,16 +11,18 @@
       $container.load(list_url, list_data, function() {
         $container.removeClass('loading');
         $('#do_add_software').click(function(e) {
-          e.preventDefault();
           var url = '#{url_for :action => 'add_software', :ajax => true, :add_selected => true}';
           var data = {
             'packages[]': $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get(),
             'groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
             'template_id': $("input[name='tpl[id]']").val() || ''
           };
-          $('#selected_packages').load(url, data, function() {});
-          $container.hide();
-          $submit.show();
+          e.preventDefault();
+          $(this).replaceWith('<span class="loading grid_2 alpha">Adding Packages</span>');
+          $('#selected_packages').load(url, data, function() {
+            $container.hide();
+            $submit.show();
+          });
         });
         $('#cancel_add_software').click(function(e) {
           e.preventDefault();
