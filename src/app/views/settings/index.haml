@@ -53,3 +53,14 @@
       = t('.define_locales_desc')
     %button{:disabled => "disabled"}
       = t(:continue)
+
+:javascript
+  $(document).ready(function () {
+    var $tiles = $(".tiles li:not(.disabled)").addClass('pointercursor');
+    $tiles.click(function (e) {
+      $e = $(e.target);
+      if (!$e.is('.button')) {
+        window.location = $('.button',this).attr('href');
+      }
+    });
+  });
