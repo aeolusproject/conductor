@@ -40,7 +40,7 @@ module DashboardHelper
       percent_block=content_tag 'div', :class => 'percentBlock' do
         # TODO: Count text-indent value correctly here
         bar_style = "width:#{value}%;text-indent:14%"
-        content_tag 'div', :class => 'percentBlockInner gradGreen', :style => bar_style do
+        content_tag 'div', :class => 'percentBlockInner good', :style => bar_style do
           "#{value}%"
         end
       end

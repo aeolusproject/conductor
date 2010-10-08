@@ -23,8 +23,8 @@ $runtimebg: #d83e40;
 $headercl: #333;
 
 $goodcl: #bfcc29;
-$okcl: orange;
-$badcl: red;
+$okcl: #f6a20a;
+$badcl: #cb292b;
 
 @import "text";
 
@@ -77,4 +77,9 @@ $badcl: red;
   -webkit-column-break-before: $break;
   -o-column-break-before: $break;
   column-break-before: $break;
+}
+
+@mixin gradient-2p-linear($from, $to) {
+  background: -moz-linear-gradient(top, $from, $to);
+  background: -webkit-gradient(linear, left top, left bottom, from($from), to($to));
 }
