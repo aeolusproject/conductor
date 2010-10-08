@@ -31,11 +31,11 @@ en:
   edit_pool: Edit Pool
   audit_report: Audit / Report
   assistance_requests: Assistance Requests
-  build: Build
-  templates: Templates
+  define: Define
+  deployables: Deployables
   basic_template: Template Builder Basic Workflow
   browse_packages: Browse Packages
-  grinds: Grinds
+  builds: Builds
   images: Images
   runtime: Run
   instance_management: Instance Management

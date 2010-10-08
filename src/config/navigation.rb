@@ -28,13 +28,13 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :audit_report, t(:audit_report), '#', :class => 'disabled'
       second_level.item :assistance_requests, t(:assistance_requests), '#', :class => 'disabled'
     end
-    first_level.item :build, t(:build), '#', :class => 'build' do |second_level|
-      second_level.item :templates, t(:templates), :controller => 'templates' do |third_level|
+    first_level.item :define, t(:define), '#', :class => 'build' do |second_level|
+      second_level.item :deployables, t(:deployables), :controller => 'templates' do |third_level|
         third_level.item :basic_template, t(:basic_template), :controller => 'templates', :action => 'new' do |fourth_level|
           fourth_level.item :browse_packages, t(:browse_packages), :controller => 'templates', :action => 'packages'
         end
       end
-      second_level.item :grinds, t(:grinds), :controller => 'templates', :action => 'builds'
+      second_level.item :builds, t(:builds), :controller => 'templates', :action => 'builds'
       second_level.item :images, t(:images), '#', :class => 'disabled'
     end
     first_level.item :runtime, t(:runtime), '#', :class => 'runtime' do |second_level|
