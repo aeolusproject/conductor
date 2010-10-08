@@ -76,12 +76,41 @@ var Aggregator = {
           });
         }
     });
-  }
+  };
+  $.fn.buttonSensitivity = function () {
+    var $checkboxes = $(this),
+      $edit = $('.edit'),
+      $delete = $('.delete'),
+      $rename = $('.rename'),
+      $copy = $('.copy'),
+      $build = $('.build');
+    return $checkboxes.change(function () {
+      var $checked = $checkboxes.filter(':checked');
+      if ($checked.length === 0) {
+        //disable the edit and delete action if there is none
+        $edit.addClass("disabled");
+        $delete.addClass("disabled");
+        $("input", $edit).attr("disabled","disabled");
+        $("input", $delete).attr("disabled","disabled");
+      } else if ($checked.length > 1) {
+        //disable the edit if there is more than one
+        $edit.addClass("disabled");
+        $delete.removeClass("disabled");
+        $("input", $edit).attr("disabled","disabled");
+        $("input", $delete).removeAttr("disabled");
+      } else {
+        $("input", $edit).removeAttr("disabled");
+        $("input", $delete).removeAttr("disabled");
+        $edit.removeClass("disabled");
+        $delete.removeClass("disabled");
+      }
+    });
+  };
 })(jQuery);
 
 /* Aggregator JS */
 
 $(document).ready(function () {
   $(window).scroll(Aggregator.positionFooter).resize(Aggregator.positionFooter).scroll();
-  $("#notification").enhanceInteraction();
+  $("#notification").enhanceInteraction().change();
 });
