@@ -40,13 +40,13 @@ class Image < ActiveRecord::Base
   SEARCHABLE_COLUMNS = %w(name)
 
   STATE_QUEUED = 'queued'
-  STATE_WAITING = 'waiting'
+  STATE_CREATED = 'created'
   STATE_BUILDING = 'building'
   STATE_COMPLETE = 'complete'
   STATE_CANCELED = 'canceled'
   STATE_FAILED = 'failed'
 
-  ACTIVE_STATES = [ STATE_QUEUED, STATE_WAITING, STATE_BUILDING, STATE_FAILED ]
+  ACTIVE_STATES = [ STATE_QUEUED, STATE_CREATED, STATE_BUILDING ]
 
   def self.new_if_not_exists(data)
     unless find_by_template_id(data[:template_id], :conditions => {:target => data[:target]})
