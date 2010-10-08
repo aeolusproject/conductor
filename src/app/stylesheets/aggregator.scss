@@ -220,6 +220,10 @@ h5 { font-size: 80%; }
 .nomargin { margin: 0; }
 .nowrap { white-space: nowrap; }
 .gap { margin-bottom: 4em; }
+.padforicon {
+  padding-right: 30px;
+  position: relative;
+}
 
 div,section,fieldset {
   display: block;
@@ -435,12 +439,20 @@ img.icon {
     }
   }
   .success {
-    background-color: lighten($goodcl,40%);
-    border: 1px solid $goodcl;
+    background-color: lighten($goodcl,45%);
+    border: 1px solid lighten($goodcl,20%);
   }
   .error {
-    background-color: lighten($badcl,40%);
-    border: 1px solid $badcl;
+    background-color: lighten($badcl,45%);
+    border: 1px solid lighten($badcl,20%);
+  }
+  .close {
+    display: block;
+    position: absolute;
+    width: 16px; height: 16px;
+    top: 0; right: 0;
+    background: url(/images/icons/close.png) no-repeat 0 0;
+    cursor: pointer;
   }
 }
 
