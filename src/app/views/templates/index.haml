@@ -3,10 +3,18 @@
     %dl
       %dt Actions
       %dd
-        %h5 View
-        %p
-          = check_box_tag 'views[]', 'templates', true, :disabled => true
-          = label_tag 'views[]', 'Templates'
+        %h5 Show
+        %ul
+          %li
+            = check_box_tag 'views[]', 'templates', true, :disabled => true
+            = label_tag 'views[]', 'Templates'
+          %li
+            = check_box_tag 'views[]', 'assemblies', true, :disabled => true
+            = label_tag 'views[]', 'Assemblies'
+          %li
+            = check_box_tag 'views[]', 'deployables', true, :disabled => true
+            = label_tag 'views[]', 'Deployables'
+
       %dd
         %h5 Manage
         %ul
@@ -16,10 +24,10 @@
           %li.delete
             %span
             = submit_tag "Delete", :name => "delete", :class => "icon"
-          %li.rename
+          %li.rename.disabled
             %span
             = submit_tag "Rename", :name => "rename", :disabled => true, :class => "icon"
-          %li.copy
+          %li.copy.disabled
             %span
             = submit_tag "Copy", :name => "copy", :disabled => true, :class => "icon"
       %dd
@@ -41,7 +49,7 @@
             %span
             = submit_tag "Deployment def.", :name => "deployment_definition", :class => "icon"
 
-  .grid_13
+  #tables.grid_13
     %h3 Templates
     = render :partial => 'templates'
 
@@ -50,3 +58,8 @@
 
     %h3 Deployment Definitions
     = render :partial => 'templates'
+
+:javascript
+  $(document).ready(function () {
+    $("#tables input[type='checkbox']").buttonSensitivity();
+  });
