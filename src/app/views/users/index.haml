@@ -43,15 +43,19 @@
     var $checkboxes = $("input[type='checkbox']");
     $checkboxes.change(function () {
       var $checked = $("input[type='checkbox']:checked"),
-      $edit = $("dd.edit"),
-      $delete = $("dd.delete");
+      $edit = $(".edit"),
+      $delete = $(".delete");
       if ($checked.length != 1) {
         //disable the edit and delete action if there is none or more than 1 selected
-        $edit.hide(200);
-        $delete.hide(200);
+        $edit.addClass("disabled");
+        $delete.addClass("disabled");
+        $("input", $edit).attr("disabled","disabled");
+        $("input", $delete).attr("disabled","disabled");
       } else {
-        $edit.show(200);
-        $delete.show(200);
+        $("input", $edit).removeAttr("disabled");
+        $("input", $delete).removeAttr("disabled");
+        $edit.removeClass("disabled");
+        $delete.removeClass("disabled");
       }
     }).change();
   });

@@ -150,6 +150,7 @@ input[type='submit'],button,.button {
     /* @include no-box-shadow; */
     &:hover {
       background: transparent;
+      text-decoration: none;
       @include no-box-shadow;
     }
   }
