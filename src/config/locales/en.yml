@@ -97,8 +97,8 @@ en:
       provider_accounts: Provider Accounts
       new_provider_account: New Account
       account_name: Account Name
-      user_name: User Name
-      password: Password
+      user_name: EC2 Access Key
+      password: Secret Access Key
       quota_instances: Quota Instances
       test_account: Test Account
       unlimited_quota: Unlimited Quota
