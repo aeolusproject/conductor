@@ -92,9 +92,9 @@ class ImageBuilderService
   def initialize(logger, timeout)
     @log = logger
     @timeout = timeout.to_i
-    @console ||= ImageBuilderConsole.new
+    @console ||= ImageBuilderConsole.new(:logger=>@log)
     @activebuilds ||= []
-    @log.warn "Image Builder Service initialized..."
+    @log.info "Image Builder Service initialized..."
     poll
   end
 
