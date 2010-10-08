@@ -294,8 +294,17 @@ table {
         color: #555;
         .percentBlockInner {
         }
-        .gradGreen {
+        .good {
           background-color: $goodcl;
+          @include gradient-2p-linear(lighten($goodcl,30%),$goodcl);
+        }
+        .ok {
+          background-color: $okcl;
+          @include gradient-2p-linear(lighten($okcl,30%),$okcl);
+        }
+        .bad {
+          background-color: $badcl;
+          @include gradient-2p-linear(lighten($badcl,30%),$badcl);
         }
       }
       .min {
