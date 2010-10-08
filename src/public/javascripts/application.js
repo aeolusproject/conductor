@@ -58,10 +58,30 @@ var Aggregator = {
       $footer.removeClass('fixed');
     }
   }
-}
+};
+
+/* custom methods */
+(function($){
+  /* add close button to a div */
+  $.fn.enhanceInteraction = function() {
+    var $block = $(this).hide().fadeIn(400);
+    return $block.each(function () {
+      var $message = $("div",this);
+      if ($message.length > 0) {
+        $("ul",$message).addClass('padforicon')
+          .append('<a class="close">')
+          .find('a')
+          .click(function () {
+            $block.hide(200);
+          });
+        }
+    });
+  }
+})(jQuery);
 
 /* Aggregator JS */
 
 $(document).ready(function () {
   $(window).scroll(Aggregator.positionFooter).resize(Aggregator.positionFooter).scroll();
+  $("#notification").enhanceInteraction();
 });
