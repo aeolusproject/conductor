@@ -154,6 +154,7 @@ class TemplatesController < ApplicationController
   def builds
     @running_images = Image.all(:include => :template, :conditions => ['status IN (?)', Image::ACTIVE_STATES])
     @completed_images = Image.all(:include => :template, :conditions => {:status => Image::STATE_COMPLETE})
+    @failed_images = Image.all(:include => :template, :conditions => {:status => Image::STATE_FAILED})
     require_privilege(Privilege::IMAGE_VIEW)
   end
 

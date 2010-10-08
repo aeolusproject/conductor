@@ -53,6 +53,18 @@
               %td= img.template.architecture
               %td= img.status
 
+    - unless @failed_images.empty?
+      %h1 Failed
+      %table
+        = sortable_table_header(columns)
+        %tbody
+          - @failed_images.each do |img|
+            %tr
+              %td= img.template.name
+              %td= img.template.platform
+              %td= img.template.platform_version
+              %td= img.template.architecture
+              %td= img.status
 
     %h1 Completed
     %table
