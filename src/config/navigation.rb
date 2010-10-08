@@ -20,6 +20,7 @@ SimpleNavigation::Configuration.run do |navigation|
           fourth_level.item :edit_user, t(:edit_user), {:controller => 'users', :action => 'edit'},  :highlights_on => /\/users\/edit/
         end
         third_level.item :define_services, t(:permissions), '#'
+        third_level.item :general_settings, t(:general_settings), '#'
       end
       second_level.item :pools_and_zones, t(:pools_and_zones), :controller => 'pools' do |third_level|
         third_level.item :new_pool, t(:new_pool), :controller => 'pools', :action => 'new'

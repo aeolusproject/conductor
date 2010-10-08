@@ -24,6 +24,7 @@ en:
   define_profiles: Define Profiles
   define_locales: Define Locales
   permissions: Permissions
+  general_settings: General Settings
   new_user: New User
   edit_user: Edit User
   pools_and_zones: "Pools & Zones"
