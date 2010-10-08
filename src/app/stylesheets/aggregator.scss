@@ -216,7 +216,7 @@ h5 { font-size: 80%; }
 }
 
 .placeholder { margin-bottom: 2em; }
-.disabled, a[href="#"] { opacity: 0.6; cursor: default !important; }
+.disabled, a[href="#"] { opacity: 0.6; filter: alpha(opacity=60); cursor: default !important; }
 .nomargin { margin: 0; }
 .nowrap { white-space: nowrap; }
 .gap { margin-bottom: 4em; }
