@@ -18,6 +18,10 @@ en:
   manage_providers: Manage Providers
   provider_summary: Provider Summary
   provider_accounts: Provider Accounts
+  scheduling_policies: Scheduling Policies
+  services_provided: Services Provided
+  map_profiles: Map Profiles
+  map_locales: Map Locales
   self_service_settings: Self-service Settings
   manage_users: Manage Users
   define_services: Define Services

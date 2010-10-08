@@ -10,6 +10,10 @@ SimpleNavigation::Configuration.run do |navigation|
         third_level.item :manage_providers, t(:manage_providers), :controller => 'provider' do |fourth_level|
           fourth_level.item :provider_summary, t(:provider_summary), { :controller => 'provider', :action => 'show', :id => (@provider.id if @provider) }, :highlights_on => /\/provider\/(show|edit|new)/
           fourth_level.item :provider_accounts, t(:provider_accounts), { :controller => 'provider', :action => 'accounts', :id => (@provider.id if @provider) }, :highlights_on => /\/provider\/accounts/
+          fourth_level.item :scheduling_policies, t(:scheduling_policies), '#'
+          fourth_level.item :services_provided, t(:services_provided), '#'
+          fourth_level.item :map_profiles, t(:map_profiles), '#'
+          fourth_level.item :map_locales, t(:map_locales), '#'
         end
         #third_level.item :self_service_settings, t(:self_service_settings), :controller => 'settings', :action => 'self_service'
         third_level.item :define_services, t(:define_services), '#'
