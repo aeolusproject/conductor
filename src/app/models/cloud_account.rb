@@ -147,7 +147,7 @@ EOT
   def generate_cloud_account_key
     client = connect
     if client.feature?(:instances, :authentication_key)
-      key = client.create_key(:name => "#{self.id}_#{self.name}")
+      key = client.create_key(:name => "#{self.name}_#{Time.now.to_i}_key")
       InstanceKey.create(:cloud_account => self, :pem => key.pem, :name => key.id) if key
     end
   end
