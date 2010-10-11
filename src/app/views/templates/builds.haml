@@ -9,7 +9,7 @@
 - form_tag :action => "" do
   .actionsidebar.grid_3
     %dl
-      %dt Grind Job Actions
+      %dt Build Job Actions
       %dd
         %h5 JOB QUEUE
         %ul
@@ -28,11 +28,11 @@
         %span.good
         Green
 
-      %label.grid_4.alpha Total Grind in Queue:
+      %label.grid_4.alpha Total Builds in Queue:
       .grid_3.suffix_6.omega
         = @running_images.size
 
-      %label.grid_4.alpha Number of VM's Grinding:
+      %label.grid_4.alpha Number of VM's Building:
       .grid_3.suffix_6.omega
         = @running_images.select {|i| i.status == Image::STATE_BUILDING}.size
 
