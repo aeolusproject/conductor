@@ -133,7 +133,7 @@ fi
 %{__ln_s} %{_sysconfdir}/%{name}/development.rb %{buildroot}%{app_root}/config/environments
 %{__ln_s} %{_sysconfdir}/%{name}/production.rb %{buildroot}%{app_root}/config/environments
 %{__ln_s} %{_sysconfdir}/%{name}/test.rb %{buildroot}%{app_root}/config/environments
-%{__mkdir} %{buildroot}%{app_root}/config/image_descriptor_xmls
+%{__mkdir} -p %{buildroot}%{app_root}/config/image_descriptor_xmls
 
 # Creating these files now to make sure the logfiles will be owned
 # by dcloud:dcloud. This is a temporary workaround while we've still
