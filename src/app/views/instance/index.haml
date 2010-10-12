@@ -24,19 +24,39 @@
       %dd
         %h5 Control Instances
         %ul
-          %li.delete
+          %li.start.disabled
+            %span
+            = submit_tag "Start", :name => "start", :class => "icon", :disabled => true
+          %li.stop.disabled
+            %span
+            = submit_tag "Stop", :name => "stop", :class => "icon", :disabled => true
+          %li.restart.disabled
+            %span
+            = submit_tag "Restart", :name => "restart", :class => "icon", :disabled => true
+          %li.shutdown
             %span
             = submit_tag "Shutdown", :name => "shutdown", :class => "icon"
-
+          %li.console.disabled
+            %span
+            = submit_tag "Console Access", :name => "console_access", :class => "icon", :disabled => true
+          %li.VD.disabled
+            %span
+            = submit_tag "Virtual Desktop", :name => "vd", :class => "icon", :disabled => true
       %dd
         %h5 Manage Instances
         %ul
+          %li.snapshot.disabled
+            %span
+            = submit_tag "Create Snapshot", :name => "snapshot", :class => "icon", :disabled => true
+          %li.grantaccess.disabled
+            %span
+            = submit_tag "Grant Access", :name => "grantaccess", :class => "icon", :disabled => true
           %li.info
             %span
             = submit_tag "Instance Details", :name => "instance_details", :class => "icon"
-          %li.delete
+          %li.request_help.disabled
             %span
-            = submit_tag "Remove Failed", :name => "remove_failed", :class => "icon"
+            = submit_tag "Request Help", :name => "request_help", :class => "icon", :disabled => true
 
   .grid_13
     %h2 Pool Status
