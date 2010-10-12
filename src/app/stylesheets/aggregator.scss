@@ -732,11 +732,17 @@ nav {
 
   /* color coding for the subnav */
   #operation .subnav { background-color: $operationbg; }
+  #operation nav>ul>li>ul>li>a.selected { color: $operationbg; }
   #administration .subnav,
   #system_settings .subnav,
   #loginpage .subnav { background-color: $administrationbg; }
+  #administration nav>ul>li>ul>li>a.selected,
+    #system_settings nav>ul>li>ul>li>a.selected,
+    #loginpage nav>ul>li>ul>li>a.selected { color: $administrationbg; }
   #build .subnav { background-color: $buildbg; }
+  #build nav>ul>li>ul>li>a.selected { color: $buildbg; }
   #runtime .subnav { background-color: $runtimebg; }
+  #runtime nav>ul>li>ul>li>a.selected { color: $runtimebg; }
     #operation .subnav>ul>li a.selected { background: url(../../images/selected-subnav-op.png) no-repeat bottom center; }
     #administration .subnav>ul>li a.selected,
     #system_settings .subnav>ul>li a.selected,
