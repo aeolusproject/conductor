@@ -118,5 +118,5 @@ var Aggregator = {
 
 $(document).ready(function () {
   $(window).scroll(Aggregator.positionFooter).resize(Aggregator.positionFooter).scroll();
-  $("#notification").enhanceInteraction().change();
+  $("#notification").enhanceInteraction();
 });
