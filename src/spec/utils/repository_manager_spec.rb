@@ -39,12 +39,6 @@ describe RepositoryManager do
       "JBoss Social Networking Web Application"]
   end
 
-  it "should return a list of packages" do
-    rep = @rmanager.repositories.first
-    rep.packages.map {|p| p[:name]}.sort.should == ["J-SocialNet", "JSDoc",
-      "drools-guvnor", "jboss-as5", "jboss-jgroups", "jboss-rails"]
-  end
-
   it "should raise exception when downloading of repomd fails" do
     @rmanager = RepositoryManager.new(:config => [{
       'baseurl' => 'http://nonexisting.repo/',
