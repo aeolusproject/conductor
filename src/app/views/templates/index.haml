@@ -4,16 +4,16 @@
       %dt Actions
       %dd
         %h5 Show
-        %ul
+        %ul.filters
           %li
-            = check_box_tag 'views[]', 'templates', true, :disabled => true
-            = label_tag 'views[]', 'Templates'
+            = check_box_tag 'templates', 'templates', true, :disabled => true
+            = label_tag 'templates', 'Templates'
           %li
-            = check_box_tag 'views[]', 'assemblies', true, :disabled => true
-            = label_tag 'views[]', 'Assemblies'
+            = check_box_tag 'assemblies', 'assemblies', true, :disabled => true
+            = label_tag 'assemblies', 'Assemblies'
           %li
-            = check_box_tag 'views[]', 'deployables', true, :disabled => true
-            = label_tag 'views[]', 'Deployables'
+            = check_box_tag 'deployables', 'deployables', true, :disabled => true
+            = label_tag 'deployables', 'Deployables'
 
       %dd
         %h5 Manage
@@ -50,16 +50,29 @@
             = submit_tag "Deployment def.", :name => "deployment_definition", :class => "icon"
 
   #tables.grid_13
-    %h3 Templates
-    = render :partial => 'templates'
+    .templates
+      %h3 Templates
+      = render :partial => 'templates'
 
-    %h3 Assembly
-    = render :partial => 'templates'
+    .assemblies
+      %h3 Assemblies
+      = render :partial => 'templates'
 
-    %h3 Deployment Definitions
-    = render :partial => 'templates'
+    .deployables
+      %h3 Deployables
+      = render :partial => 'templates'
 
 :javascript
   $(document).ready(function () {
+    var $filters = $('.filters input');
     $("#tables input[type='checkbox']").buttonSensitivity().change();
+    $filters.removeAttr("disabled").change(function () {
+      $filters.each(function () {
+        if ($(this).filter(':checked').length) {
+          $("."+this.id).show(200);
+        } else {
+          $("."+this.id).hide(200);
+        }
+      });
+    }).change();
   });
