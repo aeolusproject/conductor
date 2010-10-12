@@ -19,11 +19,11 @@
         %tr
           %td= check_box_tag 'ids[]', tpl.id
           %td
-            %img{:src => "/images/blnk.png", :alt => tpl.platform, :class => "icon platform #{tpl.platform}" }
+            = image_tag "blnk.png", :alt => tpl.platform, :class => "icon platform #{tpl.platform}"
             = tpl.name
           %td= tpl.platform
           %td= tpl.platform_version
           %td
-            %img{:src => '/images/blnk.png', :alt => 'yes', :class => "icon yes"}
+            = image_tag 'blnk.png', :alt => 'yes', :class => "icon yes"
           %td= tpl.architecture
           %td= tpl.images.size

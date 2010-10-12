@@ -21,7 +21,7 @@ input,textarea {
   @include inset-box-shadow(0,1px,1px,rgba(0, 0, 0, 0.2));
   border: 1px solid darken($strokecl,20%);
   background-color: #f0f0f0;
-  background: #f0f0f0 url(/images/input-bg.png) repeat-x 0 0;
+  background: #f0f0f0 url(../../images/input-bg.png) repeat-x 0 0;
   padding: 4px;
   margin: 0;
   &:focus {
@@ -250,10 +250,10 @@ table {
       border-right: 1px dotted darken($strokecl,20%);
       &.active {
         &.desc {
-          background: #fff url(/images/order-desc.png) no-repeat center right;
+          background: #fff url(../../images/order-desc.png) no-repeat center right;
         }
         &.asc {
-          background: #fff url(/images/order-asc.png) no-repeat center right;
+          background: #fff url(../../images/order-asc.png) no-repeat center right;
         }
       }
       a, a:hover, a:active {
@@ -310,13 +310,13 @@ table {
         }
       }
       .min {
-        background: url(/images/arrow-min.png) no-repeat top center;
+        background: url(../../images/arrow-min.png) no-repeat top center;
         float:left;
         padding-top:5px;
         width:50px;
       }
       .max {
-        background: url(/images/arrow-max.png) no-repeat top center;
+        background: url(../../images/arrow-max.png) no-repeat top center;
         float:left;
         padding-top:5px;
         width:50px;
@@ -329,12 +329,12 @@ table {
 }
 
 .action {
-  background: url(/images/icons/action-icons.png) no-repeat 0 0;
+  background: url(../../images/icons/action-icons.png) no-repeat 0 0;
   &:hover {
-    background: url(/images/icons/action-icons.png) no-repeat 0 0;
+    background: url(../../images/icons/action-icons.png) no-repeat 0 0;
   }
   &:active {
-    background: url(/images/icons/action-icons.png) no-repeat 0 0;
+    background: url(../../images/icons/action-icons.png) no-repeat 0 0;
   }
 }
 
@@ -361,7 +361,7 @@ table {
       display: block;
       padding: 4px 4px 4px 20px;
       &.selected {
-        background: url("/images/actionsidebar-bullet.png") no-repeat left center;
+        background: url("../../images/actionsidebar-bullet.png") no-repeat left center;
         font-weight: bold;
         color: $dcprimary;
       }
@@ -403,7 +403,7 @@ table {
           position: absolute;
           width: 16px; height: 16px;
           left: 0; top: 50%; margin-top: -8px;
-          background: url(/images/icons/action-icons.png) no-repeat 0 0;
+          background: url(../../images/icons/action-icons.png) no-repeat 0 0;
   }
   .edit span { background-position: -16px 0;}
   .delete span { background-position: -32px 0;}
@@ -421,14 +421,14 @@ table {
 img.icon {
   width: 16px; height: 16px;
   vertical-align: middle;
-  background: url(/images/icons/statusicons.png) no-repeat 0 0;
+  background: url(../../images/icons/statusicons.png) no-repeat 0 0;
   &.large {
     width: 48px; height: 16px;
   }
   &.yes { background-position: -16px 0; }
   &.no { background-position: -32px 0; }
   &.platform {
-    background: url(/images/icons/platformicons.png) no-repeat 0 0;
+    background: url(../../images/icons/platformicons.png) no-repeat 0 0;
     &.rhel {
       background-position: 0 0;
     }
@@ -462,7 +462,7 @@ img.icon {
     position: absolute;
     width: 16px; height: 16px;
     top: 0; right: 0;
-    background: url(/images/icons/close.png) no-repeat 0 0;
+    background: url(../../images/icons/close.png) no-repeat 0 0;
     cursor: pointer;
   }
 }
@@ -488,7 +488,7 @@ ul.block {
       color: #fff;
       margin: 2px 0 0;
       padding: 6px 0 4px 54px;
-      background: url(/images/rh_logo.png) no-repeat 10px center;
+      background: url(../../images/rh_logo.png) no-repeat 10px center;
       position: relative;
       float: left;
       img.dc {
@@ -517,7 +517,7 @@ ul.block {
 }
 
 #subheader {
-  background: lighten($headerbg,50%) url(/images/subheader-shade.png) repeat-x 0 0;
+  background: lighten($headerbg,50%) url(../../images/subheader-shade.png) repeat-x 0 0;
   position: relative;
   min-height: 130px;
   #s {
@@ -651,7 +651,7 @@ nav {
       cursor: pointer;
       width: 48px; height: 37px;
       margin: 20px 0 0;
-      background: url(/images/help-bubble.png) no-repeat 0 0;
+      background: url(../../images/help-bubble.png) no-repeat 0 0;
       text-align: center;
       padding: 8px 0 0;
     }
@@ -662,7 +662,7 @@ nav {
 
   &.subnav { /* subnavigation */
     position: relative;
-    background: #888 url(/images/subnav-bg.png) repeat-x 0 0; /* fallback */
+    background: #888 url(../../images/subnav-bg.png) repeat-x 0 0; /* fallback */
     border-top: 3px solid #fff;
     border-bottom: 1px solid #666;
     overflow: visible;
@@ -689,7 +689,7 @@ nav {
           &.selected {
             @include text-shadow(0,2px,2px,rgba(0,0,0,0.9));
             height: 30px;
-            background: url(/images/selected-subnav.png) no-repeat bottom center;
+            background: url(../../images/selected-subnav.png) no-repeat bottom center;
           }
         }
       }
@@ -733,17 +733,17 @@ nav {
   #loginpage .subnav { background-color: $administrationbg; }
   #build .subnav { background-color: $buildbg; }
   #runtime .subnav { background-color: $runtimebg; }
-    #operation .subnav>ul>li a.selected { background: url(/images/selected-subnav-op.png) no-repeat bottom center; }
+    #operation .subnav>ul>li a.selected { background: url(../../images/selected-subnav-op.png) no-repeat bottom center; }
     #administration .subnav>ul>li a.selected,
     #system_settings .subnav>ul>li a.selected,
     #loginpage .subnav>ul>li a.selected
-     { background: url(/images/selected-subnav-ad.png) no-repeat bottom center; }
-    #build .subnav>ul>li a.selected { background: url(/images/selected-subnav-bu.png) no-repeat bottom center; }
-    #runtime .subnav>ul>li a.selected { background: url(/images/selected-subnav-ru.png) no-repeat bottom center; }
+     { background: url(../../images/selected-subnav-ad.png) no-repeat bottom center; }
+    #build .subnav>ul>li a.selected { background: url(../../images/selected-subnav-bu.png) no-repeat bottom center; }
+    #runtime .subnav>ul>li a.selected { background: url(../../images/selected-subnav-ru.png) no-repeat bottom center; }
 
 /* image backgrounds for tabs */
 li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
-  background: #ddd url(/images/tab-bg.png) repeat-x 0 0;
+  background: #ddd url(../../images/tab-bg.png) repeat-x 0 0;
 }
   li.operation.selected>ul { background-position: 0 -140px; }
   li.operation>ul { background-position: 0 -210px; }
@@ -892,7 +892,7 @@ ul.tiles {
     position: relative;
     img {
       position: absolute;
-      background: url(/images/icons/config-icons.png) no-repeat 0 0;
+      background: url(../../images/icons/config-icons.png) no-repeat 0 0;
       width: 48px; height: 48px;
       top: 0; left: 0;
     }
@@ -958,7 +958,7 @@ ul.tiles {
 .graphkey {
   li {
     padding: 2px 4px 2px 32px;
-    background: url(/images/graph-key.png) no-repeat 0 0;
+    background: url(../../images/graph-key.png) no-repeat 0 0;
     height: 18px; overflow: hidden;
   }
   .instances { background-position: 0 0; }
@@ -973,7 +973,7 @@ footer {
   margin: 10px 0 0;
   padding: 10px;
   display: block;
-  background: $footerbg url(/images/footer-shade.png) repeat-x 0 0;
+  background: $footerbg url(../../images/footer-shade.png) repeat-x 0 0;
   ul {
     display: block;
     padding: 10px 10px 0 0;
@@ -1019,7 +1019,7 @@ footer {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background: url(/images/icons/status.png) no-repeat 0 0;
+    background: url(../../images/icons/status.png) no-repeat 0 0;
     &.good {
       background-position: 0 0;
     }
@@ -1065,7 +1065,7 @@ a.iconbutton {
     height: 54px;
     left: 0; top: 50%;
     margin-top: -27px;
-    background: url(/images/icons/launchinstance.png) no-repeat 0 0;
+    background: url(../../images/icons/launchinstance.png) no-repeat 0 0;
   }
 }
 
@@ -1084,14 +1084,14 @@ a.iconbutton {
     &.loading {
       display: block;
       height: 100px;
-      background: url(/images/spinner.gif) no-repeat center center;
+      background: url(../../images/spinner.gif) no-repeat center center;
     }
     &>.grid_16 {
       margin: 0;
     }
   }
   span.loading {
-    background: url(/images/spinner.gif) no-repeat center left;
+    background: url(../../images/spinner.gif) no-repeat center left;
     display: inline-block;
     padding: 6px 0 6px 24px;
   }
@@ -1178,5 +1178,5 @@ a.iconbutton {
   left: 50%;
   width: 1020px;
   margin-left: -510px;
-  background: url(/images/960.png) repeat-y top center;
+  background: url(../../images/960.png) repeat-y top center;
 }

@@ -6,7 +6,7 @@
       - form_tag(:action => 'configure') do
         = hidden_field :instance, :template_id, :value => tpl.id
         = hidden_field :instance, :pool_id, :value => @instance.pool.id
-        %img{:src => "/images/platform_#{tpl.platform}.png", :width => '32px', :height => '32px', :alt => tpl.platform}
+        = image_tag "platform_#{tpl.platform}.png", :size => "32x32", :alt => tml.platform
         %h3= tpl.name
         %p= tpl.summary
         %p
