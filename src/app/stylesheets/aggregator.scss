@@ -416,6 +416,16 @@ table {
   .build span { background-position: -64px 0;}
   .add span { background-position: -48px 0;}
   .clear span { background-position: -160px 0;}
+  .start span { background-position: -176px 0;}
+  .stop span { background-position: -192px 0;}
+  .snapshot span { background-position: -208px 0;}
+  .grantaccess span { background-position: -224px 0;}
+  .request_help span { background-position: -240px 0;}
+  .info span { background-position: -256px 0;}
+  .restart span { background-position: -272px 0;}
+  .shutdown span { background-position: -288px 0;}
+  .console span { background-position: -304px 0;}
+  .VD span { background-position: -320px 0;}
   label {
     font-weight: normal;
   }
