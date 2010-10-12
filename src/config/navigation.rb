@@ -15,7 +15,6 @@ SimpleNavigation::Configuration.run do |navigation|
           fourth_level.item :map_profiles, t(:map_profiles), '#'
           fourth_level.item :map_locales, t(:map_locales), '#'
         end
-        #third_level.item :self_service_settings, t(:self_service_settings), :controller => 'settings', :action => 'self_service'
         third_level.item :define_services, t(:define_services), '#'
         third_level.item :define_services, t(:define_profiles), '#'
         third_level.item :define_services, t(:define_locales), '#'
@@ -26,10 +25,7 @@ SimpleNavigation::Configuration.run do |navigation|
         third_level.item :define_services, t(:permissions), '#'
         third_level.item :general_settings, t(:general_settings), '#'
       end
-      second_level.item :pools_and_zones, t(:pools_and_zones), :controller => 'pools' do |third_level|
-        third_level.item :new_pool, t(:new_pool), :controller => 'pools', :action => 'new'
-        third_level.item :edit_pool, t(:edit_pool), :controller => 'pools', :action => 'edit'
-      end
+      second_level.item :pools_and_zones, t(:pools_and_zones), {:controller => 'pools'}, :highlights_on => /\/pools/
       second_level.item :audit_report, t(:audit_report), '#', :class => 'disabled'
       second_level.item :assistance_requests, t(:assistance_requests), '#', :class => 'disabled'
     end

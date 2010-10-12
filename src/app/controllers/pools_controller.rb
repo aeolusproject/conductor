@@ -109,6 +109,22 @@ class PoolsController < ApplicationController
     redirect_to :action => 'show', :id => @pool.id
   end
 
+  def manage_pool
+    type = params[:commit]
+    pool_id = params[:pool_checkbox]
+    if type && Pool.exists?(pool_id)
+      if type == "edit"
+        redirect_to :action => 'edit', :id => pool_id
+      elsif type == "delete"
+        params[:id] = pool_id
+        destroy
+      end
+    else
+      flash[:notice] = "Error performing this operation"
+      redirect_to pool_path
+    end
+  end
+
   def delete
   end
 
