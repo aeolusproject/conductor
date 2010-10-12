@@ -47,17 +47,6 @@ class RepositoryManager
     return @all_groups
   end
 
-  def all_packages(repository = nil)
-    unless @all_packages
-      @all_packages = []
-      repositories.each do |r|
-        next if repository and repository != 'all' and repository != r.id
-        @all_packages += r.packages
-      end
-    end
-    return @all_packages
-  end
-
   def all_groups_with_tagged_selected_packages(pkgs, repository = nil)
     groups = all_groups(repository)
     groups.each_value do |group|

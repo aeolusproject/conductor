@@ -2,13 +2,14 @@
   $(document).ready(function() {
     var $container = $('#package_selection_list'),
     $submit = $('#add_software_button');
-    $submit.click(function(e) {
-      var list_url = '#{url_for :action => 'create', :ajax => true, :add_software_form => true}';
-      var list_data = {'tpl[id]': $("input[name='tpl[id]']").val() || ''};
+    $submit.click(function(e, show_all) {
+      var list_url = '#{url_for :action => 'create', :add_software_form => true}';
+      var list_all_url = '#{url_for :action => 'create', :add_software_form => true, :show_unsorted => true}';
+      var list_data = {'tpl[id]': $("input[name='tpl[id]']").val() || '', ajax: true};
       e.preventDefault();
       $(this).hide();
       $container.empty().show().addClass('loading');
-      $container.load(list_url, list_data, function() {
+      $container.load(show_all ? list_all_url : list_url, list_data, function() {
         $container.removeClass('loading');
         $('#do_add_software').click(function(e) {
           var url = '#{url_for :action => 'add_software', :ajax => true, :add_selected => true}';
@@ -23,6 +24,10 @@
             $container.hide();
             $submit.show();
           });
+        });
+        $('#switch_all_link').click(function(e) {
+          e.preventDefault();
+          $submit.trigger('click', [true]);
         });
         $('#cancel_add_software').click(function(e) {
           e.preventDefault();

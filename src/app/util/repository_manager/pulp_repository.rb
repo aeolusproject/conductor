@@ -29,20 +29,7 @@ class PulpRepository < AbstractRepository
 
   def initialize(conf)
     super
-    @packages_url = File.join(strip_path(@baseurl), conf['packages'])
     @groups_url = File.join(strip_path(@baseurl), conf['packagegroups'])
-  end
-
-  def packages
-    packages = []
-    WrappedRestClient.get(@packages_url, HTTP_OPTS).each_value do |info|
-      packages << {
-        :repository_id => @id,
-        :name => info['name'],
-        :description => info['description'],
-      }
-    end
-    return packages
   end
 
   def groups
