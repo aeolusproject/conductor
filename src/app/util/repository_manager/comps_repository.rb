@@ -5,113 +5,108 @@ class CompsRepository < AbstractRepository
   def initialize(conf)
     super
     @baseurl = conf['baseurl']
-  end
-
-  def packages
-    packages = []
-    get_packages_nodes.each do |node|
-      name = node.at_xpath('./xmlns:name/child::text()')
-      group = node.at_xpath('./xmlns:format/rpm:group/child::text()')
-      description = node.at_xpath('./xmlns:description/child::text()')
-      next unless name and group
-      packages << {
-        :repository_id => @id,
-        :name => name.text,
-        :description => description ? description.text : '',
-      }
-    end
-    return packages
+    @cache_dir = "#{RAILS_ROOT}/config/image_descriptor_xmls"
+    @cache_file = File.join(@cache_dir, "#{@id}.data")
+    @repomd_url = File.join(@baseurl, 'repodata', 'repomd.xml')
   end
 
   def groups
-    groups = {}
-    get_groups_nodes.each do |g|
-      pkgs = get_group_packages(g)
-      next if pkgs.empty?
-      name = g.at_xpath('name').text
-      groups[name] = {
-        :name => name,
-        :description => (t = g.at_xpath('description')) ? t.text : '',
-        :repository_id => @id,
-        :packages => pkgs,
-      }
+    begin
+      @groups ||= Marshal.load(File.open(@cache_file, 'r'))
+    rescue Errno::ENOENT
+      raise "failed to read cached packages info, run 'rake dc:prepare_repos'"
     end
-    return groups
   end
 
-  def download_xml(type)
-    begin
-      url = get_url(type)
-    rescue
-      return ''
+  def prepare_repo
+    grps = {}
+    @all_pkgs = pkg_names
+    group_nodes.each do |g|
+      pkgs = group_packages(g)
+      next if pkgs.empty?
+      name = g.at_xpath('name').text
+      grps[name] = {
+        :name => name,
+        :repository_id => @id,
+        :packages => pkgs
+      }
     end
 
-    xml_data = open(url)
-    if url =~ /\.gz$/
-      return Zlib::GzipReader.new(xml_data).read
-    else
-      return xml_data.read
+    other = {}
+    @all_pkgs.each do |pkg, val|
+      other[pkg] = {:type => 'optional'} if val != :listed
     end
+    if other.size > 0
+      name = 'unsorted'
+      grps[name]  = {
+        :name => name,
+        :repository_id => @id,
+        :packages => other
+      }
+    end
+
+    Dir.mkdir(@cache_dir) unless File.directory?(@cache_dir)
+    Marshal.dump(grps, File.open(@cache_file, 'w'))
   end
 
   private
 
-  def get_xml(type)
-    # FIXME: I'm not sure config is right dir for automatic storing of
-    # xml files, but this should be temporary solution until Image Repo is
-    # done
-    xml_dir = "#{RAILS_ROOT}/config/image_descriptor_xmls"
-    xml_file = "#{xml_dir}/#{@id}.#{type}.xml"
-    begin
-      return File.open(xml_file) { |f| f.read }
-    rescue
-      xml = download_xml(type)
-      Dir.mkdir(xml_dir) unless File.directory?(xml_dir)
-      File.open(xml_file, 'w') { |f| f.write xml }
-      return xml
-    end
+  def group_nodes
+    return [] unless data = group_xml
+    xml = Nokogiri::XML(data)
+    xml.xpath('/comps/group')
   end
 
-  def get_group_packages(group_node)
+  def pkg_names
     pkgs = {}
-    group_node.xpath('packagelist/packagereq').each do |p|
-      (pkgs[p.text] ||= {})[:type] = p.attr('type')
+    xml = Nokogiri::XML(primary_xml)
+    xml.xpath('/xmlns:metadata/xmlns:package').each do |node|
+      next unless name = node.at_xpath('./xmlns:name/child::text()')
+      pkgs[name.text] = true
     end
     return pkgs
   end
 
-  def get_packages_nodes
-    unless @packages_nodes
-      data = get_xml('primary')
-      xml = Nokogiri::XML(data)
-      @packages_nodes = xml.xpath('/xmlns:metadata/xmlns:package')
+  def download_xml(url)
+    resp = Typhoeus::Request.get(url, :timeout => 30000, :follow_location => true, :max_redirects => 3)
+    unless resp.code == 200
+      raise "failed to fetch #{url}: #{resp.body}"
     end
-    return @packages_nodes
-  end
-
-  def get_groups_nodes
-    unless @groups_nodes
-      data = get_xml('group')
-      xml = Nokogiri::XML(data)
-      @groups_nodes = xml.xpath('/comps/group')
-    end
-    return @groups_nodes
-  end
-
-  def get_url(type)
-    if type == 'repomd'
-      return File.join(@baseurl, 'repodata', 'repomd.xml')
+    if url =~ /\.gz$/
+      return Zlib::GzipReader.new(StringIO.new(resp.body)).read
     else
-      location = repomd.xpath("/xmlns:repomd/xmlns:data[@type=\"#{type}\"]/xmlns:location").first
-      raise "location for #{type} data not found" unless location
-      return File.join(@baseurl, location['href'])
+      return resp.body
     end
   end
 
   def repomd
-    unless @repomd
-      @repomd = Nokogiri::XML(get_xml('repomd'))
+    @repomd ||= Nokogiri::XML(download_xml(@repomd_url))
+  end
+
+  def primary_xml
+    unless primary = repomd.xpath("/xmlns:repomd/xmlns:data[@type=\"primary\"]/xmlns:location").first
+      raise "there is no 'primary' info in the repomd.xml (#{@repomd_url})"
     end
-    return @repomd
+    download_xml(File.join(@baseurl, primary['href']))
+  end
+
+  def group_xml
+    # we don't raise exception if group is missing - group is not required
+    if group = repomd.xpath("/xmlns:repomd/xmlns:data[@type=\"group\"]/xmlns:location").first
+      download_xml(File.join(@baseurl, group['href']))
+    else
+      nil
+    end
+  end
+
+  def group_packages(group_node)
+    pkgs = {}
+    group_node.xpath('packagelist/packagereq').each do |p|
+      pkg_name = p.text
+      next unless val = @all_pkgs[pkg_name]
+      val = :listed
+      (pkgs[pkg_name] ||= {})[:type] = p.attr('type')
+    end
+    return pkgs
   end
 end
