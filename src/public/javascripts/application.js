@@ -79,28 +79,34 @@ var Aggregator = {
   };
   $.fn.buttonSensitivity = function () {
     var $checkboxes = $(this),
-      $edit = $('.edit'),
-      $delete = $('.delete'),
-      $rename = $('.rename'),
-      $copy = $('.copy'),
-      $build = $('.build');
+      $edit = $('.actionsidebar .edit'),
+      $delete = $('.actionsidebar .delete'),
+      $rename = $('.actionsidebar .rename'),
+      $copy = $('.actionsidebar .copy'),
+      $build = $('.actionsidebar .build');
     return $checkboxes.change(function () {
       var $checked = $checkboxes.filter(':checked');
       if ($checked.length === 0) {
-        //disable the edit and delete action if there is none
+        //disable the build, edit and delete action if there is none selected
+        $build.addClass("disabled");
         $edit.addClass("disabled");
         $delete.addClass("disabled");
+        $("input", $build).attr("disabled","disabled");
         $("input", $edit).attr("disabled","disabled");
         $("input", $delete).attr("disabled","disabled");
       } else if ($checked.length > 1) {
-        //disable the edit if there is more than one
+        //disable the build and edit if there is more than one
         $edit.addClass("disabled");
+        $build.addClass("disabled");
         $delete.removeClass("disabled");
+        $("input", $build).attr("disabled","disabled");
         $("input", $edit).attr("disabled","disabled");
         $("input", $delete).removeAttr("disabled");
       } else {
+        $("input", $build).removeAttr("disabled");
         $("input", $edit).removeAttr("disabled");
         $("input", $delete).removeAttr("disabled");
+        $build.removeClass("disabled");
         $edit.removeClass("disabled");
         $delete.removeClass("disabled");
       }
