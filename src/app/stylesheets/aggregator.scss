@@ -226,6 +226,10 @@ h5 { font-size: 80%; }
   position: relative;
 }
 .pointercursor { cursor: pointer; }
+.nospace {
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
 div,section,fieldset {
   display: block;
@@ -1163,11 +1167,6 @@ a.iconbutton {
       color: #fff;
     }
   }
-}
-
-.nospace {
-  margin: 0 !important;
-  padding: 0 !important;
 }
 
 /* DEBUG GRID */
