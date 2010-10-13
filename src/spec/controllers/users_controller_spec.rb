@@ -47,7 +47,7 @@ describe UsersController do
                                    :password_confirmation => "testpass" }
         }.should change{ User.count }
         user = User.find(:first, :conditions => ['login = ?', "tuser2"])
-        response.should redirect_to(user_url(user))
+        response.should redirect_to(users_url)
       end
 
       it "fails to create pool" do
@@ -79,7 +79,7 @@ describe UsersController do
                                :password_confirmation => "testpass" }
     }.should change{ User.count }
     user = User.find(:first, :conditions => ['login = ?', "tuser3"])
-    response.should redirect_to(user_url(user))
+    response.should redirect_to(users_url)
   end
 
   it "should not allow a regular user to create user" do
@@ -106,7 +106,7 @@ describe UsersController do
   test "should update user" do
     UserSession.create(@tuser)
     put :update, :id => @tuser.id, :user => { }, :save =>'true'
-    response.should redirect_to(account_path)
+    response.should redirect_to(users_path)
   end
 
   # checks whether proper error template is rendered when an exception raises
