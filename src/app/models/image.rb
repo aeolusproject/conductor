@@ -47,6 +47,7 @@ class Image < ActiveRecord::Base
   STATE_FAILED = 'failed'
 
   ACTIVE_STATES = [ STATE_QUEUED, STATE_CREATED, STATE_BUILDING ]
+  INACTIVE_STATES = [STATE_COMPLETE, STATE_FAILED, STATE_CANCELED]
 
   def self.new_if_not_exists(data)
     unless find_by_template_id(data[:template_id], :conditions => {:target => data[:target]})
