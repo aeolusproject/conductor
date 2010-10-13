@@ -13,6 +13,7 @@ class Template < ActiveRecord::Base
   # so there can be situation when save is called and name and platform can be
   # unset)
   validates_presence_of :name
+  validates_uniqueness_of :name
   validates_presence_of :platform
   validates_presence_of :platform_version
   validates_presence_of :architecture
