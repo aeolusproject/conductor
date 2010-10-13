@@ -100,7 +100,7 @@ class ImageBuilderService
 
   def check_for_queued
     queue = Image.find(:all, :conditions => {:status => Image::STATE_QUEUED})
-    cur_builds = Image.find(:all, :conditions => "build_id IS NOT NULL AND status != 'complete'")
+    cur_builds = Image.find(:all, :conditions => {:status => Image::ACTIVE_STATES})
     if queue.size > 0 || cur_builds.size > 0
       @log.debug "========================================"
       @log.debug "Queued Builds: " + queue.size.to_s
@@ -205,7 +205,7 @@ class ImageBuilderService
         @log.debug "Status for target " + ab[:build].target + ": " + cur_status
         @log.debug "Builds in array: " + check_build_num.to_s
         @log.debug "========================================"
-        cur_status.eql?("complete")
+        Image::INACTIVE_STATES.include?(cur_status)
       end
       sleep @timeout
 
