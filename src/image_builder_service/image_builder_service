@@ -107,7 +107,7 @@ class ImageBuilderService
       @log.debug "All Incomplete Builds: " + cur_builds.size.to_s
       @log.debug "========================================"
     end
-    cur_builds.size > queue.size ? find_orphaned(cur_builds) :
+    find_orphaned(cur_builds) if cur_builds.size > queue.size
     queue.each {|t|
       build(t)
     }
@@ -141,7 +141,7 @@ class ImageBuilderService
 
   def find_orphaned(cur_builds)
     cur_builds.delete_if do |b|
-      @activebuilds.size == 0 ? break :
+      break if @activebuilds.size == 0
       @activebuilds.each do |ab|
         b.build_id.eql?(ab[:build_id])
       end
