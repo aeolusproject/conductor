@@ -166,7 +166,9 @@ class TemplatesController < ApplicationController
   end
 
   def delete
-    Template.destroy(params[:ids].to_a)
+    ids = params[:ids].to_a
+    raise "No Template Selected" if ids.empty?
+    Template.destroy(ids)
     redirect_to :action => 'index'
   end
 
@@ -186,7 +188,7 @@ class TemplatesController < ApplicationController
   def get_selected_id
     ids = params[:ids].to_a
     if ids.size != 1
-      raise "No template is selected" if ids.empty?
+      raise "No Template Selected" if ids.empty?
       raise "You can select only one template" if ids.size > 1
     end
     return ids.first
