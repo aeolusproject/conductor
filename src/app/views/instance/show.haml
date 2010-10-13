@@ -5,6 +5,9 @@
       = label_tag :name, 'Name'
       %span= @instance.name
     %li
+      = label_tag :status, 'Status'
+      %span= @instance.state
+    %li
       = label_tag :ip_address, 'IP Address'
       %span= @instance.public_ip_addresses
     %li
@@ -30,7 +33,7 @@
       %span= @instance.created_at.strftime("%d-%b-%Y %H:%M:%S")
     %li
       = label_tag :uptime, 'Uptime'
-      %span= @instance.state == Instance::STATE_RUNNING ? @instance.total_state_time : 0 # returns 0, when instance is not running
+      %span= @instance.total_state_time(@instance.state)
     %li
       = label_tag :current_alerts, 'Current Alerts'
       %span= 0

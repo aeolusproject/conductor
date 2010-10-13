@@ -45,7 +45,7 @@ def condormatic_instance_create(task)
     else
       resource += " NULL"
     end
-    resource += " $$(hardwareprofile_key) NULL\n"
+    resource += " $$(hardwareprofile_key) $$(keypair)\n"
 
     pipe.puts resource
     Rails.logger.info resource
@@ -266,6 +266,7 @@ def condormatic_classads_sync
               pipe.puts "username=\"#{account.username}\""
               pipe.puts "password=\"#{account.password}\""
               pipe.puts "cloud_account_id=\"#{account.id}\""
+              pipe.puts "keypair=\"#{account.instance_key.name}\""
               pipe.close_write
 
               out = pipe.read

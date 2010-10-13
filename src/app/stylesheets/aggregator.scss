@@ -226,6 +226,10 @@ h5 { font-size: 80%; }
   position: relative;
 }
 .pointercursor { cursor: pointer; }
+.nospace {
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
 div,section,fieldset {
   display: block;
@@ -411,6 +415,17 @@ table {
   .copy span { background-position: -48px 0;}
   .build span { background-position: -64px 0;}
   .add span { background-position: -48px 0;}
+  .clear span { background-position: -160px 0;}
+  .start span { background-position: -176px 0;}
+  .stop span { background-position: -192px 0;}
+  .snapshot span { background-position: -208px 0;}
+  .grantaccess span { background-position: -224px 0;}
+  .request_help span { background-position: -240px 0;}
+  .info span { background-position: -256px 0;}
+  .restart span { background-position: -272px 0;}
+  .shutdown span { background-position: -288px 0;}
+  .console span { background-position: -304px 0;}
+  .VD span { background-position: -320px 0;}
   label {
     font-weight: normal;
   }
@@ -728,11 +743,17 @@ nav {
 
   /* color coding for the subnav */
   #operation .subnav { background-color: $operationbg; }
+  #operation nav>ul>li>ul>li>a.selected { color: $operationbg; }
   #administration .subnav,
   #system_settings .subnav,
   #loginpage .subnav { background-color: $administrationbg; }
+  #administration nav>ul>li>ul>li>a.selected,
+    #system_settings nav>ul>li>ul>li>a.selected,
+    #loginpage nav>ul>li>ul>li>a.selected { color: $administrationbg; }
   #build .subnav { background-color: $buildbg; }
+  #build nav>ul>li>ul>li>a.selected { color: $buildbg; }
   #runtime .subnav { background-color: $runtimebg; }
+  #runtime nav>ul>li>ul>li>a.selected { color: $runtimebg; }
     #operation .subnav>ul>li a.selected { background: url(../../images/selected-subnav-op.png) no-repeat bottom center; }
     #administration .subnav>ul>li a.selected,
     #system_settings .subnav>ul>li a.selected,
@@ -1163,11 +1184,6 @@ a.iconbutton {
       color: #fff;
     }
   }
-}
-
-.nospace {
-  margin: 0 !important;
-  padding: 0 !important;
 }
 
 /* DEBUG GRID */

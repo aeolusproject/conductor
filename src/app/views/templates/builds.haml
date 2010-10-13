@@ -13,12 +13,18 @@
       %dd
         %h5 JOB QUEUE
         %ul
+          %li.delete
+            %span
+            = submit_tag "Cancel Job", :name => "job_details", :disabled => true, :class => "icon"
           %li.show
             %span
             = submit_tag "Show Job Details", :name => "job_details", :disabled => true, :class => "icon"
           %li.show
             %span
             = submit_tag "Show Job Log", :name => "job_log", :disabled => true, :class => "icon"
+          %li.clear
+            %span
+            = submit_tag "Clear Job History", :name => "job_history", :disabled => true, :class => "icon"
 
   .grid_13
     %h1 Status

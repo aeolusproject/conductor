@@ -1,10 +1,17 @@
+= form_tag :action => 'manage_pool'
 #pools_nav.grid_3.actionsidebar
   %dl
     %dt
       Pools
+    %dd.edit
+      %span
+      = submit_tag "edit", :class => "submit linkbutton"
+    %dd.delete
+      %span
+      = submit_tag "delete", :class => "submit linkbutton"
     %dd.add
       %span
-      =link_to 'New Pool', :action => :new, :class => "button"
+      =link_to 'new pool', :action => :new, :class => "button"
 
 #details{:class => 'grid_13'}
   %table
@@ -12,7 +19,9 @@
     - @pools.each do |pool|
       %tr
         %td
-          =link_to pool.name, pool_url(pool.id)
+          - is_first_pool = (pool == @pools.first)
+          %input{:checked => is_first_pool, :name => "pool_checkbox", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
+          =link_to pool.name, {:action => 'edit', :id => pool.id}
         %td
           =((pool.quota.maximum_running_instances || 0)/100)*pool.quota.total_instances
           ='%'
@@ -20,3 +29,8 @@
           =pool.quota.total_instances
         %td
           =pool.zone.name
+
+:javascript
+  $(document).ready(function () {
+    $("input[type='checkbox']").buttonSensitivity().change();
+  });
