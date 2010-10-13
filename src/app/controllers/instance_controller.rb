@@ -168,7 +168,6 @@ class InstanceController < ApplicationController
     raise ActionError.new("#{action} cannot be performed on this instance.") unless
       @instance.state == Instance::STATE_ERROR
     condormatic_instance_reset_error(@instance)
-    puts "== Attempting to remove instance #{@instance.name}"
     action
   end
 
