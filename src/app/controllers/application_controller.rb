@@ -36,8 +36,6 @@ class ApplicationController < ActionController::Base
   rescue_from ActionError, :with => :handle_action_error
   rescue_from PartialSuccessError, :with => :handle_partial_success_error
 
-  before_filter :no_cache
-
   def choose_layout
     return nil if params[:ajax]
     if(params[:component_layout])
@@ -231,10 +229,5 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default)
     redirect_to(default || session[:return_to])
     session[:return_to] = nil
-  end
-
-  def no_cache
-    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
-    response.headers["Pragma"] = "no-cache"
   end
 end
