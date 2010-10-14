@@ -63,7 +63,7 @@ describe Provider do
     it "should set valid cloud type" do
       @client.driver_name = @provider.cloud_type
       @provider.cloud_type = nil
-      @provider.set_cloud_type
+      @provider.set_cloud_type!
       @provider.should be_valid
     end
 
