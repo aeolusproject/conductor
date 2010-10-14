@@ -47,7 +47,7 @@ describe UsersController do
                                    :password_confirmation => "testpass" }
         }.should change{ User.count }
         user = User.find(:first, :conditions => ['login = ?', "tuser2"])
-        response.should redirect_to(users_url)
+        response.should redirect_to(dashboard_url)
       end
 
       it "fails to create pool" do
