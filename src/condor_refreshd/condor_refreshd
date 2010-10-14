@@ -31,6 +31,7 @@ help = false
 daemon = true
 refreshd_log_dir = "/var/log/deltacloud-aggregator"
 refreshd_pid_dir = "/var/run/deltacloud-aggregator"
+timeout = 15
 
 optparse = OptionParser.new do |opts|
 
@@ -49,6 +50,9 @@ BANNER
   opts.on( '-n', '--nodaemon', 'Do not daemonize (useful in combination with -l for debugging)') { daemon = false }
   opts.on( '-p', '--port PORT', 'Use PORT (default: 7890)') do |newport|
     port = newport
+  end
+  opts.on( '-t', '--timeout TIMEOUT', 'Automatically refresh classads after TIMEOUT minutes') do |newtime|
+    timeout = newtime
   end
 end
 
@@ -77,7 +81,7 @@ logger.level = Logger::DEBUG
 
 logger.info "Starting condor_refreshd..."
 socket = Socket.new(Socket::AF_INET, Socket::SOCK_DGRAM, 0)
-in_addr = Socket.pack_sockaddr_in(port, '0.0.0.0')
+in_addr = Socket.pack_sockaddr_in(port, '127.0.0.1')
 socket.bind(in_addr)
 
 # daemonize
@@ -94,9 +98,17 @@ begin
 
   while true
     begin
-      packet = socket.recvfrom(1024)
-      logger.info "Doing classad sync"
       condormatic_classads_sync
+      results = select([socket], nil, nil, timeout * 60)
+
+      # if results was nil, we timed out waiting, and we need to do a sync
+      # but not read from the socket
+      if not results.nil? and results[0][0] == socket
+        socket.recvfrom(1024)
+        logger.info "Doing classad sync after getting data from the socket"
+      else
+        logger.info "Doing classad sync after timeout"
+      end
     rescue => e
       logger.error "#{e.backtrace.shift}: #{e.message}"
       e.backtrace.each do |step|
