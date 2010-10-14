@@ -28,9 +28,10 @@
       - if controller.action_name == 'edit':
         = f.hidden_field :id, :value => @provider.id
       .clear.prefix_4.grid_5.suffix_4.alpha.omega
-        %span
+        - if !Provider.exists?(@provider)
+          %span
           (
-          %a{ :href => ''}<>
+          %button.linkbutton.nospace{ :type => 'submit', :value => t('.test_connection'), :name => 'test_connection', :id => 'test_connection' }<>
             = t('.test_connection')
           )
     - unless readonly

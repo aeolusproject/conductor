@@ -31,30 +31,36 @@ class CloudAccountsController < ApplicationController
   def create
     @provider = Provider.find(params[:cloud_account][:provider_id])
     require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
-    if not params[:cloud_account][:x509_cert_priv_file].nil?
+    if params[:cloud_account] && !params[:cloud_account][:x509_cert_priv_file].blank?
       params[:cloud_account][:x509_cert_priv] = params[:cloud_account][:x509_cert_priv_file].read
     end
     params[:cloud_account].delete :x509_cert_priv_file
-    if not params[:cloud_account][:x509_cert_pub_file].nil?
+    if params[:cloud_account] && !params[:cloud_account][:x509_cert_pub_file].blank?
       params[:cloud_account][:x509_cert_pub] = params[:cloud_account][:x509_cert_pub_file].read
     end
     params[:cloud_account].delete :x509_cert_pub_file
     @cloud_account = CloudAccount.new(params[:cloud_account])
-    unless @cloud_account.valid_credentials?
-      flash[:notice] = "The entered credential information is incorrect"
-      redirect_to :controller => "provider", :action => "accounts", :id => @provider
+
+    if params[:test_account]
+      test_account(@cloud_account)
+      redirect_to :controller => "provider", :action => "accounts", :id => @provider, :cloud_account => params[:cloud_account]
     else
-      quota = Quota.new
-      quota.maximum_running_instances = quota_from_string(params[:quota][:maximum_running_instances])
-      quota.save!
-      @cloud_account.quota_id = quota.id
-      @cloud_account.zones << Zone.default
-      @cloud_account.save!
-      if request.post? && @cloud_account.save && @cloud_account.populate_realms
-        flash[:notice] = "Provider account added."
+      unless @cloud_account.valid_credentials?
+        flash[:notice] = "The entered credential information is incorrect"
+        redirect_to :controller => "provider", :action => "accounts", :id => @provider
+      else
+        quota = Quota.new
+        quota.maximum_running_instances = quota_from_string(params[:quota][:maximum_running_instances])
+        quota.save!
+        @cloud_account.quota_id = quota.id
+        @cloud_account.zones << Zone.default
+        @cloud_account.save!
+        if request.post? && @cloud_account.save && @cloud_account.populate_realms
+          flash[:notice] = "Provider account added."
+        end
+        redirect_to :controller => "provider", :action => "accounts", :id => @provider
+        kick_condor
       end
-      redirect_to :controller => "provider", :action => "accounts", :id => @provider
-      kick_condor
     end
   end
 
@@ -126,6 +132,15 @@ class CloudAccountsController < ApplicationController
     redirect_to :controller => 'provider', :action => 'accounts', :id => provider.id
   end
 
+  def test_account(account)
+    if account.valid_credentials?
+      flash[:notice] = "Test Connection Success: Valid Account Details"
+    else
+      flash[:notice] = "Test Connection Failed: Invalid Account Details"
+    end
+  rescue
+    flash[:notice] = "Test Connection Failed: Could not connect to provider"
+  end
   private
 
   def quota_from_string(quota_raw)
