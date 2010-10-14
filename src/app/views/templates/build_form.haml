@@ -48,7 +48,7 @@
     %ul.block
       - @all_targets.each do |target_id, target|
         %li
-        = check_box_tag 'targets[]', target_id, false, :disabled => true
+        = check_box_tag 'targets[]', target_id, false
         = label_tag 'targets[]', target['name']
 
   = submit_tag "Submit to Build", :name => "build"
