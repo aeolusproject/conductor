@@ -33,8 +33,13 @@ class UsersController < ApplicationController
 
     @registration = RegistrationService.new(@user)
     if @registration.save
-      flash[:notice] = "User registered!"
-      redirect_to users_path
+      if @current_user
+        flash[:notice] = "User registered!"
+        redirect_to users_path
+      else
+        flash[:notice] = "You have successfully registered!"
+        redirect_to :dashboard
+      end
     else
       flash[:warning] = "user registration failed: #{@registration.error}"
       render :action => :new
