@@ -55,8 +55,9 @@ class Provider < ActiveRecord::Base
     return self.errors.empty?
   end
 
-  def set_cloud_type
-    self.cloud_type = connect.driver_name
+  def set_cloud_type!
+    deltacloud = connect
+    self.cloud_type = deltacloud.driver_name unless deltacloud.nil?
   end
 
   def connect

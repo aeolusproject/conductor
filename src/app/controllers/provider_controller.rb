@@ -52,12 +52,14 @@ class ProviderController < ApplicationController
 
   def create
     require_privilege(Privilege::PROVIDER_MODIFY)
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
     @provider = Provider.new(params[:provider])
-    if @provider.set_cloud_type && @provider.save &&
-      @provider.populate_hardware_profiles
+    @provider.set_cloud_type!
+    if @provider.save && @provider.populate_hardware_profiles
         flash[:notice] = "Provider added."
         redirect_to :action => "show", :id => @provider
     else
+      flash[:notice] = "Cannot add the provider."
       render :action => "new"
     end
     kick_condor

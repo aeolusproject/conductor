@@ -839,6 +839,17 @@ fieldset.gap {
   margin-bottom: 7em;
 }
 
+.fieldWithErrors {
+  border: 0; margin: 0; padding: 0;
+  overflow: visible;
+  input {
+    background-color: lighten($errorcl, 45%);
+    color: $errorcl;
+  }
+  label {
+    color: $errorcl;
+  }
+}
 /* simple two column label + input pairs */
 .dcloud_form {
   fieldset {
@@ -854,17 +865,6 @@ fieldset.gap {
     input {
       display: inline-block;
       width: 20em;
-    }
-    .fieldWithErrors {
-      display: inline-block;
-      border: 0; margin: 0; padding: 0;
-      input {
-        background-color: lighten($errorcl, 45%);
-        color: $errorcl;
-      }
-      label {
-        color: $errorcl;
-      }
     }
   }
   .indented {
