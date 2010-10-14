@@ -34,8 +34,6 @@ class InstanceController < ApplicationController
   end
 
   def index
-    require_privilege(Privilege::INSTANCE_VIEW)
-
     @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
 
     @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
