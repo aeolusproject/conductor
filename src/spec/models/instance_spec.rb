@@ -84,31 +84,45 @@ describe Instance do
     valid_task.should_not == false
   end
 
-  it "should properly calculate the total time that the instance has been in a monitored state" do
-    instance = Factory :new_instance
+  describe "with time capsule" do
 
-    [ Instance::STATE_PENDING, Instance::STATE_RUNNING, Instance::STATE_SHUTTING_DOWN, Instance::STATE_STOPPED ].each do |s|
-      # Test when instance is still in the same state
-      instance.state = s
-      instance.save
+    before(:each) do
+      Timecop.travel(Time.local(2008, 9, 1, 10, 5, 0, 0, 0))
+    end
 
-      sleep(2)
-      
-      # TODO: Remove this after RHEL5 time issue will be fixed
-      unless ENV['HUDSON_URL']
+    after(:each) do
+      Timecop.return
+    end
+
+    it "should properly calculate the total time that the instance has been in a monitored state" do
+      instance = Factory :new_instance
+
+      [ Instance::STATE_PENDING, Instance::STATE_RUNNING, Instance::STATE_SHUTTING_DOWN, Instance::STATE_STOPPED ].each do |s|
+
+        Timecop.freeze(Time.now)
+
+        # Test when instance is still in the same state
+        instance.state = s
+        instance.save
+
+        Timecop.freeze(Time.now + 2.second)
+
         instance.total_state_time(s).should >= 2
         instance.total_state_time(s).should <= 3
+
+        # Test when instance has changed state
+        Timecop.freeze(Time.now + 1.second)
+
+        instance.state = Instance::STATE_NEW
+        instance.save
+
+        Timecop.freeze(Time.now + 1.second)
+
+        instance.total_state_time(s).should >= 3
+        instance.total_state_time(s).should <= 4
       end
-
-      # Test when instance has changed state
-      sleep(1)
-      instance.state = Instance::STATE_NEW
-      instance.save
-      sleep(1)
-
-      instance.total_state_time(s).should >= 3
-      instance.total_state_time(s).should <= 4
     end
+
   end
 
   it "should return empty list of instance actions when connect to provider fails" do
