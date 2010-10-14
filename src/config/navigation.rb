@@ -30,7 +30,9 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :assistance_requests, t(:assistance_requests), '#', :class => 'disabled'
     end
     first_level.item :define, t(:define), '#', :class => 'build' do |second_level|
-      second_level.item :deployables, t(:deployables), {:controller => 'templates'}, :highlights_on => /\/templates/
+      # TODO: currently we exclude /templates/builds (next tab), but
+      # we could have special controller for builds in future
+      second_level.item :deployables, t(:deployables), {:controller => 'templates'}, :highlights_on => /(\/templates$|\/templates\/(?!builds))/
       second_level.item :builds, t(:builds), :controller => 'templates', :action => 'builds'
       second_level.item :images, t(:images), '#', :class => 'disabled'
     end
