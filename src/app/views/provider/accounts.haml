@@ -61,11 +61,6 @@
         .grid_3.omega
           %a.button{ :href => remove_path, :name => "remove_acc_#{acct.id}", :class => "tiny #{'disabled' unless remove_path}" }
             = t(:remove)
-          %span
-            &nbsp; (
-            %a{ :href => '' }<>
-              = t('.test_account')
-            )
       %fieldset.clearfix.gap
         = submit_tag t(:reset), :name => 'reset_form', :class => "dialogbutton" unless @provider.cloud_accounts.empty?
         = submit_tag t(:save), :name => 'update_cloud_accounts', :class => "dialogbutton" unless @provider.cloud_accounts.empty?
@@ -117,11 +112,10 @@
         = file_field :cloud_account, :x509_cert_pub_file, :title => t('.account_public_cert')
       - remove_path = url_for :controller => 'cloud_accounts', :action => 'destroy'
       .grid_3.omega
-        %span
-          (
-          %a{ :href => '' }<>
-            = t('.test_account')
-          )
+        (
+        %button.linkbutton.nospace{ :type => 'submit', :value => t('.test_account'), :name => 'test_account', :id => 'test_account' }<>
+          = t('.test_account')
+        )
     %fieldset.clearfix
       .grid_13.alpha.omega
         = submit_tag t(:add), :class => "ra nomargin dialogbutton"

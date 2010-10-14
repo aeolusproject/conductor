@@ -28,9 +28,6 @@ Provider.class_eval do
 end
 
 CloudAccount.class_eval do
-  def valid_credentials?
-    true
-  end
   
   alias :generate_cloud_account_key_original :generate_cloud_account_key 
 

@@ -54,15 +54,21 @@ class ProviderController < ApplicationController
     require_privilege(Privilege::PROVIDER_MODIFY)
     @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
     @provider = Provider.new(params[:provider])
-    @provider.set_cloud_type!
-    if @provider.save && @provider.populate_hardware_profiles
+
+    if params[:test_connection]
+      test_connection(@provider)
+      redirect_to :action => "new", :provider => {:name => @provider.name, :url => @provider.url}
+    else
+      @provider.set_cloud_type!
+      if @provider.save && @provider.populate_hardware_profiles
         flash[:notice] = "Provider added."
         redirect_to :action => "show", :id => @provider
-    else
-      flash[:notice] = "Cannot add the provider."
-      render :action => "new"
+      else
+        flash[:notice] = "Cannot add the provider."
+        render :action => "new"
+      end
+      kick_condor
     end
-    kick_condor
   end
 
   def update
@@ -71,8 +77,8 @@ class ProviderController < ApplicationController
     @provider.name = params[:provider][:name]
 
     if @provider.save
-        flash[:notice] = "Provider updated."
-        redirect_to :action => "show", :id => @provider
+      flash[:notice] = "Provider updated."
+      redirect_to :action => "show", :id => @provider
     else
       render :action => "edit"
     end
@@ -104,6 +110,10 @@ class ProviderController < ApplicationController
   def accounts
     @provider = Provider.find(:first, :conditions => {:id => params[:id]})
     require_privilege(Privilege::ACCOUNT_VIEW, @provider)
+    if params[:cloud_account]
+      @cloud_account = CloudAccount.new(params[:cloud_account])
+      @quota = Quota.new(params[:quota])
+    end
   end
 
   def realms
@@ -117,6 +127,14 @@ class ProviderController < ApplicationController
   end
 
   def list
+  end
+
+  def test_connection(provider)
+    if @provider.connect
+      flash[:notice] = "Successfuly Connected to Provider"
+    else
+      flash[:notice] = "Failed to Connect to Provider"
+    end
   end
 
   protected
