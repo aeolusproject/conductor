@@ -1,8 +1,8 @@
 namespace :dc do
   desc 'Create and register a new user'
-  task :create_user, [:login] => :environment do |t, args|
+  task :create_user, [:login, :password, :email, :first_name, :last_name] => :environment do |t, args|
     unless args.login && args.email && args.password && args.first_name && args.last_name
-      puts "Usage: rake dc:create_user[user] email=abc@xyz password=S3cR3t first_name=Jane last_name=Doe"
+      puts "Usage: rake 'dc:create_user[login,password,email,first_name,last_name]'"
       exit(1)
     end
 
@@ -16,18 +16,20 @@ namespace :dc do
     user = User.new(:login => args.login, :email => args.email,
                     :password => args.password,
                     :password_confirmation => args.password,
-		    :first_name => args.first_name, :last_name => args.last_name)
+                    :first_name => args.first_name,
+                    :last_name => args.last_name,
+                    :quota => Quota.new)
     registration = RegistrationService.new(user)
     if registration.save
-      puts "User registered"
+      puts "User #{args.login} registered"
     else
       puts "User registration failed: #{registration.error}"
     end
   end
 
+
   desc 'Grant administrator privileges to registred user'
   task :site_admin, [:login] => :environment do |t, args|
-
     unless args.login
       puts "Usage: rake dc:site_admin[user]"
       exit(1)
@@ -46,8 +48,7 @@ namespace :dc do
     end
 
     user.permissions << Permission.new(:role => Role.find_by_name('Administrator'),
-                                       :permission_object => BasePermissionObject.general_permission_scope
-                                      )
+                                       :permission_object => BasePermissionObject.general_permission_scope)
     puts "Granting administrator privileges for #{args.login}..."
   end
 
@@ -60,16 +61,10 @@ namespace :dc do
 
   desc 'Create user "admin" for CloudEngine'
   task :create_admin_user => :environment do
-    u = User.new
-    u.login = 'admin'
-    u.password, u.password_confirmation = 'password', 'password'
-    u.email = 'admin@deltacloud.org'
-    u.first_name = 'Administrator'
-    if u.save
-      puts "Created user 'admin' with password 'password'"
-    end
+    Rake::Task[:'dc:create_user'].invoke('admin', 'password', 'admin@deltacloud.org', 'Administrator', 'Administrator')
     Rake::Task[:'dc:site_admin'].invoke('admin')
   end
+
 
   desc 'Setup CloudEngine and create admin user automatically'
   task :setup => :environment do
