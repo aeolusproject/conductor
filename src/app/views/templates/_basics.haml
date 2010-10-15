@@ -13,9 +13,7 @@
 %fieldset.clearfix
   - default = @tpl.platforms['fedora']
   = label :tpl, :platform, 'Platform Choice:', :class => "grid_4 alpha"
-  = select :tpl, :platform, @tpl.platforms.map {|id, p| [p['name'], id]}, {:selected => @tpl.platform || 'fedora'}, {:class => 'grid_7'}
-  = select :tpl, :platform_version, @tpl.platforms.map {|id, p| p['version'].to_s}.sort.uniq, {:selected => @tpl.platform_version || default['version']}, {:class => 'grid_3'}
-  = select :tpl, :architecture, @tpl.platforms.map {|id, p| p['architecture']}.sort.uniq, {:selected => @tpl.architecture || default['architecture']}, {:class => 'grid_2 omega'}
+  = select :tpl, :platform, @tpl.platforms.map {|id, p| ["#{p['name']} #{p['version']} (#{p['architecture']})", id]}, {:selected => @tpl.platform || 'fedora'}, {:class => 'grid_7'}
 %fieldset.clearfix
   = label_tag :bootable, 'Bootable:', :class => "grid_4 alpha"
   .grid_12.omega

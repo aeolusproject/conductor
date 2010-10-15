@@ -20,10 +20,12 @@ class Template < ActiveRecord::Base
 
   def update_xml_attributes(opts = {})
     xml.name = opts[:name] if opts[:name]
-    xml.platform = opts[:platform] if opts[:platform]
     xml.description = opts[:summary] if opts[:summary]
-    xml.platform_version = opts[:platform_version] if opts[:platform_version]
-    xml.architecture = opts[:architecture] if opts[:architecture]
+    if plat = opts[:platform]
+      xml.platform = plat
+      xml.platform_version = platforms[plat]['version'].to_s
+      xml.architecture = platforms[plat]['architecture']
+    end
     self[:xml] = xml.to_xml
     @xml = nil
     update_attrs
