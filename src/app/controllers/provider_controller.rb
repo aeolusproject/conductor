@@ -57,7 +57,7 @@ class ProviderController < ApplicationController
 
     if params[:test_connection]
       test_connection(@provider)
-      redirect_to :action => "new", :provider => {:name => @provider.name, :url => @provider.url}
+      render :action => "new"
     else
       @provider.set_cloud_type!
       if @provider.save && @provider.populate_hardware_profiles
@@ -73,16 +73,29 @@ class ProviderController < ApplicationController
 
   def update
     require_privilege(Privilege::PROVIDER_MODIFY)
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
     @provider = Provider.find(:first, :conditions => {:id => params[:provider][:id]})
-    @provider.name = params[:provider][:name]
+    previous_cloud_type = @provider.cloud_type
 
-    if @provider.save
-      flash[:notice] = "Provider updated."
-      redirect_to :action => "show", :id => @provider
-    else
+    @provider.update_attributes(params[:provider])
+    if params[:test_connection]
+      test_connection(@provider)
       render :action => "edit"
+    else
+      @provider.set_cloud_type!
+      if previous_cloud_type != @provider.cloud_type
+        @provider.errors.add :url, "points to a different provider"
+      end
+
+      if @provider.errors.empty? and @provider.save
+        flash[:notice] = "Provider updated."
+        redirect_to :action => "show", :id => @provider
+      else
+        flash[:notice] = "Cannot update the provider."
+        render :action => "edit"
+      end
+      kick_condor
     end
-    kick_condor
   end
 
   def destroy
@@ -130,10 +143,12 @@ class ProviderController < ApplicationController
   end
 
   def test_connection(provider)
+    @provider.errors.clear
     if @provider.connect
       flash[:notice] = "Successfuly Connected to Provider"
     else
       flash[:notice] = "Failed to Connect to Provider"
+      @provider.errors.add :url
     end
   end
 
