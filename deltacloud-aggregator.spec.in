@@ -45,6 +45,7 @@ Requires: classads >= 1.0
 Requires: condor >= 7.5.4
 Requires: iwhd
 
+BuildRequires: ruby-devel
 BuildRequires: classads-devel >= 1.0
 
 %package daemons
