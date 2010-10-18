@@ -10,6 +10,7 @@
       $(this).hide();
       $container.empty().show().addClass('loading');
       $container.load(show_all ? list_all_url : list_url, list_data, function() {
+        var $groups = $('.softwaregroups .disclosure', this);
         $container.removeClass('loading');
         $('#do_add_software').click(function(e) {
           var url = '#{url_for :action => 'add_software', :ajax => true, :add_selected => true}';
@@ -34,12 +35,21 @@
           $container.hide();
           $submit.show();
         });
+        //select all packages in group
         $(".softwaregroups input[type='checkbox']").click(function() {
           if ($(this).attr("checked") === true) {
             $(this).siblings("ul").find("input[type='checkbox']").attr("checked","checked");
           } else {
             $(this).siblings("ul").find("input[type='checkbox']").removeAttr("checked");
           }
+        });
+        //disclosure triangles
+        $(".packages").hide();
+        $groups.click(function() {
+          var $packages = $(this).siblings('.packages');
+          var $container = $(this).parent('li');
+          $packages.toggle(200);
+          $container.toggleClass('expanded');
         });
       });
     });
