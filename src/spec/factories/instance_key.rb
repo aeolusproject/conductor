@@ -1,11 +1,6 @@
 Factory.define :instance_key do |p|
   p.sequence(:name) { |n| "instance_key#{n}" }
-end
-
-Factory.define :ec2_instance_key1, :parent => :instance_key do |p|
-  p.cloud_account { |p| p.association(:ec2_cloud_account) }
-  p.name "1_user"
-  p.text "
+  p.pem "
 -----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEAm+Ri7uZz7iVTLLxtPiV2gLD37OOvovZ0VpWR3T7HK5NgxjlJssIjc8uKqPqY
 EdXssF+ZKKypiQzFkMhowthkw1sGN5R3NBrIiRKR1mcVuE7iiRBFikBoF/CaaXP2LSNtMv4xkUXO
@@ -30,4 +25,13 @@ uH9ebPTGZc5cTpOEV9SupUez4cAedBGeHVDHy06sATrgIwKBgQCdqFhrse+uhRacK1LAymvBsou5
 1FGvv2zb+xR/fB/6+a4RMFsp9jO6lzTn/K1wsaZ6FNcdxB4V8ouveF0exhH/MEc0vWI47A==
 -----END RSA PRIVATE KEY-----
 "
+end
+
+Factory.define :ec2_instance_key1, :parent => :instance_key do |p|
+  p.cloud_account { |p| p.association(:ec2_cloud_account) }
+  p.name "1_user"
+end
+
+Factory.define :mock_instance_key, :parent => :instance_key do |m|
+  m.cloud_account { |c| c.association(:mock_cloud_account) }
 end
