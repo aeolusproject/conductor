@@ -90,7 +90,7 @@ end
 
 # Handle the event log's xml
 class CondorEventLog < Nokogiri::XML::SAX::Document
-  attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host, :hold_reason
+  attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host, :hold_reason, :private_addresses, :public_addresses
 
   def initialize(logger)
     @logger = logger
@@ -118,6 +118,10 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         @execute_host = string
       elsif @tag == "HoldReason"
         @hold_reason = string
+      elsif @tag == "DeltacloudPublicNetworkAddresses"
+        @public_addresses = string
+      elsif @tag == "DeltacloudPrivateNetworkAddresses"
+        @private_addresses = string
       end
     end
   end
@@ -209,6 +213,12 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
     inst.save!
   end
 
+  def update_instance_addresses(inst)
+    inst.public_addresses = @public_addresses
+    inst.private_addresses = @private_addresses
+    inst.save!
+  end
+
   # Create a new entry for events which we have all the neccessary data for
   def end_element(element)
     begin
@@ -220,8 +230,9 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         else
           update_instance_state_event(inst)
           update_instance_cloud_id(inst)
+          update_instance_addresses(inst)
         end
-        @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = nil
+        @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = @hold_reason = @public_addresses = @private_addresses = nil
       end
     rescue => e
       @logger.error "#{e.backtrace.shift}: #{e.message}"
