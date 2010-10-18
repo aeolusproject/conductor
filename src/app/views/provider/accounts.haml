@@ -31,8 +31,8 @@
         - disabled = 'disabled' unless has_account_modify?(@provider)
         - cloud_account_id = "cloud_accounts[#{acct.id}]"
         = text_field cloud_account_id, :label, :title => t('.account_name'), :value => acct.label, :disabled => disabled, :class => "grid_4 alpha"
-        = text_field cloud_account_id, :username, :title => t('.access_key'), :value => acct.username, :disabled => disabled, :class => "grid_3"
-        = password_field cloud_account_id, :password, :title => t('.secret_access_key'), :disabled => disabled, :class => "grid_3"
+        = text_field cloud_account_id, :username, :title => t('.user_name'), :value => acct.username, :disabled => disabled, :class => "grid_3"
+        = password_field cloud_account_id, :password, :title => t('.password'), :disabled => disabled, :class => "grid_3"
         = error_message_on :maximum_running_instances, 'Maximum Running Instances '
         = text_field "quota[#{acct.id}]", :maximum_running_instances, :title => t('.quota_instances'), :value => (acct.quota.maximum_running_instances.nil? ? "unlimited" : acct.quota.maximum_running_instances), :disabled => disabled, :id => "quota_instances#{acct.id}", :class => "grid_3 omega"
       %fieldset.nomargin.clearfix
@@ -85,8 +85,8 @@
         %span.required *
     %fieldset.nomargin.clearfix
       = text_field :cloud_account, :label, :title => t('.account_name'), :class => "grid_4 alpha"
-      = text_field :cloud_account, :username, :title => t('.access_key'), :class => "grid_3"
-      = password_field :cloud_account, :password, :title => t('.secret_access_key'), :class => "grid_3"
+      = text_field :cloud_account, :username, :title => t('.user_name'), :class => "grid_3"
+      = password_field :cloud_account, :password, :title => t('.password'), :class => "grid_3"
       = text_field "quota", :maximum_running_instances, :title => t('.quota_instances'), :value =>  "unlimited",:id => "quota_instances", :class => "grid_3 omega"
     %fieldset.nomargin.clearfix
       .grid_3.prefix_10.alpha.omega
