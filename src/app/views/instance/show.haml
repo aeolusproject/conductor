@@ -43,6 +43,10 @@
     %li
       = label_tag :console_connection, 'Console Connection'
       %span= 'via SSH'
+    - unless @instance.instance_key_id.nil?
+      %li
+        = label_tag :instance_key, 'SSH key'
+        %span= link_to("Download", { :controller => "instance", :action => "key", :id => @instance })
     %li
       = label_tag :owner, 'Owner'
       %span= "#{@instance.owner.first_name} #{@instance.owner.last_name}"

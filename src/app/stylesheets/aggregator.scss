@@ -468,7 +468,7 @@ img.icon {
     background-color: lighten($goodcl,45%);
     border: 1px solid lighten($goodcl,20%);
   }
-  .error {
+  .error, .warning {
     background-color: lighten($badcl,45%);
     border: 1px solid lighten($badcl,20%);
   }

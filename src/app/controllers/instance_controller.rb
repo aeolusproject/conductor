@@ -23,6 +23,7 @@ require 'util/condormatic'
 
 class InstanceController < ApplicationController
   before_filter :require_user, :get_nav_items
+  before_filter :instance, :only => [:show, :key]
   layout :layout
 
   def section_id
@@ -53,8 +54,17 @@ class InstanceController < ApplicationController
   end
 
   def show
-    @instance = Instance.find(params[:id])
-    require_privilege(Privilege::INSTANCE_VIEW, @instance.pool)
+  end
+
+  def key
+    unless @instance.instance_key.nil?
+      send_data @instance.instance_key.pem,
+                :filename => "#{@instance.instance_key.name}.pem",
+                :type => "text/plain"
+      return
+    end
+    flash[:warning] = "SSH Key not found for this Instance."
+    redirect_to :action => "show", :id => @instance
   end
 
   def new
@@ -169,6 +179,13 @@ class InstanceController < ApplicationController
       @instance.state == Instance::STATE_ERROR
     condormatic_instance_reset_error(@instance)
     action
+  end
+
+  private
+
+  def instance
+    @instance = Instance.find(params[:id])
+    require_privilege(Privilege::INSTANCE_VIEW, @instance.pool)
   end
 
 end
