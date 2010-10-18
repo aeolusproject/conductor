@@ -1127,14 +1127,20 @@ a.iconbutton {
   height: 600px;
   overflow: auto;
   display: block;
-  @include column-count(4);
   &>li {
     display: block;
     text-transform: uppercase;
-    margin: 0 0 2em 0; padding: 0;
-    @include column-break-before(always);
+    margin: 0 0 2em 0; padding: 0 0 0 20px;
+    background: url('../../images/icons/expander-collapsed.png') no-repeat 0 0;
+    &.expanded {
+      background: url('../../images/icons/expander-expanded.png') no-repeat 0 0;
+    }
+    label {
+      cursor: pointer;
+    }
   }
   .packages {
+    @include column-count(4);
     display: block;
     margin: 1em 0 0 0;
     &:first-child {
