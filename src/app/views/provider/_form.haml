@@ -25,7 +25,7 @@
         = f.error_message_on :name, 'Name '
       = f.text_field :name, :title => t('.provider_name'), :value => (@provider.name if @provider), :disabled => ('disabled' if controller.action_name == 'show'), :class => "clear grid_4 alpha"
       = f.text_field :url, :title => t('.provider_url'), :class => 'emailinput', :value => (@provider.url if @provider), :disabled => ('disabled' unless new_provider), :class => "grid_5"
-      - if controller.action_name == 'edit':
+      - if controller.action_name == 'edit'
         = f.hidden_field :id, :value => @provider.id
       .clear.prefix_4.grid_5.suffix_4.alpha.omega
         - if !Provider.exists?(@provider)
