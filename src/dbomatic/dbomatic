@@ -210,6 +210,12 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
     end
 
     inst.cloud_account_id = cloud_account.id
+
+    # FIXME: we are updating the instance_key_id here, but this is really not
+    # the right way or place to do this.  This will have to be revisited when
+    # we come up with a real key management architecture
+    inst.instance_key_id = cloud_account.instance_key.id
+
     inst.save!
   end
 
