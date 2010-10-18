@@ -4,7 +4,7 @@
   {:name => 'VM NAME', :sort_attr => 'name'},                     |
   {:name => 'TYPE', :sort_attr => 'hardware_profiles.name'},      |
   {:name => 'TEMPLATE', :sort_attr => 'templates.name'},          |
-  {:name => 'IP ADDRESS', :sort_attr => 'public_ip_addresses'},   |
+  {:name => 'PUBLIC ADDRESS', :sort_attr => 'public_addresses'},  |
   {:name => 'PROVIDER', :sortable => false},                      |
   {:name => 'STARTED BY', :sort_attr => 'users.last_name'},       |
 ]                                                                 |
@@ -103,10 +103,10 @@
             - instances.each do |inst|
               %tr
                 %td= check_box_tag 'id[]', inst.id
-                %td=inst.state
+                %td= inst.state
                 %td= inst.name
                 %td= inst.hardware_profile.name
                 %td= inst.template.name
-                %td= inst.public_ip_addresses
+                %td= inst.public_addresses
                 %td= inst.cloud_account ? inst.cloud_account.provider.name : ''
                 %td= "#{inst.owner.first_name} #{inst.owner.last_name}" # TODO, there is "started by" in comps pdf, but we don't save this info
