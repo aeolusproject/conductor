@@ -115,46 +115,6 @@ def condor_to_instance_state(state_val)
   end
 end
 
-def condormatic_instances_sync_states
-
-  begin
-    # I'm not going to do the 2&>1 trick here since we are parsing the output
-    # and I'm afraid we'll get a warning or something on stderr and it'll mess
-    # up the xml parsing.
-    pipe = IO.popen("condor_q -xml")
-    xml = pipe.read
-    pipe.close
-
-    raise ("Error calling condor_q -xml") if $? != 0
-
-    doc = Nokogiri::XML(xml)
-    jobs_state = {}
-    jobs_error_msg = {}
-    doc.xpath('/classads/c').each do |jobs|
-      job_hold_reason = (v = jobs.at_xpath('./a[@n="HoldReason"]/s')) ? v.text : nil
-      job_name = (v = jobs.at_xpath('./a[@n="Cmd"]/s')) ? v.text : nil
-      job_state= (v = jobs.at_xpath('./a[@n="JobStatus"]/i')) ? v.text : nil
-
-      Rails.logger.info "job name is #{job_name}"
-      Rails.logger.info "job state is #{job_state}"
-      Rails.logger.info "hold reason is #{job_hold_reason}"
-
-      jobs_state[job_name] = condor_to_instance_state(job_state) if job_name
-      jobs_error_msg[job_name] = job_hold_reason if job_hold_reason
-    end
-
-    Instance.find(:all).each do |instance|
-      instance.last_error = jobs_error_msg[instance.condor_job_id] if jobs_error_msg.has_key?(instance.condor_job_id)
-      instance.state = jobs_state[instance.condor_job_id] || Instance::STATE_STOPPED
-      instance.save!
-      Rails.logger.info "Instance state updated to #{instance.state}"
-    end
-  rescue Exception => ex
-    Rails.logger.error ex.message
-    Rails.logger.error ex.backtrace
-  end
-end
-
 def condormatic_instance_stop(task)
     instance =  task.instance_of?(InstanceTask) ? task.instance : task
 
