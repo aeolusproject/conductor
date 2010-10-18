@@ -1,8 +1,11 @@
+Factory.sequence :template_name do |n|
+ "template#{n}"
+end
+
 Factory.define :template do |i|
-  i.sequence(:name) { |n| "template#{n}" }
-  i.xml <<EOF
+  i.xml { %Q{
 <image>
-  <name>tpl</name>
+  <name>#{Factory.next :template_name}</name>
   <repos>
     <repo>https://localhost/pulp/repos/jboss2</repo>
   </repos>
@@ -17,5 +20,6 @@ Factory.define :template do |i|
     <package><name>jboss-jgroups</name><group>JBoss Core Packages</group></package>
   </packages>
 </image>
-EOF
+  }
+}
 end
