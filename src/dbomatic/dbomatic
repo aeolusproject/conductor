@@ -263,13 +263,6 @@ begin
   # Create one for parsing purposes.
   parser << "<events>"
 
-  # sync up the states that condor knows about with what is in the aggregator
-  # database.  Note that there is still a chance that the state is changing
-  # internally to condor while we are syncing the states here.  However, condor
-  # will emit an event in that case, so it will be taken care of by the
-  # EventLog parsing later on.
-  condormatic_instances_sync_states
-
   notifier = INotify::Notifier.new
   log_file = nil
 
