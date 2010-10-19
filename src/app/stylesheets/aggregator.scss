@@ -170,7 +170,6 @@ input[type='submit'],button,.button {
 h1,h2,h3,h4,h5 {
   text-transform: uppercase;
   color: $headercl;
-  font-weight: bold;
   margin-top: 1em;
   &:first-child {
     margin-top: 0;
@@ -352,7 +351,6 @@ table {
     color: $headercl;
     font-family: $headlinefont;
     font-size: 110%;
-    font-weight: bold;
     margin: 3px 0 20px;
     padding:14px 10px 12px;
     text-transform: uppercase;
@@ -627,7 +625,8 @@ nav {
           font-size: 95%;
           margin: 0; padding: 10px 8px 6px;
           text-align: center;
-          font-family: $headlinefont;
+          font-family: $screenfont;
+          font-weight: bold;
           display: block;
           float: left;
           max-width: 70px;
@@ -822,7 +821,7 @@ label {
     text-transform: uppercase;
     font-family: $headlinefont;
     font-size: 110%;
-    font-weight: bold;
+    font-weight: normal;
     color: $formheadfg;
   }
 }
