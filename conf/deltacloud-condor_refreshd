@@ -15,8 +15,7 @@ DELTACLOUD_DIR="${DELTACLOUD_DIR:-/usr/share/deltacloud-aggregator}"
 REFRESHD_LOG="${REFRESHD_LOG:-/var/log/deltacloud-aggregator/condor_refreshd.log}"
 REFRESHD_PID="${REFRESHD_PID:-/var/run/deltacloud-aggregator/condor_refreshd.pid}"
 REFRESHD_LOCKFILE="${REFRESHD_LOCKFILE:-/var/lock/subsys/deltacloud-condor_refreshd}"
-USER="${USER:-dcloud}"
-GROUP="${GROUP:-dcloud}"
+DCLOUD_USER="${DCLOUD_USER:-dcloud}"
 
 REFRESHD_PATH=/usr/share/deltacloud-aggregator/condor_refreshd
 REFRESHD_PROG=condor_refreshd
@@ -27,7 +26,7 @@ REFRESHD_PID=/var/run/deltacloud-aggregator/condor_refreshd.pid
 start() {
     echo -n "Starting deltacloud-condor_refreshd: "
 
-    daemon --user=$USER $REFRESHD_PATH/$REFRESHD_PROG
+    daemon --user=$DCLOUD_USER $REFRESHD_PATH/$REFRESHD_PROG
     RETVAL=$?
     if [ $RETVAL -eq 0 ] && touch $REFRESHD_LOCKFILE ; then
       echo_success
