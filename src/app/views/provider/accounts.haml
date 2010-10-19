@@ -63,7 +63,7 @@
           %a.button{ :href => remove_path, :name => "remove_acc_#{acct.id}", :class => "tiny #{'disabled' unless remove_path}" }
             = t(:remove)
       %fieldset.clearfix.gap
-        = submit_tag t(:reset), :name => 'reset_form', :class => "dialogbutton" unless @provider.cloud_accounts.empty?
+        = link_to t(:reset), {:controller => 'provider', :action => 'accounts', :id => @provider.id}, :class => "button dialogbutton" unless @provider.cloud_accounts.empty?
         = submit_tag t(:save), :name => 'update_cloud_accounts', :class => "dialogbutton" unless @provider.cloud_accounts.empty?
 
   %h2
