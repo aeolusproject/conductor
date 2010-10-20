@@ -35,3 +35,4 @@
       = quota_form.label :maximum_running_instances, t(:maximum_running_instances), :class => "alpha grid_3"
       = quota_form.text_field :maximum_running_instances, :class => "grid_5"
       (instances)
+      = quota_form.error_message_on :maximum_running_instances, 'Maximum Running Instances '
