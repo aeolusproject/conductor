@@ -21,15 +21,13 @@
       = t('.define_services_desc')
     %button{:disabled => "disabled"}
       = t(:continue)
-  %li#permissions.grid_8.disabled
+  %li#permissions.grid_8
     = image_tag "blnk.png", :class => "icon", :alt => ""
     %h2
       = t('.permissions')
     %p
       = t('.permissions_desc')
-    %button{:disabled => "disabled"}
-      = t(:continue)
-    =# link_to t(:continue), {:controller => 'settings', :action => 'self_service'}, :class => 'button'
+    = link_to t(:continue), {:controller => 'settings', :action => 'self_service'}, :class => 'button'
   %li#hardware.grid_8.disabled
     = image_tag "blnk.png", :class => "icon", :alt => ""
     %h2
