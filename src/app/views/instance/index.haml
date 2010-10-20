@@ -69,7 +69,7 @@
       - @pools.each do |pool|
         %tr
           %td
-            =link_to pool.name, pool_url(pool.id)
+            = pool.name
           %td N/A
           %td
             =((pool.quota.maximum_running_instances || 0)/100)*pool.quota.total_instances
