@@ -1,12 +1,15 @@
 .grid_16
   %h3 Managed Content Selection
 
-  - form_tag :action => "add_software" do
+  - form_tag :action => "dispatch" do
+    - unless @embed
+      = render :partial => 'hidden_fields'
+    - @packages.each do |p|
+      <input type="hidden" id="selected_package_#{p[:name]}" name="selected_packages[]" value="#{p[:name]}" />
     %fieldset.clearfix
       .search.grid_4.alpha
         %input{:type => "search", :placeholder => "Search for package", :disabled => "disabled"}
         %button.action
-      = hidden_field_tag :template_id, @tpl.id
       .grid_8
         %p
           Repositories to Search:
@@ -16,17 +19,7 @@
             = check_box_tag 'repositories[]', repo.id, true
             = label_tag 'repositories[]', repo.name
       %a.grid_4.omega Advanced Search
-    -#%fieldset.clearfix
-    -#  .grid_3.alpha
-    -#    = radio_button_tag :show_mode, 'group', true
-    -#    = label_tag :show_mode, 'Show by Group'
-    -#  .grid_2.omega
-    -#    = radio_button_tag :show_mode, 'type', false, :disabled => true
-    -#    = label_tag :show_mode, 'Show by Type'
 
-    -#%fieldset.clearfix
-    -#  = submit_tag "Add Selected", :name => "add_selected", :class => "grid_2 alpha", :id => "do_add_software"
-    -#  = submit_tag "Cancel", :name => "cancel", :class => "grid_2", :id => "cancel_add_software"
     %ul.softwaregroups
       - groups = @groups.keys.sort
       - unsorted = groups.delete('unsorted')
@@ -35,7 +28,7 @@
         - group_sel = @groups[group][:selected]
         - group_id = group.gsub(/\s/, '_')
         %li
-          = check_box_tag 'groups[]', group, group_sel, :disabled => group_sel, :id => "group_#{group_id}"
+          = check_box_tag 'groups[]', group, group_sel, :id => "group_#{group_id}"
           %label.disclosure
             =group
           %ul{:class => "packages group_#{group_id}"}
@@ -44,10 +37,10 @@
               - pkg_sel = pkgs[pkg][:selected] ? true : false
               - pkg_id = pkg.gsub(/\s/, '_')
               %li
-                = check_box_tag 'packages[]', pkg, pkg_sel, :disabled => pkg_sel, :id => "package_#{pkg_id}"
+                = check_box_tag 'packages[]', pkg, pkg_sel, :id => "package_#{pkg_id}"
                 = label_tag "package_#{pkg_id}", pkg
-
       = link_to "Show unsorted packages", {:action => 'create', :add_software_form => true, :show_unsorted => true, 'tpl[id]' => @tpl.id}, {:id => 'switch_all_link'} unless params[:show_unsorted]
+
     %fieldset.clearfix
       = submit_tag "Add Selected", :name => "add_selected", :class => "grid_2 alpha", :id => "do_add_software"
-      = submit_tag "Cancel", :name => "cancel", :class => "grid_2", :id => "cancel_add_software"
+      = submit_tag "Cancel", :name => "cancel_add_software", :class => "grid_2", :id => "cancel_add_software"

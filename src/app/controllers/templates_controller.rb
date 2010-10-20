@@ -38,69 +38,86 @@ class TemplatesController < ApplicationController
     end
   end
 
+  # Since the template form submission can mean multiple things,
+  # we dispatch based on form parameters here
+  def dispatch
+    if params[:save]
+      create
+
+    elsif params[:cancel]
+      redirect_to :action => 'index'
+
+    elsif params[:add_software_form]
+      content_selection
+
+    elsif pkg = params.keys.find { |k| k =~ /^remove_package_(.*)$/ }
+      # actually remove the package from list
+      params[:packages].delete($1) if params[:packages]
+      new
+
+    elsif params[:add_selected]
+      new
+
+    elsif params[:cancel_add_software]
+      params[:packages] = params[:selected_packages]
+      new
+
+    end
+  end
+
+  # FIXME at some point split edit/update out from new/create
+  # to conform to web standards
   def new
     # can't use @template variable - is used by compass (or something other)
-    @tpl = Template.find_or_create(params[:id])
-    @repository_manager = RepositoryManager.new
-    @groups = @repository_manager.all_groups(params[:repository])
+    @id  = params[:id]
+    @tpl = @id.blank? ? Template.new : Template.find(@id)
+    @tpl.attributes = params[:tpl] unless params[:tpl].nil?
+    get_selected_packages(@tpl)
+    render :action => :new
   end
 
   def create
-    if params[:cancel]
-      redirect_to :action => 'index'
-      return
-    end
+    @id  = params[:tpl][:id]
+    @tpl = @id.blank? || @id == "" ? Template.new(params[:tpl]) : Template.find(@id)
 
-    @tpl = (params[:tpl] && !params[:tpl][:id].to_s.empty?) ? Template.find(params[:tpl][:id]) : Template.new(params[:tpl])
+    @tpl.xml.clear_packages
 
-    unless params[:add_software_form] and request.xhr?
-      # this is crazy, but we have most attrs in xml and also in model,
-      # synchronize it at first to xml
-      @tpl.update_xml_attributes!(params[:tpl])
-    end
+    params[:groups].to_a.each   { |group| @tpl.xml.add_group(group) }
+    params[:packages].to_a.each { |pkg|   @tpl.xml.add_package(pkg) }
 
-    # if remove pkg, we only update xml and render 'new' template
-    # again
-    params.keys.each do |param|
-      if param =~ /^remove_package_(.*)$/
-        update_group_or_package(:remove_package, $1)
-        render :action => 'new'
-        return
-      end
-    end
-
-    if params[:add_software_form]
-      @repository_manager = RepositoryManager.new
-      @groups = @repository_manager.all_groups_with_tagged_selected_packages(@tpl.xml.packages, params[:repository])
-      render :action => 'add_software_form'
-      return
-    end
+    # this is crazy, but we have most attrs in xml and also in model,
+    # synchronize it at first to xml
+    @tpl.update_xml_attributes(params[:tpl])
 
     if @tpl.save
       flash[:notice] = "Template saved."
       @tpl.set_complete
       redirect_to :action => 'index'
     else
-      @repository_manager = RepositoryManager.new
-      @groups = @repository_manager.all_groups(params[:repository])
+      get_selected_packages(@tpl)
       render :action => 'new'
     end
   end
 
-  def add_software
-    @tpl = params[:template_id].to_s.empty? ? Template.new : Template.find(params[:template_id])
+  def content_selection
     @repository_manager = RepositoryManager.new
-    @groups = @repository_manager.all_groups(params[:repository])
-    if params[:add_selected]
-      params[:groups].to_a.each { |group| @tpl.xml.add_group(group) }
-      params[:packages].to_a.each { |pkg| @tpl.xml.add_package(pkg) }
-      @tpl.save_xml!
-    end
-    if params[:ajax]
-      render :partial => 'managed_content'
+    @id  = params[:id]
+    @tpl = @id.blank? ? Template.new : Template.find(@id)
+    @tpl.attributes = params[:tpl] unless params[:tpl].nil?
+    @packages = []
+    @packages = params[:packages].collect{ |p| { :name => p } } if params[:packages]
+    @groups = @repository_manager.all_groups_with_tagged_selected_packages(@packages, params[:repository])
+    @embed  = params[:embed]
+    if @embed
+      render :layout => false
     else
-      render :action => 'new'
+      render :action => :content_selection
     end
+  end
+
+  def managed_content
+    get_selected_packages
+    render :layout => false
   end
 
   def build_form
@@ -162,15 +179,6 @@ class TemplatesController < ApplicationController
 
   private
 
-  def update_group_or_package(method, *args)
-    @repository_manager = RepositoryManager.new
-    @groups = @repository_manager.all_groups(params[:repository])
-    @tpl.xml.send(method, *args)
-    # we save template w/o validation (we can add package before name,... is
-    # set)
-    @tpl.save_xml!
-  end
-
   def check_permission
     require_privilege(Privilege::IMAGE_MODIFY)
   end
@@ -182,5 +190,33 @@ class TemplatesController < ApplicationController
       raise "You can select only one template" if ids.size > 1
     end
     return ids.first
+  end
+
+  def get_selected_packages(tpl=nil)
+    @repository_manager = RepositoryManager.new
+    @groups = @repository_manager.all_groups(params[:repository])
+
+    if params[:packages]
+      @selected_packages = params[:packages]
+    elsif params[:selected_packages]
+      @selected_packages = params[:selected_packages]
+    elsif !tpl.nil?
+      @selected_packages = tpl.xml.packages.collect { |p| p[:name] }
+    else
+      @selected_packages = []
+    end
+
+    [:selected_groups, :groups].each do |pg|
+      if params[pg]
+        params[pg].each { |grp|
+          fg = @groups.find { |gk, gv| gk == grp }
+          fg[1][:packages].each { |pk, pv|
+            @selected_packages << pk
+          } unless fg.nil?
+        }
+      end
+    end
+
+    @selected_packages.uniq!
   end
 end

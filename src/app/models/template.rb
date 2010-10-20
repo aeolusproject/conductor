@@ -18,21 +18,15 @@ class Template < ActiveRecord::Base
   validates_presence_of :platform_version
   validates_presence_of :architecture
 
-  def update_xml_attributes!(opts = {})
-    doc = xml
-    doc.name = opts[:name] if opts[:name]
-    doc.platform = opts[:platform] if opts[:platform]
-    doc.description = opts[:summary] if opts[:summary]
-    doc.platform_version = opts[:platform_version] if opts[:platform_version]
-    doc.architecture = opts[:architecture] if opts[:architecture]
-    save_xml!
-  end
-
-  def save_xml!
+  def update_xml_attributes(opts = {})
+    xml.name = opts[:name] if opts[:name]
+    xml.platform = opts[:platform] if opts[:platform]
+    xml.description = opts[:summary] if opts[:summary]
+    xml.platform_version = opts[:platform_version] if opts[:platform_version]
+    xml.architecture = opts[:architecture] if opts[:architecture]
     self[:xml] = xml.to_xml
     @xml = nil
     update_attrs
-    save_without_validation!
   end
 
   def xml
