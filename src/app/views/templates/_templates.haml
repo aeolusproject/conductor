@@ -5,7 +5,6 @@
   {:name => 'VERSION', :sort_attr => 'platform_version'},         |
   {:name => 'BOOTABLE', :sortable => false},                      |
   {:name => 'ARCH', :sort_attr => 'architecture'},                |
-  {:name => 'TIMES USED', :sort_attr => 'images_count'},          |
 ]                                                                 |
 
 %table
@@ -26,4 +25,3 @@
           %td
             = image_tag 'blnk.png', :alt => 'yes', :class => "icon yes"
           %td= tpl.architecture
-          %td= tpl.images.size
