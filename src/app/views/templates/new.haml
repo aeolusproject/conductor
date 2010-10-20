@@ -1,29 +1,32 @@
 :javascript
   $(document).ready(function() {
-    var $container = $('#package_selection_list'),
-    $submit = $('#add_software_button');
-    $submit.click(function(e, show_all) {
-      var list_url = '#{url_for :action => 'create', :add_software_form => true}';
-      var list_all_url = '#{url_for :action => 'create', :add_software_form => true, :show_unsorted => true}';
-      var list_data = {'tpl[id]': $("input[name='tpl[id]']").val() || '', ajax: true};
+    var $content_container = $('#managed_content');
+    var $sel_pkg_container = $('#package_selection_list');
+    var $submit            = $('#add_software_button');
+    $submit.click(function(e) {
       e.preventDefault();
-      $(this).hide();
-      $container.empty().show().addClass('loading');
-      $container.load(show_all ? list_all_url : list_url, list_data, function() {
+      $submit.hide();
+      var data = {
+        'packages[]': $("input[name='packages[]']").map(function() {return $(this).val()}).get()
+      }
+      var url = '#{url_for :action => 'content_selection', :embed => true, :id => @id}';
+      $content_container.empty().show();
+      $sel_pkg_container.empty().show().addClass('loading');
+      $sel_pkg_container.load(url, data, function(){
+        $sel_pkg_container.removeClass('loading');
         var $groups = $('.softwaregroups .disclosure', this);
-        $container.removeClass('loading');
         $('#do_add_software').click(function(e) {
-          var url = '#{url_for :action => 'add_software', :ajax => true, :add_selected => true}';
-          var data = {
-            'packages[]': $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get(),
-            'groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
-            'template_id': $("input[name='tpl[id]']").val() || ''
-          };
           e.preventDefault();
-          $(this).replaceWith('<span class="loading grid_2 alpha">Adding Packages</span>');
-          $('#selected_packages').load(url, data, function() {
-            $container.hide();
+          var url = '#{url_for :action => 'managed_content'}';
+          var data = {
+            'selected_packages[]': $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get(),
+            'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
+            'template_id'  : '#{@id.nil? ? nil : @id}'
+          };
+          $content_container.load(url, data, function(){
+            $sel_pkg_container.empty().show();
             $submit.show();
+            $('.remove_package').click(function() { $(this).parent().parent().remove(); });
           });
         });
         $('#switch_all_link').click(function(e) {
@@ -32,8 +35,16 @@
         });
         $('#cancel_add_software').click(function(e) {
           e.preventDefault();
-          $container.hide();
-          $submit.show();
+          var data = {
+            'selected_packages[]': $("input[name='selected_packages[]']").map(function() {return $(this).val()}).get(),
+            'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
+            'template_id'  : '#{@id.nil? ? nil : @id}'
+          }
+          var url = '#{url_for :action => 'managed_content'}';
+          $content_container.load(url, data, function(){
+            $sel_pkg_container.empty().show();
+            $submit.show();
+          });
         });
         //select all packages in group
         $(".softwaregroups input[type='checkbox']").click(function() {
@@ -53,12 +64,15 @@
         });
       });
     });
+    $('.remove_package').click(function() { $(this).parent().parent().remove(); });
   });
 
 .grid_16
   %h2 Template
-  - form_for @tpl, :url => { :action => "create" } do
-    = error_messages_for 'tpl'
+  - form_for @tpl, :url => { :action => "dispatch" } do
+    <input type="hidden" id="id" name="id" value="#{@id}" />
+    = hidden_field :tpl, :id
+    = error_messages_for :tpl
     = render :partial => 'basics'
 
     %h3.disabled.gap Local Content to Bundle
@@ -84,12 +98,15 @@
         %a{:href => '#'} Remove
         )
 
-    = render :partial => 'managed_content'
+    #managed_content
+      = render :partial => 'managed_content'
+
     .clearfix
       .grid_14.alpha.prefix_2
         = submit_tag "Add Software", :name => "add_software_form", :id => "add_software_button", :class => "iconbutton"
 
     #package_selection_list{:style => 'display: none'}
+
     %h3.gap.clear Preboot Configuration
     %hr
     %fieldset.clearfix

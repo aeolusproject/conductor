@@ -141,6 +141,10 @@ class ImageDescriptorXML
     end
   end
 
+  def clear_packages
+    @root.xpath('/image/packages').each { |s| s.remove }
+  end
+
   private
 
   def add_group_node(parent, group)
