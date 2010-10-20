@@ -3,12 +3,17 @@
   %dl
     %dt
       Pools
+    / NOTE the 'edit' and 'delete' buttons are temporarily disabled.
+    / They are replaced by generic <button> tags with no functionality.
+    / Once we suport editing and deleting pools, we should switch it back.
     %dd.edit
       %span
-      = submit_tag "edit", :class => "submit linkbutton"
+      /= submit_tag "edit", :class => "submit linkbutton"
+      %button.submit.linkbutton{ :disabled => 'disabled'} edit
     %dd.delete
       %span
-      = submit_tag "delete", :class => "submit linkbutton"
+      /= submit_tag "delete", :class => "submit linkbutton"
+      %button.submit.linkbutton{ :disabled => 'disabled'} delete
     %dd.add
       %span
       =link_to 'new pool', :action => :new, :class => "button"
@@ -21,7 +26,7 @@
         %td
           - is_first_pool = (pool == @pools.first)
           %input{:checked => is_first_pool, :name => "pool_checkbox", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
-          =link_to pool.name, {:action => 'edit', :id => pool.id}
+          = pool.name
         %td
           =((pool.quota.maximum_running_instances || 0)/100)*pool.quota.total_instances
           ='%'
