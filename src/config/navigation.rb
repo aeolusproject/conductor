@@ -24,6 +24,7 @@ SimpleNavigation::Configuration.run do |navigation|
         end
         third_level.item :define_services, t(:permissions), '#'
         third_level.item :general_settings, t(:general_settings), '#'
+        third_level.item :permissions, t(:permissions), { :controller => 'settings', :action => 'self_service'}
       end
       second_level.item :pools_and_zones, t(:pools_and_zones), {:controller => 'pools'}, :highlights_on => /\/pools/
       second_level.item :audit_report, t(:audit_report), '#', :class => 'disabled'
