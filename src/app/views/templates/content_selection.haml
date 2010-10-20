@@ -39,7 +39,7 @@
               %li
                 = check_box_tag 'packages[]', pkg, pkg_sel, :id => "package_#{pkg_id}"
                 = label_tag "package_#{pkg_id}", pkg
-      = link_to "Show unsorted packages", {:action => 'create', :add_software_form => true, :show_unsorted => true, 'tpl[id]' => @tpl.id}, {:id => 'switch_all_link'} unless params[:show_unsorted]
+      = link_to "Show unsorted packages", {:action => 'dispatch', :add_software_form => true, :show_unsorted => true, 'tpl[id]' => @tpl.id}, {:id => 'switch_all_link'} unless params[:show_unsorted]
 
     %fieldset.clearfix
       = submit_tag "Add Selected", :name => "add_selected", :class => "grid_2 alpha", :id => "do_add_software"
