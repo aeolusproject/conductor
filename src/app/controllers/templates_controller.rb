@@ -143,6 +143,19 @@ class TemplatesController < ApplicationController
 
     @tpl.upload_template unless @tpl.uploaded
     params[:targets].each do |target|
+      # FIXME: for beta release we check explicitly that provider and provider
+      # account exists
+      unless provider = Provider.find_by_cloud_type(target)
+        flash_error("There is no provider of '#{target}' type, you can add provider \
+on <a href=\"#{url_for :controller => 'provider'}\">the providers page.</a>")
+        render :action => 'build_form' and return
+      end
+      if provider.cloud_accounts.empty?
+        flash_error("There is no provider account for '#{target}' provider, you can \
+add account on <a href=\"#{url_for :controller => 'provider', \
+:action => 'accounts', :id => provider.id}\">the provider accounts page</a>")
+        render :action => 'build_form' and return
+      end
       begin
         Image.build(@tpl, target)
       rescue
@@ -181,6 +194,13 @@ class TemplatesController < ApplicationController
   end
 
   private
+
+  def flash_error(msg)
+    flash.now[:error] ||= {}
+    flash.now[:error][:summary] = 'Error while trying to build image'
+    flash.now[:error][:failures] ||= {}
+    flash.now[:error][:failures]['no provider account'] = msg
+  end
 
   def check_permission
     require_privilege(Privilege::IMAGE_MODIFY)
