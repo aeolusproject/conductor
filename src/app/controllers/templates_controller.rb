@@ -106,7 +106,7 @@ class TemplatesController < ApplicationController
     @tpl.attributes = params[:tpl] unless params[:tpl].nil?
     @packages = []
     @packages = params[:packages].collect{ |p| { :name => p } } if params[:packages]
-    @groups = @repository_manager.all_groups_with_tagged_selected_packages(@packages, params[:repository])
+    @groups = @repository_manager.all_groups_with_tagged_selected_packages(@packages, @tpl.platform)
     @embed  = params[:embed]
     if @embed
       render :layout => false
