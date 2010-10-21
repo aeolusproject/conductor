@@ -29,7 +29,7 @@
     -@users.each do |user|
       %tr
         %td
-          %input{:name => "user_checkbox", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}", :onchange => "update_link(#{user.id})"}
+          %input{:name => "user_checkbox", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
         %td= link_to user.login, {:action => "edit", :id => user.id}
         %td= user.last_name
         %td= user.first_name
@@ -41,17 +41,3 @@
   $(document).ready(function () {
     $("input[type='checkbox']").buttonSensitivity().change();
   });
-
-  function update_link(id)
-  {
-    var checkbox = document.getElementById('user_checkbox_' + id)
-    if(checkbox.checked)
-    {
-      var checkboxes = document.getElementsByName("user_checkbox")
-      for(var i = 0; i < checkboxes.length; i++)
-      {
-         checkboxes[i].checked = false
-      }
-      checkbox.checked = true
-    }
-  }
