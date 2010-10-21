@@ -29,8 +29,7 @@
     -@users.each do |user|
       %tr
         %td
-          - is_first_user = (user == @users.first)
-          %input{:checked => is_first_user, :name => "user_checkbox", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
+          %input{:name => "user_checkbox", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
         %td= link_to user.login, {:action => "edit", :id => user.id}
         %td= user.last_name
         %td= user.first_name
