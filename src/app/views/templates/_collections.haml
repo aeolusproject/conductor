@@ -1,6 +1,7 @@
-%ul.metagrouppackages
+%ul.collections
   - @collections.keys.sort.each do |id|
     %li
       - selected = @collections[id][:selected] ? true : false
       = check_box_tag 'groups[]', id, selected, {:disabled => selected, :id => "group_#{id}"}
       = label_tag "group_#{id}", @collections[id][:name]
+= render :partial => 'addbuttons'
