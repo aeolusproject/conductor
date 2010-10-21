@@ -9,10 +9,10 @@
       No selected packages
     - else
       - repos = @repository_manager.repositories_hash
-      - @selected_packages.each do |pkg|
+      - @selected_packages.sort.each do |pkg|
         - pkg_group = @groups.keys.find {|g| @groups[g][:packages][pkg]}
         %fieldset.clearfix
-          = text_field_tag 'packages[]', pkg, :id => "selected_package_#{pkg}", :class => "alpha grid_7 packagename"
+          = text_field_tag 'packages[]', pkg, :id => "package_#{pkg}", :class => "alpha grid_7 packagename"
           .grid_2= (pkg_group and repo = repos[@groups[pkg_group][:repository_id]]) ? repo.name.to_s : '&nbsp;'
           .grid_5.omega
             %button{:type => 'button', :disabled => 'disabled'} Config

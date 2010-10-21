@@ -30,6 +30,8 @@ class PulpRepository < AbstractRepository
   def initialize(conf)
     super
     @groups_url = File.join(strip_path(@baseurl), conf['packagegroups'])
+    @categories_url = File.join(strip_path(@baseurl), conf['packagegroupcategories'])
+    @packages_url = File.join(strip_path(@baseurl), conf['packages'])
   end
 
   def groups
@@ -41,14 +43,33 @@ class PulpRepository < AbstractRepository
       info['mandatory_package_names'].each {|p| pkgs[p] = {:type => 'mandatory'}}
       next if pkgs.empty?
       name = info['name']
-      groups[name] = {
-        :name => name,
+      groups[info['id']] = {
+        :name => info['name'],
         :description => info['description'].to_s,
         :repository_id => @id,
         :packages => pkgs,
       }
     end
     return groups
+  end
+
+  def categories
+    categories = {}
+    WrappedRestClient.get(@categories_url, HTTP_OPTS).each do |id, info|
+      categories[info['id']] = {
+        :name => info['name'],
+        :groups => info['packagegroupids'],
+      }
+    end
+    return categories
+  end
+
+  def packages
+    packages = []
+    WrappedRestClient.get(@packages_url, HTTP_OPTS).each do |info|
+      packages << info['name']
+    end
+    return packages
   end
 
   private
