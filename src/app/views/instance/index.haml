@@ -12,10 +12,10 @@
 - pool_columns = [                                                                |
   { :name => "Pool name", :sort_attr => :name },                                  |
   { :name => "Alerts", :sortable => false },                                      |
-  { :name => "% Quota used", :sortable => false },                                |
-  { :name => "Quota (Instances)", :sort_attr => "quotas.total_instances"},        |
+  { :name => "Capacity", :sortable => false },                                    |
   { :name => "Zone", :sort_attr => "zones.name" }                                 |
 ]                                                                                 |
+
 
 - form_tag(:action => 'instance_action') do
   .actionsidebar.grid_3
@@ -61,24 +61,39 @@
             %span
             = submit_tag "Request Help", :name => "request_help", :class => "icon", :disabled => true
 
-  .grid_13
+  .grid_5
+    %h2 My Quota
+    %table
+      %thead
+        %tr
+          %th % Quota Used
+          %th
+            Quota
+            %span.small (Instances)
+      %tbody
+        %tr
+          - quota = current_user.quota.maximum_running_instances
+          %td
+            - if quota.respond_to? '>' and quota > 0
+              = "%.2f" % ((current_user.quota.running_instances / quota.to_f) * 100)
+            - else
+              = 0
+          %td
+            = quota or "unlimited"
+  .grid_8
     %h2 Pool Status
     %table
       =sortable_table_header pool_columns
-      %tbody
       - @pools.each do |pool|
         %tr
           %td
             = pool.name
           %td N/A
-          %td
-            =((pool.quota.maximum_running_instances || 0)/100)*pool.quota.total_instances
-            ='%'
-          %td
-            =pool.quota.total_instances
+          %td.capacity
+            %span.good
           %td
             =pool.zone.name
-
+  .grid_13
     %h2 Instances by Pool
     - @pools.each do |pool|
       .grid_6.alpha.poolname
