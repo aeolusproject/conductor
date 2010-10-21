@@ -30,9 +30,19 @@ class TemplatesController < ApplicationController
     elsif params[:delete]
       redirect_to :action => 'delete', :ids => params[:ids].to_a
     elsif params[:edit]
-      redirect_to :action => 'new', :id => get_selected_id
+      begin
+        redirect_to :action => 'new', :id => get_selected_id
+      rescue
+        flash[:notice] = "No template selected"
+        redirect_to :action => 'index'
+      end
     elsif params[:build]
-      redirect_to :action => 'build_form', 'template_id' => get_selected_id
+      begin
+        redirect_to :action => 'build_form', 'template_id' => get_selected_id
+      rescue
+        flash[:notice] = "No template selected"
+        redirect_to :action => 'index'
+      end
     else
       raise "Unknown action"
     end
@@ -218,8 +228,11 @@ add account on <a href=\"#{url_for :controller => 'provider', \
 
   def delete
     ids = params[:ids].to_a
-    raise "No Template Selected" if ids.empty?
-    Template.destroy(ids)
+    if ids.empty?
+      flash[:notice] = "No Template Selected"
+    else
+      Template.destroy(ids)
+    end
     redirect_to :action => 'index'
   end
 

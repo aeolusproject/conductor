@@ -29,7 +29,7 @@
     -@users.each do |user|
       %tr
         %td
-          %input{:name => "user_checkbox", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
+          %input{:name => "user_checkbox", :type => "radio", :value => user.id, :id => "user_checkbox_#{user.id}" }
         %td= link_to user.login, {:action => "edit", :id => user.id}
         %td= user.last_name
         %td= user.first_name
@@ -39,5 +39,5 @@
 
 :javascript
   $(document).ready(function () {
-    $("input[type='checkbox']").buttonSensitivity().change();
+    //$("input[type='checkbox']").buttonSensitivity().change();
   });

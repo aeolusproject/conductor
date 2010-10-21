@@ -26,7 +26,7 @@
       %tr
         %td
           - is_first_pool = (pool == @pools.first)
-          %input{:checked => is_first_pool, :name => "pool_checkbox", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
+          %input{:checked => is_first_pool, :name => "pool_checkbox", :type => "radio", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
           = pool.name
         %td
           =((pool.quota.maximum_running_instances || 0)/100)*pool.quota.total_instances
@@ -38,5 +38,7 @@
 
 :javascript
   $(document).ready(function () {
-    $("input[type='checkbox']").buttonSensitivity().change();
+    /* NOTE: once we support bulk actions on multiple pools selected at once,
+    uncomment this line:
+    $("input[type='checkbox']").buttonSensitivity().change(); */
   });
