@@ -268,7 +268,7 @@ table {
     }
   }
   td {
-    padding: 2px;
+    padding: 4px;
     vertical-align: top;
     min-height: 16px;
   }
@@ -1034,7 +1034,7 @@ footer {
 }
 
 /* GRINDS */
-.status {
+.status,.capacity {
   span {
     display: inline-block;
     width: 10px;
