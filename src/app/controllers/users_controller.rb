@@ -77,15 +77,20 @@ class UsersController < ApplicationController
     @user = params[:user][:id] ? User.find(params[:user][:id]) : @current_user
     if params[:commit] == "Save"
       if @user
+        has_users_modify= BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
         if @user != @current_user
-          if !BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
+          if !has_users_modify
             flash[:notice] = "Invalid Permission to perform this operation"
             redirect_to :dashboard
           end
         end
         if @user.update_attributes(params[:user])
           flash[:notice] = "User updated!"
-          redirect_to users_path
+          if has_users_modify
+            redirect_to users_path
+          else
+            redirect_to :dashboard
+          end
         else
           render :action => :edit
         end
