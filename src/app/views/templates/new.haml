@@ -20,7 +20,6 @@
           var url = '#{url_for :action => 'managed_content'}';
           var data = {
             'selected_packages[]': $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get(),
-            'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
             'template_id'  : '#{@id.nil? ? nil : @id}'
           };
           $content_container.load(url, data, function(){
@@ -37,7 +36,6 @@
           e.preventDefault();
           var data = {
             'selected_packages[]': $("input[name='selected_packages[]']").map(function() {return $(this).val()}).get(),
-            'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
             'template_id'  : '#{@id.nil? ? nil : @id}'
           }
           var url = '#{url_for :action => 'managed_content'}';
