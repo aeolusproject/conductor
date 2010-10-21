@@ -33,19 +33,18 @@ describe TemplatesController do
       hydra = Typhoeus::Hydra.hydra
       hydra.stub(:put, %r{http://localhost:9090/templates/.*}).and_return(
         Typhoeus::Response.new(:code => 200))
+      Factory.create(:mock_cloud_account)
     end
 
     it "should create a new Image" do
-      mock = Factory.create(:mock_provider)
       lambda do
-        post :build, :image => {:template_id => @template.id}, :targets => ["mock"]
+        post :build, :template_id => @template.id, :targets => ["mock"]
       end.should change(Image, :count).by(1)
     end
 
     it "should create a new ReplicatedImage" do
-      mock = Factory.create(:mock_provider)
       lambda do
-        post :build, :image => {:template_id => @template.id}, :targets => ["mock"]
+        post :build, :template_id => @template.id, :targets => ["mock"]
       end.should change(ReplicatedImage, :count).by(1)
     end
   end
