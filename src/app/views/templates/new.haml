@@ -7,7 +7,8 @@
       e.preventDefault();
       $submit.hide();
       var data = {
-        'packages[]': $("input[name='packages[]']").map(function() {return $(this).val()}).get()
+        'packages[]': $("input[name='packages[]']").map(function() {return $(this).val()}).get(),
+        'tpl[platform]': $("select[name='tpl[platform]']").val() || ''
       }
       var url = '#{url_for :action => 'content_selection', :embed => true, :id => @id}';
       $content_container.empty().show();
@@ -63,6 +64,12 @@
       });
     });
     $('.remove_package').click(function() { $(this).parent().parent().remove(); });
+    // select correct package repo when we change platform
+    $("select[name='tpl[platform]']").change(function() {
+      if ($submit.is(':hidden')) {
+        $submit.trigger('click');
+      }
+    });
   });
 
 .grid_16

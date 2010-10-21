@@ -11,13 +11,6 @@
         %input{:type => "search", :placeholder => "Search for package", :disabled => "disabled"}
         %button.action
       .grid_8
-        %p
-          Repositories to Search:
-          %a (Check all)
-        %fieldset
-          - @repository_manager.repositories.each do |repo|
-            = check_box_tag 'repositories[]', repo.id, true
-            = label_tag 'repositories[]', repo.name
       %a.grid_4.omega Advanced Search
 
     %ul.softwaregroups

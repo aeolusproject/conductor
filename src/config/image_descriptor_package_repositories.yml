@@ -3,6 +3,15 @@ name: Fedora
 baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/13/Everything/x86_64/os/
 type: xml
 
-#baseurl: https://admin:admin@localhost/pulp/api/
-#yumurl: https://localhost/pulp/repos/
-#type: pulp
+# you can define multiple repositories, as array, for example:
+#
+# -
+#   id: repo1
+#   name: Repo
+#   baseurl: url
+#   type: xml
+#
+# -
+#   baseurl: https://admin:admin@localhost/pulp/api/
+#   yumurl: https://localhost/pulp/repos/
+#   type: pulp
