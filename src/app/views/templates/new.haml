@@ -77,7 +77,7 @@
   - form_for @tpl, :url => { :action => "dispatch" } do
     <input type="hidden" id="id" name="id" value="#{@id}" />
     = hidden_field :tpl, :id
-    = error_messages_for :tpl
+    = error_messages_for :tpl, :object_name => 'template'
     = render :partial => 'basics'
 
     %h3.disabled.gap Local Content to Bundle
