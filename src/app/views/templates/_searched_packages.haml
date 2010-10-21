@@ -1,8 +1,9 @@
 %h4
   = "Search Results for '#{params[:package_search]}'"
-%ul.metagrouppackages
+%ul.searchedpackages
   - @searched_packages.sort.each do |pkg|
     %li
       - selected = @packages.to_a.find {|p| p[:name] == pkg}
       = check_box_tag 'packages[]', pkg, selected, {:disabled => selected, :id => "package_#{pkg}"}
       = label_tag "package_#{pkg}", pkg
+= render :partial => 'addbuttons'

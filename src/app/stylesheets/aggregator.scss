@@ -341,6 +341,19 @@ table {
     background: url(../../images/icons/action-icons.png) no-repeat 0 0;
   }
 }
+input[type='submit'].icon {
+  border: none;
+  background: transparent;
+  font-size: 100%;
+  padding: 0;
+  &:hover {
+    @include no-box-shadow;
+    color: $dcprimary;
+    &[disabled] {
+      color: #000;
+    }
+  }
+}
 
 .actionsidebar {
   border-right: 1px solid darken($footerbg, 10%);
@@ -388,19 +401,6 @@ table {
   form.buttononly {
     display: inline-block;
   }
-  input[type='submit'].icon {
-    border: none;
-    background: transparent;
-    font-size: 100%;
-    padding: 0;
-    &:hover {
-      @include no-box-shadow;
-      color: $dcprimary;
-      &[disabled] {
-        color: #000;
-      }
-    }
-  }
   span {
           display: block;
           position: absolute;
@@ -427,6 +427,62 @@ table {
   .VD span { background-position: -320px 0;}
   label {
     font-weight: normal;
+  }
+}
+
+.packagegroupsidebar {
+  display: block;
+  text-align: right;
+  font-size: 120%;
+  li {
+    display: block;
+    margin: 0;
+  }
+  .icon {
+    text-transform: capitalize;
+  }
+}
+  #collections {
+    margin: 0 0 1em;
+    font-weight: bold;
+  }
+
+.metagrouppackages {
+  display: block;
+  &>li {
+    display: block;
+    text-transform: uppercase;
+    margin: 0 2em 2em 0; padding: 0;
+    label {
+      cursor: pointer;
+    }
+    ul {
+      @include column-count(3);
+      display: block;
+      text-transform: none;
+      font-size: 95%;
+      li {
+        display: block;
+        margin: 0 0 0 4px;
+        text-transform: capitalize;
+        label {
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}
+
+.searchedpackages, .collections {
+  display: block;
+  margin: 0 2em 2em 0;
+  @include column-count(3);
+  li {
+    display: block;
+    margin: 0;
+    label {
+      font-weight: normal;
+    }
   }
 }
 
@@ -1122,40 +1178,6 @@ a.iconbutton {
     color: #000;
   }
 }
-
-.softwaregroups {
-  height: 600px;
-  overflow: auto;
-  display: block;
-  &>li {
-    display: block;
-    text-transform: uppercase;
-    margin: 0 0 2em 0; padding: 0 0 0 20px;
-    background: url('../../images/icons/expander-collapsed.png') no-repeat 0 0;
-    &.expanded {
-      background: url('../../images/icons/expander-expanded.png') no-repeat 0 0;
-    }
-    label {
-      cursor: pointer;
-    }
-  }
-  .packages {
-    @include column-count(4);
-    display: block;
-    margin: 1em 0 0 0;
-    &:first-child {
-      margin: 0;
-    }
-    li {
-      text-transform: none;
-      display: block;
-      label {
-        font-weight: normal;
-      }
-    }
-  }
-}
-
 
 /* IE and other horror browser workarounds */
 

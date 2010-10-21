@@ -1,7 +1,7 @@
 :javascript
   $(document).ready(function() {
     var $metagrouppackages = $('#metagrouppackages');
-    $('input[name="show_metagroup"]').click(function(e) {
+    $('.metagroups input[name="show_metagroup"]').click(function(e) {
       e.preventDefault();
       var data = {
         'show_metagroup': e.currentTarget.value,
@@ -27,22 +27,17 @@
       .grid_8
       %a.grid_4.omega Advanced Search
 
-    %ul.metagroups{:class => 'actionsidebar', :style => 'float:left'}
+    %ul.metagroups{:class => 'packagegroupsidebar grid_4 alpha'}
       %li
-        = submit_tag 'Collections', :name => 'show_metagroup', :class => 'icon'
-      %hr
+        = submit_tag 'Collections', :name => 'show_metagroup', :id => 'collections', :class => 'icon'
       - @metagroups.keys.sort.each do |cat|
         %li
           = submit_tag cat, :name => "show_metagroup", :class => 'icon'
-    #metagrouppackages
+    #metagrouppackages.grid_12.omega.gap
       - if @collections
         = render :partial => 'collections'
       - else
         - if @metagroup_packages.blank?
-          No group selected
+          %span.disabled No group selected
         - else
           = render :partial => 'metagroup_packages'
-
-    %fieldset.clearfix
-      = submit_tag "Add Selected", :name => "add_selected", :class => "grid_2 alpha", :id => "do_add_software"
-      = submit_tag "Cancel", :name => "cancel_add_software", :class => "grid_2", :id => "cancel_add_software"
