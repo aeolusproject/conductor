@@ -11,11 +11,19 @@ class CompsRepository < AbstractRepository
   end
 
   def groups
-    begin
-      @groups ||= Marshal.load(File.open(@cache_file, 'r'))
-    rescue Errno::ENOENT
-      raise "failed to read cached packages info, run 'rake dc:prepare_repos'"
+    @groups ||= load_data[:groups]
+  end
+
+  def categories
+    @categories ||= load_data[:categories]
+  end
+
+  def packages
+    pkgs = []
+    groups.each_value do |g|
+      pkgs += g[:packages].keys
     end
+    pkgs.uniq
   end
 
   def prepare_repo
@@ -25,7 +33,8 @@ class CompsRepository < AbstractRepository
       pkgs = group_packages(g)
       next if pkgs.empty?
       name = g.at_xpath('name').text
-      grps[name] = {
+      id = g.at_xpath('id').text
+      grps[id] = {
         :name => name,
         :repository_id => @id,
         :packages => pkgs
@@ -45,16 +54,49 @@ class CompsRepository < AbstractRepository
       }
     end
 
+    categories = {}
+    category_nodes.each do |cat|
+      id = cat.at_xpath('id').text
+      categories[id] = {
+        :name => cat.at_xpath('name').text,
+        :groups => cat.xpath('./grouplist/groupid').map {|g| g.text}
+      }
+    end
+
     Dir.mkdir(@cache_dir) unless File.directory?(@cache_dir)
-    Marshal.dump(grps, File.open(@cache_file, 'w'))
+    Marshal.dump({:groups => grps,
+                  :categories => categories}, File.open(@cache_file, 'w'))
   end
 
   private
 
+  def load_data
+    unless @load_data
+      begin
+        @load_data = Marshal.load(File.open(@cache_file, 'r'))
+      rescue Errno::ENOENT
+        raise "failed to read cached packages info, run 'rake dc:prepare_repos'"
+      end
+    end
+    @load_data
+  end
+
+  def parsed_group_xml
+    unless @xml
+      return nil unless data = group_xml
+      @xml = Nokogiri::XML(data)
+    end
+    @xml
+  end
+
   def group_nodes
-    return [] unless data = group_xml
-    xml = Nokogiri::XML(data)
+    return [] unless xml = parsed_group_xml
     xml.xpath('/comps/group')
+  end
+
+  def category_nodes
+    return [] unless xml = parsed_group_xml
+    xml.xpath('/comps/category')
   end
 
   def pkg_names

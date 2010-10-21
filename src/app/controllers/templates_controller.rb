@@ -62,6 +62,13 @@ class TemplatesController < ApplicationController
       params[:packages] = params[:selected_packages]
       new
 
+    elsif params.include?('show_metagroup')
+      @metagroup = params['show_metagroup']
+      content_selection
+
+    elsif not params[:package_search].blank?
+      content_selection
+
     end
   end
 
@@ -105,9 +112,35 @@ class TemplatesController < ApplicationController
     @tpl = @id.blank? ? Template.new : Template.find(@id)
     @tpl.attributes = params[:tpl] unless params[:tpl].nil?
     @packages = []
-    @packages = params[:packages].collect{ |p| { :name => p } } if params[:packages]
+    @packages += params[:packages].collect{ |p| { :name => p } } unless params[:packages].blank?
+    @packages += params[:selected_packages].collect{ |p| { :name => p } } unless params[:selected_packages].blank?
     @groups = @repository_manager.all_groups_with_tagged_selected_packages(@packages, @tpl.platform)
     @embed  = params[:embed]
+    @categories = @repository_manager.categories(params[:tpl] ? params[:tpl][:platform] : nil)
+    @metagroups = @repository_manager.metagroups
+
+    if not params[:package_search].blank?
+      @searched_packages = @repository_manager.search_package(params[:package_search], params[:repository])
+    elsif not @metagroup.blank?
+      if @metagroup == 'Collections'
+        # TODO: if we remember selected groups, this could be done much more simply
+        @collections = @repository_manager.all_groups_with_tagged_selected_packages(@packages, params[:repository])
+      else
+        @metagroup_packages = @repository_manager.metagroup_packages_with_tagged_selected_packages(@metagroup, @packages, params[:repository])
+      end
+    end
+    if request.xhr?
+      if @metagroup_packages
+        render :partial => 'metagroup_packages' and return
+      end
+      if @searched_packages
+        render :partial => 'searched_packages' and return
+      end
+      if @collections
+        render :partial => 'collections' and return
+      end
+    end
+
     if @embed
       render :layout => false
     else
@@ -219,10 +252,8 @@ add account on <a href=\"#{url_for :controller => 'provider', \
     @repository_manager = RepositoryManager.new
     @groups = @repository_manager.all_groups(params[:repository])
 
-    if params[:packages]
-      @selected_packages = params[:packages]
-    elsif params[:selected_packages]
-      @selected_packages = params[:selected_packages]
+    if not params[:packages].blank? or not params[:selected_packages].blank?
+      @selected_packages = params[:packages].to_a + params[:selected_packages].to_a
     elsif !tpl.nil?
       @selected_packages = tpl.xml.packages.collect { |p| p[:name] }
     else

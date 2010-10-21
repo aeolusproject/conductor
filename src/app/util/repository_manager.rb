@@ -47,6 +47,77 @@ class RepositoryManager
     return @all_groups
   end
 
+  def packages(repository = nil)
+  end
+
+  def categories(repository = nil)
+    unless @all_categories
+      @all_categories = {}
+      repositories.each do |r|
+        next if repository and repository != 'all' and repository != r.id
+        r.categories.each do |id, data|
+          if @all_categories[id]
+            @all_categories[id][:groups] += data[:groups]
+          else
+            @all_categories[id] = data
+          end
+        end
+      end
+    end
+    return @all_categories
+  end
+
+  def packages(repository = nil)
+    unless @packages
+      @packages = []
+      repositories.each do |r|
+        next if repository and repository != 'all' and repository != r.id
+        @packages += r.packages
+      end
+    end
+    return @packages
+  end
+
+  # TODO: this is temporary solution for categorizing packages
+  def metagroups
+    unless @metagroups
+      @metagroups = {}
+      File.readlines('config/image_descriptor_package_metagroups.conf').each do |line|
+        group, entries_str = line.chomp.split('=')
+        next unless group and entries_str
+        @metagroups[group] = entries_str.split(',')
+      end
+    end
+    @metagroups
+  end
+
+  def metagroup_packages(category, repository = nil)
+    res = {}
+    groups = all_groups(repository)
+    metagroups[category].to_a.each do |entry|
+      cat, group = entry.split(';')
+      next unless c = categories[cat] and c[:groups].include?(group) and groups[group]
+      res[group] = {:packages => groups[group][:packages].keys}
+    end
+    res
+  end
+
+  def metagroup_packages_with_tagged_selected_packages(category, pkgs, repository = nil)
+    mgroups = metagroup_packages(category, repository)
+    mgroups.each_value do |group|
+      missing = false
+      pkgs.each do |p|
+        unless group[:packages].include?(p[:name])
+          missing = true
+          break
+        end
+      end
+      next if missing
+      group[:selected] = true
+    end
+    mgroups
+  end
+
   def all_groups_with_tagged_selected_packages(pkgs, repository = nil)
     groups = all_groups(repository)
     groups.each_value do |group|
@@ -65,6 +136,10 @@ class RepositoryManager
       res[r.id] = r
     end
     res
+  end
+
+  def search_package(str, repository = nil)
+    packages.select {|p| p =~ /#{Regexp.escape(str)}/i}
   end
 
   private

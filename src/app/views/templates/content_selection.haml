@@ -1,3 +1,17 @@
+:javascript
+  $(document).ready(function() {
+    var $metagrouppackages = $('#metagrouppackages');
+    $('input[name="show_metagroup"]').click(function(e) {
+      e.preventDefault();
+      var data = {
+        'show_metagroup': e.currentTarget.value,
+        selected_packages:  $("input:hidden[name='selected_packages[]']").map(function() {return $(this).val()}).get()
+      };
+      var url = '#{url_for :action => 'dispatch', :id => @id}';
+      $metagrouppackages.load(url, data);
+    });
+  });
+
 .grid_16
   %h3 Managed Content Selection
 
@@ -8,31 +22,26 @@
       <input type="hidden" id="selected_package_#{p[:name]}" name="selected_packages[]" value="#{p[:name]}" />
     %fieldset.clearfix
       .search.grid_4.alpha
-        %input{:type => "search", :placeholder => "Search for package", :disabled => "disabled"}
+        %input{:type => "search", :placeholder => "Search for package", :name => 'package_search'}
         %button.action
       .grid_8
       %a.grid_4.omega Advanced Search
 
-    %ul.softwaregroups
-      - groups = @groups.keys.sort
-      - unsorted = groups.delete('unsorted')
-      - groups.push('unsorted') if params[:show_unsorted] and unsorted
-      - groups.each do |group|
-        - group_sel = @groups[group][:selected]
-        - group_id = group.gsub(/\s/, '_')
+    %ul.metagroups{:class => 'actionsidebar', :style => 'float:left'}
+      %li
+        = submit_tag 'Collections', :name => 'show_metagroup', :class => 'icon'
+      %hr
+      - @metagroups.keys.sort.each do |cat|
         %li
-          = check_box_tag 'groups[]', group, group_sel, :id => "group_#{group_id}"
-          %label.disclosure
-            =group
-          %ul{:class => "packages group_#{group_id}"}
-            - pkgs = @groups[group][:packages]
-            - pkgs.keys.sort.each do |pkg|
-              - pkg_sel = pkgs[pkg][:selected] ? true : false
-              - pkg_id = pkg.gsub(/\s/, '_')
-              %li
-                = check_box_tag 'packages[]', pkg, pkg_sel, :id => "package_#{pkg_id}"
-                = label_tag "package_#{pkg_id}", pkg
-      = link_to "Show unsorted packages", {:action => 'dispatch', :add_software_form => true, :show_unsorted => true, 'tpl[id]' => @tpl.id}, {:id => 'switch_all_link'} unless params[:show_unsorted]
+          = submit_tag cat, :name => "show_metagroup", :class => 'icon'
+    #metagrouppackages
+      - if @collections
+        = render :partial => 'collections'
+      - else
+        - if @metagroup_packages.blank?
+          No group selected
+        - else
+          = render :partial => 'metagroup_packages'
 
     %fieldset.clearfix
       = submit_tag "Add Selected", :name => "add_selected", :class => "grid_2 alpha", :id => "do_add_software"
