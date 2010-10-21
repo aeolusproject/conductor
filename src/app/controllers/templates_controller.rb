@@ -32,7 +32,7 @@ class TemplatesController < ApplicationController
     elsif params[:edit]
       redirect_to :action => 'new', :id => get_selected_id
     elsif params[:build]
-      redirect_to :action => 'build_form', 'image[template_id]' => get_selected_id
+      redirect_to :action => 'build_form', 'template_id' => get_selected_id
     else
       raise "Unknown action"
     end
@@ -121,8 +121,8 @@ class TemplatesController < ApplicationController
   end
 
   def build_form
-    raise "select template to build" unless params[:image] and params[:image][:template_id]
-    @image = Image.new(params[:image])
+    raise "select template to build" unless id = params[:template_id]
+    @tpl = Template.find(id)
     @all_targets = Image.available_targets
   end
 
@@ -132,30 +132,31 @@ class TemplatesController < ApplicationController
       return
     end
 
-    #FIXME: The following functionality needs to come out of the controller
-    @image = Image.new(params[:image])
-    @image.template.upload_template unless @image.template.uploaded
-    # FIXME: this will need to re-render build with error messages,
-    # just fails right now if anything is wrong (like no target selected).
+    @tpl = Template.find(params[:template_id])
+    @all_targets = Image.available_targets
+
+    if params[:targets].blank?
+      flash.now[:warning] = 'You need to check at least one provider format'
+      render :action => 'build_form'
+      return
+    end
+
+    @tpl.upload_template unless @tpl.uploaded
     params[:targets].each do |target|
-      i = Image.new_if_not_exists(
-        :name => "#{@image.template.xml.name}/#{target}",
-        :target => target,
-        :template_id => @image.template_id,
-        :status => Image::STATE_QUEUED
-      )
-      # FIXME: This will need to be enhanced to handle multiple
-      # providers of same type, only one is supported right now
-      if i
-        image = Image.find_by_template_id(params[:image][:template_id],
-                                :conditions => {:target => target})
-        ReplicatedImage.create!(
-          :image_id => image.id,
-          :provider_id => Provider.find_by_cloud_type(target)
-        )
+      begin
+        Image.build(@tpl, target)
+      rescue
+        flash.now[:error] ||= {}
+        flash.now[:error][:failures] ||= {}
+        flash.now[:error][:failures][target] = $!.message
       end
     end
-    redirect_to :action => 'builds'
+    if flash[:error] and not flash[:error][:failures].blank?
+      flash[:error][:summary] = 'Error while trying to build image'
+      render :action => 'build_form'
+    else
+      redirect_to :action => 'builds'
+    end
   end
 
   def builds

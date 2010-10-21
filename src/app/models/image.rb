@@ -49,17 +49,35 @@ class Image < ActiveRecord::Base
   ACTIVE_STATES = [ STATE_QUEUED, STATE_CREATED, STATE_BUILDING ]
   INACTIVE_STATES = [STATE_COMPLETE, STATE_FAILED, STATE_CANCELED]
 
-  def self.new_if_not_exists(data)
-    unless find_by_template_id(data[:template_id], :conditions => {:target => data[:target]})
-      Image.new(data).save!
-    end
-  end
-
   def self.available_targets
     return YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_targets.yml")
   end
 
   def generate_uuid
     self.uuid ||= "image-#{self.template_id}-#{Time.now.to_f.to_s}"
+  end
+
+  def self.build(template, target)
+    # FIXME: This will need to be enhanced to handle multiple
+    # providers of same type, only one is supported right now
+    if img = Image.find_by_template_id(template.id, :conditions => {:target => target})
+      # TODO: we currently silently ignore requests for building image which is
+      # already built (or is building now)
+      return img
+    end
+
+    Image.transaction do
+      img = Image.create!(
+        :name => "#{template.xml.name}/#{target}",
+        :target => target,
+        :template_id => template.id,
+        :status => Image::STATE_QUEUED
+      )
+      ReplicatedImage.create!(
+        :image_id => img.id,
+        :provider_id => Provider.find_by_cloud_type(target)
+      )
+    end
+    return img
   end
 end
