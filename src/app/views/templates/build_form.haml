@@ -1,6 +1,6 @@
 %h2 BUILD REQUEST
-- form_for @image, :url => { :action => "build" } do
-  = hidden_field :image, :template_id
+- form_tag :action => 'build' do
+  = hidden_field_tag :template_id, @tpl.id
   %h3 Deployment Definition
   %fieldset.clearfix
     = label_tag :deploy_name, 'Deployment Definition Name:', :class => 'grid_4'
@@ -25,7 +25,7 @@
   %fieldset.clearfix
     .grid_6
       %label OS:
-      = @image.template.platform
+      = @tpl.platform
     .grid_3
       Hardware Profile
     .grid_3.suffix_3
@@ -33,7 +33,7 @@
   %fieldset.clearfix
     .grid_3
       %label OS Version:
-      = @image.template.platform_version
+      = @tpl.platform_version
     .grid_3.ra
       %label Global Settings:
     .grid_3
