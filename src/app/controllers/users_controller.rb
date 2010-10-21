@@ -25,11 +25,17 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @user.quota = Quota.new
   end
 
   def create
     require_privilege(Privilege::USER_MODIFY) unless current_user.nil?
     @user = User.new(params[:user])
+
+    if params[:commit] == "Reset"
+      redirect_to :action => :new
+      return
+    end
 
     @registration = RegistrationService.new(@user)
     if @registration.save
@@ -56,6 +62,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = params[:id] ? User.find(params[:id]) : @current_user
+
     if @user
       if @user != @current_user
         if !BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
@@ -67,8 +74,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    if params[:make_changes] || params[:save]
-      @user = params[:user][:id] ? User.find(params[:user][:id]) : @current_user
+    @user = params[:user][:id] ? User.find(params[:user][:id]) : @current_user
+    if params[:commit] == "Save"
       if @user
         if @user != @current_user
           if !BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
@@ -83,8 +90,8 @@ class UsersController < ApplicationController
           render :action => :edit
         end
       end
-    elsif  params[:reset]
-      redirect_to :action => "edit", :user => @user
+    elsif params[:commit] == "Reset"
+      redirect_to :action => "edit", :id => @user.id
     end
   end
 

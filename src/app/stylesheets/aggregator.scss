@@ -121,6 +121,7 @@ input[type='submit'],button,.button {
     display: inline-block;
     margin-left: 3px;
     margin: 40px 4px 4px;
+    float: left;
   }
   &.actionlink {
     margin: 40px 0 0;
@@ -861,7 +862,7 @@ fieldset.gap {
       padding: 4px 10px 0 0;
       max-width: 10em;
     }
-    input {
+    input[type='text'], input[type='password'], textarea {
       display: inline-block;
       width: 20em;
     }

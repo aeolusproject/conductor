@@ -1,8 +1,6 @@
-.modalbox
-  %h2 New Account
-  .dcloud_form
-    - form_for @user, :url => account_path do |f|
-      = f.error_messages
-      = render :partial => "form", :object => f
-      = f.submit t(:create_account), :class => "submit dialogbutton"
-      = link_to t(:cancel), :class => 'actionlink button dialogbutton'
+%h2 New Account
+-if (current_user)
+  = render :partial => "form", :locals => { :cancel_path => users_path}
+-else
+  .modalbox
+    = render :partial => "form", :locals => { :cancel_path => login_path}
