@@ -16,7 +16,7 @@
     - else
       - @templates.each do |tpl|
         %tr
-          %td= check_box_tag 'ids[]', tpl.id
+          %td= radio_button_tag 'ids[]', tpl.id
           %td
             = image_tag "blnk.png", :alt => tpl.platform, :class => "icon platform #{tpl.platform}"
             = tpl.name
