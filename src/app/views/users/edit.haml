@@ -1,20 +1,19 @@
-.modalbox
-  - if has_user_modify?
-    %h2.grid_16
-      Editing User:
-      = @user.first_name + " " + @user.last_name
-    %h3.grid_16 Basic User Information
-  - else
-    %h2.grid_16 Edit an Account
-  .dcloud_form
-    - form_for @user, :url => { :action => 'update' } do |f|
-      = f.error_messages
-      = hidden_field :user, :id, :value => @user.id
-      = render :partial => "form", :object => f
-      %fieldset.clear
-        = link_to "Cancel", users_path, :class => "formbutton button clear"
-        - if has_user_modify?
-          = f.submit "Reset", :class => "formbutton button", :name => "reset"
-          = f.submit "Save", :class => "formbutton button", :name => "save"
-        - else
-          = f.submit "Make Changes", :class => "formbutton button", :name => "make_changes"
+.formwindow
+- if has_user_modify?
+  %h2.grid_16
+    Editing User:
+    = @user.first_name + " " + @user.last_name
+  %h3.grid_16 Basic User Information
+- else
+  %h2.grid_16 Edit an Account
+- form_for @user, :url => { :action => 'update' } do |f|
+  = f.error_messages
+  = hidden_field :user, :id, :value => @user.id
+  = render :partial => "form", :object => f
+  %fieldset.clear
+    = link_to "Cancel", users_path, :class => "formbutton button clear"
+    - if has_user_modify?
+      = f.submit "Reset", :class => "formbutton button", :name => "reset"
+      = f.submit "Save", :class => "formbutton button", :name => "save"
+    - else
+      = f.submit "Make Changes", :class => "formbutton button", :name => "make_changes"
