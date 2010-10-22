@@ -32,9 +32,13 @@ class CloudAccount < ActiveRecord::Base
 
   validates_presence_of :provider_id
 
+  validates_presence_of :label
   validates_presence_of :username
   validates_uniqueness_of :username, :scope => :provider_id
   validates_presence_of :password
+  validates_presence_of :account_number
+  validates_presence_of :x509_cert_pub
+  validates_presence_of :x509_cert_priv
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
