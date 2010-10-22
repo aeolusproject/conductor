@@ -6,7 +6,7 @@
       var old_pkgs = $("input:hidden[name='cached_packages[]']").map(function() {return $(this).val()}).get();
       var new_pkgs = $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get();
       var data = {
-        'selected_packages[]': $("input:text[name='packages[]']").map(function() {return $(this).val()}).get(),
+        'selected_packages[]': $("input:hidden[name='packages[]']").map(function() {return $(this).val()}).get(),
         'cached_packages[]': old_pkgs.concat(new_pkgs),
         'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
         'package_search': $("input[name='package_search']").val(),

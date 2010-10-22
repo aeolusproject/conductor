@@ -6,7 +6,7 @@
       var data = {
         'show_metagroup': e.currentTarget.value,
         'repository': $("select[name='tpl[platform]']").val(),
-        'packages[]':  $("input:text[name='packages[]']").map(function() {return $(this).val()}).get()
+        'packages[]':  $("input:hidden[name='packages[]']").map(function() {return $(this).val()}).get()
       };
       var url = '#{url_for :action => 'dispatch', :id => @id}';
       $metagrouppackages.empty().addClass('loading');
