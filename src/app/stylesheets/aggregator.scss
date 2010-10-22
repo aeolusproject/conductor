@@ -865,6 +865,46 @@ fieldset.gap {
     color: $errorcl;
   }
 }
+
+.pagination {
+  font-size: 90%;
+  text-align: right;
+  .disabled {
+    display: none;
+  }
+  input {
+    display: inline-block;
+    text-align: center;
+    background: none;
+    border: 1px solid $strokecl;
+    width: 18px; padding: 3px; margin-right: 4px;
+    @include border-radius(0);
+    &.prev_page, &.next_page {
+      width: 54px;
+      &:active, &:hover, &:focus { /* behave like links, not buttons */
+        width: 54px;
+      }
+    }
+    &:active, &:hover, &:focus { /* behave like links, not buttons */
+      text-align: center;
+      background: none;
+      @include no-box-shadow();
+      width: 18px; padding: 3px; margin-right: 4px;
+    }
+  }
+  .current {
+    text-align: center;
+    display: inline-block;
+    width: 22px;
+    border: none;
+    font-weight: bold;
+  }
+}
+
+.pageinfo {
+  float: left;
+}
+
 /* simple two column label + input pairs */
 .dcloud_form {
   fieldset {
