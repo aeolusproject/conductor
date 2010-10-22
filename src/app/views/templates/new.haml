@@ -72,8 +72,10 @@
       }
     });
     Aggregator.hook_selected_packages = function() {
-      $('#do_add_software').click(function(e) {
+      $('#do_add_software').live('click', function(e) {
         e.preventDefault();
+        var $button = $(this).clone();
+        var label = "<span id='do_add_software' class='loading fl'>Adding Packages</span>";
         var url = '#{url_for :action => 'managed_content'}';
         var new_pkgs = $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get();
         var old_pkgs =  $("input:hidden[name='packages[]']").map(function() {return $(this).val()}).get()
@@ -85,11 +87,13 @@
           'collections': $("input:hidden[name=collections]").val(),
           'template_id'  : '#{@id.nil? ? nil : @id}'
         };
+        $(this).replaceWith(label);
         $('#managed_content').load(url, data, function(){
           $("input:checked[name='groups[]']").attr('disabled', 'disabled');
           $("input:checked[name='packages[]']").attr('disabled', 'disabled');
           $('#add_software_button').show();
           $('.dropdown').hide();
+          $('#do_add_software').replaceWith($button);
         });
       });
       $('#cancel_add_software').click(function(e) {
