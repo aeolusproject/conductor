@@ -35,7 +35,32 @@
         });
       });
     });
-    $('.remove_package').click(function() { $(this).parent().parent().remove(); });
+    //removing packages from the list
+    $('.remove_package').live('click', function (e) {
+      e.preventDefault();
+      $(this).parent().hide(300, function () {
+        $(this).remove();
+      });
+    });
+    //displaying extended package info and actions
+    $('.dropdown').hide();
+    $('.packagename').live('click', function () {
+      var dropdowncontent = $(this).siblings('.dropdown').html(),
+      $dropdown = $("#dropdown");
+      $('.packagewrap').removeClass('selected');
+      $(this).parent().addClass('selected');
+      $dropdown.empty().html(dropdowncontent).css({
+        'top': $(this).positionAncestor('#content').top + 17,
+        'left': $(this).positionAncestor('#content').left - 4
+      }).show();
+    });
+    //catch #content clicks and hide the #dropdown if it's not within it
+    $("#content").click(function (e) {
+      if(!e.target.id === 'dropdown' || !$(e.target).closest("#dropdown").length) {
+        $("#dropdown").hide();
+        $('.packagewrap').removeClass('selected');
+      }
+    });
     // select correct package repo when we change platform
     $("select[name='tpl[platform]']").change(function() {
       if ($submit.is(':hidden')) {
@@ -47,7 +72,7 @@
         e.preventDefault();
         var url = '#{url_for :action => 'managed_content'}';
         var new_pkgs = $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get();
-        var old_pkgs =  $("input:text[name='packages[]']").map(function() {return $(this).val()}).get()
+        var old_pkgs =  $("input:hidden[name='packages[]']").map(function() {return $(this).val()}).get()
         var cached_pkgs =  $("input:hidden[name='cached_packages[]']").map(function() {return $(this).val()}).get()
         var data = {
           'selected_packages[]': old_pkgs.concat(new_pkgs.concat(cached_pkgs)),
@@ -58,17 +83,19 @@
         $('#managed_content').load(url, data, function(){
           //$('#package_selection_list').empty().show();
           $('#add_software_button').show();
-          $('.remove_package').click(function() { $(this).parent().parent().remove(); });
+          $('.dropdown').hide();
         });
       });
       $('#cancel_add_software').click(function(e) {
         e.preventDefault();
         $('#package_selection_list').hide();
         $('#add_software_button').show();
+        $('.dropdown').hide();
       });
     }
   });
 
+#dropdown
 .grid_16
   %h2 Template
   - form_for @tpl, :url => { :action => "dispatch" } do
@@ -78,7 +105,6 @@
     = render :partial => 'basics'
 
     %h3.disabled.gap Local Content to Bundle
-    %hr
     %fieldset.clearfix
       = label_tag :local_bundle_name, 'Local:', :class => "disabled grid_2 alpha"
       = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true, :class => "grid_8"
@@ -104,13 +130,12 @@
       = render :partial => 'managed_content'
 
     .clearfix
-      .grid_14.alpha.prefix_2
+      .grid_16.alpha.omega
         = submit_tag "Add Software", :name => "add_software_form", :id => "add_software_button", :class => "iconbutton"
 
     #package_selection_list{:style => 'display: none'}
 
-    %h3.gap.clear Preboot Configuration
-    %hr
+    %h3.clear.gap Preboot Configuration
     %fieldset.clearfix
       .grid_4.alpha
         = radio_button_tag :configure_via_script, 'no', :disabled => true
@@ -122,5 +147,5 @@
         = label_tag :configure_via_script, 'Configure Via Script'
       = file_field_tag 'script_file', :disabled => true, :class => 'grid_12 omega'
 
-    = submit_tag "Save", :name => "save", :class => "dialogbutton"
-    = submit_tag "Cancel", :name => "cancel", :class => "dialogbutton"
+    = submit_tag "Save", :name => "save", :class => "formbutton"
+    = submit_tag "Cancel", :name => "cancel", :class => "formbutton"
