@@ -33,14 +33,6 @@
           var url = '#{url_for :action => 'dispatch', :id => @id}';
           $('#metagrouppackages').load(url, data);
         });
-        //disclosure triangles
-        $(".packages").hide();
-        $groups.click(function() {
-          var $packages = $(this).siblings('.packages');
-          var $container = $(this).parent('li');
-          $packages.toggle(200);
-          $container.toggleClass('expanded');
-        });
       });
     });
     $('.remove_package').click(function() { $(this).parent().parent().remove(); });
