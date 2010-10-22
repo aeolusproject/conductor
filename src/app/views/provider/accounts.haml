@@ -2,16 +2,14 @@
   function set_unlimited_quota(elem_id) {
     $("#" + elem_id)[0].value = "unlimited";
   }
-= render :partial => 'providers'
+= render :partial => 'provider/providers'
 #details.grid_13
   %nav.subsubnav
     = render_navigation(:level => 4)
 
   %h1
     = t('.provider_accounts')
-  - form_tag({:controller => 'cloud_accounts', :action => 'update_accounts'}, :multipart => true) do
-
-
+  - form_tag ({:controller => 'cloud_accounts', :action => 'update_accounts'}), :multipart => true do
     = hidden_field :provider, :id, :value => @provider.id
     - @provider.cloud_accounts.each do |acct|
       %fieldset.clearfix.nomargin

@@ -44,23 +44,27 @@ class CloudAccountsController < ApplicationController
     if params[:test_account]
       test_account(@cloud_account)
       redirect_to :controller => "provider", :action => "accounts", :id => @provider, :cloud_account => params[:cloud_account]
-    else
-      unless @cloud_account.valid_credentials?
-        flash[:notice] = "The entered credential information is incorrect"
-        redirect_to :controller => "provider", :action => "accounts", :id => @provider
-      else
-        quota = Quota.new
-        quota.maximum_running_instances = quota_from_string(params[:quota][:maximum_running_instances])
-        quota.save!
-        @cloud_account.quota_id = quota.id
-        @cloud_account.zones << Zone.default
-        @cloud_account.save!
-        if request.post? && @cloud_account.save && @cloud_account.populate_realms
-          flash[:notice] = "Provider account added."
-        end
-        redirect_to :controller => "provider", :action => "accounts", :id => @provider
-        kick_condor
+    elsif @cloud_account.valid?
+      quota = Quota.new
+      quota.maximum_running_instances = quota_from_string(params[:quota][:maximum_running_instances])
+      quota.save!
+      @cloud_account.quota_id = quota.id
+      @cloud_account.zones << Zone.default
+      @cloud_account.save!
+      if request.post? && @cloud_account.save && @cloud_account.populate_realms
+        flash[:notice] = "Provider account added."
       end
+      redirect_to :controller => "provider", :action => "accounts", :id => @provider
+      kick_condor
+    else
+      if not @cloud_account.valid_credentials?
+        flash[:notice] = "The entered credential information is incorrect"
+      elsif @cloud_account.errors.on(:username)
+        flash[:notice] = "The access key '#{params[:cloud_account][:username]}' has already been taken."
+      else
+        flash[:notice] = "You must fill in all the required fields"
+      end
+      redirect_to :controller => "provider", :action => "accounts", :id => @provider, :cloud_account => params[:cloud_account]
     end
   end
 
@@ -71,33 +75,47 @@ class CloudAccountsController < ApplicationController
   end
 
   def update_accounts
-    params[:cloud_accounts].each do |id, attributes|
-      @cloud_account = CloudAccount.find(id)
-      require_privilege(Privilege::ACCOUNT_MODIFY, @cloud_account.provider)
+    @provider = Provider.find(params[:provider][:id])
+    require_privilege(Privilege::ACCOUNT_MODIFY, @provider)
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
 
+    success = true
+    @provider.cloud_accounts.each do |cloud_account|
+      attributes = params[:cloud_accounts][cloud_account.id.to_s]
+
+      password = attributes[:password]
       # blank password means the user didn't change it -- don't update it then
-      if attributes.has_key? :password and String(attributes[:password]).empty?
+      if password.blank?
         attributes.delete :password
       end
-      @cloud_account.quota.maximum_running_instances = quota_from_string(params[:quota][id][:maximum_running_instances])
+      cloud_account.quota.maximum_running_instances = quota_from_string(params[:quota][cloud_account.id.to_s][:maximum_running_instances])
+
       private_cert = attributes[:x509_cert_priv_file]
-      if private_cert.nil?
-        attributes.delete :x509_cert_priv
-      else
+      unless private_cert.blank?
         attributes[:x509_cert_priv] = private_cert.read
-        attributes.delete :x509_cert_priv_file
       end
+      attributes.delete :x509_cert_priv_file
+
       public_cert = attributes[:x509_cert_pub_file]
-      if public_cert.nil?
-        attributes.delete :x509_cert_pub
-      else
+      unless public_cert.blank?
         attributes[:x509_cert_pub] = public_cert.read
-        attributes.delete :x509_cert_pub_file
       end
-      @cloud_account.update_attributes!(attributes)
-      @cloud_account.quota.save!
+      attributes.delete :x509_cert_pub_file
+
+      begin
+        cloud_account.update_attributes!(attributes)
+        cloud_account.quota.save!
+      rescue
+        success = false
+      end
     end
-    redirect_to :controller => 'provider', :action => 'accounts', :id => params[:provider][:id]
+    if success
+      flash[:notice] = "Account updated."
+      redirect_to :controller => 'provider', :action => 'accounts', :id => @provider
+    else
+      flash.now[:notice] = "Error updating the cloud account."
+      render :template => 'provider/accounts'
+    end
   end
 
   def update
