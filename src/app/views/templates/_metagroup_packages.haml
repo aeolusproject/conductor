@@ -14,6 +14,6 @@
           - @metagroup_packages[group][:packages].each do |pkg|
             %li
               - selected = @packages.to_a.find {|p| p[:name] == pkg}
-              = check_box_tag 'packages[]', pkg, selected, {:disabled => selected, :id => "package_#{group}_#{pkg}"}
-              = label_tag "package_#{group}_#{pkg}", pkg
+              = check_box_tag 'packages[]', pkg, selected, {:disabled => selected, :id => "pkg_#{group}_#{pkg}"}
+              = label_tag "pkg_#{group}_#{pkg}", pkg
   = render :partial => 'addbuttons'
