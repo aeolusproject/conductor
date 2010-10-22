@@ -86,6 +86,8 @@
           'template_id'  : '#{@id.nil? ? nil : @id}'
         };
         $('#managed_content').load(url, data, function(){
+          $("input:checked[name='groups[]']").attr('disabled', 'disabled');
+          $("input:checked[name='packages[]']").attr('disabled', 'disabled');
           $('#add_software_button').show();
           $('.dropdown').hide();
         });
