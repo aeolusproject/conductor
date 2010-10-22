@@ -142,6 +142,8 @@ class TemplatesController < ApplicationController
       else
         @metagroup_packages = @repository_manager.metagroup_packages_with_tagged_selected_packages(@metagroup, @packages, params[:repository] || @tpl.platform)
       end
+    else
+      @collections = @repository_manager.all_groups_with_tagged_selected_packages(@packages, params[:repository] || @tpl.platform)
     end
     if request.xhr?
       if @metagroup_packages
@@ -150,7 +152,7 @@ class TemplatesController < ApplicationController
       if @searched_packages
         render :partial => 'searched_packages' and return
       end
-      if @collections
+      if @collections and @metagroup
         render :partial => 'collections' and return
       end
     end
@@ -277,14 +279,16 @@ add account on <a href=\"#{url_for :controller => 'provider', \
       @selected_packages = []
     end
 
-    [:selected_groups, :groups].each do |pg|
-      if params[pg]
-        params[pg].each { |grp|
-          fg = @groups.find { |gk, gv| gk == grp }
-          fg[1][:packages].each { |pk, pv|
-            @selected_packages << pk
-          } unless fg.nil?
-        }
+    if params[:collections].to_s == 'true' or not request.xhr?
+      [:selected_groups, :groups].each do |pg|
+        if params[pg]
+          params[pg].each { |grp|
+            fg = @groups.find { |gk, gv| gk == grp }
+            fg[1][:packages].each { |pk, pv|
+              @selected_packages << pk
+            } unless fg.nil?
+          }
+        end
       end
     end
 

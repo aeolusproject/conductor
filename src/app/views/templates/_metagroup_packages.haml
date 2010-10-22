@@ -8,7 +8,7 @@
       %li
         - selected = !@metagroup_packages[group][:selected].nil?
         %h5
-          = check_box_tag 'groups[]', group, selected, {:disabled => selected, :id => "group_#{group}", :class => 'softwaregroups'}
+          = check_box_tag 'groups[]', group, selected, {:disabled => selected, :id => "group_#{group}", :class => "softwaregroups #{selected ? 'selected' : ''}"}
           = label_tag "group_#{group}", group
         %ul
           - @metagroup_packages[group][:packages].each do |pkg|

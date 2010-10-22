@@ -31,7 +31,11 @@
             'repository': $("select[name='tpl[platform]']").val()
           };
           var url = '#{url_for :action => 'dispatch', :id => @id}';
-          $('#metagrouppackages').load(url, data);
+          $('#metagrouppackages').empty().addClass('loading');
+          $('#metagrouppackages').load(url, data, function() {
+            $('#metagrouppackages').removeClass('loading');
+            Aggregator.hook_selected_packages();
+          });
         });
       });
     });
@@ -78,10 +82,10 @@
           'selected_packages[]': old_pkgs.concat(new_pkgs.concat(cached_pkgs)),
           'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
           'cached_packages[]': $("input:text[name='cached[]']").map(function() {return $(this).val()}).get(),
+          'collections': $("input:hidden[name=collections]").val(),
           'template_id'  : '#{@id.nil? ? nil : @id}'
         };
         $('#managed_content').load(url, data, function(){
-          //$('#package_selection_list').empty().show();
           $('#add_software_button').show();
           $('.dropdown').hide();
         });
