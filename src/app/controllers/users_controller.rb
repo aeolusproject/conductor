@@ -140,7 +140,9 @@ class UsersController < ApplicationController
     if @current_user.permissions.collect { |p| p.role }.find { |r| r.name == "Administrator" }
       if request.post? || request.delete?
         @user = User.find(params[:id])
-        if @user.destroy
+        if @user == @current_user
+          flash[:notice] = "Can not delete the currently logged in user!"
+        elsif @user.destroy
           flash[:notice] = "User Deleted"
         else
           flash[:error] = {
