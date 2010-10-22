@@ -36,6 +36,6 @@
       = check_box_tag 'packages[]', pkg, selected, {:disabled => disabled, :id => "package_#{pkg}"}
       = label_tag "package_#{pkg}", pkg
 = will_paginate @searched_packages, :params => {:package_search => params[:package_search]}, :renderer => TemplatesHelper::ButtonPaginationRenderer.new, :previous_label => 'Previous', :next_label => 'Next'
-= page_entries_info @searched_packages
+= page_entries_info @searched_packages, :entry_name => 'package'
 
 = render :partial => 'addbuttons'
