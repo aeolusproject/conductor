@@ -1,9 +1,39 @@
+:javascript
+  $(document).ready(function() {
+    $('.pagination input[type=submit]').click(function(e) {
+      e.preventDefault();
+      var url = '#{url_for :action => 'dispatch', :id => @id}';
+      var old_pkgs = $("input:hidden[name='cached_packages[]']").map(function() {return $(this).val()}).get();
+      var new_pkgs = $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get();
+      var data = {
+        'selected_packages[]': $("input:text[name='packages[]']").map(function() {return $(this).val()}).get(),
+        'cached_packages[]': old_pkgs.concat(new_pkgs),
+        'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
+        'package_search': $("input[name='package_search']").val(),
+        'old_page': '#{@page}',
+        'template_id'  : '#{@id.nil? ? nil : @id}',
+        'page': $(this).val(),
+        'repository': $("select[name='tpl[platform]']").val()
+      };
+      $('#metagrouppackages').load(url, data, function() {
+        Aggregator.hook_selected_packages();
+      })
+    });
+  });
+
+- @cached_packages.uniq.each do |pkg|
+  = hidden_field_tag 'cached_packages[]', pkg
+
 %h4
   = "Search Results for '#{params[:package_search]}'"
 %ul.searchedpackages
   - @searched_packages.sort.each do |pkg|
     %li
-      - selected = @packages.to_a.find {|p| p[:name] == pkg}
-      = check_box_tag 'packages[]', pkg, selected, {:disabled => selected, :id => "package_#{pkg}"}
+      - selected = (@packages.to_a.find {|p| p[:name] == pkg} or @cached_packages.include?(pkg))
+      - disabled = params[:selected_packages].to_a.include?(pkg)
+      = check_box_tag 'packages[]', pkg, selected, {:disabled => disabled, :id => "package_#{pkg}"}
       = label_tag "package_#{pkg}", pkg
+= will_paginate @searched_packages, :params => {:package_search => params[:package_search]}, :renderer => TemplatesHelper::ButtonPaginationRenderer.new, :previous_label => 'Previous', :next_label => 'Next'
+= page_entries_info @searched_packages
+
 = render :partial => 'addbuttons'

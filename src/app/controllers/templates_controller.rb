@@ -114,19 +114,23 @@ class TemplatesController < ApplicationController
     @packages = []
     @packages += params[:packages].collect{ |p| { :name => p } } unless params[:packages].blank?
     @packages += params[:selected_packages].collect{ |p| { :name => p } } unless params[:selected_packages].blank?
-    @groups = @repository_manager.all_groups_with_tagged_selected_packages(@packages, params[:repository])
+    @groups = @repository_manager.all_groups_with_tagged_selected_packages(@packages, params[:repository] || @tpl.platform)
     @embed  = params[:embed]
     @categories = @repository_manager.categories(params[:tpl] ? params[:tpl][:platform] : nil)
     @metagroups = @repository_manager.metagroups
 
     if not params[:package_search].blank?
-      @searched_packages = @repository_manager.search_package(params[:package_search], params[:repository])
+      @page = get_page
+      @cached_packages = params[:cached_packages].to_a
+      @searched_packages = @repository_manager.search_package(params[:package_search],
+                                                              params[:repository] || @tpl.platform).paginate(:page => @page,
+                                                                                                             :per_page => 60)
     elsif not @metagroup.blank?
       if @metagroup == 'Collections'
         # TODO: if we remember selected groups, this could be done much more simply
-        @collections = @repository_manager.all_groups_with_tagged_selected_packages(@packages, params[:repository])
+        @collections = @repository_manager.all_groups_with_tagged_selected_packages(@packages, params[:repository] || @tpl.platform)
       else
-        @metagroup_packages = @repository_manager.metagroup_packages_with_tagged_selected_packages(@metagroup, @packages, params[:repository])
+        @metagroup_packages = @repository_manager.metagroup_packages_with_tagged_selected_packages(@metagroup, @packages, params[:repository] || @tpl.platform)
       end
     end
     if request.xhr?
@@ -252,7 +256,7 @@ add account on <a href=\"#{url_for :controller => 'provider', \
     @repository_manager = RepositoryManager.new
     @groups = @repository_manager.all_groups(params[:repository])
 
-    if not params[:packages].blank? or not params[:selected_packages].blank?
+    if not params[:packages].blank? or not params[:selected_packages].blank? or not params[:cached_packages].blank?
       @selected_packages = params[:packages].to_a + params[:selected_packages].to_a
     elsif !tpl.nil?
       @selected_packages = tpl.xml.packages.collect { |p| p[:name] }
@@ -272,5 +276,15 @@ add account on <a href=\"#{url_for :controller => 'provider', \
     end
 
     @selected_packages.uniq!
+  end
+
+  def get_page
+    if params[:page] == 'Previous'
+      return params[:old_page].to_i - 1
+    elsif params[:page] == 'Next'
+      return params[:old_page].to_i + 1
+    else
+      return params[:page].blank? ? 1 : params[:page].to_i
+    end
   end
 end
