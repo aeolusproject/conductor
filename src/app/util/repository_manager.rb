@@ -106,8 +106,8 @@ class RepositoryManager
     mgroups = metagroup_packages(category, repository)
     mgroups.each_value do |group|
       missing = false
-      pkgs.each do |p|
-        unless group[:packages].include?(p[:name])
+      group[:packages].each do |pkg|
+        unless pkgs.find {|p| p[:name] == pkg}
           missing = true
           break
         end
@@ -139,7 +139,7 @@ class RepositoryManager
   end
 
   def search_package(str, repository = nil)
-    packages.select {|p| p =~ /#{Regexp.escape(str)}/i}
+    packages(repository).select {|p| p =~ /#{Regexp.escape(str)}/i}
   end
 
   private

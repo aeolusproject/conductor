@@ -114,7 +114,7 @@ class TemplatesController < ApplicationController
     @packages = []
     @packages += params[:packages].collect{ |p| { :name => p } } unless params[:packages].blank?
     @packages += params[:selected_packages].collect{ |p| { :name => p } } unless params[:selected_packages].blank?
-    @groups = @repository_manager.all_groups_with_tagged_selected_packages(@packages, @tpl.platform)
+    @groups = @repository_manager.all_groups_with_tagged_selected_packages(@packages, params[:repository])
     @embed  = params[:embed]
     @categories = @repository_manager.categories(params[:tpl] ? params[:tpl][:platform] : nil)
     @metagroups = @repository_manager.metagroups
