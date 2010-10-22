@@ -5,10 +5,33 @@
       e.preventDefault();
       var data = {
         'show_metagroup': e.currentTarget.value,
-        selected_packages:  $("input:hidden[name='selected_packages[]']").map(function() {return $(this).val()}).get()
+        'repository': $("select[name='tpl[platform]']").val(),
+        'packages[]':  $("input:text[name='packages[]']").map(function() {return $(this).val()}).get()
       };
       var url = '#{url_for :action => 'dispatch', :id => @id}';
-      $metagrouppackages.load(url, data);
+      $metagrouppackages.load(url, data, function() {
+        $('#do_add_software').click(function(e) {
+          e.preventDefault();
+          var url = '#{url_for :action => 'managed_content'}';
+          var new_pkgs = $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get();
+          var old_pkgs =  $("input:text[name='packages[]']").map(function() {return $(this).val()}).get()
+          var data = {
+            'selected_packages[]': old_pkgs.concat(new_pkgs),
+            'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
+            'template_id'  : '#{@id.nil? ? nil : @id}'
+          };
+          $('#managed_content').load(url, data, function(){
+            $('#package_selection_list').empty().show();
+            $('#add_software_button').show();
+            $('.remove_package').click(function() { $(this).parent().parent().remove(); });
+          });
+        });
+        $('#cancel_add_software').click(function(e) {
+          e.preventDefault();
+          $('#package_selection_list').hide();
+          $('#add_software_button').show();
+        });
+      });
     });
   });
 
@@ -22,7 +45,7 @@
       <input type="hidden" id="selected_package_#{p[:name]}" name="selected_packages[]" value="#{p[:name]}" />
     %fieldset.clearfix
       .search.grid_4.alpha
-        %input{:type => "search", :placeholder => "Search for package", :name => 'package_search'}
+        %input{:type => "search", :placeholder => "Search for package", :name => 'package_search', :value => params[:package_search]}
         %button.action
       .grid_8
       %a.grid_4.omega Advanced Search
@@ -36,8 +59,7 @@
     #metagrouppackages.grid_12.omega.gap
       - if @collections
         = render :partial => 'collections'
+      - elsif @searched_packages
+        = render :partial => 'searched_packages'
       - else
-        - if @metagroup_packages.blank?
-          %span.disabled No group selected
-        - else
-          = render :partial => 'metagroup_packages'
+        = render :partial => 'metagroup_packages'
