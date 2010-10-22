@@ -1,20 +1,20 @@
 #selected_packages
   %h3.gap Managed Content to Bundle
-  %hr
-  %label.header.alpha.prefix_2.grid_7 Name:
-  %label.header.omega.grid_2.suffix_5 Repository:
-  %label.grid_2.alpha.clear Managed:
-  .grid_14.omega
+  .grid_16.alpha.omega
     - if @selected_packages.empty?
       No selected packages
     - else
       - repos = @repository_manager.repositories_hash
       - @selected_packages.sort.each do |pkg|
         - pkg_group = @groups.keys.find {|g| @groups[g][:packages][pkg]}
-        %fieldset.clearfix
-          = text_field_tag 'packages[]', pkg, :id => "package_#{pkg}", :class => "alpha grid_7 packagename"
-          .grid_2= (pkg_group and repo = repos[@groups[pkg_group][:repository_id]]) ? repo.name.to_s : '&nbsp;'
-          .grid_5.omega
-            %button{:type => 'button', :disabled => 'disabled'} Config
-            %button{:type => 'button', :disabled => 'disabled'} Metadata
-            = submit_tag "Remove", :name => "remove_package_#{pkg}", :id => "remove_package_#{pkg}", :class => 'remove_package'
+        .packagewrap
+          %a.packagename{:id => "package_#{pkg}"}=pkg
+          = hidden_field_tag 'packages[]', pkg, :id => "package_#{pkg}"
+          = submit_tag "Remove", :name => "remove_package_#{pkg}", :id => "remove_package_#{pkg}", :class => 'remove_package'
+          .dropdown
+            %section
+              Repository:
+              %label= (pkg_group and repo = repos[@groups[pkg_group][:repository_id]]) ? repo.name.to_s : '&nbsp;'
+            %fieldset.nomargin
+              %button{:disabled => true} Browse
+              %button{:disabled => true} Config

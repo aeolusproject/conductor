@@ -182,7 +182,7 @@ h2 { font-size: 130%; }
 h3 {
   font-size: 120%;
   &.gap {
-    margin-top: 3em;
+    margin: 3em 0 1em;
   }
 }
 h4 {
@@ -430,48 +430,6 @@ input[type='submit'].icon {
   }
 }
 
-.packagegroupsidebar {
-  display: block;
-  text-align: right;
-  font-size: 120%;
-  li {
-    display: block;
-    margin: 0;
-  }
-  .icon {
-    text-transform: capitalize;
-  }
-}
-  #collections {
-    margin: 0 0 1em;
-    font-weight: bold;
-  }
-
-.metagrouppackages {
-  display: block;
-  &>li {
-    display: block;
-    text-transform: uppercase;
-    margin: 0 2em 2em 0; padding: 0;
-    label {
-      cursor: pointer;
-    }
-    ul {
-      @include column-count(3);
-      display: block;
-      text-transform: none;
-      font-size: 95%;
-      li {
-        display: block;
-        margin: 0 0 0 4px;
-        text-transform: capitalize;
-        label {
-          font-weight: normal;
-        }
-      }
-    }
-  }
-}
 
 .searchedpackages, .collections {
   display: block;
@@ -857,6 +815,7 @@ li.operation>ul, li.administration>ul, li.build>ul, li.runtime>ul {
 }
 
 #content {
+  position: relative;
   margin-top: 2em;
   margin-bottom: 60px;
   overflow: hidden;
@@ -1172,12 +1131,101 @@ a.iconbutton {
     display: inline-block;
     padding: 6px 0 6px 24px;
   }
+  .packagewrap {
+    position: relative;
+    float: left;
+    padding: 4px 22px 4px 4px;
+    margin: 2px;
+    @include border-radius(4px);
+    .remove_package {
+      position: absolute;
+      width: 16px; height: 16px;
+      top: 50%; right: 4px;
+      border: none;
+      background: url(../../images/icons/action-icons.png) no-repeat -32px 0 !important;
+      text-indent: -200em;
+      padding: 0; margin: -8px 0;
+      @include border-radius(2px);
+      &:hover {
+        @include no-box-shadow();
+        background: lighten($dcprimary,10%) url(../../images/icons/action-icons.png) no-repeat -32px 0 !important;
+      }
+    }
+    .packagename {
+      cursor: pointer;
+      &:hover {
+        color: white;
+      }
+    }
+    &.selected {
+      color: white;
+      background-color: $dcprimary;
+      .packagename {
+        color: white;
+      }
+    }
+    &:hover {
+      color: white;
+      background-color: $dcprimary;
+      .packagename {
+        color: white;
+      }
+    }
+  }
 
-  .packagename {
-    opacity: 1;
-    color: #000;
+  .packagegroupsidebar {
+    display: block;
+    text-align: right;
+    font-size: 120%;
+    li {
+      display: block;
+      margin: 0;
+    }
+    .icon {
+      text-transform: capitalize;
+    }
+  }
+    #collections {
+      margin: 0 0 1em;
+      font-weight: bold;
+    }
+
+  .metagrouppackages {
+    display: block;
+    &>li {
+      display: block;
+      text-transform: uppercase;
+      margin: 0 2em 2em 0; padding: 0;
+      label {
+        cursor: pointer;
+      }
+      ul {
+        @include column-count(3);
+        display: block;
+        text-transform: none;
+        font-size: 95%;
+        li {
+          display: block;
+          margin: 0 0 0 4px;
+          text-transform: capitalize;
+          label {
+            font-weight: normal;
+          }
+        }
+      }
+    }
   }
 }
+  #dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid $dcprimary;
+    @include border-radius-bottom(4px);
+    padding: 1em;
+    display: none;
+    z-index: 2;
+    font-size: 95%;
+  }
 
 /* IE and other horror browser workarounds */
 
