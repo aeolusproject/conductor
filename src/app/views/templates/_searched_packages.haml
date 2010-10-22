@@ -15,7 +15,9 @@
         'page': $(this).val(),
         'repository': $("select[name='tpl[platform]']").val()
       };
+      $('#metagrouppackages').empty().addClass('loading');
       $('#metagrouppackages').load(url, data, function() {
+        $('#metagrouppackages').removeClass('loading');
         Aggregator.hook_selected_packages();
       })
     });

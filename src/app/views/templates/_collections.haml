@@ -1,7 +1,9 @@
+= hidden_field_tag :collections, true
+
 %ul.collections
   - @collections.keys.sort.each do |id|
     %li
       - selected = @collections[id][:selected] ? true : false
-      = check_box_tag 'groups[]', id, selected, {:disabled => selected, :id => "group_#{id}"}
+      = check_box_tag 'groups[]', id, selected, {:disabled => selected, :id => "group_#{id}", :class => "#{selected ? 'selected' : ''}"}
       = label_tag "group_#{id}", @collections[id][:name]
 = render :partial => 'addbuttons'

@@ -1126,6 +1126,15 @@ a.iconbutton {
       margin: 0;
     }
   }
+
+  #metagrouppackages {
+    &.loading {
+      display: block;
+      height: 100px;
+      background: url(../../images/spinner.gif) no-repeat center center;
+    }
+  }
+
   span.loading {
     background: url(../../images/spinner.gif) no-repeat center left;
     display: inline-block;
