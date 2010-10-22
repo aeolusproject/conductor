@@ -42,6 +42,31 @@
         $submit.trigger('click');
       }
     });
+    Aggregator.hook_selected_packages = function() {
+      $('#do_add_software').click(function(e) {
+        e.preventDefault();
+        var url = '#{url_for :action => 'managed_content'}';
+        var new_pkgs = $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get();
+        var old_pkgs =  $("input:text[name='packages[]']").map(function() {return $(this).val()}).get()
+        var cached_pkgs =  $("input:hidden[name='cached_packages[]']").map(function() {return $(this).val()}).get()
+        var data = {
+          'selected_packages[]': old_pkgs.concat(new_pkgs.concat(cached_pkgs)),
+          'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
+          'cached_packages[]': $("input:text[name='cached[]']").map(function() {return $(this).val()}).get(),
+          'template_id'  : '#{@id.nil? ? nil : @id}'
+        };
+        $('#managed_content').load(url, data, function(){
+          //$('#package_selection_list').empty().show();
+          $('#add_software_button').show();
+          $('.remove_package').click(function() { $(this).parent().parent().remove(); });
+        });
+      });
+      $('#cancel_add_software').click(function(e) {
+        e.preventDefault();
+        $('#package_selection_list').hide();
+        $('#add_software_button').show();
+      });
+    }
   });
 
 .grid_16

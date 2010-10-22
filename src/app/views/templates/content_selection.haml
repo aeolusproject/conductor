@@ -9,30 +9,11 @@
         'packages[]':  $("input:text[name='packages[]']").map(function() {return $(this).val()}).get()
       };
       var url = '#{url_for :action => 'dispatch', :id => @id}';
-      $metagrouppackages.load(url, data, function() {
-        $('#do_add_software').click(function(e) {
-          e.preventDefault();
-          var url = '#{url_for :action => 'managed_content'}';
-          var new_pkgs = $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get();
-          var old_pkgs =  $("input:text[name='packages[]']").map(function() {return $(this).val()}).get()
-          var data = {
-            'selected_packages[]': old_pkgs.concat(new_pkgs),
-            'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
-            'template_id'  : '#{@id.nil? ? nil : @id}'
-          };
-          $('#managed_content').load(url, data, function(){
-            $('#package_selection_list').empty().show();
-            $('#add_software_button').show();
-            $('.remove_package').click(function() { $(this).parent().parent().remove(); });
-          });
-        });
-        $('#cancel_add_software').click(function(e) {
-          e.preventDefault();
-          $('#package_selection_list').hide();
-          $('#add_software_button').show();
-        });
+      $('#metagrouppackages, ').load(url, data, function() {
+        Aggregator.hook_selected_packages();
       });
     });
+    Aggregator.hook_selected_packages();
   });
 
 .grid_16
