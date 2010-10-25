@@ -15,7 +15,6 @@ Feature: Manage Templates
     When I fill in the following:
       | tpl_name         | mocktemplate  |
       | tpl_platform     | fedora        |
-      | tpl_platform     | 11            |
       | tpl_summary      | mockdesc      |
     When I press "Save"
     Then I should be on the templates page
@@ -30,14 +29,15 @@ Feature: Manage Templates
       | tpl_name         | mocktemplate  |
     And I press "Add Software"
     Then I should see "Managed Content Selection"
-    When I check "group_JBoss_Core_Packages"
+    When I press "Collections"
+    And I check "group_deltacloud"
     And I press "Add Selected"
     Then I should see "Managed Content to Bundle"
     And the "tpl[name]" field by name should contain "mocktemplate"
-    And the page should contain "#selected_package_jboss-as5" selector
-    When I press "remove_package_jboss-as5"
+    And the page should contain "#package_libdeltacloud" selector
+    When I press "remove_package_libdeltacloud"
     Then I should see "Managed Content to Bundle"
-    And the page should not contain "#selected_package_jboss-as5" selector
+    And the page should not contain "#package_libdeltacloud" selector
     When I press "Save"
     Then I should be on the templates page
     And I should see "Template saved"
