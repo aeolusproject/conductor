@@ -33,7 +33,6 @@ end
 
 When /^I want to edit my profile$/ do
   click_link "#{user.first_name} #{user.last_name}"
-  response.should contain("User Profile for #{user.login}")
 end
 
 Then /^I should be logged out$/ do
@@ -43,4 +42,8 @@ end
 Then /^I should have one private pool named "([^\"]*)"$/ do |login|
   Pool.find_by_name(login).should_not be_nil
   Pool.find_by_name(login).permissions.size.should == 1
+end
+
+Then /^there should not be user with login "([^\"]*)"$/ do |login|
+  User.find_by_login(login).should be_nil
 end
