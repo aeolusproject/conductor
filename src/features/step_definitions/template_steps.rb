@@ -4,12 +4,15 @@ Given /^There is a mock pulp repository$/ do
   hydra.stub(:get, "http://pulptest/repositories/").and_return(
     Typhoeus::Response.new(:code => 200,
                            :body => File.read(File.join(dir, 'repositories.json'))))
-  hydra.stub(:get, "http://pulptest/repositories/jboss/packagegroups/").and_return(
+  hydra.stub(:get, "http://pulptest/repositories/fedora/packagegroups/").and_return(
     Typhoeus::Response.new(:code => 200,
                            :body => File.read(File.join(dir, 'packagegroups.json'))))
-  hydra.stub(:get, "http://pulptest/repositories/jboss/packages/").and_return(
+  hydra.stub(:get, "http://pulptest/repositories/fedora/packages/").and_return(
     Typhoeus::Response.new(:code => 200,
                            :body => File.read(File.join(dir, 'packages.json'))))
+  hydra.stub(:get, "http://pulptest/repositories/fedora/packagegroupcategories/").and_return(
+    Typhoeus::Response.new(:code => 200,
+                           :body => File.read(File.join(dir, 'packagegroupcategories.json'))))
 
 end
 
