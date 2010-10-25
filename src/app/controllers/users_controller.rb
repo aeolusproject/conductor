@@ -21,7 +21,7 @@
 
 class UsersController < ApplicationController
   before_filter :require_user, :only => [:show, :edit, :update, :index, :destroy]
-  before_filter :current_user, :only => [:new, :index, :destroy]
+  before_filter :current_user
 
   def new
     @user = User.new
