@@ -64,8 +64,9 @@ class CompsRepository < AbstractRepository
     end
 
     Dir.mkdir(@cache_dir) unless File.directory?(@cache_dir)
-    Marshal.dump({:groups => grps,
-                  :categories => categories}, File.open(@cache_file, 'w'))
+    File.open(@cache_file, 'w') do |f|
+      Marshal.dump({:groups => grps, :categories => categories}, f)
+    end
   end
 
   private
@@ -73,7 +74,7 @@ class CompsRepository < AbstractRepository
   def load_data
     unless @load_data
       begin
-        @load_data = Marshal.load(File.open(@cache_file, 'r'))
+        File.open(@cache_file, 'r') { |f| @load_data = Marshal.load(f) }
       rescue Errno::ENOENT
         raise "failed to read cached packages info, run 'rake dc:prepare_repos'"
       end
