@@ -10,9 +10,6 @@ Group:    Applications/System
 License:  GPLv2+ and MIT and BSD
 URL:      http://deltacloud.org
 
-# until official source tarballs exist, checkout from source via
-# git clone git://git.fedorahosted.org/deltacloud/portal.git deltacloud-aggregator-0.0.2
-# tar czvf deltacloud-aggregator-0.0.2.tar.gz deltacloud-aggregator-0.0.2
 Source0:    deltacloud-aggregator-%{version}.tar.gz
 BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
@@ -116,8 +113,8 @@ mv %{buildroot}/%{app_root}/doc %{buildroot}/%{app_root}/test %{buildroot}/%{doc
 %{__cp} conf/deltacloud-dbomatic %{buildroot}%{_initrddir}
 %{__cp} conf/deltacloud-condor_refreshd %{buildroot}%{_initrddir}
 %{__cp} conf/deltacloud-image_builder_service %{buildroot}%{_initrddir}
-%{__cp} conf/deltacloud-portal.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/deltacloud-aggregator.conf
-%{__cp} conf/deltacloud-portal.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/deltacloud-aggregator
+%{__cp} conf/deltacloud-aggregator-httpd.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/deltacloud-aggregator.conf
+%{__cp} conf/deltacloud-aggregator.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/deltacloud-aggregator
 %{__cp} conf/deltacloud-aggregator.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-aggregator
 %{__cp} conf/deltacloud-rails.sysconf %{buildroot}%{_sysconfdir}/sysconfig/deltacloud-rails
 

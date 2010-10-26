@@ -19,7 +19,6 @@ DCLOUD_USER="${DCLOUD_USER:-dcloud}"
 
 REFRESHD_PATH=/usr/share/deltacloud-aggregator/condor_refreshd
 REFRESHD_PROG=condor_refreshd
-REFRESHD_PID=/var/run/deltacloud-aggregator/condor_refreshd.pid
 
 . /etc/init.d/functions
 
@@ -67,7 +66,7 @@ case "$1" in
       restart
       ;;
     status)
-     status $REFRESHD_PROG
+     status -p $REFRESHD_PID $REFRESHD_PROG
      RETVAL=$?
      ;;
     *)
