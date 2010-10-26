@@ -25,14 +25,19 @@ DBOMATIC_PROG=dbomatic
 start() {
     echo -n "Starting deltacloud-dbomatic: "
 
-    daemon --user=$DCLOUD_USER $DBOMATIC_PATH/$DBOMATIC_PROG
-    RETVAL=$?
-    if [ $RETVAL -eq 0 ] && touch $DBOMATIC_LOCKFILE ; then
+    if  test -f $DBOMATIC_LOCKFILE ; then
       echo_success
       echo
     else
-      echo_failure
-      echo
+      daemon --user=$DCLOUD_USER $DBOMATIC_PATH/$DBOMATIC_PROG
+      RETVAL=$?
+      if [ $RETVAL -eq 0 ] && touch $DBOMATIC_LOCKFILE ; then
+        echo_success
+        echo
+      else
+        echo_failure
+        echo
+      fi
     fi
 }
 
