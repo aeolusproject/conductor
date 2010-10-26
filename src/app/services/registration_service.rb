@@ -11,31 +11,30 @@ class RegistrationService
       return false
     end
 
-    begin
     User.transaction do
-      @user.save!
+      begin
+        if @user.quota.nil? || @user.quota.invalid?
+          self_service_default_quota = MetadataObject.lookup("self_service_default_quota")
+          @user.quota = Quota.new(
+            :maximum_running_instances => self_service_default_quota.maximum_running_instances,
+            :maximum_total_instances => self_service_default_quota.maximum_total_instances)
+        end
 
-      allow_self_service_logins = MetadataObject.lookup("allow_self_service_logins")
-      self_service_default_pool = MetadataObject.lookup("self_service_default_pool")
-      self_service_default_role = MetadataObject.lookup("self_service_default_role")
-      self_service_default_quota = MetadataObject.lookup("self_service_default_quota")
+        @user.save!
 
-      @user_quota = Quota.new(:maximum_running_instances => self_service_default_quota.maximum_running_instances,
-                              :maximum_total_instances => self_service_default_quota.maximum_total_instances)
-      @user_quota.save!
-      @user.quota = @user_quota
-      @user.save!
-
-      Permission.create!({:user => @user, :role => self_service_default_role, :permission_object => self_service_default_pool})
-
-      return true
-     end
-    rescue
-      Rails.logger.error $!.message
-      Rails.logger.error $!.backtrace.join("\n  ")
-      @error = $!.message
-      false
+        self_service_default_role = MetadataObject.lookup("self_service_default_role")
+        self_service_default_pool = MetadataObject.lookup("self_service_default_pool")
+        Permission.create!(:user => @user, :role => self_service_default_role,
+                           :permission_object => self_service_default_pool)
+        return true
+      rescue ActiveRecord::RecordInvalid => e
+        Rails.logger.error e.message
+        Rails.logger.error e.backtrace.join("\n  ")
+        @error = e.message
+        raise ActiveRecord::Rollback
+      end
     end
+    return false
   end
 
   def valid?
