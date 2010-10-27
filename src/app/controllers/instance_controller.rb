@@ -92,7 +92,7 @@ class InstanceController < ApplicationController
 
     @instance = Instance.new(params[:instance])
     @instance.state = Instance::STATE_NEW
-    @instance.owner_id = current_user
+    @instance.owner = current_user
 
     require_privilege(Privilege::INSTANCE_MODIFY,
                       Pool.find(@instance.pool_id))

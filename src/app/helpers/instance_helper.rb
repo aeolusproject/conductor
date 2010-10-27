@@ -20,4 +20,14 @@
 # Likewise, all the methods added will be available for all controllers.
 
 module InstanceHelper
+  def owner_name(inst)
+    return '' unless inst.owner
+    # if last_name is set, use full name,
+    # else use login
+    if inst.owner.last_name.blank?
+      inst.owner.login
+    else
+      "#{inst.owner.first_name} #{inst.owner.last_name}"
+    end
+  end
 end
