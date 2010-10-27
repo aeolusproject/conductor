@@ -6,7 +6,7 @@
   {:name => 'TEMPLATE', :sort_attr => 'templates.name'},          |
   {:name => 'PUBLIC ADDRESS', :sort_attr => 'public_addresses'},  |
   {:name => 'PROVIDER', :sortable => false},                      |
-  {:name => 'STARTED BY', :sort_attr => 'users.last_name'},       |
+  {:name => 'CREATED BY', :sort_attr => 'users.last_name'},       |
 ]                                                                 |
 
 - pool_columns = [                                                                |
@@ -124,4 +124,4 @@
                 %td= inst.template.name
                 %td= inst.public_addresses
                 %td= inst.cloud_account ? inst.cloud_account.provider.name : ''
-                %td= "#{inst.owner.first_name} #{inst.owner.last_name}" # TODO, there is "started by" in comps pdf, but we don't save this info
+                %td= owner_name(inst)
