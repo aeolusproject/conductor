@@ -15,7 +15,7 @@
       %span= @instance.private_addresses
     %li
       = label_tag :operating_system, 'Operating system'
-      %span= @instance.template.xml.platform
+      %span= "#{@instance.template.xml.platform} #{@instance.template.xml.platform_version}"
     %li
       = label_tag :provider, 'Provider'
       %span= @instance.cloud_account.provider.name if @instance.cloud_account
