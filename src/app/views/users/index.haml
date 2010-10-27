@@ -8,13 +8,13 @@
         = submit_tag "edit", :class => "submit linkbutton"
       %dd.delete
         %span
-        = submit_tag "delete", :class => "submit linkbutton", :confirm => "Are you sure you want to delete this user?"
+        = submit_tag "delete", :id => 'delete_button', :class => "submit linkbutton"
       %dd.add
         %span
         = link_to "create", new_user_url
 
 .grid_13
-  %table
+  %table{:id => 'users_table'}
     %thead
       %tr
         %th
@@ -39,5 +39,14 @@
 
 :javascript
   $(document).ready(function () {
-    //$("input[type='checkbox']").buttonSensitivity().change();
+    $('#delete_button').click(function(e) {
+      if ($("#users_table input[@type=radio]:checked").length == 0) {
+        alert('please select any user to be deleted');
+        e.preventDefault();
+      } else {
+        if (!confirm("Are you sure you want to delete this user?")) {
+          e.preventDefault();
+        }
+      }
+    });
   });
