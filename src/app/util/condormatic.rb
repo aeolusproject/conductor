@@ -20,6 +20,11 @@
 require 'nokogiri'
 require 'socket'
 
+def escape(str)
+    str = str.gsub('\\', '\\\\')
+    str = str.gsub(' ', '\\ ')
+end
+
 def condormatic_instance_create(task)
 
   begin
@@ -39,7 +44,7 @@ def condormatic_instance_create(task)
     pipe.puts "executable = #{job_name}\n"
     Rails.logger.info "executable = #{job_name}\n"
 
-    resource = "grid_resource = dcloud $$(provider_url) $$(username) $$(password) $$(image_key) #{instance.name}"
+    resource = "grid_resource = dcloud $$(provider_url) $$(username) $$(password) $$(image_key) #{escape(instance.name)}"
     if realm != nil
       resource += " $$(realm_key)"
     else
@@ -226,7 +231,7 @@ def condormatic_classads_sync
               pipe.puts "username=\"#{account.username}\""
               pipe.puts "password=\"#{account.password}\""
               pipe.puts "cloud_account_id=\"#{account.id}\""
-              pipe.puts "keypair=\"#{account.instance_key.name}\""
+              pipe.puts "keypair=\"#{escape(account.instance_key.name)}\""
               pipe.close_write
 
               out = pipe.read
