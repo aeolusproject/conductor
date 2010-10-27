@@ -22,7 +22,6 @@ SimpleNavigation::Configuration.run do |navigation|
           fourth_level.item :new_user, t(:new_user), {:controller => 'users', :action => 'new'}, :highlights_on => /\/users\/new/
           fourth_level.item :edit_user, t(:edit_user), {:controller => 'users', :action => 'edit'},  :highlights_on => /\/users\/edit/
         end
-        third_level.item :define_services, t(:permissions), '#'
         third_level.item :general_settings, t(:general_settings), {:controller => 'settings', :action => "general_settings"}
         third_level.item :permissions, t(:permissions), { :controller => 'settings', :action => 'self_service'}
       end
