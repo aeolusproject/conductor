@@ -107,20 +107,22 @@ class InstanceController < ApplicationController
                       Pool.find(@instance.pool_id))
     #FIXME: This should probably be in a transaction
     if @instance.save!
-
-      @task = InstanceTask.new({:user        => current_user,
-                                :task_target => @instance,
-                                :action      => InstanceTask::ACTION_CREATE})
-      if @task.save
-        condormatic_instance_create(@task)
-        flash[:notice] = "Instance added."
-        redirect_to :action => 'index'
-      else
-        @pool = @instance.pool
-        render :action => 'configure'
-      end
+        @task = InstanceTask.new({:user        => current_user,
+                                  :task_target => @instance,
+                                  :action      => InstanceTask::ACTION_CREATE})
+        if @task.save
+          condormatic_instance_create(@task)
+          if Quota.can_start_instance?(@instance, nil)
+            flash[:notice] = "Instance added."
+          else
+            flash[:warning] = "Quota Exceeded: Instance will not start until you have free quota"
+          end
+        else
+          @pool = @instance.pool
+          render :action => 'configure'
+        end
+      redirect_to :action => 'index'
     else
-      #@pool = Pool.find(@instance.pool_id)
       @hardware_profiles = HardwareProfile.all
       render :action => 'configure'
     end

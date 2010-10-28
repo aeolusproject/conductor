@@ -49,10 +49,12 @@ class Quota < ActiveRecord::Base
 
   def self.can_create_instance?(instance, cloud_account)
     [instance.owner, instance.pool, cloud_account].each do |parent|
-      quota = Quota.find(parent.quota_id)
-      potential_total_instances = quota.total_instances + 1
-      if !Quota.no_limit(quota.maximum_total_instances) && (quota.maximum_total_instances < potential_total_instances)
-        return false
+      if parent
+        quota = Quota.find(parent.quota_id)
+        potential_total_instances = quota.total_instances + 1
+        if !Quota.no_limit(quota.maximum_total_instances) && (quota.maximum_total_instances < potential_total_instances)
+          return false
+        end
       end
     end
     return true
@@ -60,10 +62,12 @@ class Quota < ActiveRecord::Base
 
   def self.can_start_instance?(instance, cloud_account)
     [instance.owner, instance.pool, cloud_account].each do |parent|
-      quota = Quota.find(parent.quota_id)
-      potential_running_instances = quota.running_instances + 1
-      if !Quota.no_limit(quota.maximum_running_instances) && quota.maximum_running_instances < potential_running_instances
-        return false
+      if parent
+        quota = Quota.find(parent.quota_id)
+        potential_running_instances = quota.running_instances + 1
+        if !Quota.no_limit(quota.maximum_running_instances) && quota.maximum_running_instances < potential_running_instances
+          return false
+        end
       end
     end
     return true
