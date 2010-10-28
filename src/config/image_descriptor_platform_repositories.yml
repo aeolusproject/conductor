@@ -2,7 +2,3 @@ fedora:
   name: Fedora
   version: 13
   architecture: 64-bit
-rhel:
-  name: RHEL
-  version: 5
-  architecture: 64-bit
