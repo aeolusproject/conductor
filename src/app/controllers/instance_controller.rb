@@ -82,6 +82,15 @@ class InstanceController < ApplicationController
   def configure
     @instance = Instance.new(params[:instance])
     require_privilege(Privilege::INSTANCE_MODIFY, @instance.pool)
+    # FIXME: change template.architecture to match expected HWP arch strings
+    if (@instance.template.architecture == "64-bit")
+      arch_value = "x86_64"
+    else
+      arch_value = "i386"
+    end
+    @hardware_profiles = HardwareProfile.find(:all, :include => :architecture,
+                                   :conditions => {:provider_id => nil,
+                                   "hardware_profile_properties.value" => arch_value})
   end
 
   def create

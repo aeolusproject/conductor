@@ -14,7 +14,7 @@
       = text_field_tag :pool_name, @instance.pool ? @instance.pool.name : '', :disabled => true
     %li
       = label :instance, :hardware_profile
-      = select :instance, :hardware_profile_id, @instance.pool.hardware_profiles.map {|p| [ p.name, p.id ]}, { :include_blank => true }
+      = select :instance, :hardware_profile_id, @hardware_profiles.map {|p| [ p.name, p.id ]}, { :include_blank => false }
     %li
       = label :instance, :realm
       = select :instance, :realm_id, @instance.pool.realms.map {|r| [ r.name, r.id ]}, { :include_blank => true }
