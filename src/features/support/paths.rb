@@ -74,6 +74,12 @@ module NavigationHelpers
     when /the create template page/
       url_for :action => 'create', :controller => 'templates', :only_path => true
 
+    when /the self service settings page/
+      url_for :action => 'self_service', :controller => 'settings', :only_path => true
+
+    when /the settings update page/
+      url_for :action => 'update', :controller => 'settings', :only_path => true
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

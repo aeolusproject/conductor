@@ -53,8 +53,12 @@ class SettingsController < ApplicationController
    KEYS.each do |key|
      if params[key]
        if key == SELF_SERVICE_DEFAULT_QUOTA
-         self_service_default_quota = MetadataObject.lookup(key)
-         self_service_default_quota.update_attributes(params[key])
+         @self_service_default_quota = MetadataObject.lookup(key)
+         if !@self_service_default_quota.update_attributes(params[key])
+           flash[:notice] = "Could not update the default quota"
+           render :self_service
+           return
+         end
        elsif key == SELF_SERVICE_DEFAULT_POOL
          if Pool.exists?(params[key])
            MetadataObject.set(key, Pool.find(params[key]))
