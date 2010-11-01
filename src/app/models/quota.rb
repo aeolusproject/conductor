@@ -28,14 +28,16 @@ class Quota < ActiveRecord::Base
   validates_numericality_of :maximum_total_instances,
                             :greater_than_or_equal_to => 0,
                             :less_than_or_equal_to => 2147483647,
-                            :integer_only => true,
-                            :allow_nil => true
+                            :only_integer => true,
+                            :allow_nil => true,
+                            :message => "must be a positive whole number less than 2147483647"
 
   validates_numericality_of :maximum_running_instances,
                             :greater_than_or_equal_to => 0,
                             :less_than_or_equal_to => 2147483647,
-                            :integer_only => true,
-                            :allow_nil => true
+                            :only_integer => true,
+                            :allow_nil => true,
+                            :message => "must be a positive whole number less than 2147483647"
 
   QuotaResource = Struct.new(:name, :used, :max, :available, :unit)
 
