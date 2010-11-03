@@ -27,4 +27,9 @@ class User < ActiveRecord::Base
 
   belongs_to :quota, :autosave => true
   accepts_nested_attributes_for :quota
+
+  # authlogic's password confirmation doesn't fire up when we fill in the
+  # confirmation field but leave the password field blank. We have to check
+  # that manually:
+  validates_confirmation_of :password, :if => "password.blank? and !password_confirmation.blank?"
 end
