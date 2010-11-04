@@ -16,4 +16,12 @@ describe Template do
     rimg.save
     tpl.providers.size.should eql(1)
   end
+
+  it "should not be valid if template name is too long" do
+    t = Factory.build(:template)
+    t.xml.name = ('a' * 256)
+    t.valid?.should be_false
+    t.errors[:name].should_not be_nil
+    t.errors[:name].should =~ /^is too long.*/
+  end
 end
