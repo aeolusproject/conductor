@@ -43,4 +43,20 @@ describe User do
     user.should_not be_valid
   end
 
+  it "should not be valid if first name is too long" do
+    u = Factory(:tuser)
+    u.first_name = ('a' * 256)
+    u.valid?.should be_false
+    u.errors[:first_name].should_not be_nil
+    u.errors[:first_name].should =~ /^is too long.*/
+  end
+
+  it "should not be valid if last name is too long" do
+    u = Factory(:tuser)
+    u.last_name = ('a' * 256)
+    u.valid?.should be_false
+    u.errors[:last_name].should_not be_nil
+    u.errors[:last_name].should =~ /^is too long.*/
+  end
+
 end
