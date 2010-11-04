@@ -14,6 +14,7 @@ class Template < ActiveRecord::Base
   # unset)
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_length_of   :name, :maximum => 255
   validates_presence_of :platform
   validates_presence_of :platform_version
   validates_presence_of :architecture
