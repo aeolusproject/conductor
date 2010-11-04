@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
   belongs_to :quota, :autosave => true
   accepts_nested_attributes_for :quota
 
+  validates_length_of   :first_name, :maximum => 255
+  validates_length_of   :last_name,  :maximum => 255
+
+
   # authlogic's password confirmation doesn't fire up when we fill in the
   # confirmation field but leave the password field blank. We have to check
   # that manually:
