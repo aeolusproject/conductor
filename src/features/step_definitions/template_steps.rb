@@ -17,8 +17,7 @@ Given /^There is a mock pulp repository$/ do
 end
 
 Given /^there is a "([^"]*)" template$/ do |name|
-  @template = Factory.build :template
-  @template.xml.name = name
+  @template = Factory.build :template, :name => name
   @template.save!
 end
 
@@ -27,14 +26,13 @@ Given /^there is a package group$/ do
 end
 
 Given /^no package is selected$/ do
-  @template.xml.packages = []
+  @template.packages = []
 end
 
 Given /^there is one selected package$/ do
   pkg = RepositoryManager.new.all_packages.first
-  @template.xml.packages = []
-  @template.xml.add_package(pkg['name'], nil)
-  @template.save_xml!
+  @template.packages = [pkg['name']]
+  @template.save!
 end
 
 # "I jump" is used instead of "I am" because "I am" is already defined in
@@ -72,8 +70,7 @@ Then /^I should see "([^"]*)" followed by "([^"]*)"$/ do |arg1, arg2|
 end
 
 Given /^there is a "([^"]*)" build$/ do |arg1|
-  template = Factory.build :template
-  template.xml.name = arg1
+  template = Factory.build :template, :name => arg1
   template.save!
   image = Factory.build(:image, :template => template)
   image.save!

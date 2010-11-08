@@ -35,41 +35,36 @@ class PulpRepository < AbstractRepository
   end
 
   def groups
-    groups = {}
-    WrappedRestClient.get(@groups_url, HTTP_OPTS).each do |id, info|
+    WrappedRestClient.get(@groups_url, HTTP_OPTS).map do |id, info|
       pkgs = {}
       info['default_package_names'].each {|p| pkgs[p] = {:type => 'default'}}
       info['optional_package_names'].each {|p| pkgs[p] = {:type => 'optional'}}
       info['mandatory_package_names'].each {|p| pkgs[p] = {:type => 'mandatory'}}
       next if pkgs.empty?
-      name = info['name']
-      groups[info['id']] = {
+      {
+        :id => id,
         :name => info['name'],
         :description => info['description'].to_s,
         :repository_id => @id,
         :packages => pkgs,
       }
-    end
-    return groups
+    end.compact
   end
 
   def categories
-    categories = {}
-    WrappedRestClient.get(@categories_url, HTTP_OPTS).each do |id, info|
-      categories[info['id']] = {
+    WrappedRestClient.get(@categories_url, HTTP_OPTS).map do |id, info|
+      {
+        :id => id,
         :name => info['name'],
         :groups => info['packagegroupids'],
       }
     end
-    return categories
   end
 
   def packages
-    packages = []
-    WrappedRestClient.get(@packages_url, HTTP_OPTS).each do |info|
-      packages << info['name']
+    WrappedRestClient.get(@packages_url, HTTP_OPTS).map do |info|
+      {:name => info['name']}
     end
-    return packages
   end
 
   private

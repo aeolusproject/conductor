@@ -1,0 +1,11 @@
+%h3.clear.gap Preboot Configuration
+%fieldset.clearfix
+  .grid_4.alpha
+    = radio_button_tag :configure_via_script, 'no', :disabled => true
+    = label_tag :configure_via_script, 'Configure Via Script'
+  = file_field_tag 'script_file', :disabled => true, :class => 'grid_12 omega'
+%fieldset.clearfix
+  .grid_4.alpha
+    = radio_button_tag :configure_via_script, 'no', :disabled => true
+    = label_tag :configure_via_script, 'Configure Via Script'
+  = file_field_tag 'script_file', :disabled => true, :class => 'grid_12 omega'

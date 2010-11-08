@@ -8,6 +8,8 @@ describe RepositoryManager do
                                               '../fixtures/packagegroups.json'))
     @packages_json = File.read(File.join(File.dirname(__FILE__),
                                          '../fixtures/packages.json'))
+    @packagegroupcategories_json = File.read(File.join(File.dirname(__FILE__),
+                                                       '../fixtures/packagegroupcategories.json'))
   end
 
   before(:each) do
@@ -18,6 +20,8 @@ describe RepositoryManager do
       Typhoeus::Response.new(:code => 200, :body => @packagegroups_json))
     hydra.stub(:get, "http://pulptest/repositories/fedora/packages/").and_return(
       Typhoeus::Response.new(:code => 200, :body => @packages_json))
+    hydra.stub(:get, "http://pulptest/repositories/fedora/packagegroupcategories/").and_return(
+      Typhoeus::Response.new(:code => 200, :body => @packagegroupcategories_json))
 
     @rmanager = RepositoryManager.new(:config => [{
       'baseurl' => 'http://pulptest',
@@ -26,13 +30,23 @@ describe RepositoryManager do
     }])
   end
 
-  it "should return a list of repositories" do
+  it 'should return a list of repositories' do
     @rmanager.repositories.should have(1).items
     @rmanager.repositories.first.id.should eql('fedora')
   end
 
-  it "should return a list of packagegroups" do
+  it 'should return a list of packagegroups' do
     rep = @rmanager.repositories.first
-    rep.groups.keys.sort.should == ["deltacloud"]
+    rep.groups.first[:id].should == 'deltacloud'
+  end
+
+  it 'should return a list of categories' do
+    @rmanager.categories.should have(1).items
+    @rmanager.categories.first[:id].should eql('base-system')
+  end
+
+  it "should return a list of packages" do
+    @rmanager.packages.should have(2).items
+    @rmanager.packages.first[:name].should eql('libdeltacloud')
   end
 end

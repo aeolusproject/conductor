@@ -8,4 +8,8 @@ class AbstractRepository
     @yumurl = conf['yumurl'] || conf['baseurl']
     @type = conf['type']
   end
+
+  def search_package(what)
+    packages.select {|p| p[:name] =~ /#{Regexp.escape(what)}/i}
+  end
 end

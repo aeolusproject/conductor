@@ -19,57 +19,54 @@ class CompsRepository < AbstractRepository
   end
 
   def packages
-    pkgs = []
-    groups.each_value do |g|
-      pkgs += g[:packages].keys
-    end
-    pkgs.uniq
+    @packages ||= load_data[:packages]
   end
 
   def prepare_repo
-    grps = {}
-    @all_pkgs = pkg_names
-    group_nodes.each do |g|
-      pkgs = group_packages(g)
-      next if pkgs.empty?
-      name = g.at_xpath('name').text
-      id = g.at_xpath('id').text
-      grps[id] = {
-        :name => name,
-        :repository_id => @id,
-        :packages => pkgs
-      }
-    end
-
-    other = {}
-    @all_pkgs.each do |pkg, val|
-      other[pkg] = {:type => 'optional'} if val != :listed
-    end
-    if other.size > 0
-      name = 'unsorted'
-      grps[name]  = {
-        :name => name,
-        :repository_id => @id,
-        :packages => other
-      }
-    end
-
-    categories = {}
-    category_nodes.each do |cat|
-      id = cat.at_xpath('id').text
-      categories[id] = {
-        :name => cat.at_xpath('name').text,
-        :groups => cat.xpath('./grouplist/groupid').map {|g| g.text}
-      }
-    end
-
     Dir.mkdir(@cache_dir) unless File.directory?(@cache_dir)
     File.open(@cache_file, 'w') do |f|
-      Marshal.dump({:groups => grps, :categories => categories}, f)
+      Marshal.dump({
+        :packages => get_packages,
+        :groups => get_groups,
+        :categories => get_categories
+      }, f)
     end
   end
 
   private
+
+  def get_packages
+    packages = package_nodes.map do |node|
+      {
+        #:id => node.at_xpath('./xmlns:id/child::text()').text,
+        :name => node.at_xpath('./xmlns:name/child::text()').text,
+        :repository_id => @id,
+      }
+    end
+  end
+
+  def get_groups
+    group_nodes.map do |g|
+      pkgs = group_packages(g)
+      next if pkgs.empty?
+      {
+        :id => g.at_xpath('id').text,
+        :name => g.at_xpath('name').text,
+        :repository_id => @id,
+        :packages => pkgs
+      }
+    end
+  end
+
+  def get_categories
+    category_nodes.map do |cat|
+      {
+        :id => cat.at_xpath('id').text,
+        :name => cat.at_xpath('name').text,
+        :groups => cat.xpath('./grouplist/groupid').map {|g| g.text}
+      }
+    end
+  end
 
   def load_data
     unless @load_data
@@ -100,14 +97,9 @@ class CompsRepository < AbstractRepository
     xml.xpath('/comps/category')
   end
 
-  def pkg_names
-    pkgs = {}
+  def package_nodes
     xml = Nokogiri::XML(primary_xml)
-    xml.xpath('/xmlns:metadata/xmlns:package').each do |node|
-      next unless name = node.at_xpath('./xmlns:name/child::text()')
-      pkgs[name.text] = true
-    end
-    return pkgs
+    xml.xpath('/xmlns:metadata/xmlns:package')
   end
 
   def download_xml(url)
@@ -146,8 +138,6 @@ class CompsRepository < AbstractRepository
     pkgs = {}
     group_node.xpath('packagelist/packagereq').each do |p|
       pkg_name = p.text
-      next unless val = @all_pkgs[pkg_name]
-      val = :listed
       (pkgs[pkg_name] ||= {})[:type] = p.attr('type')
     end
     return pkgs

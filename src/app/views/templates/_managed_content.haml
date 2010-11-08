@@ -1,20 +1,21 @@
 #selected_packages
   %h3.gap Managed Content to Bundle
   .grid_16.alpha.omega
-    - if @selected_packages.empty?
+    - if @tpl.packages.empty?
       No selected packages
     - else
-      - repos = @repository_manager.repositories_hash
-      - @selected_packages.sort.each do |pkg|
-        - pkg_group = @groups.keys.find {|g| @groups[g][:packages][pkg]}
+      /- repos = @repository_manager.repositories_hash
+      - @tpl.packages.sort.each do |pkg|
+        /- pkg_group = @groups.keys.find {|g| @groups[g][:packages][pkg]}
         .packagewrap
           %a.packagename{:id => "package_#{pkg}"}=pkg
           = hidden_field_tag 'packages[]', pkg, :id => "package_#{pkg}"
           = submit_tag "Remove", :name => "remove_package_#{pkg}", :id => "remove_package_#{pkg}", :class => 'remove_package'
           .dropdown
-            %section
-              Repository:
-              %label= (pkg_group and repo = repos[@groups[pkg_group][:repository_id]]) ? repo.name.to_s : '&nbsp;'
+            / we don't display repository for now, it's pretty difficult with current design
+            /%section
+            /  Repository:
+            /  %label= (pkg_group and repo = repos[@groups[pkg_group][:repository_id]]) ? repo.name.to_s : '&nbsp;'
             %fieldset.nomargin
               %button{:disabled => true} Browse
               %button{:disabled => true} Config

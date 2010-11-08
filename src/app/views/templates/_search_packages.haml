@@ -4,7 +4,7 @@
       e.preventDefault();
       var url = '#{url_for :action => 'dispatch', :id => @id}';
       var old_pkgs = $("input:hidden[name='cached_packages[]']").map(function() {return $(this).val()}).get();
-      var new_pkgs = $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get();
+      var new_pkgs = $("input:checked[name='selected_packages[]']").map(function() {return $(this).val()}).get();
       var data = {
         'selected_packages[]': $("input:hidden[name='packages[]']").map(function() {return $(this).val()}).get(),
         'cached_packages[]': old_pkgs.concat(new_pkgs),
@@ -18,7 +18,6 @@
       $('#metagrouppackages').empty().addClass('loading');
       $('#metagrouppackages').load(url, data, function() {
         $('#metagrouppackages').removeClass('loading');
-        Aggregator.hook_selected_packages();
       })
     });
   });
@@ -26,18 +25,21 @@
 - @cached_packages.uniq.each do |pkg|
   = hidden_field_tag 'cached_packages[]', pkg
 
-%h4
-  = "Search Results for '#{params[:package_search]}'"
-%ul.searchedpackages
-  - @searched_packages.sort.each do |pkg|
-    %li
-      - selected = (@packages.to_a.find {|p| p[:name] == pkg} or @cached_packages.include?(pkg))
-      - disabled = params[:selected_packages].to_a.include?(pkg)
-      = check_box_tag 'packages[]', pkg, selected, {:disabled => disabled, :id => "pkg_#{pkg}"}
-      = label_tag "pkg_#{pkg}", pkg
-.pageinfo
-  = page_entries_info @searched_packages, :entry_name => 'package'
-= will_paginate @searched_packages, :params => {:package_search => params[:package_search]}, :renderer => TemplatesHelper::ButtonPaginationRenderer.new, :previous_label => 'Previous', :next_label => 'Next'
+- if params[:package_search].empty?
+  Search string is empty.
+-else
+  %h4
+    = "Search Results for '#{params[:package_search]}'"
+  %ul.searchedpackages
+    - @searched_packages.sort {|a, b| a [:name] <=> b[:name]}.each do |pkg|
+      %li
+        - selected = (@packages.to_a.find {|p| p[:name] == pkg[:name]} or @cached_packages.include?(pkg[:name]))
+        - disabled = @tpl.packages.include?(pkg[:name])
+        = check_box_tag 'selected_packages[]', pkg[:name], selected, {:disabled => disabled, :id => "pkg_#{pkg[:name]}"}
+        = label_tag "pkg_#{pkg[:name]}", pkg[:name]
+  .pageinfo
+    = page_entries_info @searched_packages, :entry_name => 'package'
+  = will_paginate @searched_packages, :params => {:package_search => params[:package_search]}, :renderer => TemplatesHelper::ButtonPaginationRenderer.new, :previous_label => 'Previous', :next_label => 'Next'
 
 
-= render :partial => 'addbuttons'
+  = render :partial => 'addbuttons'

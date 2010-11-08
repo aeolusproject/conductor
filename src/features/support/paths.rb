@@ -66,16 +66,16 @@ module NavigationHelpers
       url_for :action => 'new', :controller => 'permissions', :only_path => true
 
     when /the new template page/
-      url_for :action => 'new', :controller => 'templates', :only_path => true
+      url_for new_template_path
 
     when /the template builds page/
-      url_for :action => 'builds', :controller => 'templates', :only_path => true
+      url_for builds_path
 
     when /the templates page/
       templates_path
 
     when /the create template page/
-      url_for :action => 'create', :controller => 'templates', :only_path => true
+      url_for create_template_path
 
     when /the self service settings page/
       url_for :action => 'self_service', :controller => 'settings', :only_path => true

@@ -21,27 +21,38 @@ Feature: Manage Templates
     And I should see "Template saved"
     And I should see "mocktemplate"
 
-  Scenario: Add group and remove package to/from the template
-    Given I am on the templates page
-    When I press "Template"
-    Then I should be on the new template page
-    When I fill in the following:
-      | tpl_name         | mocktemplate  |
-    And I press "Add Software"
-    Then I should see "Managed Content Selection"
-    When I press "Collections"
-    And I check "group_deltacloud"
+  Scenario: Add a searched package to a new template
+    Given I am on the new template page
+    When I press "Add Software"
+    And I fill in "package_search" with "libdeltacloud"
+    And I press "package_search_button"
+    Then I should see "libdeltacloud"
+    When I check "libdeltacloud"
     And I press "Add Selected"
-    Then I should see "Managed Content to Bundle"
-    And the "tpl[name]" field by name should contain "mocktemplate"
-    And the page should contain "#package_libdeltacloud" selector
-    When I press "remove_package_libdeltacloud"
-    Then I should see "Managed Content to Bundle"
-    And the page should not contain "#package_libdeltacloud" selector
-    When I press "Save"
-    Then I should be on the templates page
-    And I should see "Template saved"
-    And I should see "mocktemplate"
+    Then I should see "New Template"
+    And I should see "libdeltacloud"
+
+  #Scenario: Add group and remove package to/from the template
+  #  Given I am on the templates page
+  #  When I press "Template"
+  #  Then I should be on the new template page
+  #  When I fill in the following:
+  #    | tpl_name         | mocktemplate  |
+  #  And I press "Add Software"
+  #  Then I should see "Managed Content Selection"
+  #  When I press "Collections"
+  #  And I check "group_deltacloud"
+  #  And I press "Add Selected"
+  #  Then I should see "Managed Content to Bundle"
+  #  And the "tpl[name]" field by name should contain "mocktemplate"
+  #  And the page should contain "#package_libdeltacloud" selector
+  #  When I press "remove_package_libdeltacloud"
+  #  Then I should see "Managed Content to Bundle"
+  #  And the page should not contain "#package_libdeltacloud" selector
+  #  When I press "Save"
+  #  Then I should be on the templates page
+  #  And I should see "Template saved"
+  #  And I should see "mocktemplate"
 
   Scenario: Sorting templates
     Given there is a "mock1" template
@@ -60,3 +71,19 @@ Feature: Manage Templates
     Then I should see "mock1" followed by "mock2"
     When I follow "Name"
     Then I should see "mock2" followed by "mock1"
+
+  Scenario: Search software with empty string
+    Given I am on the new template page
+    When I press "Add Software"
+    And I fill in "package_search" with ""
+    And I press "package_search_button"
+    Then I should see "Search string is empty"
+
+  Scenario: Show software selection
+    Given I am on the new template page
+    And I press "Add Software"
+    Then I should see an input "Collections"
+    # test that we see a metagroup
+    Then I should see an input "admin-tools"
+    # test that we see a collection (collections are loaded by default)
+    And I should see an input "deltacloud"
