@@ -28,106 +28,19 @@ class RepositoryManager
     @config = opts[:config] || load_config
     @config = [ @config ] if Hash === @config
     @repositories = get_repositories
+    @selected_repositories = get_selected_repositories(opts[:repositories])
   end
 
-  def all_groups(repository = nil)
-    unless @all_groups
-      @all_groups = {}
-      repositories.each do |r|
-        next if repository and repository != 'all' and repository != r.id
-        r.groups.each do |group, data|
-          if @all_groups[group]
-            @all_groups[group][:packages].merge!(data[:packages])
-          else
-            @all_groups[group] = data
-          end
-        end
-      end
-    end
-    return @all_groups
+  def groups
+    @groups ||= @selected_repositories.map {|repo| repo.groups}.flatten
   end
 
-  def packages(repository = nil)
+  def packages
+    @packages ||= @selected_repositories.map {|repo| repo.packages}.flatten
   end
 
-  def categories(repository = nil)
-    unless @all_categories
-      @all_categories = {}
-      repositories.each do |r|
-        next if repository and repository != 'all' and repository != r.id
-        r.categories.each do |id, data|
-          if @all_categories[id]
-            @all_categories[id][:groups] += data[:groups]
-          else
-            @all_categories[id] = data
-          end
-        end
-      end
-    end
-    return @all_categories
-  end
-
-  def packages(repository = nil)
-    unless @packages
-      @packages = []
-      repositories.each do |r|
-        next if repository and repository != 'all' and repository != r.id
-        @packages += r.packages
-      end
-    end
-    return @packages
-  end
-
-  # TODO: this is temporary solution for categorizing packages
-  def metagroups
-    unless @metagroups
-      @metagroups = {}
-      File.readlines('config/image_descriptor_package_metagroups.conf').each do |line|
-        group, entries_str = line.chomp.split('=')
-        next unless group and entries_str
-        @metagroups[group] = entries_str.split(',')
-      end
-    end
-    @metagroups
-  end
-
-  def metagroup_packages(category, repository = nil)
-    res = {}
-    groups = all_groups(repository)
-    metagroups[category].to_a.each do |entry|
-      cat, group = entry.split(';')
-      next unless c = categories[cat] and c[:groups].include?(group) and groups[group]
-      res[group] = {:packages => groups[group][:packages].keys}
-    end
-    res
-  end
-
-  def metagroup_packages_with_tagged_selected_packages(category, pkgs, repository = nil)
-    mgroups = metagroup_packages(category, repository)
-    mgroups.each_value do |group|
-      missing = false
-      group[:packages].each do |pkg|
-        unless pkgs.find {|p| p[:name] == pkg}
-          missing = true
-          break
-        end
-      end
-      next if missing
-      group[:selected] = true
-    end
-    mgroups
-  end
-
-  def all_groups_with_tagged_selected_packages(pkgs, repository = nil)
-    groups = all_groups(repository)
-    groups.each_value do |group|
-      pkgs.each do |pkg|
-        next unless p = group[:packages][pkg[:name]]
-        p[:selected] = true
-      end
-      group[:selected] = is_group_selected(group)
-    end
-    return groups
+  def categories
+    @categories ||= @selected_repositories.map {|repo| repo.categories}.flatten
   end
 
   def repositories_hash
@@ -138,30 +51,39 @@ class RepositoryManager
     res
   end
 
-  def search_package(str, repository = nil)
-    packages(repository).select {|p| p =~ /#{Regexp.escape(str)}/i}
+  def search_package(str)
+    @selected_repositories.map {|repo| repo.search_package(str)}.flatten
+  end
+
+  # TODO (remove): this is temporary solution for categorizing packages
+  def metagroup_packages(category)
+    res = []
+    grps = groups
+    metagroups[category].to_a.each do |entry|
+      gname = entry[1]
+      cat = categories.find{|t| t[:id] == entry[0]}
+      group = grps.find{|g| g[:id] == gname}
+      next unless cat and cat[:groups].include?(gname) and group
+      next if res.find{|g| g[:name] == gname}
+      res << {:name => gname, :packages => group[:packages].keys}
+    end
+    res
+  end
+
+  # TODO (remove): this is temporary solution for categorizing packages
+  def metagroups
+    unless @metagroups
+      @metagroups = {}
+      File.readlines('config/image_descriptor_package_metagroups.conf').each do |line|
+        group, entries_str = line.chomp.split('=')
+        next unless group and entries_str
+        @metagroups[group] = entries_str.split(',').map {|entry| entry.split(';')}
+      end
+    end
+    @metagroups
   end
 
   private
-
-  # returns true if all non-optional packages are selected
-  # (if there are only non-optional packages in the group,
-  # all packages must be selected)
-  def is_group_selected(group)
-    all = true
-    all_nonopt = true
-    only_opt = true
-    group[:packages].each_value do |pkg|
-      all = false unless pkg[:selected]
-      if pkg[:type] != 'optional'
-        only_opt = false
-        if !pkg[:selected]
-          all_nonopt = false
-        end
-      end
-    end
-    return only_opt ? all : all_nonopt
-  end
 
   def load_config
     YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_package_repositories.yml")
@@ -177,5 +99,12 @@ class RepositoryManager
       end
     end
     return repositories
+  end
+
+  def get_selected_repositories(repos)
+    return @repositories if repos.blank?
+    repos.map do |repo|
+      @repositories.find {|r| r.id == repo} or raise "repository '#{repo}' not found"
+    end
   end
 end

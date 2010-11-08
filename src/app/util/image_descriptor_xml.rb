@@ -52,7 +52,7 @@ class ImageDescriptorXML
     # platform
     # update: we don't add platform repo, image builder chooses right one from OS
     # name, but we add all other repos
-    recreate_repo_nodes
+    #recreate_repo_nodes
     get_or_create_node('os')['name'] = str
   end
 
@@ -109,28 +109,28 @@ class ImageDescriptorXML
   end
 
   def packages
-    packages = []
-    @root.xpath('/image/packages/package').each do |s|
-      packages << {:name => s.at_xpath('.//name').text}
+    @root.xpath('/image/packages/package').map do |s|
+      s.at_xpath('.//name').text
     end
-    return packages
+  end
+
+  def groups
+    @root.xpath('/image/groups/group').map do |s|
+      s.at_xpath('.//name').text
+    end
   end
 
   def add_package(pkg)
     pkgs_node = get_or_create_node('packages')
-    unless older = packages.find {|p| p[:name] == pkg}
-      add_package_node(pkgs_node, pkg)
-    end
+    add_package_node(pkgs_node, pkg) unless packages.include?(pkg)
   end
 
   def add_group(gname)
-    unless group = repository_manager.all_groups[gname]
-      raise "group #{gname} not found in repositories"
-    end
-    group[:packages].each do |p, info|
-      next if info[:type] == 'optional'
-      add_package(p)
-    end
+    #unless group = repository_manager.groups.find(gname)
+    #  raise "group #{gname} not found in repositories"
+    #end
+    node = get_or_create_node('groups')
+    add_group_node(node, gname) unless groups.include?(gname)
   end
 
   def remove_package(package)
@@ -145,12 +145,17 @@ class ImageDescriptorXML
     @root.xpath('/image/packages').each { |s| s.remove }
   end
 
+  def clear_groups
+    @root.xpath('/image/groups').each { |s| s.remove }
+  end
+
   private
 
   def add_group_node(parent, group)
-    n = Nokogiri::XML::Node.new('group', @doc)
-    n.content = group
-    parent << n
+    pnode = get_or_create_node('group', parent)
+    n = Nokogiri::XML::Node.new('name', @doc)
+    n.content = name
+    pnode << n
   end
 
   def recreate_repo_nodes

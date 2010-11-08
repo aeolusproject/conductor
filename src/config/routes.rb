@@ -46,7 +46,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.instance '/instances', :controller => 'instances'
-  map.templates '/templates', :controller => 'templates'
+  # map.templates '/templates', :controller => 'templates'
   map.settings '/settings', :controller => 'settings'
   map.root  :dashboard
 
@@ -56,6 +56,14 @@ ActionController::Routing::Routes.draw do |map|
     provider.resources :accounts, :controller => 'cloud_accounts'
   end
   map.destroy_providers_account '/providers/:provider_id/accounts/:id/destroy', :controller => 'cloud_accounts', :action => 'destroy', :conditions => { :method => :get }
+
+  map.resources :templates, :collection => { :destroy_multiple => :get },
+    :member => {
+      :assembly => :get,
+      :deployment_definition => :get,
+      :action => :get,
+    }
+  map.resources :builds
 
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'

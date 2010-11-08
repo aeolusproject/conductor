@@ -1,8 +1,8 @@
-- # the template fields as hidden form inputs
-<input type="hidden" id="id" name="id" value="#{@id}" />
 = hidden_field :tpl, :id
 = hidden_field :tpl, :name
 = hidden_field :tpl, :summary
 = hidden_field :tpl, :platform
 = hidden_field :tpl, :platform_version
 = hidden_field :tpl, :architecture
+- @tpl.packages.each do |p|
+  = hidden_field_tag "packages[]", p, :id => "package_#{p}"

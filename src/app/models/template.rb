@@ -4,7 +4,8 @@ require 'typhoeus'
 class Template < ActiveRecord::Base
   has_many :images, :dependent => :destroy
   has_many :instances
-  before_validation :update_attrs
+  before_validation :generate_uuid
+  before_save :update_xml
   before_destroy :no_instances?
 
   WAREHOUSE_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")
@@ -27,19 +28,6 @@ class Template < ActiveRecord::Base
     true
   end
 
-  def update_xml_attributes(opts = {})
-    xml.name = opts[:name] if opts[:name]
-    xml.description = opts[:summary] if opts[:summary]
-    if plat = opts[:platform]
-      xml.platform = plat
-      xml.platform_version = platforms[plat]['version'].to_s
-      xml.architecture = platforms[plat]['architecture']
-    end
-    self[:xml] = xml.to_xml
-    @xml = nil
-    update_attrs
-  end
-
   def xml
     @xml ||= ImageDescriptorXML.new(self[:xml].to_s)
   end
@@ -54,14 +42,18 @@ class Template < ActiveRecord::Base
     end
   end
 
-  def update_attrs
+  def generate_uuid
     # TODO: generate real uuid here, e.g. with some ruby uuid generator
-    self.uuid ||= "#{xml.name}-#{Time.now.to_f.to_s}"
-    self.name = xml.name
-    self.summary = xml.description
-    self.platform = xml.platform
-    self.platform_version = xml.platform_version
-    self.architecture = xml.architecture
+    self.uuid ||= "#{self.name}-#{Time.now.to_f.to_s}"
+  end
+
+  def update_xml
+    xml.name = self.name
+    xml.description = self.summary
+    xml.platform = self.platform
+    xml.platform_version = self.platform_version
+    xml.architecture = self.architecture
+    write_attribute(:xml, xml.to_s)
   end
 
   def providers
@@ -82,5 +74,43 @@ class Template < ActiveRecord::Base
 
   def platforms
     @platforms ||= YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_platform_repositories.yml")
+  end
+
+  def add_packages(packages)
+    packages.to_a.each {|pkg| xml.add_package(pkg)}
+  end
+
+  def add_groups(groups)
+    groups.to_a.each {|pkg| xml.add_group(pkg)}
+  end
+
+  def add_software(packages, groups)
+    add_packages(packages)
+    add_groups(groups)
+  end
+
+  def platform=(plat)
+    write_attribute(:platform, plat)
+    self.platform_version = platforms[plat]['version'].to_s
+    self.architecture = platforms[plat]['architecture']
+  end
+
+  # packages and groups are virtual attributes
+  def packages
+    xml.packages
+  end
+
+  def packages=(packages)
+    xml.clear_packages
+    packages.to_a.each {|pkg| xml.add_package(pkg)}
+  end
+
+  def groups
+    xml.groups
+  end
+
+  def groups=(groups)
+    xml.clear_groups
+    groups.to_a.each {|group| xml.add_group(group)}
   end
 end
