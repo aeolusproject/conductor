@@ -47,8 +47,6 @@ Rails::Initializer.run do |config|
   config.gem "haml"
   config.gem "will_paginate"
   config.gem "nokogiri", :version => ">= 1.4.0"
-  config.gem "gnuplot"
-  config.gem "scruffy"
   config.gem "compass", :version => ">= 0.10.2"
   config.gem "compass-960-plugin", :lib => "ninesixty"
   config.gem "simple-navigation"
