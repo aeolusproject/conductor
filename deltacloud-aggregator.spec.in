@@ -22,8 +22,6 @@ Requires: rubygem(will_paginate)
 Requires: rubygem(parseconfig)
 Requires: rubygem(authlogic)
 Requires: rubygem(deltacloud-client) >= 0.0.9.8
-Requires: rubygem(gnuplot)
-Requires: rubygem(scruffy)
 Requires: rubygem(compass)
 Requires: rubygem(compass-960-plugin)
 Requires: rubygem(simple-navigation)
@@ -36,7 +34,6 @@ Requires: rubygem(imagebuilder-console)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
-Requires: gnuplot >= 4.2.6
 Requires: ruby-RMagick
 Requires: classads >= 1.0
 Requires: condor >= 7.5.4
