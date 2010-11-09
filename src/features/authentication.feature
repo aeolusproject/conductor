@@ -66,3 +66,12 @@ Feature: User authentication
     And I should see "Logout successful!"
     And I should see "Create one now."
     And I should see "Log In"
+
+  Scenario: Change user login to one with invalid length
+    Given I am logged in
+    And I am on the homepage
+    When I want to edit my profile
+    Then should see "Editing Account"
+    When I enter a string of length "101" into "user[login]"
+    And I press "Save"
+    Then I should see "Login is too long (maximum is 100 characters)"
