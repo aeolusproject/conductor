@@ -24,4 +24,12 @@ describe Template do
     t.errors[:name].should_not be_nil
     t.errors[:name].should =~ /^is too long.*/
   end
+
+  it "should not destroy template if there are instances created from this template" do
+    inst = Factory.build(:instance)
+    inst.save!
+    lambda do
+      inst.template.destroy
+    end.should_not change(Template, :count)
+  end
 end
