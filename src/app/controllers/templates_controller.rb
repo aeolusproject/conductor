@@ -11,12 +11,10 @@ class TemplatesController < ApplicationController
   def index
     # TODO: add template permission check
     require_privilege(Privilege::IMAGE_VIEW)
-    @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
-    @order_field = params[:order_field] || 'name'
     @templates = Template.find(
       :all,
       :include => :images,
-      :order => @order_field + ' ' + @order_dir
+      :order => get_order('name')
     )
   end
 
@@ -222,9 +220,10 @@ add account on <a href=\"#{url_for :controller => 'provider', \
   end
 
   def builds
-    @running_images = Image.all(:include => :template, :conditions => ['status IN (?)', Image::ACTIVE_STATES])
-    @completed_images = Image.all(:include => :template, :conditions => {:status => Image::STATE_COMPLETE})
-    @failed_images = Image.all(:include => :template, :conditions => {:status => Image::STATE_FAILED})
+    order = get_order('templates.name')
+    @running_images = Image.all(:include => :template, :conditions => ['status IN (?)', Image::ACTIVE_STATES], :order => order)
+    @completed_images = Image.all(:include => :template, :conditions => {:status => Image::STATE_COMPLETE}, :order => order)
+    @failed_images = Image.all(:include => :template, :conditions => {:status => Image::STATE_FAILED}, :order => order)
     require_privilege(Privilege::IMAGE_VIEW)
   end
 
@@ -259,6 +258,12 @@ add account on <a href=\"#{url_for :controller => 'provider', \
   end
 
   private
+
+  def get_order(default)
+    @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
+    @order_field = params[:order_field] || default
+    "#{@order_field} #{@order_dir}"
+  end
 
   def flash_error(msg)
     flash.now[:error] ||= {}
