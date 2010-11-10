@@ -42,3 +42,21 @@ Feature: Manage Templates
     Then I should be on the templates page
     And I should see "Template saved"
     And I should see "mocktemplate"
+
+  Scenario: Sorting templates
+    Given there is a "mock1" template
+    And there is a "mock2" template
+    And I am on the templates page
+    When I follow "Name" within ".templates"
+    Then I should see "mock1" followed by "mock2"
+    When I follow "Name" within ".templates"
+    Then I should see "mock2" followed by "mock1"
+
+  Scenario: Sorting template builds
+    Given there is a "mock1" build
+    And there is a "mock2" build
+    And I am on the template builds page
+    When I follow "Name"
+    Then I should see "mock1" followed by "mock2"
+    When I follow "Name"
+    Then I should see "mock2" followed by "mock1"

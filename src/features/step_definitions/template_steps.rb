@@ -16,10 +16,10 @@ Given /^There is a mock pulp repository$/ do
 
 end
 
-Given /^There is a "([^"]*)" template$/ do |name|
-  @template = Template.new
+Given /^there is a "([^"]*)" template$/ do |name|
+  @template = Factory.build :template
   @template.xml.name = name
-  @template.save_xml!
+  @template.save!
 end
 
 Given /^there is a package group$/ do
@@ -41,7 +41,7 @@ end
 # web_steps.rb and in this case I have to use @template as parameter which "I
 # am" doesn't support
 Given /^I jump on the "([^"]*)" template software page$/ do |name|
-  visit url_for :action => 'software', :controller => 'templates', :id => @template
+  visit url_for(:action => 'software', :controller => 'templates', :id => @template)
 end
 
 Then /^I should have a template named "([^"]*)"$/ do |name|
@@ -63,4 +63,18 @@ end
 
 Then /^the page should not contain "([^"]*)" selector$/ do |selector|
   response.should_not have_selector(selector)
+end
+
+Then /^I should see "([^"]*)" followed by "([^"]*)"$/ do |arg1, arg2|
+  # webrat doesn't support checking order of elements on a page, so
+  # this seems to be siplest check
+  (response.body =~ /#{Regexp.escape(arg1)}.*#{Regexp.escape(arg2)}/m).should_not be_nil
+end
+
+Given /^there is a "([^"]*)" build$/ do |arg1|
+  template = Factory.build :template
+  template.xml.name = arg1
+  template.save!
+  image = Factory.build(:image, :template => template)
+  image.save!
 end

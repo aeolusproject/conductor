@@ -68,6 +68,9 @@ module NavigationHelpers
     when /the new template page/
       url_for :action => 'new', :controller => 'templates', :only_path => true
 
+    when /the template builds page/
+      url_for :action => 'builds', :controller => 'templates', :only_path => true
+
     when /the templates page/
       templates_path
 
