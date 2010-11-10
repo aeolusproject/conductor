@@ -233,7 +233,20 @@ add account on <a href=\"#{url_for :controller => 'provider', \
     if ids.empty?
       flash[:notice] = "No Template Selected"
     else
-      Template.destroy(ids)
+      errs = {}
+      Template.find(ids).each do |t|
+        t.destroy
+        unless t.destroyed?
+          errs[t.name] = t.errors.full_messages.join(". ")
+        end
+      end
+      if errs.empty?
+        flash[:notice] = 'Template deleted'
+      else
+        flash[:error] ||= {}
+        flash[:error][:summary] = 'Error while deleting template'
+        (flash[:error][:failures] ||= {}).merge!(errs)
+      end
     end
     redirect_to :action => 'index'
   end

@@ -2,22 +2,30 @@ require 'util/image_descriptor_xml'
 require 'typhoeus'
 
 class Template < ActiveRecord::Base
-  has_many :images,  :dependent => :destroy
+  has_many :images, :dependent => :destroy
+  has_many :instances
   before_validation :update_attrs
+  before_destroy :no_instances?
 
   WAREHOUSE_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")
 
   validates_presence_of :uuid
   validates_uniqueness_of :uuid
-  # uncomment this after reworking view (currently is used wizard,
-  # so there can be situation when save is called and name and platform can be
-  # unset)
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of   :name, :maximum => 255
   validates_presence_of :platform
   validates_presence_of :platform_version
   validates_presence_of :architecture
+
+  def no_instances?
+    unless instances.empty?
+      errors.add(:base, 'There are instances for this template.')
+      return false
+    end
+
+    true
+  end
 
   def update_xml_attributes(opts = {})
     xml.name = opts[:name] if opts[:name]
