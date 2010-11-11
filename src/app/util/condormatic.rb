@@ -204,50 +204,55 @@ def condormatic_classads_sync
   end
 
   Rails.logger.info "Syncing classads.."
-  providers.each do |provider|
-    provider.cloud_accounts.each do |account|
-      provider.replicated_images.each do |replicated_image|
-        # The replicated image entry gets put in the database as soon as we ask
-        # to have the image built, so we only want to generate classads for it if
-        # it is ready to be used.  When ready it will have an image key assigned
-        # to it.
-        if replicated_image.provider_image_key != nil
-          provider.hardware_profiles.each do |hwp|
-            provider.realms.each do |realm|
-              pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
+  ads = []
+  providers.each { |provider|
+    # The replicated image entry gets put in the database as soon as we ask
+    # to have the image built, so we only want to generate classads for it if
+    # it is ready to be used.  When ready it will have an image key assigned
+    # to it.
+    replicated_images = provider.replicated_images.find(:all,
+                            :conditions => ['provider_image_key IS NOT NULL'])
+    accounts          = provider.cloud_accounts
+    hardware_profiles = provider.hardware_profiles
+    realms            = provider.realms
+    accounts.each { |account|
+      replicated_images.each { |replicated_img|
+        hardware_profiles.each { |hwp|
+          ads += realms.collect { |realm|
+            [account, replicated_img, hwp, realm] } } } }
+  }
 
-              pipe.puts "Name=\"provider_combination_#{index}\""
-              pipe.puts 'MyType="Machine"'
-              pipe.puts 'Requirements=true'
-              pipe.puts "\n# Stuff needed to match:"
-              pipe.puts "hardwareprofile=\"#{hwp.aggregator_hardware_profiles[0].id}\""
-              pipe.puts "image=\"#{replicated_image.image.template.id}\""
-              pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
-              pipe.puts "\n# Backend info to complete this job:"
-              pipe.puts "image_key=\"#{replicated_image.provider_image_key}\""
-              pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""
-              pipe.puts "realm_key=\"#{realm.external_key}\""
-              pipe.puts "provider_url=\"#{account.provider.url}\""
-              pipe.puts "username=\"#{account.username}\""
-              pipe.puts "password=\"#{account.password}\""
-              pipe.puts "cloud_account_id=\"#{account.id}\""
-              pipe.puts "keypair=\"#{escape(account.instance_key.name)}\""
-              pipe.close_write
+  ads.each { |ad|
+    account, replicated_image, hwp, realm = *ad
 
-              out = pipe.read
-              pipe.close
+    pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
 
-              Rails.logger.error "Unable to submit condor classad: #{out}" if $? != 0
+    pipe.puts "Name=\"provider_combination_#{index}\""
+    pipe.puts 'MyType="Machine"'
+    pipe.puts 'Requirements=true'
+    pipe.puts "\n# Stuff needed to match:"
+    pipe.puts "hardwareprofile=\"#{hwp.aggregator_hardware_profiles[0].id}\""
+    pipe.puts "image=\"#{replicated_image.image.template.id}\""
+    pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
+    pipe.puts "\n# Backend info to complete this job:"
+    pipe.puts "image_key=\"#{replicated_image.provider_image_key}\""
+    pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""
+    pipe.puts "realm_key=\"#{realm.external_key}\""
+    pipe.puts "provider_url=\"#{account.provider.url}\""
+    pipe.puts "username=\"#{account.username}\""
+    pipe.puts "password=\"#{account.password}\""
+    pipe.puts "cloud_account_id=\"#{account.id}\""
+    pipe.puts "keypair=\"#{escape(account.instance_key.name)}\""
+    pipe.close_write
 
-              index += 1
-            end
-          end
-        end
-      end
-    end
+    out = pipe.read
+    pipe.close
 
-    Rails.logger.info "done"
-  end
+    Rails.logger.error "Unable to submit condor classad: #{out}" if $? != 0
+
+    index += 1
+  }
+  Rails.logger.info "done"
 end
 
 def kick_condor
