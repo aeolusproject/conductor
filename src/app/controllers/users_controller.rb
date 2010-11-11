@@ -77,7 +77,7 @@ class UsersController < ApplicationController
     @user = params[:user][:id] ? User.find(params[:user][:id]) : @current_user
     if params[:commit] == "Save"
       if @user
-        has_users_modify= BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
+        has_users_modify = BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
         if @user != @current_user
           if !has_users_modify
             flash[:notice] = "Invalid Permission to perform this operation"

@@ -1,112 +1,95 @@
 require 'spec_helper'
 
 describe UsersController do
-  fixtures :all
+
   before(:each) do
+    Factory(:base_permission_object)
     @tuser = Factory :tuser
     @admin_permission = Factory :admin_permission
+    @admin_permission.role.privileges << Privilege.new(:name => 'user_modify')
     @admin = @admin_permission.user
+    Factory.create(:default_quota_metadata)
+    Factory.create(:default_role_metadata)
+    Factory.create(:default_pool_metadata)
     activate_authlogic
-
-    @allow_self_service_logins = Factory(:metadata_object, :key => "allow_self_service_logins", :value => "true")
-
-    @default_quota = Factory(:unlimited_quota)
-    @self_service_default_quota = Factory(:metadata_object, :key => "self_service_default_quota",
-                                                            :value => @default_quota,
-                                                            :object_type => "Quota")
-
-    @default_pool = Factory(:pool, :name => "default_pool")
-    @self_service_default_quota = Factory(:metadata_object, :key => "self_service_default_pool",
-                                                          :value => @default_pool,
-                                                          :object_type => "Pool")
-
-    @default_role = Role.find(:first, :conditions => ['name = ?', 'Instance Creator and User'])
-    @self_service_default_quota = Factory(:metadata_object, :key => "self_service_default_role",
-                                                          :value => @default_role,
-                                                          :object_type => "Role")
   end
 
-  it "should call new method" do
-    route_for(:controller => 'user_sessions', :action => 'new').should == 'login'
+  it "allows user to get to registration form for new user" do
     get :new
-    @current_user.should == nil
-    UserSession.find.should == nil
     response.should be_success
   end
 
   describe "#create" do
-    before(:each) do
-
-    end
-
     context "user enters valid input" do
-      it "should create user" do
-        lambda {
-          post :create, :user => { :login => "tuser2", :email => "tuser2@example.com",
-                                   :password => "testpass",
-                                   :password_confirmation => "testpass" }
-        }.should change{ User.count }
-        user = User.find(:first, :conditions => ['login = ?', "tuser2"])
+      it "creates user" do
+        lambda do
+          post :create, :user => {
+            :login => "tuser2", :email => "tuser2@example.com",
+            :password => "testpass",
+            :password_confirmation => "testpass" }
+        end.should change(User, :count).by(1)
+
         response.should redirect_to(dashboard_url)
       end
 
       it "fails to create pool" do
-        lambda {
+        lambda do
           post :create, :user => {}
-        }.should_not change{ User.count }
-        p = Pool.find_by_name("tuser2")
-        p.should be_nil
+        end.should_not change(User, :count)
+
         returned_user = assigns[:user]
         returned_user.errors.empty?.should be_false
         returned_user.should have(2).errors_on(:login)
         returned_user.should have(2).errors_on(:email)
         returned_user.should have(1).error_on(:password)
         returned_user.should have(1).error_on(:password_confirmation)
-        #assigns[:user].errors.find_all {|attr,msg|
-        #  ["login", "email", "password",  "password_confirmation"].
-        #  include?(attr).should be_true
-        #}
-        response.should  render_template('new')
+
+        response.should render_template('new')
       end
     end
   end
 
-  it "should allow an admin to create user" do
+  it "allows an admin to create user" do
     UserSession.create(@admin)
-    lambda {
-      post :create, :user => { :login => "tuser3", :email => "tuser3@example.com",
-                               :password => "testpass",
-                               :password_confirmation => "testpass" }
-    }.should change{ User.count }
-    user = User.find(:first, :conditions => ['login = ?', "tuser3"])
+    lambda do
+      post :create, :user => {
+        :login => "tuser3", :email => "tuser3@example.com",
+        :password => "testpass",
+        :password_confirmation => "testpass" }
+    end.should change(User, :count)
+
     response.should redirect_to(users_url)
   end
 
   it "should not allow a regular user to create user" do
     UserSession.create(@tuser)
-    lambda {
-      post :create, :user => { :login => "tuser4", :email => "tuser4@example.com",
-                               :password => "testpass",
-                               :password_confirmation => "testpass" }
-    }.should_not change{ User.count }
+    lambda do
+      post :create, :user => {
+        :login => "tuser4", :email => "tuser4@example.com",
+        :password => "testpass",
+        :password_confirmation => "testpass" }
+    end.should_not change(User, :count)
   end
 
-  it "should show user" do
+  it "provides show view for user" do
     UserSession.create(@tuser)
     get :show
+
     response.should be_success
   end
 
-  it "should get edit" do
+  it "provides edit view for user" do
     UserSession.create(@tuser)
     get :edit, :id => @tuser.id
+
     response.should be_success
   end
 
-  test "should update user" do
+  it "updates user with new data" do
     UserSession.create(@tuser)
-    put :update, :id => @tuser.id, :user => { }, :save =>'true'
-    response.should redirect_to(users_path)
+    put :update, :id => @tuser.id, :user => {}, :commit => 'Save'
+
+    response.should redirect_to(dashboard_path)
   end
 
   # checks whether proper error template is rendered when an exception raises
