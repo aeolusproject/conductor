@@ -2,9 +2,7 @@ require 'spec_helper'
 
 describe RegistrationService do
 
-  before(:all) do
-    MetadataObject.delete_all
-    Role.delete_all
+  before(:each) do
     Factory.create(:default_quota_metadata)
     Factory.create(:default_role_metadata)
     Factory.create(:default_pool_metadata)
@@ -47,14 +45,6 @@ describe RegistrationService do
   end
 
   describe "with transaction" do
-
-    before(:all) do
-      ActiveSupport::TestCase.use_transactional_fixtures = false
-    end
-
-    after(:all) do
-      ActiveSupport::TestCase.use_transactional_fixtures = true
-    end
 
     it "doesn't save user if quota save! raise error and return false if validation failed" do
       user_attributes = Factory.attributes_for(:user)
