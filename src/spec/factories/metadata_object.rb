@@ -4,6 +4,11 @@ Factory.define :metadata_object do |o|
   o.object_type nil
 end
 
+Factory.define :default_logins_metadata, :parent => :metadata_object do |o|
+   o.key 'allow_self_service_logins'
+   o.value 'true'
+end
+
 Factory.define :default_zone_metadata, :parent => :metadata_object do |o|
    o.key 'default_zone'
    o.value {Factory.create(:zone).id}
