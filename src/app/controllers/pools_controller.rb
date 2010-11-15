@@ -103,10 +103,12 @@ class PoolsController < ApplicationController
     @pool.quota_id = quota.id
 
     @pool.zone = Zone.default
-    @pool.save!
-
-    flash[:notice] = "Pool added."
-    redirect_to :action => 'show', :id => @pool.id
+    if @pool.save
+      flash[:notice] = "Pool added."
+      redirect_to :action => 'show', :id => @pool.id
+    else
+      render :action => :new
+    end
   end
 
   def manage_pool

@@ -62,3 +62,10 @@ Feature: Manage Pools
     Then I should see the following:
     | Running Instances | 10           | 8             |
     | Total Instances   | 15           | 15            |
+
+  Scenario: Enter invalid characters into Name field
+    Given I am an authorised user
+    And I am on the new pool page
+    When I fill in "pool[name]" with "@%&*())_@!#!"
+    And I press "Save"
+    Then I should see "Name must only contain: numbers, letters, spaces, '_' and '-'"
