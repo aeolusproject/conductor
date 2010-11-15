@@ -34,6 +34,8 @@ class Pool < ActiveRecord::Base
   validates_presence_of :zone
   validates_uniqueness_of :exported_as, :if => :exported_as
 
+  validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
+
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
