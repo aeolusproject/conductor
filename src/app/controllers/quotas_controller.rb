@@ -20,7 +20,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 
-class QuotaController < ApplicationController
+class QuotasController < ApplicationController
   before_filter :require_user
 
   def show
