@@ -9,7 +9,7 @@
     - form_action = 'create'
   - elsif edit_provider
     - form_action = 'update'
-  - form_for @provider, :url => {:controller => :provider, :action => form_action}, :class => "dcloud_form" do |f|
+  - form_for @provider, :url => {:controller => :providers, :action => form_action}, :class => "dcloud_form" do |f|
     %fieldset
       %label.grid_4.alpha.big{ :for => "provider_name" }
         = t('.provider_name')

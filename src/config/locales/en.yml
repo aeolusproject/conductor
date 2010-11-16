@@ -87,7 +87,7 @@ en:
       self_service_default: 'User Treatment: Self-service default'
       quota: Quota
       account: Account
-  provider:
+  providers:
     providers: PROVIDERS
     form:
       provider_name: Provider Name

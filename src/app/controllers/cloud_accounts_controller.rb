@@ -43,7 +43,7 @@ class CloudAccountsController < ApplicationController
 
     if params[:test_account]
       test_account(@cloud_account)
-      redirect_to :controller => "provider", :action => "accounts", :id => @provider, :cloud_account => params[:cloud_account]
+      redirect_to :controller => "providers", :action => "accounts", :id => @provider, :cloud_account => params[:cloud_account]
     elsif @cloud_account.valid?
       quota = Quota.new
       quota.maximum_running_instances = quota_from_string(params[:quota][:maximum_running_instances])
@@ -54,7 +54,7 @@ class CloudAccountsController < ApplicationController
       if request.post? && @cloud_account.save && @cloud_account.populate_realms
         flash[:notice] = "Provider account added."
       end
-      redirect_to :controller => "provider", :action => "accounts", :id => @provider
+      redirect_to :controller => "providers", :action => "accounts", :id => @provider
       kick_condor
     else
       if not @cloud_account.valid_credentials?
@@ -64,7 +64,7 @@ class CloudAccountsController < ApplicationController
       else
         flash[:notice] = "You must fill in all the required fields"
       end
-      redirect_to :controller => "provider", :action => "accounts", :id => @provider, :cloud_account => params[:cloud_account]
+      redirect_to :controller => "providers", :action => "accounts", :id => @provider, :cloud_account => params[:cloud_account]
     end
   end
 
@@ -111,7 +111,7 @@ class CloudAccountsController < ApplicationController
     end
     if success
       flash[:notice] = "Account updated."
-      redirect_to :controller => 'provider', :action => 'accounts', :id => @provider
+      redirect_to :controller => 'providers', :action => 'accounts', :id => @provider
     else
       flash.now[:notice] = "Error updating the cloud account."
       render :template => 'provider/accounts'
@@ -123,7 +123,7 @@ class CloudAccountsController < ApplicationController
     require_privilege(Privilege::ACCOUNT_MODIFY,@cloud_account.provider)
     if @cloud_account.update_attributes(params[:cloud_account])
       flash[:notice] = "Cloud Account updated!"
-      redirect_to :controller => 'provider', :action => 'accounts', :id => @cloud_account.provider.id
+      redirect_to :controller => 'providers', :action => 'accounts', :id => @cloud_account.provider.id
     else
       render :action => :edit
     end
@@ -147,7 +147,7 @@ class CloudAccountsController < ApplicationController
     else
       flash[:notice] = "Cloud Account could not be destroyed"
     end
-    redirect_to :controller => 'provider', :action => 'accounts', :id => provider.id
+    redirect_to :controller => 'providers', :action => 'accounts', :id => provider.id
   end
 
   def test_account(account)

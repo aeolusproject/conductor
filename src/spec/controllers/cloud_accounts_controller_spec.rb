@@ -29,7 +29,7 @@ describe CloudAccountsController do
     @cloud_account.save
 
     post :update, :cloud_account => { :id => @cloud_account.id, :password => 'mockpassword' }
-    response.should redirect_to("http://test.host/provider/accounts/#{@provider.id}")
+    response.should redirect_to("http://test.host/providers/accounts/#{@provider.id}")
     CloudAccount.find(@cloud_account.id).password.should == "mockpassword"
   end
 
@@ -38,7 +38,7 @@ describe CloudAccountsController do
     lambda do
       post :destroy, :id => @cloud_account.id
     end.should change(CloudAccount, :count).by(-1)
-    response.should redirect_to("http://test.host/provider/accounts/#{@provider.id}")
+    response.should redirect_to("http://test.host/providers/accounts/#{@provider.id}")
     CloudAccount.find(:first, :conditions => ['id = ?', @cloud_account.id]).should be_nil
   end
 

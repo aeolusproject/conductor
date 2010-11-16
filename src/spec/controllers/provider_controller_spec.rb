@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProviderController do
+describe ProvidersController do
 
   fixtures :all
   before(:each) do

@@ -27,16 +27,16 @@ module NavigationHelpers
       user_session_path
 
     when /the providers page/
-      url_for :controller => 'provider', :action => 'index', :only_path => true
+      url_for :controller => 'providers', :action => 'index', :only_path => true
 
     when /the new provider page/
-      url_for :controller => 'provider', :action => 'new', :only_path => true
+      url_for :controller => 'providers', :action => 'new', :only_path => true
 
     when /the show provider page/
-      url_for :controller => 'provider', :action => 'show', :only_path => true
+      url_for :controller => 'providers', :action => 'show', :only_path => true
 
     when /the provider settings page/
-      url_for :controller => 'provider', :action => 'settings', :only_path => true
+      url_for :controller => 'providers', :action => 'settings', :only_path => true
 
     when /the settings page/
       settings_path
