@@ -19,7 +19,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class ProviderController < ApplicationController
+class ProvidersController < ApplicationController
   before_filter :require_user
   before_filter :load_providers, :only => [:index, :show, :accounts, :list]
 
