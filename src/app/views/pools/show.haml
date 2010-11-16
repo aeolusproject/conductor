@@ -9,4 +9,4 @@
       %li= link_to "User access",  {:controller => "permissions", :action => "list", :pool_id => @pool.id, :ajax => true}
     %li= link_to "Hardware Profiles",  {:action => "hardware_profiles", :id => @pool.id, :ajax => true}
     %li= link_to "Realms",  {:action => "realms", :id => @pool.id, :ajax => true}
-    %li= link_to "Quota",  {:controller => "quota", :action => "show", :id => @pool, :parent_type => "pool", :ajax => true}
+    %li= link_to "Quota",  {:controller => "quotas", :action => "show", :id => @pool, :parent_type => "pool", :ajax => true}
