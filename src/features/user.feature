@@ -25,3 +25,12 @@ Feature: Manage Users
     And I fill in "user[password_confirmation]" with "new password"
     And I press "Save"
     Then I should see "User updated!"
+
+  Scenario: Administrator cancels the creation of a user account
+    Given I am on the users page
+    And there are 2 users
+    When I follow "create"
+    Then I should be on the new user page
+    When I follow "cancel"
+    Then there should only be 2 users
+    And I should be on the users page
