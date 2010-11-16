@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe InstanceController do
+describe InstancesController do
   fixtures :all
   before(:each) do
     @admin_permission = Factory :admin_permission

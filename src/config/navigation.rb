@@ -37,7 +37,7 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :images, t(:images), '#', :class => 'disabled'
     end
     first_level.item :runtime, t(:runtime), '#', :class => 'runtime' do |second_level|
-      second_level.item :instance_management, t(:instance_management), :controller => 'instance'
+      second_level.item :instance_management, t(:instance_management), :controller => 'instances'
     end
     first_level.item :help, t(:help), '#', :id => 'help', :class => "disabled"
   end

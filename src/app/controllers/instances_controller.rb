@@ -21,7 +21,7 @@
 
 require 'util/condormatic'
 
-class InstanceController < ApplicationController
+class InstancesController < ApplicationController
   before_filter :require_user, :get_nav_items
   before_filter :instance, :only => [:show, :key]
   layout :layout

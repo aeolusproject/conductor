@@ -36,7 +36,7 @@ class ImageController < ApplicationController
 
   def show
     if params[:create_instance]
-      redirect_to :controller => 'instance', :action => 'new', 'instance[image_id]' => (params[:ids] || []).first
+      redirect_to :controller => 'instances', :action => 'new', 'instance[image_id]' => (params[:ids] || []).first
     end
 
     require_privilege(Privilege::IMAGE_VIEW)
