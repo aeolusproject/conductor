@@ -16,7 +16,7 @@
 = paginated_table('instances_table', columns, @instances, opts) do |rec|
   %tr{:class => "#{cycle('even', 'odd')}"}
     %td= check_box_tag 'ids[]', rec.id
-    %td= rec.get_action_list.map {|action| link_to action, :controller => "instance", :action => "instance_action", :id => rec, :instance_action => action}.join(" | ")
+    %td= rec.get_action_list.map {|action| link_to action, :controller => "instances", :action => "instance_action", :id => rec, :instance_action => action}.join(" | ")
     %td= rec.name
     %td Details
     %td= rec.template.name

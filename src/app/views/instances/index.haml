@@ -98,7 +98,7 @@
     - @pools.each do |pool|
       .grid_6.alpha.poolname
         %h4= pool.name
-        = link_to image_tag("blnk.png", :border=>0) + "Launch Instance", {:controller => "instance", :action => "new", 'instance[pool_id]' => pool.id}, :class => "button iconbutton fr"
+        = link_to image_tag("blnk.png", :border=>0) + "Launch Instance", {:controller => "instances", :action => "new", 'instance[pool_id]' => pool.id}, :class => "button iconbutton fr"
 
       .grid_4.poolfilter
         %input{:type => "radio", :id => "all_" + pool.id.to_s, :name => "filter_" + pool.id.to_s}

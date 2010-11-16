@@ -15,17 +15,17 @@ Given /^a mock pending instance exists$/ do
 end
 
 Given /^I am viewing the mock instance detail$/ do
-  visit url_for :action => 'show', :controller => 'instance',
+  visit url_for :action => 'show', :controller => 'instances',
     :id => mock_instance
 end
 
 When /^I am viewing the pending instance detail$/ do
-  visit url_for :action => 'show', :controller => 'instance',
+  visit url_for :action => 'show', :controller => 'instances',
     :id => pending_instance
 end
 
 When /^I manually go to the key action for this instance$/ do
-   visit url_for :action => 'key', :controller => 'instance',
+   visit url_for :action => 'key', :controller => 'instances',
     :id => pending_instance
 end
 

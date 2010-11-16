@@ -45,7 +45,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
 
   map.dashboard '/dashboard', :controller => 'dashboard'
-  map.instance '/instance', :controller => 'instance'
+  map.instance '/instances', :controller => 'instances'
   map.templates '/templates', :controller => 'templates'
   map.settings '/settings', :controller => 'settings'
   map.root  :dashboard

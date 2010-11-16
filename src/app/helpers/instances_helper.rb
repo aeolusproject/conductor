@@ -19,7 +19,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-module InstanceHelper
+module InstancesHelper
   def owner_name(inst)
     return '' unless inst.owner
     # if last_name is set, use full name,
