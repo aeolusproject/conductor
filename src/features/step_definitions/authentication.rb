@@ -54,3 +54,7 @@ When /^I enter a string of length "([^"]*)" into "([^"]*)"$/ do |length, field_n
   length.to_i.times { string << valid_chars[rand(valid_chars.length)] }
   When "I fill in \"#{field_name}\" with \"#{string}\""
 end
+
+When /^I login with incorrect credentials$/ do
+  login("wrong_username", "wrong_password")
+end
