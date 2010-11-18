@@ -20,5 +20,5 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class UserSession < Authlogic::Session::Base
-
+  generalize_credentials_error_messages true
 end

@@ -37,6 +37,7 @@ class UserSessionsController < ApplicationController
       flash[:notice] = "Login successful!"
       redirect_back_or_default root_url
     else
+      flash[:warning] = "Login failed: The Username and Password you entered do not match"
       render :action => :new
     end
   end

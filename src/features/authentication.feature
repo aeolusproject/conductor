@@ -45,7 +45,7 @@ Feature: User authentication
     Given I am a registered user
     And I am on the login page
     When I forget to enter my password
-    Then I should see "Password cannot be blank"
+    Then I should see "Login failed"
     And I should be on the login error page
 
   Scenario: Edit profile
@@ -75,3 +75,10 @@ Feature: User authentication
     When I enter a string of length "101" into "user[login]"
     And I press "Save"
     Then I should see "Login is too long (maximum is 100 characters)"
+
+  Scenario: Log in incorrect details
+    Given I am a registered user
+    And I am on the login page
+    When I login with incorrect credentials
+    Then I should see "Login failed"
+    And I should be on the login error page
