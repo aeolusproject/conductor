@@ -17,7 +17,10 @@ describe Provider do
     end
 
     it "should require a valid name" do
-      [nil, ""].each do |invalid_value|
+      long_name = ""
+      256.times { long_name << 'a' }
+
+      [nil, "", "£*(&", long_name].each do |invalid_value|
         @provider.name = invalid_value
         @provider.should_not be_valid
       end
