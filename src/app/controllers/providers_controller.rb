@@ -21,7 +21,7 @@
 
 class ProvidersController < ApplicationController
   before_filter :require_user
-  before_filter :load_providers, :only => [:index, :show, :accounts, :list]
+  before_filter :load_providers, :only => [:index, :show, :edit, :new, :accounts, :list]
 
   def section_id
     'administration'
@@ -39,7 +39,6 @@ class ProvidersController < ApplicationController
     @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
     @provider = Provider.find(:first, :conditions => {:id => params[:id]})
     require_privilege(Privilege::PROVIDER_MODIFY, @provider)
-    render :show
   end
 
   def new
@@ -47,7 +46,6 @@ class ProvidersController < ApplicationController
     @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
     @provider = Provider.new(params[:provider])
     kick_condor
-    render :show
   end
 
   def create
@@ -74,7 +72,7 @@ class ProvidersController < ApplicationController
   def update
     require_privilege(Privilege::PROVIDER_MODIFY)
     @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
-    @provider = Provider.find(:first, :conditions => {:id => params[:provider][:id]})
+    @provider = Provider.find(:first, :conditions => {:id => params[:id]})
     previous_cloud_type = @provider.cloud_type
 
     @provider.update_attributes(params[:provider])

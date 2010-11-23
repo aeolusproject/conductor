@@ -910,12 +910,11 @@ fieldset.gap {
   fieldset {
     overflow: hidden;
     margin: 10px 0 0;
-    text-align: right;
+    text-align: left;
     label {
       display: inline-block;
       font-weight: bold;
-      padding: 4px 10px 0 0;
-      max-width: 10em;
+      padding: 4px 0 0 0;
     }
     input[type='text'], input[type='password'], textarea {
       display: inline-block;
