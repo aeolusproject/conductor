@@ -34,6 +34,9 @@ class Provider < ActiveRecord::Base
   validates_presence_of :cloud_type
   validates_presence_of :url
 
+  validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
+  validates_length_of :name,  :maximum => 255
+
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
