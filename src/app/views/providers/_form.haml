@@ -1,47 +1,25 @@
-- readonly = controller.action_name == 'show' ? true : false
-- new_provider = ['new', 'create'].include? controller.action_name
-- edit_provider = ['edit', 'update'].include? controller.action_name
-= render :partial => 'providers'
-#details.grid_13
-  %nav.subsubnav
-    = render_navigation(:level => 4)
-  - if new_provider
-    - form_action = 'create'
-  - elsif edit_provider
-    - form_action = 'update'
-  - form_for @provider, :url => {:controller => :providers, :action => form_action}, :class => "dcloud_form" do |f|
-    %fieldset
-      %label.grid_4.alpha.big{ :for => "provider_name" }
-        = t('.provider_name')
-        - unless readonly
-          %span.required
-            *
-      %label.grid_5.big{ :for => "provider_url" }
-        = t('.provider_url')
-        - unless readonly
-          %span.required
-            *
-      %div.grid_4.omega
-        = f.error_message_on :url, 'URL '
-        = f.error_message_on :name, 'Name '
-      = f.text_field :name, :title => t('.provider_name'), :value => (@provider.name if @provider), :disabled => ('disabled' if readonly), :class => "clear grid_4 alpha"
-      = f.text_field :url, :title => t('.provider_url'), :class => 'emailinput', :value => (@provider.url if @provider), :disabled => ('disabled' if readonly), :class => "grid_5"
-      - if edit_provider:
-        = f.hidden_field :id, :value => @provider.id
-      .clear.prefix_4.grid_5.suffix_4.alpha.omega
-        - if new_provider or edit_provider
-          %span
-          (
-          %button.linkbutton.nospace{ :type => 'submit', :value => t('.test_connection'), :name => 'test_connection', :id => 'test_connection' }<>
-            = t('.test_connection')
-          )
-    - unless readonly
-      %p.requirement
-        %span.required
-          *
-        \-
-        = t('.required_field')
-    - if edit_provider
-      %input{ :type => 'submit', :value => t(:save), :name => 'save_provider', :id => 'save_provider' }
-    - elsif new_provider
-      %input{ :type => 'submit', :value => t(:add), :name => 'add_provider', :id => 'add_provider' }
+%fieldset
+  %label.grid_4.alpha.big{ :for => "provider_name" }
+    = t('.provider_name')
+    %span.required
+      *
+  %label.grid_5.big{ :for => "provider_url" }
+    = t('.provider_url')
+    %span.required
+      *
+  %div.grid_4.omega
+    = f.error_message_on :url, 'URL '
+    = f.error_message_on :name, 'Name '
+  = f.text_field :name, :title => t('.provider_name'), :value => @provider.name, :class => "clear grid_4 alpha"
+  = f.text_field :url, :title => t('.provider_url'), :class => 'emailinput', :value => @provider.url, :class => "grid_5"
+  .clear.prefix_4.grid_5.alpha.omega
+    %span
+      (
+      %button.linkbutton.nospace{ :type => 'submit', :value => t('.test_connection'), :name => 'test_connection', :id => 'test_connection' }
+        = t('.test_connection')
+      )
+%p.requirement
+  %span.required
+    *
+  \-
+  = t('.required_field')

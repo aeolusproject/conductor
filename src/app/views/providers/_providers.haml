@@ -9,4 +9,4 @@
           = provider.name
   = edit_button(@provider, controller.action_name)
   - form_tag({:controller => 'providers', :action => 'new'}, {:method => :get , :class => 'buttononly'}) do
-    %input{ :type => 'submit', :value => t(:add), :disabled => ('disabled' unless @providers.length == 0) }
+    %input{ :type => 'submit', :value => t(:add), :disabled => ('disabled' unless controller.action_name == 'index') }
