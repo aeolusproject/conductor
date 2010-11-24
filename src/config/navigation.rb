@@ -8,7 +8,7 @@ SimpleNavigation::Configuration.run do |navigation|
     first_level.item :administration, t(:administration), '#', :class => 'administration' do |second_level|
       second_level.item :system_settings, t(:system_settings), :controller => 'settings' do |third_level|
         third_level.item :manage_providers, t(:manage_providers), :controller => 'providers' do |fourth_level|
-          fourth_level.item :provider_summary, t(:provider_summary), { :controller => 'providers', :action => 'show', :id => (@provider.id if @provider) }, :highlights_on => /\/providers\/(show|edit)/
+          fourth_level.item :provider_summary, t(:provider_summary), { :controller => 'providers', :action => 'show', :id => (@provider.id if @provider) }, :highlights_on => /\/providers\/([0-9]+)?(show|edit)?/
           fourth_level.item :provider_accounts, t(:provider_accounts), { :controller => 'providers', :action => 'accounts', :id => (@provider.id if @provider) }, :highlights_on => /\/providers\/accounts/
           fourth_level.item :scheduling_policies, t(:scheduling_policies), '#'
           fourth_level.item :services_provided, t(:services_provided), '#'
