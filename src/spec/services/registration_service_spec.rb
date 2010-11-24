@@ -8,6 +8,43 @@ describe RegistrationService do
     Factory.create(:default_pool_metadata)
   end
 
+  describe "with validations" do
+
+    it "should return errors on user when user is missing required fields" do
+      user = User.new(:login => 'baduser')
+      r = RegistrationService.new(user)
+      r.save.should be_false
+      user.errors.empty?.should be_false
+      user.errors.find_all do |attr,msg|
+        ["email","password","password_confirmation"].include?(attr).should be_true
+      end
+    end
+
+    it "should register a user with default pool/quota/role when default settings set" do
+      @user = Factory :user
+      @pool = Factory(:pool, :name => "default_pool")
+      privilege = Privilege.find_by_name('instance_view')
+      @role = Factory(:role, :privileges => [privilege])
+      @quota = Factory :quota
+
+      MetadataObject.set("allow_self_service_logins", "true")
+      MetadataObject.set("self_service_default_pool", @pool)
+      MetadataObject.set("self_service_default_role", @role)
+      MetadataObject.set("self_service_default_quota", @quota)
+
+      @registration_service = RegistrationService.new(@user)
+      @registration_service.save
+
+      @pools = Pool.list_for_user(@user, Privilege::INSTANCE_VIEW)
+      @pools.length.should == 1
+      @pools[0].name.should == "default_pool"
+
+      @user.quota.maximum_running_instances.should == @quota.maximum_running_instances
+      @user.quota.maximum_total_instances.should == @quota.maximum_total_instances
+    end
+
+  end
+
   describe "with quota" do
 
     it "passed via nested attributes to user model" do
