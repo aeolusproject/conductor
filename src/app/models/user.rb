@@ -31,7 +31,6 @@ class User < ActiveRecord::Base
   validates_length_of :first_name, :maximum => 255, :allow_blank => true
   validates_length_of :last_name,  :maximum => 255, :allow_blank => true
 
-
   # authlogic's password confirmation doesn't fire up when we fill in the
   # confirmation field but leave the password field blank. We have to check
   # that manually:
