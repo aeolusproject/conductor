@@ -52,7 +52,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # Temporarily disable this route, provider stuff is not restful yet.
   # Will be re-enabled in upcoming patch
-  # map.resources :provider
+  map.resources :providers
 
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'
