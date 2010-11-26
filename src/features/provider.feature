@@ -86,3 +86,20 @@ Feature: Manage Providers
     And I fill in "cloud_account[account_number]" with "12345678"
     And I press "test_account"
     Then I should see "Test Connection Failed: Invalid Account Details"
+
+  Scenario: Delete a provider
+    Given I am on the homepage
+    And there is a provider named "provider1"
+    And this provider has 5 replicated images
+    And this provider has 5 hardware profiles
+    And this provider has a realm
+    And this provider has a cloud account
+    When I go to the providers page
+    And I follow "provider1"
+    And I press "delete"
+    Then I should see "Provider Deleted"
+    And there should not exist a provider named "provider1"
+    And there should not be any replicated images
+    And there should not be any hardware profiles
+    And there should not be a cloud account
+    And there should not be a realm

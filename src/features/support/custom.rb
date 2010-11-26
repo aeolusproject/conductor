@@ -34,12 +34,12 @@ CloudAccount.class_eval do
   def generate_cloud_account_key
   end
 
-  def instance_key
-    @key = mock('Key', :null_object => true)
-    @key.stub!(:pem).and_return("PEM")
-    @key.stub!(:id).and_return("1_user")
-    @key   
-  end
+#  def instance_key
+#    @key = mock('Key', :null_object => true)
+#    @key.stub!(:pem).and_return("PEM")
+#    @key.stub!(:id).and_return("1_user")
+#    @key
+#  end
 end
 
 RepositoryManager.class_eval do
