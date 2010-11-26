@@ -19,6 +19,8 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+class ImageExistsError < Exception;end
+
 class Image < ActiveRecord::Base
   include SearchFilter
 
@@ -60,22 +62,25 @@ class Image < ActiveRecord::Base
   def self.build(template, target)
     # FIXME: This will need to be enhanced to handle multiple
     # providers of same type, only one is supported right now
-    if img = Image.find_by_template_id(template.id, :conditions => {:target => target})
-      # TODO: we currently silently ignore requests for building image which is
-      # already built (or is building now)
-      return img
+    if Image.find_by_template_id_and_target(template.id, target)
+      raise ImageExistsError,  "An attempted build of this template for the target '#{target}' already exists"
     end
 
+    unless provider = Provider.find_by_target_with_account(target)
+      raise "There is no provider for '#{target}' type with valid account."
+    end
+
+    img = nil
     Image.transaction do
       img = Image.create!(
-        :name => "#{template.xml.name}/#{target}",
+        :name => "#{template.name}/#{target}",
         :target => target,
         :template_id => template.id,
         :status => Image::STATE_QUEUED
       )
       ReplicatedImage.create!(
         :image_id => img.id,
-        :provider_id => Provider.find_by_cloud_type(target)
+        :provider_id => provider
       )
     end
     return img

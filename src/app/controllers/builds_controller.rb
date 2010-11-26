@@ -1,5 +1,5 @@
 class BuildsController < ApplicationController
-  before_filter :require_user
+  before_filter [:require_user, :check_permission]
 
   def section_id
     'build'
@@ -36,28 +36,17 @@ class BuildsController < ApplicationController
 
     @tpl.upload_template unless @tpl.uploaded
     errors = {}
+    warnings = []
     params[:targets].each do |target|
-      # FIXME: for beta release we check explicitly that provider and provider
-      # account exists
-      unless provider = Provider.find_by_cloud_type(target)
-        flash_error('Error while trying to build image',
-                    'no provider account' => "There is no provider of '#{target}' type, \
-you can add provider on <a href=\"#{url_for :controller => 'provider'}\">the providers page.</a>")
-        render :action => 'new' and return
-      end
-      if provider.cloud_accounts.empty?
-        flash_error('Error while trying to build image',
-                    'no provider account' => "There is no provider account for '#{target}' \
-provider, you can add account on <a href=\"#{url_for :controller => 'provider', \
-:action => 'accounts', :id => provider.id}\">the provider accounts page</a>")
-        render :action => 'new' and return
-      end
       begin
         Image.build(@tpl, target)
+      rescue ImageExistsError
+        warnings << $!.message
       rescue
         errors[target] = $!.message
       end
     end
+    flash[:warning] = 'Warning: ' + warnings.join unless warnings.empty?
     if errors.empty?
       redirect_to builds_path
     else
@@ -86,5 +75,9 @@ provider, you can add account on <a href=\"#{url_for :controller => 'provider', 
     flash.now[:error][:summary] = summary
     flash.now[:error][:failures] ||= {}
     flash.now[:error][:failures].merge!(errs)
+  end
+
+  def check_permission
+    require_privilege(Privilege::IMAGE_MODIFY)
   end
 end

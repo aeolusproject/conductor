@@ -1,4 +1,4 @@
-%h2 BUILD REQUEST
+%h2 Build Request
 - form_tag :action => 'create' do
   = hidden_field_tag :template_id, @tpl.id
   %h3 Deployment Definition
@@ -48,8 +48,8 @@
     %ul.block
       - @all_targets.each do |target_id, target|
         %li
-        = check_box_tag 'targets[]', target_id, false
-        = label_tag 'targets[]', target['name']
+        = check_box_tag 'targets[]', target_id, false, :id => target_id
+        = label_tag target_id, target['name']
 
   = submit_tag "Submit to Build", :name => "build"
   = submit_tag "Cancel", :name => "cancel"
