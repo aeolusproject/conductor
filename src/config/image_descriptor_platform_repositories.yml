@@ -1,4 +1,4 @@
 fedora:
   name: Fedora
   version: 13
-  architecture: 64-bit
+  architecture: x86_64
