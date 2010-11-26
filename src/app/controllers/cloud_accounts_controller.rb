@@ -25,6 +25,10 @@ class CloudAccountsController < ApplicationController
 
   helper :providers
 
+  def section_id
+    'administration'
+  end
+
   def index
     @provider = Provider.find(params[:provider_id])
     require_privilege(Privilege::ACCOUNT_VIEW, @provider)
