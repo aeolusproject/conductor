@@ -34,4 +34,20 @@ describe Image do
     i.template_id = 1
     i.should be_valid
   end
+
+  it "should not build image if image already exists for specified target" do
+    old = Factory.build(:image)
+    old.save!
+    lambda {Image.build(old.template, old.target)}.should raise_error(ImageExistsError)
+  end
+
+  it "should build image if there is provider and cloud account for specified target" do
+    acc = Factory.build(:mock_cloud_account)
+    acc.save!
+    tpl = Factory.build(:template)
+    tpl.save!
+    img = Image.build(tpl, 'mock')
+    Image.find(img).should == img
+    ReplicatedImage.find_by_image_id(img.id).should_not be_nil
+  end
 end

@@ -111,6 +111,14 @@ class Provider < ActiveRecord::Base
     cloud_accounts.collect {|account| account.pools}.flatten.uniq
   end
 
+  # returns first provider of cloud_type which has at least one cloud account
+  def self.find_by_target_with_account(cloud_type)
+    Provider.all(:conditions => {:cloud_type => cloud_type}).each do |p|
+      return p unless p.cloud_accounts.empty?
+    end
+    nil
+  end
+
   # TODO: implement or remove - this is meant to contain a hash of
   # supported cloud_types to use in populating form, though if we
   # infer that field, we don't need this.

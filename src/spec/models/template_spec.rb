@@ -9,12 +9,9 @@ describe Template do
   end
 
   it "should return list of providers who provides images built from this template" do
-    tpl = Factory.build(:template)
-    img = Factory.build(:image, :template_id => tpl)
-    provider = Factory.build(:mock_provider)
-    rimg = ReplicatedImage.new(:provider_id => provider, :image_id => img)
-    rimg.save
-    tpl.providers.size.should eql(1)
+    rimg = Factory.build(:mock_replicated_image)
+    rimg.save!
+    rimg.image.template.providers.size.should eql(1)
   end
 
   it "should not be valid if template name is too long" do
