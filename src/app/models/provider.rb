@@ -129,4 +129,5 @@ class Provider < ActiveRecord::Base
   def valid_framework?
     connect.nil? ? false : true
   end
+
 end
