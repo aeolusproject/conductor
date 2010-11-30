@@ -11,4 +11,4 @@
   - form_tag({:controller => 'providers', :action => 'new'}, {:method => :get , :class => 'buttononly'}) do
     %input{ :type => 'submit', :value => t(:add), :disabled => ('disabled' unless controller.action_name == 'index') }
   - form_tag({:controller => 'providers', :action => 'destroy', :id => @provider}, {:method => :delete , :class => 'buttononly'}) do
-    = submit_tag 'delete', :disabled => ('disabled' unless @provider and controller.action_name == 'show') }
+    = submit_tag 'delete', :disabled => ('disabled' unless @provider and controller.action_name == 'show')
