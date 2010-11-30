@@ -9,7 +9,6 @@ describe ProvidersHelper do
       provider = Factory(:mock_provider)
 
       edit_button(provider, 'show').should =~ /providers\/[0-9]*\/edit/
-      edit_button(provider, 'accounts').should =~ /providers\/[0-9]*\/edit/
     end
 
     it "formats blank link with no action and with disabled class if not in show or accounts action" do
