@@ -10,18 +10,6 @@ describe ProvidersController do
     activate_authlogic
   end
 
-  it "should provide ui to view accounts" do
-     UserSession.create(@admin)
-     get :accounts, :id => @provider.id
-     response.should be_success
-     response.should render_template("accounts")
-  end
-
-  it "should fail to grant access to account UIs for unauthenticated user" do
-     get :accounts
-     response.should_not be_success
-  end
-
   it "should provide ui to view hardware profiles" do
      UserSession.create(@admin)
      provider = @admin_permission.permission_object

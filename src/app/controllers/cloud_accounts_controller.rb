@@ -21,55 +21,60 @@
 
 class CloudAccountsController < ApplicationController
   before_filter :require_user
+  before_filter :load_providers
+
+  helper :providers
+
+  def index
+    @provider = Provider.find(params[:provider_id])
+    require_privilege(Privilege::ACCOUNT_VIEW, @provider)
+  end
 
   def new
     @provider = Provider.find(params[:provider_id])
     @cloud_account = CloudAccount.new
+    @quota = Quota.new
     require_privilege(Privilege::ACCOUNT_MODIFY, @provider)
   end
 
   def create
-    @provider = Provider.find(params[:cloud_account][:provider_id])
+    @provider = Provider.find(params[:provider_id])
     require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
-    if params[:cloud_account] && !params[:cloud_account][:x509_cert_priv_file].blank?
-      params[:cloud_account][:x509_cert_priv] = params[:cloud_account][:x509_cert_priv_file].read
-    end
-    params[:cloud_account].delete :x509_cert_priv_file
-    if params[:cloud_account] && !params[:cloud_account][:x509_cert_pub_file].blank?
-      params[:cloud_account][:x509_cert_pub] = params[:cloud_account][:x509_cert_pub_file].read
-    end
-    params[:cloud_account].delete :x509_cert_pub_file
     @cloud_account = CloudAccount.new(params[:cloud_account])
+    @cloud_account.provider = @provider
+    @cloud_account.quota = @quota = Quota.new
 
     if params[:test_account]
       test_account(@cloud_account)
-      redirect_to :controller => "providers", :action => "accounts", :id => @provider, :cloud_account => params[:cloud_account]
-    elsif @cloud_account.valid?
-      quota = Quota.new
-      quota.maximum_running_instances = quota_from_string(params[:quota][:maximum_running_instances])
-      quota.save!
-      @cloud_account.quota_id = quota.id
-      @cloud_account.zones << Zone.default
-      @cloud_account.save!
-      if request.post? && @cloud_account.save && @cloud_account.populate_realms
-        flash[:notice] = "Provider account added."
-      end
-      redirect_to :controller => "providers", :action => "accounts", :id => @provider
-      kick_condor
-    else
-      if not @cloud_account.valid_credentials?
-        flash[:notice] = "The entered credential information is incorrect"
-      elsif @cloud_account.errors.on(:username)
-        flash[:notice] = "The access key '#{params[:cloud_account][:username]}' has already been taken."
-      else
-        flash[:notice] = "You must fill in all the required fields"
-      end
-      redirect_to :controller => "providers", :action => "accounts", :id => @provider, :cloud_account => params[:cloud_account]
+      render :action => 'new' and return
     end
+
+    limit = params[:quota][:maximum_running_instances] if params[:quota]
+    @cloud_account.quota.set_maximum_running_instances(limit)
+
+    if @cloud_account.invalid?
+      if not @cloud_account.valid_credentials?
+        flash.now[:error] = "The entered credential information is incorrect"
+      elsif @cloud_account.errors.on(:username)
+        flash.now[:error] = "The access key '#{params[:cloud_account][:username]}' has already been taken."
+      else
+        flash.now[:error] = "You must fill in all the required fields"
+      end
+      render :action => 'new' and return
+    end
+
+    @cloud_account.zones << Zone.default
+    @cloud_account.save!
+    if @cloud_account.populate_realms
+      flash[:notice] = "Provider account added."
+    end
+    redirect_to provider_accounts_path(@provider)
+    kick_condor
   end
 
   def edit
     @cloud_account = CloudAccount.find(params[:id])
+    @quota = @cloud_account.quota
     @provider = @cloud_account.provider
     require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
   end
@@ -119,11 +124,16 @@ class CloudAccountsController < ApplicationController
   end
 
   def update
-    @cloud_account = CloudAccount.find(params[:cloud_account][:id])
-    require_privilege(Privilege::ACCOUNT_MODIFY,@cloud_account.provider)
+    @cloud_account = CloudAccount.find(params[:id])
+    @provider = @cloud_account.provider
+    require_privilege(Privilege::ACCOUNT_MODIFY, @provider)
+    @quota = @cloud_account.quota
+
+    limit = params[:quota][:maximum_running_instances] if params[:quota]
+    @cloud_account.quota.set_maximum_running_instances(limit)
     if @cloud_account.update_attributes(params[:cloud_account])
       flash[:notice] = "Cloud Account updated!"
-      redirect_to :controller => 'providers', :action => 'accounts', :id => @cloud_account.provider.id
+      redirect_to provider_accounts_path(@provider)
     else
       render :action => :edit
     end
@@ -138,34 +148,30 @@ class CloudAccountsController < ApplicationController
   end
 
   def destroy
-    acct = CloudAccount.find(params[:id])
-    provider = acct.provider
-    require_privilege(Privilege::ACCOUNT_MODIFY,provider)
-    if acct.destroyable?
-      CloudAccount.destroy(params[:id])
+    account = CloudAccount.find(params[:id])
+    provider = account.provider
+    require_privilege(Privilege::ACCOUNT_MODIFY, provider)
+    if account.destroy
       flash[:notice] = "Cloud Account destroyed"
     else
-      flash[:notice] = "Cloud Account could not be destroyed"
+      flash[:error] = "Cloud Account could not be destroyed"
     end
-    redirect_to :controller => 'providers', :action => 'accounts', :id => provider.id
+    redirect_to provider_accounts_path(provider)
   end
 
   def test_account(account)
     if account.valid_credentials?
-      flash[:notice] = "Test Connection Success: Valid Account Details"
+      flash.now[:notice] = "Test Connection Success: Valid Account Details"
     else
-      flash[:notice] = "Test Connection Failed: Invalid Account Details"
+      flash.now[:error] = "Test Connection Failed: Invalid Account Details"
     end
   rescue
-    flash[:notice] = "Test Connection Failed: Could not connect to provider"
+    flash.now[:error] = "Test Connection Failed: Could not connect to provider"
   end
+
   private
 
-  def quota_from_string(quota_raw)
-    if quota_raw.nil? or quota_raw.empty? or quota_raw.downcase == 'unlimited'
-      return nil
-    else
-      return Integer(quota_raw)
-    end
+  def load_providers
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
   end
 end

@@ -52,7 +52,10 @@ ActionController::Routing::Routes.draw do |map|
 
   # Temporarily disable this route, provider stuff is not restful yet.
   # Will be re-enabled in upcoming patch
-  map.resources :providers
+  map.resources :providers do |provider|
+    provider.resources :accounts, :controller => 'cloud_accounts'
+  end
+  map.destroy_providers_account '/providers/:provider_id/accounts/:id/destroy', :controller => 'cloud_accounts', :action => 'destroy', :conditions => { :method => :get }
 
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'

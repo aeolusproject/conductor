@@ -1,8 +1,17 @@
-.dcloud_form
-  = error_messages_for 'account'
-  %h2 Add a new Account from this Provider
-  %br/
-  - form_for @cloud_account, :url => { :action => "create" } do |f|
-    = f.error_messages
-    = render :partial => "form", :object => f
-    = link_to "Cancel", root_path, :class => 'actionlink'
+= render :partial => 'providers/providers'
+#details.grid_13
+  %nav.subsubnav
+    = render_navigation(:level => 4)
+
+  %h2
+    = t('.new_provider_account')
+  - form_for @cloud_account, :url => provider_accounts_path(@provider), :html => { :multipart => true } do |f|
+    = render :partial => 'form', :locals => { :f => f }
+    %fieldset.clearfix
+      .grid_13.alpha.omega
+        = submit_tag t(:add), :class => "ra nomargin dialogbutton"
+    %section
+      %p.requirement
+        %span.required *
+        \-
+        = t('.required_field')

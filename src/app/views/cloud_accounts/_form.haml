@@ -1,37 +1,52 @@
-%fieldset
-  %legend Account
-  = hidden_field :cloud_account,  :id
-  = hidden_field :cloud_account, :provider_id, :value => @provider.id
-  %ul
-    %li
-      %label
-        Label
-        %span user-visible name for the account
-      = text_field :cloud_account, :label
-    - if @cloud_account.id.nil?
-      %li
-        %label
-          UserName
-          %span UserName for the provider account you wish to add.
-        = text_field :cloud_account, :username
-    %li
-      %label
-        Password
-        %span Password for the provider account you wish to add.
-      = password_field :cloud_account, :password
-    %li
-      %label
-        Account number
-        %span EC2 account number.
-      = text_field :cloud_account, :account_number
-    %li
-      %label
-        Account certificate
-        %span EC2 x509 private key
-      = text_area :cloud_account, :x509_cert_priv
-    %li
-      %label
-        Account certificate
-        %span EC2 x509 private key
-      = text_area :cloud_account, :x509_cert_pub
-= submit_tag "Save", :class => "submit"
+= error_messages_for 'cloud_account'
+%fieldset.clearfix.nomargin
+  %label.grid_4.la.alpha
+    = t('.account_name')
+    %span.required *
+  %label.grid_3.la
+    = t('.user_name')
+    %span.required *
+  %label.grid_3.la
+    = t('.password')
+    %span.required *
+  %label.grid_3.la.omega
+    = t('.quota_instances')
+    %span.required *
+%fieldset.nomargin.clearfix
+  = f.text_field :label, :title => t('.account_name'), :class => "grid_4 alpha"
+  = f.text_field :username, :title => t('.user_name'), :class => "grid_3"
+  = f.password_field :password, :title => t('.password'), :class => "grid_3"
+  = text_field "quota", :maximum_running_instances, :title => t('.quota_instances'), :value => @quota.maximum_running_instances || "unlimited", :id => "quota_instances", :class => "grid_3 omega"
+%fieldset.nomargin.clearfix
+  .grid_3.prefix_10.alpha.omega
+    (
+    %button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances\");" }<>
+      = t('.unlimited_quota')
+    )
+%fieldset.clearfix.nomargin
+  %label.grid_4.la.alpha
+    = t('.account_number')
+    %span.required *
+  %label.grid_3.la
+    = t('.account_private_cert')
+    %span.required *
+  %label.grid_3.la
+    = t('.account_public_cert')
+    %span.required *
+  .grid_3.omega
+%fieldset.clearfix.nomargin
+  = f.text_field :account_number, :title => t('.account_number'), :class => "grid_4 alpha"
+  .grid_3
+    = f.file_field :x509_cert_priv_file, :title => t('.account_private_cert')
+  .grid_3
+    = f.file_field :x509_cert_pub_file, :title => t('.account_public_cert')
+  .grid_3.omega
+    (
+    %button.linkbutton.nospace{ :type => 'submit', :value => t('.test_account'), :name => 'test_account', :id => 'test_account' }<>
+      = t('.test_account')
+    )
+
+:javascript
+  function set_unlimited_quota(elem_id) {
+    $("#" + elem_id)[0].value = "unlimited";
+  }

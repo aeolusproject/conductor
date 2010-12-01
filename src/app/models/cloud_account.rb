@@ -23,34 +23,62 @@ require 'nokogiri'
 
 class CloudAccount < ActiveRecord::Base
   include PermissionedObject
+
+  # Relations
   belongs_to :provider
-  belongs_to :quota
+  belongs_to :quota, :autosave => true
   has_many :instances
   has_and_belongs_to_many :zones
-
-  # what form does the account quota take?
-
-  validates_presence_of :provider_id
-
-  validates_presence_of :label
-  validates_presence_of :username
-  validates_uniqueness_of :username, :scope => :provider_id
-  validates_presence_of :password
-  validates_presence_of :account_number
-  validates_presence_of :x509_cert_pub
-  validates_presence_of :x509_cert_priv
-
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
 
   has_one :instance_key, :dependent => :destroy
-  after_create :generate_cloud_account_key
 
-  before_destroy {|entry| entry.destroyable? }
+  # Helpers
+  attr_accessor :x509_cert_priv_file, :x509_cert_pub_file
+
+  # Validations
+  validates_presence_of :provider_id
+  validates_presence_of :label
+  validates_presence_of :username
+  validates_uniqueness_of :username, :scope => :provider_id
+  validates_presence_of :password
+  validates_presence_of :account_number
+  validate :validate_presence_of_x509_certs
+  validate :validate_credentials
+
+  # We're using this instead of <tt>validates_presence_of</tt> helper because
+  # we want to show errors on different attributes ending with '_file'.
+  def validate_presence_of_x509_certs
+    errors.add(:x509_cert_pub_file, "can't be blank") if x509_cert_pub.blank?
+    errors.add(:x509_cert_priv_file, "can't be blank") if x509_cert_priv.blank?
+  end
+
+  def validate_credentials
+    unless valid_credentials?
+      errors.add(:base, "Login Credentials are Invalid for this Provider")
+    end
+  end
+
+  # Hooks
+  after_create :generate_cloud_account_key
+  before_destroy :destroyable?
+  before_validation :read_x509_files
 
   def destroyable?
-    self.instances.empty?
+    instances.empty?
+  end
+
+  def read_x509_files
+    if x509_cert_pub_file.respond_to?(:read)
+      x509_cert_pub_file.rewind # Sometimes the file has to rewind, becuase something already read from it.
+      self.x509_cert_pub = x509_cert_pub_file.read
+    end
+    if x509_cert_priv_file.respond_to?(:read)
+      x509_cert_priv_file.rewind
+      self.x509_cert_priv = x509_cert_priv_file.read
+    end
   end
 
   def connect
@@ -76,7 +104,7 @@ class CloudAccount < ActiveRecord::Base
   end
 
   def name
-    label.nil? || label == "" ? username : label
+    label.blank? ? username : label
   end
 
   # FIXME: for already-mapped accounts, update rather than add new
@@ -142,11 +170,6 @@ EOT
     return xml.to_s
   end
 
-  protected
-  def validate
-    errors.add_to_base("Login Credentials are Invalid for this Provider") unless valid_credentials?
-  end
-
   private
   def generate_cloud_account_key
     client = connect
@@ -155,6 +178,5 @@ EOT
       InstanceKey.create(:cloud_account => self, :pem => key.pem, :name => key.id) if key
     end
   end
-
 
 end
