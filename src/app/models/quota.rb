@@ -49,6 +49,15 @@ class Quota < ActiveRecord::Base
 
   RESOURCE_NAMES = [ RESOURCE_RUNNING_INSTANCES, RESOURCE_TOTAL_INSTANCES ]
 
+  def set_maximum_running_instances(value)
+    if value.blank? || value == 'unlimited'
+      self.maximum_running_instances = Quota::NO_LIMIT
+    else
+      self.maximum_running_instances = value
+    end
+  end
+
+
   def self.can_create_instance?(instance, cloud_account)
     [instance.owner, instance.pool, cloud_account].each do |parent|
       if parent
@@ -112,5 +121,4 @@ class Quota < ActiveRecord::Base
     end
     return false
   end
-
 end

@@ -97,16 +97,23 @@ en:
       test_connection: Test Connection
       required_field: Required field.
       caution_image: Caution
-    accounts:
+  cloud_accounts:
+    index:
       provider_accounts: Provider Accounts
+    new:
       new_provider_account: New Account
+      required_field: Required field.
+    edit:
+      edit_provider_account: Edit Cloud Account
+      required_field: Required field.
+    form:
+      provider_accounts: Provider Accounts
       account_name: Account Name
       user_name: EC2 Access Key
       password: Secret Access Key
       quota_instances: Quota Instances
       test_account: Test Account
       unlimited_quota: Unlimited Quota
-      required_field: Required field.
       account_number: AWS Account ID
       account_private_cert: EC2 x509 private key
       account_public_cert: EC2 x509 public key

@@ -120,15 +120,6 @@ class ProvidersController < ApplicationController
     require_privilege(Privilege::PROVIDER_VIEW, @provider)
   end
 
-  def accounts
-    @provider = Provider.find(:first, :conditions => {:id => params[:id]})
-    require_privilege(Privilege::ACCOUNT_VIEW, @provider)
-    if params[:cloud_account]
-      @cloud_account = CloudAccount.new(params[:cloud_account])
-      @quota = Quota.new(params[:quota])
-    end
-  end
-
   def realms
     @provider = Provider.find(params[:id])
     @realm_names = @provider.realms.collect { |r| r.name }

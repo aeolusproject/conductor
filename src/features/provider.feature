@@ -65,6 +65,7 @@ Feature: Manage Providers
     When I go to the providers page
     And I follow "provider1"
     And I follow "Provider Accounts"
+    And I follow "Add" within "#details"
     And I fill in "cloud_account[label]" with "MockAccount"
     And I fill in "cloud_account[username]" with "mockuser"
     And I fill in "cloud_account[password]" with "mockpassword"
@@ -80,6 +81,7 @@ Feature: Manage Providers
     When I go to the providers page
     And I follow "provider1"
     And I follow "Provider Accounts"
+    And I follow "Add" within "#details"
     And I fill in "cloud_account[label]" with "IncorrectAccount"
     And I fill in "cloud_account[username]" with "incorrect_user"
     And I fill in "cloud_account[password]" with "incorrect_password"
