@@ -24,14 +24,6 @@ class ImageDescriptorXML
 
   UNKNOWN_GROUP = 'Individual packages'
 
-  # FIXME: temporary way to only add jboss until other
-  # services are supported
-  SERVICE_PACKAGE_GROUPS = {
-    # FIXME: jboss service is disabled because we don't have public repo
-    # which contains groups for jboss
-    #'jboss' => 'JBoss Core Packages'
-  }
-
   def initialize(xmlstr = "")
     @doc = Nokogiri::XML(xmlstr)
     # create at least root node if it doesn't exist
@@ -50,23 +42,36 @@ class ImageDescriptorXML
     return get_node_text('name')
   end
 
-  def platform=(str)
-    # FIXME: we remove all repos beacouse we don't know which one is for
-    # platform
-    recreate_repo_nodes(str)
-    node = get_or_create_node('os')
-    node.content = str
-  end
-
   def platform
-    return get_node_text('os')
+    node = @root.at_xpath('/image/os')
+    return node ? node['name'] : nil
   end
 
-  def platforms
-    unless @platforms
-      @platforms = YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_platform_repositories.yml")
-    end
-    return @platforms
+  def platform=(str)
+    # FIXME: we remove all repos because we don't know which one is for
+    # platform
+    # update: we don't add platform repo, image builder chooses right one from OS
+    # name, but we add all other repos
+    recreate_repo_nodes
+    get_or_create_node('os')['name'] = str
+  end
+
+  def platform_version
+    node = @root.at_xpath('/image/os')
+    return node ? node['version'] : nil
+  end
+
+  def platform_version=(str)
+    get_or_create_node('os')['version'] = str
+  end
+
+  def architecture
+    node = @root.at_xpath('/image/os')
+    return node ? node['architecture'] : nil
+  end
+
+  def architecture=(str)
+    get_or_create_node('os')['architecture'] = str
   end
 
   def description=(str)
@@ -85,9 +90,6 @@ class ImageDescriptorXML
       snode = Nokogiri::XML::Node.new('service', @doc)
       service_node << snode
       snode.content = s[0]
-      if group = SERVICE_PACKAGE_GROUPS[s[0]]
-        add_group(group)
-      end
     end
     @services = nil
   end
@@ -106,67 +108,18 @@ class ImageDescriptorXML
     return @doc.to_xml
   end
 
-  def packages_by_group
-    groups = {}
-    @root.xpath('/image/groups/group').each do |g|
-      groups[g.text] = []
-    end
-    @root.xpath('/image/packages/package').each do |s|
-      name = s.at_xpath('.//group').text
-      group = (groups[name] || groups[UNKNOWN_GROUP] ||= [])
-      group << {:name => s.at_xpath('.//name').text}
-    end
-    return groups
-  end
-
-  def all_packages_by_group
-    groups = {}
-    all_groups = repository_manager.all_groups
-    packages_by_group.each do |group, pkgs|
-      if group_all = all_groups[group]
-        groups[group] ||= []
-        group_all[:packages].keys.sort.each do |pkg|
-          groups[group] << {:name => pkg, :checked => pkgs.find {|p| p[:name] == pkg} ? true : false}
-        end
-      else
-        groups[UNKNOWN_GROUP] ||= []
-        groups[UNKNOWN_GROUP] += pkgs.map {|pkg| {:name => pkg[:name], :checked => true}}
-      end
-    end
-
-    unknown_group = groups.delete(UNKNOWN_GROUP)
-    sorted = groups.keys.sort.map do |group|
-      {:name => group, :pkgs => groups[group]}
-    end
-    if unknown_group
-      sorted << {:name => UNKNOWN_GROUP, :pkgs => unknown_group}
-    end
-
-    return sorted
-  end
-
   def packages
     packages = []
     @root.xpath('/image/packages/package').each do |s|
-      packages << {:name => s.at_xpath('.//name').text, :group => s.at_xpath('.//group').text}
+      packages << {:name => s.at_xpath('.//name').text}
     end
     return packages
   end
 
-  def packages=(packages)
+  def add_package(pkg)
     pkgs_node = get_or_create_node('packages')
-    pkgs_node.xpath('.//package').remove
-    packages.uniq.each do |pkg|
-      group, name = pkg.split(/#/, 2)
-      add_package_node(pkgs_node, name, group)
-    end
-  end
-
-  def add_package(pkg, group)
-    group ||= UNKNOWN_GROUP
-    pkgs_node = get_or_create_node('packages')
-    unless older = packages.find {|p| p[:name] == pkg and p[:group] == group}
-      add_package_node(pkgs_node, pkg, group)
+    unless older = packages.find {|p| p[:name] == pkg}
+      add_package_node(pkgs_node, pkg)
     end
   end
 
@@ -174,28 +127,22 @@ class ImageDescriptorXML
     unless group = repository_manager.all_groups[gname]
       raise "group #{gname} not found in repositories"
     end
-    groups = packages_by_group
-    unless groups[gname]
-      groups_node = get_or_create_node('groups')
-      add_group_node(groups_node, gname)
-    end
-    group[:packages].each do |p, type|
-      next if type == 'optional'
-      add_package(p, group[:name])
+    group[:packages].each do |p, info|
+      next if info[:type] == 'optional'
+      add_package(p)
     end
   end
 
-  def remove_group(group)
-    groups = packages_by_group
-    groups.delete(group)
-    pkgs_node = get_or_create_node('packages')
-    pkgs_node.xpath('.//package').remove
-    groups_node = get_or_create_node('groups')
-    groups_node.xpath('.//group').remove
-    groups.each do |group, pkgs|
-      pkgs.each { |pkg| add_package_node(pkgs_node, pkg[:name], group) }
-      add_group_node(groups_node, group)
+  def remove_package(package)
+    @root.xpath('/image/packages/package').each do |s|
+      if name = s.at_xpath('.//name') and name.text.to_s == package
+        s.remove
+      end
     end
+  end
+
+  def clear_packages
+    @root.xpath('/image/packages').each { |s| s.remove }
   end
 
   private
@@ -206,19 +153,12 @@ class ImageDescriptorXML
     parent << n
   end
 
-  def recreate_repo_nodes(platform)
-    unless repconf = platforms[platform]
-      raise "unknown platform #{platform}"
-    end
-
+  def recreate_repo_nodes
     repo_node = get_or_create_node('repos')
     repo_node.xpath('.//repo').remove
-    rnode = get_or_create_node('repo', repo_node)
-    rnode.content = repconf['baseurl']
-
-    repository_manager.repositories.each do |rname, repo|
+    repository_manager.repositories.each do |repo|
       rnode = get_or_create_node('repo', repo_node)
-      rnode.content = repo['baseurl']
+      rnode.content = repo.yumurl
     end
   end
 
@@ -235,20 +175,14 @@ class ImageDescriptorXML
     return node ? node.text : nil
   end
 
-  def add_package_node(parent, name, group)
+  def add_package_node(parent, name)
     pnode = get_or_create_node('package', parent)
     n = Nokogiri::XML::Node.new('name', @doc)
     n.content = name
     pnode << n
-    n = Nokogiri::XML::Node.new('group', @doc)
-    n.content = group
-    pnode << n
   end
 
   def repository_manager
-    unless @repository_manager
-      @repository_manager = RepositoryManager.new
-    end
-    return @repository_manager
+    @repository_manager ||= RepositoryManager.new
   end
 end

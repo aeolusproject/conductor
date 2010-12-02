@@ -5,6 +5,7 @@ Factory.define :user do |u|
   u.password_confirmation 'secret'
   u.first_name 'John'
   u.last_name 'Smith'
+  u.association :quota
 end
 
 Factory.define :tuser, :parent => :user do |u|
@@ -14,4 +15,9 @@ Factory.define :admin_user, :parent => :user do |u|
 end
 
 Factory.define :provider_admin_user, :parent => :user do |u|
+end
+
+Factory.define :pool_user, :parent => :user do |u|
+  u.sequence(:login) { |n| "pool_user#{n}" }
+  u.email { |e| "#{e.login}@example.com" }
 end

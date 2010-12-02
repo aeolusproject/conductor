@@ -21,57 +21,87 @@
 
 class Quota < ActiveRecord::Base
 
+  has_one :pool
+  has_one :cloud_account
+  has_one :user
+
+  validates_numericality_of :maximum_total_instances,
+                            :greater_than_or_equal_to => 0,
+                            :less_than_or_equal_to => 2147483647,
+                            :integer_only => true,
+                            :allow_nil => true
+
+  validates_numericality_of :maximum_running_instances,
+                            :greater_than_or_equal_to => 0,
+                            :less_than_or_equal_to => 2147483647,
+                            :integer_only => true,
+                            :allow_nil => true
+
   QuotaResource = Struct.new(:name, :used, :max, :available, :unit)
 
   NO_LIMIT = nil
 
-  has_one :pool
-  has_one :cloud_account
+  RESOURCE_RUNNING_INSTANCES = "running_instances"
+  RESOURCE_TOTAL_INSTANCES = "total_instances"
+  RESOURCE_OVERALL = "overall"
 
-  def can_create_instance?(instance)
-    hwp = instance.hardware_profile
+  RESOURCE_NAMES = [ RESOURCE_RUNNING_INSTANCES, RESOURCE_TOTAL_INSTANCES ]
 
-    potential_total_storage = total_storage.to_f + hwp.storage.value.to_f
-    potential_total_instances = total_instances + 1
-
-    # check for no quota
-    if (Quota.no_limit(maximum_total_instances) || maximum_total_instances >= potential_total_instances) &&
-       (Quota.no_limit(maximum_total_storage) || maximum_total_storage.to_f >= potential_total_storage.to_f)
-         return true
+  def self.can_create_instance?(instance, cloud_account)
+    [instance.owner, instance.pool, cloud_account].each do |parent|
+      if parent
+        quota = Quota.find(parent.quota_id)
+        potential_total_instances = quota.total_instances + 1
+        if !Quota.no_limit(quota.maximum_total_instances) && (quota.maximum_total_instances < potential_total_instances)
+          return false
+        end
+      end
     end
-    return false
+    return true
   end
 
-  def can_start_instance?(instance)
-    hwp = instance.hardware_profile
-
-    potential_running_instances = running_instances + 1
-    potential_running_memory = running_memory.to_f + hwp.memory.value.to_f
-    potential_running_cpus = running_cpus.to_f + hwp.cpu.value.to_f
-
-    if (Quota.no_limit(maximum_running_instances) || maximum_running_instances >= potential_running_instances) &&
-       (Quota.no_limit(maximum_running_memory) || maximum_running_memory.to_f >= potential_running_memory) &&
-       (Quota.no_limit(maximum_running_cpus) || maximum_running_cpus.to_f >= potential_running_cpus)
-         return true
+  def self.can_start_instance?(instance, cloud_account)
+    [instance.owner, instance.pool, cloud_account].each do |parent|
+      if parent
+        quota = Quota.find(parent.quota_id)
+        potential_running_instances = quota.running_instances + 1
+        if !Quota.no_limit(quota.maximum_running_instances) && quota.maximum_running_instances < potential_running_instances
+          return false
+        end
+      end
     end
-    return false
+    return true
   end
 
   def quota_resources()
-    quota_resources =  {"running_instances" => QuotaResource.new("Running Instances", running_instances, maximum_running_instances, maximum_running_instances.to_f - running_instances.to_f, ""),
-            "running_memory" => QuotaResource.new("Running Memory", running_memory, maximum_running_memory, maximum_running_memory.to_f - running_memory.to_f, "MB"),
-            "running_cpus" => QuotaResource.new("Running CPUs", running_cpus, maximum_running_cpus, maximum_running_cpus.to_f - running_cpus.to_f, ""),
-            "total_instances" => QuotaResource.new("Total Instances", total_instances, maximum_total_instances, maximum_total_instances.to_f - total_instances.to_f, ""),
-            "total_storage" => QuotaResource.new("Total Storage", total_storage, maximum_total_storage, maximum_total_storage.to_f - total_storage.to_f, "GB")}
+    quota_resources =  {"running_instances" => QuotaResource.new("Running Instances", running_instances, maximum_running_instances, nil, ""),
+            "total_instances" => QuotaResource.new("Total Instances", total_instances, maximum_total_instances, nil, "")}
 
     quota_resources.each_value do |quota_resource|
       if Quota.no_limit(quota_resource.max)
         quota_resource.max = "No Limit"
         quota_resource.available = "N\A"
+      else
+        quota_resource.available = quota_resource.max - quota_resource.used
+        if quota_resource.available < 0
+          quota_resource.available = quota_resource.available * -1
+          quota_resource.available = "OverLimit By: " + quota_resource.available.to_s
+        end
       end
     end
 
     return quota_resources
+  end
+
+  def percentage_used
+    if Quota.no_limit(maximum_running_instances) || running_instances == 0
+      return 0
+    elsif maximum_running_instances == 0
+      return 100
+    else
+      percentage_used = (running_instances.to_f / maximum_running_instances.to_f) * 100
+      return percentage_used
+    end
   end
 
   def self.no_limit(resource)

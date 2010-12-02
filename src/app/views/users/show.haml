@@ -1,0 +1,29 @@
+.dcloud_form.grid_16
+  %h2
+    User Profile for #{h @user.login}
+  %ul.block
+    %li.block.grid_3.alpha
+      %label Username:
+    %li.block.grid_5
+      = h @user.login
+    %li.block.grid_3
+      %label Login Count:
+    %li.block.grid_5.omega
+      = h @user.login_count
+    %li.block.grid_3.alpha.clear
+      %label Last Request at:
+    %li.block.grid_5
+      = h @user.last_request_at
+    %li.block.grid_3
+      %label Current Login at:
+    %li.block.grid_5.omega
+      = h @user.current_login_at
+    %li.block.grid_3.alpha.clear
+      %label Last Login IP:
+    %li.block.grid_5
+      = h @user.last_login_ip
+    %li.block.grid_3
+      %label Current Login IP:
+    %li.block.grid_5.omega
+      = h @user.current_login_ip
+  = link_to 'Edit', edit_account_path, :class => 'actionlink button'

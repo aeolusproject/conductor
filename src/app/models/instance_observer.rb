@@ -35,28 +35,23 @@ class InstanceObserver < ActiveRecord::Observer
 
     hwp = an_instance.hardware_profile
     pool = an_instance.pool
+    user = an_instance.owner
     cloud_account = an_instance.cloud_account
 
-    [cloud_account, pool].each do |parent|
+    [cloud_account, pool, user].each do |parent|
       if parent
         quota = parent.quota
         if quota
 	  if state_to == Instance::STATE_RUNNING
 	    quota.running_instances += 1
-	    quota.running_memory =  quota.running_memory.to_f + hwp.memory.value.to_f
-	    quota.running_cpus = quota.running_cpus.to_f + hwp.cpu.value.to_f
 	  elsif state_from == Instance::STATE_RUNNING
 	    quota.running_instances -= 1
-	    quota.running_memory = quota.running_memory.to_f - hwp.memory.value.to_f
-	    quota.running_cpus = quota.running_cpus.to_f - hwp.cpu.value.to_f
 	  end
 
 	  if state_from != nil
 	    if !ACTIVE_STATES.include?(state_from) && ACTIVE_STATES.include?(state_to)
-	      quota.total_storage = quota.total_storage.to_f + hwp.storage.value.to_f
 	      quota.total_instances += 1
-            elsif ACTIVE_STATES.include?(state_from) && !ACTIVE_STATES.include?(state_to)
-	      quota.total_storage = quota.total_storage.to_f - hwp.storage.value.to_f
+      elsif ACTIVE_STATES.include?(state_from) && !ACTIVE_STATES.include?(state_to)
 	      quota.total_instances -= 1
 	    end
           end

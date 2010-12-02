@@ -23,10 +23,10 @@ class Provider < ActiveRecord::Base
   require 'util/deltacloud'
   include PermissionedObject
 
-  has_many :cloud_accounts,  :dependent => :destroy
-  has_many :hardware_profiles,  :dependent => :destroy
-  has_many :images,  :dependent => :destroy
-  has_many :realms,  :dependent => :destroy
+  has_many :cloud_accounts, :dependent => :destroy
+  has_many :hardware_profiles, :dependent => :destroy
+  has_many :replicated_images, :dependent => :destroy
+  has_many :realms, :dependent => :destroy
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -37,6 +37,28 @@ class Provider < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+
+  before_destroy :destroyable?
+
+  # there is a destroy dependency for a cloud accounts association,
+  # but a cloud account is silently not destroyed when there is
+  # an instance for the cloud account
+  def destroyable?
+    unless self.cloud_accounts.empty?
+      self.cloud_accounts.each do |c|
+        unless c.instances.empty?
+          inst_list = c.instances.map {|i| i.name}.join(', ')
+          self.errors.add_to_base "there are instances for cloud account '#{c.name}': #{inst_list}"
+        end
+      end
+    end
+    return self.errors.empty?
+  end
+
+  def set_cloud_type!
+    deltacloud = connect
+    self.cloud_type = deltacloud.driver_name unless deltacloud.nil?
+  end
 
   def connect
     begin
@@ -56,22 +78,28 @@ class Provider < ActiveRecord::Base
       hardware_profiles.each do |hardware_profile|
         ar_hardware_profile = HardwareProfile.new(:external_key =>
                                                   hardware_profile.id,
-                                                  :name => hardware_profile.name ?
-                                                           hardware_profile.name :
-                                                           hardware_profile.id,
+                                                  :name => hardware_profile.id,
                                                   :provider_id => id)
         ar_hardware_profile.add_properties(hardware_profile)
         ar_hardware_profile.save!
-        front_hwp = HardwareProfile.new(:external_key =>
-                                        name +
-                                        Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                        ar_hardware_profile.external_key,
-                                        :name => name +
-                                        Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                        ar_hardware_profile.name)
-        front_hwp.add_properties(hardware_profile)
-        front_hwp.provider_hardware_profiles << ar_hardware_profile
-        front_hwp.save!
+
+        front_hwp = HardwareProfile.new(:external_key =>ar_hardware_profile.external_key,
+                                        :name => ar_hardware_profile.name)
+
+        # Omit creation of new front-end hardware profile if
+        # hardware profile with same external_key exists
+
+        avail_hwp = HardwareProfile.frontend.find(:all, :conditions => { :external_key => front_hwp.external_key })
+
+        if avail_hwp.empty?
+          front_hwp.add_properties(hardware_profile)
+          front_hwp.provider_hardware_profiles << ar_hardware_profile
+          front_hwp.save!
+        else
+          avail_hwp.each do |hwp|
+            hwp.provider_hardware_profiles << ar_hardware_profile
+          end
+        end
       end
     end
   end

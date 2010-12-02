@@ -1,0 +1,103 @@
+@import "grid";
+
+$screenfont: "Liberation Sans", "Droid Sans", Helvetica, Arial, sans-serif;
+/* $headlinefont: "Roadgeek E", Interstate, sans-serif; */
+$headlinefont: "FreeWay Bold", FreeWay, Interstate, sans-serif;
+
+/* colors */
+$dcprimary: #1E74BB;
+$headerbg: #0B3559;
+$formheadbg: #eee;
+$formheadfg: #333;
+
+$footerbg: #f3f3f3;
+$strokecl: #ddd;
+$errorcl: #cb292b;
+$warningcl: #f6a20a;
+
+$operationbg: #00a5dd;
+$administrationbg: #a7b40a;
+$buildbg: #f6a20a;
+$runtimebg: #d83e40;
+
+$headercl: #333;
+
+$goodcl: #bfcc29;
+$okcl: #f6a20a;
+$badcl: #cb292b;
+
+@import "text";
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+}
+
+  @mixin border-radius-top($radius) {
+    border-top-right-radius: $radius;
+    border-top-left-radius: $radius;
+    -moz-border-radius-topright: $radius;
+    -moz-border-radius-topleft: $radius;
+    -webkit-border-top-right-radius: $radius;
+    -webkit-border-top-left-radius: $radius;
+  }
+
+  @mixin border-radius-bottom($radius) {
+    border-bottom-right-radius: $radius;
+    border-bottom-left-radius: $radius;
+    -moz-border-radius-bottomright: $radius;
+    -moz-border-radius-bottomleft: $radius;
+    -webkit-border-bottom-right-radius: $radius;
+    -webkit-border-bottom-left-radius: $radius;
+  }
+
+@mixin box-shadow($x,$y,$blur,$color) {
+  box-shadow: $x $y $blur $color;
+  -moz-box-shadow: $x $y $blur $color;
+  -webkit-box-shadow: $x $y $blur $color;
+}
+
+@mixin inset-box-shadow($x,$y,$blur,$color) {
+  box-shadow: inset $x $y $blur $color;
+  -moz-box-shadow: inset $x $y $blur $color;
+  -webkit-box-shadow: inset $x $y $blur $color;
+}
+
+@mixin no-box-shadow {
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+@mixin text-shadow($x,$y,$blur,$color) {
+  text-shadow: $x $y $blur $color;
+  -moz-text-shadow: $x $y $blur $color;
+  -webkit-text-shadow: $x $y $blur $color;
+}
+
+@mixin column-count($c) {
+  -moz-column-count: $c;
+  -o-column-count: $c;
+  -webkit-column-count: $c;
+  column-count: $c;
+}
+
+@mixin column-gap($g) {
+  -moz-column-gap: $g;
+  -o-column-gap: $g;
+  -webkit-column-gap: $g;
+  column-gap: $g;
+}
+
+@mixin column-break-before($break) {
+  -moz-column-break-before: $break;
+  -webkit-column-break-before: $break;
+  -o-column-break-before: $break;
+  column-break-before: $break;
+}
+
+@mixin gradient-2p-linear($from, $to) {
+  background: -moz-linear-gradient(top, $from, $to);
+  background: -webkit-gradient(linear, left top, left bottom, from($from), to($to));
+}

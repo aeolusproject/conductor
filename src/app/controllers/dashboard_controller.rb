@@ -20,28 +20,36 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class DashboardController < ApplicationController
-  layout :layout
   before_filter :require_user
-
-  def layout
-    return "dashboard" unless ajax?
-  end
+  before_filter :get_nav_items, :only => [:index]
 
   def ajax?
     return params[:ajax] == "true"
   end
 
-  def provider_qos_graph
+  def section_id
+    'operation'
+  end
+
+  def provider_qos_avg_time_to_submit_graph
     params[:provider] = Provider.find(params[:id])
-    graph = GraphService.dashboard_qos(current_user, params)[params[:provider]][Graph::QOS_AVG_TIME_TO_SUBMIT]
+    graph = GraphService.dashboard_qos_avg_time_to_submit_graph(current_user, params)[params[:provider]][Graph::QOS_AVG_TIME_TO_SUBMIT]
     respond_to do |format|
       format.svg  { render :xml => graph.svg}
     end
   end
 
-  def account_quota_graph
-    params[:account] = CloudAccount.find(params[:id])
-    graph = GraphService.dashboard_quota(current_user, params)[params[:account]][Graph::QUOTA_INSTANCES_IN_USE]
+  def quota_usage_graph
+    if params[:cloud_account_id]
+      params[:parent] = CloudAccount.find(params[:cloud_account_id])
+    elsif params[:pool_id]
+      params[:parent] = Pool.find(params[:pool_id])
+    else
+      return nil
+    end
+
+    graphs = GraphService.dashboard_quota_usage(current_user, params)
+    graph = graphs[params[:parent]][Graph.get_quota_usage_graph_name(params[:resource_name])]
     respond_to do |format|
       format.svg  { render :xml => graph.svg}
     end
@@ -54,22 +62,25 @@ class DashboardController < ApplicationController
     end
   end
 
+  def monitor
+  end
+
   def index
     # FIXME filter to just those that the user has access to
     @cloud_accounts = CloudAccount.find(:all)
 
-    # FIXME remove general role based permission check, replace w/
-    # more granular / per-permission-object permission checks on the
-    # dashboard in the future (here and in dashboard views)
-    @is_admin = @current_user.permissions.collect { |p| p.role }.
-                              find { |r| r.name == "Administrator" }
 
-    @hide_getting_started = true
-    #@hide_getting_started = cookies["#{@current_user.login}_hide_getting_started"]
-    @current_users_pool = Pool.find(:first, :conditions => ['name = ?', @current_user.login])
-    @cloud_accounts = CloudAccount.list_for_user(@current_user, Privilege::ACCOUNT_VIEW)
-    @stats = Instance.get_user_instances_stats(@current_user)
-    render :action => :summary
+    # Now need to check any permissions are set since default permission and pool
+    # may not be set for the admin user
+    if @current_user.permissions
+      # FIXME remove general role based permission check, replace w/
+      # more granular / per-permission-object permission checks on the
+      # dashboard in the future (here and in dashboard views)
+      @is_admin = @current_user.permissions.collect { |p| p.role }.
+                                find { |r| r.name == "Administrator" }
+    end
+
+    render :action => 'monitor'
   end
 
   def hide_getting_started

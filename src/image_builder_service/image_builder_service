@@ -1,0 +1,237 @@
+#!/usr/bin/env ruby
+#
+# Copyright (C) 2010 Red Hat, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+# MA  02110-1301, USA.  A copy of the GNU General Public License is
+# also available at http://www.gnu.org/copyleft/gpl.html.
+
+# This service is a very early attempt at integration with the Image Builder,
+# and should in no way be considered either stable or production-ready.
+# In order to use this service you must have the gem installed for
+# image_builder_console.
+# This can be checked out from the image_builder repo (link on deltacloud.org),
+# and built locally.  Then keep a terminal open to run this in and run with:
+#   ruby image_builder_service.rb
+
+$: << File.join(File.dirname(__FILE__), "../dutils")
+require 'dutils'
+require "image_builder_console"
+require 'logger'
+require 'optparse'
+
+help = false
+daemon = true
+builder_pid_dir = "/var/run/deltacloud-aggregator"
+builder_log_dir = "/var/log/deltacloud-aggregator"
+timeout = 8
+
+optparse = OptionParser.new do |opts|
+
+  opts.banner = <<BANNER
+Usage:
+image_builder_service [options]
+
+Options:
+BANNER
+  opts.on( '-f', '--pid-file PATH', "Use PATH to the image_builder_service pid directory (defaults to #{builder_pid_dir})") do |newpath|
+    builder_pid_dir = newpath
+  end
+  opts.on( '-h', '--help', '') { help = true }
+  opts.on( '-l', '--log PATH', "Use PATH to the image_builder_service log directory (defaults to #{builder_log_dir}).  Use '-' for stdout") do |newpath|
+    builder_log_dir = newpath
+  end
+  opts.on( '-n', '--nodaemon', 'Do not daemonize (useful in combination with -l for debugging)') { daemon = false }
+  opts.on( '-t', '--timeout SEC', 'Sleep for SEC between each poll for a new job (default is #{timeout})') do |newtime|
+    timeout = newtime
+  end
+end
+
+begin
+  optparse.parse!
+rescue OptionParser::InvalidOption => e
+  puts "Invalid option #{e.args}"
+  puts
+  puts optparse
+  exit(1)
+end
+
+if help
+  puts optparse
+  exit(0)
+end
+
+# setup the logger
+if builder_log_dir == '-'
+  BUILDER_LOG_FILE = STDOUT
+else
+  BUILDER_LOG_FILE = "#{builder_log_dir}/image_builder_service.log"
+end
+logger = Logger.new(BUILDER_LOG_FILE)
+logger.level = Logger::DEBUG
+
+# daemonize
+if daemon
+  # note that this requires 'active_support', which we get for free from dutils
+  Process.daemon
+end
+
+#TODO: Make this whole thing less fragile
+class ImageBuilderService
+  def initialize(logger, timeout)
+    @log = logger
+    @timeout = timeout.to_i
+    @console ||= ImageBuilderConsole.new(:logger=>@log)
+    @activebuilds ||= []
+    @log.info "Image Builder Service initialized..."
+    poll
+  end
+
+  def check_for_queued
+    queue = Image.find(:all, :conditions => {:status => Image::STATE_QUEUED})
+    cur_builds = Image.find(:all, :conditions => {:status => Image::ACTIVE_STATES})
+    if queue.size > 0 || cur_builds.size > 0
+      @log.debug "========================================"
+      @log.debug "Queued Builds: " + queue.size.to_s
+      @log.debug "All Incomplete Builds: " + cur_builds.size.to_s
+      @log.debug "========================================"
+    end
+    find_orphaned(cur_builds) if cur_builds.size > queue.size
+    queue.each {|t|
+      build(t)
+    }
+  end
+
+  def build(image)
+    #targets.each do |t|
+      @log.debug "========================================"
+      @log.debug "target: " + image.target + ", status: " + image.status
+      @log.debug "========================================"
+      # FIXME: this should be contained elsewhere (probably Image model) so we
+      # can keep logic out of here.  Also, this currently only handles one
+      # account, we will need to be able to specify at some point.
+      creds = image.replicated_images.first.provider.cloud_accounts.first.build_credentials
+      #TODO: switch this back to uri once ActiveBuild retrieves it properly
+      ab = @console.build_image(image.template.xml.to_xml, image.target, image.uuid, creds)
+      if ab
+        update_build_list(ab, image)
+        image.build_id = ab.object_id.to_s
+        image.save!
+        @log.debug "========================================"
+        @log.debug "Build id saved as: " + image.build_id
+        @log.debug "========================================"
+      end
+    #end
+  end
+
+  def check_build_num
+    @activebuilds.size
+  end
+
+  def find_orphaned(cur_builds)
+    cur_builds.delete_if do |b|
+      break if @activebuilds.size == 0
+      @activebuilds.each do |ab|
+        b.build_id.eql?(ab[:build_id])
+      end
+    end
+    if cur_builds.size > 0
+      @log.debug "========================================"
+      @log.debug "There appear to be " + cur_builds.size.to_s + " untracked builds."
+      @log.debug "Attempting to get status updates...."
+      @log.debug "========================================"
+      found = []
+      cur_builds.each do |t|
+        found << {:ab => @console.find_build(t.build_id),
+                  :target => t }
+      end
+      @log.debug "========================================"
+      @log.debug "Retrieved " + found.size.to_s + " builds to update."
+      @log.debug "========================================"
+      found.each do |f|
+        update_build_list(f[:ab], f[:target])
+      end
+    end
+  end
+
+  def update_agg(obj,new_status)
+    @log.debug "========================================"
+    @log.debug "Getting ar object to update using " + obj[:build].target.inspect + " and " + obj[:ar_id].inspect + " ..."
+    @log.debug "========================================"
+    image = Image.find(:first, :conditions => { :target => obj[:build].target.to_s,
+                                                              :template_id => obj[:ar_id].to_i })
+    @log.debug "========================================"
+    @log.debug "Updating with status: " + new_status
+    @log.debug "========================================"
+    image.status = new_status
+    if new_status == 'complete'
+      ri = image.replicated_images.first
+      ri.provider_image_key = obj[:build].finished_image
+      ri.uploaded =true
+      ri.registered=true
+      ri.save!
+
+      # FIXME: Might be cleaner to do this in an active record observer instead.
+      @log.debug "========================================"
+      @log.debug "calling condor classad sync."
+      @log.debug "========================================"
+      kick_condor
+    end
+    image.save!
+    @log.debug "========================================"
+    @log.debug "database updated!"
+    @log.debug "========================================"
+  end
+
+  private
+  def poll()
+    loop do
+      check_for_queued
+      @activebuilds.delete_if do |ab|
+        cur_status = @console.check_status(ab[:build])
+        update_agg(ab, cur_status) unless cur_status.eql?(ab[:status])
+        @log.debug "========================================"
+        @log.debug "Status for target " + ab[:build].target + ": " + cur_status
+        @log.debug "Builds in array: " + check_build_num.to_s
+        @log.debug "========================================"
+        Image::INACTIVE_STATES.include?(cur_status)
+      end
+      sleep @timeout
+
+      end
+  end
+
+  def update_build_list(ab, target)
+    @activebuilds <<
+          { :ar_id => target.template.id,
+            :build => ab,
+            :status => target.status,
+            :build_id => ab.object_id.to_s
+          }
+  end
+end
+
+begin
+  BUILDER_PID_FILE = "#{builder_pid_dir}/image_builder_service.pid"
+  FileUtils.mkdir_p File.dirname(BUILDER_PID_FILE)
+  open(BUILDER_PID_FILE, "w") {|f| f.write(Process.pid) }
+  File.chmod(0644, BUILDER_PID_FILE)
+
+  ImageBuilderService.new(logger, timeout)
+rescue => e
+  logger.error "#{e.backtrace.shift}: #{e.message}"
+  e.backtrace.each do |step|
+    logger.error "\tfrom #{step}"
+  end
+end

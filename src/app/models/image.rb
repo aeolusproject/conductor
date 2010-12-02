@@ -22,67 +22,62 @@
 class Image < ActiveRecord::Base
   include SearchFilter
 
+  before_save :generate_uuid
+
   cattr_reader :per_page
   @@per_page = 15
 
-  has_many :instances
-  belongs_to :provider
-
-  has_and_belongs_to_many :aggregator_images,
-                          :class_name => "Image",
-                          :join_table => "image_map",
-                          :foreign_key => "provider_image_id",
-                          :association_foreign_key => "aggregator_image_id"
-
-  has_and_belongs_to_many :provider_images,
-                          :class_name => "Image",
-                          :join_table => "image_map",
-                          :foreign_key => "aggregator_image_id",
-                          :association_foreign_key => "provider_image_id"
-
-  validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => [:provider_id]
+  belongs_to :template, :counter_cache => true
+  has_many :replicated_images, :dependent => :destroy
+  has_many :providers, :through => :replicated_images
 
   validates_presence_of :name
   validates_length_of :name, :maximum => 1024
+  validates_presence_of :status
+  validates_presence_of :target
+  validates_presence_of :template_id
 
-  validates_presence_of :architecture, :if => :provider
+  SEARCHABLE_COLUMNS = %w(name)
 
-  # used to get sorting column in controller and in view to generate datatable definition and
-  # html table structure
-  COLUMNS = [
-    {:id => 'id', :header => '<input type="checkbox" id="image_id_all" onclick="checkAll(event)">', :opts => {:checkbox_id => 'image_id', :searchable => false, :sortable => false, :width => '1px', :class => 'center'}},
-    {:id => 'expand_button', :header => '', :opts => {:searchable => false, :sortable => false, :width => '1px'}},
-    {:id => 'name', :header => 'Name', :opts => {:width => "30%"}},
-    {:id => 'architecture', :header => 'Architecture', :opts => {:width => "10%"}},
-    {:id => 'instances', :header => 'Instances', :opts => {:sortable => false, :width => "10%"}},
-    {:id => 'details', :header => '', :opts => {:sortable => false, :visible => false, :searchable => false}},
-  ]
+  STATE_QUEUED = 'queued'
+  STATE_CREATED = 'created'
+  STATE_BUILDING = 'building'
+  STATE_COMPLETE = 'complete'
+  STATE_CANCELED = 'canceled'
+  STATE_FAILED = 'failed'
 
-  COLUMNS_SIMPLE = [
-    {:id => 'id', :header => '', :opts => {:visible => false, :searchable => false, :sortable => false, :width => '1px', :class => 'center'}},
-    {:id => 'name', :header => 'Name', :opts => {:width => "50%"}},
-    {:id => 'architecture', :header => 'Architecture', :opts => {:width => "30%"}},
-    {:id => 'instances', :header => 'Instances', :opts => {:sortable => false, :width => "20%"}},
-  ]
+  ACTIVE_STATES = [ STATE_QUEUED, STATE_CREATED, STATE_BUILDING ]
+  INACTIVE_STATES = [STATE_COMPLETE, STATE_FAILED, STATE_CANCELED]
 
-  SEARCHABLE_COLUMNS = %w(name architecture)
-
-  def provider_image?
-    !provider.nil?
+  def self.available_targets
+    return YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_targets.yml")
   end
 
-  def validate
-    if provider.nil?
-      if !aggregator_images.empty?
-        errors.add(:aggregator_images,
-                   "Aggregator image only allowed for provider images")
-      end
-    else
-      if !provider_images.empty?
-        errors.add(:provider_images,
-                   "Provider images only allowed for aggregator images")
-      end
+  def generate_uuid
+    self.uuid ||= "image-#{self.template_id}-#{Time.now.to_f.to_s}"
+  end
+
+  def self.build(template, target)
+    # FIXME: This will need to be enhanced to handle multiple
+    # providers of same type, only one is supported right now
+    if img = Image.find_by_template_id(template.id, :conditions => {:target => target})
+      # TODO: we currently silently ignore requests for building image which is
+      # already built (or is building now)
+      return img
     end
+
+    Image.transaction do
+      img = Image.create!(
+        :name => "#{template.xml.name}/#{target}",
+        :target => target,
+        :template_id => template.id,
+        :status => Image::STATE_QUEUED
+      )
+      ReplicatedImage.create!(
+        :image_id => img.id,
+        :provider_id => Provider.find_by_cloud_type(target)
+      )
+    end
+    return img
   end
 end

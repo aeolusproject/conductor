@@ -1,0 +1,19 @@
+[ { "_id" : "fedora",
+    "arch" : "x86_64",
+    "errata" : "/repositories/fedora/errata/",
+    "id" : "fedora",
+    "name" : "fedora",
+    "packagegroupcategories" : "/repositories/fedora/packagegroupcategories/",
+    "packagegroups" : "/repositories/fedora/packagegroups/",
+    "packages" : "/repositories/fedora/packages/",
+    "source" : { "supported_types" : [ "yum",
+            "local",
+            "rhn"
+          ],
+        "type" : "yum",
+        "url" : "http://example/fedora"
+      },
+    "sync_schedule" : null,
+    "uri_ref" : "/repositories/fedora/",
+    "use_symlinks" : false
+  } ]

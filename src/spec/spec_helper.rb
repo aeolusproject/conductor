@@ -5,6 +5,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environ
 require 'spec/autorun'
 require 'spec/rails'
 require 'authlogic/test_case'
+require 'timecop'
 
 # Uncomment the next line to use webrat's matchers
 #require 'webrat/integrations/rspec-rails'
@@ -54,6 +55,7 @@ Spec::Runner.configure do |config|
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
   config.before(:each, :type => :controller) do
     #activate_authlogic
+    @default_zone_metadata = Factory.create(:default_zone_metadata)
   end
   config.after(:each, :type => :controller) do
     #current_user_session.destroy

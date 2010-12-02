@@ -1,0 +1,19 @@
+.modalbox
+  %h2 Log In
+  .dcloud_form
+    - form_for @user_session, :url => user_session_path do |f|
+      = f.error_messages
+      %fieldset
+        = f.label :login, "Username:"
+        = f.text_field :login
+      %fieldset
+        = f.label :password
+        = f.password_field :password
+      %div.indented
+        = f.check_box :remember_me
+        = f.label :remember_me
+      %div.indented
+        = link_to "Don't have an account? Create one now.", |
+          {:controller => 'users', :action => 'new'},       |
+          :class => 'actionlink'                            |
+      = f.submit "Login", :class => "submit dialogbutton"

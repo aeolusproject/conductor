@@ -1,0 +1,3 @@
+= render :partial => "instance/instances"
+
+= link_to "Add a new instance", {:controller => "instance", :action => "new", "instance[pool_id]" => @pool}, :class=>"actionlink"

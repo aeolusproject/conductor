@@ -19,3 +19,9 @@ Factory.define :pool_creator_permission, :parent => :permission do |p|
   p.permission_object { |r| r.association(:mock_provider) }
   p.user { |u| u.association(:pool_creator) }
 end
+
+Factory.define :instance_creator_and_user_permission, :parent => :permission do |p|
+  p.role { |r| Role.find(:first, :conditions => ['name = ?', 'Instance Creator and User']) }
+  p.permission_object { |r| r.association(:pool) }
+  p.user { |u| u.association(:user) }
+end

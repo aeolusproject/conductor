@@ -1,0 +1,19 @@
+{ "deltacloud" : { "_id" : "deltacloud",
+      "conditional_package_names" : {  },
+      "default" : true,
+      "default_package_names" : [ "libdeltacloud",
+          "deltacloud-portal"
+        ],
+      "description" : "Deltacloud description",
+      "display_order" : 1024,
+      "id" : "deltacloud",
+      "immutable" : true,
+      "langonly" : null,
+      "mandatory_package_names" : [  ],
+      "name" : "Deltacloud",
+      "optional_package_names" : [  ],
+      "repo_defined" : true,
+      "translated_description" : {  },
+      "translated_name" : {  },
+      "user_visible" : true
+    } }

@@ -1,0 +1,19 @@
+- if @metagroup_packages.blank?
+  %span.disabled No group selected
+- else
+  %h4
+    = "#{@metagroup} Packages"
+  %ul.metagrouppackages
+    - @metagroup_packages.keys.sort.each do |group|
+      %li
+        - selected = !@metagroup_packages[group][:selected].nil?
+        %h5
+          = check_box_tag 'groups[]', group, selected, {:disabled => selected, :id => "group_#{group}", :class => "softwaregroups #{selected ? 'selected' : ''}"}
+          = label_tag "group_#{group}", group
+        %ul
+          - @metagroup_packages[group][:packages].each do |pkg|
+            %li
+              - selected = @packages.to_a.find {|p| p[:name] == pkg}
+              = check_box_tag 'packages[]', pkg, selected, {:disabled => selected, :id => "pkg_#{group}_#{pkg}"}
+              = label_tag "pkg_#{group}_#{pkg}", pkg
+  = render :partial => 'addbuttons'

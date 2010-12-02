@@ -22,21 +22,27 @@
 class CreateImages < ActiveRecord::Migration
   def self.up
     create_table :images do |t|
-      t.string  :external_key, :null => false
-      t.string  :name, :null => false, :limit => 1024
-      t.string  :architecture, :null => false
-      t.integer :provider_id
-      t.integer :lock_version, :default => 0
+      t.string  :uuid
+      t.string  :name, :null => false
+      t.string  :build_id
+      t.string  :uri
+      t.string  :status
+      t.string  :target
+      t.integer :template_id
       t.timestamps
     end
-    create_table "image_map", :force => true, :id => false do |t|
-      t.column "aggregator_image_id", :integer
-      t.column "provider_image_id", :integer
+
+    create_table :replicated_images do |t|
+      t.integer :image_id, :null => false
+      t.integer :provider_id, :null => false
+      t.string  :provider_image_key
+      t.boolean :uploaded, :default => false
+      t.boolean :registered, :default => false
     end
   end
 
   def self.down
-    drop_table :image_map
+    drop_table :replicated_images
     drop_table :images
   end
 end

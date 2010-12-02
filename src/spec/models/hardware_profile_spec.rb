@@ -42,6 +42,20 @@ describe HardwareProfile do
     end
   end
 
+  it "should require valid amount of CPU" do
+    [nil, "hello", -1].each do |fail_value|
+      @hp.cpu.value = fail_value
+      @hp.should_not be_valid
+    end
+  end
+
+  it "should allow numerical amount of CPU" do
+    [2, 2.2].each do |fail_value|
+      @hp.cpu.value = fail_value
+      @hp.should be_valid
+    end
+  end
+
   it "should allow Aggregator profiles only for provider profiles" do
     @hp.provider = nil
 
@@ -66,4 +80,9 @@ describe HardwareProfile do
     @hp.should be_valid
   end
 
+  it "should have 'kind' attribute of hardware profile property set to string (not symbol)" do
+    api_prop = mock('DeltaCloud::HWP::FloatProperty', :unit => 'MB', :name => 'memory', :kind => :fixed, :value => 12288.0)
+    @hp.memory =@hp.new_property(api_prop)
+    @hp.memory.kind.should equal(@hp.memory.kind.to_s)
+  end
 end

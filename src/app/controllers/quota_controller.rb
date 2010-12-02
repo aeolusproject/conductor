@@ -21,6 +21,7 @@
 
 
 class QuotaController < ApplicationController
+  before_filter :require_user
 
   def show
     @parent = get_parent_object(params)
@@ -46,11 +47,13 @@ class QuotaController < ApplicationController
     require_privilege(Privilege::QUOTA_MODIFY, @parent)
 
     @quota = @parent.quota
+    @name = get_parent_name(@parent, @parent_type)
     if @quota.update_attributes(params[:quota])
       flash[:notice] = "Quota updated!"
       redirect_to :action => 'show', :id => @parent, :parent_type => @parent_type
     else
-      render :action => :edit
+      flash[:notice] = "Could not update quota, please check you have entered valid values"
+      render :action => "edit"
     end
   end
 
@@ -60,11 +63,8 @@ class QuotaController < ApplicationController
     require_privilege(Privilege::QUOTA_MODIFY, @parent)
 
     @quota = @parent.quota
-    @quota.maximum_running_cpus = Quota::NO_LIMIT
     @quota.maximum_running_instances = Quota::NO_LIMIT
-    @quota.maximum_running_memory = Quota::NO_LIMIT
     @quota.maximum_total_instances = Quota::NO_LIMIT
-    @quota.maximum_total_storage  = Quota::NO_LIMIT
 
     if @quota.save!
       flash[:notice] = "Quota updated!"

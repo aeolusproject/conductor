@@ -1,0 +1,47 @@
+.dcloud_form
+  - form_for @user, :url => account_path do |form|
+    = hidden_field :user, :id, :value => @user.id
+    = form.error_messages
+    %fieldset.clear
+      = form.label :login, t(:choose_name), :class => "grid_3 alpha"
+      = form.text_field :login, :class => "grid_5"
+    %fieldset.clear
+      = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password), :class => "grid_3 alpha"
+      = form.password_field :password, :class => "grid_5"
+    %fieldset
+      = form.label :password_confirmation, t(:confirm_password), :class => "grid_3 alpha"
+      = form.password_field :password_confirmation, :class => "grid_5"
+    -if has_user_modify?
+      %fieldset.clear
+        = form.label :user_status, "User Status:", :class => "alpha grid_3"
+        .grid_5
+          = radio_button_tag "user_status","Active",true
+          = label_tag "user_status_active", "Active"
+          = radio_button_tag "user_status","Inactive", false, :disabled => true
+          = label_tag "user_status_inactive", "Inactive"
+    %fieldset.clear
+      = form.label :first_name, t(:first_name), :class => "alpha grid_3"
+      = form.text_field :first_name, :class => "grid_5"
+    %fieldset.clear
+      = form.label :last_name, t(:last_name), :class => "alpha grid_3"
+      = form.text_field :last_name, :class => "grid_5"
+    %fieldset.clear
+      = form.label :email, t(:email), :class => "alpha grid_3"
+      = form.text_field :email, :class => "grid_5"
+    -if has_user_modify?
+      %h3.grid_16 User Treatment
+      %fieldset.clearfix
+        = label_tag 'apply_treatment', t(:apply_treatment), :class => "alpha grid_3"
+        = select_tag 'user_treatment', options_for_select([t(:choose_treatment)]), :class => "grid_5"
+        = submit_tag t(:apply), :disabled => true, :class => "grid_2"
+
+      - form.fields_for :quota do |quota_form|
+        %fieldset.clear
+          = quota_form.label :maximum_running_instances, t(:maximum_running_instances), :class => "alpha grid_3"
+          = quota_form.text_field :maximum_running_instances, :class => "grid_5"
+          (instances)
+          = quota_form.error_message_on :maximum_running_instances, 'Maximum Running Instances '
+    %fieldset.clearfix
+      = form.submit "Save",  :class => "submit formbutton"
+      = form.submit "Reset", :class => "submit formbutton"
+      = link_to t(:cancel), cancel_path, :class => 'button formbutton'

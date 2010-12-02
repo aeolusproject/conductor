@@ -3,6 +3,12 @@
 # Fedora Install Instructions:
 #   sudo yum install ruby-postgres postgresql-server
 #   sudo /sbin/service postgresql initdb
+#
+#   On a local system you may need to edit this file to have only the following
+#   /var/lib/pgsql/data/pg_hba.conf
+#   local all all trust
+#   host all all 127.0.0.1/32 trust
+#
 #   sudo /sbin/service postgresql start
 #   sudo su - postgres
 #   $   psql
@@ -10,11 +16,19 @@
 #   $-# \q
 #   $   exit
 #
-# To start off a new environment, use the following commands:
+# To start off a new environment, use the following commands.
+# If running from /usr/share/deltacloud-aggregator, use 'sudo' or run as root
+# as the migrate will write to a file.
 #
 #   rake db:drop:all
 #   rake db:create:all
-#   rake db:migrate (if you want production rather than the default of 'development', simply export RAILS_ENV=production before running this command)
+#
+#   If you are running this in /usr/share/deltacloud-aggregator, use:
+#   sudo RAILS_ENV=production rake db:migrate
+#
+#   or else just:
+#   rake db:migrate
+#
 #   rake db:test:prepare
 #
 # And when there are changes to the database, simply run:
@@ -23,10 +37,6 @@
 #   rake db:test:prepare
 # for the environment you wish to update.
 #
-#   On a local system you may need to edit this file to have only the following
-#   /var/lib/pgsql/data/pg_hba.conf
-#   local all all trust
-#   host all all 127.0.0.1 255.255.255.255 trust
 
 
 development:

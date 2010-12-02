@@ -34,4 +34,44 @@ describe CloudAccount do
     cloud_account.save.should == false
   end
 
+  it "should create an instance_key if provider is EC2" do
+    @client = mock('DeltaCloud', :null_object => true)
+    @provider = Factory.build :ec2_provider
+    @key = mock('Key', :null_object => true)
+    @key.stub!(:pem).and_return("PEM")
+    @key.stub!(:id).and_return("1_user")
+    @client.stub!(:"feature?").and_return(true)
+    @client.stub!(:"create_key").and_return(@key)
+
+    cloud_account = Factory.build :ec2_cloud_account
+    cloud_account.stub!(:connect).and_return(@client)
+    cloud_account.save
+    cloud_account.instance_key.should_not == nil
+    cloud_account.instance_key.pem == "PEM"
+    cloud_account.instance_key.id == "1_user"
+  end
+
+
+  it "should generate credentials xml" do
+    expected_xml = <<EOT
+<?xml version="1.0"?>
+<provider_credentials>
+  <ec2_credentials>
+    <account_number>1234</account_number>
+    <access_key>user</access_key>
+    <secret_access_key>pass</secret_access_key>
+    <certificate>cert</certificate>
+    <key>priv_key</key>
+  </ec2_credentials>
+</provider_credentials>
+EOT
+    cloud_account = Factory.build(:mock_cloud_account,
+                                  :username => 'user',
+                                  :password => 'pass',
+                                  :account_number => '1234',
+                                  :x509_cert_priv => 'priv_key',
+                                  :x509_cert_pub => 'cert'
+                                 )
+    cloud_account.build_credentials.should eql(expected_xml)
+  end
 end

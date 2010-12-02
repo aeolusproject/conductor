@@ -1,6 +1,0 @@
-%ul{:class => 'packages_to_select selection_list'}
-  - @packages.each do |pkg|
-    %li
-      = pkg[:name]
-      %a{:class => 'select_package action_link', :href => url_for(:action => 'select_package', :id => params[:id], :package => pkg[:name], :repository => pkg[:repository_id])}
-        Select

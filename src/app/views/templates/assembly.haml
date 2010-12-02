@@ -1,0 +1,138 @@
+%h2 Assembly
+- form_tag :controller => 'templates' do
+  #general_information
+    %h3 General Information
+    = text_field :templates, :machine_name, :value => 'Machine Name', :disabled => 'disabled'
+    = text_field :templates, :machine_description, :value => 'Machine Description', :disabled => 'disabled'
+    = text_field :templates, :current_version, :value => 'Current Version'
+    %button{ :disabled => 'disabled' }
+      New Version
+    = file_field :templates, :choose_logo, :value => 'Choose Logo'
+    = text_field :templates, :logo_text, :value => 'Logo Text (5 characters)'
+    %label{ :for => :template_group}
+      Template Group
+    = select_tag(:template_group, options_for_select([['User Private', 1]]))
+    %span
+      (
+      %a{ :href => ''}<> add
+      )
+  #templates
+    %h3 Templates
+    %button{ :disabled => 'disabled'} Add Templates
+    %h4 Bootable Template:
+    %span.name RHEL Standard
+    %button Config
+    %span
+      (
+      %a{ :href => ''}<> Remove
+      )
+    %label OS:
+    RHEL
+    %label OS Version:
+    6.013 Beta 2
+    %h4 Non-Bootable Template:
+    - (1..4).each do
+      %span.name Bill's LB Kernel
+      %button
+        Config
+      %span
+        (
+        %a{ :href => ''}<> Remove
+        )
+  #services
+    %h3 Services
+    %label Type:
+    %label Name:
+    %label Provided
+    .service
+      = select_tag('type1', options_for_select([['LB', 1]]))
+      = text_field :templates, 'name1', :value => "Bill's Load Balancer", :disabled => 'disabled'
+      %button Config
+      %span
+        (
+        %a{ :href => ''}<> Remove
+        )
+    .service
+      = select_tag('type2', options_for_select([['Type', 1]]))
+      = text_field :templates, 'name2', :disabled => 'disabled'
+      %button Config
+      %span
+        (
+        %a{ :href => ''}<> Add New
+        )
+
+    %label Type:
+    %label Name:
+    %label Required
+    .service
+      = select_tag('type3', options_for_select([['SQL', 1]]))
+      = text_field :templates, 'name3', :value => "Special SQL Server", :disabled => 'disabled'
+      %button Config
+      %span
+        (
+        %a{ :href => ''}<> Remove
+        )
+    .service
+      = select_tag('type4', options_for_select([['Type', 1]]))
+      = text_field :templates, 'name4', :disabled => 'disabled'
+      %button Config
+      %span
+        (
+        %a{ :href => ''}<> Add New
+        )
+  #pre-boot_configuration
+    %h3 Pre-boot Configuration
+    %input{ :type => 'radio', :id => 'select_script', :name => 'configuration', :value => 'script' }
+    %label{ :for => 'select_script' } Configure Via Script
+    = text_field :templates, :file_name, :value => 'File Name'
+    %button{ :disabled => 'disabled' }
+      Browse
+
+    %input{ :type => 'radio', :id => 'select_puppet', :name => 'configuration', :value => 'puppet' }
+    %label{ :for => 'select_puppet' } Configure Via Puppet
+    = text_field :templates, :corporate_security, :value => 'Corporate Security'
+    %button{ :disabled => 'disabled' }
+      Browse
+
+  #search_assemblies
+    %h3 Search Assemblies
+    %input{ :type => 'text', :class => 'search'} Search Text
+    %span
+      (
+      %a{ :href => '' }<> Filter Results
+      )
+    %h4 Show Matches with:
+    %input{ :type => 'checkbox', :id => 'match_name' }
+    %label{ :for => 'match_name'} Name
+    %input{ :type => 'checkbox', :id => 'match_description' }
+    %label{ :for => 'match_description'} Match Description
+    %input{ :type => 'checkbox', :id => 'match_category' }
+    %label{ :for => 'match_category'} Category
+    %input{ :type => 'checkbox', :id => 'match_base_os' }
+    %label{ :for => 'match_base_os'} Base OS
+    %input{ :type => 'checkbox', :id => 'match_services_provided' }
+    %label{ :for => 'match_services_provided'} Services Provided
+    %input{ :type => 'checkbox', :id => 'match_services_required' }
+    %label{ :for => 'match_services_required'} Services Required
+    %span
+      (
+      %a{ :href => ''}<> Uncheck All
+      )
+
+  #template
+    %h3 Template
+    %ul
+      - (1..10).each do
+        %li
+          %span.name Bill's LB Kernel
+          %span.description Basic Kernel code for the Load Balancer
+          %label OS
+          %span.os RHEL 6.013 Beta 2
+          Non-Bootable
+          %button Add
+          %label Category:
+          %span.category System
+          %span.version Vers 7.2
+
+  = submit_tag 'Cancel'
+  = submit_tag 'Save'

@@ -1,0 +1,6 @@
+.formwindow
+- if has_user_modify?
+  %h2 Editing User: #{@user.first_name} #{@user.last_name}
+- else
+  %h2 Editing Account
+= render :partial => "form", :object => @user,  :locals => { :cancel_path => users_path}

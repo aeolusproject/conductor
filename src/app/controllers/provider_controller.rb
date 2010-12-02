@@ -21,10 +21,13 @@
 
 class ProviderController < ApplicationController
   before_filter :require_user
+  before_filter :load_providers, :only => [:index, :show, :accounts, :list]
+
+  def section_id
+    'administration'
+  end
 
   def index
-    # FIXME: this should be something other than 'new' here
-    render :action => 'new'
   end
 
   def show
@@ -32,22 +35,83 @@ class ProviderController < ApplicationController
     require_privilege(Privilege::PROVIDER_VIEW, @provider)
   end
 
+  def edit
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
+    @provider = Provider.find(:first, :conditions => {:id => params[:id]})
+    require_privilege(Privilege::PROVIDER_MODIFY, @provider)
+    render :show
+  end
+
   def new
     require_privilege(Privilege::PROVIDER_MODIFY)
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
     @provider = Provider.new(params[:provider])
-    if request.post? && @provider.save && @provider.populate_hardware_profiles
-      flash[:notice] = "Provider added."
-      redirect_to :action => "show", :id => @provider
+    kick_condor
+    render :show
+  end
+
+  def create
+    require_privilege(Privilege::PROVIDER_MODIFY)
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
+    @provider = Provider.new(params[:provider])
+
+    if params[:test_connection]
+      test_connection(@provider)
+      render :action => "new"
+    else
+      @provider.set_cloud_type!
+      if @provider.save && @provider.populate_hardware_profiles
+        flash[:notice] = "Provider added."
+        redirect_to :action => "show", :id => @provider
+      else
+        flash[:notice] = "Cannot add the provider."
+        render :action => "new"
+      end
+      kick_condor
+    end
+  end
+
+  def update
+    require_privilege(Privilege::PROVIDER_MODIFY)
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
+    @provider = Provider.find(:first, :conditions => {:id => params[:provider][:id]})
+    previous_cloud_type = @provider.cloud_type
+
+    @provider.update_attributes(params[:provider])
+    if params[:test_connection]
+      test_connection(@provider)
+      render :action => "edit"
+    else
+      @provider.set_cloud_type!
+      if previous_cloud_type != @provider.cloud_type
+        @provider.errors.add :url, "points to a different provider"
+      end
+
+      if @provider.errors.empty? and @provider.save
+        flash[:notice] = "Provider updated."
+        redirect_to :action => "show", :id => @provider
+      else
+        flash[:notice] = "Cannot update the provider."
+        render :action => "edit"
+      end
+      kick_condor
     end
   end
 
   def destroy
     if request.post?
-      p =Provider.find(params[:provider][:id])
+      @provider = Provider.find(params[:provider][:id])
       require_privilege(Privilege::PROVIDER_MODIFY, p)
-      p.destroy
+      if @provider.destroy and @provider.destroyed?
+        redirect_to :action => "index"
+      else
+        flash[:error] = {
+          :summary => "Failed to delete Provider",
+          :failures => @provider.errors.full_messages,
+        }
+        render :action => 'show'
+      end
     end
-    redirect_to :action => "index"
   end
 
   def hardware_profiles
@@ -57,8 +121,12 @@ class ProviderController < ApplicationController
   end
 
   def accounts
-     @provider = Provider.find(params[:id])
-     require_privilege(Privilege::ACCOUNT_VIEW, @provider)
+    @provider = Provider.find(:first, :conditions => {:id => params[:id]})
+    require_privilege(Privilege::ACCOUNT_VIEW, @provider)
+    if params[:cloud_account]
+      @cloud_account = CloudAccount.new(params[:cloud_account])
+      @quota = Quota.new(params[:quota])
+    end
   end
 
   def realms
@@ -71,4 +139,21 @@ class ProviderController < ApplicationController
     @provider = Provider.find(params[:id])
   end
 
+  def list
+  end
+
+  def test_connection(provider)
+    @provider.errors.clear
+    if @provider.connect
+      flash[:notice] = "Successfuly Connected to Provider"
+    else
+      flash[:notice] = "Failed to Connect to Provider"
+      @provider.errors.add :url
+    end
+  end
+
+  protected
+  def load_providers
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+  end
 end

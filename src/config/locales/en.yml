@@ -1,0 +1,112 @@
+en:
+  dashboard: Dashboard
+  instances: Instances
+  users: Users
+  templates: Templates
+  settings: Settings
+  about: About
+  configure: Configure
+  hello: Hello
+  advanced_search: Advanced Search
+  login: Log in
+  logout: Log out
+  operation: Operate
+  monitor: Dashboard
+  browse_objects: Browse Objecs
+  administration: Administer
+  system_settings: System Settings
+  manage_providers: Manage Providers
+  provider_summary: Provider Summary
+  provider_accounts: Provider Accounts
+  scheduling_policies: Scheduling Policies
+  services_provided: Services Provided
+  map_profiles: Map Profiles
+  map_locales: Map Locales
+  self_service_settings: Self-service Settings
+  manage_users: Manage Users
+  define_services: Define Services
+  define_profiles: Define Profiles
+  define_locales: Define Locales
+  permissions: Permissions
+  general_settings: General Settings
+  new_user: New User
+  edit_user: Edit User
+  pools_and_zones: "Pools & Zones"
+  new_pool: New Pool
+  edit_pool: Edit Pool
+  audit_report: Audit / Report
+  assistance_requests: Assistance Requests
+  define: Define
+  deployables: Deployables
+  basic_template: Template Builder Basic Workflow
+  browse_packages: Browse Packages
+  builds: Builds
+  images: Images
+  runtime: Run
+  instance_management: Instance Management
+  instance_details: Instance Details
+  launch_instance: Launch Instance
+  help: Help
+  continue: Continue
+  new: New
+  edit: Edit
+  add: Add
+  save: Save
+  remove: Remove
+  reset: Reset
+  create_account: Create Account
+  cancel: Cancel
+  choose_name: Choose a username
+  choose_password: Choose a password
+  change_password: Change password
+  confirm_password: Confirm password
+  first_name: First name
+  last_name: Last name
+  email: E-mail
+  maximum_running_instances: Maximum Running Instances
+  apply_treatment: Apply User Treatment
+  choose_treatment: Choose Treatment
+  apply: Apply
+  settings:
+    index:
+      general_settings: General Settings
+      general_settings_desc: Enable Self-service Account Registration, Setup Custom Branding, Manage Content Sources
+      define_locales: Define Locales
+      define_locales_desc: View, edit and define the names of locales that DeltaCloud will expose to its users. The meaning of the names will be defined by being mapped to the geographical locations offered by individual providers.
+      manage_users: Manage Users
+      manage_users_desc: View, edit, create and delete user accounts on DeltaCloud. Adjust quotas and privileges for users.
+      define_hardware_profiles: Define Hardware Profiles
+      define_hardware_profiles_desc: View, edit and define the names of the hardware profiles that DeltaCloud will expose to its users. The meaning of the names will be defined by being mapped to capabilities offered by individual providers.
+      manage_providers: Manage Providers
+      manage_providers_desc: View, edit and add providers of virtual compute resources to DeltaCloud. View, edit and add DeltaCloud accounts for these providers. Map provider-specific concepts to DeltaCloud.
+      define_services:  Define Services
+      define_services_desc: View, edit and define services that DeltaCloud will offer. These services will be mapped to individual providers based on their capabilities.
+      permissions: Permissions
+      permissions_desc: Create and edit User Treatments that are applied to users. Treatments pair together Roles with Categories of Instances, Pools and Templates. Manage the categories, and define and edit Roles. Roles group together sets of permissions that are relevant to Pools, Templates and Instances.
+    self_service:
+      self_service_default: 'User Treatment: Self-service default'
+      quota: Quota
+      account: Account
+  provider:
+    providers: PROVIDERS
+    form:
+      provider_name: Provider Name
+      provider_url: Provider URL
+      caution_alt_text: Caution
+      enter_correct_url_msg: Please enter a correct URL format.
+      test_connection: Test Connection
+      required_field: Required field.
+      caution_image: Caution
+    accounts:
+      provider_accounts: Provider Accounts
+      new_provider_account: New Account
+      account_name: Account Name
+      user_name: EC2 Access Key
+      password: Secret Access Key
+      quota_instances: Quota Instances
+      test_account: Test Account
+      unlimited_quota: Unlimited Quota
+      required_field: Required field.
+      account_number: AWS Account ID
+      account_private_cert: EC2 x509 private key
+      account_public_cert: EC2 x509 public key

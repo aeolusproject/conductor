@@ -30,12 +30,14 @@ class Instance < ActiveRecord::Base
   belongs_to :cloud_account
 
   belongs_to :hardware_profile
-  belongs_to :image
+  belongs_to :template
   belongs_to :realm
+  belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :instance_key
 
   validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id
-  validates_presence_of :image_id
+  validates_presence_of :template_id
 
   #validates_presence_of :external_key
   # TODO: can we do uniqueness validation on indirect association
@@ -46,31 +48,17 @@ class Instance < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :pool_id
   validates_length_of :name, :maximum => 1024
 
-  validates_presence_of :hardware_profile_id
-  validates_presence_of :image_id
-
   STATE_NEW            = "new"
   STATE_PENDING        = "pending"
   STATE_RUNNING        = "running"
   STATE_SHUTTING_DOWN  = "shutting_down"
   STATE_STOPPED        = "stopped"
   STATE_CREATE_FAILED  = "create_failed"
+  STATE_ERROR          = "error"
 
   STATES = [STATE_NEW, STATE_PENDING, STATE_RUNNING,
-             STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED]
-
-  # used to get sorting column in controller and in view to generate datatable definition and
-  # html table structure
-  COLUMNS = [
-    {:id => 'id', :header => '<input type="checkbox" id="image_id_all" onclick="checkAll(event)">', :opts => {:checkbox_id => 'image_id', :searchable => false, :sortable => false, :width => '1px', :class => 'center'}},
-    {:id => 'actions', :header => 'Actions', :opts => {:width => "10%", :sortable => false}},
-    {:id => 'name', :header => 'Name', :opts => {:width => "25%"}},
-    {:id => 'state', :header => 'State', :opts => {:width => "10%"}},
-    {:id => 'hwprofile', :header => 'HW profile', :opts => {:width => "15%"}},
-    {:id => 'template', :header => 'Template', :opts => {:sortable => false, :width => "15%"}},
-    {:id => 'provider', :header => 'Provider', :opts => {:width => "10%"}},
-    {:id => 'account', :header => 'Account', :opts => {:width => "10%"}},
-  ]
+             STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED,
+             STATE_ERROR]
 
   SEARCHABLE_COLUMNS = %w(name state)
 
@@ -103,25 +91,6 @@ class Instance < ActiveRecord::Base
                               :args        => data})
     task.save!
     return task
-  end
-
-  def front_end_realm
-    unless cloud_account.nil?
-      cloud_account.provider.name + Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER +
-        cloud_account.username + (realm.nil? ? "" :
-                                  (Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                   realm.name))
-    end
-  end
-
-  def front_end_realm=(realm_name)
-    unless realm_name.nil? or realm_name.empty?
-      provider_name, tmpstr = realm_name.split(Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER,2)
-      account_name, realm_name = tmpstr.split(Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER,2)
-      provider = Provider.find_by_name(provider_name)
-      self.cloud_account = provider.cloud_accounts.find_by_username(account_name)
-      self.realm = provider.realms.find_by_name(realm_name) unless realm_name.nil?
-    end
   end
 
   # Returns the total time that this instance has been in the state

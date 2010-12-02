@@ -46,6 +46,8 @@ class PermissionsController < ApplicationController
                   :permission_object_id => @permission.permission_object_id
     else
       @permission_object = @permission.permission_object
+      @users = User.all
+      @roles = Role.find_all_by_scope(@permission_object.class.name)
       render :action => 'new'
     end
   end

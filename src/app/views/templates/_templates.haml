@@ -1,0 +1,27 @@
+- template_columns = [                                            |
+  {:name => '', :sortable => false},                              |
+  {:name => 'NAME', :sort_attr => 'name'},                        |
+  {:name => 'OS', :sort_attr => 'platform'},                      |
+  {:name => 'VERSION', :sort_attr => 'platform_version'},         |
+  {:name => 'BOOTABLE', :sortable => false},                      |
+  {:name => 'ARCH', :sort_attr => 'architecture'},                |
+]                                                                 |
+
+%table
+  = sortable_table_header(template_columns)
+  %tbody
+    - if @templates.empty?
+      %tr
+        %td{:colspan => 7} No Templates
+    - else
+      - @templates.each do |tpl|
+        %tr
+          %td= radio_button_tag 'ids[]', tpl.id
+          %td
+            = image_tag "blnk.png", :alt => tpl.platform, :class => "icon platform #{tpl.platform}"
+            = tpl.name
+          %td= tpl.platform
+          %td= tpl.platform_version
+          %td
+            = image_tag 'blnk.png', :alt => 'yes', :class => "icon yes"
+          %td= tpl.architecture

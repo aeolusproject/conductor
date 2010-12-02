@@ -31,6 +31,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string    :perishable_token,    :null => false
       t.string    :first_name
       t.string    :last_name
+      t.integer   :quota_id
       # Magic columns, just like ActiveRecord's created_at and updated_at.
       # These are automatically maintained by Authlogic if they are present.
       t.integer   :login_count,         :null => false, :default => 0

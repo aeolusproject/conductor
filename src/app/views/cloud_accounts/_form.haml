@@ -1,0 +1,37 @@
+%fieldset
+  %legend Account
+  = hidden_field :cloud_account,  :id
+  = hidden_field :cloud_account, :provider_id, :value => @provider.id
+  %ul
+    %li
+      %label
+        Label
+        %span user-visible name for the account
+      = text_field :cloud_account, :label
+    - if @cloud_account.id.nil?
+      %li
+        %label
+          UserName
+          %span UserName for the provider account you wish to add.
+        = text_field :cloud_account, :username
+    %li
+      %label
+        Password
+        %span Password for the provider account you wish to add.
+      = password_field :cloud_account, :password
+    %li
+      %label
+        Account number
+        %span EC2 account number.
+      = text_field :cloud_account, :account_number
+    %li
+      %label
+        Account certificate
+        %span EC2 x509 private key
+      = text_area :cloud_account, :x509_cert_priv
+    %li
+      %label
+        Account certificate
+        %span EC2 x509 private key
+      = text_area :cloud_account, :x509_cert_pub
+= submit_tag "Save", :class => "submit"

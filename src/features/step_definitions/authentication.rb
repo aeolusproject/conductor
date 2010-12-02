@@ -23,13 +23,16 @@ Given /^I am logged in$/ do
   UserSession.find.should_not == nil
 end
 
+Given /^there are not any roles$/ do
+  Role.destroy_all
+end
+
 When /^I forget to enter my password$/ do
   login(user.login, nil)
 end
 
 When /^I want to edit my profile$/ do
-  click_link "Hi, #{user.login}"
-  response.should contain("User Profile for #{user.login}")
+  click_link "#{user.first_name} #{user.last_name}"
 end
 
 Then /^I should be logged out$/ do
@@ -37,6 +40,10 @@ Then /^I should be logged out$/ do
 end
 
 Then /^I should have one private pool named "([^\"]*)"$/ do |login|
-  PortalPool.find_by_name(login).should_not be_nil
-  PortalPool.find_by_name(login).permissions.size.should == 1
+  Pool.find_by_name(login).should_not be_nil
+  Pool.find_by_name(login).permissions.size.should == 1
+end
+
+Then /^there should not be user with login "([^\"]*)"$/ do |login|
+  User.find_by_login(login).should be_nil
 end

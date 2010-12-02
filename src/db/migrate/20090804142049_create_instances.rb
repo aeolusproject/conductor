@@ -25,13 +25,17 @@ class CreateInstances < ActiveRecord::Migration
       t.string    :external_key
       t.string    :name, :null => false, :limit => 1024
       t.integer   :hardware_profile_id, :null => false
-      t.integer   :image_id, :null => false
+      t.integer   :template_id, :null => false
       t.integer   :realm_id
+      t.integer   :owner_id
       t.integer   :pool_id, :null => false
       t.integer   :cloud_account_id
       t.string    :public_address
       t.string    :private_address
       t.string    :state
+      t.string    :condor_job_id
+      t.string    :last_error
+      t.integer   :instance_key_id
       t.integer   :lock_version, :default => 0
       t.integer   :acc_pending_time, :default => 0
       t.integer   :acc_running_time, :default => 0
@@ -41,6 +45,7 @@ class CreateInstances < ActiveRecord::Migration
       t.timestamp :time_last_running
       t.timestamp :time_last_shutting_down
       t.timestamp :time_last_stopped
+      t.string    :public_ip_addresses
       t.timestamps
     end
   end

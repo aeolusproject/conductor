@@ -1,23 +1,6 @@
 require 'spec_helper'
 
 describe Image do
-  before(:each) do
-    @provider = Factory.build(:mock_provider)
-    @client = mock('DeltaCloud', :null_object => true)
-    @provider.stub!(:connect).and_return(@client)
-  end
-
-  it "should have a unique external key" do
-    i1 = Factory.create(:image, :provider => @provider)
-    i2 = Factory.create(:image, :provider => @provider)
-    @provider.images = [i1, i2]
-    i1.should be_valid
-    i2.should be_valid
-
-    i2.external_key = i1.external_key
-    i2.should_not be_valid
-  end
-
   it "should have a name" do
     i = Factory.build(:image, :name => nil)
     i.should_not be_valid
@@ -38,36 +21,17 @@ describe Image do
     i.should be_valid
   end
 
-  it "should have an architecture if it has a provider" do
-    i = Factory.build(:image, :architecture => nil)
+  it "should have automatically generated uuid after save" do
+    i = Factory.build(:image)
+    i.save
+    i.uuid.should_not be_nil
+  end
+
+  it "should have template_id" do
+    i = Factory.build(:image, :template_id => nil)
     i.should_not be_valid
 
-    i.architecture = 'i686'
+    i.template_id = 1
     i.should be_valid
   end
-
-  it "should have provider images only if it has a provider" do
-    i = Factory.create(:image, :provider => nil)
-
-    i.aggregator_images << i
-    i.should have(1).error_on(:aggregator_images)
-    i.errors.on(:aggregator_images).should eql(
-      "Aggregator image only allowed for provider images")
-
-    i.aggregator_images.clear
-    i.should be_valid
-  end
-
-  it "should have aggregator images only if it has a pool" do
-    i = Factory.create(:image)
-
-    i.provider_images << i
-    i.should have(1).error_on(:provider_images)
-    i.errors.on(:provider_images).should eql(
-      "Provider images only allowed for aggregator images")
-
-    i.provider_images.clear
-    i.should be_valid
-  end
-
 end

@@ -7,6 +7,23 @@ describe UsersController do
     @admin_permission = Factory :admin_permission
     @admin = @admin_permission.user
     activate_authlogic
+
+    @allow_self_service_logins = Factory(:metadata_object, :key => "allow_self_service_logins", :value => "true")
+
+    @default_quota = Factory(:unlimited_quota)
+    @self_service_default_quota = Factory(:metadata_object, :key => "self_service_default_quota",
+                                                            :value => @default_quota,
+                                                            :object_type => "Quota")
+
+    @default_pool = Factory(:pool, :name => "default_pool")
+    @self_service_default_quota = Factory(:metadata_object, :key => "self_service_default_pool",
+                                                          :value => @default_pool,
+                                                          :object_type => "Pool")
+
+    @default_role = Role.find(:first, :conditions => ['name = ?', 'Instance Creator and User'])
+    @self_service_default_quota = Factory(:metadata_object, :key => "self_service_default_role",
+                                                          :value => @default_role,
+                                                          :object_type => "Role")
   end
 
   it "should call new method" do
@@ -29,16 +46,8 @@ describe UsersController do
                                    :password => "testpass",
                                    :password_confirmation => "testpass" }
         }.should change{ User.count }
-        p = Pool.find_by_name("tuser2")
-        p.should_not be_nil
-        assigns[:user].login.should == p.owner.login
-        p.name.should == "tuser2"
-        p.permissions.size.should == 1
-        p.permissions.any? {
-          |perm| perm.role.name.eql?('Instance Creator and User')
-        }.should be_true
-        id = User.find(:first, :conditions => ['login = ?', "tuser2"]).id
-        response.should redirect_to("http://test.host/users/show/#{id}")
+        user = User.find(:first, :conditions => ['login = ?', "tuser2"])
+        response.should redirect_to(dashboard_url)
       end
 
       it "fails to create pool" do
@@ -69,8 +78,8 @@ describe UsersController do
                                :password => "testpass",
                                :password_confirmation => "testpass" }
     }.should change{ User.count }
-    id = User.find(:first, :conditions => ['login = ?', "tuser3"]).id
-    response.should redirect_to("http://test.host/users/show/#{id}")
+    user = User.find(:first, :conditions => ['login = ?', "tuser3"])
+    response.should redirect_to(users_url)
   end
 
   it "should not allow a regular user to create user" do
@@ -96,7 +105,17 @@ describe UsersController do
 
   test "should update user" do
     UserSession.create(@tuser)
-    put :update, :id => @tuser.id, :user => { }
-    response.should redirect_to(account_path)
+    put :update, :id => @tuser.id, :user => { }, :save =>'true'
+    response.should redirect_to(users_path)
+  end
+
+  # checks whether proper error template is rendered when an exception raises
+  # "layouts/error" template should be displayed for all non-ajax error
+  # responses, "layouts/popup-error" should be displayed for ajax
+  # (see "Fixed error handling" patch for details)
+  it "should render error template when getting nonexisting user" do
+    UserSession.create(@tuser)
+    get :show, :id => "unknown_id"
+    response.should render_template("layouts/error")
   end
 end

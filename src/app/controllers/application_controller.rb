@@ -27,10 +27,7 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
 
-  init_gettext "ovirt"
   layout :choose_layout
-
-  before_filter :get_nav_items
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -48,11 +45,8 @@ class ApplicationController < ActionController::Base
     return @layout
   end
 
-  def get_nav_items
-    if !current_user.nil?
-        @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
-        @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
-    end
+  def section_id
+    'generic'
   end
 
   perm_helper_string = ""
@@ -111,18 +105,12 @@ class ApplicationController < ActionController::Base
   end
 
   def html_error_page(title, msg)
-    @title = title
-    @errmsg = msg
-    @ajax = params[:ajax]
-    @nolayout = params[:nolayout]
-    if @layout
-      render :layout => 'aggregator'
-    elsif @ajax
-      render :template => 'layouts/popup-error', :layout => 'tabs-and-content'
-    elsif @nolayout
-      render :template => 'layouts/popup-error', :layout => 'help-and-content'
+    if request.xhr?
+      render :template => 'layouts/popup-error', :layout => 'popup',
+             :locals => {:title => title, :errmsg => msg}
     else
-      render :template => 'layouts/popup-error', :layout => 'popup'
+      render :template => 'layouts/error', :layout => 'aggregator',
+             :locals => {:title => title, :errmsg => msg}
     end
   end
 
@@ -161,6 +149,13 @@ class ApplicationController < ActionController::Base
     render :json => json_hash(full_items, attributes, arg_list, find_opts, id_method).to_json
   end
 
+  def get_nav_items
+    if !current_user.nil?
+        @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+        @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
+    end
+  end
+
   private
   def json_error_hash(msg, status)
     json = {}
@@ -191,7 +186,7 @@ class ApplicationController < ActionController::Base
         hash[:object] = ivar[1, ivar.size]
         hash[:errors] ||= []
         val.errors.each {|key,msg|
-          arr.push([key, val.errors.on_with_gettext_activerecord(key).to_a].to_a)
+          arr.push([key, msg.to_a].to_a)
         }
         hash[:errors] += arr
       end

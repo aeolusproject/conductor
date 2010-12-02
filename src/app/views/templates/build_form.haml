@@ -1,0 +1,55 @@
+%h2 BUILD REQUEST
+- form_tag :action => 'build' do
+  = hidden_field_tag :template_id, @tpl.id
+  %h3 Deployment Definition
+  %fieldset.clearfix
+    = label_tag :deploy_name, 'Deployment Definition Name:', :class => 'grid_4'
+    = text_field_tag 'deploy_name', 'Deployment Name', :disabled => true, :class => 'grid_3'
+    = text_field_tag 'deploy_description', 'Deployment Description', :disabled => true, :class => 'grid_3'
+  %fieldset.clearfix
+    .prefix_4.grid_6
+      = check_box_tag 'use_for_machine', 1, true, :disabled => true
+      = label_tag 'use_for_machine', 'Use for Machine Definition Name and Description'
+  %fieldset.clearfix
+    .grid_7
+      = file_field :templates, :choose_logo, :value => 'Choose Logo', :disabled => true
+    = text_field :templates, :logo_text, :value => 'Logo Text (5 characters)', :disabled => true, :class => "grid_3"
+
+  %fieldset.clearfix
+    %label.grid_4{:for => :template_group}
+      Template Category:
+    .grid_3
+      = select_tag(:template_group, options_for_select([['User Private', 1]]))
+
+  %h3 Deployment Options
+  %fieldset.clearfix
+    .grid_6
+      %label OS:
+      = @tpl.platform
+    .grid_3
+      Hardware Profile
+    .grid_3.suffix_3
+      Locale
+  %fieldset.clearfix
+    .grid_3
+      %label OS Version:
+      = @tpl.platform_version
+    .grid_3.ra
+      %label Global Settings:
+    .grid_3
+      Small
+    .grid_3
+      Any
+    .grid_3
+      = submit_tag "Config", :name => "config", :disabled => true
+  %h3 Build Options
+  %label Choose Provider Format:
+  %section.clearfix.gap
+    %ul.block
+      - @all_targets.each do |target_id, target|
+        %li
+        = check_box_tag 'targets[]', target_id, false
+        = label_tag 'targets[]', target['name']
+
+  = submit_tag "Submit to Build", :name => "build"
+  = submit_tag "Cancel", :name => "cancel"

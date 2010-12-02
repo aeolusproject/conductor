@@ -1,6 +1,17 @@
-fedora:
-  name: Fedora
-  baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/11/Everything/x86_64/os/
-jboss:
-  name: JBoss
-  baseurl: http://repo.oddthesis.org/cirras/packages/fedora/11/RPMS/noarch/
+id: fedora
+name: Fedora
+baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/13/Everything/x86_64/os/
+type: xml
+
+# you can define multiple repositories, as array, for example:
+#
+# -
+#   id: repo1
+#   name: Repo
+#   baseurl: url
+#   type: xml
+#
+# -
+#   baseurl: https://admin:admin@localhost/pulp/api/
+#   yumurl: https://localhost/pulp/repos/
+#   type: pulp

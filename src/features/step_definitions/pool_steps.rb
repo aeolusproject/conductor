@@ -3,14 +3,23 @@ Given /^I am an authorised user$/ do
   @user = @admin_permission.user
 end
 
-Given /^I own a pool named "([^\"]*)"$/ do |name|
+Given /^I have Pool Creator permissions on a pool named "([^\"]*)"$/ do |name|
   @pool = Factory(:pool, :name => name)
-  @user.owned_pools << @pool
+  Factory(:pool_creator_permission, :user => @user, :permission_object => @pool)
 end
 
 Given /^the Pool has the following Hardware Profiles:$/ do |table|
   table.hashes.each do |hash|
-    @pool.hardware_profiles << Factory(:hardware_profile_auto, hash)
+    memory = Factory(:mock_hwp1_memory, :value => hash[:memory])
+    storage = Factory(:mock_hwp1_storage, :value => hash[:storage])
+    cpu = Factory(:mock_hwp1_cpu, :value => hash[:cpu])
+    arch = Factory(:mock_hwp1_arch, :value => hash[:architecture])
+    @pool.hardware_profiles << Factory(:mock_hwp1,
+                                       :name => hash[:name],
+                                       :memory => memory,
+                                       :cpu => cpu,
+                                       :storage => storage,
+                                       :architecture => arch)
   end
 end
 
@@ -50,11 +59,14 @@ Then /^I should see the following:$/ do |table|
 end
 
 Given /^the Pool has a quota with following capacities:$/ do |table|
-  quota_hash = { "pool_id" => @pool, "pool" => @pool}
+  quota_hash = {}
   table.hashes.each do |hash|
     quota_hash[hash["resource"]] = hash["capacity"]
   end
 
   @quota = Factory(:quota, quota_hash)
-  puts @quota.pool_id
+  @quota.save!
+
+  @pool.quota_id = @quota.id
+  @pool.save
 end

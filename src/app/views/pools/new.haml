@@ -1,0 +1,12 @@
+.grid_16
+  = error_messages_for 'pool'
+  = error_messages_for 'account'
+  %h1 Create a new Pool
+  - form_tag :action => 'create' do
+    %h2 Pool
+    %fieldset
+      %label.grid_2.alpha Name:
+      = text_field :pool, :name, :class => "grid_5"
+      .clear.grid_14.prefix_2.alpha Provide a descriptive name for this pool.
+
+    = submit_tag "Save", :class => "submit formbutton"

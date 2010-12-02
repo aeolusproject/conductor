@@ -1,22 +1,161 @@
-= render :partial => "nav"
+:javascript
+  $(document).ready(function() {
+    var $content_container = $('#managed_content');
+    var $sel_pkg_container = $('#package_selection_list');
+    var $submit            = $('#add_software_button');
+    $submit.click(function(e) {
+      e.preventDefault();
+      $submit.hide();
+      var data = {
+        'packages[]': $("input[name='packages[]']").map(function() {return $(this).val()}).get(),
+        'repository': $("select[name='tpl[platform]']").val() || ''
+      }
+      var url = '#{url_for :action => 'content_selection', :embed => true, :id => @id}';
+      //$content_container.empty().show();
+      $sel_pkg_container.empty().show().addClass('loading');
+      $sel_pkg_container.load(url, data, function(){
+        $sel_pkg_container.removeClass('loading');
+        var $groups = $('.softwaregroups .disclosure', this);
+        //search
+        $("input[name='package_search']").keypress(function(event) {
+          if (event.keyCode == '13') {
+            event.preventDefault();
+            $("input[name=package_search] ~ button").click();
+          }
+        });
+        $("input[name=package_search] ~ button").click(function(event) {
+          event.preventDefault();
+          var data = {
+            'packages[]': $("input:text[name='packages[]']").map(function() {return $(this).val()}).get(),
+            'package_search': $("input[name='package_search']").val(),
+            'repository': $("select[name='tpl[platform]']").val()
+          };
+          var url = '#{url_for :action => 'dispatch', :id => @id}';
+          $('#metagrouppackages').empty().addClass('loading');
+          $('#metagrouppackages').load(url, data, function() {
+            $('#metagrouppackages').removeClass('loading');
+            Aggregator.hook_selected_packages();
+          });
+        });
+      });
+    });
+    //removing packages from the list
+    $('.remove_package').live('click', function (e) {
+      e.preventDefault();
+      $(this).parent().hide(300, function () {
+        $(this).remove();
+      });
+    });
+    //displaying extended package info and actions
+    $('.dropdown').hide();
+    $('.packagename').live('click', function () {
+      var dropdowncontent = $(this).siblings('.dropdown').html(),
+      $dropdown = $("#dropdown");
+      $('.packagewrap').removeClass('selected');
+      $(this).parent().addClass('selected');
+      $dropdown.empty().html(dropdowncontent).css({
+        'top': $(this).positionAncestor('#content').top + 17,
+        'left': $(this).positionAncestor('#content').left - 4
+      }).show();
+    });
+    //catch #content clicks and hide the #dropdown if it's not within it
+    $("#content").click(function (e) {
+      if(!e.target.id === 'dropdown' || !$(e.target).closest("#dropdown").length) {
+        $("#dropdown").hide();
+        $('.packagewrap').removeClass('selected');
+      }
+    });
+    // select correct package repo when we change platform
+    $("select[name='tpl[platform]']").change(function() {
+      if ($submit.is(':hidden')) {
+        $submit.trigger('click');
+      }
+    });
+    Aggregator.hook_selected_packages = function() {
+      $('#do_add_software').live('click', function(e) {
+        e.preventDefault();
+        var $button = $(this).clone();
+        var label = "<span id='do_add_software' class='loading fl'>Adding Packages</span>";
+        var url = '#{url_for :action => 'managed_content'}';
+        var new_pkgs = $("input:checked[name='packages[]']").map(function() {return $(this).val()}).get();
+        var old_pkgs =  $("input:hidden[name='packages[]']").map(function() {return $(this).val()}).get()
+        var cached_pkgs =  $("input:hidden[name='cached_packages[]']").map(function() {return $(this).val()}).get()
+        var data = {
+          'selected_packages[]': old_pkgs.concat(new_pkgs.concat(cached_pkgs)),
+          'selected_groups[]': $("input:checked[name='groups[]']").map(function() {return $(this).val()}).get(),
+          'cached_packages[]': $("input:text[name='cached[]']").map(function() {return $(this).val()}).get(),
+          'collections': $("input:hidden[name=collections]").val(),
+          'template_id'  : '#{@id.nil? ? nil : @id}'
+        };
+        $(this).replaceWith(label);
+        $('#managed_content').load(url, data, function(){
+          $("input:checked[name='groups[]']").attr('disabled', 'disabled');
+          $("input:checked[name='packages[]']").attr('disabled', 'disabled');
+          $('#add_software_button').show();
+          $('.dropdown').hide();
+          $('#do_add_software').replaceWith($button);
+        });
+      });
+      $('#cancel_add_software').click(function(e) {
+        e.preventDefault();
+        $('#package_selection_list').hide();
+        $('#add_software_button').show();
+        $('.dropdown').hide();
+      });
+    }
+  });
 
-#image_descriptor_form{:class => 'dcloud_form'}
-  = error_messages_for 'image_descriptor'
+#dropdown
+.grid_16
+  %h2 Template
+  - form_for @tpl, :url => { :action => "dispatch" } do
+    <input type="hidden" id="id" name="id" value="#{@id}" />
+    = hidden_field :tpl, :id
+    = error_messages_for :tpl, :object_name => 'template'
+    = render :partial => 'basics'
 
-  - form_for @image_descriptor, :url => {:action => 'services', :id => @image_descriptor} do
-    %ul
-      %li
-        %label Name
-        = text_field_tag 'xml[name]', @image_descriptor.xml.name
-        .description Provide a unique name for template master. Users will see this name when they choose this image to instantiate.
-      %li
-        %label Platform
-        = select_tag("xml[platform]", @image_descriptor.xml.platforms.map{|repid, rep| "<option value=\"#{repid}\" selected=\"#{repid == @image_descriptor.xml.platform ? 'selected' : ''}\">#{rep['name']}</option>"})
-        .description Choose the software operating system.
-      %li
-        %label Description
-        = text_area_tag("xml[description]", @image_descriptor.xml.description, :rows => 4)
-        .description Provide a description of your template master. Be descriptive to help users to identify the images created with this master.
-    .submit
-      = submit_tag "Cancel", :name => "cancel"
-      = submit_tag "Next", :name => "next"
+    %h3.disabled.gap Local Content to Bundle
+    %fieldset.clearfix
+      = label_tag :local_bundle_name, 'Local:', :class => "disabled grid_2 alpha"
+      = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true, :class => "grid_8"
+      .grid_6.omega
+        %button{:type => 'button', :disabled => 'disabled'} Browse
+        %button{:type => 'button', :disabled => 'disabled'} Config
+        %button{:type => 'button', :disabled => 'disabled'} Metadata
+        (
+        %a{:href => '#'} Remove
+        )
+      .grid_2.alpha
+        &nbsp;
+      = text_field_tag 'local_bundle_name[]', 'Bundle Name', :disabled => true, :class => "grid_8"
+      .grid_6.omega
+        %button{:type => 'button', :disabled => 'disabled'} Browse
+        %button{:type => 'button', :disabled => 'disabled'} Config
+        %button{:type => 'button', :disabled => 'disabled'} Metadata
+        (
+        %a{:href => '#'} Remove
+        )
+
+    #managed_content
+      = render :partial => 'managed_content'
+
+    .clearfix
+      .grid_16.alpha.omega
+        = submit_tag "Add Software", :name => "add_software_form", :id => "add_software_button", :class => "iconbutton"
+
+    #package_selection_list{:style => 'display: none'}
+
+    %h3.clear.gap Preboot Configuration
+    %fieldset.clearfix
+      .grid_4.alpha
+        = radio_button_tag :configure_via_script, 'no', :disabled => true
+        = label_tag :configure_via_script, 'Configure Via Script'
+      = file_field_tag 'script_file', :disabled => true, :class => 'grid_12 omega'
+    %fieldset.clearfix
+      .grid_4.alpha
+        = radio_button_tag :configure_via_script, 'no', :disabled => true
+        = label_tag :configure_via_script, 'Configure Via Script'
+      = file_field_tag 'script_file', :disabled => true, :class => 'grid_12 omega'
+
+    = submit_tag "Save", :name => "save", :class => "formbutton"
+    = submit_tag "Cancel", :name => "cancel", :class => "formbutton"

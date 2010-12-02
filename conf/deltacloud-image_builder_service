@@ -1,0 +1,78 @@
+#!/bin/bash
+#
+#
+# deltacloud-image_builder_service       startup script for deltacloud-image_builder_service
+#
+# chkconfig: - 93 07
+# description: deltacloud-image_builder_service builds cloud images
+#    from the Deltacloud Aggregator db
+
+[ -r /etc/sysconfig/deltacloud-rails ] && . /etc/sysconfig/deltacloud-rails
+
+[ -r /etc/sysconfig/deltacloud-aggregator ] && . /etc/sysconfig/deltacloud-aggregator
+
+DELTACLOUD_DIR="${DELTACLOUD_DIR:-/usr/share/deltacloud-aggregator}"
+BUILDER_LOG="${BUILDER_LOG:-/var/log/deltacloud-aggregator/image_builder_service.log}"
+BUILDER_PID="${BUILDER_PID:-/var/run/deltacloud-aggregator/image_builder_service.pid}"
+BUILDER_LOCKFILE="${BUILDER_LOCKFILE:-/var/lock/subsys/deltacloud-image_builder_service}"
+DCLOUD_USER="${DCLOUD_USER:-dcloud}"
+
+BUILDER_PATH=/usr/share/deltacloud-aggregator/image_builder_service
+BUILDER_PROG=image_builder_service
+
+. /etc/init.d/functions
+
+start() {
+    echo -n "Starting deltacloud-image_builder_service: "
+
+    daemon --user=$DCLOUD_USER $BUILDER_PATH/$BUILDER_PROG
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] && touch $BUILDER_LOCKFILE ; then
+      echo_success
+      echo
+    else
+      echo_failure
+      echo
+    fi
+}
+
+stop() {
+    echo -n "Shutting down deltacloud-image_builder_service: "
+    killproc -p $BUILDER_PID $BUILDER_PROG
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] && rm -f $BUILDER_LOCKFILE ; then
+      echo_success
+      echo
+    else
+      echo_failure
+      echo
+    fi
+}
+
+case "$1" in
+    start)
+      start
+     ;;
+    stop)
+      stop
+      ;;
+    restart)
+      stop
+      start
+      ;;
+    reload)
+      ;;
+    force-reload)
+      restart
+      ;;
+    status)
+     status -p $BUILDER_PID $BUILDER_PROG
+     RETVAL=$?
+     ;;
+    *)
+      echo "Usage: deltacloud-image_builder_service {start|stop|restart|status}"
+      exit 1
+  ;;
+esac
+
+exit $RETVAL

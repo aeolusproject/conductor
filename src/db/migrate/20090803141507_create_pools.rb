@@ -24,12 +24,17 @@ class CreatePools < ActiveRecord::Migration
     create_table :pools do |t|
       t.string :name, :null => false
       t.string :exported_as
-      t.integer :owner_id, :null => false
       t.integer :quota_id
+      t.integer :zone_id, :null => false
       t.integer :lock_version, :default => 0
       t.timestamps
     end
 
+    quota = Quota.new
+    quota.save!
+
+    default_pool = Pool.new(:name => "default_pool", :quota => quota, :zone => Zone.first)
+    default_pool.save!
   end
 
   def self.down

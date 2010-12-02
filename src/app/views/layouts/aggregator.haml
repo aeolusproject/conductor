@@ -1,33 +1,52 @@
 !!!
-%html{html_attrs}
+%html
   %head
-    %meta(http-equiv="content-type" content="text/html;charset=UTF-8")
+    %meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
     %title
-      Deltacloud
+      Red Hat Cloud Engine
       = yield :title
-    = stylesheet_link_tag 'layout'
-    = stylesheet_link_tag 'components'
-    = stylesheet_link_tag 'dcloud'
-    /[if IE]
-      = stylesheet_link_tag 'ie'
+
     = stylesheet_link_tag 'facebox'
     = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
-    = stylesheet_link_tag 'jquery-datatables/demo_table_jui.css'
+    = stylesheet_link_tag 'jquery.loadmask'
+    = stylesheet_link_tag 'compiled/aggregator'
 
+    / [if lt IE 9]
+      = javascript_include_tag "http://html5shiv.googlecode.com/svn/trunk/html5.js"
     = javascript_include_tag "jquery-1.4.2.min.js"
+    = javascript_include_tag "application.js"
     = javascript_include_tag "facebox.js"
     = javascript_include_tag "jquery.ui-1.8.1/jquery-ui-1.8.1.custom.min.js"
-    = javascript_include_tag "jquery-datatables/media/js/jquery.dataTables.min.js"
-    = javascript_include_tag "jquery-datatables/plugins/setFilteringDelay.js"
-
+    = javascript_include_tag "jquery.loadmask.min"
+    = javascript_include_tag "modernizr-1.5"
+    /= javascript_include_tag "jquery.html5form"
     = yield :scripts
-  %body
-    #header
-      = render :partial => '/layouts/header'
-    #side
-      = render :partial => '/layouts/main_nav' unless @current_user.nil?
-    #tabs-and-content-container
-      #main
-        #content_area
-          = render :partial => '/layouts/notification'
-          = (yield(:content) or yield) # content is set if we're using a sub template
+  %body{:id => controller.section_id}
+    %div#head
+      %header.container_16
+        = render :partial => '/layouts/header'
+    - if @current_user.nil?
+      #content.container_16
+        = render :partial => '/layouts/notification'
+        #formwindow
+          = yield
+    - else
+      #subheader
+        %form#s.container_16.disabled{:disabled => "disabled"}
+          .prefix_10.grid_6
+            %input{ :name => "s", :type => "search", :placeholder => "Search Cloud Aggregator", :disabled => "disabled"}
+            %button.action{:form => "s"} Search
+          %p.prefix_10.grid_6
+            %a.disabled
+              = t(:advanced_search)
+        %nav.container_16
+          = render_navigation(:expand_all => true, :level => 1..2)
+        %hr
+      %nav.subnav
+        = render_navigation(:expand_all => true, :level => 3)
+      #content.container_16
+        = render :partial => '/layouts/notification'
+        = yield
+      %footer
+        = render :partial => "layouts/footer"
+      #grid

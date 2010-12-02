@@ -1,7 +1,4 @@
 fedora:
   name: Fedora
-  baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/11/Everything/x86_64/os/
-rhel:
-  name: RHEL
-  # this should be ignored, it's defined just to be showned in selection tag
-  baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/11/Everything/x86_64/os/
+  version: 13
+  architecture: 64-bit

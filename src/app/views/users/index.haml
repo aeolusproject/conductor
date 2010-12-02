@@ -1,0 +1,43 @@
+= form_tag :action => 'manage_user'
+.grid_3.actionsidebar
+  %dl
+    %dt
+      Users
+      %dd.edit
+        %span
+        = submit_tag "edit", :class => "submit linkbutton"
+      %dd.delete
+        %span
+        = submit_tag "delete", :class => "submit linkbutton", :confirm => "Are you sure you want to delete this user?"
+      %dd.add
+        %span
+        = link_to "create", new_user_url
+
+.grid_13
+  %table
+    %thead
+      %tr
+        %th
+        %th= link_to "User ID", users_url(:sort_by => "login")
+        %th= link_to "Last Name", users_url(:sort_by => "last_name")
+        %th= link_to "First Name", users_url(:sort_by => "first_name")
+        %th= link_to "% Quota Used", users_url(:sort_by => "percentage_quota_used")
+        %th
+          =link_to "Quota", users_url(:sort_by => "quota")
+          %span (Instances)
+        %th= link_to "e-mail", users_url(:sort_by => "email")
+    -@users.each do |user|
+      %tr
+        %td
+          %input{:name => "user_checkbox", :type => "radio", :value => user.id, :id => "user_checkbox_#{user.id}" }
+        %td= link_to user.login, {:action => "edit", :id => user.id}
+        %td= user.last_name
+        %td= user.first_name
+        %td= sprintf("%.2f", user.quota.percentage_used)
+        %td= Quota.no_limit(user.quota.maximum_running_instances) ? "Unlimited" : user.quota.maximum_running_instances
+        %td= user.email
+
+:javascript
+  $(document).ready(function () {
+    //$("input[type='checkbox']").buttonSensitivity().change();
+  });

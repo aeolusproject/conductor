@@ -50,13 +50,15 @@ THEDIR=`pwd`
 	  echo "to pass any to it, please specify them on the $0 command line."
   fi
 
+  libtoolize --force
   aclocal
 
   # Run autoheader only if needed
   grep '^[[:blank:]]*AC_CONFIG_HEADERS' configure.ac >/dev/null && autoheader
 
-  automake --add-missing
+  autoheader
   autoconf
+  automake --add-missing
   ./configure "$@"
 )
 

@@ -1,0 +1,13 @@
+.dcloud_form
+  %h2
+    Edit Quota for #{@parent_type + ": " + @name}
+  %br/
+  - form_for @quota, :url => {:controller => :quota, :action => "update", :parent_type => @parent_type}, :class => "dcloud_form" do |f|
+    = hidden_field_tag 'id', @parent.id
+    = hidden_field_tag 'parent_type', @parent_type
+    %ul
+      %li
+        %label Max Running Instances
+        = f.error_message_on :maximum_running_instances, 'maximum_running_instances'
+        = f.text_field :maximum_running_instances
+    = submit_tag "Save", :class => "submit"

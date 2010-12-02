@@ -1,0 +1,6 @@
+.dcloud_form
+  = error_messages_for 'cloud_account'
+  %h2 Edit Cloud Account
+  %br/
+  - form_for @cloud_account, :url => { :action => 'update' } do |form|
+    = render :partial => 'form'

@@ -33,7 +33,7 @@ ActionController::Routing::Routes.draw do |map|
   # -- just remember to delete public/index.html.
 
 
-  map.resources :pool
+  map.resources :pools
 
   map.connect '', :controller => 'dashboard'
 
@@ -43,12 +43,12 @@ ActionController::Routing::Routes.draw do |map|
   map.register 'register', :controller => 'users', :action => 'new'
   map.resource :account, :controller => "users"
   map.resources :users
-  map.root  :login
 
   map.dashboard '/dashboard', :controller => 'dashboard'
   map.instance '/instance', :controller => 'instance'
   map.templates '/templates', :controller => 'templates'
   map.settings '/settings', :controller => 'settings'
+  map.root  :dashboard
 
   # Temporarily disable this route, provider stuff is not restful yet.
   # Will be re-enabled in upcoming patch

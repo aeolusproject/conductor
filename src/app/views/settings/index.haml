@@ -1,2 +1,64 @@
-%h1 Settings/index
-%p located in app/view/settings/index.haml
+%ul.tiles
+  %li#providers.grid_8
+    = image_tag "blnk.png", :class => "icon", :alt => ""
+    %h2
+      = t('.manage_providers')
+    %p
+      = t('.manage_providers_desc')
+    = link_to t(:continue), {:controller => 'provider'}, :class => 'button'
+  %li#users.grid_8
+    = image_tag "blnk.png", :class => "icon", :alt => ""
+    %h2
+      = t('.manage_users')
+    %p
+      = t('.manage_users_desc')
+    = link_to t(:continue), {:controller => 'users'}, :class => 'button'
+  %li#services.grid_8.disabled.clear
+    = image_tag "blnk.png", :class => "icon", :alt => ""
+    %h2
+      = t('.define_services')
+    %p
+      = t('.define_services_desc')
+    %button{:disabled => "disabled"}
+      = t(:continue)
+  %li#permissions.grid_8
+    = image_tag "blnk.png", :class => "icon", :alt => ""
+    %h2
+      = t('.permissions')
+    %p
+      = t('.permissions_desc')
+    = link_to t(:continue), {:controller => 'settings', :action => 'self_service'}, :class => 'button'
+  %li#hardware.grid_8.disabled
+    = image_tag "blnk.png", :class => "icon", :alt => ""
+    %h2
+      = t('.define_hardware_profiles')
+    %p
+      = t('.define_hardware_profiles_desc')
+    %button{:disabled => "disabled"}
+      = t(:continue)
+  %li#settings.grid_8
+    = image_tag "blnk.png", :class => "icon", :alt => ""
+    %h2
+      = t('.general_settings')
+    %p
+      = t('.general_settings_desc')
+    = link_to t(:continue), {:controller => 'settings', :action => 'general_settings'}, :class => 'button'
+  %li#locales.grid_8.disabled.clear
+    = image_tag "blnk.png", :class => "icon", :alt => ""
+    %h2
+      = t('.define_locales')
+    %p
+      = t('.define_locales_desc')
+    %button{:disabled => "disabled"}
+      = t(:continue)
+
+:javascript
+  $(document).ready(function () {
+    var $tiles = $(".tiles li:not(.disabled)").addClass('pointercursor');
+    $tiles.click(function (e) {
+      $e = $(e.target);
+      if (!$e.is('.button')) {
+        window.location = $('.button',this).attr('href');
+      }
+    });
+  });

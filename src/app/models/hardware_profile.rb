@@ -21,8 +21,10 @@
 
 class HardwareProfile < ActiveRecord::Base
   has_many :instances
+  named_scope :frontend, :conditions => { :provider_id => nil }
   has_many :provider_instances, :class_name => "Instance",
            :foreign_key => "provider_hardware_profile_id"
+
   belongs_to :provider
 
   belongs_to :memory,       :class_name => "HardwareProfileProperty",
@@ -83,17 +85,17 @@ class HardwareProfile < ActiveRecord::Base
     self.architecture = new_property(api_profile.architecture)
   end
   def new_property(prop)
-    return nil unless prop.present?
+    return nil if prop.nil?
     the_property = HardwareProfileProperty.new(:name  => prop.name,
-                                               :kind  => prop.kind,
+                                               :kind  => prop.kind.to_s,
                                                :unit  => prop.unit,
                                                :value => prop.value)
-    case prop.kind
+    case prop.kind.to_s
     when HardwareProfileProperty::RANGE
-      the_property.range_first = prop.range.first
-      the_property.range_last = prop.range.last
+      the_property.range_first = prop.range[:from]
+      the_property.range_last = prop.range[:to]
     when HardwareProfileProperty::ENUM
-      the_property.property_enum_entries = prop.enum.entries.collect do |entry|
+      the_property.property_enum_entries = prop.options.collect do |entry|
         PropertyEnumEntry.new(:value => entry, :hardware_profile_property => the_property)
       end
     end

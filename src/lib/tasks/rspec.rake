@@ -1,4 +1,5 @@
 gem 'test-unit', '1.2.3' if RUBY_VERSION.to_f >= 1.9
+
 rspec_gem_dir = nil
 Dir["#{RAILS_ROOT}/vendor/gems/*"].each do |subdir|
   rspec_gem_dir = subdir if subdir.gsub("#{RAILS_ROOT}/vendor/gems/","") =~ /^(\w+-)?rspec-(\d+)/ && File.exist?("#{subdir}/lib/spec/rake/spectask.rb")
@@ -71,6 +72,16 @@ namespace :spec do
     end
   end
 
+  desc "Prepare JUnit output rspec for Hudson"
+  task :pre_junit do
+    gem 'ci_reporter'
+    require 'ci/reporter/rake/rspec'
+    ENV["CI_REPORTS"] = 'hudson/reports/spec/'
+  end
+
+  desc "Run JUnit output filter for spec"
+  task :junit => [:pre_junit, "ci:setup:rspec", "spec"]
+
   desc "Print Specdoc for all specs (excluding plugin specs)"
   Spec::Rake::SpecTask.new(:doc) do |t|
     t.spec_opts = ["--format", "specdoc", "--dry-run"]
@@ -142,3 +153,5 @@ namespace :spec do
 end
 
 end
+
+

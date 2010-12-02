@@ -23,5 +23,8 @@ class User < ActiveRecord::Base
   acts_as_authentic
 
   has_many :permissions
-  has_many :owned_pools, :class_name => "Pool", :foreign_key => "owner_id"
+  has_many :owned_instances, :class_name => "Instance", :foreign_key => "owner_id"
+
+  belongs_to :quota, :autosave => true
+  accepts_nested_attributes_for :quota
 end

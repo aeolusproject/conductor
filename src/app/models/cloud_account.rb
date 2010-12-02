@@ -19,24 +19,33 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+require 'nokogiri'
+
 class CloudAccount < ActiveRecord::Base
   include PermissionedObject
   belongs_to :provider
   belongs_to :quota
   has_many :instances
+  has_and_belongs_to_many :zones
 
   # what form does the account quota take?
 
   validates_presence_of :provider_id
 
+  validates_presence_of :label
   validates_presence_of :username
   validates_uniqueness_of :username, :scope => :provider_id
   validates_presence_of :password
+  validates_presence_of :account_number
+  validates_presence_of :x509_cert_pub
+  validates_presence_of :x509_cert_priv
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
 
+  has_one :instance_key, :dependent => :destroy
+  after_create :generate_cloud_account_key
 
   before_destroy {|entry| entry.destroyable? }
 
@@ -59,10 +68,6 @@ class CloudAccount < ActiveRecord::Base
     return a.nil? ? CloudAccount.new(account) : a
   end
 
-  def account_prefix_for_realm
-    provider.name + Realm::AGGREGATOR_REALM_PROVIDER_DELIMITER + username
-  end
-
   def pools
     pools = []
     instances.each do |instance|
@@ -75,15 +80,9 @@ class CloudAccount < ActiveRecord::Base
   end
 
   # FIXME: for already-mapped accounts, update rather than add new
-  def populate_realms_and_images
+  def populate_realms
     client = connect
     realms = client.realms
-    # FIXME: the "self" filtering has to go as soon as we have a decent image selection UI
-    if client.driver_name == "ec2"
-      images = client.images(:owner_id=>:self)
-    else
-      images = client.images
-    end
     # FIXME: this should probably be in the same transaction as cloud_account.save
     self.transaction do
       realms.each do |realm|
@@ -96,35 +95,51 @@ class CloudAccount < ActiveRecord::Base
                                :name => realm.name ? realm.name : realm.id,
                                :provider_id => provider.id)
           ar_realm.save!
-        end
-      end
-      images.each do |image|
-        #ignore if it exists
-        #FIXME: we need to handle keeping in sync for updates as well as
-        # account permissions
-        ar_image = Image.find_by_external_key_and_provider_id(image.id,
-                                                              provider.id)
-        unless ar_image
-          ar_image = Image.new(:external_key => image.id,
-                               :name => image.name ? image.name :
-                               (image.description ? image.description :
-                                image.id),
-                               :architecture => image.architecture,
-                               :provider_id => provider.id)
-          ar_image.save!
-          front_end_image = Image.new(:external_key =>
-                                      provider.name +
-                                      Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                      ar_image.external_key,
-                                      :name => provider.name +
-                                      Realm::AGGREGATOR_REALM_ACCOUNT_DELIMITER +
-                                      ar_image.name,
-                                      :architecture => ar_image.architecture)
-          front_end_image.provider_images << ar_image
-          front_end_image.save!
+
+          frontend_realm = Realm.new(:external_key => ar_realm.external_key,
+                                     :name => ar_realm.name,
+                                     :provider_id => nil)
+
+          available_realms = Realm.frontend.find(:all, :conditions => {
+            :external_key => frontend_realm.external_key })
+
+          if available_realms.empty?
+            frontend_realm.backend_realms << ar_realm
+            frontend_realm.save!
+          else
+            available_realms.each do |r|
+              r.backend_realms << ar_realm
+            end
+          end
         end
       end
     end
+  end
+
+  def valid_credentials?
+    DeltaCloud::valid_credentials?(username, password, provider.url)
+  end
+
+  def build_credentials
+    xml = Nokogiri::XML <<EOT
+<?xml version="1.0"?>
+<provider_credentials>
+  <ec2_credentials>
+    <account_number></account_number>
+    <access_key></access_key>
+    <secret_access_key></secret_access_key>
+    <certificate></certificate>
+    <key></key>
+  </ec2_credentials>
+</provider_credentials>
+EOT
+    node = xml.at_xpath('/provider_credentials/ec2_credentials')
+    node.at_xpath('./account_number').content = account_number
+    node.at_xpath('./access_key').content = username
+    node.at_xpath('./secret_access_key').content = password
+    node.at_xpath('./certificate').content = x509_cert_pub
+    node.at_xpath('./key').content = x509_cert_priv
+    return xml.to_s
   end
 
   protected
@@ -133,15 +148,13 @@ class CloudAccount < ActiveRecord::Base
   end
 
   private
-  def valid_credentials?
-    begin
-      deltacloud = DeltaCloud.new(username, password, provider.url)
-      #TODO This should be replaced by a DeltaCloud.test_credentials type method once/if it is implemented in the API
-      deltacloud.instances
-    rescue Exception => e
-      return false
+  def generate_cloud_account_key
+    client = connect
+    if client.feature?(:instances, :authentication_key)
+      key = client.create_key(:name => "#{self.name}_#{Time.now.to_i}_key")
+      InstanceKey.create(:cloud_account => self, :pem => key.pem, :name => key.id) if key
     end
-    return true
   end
+
 
 end

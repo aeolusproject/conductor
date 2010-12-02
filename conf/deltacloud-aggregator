@@ -3,7 +3,7 @@
 #
 # deltacloud-aggregator       startup script for deltacloud-aggregator
 #
-# chkconfig: - 97 03
+# chkconfig: - 99 01
 # description: deltacloud-aggregator is primary server process for the \
 #    Deltacloud Aggregator.
 #
@@ -17,8 +17,8 @@ DELTACLOUD_DIR="${DELTACLOUD_DIR:-/usr/share/deltacloud-aggregator}"
 THIN_LOG="${THIN_LOG:-/var/log/deltacloud-aggregator/thin.log}"
 THIN_PID="${THIN_PID:-/var/run/deltacloud-aggregator/thin.pid}"
 THIN_LOCKFILE="${THIN_LOCKFILE:-/var/lock/subsys/deltacloud-aggregator }"
-USER="${USER:-dcloud}"
-GROUP="${GROUP:-dcloud}"
+DCLOUD_USER="${DCLOUD_USER:-dcloud}"
+DCLOUD_GROUP="${DCLOUD_GROUP:-dcloud}"
 PREFIX="${PREFIX:-/deltacloud}"
 ADAPTER="${ADAPTER:-rails}"
 
@@ -32,7 +32,7 @@ start() {
     echo -n "Starting deltacloud-aggregator: "
 
     $THIN_PROG start -c $DELTACLOUD_DIR -l $THIN_LOG -P $THIN_PID \
-	-a $ADDR -e $RAILS_ENV --user $USER --group $GROUP \
+	-a $ADDR -e $RAILS_ENV --user $DCLOUD_USER --group $DCLOUD_GROUP \
 	-d --prefix=$PREFIX -A $ADAPTER
     RETVAL=$?
     if [ $RETVAL -eq 0 ] && touch $THIN_LOCKFILE ; then

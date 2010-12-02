@@ -35,7 +35,7 @@ namespace :db do
     cloud_account = CloudAccount.find(args[:cloud_account_id])
     user = User.find(args[:user_id])
 
-    instance = create_instance()
+    instance = create_instance(cloud_account)
 
     started_at = Time.now
     create_tasks(instance, user)
@@ -44,12 +44,13 @@ namespace :db do
     print_stats(started_at, ended_at)
   end
 
-  def create_instance()
-    instance = Instance.new({:name => "instance",
+  def create_instance(cloud_account)
+    instance = Instance.new({:name => "instance" + Time.now.to_s,
                              :hardware_profile_id => HardwareProfile.find(:first),
                              :image_id => Image.find(:first),
                              :state => Instance::STATE_NEW,
-                             :pool_id => 1
+                             :pool_id => 1,
+                             :cloud_account_id => cloud_account.id
                             })
     instance.save!
     return instance
@@ -81,17 +82,20 @@ namespace :db do
 
       random = 1 + rand(100)
       if random <= PROB_FAILURE
+        time_created = END_TIME - rand(1 + (@time_scale.to_f))
+        task.created_at = time_created
         task.state = Task::STATE_FAILED
         task.failure_code = Task::FAILURE_CODES[rand(Task::FAILURE_CODES.length)]
       else
         task.state = Task::STATE_FINISHED
-
         time_submitted = END_TIME - rand(1 + (@time_scale.to_f))
+        task.created_at = time_submitted
         task.time_submitted = time_submitted
 
-        task.time_started = calculate_time_started(time_submitted, random)
-
-        time_ended = task.time_started + rand(20) + 1
+        time_started = calculate_time_started(time_submitted, random)
+        task.time_started = time_started
+        task.save!
+        time_ended = time_started + rand(20) + 1
         task.time_ended = time_ended
       end
       task.save!

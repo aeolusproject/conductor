@@ -1,18 +1,20 @@
-- menu = [ { :text => "Dashboard", :controller => "dashboard" }, |
-  { :text => "Instances", :controller => "instance" }, |
-  { :text => "Templates", :controller => "image", :action => "show" }, |
-    ({ :text => "Users", :controller => "permissions", :action => "list" } if @current_user && has_view_perms?(BasePermissionObject.general_permission_scope)), |
-  { :text => "Settings", :controller => "settings" }, |
-  ].find_all {|item| item != nil} |
-.header_logo
-  %span Deltacloud Aggregator
-  %ul.nav
-    - menu.each do |item|
-      %li{ :class => ("selected" if item[:controller] == controller.controller_name) }<
-        = link_to item[:text], { :controller => item[:controller], :action => item[:action] }
+%h1
+  Red Hat Cloud Engine
+- unless @current_user.nil?
+  %ul
+    /
+      FIXME: commented out because these links don't do anything yet
+      %li.about
+        %a{:href => ""}
+          = t(:about)
+      %li.configure
+        %a{:href => ""}
+          = t(:configure)
 
-.header_info
-  #hi-username
-    = link_to @current_user.first_name + " " + @current_user.last_name, { :controller => "users", :action => "show"} unless @current_user.nil?
-  = link_to 'Log out', logout_url unless @current_user.nil?
-  = link_to 'Log in', login_url if @current_user.nil?
+    %li.hello
+      - link_to :controller => 'users', :action => 'edit', :id => @current_user.id do
+        = t(:hello) + " "
+        %b
+          = "#{@current_user.first_name} #{@current_user.last_name}"
+    %li.logout
+      = link_to t(:logout), logout_url

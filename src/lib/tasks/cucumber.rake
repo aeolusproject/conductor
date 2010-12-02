@@ -7,7 +7,7 @@
 
 unless ARGV.any? {|a| a =~ /^gems/} # Don't load anything when running the gems:* tasks
 
-vendored_cucumber_bin = Dir["#{RAILS_ROOT}/vendor/{gems,plugins}/cucumber*/bin/cucumber"].first
+vendored_cucumber_bin = Dir["#{Rails.root}/vendor/{gems,plugins}/cucumber*/bin/cucumber"].first
 $LOAD_PATH.unshift(File.dirname(vendored_cucumber_bin) + '/../lib') unless vendored_cucumber_bin.nil?
 
 begin
@@ -26,6 +26,12 @@ begin
       t.profile = 'wip'
     end
 
+    Cucumber::Rake::Task.new({:rerun => 'db:test:prepare'}, 'Record failing features and run only them if any exist') do |t|
+      t.binary = vendored_cucumber_bin
+      t.fork = true # You may get faster startup if you set this to false
+      t.profile = 'rerun'
+    end
+
     desc 'Run all features'
     task :all => [:ok, :wip]
   end
@@ -37,11 +43,28 @@ begin
   task :features => :cucumber do
     STDERR.puts "*** The 'features' task is deprecated. See rake -T cucumber ***"
   end
-rescue LoadError
-  desc 'cucumber rake task not available (cucumber not installed)'
-  task :cucumber do
-    abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem or plugin'
+
+  namespace :hudson do
+    def report_path
+      "hudson/reports/features/"
+    end
+
+    Cucumber::Rake::Task.new({'cucumber'  => [:report_setup]}) do |t|
+      t.cucumber_opts = %{--profile default  --format junit --out #{report_path}}
+    end
+
+    task :report_setup do
+      rm_rf report_path
+      mkdir_p report_path
+    end
+
   end
-end
+
+  rescue LoadError
+    desc 'cucumber rake task not available (cucumber not installed)'
+    task :cucumber do
+      abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem or plugin'
+    end
+  end
 
 end

@@ -1,0 +1,11 @@
+{ "base-system" : { "_id" : "base-system",
+      "description" : "Various core pieces of the system.",
+      "display_order" : 99,
+      "id" : "base-system",
+      "immutable" : true,
+      "name" : "Base System",
+      "packagegroupids" : [ "deltacloud" ],
+      "repo_defined" : true,
+      "translated_description" : {  },
+      "translated_name" : {  }
+    } }

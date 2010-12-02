@@ -24,13 +24,19 @@ class CreateRealms < ActiveRecord::Migration
     create_table :realms do |t|
       t.string  :external_key, :null => false
       t.string  :name, :null => false, :limit => 1024
-      t.integer :provider_id, :null => false
+      t.integer :provider_id
       t.integer :lock_version, :default => 0
       t.timestamps
+    end
+
+    create_table "realm_map", :force => true, :id => false do |t|
+      t.column "frontend_realm_id", :integer
+      t.column "backend_realm_id", :integer
     end
   end
 
   def self.down
+    drop_table :realm_map
     drop_table :realms
   end
 end

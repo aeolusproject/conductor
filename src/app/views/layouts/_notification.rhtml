@@ -1,5 +1,5 @@
 <div id="notification" <%if flash[:error]%>class="error-align"<%end%>>
-  <%= link_to "", params, :id => "close-notify" %>
+  <%#= link_to "", params, :id => "close-notify" %>
   <% if flash[:error] %>
       <% if !flash[:error][:successes].nil? && !flash[:error][:successes].empty? %>
       <div class="success">
@@ -23,7 +23,7 @@
     <% end %>
   <% end %>
   <% if flash[:warning] %>
-    <div class="warning"><h4><%= flash[:warning] %></h4></div>
+    <div class="warning"><ul><li><%= flash[:warning] %></li></ul></div>
   <% end %>
   <% if flash[:notice] %>
     <div class="success"><ul><li><%= flash[:notice] %></li></ul></div>

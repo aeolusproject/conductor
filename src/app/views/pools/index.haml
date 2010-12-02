@@ -1,0 +1,44 @@
+= form_tag :action => 'manage_pool'
+#pools_nav.grid_3.actionsidebar
+  %dl
+    %dt
+      Pools
+    / NOTE the 'edit' and 'delete' buttons are temporarily disabled.
+    / They are replaced by generic <button> tags with no functionality.
+    / Once we suport editing and deleting pools, we should switch it back.
+    %dd.edit
+      %span
+      /= submit_tag "edit", :class => "submit linkbutton"
+      %button.submit.linkbutton{ :disabled => 'disabled'} edit
+    %dd.delete
+      %span
+      /= submit_tag "delete", :class => "submit linkbutton"
+      %button.submit.linkbutton{ :disabled => 'disabled'} delete
+    %dd.add
+      %span
+      /=link_to 'new pool', :action => :new, :class => "button"
+      %button.submit.linkbutton{ :disabled => 'disabled'} new pool
+
+#details{:class => 'grid_13'}
+  %table
+    =sortable_table_header @header
+    - @pools.each do |pool|
+      %tr
+        %td
+          - is_first_pool = (pool == @pools.first)
+          %input{:checked => is_first_pool, :name => "pool_checkbox", :type => "radio", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
+          = pool.name
+        %td
+          =((pool.quota.maximum_running_instances || 0)/100)*pool.quota.total_instances
+          ='%'
+        %td
+          =pool.quota.total_instances
+        %td
+          =pool.zone.name
+
+:javascript
+  $(document).ready(function () {
+    /* NOTE: once we support bulk actions on multiple pools selected at once,
+    uncomment this line:
+    $("input[type='checkbox']").buttonSensitivity().change(); */
+  });
