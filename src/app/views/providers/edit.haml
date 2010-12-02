@@ -2,6 +2,6 @@
 #details.grid_13
   %nav.subsubnav
     = render_navigation(:level => 4)
-  - form_for :provider, @provider, :url => provider_path(@provider), :html => { :method => 'put', :class => "dcloud_form" } do |f|
+  - form_for :provider, @provider, :url => provider_path(@provider), :html => { :id => 'edit_dcloud_form', :method => 'put', :class => "dcloud_form" } do |f|
     = render :partial => 'form', :locals => { :f => f }
     %input{ :type => 'submit', :value => t(:save), :name => 'save_provider', :id => 'save_provider' }
