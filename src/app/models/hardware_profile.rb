@@ -101,4 +101,60 @@ class HardwareProfile < ActiveRecord::Base
     end
     the_property
   end
+
+  def self.matching_hwps(hwp)
+    provider_hwps = HardwareProfile.all(:conditions => 'provider_id IS NOT NULL')
+    return provider_hwps.select { |phwp| check_properties(hwp, phwp) }
+  end
+
+  private
+  def self.check_properties(hwp1, hwp2)
+    if [hwp1.memory, hwp1.cpu, hwp1.storage, hwp1.architecture, hwp2.memory, hwp2.cpu, hwp2.storage, hwp2.architecture].include?(nil)
+      return false
+    end
+
+    check_hwp_property(hwp1.memory, hwp2.memory) &&
+    check_hwp_property(hwp1.cpu, hwp2.cpu) &&
+    check_hwp_property(hwp1.storage, hwp2.storage) &&
+    hwp1.architecture.value == hwp2.architecture.value
+  end
+
+  def self.check_hwp_property(p1, p2)
+    if p1.kind == 'range'
+      calculate_range_match(p1, p2)
+    elsif p2.kind == 'range'
+      calculate_range_match(p2, p1)
+    else
+      return !(create_array_from_property(p1) & create_array_from_property(p2)).empty?
+    end
+  end
+
+  def self.calculate_range_match(p1, p2)
+    case p2.kind
+    when 'range'
+      return !(p1.range_first.to_f > p2.range_last.to_f || p1.range_last.to_f < p2.range_first.to_f)
+
+    when 'enum'
+      p2.property_enum_entries.each do |enum|
+        if (p1.range_first.to_f..p1.range_last.to_f) === enum.value.to_f
+          return true
+        end
+      end
+      return false
+
+    when 'fixed'
+     return (p1.range_first.to_f..p1.range_last.to_f) === p2.value.to_f
+
+    end
+  end
+
+  def self.create_array_from_property(p)
+    case p.kind
+    when 'fixed'
+      return [p.value.to_f]
+
+    when 'enum'
+      return p.property_enum_entries.map { |enum| enum.value.to_f }
+    end
+  end
 end
