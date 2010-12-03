@@ -1,5 +1,6 @@
 Factory.define :hardware_profile do |p|
   p.sequence(:name) { |n| "hardware_profile#{n}" }
+  p.sequence(:external_key) { |n| "hardware_profile_key#{n}" }
 end
 
 Factory.define :mock_hwp1, :parent => :hardware_profile do |p|

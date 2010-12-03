@@ -180,3 +180,33 @@ Factory.define :agg_hwp3_arch, :parent => :hardware_profile_property do |p|
   p.unit 'label'
   p.value 'i386'
 end
+
+Factory.define :hwpp_range, :parent => :hardware_profile_property do |p|
+  p.name 'memory'
+  p.kind 'range'
+  p.unit 'MB'
+  p.range_first 256
+  p.range_last 512
+  p.value 256
+end
+
+Factory.define :hwpp_fixed, :parent => :hardware_profile_property do |p|
+  p.name 'memory'
+  p.kind 'fixed'
+  p.unit 'MB'
+  p.value 256
+end
+
+Factory.define :hwpp_enum, :parent => :hardware_profile_property do |p|
+  p.name 'memory'
+  p.kind 'enum'
+  p.unit 'MB'
+  p.value 256
+end
+
+Factory.define :hwpp_arch, :parent => :hardware_profile_property do |p|
+  p.name 'architecture'
+  p.kind 'fixed'
+  p.unit 'label'
+  p.value 'i386'
+end
