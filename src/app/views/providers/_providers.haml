@@ -15,7 +15,7 @@
 
 :javascript
   $(document).ready( function () {
-    $("a.button").click(function (event) {
+    $("a#edit_button").click(function (event) {
       event.preventDefault()
       if (!$(this).attr("disabled")) {
         $.get(($(this).attr("href")), function (response) {
