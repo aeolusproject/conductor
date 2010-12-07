@@ -68,6 +68,9 @@ module NavigationHelpers
     when /the new template page/
       url_for new_template_path
 
+    when /the new template build page/
+      url_for new_build_path
+
     when /the template builds page/
       url_for builds_path
 

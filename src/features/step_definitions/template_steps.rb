@@ -75,3 +75,16 @@ Given /^there is a "([^"]*)" build$/ do |arg1|
   image = Factory.build(:image, :template => template)
   image.save!
 end
+
+When /^I choose this template$/ do
+  choose("ids__#{@template.id}")
+end
+
+Given /^there is ec2 cloud account$/ do
+  account = Factory.build(:ec2_cloud_account)
+  account.save!
+end
+
+Given /^there is ec2 build for this template$/ do
+  Image.build(@template, 'ec2')
+end

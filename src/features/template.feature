@@ -87,3 +87,31 @@ Feature: Manage Templates
     Then I should see an input "admin-tools"
     # test that we see a collection (collections are loaded by default)
     And I should see an input "deltacloud"
+
+  Scenario: Build template
+    Given there is a "mock1" template
+    And there is ec2 cloud account
+    And I am on the templates page
+    When I choose this template
+    And I press "Build"
+    Then I should be on the new template build page
+    And I should see "Build Request"
+    When I check "ec2"
+    And I press "Submit to Build"
+    Then I should be on the template builds page
+    And I should see "mock1"
+
+  Scenario: Build template which is already built
+    Given there is a "mock1" template
+    And there is ec2 cloud account
+    And I am on the templates page
+    And there is ec2 build for this template
+    When I choose this template
+    And I press "Build"
+    Then I should be on the new template build page
+    And I should see "Build Request"
+    When I check "ec2"
+    And I press "Submit to Build"
+    Then I should be on the template builds page
+    And I should see "mock1"
+    And I should see "An attempted build of this template for the target 'ec2' already exists"
