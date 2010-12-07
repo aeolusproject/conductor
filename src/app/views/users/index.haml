@@ -26,16 +26,18 @@
           =link_to "Quota", users_url(:sort_by => "quota")
           %span (Instances)
         %th= link_to "e-mail", users_url(:sort_by => "email")
+        %th
     -@users.each do |user|
       %tr
         %td
           %input{:name => "user_checkbox", :type => "radio", :value => user.id, :id => "user_checkbox_#{user.id}" }
-        %td= link_to user.login, {:action => "edit", :id => user.id}
+        %td= link_to user.login, user_path(user)
         %td= user.last_name
         %td= user.first_name
         %td= sprintf("%.2f", user.quota.percentage_used)
         %td= Quota.no_limit(user.quota.maximum_running_instances) ? "Unlimited" : user.quota.maximum_running_instances
         %td= user.email
+        %td= link_to "edit", edit_user_path(user)
 
 :javascript
   $(document).ready(function () {
