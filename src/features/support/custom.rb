@@ -31,6 +31,10 @@ CloudAccount.class_eval do
   
   alias :generate_cloud_account_key_original :generate_cloud_account_key 
 
+  def validate_credentials
+    true
+  end
+
   def generate_cloud_account_key
   end
 
