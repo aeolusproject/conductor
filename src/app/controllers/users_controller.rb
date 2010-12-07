@@ -58,6 +58,7 @@ class UsersController < ApplicationController
     else
       @user = current_user
     end
+    @quota_resources = @user.quota.quota_resources()
   end
 
   def edit
