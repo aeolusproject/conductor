@@ -260,6 +260,10 @@ table {
           background: #fff url(../../images/order-asc.png) no-repeat center right;
         }
       }
+      &.show {
+        border: 0px;
+        width: 50%
+      }
       a, a:hover, a:active {
         display: block;
         margin: 0;

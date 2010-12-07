@@ -11,7 +11,7 @@ Feature: Manage Users
   Scenario: Change the password
     Given I am on the users page
     And there is a user "testuser"
-    When I follow "testuser"
+    When I follow "edit"
     Then I should see "Editing User:"
     When I fill in "user[password]" with "new password"
     And I fill in "user[password_confirmation]" with ""
@@ -25,6 +25,12 @@ Feature: Manage Users
     And I fill in "user[password_confirmation]" with "new password"
     And I press "Save"
     Then I should see "User updated!"
+
+  Scenario: Show user detials
+    Given I am on the users page
+    And there is a user "testuser"
+    When I follow "testuser"
+    Then I should be on testuser's user page
 
   Scenario: Administrator cancels the creation of a user account
     Given I am on the users page
