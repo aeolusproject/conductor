@@ -85,4 +85,80 @@ class Image < ActiveRecord::Base
     end
     return img
   end
+
+  def self.single_import(providername, username, password, image_id)
+    account = Image.get_account(providername, username, password)
+    Image.import(account, image_id)
+  end
+
+  def self.bulk_import(providername, username, password, images)
+    account = Image.get_account(providername, username, password)
+    images.each do |image|
+      begin
+        Image.import(account, image['id'])
+        $stderr.puts "imported image with id '#{image['id']}'"
+      rescue
+        $stderr.puts "failed to import image with id '#{image['id']}'"
+      end
+    end
+  end
+
+  def self.import(account, image_id)
+    unless raw_image = account.connect.image(image_id)
+      raise "There is no image with '#{image_id}' id"
+    end
+
+    if ReplicatedImage.find_by_provider_id_and_provider_image_key(account.provider.id, image_id)
+      raise "Image '#{image_id}' is already imported"
+    end
+
+    image = nil
+    ActiveRecord::Base.transaction do
+      template = Template.new(
+        :name             => raw_image.name + '_template',
+        :summary          => raw_image.description,
+        :platform_hash    => {:platform => 'unknown',
+                              :version => 'unknown',
+                              :architecture => raw_image.architecture},
+        :complete         => true,
+        :uploaded         => true,
+        :imported         => true
+      )
+      template.save!
+
+      image = Image.new(
+        :name         => raw_image.name,
+        :status       => 'complete',
+        :target       => account.provider.cloud_type,
+        :template_id  => template.id
+      )
+      image.save!
+
+      rep = ReplicatedImage.new(
+        :image_id           => image.id,
+        :provider_id        => account.provider.id,
+        :provider_image_key => image_id,
+        :uploaded           => true,
+        :registered         => true
+      )
+      rep.save!
+    end
+    image
+  end
+
+  private
+
+  def self.get_account(providername, username, password)
+    unless provider = Provider.find_by_name(providername)
+      raise "There is not provider with name '#{providername}'"
+    end
+
+    account = CloudAccount.new(:provider => provider, :username => username, :password => password)
+
+    unless account.valid_credentials?
+      raise "Invalid credentials for provider '#{providername}'"
+    end
+
+    return account
+  end
 end

@@ -79,4 +79,34 @@ namespace :dc do
     Rake::Task[:'dc:create_admin_user'].invoke
   end
 
+  desc 'Import images'
+  task :import, [:provider, :username, :password, :image] => :environment do |t, args|
+    unless args.provider and args.username and args.password and args.image
+      puts "Usage: rake 'dc:import[provider,username,password,imageid]'"
+      exit(1)
+    end
+    #account = get_account(args.provider, args.account)
+    img = Image.single_import(args.provider, args.username, args.password, args.image)
+    puts "Imported image with id '#{args.image}'"
+  end
+
+  desc 'Bulk import images'
+  task :bulk_import, [:provider, :username, :password, :yml_file] => :environment do |t, args|
+    unless args.provider and args.username and args.password and args.yml_file
+      puts "Usage: rake 'dc:import[provider,username,password,yml_file]'"
+      exit(1)
+    end
+    list = YAML.load_file(args.yml_file)
+    Image.bulk_import(args.provider, args.username, args.password, list)
+  end
+
+  def get_account(provider_name, account_name)
+    unless provider = Provider.find_by_name(provider_name)
+      raise "There is no provider with '#{provider_name}' name"
+    end
+    unless account = provider.cloud_accounts.find_by_label(account_name)
+      raise "There is no account with '#{account_name}' label"
+    end
+    account
+  end
 end

@@ -89,10 +89,18 @@ class Template < ActiveRecord::Base
     add_groups(groups)
   end
 
+  # sets platform info from predefined platform list
   def platform=(plat)
     write_attribute(:platform, plat)
     self.platform_version = platforms[plat]['version'].to_s
     self.architecture = platforms[plat]['architecture']
+  end
+
+  # sets platform info from hash (used when importing images)
+  def platform_hash=(plat)
+    write_attribute(:platform, plat[:platform])
+    self.platform_version = plat[:version]
+    self.architecture = plat[:architecture]
   end
 
   # packages and groups are virtual attributes

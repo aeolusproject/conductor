@@ -43,11 +43,29 @@ describe Image do
 
   it "should build image if there is provider and cloud account for specified target" do
     acc = Factory.build(:mock_cloud_account)
+    acc.stub!(:valid_credentials?).and_return(true)
     acc.save!
     tpl = Factory.build(:template)
     tpl.save!
     img = Image.build(tpl, 'mock')
     Image.find(img).should == img
     ReplicatedImage.find_by_image_id(img.id).should_not be_nil
+  end
+
+  it "should import image" do
+    image = OpenStruct.new(:id => 'mock', :name => 'mock', :description => 'imported mock', :architecture => 'i386')
+    client = mock('DeltaCloud', :null_object => true, :image => image)
+    account = Factory.build(:ec2_cloud_account)
+    account.stub!(:connect).and_return(client)
+    account.stub!(:valid_credentials?).and_return(true)
+    account.save!
+
+    lambda do
+      lambda do
+        lambda do
+          Image.import(account, 'mock').should_not be_nil
+        end.should change(Image, :count).by(1)
+      end.should change(Template, :count).by(1)
+    end.should change(ReplicatedImage, :count).by(1)
   end
 end
