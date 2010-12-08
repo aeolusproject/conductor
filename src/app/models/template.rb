@@ -53,7 +53,7 @@ class Template < ActiveRecord::Base
     xml.platform = self.platform
     xml.platform_version = self.platform_version
     xml.architecture = self.architecture
-    write_attribute(:xml, xml.to_s)
+    write_attribute(:xml, xml.to_xml)
   end
 
   def providers

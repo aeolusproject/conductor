@@ -29,4 +29,12 @@ describe Template do
       inst.template.destroy
     end.should_not change(Template, :count)
   end
+
+  it "should update xml when template is saved" do
+    tpl = Factory.build(:template)
+    tpl.packages = ['test']
+    tpl.save!
+    tpl2 = Template.find(tpl)
+    tpl2.packages.should == ['test']
+  end
 end
