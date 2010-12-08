@@ -115,3 +115,11 @@ Feature: Manage Templates
     Then I should be on the template builds page
     And I should see "mock1"
     And I should see "An attempted build of this template for the target 'ec2' already exists"
+
+  Scenario: Build imported template
+    Given there is an imported template
+    And I am on the templates page
+    When I choose this template
+    And I press "Build"
+    Then I should be on the templates page
+    And I should see "Build imported template is not supported"

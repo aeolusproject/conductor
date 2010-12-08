@@ -88,3 +88,8 @@ end
 Given /^there is ec2 build for this template$/ do
   Image.build(@template, 'ec2')
 end
+
+Given /^there is an imported template$/ do
+  @template = Factory.build :template, :name => name, :imported => true
+  @template.save!
+end

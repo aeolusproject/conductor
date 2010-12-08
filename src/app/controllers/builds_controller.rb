@@ -16,6 +16,10 @@ class BuildsController < ApplicationController
   def new
     raise "select template to build" unless id = params[:template_id]
     @tpl = Template.find(id)
+    if @tpl.imported
+      flash[:warning] = "Build imported template is not supported"
+      redirect_to templates_path
+    end
     @all_targets = Image.available_targets
   end
 

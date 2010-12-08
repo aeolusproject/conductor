@@ -11,6 +11,7 @@ class CreateTemplates < ActiveRecord::Migration
       t.text    :summary
       t.boolean :complete, :default => false
       t.boolean :uploaded, :default => false
+      t.boolean :imported, :default => false
       t.integer :images_count
       t.timestamps
     end
