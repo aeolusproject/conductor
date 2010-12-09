@@ -38,7 +38,7 @@ class BuildsController < ApplicationController
       return
     end
 
-    @tpl.upload_template unless @tpl.uploaded
+    @tpl.upload unless @tpl.uploaded
     errors = {}
     warnings = []
     params[:targets].each do |target|

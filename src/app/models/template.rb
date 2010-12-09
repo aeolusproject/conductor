@@ -32,7 +32,7 @@ class Template < ActiveRecord::Base
     @xml ||= ImageDescriptorXML.new(self[:xml].to_s)
   end
 
-  def upload_template
+  def upload
     self.uri = File.join(WAREHOUSE_CONFIG['baseurl'], "#{uuid}")
     response = Typhoeus::Request.put(self.uri, :body => xml.to_xml, :timeout => 30000)
     if response.code == 200
