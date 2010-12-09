@@ -41,7 +41,11 @@ class ApplicationController < ActionController::Base
     if(params[:component_layout])
       return (ENV["RAILS_ENV"] != "production")?'components/' << params[:component_layout]:'aggregator'
     end
-    @layout = 'aggregator'
+    if cookies[:layout]
+      @layout = cookies[:layout]
+    else
+      @layout = 'aggregator'
+    end
     return @layout
   end
 
