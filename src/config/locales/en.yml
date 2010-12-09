@@ -67,6 +67,23 @@ en:
   apply_treatment: Apply User Treatment
   choose_treatment: Choose Treatment
   apply: Apply
+  resource_management_view: Resource Management View
+  pools: Pools
+  deployments: Deployments
+  instances: Instances
+  searches: Searches
+  image_factory_view: Image Factory View
+  templates: Templates
+  assemblies: Assemblies
+  template_collections: Template Collections
+  admin: Administration
+  roles: Roles
+  cloud_providers: Cloud Providers
+  provider_account: Provider Account
+  cloud_engine_hardware_profiles: HW Profiles
+  cloud_engine_realms: Realms
+  pool_families: Pool Families
+  setting: Settings
   settings:
     index:
       general_settings: General Settings

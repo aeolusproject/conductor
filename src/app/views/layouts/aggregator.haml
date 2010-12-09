@@ -42,10 +42,10 @@
             %a.disabled
               = t(:advanced_search)
         %nav.container_16
-          = render_navigation(:expand_all => true, :level => 1..2)
+          = render_navigation({:context => 'old', :expand_all => true, :level => 1..2})
         %hr
       %nav.subnav
-        = render_navigation(:expand_all => true, :level => 3)
+        = render_navigation({:context => 'old', :expand_all => true, :level => 3})
       #content.container_16
         = render :partial => '/layouts/notification'
         = yield
