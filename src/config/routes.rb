@@ -32,6 +32,17 @@ ActionController::Routing::Routes.draw do |map|
   # You can have the root of your site routed by hooking up ''
   # -- just remember to delete public/index.html.
 
+  map.namespace 'resources' do |r|
+    r.resources :pools, :instances, :deployments
+  end
+
+  map.namespace 'image_factory' do |r|
+    r.resources :assemblies, :deployables, :templates
+  end
+
+  map.namespace 'admin' do |r|
+    r.resources :hardware_profiles, :pool_families, :providers, :provider_accounts, :realms, :roles, :settings, :users
+  end
 
   map.resources :pools
 
