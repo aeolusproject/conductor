@@ -63,7 +63,9 @@ describe Image do
     lambda do
       lambda do
         lambda do
-          Image.import(account, 'mock').should_not be_nil
+          img = Image.import(account, 'mock')
+          img.should_not be_nil
+          img.template.uploaded.should be_true
         end.should change(Image, :count).by(1)
       end.should change(Template, :count).by(1)
     end.should change(ReplicatedImage, :count).by(1)

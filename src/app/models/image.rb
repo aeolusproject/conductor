@@ -142,6 +142,8 @@ class Image < ActiveRecord::Base
         :registered         => true
       )
       rep.save!
+
+      template.upload
     end
     image
   end
