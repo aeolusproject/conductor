@@ -184,10 +184,10 @@ module ApplicationHelper
   #   <tt>restful_submit_tag('Delete', 'destroy', instance_path(@instance), 'DELETE')</tt>
   #
   # Learn more: https://github.com/martincik/rack-restful_submit
-  def restful_submit_tag(value, action, url, method)
+  def restful_submit_tag(value, action, url, method, options = {})
     hidden_field_tag("__map[#{action}][url]", url) <<
     hidden_field_tag("__map[#{action}][method]", method.upcase) <<
-    submit_tag(value, :name => "__rewrite[#{action}]")
+    submit_tag(value, {:name => "__rewrite[#{action}]"}.reverse_merge!(options))
   end
 
 end
