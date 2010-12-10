@@ -9,7 +9,7 @@
     = stylesheet_link_tag 'facebox'
     = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
     = stylesheet_link_tag 'jquery.loadmask'
-    = stylesheet_link_tag 'compiled/aggregator'
+    = stylesheet_link_tag 'compiled/newui'
 
     / [if lt IE 9]
       = javascript_include_tag "http://html5shiv.googlecode.com/svn/trunk/html5.js"
@@ -25,7 +25,26 @@
     %a{ :href => '', :onClick => "document.cookie = 'layout=aggregator'"}
       Switch to the old UI
     %div#head
+      %header.container_16
+        = render :partial => '/layouts/header'
+    - if @current_user.nil?
+      #content.container_16
+        = render :partial => '/layouts/notification'
+        #formwindow
+          = yield
+    - else
       #subheader
-        = render_navigation({:context => 'new', :expand_all => true})
-    %h1 New UI
-    = yield
+        %nav.container_16
+          = render_navigation({:context => 'new', :expand_all => true, :level => 1})
+          = render_navigation({:context => 'new', :expand_all => true, :level => 2})
+      #content
+        = render :partial => '/layouts/notification'
+        #saved-searches
+          Saved searches
+        #list-view
+          = (yield :list or yield)
+        #details-view
+          = yield :details
+      %footer
+        = render :partial => "layouts/footer"
+      #grid

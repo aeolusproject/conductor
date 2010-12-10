@@ -67,12 +67,12 @@ en:
   apply_treatment: Apply User Treatment
   choose_treatment: Choose Treatment
   apply: Apply
-  resource_management_view: Resource Management View
+  resource_management: Resource Management
   pools: Pools
   deployments: Deployments
   instances: Instances
   searches: Searches
-  image_factory_view: Image Factory View
+  image_factory: Image Factory
   templates: Templates
   assemblies: Assemblies
   template_collections: Template Collections
@@ -80,7 +80,7 @@ en:
   roles: Roles
   cloud_providers: Cloud Providers
   provider_account: Provider Account
-  cloud_engine_hardware_profiles: HW Profiles
+  cloud_engine_hardware_profiles: Hardware Profiles
   cloud_engine_realms: Realms
   pool_families: Pool Families
   setting: Settings
@@ -105,7 +105,7 @@ en:
       quota: Quota
       account: Account
   providers:
-    providers: PROVIDERS
+    providers: Providers
     form:
       provider_name: Provider Name
       provider_url: Provider URL
