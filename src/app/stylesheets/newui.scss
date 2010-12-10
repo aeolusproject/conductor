@@ -1329,25 +1329,34 @@ a.iconbutton {
 
 }
 
+
+$details-height: 190px;
+$content-left: 180px;
+
 #list-view {
   border: 1px solid;
   padding: 1em;
   position: absolute;
   top: 1em;
-  left: 15em;
+  left: $content-left;
   right: 0;
-  bottom: 320px;
   overflow: auto;
+  &.part {
+    bottom: $details-height + 30px;
+  }
+  &.full {
+    bottom: 1em;
+  }
 }
 
 #details-view {
   border: 1px solid;
   position: absolute;
-  left: 15em;
+  left: $content-left;
   right: 0;
-  height: 270px;
-  bottom: 1em;
-  padding: 1em;
+  height: $details-height;
+  bottom: 0;
+  padding: 0;
   overflow-y:scroll;
 }
 

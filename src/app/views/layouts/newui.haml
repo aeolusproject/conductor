@@ -38,13 +38,15 @@
           = render_navigation({:context => 'new', :expand_all => true, :level => 1})
           = render_navigation({:context => 'new', :expand_all => true, :level => 2})
       #content
-        = render :partial => '/layouts/notification'
         #saved-searches
           Saved searches
-        #list-view
+        - details = !(yield :details).blank?
+        #list-view{ :class => details ? 'part' : 'full'}
+          = render :partial => '/layouts/notification'
           = (yield :list or yield)
-        #details-view
-          = yield :details
+        - if details
+          #details-view
+            = yield :details
       %footer
         = render :partial => "layouts/footer"
       #grid

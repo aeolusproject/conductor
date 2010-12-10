@@ -1,0 +1,23 @@
+- form_tag do
+  = restful_submit_tag "New Pool", "new", new_resources_pool_path, 'GET'
+  = restful_submit_tag "Edit", "edit", edit_resources_pool_path(@pools.first), 'GET'
+  %p
+    Select:&nbsp;
+    = link_to "All", @url_params.merge(:select => 'all')
+    %span> ,&nbsp;
+    = link_to "None", @url_params.merge(:select => 'none')
+  %table
+    = sortable_table_header @header
+    - @pools.each do |pool|
+      %tr
+        %td
+          - selected = @url_params[:select] == 'all'
+          = check_box(:pool, "selected[#{pool.id}]", :checked => selected)
+          = link_to pool.name, resources_pool_path(pool)
+        %td
+          =((pool.quota.maximum_running_instances || 0)/100)*pool.quota.total_instances
+          ='%'
+        %td
+          =pool.quota.total_instances
+        %td
+          =pool.zone.name

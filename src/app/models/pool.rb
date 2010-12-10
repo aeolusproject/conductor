@@ -30,6 +30,7 @@ class Pool < ActiveRecord::Base
 
   validates_presence_of :name
   validates_presence_of :zone
+  validates_uniqueness_of :name
   validates_uniqueness_of :exported_as, :if => :exported_as
 
   validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
