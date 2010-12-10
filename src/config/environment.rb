@@ -52,6 +52,9 @@ Rails::Initializer.run do |config|
   config.gem "simple-navigation"
   config.gem "typhoeus"
   config.gem "rb-inotify"
+  config.gem 'rack-restful_submit'
+
+  config.middleware.insert_after Rack::MethodOverride, 'Rack::RestfulSubmit'
 
   config.active_record.observers = :instance_observer, :task_observer
   # Only load the plugins named here, in the order given. By default, all plugins
