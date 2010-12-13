@@ -5,7 +5,7 @@
 = render :partial => 'providers/providers'
 #details.grid_13
   %nav.subsubnav
-    = render_navigation(:level => 4)
+    = render_navigation({:context => 'old', :level => 4})
 
   %h1
     = t('.provider_accounts')
