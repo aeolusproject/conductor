@@ -1,5 +1,3 @@
-# hello
-
 # Copyright (C) 2008 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
