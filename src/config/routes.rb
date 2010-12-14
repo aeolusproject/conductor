@@ -33,7 +33,8 @@ ActionController::Routing::Routes.draw do |map|
   # -- just remember to delete public/index.html.
 
   map.namespace 'resources' do |r|
-    r.resources :pools, :instances, :deployments
+    r.resources :pools, :deployments
+    r.resources :instances, :collection => {:start => :get, :stop => :get}
   end
 
   map.namespace 'image_factory' do |r|

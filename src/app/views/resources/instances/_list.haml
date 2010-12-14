@@ -1,0 +1,23 @@
+- form_tag do
+  = restful_submit_tag 'Start', 'start', start_resources_instances_path, 'GET'
+  = restful_submit_tag 'Stop', 'start', stop_resources_instances_path, 'GET'
+  = restful_submit_tag 'Create', 'new', new_resources_instance_path, 'GET'
+
+  %p
+    Select:&nbsp;
+    = link_to "All", params.merge(:select => 'all')
+    %span> ,&nbsp;
+    = link_to "None", params.merge(:select => 'none')
+  %table
+    = sortable_table_header @header
+    - @instances.each do |inst|
+      %tr
+        %td
+          - selected = params[:select] == 'all'
+          %input{:checked => selected, :name => 'ids', :type => 'checkbox', :value => inst.id, :id => "inst_ids_#{inst.id}" }
+          = link_to inst.name, resources_instance_path(inst)
+        %td= inst.template.name
+        %td= inst.public_addresses
+        %td= inst.cloud_account ? inst.cloud_account.provider.name : ''
+        %td= owner_name(inst)
+        %td= link_to 'edit', edit_resources_instance_path(inst)
