@@ -2,17 +2,4 @@
   = render :partial => 'list'
 
 - content_for :details do
-  %ul
-    %li
-      = link_to 'Properties', '#properties'
-    %li
-      = link_to 'Deployments', '#deployments'
-    %li
-      = link_to 'Instances', '#instances'
-    %li
-      = link_to 'History', '#history'
-    %li
-      = link_to 'Permissions', '#permissions'
-  %h3
-    Details for
-    = @pool.name
+  = render :partial => 'layouts/details_pane'

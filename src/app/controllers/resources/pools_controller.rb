@@ -7,6 +7,18 @@ class Resources::PoolsController < ApplicationController
 
   def show
     @pool = Pool.find(params[:id])
+    @url_params = params.clone
+    @tab_captions = ['Properties', 'Deployments', 'Instances', 'History', 'Permissions']
+    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    respond_to do |format|
+      format.js do
+        if @url_params.delete :details_pane
+          render :partial => 'layouts/details_pane' and return
+        end
+        render :partial => @details_tab and return
+      end
+      format.html { render :action => 'show'}
+    end
   end
 
   def edit

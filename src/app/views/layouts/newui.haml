@@ -44,8 +44,8 @@
         #list-view{ :class => details ? 'part' : 'full'}
           = render :partial => '/layouts/notification'
           = (yield :list or yield)
-        - if details
-          #details-view
+        #details-view.ui-tabs.ui-widget.ui-widget-content.ui-corner-all{ :class => ('hidden' unless details)}
+          - if details
             = yield :details
       %footer
         = render :partial => "layouts/footer"

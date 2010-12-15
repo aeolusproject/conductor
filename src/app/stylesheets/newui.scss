@@ -8,6 +8,10 @@ html {
   color: orange;
 }
 
+.hidden {
+  display: none;
+}
+
 a {
   color: $dcprimary;
   text-decoration: none;

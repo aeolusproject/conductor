@@ -190,4 +190,8 @@ module ApplicationHelper
     submit_tag(value, {:name => "__rewrite[#{action}]"}.reverse_merge!(options))
   end
 
+  def slug(title)
+    title.split(' ').join('_').downcase
+  end
+
 end
