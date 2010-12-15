@@ -40,6 +40,8 @@ ActionController::Routing::Routes.draw do |map|
     r.resources :assemblies, :deployables, :templates
   end
 
+  map.connect '/set_layout', :controller => 'application', :action => 'set_layout'
+
   map.namespace 'admin' do |r|
     r.resources :hardware_profiles, :pool_families, :providers, :provider_accounts, :realms, :roles, :settings, :users
   end

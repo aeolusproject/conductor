@@ -49,6 +49,13 @@ class ApplicationController < ActionController::Base
     return @layout
   end
 
+  def set_layout
+    if not params[:layout].blank?
+      cookies[:layout] = params[:layout]
+    end
+    render :text => "Current layout is: '#{cookies[:layout]}'"
+  end
+
   def section_id
     'generic'
   end
