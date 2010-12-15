@@ -1,7 +1,7 @@
 - form_tag do
   = restful_submit_tag 'Start', 'start', start_resources_instances_path, 'GET'
   = restful_submit_tag 'Stop', 'start', stop_resources_instances_path, 'GET'
-  = restful_submit_tag 'Create', 'new', new_resources_instance_path, 'GET'
+  = restful_submit_tag 'Create', 'new', select_template_resources_instances_path, 'GET'
 
   %p
     Select:&nbsp;
@@ -16,8 +16,8 @@
           - selected = params[:select] == 'all'
           %input{:checked => selected, :name => 'ids', :type => 'checkbox', :value => inst.id, :id => "inst_ids_#{inst.id}" }
           = link_to inst.name, resources_instance_path(inst)
+        %td= inst.state
         %td= inst.template.name
         %td= inst.public_addresses
         %td= inst.cloud_account ? inst.cloud_account.provider.name : ''
         %td= owner_name(inst)
-        %td= link_to 'edit', edit_resources_instance_path(inst)
