@@ -41,6 +41,9 @@ module NavigationHelpers
     when /the settings page/
       settings_path
 
+    when /the pools page/
+      resources_pools_path
+
     when /the new pool page/
       new_pool_path
 
@@ -54,7 +57,10 @@ module NavigationHelpers
       dashboard_path
 
     when /the instances page/
-      instance_path
+      resources_instances_path
+
+    when /the new instance page/
+      new_resources_instance_path
 
     when /the pool hardware profiles page/
       hardware_profiles_pool_path

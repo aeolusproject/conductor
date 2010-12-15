@@ -37,3 +37,36 @@ Then /^I should see the Save dialog for a (.+) file$/ do |filetype|
   response.headers["Content-Disposition"].should
   match(/^attachment;\sfilename=.*#{filetype}$/)
 end
+
+Given /^there is a "([^"]*)" instance$/ do |name|
+  Factory :instance, :name => name
+end
+
+Given /^there is a "([^"]*)" failed instance$/ do |name|
+  Factory :instance, :name => name, :state => Instance::STATE_ERROR
+end
+
+Given /^there is a "([^"]*)" running instance$/ do |name|
+  Factory :instance, :name => name, :state => Instance::STATE_RUNNING
+end
+
+Given /^there is an uploaded image for a template$/ do
+  Factory :replicated_image
+end
+
+Given /^there is "([^"]*)" aggregator hardware profile$/ do |name|
+  Factory :mock_hwp2, :name => name
+end
+
+Given /^there is "([^"]*)" aggregator realm$/ do |name|
+  Factory :frontend_realm, :provider_id => nil, :name => name
+end
+
+Given /^there is "([^"]*)" pool$/ do |arg1|
+  Factory :pool, :name => arg1
+end
+
+When /^I check "([^"]*)" instance$/ do |name|
+  inst = Instance.find_by_name(name)
+  check("inst_ids_#{inst.id}")
+end
