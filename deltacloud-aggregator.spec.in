@@ -31,6 +31,7 @@ Requires: rubygem(builder)
 Requires: rubygem(json)
 Requires: rubygem(deltacloud-image-builder-agent)
 Requires: rubygem(imagebuilder-console)
+Requires: rubygem(rack-restful_submit)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
