@@ -1,3 +1,4 @@
+= error_messages_for 'instance'
 %h2 Launch instance
 - form_for @instance, :url => resources_instances_path do
   = hidden_field :instance, :template_id
@@ -12,6 +13,7 @@
       = label :instance, :pool
       - if @instance.pool
         = text_field_tag :pool_name, @instance.pool.name, :disabled => true
+        = hidden_field :instance, :pool_id
       - else
         = select :instance, :pool_id, @pools.map {|p| [ p.name, p.id ]}, { :include_blank => true }
     %li

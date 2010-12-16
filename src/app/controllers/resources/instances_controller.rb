@@ -10,15 +10,7 @@ class Resources::InstancesController < ApplicationController
       return
     end
 
-    @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
-    @realms = Realm.find(:all, :conditions => { :provider_id => nil })
-    @hardware_profiles = HardwareProfile.all(
-      :include => :architecture,
-      :conditions => {
-        :provider_id => nil,
-        'hardware_profile_properties.value' => @instance.template.architecture
-      }
-    )
+    init_new_instance_attrs
   end
 
   def select_template
@@ -41,36 +33,28 @@ class Resources::InstancesController < ApplicationController
     @instance.state = Instance::STATE_NEW
     @instance.owner = current_user
 
-    require_privilege(Privilege::INSTANCE_MODIFY,
-                      Pool.find(@instance.pool_id))
-    #FIXME: This should probably be in a transaction
-    if @instance.save
-        @task = InstanceTask.new({:user        => current_user,
-                                  :task_target => @instance,
-                                  :action      => InstanceTask::ACTION_CREATE})
-        if @task.save
-          condormatic_instance_create(@task)
-          if Quota.can_start_instance?(@instance, nil)
-            flash[:notice] = "Instance added."
-          else
-            flash[:warning] = "Quota Exceeded: Instance will not start until you have free quota"
-          end
-        else
-          @pool = @instance.pool
-          render :new
-        end
-      redirect_to resources_instances_path
-    else
-      @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
-      @realms = Realm.find(:all, :conditions => { :provider_id => nil })
-      @hardware_profiles = HardwareProfile.all(
-        :include => :architecture,
-        :conditions => {
-          :provider_id => nil,
-          'hardware_profile_properties.value' => @instance.template.architecture
-        }
-      )
+    begin
+      require_privilege(Privilege::INSTANCE_MODIFY,
+                        Pool.find(@instance.pool_id))
+      free_quota = Quota.can_start_instance?(@instance, nil)
+      @instance.transaction do
+        @instance.save!
+        @task = InstanceTask.create!({:user        => current_user,
+                                      :task_target => @instance,
+                                      :action      => InstanceTask::ACTION_CREATE})
+        condormatic_instance_create(@task)
+      end
+    rescue
+      init_new_instance_attrs
+      flash[:warning] = "Failed to launch instance: #{$!}"
       render :new
+    else
+      if free_quota
+        flash[:notice] = "Instance added."
+      else
+        flash[:warning] = "Quota Exceeded: Instance will not start until you have free quota"
+      end
+      redirect_to resources_instances_path
     end
   end
 
@@ -98,6 +82,20 @@ class Resources::InstancesController < ApplicationController
       :include => [:template, :owner],
       :conditions => {:pool_id => pools},
       :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
+    )
+  end
+
+  private
+
+  def init_new_instance_attrs
+    @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
+    @realms = Realm.find(:all, :conditions => { :provider_id => nil })
+    @hardware_profiles = HardwareProfile.all(
+      :include => :architecture,
+      :conditions => {
+        :provider_id => nil,
+        'hardware_profile_properties.value' => @instance.template.architecture
+      }
     )
   end
 end
