@@ -14,7 +14,7 @@
       %tr
         %td
           - selected = params[:select] == 'all'
-          %input{:checked => selected, :name => 'ids', :type => 'checkbox', :value => inst.id, :id => "inst_ids_#{inst.id}" }
+          %input{:checked => selected, :name => 'id', :type => 'checkbox', :value => inst.id, :id => "inst_ids_#{inst.id}" }
           = link_to inst.name, resources_instance_path(inst)
         %td= inst.state
         %td= inst.template.name

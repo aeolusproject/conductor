@@ -1,5 +1,7 @@
 class Resources::InstancesController < ApplicationController
   before_filter :require_user
+  before_filter :load_instance, :only => [:show, :remove_failed, :key, :stop]
+  before_filter :load_instances, :only => [:show, :index]
 
   def new
     @instance = Instance.new(params[:instance])
@@ -62,8 +64,6 @@ class Resources::InstancesController < ApplicationController
   end
 
   def show
-    @instance = Instance.find((params[:id] || []).first)
-    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
     @url_params = params.clone
     @tab_captions = ['Properties', 'History', 'Permissions']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
@@ -97,8 +97,6 @@ class Resources::InstancesController < ApplicationController
   end
 
   def key
-    @instance = Instance.find((params[:id] || []).first)
-    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
     unless @instance.instance_key.nil?
       send_data @instance.instance_key.pem,
                 :filename => "#{@instance.instance_key.name}.pem",
@@ -110,8 +108,6 @@ class Resources::InstancesController < ApplicationController
   end
 
   def stop
-    @instance = Instance.find((params[:ids] || []).first)
-    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
     unless @instance.valid_action?('stop')
       raise ActionError.new("stop is an invalid action.")
     end
@@ -128,8 +124,6 @@ class Resources::InstancesController < ApplicationController
   end
 
   def remove_failed
-    @instance = Instance.find((params[:ids] || []).first)
-    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
     raise ActionError.new("remove failed cannot be performed on this instance.") unless
       @instance.state == Instance::STATE_ERROR
     condormatic_instance_reset_error(@instance)
@@ -138,6 +132,11 @@ class Resources::InstancesController < ApplicationController
   end
 
   private
+
+  def load_instance
+    @instance = Instance.find((params[:id] || []).first)
+    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
+  end
 
   def init_new_instance_attrs
     @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
