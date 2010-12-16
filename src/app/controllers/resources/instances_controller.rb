@@ -109,6 +109,34 @@ class Resources::InstancesController < ApplicationController
     redirect_to resources_instance_path(@instance)
   end
 
+  def stop
+    @instance = Instance.find((params[:ids] || []).first)
+    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
+    unless @instance.valid_action?('stop')
+      raise ActionError.new("stop is an invalid action.")
+    end
+
+    # not sure if task is used as everything goes through condor
+    #permissons check here
+    @task = @instance.queue_action(@current_user, 'stop')
+    unless @task
+      raise ActionError.new("stop cannot be performed on this instance.")
+    end
+    condormatic_instance_stop(@task)
+    flash[:notice] = "#{@instance.name}: stop action was successfully queued."
+    redirect_to resources_instances_path
+  end
+
+  def remove_failed
+    @instance = Instance.find((params[:ids] || []).first)
+    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
+    raise ActionError.new("remove failed cannot be performed on this instance.") unless
+      @instance.state == Instance::STATE_ERROR
+    condormatic_instance_reset_error(@instance)
+    flash[:notice] = "#{@instance.name}: remove failed action was successfully queued."
+    redirect_to resources_instances_path
+  end
+
   private
 
   def init_new_instance_attrs

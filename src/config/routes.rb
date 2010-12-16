@@ -34,7 +34,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.namespace 'resources' do |r|
     r.resources :pools, :deployments
-    r.resources :instances, :collection => {:start => :get, :stop => :get, :select_template => :get}, :member => {:key => :get}
+    r.resources :instances, :collection => {:start => :get, :stop => :get, :select_template => :get, :remove_failed => :get}, :member => {:key => :get}
   end
 
   map.namespace 'image_factory' do |r|

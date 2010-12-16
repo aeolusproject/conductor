@@ -1,7 +1,7 @@
 - form_tag do
-  = restful_submit_tag 'Start', 'start', start_resources_instances_path, 'GET'
-  = restful_submit_tag 'Stop', 'start', stop_resources_instances_path, 'GET'
+  = restful_submit_tag 'Stop', 'stop', stop_resources_instances_path, 'GET'
   = restful_submit_tag 'Create', 'new', select_template_resources_instances_path, 'GET'
+  = restful_submit_tag 'Remove failed', 'remove_failed', remove_failed_resources_instances_path, 'GET'
 
   %p
     Select:&nbsp;
