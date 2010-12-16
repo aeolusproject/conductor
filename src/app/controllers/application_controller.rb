@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
 
   def choose_layout
     return nil if params[:ajax]
-    if(params[:component_layout])
+    if params[:component_layout]
       return (ENV["RAILS_ENV"] != "production")?'components/' << params[:component_layout]:'aggregator'
     end
     if cookies[:layout]
@@ -161,9 +161,9 @@ class ApplicationController < ActionController::Base
   end
 
   def get_nav_items
-    if !current_user.nil?
-        @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
-        @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
+    if current_user.present?
+      @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+      @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
     end
   end
 
@@ -216,21 +216,17 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user
-    unless current_user
-      store_location
-      flash[:notice] = "You must be logged in to access this page"
-      redirect_to login_url
-      return false
-    end
+    return if current_user
+    store_location
+    flash[:notice] = "You must be logged in to access this page"
+    redirect_to login_url
   end
 
   def require_no_user
-    if current_user
-      store_location
-      flash[:notice] = "You must be logged out to access this page"
-      redirect_to account_url
-      return false
-    end
+    return unless current_user
+    store_location
+    flash[:notice] = "You must be logged out to access this page"
+    redirect_to account_url
   end
 
   def store_location
