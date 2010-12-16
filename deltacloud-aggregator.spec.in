@@ -36,7 +36,7 @@ Requires: postgresql-server
 Requires: ruby-postgres
 Requires: ruby-RMagick
 Requires: classads >= 1.0
-Requires: condor >= 7.5.4
+Requires: condor >= 7.5.5-10dcloud
 Requires: iwhd
 
 BuildRequires: ruby-devel

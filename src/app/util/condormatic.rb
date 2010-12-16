@@ -50,7 +50,7 @@ def condormatic_instance_create(task)
     else
       resource += " NULL"
     end
-    resource += " $$(hardwareprofile_key) $$(keypair)\n"
+    resource += " $$(hardwareprofile_key) $$(keypair) NULL\n"
 
     pipe.puts resource
     Rails.logger.info resource
