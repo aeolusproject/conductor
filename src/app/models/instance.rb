@@ -34,6 +34,7 @@ class Instance < ActiveRecord::Base
   belongs_to :realm
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   belongs_to :instance_key
+  belongs_to :instance_hwp
 
   validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id

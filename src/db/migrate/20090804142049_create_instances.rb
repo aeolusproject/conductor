@@ -30,6 +30,7 @@ class CreateInstances < ActiveRecord::Migration
       t.integer   :owner_id
       t.integer   :pool_id, :null => false
       t.integer   :cloud_account_id
+      t.integer   :instance_hwp_id
       t.string    :public_address
       t.string    :private_address
       t.string    :state
@@ -50,7 +51,16 @@ class CreateInstances < ActiveRecord::Migration
     end
   end
 
+  create_table :instance_hwps do |t|
+    t.string :memory
+    t.string :cpu
+    t.string :architecture
+    t.string :storage
+    t.integer :lock_version, :default => 0
+  end
+
   def self.down
     drop_table :instances
+    drop_table :instance_hwp
   end
 end
