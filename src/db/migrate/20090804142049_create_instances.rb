@@ -61,6 +61,6 @@ class CreateInstances < ActiveRecord::Migration
 
   def self.down
     drop_table :instances
-    drop_table :instance_hwp
+    drop_table :instance_hwps
   end
 end
