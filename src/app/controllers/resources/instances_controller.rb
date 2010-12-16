@@ -61,10 +61,21 @@ class Resources::InstancesController < ApplicationController
   def edit
   end
 
-  def start
-  end
-
-  def stop
+  def show
+    @instance = Instance.find((params[:id] || []).first)
+    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
+    @url_params = params.clone
+    @tab_captions = ['Properties', 'History', 'Permissions']
+    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    respond_to do |format|
+      format.js do
+        if @url_params.delete :details_pane
+          render :partial => 'layouts/details_pane' and return
+        end
+        render :partial => @details_tab and return
+      end
+      format.html { render :action => 'show'}
+    end
   end
 
   def index
@@ -83,6 +94,19 @@ class Resources::InstancesController < ApplicationController
       :conditions => {:pool_id => pools},
       :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )
+  end
+
+  def key
+    @instance = Instance.find((params[:id] || []).first)
+    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
+    unless @instance.instance_key.nil?
+      send_data @instance.instance_key.pem,
+                :filename => "#{@instance.instance_key.name}.pem",
+                :type => "text/plain"
+      return
+    end
+    flash[:warning] = "SSH Key not found for this Instance."
+    redirect_to resources_instance_path(@instance)
   end
 
   private
