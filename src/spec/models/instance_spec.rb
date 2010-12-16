@@ -131,6 +131,7 @@ describe Instance do
                                                   :username => 'john doe',
                                                   :password => 'asdf')
     cloud_account.stub!(:connect).and_return(nil)
+    cloud_account.stub!(:valid_credentials?).and_return(true)
     instance = Factory.create(:instance, :cloud_account => cloud_account)
     instance.get_action_list.should be_empty
   end

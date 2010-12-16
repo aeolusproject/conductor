@@ -1,5 +1,5 @@
 Factory.define :pool do |p|
-  p.name 'mypool'
+  p.sequence(:name) { |n| "mypool#{n}" }
   p.association :zone, :factory => :zone
 end
 

@@ -1,7 +1,7 @@
 Factory.define :cloud_account do |f|
-  f.sequence(:username) { |n| "testUser#(n)" }
+  f.sequence(:username) { |n| "testUser#{n}" }
   f.password "testPassword"
-  f.sequence(:label) { |n| "test label#(n)" }
+  f.sequence(:label) { |n| "test label#{n}" }
   f.account_number "3141"
   f.x509_cert_priv "x509 private key"
   f.x509_cert_pub "x509 public key"

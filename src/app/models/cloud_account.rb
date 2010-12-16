@@ -39,7 +39,7 @@ class CloudAccount < ActiveRecord::Base
   attr_accessor :x509_cert_priv_file, :x509_cert_pub_file
 
   # Validations
-  validates_presence_of :provider_id
+  validates_presence_of :provider
   validates_presence_of :label
   validates_presence_of :username
   validates_uniqueness_of :username, :scope => :provider_id
@@ -173,7 +173,7 @@ EOT
   private
   def generate_cloud_account_key
     client = connect
-    if client.feature?(:instances, :authentication_key)
+    if client && client.feature?(:instances, :authentication_key)
       key = client.create_key(:name => "#{self.name}_#{Time.now.to_i}_key")
       InstanceKey.create(:cloud_account => self, :pem => key.pem, :name => key.id) if key
     end

@@ -28,8 +28,6 @@ class Pool < ActiveRecord::Base
   has_many :images,  :dependent => :destroy
   has_many :hardware_profiles,  :dependent => :destroy
 
-
-
   validates_presence_of :name
   validates_presence_of :zone
   validates_uniqueness_of :exported_as, :if => :exported_as
