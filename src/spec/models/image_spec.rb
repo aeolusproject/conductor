@@ -54,7 +54,7 @@ describe Image do
 
   it "should import image" do
     image = OpenStruct.new(:id => 'mock', :name => 'mock', :description => 'imported mock', :architecture => 'i386')
-    client = mock('DeltaCloud', :null_object => true, :image => image)
+    client = mock('DeltaCloud', :feature? => false, :image => image)
     account = Factory.build(:ec2_cloud_account)
     account.stub!(:connect).and_return(client)
     account.stub!(:valid_credentials?).and_return(true)
@@ -64,7 +64,6 @@ describe Image do
       tpl.should_receive(:upload).and_return(true)
       tpl
     end
-
 
     lambda do
       lambda do
