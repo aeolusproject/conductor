@@ -21,10 +21,6 @@ class Resources::PoolsController < ApplicationController
     end
   end
 
-  def edit
-    render :text => "Edit Pool #{params[:id]}"
-  end
-
   def new
     require_privilege(Privilege::POOL_MODIFY)
     @pool = Pool.new
@@ -44,6 +40,24 @@ class Resources::PoolsController < ApplicationController
       redirect_to :action => 'show', :id => @pool.id
     else
       render :action => :new
+    end
+  end
+
+  def edit
+    require_privilege(Privilege::POOL_MODIFY)
+
+    @pool = Pool.find(params[:id])
+  end
+
+  def update
+    require_privilege(Privilege::POOL_MODIFY)
+
+    @pool = Pool.find(params[:id])
+    if @pool.update_attributes(params[:pool])
+      flash[:notice] = "Pool updated."
+      redirect_to :action => 'show', :id => @pool.id
+    else
+      render :action => :edit
     end
   end
 

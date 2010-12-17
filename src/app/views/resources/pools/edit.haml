@@ -1,0 +1,8 @@
+%h3
+  Editing pool
+  = @pool.name
+
+- form_for [:resources, @pool] do |form|
+  = form.text_field :name
+  = form.error_message_on :name, 'Name '
+  = form.submit 'Save'
