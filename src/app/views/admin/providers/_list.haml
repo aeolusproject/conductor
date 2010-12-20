@@ -1,0 +1,19 @@
+- form_tag do
+  = link_to "Create", new_admin_provider_url, :class => "button"
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_providers_path, 'DELETE', :id => 'delete_button'
+
+  %p
+    Select:&nbsp;
+    = link_to "All", @url_params.merge(:select => 'all')
+    %span> ,&nbsp;
+    = link_to "None", @url_params.merge(:select => 'none')
+
+  %table#providers_table
+    = sortable_table_header @header
+    -@providers.each do |provider|
+      %tr
+        %td
+          - selected = @url_params[:select] == 'all'
+          %input{:name => "provider_selected[]", :type => "checkbox", :value => provider.id, :id => "provider_checkbox_#{provider.id}", :checked => selected }
+          = link_to provider.name, admin_provider_path(provider)
+        %td= provider.url
