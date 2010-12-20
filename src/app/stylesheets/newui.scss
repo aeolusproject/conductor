@@ -1345,9 +1345,10 @@ a.iconbutton {
   position: absolute;
   left: 15em;
   right: 0;
-  height: 270px;
-  bottom: 1em;
-  padding: 1em;
+  height: $details-height;
+  bottom: 0;
+  padding: 0;
+  overflow-y:scroll;
 }
 
 /* DEBUG GRID */

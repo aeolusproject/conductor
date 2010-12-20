@@ -18,7 +18,7 @@ module NavigationHelpers
       login_path
 
     when /^(.*)'s user page$/i
-       user_path(User.find_by_login($1))
+       admin_user_path(User.find_by_login($1))
 
     when /the account page/
       account_path

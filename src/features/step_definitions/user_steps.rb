@@ -1,5 +1,5 @@
 Given /^there is a user "([^"]*)"$/ do |name|
- User.find_by_login(name).should_not == nil
+  User.find_by_login(name).should_not == nil
 end
 
 Given /^there are (\d+) users$/ do |number|

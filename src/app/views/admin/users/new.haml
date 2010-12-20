@@ -1,0 +1,6 @@
+%h2 New Account
+- form_for @user, :url => admin_users_path do |f|
+  -if current_user
+    = render :partial => "form", :locals => { :form => f, :cancel_path => admin_users_path }
+  -else
+    = render :partial => "form", :locals => { :form => f, :cancel_path => login_path }

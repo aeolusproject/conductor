@@ -1,0 +1,42 @@
+- form_tag do
+  = link_to "Create", new_admin_user_url, :class => 'button'
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_users_path, 'DELETE', :id => 'delete_button'
+
+  %table#users_table
+    %thead
+      %tr
+        %th
+        %th= link_to "User ID", admin_users_url(:sort_by => "login")
+        %th= link_to "Last Name", admin_users_url(:sort_by => "last_name")
+        %th= link_to "First Name", admin_users_url(:sort_by => "first_name")
+        %th= link_to "% Quota Used", admin_users_url(:sort_by => "percentage_quota_used")
+        %th
+          =link_to "Quota", admin_users_url(:sort_by => "quota")
+          %span (Instances)
+        %th= link_to "e-mail", admin_users_url(:sort_by => "email")
+        %th
+    -@users.each do |user|
+      %tr
+        %td
+          %input{:name => "user_selected[]", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
+        %td= link_to user.login, admin_user_path(user)
+        %td= user.last_name
+        %td= user.first_name
+        %td= sprintf("%.2f", user.quota.percentage_used)
+        %td= Quota.no_limit(user.quota.maximum_running_instances) ? "Unlimited" : user.quota.maximum_running_instances
+        %td= user.email
+        %td= link_to "edit", edit_admin_user_path(user)
+
+:javascript
+  $(document).ready(function () {
+    $('#delete_button').click(function(e) {
+      if ($("#users_table input[@type=radio]:checked").length == 0) {
+        alert('Please select any user to be deleted before clicking Delete button.');
+        e.preventDefault();
+      } else {
+        if (!confirm("Are you sure you want to delete this user?")) {
+          e.preventDefault();
+        }
+      }
+    });
+  });
