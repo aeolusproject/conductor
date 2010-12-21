@@ -1353,6 +1353,22 @@ $content-left: 180px;
   }
 }
 
+#object-actions {
+  position: relative;
+  float: left;
+  width: 100%;
+}
+
+#search-actions {
+  position: relative;
+  float: right;
+}
+
+#selections {
+  position: relative;
+  float: left;
+}
+
 #details-view {
   border: 1px solid;
   position: absolute;

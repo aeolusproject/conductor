@@ -1,0 +1,20 @@
+- form_tag do |f|
+  #object-actions
+    = restful_submit_tag "Start", "start", resources_deployments_path, "PUT"
+    = restful_submit_tag "Stop", "stop", resources_deployments_path, "PUT"
+    = restful_submit_tag "Delete", "delete", resources_deployments_path, "DELETE"
+
+  #search-actions
+    = restful_submit_tag "Save Search", "save_search", resources_deployments_path, "PUT"
+    = restful_submit_tag "Save Selection", "save_selection", resources_deployments_path, "PUT"
+    = restful_submit_tag "Export to File", "export", resources_deployments_path, "PUT"
+
+  #selections
+    %p
+      Select:&nbsp;
+      = link_to "All", @url_params.merge(:select => 'all')
+      %span> ,&nbsp;
+      = link_to "None", @url_params.merge(:select => 'none')
+
+%table
+  = sortable_table_header @header
