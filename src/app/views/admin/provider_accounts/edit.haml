@@ -1,0 +1,13 @@
+#details.grid_13
+  %h2
+    = t('cloud_accounts.edit.edit_provider_account')
+  - form_for @cloud_account, :url => admin_provider_account_path, :html => { :method => :put, :multipart => true } do |f|
+    = render :partial => 'form', :locals => { :f => f }
+    %fieldset.clearfix
+      .grid_13.alpha.omega
+        = submit_tag t(:edit), :class => "ra nomargin dialogbutton"
+    %section
+      %p.requirement
+        %span.required *
+        \-
+        = t('cloud_accounts.edit.required_field')

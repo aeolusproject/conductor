@@ -1,0 +1,18 @@
+- form_tag do
+  = link_to "New Account", new_admin_provider_account_path, :class => 'button'
+  = restful_submit_tag "Delete", "delete", multi_destroy_admin_provider_accounts_path, 'DELETE'
+  %p
+    Select:&nbsp;
+    = link_to "All", @url_params.merge(:select => 'all')
+    %span> ,&nbsp;
+    = link_to "None", @url_params.merge(:select => 'none')
+  %table
+    = sortable_table_header @header
+    - @accounts.each do |account|
+      %tr
+        %td
+          - selected = @url_params[:select] == 'all'
+          %input{:name => 'accounts_selected[]', :type => 'checkbox', :value => account.id, :id => "account_checkbox_#{account.id}", :checked => selected }
+          = link_to account.name, admin_provider_account_path(account)
+        %td
+          =account.username
