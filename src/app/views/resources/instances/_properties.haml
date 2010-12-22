@@ -1,0 +1,57 @@
+%ul
+  %li
+    = label_tag :name, 'Name'
+    %span= @instance.name
+  %li
+    = label_tag :status, 'Status'
+    %span= @instance.state
+  %li
+    = label_tag :public_addresses, 'Public Addresses'
+    %span= @instance.public_addresses
+  %li
+    = label_tag :private_addresses, 'Private Addresses'
+    %span= @instance.private_addresses
+  %li
+    = label_tag :operating_system, 'Operating system'
+    %span= "#{@instance.template.xml.platform} #{@instance.template.xml.platform_version}"
+  %li
+    = label_tag :provider, 'Provider'
+    %span= @instance.cloud_account.provider.name if @instance.cloud_account
+  %li
+    = label_tag :base_template, 'Base Template'
+    %span= @instance.template.name
+  %li
+    = label_tag :architecture, 'Architecture'
+    %span= @instance.hardware_profile.architecture.value
+  %li
+    = label_tag :memory, 'Memory'
+    %span= @instance.hardware_profile.memory.value
+  %li
+    = label_tag :storage, 'Storage'
+    %span= @instance.hardware_profile.storage.value
+  %li
+    = label_tag :instantiation_time, 'Instantiation Time'
+    %span= @instance.created_at.strftime("%d-%b-%Y %H:%M:%S")
+  %li
+    = label_tag :uptime, 'Uptime'
+    %span= @instance.total_state_time(@instance.state)
+  %li
+    = label_tag :current_alerts, 'Current Alerts'
+    %span= 0
+  %li
+    = label_tag :console_connection, 'Console Connection'
+    %span= 'via SSH'
+  - unless @instance.instance_key_id.nil?
+    %li
+      = label_tag :instance_key, 'SSH key'
+      %span= link_to("Download", key_resources_instance_path(@instance))
+  %li
+    = label_tag :owner, 'Owner'
+    %span= "#{@instance.owner.first_name} #{@instance.owner.last_name}"
+  %li
+    = label_tag :shared_to, 'Shared to'
+    %span= "N/A"
+  - if @instance.state == Instance::STATE_ERROR
+    %li
+      = label_tag :error, 'Error'
+      %span= @instance.last_error
