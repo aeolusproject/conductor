@@ -126,11 +126,15 @@ class ImageDescriptorXML
   end
 
   def add_group(gname)
-    #unless group = repository_manager.groups.find(gname)
-    #  raise "group #{gname} not found in repositories"
-    #end
-    node = get_or_create_node('groups')
-    add_group_node(node, gname) unless groups.include?(gname)
+    # FIXME: this is temporary hack until we have new design:
+    # when adding group, we add particular group packages
+    # instead of whole group
+    unless group = repository_manager.groups.find {|g| g[:id] == gname}
+      raise "group #{gname} not found in repositories"
+    end
+    group[:packages].keys.each {|p| add_package(p)}
+    #node = get_or_create_node('groups')
+    #add_group_node(node, gname) unless groups.include?(gname)
   end
 
   def remove_package(package)
