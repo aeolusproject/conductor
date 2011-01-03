@@ -2,3 +2,4 @@
   Properties for
   = @tpl.name
 = link_to "Edit", edit_image_factory_template_path(@tpl), { :class => 'button' }
+= link_to "Build", new_image_factory_build_path(:template_id => @tpl.id), { :class => 'button' }

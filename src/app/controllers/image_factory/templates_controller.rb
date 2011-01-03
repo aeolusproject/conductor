@@ -11,8 +11,9 @@ class ImageFactory::TemplatesController < ApplicationController
   def show
     @tpl = Template.find(params[:id])
     @url_params = params.clone
-    @tab_captions = ['Properties']
+    @tab_captions = ['Properties', 'Images']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    load_images(@tpl) if @details_tab == 'images'
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane
@@ -163,6 +164,18 @@ class ImageFactory::TemplatesController < ApplicationController
   end
 
   protected
+
+  def load_images(tpl)
+    @images_header = [
+      {:name => 'NAME', :sort_attr => 'templates.name'},
+      {:name => 'OS', :sort_attr => 'templates.platform'},
+      {:name => 'VERSION', :sort_attr => 'templates.platform_version'},
+      {:name => 'ARCH', :sort_attr => 'templates.architecture'},
+      {:name => 'STATUS', :sort_attr => 'status'},
+    ]
+    require_privilege(Privilege::IMAGE_VIEW)
+    @images = tpl.images
+  end
 
   def load_templates
     @header = [

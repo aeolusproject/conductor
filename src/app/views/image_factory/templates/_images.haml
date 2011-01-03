@@ -1,0 +1,20 @@
+- form_tag :action => "" do
+  /= restful_submit_tag "Cancel Job", :name => "job_details", :disabled => true, :class => "icon"
+  /= restful_submit_tag "Show Job Details", :name => "job_details", :disabled => true, :class => "icon"
+  /= restful_submit_tag "Show Job Log", :name => "job_log", :disabled => true, :class => "icon"
+  /= restful_submit_tag "Clear Job History", :name => "job_history", :disabled => true, :class => "icon"
+
+  %table
+    = sortable_table_header(@images_header)
+    %tbody
+      - if @images.empty?
+        %tr
+          %td{:colspan => 5} No Images
+      - else
+        - @images.each do |img|
+          %tr
+            %td= img.template.name
+            %td= img.template.platform
+            %td= img.template.platform_version
+            %td= img.template.architecture
+            %td= img.status
