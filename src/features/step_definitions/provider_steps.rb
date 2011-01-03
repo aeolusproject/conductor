@@ -25,6 +25,11 @@ When /^I delete provider$/ do
   click_button "Delete provider"
 end
 
+When /^(?:|I )check "([^"]*)" provider$/ do |provider_name|
+  provider = Provider.find_by_name(provider_name)
+  check("provider_checkbox_#{provider.id}")
+end
+
 Given /^there are these providers:$/ do |table|
   table.hashes.each do |hash|
     Factory(:mock_provider, :name => hash['name'])
