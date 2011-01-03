@@ -38,7 +38,8 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.namespace 'image_factory' do |r|
-    r.resources :assemblies, :deployables, :templates
+    r.resources :assemblies, :deployables
+    r.resources :templates
   end
 
   map.connect '/set_layout', :controller => 'application', :action => 'set_layout'

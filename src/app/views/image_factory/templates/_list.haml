@@ -1,0 +1,26 @@
+- form_tag do
+  /= submit_tag "Edit", :name => "edit", :class => "icon"
+  /= submit_tag "Delete", :name => "delete", :class => "icon"
+  /= submit_tag "Rename", :name => "rename", :disabled => true, :class => "icon"
+  /= submit_tag "Copy", :name => "copy", :disabled => true, :class => "icon"
+  = restful_submit_tag "Create", "new_template", new_image_factory_template_path, 'GET'
+  /= restful_submit_tag "Build", "build", 'GET'
+
+  %table
+    = sortable_table_header @header
+    %tbody
+      - if @templates.empty?
+        %tr
+          %td{:colspan => 6} No Templates
+      - else
+        - @templates.each do |template|
+          %tr
+            %td
+              - selected = @url_params[:select] == 'all'
+              = check_box(:template, "selected[#{template.id}]", :checked => selected)
+              = image_tag "blnk.png", :alt => template.platform, :class => "icon platform #{template.platform}"
+              = link_to template.name, image_factory_template_path(template)
+            %td= template.platform
+            %td= template.platform_version
+            %td= image_tag 'blnk.png', :alt => 'yes', :class => "icon yes"
+            %td= template.architecture
