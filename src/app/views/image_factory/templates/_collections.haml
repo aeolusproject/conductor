@@ -1,0 +1,8 @@
+%ul.collections
+  - @collections.each do |c|
+    %li
+      /- selected = c[:selected] ? true : false
+      - selected = false
+      = check_box_tag 'groups[]', c[:id], selected, {:disabled => selected, :id => "group_#{c[:id]}", :class => "#{selected ? 'selected' : ''}"}
+      = label_tag "group_#{c[:id]}", c[:name]
+= render :partial => 'addbuttons'

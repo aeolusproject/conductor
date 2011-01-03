@@ -7,6 +7,7 @@ Feature: Manage Templates
     Given I am an authorised user
     And I am logged in
     And There is a mock pulp repository
+    And I am using new UI
 
   Scenario: Create a new Template
     Given I am on the templates page

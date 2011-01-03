@@ -28,16 +28,25 @@ class ImageFactory::TemplatesController < ApplicationController
     # can't use @template variable - is used by compass (or something other)
     @tpl = Template.new(params[:tpl])
     @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
+  end
+
+  def add_selected
+    if params[:tpl] and not params[:tpl][:id].blank?
+      @tpl = Template.find(params[:tpl][:id])
+      @tpl.attributes = params[:tpl]
+    else
+      @tpl = Template.new(params[:tpl])
+    end
+    @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
     @tpl.add_software(params[:packages].to_a + params[:selected_packages].to_a + params[:cached_packages].to_a,
                       params[:groups].to_a + params[:selected_groups].to_a)
-    render :action => :new
+    render :action => @tpl.id ? :edit : :new
   end
 
   def edit
     @tpl = Template.find(params[:id])
     @tpl.attributes = params[:tpl] unless params[:tpl].blank?
     @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
-    render :action => :edit
   end
 
   def create
@@ -46,10 +55,10 @@ class ImageFactory::TemplatesController < ApplicationController
     if @tpl.save
       flash[:notice] = "Template saved."
       @tpl.set_complete
-      redirect_to templates_path
+      redirect_to image_factory_templates_path
     else
       @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
-      render :action => 'new'
+      render :new
     end
   end
 
@@ -60,7 +69,7 @@ class ImageFactory::TemplatesController < ApplicationController
     if @tpl.update_attributes(params[:tpl])
       @tpl.set_complete
       flash[:notice] = "Template updated."
-      redirect_to templates_path
+      redirect_to image_factory_templates_path
     else
       @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
       render :action => 'edit'
@@ -75,28 +84,27 @@ class ImageFactory::TemplatesController < ApplicationController
       params[:package_search]).paginate(:page => @page, :per_page => 60)
     if request.xhr?
       render :partial => 'search_packages'
-    else
-      render :search_packages
     end
   end
 
   def metagroup_packages
     set_package_vars
-    @metagroup_packages = @repository_manager.metagroup_packages(params[:metagroup_packages])
+    group = params[:__rewrite] ? params[:__rewrite][:metagroup_packages] : nil
+    @metagroup_packages = @repository_manager.metagroup_packages(group)
     if request.xhr?
       render :partial => 'metagroup_packages'
-    else
-      render :metagroup_packages
     end
   end
 
   def collections
+    unless params[:package_search].blank?
+      search_packages
+      return
+    end
     set_package_vars
     @collections = @repository_manager.groups
     if request.xhr?
       render :partial => 'collections'
-    else
-      render :collections
     end
   end
 
@@ -131,7 +139,7 @@ class ImageFactory::TemplatesController < ApplicationController
         flash_error('Error while deleting template', errs)
       end
     end
-    redirect_to templates_path
+    redirect_to image_factory_templates_path
   end
 
   def assembly
@@ -139,6 +147,19 @@ class ImageFactory::TemplatesController < ApplicationController
 
   def deployment_definition
     @all_targets = Image.available_targets
+  end
+
+  def remove_package
+    params[:packages].delete(params[:name]) unless params[:name].blank?
+    if params[:tpl] and not params[:tpl][:id].blank?
+      @tpl = Template.find(params[:tpl][:id])
+      @tpl.attributes = params[:tpl]
+    else
+      @tpl = Template.new(params[:tpl])
+    end
+    @tpl.add_software(params[:packages].to_a, params[:groups].to_a)
+    @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
+    render :action => @tpl.id ? :edit : :new
   end
 
   protected

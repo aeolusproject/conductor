@@ -1,0 +1,27 @@
+%h3 General Information
+%fieldset.clearfix
+  %label.grid_4.alpha.la Template Name:
+  %label.grid_7.la Summary:
+  %label.grid_3.suffix_2.omega.la Version:
+  = text_field :tpl, :name, :value => @tpl.name || 'Template Name', :class => "grid_4 alpha"
+  = text_field :tpl, :summary, :value => @tpl.summary || 'Template Description', :class => "grid_7"
+  = text_field_tag 'current_version', 'Current Version', :disabled => true, :class => "grid_3"
+  %button{:type => 'button', :disabled => 'disabled', :class => "grid_2 omega"} New Version
+%fieldset.clearfix
+  %label.grid_4.alpha Choose Logo:
+  %input{:type => 'file', :disabled => 'disabled', :class => "grid_7"}
+%fieldset.clearfix
+  - default = @tpl.platforms['fedora']
+  = label :tpl, :platform, 'Platform Choice:', :class => "grid_4 alpha"
+  = select :tpl, :platform, @tpl.platforms.map {|id, p| ["#{p['name']} #{p['version']} (#{p['architecture']})", id]}, {:selected => @tpl.platform || 'fedora'}, {:class => 'grid_7'}
+%fieldset.clearfix
+  = label_tag :bootable, 'Bootable:', :class => "grid_4 alpha"
+  .grid_12.omega
+    = radio_button_tag :bootable, 'yes', true, :disabled => true
+    = label_tag :bootable, 'Yes'
+    = radio_button_tag :bootable, 'no', false, :disabled => true
+    = label_tag :bootable, 'No'
+%fieldset.clearfix
+  %label{:for => :template_group, :class => 'grid_4 alpha'}
+    Template Group:
+  = select_tag(:template_group, options_for_select([['User Private', 1]]), :class => 'grid_4')

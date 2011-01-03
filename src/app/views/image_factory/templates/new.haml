@@ -1,0 +1,8 @@
+#dropdown
+.grid_16
+  %h2 New Template
+  /- form_for @tpl, :url => image_factory_templates_path do |f|
+  - form_tag do
+    = render :partial => 'form'
+    = restful_submit_tag "Save", 'create', image_factory_templates_path, 'POST', :class => "formbutton"
+    = link_to 'Cancel', image_factory_templates_path, :class => 'button formbutton'

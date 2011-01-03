@@ -55,3 +55,9 @@ RepositoryManager.class_eval do
     }]
   end
 end
+
+Template.class_eval do
+  def upload
+    true
+  end
+end
