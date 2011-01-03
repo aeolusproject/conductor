@@ -48,9 +48,9 @@ class CloudAccountsController < ApplicationController
     @cloud_account.provider = @provider
     @cloud_account.quota = @quota = Quota.new
 
-    if params.delete :test_account
+    if params[:test_account]
       test_account(@cloud_account)
-      redirect_to admin_provider_account_path(@cloud_account) and return
+      render :action => 'new' and return
     end
 
     limit = params[:quota][:maximum_running_instances] if params[:quota]
