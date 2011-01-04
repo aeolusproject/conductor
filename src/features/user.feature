@@ -12,7 +12,8 @@ Feature: Manage Users
   Scenario: Change the password
     Given I am on the admin users page
     And there is a user "testuser"
-    When I follow "edit"
+    When I follow "testuser"
+    And I follow "Edit"
     Then I should see "Editing User:"
     When I fill in "user[password]" with "new password"
     And I fill in "user[password_confirmation]" with ""
