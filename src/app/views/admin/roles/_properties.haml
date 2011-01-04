@@ -1,0 +1,5 @@
+.grid_13
+  %h2 #{@role.name}
+  %strong Scope:
+  %span #{@role.scope}
+  = link_to t(:edit), edit_admin_role_path(@role), :class => 'button formbutton'

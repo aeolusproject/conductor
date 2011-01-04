@@ -1,0 +1,8 @@
+= form.error_messages
+%fieldset.clear
+  = form.label :name, 'Name', :class => "grid_3 alpha"
+  = form.text_field :name, :class => "grid_5"
+%fieldset.clearfix
+  = form.submit "Save",  :class => "submit formbutton"
+  = form.submit "Reset", :class => "submit formbutton"
+  = link_to t(:cancel), admin_roles_path, :class => 'button formbutton'

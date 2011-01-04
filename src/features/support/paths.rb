@@ -20,6 +20,9 @@ module NavigationHelpers
     when /^(.*)'s user page$/i
        admin_user_path(User.find_by_login($1))
 
+    when /^(.*)'s role page$/i
+       admin_role_path(Role.find_by_name($1))
+
     when /the account page/
       account_path
 

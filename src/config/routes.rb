@@ -44,10 +44,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/set_layout', :controller => 'application', :action => 'set_layout'
 
   map.namespace 'admin' do |r|
-    r.resources :hardware_profiles, :pool_families, :provider_accounts, :realms, :roles, :settings
+    r.resources :hardware_profiles, :pool_families, :provider_accounts, :realms, :settings
     r.resources :providers, :collection => { :multi_destroy => :delete }
     r.resources :users, :collection => { :multi_destroy => :delete }
     r.resources :provider_accounts, :collection => { :multi_destroy => :delete }
+    r.resources :roles, :collection => { :multi_destroy => :delete }
   end
 
   map.resources :pools

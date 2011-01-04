@@ -1,0 +1,30 @@
+- form_tag do
+  = link_to "New Role", new_admin_role_path, :class => 'button'
+  = restful_submit_tag "Destroy", "destroy", multi_destroy_admin_roles_path, 'DELETE', :id => 'delete_button'
+  %p
+    Select:&nbsp;
+    = link_to "All", @url_params.merge(:select => 'all')
+    %span> ,&nbsp;
+    = link_to "None", @url_params.merge(:select => 'none')
+  %table#roles_table
+    = sortable_table_header @header
+    - @roles.each do |role|
+      %tr
+        %td
+          - selected = @url_params[:select] == 'all'
+          %input{:name => "role_selected[]", :type => "checkbox", :value => role.id, :id => "role_checkbox_#{role.id}", :checked => selected }
+          = link_to role.name, admin_role_path(role)
+
+:javascript
+  $(document).ready(function () {
+    $('#delete_button').click(function(e) {
+      if ($("#roles_table input[@type=radio]:checked").length == 0) {
+        alert('Please select any user to be deleted before clicking Delete button.');
+        e.preventDefault();
+      } else {
+        if (!confirm("Are you sure you want to delete this user?")) {
+          e.preventDefault();
+        }
+      }
+    });
+  });
