@@ -23,13 +23,13 @@ class Pool < ActiveRecord::Base
   include PermissionedObject
   has_many :instances,  :dependent => :destroy
   belongs_to :quota
-  belongs_to :zone
+  belongs_to :pool_family
 
   has_many :images,  :dependent => :destroy
   has_many :hardware_profiles,  :dependent => :destroy
 
   validates_presence_of :name
-  validates_presence_of :zone
+  validates_presence_of :pool_family
   validates_uniqueness_of :name
   validates_uniqueness_of :exported_as, :if => :exported_as
 

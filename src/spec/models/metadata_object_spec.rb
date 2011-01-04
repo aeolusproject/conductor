@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MetadataObject do
 
   before(:each) do
-    @default_zone_metadata = Factory :default_zone_metadata
+    @default_pool_family_metadata = Factory :default_pool_family_metadata
   end
 
   it "lookup on nonexistent key should return nil" do
@@ -12,13 +12,13 @@ describe MetadataObject do
 
   it "should require a valid key" do
     [nil, ""].each do |invalid_value|
-      @default_zone_metadata.key = invalid_value
-      @default_zone_metadata.should_not be_valid
+      @default_pool_family_metadata.key = invalid_value
+      @default_pool_family_metadata.should_not be_valid
     end
   end
 
-  it "default zone should return valid zone" do
-    MetadataObject.lookup("default_zone").should be_a(Zone)
+  it "default pool family should return valid pool family" do
+    MetadataObject.lookup("default_pool_family").should be_a(PoolFamily)
   end
 
   it "setting string value should work" do

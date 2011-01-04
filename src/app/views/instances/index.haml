@@ -13,7 +13,7 @@
   { :name => "Pool name", :sort_attr => :name },                                  |
   { :name => "Alerts", :sortable => false },                                      |
   { :name => "Capacity", :sortable => false },                                    |
-  { :name => "Zone", :sort_attr => "zones.name" }                                 |
+  { :name => "Pool Family", :sort_attr => "pool_families.name" }                  |
 ]                                                                                 |
 
 
@@ -92,7 +92,7 @@
           %td.capacity
             %span.good
           %td
-            =pool.zone.name
+            =pool.pool_family.name
   .grid_13
     %h2 Instances by Pool
     - @pools.each do |pool|

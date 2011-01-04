@@ -19,19 +19,19 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class Zone < ActiveRecord::Base
+class PoolFamily < ActiveRecord::Base
 
-  DEFAULT_ZONE_KEY = "default_zone"
+  DEFAULT_POOL_FAMILY_KEY = "default_pool_family"
 
   has_many :pools,  :dependent => :destroy
   has_and_belongs_to_many :cloud_accounts
 
   validates_presence_of :name
   def self.default
-    MetadataObject.lookup(DEFAULT_ZONE_KEY)
+    MetadataObject.lookup(DEFAULT_POOL_FAMILY_KEY)
   end
 
   def set_as_default
-    MetadataObject.set(DEFAULT_ZONE_KEY, self)
+    MetadataObject.set(DEFAULT_POOL_FAMILY_KEY, self)
   end
 end

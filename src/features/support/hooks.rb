@@ -1,5 +1,5 @@
 Before do
-  @default_zone_metadata = Factory.create(:default_zone_metadata)
+  @default_pool_family_metadata = Factory.create(:default_pool_family_metadata)
   @allow_self_service_logins = Factory(:metadata_object, :key => "allow_self_service_logins", :value => "true")
 
   @default_quota = Factory(:unlimited_quota)

@@ -28,7 +28,7 @@ class CloudAccount < ActiveRecord::Base
   belongs_to :provider
   belongs_to :quota, :autosave => true
   has_many :instances
-  has_and_belongs_to_many :zones
+  has_and_belongs_to_many :pool_families
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"

@@ -34,7 +34,7 @@ class Resources::PoolsController < ApplicationController
     quota.save!
 
     @pool.quota_id = quota.id
-    @pool.zone = Zone.default
+    @pool.pool_family = PoolFamily.default
     if @pool.save
       flash[:notice] = "Pool added."
       redirect_to :action => 'show', :id => @pool.id
@@ -68,9 +68,9 @@ class Resources::PoolsController < ApplicationController
       { :name => "Pool name", :sort_attr => :name },
       { :name => "% Quota used", :sortable => false },
       { :name => "Quota (Instances)", :sort_attr => "quotas.total_instances"},
-      { :name => "Zone", :sort_attr => "zones.name" }
+      { :name => "Pool Family", :sort_attr => "pool_families.name" }
     ]
-    @pools = Pool.paginate(:all, :include => [ :quota, :zone ],
+    @pools = Pool.paginate(:all, :include => [ :quota, :pool_family ],
       :page => params[:page] || 1,
       :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )

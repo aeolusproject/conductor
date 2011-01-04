@@ -60,7 +60,7 @@ class Admin::ProviderAccountsController < ApplicationController
       render :action => 'new' and return
     end
 
-    @cloud_account.zones << Zone.default
+    @cloud_account.pool_families << PoolFamily.default
     @cloud_account.save!
     if @cloud_account.populate_realms
       flash[:notice] = "Provider account added."

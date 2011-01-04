@@ -85,7 +85,7 @@ module ApplicationHelper
   # Fields example:
   # [
   #   { :name => 'Pool name', :sort_attr => 'name'},
-  #   { :name => 'Zone', :sortable => false},
+  #   { :name => 'Pool family', :sortable => false},
   # ]
   def sortable_table_header(fields=[])
     columns = fields.collect do |field|

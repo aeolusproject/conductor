@@ -56,7 +56,7 @@ Spec::Runner.configure do |config|
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
   config.before(:each, :type => :controller) do
     #activate_authlogic
-    @default_zone_metadata = Factory.create(:default_zone_metadata)
+    @default_pool_family_metadata = Factory.create(:default_pool_family_metadata)
   end
   config.after(:each, :type => :controller) do
     #current_user_session.destroy

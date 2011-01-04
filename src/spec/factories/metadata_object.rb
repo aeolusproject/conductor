@@ -9,10 +9,10 @@ Factory.define :default_logins_metadata, :parent => :metadata_object do |o|
    o.value 'true'
 end
 
-Factory.define :default_zone_metadata, :parent => :metadata_object do |o|
-   o.key 'default_zone'
-   o.value {Factory.create(:zone).id}
-   o.object_type 'Zone'
+Factory.define :default_pool_family_metadata, :parent => :metadata_object do |o|
+   o.key 'default_pool_family'
+   o.value {Factory.create(:pool_family).id}
+   o.object_type 'PoolFamily'
 end
 
 Factory.define :default_quota_metadata, :parent => :metadata_object do |o|
