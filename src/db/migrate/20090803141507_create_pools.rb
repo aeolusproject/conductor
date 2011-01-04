@@ -29,12 +29,6 @@ class CreatePools < ActiveRecord::Migration
       t.integer :lock_version, :default => 0
       t.timestamps
     end
-
-    quota = Quota.new
-    quota.save!
-
-    default_pool = Pool.new(:name => "default_pool", :quota => quota, :zone => Zone.first)
-    default_pool.save!
   end
 
   def self.down

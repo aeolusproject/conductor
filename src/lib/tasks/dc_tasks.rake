@@ -75,6 +75,7 @@ namespace :dc do
       Rake::Task[:'db:drop'].invoke
       Rake::Task[:'db:create'].invoke
       Rake::Task[:'db:migrate'].invoke
+      Rake::Task[:'db:seed'].invoke
     end
     Rake::Task[:'dc:create_admin_user'].invoke
   end

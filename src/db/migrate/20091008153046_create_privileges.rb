@@ -25,23 +25,6 @@ class CreatePrivileges < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    #create default privileges
-    privileges = ["set_perms", "view_perms",
-                  "instance_modify", "instance_control", "instance_view",
-                  "stats_view",
-                  "account_modify", "account_view",
-                  "pool_modify", "pool_view",
-                  "quota_modify", "quota_view",
-                  "provider_modify", "provider_view",
-                  "user_modify", "user_view",
-                  "image_modify", "image_view"]
-    Privilege.transaction do
-      privileges.each do |priv_name|
-        privilege = Privilege.new({:name => priv_name})
-        privilege.save!
-      end
-    end
   end
 
   def self.down

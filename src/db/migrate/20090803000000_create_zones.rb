@@ -31,9 +31,6 @@ class CreateZones < ActiveRecord::Migration
       t.integer :cloud_account_id, :null => false
       t.integer :zone_id,          :null => false
     end
-
-    default_zone = Zone.new(:name => "default", :description => "default zone")
-    default_zone.save!
   end
 
   def self.down

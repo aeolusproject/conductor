@@ -55,7 +55,6 @@ class CreateHardwareProfiles < ActiveRecord::Migration
       t.column "aggregator_hardware_profile_id", :integer
       t.column "provider_hardware_profile_id", :integer
     end
-
   end
 
   def self.down

@@ -4,8 +4,6 @@ class CreateBasePermissionObjects < ActiveRecord::Migration
       t.string  :name, :null => false
       t.timestamps
     end
-
-    BasePermissionObject.new({:name => "general_permission_scope"}).save!
   end
 
   def self.down
