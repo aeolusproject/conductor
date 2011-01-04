@@ -97,5 +97,18 @@ class HardwareProfileProperty < ActiveRecord::Base
       end
     end
   end
+
+  def to_s
+    case kind
+      when FIXED
+        value
+      when RANGE
+        range_first.to_s + " - " + range_last.to_s
+      when ENUM
+        (property_enum_entries.collect { |enum| enum.value }).join(", ")
+      else
+        "undefined"
+    end
+  end
 end
 

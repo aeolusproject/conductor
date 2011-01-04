@@ -92,6 +92,9 @@ module NavigationHelpers
     when /the settings update page/
       url_for :action => 'update', :controller => 'settings', :only_path => true
 
+    when /the hardware profiles page/
+      url_for admin_hardware_profiles_path
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

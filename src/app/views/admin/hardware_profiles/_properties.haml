@@ -1,0 +1,20 @@
+%h3
+  = @hardware_profile.name + "(" + (@hardware_profile.provider_id.nil? ? "Front End" : "Provider" ) + ")"
+%table
+  = sortable_table_header @properties_header
+  - @hwp_properties.each do |hwpp|
+    %tr
+      %td
+        =hwpp.name.nil? ? "n/a" : hwpp.name
+      %td
+        =hwpp.kind.nil? ? "n/a" : hwpp.kind
+      %td
+        =hwpp.range_first.nil? ? "n/a" : hwpp.range_first
+      %td
+        =hwpp.range_last.nil? ? "n/a" : hwpp.range_last
+      %td
+        =hwpp.property_enum_entries.empty? ? "n/a" : (hwpp.property_enum_entries.collect { |enum| enum.value.to_s }).join(", ")
+      %td
+        =hwpp.value.nil? ? "n/a" : hwpp.value
+      %td
+        =hwpp.unit.nil? ? "n/a" : hwpp.unit

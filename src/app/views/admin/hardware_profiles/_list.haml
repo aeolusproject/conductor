@@ -1,0 +1,28 @@
+- form_tag
+  #object-actions
+    = restful_submit_tag "Create", "create", admin_hardware_profiles_path, "PUT"
+    = restful_submit_tag "Delete", "delete", admin_hardware_profiles_path, "DELETE"
+
+  #selections
+    %p
+      Select:&nbsp;
+      = link_to "All", @url_params.merge(:select => 'all')
+      %span> ,&nbsp;
+      = link_to "None", @url_params.merge(:select => 'none')
+
+%table
+  = sortable_table_header @header
+  - @hardware_profiles.each do |hwp|
+    %tr
+      %td
+        - selected = @url_params[:select] == 'all'
+        = check_box(:pool, "selected[#{hwp.id}]", :checked => selected)
+        = link_to hwp.name, admin_hardware_profile_path(hwp)
+      %td
+        =hwp.architecture.to_s
+      %td
+        =hwp.memory.to_s
+      %td
+        =hwp.storage.to_s
+      %td
+        =hwp.cpu.to_s
