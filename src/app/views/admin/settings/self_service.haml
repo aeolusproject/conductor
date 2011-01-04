@@ -1,12 +1,4 @@
-.actionsidebar.grid_3
-  %dl
-    %dd
-      %a.selected Self-Service User
-  %form
-    = submit_tag t(:edit), :disabled => 'disabled'
-    = submit_tag t(:new), :disabled => 'disabled'
-
-.grid_13
+.grid_13{:class => 'container_16'}
   = error_messages_for @parent_type
   %h2
     = t('.self_service_default')

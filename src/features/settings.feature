@@ -4,8 +4,9 @@ Feature: Manage System wide Settings
   I want to manage system settings
 
   Background:
-  Given I am an authorised user
-  And I am logged in
+    Given I am an authorised user
+    And I am logged in
+    And I am using new UI
 
   Scenario: Change the self service default quota
     Given the default quota is set to 5
