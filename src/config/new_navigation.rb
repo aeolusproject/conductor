@@ -11,7 +11,7 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :assemblies, t(:assemblies), image_factory_assemblies_path
       second_level.item :deployables, t(:deployables), image_factory_deployables_path
     end
-    first_level.item :administration, t(:admin), admin_users_path, :highlights_on => /\/admin/ do |second_level|
+    first_level.item :administration, t(:administration), admin_users_path, :highlights_on => /\/admin/ do |second_level|
       second_level.item :users, t(:users), admin_users_path
       second_level.item :roles, t(:roles), admin_roles_path
       second_level.item :providers, t('providers.providers'), admin_providers_path
