@@ -163,6 +163,13 @@ class ImageFactory::TemplatesController < ApplicationController
     render :action => @tpl.id ? :edit : :new
   end
 
+  def multi_destroy
+    # FIXME: set correct check permission when we will have it
+    require_privilege(Privilege::IMAGE_MODIFY)
+    Template.destroy(params[:selected])
+    redirect_to image_factory_templates_url
+  end
+
   protected
 
   def load_images(tpl)

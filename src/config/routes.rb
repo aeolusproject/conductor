@@ -39,7 +39,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.namespace 'image_factory' do |r|
     r.resources :assemblies, :deployables
-    r.resources :templates, :collection => {:collections => :get, :add_selected => :get, :metagroup_packages => :get, :remove_package => :get}
+    r.resources :templates, :collection => {:collections => :get, :add_selected => :get, :metagroup_packages => :get, :remove_package => :get, :multi_destroy => :delete}
     r.resources :builds
   end
 
