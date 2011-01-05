@@ -112,7 +112,11 @@ class ImageFactory::TemplatesController < ApplicationController
   def content_selection
     set_package_vars(true)
     @collections = @repository_manager.groups
-    render :collections
+    if request.xhr?
+      render :partial => 'software_selection', :locals => {:view => 'collections'}
+    else
+      render :collections
+    end
   end
 
   def managed_content
