@@ -98,6 +98,9 @@ module NavigationHelpers
     when /the hardware profiles page/
       url_for admin_hardware_profiles_path
 
+    when /^(.*)'s provider account page$/
+      admin_provider_account_path(CloudAccount.find_by_label($1))
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
