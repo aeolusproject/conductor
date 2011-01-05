@@ -51,7 +51,7 @@ module NavigationHelpers
       new_pool_path
 
     when /the show pool page/
-      pool_path
+      resources_pool_path
 
     when /the pool realms page/
       pool_realms_path
