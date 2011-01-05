@@ -1,0 +1,41 @@
+%form{:class => 'container_16'}
+  .grid_16
+    %h1 Portal
+    %fieldset.clearfix
+      %label.grid_5.alpha Brand Icon:
+      .grid_6
+        %input{:type => "file", :disabled => true}
+    %fieldset.clearfix
+      %label.grid_5.alpha Tag Line:
+      %textarea.grid_6.disabled{:disabled => true}
+    %fieldset.clearfix
+      .grid_5.alpha.disabled.ra
+        %input{:type => "checkbox", :disabled => true}
+        %label Allow Self Service Account Creation:
+      .grid_6.disabled
+        %select{:disabled => true}
+          %option Select User Treatment
+    %fieldset.clearfix
+      %label.alpha.grid_5 Primary URL Port:
+      %input.grid_6{:value => "3000", :disabled => true}
+    %h1 Content
+    %fieldset.clearfix
+      %label.grid_5.alpha Entitlement Mode:
+      .grid_5
+        %ul.block
+          %li
+            %input{:type => "radio", :name => "entitlement", :disabled => true}
+            %label.disabled User Brings Subscriptions
+          %li
+            %input{:type => "radio", :name => "entitlement", :disabled => true}
+            %label.disabled System Provides Subscriptions
+    %fieldset.clearfix
+      %label.grid_5.alpha Certitifcate:
+      .grid_6
+        %input{:type => "file", :disabled => true}
+    %fieldset.clearfix
+      %label.alpha.grid_5 Content Manager URL:
+      %input.grid_6{:disabled => true}
+    %fieldset.clearfix
+      %button.formbutton{:disabled => true} Reset
+      %button.formbutton{:disabled => true} Save
