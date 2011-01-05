@@ -66,8 +66,8 @@ class Resources::PoolsController < ApplicationController
   def load_pools
     @header = [
       { :name => "Pool name", :sort_attr => :name },
-      { :name => "% Quota used", :sortable => false },
       { :name => "Quota (Instances)", :sort_attr => "quotas.total_instances"},
+      { :name => "% Quota used", :sortable => false },
       { :name => "Pool Family", :sort_attr => "pool_families.name" }
     ]
     @pools = Pool.paginate(:all, :include => [ :quota, :pool_family ],

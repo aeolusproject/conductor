@@ -1,5 +1,5 @@
 - form_tag do
-  = restful_submit_tag "New Pool", "new", new_resources_pool_path, 'GET'
+  = link_to "New Pool", new_resources_pool_path, { :class => 'button' }
   %p
     Select:&nbsp;
     = link_to "All", @url_params.merge(:select => 'all')
@@ -14,9 +14,9 @@
           = check_box(:pool, "selected[#{pool.id}]", :checked => selected)
           = link_to pool.name, resources_pool_path(pool)
         %td
-          =((pool.quota.maximum_running_instances || 0)/100)*pool.quota.total_instances
+          = pool.quota.maximum_running_instances or 'unlimited'
+        %td
+          = pool.quota.percentage_used
           ='%'
         %td
-          =pool.quota.total_instances
-        %td
-          =pool.pool_family.name
+          = pool.pool_family.name
