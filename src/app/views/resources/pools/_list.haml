@@ -1,17 +1,18 @@
 - form_tag do
   = link_to "New Pool", new_resources_pool_path, { :class => 'button' }
+  = restful_submit_tag "Destroy", 'destroy', multi_destroy_resources_pools_path, 'DELETE', :id => 'delete_button'
   %p
     Select:&nbsp;
     = link_to "All", @url_params.merge(:select => 'all')
     %span> ,&nbsp;
     = link_to "None", @url_params.merge(:select => 'none')
-  %table
+  %table#pools_table
     = sortable_table_header @header
     - @pools.each do |pool|
       %tr
         %td
           - selected = @url_params[:select] == 'all'
-          = check_box(:pool, "selected[#{pool.id}]", :checked => selected)
+          %input{:name => "pools_selected[]", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}", :checked => selected }
           = link_to pool.name, resources_pool_path(pool)
         %td
           = pool.quota.maximum_running_instances or 'unlimited'
@@ -20,3 +21,17 @@
           ='%'
         %td
           = pool.pool_family.name
+
+:javascript
+  $(document).ready(function () {
+    $('#delete_button').click(function(e) {
+      if ($("#pools_table input[@type=radio]:checked").length == 0) {
+        alert('Please select any pool to be deleted before clicking Delete button.');
+        e.preventDefault();
+      } else {
+        if (!confirm("Are you sure you want to delete this user?")) {
+          e.preventDefault();
+        }
+      }
+    });
+  });

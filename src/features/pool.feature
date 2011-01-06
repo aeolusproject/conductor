@@ -41,3 +41,17 @@ Feature: Manage Pools
     When I fill in "pool[name]" with "@%&*())_@!#!"
     And I press "Save"
     Then I should see "Name must only contain: numbers, letters, spaces, '_' and '-'"
+
+  Scenario: Delete pools
+    Given there are no pools
+    And a pool "Amazon Startrek Pool" exists
+    And a pool "Redhat Voyager Pool" exists
+    And I am on the resources pools page
+    And there are 2 pools
+    When I check "Redhat Voyager Pool" pool
+    And I check "Amazon Startrek Pool" pool
+    And I press "Destroy"
+    Then there should only be 0 pools
+    And I should be on the resources pools page
+    And I should not see "Redhat Voyager Pool"
+    And I should not see "Amazon Startrek Pool"

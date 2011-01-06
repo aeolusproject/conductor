@@ -33,7 +33,8 @@ ActionController::Routing::Routes.draw do |map|
   # -- just remember to delete public/index.html.
 
   map.namespace 'resources' do |r|
-    r.resources :pools, :deployments
+    r.resources :pools, :collection => { :multi_destroy => :delete }
+    r.resources :deployments
     r.resources :instances, :collection => {:start => :get, :stop => :get, :select_template => :get, :remove_failed => :get}, :member => {:key => :get}
   end
 

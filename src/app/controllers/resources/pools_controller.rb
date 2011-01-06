@@ -61,6 +61,11 @@ class Resources::PoolsController < ApplicationController
     end
   end
 
+  def multi_destroy
+    Pool.destroy(params[:pools_selected])
+    redirect_to resources_pools_url
+  end
+
   protected
 
   def load_pools

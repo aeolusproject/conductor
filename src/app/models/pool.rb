@@ -25,7 +25,8 @@ class Pool < ActiveRecord::Base
   belongs_to :quota
   belongs_to :pool_family
 
-  has_many :images,  :dependent => :destroy
+  # NOTE: Commented out because images table doesn't have pool_id foreign key?!
+  #has_many :images,  :dependent => :destroy
   has_many :hardware_profiles,  :dependent => :destroy
 
   validates_presence_of :name
@@ -46,10 +47,6 @@ class Pool < ActiveRecord::Base
         accounts << instance.cloud_account
       end
     end
-  end
-
-  def images
-    Image.find(:all, :conditions => {:provider_id => nil})
   end
 
   def hardware_profiles
