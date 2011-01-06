@@ -20,11 +20,11 @@ describe InstancesController do
      response.should_not be_success
   end
 
-  it "should allow instance creator to launch instance" do
-     @inst_user_permission = Factory :instance_creator_and_user_permission
-     @inst_user = @inst_user_permission.user
-     UserSession.create(@inst_user)
-     pool = Permission.first(:conditions => {:permission_object_type => 'Pool', :user_id => @inst_user.id}).permission_object
+  it "should allow pool user to launch instance" do
+     @pool_user_permission = Factory :pool_user_permission
+     @pool_user = @pool_user_permission.user
+     UserSession.create(@pool_user)
+     pool = Permission.first(:conditions => {:permission_object_type => 'Pool', :user_id => @pool_user.id}).permission_object
      template = Factory.build(:template)
      template.save!
      hwp = Factory.build(:mock_hwp1)
@@ -36,6 +36,6 @@ describe InstancesController do
                                     :hardware_profile_id => hwp.id }
      end.should change(Instance, :count).by(1)
      inst = Instance.find(:first, :conditions => ['name = ?', 'mockinstance'])
-     inst.owner_id.should == @inst_user.id
+     inst.owner_id.should == @pool_user.id
   end
 end

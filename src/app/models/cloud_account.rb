@@ -72,6 +72,27 @@ class CloudAccount < ActiveRecord::Base
   before_destroy :destroyable?
   before_validation :read_x509_files
 
+  def object_list
+    super << provider
+  end
+  class << self
+    alias orig_list_for_user_include list_for_user_include
+    alias orig_list_for_user_conditions list_for_user_conditions
+  end
+
+  def self.list_for_user_include
+    includes = orig_list_for_user_include
+    includes << { :provider => {:permissions => {:role => :privileges}}}
+    includes
+  end
+
+  def self.list_for_user_conditions
+    "(#{orig_list_for_user_conditions}) or
+     (permissions_providers.user_id=:user and
+      privileges_roles.target_type=:target_type and
+      privileges_roles.action=:action)"
+  end
+
   def destroyable?
     instances.empty?
   end

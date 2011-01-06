@@ -60,13 +60,6 @@ class ApplicationController < ActionController::Base
     'generic'
   end
 
-  perm_helper_string = ""
-  Privilege::FULL_PRIVILEGE_LIST.each do |privilege|
-    perm_helper_string += "def has_#{privilege}?(obj=@perm_obj); " +
-      "check_privilege(\"#{privilege}\", obj) end; "
-  end
-  master_helper_module.module_eval perm_helper_string
-
   helper_method :check_privilege
 
   protected
@@ -162,8 +155,8 @@ class ApplicationController < ActionController::Base
 
   def get_nav_items
     if current_user.present?
-      @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
-      @pools = Pool.list_for_user(@current_user, Privilege::POOL_VIEW)
+      @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
+      @pools = Pool.list_for_user(@current_user, Privilege::VIEW)
     end
   end
 

@@ -45,6 +45,9 @@ class Instance < ActiveRecord::Base
   belongs_to :instance_hwp
 
   has_one :instance_key, :as => :instance_key_owner, :dependent => :destroy
+  has_many :permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "permissions.id ASC"
 
   validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id
@@ -75,6 +78,27 @@ class Instance < ActiveRecord::Base
 
   validates_inclusion_of :state,
      :in => STATES
+
+  def object_list
+    super << pool
+  end
+  class << self
+    alias orig_list_for_user_include list_for_user_include
+    alias orig_list_for_user_conditions list_for_user_conditions
+  end
+
+  def self.list_for_user_include
+    includes = orig_list_for_user_include
+    includes << { :pool => {:permissions => {:role => :privileges}}}
+    includes
+  end
+
+  def self.list_for_user_conditions
+    "(#{orig_list_for_user_conditions}) or
+     (permissions_pools.user_id=:user and
+      privileges_roles.target_type=:target_type and
+      privileges_roles.action=:action)"
+  end
 
   def get_action_list(user=nil)
     # return empty list rather than nil
@@ -152,7 +176,7 @@ class Instance < ActiveRecord::Base
     }
 
     instances = []
-    pools = Pool.list_for_user(user, Privilege::INSTANCE_VIEW)
+    pools = Pool.list_for_user(user, Privilege::VIEW, Instance)
     pools.each{|pool| pool.instances.each {|i| instances << i}}
     instances.each do |i|
       if i.state == Instance::STATE_RUNNING

@@ -26,7 +26,7 @@
           = t('.quota_instances')
           %span.required *
       %fieldset.nomargin.clearfix
-        - disabled = 'disabled' unless has_account_modify?(@provider)
+        - disabled = 'disabled' unless check_privilege(Privilege::MODIFY, Account, @provider)
         - cloud_account_id = "cloud_accounts[#{acct.id}]"
         = text_field cloud_account_id, :label, :title => t('.account_name'), :value => acct.label, :disabled => disabled, :class => "grid_4 alpha"
         = text_field cloud_account_id, :username, :title => t('.user_name'), :value => acct.username, :disabled => disabled, :class => "grid_3"
@@ -56,7 +56,7 @@
           = file_field cloud_account_id, :x509_cert_priv_file, :title => t('.account_private_cert'), :disabled => disabled
         .grid_3
           = file_field cloud_account_id, :x509_cert_pub_file, :title => t('.account_public_cert'), :disabled => disabled
-        - remove_path = url_for :controller => 'cloud_accounts', :action => 'destroy', :id => acct.id if has_account_modify?(@provider) && acct.destroyable?
+        - remove_path = url_for :controller => 'cloud_accounts', :action => 'destroy', :id => acct.id if check_privilege(Privilege::MODIFY, Account, @provider) && acct.destroyable?
         .grid_3.omega
           %a.button{ :href => remove_path, :name => "remove_acc_#{acct.id}", :class => "tiny #{'disabled' unless remove_path}" }
             = t(:remove)

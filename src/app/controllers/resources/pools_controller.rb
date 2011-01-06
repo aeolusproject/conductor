@@ -18,6 +18,7 @@ class Resources::PoolsController < ApplicationController
 
   def show
     @pool = Pool.find(params[:id])
+    require_privilege(Privilege::VIEW, @pool)
     @url_params = params.clone
     @tab_captions = ['Properties', 'Deployments', 'Instances', 'History', 'Permissions']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
@@ -33,12 +34,12 @@ class Resources::PoolsController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::POOL_MODIFY)
+    require_privilege(Privilege::CREATE, Pool)
     @pool = Pool.new
   end
 
   def create
-    require_privilege(Privilege::POOL_MODIFY)
+    require_privilege(Privilege::CREATE, Pool)
 
     @pool = Pool.new(params[:pool])
     quota = Quota.new
@@ -55,15 +56,13 @@ class Resources::PoolsController < ApplicationController
   end
 
   def edit
-    require_privilege(Privilege::POOL_MODIFY)
-
     @pool = Pool.find(params[:id])
+    require_privilege(Privilege::MODIFY, @pool)
   end
 
   def update
-    require_privilege(Privilege::POOL_MODIFY)
-
     @pool = Pool.find(params[:id])
+    require_privilege(Privilege::MODIFY, @pool)
     if @pool.update_attributes(params[:pool])
       flash[:notice] = "Pool updated."
       redirect_to :action => 'show', :id => @pool.id
@@ -73,7 +72,9 @@ class Resources::PoolsController < ApplicationController
   end
 
   def multi_destroy
-    Pool.destroy(params[:pools_selected])
+    Pool.find(params[:pools_selected]).each do |pool|
+      pool.destroy if check_privilege(Privilege::MODIFY, pool)
+    end
     redirect_to resources_pools_url
   end
 

@@ -14,6 +14,6 @@
   <% } %>
   <% end %>
 </ul>
-<% if BasePermissionObject.general_permission_scope.has_privilege(@current_user, Privilege::POOL_MODIFY) %>
+<% if check_privilege(Privilege::CREATE, Pool, BasePermissionObject.general_permission_scope) %>
     <%= link_to "Add a pool", {:controller => "pools", :action => "new"}, :class => "actionlink" %>
 <% end %>

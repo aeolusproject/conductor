@@ -39,7 +39,7 @@ class ImagesController < ApplicationController
       redirect_to :controller => 'instances', :action => 'new', 'instance[image_id]' => (params[:ids] || []).first
     end
 
-    require_privilege(Privilege::IMAGE_VIEW)
+    require_privilege(Privilege::VIEW)
 
     @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
     @order = params[:order] || 'name'

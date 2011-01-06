@@ -35,7 +35,7 @@ class InstancesController < ApplicationController
   end
 
   def index
-    @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
+    @pools = Pool.list_for_user(@current_user, Privilege::MODIFY, :target_type => Instance)
 
     @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
     @order_field = params[:order_field] || 'name'
@@ -69,7 +69,7 @@ class InstancesController < ApplicationController
 
   def new
     @instance = Instance.new(params[:instance])
-    require_privilege(Privilege::INSTANCE_MODIFY, @instance.pool) if @instance.pool
+    require_privilege(Privilege::CREATE, Instance, @instance.pool) if @instance.pool
     # FIXME: we need to list only templates for particular user,
     # => TODO: add TEMPLATE_* permissions
     @templates = Template.paginate(
@@ -81,7 +81,7 @@ class InstancesController < ApplicationController
 
   def configure
     @instance = Instance.new(params[:instance])
-    require_privilege(Privilege::INSTANCE_MODIFY, @instance.pool)
+    require_privilege(Privilege::CREATE, Instance, @instance.pool)
     @hardware_profiles = HardwareProfile.find(:all, :include => :architecture,
                                    :conditions => {:provider_id => nil,
                                    'hardware_profile_properties.value' => @instance.template.architecture})
@@ -97,7 +97,7 @@ class InstancesController < ApplicationController
     @instance.state = Instance::STATE_NEW
     @instance.owner = current_user
 
-    require_privilege(Privilege::INSTANCE_MODIFY,
+    require_privilege(Privilege::CREATE, Instance,
                       Pool.find(@instance.pool_id))
     #FIXME: This should probably be in a transaction
     if @instance.save!
@@ -131,7 +131,7 @@ class InstancesController < ApplicationController
     end
 
     @instance = Instance.find((params[:id] || []).first)
-    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
+    require_privilege(Privilege::USE,@instance)
 
     if params[:instance_details]
       render :action => 'show'
@@ -190,7 +190,7 @@ class InstancesController < ApplicationController
 
   def instance
     @instance = Instance.find(params[:id])
-    require_privilege(Privilege::INSTANCE_VIEW, @instance.pool)
+    require_privilege(Privilege::VIEW, @instance)
   end
 
 end

@@ -19,7 +19,7 @@ class Resources::InstancesController < ApplicationController
 
   def new
     @instance = Instance.new(params[:instance])
-    #require_privilege(Privilege::INSTANCE_MODIFY, @instance.pool) if @instance.pool
+    require_privilege(Privilege::CREATE, Instance, @instance.pool) if @instance.pool
 
     unless @instance.template
       redirect_to select_template_resources_instances_path
@@ -50,7 +50,7 @@ class Resources::InstancesController < ApplicationController
     @instance.owner = current_user
 
     begin
-      require_privilege(Privilege::INSTANCE_MODIFY,
+      require_privilege(Privilege::CREATE, Instance,
                         Pool.find(@instance.pool_id))
       free_quota = Quota.can_start_instance?(@instance, nil)
       @instance.transaction do
@@ -132,11 +132,11 @@ class Resources::InstancesController < ApplicationController
 
   def load_instance
     @instance = Instance.find((params[:id] || []).first)
-    require_privilege(Privilege::INSTANCE_CONTROL,@instance.pool)
+    require_privilege(Privilege::USE,@instance)
   end
 
   def init_new_instance_attrs
-    @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
+    @pools = Pool.list_for_user(@current_user, Privilege::MODIFY, :target_type => Instance)
     @realms = Realm.find(:all, :conditions => { :provider_id => nil })
     @hardware_profiles = HardwareProfile.all(
       :include => :architecture,
@@ -157,7 +157,7 @@ class Resources::InstancesController < ApplicationController
       {:name => 'CREATED BY', :sort_attr => 'users.last_name'},
     ]
 
-    @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
+    @pools = Pool.list_for_user(@current_user, Privilege::MODIFY, :target_type => Instance)
   end
 
   def load_instances

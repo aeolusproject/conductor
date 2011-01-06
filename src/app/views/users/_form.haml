@@ -11,7 +11,7 @@
     %fieldset
       = form.label :password_confirmation, t(:confirm_password), :class => "grid_3 alpha"
       = form.password_field :password_confirmation, :class => "grid_5"
-    -if has_user_modify?
+    -if check_privilege(Privilege::MODIFY, User)
       %fieldset.clear
         = form.label :user_status, "User Status:", :class => "alpha grid_3"
         .grid_5
@@ -28,7 +28,7 @@
     %fieldset.clear
       = form.label :email, t(:email), :class => "alpha grid_3"
       = form.text_field :email, :class => "grid_5"
-    -if has_user_modify?
+    -if check_privilege(Privilege::MODIFY, User)
       %h3.grid_16 User Treatment
       %fieldset.clearfix
         = label_tag 'apply_treatment', t(:apply_treatment), :class => "alpha grid_3"

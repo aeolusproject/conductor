@@ -2,7 +2,6 @@ require 'util/repository_manager'
 
 class TemplatesController < ApplicationController
   before_filter :require_user
-  before_filter :check_permission, :except => :index
   layout :layout
 
   def layout
@@ -14,13 +13,10 @@ class TemplatesController < ApplicationController
   end
 
   def index
-    # TODO: add template permission check
-    require_privilege(Privilege::IMAGE_VIEW)
-    @templates = Template.find(
-      :all,
-      :include => :images,
-      :order => get_order('name')
-    )
+    @templates = Template.list_for_user(current_user,
+                                        Privilege::VIEW,
+                                        :include => :images,
+                                        :order => get_order('name'))
   end
 
   def index_action
@@ -81,6 +77,7 @@ class TemplatesController < ApplicationController
   end
 
   def new
+    check_create_permission
     # can't use @template variable - is used by compass (or something other)
     @tpl = Template.new(params[:tpl])
     @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
@@ -91,12 +88,14 @@ class TemplatesController < ApplicationController
 
   def edit
     @tpl = Template.find(params[:id])
+    check_edit_permission
     @tpl.attributes = params[:tpl] unless params[:tpl].blank?
     @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
     render :action => :edit
   end
 
   def create
+    check_create_permission
     @tpl = Template.new(params[:tpl])
     @tpl.packages = params[:packages]
     if @tpl.save
@@ -112,6 +111,7 @@ class TemplatesController < ApplicationController
   def update
     @tpl = Template.find(params[:id])
     @tpl.packages = []
+    check_edit_permission
 
     if @tpl.update_attributes(params[:tpl])
       @tpl.set_complete
@@ -163,7 +163,13 @@ class TemplatesController < ApplicationController
   end
 
   def managed_content
-    @tpl = params[:template_id].blank? ? Template.new : Template.find(params[:template_id])
+    if params[:template_id].blank?
+      @tpl = Template.new
+      check_create_permission
+    else
+      @tpl = Template.find(params[:template_id])
+      check_edit_permission
+    end
     @tpl.add_software(params[:packages].to_a + params[:selected_packages].to_a,
                       params[:groups].to_a + params[:selected_groups].to_a)
     render :layout => false
@@ -176,9 +182,11 @@ class TemplatesController < ApplicationController
     else
       errs = {}
       Template.find(ids).each do |t|
-        t.destroy
-        unless t.destroyed?
-          errs[t.name] = t.errors.full_messages.join(". ")
+        if check_permission(Privilege::MODIFY, t)
+          t.destroy
+          errs[t.name] = t.errors.full_messages.join(". ") unless t.destroyed?
+        else
+          errs[t.name] = "You don't have permission to delete #{t.name}"
         end
       end
       if errs.empty?
@@ -191,16 +199,24 @@ class TemplatesController < ApplicationController
   end
 
   def assembly
+    # FIXME: do we need perm check here?
   end
 
   def deployment_definition
+    # FIXME: do we need perm check here?
     @all_targets = Image.available_targets
   end
 
   private
 
   def set_package_vars(set_all = false)
-    @tpl = params[:id].blank? ? Template.new : Template.find(params[:id])
+    if params[:id].blank?
+      @tpl = Template.new
+      check_create_permission
+    else
+      @tpl = Template.find(params[:id])
+      check_edit_permission
+    end
     @tpl.attributes = params[:tpl] unless params[:tpl].nil?
     @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
     @groups = @repository_manager.groups
@@ -222,8 +238,12 @@ class TemplatesController < ApplicationController
     flash.now[:error][:failures].merge!(errs)
   end
 
-  def check_permission
-    require_privilege(Privilege::IMAGE_MODIFY)
+  def check_create_permission
+    require_privilege(Privilege::CREATE, Template)
+  end
+
+  def check_edit_permission
+    require_privilege(Privilege::MODIFY, @tpl)
   end
 
   def get_selected_id

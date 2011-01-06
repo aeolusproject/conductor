@@ -44,16 +44,19 @@ class PoolsController < ApplicationController
 
   def show
     @pool = Pool.find(params[:id])
+    require_privilege(Privilege::VIEW, @pool)
   end
 
   def edit
     @pool = Pool.find(params[:id])
+    require_privilege(Privilege::MODIFY, @pool)
   end
 
   def list
     #FIXME: clean this up, many error cases here
     @pool = Pool.find(params[:id])
-    require_privilege(Privilege::INSTANCE_VIEW,@pool)
+    # FIXME: really we need perm-filtered list here
+    require_privilege(Privilege::VIEW, @pool)
     @pool.reload
 
     @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
@@ -74,23 +77,23 @@ class PoolsController < ApplicationController
   def hardware_profiles
     @pool = Pool.find(params[:id])
     @hardware_profiles = @pool.hardware_profiles
-    require_privilege(Privilege::POOL_VIEW, @pool)
+    require_privilege(Privilege::VIEW, @pool)
   end
 
   def realms
     @pool = Pool.find(params[:id])
     @realm_names = @pool.realms
-    require_privilege(Privilege::POOL_VIEW,@pool)
+    require_privilege(Privilege::VIEW, @pool)
   end
 
   def new
-    require_privilege(Privilege::POOL_MODIFY)
-    @pools = Pool.list_for_user(@current_user, Privilege::POOL_MODIFY)
+    require_privilege(Privilege::CREATE, Pool)
+    @pools = Pool.list_for_user(@current_user, Privilege::MODIFY)
     @pool = Pool.new
   end
 
   def create
-    require_privilege(Privilege::POOL_MODIFY)
+    require_privilege(Privilege::CREATE, Pool)
 
     #FIXME: This should probably be in a transaction
     @pool = Pool.new(params[:pool])
@@ -118,6 +121,7 @@ class PoolsController < ApplicationController
       if type == "edit"
         redirect_to :action => 'edit', :id => pool_id
       elsif type == "delete"
+        require_privilege(Privilege::MODIFY, Pool.find(pool_id))
         params[:id] = pool_id
         destroy
       end
@@ -130,27 +134,5 @@ class PoolsController < ApplicationController
   def delete
   end
 
-  def accounts_for_pool
-    @pool =  Pool.find(params[:pool_id])
-    require_privilege(Privilege::ACCOUNT_VIEW,@pool)
-    @cloud_accounts = []
-    all_accounts = CloudAccount.list_for_user(@current_user, Privilege::ACCOUNT_ADD)
-    all_accounts.each {|account|
-      @cloud_accounts << account unless @pool.cloud_accounts.map{|x| x.id}.include?(account.id)
-    }
-  end
-
-  def add_account
-    @pool = Pool.find(params[:pool])
-    @cloud_account = CloudAccount.find(params[:cloud_account])
-    require_privilege(Privilege::ACCOUNT_ADD,@pool)
-    require_privilege(Privilege::ACCOUNT_ADD,@cloud_account)
-    Pool.transaction do
-      @pool.cloud_accounts << @cloud_account unless @pool.cloud_accounts.map{|x| x.id}.include?(@cloud_account.id)
-      @pool.save!
-      @pool.populate_realms([@cloud_account])
-    end
-    redirect_to :action => 'show', :id => @pool.id
-  end
   kick_condor
 end

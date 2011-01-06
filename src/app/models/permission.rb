@@ -29,11 +29,17 @@ class Permission < ActiveRecord::Base
 
   belongs_to :permission_object,      :polymorphic => true
   # type-specific associations
+  belongs_to :pool_family,            :class_name => "PoolFamily",
+                                      :foreign_key => "permission_object_id"
   belongs_to :pool,                   :class_name => "Pool",
+                                      :foreign_key => "permission_object_id"
+  belongs_to :instance,               :class_name => "Instance",
                                       :foreign_key => "permission_object_id"
   belongs_to :provider,               :class_name => "Provider",
                                       :foreign_key => "permission_object_id"
   belongs_to :cloud_account,          :class_name => "CloudAccount",
+                                      :foreign_key => "permission_object_id"
+  belongs_to :template,               :class_name => "Template",
                                       :foreign_key => "permission_object_id"
   belongs_to :base_permission_object, :class_name => "BasePermissionObject",
                                       :foreign_key => "permission_object_id"

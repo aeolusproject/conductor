@@ -23,7 +23,6 @@ class HardwareProfilesController < ApplicationController
 
   def index
     @hardware_profiles = HardwareProfile.find(:all)
-    #require_privilege(Privilege::PROVIDER_VIEW, @hardware_profile) ?
   end
 
   def new

@@ -30,24 +30,24 @@
   #actions_dashboard_section
     %h2
       Actions
-    - if @is_admin
+    - if check_privilege(Privilege::CREATE, Provider)
       %a{:href => url_for(:controller => "providers", :action => "new")}
         Add a Provider
+    - if check_privilege(Privilege::CREATE, User)
       %a{:href => url_for(:controller => "users", :action => "new")}
         Create a User
-      %a{:href => url_for(:controller => "instances", :action => "index")}
-        View Instances
-    - else
-      %a{:href => url_for(:controller => "", :action => "")}
-        Launch Instances
-      %a{:href => url_for(:controller => "", :action => "")}
-        Enter a help ticket
-    - if BasePermissionObject.general_permission_scope.can_modify_images(@current_user)
+    %a{:href => url_for(:controller => "instances", :action => "index")}
+      View Instances
+    %a{:href => url_for(:controller => "", :action => "")}
+      Launch Instances
+    %a{:href => url_for(:controller => "", :action => "")}
+      Enter a help ticket
+    - if check_privilege(Privilege::CREATE, Template)
       %a{:href => url_for(:controller => "templates", :action => "new")}
         Create a Template
 
   #service_quality_dashboard_section
-    - if @is_admin
+    - if check_privilege(Privilege::MODIFY)
       %h2
         Provider Service Quality
       .dashboard_section_summary

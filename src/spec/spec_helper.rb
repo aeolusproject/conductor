@@ -56,7 +56,6 @@ Spec::Runner.configure do |config|
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
   config.before(:each, :type => :controller) do
     #activate_authlogic
-    @default_pool_family_metadata = Factory.create(:default_pool_family_metadata)
   end
   config.after(:each, :type => :controller) do
     #current_user_session.destroy
@@ -66,6 +65,7 @@ Spec::Runner.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
+    load "#{Rails.root}/db/seeds.rb"
   end
   config.before(:each) do
     DatabaseCleaner.start

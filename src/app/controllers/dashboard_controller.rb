@@ -70,16 +70,6 @@ class DashboardController < ApplicationController
     @cloud_accounts = CloudAccount.find(:all)
 
 
-    # Now need to check any permissions are set since default permission and pool
-    # may not be set for the admin user
-    if @current_user.permissions
-      # FIXME remove general role based permission check, replace w/
-      # more granular / per-permission-object permission checks on the
-      # dashboard in the future (here and in dashboard views)
-      @is_admin = @current_user.permissions.collect { |p| p.role }.
-                                find { |r| r.name == "Administrator" }
-    end
-
     render :action => 'monitor'
   end
 

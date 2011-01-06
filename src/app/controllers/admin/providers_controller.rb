@@ -17,20 +17,21 @@ class Admin::ProvidersController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::PROVIDER_MODIFY)
+    require_privilege(Privilege::CREATE, Provider)
     @provider = Provider.new
     kick_condor
   end
 
   def edit
     @provider = Provider.find_by_id(params[:id])
-    require_privilege(Privilege::PROVIDER_MODIFY, @provider)
+    require_privilege(Privilege::MODIFY, @provider)
   end
 
   def show
     load_providers
     @provider = Provider.find(params[:id])
     @url_params = params.clone
+    require_privilege(Privilege::VIEW, @provider)
     @tab_captions = ['Properties', 'HW Profiles', 'Realms', 'Provider Accounts', 'Services','History','Permissions']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     respond_to do |format|
@@ -45,7 +46,7 @@ class Admin::ProvidersController < ApplicationController
   end
 
   def create
-    require_privilege(Privilege::PROVIDER_MODIFY)
+    require_privilege(Privilege::CREATE, Provider)
     @provider = Provider.new(params[:provider])
     if params[:test_connection]
       test_connection(@provider)
@@ -64,8 +65,8 @@ class Admin::ProvidersController < ApplicationController
   end
 
   def update
-   require_privilege(Privilege::PROVIDER_MODIFY)
    @provider = Provider.find_by_id(params[:id])
+   require_privilege(Privilege::MODIFY, @provider)
    previous_cloud_type = @provider.cloud_type
    @provider.update_attributes(params[:provider])
    if params[:test_connection]
@@ -89,7 +90,9 @@ class Admin::ProvidersController < ApplicationController
   end
 
   def multi_destroy
-    Provider.destroy(params[:provider_selected])
+    Provider.find(params[:provider_selected]).each do |provider|
+      provider.destroy if check_privilege(Privilege::MODIFY, provider)
+    end
     redirect_to admin_providers_url
   end
 
@@ -111,7 +114,11 @@ class Admin::ProvidersController < ApplicationController
     @url_params = params.clone
   end
 
-  def load_providers
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
-  end
+    def load_providers
+      @header = [{ :name => "Provider name", :sort_attr => :name },
+                 { :name => "Provider URL", :sort_attr => :name }
+      ]
+      @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
+      @url_params = params.clone
+    end
 end

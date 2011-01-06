@@ -1,9 +1,10 @@
 class ImageFactory::BuildsController < ApplicationController
-  before_filter [:require_user, :check_permission]
+  before_filter [:require_user]
 
   def new
     raise "select template to build" unless id = params[:template_id]
     @tpl = Template.find(id)
+    check_permission
     if @tpl.imported
       flash[:warning] = "Build imported template is not supported"
       redirect_to templates_path
@@ -13,6 +14,7 @@ class ImageFactory::BuildsController < ApplicationController
 
   def create
     @tpl = Template.find(params[:template_id])
+    check_permission
     @all_targets = Image.available_targets
 
     if params[:targets].blank?
@@ -43,9 +45,11 @@ class ImageFactory::BuildsController < ApplicationController
   end
 
   def edit
+    # FIXME: is @tpl defined here? do we need check_permission here?
   end
 
   def update
+    # FIXME: is @tpl defined here? do we need check_permission here?
   end
 
   private
@@ -65,6 +69,6 @@ class ImageFactory::BuildsController < ApplicationController
   end
 
   def check_permission
-    require_privilege(Privilege::IMAGE_MODIFY)
+    require_privilege(Privilege::MODIFY, @tpl)
   end
 end

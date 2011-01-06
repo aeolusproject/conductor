@@ -16,12 +16,12 @@ end
 
 Factory.define :pool_creator_permission, :parent => :permission do |p|
   p.role { |r| Role.first(:conditions => ['name = ?', 'Pool Creator']) || Factory(:role, :name => 'Pool Creator') }
-  p.permission_object { |r| r.association(:mock_provider) }
-  p.user { |u| u.association(:pool_creator) }
+  p.permission_object { |r| BasePermissionObject.general_permission_scope }
+  p.user { |u| u.association(:pool_creator_user) }
 end
 
-Factory.define :instance_creator_and_user_permission, :parent => :permission do |p|
-  p.role { |r| Role.first(:conditions => ['name = ?', 'Instance Creator and User']) || Factory(:role, :name => 'Instance Creator and User') }
+Factory.define :pool_user_permission, :parent => :permission do |p|
+  p.role { |r| Role.first(:conditions => ['name = ?', 'Pool User']) || Factory(:role, :name => 'Pool User') }
   p.permission_object { |r| r.association(:pool) }
   p.user { |u| u.association(:user) }
 end

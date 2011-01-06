@@ -31,19 +31,19 @@ class CloudAccountsController < ApplicationController
 
   def index
     @provider = Provider.find(params[:provider_id])
-    require_privilege(Privilege::ACCOUNT_VIEW, @provider)
+    require_privilege(Privilege::VIEW, CloudAccount, @provider)
   end
 
   def new
     @provider = Provider.find(params[:provider_id])
     @cloud_account = CloudAccount.new
     @quota = Quota.new
-    require_privilege(Privilege::ACCOUNT_MODIFY, @provider)
+    require_privilege(Privilege::CREATE, CloudAccount, @provider)
   end
 
   def create
     @provider = Provider.find(params[:provider_id])
-    require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
+    require_privilege(Privilege::CREATE, CloudAccount, @provider)
     @cloud_account = CloudAccount.new(params[:cloud_account])
     @cloud_account.provider = @provider
     @cloud_account.quota = @quota = Quota.new
@@ -80,13 +80,13 @@ class CloudAccountsController < ApplicationController
     @cloud_account = CloudAccount.find(params[:id])
     @quota = @cloud_account.quota
     @provider = @cloud_account.provider
-    require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
+    require_privilege(Privilege::MODIFY, @cloud_account)
   end
 
   def update_accounts
     @provider = Provider.find(params[:provider][:id])
-    require_privilege(Privilege::ACCOUNT_MODIFY, @provider)
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+    require_privilege(Privilege::MODIFY, CloudAccount, @provider)
+    @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
 
     success = true
     @provider.cloud_accounts.each do |cloud_account|
@@ -130,7 +130,7 @@ class CloudAccountsController < ApplicationController
   def update
     @cloud_account = CloudAccount.find(params[:id])
     @provider = @cloud_account.provider
-    require_privilege(Privilege::ACCOUNT_MODIFY, @provider)
+    require_privilege(Privilege::MODIFY, @cloud_account)
     @quota = @cloud_account.quota
 
     limit = params[:quota][:maximum_running_instances] if params[:quota]
@@ -145,7 +145,7 @@ class CloudAccountsController < ApplicationController
 
   def key
     @cloud_account = CloudAccount.find(params[:id])
-    require_privilege(Privilege::ACCOUNT_MODIFY,@cloud_account.provider)
+    require_privilege(Privilege::MODIFY,@cloud_account)
     unless @cloud_account.instance_key.nil?
       render :text => @cloud_account.instance_key.pem
     end
@@ -154,7 +154,7 @@ class CloudAccountsController < ApplicationController
   def destroy
     account = CloudAccount.find(params[:id])
     provider = account.provider
-    require_privilege(Privilege::ACCOUNT_MODIFY, provider)
+    require_privilege(Privilege::MODIFY, account)
     if account.destroy
       flash[:notice] = "Cloud Account destroyed"
     else
@@ -176,6 +176,6 @@ class CloudAccountsController < ApplicationController
   private
 
   def load_providers
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+    @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
   end
 end

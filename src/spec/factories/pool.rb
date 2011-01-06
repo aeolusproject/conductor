@@ -1,6 +1,6 @@
 Factory.define :pool do |p|
   p.sequence(:name) { |n| "mypool#{n}" }
-  p.association :pool_family, :factory => :pool_family
+  p.pool_family { |p| PoolFamily.find_by_name('default') }
   p.association :quota
 end
 

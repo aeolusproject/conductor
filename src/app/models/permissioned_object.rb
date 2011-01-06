@@ -17,91 +17,77 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 module PermissionedObject
-  def can_view_perms(user)
-    has_privilege(user, Privilege::PERM_VIEW)
-  end
-  def can_set_perms(user)
-    has_privilege(user, Privilege::PERM_SET)
+
+  def has_privilege(user, action, target_type=nil)
+    return false if user.nil? or action.nil?
+    target_type = self.class.default_privilege_target_type if target_type.nil?
+    object_list.each do |obj|
+      return true if obj.permissions.find(:first,
+                                          :include => [:role => :privileges],
+                                          :conditions =>
+                                          ["permissions.user_id=:user and
+                                            privileges.target_type=:target_type and
+                                            privileges.action=:action",
+                                           { :user => user.id,
+                                             :target_type => target_type.name,
+                                             :action => action}])
+    end
+    return false
   end
 
-  def can_view_instances(user)
-    has_privilege(user, Privilege::INSTANCE_VIEW)
-  end
-  def can_modify_instances(user)
-    has_privilege(user, Privilege::INSTANCE_MODIFY)
-  end
-  def can_control_instances(user)
-    has_privilege(user, Privilege::INSTANCE_CONTROL)
-  end
-
-  def can_view_stats(user)
-    has_privilege(user, Privilege::STATS_VIEW)
-  end
-
-  def can_view_accounts(user)
-    has_privilege(user, Privilege::ACCOUNT_VIEW)
-  end
-  def can_modify_accounts(user)
-    has_privilege(user, Privilege::ACCOUNT_MODIFY)
-  end
-
-  def can_view_pools(user)
-    has_privilege(user, Privilege::POOL_VIEW)
-  end
-  def can_modify_pools(user)
-    has_privilege(user, Privilege::POOL_MODIFY)
-  end
-
-  def can_view_quotas(user)
-    has_privilege(user, Privilege::QUOTA_VIEW)
-  end
-  def can_modify_quotas(user)
-    has_privilege(user, Privilege::QUOTA_MODIFY)
-  end
-
-  def can_view_providers(user)
-    has_privilege(user, Privilege::PROVIDER_VIEW)
-  end
-  def can_modify_providers(user)
-    has_privilege(user, Privilege::PROVIDER_MODIFY)
-  end
-
-  def can_view_users(user)
-    has_privilege(user, Privilege::USER_VIEW)
-  end
-  def can_modify_users(user)
-    has_privilege(user, Privilege::USER_MODIFY)
-  end
-
-  def can_view_images(user)
-    has_privilege(user, Privilege::IMAGE_VIEW)
-  end
-  def can_modify_images(user)
-    has_privilege(user, Privilege::IMAGE_MODIFY)
-  end
-
-  def has_privilege(user, privilege)
-    return false if user.nil?
-    permissions.find(:first, :include => [:role => :privileges],
-                     :conditions => ["permissions.user_id=:user and
-                                      privileges.name=:priv",
-                                     { :user => user.id,
-                                       :priv => privilege }])
+  # Returns the list of objects to check for permissions on -- by default
+  # this object plus the Base permission object
+  def object_list
+    [self, BasePermissionObject.general_permission_scope]
   end
 
   # Any methods here will be able to use the context of the
   # ActiveRecord model the module is included in.
   def self.included(base)
     base.class_eval do
-      def self.list_for_user(user, privilege)
-        if BasePermissionObject.general_permission_scope.has_privilege(user, privilege)
-          all
+      def self.default_privilege_target_type
+        self.name.constantize
+      end
+      def self.list_for_user_include
+        [{:permissions => {:role => :privileges}}]
+      end
+      def self.list_for_user_conditions
+        "permissions.user_id=:user and
+         privileges.target_type=:target_type and
+         privileges.action=:action"
+      end
+      # :conditions in hash must match form ["foo=:param and ...", {:param => value}]
+      def self.list_for_user(user, action, find_hash={})
+        target_type = find_hash.fetch(:target_type, self.default_privilege_target_type)
+        query_include = find_hash[:include]
+        query_order = find_hash[:order]
+        query_conditions = find_hash[:conditions]
+        return [] if user.nil? or action.nil? or target_type.nil?
+        if BasePermissionObject.general_permission_scope.has_privilege(user,
+                                                                       action,
+                                                                       target_type)
+          find(:all, :include => query_include,
+                     :order => query_order,
+                     :conditions => query_conditions)
         else
-          find(:all, :include => {:permissions => {:role => :privileges}},
-               :conditions => ["permissions.user_id=:user and
-                                privileges.name=:priv",
-                               {:user => user.id,
-                                :priv => privilege }])
+          include_clause = self.list_for_user_include
+          if query_include.is_a?(Array)
+            include_clause += query_include
+          elsif !query_include.nil?
+            include_clause << query_include
+          end
+          conditions_hash = {:user => user.id,
+                             :target_type => target_type.name,
+                             :action => action}
+          if query_conditions.nil?
+            conditions_str = self.list_for_user_conditions
+          else
+            conditions_str = "(#{self.list_for_user_include}) and (#{query_conditions[0]})"
+            conditions_hash.merge!(query_conditions[1]) { |key, h1, h2| h1 }
+          end
+          find(:all, :include => include_clause,
+               :conditions => [conditions_str, conditions_hash],
+               :order => query_order)
         end
       end
     end

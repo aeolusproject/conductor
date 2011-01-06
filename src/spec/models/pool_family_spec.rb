@@ -22,8 +22,8 @@ describe PoolFamily do
   end
 
   it "should have pool" do
-    @pool_family.pools.size.should == 1
-    @pool_family.pools[0].id.should == @pool.id
+    @pool_family.pools.size.should == 2 #default pool + pool created here
+    @pool.pool_family.id.should == @pool_family.id
   end
 
   it "should have account" do

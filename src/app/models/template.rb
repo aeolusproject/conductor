@@ -2,6 +2,7 @@ require 'util/image_descriptor_xml'
 require 'typhoeus'
 
 class Template < ActiveRecord::Base
+  include PermissionedObject
   searchable do
     text :name, :as => :code_substring
     text :platform, :as => :code_substring
@@ -15,6 +16,10 @@ class Template < ActiveRecord::Base
   before_validation :generate_uuid
   before_save :update_xml
   before_destroy :no_instances?
+
+  has_many :permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "permissions.id ASC"
 
   WAREHOUSE_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")
 

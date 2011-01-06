@@ -22,10 +22,13 @@ class Role < ActiveRecord::Base
   searchable do
     text :name, :as => :code_substring
   end
-  has_many :permissions
-  has_and_belongs_to_many :privileges, :uniq => true
+  has_many :permissions, :dependent => :destroy
+  has_many :privileges, :dependent => :destroy
 
+  validates_presence_of :scope
   validates_presence_of :name
   validates_uniqueness_of :name
+
+  validates_associated :privileges
 
 end

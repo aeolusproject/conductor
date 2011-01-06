@@ -18,6 +18,7 @@ class Admin::ProviderAccountsController < ApplicationController
   def show
     @tab_captions = ['Properties', 'Credentials', 'History', 'Permissions']
     @account = CloudAccount.find(params[:id])
+    require_privilege(Privilege::VIEW, @account)
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
 
     if params.delete :test_account
@@ -44,7 +45,7 @@ class Admin::ProviderAccountsController < ApplicationController
 
   def create
     @provider = Provider.find(params[:provider_id])
-    require_privilege(Privilege::ACCOUNT_MODIFY, @provider)
+    require_privilege(Privilege::CREATE, CloudAccount, @provider)
 
     @providers = Provider.all
     @cloud_account = CloudAccount.new(params[:cloud_account])
@@ -83,13 +84,13 @@ class Admin::ProviderAccountsController < ApplicationController
     @cloud_account = CloudAccount.find(params[:id])
     @quota = @cloud_account.quota
     @provider = @cloud_account.provider
-    require_privilege(Privilege::ACCOUNT_MODIFY,@provider)
+    require_privilege(Privilege::MODIFY,@cloud_account)
   end
 
   def update
     @cloud_account = CloudAccount.find(params[:id])
     @provider = @cloud_account.provider
-    require_privilege(Privilege::ACCOUNT_MODIFY, @provider)
+    require_privilege(Privilege::MODIFY,@cloud_account)
     @quota = @cloud_account.quota
 
     if params.delete :test_account
@@ -111,7 +112,9 @@ class Admin::ProviderAccountsController < ApplicationController
     if (not params[:accounts_selected]) or (params[:accounts_selected].length == 0)
       flash[:notice] = "You must select some accounts first."
     else
-      CloudAccount.destroy(params[:accounts_selected])
+      CloudAccount.find(params[:accounts_selected]).each do |account|
+        account.destroy if check_privilege(Privilege::MODIFY, account)
+      end
     end
     redirect_to admin_provider_accounts_url
   end

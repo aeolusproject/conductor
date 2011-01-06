@@ -65,7 +65,7 @@ class PermissionsController < ApplicationController
 
   private
 
-  def set_permission_object(privilege)
+  def set_permission_object(action)
     if !params[:permission_object_type].nil?
       @permission_object = 
         params[:permission_object_type].constantize.find(params[:permission_object_id])
@@ -83,7 +83,7 @@ class PermissionsController < ApplicationController
  
     raise ActiveRecord::RecordNotFound if @permission_object.nil?
 
-    require_privilege(privilege, @permission_object)
+    require_privilege(action, @permission_object)
   end
 
 end

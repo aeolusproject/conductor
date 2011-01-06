@@ -32,25 +32,25 @@ class ProvidersController < ApplicationController
 
   def show
     @provider = Provider.find(:first, :conditions => {:id => params[:id]})
-    require_privilege(Privilege::PROVIDER_VIEW, @provider)
+    require_privilege(Privilege::VIEW, @provider)
   end
 
   def edit
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
+    @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
     @provider = Provider.find(:first, :conditions => {:id => params[:id]})
-    require_privilege(Privilege::PROVIDER_MODIFY, @provider)
+    require_privilege(Privilege::MODIFY, @provider)
   end
 
   def new
-    require_privilege(Privilege::PROVIDER_MODIFY)
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
+    require_privilege(Privilege::CREATE, Provider)
+    @providers = Provider.list_for_user(@current_user, Privilege::MODIFY)
     @provider = Provider.new(params[:provider])
     kick_condor
   end
 
   def create
-    require_privilege(Privilege::PROVIDER_MODIFY)
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
+    require_privilege(Privilege::CREATE, Provider)
+    @providers = Provider.list_for_user(@current_user, Privilege::MODIFY)
     @provider = Provider.new(params[:provider])
 
     if params[:test_connection]
@@ -70,9 +70,9 @@ class ProvidersController < ApplicationController
   end
 
   def update
-    require_privilege(Privilege::PROVIDER_MODIFY)
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_MODIFY)
+    @providers = Provider.list_for_user(@current_user, Privilege::MODIFY)
     @provider = Provider.find(:first, :conditions => {:id => params[:id]})
+    require_privilege(Privilege::MODIFY, @provider)
     previous_cloud_type = @provider.cloud_type
 
     @provider.update_attributes(params[:provider])
@@ -99,7 +99,7 @@ class ProvidersController < ApplicationController
   def destroy
     if request.post? || request.delete?
       @provider = Provider.find(params[:id])
-      require_privilege(Privilege::PROVIDER_MODIFY, @provider)
+      require_privilege(Privilege::MODIFY, @provider)
       if @provider.destroy and @provider.destroyed?
         redirect_to :action => "index"
         flash[:notice] = "Provider Deleted"
@@ -117,17 +117,18 @@ class ProvidersController < ApplicationController
   def hardware_profiles
     @provider = Provider.find(params[:id])
     @hardware_profiles = @provider.hardware_profiles
-    require_privilege(Privilege::PROVIDER_VIEW, @provider)
+    require_privilege(Privilege::VIEW, @provider)
   end
 
   def realms
     @provider = Provider.find(params[:id])
     @realm_names = @provider.realms.collect { |r| r.name }
-    require_privilege(Privilege::PROVIDER_VIEW, @provider)
+    require_privilege(Privilege::VIEW, @provider)
   end
 
   def settings
     @provider = Provider.find(params[:id])
+    require_privilege(Privilege::VIEW, @provider)
   end
 
   def list
@@ -145,6 +146,6 @@ class ProvidersController < ApplicationController
 
   protected
   def load_providers
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+    @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
   end
 end

@@ -18,66 +18,122 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 class Privilege < ActiveRecord::Base
-  has_and_belongs_to_many :roles
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
+  PERM_SET  = "set_perms"    # can create/modify/delete permission
+                             # records on this object
+  PERM_VIEW = "view_perms"   # can view permission records on this
+                             # object
+  CREATE    = "create"       # can create objects of this type here
+  MODIFY    = "modify"       # can modify objects of this type here
+  VIEW      = "view"         # can view objects of this type here
+  USE       = "use"          # can use objects of this type here
+                             # the meaning of 'use' is type-specific:
+                             #   Template: add this template to an assembly
+                             #   Assembly: add this assembly to a deployable
+                             #   Deployable: choose this deployable to launch
+                             #   Instance: may perform actions on this instance
+                             #   Realm: may map this realm
+                             #   CloudAccount: May add this account to PoolFamily
 
-  #default privileges
-  PERM_SET          = "set_perms"         # can create/modify/delete permission
-                                          # records on this object
-  PERM_VIEW         = "view_perms"        # can view permission records on this
-                                          # object
 
-  # instance privileges normally checked at the pool level, although
-  # instance-specific overrides could be a future enhancement.
-  INSTANCE_MODIFY   = "instance_modify"   # can create, modify, delete, or
-                                          # control (start, stop, etc) instances
-  INSTANCE_CONTROL  = "instance_control"  # can control (start, stop, etc)
-                                          # instances
-  INSTANCE_VIEW     = "instance_view"     # can view instance metadata
-  # do we need a separate "connect" privilege?
+  ACTIONS = [ CREATE, MODIFY, USE, VIEW,
+              PERM_SET, PERM_VIEW]
+  TYPES   = { BasePermissionObject => [MODIFY, PERM_SET, PERM_VIEW],
+              Template => ACTIONS,
+              Pool => ACTIONS - [USE],
+              PoolFamily => ACTIONS - [USE],
+              Instance => ACTIONS,
+              Quota => [VIEW, MODIFY],
+              HardwareProfile => ACTIONS - [USE, VIEW],
+              Realm => ACTIONS - [VIEW],
+              Provider => ACTIONS - [USE],
+              CloudAccount => ACTIONS,
+              User => [ CREATE, MODIFY, VIEW] }
 
-  # stats privileges normally checked at the pool level, although
-  # instance-specific overrides could be a future enhancement.
-  STATS_VIEW        = "stats_view"        # can view monitoring data for
-                                          # instances
+  belongs_to :role
+  validates_presence_of :role_id
+  validates_presence_of :target_type
+  validates_presence_of :action
+  validates_uniqueness_of :action, :scope => [:target_type, :role_id]
 
-  # to create(i.e. import) an account on a provider needs ACCOUNT_MODIFY on the
-  # provider.
-  ACCOUNT_MODIFY    = "account_modify"    # can create or modify cloud accounts
-  ACCOUNT_VIEW      = "account_view"      # can view cloud accounts
+  # notes on available privilege action/type pairs. Format is:
+  # Type          Scope
+  #   Action      Notes (action defined on scope above unless specified)
+  #
+  # BasePermissionObject   the base perm object
+  #   modify      Can modify system settings, etc.
+  #   view_perms  Can view permissions
+  #   set_perms   Can set permissions
+  #
+  # Template  This template/assembly/deployable or all T/A/D in this TADCollection
+  #   view        Can view
+  #   use         Can assign T/A/D to TAD collection;
+  #                (if template) can add to assembly or can use to launch instance
+  #                (if assembly) can add to deployable
+  #                (if deployable) can use to launch deployment
+  #                (if TAD Collection) not used
+  #   modify      Can modify
+  #   create      Can create (on BasePermissionObject)
+  #   view_perms  Can view permissions
+  #   set_perms   Can set permissions
+  #
+  # Pool This pool
+  #   view        Can view
+  #   modify      Can modify
+  #   create      Can create (on BasePermissionObject)
+  #   view_perms  Can view permissions
+  #   set_perms   Can set permissions
+  #
+  # PoolFamily This PoolFamily
+  #   view        Can view
+  #   modify      Can modify
+  #   create      Can create (on BasePermissionObject)
+  #   view_perms  Can view permissions
+  #   set_perms   Can set permissions
+  #
+  # Instance This Instance or instances within this Pool
+  #   view        Can view
+  #   use         Can perform lifecycle actions on and/or view console
+  #   modify      Can modify
+  #   create      Can create (within this Pool)
+  #   view_perms  Can view permissions
+  #   set_perms   Can set permissions (or can set instance permissions on this pool)
+  #
+  # Quota  The Pool/CloudAccount/PoolFamily/User assigned the quota
+  #   view        Can view quota on this obj
+  #   modify      Can edit quota on this obj
+  #
+  # HardwareProfile This HardwareProfile
+  #   modify      (for Aeolus HWPs) Can modify
+  #   create      Can create (on BasePermissionObject)
+  #   view_perms  Can view permissions
+  #   set_perms   Can set permissions
+  #
+  # Realm This Realm (or realms within this provider)
+  #   use         (for provider Realm) can map realm or provider to aeolus realm
+  #   modify      (for Aeolus realms) Can modify
+  #   create      Can create (within this Pool)
+  #   view_perms  Can view permissions
+  #   set_perms   Can set permissions
+  #
+  # Provider This Provider
+  #   view        Can view
+  #   modify      Can modify
+  #   create      Can create (on BasePermissionObject)
+  #   view_perms  Can view permissions
+  #   set_perms   Can set permissions
+  #
+  # CloudAccount This CloudAccount
+  #   view        Can view
+  #   use         Can map to PoolFamily
+  #   modify      Can modify
+  #   create      Can create (within this Provider)
+  #   view_perms  Can view permissions
+  #   set_perms   Can set permissions
+  #
+  # User This User (set on BasePermissionObject)
+  #   view        Can view
+  #   modify      Can modify
+  #   create      Can create
 
-  POOL_MODIFY       = "pool_modify"       # can create or modify a pool
-  POOL_VIEW         = "pool_view"         # can view a pool
-
-  # quota privileges normally checked at the pool or account level,
-  # depending on which quota level we're dealing with
-  QUOTA_MODIFY      = "quota_modify"      # can create or modify a quota
-  QUOTA_VIEW        = "quota_view"        # can view a quota
-
-  # provider privileges normally checked at the provider level, although
-  # 'new provider' action requires this privilege at the SystemPermission level
-  PROVIDER_MODIFY   = "provider_modify"   # can create or modify a provider
-  PROVIDER_VIEW     = "provider_view"     # can view a provider
-
-  # normally checked at the SystemPermission level
-  USER_MODIFY       = "user_modify"       # can create a new user (other than
-                                          # self-registration) or modify another
-                                          # user's metadata (for admin-level
-                                          # actions)
-  USER_VIEW         = "user_view"         # can view a user's profile data
-
-  IMAGE_VIEW        = "image_view"        # can view existing images (templates)
-  IMAGE_MODIFY      = "image_modify"      # can create or modify images (templates)
-
-  FULL_PRIVILEGE_LIST = [PERM_SET, PERM_VIEW,
-                         INSTANCE_MODIFY, INSTANCE_CONTROL, INSTANCE_VIEW,
-                         STATS_VIEW,
-                         ACCOUNT_MODIFY, ACCOUNT_VIEW,
-                         POOL_MODIFY, POOL_VIEW,
-                         QUOTA_MODIFY, QUOTA_VIEW,
-                         PROVIDER_MODIFY, PROVIDER_VIEW,
-                         USER_MODIFY, USER_VIEW,
-                         IMAGE_VIEW, IMAGE_MODIFY]
 end

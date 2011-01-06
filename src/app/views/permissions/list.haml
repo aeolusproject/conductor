@@ -14,7 +14,7 @@
         %td= permission.user.login
         %td= permission.role.name
         %td
-          - if has_set_perms?
+          - if check_privilege(Privilege::PERM_SET)
             - form_tag :action => 'destroy' do
               = hidden_field :permission, :id, :value => permission.id
               = submit_tag "delete", :class => "submit_link", :id => "delete_#{permission.id}"
@@ -22,10 +22,10 @@
 = link_to "Add a user",                                                                   |
   {:controller => "users",                                                                |
   :action => "new"},                                                                      |
-  :class=>"actionlink" if has_user_modify?(BasePermissionObject.general_permission_scope) |
+  :class=>"actionlink" if check_privilege(Privilege::CREATE,User,BasePermissionObject.general_permission_scope) |
 -#
 = link_to "Add a new permission record",               |
   {:action => "new",                                   |
   :permission_object_type => @permission_object.class, |
   :permission_object_id => @permission_object.id},     |
-  :class=>"actionlink" if has_set_perms?               |
+  :class=>"actionlink" if check_privilege(Privilege::PERM_SET) |

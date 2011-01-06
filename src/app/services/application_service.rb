@@ -40,19 +40,34 @@ module ApplicationService
 
   # @current_user must be defined
 
-  def check_privilege(privilege, perm_obj)
-    ((perm_obj and perm_obj.has_privilege(current_user, privilege)) or
-     BasePermissionObject.general_permission_scope.has_privilege(current_user,
-                                                                 privilege))
+  def check_privilege(action, *type_and_perm_obj)
+    target_type = nil
+    perm_obj = nil
+    type_and_perm_obj.each do |obj|
+      target_type=obj if obj.class==Class
+      perm_obj=obj if obj.is_a?(ActiveRecord::Base)
+    end
+    perm_obj=@perm_obj if perm_obj.nil?
+    perm_obj=BasePermissionObject.general_permission_scope if perm_obj.nil?
+    perm_obj.has_privilege(current_user, action, target_type)
   end
 
-  def authorized?(privilege, perm_obj=nil)
+  # Require a given privilege level to view this page
+  #   1. action is always required -- what action is being done (from Privilege::ACTIONS)
+  #   2. perm_obj is optional -- This is the resource on which to look for permission
+  #         records. If omitted, check for site-wide permissions on BasePermissionObject
+  #   3. type is also optional -- if omitted it's taken from perm_obj.
+  #        For example, if action is 'view', perm_obj is a Pool and type is omitted,
+  #        then check for current user's "view pool" permission on this pool.
+  #        if action is 'view', perm_obj is a Pool and type is Quota,
+  #        then check for current user's "view quota" permission on this pool.
+  def require_privilege(action, *type_and_perm_obj)
+    perm_obj = nil
+    type_and_perm_obj.each do |obj|
+      perm_obj=obj if obj.is_a?(ActiveRecord::Base)
+    end
     @perm_obj = perm_obj
-    check_privilege(privilege,@perm_obj)
-  end
-
-  def require_privilege(privilege, perm_obj=nil)
-    unless authorized?(privilege, perm_obj)
+    unless check_privilege(action, *type_and_perm_obj)
       raise PermissionError.new(
                'You have insufficient privileges to perform action.')
     end

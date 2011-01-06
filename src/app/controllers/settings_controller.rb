@@ -31,22 +31,16 @@ class SettingsController < ApplicationController
   end
 
   def index
-    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+    @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
   end
 
  def self_service
-   if !is_admin?
-     raise PermissionError.new('You have insufficient privileges to perform action.')
-     return
-   end
+   require_privilege(Privilege::MODIFY)
    @self_service_default_quota = MetadataObject.lookup(SELF_SERVICE_DEFAULT_QUOTA)
  end
 
  def general_settings
-   if !is_admin?
-     raise PermissionError.new('You have insufficient privileges to perform action.')
-     return
-   end
+   require_privilege(Privilege::MODIFY)
  end
 
  def update
@@ -76,9 +70,4 @@ class SettingsController < ApplicationController
    redirect_to :action => 'self_service'
  end
 
- private
- def is_admin?
-   is_admin = @current_user.permissions.collect { |p| p.role }.find { |r| r.name == "Administrator" }
-   return is_admin == nil ? false : true
- end
 end

@@ -3,16 +3,9 @@ require 'spec_helper'
 describe UsersController do
 
   before(:each) do
-    unless BasePermissionObject.find_by_name(BasePermissionObject::GENERAL_PERMISSION_SCOPE)
-      Factory(:base_permission_object)
-    end
     @tuser = Factory :tuser
     @admin_permission = Factory :admin_permission
-    @admin_permission.role.privileges << Privilege.find_by_name('user_modify')
     @admin = @admin_permission.user
-    Factory.create(:default_quota_metadata)
-    Factory.create(:default_role_metadata)
-    Factory.create(:default_pool_metadata)
     activate_authlogic
   end
 

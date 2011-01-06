@@ -1,12 +1,12 @@
 class BuildsController < ApplicationController
-  before_filter [:require_user, :check_permission]
+  before_filter [:require_user]
 
   def section_id
     'build'
   end
 
   def index
-    require_privilege(Privilege::IMAGE_VIEW)
+    require_privilege(Privilege::VIEW, Template)
     order = get_order('templates.name')
     @running_images = Image.all(:include => :template, :conditions => ['status IN (?)', Image::ACTIVE_STATES], :order => order)
     @completed_images = Image.all(:include => :template, :conditions => {:status => Image::STATE_COMPLETE}, :order => order)
@@ -16,6 +16,7 @@ class BuildsController < ApplicationController
   def new
     raise "select template to build" unless id = params[:template_id]
     @tpl = Template.find(id)
+    check_permission
     if @tpl.imported
       flash[:warning] = "Build imported template is not supported"
       redirect_to templates_path
@@ -30,6 +31,7 @@ class BuildsController < ApplicationController
     end
 
     @tpl = Template.find(params[:template_id])
+    check_permission
     @all_targets = Image.available_targets
 
     if params[:targets].blank?
@@ -60,9 +62,11 @@ class BuildsController < ApplicationController
   end
 
   def edit
+    # FIXME: is @tpl defined here? do we need check_permission here?
   end
 
   def update
+    # FIXME: is @tpl defined here? do we need check_permission here?
   end
 
   private
@@ -82,6 +86,6 @@ class BuildsController < ApplicationController
   end
 
   def check_permission
-    require_privilege(Privilege::IMAGE_MODIFY)
+    require_privilege(Privilege::MODIFY, @tpl)
   end
 end

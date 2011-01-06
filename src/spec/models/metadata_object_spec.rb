@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MetadataObject do
 
   before(:each) do
-    @default_pool_family_metadata = Factory :default_pool_family_metadata
+    @default_pool_family_metadata = MetadataObject.find_by_key("default_pool_family")
   end
 
   it "lookup on nonexistent key should return nil" do

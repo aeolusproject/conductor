@@ -24,12 +24,13 @@ class UsersController < ApplicationController
   before_filter :current_user
 
   def new
+    require_privilege(Privilege::CREATE, User) unless current_user.nil?
     @user = User.new
     @user.quota = Quota.new
   end
 
   def create
-    require_privilege(Privilege::USER_MODIFY) unless current_user.nil?
+    require_privilege(Privilege::CREATE, User) unless current_user.nil?
     @user = User.new(params[:user])
 
     if params[:commit] == "Reset"
@@ -58,39 +59,26 @@ class UsersController < ApplicationController
     else
       @user = current_user
     end
+    require_privilege(Privilege::VIEW, User) unless current_user == @user
     @quota_resources = @user.quota.quota_resources()
   end
 
   def edit
-    @user = params[:id] ? User.find(params[:id]) : @current_user
-
-    if @user
-      if @user != @current_user
-        if !BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
-          flash[:notice] = "Invalid Permission to perform this operation"
-          redirect_to users_path
-        end
-      end
-    end
+    @user = params[:id] ? User.find(params[:id]) : current_user
+    require_privilege(Privilege::MODIFY, User) unless current_user == @user
   end
 
   def update
     @user = params[:user][:id] ? User.find(params[:user][:id]) : @current_user
+    require_privilege(Privilege::MODIFY, User) unless current_user == @user
     if params[:commit] == "Save"
       if @user
-        has_users_modify = BasePermissionObject.general_permission_scope.can_modify_users(@current_user)
-        if @user != @current_user
-          if !has_users_modify
-            flash[:notice] = "Invalid Permission to perform this operation"
-            redirect_to :dashboard
-          end
-        end
         if @user.update_attributes(params[:user])
           flash[:notice] = "User updated!"
-          if has_users_modify
-            redirect_to users_path
-          else
+          if @user == current_user
             redirect_to :dashboard
+          else
+            redirect_to users_path
           end
         else
           render :action => :edit
@@ -102,21 +90,17 @@ class UsersController < ApplicationController
   end
 
   def index
-    if @current_user.permissions.collect { |p| p.role }.find { |r| r.name == "Administrator" }
+    require_privilege(Privilege::VIEW, User)
+    @users = User.all
+    sort_order = params[:sort_by].nil? ? "login" : params[:sort_by]
+    if sort_order == "percentage_quota_used"
       @users = User.all
-      sort_order = params[:sort_by].nil? ? "login" : params[:sort_by]
-      if sort_order == "percentage_quota_used"
-        @users = User.all
-        @users.sort! {|x,y| y.quota.percentage_used <=> x.quota.percentage_used }
-      elsif sort_order == "quota"
-        @users = User.all
-        @users.sort! {|x,y| (x.quota.maximum_running_instances and y.quota.maximum_running_instances) ? x.quota.maximum_running_instances <=> y.quota.maximum_running_instances : (x ? 1 : -1) }
-      else
-        @users = User.find(:all, :order => sort_order)
-      end
+      @users.sort! {|x,y| y.quota.percentage_used <=> x.quota.percentage_used }
+    elsif sort_order == "quota"
+      @users = User.all
+      @users.sort! {|x,y| (x.quota.maximum_running_instances and y.quota.maximum_running_instances) ? x.quota.maximum_running_instances <=> y.quota.maximum_running_instances : (x ? 1 : -1) }
     else
-      flash[:notice] = "Invalid Permission to perform this operation"
-      redirect_to :dashboard
+      @users = User.find(:all, :order => sort_order)
     end
   end
 
@@ -138,22 +122,19 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    if @current_user.permissions.collect { |p| p.role }.find { |r| r.name == "Administrator" }
-      if request.post? || request.delete?
-        @user = User.find(params[:id])
-        if @user == @current_user
-          flash[:notice] = "Can not delete the currently logged in user!"
-        elsif @user.destroy
-          flash[:notice] = "User Deleted"
-        else
-          flash[:error] = {
-            :summary => "Failed to delete User",
-            :failures => @user.errors.full_messages,
-          }
-        end
+    require_privilege(Privilege::MODIFY, User)
+    if request.post? || request.delete?
+      @user = User.find(params[:id])
+      if @user == @current_user
+        flash[:notice] = "Can not delete the currently logged in user!"
+      elsif @user.destroy
+        flash[:notice] = "User Deleted"
+      else
+        flash[:error] = {
+          :summary => "Failed to delete User",
+          :failures => @user.errors.full_messages,
+        }
       end
-    else
-      flash[:notice] = "Invalid Permission to perform this operation"
     end
     redirect_to users_path
   end

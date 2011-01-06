@@ -4,108 +4,75 @@ PoolFamily.create!(:name => "default", :description => "default pool family")
 # Default Pool
 Pool.create!(:name => "default_pool", :quota => Quota.create, :pool_family => PoolFamily.find_by_name('default'))
 
-# Create default privileges
-privileges = ["set_perms", "view_perms",
-  "instance_modify", "instance_control", "instance_view",
-  "stats_view",
-  "account_modify", "account_view",
-  "pool_modify", "pool_view",
-  "quota_modify", "quota_view",
-  "provider_modify", "provider_view",
-  "user_modify", "user_view",
-  "image_modify", "image_view"]
-Privilege.transaction do
-  privileges.each do |priv_name|
-    privilege = Privilege.create!(:name => priv_name)
-  end
-end
 
 # Create default roles
-roles = {"Instance Controller" =>
-  {:role_scope => "Pool",
-    :privileges => ["instance_control",
-      "instance_view",
-      "pool_view"]},
-      "Instance Controller With Monitoring" =>
-  {:role_scope => "Pool",
-    :privileges => ["instance_control",
-      "instance_view",
-      "pool_view",
-      "stats_view"]},
-      "Instance Creator and User" =>
-  {:role_scope => "Pool",
-    :privileges => ["instance_control",
-      "instance_view",
-      "pool_view",
-      "stats_view",
-      "instance_modify",
-      "quota_view",
-      "set_perms",
-      "view_perms"]},
-      "Pool Creator" =>
-  {:role_scope => "Provider",
-    :privileges => ["provider_view",
-      "pool_modify",
-      "pool_view",
-      "quota_view"]},
-      "Pool Administrator" =>
-  {:role_scope => "Provider",
-    :privileges => ["provider_view",
-      "pool_modify",
-      "pool_view",
-      "quota_view",
-      "quota_modify",
-      "set_perms",
-      "view_perms"]},
-      "Provider Administrator" =>
-  {:role_scope => "Provider",
-    :privileges => ["provider_modify",
-      "provider_view",
-      "account_modify",
-      "account_view"]},
-      "Account Administrator" =>
-  {:role_scope => "CloudAccount",
-    :privileges => ["set_perms",
-      "view_perms",
-      "stats_view",
-      "account_view",
-      "account_modify"]},
-      "Account Viewer" =>
-  {:role_scope => "CloudAccount",
-    :privileges => ["account_view"]},
-    "Provider Creator" =>
-  {:role_scope => "BasePermissionObject",
-    :privileges => ["provider_modify",
-      "provider_view"]},
-      "Administrator" =>
-  {:role_scope => "BasePermissionObject",
-    :privileges => ["provider_modify",
-      "provider_view",
-      "account_modify",
-      "account_view",
-      "user_modify",
-      "user_view",
-      "set_perms",
-      "view_perms",
-      "pool_modify",
-      "pool_view",
-      "quota_modify",
-      "quota_view",
-      "stats_view",
-      "instance_modify",
-      "instance_control",
-      "instance_view",
-      "image_modify",
-      "image_view"]}
+VIEW = "view"
+USE  = "use"
+MOD  = "modify"
+CRE  = "create"
+VPRM = "view_perms"
+GPRM = "set_perms"
 
-}
+roles =
+  {Instance =>
+     {"Instance Controller"    => {Instance     => [VIEW,USE]},
+      "Instance Owner"         => {Instance     => [VIEW,USE,MOD,    VPRM,GPRM]}},
+   PoolFamily =>
+     {"Pool Family User"       => {Pool         => [VIEW]},
+      "Pool Family Owner"      => {PoolFamily   => [VIEW,    MOD,    VPRM,GPRM],
+                                   Pool         => [VIEW,    MOD,CRE,VPRM,GPRM]}},
+   Pool =>
+     {"Pool User"              => {Pool         => [VIEW],
+                                   Instance     => [             CRE],
+                                   Quota        => [VIEW]},
+      "Pool Owner"             => {Pool         => [VIEW,    MOD,    VPRM,GPRM],
+                                   Instance     => [VIEW,USE,MOD,CRE],
+                                   Quota        => [VIEW]}},
+   Provider =>
+     {"Provider Owner"         => {Provider     => [VIEW,    MOD,    VPRM,GPRM],
+                                   CloudAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}},
+   CloudAccount =>
+     {"Provider Account User"  => {CloudAccount => [VIEW,USE]},
+      "Provider Account Owner" => {CloudAccount => [VIEW,USE,MOD,    VPRM,GPRM]}},
+   Template =>
+     {"Template User"          => {Template     => [VIEW,USE]},
+      "Template Owner"         => {Template     => [VIEW,USE,MOD,    VPRM,GPRM]}},
+   BasePermissionObject =>
+     {"Provider Creator"       => {Provider     => [             CRE]},
+      "Provider Administrator" => {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                   CloudAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]},
+      "HWP Administrator"      => {HardwareProfile => [      MOD,CRE,VPRM,GPRM]},
+      "Realm Administrator"    => {Realm        => [     USE,MOD,CRE,VPRM,GPRM]},
+      "Pool Creator"           => {Pool         => [             CRE]},
+      "Pool Administrator"     => {Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                   Instance     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                   Quota        => [VIEW,    MOD],
+                                   PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]},
+      "Template Administrator" => {Template     => [VIEW,USE,MOD,CRE,VPRM,GPRM]},
+      "Administrator"          => {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                   CloudAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                   HardwareProfile => [      MOD,CRE,VPRM,GPRM],
+                                   Realm        => [     USE,MOD,CRE,VPRM,GPRM],
+                                   User         => [VIEW,    MOD,CRE],
+                                   Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                   Instance     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                   Quota        => [VIEW,    MOD],
+                                   PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                   Template     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                   BasePermissionObject => [ MOD,    VPRM,GPRM]}}}
 Role.transaction do
-  roles.each do |role_name, role_hash|
-    role = Role.create!(:name => role_name, :scope => role_hash[:role_scope])
-    role.privileges = role_hash[:privileges].collect do |priv_name|
-      Privilege.find_by_name(priv_name)
+  roles.each do |role_scope, scoped_hash|
+    scoped_hash.each do |role_name, role_privileges|
+      role_privileges.each do |priv_type, priv_actions|
+        role = Role.find_or_initialize_by_name(role_name)
+        role.update_attributes({:name => role_name, :scope => role_scope.name})
+        role.save!
+        priv_actions.each do |action|
+          Privilege.create!(:role => role, :target_type => priv_type.name,
+                            :action => action)
+        end
+      end
     end
-    role.save!
   end
 end
 
@@ -118,7 +85,7 @@ MetadataObject.set("default_pool_family", PoolFamily.find_by_name('default'))
 default_pool = Pool.find_by_name("default_pool")
 default_quota = Quota.create
 
-default_role = Role.find_by_name("Instance Creator and User")
+default_role = Role.find_by_name("Pool User")
 settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,
   "self_service_default_pool" => default_pool,

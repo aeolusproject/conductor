@@ -3,9 +3,6 @@ require 'spec_helper'
 describe RegistrationService do
 
   before(:each) do
-    Factory.create(:default_quota_metadata)
-    Factory.create(:default_role_metadata)
-    Factory.create(:default_pool_metadata)
   end
 
   describe "with validations" do
@@ -22,20 +19,15 @@ describe RegistrationService do
 
     it "should register a user with default pool/quota/role when default settings set" do
       @user = Factory :user
-      @pool = Factory(:pool, :name => "default_pool")
-      privilege = Privilege.find_by_name('instance_view')
-      @role = Factory(:role, :privileges => [privilege])
+      @pool = MetadataObject.lookup("self_service_default_pool")
+      @role = MetadataObject.lookup("self_service_default_role")
       @quota = Factory :quota
-
-      MetadataObject.set("allow_self_service_logins", "true")
-      MetadataObject.set("self_service_default_pool", @pool)
-      MetadataObject.set("self_service_default_role", @role)
       MetadataObject.set("self_service_default_quota", @quota)
 
       @registration_service = RegistrationService.new(@user)
       @registration_service.save
 
-      @pools = Pool.list_for_user(@user, Privilege::INSTANCE_VIEW)
+      @pools = Pool.list_for_user(@user, Privilege::CREATE, :target_type => Instance)
       @pools.length.should == 1
       @pools[0].name.should == "default_pool"
 
