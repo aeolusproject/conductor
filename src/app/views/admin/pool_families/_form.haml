@@ -1,0 +1,6 @@
+= form.error_message_on :name, 'Name'
+%fieldset.clear
+  = form.label :name,'Pool Family Name :'
+  = form.text_field :name, :title => 'pool_family_name', :value => @pool_family.name, :class => "clear grid_4 alpha"
+%fieldset.clear
+  = form.submit "Save",  :class => "submit formbutton"

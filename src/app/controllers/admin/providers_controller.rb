@@ -28,7 +28,7 @@ class Admin::ProvidersController < ApplicationController
         end
         render :partial => @details_tab and return
       end
-      format.html { render :action => 'show'}
+      format.html { render :action => 'show' }
     end
   end
 

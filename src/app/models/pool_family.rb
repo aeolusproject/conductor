@@ -20,13 +20,14 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class PoolFamily < ActiveRecord::Base
-
+  include PermissionedObject
   DEFAULT_POOL_FAMILY_KEY = "default_pool_family"
 
   has_many :pools,  :dependent => :destroy
   has_and_belongs_to_many :cloud_accounts
 
   validates_presence_of :name
+  validates_uniqueness_of :name
   def self.default
     MetadataObject.lookup(DEFAULT_POOL_FAMILY_KEY)
   end

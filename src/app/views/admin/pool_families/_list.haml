@@ -1,0 +1,22 @@
+- form_tag do
+  = link_to "Create", new_admin_pool_family_path, :class => "button"
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_pool_families_path, 'DELETE', :id => 'delete_button'
+
+  %p
+    Select:&nbsp;
+    = link_to "All", @url_params.merge(:select => 'all')
+    %span> ,&nbsp;
+    = link_to "None", @url_params.merge(:select => 'none')
+
+  %table#pool_famlies_table
+    = sortable_table_header @header
+    - unless @pool_families.blank?
+      - @pool_families.each do |pool_family|
+        %tr
+          %td
+            - selected = @url_params[:select] == 'all'
+            %input{:name => "pool_family_selected[]", :type => "checkbox", :value => pool_family.id, :id => "pool_family_checkbox_#{pool_family.id}", :checked => selected }
+            = link_to pool_family.name, admin_pool_family_path(pool_family)
+          %td
+          %td
+            xx %
