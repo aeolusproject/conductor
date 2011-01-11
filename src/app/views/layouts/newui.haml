@@ -42,6 +42,9 @@
           Saved searches
         - details = !(yield :details).blank?
         #list-view{ :class => details ? 'part' : 'full'}
+          - form_tag({:action => 'index'}, :method => :get) do
+            = text_field_tag :q, @search_term
+            = submit_tag "Search"
           = render :partial => '/layouts/notification'
           = (yield :list or yield)
         #details-view.ui-tabs.ui-widget.ui-widget-content.ui-corner-all{ :class => ('hidden' unless details)}

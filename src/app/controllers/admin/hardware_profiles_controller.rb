@@ -1,11 +1,25 @@
 class Admin::HardwareProfilesController < ApplicationController
   before_filter :require_user
-  before_filter :load_hardware_profiles, :only => [:index, :show]
-  before_filter :load_hardware_profile, :only => [:show]
+  before_filter :set_params_and_header, :only => [:index, :show]
+  before_filter :load_hardware_profiles, :only => [:show]
+
   def index
+    @params = params
+    @search_term = params[:q]
+    if @search_term.blank?
+      load_hardware_profiles
+      return
+    end
+
+    search = HardwareProfile.search do
+      keywords(params[:q])
+      with(:frontend, true)
+    end
+    @hardware_profiles = search.results
   end
 
   def show
+    @hardware_profile = HardwareProfile.find((params[:id] || []).first)
     @tab_captions = ['Properties', 'History', 'Matching Provider Hardware Profiles']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     case @details_tab
@@ -23,15 +37,6 @@ class Admin::HardwareProfilesController < ApplicationController
       end
       format.html { render :action => 'show'}
     end
-  end
-
-  def new
-  end
-
-  def create
-  end
-
-  def delete
   end
 
   private
@@ -62,8 +67,7 @@ class Admin::HardwareProfilesController < ApplicationController
                                          :conditions => {:hardware_profile_map => { :aggregator_hardware_profile_id => params[:id] }})
   end
 
-  def load_hardware_profiles
-    @hardware_profiles = HardwareProfile.all(:conditions => 'provider_id IS NULL')
+  def set_params_and_header
     @url_params = params
     @header = [
       { :name => "Hardware Profile Name", :sort_attr => :name },
@@ -74,8 +78,7 @@ class Admin::HardwareProfilesController < ApplicationController
     ]
   end
 
-  def load_hardware_profile
-    @hardware_profile = HardwareProfile.find((params[:id] || []).first)
+  def load_hardware_profiles
+    @hardware_profiles = HardwareProfile.all(:conditions => 'provider_id IS NULL')
   end
-
 end
