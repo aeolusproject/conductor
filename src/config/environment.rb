@@ -53,6 +53,7 @@ Rails::Initializer.run do |config|
   config.gem "typhoeus"
   config.gem "rb-inotify"
   config.gem 'rack-restful_submit', :version => '1.1.2'
+  config.gem 'sunspot_rails', :lib => 'sunspot/rails'
 
   config.middleware.swap Rack::MethodOverride, 'Rack::RestfulSubmit'
 
