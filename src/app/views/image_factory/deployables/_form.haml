@@ -1,0 +1,7 @@
+= form.error_messages
+%fieldset.clear
+  = form.label :name, t(:name), :class => "grid_3 alpha"
+  = form.text_field :name, :class => "grid_5"
+%fieldset.clearfix
+  = form.submit "Save",  :class => "submit formbutton"
+  = link_to t(:cancel), image_factory_deployables_path, :class => 'button formbutton'

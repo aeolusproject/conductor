@@ -84,6 +84,7 @@ en:
   cloud_engine_realms: Realms
   pool_families: Pool Families
   setting: Settings
+  name: Name
   admin:
     settings:
       index:
