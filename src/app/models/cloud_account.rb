@@ -33,7 +33,7 @@ class CloudAccount < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
-  has_one :instance_key, :dependent => :destroy
+  has_one :instance_key, :as => :instance_key_owner, :dependent => :destroy
 
   # Helpers
   attr_accessor :x509_cert_priv_file, :x509_cert_pub_file
@@ -62,7 +62,6 @@ class CloudAccount < ActiveRecord::Base
   end
 
   # Hooks
-  after_create :generate_cloud_account_key
   before_destroy :destroyable?
   before_validation :read_x509_files
 
@@ -170,13 +169,9 @@ EOT
     return xml.to_s
   end
 
-  private
-  def generate_cloud_account_key
+  def generate_auth_key
     client = connect
-    if client && client.feature?(:instances, :authentication_key)
-      key = client.create_key(:name => "#{self.name}_#{Time.now.to_i}_key")
-      InstanceKey.create(:cloud_account => self, :pem => key.pem, :name => key.id) if key
-    end
+    return nil unless client && client.feature?(:instances, :authentication_key)
+    client.create_key(:name => "#{self.name}_#{Time.now.to_i}_key_#{self.object_id}")
   end
-
 end

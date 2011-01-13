@@ -57,7 +57,7 @@ Rails::Initializer.run do |config|
 
   config.middleware.swap Rack::MethodOverride, 'Rack::RestfulSubmit'
 
-  config.active_record.observers = :instance_observer, :task_observer
+  config.active_record.observers = :instance_observer, :task_observer, :cloud_account_observer
   # Only load the plugins named here, in the order given. By default, all plugins
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named

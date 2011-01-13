@@ -21,7 +21,6 @@
 #
 class InstanceKey < ActiveRecord::Base
 
-  belongs_to :cloud_account
-  has_many :instances
+  belongs_to :instance_key_owner, :polymorphic => true
 
 end
