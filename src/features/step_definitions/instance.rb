@@ -7,7 +7,7 @@ def pending_instance
 end
 
 Given /^a mock running instance exists$/ do
-  mock_instance
+  mock_instance.instance_key = Factory :mock_instance_key, :instance_key_owner => mock_instance
 end
 
 Given /^a mock pending instance exists$/ do
@@ -15,18 +15,15 @@ Given /^a mock pending instance exists$/ do
 end
 
 Given /^I am viewing the mock instance detail$/ do
-  visit url_for :action => 'show', :controller => 'instances',
-    :id => mock_instance
+  visit resources_instance_url(mock_instance)
 end
 
 When /^I am viewing the pending instance detail$/ do
-  visit url_for :action => 'show', :controller => 'instances',
-    :id => pending_instance
+  visit resources_instance_url(pending_instance)
 end
 
 When /^I manually go to the key action for this instance$/ do
-   visit url_for :action => 'key', :controller => 'instances',
-    :id => pending_instance
+  visit key_resources_instance_url(pending_instance)
 end
 
 Given /^I see "([^"]*)"$/ do |text|

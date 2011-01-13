@@ -28,14 +28,19 @@ Provider.class_eval do
 end
 
 CloudAccount.class_eval do
-  
-  alias :generate_cloud_account_key_original :generate_cloud_account_key 
+
+  alias :generate_auth_key_original :generate_auth_key
 
   def validate_credentials
     true
   end
 
-  def generate_cloud_account_key
+  def generate_auth_key
+    key = OpenStruct.new(:pem => 'PEM')
+    def key.id
+      "mock_#{Time.now.to_i}_key_#{self.object_id}"
+    end
+    key
   end
 
 #  def instance_key

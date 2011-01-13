@@ -28,10 +28,10 @@ uH9ebPTGZc5cTpOEV9SupUez4cAedBGeHVDHy06sATrgIwKBgQCdqFhrse+uhRacK1LAymvBsou5
 end
 
 Factory.define :ec2_instance_key1, :parent => :instance_key do |p|
-  p.cloud_account { |p| p.association(:ec2_cloud_account) }
+  p.instance_key_owner { |p| p.association(:ec2_instance) }
   p.name "1_user"
 end
 
 Factory.define :mock_instance_key, :parent => :instance_key do |m|
-  m.cloud_account { |c| c.association(:mock_cloud_account) }
+  m.instance_key_owner { |c| c.association(:instance) }
 end
