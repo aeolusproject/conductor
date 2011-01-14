@@ -42,3 +42,18 @@ Feature: Manage Users
     When I follow "cancel"
     Then there should only be 2 users
     And I should be on the admin users page
+
+  Scenario: Search for hardware profiles
+    Given there is a user "myuser"
+    And there is a user "someuser"
+    And I am on the admin users page
+    Then I should see "myuser"
+    And I should see "someuser"
+    When I fill in "q" with "some"
+    And I press "Search"
+    Then I should see "someuser"
+    And I should not see "myuser"
+    When I fill in "q" with "myuser"
+    And I press "Search"
+    Then I should see "myuser"
+    And I should not see "someuser"

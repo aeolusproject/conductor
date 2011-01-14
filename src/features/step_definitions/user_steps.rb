@@ -1,5 +1,7 @@
 Given /^there is a user "([^"]*)"$/ do |name|
-  User.find_by_login(name).should_not == nil
+  unless User.find_by_login(name)
+    Factory :user, :login => name, :email => "#{name}@example.com"
+  end
 end
 
 Given /^there are (\d+) users$/ do |number|
