@@ -7,6 +7,9 @@ require(File.join(File.dirname(__FILE__), 'config', 'boot'))
 require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
-require 'sunspot/rails/tasks'
+begin
+  require 'sunspot/rails/tasks'
+rescue LoadError
+end
 
 require 'tasks/rails'
