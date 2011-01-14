@@ -19,7 +19,14 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+require 'sunspot_rails'
 class User < ActiveRecord::Base
+  searchable do
+    text :login, :as => :code_substring
+    text :last_name, :as => :code_substring
+    text :first_name, :as => :code_substring
+    text :email, :as => :code_substring
+  end
   acts_as_authentic
 
   has_many :permissions

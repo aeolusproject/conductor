@@ -1,7 +1,21 @@
 class Admin::UsersController < ApplicationController
   before_filter :require_user
   before_filter :only_admin, :only => [:index, :multi_destroy]
-  before_filter :load_users, :only => [:index, :show]
+  before_filter :load_users, :only => [:show]
+
+  def index
+    @params = params
+    @search_term = params[:q]
+    if @search_term.blank?
+      load_users
+      return
+    end
+
+    search = User.search do
+      keywords(params[:q])
+    end
+    @users = search.results
+  end
 
   def new
     @user = User.new
