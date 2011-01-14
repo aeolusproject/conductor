@@ -2,7 +2,7 @@
       "conditional_package_names" : {  },
       "default" : true,
       "default_package_names" : [ "libdeltacloud",
-          "deltacloud-portal"
+          "deltacloud-aggregator"
         ],
       "description" : "Deltacloud description",
       "display_order" : 1024,
