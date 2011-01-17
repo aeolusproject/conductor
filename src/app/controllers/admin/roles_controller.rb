@@ -1,6 +1,20 @@
 class Admin::RolesController < ApplicationController
   before_filter :require_user
-  before_filter :load_roles, :only => [:index, :show]
+  before_filter :load_roles, :only => [:show]
+  before_filter :load_params_and_headers, :only => [:index]
+
+  def index
+    @search_term = params[:q]
+    if @search_term.blank?
+      load_roles
+      return
+    end
+
+    search = Role.search() do
+      keywords(params[:q])
+    end
+    @roles = search.results
+  end
 
   def create
     @role = Role.new(params[:role])
@@ -59,15 +73,18 @@ class Admin::RolesController < ApplicationController
 
   protected
 
-  def load_roles
+  def load_params_and_headers
     @header = [
       { :name => "Role name", :sort_attr => :name }
     ]
+    @url_params = params.clone
+  end
+
+  def load_roles
     @roles = Role.paginate(:all,
       :page => params[:page] || 1,
       :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )
-    @url_params = params.clone
   end
 
 end

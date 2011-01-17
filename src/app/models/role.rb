@@ -17,7 +17,11 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
+require 'sunspot_rails'
 class Role < ActiveRecord::Base
+  searchable do
+    text :name, :as => :code_substring
+  end
   has_many :permissions
   has_and_belongs_to_many :privileges, :uniq => true
 
