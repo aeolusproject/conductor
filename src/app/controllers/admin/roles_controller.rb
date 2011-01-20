@@ -17,6 +17,7 @@ class Admin::RolesController < ApplicationController
   end
 
   def create
+    require_privilege(Privilege::PERM_SET)
     @role = Role.new(params[:role])
 
     # TODO: (lmartinc) Fix this and let user select the scope. Consult with sseago.
@@ -31,6 +32,7 @@ class Admin::RolesController < ApplicationController
   end
 
   def show
+    require_privilege(Privilege::PERM_VIEW)
     @role = Role.find(params[:id])
 
     @url_params = params.clone
@@ -48,10 +50,12 @@ class Admin::RolesController < ApplicationController
   end
 
   def edit
+    require_privilege(Privilege::PERM_SET)
     @role = Role.find(params[:id])
   end
 
   def update
+    require_privilege(Privilege::PERM_SET)
     @role = Role.find(params[:id])
 
     if params[:commit] == "Reset"
@@ -67,6 +71,7 @@ class Admin::RolesController < ApplicationController
   end
 
   def multi_destroy
+    require_privilege(Privilege::PERM_SET)
     Role.destroy(params[:role_selected])
     redirect_to admin_roles_url
   end
