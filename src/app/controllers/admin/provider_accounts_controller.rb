@@ -1,8 +1,18 @@
 class Admin::ProviderAccountsController < ApplicationController
   before_filter :require_user
-  before_filter :load_accounts, :only => [:index, :show]
+  before_filter :load_accounts, :only => :show
+  before_filter :set_view_vars, :only => [:index,:show]
 
   def index
+    @search_term = params[:q]
+    if @search_term.blank?
+      load_accounts
+    else
+      search = CloudAccount.search do
+        keywords(params[:q])
+      end
+      @accounts = search.results
+    end
   end
 
   def show
@@ -118,15 +128,18 @@ class Admin::ProviderAccountsController < ApplicationController
     flash.now[:error] = "Test Connection Failed: Could not connect to provider"
   end
 
-  def load_accounts
+  def set_view_vars
     @header = [
       { :name => "Name", :sort_attr => :name },
       { :name => "Username", :sort_attr => :username},
     ]
+    @url_params = params
+  end
+
+  def load_accounts
     @accounts = CloudAccount.paginate(:all,
       :page => params[:page] || 1,
       :order => (params[:order_field] || 'label') +' '+ (params[:order_dir] || 'asc')
     )
-    @url_params = params
   end
 end

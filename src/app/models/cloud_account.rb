@@ -20,8 +20,15 @@
 # Likewise, all the methods added will be available for all controllers.
 
 require 'nokogiri'
+require 'sunspot_rails'
 
 class CloudAccount < ActiveRecord::Base
+
+  searchable do
+    text :name, :as => :code_substring
+    text :username, :as => :code_substring
+  end
+
   include PermissionedObject
 
   # Relations
