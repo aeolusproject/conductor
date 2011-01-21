@@ -56,7 +56,7 @@ Given /^there is "([^"]*)" conductor hardware profile$/ do |name|
 end
 
 Given /^there is "([^"]*)" conductor realm$/ do |name|
-  Factory :frontend_realm, :provider_id => nil, :name => name
+  Factory :frontend_realm, :backend_realm => Factory(:provider), :name => name
 end
 
 Given /^there is "([^"]*)" pool$/ do |arg1|

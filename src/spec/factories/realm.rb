@@ -20,6 +20,3 @@ Factory.define :backend_realm, :parent => :realm do |r|
   r.name 'backend_name'
   r.external_key 'backend_key'
 end
-
-Factory.define :frontend_realm, :parent => :backend_realm do |r|
-end
