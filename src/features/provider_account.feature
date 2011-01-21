@@ -68,3 +68,19 @@ Feature: Manage Provider Accounts
     And I press "Delete"
     Then I should be on the admin provider accounts page
     And there should be no provider accounts
+
+  Scenario: Search for Provider Accounts
+    Given there is a provider named "testprovider"
+    And there is a provider account named "testaccount"
+    And there is a second provider account named "otheraccount"
+    And I am on the admin provider accounts page
+    When I fill in "q" with "test"
+    And I press "Search"
+    Then I should see the following:
+    | testaccount | mockuser |
+    And I should not see "otheraccount"
+    When I fill in "q" with "mock"
+    And I press "Search"
+    Then I should see the following:
+    | testaccount | mockuser |
+    | otheraccount | mockuser |
