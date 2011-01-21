@@ -40,6 +40,7 @@ Requires: ruby-RMagick
 Requires: classads >= 1.0
 Requires: condor >= 7.5.5-10dcloud
 Requires: iwhd
+Requires: deltacloud-configure
 
 BuildRequires: ruby
 BuildRequires: ruby-devel
