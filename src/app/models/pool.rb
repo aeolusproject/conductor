@@ -72,8 +72,4 @@ class Pool < ActiveRecord::Base
     HardwareProfile.find(:all, :conditions => {:provider_id => nil})
   end
 
-  def realms
-    Realm.find(:all, :conditions => { :provider_id => nil })
-  end
-
 end
