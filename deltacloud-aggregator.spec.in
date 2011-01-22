@@ -32,6 +32,7 @@ Requires: rubygem(json)
 Requires: rubygem(deltacloud-image-builder-agent)
 Requires: rubygem(imagebuilder-console)
 Requires: rubygem(rack-restful_submit)
+Requires: rubygem(sunspot_rails)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
@@ -39,6 +40,7 @@ Requires: ruby-RMagick
 Requires: classads >= 1.0
 Requires: condor >= 7.5.5-10dcloud
 Requires: iwhd
+Requires: deltacloud-configure
 
 BuildRequires: ruby
 BuildRequires: ruby-devel
