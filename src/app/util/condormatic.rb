@@ -59,7 +59,11 @@ def condormatic_instance_create(task)
     requirements += " && realm == \"#{realm.id}\"" if realm != nil
     # We may need to add some stuff to the provider classads like pool id, provider id etc.  This is mostly just
     # to test and make sure this works for now.
-    requirements += " && deltacloud_quota_check(\"#{job_name}\", other.cloud_account_id)"
+    #
+    # This is currently broken as the condor plugin loads models without initializing rails.
+    # However, recent changes have required that rails be initialized in order to load the
+    # pool and quota models.
+    #requirements += " && deltacloud_quota_check(\"#{job_name}\", other.cloud_account_id)"
     requirements += "\n"
 
     pipe.puts requirements
