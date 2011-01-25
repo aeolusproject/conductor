@@ -73,3 +73,25 @@ Feature: Manage Providers
     And there should not be any hardware profiles
     And there should not be a cloud account
     And there should not be a realm
+
+  Scenario: Search for hardware profiles
+    Given there are these providers:
+    | name          | url                         |
+    | Test          | http://testprovider.com/api |
+    | Mock          | http://mockprovider.com/api |
+    | Other         | http://sometesturl.com/api  |
+    And I am on the admin providers page
+    Then I should see the following:
+    | Test  | http://testprovider.com/api |
+    | Mock  | http://mockprovider.com/ap  |
+    | Other | http://sometesturl.com/api  |
+    When I fill in "q" with "test"
+    And I press "Search"
+    Then I should see "Test"
+    And I should see "Other"
+    And I should not see "Mock"
+    When I fill in "q" with "Mock"
+    And I press "Search"
+    Then I should see "Mock"
+    And I should not see "Test"
+    And I should not see "Other"

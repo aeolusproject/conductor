@@ -32,7 +32,7 @@ end
 
 Given /^there are these providers:$/ do |table|
   table.hashes.each do |hash|
-    Factory(:mock_provider, :name => hash['name'])
+    hash['url'].nil? ? Factory(:mock_provider, :name => hash['name']) : Factory(:mock_provider, :name => hash['name'], :url => hash['url'])
   end
 end
 
