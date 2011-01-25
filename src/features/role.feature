@@ -37,3 +37,20 @@ Feature: Manage Roles
     And I should be on the admin roles page
     And I should not see "Captan"
     And I should not see "Admiral"
+
+  Scenario: Search roles
+    Given a role "Admiral" exists
+    And I am on the admin roles page
+    And there are 2 roles
+    When I fill in "q" with "admi"
+    And I press "Search"
+    Then I should see "Admiral"
+    And I should not see "Captan"
+    When I fill in "q" with "Captan"
+    And I press "Search"
+    Then I should not see "Admiral"
+    And I should see "Captan"
+    When I fill in "q" with ""
+    And I press "Search"
+    Then I should see "Admiral"
+    And I should see "Captan"
