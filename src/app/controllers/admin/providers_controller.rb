@@ -1,8 +1,19 @@
 class Admin::ProvidersController < ApplicationController
   before_filter :require_user
-  before_filter :load_providers, :only => [:index, :show]
+  before_filter :set_view_envs, :only => [:show, :index]
 
   def index
+    @params = params
+    @search_term = params[:q]
+    if @search_term.blank?
+      load_providers
+      return
+    end
+
+    search = Provider.search do
+      keywords(params[:q])
+    end
+    @providers = search.results
   end
 
   def new
@@ -17,6 +28,7 @@ class Admin::ProvidersController < ApplicationController
   end
 
   def show
+    load_providers
     @provider = Provider.find(params[:id])
     @url_params = params.clone
     @tab_captions = ['Properties', 'HW Profiles', 'Realms', 'Provider Accounts', 'Services','History','Permissions']
@@ -92,12 +104,14 @@ class Admin::ProvidersController < ApplicationController
   end
 
   protected
+  def set_view_envs
+    @header = [{ :name => "Provider name", :sort_attr => :name },
+               { :name => "Provider URL", :sort_attr => :name }
+    ]
+    @url_params = params.clone
+  end
 
-    def load_providers
-      @header = [{ :name => "Provider name", :sort_attr => :name },
-                 { :name => "Provider URL", :sort_attr => :name }
-      ]
-      @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
-      @url_params = params.clone
-    end
+  def load_providers
+    @providers = Provider.list_for_user(@current_user, Privilege::PROVIDER_VIEW)
+  end
 end
