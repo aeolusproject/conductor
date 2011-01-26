@@ -1,7 +1,21 @@
 class Resources::InstancesController < ApplicationController
   before_filter :require_user
   before_filter :load_instance, :only => [:show, :remove_failed, :key, :stop]
-  before_filter :load_instances, :only => [:show, :index]
+  before_filter :set_view_vars, :only => [:show, :index]
+
+  def index
+    @params = params
+    @search_term = params[:q]
+    if @search_term.blank?
+      load_instances
+      return
+    end
+
+    search = Instance.search do
+      keywords(params[:q])
+    end
+    @instances = search.results
+  end
 
   def new
     @instance = Instance.new(params[:instance])
@@ -64,6 +78,7 @@ class Resources::InstancesController < ApplicationController
   end
 
   def show
+    load_instances
     @url_params = params.clone
     @tab_captions = ['Properties', 'History', 'Permissions']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
@@ -76,9 +91,6 @@ class Resources::InstancesController < ApplicationController
       end
       format.html { render :action => 'show'}
     end
-  end
-
-  def index
   end
 
   def key
@@ -135,7 +147,7 @@ class Resources::InstancesController < ApplicationController
     )
   end
 
-  def load_instances
+  def set_view_vars
     @header = [
       {:name => 'VM NAME', :sort_attr => 'name'},
       {:name => 'STATUS', :sortable => false},
@@ -145,11 +157,13 @@ class Resources::InstancesController < ApplicationController
       {:name => 'CREATED BY', :sort_attr => 'users.last_name'},
     ]
 
-    pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
-    @instances = Instance.all(
-      :include => [:template, :owner],
-      :conditions => {:pool_id => pools},
-      :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
+    @pools = Pool.list_for_user(@current_user, Privilege::INSTANCE_MODIFY)
+  end
+
+  def load_instances
+    @instances = Instance.all(:include => [:template, :owner],
+                              :conditions => {:pool_id => @pools},
+                              :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )
   end
 end
