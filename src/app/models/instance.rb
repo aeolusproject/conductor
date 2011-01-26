@@ -8,7 +8,7 @@
 #  name                    :string(1024)    not null
 #  hardware_profile_id     :integer         not null
 #  template_id             :integer
-#  realm_id                :integer
+#  frontend_realm_id       :integer
 #  owner_id                :integer
 #  pool_id                 :integer         not null
 #  provider_account_id     :integer
@@ -80,7 +80,7 @@ class Instance < ActiveRecord::Base
   belongs_to :hardware_profile
   belongs_to :template
   belongs_to :assembly
-  belongs_to :realm
+  belongs_to :frontend_realm
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   belongs_to :instance_hwp
 

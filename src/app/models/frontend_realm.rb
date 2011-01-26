@@ -1,12 +1,10 @@
 # == Schema Information
 # Schema version: 20110207110131
 #
-# Table name: realms
+# Table name: frontend_realms
 #
 #  id           :integer         not null, primary key
-#  external_key :string(255)     not null
 #  name         :string(1024)    not null
-#  provider_id  :integer
 #  lock_version :integer         default(0)
 #  created_at   :datetime
 #  updated_at   :datetime
@@ -33,18 +31,15 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class Realm < ActiveRecord::Base
-  belongs_to :provider
+class FrontendRealm < ActiveRecord::Base
+  has_many :realm_backend_targets
+  has_many :instances
 
-  has_many :realm_backend_targets, :as => :realm_or_provider
-  has_many :frontend_realms, :through => :realm_backend_targets
-
-  validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => :provider_id
+  # there is a problem with has_many through + polymophic in AR:
+  # http://blog.hasmanythrough.com/2006/4/3/polymorphic-through
+  # so we define explicitly backend_realms and backend_providers
+  has_many :backend_realms, :through => :realm_backend_targets, :source => :realm, :conditions => "realm_backend_targets.realm_or_provider_type = 'Realm'"
+  has_many :backend_providers, :through => :realm_backend_targets, :source => :provider, :conditions => "realm_backend_targets.realm_or_provider_type = 'Provider'"
 
   validates_presence_of :name
-  validates_presence_of :provider_id
-
-  CONDUCTOR_REALM_PROVIDER_DELIMITER = ":"
-  CONDUCTOR_REALM_ACCOUNT_DELIMITER = "/"
 end

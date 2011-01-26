@@ -60,6 +60,8 @@ class Provider < ActiveRecord::Base
   has_many :hardware_profiles, :dependent => :destroy
   has_many :provider_images, :dependent => :destroy
   has_many :realms, :dependent => :destroy
+  has_many :realm_backend_targets, :as => :realm_or_provider
+  has_many :frontend_realms, :through => :realm_backend_targets
 
   validates_presence_of :name
   validates_uniqueness_of :name

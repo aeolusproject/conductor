@@ -8,7 +8,7 @@
 #  name                    :string(1024)    not null
 #  hardware_profile_id     :integer         not null
 #  template_id             :integer
-#  realm_id                :integer
+#  frontend_realm_id       :integer
 #  owner_id                :integer
 #  pool_id                 :integer         not null
 #  provider_account_id     :integer
