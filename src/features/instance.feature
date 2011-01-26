@@ -76,3 +76,37 @@ Feature: Mange Instances
     And I press "Stop"
     Then I should be on the instances page
     And I should see "mock1: stop action was successfully queued"
+
+  @tag
+  Scenario: Search for instances
+    Given there are the following instances:
+    | name  | external_key | state   | public_addresses    | private_addresses     |
+    | mock  | ext_mock     | running | mock.public.address  | mock.private.address  |
+    | test  | ext_test     | pending | test.public.address  | test.private.address  |
+    | other | ext_other    | stopped | other.public.address | other.private.address |
+    And I am on the the instances page
+    When I fill in "q" with "mock"
+    And I press "Search"
+    Then I should see "mock"
+    And I should not see "test"
+    And I should not see "other"
+    When I fill in "q" with "ext_other"
+    And I press "Search"
+    Then I should not see "mock"
+    And I should not see "test"
+    And I should see "other"
+    When I fill in "q" with "pending"
+    And I press "Search"
+    Then I should not see "mock"
+    And I should see "test"
+    And I should not see "other"
+    When I fill in "q" with "mock.public.address"
+    And I press "Search"
+    Then I should see "mock"
+    And I should not see "test"
+    And I should not see "other"
+    When I fill in "q" with "test.private.address"
+    And I press "Search"
+    Then I should not see "mock"
+    And I should see "test"
+    And I should not see "other"

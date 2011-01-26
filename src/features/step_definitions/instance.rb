@@ -63,7 +63,18 @@ Given /^there is "([^"]*)" pool$/ do |arg1|
   Factory :pool, :name => arg1
 end
 
+
 When /^I check "([^"]*)" instance$/ do |name|
   inst = Instance.find_by_name(name)
   check("inst_ids_#{inst.id}")
+end
+
+Given /^there are the following instances:$/ do |table|
+  table.hashes.each do |hash|
+    Factory(:instance, :name => hash['name'],
+                       :external_key => hash['external_key'],
+                       :state => hash['state'],
+                       :public_addresses => hash['public_addresses'],
+                       :private_addresses => hash['private_addresses'])
+  end
 end
