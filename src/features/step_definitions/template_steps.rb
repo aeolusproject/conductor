@@ -44,7 +44,7 @@ end
 
 Given /^there are these templates:$/ do |table|
   table.hashes.each do |hash|
-    @template = Factory.build (:template, :name => hash['name'],
+    @template = Factory.build(:template, :name => hash['name'],
                                :platform => hash['platform'])
     @template.save!
     @template.platform_version = hash['platform_version']

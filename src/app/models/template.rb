@@ -2,6 +2,14 @@ require 'util/image_descriptor_xml'
 require 'typhoeus'
 
 class Template < ActiveRecord::Base
+  searchable do
+    text :name, :as => :code_substring
+    text :platform, :as => :code_substring
+    text :platform_version, :as => :code_substring
+    text :architecture, :as => :code_substring
+    text :summary, :as => :code_substring
+  end
+
   has_many :images, :dependent => :destroy
   has_many :instances
   before_validation :generate_uuid

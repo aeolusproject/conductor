@@ -3,12 +3,24 @@ require 'util/repository_manager'
 class ImageFactory::TemplatesController < ApplicationController
   before_filter :require_user
   before_filter :check_permission, :except => [:index, :show]
-  before_filter :load_templates, :only => [:index, :show]
+  before_filter :set_view_vars, :only => [:index, :show]
 
   def index
+    @params = params
+    @search_term = params[:q]
+    if @search_term.blank?
+      load_templates
+      return
+    end
+
+    search = Template.search do
+      keywords(params[:q])
+    end
+    @templates = search.results
   end
 
   def show
+    load_templates
     @tpl = Template.find(params[:id])
     @url_params = params.clone
     @tab_captions = ['Properties', 'Images']
@@ -188,7 +200,7 @@ class ImageFactory::TemplatesController < ApplicationController
     @images = tpl.images
   end
 
-  def load_templates
+  def set_view_vars
     @header = [
       {:name => 'NAME', :sort_attr => 'name'},
       {:name => 'OS', :sort_attr => 'platform'},
@@ -199,12 +211,15 @@ class ImageFactory::TemplatesController < ApplicationController
 
     # TODO: add template permission check
     require_privilege(Privilege::IMAGE_VIEW)
+    @url_params = params.clone
+  end
+
+  def load_templates
     @templates = Template.find(
       :all,
       :include => :images,
       :order => get_order('name')
     )
-    @url_params = params.clone
   end
 
   def set_package_vars(set_all = false)
