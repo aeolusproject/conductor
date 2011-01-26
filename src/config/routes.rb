@@ -45,8 +45,6 @@ ActionController::Routing::Routes.draw do |map|
     r.resources :builds
   end
 
-  map.connect '/set_layout', :controller => 'application', :action => 'set_layout'
-
   map.namespace 'admin' do |r|
     r.resources :realms
     r.resources :hardware_profiles, :collection => { :multi_destroy => :delete }

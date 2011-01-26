@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
 
-  layout :choose_layout
+  layout 'newui'
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -35,26 +35,6 @@ class ApplicationController < ActionController::Base
   rescue_from PermissionError, :with => :handle_perm_error
   rescue_from ActionError, :with => :handle_action_error
   rescue_from PartialSuccessError, :with => :handle_partial_success_error
-
-  def choose_layout
-    return nil if params[:ajax]
-    if params[:component_layout]
-      return (ENV["RAILS_ENV"] != "production")?'components/' << params[:component_layout]:'aggregator'
-    end
-    if cookies[:layout]
-      @layout = cookies[:layout]
-    else
-      @layout = 'aggregator'
-    end
-    return @layout
-  end
-
-  def set_layout
-    if not params[:layout].blank?
-      cookies[:layout] = params[:layout]
-    end
-    render :text => "Current layout is: '#{cookies[:layout]}'"
-  end
 
   def section_id
     'generic'
@@ -113,7 +93,7 @@ class ApplicationController < ActionController::Base
       render :template => 'layouts/popup-error', :layout => 'popup',
              :locals => {:title => title, :errmsg => msg}
     else
-      render :template => 'layouts/error', :layout => 'aggregator',
+      render :template => 'layouts/error', :layout => 'newui',
              :locals => {:title => title, :errmsg => msg}
     end
   end
