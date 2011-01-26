@@ -1,6 +1,7 @@
 %h3
   = @hardware_profile.name + "(" + (@hardware_profile.provider_id.nil? ? "Front End" : "Provider" ) + ")"
-= link_to 'Edit', edit_admin_hardware_profile_path(@hardware_profile), :class => 'button'
+<!-- Disabled until condor can support new HWP model -->
+<!-- = link_to 'Edit', edit_admin_hardware_profile_path(@hardware_profile), :class => 'button' -->
 %table
   = sortable_table_header @properties_header
   - @hwp_properties.each do |hwpp|
