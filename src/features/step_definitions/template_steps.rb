@@ -42,6 +42,18 @@ Given /^I jump on the "([^"]*)" template software page$/ do |name|
   visit url_for(:action => 'software', :controller => 'templates', :id => @template)
 end
 
+Given /^there are these templates:$/ do |table|
+  table.hashes.each do |hash|
+    @template = Factory.build (:template, :name => hash['name'],
+                               :platform => hash['platform'])
+    @template.save!
+    @template.platform_version = hash['platform_version']
+    @template.architecture = hash['architecture']
+    @template.summary = hash['summary']
+    @template.save!
+  end
+end
+
 Then /^I should have a template named "([^"]*)"$/ do |name|
   Template.first(:order => 'created_at DESC').xml.name.should eql(name)
 end

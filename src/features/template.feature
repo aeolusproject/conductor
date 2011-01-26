@@ -124,3 +124,46 @@ Feature: Manage Templates
     And I press "Build"
     Then I should be on the templates page
     And I should see "Build imported template is not supported"
+
+  Scenario: Search for templates
+    Given there are these templates:
+    | name          | platform | platform_version | architecture | summary                                       |
+    | Test1         | fedora   | 13               | x86_64       | Test Template Fedora 13  64 bit  Description  |
+    | Mock          | fedora   | 14               | i386         | Test Template Fedora 14 Description           |
+    | Other         | fedora   | 10.04            | i386         | Test Template Ubuntu 10.04 32 bit Description |
+    And I am on the image factory templates page
+    Then I should see the following:
+    | NAME          | OS       | VERSION          | ARCH   |
+    | Test1         | fedora   | 13               | x86_64 |
+    | Mock          | fedora   | 14               | i386   |
+    | Other         | fedora   | 10.04            | i386   |
+    When I fill in "q" with "test"
+    And I press "Search"
+    Then I should see "Test1"
+    And I should see "Mock"
+    And I should see "Other"
+    When I fill in "q" with "Mock"
+    And I press "Search"
+    Then I should see "Mock"
+    And I should not see "Test1"
+    And I should not see "Other"
+    When I fill in "q" with "13"
+    And I press "Search"
+    Then I should see "Test1"
+    And I should not see "Other"
+    And I should not see "Mock"
+    When I fill in "q" with "x86_64"
+    And I press "Search"
+    Then I should see "Test1"
+    And I should not see "Other"
+    And I should not see "Mock"
+    When I fill in "q" with "fedora"
+    And I press "Search"
+    Then I should see "Test1"
+    And I should see "Other"
+    And I should see "Mock"
+    When I fill in "q" with "32 bit Description"
+    And I press "Search"
+    Then I should not see "Test1"
+    And I should see "Other"
+    And I should not see "Mock"
