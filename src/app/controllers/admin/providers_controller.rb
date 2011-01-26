@@ -54,6 +54,7 @@ class Admin::ProvidersController < ApplicationController
     else
       @provider.set_cloud_type!
       if @provider.save && @provider.populate_hardware_profiles
+        @provider.assign_owner_roles(current_user)
         flash[:notice] = "Provider added."
         redirect_to admin_providers_path
       else

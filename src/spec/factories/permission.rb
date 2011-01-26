@@ -23,5 +23,11 @@ end
 Factory.define :pool_user_permission, :parent => :permission do |p|
   p.role { |r| Role.first(:conditions => ['name = ?', 'Pool User']) || Factory(:role, :name => 'Pool User') }
   p.permission_object { |r| r.association(:pool) }
-  p.user { |u| u.association(:user) }
+  p.user { |u| u.association(:pool_user) }
+end
+
+Factory.define :pool_user2_permission, :parent => :permission do |p|
+  p.role { |r| Role.first(:conditions => ['name = ?', 'Pool User']) || Factory(:role, :name => 'Pool User') }
+  p.permission_object { |r| r.association(:pool) }
+  p.user { |u| u.association(:pool_user2) }
 end

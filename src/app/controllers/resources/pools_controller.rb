@@ -48,6 +48,7 @@ class Resources::PoolsController < ApplicationController
     @pool.quota_id = quota.id
     @pool.pool_family = PoolFamily.default
     if @pool.save
+      @pool.assign_owner_roles(current_user)
       flash[:notice] = "Pool added."
       redirect_to :action => 'show', :id => @pool.id
     else

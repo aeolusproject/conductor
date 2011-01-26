@@ -101,6 +101,8 @@ class InstancesController < ApplicationController
                       Pool.find(@instance.pool_id))
     #FIXME: This should probably be in a transaction
     if @instance.save!
+        # set owner permissions:
+        @instance.assign_owner_roles(current_user)
         @task = InstanceTask.new({:user        => current_user,
                                   :task_target => @instance,
                                   :action      => InstanceTask::ACTION_CREATE})

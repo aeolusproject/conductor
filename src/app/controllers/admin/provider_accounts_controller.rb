@@ -73,6 +73,7 @@ class Admin::ProviderAccountsController < ApplicationController
 
     @cloud_account.pool_families << PoolFamily.default
     @cloud_account.save!
+    @cloud_account.assign_owner_roles(current_user)
     if @cloud_account.populate_realms
       flash[:notice] = "Provider account added."
     end

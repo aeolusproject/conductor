@@ -41,6 +41,18 @@ module PermissionedObject
     [self, BasePermissionObject.general_permission_scope]
   end
 
+  # assign owner role so that the creating user has permissions on the object
+  # Any roles defined on default_privilege_target_type with assign_to_owner==true
+  # will be assigned to the passed-in user on this object
+  def assign_owner_roles(user)
+    roles = Role.find(:all, :conditions => ["assign_to_owner =:assign and scope=:scope",
+                                            { :assign => true,
+                                              :scope => self.class.default_privilege_target_type.name}])
+    roles.each do |role|
+      Permission.create!(:role => role, :user => user, :permission_object => self)
+    end
+  end
+
   # Any methods here will be able to use the context of the
   # ActiveRecord model the module is included in.
   def self.included(base)
@@ -82,7 +94,7 @@ module PermissionedObject
           if query_conditions.nil?
             conditions_str = self.list_for_user_conditions
           else
-            conditions_str = "(#{self.list_for_user_include}) and (#{query_conditions[0]})"
+            conditions_str = "(#{self.list_for_user_conditions}) and (#{query_conditions[0]})"
             conditions_hash.merge!(query_conditions[1]) { |key, h1, h2| h1 }
           end
           find(:all, :include => include_clause,

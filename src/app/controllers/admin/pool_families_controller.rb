@@ -15,6 +15,7 @@ class Admin::PoolFamiliesController < ApplicationController
       flash.now[:warning] = "Pool family's creation failed."
       render :new and return
     else
+      @pool_family.assign_owner_roles(current_user)
       flash[:notice] = "Pool family was added."
       redirect_to admin_pool_families_path
     end

@@ -38,4 +38,33 @@ describe InstancesController do
      inst = Instance.find(:first, :conditions => ['name = ?', 'mockinstance'])
      inst.owner_id.should == @pool_user.id
   end
+
+  it "should NOT allow pool users to see each other's instances" do
+     @pool_user_permission = Factory :pool_user_permission
+     @pool_user = @pool_user_permission.user
+     @pool_user2_permission = Factory :pool_user2_permission
+     @pool_user2 = @pool_user2_permission.user
+     UserSession.create(@pool_user)
+     pool = Permission.first(:conditions => {:permission_object_type => 'Pool', :user_id => @pool_user.id}).permission_object
+     template = Factory.build(:template)
+     template.save!
+     hwp = Factory.build(:mock_hwp1)
+     hwp.save!
+     lambda do
+       post :create, :instance => { :name => 'mockinstance',
+                                    :pool_id => pool.id,
+                                    :template_id => template.id,
+                                    :hardware_profile_id => hwp.id }
+     end.should change(Instance, :count).by(1)
+     inst = Instance.find_by_name('mockinstance')
+    inst.permissions.size.should == 1
+    inst.permissions[0].user.should == @pool_user
+     inst = Instance.list_for_user(@pool_user, Privilege::MODIFY,
+                                   :conditions => ['instances.name = :name',
+                                                   {:name => 'mockinstance'}]).size.should == 1
+     inst = Instance.list_for_user(@pool_user2, Privilege::MODIFY,
+                                   :conditions => ['instances.name = :name',
+                                                   {:name => 'mockinstance'}]).size.should == 0
+
+  end
 end

@@ -72,6 +72,7 @@ class ImageFactory::TemplatesController < ApplicationController
     @tpl = Template.new(params[:tpl])
     @tpl.packages = params[:packages]
     if @tpl.save
+      @tpl.assign_owner_roles(current_user)
       flash[:notice] = "Template saved."
       @tpl.set_complete
       redirect_to image_factory_templates_path
