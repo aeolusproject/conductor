@@ -41,12 +41,17 @@ class HardwareProfile < ActiveRecord::Base
 
   belongs_to :memory,       :class_name => "HardwareProfileProperty",
                             :dependent => :destroy
+
   belongs_to :storage,      :class_name => "HardwareProfileProperty",
                             :dependent => :destroy
+
   belongs_to :cpu,          :class_name => "HardwareProfileProperty",
                             :dependent => :destroy
+
   belongs_to :architecture, :class_name => "HardwareProfileProperty",
                             :dependent => :destroy
+
+  accepts_nested_attributes_for :memory, :cpu, :storage, :architecture
 
   has_and_belongs_to_many :aggregator_hardware_profiles,
                           :class_name => "HardwareProfile",
@@ -60,11 +65,12 @@ class HardwareProfile < ActiveRecord::Base
                           :foreign_key => "aggregator_hardware_profile_id",
                           :association_foreign_key => "provider_hardware_profile_id"
 
-  validates_presence_of :external_key
-  validates_uniqueness_of :external_key, :scope => [:provider_id]
+  validates_presence_of :external_key, :if => Proc.new { |hwp| !hwp.provider.nil? }
+  validates_uniqueness_of :external_key, :scope => [:provider_id], :if => Proc.new { |hwp| !hwp.provider.nil? }
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:provider_id]
+
 
   validates_associated :memory
   validates_associated :storage

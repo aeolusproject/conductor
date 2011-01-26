@@ -32,4 +32,7 @@ class PropertyEnumEntry < ActiveRecord::Base
                                      HardwareProfileProperty::STORAGE or
                                  p.hardware_profile_property.name ==
                                    HardwareProfileProperty::CPU }
+  def to_s
+    value.to_s + ", "
+  end
 end

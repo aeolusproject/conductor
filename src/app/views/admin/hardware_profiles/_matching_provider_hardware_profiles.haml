@@ -1,11 +1,13 @@
-%h3
-  = @hardware_profile.name
+- if @hardware_profile
+  %h3
+    =@hardware_profile.name
 %table
   = sortable_table_header @provider_hwps_header
   - @matching_hwps.each do |hwp|
     %tr
       %td
-        = link_to hwp.provider.name, admin_provider_path(hwp.provider)
+        - if hwp.provider
+          = link_to hwp.provider.name, admin_provider_path(hwp.provider)
       %td
         = link_to hwp.name, admin_hardware_profile_path(hwp)
       %td

@@ -20,3 +20,20 @@ def create_hwp(hash, provider=nil)
   arch = Factory(:mock_hwp1_arch, :value => hash[:architecture])
   Factory(:mock_hwp1, :name => hash[:name], :memory => memory, :cpu => cpu, :storage => storage, :architecture => arch, :provider => provider)
 end
+
+When /^I enter the following details for the Hardware Profile Properties$/ do |table|
+  table.hashes.each do |hash|
+    hash.each_pair do |key, value|
+      unless (hash[:name] == "architecture" && (key == "range_first" || key == "range_last" || key == "property_enum_entries")) || key == "name"
+        When "I fill in \"#{"hardware_profile_" + hash[:name] + "_attributes_" + key}\" with \"#{value}\""
+      end
+    end
+  end
+end
+
+Given /^there are the following provider hardware profiles:$/ do |table|
+  provider = Factory :mock_provider
+  table.hashes.each do |hash|
+    create_hwp(hash, provider)
+  end
+end

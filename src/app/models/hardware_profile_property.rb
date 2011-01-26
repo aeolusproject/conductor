@@ -101,7 +101,7 @@ class HardwareProfileProperty < ActiveRecord::Base
   def to_s
     case kind
       when FIXED
-        value
+        value.to_s
       when RANGE
         range_first.to_s + " - " + range_last.to_s
       when ENUM

@@ -98,6 +98,12 @@ module NavigationHelpers
     when /the hardware profiles page/
       url_for admin_hardware_profiles_path
 
+    when /the new hardware profile page/
+      url_for new_admin_hardware_profile_path
+
+    when /the edit hardware profiles page/
+      url_for :action => 'edit', :controller => 'hardware_profiles', :only_path => true
+
     when /^(.*)'s provider account page$/
       admin_provider_account_path(CloudAccount.find_by_label($1))
 

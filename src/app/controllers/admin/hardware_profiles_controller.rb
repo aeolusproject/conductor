@@ -1,7 +1,10 @@
 class Admin::HardwareProfilesController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
-  before_filter :load_hardware_profiles, :only => [:show]
+  before_filter :load_hardware_profiles, :only => [:index, :show]
+  before_filter :load_hardware_profile, :only => [:show]
+  before_filter :setup_new_hardware_profile, :only => [:new]
+  before_filter :setup_hardware_profile, :only => [:new, :create, :edit, :update]
 
   def index
     @params = params
@@ -39,7 +42,77 @@ class Admin::HardwareProfilesController < ApplicationController
     end
   end
 
+  def new
+  end
+
+  def create
+    build_hardware_profile(params[:hardware_profile])
+    if params[:commit] == 'Save'
+      if @hardware_profile.save!
+        redirect_to admin_hardware_profiles_path
+      else
+        params.delete :commit
+        render :action => 'create'
+      end
+    else
+      matching_provider_hardware_profiles
+      render :action => 'new'
+    end
+  end
+
+  def delete
+  end
+
+  def edit
+    unless @hardware_profile
+      @hardware_profile = HardwareProfile.find(params[:id])
+    end
+    matching_provider_hardware_profiles
+  end
+
+  def update
+    if params[:commit] == "Reset"
+      redirect_to edit_admin_hardware_profile_url(@hardware_profile) and return
+    end
+
+    if params[:id]
+      @hardware_profile = HardwareProfile.find(params[:id])
+      build_hardware_profile(params[:hardware_profile])
+    end
+
+    if params[:commit] == "Check Matches"
+      matching_provider_hardware_profiles
+      render :edit and return
+    end
+
+    unless @hardware_profile.save!
+      render :action => 'edit' and return
+    else
+      flash[:notice] = "Hardware Profile updated!"
+      redirect_to admin_hardware_profiles_path
+    end
+  end
+
+  def multi_destroy
+    HardwareProfile.destroy(params[:hardware_profile_selected])
+    redirect_to admin_hardware_profiles_path
+  end
+
   private
+  def setup_new_hardware_profile
+    if params[:hardware_profile]
+      begin
+        @hardware_profile = HardwareProfile.new(remove_irrelevant_params(params[:hardware_profile]))
+      end
+    else
+      @hardware_profile = HardwareProfile.new(:memory => HardwareProfileProperty.new(:name => "memory", :unit => "MB"),
+                                              :cpu => HardwareProfileProperty.new(:name => "cpu", :unit => "count"),
+                                              :storage => HardwareProfileProperty.new(:name => "storage", :unit => "GB"),
+                                              :architecture => HardwareProfileProperty.new(:name => "architecture", :unit => "label"))
+    end
+    matching_provider_hardware_profiles
+  end
+
   def properties
     @properties_header = [
       { :name => "Name", :sort_attr => :name},
@@ -63,8 +136,26 @@ class Admin::HardwareProfilesController < ApplicationController
       { :name => "Storage", :sort_attr => :storage },
       { :name => "Virtual CPU", :sort_attr => :cpus}
     ]
-    @matching_hwps = HardwareProfile.all(:include => "aggregator_hardware_profiles",
-                                         :conditions => {:hardware_profile_map => { :aggregator_hardware_profile_id => params[:id] }})
+
+    begin
+      @matching_hwps = HardwareProfile.matching_hwps(@hardware_profile).map { |hwp| hwp[:hardware_profile] }
+    rescue
+      @matching_hwps = []
+    end
+  end
+
+  def setup_hardware_profile
+    @tab_captions = ['Matched Provider Hardware Profiles']
+    @details_tab = 'matching_provider_hardware_profiles'
+    @url_params = params
+    @header  = [
+      { :name => "Name", :sort_attr => :name},
+      { :name => "Unit", :sort_attr => :unit},
+      { :name => "Kind", :sort_attr => :kind },
+      { :name => "Value (Default)", :sort_attr => :value},
+      { :name => "Enum Entries", :sort_attr => :false },
+      { :name => "Range First", :sort_attr => :range_first},
+      { :name => "Range Last", :sort_attr => :range_last }]
   end
 
   def set_params_and_header
@@ -81,4 +172,38 @@ class Admin::HardwareProfilesController < ApplicationController
   def load_hardware_profiles
     @hardware_profiles = HardwareProfile.all(:conditions => 'provider_id IS NULL')
   end
+
+  def load_hardware_profile
+    @hardware_profile = HardwareProfile.find(params[:id])
+  end
+
+  def build_hardware_profile(params)
+    if @hardware_profile.nil?
+      @hardware_profile = HardwareProfile.new
+    end
+
+    @hardware_profile.name = params[:name]
+    @hardware_profile.memory = create_hwpp(@hardware_profile.memory, params[:memory_attributes])
+    @hardware_profile.storage = create_hwpp(@hardware_profile.storage, params[:storage_attributes])
+    @hardware_profile.cpu = create_hwpp(@hardware_profile.cpu, params[:cpu_attributes])
+    @hardware_profile.architecture = create_hwpp(@hardware_profile.architecture, params[:architecture_attributes])
+  end
+
+  def create_hwpp(hwpp, params)
+    hwpp.nil? ? hardwareProfileProperty = HardwareProfileProperty.new : hardwareProfileProperty = hwpp
+
+    hardwareProfileProperty.name = params[:name]
+    hardwareProfileProperty.kind = params[:kind]
+    hardwareProfileProperty.value = params[:value]
+    hardwareProfileProperty.unit = params[:unit]
+    case hardwareProfileProperty.kind
+      when "range"
+        hardwareProfileProperty.range_first = params[:range_first]
+        hardwareProfileProperty.range_last = params[:range_last]
+      when "enum"
+        hardwareProfileProperty.property_enum_entries = params[:property_enum_entries].split(%r{,\s*}).map  { |value| PropertyEnumEntry.new(:value => value, :hardware_profile_property => hardwareProfileProperty) }
+    end
+    hardwareProfileProperty
+  end
+
 end

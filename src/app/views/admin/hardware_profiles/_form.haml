@@ -1,0 +1,29 @@
+=hwp_form.label :name
+=hwp_form.text_field :name
+%table
+  = sortable_table_header @header
+  - [:memory, :cpu, :storage, :architecture].each do |type|
+    - hwp_form.fields_for type do |hwpp_form|
+      %tr
+        %td
+          =hwpp_form.text_field(:name, :readonly => "readonly")
+        %td
+          =hwpp_form.text_field(:unit, :size => 5, :readonly => "readonly")
+        %td
+          -unless type == :architecture
+            =hwpp_form.select("kind", ["fixed", "range", "enum"], {})
+          -else
+            =hwpp_form.select("kind", ["fixed"], {})
+        %td
+          =hwpp_form.text_field(:value)
+        %td
+          -unless type == :architecture
+            =hwpp_form.text_field(:property_enum_entries)
+        %td
+          -unless type == :architecture
+            =hwpp_form.text_field(:range_first)
+        %td
+          -unless type == :architecture
+            =hwpp_form.text_field(:range_last)
+= hwp_form.submit 'Check Matches', :class => "submit formbutton"
+= hwp_form.submit 'Save', :class => 'submit formbutton'

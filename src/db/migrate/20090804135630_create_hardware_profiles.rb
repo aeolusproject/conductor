@@ -40,7 +40,7 @@ class CreateHardwareProfiles < ActiveRecord::Migration
     end
 
     create_table :hardware_profiles do |t|
-      t.string  :external_key, :null => false
+      t.string  :external_key
       t.string  :name, :null => false, :limit => 1024
       t.integer :memory_id
       t.integer :storage_id
