@@ -21,8 +21,6 @@
     /= javascript_include_tag "jquery.html5form"
     = yield :scripts
   %body{:id => controller.section_id}
-    %a{ :href => '', :onClick => "document.cookie = 'layout=aggregator'"}
-      Switch to the old UI
     %div#head
       %header.container_16
         = render :partial => '/layouts/header'
