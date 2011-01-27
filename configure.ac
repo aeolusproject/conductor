@@ -1,4 +1,4 @@
-AC_INIT([deltacloud-aggregator], [0.0.3], [deltacloud-devel@lists.fedoraproject.org])
+AC_INIT([aeolus-conductor], [0.0.3], [aeolus-devel@lists.fedoraproject.org])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability tar-pax])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -9,9 +9,9 @@ AC_PROG_LIBTOOL
 AC_LANG([C++])
 
 AC_ARG_ENABLE(local,
-  [  --enable-local   Set this flag if you are planning to run the aggregator without installing it.],
-  [  DELTACLOUD_INSTALL_DIR=`pwd`/src ], [  DELTACLOUD_INSTALL_DIR=$datadir/deltacloud-aggregator ])
-AC_SUBST(DELTACLOUD_INSTALL_DIR)
+  [  --enable-local   Set this flag if you are planning to run the conductor without installing it.],
+  [  CONDUCTOR_INSTALL_DIR=`pwd`/src ], [  CONDUCTOR_INSTALL_DIR=$datadir/aeolus-conductor ])
+AC_SUBST(CONDUCTOR_INSTALL_DIR)
 
 dnl
 dnl check for classads-devel
@@ -24,12 +24,12 @@ AC_ARG_WITH([classads], AC_HELP_STRING([--with-classads=@<:@PFX@:>@],
 
 if test "x$with_classads" = xno ; then
     AC_MSG_CHECKING([for classads libraries >= $CLASSADS_REQUIRED])
-    AC_MSG_ERROR([classads >= $CLASSADS_REQUIRED is required for aggregator])
+    AC_MSG_ERROR([classads >= $CLASSADS_REQUIRED is required for conductor])
 elif test "x$with_classads" = "x"; then
     fail=0
     AC_CHECK_HEADERS([classad/classad_distribution.h],, [fail=1],[])
     if test $fail = 1; then
-       AC_MSG_ERROR([You must install the classads development package to compile the aggregator])
+       AC_MSG_ERROR([You must install the classads development package to compile the conductor])
     fi
 fi
 
@@ -43,5 +43,6 @@ PKG_CHECK_MODULES(REST, rest-0.6)
 test x"$ac_ct_CC:$CFLAGS" = 'xgcc:-g -O2' \
   && CFLAGS="$CFLAGS -Wshadow -Wall -Werror"
 
-AC_CONFIG_FILES([Makefile deltacloud-aggregator.spec])
+AC_CONFIG_FILES([Makefile aeolus-conductor.spec])
 AC_OUTPUT(src/classad_plugin/Makefile)
+

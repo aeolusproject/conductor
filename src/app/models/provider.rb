@@ -40,7 +40,7 @@ class Provider < ActiveRecord::Base
     text :url, :as => :code_substring
   end
 
-  require 'util/deltacloud'
+  require 'util/conductor'
   include PermissionedObject
 
   MOCK = 0

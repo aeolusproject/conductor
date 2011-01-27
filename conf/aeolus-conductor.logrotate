@@ -1,0 +1,12 @@
+weekly
+rotate 52
+compress
+missingok
+notifempty
+
+/var/log/aeolus-conductor/rails.log /var/log/aeolus-conductor/thin.log {
+  sharedscripts
+  postrotate
+      /etc/init.d/aeolus-conductor restart
+  endscript
+}

@@ -72,10 +72,10 @@ add_ec2_template("
 add_ec2_template("
   <?xml version=\"1.0\"?>
   <image>
-    <name>Deltacloud demo Fedora 13 64 bit image</name>
+    <name>Aeolus Conductor demo Fedora 13 64 bit image</name>
   <repos>
     <repo>http://download.fedoraproject.org/pub/fedora/linux/releases/13/Everything/x86_64/os/</repo>
   </repos>
   <os name=\"fedora\" version=\"13\" architecture=\"64-bit\"/>",
-  "Deltacloud demo Fedora 13 64 bit image",
+  "Aeolus Conductor Fedora 13 64 bit image",
   "ami-709d6919")

@@ -17,14 +17,6 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-# This service is a very early attempt at integration with the Image Builder,
-# and should in no way be considered either stable or production-ready.
-# In order to use this service you must have the gem installed for
-# image_builder_console.
-# This can be checked out from the image_builder repo (link on deltacloud.org),
-# and built locally.  Then keep a terminal open to run this in and run with:
-#   ruby image_builder_service.rb
-
 $: << File.join(File.dirname(__FILE__), "../dutils")
 require 'dutils'
 require "image_builder_console"
@@ -33,8 +25,8 @@ require 'optparse'
 
 help = false
 daemon = true
-builder_pid_dir = "/var/run/deltacloud-aggregator"
-builder_log_dir = "/var/log/deltacloud-aggregator"
+builder_pid_dir = "/var/run/aeolus-conductor"
+builder_log_dir = "/var/log/aeolus-conductor"
 timeout = 8
 
 optparse = OptionParser.new do |opts|

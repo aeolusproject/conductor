@@ -1,7 +1,7 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
-var Aggregator = {
+var Conductor = {
   extendTable: function(options) {
     var table = $(options.id);
     var wrapper = $(".wrapper", table);
@@ -69,7 +69,7 @@ var Aggregator = {
         $('#list-view').removeClass('full').addClass('part');
         $('#details-view').html(data)
           .show();
-        Aggregator.enhanceDetailsTabs();
+        Conductor.enhanceDetailsTabs();
       });
     });
   },
@@ -159,11 +159,11 @@ var Aggregator = {
 };
 })(jQuery);
 
-/* Aggregator JS */
+/* Conductor JS */
 
 $(document).ready(function () {
-  $(window).scroll(Aggregator.positionFooter).resize(Aggregator.positionFooter).scroll();
+  $(window).scroll(Conductor.positionFooter).resize(Conductor.positionFooter).scroll();
   $("#notification").enhanceInteraction();
-  Aggregator.enhanceListView();
-  Aggregator.enhanceDetailsTabs();
+  Conductor.enhanceListView();
+  Conductor.enhanceDetailsTabs();
 });

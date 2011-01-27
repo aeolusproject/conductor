@@ -93,7 +93,7 @@ get_xml (RestProxyCall *call)
 
 
 /*
- * Perform our quota check against the deltacloud aggregator database.
+ * Perform our quota check against the Aeolus Conductor database.
  * This function expects:
  *
  * - Instance executable name as handed to condor so that we can map to the
@@ -106,8 +106,8 @@ get_xml (RestProxyCall *call)
  * the quota matching but that's the idea.
  */
 bool
-deltacloud_quota_check(const char *name, const ArgumentList &arglist,
-		       EvalState &state, Value &result)
+conductor_quota_check(const char *name, const ArgumentList &arglist,
+		      EvalState &state, Value &result)
 {
     Value instance_id;
     Value account_id;
@@ -205,7 +205,7 @@ deltacloud_quota_check(const char *name, const ArgumentList &arglist,
  */
 static ClassAdFunctionMapping classad_functions[] =
 {
-    { "deltacloud_quota_check", (void *) deltacloud_quota_check, 0 },
+    { "conductor_quota_check", (void *) conductor_quota_check, 0 },
     { "", NULL, 0 }
 };
 
@@ -221,3 +221,4 @@ extern "C"
         return classad_functions;
     }
 }
+

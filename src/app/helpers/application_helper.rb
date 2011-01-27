@@ -121,8 +121,8 @@ module ApplicationHelper
     # it's possible to change it in a future
     submit_url = search_url
 
-    extend_table_js = "<script type=\"text/javascript\">Aggregator.extendTable({id: '##{html_id}',single_select:#{opts[:single_select] ? true : false}});#{opts[:load_callback]};</script>"
-    extend_sfield_js = "<script type=\"text/javascript\">Aggregator.extendTableSearchField({id: '##{html_id}'})</script>"
+    extend_table_js = "<script type=\"text/javascript\">Conductor.extendTable({id: '##{html_id}',single_select:#{opts[:single_select] ? true : false}});#{opts[:load_callback]};</script>"
+    extend_sfield_js = "<script type=\"text/javascript\">Conductor.extendTableSearchField({id: '##{html_id}'})</script>"
 
     rows = data.map do |rec|
       if block_given?

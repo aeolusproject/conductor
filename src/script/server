@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 if Process.uid == 0 or Process.gid == 0
-  puts "Deltacloud aggregator cannot be run as root"
+  puts "Aeolus Conductor cannot be run as root"
   exit(1)
 end
 

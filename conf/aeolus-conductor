@@ -1,0 +1,87 @@
+#!/bin/bash
+#
+#
+# aeolus-conductor       startup script for aeolus-conductor
+#
+# chkconfig: - 99 01
+# description: aeolus-conductor is the primary server process for the
+#    Aeolus Conductor
+#
+
+[ -r /etc/sysconfig/conductor-rails ] && . /etc/sysconfig/conductor-rails
+
+[ -r /etc/sysconfig/aeolus-conductor ] && . /etc/sysconfig/aeolus-conductor
+
+RAILS_ENV="${RAILS_ENV:-production}"
+CONDUCTOR_DIR="${CONDUCTOR_DIR:-/usr/share/aeolus-conductor}"
+THIN_LOG="${THIN_LOG:-/var/log/aeolus-conductor/thin.log}"
+THIN_PID="${THIN_PID:-/var/run/aeolus-conductor/thin.pid}"
+THIN_LOCKFILE="${THIN_LOCKFILE:-/var/lock/subsys/aeolus-conductor}"
+AEOLUS_USER="${AEOLUS_USER:-aeolus}"
+AEOLUS_GROUP="${AEOLUS_GROUP:-aeolus}"
+PREFIX="${PREFIX:-/conductor}"
+ADAPTER="${ADAPTER:-rails}"
+
+THIN_PROG=thin
+ADDR=127.0.0.1
+RETVAL=0
+
+. /etc/init.d/functions
+
+start() {
+    echo -n "Starting aeolus-conductor: "
+
+    $THIN_PROG start -c $CONDUCTOR_DIR -l $THIN_LOG -P $THIN_PID \
+	-a $ADDR -e $RAILS_ENV --user $AEOLUS_USER --group $AEOLUS_GROUP \
+	-d --prefix=$PREFIX -A $ADAPTER
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] && touch $THIN_LOCKFILE ; then
+	echo_success
+	echo
+    else
+	echo_failure
+	echo
+    fi
+
+}
+
+stop() {
+    echo -n "Shutting down aeolus-conductor: "
+    $THIN_PROG stop -c $CONDUCTOR_DIR -P $THIN_PID
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] && rm -f $THIN_LOCKFILE ; then
+	echo_success
+	echo
+    else
+	echo_failure
+	echo
+    fi
+}
+
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    restart)
+	stop
+	start
+	;;
+    reload)
+        ;;
+    force-reload)
+        restart
+        ;;
+    status)
+	status $THIN_PROG
+	RETVAL=$?
+	;;
+    *)
+      echo "Usage: aeolus-conductor {start|stop|restart|status}"
+      exit 1
+  ;;
+esac
+
+exit $RETVAL

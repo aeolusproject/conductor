@@ -33,7 +33,7 @@ describe ProviderAccount do
   end
 
   it "should create an instance_key if provider is EC2" do
-    @client = mock('DeltaCloud', :null_object => true)
+    @client = mock('Conductor', :null_object => true)
     @provider = Factory.build :ec2_provider
     @key = mock('Key', :null_object => true)
     @key.stub!(:pem).and_return("PEM")
@@ -51,7 +51,7 @@ describe ProviderAccount do
   end
 
   it "when calling connect and it fails with exception it will return nil" do
-    DeltaCloud.should_receive(:new).and_raise(Exception.new)
+    Conductor.should_receive(:new).and_raise(Exception.new)
 
     @provider_account.connect.should be_nil
   end

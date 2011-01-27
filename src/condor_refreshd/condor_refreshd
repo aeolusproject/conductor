@@ -29,8 +29,8 @@ require 'dutils'
 port = 7890
 help = false
 daemon = true
-refreshd_log_dir = "/var/log/deltacloud-aggregator"
-refreshd_pid_dir = "/var/run/deltacloud-aggregator"
+refreshd_log_dir = "/var/log/aeolus-conductor"
+refreshd_pid_dir = "/var/run/aeolus-conductor"
 timeout = 15
 
 optparse = OptionParser.new do |opts|

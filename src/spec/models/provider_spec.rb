@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe Provider do
   context "(using stubbed out connect method)" do
     before(:each) do
-      @client = mock('DeltaCloud', :null_object => true)
+      @client = mock('', :null_object => true)
       @provider = Factory.build(:mock_provider)
       @provider.stub!(:connect).and_return(@client)
     end

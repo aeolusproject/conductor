@@ -56,25 +56,25 @@ describe HardwareProfile do
     end
   end
 
-  it "should allow Aggregator profiles only for provider profiles" do
+  it "should allow Conductor profiles only for provider profiles" do
     @hp.provider = nil
 
-    @hp.aggregator_hardware_profiles << @hp
-    @hp.should have(1).error_on(:aggregator_hardware_profiles)
-    @hp.errors.on(:aggregator_hardware_profiles).should eql(
-      "Aggregator profiles only allowed for provider profiles")
+    @hp.conductor_hardware_profiles << @hp
+    @hp.should have(1).error_on(:conductor_hardware_profiles)
+    @hp.errors.on(:conductor_hardware_profiles).should eql(
+      "Conductor profiles only allowed for provider profiles")
 
-    @hp.aggregator_hardware_profiles.clear
+    @hp.conductor_hardware_profiles.clear
     @hp.should be_valid
   end
 
-  it "should allow Provider profiles only for aggregator profiles" do
+  it "should allow Provider profiles only for conductor profiles" do
     @hp.provider = Provider.new
 
-    @hp.aggregator_hardware_profiles << @hp
+    @hp.conductor_hardware_profiles << @hp
     @hp.should have(1).error_on(:provider_hardware_profiles)
     @hp.errors.on(:provider_hardware_profiles).should eql(
-      "Provider profiles only allowed for aggregator profiles")
+      "Provider profiles only allowed for conductor profiles")
 
     @hp.provider_hardware_profiles.clear
     @hp.should be_valid

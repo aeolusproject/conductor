@@ -12,18 +12,18 @@
 #   sudo /sbin/service postgresql start
 #   sudo su - postgres
 #   $   psql
-#   $-# CREATE USER dcloud WITH PASSWORD 'v23zj59an' CREATEDB;
+#   $-# CREATE USER aeolus WITH PASSWORD 'v23zj59an' CREATEDB;
 #   $-# \q
 #   $   exit
 #
 # To start off a new environment, use the following commands.
-# If running from /usr/share/deltacloud-aggregator, use 'sudo' or run as root
+# If running from /usr/share/aeolus-conductor, use 'sudo' or run as root
 # as the migrate will write to a file.
 #
 #   rake db:drop:all
 #   rake db:create:all
 #
-#   If you are running this in /usr/share/deltacloud-aggregator, use:
+#   If you are running this in /usr/share/aeolus-conductor, use:
 #   sudo RAILS_ENV=production rake db:migrate
 #
 #   or else just:
@@ -41,8 +41,8 @@
 
 development:
   adapter: postgresql
-  database: dcloud_development
-  username: dcloud
+  database: conductor_development
+  username: aeolus
   password: v23zj59an
   host: localhost
 
@@ -51,14 +51,14 @@ development:
 # Do not set this db to the same as development or production.
 test: &TEST
   adapter: postgresql
-  database: dcloud_test
+  database: conductor_test
   username: postgres
   host: localhost
 
 production:
   adapter: postgresql
-  database: dcloud
-  username: dcloud
+  database: conductor
+  username: aeolus
   password: v23zj59an
   host: localhost
 

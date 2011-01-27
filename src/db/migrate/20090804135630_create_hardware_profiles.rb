@@ -52,7 +52,7 @@ class CreateHardwareProfiles < ActiveRecord::Migration
     end
 
     create_table "hardware_profile_map", :force => true, :id => false do |t|
-      t.column "aggregator_hardware_profile_id", :integer
+      t.column "conductor_hardware_profile_id", :integer
       t.column "provider_hardware_profile_id", :integer
     end
   end

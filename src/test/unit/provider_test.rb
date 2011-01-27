@@ -20,7 +20,7 @@ class ProviderTest < ActiveSupport::TestCase
   end
 
   test "fails with invalid provider url" do
-    @provider.url = "http://dcloud.awesome/api"
+    @provider.url = "http://conductor.awesome/api"
     flunk "Invalid url passed validation" unless @provider.invalid?
   end
 

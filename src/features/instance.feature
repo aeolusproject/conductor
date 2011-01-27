@@ -37,8 +37,8 @@ Feature: Mange Instances
   Scenario: Launch instance
     Given there is an uploaded image for a template
     And I am on the instances page
-    And there is "mock_profile" aggregator hardware profile
-    And there is "mock_realm" aggregator realm
+    And there is "mock_profile" conductor hardware profile
+    And there is "mock_realm" conductor realm
     And there is "mock_pool" pool
     When I press "Create"
     Then I should see "Show Templates"

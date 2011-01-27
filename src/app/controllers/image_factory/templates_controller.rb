@@ -283,3 +283,4 @@ class ImageFactory::TemplatesController < ApplicationController
   end
 
 end
+

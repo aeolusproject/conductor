@@ -8,7 +8,7 @@ Feature: Manage Pools
     And I am logged in
 
   Scenario: View front end hardware profiles
-    Given there are the following aggregator hardware profiles:
+    Given there are the following conductor hardware profiles:
     | name      | memory | cpu |storage  | architecture |
     | m1-small  | 1740   | 2   | 160     | i386         |
     | m1-large  | 4096   | 4   | 850     | x86_64       |
@@ -21,7 +21,7 @@ Feature: Manage Pools
     | m1-xlarge             | 8192   | 8           | 1690      | x86_64       |
 
   Scenario: View a Hardware Profiles Properties
-    Given there are the following aggregator hardware profiles:
+    Given there are the following conductor hardware profiles:
     | name      | memory | cpu |storage  | architecture |
     | m1-small  | 1740   | 2   | 160     | i386         |
     | m1-large  | 4096   | 4   | 850     | x86_64       |
@@ -36,7 +36,7 @@ Feature: Manage Pools
     | architecture | fixed | n/a         | n/a        | n/a          | i386          | label |
 
   Scenario: View a Front End Hardware Profiles Matching Provider Hardware Profiles
-    Given there are the following aggregator hardware profiles:
+    Given there are the following conductor hardware profiles:
     | name      | memory | cpu |storage  | architecture |
     | m1-small  | 1740   | 2   | 160     | i386         |
     And the Hardare Profile "m1-small" has the following Provider Hardware Profiles:
@@ -50,7 +50,7 @@ Feature: Manage Pools
     | m1-small  | 1740   | 2   | 160      | i386         |
 
   Scenario: Search for hardware profiles
-    Given there are the following aggregator hardware profiles:
+    Given there are the following conductor hardware profiles:
     | name      | memory | cpu |storage  | architecture |
     | m1-small  | 1740   | 2   | 160     | i386         |
     | m1-large  | 4096   | 4   | 850     | x86_64       |

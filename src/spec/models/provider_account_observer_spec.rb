@@ -4,7 +4,7 @@ describe ProviderAccountObserver do
   fixtures :all
 
   it "should create an instance_key if provider is EC2" do
-    @client = mock('DeltaCloud', :null_object => true)
+    @client = mock('Conductor', :null_object => true)
     @provider = Factory.build :ec2_provider
     @key = mock('Key', :null_object => true)
     @key.stub!(:pem).and_return("PEM")

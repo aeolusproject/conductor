@@ -40,7 +40,7 @@ THEDIR=`pwd`
 
   test $die = 1 && exit 1
 
-  test -f deltacloud-aggregator.spec.in || {
+  test -f aeolus-conductor.spec.in || {
 	  echo "You must run this script in the top-level directory"
 	  exit 1
   }

@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe DataServiceActiveRecord do
 
-  it "should calculate the total instance quota usage for a provider with a number of provider accounts" do
-    client = mock('DeltaCloud', :null_object => true)
+  it "should calculate the total instance quota usage for a provider with a number of cloud accounts" do
+    client = mock('Conductor', :null_object => true)
     provider = Factory.build(:mock_provider)
     provider.stub!(:connect).and_return(client)
     provider.save!
@@ -27,8 +27,8 @@ describe DataServiceActiveRecord do
 
   end
 
-  it "should calculate the total number of instances and maximum number of instances of a provider account" do
-    client = mock('DeltaCloud', :null_object => true)
+  it "should calculate the total number of instances and maximum number of instances of a cloud account" do
+    client = mock('Conductor', :null_object => true)
     provider = Factory.build(:mock_provider)
     provider.stub!(:connect).and_return(client)
     provider.save!
@@ -119,7 +119,7 @@ describe DataServiceActiveRecord do
     end_time = Time.utc(2010,"jan",1,20,15,1)
     start_time = end_time - (interval_length * no_intervals)
 
-    client = mock('DeltaCloud', :null_object => true)
+    client = mock('Conductor', :null_object => true)
     provider = Factory.build(:mock_provider)
     provider.stub!(:connect).and_return(client)
     provider.save!
@@ -344,3 +344,4 @@ describe DataServiceActiveRecord do
     end
   end
 end
+

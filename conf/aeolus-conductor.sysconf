@@ -1,0 +1,18 @@
+# root directory of the Aeolus Conductor Rails application
+#CONDUCTOR_DIR=/usr/share/aeolus-conductor
+
+# location of the logfile
+#THIN_LOG=/var/log/aeolus-conductor/thin.log
+
+# location of the lockfile
+#THIN_LOCKFILE=/var/lock/subsys/aeolus-conductor
+
+# location of the file containing running process ID
+#THIN_PID=/var/run/aeolus-conductor/thin.pid
+
+# user and group under which Rails application runs
+#CONDUCTOR_USER=aeolus
+#CONDUCTOR_GROUP=aeolus
+
+# URL prefix for Rails application
+#PREFIX=/conductor

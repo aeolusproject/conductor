@@ -1,0 +1,83 @@
+#!/bin/bash
+#
+#
+# conductor-dbomatic       startup script for conductor-dbomatic
+#
+# chkconfig: - 99 01
+# description: conductor-dbomatic populates the Aeolus Conductor db from
+#    the Conductor scheduler's output.
+
+[ -r /etc/sysconfig/conductor-rails ] && . /etc/sysconfig/conductor-rails
+
+[ -r /etc/sysconfig/aeolus-conductor ] && . /etc/sysconfig/aeolus-conductor
+
+CONDUCTOR_DIR="${CONDUCTOR_DIR:-/usr/share/aeolus-conductor}"
+DBOMATIC_LOG="${DBOMATIC_LOG:-/var/log/aeolus-conductor/dbomatic.log}"
+DBOMATIC_PID="${DBOMATIC_PID:-/var/run/aeolus-conductor/dbomatic.pid}"
+DBOMATIC_LOCKFILE="${DBOMATIC_LOCKFILE:-/var/lock/subsys/conductor-dbomatic }"
+AEOLUS_USER="${AEOLUS_USER:-aeolus}"
+
+DBOMATIC_PATH=$CONDUCTOR_DIR/dbomatic
+DBOMATIC_PROG=dbomatic
+
+. /etc/init.d/functions
+
+start() {
+    echo -n "Starting conductor-dbomatic: "
+
+    if  test -f $DBOMATIC_LOCKFILE ; then
+      echo_success
+      echo
+    else
+      daemon --user=$AEOLUS_USER $DBOMATIC_PATH/$DBOMATIC_PROG
+      RETVAL=$?
+      if [ $RETVAL -eq 0 ] && touch $DBOMATIC_LOCKFILE ; then
+        echo_success
+        echo
+      else
+        echo_failure
+        echo
+      fi
+    fi
+}
+
+stop() {
+    echo -n "Shutting down conductor-dbomatic: "
+    killproc -p $DBOMATIC_PID $DBOMATIC_PROG
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] && rm -f $DBOMATIC_LOCKFILE ; then
+      echo_success
+      echo
+    else
+      echo_failure
+      echo
+    fi
+}
+
+case "$1" in
+    start)
+      start
+     ;;
+    stop)
+      stop
+      ;;
+    restart)
+      stop
+      start
+      ;;
+    reload)
+      ;;
+    force-reload)
+      restart
+      ;;
+    status)
+     status -p $DBOMATIC_PID $DBOMATIC_PROG
+     RETVAL=$?
+     ;;
+    *)
+      echo "Usage: conductor-dbomatic {start|stop|restart|status}"
+      exit 1
+  ;;
+esac
+
+exit $RETVAL

@@ -62,7 +62,7 @@ def condormatic_instance_create(task)
     # Call into the deltacloud quota plugin.  This uses a REST API to call back into the
     # conductor to check quotas as the last thing in the logical AND to match a provider
     # account.
-    requirements += " && deltacloud_quota_check(#{instance.id}, other.provider_account_id)"
+    requirements += " && conductor_quota_check(#{instance.id}, other.provider_account_id)"
     requirements += "\n"
 
     pipe.puts requirements
@@ -179,7 +179,7 @@ def condormatic_classads_sync
   # we care about is with something like:
   #
   # condor_status -startd -f "%s\n" Name
-  # 
+  #
   # which will show only the names of the startd classads.
   # Then we could do the regex matching in ruby, and iterate
   # through the provider_combination_* ones.  This is a bit
@@ -251,7 +251,6 @@ def condormatic_classads_sync
       Rails.logger.error "Error writing provider classad to condor."
       Rails.logger.error ex.message
       Rails.logger.error ex.backtrace
-    end
     pipe.close_write
 
     out = pipe.read
@@ -283,3 +282,4 @@ def kick_condor
     # condor could be running with stale data.
   end
 end
+

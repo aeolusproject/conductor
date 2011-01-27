@@ -1,4 +1,4 @@
-Given /^there are the following aggregator hardware profiles:$/ do |table|
+Given /^there are the following conductor hardware profiles:$/ do |table|
   table.hashes.each do |hash|
     create_hwp(hash)
   end

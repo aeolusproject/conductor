@@ -61,7 +61,7 @@ namespace :dc do
 
   desc 'Create user "admin" for CloudEngine'
   task :create_admin_user => :environment do
-    Rake::Task[:'dc:create_user'].invoke('admin', 'password', 'admin@deltacloud.org', 'Administrator', 'Administrator')
+    Rake::Task[:'dc:create_user'].invoke('admin', 'password', 'admin@aeolusproject.org', 'Administrator', 'Administrator')
     Rake::Task[:'dc:site_admin'].invoke('admin')
   end
 

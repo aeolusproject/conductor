@@ -1,8 +1,8 @@
-.dcloud_form
+.conductor_form
   %h2
     Edit Quota for #{@parent_type + ": " + @name}
   %br/
-  - form_for @quota, :url => {:controller => :quotas, :action => "update", :parent_type => @parent_type}, :class => "dcloud_form" do |f|
+  - form_for @quota, :url => {:controller => :quotas, :action => "update", :parent_type => @parent_type}, :class => "conductor_form" do |f|
     = hidden_field_tag 'id', @parent.id
     = hidden_field_tag 'parent_type', @parent_type
     %ul
