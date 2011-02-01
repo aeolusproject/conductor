@@ -33,9 +33,9 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class InstanceEvent < ActiveRecord::Base
-  belongs_to :instance
+class Event < ActiveRecord::Base
+  belongs_to :source, :polymorphic => true
 
-  validates_presence_of :instance_id
-  validates_presence_of :event_type
+  validates_presence_of :source_id
+  validates_presence_of :source_type
 end

@@ -165,10 +165,8 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
 
     begin
       inst.save!
-
-      InstanceEvent.create! :instance => inst,
-                            :event_type => inst.state,
-                            :event_time => @event_time
+      inst.events.create!(:status_code => inst.state,
+                          :event_time  => @event_time)
     rescue => e
       @logger.error "#{e.backtrace.shift}: #{e.message}"
       e.backtrace.each do |step|

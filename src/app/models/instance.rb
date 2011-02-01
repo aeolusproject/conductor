@@ -88,6 +88,7 @@ class Instance < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  has_many :events, :as => :source, :dependent => :destroy
 
   validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id
