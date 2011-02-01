@@ -105,6 +105,8 @@ class ImageFactory::TemplatesController < ApplicationController
       params[:package_search]).paginate(:page => @page, :per_page => 60)
     if request.xhr?
       render :partial => 'search_packages'
+    else
+      render 'search_packages'
     end
   end
 
@@ -118,7 +120,7 @@ class ImageFactory::TemplatesController < ApplicationController
   end
 
   def collections
-    unless params[:package_search].blank?
+    if params[:package_search_button]
       search_packages
       return
     end

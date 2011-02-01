@@ -9,7 +9,7 @@
     = stylesheet_link_tag 'facebox'
     = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
     = stylesheet_link_tag 'jquery.loadmask'
-    = stylesheet_link_tag 'compiled/aggregator'
+    = stylesheet_link_tag 'compiled/application'
 
     / [if lt IE 9]
       = javascript_include_tag "http://html5shiv.googlecode.com/svn/trunk/html5.js"
@@ -20,9 +20,7 @@
     = javascript_include_tag "modernizr-1.5"
     /= javascript_include_tag "jquery.html5form"
     = yield :scripts
-  %body{:id => controller.section_id}
-    %a{ :href => '', :onClick => "document.cookie = 'layout=newui'"}
-      Switch to the New UI
+  %body
     %div#head
       %header.container_16
         = render :partial => '/layouts/header'
@@ -33,21 +31,22 @@
           = yield
     - else
       #subheader
-        %form#s.container_16.disabled{:disabled => "disabled"}
-          .prefix_10.grid_6
-            %input{ :name => "s", :type => "search", :placeholder => "Search Cloud Aggregator", :disabled => "disabled"}
-            %button.action{:form => "s"} Search
-          %p.prefix_10.grid_6
-            %a.disabled
-              = t(:advanced_search)
         %nav.container_16
-          = render_navigation({:context => 'old', :expand_all => true, :level => 1..2})
-        %hr
-      %nav.subnav
-        = render_navigation({:context => 'old', :expand_all => true, :level => 3})
-      #content.container_16
-        = render :partial => '/layouts/notification'
-        = yield
+          = render_navigation({:expand_all => true, :level => 1})
+          = render_navigation({:expand_all => true, :level => 2})
+      #content
+        #saved-searches
+          Saved searches
+        - details = !(yield :details).blank?
+        #list-view{ :class => details ? 'part' : 'full'}
+          - form_tag({:action => 'index'}, :method => :get) do
+            = text_field_tag :q, @search_term
+            = submit_tag "Search"
+          = render :partial => '/layouts/notification'
+          = (yield :list or yield)
+        #details-view.ui-tabs.ui-widget.ui-widget-content.ui-corner-all{ :class => ('hidden' unless details)}
+          - if details
+            = yield :details
       %footer
         = render :partial => "layouts/footer"
       #grid

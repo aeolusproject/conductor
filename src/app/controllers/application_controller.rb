@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
 
-  layout 'newui'
+  layout 'application'
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -35,10 +35,6 @@ class ApplicationController < ActionController::Base
   rescue_from PermissionError, :with => :handle_perm_error
   rescue_from ActionError, :with => :handle_action_error
   rescue_from PartialSuccessError, :with => :handle_partial_success_error
-
-  def section_id
-    'generic'
-  end
 
   helper_method :check_privilege
 
@@ -93,7 +89,7 @@ class ApplicationController < ActionController::Base
       render :template => 'layouts/popup-error', :layout => 'popup',
              :locals => {:title => title, :errmsg => msg}
     else
-      render :template => 'layouts/error', :layout => 'newui',
+      render :template => 'layouts/error', :layout => 'application',
              :locals => {:title => title, :errmsg => msg}
     end
   end

@@ -7,7 +7,7 @@ class ImageFactory::BuildsController < ApplicationController
     check_permission
     if @tpl.imported
       flash[:warning] = "Build imported template is not supported"
-      redirect_to templates_path
+      redirect_to image_factory_templates_path
     end
     @all_targets = Image.available_targets
   end

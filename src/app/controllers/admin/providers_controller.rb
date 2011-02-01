@@ -30,6 +30,9 @@ class Admin::ProvidersController < ApplicationController
   def show
     load_providers
     @provider = Provider.find(params[:id])
+    @hardware_profiles = @provider.hardware_profiles
+    @realm_names = @provider.realms.collect { |r| r.name }
+
     @url_params = params.clone
     require_privilege(Privilege::VIEW, @provider)
     @tab_captions = ['Properties', 'HW Profiles', 'Realms', 'Provider Accounts', 'Services','History','Permissions']

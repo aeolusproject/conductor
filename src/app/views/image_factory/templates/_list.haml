@@ -1,5 +1,5 @@
 - form_tag do
-  = restful_submit_tag "Create", "new_template", new_image_factory_template_path, 'GET'
+  = link_to "Create", new_image_factory_template_path, :class => 'button'
   = restful_submit_tag "Delete", 'destroy', multi_destroy_image_factory_templates_path, 'DELETE', :id => 'delete_button'
 
   %table#templates_table

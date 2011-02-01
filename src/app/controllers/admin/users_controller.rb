@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  before_filter :require_user
+  before_filter :require_user, :except => [:new, :create]
   before_filter :load_users, :only => [:show]
 
   def index
@@ -37,12 +37,12 @@ class Admin::UsersController < ApplicationController
       render :action => 'new' and return
     end
 
-    if current_user
+    if current_user != @user
       flash[:notice] = "User registered!"
       redirect_to admin_users_url
     else
       flash[:notice] = "You have successfully registered!"
-      redirect_to dashboard_url
+      redirect_to root_url
     end
   end
 
@@ -78,13 +78,13 @@ class Admin::UsersController < ApplicationController
       redirect_to edit_admin_user_url(@user) and return
     end
 
-    redirect_to dashboard_url and return unless @user
+    redirect_to root_url and return unless @user
 
     unless @user.update_attributes(params[:user])
       render :action => 'edit' and return
     else
       flash[:notice] = "User updated!"
-      redirect_to (@user == current_user) ? dashboard_url : admin_users_url
+      redirect_to (@user == current_user) ? root_url : admin_users_url
     end
   end
 

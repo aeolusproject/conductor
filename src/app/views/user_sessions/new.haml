@@ -12,7 +12,5 @@
         = f.check_box :remember_me
         = f.label :remember_me
       %div.indented
-        = link_to "Don't have an account? Create one now.", |
-          {:controller => 'users', :action => 'new'},       |
-          :class => 'actionlink'                            |
+        = link_to "Don't have an account? Create one now.", register_path, :class => 'actionlink'
       = f.submit "Login", :class => "submit dialogbutton"
