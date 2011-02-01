@@ -1,6 +1,0 @@
-.formwindow
-- if check_privilege(Privilege::MODIFY, User)
-  %h2 Editing User: #{@user.first_name} #{@user.last_name}
-- else
-  %h2 Editing Account
-= render :partial => "form", :object => @user,  :locals => { :cancel_path => users_path}

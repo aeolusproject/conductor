@@ -1,6 +1,0 @@
-%h2 New Account
--if (current_user)
-  = render :partial => "form", :locals => { :cancel_path => users_path}
--else
-  .modalbox
-    = render :partial => "form", :locals => { :cancel_path => login_path}

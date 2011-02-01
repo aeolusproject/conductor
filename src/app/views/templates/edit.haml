@@ -1,6 +1,0 @@
-#dropdown
-.grid_16
-  %h2 Edit Template
-  - form_for @tpl, :url => {:action => 'dispatch'} do
-    = hidden_field_tag :id, @tpl.id
-    = render :partial => 'form'
