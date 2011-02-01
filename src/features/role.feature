@@ -8,7 +8,6 @@ Feature: Manage Roles
     And I am logged in
     Given there's a list of roles
     And a role "Captain" exists
-    And I am using new UI
 
   Scenario: Change the name
     Given I am on the admin roles page

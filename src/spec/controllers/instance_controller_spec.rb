@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe InstancesController do
+describe Resources::InstancesController do
   fixtures :all
   before(:each) do
     @admin_permission = Factory :admin_permission
@@ -11,8 +11,7 @@ describe InstancesController do
   it "should provide ui to create new instance" do
      UserSession.create(@admin)
      get :new
-     response.should be_success
-     response.should render_template("new")
+     response.should redirect_to(select_template_resources_instances_path)
   end
 
   it "should fail to grant access to new pool ui for unauthenticated user" do

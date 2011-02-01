@@ -7,23 +7,22 @@ Feature: Manage Templates
     Given I am an authorised user
     And I am logged in
     And There is a mock pulp repository
-    And I am using new UI
 
   Scenario: Create a new Template
-    Given I am on the templates page
-    When I press "Template"
-    Then I should be on the new template page
+    Given I am on the image factory templates page
+    When I follow "Create"
+    Then I should be on the new image factory template page
     When I fill in the following:
       | tpl_name         | mocktemplate  |
       | tpl_platform     | fedora        |
       | tpl_summary      | mockdesc      |
     When I press "Save"
-    Then I should be on the templates page
+    Then I should be on the image factory templates page
     And I should see "Template saved"
     And I should see "mocktemplate"
 
   Scenario: Add a searched package to a new template
-    Given I am on the new template page
+    Given I am on the new image factory template page
     When I press "Add Software"
     And I fill in "package_search" with "libdeltacloud"
     And I press "package_search_button"
@@ -34,9 +33,9 @@ Feature: Manage Templates
     And I should see "libdeltacloud"
 
   Scenario: Add group and remove package to/from the template
-    Given I am on the templates page
-    When I press "Template"
-    Then I should be on the new template page
+    Given I am on the image factory templates page
+    When I follow "Create"
+    Then I should be on the new image factory template page
     When I fill in the following:
       | tpl_name         | mocktemplate  |
     And I press "Add Software"
@@ -51,17 +50,17 @@ Feature: Manage Templates
     Then I should see "Managed Content to Bundle"
     And the page should not contain "#package_libdeltacloud" selector
     When I press "Save"
-    Then I should be on the templates page
+    Then I should be on the image factory templates page
     And I should see "Template saved"
     And I should see "mocktemplate"
 
   Scenario: Sorting templates
     Given there is a "mock1" template
     And there is a "mock2" template
-    And I am on the templates page
-    When I follow "Name" within ".templates"
+    And I am on the image factory templates page
+    When I follow "Name" within "#templates_table"
     Then I should see "mock1" followed by "mock2"
-    When I follow "Name" within ".templates"
+    When I follow "Name" within "#templates_table"
     Then I should see "mock2" followed by "mock1"
 
   Scenario: Sorting template builds
@@ -74,14 +73,14 @@ Feature: Manage Templates
     Then I should see "mock2" followed by "mock1"
 
   Scenario: Search software with empty string
-    Given I am on the new template page
+    Given I am on the new image factory template page
     When I press "Add Software"
     And I fill in "package_search" with ""
     And I press "package_search_button"
     Then I should see "Search string is empty"
 
   Scenario: Show software selection
-    Given I am on the new template page
+    Given I am on the new image factory template page
     And I press "Add Software"
     Then I should see an input "Collections"
     # test that we see a metagroup
@@ -92,37 +91,37 @@ Feature: Manage Templates
   Scenario: Build template
     Given there is a "mock1" template
     And there is ec2 cloud account
-    And I am on the templates page
+    And I am on the image factory templates page
     When I choose this template
-    And I press "Build"
-    Then I should be on the new template build page
+    And I follow "Build"
+    Then I should be on the new image factory build page
     And I should see "Build Request"
     When I check "ec2"
     And I press "Submit to Build"
-    Then I should be on the template builds page
+    Then I should be on the image factory template page
     And I should see "mock1"
 
   Scenario: Build template which is already built
     Given there is a "mock1" template
     And there is ec2 cloud account
-    And I am on the templates page
+    And I am on the image factory templates page
     And there is ec2 build for this template
     When I choose this template
-    And I press "Build"
-    Then I should be on the new template build page
+    And I follow "Build"
+    Then I should be on the new image factory build page
     And I should see "Build Request"
     When I check "ec2"
     And I press "Submit to Build"
-    Then I should be on the template builds page
+    Then I should be on the image factory template page
     And I should see "mock1"
     And I should see "An attempted build of this template for the target 'ec2' already exists"
 
   Scenario: Build imported template
     Given there is an imported template
-    And I am on the templates page
+    And I am on the image factory templates page
     When I choose this template
-    And I press "Build"
-    Then I should be on the templates page
+    And I follow "Build"
+    Then I should be on the image factory templates page
     And I should see "Build imported template is not supported"
 
   Scenario: Search for templates

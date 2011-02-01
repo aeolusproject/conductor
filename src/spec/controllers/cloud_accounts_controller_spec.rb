@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CloudAccountsController do
+describe Admin::ProviderAccountsController do
 
   fixtures :all
   before(:each) do
@@ -53,16 +53,16 @@ describe CloudAccountsController do
     @cloud_account.save.should be_true
 
     post :update, :id => @cloud_account.id, :cloud_account => { :password => 'mockpassword' }
-    response.should redirect_to provider_accounts_path(@provider)
+    response.should redirect_to admin_provider_account_path(@provider)
     CloudAccount.find(@cloud_account.id).password.should == "mockpassword"
   end
 
   it "should allow users with account modify permission to delete a cloud account" do
     UserSession.create(@admin)
     lambda do
-      get :destroy, :id => @cloud_account.id
+      post :multi_destroy, :accounts_selected => [@cloud_account.id]
     end.should change(CloudAccount, :count).by(-1)
-    response.should redirect_to provider_accounts_path(@provider)
+    response.should redirect_to admin_provider_accounts_url
     CloudAccount.find_by_id(@cloud_account.id).should be_nil
   end
 

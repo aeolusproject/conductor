@@ -6,7 +6,6 @@ Feature: Manage Pools
   Background:
     Given I am an authorised user
     And I am logged in
-    And I am using new UI
 
   Scenario: View front end hardware profiles
     Given there are the following aggregator hardware profiles:

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UsersController do
+describe Admin::UsersController do
 
   before(:each) do
     @tuser = Factory :tuser
@@ -24,7 +24,7 @@ describe UsersController do
             :password_confirmation => "testpass" }
         end.should change(User, :count).by(1)
 
-        response.should redirect_to(dashboard_url)
+        response.should redirect_to(root_path)
       end
 
       it "fails to create pool" do
@@ -53,7 +53,7 @@ describe UsersController do
         :password_confirmation => "testpass" }
     end.should change(User, :count)
 
-    response.should redirect_to(users_url)
+    response.should redirect_to(admin_users_url)
   end
 
   it "should not allow a regular user to create user" do
@@ -84,16 +84,7 @@ describe UsersController do
     UserSession.create(@tuser)
     put :update, :id => @tuser.id, :user => {}, :commit => 'Save'
 
-    response.should redirect_to(dashboard_path)
+    response.should redirect_to(root_path)
   end
 
-  # checks whether proper error template is rendered when an exception raises
-  # "layouts/error" template should be displayed for all non-ajax error
-  # responses, "layouts/popup-error" should be displayed for ajax
-  # (see "Fixed error handling" patch for details)
-  it "should render error template when getting nonexisting user" do
-    UserSession.create(@tuser)
-    get :show, :id => "unknown_id"
-    response.should render_template("layouts/error")
-  end
 end

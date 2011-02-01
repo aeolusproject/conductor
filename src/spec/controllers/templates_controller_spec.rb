@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TemplatesController do
+describe ImageFactory::TemplatesController do
 
   fixtures :all
   before(:each) do
@@ -15,7 +15,7 @@ describe TemplatesController do
      lambda do
        post :create, :tpl => { :name => 'template', :platform => 'fedora' }
      end.should change(Template, :count).by(1)
-     response.should redirect_to(templates_path)
+     response.should redirect_to(image_factory_templates_path)
   end
 
   it "should deny access to new template ui without image modify permission" do

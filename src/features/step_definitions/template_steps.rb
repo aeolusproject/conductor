@@ -82,14 +82,14 @@ Then /^I should see "([^"]*)" followed by "([^"]*)"$/ do |arg1, arg2|
 end
 
 Given /^there is a "([^"]*)" build$/ do |arg1|
-  template = Factory.build :template, :name => arg1
-  template.save!
-  image = Factory.build(:image, :template => template)
+  @template = Factory.build :template, :name => arg1
+  @template.save!
+  image = Factory.build(:image, :template => @template)
   image.save!
 end
 
 When /^I choose this template$/ do
-  choose("ids__#{@template.id}")
+  click_link(@template.name)
 end
 
 Given /^there is ec2 cloud account$/ do

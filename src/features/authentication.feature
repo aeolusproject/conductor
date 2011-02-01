@@ -17,7 +17,7 @@ Feature: User authentication
       | Last name         | Tester               |
       | E-mail            | testuser@example.com |
     And I press "Save"
-    Then I should be on the dashboard page
+    Then I should be on the root page
 
   Scenario: Want to register new user but decide to cancel
     Given I am on the homepage
@@ -55,7 +55,7 @@ Feature: User authentication
     Then should see "Editing Account"
     When I fill in "E-mail" with "changed@example.com"
     And I press "Save"
-    Then I should be on the dashboard page
+    Then I should be on the root page
     And I should see "User updated!"
 
   Scenario: log out

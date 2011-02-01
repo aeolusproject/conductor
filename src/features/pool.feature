@@ -6,7 +6,6 @@ Feature: Manage Pools
   Background:
     Given I am an authorised user
     And I am logged in
-    And I am using new UI
 
   Scenario: Create a new Pool
     Given I am on the pools page
@@ -37,7 +36,7 @@ Feature: Manage Pools
 
   Scenario: Enter invalid characters into Name field
     Given I am an authorised user
-    And I am on the new pool page
+    And I am on the new resources pool page
     When I fill in "pool[name]" with "@%&*())_@!#!"
     And I press "Save"
     Then I should see "Name must only contain: numbers, letters, spaces, '_' and '-'"

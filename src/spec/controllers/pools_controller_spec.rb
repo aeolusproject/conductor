@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PoolsController do
+describe Resources::PoolsController do
   fixtures :all
   before(:each) do
     @admin_permission = Factory :admin_permission
@@ -26,27 +26,8 @@ describe PoolsController do
        post :create, :pool => { :name => 'foopool' }
      end.should change(Pool, :count).by(1)
      id = Pool.find(:first, :conditions => ['name = ?', 'foopool']).id
-     response.should redirect_to("http://test.host/pools/#{id}")
+     response.should redirect_to(resources_pool_path(id))
   end
 
-  it "should provide ui to view hardware profiles" do
-     UserSession.create(@admin)
-     pool = Factory :tpool
-
-     get :hardware_profiles, :id => pool.id
-     response.should be_success
-     assigns[:hardware_profiles].size.should == pool.hardware_profiles.size
-     response.should render_template("hardware_profiles")
-  end
-
-  it "should provide ui to view realms" do
-     UserSession.create(@admin)
-     pool = Factory :tpool
-
-     get :realms, :id => pool.id
-     response.should be_success
-     assigns[:realm_names].size.should == pool.realms.size
-     response.should render_template("realms")
-  end
 
 end

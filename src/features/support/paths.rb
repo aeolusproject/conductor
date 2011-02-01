@@ -56,9 +56,6 @@ module NavigationHelpers
     when /the pool realms page/
       pool_realms_path
 
-    when /the dashboard page/
-      dashboard_path
-
     when /the instances page/
       resources_instances_path
 
@@ -69,10 +66,10 @@ module NavigationHelpers
       hardware_profiles_pool_path
 
     when /the permissions page/
-      url_for :action => 'list', :controller => 'permissions', :only_path => true
+      url_for list_permissions_path
 
     when /the new permission page/
-      url_for :action => 'new', :controller => 'permissions', :only_path => true
+      url_for new_permission_path
 
     when /the new template page/
       url_for new_template_path
@@ -81,7 +78,7 @@ module NavigationHelpers
       url_for new_build_path
 
     when /the template builds page/
-      url_for builds_path
+      url_for image_factory_template_path(@template, :details_tab => 'images')
 
     when /the templates page/
       templates_path

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProvidersController do
+describe Admin::ProvidersController do
 
   fixtures :all
   before(:each) do
@@ -14,20 +14,20 @@ describe ProvidersController do
      UserSession.create(@admin)
      provider = @admin_permission.permission_object
 
-     get :hardware_profiles, :id => provider.id
+     get :show, :id => provider.id, :details_tab => 'hw_profiles'
      response.should be_success
      assigns[:hardware_profiles].size.should == provider.hardware_profiles.size
-     response.should render_template("hardware_profiles")
+     response.should render_template("admin/providers/_hw_profiles")
   end
 
   it "should provide ui to view realms" do
      UserSession.create(@admin)
      provider = @admin_permission.permission_object
 
-     get :realms, :id => provider.id
+     get :show, :id => provider.id, :details_tab => 'realms'
      response.should be_success
      assigns[:realm_names].size.should == provider.realms.size
-     response.should render_template("realms")
+     response.should render_template("admin/providers/_realms")
   end
 
 

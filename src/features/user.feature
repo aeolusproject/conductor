@@ -7,7 +7,6 @@ Feature: Manage Users
     Given I am an authorised user
     And I am logged in
     And a user "testuser" exists
-    And I am using new UI
 
   Scenario: Change the password
     Given I am on the admin users page

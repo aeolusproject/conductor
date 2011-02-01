@@ -6,7 +6,6 @@ Feature: Pool Families
   Background:
     Given I am an authorised user
     And I am logged in
-    And I am using new UI
 
   Scenario: List pool families
     Given I am on the homepage

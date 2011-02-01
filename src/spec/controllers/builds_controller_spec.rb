@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BuildsController do
+describe ImageFactory::BuildsController do
   fixtures :all
   before(:each) do
     @admin_permission = Factory :admin_permission

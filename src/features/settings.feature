@@ -6,11 +6,10 @@ Feature: Manage System wide Settings
   Background:
     Given I am an authorised user
     And I am logged in
-    And I am using new UI
 
   Scenario: Change the self service default quota
     Given the default quota is set to 5
-    And I am on the self service settings page
+    And I am on the self service admin settings page
     When I fill in "self_service_default_quota[maximum_running_instances]" with "8"
     And I press "Save"
     Then I should see "Settings Updated!"
@@ -19,7 +18,7 @@ Feature: Manage System wide Settings
 
   Scenario: Invalid decimal entry for the self service default quota
     Given the default quota is set to 5
-    And I am on the self service settings page
+    And I am on the self service admin settings page
     When I fill in "self_service_default_quota[maximum_running_instances]" with "1.5"
     And I press "Save"
     Then I should see "Could not update the default quota"
@@ -28,7 +27,7 @@ Feature: Manage System wide Settings
 
   Scenario: Invalid chars entry for the self service default quota
     Given the default quota is set to 5
-    And I am on the self service settings page
+    And I am on the self service admin settings page
     When I fill in "self_service_default_quota[maximum_running_instances]" with "abc"
     And I press "Save"
     Then I should see "Could not update the default quota"
@@ -37,7 +36,7 @@ Feature: Manage System wide Settings
 
   Scenario: Invalid special chars entry for the self service default quota
     Given the default quota is set to 5
-    And I am on the self service settings page
+    And I am on the self service admin settings page
     When I fill in "self_service_default_quota[maximum_running_instances]" with "^&(*_!"
     And I press "Save"
     Then I should see "Could not update the default quota"
