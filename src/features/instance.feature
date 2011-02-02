@@ -38,7 +38,7 @@ Feature: Mange Instances
     Given there is an uploaded image for a template
     And I am on the instances page
     And there is "mock_profile" conductor hardware profile
-    And there is "mock_realm" conductor realm
+    And there is "mock_realm" frontend realm
     And there is "mock_pool" pool
     When I press "Create"
     Then I should see "Show Templates"
@@ -47,7 +47,7 @@ Feature: Mange Instances
     When I fill in "instance_name" with "mock1"
     And I select "mock_profile" from "instance_hardware_profile_id"
     And I select "mock_pool" from "instance_pool_id"
-    And I select "mock_realm" from "instance_realm_id"
+    And I select "mock_realm" from "instance_frontend_realm_id"
     And I press "Launch"
     Then I should be on the instances page
     And I should see "mock1"

@@ -55,8 +55,8 @@ Given /^there is "([^"]*)" conductor hardware profile$/ do |name|
   Factory :mock_hwp2, :name => name
 end
 
-Given /^there is "([^"]*)" conductor realm$/ do |name|
-  Factory :frontend_realm, :backend_realm => Factory(:provider), :name => name
+Given /^there is "([^"]*)" frontend realm$/ do |name|
+  Factory :frontend_realm, :name => name
 end
 
 Given /^there is "([^"]*)" pool$/ do |arg1|

@@ -23,6 +23,9 @@ module NavigationHelpers
     when /^(.*)'s role page$/i
        admin_role_path(Role.find_by_name($1))
 
+    when /^(.*)'s realm page$/i
+       admin_realm_path(FrontendRealm.find_by_name($1))
+
     when /the account page/
       account_path
 
