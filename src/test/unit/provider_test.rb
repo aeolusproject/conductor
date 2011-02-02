@@ -5,7 +5,7 @@ class ProviderTest < ActiveSupport::TestCase
 
   def setup
     @provider = Provider.new(:name => "my_ec2",
-                             :cloud_type => "EC2")
+                             :provider_type => "EC2")
   end
   # The following three tests assume you have the deltacloud-framework
   # running and configured on localhost:3000

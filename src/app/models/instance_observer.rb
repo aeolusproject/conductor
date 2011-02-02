@@ -36,9 +36,9 @@ class InstanceObserver < ActiveRecord::Observer
     hwp = an_instance.hardware_profile
     pool = an_instance.pool
     user = an_instance.owner
-    cloud_account = an_instance.cloud_account
+    provider_account = an_instance.provider_account
 
-    [cloud_account, pool, user].each do |parent|
+    [provider_account, pool, user].each do |parent|
       if parent
         quota = parent.quota
         if quota
@@ -65,7 +65,7 @@ class InstanceObserver < ActiveRecord::Observer
     # we try to generate key only when instance is running
     # and instance_key is not generated yet
     return if instance.state != Instance::STATE_RUNNING or instance.instance_key
-    if key = instance.cloud_account.generate_auth_key
+    if key = instance.provider_account.generate_auth_key
       instance.instance_key = InstanceKey.create!(:pem => key.pem, :name => key.id, :instance_key_owner => instance)
     end
   end

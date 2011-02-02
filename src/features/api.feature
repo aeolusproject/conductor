@@ -43,7 +43,7 @@ Feature: User authentication
     | name  | external_key | state   | public_addresses     | private_addresses    |
     | mock  | ext_mock     | stopped | mock.public.address  | mock.private.address |
     And user "testuser" owns instance "mock"
-    When a client requests "can_start" for instance "mock" for cloud account "testaccount"
+    When a client requests "can_start" for instance "mock" for provider account "testaccount"
     Then the root element should be "result"
     And there should exist the following xpath: "/result/action_request"
     And this path should have the value "can_start"
@@ -59,7 +59,7 @@ Feature: User authentication
     | name  | external_key | state   | public_addresses     | private_addresses    |
     | mock  | ext_mock     | stopped | mock.public.address  | mock.private.address |
     And user "testuser" owns instance "mock"
-    When a client requests "can_create" for instance "mock" for cloud account "testaccount"
+    When a client requests "can_create" for instance "mock" for provider account "testaccount"
     Then the root element should be "result"
     And there should exist the following xpath: "/result/action_request"
     And this path should have the value "can_create"

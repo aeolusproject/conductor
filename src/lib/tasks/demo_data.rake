@@ -32,7 +32,7 @@ namespace :db do
 
     puts @number_of_tasks
 
-    cloud_account = CloudAccount.find(args[:cloud_account_id])
+    cloud_account = ProviderAccount.find(args[:cloud_account_id])
     user = User.find(args[:user_id])
 
     instance = create_instance(cloud_account)

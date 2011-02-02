@@ -24,7 +24,7 @@ class PoolFamily < ActiveRecord::Base
   DEFAULT_POOL_FAMILY_KEY = "default_pool_family"
 
   has_many :pools,  :dependent => :destroy
-  has_and_belongs_to_many :cloud_accounts
+  has_and_belongs_to_many :provider_accounts
 
   validates_presence_of :name
   validates_uniqueness_of :name

@@ -33,7 +33,7 @@ class Privilege < ActiveRecord::Base
                              #   Deployable: choose this deployable to launch
                              #   Instance: may perform actions on this instance
                              #   Realm: may map this realm
-                             #   CloudAccount: May add this account to PoolFamily
+                             #   ProviderAccount: May add this account to PoolFamily
 
 
   ACTIONS = [ CREATE, MODIFY, USE, VIEW,
@@ -47,7 +47,7 @@ class Privilege < ActiveRecord::Base
               HardwareProfile => ACTIONS - [USE, VIEW],
               Realm => ACTIONS - [VIEW],
               Provider => ACTIONS - [USE],
-              CloudAccount => ACTIONS,
+              ProviderAccount => ACTIONS,
               User => [ CREATE, MODIFY, VIEW] }
 
   belongs_to :role
@@ -99,7 +99,7 @@ class Privilege < ActiveRecord::Base
   #   view_perms  Can view permissions
   #   set_perms   Can set permissions (or can set instance permissions on this pool)
   #
-  # Quota  The Pool/CloudAccount/PoolFamily/User assigned the quota
+  # Quota  The Pool/ProviderAccount/PoolFamily/User assigned the quota
   #   view        Can view quota on this obj
   #   modify      Can edit quota on this obj
   #
@@ -123,7 +123,7 @@ class Privilege < ActiveRecord::Base
   #   view_perms  Can view permissions
   #   set_perms   Can set permissions
   #
-  # CloudAccount This CloudAccount
+  # ProviderAccount This ProviderAccount
   #   view        Can view
   #   use         Can map to PoolFamily
   #   modify      Can modify

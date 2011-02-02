@@ -34,6 +34,7 @@ Feature: Manage Providers
     Then I should be on the new admin provider page
     When I fill in "provider[name]" with "testprovider"
     And I fill in "provider[url]" with "http://localhost:3001/api"
+    And I select "Amazon EC2" from "Provider type"
     And I press "Save"
     Then I should be on the admin providers page
     And I should see "Provider added"
@@ -63,34 +64,34 @@ Feature: Manage Providers
     And this provider has 5 provider images
     And this provider has 5 hardware profiles
     And this provider has a realm
-    And this provider has a cloud account
+    And this provider has a provider account
     When I go to the admin providers page
     And I check "provider1" provider
     And I press "Delete"
     And there should not exist a provider named "provider1"
     And there should not be any provider images
     And there should not be any hardware profiles
-    And there should not be a cloud account
+    And there should not be a provider account
     And there should not be a realm
 
   Scenario: Search for hardware profiles
     Given there are these providers:
     | name          | url                         |
     | Test          | http://testprovider.com/api |
-    | Mock          | http://mockprovider.com/api |
+    | Kenny         | http://mockprovider.com/api |
     | Other         | http://sometesturl.com/api  |
     And I am on the admin providers page
     Then I should see the following:
     | Test  | http://testprovider.com/api |
-    | Mock  | http://mockprovider.com/ap  |
+    | Kenny | http://mockprovider.com/ap  |
     | Other | http://sometesturl.com/api  |
     When I fill in "q" with "test"
     And I press "Search"
     Then I should see "Test"
     And I should see "Other"
-    And I should not see "Mock"
-    When I fill in "q" with "Mock"
+    And I should not see "Kenny"
+    When I fill in "q" with "Kenny"
     And I press "Search"
-    Then I should see "Mock"
+    Then I should see "Kenny"
     And I should not see "Test"
     And I should not see "Other"

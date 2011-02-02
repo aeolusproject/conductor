@@ -1,8 +1,9 @@
 #details.grid_13
+  = error_messages_for :provider_account
   %h2
-    = t('cloud_accounts.edit.edit_provider_account')
-  - form_for @cloud_account, :url => admin_provider_account_path, :html => { :method => :put, :multipart => true } do |f|
-    = render :partial => 'form', :locals => { :f => f }
+    = t('provider_accounts.edit.edit_provider_account')
+  - form_tag(admin_provider_account_path, { :method => :put, :multipart => true }) do
+    = render :partial => 'provider_selection'
     %fieldset.clearfix
       .grid_13.alpha.omega
         = submit_tag t(:edit), :class => "ra nomargin dialogbutton"
@@ -10,4 +11,4 @@
       %p.requirement
         %span.required *
         \-
-        = t('cloud_accounts.edit.required_field')
+        = t('provider_accounts.edit.required_field')

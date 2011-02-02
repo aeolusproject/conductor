@@ -37,7 +37,7 @@ class Permission < ActiveRecord::Base
                                       :foreign_key => "permission_object_id"
   belongs_to :provider,               :class_name => "Provider",
                                       :foreign_key => "permission_object_id"
-  belongs_to :cloud_account,          :class_name => "CloudAccount",
+  belongs_to :provider_account,          :class_name => "ProviderAccount",
                                       :foreign_key => "permission_object_id"
   belongs_to :template,               :class_name => "Template",
                                       :foreign_key => "permission_object_id"

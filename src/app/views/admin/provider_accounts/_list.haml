@@ -16,3 +16,5 @@
           = link_to account.name, admin_provider_account_path(account)
         %td
           =account.username
+        %td
+          =t(Provider::PROVIDER_TYPES[account.provider.provider_type])

@@ -5,9 +5,9 @@ describe PoolFamily do
   before(:each) do
     @pool = Factory :pool
     @pool_family = @pool.pool_family
-    @cloud_account = Factory :mock_cloud_account
-    @cloud_account.pool_families << @pool_family
-    @cloud_account.save!
+    @provider_account = Factory :mock_provider_account
+    @provider_account.pool_families << @pool_family
+    @provider_account.save!
   end
 
   it "should validate default pool family" do
@@ -27,8 +27,8 @@ describe PoolFamily do
   end
 
   it "should have account" do
-    @pool_family.cloud_accounts.size.should == 1
-    @pool_family.cloud_accounts[0].id.should == @cloud_account.id
+    @pool_family.provider_accounts.size.should == 1
+    @pool_family.provider_accounts[0].id.should == @provider_account.id
   end
 
 end

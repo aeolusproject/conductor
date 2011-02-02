@@ -36,7 +36,7 @@ class Instance < ActiveRecord::Base
   @@per_page = 15
 
   belongs_to :pool
-  belongs_to :cloud_account
+  belongs_to :provider_account
 
   belongs_to :hardware_profile
   belongs_to :template

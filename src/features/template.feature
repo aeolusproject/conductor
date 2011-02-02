@@ -107,31 +107,32 @@ Feature: Manage Templates
 
   Scenario: Build template
     Given there is a "mock1" template
-    And there is ec2 cloud account
+    And there is Amazon AWS provider account
     And I am on the image factory templates page
     When I choose this template
     And I follow "Build"
     Then I should be on the new image factory build page
     And I should see "Build Request"
-    When I check "ec2"
+    When I check "Aws"
     And I press "Submit to Build"
     Then I should be on the image factory template page
     And I should see "mock1"
 
   Scenario: Build template which is already built
     Given there is a "mock1" template
-    And there is ec2 cloud account
+    And there is Amazon AWS provider account
     And I am on the image factory templates page
-    And there is ec2 build for this template
+    And there is Amazon AWS build for this template
+    And I am on the image factory templates page
     When I choose this template
     And I follow "Build"
     Then I should be on the new image factory build page
     And I should see "Build Request"
-    When I check "ec2"
+    When I check "Aws"
     And I press "Submit to Build"
     Then I should be on the image factory template page
     And I should see "mock1"
-    And I should see "An attempted build of this template for the target 'ec2' already exists"
+    And I should see "An attempted build of this template for the target '1' already exists"
 
   Scenario: Build imported template
     Given there is an imported template

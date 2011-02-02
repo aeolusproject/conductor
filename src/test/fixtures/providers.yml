@@ -2,5 +2,5 @@
 
 mock_provider:
   name: mock
-  cloud_type: Mock
+  provider_type: Mock
   url: http://localhost:3001/api

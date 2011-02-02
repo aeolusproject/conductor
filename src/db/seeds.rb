@@ -30,17 +30,17 @@ roles =
                                            Quota        => [VIEW]}]},
    Provider =>
      {"Provider Owner"         => [true,  {Provider     => [VIEW,    MOD,    VPRM,GPRM],
-                                           CloudAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}]},
-   CloudAccount =>
-     {"Provider Account User"  => [false, {CloudAccount => [VIEW,USE]}],
-      "Provider Account Owner" => [true,  {CloudAccount => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+                                           ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}]},
+   ProviderAccount =>
+     {"Provider Account User"  => [false, {ProviderAccount => [VIEW,USE]}],
+      "Provider Account Owner" => [true,  {ProviderAccount => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    Template =>
      {"Template User"          => [false, {Template     => [VIEW,USE]}],
       "Template Owner"         => [true,  {Template     => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    BasePermissionObject =>
      {"Provider Creator"       => [false, {Provider     => [             CRE]}],
       "Provider Administrator" => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
-                                           CloudAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
+                                           ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
       "HWP Administrator"      => [false, {HardwareProfile => [      MOD,CRE,VPRM,GPRM]}],
       "Realm Administrator"    => [false, {Realm        => [     USE,MOD,CRE,VPRM,GPRM]}],
       "Pool Creator"           => [false, {Pool         => [             CRE]}],
@@ -50,7 +50,7 @@ roles =
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
       "Template Administrator" => [false, {Template     => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
       "Administrator"          => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
-                                           CloudAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                           ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            HardwareProfile => [      MOD,CRE,VPRM,GPRM],
                                            Realm        => [     USE,MOD,CRE,VPRM,GPRM],
                                            User         => [VIEW,    MOD,CRE],

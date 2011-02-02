@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DataServiceActiveRecord do
 
-  it "should calculate the total instance quota usage for a provider with a number of cloud accounts" do
+  it "should calculate the total instance quota usage for a provider with a number of provider accounts" do
     client = mock('DeltaCloud', :null_object => true)
     provider = Factory.build(:mock_provider)
     provider.stub!(:connect).and_return(client)
@@ -12,9 +12,9 @@ describe DataServiceActiveRecord do
     free = 0
     for i in 0..2
       quota = Factory(:quota, :maximum_total_instances => data[i][0], :total_instances => data[i][1])
-      cloud_account = Factory.build(:cloud_account, :provider => provider, :username => "username" + i.to_s, :quota => quota)
-      cloud_account.stub!(:valid_credentials?).and_return(true)
-      cloud_account.save!
+      provider_account = Factory.build(:provider_account, :provider => provider, :username => "username" + i.to_s, :quota => quota)
+      provider_account.stub!(:valid_credentials?).and_return(true)
+      provider_account.save!
 
       free += (data[i][0] - data[i][1])
     end
@@ -27,11 +27,12 @@ describe DataServiceActiveRecord do
 
   end
 
-  it "should calculate the total number of instances and maximum number of instances of a cloud account" do
+  it "should calculate the total number of instances and maximum number of instances of a provider account" do
     client = mock('DeltaCloud', :null_object => true)
     provider = Factory.build(:mock_provider)
     provider.stub!(:connect).and_return(client)
     provider.save!
+
 
     quota = Factory(:quota,
                     :maximum_running_instances => 40,
@@ -39,17 +40,17 @@ describe DataServiceActiveRecord do
                     :running_instances => 20,
                     :total_instances => 20)
 
-    cloud_account = Factory.build(:cloud_account, :provider => provider, :quota => quota)
-    cloud_account.stub!(:valid_credentials?).and_return(true)
-    cloud_account.save!
+    provider_account = Factory.build(:provider_account, :provider => provider, :quota => quota)
+    provider_account.stub!(:valid_credentials?).and_return(true)
+    provider_account.save!
 
-    data_point = DataServiceActiveRecord.quota_usage(cloud_account, Quota::RESOURCE_RUNNING_INSTANCES)
+    data_point = DataServiceActiveRecord.quota_usage(provider_account, Quota::RESOURCE_RUNNING_INSTANCES)
     data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(20, 40)
 
-    data_point = DataServiceActiveRecord.quota_usage(cloud_account, Quota::RESOURCE_TOTAL_INSTANCES)
+    data_point = DataServiceActiveRecord.quota_usage(provider_account, Quota::RESOURCE_TOTAL_INSTANCES)
     data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(20, 50)
 
-    data_point = DataServiceActiveRecord.quota_usage(cloud_account, Quota::RESOURCE_OVERALL)
+    data_point = DataServiceActiveRecord.quota_usage(provider_account, Quota::RESOURCE_OVERALL)
     data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(20, 40)
   end
 
@@ -123,13 +124,13 @@ describe DataServiceActiveRecord do
     provider.stub!(:connect).and_return(client)
     provider.save!
 
-    cloud_accounts = []
+    provider_accounts = []
     expected_averages.each do |expected_average|
-      cloud_account = Factory.build(:cloud_account, :provider => provider, :username => "username" + expected_average[0].to_s)
-      cloud_account.stub!(:valid_credentials?).and_return(true)
-      cloud_account.save!
+      provider_account = Factory.build(:provider_account, :provider => provider, :username => "username" + expected_average[0].to_s)
+      provider_account.stub!(:valid_credentials?).and_return(true)
+      provider_account.save!
 
-      instance = Factory(:instance, :cloud_account_id => cloud_account.id, :pool_id => pool.id)
+      instance = Factory(:instance, :provider_account_id => provider_account.id, :pool_id => pool.id)
       generate_tasks(start_time, interval_length, instance, expected_average)
     end
 
@@ -159,11 +160,11 @@ describe DataServiceActiveRecord do
     runtimes = [runtime1, runtime2, runtime3]
 
     pool = Factory(:pool)
-    cloud_account = Factory :mock_cloud_account
+    provider_account = Factory :mock_provider_account
 
     for i in 0..2 do
        runtimes[i].each do |runtime|
-         instance = Factory(:instance, :pool => pool, :cloud_account => cloud_account, :state => Instance::STATE_STOPPED)
+         instance = Factory(:instance, :pool => pool, :provider_account => provider_account, :state => Instance::STATE_STOPPED)
          instance.save!
 
          instance.time_last_pending = start_times[i] + (interval_length / 2)
@@ -173,21 +174,21 @@ describe DataServiceActiveRecord do
        end
     end
 
-    stats = DataServiceActiveRecord.qos_instance_runtime_stats(cloud_account, start_time, end_time, interval_length)
+    stats = DataServiceActiveRecord.qos_instance_runtime_stats(provider_account, start_time, end_time, interval_length)
     stats[0].should == DataServiceActiveRecord::QoSDataPoint.new(start_times[0], 15, 25, 5)
     stats[1].should == DataServiceActiveRecord::QoSDataPoint.new(start_times[1], 30, 50, 10)
     stats[2].should == DataServiceActiveRecord::QoSDataPoint.new(start_times[2], 300, 500, 100)
 
   end
 
-  it "should generate the mean max and min instance runtimes of instances for a given cloud account or pool" do
+  it "should generate the mean max and min instance runtimes of instances for a given provider account or pool" do
     pool = Factory(:pool)
 
-    cloud_account = Factory :mock_cloud_account
+    provider_account = Factory :mock_provider_account
 
     start_time = Time.utc(2010,"jan",1,20,15,1)
     [50, 100, 150, 200, 250].each do |runtime|
-      instance = Factory(:new_instance, :pool => pool, :cloud_account => cloud_account)
+      instance = Factory(:new_instance, :pool => pool, :provider_account => provider_account)
       instance.time_last_pending = start_time
       instance.time_last_running = start_time
       instance.acc_running_time = runtime
@@ -201,8 +202,8 @@ describe DataServiceActiveRecord do
 
   it "should calculate the average time it takes a provider to complete a task between two times" do
     pool = Factory(:pool)
-    cloud_account = Factory(:mock_cloud_account)
-    instance = Factory(:instance, :pool => pool, :cloud_account => cloud_account)
+    provider_account = Factory(:mock_provider_account)
+    instance = Factory(:instance, :pool => pool, :provider_account => provider_account)
 
     start_time = Time.utc(2010,"jan",1,20,15,1)
     task_completion_times = [10, 20, 30, 40, 50]
@@ -226,21 +227,21 @@ describe DataServiceActiveRecord do
     end
 
     expected_average_time = total_time / task_completion_times.length
-    average_time = DataServiceActiveRecord.qos_task_completion_mean_max_min(cloud_account.provider, start_time, Time.now, InstanceTask::ACTION_CREATE)
+    average_time = DataServiceActiveRecord.qos_task_completion_mean_max_min(provider_account.provider, start_time, Time.now, InstanceTask::ACTION_CREATE)
 
     average_time[:average].should == expected_average_time
     average_time[:min].should == 10
     average_time[:max].should == 50
   end
 
-  it "should calculate the correct failure rate of instances starts for a particular pool or cloud account" do
+  it "should calculate the correct failure rate of instances starts for a particular pool or provider account" do
     start_time = Time.utc(2010,"jan",1,20,15,1)
     create_time = start_time + 1
     end_time = create_time + 1
 
     pool = Factory(:pool)
-    cloud_account = Factory :mock_cloud_account
-    instance = Factory(:instance, :pool => pool, :cloud_account => cloud_account)
+    provider_account = Factory :mock_provider_account
+    instance = Factory(:instance, :pool => pool, :provider_account => provider_account)
 
     failures = 5
     non_failures = 20
@@ -285,8 +286,8 @@ describe DataServiceActiveRecord do
     number_of_instances = 20
 
     pool = Factory(:pool)
-    cloud_account = Factory :mock_cloud_account
-    instance = Factory(:instance, :pool => pool, :cloud_account => cloud_account)
+    provider_account = Factory :mock_provider_account
+    instance = Factory(:instance, :pool => pool, :provider_account => provider_account)
 
     for i in 0..2
       for j in 1..failures[i]

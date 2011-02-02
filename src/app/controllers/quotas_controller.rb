@@ -77,7 +77,7 @@ class QuotasController < ApplicationController
     if params[:parent_type] == "pool"
       return Pool.find(params[:id])
     elsif params[:parent_type] == "cloud_account"
-      return CloudAccount.find(params[:id])
+      return ProviderAccount.find(params[:id])
     end
     #TODO Throw no match to pool or cloud account exception
   end

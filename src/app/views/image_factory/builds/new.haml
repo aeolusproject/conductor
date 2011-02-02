@@ -46,10 +46,10 @@
   %label Choose Provider Format:
   %section.clearfix.gap
     %ul.block
-      - @all_targets.each do |target_id, target|
+      - @all_targets.each do |target, target_id|
         %li
-        = check_box_tag 'targets[]', target_id, false, :id => target_id
-        = label_tag target_id, target['name']
+        = check_box_tag 'targets[]', target_id, false, :id => target
+        = label_tag target
 
   = submit_tag "Submit to Build", :name => "build"
   = link_to 'Cancel', image_factory_templates_path, :class => 'button'

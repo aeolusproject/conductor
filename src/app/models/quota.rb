@@ -22,7 +22,7 @@
 class Quota < ActiveRecord::Base
 
   has_one :pool
-  has_one :cloud_account
+  has_one :provider_account
   has_one :user
 
   validates_numericality_of :maximum_total_instances,

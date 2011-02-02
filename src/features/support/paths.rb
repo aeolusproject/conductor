@@ -102,7 +102,7 @@ module NavigationHelpers
       url_for :action => 'edit', :controller => 'hardware_profiles', :only_path => true
 
     when /^(.*)'s provider account page$/
-      admin_provider_account_path(CloudAccount.find_by_label($1))
+      admin_provider_account_path(ProviderAccount.find_by_label($1))
 
     when /^(.*)'s image factory deployable page$/
       image_factory_deployable_path(Deployable.find_by_name($1))

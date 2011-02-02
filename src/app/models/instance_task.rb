@@ -46,7 +46,7 @@ class InstanceTask < Task
     actions = []
     # FIXME: cloud_account won't always be set here, but we're requiring
     #        front end realm for now.
-    if cloud_account = instance.cloud_account and
+    if cloud_account = instance.provider_account and
       conn = cloud_account.connect and c_state = conn.instance_state(state)
         transitions = c_state.transitions
         transitions.each do |transition|

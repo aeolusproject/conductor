@@ -27,11 +27,11 @@ pool_administrator:
   privileges: provider_view, pool_modify, pool_view, quota_modify, quota_view, stats_view, set_perms, view_perms
 account_administrator:
   name: Account Administrator
-  scope: CloudAccount
+  scope: ProviderAccount
   privileges: account_modify, account_view, stats_view, set_perms, view_perms
 account_viewer:
   name: Account User
-  scope: CloudAccount
+  scope: ProviderAccount
   privileges: account_view
 provider_administrator:
   name: Provider Administrator

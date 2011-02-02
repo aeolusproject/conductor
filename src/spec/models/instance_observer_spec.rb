@@ -3,10 +3,8 @@ require 'spec_helper'
 describe InstanceObserver do
 
   before(:each) do
-   Timecop.travel(Time.local(2008, 9, 1, 10, 5, 0, 0, 0))
-
-   @cloud_account_quota = Factory :quota
-   @cloud_account = Factory(:mock_cloud_account, :quota_id => @cloud_account_quota.id)
+   @provider_account_quota = Factory :quota
+   @provider_account = Factory(:mock_provider_account, :quota_id => @provider_account_quota.id)
 
    @pool_quota = Factory :quota
    @pool = Factory(:pool, :quota_id => @pool_quota.id)
@@ -15,7 +13,9 @@ describe InstanceObserver do
    @user = Factory(:user, :quota_id => @user_quota.id)
 
    @hwp = Factory :mock_hwp1
-   @instance = Factory(:new_instance, :pool => @pool, :hardware_profile => @hwp, :cloud_account_id => @cloud_account.id, :owner => @user)
+   @instance = Factory(:new_instance, :pool => @pool, :hardware_profile => @hwp, :provider_account_id => @provider_account.id, :owner => @user)
+
+   Timecop.travel(Time.local(2008, 9, 1, 10, 5, 0, 0, 0))
   end
 
   after(:each) do
@@ -102,14 +102,14 @@ describe InstanceObserver do
   end
 
   it "should not update quota on pool, user and cloud account when an instance is state new" do
-    [@cloud_account_quota, @pool_quota, @user_quota].each do |quota|
+    [@provider_account_quota, @pool_quota, @user_quota].each do |quota|
       quota = Quota.find(quota)
       quota.total_instances.should == 0
     end
   end
 
   it "should update quota on pool, user and cloud account when an instance goes to state pending" do
-    [@cloud_account_quota, @pool_quota, @user_quota].each do |quota|
+    [@provider_account_quota, @pool_quota, @user_quota].each do |quota|
       @instance.state = Instance::STATE_PENDING
       @instance.save!
 
@@ -122,7 +122,7 @@ describe InstanceObserver do
     @instance.state = Instance::STATE_CREATE_FAILED
     @instance.save!
 
-    [@cloud_account_quota, @pool_quota, @user_quota].each do |quota|
+    [@provider_account_quota, @pool_quota, @user_quota].each do |quota|
       quota = Quota.find(quota)
       quota.total_instances.should == 0
     end
@@ -132,7 +132,7 @@ describe InstanceObserver do
     @instance.state = Instance::STATE_RUNNING
     @instance.save!
 
-    [@cloud_account_quota, @pool_quota, @user_quota].each do |quota|
+    [@provider_account_quota, @pool_quota, @user_quota].each do |quota|
       quota = Quota.find(quota.id)
       quota.running_instances.should == 1
       quota.total_instances.should == 1
@@ -146,7 +146,7 @@ describe InstanceObserver do
     @instance.state = Instance::STATE_SHUTTING_DOWN
     @instance.save!
 
-    [@cloud_account_quota, @pool_quota, @user_quota].each do |quota|
+    [@provider_account_quota, @pool_quota, @user_quota].each do |quota|
       quota = Quota.find(quota.id)
 
       quota.running_instances.should == 0

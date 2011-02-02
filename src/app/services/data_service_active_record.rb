@@ -65,7 +65,7 @@ class DataServiceActiveRecord
     data_points = []
     free_instances = 0
 
-    cloud_accounts = CloudAccount.find(:all, :conditions => {:provider_id => provider.id})
+    cloud_accounts = ProviderAccount.find(:all, :conditions => {:provider_id => provider.id})
     cloud_accounts.each do |cloud_account|
       quota = cloud_account.quota
       if quota
@@ -175,11 +175,11 @@ class DataServiceActiveRecord
     instances = []
 
     if parent.class == Provider
-      cloud_accounts = CloudAccount.find(:all, :conditions => {:provider_id => parent.id})
+      cloud_accounts = ProviderAccount.find(:all, :conditions => {:provider_id => parent.id})
       cloud_accounts.each do |cloud_account|
         instances.concat(cloud_account.instances)
       end
-    elsif parent.class == Pool || parent.class == CloudAccount
+    elsif parent.class == Pool || parent.class == ProviderAccount
        instances = parent.instances
     else
       return nil
@@ -209,7 +209,7 @@ class DataServiceActiveRecord
     end
   end
 
-  # returns the failure rate of instance starts for instances associated with the parent, (pool/cloudaccount) given the failure code
+  # returns the failure rate of instance starts for instances associated with the parent, (pool/ProviderAccount) given the failure code
   def self.failure_rate(parent, start_time, end_time, failure_code)
     instances = get_parent_instances(parent)
     tasks = Task.find(:all, :conditions => {:created_at => start_time...end_time,

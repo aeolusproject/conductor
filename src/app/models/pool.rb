@@ -47,8 +47,8 @@ class Pool < ActiveRecord::Base
   def cloud_accounts
     accounts = []
     instances.each do |instance|
-      if instance.cloud_account and !accounts.include?(instance.cloud_account)
-        accounts << instance.cloud_account
+      if instance.provider_account and !accounts.include?(instance.provider_account)
+        accounts << instance.provider_account
       end
     end
   end

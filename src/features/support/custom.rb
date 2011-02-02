@@ -8,10 +8,6 @@ Provider.class_eval do
     true
   end
 
-  def set_cloud_type
-    self.cloud_type = Factory(:mock_provider).cloud_type
-  end
-
   def populate_hardware_profiles
     [[:mock_hwp1, :agg_hwp1], [:mock_hwp2, :agg_hwp2]].each do |mp_name, ap_name|
       mock = Factory(mp_name, :provider_id => self.id)
@@ -23,7 +19,7 @@ Provider.class_eval do
 
 end
 
-CloudAccount.class_eval do
+ProviderAccount.class_eval do
 
   alias :generate_auth_key_original :generate_auth_key
 

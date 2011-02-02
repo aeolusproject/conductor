@@ -8,7 +8,7 @@ class Admin::ProviderAccountsController < ApplicationController
     if @search_term.blank?
       load_accounts
     else
-      search = CloudAccount.search do
+      search = ProviderAccount.search do
         keywords(params[:q])
       end
       @accounts = search.results
@@ -17,7 +17,7 @@ class Admin::ProviderAccountsController < ApplicationController
 
   def show
     @tab_captions = ['Properties', 'Credentials', 'History', 'Permissions']
-    @account = CloudAccount.find(params[:id])
+    @account = ProviderAccount.find(params[:id])
     require_privilege(Privilege::VIEW, @account)
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
 
@@ -38,73 +38,82 @@ class Admin::ProviderAccountsController < ApplicationController
   end
 
   def new
-    @cloud_account = CloudAccount.new
+    @provider_account = ProviderAccount.new
     @quota = Quota.new
     @providers = Provider.all
+    if @providers.empty?
+      flash[:error] = "You don't have any provider yet. Please create one!"
+    else
+    @selected_provider = @providers.first unless @providers.blank?
+    end
   end
 
   def create
-    @provider = Provider.find(params[:provider_id])
-    require_privilege(Privilege::CREATE, CloudAccount, @provider)
+    @selected_provider = @provider = Provider.find(params[:provider_account][:provider_id])
+    require_privilege(Privilege::CREATE, ProviderAccount, @provider)
 
     @providers = Provider.all
-    @cloud_account = CloudAccount.new(params[:cloud_account])
-    @cloud_account.provider = @provider
-    @cloud_account.quota = @quota = Quota.new
+    @provider_account = ProviderAccount.new(params[:provider_account])
+    @provider_account.provider = @provider
+    @provider_account.quota = @quota = Quota.new
 
     if params.delete :test_account
-      test_account(@cloud_account)
+      test_account(@provider_account)
       render :action => 'new' and return
     end
 
     limit = params[:quota][:maximum_running_instances] if params[:quota]
-    @cloud_account.quota.set_maximum_running_instances(limit)
+    @provider_account.quota.set_maximum_running_instances(limit)
 
-    if @cloud_account.invalid?
-      if not @cloud_account.valid_credentials?
+    if @provider_account.invalid?
+      if not @provider_account.valid_credentials?
         flash.now[:error] = "The entered credential information is incorrect"
-      elsif @cloud_account.errors.on(:username)
-        flash.now[:error] = "The access key '#{params[:cloud_account][:username]}' has already been taken."
+      elsif @provider_account.errors.on(:username)
+        flash.now[:error] = "The access key '#{params[:provider_account][:username]}' has already been taken."
       else
         flash.now[:error] = "You must fill in all the required fields"
       end
       render :action => 'new' and return
     end
 
-    @cloud_account.pool_families << PoolFamily.default
-    @cloud_account.save!
-    @cloud_account.assign_owner_roles(current_user)
-    if @cloud_account.populate_realms
+    @provider_account.pool_families << PoolFamily.default
+    @provider_account.save!
+    @provider_account.assign_owner_roles(current_user)
+    if @provider_account.populate_realms
       flash[:notice] = "Provider account added."
     end
-    redirect_to admin_provider_account_path(@cloud_account)
+    redirect_to admin_provider_account_path(@provider_account)
     kick_condor
   end
 
   def edit
-    @cloud_account = CloudAccount.find(params[:id])
-    @quota = @cloud_account.quota
-    @provider = @cloud_account.provider
-    require_privilege(Privilege::MODIFY,@cloud_account)
+    @provider_account = ProviderAccount.find(params[:id])
+    @selected_provider = @provider_account.provider
+    @quota = @provider_account.quota
+    @providers = Provider.find(:all)
+    require_privilege(Privilege::MODIFY,@provider_account)
   end
 
   def update
-    @cloud_account = CloudAccount.find(params[:id])
-    @provider = @cloud_account.provider
-    require_privilege(Privilege::MODIFY,@cloud_account)
-    @quota = @cloud_account.quota
+    @provider_account = ProviderAccount.find(params[:id])
+    @selected_provider = @provider = @provider_account.provider
+    require_privilege(Privilege::MODIFY, @provider)
+    require_privilege(Privilege::MODIFY,@provider_account)
+    @quota = @provider_account.quota
+    @providers = Provider.find(:all)
 
     if params.delete :test_account
-      test_account(@cloud_account)
+      test_account(@provider_account)
       render :action => 'edit' and return
     end
 
     limit = params[:quota][:maximum_running_instances] if params[:quota]
-    @cloud_account.quota.set_maximum_running_instances(limit)
-    if @cloud_account.update_attributes(params[:cloud_account])
-      flash[:notice] = "Cloud Account updated!"
-      redirect_to admin_provider_account_path(@cloud_account)
+    @provider_account.quota.set_maximum_running_instances(limit)
+    if @provider_account.update_attributes(params[:provider_account])
+      flash[:notice] = "Provider Account updated!"
+      redirect_to admin_provider_account_path(@provider_account)
     else
+      flash[:error] = "Provider Account wasn't updated!"
       render :action => :edit
     end
   end
@@ -113,11 +122,28 @@ class Admin::ProviderAccountsController < ApplicationController
     if (not params[:accounts_selected]) or (params[:accounts_selected].length == 0)
       flash[:notice] = "You must select some accounts first."
     else
-      CloudAccount.find(params[:accounts_selected]).each do |account|
+      ProviderAccount.find(params[:accounts_selected]).each do |account|
         account.destroy if check_privilege(Privilege::MODIFY, account)
       end
     end
     redirect_to admin_provider_accounts_url
+  end
+
+  def set_selected_provider
+    @quota = Quota.new
+    @provider_account = ProviderAccount.new
+    respond_to do |format|
+      format.js {
+        @providers = Provider.find(:all)
+        @selected_provider = Provider.find(params[:provider_account][:provider_id])
+        render :partial => 'provider_selection'
+      }
+      format.html {
+        @providers = Provider.find(:all)
+        @selected_provider = Provider.find(params[:provider_account][:provider_id])
+        render :action => 'new', :layout => true
+      }
+    end
   end
 
   protected
@@ -136,12 +162,13 @@ class Admin::ProviderAccountsController < ApplicationController
     @header = [
       { :name => "Name", :sort_attr => :name },
       { :name => "Username", :sort_attr => :username},
+      { :name => "Provider Type", :sort_attr => :provider_type }
     ]
     @url_params = params
   end
 
   def load_accounts
-    @accounts = CloudAccount.paginate(:all,
+    @accounts = ProviderAccount.paginate(:all,
       :page => params[:page] || 1,
       :order => (params[:order_field] || 'label') +' '+ (params[:order_dir] || 'asc')
     )

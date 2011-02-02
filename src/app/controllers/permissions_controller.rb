@@ -67,20 +67,20 @@ class PermissionsController < ApplicationController
 
   def set_permission_object(action)
     if !params[:permission_object_type].nil?
-      @permission_object = 
+      @permission_object =
         params[:permission_object_type].constantize.find(params[:permission_object_id])
     elsif !params[:pool_id].nil?
       @permission_object = Pool.find params[:pool_id]
     elsif !params[:provider_id].nil?
       @permission_object = Provider.find params[:provider_id]
     elsif !params[:cloud_account_id].nil?
-      @permission_object = CloudAccount.find params[:cloud_account_id]
+      @permission_object = ProviderAccount.find params[:cloud_account_id]
     elsif !params[:base_permission_object_id].nil?
       @permission_object = BasePermissionObject.find params[:base_permission_object_id]
     else
       @permission_object = BasePermissionObject.general_permission_scope
     end
- 
+
     raise ActiveRecord::RecordNotFound if @permission_object.nil?
 
     require_privilege(action, @permission_object)

@@ -86,16 +86,9 @@ describe Instance do
 
   describe "with time capsule" do
 
-    before(:each) do
-      Timecop.travel(Time.local(2008, 9, 1, 10, 5, 0, 0, 0))
-    end
-
-    after(:each) do
-      Timecop.return
-    end
-
     it "should properly calculate the total time that the instance has been in a monitored state" do
       instance = Factory :new_instance
+      Timecop.travel(Time.local(2008, 9, 1, 10, 5, 0, 0, 0))
 
       [ Instance::STATE_PENDING, Instance::STATE_RUNNING, Instance::STATE_SHUTTING_DOWN, Instance::STATE_STOPPED ].each do |s|
 
@@ -121,18 +114,19 @@ describe Instance do
         instance.total_state_time(s).should >= 3
         instance.total_state_time(s).should <= 4
       end
+      Timecop.return
     end
 
   end
 
   it "should return empty list of instance actions when connect to provider fails" do
     provider = Factory.build(:mock_provider2)
-    cloud_account = Factory.build(:cloud_account, :provider => provider,
+    cloud_account = Factory.build(:provider_account, :provider => provider,
                                                   :username => 'john doe',
                                                   :password => 'asdf')
     cloud_account.stub!(:connect).and_return(nil)
     cloud_account.stub!(:valid_credentials?).and_return(true)
-    instance = Factory.create(:instance, :cloud_account => cloud_account)
+    instance = Factory.create(:instance, :provider_account => cloud_account)
     instance.get_action_list.should be_empty
   end
 

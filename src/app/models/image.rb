@@ -52,7 +52,7 @@ class Image < ActiveRecord::Base
   INACTIVE_STATES = [STATE_COMPLETE, STATE_FAILED, STATE_CANCELED]
 
   def self.available_targets
-    return YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_targets.yml")
+    Provider::PROVIDER_TYPES.invert
   end
 
   def generate_uuid
@@ -129,7 +129,7 @@ class Image < ActiveRecord::Base
       image = Image.new(
         :name         => raw_image.name,
         :status       => 'complete',
-        :target       => account.provider.cloud_type,
+        :target       => account.provider.provider_type,
         :template_id  => template.id
       )
       image.save!
@@ -155,7 +155,7 @@ class Image < ActiveRecord::Base
       raise "There is not provider with name '#{providername}'"
     end
 
-    account = CloudAccount.new(:provider => provider, :username => username, :password => password)
+    account = ProviderAccount.new(:provider => provider, :username => username, :password => password)
 
     unless account.valid_credentials?
       raise "Invalid credentials for provider '#{providername}'"

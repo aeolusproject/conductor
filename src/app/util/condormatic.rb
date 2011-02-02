@@ -216,7 +216,7 @@ def condormatic_classads_sync
     # to it.
     provider_images = provider.provider_images.find(:all,
                             :conditions => ['provider_image_key IS NOT NULL'])
-    accounts          = provider.cloud_accounts
+    accounts          = provider.provider_accounts
     hardware_profiles = provider.hardware_profiles
     realms            = provider.realms
     accounts.each { |account|

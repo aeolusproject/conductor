@@ -35,10 +35,10 @@ Given /^user "([^"]*)" owns instance "([^"]*)"$/ do |user, instance|
   instance.save!
 end
 
-When /^a client requests "([^"]*)" for instance "([^"]*)" for cloud account "([^"]*)"$/ do |action, instance, cloud_account|
+When /^a client requests "([^"]*)" for instance "([^"]*)" for provider account "([^"]*)"$/ do |action, instance, provider_account|
   instance = Instance.find_by_name(instance)
-  cloud_account = CloudAccount.find_by_label(cloud_account)
-  uri = url_for :action => action, :controller => 'resources/instances', :instance_id => instance.id, :cloud_account_id => cloud_account.id
+  provider_account = ProviderAccount.find_by_label(provider_account)
+  uri = url_for :action => action, :controller => 'resources/instances', :instance_id => instance.id, :provider_account_id => provider_account.id
   send_xml_get(uri)
 end
 

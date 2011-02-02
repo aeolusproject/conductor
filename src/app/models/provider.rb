@@ -29,7 +29,18 @@ class Provider < ActiveRecord::Base
   require 'util/deltacloud'
   include PermissionedObject
 
-  has_many :cloud_accounts, :dependent => :destroy
+  MOCK = 0
+  AWS = 1
+  GOGRID = 2
+  RACKSPACE = 3
+  RHEVM = 4
+  OPENNEBULA = 5
+
+  PROVIDER_TYPES = { MOCK => "mock", AWS => "AWS",
+    GOGRID => "GoGrid", RACKSPACE => "Rackspace", RHEVM => "RHEVM",
+    OPENNEBULA => "OpenNebula" }
+
+  has_many :provider_accounts, :dependent => :destroy
   has_many :hardware_profiles, :dependent => :destroy
   has_many :provider_images, :dependent => :destroy
   has_many :realms, :dependent => :destroy
@@ -37,11 +48,12 @@ class Provider < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
-  validates_presence_of :cloud_type
   validates_presence_of :url
 
   validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
   validates_length_of :name,  :maximum => 255
+
+  validates_inclusion_of :provider_type, :in => PROVIDER_TYPES
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
@@ -53,8 +65,8 @@ class Provider < ActiveRecord::Base
   # but a cloud account is silently not destroyed when there is
   # an instance for the cloud account
   def destroyable?
-    unless self.cloud_accounts.empty?
-      self.cloud_accounts.each do |c|
+    unless self.provider_accounts.empty?
+      self.provider_accounts.each do |c|
         unless c.instances.empty?
           inst_list = c.instances.map {|i| i.name}.join(', ')
           self.errors.add_to_base "there are instances for cloud account '#{c.name}': #{inst_list}"
@@ -62,11 +74,6 @@ class Provider < ActiveRecord::Base
       end
     end
     return self.errors.empty?
-  end
-
-  def set_cloud_type!
-    deltacloud = connect
-    self.cloud_type = deltacloud.driver_name unless deltacloud.nil?
   end
 
   def connect
@@ -117,16 +124,16 @@ class Provider < ActiveRecord::Base
     cloud_accounts.collect {|account| account.pools}.flatten.uniq
   end
 
-  # returns first provider of cloud_type which has at least one cloud account
-  def self.find_by_target_with_account(cloud_type)
-    Provider.all(:conditions => {:cloud_type => cloud_type}).each do |p|
-      return p unless p.cloud_accounts.empty?
+  # returns first provider of provider_type which has at least one cloud account
+  def self.find_by_target_with_account(provider_type)
+    Provider.all(:conditions => {:provider_type => provider_type}).each do |p|
+      return p unless p.provider_accounts.empty?
     end
     nil
   end
 
   # TODO: implement or remove - this is meant to contain a hash of
-  # supported cloud_types to use in populating form, though if we
+  # supported provider_types to use in populating form, though if we
   # infer that field, we don't need this.
   def supported_types
   end

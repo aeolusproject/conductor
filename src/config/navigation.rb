@@ -15,7 +15,7 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :users, t(:users), admin_users_path
       second_level.item :roles, t(:roles), admin_roles_path
       second_level.item :providers, t('providers.providers'), admin_providers_path
-      second_level.item :provider_accounts, t(:provider_accounts), admin_provider_accounts_path
+      second_level.item :provider_accounts, t(:provider_accounts_item), admin_provider_accounts_path
       second_level.item :hardware_profiles, t(:cloud_engine_hardware_profiles), admin_hardware_profiles_path
       second_level.item :realms, t(:cloud_engine_realms), admin_realms_path
       second_level.item :pool_families, t(:pool_families), admin_pool_families_path

@@ -49,8 +49,8 @@ Given /^this provider has a realm$/ do
   Factory(:realm, :provider => @provider)
 end
 
-Given /^this provider has a cloud account$/ do
-  Factory(:mock_cloud_account, :provider => @provider)
+Given /^this provider has a provider account$/ do
+  Factory(:mock_provider_account, :provider => @provider)
 end
 
 Then /^there should not be any provider images$/ do
@@ -61,8 +61,8 @@ Then /^there should not be any hardware profiles$/ do
   HardwareProfile.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
 end
 
-Then /^there should not be a cloud account$/ do
-  CloudAccount.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
+Then /^there should not be a provider account$/ do
+  ProviderAccount.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
 end
 
 Then /^there should not be a realm$/ do

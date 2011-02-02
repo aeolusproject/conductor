@@ -16,7 +16,7 @@ class GraphService
       cloud_account_graphs[Graph::QUOTA_INSTANCES_IN_USE] = qos_failure_rate_graph(parent, opts = {})
       graphs[cloud_account] = cloud_account_graphs
     else
-      CloudAccount.all.each do |cloud_account|
+      ProviderAccount.all.each do |cloud_account|
         cloud_account_graphs = Hash.new
         cloud_account_graphs[Graph::QUOTA_INSTANCES_IN_USE] = quota_instances_in_use_graph(cloud_account,opts)
         graphs[cloud_account] = cloud_account_graphs
@@ -126,7 +126,7 @@ class GraphService
     providers = Provider.all
     providers.each do |provider|
       running_instances = 0
-      provider.cloud_accounts.each do |account|
+      provider.provider_accounts.each do |account|
         running_instances = running_instances + account.quota.running_instances if account.quota
       end
       if running_instances > 0

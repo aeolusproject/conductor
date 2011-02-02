@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CloudAccountObserver do
+describe ProviderAccountObserver do
   fixtures :all
 
   it "should create an instance_key if provider is EC2" do
@@ -12,11 +12,11 @@ describe CloudAccountObserver do
     @client.stub!(:"feature?").and_return(true)
     @client.stub!(:"create_key").and_return(@key)
 
-    cloud_account = Factory.build :ec2_cloud_account
-    cloud_account.stub!(:connect).and_return(@client)
-    cloud_account.save
-    cloud_account.instance_key.should_not == nil
-    cloud_account.instance_key.pem == "PEM"
-    cloud_account.instance_key.id == "1_user"
+    provider_account = Factory.build :ec2_provider_account
+    provider_account.stub!(:connect).and_return(@client)
+    provider_account.save
+    provider_account.instance_key.should_not == nil
+    provider_account.instance_key.pem == "PEM"
+    provider_account.instance_key.id == "1_user"
   end
 end

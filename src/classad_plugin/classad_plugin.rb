@@ -60,7 +60,7 @@ def classad_plugin(logf, conf_path, instance_key, account_id)
   instance = Instance.find(:first,
                            :conditions => [ "condor_job_id = ?", instance_key ])
   logf.puts "getting cloud account from id #{account_id}"
-  cloud_account = CloudAccount.find(:first,
+  cloud_account = ProviderAccount.find(:first,
                                     :conditions => [ "id = ?", account_id ])
 
   logf.puts "instance is: #{instance}, cloud account is #{cloud_account}"

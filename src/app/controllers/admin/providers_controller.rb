@@ -55,7 +55,6 @@ class Admin::ProvidersController < ApplicationController
       test_connection(@provider)
       render :action => 'new'
     else
-      @provider.set_cloud_type!
       if @provider.save && @provider.populate_hardware_profiles
         @provider.assign_owner_roles(current_user)
         flash[:notice] = "Provider added."
@@ -71,17 +70,11 @@ class Admin::ProvidersController < ApplicationController
   def update
    @provider = Provider.find_by_id(params[:id])
    require_privilege(Privilege::MODIFY, @provider)
-   previous_cloud_type = @provider.cloud_type
    @provider.update_attributes(params[:provider])
    if params[:test_connection]
      test_connection(@provider)
      render :action => 'edit'
    else
-    @provider.set_cloud_type!
-     if previous_cloud_type != @provider.cloud_type
-      @provider.errors.add :url, "points to a different provider"
-    end
-
      if @provider.errors.empty? and @provider.save
        flash[:notice] = "Provider updated."
        redirect_to admin_providers_path
@@ -120,7 +113,8 @@ class Admin::ProvidersController < ApplicationController
 
     def load_providers
       @header = [{ :name => "Provider name", :sort_attr => :name },
-                 { :name => "Provider URL", :sort_attr => :name }
+                 { :name => "Provider URL", :sort_attr => :name },
+                 { :name => "Provider Type", :sort_attr => :name }
       ]
       @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
       @url_params = params.clone

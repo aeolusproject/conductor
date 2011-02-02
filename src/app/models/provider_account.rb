@@ -22,14 +22,13 @@
 require 'nokogiri'
 require 'sunspot_rails'
 
-class CloudAccount < ActiveRecord::Base
+class ProviderAccount < ActiveRecord::Base
+  include PermissionedObject
 
   searchable do
     text :name, :as => :code_substring
     text :username, :as => :code_substring
   end
-
-  include PermissionedObject
 
   # Relations
   belongs_to :provider
@@ -51,15 +50,17 @@ class CloudAccount < ActiveRecord::Base
   validates_presence_of :username
   validates_uniqueness_of :username, :scope => :provider_id
   validates_presence_of :password
-  validates_presence_of :account_number
+  validates_presence_of :account_number,:if => Proc.new{ |account| account.provider.provider_type == Provider::AWS}
   validate :validate_presence_of_x509_certs
   validate :validate_credentials
 
   # We're using this instead of <tt>validates_presence_of</tt> helper because
   # we want to show errors on different attributes ending with '_file'.
   def validate_presence_of_x509_certs
-    errors.add(:x509_cert_pub_file, "can't be blank") if x509_cert_pub.blank?
-    errors.add(:x509_cert_priv_file, "can't be blank") if x509_cert_priv.blank?
+    if self.provider.provider_type == Provider::AWS
+      errors.add(:x509_cert_pub_file, "can't be blank") if x509_cert_pub.blank?
+      errors.add(:x509_cert_priv_file, "can't be blank") if x509_cert_priv.blank?
+    end
   end
 
   def validate_credentials
@@ -119,8 +120,8 @@ class CloudAccount < ActiveRecord::Base
   end
 
   def self.find_or_create(account)
-    a = CloudAccount.find_by_username_and_provider_id(account["username"], account["provider_id"])
-    return a.nil? ? CloudAccount.new(account) : a
+    a = ProviderAccount.find_by_username_and_provider_id(account["username"], account["provider_id"])
+    return a.nil? ? ProviderAccount.new(account) : a
   end
 
   def pools

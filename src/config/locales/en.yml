@@ -79,12 +79,18 @@ en:
   administration: Administration
   roles: Roles
   cloud_providers: Cloud Providers
-  provider_account: Provider Account
+  provider_accounts_item: Provider Account
   cloud_engine_hardware_profiles: Hardware Profiles
   cloud_engine_realms: Realms
   pool_families: Pool Families
   setting: Settings
   name: Name
+  AWS: Amazon EC2
+  RHEVM: RHEV-M
+  GoGrid: GoGrid
+  Rackspace: Rackspace
+  OpenNebula: OpenNebula
+  mock: Mock
   admin:
     settings:
       index:
@@ -116,14 +122,14 @@ en:
       test_connection: Test Connection
       required_field: Required field.
       caution_image: Caution
-  cloud_accounts:
+  provider_accounts:
     index:
       provider_accounts: Provider Accounts
     new:
       new_provider_account: New Account
       required_field: Required field.
     edit:
-      edit_provider_account: Edit Cloud Account
+      edit_provider_account: Edit Provider Account
       required_field: Required field.
     form:
       provider_accounts: Provider Accounts

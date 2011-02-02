@@ -13,11 +13,11 @@ require 'optparse'
 def add_ec2_template(xml_info, summary, ec2_ami)
 
   provider = Provider.find(:first)
-  if provider == nil || provider.cloud_type != "ec2"
+  if provider == nil || provider.provider_type != Provider::AWS
     puts "You need to set up an EC2 provider before you can run this script."
     exit
   end
-  
+
   template = Template.new
 
   # Incredibly, all the info actually comes from the xml..
@@ -46,7 +46,7 @@ def add_ec2_template(xml_info, summary, ec2_ami)
 
   puts "Saved image #{summary} for use."
 end
-  
+
 add_ec2_template("
   <?xml version=\"1.0\"?>
   <image>

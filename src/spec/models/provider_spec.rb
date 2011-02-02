@@ -26,9 +26,9 @@ describe Provider do
       end
     end
 
-    it "should require a valid cloud_type" do
+    it "should require a valid provider_type" do
       [nil, ""].each do |invalid_value|
-        @provider.cloud_type = invalid_value
+        @provider.provider_type = invalid_value
         @provider.should_not be_valid
       end
     end
@@ -64,9 +64,9 @@ describe Provider do
     end
 
     it "should set valid cloud type" do
-      @client.driver_name = @provider.cloud_type
-      @provider.cloud_type = nil
-      @provider.set_cloud_type!
+      @client.driver_name = @provider.provider_type
+      @provider.provider_type = nil
+      @provider.provider_type = 0
       @provider.should be_valid
     end
 
@@ -79,7 +79,7 @@ describe Provider do
       HardwareProfile.destroy_all
 
       instance = Factory(:instance)
-      provider = instance.cloud_account.provider
+      provider = instance.provider_account.provider
       provider.destroy
       provider.destroyed?.should be_false
     end

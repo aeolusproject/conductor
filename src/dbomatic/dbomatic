@@ -203,7 +203,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       return
     end
 
-    cloud_account = CloudAccount.find(:first, :conditions => ['provider_id = ? AND username = ? AND password = ?', provider.id, username, password])
+    cloud_account = ProviderAccount.find(:first, :conditions => ['provider_id = ? AND username = ? AND password = ?', provider.id, username, password])
     if cloud_account.nil?
       @logger.error "Could not find the cloud account corresponding to #{link}, skipping cloud id update"
       return

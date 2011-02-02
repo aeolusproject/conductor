@@ -132,10 +132,10 @@ class Resources::InstancesController < ApplicationController
 
   def can_create
     begin
-      cloud_account = CloudAccount.find(params[:cloud_account_id])
+      provider_account = ProviderAccount.find(params[:provider_account_id])
       @instance = Instance.find(params[:instance_id])
       @action_request = "can_create"
-      @value = Quota.can_create_instance?(@instance, cloud_account)
+      @value = Quota.can_create_instance?(@instance, provider_account)
       render :partial => 'can_perform_state_change.xml'
     rescue ActiveRecord::RecordNotFound
       head :not_found
@@ -146,10 +146,10 @@ class Resources::InstancesController < ApplicationController
 
   def can_start
     begin
-      cloud_account = CloudAccount.find(params[:cloud_account_id])
+      provider_account = ProviderAccount.find(params[:provider_account_id])
       @instance = Instance.find(params[:instance_id])
       @action_request = "can_start"
-      @value = Quota.can_start_instance?(@instance, cloud_account)
+      @value = Quota.can_start_instance?(@instance, provider_account)
       render :partial => 'can_perform_state_change.xml'
     rescue ActiveRecord::RecordNotFound => e
       puts e.inspect

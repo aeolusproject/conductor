@@ -1,4 +1,4 @@
-Factory.define :cloud_account do |f|
+Factory.define :provider_account do |f|
   f.sequence(:username) { |n| "testUser#{n}" }
   f.password "testPassword"
   f.sequence(:label) { |n| "test label#{n}" }
@@ -9,13 +9,13 @@ Factory.define :cloud_account do |f|
   f.association :quota
 end
 
-Factory.define :mock_cloud_account, :parent => :cloud_account do |f|
+Factory.define :mock_provider_account, :parent => :provider_account do |f|
   f.username "mockuser"
   f.password "mockpassword"
   f.provider { |p| p.association(:mock_provider) }
 end
 
-Factory.define :ec2_cloud_account, :parent => :cloud_account do |f|
+Factory.define :ec2_provider_account, :parent => :provider_account do |f|
   f.username "mockuser"
   f.password "mockpassword"
   f.provider { |p| p.association(:ec2_provider) }

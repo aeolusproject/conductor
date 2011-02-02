@@ -105,7 +105,7 @@ namespace :dc do
     unless provider = Provider.find_by_name(provider_name)
       raise "There is no provider with '#{provider_name}' name"
     end
-    unless account = provider.cloud_accounts.find_by_label(account_name)
+    unless account = provider.provider_accounts.find_by_label(account_name)
       raise "There is no account with '#{account_name}' label"
     end
     account
