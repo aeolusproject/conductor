@@ -54,6 +54,23 @@ Feature: Manage Templates
     And I should see "Template saved"
     And I should see "mocktemplate"
 
+  Scenario: Add group of packages to existing template
+    Given there is a "mock1" template
+    And has package "deltacloud-aggregator"
+    When I edit the template
+    And I press "Add Software"
+    Then I should see "Managed Content Selection"
+    When I press "Collections"
+    And I check "group_deltacloud"
+    And I press "Add Selected"
+    Then I should see "Managed Content to Bundle"
+    And the page should contain "#package_libdeltacloud" selector
+    When I press "Save"
+    Then I should be on the image factory templates page
+    And I should see "Template updated"
+    When I edit the template
+    Then the page should contain "#package_libdeltacloud" selector
+
   Scenario: Sorting templates
     Given there is a "mock1" template
     And there is a "mock2" template

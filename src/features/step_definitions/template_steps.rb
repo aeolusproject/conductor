@@ -105,3 +105,11 @@ Given /^there is an imported template$/ do
   @template = Factory.build :template, :name => name, :imported => true
   @template.save!
 end
+
+Given /^has package "([^"]*)"$/ do |arg1|
+  @template.add_packages [:arg1]
+end
+
+When /^I edit the template$/ do
+  visit edit_image_factory_template_url(@template)
+end
