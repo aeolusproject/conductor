@@ -246,11 +246,12 @@ class ImageFactory::TemplatesController < ApplicationController
   end
 
   def set_package_vars(set_all = false)
-    if params[:id].blank?
+    id = params[:id] || (params[:tpl] && params[:tpl][:id]) || nil
+    if id.blank?
       @tpl = Template.new
       check_create_permission
     else
-      @tpl = Template.find(params[:id])
+      @tpl = Template.find(id)
       check_edit_permission
     end
     @tpl.attributes = params[:tpl] unless params[:tpl].nil?
