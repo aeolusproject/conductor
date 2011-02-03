@@ -175,9 +175,9 @@ touch %{buildroot}%{_localstatedir}/log/%{name}/image_builder_service.log
 #rake spec
 
 %pre daemons
-getent group aeolus >/dev/null || /usr/sbin/groupadd -g 109 -r aeolus 2>/dev/null || :
+getent group aeolus >/dev/null || /usr/sbin/groupadd -g 451 -r aeolus 2>/dev/null || :
 getent passwd aeolus >/dev/null || \
-    /usr/sbin/useradd -u 109 -g aeolus -c "aeolus" \
+    /usr/sbin/useradd -u 451 -g aeolus -c "aeolus" \
     -s /sbin/nologin -r -d /var/aeolus aeolus 2> /dev/null || :
 
 %post daemons
