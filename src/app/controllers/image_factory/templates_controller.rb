@@ -64,6 +64,7 @@ class ImageFactory::TemplatesController < ApplicationController
     @tpl = Template.find(params[:id])
     check_edit_permission
     @tpl.attributes = params[:tpl] unless params[:tpl].blank?
+    @tpl.add_software(params[:packages].to_a, params[:groups].to_a)
     @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
   end
 
@@ -86,6 +87,7 @@ class ImageFactory::TemplatesController < ApplicationController
     @tpl = Template.find(params[:id])
     check_edit_permission
     @tpl.packages = []
+    @tpl.add_software(params[:packages].to_a, params[:groups].to_a)
 
     if @tpl.update_attributes(params[:tpl])
       @tpl.set_complete
