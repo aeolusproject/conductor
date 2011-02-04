@@ -11,12 +11,9 @@ describe DataServiceActiveRecord do
     data = [[25, 10], [40, 20], [20, 20]]
     free = 0
     for i in 0..2
-      cloud_account = Factory.build(:cloud_account, :provider => provider, :username => "username" + i.to_s)
-      cloud_account.stub!(:valid_credentials?).and_return(true)
-      cloud_account.save!
-
       quota = Factory(:quota, :maximum_total_instances => data[i][0], :total_instances => data[i][1])
-      cloud_account.quota_id = quota.id
+      cloud_account = Factory.build(:cloud_account, :provider => provider, :username => "username" + i.to_s, :quota => quota)
+      cloud_account.stub!(:valid_credentials?).and_return(true)
       cloud_account.save!
 
       free += (data[i][0] - data[i][1])
@@ -36,16 +33,15 @@ describe DataServiceActiveRecord do
     provider.stub!(:connect).and_return(client)
     provider.save!
 
-    cloud_account = Factory.build(:cloud_account, :provider => provider)
-    cloud_account.stub!(:valid_credentials?).and_return(true)
-    cloud_account.save!
-
     quota = Factory(:quota,
                     :maximum_running_instances => 40,
                     :maximum_total_instances => 50,
                     :running_instances => 20,
                     :total_instances => 20)
-    cloud_account.quota_id = quota.id
+
+    cloud_account = Factory.build(:cloud_account, :provider => provider, :quota => quota)
+    cloud_account.stub!(:valid_credentials?).and_return(true)
+    cloud_account.save!
 
     data_point = DataServiceActiveRecord.quota_usage(cloud_account, Quota::RESOURCE_RUNNING_INSTANCES)
     data_point.should == DataServiceActiveRecord::QuotaUsagePoint.new(20, 40)

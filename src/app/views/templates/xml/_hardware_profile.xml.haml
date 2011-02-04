@@ -1,0 +1,6 @@
+!!! XML
+%hardware_profile{ :href => admin_hardware_profile_path(profile.id), :id => profile.id }<>
+  %name<>
+    = profile.name
+  - [profile.memory, profile.cpu, profile.architecture, profile.storage].each do |prop|
+    = render  :partial => 'templates/xml/hardware_profile_property.xml', :locals => { :property => prop }

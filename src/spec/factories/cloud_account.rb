@@ -6,6 +6,7 @@ Factory.define :cloud_account do |f|
   f.x509_cert_priv "x509 private key"
   f.x509_cert_pub "x509 public key"
   f.association :provider
+  f.association :quota
 end
 
 Factory.define :mock_cloud_account, :parent => :cloud_account do |f|

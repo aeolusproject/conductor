@@ -1,5 +1,5 @@
 class Admin::HardwareProfilesController < ApplicationController
-  before_filter :require_user
+  before_filter :require_user, :except => :matching_profiles
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_hardware_profiles, :only => [:index, :show]
   before_filter :load_hardware_profile, :only => [:show]
@@ -96,6 +96,18 @@ class Admin::HardwareProfilesController < ApplicationController
   def multi_destroy
     HardwareProfile.destroy(params[:hardware_profile_selected])
     redirect_to admin_hardware_profiles_path
+  end
+
+  def matching_profiles
+    begin
+      hwp = HardwareProfile.find(params[:id])
+      @matches = HardwareProfile.matching_hwps(hwp)
+      render :partial => 'matching_profiles.xml'
+    rescue ActiveRecord::RecordNotFound
+      head :not_found
+    rescue Exception => e
+      head :internal_server_error
+    end
   end
 
   private

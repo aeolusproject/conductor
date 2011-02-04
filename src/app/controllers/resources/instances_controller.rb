@@ -1,5 +1,5 @@
 class Resources::InstancesController < ApplicationController
-  before_filter :require_user
+  before_filter :require_user, :except => [:can_start, :can_create]
   before_filter :load_instance, :only => [:show, :remove_failed, :key, :stop]
   before_filter :set_view_vars, :only => [:show, :index]
 
@@ -128,6 +128,36 @@ class Resources::InstancesController < ApplicationController
     condormatic_instance_reset_error(@instance)
     flash[:notice] = "#{@instance.name}: remove failed action was successfully queued."
     redirect_to resources_instances_path
+  end
+
+  def can_create
+    begin
+      cloud_account = CloudAccount.find(params[:cloud_account_id])
+      @instance = Instance.find(params[:instance_id])
+      @action_request = "can_create"
+      @value = Quota.can_create_instance?(@instance, cloud_account)
+      render :partial => 'can_perform_state_change.xml'
+    rescue ActiveRecord::RecordNotFound
+      head :not_found
+    rescue Exception
+      head :internal_server_error
+    end
+  end
+
+  def can_start
+    begin
+      cloud_account = CloudAccount.find(params[:cloud_account_id])
+      @instance = Instance.find(params[:instance_id])
+      @action_request = "can_start"
+      @value = Quota.can_start_instance?(@instance, cloud_account)
+      render :partial => 'can_perform_state_change.xml'
+    rescue ActiveRecord::RecordNotFound => e
+      puts e.inspect
+      head :not_found
+    rescue Exception => e
+      puts e.inspect
+      head :internal_server_error
+    end
   end
 
   private

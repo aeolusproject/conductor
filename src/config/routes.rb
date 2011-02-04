@@ -35,8 +35,11 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace 'resources' do |r|
     r.resources :pools, :collection => { :multi_destroy => :delete }
     r.resources :deployments
-    r.resources :instances, :collection => {:start => :get, :stop => :get, :select_template => :get, :remove_failed => :get}, :member => {:key => :get}
+    r.resources :instances, :collection => {:start => :get, :stop => :get, :select_template => :get, :remove_failed => :get, :can_start => :get, :can_create => :get }, :member => {:key => :get}
   end
+
+  map.can_start_instance '/resources/instances/:instance_id/can_start/:cloud_account_id', :controller => 'resources/instances', :action => 'can_start', :conditions => { :method => :get }
+  map.can_create_instance '/resources/instances/:instance_id/can_create/:cloud_account_id', :controller => 'resources/instances', :action => 'can_create', :conditions => { :method => :get }
 
   map.namespace 'image_factory' do |r|
     r.resources :assemblies
