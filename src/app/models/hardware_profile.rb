@@ -186,7 +186,7 @@ class HardwareProfile < ActiveRecord::Base
       matched_values = (create_array_from_property(p1) & create_array_from_property(p2))
       if !matched_values.empty?
         if p1.kind == 'fixed' || p2.kind == 'fixed'
-          HardwareProfileProperty.new(:kind => 'fixed', :value => matched_values[0])
+          HardwareProfileProperty.new(:kind => 'fixed', :value => matched_values[0], :name => p1.name, :unit => p1.unit)
         else
           hwpp = HardwareProfileProperty.new(:kind => 'enum')
           matched_values.each do |enum_value|
@@ -204,7 +204,7 @@ class HardwareProfile < ActiveRecord::Base
     case p2.kind
     when 'range'
       if !(BigDecimal.new(p1.range_first) > BigDecimal.new(p2.range_last) || BigDecimal.new(p1.range_last) < BigDecimal.new(p2.range_first))
-        hwpp = HardwareProfileProperty.new(:kind => 'range')
+        hwpp = HardwareProfileProperty.new(:kind => 'range', :unit => p1.unit, :name => p1.name)
 
         hwpp.range_first = BigDecimal.new(p1.range_first) >= BigDecimal.new(p2.range_first) ? p1.range_first : p2.range_first
         hwpp.range_last = BigDecimal.new(p1.range_last) <= BigDecimal.new(p2.range_last) ? p1.range_last : p2.range_last
@@ -215,7 +215,7 @@ class HardwareProfile < ActiveRecord::Base
       end
 
     when 'enum'
-      hwpp = HardwareProfileProperty.new(:kind => 'enum')
+      hwpp = HardwareProfileProperty.new(:kind => 'enum', :unit => p1.unit, :name => p1.name)
       p2.property_enum_entries.each do |enum|
         if (BigDecimal.new(p1.range_first)..BigDecimal.new(p1.range_last)) === BigDecimal.new(enum.value)
           hwpp.property_enum_entries << PropertyEnumEntry.new(:hardware_profile_property => hwpp, :value => enum.value)
@@ -224,7 +224,7 @@ class HardwareProfile < ActiveRecord::Base
       return hwpp.property_enum_entries.empty? ? nil : hwpp
 
     when 'fixed'
-      return (BigDecimal.new(p1.range_first)..BigDecimal.new(p1.range_last)) === BigDecimal.new(p2.value) ? HardwareProfileProperty.new(:kind => 'fixed', :value => p2.value) : nil
+      return (BigDecimal.new(p1.range_first)..BigDecimal.new(p1.range_last)) === BigDecimal.new(p2.value) ? HardwareProfileProperty.new(:kind => 'fixed', :value => p2.value, :name => p2.name, :unit => p2.unit) : nil
 
     else
       return nil
