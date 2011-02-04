@@ -47,4 +47,8 @@ class Realm < ActiveRecord::Base
 
   CONDUCTOR_REALM_PROVIDER_DELIMITER = ":"
   CONDUCTOR_REALM_ACCOUNT_DELIMITER = "/"
+
+  def name_with_provider
+    "#{self.provider.name}: #{self.name}"
+  end
 end
