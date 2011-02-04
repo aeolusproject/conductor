@@ -49,7 +49,6 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.namespace 'admin' do |r|
-    r.resources :realms
     r.resources :hardware_profiles, :collection => { :multi_destroy => :delete }
     r.resources :providers, :collection => { :multi_destroy => :delete }
     r.resources :users, :collection => { :multi_destroy => :delete }
@@ -58,6 +57,8 @@ ActionController::Routing::Routes.draw do |map|
     r.resources :roles, :collection => { :multi_destroy => :delete }
     r.resources :settings, :collection => { :self_service => :get, :general_settings => :get }
     r.resources :pool_families, :collection => { :multi_destroy => :delete }
+    r.resources :realms, :collection => { :multi_destroy => :delete }
+    r.resources :realm_mappings, :collection => { :multi_destroy => :delete }
   end
 
   map.matching_profiles '/admin/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'admin/hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }

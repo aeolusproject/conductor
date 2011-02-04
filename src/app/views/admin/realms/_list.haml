@@ -1,0 +1,19 @@
+- form_tag do
+  = link_to "Create", new_admin_realm_path, :class => "button"
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_realms_path, 'DELETE', :id => 'delete_button'
+
+  %p
+    Select:&nbsp;
+    = link_to "All", @url_params.merge(:select => 'all')
+    %span> ,&nbsp;
+    = link_to "None", @url_params.merge(:select => 'none')
+
+  %table#realms_table
+    = sortable_table_header @header
+    - unless @realms.blank?
+      - @realms.each do |realm|
+        %tr
+          %td
+            - selected = @url_params[:select] == 'all'
+            %input{:name => "id[]", :type => "checkbox", :value => realm.id, :id => "realm_id_#{realm.id}", :checked => selected }
+            = link_to realm.name, admin_realm_path(realm)

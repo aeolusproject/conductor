@@ -169,7 +169,7 @@ class Resources::InstancesController < ApplicationController
 
   def init_new_instance_attrs
     @pools = Pool.list_for_user(@current_user, Privilege::MODIFY, :target_type => Instance)
-    @realms = Realm.find(:all, :conditions => { :provider_id => nil })
+    @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
       :include => :architecture,
       :conditions => {

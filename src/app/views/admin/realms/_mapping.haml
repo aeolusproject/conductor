@@ -1,0 +1,20 @@
+- form_tag do
+  = link_to "Add mapping to realm", new_admin_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button"
+  = link_to "Add mapping to provider", new_admin_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button"
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_realm_mappings_path(:frontend_realm_id => @realm.id), 'DELETE', :id => 'delete_button'
+
+  - unless @backend_provider_targets.empty?
+    %h2 Realm '#{@realm.name}' is mapped to providers:
+    %ul
+      - @backend_provider_targets.each do |backend|
+        %li
+          %input{:name => "id[]", :type => "checkbox", :value => backend.id, :id => "backend_id_#{backend.id}"}
+          = backend.realm_or_provider.name
+
+  - unless @backend_realm_targets.empty?
+    %h2 Realm '#{@realm.name}' is mapped to realms:
+    %ul
+      - @backend_realm_targets.each do |backend|
+        %li
+          %input{:name => "id[]", :type => "checkbox", :value => backend.id, :id => "backend_id_#{backend.id}"}
+          = backend.realm_or_provider.name
