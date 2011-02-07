@@ -5,6 +5,7 @@ class ImageFactory::TemplatesController < ApplicationController
   before_filter :set_view_vars, :only => [:index, :show]
 
   def index
+    require_privilege(Privilege::VIEW, Template)
     @params = params
     @search_term = params[:q]
     if @search_term.blank?
@@ -156,29 +157,6 @@ class ImageFactory::TemplatesController < ApplicationController
     render :layout => false
   end
 
-  def destroy_multiple
-    ids = params[:ids].to_a
-    if ids.empty?
-      flash[:notice] = "No Template Selected"
-    else
-      errs = {}
-      Template.find(ids).each do |t|
-        if check_permission(Privilege::MODIFY, t)
-          t.destroy
-          errs[t.name] = t.errors.full_messages.join(". ") unless t.destroyed?
-        else
-          errs[t.name] = "You don't have permission to delete #{t.name}"
-        end
-      end
-      if errs.empty?
-        flash[:notice] = 'Template deleted'
-      else
-        flash_error('Error while deleting template', errs)
-      end
-    end
-    redirect_to image_factory_templates_path
-  end
-
   def assembly
     # FIXME: do we need perm check here?
   end
@@ -204,12 +182,12 @@ class ImageFactory::TemplatesController < ApplicationController
   end
 
   def multi_destroy
-    @tpl = Template.find(params[:selected])
-    if check_edit_permission
-      @tpl.destroy
-      errs[@tpl.name] = @tpl.errors.full_messages.join(". ") unless @tpl.destroyed?
-    else
-      errs[@tpl.name] = "You don't have permission to delete #{@tpl.name}"
+    Template.find(params[:selected]).each do |template|
+      if check_privilege(Privilege::MODIFY, template)
+        template.destroy
+     else
+        flash[:error] = "You don't have a permission to delete."
+     end
     end
     redirect_to image_factory_templates_url
   end
