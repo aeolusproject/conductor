@@ -78,3 +78,9 @@ Given /^there are the following instances:$/ do |table|
                        :private_addresses => hash['private_addresses'])
   end
 end
+
+Given /^there are (\d+) instances$/ do |count|
+  count.to_i.times do |i|
+    Factory :mock_running_instance, :name => "inst#{i}"
+  end
+end

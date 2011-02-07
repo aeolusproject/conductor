@@ -77,6 +77,13 @@ Feature: Manage Pools
     And I should not see "m1-large"
     And I should not see "m1-xlarge"
 
+  Scenario: Frontend HWP with correct id is displayed when id is greater than 10
+    Given there are 10 hardware profiles
+    And there is a "mock1" hardware profile
+    And I am on the the hardware profiles page
+    When I follow "mock1"
+    Then I should see "mock1(Front End)"
+
 #  Scenario: Create a new Hardware Profile
 #    Given I am an authorised user
 #   And I am on the hardware profiles page

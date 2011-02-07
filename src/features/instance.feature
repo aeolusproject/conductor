@@ -109,3 +109,10 @@ Feature: Mange Instances
     Then I should not see "mock"
     And I should see "test"
     And I should not see "other"
+
+  Scenario: Instance with correct id is displayed when id is greater than 10
+    Given there are 10 instances
+    And there is a "mock1" instance
+    And I am on the the instances page
+    When I follow "mock1"
+    Then I should see "Properties for mock1"

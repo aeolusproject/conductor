@@ -13,6 +13,10 @@ Given /^the Hardare Profile "([^"]*)" has the following Provider Hardware Profil
   front_end_hwp.save!
 end
 
+Given /^there is a "([^"]*)" hardware profile$/ do |arg1|
+  Factory(:mock_hwp1, :name => arg1)
+end
+
 def create_hwp(hash, provider=nil)
   memory = Factory(:mock_hwp1_memory, :value => hash[:memory])
   storage = Factory(:mock_hwp1_storage, :value => hash[:storage])
@@ -35,5 +39,11 @@ Given /^there are the following provider hardware profiles:$/ do |table|
   provider = Factory :mock_provider
   table.hashes.each do |hash|
     create_hwp(hash, provider)
+  end
+end
+
+Given /^there are (\d+) hardware profiles$/ do |count|
+  count.to_i.times do |i|
+    Factory(:mock_hwp1, :name => "hwprofile#{i}")
   end
 end
