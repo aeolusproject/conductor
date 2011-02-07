@@ -163,7 +163,7 @@ class Resources::InstancesController < ApplicationController
   private
 
   def load_instance
-    @instance = Instance.find((params[:id] || []).first)
+    @instance = Instance.find(params[:id].to_a.first)
     require_privilege(Privilege::USE,@instance)
   end
 

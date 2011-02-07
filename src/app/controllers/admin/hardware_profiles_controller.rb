@@ -22,7 +22,7 @@ class Admin::HardwareProfilesController < ApplicationController
   end
 
   def show
-    @hardware_profile = HardwareProfile.find((params[:id] || []).first)
+    @hardware_profile = HardwareProfile.find(params[:id].to_a.first)
     @tab_captions = ['Properties', 'History', 'Matching Provider Hardware Profiles']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     case @details_tab
