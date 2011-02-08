@@ -121,7 +121,7 @@ class ImageBuilderService
       # FIXME: this should be contained elsewhere (probably Image model) so we
       # can keep logic out of here.  Also, this currently only handles one
       # account, we will need to be able to specify at some point.
-      creds = image.replicated_images.first.provider.cloud_accounts.first.build_credentials
+      creds = image.provider_images.first.provider.cloud_accounts.first.build_credentials
       #TODO: switch this back to uri once ActiveBuild retrieves it properly
       ab = @console.build_image(image.template.xml.to_xml, image.target, image.uuid, creds)
       if ab
@@ -176,7 +176,7 @@ class ImageBuilderService
     @log.debug "========================================"
     image.status = new_status
     if new_status == 'complete'
-      ri = image.replicated_images.first
+      ri = image.provider_images.first
       ri.provider_image_key = obj[:build].finished_image
       ri.uploaded =true
       ri.registered=true

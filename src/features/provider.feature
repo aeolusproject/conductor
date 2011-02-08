@@ -60,7 +60,7 @@ Feature: Manage Providers
   Scenario: Delete a provider
     Given I am on the homepage
     And there is a provider named "provider1"
-    And this provider has 5 replicated images
+    And this provider has 5 provider images
     And this provider has 5 hardware profiles
     And this provider has a realm
     And this provider has a cloud account
@@ -68,7 +68,7 @@ Feature: Manage Providers
     And I check "provider1" provider
     And I press "Delete"
     And there should not exist a provider named "provider1"
-    And there should not be any replicated images
+    And there should not be any provider images
     And there should not be any hardware profiles
     And there should not be a cloud account
     And there should not be a realm

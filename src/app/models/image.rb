@@ -30,8 +30,8 @@ class Image < ActiveRecord::Base
   @@per_page = 15
 
   belongs_to :template, :counter_cache => true
-  has_many :replicated_images, :dependent => :destroy
-  has_many :providers, :through => :replicated_images
+  has_many :provider_images, :dependent => :destroy
+  has_many :providers, :through => :provider_images
 
   validates_presence_of :name
   validates_length_of :name, :maximum => 1024
@@ -78,7 +78,7 @@ class Image < ActiveRecord::Base
         :template_id => template.id,
         :status => Image::STATE_QUEUED
       )
-      ReplicatedImage.create!(
+      ProviderImage.create!(
         :image_id => img.id,
         :provider_id => provider
       )
@@ -108,7 +108,7 @@ class Image < ActiveRecord::Base
       raise "There is no image with '#{image_id}' id"
     end
 
-    if ReplicatedImage.find_by_provider_id_and_provider_image_key(account.provider.id, image_id)
+    if ProviderImage.find_by_provider_id_and_provider_image_key(account.provider.id, image_id)
       raise "Image '#{image_id}' is already imported"
     end
 
@@ -134,7 +134,7 @@ class Image < ActiveRecord::Base
       )
       image.save!
 
-      rep = ReplicatedImage.new(
+      rep = ProviderImage.new(
         :image_id           => image.id,
         :provider_id        => account.provider.id,
         :provider_image_key => image_id,

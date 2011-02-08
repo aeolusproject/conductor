@@ -36,7 +36,7 @@ def add_ec2_template(xml_info, summary, ec2_ami)
   image.template_id = template.id
   image.save!
 
-  rep = ReplicatedImage.new
+  rep = ProviderImage.new
   rep.image_id = image.id
   rep.provider_id = provider.id
   rep.provider_image_key = ec2_ami

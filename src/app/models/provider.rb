@@ -31,7 +31,7 @@ class Provider < ActiveRecord::Base
 
   has_many :cloud_accounts, :dependent => :destroy
   has_many :hardware_profiles, :dependent => :destroy
-  has_many :replicated_images, :dependent => :destroy
+  has_many :provider_images, :dependent => :destroy
   has_many :realms, :dependent => :destroy
 
   validates_presence_of :name

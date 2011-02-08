@@ -34,8 +34,8 @@ class Resources::InstancesController < ApplicationController
     # => TODO: add TEMPLATE_* permissions
     @templates = Template.paginate(
       :page => params[:page] || 1,
-      :include => {:images => :replicated_images},
-      :conditions => "replicated_images.uploaded = 't'"
+      :include => {:images => :provider_images},
+      :conditions => "provider_images.uploaded = 't'"
     )
   end
 

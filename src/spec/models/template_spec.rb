@@ -9,7 +9,7 @@ describe Template do
   end
 
   it "should return list of providers who provides images built from this template" do
-    rimg = Factory.build(:mock_replicated_image)
+    rimg = Factory.build(:mock_provider_image)
     rimg.save!
     rimg.image.template.providers.size.should eql(1)
   end

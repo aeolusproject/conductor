@@ -49,7 +49,7 @@ describe Image do
     tpl.save!
     img = Image.build(tpl, 'mock')
     Image.find(img).should == img
-    ReplicatedImage.find_by_image_id(img.id).should_not be_nil
+    ProviderImage.find_by_image_id(img.id).should_not be_nil
   end
 
   it "should import image" do
@@ -73,6 +73,6 @@ describe Image do
           img.template.uploaded.should be_true
         end.should change(Image, :count).by(1)
       end.should change(Template, :count).by(1)
-    end.should change(ReplicatedImage, :count).by(1)
+    end.should change(ProviderImage, :count).by(1)
   end
 end

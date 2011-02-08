@@ -210,24 +210,24 @@ def condormatic_classads_sync
   Rails.logger.info "Syncing classads.."
   ads = []
   providers.each { |provider|
-    # The replicated image entry gets put in the database as soon as we ask
+    # The provider image entry gets put in the database as soon as we ask
     # to have the image built, so we only want to generate classads for it if
     # it is ready to be used.  When ready it will have an image key assigned
     # to it.
-    replicated_images = provider.replicated_images.find(:all,
+    provider_images = provider.provider_images.find(:all,
                             :conditions => ['provider_image_key IS NOT NULL'])
     accounts          = provider.cloud_accounts
     hardware_profiles = provider.hardware_profiles
     realms            = provider.realms
     accounts.each { |account|
-      replicated_images.each { |replicated_img|
+      provider_images.each { |provider_img|
         hardware_profiles.each { |hwp|
           ads += realms.collect { |realm|
-            [account, replicated_img, hwp, realm] } } } }
+            [account, provider_img, hwp, realm] } } } }
   }
 
   ads.each { |ad|
-    account, replicated_image, hwp, realm = *ad
+    account, provider_image, hwp, realm = *ad
 
     pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
 
@@ -236,10 +236,10 @@ def condormatic_classads_sync
     pipe.puts 'Requirements=true'
     pipe.puts "\n# Stuff needed to match:"
     pipe.puts "hardwareprofile=\"#{hwp.aggregator_hardware_profiles[0].id}\""
-    pipe.puts "image=\"#{replicated_image.image.template.id}\""
+    pipe.puts "image=\"#{provider_image.image.template.id}\""
     pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
     pipe.puts "\n# Backend info to complete this job:"
-    pipe.puts "image_key=\"#{replicated_image.provider_image_key}\""
+    pipe.puts "image_key=\"#{provider_image.provider_image_key}\""
     pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""
     pipe.puts "realm_key=\"#{realm.external_key}\""
     pipe.puts "provider_url=\"#{account.provider.url}\""

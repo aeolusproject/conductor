@@ -28,10 +28,10 @@ describe ImageFactory::BuildsController do
       end.should change(Image, :count).by(1)
     end
 
-    it "should create a new ReplicatedImage" do
+    it "should create a new ProviderImage" do
       lambda do
         post :create, :template_id => @template.id, :targets => ["mock"]
-      end.should change(ReplicatedImage, :count).by(1)
+      end.should change(ProviderImage, :count).by(1)
     end
   end
 end

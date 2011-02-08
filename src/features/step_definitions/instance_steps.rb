@@ -48,7 +48,7 @@ Given /^there is a "([^"]*)" running instance$/ do |name|
 end
 
 Given /^there is an uploaded image for a template$/ do
-  Factory :replicated_image
+  Factory :provider_image
 end
 
 Given /^there is "([^"]*)" aggregator hardware profile$/ do |name|

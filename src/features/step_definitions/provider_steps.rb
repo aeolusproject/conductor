@@ -36,8 +36,8 @@ Given /^there are these providers:$/ do |table|
   end
 end
 
-Given /^this provider has (\d+) replicated images$/ do |number|
-  number.to_i.times { |i| Factory(:replicated_image, :provider => @provider) }
+Given /^this provider has (\d+) provider images$/ do |number|
+  number.to_i.times { |i| Factory(:provider_image, :provider => @provider) }
 end
 
 Given /^this provider has (\d+) hardware profiles$/ do |number|
@@ -53,8 +53,8 @@ Given /^this provider has a cloud account$/ do
   Factory(:mock_cloud_account, :provider => @provider)
 end
 
-Then /^there should not be any replicated images$/ do
-  ReplicatedImage.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
+Then /^there should not be any provider images$/ do
+  ProviderImage.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
 end
 
 Then /^there should not be any hardware profiles$/ do
