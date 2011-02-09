@@ -12,7 +12,7 @@
         - @templates.each do |template|
           %tr
             %td
-              = check_box_tag 'selected[]', template.id, @url_params[:select] == 'all'
+              = check_box_tag 'selected[]', template.id, @url_params[:select] == 'all', :id => "selected_#{template.id}"
               = image_tag "blnk.png", :alt => template.platform, :class => "icon platform #{template.platform}"
               = link_to template.name, image_factory_template_path(template)
             %td= template.platform

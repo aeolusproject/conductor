@@ -185,9 +185,9 @@ class ImageFactory::TemplatesController < ApplicationController
     Template.find(params[:selected]).each do |template|
       if check_privilege(Privilege::MODIFY, template)
         template.destroy
-     else
+      else
         flash[:error] = "You don't have a permission to delete."
-     end
+      end
     end
     redirect_to image_factory_templates_url
   end

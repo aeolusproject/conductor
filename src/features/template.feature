@@ -184,3 +184,16 @@ Feature: Manage Templates
     Then I should not see "Test1"
     And I should see "Other"
     And I should not see "Mock"
+
+  Scenario: Delete multiple templates
+    Given there are these templates:
+    | name          | platform | platform_version | architecture | summary                                       |
+    | Test1         | fedora   | 13               | x86_64       | Test Template Fedora 13  64 bit  Description  |
+    | Mock          | fedora   | 14               | i386         | Test Template Fedora 14 Description           |
+    | Other         | fedora   | 10.04            | i386         | Test Template Ubuntu 10.04 32 bit Description |
+    And I am on the image factory templates page
+    When I check "Test1" template
+    And I check "Mock" template
+    And I press "Delete"
+    Then I should be on the image factory templates page
+    And I should see "Other"
