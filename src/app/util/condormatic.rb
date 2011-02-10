@@ -40,20 +40,27 @@ def condormatic_instance_create(task)
     # the ability to get the exit value of the command in ruby 1.8.
     pipe = IO.popen("condor_submit 2>&1", "w+")
     pipe.puts "universe = grid\n"
-    Rails.logger.info "universe = grid\n"
+    Rails.logger.error "universe = grid\n"
     pipe.puts "executable = #{job_name}\n"
-    Rails.logger.info "executable = #{job_name}\n"
+    Rails.logger.error "executable = #{job_name}\n"
 
-    resource = "grid_resource = dcloud $$(provider_url) $$(username) $$(password) $$(image_key) #{escape(instance.name)}"
+    pipe.puts "grid_resource = deltacloud $$(provider_url)\n"
+    Rails.logger.error "grid_resource = deltacloud $$(provider_url)\n"
+    pipe.puts "DeltacloudUsername = $$(username)\n"
+    Rails.logger.error "DeltacloudUsername = $$(username)\n"
+    pipe.puts "DeltacloudPassword = $$(password)\n"
+    Rails.logger.error "DeltacloudPassword = $$(password)\n"
+    pipe.puts "DeltacloudImageId = $$(image_key)\n"
+    Rails.logger.error "DeltacloudImageId = $$(image_key)\n"
+    pipe.puts "DeltacloudHardwareProfile = $$(hardwareprofile_key)\n"
+    Rails.logger.error "DeltacloudHardwareProfile = $$(hardwareprofile_key)\n"
+    pipe.puts "DeltacloudKeyname = $$(keypair)\n"
+    Rails.logger.error "DeltacloudKeyname = $$(keypair)\n"
+
     if realm != nil
-      resource += " $$(realm_key)"
-    else
-      resource += " NULL"
+      pipe.puts "DeltacloudRealmId = $$(realm_key)\n"
+      Rails.logger.error "DeltacloudRealmId = $$(realm_key)\n"
     end
-    resource += " $$(hardwareprofile_key) $$(keypair) NULL\n"
-
-    pipe.puts resource
-    Rails.logger.info resource
 
     requirements = "requirements = hardwareprofile == \"#{instance.hardware_profile.id}\" && image == \"#{instance.template.id}\""
     requirements += " && realm == \"#{realm.id}\"" if realm != nil
@@ -64,17 +71,17 @@ def condormatic_instance_create(task)
     requirements += "\n"
 
     pipe.puts requirements
-    Rails.logger.info requirements
+    Rails.logger.error requirements
 
     pipe.puts "notification = never\n"
-    Rails.logger.info "notification = never\n"
+    Rails.logger.error "notification = never\n"
     pipe.puts "queue\n"
-    Rails.logger.info "queue\n"
+    Rails.logger.error "queue\n"
     pipe.close_write
     out = pipe.read
     pipe.close
 
-    Rails.logger.info "$? (return value?) is #{$?}"
+    Rails.logger.error "$? (return value?) is #{$?}"
     raise ("Error calling condor_submit: #{out}") if $? != 0
 
   rescue Exception => ex
