@@ -17,6 +17,11 @@ roles =
   {Instance =>
      {"Instance Controller"    => [false, {Instance     => [VIEW,USE]}],
       "Instance Owner"         => [true,  {Instance     => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+   Deployment =>
+     {"Deployment Controller"  => [false, {Deployment => [VIEW,USE],
+                                           Instance   => [VIEW]}],
+      "Deployment Owner"       => [true,  {Deployment => [VIEW,USE,MOD,    VPRM,GPRM],
+                                           Instance   => [VIEW,USE,MOD]}]},
    PoolFamily =>
      {"Pool Family User"       => [false, {Pool         => [VIEW]}],
       "Pool Family Owner"      => [true,  {PoolFamily   => [VIEW,    MOD,    VPRM,GPRM],
@@ -24,9 +29,11 @@ roles =
    Pool =>
      {"Pool User"              => [false, {Pool         => [VIEW],
                                            Instance     => [             CRE],
+                                           Deployment   => [             CRE],
                                            Quota        => [VIEW]}],
       "Pool Owner"             => [true,  {Pool         => [VIEW,    MOD,    VPRM,GPRM],
                                            Instance     => [VIEW,USE,MOD,CRE],
+                                           Deployment   => [VIEW,USE,MOD,CRE],
                                            Quota        => [VIEW]}]},
    Provider =>
      {"Provider Owner"         => [true,  {Provider     => [VIEW,    MOD,    VPRM,GPRM],
@@ -46,6 +53,7 @@ roles =
       "Pool Creator"           => [false, {Pool         => [             CRE]}],
       "Pool Administrator"     => [false, {Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            Instance     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                           Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Quota        => [VIEW,    MOD],
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
       "Template Administrator" => [false, {Template     => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
@@ -56,6 +64,7 @@ roles =
                                            User         => [VIEW,    MOD,CRE],
                                            Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            Instance     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                           Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Quota        => [VIEW,    MOD],
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            Template     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
@@ -63,11 +72,11 @@ roles =
 Role.transaction do
   roles.each do |role_scope, scoped_hash|
     scoped_hash.each do |role_name, role_def|
+      role = Role.find_or_initialize_by_name(role_name)
+      role.update_attributes({:name => role_name, :scope => role_scope.name,
+                               :assign_to_owner => role_def[0]})
+      role.save!
       role_def[1].each do |priv_type, priv_actions|
-        role = Role.find_or_initialize_by_name(role_name)
-        role.update_attributes({:name => role_name, :scope => role_scope.name,
-                                 :assign_to_owner => role_def[0]})
-        role.save!
         priv_actions.each do |action|
           Privilege.create!(:role => role, :target_type => priv_type.name,
                             :action => action)

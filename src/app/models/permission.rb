@@ -50,11 +50,17 @@ class Permission < ActiveRecord::Base
                                       :foreign_key => "permission_object_id"
   belongs_to :instance,               :class_name => "Instance",
                                       :foreign_key => "permission_object_id"
+  belongs_to :deployment,             :class_name => "Deployment",
+                                      :foreign_key => "permission_object_id"
   belongs_to :provider,               :class_name => "Provider",
                                       :foreign_key => "permission_object_id"
   belongs_to :provider_account,          :class_name => "ProviderAccount",
                                       :foreign_key => "permission_object_id"
   belongs_to :template,               :class_name => "Template",
+                                      :foreign_key => "permission_object_id"
+  belongs_to :assembly,               :class_name => "Assembly",
+                                      :foreign_key => "permission_object_id"
+  belongs_to :deployable,             :class_name => "Deployable",
                                       :foreign_key => "permission_object_id"
   belongs_to :base_permission_object, :class_name => "BasePermissionObject",
                                       :foreign_key => "permission_object_id"

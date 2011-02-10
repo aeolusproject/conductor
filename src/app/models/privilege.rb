@@ -57,6 +57,7 @@ class Privilege < ActiveRecord::Base
               Pool => ACTIONS - [USE],
               PoolFamily => ACTIONS - [USE],
               Instance => ACTIONS,
+              Deployment => ACTIONS,
               Quota => [VIEW, MODIFY],
               HardwareProfile => ACTIONS - [USE, VIEW],
               Realm => ACTIONS - [VIEW],
@@ -106,6 +107,14 @@ class Privilege < ActiveRecord::Base
   #   set_perms   Can set permissions
   #
   # Instance This Instance or instances within this Pool
+  #   view        Can view
+  #   use         Can perform lifecycle actions on and/or view console
+  #   modify      Can modify
+  #   create      Can create (within this Pool)
+  #   view_perms  Can view permissions
+  #   set_perms   Can set permissions (or can set instance permissions on this pool)
+  #
+  # Instance This Deployment or deployments within this Pool
   #   view        Can view
   #   use         Can perform lifecycle actions on and/or view console
   #   modify      Can modify

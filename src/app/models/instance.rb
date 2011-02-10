@@ -7,7 +7,7 @@
 #  external_key            :string(255)
 #  name                    :string(1024)    not null
 #  hardware_profile_id     :integer         not null
-#  template_id             :integer         not null
+#  template_id             :integer
 #  realm_id                :integer
 #  owner_id                :integer
 #  pool_id                 :integer         not null
@@ -29,6 +29,8 @@
 #  time_last_stopped       :datetime
 #  created_at              :datetime
 #  updated_at              :datetime
+#  assembly_id             :integer
+#  deployment_id           :integer
 #
 
 #
@@ -70,9 +72,11 @@ class Instance < ActiveRecord::Base
 
   belongs_to :pool
   belongs_to :provider_account
+  belongs_to :deployment
 
   belongs_to :hardware_profile
   belongs_to :template
+  belongs_to :assembly
   belongs_to :realm
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   belongs_to :instance_hwp
@@ -84,7 +88,8 @@ class Instance < ActiveRecord::Base
 
   validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id
-  validates_presence_of :template_id
+  validates_presence_of :template_id, :unless => :deployment_id
+  validates_presence_of :assembly_id, :if => :deployment_id
 
   #validates_presence_of :external_key
   # TODO: can we do uniqueness validation on indirect association
@@ -112,8 +117,15 @@ class Instance < ActiveRecord::Base
   validates_inclusion_of :state,
      :in => STATES
 
+  def validate
+    if assembly and template
+      errors.add(:assembly, "Please specify either template or assembly, but not both")
+      errors.add(:template, "Please specify either template or assembly, but not both")
+    end
+  end
+
   def object_list
-    super << pool
+    super + [pool, deployment]
   end
   class << self
     alias orig_list_for_user_include list_for_user_include
@@ -122,15 +134,19 @@ class Instance < ActiveRecord::Base
 
   def self.list_for_user_include
     includes = orig_list_for_user_include
-    includes << { :pool => {:permissions => {:role => :privileges}}}
+    includes << { :pool => {:permissions => {:role => :privileges}},
+                  :deployment => {:permissions => {:role => :privileges}}}
     includes
   end
 
   def self.list_for_user_conditions
     "(#{orig_list_for_user_conditions}) or
-     (permissions_pools.user_id=:user and
+     (permissions_deployments.user_id=:user and
       privileges_roles.target_type=:target_type and
-      privileges_roles.action=:action)"
+      privileges_roles.action=:action) or
+     (permissions_pools.user_id=:user and
+      privileges_roles_2.target_type=:target_type and
+      privileges_roles_2.action=:action)"
   end
 
   def get_action_list(user=nil)

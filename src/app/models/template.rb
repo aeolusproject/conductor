@@ -25,6 +25,7 @@ require 'typhoeus'
 
 class Template < ActiveRecord::Base
   include PermissionedObject
+  include ImageWarehouseObject
   searchable do
     text :name, :as => :code_substring
     text :platform, :as => :code_substring
@@ -35,6 +36,7 @@ class Template < ActiveRecord::Base
 
   has_many :images, :dependent => :destroy
   has_many :instances
+  has_and_belongs_to_many :assemblies
   before_validation :generate_uuid
   before_save :update_xml
   before_destroy :no_instances?
@@ -42,8 +44,6 @@ class Template < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
-
-  WAREHOUSE_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")
 
   validates_presence_of :uuid
   validates_uniqueness_of :uuid
@@ -61,25 +61,6 @@ class Template < ActiveRecord::Base
     end
 
     true
-  end
-
-  def xml
-    @xml ||= ImageDescriptorXML.new(self[:xml].to_s)
-  end
-
-  def upload
-    self.uri = File.join(WAREHOUSE_CONFIG['baseurl'], "#{uuid}")
-    response = Typhoeus::Request.put(self.uri, :body => xml.to_xml, :timeout => 30000)
-    if response.code == 200
-      update_attribute(:uploaded, true)
-    else
-      raise "failed to upload template (code #{response.code}): #{response.body}"
-    end
-  end
-
-  def generate_uuid
-    # TODO: generate real uuid here, e.g. with some ruby uuid generator
-    self.uuid ||= "#{self.name}-#{Time.now.to_f.to_s}"
   end
 
   def update_xml

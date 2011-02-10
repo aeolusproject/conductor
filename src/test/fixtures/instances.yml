@@ -7,7 +7,7 @@
 #  external_key            :string(255)
 #  name                    :string(1024)    not null
 #  hardware_profile_id     :integer         not null
-#  template_id             :integer         not null
+#  template_id             :integer
 #  realm_id                :integer
 #  owner_id                :integer
 #  pool_id                 :integer         not null
@@ -29,6 +29,8 @@
 #  time_last_stopped       :datetime
 #  created_at              :datetime
 #  updated_at              :datetime
+#  assembly_id             :integer
+#  deployment_id           :integer
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

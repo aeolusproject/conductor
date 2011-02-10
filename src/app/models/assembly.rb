@@ -1,18 +1,19 @@
 # == Schema Information
 # Schema version: 20110207110131
 #
-# Table name: deployables
+# Table name: assemblies
 #
 #  id           :integer         not null, primary key
-#  name         :string(255)
-#  created_at   :datetime
-#  updated_at   :datetime
-#  lock_version :integer         default(0)
 #  uuid         :string(255)     not null
 #  xml          :binary          not null
 #  uri          :string(255)
+#  name         :string(255)
+#  architecture :string(255)
 #  summary      :text
 #  uploaded     :boolean
+#  lock_version :integer         default(0)
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 
 #
@@ -35,16 +36,18 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 require 'sunspot_rails'
-class Deployable < ActiveRecord::Base
+class Assembly < ActiveRecord::Base
   include PermissionedObject
   include ImageWarehouseObject
   searchable do
     text :name, :as => :code_substring
+    text :architecture, :as => :code_substring
     text :summary, :as => :code_substring
   end
 
-  has_and_belongs_to_many :assemblies
-  has_many :deployments
+  has_and_belongs_to_many :templates
+  has_and_belongs_to_many :deployables
+  has_many :instances
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
@@ -62,6 +65,7 @@ class Deployable < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of   :name, :maximum => 255
+  validates_presence_of :architecture
 
   def self.default_privilege_target_type
     Template
@@ -70,11 +74,12 @@ class Deployable < ActiveRecord::Base
   def update_xml
     xml.name = self.name
     xml.description = self.summary
+    xml.architecture = self.architecture
     write_attribute(:xml, xml.to_xml)
   end
 
   def self.find_or_create(id)
-    id ? Deployable.find(id) : Deployable.new
+    id ? Assembly.find(id) : Assembly.new
   end
 
 end

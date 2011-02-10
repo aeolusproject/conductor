@@ -22,7 +22,7 @@ module PermissionedObject
     return false if user.nil? or action.nil?
     target_type = self.class.default_privilege_target_type if target_type.nil?
     object_list.each do |obj|
-      return true if obj.permissions.find(:first,
+      return true if obj and obj.permissions.find(:first,
                                           :include => [:role => :privileges],
                                           :conditions =>
                                           ["permissions.user_id=:user and
