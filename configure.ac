@@ -33,6 +33,12 @@ elif test "x$with_classads" = "x"; then
     fi
 fi
 
+PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.18)
+PKG_CHECK_MODULES(SOUP, libsoup-2.4)
+PKG_CHECK_MODULES(XML, libxml-2.0)
+PKG_CHECK_MODULES(GTHREAD, gthread-2.0)
+PKG_CHECK_MODULES(REST, rest-0.6)
+
 # If using gcc and default CFLAGS, enable some warnings.
 test x"$ac_ct_CC:$CFLAGS" = 'xgcc:-g -O2' \
   && CFLAGS="$CFLAGS -Wshadow -Wall -Werror"

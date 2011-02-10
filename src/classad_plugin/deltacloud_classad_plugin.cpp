@@ -1,4 +1,3 @@
-#include <ruby.h>
 #include <stdio.h>
 
 #include <iostream>
@@ -6,6 +5,9 @@
 
 #include "classad/classad_distribution.h"
 #include "classad/fnCall.h"
+
+#include <rest/rest-proxy.h>
+#include <rest/rest-xml-parser.h>
 
 using namespace std;
 #ifdef WANT_CLASSAD_NAMESPACE
@@ -70,6 +72,26 @@ static void _print_value(FILE *fp, Value val, const char *name)
     fprintf(fp, "%s\n", sstr.str().c_str());
 }
 
+static RestXmlNode *
+get_xml (RestProxyCall *call)
+{
+  RestXmlParser *parser;
+  RestXmlNode *root;
+  GError *error = NULL;
+
+  parser = rest_xml_parser_new ();
+
+  root = rest_xml_parser_parse_from_data (parser,
+                                          rest_proxy_call_get_payload (call),
+                                          rest_proxy_call_get_payload_length (call));
+
+  g_object_unref (call);
+  g_object_unref (parser);
+
+  return root;
+}
+
+
 /*
  * Perform our quota check against the deltacloud aggregator database.
  * This function expects:
@@ -87,14 +109,18 @@ bool
 deltacloud_quota_check(const char *name, const ArgumentList &arglist,
 		       EvalState &state, Value &result)
 {
-    Value instance_key;
+    Value instance_id;
     Value account_id;
     FILE *fp;
-    VALUE res;
     bool val = false;
-    char *ruby_string;
-    std::stringstream method_args;
-    int rc;
+    RestProxy *proxy;
+    RestProxyCall *call;
+    RestXmlNode *root;
+    std::stringstream rest_call;
+    GError *err = NULL;
+
+    g_thread_init (NULL);
+    g_type_init ();
 
     result.SetBooleanValue(false);
 
@@ -106,22 +132,22 @@ deltacloud_quota_check(const char *name, const ArgumentList &arglist,
       goto do_ret;
     }
 
-    if (!arglist[0]->Evaluate(state, instance_key)) {
+    if (!arglist[0]->Evaluate(state, instance_id)) {
       result.SetErrorValue();
-      fprintf(fp, "Could not evaluate argument 0 to instance key\n");
+      fprintf(fp, "Could not evaluate argument 0 to instance id\n");
       goto do_ret;
     }
     if (!arglist[1]->Evaluate(state, account_id)) {
       result.SetErrorValue();
-      fprintf(fp, "Could not evaluate argument 1 to account_id\n");
+      fprintf(fp, "Could not evaluate argument 1 to account id\n");
       goto do_ret;
     }
 
-    print_type(fp, instance_key);
-    print_value(fp, instance_key);
-    if (instance_key.GetType() != Value::STRING_VALUE) {
+    print_type(fp, instance_id);
+    print_value(fp, instance_id);
+    if (instance_id.GetType() != Value::INTEGER_VALUE) {
       result.SetErrorValue();
-      fprintf(fp, "Instance type was not a string\n");
+      fprintf(fp, "Instance id type was not an integer\n");
       goto do_ret;
     }
 
@@ -133,56 +159,36 @@ deltacloud_quota_check(const char *name, const ArgumentList &arglist,
       goto do_ret;
     }
 
-    ruby_init();
-    ruby_init_loadpath();
+    rest_call << "resources/instances/" << instance_id << "/can_start/" << account_id;
 
-    method_args << "'" << DELTACLOUD_INSTALL_DIR << "/config/database.yml', '"
-		<< instance_key << "', " << account_id;
+    // Call rest API to get answer on quota..
+    proxy = rest_proxy_new ("http://localhost:3000/deltacloud", FALSE);
+    call = rest_proxy_new_call (proxy);
+    rest_proxy_call_set_function (call, rest_call.str().c_str());
 
-    rc = asprintf(&ruby_string,
-		  "$: << '%s/classad_plugin'\n"
-		  "$: << '%s/app/models'\n"
-		  "logf = File.new('%s', 'a')\n"
-		  "logf.puts \"Loading ruby support file from %s/classad_plugin\"\n"
-		  "begin\n"
-		  "   require 'classad_plugin.rb'\n"
-		  "   ret = classad_plugin(logf, %s)\n"
-		  "rescue Exception => ex\n"
-		  "   logf.puts \"Error running classad plugin: #{ex.message}\"\n"
-		  "   logf.puts ex.backtrace\n"
-		  "   ret = false\n"
-		  "end\n"
-		  "logf.close\n"
-		  "ret",
-		  DELTACLOUD_INSTALL_DIR,
-		  DELTACLOUD_INSTALL_DIR,
-		  LOGFILE,
-		  DELTACLOUD_INSTALL_DIR,
-		  method_args.str().c_str());
+    fprintf(fp, "Calling REST API with %s\n", rest_call.str().c_str());
+    rest_proxy_call_sync (call, &err);
 
-    if (rc < 0) {
-      fprintf(fp, "Failed to allocate memory for asprintf\n");
-      goto do_ret;
+    if (err != NULL) {
+        fprintf (fp, "Error calling REST API: %s\n", err->message);
+    } else {
+        root = get_xml (call);
+        if (root) {
+            RestXmlNode *node;
+            gchar *value;
+
+            node = rest_xml_node_find (root, "value");
+            value = node->content;
+
+            fprintf (fp, "return value is %s\n", value);
+            if (strncmp(value, "true", 4) == 0) {
+                result.SetBooleanValue(true);
+                val = true;
+            }
+        }
     }
 
-    fprintf(fp, "ruby string is %s\n", ruby_string);
-    fflush(fp);
-
-    res = rb_eval_string(ruby_string);
-    free(ruby_string);
-
-    /* FIXME: I'd like to call ruby_finalize here, but it spews weird errors:
-     *
-     * Error running classad plugin: wrong argument type Mutex (expected Data)
-     */
-    //ruby_finalize();
-
-    fprintf(fp, "Returned result from ruby code was %s\n", (res == Qtrue) ? "true" : "false");
-
-    if (res == Qtrue) {
-        result.SetBooleanValue(true);
-        val = true;
-    }
+    g_object_unref (proxy);
 
  do_ret:
     fclose(fp);
