@@ -60,6 +60,8 @@ ActionController::Routing::Routes.draw do |map|
     r.resources :pool_families, :collection => { :multi_destroy => :delete }
   end
 
+  map.matching_profiles '/admin/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'admin/hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }
+
   map.login 'login', :controller => "user_sessions", :action => "new"
   map.logout 'logout', :controller => "user_sessions", :action => "destroy"
   map.resource :user_session

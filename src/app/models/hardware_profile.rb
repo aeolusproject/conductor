@@ -122,15 +122,36 @@ class HardwareProfile < ActiveRecord::Base
 
   #TODO: This function returns the first hwp in the list of matched hardware profiles
   #      Better logic should be used here to decide which hardware profile to return.
-  def self.match_hwp(hwp)
-    hwps = matching_hwps(hwp)
-    if hwps.empty?
+  def self.match_hwp(hwp, provider=nil)
+    match_maps = matching_hwps(hwp, provider)
+    if  match_maps.empty?
       return nil
     end
-    return hwps[0]
+
+    selected_match = match_maps[0]
+    hwp = selected_match[:hardware_profile]
+    hwp.memory = select_value(selected_match[:memory])
+    hwp.cpu = select_value(selected_match[:cpu])
+    hwp.storage = select_value(selected_match[:storage])
+    hwp.architecture = select_value(selected_match[:architecture])
+    return hwp
   end
 
-  def self.matching_hwps(hwp)
+  def self.select_value(property)
+    case property.kind
+      when "range"
+        property.value = property.range_first
+        property.range_first = nil
+        property.range_last = nil
+      when "enum"
+        property.value = property.property_enum_entries[0].value
+        property.property_enum_entries = nil
+    end
+    property.kind = "fixed"
+    return property
+  end
+  def self.matching_hwps(hwp, provider=nil)
+    provider_hwps = provider.nil? ? HardwareProfile.all(:conditions => 'provider_id IS NOT NULL') : HardwareProfile.all(:conditions => { :provider_id => provider.id } )
     provider_hwps = HardwareProfile.all(:conditions => 'provider_id IS NOT NULL')
     match_maps = []
     provider_hwps.each do |phwp|
@@ -142,7 +163,6 @@ class HardwareProfile < ActiveRecord::Base
     return match_maps
   end
 
-  #TODO: This function returns the first value in hwpp list, better logic is required for for choosing a more appropriate match
   private
   def self.set_non_default_value(hwpp)
     case hwpp.kind

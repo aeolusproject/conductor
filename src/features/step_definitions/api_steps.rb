@@ -7,8 +7,10 @@ Then /^I should see xml element "([^"]*)" with the following properties:$/ do |e
   Then %{I should see the following: "#{properties}"}
 end
 
-When /^a client requests matching hardware profiles for "([^"]*)"$/ do |name|
-  uri = url_for :action => 'matching_profiles', :controller => 'admin/hardware_profiles', :id => HardwareProfile.find_by_name(name)
+When /^a client requests matching hardware profile for "([^"]*)"$/ do |name|
+  hardware_profile = HardwareProfile.find_by_name(name)
+  provider = HardwareProfile.find_by_name("m1-medium").provider
+  uri = url_for :action => 'matching_profiles', :controller => 'admin/hardware_profiles', :hardware_profile_id => hardware_profile.id, :provider_id => provider.id
   send_xml_get(uri)
 end
 

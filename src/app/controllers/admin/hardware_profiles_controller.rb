@@ -100,9 +100,14 @@ class Admin::HardwareProfilesController < ApplicationController
 
   def matching_profiles
     begin
-      hwp = HardwareProfile.find(params[:id])
-      @matches = HardwareProfile.matching_hwps(hwp)
-      render :partial => 'matching_profiles.xml'
+      hwp = HardwareProfile.find(params[:hardware_profile_id])
+      provider = Provider.find(params[:provider_id])
+      @hardware_profile = HardwareProfile.match_hwp(hwp, provider)
+      if !@hardware_profile.nil?
+         render :partial => 'templates/xml/hardware_profile.xml', :locals => { :profile => @hardware_profile }
+      else
+         head :not_found
+      end
     rescue ActiveRecord::RecordNotFound
       head :not_found
     rescue Exception => e

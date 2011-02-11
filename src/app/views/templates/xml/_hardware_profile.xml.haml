@@ -1,5 +1,5 @@
 !!! XML
-%hardware_profile{ :href => admin_hardware_profile_path(profile.id), :id => profile.id }<>
+%hardware_profile{ :href => admin_hardware_profile_path(profile.id), :id => profile.external_key }<>
   %name<>
     = profile.name
   - [profile.memory, profile.cpu, profile.architecture, profile.storage].each do |prop|
