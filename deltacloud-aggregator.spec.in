@@ -85,6 +85,7 @@ Documentation and tests for the Deltacloud Aggregator
 
 %build
 %configure
+make clean
 make
 
 %install
