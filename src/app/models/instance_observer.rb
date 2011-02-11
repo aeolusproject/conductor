@@ -61,14 +61,14 @@ class InstanceObserver < ActiveRecord::Observer
     end
   end
 
-  def before_update(instance)
-    # we try to generate key only when instance is running
-    # and instance_key is not generated yet
-    return if instance.state != Instance::STATE_RUNNING or instance.instance_key
-    if key = instance.provider_account.generate_auth_key
-      instance.instance_key = InstanceKey.create!(:pem => key.pem, :name => key.id, :instance_key_owner => instance)
-    end
-  end
+  #def before_update(instance)
+  #  # we try to generate key only when instance is running
+  #  # and instance_key is not generated yet
+  #  return if instance.state != Instance::STATE_RUNNING or instance.instance_key
+  #  if key = instance.provider_account.generate_auth_key
+  #    instance.instance_key = InstanceKey.create!(:pem => key.pem, :name => key.id, :instance_key_owner => instance)
+  #  end
+  #end
 
 end
 
