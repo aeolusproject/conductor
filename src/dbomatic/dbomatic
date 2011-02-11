@@ -90,7 +90,7 @@ end
 
 # Handle the event log's xml
 class CondorEventLog < Nokogiri::XML::SAX::Document
-  attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host, :hold_reason, :private_addresses, :public_addresses
+  attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host, :username, :hold_reason, :private_addresses, :public_addresses
 
   def initialize(logger)
     @logger = logger
@@ -116,6 +116,8 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         @grid_resource = string
       elsif @tag == "ExecuteHost"
         @execute_host = string
+      elsif @tag == "DeltacloudUsername"
+        @username = string
       elsif @tag == "HoldReason"
         @hold_reason = string
       elsif @tag == "DeltacloudPublicNetworkAddresses"
@@ -177,7 +179,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
 
   def update_instance_cloud_id(inst)
     # The GridResource/ExecuteHost string looks like this:
-    # dcloud http://localhost:3001/api <username> <password> <image_name> <instance_name> <realm_name> <hardware_profile_name>
+    # dcloud http://localhost:3001/api
 
     if !@grid_resource.nil?
       resource = @grid_resource
@@ -190,10 +192,13 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
 
     args = resource.split
     link = args[1]
-    username = args[2]
-    password = args[3]
-    if link.nil? or username.nil? or password.nil?
+
+    if link.nil?
       @logger.error "Unexpected nil data from #{resource}, skipping cloud id update"
+      return
+    end
+    if @username.nil?
+      @logger.error "Unexpected nil username, skipping cloud id update"
       return
     end
 
@@ -203,18 +208,13 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       return
     end
 
-    provider_account = ProviderAccount.find(:first, :conditions => ['provider_id = ? AND username = ? AND password = ?', provider.id, username, password])
+    provider_account = ProviderAccount.find(:first, :conditions => ['provider_id = ? AND username = ?', provider.id, @username])
     if provider_account.nil?
-      @logger.error "Could not find the cloud account corresponding to #{link}, skipping cloud id update"
+      @logger.error "Could not find the cloud account corresponding to #{link} - #{@username}, skipping cloud id update"
       return
     end
 
     inst.provider_account_id = provider_account.id
-
-    # FIXME: we are updating the instance_key_id here, but this is really not
-    # the right way or place to do this.  This will have to be revisited when
-    # we come up with a real key management architecture
-    inst.instance_key_id = provider_account.instance_key.id
 
     inst.save!
   end
