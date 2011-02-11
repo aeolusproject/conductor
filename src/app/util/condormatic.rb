@@ -60,7 +60,7 @@ def condormatic_instance_create(task)
     # Call into the deltacloud quota plugin.  This uses a REST API to call back into the
     # conductor to check quotas as the last thing in the logical AND to match a provider
     # account.
-    requirements += " && deltacloud_quota_check(#{instance.id}, other.cloud_account_id)"
+    requirements += " && deltacloud_quota_check(#{instance.id}, other.provider_account_id)"
     requirements += "\n"
 
     pipe.puts requirements
@@ -243,7 +243,7 @@ def condormatic_classads_sync
       pipe.puts "provider_url=\"#{account.provider.url}\""
       pipe.puts "username=\"#{account.username}\""
       pipe.puts "password=\"#{account.password}\""
-      pipe.puts "cloud_account_id=\"#{account.id}\""
+      pipe.puts "provider_account_id=\"#{account.id}\""
       pipe.puts "keypair=\"#{escape(account.instance_key.name)}\""
     rescue Exception => ex
       Rails.logger.error "Error writing provider classad to condor."
