@@ -228,22 +228,28 @@ def condormatic_classads_sync
 
     pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
 
-    pipe.puts "Name=\"provider_combination_#{index}\""
-    pipe.puts 'MyType="Machine"'
-    pipe.puts 'Requirements=true'
-    pipe.puts "\n# Stuff needed to match:"
-    pipe.puts "hardwareprofile=\"#{hwp.aggregator_hardware_profiles[0].id}\""
-    pipe.puts "image=\"#{provider_image.image.template.id}\""
-    pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
-    pipe.puts "\n# Backend info to complete this job:"
-    pipe.puts "image_key=\"#{provider_image.provider_image_key}\""
-    pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""
-    pipe.puts "realm_key=\"#{realm.external_key}\""
-    pipe.puts "provider_url=\"#{account.provider.url}\""
-    pipe.puts "username=\"#{account.username}\""
-    pipe.puts "password=\"#{account.password}\""
-    pipe.puts "cloud_account_id=\"#{account.id}\""
-    pipe.puts "keypair=\"#{escape(account.instance_key.name)}\""
+    begin
+      pipe.puts "Name=\"provider_combination_#{index}\""
+      pipe.puts 'MyType="Machine"'
+      pipe.puts 'Requirements=true'
+      pipe.puts "\n# Stuff needed to match:"
+      pipe.puts "hardwareprofile=\"#{hwp.aggregator_hardware_profiles[0].id}\""
+      pipe.puts "image=\"#{provider_image.image.template.id}\""
+      pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
+      pipe.puts "\n# Backend info to complete this job:"
+      pipe.puts "image_key=\"#{provider_image.provider_image_key}\""
+      pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""
+      pipe.puts "realm_key=\"#{realm.external_key}\""
+      pipe.puts "provider_url=\"#{account.provider.url}\""
+      pipe.puts "username=\"#{account.username}\""
+      pipe.puts "password=\"#{account.password}\""
+      pipe.puts "cloud_account_id=\"#{account.id}\""
+      pipe.puts "keypair=\"#{escape(account.instance_key.name)}\""
+    rescue Exception => ex
+      Rails.logger.error "Error writing provider classad to condor."
+      Rails.logger.error ex.message
+      Rails.logger.error ex.backtrace
+    end
     pipe.close_write
 
     out = pipe.read
