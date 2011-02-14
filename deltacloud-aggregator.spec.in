@@ -42,7 +42,7 @@ Requires: libsoup >= 2.0
 Requires: glib2 >= 2.0
 Requires: libxml2 >= 2.6
 Requires: rest >= 0.6
-Requires: condor >= 7.5.5-10dcloud
+Requires: condor >= 7.5.6-2dcloud
 Requires: iwhd
 Requires: deltacloud-configure
 
