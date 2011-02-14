@@ -52,7 +52,7 @@ class Image < ActiveRecord::Base
   INACTIVE_STATES = [STATE_COMPLETE, STATE_FAILED, STATE_CANCELED]
 
   def self.available_targets
-    Provider::PROVIDER_TYPES.invert
+    Provider::PROVIDER_BUILD_TARGETS
   end
 
   def generate_uuid

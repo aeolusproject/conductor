@@ -40,6 +40,8 @@ class Provider < ActiveRecord::Base
     GOGRID => "GoGrid", RACKSPACE => "Rackspace", RHEVM => "RHEVM",
     OPENNEBULA => "OpenNebula" }
 
+  PROVIDER_BUILD_TARGETS = { AWS => 'ec2', MOCK => 'mock' }
+
   has_many :provider_accounts, :dependent => :destroy
   has_many :hardware_profiles, :dependent => :destroy
   has_many :provider_images, :dependent => :destroy
