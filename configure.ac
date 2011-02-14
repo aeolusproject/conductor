@@ -1,4 +1,4 @@
-AC_INIT([deltacloud-aggregator], [0.0.2], [deltacloud-devel@lists.fedoraproject.org])
+AC_INIT([deltacloud-aggregator], [0.0.3], [deltacloud-devel@lists.fedoraproject.org])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability tar-pax])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
