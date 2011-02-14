@@ -113,7 +113,7 @@ Feature: Manage Templates
     And I follow "Build"
     Then I should be on the new image factory build page
     And I should see "Build Request"
-    When I check "Aws"
+    When I check "Ec2"
     And I press "Submit to Build"
     Then I should be on the image factory template page
     And I should see "mock1"
@@ -128,7 +128,7 @@ Feature: Manage Templates
     And I follow "Build"
     Then I should be on the new image factory build page
     And I should see "Build Request"
-    When I check "Aws"
+    When I check "Ec2"
     And I press "Submit to Build"
     Then I should be on the image factory template page
     And I should see "mock1"
