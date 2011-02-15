@@ -7,6 +7,7 @@ Factory.define :provider_account do |f|
   f.x509_cert_pub "x509 public key"
   f.association :provider
   f.association :quota
+  f.after_build {|acc| acc.stub!(:generate_auth_key).and_return(nil) if acc.respond_to?(:stub!)}
 end
 
 Factory.define :mock_provider_account, :parent => :provider_account do |f|

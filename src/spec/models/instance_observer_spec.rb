@@ -154,18 +154,18 @@ describe InstanceObserver do
     end
   end
 
-  it "should generate instance key when instance is running" do
-    client = mock('DeltaCloud', :null_object => true)
-    key = mock('Key', :null_object => true)
-    key.stub!(:pem).and_return("PEM")
-    key.stub!(:id).and_return("1_user")
-    client.stub!(:"feature?").and_return(true)
-    client.stub!(:"create_key").and_return(key)
-    @cloud_account.stub!(:connect).and_return(client)
-    @instance.stub!(:cloud_account).and_return(@cloud_account)
+  #it "should generate instance key when instance is running" do
+  #  client = mock('DeltaCloud', :null_object => true)
+  #  key = mock('Key', :null_object => true)
+  #  key.stub!(:pem).and_return("PEM")
+  #  key.stub!(:id).and_return("1_user")
+  #  client.stub!(:"feature?").and_return(true)
+  #  client.stub!(:"create_key").and_return(key)
+  #  @cloud_account.stub!(:connect).and_return(client)
+  #  @instance.stub!(:cloud_account).and_return(@cloud_account)
 
-    @instance.state = Instance::STATE_RUNNING
-    @instance.save!
-    @instance.instance_key.should_not == nil
-  end
+  #  @instance.state = Instance::STATE_RUNNING
+  #  @instance.save!
+  #  @instance.instance_key.should_not == nil
+  #end
 end

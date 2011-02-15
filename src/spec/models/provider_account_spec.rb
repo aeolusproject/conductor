@@ -43,6 +43,7 @@ describe ProviderAccount do
 
     provider_account = Factory.build :ec2_provider_account
     provider_account.stub!(:connect).and_return(@client)
+    provider_account.stub!(:generate_auth_key).and_return(@key)
     provider_account.save
     provider_account.instance_key.should_not == nil
     provider_account.instance_key.pem == "PEM"
