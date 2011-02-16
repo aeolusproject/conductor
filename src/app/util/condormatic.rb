@@ -20,11 +20,6 @@
 require 'nokogiri'
 require 'socket'
 
-def escape(str)
-    str = str.gsub('\\', '\\\\')
-    str = str.gsub(' ', '\\ ')
-end
-
 def condormatic_instance_create(task)
 
   begin
@@ -251,7 +246,7 @@ def condormatic_classads_sync
       pipe.puts "username=\"#{account.username}\""
       pipe.puts "password=\"#{account.password}\""
       pipe.puts "provider_account_id=\"#{account.id}\""
-      pipe.puts "keypair=\"#{escape(account.instance_key.name)}\""
+      pipe.puts "keypair=\"#{account.instance_key.name}\""
     rescue Exception => ex
       Rails.logger.error "Error writing provider classad to condor."
       Rails.logger.error ex.message
