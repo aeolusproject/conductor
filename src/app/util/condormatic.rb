@@ -251,6 +251,7 @@ def condormatic_classads_sync
       Rails.logger.error "Error writing provider classad to condor."
       Rails.logger.error ex.message
       Rails.logger.error ex.backtrace
+    end
     pipe.close_write
 
     out = pipe.read
