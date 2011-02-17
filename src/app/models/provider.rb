@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: providers
+#
+#  id            :integer         not null, primary key
+#  name          :string(255)     not null
+#  url           :string(255)     not null
+#  lock_version  :integer         default(0)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  provider_type :integer
+#
+
 #
 # Copyright (C) 2009 Red Hat, Inc.
 #

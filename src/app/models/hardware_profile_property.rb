@@ -1,3 +1,20 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: hardware_profile_properties
+#
+#  id           :integer         not null, primary key
+#  name         :string(255)     not null
+#  kind         :string(255)     not null
+#  unit         :string(255)     not null
+#  value        :string(255)     not null
+#  range_first  :string(255)
+#  range_last   :string(255)
+#  lock_version :integer         default(0)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 #
 # Copyright (C) 2010 Red Hat, Inc.
 #

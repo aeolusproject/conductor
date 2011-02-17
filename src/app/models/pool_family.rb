@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: pool_families
+#
+#  id           :integer         not null, primary key
+#  name         :string(255)     not null
+#  description  :string(255)
+#  lock_version :integer         default(0)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 #
 # Copyright (C) 2010 Red Hat, Inc.
 #

@@ -1,3 +1,14 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: base_permission_objects
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)     not null
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 #
 # Copyright (C) 2009 Red Hat, Inc.
 # Written by Scott Seago <sseago@redhat.com>

@@ -1,3 +1,36 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: instances
+#
+#  id                      :integer         not null, primary key
+#  external_key            :string(255)
+#  name                    :string(1024)    not null
+#  hardware_profile_id     :integer         not null
+#  template_id             :integer         not null
+#  realm_id                :integer
+#  owner_id                :integer
+#  pool_id                 :integer         not null
+#  provider_account_id     :integer
+#  instance_hwp_id         :integer
+#  public_addresses        :string(255)
+#  private_addresses       :string(255)
+#  state                   :string(255)
+#  condor_job_id           :string(255)
+#  last_error              :text
+#  lock_version            :integer         default(0)
+#  acc_pending_time        :integer         default(0)
+#  acc_running_time        :integer         default(0)
+#  acc_shutting_down_time  :integer         default(0)
+#  acc_stopped_time        :integer         default(0)
+#  time_last_pending       :datetime
+#  time_last_running       :datetime
+#  time_last_shutting_down :datetime
+#  time_last_stopped       :datetime
+#  created_at              :datetime
+#  updated_at              :datetime
+#
+
 #
 # Copyright (C) 2009 Red Hat, Inc.
 #

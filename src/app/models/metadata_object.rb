@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: metadata_objects
+#
+#  id           :integer         not null, primary key
+#  key          :string(255)     not null
+#  value        :string(255)     not null
+#  object_type  :string(255)
+#  lock_version :integer         default(0)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 #
 # Copyright (C) 2010 Red Hat, Inc.
 #

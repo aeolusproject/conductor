@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: instance_keys
+#
+#  id                      :integer         not null, primary key
+#  instance_key_owner_id   :integer         not null
+#  instance_key_owner_type :string(255)     not null
+#  name                    :string(255)     not null
+#  pem                     :text
+#  created_at              :datetime
+#  updated_at              :datetime
+#
+
  #
 # Copyright (C) 2009 Red Hat, Inc.
 #

@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: privileges
+#
+#  id           :integer         not null, primary key
+#  role_id      :integer         not null
+#  target_type  :string(255)     not null
+#  action       :string(255)     not null
+#  lock_version :integer         default(0)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 #
 # Copyright (C) 2009 Red Hat, Inc.
 # Written by Scott Seago <sseago@redhat.com>

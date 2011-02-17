@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: instance_events
+#
+#  id          :integer         not null, primary key
+#  instance_id :integer         not null
+#  event_type  :string(255)     not null
+#  event_time  :datetime
+#  status      :string(255)
+#  message     :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 # Copyright (C) 2010 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify

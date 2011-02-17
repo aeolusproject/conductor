@@ -1,3 +1,22 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: provider_accounts
+#
+#  id             :integer         not null, primary key
+#  label          :string(255)     not null
+#  username       :string(255)     not null
+#  password       :string(255)     not null
+#  provider_id    :integer         not null
+#  quota_id       :integer
+#  lock_version   :integer         default(0)
+#  account_number :string(255)
+#  x509_cert_priv :text
+#  x509_cert_pub  :text
+#  created_at     :datetime
+#  updated_at     :datetime
+#
+
  #
 # Copyright (C) 2009 Red Hat, Inc.
 #

@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: realms
+#
+#  id           :integer         not null, primary key
+#  external_key :string(255)     not null
+#  name         :string(1024)    not null
+#  provider_id  :integer
+#  lock_version :integer         default(0)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 us_realm:

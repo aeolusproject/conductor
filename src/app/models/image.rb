@@ -1,3 +1,20 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: images
+#
+#  id          :integer         not null, primary key
+#  uuid        :string(255)
+#  name        :string(255)     not null
+#  build_id    :string(255)
+#  uri         :string(255)
+#  status      :string(255)
+#  template_id :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#  target      :integer
+#
+
 #
 # Copyright (C) 2009 Red Hat, Inc.
 #

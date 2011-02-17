@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: instance_hwps
+#
+#  id           :integer         not null, primary key
+#  memory       :string(255)
+#  cpu          :string(255)
+#  architecture :string(255)
+#  storage      :string(255)
+#  lock_version :integer         default(0)
+#
+
  #
 # Copyright (C) 2009 Red Hat, Inc.
 #

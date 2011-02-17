@@ -1,3 +1,25 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: tasks
+#
+#  id               :integer         not null, primary key
+#  user             :string(255)
+#  type             :string(255)
+#  action           :string(255)
+#  state            :string(255)
+#  task_target_id   :integer
+#  task_target_type :string(255)
+#  args             :string(255)
+#  created_at       :datetime
+#  time_submitted   :datetime
+#  time_started     :datetime
+#  time_ended       :datetime
+#  message          :text
+#  failure_code     :string(255)
+#  lock_version     :integer         default(0)
+#
+
 #
 # Copyright (C) 2009 Red Hat, Inc.
 #

@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: permissions
+#
+#  id                     :integer         not null, primary key
+#  role_id                :integer         not null
+#  user_id                :integer         not null
+#  permission_object_id   :integer
+#  permission_object_type :string(255)
+#  lock_version           :integer         default(0)
+#  created_at             :datetime
+#  updated_at             :datetime
+#
+
 #
 # Copyright (C) 2009 Red Hat, Inc.
 # Written by Scott Seago <sseago@redhat.com>

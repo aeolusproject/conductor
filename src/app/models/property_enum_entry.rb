@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: property_enum_entries
+#
+#  id                           :integer         not null, primary key
+#  hardware_profile_property_id :integer         not null
+#  value                        :string(255)     not null
+#  lock_version                 :integer         default(0)
+#  created_at                   :datetime
+#  updated_at                   :datetime
+#
+
 #
 # Copyright (C) 2010 Red Hat, Inc.
 #
