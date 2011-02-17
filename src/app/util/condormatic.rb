@@ -24,7 +24,7 @@ def condormatic_instance_create(task)
 
   begin
     instance = task.instance
-    realm = instance.realm rescue nil
+    realm = instance.frontend_realm rescue nil
 
     job_name = "job_#{instance.name}_#{instance.id}"
 
@@ -208,7 +208,7 @@ def condormatic_classads_sync
 
   Rails.logger.info "Syncing classads.."
   ads = []
-  providers.each { |provider|
+  providers.each do |provider|
     # The provider image entry gets put in the database as soon as we ask
     # to have the image built, so we only want to generate classads for it if
     # it is ready to be used.  When ready it will have an image key assigned
@@ -218,15 +218,27 @@ def condormatic_classads_sync
     accounts          = provider.provider_accounts
     hardware_profiles = provider.hardware_profiles
     realms            = provider.realms
-    accounts.each { |account|
-      provider_images.each { |provider_img|
-        hardware_profiles.each { |hwp|
-          ads += realms.collect { |realm|
-            [account, provider_img, hwp, realm] } } } }
-  }
+    accounts.each do |account|
+      provider_images.each do |provider_img|
+        hardware_profiles.each do |hwp|
+          # when user doesn't select any realm
+          ads << [account, provider_img, hwp, nil, nil]
+          # add all backend->frontend mappings
+          realms.each do |realm|
+            ads += realm.frontend_realms.collect { |frealm|
+              [account, provider_img, hwp, realm, frealm] }
+          end
+          # frontend can be mapped to provider (then backend realm is set to
+          # nil)
+          ads += provider.frontend_realms.collect { |frealm|
+            [account, provider_img, hwp, nil, frealm] }
+        end
+      end
+    end
+  end
 
   ads.each { |ad|
-    account, provider_image, hwp, realm = *ad
+    account, provider_image, hwp, realm, frontend_realm = *ad
 
     pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
 
@@ -237,11 +249,11 @@ def condormatic_classads_sync
       pipe.puts "\n# Stuff needed to match:"
       pipe.puts "hardwareprofile=\"#{hwp.conductor_hardware_profiles[0].id}\""
       pipe.puts "image=\"#{provider_image.image.template.id}\""
-      pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
+      pipe.puts "realm=\"#{frontend_realm ? frontend_realm.id : ''}\""
       pipe.puts "\n# Backend info to complete this job:"
       pipe.puts "image_key=\"#{provider_image.provider_image_key}\""
       pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""
-      pipe.puts "realm_key=\"#{realm.external_key}\""
+      pipe.puts "realm_key=\"#{realm ? realm.external_key : ''}\""
       pipe.puts "provider_url=\"#{account.provider.url}\""
       pipe.puts "username=\"#{account.username}\""
       pipe.puts "password=\"#{account.password}\""
