@@ -37,7 +37,7 @@ describe RepositoryManager do
 
   it 'should return a list of packagegroups' do
     rep = @rmanager.repositories.first
-    rep.groups.first[:id].should == 'aeolus'
+    rep.groups.first[:id].should == 'conductor'
   end
 
   it 'should return a list of categories' do
