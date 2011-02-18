@@ -41,7 +41,7 @@ Feature: Manage Templates
     And I press "Add Software"
     Then I should see "Managed Content Selection"
     When I press "Collections"
-    And I check "group_deltacloud"
+    And I check "group_conductor"
     And I press "Add Selected"
     Then I should see "Managed Content to Bundle"
     And the "tpl[name]" field by name should contain "mocktemplate"
@@ -61,7 +61,7 @@ Feature: Manage Templates
     And I press "Add Software"
     Then I should see "Managed Content Selection"
     When I press "Collections"
-    And I check "group_deltacloud"
+    And I check "group_conductor"
     And I press "Add Selected"
     Then I should see "Managed Content to Bundle"
     And the page should contain "#package_libdeltacloud" selector
@@ -103,7 +103,7 @@ Feature: Manage Templates
     # test that we see a metagroup
     Then I should see an input "admin-tools"
     # test that we see a collection (collections are loaded by default)
-    And I should see an input "deltacloud"
+    And I should see an input "conductor"
 
   Scenario: Build template
     Given there is a "mock1" template
