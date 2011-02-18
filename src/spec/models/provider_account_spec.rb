@@ -51,7 +51,7 @@ describe ProviderAccount do
   end
 
   it "when calling connect and it fails with exception it will return nil" do
-    Conductor.should_receive(:new).and_raise(Exception.new)
+    DeltaCloud.should_receive(:new).and_raise(Exception.new)
 
     @provider_account.connect.should be_nil
   end
