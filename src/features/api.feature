@@ -13,7 +13,7 @@ Feature: User authentication
     | name         | memory | cpu |storage  | architecture |
     | m1-small     | 1740   | 1   | 250     | i386         |
     | m1-medium    | 4096   | 4   | 850     | x86_64       |
-    Given there are the following aggregator hardware profiles:
+    Given there are the following conductor hardware profiles:
     | name       | memory | cpu |storage  | architecture |
     | agg-medium | 4096   | 4   | 850     | x86_64       |
     When a client requests matching hardware profile for "agg-medium"

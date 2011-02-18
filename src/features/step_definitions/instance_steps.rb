@@ -51,11 +51,11 @@ Given /^there is an uploaded image for a template$/ do
   Factory :provider_image
 end
 
-Given /^there is "([^"]*)" aggregator hardware profile$/ do |name|
+Given /^there is "([^"]*)" conductor hardware profile$/ do |name|
   Factory :mock_hwp2, :name => name
 end
 
-Given /^there is "([^"]*)" aggregator realm$/ do |name|
+Given /^there is "([^"]*)" conductor realm$/ do |name|
   Factory :frontend_realm, :provider_id => nil, :name => name
 end
 
