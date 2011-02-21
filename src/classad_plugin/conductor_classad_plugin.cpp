@@ -162,7 +162,7 @@ conductor_quota_check(const char *name, const ArgumentList &arglist,
     rest_call << "resources/instances/" << instance_id << "/can_start/" << account_id;
 
     // Call rest API to get answer on quota..
-    proxy = rest_proxy_new ("http://localhost:3000/conductor", FALSE);
+    proxy = rest_proxy_new ("http://localhost:3000/deltacloud", FALSE);
     call = rest_proxy_new_call (proxy);
     rest_proxy_call_set_function (call, rest_call.str().c_str());
 
