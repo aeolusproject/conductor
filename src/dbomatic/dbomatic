@@ -214,11 +214,6 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
 
     inst.provider_account_id = provider_account.id
 
-    # FIXME: we are updating the instance_key_id here, but this is really not
-    # the right way or place to do this.  This will have to be revisited when
-    # we come up with a real key management architecture
-    InstanceKey.create(:instance_key_owner=>inst, :name => provider_account.instance_key.name, :pem => provider_account.instance_key.pem)
-
     inst.save!
   end
 

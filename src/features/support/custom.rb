@@ -48,3 +48,9 @@ Template.class_eval do
     true
   end
 end
+
+InstanceKey.class_eval do
+  def replace_on_server(addr, new)
+    true
+  end
+end

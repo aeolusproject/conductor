@@ -61,14 +61,15 @@ class InstanceObserver < ActiveRecord::Observer
     end
   end
 
-  #def before_update(instance)
-  #  # we try to generate key only when instance is running
-  #  # and instance_key is not generated yet
-  #  return if instance.state != Instance::STATE_RUNNING or instance.instance_key
-  #  if key = instance.provider_account.generate_auth_key
-  #    instance.instance_key = InstanceKey.create!(:pem => key.pem, :name => key.id, :instance_key_owner => instance)
-  #  end
-  #end
+  def after_update(instance)
+    # we try to generate unique key only when instance is running
+    # and provider_account for this instance has instance_key (provider account
+    # instance_key is used as default ssh key when instance is launched)
+    if instance.state_changed? and instance.state == Instance::STATE_RUNNING and
+      not instance.instance_key and instance.provider_account and instance.provider_account.instance_key
+        instance.delay.create_unique_key
+    end
+  end
 
 end
 
