@@ -36,6 +36,7 @@ Requires: rubygem(rack-restful_submit)
 Requires: rubygem(sunspot_rails)
 Requires: rubygem(delayed_job)
 Requires: rubygem(net-scp)
+Requires: rubygem(uuidtools)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres

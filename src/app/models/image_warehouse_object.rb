@@ -36,7 +36,7 @@ module ImageWarehouseObject
 
   def generate_uuid
     # TODO: generate real uuid here, e.g. with some ruby uuid generator
-    self.uuid ||= "#{self.name}-#{Time.now.to_f.to_s}"
+    self.uuid ||= UUIDTools::UUID.timestamp_create.to_s
   end
 
 end

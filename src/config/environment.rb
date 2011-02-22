@@ -56,6 +56,7 @@ Rails::Initializer.run do |config|
   config.gem 'sunspot_rails', :lib => 'sunspot/rails'
   config.gem 'delayed_job', :version => '~>2.0.4'
   config.gem 'net-scp', :lib => 'net/scp'
+  config.gem 'uuidtools'
 
   config.middleware.swap Rack::MethodOverride, 'Rack::RestfulSubmit'
 
