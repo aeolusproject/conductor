@@ -79,6 +79,17 @@ Given /^there are the following instances:$/ do |table|
   end
 end
 
+Given /^there is the following instance with a differently-named owning user:$/ do |table|
+  table.hashes.each do |hash|
+    Factory(:other_owner_instance, :name => hash['name'],
+                       :external_key => hash['external_key'],
+                       :state => hash['state'],
+                       :public_addresses => hash['public_addresses'],
+                       :private_addresses => hash['private_addresses'])
+  end
+end
+
+
 Given /^there are (\d+) instances$/ do |count|
   count.to_i.times do |i|
     Factory :mock_running_instance, :name => "inst#{i}"

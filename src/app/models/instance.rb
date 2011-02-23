@@ -65,6 +65,9 @@ class Instance < ActiveRecord::Base
     text :public_addresses, :as => :code_substring
     text :private_addresses, :as => :code_substring
     text :state, :as => :code_substring
+    text :owner do
+      owner.last_name + " " + owner.first_name
+    end
   end
 
   cattr_reader :per_page

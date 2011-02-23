@@ -9,6 +9,10 @@ Factory.define :instance do |i|
   i.state "running"
 end
 
+Factory.define :other_owner_instance, :parent => :instance do |i|
+  i.association :owner, :factory => :other_named_user
+end
+
 Factory.define :mock_running_instance, :parent => :instance do |i|
   i.instance_key { |k| k.association(:mock_instance_key)}
 end

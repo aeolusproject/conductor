@@ -8,6 +8,11 @@ Factory.define :user do |u|
   u.association :quota
 end
 
+Factory.define :other_named_user, :parent => :user do |u|
+  u.first_name 'Jane'
+  u.last_name 'Doe'
+end
+
 Factory.define :tuser, :parent => :user do |u|
 end
 
