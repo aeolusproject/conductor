@@ -59,11 +59,6 @@ describe Image do
     account.stub!(:connect).and_return(client)
     account.stub!(:valid_credentials?).and_return(true)
     account.save!
-    Template.stub!(:new).and_return do |*args|
-      tpl = Template.proxied_by_rspec__new(*args)
-      tpl.should_receive(:upload).and_return(true)
-      tpl
-    end
 
     lambda do
       lambda do

@@ -26,6 +26,7 @@ require 'typhoeus'
 class Template < ActiveRecord::Base
   include PermissionedObject
   include ImageWarehouseObject
+
   searchable do
     text :name, :as => :code_substring
     text :platform, :as => :code_substring
@@ -38,8 +39,8 @@ class Template < ActiveRecord::Base
   has_many :instances
   has_and_belongs_to_many :assemblies
   before_validation :generate_uuid
-  before_save :update_xml
-  before_destroy :no_instances?
+  before_save [:update_xml, :upload]
+  before_destroy [:no_instances?, :delete_in_warehouse]
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
@@ -136,5 +137,13 @@ class Template < ActiveRecord::Base
   def groups=(groups)
     xml.clear_groups
     groups.to_a.each {|group| xml.add_group(group)}
+  end
+
+  def warehouse_body
+    self.xml.to_xml
+  end
+
+  def warehouse_bucket
+    'templates'
   end
 end
