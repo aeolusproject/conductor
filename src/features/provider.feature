@@ -34,7 +34,7 @@ Feature: Manage Providers
     Then I should be on the new admin provider page
     When I fill in "provider[name]" with "testprovider"
     And I fill in "provider[url]" with "http://localhost:3001/api"
-    And I select "Amazon EC2" from "Provider type"
+    And I select "Amazon EC2" from "provider_provider_type_id"
     And I press "Save"
     Then I should be on the admin providers page
     And I should see "Provider added"

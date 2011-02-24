@@ -24,13 +24,13 @@ describe ImageFactory::BuildsController do
 
     it "should create a new Image" do
       lambda do
-        post :create, :template_id => @template.id, :targets => ["0"]
+        post :create, :template_id => @template.id, :targets => ProviderType.find_by_codename("mock").id
       end.should change(Image, :count).by(1)
     end
 
     it "should create a new ProviderImage" do
       lambda do
-        post :create, :template_id => @template.id, :targets => ["0"]
+        post :create, :template_id => @template.id, :targets => ProviderType.find_by_codename("mock").id
       end.should change(ProviderImage, :count).by(1)
     end
   end

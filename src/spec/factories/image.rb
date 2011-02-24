@@ -4,6 +4,6 @@
 Factory.define :image do |i|
   i.sequence(:name) { |n| "image#{n}" }
   i.status 'queued'
-  i.target 'ec2'
+  i.provider_type_id { ProviderType.find_by_codename("ec2").id }
   i.association(:template)
 end

@@ -28,10 +28,8 @@ describe Provider do
     end
 
     it "should require a valid provider_type" do
-      [nil, ""].each do |invalid_value|
-        @provider.provider_type = invalid_value
+        @provider.provider_type = nil
         @provider.should_not be_valid
-      end
     end
 
     it "should require a valid url" do
@@ -67,7 +65,7 @@ describe Provider do
     it "should set valid cloud type" do
       @client.driver_name = @provider.provider_type
       @provider.provider_type = nil
-      @provider.provider_type = 0
+      @provider.provider_type = ProviderType.find_by_codename "mock"
       @provider.should be_valid
     end
 

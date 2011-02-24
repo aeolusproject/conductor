@@ -38,7 +38,7 @@ describe Image do
   it "should not build image if image already exists for specified target" do
     old = Factory.build(:image)
     old.save!
-    lambda {Image.build(old.template, old.target)}.should raise_error(ImageExistsError)
+    lambda {Image.build(old.template, old.provider_type)}.should raise_error(ImageExistsError)
   end
 
   it "should build image if there is provider and cloud account for specified target" do
@@ -47,7 +47,7 @@ describe Image do
     acc.save!
     tpl = Factory.build(:template)
     tpl.save!
-    img = Image.build(tpl, '0')
+    img = Image.build(tpl, ProviderType.find_by_codename("mock"))
     Image.find(img).should == img
     ProviderImage.find_by_image_id(img.id).should_not be_nil
   end

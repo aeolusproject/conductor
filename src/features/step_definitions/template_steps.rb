@@ -98,7 +98,7 @@ Given /^there is Amazon AWS provider account$/ do
 end
 
 Given /^there is Amazon AWS build for this template$/ do
-  Image.build(@template, Provider::AWS)
+  Image.build(@template, ProviderType.find_by_codename("ec2"))
 end
 
 Given /^there is an imported template$/ do

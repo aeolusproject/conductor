@@ -113,7 +113,7 @@ Feature: Manage Templates
     And I follow "Build"
     Then I should be on the new image factory build page
     And I should see "Build Request"
-    When I check "Ec2"
+    When I check "Amazon EC2"
     And I press "Submit to Build"
     Then I should be on the image factory template page
     And I should see "mock1"
@@ -128,11 +128,11 @@ Feature: Manage Templates
     And I follow "Build"
     Then I should be on the new image factory build page
     And I should see "Build Request"
-    When I check "Ec2"
+    When I check "Amazon EC2"
     And I press "Submit to Build"
     Then I should be on the image factory template page
     And I should see "mock1"
-    And I should see "An attempted build of this template for the target '1' already exists"
+    And I should see "An attempted build of this template for the target 'Amazon EC2' already exists"
 
   Scenario: Build imported template
     Given there is an imported template
