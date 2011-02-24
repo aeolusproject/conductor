@@ -3,9 +3,8 @@
   = select(:provider_account ,:provider_id, options_for_select(@providers.map{ |p| [p.name, p.id] }, :selected => @selected_provider.id))
   = restful_submit_tag "Choose", 'set_selected_provider',set_selected_provider_admin_provider_accounts_path, 'GET', :class => 'button'
   = label_tag "Cloud type: "
-  = t(Provider::PROVIDER_TYPES[@selected_provider.provider_type])
+  = @selected_provider.provider_type.name
   = display_provider_account_login_form(@selected_provider.provider_type)
-  
 
 :javascript
   $(document).ready(function(){

@@ -1,6 +1,6 @@
 = form.error_message_on :name, 'Name '
 = form.error_message_on :url, 'URL '
-= form.error_message_on :provider_type
+= form.error_message_on :provider_type_id
 %fieldset.clear
   = form.label :name,'Provider name :'
   = form.text_field :name, :title => 'provider_name', :value => @provider.name, :class => "clear grid_4 alpha"
@@ -13,7 +13,7 @@
   )
 %fieldset.clear
   = form.label :provider_type
-  = form.select(:provider_type, Provider::PROVIDER_TYPES.collect {|id, provider_type| [t(provider_type),id] }, :prompt => "Select type of provider")
+  = form.select(:provider_type_id, ProviderType.all.collect {|provider_type| [provider_type.name,provider_type.id] }, :prompt => "Select type of provider")
 
 %fieldset.clear
   = form.submit "Save",  :class => "submit formbutton"

@@ -85,12 +85,6 @@ en:
   pool_families: Pool Families
   setting: Settings
   name: Name
-  AWS: Amazon EC2
-  RHEVM: RHEV-M
-  GoGrid: GoGrid
-  Rackspace: Rackspace
-  OpenNebula: OpenNebula
-  mock: Mock
   admin:
     settings:
       index:

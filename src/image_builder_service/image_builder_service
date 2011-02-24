@@ -108,14 +108,14 @@ class ImageBuilderService
   def build(image)
     #targets.each do |t|
       @log.debug "========================================"
-      @log.debug "target: " + Provider::PROVIDER_BUILD_TARGETS[image.target] + ", status: " + image.status
+      @log.debug "target: " + image.provider_type.codename + ", status: " + image.status
       @log.debug "========================================"
       # FIXME: this should be contained elsewhere (probably Image model) so we
       # can keep logic out of here.  Also, this currently only handles one
       # account, we will need to be able to specify at some point.
       creds = image.provider_images.first.provider.provider_accounts.first.build_credentials
       #TODO: switch this back to uri once ActiveBuild retrieves it properly
-      ab = @console.build_image(image.template.xml.to_xml, Provider::PROVIDER_BUILD_TARGETS[image.target], image.uuid, creds)
+      ab = @console.build_image(image.template.xml.to_xml, image.provider_type.codename, image.uuid, creds)
       if ab
         update_build_list(ab, image)
         image.build_id = ab.object_id.to_s
@@ -161,7 +161,7 @@ class ImageBuilderService
     @log.debug "========================================"
     @log.debug "Getting ar object to update using " + obj[:build].target.inspect + " and " + obj[:ar_id].inspect + " ..."
     @log.debug "========================================"
-    image = Image.find(:first, :conditions => { :target => Provider::PROVIDER_BUILD_TARGETS.invert[obj[:build].target.to_s],
+    image = Image.find(:first, :conditions => { :provider_type_id => ProviderType.find_by_codename(obj[:build].target.to_s).id,
                                                               :template_id => obj[:ar_id].to_i })
     @log.debug "========================================"
     @log.debug "Updating with status: " + new_status

@@ -9,13 +9,13 @@ class ImageFactory::BuildsController < ApplicationController
       flash[:warning] = "Build imported template is not supported"
       redirect_to image_factory_templates_path
     end
-    @all_targets = Image.available_targets
+    @all_targets = ProviderType.all(:conditions => {:build_supported => true})
   end
 
   def create
     @tpl = Template.find(params[:template_id])
     check_permission
-    @all_targets = Image.available_targets
+    @all_targets = ProviderType.all(:conditions => {:build_supported => true})
 
     if params[:targets].blank?
       flash.now[:warning] = 'You need to check at least one provider format'
@@ -26,13 +26,14 @@ class ImageFactory::BuildsController < ApplicationController
     @tpl.upload unless @tpl.uploaded
     errors = {}
     warnings = []
-    params[:targets].each do |target|
+    params[:targets].each do |target_id|
       begin
+        target = ProviderType.find(target_id)
         Image.build(@tpl, target)
       rescue ImageExistsError
         warnings << $!.message
       rescue
-        errors[target] = $!.message
+        errors[target ? target.name : target_id] = $!.message
       end
     end
     flash[:warning] = 'Warning: ' + warnings.join unless warnings.empty?

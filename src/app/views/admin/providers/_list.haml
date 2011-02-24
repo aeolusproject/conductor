@@ -17,4 +17,4 @@
           %input{:name => "provider_selected[]", :type => "checkbox", :value => provider.id, :id => "provider_checkbox_#{provider.id}", :checked => selected }
           = link_to provider.name, admin_provider_path(provider)
         %td= provider.url
-        %td= t(Provider::PROVIDER_TYPES[provider.provider_type])
+        %td= provider.provider_type.name

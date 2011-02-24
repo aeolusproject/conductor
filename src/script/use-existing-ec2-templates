@@ -13,7 +13,7 @@ require 'optparse'
 def add_ec2_template(xml_info, summary, ec2_ami)
 
   provider = Provider.find(:first)
-  if provider == nil || provider.provider_type != Provider::AWS
+  if provider == nil || provider.provider_type != ProviderType.find_by_codename("ec2")
     puts "You need to set up an EC2 provider before you can run this script."
     exit
   end

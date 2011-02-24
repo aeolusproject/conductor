@@ -163,7 +163,7 @@ class ImageFactory::TemplatesController < ApplicationController
 
   def deployment_definition
     # FIXME: do we need perm check here?
-    @all_targets = Image.available_targets
+    @all_targets = ProviderType.all(:conditions => {:build_supported => true})
   end
 
   def remove_package
