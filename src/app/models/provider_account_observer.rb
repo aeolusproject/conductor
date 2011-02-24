@@ -3,7 +3,7 @@ class ProviderAccountObserver < ActiveRecord::Observer
     # FIXME: new boxgrinder doesn't create bucket for amis automatically,
     # for now we create bucket from conductor
     # remove this hotfix when fixed on boxgrinder side
-    if account.provider.provider_type == Provider::AWS
+    if account.provider.provider_type_id == ProviderType.find_by_codename("ec2").id
       create_bucket(account)
     end
     if key = account.generate_auth_key

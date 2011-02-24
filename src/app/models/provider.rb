@@ -1,15 +1,15 @@
 # == Schema Information
-# Schema version: 20110207110131
+# Schema version: 20110223132404
 #
 # Table name: providers
 #
-#  id            :integer         not null, primary key
-#  name          :string(255)     not null
-#  url           :string(255)     not null
-#  lock_version  :integer         default(0)
-#  created_at    :datetime
-#  updated_at    :datetime
-#  provider_type :integer
+#  id               :integer         not null, primary key
+#  name             :string(255)     not null
+#  url              :string(255)     not null
+#  lock_version     :integer         default(0)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  provider_type_id :integer         default(100), not null
 #
 
 #
@@ -43,35 +43,22 @@ class Provider < ActiveRecord::Base
   require 'util/conductor'
   include PermissionedObject
 
-  MOCK = 0
-  AWS = 1
-  GOGRID = 2
-  RACKSPACE = 3
-  RHEVM = 4
-  OPENNEBULA = 5
-
-  PROVIDER_TYPES = { MOCK => "mock", AWS => "AWS",
-    GOGRID => "GoGrid", RACKSPACE => "Rackspace", RHEVM => "RHEVM",
-    OPENNEBULA => "OpenNebula" }
-
-  PROVIDER_BUILD_TARGETS = { AWS => 'ec2', MOCK => 'mock' }
-
   has_many :provider_accounts, :dependent => :destroy
   has_many :hardware_profiles, :dependent => :destroy
   has_many :provider_images, :dependent => :destroy
   has_many :realms, :dependent => :destroy
   has_many :realm_backend_targets, :as => :realm_or_provider
   has_many :frontend_realms, :through => :realm_backend_targets
+  belongs_to :provider_type
 
   validates_presence_of :name
   validates_uniqueness_of :name
-
+  validates_presence_of :provider_type_id
   validates_presence_of :url
 
   validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
   validates_length_of :name,  :maximum => 255
 
-  validates_inclusion_of :provider_type, :in => PROVIDER_TYPES
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
@@ -144,7 +131,7 @@ class Provider < ActiveRecord::Base
 
   # returns first provider of provider_type which has at least one cloud account
   def self.find_by_target_with_account(provider_type)
-    Provider.all(:conditions => {:provider_type => provider_type}).each do |p|
+    Provider.all(:conditions => {:provider_type_id => provider_type}).each do |p|
       return p unless p.provider_accounts.empty?
     end
     nil

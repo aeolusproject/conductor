@@ -1,18 +1,18 @@
 # == Schema Information
-# Schema version: 20110207110131
+# Schema version: 20110223132404
 #
 # Table name: images
 #
-#  id          :integer         not null, primary key
-#  uuid        :string(255)
-#  name        :string(255)     not null
-#  build_id    :string(255)
-#  uri         :string(255)
-#  status      :string(255)
-#  template_id :integer
-#  created_at  :datetime
-#  updated_at  :datetime
-#  target      :integer
+#  id               :integer         not null, primary key
+#  uuid             :string(255)
+#  name             :string(255)     not null
+#  build_id         :string(255)
+#  uri              :string(255)
+#  status           :string(255)
+#  template_id      :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  provider_type_id :integer         default(100), not null
 #
 
 #
@@ -49,12 +49,13 @@ class Image < ActiveRecord::Base
   belongs_to :template, :counter_cache => true
   has_many :provider_images, :dependent => :destroy
   has_many :providers, :through => :provider_images
+  belongs_to :provider_type
 
   validates_presence_of :name
   validates_length_of :name, :maximum => 1024
   validates_presence_of :status
-  validates_presence_of :target
   validates_presence_of :template_id
+  validates_presence_of :provider_type_id
 
   SEARCHABLE_COLUMNS = %w(name)
 
@@ -68,10 +69,6 @@ class Image < ActiveRecord::Base
   ACTIVE_STATES = [ STATE_QUEUED, STATE_CREATED, STATE_BUILDING ]
   INACTIVE_STATES = [STATE_COMPLETE, STATE_FAILED, STATE_CANCELED]
 
-  def self.available_targets
-    Provider::PROVIDER_BUILD_TARGETS
-  end
-
   def generate_uuid
     self.uuid ||= "image-#{self.template_id}-#{Time.now.to_f.to_s}"
   end
@@ -79,19 +76,19 @@ class Image < ActiveRecord::Base
   def self.build(template, target)
     # FIXME: This will need to be enhanced to handle multiple
     # providers of same type, only one is supported right now
-    if Image.find_by_template_id_and_target(template.id, target)
-      raise ImageExistsError,  "An attempted build of this template for the target '#{target}' already exists"
+    if Image.find_by_template_id_and_provider_type_id(template.id, target.id)
+      raise ImageExistsError,  "An attempted build of this template for the target '#{target.name}' already exists"
     end
 
-    unless provider = Provider.find_by_target_with_account(target)
-      raise "There is no provider for '#{target}' type with valid account."
+    unless provider = Provider.find_by_target_with_account(target.id)
+      raise "There is no provider for '#{target.name}' type with valid account."
     end
 
     img = nil
     Image.transaction do
       img = Image.create!(
-        :name => "#{template.name}/#{target}",
-        :target => target,
+        :name => "#{template.name}/#{target.codename}",
+        :provider_type_id => target.id,
         :template_id => template.id,
         :status => Image::STATE_QUEUED
       )
@@ -146,7 +143,7 @@ class Image < ActiveRecord::Base
       image = Image.new(
         :name         => raw_image.name,
         :status       => 'complete',
-        :target       => account.provider.provider_type,
+        :provider_type_id => account.provider.provider_type_id,
         :template_id  => template.id
       )
       image.save!

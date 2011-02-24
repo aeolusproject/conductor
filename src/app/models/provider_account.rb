@@ -69,14 +69,14 @@ class ProviderAccount < ActiveRecord::Base
   validates_presence_of :username
   validates_uniqueness_of :username, :scope => :provider_id
   validates_presence_of :password
-  validates_presence_of :account_number,:if => Proc.new{ |account| account.provider.provider_type == Provider::AWS}
+  validates_presence_of :account_number,:if => Proc.new{ |account| account.provider.provider_type_id == ProviderType.find_by_codename("ec2").id}
   validate :validate_presence_of_x509_certs
   validate :validate_credentials
 
   # We're using this instead of <tt>validates_presence_of</tt> helper because
   # we want to show errors on different attributes ending with '_file'.
   def validate_presence_of_x509_certs
-    if self.provider.provider_type == Provider::AWS
+    if self.provider.provider_type_id == ProviderType.find_by_codename("ec2").id
       errors.add(:x509_cert_pub_file, "can't be blank") if x509_cert_pub.blank?
       errors.add(:x509_cert_priv_file, "can't be blank") if x509_cert_priv.blank?
     end
