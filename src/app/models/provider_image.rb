@@ -13,6 +13,8 @@
 #
 
 class ProviderImage < ActiveRecord::Base
+  include ImageWarehouseObject
+
   belongs_to :provider
   belongs_to :image
   has_one :icicle, :dependent => :destroy
@@ -20,6 +22,7 @@ class ProviderImage < ActiveRecord::Base
   validates_presence_of :provider_id
   validates_presence_of :image_id
   validates_uniqueness_of :uuid, :allow_nil => true
+  validates_uniqueness_of :image_id, :scope => :provider_id
 
   def push
     # TODO: this is just stubbed upload call,

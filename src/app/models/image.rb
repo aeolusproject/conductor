@@ -40,6 +40,7 @@ class ImageExistsError < Exception;end
 
 class Image < ActiveRecord::Base
   include SearchFilter
+  include ImageWarehouseObject
 
   before_save :generate_uuid
 
@@ -57,6 +58,8 @@ class Image < ActiveRecord::Base
   validates_presence_of :template_id
   validates_presence_of :provider_type_id
 
+  validates_uniqueness_of :template_id, :scope => :provider_type_id
+
   SEARCHABLE_COLUMNS = %w(name)
 
   STATE_QUEUED = 'queued'
@@ -73,31 +76,42 @@ class Image < ActiveRecord::Base
     self.uuid ||= "image-#{self.template_id}-#{Time.now.to_f.to_s}"
   end
 
-  def self.build(template, target)
-    # FIXME: This will need to be enhanced to handle multiple
-    # providers of same type, only one is supported right now
-    if Image.find_by_template_id_and_provider_type_id(template.id, target.id)
-      raise ImageExistsError,  "An attempted build of this template for the target '#{target.name}' already exists"
+  # TODO: for now when build is finished we call upload automatically for all providers
+  def after_update
+    if self.status_changed? and self.status == STATE_COMPLETE
+      # TODO: use after_commit callback in rails 3 - it's better to have it outside
+      # update transaction
+      begin
+        invoke_sync
+        upload_to_all_providers_with_account
+      rescue => e
+        logger.error e.message
+        logger.error e.backtrace.join("\n  ")
+      end
     end
+  end
 
-    unless provider = Provider.find_by_target_with_account(target.id)
-      raise "Error: A valid provider and provider account are required to create and build templates"
+  def build
+    # TODO: this is just stubbed upload call,
+    # when new image_builder_service is done, replace
+    # with real request to image_builder_service
+    unless self.provider_type.build_supported
+      raise "Build is not supported on images with provider type #{self.provider_type.name}"
     end
+  end
 
-    img = nil
-    Image.transaction do
-      img = Image.create!(
-        :name => "#{template.name}/#{target.codename}",
-        :provider_type_id => target.id,
-        :template_id => template.id,
-        :status => Image::STATE_QUEUED
-      )
-      ProviderImage.create!(
-        :image_id => img.id,
-        :provider_id => provider.id
-      )
+  def self.create_and_build!(template, provider_type)
+    if Image.find_by_template_id_and_provider_type_id(template.id, provider_type.id)
+      raise ImageExistsError,  "An attempted build of this template for the target '#{provider_type.name}' already exists"
     end
-    return img
+    img = Image.create!(
+      :name => "#{template.name}/#{provider_type.codename}",
+      :provider_type_id => provider_type.id,
+      :template_id => template.id,
+      :status => Image::STATE_QUEUED
+    )
+    img.delay.build
+    img
   end
 
   def self.single_import(providername, username, password, image_id)
@@ -163,6 +177,19 @@ class Image < ActiveRecord::Base
   end
 
   private
+
+  def upload_to_all_providers_with_account
+    provider_type.providers.each do |p|
+      # upload only to providers with account
+      unless p.provider_accounts.empty?
+        ProviderImage.create!(
+          :uuid =>  UUIDTools::UUID.timestamp_create.to_s,
+          :image => self,
+          :provider => p
+        ).delay.push
+      end
+    end
+  end
 
   def self.get_account(providername, username, password)
     unless provider = Provider.find_by_name(providername)

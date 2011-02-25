@@ -27,13 +27,12 @@ module ImageWarehouseObject
     @xml ||= ImageDescriptorXML.new(self[:xml].to_s)
   end
 
-  # this should be overriden in a model if we want to save additional attrs
-  # for the model
+  # this should be overriden in a model if model wants to save additional attrs
   def warehouse_attrs
     {:uuid => self.uuid, :object_type => self.class.class_name}
   end
 
-  # this should be overriden in a model if we want to save body
+  # this should be overriden in a model if model wants to save a body
   def warehouse_body
     nil
   end
@@ -65,4 +64,8 @@ module ImageWarehouseObject
     self.uuid ||= UUIDTools::UUID.timestamp_create.to_s
   end
 
+  def invoke_sync
+    # TODO: invoke warehouse_sync here (after switching to eventmachine)
+    # pass self.uuid to sync only changed object
+  end
 end

@@ -23,17 +23,18 @@ class ImageFactory::BuildsController < ApplicationController
       return
     end
 
-    @tpl.upload unless @tpl.uploaded
     errors = {}
     warnings = []
     params[:targets].each do |target_id|
       begin
         target = ProviderType.find(target_id)
-        Image.build(@tpl, target)
+        Image.create_and_build!(@tpl, target)
       rescue ImageExistsError
         warnings << $!.message
       rescue
         errors[target ? target.name : target_id] = $!.message
+        logger.error $!.message
+        logger.error $!.backtrace.join("\n   ")
       end
     end
     flash[:warning] = 'Warning: ' + warnings.join unless warnings.empty?

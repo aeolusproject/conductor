@@ -97,7 +97,7 @@ Given /^there is Amazon AWS provider account$/ do
 end
 
 Given /^there is Amazon AWS build for this template$/ do
-  Image.build(@template, ProviderType.find_by_codename("ec2"))
+  Image.create_and_build!(@template, ProviderType.find_by_codename("ec2"))
 end
 
 Given /^there is Amazon AWS provider with no builds$/ do

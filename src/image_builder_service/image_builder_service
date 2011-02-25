@@ -113,7 +113,13 @@ class ImageBuilderService
       # FIXME: this should be contained elsewhere (probably Image model) so we
       # can keep logic out of here.  Also, this currently only handles one
       # account, we will need to be able to specify at some point.
-      creds = image.provider_images.first.provider.provider_accounts.first.build_credentials
+      creds = nil
+      image.provider_type.providers.each do |p|
+        unless p.provider_accounts.empty?
+          creds = p.provider_accounts.first.build_credentials
+          break
+        end
+      end
       #TODO: switch this back to uri once ActiveBuild retrieves it properly
       ab = @console.build_image(image.template.xml.to_xml, image.provider_type.codename, image.uuid, creds)
       if ab
@@ -167,6 +173,7 @@ class ImageBuilderService
     @log.debug "Updating with status: " + new_status
     @log.debug "========================================"
     image.status = new_status
+    image.save!
     if new_status == 'complete'
       ri = image.provider_images.first
       ri.provider_image_key = obj[:build].finished_image
@@ -180,7 +187,6 @@ class ImageBuilderService
       @log.debug "========================================"
       kick_condor
     end
-    image.save!
     @log.debug "========================================"
     @log.debug "database updated!"
     @log.debug "========================================"

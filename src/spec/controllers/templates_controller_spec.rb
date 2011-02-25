@@ -10,14 +10,6 @@ describe ImageFactory::TemplatesController do
     activate_authlogic
   end
 
-  it "should allow a user with image_modify permission to create new template" do
-     UserSession.create(@admin)
-     lambda do
-       post :create, :tpl => { :name => 'template', :platform => 'fedora' }
-     end.should change(Template, :count).by(1)
-     response.should redirect_to(image_factory_templates_path)
-  end
-
   it "should deny access to new template ui without image modify permission" do
     UserSession.create(@tuser)
     get :new
