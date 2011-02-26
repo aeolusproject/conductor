@@ -23,10 +23,11 @@ class CompsRepository < AbstractRepository
   end
 
   def prepare_repo
+    @all_packages = get_packages
     Dir.mkdir(@cache_dir) unless File.directory?(@cache_dir)
     File.open(@cache_file, 'w') do |f|
       Marshal.dump({
-        :packages => get_packages,
+        :packages => @all_packages,
         :groups => get_groups,
         :categories => get_categories
       }, f)
@@ -46,6 +47,9 @@ class CompsRepository < AbstractRepository
   end
 
   def get_groups
+    @all_packages_hash = {}
+    @all_packages.each {|p| @all_packages_hash[p[:name]] = true}
+
     group_nodes.map do |g|
       pkgs = group_packages(g)
       next if pkgs.empty?
@@ -138,6 +142,8 @@ class CompsRepository < AbstractRepository
     pkgs = {}
     group_node.xpath('packagelist/packagereq').each do |p|
       pkg_name = p.text
+      # skip pkg if it's not in all packages list
+      next unless @all_packages_hash[pkg_name]
       (pkgs[pkg_name] ||= {})[:type] = p.attr('type')
     end
     return pkgs
