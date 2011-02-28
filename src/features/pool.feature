@@ -54,3 +54,29 @@ Feature: Manage Pools
     And I should be on the resources pools page
     And I should not see "Redhat Voyager Pool"
     And I should not see "Amazon Startrek Pool"
+
+
+  Scenario: Create multiple pools
+    Given I am on the pools page
+    And there is not a pool named "mockpool"
+    And there is not a pool named "foopool"
+    When I follow "New Pool"
+    Then I should be on the new resources pool page
+    And I should see "Create a new Pool"
+    When I fill in "pool_name" with "mockpool"
+    And I press "Save"
+    Then I should be on the resources pool page
+    And I should see "Pool added"
+    And I should see "mockpool"
+    And I should have a pool named "mockpool"
+    When I follow "New Pool"
+    Then I should be on the new resources pool page
+    And I should see "Create a new Pool"
+    When I fill in "pool_name" with "foopool"
+    And I press "Save"
+    Then I should be on the resources pool page
+    And I should see "Pool added"
+    And I should see "mockpool"
+    And I should see "foopool"
+    And I should have a pool named "mockpool"
+    And I should have a pool named "foopool"
