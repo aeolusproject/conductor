@@ -235,7 +235,7 @@ def condormatic_classads_sync
       pipe.puts 'MyType="Machine"'
       pipe.puts 'Requirements=true'
       pipe.puts "\n# Stuff needed to match:"
-      pipe.puts "hardwareprofile=\"#{hwp.aggregator_hardware_profiles[0].id}\""
+      pipe.puts "hardwareprofile=\"#{hwp.conductor_hardware_profiles[0].id}\""
       pipe.puts "image=\"#{provider_image.image.template.id}\""
       pipe.puts "realm=\"#{realm.frontend_realms[0].id}\""
       pipe.puts "\n# Backend info to complete this job:"
