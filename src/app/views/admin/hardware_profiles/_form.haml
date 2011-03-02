@@ -10,21 +10,9 @@
         %td
           =hwpp_form.text_field(:unit, :size => 5, :readonly => "readonly")
         %td
-          -unless type == :architecture
-            =hwpp_form.select("kind", ["fixed", "range", "enum"], {})
+          -if type == :architecture
+            =hwpp_form.select("value", ["i386", "x86_64"], {})
           -else
-            =hwpp_form.select("kind", ["fixed"], {})
-        %td
-          =hwpp_form.text_field(:value)
-        %td
-          -unless type == :architecture
-            =hwpp_form.text_field(:property_enum_entries)
-        %td
-          -unless type == :architecture
-            =hwpp_form.text_field(:range_first)
-        %td
-          -unless type == :architecture
-            =hwpp_form.text_field(:range_last)
+            =hwpp_form.text_field(:value)
 = hwp_form.submit 'Check Matches', :class => "submit formbutton"
-<!-- Disabled until condor can support new HWP model -->
-<!-- = hwp_form.submit 'Save', :class => 'submit formbutton', :disabled => 'disabled' -->
+= hwp_form.submit 'Save', :class => 'submit formbutton'

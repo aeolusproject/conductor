@@ -1,8 +1,7 @@
 - form_tag do
   #object-actions
-    <!-- Disabled until condor can support new HWP model -->
-    <!-- = link_to "New Hardware Profile", new_admin_hardware_profile_path, :class => 'button' -->
-    <!-- = restful_submit_tag "Delete", "destroy", multi_destroy_admin_hardware_profiles_path -->
+    = link_to "New Hardware Profile", new_admin_hardware_profile_path, :class => 'button'
+    = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_hardware_profiles_path, 'DELETE', :id => 'delete_button'
   #selections
     %p
       Select:&nbsp;

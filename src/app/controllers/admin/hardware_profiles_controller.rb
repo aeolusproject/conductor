@@ -133,13 +133,8 @@ class Admin::HardwareProfilesController < ApplicationController
   def properties
     @properties_header = [
       { :name => "Name", :sort_attr => :name},
-      { :name => "Kind", :sort_attr => :kind },
-      { :name => "Range First", :sort_attr => :range_first},
-      { :name => "Range Last", :sort_attr => :range_last },
-      { :name => "Enum Entries", :sort_attr => :false },
-      { :name => "Default Value", :sort_attr => :value},
-      { :name => "Unit", :sort_attr => :unit}
-      ]
+      { :name => "Unit", :sort_attr => :unit},
+      { :name => "Minimum Value", :sort_attr => :value}]
     @hwp_properties = [@hardware_profile.memory, @hardware_profile.cpu, @hardware_profile.storage, @hardware_profile.architecture]
   end
 
@@ -168,11 +163,7 @@ class Admin::HardwareProfilesController < ApplicationController
     @header  = [
       { :name => "Name", :sort_attr => :name},
       { :name => "Unit", :sort_attr => :unit},
-      { :name => "Kind", :sort_attr => :kind },
-      { :name => "Value (Default)", :sort_attr => :value},
-      { :name => "Enum Entries", :sort_attr => :false },
-      { :name => "Range First", :sort_attr => :range_first},
-      { :name => "Range Last", :sort_attr => :range_last }]
+      { :name => "Minimum Value", :sort_attr => :value}]
   end
 
   def set_params_and_header
@@ -210,17 +201,10 @@ class Admin::HardwareProfilesController < ApplicationController
     hwpp.nil? ? hardwareProfileProperty = HardwareProfileProperty.new : hardwareProfileProperty = hwpp
 
     hardwareProfileProperty.name = params[:name]
-    hardwareProfileProperty.kind = params[:kind]
+    hardwareProfileProperty.kind = "fixed"
     hardwareProfileProperty.value = params[:value]
     hardwareProfileProperty.unit = params[:unit]
-    case hardwareProfileProperty.kind
-      when "range"
-        hardwareProfileProperty.range_first = params[:range_first]
-        hardwareProfileProperty.range_last = params[:range_last]
-      when "enum"
-        hardwareProfileProperty.property_enum_entries = params[:property_enum_entries].split(%r{,\s*}).map  { |value| PropertyEnumEntry.new(:value => value, :hardware_profile_property => hardwareProfileProperty) }
-    end
-    hardwareProfileProperty
+    return hardwareProfileProperty
   end
 
 end

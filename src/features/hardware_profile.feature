@@ -20,7 +20,7 @@ Feature: Manage Pools
     | m1-large              | 4096   | 4           | 850       | x86_64       |
     | m1-xlarge             | 8192   | 8           | 1690      | x86_64       |
 
-  Scenario: View a Hardware Profiles Properties
+  Scenario: View a Front End Hardware Profiles Properties
     Given there are the following conductor hardware profiles:
     | name      | memory | cpu |storage  | architecture |
     | m1-small  | 1740   | 2   | 160     | i386         |
@@ -29,11 +29,11 @@ Feature: Manage Pools
     And I am on the the hardware profiles page
     When I follow "m1-small"
     Then I should see the following:
-    | Name         | Kind  | Range First | Range Last | Enum Entries | Default Value | Unit  |
-    | memory       | fixed | n/a         | n/a        | n/a          | 1740          | MB    |
-    | cpu          | fixed | n/a         | n/a        | n/a          | 2             | count |
-    | storage      | fixed | n/a         | n/a        | n/a          | 160           | GB    |
-    | architecture | fixed | n/a         | n/a        | n/a          | i386          | label |
+    | Name         | Minimum Value | Unit  |
+    | memory       | 1740          | MB    |
+    | cpu          | 2             | count |
+    | storage      | 160           | GB    |
+    | architecture | i386          | label |
 
   Scenario: View a Front End Hardware Profiles Matching Provider Hardware Profiles
     Given there are the following conductor hardware profiles:
@@ -84,22 +84,22 @@ Feature: Manage Pools
     When I follow "mock1"
     Then I should see "mock1(Front End)"
 
-#  Scenario: Create a new Hardware Profile
-#    Given I am an authorised user
-#   And I am on the hardware profiles page
-#    When I follow "New Hardware Profile"
-#    Then I should be on the new hardware profile page
-#    When I fill in "name" with "Test Hardware Profile"
-#    And I enter the following details for the Hardware Profile Properties
-#    | name         | kind  | range_first | range_last | property_enum_entries | value         | unit  |
-#    | memory       | fixed |             |            |                       | 1740          | MB    |
-#    | cpu          | range | 1           | 4          |                       | 2             | count |
-#    | storage      | enum  |             |            | 250, 300, 350         | 300           | GB    |
-#    | architecture | fixed |             |            |                       | i386          | label |
-#    And I press "Save"
-#    Then I should be on the hardware profiles page
-#    And I should see the following:
-#    | Test Hardware Profile | 1740   | 1 - 4 | 250, 300, 350 | i386 |
+   Scenario: Create a new Hardware Profile
+     Given I am an authorised user
+    And I am on the hardware profiles page
+     When I follow "New Hardware Profile"
+     Then I should be on the new hardware profile page
+     When I fill in "name" with "Test Hardware Profile"
+     And I enter the following details for the Hardware Profile Properties
+     | name         | value | unit  |
+     | memory       | 1740  | MB    |
+     | cpu          | 2     | count |
+     | storage      | 250   | GB    |
+     | architecture | i386  | label |
+     And I press "Save"
+     Then I should be on the hardware profiles page
+     And I should see the following:
+     | Test Hardware Profile | 1740   | 2 | 250 | i386 |
 
 #  Scenario: Check New Hardware Profile matching Provider Hardware Profiles
 #    Given I am an authorised user
@@ -122,24 +122,24 @@ Feature: Manage Pools
 #    | m1-small     | 1740   | 1   | 250     | i386         |
 #    | m1-medium    | 1740   | 2   | 500     | i386         |
 
-#  Scenario: Update a HardwareProfile
-#    Given I am an authorised user
-#    And there are the following aggregator hardware profiles:
-#    | name     | memory | cpu |storage  | architecture |
-#    | m1-small | 1740   | 2   | 160     | i386         |
-#    And I am on the hardware profiles page
-#    When I follow "m1-small"
-#    Then I should see "Properties"
-#    When I follow "edit"
-#    Then I should be on the edit hardware profiles page
-#    When I enter the following details for the Hardware Profile Properties
-#    | name         | kind  | range_first | range_last | property_enum_entries | value         |
-#    | memory       | fixed |             |            |                       | 1740          |
-#    | cpu          | range | 1           | 4          |                       | 1             |
-#    | storage      | range | 250         | 500        |                       | 300           |
-#    | architecture | fixed |             |            |                       | i386          |
-#    And I press "Save"
-#    Then I should be on the hardware profiles page
-#    Then I should see the following:
-#    | Name         | Memory | CPU       | Storage   | Architecture |
-#    | m1-small     | 1740   | 1 - 4     | 250 - 500 | i386         |
+   Scenario: Update a HardwareProfile
+     Given I am an authorised user
+     And there are the following conductor hardware profiles:
+     | name     | memory | cpu |storage  | architecture |
+     | m1-small | 2048   | 4   | 160     | x86_64         |
+     And I am on the hardware profiles page
+     When I follow "m1-small"
+     Then I should see "Properties"
+     When I follow "edit"
+     Then I should be on the edit hardware profiles page
+     When I enter the following details for the Hardware Profile Properties
+     | name         | value | unit  |
+     | memory       | 1740  | MB    |
+     | cpu          | 2     | count |
+     | storage      | 250   | GB    |
+     | architecture | i386  | label |
+     And I press "Save"
+     Then I should be on the hardware profiles page
+     Then I should see the following:
+     | Name         | Memory | CPU | Storage | Architecture |
+     | m1-small     | 1740   | 2   | 250     | i386         |
