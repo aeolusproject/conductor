@@ -47,8 +47,8 @@ def condormatic_instance_create(task)
     Rails.logger.error "DeltacloudPassword = $$(password)\n"
     pipe.puts "DeltacloudImageId = $$(image_key)\n"
     Rails.logger.error "DeltacloudImageId = $$(image_key)\n"
-    pipe.puts "DeltacloudHardwareProfile = $$(hardwareprofile_key)\n"
-    Rails.logger.error "DeltacloudHardwareProfile = $$(hardwareprofile_key)\n"
+    pipe.puts "DeltacloudHardwareProfile = $$(hardware_profile_key)\n"
+    Rails.logger.error "DeltacloudHardwareProfile = $$(hardware_profile_key)\n"
     pipe.puts "DeltacloudKeyname = $$(keypair)\n"
     Rails.logger.error "DeltacloudKeyname = $$(keypair)\n"
 
@@ -57,7 +57,7 @@ def condormatic_instance_create(task)
       Rails.logger.error "DeltacloudRealmId = $$(realm_key)\n"
     end
 
-    requirements = "requirements = hardwareprofile == \"#{instance.hardware_profile.id}\" && image == \"#{instance.template.id}\""
+    requirements = "requirements = front_end_hardware_profile_id == \"#{instance.hardware_profile.id}\" && image == \"#{instance.template.id}\""
     requirements += " && realm == \"#{realm.id}\"" if realm != nil
     # Call into the deltacloud quota plugin.  This uses a REST API to call back into the
     # conductor to check quotas as the last thing in the logical AND to match a provider
@@ -208,6 +208,9 @@ def condormatic_classads_sync
 
   Rails.logger.info "Syncing classads.."
   ads = []
+
+  front_end_hardware_profiles = HardwareProfile.find(:all, :conditions => ["provider_id IS NULL"])
+
   providers.each do |provider|
     # The provider image entry gets put in the database as soon as we ask
     # to have the image built, so we only want to generate classads for it if
@@ -216,11 +219,11 @@ def condormatic_classads_sync
     provider_images = provider.provider_images.find(:all,
                             :conditions => ['provider_image_key IS NOT NULL'])
     accounts          = provider.provider_accounts
-    hardware_profiles = provider.hardware_profiles
     realms            = provider.realms
+
     accounts.each do |account|
       provider_images.each do |provider_img|
-        hardware_profiles.each do |hwp|
+        front_end_hardware_profiles.each do |hwp|
           # when user doesn't select any realm
           ads << [account, provider_img, hwp, nil, nil]
           # add all backend->frontend mappings
@@ -240,38 +243,46 @@ def condormatic_classads_sync
   ads.each { |ad|
     account, provider_image, hwp, realm, frontend_realm = *ad
 
-    pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
+    matching_hardware_profile = HardwareProfile.match_provider_hardware_profile(account.provider, hwp)
+    if(matching_hardware_profile != nil)
+      overrides = HardwareProfile.generate_override_property_values(hwp, matching_hardware_profile)
+      pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
 
-    begin
-      pipe.puts "Name=\"provider_combination_#{index}\""
-      pipe.puts 'MyType="Machine"'
-      pipe.puts 'Requirements=true'
-      pipe.puts "\n# Stuff needed to match:"
-      pipe.puts "hardwareprofile=\"#{hwp.conductor_hardware_profiles[0].id}\""
-      pipe.puts "image=\"#{provider_image.image.template.id}\""
-      pipe.puts "realm=\"#{frontend_realm ? frontend_realm.id : ''}\""
-      pipe.puts "\n# Backend info to complete this job:"
-      pipe.puts "image_key=\"#{provider_image.provider_image_key}\""
-      pipe.puts "hardwareprofile_key=\"#{hwp.external_key}\""
-      pipe.puts "realm_key=\"#{realm ? realm.external_key : ''}\""
-      pipe.puts "provider_url=\"#{account.provider.url}\""
-      pipe.puts "username=\"#{account.username}\""
-      pipe.puts "password=\"#{account.password}\""
-      pipe.puts "provider_account_id=\"#{account.id}\""
-      pipe.puts "keypair=\"#{account.instance_key.name}\""
-    rescue Exception => ex
-      Rails.logger.error "Error writing provider classad to condor."
-      Rails.logger.error ex.message
-      Rails.logger.error ex.backtrace
+      begin
+        pipe.puts "Name=\"provider_combination_#{index}\""
+        pipe.puts 'MyType="Machine"'
+        pipe.puts 'Requirements=true'
+        pipe.puts "\n# Stuff needed to match:"
+        pipe.puts "front_end_hardware_profile_id=\"#{hwp.id}\""
+        pipe.puts "image=\"#{provider_image.image.template.id}\""
+        pipe.puts "realm=\"#{frontend_realm ? frontend_realm.id : ''}\""
+        pipe.puts "\n# Backend info to complete this job:"
+        pipe.puts "image_key=\"#{provider_image.provider_image_key}\""
+        pipe.puts "hardware_profile_key=\"#{matching_hardware_profile.external_key}\""
+        pipe.puts "hardware_profile_memory=\"#{overrides[:memory]}\""
+        pipe.puts "hardware_profile_storage=\"#{overrides[:storage]}\""
+        pipe.puts "hardware_profile_cpu=\"#{overrides[:cpu]}\""
+        pipe.puts "hardware_profile_architecuture=\"#{overrides[:architecture]}\""
+        pipe.puts "realm_key=\"#{realm ? realm.external_key : ''}\""
+        pipe.puts "provider_url=\"#{account.provider.url}\""
+        pipe.puts "username=\"#{account.username}\""
+        pipe.puts "password=\"#{account.password}\""
+        pipe.puts "provider_account_id=\"#{account.id}\""
+        pipe.puts "keypair=\"#{account.instance_key.name}\""
+      rescue Exception => ex
+        Rails.logger.error "Error writing provider classad to condor."
+        Rails.logger.error ex.message
+        Rails.logger.error ex.backtrace
+      end
+      pipe.close_write
+
+      out = pipe.read
+      pipe.close
+
+      Rails.logger.error "Unable to submit condor classad: #{out}" if $? != 0
+
+      index += 1
     end
-    pipe.close_write
-
-    out = pipe.read
-    pipe.close
-
-    Rails.logger.error "Unable to submit condor classad: #{out}" if $? != 0
-
-    index += 1
   }
   Rails.logger.info "done"
 end

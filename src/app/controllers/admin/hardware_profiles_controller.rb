@@ -58,9 +58,11 @@ class Admin::HardwareProfilesController < ApplicationController
       matching_provider_hardware_profiles
       render :action => 'new'
     end
+    kick_condor
   end
 
   def delete
+    kick_condor
   end
 
   def edit
@@ -91,10 +93,12 @@ class Admin::HardwareProfilesController < ApplicationController
       flash[:notice] = "Hardware Profile updated!"
       redirect_to admin_hardware_profiles_path
     end
+    kick_condor
   end
 
   def multi_destroy
     HardwareProfile.destroy(params[:hardware_profile_selected])
+    kick_condor
     redirect_to admin_hardware_profiles_path
   end
 
