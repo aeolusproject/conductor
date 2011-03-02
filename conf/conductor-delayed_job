@@ -15,17 +15,18 @@ RAILS_ENV="${RAILS_ENV:-production}"
 CONDUCTOR_DIR="${CONDUCTOR_DIR:-/usr/share/aeolus-conductor}"
 AEOLUS_USER="${AEOLUS_USER:-aeolus}"
 DJOB_LOCKFILE="${DJOB_LOCKFILE:-/var/lock/subsys/conductor-delayed_job}"
-DJOB_PIDFILE="${DJOB_PIDFILE:-/var/run/aeolus-conductor/}"
+DJOB_PIDDIR="${DJOB_PIDDIR:-/var/run/aeolus-conductor/}"
 
 DJOB_PATH=$CONDUCTOR_DIR/script/
 DJOB_PROG=delayed_job
+DJOB_PIDFILE=$DJOB_PIDDIR/$DJOB_PROG.pid
 
 . /etc/init.d/functions
 
 start() {
     echo -n "Starting conductor-delayed_job: "
 
-    daemon --user=$AEOLUS_USER $DJOB_PATH/$DJOB_PROG start --pid-dir=$DJOB_PIDFILE
+    daemon --user=$AEOLUS_USER $DJOB_PATH/$DJOB_PROG start --pid-dir=$DJOB_PIDDIR
     RETVAL=$?
     if [ $RETVAL -eq 0 ] && touch $DJOB_LOCKFILE ; then
       echo_success
@@ -38,7 +39,7 @@ start() {
 
 stop() {
     echo -n "Shutting down conductor-delayed_job: "
-    $DJOB_PATH/$DJOB_PROG stop --pid-dir=$DJOB_PIDFILE
+    $DJOB_PATH/$DJOB_PROG stop --pid-dir=$DJOB_PIDDIR
     RETVAL=$?
     if [ $RETVAL -eq 0 ] && rm -f $DJOB_LOCKFILE ; then
       echo_success
@@ -60,11 +61,15 @@ case "$1" in
       stop
       start
       ;;
+    status)
+     status -p $DJOB_PIDFILE $DJOB_PROG
+     RETVAL=$?
+     ;;
     force-reload)
       restart
       ;;
     *)
-      echo "Usage: conductor-delayed_job {start|stop|restart}"
+      echo "Usage: conductor-delayed_job {start|stop|restart|status}"
       exit 1
   ;;
 esac
