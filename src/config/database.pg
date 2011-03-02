@@ -45,6 +45,7 @@ development:
   username: aeolus
   password: v23zj59an
   host: localhost
+  min_messages: warning
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake test'.
@@ -52,8 +53,10 @@ development:
 test: &TEST
   adapter: postgresql
   database: conductor_test
-  username: postgres
+  username: aeolus
+  password: v23zj59an
   host: localhost
+  min_messages: warning
 
 production:
   adapter: postgresql
