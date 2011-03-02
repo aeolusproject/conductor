@@ -37,13 +37,22 @@ end
 
 Given /^there are the following provider hardware profiles:$/ do |table|
   provider = Factory :mock_provider
-  table.hashes.each do |hash|
-    create_hwp(hash, provider)
-  end
+  create_provider_hardware_profiles(provider, table)
 end
 
 Given /^there are (\d+) hardware profiles$/ do |count|
   count.to_i.times do |i|
     Factory(:mock_hwp1, :name => "hwprofile#{i}")
+  end
+end
+
+Given /^"([^"]*)" has the following hardware profiles:$/ do |provider_name, table|
+  provider = Provider.find_by_name(provider_name)
+  create_provider_hardware_profiles(provider, table)
+end
+
+def create_provider_hardware_profiles(provider, table)
+  table.hashes.each do |hash|
+    create_hwp(hash, provider)
   end
 end

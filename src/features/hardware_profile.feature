@@ -101,26 +101,33 @@ Feature: Manage Pools
      And I should see the following:
      | Test Hardware Profile | 1740   | 2 | 250 | i386 |
 
-#  Scenario: Check New Hardware Profile matching Provider Hardware Profiles
-#    Given I am an authorised user
-#    And there are the following provider hardware profiles:
-#    | name         | memory | cpu |storage  | architecture |
-#    | m1-small     | 1740   | 1   | 250     | i386         |
-#    | m1-medium    | 1740   | 2   | 500     | i386         |
-#    | m1-large     | 2048   | 4   | 850     | x86_64       |
-#    And I am on the new hardware profile page
-#    When I fill in "name" with "Test Hardware Profile"
-#    And I enter the following details for the Hardware Profile Properties
-#    | name         | kind  | range_first | range_last | property_enum_entries | value         | unit  |
-#    | memory       | fixed |             |            |                       | 1740          | MB    |
-#    | cpu          | range | 1           | 4          |                       | 2             | count |
-#    | storage      | range | 250         | 500        |                       | 300           | GB    |
-#    | architecture | fixed |             |            |                       | i386          | label |
-#    And I press "Check Matches"
-#    Then I should see the following:
-#    | Name         | Memory | CPU | Storage | Architecture |
-#    | m1-small     | 1740   | 1   | 250     | i386         |
-#    | m1-medium    | 1740   | 2   | 500     | i386         |
+  Scenario: Check New Hardware Profile matching Provider Hardware Profiles
+    Given I am an authorised user
+    And there is a provider named "provider1"
+    And there is a provider named "provider2"
+    And "provider1" has the following hardware profiles:
+    | name         | memory | cpu |storage  | architecture |
+    | m1-small     | 1740   | 1   | 250     | i386         |
+    | m1-medium    | 1740   | 2   | 500     | i386         |
+    | m1-large     | 2048   | 4   | 850     | x86_64       |
+    And "provider2" has the following hardware profiles:
+    | name         | memory | cpu |storage  | architecture |
+    | m1-small     | 4048   | 4   | 500     | i386         |
+    | m1-medium    | 8192   | 4   | 500     | i386         |
+    | m1-large     | 2048   | 4   | 850     | x86_64       |
+    And I am on the new hardware profile page
+    When I fill in "name" with "Test Hardware Profile"
+    And I enter the following details for the Hardware Profile Properties
+    | name         | value         | unit  |
+    | memory       | 1740          | MB    |
+    | cpu          | 2             | count |
+    | storage      | 300           | GB    |
+    | architecture | i386          | label |
+    And I press "Check Matches"
+    Then I should see the following:
+    | Provider  | Name         | Memory | CPU | Storage | Architecture |
+    | provider1 | m1-medium    | 1740   | 2   | 500     | i386         |
+    | provider2 | m1-small     | 4048   | 4   | 500     | i386         |
 
    Scenario: Update a HardwareProfile
      Given I am an authorised user

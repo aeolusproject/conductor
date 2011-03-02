@@ -138,136 +138,96 @@ class HardwareProfile < ActiveRecord::Base
     the_property
   end
 
-  #TODO: This function returns the first hwp in the list of matched hardware profiles
-  #      Better logic should be used here to decide which hardware profile to return.
-  def self.match_hwp(hwp, provider=nil)
-    match_maps = matching_hwps(hwp, provider)
-    if  match_maps.empty?
-      return nil
-    end
-
-    selected_match = match_maps[0]
-    hwp = selected_match[:hardware_profile]
-    hwp.memory = select_value(selected_match[:memory])
-    hwp.cpu = select_value(selected_match[:cpu])
-    hwp.storage = select_value(selected_match[:storage])
-    hwp.architecture = select_value(selected_match[:architecture])
-    return hwp
+  def self.matching_hardware_profiles(hardware_profile)
+    hardware_profiles = Provider.find(:all).map { |provider| match_provider_hardware_profile(provider, hardware_profile)}
+    hardware_profiles.select {|hwp| hwp != nil }
   end
 
-  def self.select_value(property)
-    case property.kind
-      when "range"
-        property.value = property.range_first
-        property.range_first = nil
-        property.range_last = nil
-      when "enum"
-        property.value = property.property_enum_entries[0].value
-        property.property_enum_entries = nil
-    end
-    property.kind = "fixed"
-    return property
-  end
-  def self.matching_hwps(hwp, provider=nil)
-    provider_hwps = provider.nil? ? HardwareProfile.all(:conditions => 'provider_id IS NOT NULL') : HardwareProfile.all(:conditions => { :provider_id => provider.id } )
-    provider_hwps = HardwareProfile.all(:conditions => 'provider_id IS NOT NULL')
-    match_maps = []
-    provider_hwps.each do |phwp|
-      match_map = check_properties(hwp, phwp)
-      if match_map
-        match_maps << match_map
+  def self.match_provider_hardware_profile(provider, hardware_profile)
+    hardware_profiles = match_hardware_profiles(provider, hardware_profile)
+    matched_hwp = hardware_profiles.first
+    value = '99999999'
+    hardware_profiles.each do |hwp|
+      case hwp.memory.kind
+        when "fixed"
+          if BigDecimal.new(hwp.memory.value.to_s) < BigDecimal.new(value.to_s)
+            value = hwp.memory.value
+            matched_hwp = hwp
+          end
+        when "range"
+          if BigDecimal.new(hwp.memory.range_last.to_s) < BigDecimal.new(value.to_s)
+            value = hwp.memory.range_last
+            matched_hwp = hwp
+          end
+        when "enum"
+          values = create_array_from_property(hwp.memory.to_s).sort
+          if BigDecimal.new(value.last) < BigDecimal.new(value.to_s)
+            value = values.last
+            matched_hwp = hwp
+          end
       end
     end
-    return match_maps
+    return matched_hwp
+  end
+
+  def self.generate_override_property_values(front_end_hwp, back_end_hwp)
+    property_overrides = {}
+    property_overrides[:memory] = generate_override_property_value(front_end_hwp.memory, back_end_hwp.memory)
+    property_overrides[:storage] = generate_override_property_value(front_end_hwp.storage, back_end_hwp.storage)
+    property_overrides[:cpu] = generate_override_property_value(front_end_hwp.cpu, back_end_hwp.cpu)
+    property_overrides[:architecture] = front_end_hwp.architecture.value
+    return property_overrides
   end
 
   private
-  def self.set_non_default_value(hwpp)
-    case hwpp.kind
-      when 'range'
-        hwpp.value = hwpp.range_first
-      when 'enum'
-        hwpp.value = hwpp.property_enum_entries[0]
-      when 'fixed'
-        hwpp.value = hwpp.value
-    end
-    hwpp.save
-  end
-
-  def self.check_properties(hwp1, hwp2)
-    if [hwp1.memory, hwp1.cpu, hwp1.storage, hwp1.architecture, hwp2.memory, hwp2.cpu, hwp2.storage, hwp2.architecture].include?(nil)
-      return nil
-    end
-
-    hwpp_mem = check_hwp_property(hwp1.memory, hwp2.memory)
-    hwpp_cpu = check_hwp_property(hwp1.cpu, hwp2.cpu)
-    hwpp_storage = check_hwp_property(hwp1.storage, hwp2.storage)
-    hwpp_arch = check_hwp_property(hwp1.architecture, hwp2.architecture)
-    hwpps = [hwpp_mem, hwpp_cpu, hwpp_storage, hwpp_arch]
-
-    if hwpps.include?(nil)
-      return nil
-    else
-      hwpps.each do |hwpp|
-        set_non_default_value(hwpp)
-      end
-      return { :memory => hwpp_mem, :cpu => hwpp_cpu, :storage => hwpp_storage, :architecture => hwpp_arch, :hardware_profile => hwp2}
-    end
-  end
-
-  def self.check_hwp_property(p1, p2)
-    if p1.kind == 'range'
-      calculate_range_match(p1, p2)
-    elsif p2.kind == 'range'
-      calculate_range_match(p2, p1)
-    else
-      matched_values = (create_array_from_property(p1) & create_array_from_property(p2))
-      if !matched_values.empty?
-        if p1.kind == 'fixed' || p2.kind == 'fixed'
-          HardwareProfileProperty.new(:kind => 'fixed', :value => matched_values[0], :name => p1.name, :unit => p1.unit)
-        else
-          hwpp = HardwareProfileProperty.new(:kind => 'enum')
-          matched_values.each do |enum_value|
-            hwpp.property_enum_entries << PropertyEnumEntry.new(:hardware_profile_property => hwpp, :value => enum_value)
+  def self.generate_override_property_value(front_end_property, back_end_property)
+    case back_end_property.kind
+      when "fixed"
+        return back_end_property.value
+      when "range"
+        return front_end_property.value
+      when "enum"
+        create_array_from_property(back_end_property).sort!.each do |value|
+          if BigDecimal.new(value) >= BigDecimal.new(front_end_property.value)
+            return value
           end
-          return hwpp
         end
-      else
-        return nil
-      end
     end
+    return nil
   end
 
-  def self.calculate_range_match(p1, p2)
-    case p2.kind
-    when 'range'
-      if !(BigDecimal.new(p1.range_first) > BigDecimal.new(p2.range_last) || BigDecimal.new(p1.range_last) < BigDecimal.new(p2.range_first))
-        hwpp = HardwareProfileProperty.new(:kind => 'range', :unit => p1.unit, :name => p1.name)
+  def self.match_hardware_profiles(provider, hardware_profile)
+    back_end_profiles = provider.hardware_profiles
+    back_end_profiles.select { |hwp| match_hardware_profile(hardware_profile, hwp)}
+  end
 
-        hwpp.range_first = BigDecimal.new(p1.range_first) >= BigDecimal.new(p2.range_first) ? p1.range_first : p2.range_first
-        hwpp.range_last = BigDecimal.new(p1.range_last) <= BigDecimal.new(p2.range_last) ? p1.range_last : p2.range_last
-
-        return hwpp
-      else
-        return nil
-      end
-
-    when 'enum'
-      hwpp = HardwareProfileProperty.new(:kind => 'enum', :unit => p1.unit, :name => p1.name)
-      p2.property_enum_entries.each do |enum|
-        if (BigDecimal.new(p1.range_first)..BigDecimal.new(p1.range_last)) === BigDecimal.new(enum.value)
-          hwpp.property_enum_entries << PropertyEnumEntry.new(:hardware_profile_property => hwpp, :value => enum.value)
-        end
-      end
-      return hwpp.property_enum_entries.empty? ? nil : hwpp
-
-    when 'fixed'
-      return (BigDecimal.new(p1.range_first)..BigDecimal.new(p1.range_last)) === BigDecimal.new(p2.value) ? HardwareProfileProperty.new(:kind => 'fixed', :value => p2.value, :name => p2.name, :unit => p2.unit) : nil
-
-    else
-      return nil
-
+  def self.match_hardware_profile(front_end_hwp, back_end_hwp)
+    if back_end_hwp.name == "opaque"
+      return false
     end
+
+    match_hardware_profile_property(front_end_hwp.memory, back_end_hwp.memory) &&
+    match_hardware_profile_property(front_end_hwp.cpu, back_end_hwp.cpu) &&
+    match_hardware_profile_property(front_end_hwp.storage, back_end_hwp.storage) &&
+    front_end_hwp.architecture.value == back_end_hwp.architecture.value
+  end
+
+  def self.match_hardware_profile_property(front_end_property, back_end_property)
+    match = false
+    case back_end_property.kind
+      when "fixed"
+        match = BigDecimal.new(back_end_property.value.to_s) >= BigDecimal.new(front_end_property.value.to_s) ? true : false
+      when "range"
+        match = BigDecimal.new(back_end_property.range_last.to_s) >= BigDecimal.new(front_end_property.value.to_s) &&
+                BigDecimal.new(back_end_property.range_first.to_s) <= BigDecimal.new(front_end_property.value.to_s) ? true : false
+      when "enum"
+        create_array_from_property(back_end_property).each do |value|
+          if BigDecimal.new(value) >= BigDecimal.new(front_end_property.value.to_s)
+            match = true
+          end
+        end
+    end
+    return match
   end
 
   def self.create_array_from_property(p)

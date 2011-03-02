@@ -86,261 +86,125 @@ describe HardwareProfile do
     @hp.memory.kind.should equal(@hp.memory.kind.to_s)
   end
 
-  it "should calculate all the correct matches of provider hardware profiles against a given hardware profile" do
-    provider = Factory(:mock_provider)
-    HardwareProfile.find(:all, :conditions => {:provider_id => provider.id}).each do |hwp|
-      hwp.destroy
-    end
+  it "should match the correct back end hardware profile for a given provider" do
+    provider = Factory :mock_provider
 
-    # hwpp memory
-    hwpp_mem_match_all = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :range_first => '1', :range_last => '4096', :value => '256')
-    hwpp_mem_match_none = Factory(:hwpp_fixed, :name => 'memory', :unit => 'MB', :value => '8192')
-    hwpp_mem_match_2 = create_hwpp_enum(['256', '1024'], {:name => 'memory', :unit => 'MB'})
+    front_end_memory = Factory(:hwpp_fixed, :name => 'memory', :unit => 'MB', :value => '2048')
+    front_end_storage = Factory(:hwpp_fixed, :name => 'storage', :unit => 'GB', :value => '850')
+    front_end_cpu = Factory(:hwpp_fixed, :name => 'cpu', :unit => 'count', :value => '2')
+    front_end_architecture = Factory(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    hwpp_mem_range = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :range_first => '256', :range_last => '512', :value => '256')
-    hwpp_mem_fixed = Factory(:hwpp_fixed, :name => 'memory', :unit => 'MB', :value => '4096')
-    hwpp_mem_enum = create_hwpp_enum(['1024', '3072', '4096'], {:name => 'memory', :unit => 'MB'})
+    back_end_memory1 = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :value => '4048', :range_first => '1024', :range_last => '4048')
+    back_end_storage1 = create_hwpp_enum(['500', '1500', '2000'], {:name => 'storage', :unit => 'GB', :value => '1500'})
+    back_end_cpu1 = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :value => '4', :range_first => '1', :range_last => '4')
+    back_end_architecture1 = Factory(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    # hwpp cpu
-    hwpp_cpu_match_all = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :range_first => '1', :range_last => '32', :value => '2')
-    hwpp_cpu_match_none = Factory(:hwpp_fixed, :name => 'cpu', :unit => 'count', :value => '64')
-    hwpp_cpu_match_2 = create_hwpp_enum(['8', '16'], {:name => 'cpu', :unit => 'count'})
+    back_end_memory2 = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :value => '4048', :range_first => '1024', :range_last => '8192')
+    back_end_storage2 = create_hwpp_enum(['1500', '2000', '2500'], {:name => 'storage', :unit => 'GB', :value => '1500'})
+    back_end_cpu2 = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :value => '4', :range_first => '1', :range_last => '8')
+    back_end_architecture2 = Factory(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    hwpp_cpu_range = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :range_first => '1', :range_last => '16', :value => '4')
-    hwpp_cpu_fixed = Factory(:hwpp_fixed, :name => 'cpu', :unit => 'count', :value => '32')
-    hwpp_cpu_enum = create_hwpp_enum(['16', '32'], {:name => 'cpu', :unit => 'count'})
+    back_end_memory3 = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :value => '4048', :range_first => '1024', :range_last => '16384')
+    back_end_storage3 = create_hwpp_enum(['2000', '2500', '3000'], {:name => 'storage', :unit => 'GB', :value => '2000'})
+    back_end_cpu3 = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :value => '4', :range_first => '1', :range_last => '16')
+    back_end_architecture3 = Factory(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    # hwpp storage
-    hwpp_storage_match_all = Factory(:hwpp_range, :name => 'storage', :unit => 'GB', :range_first => '100', :range_last => '4000', :value => '250')
-    hwpp_storage_match_none = Factory(:hwpp_fixed, :name => 'storage', :unit => 'GB', :value => '4000')
-    hwpp_storage_match_2 = create_hwpp_enum(['1000', '2000'], {:name => 'storage', :unit => 'GB'})
+    front_end_hardware_profile = Factory(:hardware_profile, :memory => front_end_memory,
+                                                            :cpu => front_end_cpu,
+                                                            :storage => front_end_storage,
+                                                            :architecture => front_end_architecture)
 
-    hwpp_storage_range = Factory(:hwpp_range, :name => 'storage', :unit => 'GB', :range_first => '100', :range_last => '1000', :value => '250')
-    hwpp_storage_fixed = Factory(:hwpp_fixed, :name => 'storage', :unit => 'GB', :value => '3000')
-    hwpp_storage_enum = create_hwpp_enum(['2000', '4000'], {:name => 'storage', :unit => 'GB'})
+    back_end_hardware_profile1 = Factory(:hardware_profile, :memory => back_end_memory1,
+                                                            :cpu => back_end_cpu1,
+                                                            :storage => back_end_storage1,
+                                                            :architecture => back_end_architecture1)
 
-    # hwpp arch
-    hwpp_arch_i386 = Factory(:hwpp_arch, :value => 'i386')
-    hwpp_arch_i386_enum = create_hwpp_enum(['i386', 'x86_64'], {:name => 'architecture', :unit => 'label'})
+    back_end_hardware_profile2 = Factory(:hardware_profile, :memory => back_end_memory2,
+                                                            :cpu => back_end_cpu2,
+                                                            :storage => back_end_storage2,
+                                                            :architecture => back_end_architecture2)
 
-    hwp_match_all = Factory(:hardware_profile, :memory => hwpp_mem_match_all,
-                                               :cpu => hwpp_cpu_match_all,
-                                               :storage => hwpp_storage_match_all,
-                                               :architecture => hwpp_arch_i386)
+    back_end_hardware_profile3 = Factory(:hardware_profile, :memory => back_end_memory3,
+                                                            :cpu => back_end_cpu3,
+                                                            :storage => back_end_storage3,
+                                                            :architecture => back_end_architecture3)
 
-    hwp_match_none = Factory(:hardware_profile, :memory => hwpp_mem_match_none,
-                                                :cpu => hwpp_cpu_match_none,
-                                                :storage => hwpp_storage_match_none,
-                                                :architecture => hwpp_arch_i386)
+    provider.hardware_profiles << [back_end_hardware_profile1, back_end_hardware_profile2, back_end_hardware_profile3]
 
-    hwp_match_2 = Factory(:hardware_profile, :memory => hwpp_mem_match_2,
-                                             :cpu => hwpp_cpu_match_2,
-                                             :storage => hwpp_storage_match_2,
-                                             :architecture => hwpp_arch_i386)
-
-    hwp1 = Factory(:hardware_profile, :memory => hwpp_mem_range,
-                                      :cpu => hwpp_cpu_range,
-                                      :storage => hwpp_storage_range,
-                                      :architecture => hwpp_arch_i386,
-                                      :provider => provider)
-
-    hwp2 = Factory(:hardware_profile, :memory => hwpp_mem_fixed,
-                                      :cpu => hwpp_cpu_fixed,
-                                      :storage => hwpp_storage_fixed,
-                                      :architecture => hwpp_arch_i386,
-                                      :provider => provider)
-
-    hwp3 = Factory(:hardware_profile, :memory => hwpp_mem_enum,
-                                      :cpu => hwpp_cpu_enum,
-                                      :storage => hwpp_storage_enum,
-                                      :architecture => hwpp_arch_i386_enum,
-                                      :provider => provider)
-
-    hwp4 = Factory(:hardware_profile, :memory => hwpp_mem_enum,
-                                      :cpu => nil,
-                                      :storage => hwpp_storage_enum,
-                                      :architecture => hwpp_arch_i386,
-                                      :provider => provider)
-
-    HardwareProfile.matching_hwps(hwp_match_all).size.should == 3
-    HardwareProfile.matching_hwps(hwp_match_none).empty?.should == true
-    HardwareProfile.matching_hwps(hwp_match_2).size.should == 2
-
+    HardwareProfile.match_provider_hardware_profile(provider, front_end_hardware_profile).should == back_end_hardware_profile1
   end
 
-  it "should calculate the correct array for hardware profile properties of kind: 'fixed' and 'enum'" do
-    hwp_fixed = Factory(:hwpp_fixed, :value => '256')
+  it "should generate the correct override property values for a given property" do
+    front_end_memory = Factory(:hwpp_fixed, :name => 'memory', :unit => 'MB', :value => '2048')
+    front_end_storage = Factory(:hwpp_fixed, :name => 'storage', :unit => 'GB', :value => '850')
+    front_end_cpu = Factory(:hwpp_fixed, :name => 'cpu', :unit => 'count', :value => '2')
+    front_end_architecture = Factory(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    enum_array = ['256', '512', '1024', '2048']
-    hwp_enum = create_hwpp_enum(enum_array)
+    back_end_memory = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :value => '4048', :range_first => '1024', :range_last => '4048')
+    back_end_storage = create_hwpp_enum(['500', '1500', '2000'], {:name => 'storage', :unit => 'GB', :value => '1500'})
+    back_end_cpu = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :value => '4', :range_first => '1', :range_last => '8')
+    back_end_architecture = Factory(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    HardwareProfile.create_array_from_property(hwp_fixed).should == ['256']
-    (HardwareProfile.create_array_from_property(hwp_enum) & enum_array).should == enum_array
+    HardwareProfile.generate_override_property_value(front_end_memory, back_end_memory).should == '2048'
+    HardwareProfile.generate_override_property_value(front_end_storage, back_end_storage).should == '1500'
+    HardwareProfile.generate_override_property_value(front_end_cpu, back_end_cpu).should == '2'
   end
 
-  it "should determine match for 2 hardware profiles" do
-    hwpp_mem_range = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :range_first => '256', :range_last => '512', :value => '256')
-    hwpp_mem_fixed = Factory(:hwpp_fixed, :name => 'memory', :unit => 'MB', :value => '1024')
-    hwpp_mem_enum = create_hwpp_enum(['2048', '3072', '4096'], {:name => 'memory', :unit => 'MB'})
+  it "should correctly match a front end hardware profile with a back end hardware profile" do
+    front_end_memory = Factory(:hwpp_fixed, :name => 'memory', :unit => 'MB', :value => '2048')
+    front_end_storage = Factory(:hwpp_fixed, :name => 'storage', :unit => 'GB', :value => '850')
+    front_end_cpu = Factory(:hwpp_fixed, :name => 'cpu', :unit => 'count', :value => '2')
+    front_end_architecture = Factory(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    hwpp_cpu_range = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :range_first => '1', :range_last => '4', :value => '2')
-    hwpp_cpu_fixed = Factory(:hwpp_fixed, :name => 'cpu', :unit => 'count', :value => '8')
-    hwpp_cpu_enum = create_hwpp_enum(['16', '32'], {:name => 'cpu', :unit => 'count'})
+    back_end_memory_match = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :value => '4048', :range_first => '1024', :range_last => '4048')
+    back_end_storage_match = create_hwpp_enum(['850', '1500', '2000'], {:name => 'storage', :unit => 'GB', :value => '1500'})
+    back_end_cpu_match = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :value => '4', :range_first => '1', :range_last => '8')
+    back_end_architecture_match = Factory(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    hwpp_storage_range = Factory(:hwpp_range, :name => 'storage', :unit => 'GB', :range_first => '100', :range_last => '500', :value => '250')
-    hwpp_storage_fixed = Factory(:hwpp_fixed, :name => 'storage', :unit => 'GB', :value => '1000')
-    hwpp_storage_enum = create_hwpp_enum(['2000', '4000'], {:name => 'storage', :unit => 'GB'})
+    back_end_memory_fail = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :value => '4048', :range_first => '4048', :range_last => '8192')
+    back_end_storage_fail = create_hwpp_enum(['1000', '1500', '2000'], {:name => 'storage', :unit => 'GB', :value => '1500'})
+    back_end_cpu_fail = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :value => '4', :range_first => '4', :range_last => '8')
+    back_end_architecture_fail = Factory(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    hwpp_arch_i386 = Factory(:hwpp_arch, :value => 'i386')
-    hwpp_arch_x86_64 = Factory(:hwpp_arch, :value => 'x86_64')
+    front_end_hardware_profile = Factory(:hardware_profile, :memory => front_end_memory,
+                                                            :cpu => front_end_cpu,
+                                                            :storage => front_end_storage,
+                                                            :architecture => front_end_architecture)
 
-    hwp1 = Factory(:hardware_profile, :memory => hwpp_mem_range, :cpu => hwpp_cpu_range, :storage => hwpp_storage_range, :architecture => hwpp_arch_i386)
-    hwp2 = Factory(:hardware_profile, :memory => hwpp_mem_fixed, :cpu => hwpp_cpu_fixed, :storage => hwpp_storage_fixed, :architecture => hwpp_arch_i386)
-    hwp3 = Factory(:hardware_profile, :memory => hwpp_mem_enum, :cpu => hwpp_cpu_enum, :storage => hwpp_storage_enum, :architecture => hwpp_arch_i386)
-    hwp4 = Factory(:hardware_profile, :memory => hwpp_mem_enum, :cpu => hwpp_cpu_enum, :storage => hwpp_storage_enum, :architecture => hwpp_arch_x86_64)
-    hwp5 = Factory(:hardware_profile, :memory => hwpp_mem_enum, :cpu => hwpp_cpu_enum, :storage => nil, :architecture => hwpp_arch_x86_64)
+    back_end_hardware_profile_match = Factory(:hardware_profile, :memory => back_end_memory_match,
+                                                                 :cpu => back_end_cpu_match,
+                                                                 :storage => back_end_storage_match,
+                                                                 :architecture => back_end_architecture_match)
 
-    # Check memory match
-    match_map = HardwareProfile.check_properties(hwp1, hwp1)
-    match_map[:memory].kind.should == 'range'
-    match_map[:memory].range_first.should == '256'
-    match_map[:memory].range_last.should == '512'
+    back_end_hardware_profile_fail = Factory(:hardware_profile, :memory => back_end_memory_fail,
+                                                                :cpu => back_end_cpu_fail,
+                                                                :storage => back_end_storage_fail,
+                                                                :architecture => back_end_architecture_fail)
 
-    match_map[:cpu].kind.should == 'range'
-    match_map[:cpu].range_first.should == '1'
-    match_map[:cpu].range_last.should == '4'
-
-    match_map[:storage].kind.should == 'range'
-    match_map[:storage].range_first.should == '100'
-    match_map[:storage].range_last.should == '500'
-
-    # Check fixed match
-    match_map = HardwareProfile.check_properties(hwp2, hwp2)
-    match_map[:memory].kind.should == 'fixed'
-    match_map[:memory].value.should == '1024'
-
-    match_map[:cpu].kind.should == 'fixed'
-    match_map[:cpu].value.should == '8'
-
-    match_map[:storage].kind.should == 'fixed'
-    match_map[:storage].value.should == '1000'
-
-    # Check enums match
-    match_map = HardwareProfile.check_properties(hwp3, hwp3)
-    match_map[:memory].kind.should == 'enum'
-    check_enum_entries_match(match_map[:memory], ['2048', '3072', '4096'])
-
-    match_map[:cpu].kind.should == 'enum'
-    check_enum_entries_match(match_map[:cpu], ['16', '32'])
-
-    match_map[:storage].kind.should == 'enum'
-    check_enum_entries_match(match_map[:storage], ['2000', '4000'])
-
-    HardwareProfile.check_properties(hwp1, hwp2).should == nil
-    HardwareProfile.check_properties(hwp2, hwp3).should == nil
-    HardwareProfile.check_properties(hwp3, hwp4).should == nil
-    HardwareProfile.check_properties(hwp4, hwp5).should == nil
+    HardwareProfile.match_hardware_profile(front_end_hardware_profile, back_end_hardware_profile_match).should == true
+    HardwareProfile.match_hardware_profile(front_end_hardware_profile, back_end_hardware_profile_fail).should == false
   end
 
-  it "should calculate matches for range on hardware profile properties" do
-    hwp_range = Factory(:hwpp_range, :range_first => '256', :range_last => '512', :value => '256')
+  it "should correctly match front end hardware profile properties with back end hardware profile properties" do
+    front_end_memory = Factory(:hwpp_fixed, :name => 'memory', :unit => 'MB', :value => '2048')
+    front_end_storage = Factory(:hwpp_fixed, :name => 'storage', :unit => 'GB', :value => '850')
+    front_end_cpu = Factory(:hwpp_fixed, :name => 'cpu', :unit => 'count', :value => '2')
 
-    hwp_range_match = Factory(:hwpp_range, :range_first => '512', :range_last => '1024', :value => '512')
-    hwp_range_fail = Factory(:hwpp_range, :range_first => '2048', :range_last => '2048', :value => '8192')
+    back_end_memory_match = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :value => '4048', :range_first => '1024', :range_last => '4048')
+    back_end_storage_match = create_hwpp_enum(['850', '1500', '2000'], {:name => 'storage', :unit => 'GB', :value => '1500'})
+    back_end_cpu_match = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :value => '4', :range_first => '1', :range_last => '8')
 
-    hwp_fixed_match = Factory(:hwpp_fixed, :value => '256')
-    hwp_fixed_fail = Factory(:hwpp_fixed, :value => '4096')
+    back_end_memory_fail = Factory(:hwpp_range, :name => 'memory', :unit => 'MB', :value => '4048', :range_first => '4048', :range_last => '8192')
+    back_end_storage_fail = create_hwpp_enum(['250', '500', '750'], {:name => 'storage', :unit => 'GB', :value => '500'})
+    back_end_cpu_fail = Factory(:hwpp_range, :name => 'cpu', :unit => 'count', :value => '4', :range_first => '4', :range_last => '8')
 
-    hwp_enum_match = create_hwpp_enum(['256', '512', '1024', '2048'])
-    hwp_enum_fail = create_hwpp_enum(['2048', '4096', '8192', '16384'])
+    HardwareProfile.match_hardware_profile_property(front_end_memory, back_end_memory_match).should == true
+    HardwareProfile.match_hardware_profile_property(front_end_storage, back_end_storage_match).should == true
+    HardwareProfile.match_hardware_profile_property(front_end_cpu, back_end_cpu_match).should == true
 
-    hwpp = HardwareProfile.calculate_range_match(hwp_range, hwp_range_match)
-    hwpp.kind.should == 'range'
-    hwpp.range_first.should == '512'
-    hwpp.range_last.should == '512'
-
-    hwpp = HardwareProfile.calculate_range_match(hwp_range, hwp_fixed_match)
-    hwpp.kind.should == 'fixed'
-    hwpp.value.should == '256'
-
-    hwpp = HardwareProfile.calculate_range_match(hwp_range, hwp_enum_match)
-    check_enum_entries_match(hwpp, ['256', '512'])
-
-    [hwp_range_fail, hwp_fixed_fail, hwp_enum_fail].each do |hwpp|
-      HardwareProfile.calculate_range_match(hwp_range, hwpp).should == nil
-    end
-  end
-
-  it "should calculate correct matches for each hwp property" do
-    hwp_range1 = Factory(:hwpp_range, :range_first => '256', :range_last => '512', :value => '512')
-    hwp_range2 = Factory(:hwpp_range, :range_first => '512', :range_last => '1024', :value => '768')
-    hwp_range3 = Factory(:hwpp_range, :range_first => '2048', :range_last => '4096', :value => '3072')
-
-    hwp_fixed1 = Factory(:hwpp_fixed, :value => '256')
-    hwp_fixed2 = Factory(:hwpp_fixed, :value => '4096')
-    hwp_fixed3 = Factory(:hwpp_fixed, :value => '8192')
-
-    hwp_enum1 = create_hwpp_enum(['256', '512', '1024'])
-    hwp_enum2 = create_hwpp_enum(['1024', '2048', '3072'])
-    hwp_enum3 = create_hwpp_enum(['8192', '16384', '32768'])
-
-    # == Test HWPP against Ranges ==
-    # -- Expected Matches
-    hwpp = HardwareProfile.check_hwp_property(hwp_range1, hwp_range2)
-    hwpp.kind.should == 'range'
-    hwpp.range_first.should == '512'
-    hwpp.range_last.should == '512'
-
-    hwpp = HardwareProfile.check_hwp_property(hwp_range1, hwp_fixed1)
-    hwpp.kind.should == 'fixed'
-    hwpp.value.should == '256'
-
-    hwpp = HardwareProfile.check_hwp_property(hwp_range1, hwp_enum1)
-    hwpp.kind.should == 'enum'
-    check_enum_entries_match(hwpp, ['256', '512'])
-
-    # -- Expected Failures
-    HardwareProfile.check_hwp_property(hwp_range1, hwp_enum3).should == nil
-    HardwareProfile.check_hwp_property(hwp_range1, hwp_range3).should == nil
-    HardwareProfile.check_hwp_property(hwp_range1, hwp_fixed3).should == nil
-
-    # == Test HWPP Against Fixed ==
-    # -- Expected Matches
-    hwpp = HardwareProfile.check_hwp_property(hwp_fixed1, hwp_range1)
-    hwpp.kind.should == 'fixed'
-    hwpp.value.should == '256'
-
-    hwpp = HardwareProfile.check_hwp_property(hwp_fixed1, hwp_fixed1)
-    hwpp.kind.should == 'fixed'
-    hwpp.value.should == '256'
-
-    hwpp = HardwareProfile.check_hwp_property(hwp_fixed1, hwp_enum1)
-    hwpp.kind.should == 'fixed'
-    hwpp.value == '512'
-
-    # -- Expected Failures
-    HardwareProfile.check_hwp_property(hwp_fixed1, hwp_range3).should == nil
-    HardwareProfile.check_hwp_property(hwp_fixed1, hwp_fixed2).should == nil
-    HardwareProfile.check_hwp_property(hwp_fixed1, hwp_enum3).should == nil
-
-    # == Test HWPP Aginsts Enums ==
-    # --Expected Matches
-    hwpp = HardwareProfile.check_hwp_property(hwp_enum1, hwp_range1)
-    hwpp.kind.should == 'enum'
-    check_enum_entries_match(hwpp, ['256', '512'])
-
-    hwpp = HardwareProfile.check_hwp_property(hwp_enum1, hwp_fixed1)
-    hwpp.kind.should == 'fixed'
-    hwpp.value.should == '256'
-
-    hwpp = HardwareProfile.check_hwp_property(hwp_enum1, hwp_enum2)
-    hwpp.kind.should == 'enum'
-    check_enum_entries_match(hwpp, ['1024'])
-
-    # -- Expected Failures
-    HardwareProfile.check_hwp_property(hwp_enum1, hwp_range3).should == nil
-    HardwareProfile.check_hwp_property(hwp_enum1, hwp_fixed2).should == nil
-    HardwareProfile.check_hwp_property(hwp_enum1, hwp_enum3).should == nil
+    HardwareProfile.match_hardware_profile_property(front_end_memory, back_end_memory_fail).should == false
+    HardwareProfile.match_hardware_profile_property(front_end_storage, back_end_storage_fail).should == false
+    HardwareProfile.match_hardware_profile_property(front_end_cpu, back_end_cpu_fail).should == false
   end
 
   def create_hwpp_enum(value_array, properties = {})

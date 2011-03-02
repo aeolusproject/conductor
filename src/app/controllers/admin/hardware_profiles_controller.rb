@@ -150,8 +150,8 @@ class Admin::HardwareProfilesController < ApplicationController
     ]
 
     begin
-      @matching_hwps = HardwareProfile.matching_hwps(@hardware_profile).map { |hwp| hwp[:hardware_profile] }
-    rescue
+      @matching_hwps = HardwareProfile.matching_hardware_profiles(@hardware_profile)
+    rescue Exception => e
       @matching_hwps = []
     end
   end

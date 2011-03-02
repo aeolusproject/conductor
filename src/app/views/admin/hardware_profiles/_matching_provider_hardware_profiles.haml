@@ -1,20 +1,24 @@
 - if @hardware_profile
-  %h3
+  %h2
     =@hardware_profile.name
-%table
-  = sortable_table_header @provider_hwps_header
-  - @matching_hwps.each do |hwp|
-    %tr
-      %td
-        - if hwp.provider
-          = link_to hwp.provider.name, admin_provider_path(hwp.provider)
-      %td
-        = link_to hwp.name, admin_hardware_profile_path(hwp)
-      %td
-        =hwp.architecture.to_s
-      %td
-        =hwp.memory.to_s
-      %td
-        =hwp.storage.to_s
-      %td
-        =hwp.cpu.to_s
+- if @matching_hwps.size > 0
+  %table
+    = sortable_table_header @provider_hwps_header
+    - @matching_hwps.each do |hwp|
+      %tr
+        %td
+          - if hwp.provider
+            = link_to hwp.provider.name, admin_provider_path(hwp.provider)
+        %td
+          = link_to hwp.name, admin_hardware_profile_path(hwp)
+        %td
+          =hwp.architecture.to_s
+        %td
+          =hwp.memory.to_s
+        %td
+          =hwp.storage.to_s
+        %td
+          =hwp.cpu.to_s
+- else
+  %h3
+    No Matching Provider Hardware Profiles Could be found
