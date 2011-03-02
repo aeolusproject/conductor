@@ -71,18 +71,6 @@ class HardwareProfile < ActiveRecord::Base
 
   accepts_nested_attributes_for :memory, :cpu, :storage, :architecture
 
-  has_and_belongs_to_many :conductor_hardware_profiles,
-                          :class_name => "HardwareProfile",
-                          :join_table => "hardware_profile_map",
-                          :foreign_key => "provider_hardware_profile_id",
-                          :association_foreign_key => "conductor_hardware_profile_id"
-
-  has_and_belongs_to_many :provider_hardware_profiles,
-                          :class_name => "HardwareProfile",
-                          :join_table => "hardware_profile_map",
-                          :foreign_key => "conductor_hardware_profile_id",
-                          :association_foreign_key => "provider_hardware_profile_id"
-
   validates_presence_of :external_key, :if => Proc.new { |hwp| !hwp.provider.nil? }
   validates_uniqueness_of :external_key, :scope => [:provider_id], :if => Proc.new { |hwp| !hwp.provider.nil? }
 
@@ -97,21 +85,6 @@ class HardwareProfile < ActiveRecord::Base
 
   def provider_hardware_profile?
     !provider.nil?
-  end
-
-  # FIXME: what about custom instance profiles?
-  def validate
-    if provider.nil?
-      if !conductor_hardware_profiles.empty?
-        errors.add(:conductor_hardware_profiles,
-                   "Conductor profiles only allowed for provider profiles")
-      end
-    else
-      if !provider_hardware_profiles.empty?
-        errors.add(:provider_hardware_profiles,
-                   "Provider profiles only allowed for conductor profiles")
-      end
-    end
   end
 
   def add_properties(api_profile)

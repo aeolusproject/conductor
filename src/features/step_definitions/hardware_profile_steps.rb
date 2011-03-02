@@ -8,9 +8,6 @@ Given /^the Hardare Profile "([^"]*)" has the following Provider Hardware Profil
   provider = Factory :mock_provider
   front_end_hwp = HardwareProfile.find_by_name(name)
   back_end_hwps = table.hashes.collect { |hash| create_hwp(hash, provider) }
-
-  front_end_hwp.provider_hardware_profiles = back_end_hwps
-  front_end_hwp.save!
 end
 
 Given /^there is a "([^"]*)" hardware profile$/ do |arg1|
