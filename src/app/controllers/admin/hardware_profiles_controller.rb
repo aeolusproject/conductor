@@ -98,23 +98,6 @@ class Admin::HardwareProfilesController < ApplicationController
     redirect_to admin_hardware_profiles_path
   end
 
-  def matching_profiles
-    begin
-      hwp = HardwareProfile.find(params[:hardware_profile_id])
-      provider = Provider.find(params[:provider_id])
-      @hardware_profile = HardwareProfile.match_hwp(hwp, provider)
-      if !@hardware_profile.nil?
-         render :partial => 'templates/xml/hardware_profile.xml', :locals => { :profile => @hardware_profile }
-      else
-         head :not_found
-      end
-    rescue ActiveRecord::RecordNotFound
-      head :not_found
-    rescue Exception => e
-      head :internal_server_error
-    end
-  end
-
   private
   def setup_new_hardware_profile
     if params[:hardware_profile]

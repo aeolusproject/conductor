@@ -7,27 +7,6 @@ Feature: User authentication
     Given I am an authorised user
     And I am logged in
 
-  Scenario: Get matched HardwareProfile
-    Given I am an authorised user
-    Given there are the following provider hardware profiles:
-    | name         | memory | cpu |storage  | architecture |
-    | m1-small     | 1740   | 1   | 250     | i386         |
-    | m1-medium    | 4096   | 4   | 850     | x86_64       |
-    Given there are the following conductor hardware profiles:
-    | name       | memory | cpu |storage  | architecture |
-    | agg-medium | 4096   | 4   | 850     | x86_64       |
-    When a client requests matching hardware profile for "agg-medium"
-    Then the root element should be "hardware_profile"
-    And there should exist the following xpath: "hardware_profile/name"
-    And this path should have the value "m1-medium"
-    And there should exist the following xpath: "hardware_profile/property"
-    And this path should contain the following elements:
-    | element  | kind  | name         | unit  | value  |
-    | property | fixed | memory       | MB    | 4096   |
-    | property | fixed | cpu          | count | 4      |
-    | property | fixed | architecture | label | x86_64 |
-    | property | fixed | storage      | GB    | 850    |
-
   Scenario: Check can start instance
     Given there is a user "testuser"
     And there is a provider named "testprovider"
