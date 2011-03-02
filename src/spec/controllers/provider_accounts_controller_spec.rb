@@ -23,7 +23,6 @@ describe Admin::ProviderAccountsController do
 
   it "allows test account validity on create when passing test_account param" do
     UserSession.create(@admin)
-    require 'ruby-debug'
     post :create, :provider_account => {:provider_id => @provider.id}, :test_account => true
     response.should be_success
     response.should render_template("new")
