@@ -22,6 +22,7 @@ Requires: rubygem(will_paginate)
 Requires: rubygem(parseconfig)
 Requires: rubygem(authlogic)
 Requires: rubygem(deltacloud-client) >= 0.0.9.8
+Requires: rubygem(deltacloud-core)
 Requires: rubygem(compass)
 Requires: rubygem(compass-960-plugin)
 Requires: rubygem(simple-navigation)
