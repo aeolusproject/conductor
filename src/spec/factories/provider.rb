@@ -25,3 +25,11 @@ Factory.define :ec2_provider, :parent => :provider do |p|
   p.hardware_profiles { |hp| [hp.association(:ec2_hwp1)] }
   p.after_create { |p| p.realms << Factory(:realm4, :provider => p) }
 end
+
+Factory.define :ec2_provider_no_builds, :parent => :provider do |p|
+  p.name 'amazon-ec2-no-builds'
+  p.provider_type { ProviderType.find_by_codename("ec2") }
+  p.url 'http://localhost:3002/api'
+  p.hardware_profiles { |hp| [hp.association(:ec2_hwp1)] }
+  p.after_create { |p| p.realms << Factory(:realm4, :provider => p) }
+end

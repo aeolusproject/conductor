@@ -81,7 +81,7 @@ module NavigationHelpers
       url_for new_build_path
 
     when /the template builds page/
-      url_for image_factory_template_path(@template, :details_tab => 'images')
+      url_for image_factory_template_path(@template, :details_tab => 'builds')
 
     when /the templates page/
       templates_path

@@ -38,11 +38,23 @@ class ImageFactory::BuildsController < ApplicationController
     end
     flash[:warning] = 'Warning: ' + warnings.join unless warnings.empty?
     if errors.empty?
-      redirect_to image_factory_template_path(@tpl, :details_tab => 'images')
+      redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')
     else
       flash_error('Error while trying to build image', errors)
       render :action => 'new'
     end
+  end
+
+  def upload
+    @tpl = Template.find(params[:template_id])
+    # FIXME: add logic to upload image when v2 image factory lands
+    redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')
+  end
+
+  def delete
+    @tpl = Template.find(params[:template_id])
+    # FIXME: add logic to delete image when v2 image factory lands
+    redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')
   end
 
   def edit

@@ -25,9 +25,9 @@ class ImageFactory::TemplatesController < ApplicationController
     @tpl = Template.find(params[:id])
     require_privilege(Privilege::VIEW, @tpl)
     @url_params = params.clone
-    @tab_captions = ['Properties', 'Images']
+    @tab_captions = ['Properties', 'Builds']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
-    load_images(@tpl) if @details_tab == 'images'
+    load_images(@tpl) if @details_tab == 'builds'
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane
@@ -196,12 +196,41 @@ class ImageFactory::TemplatesController < ApplicationController
 
   def load_images(tpl)
     @images_header = [
-      {:name => 'NAME', :sort_attr => 'templates.name'},
-      {:name => 'OS', :sort_attr => 'templates.platform'},
-      {:name => 'VERSION', :sort_attr => 'templates.platform_version'},
+      {:name => '', :sort_attr => 'select'},
       {:name => 'ARCH', :sort_attr => 'templates.architecture'},
+      {:name => 'PROVIDER', :sort_attr => 'provider'},
       {:name => 'STATUS', :sort_attr => 'status'},
-    ]
+      {:name => 'UPLOADED?', :sort_attr => 'images.uploaded'},
+                     ]
+    @imaged_provider_types = {}
+    @targets_not_built = {}
+    @target_build_status = {}
+
+    Provider.all.each do |p|
+      @targets_not_built[p.provider_type.id] = p.provider_type.name
+    end
+
+    tpl.images.each do |img|
+      @target_build_status[img.provider_type.name] = img.status
+      @targets_not_built.delete(img.provider_type_id)
+      img.provider_images.each do |pimg|
+        @imaged_provider_types[pimg.provider_id] = img.provider_type.id
+      end
+    end
+    @targets_not_built = @targets_not_built.invert
+
+    @providers_to_delete = {}
+    @providers_not_uploaded = Provider.find_all_by_provider_type_id(@imaged_provider_types.values.uniq)
+    @providers_not_uploaded.each do |provider|
+      if @imaged_provider_types.has_key?(provider.id)
+        @providers_to_delete[provider] = provider
+      end
+    end
+
+    @providers_to_delete.keys.each do |p|
+      @providers_not_uploaded.delete(p)
+    end
+
     @images = tpl.images
   end
 
@@ -283,4 +312,3 @@ class ImageFactory::TemplatesController < ApplicationController
   end
 
 end
-

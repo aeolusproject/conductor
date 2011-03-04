@@ -105,6 +105,19 @@ Feature: Manage Templates
     # test that we see a collection (collections are loaded by default)
     And I should see an input "conductor"
 
+  Scenario: See upload status
+    Given there is a "mock1" template
+    And there is Amazon AWS provider account
+    And there is Amazon AWS build for this template
+    And there is Amazon AWS provider with no builds
+    And I am on the image factory templates page
+    When I choose this template
+    And I follow "Builds"
+    Then I should see the following:
+    | ARCH         | PROVIDERS              | STATUS          | UPLOADED?   |
+    | x86_64       | amazon-ec2             | queued          | no          |
+    | x86_64       | amazon-ec2-no-builds   | queued          | no          |
+
   Scenario: Build template
     Given there is a "mock1" template
     And there is Amazon AWS provider account

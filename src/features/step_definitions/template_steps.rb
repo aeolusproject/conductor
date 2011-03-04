@@ -91,7 +91,6 @@ end
 When /^I choose this template$/ do
   click_link(@template.name)
 end
-
 Given /^there is Amazon AWS provider account$/ do
   account = Factory.build(:ec2_provider_account)
   account.save!
@@ -99,6 +98,11 @@ end
 
 Given /^there is Amazon AWS build for this template$/ do
   Image.build(@template, ProviderType.find_by_codename("ec2"))
+end
+
+Given /^there is Amazon AWS provider with no builds$/ do
+  provider = Factory.build(:ec2_provider_no_builds)
+  provider.save!
 end
 
 Given /^there is an imported template$/ do

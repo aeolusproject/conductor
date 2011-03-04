@@ -94,7 +94,7 @@ class Image < ActiveRecord::Base
       )
       ProviderImage.create!(
         :image_id => img.id,
-        :provider_id => provider
+        :provider_id => provider.id
       )
     end
     return img

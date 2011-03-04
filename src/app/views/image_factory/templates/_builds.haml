@@ -1,0 +1,39 @@
+Builds for
+= @tpl.platform
+= @tpl.platform_version
+, template "#{@tpl.name}"
+
+- if @targets_not_built.count > 0 then
+  - form_tag(image_factory_builds_path, { :action => 'create', :method => :post }) do
+    = hidden_field_tag :template_id, @tpl.id
+    New Build for
+    = select( "targets", "", options_for_select(@targets_not_built))
+    = submit_tag "Go", :name => "build"
+
+- form_tag do
+  = hidden_field_tag :template_id, @tpl.id
+  /= restful_submit_tag "Upload", 'upload', upload_image_factory_builds_path, 'POST'
+  /= restful_submit_tag "Delete", 'delete', delete_image_factory_builds_path, 'DELETE'
+
+  %table
+    = sortable_table_header(@images_header)
+    %tbody
+      - if @images.empty?
+        %tr
+          %td{:colspan => 5} No Builds
+      - else
+        - @images.each do |img|
+          - img.provider_images.each do |pimg|
+            %tr
+              %td= check_box_tag 'selected[]', pimg.provider_id, @url_params[:select] == 'all', :id => "selected_#{pimg.provider_id}"
+              %td= img.template.architecture
+              %td= pimg.provider.nil? ? '' : pimg.provider.name
+              %td= img.status
+              %td= pimg.uploaded? ? 'yes' : 'no'
+      - @providers_not_uploaded.each do |provider|
+        %tr
+          %td= check_box_tag 'selected[]', provider.id, @url_params[:select] == 'all', :id => "selected_#{provider.id}"
+          %td= @tpl.architecture
+          %td= provider.name
+          %td= @target_build_status[provider.provider_type]
+          %td no
