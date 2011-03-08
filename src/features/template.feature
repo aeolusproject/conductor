@@ -21,6 +21,17 @@ Feature: Manage Templates
     And I should see "Template saved"
     And I should see "mocktemplate"
 
+  Scenario: Add a package to a new template
+    Given I am on the new image factory template page
+    When I press "Add Software"
+    When I press "admin-tools"
+    Then I should see "System Tools"
+    And I should see "libdeltacloud"
+    When I check "libdeltacloud"
+    And I press "Add Selected"
+    Then I should see "New Template"
+    And I should see "libdeltacloud"
+
   Scenario: Add a searched package to a new template
     Given I am on the new image factory template page
     When I press "Add Software"
@@ -41,7 +52,7 @@ Feature: Manage Templates
     And I press "Add Software"
     Then I should see "Managed Content Selection"
     When I press "Collections"
-    And I check "group_conductor"
+    And I check "group_system-tools"
     And I press "Add Selected"
     Then I should see "Managed Content to Bundle"
     And the "tpl[name]" field by name should contain "mocktemplate"
@@ -61,7 +72,7 @@ Feature: Manage Templates
     And I press "Add Software"
     Then I should see "Managed Content Selection"
     When I press "Collections"
-    And I check "group_conductor"
+    And I check "group_system-tools"
     And I press "Add Selected"
     Then I should see "Managed Content to Bundle"
     And the page should contain "#package_libdeltacloud" selector
@@ -103,7 +114,7 @@ Feature: Manage Templates
     # test that we see a metagroup
     Then I should see an input "admin-tools"
     # test that we see a collection (collections are loaded by default)
-    And I should see an input "conductor"
+    And I should see an input "system-tools"
 
   Scenario: See upload status
     Given there is a "mock1" template

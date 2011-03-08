@@ -9,7 +9,7 @@
         - selected = false
         %h5
           = check_box_tag 'selected_groups[]', group[:id], selected, {:disabled => selected, :id => "group_#{group[:id]}", :class => "softwaregroups #{selected ? 'selected' : ''}"}
-          = label_tag "group_#{group[:id]}", group[:name]
+          = label_tag "group_#{group[:id]}", group[:label]
         %ul
           - group[:packages].each do |pkg|
             %li

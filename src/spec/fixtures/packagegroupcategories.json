@@ -4,7 +4,7 @@
       "id" : "base-system",
       "immutable" : true,
       "name" : "Base System",
-      "packagegroupids" : [ "deltacloud" ],
+      "packagegroupids" : [ "system-tools" ],
       "repo_defined" : true,
       "translated_description" : {  },
       "translated_name" : {  }

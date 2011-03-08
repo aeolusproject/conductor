@@ -65,7 +65,7 @@ class RepositoryManager
       group = grps.find{|g| g[:id] == gname}
       next unless cat and cat[:groups].include?(gname) and group
       next if res.find{|g| g[:name] == gname}
-      res << {:name => gname, :packages => group[:packages].keys}
+      res << {:label => group[:name], :name => gname, :packages => group[:packages].keys}
     end
     res
   end
