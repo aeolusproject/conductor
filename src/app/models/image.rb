@@ -81,7 +81,7 @@ class Image < ActiveRecord::Base
     end
 
     unless provider = Provider.find_by_target_with_account(target.id)
-      raise "There is no provider for '#{target.name}' type with valid account."
+      raise "Error: A valid provider and provider account are required to create and build templates"
     end
 
     img = nil
