@@ -35,6 +35,7 @@ Requires: rubygem(imagebuilder-console)
 Requires: rubygem(rack-restful_submit)
 Requires: rubygem(sunspot_rails)
 Requires: rubygem(delayed_job)
+Requires: rubygem(net-scp)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
