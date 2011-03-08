@@ -74,7 +74,14 @@ class Resources::PoolsController < ApplicationController
 
   def multi_destroy
     Pool.find(params[:pools_selected]).each do |pool|
-      pool.destroy if check_privilege(Privilege::MODIFY, pool)
+      # FIXME: remove this check when pools can be assigned to new users
+      # default_pool cannot be deleted because metadata object has it tied
+      # to id of 1 and deleting it prevents new users from being created
+      if pool.name == "default_pool"
+        flash[:notice] = "The default pool cannot be deleted"
+      else
+        pool.destroy if check_privilege(Privilege::MODIFY, pool)
+      end
     end
     redirect_to resources_pools_url
   end

@@ -55,7 +55,6 @@ Feature: Manage Pools
     And I should not see "Redhat Voyager Pool"
     And I should not see "Amazon Startrek Pool"
 
-
   Scenario: Create multiple pools
     Given I am on the pools page
     And there is not a pool named "mockpool"
@@ -80,3 +79,10 @@ Feature: Manage Pools
     And I should see "foopool"
     And I should have a pool named "mockpool"
     And I should have a pool named "foopool"
+
+  Scenario: Cannot delete default_pool
+    Given I am on the pools page
+    When I check "default_pool" pool
+    And I press "Destroy"
+    Then I should see "The default pool cannot be deleted"
+    And I should see "default_pool"
