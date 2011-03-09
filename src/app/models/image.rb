@@ -104,6 +104,10 @@ class Image < ActiveRecord::Base
     if Image.find_by_template_id_and_provider_type_id(template.id, provider_type.id)
       raise ImageExistsError,  "An attempted build of this template for the target '#{provider_type.name}' already exists"
     end
+    # TODO: remove this check when we have UI for pushing images
+    if provider_type.providers.empty? or not provider_type.providers.detect {|p| !p.provider_accounts.empty?}
+      raise "Error: A valid provider and provider account are required to create and build templates"
+    end
     img = Image.create!(
       :name => "#{template.name}/#{provider_type.codename}",
       :provider_type_id => provider_type.id,
