@@ -1,0 +1,43 @@
+First, you'll need:
+* rebuild the rpms for new qpid/qmf:
+  http://koji.fedoraproject.org/koji/packageinfo?packageID=10015
+* build rpm for oz (http://www.aeolusproject.org/oz-download.html)
+* You can run imageFactory from src, or build the rpm, source is here:
+  git://github.com/aeolusproject/image_factory
+
+I have been developing for now using the following packages for qpid:
+qpid-cpp-server-0.8-6.fc14.x86_64
+python-qpid-qmf-0.8-6.fc14.x86_64
+ruby-qpid-qmf-0.8-6.fc14.x86_64
+qpid-tools-0.8-6.fc14.noarch
+qpid-qmf-0.8-6.fc14.x86_64
+qpid-cpp-client-0.8-6.fc14.x86_64
+qpid-cpp-server-store-0.8-6.fc14.x86_64
+
+Note that you will need to rpm -e --nodeps all older qpid stuff
+if you dont want to uninstall the entire conductor stack.
+
+Make sure /etc/qpidd.conf has the line:
+auth=no
+and restart qpidd service
+
+In the console dir,
+run tests with:
+[console]$ rake spec
+
+Build the console gem and install:
+[console]$ rake gem
+[console]$ sudo gem install pkg/image_factory_console-0.2.0.gem
+
+You can start the factory (from src) with:
+[factory-checkout]$ sudo ./imgfac.py --qmf --foreground
+
+In the image_factory_connector/bin dir, run the app in any of the following ways:
+* [image_factory_connector/bin]$ ./image_factory_connector -p 2003 start
+* [image_factory_connector/lib]$ thin -R config.ru -p 2003 start
+* [image_factory_connector/lib]$ rackup -p 2003 config.ru
+
+View some simple interactions (defined in image_factory_connector) from browser with:
+http://localhost:2003/
+http://localhost:2003/do-something
+http://localhost:2003/shutdown
