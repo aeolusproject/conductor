@@ -10,3 +10,7 @@ end
 Factory.define :mock_provider_image, :parent => :provider_image do |i|
   i.provider { |p| p.association(:mock_provider) }
 end
+
+Factory.define :ec2_provider_image, :parent => :provider_image do |i|
+  i.provider { |p| p.association(:ec2_provider) }
+end

@@ -118,16 +118,11 @@ Feature: Manage Templates
 
   Scenario: See upload status
     Given there is a "mock1" template
-    And there is Amazon AWS provider account
     And there is Amazon AWS build for this template
-    And there is Amazon AWS provider with no builds
     And I am on the image factory templates page
     When I choose this template
     And I follow "Builds"
-    Then I should see the following:
-    | ARCH         | PROVIDERS              | STATUS          | UPLOADED?   |
-    | x86_64       | amazon-ec2             | queued          | no          |
-    | x86_64       | amazon-ec2-no-builds   | queued          | no          |
+    Then I should see "amazon-ec2: uploaded"
 
   Scenario: Build template
     Given there is a "mock1" template
@@ -144,7 +139,6 @@ Feature: Manage Templates
 
   Scenario: Build template which is already built
     Given there is a "mock1" template
-    And there is Amazon AWS provider account
     And I am on the image factory templates page
     And there is Amazon AWS build for this template
     And I am on the image factory templates page

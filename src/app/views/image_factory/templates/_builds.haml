@@ -15,25 +15,15 @@ Builds for
   /= restful_submit_tag "Upload", 'upload', upload_image_factory_builds_path, 'POST'
   /= restful_submit_tag "Delete", 'delete', delete_image_factory_builds_path, 'DELETE'
 
-  %table
-    = sortable_table_header(@images_header)
-    %tbody
-      - if @images.empty?
-        %tr
-          %td{:colspan => 5} No Builds
-      - else
-        - @images.each do |img|
+%ul
+  - if @images.empty?
+    %li No Builds
+  - else
+    - @images.each do |img|
+      %li
+        = "#{img.name}: #{img.status}"
+        %ul
           - img.provider_images.each do |pimg|
-            %tr
-              %td= check_box_tag 'selected[]', pimg.provider_id, @url_params[:select] == 'all', :id => "selected_#{pimg.provider_id}"
-              %td= img.template.architecture
-              %td= pimg.provider.nil? ? '' : pimg.provider.name
-              %td= img.status
-              %td= pimg.uploaded? ? 'yes' : 'no'
-      - @providers_not_uploaded.each do |provider|
-        %tr
-          %td= check_box_tag 'selected[]', provider.id, @url_params[:select] == 'all', :id => "selected_#{provider.id}"
-          %td= @tpl.architecture
-          %td= provider.name
-          %td= @target_build_status[provider.provider_type]
-          %td no
+            %li
+              / TODO: uploaded attr will go away, shoud be changed to status then
+              = "#{pimg.provider.name}: #{pimg.uploaded ? 'uploaded' : 'not-uploaded'}"

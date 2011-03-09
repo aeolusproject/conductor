@@ -97,12 +97,8 @@ Given /^there is Amazon AWS provider account$/ do
 end
 
 Given /^there is Amazon AWS build for this template$/ do
-  Image.create_and_build!(@template, ProviderType.find_by_codename("ec2"))
-end
-
-Given /^there is Amazon AWS provider with no builds$/ do
-  provider = Factory.build(:ec2_provider_no_builds)
-  provider.save!
+  image = Factory.create(:image, :template => @template, :status => Image::STATE_COMPLETE)
+  Factory.create(:ec2_provider_image, :image => image)
 end
 
 Given /^there is an imported template$/ do

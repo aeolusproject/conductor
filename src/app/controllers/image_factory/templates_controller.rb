@@ -195,41 +195,16 @@ class ImageFactory::TemplatesController < ApplicationController
   protected
 
   def load_images(tpl)
-    @images_header = [
-      {:name => '', :sort_attr => 'select'},
-      {:name => 'ARCH', :sort_attr => 'templates.architecture'},
-      {:name => 'PROVIDER', :sort_attr => 'provider'},
-      {:name => 'STATUS', :sort_attr => 'status'},
-      {:name => 'UPLOADED?', :sort_attr => 'images.uploaded'},
-                     ]
-    @imaged_provider_types = {}
     @targets_not_built = {}
-    @target_build_status = {}
 
     Provider.all.each do |p|
       @targets_not_built[p.provider_type.id] = p.provider_type.name
     end
 
     tpl.images.each do |img|
-      @target_build_status[img.provider_type.name] = img.status
       @targets_not_built.delete(img.provider_type_id)
-      img.provider_images.each do |pimg|
-        @imaged_provider_types[pimg.provider_id] = img.provider_type.id
-      end
     end
     @targets_not_built = @targets_not_built.invert
-
-    @providers_to_delete = {}
-    @providers_not_uploaded = Provider.find_all_by_provider_type_id(@imaged_provider_types.values.uniq)
-    @providers_not_uploaded.each do |provider|
-      if @imaged_provider_types.has_key?(provider.id)
-        @providers_to_delete[provider] = provider
-      end
-    end
-
-    @providers_to_delete.keys.each do |p|
-      @providers_not_uploaded.delete(p)
-    end
 
     @images = tpl.images
   end
