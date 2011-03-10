@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+# Run image_factory_connector -h to get more usage.
+require 'rubygems'
+$: << File.expand_path(File.dirname(__FILE__) + '/../lib')
+require 'image_factory_connector'
+require 'thin'
+
+rackup_file = "#{File.dirname(__FILE__)}/../lib/config.ru"
+
+argv = ARGV
+argv << ["-R", rackup_file] unless ARGV.include?("-R")
+argv << ["-p", "2003"] unless ARGV.include?("-p")
+argv << ["-e", "development"] unless ARGV.include?("-e")
+Thin::Runner.new(argv.flatten).run!

@@ -21,10 +21,6 @@ Make sure /etc/qpidd.conf has the line:
 auth=no
 and restart qpidd service
 
-In the console dir,
-run tests with:
-[console]$ rake spec
-
 Build the console gem and install:
 [console]$ rake gem
 [console]$ sudo gem install pkg/image_factory_console-0.2.0.gem
@@ -32,12 +28,25 @@ Build the console gem and install:
 You can start the factory (from src) with:
 [factory-checkout]$ sudo ./imgfac.py --qmf --foreground
 
-In the image_factory_connector/bin dir, run the app in any of the following ways:
+In the console dir,
+run tests with:
+[console]$ rake spec
+
+For the connector, build and install the gem:
+[image_factory_connector]$ rake package
+[image_factory_connector]$ sudo gem install pkg/#{connector-gem}
+
+You can then start it anywhere, with:
+$ image_factory_connector -p 2003 start
+
+Alternatively, in the image_factory_connector/bin dir, run the app in any of the following ways:
 * [image_factory_connector/bin]$ ./image_factory_connector -p 2003 start
 * [image_factory_connector/lib]$ thin -R config.ru -p 2003 start
-* [image_factory_connector/lib]$ rackup -p 2003 config.ru
+* [image_factory_connector/lib]$ ruby -r 'rubygems' image_factory_connector/image_factory_connector.rb
 
 View some simple interactions (defined in image_factory_connector) from browser with:
 http://localhost:2003/
-http://localhost:2003/do-something
-http://localhost:2003/shutdown
+http://localhost:2003/shutdown (note that this one shuts down the console, so you will need to restart
+  connector if you run this)
+
+The remaining 2 public methods are POST actions, so you can try them out with curl if you like.
