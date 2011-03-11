@@ -85,8 +85,7 @@ Feature: Manage Pools
     Then I should see "mock1(Front End)"
 
    Scenario: Create a new Hardware Profile
-     Given I am an authorised user
-    And I am on the hardware profiles page
+    Given I am on the hardware profiles page
      When I follow "New Hardware Profile"
      Then I should be on the new hardware profile page
      When I fill in "name" with "Test Hardware Profile"
@@ -102,8 +101,7 @@ Feature: Manage Pools
      | Test Hardware Profile | 1740   | 2 | 250 | i386 |
 
   Scenario: Check New Hardware Profile matching Provider Hardware Profiles
-    Given I am an authorised user
-    And there is a provider named "provider1"
+    Given there is a provider named "provider1"
     And there is a provider named "provider2"
     And "provider1" has the following hardware profiles:
     | name         | memory | cpu |storage  | architecture |
@@ -130,8 +128,7 @@ Feature: Manage Pools
     | provider2 | m1-small     | 4048   | 4   | 500     | i386         |
 
    Scenario: Update a HardwareProfile
-     Given I am an authorised user
-     And there are the following conductor hardware profiles:
+     Given there are the following conductor hardware profiles:
      | name     | memory | cpu |storage  | architecture |
      | m1-small | 2048   | 4   | 160     | x86_64         |
      And I am on the hardware profiles page

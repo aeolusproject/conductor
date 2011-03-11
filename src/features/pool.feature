@@ -35,8 +35,7 @@ Feature: Manage Pools
     | mockpool | 10           | 80.0             |
 
   Scenario: Enter invalid characters into Name field
-    Given I am an authorised user
-    And I am on the new resources pool page
+    Given I am on the new resources pool page
     When I fill in "pool[name]" with "@%&*())_@!#!"
     And I press "Save"
     Then I should see "Name must only contain: numbers, letters, spaces, '_' and '-'"
