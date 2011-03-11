@@ -17,6 +17,7 @@ Factory.define :tuser, :parent => :user do |u|
 end
 
 Factory.define :admin_user, :parent => :user do |u|
+  u.login 'admin'
 end
 
 Factory.define :pool_creator_user, :parent => :user do |u|

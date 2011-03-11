@@ -39,8 +39,22 @@ Feature: Manage Users
     When I follow "create"
     Then I should be on the new admin user page
     When I follow "cancel"
-    Then there should only be 2 users
+    Then there should be 2 users
     And I should be on the admin users page
+
+  Scenario: Delete users
+    Given there is a user "testuser"
+    And I am on the admin users page
+    Then there should be 2 users
+    When I check "admin" user
+    And I press "Delete"
+    Then I should see "Cannot delete admin"
+    And there should be 2 users
+    And I should be on the admin users page
+    When I check "testuser" user
+    And I press "Delete"
+    Then I should see "Deleted user"
+    And there should be 1 user
 
   Scenario: Search for hardware profiles
     Given there is a user "myuser"

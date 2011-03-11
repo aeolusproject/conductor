@@ -90,7 +90,19 @@ class Admin::UsersController < ApplicationController
 
   def multi_destroy
     require_privilege(Privilege::MODIFY, User)
-    User.destroy(params[:user_selected])
+    deleted_users = []
+    User.find(params[:user_selected]).each do |user|
+      if user == current_user
+        flash[:warning] = "Cannot delete #{user.login}: you are logged in as this user"
+      else
+        user.destroy
+        deleted_users << user.login
+      end
+    end
+    unless deleted_users.empty?
+      msg = "Deleted user#{'s' if deleted_users.length > 1}"
+      flash[:notice] =  "#{msg}: #{deleted_users.join(', ')}"
+    end
     redirect_to admin_users_url
   end
 
