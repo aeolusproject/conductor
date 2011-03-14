@@ -1,6 +1,8 @@
 %ul.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-all
   - @tab_captions.each do |tab|
     %li.ui-state-default.ui-corner-top{ :class => "#{'ui-tabs-selected ui-state-active' if @details_tab == slug(tab)}"}
-      = link_to tab, @url_params.merge(:details_tab => slug(tab))
+      %a{ :href => url_for(@url_params.merge(:details_tab => slug(tab)))}
+        %span
+          = tab
 #details-selected
   = render :partial => @details_tab

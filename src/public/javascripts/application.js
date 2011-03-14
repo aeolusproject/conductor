@@ -75,7 +75,7 @@ var Conductor = {
   },
 
   enhanceDetailsTabs: function () {
-    $('#details-view ul li a').first().attr('href', '#details-selected');
+    $('#details-selected').hide();
     $('#details-view').tabs('destroy').tabs();
   }
 };
