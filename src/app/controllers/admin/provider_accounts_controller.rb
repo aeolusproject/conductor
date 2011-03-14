@@ -119,12 +119,27 @@ class Admin::ProviderAccountsController < ApplicationController
   end
 
   def multi_destroy
-    if (not params[:accounts_selected]) or (params[:accounts_selected].length == 0)
+    if params[:accounts_selected].blank?
       flash[:notice] = "You must select some accounts first."
-    else
-      ProviderAccount.find(params[:accounts_selected]).each do |account|
-        account.destroy if check_privilege(Privilege::MODIFY, account)
+      redirect_to admin_provider_accounts_url and return
+    end
+
+    succeeded = []
+    failed = []
+    ProviderAccount.find(params[:accounts_selected]).each do |account|
+      if check_privilege(Privilege::MODIFY, account) && account.destroyable?
+        account.destroy
+        succeeded << account.label
+      else
+        failed << account.label
       end
+    end
+
+    unless succeeded.empty?
+      flash[:notice] = t 'provider_accounts.index.account_deleted', :count => succeeded.length, :list => succeeded.join(', ')
+    end
+    unless failed.empty?
+      flash[:error] = t 'provider_accounts.index.account_not_deleted', :count => failed.length, :list => failed.join(', ')
     end
     redirect_to admin_provider_accounts_url
   end

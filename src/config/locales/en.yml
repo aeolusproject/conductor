@@ -119,6 +119,12 @@ en:
   provider_accounts:
     index:
       provider_accounts: Provider Accounts
+      account_deleted:
+        one: "Account %{list} was deleted."
+        other: "Accounts %{list} were deleted."
+      account_not_deleted:
+        one: "Account %{list} was not deleted. There are instances associated with it."
+        other: "Accounts %{list} were not deleted. They have instances associated with them."
     new:
       new_provider_account: New Account
       required_field: Required field.

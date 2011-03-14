@@ -1,5 +1,17 @@
+Given /^the account has an instance associated with it$/ do
+  Factory :instance, :provider_account => @provider_account
+end
+
+When /^I delete all instances from the account$/ do
+  @provider_account.instances.each { |i| i.destroy }
+end
+
 Then /^there should be no provider accounts$/ do
   ProviderAccount.all.should be_empty
+end
+
+Then /^there should be (\d+) provider accounts?$/ do |count|
+  ProviderAccount.all.length.should == count.to_i
 end
 
 Given /^there are no provider accounts$/ do

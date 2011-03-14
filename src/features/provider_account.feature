@@ -58,10 +58,18 @@ Feature: Manage Provider Accounts
   Scenario: Delete a provider account
     Given there is a provider named "testprovider"
     And there is a provider account named "testaccount"
+    And the account has an instance associated with it
     And I am on the admin provider accounts page
     When I check the "testaccount" account
     And I press "Delete"
     Then I should be on the admin provider accounts page
+    And I should see "was not deleted"
+    And there should be 1 provider account
+    When I delete all instances from the account
+    And I check the "testaccount" account
+    And I press "Delete"
+    Then I should be on the admin provider accounts page
+    And I should see "was deleted"
     And there should be no provider accounts
 
   Scenario: Search for Provider Accounts
