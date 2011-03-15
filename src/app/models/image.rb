@@ -170,8 +170,7 @@ class Image < ActiveRecord::Base
         :image_id           => image.id,
         :provider_id        => account.provider.id,
         :provider_image_key => image_id,
-        :uploaded           => true,
-        :registered         => true
+        :status             => 'complete'
       )
       rep.save!
 

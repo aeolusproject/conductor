@@ -25,5 +25,4 @@ Builds for
         %ul
           - img.provider_images.each do |pimg|
             %li
-              / TODO: uploaded attr will go away, shoud be changed to status then
-              = "#{pimg.provider.name}: #{pimg.uploaded ? 'uploaded' : 'not-uploaded'}"
+              = "#{pimg.provider.name}: #{pimg.status}"

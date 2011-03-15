@@ -35,7 +35,7 @@ class Resources::InstancesController < ApplicationController
     @templates = Template.paginate(
       :page => params[:page] || 1,
       :include => {:images => :provider_images},
-      :conditions => "provider_images.uploaded = 't'"
+      :conditions => "provider_images.status = '#{ProviderImage::STATE_COMPLETE}'"
     )
   end
 

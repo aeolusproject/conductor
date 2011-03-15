@@ -177,8 +177,7 @@ class ImageBuilderService
     if new_status == 'complete'
       ri = image.provider_images.first
       ri.provider_image_key = obj[:build].finished_image
-      ri.uploaded =true
-      ri.registered=true
+      ri.status = ProviderImage::STATE_COMPLETE
       ri.save!
 
       # FIXME: Might be cleaner to do this in an active record observer instead.

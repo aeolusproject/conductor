@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110223132404
+# Schema version: 20110302120000
 #
 # Table name: provider_images
 #
@@ -7,9 +7,8 @@
 #  image_id           :integer         not null
 #  provider_id        :integer         not null
 #  provider_image_key :string(255)
-#  uploaded           :boolean
-#  registered         :boolean
 #  uuid               :string(255)
+#  status             :string(255)
 #
 
 class ProviderImage < ActiveRecord::Base
@@ -24,6 +23,14 @@ class ProviderImage < ActiveRecord::Base
   validates_uniqueness_of :uuid, :allow_nil => true
   validates_uniqueness_of :image_id, :scope => :provider_id
 
+  STATE_QUEUED = 'queued'
+  STATE_COMPLETE = 'complete'
+  STATE_CANCELED = 'canceled'
+  STATE_FAILED = 'failed'
+
+  ACTIVE_STATES = [ STATE_QUEUED ]
+  INACTIVE_STATES = [STATE_COMPLETE, STATE_FAILED, STATE_CANCELED]
+
   def push
     # TODO: this is just stubbed upload call,
     # when new image_builder_service is done, replace
@@ -31,7 +38,7 @@ class ProviderImage < ActiveRecord::Base
   end
 
   def after_update
-    if self.uploaded_changed? and self.uploaded == true
+    if self.status_changed? and self.status == STATE_COMPLETE
       begin
         invoke_sync
       rescue => e

@@ -122,7 +122,7 @@ Feature: Manage Templates
     And I am on the image factory templates page
     When I choose this template
     And I follow "Builds"
-    Then I should see "amazon-ec2: uploaded"
+    Then I should see "amazon-ec2: complete"
 
   Scenario: Build template
     Given there is a "mock1" template
