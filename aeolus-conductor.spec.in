@@ -126,7 +126,6 @@ mv %{buildroot}/%{app_root}/doc %{buildroot}/%{app_root}/test %{buildroot}/%{doc
 %{__cp} conf/aeolus-conductor %{buildroot}%{_initrddir}
 %{__cp} conf/conductor-dbomatic %{buildroot}%{_initrddir}
 %{__cp} conf/conductor-condor_refreshd %{buildroot}%{_initrddir}
-%{__cp} conf/conductor-image_builder_service %{buildroot}%{_initrddir}
 %{__cp} conf/conductor-delayed_job %{buildroot}%{_initrddir}
 %{__cp} conf/aeolus-conductor-httpd.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/aeolus-conductor.conf
 %{__cp} conf/aeolus-conductor.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/aeolus-conductor
@@ -157,7 +156,6 @@ touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/dbomatic.log
 touch %{buildroot}%{_localstatedir}/run/%{name}/event_log_position
 touch %{buildroot}%{_localstatedir}/log/%{name}/condor_refreshd.log
-touch %{buildroot}%{_localstatedir}/log/%{name}/image_builder_service.log
 
 [ -e %{buildroot}%{app_root}/log ] || %{__mkdir} -p %{buildroot}%{app_root}/log
 touch %{buildroot}%{app_root}/log/delayed_job.log
@@ -193,7 +191,6 @@ getent passwd aeolus >/dev/null || \
 /sbin/chkconfig --add aeolus-conductor
 /sbin/chkconfig --add conductor-dbomatic
 /sbin/chkconfig --add conductor-condor_refreshd
-/sbin/chkconfig --add conductor-image_builder_service
 /sbin/chkconfig --add conductor-delayed_job
 
 %preun daemons
@@ -204,8 +201,6 @@ if [ $1 = 0 ]; then
 /sbin/chkconfig --del conductor-dbomatic
 /sbin/service conductor-condor_refreshd stop > /dev/null 2>&1
 /sbin/chkconfig --del conductor-condor_refreshd
-/sbin/service conductor-image_builder_service stop > /dev/null 2>&1
-/sbin/chkconfig --del conductor-image_builder_service
 /sbin/service conductor-delayed_job stop > /dev/null 2>&1
 /sbin/chkconfig --del conductor-delayed_job
 fi
@@ -227,7 +222,6 @@ fi
 %{_initrddir}/aeolus-conductor
 %{_initrddir}/conductor-dbomatic
 %{_initrddir}/conductor-condor_refreshd
-%{_initrddir}/conductor-image_builder_service
 %{_initrddir}/conductor-delayed_job
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/aeolus-conductor
