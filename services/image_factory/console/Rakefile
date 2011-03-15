@@ -25,6 +25,10 @@ require 'rake/gempackagetask'
 require 'rake/rdoctask'
 require 'rake/testtask'
 require 'spec/rake/spectask'
+require 'rake/rpmtask'
+
+RPMBUILD_DIR = "#{File.expand_path('~')}/rpmbuild"
+RPM_SPEC = "rubygem-image_factory_console.spec"
 
 spec = Gem::Specification.new do |s|
   s.name = 'image_factory_console'
@@ -64,4 +68,10 @@ Spec::Rake::SpecTask.new do |t|
   t.libs << 'lib'
   t.spec_files = FileList['spec/**/*.rb']
   t.spec_opts = ['--color', '--format nested']
+end
+
+Rake::RpmTask.new(RPM_SPEC) do |rpm|
+  rpm.need_tar = true
+  rpm.package_files.include("lib/*")
+  rpm.topdir = "#{RPMBUILD_DIR}"
 end
