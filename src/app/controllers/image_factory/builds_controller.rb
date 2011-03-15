@@ -66,6 +66,21 @@ class ImageFactory::BuildsController < ApplicationController
     # FIXME: is @tpl defined here? do we need check_permission here?
   end
 
+  def update_status
+    image = Image.find_by_uuid(params[:uuid])
+    image = ProviderImage.find_by_uuid(params[:uuid]) unless image
+
+    if image
+      image.status = params[:status]
+      image.save!
+    end
+    respond_to do |format|
+      format.xml {
+        render :xml => image.to_xml
+      }
+    end
+
+  end
   private
 
   # TODO: DRY this, is used in templates controller too

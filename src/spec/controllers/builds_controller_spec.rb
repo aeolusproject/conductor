@@ -9,6 +9,32 @@ describe ImageFactory::BuildsController do
     activate_authlogic
   end
 
+  it "update_status should change image status" do
+    UserSession.create(@tuser)
+    @template = Factory.create(:template)
+    @image = Factory.create(:image)
+    @request.env["HTTP_ACCEPT"] = "application/xml"
+
+    @image.status.should == "queued"
+    post :update_status, :uuid => @image.uuid, :status => 'building'
+    @image.reload.status.should == "building"
+    response.should be_success
+  end
+
+  it "update_status should change provider image status" do
+    UserSession.create(@tuser)
+    @provider = Factory.create(:mock_provider)
+    @template = Factory.create(:template)
+    @image = Factory.create(:image)
+    @provider_image = Factory.create(:mock_provider_image)
+    @request.env["HTTP_ACCEPT"] = "application/xml"
+
+    @provider_image.status.should == "complete"
+    post :update_status, :uuid => @provider_image.uuid, :status => 'failed'
+    @provider_image.reload.status.should == "failed"
+    response.should be_success
+  end
+
   context "when a user has permission to build templates" do
     #FIXME: The following functionality needs to come out of the controller
 
