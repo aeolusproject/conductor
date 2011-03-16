@@ -1,0 +1,76 @@
+#!/bin/bash
+#
+# aeolus-connector       startup script for aeolus-connector
+#
+# chkconfig: 2345 97 03
+# description: aeolus-connector is a  microapp to talk to
+#	 Aeolus Image Factory QMF console
+
+RETVAL=0
+prog="aeolus-connector"
+exec=/usr/bin/image_factory_connector
+lockfile=/var/lock/subsys/aeolus-connector
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+port=2003
+logfile=/var/log/aeolus-conductor/aeolus-connector.log
+[ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+
+start() {
+    if [ -e $lockfile ] ; then
+	echo "$prog subsystem locked"
+	exit 1
+    fi
+    if [ $UID -ne 0 ] ; then
+        echo "User has insufficient privilege."
+        exit 2
+    fi
+    [ -x $exec ] || exit 3
+    echo -n $"Starting $prog: "
+    daemon $exec -p $port start >> $logfile 2>&1 &
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+}
+
+stop() {
+    if [ $UID -ne 0 ] ; then
+        echo "User has insufficient privilege."
+        exit 4
+    fi
+    echo -n $"Stopping $prog: "
+    killall image_factory_connector
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && rm -f $lockfile
+}
+
+restart() {
+    stop
+    start
+}
+
+rh_status() {
+    status image_factory_connector
+}
+
+case "$1" in
+    start)
+        $1
+        ;;
+    stop)
+        $1
+        ;;
+    restart)
+        $1
+        ;;
+    status)
+        rh_status
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart}"
+        exit 2
+esac
+exit $?
