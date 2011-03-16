@@ -43,6 +43,8 @@ SUBDIRS = src/classad_plugin
 ACLOCAL_AMFLAGS = -I m4
 
 rpms: dist
+	cd services/image_factory/console; rake rpms
+	cd services/image_factory/image_factory_connector; rake rpms
 	rpmbuild $(RPM_FLAGS) -ta $(distdir).tar.gz
 
 srpms: dist

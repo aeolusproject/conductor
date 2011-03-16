@@ -23,6 +23,11 @@ require 'rake/clean'
 require 'rake/gempackagetask'
 require 'rake/rdoctask'
 require 'spec/rake/spectask'
+require 'rake/rpmtask'
+
+RPMBUILD_DIR = "#{File.expand_path('~')}/rpmbuild"
+RPM_SPEC = "rubygem-image_factory_connector.spec"
+
 
 spec = Gem::Specification.new do |s|
   s.name = 'image_factory_connector'
@@ -65,4 +70,10 @@ end
 
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*.rb']
+end
+
+Rake::RpmTask.new(RPM_SPEC) do |rpm|
+  rpm.need_tar = true
+  rpm.package_files.include("bin/*", "lib/**/*")
+  rpm.topdir = "#{RPMBUILD_DIR}"
 end
