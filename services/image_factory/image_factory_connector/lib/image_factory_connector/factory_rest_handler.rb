@@ -18,14 +18,51 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 require 'base_handler'
+require 'typhoeus'
 
 class FactoryRestHandler < BaseHandler
-    def handle(data)
-      super
-      logger.debug "====THIS WAS CALLED FROM REST HANDLER===="
-      # TODO: implement rest calls back to conductor, mainly status
-      # update.  This will be passed back to:
-      # /image-factory/{images or provider_images}/status-update/{uuid}
 
+  class EventData
+    attr_accessor :event, :value, :obj, :uuid
+    def initialize(args={})
+      self.event = args[:event]
+      self.value = args[:value].downcase
+      self.obj = args[:obj]
+      self.uuid = args[:uuid]
     end
+  end
+
+  def handle(data)
+    super
+  end
+
+  def handle_status(data)
+    # Steps:
+    # 1. Take the data passed in, and split the addr into
+    # object type and uuid
+    e= _process_event(data)
+
+    # 2. Call the conductor api with uuid and status
+    hydra = Typhoeus::Hydra.new
+    request = Typhoeus::Request.new("http://localhost:3000/conductor/image_factory/builds/update_status",
+                                      :method  => :post,
+                                      :timeout => 2000, # in milliseconds
+                                      :headers => {:Accepts => "application/xml"},
+                                      :params  => {:uuid => e.uuid, :status => e.value})
+    hydra.queue(request)
+    request.on_complete do |response|
+      # 3. Log errors
+      logger.debug "Return code is: #{response.code}"
+      logger.debug "Return body is: #{response.body}"
+    end
+    hydra.run
+  end
+
+  def _process_event(data)
+    addr = data["addr"]["_object_name"].split(':')
+    e= EventData.new({:event=>data.event, :value=>data.new_status,
+                      :obj=>addr[1], :uuid=>addr[2]})
+    logger.debug "Data: #{e.inspect}"
+    e
+  end
 end

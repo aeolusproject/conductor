@@ -27,8 +27,8 @@ class BaseHandler
 
   def handle(data)
     logger.debug "====== Type of event: #{data.event}"
-    #puts "should be calling the logger now..."
     if data.event == 'STATUS'
+      logger.debug "calling handle status in base handler"
       handle_status(data)
     elsif data.event == 'FAILURE'
       handle_failed(data)
@@ -43,7 +43,7 @@ class BaseHandler
     logger.error "#{data.to_s}"
   end
 
-  private
+  protected
   def logger(logger=nil)
     @logger ||= logger
     unless @logger

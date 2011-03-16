@@ -41,6 +41,11 @@ describe 'image_factory_connector app' do
     last_response.body.should == app.console.q.to_s
   end
 
+  it "sends status updates to the conductor" do
+    post 'build', {:template => '<template></template>', :target => 'mock'}
+    #app.console.handler.should_receive(:handle_status).at_least(1).times
+  end
+
   # TODO: clean up these xml checks so they are in some fixture (or similar) and not repeated
   it 'calls the console build_image method and returns xml response with uuid' do
     app.console.stub!(:build_image).and_return(@b)

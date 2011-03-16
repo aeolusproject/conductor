@@ -29,7 +29,9 @@ class ImageFactoryConnector < Sinatra::Base
     set :port, 2003
     set :app_file, __FILE__
     set :views, File.dirname(__FILE__) + '/views'
-    @console = ImageFactoryConsole.new({:handler=>FactoryRestHandler.new})
+    l = Logger.new(STDOUT)
+    l.level = Logger::DEBUG
+    @console = ImageFactoryConsole.new({:handler=>FactoryRestHandler.new(l)})
     @console.start
     set :console, @console
   end
