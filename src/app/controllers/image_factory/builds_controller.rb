@@ -50,7 +50,8 @@ class ImageFactory::BuildsController < ApplicationController
     @tpl = Template.find(params[:template_id])
     pimg = ProviderImage.create!(
       :image => Image.find(params[:image_id]),
-      :provider => Provider.find(params[:provider_id])
+      :provider => Provider.find(params[:provider_id]),
+      :status => ProviderImage::STATE_QUEUED
     )
     Delayed::Job.enqueue(PushJob.new(pimg.id))
     redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')

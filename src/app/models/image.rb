@@ -184,7 +184,8 @@ class Image < ActiveRecord::Base
       unless p.provider_accounts.empty?
         pimg = ProviderImage.create!(
           :image => self,
-          :provider => p
+          :provider => p,
+          :status => ProviderImage::STATE_QUEUED
         )
         Delayed::Job.enqueue(PushJob.new(pimg.id))
       end

@@ -164,7 +164,7 @@ Feature: Manage Templates
     When I follow "upload"
     Then I should see "Builds"
     # TODO: fix status once uploaded field is replaced by status field
-    And I should see "amazon-ec2: not uploaded"
+    And I should see "amazon-ec2: queued"
 
   Scenario: Build imported template
     Given there is an imported template
