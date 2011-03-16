@@ -97,7 +97,7 @@ Given /^there is Amazon AWS provider account$/ do
 end
 
 Given /^there is Amazon AWS build for this template$/ do
-  image = Factory.create(:image, :template => @template, :status => Image::STATE_COMPLETE)
+  image = Factory.create(:image, :template => @template, :status => Image::STATE_COMPLETED)
   Factory.create(:ec2_provider_image, :image => image)
 end
 

@@ -3,7 +3,7 @@ class AddStatusToProviderImage < ActiveRecord::Migration
     add_column :provider_images, :status, :string
     ProviderImage.all.each do |image|
       if image.uploaded
-        image.status = "complete"
+        image.status = 'completed'
       else
         image.status = "queued"
       end
@@ -17,7 +17,7 @@ class AddStatusToProviderImage < ActiveRecord::Migration
     add_column :provider_images, :uploaded, :boolean
     add_column :provider_images, :registered, :boolean
     ProviderImage.all.each do |image|
-      if image.status == "complete"
+      if image.status == 'completed'
         image.uploaded = true
         image.registered = true
       else

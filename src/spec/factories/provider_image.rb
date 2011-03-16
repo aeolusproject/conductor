@@ -2,7 +2,7 @@ Factory.define :provider_image do |ri|
   ri.association :image
   ri.association :provider
   ri.sequence(:provider_image_key) { |n| "provider_image_key#(n)" }
-  ri.status "complete"
+  ri.status "completed"
   ri.association :icicle
 end
 

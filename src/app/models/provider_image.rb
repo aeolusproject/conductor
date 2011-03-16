@@ -24,15 +24,15 @@ class ProviderImage < ActiveRecord::Base
   validates_uniqueness_of :image_id, :scope => :provider_id
 
   STATE_QUEUED = 'queued'
-  STATE_COMPLETE = 'complete'
+  STATE_COMPLETED = 'completed'
   STATE_CANCELED = 'canceled'
   STATE_FAILED = 'failed'
 
   ACTIVE_STATES = [ STATE_QUEUED ]
-  INACTIVE_STATES = [STATE_COMPLETE, STATE_FAILED, STATE_CANCELED]
+  INACTIVE_STATES = [STATE_COMPLETED, STATE_FAILED, STATE_CANCELED]
 
   def after_update
-    if self.status_changed? and self.status == STATE_COMPLETE
+    if self.status_changed? and self.status == STATE_COMPLETED
       begin
         invoke_sync
       rescue => e

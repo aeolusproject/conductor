@@ -65,12 +65,12 @@ class Image < ActiveRecord::Base
   STATE_QUEUED = 'queued'
   STATE_CREATED = 'created'
   STATE_BUILDING = 'building'
-  STATE_COMPLETE = 'complete'
+  STATE_COMPLETED = 'completed'
   STATE_CANCELED = 'canceled'
   STATE_FAILED = 'failed'
 
   ACTIVE_STATES = [ STATE_QUEUED, STATE_CREATED, STATE_BUILDING ]
-  INACTIVE_STATES = [STATE_COMPLETE, STATE_FAILED, STATE_CANCELED]
+  INACTIVE_STATES = [STATE_COMPLETED, STATE_FAILED, STATE_CANCELED]
 
   def generate_uuid
     self.uuid ||= "image-#{self.template_id}-#{Time.now.to_f.to_s}"
@@ -78,7 +78,7 @@ class Image < ActiveRecord::Base
 
   # TODO: for now when build is finished we call upload automatically for all providers
   def after_update
-    if self.status_changed? and self.status == STATE_COMPLETE
+    if self.status_changed? and self.status == STATE_COMPLETED
       # TODO: use after_commit callback in rails 3 - it's better to have it outside
       # update transaction
       begin
@@ -150,7 +150,7 @@ class Image < ActiveRecord::Base
 
       image = Image.new(
         :name         => raw_image.name,
-        :status       => 'complete',
+        :status       => STATE_COMPLETED,
         :provider_type_id => account.provider.provider_type_id,
         :template_id  => template.id
       )
@@ -160,7 +160,7 @@ class Image < ActiveRecord::Base
         :image_id           => image.id,
         :provider_id        => account.provider.id,
         :provider_image_key => image_id,
-        :status             => 'complete'
+        :status             => STATE_COMPLETED
       )
       rep.save!
 
