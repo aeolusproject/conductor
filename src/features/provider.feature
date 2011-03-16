@@ -6,6 +6,7 @@ Feature: Manage Providers
   Background:
     Given I am an authorised user
     And I am logged in
+    And There is a mock pulp repository
 
   Scenario: List providers
     Given I am on the homepage

@@ -7,6 +7,7 @@ Feature: Mange Instances
   Background:
     Given I am an authorised user
     And I am logged in
+    And There is a mock pulp repository
 
   Scenario: Download an Instance Key
     Given a mock running instance exists

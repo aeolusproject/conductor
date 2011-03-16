@@ -14,7 +14,7 @@ Feature: Manage Templates
     Then I should be on the new image factory template page
     When I fill in the following:
       | tpl_name         | mocktemplate  |
-      | tpl_platform     | fedora        |
+      | tpl_platform     | fedora13      |
       | tpl_summary      | mockdesc      |
     When I press "Save"
     Then I should be on the image factory templates page
@@ -177,15 +177,15 @@ Feature: Manage Templates
   Scenario: Search for templates
     Given there are these templates:
     | name          | platform | platform_version | architecture | summary                                       |
-    | Test1         | fedora   | 13               | x86_64       | Test Template Fedora 13  64 bit  Description  |
-    | Mock          | fedora   | 14               | i386         | Test Template Fedora 14 Description           |
-    | Other         | fedora   | 10.04            | i386         | Test Template Ubuntu 10.04 32 bit Description |
+    | Test1         | fedora13   | 13               | x86_64       | Test Template Fedora 13  64 bit  Description  |
+    | Mock          | fedora14   | 14               | i386         | Test Template Fedora 14 Description           |
+    | Other         | fedora14   | 10.04            | i386         | Test Template Ubuntu 10.04 32 bit Description |
     And I am on the image factory templates page
     Then I should see the following:
     | NAME          | OS       | VERSION          | ARCH   |
-    | Test1         | fedora   | 13               | x86_64 |
-    | Mock          | fedora   | 14               | i386   |
-    | Other         | fedora   | 10.04            | i386   |
+    | Test1         | Fedora   | 13               | x86_64 |
+    | Mock          | Fedora   | 14               | i386   |
+    | Other         | Fedora   | 10.04            | i386   |
     When I fill in "q" with "test"
     And I press "Search"
     Then I should see "Test1"
@@ -220,9 +220,9 @@ Feature: Manage Templates
   Scenario: Delete multiple templates
     Given there are these templates:
     | name          | platform | platform_version | architecture | summary                                       |
-    | Test1         | fedora   | 13               | x86_64       | Test Template Fedora 13  64 bit  Description  |
-    | Mock          | fedora   | 14               | i386         | Test Template Fedora 14 Description           |
-    | Other         | fedora   | 10.04            | i386         | Test Template Ubuntu 10.04 32 bit Description |
+    | Test1         | fedora13   | 13               | x86_64       | Test Template Fedora 13  64 bit  Description  |
+    | Mock          | fedora13   | 14               | i386         | Test Template Fedora 14 Description           |
+    | Other         | fedora13   | 10.04            | i386         | Test Template Ubuntu 10.04 32 bit Description |
     And I am on the image factory templates page
     When I check "Test1" template
     And I check "Mock" template

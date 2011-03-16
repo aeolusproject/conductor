@@ -63,6 +63,7 @@ class ImageDescriptorXML
     #recreate_repo_nodes
     platform_node = get_or_create_node('os')
     platform_node.xpath('.//*').remove
+    platform_id = platform_hash.delete('id')
     platform_hash.each do |key, value|
       snode = Nokogiri::XML::Node.new(key, @doc)
       platform_node << snode
@@ -72,9 +73,12 @@ class ImageDescriptorXML
     install_node.set_attribute('type', 'url')
     platform_node << install_node
     url_node = Nokogiri::XML::Node.new('url', @doc)
-    # TODO: change when more than one os is supported by conductor
-    # url_node.content = "http://download.fedoraproject.org/pub/fedora/linux/releases/13/Fedora/x86_64/os/"
-    url_node.content = YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_package_repositories.yml")['baseurl'] 
+    # TODO - currently we have platform repositories and package repositories,
+    # mainly because it was possible to have multiple package repositories for
+    # a platform before. Also platform url wasn't needed for old imagefactory.
+    # Should be reworked when we switch to pulp
+    rep = repository_manager.repositories.find {|r| r.id == platform_id}
+    url_node.content = rep.yumurl if rep
     install_node << url_node
   end
 

@@ -32,7 +32,7 @@ describe RepositoryManager do
 
   it 'should return a list of repositories' do
     @rmanager.repositories.should have(1).items
-    @rmanager.repositories.first.id.should eql('fedora')
+    @rmanager.repositories.first.id.should eql('fedora13')
   end
 
   it 'should return a list of packagegroups' do

@@ -67,11 +67,12 @@ class Template < ActiveRecord::Base
   def update_xml
     xml.name = self.name
     xml.description = self.summary
-    platform = {}
-    platform['name'] = self.platform.capitalize
-    platform['version'] = self.platform_version
-    platform['arch'] = self.architecture
-    xml.platform = platform
+    xml.platform = {
+      'id'      => self.platform,
+      'name'    => platforms[self.platform] ? platforms[self.platform]['name'] : '',
+      'version' => self.platform_version,
+      'arch'    => self.architecture,
+    }
     write_attribute(:xml, xml.to_xml)
   end
 
@@ -123,6 +124,10 @@ class Template < ActiveRecord::Base
     write_attribute(:platform, plat)
     self.platform_version = platforms[plat]['version'].to_s
     self.architecture = platforms[plat]['architecture']
+  end
+
+  def platform_name
+    platforms[self.platform] ? platforms[self.platform]['name'] : ''
   end
 
   # sets platform info from hash (used when importing images)

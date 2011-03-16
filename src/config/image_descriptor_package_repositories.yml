@@ -1,7 +1,14 @@
-id: fedora
-name: Fedora
-baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/13/Fedora/x86_64/os/
-type: xml
+-
+  id: fedora13
+  name: Fedora
+  baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/13/Fedora/x86_64/os/
+  type: xml
+
+-
+  id: fedora14
+  name: Fedora
+  baseurl: http://download.fedoraproject.org/pub/fedora/linux/releases/14/Fedora/x86_64/os/
+  type: xml
 
 # you can define multiple repositories, as array, for example:
 #
