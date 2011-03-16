@@ -250,7 +250,7 @@ def condormatic_classads_sync
     account, provider_image, hwp, realm, frontend_realm = *ad
 
     matching_hardware_profile = HardwareProfile.match_provider_hardware_profile(account.provider, hwp)
-    if(matching_hardware_profile != nil)
+    if(matching_hardware_profile != nil) && (provider_image.image.template.architecture == hwp.architecture.value)
       overrides = HardwareProfile.generate_override_property_values(hwp, matching_hardware_profile)
       pipe = IO.popen("condor_advertise UPDATE_STARTD_AD 2>&1", "w+")
 
