@@ -1,5 +1,5 @@
 class ImageFactory::BuildsController < ApplicationController
-  before_filter [:require_user]
+  before_filter [:require_user], :except => [:update_status]
 
   def new
     raise "select template to build" unless id = params[:template_id]
@@ -74,6 +74,7 @@ class ImageFactory::BuildsController < ApplicationController
       image.status = params[:status]
       image.save!
     end
+    return head :not_found unless image
     respond_to do |format|
       format.xml {
         render :xml => image.to_xml
