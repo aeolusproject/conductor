@@ -63,7 +63,7 @@ class ImageFactoryConnector < Sinatra::Base
   end
 
   post "/push" do
-    @b=settings.console.push_image("#{params[:template]}", "#{params[:provider]}", "#{params[:credentials]}")
+    @b=settings.console.push_image("#{params[:image_id]}", "#{params[:provider]}", "#{params[:credentials]}")
     builder :image
   end
 
