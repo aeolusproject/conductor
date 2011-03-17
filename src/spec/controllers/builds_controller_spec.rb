@@ -29,7 +29,7 @@ describe ImageFactory::BuildsController do
     @provider_image = Factory.create(:mock_provider_image)
     @request.env["HTTP_ACCEPT"] = "application/xml"
 
-    @provider_image.status.should == "complete"
+    @provider_image.status.should == "completed"
     post :update_status, :uuid => @provider_image.uuid, :status => 'failed'
     @provider_image.reload.status.should == "failed"
     response.should be_success
