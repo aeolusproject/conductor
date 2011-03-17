@@ -67,9 +67,11 @@ class Template < ActiveRecord::Base
   def update_xml
     xml.name = self.name
     xml.description = self.summary
-    xml.platform = self.platform
-    xml.platform_version = self.platform_version
-    xml.architecture = self.architecture
+    platform = {}
+    platform['name'] = self.platform.capitalize
+    platform['version'] = self.platform_version
+    platform['arch'] = self.architecture
+    xml.platform = platform
     write_attribute(:xml, xml.to_xml)
   end
 
@@ -145,5 +147,10 @@ class Template < ActiveRecord::Base
 
   def warehouse_bucket
     'templates'
+  end
+
+  def warehouse_url
+    baseurl = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")['baseurl'] + "/templates/"
+    self.uuid ? baseurl + self.uuid : baseurl
   end
 end

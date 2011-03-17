@@ -28,9 +28,9 @@ class ImageDescriptorXML
     @doc = Nokogiri::XML(xmlstr)
     # create at least root node if it doesn't exist
     unless @doc.root
-      @doc.root = Nokogiri::XML::Node.new('image', @doc)
+      @doc.root = Nokogiri::XML::Node.new('template', @doc)
     end
-    @root = @doc.root.at_xpath('/image')
+    @root = @doc.root.at_xpath('/template')
   end
 
   def name=(str)
@@ -42,38 +42,6 @@ class ImageDescriptorXML
     return get_node_text('name')
   end
 
-  def platform
-    node = @root.at_xpath('/image/os')
-    return node ? node['name'] : nil
-  end
-
-  def platform=(str)
-    # FIXME: we remove all repos because we don't know which one is for
-    # platform
-    # update: we don't add platform repo, image builder chooses right one from OS
-    # name, but we add all other repos
-    #recreate_repo_nodes
-    get_or_create_node('os')['name'] = str
-  end
-
-  def platform_version
-    node = @root.at_xpath('/image/os')
-    return node ? node['version'] : nil
-  end
-
-  def platform_version=(str)
-    get_or_create_node('os')['version'] = str
-  end
-
-  def architecture
-    node = @root.at_xpath('/image/os')
-    return node ? node['architecture'] : nil
-  end
-
-  def architecture=(str)
-    get_or_create_node('os')['architecture'] = str
-  end
-
   def description=(str)
     node = get_or_create_node('description')
     node.content = str
@@ -81,6 +49,58 @@ class ImageDescriptorXML
 
   def description
     return get_node_text('description')
+  end
+
+  def platform
+    node = @root.at_xpath('/template/os')
+    return node ? node['name'] : nil
+  end
+
+  def platform=(platform_hash)
+    # FIXME: we remove all repos because we don't know which one is for
+    # platform
+    # update: we don't add platform repo, image builder chooses right one from OS
+    # name, but we add all other repos
+    #recreate_repo_nodes
+    platform_node = get_or_create_node('os')
+    platform_node.xpath('.//*').remove
+    platform_hash.each do |key, value|
+      snode = Nokogiri::XML::Node.new(key, @doc)
+      platform_node << snode
+      snode.content = value
+    end
+    install_node = Nokogiri::XML::Node.new('install', @doc)
+    install_node.set_attribute('type', 'url')
+    platform_node << install_node
+    url_node = Nokogiri::XML::Node.new('url', @doc)
+    # TODO: change when more than one os is supported by conductor
+    # url_node.content = "http://download.fedoraproject.org/pub/fedora/linux/releases/13/Fedora/x86_64/os/"
+    url_node.content = YAML.load_file("#{RAILS_ROOT}/config/image_descriptor_package_repositories.yml")['baseurl'] 
+    install_node << url_node
+  end
+
+  def platform_version
+    node = @root.at_xpath('/image/os/version')
+    return node ? node.content : nil
+  end
+
+  def architecture
+    node = @root.at_xpath('/template/os/arch')
+    return node ? node.content : nil
+  end
+
+  def architecture=(str)
+    get_or_create_node('os')['architecture'] = str
+  end
+
+  def services=(services)
+    service_node = get_or_create_node('services')
+    service_node.xpath('.//service').remove
+    platform_hash.each do |key, value|
+      snode = Nokogiri::XML::Node.new(key, @doc)
+      platform_node << snode
+      snode.content = value
+    end
   end
 
   def services=(services)
@@ -97,7 +117,7 @@ class ImageDescriptorXML
   def services
     unless @services
       @services = []
-      @root.xpath('/image/services/service').each do |s|
+      @root.xpath('/template/services/service').each do |s|
         services << s.text
       end
     end
@@ -109,13 +129,13 @@ class ImageDescriptorXML
   end
 
   def packages
-    @root.xpath('/image/packages/package').map do |s|
+    @root.xpath('/template/packages/package').map do |s|
       s.at_xpath('.//name').text
     end
   end
 
   def groups
-    @root.xpath('/image/groups/group').map do |s|
+    @root.xpath('/template/groups/group').map do |s|
       s.at_xpath('.//name').text
     end
   end
@@ -138,7 +158,7 @@ class ImageDescriptorXML
   end
 
   def remove_package(package)
-    @root.xpath('/image/packages/package').each do |s|
+    @root.xpath('/template/packages/package').each do |s|
       if name = s.at_xpath('.//name') and name.text.to_s == package
         s.remove
       end
@@ -146,11 +166,11 @@ class ImageDescriptorXML
   end
 
   def clear_packages
-    @root.xpath('/image/packages').each { |s| s.remove }
+    @root.xpath('/template/packages').each { |s| s.remove }
   end
 
   def clear_groups
-    @root.xpath('/image/groups').each { |s| s.remove }
+    @root.xpath('/template/groups').each { |s| s.remove }
   end
 
   private
@@ -180,7 +200,7 @@ class ImageDescriptorXML
   end
 
   def get_node_text(path)
-    node = @root.at_xpath('/image/' + path)
+    node = @root.at_xpath('/template/' + path)
     return node ? node.text : nil
   end
 
