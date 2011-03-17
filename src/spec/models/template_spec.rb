@@ -37,4 +37,10 @@ describe Template do
     tpl2 = Template.find(tpl)
     tpl2.packages.should == ['test']
   end
+
+  it "should have warehouse url" do
+    t = Factory.build(:template)
+    t.uuid = "uuid"
+    t.warehouse_url.should == YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")['baseurl'] + "/templates/" + t.uuid
+  end
 end

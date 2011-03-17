@@ -91,15 +91,6 @@ class Image < ActiveRecord::Base
     end
   end
 
-  def build
-    # TODO: this is just stubbed upload call,
-    # when new image_builder_service is done, replace
-    # with real request to image_builder_service
-    unless self.provider_type.build_supported
-      raise "Build is not supported on images with provider type #{self.provider_type.name}"
-    end
-  end
-
   def self.create_and_build!(template, provider_type)
     if Image.find_by_template_id_and_provider_type_id(template.id, provider_type.id)
       raise ImageExistsError,  "An attempted build of this template for the target '#{provider_type.name}' already exists"
@@ -114,10 +105,9 @@ class Image < ActiveRecord::Base
       :template_id => template.id,
       :status => Image::STATE_QUEUED
     )
-    img.delay.build
+    Delayed::Job.enqueue(BuildJob.new(img.id))
     img
   end
-
   def self.single_import(providername, username, password, image_id)
     account = Image.get_account(providername, username, password)
     Image.import(account, image_id)
@@ -185,11 +175,11 @@ class Image < ActiveRecord::Base
     provider_type.providers.each do |p|
       # upload only to providers with account
       unless p.provider_accounts.empty?
-        ProviderImage.create!(
-          :uuid =>  UUIDTools::UUID.timestamp_create.to_s,
+        pimg = ProviderImage.create!(
           :image => self,
           :provider => p
-        ).delay.push
+        )
+        Delayed::Job.enqueue(PushJob.new(pimg.id))
       end
     end
   end

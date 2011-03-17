@@ -31,12 +31,6 @@ class ProviderImage < ActiveRecord::Base
   ACTIVE_STATES = [ STATE_QUEUED ]
   INACTIVE_STATES = [STATE_COMPLETE, STATE_FAILED, STATE_CANCELED]
 
-  def push
-    # TODO: this is just stubbed upload call,
-    # when new image_builder_service is done, replace
-    # with real request to image_builder_service
-  end
-
   def after_update
     if self.status_changed? and self.status == STATE_COMPLETE
       begin
