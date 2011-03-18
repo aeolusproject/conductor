@@ -52,7 +52,7 @@ add_ec2_template("
   <image>
     <name>Amazon public fedora 8 image</name>
   <repos>
-    <repo>http://download.fedoraproject.org/pub/fedora/linux/releases/8/Everything/i386/os/</repo>
+    <repo>http://download.fedoraproject.org/pub/fedora/linux/releases/8/Fedora/i386/os/</repo>
   </repos>
   <os name=\"fedora\" version=\"8\" architecture=\"32-bit\"/>",
   "Amazon public fedora 8 image",
@@ -63,7 +63,7 @@ add_ec2_template("
   <image>
     <name>Amazon public fedora 8 64 bit image</name>
   <repos>
-    <repo>http://download.fedoraproject.org/pub/fedora/linux/releases/8/Everything/x86_64/os/</repo>
+    <repo>http://download.fedoraproject.org/pub/fedora/linux/releases/8/Fedora/x86_64/os/</repo>
   </repos>
   <os name=\"fedora\" version=\"8\" architecture=\"64-bit\"/>",
   "Amazon public fedora 8 64 bit image",
@@ -74,7 +74,7 @@ add_ec2_template("
   <image>
     <name>Aeolus Conductor demo Fedora 13 64 bit image</name>
   <repos>
-    <repo>http://download.fedoraproject.org/pub/fedora/linux/releases/13/Everything/x86_64/os/</repo>
+    <repo>http://download.fedoraproject.org/pub/fedora/linux/releases/13/Fedora/x86_64/os/</repo>
   </repos>
   <os name=\"fedora\" version=\"13\" architecture=\"64-bit\"/>",
   "Aeolus Conductor Fedora 13 64 bit image",
