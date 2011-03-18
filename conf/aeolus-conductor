@@ -75,7 +75,7 @@ case "$1" in
         restart
         ;;
     status)
-	status $THIN_PROG
+	status -p $THIN_PID
 	RETVAL=$?
 	;;
     *)
