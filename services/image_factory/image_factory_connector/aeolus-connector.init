@@ -20,8 +20,14 @@ logfile=/var/log/aeolus-conductor/aeolus-connector.log
 
 start() {
     if [ -e $lockfile ] ; then
-	echo "$prog subsystem locked"
-	exit 1
+        status image_factory_connector > /dev/null 2>&1
+        retval=$?
+        if [ $retval == 0 ] ; then
+	    echo $prog is currently running
+	    exit 1
+	else
+            rm -f $lockfile
+        fi
     fi
     if [ $UID -ne 0 ] ; then
         echo "User has insufficient privilege."
