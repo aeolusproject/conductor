@@ -198,7 +198,7 @@ EOT
     node.at_xpath('./secret_access_key').content = password
     node.at_xpath('./certificate').content = x509_cert_pub
     node.at_xpath('./key').content = x509_cert_priv
-    return xml.to_s
+    xml
   end
 
   def generate_auth_key

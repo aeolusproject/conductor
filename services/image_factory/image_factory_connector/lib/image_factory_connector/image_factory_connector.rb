@@ -60,11 +60,13 @@ class ImageFactoryConnector < Sinatra::Base
   end
 
   post "/build" do
+    puts "build method called with #{params.inspect}"
     @b=settings.console.build_image("#{params[:template]}", "#{params[:target]}")
     builder :image
   end
 
   post "/push" do
+    puts "push method called with #{params.inspect}"
     @b=settings.console.push_image("#{params[:image_id]}", "#{params[:provider]}", "#{params[:credentials]}")
     builder :image
   end

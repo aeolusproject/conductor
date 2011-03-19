@@ -53,6 +53,14 @@ describe 'image_factory_connector app' do
     last_response.body.should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<image>\n  <uuid>#{@b.image_id}</uuid>\n</image>\n"
   end
 
+  it 'receives complex xml properly' do
+    creds="<?xml version=\"1.0\"?>\n<provider_credentials>\n  <ec2_credentials>\n    <account_number>1234-5678-9150</account_number>\n    <access_key>BLAHBLAHBLAH</access_key>\n    <secret_access_key>FROBNOSTICATOR</secret_access_key>\n    <certificate>-----BEGIN CERTIFICATE-----\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\n-----END CERTIFICATE-----\n</certificate>\n    <key>-----BEGIN PRIVATE KEY-----&#xD;\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\n5F4VAX2kWheWeepocDVyrHak+CMQ7vnWPgdio8d9Q+va5v+rU2NhPluXtXVOGqSqXmE7HvVhR4i0&#xD;\nKJHKEL5748CBSIODF4T789JGLS47DFGHS\n-----END PRIVATE KEY-----</key>\n  </ec2_credentials>\n</provider_credentials>\n"
+    provider="ec2-us-east-1"
+    uuid="6669978e-97a3-4381-92cb-2fbc160b49c7"
+    app.console.stub!(:push_image).and_return(@b)
+    post 'push', {:image_id => uuid, :provider => provider, :credentials => creds}
+    last_response.body.should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<image>\n  <uuid>#{@b.image_id}</uuid>\n</image>\n"
+  end
   it 'calls the console push_image method and returns xml response with uuid' do
     app.console.stub(:push_image).and_return(@b)
     post 'push', {:image_id => @b.image_id, :provider => 'mock', :credentials => 'some creds'}
@@ -76,5 +84,4 @@ describe 'image_factory_connector app' do
     last_response.should be_ok
     last_response.body.should == "Console connection closed"
   end
-
 end

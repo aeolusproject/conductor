@@ -76,6 +76,6 @@ EOT
                                   :x509_cert_priv => 'priv_key',
                                   :x509_cert_pub => 'cert'
                                  )
-    provider_account.build_credentials.should eql(expected_xml)
+    provider_account.build_credentials.to_s.should eql(expected_xml)
   end
 end

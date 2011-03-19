@@ -51,6 +51,7 @@ Rails::Initializer.run do |config|
   config.gem "compass-960-plugin", :lib => "ninesixty"
   config.gem "simple-navigation"
   config.gem "typhoeus"
+  config.gem 'rest-client', :version => '>= 1.6.1'
   config.gem "rb-inotify"
   config.gem 'rack-restful_submit', :version => '1.1.2'
   config.gem 'sunspot_rails', :lib => 'sunspot/rails'
