@@ -91,6 +91,13 @@ class Image < ActiveRecord::Base
     end
   end
 
+  def not_uploaded_providers
+    uploaded = self.provider_images
+    Provider.all(:conditions => {:provider_type_id => self.provider_type.id}).select do |p|
+      not uploaded.detect {|pimg| pimg.provider_id == p.id}
+    end
+  end
+
   def self.create_and_build!(template, provider_type)
     if Image.find_by_template_id_and_provider_type_id(template.id, provider_type.id)
       raise ImageExistsError,  "An attempted build of this template for the target '#{provider_type.name}' already exists"

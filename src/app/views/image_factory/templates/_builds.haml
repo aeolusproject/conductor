@@ -21,8 +21,14 @@ Builds for
   - else
     - @images.each do |img|
       %li
-        = "#{img.name}: #{img.status}"
-        %ul
-          - img.provider_images.each do |pimg|
-            %li
-              = "#{pimg.provider.name}: #{pimg.status}"
+        = "#{img.name}-#{img.template.architecture}: #{img.status}"
+        - if img.status == Image::STATE_COMPLETED
+          %ul
+            - img.provider_images.each do |pimg|
+              %li
+                = "#{pimg.provider.name}: #{pimg.status}"
+            - img.not_uploaded_providers.each do |provider|
+              %li
+                = "#{provider.name}: "
+                not uploaded
+                = link_to 'upload', upload_image_factory_builds_path(:template_id => @tpl.id, :image_id => img.id, :provider_id => provider.id), {:class => 'button'}

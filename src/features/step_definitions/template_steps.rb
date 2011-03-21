@@ -96,9 +96,17 @@ Given /^there is Amazon AWS provider account$/ do
   account.save!
 end
 
-Given /^there is Amazon AWS build for this template$/ do
+Given /^there is Amazon AWS build and push for this template$/ do
   image = Factory.create(:image, :template => @template, :status => Image::STATE_COMPLETED)
   Factory.create(:ec2_provider_image, :image => image)
+end
+
+Given /^there is Amazon AWS build for this template$/ do
+  Factory.create(:image, :template => @template, :status => Image::STATE_COMPLETED)
+end
+
+Given /^there is Amazon AWS provider$/ do
+  Factory.create(:ec2_provider)
 end
 
 Given /^there is an imported template$/ do

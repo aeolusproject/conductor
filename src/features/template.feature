@@ -118,7 +118,7 @@ Feature: Manage Templates
 
   Scenario: See upload status
     Given there is a "mock1" template
-    And there is Amazon AWS build for this template
+    And there is Amazon AWS build and push for this template
     And I am on the image factory templates page
     When I choose this template
     And I follow "Builds"
@@ -140,7 +140,7 @@ Feature: Manage Templates
   Scenario: Build template which is already built
     Given there is a "mock1" template
     And I am on the image factory templates page
-    And there is Amazon AWS build for this template
+    And there is Amazon AWS build and push for this template
     And I am on the image factory templates page
     When I choose this template
     And I follow "Build"
@@ -151,6 +151,20 @@ Feature: Manage Templates
     Then I should be on the image factory template page
     And I should see "mock1"
     And I should see "An attempted build of this template for the target 'Amazon EC2' already exists"
+
+  Scenario: Upload image
+    Given there is a "mock1" template
+    And I am on the image factory templates page
+    And there is Amazon AWS build for this template
+    And there is Amazon AWS provider
+    And I am on the image factory templates page
+    When I choose this template
+    And I follow "Builds"
+    Then I should see "amazon-ec2: not uploaded upload"
+    When I follow "upload"
+    Then I should see "Builds"
+    # TODO: fix status once uploaded field is replaced by status field
+    And I should see "amazon-ec2: not uploaded"
 
   Scenario: Build imported template
     Given there is an imported template
