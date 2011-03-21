@@ -55,3 +55,9 @@ Feature: Manage Realms
     And I should be on the admin realms page
     And I should not see "testrealm1"
     And I should not see "testrealm2"
+
+  Scenario: Delete realm without selecting one
+    Given I am on the admin realms page
+    When I press "Delete"
+    Then I should be on the admin realms page
+    And I should see "You must select at least one realm to delete."
