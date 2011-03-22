@@ -16,6 +16,11 @@ class Admin::RolesController < ApplicationController
     @roles = search.results
   end
 
+  def new
+    require_privilege(Privilege::PERM_SET)
+    @role = Role.new
+  end
+
   def create
     require_privilege(Privilege::PERM_SET)
     @role = Role.new(params[:role])

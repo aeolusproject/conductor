@@ -45,4 +45,5 @@ class Role < ActiveRecord::Base
 
   validates_associated :privileges
 
+  validates_length_of :name, :maximum => 255
 end
