@@ -215,7 +215,7 @@ fi
 %attr(777, root, root) %{app_root}/config/image_descriptor_xmls
 %attr(777, root, root) %{app_root}/public
 %dir %{_sysconfdir}/%{name}
-%config(noreplace) %{_sysconfdir}/%{name}/database.yml
+%attr(600, aeolus, aeolus) %config(noreplace) %{_sysconfdir}/%{name}/database.yml
 %config(noreplace) %{_sysconfdir}/%{name}/development.rb
 %config(noreplace) %{_sysconfdir}/%{name}/production.rb
 %config(noreplace) %{_sysconfdir}/%{name}/test.rb
