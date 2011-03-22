@@ -50,6 +50,11 @@ class Admin::ProvidersController < ApplicationController
 
   def create
     require_privilege(Privilege::CREATE, Provider)
+    if params[:provider].has_key?(:provider_type_codename)
+      provider_type = params[:provider].delete(:provider_type_codename)
+      provider_type = ProviderType.find_by_codename(provider_type)
+      params[:provider][:provider_type_id] = provider_type.id
+    end
     @provider = Provider.new(params[:provider])
     if params[:test_connection]
       test_connection(@provider)
