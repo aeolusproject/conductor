@@ -39,6 +39,9 @@ class PoolFamily < ActiveRecord::Base
   has_many :pools,  :dependent => :destroy
   has_and_belongs_to_many :provider_accounts
 
+  validates_length_of :name, :maximum => 255
+  validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
+
   validates_presence_of :name
   validates_uniqueness_of :name
   def self.default
