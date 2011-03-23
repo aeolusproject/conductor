@@ -44,11 +44,19 @@ class PoolFamily < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
+
+  before_destroy :destroyable?
+
   def self.default
     MetadataObject.lookup(DEFAULT_POOL_FAMILY_KEY)
   end
 
   def set_as_default
     MetadataObject.set(DEFAULT_POOL_FAMILY_KEY, self)
+  end
+
+  def destroyable?
+    # A PoolFamily is destroyable unless it is the default PoolFamily
+    self != PoolFamily.default
   end
 end

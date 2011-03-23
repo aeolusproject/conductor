@@ -53,7 +53,21 @@ class Admin::PoolFamiliesController < ApplicationController
   end
 
   def multi_destroy
-    PoolFamily.destroy(params[:pool_family_selected])
+    deleted = []
+    not_deleted = []
+    PoolFamily.find(params[:pool_family_selected]).each do |pool_family|
+      if pool_family.destroy
+        deleted << pool_family.name
+      else
+        not_deleted << pool_family.name
+      end
+    end
+    if deleted.size > 0
+      flash[:notice] = t 'pool_families.index.deleted', :list => deleted.join(', ')
+    end
+    if not_deleted.size > 0
+      flash[:error] = t 'pool_families.index.not_deleted', :list => not_deleted.join(', ')
+    end
     redirect_to admin_pool_families_path
   end
 

@@ -18,7 +18,7 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :provider_accounts, t(:provider_accounts_item), admin_provider_accounts_path
       second_level.item :hardware_profiles, t(:cloud_engine_hardware_profiles), admin_hardware_profiles_path
       second_level.item :realms, t(:cloud_engine_realms), admin_realms_path
-      second_level.item :pool_families, t(:pool_families), admin_pool_families_path
+      second_level.item :pool_families, t('pool_families.pool_families'), admin_pool_families_path
       second_level.item :settings, t(:setting), admin_settings_path
     end
     first_level.item :dashboard, t(:dashboard), '#'

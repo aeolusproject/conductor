@@ -44,3 +44,11 @@ Feature: Pool Families
     And I check "poolfamily1" pool family
     And I press "Delete"
     Then there should not exist a pool family named "poolfamily1"
+
+  Scenario: Disallow deletion of default pool family
+    Given I am on the admin pool families page
+    Then I should see "default"
+    When I check "default" pool family
+    And I press "Delete"
+    Then I should see "Could not delete the following Pool Families: default."
+    And I should see "default"

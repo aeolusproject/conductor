@@ -82,7 +82,11 @@ en:
   provider_accounts_item: Provider Account
   cloud_engine_hardware_profiles: Hardware Profiles
   cloud_engine_realms: Realms
-  pool_families: Pool Families
+  pool_families:
+    pool_families: Pool Families
+    index:
+      deleted: "Deleted the following Pool Families: %{list}."
+      not_deleted: "Could not delete the following Pool Families: %{list}."
   setting: Settings
   name: Name
   admin:
