@@ -42,15 +42,15 @@ Feature: Manage Pools
     Then I should see "Name must only contain: numbers, letters, spaces, '_' and '-'"
 
   Scenario: Delete pools
-    Given there are no pools
+    Given I am on the pools page
     And a pool "Amazon Startrek Pool" exists
     And a pool "Redhat Voyager Pool" exists
     And I am on the resources pools page
-    And there are 2 pools
+    And there are 3 pools
     When I check "Redhat Voyager Pool" pool
     And I check "Amazon Startrek Pool" pool
     And I press "Destroy"
-    Then there should only be 0 pools
+    Then there should only be 1 pools
     And I should be on the resources pools page
     And I should not see "Redhat Voyager Pool"
     And I should not see "Amazon Startrek Pool"
@@ -86,3 +86,11 @@ Feature: Manage Pools
     And I press "Destroy"
     Then I should see "The default pool cannot be deleted"
     And I should see "default_pool"
+
+  Scenario: Cannot delete default_pool by renaming it
+    Given I renamed default_pool to pool_default
+    Given I am on the pools page
+    When I check "pool_default" pool
+    And I press "Destroy"
+    Then I should see "The default pool cannot be deleted"
+    And I should see "pool_default"

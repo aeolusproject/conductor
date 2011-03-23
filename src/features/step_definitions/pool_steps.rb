@@ -8,10 +8,6 @@ Given /^I have Pool Creator permissions on a pool named "([^\"]*)"$/ do |name|
   Factory(:pool_creator_permission, :user => @user, :permission_object => @pool)
 end
 
-Given /^there are no pools$/ do
-  Pool.delete_all
-end
-
 Given /^there are (\d+) pools$/ do |number|
   Pool.count.should == number.to_i
 end
@@ -58,4 +54,10 @@ Given /^the "([^\"]*)" Pool has a quota with following capacities:$/ do |name,ta
 
   @pool.quota_id = @quota.id
   @pool.save
+end
+
+Given /^I renamed default_pool to pool_default$/ do
+  p = Pool.find_by_name("default_pool")
+  p.name = "pool_default"
+  p.save
 end
