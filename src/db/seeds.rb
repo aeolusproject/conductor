@@ -57,6 +57,7 @@ roles =
                                            Quota        => [VIEW,    MOD],
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
       "Template Administrator" => [false, {Template     => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
+      "Template Creator"       => [false, {Template     => [VIEW,USE,    CRE]}],
       "Administrator"          => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            HardwareProfile => [      MOD,CRE,VPRM,GPRM],
@@ -92,14 +93,21 @@ BasePermissionObject.create!(:name => "general_permission_scope")
 # Set meta objects
 MetadataObject.set("default_pool_family", PoolFamily.find_by_name('default'))
 
-default_pool = Pool.find_by_name("default_pool")
 default_quota = Quota.create
 
+default_pool = Pool.find_by_name("default_pool")
 default_role = Role.find_by_name("Pool User")
+default_template_role = Role.find_by_name("Template Creator")
+
 settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,
   "self_service_default_pool" => default_pool,
-  "self_service_default_role" => default_role}
+  "self_service_default_role" => default_role,
+  "self_service_default_template_obj" => BasePermissionObject.general_permission_scope,
+  "self_service_default_template_role" => default_template_role,
+  # perm list in the format:
+  #   "[resource1_key, resource1_role], [resource2_key, resource2_role], ..."
+  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_template_obj,self_service_default_template_role]"}
 settings.each_pair do |key, value|
   MetadataObject.set(key, value)
 end

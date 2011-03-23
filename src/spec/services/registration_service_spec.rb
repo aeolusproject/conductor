@@ -17,7 +17,7 @@ describe RegistrationService do
       end
     end
 
-    it "should register a user with default pool/quota/role when default settings set" do
+    it "should register a user with default pool/quota/role/template perms when default settings set" do
       @user = Factory :user
       @pool = MetadataObject.lookup("self_service_default_pool")
       @role = MetadataObject.lookup("self_service_default_role")
@@ -33,6 +33,8 @@ describe RegistrationService do
 
       @user.quota.maximum_running_instances.should == @quota.maximum_running_instances
       @user.quota.maximum_total_instances.should == @quota.maximum_total_instances
+      BasePermissionObject.general_permission_scope.has_privilege(@user,Privilege::CREATE, Template).should == true
+      BasePermissionObject.general_permission_scope.has_privilege(@user,Privilege::USE, Template).should == true
     end
 
   end
@@ -51,7 +53,7 @@ describe RegistrationService do
         lambda do
           lambda do
             registration_process.save.should be_true
-          end.should change(Permission, :count).by(1)
+          end.should change(Permission, :count).by(2)
         end.should change(User, :count).by(1)
       end.should change(Quota, :count).by(1)
 

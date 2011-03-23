@@ -21,11 +21,16 @@ class RegistrationService
         end
 
         @user.save!
-
-        self_service_default_role = MetadataObject.lookup("self_service_default_role")
-        self_service_default_pool = MetadataObject.lookup("self_service_default_pool")
-        Permission.create!(:user => @user, :role => self_service_default_role,
-                           :permission_object => self_service_default_pool)
+        # perm list in the format:
+        #   "[resource1_key, resource1_role], [resource2_key, resource2_role], ..."
+        MetadataObject.lookup("self_service_perms_list").split(/[\]],? ?|[\[]/).
+            select {|x| !x.empty? }.each do |x|
+          obj_key, role_key = x.split(/, ?/)
+          default_obj = MetadataObject.lookup(obj_key)
+          default_role = MetadataObject.lookup(role_key)
+          Permission.create!(:user => @user, :role => default_role,
+                             :permission_object => default_obj)
+        end
         return true
       rescue ActiveRecord::RecordInvalid => e
         Rails.logger.error e.message

@@ -46,10 +46,15 @@ namespace :dc do
       puts "Permission already granted for user #{args.login}"
       exit(1)
     end
-
-    user.permissions << Permission.new(:role => Role.find_by_name('Administrator'),
-                                       :permission_object => BasePermissionObject.general_permission_scope)
-    puts "Granting administrator privileges for #{args.login}..."
+    permission = Permission.new(:role => Role.find_by_name('Administrator'),
+                                :permission_object => BasePermissionObject.general_permission_scope,
+                                :user => user)
+    if permission.save
+      puts "Granting administrator privileges for #{args.login}..."
+    else
+      puts "Granting administrator privileges for #{args.login} failed #{permission.errors.to_xml}"
+      exit(1)
+    end
   end
 
 

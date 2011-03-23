@@ -168,7 +168,7 @@ class Resources::InstancesController < ApplicationController
   end
 
   def init_new_instance_attrs
-    @pools = Pool.list_for_user(@current_user, Privilege::MODIFY, :target_type => Instance)
+    @pools = Pool.list_for_user(@current_user, Privilege::CREATE, :target_type => Instance)
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
       :include => :architecture,
@@ -189,7 +189,7 @@ class Resources::InstancesController < ApplicationController
       {:name => 'CREATED BY', :sort_attr => 'users.last_name'},
     ]
 
-    @pools = Pool.list_for_user(@current_user, Privilege::MODIFY, :target_type => Instance)
+    @pools = Pool.list_for_user(@current_user, Privilege::CREATE, :target_type => Instance)
   end
 
   def load_instances

@@ -21,11 +21,21 @@ Feature: Manage Permissions
     And I should see "Permission record added"
     And I should see "testuser"
 
-  Scenario: Create a permission which already exists
+  Scenario: Create a second permission on a resource
     Given there is a permission for the user "testuser"
     And I am on the new permission page
     When I select "testuser" from "permission[user_id]"
     And I select "Provider Creator" from "permission[role_id]"
+    And I press "Save"
+    Then I should be on the permissions page
+    And I should see "Permission record added"
+    And I should see "testuser"
+
+  Scenario: Attempt to duplicate a permission
+    Given there is a permission for the user "testuser"
+    And I am on the new permission page
+    When I select "testuser" from "permission[user_id]"
+    And I select "Administrator" from "permission[role_id]"
     And I press "Save"
     Then I should see "new Permission"
 
