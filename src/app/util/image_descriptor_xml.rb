@@ -130,13 +130,13 @@ class ImageDescriptorXML
 
   def packages
     @root.xpath('/template/packages/package').map do |s|
-      s.at_xpath('.//name').text
+      s.attr('name').to_s
     end
   end
 
   def groups
     @root.xpath('/template/groups/group').map do |s|
-      s.at_xpath('.//name').text
+      s.attr('name').to_s
     end
   end
 
@@ -177,9 +177,8 @@ class ImageDescriptorXML
 
   def add_group_node(parent, group)
     pnode = get_or_create_node('group', parent)
-    n = Nokogiri::XML::Node.new('name', @doc)
-    n.content = name
-    pnode << n
+    pnode['name'] = group
+    pnode
   end
 
   def recreate_repo_nodes
@@ -206,9 +205,8 @@ class ImageDescriptorXML
 
   def add_package_node(parent, name)
     pnode = get_or_create_node('package', parent)
-    n = Nokogiri::XML::Node.new('name', @doc)
-    n.content = name
-    pnode << n
+    pnode['name'] = name
+    pnode
   end
 
   def repository_manager
