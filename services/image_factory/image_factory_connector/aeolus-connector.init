@@ -59,7 +59,7 @@ restart() {
 }
 
 rh_status() {
-    status image_factory_connector
+    status -l $lockfile image_factory_connector
 }
 
 case "$1" in
