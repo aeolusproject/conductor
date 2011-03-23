@@ -75,6 +75,14 @@ class Template < ActiveRecord::Base
     write_attribute(:xml, xml.to_xml)
   end
 
+  def update_from_xml
+    self.name = xml.name
+    self.summary = xml.description
+    self.platform = xml.platform
+    self.platform_version = xml.platform_version
+    self.architecture = xml.architecture
+  end
+
   def providers
     # TODO: rewrite cleanly
     ProviderImage.all(
