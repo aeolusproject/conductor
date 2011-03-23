@@ -59,7 +59,7 @@ class CompsRepository < AbstractRepository
         :repository_id => @id,
         :packages => pkgs
       }
-    end
+    end.compact
   end
 
   def get_categories
