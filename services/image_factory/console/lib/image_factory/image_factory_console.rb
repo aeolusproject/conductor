@@ -35,8 +35,8 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
     port = args.include?(:port) ? args[:port] : 5672
 #   url = "amqp://#{host}:#{port}" <- the amqp part here doesnt work yet
     url = "#{host}:#{port}"
-    conn_options = args.include?(:retry_limit)? "reconnect-limit:#{args[:retry_limit]}" : ""
-    @connection = Cqpid::Connection.new(url, conn_options)
+    opts = {"reconnect"=>"true"}
+    @connection = Cqpid::Connection.new(url, opts)
     @connection.open
     @session = Qmf2::ConsoleSession.new(@connection)
     @session.open
