@@ -12,7 +12,8 @@ describe DataServiceActiveRecord do
     free = 0
     for i in 0..2
       quota = Factory(:quota, :maximum_total_instances => data[i][0], :total_instances => data[i][1])
-      provider_account = Factory.build(:provider_account, :provider => provider, :username => "username" + i.to_s, :quota => quota)
+      provider_account = Factory.build(:provider_account, :provider => provider, :quota => quota)
+      provider_account.credentials_hash = {:username => "username" + i.to_s, :password => 'mockpassword'}
       provider_account.stub!(:valid_credentials?).and_return(true)
       provider_account.save!
 
@@ -41,6 +42,7 @@ describe DataServiceActiveRecord do
                     :total_instances => 20)
 
     provider_account = Factory.build(:provider_account, :provider => provider, :quota => quota)
+    provider_account.credentials_hash = {:username => 'test', :password =>'test'}
     provider_account.stub!(:valid_credentials?).and_return(true)
     provider_account.save!
 
@@ -126,7 +128,8 @@ describe DataServiceActiveRecord do
 
     provider_accounts = []
     expected_averages.each do |expected_average|
-      provider_account = Factory.build(:provider_account, :provider => provider, :username => "username" + expected_average[0].to_s)
+      provider_account = Factory.build(:provider_account, :provider => provider)
+      provider_account.credentials_hash = { :username => "username" + expected_average[0].to_s, :password => 'mockpassword' }
       provider_account.stub!(:valid_credentials?).and_return(true)
       provider_account.save!
 

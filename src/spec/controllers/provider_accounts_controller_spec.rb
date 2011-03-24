@@ -23,6 +23,7 @@ describe Admin::ProviderAccountsController do
 
   it "allows test account validity on create when passing test_account param" do
     UserSession.create(@admin)
+    @provider_account.credentials_hash = {}
     post :create, :provider_account => {:provider_id => @provider.id}, :test_account => true
     response.should be_success
     response.should render_template("new")
@@ -34,7 +35,7 @@ describe Admin::ProviderAccountsController do
     post :create, :provider_account => {:provider_id => @provider.id}
     response.should be_success
     response.should render_template("new")
-    response.flash[:error].should == "The entered credential information is incorrect"
+    response.flash[:error].should == "Credentials are invalid!"
   end
 
   it "should permit users with account modify permission to access edit cloud account interface" do
@@ -46,15 +47,13 @@ describe Admin::ProviderAccountsController do
 
   it "should allow users with account modify password to update a cloud account" do
     UserSession.create(@admin)
-
-    @provider_account.password = "foobar"
+    @provider_account.credentials_hash = {:username => 'mockuser2', :password => "foobar"}
     @provider_account.stub!(:valid_credentials?).and_return(true)
     @provider_account.quota = Quota.new
     @provider_account.save.should be_true
-
-    post :update, :id => @provider_account.id, :provider_account => { :password => 'mockpassword' }
+    post :update, :id => @provider_account.id, :provider_account => { :credentials_hash => {:username => 'mockuser', :password => 'mockpassword'} }
     response.should redirect_to admin_provider_account_path(@provider_account)
-    ProviderAccount.find(@provider_account.id).password.should == "mockpassword"
+    ProviderAccount.find(@provider_account.id).credentials_hash['password'].should == "mockpassword"
   end
 
   it "should allow users with account modify permission to delete a cloud account" do

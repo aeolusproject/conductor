@@ -4,7 +4,7 @@ describe Quota do
 
   before(:each) do
    @provider_account_quota = Factory :quota
-   @provider_account = Factory(:mock_provider_account, :quota_id => @provider_account_quota.id)
+   @provider_account = Factory.build(:mock_provider_account, :quota_id => @provider_account_quota.id)
 
    @pool_quota = Factory :quota
    @pool = Factory(:pool, :quota_id => @pool_quota.id)

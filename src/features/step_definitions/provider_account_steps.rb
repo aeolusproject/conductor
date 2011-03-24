@@ -33,8 +33,8 @@ Given /^there is a provider account named "([^"]*)"$/ do |label|
 end
 
 Given /^there is a second provider account named "([^"]*)"$/ do |label|
-  @provider =  Factory(:mock_provider, :name => 'secondprovider')
-  @provider_account = Factory(:mock_provider_account, :provider => @provider, :label => label)
+  @provider =  Factory(:provider, :name => 'secondprovider')
+  @provider_account = Factory(:provider_account, :provider => @provider, :label => label)
 end
 
 

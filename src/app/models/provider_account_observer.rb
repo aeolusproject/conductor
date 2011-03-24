@@ -15,7 +15,7 @@ class ProviderAccountObserver < ActiveRecord::Observer
 
   def create_bucket(account)
     client = account.connect
-    bucket_name = "#{account.account_number}-imagefactory-amis"
+    bucket_name = "#{account.credentials_hash['account_id']}-imagefactory-amis"
     # TODO (jprovazn): getting particular bucket takes long time (core fetches all
     # buckets from provider), so we call directly create_bucket, if bucket exists,
     # exception should be thrown (actually existing bucket is returned - this

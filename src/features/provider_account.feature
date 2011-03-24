@@ -82,8 +82,8 @@ Feature: Manage Provider Accounts
     Then I should see the following:
     | testaccount | mockuser |
     And I should not see "otheraccount"
-    When I fill in "q" with "mock"
+    When I fill in "q" with "other"
     And I press "Search"
     Then I should see the following:
-    | testaccount | mockuser |
-    | otheraccount | mockuser |
+    | otheraccount |
+    And I should not see "testaccount"

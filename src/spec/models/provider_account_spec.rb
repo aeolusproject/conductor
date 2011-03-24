@@ -3,14 +3,13 @@ require 'spec_helper'
 describe ProviderAccount do
   fixtures :all
   before(:each) do
-    @provider_account = Factory :mock_provider_account
+    @provider_account = Factory.build :mock_provider_account
   end
 
   it "should not be destroyable if it has instances" do
     @provider_account.instances << Instance.new
     @provider_account.destroyable?.should be_false
     @provider_account.destroy.should be_false
-
     @provider_account.instances.clear
     @provider_account.destroyable?.should be_true
     @provider_account.destroy.equal?(@provider_account).should be_true
@@ -20,7 +19,8 @@ describe ProviderAccount do
   it "should check the validitiy of the cloud account login credentials" do
     mock_provider = Factory :mock_provider
 
-    invalid_provider_account = Factory.build(:provider_account, :username => "wrong_username", :password => "wrong_password", :provider => mock_provider)
+    invalid_provider_account = Factory.build(:mock_provider_account, :provider => mock_provider)
+    invalid_provider_account.credentials_hash = {'username' => "wrong_username", 'password' => "wrong_password"}
     invalid_provider_account.should_not be_valid
 
     valid_provider_account = Factory.build(:mock_provider_account, :provider => mock_provider)
@@ -28,7 +28,8 @@ describe ProviderAccount do
   end
 
   it "should fail to create a cloud account if the provider credentials are invalid" do
-    provider_account = Factory.build(:mock_provider_account, :password => "wrong_password")
+    provider_account = Factory.build(:mock_provider_account)
+    provider_account.credentials_hash = {'password' => "wrong_password"}
     provider_account.save.should == false
   end
 
@@ -69,13 +70,14 @@ describe ProviderAccount do
   </ec2_credentials>
 </provider_credentials>
 EOT
-    provider_account = Factory.build(:mock_provider_account,
-                                  :username => 'user',
-                                  :password => 'pass',
-                                  :account_number => '1234',
-                                  :x509_cert_priv => 'priv_key',
-                                  :x509_cert_pub => 'cert'
-                                 )
+    provider_account = Factory.build(:ec2_provider_account)
+    provider_account.credentials_hash = {
+                                  'username' => 'user',
+                                  'password' => 'pass',
+                                  'account_id' => '1234',
+                                  'x509private' => 'priv_key',
+                                  'x509public' => 'cert'
+                                 }
     provider_account.build_credentials.to_s.should eql(expected_xml)
   end
 end

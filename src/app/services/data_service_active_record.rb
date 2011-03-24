@@ -65,11 +65,11 @@ class DataServiceActiveRecord
     data_points = []
     free_instances = 0
 
-    cloud_accounts = ProviderAccount.find(:all, :conditions => {:provider_id => provider.id})
-    cloud_accounts.each do |cloud_account|
-      quota = cloud_account.quota
+    provider_accounts = ProviderAccount.find(:all, :conditions => {:provider_id => provider.id})
+    provider_accounts.each do |provider_account|
+      quota = provider_account.quota
       if quota
-        data_points << TotalQuotaUsagePoint.new(cloud_account.username, quota.total_instances)
+        data_points << TotalQuotaUsagePoint.new(provider_account.credentials_hash['username'], quota.total_instances)
         free_instances += (quota.maximum_total_instances - quota.total_instances)
       end
     end
