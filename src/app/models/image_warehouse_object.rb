@@ -19,6 +19,8 @@
 
 require 'warehouse_client'
 
+class WarehouseObjectNotFoundError < Exception;end
+
 module ImageWarehouseObject
 
   WAREHOUSE_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")
@@ -40,32 +42,57 @@ module ImageWarehouseObject
   # TODO: it would be nice not call upload, when save was invoked by warehouse
   # sync script
   def upload
-    whouse = Warehouse::Client.new(WAREHOUSE_CONFIG['baseurl'])
     # TODO: for now there is no way how it check if bucket exists in warehouse
     # so we try to create bucket everytime, if bucket exists, warehouse returns
     # 500 Internal server error
-    whouse.create_bucket(warehouse_bucket) rescue true
+    warehouse.create_bucket(warehouse_bucket) rescue true
     # TODO: we delete existing object if it exists
-    whouse.bucket(warehouse_bucket).object(self.uuid).delete! rescue true
-    whouse.bucket(warehouse_bucket).create_object(self.uuid, warehouse_body, warehouse_attrs)
+    warehouse.bucket(warehouse_bucket).object(self.uuid).delete! rescue true
+    warehouse.bucket(warehouse_bucket).create_object(self.uuid, warehouse_body, warehouse_attrs)
   end
 
   def delete_in_warehouse
-    whouse = Warehouse::Client.new(WAREHOUSE_CONFIG['baseurl'])
     begin
-      whouse.bucket(warehouse_bucket).object(self.uuid).delete!
+      warehouse.bucket(warehouse_bucket).object(self.uuid).delete!
     rescue
       logger.error "failed to delete #{self.uuid} in warehouse: #{$!}"
+    end
+  end
+
+  def warehouse
+    @warehouse ||= Warehouse::Client.new(WAREHOUSE_CONFIG['baseurl'])
+  end
+
+  def warehouse_url
+    "#{WAREHOUSE_CONFIG['baseurl']}/#{warehouse_bucket}/#{self.uuid}"
+  end
+
+  def safe_warehouse_sync
+    warehouse_sync
+    log_changes
+  rescue RestClient::ResourceNotFound, WarehouseObjectNotFoundError
+    logger.error "Failed to fetch #{self.class.class_name} with uuid #{self.uuid} - not found in warehouse"
+  rescue => e
+    logger.error "Failed to sync #{self.class.class_name} with uuid #{self.uuid}: #{e.message}"
+    logger.error e.backtrace.join("\n   ")
+  end
+
+  def log_changes
+    if self.new_record?
+      logger.info "#{self.class.class_name} #{self.uuid} is not in DB yet"
+    elsif self.changed?
+      logger.info "#{self.class.class_name} #{self.uuid} has been changed:"
+      self.changed.each do |attr|
+        logger.info "old #{attr}: #{self.send(attr + '_was')}"
+        logger.info "new #{attr}: #{self[attr]}"
+      end
+    else
+      logger.info "#{self.class.class_name} #{self.uuid} is without changes"
     end
   end
 
   def generate_uuid
     # TODO: generate real uuid here, e.g. with some ruby uuid generator
     self.uuid ||= UUIDTools::UUID.timestamp_create.to_s
-  end
-
-  def invoke_sync
-    # TODO: invoke warehouse_sync here (after switching to eventmachine)
-    # pass self.uuid to sync only changed object
   end
 end

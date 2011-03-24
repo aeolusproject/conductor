@@ -61,7 +61,7 @@ else
 end
 
 logger = Logger.new(LOG_FILE)
-logger.level = Logger::DEBUG
+logger.level = Logger::INFO
 logger.datetime_format = "%Y-%m-%d %H:%M:%S"
 logger.info "Warehouse_sync starting up"
 

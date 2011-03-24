@@ -12,7 +12,22 @@
 #
 
 class Icicle < ActiveRecord::Base
+  include ImageWarehouseObject
+
   validates_presence_of :uuid
   validates_uniqueness_of :uuid
   belongs_to :provider_image
+
+  def self.create_or_update(uuid)
+    icicle = Icicle.find_by_uuid(uuid) || Icicle.new(:uuid => uuid)
+    icicle.warehouse_sync
+    icicle.log_changes
+    icicle.save! if icicle.changed?
+    icicle
+  end
+
+  def warehouse_sync
+    obj = warehouse.bucket('icicles').object(self.uuid)
+    self.xml = obj.body
+  end
 end

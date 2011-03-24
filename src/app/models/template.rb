@@ -78,9 +78,11 @@ class Template < ActiveRecord::Base
   def update_from_xml
     self.name = xml.name
     self.summary = xml.description
-    self.platform = xml.platform
-    self.platform_version = xml.platform_version
-    self.architecture = xml.architecture
+    self.platform_hash = {
+      :platform => xml.platform,
+      :version => xml.platform_version,
+      :architecture => xml.architecture,
+    }
   end
 
   def providers
@@ -157,8 +159,9 @@ class Template < ActiveRecord::Base
     'templates'
   end
 
-  def warehouse_url
-    baseurl = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")['baseurl'] + "/templates/"
-    self.uuid ? baseurl + self.uuid : baseurl
+  def warehouse_sync
+    obj = warehouse.bucket(warehouse_bucket).object(self.uuid)
+    xml = obj.body
+    update_from_xml
   end
 end

@@ -99,6 +99,10 @@ module Warehouse
     def create_object(key, body, attrs)
       BucketObject.create(@connection, key, self, body, attrs)
     end
+
+    def include?(key)
+      object_names.include?(key)
+    end
   end
 
   class Connection

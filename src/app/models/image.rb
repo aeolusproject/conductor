@@ -79,15 +79,8 @@ class Image < ActiveRecord::Base
   # TODO: for now when build is finished we call upload automatically for all providers
   def after_update
     if self.status_changed? and self.status == STATE_COMPLETED
-      # TODO: use after_commit callback in rails 3 - it's better to have it outside
-      # update transaction
-      begin
-        invoke_sync
-        upload_to_all_providers_with_account
-      rescue => e
-        logger.error e.message
-        logger.error e.backtrace.join("\n  ")
-      end
+      safe_warehouse_sync
+      upload_to_all_providers_with_account
     end
   end
 
@@ -174,6 +167,31 @@ class Image < ActiveRecord::Base
       template.upload
     end
     image
+  end
+
+  def warehouse_bucket
+    'images'
+  end
+
+  def warehouse_sync
+    bucket = warehouse.bucket(warehouse_bucket)
+    raise WarehouseObjectNotFoundError unless bucket.include?(self.uuid)
+    obj = bucket.object(self.uuid)
+    attrs = obj.attrs([:uuid, :target, :template])
+    unless attrs[:target]
+      raise "target uuid is not set"
+    end
+    unless ptype = ProviderType.find_by_codename(attrs[:target])
+      raise "provider type #{attrs[:target]} not found"
+    end
+    unless attrs[:template]
+      raise "template uuid is not set"
+    end
+    unless tpl = Template.find_by_uuid(attrs[:template])
+      raise "Template with uuid #{attrs[:template]} not found"
+    end
+    self.provider_type_id = ptype.id
+    self.template_id = tpl.id
   end
 
   private

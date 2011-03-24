@@ -52,8 +52,7 @@ class ImageDescriptorXML
   end
 
   def platform
-    node = @root.at_xpath('/template/os')
-    return node ? node['name'] : nil
+    return get_node_text('os/name')
   end
 
   def platform=(platform_hash)
@@ -80,17 +79,16 @@ class ImageDescriptorXML
   end
 
   def platform_version
-    node = @root.at_xpath('/image/os/version')
-    return node ? node.content : nil
+    return get_node_text('os/version')
   end
 
   def architecture
-    node = @root.at_xpath('/template/os/arch')
-    return node ? node.content : nil
+    return get_node_text('os/arch')
   end
 
   def architecture=(str)
-    get_or_create_node('os')['architecture'] = str
+    node = get_or_create_node('arch', get_or_create_node('os'))
+    node.content = str
   end
 
   def services=(services)
