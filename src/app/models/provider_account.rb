@@ -54,7 +54,9 @@ class ProviderAccount < ActiveRecord::Base
            :order => "permissions.id ASC"
 
   has_one :instance_key, :as => :instance_key_owner, :dependent => :destroy
-  has_many :credentials, :dependent => :destroy
+  # validation of credentials is done in provider_account validation, :validate => false prevents nested_attributes from validation
+  has_many :credentials, :dependent => :destroy, :validate => false
+  accepts_nested_attributes_for :credentials
 
   # Helpers
   attr_accessor :x509_cert_priv_file, :x509_cert_pub_file
@@ -67,18 +69,15 @@ class ProviderAccount < ActiveRecord::Base
   validate :validate_credentials
   validate :validate_unique_username
 
-  # We're using this instead of <tt>validates_presence_of</tt> helper because
-  # we want to show errors on different attributes ending with '_file'.
-  def validate_presence_of_x509_certs
-    if self.provider.provider_type_id == ProviderType.find_by_codename("ec2").id
-      errors.add(:x509_cert_pub_file, "can't be blank") if x509_cert_pub.blank?
-      errors.add(:x509_cert_priv_file, "can't be blank") if x509_cert_priv.blank?
+  def validate_presence_of_credentials
+    provider.provider_type.credential_definitions.each do |cd|
+      errors.add(:base, "#{cd.label} can't be blank") if credentials_hash[cd.name].blank?
     end
   end
 
   def validate_credentials
     unless valid_credentials?
-      errors.add(:base, "Login Credentials are Invalid for this Provider")
+      errors.add(:base, "Login Credenials are Invalid for this Provider")
     end
   end
 
@@ -89,7 +88,6 @@ class ProviderAccount < ActiveRecord::Base
 
   # Hooks
   before_destroy :destroyable?
-  before_validation :read_x509_files
 
   def object_list
     super << provider
@@ -114,19 +112,6 @@ class ProviderAccount < ActiveRecord::Base
 
   def destroyable?
     instances.empty?
-  end
-
-  def read_x509_files
-    hash = credentials_hash
-    if x509_cert_pub_file.respond_to?(:read)
-      x509_cert_pub_file.rewind # Sometimes the file has to rewind, becuase something already read from it.
-      hash['x509_cert_pub'] = x509_cert_pub_file.read
-    end
-    if x509_cert_priv_file.respond_to?(:read)
-      x509_cert_priv_file.rewind
-      hash['x509_cert_priv'] = x509_cert_priv_file.read
-    end
-    credentials_hash = hash
   end
 
   def connect
@@ -218,7 +203,7 @@ EOT
       cred_def = cred_defs.detect {|d| d.name == k.to_s}
       raise "Key #{k} not found" unless cred_def
       unless cred = credentials.detect {|c| c.credential_definition_id == cred_def.id}
-          cred = Credential.new(:value => v, :provider_account_id => id, :credential_definition_id => cred_def.id)
+          cred = Credential.new(:provider_account_id => id, :credential_definition_id => cred_def.id)
           credentials << cred
       end
       # we need to handle uploaded files:

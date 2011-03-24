@@ -44,7 +44,7 @@ class Admin::ProviderAccountsController < ApplicationController
     if @providers.empty?
       flash[:error] = "You don't have any provider yet. Please create one!"
     else
-    @selected_provider = @providers.first unless @providers.blank?
+      @selected_provider = @providers.first unless @providers.blank?
     end
   end
 
@@ -66,13 +66,7 @@ class Admin::ProviderAccountsController < ApplicationController
     @provider_account.quota.set_maximum_running_instances(limit)
 
     if @provider_account.invalid?
-      if not @provider_account.valid_credentials?
-        flash.now[:error] = "The entered credential information is incorrect"
-      elsif @provider_account.errors.on(:username)
-        flash.now[:error] = "The access key '#{params[:provider_account][:username]}' has already been taken."
-      else
-        flash.now[:error] = "You must fill in all the required fields"
-      end
+      flash[:error] = "Credentials are invalid!"
       render :action => 'new' and return
     end
 
@@ -174,10 +168,11 @@ class Admin::ProviderAccountsController < ApplicationController
   end
 
   def set_view_vars
+    #FIXME need to include atributes from credentials, credential_definitions and provider_type in load_accounts query to make it work
     @header = [
-      { :name => "Name", :sort_attr => :name },
-      { :name => "Username", :sort_attr => :username},
-      { :name => "Provider Type", :sort_attr => :provider_type }
+      { :name => "Name", :sortable => false },
+      { :name => "Username", :sortable => false},
+      { :name => "Provider Type", :sortable => false }
     ]
     @url_params = params
   end

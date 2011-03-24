@@ -23,8 +23,8 @@ Feature: Manage Provider Accounts
     And I should see "New Account"
     When I select "testprovider" from "provider_account_provider_id"
     And I fill in "provider_account[label]" with "testaccount"
-    And I fill in "provider_account[username]" with "mockuser"
-    And I fill in "provider_account[password]" with "mockpassword"
+    And I fill in "provider_account[credentials_hash][username]" with "mockuser"
+    And I fill in "provider_account[credentials_hash][password]" with "mockpassword"
     And I fill in "quota[maximum_running_instances]" with "13"
     And I press "Add"
     Then I should be on testaccount's provider account page
@@ -39,8 +39,8 @@ Feature: Manage Provider Accounts
     And I am on the admin provider accounts page
     When I follow "New Account"
     Then I should be on the new admin provider account page
-    When I fill in "provider_account[username]" with "mockuser"
-    And I fill in "provider_account[password]" with "mockpassword"
+    When I fill in "provider_account[credentials_hash][username]" with "mockuser"
+    And I fill in "provider_account[credentials_hash][password]" with "mockpassword"
     And I press "Test Account"
     Then I should see "Test Connection Success"
 
@@ -50,8 +50,8 @@ Feature: Manage Provider Accounts
     And I am on the admin provider accounts page
     When I follow "New Account"
     Then I should be on the new admin provider account page
-    When I fill in "provider_account[username]" with "mockuser"
-    And I fill in "provider_account[password]" with "wrong password"
+    When I fill in "provider_account[credentials_hash][username]" with "mockuser"
+    And I fill in "provider_account[credentials_hash][password]" with "wrong password"
     And I press "Test Account"
     Then I should see "Test Connection Failed"
 
