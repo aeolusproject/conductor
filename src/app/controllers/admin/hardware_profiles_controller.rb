@@ -8,17 +8,26 @@ class Admin::HardwareProfilesController < ApplicationController
 
   def index
     @params = params
-    @search_term = params[:q]
-    if @search_term.blank?
-      load_hardware_profiles
-      return
-    end
+    respond_to do |format|
+      format.js do
+        build_hardware_profile(params[:hardware_profile])
+        matching_provider_hardware_profiles
+        render :partial => 'matching_provider_hardware_profiles' and return
+      end
+      format.html do
+        @search_term = params[:q]
+        if @search_term.blank?
+          load_hardware_profiles
+          return
+        end
 
-    search = HardwareProfile.search do
-      keywords(params[:q])
-      with(:frontend, true)
+        search = HardwareProfile.search do
+          keywords(params[:q])
+          with(:frontend, true)
+        end
+        @hardware_profiles = search.results
+      end
     end
-    @hardware_profiles = search.results
   end
 
   def show
@@ -43,6 +52,10 @@ class Admin::HardwareProfilesController < ApplicationController
   end
 
   def new
+    respond_to do |format|
+      format.js { render :partial => 'matching_provider_hardware_profiles' }
+      format.html { render :action => 'new'}
+    end
   end
 
   def create
@@ -185,7 +198,7 @@ class Admin::HardwareProfilesController < ApplicationController
   end
 
   def create_hwpp(hwpp, params)
-    hwpp.nil? ? hardwareProfileProperty = HardwareProfileProperty.new : hardwareProfileProperty = hwpp
+    hardwareProfileProperty = hwpp.nil? ? HardwareProfileProperty.new : hwpp
 
     hardwareProfileProperty.name = params[:name]
     hardwareProfileProperty.kind = "fixed"

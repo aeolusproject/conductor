@@ -11,6 +11,7 @@ describe Admin::HardwareProfilesController do
 
   it "should provide ui to view all hardware profiles" do
      UserSession.create(@admin)
+     @request.accept = "text/html"
      get :index
      response.should be_success
      assigns[:hardware_profiles].size.should == HardwareProfile.count
