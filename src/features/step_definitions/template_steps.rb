@@ -115,7 +115,7 @@ Given /^there is an imported template$/ do
 end
 
 Given /^has package "([^"]*)"$/ do |arg1|
-  @template.add_packages [:arg1]
+  @template.add_packages [arg1]
 end
 
 When /^I edit the template$/ do
