@@ -47,7 +47,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by_id(params[:id]) || current_user
+    @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::VIEW, User) unless current_user == @user
     @quota_resources = @user.quota.quota_resources
 
@@ -66,12 +66,12 @@ class Admin::UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find_by_id(params[:id]) || current_user
+    @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::MODIFY, User) unless @user == current_user
   end
 
   def update
-    @user = User.find_by_id(params[:id]) || current_user
+    @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::MODIFY, User) unless @user == current_user
 
     if params[:commit] == "Reset"

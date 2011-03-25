@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
   rescue_from PermissionError, :with => :handle_perm_error
   rescue_from ActionError, :with => :handle_action_error
   rescue_from PartialSuccessError, :with => :handle_partial_success_error
+  rescue_from ActiveRecord::RecordNotFound, :with => :handle_active_record_not_found_error
 
   helper_method :check_privilege
 
@@ -134,6 +135,11 @@ class ApplicationController < ActionController::Base
       @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
       @pools = Pool.list_for_user(@current_user, Privilege::VIEW)
     end
+  end
+
+  def handle_active_record_not_found_error(error)
+    redirect_to :controller => params[:controller]
+    flash[:notice] = "The record you tried to access does not exist, it may have been deleted"
   end
 
   private
