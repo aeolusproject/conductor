@@ -91,6 +91,12 @@ Documentation and tests for the Aeolus Conductor.
 make clean
 make
 
+%pre
+getent group aeolus >/dev/null || /usr/sbin/groupadd -g 451 -r aeolus 2>/dev/null || :
+getent passwd aeolus >/dev/null || \
+    /usr/sbin/useradd -u 451 -g aeolus -c "aeolus" \
+    -s /sbin/nologin -r -d /var/aeolus aeolus 2> /dev/null || :
+
 %install
 %{__rm} -rf %{buildroot}
 
@@ -180,12 +186,6 @@ touch %{buildroot}%{app_root}/log/delayed_job.log
 
 #%check
 #rake spec
-
-%pre daemons
-getent group aeolus >/dev/null || /usr/sbin/groupadd -g 451 -r aeolus 2>/dev/null || :
-getent passwd aeolus >/dev/null || \
-    /usr/sbin/useradd -u 451 -g aeolus -c "aeolus" \
-    -s /sbin/nologin -r -d /var/aeolus aeolus 2> /dev/null || :
 
 %post daemons
 # Register the services
