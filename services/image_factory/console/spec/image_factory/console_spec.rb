@@ -46,6 +46,7 @@ module ImageFactory
       before(:each) do
          @agent = mock('agent', :null_object => true)
          @agent.stub(:product).and_return("imagefactory")
+         @agent.stub(:name).and_return("redhat.com:imagefactory:b9e131c7-7905-409e-bfb5-dd4848a776a7")
          @output = double('output')
          @i2 = ImageFactoryConsole.new(:logger => @output)
       end
@@ -60,6 +61,33 @@ module ImageFactory
           @output.should_receive(:debug).with(/GOT AN AGENT/)
           @i2.agent_added(@agent)
           @i2.q.should respond_to(:product)
+        end
+      end
+
+      describe "#agent_deleted" do
+        before(:each) do
+          @old_agent = mock('agent', :null_object => true)
+          @old_agent.stub(:product).and_return("imagefactory")
+          @old_agent.stub(:name).and_return("redhat.com:imagefactory:4eb3776e-d91e-4239-9a73-3ab43ecc7e15")
+          @output.should_receive(:debug).with(/GOT AN AGENT/)
+          @i2.agent_added(@agent)
+        end
+
+        it "logs when an agent is removed" do
+          @output.should_receive(:debug).with(/AGENT GONE/).as_null_object
+          @i2.agent_deleted(@agent, "aged")
+        end
+
+        it "removes the agent reference if removed agent is the same as console reference" do
+          @output.should_receive(:debug).with(/AGENT GONE/).as_null_object
+          @i2.agent_deleted(@agent, "aged")
+          @i2.q.should be_nil
+        end
+
+         it "does not remove the agent reference if removed agent is the not same as console reference" do
+          @output.should_receive(:debug).with(/AGENT GONE/).as_null_object
+          @i2.agent_deleted(@old_agent, "aged")
+          @i2.q.should_not be_nil
         end
       end
 

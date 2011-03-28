@@ -31,7 +31,7 @@ class ImageFactoryConnector < Sinatra::Base
     set :views, File.dirname(__FILE__) + '/views'
     l = Logger.new(STDOUT)
     l.level = Logger::DEBUG
-    @console = ImageFactoryConsole.new({:handler=>FactoryRestHandler.new(l)})
+    @console = ImageFactoryConsole.new({:handler=>FactoryRestHandler.new(l), :logger =>l})
     @console.start
     set :console, @console
   end

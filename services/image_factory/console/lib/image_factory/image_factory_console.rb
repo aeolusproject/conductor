@@ -49,7 +49,7 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
       @logger.level = Logger::ERROR
       @logger.datetime_format = "%Y-%m-%d %H:%M:%S"
     end
-    @handler = args.include?(:handler)? args[:handler]: BaseHandler.new
+    @handler = args.include?(:handler)? args[:handler]: BaseHandler.new(@logger)
     super(@session)
   end
 
@@ -93,7 +93,7 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
   def agent_deleted(agent, reason)
     @logger.debug "AGENT GONE:  #{agent} at #{Time.now.utc}, because #{reason}"
     unless @q==nil
-        @q = {} if @q.product == agent.product
+      @q = nil if (@q.product == agent.product && @q.name.eql?(agent.name))
     end
   end
 
