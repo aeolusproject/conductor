@@ -270,8 +270,8 @@ def condormatic_classads_sync
         pipe.puts "hardware_profile_cpu=\"#{overrides[:cpu]}\""
         pipe.puts "realm_key=\"#{realm ? realm.external_key : ''}\""
         pipe.puts "provider_url=\"#{account.provider.url}\""
-        pipe.puts "username=\"#{account.username}\""
-        pipe.puts "password=\"#{account.password}\""
+        pipe.puts "username=\"#{account.credentials_hash['username']}\""
+        pipe.puts "password=\"#{account.credentials_hash['password']}\""
         pipe.puts "provider_account_id=\"#{account.id}\""
         pipe.puts "keypair=\"#{account.instance_key.name}\""
       rescue Exception => ex
