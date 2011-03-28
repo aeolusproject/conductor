@@ -29,11 +29,12 @@ class ImageFactoryConnector < Sinatra::Base
     set :port, 2003
     set :app_file, __FILE__
     set :views, File.dirname(__FILE__) + '/views'
-    l = Logger.new(STDOUT)
-    l.level = Logger::DEBUG
-    @console = ImageFactoryConsole.new({:handler=>FactoryRestHandler.new(l), :logger =>l})
+    @l = Logger.new(STDOUT)
+    @l.level = Logger::DEBUG
+    @console = ImageFactoryConsole.new({:handler=>FactoryRestHandler.new(@l), :logger =>@l})
     @console.start
     set :console, @console
+    set :logger, @l
   end
 
   # TODO: add validation for required params not being passed at all,
@@ -60,15 +61,25 @@ class ImageFactoryConnector < Sinatra::Base
   end
 
   post "/build" do
-    puts "build method called with #{params.inspect}"
+    settings.logger.debug "build method called with #{params.inspect}"
     @b=settings.console.build_image("#{params[:template]}", "#{params[:target]}")
-    builder :image
+    if @b.respond_to?(:image_id)
+      builder :image
+    else
+      settings.logger.error "Error Received: #{@b.inspect}"
+      500
+    end
   end
 
   post "/push" do
-    puts "push method called with #{params.inspect}"
+    settings.logger.debug "push method called with #{params.inspect}"
     @b=settings.console.push_image("#{params[:image_id]}", "#{params[:provider]}", "#{params[:credentials]}")
-    builder :image
+    if @b.respond_to?(:image_id)
+      builder :image
+    else
+      settings.logger.error "Error Received: #{@b.inspect}"
+      500
+    end
   end
 
   get "/shutdown" do

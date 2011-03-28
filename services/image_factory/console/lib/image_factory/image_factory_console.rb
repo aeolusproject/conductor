@@ -64,8 +64,13 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
   def build_image(descriptor, target)
     # TODO: return error if there is a problem calling this method or getting
     # a factory instance
-    response = factory.image(descriptor, target)
-    build_adaptor(response)
+    begin
+      response = factory.image(descriptor, target)
+      build_adaptor(response)
+    rescue Exception => e
+      @logger.debug "Encountered error in build_image: #{e}"
+      return e
+    end
   end
 
   # Call this method to push an image to a provider, and get back an
@@ -80,8 +85,13 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
   def push_image(image_id, provider, credentials)
     # TODO: return error if there is a problem calling this method or getting
     # a factory instance
-    response = factory.provider_image(image_id, provider, credentials)
-    build_adaptor(response)
+    begin
+      response = factory.provider_image(image_id, provider, credentials)
+      build_adaptor(response)
+    rescue Exception => e
+      @logger.debug "Encountered error in push_image: #{e}"
+      return e
+    end
   end
 
   #TODO: enhance both of these methods to handle multiple agents
@@ -132,7 +142,7 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
   def build_adaptor(response)
     imgfacaddr = Qmf2::DataAddr.new(response['build_adaptor'])
     query = Qmf2::Query.new(imgfacaddr)
-    @q.query(query).first
+    @q.query(query,5).first
   end
 
 end

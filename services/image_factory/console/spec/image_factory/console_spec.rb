@@ -8,7 +8,7 @@ module ImageFactory
         @logger = Logger.new(STDOUT)
         @logger.level = Logger::DEBUG
         @logger.datetime_format = "%Y-%m-%d %H:%M:%S"
-        @i = ImageFactoryConsole.new()
+        @i = ImageFactoryConsole.new() # Pass this in for more logging: (:logger => @logger)
         @i.start
         # Sadly, this is needed so we wait for an agent to appear.
         # We might be able to extract this somewhere to hold off
@@ -97,16 +97,29 @@ module ImageFactory
           @data.stub(:event).and_return("STATUS")
         end
 
-        it "should log an event" do
-          @output.should_receive(:debug).with(/GOT AN EVENT/)
-          @i2.event_raised(@agent, @data, Time.now, "horrid")
-        end
-
         it "should call handle on an event" do
           @output.should_receive(:debug).with(/GOT AN EVENT/)
 
           @i2.handler.should_receive(:handle).once
           @i2.event_raised(@agent, @data, Time.now, "horrid")
+        end
+      end
+
+      describe "#build_image" do
+        it "should gracefully handle errors" do
+          @output.should_receive(:debug).with(/Encountered error in build_image/)
+          @i2.q=nil
+          error = @i2.build_image("<template></template>", "mock")
+          error.to_s.should include("undefined method")
+        end
+      end
+
+       describe "#push_image" do
+        it "should gracefully handle errors" do
+          @output.should_receive(:debug).with(/Encountered error in push_image/)
+          @i2.q=nil
+          error = @i2.push_image(123, "mock", "some creds")
+          error.to_s.should include("undefined method")
         end
       end
 

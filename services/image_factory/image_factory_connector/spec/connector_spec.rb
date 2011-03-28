@@ -79,9 +79,33 @@ describe 'image_factory_connector app' do
     end
   end
 
-  it 'closes the connection' do
-    get 'shutdown'
-    last_response.should be_ok
-    last_response.body.should == "Console connection closed"
+  context "logs errors if method is called with no agent present" do
+    before(:each) do
+      app.logger = double('output')
+      app.console.q=nil
+      app.logger.should_receive(:debug).with(any_args())
+    end
+
+    it "logs a message when there is no agent present and build method is called" do
+      app.logger.should_receive(:error).with(/Error Received/)
+      post 'build', {:template => '<template></template>', :target => 'mock'}
+    end
+
+    it "returns a 500 error if an exception is thrown calling build in the console" do
+      app.logger.should_receive(:error).with(/Error Received/)
+      post 'build', {:template => '<template></template>', :target => 'mock'}
+      last_response.status.should == 500
+    end
+
+    it "logs a message when there is no agent present and push method is called" do
+      app.logger.should_receive(:error).with(/Error Received/)
+      post 'push', {:image_id => 123, :provider => 'mock', :credentials => 'some creds'}
+    end
+
+    it "returns a 500 error if an exception is thrown calling push in the console" do
+      app.logger.should_receive(:error).with(/Error Received/)
+      post 'push', {:image_id => 123, :provider => 'mock', :credentials => 'some creds'}
+      last_response.status.should == 500
+    end
   end
 end
