@@ -10,3 +10,31 @@ notifempty
       /etc/init.d/aeolus-conductor restart
   endscript
 }
+
+/var/log/aeolus-conductor/aeolus-connector.log {
+  sharedscripts
+  postrotate
+      /etc/init.d/aeolus-connector restart
+  endscript
+}
+
+/var/log/aeolus-conductor/condor_refreshd.log {
+  sharedscripts
+  postrotate
+      /etc/init.d/conductor-condor_refreshd restart
+  endscript
+}
+
+/var/log/aeolus-conductor/dbomatic.log {
+  sharedscripts
+  postrotate
+      /etc/init.d/conductor-dbomatic restart
+  endscript
+}
+
+/var/log/aeolus-conductor/warehouse_sync.log {
+  sharedscripts
+  postrotate
+      /etc/init.d/conductor-warehouse_sync restart
+  endscript
+}
