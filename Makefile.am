@@ -37,14 +37,15 @@ GIT_RELEASE	= $$(date --utc +%Y%m%d%H%M%S)git$(git_head)
 RPMDIR		= $$(rpm --eval '%{_rpmdir}')
 RPM_FLAGS	= --define "conductor_cache_dir $(CONDUCTOR_CACHE_DIR)"
 RPM_FLAGS	+= $(if $(_conductor_dev),--define "extra_release .$(GIT_RELEASE)")
+RAKE_EXTRA_RELEASE	= $(if $(_conductor_dev),"extra_release=.$(GIT_RELEASE)")
 
 SUBDIRS = src/classad_plugin
 
 ACLOCAL_AMFLAGS = -I m4
 
 rpms: dist
-	cd services/image_factory/console; rake rpms
-	cd services/image_factory/image_factory_connector; rake rpms
+	cd services/image_factory/console; rake rpms $(RAKE_EXTRA_RELEASE)
+	cd services/image_factory/image_factory_connector; rake rpms $(RAKE_EXTRA_RELEASE)
 	rpmbuild $(RPM_FLAGS) -ta $(distdir).tar.gz
 
 srpms: dist

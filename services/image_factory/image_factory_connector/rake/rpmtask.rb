@@ -80,7 +80,12 @@ module Rake
       task :rpms => [rpm_file]
 
       # FIXME properly determine :package build artifact(s) to copy to sources dir
-      file rpm_file => [:package, "#{@topdir}/SOURCES", "#{@topdir}/SPECS"] do
+      file rpm_file => [:package, "#{@topdir}/SOURCES", "#{@topdir}/SPECS"] do |t,args|
+        if args.extra_release.nil? || args.extra_release.empty?
+          extra_release = ''
+        else
+          extra_release =  '.' + args.extra_release
+        end
         cp "#{package_dir}/#{@name}-#{@version}.tgz", "#{@topdir}/SOURCES/"
         @sources.each do |source|
           # TODO - Is there a smarter way of doing this?
@@ -89,7 +94,10 @@ module Rake
           cp "#{dir}/#{source}", "#{@topdir}/SOURCES/"
         end
         cp @rpm_spec, "#{@topdir}/SPECS"
-        sh "#{@rpmbuild_cmd} --define '_topdir #{@topdir}' -ba #{@rpm_spec}"
+        sh "#{@rpmbuild_cmd} " +
+           "--define '_topdir #{@topdir}' " +
+           "--define 'extra_release #{args.extra_release}' " +
+           "-ba #{@rpm_spec}"
       end
     end
 

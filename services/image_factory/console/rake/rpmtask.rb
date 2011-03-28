@@ -75,12 +75,15 @@ module Rake
       task :rpms => [rpm_file]
 
       # FIXME properly determine :package build artifact(s) to copy to sources dir
-      file rpm_file => [:package, "#{@topdir}/SOURCES", "#{@topdir}/SPECS"] do
+      file rpm_file => [:package, "#{@topdir}/SOURCES", "#{@topdir}/SPECS"] do |t,args|
         cp "#{package_dir}/#{@name}-#{@version}.tgz", "#{@topdir}/SOURCES/"
         # FIXME - This seems like a hack, but we don't know the gem's name
 	cp "#{package_dir}/#{@name.gsub('rubygem-', '')}-#{@version}.gem", "#{@topdir}/SOURCES/"
         cp @rpm_spec, "#{@topdir}/SPECS"
-        sh "#{@rpmbuild_cmd} --define '_topdir #{@topdir}' -ba #{@rpm_spec}"
+        sh "#{@rpmbuild_cmd} " +
+           "--define '_topdir #{@topdir}' " +
+           "--define 'extra_release #{args.extra_release}' " +
+           "-ba #{@rpm_spec}"
       end
     end
 
