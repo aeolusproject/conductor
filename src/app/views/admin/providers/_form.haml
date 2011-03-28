@@ -7,10 +7,6 @@
 %fieldset.clear
   = form.label :url, 'Provider URL :'
   = form.text_field :url, :title => 'provider_url', :value => @provider.url, :class => "grid_5"
-  (
-  %button.linkbutton.nospace{ :type => 'submit', :value => t('.test_connection'), :name => 'test_connection', :id => 'test_connection' }
-    Test connection
-  )
 %fieldset.clear
   = form.label :provider_type
   = form.select(:provider_type_id, ProviderType.all.collect {|provider_type| [provider_type.name,provider_type.id] }, :prompt => "Select type of provider")

@@ -40,23 +40,17 @@ Feature: Manage Providers
     And I should see "Provider added"
     And I should have a provider named "testprovider"
 
-  Scenario: Test Provider Connection Successful
+  Scenario: Create a new Provider failure when using wrong url
     Given I am on the admin providers page
+    And there is not a provider named "testprovider"
     When I follow "Create"
     Then I should be on the new admin provider page
     When I fill in "provider[name]" with "testprovider"
-    And I fill in "provider[url]" with "http://localhost:3001/api"
-    And I press "test_connection"
-    Then I should see "Successfuly Connected to Provider"
-
-  Scenario: Test Provider Connection Failure
-    Given I am on the admin providers page
-    When I follow "Create"
-    Then I should be on the new admin provider page
-    When I fill in "provider[name]" with "incorrect_provider"
-    And I fill in "provider[url]" with "http://incorrecthost:3001/api"
-    And I press "test_connection"
-    Then I should see "Failed to Connect to Provider"
+    And I fill in "provider[url]" with "http://localhost:3010/api"
+    And I select "Amazon EC2" from "provider_provider_type_id"
+    And I press "Save"
+    Then I should be on the admin providers page
+    And I should see "Failed to connect to Provider"
 
   Scenario: Delete a provider
     Given I am on the homepage

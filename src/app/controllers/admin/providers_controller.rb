@@ -37,6 +37,11 @@ class Admin::ProvidersController < ApplicationController
     require_privilege(Privilege::VIEW, @provider)
     @tab_captions = ['Properties', 'HW Profiles', 'Realms', 'Provider Accounts', 'Services','History','Permissions']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+
+    if params.delete :test_provider
+      test_connection(@provider)
+    end
+
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane
@@ -56,9 +61,9 @@ class Admin::ProvidersController < ApplicationController
       params[:provider][:provider_type_id] = provider_type.id
     end
     @provider = Provider.new(params[:provider])
-    if params[:test_connection]
-      test_connection(@provider)
-      render :action => 'new'
+    if !@provider.connect
+      flash[:notice] = "Failed to connect to Provider"
+      render :action => "new"
     else
       if @provider.save && @provider.populate_hardware_profiles
         @provider.assign_owner_roles(current_user)
@@ -73,22 +78,22 @@ class Admin::ProvidersController < ApplicationController
   end
 
   def update
-   @provider = Provider.find_by_id(params[:id])
-   require_privilege(Privilege::MODIFY, @provider)
-   @provider.update_attributes(params[:provider])
-   if params[:test_connection]
-     test_connection(@provider)
-     render :action => 'edit'
-   else
-     if @provider.errors.empty? and @provider.save
-       flash[:notice] = "Provider updated."
-       redirect_to admin_providers_path
-     else
-       flash[:notice] = "Cannot update the provider."
-       render :action => 'edit'
-     end
-     kick_condor
-   end
+    @provider = Provider.find_by_id(params[:id])
+    require_privilege(Privilege::MODIFY, @provider)
+    @provider.update_attributes(params[:provider])
+    if !@provider.connect
+      flash[:notice] = "Failed to connect to Provider"
+      render :action => "edit"
+    else
+      if @provider.errors.empty? and @provider.save
+        flash[:notice] = "Provider updated."
+        redirect_to admin_providers_path
+      else
+        flash[:notice] = "Cannot update the provider."
+        render :action => 'edit'
+      end
+    end
+    kick_condor
   end
 
   def multi_destroy

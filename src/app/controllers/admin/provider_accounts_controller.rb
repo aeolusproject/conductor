@@ -57,15 +57,10 @@ class Admin::ProviderAccountsController < ApplicationController
     @provider_account.provider = @provider
     @provider_account.quota = @quota = Quota.new
 
-    if params.delete :test_account
-      test_account(@provider_account)
-      render :action => 'new' and return
-    end
-
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @provider_account.quota.set_maximum_running_instances(limit)
 
-    if @provider_account.invalid?
+    if @provider_account.invalid? || !@provider_account.valid_credentials?
       flash[:error] = "Credentials are invalid!"
       render :action => 'new' and return
     end
@@ -95,11 +90,6 @@ class Admin::ProviderAccountsController < ApplicationController
     require_privilege(Privilege::MODIFY,@provider_account)
     @quota = @provider_account.quota
     @providers = Provider.find(:all)
-
-    if params.delete :test_account
-      test_account(@provider_account)
-      render :action => 'edit' and return
-    end
 
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @provider_account.quota.set_maximum_running_instances(limit)

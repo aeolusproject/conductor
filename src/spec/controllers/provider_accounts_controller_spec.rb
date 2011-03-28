@@ -21,15 +21,6 @@ describe Admin::ProviderAccountsController do
     response.should render_template("index")
   end
 
-  it "allows test account validity on create when passing test_account param" do
-    UserSession.create(@admin)
-    @provider_account.credentials_hash = {}
-    post :create, :provider_account => {:provider_id => @provider.id}, :test_account => true
-    response.should be_success
-    response.should render_template("new")
-    response.flash[:error].should == "Test Connection Failed: Invalid Account Details"
-  end
-
   it "doesn't allow to save provider's account if not valid credentials" do
     UserSession.create(@admin)
     post :create, :provider_account => {:provider_id => @provider.id}

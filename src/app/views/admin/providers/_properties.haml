@@ -2,3 +2,4 @@
   Properties for
   = @provider.name
 = link_to "Edit", edit_admin_provider_path(@provider), {:class => 'button'}
+= link_to "Test", admin_provider_path(@provider, {:test_provider => true}), { :class => 'button' }

@@ -33,27 +33,20 @@ Feature: Manage Provider Accounts
     And I should see "Properties for testaccount"
     And I should see "Running instances quota: 13"
 
-  Scenario: Test Provider Account Connection Successful
+  Scenario: Create a new Provider Account using wrong credentials
     Given there is a provider named "testprovider"
     And there are no provider accounts
     And I am on the admin provider accounts page
     When I follow "New Account"
     Then I should be on the new admin provider account page
+    And I should see "New Account"
+    When I select "testprovider" from "provider_account_provider_id"
+    And I fill in "provider_account[label]" with "testaccount"
     When I fill in "provider_account[credentials_hash][username]" with "mockuser"
-    And I fill in "provider_account[credentials_hash][password]" with "mockpassword"
-    And I press "Test Account"
-    Then I should see "Test Connection Success"
-
-  Scenario: Test Provider Account Connection Failure
-    Given there is a provider named "testprovider"
-    And there are no provider accounts
-    And I am on the admin provider accounts page
-    When I follow "New Account"
-    Then I should be on the new admin provider account page
-    When I fill in "provider_account[credentials_hash][username]" with "mockuser"
-    And I fill in "provider_account[credentials_hash][password]" with "wrong password"
-    And I press "Test Account"
-    Then I should see "Test Connection Failed"
+    And I fill in "provider_account[credentials_hash][password]" with "wrongpassword"
+    And I fill in "quota[maximum_running_instances]" with "13"
+    And I press "Add"
+    Then I should see "Credentials are invalid!"
 
   Scenario: Delete a provider account
     Given there is a provider named "testprovider"
