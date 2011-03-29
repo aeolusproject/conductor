@@ -115,7 +115,7 @@ end
 # Provider types actually supported
 if ProviderType.all.empty?
   ProviderType.create!(:name => "Mock", :build_supported => true, :codename =>"mock")
-  ProviderType.create!(:name => "Amazon EC2", :build_supported => true, :codename =>"ec2", :ssh_user => "ec2-user", :home_dir => "/home/ec2-user")
+  ProviderType.create!(:name => "Amazon EC2", :build_supported => true, :codename =>"ec2", :ssh_user => "root", :home_dir => "/root")
   ProviderType.create!(:name => "GoGrid", :codename =>"gogrid")
   ProviderType.create!(:name => "Rackspace", :codename =>"rackspace")
   ProviderType.create!(:name => "RHEV-M", :codename =>"rhevm")
