@@ -61,3 +61,11 @@ Feature: Manage Realms
     When I press "Delete"
     Then I should be on the admin realms page
     And I should see "You must select at least one realm to delete."
+
+  Scenario: Delete realm mapping without selecting one
+    Given I am on the admin realms page
+    And there is a realm "testrealm1"
+    When I follow "testrealm1"
+    And I follow "Mapping"
+    And I press "Delete" within "#details-view"
+    Then I should see "You must select at least one mapping to delete"
