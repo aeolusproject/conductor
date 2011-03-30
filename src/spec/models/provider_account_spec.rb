@@ -68,11 +68,11 @@ describe ProviderAccount do
 <?xml version="1.0"?>
 <provider_credentials>
   <ec2_credentials>
-    <account_number>1234</account_number>
     <access_key>user</access_key>
-    <secret_access_key>pass</secret_access_key>
+    <account_number>1234</account_number>
     <certificate>cert</certificate>
     <key>priv_key</key>
+    <secret_access_key>pass</secret_access_key>
   </ec2_credentials>
 </provider_credentials>
 EOT

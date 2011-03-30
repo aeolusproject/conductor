@@ -28,7 +28,7 @@ class PushJob < Struct.new(:provider_image_id, :hydra)
     # TODO: what if a provider has multiple accounts
     # for now pick first account
     provider_account = provider_image.provider.provider_accounts.first
-    cred_block = provider_account.build_credentials.to_xml.html_safe
+    cred_block = provider_account.build_credentials.html_safe
     response = RestClient.post(YAML.load_file("#{RAILS_ROOT}/config/image_factory_console.yml")['pushurl'], :image_id => provider_image.image.uuid,
                       :provider => provider_image.provider.name,
                       :credentials => cred_block

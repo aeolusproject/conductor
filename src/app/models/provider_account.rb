@@ -170,25 +170,31 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def build_credentials
-    xml = Nokogiri::XML <<EOT
-<?xml version="1.0"?>
-<provider_credentials>
-  <ec2_credentials>
-    <account_number></account_number>
-    <access_key></access_key>
-    <secret_access_key></secret_access_key>
-    <certificate></certificate>
-    <key></key>
-  </ec2_credentials>
-</provider_credentials>
-EOT
-    node = xml.at_xpath('/provider_credentials/ec2_credentials')
-    node.at_xpath('./account_number').content = credentials_hash['account_id']
-    node.at_xpath('./access_key').content = credentials_hash['username']
-    node.at_xpath('./secret_access_key').content = credentials_hash['password']
-    node.at_xpath('./certificate').content = credentials_hash['x509public']
-    node.at_xpath('./key').content = credentials_hash['x509private']
-    xml
+    doc = Nokogiri::XML('')
+    doc.root = Nokogiri::XML::Node.new('provider_credentials', doc)
+    root = doc.root.at_xpath('/provider_credentials')
+
+    credential_node_name = provider.provider_type.codename + '_credentials'
+    credential_node = Nokogiri::XML::Node.new(credential_node_name, doc)
+    root << credential_node
+
+    creds_label_hash.each do |h|
+      element = Nokogiri::XML::Node.new(h[:label], doc)
+      element.content = h[:value]
+      credential_node << element
+    end
+    doc.to_xml
+  end
+
+  def creds_label_hash
+    label_value_pairs = credentials.map do |c|
+      { :label => c.credential_definition.label.downcase.split.join('_'),
+        :value => c.value }
+    end
+
+    # The list is ordered by labels. That way we guarantee that the resulting
+    # XML is always the same which makes it easier to verify in tests.
+    label_value_pairs.sort { |a, b| a[:label] <=> b[:label] }
   end
 
   def generate_auth_key

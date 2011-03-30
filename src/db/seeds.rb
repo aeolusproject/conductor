@@ -133,9 +133,9 @@ if CredentialDefinition.all.empty?
 
   #for ec2 provider type
   ec2 = ProviderType.find_by_codename 'ec2'
-  CredentialDefinition.create!(:name => 'username', :label => 'API Key', :input_type => 'text', :provider_type_id => ec2.id)
-  CredentialDefinition.create!(:name => 'password', :label => 'Secret', :input_type => 'password', :provider_type_id => ec2.id)
-  CredentialDefinition.create!(:name => 'account_id', :label => 'AWS Account ID', :input_type => 'text', :provider_type_id => ec2.id)
-  CredentialDefinition.create!(:name => 'x509private', :label => 'EC2 x509 private key', :input_type => 'file', :provider_type_id => ec2.id)
-  CredentialDefinition.create!(:name => 'x509public', :label => 'EC2 x509 public key', :input_type => 'file', :provider_type_id => ec2.id)
+  CredentialDefinition.create!(:name => 'username', :label => 'Access Key', :input_type => 'text', :provider_type_id => ec2.id)
+  CredentialDefinition.create!(:name => 'password', :label => 'Secret Access Key', :input_type => 'password', :provider_type_id => ec2.id)
+  CredentialDefinition.create!(:name => 'account_id', :label => 'Account Number', :input_type => 'text', :provider_type_id => ec2.id)
+  CredentialDefinition.create!(:name => 'x509private', :label => 'Key', :input_type => 'file', :provider_type_id => ec2.id)
+  CredentialDefinition.create!(:name => 'x509public', :label => 'Certificate', :input_type => 'file', :provider_type_id => ec2.id)
 end
