@@ -1,49 +1,21 @@
 class ImageFactory::BuildsController < ApplicationController
   before_filter [:require_user], :except => [:update_status]
 
-  def new
-    raise "select template to build" unless id = params[:template_id]
-    @tpl = Template.find(id)
-    check_permission
-    if @tpl.imported
-      flash[:warning] = "Build imported template is not supported"
-      redirect_to image_factory_templates_path
-    end
-    @all_targets = ProviderType.all(:conditions => {:build_supported => true})
-  end
-
   def create
     @tpl = Template.find(params[:template_id])
     check_permission
-    @all_targets = ProviderType.all(:conditions => {:build_supported => true})
-
-    if params[:targets].blank?
-      flash.now[:warning] = 'You need to check at least one provider format'
-      render :action => 'new'
-      return
-    end
 
     errors = {}
     warnings = []
-    params[:targets].each do |target_id|
-      begin
-        target = ProviderType.find(target_id)
-        Image.create_and_build!(@tpl, target)
-      rescue ImageExistsError
-        warnings << $!.message
-      rescue
-        errors[target ? target.name : target_id] = $!.message
-        logger.error $!.message
-        logger.error $!.backtrace.join("\n   ")
-      end
+    begin
+      target = ProviderType.find(params[:target])
+      Image.create_and_build!(@tpl, target)
+    rescue
+      flash[:error] = "Warning: #{$!.message}"
+      logger.error $!.message
+      logger.error $!.backtrace.join("\n   ")
     end
-    flash[:warning] = 'Warning: ' + warnings.join unless warnings.empty?
-    if errors.empty?
-      redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')
-    else
-      flash_error('Error while trying to build image', errors)
-      render :action => 'new'
-    end
+    redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')
   end
 
   def upload
@@ -94,13 +66,6 @@ class ImageFactory::BuildsController < ApplicationController
     @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
     @order_field = params[:order_field] || default
     "#{@order_field} #{@order_dir}"
-  end
-
-  def flash_error(summary, errs)
-    flash.now[:error] ||= {}
-    flash.now[:error][:summary] = summary
-    flash.now[:error][:failures] ||= {}
-    flash.now[:error][:failures].merge!(errs)
   end
 
   def check_permission

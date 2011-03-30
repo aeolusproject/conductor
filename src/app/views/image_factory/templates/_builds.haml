@@ -7,7 +7,7 @@ Builds for
   - form_tag(image_factory_builds_path, { :action => 'create', :method => :post }) do
     = hidden_field_tag :template_id, @tpl.id
     New Build for
-    = select( "targets", "", options_for_select(@targets_not_built))
+    = select_tag 'target', options_for_select(@targets_not_built)
     = submit_tag "Go", :name => "build"
 
 - form_tag do

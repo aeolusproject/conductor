@@ -129,28 +129,12 @@ Feature: Manage Templates
     And there is Amazon AWS provider account
     And I am on the image factory templates page
     When I choose this template
-    And I follow "Build"
-    Then I should be on the new image factory build page
-    And I should see "Build Request"
-    When I check "Amazon EC2"
-    And I press "Submit to Build"
+    And I follow "Builds"
+    Then I should see "Builds for"
+    When I select "Amazon EC2" from "target"
+    And I press "Go"
     Then I should be on the image factory template page
     And I should see "mock1"
-
-  Scenario: Build template which is already built
-    Given there is a "mock1" template
-    And I am on the image factory templates page
-    And there is Amazon AWS build and push for this template
-    And I am on the image factory templates page
-    When I choose this template
-    And I follow "Build"
-    Then I should be on the new image factory build page
-    And I should see "Build Request"
-    When I check "Amazon EC2"
-    And I press "Submit to Build"
-    Then I should be on the image factory template page
-    And I should see "mock1"
-    And I should see "An attempted build of this template for the target 'Amazon EC2' already exists"
 
   Scenario: Upload image
     Given there is a "mock1" template
