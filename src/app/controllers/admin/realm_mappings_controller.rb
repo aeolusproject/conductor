@@ -22,9 +22,14 @@ class Admin::RealmMappingsController < ApplicationController
 
   def multi_destroy
     require_privilege(Privilege::MODIFY, Realm)
-    # TODO: add permissions checks
-    destroyed = RealmBackendTarget.destroy(params[:id])
-    redirect_to admin_realm_path(destroyed.first.frontend_realm_id, :details_tab => 'mapping')
+    if params[:id].blank?
+      flash[:error] = 'You must select at least one mapping to delete.'
+      redirect_to admin_realm_path(params[:frontend_realm_id], :details_tab => 'mapping')
+    else
+      # TODO: add permissions checks
+      destroyed = RealmBackendTarget.destroy(params[:id])
+      redirect_to admin_realm_path(destroyed.first.frontend_realm_id, :details_tab => 'mapping')
+    end
   end
 
   protected
