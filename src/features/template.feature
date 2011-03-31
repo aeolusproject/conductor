@@ -152,11 +152,11 @@ Feature: Manage Templates
 
   Scenario: Build imported template
     Given there is an imported template
+    And there is Amazon AWS provider account
     And I am on the image factory templates page
     When I choose this template
-    And I follow "Build"
-    Then I should be on the image factory templates page
-    And I should see "Build imported template is not supported"
+    And I follow "Builds"
+    Then I should see "Build imported template is not supported"
 
   Scenario: Search for templates
     Given there are these templates:
