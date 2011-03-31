@@ -83,7 +83,13 @@ class ProviderAccount < ActiveRecord::Base
 
   def validate_unique_username
     cid = CredentialDefinition.find_by_name('username', :conditions => {:provider_type_id => provider.provider_type.id})
-    errors.add(:base, "Username has already been taken") unless Credential.all(:conditions => {:value => credentials_hash['username'], :credential_definition_id => cid}).empty?
+    Credential.all(:conditions => {:value => credentials_hash['username'], :credential_definition_id => cid}).each do |c|
+      if c.provider_account.provider == self.provider && c.provider_account_id != self.id
+        errors.add(:base, "Username has already been taken")
+        return false
+      end
+    end
+    return true
   end
 
   # Hooks

@@ -80,4 +80,11 @@ EOT
                                  }
     provider_account.build_credentials.to_s.should eql(expected_xml)
   end
+
+  it "should create provider account with same username for different provider" do
+    provider_account1 = Factory :mock_provider_account
+    provider_account2 = Factory.build(:mock_provider_account, :provider => Factory.create(:mock_provider2))
+    provider_account1.credentials_hash.should == provider_account2.credentials_hash
+    provider_account2.should be_valid
+  end
 end
