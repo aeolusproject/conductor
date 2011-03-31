@@ -47,6 +47,10 @@ Given /^there is a "([^"]*)" running instance$/ do |name|
   Factory :instance, :name => name, :state => Instance::STATE_RUNNING
 end
 
+Given /^there is a "([^"]*)" stopped instance$/ do |name|
+  Factory :instance, :name => name, :state => Instance::STATE_STOPPED
+end
+
 Given /^there is an uploaded image for a template$/ do
   Factory :provider_image
 end
@@ -66,7 +70,7 @@ end
 
 When /^I check "([^"]*)" instance$/ do |name|
   inst = Instance.find_by_name(name)
-  check("inst_ids_#{inst.id}")
+  check("instance_checkbox_#{inst.id}")
 end
 
 Given /^there are the following instances:$/ do |table|

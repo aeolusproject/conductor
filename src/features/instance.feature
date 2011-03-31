@@ -77,6 +77,20 @@ Feature: Mange Instances
     Then I should be on the instances page
     And I should see "mock1: stop action was successfully queued"
 
+  Scenario: Stop multiple instances
+    Given there is a "mock1" running instance
+    And there is a "mock2" running instance
+    And there is a "mock3" stopped instance
+    And I am on the instances page
+    When I check "mock1" instance
+    And I check "mock2" instance
+    And I check "mock3" instance
+    And I press "Stop"
+    Then I should be on the instances page
+    And I should see "mock1: stop action was successfully queued"
+    And I should see "mock2: stop action was successfully queued"
+    And I should see "mock3: stop is an invalid action"
+
   @tag
   Scenario: Search for instances
     Given there are the following instances:

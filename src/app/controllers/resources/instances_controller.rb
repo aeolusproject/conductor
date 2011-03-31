@@ -1,6 +1,6 @@
 class Resources::InstancesController < ApplicationController
   before_filter :require_user, :except => [:can_start, :can_create]
-  before_filter :load_instance, :only => [:show, :remove_failed, :key, :stop]
+  before_filter :load_instance, :only => [:show, :key]
   before_filter :set_view_vars, :only => [:show, :index]
 
   def index
@@ -106,27 +106,49 @@ class Resources::InstancesController < ApplicationController
     redirect_to resources_instance_path(@instance)
   end
 
-  def stop
-    unless @instance.valid_action?('stop')
-      raise ActionError.new("stop is an invalid action.")
-    end
+  def multi_stop
+    notices = ""
+    errors = ""
+    Instance.find(params[:instance_selected]).each do |instance|
+      begin
+        require_privilege(Privilege::USE,instance)
+        unless instance.valid_action?('stop')
+          raise ActionError.new("stop is an invalid action.")
+        end
 
-    # not sure if task is used as everything goes through condor
-    #permissons check here
-    @task = @instance.queue_action(@current_user, 'stop')
-    unless @task
-      raise ActionError.new("stop cannot be performed on this instance.")
+        # not sure if task is used as everything goes through condor
+        #permissons check here
+        @task = instance.queue_action(@current_user, 'stop')
+        unless @task
+          raise ActionError.new("stop cannot be performed on this instance.")
+        end
+        condormatic_instance_stop(@task)
+        notices << "#{instance.name}: stop action was successfully queued.<br/>"
+      rescue Exception => err
+        errors << "#{instance.name}: " + err + "<br/>"
+      end
     end
-    condormatic_instance_stop(@task)
-    flash[:notice] = "#{@instance.name}: stop action was successfully queued."
+    flash[:notice] = notices unless notices.blank?
+    flash[:error] = errors unless errors.blank?
     redirect_to resources_instances_path
   end
 
   def remove_failed
-    raise ActionError.new("remove failed cannot be performed on this instance.") unless
-      @instance.state == Instance::STATE_ERROR
-    condormatic_instance_reset_error(@instance)
-    flash[:notice] = "#{@instance.name}: remove failed action was successfully queued."
+    notices = ""
+    errors = ""
+    Instance.find(params[:instance_selected]).each do |instance|
+      begin
+        require_privilege(Privilege::USE,instance)
+        raise ActionError.new("remove failed cannot be performed on this instance.") unless
+          instance.state == Instance::STATE_ERROR
+        condormatic_instance_reset_error(instance)
+        notices << "#{instance.name}: remove failed action was successfully queued."
+      rescue Exception => err
+        errors << "#{instance.name}: " + err + "<br/>"
+      end
+    end
+    flash[:notice] = notices unless notices.blank?
+    flash[:error] = errors unless errors.blank?
     redirect_to resources_instances_path
   end
 

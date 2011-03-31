@@ -1,5 +1,5 @@
 - form_tag do
-  = restful_submit_tag 'Stop', 'stop', stop_resources_instances_path, 'GET'
+  = restful_submit_tag 'Stop', 'stop', multi_stop_resources_instances_path, 'GET'
   = restful_submit_tag 'Create', 'new', select_template_resources_instances_path, 'GET'
   = restful_submit_tag 'Remove failed', 'remove_failed', remove_failed_resources_instances_path, 'GET'
 
@@ -14,7 +14,7 @@
       %tr
         %td
           - selected = params[:select] == 'all'
-          %input{:checked => selected, :name => 'id', :type => 'checkbox', :value => inst.id, :id => "inst_ids_#{inst.id}" }
+          %input{:name => 'instance_selected[]', :type => 'checkbox', :value => inst.id, :id => "instance_checkbox_#{inst.id}", :checked => selected }
           = link_to inst.name, resources_instance_path(inst)
         %td= inst.state
         %td= inst.template.name
