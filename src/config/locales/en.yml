@@ -38,6 +38,7 @@ en:
   assistance_requests: Assistance Requests
   define: Define
   deployables: Deployables
+  image_imports: Image Imports
   basic_template: Template Builder Basic Workflow
   browse_packages: Browse Packages
   builds: Builds

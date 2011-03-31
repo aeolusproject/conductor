@@ -45,6 +45,7 @@ module ImageWarehouseObject
     # TODO: for now there is no way how it check if bucket exists in warehouse
     # so we try to create bucket everytime, if bucket exists, warehouse returns
     # 500 Internal server error
+    raise "uuid is not set" unless self.uuid
     warehouse.create_bucket(warehouse_bucket) rescue true
     # TODO: we delete existing object if it exists
     warehouse.bucket(warehouse_bucket).object(self.uuid).delete! rescue true

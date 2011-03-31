@@ -78,7 +78,7 @@ class Image < ActiveRecord::Base
 
   # TODO: for now when build is finished we call upload automatically for all providers
   def after_update
-    if self.status_changed? and self.status == STATE_COMPLETED
+    if not self.new_record? and self.status_changed? and self.status == STATE_COMPLETED
       safe_warehouse_sync
       upload_to_all_providers_with_account
     end
@@ -126,6 +126,9 @@ class Image < ActiveRecord::Base
   end
 
   def self.import(account, image_id)
+    if image_id.blank?
+      raise "image id should not be blank"
+    end
     unless raw_image = account.connect.image(image_id)
       raise "There is no image with '#{image_id}' id"
     end
@@ -154,6 +157,8 @@ class Image < ActiveRecord::Base
         :provider_type_id => account.provider.provider_type_id,
         :template_id  => template.id
       )
+      image.generate_uuid
+      image.upload
       image.save!
 
       rep = ProviderImage.new(
@@ -162,9 +167,10 @@ class Image < ActiveRecord::Base
         :provider_image_key => image_id,
         :status             => STATE_COMPLETED
       )
+      rep.generate_uuid
+      rep.upload
       rep.save!
 
-      template.upload
     end
     image
   end
