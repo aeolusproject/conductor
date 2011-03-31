@@ -53,7 +53,7 @@ stop() {
         exit 4
     fi
     echo -n $"Stopping $prog: "
-    killall image_factory_connector
+    killproc image_factory_connector
     retval=$?
     if [ $retval -eq 0 ] && rm -f $lockfile ; then
         echo_success
