@@ -23,7 +23,7 @@ require 'spec_helper'
 
 describe 'image_factory_connector app' do
   class BuildAdaptor
-    attr_accessor :image_id
+    attr_accessor :image_id, :agent
   end
 
   def app
@@ -48,9 +48,8 @@ describe 'image_factory_connector app' do
 
   # TODO: clean up these xml checks so they are in some fixture (or similar) and not repeated
   it 'calls the console build_image method and returns xml response with uuid' do
-    app.console.stub!(:build_image).and_return(@b)
     post 'build', {:template => '<template></template>', :target => 'mock'}
-    last_response.body.should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<image>\n  <uuid>#{@b.image_id}</uuid>\n</image>\n"
+    last_response.body.should include("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<image>\n  <uuid>")
   end
 
   it 'receives complex xml properly' do
@@ -61,6 +60,7 @@ describe 'image_factory_connector app' do
     post 'push', {:image_id => uuid, :provider => provider, :credentials => creds}
     last_response.body.should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<image>\n  <uuid>#{@b.image_id}</uuid>\n</image>\n"
   end
+
   it 'calls the console push_image method and returns xml response with uuid' do
     app.console.stub(:push_image).and_return(@b)
     post 'push', {:image_id => @b.image_id, :provider => 'mock', :credentials => 'some creds'}

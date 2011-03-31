@@ -63,7 +63,7 @@ class ImageFactoryConnector < Sinatra::Base
   post "/build" do
     settings.logger.debug "build method called with #{params.inspect}"
     @b=settings.console.build_image("#{params[:template]}", "#{params[:target]}")
-    if @b.respond_to?(:image_id)
+    if @b.respond_to?(:agent)
       builder :image
     else
       settings.logger.error "Error Received: #{@b.inspect}"
@@ -74,7 +74,7 @@ class ImageFactoryConnector < Sinatra::Base
   post "/push" do
     settings.logger.debug "push method called with #{params.inspect}"
     @b=settings.console.push_image("#{params[:image_id]}", "#{params[:provider]}", "#{params[:credentials]}")
-    if @b.respond_to?(:image_id)
+    if @b.respond_to?(:agent)
       builder :image
     else
       settings.logger.error "Error Received: #{@b.inspect}"
