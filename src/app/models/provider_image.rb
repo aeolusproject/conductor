@@ -37,6 +37,12 @@ class ProviderImage < ActiveRecord::Base
     end
   end
 
+  def retry_upload!
+    self.status = STATE_QUEUED
+    self.save!
+    Delayed::Job.enqueue(PushJob.new(self.id))
+  end
+
   def warehouse_bucket
     'provider_images'
   end

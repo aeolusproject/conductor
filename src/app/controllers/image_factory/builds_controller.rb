@@ -1,6 +1,9 @@
 class ImageFactory::BuildsController < ApplicationController
   before_filter [:require_user], :except => [:update_status]
 
+  def index
+  end
+
   def create
     @tpl = Template.find(params[:template_id])
     check_permission
@@ -41,6 +44,39 @@ class ImageFactory::BuildsController < ApplicationController
 
   def update
     # FIXME: is @tpl defined here? do we need check_permission here?
+  end
+
+  def retry
+    @tpl = Template.find(params[:template_id])
+    check_permission
+    begin
+      if params[:image_id]
+        image = Image.find(params[:image_id])
+        if image
+          errors = {}
+          warnings = []
+          image.rebuild!
+          flash[:notice] = "Queued rebuild for image #{image.name}"
+        else
+          flash[:warning] = "could not find image #{image_id}"
+        end
+      elsif params[:provider_image_id]
+        provider_image = ProviderImage.find(params[:provider_image_id])
+        if provider_image
+          provider_image.retry_upload!
+          flash[:notice] = "Queued upload of provider image #{provider_image.image.name} to #{provider_image.provider.name}"
+        else
+          flash[:warning] = "could not find provider image #{provider_image_id}"
+        end
+      else
+        flash[:warning] = 'You need to specify either a provider or a provider image'
+      end
+    rescue
+      flash[:warning] = $!.message
+      logger.error $!.message
+      logger.error $!.backtrace.join("\n   ")
+    end
+    redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')
   end
 
   def update_status

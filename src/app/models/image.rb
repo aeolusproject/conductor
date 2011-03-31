@@ -84,6 +84,17 @@ class Image < ActiveRecord::Base
     end
   end
 
+  def rebuild!
+    # TODO: remove this check when we have UI for pushing images
+    if self.provider_type.providers.empty? or not self.provider_type.providers.detect {|p| !p.provider_accounts.empty?}
+      raise "Error: A valid provider and provider account are required to create and build templates"
+    end
+    self.status = STATE_QUEUED
+    self.save!
+    self.provider_images.each {|pimg| pimg.destroy}
+    Delayed::Job.enqueue(BuildJob.new(self.id))
+  end
+
   def not_uploaded_providers
     uploaded = self.provider_images
     Provider.all(:conditions => {:provider_type_id => self.provider_type.id}).select do |p|

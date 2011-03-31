@@ -19,12 +19,20 @@ Builds for
   - else
     - @images.each do |img|
       %li
-        = "#{img.name}-#{img.template.architecture}: #{img.status}"
+        - form_tag(retry_image_factory_builds_path, { :method => :post }) do
+          = "#{img.name}-#{img.template.architecture}: #{img.status}"
+          = hidden_field_tag :template_id, @tpl.id
+          = hidden_field_tag :image_id, img.id
+          = submit_tag "Retry build", :name => "build"
         - if img.status == Image::STATE_COMPLETED
           %ul
             - img.provider_images.each do |pimg|
               %li
-                = "#{pimg.provider.name}: #{pimg.status}"
+                - form_tag(retry_image_factory_builds_path, { :method => :post }) do
+                  = "#{pimg.provider.name}: #{pimg.status}"
+                  = hidden_field_tag :template_id, @tpl.id
+                  = hidden_field_tag :provider_image_id, pimg.id
+                  = submit_tag "Retry upload", :name => "build"
             - unless @tpl.imported
               - img.not_uploaded_providers.each do |provider|
                 %li

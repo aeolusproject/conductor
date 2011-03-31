@@ -53,5 +53,19 @@ describe ImageFactory::BuildsController do
         post :create, :template_id => @template.id, :target => ProviderType.find_by_codename("mock").id
       end.should change(Image, :count).by(1)
     end
+
+    it "retry build should update Image status" do
+      lambda do
+        post :create, :template_id => @template.id, :target => ProviderType.find_by_codename("mock").id
+      end.should change(Image, :count).by(1)
+      @template.images.size.should == 1
+      image = @template.images[0]
+      image.reload.status.should == "queued"
+      post :update_status, :uuid => image.uuid, :status => 'failed'
+      image.reload.status.should == "failed"
+      post :retry, :image_id => image.id, :template_id => @template.id
+      image.reload.status.should == "queued"
+
+    end
   end
 end
