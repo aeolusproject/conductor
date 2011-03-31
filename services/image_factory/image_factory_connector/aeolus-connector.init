@@ -19,26 +19,32 @@ logfile=/var/log/aeolus-conductor/aeolus-connector.log
 [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
 
 start() {
+    if [ $UID -ne 0 ] ; then
+        echo "User has insufficient privilege."
+        exit 1
+    fi
     if [ -e $lockfile ] ; then
         status image_factory_connector > /dev/null 2>&1
         retval=$?
         if [ $retval == 0 ] ; then
-	    echo $prog is currently running
-	    exit 1
-	else
-            rm -f $lockfile
+	        echo $prog is currently running
+	        exit 2
         fi
-    fi
-    if [ $UID -ne 0 ] ; then
-        echo "User has insufficient privilege."
-        exit 2
     fi
     [ -x $exec ] || exit 3
     echo -n $"Starting $prog: "
     daemon $exec -p $port start >> $logfile 2>&1 &
     retval=$?
-    echo
-    [ $retval -eq 0 ] && touch $lockfile
+    if [ $retval -eq 0 ] ; then
+        touch $lockfile
+        echo_success
+        echo
+        exit 0
+    else
+        echo_failure
+        echo
+        exit 3
+    fi
 }
 
 stop() {
@@ -49,8 +55,12 @@ stop() {
     echo -n $"Stopping $prog: "
     killall image_factory_connector
     retval=$?
-    echo
-    [ $retval -eq 0 ] && rm -f $lockfile
+    if [ $retval -eq 0 ] && rm -f $lockfile ; then
+        echo_success
+        echo
+    else
+        echo_failure
+    fi
 }
 
 restart() {
@@ -80,3 +90,4 @@ case "$1" in
         exit 2
 esac
 exit $?
+
