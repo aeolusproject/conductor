@@ -163,6 +163,9 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def valid_credentials?
+    if credentials_hash['username'].blank? || credentials_hash['password'].blank?
+      return false
+    end
     DeltaCloud::valid_credentials?(credentials_hash['username'].to_s, credentials_hash['password'].to_s, provider.url)
   end
 

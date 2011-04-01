@@ -23,6 +23,12 @@ describe ProviderAccount do
     invalid_provider_account.credentials_hash = {'username' => "wrong_username", 'password' => "wrong_password"}
     invalid_provider_account.should_not be_valid
 
+    ec2_provider = Factory :ec2_provider
+    invalid_ec2_provider_account = Factory.build(:ec2_provider_account, :provider => ec2_provider)
+    invalid_ec2_provider_account.credentials_hash = {'username' => "", 'password' => nil}
+    invalid_ec2_provider_account.valid_credentials?.should == false
+    invalid_ec2_provider_account.should_not be_valid
+
     valid_provider_account = Factory.build(:mock_provider_account, :provider => mock_provider)
     valid_provider_account.should be_valid
   end
