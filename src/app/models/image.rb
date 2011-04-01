@@ -221,7 +221,8 @@ class Image < ActiveRecord::Base
       raise "There is not provider with name '#{providername}'"
     end
 
-    account = ProviderAccount.new(:provider => provider, :username => username, :password => password)
+    account = ProviderAccount.new(:provider => provider)
+    account.credentials_hash = {:username => username, :password => password}
 
     unless account.valid_credentials?
       raise "Invalid credentials for provider '#{providername}'"
