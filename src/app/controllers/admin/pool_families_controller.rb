@@ -1,8 +1,19 @@
 class Admin::PoolFamiliesController < ApplicationController
   before_filter :require_user
-  before_filter :load_pool_families, :only =>[:index,:show]
+  before_filter :set_params_and_header, :only => [:index, :show]
+  before_filter :load_pool_families, :only =>[:show]
 
   def index
+    @search_term = params[:q]
+    if @search_term.blank?
+      load_pool_families
+      return
+    end
+
+    search = PoolFamily.search() do
+      keywords(params[:q])
+    end
+    @pool_families = search.results
   end
 
   def new
@@ -73,15 +84,18 @@ class Admin::PoolFamiliesController < ApplicationController
 
   protected
 
-  def load_pool_families
+  def set_params_and_header
+    @url_params = params.clone
     @header = [{ :name => "Name", :sort_attr => :name},
                { :name => "Quota limit", :sort_attr => :name},
                { :name => "Quota currently in use", :sort_attr => :name},
     ]
+  end
+
+  def load_pool_families
     @pool_families = PoolFamily.paginate(:all,
                                          :page => params[:page] || 1,
                                          :order => ( params[:order_field] || 'name' ) + ' ' + (params[:order_dir] || 'asc')
                                         )
-    @url_params = params.clone
   end
 end

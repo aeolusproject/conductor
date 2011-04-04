@@ -52,3 +52,29 @@ Feature: Pool Families
     And I press "Delete"
     Then I should see "Could not delete the following Pool Families: default."
     And I should see "default"
+
+  Scenario: Search for pool families
+    Given there are these pool families:
+    | name      |
+    | first_family |
+    | second_family |
+    | third_family |
+    Given I am on the admin pool families page
+    Then I should see "first_family"
+    And I should see "second_family"
+    And I should see "third_family"
+    When I fill in "q" with "second"
+    And I press "Search"
+    Then I should see "second_family"
+    And I should not see "first_family"
+    And I should not see "third_family"
+    When I fill in "q" with "nomatch"
+    And I press "Search"
+    Then I should not see "first_family"
+    And I should not see "second_family"
+    And I should not see "third_family"
+    When I fill in "q" with ""
+    And I press "Search"
+    Then I should see "first_family"
+    And I should see "second_family"
+    And I should see "third_family"
