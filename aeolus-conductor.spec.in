@@ -39,7 +39,6 @@ Requires: rubygem(uuidtools)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
-Requires: ruby-RMagick
 Requires: classads >= 1.0
 Requires: glib2 >= 2.0
 Requires: rest >= 0.6
