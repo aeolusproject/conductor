@@ -41,9 +41,7 @@ Requires: postgresql-server
 Requires: ruby-postgres
 Requires: ruby-RMagick
 Requires: classads >= 1.0
-Requires: libsoup >= 2.0
 Requires: glib2 >= 2.0
-Requires: libxml2 >= 2.6
 Requires: rest >= 0.6
 Requires: condor >= 7.5.6-2dcloud
 Requires: iwhd
@@ -56,9 +54,7 @@ Requires: curl
 BuildRequires: ruby
 BuildRequires: ruby-devel
 BuildRequires: classads-devel >= 1.0
-BuildRequires: libsoup-devel >= 2.0
 BuildRequires: glib2-devel >= 2.0
-BuildRequires: libxml2-devel >= 2.6
 BuildRequires: rest-devel >= 0.6
 
 %package daemons
