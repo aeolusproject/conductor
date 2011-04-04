@@ -86,7 +86,6 @@ Documentation and tests for the Aeolus Conductor.
 
 %build
 %configure
-make clean
 make
 
 %pre
