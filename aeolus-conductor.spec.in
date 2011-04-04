@@ -42,9 +42,6 @@ Requires: ruby-postgres
 Requires: classads >= 1.0
 Requires: glib2 >= 2.0
 Requires: rest >= 0.6
-Requires: condor >= 7.5.6-2dcloud
-Requires: iwhd
-Requires: aeolus-configure
 
 # to ensure the service is actually started
 # and is accessible in the init script
