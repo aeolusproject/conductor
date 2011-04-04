@@ -56,6 +56,9 @@ BuildRequires: classads-devel >= 1.0
 BuildRequires: glib2-devel >= 2.0
 BuildRequires: rest-devel >= 0.6
 
+%description
+The Aeolus Conductor, a web UI for managing cloud instances.
+
 %package daemons
 Summary:   Aeolus Conductor daemons
 Group:     Applications/Internet
@@ -67,17 +70,13 @@ Requires(post): chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
 
+%description daemons
+The configuration and daemons necessary to run and proxy the Aeolus Conductor.
 
 %package doc
 Summary: Aeolus Conductor documentation and test suite
 Group:   Documentation
 Requires: %{name} = %{version}-%{release}
-
-%description
-The Aeolus Conductor, a web UI for managing cloud instances.
-
-%description daemons
-The configuration and daemons necessary to run and proxy the Aeolus Conductor.
 
 %description doc
 Documentation and tests for the Aeolus Conductor.
