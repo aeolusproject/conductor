@@ -71,12 +71,29 @@ Requires(preun): initscripts
 The configuration and daemons necessary to run and proxy the Aeolus Conductor.
 
 %package doc
-Summary: Aeolus Conductor documentation and test suite
+Summary: Aeolus Conductor documentation
 Group:   Documentation
 Requires: %{name} = %{version}-%{release}
 
 %description doc
-Documentation and tests for the Aeolus Conductor.
+Documentation for the Aeolus Conductor.
+
+%package devel
+Summary: Aeolus Conductor development and testing files
+Group:   Applications/Internet
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(cucumber)
+Requires: rubygem(rspec)
+Requires: rubygem(timecop)
+# FIXME: enable these once they are packaged
+#Requires: rubygem(cucumber-rails)
+#Requires: rubygem(rspec-rails)
+#Requires: rubygem(webrat)
+#Requires: rubygem(database_cleaner)
+#Requires: rubygem(factory_girl)
+
+%description devel
+Tests and other development tools for the Aeolus Conductor.
 
 %prep
 %setup -q
@@ -102,24 +119,101 @@ getent passwd aeolus >/dev/null || \
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/httpd/conf.d
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d
 
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
 %{__mkdir} -p %{buildroot}%{_localstatedir}/lib/%{name}
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/%{name}
 %{__mkdir} -p %{buildroot}%{_localstatedir}/run/%{name}
 
-# copy over all of the src directory...
-%{__cp} -R src/* %{buildroot}/%{app_root}
-
-# we need to make sure there are no leftover logfiles getting pulled in
-rm -f %{buildroot}/%{app_root}/log/*
-
-# Remove this directory as the make install below will install the correct files to this dir.
-%{__rm} -rf %{buildroot}%{app_root}/classad_plugin
-
+# this will install the classad plugin
 %makeinstall
 
+# now copy over the rails source files.  This is a bit verbose, but only
+# takes in the stuff we need (and no backup files, etc)
+
+# we use these special constructs to find only the files we care about.
+# the name of the variable has to be the file extension you are looking for.
+# the contents of the variable are the directories in which files with this
+# extension may exist.  For instance cgi="public" means that src/public/*.cgi
+# will be copied from the source into the RPM.
+builder="app/views/errors"
+cgi="public"
+css="public/stylesheets public/stylesheets/jquery.ui-1.8.1 \
+     public/javascripts/jquery-svg"
+erb="app/views/layouts"
+fcgi="public"
+feature="features"
+gif="public/images public/stylesheets/images"
+haml="app/views/admin/hardware_profiles app/views/admin/realm_mappings \
+      app/views/admin/users app/views/admin/provider_accounts \
+      app/views/admin/roles app/views/admin/providers app/views/admin/settings \
+      app/views/admin/realms app/views/admin/pool_families app/views/layouts\
+      app/views/quotas app/views/image_factory/deployables \
+      app/views/image_factory/image_imports app/views/image_factory/assemblies \
+      app/views/image_factory/templates app/views/image_factory/builds \
+      app/views/permissions app/views/templates/xml \
+      app/views/resources/deployments app/views/resources/pools \
+      app/views/resources/instances app/views/user_sessions"
+html="public"
+ico="public"
+jpg="public/images public/stylesheets/images"
+js="public/javascripts public/javascripts/jquery-svg \
+    public/javascripts/jquery.ui-1.8.1 \
+    public/javascripts/jquery.ui-1.8.1/ui/minified"
+json="spec/fixtures"
+key="features/upload_files"
+opts="spec"
+png="public/images public/images/icons public/stylesheets/images \
+     public/stylesheets/jquery.ui-1.8.1/images"
+rake="lib/tasks"
+rb="app/models app/controllers app/controllers/admin \
+    app/controllers/image_factory app/controllers/resources app/helpers \
+    app/helpers/resources app/services app/util app/util/repository_manager \
+    config config/initializers config/environments db db/migrate dutils \
+    features/support features/step_definitions lib public spec \
+    spec/controllers spec/factories spec/helpers spec/models spec/services \
+    spec/utils warehouse_sync"
+rhtml="app/views/layouts"
+scss="app/stylesheets"
+svg="public/images public/images/icons public/javascripts/jquery-svg"
+ttf="public/fonts"
+txt="solr/conf public"
+xml="solr/conf"
+yml="config config/locales"
+
+for filetype in builder cgi css erb fcgi feature gif haml html ico jpg js json \
+    key opts png rake rb rhtml scss svg ttf txt xml yml; do
+    dirs=${!filetype}
+
+    for dir in $dirs; do
+        %{__mkdir} -p %{buildroot}%{app_root}/$dir
+        %{__cp} src/$dir/*.$filetype %{buildroot}%{app_root}/$dir
+    done
+done
+
+# misc files
+%{__cp} src/Rakefile %{buildroot}%{app_root}
+%{__cp} src/config.ru %{buildroot}%{app_root}
+
+%{__mkdir} -p %{buildroot}%{app_root}/config
+%{__cp} src/config/database.pg %{buildroot}%{app_root}/config
+%{__cp} src/config/database.mysql %{buildroot}%{app_root}/config
+%{__cp} src/config/database.sqlite %{buildroot}%{app_root}/config
+# here we copy the postgres configuration to be the default.  While this is
+# something of a policy we are encoding in the RPM, it is nice to give the user
+# sane defaults.  The user can still override this with their own configuration
+%{__cp} src/config/database.pg %{buildroot}%{app_root}/config/database.yml
+%{__cp} src/config/image_descriptor_package_metagroups.conf %{buildroot}%{app_root}/config
+
+%{__mkdir} -p %{buildroot}%{app_root}/dbomatic
+%{__cp} src/dbomatic/dbomatic %{buildroot}%{app_root}/dbomatic
+
+%{__mkdir} -p %{buildroot}%{app_root}/warehouse_sync
+%{__cp} src/warehouse_sync/warehouse_sync-server %{buildroot}%{app_root}/warehouse_sync
+
+%{__mkdir} -p %{buildroot}%{app_root}/condor_refreshd
+%{__cp} src/condor_refreshd/condor_refreshd %{buildroot}%{app_root}/condor_refreshd
+
 # move documentation to the correct place
-mv %{buildroot}/%{app_root}/doc %{buildroot}/%{app_root}/test %{buildroot}/%{doc_root}
+%{__cp} src/doc/* %{buildroot}/%{doc_root}
 
 # copy over init scripts and various config
 %{__cp} conf/aeolus-conductor %{buildroot}%{_initrddir}
@@ -132,19 +226,6 @@ mv %{buildroot}/%{app_root}/doc %{buildroot}/%{app_root}/test %{buildroot}/%{doc
 %{__cp} conf/aeolus-conductor.sysconf %{buildroot}%{_sysconfdir}/sysconfig/aeolus-conductor
 %{__cp} conf/conductor-rails.sysconf %{buildroot}%{_sysconfdir}/sysconfig/conductor-rails
 
-# move rails config to /etc, creating symlinks
-if [ -f %{buildroot}%{app_root}/config/database.yml ]; then
-   %{__mv} %{buildroot}%{app_root}/config/database.yml %{buildroot}%{_sysconfdir}/%{name}
-else
-   %{__cp} %{buildroot}%{app_root}/config/database.pg %{buildroot}%{_sysconfdir}/%{name}/database.yml
-fi
-%{__mv} %{buildroot}%{app_root}/config/environments/development.rb %{buildroot}%{_sysconfdir}/%{name}
-%{__mv} %{buildroot}%{app_root}/config/environments/production.rb %{buildroot}%{_sysconfdir}/%{name}
-%{__mv} %{buildroot}%{app_root}/config/environments/test.rb %{buildroot}%{_sysconfdir}/%{name}
-%{__ln_s} %{_sysconfdir}/%{name}/database.yml %{buildroot}%{app_root}/config
-%{__ln_s} %{_sysconfdir}/%{name}/development.rb %{buildroot}%{app_root}/config/environments
-%{__ln_s} %{_sysconfdir}/%{name}/production.rb %{buildroot}%{app_root}/config/environments
-%{__ln_s} %{_sysconfdir}/%{name}/test.rb %{buildroot}%{app_root}/config/environments
 %{__mkdir} -p %{buildroot}%{app_root}/config/image_descriptor_xmls
 
 # Creating these files now to make sure the logfiles will be owned
@@ -158,28 +239,42 @@ touch %{buildroot}%{_localstatedir}/run/%{name}/event_log_position
 touch %{buildroot}%{_localstatedir}/log/%{name}/condor_refreshd.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/warehouse_sync.log
 
-[ -e %{buildroot}%{app_root}/log ] || %{__mkdir} -p %{buildroot}%{app_root}/log
+%{__mkdir} -p %{buildroot}%{app_root}/log
 touch %{buildroot}%{app_root}/log/delayed_job.log
 
-# remove the files not needed for the installation
-%{__rm} -f  %{buildroot}%{app_root}/vendor/plugins/will_paginate/.gitignore
-%{__rm} -f  %{buildroot}%{app_root}/vendor/plugins/will_paginate/.manifest
+# copy script files over
+%{__cp} -r src/script %{buildroot}%{app_root}
 
-%{__rm} -rf %{buildroot}%{app_root}/tmp
-%{__mkdir} %{buildroot}%{_localstatedir}/lib/%{name}/tmp
-%{__ln_s} %{_localstatedir}/lib/%{name}/tmp %{buildroot}%{app_root}/tmp
+%{__mkdir} -p %{buildroot}%{app_root}/solr/data
 
-%{__rm} -rf %{buildroot}%{app_root}/tmp
-
-# Delete unused build stuff.
-%{__rm} -rf %{buildroot}%{app_root}/classad_plugin/.libs
-%{__rm} -rf %{buildroot}%{app_root}/classad_plugin/.deps
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
 
 %clean
 %{__rm} -rf %{buildroot}
 
-#%check
-#rake spec
+%post
+# symlink the configuration bits from /usr/share/aeolus-conductor/config
+# into /etc/aeolus-conductor.  Note that we unceremoniously use -f here;
+# if the user had broken the symlinks and put data in here, it would have been
+# completely ignored *anyway*
+%{__ln_s} -f %{app_root}/config/environments/development.rb %{_sysconfdir}/%{name}
+%{__ln_s} -f %{app_root}/config/environments/production.rb %{_sysconfdir}/%{name}
+%{__ln_s} -f %{app_root}/config/environments/test.rb %{_sysconfdir}/%{name}
+%{__ln_s} -f %{app_root}/config/database.yml %{_sysconfdir}/%{name}
+
+%postun
+# kind of a weird construct.  There are two cases where %postun gets called;
+# during the removal of a package and during the cleanup after an upgrade.
+# During removal, we want to remove the symlinks; during upgrade we do not.
+# Therefore, we check to see if %{app_root}/app is still there; if it is,
+# then we assume it is an upgrade and do nothing, otherwise we assume it is
+# a removal and delete the symlinks
+if [ ! -d %{app_root}/app ]; then
+   rm -f %{_sysconfdir}/%{name}/development.rb
+   rm -f %{_sysconfdir}/%{name}/production.rb
+   rm -f %{_sysconfdir}/%{name}/test.rb
+   rm -f %{_sysconfdir}/%{name}/database.yml
+fi
 
 %post daemons
 # Register the services
@@ -191,28 +286,37 @@ touch %{buildroot}%{app_root}/log/delayed_job.log
 
 %preun daemons
 if [ $1 = 0 ]; then
-/sbin/service aeolus-conductor stop > /dev/null 2>&1
-/sbin/chkconfig --del aeolus-conductor
-/sbin/service conductor-dbomatic stop > /dev/null 2>&1
-/sbin/chkconfig --del conductor-dbomatic
-/sbin/service conductor-condor_refreshd stop > /dev/null 2>&1
-/sbin/chkconfig --del conductor-condor_refreshd
-/sbin/service conductor-warehouse_sync stop > /dev/null 2>&1
-/sbin/chkconfig --del conductor-warehouse_sync
-/sbin/service conductor-delayed_job stop > /dev/null 2>&1
-/sbin/chkconfig --del conductor-delayed_job
+   /sbin/service aeolus-conductor stop > /dev/null 2>&1
+   /sbin/chkconfig --del aeolus-conductor
+   /sbin/service conductor-dbomatic stop > /dev/null 2>&1
+   /sbin/chkconfig --del conductor-dbomatic
+   /sbin/service conductor-condor_refreshd stop > /dev/null 2>&1
+   /sbin/chkconfig --del conductor-condor_refreshd
+   /sbin/service conductor-warehouse_sync stop > /dev/null 2>&1
+   /sbin/chkconfig --del conductor-warehouse_sync
+   /sbin/service conductor-delayed_job stop > /dev/null 2>&1
+   /sbin/chkconfig --del conductor-delayed_job
 fi
 
 %files
 %defattr(-,root,root,-)
-%{app_root}
-%attr(777, root, root) %{app_root}/config/image_descriptor_xmls
+%dir %{app_root}
+%{app_root}/app
+%{app_root}/classad_plugin
+%{app_root}/condor_refreshd
+%{app_root}/config
+%{app_root}/config.ru
+%{app_root}/db
+%{app_root}/dbomatic
+%{app_root}/dutils
+%{app_root}/lib
+%{app_root}/log
 %attr(777, root, root) %{app_root}/public
-%dir %{_sysconfdir}/%{name}
-%attr(600, aeolus, aeolus) %config(noreplace) %{_sysconfdir}/%{name}/database.yml
-%config(noreplace) %{_sysconfdir}/%{name}/development.rb
-%config(noreplace) %{_sysconfdir}/%{name}/production.rb
-%config(noreplace) %{_sysconfdir}/%{name}/test.rb
+%{app_root}/Rakefile
+%{app_root}/script/delayed_job
+%{app_root}/solr
+%{app_root}/warehouse_sync
+%config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
 
 %files daemons
@@ -237,11 +341,22 @@ fi
 %{doc_root}
 %doc AUTHORS COPYING
 
+%files devel
+%defattr(-,root,root,-)
+%{app_root}/features
+%{app_root}/script
+%{app_root}/spec
+
 %changelog
-* Thu Jan 20 2011 Chris Lalancette <clalance@redhat.com>
+* Tue Apr 05 2011 Chris Lalancette <clalance@redhat.com> - 0.0.3-2
+- Large spec file cleanup
+- Split out development files into a -devel package
+- Remove external dependencies and add to the aeolus-all package
+
+* Thu Jan 20 2011 Chris Lalancette <clalance@redhat.com> - 0.0.3-1
 - Rename from deltacloud-aggregator to aeolus-conductor
 
-* Mon Sep 27 2010 Chris Lalancette <clalance@redhat.com>
+* Mon Sep 27 2010 Chris Lalancette <clalance@redhat.com> - 0.0.2-3
 - Added new rubygem-parseconfig dependency
 - Turn on services during install with chkconfig
 
@@ -254,4 +369,3 @@ fi
 
 * Fri Sep  1 2009  <sseago@redhat.com> - 0.0.1-1
 - Initial build.
-
