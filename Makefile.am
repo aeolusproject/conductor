@@ -32,8 +32,12 @@ _conductor_dev = \
  $(shell grep -q '^[[:space:]]*Release:[[:space:]]*0' \
    $(srcdir)/*.spec.in && echo 1 || :)
 
-git_head	= $$(git log -1 --pretty=format:%h)
-GIT_RELEASE	= $$(date --utc +%Y%m%d%H%M%S)git$(git_head)
+# use $(shell...) here to collect the git head and date *once* per make target.
+# that ensures that if multiple actions happen in the same target (like the
+# multiple RPM builds in the rpms target), they all use the same date
+git_head	= $(shell git log -1 --pretty=format:%h)
+date		= $(shell date --utc +%Y%m%d%H%M%S)
+GIT_RELEASE	= $(date)git$(git_head)
 RPMDIR		= $$(rpm --eval '%{_rpmdir}')
 RPM_FLAGS	= --define "conductor_cache_dir $(CONDUCTOR_CACHE_DIR)"
 RPM_FLAGS	+= $(if $(_conductor_dev),--define "extra_release .$(GIT_RELEASE)")
