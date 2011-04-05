@@ -146,7 +146,7 @@ class Admin::HardwareProfilesController < ApplicationController
       { :name => "Architecture", :sort_attr => :architecture },
       { :name => "Memory", :sort_attr => :memory},
       { :name => "Storage", :sort_attr => :storage },
-      { :name => "Virtual CPU", :sort_attr => :cpus}
+      { :name => "Virtual CPU", :sort_attr => :cpu}
     ]
 
     begin
@@ -173,12 +173,23 @@ class Admin::HardwareProfilesController < ApplicationController
       { :name => "Architecture", :sort_attr => :architecture },
       { :name => "Memory", :sort_attr => :memory},
       { :name => "Storage", :sort_attr => :storage },
-      { :name => "Virtual CPU", :sort_attr => :cpus}
+      { :name => "Virtual CPU", :sort_attr => :cpu}
     ]
   end
 
   def load_hardware_profiles
-    @hardware_profiles = HardwareProfile.all(:conditions => 'provider_id IS NULL')
+    sort_field = params[:order_field].nil? ? "name" : params[:order_field]
+    sort_order = params[:order_dir] == "asc" || params[:order_dir].nil? ? "" : "desc"
+    if sort_field == "name"
+      @hardware_profiles = HardwareProfile.all(:order => sort_field + " " + sort_order, :conditions => 'provider_id IS NULL')
+    else
+      @hardware_profiles = HardwareProfile.all(:conditions => 'provider_id IS NULL')
+      if sort_order == ""
+        @hardware_profiles.sort! {|x,y| x.get_property_map[sort_field].sort_value(true) <=> y.get_property_map[sort_field].sort_value(true)}
+      else
+        @hardware_profiles.sort! {|x,y| y.get_property_map[sort_field].sort_value(false) <=> x.get_property_map[sort_field].sort_value(false)}
+      end
+    end
   end
 
   def load_hardware_profile
