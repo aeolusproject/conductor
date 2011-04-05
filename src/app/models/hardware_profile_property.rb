@@ -127,5 +127,19 @@ class HardwareProfileProperty < ActiveRecord::Base
         "undefined"
     end
   end
+
+  def sort_value(ascending)
+    case kind
+      when "fixed"
+         sort_value =  value
+      when "range"
+        sort_value = ascending ? range_from : range_to
+      when "enum"
+        entries = (property_enum_entries.map { |enum| enum.value }).sort!
+        sort_value = ascending ? entries.first : entries.last
+    end
+    return name == "architecture" ? sort_value : sort_value.to_f
+  end
+
 end
 

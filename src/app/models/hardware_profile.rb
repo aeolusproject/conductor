@@ -83,6 +83,10 @@ class HardwareProfile < ActiveRecord::Base
   validates_associated :cpu
   validates_associated :architecture
 
+  def get_property_map
+    return {'memory' => memory, 'cpu' => cpu, 'architecture' => architecture, 'storage' => storage}
+  end
+
   def provider_hardware_profile?
     !provider.nil?
   end
