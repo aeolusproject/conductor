@@ -1,0 +1,31 @@
+Name:		aeolus-all
+Version:	@VERSION@
+Release:	0%{?dist}%{?extra_release}
+Summary:	A meta-package to pull in all components for Aeolus
+
+Group:		Applications/Internet
+License:	GPLv2+
+URL:		http://aeolusproject.org
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Requires:	aeolus-conductor-daemons = %{version}-%{release}
+Requires:	condor = 7.6.0-2dcloud%{?dist}
+Requires:	iwhd
+Requires:	aeolus-configure
+Requires:	imagefactory
+Requires:	qpid-cpp-server
+Requires:	rubygem(image_factory_connector)
+Requires:	mongodb-server
+
+%description
+This is the aeolus meta-package.  If you want to install aeolus and all of its
+dependencies on a single machine, you should install this package and then
+run aeolus-configure to configure everything.
+
+%files
+
+%post
+
+%changelog
+* Mon Apr 04 2011 Chris Lalancette <clalance@redhat.com>
+- Initial build

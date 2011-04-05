@@ -51,6 +51,7 @@ rpms: dist
 	cd services/image_factory/console; rake rpms $(RAKE_EXTRA_RELEASE)
 	cd services/image_factory/image_factory_connector; rake rpms $(RAKE_EXTRA_RELEASE)
 	rpmbuild $(RPM_FLAGS) -ta $(distdir).tar.gz
+	rpmbuild $(RPM_FLAGS) -ba aeolus-all.spec
 
 srpms: dist
 	rpmbuild $(RPM_FLAGS) -ts $(distdir).tar.gz

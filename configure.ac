@@ -1,4 +1,4 @@
-AC_INIT([aeolus-conductor], [0.0.3], [aeolus-devel@lists.fedoraproject.org])
+AC_INIT([aeolus-conductor], [0.0.3], [aeolus-devel@lists.fedorahosted.org])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability tar-pax])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -43,6 +43,6 @@ PKG_CHECK_MODULES(REST, rest-0.6)
 test x"$ac_ct_CC:$CFLAGS" = 'xgcc:-g -O2' \
   && CFLAGS="$CFLAGS -Wshadow -Wall -Werror"
 
-AC_CONFIG_FILES([Makefile aeolus-conductor.spec])
+AC_CONFIG_FILES([Makefile aeolus-conductor.spec aeolus-all.spec])
 AC_OUTPUT(src/classad_plugin/Makefile)
 
