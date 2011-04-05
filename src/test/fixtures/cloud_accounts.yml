@@ -1,6 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-mock_account:
-  username: mockuser
-  password: mockpassword
-  provider: mock_provider
