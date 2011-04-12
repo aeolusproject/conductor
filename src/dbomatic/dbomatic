@@ -70,8 +70,9 @@ if help
   exit(0)
 end
 
-CONDOR_EVENT_LOG_FILE   =   "#{condor_event_log_dir}/EventLog"
-EVENT_LOG_POS_FILE      =   "#{dbomatic_run_dir}/event_log_position"
+CONDOR_EVENT_LOG_FILE       =   "#{condor_event_log_dir}/EventLog"
+CONDOR_EVENT_LOG_FILE_OLD   =   "#{condor_event_log_dir}/EventLog.old"
+EVENT_LOG_POS_FILE          =   "#{dbomatic_run_dir}/event_log_position"
 if dbomatic_log_dir == '-'
   DBOMATIC_LOG_FILE = STDOUT
 else
@@ -247,10 +248,37 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
   end
 end
 
-def parse_log_file(log_file, parser)
+# FIXME we should make sure everything here is done atomically
+def parse_log_file(parser)
+  # since the actual log file may be rotated out
+  # open a new handle every time we want to parse
+  log_file = File.open(CONDOR_EVENT_LOG_FILE)
+
+  # persistantly store log position in filesystem
+  # incase of dbomatic restarts
+  if File.exists?(EVENT_LOG_POS_FILE)
+    File.open(EVENT_LOG_POS_FILE, 'r') { |f| log_file.pos = f.read.to_i }
+  end
+
+  # if the log has been rotated out
+  if log_file.pos > File.size(CONDOR_EVENT_LOG_FILE)
+    if File.exists?(CONDOR_EVENT_LOG_FILE_OLD)
+      # finish parsing old log file
+      old_log_file = File.open(CONDOR_EVENT_LOG_FILE_OLD)
+      old_log_file.pos = log_file.pos
+      while s = old_log_file.gets
+        parser << s
+      end
+    end
+
+    # reset position
+    log_file.pos = 0
+  end
+
   while s = log_file.gets
     parser << s
   end
+
   File.open(EVENT_LOG_POS_FILE, 'w') { |f| f.write log_file.pos.to_s }
 end
 
@@ -268,39 +296,15 @@ begin
   parser << "<events>"
 
   notifier = INotify::Notifier.new
-  log_file = nil
 
-  if File.exists? CONDOR_EVENT_LOG_FILE
-    log_file = File.open(CONDOR_EVENT_LOG_FILE)
+  parse_log_file(parser) if File.exists? CONDOR_EVENT_LOG_FILE
 
-    # persistantly store log position in filesystem
-    # incase of dbomatic restarts
-    if File.exists?(EVENT_LOG_POS_FILE)
-      File.open(EVENT_LOG_POS_FILE, 'r') { |f| log_file.pos = f.read.to_i }
-      logger.info "Replaying old events..."
-      parse_log_file log_file, parser
-      logger.info "done"
+  # Setup inotify watch for condor event log changes
+  notifier.watch(condor_event_log_dir, :all_events){ |event|
+    if event.name == "EventLog" && event.flags.include?(:modify)
+      parse_log_file parser
     end
-
-    # Setup inotify watch for condor event log
-    notifier.watch(CONDOR_EVENT_LOG_FILE, :modify){ |event|
-      parse_log_file log_file, parser
-    }
-
-    # if log file doesn't exist wait until it does
-  else
-    notifier.watch(condor_event_log_dir, :create){ |event|
-      if event.name == "EventLog"
-        log_file = File.open(CONDOR_EVENT_LOG_FILE)
-        parse_log_file log_file, parser
-
-        # Setup inotify watch for condor event log
-        notifier.watch(CONDOR_EVENT_LOG_FILE, :modify){ |event|
-          parse_log_file log_file, parser
-        }
-      end
-    }
-  end
+  }
 
   while true
     begin
