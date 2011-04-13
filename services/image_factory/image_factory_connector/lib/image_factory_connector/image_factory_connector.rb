@@ -29,12 +29,6 @@ class ImageFactoryConnector < Sinatra::Base
     set :port, 2003
     set :app_file, __FILE__
     set :views, File.dirname(__FILE__) + '/views'
-    @l = Logger.new(STDOUT)
-    @l.level = Logger::DEBUG
-    @console = ImageFactoryConsole.new({:handler=>FactoryRestHandler.new(@l), :logger =>@l})
-    @console.start
-    set :console, @console
-    set :logger, @l
   end
 
   # TODO: add validation for required params not being passed at all,
