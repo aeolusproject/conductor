@@ -6,7 +6,7 @@
 
 Summary: Sinatra microapp to talk to  Aeolus Image Factory QMF console
 Name: rubygem-%{gemname}
-Version: 0.0.1
+Version: 0.0.2
 Release: 1%{?dist}%{?extra_release}
 Group: Development/Languages
 License: GPLv2+ or Ruby
@@ -67,5 +67,11 @@ if [ $1 = 0 ]; then
 fi
 
 %changelog
+* Thu Apr 14 2011 Jason Guiditta <jguiditt@redhat.com> - 0.0.2-1
+- Clean up the connector startup script so it starts only one process
+- Stops/restarts more reliably
+- Fix the rackup file for proper daemonization
+
+
 * Mon Mar 14 2011 Angus Thomas <athomas@redhat.com> - 0.0.1-1
 - Initial package
