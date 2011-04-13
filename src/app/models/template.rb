@@ -55,6 +55,8 @@ class Template < ActiveRecord::Base
   validates_presence_of :platform_version
   validates_presence_of :architecture
 
+  after_create :ensure_assembly
+
   def no_instances?
     unless instances.empty?
       errors.add(:base, 'There are instances for this template.')
@@ -168,5 +170,14 @@ class Template < ActiveRecord::Base
     obj = warehouse.bucket(warehouse_bucket).object(self.uuid)
     xml = obj.body
     update_from_xml
+  end
+
+  private
+
+  def ensure_assembly
+    self.assemblies.create!({
+      :name => self.name,
+      :architecture => self.architecture
+    }) unless self.assemblies.count > 0
   end
 end
