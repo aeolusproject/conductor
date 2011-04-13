@@ -55,7 +55,8 @@ Feature: Manage Pools
     And I press "Destroy"
     Then there should only be 1 pools
     And I should be on the resources pools page
-    And I should not see "Redhat Voyager Pool"
+    When I go to the resources pools page
+    Then I should not see "Redhat Voyager Pool"
     And I should not see "Amazon Startrek Pool"
 
   Scenario: Create multiple pools

@@ -22,4 +22,30 @@ describe Pool do
     u.errors[:name].should =~ /^is too long.*/
   end
 
+  it "should not be destroyable when it has running instances" do
+    pool = Factory.create(:pool)
+    Pool.find(pool.id).should be_destroyable
+
+    instance = Factory.create(:instance, :pool_id => pool.id)
+    Pool.find(pool.id).should_not be_destroyable
+
+    instance.state = Instance::STATE_STOPPED
+    instance.save!
+    Pool.find(pool.id).should be_destroyable
+  end
+
+  it "should not be destroyable when it has stopped stateful instances" do
+    pool = Factory.build(:pool)
+    pool.should be_destroyable
+
+    instance = Factory.build(:instance, :pool_id => pool.id)
+    instance.stub!(:restartable?).and_return(true)
+    pool.instances << instance
+    pool.should_not be_destroyable
+
+    instance.state = Instance::STATE_STOPPED
+    instance.stub!(:restartable?).and_return(true)
+    pool.should_not be_destroyable
+  end
+
 end

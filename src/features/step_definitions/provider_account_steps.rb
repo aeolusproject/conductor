@@ -3,7 +3,10 @@ Given /^the account has an instance associated with it$/ do
 end
 
 When /^I delete all instances from the account$/ do
-  @provider_account.instances.each { |i| i.destroy }
+  @provider_account.instances.each do |i|
+    i.state = Instance::STATE_STOPPED
+    i.destroy
+  end
 end
 
 Then /^there should be no provider accounts$/ do
