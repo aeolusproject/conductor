@@ -50,6 +50,13 @@ class FactoryRestHandler < BaseHandler
                                       :headers => {:Accepts => "application/xml"},
                                       :params  => {:uuid => e.uuid, :status => e.value})
     hydra.queue(request)
+    # FIXME: this is a temporary hack to get around the case where
+    # updates are triggered before the initial request from conductor
+    # has completed, which can happen because this is all asynchronous.
+    # Once status is stored in warehouse rather than conductor, this
+    # will not be an issue, so it is not worth doing something more
+    # elegant right now.
+    sleep(5)
     request.on_complete do |response|
       # 3. Log errors
       logger.debug "Return code is: #{response.code}"
