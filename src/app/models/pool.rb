@@ -60,6 +60,8 @@ class Pool < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
+  before_destroy :destroyable?
+
   def cloud_accounts
     accounts = []
     instances.each do |instance|
@@ -71,6 +73,10 @@ class Pool < ActiveRecord::Base
 
   def hardware_profiles
     HardwareProfile.find(:all, :conditions => {:provider_id => nil})
+  end
+
+  def destroyable?
+    instances.all? {|i| i.destroyable? }
   end
 
 end

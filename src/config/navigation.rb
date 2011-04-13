@@ -2,7 +2,7 @@ SimpleNavigation::Configuration.run do |navigation|
   navigation.autogenerate_item_ids = false
   navigation.items do |first_level|
     first_level.item :resource_management, t(:resource_management), resources_pools_path, :highlights_on => /^\/$/ do |second_level|
-      second_level.item :pools, t(:pools), resources_pools_path
+      second_level.item :pools, t('pools.index.pools'), resources_pools_path
       second_level.item :deployments, t(:deployments),resources_deployments_path, :highlights_on => /^\/$|\/deployments/
       second_level.item :instances, t(:instances), resources_instances_path
     end

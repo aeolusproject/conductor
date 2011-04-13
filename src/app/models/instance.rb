@@ -121,6 +121,8 @@ class Instance < ActiveRecord::Base
   validates_inclusion_of :state,
      :in => STATES
 
+  before_destroy :destroyable?
+
   def validate
     if assembly and template
       errors.add(:assembly, "Please specify either template or assembly, but not both")
@@ -265,6 +267,17 @@ class Instance < ActiveRecord::Base
     end
     stats[:total_instances] = instances.size
     return stats
+  end
+
+  def restartable?
+    # TODO: we don't support stateful instances yet, so it's `false` for the time being.
+    # In the meantime, we can use this method to write validation code for cases
+    # where does matter whether an instance is stateful or stateless.
+    false
+  end
+
+  def destroyable?
+    (state == STATE_CREATE_FAILED) or (state == STATE_STOPPED and not restartable?)
   end
 
   named_scope :with_hardware_profile, lambda {

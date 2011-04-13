@@ -69,7 +69,6 @@ en:
   choose_treatment: Choose Treatment
   apply: Apply
   resource_management: Resource Management
-  pools: Pools
   deployments: Deployments
   instances: Instances
   searches: Searches
@@ -83,6 +82,15 @@ en:
   provider_accounts_item: Provider Account
   cloud_engine_hardware_profiles: Hardware Profiles
   cloud_engine_realms: Realms
+  pools:
+    index:
+      pools: Pools
+      pool_deleted:
+        one: "Pool %{list} was deleted."
+        other: "Pools %{list} were deleted."
+      pool_not_deleted:
+        one: "Pool %{list} was not deleted. There are instances associated with it."
+        other: "Pools %{list} were not deleted. They have instances associated with them."
   pool_families:
     pool_families: Pool Families
     index:
