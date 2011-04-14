@@ -31,7 +31,7 @@ help = false
 daemon = true
 refreshd_log_dir = "/var/log/aeolus-conductor"
 refreshd_pid_dir = "/var/run/aeolus-conductor"
-timeout = 15
+timeout = 5
 
 optparse = OptionParser.new do |opts|
 
