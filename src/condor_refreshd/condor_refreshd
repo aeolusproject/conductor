@@ -96,11 +96,22 @@ begin
   open(REFRESHD_PID_FILE, "w") {|f| f.write(Process.pid) }
   File.chmod(0644, REFRESHD_PID_FILE)
 
-  while true
-    begin
-      condormatic_classads_sync
-      results = select([socket], nil, nil, timeout * 60)
+  begin
+    condormatic_classads_sync
+    logger.info "Initial classads sync successful"
+  rescue => e
+    # if the first classads_sycn failed, just log it and go on.  Subsequent
+    # ones might succeed
+    logger.error "Initial classads sync failed, continuing anyway"
+  end
 
+  while true
+    # we do the select outside of the begin..rescue block.  That way if
+    # somehow the socket fails, we won't start filling the logs by continually
+    # trying to select on a bogus socket, and instead we will exit
+    results = select([socket], nil, nil, timeout * 60)
+
+    begin
       # if results was nil, we timed out waiting, and we need to do a sync
       # but not read from the socket
       if not results.nil? and results[0][0] == socket
@@ -109,6 +120,8 @@ begin
       else
         logger.info "Doing classad sync after timeout"
       end
+
+      condormatic_classads_sync
     rescue => e
       logger.error "#{e.backtrace.shift}: #{e.message}"
       e.backtrace.each do |step|
