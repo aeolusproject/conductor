@@ -87,7 +87,6 @@ socket.bind(in_addr)
 
 # daemonize
 if daemon
-  # note that this requires 'active_support', which we get for free from dutils
   Process.daemon
 end
 
