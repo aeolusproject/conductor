@@ -74,8 +74,9 @@ end
 if refreshd_log_dir == '-'
   REFRESHD_LOG_FILE = STDOUT
 else
-  REFRESHD_LOG_FILE = "#{refreshd_log_dir}/condor_refreshd.log"
+  REFRESHD_LOG_FILE = File.open("#{refreshd_log_dir}/condor_refreshd.log", "a")
 end
+REFRESHD_LOG_FILE.sync = true
 logger = Logger.new(REFRESHD_LOG_FILE)
 logger.level = Logger::DEBUG
 
