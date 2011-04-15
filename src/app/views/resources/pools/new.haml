@@ -1,11 +1,24 @@
-= error_messages_for 'account'
+= error_messages_for :pool
 %h1 Create a new Pool
 - form_for @pool, :url => resources_pools_path do |form|
-  %h2 Pool
   %fieldset
-    %label.grid_2.alpha Name:
-    = form.text_field :name, :class => "grid_5"
-    = form.error_message_on :name, 'Name '
-    .clear.grid_14.prefix_2.alpha Provide a descriptive name for this pool.
+    = form.label :name, "Name:", :class => "grid_2 alpha"
+    = form.text_field :name
+  %fieldset
+    = form.label :pool_family_id, "Pool Family:", :class => "grid_2 alpha"
+    = form.collection_select :pool_family_id, PoolFamily.all, :id, :name
+  %fieldset
+    = label_tag "Quota"
+    = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || "unlimited", :id => "quota_instances", :class => "grid_3 omega"
+    (
+    %button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances\");" }<>
+      = t('provider_accounts.form.unlimited_quota')
+    )
+    %fieldset.clear
 
-  = submit_tag "Save", :class => "submit formbutton"
+  = form.submit "Save"
+
+:javascript
+  function set_unlimited_quota(elem_id) {
+    $("#" + elem_id)[0].value = "unlimited";
+  }

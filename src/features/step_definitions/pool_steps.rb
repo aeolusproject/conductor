@@ -18,7 +18,7 @@ end
 
 Given /^a pool "([^"]*)" exists$/ do |pool_name|
   pool_family = PoolFamily.find_by_name('default') || Factory(:pool_family)
-  quota = Quota.first || Factory(:quota)
+  quota = Factory(:quota)
   Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota)
 end
 

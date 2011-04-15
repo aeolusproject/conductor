@@ -14,10 +14,14 @@ Feature: Manage Pools
     Then I should be on the new resources pool page
     And I should see "Create a new Pool"
     When I fill in "pool_name" with "mockpool"
+    And I select "default" from "pool_pool_family_id"
+    And I fill in "quota_instances" with "unlimited"
     And I press "Save"
     Then I should be on the resources pool page
     And I should see "Pool added"
     And I should see "mockpool"
+    And I should see "default"
+    And I should see "unlimited"
     And I should have a pool named "mockpool"
 
   @tag
@@ -62,6 +66,7 @@ Feature: Manage Pools
     Then I should be on the new resources pool page
     And I should see "Create a new Pool"
     When I fill in "pool_name" with "mockpool"
+    And I select "default" from "pool_pool_family_id"
     And I press "Save"
     Then I should be on the resources pool page
     And I should see "Pool added"
@@ -71,6 +76,7 @@ Feature: Manage Pools
     Then I should be on the new resources pool page
     And I should see "Create a new Pool"
     When I fill in "pool_name" with "foopool"
+    And I select "default" from "pool_pool_family_id"
     And I press "Save"
     Then I should be on the resources pool page
     And I should see "Pool added"

@@ -36,38 +36,46 @@ class Resources::PoolsController < ApplicationController
   def new
     require_privilege(Privilege::CREATE, Pool)
     @pool = Pool.new
+    @quota = Quota.new
   end
 
   def create
     require_privilege(Privilege::CREATE, Pool)
 
     @pool = Pool.new(params[:pool])
-    quota = Quota.new
-    quota.save!
+    @pool.quota = @quota = Quota.new
 
-    @pool.quota_id = quota.id
-    @pool.pool_family = PoolFamily.default
+    limit = params[:quota][:maximum_running_instances] if params[:quota]
+    @pool.quota.set_maximum_running_instances(limit)
+
     if @pool.save
       @pool.assign_owner_roles(current_user)
       flash[:notice] = "Pool added."
       redirect_to :action => 'show', :id => @pool.id
     else
-      render :action => :new
+      flash.now[:warning] = "Pool creation failed."
+      render :new and return
     end
   end
 
   def edit
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool)
+    @quota = @pool.quota
   end
 
   def update
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool)
+    @quota = @pool.quota
+
+    limit = params[:quota][:maximum_running_instances] if params[:quota]
+    @pool.quota.set_maximum_running_instances(limit)
     if @pool.update_attributes(params[:pool])
       flash[:notice] = "Pool updated."
       redirect_to :action => 'show', :id => @pool.id
     else
+      flash[:error] = "Pool wasn't updated!"
       render :action => :edit
     end
   end

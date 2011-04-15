@@ -23,11 +23,13 @@ describe Resources::PoolsController do
   it "should provider means to create new pool" do
      UserSession.create(@admin)
      lambda do
-       post :create, :pool => { :name => 'foopool' }
+       post :create, :pool => {
+         :name => 'foopool',
+         :pool_family_id => PoolFamily.find_by_name('default').id
+       }
      end.should change(Pool, :count).by(1)
      id = Pool.find(:first, :conditions => ['name = ?', 'foopool']).id
      response.should redirect_to(resources_pool_path(id))
   end
-
 
 end
