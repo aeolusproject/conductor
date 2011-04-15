@@ -125,6 +125,7 @@ class Admin::ProviderAccountsController < ApplicationController
     unless failed.empty?
       flash[:error] = t 'provider_accounts.index.account_not_deleted', :count => failed.length, :list => failed.join(', ')
     end
+    kick_condor
     redirect_to admin_provider_accounts_url
   end
 

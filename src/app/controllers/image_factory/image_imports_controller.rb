@@ -10,6 +10,7 @@ class ImageFactory::ImageImportsController < ApplicationController
       Image.import(ProviderAccount.find(params[:provider_account_id]), params[:ami_id])
       flash[:notice]="Image successfully imported"
       redirect_to image_factory_templates_path
+      kick_condor
     rescue => e
       init_provider_vars
       flash.now[:error]=e.message
