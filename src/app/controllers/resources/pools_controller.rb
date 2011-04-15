@@ -20,6 +20,7 @@ class Resources::PoolsController < ApplicationController
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::VIEW, @pool)
     @url_params = params.clone
+    load_instances
     @tab_captions = ['Properties', 'Deployments', 'Instances', 'History', 'Permissions']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     respond_to do |format|
@@ -127,5 +128,13 @@ class Resources::PoolsController < ApplicationController
       :page => params[:page] || 1,
       :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )
+  end
+
+  def load_instances
+    # If state isn't specified at all, show only running instances.
+    # (But if it's nil, we want to show all instances)
+    params[:state] = 'running' unless params.keys.include?('state')
+    conditions = params[:state].present? ? ['state=?', params[:state]] : ''
+    @instances = @pool.instances.find(:all, :conditions => conditions)
   end
 end
