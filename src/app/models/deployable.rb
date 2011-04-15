@@ -63,6 +63,8 @@ class Deployable < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of   :name, :maximum => 255
 
+  before_destroy :destroyable?
+
   def self.default_privilege_target_type
     Template
   end
@@ -75,6 +77,10 @@ class Deployable < ActiveRecord::Base
 
   def self.find_or_create(id)
     id ? Deployable.find(id) : Deployable.new
+  end
+
+  def destroyable?
+    deployments.all? {|d| d.destroyable? }
   end
 
 end

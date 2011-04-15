@@ -37,7 +37,6 @@ en:
   audit_report: Audit / Report
   assistance_requests: Assistance Requests
   define: Define
-  deployables: Deployables
   image_imports: Image Imports
   basic_template: Template Builder Basic Workflow
   browse_packages: Browse Packages
@@ -96,6 +95,15 @@ en:
     index:
       deleted: "Deleted the following Pool Families: %{list}."
       not_deleted: "Could not delete the following Pool Families: %{list}."
+  deployables:
+    index:
+      deployables: Deployables
+      deleted:
+        one: "Deployable %{list} was deleted."
+        other: "Deployables %{list} were deleted."
+      not_deleted:
+        one: "Deployable %{list} was not deleted. There are deployments associated with it."
+        other: "Deployables %{list} were not deleted. They have deployments associated with them."
   setting: Settings
   name: Name
   admin:

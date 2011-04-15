@@ -50,7 +50,23 @@ class ImageFactory::DeployablesController < ApplicationController
   end
 
   def multi_destroy
-    Deployable.destroy(params[:deployables_selected])
+    destroyed = []
+    failed = []
+    Deployable.find(params[:deployables_selected]).each do |deployable|
+      if check_privilege(Privilege::MODIFY, deployable) and deployable.destroyable?
+        deployable.destroy
+        destroyed << deployable.name
+      else
+        failed << deployable.name
+      end
+    end
+
+    unless destroyed.empty?
+      flash[:notice] = t('deployables.index.deleted', :count => destroyed.length, :list => destroyed.join(', '))
+    end
+    unless failed.empty?
+      flash[:error] = t('deployables.index.not_deleted', :count => failed.length, :list => failed.join(', '))
+    end
     redirect_to image_factory_deployables_url
   end
 

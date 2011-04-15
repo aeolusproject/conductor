@@ -61,6 +61,8 @@ class Deployment < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :pool_id
   validates_length_of :name, :maximum => 1024
 
+  before_destroy :destroyable?
+
   SEARCHABLE_COLUMNS = %w(name)
 
   def object_list
@@ -96,5 +98,8 @@ class Deployment < ActiveRecord::Base
     return get_action_list.include?(action) ? true : false
   end
 
+  def destroyable?
+    instances.all? {|i| i.destroyable? }
+  end
 
 end
