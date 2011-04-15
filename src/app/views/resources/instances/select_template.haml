@@ -5,7 +5,8 @@
     %li
       - form_tag new_resources_instance_path do
         = hidden_field :instance, :template_id, :value => tpl.id
-        = image_tag "platform_#{tpl.platform}.png", :size => "32x32", :alt => tpl.platform
+        - if tpl.platform != "unknown"
+          = image_tag "platform_#{tpl.platform}.png", :size => "32x32", :alt => tpl.platform
         %h3= tpl.name
         %p= tpl.summary
         %p
