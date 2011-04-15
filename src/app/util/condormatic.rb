@@ -294,21 +294,14 @@ end
 
 def kick_condor
   begin
-    socket = Socket.new(Socket::AF_INET, Socket::SOCK_DGRAM, 0)
-    in_addr = Socket.pack_sockaddr_in(7890, 'localhost')
-    socket.connect(in_addr)
-    socket.write("kick")
-    socket.close
-  rescue
+    socket = UDPSocket.new
+    socket.send("kick", 0, "localhost", 7890)
+  rescue => e
     # if any of the above failed, it's possible that the condor_refreshd
     # daemon is not running.  This is especially useful when running the
     # spec tests, since you don't necessarily want condor running in that
     # circumstance.
-    # FIXME: there are a couple of problems with ignoring errors here.  The
-    # first is that if this does actually fail, then it's unclear when in the
-    # future we will update the classads next.  The second problem is that
-    # if condor_refreshd died for some reason, but condor itself is running,
-    # condor could be running with stale data.
+    Rails.logger.info "#{e.backtrace.shift}: #{e.message}"
+    Rails.logger.info "Kicking condor_refreshd failed; continuing anyway"
   end
 end
-
