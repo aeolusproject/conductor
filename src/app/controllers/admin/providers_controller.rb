@@ -19,7 +19,6 @@ class Admin::ProvidersController < ApplicationController
   def new
     require_privilege(Privilege::CREATE, Provider)
     @provider = Provider.new
-    kick_condor
   end
 
   def edit
@@ -92,14 +91,15 @@ class Admin::ProvidersController < ApplicationController
         flash[:notice] = "Cannot update the provider."
         render :action => 'edit'
       end
+      kick_condor
     end
-    kick_condor
   end
 
   def multi_destroy
     Provider.find(params[:provider_selected]).each do |provider|
       provider.destroy if check_privilege(Privilege::MODIFY, provider)
     end
+    kick_condor
     redirect_to admin_providers_url
   end
 
