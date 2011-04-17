@@ -42,6 +42,7 @@ class PoolFamily < ActiveRecord::Base
   end
 
   has_many :pools,  :dependent => :destroy
+  belongs_to :quota, :dependent => :destroy
   has_and_belongs_to_many :provider_accounts
 
   validates_length_of :name, :maximum => 255

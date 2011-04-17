@@ -37,6 +37,7 @@
 class Quota < ActiveRecord::Base
 
   has_one :pool
+  has_one :pool_family
   has_one :provider_account
   has_one :user
 
