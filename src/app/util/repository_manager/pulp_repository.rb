@@ -67,6 +67,12 @@ class PulpRepository < AbstractRepository
     end
   end
 
+  def search_package(str)
+    WrappedRestClient.get(@packages_url + "?name=" + str, HTTP_OPTS).map do |info|
+      {:name => info['name']}
+    end
+  end
+
   private
 
   def strip_path(url)
