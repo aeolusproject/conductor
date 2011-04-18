@@ -1,0 +1,18 @@
+[ { "_id" : "ad9d9738-6756-4e2a-9258-6aff01f98daf",
+    "_ns" : "packages",
+    "arch" : "src",
+    "checksum" : { "sha256" : "ddecd306f32c90323ed4a9c5064f4fe971b24f7adcf0c6cb9cab936a4ac080b3" },
+    "description" : "Libdeltacloud is a library for accessing deltacloud via a\nconvenient C API.",
+    "download_url" : "http://localhost//pub/deltacloud/libdeltacloud-0.3-1.fc12.src.rpm",
+    "epoch" : "0",
+    "filename" : "libdeltacloud-0.3-1.fc12.src.rpm",
+    "id" : "ad9d9738-6756-4e2a-9258-6aff01f98daf",
+    "name" : "libdeltacloud",
+    "provides" : [  ],
+    "release" : "1.fc12",
+    "requires" : [ "libcurl-devel",
+        "libxml2-devel"
+      ],
+    "vendor" : null,
+    "version" : "0.3"
+  }]

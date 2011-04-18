@@ -13,7 +13,9 @@ Given /^There is a mock pulp repository$/ do
   hydra.stub(:get, "http://pulptest/repositories/fedora/packagegroupcategories/").and_return(
     Typhoeus::Response.new(:code => 200,
                            :body => File.read(File.join(dir, 'packagegroupcategories.json'))))
-
+  hydra.stub(:get, "http://pulptest/repositories/fedora/packages/?name=libdeltacloud").and_return(
+    Typhoeus::Response.new(:code => 200,
+                           :body => File.read(File.join(dir, 'packagesearch_libdeltacloud.json'))))
 end
 
 Given /^there is a "([^"]*)" template$/ do |name|
