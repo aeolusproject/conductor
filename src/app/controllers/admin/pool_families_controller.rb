@@ -57,7 +57,7 @@ class Admin::PoolFamiliesController < ApplicationController
         if @url_params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
-        render :parial => @details_tab and return
+        render :partial => @details_tab and return
       end
       format.html { render :show }
     end
