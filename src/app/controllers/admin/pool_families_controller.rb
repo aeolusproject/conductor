@@ -18,7 +18,7 @@ class Admin::PoolFamiliesController < ApplicationController
   end
 
   def new
-    @pool_family = PoolFamily.new
+    @pool_family = PoolFamily.new(:quota => Quota.new)
   end
 
   def create
@@ -35,6 +35,7 @@ class Admin::PoolFamiliesController < ApplicationController
 
   def edit
     @pool_family = PoolFamily.find(params[:id])
+    @pool_family.quota ||= Quota.new
   end
 
   def update

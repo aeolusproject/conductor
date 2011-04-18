@@ -32,6 +32,7 @@ Feature: Pool Families
     When I follow "Create"
     Then I should be on the new admin pool family page
     When I fill in "pool_family[name]" with "testpoolfamily"
+    When I fill in "pool_family[quota_attributes][maximum_running_instances]" with "2"
     And I press "Save"
     Then I should be on the admin pool families page
     And I should see "Pool family was added."

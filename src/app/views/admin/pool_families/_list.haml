@@ -18,5 +18,6 @@
             %input{:name => "pool_family_selected[]", :type => "checkbox", :value => pool_family.id, :id => "pool_family_checkbox_#{pool_family.id}", :checked => selected }
             = link_to pool_family.name, admin_pool_family_path(pool_family)
           %td
+            = pool_family.quota.maximum_running_instances or 'unlimited'
           %td
-            xx %
+            = "#{pool_family.quota.percentage_used} %"
