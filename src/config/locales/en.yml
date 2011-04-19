@@ -106,6 +106,7 @@ en:
         other: "Deployables %{list} were not deleted. They have deployments associated with them."
   setting: Settings
   name: Name
+  summary: Summary
   admin:
     settings:
       index:

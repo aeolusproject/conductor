@@ -44,7 +44,7 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace 'image_factory' do |r|
     r.resources :assemblies
     r.resources :image_imports
-    r.resources :deployables, :collection => { :multi_destroy => :delete }
+    r.resources :deployables, :collection => { :multi_destroy => :delete }, :member => { :pick_assemblies => :get, :remove_assemblies => :delete, :add_assemblies => :put }
     r.resources :templates, :collection => {:collections => :get, :add_selected => :get, :metagroup_packages => :get, :remove_package => :get, :multi_destroy => :delete}
     r.connect "/builds/update_status.:format", :controller => :builds, :action => :update_status
     r.resources :builds, :collection => { :delete => :delete, :upload => :get, :retry => :post }

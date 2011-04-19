@@ -1,6 +1,7 @@
 class ImageFactory::DeployablesController < ApplicationController
   before_filter :require_user
-  before_filter :load_deployables, :only => [:index, :show]
+  before_filter :load_deployables, :only => [:index, :show, :pick_assemblies]
+  before_filter :load_deployable_with_assemblies, :only => [:remove_assemblies, :add_assemblies, :pick_assemblies]
 
   def index
   end
@@ -8,7 +9,7 @@ class ImageFactory::DeployablesController < ApplicationController
   def show
     @deployable = Deployable.find(params[:id])
     @url_params = params.clone
-    @tab_captions = ['Properties']
+    @tab_captions = ['Properties', 'Assemblies']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     respond_to do |format|
       format.js do
@@ -70,6 +71,38 @@ class ImageFactory::DeployablesController < ApplicationController
     redirect_to image_factory_deployables_url
   end
 
+  def pick_assemblies
+    @assemblies = Assembly.all - @deployable.assemblies
+    respond_to do |format|
+      format.js { render :partial => 'pick_assemblies' }
+      format.html { render 'pick_assemblies' }
+    end
+  end
+
+  def add_assemblies
+    if assemblies = params.delete(:assemblies_selected)
+      @deployable.assembly_ids += assemblies.collect{|a| a.to_i}
+      @deployable.save!
+      flash[:notice] = "Assemblies saved."
+    end
+    respond_to do |format|
+      format.js { render :partial => 'assemblies' }
+      format.html { redirect_to image_factory_deployable_url(@deployable, :details_tab => 'assemblies') and return }
+    end
+  end
+
+  def remove_assemblies
+    if params[:assemblies_selected].present?
+      @deployable.assembly_ids = @deployable.assembly_ids - params[:assemblies_selected].collect{|a| a.to_i}
+      @deployable.save!
+      flash[:notice] = "Assemblies removed."
+    end
+    respond_to do |format|
+      format.js { render :partial => 'assemblies' }
+      format.html { redirect_to image_factory_deployable_url(@deployable, :details_tab => 'assemblies') and return }
+    end
+  end
+
   protected
 
   def load_deployables
@@ -81,5 +114,9 @@ class ImageFactory::DeployablesController < ApplicationController
       :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )
     @url_params = params.clone
+  end
+
+  def load_deployable_with_assemblies
+    @deployable = Deployable.find(params[:id], :include => :assemblies)
   end
 end

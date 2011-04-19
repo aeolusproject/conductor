@@ -2,6 +2,9 @@
 %fieldset.clear
   = form.label :name, t(:name), :class => "grid_3 alpha"
   = form.text_field :name, :class => "grid_5"
+%fieldset.clear
+  = form.label :summary, t(:summary), :class => "grid_3 alpha"
+  = form.text_area :summary, :class => "grid_5", :rows => 3
 %fieldset.clearfix
   = form.submit "Save",  :class => "submit formbutton"
   = link_to t(:cancel), image_factory_deployables_path, :class => 'button formbutton'
