@@ -8,12 +8,15 @@
     = form.label :pool_family_id, "Pool Family:", :class => "grid_2 alpha"
     = form.collection_select :pool_family_id, PoolFamily.all, :id, :name
   %fieldset
-    = label_tag "Quota"
+    = label_tag "Quota:"
     = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || "unlimited", :id => "quota_instances", :class => "grid_3 omega"
     (
     %button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances\");" }<>
       = t('provider_accounts.form.unlimited_quota')
     )
+  %fieldset
+    = form.label :enabled, "Enabled:",{ :class => "grid_2 alpha" }
+    = form.check_box :enabled
     %fieldset.clear
 
   = form.submit "Save"

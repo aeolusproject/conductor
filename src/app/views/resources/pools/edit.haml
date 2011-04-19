@@ -17,6 +17,9 @@
     %button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances\");" }<>
       = t('provider_accounts.form.unlimited_quota')
     )
+  %fieldset
+    = form.label :enabled, "Enabled:",{ :class => "grid_2 alpha" }
+    = form.check_box :enabled
     %fieldset.clear
 
   = form.submit "Save"

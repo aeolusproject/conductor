@@ -2,7 +2,7 @@
 PoolFamily.create!(:name => "default", :description => "default pool family", :quota => Quota.create)
 
 # Default Pool
-Pool.create!(:name => "default_pool", :quota => Quota.create, :pool_family => PoolFamily.find_by_name('default'))
+Pool.create!(:name => "default_pool", :quota => Quota.create, :pool_family => PoolFamily.find_by_name('default'), :enabled => true)
 
 
 # Create default roles

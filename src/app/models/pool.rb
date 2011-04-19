@@ -50,6 +50,7 @@ class Pool < ActiveRecord::Base
 
   validates_presence_of :name
   validates_presence_of :pool_family
+  validates_inclusion_of :enabled, :in => [true, false]
   validates_uniqueness_of :name
   validates_uniqueness_of :exported_as, :if => :exported_as
   validates_length_of :name, :maximum => 255
