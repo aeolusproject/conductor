@@ -22,12 +22,15 @@ class Resources::DeploymentsController < ApplicationController
   private
   def load_deployments
     @url_params = params
+    @deployments = Deployment.paginate(:all,
+      :page => params[:page] || 1,
+      :order => (params[:order_field] || 'name')  +' '+ (params[:order_dir] || 'asc')
+    )
     @header = [
       { :name => "Deployment name", :sort_attr => :name },
       { :name => "Deployable", :sortable => false },
-      { :name => "Deployment Owner", :sort_attr => "owner.last_name"},
+      { :name => "Owner", :sort_attr => "owner.login"},
       { :name => "Running Since", :sort_attr => :running_since },
-      { :name => "Heath Metric", :sort_attr => :health },
       { :name => "Pool", :sort_attr => "pool.name" }
     ]
   end
