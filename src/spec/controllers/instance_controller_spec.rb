@@ -66,4 +66,18 @@ describe Resources::InstancesController do
                                                    {:name => 'mockinstance'}]).size.should == 0
 
   end
+
+  it "should not create instance in disabled pool" do
+    #instance = Factory.build(:new_instance)
+    #instance.pool.enabled = false
+    UserSession.create(@admin)
+    pool = Factory(:pool, :enabled => false)
+    template = Factory(:template)
+    hwp = Factory(:mock_hwp1)
+    post :create, :instance => { :name => 'mockinstance',
+                                 :pool_id => pool.id,
+                                 :template_id => template.id,
+                                 :hardware_profile_id => hwp.id }
+    response.flash[:warning].should == "Failed to launch instance: Pool is not enabled"
+  end
 end

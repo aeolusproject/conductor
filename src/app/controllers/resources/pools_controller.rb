@@ -119,7 +119,8 @@ class Resources::PoolsController < ApplicationController
       { :name => "Pool name", :sort_attr => :name },
       { :name => "Quota (Instances)", :sort_attr => "quotas.total_instances"},
       { :name => "% Quota used", :sortable => false },
-      { :name => "Pool Family", :sort_attr => "pool_families.name" }
+      { :name => "Pool Family", :sort_attr => "pool_families.name" },
+      { :name => "Enabled", :sort_attr => :enabled }
     ]
   end
 

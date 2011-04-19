@@ -53,6 +53,7 @@ class Resources::InstancesController < ApplicationController
       require_privilege(Privilege::CREATE, Instance,
                         Pool.find(@instance.pool_id))
       free_quota = Quota.can_start_instance?(@instance, nil)
+      raise "Pool is not enabled" unless @instance.pool and @instance.pool.enabled
       @instance.transaction do
         @instance.save!
         # set owner permissions:
@@ -190,7 +191,7 @@ class Resources::InstancesController < ApplicationController
   end
 
   def init_new_instance_attrs
-    @pools = Pool.list_for_user(@current_user, Privilege::CREATE, :target_type => Instance)
+    @pools = Pool.list_for_user(@current_user, Privilege::CREATE, {:target_type => Instance,:conditions=>{ :enabled => true}})
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
       :include => :architecture,
