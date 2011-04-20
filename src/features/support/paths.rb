@@ -83,6 +83,9 @@ module NavigationHelpers
     when /the template builds page/
       url_for image_factory_template_path(@template, :details_tab => 'builds')
 
+    when /the pool family provider accounts page/
+      url_for admin_pool_family_path(@pool_family, :details_tab => 'provider_accounts')
+
     when /the templates page/
       templates_path
 

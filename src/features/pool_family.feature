@@ -78,3 +78,25 @@ Feature: Pool Families
     Then I should see "first_family"
     And I should see "second_family"
     And I should see "third_family"
+
+  Scenario: Add provider account to pool family
+    Given there is a pool family named "testpoolfamily"
+    And there is a provider named "testprovider"
+    And there is a provider account named "testaccount"
+    And I am on the pool family provider accounts page
+    Then I should see "Provider Accounts for"
+    When I select "testaccount" from "provider_account_id"
+    And I press "pool_family_submit"
+    Then there should be 1 provider accounts assigned to "testpoolfamily"
+    And I should see "testaccount"
+
+  Scenario: Remove provider account from pool family
+    Given there is a pool family named "testpoolfamily"
+    And there is a provider named "testprovider"
+    And there is a provider account named "testaccount"
+    And there is a provider account "testaccount" related to pool family "testpoolfamily"
+    And I am on the pool family provider accounts page
+    Then I should see "testaccount"
+    When I check "testaccount" provider account
+    And I press "Remove selected"
+    Then there should not exist a provider account assigned to "testpoolfamily"

@@ -2,6 +2,7 @@ class Admin::PoolFamiliesController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pool_families, :only =>[:show]
+  before_filter :load_tab_captions_and_details_tab, :only => [:show]
 
   def index
     @search_term = params[:q]
@@ -50,8 +51,7 @@ class Admin::PoolFamiliesController < ApplicationController
   def show
     @pool_family = PoolFamily.find(params[:id])
     @url_params = params.clone
-    @tab_captions = ['Properties', 'History', 'Permissions', 'Provider Accounts', 'Pools']
-    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane
@@ -61,6 +61,15 @@ class Admin::PoolFamiliesController < ApplicationController
       end
       format.html { render :show }
     end
+  end
+
+  def add_provider_account
+    @pool_family = PoolFamily.find(params[:id])
+    @provider_account = ProviderAccount.find(params[:provider_account_id])
+
+    @pool_family.provider_accounts << @provider_account
+    flash[:notice] = "Provider Account has been added"
+    redirect_to admin_pool_family_path(@pool_family, :details_tab => 'provider_accounts')
   end
 
   def multi_destroy
@@ -82,7 +91,23 @@ class Admin::PoolFamiliesController < ApplicationController
     redirect_to admin_pool_families_path
   end
 
+  def multi_destroy_provider_accounts
+    @pool_family = PoolFamily.find(params[:pool_family_id])
+
+    ProviderAccount.find(params[:provider_account_selected]).each do |provider_account|
+      @pool_family.provider_accounts.delete provider_account
+    end
+
+    redirect_to admin_pool_family_path(@pool_family, :details_tab => 'provider_accounts')
+  end
+
   protected
+
+  def load_tab_captions_and_details_tab
+    @tab_captions = ['Properties', 'History', 'Permissions', 'Provider Accounts', 'Pools']
+    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    @provider_accounts_header = [{ :name => "Provider Account", :sort_attr => :name}]
+  end
 
   def set_params_and_header
     @url_params = params.clone

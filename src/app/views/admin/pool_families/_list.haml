@@ -8,7 +8,7 @@
     %span> ,&nbsp;
     = link_to "None", @url_params.merge(:select => 'none')
 
-  %table#pool_famlies_table
+  %table#pool_families_table
     = sortable_table_header @header
     - unless @pool_families.blank?
       - @pool_families.each do |pool_family|

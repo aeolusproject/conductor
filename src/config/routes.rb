@@ -58,7 +58,7 @@ ActionController::Routing::Routes.draw do |map|
 
     r.resources :roles, :collection => { :multi_destroy => :delete }
     r.resources :settings, :collection => { :self_service => :get, :general_settings => :get }
-    r.resources :pool_families, :collection => { :multi_destroy => :delete }
+    r.resources :pool_families, :collection => { :multi_destroy => :delete, :add_provider_account => :post, :multi_destroy_provider_accounts => :delete }
     r.resources :realms, :collection => { :multi_destroy => :delete }
     r.resources :realm_mappings, :collection => { :multi_destroy => :delete }
   end
