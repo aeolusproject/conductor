@@ -48,6 +48,7 @@ class Deployment < ActiveRecord::Base
   has_many :instances
 
   belongs_to :realm
+  belongs_to :frontend_realm
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
@@ -60,6 +61,7 @@ class Deployment < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id
   validates_length_of :name, :maximum => 1024
+  validates_presence_of :owner_id
 
   before_destroy :destroyable?
 
@@ -102,4 +104,35 @@ class Deployment < ActiveRecord::Base
     instances.all? {|i| i.destroyable? }
   end
 
+  def launch(hw_profiles, user)
+    errors = []
+    raise "the deployable must have at least one assembly and each assembly must have at least one template" unless deployable.launchable?
+    deployable.assemblies.each do |assembly|
+      # TODO: for now we try to start all instances even if some of them fails
+      begin
+        Instance.transaction do
+          instance = Instance.create!(
+            :deployment => self,
+            :name => "#{name}/#{assembly.name}",
+            :frontend_realm => realm,
+            :pool => pool,
+            :assembly => assembly,
+            :state => Instance::STATE_NEW,
+            :owner => user,
+            :hardware_profile => HardwareProfile.find(hw_profiles[assembly.id.to_s])
+          )
+          instance.assign_owner_roles(user)
+          task = InstanceTask.create!({:user        => user,
+                                       :task_target => instance,
+                                       :action      => InstanceTask::ACTION_CREATE})
+          condormatic_instance_create(task)
+        end
+      rescue
+        logger.error $!
+        logger.error $!.backtrace.join("\n    ")
+        errors << "#{assembly.name}: #{$!}"
+      end
+    end
+    errors
+  end
 end

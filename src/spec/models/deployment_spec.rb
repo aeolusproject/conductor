@@ -55,5 +55,21 @@ describe Deployment do
     @deployment.get_action_list.should eql(["start", "stop", "reboot"])
   end
 
+  it "should launch instances when launching deployment" do
+    hwp = Factory(:mock_hwp1)
+    hwp_ids = {}
+    @deployment.save!
+    @deployment.deployable.assemblies.each {|a| hwp_ids[a.id.to_s] = hwp.id}
+    @deployment.instances.should be_empty
+    errs = @deployment.launch(hwp_ids, Factory(:user))
+    errs.should be_empty
+    @deployment.instances.count.should == @deployment.deployable.assemblies.count
+  end
+
+  it "should not launch a deployment if deployable has not assemblies" do
+    @deployment.save!
+    @deployment.deployable.assemblies = []
+    lambda {@deployment.launch}.should raise_exception
+  end
 
 end

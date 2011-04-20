@@ -83,4 +83,13 @@ class Deployable < ActiveRecord::Base
     deployments.all? {|d| d.destroyable? }
   end
 
+  def launchable?
+    return false if assemblies.empty?
+    assemblies.each do |a|
+      return false if a.templates.empty?
+      # TODO: should we check if there is an uploaded image for each template in
+      # assembly?
+    end
+    return true
+  end
 end
