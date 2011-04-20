@@ -16,11 +16,13 @@
       %span> ,&nbsp;
       = link_to "None", @url_params.merge(:select => 'none')
 
-%table
+%table#deployments_table
   = sortable_table_header @header
   - @deployments.each do |deployment|
     %tr
       %td
+        - selected = @url_params[:select] == 'all'
+        %input{:name => "deployments_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}", :checked => selected }
         = link_to deployment.name, resources_deployment_path(deployment)
       %td
         = link_to deployment.deployable.name, image_factory_deployable_path(deployment.deployable)

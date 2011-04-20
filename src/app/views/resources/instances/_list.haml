@@ -17,7 +17,7 @@
           %input{:name => 'instance_selected[]', :type => 'checkbox', :value => inst.id, :id => "instance_checkbox_#{inst.id}", :checked => selected }
           = link_to inst.name, resources_instance_path(inst)
         %td= inst.state
-        %td= inst.template.name
+        %td= inst.template ? inst.template.name : "#{inst.assembly.name} (assembly)"
         %td= inst.public_addresses
         %td= inst.provider_account ? inst.provider_account.provider.name : ''
         %td= owner_name(inst)

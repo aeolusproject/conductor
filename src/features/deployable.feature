@@ -6,6 +6,7 @@ Feature: Manage Deployables
   Background:
     Given I am an authorised user
     And I am logged in
+    And There is a mock pulp repository
 
   Scenario: List deployables
     Given I am on the homepage
@@ -97,3 +98,19 @@ Feature: Manage Deployables
     And there are deployment named "My deployment" belongs to "My"
     When I am on the deployable deployments page
     Then I should see "My deployment"
+
+  Scenario: Create and launch a deployment from a deployable
+    Given there is a factory deployable named "test1"
+    And I am on the image factory deployables page
+    And there is "mock_profile" conductor hardware profile
+    And there is "mock_realm" frontend realm
+    And there is "mock_pool" pool
+    When I follow "test1"
+    And I follow "Launch"
+    Then I should be on the new resources deployment page
+    When I fill in "deployment_name" with "depl1"
+    And I select "mock_pool" from "deployment_pool_id"
+    And I select "mock_realm" from "deployment_frontend_realm_id"
+    And I select default hardware profile for assemblies in "test1"
+    And I press "Launch"
+    Then I should see "Deployment launched"

@@ -2,3 +2,7 @@
   %h2 #{@deployable.name}
 
   = link_to 'Edit', edit_image_factory_deployable_path(@deployable), :class => 'button'
+  - if @deployable.launchable?
+    = link_to "Launch", new_resources_deployment_path(:deployable_id => @deployable.id), {:class => 'button'}
+  - else
+    The deployable can't be launched - the deployable must have at least one assembly and each assembly must have at least one template.

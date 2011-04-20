@@ -63,7 +63,10 @@ def condormatic_instance_create(task)
       Rails.logger.error "DeltacloudRealmId = $$(realm_key)\n"
     end
 
-    requirements = "requirements = front_end_hardware_profile_id == \"#{instance.hardware_profile.id}\" && image == \"#{instance.template.id}\""
+    # TODO: for assemblies we grab first template in an assembly
+    template_id = instance.template ? instance.template.id : instance.assembly.templates.first.id
+    requirements = "requirements = front_end_hardware_profile_id == \"#{instance.hardware_profile.id}\" && image == \"#{template_id}\""
+
     requirements += " && realm == \"#{realm.id}\"" if realm != nil
     # Call into the deltacloud quota plugin.  This uses a REST API to call back into the
     # conductor to check quotas as the last thing in the logical AND to match a provider

@@ -1,0 +1,23 @@
+= error_messages_for 'deployment'
+%h2 Launch deployable
+- form_for @deployment, :url => resources_deployments_path do
+  = hidden_field :deployment, :deployable_id
+  %ul
+    %li
+      = label :deployment, :name
+      = text_field :deployment, :name
+    %li
+      = label :deployment, :pool
+      = select :deployment, :pool_id, @pools.map {|p| [ p.name, p.id ]}, { :include_blank => true }
+    %li
+      = label :deployment, :frontend_realm
+      = select :deployment, :frontend_realm_id, @realms.map {|r| [ r.name, r.id ]}, { :include_blank => true }
+    %p
+    %h3 Assemblies hardware profiles
+    %ul
+      - @deployment.deployable.assemblies.each do |assembly|
+        = label_tag "hw_profiles[#{assembly.id}]", assembly.name
+        = select_tag "hw_profiles[#{assembly.id}]", options_from_collection_for_select(@hardware_profiles, 'id', 'name')
+
+  = submit_tag 'Cancel', :name => 'cancel'
+  = submit_tag 'Launch', :name => 'launch'
