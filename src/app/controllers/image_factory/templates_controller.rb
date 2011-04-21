@@ -77,6 +77,9 @@ class ImageFactory::TemplatesController < ApplicationController
       @tpl.assign_owner_roles(current_user)
       flash[:notice] = "Template saved."
       @tpl.set_complete
+      if params[:create_deployable]
+        Deployable.create!(:name => @tpl.name, :assemblies => @tpl.assemblies)
+      end
       redirect_to image_factory_templates_path
     else
       @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)

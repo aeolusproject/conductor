@@ -4,5 +4,7 @@
   /- form_for @tpl, :url => image_factory_templates_path do |f|
   - form_tag do
     = render :partial => 'form'
+    = check_box_tag :create_deployable
+    = label_tag :create_deployable, "Create Deployable for this template"
     = restful_submit_tag "Save", 'create', image_factory_templates_path, 'POST', :class => "formbutton"
     = link_to 'Cancel', image_factory_templates_path, :class => 'button formbutton'

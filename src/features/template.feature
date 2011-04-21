@@ -213,3 +213,16 @@ Feature: Manage Templates
     And I press "Delete"
     Then I should be on the image factory templates page
     And I should see "Other"
+
+    Scenario: Create Assembly and Deployable
+      Given I am on the new image factory template page
+      When I fill in the following:
+        | tpl_name         | mocktemplate  |
+        | tpl_platform     | fedora13      |
+        | tpl_summary      | mockdesc      |
+      And I check "create_deployable"
+      And I press "Save"
+      Then I should be on the image factory templates page
+      And I should see "mocktemplate"
+      When I go to the image factory deployables page
+      And I should see "mocktemplate"
