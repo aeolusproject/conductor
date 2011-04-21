@@ -72,3 +72,22 @@ Feature: Manage Deployables
     And I press "Remove Selected"
     Then I should see "Assemblies removed."
     And I should not see "Apache"
+
+  Scenario: Search for deployables
+    Given there is a deployable named "first"
+    And there is a deployable named "second"
+    And I am on the image factory deployables page
+    Then I should see "first"
+    And I should see "second"
+    When I fill in "q" with "first"
+    And I press "Search"
+    Then I should see "first"
+    And I should not see "second"
+    When I fill in "q" with "second"
+    And I press "Search"
+    Then I should see "second"
+    And I should not see "first"
+    When I fill in "q" with ""
+    And I press "Search"
+    Then I should see "first"
+    And I should see "second"

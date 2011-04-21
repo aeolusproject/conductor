@@ -4,6 +4,13 @@ class ImageFactory::DeployablesController < ApplicationController
   before_filter :load_deployable_with_assemblies, :only => [:remove_assemblies, :add_assemblies, :pick_assemblies]
 
   def index
+    @search_term = params[:q]
+    return if @search_term.blank?
+
+    search = Deployable.search() do
+      keywords(params[:q])
+    end
+    @deployables = search.results
   end
 
   def show
