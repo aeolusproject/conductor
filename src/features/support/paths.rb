@@ -110,6 +110,9 @@ module NavigationHelpers
     when /^(.*)'s provider account page$/
       admin_provider_account_path(ProviderAccount.find_by_label($1))
 
+    when /the deployable deployments page/
+      image_factory_deployable_path(@deployable, :details_tab => 'deployments')
+
     when /^(.*)'s image factory deployable page$/
       image_factory_deployable_path(Deployable.find_by_name($1))
 

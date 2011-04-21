@@ -11,10 +11,14 @@ Then /^I should have a deployable named "([^"]*)"$/ do |name|
 end
 
 Given /^there is a deployable named "([^"]*)"$/ do |name|
-  Deployable.create!(:name => name)
+  @deployable = Deployable.create!(:name => name)
 end
 
 When /^I check the "([^"]*)" deployable$/ do |name|
   deployable = Deployable.find_by_name(name)
   check("deployable_checkbox_#{deployable.id}")
+end
+
+Given /^there are deployment named "([^"]*)" belongs to "([^"]*)"$/ do |deployment_name, deployable_name|
+  Factory(:deployment, :deployable => Deployable.find_by_name(deployable_name), :name => deployment_name)
 end

@@ -16,8 +16,11 @@ class ImageFactory::DeployablesController < ApplicationController
   def show
     @deployable = Deployable.find(params[:id])
     @url_params = params.clone
-    @tab_captions = ['Properties', 'Assemblies']
+    @tab_captions = ['Properties', 'Assemblies', 'Deployments']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    if @details_tab == 'deployments'
+      @deployments = @deployable.deployments
+    end
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane
@@ -115,6 +118,14 @@ class ImageFactory::DeployablesController < ApplicationController
   def load_deployables
     @header = [
       { :name => "Deployable name", :sort_attr => :name }
+    ]
+    @header_deployments = [
+      { :name => "Deployment name", :sort_attr => :name },
+      { :name => "Deployable", :sortable => false },
+      { :name => "Deployment Owner", :sort_attr => "owner.last_name"},
+      { :name => "Running Since", :sort_attr => :running_since },
+      { :name => "Heath Metric", :sort_attr => :health },
+      { :name => "Pool", :sort_attr => "pool.name" }
     ]
     @deployables = Deployable.paginate(:all,
       :page => params[:page] || 1,

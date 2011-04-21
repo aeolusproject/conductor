@@ -91,3 +91,9 @@ Feature: Manage Deployables
     And I press "Search"
     Then I should see "first"
     And I should see "second"
+
+  Scenario: Show list of deployments belongs to deployable
+    Given there is a deployable named "My"
+    And there are deployment named "My deployment" belongs to "My"
+    When I am on the deployable deployments page
+    Then I should see "My deployment"
