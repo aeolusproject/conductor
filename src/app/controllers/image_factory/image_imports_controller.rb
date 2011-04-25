@@ -11,9 +11,10 @@ class ImageFactory::ImageImportsController < ApplicationController
       flash[:notice]="Image successfully imported"
       redirect_to image_factory_templates_path
       kick_condor
-    rescue => e
+    rescue Exception => e
       init_provider_vars
-      flash.now[:error]=e.message
+      # The full message may be multiple lines, including the actual request, so only include the first line:
+      flash.now[:error]="Could not import image: #{e.message.split("\n").first}"
       Rails.logger.error([e.message,e.backtrace].join("\n  "))
       render :new
     end
