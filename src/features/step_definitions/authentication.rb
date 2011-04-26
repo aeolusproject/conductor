@@ -10,12 +10,27 @@ def login(login, password)
   click_button "Login"
 end
 
+def signup
+  visit path_to("the new account page")
+  fill_in "Choose a username", :with => 'newuser'
+  fill_in "Choose a password", :with => 'password'
+  fill_in "Confirm password", :with => 'password'
+  fill_in "First name", :with => 'Unprivileged'
+  fill_in "Last name", :with => "User"
+  fill_in "E-mail", :with => "testuser@example.com"
+  click_button "Save"
+end
+
 Given /^I am a registered user$/ do
   user
 end
 
 When /^I login$/ do
   login(user.login, user.password)
+end
+
+Given /^I am a new user$/ do
+  signup
 end
 
 Given /^I am logged in$/ do

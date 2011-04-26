@@ -21,6 +21,7 @@ end
 
 Given /^there are deployment named "([^"]*)" belongs to "([^"]*)"$/ do |deployment_name, deployable_name|
   Factory(:deployment, :deployable => Deployable.find_by_name(deployable_name), :name => deployment_name)
+end
 
 Given /^there is a factory deployable named "([^"]*)"$/ do |arg1|
   Factory(:deployable, :name => arg1)

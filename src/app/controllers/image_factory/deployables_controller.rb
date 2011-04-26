@@ -4,9 +4,9 @@ class ImageFactory::DeployablesController < ApplicationController
   before_filter :load_deployable_with_assemblies, :only => [:remove_assemblies, :add_assemblies, :pick_assemblies]
 
   def index
+    require_privilege(Privilege::VIEW, Template)
     @search_term = params[:q]
     return if @search_term.blank?
-
     search = Deployable.search() do
       keywords(params[:q])
     end
@@ -15,6 +15,7 @@ class ImageFactory::DeployablesController < ApplicationController
 
   def show
     @deployable = Deployable.find(params[:id])
+    require_privilege(Privilege::VIEW, @deployable)
     @url_params = params.clone
     @tab_captions = ['Properties', 'Assemblies', 'Deployments']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
@@ -33,12 +34,15 @@ class ImageFactory::DeployablesController < ApplicationController
   end
 
   def new
+    require_privilege(Privilege::CREATE, Template)
     @deployable = Deployable.new
   end
 
   def create
+    require_privilege(Privilege::CREATE, Template)
     @deployable = Deployable.new(params[:deployable])
     if @deployable.save
+      @deployable.assign_owner_roles(current_user)
       flash[:notice] = "Deployable added."
       redirect_to image_factory_deployable_url(@deployable)
     else
@@ -48,10 +52,12 @@ class ImageFactory::DeployablesController < ApplicationController
 
   def edit
     @deployable = Deployable.find(params[:id])
+    require_privilege(Privilege::MODIFY, @deployable)
   end
 
   def update
     @deployable = Deployable.find(params[:id])
+    require_privilege(Privilege::MODIFY, @deployable)
     if @deployable.update_attributes(params[:deployable])
       flash[:notice] = "Deployable updated."
       redirect_to image_factory_deployable_url(@deployable)
@@ -82,6 +88,7 @@ class ImageFactory::DeployablesController < ApplicationController
   end
 
   def pick_assemblies
+    require_privilege(Privilege::MODIFY, @deployable)
     @assemblies = Assembly.all - @deployable.assemblies
     respond_to do |format|
       format.js { render :partial => 'pick_assemblies' }
@@ -90,6 +97,7 @@ class ImageFactory::DeployablesController < ApplicationController
   end
 
   def add_assemblies
+    require_privilege(Privilege::MODIFY, @deployable)
     if assemblies = params.delete(:assemblies_selected)
       @deployable.assembly_ids += assemblies.collect{|a| a.to_i}
       @deployable.save!
@@ -102,6 +110,7 @@ class ImageFactory::DeployablesController < ApplicationController
   end
 
   def remove_assemblies
+    require_privilege(Privilege::MODIFY, @deployable)
     if params[:assemblies_selected].present?
       @deployable.assembly_ids = @deployable.assembly_ids - params[:assemblies_selected].collect{|a| a.to_i}
       @deployable.save!
