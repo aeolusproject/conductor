@@ -94,16 +94,12 @@ get_xml (RestProxyCall *call)
 
 /*
  * Perform our quota check against the Aeolus Conductor database.
- * This function expects:
+ * The arglist to this function is expected to contain:
  *
- * - Instance executable name as handed to condor so that we can map to the
- *   instance found in the database.
- * - The username
- * - The provider url so we can map back to the provider.
- * - The realm key so we know what realm this is in.
- *
- * ... at least for now.  Need to better analyze what is required to do all
- * the quota matching but that's the idea.
+ * - Instance ID as handed to condor so that we can map to the instance found
+ *   in the database.
+ * - Account ID of the user that wants to launch the instance so we can check
+ *   the quota.
  */
 bool
 conductor_quota_check(const char *name, const ArgumentList &arglist,
