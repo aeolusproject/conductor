@@ -119,16 +119,16 @@ class Image < ActiveRecord::Base
     Delayed::Job.enqueue(BuildJob.new(img.id))
     img
   end
-  def self.single_import(providername, username, password, image_id)
+  def self.single_import(providername, username, password, image_id, user)
     account = Image.get_account(providername, username, password)
-    Image.import(account, image_id)
+    Image.import(account, image_id, user)
   end
 
-  def self.bulk_import(providername, username, password, images)
+  def self.bulk_import(providername, username, password, images, user)
     account = Image.get_account(providername, username, password)
     images.each do |image|
       begin
-        Image.import(account, image['id'])
+        Image.import(account, image['id'], user)
         $stderr.puts "imported image with id '#{image['id']}'"
       rescue
         $stderr.puts "failed to import image with id '#{image['id']}'"
@@ -136,7 +136,7 @@ class Image < ActiveRecord::Base
     end
   end
 
-  def self.import(account, image_id)
+  def self.import(account, image_id, user)
     if image_id.blank?
       raise "image id should not be blank"
     end
@@ -158,7 +158,8 @@ class Image < ActiveRecord::Base
                               :architecture => raw_image.architecture},
         :complete         => true,
         :uploaded         => true,
-        :imported         => true
+        :imported         => true,
+        :owner            => user
       )
       template.save!
 

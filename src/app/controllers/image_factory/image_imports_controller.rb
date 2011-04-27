@@ -7,7 +7,7 @@ class ImageFactory::ImageImportsController < ApplicationController
 
   def create
     begin
-      Image.import(ProviderAccount.find(params[:provider_account_id]), params[:ami_id])
+      Image.import(ProviderAccount.find(params[:provider_account_id]), params[:ami_id], current_user)
       flash[:notice]="Image successfully imported"
       redirect_to image_factory_templates_path
       kick_condor

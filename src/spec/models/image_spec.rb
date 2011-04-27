@@ -61,7 +61,7 @@ describe Image do
     lambda do
       lambda do
         lambda do
-          img = Image.import(account, 'mock')
+          img = Image.import(account, 'mock', Factory(:user))
           img.should_not be_nil
           img.template.uploaded.should be_true
         end.should change(Image, :count).by(1)
