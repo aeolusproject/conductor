@@ -115,9 +115,6 @@ conductor_quota_check(const char *name, const ArgumentList &arglist,
   std::stringstream rest_call;
   GError *err = NULL;
 
-  g_thread_init (NULL);
-  g_type_init ();
-
   result.SetBooleanValue(false);
 
   fp = fopen(LOGFILE, "a");
@@ -215,6 +212,9 @@ extern "C"
 {
   ClassAdFunctionMapping *
   Init(void) {
+    g_thread_init(NULL);
+    g_type_init();
+
     return classad_functions;
   }
 }
