@@ -80,6 +80,27 @@ class ImageDescriptorXML
     rep = repository_manager.repositories.find {|r| r.id == platform_id}
     url_node.content = rep.yumurl if rep
     install_node << url_node
+    custom_repositories(platform_id)
+  end
+
+  def custom_repositories(platform)
+    repos = repository_manager.repositories.find_all {|r| r.platform_id == platform && r.install == false}.flatten
+    if repos.size > 0
+      repo_block = get_or_create_node('repositories')
+      repo_block.xpath('.//*').remove
+      @root << repo_block
+      repos.each do |r|
+        repo_node = Nokogiri::XML::Node.new('repository', @doc)
+        repo_node['name'] = 'custom'
+        repo_block << repo_node
+        url_node = Nokogiri::XML::Node.new('url', repo_node)
+        url_node.content = r.baseurl
+        signed_node = Nokogiri::XML::Node.new('signed', repo_node)
+        signed_node.content = 'false'
+        repo_node << url_node
+        repo_node << signed_node
+      end
+    end
   end
 
   def platform_version

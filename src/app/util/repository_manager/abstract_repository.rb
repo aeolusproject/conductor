@@ -1,5 +1,5 @@
 class AbstractRepository
-  attr_reader :id, :name, :baseurl, :yumurl, :type
+  attr_reader :id, :name, :baseurl, :yumurl, :type, :platform_id, :install
 
   def initialize(conf)
     @id = conf['id']
@@ -7,6 +7,8 @@ class AbstractRepository
     @baseurl = conf['baseurl']
     @yumurl = conf['yumurl'] || conf['baseurl']
     @type = conf['type']
+    @platform_id = conf['platform_id']
+    @install = conf['install'] || false
   end
 
   def search_package(what)

@@ -38,7 +38,7 @@ RepositoryManager.class_eval do
     [{
       'baseurl' => 'http://pulptest',
       'yumurl'  => 'http://pulptest',
-      'type'    => 'pulp',
+      'type'    => 'pulp'
     }]
   end
 end

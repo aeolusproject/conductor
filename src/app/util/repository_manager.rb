@@ -104,7 +104,8 @@ class RepositoryManager
   def get_selected_repositories(repos)
     return @repositories if repos.blank?
     repos.map do |repo|
-      @repositories.find {|r| r.id == repo} or raise "repository '#{repo}' not found"
-    end
+      @repositories.find_all {|r| r.platform_id == repo} or raise "repository '#{repo}' not found"
+    end.flatten
+    @repositories
   end
 end
