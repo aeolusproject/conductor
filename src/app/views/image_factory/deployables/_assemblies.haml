@@ -22,7 +22,9 @@
       e.preventDefault();
       var url = $(this).attr('href');
       $.get(url, function(data) {
-        $('#ui-tabs-2').html(data);
+        var selectedTabIndex = $("#details-view").tabs('option', 'selected');
+        var $selectedTab = $("#details-view div.ui-tabs-panel").eq(selectedTabIndex);
+        $selectedTab.html(data);
       });
     });
   });
