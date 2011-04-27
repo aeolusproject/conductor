@@ -62,14 +62,14 @@ static void _print_type(FILE *fp, Value val, const char *name)
 
 static void _print_value(FILE *fp, Value val, const char *name)
 {
-    /* AFAICT the only way to get at the string in a 'Value' object is to use
-     * the C++ stream operator <<,  so we set up a stringstream and write
-     * stuff we want into that..
-     */
-    std::stringstream sstr;
+  /* AFAICT the only way to get at the string in a 'Value' object is to use
+   * the C++ stream operator <<,  so we set up a stringstream and write
+   * stuff we want into that..
+   */
+  std::stringstream sstr;
 
-    sstr << name << " is " << val;
-    fprintf(fp, "%s\n", sstr.str().c_str());
+  sstr << name << " is " << val;
+  fprintf(fp, "%s\n", sstr.str().c_str());
 }
 
 static RestXmlNode *
@@ -79,14 +79,14 @@ get_xml (RestProxyCall *call)
   RestXmlNode *root;
   GError *error = NULL;
 
-  parser = rest_xml_parser_new ();
+  parser = rest_xml_parser_new();
 
-  root = rest_xml_parser_parse_from_data (parser,
-                                          rest_proxy_call_get_payload (call),
-                                          rest_proxy_call_get_payload_length (call));
+  root = rest_xml_parser_parse_from_data(parser,
+					 rest_proxy_call_get_payload(call),
+					 rest_proxy_call_get_payload_length(call));
 
-  g_object_unref (call);
-  g_object_unref (parser);
+  g_object_unref(call);
+  g_object_unref(parser);
 
   return root;
 }
@@ -109,91 +109,92 @@ bool
 conductor_quota_check(const char *name, const ArgumentList &arglist,
 		      EvalState &state, Value &result)
 {
-    Value instance_id;
-    Value account_id;
-    FILE *fp;
-    bool val = false;
-    RestProxy *proxy;
-    RestProxyCall *call;
-    RestXmlNode *root;
-    std::stringstream rest_call;
-    GError *err = NULL;
+  Value instance_id;
+  Value account_id;
+  FILE *fp;
+  bool val = false;
+  RestProxy *proxy;
+  RestProxyCall *call;
+  RestXmlNode *root;
+  std::stringstream rest_call;
+  GError *err = NULL;
 
-    g_thread_init (NULL);
-    g_type_init ();
+  g_thread_init (NULL);
+  g_type_init ();
 
-    result.SetBooleanValue(false);
+  result.SetBooleanValue(false);
 
-    fp = fopen(LOGFILE, "a");
+  fp = fopen(LOGFILE, "a");
 
-    if (arglist.size() != 2) {
-      result.SetErrorValue();
-      fprintf(fp, "Expected 2 arguments, saw %z\n", arglist.size());
-      goto do_ret;
+  if (arglist.size() != 2) {
+    result.SetErrorValue();
+    fprintf(fp, "Expected 2 arguments, saw %z\n", arglist.size());
+    goto do_ret;
+  }
+
+  if (!arglist[0]->Evaluate(state, instance_id)) {
+    result.SetErrorValue();
+    fprintf(fp, "Could not evaluate argument 0 to instance id\n");
+    goto do_ret;
+  }
+  if (!arglist[1]->Evaluate(state, account_id)) {
+    result.SetErrorValue();
+    fprintf(fp, "Could not evaluate argument 1 to account id\n");
+    goto do_ret;
+  }
+
+  print_type(fp, instance_id);
+  print_value(fp, instance_id);
+  if (instance_id.GetType() != Value::INTEGER_VALUE) {
+    result.SetErrorValue();
+    fprintf(fp, "Instance id type was not an integer\n");
+    goto do_ret;
+  }
+
+  print_type(fp, account_id);
+  print_value(fp, account_id);
+  if (account_id.GetType() != Value::STRING_VALUE) {
+    result.SetErrorValue();
+    fprintf(fp, "Account ID type was not a string\n");
+    goto do_ret;
+  }
+
+  rest_call << "resources/instances/" << instance_id << "/can_start/" << account_id;
+
+  // Call rest API to get answer on quota..
+  // FIXME: this should be configurable somehow, maybe passed via condor?
+  proxy = rest_proxy_new("http://localhost:3000/conductor", FALSE);
+  call = rest_proxy_new_call(proxy);
+  rest_proxy_call_set_function(call, rest_call.str().c_str());
+
+  fprintf(fp, "Calling REST API with %s\n", rest_call.str().c_str());
+  rest_proxy_call_sync(call, &err);
+
+  if (err != NULL) {
+    fprintf(fp, "Error calling REST API: %s\n", err->message);
+  } else {
+    root = get_xml(call);
+    if (root) {
+      RestXmlNode *node;
+      gchar *value;
+
+      node = rest_xml_node_find(root, "value");
+      value = node->content;
+
+      fprintf (fp, "return value is %s\n", value);
+      if (strncmp(value, "true", 4) == 0) {
+	result.SetBooleanValue(true);
+	val = true;
+      }
     }
+  }
 
-    if (!arglist[0]->Evaluate(state, instance_id)) {
-      result.SetErrorValue();
-      fprintf(fp, "Could not evaluate argument 0 to instance id\n");
-      goto do_ret;
-    }
-    if (!arglist[1]->Evaluate(state, account_id)) {
-      result.SetErrorValue();
-      fprintf(fp, "Could not evaluate argument 1 to account id\n");
-      goto do_ret;
-    }
-
-    print_type(fp, instance_id);
-    print_value(fp, instance_id);
-    if (instance_id.GetType() != Value::INTEGER_VALUE) {
-      result.SetErrorValue();
-      fprintf(fp, "Instance id type was not an integer\n");
-      goto do_ret;
-    }
-
-    print_type(fp, account_id);
-    print_value(fp, account_id);
-    if (account_id.GetType() != Value::STRING_VALUE) {
-      result.SetErrorValue();
-      fprintf(fp, "Account ID type was not a string\n");
-      goto do_ret;
-    }
-
-    rest_call << "resources/instances/" << instance_id << "/can_start/" << account_id;
-
-    // Call rest API to get answer on quota..
-    proxy = rest_proxy_new ("http://localhost:3000/conductor", FALSE);
-    call = rest_proxy_new_call (proxy);
-    rest_proxy_call_set_function (call, rest_call.str().c_str());
-
-    fprintf(fp, "Calling REST API with %s\n", rest_call.str().c_str());
-    rest_proxy_call_sync (call, &err);
-
-    if (err != NULL) {
-        fprintf (fp, "Error calling REST API: %s\n", err->message);
-    } else {
-        root = get_xml (call);
-        if (root) {
-            RestXmlNode *node;
-            gchar *value;
-
-            node = rest_xml_node_find (root, "value");
-            value = node->content;
-
-            fprintf (fp, "return value is %s\n", value);
-            if (strncmp(value, "true", 4) == 0) {
-                result.SetBooleanValue(true);
-                val = true;
-            }
-        }
-    }
-
-    g_object_unref (proxy);
+  g_object_unref(proxy);
 
  do_ret:
-    fclose(fp);
+  fclose(fp);
 
-    return val;
+  return val;
 }
 
 /*
@@ -205,8 +206,8 @@ conductor_quota_check(const char *name, const ArgumentList &arglist,
  */
 static ClassAdFunctionMapping classad_functions[] =
 {
-    { "conductor_quota_check", (void *) conductor_quota_check, 0 },
-    { "", NULL, 0 }
+  { "conductor_quota_check", (void *) conductor_quota_check, 0 },
+  { "", NULL, 0 }
 };
 
 /*
@@ -216,9 +217,9 @@ static ClassAdFunctionMapping classad_functions[] =
  */
 extern "C"
 {
-    ClassAdFunctionMapping *
-    Init(void) {
-        return classad_functions;
-    }
+  ClassAdFunctionMapping *
+  Init(void) {
+    return classad_functions;
+  }
 }
 
