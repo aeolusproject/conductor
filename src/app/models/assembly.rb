@@ -52,13 +52,11 @@ class Assembly < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
+  after_create "assign_owner_roles(owner)"
 
   before_validation :generate_uuid
   before_save :update_xml
-
-  has_many :permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "permissions.id ASC"
 
   validates_presence_of :uuid
   validates_uniqueness_of :uuid
@@ -66,6 +64,7 @@ class Assembly < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of   :name, :maximum => 255
   validates_presence_of :architecture
+  validates_presence_of :owner_id
 
   def self.default_privilege_target_type
     Template

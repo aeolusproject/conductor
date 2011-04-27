@@ -41,8 +41,8 @@ class ImageFactory::DeployablesController < ApplicationController
   def create
     require_privilege(Privilege::CREATE, Template)
     @deployable = Deployable.new(params[:deployable])
+    @deployable.owner = current_user
     if @deployable.save
-      @deployable.assign_owner_roles(current_user)
       flash[:notice] = "Deployable added."
       redirect_to image_factory_deployable_url(@deployable)
     else

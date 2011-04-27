@@ -49,11 +49,12 @@ class Deployment < ActiveRecord::Base
 
   belongs_to :realm
   belongs_to :frontend_realm
-  belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
+  after_create "assign_owner_roles(owner)"
 
   validates_presence_of :pool_id
   validates_presence_of :deployable_id
@@ -121,7 +122,6 @@ class Deployment < ActiveRecord::Base
             :owner => user,
             :hardware_profile => HardwareProfile.find(hw_profiles[assembly.id.to_s])
           )
-          instance.assign_owner_roles(user)
           task = InstanceTask.create!({:user        => user,
                                        :task_target => instance,
                                        :action      => InstanceTask::ACTION_CREATE})

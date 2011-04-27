@@ -45,6 +45,9 @@ class Template < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
+  after_create "assign_owner_roles(owner)"
+  after_create :ensure_assembly
 
   validates_presence_of :uuid
   validates_uniqueness_of :uuid
@@ -54,8 +57,7 @@ class Template < ActiveRecord::Base
   validates_presence_of :platform
   validates_presence_of :platform_version
   validates_presence_of :architecture
-
-  after_create :ensure_assembly
+  validates_presence_of :owner_id
 
   def no_instances?
     unless instances.empty?
@@ -177,7 +179,8 @@ class Template < ActiveRecord::Base
   def ensure_assembly
     self.assemblies.create!({
       :name => self.name,
-      :architecture => self.architecture
+      :architecture => self.architecture,
+      :owner => self.owner
     }) unless self.assemblies.count > 0
   end
 end

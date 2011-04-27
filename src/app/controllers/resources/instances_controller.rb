@@ -57,7 +57,6 @@ class Resources::InstancesController < ApplicationController
       @instance.transaction do
         @instance.save!
         # set owner permissions:
-        @instance.assign_owner_roles(current_user)
         @task = InstanceTask.create!({:user        => current_user,
                                       :task_target => @instance,
                                       :action      => InstanceTask::ACTION_CREATE})

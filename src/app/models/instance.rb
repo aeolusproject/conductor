@@ -89,6 +89,7 @@ class Instance < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
   has_many :events, :as => :source, :dependent => :destroy
+  after_create "assign_owner_roles(owner)"
 
   validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id

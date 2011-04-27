@@ -1,10 +1,10 @@
 Given /^there is an assembly named "([^"]*)"$/ do |name|
-  Assembly.create!(:name => name, :architecture => 'x86_64')
+  Assembly.create!(:name => name, :architecture => 'x86_64', :owner => user)
 end
 
 Given /^there is an assembly named "([^"]*)" belonging to "([^"]*)"$/ do |assembly_name, deployable_name|
   deployable = Deployable.find_by_name(deployable_name)
-  deployable.assemblies.create!(:name => assembly_name, :architecture => 'x86_64')
+  deployable.assemblies.create!(:name => assembly_name, :architecture => 'x86_64', :owner => user)
 #  Assembly.create!(:name => assembly, :architecture => 'x86_64', :deployable => Deployable.find_by_name(deployable))
 end
 

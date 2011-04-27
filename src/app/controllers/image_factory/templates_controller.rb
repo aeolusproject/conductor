@@ -73,12 +73,12 @@ class ImageFactory::TemplatesController < ApplicationController
     check_create_permission
     @tpl = Template.new(params[:tpl])
     @tpl.packages = params[:packages]
+    @tpl.owner = current_user
     if @tpl.save
-      @tpl.assign_owner_roles(current_user)
       flash[:notice] = "Template saved."
       @tpl.set_complete
       if params[:create_deployable]
-        Deployable.create!(:name => @tpl.name, :assemblies => @tpl.assemblies)
+        Deployable.create!(:name => @tpl.name, :assemblies => @tpl.assemblies, :owner => current_user)
       end
       redirect_to image_factory_templates_path
     else

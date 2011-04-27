@@ -11,7 +11,7 @@ Then /^I should have a deployable named "([^"]*)"$/ do |name|
 end
 
 Given /^there is a deployable named "([^"]*)"$/ do |name|
-  @deployable = Deployable.create!(:name => name)
+  @deployable = Deployable.create!(:name => name, :owner => user)
 end
 
 When /^I check the "([^"]*)" deployable$/ do |name|
