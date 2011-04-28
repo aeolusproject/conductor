@@ -2,7 +2,6 @@ en:
   dashboard: Dashboard
   instances: Instances
   users: Users
-  templates: Templates
   settings: Settings
   about: About
   configure: Configure
@@ -72,7 +71,6 @@ en:
   instances: Instances
   searches: Searches
   image_factory: Image Factory
-  templates: Templates
   assemblies: Assemblies
   template_collections: Template Collections
   administration: Administration
@@ -95,6 +93,15 @@ en:
     index:
       deleted: "Deleted the following Pool Families: %{list}."
       not_deleted: "Could not delete the following Pool Families: %{list}."
+  templates:
+    templates: Templates
+    index:
+      deleted:
+        one: "Template %{list} was deleted."
+        other: "Templates %{list} were deleted."
+      not_deleted:
+        one: "Template %{list} was not deleted."
+        other: "Templates %{list} were not deleted."
   deployables:
     index:
       deployables: Deployables

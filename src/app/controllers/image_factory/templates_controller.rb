@@ -185,12 +185,21 @@ class ImageFactory::TemplatesController < ApplicationController
   end
 
   def multi_destroy
+    destroyed = []
+    failed = []
     Template.find(params[:selected]).each do |template|
-      if check_privilege(Privilege::MODIFY, template)
-        template.destroy
+      if check_privilege(Privilege::MODIFY, template) and template.destroy
+        destroyed << template.name
       else
-        flash[:error] = "You don't have a permission to delete."
+        failed << template.name
       end
+    end
+
+    unless destroyed.empty?
+      flash[:notice] = t('templates.index.deleted', :count => destroyed.length, :list => destroyed.join(', '))
+    end
+    unless failed.empty?
+      flash[:error] = t('templates.index.not_deleted', :count => failed.length, :list => failed.join(', '))
     end
     redirect_to image_factory_templates_url
   end
