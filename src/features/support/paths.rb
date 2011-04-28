@@ -59,6 +59,9 @@ module NavigationHelpers
     when /the pool realms page/
       pool_realms_path
 
+    when /the deployments page/
+      resources_deployments_path
+
     when /the instances page/
       resources_instances_path
 

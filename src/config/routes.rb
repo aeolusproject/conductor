@@ -34,7 +34,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.namespace 'resources' do |r|
     r.resources :pools, :collection => { :multi_destroy => :delete }
-    r.resources :deployments
+    r.resources :deployments, :collection  => { :multi_stop => :get, :launch_new => :get }
     r.resources :instances, :collection => {:start => :get, :multi_stop => :get, :select_template => :get, :remove_failed => :get, :can_start => :get, :can_create => :get }, :member => {:key => :get}
   end
 

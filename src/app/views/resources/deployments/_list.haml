@@ -1,7 +1,8 @@
 - form_tag do
   #object-actions
     = restful_submit_tag "Start", "start", resources_deployments_path, "PUT"
-    = restful_submit_tag "Stop", "stop", resources_deployments_path, "PUT"
+    = restful_submit_tag "Stop", "stop", multi_stop_resources_deployments_path, "GET"
+    = restful_submit_tag "Launch new", "launch_new", launch_new_resources_deployments_path, "GET"
     = restful_submit_tag "Delete", "delete", resources_deployments_path, "DELETE"
 
   #search-actions
@@ -9,26 +10,26 @@
     = restful_submit_tag "Save Selection", "save_selection", resources_deployments_path, "PUT"
     = restful_submit_tag "Export to File", "export", resources_deployments_path, "PUT"
 
-  #selections
-    %p
-      Select:&nbsp;
-      = link_to "All", @url_params.merge(:select => 'all')
-      %span> ,&nbsp;
-      = link_to "None", @url_params.merge(:select => 'none')
+  %p
+    Select:&nbsp;
+    = link_to "All", @url_params.merge(:select => 'all')
+    %span> ,&nbsp;
+    = link_to "None", @url_params.merge(:select => 'none')
 
-%table#deployments_table
-  = sortable_table_header @header
-  - @deployments.each do |deployment|
-    %tr
-      %td
-        - selected = @url_params[:select] == 'all'
-        %input{:name => "deployments_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}", :checked => selected }
-        = link_to deployment.name, resources_deployment_path(deployment)
-      %td
-        = link_to deployment.deployable.name, image_factory_deployable_path(deployment.deployable)
-      %td
-        = deployment.owner.login
-      %td
-        = deployment.created_at
-      %td
-        = link_to deployment.pool.name, resources_pool_path(deployment.pool)
+  %table#deployments_table
+    = sortable_table_header @header
+    - @deployments.each do |deployment|
+      %tr
+        %td
+          - selected = @url_params[:select] == 'all'
+          %input{:name => "deployments_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}", :checked => selected }
+        %td
+          = link_to deployment.name, resources_deployment_path(deployment)
+        %td
+          = link_to deployment.deployable.name, image_factory_deployable_path(deployment.deployable)
+        %td
+          = deployment.owner.login
+        %td
+          = deployment.created_at
+        %td
+          = link_to deployment.pool.name, resources_pool_path(deployment.pool)

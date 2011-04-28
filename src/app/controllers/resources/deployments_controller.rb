@@ -5,6 +5,13 @@ class Resources::DeploymentsController < ApplicationController
   def index
   end
 
+  def launch_new
+    @launchable_deployables = []
+    Deployable.all.each do |deployable|
+      @launchable_deployables << deployable if deployable.launchable?
+    end
+  end
+
   def new
     require_privilege(Privilege::CREATE, Deployment)
     @deployment = Deployment.new(:deployable_id => params[:deployable_id])
@@ -54,6 +61,35 @@ class Resources::DeploymentsController < ApplicationController
     end
   end
 
+  def multi_stop
+    notices = ""
+    errors = ""
+    Deployment.find(params[:deployments_selected]).each do |deployment|
+      deployment.instances.each do |instance|
+        begin
+          require_privilege(Privilege::USE,instance)
+          unless instance.valid_action?('stop')
+            raise ActionError.new("stop is an invalid action.")
+          end
+
+          # not sure if task is used as everything goes through condor
+          #permissons check here
+          @task = instance.queue_action(@current_user, 'stop')
+          unless @task
+            raise ActionError.new("stop cannot be performed on this instance.")
+          end
+          condormatic_instance_stop(@task)
+          notices << "Deployment: #{instance.deployment.name}, Instance:  #{instance.name}: stop action was successfully queued.<br/>"
+        rescue Exception => err
+          errors << "Deployment: #{instance.deployment.name}, Instance: #{instance.name}: " + err + "<br/>"
+        end
+      end
+    end
+    flash[:notice] = notices unless notices.blank?
+    flash[:error] = errors unless errors.blank?
+    redirect_to resources_deployments_path
+  end
+
   private
   def load_deployments
     @url_params = params
@@ -62,6 +98,7 @@ class Resources::DeploymentsController < ApplicationController
       :order => (params[:order_field] || 'name')  +' '+ (params[:order_dir] || 'asc')
     )
     @header = [
+      { :name => "", :sort_attr => :name },
       { :name => "Deployment name", :sort_attr => :name },
       { :name => "Deployable", :sortable => false },
       { :name => "Owner", :sort_attr => "owner.login"},
