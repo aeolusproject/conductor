@@ -57,6 +57,8 @@ def condormatic_instance_create(task)
     Rails.logger.error "DeltacloudHardwareProfileStorage = $$(hardware_profile_storage)\n"
     pipe.puts "DeltacloudKeyname = $$(keypair)\n"
     Rails.logger.error "DeltacloudKeyname = $$(keypair)\n"
+    pipe.puts "DeltacloudPoolFamily = $$(pool_family)\n"
+    Rails.logger.error "DeltacloudPoolFamily = $$(pool_family)\n"
 
     if realm != nil
       pipe.puts "DeltacloudRealmId = $$(realm_key)\n"
@@ -66,7 +68,7 @@ def condormatic_instance_create(task)
     # TODO: for assemblies we grab first template in an assembly
     template_id = instance.template ? instance.template.id : instance.assembly.templates.first.id
     requirements = "requirements = front_end_hardware_profile_id == \"#{instance.hardware_profile.id}\" && image == \"#{template_id}\""
-
+    requirements += " && pool_family == \"#{instance.pool.pool_family.id}\""
     requirements += " && realm == \"#{realm.id}\"" if realm != nil
     # Call into the deltacloud quota plugin.  This uses a REST API to call back into the
     # conductor to check quotas as the last thing in the logical AND to match a provider
@@ -220,37 +222,36 @@ def condormatic_classads_sync
 
   front_end_hardware_profiles = HardwareProfile.find(:all, :conditions => ["provider_id IS NULL"])
 
-  providers.each do |provider|
-    # The provider image entry gets put in the database as soon as we ask
-    # to have the image built, so we only want to generate classads for it if
-    # it is ready to be used.  When ready it will have an image key assigned
-    # to it.
-    provider_images = provider.provider_images.find(:all,
-                            :conditions => ['provider_image_key IS NOT NULL'])
-    accounts          = provider.provider_accounts
-    realms            = provider.realms
+  PoolFamily.all.each do |pool_family|
+    pool_family.provider_accounts.each do |account|
+      # The provider image entry gets put in the database as soon as we ask
+      # to have the image built, so we only want to generate classads for it if
+      # it is ready to be used.  When ready it will have an image key assigned
+      # to it.
+      provider_images = account.provider.provider_images.find(:all,
+                              :conditions => ['provider_image_key IS NOT NULL'])
+      realms          = account.provider.realms
 
-    accounts.each do |account|
       provider_images.each do |provider_img|
         front_end_hardware_profiles.each do |hwp|
           # when user doesn't select any realm
-          ads << [account, provider_img, hwp, nil, nil]
+          ads << [account, provider_img, hwp, nil, nil, pool_family]
           # add all backend->frontend mappings
           realms.each do |realm|
             ads += realm.frontend_realms.collect { |frealm|
-              [account, provider_img, hwp, realm, frealm] }
+              [account, provider_img, hwp, realm, frealm, pool_family] }
           end
           # frontend can be mapped to provider (then backend realm is set to
           # nil)
-          ads += provider.frontend_realms.collect { |frealm|
-            [account, provider_img, hwp, nil, frealm] }
+          ads += account.provider.frontend_realms.collect { |frealm|
+            [account, provider_img, hwp, nil, frealm, pool_family] }
         end
       end
     end
   end
 
   ads.each { |ad|
-    account, provider_image, hwp, realm, frontend_realm = *ad
+    account, provider_image, hwp, realm, frontend_realm, pool_family = *ad
 
     matching_hardware_profile = HardwareProfile.match_provider_hardware_profile(account.provider, hwp)
     if(matching_hardware_profile != nil) && (provider_image.image.template.architecture == hwp.architecture.value)
@@ -277,6 +278,7 @@ def condormatic_classads_sync
         pipe.puts "password=\"#{account.credentials_hash['password']}\""
         pipe.puts "provider_account_id=\"#{account.id}\""
         pipe.puts "keypair=\"#{account.instance_key ? account.instance_key.name : ''}\""
+        pipe.puts "pool_family=\"#{pool_family.id}\""
       rescue Exception => ex
         Rails.logger.error "Error writing provider classad to condor."
         Rails.logger.error ex.message
