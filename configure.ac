@@ -1,4 +1,4 @@
-AC_INIT([aeolus-conductor], [0.0.3], [aeolus-devel@lists.fedorahosted.org])
+AC_INIT([aeolus-conductor], [0.3.0], [aeolus-devel@lists.fedorahosted.org])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability tar-pax])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
