@@ -107,14 +107,21 @@ class CompsRepository < AbstractRepository
   end
 
   def download_xml(url)
-    resp = Typhoeus::Request.get(url, :timeout => 30000, :follow_location => true, :max_redirects => 3)
-    unless resp.code == 200
-      raise "failed to fetch #{url}: #{resp.body}"
+    body = nil
+    5.times do |i|
+      resp = Typhoeus::Request.get(url, :timeout => 60000, :follow_location => true, :max_redirects => 10)
+      if resp.code == 200
+        body = resp.body
+        break
+      end
+      sleep 2
     end
+    raise "failed to fetch #{url}, aborting" unless body
+
     if url =~ /\.gz$/
-      return Zlib::GzipReader.new(StringIO.new(resp.body)).read
+      return Zlib::GzipReader.new(StringIO.new(body)).read
     else
-      return resp.body
+      return body
     end
   end
 
