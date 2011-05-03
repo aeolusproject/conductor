@@ -46,7 +46,6 @@ class Pool < ActiveRecord::Base
 
   # NOTE: Commented out because images table doesn't have pool_id foreign key?!
   #has_many :images,  :dependent => :destroy
-  has_many :hardware_profiles,  :dependent => :destroy
 
   validates_presence_of :name
   validates_presence_of :pool_family
@@ -70,10 +69,6 @@ class Pool < ActiveRecord::Base
         accounts << instance.provider_account
       end
     end
-  end
-
-  def hardware_profiles
-    HardwareProfile.find(:all, :conditions => {:provider_id => nil})
   end
 
   def destroyable?
