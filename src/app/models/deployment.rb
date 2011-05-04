@@ -112,6 +112,7 @@ class Deployment < ActiveRecord::Base
       # TODO: for now we try to start all instances even if some of them fails
       begin
         Instance.transaction do
+          hw_profile = hw_profiles[assembly.id.to_s]
           instance = Instance.create!(
             :deployment => self,
             :name => "#{name}/#{assembly.name}",
@@ -120,7 +121,7 @@ class Deployment < ActiveRecord::Base
             :assembly => assembly,
             :state => Instance::STATE_NEW,
             :owner => user,
-            :hardware_profile => HardwareProfile.find(hw_profiles[assembly.id.to_s])
+            :hardware_profile => hw_profile ? HardwareProfile.find(hw_profile) : nil
           )
           task = InstanceTask.create!({:user        => user,
                                        :task_target => instance,

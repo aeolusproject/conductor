@@ -29,7 +29,7 @@ class Resources::DeploymentsController < ApplicationController
     @deployment.owner = current_user
     if @deployment.save
       flash[:notice] = "Deployment launched"
-      errors = @deployment.launch(params[:hw_profiles], current_user)
+      errors = @deployment.launch(params[:hw_profiles] || {}, current_user)
       unless errors.empty?
         flash[:error] = {
           :summary  => "Failed to launch following assemblies:",
