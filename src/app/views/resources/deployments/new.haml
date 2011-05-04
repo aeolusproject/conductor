@@ -16,8 +16,10 @@
     %h3 Assemblies hardware profiles
     %ul
       - @deployment.deployable.assemblies.each do |assembly|
-        = label_tag "hw_profiles[#{assembly.id}]", assembly.name
-        = select_tag "hw_profiles[#{assembly.id}]", options_from_collection_for_select(@hardware_profiles, 'id', 'name')
+        %li
+          - hwprofiles = @hardware_profiles.select {|hwp| hwp.architecture.value == assembly.templates.first.architecture}
+          = label_tag "hw_profiles[#{assembly.id}]", assembly.name
+          = select_tag "hw_profiles[#{assembly.id}]", options_from_collection_for_select(hwprofiles, 'id', 'name')
 
   = submit_tag 'Cancel', :name => 'cancel'
   = submit_tag 'Launch', :name => 'launch'

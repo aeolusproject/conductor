@@ -115,15 +115,9 @@ class Resources::DeploymentsController < ApplicationController
   def init_new_deployment_attrs
     @pools = Pool.list_for_user(@current_user, Privilege::CREATE, :target_type => Deployment)
     @realms = FrontendRealm.all
-    # FIXME: temporary for debugging
-    #arch = @deployment.deployable.assemblies.first.templates.first.architecture
-    arch = 'x86_64'
     @hardware_profiles = HardwareProfile.all(
       :include => :architecture,
-      :conditions => {
-        :provider_id => nil,
-        'hardware_profile_properties.value' => arch
-      }
+      :conditions => {:provider_id => nil}
     )
   end
 end
