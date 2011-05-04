@@ -34,3 +34,9 @@ Feature: Manage Deployments
     When I check "testdeployment" deployment
     And I press "Stop"
     Then I should see "testdeployment"
+
+  Scenario: Show operational status of deployment
+    Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
+    When I am on the operational status of deployment page
+    Then I should see "Operational status of testdeployment"
+    And I should see "Uptime"

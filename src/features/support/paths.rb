@@ -116,6 +116,9 @@ module NavigationHelpers
     when /the deployable deployments page/
       image_factory_deployable_path(@deployable, :details_tab => 'deployments')
 
+    when /the operational status of deployment page/
+      resources_deployment_path(@deployment, :details_tab => 'operation')
+
     when /^(.*)'s image factory deployable page$/
       image_factory_deployable_path(Deployable.find_by_name($1))
 

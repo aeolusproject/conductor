@@ -48,7 +48,7 @@ class Resources::DeploymentsController < ApplicationController
     @deployment = Deployment.find(params[:id])
     require_privilege(Privilege::VIEW, @deployment)
     init_new_deployment_attrs
-    @tab_captions = ['Properties', 'Instances', 'Provider Services', 'Required Services', 'History', 'Permissions']
+    @tab_captions = ['Properties', 'Instances', 'Provider Services', 'Required Services', 'History', 'Permissions','Operation']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     respond_to do |format|
       format.js do
