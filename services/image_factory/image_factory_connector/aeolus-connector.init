@@ -35,7 +35,7 @@ start() {
       exit 1
     fi
 
-    $CONNECTOR -l $LOG -P $PID -a $ADDR -e $CONNECTOR_ENV --chdir $RUN_DIR -d -p $PORT start
+    $CONNECTOR start -l $LOG -P $PID -a $ADDR -e $CONNECTOR_ENV --chdir $RUN_DIR -d -p $PORT
     # FIXME: long term, the version below is what we want to run, but at this point have not been able to get it working
     #daemon --user $AEOLUS_USER $CONNECTOR -l $LOG -P $PID -a $ADDR -e $ENV -p $PORT --chdir $RUN_DIR -d start
     RETVAL=$?

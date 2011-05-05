@@ -5,11 +5,49 @@ require 'rubygems'
 $: << File.expand_path(File.dirname(__FILE__) + '/../lib')
 require 'image_factory_connector'
 require 'thin'
+require 'optparse'
 
-rackup_file = "#{File.dirname(__FILE__)}/../lib/config.ru"
-
+commands = %w(start stop restart config)
 argv = ARGV
-argv << ["-R", rackup_file] unless ARGV.include?("-R")
-argv << ["-p", "2003"] unless ARGV.include?("-p")
-argv << ["-e", "development"] unless ARGV.include?("-e")
+rackup_file = "#{File.dirname(__FILE__)}/../lib/config.ru"
+config_file = "#{File.dirname(__FILE__)}/../lib/conf/aeolus_connector.yml"
+ENV["CONNECTOR_CONFIG"] = config_file if ENV["CONNECTOR_CONFIG"].nil?
+options = {
+  "--port" => "2003",
+  "--rackup" => "#{File.dirname(__FILE__)}/../lib/config.ru",
+  "--env" => "development"
+}
+
+optparse = OptionParser.new do |opts|
+  opts.banner = "Usage: image_factory_connector [#{commands.join('|')}] [app options] [server options]"
+  opts.separator ""
+  opts.separator "App options: "
+  opts.on('-x', '--yml FILE', 'Config file for the connector') do |yml|
+    ENV["CONNECTOR_CONFIG"] = yml
+  end
+  opts.on( '-h', '--help', '') { options[:help] = true }
+end
+
+thinparse = OptionParser.new do |opts|
+  opts.banner =""
+  opts.separator "Server options:"
+  opts.on( '-p', '--port PORT', 'Use PORT (default: 2003)') do |port|
+    options["--port"] = port
+  end
+  opts.on( '-R', '--port FILE', 'Use specified rackup file') do |rackup|
+    options["--rackup"] = rackup
+  end
+  opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options["--env"] = env }
+end
+
+optparse.order!
+thinparse.order!
+
+if options[:help]
+ puts optparse
+ puts thinparse
+ exit(0)
+end
+
+argv << options.to_a
 Thin::Runner.new(argv.flatten).run!

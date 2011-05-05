@@ -32,6 +32,11 @@ class FactoryRestHandler < BaseHandler
     end
   end
 
+  def initialize(logger, conf)
+    super(logger)
+    config(conf)
+  end
+
   def handle(data)
     super
   end
@@ -44,7 +49,7 @@ class FactoryRestHandler < BaseHandler
 
     # 2. Call the conductor api with uuid and status
     hydra = Typhoeus::Hydra.new
-    request = Typhoeus::Request.new("http://localhost:3000/conductor/image_factory/builds/update_status",
+    request = Typhoeus::Request.new(config[:conductor_url],
                                       :method  => :post,
                                       :timeout => 2000, # in milliseconds
                                       :headers => {:Accepts => "application/xml"},
@@ -71,5 +76,14 @@ class FactoryRestHandler < BaseHandler
                       :obj=>addr[1], :uuid=>addr[2]})
     logger.debug "Data: #{e.inspect}"
     e
+  end
+
+  private
+
+  def config(conf=nil)
+    unless @config
+      @config = YAML::load(File.open(conf))
+    end
+    return @config
   end
 end

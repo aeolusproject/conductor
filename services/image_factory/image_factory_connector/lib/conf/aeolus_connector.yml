@@ -1,0 +1,2 @@
+---
+:conductor_url: "http://localhost:3000/conductor/builds/update_status"

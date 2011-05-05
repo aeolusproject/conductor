@@ -23,6 +23,15 @@ require 'image_factory'
 require 'factory_rest_handler'
 
 class ImageFactoryConnector < Sinatra::Base
+  configure :test do
+    @l = Logger.new(STDOUT)
+    @l.level = Logger::DEBUG
+    @console = ImageFactoryConsole.new({:handler=>FactoryRestHandler.new(@l, ENV["CONNECTOR_CONFIG"]), :logger =>@l})
+    @console.start
+    set :console, @console
+    set :logger, @l
+  end
+
   configure do
     set :logging, true
     set :server, %w[thin mongrel webrick]

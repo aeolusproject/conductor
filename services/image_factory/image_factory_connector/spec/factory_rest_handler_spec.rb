@@ -32,7 +32,7 @@ describe "factory_rest_handler" do
   before(:each) do
     @l = Logger.new(STDOUT)
     @l.level = Logger::DEBUG
-    @handler=FactoryRestHandler.new(@l)
+    @handler=FactoryRestHandler.new(@l, ENV["CONNECTOR_CONFIG"])
     @image_id ="71c852f5-de8f-467a-81db-eedb72c5ec8b"
     @fd=FakeData.new({:event=>"STATUS", :new_status=>"FUBAR"})
     @fd["addr"]={"_object_name"=>"build_adaptor:image:#{@image_id}"}

@@ -16,7 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
-
+ENV['RACK_ENV'] = 'test'
+ENV["CONNECTOR_CONFIG"] = "#{File.dirname(__FILE__)}/../lib/conf/aeolus_connector.yml"
 $: << File.expand_path(File.join(File.dirname(__FILE__), "../lib"))
 require 'rubygems'
 #require 'sinatra/base'
