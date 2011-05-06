@@ -1,3 +1,24 @@
+:javascript
+  $(document).ready(function() {
+    $('#new_user_session').submit(function() {
+      $.ajax({
+        url: this.action,
+        type: 'POST',
+        dataType: 'script',
+        data: $(this).serialize(),
+        error: function(response) {
+          //TODO: for some reason error connection errors are not handled by 'error' callback,
+          //what's worse jquery sets 'textStatus' to success, if we want to catch connection errors
+          //we will have to check if status code == 0 in 'complete' callback
+          if ($('#notification').length == 0) $('#content').prepend('<div id=notification></div>');
+          var text = $.isEmptyObject(response.responseText) ? response.statusText : response.responseText;
+          $('#notification').html('<div class=warning>' + text  + '</div>')
+        },
+      });
+      return false;
+    });
+  })
+
 .modalbox
   %h2 Log In
   .conductor_form

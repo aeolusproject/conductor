@@ -30,11 +30,22 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
-      flash[:notice] = "Login successful!"
-      redirect_back_or_default root_url
+      session[:javascript_enabled] = request.xhr?
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "Login successful!"
+          redirect_back_or_default root_url
+        end
+        format.js { render :text => "window.location='#{root_url}'" }
+      end
     else
-      flash[:warning] = "Login failed: The Username and Password you entered do not match"
-      render :action => :new
+      respond_to do |format|
+        format.html do
+          flash.now[:warning] = "Login failed: The Username and Password you entered do not match"
+          render :action => :new
+        end
+        format.js { render :status=> 401, :text => "Login failed: The Username and Password you entered do not match" }
+      end
     end
   end
 
