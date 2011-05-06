@@ -1,6 +1,6 @@
 require 'util/repository_manager'
 
-class ImageFactory::TemplatesController < ApplicationController
+class TemplatesController < ApplicationController
   before_filter :require_user
   before_filter :set_view_vars, :only => [:index, :show]
 

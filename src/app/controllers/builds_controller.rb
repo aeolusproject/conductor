@@ -1,4 +1,4 @@
-class ImageFactory::BuildsController < ApplicationController
+class BuildsController < ApplicationController
   before_filter [:require_user], :except => [:update_status]
 
   def index

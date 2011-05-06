@@ -1,4 +1,4 @@
-class Admin::ProvidersController < ApplicationController
+class ProvidersController < ApplicationController
   before_filter :require_user
   before_filter :set_view_envs, :only => [:show, :index]
 

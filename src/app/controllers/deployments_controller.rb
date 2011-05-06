@@ -1,4 +1,4 @@
-class Resources::DeploymentsController < ApplicationController
+class DeploymentsController < ApplicationController
   before_filter :require_user
   before_filter :load_deployments, :only => [:index, :show]
 

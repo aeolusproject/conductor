@@ -1,4 +1,4 @@
-class Admin::PoolFamiliesController < ApplicationController
+class PoolFamiliesController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pool_families, :only =>[:show]

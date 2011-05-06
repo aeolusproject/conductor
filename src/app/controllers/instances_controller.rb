@@ -1,4 +1,4 @@
-class Resources::InstancesController < ApplicationController
+class InstancesController < ApplicationController
   before_filter :require_user, :except => [:can_start, :can_create]
   before_filter :load_instance, :only => [:show, :key]
   before_filter :set_view_vars, :only => [:show, :index]

@@ -1,4 +1,4 @@
-class ImageFactory::ImageImportsController < ApplicationController
+class ImageImportsController < ApplicationController
   before_filter :require_user
 
   def new

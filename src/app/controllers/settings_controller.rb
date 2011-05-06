@@ -1,4 +1,4 @@
-class Admin::SettingsController < ApplicationController
+class SettingsController < ApplicationController
   before_filter :require_user
 
   # Settings MetaData Keys

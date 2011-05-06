@@ -1,4 +1,4 @@
-class Admin::HardwareProfilesController < ApplicationController
+class HardwareProfilesController < ApplicationController
   before_filter :require_user, :except => :matching_profiles
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_hardware_profiles, :only => [:index, :show]

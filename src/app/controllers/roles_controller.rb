@@ -1,4 +1,4 @@
-class Admin::RolesController < ApplicationController
+class RolesController < ApplicationController
   before_filter :require_user
   before_filter :load_roles, :only => [:show]
   before_filter :load_params_and_headers, :only => [:index]

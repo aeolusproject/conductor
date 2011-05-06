@@ -1,4 +1,4 @@
-class ImageFactory::DeployablesController < ApplicationController
+class DeployablesController < ApplicationController
   before_filter :require_user
   before_filter :load_deployables, :only => [:index, :show, :pick_assemblies]
   before_filter :load_deployable_with_assemblies, :only => [:remove_assemblies, :add_assemblies, :pick_assemblies]

@@ -1,4 +1,4 @@
-class Admin::UsersController < ApplicationController
+class UsersController < ApplicationController
   before_filter :require_user, :except => [:new, :create]
   before_filter :load_users, :only => [:show]
 

@@ -1,4 +1,4 @@
-class Admin::RealmMappingsController < ApplicationController
+class RealmMappingsController < ApplicationController
   before_filter :require_user
 
   def new
