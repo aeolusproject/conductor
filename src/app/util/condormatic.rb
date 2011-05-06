@@ -20,6 +20,11 @@
 require 'nokogiri'
 require 'socket'
 
+def pipe_and_log(pipe, instr)
+  pipe.puts instr
+  Rails.logger.error instr
+end
+
 def condormatic_instance_create(task)
 
   begin
@@ -31,38 +36,28 @@ def condormatic_instance_create(task)
     instance.condor_job_id = job_name
     instance.save!
 
-    # I use the 2>&1 to get stderr and stdout together because popen3 does not support
-    # the ability to get the exit value of the command in ruby 1.8.
+    # I use the 2>&1 to get stderr and stdout together because popen3 does not
+    # support the ability to get the exit value of the command in ruby 1.8.
     pipe = IO.popen("condor_submit 2>&1", "w+")
-    pipe.puts "universe = grid\n"
-    Rails.logger.error "universe = grid\n"
-    pipe.puts "executable = #{job_name}\n"
-    Rails.logger.error "executable = #{job_name}\n"
+    pipe_and_log(pipe, "universe = grid\n")
+    pipe_and_log(pipe, "executable = #{job_name}\n")
 
-    pipe.puts "grid_resource = deltacloud $$(provider_url)\n"
-    Rails.logger.error "grid_resource = deltacloud $$(provider_url)\n"
-    pipe.puts "DeltacloudUsername = $$(username)\n"
-    Rails.logger.error "DeltacloudUsername = $$(username)\n"
-    pipe.puts "DeltacloudPassword = $$(password)\n"
-    Rails.logger.error "DeltacloudPassword = $$(password)\n"
-    pipe.puts "DeltacloudImageId = $$(image_key)\n"
-    Rails.logger.error "DeltacloudImageId = $$(image_key)\n"
-    pipe.puts "DeltacloudHardwareProfile = $$(hardware_profile_key)\n"
-    Rails.logger.error "DeltacloudHardwareProfile = $$(hardware_profile_key)\n"
-    pipe.puts "DeltacloudHardwareProfileMemory = $$(hardware_profile_memory)\n"
-    Rails.logger.error "DeltacloudHardwareProfileMemory = $$(hardware_profile_memory)\n"
-    pipe.puts "DeltacloudHardwareProfileCPU = $$(hardware_profile_cpu)\n"
-    Rails.logger.error "DeltacloudHardwareProfileCPU = $$(hardware_profile_cpu)\n"
-    pipe.puts "DeltacloudHardwareProfileStorage = $$(hardware_profile_storage)\n"
-    Rails.logger.error "DeltacloudHardwareProfileStorage = $$(hardware_profile_storage)\n"
-    pipe.puts "DeltacloudKeyname = $$(keypair)\n"
-    Rails.logger.error "DeltacloudKeyname = $$(keypair)\n"
-    pipe.puts "DeltacloudPoolFamily = $$(pool_family)\n"
-    Rails.logger.error "DeltacloudPoolFamily = $$(pool_family)\n"
+    pipe_and_log(pipe, "grid_resource = deltacloud $$(provider_url)\n")
+    pipe_and_log(pipe, "DeltacloudUsername = $$(username)\n")
+    pipe_and_log(pipe, "DeltacloudPassword = $$(password)\n")
+    pipe_and_log(pipe, "DeltacloudImageId = $$(image_key)\n")
+    pipe_and_log(pipe, "DeltacloudHardwareProfile = $$(hardware_profile_key)\n")
+    pipe_and_log(pipe,
+                 "DeltacloudHardwareProfileMemory = $$(hardware_profile_memory)\n")
+    pipe_and_log(pipe,
+                 "DeltacloudHardwareProfileCPU = $$(hardware_profile_cpu)\n")
+    pipe_and_log(pipe,
+                 "DeltacloudHardwareProfileStorage = $$(hardware_profile_storage)\n")
+    pipe_and_log(pipe, "DeltacloudKeyname = $$(keypair)\n")
+    pipe_and_log(pipe, "DeltacloudPoolFamily = $$(pool_family)\n")
 
     if realm != nil
-      pipe.puts "DeltacloudRealmId = $$(realm_key)\n"
-      Rails.logger.error "DeltacloudRealmId = $$(realm_key)\n"
+      pipe_and_log(pipe, "DeltacloudRealmId = $$(realm_key)\n")
     end
 
     # TODO: for assemblies we grab first template in an assembly
@@ -76,13 +71,11 @@ def condormatic_instance_create(task)
     requirements += " && conductor_quota_check(#{instance.id}, other.provider_account_id)"
     requirements += "\n"
 
-    pipe.puts requirements
-    Rails.logger.error requirements
+    pipe_and_log(pipe, requirements)
 
-    pipe.puts "notification = never\n"
-    Rails.logger.error "notification = never\n"
-    pipe.puts "queue\n"
-    Rails.logger.error "queue\n"
+    pipe_and_log(pipe, "notification = never\n")
+    pipe_and_log(pipe, "queue\n")
+
     pipe.close_write
     out = pipe.read
     pipe.close
