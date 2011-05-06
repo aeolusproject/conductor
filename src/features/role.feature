@@ -10,7 +10,7 @@ Feature: Manage Roles
     And a role "Captain" exists
 
   Scenario: Change the name
-    Given I am on the admin roles page
+    Given I am on the roles page
     And there should be a role named "Captain"
     When I follow "Captain"
     And I follow "Edit"
@@ -21,31 +21,31 @@ Feature: Manage Roles
 
   Scenario: Show role details
     Given a role "Admiral" exists
-    And I am on the admin roles page
+    And I am on the roles page
     When I follow "Admiral"
     Then I should be on Admiral's role page
 
   Scenario: Show default role privileges
-    Given I am on the admin roles page
+    Given I am on the roles page
     And there should be a role named "Administrator"
     When I follow "Administrator"
     Then I should be on Administrator's role page
 
   Scenario: Delete roles
     Given a role "Admiral" exists
-    And I am on the admin roles page
+    And I am on the roles page
     And there are 2 more roles
     When I check "Admiral" role
     And I check "Captain" role
     And I press "Destroy"
     Then there should be 0 more roles
-    And I should be on the admin roles page
+    And I should be on the roles page
     And I should not see "Captain"
     And I should not see "Admiral"
 
   Scenario: Search roles
     Given a role "Admiral" exists
-    And I am on the admin roles page
+    And I am on the roles page
     And there are 2 more roles
     When I fill in "q" with "admi"
     And I press "Search"

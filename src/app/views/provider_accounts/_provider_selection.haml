@@ -1,7 +1,7 @@
 %fieldset#provider_type.clear
   = label_tag "Provider: "
   = select(:provider_account, :provider_id, options_for_select(@providers.map{ |p| [p.name, p.id] }, :selected => @selected_provider.id))
-  = restful_submit_tag "Choose", 'set_selected_provider',set_selected_provider_admin_provider_accounts_path, 'GET', :class => 'button'
+  = restful_submit_tag "Choose", 'set_selected_provider',set_selected_provider_provider_accounts_path, 'GET', :class => 'button'
   = label_tag "Cloud type: "
   = @selected_provider.provider_type.name
   - unless @selected_provider.provider_type.codename.nil?
@@ -15,7 +15,7 @@
       $("#provider_account_provider_id").change(function()
       {
           selected_provider = $("option:selected").attr('value');
-          $.get("#{set_selected_provider_admin_provider_accounts_url}", {'provider_account[provider_id]':selected_provider},
+          $.get("#{set_selected_provider_provider_accounts_url}", {'provider_account[provider_id]':selected_provider},
             function(result) {
               $("#provider_type").html(result);
             }

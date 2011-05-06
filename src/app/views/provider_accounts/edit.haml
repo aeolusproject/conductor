@@ -2,7 +2,7 @@
   = error_messages_for :provider_account
   %h2
     = t('provider_accounts.edit.edit_provider_account')
-  - form_tag(admin_provider_account_path, { :method => :put, :multipart => true }) do
+  - form_tag(provider_account_path, { :method => :put, :multipart => true }) do
     = render :partial => 'provider_selection'
     %fieldset.clearfix
       .grid_13.alpha.omega

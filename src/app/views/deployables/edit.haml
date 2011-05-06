@@ -1,4 +1,4 @@
 %h2 Editing Deployable: #{@deployable.name}
 
-- form_for @deployable, :url => image_factory_deployable_path(@deployable), :html => { :method => :put } do |f|
+- form_for @deployable, :url => deployable_path(@deployable), :html => { :method => :put } do |f|
   = render :partial => "form", :locals => { :form => f }

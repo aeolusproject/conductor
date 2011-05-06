@@ -1,7 +1,7 @@
 - content_for :list do
   %h3
     New Hardware Profile
-  -form_for @hardware_profile, :url => admin_hardware_profiles_path, :html => { :multipart => true } do |hwp_form|
+  -form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true } do |hwp_form|
     = render :partial => "form", :locals => { :hwp_form => hwp_form }
 - content_for :details do
   = render :partial => 'layouts/details_pane'

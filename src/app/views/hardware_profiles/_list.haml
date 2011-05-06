@@ -1,7 +1,7 @@
 - form_tag do
   #object-actions
-    = link_to "New Hardware Profile", new_admin_hardware_profile_path, :class => 'button'
-    = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_hardware_profiles_path, 'DELETE', :id => 'delete_button'
+    = link_to "New Hardware Profile", new_hardware_profile_path, :class => 'button'
+    = restful_submit_tag "Delete", 'destroy', multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button'
   #selections
     %p
       Select:&nbsp;
@@ -17,7 +17,7 @@
           %td
             - selected = @url_params[:select] == 'all'
             %input{:name => "hardware_profile_selected[]", :type => "checkbox", :value => hwp.id, :id => "hardware_profile_checkbox_#{hwp.id}", :checked => selected }
-            = link_to hwp.name, admin_hardware_profile_path(hwp)
+            = link_to hwp.name, hardware_profile_path(hwp)
           %td
             =hwp.architecture.to_s
           %td

@@ -3,5 +3,5 @@
 - else
   %h2 Editing Account
 
-- form_for @user, :url => admin_user_path(@user), :html => { :method => :put } do |f|
-  = render :partial => "form", :locals => { :form => f, :cancel_path => admin_users_path }
+- form_for @user, :url => user_path(@user), :html => { :method => :put } do |f|
+  = render :partial => "form", :locals => { :form => f, :cancel_path => users_path }

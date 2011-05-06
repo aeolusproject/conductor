@@ -18,13 +18,13 @@ module NavigationHelpers
       login_path
 
     when /^(.*)'s user page$/i
-       admin_user_path(User.find_by_login($1))
+       user_path(User.find_by_login($1))
 
     when /^(.*)'s role page$/i
-       admin_role_path(Role.find_by_name($1))
+       role_path(Role.find_by_name($1))
 
     when /^(.*)'s realm page$/i
-       admin_realm_path(FrontendRealm.find_by_name($1))
+       realm_path(FrontendRealm.find_by_name($1))
 
     when /the account page/
       account_path
@@ -48,25 +48,25 @@ module NavigationHelpers
       settings_path
 
     when /the pools page/
-      resources_pools_path
+      pools_path
 
     when /the new pool page/
       new_pool_path
 
     when /the show pool page/
-      resources_pool_path
+      pool_path
 
     when /the pool realms page/
       pool_realms_path
 
     when /the deployments page/
-      resources_deployments_path
+      deployments_path
 
     when /the instances page/
-      resources_instances_path
+      instances_path
 
     when /the new instance page/
-      new_resources_instance_path
+      new_instance_path
 
     when /the pool hardware profiles page/
       hardware_profiles_pool_path
@@ -84,10 +84,10 @@ module NavigationHelpers
       url_for new_build_path
 
     when /the template builds page/
-      url_for image_factory_template_path(@template, :details_tab => 'builds')
+      url_for template_path(@template, :details_tab => 'builds')
 
     when /the pool family provider accounts page/
-      url_for admin_pool_family_path(@pool_family, :details_tab => 'provider_accounts')
+      url_for pool_family_path(@pool_family, :details_tab => 'provider_accounts')
 
     when /the templates page/
       templates_path
@@ -102,25 +102,25 @@ module NavigationHelpers
       url_for :action => 'update', :controller => 'settings', :only_path => true
 
     when /the hardware profiles page/
-      url_for admin_hardware_profiles_path
+      url_for hardware_profiles_path
 
     when /the new hardware profile page/
-      url_for new_admin_hardware_profile_path
+      url_for new_hardware_profile_path
 
     when /the edit hardware profiles page/
       url_for :action => 'edit', :controller => 'hardware_profiles', :only_path => true
 
     when /^(.*)'s provider account page$/
-      admin_provider_account_path(ProviderAccount.find_by_label($1))
+      provider_account_path(ProviderAccount.find_by_label($1))
 
     when /the deployable deployments page/
-      image_factory_deployable_path(@deployable, :details_tab => 'deployments')
+      deployable_path(@deployable, :details_tab => 'deployments')
 
     when /the operational status of deployment page/
-      resources_deployment_path(@deployment, :details_tab => 'operation')
+      deployment_path(@deployment, :details_tab => 'operation')
 
-    when /^(.*)'s image factory deployable page$/
-      image_factory_deployable_path(Deployable.find_by_name($1))
+    when /^(.*)'s deployable page$/
+      deployable_path(Deployable.find_by_name($1))
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

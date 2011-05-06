@@ -1,8 +1,8 @@
-- form_tag :image_factory_image_imports do
+- form_tag :image_imports do
   %fieldset.clear
     = label_tag :provider_account_id, "Provider Account ID: "
     = select_tag :provider_account_id, option_groups_from_collection_for_select(@providers,:provider_accounts, :name, :id,:name)
   %fieldset.clear
     = label_tag :ami_id, "Image ID: "
     = text_field_tag :ami_id, params[:ami_id]
-    = restful_submit_tag "Import", 'create', image_factory_image_imports_path, 'POST', :class => "submit"
+    = restful_submit_tag "Import", 'create', image_imports_path, 'POST', :class => "submit"

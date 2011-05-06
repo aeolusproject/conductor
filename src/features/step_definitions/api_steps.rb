@@ -10,7 +10,7 @@ end
 When /^a client requests matching hardware profile for "([^"]*)"$/ do |name|
   hardware_profile = HardwareProfile.find_by_name(name)
   provider = HardwareProfile.find_by_name("m1-medium").provider
-  uri = url_for :action => 'matching_profiles', :controller => 'admin/hardware_profiles', :hardware_profile_id => hardware_profile.id, :provider_id => provider.id
+  uri = url_for :action => 'matching_profiles', :controller => 'hardware_profiles', :hardware_profile_id => hardware_profile.id, :provider_id => provider.id
   send_xml_get(uri)
 end
 
@@ -40,7 +40,7 @@ end
 When /^a client requests "([^"]*)" for instance "([^"]*)" for provider account "([^"]*)"$/ do |action, instance, provider_account|
   instance = Instance.find_by_name(instance)
   provider_account = ProviderAccount.find_by_label(provider_account)
-  uri = url_for :action => action, :controller => 'resources/instances', :instance_id => instance.id, :provider_account_id => provider_account.id
+  uri = url_for :action => action, :controller => 'instances', :instance_id => instance.id, :provider_account_id => provider_account.id
   send_xml_get(uri)
 end
 

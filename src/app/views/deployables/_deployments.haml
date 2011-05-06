@@ -10,7 +10,7 @@
             %td
               - selected = @url_params[:select] == 'all'
               %input{:name => "deployments_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}", :checked => selected }
-              = link_to deployment.name, resources_deployment_path(deployment)
+              = link_to deployment.name, deployment_path(deployment)
             %td
               = deployment.deployable.name
             %td

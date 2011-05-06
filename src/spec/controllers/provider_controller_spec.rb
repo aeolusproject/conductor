@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::ProvidersController do
+describe ProvidersController do
 
   fixtures :all
   before(:each) do
@@ -17,7 +17,7 @@ describe Admin::ProvidersController do
      get :show, :id => provider.id, :details_tab => 'hw_profiles'
      response.should be_success
      assigns[:hardware_profiles].size.should == provider.hardware_profiles.size
-     response.should render_template("admin/providers/_hw_profiles")
+     response.should render_template("providers/_hw_profiles")
   end
 
   it "should provide ui to view realms" do
@@ -27,7 +27,7 @@ describe Admin::ProvidersController do
      get :show, :id => provider.id, :details_tab => 'realms'
      response.should be_success
      assigns[:realm_names].size.should == provider.realms.size
-     response.should render_template("admin/providers/_realms")
+     response.should render_template("providers/_realms")
   end
 
 

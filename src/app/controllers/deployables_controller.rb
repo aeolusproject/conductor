@@ -44,7 +44,7 @@ class DeployablesController < ApplicationController
     @deployable.owner = current_user
     if @deployable.save
       flash[:notice] = "Deployable added."
-      redirect_to image_factory_deployable_url(@deployable)
+      redirect_to deployable_url(@deployable)
     else
       render :action => :new
     end
@@ -60,7 +60,7 @@ class DeployablesController < ApplicationController
     require_privilege(Privilege::MODIFY, @deployable)
     if @deployable.update_attributes(params[:deployable])
       flash[:notice] = "Deployable updated."
-      redirect_to image_factory_deployable_url(@deployable)
+      redirect_to deployable_url(@deployable)
     else
       render :action => :edit
     end
@@ -84,7 +84,7 @@ class DeployablesController < ApplicationController
     unless failed.empty?
       flash[:error] = t('deployables.index.not_deleted', :count => failed.length, :list => failed.join(', '))
     end
-    redirect_to image_factory_deployables_url
+    redirect_to deployables_url
   end
 
   def pick_assemblies
@@ -105,7 +105,7 @@ class DeployablesController < ApplicationController
     end
     respond_to do |format|
       format.js { render :partial => 'assemblies' }
-      format.html { redirect_to image_factory_deployable_url(@deployable, :details_tab => 'assemblies') and return }
+      format.html { redirect_to deployable_url(@deployable, :details_tab => 'assemblies') and return }
     end
   end
 
@@ -118,7 +118,7 @@ class DeployablesController < ApplicationController
     end
     respond_to do |format|
       format.js { render :partial => 'assemblies' }
-      format.html { redirect_to image_factory_deployable_url(@deployable, :details_tab => 'assemblies') and return }
+      format.html { redirect_to deployable_url(@deployable, :details_tab => 'assemblies') and return }
     end
   end
 

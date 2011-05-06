@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Resources::PoolsController do
+describe PoolsController do
   fixtures :all
   before(:each) do
     @admin_permission = Factory :admin_permission
@@ -30,7 +30,7 @@ describe Resources::PoolsController do
        }
      end.should change(Pool, :count).by(1)
      id = Pool.find(:first, :conditions => ['name = ?', 'foopool']).id
-     response.should redirect_to(resources_pool_path(id))
+     response.should redirect_to(pool_path(id))
   end
 
 end

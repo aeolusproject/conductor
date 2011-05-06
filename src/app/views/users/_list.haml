@@ -1,24 +1,24 @@
 - form_tag do
-  = link_to "Create", new_admin_user_url, :class => 'button'
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_users_path, 'DELETE', :id => 'delete_button'
+  = link_to "Create", new_user_url, :class => 'button'
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_users_path, 'DELETE', :id => 'delete_button'
 
   %table#users_table
     %thead
       %tr
         %th
-        %th= link_to "User ID", admin_users_url(:sort_by => "login")
-        %th= link_to "Last Name", admin_users_url(:sort_by => "last_name")
-        %th= link_to "First Name", admin_users_url(:sort_by => "first_name")
-        %th= link_to "% Quota Used", admin_users_url(:sort_by => "percentage_quota_used")
+        %th= link_to "User ID", users_url(:sort_by => "login")
+        %th= link_to "Last Name", users_url(:sort_by => "last_name")
+        %th= link_to "First Name", users_url(:sort_by => "first_name")
+        %th= link_to "% Quota Used", users_url(:sort_by => "percentage_quota_used")
         %th
-          =link_to "Quota", admin_users_url(:sort_by => "quota")
+          =link_to "Quota", users_url(:sort_by => "quota")
           %span (Instances)
-        %th= link_to "e-mail", admin_users_url(:sort_by => "email")
+        %th= link_to "e-mail", users_url(:sort_by => "email")
     -@users.each do |user|
       %tr
         %td
           %input{:name => "user_selected[]", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
-        %td= link_to user.login, admin_user_path(user)
+        %td= link_to user.login, user_path(user)
         %td= user.last_name
         %td= user.first_name
         %td= sprintf("%.2f", user.quota.percentage_used)

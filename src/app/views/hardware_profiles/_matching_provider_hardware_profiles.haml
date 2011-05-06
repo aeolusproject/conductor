@@ -8,9 +8,9 @@
       %tr
         %td
           - if hwp.provider
-            = link_to hwp.provider.name, admin_provider_path(hwp.provider)
+            = link_to hwp.provider.name, provider_path(hwp.provider)
         %td
-          = link_to hwp.name, admin_hardware_profile_path(hwp)
+          = link_to hwp.name, hardware_profile_path(hwp)
         %td
           =hwp.architecture.to_s
         %td

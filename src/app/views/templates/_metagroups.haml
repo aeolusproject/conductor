@@ -7,7 +7,7 @@
 
 %ul.metagroups{:class => 'packagegroupsidebar grid_4 alpha'}
   %li
-    = restful_submit_tag 'Collections', 'collections', collections_image_factory_templates_path, 'GET', {:id => 'collections', :class => 'icon'}
+    = restful_submit_tag 'Collections', 'collections', collections_templates_path, 'GET', {:id => 'collections', :class => 'icon'}
   - @metagroups.keys.sort.each do |cat|
     %li
-      = restful_submit_tag cat, "metagroup_packages", metagroup_packages_image_factory_templates_path, 'GET', {:class => 'icon'}
+      = restful_submit_tag cat, "metagroup_packages", metagroup_packages_templates_path, 'GET', {:class => 'icon'}

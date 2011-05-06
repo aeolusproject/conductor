@@ -10,7 +10,7 @@
         .packagewrap
           %a.packagename{:id => "package_#{pkg}"}=pkg
           = hidden_field_tag 'packages[]', pkg, :id => "package_#{pkg}"
-          = restful_submit_tag "Remove", "remove_package", remove_package_image_factory_templates_path(:name => pkg), 'GET', {:id => "remove_package_#{pkg}", :class => 'remove_package'}
+          = restful_submit_tag "Remove", "remove_package", remove_package_templates_path(:name => pkg), 'GET', {:id => "remove_package_#{pkg}", :class => 'remove_package'}
           .dropdown
             / we don't display repository for now, it's pretty difficult with current design
             /%section

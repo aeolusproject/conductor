@@ -3,7 +3,7 @@ Builds for
 = @tpl.platform_version
 , template "#{@tpl.name}"
 
-- form_tag image_factory_builds_path do
+- form_tag builds_path do
   = hidden_field_tag :template_id, @tpl.id
   - if @targets_not_built.count > 0 then
     - if @tpl.imported
@@ -19,7 +19,7 @@ Builds for
   - else
     - @images.each do |img|
       %li
-        - form_tag(retry_image_factory_builds_path, { :method => :post }) do
+        - form_tag(retry_builds_path, { :method => :post }) do
           = "#{img.name}-#{img.template.architecture}: #{img.status}"
           = hidden_field_tag :template_id, @tpl.id
           = hidden_field_tag :image_id, img.id
@@ -28,7 +28,7 @@ Builds for
           %ul
             - img.provider_images.each do |pimg|
               %li
-                - form_tag(retry_image_factory_builds_path, { :method => :post }) do
+                - form_tag(retry_builds_path, { :method => :post }) do
                   = "#{pimg.provider.name}: #{pimg.status}"
                   = hidden_field_tag :template_id, @tpl.id
                   = hidden_field_tag :provider_image_id, pimg.id
@@ -38,4 +38,4 @@ Builds for
                 %li
                   = "#{provider.name}: "
                   not uploaded
-                  = link_to 'upload', upload_image_factory_builds_path(:template_id => @tpl.id, :image_id => img.id, :provider_id => provider.id), {:class => 'button'}
+                  = link_to 'upload', upload_builds_path(:template_id => @tpl.id, :image_id => img.id, :provider_id => provider.id), {:class => 'button'}

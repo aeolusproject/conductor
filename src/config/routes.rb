@@ -32,47 +32,40 @@ ActionController::Routing::Routes.draw do |map|
   # You can have the root of your site routed by hooking up ''
   # -- just remember to delete public/index.html.
 
-  map.namespace 'resources' do |r|
-    r.resources :pools, :collection => { :multi_destroy => :delete }
-    r.resources :deployments, :collection  => { :multi_stop => :get, :launch_new => :get }
-    r.resources :instances, :collection => {:start => :get, :multi_stop => :get, :select_template => :get, :remove_failed => :get, :can_start => :get, :can_create => :get }, :member => {:key => :get}
-  end
+  map.resources :pools, :collection => { :multi_destroy => :delete }
+  map.resources :deployments, :collection  => { :multi_stop => :get, :launch_new => :get }
+  map.resources :instances, :collection => {:start => :get, :multi_stop => :get, :select_template => :get, :remove_failed => :get, :can_start => :get, :can_create => :get }, :member => {:key => :get}
 
-  map.can_start_instance '/resources/instances/:instance_id/can_start/:provider_account_id', :controller => 'resources/instances', :action => 'can_start', :conditions => { :method => :get }
-  map.can_create_instance '/resources/instances/:instance_id/can_create/:provider_account_id', :controller => 'resources/instances', :action => 'can_create', :conditions => { :method => :get }
+  map.can_start_instance '/instances/:instance_id/can_start/:provider_account_id', :controller => 'instances', :action => 'can_start', :conditions => { :method => :get }
+  map.can_create_instance '/instances/:instance_id/can_create/:provider_account_id', :controller => 'instances', :action => 'can_create', :conditions => { :method => :get }
 
-  map.namespace 'image_factory' do |r|
-    r.resources :assemblies
-    r.resources :image_imports
-    r.resources :deployables, :collection => { :multi_destroy => :delete }, :member => { :pick_assemblies => :get, :remove_assemblies => :delete, :add_assemblies => :put, :launch => :post }
-    r.resources :templates, :collection => {:collections => :get, :add_selected => :get, :metagroup_packages => :get, :remove_package => :get, :multi_destroy => :delete}
-    r.connect "/builds/update_status.:format", :controller => :builds, :action => :update_status
-    r.resources :builds, :collection => { :delete => :delete, :upload => :get, :retry => :post }
-  end
+  map.resources :assemblies
+  map.resources :image_imports
+  map.resources :deployables, :collection => { :multi_destroy => :delete }, :member => { :pick_assemblies => :get, :remove_assemblies => :delete, :add_assemblies => :put, :launch => :post }
+  map.resources :templates, :collection => {:collections => :get, :add_selected => :get, :metagroup_packages => :get, :remove_package => :get, :multi_destroy => :delete}
+  map.connect "/builds/update_status.:format", :controller => :builds, :action => :update_status
+  map.resources :builds, :collection => { :delete => :delete, :upload => :get, :retry => :post }
 
-  map.namespace 'admin' do |r|
-    r.resources :hardware_profiles, :collection => { :multi_destroy => :delete }
-    r.resources :providers, :collection => { :multi_destroy => :delete }
-    r.resources :users, :collection => { :multi_destroy => :delete }
-    r.resources :provider_accounts, :collection => { :multi_destroy => :delete, :set_selected_provider => :get}
+  map.resources :hardware_profiles, :collection => { :multi_destroy => :delete }
+  map.resources :providers, :collection => { :multi_destroy => :delete }
+  map.resources :users, :collection => { :multi_destroy => :delete }
+  map.resources :provider_accounts, :collection => { :multi_destroy => :delete, :set_selected_provider => :get}
+  map.resources :roles, :collection => { :multi_destroy => :delete }
+  map.resources :settings, :collection => { :self_service => :get, :general_settings => :get }
+  map.resources :pool_families, :collection => { :multi_destroy => :delete, :add_provider_account => :post, :multi_destroy_provider_accounts => :delete }
+  map.resources :realms, :collection => { :multi_destroy => :delete }
+  map.resources :realm_mappings, :collection => { :multi_destroy => :delete }
 
-    r.resources :roles, :collection => { :multi_destroy => :delete }
-    r.resources :settings, :collection => { :self_service => :get, :general_settings => :get }
-    r.resources :pool_families, :collection => { :multi_destroy => :delete, :add_provider_account => :post, :multi_destroy_provider_accounts => :delete }
-    r.resources :realms, :collection => { :multi_destroy => :delete }
-    r.resources :realm_mappings, :collection => { :multi_destroy => :delete }
-  end
-
-  map.matching_profiles '/admin/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'admin/hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }
+  map.matching_profiles '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }
 
   map.login 'login', :controller => "user_sessions", :action => "new"
   map.logout 'logout', :controller => "user_sessions", :action => "destroy"
   map.resource :user_session
-  map.register 'register', :controller => 'admin/users', :action => 'new'
-  map.resource :account, :controller => "admin/users"
+  map.register 'register', :controller => 'users', :action => 'new'
+  map.resource :account, :controller => "users"
   map.resources :permissions, :collection => { :list => :get }
 
-  map.root :controller => 'resources/deployments'
+  map.root :controller => 'deployments'
 
 
   # Allow downloading Web Service WSDL as a file with an extension

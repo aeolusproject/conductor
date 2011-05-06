@@ -1,17 +1,17 @@
 - form_tag do
-  = link_to "Create", new_image_factory_deployable_url, :class => 'button'
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_image_factory_deployables_path, 'DELETE', :id => 'delete_button'
+  = link_to "Create", new_deployable_url, :class => 'button'
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_deployables_path, 'DELETE', :id => 'delete_button'
 
   %table#deployables_table
     %thead
       %tr
         %th
-        %th= link_to "Name", image_factory_deployables_url(:sort_by => "name")
+        %th= link_to "Name", deployables_url(:sort_by => "name")
     -@deployables.each do |deployable|
       %tr
         %td
           %input{:name => "deployables_selected[]", :type => "checkbox", :value => deployable.id, :id => "deployable_checkbox_#{deployable.id}" }
-        %td= link_to deployable.name, image_factory_deployable_path(deployable)
+        %td= link_to deployable.name, deployable_path(deployable)
 
 :javascript
   $(document).ready(function () {

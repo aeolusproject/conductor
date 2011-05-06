@@ -9,5 +9,5 @@
   %label
     Account ID:
   = @account.credentials_hash['account_number']
-= link_to "Edit", edit_admin_provider_account_path(@account), { :class => 'button' }
-= link_to "Test", admin_provider_account_path(@account, {:test_account => true}), { :class => 'button' }
+= link_to "Edit", edit_provider_account_path(@account), { :class => 'button' }
+= link_to "Test", provider_account_path(@account, {:test_account => true}), { :class => 'button' }

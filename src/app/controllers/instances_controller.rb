@@ -22,7 +22,7 @@ class InstancesController < ApplicationController
     require_privilege(Privilege::CREATE, Instance, @instance.pool) if @instance.pool
 
     unless @instance.template
-      redirect_to select_template_resources_instances_path
+      redirect_to select_template_instances_path
       return
     end
 
@@ -41,7 +41,7 @@ class InstancesController < ApplicationController
 
   def create
     if params[:cancel]
-      redirect_to select_template_resources_instances_path
+      redirect_to select_template_instances_path
       return
     end
 
@@ -72,7 +72,7 @@ class InstancesController < ApplicationController
       else
         flash[:warning] = "Quota Exceeded: Instance will not start until you have free quota"
       end
-      redirect_to resources_instances_path
+      redirect_to instances_path
     end
   end
 
@@ -103,7 +103,7 @@ class InstancesController < ApplicationController
       return
     end
     flash[:warning] = "SSH Key not found for this Instance."
-    redirect_to resources_instance_path(@instance)
+    redirect_to instance_path(@instance)
   end
 
   def multi_stop
@@ -130,7 +130,7 @@ class InstancesController < ApplicationController
     end
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
-    redirect_to resources_instances_path
+    redirect_to instances_path
   end
 
   def remove_failed
@@ -149,7 +149,7 @@ class InstancesController < ApplicationController
     end
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
-    redirect_to resources_instances_path
+    redirect_to instances_path
   end
 
   def can_create

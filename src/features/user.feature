@@ -9,7 +9,7 @@ Feature: Manage Users
     And a user "testuser" exists
 
   Scenario: Change the password
-    Given I am on the admin users page
+    Given I am on the users page
     And there is a user "testuser"
     When I follow "testuser"
     And I follow "Edit"
@@ -28,29 +28,29 @@ Feature: Manage Users
     Then I should see "User updated!"
 
   Scenario: Show user detials
-    Given I am on the admin users page
+    Given I am on the users page
     And there is a user "testuser"
     When I follow "testuser"
     Then I should be on testuser's user page
 
   Scenario: Administrator cancels the creation of a user account
-    Given I am on the admin users page
+    Given I am on the users page
     And there are 2 users
     When I follow "create"
-    Then I should be on the new admin user page
+    Then I should be on the new user page
     When I follow "cancel"
     Then there should be 2 users
-    And I should be on the admin users page
+    And I should be on the users page
 
   Scenario: Delete users
     Given there is a user "testuser"
-    And I am on the admin users page
+    And I am on the users page
     Then there should be 2 users
     When I check "admin" user
     And I press "Delete"
     Then I should see "Cannot delete admin"
     And there should be 2 users
-    And I should be on the admin users page
+    And I should be on the users page
     When I check "testuser" user
     And I press "Delete"
     Then I should see "Deleted user"
@@ -59,7 +59,7 @@ Feature: Manage Users
   Scenario: Search for hardware profiles
     Given there is a user "myuser"
     And there is a user "someuser"
-    And I am on the admin users page
+    And I am on the users page
     Then I should see "myuser"
     And I should see "someuser"
     When I fill in "q" with "some"

@@ -15,7 +15,7 @@ Feature: Manage Providers
     | provider1 |
     | provider2 |
     | provider3 |
-    When I go to the admin providers page
+    When I go to the providers page
     Then I should see the following:
     | provider1 |
     | provider2 |
@@ -23,34 +23,34 @@ Feature: Manage Providers
 
   Scenario: Show provider details
     Given there is a provider named "testprovider"
-    And I am on the admin providers page
+    And I am on the providers page
     When I follow "testprovider"
     Then I should see "Provider name"
     And I should see "Provider URL"
 
   Scenario: Create a new Provider
-    Given I am on the admin providers page
+    Given I am on the providers page
     And there is not a provider named "testprovider"
     When I follow "Create"
-    Then I should be on the new admin provider page
+    Then I should be on the new provider page
     When I fill in "provider[name]" with "testprovider"
     And I fill in "provider[url]" with "http://localhost:3001/api"
     And I select "Amazon EC2" from "provider_provider_type_id"
     And I press "Save"
-    Then I should be on the admin providers page
+    Then I should be on the providers page
     And I should see "Provider added"
     And I should have a provider named "testprovider"
 
   Scenario: Create a new Provider failure when using wrong url
-    Given I am on the admin providers page
+    Given I am on the providers page
     And there is not a provider named "testprovider"
     When I follow "Create"
-    Then I should be on the new admin provider page
+    Then I should be on the new provider page
     When I fill in "provider[name]" with "testprovider"
     And I fill in "provider[url]" with "http://localhost:3010/api"
     And I select "Amazon EC2" from "provider_provider_type_id"
     And I press "Save"
-    Then I should be on the admin providers page
+    Then I should be on the providers page
     And I should see "Failed to connect to Provider"
 
   Scenario: Delete a provider
@@ -60,7 +60,7 @@ Feature: Manage Providers
     And this provider has 5 hardware profiles
     And this provider has a realm
     And this provider has a provider account
-    When I go to the admin providers page
+    When I go to the providers page
     And I check "provider1" provider
     And I press "Delete"
     And there should not exist a provider named "provider1"
@@ -75,7 +75,7 @@ Feature: Manage Providers
     | Test          | http://testprovider.com/api |
     | Kenny         | http://mockprovider.com/api |
     | Other         | http://sometesturl.com/api  |
-    And I am on the admin providers page
+    And I am on the providers page
     Then I should see the following:
     | Test  | http://testprovider.com/api |
     | Kenny | http://mockprovider.com/ap  |

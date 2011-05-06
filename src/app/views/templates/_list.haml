@@ -1,6 +1,6 @@
 - form_tag do
-  = link_to "Create", new_image_factory_template_path, :class => 'button'
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_image_factory_templates_path, 'DELETE', :id => 'delete_button'
+  = link_to "Create", new_template_path, :class => 'button'
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_templates_path, 'DELETE', :id => 'delete_button'
 
   %table#templates_table
     = sortable_table_header @header
@@ -14,7 +14,7 @@
             %td
               = check_box_tag 'selected[]', template.id, @url_params[:select] == 'all', :id => "selected_#{template.id}"
               = image_tag "blnk.png", :alt => template.platform, :class => "icon platform #{template.platform}"
-              = link_to template.name, image_factory_template_path(template)
+              = link_to template.name, template_path(template)
             %td= template.platform_name
             %td= template.platform_version
             %td= image_tag 'blnk.png', :alt => 'yes', :class => "icon yes"

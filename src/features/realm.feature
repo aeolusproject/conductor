@@ -10,7 +10,7 @@ Feature: Manage Realms
     And a realm "testrealm1" exists
 
   Scenario: Create new frontend realm
-    Given I am on the admin realms page
+    Given I am on the realms page
     When I follow "Create"
     Then I should see "Create a new Realm"
     When I fill in "frontend_realm[name]" with "testrealm2"
@@ -18,7 +18,7 @@ Feature: Manage Realms
     Then I should see "Realm was added."
 
   Scenario: Add realm mapping
-    Given I am on the admin realms page
+    Given I am on the realms page
     And there is a realm "testrealm1"
     And a provider "provider1" exists
     When I follow "testrealm1"
@@ -29,7 +29,7 @@ Feature: Manage Realms
     Then I should see "Realm mapping was added."
 
   Scenario: Change the name
-    Given I am on the admin realms page
+    Given I am on the realms page
     And there is a realm "testrealm1"
     When I follow "testrealm1"
     And I follow "Edit"
@@ -40,30 +40,30 @@ Feature: Manage Realms
 
   Scenario: Show realm detials
     Given a realm "testrealm2" exists
-    And I am on the admin realms page
+    And I am on the realms page
     When I follow "testrealm2"
     Then I should be on testrealm2's realm page
 
   Scenario: Delete realms
     Given a realm "testrealm2" exists
-    And I am on the admin realms page
+    And I am on the realms page
     And there are 2 realms
     When I check "testrealm2" realm
     And I check "testrealm1" realm
     And I press "Delete"
     Then there should be only 0 realms
-    And I should be on the admin realms page
+    And I should be on the realms page
     And I should not see "testrealm1"
     And I should not see "testrealm2"
 
   Scenario: Delete realm without selecting one
-    Given I am on the admin realms page
+    Given I am on the realms page
     When I press "Delete"
-    Then I should be on the admin realms page
+    Then I should be on the realms page
     And I should see "You must select at least one realm to delete."
 
   Scenario: Delete realm mapping without selecting one
-    Given I am on the admin realms page
+    Given I am on the realms page
     And there is a realm "testrealm1"
     When I follow "testrealm1"
     And I follow "Mapping"

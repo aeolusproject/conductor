@@ -13,14 +13,14 @@
       = t('.permissions')
     %p
       = t('.permissions_desc')
-    = link_to t(:continue), self_service_admin_settings_path, :class => 'button'
+    = link_to t(:continue), self_service_settings_path, :class => 'button'
   %li#settings.grid_8
     = image_tag "blnk.png", :class => "icon", :alt => ""
     %h2
       = t('.general_settings')
     %p
       = t('.general_settings_desc')
-    = link_to t(:continue), general_settings_admin_settings_path, :class => 'button'
+    = link_to t(:continue), general_settings_settings_path, :class => 'button'
   %li#locales.grid_8.disabled.clear
     = image_tag "blnk.png", :class => "icon", :alt => ""
     %h2

@@ -1,6 +1,6 @@
 - form_tag do
-  = link_to "Create", new_admin_provider_url, :class => "button"
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_providers_path, 'DELETE', :id => 'delete_button'
+  = link_to "Create", new_provider_url, :class => "button"
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_providers_path, 'DELETE', :id => 'delete_button'
 
   %p
     Select:&nbsp;
@@ -15,6 +15,6 @@
         %td
           - selected = @url_params[:select] == 'all'
           %input{:name => "provider_selected[]", :type => "checkbox", :value => provider.id, :id => "provider_checkbox_#{provider.id}", :checked => selected }
-          = link_to provider.name, admin_provider_path(provider)
+          = link_to provider.name, provider_path(provider)
         %td= provider.url
         %td= provider.provider_type.name

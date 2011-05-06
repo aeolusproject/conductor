@@ -1,6 +1,6 @@
 - form_tag do
-  = link_to "New Role", new_admin_role_path, :class => 'button'
-  = restful_submit_tag "Destroy", "destroy", multi_destroy_admin_roles_path, 'DELETE', :id => 'delete_button'
+  = link_to "New Role", new_role_path, :class => 'button'
+  = restful_submit_tag "Destroy", "destroy", multi_destroy_roles_path, 'DELETE', :id => 'delete_button'
   %p
     Select:&nbsp;
     = link_to "All", @url_params.merge(:select => 'all')
@@ -13,7 +13,7 @@
         %td
           - selected = @url_params[:select] == 'all'
           %input{:name => "role_selected[]", :type => "checkbox", :value => role.id, :id => "role_checkbox_#{role.id}", :checked => selected }
-          = link_to role.name, admin_role_path(role)
+          = link_to role.name, role_path(role)
 
 :javascript
   $(document).ready(function () {

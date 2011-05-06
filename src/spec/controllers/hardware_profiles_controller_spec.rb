@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::HardwareProfilesController do
+describe HardwareProfilesController do
 
   fixtures :all
   before(:each) do

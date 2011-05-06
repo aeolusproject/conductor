@@ -62,7 +62,7 @@ class HardwareProfilesController < ApplicationController
     build_hardware_profile(params[:hardware_profile])
     if params[:commit] == 'Save'
       if @hardware_profile.save!
-        redirect_to admin_hardware_profiles_path
+        redirect_to hardware_profiles_path
       else
         params.delete :commit
         render :action => 'create'
@@ -87,7 +87,7 @@ class HardwareProfilesController < ApplicationController
 
   def update
     if params[:commit] == "Reset"
-      redirect_to edit_admin_hardware_profile_url(@hardware_profile) and return
+      redirect_to edit_hardware_profile_url(@hardware_profile) and return
     end
 
     if params[:id]
@@ -104,7 +104,7 @@ class HardwareProfilesController < ApplicationController
       render :action => 'edit' and return
     else
       flash[:notice] = "Hardware Profile updated!"
-      redirect_to admin_hardware_profiles_path
+      redirect_to hardware_profiles_path
     end
     kick_condor
   end
@@ -112,7 +112,7 @@ class HardwareProfilesController < ApplicationController
   def multi_destroy
     HardwareProfile.destroy(params[:hardware_profile_selected])
     kick_condor
-    redirect_to admin_hardware_profiles_path
+    redirect_to hardware_profiles_path
   end
 
   private

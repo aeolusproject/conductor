@@ -17,7 +17,7 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.new(:deployable_id => params[:deployable_id])
     if @deployment.deployable.assemblies.empty?
       flash[:warning] = "Deployable must have at least one assembly"
-      redirect_to resources_deployments_path
+      redirect_to deployments_path
     else
       init_new_deployment_attrs
     end
@@ -36,7 +36,7 @@ class DeploymentsController < ApplicationController
           :failures => errors
         }
       end
-      redirect_to resources_deployment_path(@deployment)
+      redirect_to deployment_path(@deployment)
     else
       flash.now[:warning] = "Deployment launch failed"
       init_new_deployment_attrs
@@ -87,7 +87,7 @@ class DeploymentsController < ApplicationController
     end
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
-    redirect_to resources_deployments_path
+    redirect_to deployments_path
   end
 
   private

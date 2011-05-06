@@ -1,7 +1,7 @@
 .grid_13
 - form_tag do
-  = restful_submit_tag "Remove Selected", 'destroy', remove_assemblies_image_factory_deployable_path(@deployable), 'DELETE', :id => 'delete_button'
-  = link_to "Add Assembly...", pick_assemblies_image_factory_deployable_path(@deployable), :class => 'button', :id => 'add_assembly'
+  = restful_submit_tag "Remove Selected", 'destroy', remove_assemblies_deployable_path(@deployable), 'DELETE', :id => 'delete_button'
+  = link_to "Add Assembly...", pick_assemblies_deployable_path(@deployable), :class => 'button', :id => 'add_assembly'
 
   %table#assemblies_table
     %thead

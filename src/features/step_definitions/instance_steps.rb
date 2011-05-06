@@ -15,15 +15,15 @@ Given /^a mock pending instance exists$/ do
 end
 
 Given /^I am viewing the mock instance detail$/ do
-  visit resources_instance_url(mock_instance)
+  visit instance_url(mock_instance)
 end
 
 When /^I am viewing the pending instance detail$/ do
-  visit resources_instance_url(pending_instance)
+  visit instance_url(pending_instance)
 end
 
 When /^I manually go to the key action for this instance$/ do
-  visit key_resources_instance_url(pending_instance)
+  visit key_instance_url(pending_instance)
 end
 
 Given /^I see "([^"]*)"$/ do |text|

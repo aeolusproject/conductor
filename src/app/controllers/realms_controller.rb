@@ -19,12 +19,12 @@ class RealmsController < ApplicationController
     @realm = FrontendRealm.find(params[:id])
 
     if params[:commit] == "Reset"
-      redirect_to edit_admin_realm_url(@realm) and return
+      redirect_to edit_realm_url(@realm) and return
     end
 
     if @realm.update_attributes(params[:frontend_realm])
       flash[:notice] = 'Realm updated successfully!'
-      redirect_to admin_realms_url and return
+      redirect_to realms_url and return
     end
 
     load_backend_realms
@@ -36,7 +36,7 @@ class RealmsController < ApplicationController
     @realm = FrontendRealm.new(params[:frontend_realm])
     if @realm.save
       flash[:notice] = "Realm was added."
-      redirect_to admin_realms_path and return
+      redirect_to realms_path and return
     end
 
     load_backend_realms
@@ -50,7 +50,7 @@ class RealmsController < ApplicationController
       require_privilege(Privilege::MODIFY, Realm)
       FrontendRealm.destroy(params[:id])
     end
-    redirect_to admin_realms_path
+    redirect_to realms_path
   end
 
   def show

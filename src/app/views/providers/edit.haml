@@ -3,5 +3,5 @@
   = @provider.name
   Provider
 
--form_for @provider, :url => admin_provider_path(@provider), :html => { :method => :put } do |f|
-  = render :partial => 'form', :locals => { :form => f, :cancel_path => admin_providers_path }
+-form_for @provider, :url => provider_path(@provider), :html => { :method => :put } do |f|
+  = render :partial => 'form', :locals => { :form => f, :cancel_path => providers_path }

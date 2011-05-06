@@ -1,9 +1,9 @@
 #dropdown
 .grid_16
   %h2 Edit Template
-  /- form_for @tpl, :url => image_factory_template_path(@tpl), :html => { :method => :put } do |f|
+  /- form_for @tpl, :url => template_path(@tpl), :html => { :method => :put } do |f|
   - form_tag do
     = hidden_field_tag :id, @tpl.id
     = render :partial => 'form'
-    = restful_submit_tag "Save", 'update', image_factory_template_path(@tpl), 'PUT', :class => "formbutton"
-    = link_to 'Cancel', image_factory_templates_path, :class => 'button formbutton'
+    = restful_submit_tag "Save", 'update', template_path(@tpl), 'PUT', :class => "formbutton"
+    = link_to 'Cancel', templates_path, :class => 'button formbutton'

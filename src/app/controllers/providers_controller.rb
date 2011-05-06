@@ -67,7 +67,7 @@ class ProvidersController < ApplicationController
       if @provider.save && @provider.populate_hardware_profiles
         @provider.assign_owner_roles(current_user)
         flash[:notice] = "Provider added."
-        redirect_to admin_providers_path
+        redirect_to providers_path
       else
         flash[:notice] = "Cannot add the provider."
         render :action => "new"
@@ -86,7 +86,7 @@ class ProvidersController < ApplicationController
     else
       if @provider.errors.empty? and @provider.save
         flash[:notice] = "Provider updated."
-        redirect_to admin_providers_path
+        redirect_to providers_path
       else
         flash[:notice] = "Cannot update the provider."
         render :action => 'edit'
@@ -100,7 +100,7 @@ class ProvidersController < ApplicationController
       provider.destroy if check_privilege(Privilege::MODIFY, provider)
     end
     kick_condor
-    redirect_to admin_providers_url
+    redirect_to providers_url
   end
 
   def test_connection(provider)

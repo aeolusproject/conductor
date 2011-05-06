@@ -1,7 +1,7 @@
 .grid_13
   %h2 #{@user.first_name} #{@user.last_name} (#{@user.login})
 
-  = link_to 'Edit', edit_admin_user_path(@user), :class => 'button'
+  = link_to 'Edit', edit_user_path(@user), :class => 'button'
 
   %table
     %thead

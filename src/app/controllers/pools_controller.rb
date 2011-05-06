@@ -108,7 +108,7 @@ class PoolsController < ApplicationController
     unless error_messages.empty?
       flash[:error] = error_messages.join('<br />')
     end
-    redirect_to resources_pools_url
+    redirect_to pools_url
   end
 
   protected

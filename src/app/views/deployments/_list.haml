@@ -1,14 +1,14 @@
 - form_tag do
   #object-actions
-    = restful_submit_tag "Start", "start", resources_deployments_path, "PUT"
-    = restful_submit_tag "Stop", "stop", multi_stop_resources_deployments_path, "GET"
-    = restful_submit_tag "Launch new", "launch_new", launch_new_resources_deployments_path, "GET"
-    = restful_submit_tag "Delete", "delete", resources_deployments_path, "DELETE"
+    = restful_submit_tag "Start", "start", deployments_path, "PUT"
+    = restful_submit_tag "Stop", "stop", multi_stop_deployments_path, "GET"
+    = restful_submit_tag "Launch new", "launch_new", launch_new_deployments_path, "GET"
+    = restful_submit_tag "Delete", "delete", deployments_path, "DELETE"
 
   #search-actions
-    = restful_submit_tag "Save Search", "save_search", resources_deployments_path, "PUT"
-    = restful_submit_tag "Save Selection", "save_selection", resources_deployments_path, "PUT"
-    = restful_submit_tag "Export to File", "export", resources_deployments_path, "PUT"
+    = restful_submit_tag "Save Search", "save_search", deployments_path, "PUT"
+    = restful_submit_tag "Save Selection", "save_selection", deployments_path, "PUT"
+    = restful_submit_tag "Export to File", "export", deployments_path, "PUT"
 
   %p
     Select:&nbsp;
@@ -24,12 +24,12 @@
           - selected = @url_params[:select] == 'all'
           %input{:name => "deployments_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}", :checked => selected }
         %td
-          = link_to deployment.name, resources_deployment_path(deployment)
+          = link_to deployment.name, deployment_path(deployment)
         %td
-          = link_to deployment.deployable.name, image_factory_deployable_path(deployment.deployable)
+          = link_to deployment.deployable.name, deployable_path(deployment.deployable)
         %td
           = deployment.owner.login
         %td
           = deployment.created_at
         %td
-          = link_to deployment.pool.name, resources_pool_path(deployment.pool)
+          = link_to deployment.pool.name, pool_path(deployment.pool)

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ImageFactory::TemplatesController do
+describe TemplatesController do
 
   fixtures :all
   before(:each) do

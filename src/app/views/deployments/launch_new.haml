@@ -1,6 +1,6 @@
 %h2 Launch new deployment via
-- form_tag new_resources_deployment_path, :method => :get do
+- form_tag new_deployment_path, :method => :get do
   = label_tag "Deployable:"
   = select_tag :deployable_id, options_from_collection_for_select(@launchable_deployables, "id", "name")
   = submit_tag "Launch"
-  = link_to "Cancel", resources_deployments_path, :class => "button"
+  = link_to "Cancel", deployments_path, :class => "button"

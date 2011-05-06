@@ -121,7 +121,7 @@ Given /^has package "([^"]*)"$/ do |arg1|
 end
 
 When /^I edit the template$/ do
-  visit edit_image_factory_template_url(@template)
+  visit edit_template_url(@template)
 end
 
 When /^(?:|I )check "([^"]*)" template$/ do |template_name|

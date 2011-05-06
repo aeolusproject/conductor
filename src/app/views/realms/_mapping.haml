@@ -1,7 +1,7 @@
 - form_tag do
-  = link_to "Add mapping to realm", new_admin_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button"
-  = link_to "Add mapping to provider", new_admin_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button"
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_realm_mappings_path(:frontend_realm_id => @realm.id), 'DELETE', :id => 'delete_button'
+  = link_to "Add mapping to realm", new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button"
+  = link_to "Add mapping to provider", new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button"
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_realm_mappings_path(:frontend_realm_id => @realm.id), 'DELETE', :id => 'delete_button'
 
   - unless @backend_provider_targets.empty?
     %h2 Realm '#{@realm.name}' is mapped to providers:

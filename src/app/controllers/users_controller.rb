@@ -39,7 +39,7 @@ class UsersController < ApplicationController
 
     if current_user != @user
       flash[:notice] = "User registered!"
-      redirect_to admin_users_url
+      redirect_to users_url
     else
       flash[:notice] = "You have successfully registered!"
       redirect_to root_url
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
     require_privilege(Privilege::MODIFY, User) unless @user == current_user
 
     if params[:commit] == "Reset"
-      redirect_to edit_admin_user_url(@user) and return
+      redirect_to edit_user_url(@user) and return
     end
 
     redirect_to root_url and return unless @user
@@ -84,7 +84,7 @@ class UsersController < ApplicationController
       render :action => 'edit' and return
     else
       flash[:notice] = "User updated!"
-      redirect_to (@user == current_user) ? root_url : admin_users_url
+      redirect_to (@user == current_user) ? root_url : users_url
     end
   end
 
@@ -103,7 +103,7 @@ class UsersController < ApplicationController
       msg = "Deleted user#{'s' if deleted_users.length > 1}"
       flash[:notice] =  "#{msg}: #{deleted_users.join(', ')}"
     end
-    redirect_to admin_users_url
+    redirect_to users_url
   end
 
   protected

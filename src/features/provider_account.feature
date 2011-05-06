@@ -11,16 +11,16 @@ Feature: Manage Provider Accounts
   Scenario: List provider accounts
     Given I am on the homepage
     And there is a provider named "testprovider"
-    When I go to the admin provider accounts page
+    When I go to the provider accounts page
     Then I should see "New Account"
     And there should be no provider accounts
 
   Scenario: Create a new Provider Account
     Given there is a provider named "testprovider"
     And there are no provider accounts
-    And I am on the admin provider accounts page
+    And I am on the provider accounts page
     When I follow "New Account"
-    Then I should be on the new admin provider account page
+    Then I should be on the new provider account page
     And I should see "New Account"
     When I select "testprovider" from "provider_account_provider_id"
     And I fill in "provider_account[label]" with "testaccount"
@@ -37,9 +37,9 @@ Feature: Manage Provider Accounts
   Scenario: Create a new Provider Account using wrong credentials
     Given there is a provider named "testprovider"
     And there are no provider accounts
-    And I am on the admin provider accounts page
+    And I am on the provider accounts page
     When I follow "New Account"
-    Then I should be on the new admin provider account page
+    Then I should be on the new provider account page
     And I should see "New Account"
     When I select "testprovider" from "provider_account_provider_id"
     And I fill in "provider_account[label]" with "testaccount"
@@ -53,16 +53,16 @@ Feature: Manage Provider Accounts
     Given there is a provider named "testprovider"
     And there is a provider account named "testaccount"
     And the account has an instance associated with it
-    And I am on the admin provider accounts page
+    And I am on the provider accounts page
     When I check the "testaccount" account
     And I press "Delete"
-    Then I should be on the admin provider accounts page
+    Then I should be on the provider accounts page
     And I should see "was not deleted"
     And there should be 1 provider account
     When I delete all instances from the account
     And I check the "testaccount" account
     And I press "Delete"
-    Then I should be on the admin provider accounts page
+    Then I should be on the provider accounts page
     And I should see "was deleted"
     And there should be no provider accounts
 
@@ -70,7 +70,7 @@ Feature: Manage Provider Accounts
     Given there is a provider named "testprovider"
     And there is a provider account named "testaccount"
     And there is a second provider account named "otheraccount"
-    And I am on the admin provider accounts page
+    And I am on the provider accounts page
     When I fill in "q" with "test"
     And I press "Search"
     Then I should see the following:

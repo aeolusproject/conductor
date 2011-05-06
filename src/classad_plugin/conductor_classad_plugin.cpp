@@ -152,7 +152,7 @@ conductor_quota_check(const char *name, const ArgumentList &arglist,
     goto do_ret;
   }
 
-  rest_call << "resources/instances/" << instance_id << "/can_start/" << account_id;
+  rest_call << "instances/" << instance_id << "/can_start/" << account_id;
 
   // Call rest API to get answer on quota..
   // FIXME: this should be configurable somehow, maybe passed via condor?

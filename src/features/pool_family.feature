@@ -14,7 +14,7 @@ Feature: Pool Families
     | pool_family1 |
     | pool_family2 |
     | pool_family3 |
-    When I go to the admin pool families page
+    When I go to the pool families page
     Then I should see the following:
     | pool_family1 |
     | pool_family2 |
@@ -22,32 +22,32 @@ Feature: Pool Families
 
   Scenario: Show pool family details
     Given there is a pool family named "testpoolfamily"
-    And I am on the admin pool families page
+    And I am on the pool families page
     When I follow "testpoolfamily"
     Then I should see "Name"
 
   Scenario: Create a new Pool family
-    Given I am on the admin pool families page
+    Given I am on the pool families page
     And there is not a pool family named "testpoolfamily"
     When I follow "Create"
-    Then I should be on the new admin pool family page
+    Then I should be on the new pool family page
     When I fill in "pool_family[name]" with "testpoolfamily"
     When I fill in "pool_family[quota_attributes][maximum_running_instances]" with "2"
     And I press "Save"
-    Then I should be on the admin pool families page
+    Then I should be on the pool families page
     And I should see "Pool family was added."
     And I should have a pool family named "testpoolfamily"
 
   Scenario: Delete a pool family
     Given I am on the homepage
     And there is a pool family named "poolfamily1"
-    When I go to the admin pool families page
+    When I go to the pool families page
     And I check "poolfamily1" pool family
     And I press "Delete"
     Then there should not exist a pool family named "poolfamily1"
 
   Scenario: Disallow deletion of default pool family
-    Given I am on the admin pool families page
+    Given I am on the pool families page
     Then I should see "default"
     When I check "default" pool family
     And I press "Delete"
@@ -60,7 +60,7 @@ Feature: Pool Families
     | first_family |
     | second_family |
     | third_family |
-    Given I am on the admin pool families page
+    Given I am on the pool families page
     Then I should see "first_family"
     And I should see "second_family"
     And I should see "third_family"

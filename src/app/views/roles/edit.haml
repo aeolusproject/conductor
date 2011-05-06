@@ -1,4 +1,4 @@
 %h2 Editing Role: #{@role.name}
 
-- form_for @role, :url => admin_role_path(@role), :html => { :method => :put } do |f|
+- form_for @role, :url => role_path(@role), :html => { :method => :put } do |f|
   = render :partial => "form", :locals => { :form => f }

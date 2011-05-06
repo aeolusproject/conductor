@@ -1,6 +1,6 @@
 = error_messages_for :pool
 %h1 Create a new Pool
-- form_for @pool, :url => resources_pools_path do |form|
+- form_for @pool, :url => pools_path do |form|
   %fieldset
     = form.label :name, "Name:", :class => "grid_2 alpha"
     = form.text_field :name

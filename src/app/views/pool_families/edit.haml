@@ -3,5 +3,5 @@
   = @pool_family.name
   Pool Family
 
--form_for @pool_family, :url => admin_pool_family_path(@pool_family), :html => { :method => :put } do |f|
-  = render :partial => 'form', :locals => { :form => f, :cancel_path => admin_providers_path }
+-form_for @pool_family, :url => pool_family_path(@pool_family), :html => { :method => :put } do |f|
+  = render :partial => 'form', :locals => { :form => f, :cancel_path => providers_path }

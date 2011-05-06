@@ -30,7 +30,7 @@ class RolesController < ApplicationController
 
     if @role.save
       flash[:notice] = 'Role successfully saved!'
-      redirect_to admin_roles_path and return
+      redirect_to roles_path and return
     end
 
     render :action => 'new'
@@ -64,12 +64,12 @@ class RolesController < ApplicationController
     @role = Role.find(params[:id])
 
     if params[:commit] == "Reset"
-      redirect_to edit_admin_role_url(@role) and return
+      redirect_to edit_role_url(@role) and return
     end
 
     if @role.update_attributes(params[:role])
       flash[:notice] = 'Role updated successfully!'
-      redirect_to admin_roles_url and return
+      redirect_to roles_url and return
     end
 
     render :action => 'edit'
@@ -78,7 +78,7 @@ class RolesController < ApplicationController
   def multi_destroy
     require_privilege(Privilege::PERM_SET)
     Role.destroy(params[:role_selected])
-    redirect_to admin_roles_url
+    redirect_to roles_url
   end
 
   protected

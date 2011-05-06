@@ -1,6 +1,6 @@
 - form_tag do
-  = link_to "Create", new_admin_realm_path, :class => "button"
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_realms_path, 'DELETE', :id => 'delete_button'
+  = link_to "Create", new_realm_path, :class => "button"
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_realms_path, 'DELETE', :id => 'delete_button'
 
   %p
     Select:&nbsp;
@@ -16,4 +16,4 @@
           %td
             - selected = @url_params[:select] == 'all'
             %input{:name => "id[]", :type => "checkbox", :value => realm.id, :id => "realm_id_#{realm.id}", :checked => selected }
-            = link_to realm.name, admin_realm_path(realm)
+            = link_to realm.name, realm_path(realm)

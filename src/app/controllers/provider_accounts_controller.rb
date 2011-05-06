@@ -71,7 +71,7 @@ class ProviderAccountsController < ApplicationController
     if @provider_account.populate_realms
       flash[:notice] = "Provider account added."
     end
-    redirect_to admin_provider_account_path(@provider_account)
+    redirect_to provider_account_path(@provider_account)
     kick_condor
   end
 
@@ -95,7 +95,7 @@ class ProviderAccountsController < ApplicationController
     @provider_account.quota.set_maximum_running_instances(limit)
     if @provider_account.update_attributes(params[:provider_account])
       flash[:notice] = "Provider Account updated!"
-      redirect_to admin_provider_account_path(@provider_account)
+      redirect_to provider_account_path(@provider_account)
     else
       flash[:error] = "Provider Account wasn't updated!"
       render :action => :edit
@@ -105,7 +105,7 @@ class ProviderAccountsController < ApplicationController
   def multi_destroy
     if params[:accounts_selected].blank?
       flash[:notice] = "You must select some accounts first."
-      redirect_to admin_provider_accounts_url and return
+      redirect_to provider_accounts_url and return
     end
 
     succeeded = []
@@ -126,7 +126,7 @@ class ProviderAccountsController < ApplicationController
       flash[:error] = t 'provider_accounts.index.account_not_deleted', :count => failed.length, :list => failed.join(', ')
     end
     kick_condor
-    redirect_to admin_provider_accounts_url
+    redirect_to provider_accounts_url
   end
 
   def set_selected_provider

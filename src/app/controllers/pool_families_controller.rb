@@ -29,7 +29,7 @@ class PoolFamiliesController < ApplicationController
     else
       @pool_family.assign_owner_roles(current_user)
       flash[:notice] = "Pool family was added."
-      redirect_to admin_pool_families_path
+      redirect_to pool_families_path
     end
   end
 
@@ -45,7 +45,7 @@ class PoolFamiliesController < ApplicationController
       render :action => 'edit' and return
     else
       flash[:notice] = "Pool Family was updated!"
-      redirect_to admin_pool_families_path
+      redirect_to pool_families_path
     end
   end
 
@@ -70,7 +70,7 @@ class PoolFamiliesController < ApplicationController
 
     @pool_family.provider_accounts << @provider_account
     flash[:notice] = "Provider Account has been added"
-    redirect_to admin_pool_family_path(@pool_family, :details_tab => 'provider_accounts')
+    redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts')
   end
 
   def multi_destroy
@@ -89,7 +89,7 @@ class PoolFamiliesController < ApplicationController
     if not_deleted.size > 0
       flash[:error] = t 'pool_families.index.not_deleted', :list => not_deleted.join(', ')
     end
-    redirect_to admin_pool_families_path
+    redirect_to pool_families_path
   end
 
   def multi_destroy_provider_accounts
@@ -99,7 +99,7 @@ class PoolFamiliesController < ApplicationController
       @pool_family.provider_accounts.delete provider_account
     end
 
-    redirect_to admin_pool_family_path(@pool_family, :details_tab => 'provider_accounts')
+    redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts')
   end
 
   protected

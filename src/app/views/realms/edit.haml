@@ -1,4 +1,4 @@
 %h2 Editing Realm: #{@realm.name}
 
-- form_for @realm, :url => admin_realm_path(@realm), :html => { :method => :put } do |f|
+- form_for @realm, :url => realm_path(@realm), :html => { :method => :put } do |f|
   = render :partial => "form", :locals => { :form => f }

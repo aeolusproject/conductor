@@ -11,13 +11,13 @@ Feature: Manage Pools
     Given I am on the pools page
     And there is not a pool named "mockpool"
     When I follow "New Pool"
-    Then I should be on the new resources pool page
+    Then I should be on the new pool page
     And I should see "Create a new Pool"
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I fill in "quota_instances" with "unlimited"
     And I press "Save"
-    Then I should be on the resources pool page
+    Then I should be on the pool page
     And I should see "Pool added"
     And I should see "mockpool"
     And I should see "default"
@@ -31,7 +31,7 @@ Feature: Manage Pools
     | resource                  | capacity |
     | maximum_running_instances | 10       |
     | running_instances         | 8        |
-    And I am on the resources pools page
+    And I am on the pools page
     When I follow "mockpool"
     Then I should be on the show pool page
     When I follow "Quota"
@@ -39,7 +39,7 @@ Feature: Manage Pools
     | mockpool | 10           | 80.0             |
 
   Scenario: Enter invalid characters into Name field
-    Given I am on the new resources pool page
+    Given I am on the new pool page
     When I fill in "pool[name]" with "@%&*())_@!#!"
     And I press "Save"
     Then I should see "Name must only contain: numbers, letters, spaces, '_' and '-'"
@@ -48,14 +48,14 @@ Feature: Manage Pools
     Given I am on the pools page
     And a pool "Amazon Startrek Pool" exists
     And a pool "Redhat Voyager Pool" exists
-    And I am on the resources pools page
+    And I am on the pools page
     And there are 3 pools
     When I check "Redhat Voyager Pool" pool
     And I check "Amazon Startrek Pool" pool
     And I press "Destroy"
     Then there should only be 1 pools
-    And I should be on the resources pools page
-    When I go to the resources pools page
+    And I should be on the pools page
+    When I go to the pools page
     Then I should not see "Redhat Voyager Pool"
     And I should not see "Amazon Startrek Pool"
 
@@ -64,22 +64,22 @@ Feature: Manage Pools
     And there is not a pool named "mockpool"
     And there is not a pool named "foopool"
     When I follow "New Pool"
-    Then I should be on the new resources pool page
+    Then I should be on the new pool page
     And I should see "Create a new Pool"
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I press "Save"
-    Then I should be on the resources pool page
+    Then I should be on the pool page
     And I should see "Pool added"
     And I should see "mockpool"
     And I should have a pool named "mockpool"
     When I follow "New Pool"
-    Then I should be on the new resources pool page
+    Then I should be on the new pool page
     And I should see "Create a new Pool"
     When I fill in "pool_name" with "foopool"
     And I select "default" from "pool_pool_family_id"
     And I press "Save"
-    Then I should be on the resources pool page
+    Then I should be on the pool page
     And I should see "Pool added"
     And I should see "mockpool"
     And I should see "foopool"

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::UsersController do
+describe UsersController do
 
   before(:each) do
     @tuser = Factory :tuser
@@ -53,7 +53,7 @@ describe Admin::UsersController do
         :password_confirmation => "testpass" }
     end.should change(User, :count)
 
-    response.should redirect_to(admin_users_url)
+    response.should redirect_to(users_url)
   end
 
   it "should not allow a regular user to create user" do

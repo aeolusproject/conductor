@@ -1,6 +1,6 @@
 - form_tag do
-  = link_to "Create", new_admin_pool_family_path, :class => "button"
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_admin_pool_families_path, 'DELETE', :id => 'delete_button'
+  = link_to "Create", new_pool_family_path, :class => "button"
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_pool_families_path, 'DELETE', :id => 'delete_button'
 
   %p
     Select:&nbsp;
@@ -16,7 +16,7 @@
           %td
             - selected = @url_params[:select] == 'all'
             %input{:name => "pool_family_selected[]", :type => "checkbox", :value => pool_family.id, :id => "pool_family_checkbox_#{pool_family.id}", :checked => selected }
-            = link_to pool_family.name, admin_pool_family_path(pool_family)
+            = link_to pool_family.name, pool_family_path(pool_family)
           %td
             = pool_family.quota.maximum_running_instances or 'unlimited'
           %td

@@ -18,7 +18,7 @@ class BuildsController < ApplicationController
       logger.error $!.message
       logger.error $!.backtrace.join("\n   ")
     end
-    redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')
+    redirect_to template_path(@tpl, :details_tab => 'builds')
   end
 
   def upload
@@ -29,13 +29,13 @@ class BuildsController < ApplicationController
       :status => ProviderImage::STATE_QUEUED
     )
     Delayed::Job.enqueue(PushJob.new(pimg.id))
-    redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')
+    redirect_to template_path(@tpl, :details_tab => 'builds')
   end
 
   def delete
     @tpl = Template.find(params[:template_id])
     # FIXME: add logic to delete image when v2 image factory lands
-    redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')
+    redirect_to template_path(@tpl, :details_tab => 'builds')
   end
 
   def edit
@@ -76,7 +76,7 @@ class BuildsController < ApplicationController
       logger.error $!.message
       logger.error $!.backtrace.join("\n   ")
     end
-    redirect_to image_factory_template_path(@tpl, :details_tab => 'builds')
+    redirect_to template_path(@tpl, :details_tab => 'builds')
   end
 
   def update_status

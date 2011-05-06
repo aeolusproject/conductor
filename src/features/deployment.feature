@@ -10,7 +10,7 @@ Feature: Manage Deployments
   Scenario: List deployments
     Given I am on the homepage
     And there is a deployment named "MySQL Cluster" belonging to "Databases" owned by "bob"
-    When I go to the resources deployments page
+    When I go to the deployments page
     Then I should see "MySQL Cluster"
     And I should see "bob"
 
@@ -20,7 +20,7 @@ Feature: Manage Deployments
     And there is a "testtemplate" template
     And there is an assembly named "testassembly" belonging to "testdeployable"
     And there is an assembly named "testassembly" belonging to "testtemplate" template
-    When I go to the resources deployments page
+    When I go to the deployments page
     And I press "Launch new"
     Then I should see "Launch new deployment via"
     When I select "testdeployable" from "deployable_id"
@@ -29,7 +29,7 @@ Feature: Manage Deployments
 
   Scenario: Stop deployments
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
-    When I go to the resources deployments page
+    When I go to the deployments page
     Then I should see "testdeployment"
     When I check "testdeployment" deployment
     And I press "Stop"

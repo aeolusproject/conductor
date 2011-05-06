@@ -80,7 +80,7 @@ class TemplatesController < ApplicationController
       if params[:create_deployable]
         Deployable.create!(:name => @tpl.name, :assemblies => @tpl.assemblies, :owner => current_user)
       end
-      redirect_to image_factory_templates_path
+      redirect_to templates_path
     else
       @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
       render :new
@@ -96,7 +96,7 @@ class TemplatesController < ApplicationController
     if @tpl.update_attributes(params[:tpl])
       @tpl.set_complete
       flash[:notice] = "Template updated."
-      redirect_to image_factory_templates_path
+      redirect_to templates_path
     else
       @repository_manager = RepositoryManager.new(:repositories => params[:repository] || @tpl.platform)
       render :action => 'edit'
@@ -201,7 +201,7 @@ class TemplatesController < ApplicationController
     unless failed.empty?
       flash[:error] = t('templates.index.not_deleted', :count => failed.length, :list => failed.join(', '))
     end
-    redirect_to image_factory_templates_url
+    redirect_to templates_url
   end
 
   protected

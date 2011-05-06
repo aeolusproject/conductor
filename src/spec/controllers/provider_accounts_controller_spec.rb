@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::ProviderAccountsController do
+describe ProviderAccountsController do
 
   fixtures :all
   before(:each) do
@@ -43,7 +43,7 @@ describe Admin::ProviderAccountsController do
     @provider_account.quota = Quota.new
     @provider_account.save.should be_true
     post :update, :id => @provider_account.id, :provider_account => { :credentials_hash => {:username => 'mockuser', :password => 'mockpassword'} }
-    response.should redirect_to admin_provider_account_path(@provider_account)
+    response.should redirect_to provider_account_path(@provider_account)
     ProviderAccount.find(@provider_account.id).credentials_hash['password'].should == "mockpassword"
   end
 
@@ -52,7 +52,7 @@ describe Admin::ProviderAccountsController do
     lambda do
       post :multi_destroy, :accounts_selected => [@provider_account.id]
     end.should change(ProviderAccount, :count).by(-1)
-    response.should redirect_to admin_provider_accounts_url
+    response.should redirect_to provider_accounts_url
     ProviderAccount.find_by_id(@provider_account.id).should be_nil
   end
 
