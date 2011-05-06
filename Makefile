@@ -1,4 +1,4 @@
-# Copyright (C) 2008 Red Hat, Inc.
+# Copyright (C) 2011 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,20 +17,12 @@
 
 CONDUCTOR_CACHE_DIR	?= $(HOME)/conductor-cache
 
-EXTRA_DIST =			\
-  .gitignore			\
-  aeolus-conductor.spec		\
-  aeolus-conductor.spec.in	\
-  conf				\
-  src
-
-DISTCLEANFILES = $(PACKAGE)-$(VERSION).tar.gz
+VERSION = 0.3.0
 
 # For Release: 0..., set _conductor_dev=1 so that we get extra_release.GIT-
 # annotated rpm version strings.
-_conductor_dev = \
- $(shell grep -q '^[[:space:]]*Release:[[:space:]]*0' \
-   $(srcdir)/*.spec.in && echo 1 || :)
+_conductor_dev =  $(shell grep -q '^[[:space:]]*Release:[[:space:]]*0' \
+   aeolus-conductor.spec.in && echo 1 || :)
 
 # use $(shell...) here to collect the git head and date *once* per make target.
 # that ensures that if multiple actions happen in the same target (like the
@@ -43,18 +35,23 @@ RPM_FLAGS	= --define "conductor_cache_dir $(CONDUCTOR_CACHE_DIR)"
 RPM_FLAGS	+= $(if $(_conductor_dev),--define "extra_release .$(GIT_RELEASE)")
 RAKE_EXTRA_RELEASE	= $(if $(_conductor_dev),"extra_release=.$(GIT_RELEASE)")
 
-SUBDIRS = src/classad_plugin
+dist:
+	sed -e 's/@VERSION@/$(VERSION)/' aeolus-all.spec.in > aeolus-all.spec
+	sed -e 's/@VERSION@/$(VERSION)/' aeolus-conductor.spec.in > aeolus-conductor.spec
+	mkdir -p dist/aeolus-conductor-$(VERSION)
+	cp -a aeolus-conductor.spec AUTHORS conf COPYING Makefile src \
+		dist/aeolus-conductor-$(VERSION)
+	tar -C dist -zcvf aeolus-conductor-$(VERSION).tar.gz aeolus-conductor-$(VERSION)
 
-ACLOCAL_AMFLAGS = -I m4
 
 rpms: dist
 	cd services/image_factory/console; rake rpms $(RAKE_EXTRA_RELEASE)
 	cd services/image_factory/image_factory_connector; rake rpms $(RAKE_EXTRA_RELEASE)
-	rpmbuild $(RPM_FLAGS) -ta $(distdir).tar.gz
+	rpmbuild $(RPM_FLAGS) -ta aeolus-conductor-$(VERSION).tar.gz
 	rpmbuild $(RPM_FLAGS) -ba aeolus-all.spec
 
 srpms: dist
-	rpmbuild $(RPM_FLAGS) -ts $(distdir).tar.gz
+	rpmbuild $(RPM_FLAGS) -ts aeolus-conductor-$(VERSION).tar.gz
 
 publish: rpms
 	mkdir -p $(CONDUCTOR_CACHE_DIR)
@@ -65,4 +62,7 @@ publish: rpms
 genlangs:
 	cd src && rake updatepo && rake makemo
 
-.PHONY: rpms publish srpms genlangs
+clean:
+	rm -rf dist aeolus-conductor-$(VERSION).tar.gz aeolus-all.spec aeolus-conductor.spec
+
+.PHONY: dist rpms publish srpms genlangs

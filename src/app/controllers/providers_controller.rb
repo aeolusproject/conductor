@@ -72,7 +72,6 @@ class ProvidersController < ApplicationController
         flash[:notice] = "Cannot add the provider."
         render :action => "new"
       end
-      kick_condor
     end
   end
 
@@ -91,7 +90,6 @@ class ProvidersController < ApplicationController
         flash[:notice] = "Cannot update the provider."
         render :action => 'edit'
       end
-      kick_condor
     end
   end
 
@@ -99,7 +97,6 @@ class ProvidersController < ApplicationController
     Provider.find(params[:provider_selected]).each do |provider|
       provider.destroy if check_privilege(Privilege::MODIFY, provider)
     end
-    kick_condor
     redirect_to providers_url
   end
 

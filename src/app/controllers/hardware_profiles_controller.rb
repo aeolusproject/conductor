@@ -71,11 +71,9 @@ class HardwareProfilesController < ApplicationController
       matching_provider_hardware_profiles
       render :action => 'new'
     end
-    kick_condor
   end
 
   def delete
-    kick_condor
   end
 
   def edit
@@ -106,12 +104,10 @@ class HardwareProfilesController < ApplicationController
       flash[:notice] = "Hardware Profile updated!"
       redirect_to hardware_profiles_path
     end
-    kick_condor
   end
 
   def multi_destroy
     HardwareProfile.destroy(params[:hardware_profile_selected])
-    kick_condor
     redirect_to hardware_profiles_path
   end
 

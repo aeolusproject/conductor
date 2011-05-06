@@ -18,13 +18,6 @@ notifempty
   endscript
 }
 
-/var/log/aeolus-conductor/condor_refreshd.log {
-  sharedscripts
-  postrotate
-      /etc/init.d/conductor-condor_refreshd restart
-  endscript
-}
-
 /var/log/aeolus-conductor/dbomatic.log {
   sharedscripts
   postrotate

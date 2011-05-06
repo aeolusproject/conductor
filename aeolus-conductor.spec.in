@@ -39,19 +39,12 @@ Requires: rubygem(uuidtools)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
-Requires: classads >= 1.0
-Requires: glib2 >= 2.0
-Requires: rest >= 0.6
 
 # to ensure the service is actually started
 # and is accessible in the init script
 Requires: curl
 
-BuildRequires: ruby
-BuildRequires: ruby-devel
-BuildRequires: classads-devel >= 1.0
-BuildRequires: glib2-devel >= 2.0
-BuildRequires: rest-devel >= 0.6
+BuildArch: noarch
 
 %description
 The Aeolus Conductor, a web UI for managing cloud instances.
@@ -99,8 +92,6 @@ Tests and other development tools for the Aeolus Conductor.
 %setup -q
 
 %build
-%configure
-make
 
 %pre
 getent group aeolus >/dev/null || /usr/sbin/groupadd -g 451 -r aeolus 2>/dev/null || :
@@ -122,9 +113,6 @@ getent passwd aeolus >/dev/null || \
 %{__mkdir} -p %{buildroot}%{_localstatedir}/lib/%{name}
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/%{name}
 %{__mkdir} -p %{buildroot}%{_localstatedir}/run/%{name}
-
-# this will install the classad plugin
-%makeinstall
 
 # now copy over the rails source files.  This is a bit verbose, but only
 # takes in the stuff we need (and no backup files, etc)
@@ -209,16 +197,12 @@ done
 %{__mkdir} -p %{buildroot}%{app_root}/warehouse_sync
 %{__cp} src/warehouse_sync/warehouse_sync-server %{buildroot}%{app_root}/warehouse_sync
 
-%{__mkdir} -p %{buildroot}%{app_root}/condor_refreshd
-%{__cp} src/condor_refreshd/condor_refreshd %{buildroot}%{app_root}/condor_refreshd
-
 # move documentation to the correct place
 %{__cp} src/doc/* %{buildroot}/%{doc_root}
 
 # copy over init scripts and various config
 %{__cp} conf/aeolus-conductor %{buildroot}%{_initrddir}
 %{__cp} conf/conductor-dbomatic %{buildroot}%{_initrddir}
-%{__cp} conf/conductor-condor_refreshd %{buildroot}%{_initrddir}
 %{__cp} conf/conductor-warehouse_sync %{buildroot}%{_initrddir}
 %{__cp} conf/conductor-delayed_job %{buildroot}%{_initrddir}
 %{__cp} conf/aeolus-conductor-httpd.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/aeolus-conductor.conf
@@ -236,7 +220,6 @@ touch %{buildroot}%{_localstatedir}/log/%{name}/mongrel.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/dbomatic.log
 touch %{buildroot}%{_localstatedir}/run/%{name}/event_log_position
-touch %{buildroot}%{_localstatedir}/log/%{name}/condor_refreshd.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/warehouse_sync.log
 
 %{__mkdir} -p %{buildroot}%{app_root}/log
@@ -280,7 +263,6 @@ fi
 # Register the services
 /sbin/chkconfig --add aeolus-conductor
 /sbin/chkconfig --add conductor-dbomatic
-/sbin/chkconfig --add conductor-condor_refreshd
 /sbin/chkconfig --add conductor-warehouse_sync
 /sbin/chkconfig --add conductor-delayed_job
 
@@ -290,8 +272,6 @@ if [ $1 = 0 ]; then
    /sbin/chkconfig --del aeolus-conductor
    /sbin/service conductor-dbomatic stop > /dev/null 2>&1
    /sbin/chkconfig --del conductor-dbomatic
-   /sbin/service conductor-condor_refreshd stop > /dev/null 2>&1
-   /sbin/chkconfig --del conductor-condor_refreshd
    /sbin/service conductor-warehouse_sync stop > /dev/null 2>&1
    /sbin/chkconfig --del conductor-warehouse_sync
    /sbin/service conductor-delayed_job stop > /dev/null 2>&1
@@ -302,8 +282,6 @@ fi
 %defattr(-,root,root,-)
 %dir %{app_root}
 %{app_root}/app
-%{app_root}/classad_plugin
-%{app_root}/condor_refreshd
 %{app_root}/config
 %{app_root}/config.ru
 %{app_root}/db
@@ -323,7 +301,6 @@ fi
 %defattr(-,root,root,-)
 %{_initrddir}/aeolus-conductor
 %{_initrddir}/conductor-dbomatic
-%{_initrddir}/conductor-condor_refreshd
 %{_initrddir}/conductor-warehouse_sync
 %{_initrddir}/conductor-delayed_job
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}

@@ -72,7 +72,6 @@ class ProviderAccountsController < ApplicationController
       flash[:notice] = "Provider account added."
     end
     redirect_to provider_account_path(@provider_account)
-    kick_condor
   end
 
   def edit
@@ -125,7 +124,6 @@ class ProviderAccountsController < ApplicationController
     unless failed.empty?
       flash[:error] = t 'provider_accounts.index.account_not_deleted', :count => failed.length, :list => failed.join(', ')
     end
-    kick_condor
     redirect_to provider_accounts_url
   end
 

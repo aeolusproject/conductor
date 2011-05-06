@@ -18,6 +18,8 @@ Requires:	rubygem(image_factory_connector)
 Requires:	mongodb-server
 Requires:	mod_ssl
 
+BuildArch: noarch
+
 %description
 This is the aeolus meta-package.  If you want to install aeolus and all of its
 dependencies on a single machine, you should install this package and then
