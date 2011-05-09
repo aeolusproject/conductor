@@ -142,16 +142,16 @@ erb="app/views/layouts"
 fcgi="public"
 feature="features"
 gif="public/images public/stylesheets/images"
-haml="app/views/admin/hardware_profiles app/views/admin/realm_mappings \
-      app/views/admin/users app/views/admin/provider_accounts \
-      app/views/admin/roles app/views/admin/providers app/views/admin/settings \
-      app/views/admin/realms app/views/admin/pool_families app/views/layouts\
-      app/views/quotas app/views/image_factory/deployables \
-      app/views/image_factory/image_imports app/views/image_factory/assemblies \
-      app/views/image_factory/templates app/views/image_factory/builds \
+haml="app/views/hardware_profiles app/views/realm_mappings \
+      app/views/users app/views/provider_accounts \
+      app/views/roles app/views/providers app/views/settings \
+      app/views/realms app/views/pool_families app/views/layouts\
+      app/views/quotas app/views/deployables \
+      app/views/image_imports app/views/assemblies \
+      app/views/templates app/views/builds \
       app/views/permissions app/views/templates/xml \
-      app/views/resources/deployments app/views/resources/pools \
-      app/views/resources/instances app/views/user_sessions"
+      app/views/deployments app/views/pools \
+      app/views/instances app/views/user_sessions"
 html="public"
 ico="public"
 jpg="public/images public/stylesheets/images"
@@ -164,9 +164,9 @@ opts="spec"
 png="public/images public/images/icons public/stylesheets/images \
      public/stylesheets/jquery.ui-1.8.1/images"
 rake="lib/tasks"
-rb="app/models app/controllers app/controllers/admin \
-    app/controllers/image_factory app/controllers/resources app/helpers \
-    app/helpers/resources app/services app/util app/util/repository_manager \
+rb="app/models app/controllers \
+    app/helpers \
+    app/services app/util app/util/repository_manager \
     config config/initializers config/environments db db/migrate dutils \
     features/support features/step_definitions lib public spec \
     spec/controllers spec/factories spec/helpers spec/models spec/services \
