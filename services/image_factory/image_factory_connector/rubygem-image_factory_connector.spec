@@ -6,7 +6,7 @@
 
 Summary: Sinatra microapp to talk to  Aeolus Image Factory QMF console
 Name: rubygem-%{gemname}
-Version: 0.0.2
+Version: 0.0.3
 Release: 1%{?dist}%{?extra_release}
 Group: Development/Languages
 License: GPLv2+ or Ruby
@@ -43,6 +43,9 @@ rmdir %{buildroot}%{gemdir}/bin
 find %{buildroot}%{geminstdir}/bin -type f | xargs chmod a+x
 mkdir -p %{buildroot}/etc/init.d
 cp %{SOURCE1}  %{buildroot}/etc/init.d/aeolus-connector
+%{__mkdir} -p %{buildroot}%{_sysconfdir}
+%{__cp}  %{buildroot}%{geminstdir}/lib/conf/aeolus_connector.yml %{buildroot}%{_sysconfdir}
+
 
 %clean
 rm -rf %{buildroot}
@@ -50,6 +53,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-, root, root, -)
 %{_bindir}/image_factory_connector
+%{_sysconfdir}/aeolus_connector.yml
 %{gemdir}/gems/%{gemname}-%{version}/
 %doc %{gemdir}/doc/%{gemname}-%{version}
 %{gemdir}/cache/%{gemname}-%{version}.gem
@@ -67,6 +71,13 @@ if [ $1 = 0 ]; then
 fi
 
 %changelog
+* Tue May 10 2011 Jason Guiditta <jguiditt@redhat.com> - 0.0.3-1
+ - Drop the new yml file for connector into /etc so it can be altered by
+   the user (or puppet).
+ - Update the initscript to point to rpm config file
+ - Bump version for rpm/gem
+
+
 * Thu Apr 14 2011 Jason Guiditta <jguiditt@redhat.com> - 0.0.2-1
 - Clean up the connector startup script so it starts only one process
 - Stops/restarts more reliably

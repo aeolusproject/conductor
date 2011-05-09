@@ -9,7 +9,6 @@ require 'optparse'
 
 commands = %w(start stop restart config)
 argv = ARGV
-rackup_file = "#{File.dirname(__FILE__)}/../lib/config.ru"
 config_file = "#{File.dirname(__FILE__)}/../lib/conf/aeolus_connector.yml"
 ENV["CONNECTOR_CONFIG"] = config_file if ENV["CONNECTOR_CONFIG"].nil?
 options = {

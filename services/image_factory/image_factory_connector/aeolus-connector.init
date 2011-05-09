@@ -25,6 +25,7 @@ PORT="${PORT:-2003}"
 ADDR=127.0.0.1
 
 CONNECTOR=image_factory_connector
+export CONNECTOR_CONFIG=/etc/aeolus_connector.yml
 
 start() {
     echo -n $"Starting $prog: "
