@@ -82,15 +82,15 @@ class ApplicationController < ActionController::Base
     title = hash[:title] || "Internal Server Error"
     status = hash[:status] || :internal_server_error
     respond_to do |format|
-      format.html { html_error_page(title, msg) }
+      format.html { html_error_page(title, msg, status) }
       format.json { render :json => json_error_hash(msg, status) }
       format.xml { render :xml => xml_errors(msg), :status => status }
     end
   end
 
-  def html_error_page(title, msg)
+  def html_error_page(title, msg, status)
     if request.xhr?
-      render :template => 'layouts/popup-error', :layout => 'popup',
+      render :template => 'layouts/popup-error', :layout => 'popup', :status => status,
              :locals => {:title => title, :errmsg => msg}
     else
       render :template => 'layouts/error', :layout => 'application',
