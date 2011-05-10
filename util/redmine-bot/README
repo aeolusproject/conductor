@@ -1,0 +1,31 @@
+== Required gems ==
+
+* gem install cinch nokogiri rest-client
+
+== Setup ==
+
+This bot uses cinch, which requires ruby 1.9.  If you are on Fedora, your
+best bet for running cinch is:
+* yum install rubygem-rvm (details on https://rvm.beginrescueend.com/)
+* rvm-install
+* follow the config directions
+* set gnome terminal to activate it properly with:
+  Edit -> Profile Preferences -> Title and Command, check 'Run command as login shell' box
+* open a new terminal or tab
+* rvm install 1.9.2
+* rvm use 1.9.2
+* check it with 'ruby -v'
+* run the bot with 'ruby bot.rb'
+
+== TODO ==
+
+* Make the bot run as a daemon, add OptParser/wrapper script to support this
+* Write a plugin to link up tickets in BZ to issues in redmine
+* Make bot sign into freenode with a real user
+* Set bot as an admin in #aeolus
+* Add plugin to:
+** op other users in channel
+** tell user their open issues
+** list status on a requested issue
+** return percentage complete of current sprint(s)
+** answer questions maybe?
