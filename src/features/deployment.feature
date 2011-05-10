@@ -40,3 +40,12 @@ Feature: Manage Deployments
     When I am on the operational status of deployment page
     Then I should see "Operational status of testdeployment"
     And I should see "Uptime"
+
+  Scenario: Edit deployment name
+    Given there is a deployment named "Hudson" belonging to "QA Infrastructure" owned by "joe"
+    When I go to Hudson's edit deployment page
+    Then I should see "Edit deployment"
+    When I fill in "name" with "Jenkins"
+    And I press "Save"
+    Then I should be on Jenkins's deployment page
+    And I should see "Jenkins"

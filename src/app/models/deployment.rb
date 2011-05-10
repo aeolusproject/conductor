@@ -68,6 +68,8 @@ class Deployment < ActiveRecord::Base
 
   SEARCHABLE_COLUMNS = %w(name)
 
+  USER_MUTABLE_ATTRS = ['name']
+
   def object_list
     super << pool
   end

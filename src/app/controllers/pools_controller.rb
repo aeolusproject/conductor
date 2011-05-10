@@ -81,6 +81,25 @@ class PoolsController < ApplicationController
     end
   end
 
+  def destroy
+    destroyed = []
+    failed = []
+    error_messages = []
+    Pool.find(ids_list('pools_selected')).each do |pool|
+      if pool.id == MetadataObject.lookup("self_service_default_pool").id
+        error_messages << "The default pool cannot be deleted"
+      elsif check_privilege(Privilege::MODIFY, pool) && pool.destroyable?
+        pool.destroy
+        destroyed << pool.name
+      else
+        failed << pool.name
+      end
+    end
+    flash[:success] = t('pools.index.pool_deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
+    flash[:error] = t('pools.index.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
+    redirect_to instances_url
+  end
+
   def multi_destroy
     destroyed = []
     failed = []

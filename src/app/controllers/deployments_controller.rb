@@ -1,6 +1,7 @@
 class DeploymentsController < ApplicationController
   before_filter :require_user
   before_filter :load_deployments, :only => [:index, :show]
+  before_filter :load_deployment, :only => [:edit, :update]
 
   def index
   end
@@ -61,6 +62,39 @@ class DeploymentsController < ApplicationController
     end
   end
 
+  def edit
+    require_privilege(Privilege::MODIFY, @deployment)
+  end
+
+  # TODO - This should eventually support updating multiple objects
+  def update
+    attrs = {}
+    params[:deployment].each_pair{|k,v| attrs[k] = v if Deployment::USER_MUTABLE_ATTRS.include?(k)}
+    if check_privilege(Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
+      flash[:success] = t('deployments.updated', :count => 1, :list => @deployment.name)
+      redirect_to @deployment
+    else
+      flash[:error] = t('deployments.not_updated', :count => 1, :list => @deployment.name)
+      render :action => :edit
+    end
+  end
+
+  def destroy
+    destroyed = []
+    failed = []
+    Deployment.find(ids_list).each do |deployment|
+      if check_privilege(Privilege::MODIFY, deployment) && deployment.destroyable?
+        deployment.destroy
+        destroyed << deployment.name
+      else
+        failed << deployment.name
+      end
+    end
+    flash[:success] = t('deployments.deleted', :list => destroyed, :count => destroyed.size) if destroyed.present?
+    flash[:error] = t('deployments.not_deleted', :list => failed, :count => failed.size) if failed.present?
+    redirect_to deployments_url
+  end
+
   def multi_stop
     notices = ""
     errors = ""
@@ -110,6 +144,10 @@ class DeploymentsController < ApplicationController
                               :conditions => {:pool_id => @pools},
                               :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )
+  end
+
+  def load_deployment
+    @deployment = Deployment.find(params[:id])
   end
 
   def init_new_deployment_attrs

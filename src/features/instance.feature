@@ -146,3 +146,11 @@ Feature: Mange Instances
     And I am on the the instances page
     When I follow "mock1"
     Then I should see "Properties for mock1"
+
+  Scenario: Edit an instance name
+    Given there is a "Tomct" instance
+    And I am on Tomct's edit instance page
+    And I fill in "name" with "Tomcat"
+    And I press "Save"
+    Then I should be on Tomcat's instance page
+    And I should see "Tomcat"

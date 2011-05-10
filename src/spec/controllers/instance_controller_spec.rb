@@ -80,4 +80,68 @@ describe InstancesController do
                                  :hardware_profile_id => hwp.id }
     response.flash[:warning].should == "Failed to launch instance: Pool is not enabled"
   end
+
+  it "should respond to restful delete for a single instance" do
+    UserSession.create(@admin)
+    pool = Factory(:pool)
+    template = Factory(:template)
+    hwp = Factory(:mock_hwp1)
+    post :create, :instance => { :name => 'mockinstance2',
+                             :pool_id => pool.id,
+                             :template_id => template.id,
+                             :hardware_profile_id => hwp.id }
+    instance = Instance.find_by_name('mockinstance2')
+    # An instance in 'new' state is not destroyable, so we have to fake it:
+    instance.update_attribute(:state, Instance::STATE_CREATE_FAILED)
+    lambda do
+      delete :destroy, :id => instance.id
+    end.should change(Instance, :count).by(-1)
+    response.should be_success
+  end
+
+  it "should respond to restful delete for multiple instances" do
+    UserSession.create(@admin)
+    pool = Factory(:pool)
+    template = Factory(:template)
+    hwp = Factory(:mock_hwp1)
+    lambda do
+      post :create, :instance => { :name => 'mockinstance3',
+                               :pool_id => pool.id,
+                               :template_id => template.id,
+                               :hardware_profile_id => hwp.id }
+    end.should change(Instance, :count).by(1)
+    lambda do
+      post :create, :instance => { :name => 'mockinstance4',
+                               :pool_id => pool.id,
+                               :template_id => template.id,
+                               :hardware_profile_id => hwp.id }
+    end.should change(Instance, :count).by(1)
+    instance1 = Instance.find_by_name('mockinstance3')
+    instance2 = Instance.find_by_name('mockinstance4')
+    # An instance in 'new' state is not destroyable, so we have to fake it:
+    instance1.update_attribute(:state, Instance::STATE_CREATE_FAILED)
+    instance2.update_attribute(:state, Instance::STATE_CREATE_FAILED)
+    lambda do
+      delete :destroy, :ids => [instance1.id, instance2.id]
+    end.should change(Instance, :count).by(-2)
+    response.should be_success
+  end
+
+  it "should not allow editing of protected attributes by users" do
+    UserSession.create(@admin)
+    pool = Factory(:pool)
+    template = Factory(:template)
+    hwp = Factory(:mock_hwp1)
+    lambda do
+      post :create, :instance => { :name => 'mockinstance5',
+                               :pool_id => pool.id,
+                               :template_id => template.id,
+                               :hardware_profile_id => hwp.id }
+    end.should change(Instance, :count).by(1)
+    instance = Instance.find_by_name('mockinstance5')
+    put :update, :instance => {:state => 'running', :name => 'mockinstance6'}, :id => instance.id
+    instance.reload
+    instance.state.should == "new"
+    instance.name.should == "mockinstance6"
+  end
 end

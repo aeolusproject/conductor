@@ -3,8 +3,8 @@ SimpleNavigation::Configuration.run do |navigation|
   navigation.items do |first_level|
     first_level.item :resource_management, t(:resource_management), pools_path, :highlights_on => /^\/$/ do |second_level|
       second_level.item :pools, t('pools.index.pools'), pools_path
-      second_level.item :deployments, t(:deployments),deployments_path, :highlights_on => /^\/$|\/deployments/
-      second_level.item :instances, t(:instances), instances_path
+      second_level.item :deployments, t('deployments.deployments'),deployments_path, :highlights_on => /^\/$|\/deployments/
+      second_level.item :instances, t("instances.instances"), instances_path
     end
     first_level.item :image_factory, t(:image_factory), templates_path, :highlights_on => /\/image_factory/ do |second_level|
       second_level.item :templates, t('templates.templates'), templates_path

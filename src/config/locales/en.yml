@@ -1,6 +1,5 @@
 en:
   dashboard: Dashboard
-  instances: Instances
   users: Users
   settings: Settings
   about: About
@@ -67,8 +66,34 @@ en:
   choose_treatment: Choose Treatment
   apply: Apply
   resource_management: Resource Management
-  deployments: Deployments
-  instances: Instances
+  deployments:
+    deployments: Deployments
+    updated:
+      one: "The deployment %{list} was successfully updated."
+      other: "The deployments %{list} were successfully updated."
+    not_updated:
+      one: "The deployment %{list} could not be updated."
+      other: "The deployments %{list} could not be updated."
+    deleted:
+      one: "The deployment %{list} was successfully deleted."
+      other: "The deployments %{list} were succesfully deleted."
+    not_deleted:
+      one: "The deployment %{list} could not be deleted."
+      other: "The deployments %{list} could not be deleted."
+  instances:
+    instances: Instances
+    updated:
+      one: "The instance %{list} was successfully updated."
+      other: "The instances %{list} were successfully updated."
+    not_updated:
+      one: "The instance %{list} could not be updated."
+      other: "The instances %{list} could not be updated."
+    deleted:
+      one: "The instance %{list} was successfully deleted."
+      other: "The instances %{list} were successfully deleted."
+    not_deleted:
+      one: "The instance %{list} could not be deleted."
+      other: "The instances %{list} could not be deleted."
   searches: Searches
   image_factory: Image Factory
   assemblies: Assemblies

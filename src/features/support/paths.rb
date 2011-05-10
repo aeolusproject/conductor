@@ -122,6 +122,18 @@ module NavigationHelpers
     when /^(.*)'s deployable page$/
       deployable_path(Deployable.find_by_name($1))
 
+    when /^(.*)'s edit deployment page$/
+      edit_deployment_path(Deployment.find_by_name($1))
+
+    when /^(.*)'s edit instance page$/
+      edit_instance_path(Instance.find_by_name($1))
+
+    when /^(.*)'s instance page$/
+      instance_path(Instance.find_by_name($1))
+
+    when /^(.*)'s deployment page$/
+      deployment_path(Deployment.find_by_name($1))
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

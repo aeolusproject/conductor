@@ -1,6 +1,6 @@
 class InstancesController < ApplicationController
   before_filter :require_user, :except => [:can_start, :can_create]
-  before_filter :load_instance, :only => [:show, :key]
+  before_filter :load_instance, :only => [:show, :key, :edit, :update]
   before_filter :set_view_vars, :only => [:show, :index]
 
   def index
@@ -76,9 +76,6 @@ class InstancesController < ApplicationController
     end
   end
 
-  def edit
-  end
-
   def show
     load_instances
     @url_params = params.clone
@@ -93,6 +90,41 @@ class InstancesController < ApplicationController
       end
       format.html { render :action => 'show'}
     end
+  end
+
+  def edit
+    require_privilege(Privilege::MODIFY, @instance)
+  end
+
+  def update
+    # TODO - This USER_MUTABLE_ATTRS business is because what a user and app components can do
+    # will be greatly different. (e.g., a user shouldn't be able to change an instance's pool,
+    # since it won't do what they expect). As we build this out, this logic will become more complex.
+    attrs = {}
+    params[:instance].each_pair{|k,v| attrs[k] = v if Instance::USER_MUTABLE_ATTRS.include?(k)}
+    if check_privilege(Privilege::MODIFY, @instance) and @instance.update_attributes(attrs)
+      flash[:success] = t('instances.updated', :count => 1, :list => @instance.name)
+      redirect_to @instance
+    else
+      flash[:error] = t('instances.not_updated', :count =>1, :list => @instance.name)
+      render :action => :edit
+    end
+  end
+
+  def destroy
+    destroyed = []
+    failed = []
+    Instance.find(ids_list).each do |instance|
+      if check_privilege(Privilege::MODIFY, instance) && instance.destroyable?
+        instance.destroy
+        destroyed << instance.name
+      else
+        failed << instance.name
+      end
+    end
+    flash[:success] = t('instances.deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
+    flash[:error] = t('instances.not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
+    render :action => :show
   end
 
   def key

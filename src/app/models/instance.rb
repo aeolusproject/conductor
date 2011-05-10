@@ -124,6 +124,10 @@ class Instance < ActiveRecord::Base
 
   before_destroy :destroyable?
 
+  # A user should only be able to update certain attributes, but the API may permit other attributes to be
+  # changed if called from another Aeolus component, so attr_protected isn't quite what we want:
+  USER_MUTABLE_ATTRS = ['name']
+
   def validate
     if assembly and template
       errors.add(:assembly, "Please specify either template or assembly, but not both")

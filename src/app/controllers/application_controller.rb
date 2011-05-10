@@ -142,6 +142,18 @@ class ApplicationController < ActionController::Base
     flash[:notice] = "The record you tried to access does not exist, it may have been deleted"
   end
 
+  # Returns an array of ids from params[:id], params[:ids].
+  def ids_list(other_attrs=[])
+    other_attrs.each do |attr_key|
+      return params[attr_key].to_a if params.include?(attr_key)
+    end
+    if params[:id].present?
+      return params[:id].to_a
+    elsif params[:ids].present?
+      return params[:ids].to_a
+    end
+  end
+
   private
   def json_error_hash(msg, status)
     json = {}
