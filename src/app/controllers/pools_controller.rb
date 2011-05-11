@@ -7,13 +7,13 @@ class PoolsController < ApplicationController
     @search_term = params[:q]
     if @search_term.blank?
       load_pools
-      return
+    else
+      @pools = Pool.search() { keywords(params[:q]) }.results
     end
-
-    search = Pool.search() do
-      keywords(params[:q])
+    respond_to do |format|
+      format.html
+      format.json { render :json => @pools }
     end
-    @pools = search.results
   end
 
   def show
@@ -31,6 +31,7 @@ class PoolsController < ApplicationController
         render :partial => @details_tab and return
       end
       format.html { render :action => 'show'}
+      format.json { render :json => @pool }
     end
   end
 
@@ -38,6 +39,10 @@ class PoolsController < ApplicationController
     require_privilege(Privilege::CREATE, Pool)
     @pool = Pool.new
     @quota = Quota.new
+    respond_to do |format|
+      format.html
+      format.json { render :json => @pool }
+    end
   end
 
   def create
@@ -49,13 +54,17 @@ class PoolsController < ApplicationController
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @pool.quota.set_maximum_running_instances(limit)
 
-    if @pool.save
-      @pool.assign_owner_roles(current_user)
-      flash[:notice] = "Pool added."
-      redirect_to :action => 'show', :id => @pool.id
-    else
-      flash.now[:warning] = "Pool creation failed."
-      render :new and return
+    respond_to do |format|
+      if @pool.save
+        @pool.assign_owner_roles(current_user)
+        flash[:notice] = "Pool added."
+        format.html { redirect_to :action => 'show', :id => @pool.id }
+        format.json { render :json => @pool, :status => :created }
+      else
+        flash.now[:warning] = "Pool creation failed."
+        format.html { render :new }
+        format.json { render :json => @pool.errors, :status => :unprocessable_entity }
+      end
     end
   end
 
@@ -63,6 +72,10 @@ class PoolsController < ApplicationController
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool)
     @quota = @pool.quota
+    respond_to do |format|
+      format.html
+      format.json { render :json => @pool }
+    end
   end
 
   def update
@@ -72,12 +85,16 @@ class PoolsController < ApplicationController
 
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @pool.quota.set_maximum_running_instances(limit)
-    if @pool.update_attributes(params[:pool])
-      flash[:notice] = "Pool updated."
-      redirect_to :action => 'show', :id => @pool.id
-    else
-      flash[:error] = "Pool wasn't updated!"
-      render :action => :edit
+    respond_to do |format|
+      if @pool.update_attributes(params[:pool])
+        flash[:notice] = "Pool updated."
+        format.html { redirect_to :action => 'show', :id => @pool.id }
+        format.json { render :json => @pool }
+      else
+        flash[:error] = "Pool wasn't updated!"
+        format.html { render :action => :edit }
+        format.json { render :json => @pool.errors, :status => :unprocessable_entity }
+      end
     end
   end
 
@@ -97,7 +114,10 @@ class PoolsController < ApplicationController
     end
     flash[:success] = t('pools.index.pool_deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
     flash[:error] = t('pools.index.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
-    redirect_to instances_url
+    respond_to do |format|
+      format.html { redirect_to pools_url }
+      format.json { render :json => {:success => destroyed, :errors => failed} }
+    end
   end
 
   def multi_destroy
@@ -127,7 +147,10 @@ class PoolsController < ApplicationController
     unless error_messages.empty?
       flash[:error] = error_messages.join('<br />')
     end
-    redirect_to pools_url
+    respond_to do |format|
+      format.html { redirect_to pools_url }
+      format.json { render :json => {:success => destroyed, :errors => failed} }
+    end
   end
 
   protected

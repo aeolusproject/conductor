@@ -4,6 +4,10 @@ class DeploymentsController < ApplicationController
   before_filter :load_deployment, :only => [:edit, :update]
 
   def index
+    respond_to do |format|
+      format.html
+      format.json { render :json => @deployments }
+    end
   end
 
   def launch_new
@@ -11,16 +15,25 @@ class DeploymentsController < ApplicationController
     Deployable.all.each do |deployable|
       @launchable_deployables << deployable if deployable.launchable?
     end
+    respond_to do |format|
+      format.html
+      format.json { render :json => @launchable_deployables }
+    end
   end
 
   def new
     require_privilege(Privilege::CREATE, Deployment)
     @deployment = Deployment.new(:deployable_id => params[:deployable_id])
-    if @deployment.deployable.assemblies.empty?
-      flash[:warning] = "Deployable must have at least one assembly"
-      redirect_to deployments_path
-    else
-      init_new_deployment_attrs
+    respond_to do |format|
+      if @deployment.deployable.assemblies.empty?
+        flash[:warning] = "Deployable must have at least one assembly"
+        format.html { redirect_to deployments_path }
+        format.json { render :json => {:error => flash[:warning]}, :status => :unprocessable_entity }
+      else
+        init_new_deployment_attrs
+        format.html
+        format.json { render :json => @deployment }
+      end
     end
   end
 
@@ -28,20 +41,24 @@ class DeploymentsController < ApplicationController
     require_privilege(Privilege::CREATE, Deployment)
     @deployment = Deployment.new(params[:deployment])
     @deployment.owner = current_user
-    if @deployment.save
-      flash[:notice] = "Deployment launched"
-      errors = @deployment.launch(params[:hw_profiles] || {}, current_user)
-      unless errors.empty?
-        flash[:error] = {
-          :summary  => "Failed to launch following assemblies:",
-          :failures => errors
-        }
+    respond_to do |format|
+      if @deployment.save
+        flash[:notice] = "Deployment launched"
+        errors = @deployment.launch(params[:hw_profiles] || {}, current_user)
+        unless errors.empty?
+          flash[:error] = {
+            :summary  => "Failed to launch following assemblies:",
+            :failures => errors
+          }
+        end
+        format.html { redirect_to deployment_path(@deployment) }
+        format.json { render :json => @deployment, :status => :created }
+      else
+        flash.now[:warning] = "Deployment launch failed"
+        init_new_deployment_attrs
+        format.html { render :action => 'new' }
+        format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
       end
-      redirect_to deployment_path(@deployment)
-    else
-      flash.now[:warning] = "Deployment launch failed"
-      init_new_deployment_attrs
-      render :new
     end
   end
 
@@ -59,23 +76,32 @@ class DeploymentsController < ApplicationController
         render :partial => @details_tab and return
       end
       format.html { render :action => 'show'}
+      format.json { render :json => @deployment }
     end
   end
 
   def edit
     require_privilege(Privilege::MODIFY, @deployment)
+    respond_to do |format|
+      format.html
+      format.json { render :json => @deployment }
+    end
   end
 
   # TODO - This should eventually support updating multiple objects
   def update
     attrs = {}
     params[:deployment].each_pair{|k,v| attrs[k] = v if Deployment::USER_MUTABLE_ATTRS.include?(k)}
-    if check_privilege(Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
-      flash[:success] = t('deployments.updated', :count => 1, :list => @deployment.name)
-      redirect_to @deployment
-    else
-      flash[:error] = t('deployments.not_updated', :count => 1, :list => @deployment.name)
-      render :action => :edit
+    respond_to do |format|
+      if check_privilege(Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
+        flash[:success] = t('deployments.updated', :count => 1, :list => @deployment.name)
+        format.html { redirect_to @deployment }
+        format.json { render :json => @deployment }
+      else
+        flash[:error] = t('deployments.not_updated', :count => 1, :list => @deployment.name)
+        format.html { render :action => :edit }
+        format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
+      end
     end
   end
 
@@ -92,7 +118,10 @@ class DeploymentsController < ApplicationController
     end
     flash[:success] = t('deployments.deleted', :list => destroyed, :count => destroyed.size) if destroyed.present?
     flash[:error] = t('deployments.not_deleted', :list => failed, :count => failed.size) if failed.present?
-    redirect_to deployments_url
+    respond_to do |format|
+      format.html { redirect_to deployments_url }
+      format.json { render :json => {:success => destroyed, :errors => failed} }
+    end
   end
 
   def multi_stop
@@ -121,7 +150,10 @@ class DeploymentsController < ApplicationController
     end
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
-    redirect_to deployments_path
+    respond_to do |format|
+      format.html { redirect_to deployments_path }
+      format.json { render :json => {:success => notices, :errors => errors} }
+    end
   end
 
   private

@@ -22,6 +22,10 @@ When /^I am viewing the pending instance detail$/ do
   visit instance_url(pending_instance)
 end
 
+When /^I am viewing the mock instance$/ do
+  visit instance_url(mock_instance)
+end
+
 When /^I manually go to the key action for this instance$/ do
   visit key_instance_url(pending_instance)
 end
@@ -95,7 +99,42 @@ end
 
 
 Given /^there are (\d+) instances$/ do |count|
+  Instance.all.each {|i| i.destroy}
   count.to_i.times do |i|
-    Factory :mock_running_instance, :name => "inst#{i}"
+    Factory :mock_pending_instance, :name => "inst#{i}"
   end
+end
+
+Given /^I accept JSON$/ do
+  header 'Accept', 'application/json'
+end
+
+Then /^I should see (\d+) instances in JSON format$/ do |count|
+  ActiveSupport::JSON.decode(response.body).length.should == count.to_i
+end
+
+When /^I create mock instance$/ do
+  inst = Factory.build :mock_running_instance
+  visit instances_url, :post, 'instance[name]' => inst.name, 'instance[template_id]' => inst.template_id
+end
+
+Then /^I should see mock instance in JSON format$/ do
+  data = ActiveSupport::JSON.decode(response.body)
+  data['instance']['name'].should == mock_instance.name
+end
+
+Then /^I should get back instance in JSON format$/ do
+  data = ActiveSupport::JSON.decode(response.body)
+  data['instance'].should_not be_nil
+end
+
+When /^I stop "([^"]*)" instance$/ do |arg1|
+  inst = Instance.find_by_name(arg1)
+  visit multi_stop_instances_url, :post, 'instance_selected[]' => inst.id
+end
+
+Then /^I should get back JSON object with success and errors$/ do
+  data = ActiveSupport::JSON.decode(response.body)
+  data['success'].should_not be_nil
+  data['errors'].should_not be_nil
 end

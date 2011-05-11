@@ -48,8 +48,8 @@ Feature: Manage Pools
     Given I am on the pools page
     And a pool "Amazon Startrek Pool" exists
     And a pool "Redhat Voyager Pool" exists
-    And I am on the pools page
-    And there are 3 pools
+    When I go to the pools page
+    Then there should be 3 pools
     When I check "Redhat Voyager Pool" pool
     And I check "Amazon Startrek Pool" pool
     And I press "Destroy"
@@ -100,3 +100,26 @@ Feature: Manage Pools
     And I press "Destroy"
     Then I should see "The default pool cannot be deleted"
     And I should see "pool_default"
+
+  Scenario: View all pools in JSON format
+    Given there are 2 pools
+    And I accept JSON
+    When I go to the pools page
+    Then I should see 2 pools in JSON format
+
+  Scenario: View a pool in JSON format
+    Given a pool "mockpool" exists
+    And I accept JSON
+    When I am viewing the pool "mockpool"
+    Then I should see pool "mockpool" in JSON format
+
+  Scenario: Create a pool and get JSON response
+    Given I accept JSON
+    When I create a pool
+    Then I should get back a pool in JSON format
+
+  Scenario: Delete a pool
+    Given a pool "mockpool" exists
+    And I accept JSON
+    When I delete "mockpool" pool
+    Then I should get back JSON object with success and errors

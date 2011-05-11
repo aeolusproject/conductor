@@ -8,7 +8,7 @@ Given /^I have Pool Creator permissions on a pool named "([^\"]*)"$/ do |name|
   Factory(:pool_creator_permission, :user => @user, :permission_object => @pool)
 end
 
-Given /^there are (\d+) pools$/ do |number|
+Then /^there should be (\d+) pools$/ do |number|
   Pool.count.should == number.to_i
 end
 
@@ -60,4 +60,41 @@ Given /^I renamed default_pool to pool_default$/ do
   p = Pool.find_by_name("default_pool")
   p.name = "pool_default"
   p.save
+end
+
+Then /^I should see (\d+) pools in JSON format$/ do |arg1|
+  data = ActiveSupport::JSON.decode(response.body)
+  data.length.should == arg1.to_i
+end
+
+When /^I am viewing the pool "([^"]*)"$/ do |arg1|
+  visit pool_url(Pool.find_by_name(arg1))
+end
+
+Then /^I should see pool "([^"]*)" in JSON format$/ do |arg1|
+  pool = Pool.find_by_name(arg1)
+  data = ActiveSupport::JSON.decode(response.body)
+  data['pool']['name'].should == pool.name
+end
+
+When /^I create a pool$/ do
+  pool = Factory.build :pool
+  pool.pool_family.save!
+  visit pools_url, :post, 'pool[name]' => pool.name, 'pool[pool_family_id]' => pool.pool_family.id
+end
+
+Then /^I should get back a pool in JSON format$/ do
+  data = ActiveSupport::JSON.decode(response.body)
+  data['pool'].should_not be_nil
+end
+
+When /^I delete "([^"]*)" pool$/ do |arg1|
+  visit(multi_destroy_pools_url, :post, 'pools_selected[]' => Pool.find_by_name(arg1).id)
+end
+
+Given /^there are (\d+) pools$/ do |arg1|
+  Pool.all.each {|i| i.destroy}
+  arg1.to_i.times do |i|
+    Factory :pool, :name => "pool#{i}"
+  end
 end

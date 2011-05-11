@@ -49,3 +49,30 @@ Feature: Manage Deployments
     And I press "Save"
     Then I should be on Jenkins's deployment page
     And I should see "Jenkins"
+
+  Scenario: View all deployments in JSON format
+    Given There is a mock pulp repository
+    And there are 2 deployments
+    And I accept JSON
+    When I go to the deployments page
+    Then I should see 2 deployments in JSON format
+
+  Scenario: View a deployment in JSON format
+    Given There is a mock pulp repository
+    And a deployment "mockdeployment" exists
+    And I accept JSON
+    When I am viewing the deployment "mockdeployment"
+    Then I should see deployment "mockdeployment" in JSON format
+
+  Scenario: Create a deployment and get JSON response
+    Given There is a mock pulp repository
+    And I accept JSON
+    When I create a deployment
+    Then I should get back a deployment in JSON format
+
+  Scenario: Stop a deployment
+    Given a deployment "mockdeployment" exists
+    And There is a mock pulp repository
+    And I accept JSON
+    When I stop "mockdeployment" deployment
+    Then I should get back JSON object with success and errors

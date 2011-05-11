@@ -154,3 +154,26 @@ Feature: Mange Instances
     And I press "Save"
     Then I should be on Tomcat's instance page
     And I should see "Tomcat"
+
+  Scenario: View all instances in JSON format
+    Given there are 2 instances
+    And I accept JSON
+    When I go to the instances page
+    Then I should see 2 instances in JSON format
+
+  Scenario: View an instance in JSON format
+    Given a mock running instance exists
+    And I accept JSON
+    When I am viewing the mock instance
+    Then I should see mock instance in JSON format
+
+  Scenario: Create an instance and get JSON response
+    Given I accept JSON
+    When I create mock instance
+    Then I should get back instance in JSON format
+
+  Scenario: Stop an instance
+    Given there is a "mock1" running instance
+    And I accept JSON
+    When I stop "mock1" instance
+    Then I should get back JSON object with success and errors
