@@ -17,6 +17,7 @@ Requires:	qpid-cpp-server
 Requires:	rubygem(image_factory_connector)
 Requires:	mongodb-server
 Requires:	mod_ssl
+Requires:	pulp
 
 BuildArch: noarch
 
