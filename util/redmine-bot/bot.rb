@@ -32,7 +32,7 @@ class RedmineWatch
       project = data[:text].split('-').first.strip
       data[:text].gsub!(/^(.+) \-/, '').strip
       msg = "[#{data[:author]}] [#{project}] #{data[:text]}"
-      msg += "\nComment: #{strip_html(data[:content])}" unless data[:content].empty?
+      #msg += "\nComment: #{strip_html(data[:content])}" unless data[:content].empty?
       bot.config.channels.each { |channel| Channel(channel).send msg }
       @last_id = (activity/'id').text.strip
     end
