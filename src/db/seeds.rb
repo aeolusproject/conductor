@@ -118,7 +118,7 @@ if ProviderType.all.empty?
   ProviderType.create!(:name => "Amazon EC2", :build_supported => true, :codename =>"ec2", :ssh_user => "root", :home_dir => "/root")
   ProviderType.create!(:name => "GoGrid", :codename =>"gogrid")
   ProviderType.create!(:name => "Rackspace", :codename =>"rackspace")
-  ProviderType.create!(:name => "RHEV-M", :codename =>"rhevm")
+  ProviderType.create!(:name => "RHEV-M", :codename =>"rhev-m")
   ProviderType.create!(:name => "OpenNebula", :codename =>"opennebula")
 end
 
