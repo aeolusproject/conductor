@@ -28,7 +28,9 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user
   before_filter :shift_breadcrumbs
 
-  layout 'application'
+  def layout
+    %w(PoolsController DeploymentsController InstancesController).include?(controller_name) ? 'application' : 'old'
+  end
 
   # General error handlers, must be in order from least specific
   # to most specific

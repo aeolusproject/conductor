@@ -1,0 +1,245 @@
+$width: 960px;
+$font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-em: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-nav-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$font-family-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+
+/* body */
+
+html, body{ height: 100%; }
+
+body{
+  background: url('../../images/body-bg.png');
+  font-family: $font-family-base;
+  font-size: 0.750em; /* 12px base */
+  color: #333;
+}
+
+strong, em, b, i{ font-family: $font-family-em; }
+
+#primary-container{
+  position: relative;
+  min-height: 100%;
+  margin-bottom: -60px;
+}
+
+/* typography */
+
+.label{
+  font-family: $font-family-base;
+}
+
+.label.strong{
+  font-weight: bold;
+  color: #333;
+}
+
+.label.small-caps{
+  text-transform: uppercase;
+  font-size: 0.917em;
+}
+
+/* Query Inputs */
+
+div.query-input{
+  display: inline-block;
+  background-image: -moz-linear-gradient(top, rgba(209,209,209,1), rgba(230,230,230, 0));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(209,209,209,1)), to(rgba(230,230,230, 0)));
+  -webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px;
+  padding: 3px;
+}
+
+div.query-input input[type="text"]{
+  display: inline;
+  -webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px;
+  border: 1px solid #ccc;
+  height: 23px;
+  width: 180px;
+  outline: none;
+  padding: 0px 26px 0px 10px;
+  margin:0px;
+  font-size: 12px;
+}
+
+div.query-input input[type="submit"]{
+  display:inline;
+  background: transparent url('../../images/button-search.png') no-repeat left center;
+  color: transparent;
+  border: 0px;
+  width: 25px; height: 25px;
+  margin-left: -25px;
+  outline: none;
+  cursor: pointer;
+  &:hover{ background: transparent url('../../images/button-search-over.png') no-repeat left center; }
+  &:active{ background: transparent url('../../images/button-search-down.png') no-repeat left center; }
+}
+
+/* Content */
+
+header#masthead{
+  height: 49px;
+  background-color: #E7E7E7;
+  background: url('../../images/masthead-bg.png') repeat-x;
+  position: relative;
+  margin-bottom: 22px;
+
+  img#logo{
+    position: absolute;
+    top: 8px;
+  }
+
+  div.container{
+    margin: 0 auto;
+    width: $width;
+    overflow: hidden;
+    position: relative;
+  }
+
+  a.user-dropdown{
+    border: 1px solid #ccc;
+    background: url('../../images/button-userdrop.png') no-repeat center center;
+    background: url('../../images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(239,239,239,0), rgba(204,204,204,0));
+    background: url('../../images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(239,239,239)),color-stop(1, rgb(204,204,204)));
+    width: 46px;
+    margin-left: 4px;
+    padding: 5px 2px 5px 2px;
+    color: transparent;
+    font-size: 12px; /* match the font-size of the query box, for proper valign */
+
+    &:active{
+      background: url('../../images/button-userdrop.png') no-repeat center center;
+      background: url('../../images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(232,232,232,0), rgba(210,210,210,0));
+      background: url('../../images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(232,232,232)),color-stop(1, rgb(210,210,210)));
+    }
+
+  }
+
+  nav#system{
+    float:right;
+    margin-top: 6px;
+    ul{
+      list-style: none;
+      li{ display: inline; }
+      li + li{ margin-left: 10px; }
+      li.separator{
+        background: url('../../images/masthead-nav-separator.gif') no-repeat left top;
+        padding: 8px 1px 8px 1px;
+      }
+    }
+  }
+
+}
+
+/* Primary Nav */
+
+nav#primary {
+  ul.container{
+    width: $width - 10;
+    margin: 0 auto;
+    list-style: none;
+    padding-left: 24px;
+    height: 34px;
+    li{
+      float: left;
+      position: relative;
+      display: inline-block;
+      background: url('../../images/tab-inactive-right.png') no-repeat right top;
+      height: 34px;
+      margin-right: 6px;
+      z-index: 1;
+      a{
+        display: block;
+        background:url('../../images/tab-inactive-left.png') no-repeat left top;
+        padding: 10px 16px 14px 16px;
+        margin-left: -11px;
+        font-family: $font-family-nav-primary;
+        font-size: 12px;
+        letter-spacing: 1px;
+        font-weight: normal;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-weight: bold;
+        color: #fff;
+      }
+    }
+    li.active{
+      margin-top: -5px;
+      background: url('../../images/tab-active-right.png') no-repeat right top;
+      z-index: 1000;
+      height: 43px;
+      a{
+        background:url('../../images/tab-active-left.png') no-repeat left top;
+        padding: 12px 20px 12px 20px;
+        font-size: 16px;
+        color: #666;
+      }
+    }
+    li + li{
+      margin-right: 6px;
+    }
+  }
+}
+
+/* Content */
+
+$contentpadding: 7px;
+
+div#content{
+  width: $width - (2 * $contentpadding);
+  margin: 0 auto;
+  margin-bottom: 98px;
+  height: 200px;
+  -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+  background-color: #FAFAFA;
+  padding: $contentpadding;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.50);
+  -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
+  -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
+  border: 1px solid #999;
+
+  div.header{
+    background-color: #ccc;
+    height: 60px;
+  }
+
+}
+
+/* Footer */
+
+footer.standard{
+
+  background: rgba(0, 0, 0, 0.12);
+  position: relative;
+  height: 40px;
+  width: 100%;
+  clear:both;
+
+  div.container{
+    margin: 0 auto;
+    width: 946px;
+    background: rgba(0, 0, 0, 0.12);
+    height: 36px;
+    position: relative;
+    padding: 26px 8px 0px 8px;
+    top: -20px;
+  }
+
+  img.logo{
+    float: right;
+  }
+
+  span.copyright{
+    font-size: 10px;
+    display: inline-block;
+    color: #666;
+  }
+
+  nav.footer{
+    display: inline-block;
+    a{
+      color: #fff;
+      padding-right: 6px;
+    }
+  }
+
+}
