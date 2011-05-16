@@ -27,10 +27,7 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
   before_filter :shift_breadcrumbs
-
-  def layout
-    %w(PoolsController DeploymentsController InstancesController).include?(controller_name) ? 'application' : 'old'
-  end
+  layout 'old'
 
   # General error handlers, must be in order from least specific
   # to most specific

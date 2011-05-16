@@ -2,20 +2,25 @@
 %html{"xml:lang" => "en", :lang => "en"}
   %head
     %meta{:charset => 'utf-8'}/
-    %title Layout Example
-    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/styles/reset.css'}
-    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/styles/960.css'}
-    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/styles/buttons.css'}
-    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/layout.css'}/
+    %title Aeolus Conductor
+    = stylesheet_link_tag '/stylesheets/reset.css'
+    = stylesheet_link_tag '/stylesheets/960.css'
+    = stylesheet_link_tag '/stylesheets/buttons.css'
+    = stylesheet_link_tag '/stylesheets/compiled/layout.css'
     /[if lt IE 9]
-      %script{:src => 'http://html5shiv.googlecode.com/svn/trunk/html5.js'}
-      %link{:rel => 'stylesheet', :type => 'text/css', :href => '/layout_ie.css'}/
+      = stylesheet_link_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
+      = stylesheet_link_tag '/stylesheets/layout_ie.css'
+
+    = javascript_include_tag "jquery-1.4.2.min.js"
+    = javascript_include_tag "jquery.ui-1.8.1/jquery-ui-1.8.1.custom.min.js"
+    = javascript_include_tag "application.js"
+    = yield :scripts
   %body
     #primary-container
 
       %header#masthead
         .container
-          %img#logo{:src => '/images/upstream-logo.png'}
+          = image_tag('upstream-logo.png', :id => 'logo')
           %nav#system
             %ul
               %li.account
@@ -32,18 +37,18 @@
           %li
             %a{:href => '#'} Design &amp; Deploy
           %li.active
-            %a{:href => '#'} Monitor
+            = link_to 'Monitor', pools_path
           %li
             %a{:href => '#'} Administer
 
       #content
         -# works with any 960 container (.container_16 or .container_24)
         = render :partial => 'layouts/breadcrumbs'
-        Yield view here.
+        = yield
 
     %footer.standard
       .container
-        %img.logo{:src => '/images/footer-rhlogo.png'}
+        = image_tag('footer-rhlogo.png', :id => 'logo')
         %nav.footer
           %a{:href => '#'} Disclaimer
           %a{:href => '#'} Terms of Use

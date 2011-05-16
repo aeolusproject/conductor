@@ -2,6 +2,7 @@ class PoolsController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pools, :only => [:show]
+  layout 'application'
 
   def index
     save_breadcrumb(pools_path(:viewstate => @viewstate ? @viewstate.id : nil))

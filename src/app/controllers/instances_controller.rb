@@ -2,6 +2,7 @@ class InstancesController < ApplicationController
   before_filter :require_user, :except => [:can_start, :can_create]
   before_filter :load_instance, :only => [:show, :key, :edit, :update]
   before_filter :set_view_vars, :only => [:show, :index]
+  layout 'application'
 
   def index
     @params = params
