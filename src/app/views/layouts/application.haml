@@ -33,6 +33,8 @@
         %nav.container_16
           = render_navigation({:expand_all => true, :level => 1})
           = render_navigation({:expand_all => true, :level => 2})
+      = render :partial => 'layouts/breadcrumbs'
+
       #content
         #saved-searches
           Saved searches

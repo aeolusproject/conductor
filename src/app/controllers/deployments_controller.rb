@@ -4,6 +4,7 @@ class DeploymentsController < ApplicationController
   before_filter :load_deployment, :only => [:edit, :update]
 
   def index
+    save_breadcrumb(deployments_path(:viewstate => @viewstate ? @viewstate.id : nil))
     respond_to do |format|
       format.html
       format.json { render :json => @deployments }
@@ -68,6 +69,7 @@ class DeploymentsController < ApplicationController
     init_new_deployment_attrs
     @tab_captions = ['Properties', 'Instances', 'Provider Services', 'Required Services', 'History', 'Permissions','Operation']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    save_breadcrumb(deployment_path(@deployment), @deployment.name)
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane

@@ -1,0 +1,5 @@
+- unless session[:breadcrumbs].blank?
+  #nav-hist-bar
+    - session[:breadcrumbs][0..1].each do |breadcrumb|
+      &raquo;
+      = link_to breadcrumb[:name].titleize, breadcrumb[:path]

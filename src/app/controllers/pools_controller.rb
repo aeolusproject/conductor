@@ -4,6 +4,8 @@ class PoolsController < ApplicationController
   before_filter :load_pools, :only => [:show]
 
   def index
+    save_breadcrumb(pools_path(:viewstate => @viewstate ? @viewstate.id : nil))
+
     @search_term = params[:q]
     if @search_term.blank?
       load_pools
@@ -23,6 +25,7 @@ class PoolsController < ApplicationController
     load_instances
     @tab_captions = ['Properties', 'Deployments', 'Instances', 'History', 'Permissions']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    save_breadcrumb(pool_path(@pool), @pool.name)
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane

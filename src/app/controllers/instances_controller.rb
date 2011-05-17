@@ -6,6 +6,7 @@ class InstancesController < ApplicationController
   def index
     @params = params
     @search_term = params[:q]
+    save_breadcrumb(instances_path(:viewstate => @viewstate ? @viewstate.id : nil))
     if @search_term.blank?
       load_instances
     else
@@ -94,6 +95,7 @@ class InstancesController < ApplicationController
     @url_params = params.clone
     @tab_captions = ['Properties', 'History', 'Permissions']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    save_breadcrumb(instance_path(@instance), @instance.name)
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane

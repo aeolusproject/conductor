@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   include ApplicationService
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
+  before_filter :shift_breadcrumbs
 
   layout 'application'
 
@@ -223,5 +224,24 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default)
     redirect_to(default || session[:return_to])
     session[:return_to] = nil
+  end
+
+  def shift_breadcrumbs
+    session[:breadcrumbs] ||= []
+    shifted_breadcrumb = session[:breadcrumbs].shift unless session[:breadcrumbs].length < 3 || request.request_uri == session[:breadcrumbs].last[:path]
+    #TODO waiting for the ViewState to be implemented
+    #ViewState.find(shifted_breadcrumb[:viewstate]).mark_for_deletion if shifted_breadcrumb[:viewstate]
+  end
+
+  def save_breadcrumb(path, name = controller_name)
+    session[:breadcrumbs] ||= []
+    breadcrumbs = session[:breadcrumbs]
+    viewstate = @viewstate ? @viewstate.id : nil
+
+    if breadcrumbs.empty? or path != breadcrumbs.last[:path]
+      breadcrumbs.push({:name => name, :path => path, :viewstate => viewstate})
+    end
+
+    session[:breadcrumbs] = breadcrumbs
   end
 end
