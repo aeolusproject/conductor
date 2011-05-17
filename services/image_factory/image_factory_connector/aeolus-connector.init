@@ -16,8 +16,8 @@ lockfile=/var/lock/subsys/$prog
 
 gemdir=$( ruby -rubygems -e 'puts Gem::dir' )
 CONNECTOR_ENV="${CONNECTOR_ENV:-production}"
-RACKUP_FILE="${RACKUP_FILE:-$gemdir/gems/image_factory_connector-0.0.2/lib/config.ru}"
-RUN_DIR="${RUN_DIR:-$gemdir/gems/image_factory_connector-0.0.2/bin}"
+RACKUP_FILE="${RACKUP_FILE:-$gemdir/gems/image_factory_connector-0.0.3/lib/config.ru}"
+RUN_DIR="${RUN_DIR:-$gemdir/gems/image_factory_connector-0.0.3/bin}"
 LOG="${THIN_LOG:-/var/log/aeolus-connector.log}"
 PID="${THIN_PID:-/var/run/aeolus-connector.pid}"
 AEOLUS_USER="${AEOLUS_USER:-aeolus}"
