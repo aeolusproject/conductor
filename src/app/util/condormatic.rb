@@ -84,6 +84,25 @@ def pipe_and_log(pipe, instr)
   Rails.logger.error instr
 end
 
+def write_pw_file(job_name, pw)
+  # here we write out the password file
+  # FIXME: should this be configurable?
+  pwdir = '/var/lib/aeolus-conductor/jobs'
+  FileUtils.mkdir_p(pwdir, options={:mode => 0700})
+  FileUtils.chown('aeolus', 'aeolus', pwdir)
+
+  pwfilename = File.join(pwdir, job_name)
+
+  tmpfile = Tempfile.new(job_name, pwdir)
+  tmpfilename = tmpfile.path
+  tmpfile.write(pw)
+  tmpfile.close
+
+  File.rename(tmpfilename, pwfilename)
+
+  return pwfilename
+end
+
 def condormatic_instance_create(task)
   instance = task.instance
   found = match(instance)
@@ -102,6 +121,9 @@ def condormatic_instance_create(task)
                                                                   found.hwp)
     keyname = found.account.instance_key ? found.account.instance_key.name : ''
 
+    pwfilename = write_pw_file(job_name,
+                               found.account.credentials_hash['password'])
+
     # I use the 2>&1 to get stderr and stdout together because popen3 does not
     # support the ability to get the exit value of the command in ruby 1.8.
     pipe = IO.popen("condor_submit 2>&1", "w+")
@@ -111,7 +133,7 @@ def condormatic_instance_create(task)
     pipe_and_log(pipe,
                  "grid_resource = deltacloud #{found.account.provider.url}\n")
     pipe_and_log(pipe, "DeltacloudUsername = #{found.account.credentials_hash['username']}\n")
-    pipe_and_log(pipe, "DeltacloudPassword = #{found.account.credentials_hash['password']}")
+    pipe_and_log(pipe, "DeltacloudPasswordFile = #{pwfilename}")
     pipe_and_log(pipe, "DeltacloudImageId = #{found.provider_image.provider_image_key}\n")
     pipe_and_log(pipe,
                  "DeltacloudHardwareProfile = #{found.hwp.external_key}\n")
