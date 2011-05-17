@@ -35,11 +35,11 @@
       %nav#primary
         %ul.container
           %li
-            %a{:href => '#'} Design &amp; Deploy
+            = link_to 'Design &amp; Deploy', templates_path
           %li.active
             = link_to 'Monitor', pools_path
           %li
-            %a{:href => '#'} Administer
+            = link_to 'Administer', users_path
 
       #content
         -# works with any 960 container (.container_16 or .container_24)
