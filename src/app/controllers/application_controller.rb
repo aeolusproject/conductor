@@ -154,6 +154,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # let's suppose that 'pretty' view is default
+  def filter_view?
+    params.include?(:view) and params[:view] == 'filter'
+  end
+
   private
   def json_error_hash(msg, status)
     json = {}
