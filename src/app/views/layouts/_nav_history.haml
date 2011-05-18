@@ -1,0 +1,7 @@
+- unless session[:breadcrumbs].blank?
+  %nav#nav_history
+    %span.label.light.small &laquo; Return to
+    %ol.nav_hist_bar
+      - session[:breadcrumbs][0..1].each do |breadcrumb|
+        %li
+          = link_to breadcrumb[:name].titleize, breadcrumb[:path]
