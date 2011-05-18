@@ -2,7 +2,6 @@ class DeploymentsController < ApplicationController
   before_filter :require_user
   before_filter :load_deployments, :only => [:index, :show]
   before_filter :load_deployment, :only => [:edit, :update]
-  layout 'application'
 
   def index
     save_breadcrumb(deployments_path(:viewstate => @viewstate ? @viewstate.id : nil))
