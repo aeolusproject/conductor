@@ -9,6 +9,7 @@ URL:		http://aeolusproject.org
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:	aeolus-conductor-daemons = %{version}-%{release}
+Requires:	aeolus-conductor-docs = %{version}-%{release}
 Requires:	condor = 7.6.0-3dcloud%{?dist}
 Requires:	iwhd
 Requires:	aeolus-configure
