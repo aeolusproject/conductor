@@ -90,13 +90,5 @@ Rails::Initializer.run do |config|
 
   config.after_initialize do
     Haml::Template.options[:format] = :html5
-    begin
-      # This pulls all the possible classad matches from the database and puts
-      # them on condor on startup.  Note that this can fail because this is run on startup
-      # even for rake db:migrate etc. which won't work since the database doesn't exist
-      # yet.
-      kick_condor
-    rescue Exception => ex
-    end
   end
 end
