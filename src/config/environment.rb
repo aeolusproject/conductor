@@ -39,9 +39,6 @@ Rails::Initializer.run do |config|
 
   # Specify gems that this application depends on.
   # They can then be installed with "rake gems:install" on new installations.
-  # config.gem "bj"
-  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
-  # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "authlogic"
   config.gem "deltacloud-client", :lib => "deltacloud", :version => ">= 0.0.9.8"
   config.gem "haml"
