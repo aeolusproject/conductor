@@ -1,3 +1,6 @@
-%h3
-  Deployments for
-  = @pool.name
+%ul.deployments_list
+  - deployments.each do |deployment|
+    %li
+      =deployment.name
+      =count_uptime(deployment.created_at)
+      =deployment.instances.count if deployment.instances

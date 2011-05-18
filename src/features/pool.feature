@@ -44,11 +44,8 @@ Feature: Manage Pools
     | maximum_running_instances | 10       |
     | running_instances         | 8        |
     And I am on the pools page
-    When I follow "mockpool"
-    Then I should be on the show pool page
-    When I follow "Quota"
     Then I should see the following:
-    | mockpool | 10           | 80.0             |
+    | mockpool | Deployments: 0	| Instances: 0 | Pending: 0	| Failed: 0	| Instance quota usage: 80 |
 
   Scenario: Enter invalid characters into Name field
     Given I am on the new pool page

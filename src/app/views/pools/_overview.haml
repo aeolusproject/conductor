@@ -1,0 +1,31 @@
+#overview-bar
+  %h3=t("overview")
+  %span.btn-seg-toggle
+    Buttons here
+#stats-bar
+  %ul
+    %li.stat
+      %h3=t("stats_bar_pools")
+      %span.your_pools
+        =@pools.count
+      %span.in_use
+        4
+    %li.stat
+      %h3=t("stats_bar_deployments")
+      %span.deployments
+        =current_user.deployments.count
+    %li.stat
+      %h3=t("stats_bar_instances")
+      %span.instances
+        =current_user.owned_instances.count
+    %li.stat
+      %span.alerts
+        %h3=t("alerts")
+        (TODO)0
+    %li.stat
+      %span.updates
+        %h3=t("updates")
+        (TODO)15
+    %li.stat
+      %h3=t("stats_bar_quota_used")
+      (TODO) 86%

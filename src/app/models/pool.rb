@@ -43,7 +43,7 @@ class Pool < ActiveRecord::Base
   has_many :instances,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   belongs_to :pool_family
-
+  has_many :deployments
   # NOTE: Commented out because images table doesn't have pool_id foreign key?!
   #has_many :images,  :dependent => :destroy
 
