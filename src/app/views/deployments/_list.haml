@@ -1,3 +1,6 @@
+= if request.xhr?
+  = render :partial => '/layouts/notification'
+
 - form_tag do
   #object-actions
     = restful_submit_tag "Start", "start", deployments_path, "PUT"
