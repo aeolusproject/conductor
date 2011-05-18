@@ -6,6 +6,7 @@ database.yml
 *~
 *.swp
 
+src/db/schema.rb
 
 # compass compiled and temporary files
 src/tmp
