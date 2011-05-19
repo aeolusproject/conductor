@@ -20,6 +20,9 @@ Requires:	mongodb-server
 Requires:	mod_ssl
 Requires:	pulp
 Requires:	deltacloud-core
+# FIXME: this Requires doesn't actually belong here, it belongs in
+# deltacloud-core.  We leave it in until deltacloud-core is fixed
+Requires:	rubygem(aws)
 
 BuildArch: noarch
 
