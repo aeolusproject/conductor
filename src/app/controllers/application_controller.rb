@@ -20,6 +20,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+load 'lib/viewstate.rb'
 
 class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud

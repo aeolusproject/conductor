@@ -4,6 +4,15 @@ class PoolsController < ApplicationController
   before_filter :load_pools, :only => [:show]
   layout 'application'
 
+  viewstate :index do |default|
+    default.merge!({
+      :pretty_view => true,
+      :order_field => 'name',
+      :order_dir => 'asc',
+      :page => 1
+    })
+  end
+
   def index
     save_breadcrumb(pools_path(:viewstate => @viewstate ? @viewstate.id : nil))
 
