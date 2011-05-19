@@ -77,12 +77,11 @@ Requires: %{name} = %{version}-%{release}
 Requires: rubygem(cucumber)
 Requires: rubygem(rspec)
 Requires: rubygem(timecop)
-# FIXME: enable these once they are packaged
-#Requires: rubygem(cucumber-rails)
-#Requires: rubygem(rspec-rails)
-#Requires: rubygem(webrat)
-#Requires: rubygem(database_cleaner)
-#Requires: rubygem(factory_girl)
+Requires: rubygem(cucumber-rails)
+Requires: rubygem(rspec-rails)
+Requires: rubygem(webrat)
+Requires: rubygem(database_cleaner)
+Requires: rubygem(factory_girl)
 
 %description devel
 Tests and other development tools for the Aeolus Conductor.
