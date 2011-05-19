@@ -131,7 +131,7 @@ Feature: Manage Pools
   Scenario: View a pool over XHR
     Given a pool "mockpool42" exists with deployment "mockdeployment"
     And I request XHR
-    When I am viewing the pool "mockpool"
+    When I am viewing the pool "mockpool42"
     Then I should get back a partial
     And I should see "mockdeployment"
 
