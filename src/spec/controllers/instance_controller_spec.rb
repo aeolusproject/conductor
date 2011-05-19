@@ -139,9 +139,13 @@ describe InstancesController do
                                :hardware_profile_id => hwp.id }
     end.should change(Instance, :count).by(1)
     instance = Instance.find_by_name('mockinstance5')
+    instance.state.should_not == "running"
+    # the state of the instance doesn't matter here, as long as it is the same
+    # before and after the put
+    old_state = instance.state
     put :update, :instance => {:state => 'running', :name => 'mockinstance6'}, :id => instance.id
     instance.reload
-    instance.state.should == "new"
+    instance.state.should == old_state
     instance.name.should == "mockinstance6"
   end
 end
