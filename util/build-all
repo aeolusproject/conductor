@@ -1,0 +1,10 @@
+rm ~/rpmbuild/RPMS/noarch/*.rpm
+cd ../
+make clean
+make rpms
+sudo yum --nogpgcheck -y install ~/rpmbuild/RPMS/noarch/rubygem-image* \
+~/rpmbuild/RPMS/noarch/aeolus-*
+cd ../configure
+rake rpms 
+sudo yum --nogpgcheck -y install ~/rpmbuild/RPMS/noarch/aeolus-configure-*
+cd ../conductor/util
