@@ -1,9 +1,9 @@
 # == Schema Information
-# Schema version: 20110504124706
+# Schema version: 20110513164105
 #
 # Table name: view_states
 #
-#  id         :integer         not null, primary key
+#  uuid       :string(36)      not null, primary key
 #  user_id    :integer
 #  name       :string(255)     not null
 #  controller :string(255)     not null
@@ -14,6 +14,7 @@
 #
 
 class ViewState < ActiveRecord::Base
+  set_primary_key :uuid
   belongs_to :user
 
   validates_presence_of :name
@@ -23,12 +24,17 @@ class ViewState < ActiveRecord::Base
   validates_presence_of :action
   validates_presence_of :state
 
+  before_create :ensure_uuid
   before_save :strip_session_only_keys
 
   attr_reader :pending_delete
 
   def mark_for_deletion
     @pending_delete = true
+  end
+
+  def ensure_uuid
+    self.uuid = UUIDTools::UUID.timestamp_create.to_s
   end
 
   # Things that make sense to remember for the session ViewState but not for
@@ -46,6 +52,6 @@ class ViewState < ActiveRecord::Base
   end
 
   def state=(attrs)
-    write_attribute :state, JSON.dump(attrs ||= {})
+    write_attribute :state, JSON.dump(attrs || {})
   end
 end
