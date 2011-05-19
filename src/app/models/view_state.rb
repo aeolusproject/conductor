@@ -23,9 +23,21 @@ class ViewState < ActiveRecord::Base
   validates_presence_of :action
   validates_presence_of :state
 
+  before_save :strip_session_only_keys
+
+  attr_reader :pending_delete
+
+  def mark_for_deletion
+    @pending_delete = true
+  end
+
   # Things that make sense to remember for the session ViewState but not for
   # the saved state -- such as position in the pagination.
   SESSION_ONLY_KEYS = ['page']
+
+  def strip_session_only_keys
+    self.state = state.reject { |k,v| SESSION_ONLY_KEYS.include? k }
+  end
 
   def state
     unless read_attribute(:state).blank?
@@ -34,8 +46,6 @@ class ViewState < ActiveRecord::Base
   end
 
   def state=(attrs)
-    attrs = attrs || {}
-    persistent_attributes = attrs.reject { |k,v| SESSION_ONLY_KEYS.include? k }
-    write_attribute :state, JSON.dump(persistent_attributes)
+    write_attribute :state, JSON.dump(attrs ||= {})
   end
 end
