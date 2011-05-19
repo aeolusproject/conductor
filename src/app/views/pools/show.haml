@@ -1,5 +1,7 @@
-- content_for :list do
-  = render :partial => 'list'
+= render :partial => 'statistics'
 
-- content_for :details do
-  = render :partial => 'layouts/details_pane'
+-# TODO - Alerts aren't implemented just yet
+-#= render :partial => 'alerts'
+
+-# TODO: %w(Deployments History Properties Permissions) links/tabs, plus filter links/icons, go here
+= render :partial => @view, :locals => {:deployments => @pool.deployments}

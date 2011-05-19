@@ -129,11 +129,19 @@ Feature: Manage Pools
     Then I should see pool "mockpool" in JSON format
 
   Scenario: View a pool over XHR
-    Given a pool "mockpool" exists
+    Given a pool "mockpool42" exists with deployment "mockdeployment"
     And I request XHR
     When I am viewing the pool "mockpool"
     Then I should get back a partial
-    And I should see "mockpool"
+    And I should see "mockdeployment"
+
+  Scenario: View a pool in filter view over XHR
+    Given a pool "mockpool42" exists with deployment "mockdeployment"
+    And I request XHR
+    When I go to the "mockpool42" pool filter view page
+    Then I should get back a partial
+    And I should see "Deployment Name"
+    And I should see "mockdeployment"
 
   Scenario: Create a pool and get JSON response
     Given I accept JSON

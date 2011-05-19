@@ -1,0 +1,21 @@
+%h1
+  = @pool.name
+  Pool
+
+= link_to 'New Deployment', launch_new_deployments_path, :class => 'button', :id => 'new_deployment_button'
+= link_to 'Edit', edit_pool_path(@pool), :class => 'button', :id => 'edit_pool_button'
+- form_tag do
+  = hidden_field(@pool, :id)
+  = restful_submit_tag('Delete', 'destroy', pool_url(@pool), 'DELETE')
+
+%div.statistics
+  Cloud Providers
+  = @statistics[:cloud_providers]
+%div.statistics
+  Deployments
+  = @statistics[:deployments]
+%div.instances
+  = @statistics[:instances_deployed]
+  = @statistics[:instances_pending]
+  = @statistics[:instances_failed]
+-# TODO: Implement alerts, updates, and quota overview

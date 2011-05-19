@@ -23,20 +23,12 @@ class PoolsController < ApplicationController
   def show
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::VIEW, @pool)
-    @url_params = params.clone
-    load_instances
-    @tab_captions = ['Properties', 'Deployments', 'Instances', 'History', 'Permissions']
-    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(pool_path(@pool), @pool.name)
+    @statistics = @pool.statistics
+    @view = params[:view] == 'filter' ? 'deployments/filter_view' : 'deployments/pretty_view'
     respond_to do |format|
-      # TODO - With the new UI, the logic here will probably need to be updated
-      format.js do
-        if @url_params.delete :details_pane
-          render :partial => 'layouts/details_pane' and return
-        end
-        render :partial => @details_tab and return
-      end
-      format.html { render :action => 'show'}
+      format.js { render :partial => @view, :locals => {:deployments => @pool.deployments} }
+      format.html { render :action => :show}
       format.json { render :json => @pool }
     end
   end
@@ -181,6 +173,13 @@ class PoolsController < ApplicationController
       { :name => "% Quota used", :sortable => false },
       { :name => "Pool Family", :sort_attr => "pool_families.name" },
       { :name => "Enabled", :sort_attr => :enabled }
+    ]
+    @deployments_header = [
+      { :name => "Deployment Name", :sort_attr => :name },
+      { :name => "Base Deployable", :sort_attr => 'deployable.name' },
+      { :name => "Uptime", :sort_attr => :created_at },
+      { :name => "Instances", :sort_attr => 'instances.count' },
+      { :name => "Provider", :sort_attr => :provider }
     ]
   end
 

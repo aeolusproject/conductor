@@ -55,6 +55,9 @@ class Deployment < ActiveRecord::Base
            :order => "permissions.id ASC"
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   after_create "assign_owner_roles(owner)"
+  # TODO - Strictly, this should be a belongs_to, but :through seems to only work one-way,
+  # and we don't much care about the inverse here.
+  has_one :provider, :through => :realm
 
   validates_presence_of :pool_id
   validates_presence_of :deployable_id

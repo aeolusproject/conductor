@@ -117,6 +117,13 @@ class Instance < ActiveRecord::Base
              STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED,
              STATE_ERROR]
 
+  named_scope :deployed,  :conditions => { :state => [STATE_RUNNING, STATE_SHUTTING_DOWN] }
+  # FIXME: "pending" is misleading as it doesn't just cover STATE_PENDING
+  named_scope :pending,   :conditions => { :state => [STATE_NEW, STATE_PENDING] }
+  # FIXME: "failed" is misleading too...
+  named_scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR] }
+
+
   SEARCHABLE_COLUMNS = %w(name state)
 
   validates_inclusion_of :state,
@@ -261,7 +268,7 @@ class Instance < ActiveRecord::Base
     }
 
     instances = []
-    pools = Pool.list_for_user(user, Privilege::VIEW, Instance)
+    pools = Pool.list_for_user(user, Privilege::VIEW, :target_type => Instance)
     pools.each{|pool| pool.instances.each {|i| instances << i}}
     instances.each do |i|
       if i.state == Instance::STATE_RUNNING

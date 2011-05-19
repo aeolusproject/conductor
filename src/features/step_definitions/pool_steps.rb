@@ -22,6 +22,14 @@ Given /^a pool "([^"]*)" exists$/ do |pool_name|
   Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota)
 end
 
+Given /^a pool "([^"]*)" exists with deployment "([^"]*)"$/ do |pool_name, deployment_name|
+  pool_family = PoolFamily.find_by_name('default') || Factory(:pool_family)
+  quota = Factory(:quota)
+  pool = Pool.find_by_name(pool_name) || Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota)
+  deployable = Deployable.create!(:name => 'deployable1', :owner => User.first)
+  Deployment.create!(:name => deployment_name, :pool => pool, :deployable => deployable, :owner => User.first)
+end
+
 Then /^I should have a pool named "([^\"]*)"$/ do |name|
   Pool.find_by_name(name).should_not be_nil
 end
