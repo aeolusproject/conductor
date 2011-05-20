@@ -20,18 +20,7 @@
     #primary-container
 
       %header#masthead
-        .container
-          = image_tag('upstream-logo.png', :id => 'logo')
-          %nav#system
-            %ul
-              %li.account
-                %span.name.label.strong.small-caps Andy Smith
-                %a.button.pill.user-dropdown{:href => '#'} &nbsp;
-              %li.separator
-              %li
-                %div.query-input
-                  -# Using verbatim HTML because CSS inline-block requires it.
-                  != "<input type='text' placeholder='Search...' /><input type='submit' value='search' />"
+        = render :partial => 'layouts/masthead'
 
       %nav#primary
         %ul.container
