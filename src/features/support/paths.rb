@@ -134,6 +134,10 @@ module NavigationHelpers
     when /^(.*)'s deployment page$/
       deployment_path(Deployment.find_by_name($1))
 
+    when /^the "(.*)" pool filter view page$/
+      pool = Pool.find_by_name($1)
+      pool_path(pool, :view => 'filter')
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

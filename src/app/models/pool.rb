@@ -43,7 +43,7 @@ class Pool < ActiveRecord::Base
   has_many :instances,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   belongs_to :pool_family
-
+  has_many :deployments
   # NOTE: Commented out because images table doesn't have pool_id foreign key?!
   #has_many :images,  :dependent => :destroy
 
@@ -60,6 +60,8 @@ class Pool < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
+  has_many :deployments
+
   before_destroy :destroyable?
 
   def cloud_accounts
@@ -73,6 +75,20 @@ class Pool < ActiveRecord::Base
 
   def destroyable?
     instances.all? {|i| i.destroyable? }
+  end
+
+  # TODO: Implement Alerts, Updates, and Quotas
+  def statistics
+    # TODO - Need to set up cache invalidation before this is safe
+    #Rails.cache.fetch("pool-#{id}-statistics") do
+      {
+        :cloud_providers => instances.collect{|i| i.provider_account}.uniq.count,
+        :deployments => deployments.count,
+        :instances_deployed => instances.deployed.count,
+        :instances_pending => instances.pending.count,
+        :instances_failed => instances.failed.count
+      }
+    #end
   end
 
 end

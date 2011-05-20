@@ -1,0 +1,10 @@
+= error_messages_for 'instance'
+%h2 Edit instance
+- form_for @instance do
+  %ul
+    %li
+      = label :instance, :name
+      = text_field :instance, :name
+
+  = submit_tag 'Cancel', :name => 'cancel'
+  = submit_tag 'Save', :name => 'save'

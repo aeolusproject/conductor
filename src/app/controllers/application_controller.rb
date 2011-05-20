@@ -20,6 +20,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+load 'lib/viewstate.rb'
 
 class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
@@ -27,8 +28,7 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
   before_filter :shift_breadcrumbs
-
-  layout 'application'
+  layout 'old'
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -39,6 +39,8 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, :with => :handle_active_record_not_found_error
 
   helper_method :check_privilege
+
+  before_filter :js_for_xhr
 
   protected
   # permissions checking
@@ -155,6 +157,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # let's suppose that 'pretty' view is default
+  def filter_view?
+    params.include?(:view) and params[:view] == 'filter'
+  end
+
   private
   def json_error_hash(msg, status)
     json = {}
@@ -243,5 +250,12 @@ class ApplicationController < ActionController::Base
     end
 
     session[:breadcrumbs] = breadcrumbs
+  end
+
+  # XMLHTTPRequest in many browsers sends "Accept: */*", so the first respond_to will match.
+  # See http://codetunes.com/2009/01/31/rails-222-ajax-and-respond_to/ and
+  # http://www.grauw.nl/blog/entry/470 for more.
+  def js_for_xhr
+    request.format = :js if request.xhr?
   end
 end

@@ -1,0 +1,51 @@
+!!!
+%html
+  %head
+    %meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
+    %title
+      Red Hat Cloud Engine
+      = yield :title
+    = stylesheet_link_tag 'facebox'
+    = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
+    = stylesheet_link_tag 'jquery.loadmask'
+    = stylesheet_link_tag 'compiled/application'
+
+    / [if lt IE 9]
+      = javascript_include_tag "http://html5shiv.googlecode.com/svn/trunk/html5.js"
+    = javascript_include_tag "jquery-1.4.2.min.js"
+    = javascript_include_tag "application.js"
+    = javascript_include_tag "jquery.ui-1.8.1/jquery-ui-1.8.1.custom.min.js"
+    = javascript_include_tag "jquery.loadmask.min"
+    = javascript_include_tag "modernizr-1.5"
+    /= javascript_include_tag "jquery.html5form"
+    = yield :scripts
+  %body
+    %div#head
+      %header.container_16
+        = render :partial => '/layouts/header'
+    - if @current_user.nil?
+      #content.container_16
+        = render :partial => '/layouts/notification'
+        #formwindow
+          = yield
+    - else
+      #subheader
+        %nav.container_16
+          = render_navigation({:expand_all => true, :level => 1})
+          = render_navigation({:expand_all => true, :level => 2})
+      #content
+        #saved-searches
+          Saved searches
+        - details = !(yield :details).blank?
+        #list-view{ :class => details ? 'part' : 'full'}
+          - form_tag({:action => 'index'}, :method => :get) do
+            = text_field_tag :q, @search_term
+            = submit_tag "Search"
+          = render :partial => '/layouts/notification'
+          = (yield :list or yield)
+        #details-view.ui-tabs.ui-widget.ui-widget-content.ui-corner-all{ :class => ('hidden' unless details)}
+          - if details
+            = yield :details
+      %footer
+        = render :partial => "layouts/footer"
+      #grid

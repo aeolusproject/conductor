@@ -24,6 +24,18 @@ Feature: Manage Pools
     And I should see "unlimited"
     And I should have a pool named "mockpool"
 
+  Scenario: Create a new Pool over XHR
+    Given I request XHR
+    And I am on the new pool page
+    Then I should get back a partial
+    And I should see "Create a new Pool"
+    When I fill in "pool_name" with "mockpool"
+    And I select "default" from "pool_pool_family_id"
+    And I fill in "quota_instances" with "unlimited"
+    And I press "Save"
+    Then I should get back a partial
+    And I should see "mockpool"
+
   @tag
   Scenario: View Pool's Quota Usage
     Given I have Pool Creator permissions on a pool named "mockpool"
@@ -32,11 +44,8 @@ Feature: Manage Pools
     | maximum_running_instances | 10       |
     | running_instances         | 8        |
     And I am on the pools page
-    When I follow "mockpool"
-    Then I should be on the show pool page
-    When I follow "Quota"
     Then I should see the following:
-    | mockpool | 10           | 80.0             |
+    | mockpool | Deployments: 0	| Instances: 0 | Pending: 0	| Failed: 0	| Instance quota usage: 80 |
 
   Scenario: Enter invalid characters into Name field
     Given I am on the new pool page
@@ -107,11 +116,32 @@ Feature: Manage Pools
     When I go to the pools page
     Then I should see 2 pools in JSON format
 
+  Scenario: View all pools over XHR
+    Given there are 2 pools
+    And I request XHR
+    When I go to the pools page
+    Then I should get back a partial
+
   Scenario: View a pool in JSON format
     Given a pool "mockpool" exists
     And I accept JSON
     When I am viewing the pool "mockpool"
     Then I should see pool "mockpool" in JSON format
+
+  Scenario: View a pool over XHR
+    Given a pool "mockpool42" exists with deployment "mockdeployment"
+    And I request XHR
+    When I am viewing the pool "mockpool"
+    Then I should get back a partial
+    And I should see "mockdeployment"
+
+  Scenario: View a pool in filter view over XHR
+    Given a pool "mockpool42" exists with deployment "mockdeployment"
+    And I request XHR
+    When I go to the "mockpool42" pool filter view page
+    Then I should get back a partial
+    And I should see "Deployment Name"
+    And I should see "mockdeployment"
 
   Scenario: Create a pool and get JSON response
     Given I accept JSON

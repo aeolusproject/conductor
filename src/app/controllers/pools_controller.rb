@@ -2,6 +2,16 @@ class PoolsController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pools, :only => [:show]
+  layout 'application'
+
+  viewstate :index do |default|
+    default.merge!({
+      :pretty_view => true,
+      :order_field => 'name',
+      :order_dir => 'asc',
+      :page => 1
+    })
+  end
 
   def index
     save_breadcrumb(pools_path(:viewstate => @viewstate ? @viewstate.id : nil))
@@ -13,6 +23,7 @@ class PoolsController < ApplicationController
       @pools = Pool.search() { keywords(params[:q]) }.results
     end
     respond_to do |format|
+      format.js { render :partial => 'list' }
       format.html
       format.json { render :json => @pools }
     end
@@ -21,19 +32,12 @@ class PoolsController < ApplicationController
   def show
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::VIEW, @pool)
-    @url_params = params.clone
-    load_instances
-    @tab_captions = ['Properties', 'Deployments', 'Instances', 'History', 'Permissions']
-    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(pool_path(@pool), @pool.name)
+    @statistics = @pool.statistics
+    @view = params[:view] == 'filter' ? 'deployments/filter_view' : 'deployments/pretty_view'
     respond_to do |format|
-      format.js do
-        if @url_params.delete :details_pane
-          render :partial => 'layouts/details_pane' and return
-        end
-        render :partial => @details_tab and return
-      end
-      format.html { render :action => 'show'}
+      format.js { render :partial => @view, :locals => {:deployments => @pool.deployments} }
+      format.html { render :action => :show}
       format.json { render :json => @pool }
     end
   end
@@ -45,6 +49,7 @@ class PoolsController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render :json => @pool }
+      format.js { render :partial => 'new' }
     end
   end
 
@@ -62,9 +67,12 @@ class PoolsController < ApplicationController
         @pool.assign_owner_roles(current_user)
         flash[:notice] = "Pool added."
         format.html { redirect_to :action => 'show', :id => @pool.id }
+        # TODO - The new UI is almost certainly going to want a new partial for .js
+        format.js { render :partial => 'show', :id => @pool.id }
         format.json { render :json => @pool, :status => :created }
       else
         flash.now[:warning] = "Pool creation failed."
+        format.js { render :partial => 'new' }
         format.html { render :new }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
       end
@@ -76,6 +84,7 @@ class PoolsController < ApplicationController
     require_privilege(Privilege::MODIFY, @pool)
     @quota = @pool.quota
     respond_to do |format|
+      format.js { render :partial => 'edit' }
       format.html
       format.json { render :json => @pool }
     end
@@ -91,10 +100,12 @@ class PoolsController < ApplicationController
     respond_to do |format|
       if @pool.update_attributes(params[:pool])
         flash[:notice] = "Pool updated."
+        format.js { render :partial => 'show', :id => @pool.id }
         format.html { redirect_to :action => 'show', :id => @pool.id }
         format.json { render :json => @pool }
       else
         flash[:error] = "Pool wasn't updated!"
+        format.js { render :partial => 'edit', :id => @pool.id }
         format.html { render :action => :edit }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
       end
@@ -118,6 +129,11 @@ class PoolsController < ApplicationController
     flash[:success] = t('pools.index.pool_deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
     flash[:error] = t('pools.index.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
     respond_to do |format|
+      # TODO - What is expected to be returned on an AJAX delete?
+      format.js do
+        load_pools
+        render :partial => 'list'
+      end
       format.html { redirect_to pools_url }
       format.json { render :json => {:success => destroyed, :errors => failed} }
     end
@@ -166,6 +182,13 @@ class PoolsController < ApplicationController
       { :name => "% Quota used", :sortable => false },
       { :name => "Pool Family", :sort_attr => "pool_families.name" },
       { :name => "Enabled", :sort_attr => :enabled }
+    ]
+    @deployments_header = [
+      { :name => "Deployment Name", :sort_attr => :name },
+      { :name => "Base Deployable", :sort_attr => 'deployable.name' },
+      { :name => "Uptime", :sort_attr => :created_at },
+      { :name => "Instances", :sort_attr => 'instances.count' },
+      { :name => "Provider", :sort_attr => :provider }
     ]
   end
 

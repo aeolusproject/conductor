@@ -59,6 +59,7 @@ class User < ActiveRecord::Base
 
   has_many :permissions
   has_many :owned_instances, :class_name => "Instance", :foreign_key => "owner_id"
+  has_many :deployments, :foreign_key => "owner_id"
   has_many :view_states
 
   belongs_to :quota, :autosave => true

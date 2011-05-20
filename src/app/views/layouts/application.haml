@@ -1,54 +1,57 @@
-!!!
-%html
+!!! 5
+%html{"xml:lang" => "en", :lang => "en"}
   %head
-    %meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
-    %title
-      Red Hat Cloud Engine
-      = yield :title
-    = stylesheet_link_tag 'facebox'
+    %meta{:charset => 'utf-8'}/
+    %title Aeolus Conductor
+    = stylesheet_link_tag '/stylesheets/reset.css'
+    = stylesheet_link_tag '/stylesheets/960.css'
+    = stylesheet_link_tag '/stylesheets/buttons.css'
+    = stylesheet_link_tag '/stylesheets/compiled/layout.css'
     = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
-    = stylesheet_link_tag 'jquery.loadmask'
-    = stylesheet_link_tag 'compiled/application'
+    /[if lt IE 9]
+      = stylesheet_link_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
+      = stylesheet_link_tag '/stylesheets/layout_ie.css'
 
-    / [if lt IE 9]
-      = javascript_include_tag "http://html5shiv.googlecode.com/svn/trunk/html5.js"
     = javascript_include_tag "jquery-1.4.2.min.js"
-    = javascript_include_tag "application.js"
     = javascript_include_tag "jquery.ui-1.8.1/jquery-ui-1.8.1.custom.min.js"
-    = javascript_include_tag "jquery.loadmask.min"
-    = javascript_include_tag "modernizr-1.5"
-    /= javascript_include_tag "jquery.html5form"
+    = javascript_include_tag "application.js"
     = yield :scripts
   %body
-    %div#head
-      %header.container_16
-        = render :partial => '/layouts/header'
-    - if @current_user.nil?
-      #content.container_16
-        = render :partial => '/layouts/notification'
-        #formwindow
-          = yield
-    - else
-      #subheader
-        %nav.container_16
-          = render_navigation({:expand_all => true, :level => 1})
-          = render_navigation({:expand_all => true, :level => 2})
-      = render :partial => 'layouts/breadcrumbs'
+    #primary-container
+
+      %header#masthead
+        .container
+          = image_tag('upstream-logo.png', :id => 'logo')
+          %nav#system
+            %ul
+              %li.account
+                %span.name.label.strong.small-caps Andy Smith
+                %a.button.pill.user-dropdown{:href => '#'} &nbsp;
+              %li.separator
+              %li
+                %div.query-input
+                  -# Using verbatim HTML because CSS inline-block requires it.
+                  != "<input type='text' placeholder='Search...' /><input type='submit' value='search' />"
+
+      %nav#primary
+        %ul.container
+          %li
+            = link_to 'Design &amp; Deploy', templates_path
+          %li.active
+            = link_to 'Monitor', pools_path
+          %li
+            = link_to 'Administer', users_path
 
       #content
-        #saved-searches
-          Saved searches
-        - details = !(yield :details).blank?
-        #list-view{ :class => details ? 'part' : 'full'}
-          - form_tag({:action => 'index'}, :method => :get) do
-            = text_field_tag :q, @search_term
-            = submit_tag "Search"
-          = render :partial => '/layouts/notification'
-          = (yield :list or yield)
-        #details-view.ui-tabs.ui-widget.ui-widget-content.ui-corner-all{ :class => ('hidden' unless details)}
-          - if details
-            = yield :details
-      %footer
-        = render :partial => "layouts/footer"
-      #grid
+        -# works with any 960 container (.container_16 or .container_24)
+        = render :partial => 'layouts/nav_history'
+        = yield
 
+    %footer.standard
+      .container
+        = image_tag('footer-rhlogo.png', :id => 'logo')
+        %nav.footer
+          %a{:href => '#'} Disclaimer
+          %a{:href => '#'} Terms of Use
+          %a{:href => '#'} Support
+        %span.copyright Copyright &copy; 2011 Red Hat, Inc. All Rights Reserved.

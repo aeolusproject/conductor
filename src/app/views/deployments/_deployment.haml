@@ -1,0 +1,11 @@
+%div.deployment_pretty
+  %h3
+    = deployment.name
+  %ul
+    %li
+      = count_uptime(deployment.created_at)
+    %li
+      = deployment.instances.count
+      Instances
+  %p
+    = deployment.provider.provider_type.name if deployment.provider

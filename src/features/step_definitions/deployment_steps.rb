@@ -48,6 +48,13 @@ Then /^I should get back a deployment in JSON format$/ do
   data['deployment'].should_not be_nil
 end
 
+Then /^I should get back a partial$/ do
+  response.body.should_not match('<html')
+  response.body.should_not match('Copyright')
+  response.body.should_not == ""
+  response.body.should match('<')
+end
+
 When /^I stop "([^"]*)" deployment$/ do |arg1|
   visit(multi_stop_deployments_url, :post, 'deployments_selected[]' => Deployment.find_by_name(arg1).id)
 end
