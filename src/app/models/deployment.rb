@@ -141,4 +141,15 @@ class Deployment < ActiveRecord::Base
     end
     errors
   end
+
+  def self.list_or_search(query,order_field,order_dir)
+    if query.blank?
+      deployments = Deployment.all(:include => :owner,
+                                   :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
+    else
+      deployments = search() { keywords(query) }.results
+    end
+    deployments
+  end
+
 end

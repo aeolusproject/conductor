@@ -210,4 +210,15 @@ module ApplicationHelper
     result_string<<"#{"%02d"%hours.to_i}:#{"%02d"%minutes.to_i}:#{"%02d"%seconds.to_i}"
     result_string.join(", ")
   end
+
+  def owner_name(obj)
+    return '' unless obj.owner
+    # if last_name is set, use full name,
+    # else use login
+    if obj.owner.last_name.blank?
+      obj.owner.login
+    else
+      "#{obj.owner.first_name} #{obj.owner.last_name}"
+    end
+  end
 end

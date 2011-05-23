@@ -16,15 +16,32 @@ class PoolsController < ApplicationController
   def index
     save_breadcrumb(pools_path(:viewstate => @viewstate ? @viewstate.id : nil))
 
-    @search_term = params[:q]
-    if @search_term.blank?
-      load_pools
+    @user_pools = Pool.list_for_user(current_user, Privilege::VIEW)
+    if filter_view?
+      @tabs = [{:name => 'Pools', :view => 'list', :id => 'pools'},
+               {:name => 'Deployments', :view => 'deployments/list', :id => 'deployments'},
+               {:name => 'Instances', :view => 'instances/list', :id => 'instances'},
+      ]
+      details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
+      @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
+      case @details_tab[:id]
+      when 'pools'
+        @pools = Pool.list_or_search(params[:q], params[:order_field],params[:order_dir])
+      when 'instances'
+        @instances = Instance.list_or_search(params[:q], params[:order_field],params[:order_dir])
+      when 'deployments'
+        @deployments = Deployment.list_or_search(params[:q], params[:order_field],params[:order_dir])
+      end
     else
-      @pools = Pool.search() { keywords(params[:q]) }.results
+      @pools = Pool.list_or_search(params[:q], params[:order_field],params[:order_dir])
     end
     statistics
     respond_to do |format|
-      format.js { render :partial => 'list' }
+      format.js { if filter_view?
+                    render :partial => params[:only_tab] == "true" ? @details_tab[:view] : 'layouts/tabpanel'
+                  else
+                    render :partial => 'pretty_list'
+                  end }
       format.html
       format.json { render :json => @pools }
     end
@@ -211,7 +228,7 @@ class PoolsController < ApplicationController
   def statistics
     instances = Instance.list_for_user(current_user, Privilege::VIEW)
     @statistics = {
-              :pools_in_use => @pools.collect { |pool| pool.instances.pending.count > 0 || pool.instances.deployed.count > 0 }.count,
+              :pools_in_use => @user_pools.collect { |pool| pool.instances.pending.count > 0 || pool.instances.deployed.count > 0 }.count,
               :deployments => Deployment.list_for_user(current_user, Privilege::VIEW).count,
               :instances => instances.count,
               :instances_pending => instances.select {|instance| instance.state == Instance::STATE_NEW || instance.state == Instance::STATE_PENDING}.count,

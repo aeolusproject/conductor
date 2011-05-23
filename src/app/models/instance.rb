@@ -292,6 +292,16 @@ class Instance < ActiveRecord::Base
     (state == STATE_CREATE_FAILED) or (state == STATE_STOPPED and not restartable?)
   end
 
+  def self.list_or_search(query,order_field,order_dir)
+    if query.blank?
+      instances = Instance.all(:include => [ :template, :owner ],
+                               :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
+    else
+      instances = search() { keywords(query) }.results
+    end
+    instances
+  end
+
   named_scope :with_hardware_profile, lambda {
       {:include => :hardware_profile}
   }

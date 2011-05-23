@@ -153,3 +153,22 @@ Feature: Manage Pools
     And I accept JSON
     When I delete "mockpool" pool
     Then I should get back JSON object with success and errors
+
+  Scenario: Switch pretty view to filtred
+    Given I am on the pools page
+    And I see "Overview"
+    And I should see "expand all"
+    When I follow "Filtred View"
+    Then I should see "Pools" within "#details-view"
+    And I should see "Instances" within "#details-view"
+    And I should see "Deployments" within "#details-view"
+    And I should not see "expand all"
+    When I follow "Pretty View"
+
+  Scenario: Switch from filtred view to pretty
+    Given I am on the pools page
+    And I follow "Filtred View"
+    And I should see "Pools" within "#view"
+    When I follow "Pretty View"
+    Then I should not see "Pools" within "#view"
+    And I should see "expand all"
