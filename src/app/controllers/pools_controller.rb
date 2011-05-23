@@ -22,6 +22,7 @@ class PoolsController < ApplicationController
     else
       @pools = Pool.search() { keywords(params[:q]) }.results
     end
+    statistics
     respond_to do |format|
       format.js { render :partial => 'list' }
       format.html
@@ -205,5 +206,16 @@ class PoolsController < ApplicationController
     params[:state] = 'running' unless params.keys.include?('state')
     conditions = params[:state].present? ? ['state=?', params[:state]] : ''
     @instances = @pool.instances.find(:all, :conditions => conditions)
+  end
+
+  def statistics
+    instances = Instance.list_for_user(current_user, Privilege::VIEW)
+    @statistics = {
+              :pools_in_use => @pools.collect { |pool| pool.instances.pending.count > 0 || pool.instances.deployed.count > 0 }.count,
+              :deployments => Deployment.list_for_user(current_user, Privilege::VIEW).count,
+              :instances => instances.count,
+              :instances_pending => instances.select {|instance| instance.state == Instance::STATE_NEW || instance.state == Instance::STATE_PENDING}.count,
+              :instances_failed => instances.select {|instance| instance.state == Instance::STATE_CREATE_FAILED || instance.state == Instance::STATE_ERROR}.count
+              }
   end
 end

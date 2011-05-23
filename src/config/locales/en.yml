@@ -67,10 +67,6 @@ en:
   apply: Apply
   resource_management: Resource Management
   overview: Overview
-  stats_bar_pools: Pools
-  stats_bar_deployments: Deployments
-  stats_bar_instances: Instances
-  stats_bar_quota_used: Quota Used
   alerts: Alerts
   updates: Udates
   deployments:
@@ -114,6 +110,7 @@ en:
   pools:
     index:
       pools: Pools
+      quota_used: Quota Used
       pool_deleted:
         one: "Pool %{list} was deleted."
         other: "Pools %{list} were deleted."

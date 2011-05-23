@@ -1,0 +1,30 @@
+#scoreboard
+  %dl.statistics
+    %ul.groups
+      %li
+        %dt= t("pools.index.pools")
+        %dd.count.pool= @pools.count
+        %dd.count.pool.partial= @statistics[:pools_in_use]
+      %li
+        %dt= t("deployments.deployments")
+        %dd.count.deployment= @statistics[:deployments]
+      %li
+        %dt= t("instances.instances")
+        %dd.count.instance= @statistics[:instances]
+        %dd.count.instance.pending= @statistics[:instances_pending]
+        %dd.count.instance.failure= @statistics[:instances_failed]
+      %li
+        %ul.subgroup
+          %li
+            %dt= t("alerts")
+            %dd.count.alert 3
+          %li
+            %dt= t("updates")
+            %dd.count.update 0
+      %li
+        %dt= t("pools.index.quota_used")
+        %dd.percentage.quota 86%
+        %dd.fraction.instance
+          %span.part 21
+          %span.divider.label.small.caps of
+          %span.total 25
