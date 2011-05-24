@@ -1,30 +1,9 @@
 = render :partial => 'header_index'
 = render :partial => 'scoreboard_index'
 = render :partial => 'alerts_index'
-= link_to "Pretty View", pools_path(:view => 'pretty'), :id =>'pretty_view'
-= link_to "Filtred View", pools_path(:view => 'filter'), :id => 'filtred_view'
+= pretty_filter_toggle(pools_path(:view => 'pretty'), pools_path(:view => 'filter'))
 %div#view
   - if params[:view] == 'filter'
     = render :partial => 'layouts/tabpanel'
   - else
     = render :partial => 'pretty_list'
-
-:javascript
-  $(document).ready(function (){
-    $("#pretty_view").click(function(){
-      $.get($(this).attr("href"), $(this).serialize(),
-            function(result) {
-              $("#view").html(result);
-            }, "script");
-        return false;
-      });
-    $("#filtred_view").click(function(){
-      $.get($(this).attr("href"), $(this).serialize(),
-            function(result) {
-              $("#view").html(result);
-              $('#details-selected').hide();
-              $('#details-view').tabs('destroy').tabs();
-            }, "script");
-        return false;
-    });
-  });

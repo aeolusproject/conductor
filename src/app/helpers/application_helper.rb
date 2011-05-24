@@ -221,4 +221,11 @@ module ApplicationHelper
       "#{obj.owner.first_name} #{obj.owner.last_name}"
     end
   end
+
+  def pretty_filter_toggle(pretty_link, filter_link)
+    render :partial => 'layouts/pretty_filter_toggle', :locals => {
+      :pretty_link => pretty_link,
+      :filter_link => filter_link
+    }
+  end
 end

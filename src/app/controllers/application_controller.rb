@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
   include ApplicationService
   filter_parameter_logging :password, :password_confirmation
-  helper_method :current_user_session, :current_user
+  helper_method :current_user_session, :current_user, :filter_view?
   before_filter :shift_breadcrumbs
   layout 'old'
 
@@ -159,7 +159,7 @@ class ApplicationController < ActionController::Base
 
   # let's suppose that 'pretty' view is default
   def filter_view?
-    params.include?(:view) and params[:view] == 'filter'
+    params[:view] == 'filter'
   end
 
   private

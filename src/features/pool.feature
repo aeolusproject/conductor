@@ -154,20 +154,20 @@ Feature: Manage Pools
     When I delete "mockpool" pool
     Then I should get back JSON object with success and errors
 
-  Scenario: Switch pretty view to filtred
+  Scenario: Switch pretty view to filtred view on pools index
     Given I am on the pools page
     And I see "Overview"
     And I should see "expand all"
-    When I follow "Filtred View"
+    When I follow "Filter View"
     Then I should see "Pools" within "#details-view"
     And I should see "Instances" within "#details-view"
     And I should see "Deployments" within "#details-view"
     And I should not see "expand all"
     When I follow "Pretty View"
 
-  Scenario: Switch from filtred view to pretty
+  Scenario: Switch from filtred view to pretty view on pools index
     Given I am on the pools page
-    And I follow "Filtred View"
+    And I follow "Filter View"
     And I should see "Pools" within "#view"
     When I follow "Pretty View"
     Then I should not see "Pools" within "#view"
@@ -179,3 +179,15 @@ Feature: Manage Pools
     When I go to the pools page
     Then I should see "Alerts"
     And I should see "fail1: error"
+
+  Scenario: Pools#show pretty view
+    Given a pool "mockpool" exists with deployment "mockdeployment"
+    When I am viewing the pool "mockpool"
+    And I follow "Pretty View"
+    Then I should see "0 Instances" within "#view"
+
+  Scenario: Pools#show filter view
+    Given a pool "mockpool" exists with deployment "mockdeployment"
+    When I am viewing the pool "mockpool"
+    And I follow "Filter View"
+    Then I should not see "0 Instances" within "#view"
