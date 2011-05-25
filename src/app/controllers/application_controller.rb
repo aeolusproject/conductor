@@ -246,7 +246,7 @@ class ApplicationController < ActionController::Base
     viewstate = @viewstate ? @viewstate.id : nil
 
     if breadcrumbs.empty? or path != breadcrumbs.last[:path]
-      breadcrumbs.push({:name => name, :path => path, :viewstate => viewstate})
+      breadcrumbs.push({:name => name, :path => path, :viewstate => viewstate, :class => controller_name})
     end
 
     session[:breadcrumbs] = breadcrumbs

@@ -3,5 +3,5 @@
     %span.label.light.small &laquo; Return to
     %ol.nav_hist_bar
       - session[:breadcrumbs][0..1].each do |breadcrumb|
-        %li
+        %li{:class => breadcrumb[:class]}
           = link_to breadcrumb[:name].titleize, breadcrumb[:path]
