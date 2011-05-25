@@ -1,4 +1,5 @@
 = link_to "expand all", "#", :class => "reveal_all"
+= link_to "New Pool", new_pool_path
 %table#pools_pretty_view
   - @pools.each do |pool|
     %tr

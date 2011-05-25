@@ -172,3 +172,10 @@ Feature: Manage Pools
     When I follow "Pretty View"
     Then I should not see "Pools" within "#view"
     And I should see "expand all"
+
+  Scenario: Display alerts
+    Given There is a mock pulp repository
+    And there is a "fail1" failed instance
+    When I go to the pools page
+    Then I should see "Alerts"
+    And I should see "fail1: error"
