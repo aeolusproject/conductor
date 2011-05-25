@@ -44,8 +44,7 @@
         %td
           = pool.statistics[:instances_deployed]
         %td
-          = pool.quota.percentage_used
-          ='%'
+          = pool.quota ? pool.quota.percentage_used.to_s + "%": 'unlimited'
         %td
           = pool.pool_family.name
 

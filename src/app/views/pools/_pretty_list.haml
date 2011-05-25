@@ -19,7 +19,7 @@
         = pool.instances.select {|i| i.state == Instance::STATE_ERROR }.length
       %td
         Instance quota usage:
-        = pool.quota.percentage_used
+        = pool.quota ? pool.quota.percentage_used.to_s + "%" : 'unlimited'
       %td
         = link_to "+", "#", :class => "toggle"
     %tr
