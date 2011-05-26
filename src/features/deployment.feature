@@ -8,18 +8,19 @@ Feature: Manage Deployments
     And I am logged in
 
   Scenario: List deployments
-    Given I am on the homepage
-    And there is a deployment named "MySQL Cluster" belonging to "Databases" owned by "bob"
-    When I go to the deployments page
+    Given there is a deployment named "MySQL Cluster" belonging to "Databases" owned by "bob"
+    And I am on the pools page
+    When I follow "Filter View"
+    And I follow "Deployments"
     Then I should see "MySQL Cluster"
     And I should see "bob"
 
   Scenario: List deployments over XHR
-    Given I am on the homepage
-    And there is a deployment named "MySQL Cluster" belonging to "Databases" owned by "bob"
+    Given there is a deployment named "MySQL Cluster" belonging to "Databases" owned by "bob"
+    And I am on the pools page
     And I request XHR
-    When I go to the deployments page
-    Then I should get back a partial
+    When I follow "Filter View"
+    And I follow "Deployments"
     Then I should see "MySQL Cluster"
     And I should see "bob"
 
@@ -30,7 +31,7 @@ Feature: Manage Deployments
     And there is an assembly named "testassembly" belonging to "testdeployable"
     And there is an assembly named "testassembly" belonging to "testtemplate" template
     When I go to the deployments page
-    And I press "Launch new"
+    And I follow "New Deployment"
     Then I should see "Launch new deployment via"
     When I select "testdeployable" from "deployable_id"
     When I press "Launch"
@@ -44,7 +45,7 @@ Feature: Manage Deployments
     And there is an assembly named "testassembly" belonging to "testtemplate" template
     And I request XHR
     When I go to the deployments page
-    And I press "Launch new"
+    And I follow "New Deployment"
     Then I should see "Launch new deployment via"
     And I should get back a partial
     When I select "testdeployable" from "deployable_id"

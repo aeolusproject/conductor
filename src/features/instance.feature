@@ -39,8 +39,9 @@ Feature: Manage Instances
     And I am on the home page
     When I follow "Resource Management"
     Then I should be on the pools page
-    When I follow "Instances"
-    Then I should be on the instances page
+    When I follow "Filter View"
+    And I follow "Instances"
+    Then I should be on the pools page
     And I should see "mock1"
 
   Scenario: I want to view all instances over XHR

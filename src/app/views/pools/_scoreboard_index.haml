@@ -3,7 +3,7 @@
     %ul.groups
       %li
         %dt= t("pools.index.pools")
-        %dd.count.pool= @pools.count
+        %dd.count.pool= @user_pools.count
         %dd.count.pool.partial= @statistics[:pools_in_use]
       %li
         %dt= t("deployments.deployments")

@@ -18,10 +18,7 @@ Feature: Manage Pools
     And I fill in "quota_instances" with "unlimited"
     And I press "Save"
     Then I should be on the pool page
-    And I should see "Pool added"
-    And I should see "mockpool"
-    And I should see "default"
-    And I should see "unlimited"
+    And I should see "mockpool Pool"
     And I should have a pool named "mockpool"
 
   Scenario: Create a new Pool over XHR
@@ -58,6 +55,7 @@ Feature: Manage Pools
     And a pool "Amazon Startrek Pool" exists
     And a pool "Redhat Voyager Pool" exists
     When I go to the pools page
+    And I follow "Filter View"
     Then there should be 3 pools
     When I check "Redhat Voyager Pool" pool
     And I check "Amazon Startrek Pool" pool
@@ -72,7 +70,8 @@ Feature: Manage Pools
     Given I am on the pools page
     And there is not a pool named "mockpool"
     And there is not a pool named "foopool"
-    When I follow "New Pool"
+    When I follow "Filter View"
+    And I follow "New Pool"
     Then I should be on the new pool page
     And I should see "Create a new Pool"
     When I fill in "pool_name" with "mockpool"
@@ -82,7 +81,9 @@ Feature: Manage Pools
     And I should see "Pool added"
     And I should see "mockpool"
     And I should have a pool named "mockpool"
-    When I follow "New Pool"
+    When I go to the pools page
+    And I follow "Filter View"
+    And I follow "New Pool"
     Then I should be on the new pool page
     And I should see "Create a new Pool"
     When I fill in "pool_name" with "foopool"
@@ -90,22 +91,22 @@ Feature: Manage Pools
     And I press "Save"
     Then I should be on the pool page
     And I should see "Pool added"
-    And I should see "mockpool"
-    And I should see "foopool"
     And I should have a pool named "mockpool"
     And I should have a pool named "foopool"
 
   Scenario: Cannot delete default_pool
     Given I am on the pools page
-    When I check "default_pool" pool
+    When I follow "Filter View"
+    And I check "default_pool" pool
     And I press "Destroy"
     Then I should see "The default pool cannot be deleted"
     And I should see "default_pool"
 
   Scenario: Cannot delete default_pool by renaming it
     Given I renamed default_pool to pool_default
-    Given I am on the pools page
-    When I check "pool_default" pool
+    And I am on the pools page
+    When I follow "Filter View"
+    And I check "pool_default" pool
     And I press "Destroy"
     Then I should see "The default pool cannot be deleted"
     And I should see "pool_default"

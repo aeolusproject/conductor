@@ -173,7 +173,7 @@ class DeploymentsController < ApplicationController
         load_deployments
         render :partial => 'list'
       end
-      format.html { redirect_to deployments_path }
+      format.html { redirect_to pools_path(:details_tab => 'deployments', :filter_view => filter_view?) }
       format.json { render :json => {:success => notices, :errors => errors} }
     end
   end
