@@ -1,0 +1,38 @@
+= link_to "expand all", "#", :class => "reveal_all"
+= link_to "New Pool", new_pool_path
+%table#pools_pretty_view
+  - @pools.each do |pool|
+    %tr
+      %td
+        = link_to pool.name, pool_path(pool)
+      %td
+        Deployments:
+        = pool.deployments.count
+      %td
+        Instances:
+        = pool.instances.count
+      %td
+        Pending:
+        = pool.instances.select {|i| i.state == Instance::STATE_PENDING }.length
+      %td
+        Failed:
+        = pool.instances.select {|i| i.state == Instance::STATE_ERROR }.length
+      %td
+        Instance quota usage:
+        = pool.quota ? pool.quota.percentage_used.to_s + "%" : 'unlimited'
+      %td
+        = link_to "+", "#", :class => "toggle"
+    %tr
+      %td{:colspan => 7}
+        = render :partial => 'deployments', :locals => {:deployments => pool.deployments}
+
+:javascript
+  $(document).ready(function() {
+    $('ul.deployments_list').hide()
+    $('a.toggle').click( function() {
+      $(this).closest('tr').next().find('ul').toggle();
+   });
+   $('a.reveal_all').click( function() {
+      $('#pools_pretty_view').find('tr td ul').toggle();
+   });
+  });

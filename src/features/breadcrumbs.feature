@@ -18,9 +18,7 @@ Feature: Breadcrumbs
     Then I should be on the pools page
 
   Scenario: Dont create breadcrumb when reloading or pointing to the same route
-    Given a pool "testpool" exists
-    And I am on the deployments page
+    Given I am on the deployments page
     When I go to the pools page
-    And I follow "testpool"
-    When I follow "testpool"
+    And I go to the pools page
     Then I should see "Deployments"

@@ -66,6 +66,9 @@ en:
   choose_treatment: Choose Treatment
   apply: Apply
   resource_management: Resource Management
+  overview: Overview
+  alerts: Alerts
+  updates: Udates
   deployments:
     deployments: Deployments
     updated:
@@ -106,7 +109,16 @@ en:
   cloud_engine_realms: Realms
   pools:
     index:
+      pool: Pool
+      pool_name: Pool name
+      deployment_name: Deployment name
+      deployed_on: Deployed on
       pools: Pools
+      pool_family: Pool Family
+      owner: Owner
+      pending: Pending
+      failed: Failed
+      quota_used: Quota Used
       pool_deleted:
         one: "Pool %{list} was deleted."
         other: "Pools %{list} were deleted."

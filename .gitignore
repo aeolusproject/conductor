@@ -5,6 +5,7 @@ database.yml
 .project
 *~
 *.swp
+src/.idea
 
 src/db/schema.rb
 

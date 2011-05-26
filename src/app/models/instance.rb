@@ -117,6 +117,13 @@ class Instance < ActiveRecord::Base
              STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED,
              STATE_ERROR]
 
+  named_scope :deployed,  :conditions => { :state => [STATE_RUNNING, STATE_SHUTTING_DOWN] }
+  # FIXME: "pending" is misleading as it doesn't just cover STATE_PENDING
+  named_scope :pending,   :conditions => { :state => [STATE_NEW, STATE_PENDING] }
+  # FIXME: "failed" is misleading too...
+  named_scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR] }
+
+
   SEARCHABLE_COLUMNS = %w(name state)
 
   validates_inclusion_of :state,
@@ -261,7 +268,7 @@ class Instance < ActiveRecord::Base
     }
 
     instances = []
-    pools = Pool.list_for_user(user, Privilege::VIEW, Instance)
+    pools = Pool.list_for_user(user, Privilege::VIEW, :target_type => Instance)
     pools.each{|pool| pool.instances.each {|i| instances << i}}
     instances.each do |i|
       if i.state == Instance::STATE_RUNNING
@@ -283,6 +290,16 @@ class Instance < ActiveRecord::Base
 
   def destroyable?
     (state == STATE_CREATE_FAILED) or (state == STATE_STOPPED and not restartable?)
+  end
+
+  def self.list_or_search(query,order_field,order_dir)
+    if query.blank?
+      instances = Instance.all(:include => [ :template, :owner ],
+                               :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
+    else
+      instances = search() { keywords(query) }.results
+    end
+    instances
   end
 
   named_scope :with_hardware_profile, lambda {

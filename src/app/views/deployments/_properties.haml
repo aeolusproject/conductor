@@ -1,2 +1,9 @@
-%h3 Owner Details
-%h3 CDL
+%h3
+  = @deployment.name
+%ul
+  %li
+    Pool:
+    = @deployment.pool.name
+  %li
+    Created:
+    = @deployment.created_at

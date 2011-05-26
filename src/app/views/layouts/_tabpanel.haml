@@ -1,0 +1,8 @@
+#details-view.ui-tabs.ui-widget.ui-widget-content.ui-corner-all
+  %ul.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-all
+    - @tabs.each do |tab|
+      %li.ui-state-default.ui-corner-top{ :class => "#{'ui-tabs-selected ui-state-active' if @details_tab[:id] == tab[:id]}"}
+        %a{ :href => url_for(:details_tab => tab[:id], :view => "filter", :only_tab => true), :id => "details_#{tab[:id]}" }
+          = tab[:name]
+  #details-selected
+    = render :partial => @details_tab[:view]

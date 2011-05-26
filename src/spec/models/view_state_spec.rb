@@ -66,12 +66,14 @@ describe ViewState do
   end
 
   it "should not save attributes that are only relevant in a user session" do
-    @view_state.state = { 'sort-column' => 'name', 'page' => 3 }
+    session_state = { 'sort-column' => 'name', 'page' => 3 }
+    @view_state.state = session_state
+    @view_state.state.should eql(session_state)
     @view_state.save!
 
-    expected_attributes = {'sort-column' => 'name'}
-    @view_state.state.should eql(expected_attributes)
-    ViewState.find(@view_state).state.should eql(expected_attributes)
+    expected_saved_state = {'sort-column' => 'name'}
+    @view_state.state.should eql(expected_saved_state)
+    ViewState.find(@view_state).state.should eql(expected_saved_state)
   end
 
 end

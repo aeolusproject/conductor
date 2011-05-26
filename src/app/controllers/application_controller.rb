@@ -20,15 +20,15 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+require 'viewstate.rb'
 
 class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
   include ApplicationService
   filter_parameter_logging :password, :password_confirmation
-  helper_method :current_user_session, :current_user
+  helper_method :current_user_session, :current_user, :filter_view?
   before_filter :shift_breadcrumbs
-
-  layout 'application'
+  layout 'old'
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -39,6 +39,8 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, :with => :handle_active_record_not_found_error
 
   helper_method :check_privilege
+
+  before_filter :js_for_xhr
 
   protected
   # permissions checking
@@ -80,15 +82,15 @@ class ApplicationController < ActionController::Base
     title = hash[:title] || "Internal Server Error"
     status = hash[:status] || :internal_server_error
     respond_to do |format|
-      format.html { html_error_page(title, msg) }
+      format.html { html_error_page(title, msg, status) }
       format.json { render :json => json_error_hash(msg, status) }
       format.xml { render :xml => xml_errors(msg), :status => status }
     end
   end
 
-  def html_error_page(title, msg)
+  def html_error_page(title, msg, status)
     if request.xhr?
-      render :template => 'layouts/popup-error', :layout => 'popup',
+      render :template => 'layouts/popup-error', :layout => 'popup', :status => status,
              :locals => {:title => title, :errmsg => msg}
     else
       render :template => 'layouts/error', :layout => 'application',
@@ -153,6 +155,11 @@ class ApplicationController < ActionController::Base
     elsif params[:ids].present?
       return params[:ids].to_a
     end
+  end
+
+  # let's suppose that 'pretty' view is default
+  def filter_view?
+    params[:view] == 'filter'
   end
 
   private
@@ -239,9 +246,16 @@ class ApplicationController < ActionController::Base
     viewstate = @viewstate ? @viewstate.id : nil
 
     if breadcrumbs.empty? or path != breadcrumbs.last[:path]
-      breadcrumbs.push({:name => name, :path => path, :viewstate => viewstate})
+      breadcrumbs.push({:name => name, :path => path, :viewstate => viewstate, :class => controller_name})
     end
 
     session[:breadcrumbs] = breadcrumbs
+  end
+
+  # XMLHTTPRequest in many browsers sends "Accept: */*", so the first respond_to will match.
+  # See http://codetunes.com/2009/01/31/rails-222-ajax-and-respond_to/ and
+  # http://www.grauw.nl/blog/entry/470 for more.
+  def js_for_xhr
+    request.format = :js if request.xhr?
   end
 end

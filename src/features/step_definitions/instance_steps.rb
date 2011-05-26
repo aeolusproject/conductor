@@ -109,6 +109,10 @@ Given /^I accept JSON$/ do
   header 'Accept', 'application/json'
 end
 
+Given /^I request XHR$/ do
+  header 'X-Requested-With', 'XMLHttpRequest'
+end
+
 Then /^I should see (\d+) instances in JSON format$/ do |count|
   ActiveSupport::JSON.decode(response.body).length.should == count.to_i
 end

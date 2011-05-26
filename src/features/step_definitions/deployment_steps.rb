@@ -1,5 +1,5 @@
 Given /^there is a deployment named "([^"]*)" belonging to "([^"]*)" owned by "([^"]*)"$/ do |deployment_name, deployable_name, owner_name|
-  user = Factory(:user, :login => owner_name)
+  user = Factory(:user, :login => owner_name, :last_name => owner_name)
   deployable = Deployable.create!(:name => deployable_name, :owner => user)
   @deployment = Deployment.create!({:name => deployment_name, :pool => Pool.first, :owner => user, :deployable_id => deployable.id})
 end
@@ -46,6 +46,13 @@ end
 Then /^I should get back a deployment in JSON format$/ do
   data = ActiveSupport::JSON.decode(response.body)
   data['deployment'].should_not be_nil
+end
+
+Then /^I should get back a partial$/ do
+  response.body.should_not match('<html')
+  response.body.should_not match('Copyright')
+  response.body.should_not == ""
+  response.body.should match('<')
 end
 
 When /^I stop "([^"]*)" deployment$/ do |arg1|

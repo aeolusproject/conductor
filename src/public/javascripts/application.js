@@ -77,6 +77,25 @@ var Conductor = {
   enhanceDetailsTabs: function () {
     $('#details-selected').hide();
     $('#details-view').tabs('destroy').tabs();
+  },
+
+  bind_pretty_toggle: function() {
+    $("#pretty_view").click(function(){
+      $.get($(this).attr("href"), $(this).serialize(),
+        function(result) {
+          $("#view").html(result);
+        }, "script");
+      return false;
+    });
+    $("#filter_view").click(function(){
+      $.get($(this).attr("href"), $(this).serialize(),
+        function(result) {
+          $("#view").html(result);
+          $('#details-selected').hide();
+          $('#details-view').tabs('destroy').tabs();
+        }, "script");
+      return false;
+    });
   }
 };
 
@@ -166,4 +185,5 @@ $(document).ready(function () {
   $("#notification").enhanceInteraction();
   Conductor.enhanceListView();
   Conductor.enhanceDetailsTabs();
+  Conductor.bind_pretty_toggle();
 });

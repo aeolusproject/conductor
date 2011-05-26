@@ -1,2 +1,9 @@
-- content_for :list do
-  = render :partial => 'list'
+= render :partial => 'header_index'
+= render :partial => 'scoreboard_index'
+= render :partial => 'alerts_index'
+= pretty_filter_toggle(pools_path(:view => 'pretty'), pools_path(:view => 'filter'))
+%div#view
+  - if params[:view] == 'filter'
+    = render :partial => 'layouts/tabpanel'
+  - else
+    = render :partial => 'pretty_list'

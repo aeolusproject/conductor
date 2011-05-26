@@ -1,0 +1,13 @@
+.container
+  = image_tag('upstream-logo.png', :id => 'logo')
+  %nav#system
+    %ul
+      %li.account
+        %span.name.label.strong.small-caps
+          = "#{@current_user.first_name} #{@current_user.last_name}" if @current_user.present?
+        %a.button.pill.user-dropdown{:href => '#'} &nbsp;
+      %li.separator
+      %li
+        %div.query-input
+          -# Using verbatim HTML because CSS inline-block requires it.
+          != "<input type='text' placeholder='Search...' /><input type='submit' value='search' />"

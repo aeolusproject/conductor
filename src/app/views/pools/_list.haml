@@ -1,28 +1,53 @@
 - form_tag do
   = link_to "New Pool", new_pool_path, { :class => 'button' }
-  = restful_submit_tag "Destroy", 'destroy', multi_destroy_pools_path, 'DELETE', :id => 'delete_button'
+  = restful_submit_tag "Destroy", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button'
+  = label_tag "More actions"
+  = select_tag("more_actions",nil, :disabled => true)
   %p
-    Select:&nbsp;
-    = link_to "All", @url_params.merge(:select => 'all')
-    %span> ,&nbsp;
-    = link_to "None", @url_params.merge(:select => 'none')
+    Viewing
+    = select_tag("select_pools", "<option>All pools</option>",:disabled => true)
+    = @pools.count.to_s + " results"
+    = text_field_tag :q, @search_term || "Search result for...", :disabled => true
   %table#pools_table
-    = sortable_table_header @header
+    %tr
+      %th
+        = check_box_tag "all"
+      %th
+        -#there will be icons (belongs to mockups)
+      %th
+        = t("pools.index.pool_name")
+      %th
+        = t("deployments.deployments")
+      %th
+        = t("instances.instances")
+      %th
+        = t("pools.index.pending")
+      %th
+        = t("pools.index.failed")
+      %th
+        = t("pools.index.quota_used")
+      %th
+        = t("pools.index.pool_family")
     - @pools.each do |pool|
       %tr
         %td
-          - selected = @url_params[:select] == 'all'
-          %input{:name => "pools_selected[]", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}", :checked => selected }
-          = link_to pool.name, pool_path(pool)
+          %input{:name => "pools_selected[]", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
         %td
-          = pool.quota.maximum_running_instances or 'unlimited'
+          -#there will be icons (belongs to mockups)
         %td
-          = pool.quota.percentage_used
-          ='%'
+          = pool.name
+        %td
+          = pool.deployments.count
+        %td
+          = (pool.statistics[:instances_deployed] + pool.statistics[:instances_pending] + pool.statistics[:instances_failed])
+        %td
+          = pool.statistics[:instances_pending]
+        %td
+          = pool.statistics[:instances_deployed]
+        %td
+          = pool.quota ? pool.quota.percentage_used.to_s + "%": 'unlimited'
         %td
           = pool.pool_family.name
-        %td
-          = pool.enabled
 
 :javascript
   $(document).ready(function () {

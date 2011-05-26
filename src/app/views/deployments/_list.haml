@@ -1,35 +1,53 @@
-- form_tag do
-  #object-actions
-    = restful_submit_tag "Start", "start", deployments_path, "PUT"
-    = restful_submit_tag "Stop", "stop", multi_stop_deployments_path, "GET"
-    = restful_submit_tag "Launch new", "launch_new", launch_new_deployments_path, "GET"
-    = restful_submit_tag "Delete", "delete", deployments_path, "DELETE"
+- if request.xhr?
+  = render :partial => '/layouts/notification'
 
-  #search-actions
-    = restful_submit_tag "Save Search", "save_search", deployments_path, "PUT"
-    = restful_submit_tag "Save Selection", "save_selection", deployments_path, "PUT"
-    = restful_submit_tag "Export to File", "export", deployments_path, "PUT"
+- form_tag do
+  = link_to "New Deployment", launch_new_deployments_path, { :class => 'button' }
+  = restful_submit_tag "Stop", "multi_stop", multi_stop_deployments_path, 'POST', :id => 'stop_button'
+  = label_tag "More actions"
+  = select_tag("more_actions",nil, :disabled => true)
+
 
   %p
-    Select:&nbsp;
-    = link_to "All", @url_params.merge(:select => 'all')
-    %span> ,&nbsp;
-    = link_to "None", @url_params.merge(:select => 'none')
+    Viewing
+    = select_tag("deployments_running", "<option>Deployments running</option>",:disabled => true)
+    = @deployments.count.to_s + " results"
+    = text_field_tag :q, @search_term || "Search result for...", :disabled => true
 
   %table#deployments_table
-    = sortable_table_header @header
+    %tr
+      %th
+        = check_box_tag "all"
+      %th
+        -#there will be icons (belongs to mockups)
+      %th
+        = t("pools.index.deployment_name")
+      %th
+        = t("pools.index.deployed_on")
+      %th
+        = t("instances.instances")
+      %th
+        = t("pools.index.pool")
+      %th
+        = t("pools.index.pool_family")
+      %th
+        = t("pools.index.owner")
     - @deployments.each do |deployment|
       %tr
         %td
           - selected = @url_params[:select] == 'all'
           %input{:name => "deployments_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}", :checked => selected }
         %td
+          -#there will be icons (belongs to mockups)
+        %td
           = link_to deployment.name, deployment_path(deployment)
-        %td
-          = link_to deployment.deployable.name, deployable_path(deployment.deployable)
-        %td
-          = deployment.owner.login
         %td
           = deployment.created_at
         %td
+          = deployment.instances.count
+        %td
           = link_to deployment.pool.name, pool_path(deployment.pool)
+        %td
+          = deployment.pool.pool_family.name
+        %td
+          = owner_name(deployment)

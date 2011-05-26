@@ -1,0 +1,7 @@
+- if @failed_instances.count > 0
+  %div.alerts
+    Alerts
+    %ul
+      - @failed_instances.each do |i|
+        %li
+          = "#{i.name}: #{i.last_error.blank? ? i.state : i.last_error}"

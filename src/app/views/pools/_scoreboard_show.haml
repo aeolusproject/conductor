@@ -1,0 +1,30 @@
+#scoreboard
+  %dl.statistics
+    %ul.groups
+      %li
+        %dt Cloud Providers
+        %dd.count.provider= @statistics[:cloud_providers]
+      %li
+        %dt Deployments
+        %dd.count.deployment= @statistics[:deployments]
+      %li
+        %dt Instances
+        %dd.count.instance= @statistics[:instances_deployed]
+        %dd.count.instance.pending= @statistics[:instances_pending]
+        %dd.count.instance.failure= @statistics[:instances_failed]
+      %li
+        %ul.subgroup
+          %li
+            %dt Alerts
+            %dd.count.alert 0
+          %li
+            %dt Updates
+            %dd.count.update 0
+      %li
+        %dt Quota Used
+        %dd.percentage.quota 0%
+        %dd.fraction.instance
+          %span.part 0
+          %span.divider.label.small.caps of
+          %span.total 0
+-# TODO: Implement alerts, updates, and quota overview

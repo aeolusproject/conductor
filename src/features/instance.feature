@@ -1,5 +1,5 @@
 # language: en
-Feature: Mange Instances
+Feature: Manage Instances
   In order to manage my cloud infrastructure
   As a user
   I want to manage instances
@@ -12,6 +12,14 @@ Feature: Mange Instances
   Scenario: Download an Instance Key
     Given a mock running instance exists
     And I am viewing the mock instance detail
+    And I see "SSH key"
+    When I follow "Download"
+    Then I should see the Save dialog for a .pem file
+
+  Scenario: Download an Instance Key over XHR
+    Given a mock running instance exists
+    And I request XHR
+    When I am viewing the mock instance detail
     And I see "SSH key"
     When I follow "Download"
     Then I should see the Save dialog for a .pem file
@@ -31,8 +39,16 @@ Feature: Mange Instances
     And I am on the home page
     When I follow "Resource Management"
     Then I should be on the pools page
-    When I follow "Instances"
-    Then I should be on the instances page
+    When I follow "Filter View"
+    And I follow "Instances"
+    Then I should be on the pools page
+    And I should see "mock1"
+
+  Scenario: I want to view all instances over XHR
+    Given there is a "mock1" instance
+    And I request XHR
+    When I am on the instances page
+    Then I should get back a partial
     And I should see "mock1"
 
   Scenario: Launch instance
@@ -60,6 +76,13 @@ Feature: Mange Instances
     And I should see "Name"
     And I should see "Status"
     And I should see "Base Template"
+
+  Scenario: Show instance details over XHR
+    Given there is a "mock1" instance
+    And I request XHR
+    When I am on mock1's instance page
+    Then I should get back a partial
+    And I should see "Name"
 
   Scenario: Remove failed instances
     Given there is a "mock1" failed instance
@@ -155,11 +178,26 @@ Feature: Mange Instances
     Then I should be on Tomcat's instance page
     And I should see "Tomcat"
 
+  Scenario: Edit an instance name over XHR
+    Given there is a "Tomct" instance
+    And I request XHR
+    When I am on Tomct's edit instance page
+    And I fill in "name" with "Tomcat"
+    And I press "Save"
+    Then I should get back a partial
+    And I should see "Tomcat"
+
   Scenario: View all instances in JSON format
     Given there are 2 instances
     And I accept JSON
     When I go to the instances page
     Then I should see 2 instances in JSON format
+
+  Scenario: View all instances over XHR
+    Given there are 2 instances
+    And I request XHR
+    When I go to the instances page
+    Then I should get back a partial
 
   Scenario: View an instance in JSON format
     Given a mock running instance exists
@@ -167,10 +205,21 @@ Feature: Mange Instances
     When I am viewing the mock instance
     Then I should see mock instance in JSON format
 
+  Scenario: View an instance over XHR
+    Given a mock running instance exists
+    And I request XHR
+    When I am viewing the mock instance
+    Then I should get back a partial
+
   Scenario: Create an instance and get JSON response
     Given I accept JSON
     When I create mock instance
     Then I should get back instance in JSON format
+
+  Scenario: Create an instance over XHR
+    Given I request XHR
+    When I create mock instance
+    Then I should get back a partial
 
   Scenario: Stop an instance
     Given there is a "mock1" running instance

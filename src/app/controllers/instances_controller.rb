@@ -14,6 +14,7 @@ class InstancesController < ApplicationController
     end
 
     respond_to do |format|
+      format.js { render :partial => 'list' }
       format.html
       format.json { render :json => @instances }
     end
@@ -30,6 +31,7 @@ class InstancesController < ApplicationController
 
     init_new_instance_attrs
     respond_to do |format|
+      format.js { render :partial => 'new' }
       format.html
       format.json { render :json => @instance }
     end
@@ -76,6 +78,7 @@ class InstancesController < ApplicationController
       rescue
         init_new_instance_attrs
         flash[:warning] = "Failed to launch instance: #{$!}"
+        format.js { render :partial => 'new' }
         format.html { render :new }
         format.json { render :json => @instance, :status => :unprocessable_entity}
       else
@@ -84,6 +87,7 @@ class InstancesController < ApplicationController
         else
           flash[:warning] = "Quota Exceeded: Instance will not start until you have free quota"
         end
+        format.js { render :partial => 'properties', :id => @instance.id }
         format.html { redirect_to instances_path }
         format.json { render :json => @instance, :status => :created }
       end
@@ -110,6 +114,11 @@ class InstancesController < ApplicationController
 
   def edit
     require_privilege(Privilege::MODIFY, @instance)
+    respond_to do |format|
+      format.js { render :partial => 'edit', :id => @instance.id }
+      format.html
+      format.json { render :json => @instance }
+    end
   end
 
   def update
@@ -121,10 +130,12 @@ class InstancesController < ApplicationController
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @instance) and @instance.update_attributes(attrs)
         flash[:success] = t('instances.updated', :count => 1, :list => @instance.name)
+        format.js { render :partial => 'properties' }
         format.html { redirect_to @instance }
         format.json { render :json => @instance }
       else
         flash[:error] = t('instances.not_updated', :count =>1, :list => @instance.name)
+        format.js { render :partial => 'edit' }
         format.html { render :action => :edit }
         format.json { render :json => @instance.errors, :status => :unprocessable_entity }
       end
@@ -145,6 +156,12 @@ class InstancesController < ApplicationController
     flash[:success] = t('instances.deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
     flash[:error] = t('instances.not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
     respond_to do |format|
+      # FIXME: _list does not show flash messages, but I'm not sure that showing _list is proper anyway
+      format.js do
+        set_view_vars
+        load_instances
+        render :partial => 'list'
+      end
       format.html { render :action => :show }
       format.json { render :json => {:success => destroyed, :errors => failed} }
     end
@@ -154,9 +171,15 @@ class InstancesController < ApplicationController
     respond_to do |format|
       if @instance.instance_key.nil?
         flash[:warning] = "SSH Key not found for this Instance."
+        format.js { render :partial => 'properties' }
         format.html { redirect_to instance_path(@instance) }
         format.json { render :json => flash[:warning], :status => :not_found }
       else
+        format.js do
+          send_data @instance.instance_key.pem,
+                                :filename => "#{@instance.instance_key.name}.pem",
+                                :type => "text/plain"
+        end
         format.html { send_data @instance.instance_key.pem,
                                 :filename => "#{@instance.instance_key.name}.pem",
                                 :type => "text/plain" }
