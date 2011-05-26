@@ -195,18 +195,26 @@ class PoolsController < ApplicationController
   def set_params_and_header
     @url_params = params.clone
     @header = [
-      { :name => "Pool name", :sort_attr => :name },
-      { :name => "Quota (Instances)", :sort_attr => "quotas.total_instances"},
-      { :name => "% Quota used", :sortable => false },
-      { :name => "Pool Family", :sort_attr => "pool_families.name" },
-      { :name => "Enabled", :sort_attr => :enabled }
+      { :name => '', :sortable => false },
+      { :name => '', :sortable => false },
+      { :name => t("pools.index.pool_name"), :sort_attr => :name },
+      { :name => t("deployments.deployments"), :sortable => false },
+      { :name => t("instances.instances"), :sortable => false },
+      { :name => t("pools.index.pending"), :sortable => false },
+      { :name => t("pools.index.failed"), :sortable => false },
+      { :name => t("pools.index.quota_used"), :sortable => false },
+      { :name => t("pools.index.pool_family"), :sortable => false },
+
     ]
     @deployments_header = [
-      { :name => "Deployment Name", :sort_attr => :name },
-      { :name => "Base Deployable", :sort_attr => 'deployable.name' },
-      { :name => "Uptime", :sort_attr => :created_at },
-      { :name => "Instances", :sort_attr => 'instances.count' },
-      { :name => "Provider", :sort_attr => :provider }
+      { :name => '', :sortable => false },
+      { :name => '', :sortable => false },
+      { :name => t("deployments.deployment_name"), :sortable => false },
+      { :name => t("deployables.index.base_deployable"), :sortable => false },
+      { :name => t("uptime"), :sortable => false },
+      { :name => t("instances.instances"), :sortable => false },
+      { :name => t("providers.provider"), :sortable => false }
+
     ]
   end
 

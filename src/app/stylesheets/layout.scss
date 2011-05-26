@@ -164,9 +164,18 @@ table {
   border-spacing: 0;
 }
 
+thead {
+  background: #eee;
+}
+
+th {
+  padding-left: 10px;
+}
+
 th,
 td,
 caption {
+  padding-left: 10px;
   font-weight: normal;
   vertical-align: top;
   text-align: left;

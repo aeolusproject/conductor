@@ -1,18 +1,16 @@
-- form_tag do
-  %table
-    -# FIXME: sortable_table_header won't actually work as-is since it sorts on Pools, not Deployments...
-    -# TODO: There are no defined actions for the checkboxes yet; they'll go here
-    = sortable_table_header(@deployments_header)
-    - deployments.each do |deployment|
-      %tr
-        %td
-          %input{:name => "deployment_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}" }
-          = deployment.name
-        %td
-          = deployment.deployable.name
-        %td
-          = count_uptime(deployment.created_at)
-        %td
-          = deployment.instances.count
-        %td
-          = deployment.provider.provider_type.name if deployment.provider
+= filter_table(@deployments_header, deployments) do |deployment|
+  %tr
+    %td
+      %input{:name => "deployment_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}" }
+    %td
+      -#there will be icons (belongs to mockups)
+    %td
+      = link_to(deployment.name, deployment)
+    %td
+      = link_to(deployment.deployable.name, deployment.deployable)
+    %td
+      = count_uptime(deployment.created_at)
+    %td
+      = deployment.instances.count
+    %td
+      = link_to(deployment.provider.provider_type.name, deployment.provider) if deployment.provider

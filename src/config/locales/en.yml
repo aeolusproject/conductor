@@ -70,6 +70,7 @@ en:
   updates: Udates
   deployments:
     deployments: Deployments
+    deployment_name: Deployment Name
     updated:
       one: "The deployment %{list} was successfully updated."
       other: "The deployments %{list} were successfully updated."
@@ -141,6 +142,7 @@ en:
   deployables:
     index:
       deployables: Deployables
+      base_deployable: Base Deployable
       deleted:
         one: "Deployable %{list} was deleted."
         other: "Deployables %{list} were deleted."
@@ -172,6 +174,7 @@ en:
       quota: Quota
       account: Account
   providers:
+    provider: Provider
     providers: Providers
     form:
       provider_name: Provider Name
@@ -207,3 +210,4 @@ en:
       account_number: AWS Account ID
       account_private_cert: EC2 x509 private key
       account_public_cert: EC2 x509 public key
+  uptime: Uptime

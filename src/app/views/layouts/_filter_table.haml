@@ -1,0 +1,19 @@
+- form_tag do
+  - if form_header
+    = form_header
+  %p
+    Viewing
+    = select_tag("select_pools", saved_searches.join.html_safe,:disabled => true)
+    = object_count.to_s + " results"
+    = text_field_tag :q, search_term || "Search result for...", :disabled => true
+    = link_to('Filters', '#')
+  %p
+    = link_to('Share this view', '#')
+    = link_to('Add/Remove Columns', '#')
+  %table(id="#{lower_class}_table")
+    %thead
+      %tr
+      - columns.each do |column|
+        %th
+          = column[:name]
+    = rows.collect {|row| capture_haml(row, &block)}.to_s
