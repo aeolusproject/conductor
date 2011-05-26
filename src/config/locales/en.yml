@@ -1,7 +1,6 @@
 en:
   dashboard: Dashboard
   users: Users
-  settings: Settings
   about: About
   configure: Configure
   hello: Hello
@@ -151,27 +150,27 @@ en:
   setting: Settings
   name: Name
   summary: Summary
-  admin:
-    settings:
-      index:
-        general_settings: General Settings
-        general_settings_desc: Enable Self-service Account Registration, Setup Custom Branding, Manage Content Sources
-        define_locales: Define Locales
-        define_locales_desc: View, edit and define the names of locales that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to the geographical locations offered by individual providers.
-        manage_users: Manage Users
-        manage_users_desc: View, edit, create and delete user accounts on Aeolus Conductor. Adjust quotas and privileges for users.
-        define_hardware_profiles: Define Hardware Profiles
-        define_hardware_profiles_desc: View, edit and define the names of the hardware profiles that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to capabilities offered by individual providers.
-        manage_providers: Manage Providers
-        manage_providers_desc: View, edit and add providers of virtual compute resources to Aeolus Conductor. View, edit and add Aeolus Conductor accounts for these providers. Map provider-specific concepts to Aeolus Conductor.
-        define_services:  Define Services
-        define_services_desc: View, edit and define services that Aeolus Conductor will offer. These services will be mapped to individual providers based on their capabilities.
-        permissions: Permissions
-        permissions_desc: Create and edit User Treatments that are applied to users. Treatments pair together Roles with Categories of Instances, Pools and Templates. Manage the categories, and define and edit Roles. Roles group together sets of permissions that are relevant to Pools, Templates and Instances.
-      self_service:
-        self_service_default: 'User Treatment: Self-service default'
-        quota: Quota
-        account: Account
+  settings:
+    settings: Settings
+    index:
+      general_settings: General Settings
+      general_settings_desc: Enable Self-service Account Registration, Setup Custom Branding, Manage Content Sources
+      define_locales: Define Locales
+      define_locales_desc: View, edit and define the names of locales that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to the geographical locations offered by individual providers.
+      manage_users: Manage Users
+      manage_users_desc: View, edit, create and delete user accounts on Aeolus Conductor. Adjust quotas and privileges for users.
+      define_hardware_profiles: Define Hardware Profiles
+      define_hardware_profiles_desc: View, edit and define the names of the hardware profiles that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to capabilities offered by individual providers.
+      manage_providers: Manage Providers
+      manage_providers_desc: View, edit and add providers of virtual compute resources to Aeolus Conductor. View, edit and add Aeolus Conductor accounts for these providers. Map provider-specific concepts to Aeolus Conductor.
+      define_services:  Define Services
+      define_services_desc: View, edit and define services that Aeolus Conductor will offer. These services will be mapped to individual providers based on their capabilities.
+      permissions: Permissions
+      permissions_desc: Create and edit User Treatments that are applied to users. Treatments pair together Roles with Categories of Instances, Pools and Templates. Manage the categories, and define and edit Roles. Roles group together sets of permissions that are relevant to Pools, Templates and Instances.
+    self_service:
+      self_service_default: 'User Treatment: Self-service default'
+      quota: Quota
+      account: Account
   providers:
     providers: Providers
     form:
