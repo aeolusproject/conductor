@@ -74,14 +74,12 @@ CONDOR_EVENT_LOG_FILE       =   "#{condor_event_log_dir}/EventLog"
 CONDOR_EVENT_LOG_FILE_OLD   =   "#{condor_event_log_dir}/EventLog.old"
 EVENT_LOG_POS_FILE          =   "#{dbomatic_run_dir}/event_log_position"
 if dbomatic_log_dir == '-'
-  DBOMATIC_LOG_FILE = STDOUT
+  DBOMATIC_LOG_FILE        = STDOUT
+  DBOMATIC_PARSER_LOG_FILE = STDOUT
 else
-  DBOMATIC_LOG_FILE = "#{dbomatic_log_dir}/dbomatic.log"
+  DBOMATIC_LOG_FILE        = "#{dbomatic_log_dir}/dbomatic.log"
+  DBOMATIC_PARSER_LOG_FILE = "#{dbomatic_log_dir}/dbomatic-parser.log"
 end
-
-logger = Logger.new(DBOMATIC_LOG_FILE)
-logger.level = Logger::DEBUG
-logger.info "DBOmatic starting up"
 
 # daemonize
 if daemon
@@ -89,12 +87,21 @@ if daemon
   Process.daemon
 end
 
+# Custom Log Format
+class DBomaticLogger < Logger
+  def format_message(severity, timestamp, progname, msg)
+    "#{timestamp.to_formatted_s(:db)} #{severity} #{msg}\n"
+  end
+end
+
 # Handle the event log's xml
 class CondorEventLog < Nokogiri::XML::SAX::Document
   attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host, :username, :hold_reason, :private_addresses, :public_addresses
 
-  def initialize(logger)
-    @logger = logger
+  def initialize
+    @logger       = DBomaticLogger.new(DBOMATIC_PARSER_LOG_FILE)
+    @logger.level = Logger::DEBUG
+    @logger.info    "DBOmatic parser starting up"
   end
 
   # Store the name of the event log attribute we're looking at
@@ -130,6 +137,8 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
   end
 
   def update_instance_state_event(inst)
+    @logger.info "update_instance_state_event for #{inst}"
+
     if @trigger_type == "ULOG_GRID_SUBMIT"
       inst.state = Instance::STATE_PENDING
     elsif @trigger_type == "ULOG_JOB_ABORTED" or @trigger_type == "ULOG_JOB_TERMINATED"
@@ -160,12 +169,14 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       inst.last_error = @hold_reason
       inst.state = Instance::STATE_ERROR
     else
-      @logger.info "Unexpected trigger type #{@trigger_type}, not updating instance state"
+      @logger.warn "Unexpected trigger type #{@trigger_type}, not updating instance state"
       return
     end
 
     begin
+      @logger.info "update_instance_state_event saving instance #{inst}"
       inst.save!
+      @logger.debug "updated_instance_state_event saved instance #{inst}, creating event for state #{inst.state}@#{@event_time}"
       inst.events.create!(:status_code => inst.state,
                           :event_time  => @event_time)
     rescue => e
@@ -174,9 +185,13 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         @logger.error "\tfrom #{step}"
       end
     end
+
+    @logger.info "update_instance_state_event completed fo #{inst}"
   end
 
   def update_instance_cloud_id(inst)
+    @logger.info "update_instance_cloud_id for #{inst}"
+
     # The GridResource/ExecuteHost string looks like this:
     # dcloud http://localhost:3001/api
 
@@ -185,7 +200,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
     elsif !@execute_host.nil?
       resource = @execute_host
     else
-      @logger.info "Unexpected nil GridResource/ExecuteHost field, skipping cloud id update"
+      @logger.warn "Unexpected nil GridResource/ExecuteHost field, skipping cloud id update"
       return
     end
 
@@ -213,15 +228,22 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       return
     end
 
+    @logger.info "update_instance_cloud_id updating instance #{inst} to cloud provider #{provider}"
     inst.provider_account_id = provider_account.id
 
     inst.save!
+    @logger.info "update_instance_cloud_id completed for #{inst}"
   end
 
   def update_instance_addresses(inst)
+    @logger.info "update_instance_addresses for #{inst}, \
+                  setting public addresses: #{@public_addresses} \
+                  --- and private addresses #{private_addresses}"
+
     inst.public_addresses = @public_addresses
     inst.private_addresses = @private_addresses
     inst.save!
+    @logger.info "update_instance_addresses completed for #{inst}"
   end
 
   # Create a new entry for events which we have all the neccessary data for
@@ -231,11 +253,13 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
 
         inst = Instance.find(:first, :conditions => ['condor_job_id = ?', @event_cmd])
         if inst.nil?
-          @logger.info "Unexpected nil instance, skipping..."
+          @logger.warn "Unexpected nil instance, skipping..."
         else
+          @logger.info "Instance #{inst} found, running update events"
           update_instance_state_event(inst)
           update_instance_cloud_id(inst)
           update_instance_addresses(inst)
+          @logger.info "Instance #{inst} update events completed"
         end
         @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = @hold_reason = @public_addresses = @private_addresses = nil
       end
@@ -282,13 +306,18 @@ def parse_log_file(parser)
   File.open(EVENT_LOG_POS_FILE, 'w') { |f| f.write log_file.pos.to_s }
 end
 
+logger = DBomaticLogger.new(DBOMATIC_LOG_FILE)
+logger.level = Logger::DEBUG
+logger.datetime_format = "%Y-%m-%d %H:%M "  # simplify time output
+logger.info "DBOmatic starting up"
+
 begin
   DBOMATIC_PID_FILE = "#{dbomatic_pid_dir}/dbomatic.pid"
   FileUtils.mkdir_p File.dirname(DBOMATIC_PID_FILE)
   open(DBOMATIC_PID_FILE, "w") {|f| f.write(Process.pid) }
   File.chmod(0644, DBOMATIC_PID_FILE)
 
-  parser = Nokogiri::XML::SAX::PushParser.new(CondorEventLog.new(logger))
+  parser = Nokogiri::XML::SAX::PushParser.new CondorEventLog.new
 
   # XXX hack, condor event log doesn't seem to have a top level element
   # enclosing everything else in the doc (as standards conforming xml must).
@@ -298,6 +327,7 @@ begin
   notifier = INotify::Notifier.new
 
   parse_log_file(parser) if File.exists? CONDOR_EVENT_LOG_FILE
+  logger.info "Parsed existing event log file - current postition: #{get_log_file_pos}"
 
   # Setup inotify watch for condor event log changes
   notifier.watch(condor_event_log_dir, :all_events){ |event|
@@ -306,6 +336,7 @@ begin
     end
   }
 
+  logger.info "Beginning main event loop"
   while true
     begin
       notifier.run
@@ -314,8 +345,10 @@ begin
       e.backtrace.each do |step|
         logger.error "\tfrom #{step}"
       end
+      logger.info "EventLog modification event trigger completed, parsing finished - current position #{get_log_file_pos}"
     end
   end
+  logger.info "Main event loop completed"
 
   parser << "</events>"
   parser.finish
