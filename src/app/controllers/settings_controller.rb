@@ -1,5 +1,10 @@
 class SettingsController < ApplicationController
   before_filter :require_user
+  layout 'application'
+
+  def top_section
+    :administer
+  end
 
   # Settings MetaData Keys
   SELF_SERVICE_DEFAULT_QUOTA = "self_service_default_quota"
