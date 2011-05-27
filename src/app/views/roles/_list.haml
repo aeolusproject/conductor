@@ -1,6 +1,6 @@
 - form_tag do
   = link_to "New Role", new_role_path, :class => 'button'
-  = restful_submit_tag "Destroy", "destroy", multi_destroy_roles_path, 'DELETE', :id => 'delete_button'
+  = restful_submit_tag "Destroy", "destroy", multi_destroy_roles_path, 'DELETE', :id => 'delete_button', :class => 'button'
   %p
     Select:&nbsp;
     = link_to "All", @url_params.merge(:select => 'all')
@@ -19,10 +19,10 @@
   $(document).ready(function () {
     $('#delete_button').click(function(e) {
       if ($("#roles_table input[@type=radio]:checked").length == 0) {
-        alert('Please select any user to be deleted before clicking Delete button.');
+        alert('Please select a role to be deleted before clicking Delete button.');
         e.preventDefault();
       } else {
-        if (!confirm("Are you sure you want to delete this user?")) {
+        if (!confirm("Are you sure you want to delete this role?")) {
           e.preventDefault();
         }
       }

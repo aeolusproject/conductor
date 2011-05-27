@@ -2,6 +2,11 @@ class RolesController < ApplicationController
   before_filter :require_user
   before_filter :load_roles, :only => [:show]
   before_filter :load_params_and_headers, :only => [:index]
+  layout 'application'
+
+  def top_section
+    :administer
+  end
 
   def index
     @search_term = params[:q]
@@ -50,7 +55,7 @@ class RolesController < ApplicationController
         end
         render :partial => @details_tab
       end
-      format.html { render :partial => @details_tab }
+      format.html
     end
   end
 

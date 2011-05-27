@@ -1,8 +1,7 @@
 = form.error_messages
-%fieldset.clear
+%fieldset
   = form.label :name, 'Name', :class => "grid_3 alpha"
   = form.text_field :name, :class => "grid_5"
-%fieldset.clearfix
+%fieldset
   = form.submit "Save",  :class => "submit formbutton"
-  = form.submit "Reset", :class => "submit formbutton"
   = link_to t(:cancel), roles_path, :class => 'button formbutton'
