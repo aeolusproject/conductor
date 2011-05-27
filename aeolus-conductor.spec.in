@@ -214,7 +214,7 @@ done
 # by aeolus:aeolus. This is a temporary workaround while we've still
 # got root-owned daemon processes. Once we resolve that issue
 # these files will no longer be added explicitly here.
-touch %{buildroot}%{_localstatedir}/log/%{name}/mongrel.log
+touch %{buildroot}%{_localstatedir}/log/%{name}/thin.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/dbomatic.log
 touch %{buildroot}%{_localstatedir}/run/%{name}/event_log_position
