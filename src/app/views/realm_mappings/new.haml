@@ -1,3 +1,6 @@
+= render :partial => 'layouts/admin_header'
+%div#view
+
 = error_messages_for 'realm_target'
 %h2 Create a new Realm Mapping
 - form_for @realm_target, :url => realm_mappings_path do |f|
@@ -6,5 +9,5 @@
 
   - label_method = @realm_target.realm_or_provider_type == 'Realm' ? 'name_with_provider' : 'name'
   = select_tag 'realm_backend_target[realm_or_provider_id]', options_from_collection_for_select(@backend_targets, 'id', label_method)
-  %fieldset.clear
+  %fieldset
     = f.submit "Save",  :class => "submit formbutton"

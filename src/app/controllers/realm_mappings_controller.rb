@@ -1,5 +1,10 @@
 class RealmMappingsController < ApplicationController
   before_filter :require_user
+  layout 'application'
+
+  def top_section
+    :administer
+  end
 
   def new
     require_privilege(Privilege::CREATE, Realm)
