@@ -1,6 +1,6 @@
 - form_tag do
   = link_to "Create", new_provider_url, :class => "button"
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_providers_path, 'DELETE', :id => 'delete_button'
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_providers_path, 'DELETE', :id => 'delete_button', :class => 'button'
 
   %p
     Select:&nbsp;

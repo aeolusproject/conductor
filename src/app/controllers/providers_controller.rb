@@ -1,6 +1,11 @@
 class ProvidersController < ApplicationController
   before_filter :require_user
   before_filter :set_view_envs, :only => [:show, :index]
+  layout 'application'
+
+  def top_section
+    :administer
+  end
 
   def index
     @params = params
