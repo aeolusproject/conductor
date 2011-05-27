@@ -179,7 +179,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
       @logger.debug "updated_instance_state_event saved instance #{inst}, creating event for state #{inst.state}@#{@event_time}"
       inst.events.create!(:status_code => inst.state,
                           :event_time  => @event_time)
-    rescue => e
+    rescue Exception => e
       @logger.error "#{e.backtrace.shift}: #{e.message}"
       e.backtrace.each do |step|
         @logger.error "\tfrom #{step}"
@@ -263,7 +263,7 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         end
         @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = @hold_reason = @public_addresses = @private_addresses = nil
       end
-    rescue => e
+    rescue Exception => e
       @logger.error "#{e.backtrace.shift}: #{e.message}"
       e.backtrace.each do |step|
         @logger.error "\tfrom #{step}"
@@ -352,7 +352,8 @@ begin
 
   parser << "</events>"
   parser.finish
-rescue => e
+  logger.info "Finished parsing, now exiting"
+rescue Exception => e
   logger.error "#{e.backtrace.shift}: #{e.message}"
   e.backtrace.each do |step|
     logger.error "\tfrom #{step}"
