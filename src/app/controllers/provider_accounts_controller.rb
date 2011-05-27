@@ -2,6 +2,11 @@ class ProviderAccountsController < ApplicationController
   before_filter :require_user
   before_filter :load_accounts, :only => :show
   before_filter :set_view_vars, :only => [:index,:show]
+  layout 'application'
+
+  def top_section
+    :administer
+  end
 
   def index
     @search_term = params[:q]

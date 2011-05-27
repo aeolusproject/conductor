@@ -1,4 +1,4 @@
-%fieldset#provider_type.clear
+%fieldset#provider_type
   = label_tag "Provider: "
   = select(:provider_account, :provider_id, options_for_select(@providers.map{ |p| [p.name, p.id] }, :selected => @selected_provider.id))
   = restful_submit_tag "Choose", 'set_selected_provider',set_selected_provider_provider_accounts_path, 'GET', :class => 'button'

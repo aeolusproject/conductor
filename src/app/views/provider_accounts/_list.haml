@@ -1,6 +1,6 @@
 - form_tag do
   = link_to "New Account", new_provider_account_path, :class => 'button'
-  = restful_submit_tag "Delete", "delete", multi_destroy_provider_accounts_path, 'DELETE'
+  = restful_submit_tag "Delete", "delete", multi_destroy_provider_accounts_path, 'DELETE', :class => 'button'
   %p
     Select:&nbsp;
     = link_to "All", @url_params.merge(:select => 'all')
