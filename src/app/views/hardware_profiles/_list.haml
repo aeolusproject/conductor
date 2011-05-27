@@ -1,7 +1,7 @@
 - form_tag do
   #object-actions
     = link_to "New Hardware Profile", new_hardware_profile_path, :class => 'button'
-    = restful_submit_tag "Delete", 'destroy', multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button'
+    = restful_submit_tag "Delete", 'destroy', multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button', :class => 'button'
   #selections
     %p
       Select:&nbsp;

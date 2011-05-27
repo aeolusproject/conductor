@@ -5,6 +5,11 @@ class HardwareProfilesController < ApplicationController
   before_filter :load_hardware_profile, :only => [:show]
   before_filter :setup_new_hardware_profile, :only => [:new]
   before_filter :setup_hardware_profile, :only => [:new, :create, :edit, :update]
+  layout 'application'
+
+  def top_section
+    :administer
+  end
 
   def index
     @params = params
@@ -34,12 +39,9 @@ class HardwareProfilesController < ApplicationController
     @hardware_profile = HardwareProfile.find(params[:id].to_a.first)
     @tab_captions = ['Properties', 'History', 'Matching Provider Hardware Profiles']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
-    case @details_tab
-      when 'properties'
-        properties
-      when 'matching_provider_hardware_profiles'
-        matching_provider_hardware_profiles
-    end
+    properties
+    matching_provider_hardware_profiles
+
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane
@@ -47,7 +49,7 @@ class HardwareProfilesController < ApplicationController
         end
         render :partial => @details_tab and return
       end
-      format.html { render :action => 'show'}
+      format.html
     end
   end
 
