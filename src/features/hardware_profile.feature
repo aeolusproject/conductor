@@ -44,38 +44,37 @@ Feature: Manage Pools
     | m1-small  | 1740   | 2   | 160     | i386         |
     And I am on the hardware profiles page
     When I follow "m1-small"
-    And I follow "Matching Provider Hardware Profiles"
     Then I should see the following:
     | Name      | Memory | CPU | Storage  | Architecture |
     | m1-small  | 1740   | 2   | 160      | i386         |
 
-  Scenario: Search for hardware profiles
-    Given there are the following conductor hardware profiles:
-    | name      | memory | cpu |storage  | architecture |
-    | m1-small  | 1740   | 2   | 160     | i386         |
-    | m1-large  | 4096   | 4   | 850     | x86_64       |
-    | m1-xlarge | 8192   | 8   | 1690    | x86_64       |
-    And I am on the the hardware profiles page
-    When I fill in "q" with "large"
-    And I press "Search"
-    Then I should see "m1-large"
-    And I should see "m1-xlarge"
-    And I should not see "m1-small"
-    When I fill in "q" with "small"
-    And I press "Search"
-    Then I should see "m1-small"
-    And I should not see "m1-large"
-    And I should not see "m1-xlarge"
-    When I fill in "q" with ""
-    And I press "Search"
-    Then I should see "m1-small"
-    And I should see "m1-large"
-    And I should see "m1-xlarge"
-    When I fill in "q" with "i386"
-    And I press "Search"
-    Then I should see "m1-small"
-    And I should not see "m1-large"
-    And I should not see "m1-xlarge"
+#  Scenario: Search for hardware profiles
+#    Given there are the following conductor hardware profiles:
+#    | name      | memory | cpu |storage  | architecture |
+#    | m1-small  | 1740   | 2   | 160     | i386         |
+#    | m1-large  | 4096   | 4   | 850     | x86_64       |
+#    | m1-xlarge | 8192   | 8   | 1690    | x86_64       |
+#    And I am on the the hardware profiles page
+#    When I fill in "q" with "large"
+#    And I press "Search"
+#    Then I should see "m1-large"
+#    And I should see "m1-xlarge"
+#    And I should not see "m1-small"
+#    When I fill in "q" with "small"
+#    And I press "Search"
+#    Then I should see "m1-small"
+#    And I should not see "m1-large"
+#    And I should not see "m1-xlarge"
+#    When I fill in "q" with ""
+#    And I press "Search"
+#    Then I should see "m1-small"
+#    And I should see "m1-large"
+#    And I should see "m1-xlarge"
+#    When I fill in "q" with "i386"
+#    And I press "Search"
+#    Then I should see "m1-small"
+#    And I should not see "m1-large"
+#    And I should not see "m1-xlarge"
 
   Scenario: Frontend HWP with correct id is displayed when id is greater than 10
     Given there are 10 hardware profiles
@@ -133,7 +132,6 @@ Feature: Manage Pools
      | m1-small | 2048   | 4   | 160     | x86_64         |
      And I am on the hardware profiles page
      When I follow "m1-small"
-     Then I should see "Properties"
      When I follow "edit"
      Then I should be on the edit hardware profiles page
      When I enter the following details for the Hardware Profile Properties

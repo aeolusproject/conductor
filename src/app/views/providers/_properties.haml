@@ -1,5 +1,18 @@
 %h3
   Properties for
   = @provider.name
+%dl
+  %dt
+    Provider name
+  %dd
+    = @provider.name
+  %dt
+    Provider URL
+  %dd
+    = @provider.url
+  %dt
+    Provider Type
+  %dd
+    = @provider.provider_type.name
 = link_to "Edit", edit_provider_path(@provider), {:class => 'button'}
 = link_to "Test", provider_path(@provider, {:test_provider => true}), { :class => 'button' }

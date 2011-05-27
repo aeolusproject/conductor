@@ -22,7 +22,6 @@ Feature: Manage Realms
     And there is a realm "testrealm1"
     And a provider "provider1" exists
     When I follow "testrealm1"
-    And I follow "Mapping"
     And I follow "Add mapping to provider"
     Then I should see "Create a new Realm Mapping"
     When I press "Save"
@@ -66,6 +65,5 @@ Feature: Manage Realms
     Given I am on the realms page
     And there is a realm "testrealm1"
     When I follow "testrealm1"
-    And I follow "Mapping"
-    And I press "Delete" within "#details-view"
+    And I press "Delete"
     Then I should see "You must select at least one mapping to delete"

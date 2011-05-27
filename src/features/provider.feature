@@ -88,24 +88,24 @@ Feature: Manage Providers
     And there should not be a provider account
     And there should not be a realm
 
-  Scenario: Search for hardware profiles
-    Given there are these providers:
-    | name          | url                         |
-    | Test          | http://testprovider.com/api |
-    | Kenny         | http://mockprovider.com/api |
-    | Other         | http://sometesturl.com/api  |
-    And I am on the providers page
-    Then I should see the following:
-    | Test  | http://testprovider.com/api |
-    | Kenny | http://mockprovider.com/ap  |
-    | Other | http://sometesturl.com/api  |
-    When I fill in "q" with "test"
-    And I press "Search"
-    Then I should see "Test"
-    And I should see "Other"
-    And I should not see "Kenny"
-    When I fill in "q" with "Kenny"
-    And I press "Search"
-    Then I should see "Kenny"
-    And I should not see "Test"
-    And I should not see "Other"
+#  Scenario: Search for hardware profiles
+#    Given there are these providers:
+#    | name          | url                         |
+#    | Test          | http://testprovider.com/api |
+#    | Kenny         | http://mockprovider.com/api |
+#    | Other         | http://sometesturl.com/api  |
+#    And I am on the providers page
+#    Then I should see the following:
+#    | Test  | http://testprovider.com/api |
+#    | Kenny | http://mockprovider.com/ap  |
+#    | Other | http://sometesturl.com/api  |
+#    When I fill in "q" with "test"
+#    And I press "Search"
+#    Then I should see "Test"
+#    And I should see "Other"
+#    And I should not see "Kenny"
+#    When I fill in "q" with "Kenny"
+#    And I press "Search"
+#    Then I should see "Kenny"
+#    And I should not see "Test"
+#    And I should not see "Other"

@@ -24,7 +24,7 @@ Feature: Pool Families
     Given there is a pool family named "testpoolfamily"
     And I am on the pool families page
     When I follow "testpoolfamily"
-    Then I should see "Name"
+    Then I should see "Properties for testpoolfamily"
 
   Scenario: Create a new Pool family
     Given I am on the pool families page
@@ -54,31 +54,31 @@ Feature: Pool Families
     Then I should see "Could not delete the following Pool Families: default."
     And I should see "default"
 
-  Scenario: Search for pool families
-    Given there are these pool families:
-    | name      |
-    | first_family |
-    | second_family |
-    | third_family |
-    Given I am on the pool families page
-    Then I should see "first_family"
-    And I should see "second_family"
-    And I should see "third_family"
-    When I fill in "q" with "second"
-    And I press "Search"
-    Then I should see "second_family"
-    And I should not see "first_family"
-    And I should not see "third_family"
-    When I fill in "q" with "nomatch"
-    And I press "Search"
-    Then I should not see "first_family"
-    And I should not see "second_family"
-    And I should not see "third_family"
-    When I fill in "q" with ""
-    And I press "Search"
-    Then I should see "first_family"
-    And I should see "second_family"
-    And I should see "third_family"
+#  Scenario: Search for pool families
+#    Given there are these pool families:
+#    | name      |
+#    | first_family |
+#    | second_family |
+#    | third_family |
+#    Given I am on the pool families page
+#    Then I should see "first_family"
+#    And I should see "second_family"
+#    And I should see "third_family"
+#    When I fill in "q" with "second"
+#    And I press "Search"
+#    Then I should see "second_family"
+#    And I should not see "first_family"
+#    And I should not see "third_family"
+#    When I fill in "q" with "nomatch"
+#    And I press "Search"
+#    Then I should not see "first_family"
+#    And I should not see "second_family"
+#    And I should not see "third_family"
+#    When I fill in "q" with ""
+#    And I press "Search"
+#    Then I should see "first_family"
+#    And I should see "second_family"
+#    And I should see "third_family"
 
   Scenario: Add provider account to pool family
     Given there is a pool family named "testpoolfamily"
