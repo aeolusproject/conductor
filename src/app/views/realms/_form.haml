@@ -1,6 +1,6 @@
 = form.error_messages
-%fieldset.clear
+%fieldset
   = form.label :name,'Realm Name :'
-  = form.text_field :name, :title => 'realm_name', :value => @realm.name, :class => "clear grid_4 alpha"
-%fieldset.clear
+  = form.text_field :name, :title => 'realm_name', :value => @realm.name
+%fieldset
   = form.submit "Save",  :class => "submit formbutton"

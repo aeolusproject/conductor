@@ -1,6 +1,11 @@
 class RealmsController < ApplicationController
   before_filter :require_user
   before_filter :load_realms, :only =>[:index,:show]
+  layout 'application'
+
+  def top_section
+    :administer
+  end
 
   def new
     require_privilege(Privilege::CREATE, Realm)
@@ -59,10 +64,10 @@ class RealmsController < ApplicationController
     @url_params = params.clone
     @tab_captions = ['Properties', 'Mapping']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
-    if @details_tab == 'mapping'
-      @backend_realm_targets = @realm.realm_backend_targets.select {|x| x.realm_or_provider_type == 'Realm'}
-      @backend_provider_targets = @realm.realm_backend_targets.select {|x| x.realm_or_provider_type == 'Provider'}
-    end
+
+    @backend_realm_targets = @realm.realm_backend_targets.select {|x| x.realm_or_provider_type == 'Realm'}
+    @backend_provider_targets = @realm.realm_backend_targets.select {|x| x.realm_or_provider_type == 'Provider'}
+
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane
