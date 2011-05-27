@@ -271,6 +271,24 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
   end
 end
 
+# Retrieve the current parsing position
+# of the log file as stored in the log
+# file postion tracker
+def get_log_file_pos
+  pos = 0
+  if File.exists?(EVENT_LOG_POS_FILE)
+    File.open(EVENT_LOG_POS_FILE, 'r') { |f| pos = f.read.to_i }
+  end
+  pos
+end
+
+# Set the current parsing position
+# of the log file in the log file
+# position tracker
+def set_log_file_pos(pos)
+  File.open(EVENT_LOG_POS_FILE, 'w') { |f| f.write pos.to_s }
+end
+
 # FIXME we should make sure everything here is done atomically
 def parse_log_file(parser)
   # since the actual log file may be rotated out
@@ -279,11 +297,12 @@ def parse_log_file(parser)
 
   # persistantly store log position in filesystem
   # incase of dbomatic restarts
-  if File.exists?(EVENT_LOG_POS_FILE)
-    File.open(EVENT_LOG_POS_FILE, 'r') { |f| log_file.pos = f.read.to_i }
-  end
+  log_file.pos = get_log_file_pos
 
   # if the log has been rotated out
+  # FIXME probably can use a better check for this, like tracking
+  # the modification times of these files. Also what happens if condor
+  # rotates the logs multiple times b4 this executes (is this possible?)
   if log_file.pos > File.size(CONDOR_EVENT_LOG_FILE)
     if File.exists?(CONDOR_EVENT_LOG_FILE_OLD)
       # finish parsing old log file
@@ -302,7 +321,7 @@ def parse_log_file(parser)
     parser << s
   end
 
-  File.open(EVENT_LOG_POS_FILE, 'w') { |f| f.write log_file.pos.to_s }
+  set_log_file_pos(log_file.pos)
 end
 
 logger = DBomaticLogger.new(DBOMATIC_LOG_FILE)
