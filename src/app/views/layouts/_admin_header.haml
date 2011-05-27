@@ -1,0 +1,7 @@
+%nav#admin_subsections
+  = render_navigation({:expand_all => true, :level => 2})
+%header.page-header
+  %h1{:class => controller_name}
+    = controller_name.titleize
+  -# Insert appropriate controls here, or ommit %ul.controls
+  .corner &nbsp;

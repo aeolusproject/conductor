@@ -30,6 +30,9 @@ class ApplicationController < ActionController::Base
   before_filter :shift_breadcrumbs
   layout 'old'
 
+  def top_section; end
+
+
   # General error handlers, must be in order from least specific
   # to most specific
   rescue_from Exception, :with => :handle_general_error

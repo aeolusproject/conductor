@@ -1,0 +1,15 @@
+#admin_subsections {
+  height: 2em;
+  display: block;
+}
+#admin_subsections li {
+  list-style-type: none;
+  float: left;
+  margin-right: 1em;
+}
+#admin_subsections li.selected {
+  font-weight: bold;
+}
+#admin_subsections a {
+  color: blue;
+}
