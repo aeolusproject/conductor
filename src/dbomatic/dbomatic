@@ -22,7 +22,6 @@ $: << File.join(File.dirname(__FILE__), "../dutils")
 require 'rubygems'
 require 'dutils'
 require 'nokogiri'
-require 'rb-inotify'
 require 'optparse'
 
 help = false
@@ -324,26 +323,26 @@ begin
   # Create one for parsing purposes.
   parser << "<events>"
 
-  notifier = INotify::Notifier.new
-
   parse_log_file(parser) if File.exists? CONDOR_EVENT_LOG_FILE
   logger.info "Parsed existing event log file - current postition: #{get_log_file_pos}"
 
-  # Setup inotify watch for condor event log changes
-  notifier.watch(condor_event_log_dir, :all_events){ |event|
-    if event.name == "EventLog" && event.flags.include?(:modify)
-      parse_log_file parser
-    end
-  }
+  # track the modification time of the file for changes
+  logfile_timestamp = File.mtime(CONDOR_EVENT_LOG_FILE)
 
   logger.info "Beginning main event loop"
   while true
-    begin
-      notifier.run
-    rescue => e
-      logger.error "#{e.backtrace.shift}: #{e.message}"
-      e.backtrace.each do |step|
-        logger.error "\tfrom #{step}"
+    sleep 2
+    logger.debug "Checking for condor event log modification"
+    if File.mtime(CONDOR_EVENT_LOG_FILE) > logfile_timestamp
+      logger.info "EventLog modification event triggered, parsing log"
+      begin
+        logfile_timestamp = File.mtime(CONDOR_EVENT_LOG_FILE)
+        parse_log_file parser
+      rescue Exception => e
+        logger.error "Parser error: #{e.backtrace.shift}: #{e.message}"
+        e.backtrace.each do |step|
+          logger.error "\tfrom #{step}"
+        end
       end
       logger.info "EventLog modification event trigger completed, parsing finished - current position #{get_log_file_pos}"
     end
