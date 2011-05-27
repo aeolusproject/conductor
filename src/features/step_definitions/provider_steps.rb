@@ -68,3 +68,33 @@ end
 Then /^there should not be a realm$/ do
   Realm.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
 end
+
+Given /^I accept XML$/ do
+  header 'Accept', 'application/xml'
+end
+
+Then /^I should get a XML document$/ do
+  @xml_response = Nokogiri::XML(response.body)
+end
+
+Then /^XML should contain (\d+) providers$/ do |arg1|
+  @xml_response.root.xpath('/providers/provider').count.should == arg1.to_i
+end
+
+Then /^each provider should have "([^"]*)"$/ do |arg1|
+  @xml_response.root.xpath("/providers/provider/#{arg1}").text.should_not be_blank
+end
+
+Then /^there should be these provider:$/ do |table|
+  providers = @xml_response.root.xpath('/providers/provider').map do |n|
+    {:name => n.xpath('name').text,
+     :url  => n.xpath('url').text,
+     :provider_type  => n.xpath('provider_type').text}
+  end
+  table.hashes.each do |hash|
+    p = providers.find {|n| n[:name] == hash[:name]}
+    p.should_not be_nil
+    p[:url].should == hash[:url]
+    p[:provider_type].should == hash[:provider_type]
+  end
+end

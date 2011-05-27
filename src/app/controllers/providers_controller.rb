@@ -5,15 +5,17 @@ class ProvidersController < ApplicationController
   def index
     @params = params
     @search_term = params[:q]
+
     if @search_term.blank?
       load_providers
-      return
+    else
+      @providers = Provider.search { keywords(params[:q]) }.results
     end
 
-    search = Provider.search do
-      keywords(params[:q])
+    respond_to do |format|
+      format.html
+      format.xml { render :partial => 'list.xml' }
     end
-    @providers = search.results
   end
 
   def new
