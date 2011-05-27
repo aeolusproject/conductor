@@ -1,6 +1,6 @@
 - form_tag do
   = link_to "Create", new_pool_family_path, :class => "button"
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_pool_families_path, 'DELETE', :id => 'delete_button'
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_pool_families_path, 'DELETE', :id => 'delete_button', :class => 'button'
 
   %p
     Select:&nbsp;

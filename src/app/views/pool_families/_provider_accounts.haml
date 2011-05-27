@@ -4,7 +4,7 @@
 
 - unless @pool_family.provider_accounts.blank?
   - form_tag do
-    = restful_submit_tag "Remove selected", 'destroy', multi_destroy_provider_accounts_pool_families_path(:pool_family_id => @pool_family.id), 'DELETE', :id => 'delete_button'
+    = restful_submit_tag "Remove selected", 'destroy', multi_destroy_provider_accounts_pool_families_path(:pool_family_id => @pool_family.id), 'DELETE', :id => 'delete_button', :class => 'button'
     = #submit_tag "Remove selected"
 
     %table#provider_accounts_table
