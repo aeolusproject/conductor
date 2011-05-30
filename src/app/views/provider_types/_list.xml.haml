@@ -1,0 +1,7 @@
+!!! XML
+%provider_types
+  - @provider_types.each do |p|
+    %provider_type
+      %name= p.name
+      %codename= p.codename
+      %build_supported= p.build_supported

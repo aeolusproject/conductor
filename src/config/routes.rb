@@ -48,6 +48,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :hardware_profiles, :collection => { :multi_destroy => :delete }
   map.resources :providers, :collection => { :multi_destroy => :delete }
+  map.resources :provider_types, :only => :index
   map.resources :users, :collection => { :multi_destroy => :delete }
   map.resources :provider_accounts, :collection => { :multi_destroy => :delete, :set_selected_provider => :get}
   map.resources :roles, :collection => { :multi_destroy => :delete }
