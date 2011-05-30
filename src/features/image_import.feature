@@ -10,6 +10,7 @@ Feature: Import Images
     And there is a provider named "testprovider"
     And there is a provider account named "provider1"
     And There is a mock pulp repository
+    And Image Warehouse is running
     When I go to the new image import page
     Then I should be on the new image import page
 
