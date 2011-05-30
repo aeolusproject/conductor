@@ -51,3 +51,49 @@ Given /^that there are these provider accounts:$/ do |table|
      Factory.create(:provider_account, :name => hash['name'], :username => hash['username'])
   end
 end
+
+Given /^there is ec2 provider account "([^"]*)"$/ do |arg1|
+  provider =  Factory(:ec2_provider, :name => 'ec2provider')
+  Factory(:ec2_provider_account, :label => arg1, :provider => provider)
+end
+
+Given /^there is mock provider account "([^"]*)"$/ do |arg1|
+  provider =  Factory(:mock_provider, :name => 'mockprovider')
+  Factory(:mock_provider_account, :label => arg1, :provider => provider)
+end
+
+Then /^there should be these mock provider accounts:$/ do |table|
+  accounts = @xml_response.root.xpath('/provider_accounts/provider_account').map do |n|
+    {:name => n.xpath('name').text,
+     :provider  => n.xpath('provider').text,
+     :username => n.xpath('username').text,
+     :password => n.xpath('password').text,
+     :provider_type  => n.xpath('provider_type').text}
+  end
+  table.hashes.each do |hash|
+    p = accounts.find {|n| n[:name] == hash[:name]}
+    p.should_not be_nil
+    p[:provider].should == hash[:provider]
+    p[:username].should == hash[:username]
+    p[:password].should == hash[:password]
+    p[:provider_type].should == hash[:provider_type]
+  end
+end
+
+Then /^there should be these ec2 provider accounts:$/ do |table|
+  accounts = @xml_response.root.xpath('/provider_accounts/provider_account').map do |n|
+    {:name => n.xpath('name').text,
+     :provider  => n.xpath('provider').text,
+     :access_key => n.xpath('access_key').text,
+     :secret_access_key => n.xpath('secret_access_key').text,
+     :provider_type  => n.xpath('provider_type').text}
+  end
+  table.hashes.each do |hash|
+    p = accounts.find {|n| n[:name] == hash[:name]}
+    p.should_not be_nil
+    p[:provider].should == hash[:provider]
+    p[:access_key].should == hash[:access_key]
+    p[:secret_access_key].should == hash[:secret_access_key]
+    p[:provider_type].should == hash[:provider_type]
+  end
+end

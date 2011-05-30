@@ -1,0 +1,8 @@
+!!! XML
+%provider_accounts
+  - @accounts.each do |account|
+    %provider_account
+      %name= account.name
+      %provider= account.provider.name
+      %provider_type= account.provider.provider_type.codename
+      = account.build_credentials.root.xpath('/provider_credentials').to_s

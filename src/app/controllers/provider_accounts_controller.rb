@@ -18,6 +18,11 @@ class ProviderAccountsController < ApplicationController
       end
       @accounts = search.results
     end
+
+    respond_to do |format|
+      format.html
+      format.xml { render :partial => 'list.xml' }
+    end
   end
 
   def show

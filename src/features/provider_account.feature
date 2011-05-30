@@ -15,6 +15,19 @@ Feature: Manage Provider Accounts
     Then I should see "New Account"
     And there should be no provider accounts
 
+  Scenario: List providers in XML format
+    Given I accept XML
+    And there is ec2 provider account "ec2_account"
+    And there is mock provider account "mock_account"
+    When I go to the provider accounts page
+    Then I should get a XML document
+    And there should be these mock provider accounts:
+    | name          | provider     | provider_type | username | password     |
+    | mock_account  | mockprovider | mock          |||
+    And there should be these ec2 provider accounts:
+    | name         | provider   | provider_type | access_key | secret_access_key |
+    | ec2_account  | ec2provider| ec2           |||
+
   Scenario: Create a new Provider Account
     Given there is a provider named "testprovider"
     And there are no provider accounts

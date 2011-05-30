@@ -183,7 +183,7 @@ class ProviderAccount < ActiveRecord::Base
       element.content = h[:value]
       credential_node << element
     end
-    doc.to_xml
+    doc
   end
 
   def creds_label_hash
