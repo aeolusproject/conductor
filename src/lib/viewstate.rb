@@ -147,7 +147,10 @@ module ActionController
 
       if @viewstate and not viewstate_given?
         params[:viewstate] = @viewstate.id
-        redirect_to params and return
+        respond_to do |format|
+          format.html { redirect_to params }
+          format.js { }
+        end
       end
     end
 

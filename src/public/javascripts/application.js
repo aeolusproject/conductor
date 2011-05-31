@@ -84,7 +84,7 @@ var Conductor = {
       $.get($(this).attr("href"), $(this).serialize(),
         function(result) {
           $("#view").html(result);
-        }, "script");
+        });
       return false;
     });
     $("#filter_view").click(function(){
@@ -93,10 +93,22 @@ var Conductor = {
           $("#view").html(result);
           $('#details-selected').hide();
           $('#details-view').tabs('destroy').tabs();
-        }, "script");
+        });
       return false;
     });
-  }
+  },
+
+  setAjaxHeadersForRails: function() {
+    /* In the Rails' respond_to block, there is no distinction between
+       the regular browser request and jQuery AJAX.
+
+       This sets the accept headers for the ajax requests in a way that will
+       match format.js in Rails. Vanilla browser requests still match format.html.
+    */
+    var acceptsSettings = $.extend({}, $.ajaxSettings.accepts)
+    acceptsSettings.html = "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
+    $.ajaxSetup({accepts: acceptsSettings, dataType: 'html'})
+  },
 };
 
 /* custom methods */
@@ -181,6 +193,8 @@ var Conductor = {
 /* Conductor JS */
 
 $(document).ready(function () {
+  Conductor.setAjaxHeadersForRails();
+
   $(window).scroll(Conductor.positionFooter).resize(Conductor.positionFooter).scroll();
   $("#notification").enhanceInteraction();
   Conductor.enhanceListView();

@@ -110,6 +110,7 @@ Given /^I accept JSON$/ do
 end
 
 Given /^I request XHR$/ do
+  header 'accept', 'application/javascript'
   header 'X-Requested-With', 'XMLHttpRequest'
 end
 

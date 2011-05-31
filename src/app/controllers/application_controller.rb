@@ -43,8 +43,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :check_privilege
 
-  before_filter :js_for_xhr
-
   protected
   # permissions checking
 
@@ -255,10 +253,4 @@ class ApplicationController < ActionController::Base
     session[:breadcrumbs] = breadcrumbs
   end
 
-  # XMLHTTPRequest in many browsers sends "Accept: */*", so the first respond_to will match.
-  # See http://codetunes.com/2009/01/31/rails-222-ajax-and-respond_to/ and
-  # http://www.grauw.nl/blog/entry/470 for more.
-  def js_for_xhr
-    request.format = :js if request.xhr?
-  end
 end
