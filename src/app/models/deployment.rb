@@ -1,17 +1,19 @@
 # == Schema Information
-# Schema version: 20110207110131
+# Schema version: 20110601190920
 #
 # Table name: deployments
 #
-#  id            :integer         not null, primary key
-#  name          :string(1024)    not null
-#  realm_id      :integer
-#  owner_id      :integer
-#  pool_id       :integer         not null
-#  deployable_id :integer         not null
-#  lock_version  :integer         default(0)
-#  created_at    :datetime
-#  updated_at    :datetime
+#  id                :integer         not null, primary key
+#  name              :string(1024)    not null
+#  realm_id          :integer
+#  owner_id          :integer
+#  pool_id           :integer         not null
+#  deployable_id     :integer         not null
+#  lock_version      :integer         default(0)
+#  created_at        :datetime
+#  updated_at        :datetime
+#  frontend_realm_id :integer
+#  deployable_xml    :text
 #
 
 #
@@ -150,6 +152,17 @@ class Deployment < ActiveRecord::Base
       deployments = search() { keywords(query) }.results
     end
     deployments
+  end
+
+  def import_xml_from_url(url)
+    # Right now we allow this to raise exceptions on timeout / errors
+    resource = RestClient::Resource.new(url, :open_timeout => 10, :timeout => 45)
+    response = resource.get
+    if response.code == 200
+      self.deployable_xml = response
+    else
+      false
+    end
   end
 
 end
