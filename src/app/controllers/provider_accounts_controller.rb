@@ -1,6 +1,6 @@
 class ProviderAccountsController < ApplicationController
   before_filter :require_user
-  before_filter :load_accounts, :only => :show
+  before_filter :load_accounts, :only => [:index,:show]
   before_filter :set_view_vars, :only => [:index,:show]
   layout 'application'
 
@@ -9,14 +9,14 @@ class ProviderAccountsController < ApplicationController
   end
 
   def index
+    # TODO: this is temporary solution how to combine search and permissions
+    # filtering
     @search_term = params[:q]
-    if @search_term.blank?
-      load_accounts
-    else
+    unless @search_term.blank?
       search = ProviderAccount.search do
         keywords(params[:q])
       end
-      @accounts = search.results
+      @accounts &= search.results
     end
 
     respond_to do |format|
@@ -177,9 +177,6 @@ class ProviderAccountsController < ApplicationController
   end
 
   def load_accounts
-    @accounts = ProviderAccount.paginate(:all,
-      :page => params[:page] || 1,
-      :order => (params[:order_field] || 'label') +' '+ (params[:order_dir] || 'asc')
-    )
+    @accounts = ProviderAccount.list_for_user(current_user, Privilege::VIEW)
   end
 end
