@@ -1,0 +1,8 @@
+= if request.xhr?
+  = render :partial => '/layouts/notification'
+%h2 Launch new deployment via
+- form_tag legacy_new_deployments_path, :method => :get do
+  = label_tag "Deployable:"
+  = select_tag :legacy_deployable_id, options_from_collection_for_select(@launchable_deployables, "id", "name")
+  = submit_tag "Launch"
+  = link_to "Cancel", deployments_path, :class => "button"

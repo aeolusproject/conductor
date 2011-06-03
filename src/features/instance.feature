@@ -37,7 +37,7 @@ Feature: Manage Instances
   Scenario: I want to view all instances
     Given there is a "mock1" instance
     And I am on the home page
-    When I follow "Resource Management"
+    When I follow "Monitor"
     Then I should be on the pools page
     When I follow "Filter View"
     And I follow "Instances"

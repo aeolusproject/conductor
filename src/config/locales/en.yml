@@ -70,6 +70,7 @@ en:
   updates: Udates
   deployments:
     deployments: Deployments
+    deployment: Deployment
     deployment_name: Deployment Name
     updated:
       one: "The deployment %{list} was successfully updated."

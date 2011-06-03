@@ -107,7 +107,7 @@ Feature: Manage Deployables
     And there is "mock_pool" pool
     When I follow "test1"
     And I follow "Launch"
-    Then I should be on the new deployment page
+    Then I should be on the legacy new deployments page
     When I fill in "deployment_name" with "depl1"
     And I select "mock_pool" from "deployment_pool_id"
     And I select "mock_realm" from "deployment_frontend_realm_id"

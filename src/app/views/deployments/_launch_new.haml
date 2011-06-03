@@ -1,8 +1,34 @@
 = if request.xhr?
   = render :partial => '/layouts/notification'
-%h2 Launch new deployment via
-- form_tag new_deployment_path, :method => :get do
-  = label_tag "Deployable:"
-  = select_tag :legacy_deployable_id, options_from_collection_for_select(@launchable_deployables, "id", "name")
-  = submit_tag "Launch"
-  = link_to "Cancel", deployments_path, :class => "button"
+%header.page-header
+  %h1
+    New Deployment in
+    = @pool.name
+%h2
+  Deployment Details
+- form_for :deployment, {:url => new_deployment_path, :method => :get} do
+  = hidden_field :deployment, :pool_id
+  %p
+    What do you want to launch?
+  %p
+    Provide the URL of the Deployable definition
+    = text_field('deployable', 'url')
+  %p
+    Name your deployment
+    = text_field(:deployment, :name)
+    %span.name_available
+  = submit_tag('Next')
+
+:javascript
+  // FIXME: This has a theoretical race condition: if responses come back out of order, the value
+  // might reflect some previous entry and tell you a name is available when it's not.
+  // Might be nice to build something in application.js to guard against this, and that also
+  // introduces a ~250ms buffer so we don't do a lookup on every single keystroke...
+  $(document).ready(function () {
+    $('#deployment_name').keyup(function(e) {
+      e.preventDefault();
+      $.get('#{check_name_deployments_path}', {name: $('#deployment_name').val() }, function(data) {
+        $('.name_available').html(data == "false" ? "That name is already in use" : "Name available");
+      });
+    });
+  });

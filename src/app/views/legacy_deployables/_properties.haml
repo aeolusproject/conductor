@@ -3,6 +3,6 @@
 
   = link_to 'Edit', edit_legacy_deployable_path(@deployable), :class => 'button'
   - if @deployable.launchable?
-    = link_to "Launch", new_deployment_path(:legacy_deployable_id => @deployable.id), {:class => 'button'}
+    = link_to "Launch", legacy_new_deployments_path(:legacy_deployable_id => @deployable.id), {:class => 'button'}
   - else
     The deployable can't be launched - the deployable must have at least one assembly and each assembly must have at least one template.

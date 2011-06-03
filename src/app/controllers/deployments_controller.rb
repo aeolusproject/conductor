@@ -3,6 +3,8 @@ class DeploymentsController < ApplicationController
   before_filter :load_deployments, :only => [:index, :show]
   before_filter :load_deployment, :only => [:edit, :update]
 
+  layout 'application'
+
   def index
     save_breadcrumb(deployments_path(:viewstate => @viewstate ? @viewstate.id : nil))
     respond_to do |format|
@@ -12,19 +14,46 @@ class DeploymentsController < ApplicationController
     end
   end
 
+  # It is expected that params[:pool_id] will be set on requests into this method
   def launch_new
+    require_privilege(Privilege::CREATE, Deployment)
+    @pool = Pool.find(params[:pool_id]) or raise "Invalid pool"
+    @deployment = Deployment.new(:pool_id => @pool.id)
+    respond_to do |format|
+      format.js { render :partial => 'launch_new' }
+      format.html
+      format.json { render :json => @deployment }
+    end
+  end
+
+  # TODO - 03may2011 - This is going away
+  def legacy_launch_new
     @launchable_deployables = []
     LegacyDeployable.all.each do |deployable|
       @launchable_deployables << deployable if deployable.launchable?
     end
     respond_to do |format|
-      format.js { render :partial => 'launch_new' }
+      format.js { render :partial => 'legacy_launch_new' }
       format.html
       format.json { render :json => @launchable_deployables }
     end
   end
 
+  # launch_new will post here, but you can use this RESTfully as well
   def new
+    require_privilege(Privilege::CREATE, Deployment)
+    @deployment = Deployment.new(params[:deployment])
+    @pool = @deployment.pool
+    @deployment.import_xml_from_url(params[:deployable][:url]) if params[:deployable] && params[:deployable][:url]
+    respond_to do |format|
+      format.js { render :partial => 'new' }
+      format.html
+      format.json { render :json => @deployment }
+    end
+  end
+
+  # TODO - 03may2011 - This is going away
+  def legacy_new
     require_privilege(Privilege::CREATE, Deployment)
     @deployment = Deployment.new(:legacy_deployable_id => params[:legacy_deployable_id])
     respond_to do |format|
@@ -38,7 +67,7 @@ class DeploymentsController < ApplicationController
         format.json { render :json => {:error => flash[:warning]}, :status => :unprocessable_entity }
       else
         init_new_deployment_attrs
-        format.js { render :partial => 'new' }
+        format.js { render :partial => 'legacy_new' }
         format.html
         format.json { render :json => @deployment }
       end
@@ -63,9 +92,11 @@ class DeploymentsController < ApplicationController
         format.html { redirect_to deployment_path(@deployment) }
         format.json { render :json => @deployment, :status => :created }
       else
+        # We need @pool to re-display the form
+        @pool = @deployment.pool
         flash.now[:warning] = "Deployment launch failed"
         init_new_deployment_attrs
-        format.js { launch_new }
+        format.js { legacy_launch_new }
         format.html { render :action => 'new' }
         format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
       end
@@ -176,6 +207,14 @@ class DeploymentsController < ApplicationController
       format.html { redirect_to pools_path(:details_tab => 'deployments', :filter_view => filter_view?) }
       format.json { render :json => {:success => notices, :errors => errors} }
     end
+  end
+
+  # Quick method to check if a deployment name is taken or not
+  # TODO - The AJAX calls here have a potential race condition; might want to include params[:name]
+  # in the output to help catch this and discard output if appropriate
+  def check_name
+    deployment = Deployment.find_by_name(params[:name])
+    render :text => deployment.nil?.to_s
   end
 
   private

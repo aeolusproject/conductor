@@ -11,7 +11,7 @@ Feature: Manage Deployments
     Given there is a deployment named "MySQL Cluster" belonging to "Databases" owned by "bob"
     And I am on the pools page
     When I follow "Filter View"
-    And I follow "Deployments"
+    And I follow "Deployments" within "#details-view"
     Then I should see "MySQL Cluster"
     And I should see "bob"
 
@@ -74,9 +74,10 @@ Feature: Manage Deployments
 
   Scenario: Show operational status of deployment
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
-    When I am on the operational status of deployment page
-    Then I should see "Operational status of testdeployment"
-    And I should see "Uptime"
+    When I am on the deployments page
+    And I follow "testdeployment"
+    Then I should see "testdeployment"
+    And I should see "Created:"
 
   Scenario: Edit deployment name
     Given there is a deployment named "Hudson" belonging to "QA Infrastructure" owned by "joe"

@@ -33,7 +33,8 @@ ActionController::Routing::Routes.draw do |map|
   # -- just remember to delete public/index.html.
 
   map.resources :pools, :collection => { :multi_destroy => :delete }
-  map.resources :deployments, :collection  => { :multi_stop => :get, :launch_new => :get }
+  map.resources :deployments, :collection  => { :multi_stop => :get, :launch_new => :get, :legacy_new => :get,
+                                :legacy_launch_new => :get, :check_name => :get }
   map.resources :instances, :collection => {:start => :get, :multi_stop => :get, :select_legacy_template => :get, :remove_failed => :get, :can_start => :get, :can_create => :get }, :member => {:key => :get}
 
   map.can_start_instance '/instances/:instance_id/can_start/:provider_account_id', :controller => 'instances', :action => 'can_start', :conditions => { :method => :get }

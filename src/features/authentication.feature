@@ -50,7 +50,7 @@ Feature: User authentication
 
   Scenario: Edit profile
     Given I am logged in
-    And I am on the homepage
+    And I am on the legacy assemblies page
     When I want to edit my profile
     Then should see "Editing Account"
     When I fill in "E-mail" with "changed@example.com"
@@ -60,7 +60,7 @@ Feature: User authentication
 
   Scenario: log out
     Given I am logged in
-    And I am on the homepage
+    And I am on the legacy assemblies page
     When I follow "Log out"
     Then I should be logged out
     And I should see "Logout successful!"
@@ -69,7 +69,7 @@ Feature: User authentication
 
   Scenario: Change user login to one with invalid length
     Given I am logged in
-    And I am on the homepage
+    And I am on the legacy assemblies page
     When I want to edit my profile
     Then should see "Editing Account"
     When I enter a string of length "101" into "user[login]"

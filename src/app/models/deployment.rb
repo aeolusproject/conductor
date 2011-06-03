@@ -62,7 +62,6 @@ class Deployment < ActiveRecord::Base
   has_one :provider, :through => :realm
 
   validates_presence_of :pool_id
-  validates_presence_of :legacy_deployable_id
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id

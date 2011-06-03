@@ -1,25 +1,37 @@
 = error_messages_for 'deployment'
-%h2 Launch deployable
-- form_for @deployment, :url => deployments_path do
-  = hidden_field :deployment, :legacy_deployable_id
-  %ul
-    %li
-      = label :deployment, :name
-      = text_field :deployment, :name
-    %li
-      = label :deployment, :pool
-      = select :deployment, :pool_id, @pools.map {|p| [ p.name, p.id ]}, { :include_blank => true }
-    %li
-      = label :deployment, :frontend_realm
-      = select :deployment, :frontend_realm_id, @realms.map {|r| [ r.name, r.id ]}, { :include_blank => true }
-    %p
-    %h3 Assemblies hardware profiles
-    %ul
-      - @deployment.legacy_deployable.legacy_assemblies.each do |assembly|
-        %li
-          - hwprofiles = @hardware_profiles.select {|hwp| hwp.architecture.value == assembly.legacy_templates.first.architecture}
-          = label_tag "hw_profiles[#{assembly.id}]", assembly.name
-          = select_tag "hw_profiles[#{assembly.id}]", options_from_collection_for_select(hwprofiles, 'id', 'name')
+%header.page-header
+  %h1
+    Deployment
+    = @deployment.name
+%h2
+  Launch Summary
 
-  = submit_tag 'Cancel', :name => 'cancel'
-  = submit_tag 'Launch', :name => 'launch'
+#scoreboard
+  %dl.statistics
+    %ul.groups
+      %li
+        %dt= t("pools.index.pool")
+        %dd= @pool.name
+      %li
+        %dt= t("deployments.deployment")
+        %dd= @deployment.name
+      %li
+        = link_to('view deployable definition', '#')
+
+%h2
+  Images
+
+-# Cannot implement this with real data until we have deployments implemented...
+= filter_table(['Image'], []) do |image|
+  %tr
+    %td
+      = image.name
+
+- form_for @deployment do
+  = hidden_field :deployment, :name
+  = hidden_field :deployment, :pool_id
+  -# FIXME: Passing chunks of XML around in hidden form fields doesn't feel right
+  = hidden_field :deployment, :deployable_xml
+  = submit_tag 'Launch'
+
+-# Quota checking to go here as well, once I understand how it works with new code

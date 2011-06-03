@@ -4,7 +4,7 @@
     Pool
   -# Insert appropriate controls here, or ommit %ul.controls
   #obj_actions.button-container
-    = link_to 'New Deployment', launch_new_deployments_path, :class => 'button primary', :id => 'new_deployment_button'
+    = link_to 'New Deployment', launch_new_deployments_path(:pool_id => @pool.id), :class => 'button primary', :id => 'new_deployment_button'
     .button-group
       = link_to 'Edit', edit_pool_path(@pool), :class => 'button pill', :id => 'edit_pool_button'
       - form_tag do

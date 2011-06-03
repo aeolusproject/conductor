@@ -2,7 +2,7 @@
   = render :partial => '/layouts/notification'
 
 - form_tag do
-  = link_to "New Deployment", launch_new_deployments_path, { :class => 'button' }
+  = link_to "New Deployment", legacy_launch_new_deployments_path, { :class => 'button' }
   = restful_submit_tag "Stop", "multi_stop", multi_stop_deployments_path, 'POST', :id => 'stop_button'
   = label_tag "More actions"
   = select_tag("more_actions",nil, :disabled => true)
