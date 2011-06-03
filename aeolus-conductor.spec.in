@@ -132,10 +132,10 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/users app/views/provider_accounts \
       app/views/roles app/views/providers app/views/settings \
       app/views/realms app/views/pool_families app/views/layouts\
-      app/views/quotas app/views/deployables \
-      app/views/image_imports app/views/assemblies \
-      app/views/templates app/views/builds \
-      app/views/permissions app/views/templates/xml \
+      app/views/quotas app/views/legacy_deployables \
+      app/views/image_imports app/views/legacy_assemblies \
+      app/views/legacy_templates app/views/builds \
+      app/views/permissions app/views/legacy_templates/xml \
       app/views/deployments app/views/pools \
       app/views/instances app/views/user_sessions"
 html="public"
