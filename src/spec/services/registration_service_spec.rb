@@ -53,7 +53,7 @@ describe RegistrationService do
         lambda do
           lambda do
             registration_process.save.should be_true
-          end.should change(Permission, :count).by(2)
+          end.should change(Permission, :count).by(3)
         end.should change(User, :count).by(1)
       end.should change(Quota, :count).by(1)
 

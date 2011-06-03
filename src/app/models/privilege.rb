@@ -58,6 +58,7 @@ class Privilege < ActiveRecord::Base
               PoolFamily => ACTIONS - [USE],
               Instance => ACTIONS,
               Deployment => ACTIONS,
+              SuggestedDeployable => ACTIONS,
               Quota => [VIEW, MODIFY],
               HardwareProfile => ACTIONS - [USE, VIEW],
               Realm => ACTIONS - [VIEW],

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110603204130
+# Schema version: 20110607104800
 #
 # Table name: instances
 #
@@ -31,6 +31,10 @@
 #  updated_at              :datetime
 #  legacy_assembly_id      :integer
 #  deployment_id           :integer
+#  assembly_xml            :text
+#  image_uuid              :string(255)
+#  image_build_uuid        :string(255)
+#  provider_image_uuid     :string(255)
 #
 
 #
