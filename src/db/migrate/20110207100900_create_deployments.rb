@@ -5,7 +5,7 @@ class CreateDeployments < ActiveRecord::Migration
       t.integer   :realm_id
       t.integer   :owner_id
       t.integer   :pool_id, :null => false
-      t.integer   :deployable_id, :null => false
+      t.integer   :legacy_deployable_id, :null => false
       t.integer   :lock_version, :default => 0
       t.timestamps
     end

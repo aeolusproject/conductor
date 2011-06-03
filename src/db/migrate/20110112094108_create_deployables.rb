@@ -1,6 +1,6 @@
 class CreateDeployables < ActiveRecord::Migration
   def self.up
-    create_table :deployables do |t|
+    create_table :legacy_deployables do |t|
       t.string :name
 
       t.timestamps
@@ -8,6 +8,6 @@ class CreateDeployables < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :deployables
+    drop_table :legacy_deployables
   end
 end

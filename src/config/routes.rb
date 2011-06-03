@@ -41,7 +41,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :assemblies
   map.resources :image_imports
-  map.resources :deployables, :collection => { :multi_destroy => :delete }, :member => { :pick_assemblies => :get, :remove_assemblies => :delete, :add_assemblies => :put, :launch => :post }
+  map.resources :legacy_deployables, :collection => { :multi_destroy => :delete }, :member => { :pick_assemblies => :get, :remove_assemblies => :delete, :add_assemblies => :put, :launch => :post }
   map.resources :templates, :collection => {:collections => :get, :add_selected => :get, :metagroup_packages => :get, :remove_package => :get, :multi_destroy => :delete}
   map.connect "/builds/update_status.:format", :controller => :builds, :action => :update_status
   map.resources :builds, :collection => { :delete => :delete, :upload => :get, :retry => :post }

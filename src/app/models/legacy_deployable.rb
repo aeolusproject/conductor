@@ -35,7 +35,7 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 require 'sunspot_rails'
-class Deployable < ActiveRecord::Base
+class LegacyDeployable < ActiveRecord::Base
   include PermissionedObject
   include ImageWarehouseObject
   searchable do
@@ -75,7 +75,7 @@ class Deployable < ActiveRecord::Base
   end
 
   def self.find_or_create(id)
-    id ? Deployable.find(id) : Deployable.new
+    id ? LegacyDeployable.find(id) : LegacyDeployable.new
   end
 
   def destroyable?

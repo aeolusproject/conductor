@@ -8,7 +8,7 @@ class UpdateInstances < ActiveRecord::Migration
 
     create_table :assemblies_instances, :id => false do |t|
       t.integer :assembly_id,  :null => false
-      t.integer :deployable_id,  :null => false
+      t.integer :legacy_deployable_id,  :null => false
     end
   end
 

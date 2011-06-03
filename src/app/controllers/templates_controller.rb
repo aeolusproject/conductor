@@ -78,7 +78,7 @@ class TemplatesController < ApplicationController
       flash[:notice] = "Template saved."
       @tpl.set_complete
       if params[:create_deployable]
-        Deployable.create!(:name => @tpl.name, :assemblies => @tpl.assemblies, :owner => current_user)
+        LegacyDeployable.create!(:name => @tpl.name, :assemblies => @tpl.assemblies, :owner => current_user)
       end
       redirect_to templates_path
     else

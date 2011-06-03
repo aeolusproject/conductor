@@ -46,7 +46,7 @@ class Assembly < ActiveRecord::Base
   end
 
   has_and_belongs_to_many :templates
-  has_and_belongs_to_many :deployables
+  has_and_belongs_to_many :legacy_deployables
   has_many :instances
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,

@@ -1,6 +1,6 @@
 class UpdateDeployables < ActiveRecord::Migration
   def self.up
-    change_table :deployables do |t|
+    change_table :legacy_deployables do |t|
       t.integer :lock_version, :default => 0
       t.string  :uuid, :null => false
       t.binary  :xml, :null => false
@@ -9,15 +9,15 @@ class UpdateDeployables < ActiveRecord::Migration
       t.boolean :uploaded, :default => false
     end
 
-    create_table :assemblies_deployables, :id => false do |t|
+    create_table :assemblies_legacy_deployables, :id => false do |t|
       t.integer :assembly_id,  :null => false
-      t.integer :deployable_id,  :null => false
+      t.integer :legacy_deployable_id,  :null => false
     end
   end
 
   def self.down
-    drop_table :assemblies_deployables
-    change_table :deployables do |t|
+    drop_table :assemblies_legacy_deployables
+    change_table :legacy_deployables do |t|
       t.remove  :lock_version, :uuid, :xml, :uri, :summary, :uploaded
     end
   end

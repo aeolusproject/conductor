@@ -17,10 +17,10 @@ describe Deployment do
   end
 
   it "should require deployable to be set" do
-    @deployment.deployable_id = nil
+    @deployment.legacy_deployable_id = nil
     @deployment.should_not be_valid
 
-    @deployment.deployable_id = 1
+    @deployment.legacy_deployable_id = 1
     @deployment.should be_valid
   end
 
@@ -59,16 +59,16 @@ describe Deployment do
     hwp = Factory(:mock_hwp1)
     hwp_ids = {}
     @deployment.save!
-    @deployment.deployable.assemblies.each {|a| hwp_ids[a.id.to_s] = hwp.id}
+    @deployment.legacy_deployable.assemblies.each {|a| hwp_ids[a.id.to_s] = hwp.id}
     @deployment.instances.should be_empty
     errs = @deployment.launch(hwp_ids, Factory(:user))
     errs.should be_empty
-    @deployment.instances.count.should == @deployment.deployable.assemblies.count
+    @deployment.instances.count.should == @deployment.legacy_deployable.assemblies.count
   end
 
   it "should not launch a deployment if deployable has not assemblies" do
     @deployment.save!
-    @deployment.deployable.assemblies = []
+    @deployment.legacy_deployable.assemblies = []
     lambda {@deployment.launch}.should raise_exception
   end
 

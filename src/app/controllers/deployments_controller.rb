@@ -14,7 +14,7 @@ class DeploymentsController < ApplicationController
 
   def launch_new
     @launchable_deployables = []
-    Deployable.all.each do |deployable|
+    LegacyDeployable.all.each do |deployable|
       @launchable_deployables << deployable if deployable.launchable?
     end
     respond_to do |format|
@@ -26,9 +26,9 @@ class DeploymentsController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, Deployment)
-    @deployment = Deployment.new(:deployable_id => params[:deployable_id])
+    @deployment = Deployment.new(:legacy_deployable_id => params[:legacy_deployable_id])
     respond_to do |format|
-      if @deployment.deployable.assemblies.empty?
+      if @deployment.legacy_deployable.assemblies.empty?
         flash[:warning] = "Deployable must have at least one assembly"
         format.js do
           load_deployments

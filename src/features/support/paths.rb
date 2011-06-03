@@ -114,13 +114,13 @@ module NavigationHelpers
       provider_account_path(ProviderAccount.find_by_label($1))
 
     when /the deployable deployments page/
-      deployable_path(@deployable, :details_tab => 'deployments')
+      legacy_deployable_path(@deployable, :details_tab => 'deployments')
 
     when /the operational status of deployment page/
       deployment_path(@deployment, :details_tab => 'operation')
 
     when /^(.*)'s deployable page$/
-      deployable_path(Deployable.find_by_name($1))
+      legacy_deployable_path(LegacyDeployable.find_by_name($1))
 
     when /^(.*)'s edit deployment page$/
       edit_deployment_path(Deployment.find_by_name($1))

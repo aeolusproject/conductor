@@ -1,5 +1,5 @@
 .grid_13
-  - form_tag(deployable_path(@deployable)) do
+  - form_tag(legacy_deployable_path(@deployable)) do
     %table#assemblies_list
       %thead
         %tr
@@ -12,5 +12,5 @@
           %td= assembly.name
 
     -# AJAX post
-    = restful_submit_tag('Save', 'add_assemblies', add_assemblies_deployable_path(@deployable), 'PUT')
-    = link_to "Back", deployable_path(@deployable, :details_tab => 'assemblies'), :class => 'button'
+    = restful_submit_tag('Save', 'add_assemblies', add_assemblies_legacy_deployable_path(@deployable), 'PUT')
+    = link_to "Back", legacy_deployable_path(@deployable, :details_tab => 'assemblies'), :class => 'button'

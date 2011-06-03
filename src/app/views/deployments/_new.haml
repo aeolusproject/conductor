@@ -1,7 +1,7 @@
 = error_messages_for 'deployment'
 %h2 Launch deployable
 - form_for @deployment, :url => deployments_path do
-  = hidden_field :deployment, :deployable_id
+  = hidden_field :deployment, :legacy_deployable_id
   %ul
     %li
       = label :deployment, :name
@@ -15,7 +15,7 @@
     %p
     %h3 Assemblies hardware profiles
     %ul
-      - @deployment.deployable.assemblies.each do |assembly|
+      - @deployment.legacy_deployable.assemblies.each do |assembly|
         %li
           - hwprofiles = @hardware_profiles.select {|hwp| hwp.architecture.value == assembly.templates.first.architecture}
           = label_tag "hw_profiles[#{assembly.id}]", assembly.name

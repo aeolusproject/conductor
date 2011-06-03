@@ -1,4 +1,4 @@
-class DeployablesController < ApplicationController
+class LegacyDeployablesController < ApplicationController
   before_filter :require_user
   before_filter :load_deployables, :only => [:index, :show, :pick_assemblies]
   before_filter :load_deployable_with_assemblies, :only => [:remove_assemblies, :add_assemblies, :pick_assemblies]
@@ -7,14 +7,14 @@ class DeployablesController < ApplicationController
     require_privilege(Privilege::VIEW, Template)
     @search_term = params[:q]
     return if @search_term.blank?
-    search = Deployable.search() do
+    search = LegacyDeployable.search() do
       keywords(params[:q])
     end
     @deployables = search.results
   end
 
   def show
-    @deployable = Deployable.find(params[:id])
+    @deployable = LegacyDeployable.find(params[:id])
     require_privilege(Privilege::VIEW, @deployable)
     @url_params = params.clone
     @tab_captions = ['Properties', 'Assemblies', 'Deployments']
@@ -35,32 +35,32 @@ class DeployablesController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, Template)
-    @deployable = Deployable.new
+    @deployable = LegacyDeployable.new
   end
 
   def create
     require_privilege(Privilege::CREATE, Template)
-    @deployable = Deployable.new(params[:deployable])
+    @deployable = LegacyDeployable.new(params[:legacy_deployable])
     @deployable.owner = current_user
     if @deployable.save
       flash[:notice] = "Deployable added."
-      redirect_to deployable_url(@deployable)
+      redirect_to legacy_deployable_url(@deployable)
     else
       render :action => :new
     end
   end
 
   def edit
-    @deployable = Deployable.find(params[:id])
+    @deployable = LegacyDeployable.find(params[:id])
     require_privilege(Privilege::MODIFY, @deployable)
   end
 
   def update
-    @deployable = Deployable.find(params[:id])
+    @deployable = LegacyDeployable.find(params[:id])
     require_privilege(Privilege::MODIFY, @deployable)
-    if @deployable.update_attributes(params[:deployable])
+    if @deployable.update_attributes(params[:legacy_deployable])
       flash[:notice] = "Deployable updated."
-      redirect_to deployable_url(@deployable)
+      redirect_to legacy_deployable_url(@deployable)
     else
       render :action => :edit
     end
@@ -69,7 +69,7 @@ class DeployablesController < ApplicationController
   def multi_destroy
     destroyed = []
     failed = []
-    Deployable.find(params[:deployables_selected]).each do |deployable|
+    LegacyDeployable.find(params[:deployables_selected]).each do |deployable|
       if check_privilege(Privilege::MODIFY, deployable) and deployable.destroyable?
         deployable.destroy
         destroyed << deployable.name
@@ -84,7 +84,7 @@ class DeployablesController < ApplicationController
     unless failed.empty?
       flash[:error] = t('deployables.index.not_deleted', :count => failed.length, :list => failed.join(', '))
     end
-    redirect_to deployables_url
+    redirect_to legacy_deployables_url
   end
 
   def pick_assemblies
@@ -105,7 +105,7 @@ class DeployablesController < ApplicationController
     end
     respond_to do |format|
       format.js { render :partial => 'assemblies' }
-      format.html { redirect_to deployable_url(@deployable, :details_tab => 'assemblies') and return }
+      format.html { redirect_to legacy_deployable_url(@deployable, :details_tab => 'assemblies') and return }
     end
   end
 
@@ -118,7 +118,7 @@ class DeployablesController < ApplicationController
     end
     respond_to do |format|
       format.js { render :partial => 'assemblies' }
-      format.html { redirect_to deployable_url(@deployable, :details_tab => 'assemblies') and return }
+      format.html { redirect_to legacy_deployable_url(@deployable, :details_tab => 'assemblies') and return }
     end
   end
 
@@ -136,7 +136,7 @@ class DeployablesController < ApplicationController
       { :name => "Heath Metric", :sort_attr => :health },
       { :name => "Pool", :sort_attr => "pool.name" }
     ]
-    @deployables = Deployable.paginate(:all,
+    @deployables = LegacyDeployable.paginate(:all,
       :page => params[:page] || 1,
       :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )
@@ -144,6 +144,6 @@ class DeployablesController < ApplicationController
   end
 
   def load_deployable_with_assemblies
-    @deployable = Deployable.find(params[:id], :include => :assemblies)
+    @deployable = LegacyDeployable.find(params[:id], :include => :assemblies)
   end
 end

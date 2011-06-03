@@ -3,9 +3,9 @@ Given /^there is an assembly named "([^"]*)"$/ do |name|
 end
 
 Given /^there is an assembly named "([^"]*)" belonging to "([^"]*)"$/ do |assembly_name, deployable_name|
-  deployable = Deployable.find_by_name(deployable_name)
+  deployable = LegacyDeployable.find_by_name(deployable_name)
   deployable.assemblies.create!(:name => assembly_name, :architecture => 'x86_64', :owner => user)
-#  Assembly.create!(:name => assembly, :architecture => 'x86_64', :deployable => Deployable.find_by_name(deployable))
+#  Assembly.create!(:name => assembly, :architecture => 'x86_64', :legacy_deployable => Deployable.find_by_name(legacy_deployable))
 end
 
 Given /^there is an assembly named "([^"]*)" belonging to "([^"]*)" template$/ do |assembly_name, template_name|
@@ -16,7 +16,7 @@ Given /^there is an assembly named "([^"]*)" belonging to "([^"]*)" template$/ d
   else
     template.assemblies.create!(:name => assembly_name, :architecture => 'x86_64')
   end
-#  Assembly.create!(:name => assembly, :architecture => 'x86_64', :deployable => Deployable.find_by_name(deployable))
+#  Assembly.create!(:name => assembly, :architecture => 'x86_64', :legacy_deployable => Deployable.find_by_name(legacy_deployable))
 end
 
 When /^I check the "([^"]*)" assembly$/ do |name|

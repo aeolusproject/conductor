@@ -214,7 +214,6 @@ class PoolsController < ApplicationController
       { :name => t("uptime"), :sortable => false },
       { :name => t("instances.instances"), :sortable => false },
       { :name => t("providers.provider"), :sortable => false }
-
     ]
   end
 

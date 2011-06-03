@@ -1,3 +1,3 @@
 %h2 New Deployable
-- form_for @deployable, :url => deployables_path do |f|
+- form_for @deployable, :url => legacy_deployables_path do |f|
   = render :partial => "form", :locals => { :form => f }

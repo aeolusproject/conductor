@@ -1,16 +1,16 @@
 require 'spec_helper'
 
-describe Deployable do
+describe LegacyDeployable do
 
   it "should have automatically generated uuid after validation" do
-    d = Factory.build(:deployable)
+    d = Factory.build(:legacy_deployable)
     d.uuid = nil
     d.save
     d.uuid.should_not be_nil
   end
 
   it "should not be valid if deployable name is too long" do
-    d = Factory.build(:deployable)
+    d = Factory.build(:legacy_deployable)
     d.name = ('a' * 256)
     d.valid?.should be_false
     d.errors[:name].should_not be_nil
@@ -18,26 +18,26 @@ describe Deployable do
   end
 
   it "should have associated assembly" do
-    d = Factory.build(:deployable)
+    d = Factory.build(:legacy_deployable)
     d.assemblies.size.should eql(1)
   end
 
   it "should not be destroyable when it has running instances" do
-    deployable = Factory.create(:deployable)
-    deployment = Factory.create(:deployment, :deployable_id => deployable.id)
+    deployable = Factory.create(:legacy_deployable)
+    deployment = Factory.create(:deployment, :legacy_deployable_id => deployable.id)
     assembly = Factory.create(:assembly)
 
     instance = Factory.create(:instance, :deployment_id => deployment.id, :assembly_id => assembly.id, :template_id => nil)
-    Deployable.find(deployable).should_not be_destroyable
+    LegacyDeployable.find(deployable).should_not be_destroyable
 
     instance.state = Instance::STATE_STOPPED
     instance.save!
-    Deployable.find(deployable).should be_destroyable
+    LegacyDeployable.find(deployable).should be_destroyable
   end
 
   it "should not be destroyable when it has stopped stateful instances" do
-    deployable = Factory.build(:deployable)
-    deployment = Factory.build(:deployment, :deployable_id => deployable.id)
+    deployable = Factory.build(:legacy_deployable)
+    deployment = Factory.build(:deployment, :legacy_deployable_id => deployable.id)
     deployable.deployments << deployment
     assembly = Factory.build(:assembly)
 

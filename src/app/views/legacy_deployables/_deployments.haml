@@ -12,7 +12,7 @@
               %input{:name => "deployments_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}", :checked => selected }
               = link_to deployment.name, deployment_path(deployment)
             %td
-              = deployment.deployable.name
+              = deployment.legacy_deployable.name
             %td
               = deployment.owner.login
             %td

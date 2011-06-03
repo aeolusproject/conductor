@@ -224,5 +224,5 @@ Feature: Manage Templates
       And I press "Save"
       Then I should be on the templates page
       And I should see "mocktemplate"
-      When I go to the deployables page
+      When I go to the legacy_deployables page
       And I should see "mocktemplate"

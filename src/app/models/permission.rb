@@ -61,7 +61,7 @@ class Permission < ActiveRecord::Base
                                       :foreign_key => "permission_object_id"
   belongs_to :assembly,               :class_name => "Assembly",
                                       :foreign_key => "permission_object_id"
-  belongs_to :deployable,             :class_name => "Deployable",
+  belongs_to :legacy_deployable,             :class_name => "LegacyDeployable",
                                       :foreign_key => "permission_object_id"
   belongs_to :base_permission_object, :class_name => "BasePermissionObject",
                                       :foreign_key => "permission_object_id"

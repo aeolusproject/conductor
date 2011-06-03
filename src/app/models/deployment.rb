@@ -46,7 +46,7 @@ class Deployment < ActiveRecord::Base
 
   belongs_to :pool
 
-  belongs_to :deployable
+  belongs_to :legacy_deployable
   has_many :instances
 
   belongs_to :realm
@@ -62,7 +62,7 @@ class Deployment < ActiveRecord::Base
   has_one :provider, :through => :realm
 
   validates_presence_of :pool_id
-  validates_presence_of :deployable_id
+  validates_presence_of :legacy_deployable_id
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id
@@ -114,8 +114,8 @@ class Deployment < ActiveRecord::Base
 
   def launch(hw_profiles, user)
     errors = []
-    raise "the deployable must have at least one assembly and each assembly must have at least one template" unless deployable.launchable?
-    deployable.assemblies.each do |assembly|
+    raise "the deployable must have at least one assembly and each assembly must have at least one template" unless legacy_deployable.launchable?
+    legacy_deployable.assemblies.each do |assembly|
       # TODO: for now we try to start all instances even if some of them fails
       begin
         Instance.transaction do

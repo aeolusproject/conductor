@@ -33,7 +33,7 @@ Feature: Manage Deployments
     When I go to the deployments page
     And I follow "New Deployment"
     Then I should see "Launch new deployment via"
-    When I select "testdeployable" from "deployable_id"
+    When I select "testdeployable" from "legacy_deployable_id"
     When I press "Launch"
     Then I should see "Launch deployable"
 
@@ -48,7 +48,7 @@ Feature: Manage Deployments
     And I follow "New Deployment"
     Then I should see "Launch new deployment via"
     And I should get back a partial
-    When I select "testdeployable" from "deployable_id"
+    When I select "testdeployable" from "legacy_deployable_id"
     When I press "Launch"
     Then I should get back a partial
     And I should see "Launch deployable"
