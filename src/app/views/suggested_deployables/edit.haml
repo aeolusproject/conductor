@@ -1,0 +1,3 @@
+%h2 Edit deployable
+- form_for @suggested_deployable, :url => suggested_deployable_path(@suggested_deployable), :html => { :method => :put } do |f|
+  = render :partial => "form", :locals => { :form => f }

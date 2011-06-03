@@ -140,9 +140,16 @@ en:
       not_deleted:
         one: "Template %{list} was not deleted."
         other: "Templates %{list} were not deleted."
+  suggested_deployables:
+    index:
+      suggested_deployables: Suggested Deployables
+      name: Name
+      url: URL
   deployables:
     index:
       deployables: Deployables
+      name: Name
+      description: Description
       base_deployable: Base Deployable
       deleted:
         one: "Deployable %{list} was deleted."

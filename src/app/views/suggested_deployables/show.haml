@@ -1,0 +1,14 @@
+= render :partial => 'layouts/admin_header'
+%h2= "'#{@suggested_deployable.name}' Deployable"
+%ul
+  %li
+    = label_tag :name, 'Name'
+    %span= @suggested_deployable.name
+  %li
+    = label_tag :description, 'Description'
+    %span= @suggested_deployable.description
+  %li
+    = label_tag :url, 'URL'
+    %span= @suggested_deployable.url
+
+  = link_to t(:edit), edit_suggested_deployable_path(@suggested_deployable), :class => 'button formbutton'

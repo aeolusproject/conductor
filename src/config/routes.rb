@@ -57,6 +57,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :pool_families, :collection => { :multi_destroy => :delete, :add_provider_account => :post, :multi_destroy_provider_accounts => :delete }
   map.resources :realms, :collection => { :multi_destroy => :delete }
   map.resources :realm_mappings, :collection => { :multi_destroy => :delete }
+  map.resources :suggested_deployables, :collection => { :multi_destroy => :delete }
 
   map.matching_profiles '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }
 

@@ -1,0 +1,14 @@
+= error_messages_for 'suggested_deployable'
+%ul
+  %li
+    = form.label :name
+    = form.text_field :name
+  %li
+    = form.label :description
+    = form.text_area :description
+  %li
+    = form.label :url, 'URL'
+    = form.text_field :url
+
+= submit_tag 'Cancel', :name => 'cancel'
+= submit_tag 'Save', :name => 'save'

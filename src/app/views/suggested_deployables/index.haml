@@ -1,0 +1,12 @@
+= render :partial => 'layouts/admin_header'
+- form_header = capture_haml do
+  = link_to "Add Deployable", new_suggested_deployable_path, { :class => 'button' }
+  = restful_submit_tag "Delete", "destroy", multi_destroy_suggested_deployables_path, 'DELETE', :id => 'delete_button'
+= filter_table(@header, @suggested_deployables, :form_header => form_header) do |deployable|
+  %tr
+    %td
+      %input{:name => "suggested_deployables_selected[]", :type => "checkbox", :value => deployable.id, :id => "suggested_deployable_checkbox_#{deployable.id}" }
+    %td
+      = link_to deployable.name, suggested_deployable_path(deployable.id)
+    %td
+      = deployable.url
