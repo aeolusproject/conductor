@@ -11,7 +11,7 @@
 #  status             :string(255)
 #
 
-class ProviderImage < ActiveRecord::Base
+class LegacyProviderImage < ActiveRecord::Base
   include ImageWarehouseObject
 
   belongs_to :provider
@@ -44,7 +44,7 @@ class ProviderImage < ActiveRecord::Base
   end
 
   def warehouse_bucket
-    'provider_images'
+    'legacy_provider_images'
   end
 
   def warehouse_sync

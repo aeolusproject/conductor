@@ -70,6 +70,6 @@ describe Image do
           img.template.uploaded.should be_true
         end.should change(Image, :count).by(1)
       end.should change(Template, :count).by(1)
-    end.should change(ProviderImage, :count).by(1)
+    end.should change(LegacyProviderImage, :count).by(1)
   end
 end

@@ -34,7 +34,7 @@ class WarehouseSync
           end
         end
         @logger.info "*** syncing provider images"
-        ProviderImage.all.each do |i|
+        LegacyProviderImage.all.each do |i|
           i.safe_warehouse_sync
           if i.changed?
             i.save! rescue @logger.error "failed to save image #{i.uuid}: #{$!.message}"

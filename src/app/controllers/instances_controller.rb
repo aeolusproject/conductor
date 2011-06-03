@@ -42,8 +42,8 @@ class InstancesController < ApplicationController
     # => TODO: add TEMPLATE_* permissions
     @templates = Template.paginate(
       :page => params[:page] || 1,
-      :include => {:images => :provider_images},
-      :conditions => "provider_images.status = '#{ProviderImage::STATE_COMPLETED}'"
+      :include => {:images => :legacy_provider_images},
+      :conditions => "legacy_provider_images.status = '#{LegacyProviderImage::STATE_COMPLETED}'"
     )
     respond_to do |format|
       format.html

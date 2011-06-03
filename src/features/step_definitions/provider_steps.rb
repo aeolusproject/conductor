@@ -37,7 +37,7 @@ Given /^there are these providers:$/ do |table|
 end
 
 Given /^this provider has (\d+) provider images$/ do |number|
-  number.to_i.times { |i| Factory(:provider_image, :provider => @provider) }
+  number.to_i.times { |i| Factory(:legacy_provider_image, :provider => @provider) }
 end
 
 Given /^this provider has (\d+) hardware profiles$/ do |number|
@@ -54,7 +54,7 @@ Given /^this provider has a provider account$/ do
 end
 
 Then /^there should not be any provider images$/ do
-  ProviderImage.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
+  LegacyProviderImage.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
 end
 
 Then /^there should not be any hardware profiles$/ do

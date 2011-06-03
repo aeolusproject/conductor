@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProviderImage do
+describe LegacyProviderImage do
   it "should have a provider_id" do
     i = Factory.build(:mock_provider_image)
     i.should be_valid

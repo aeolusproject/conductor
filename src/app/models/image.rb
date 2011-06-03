@@ -48,8 +48,8 @@ class Image < ActiveRecord::Base
   @@per_page = 15
 
   belongs_to :template, :counter_cache => true
-  has_many :provider_images, :dependent => :destroy
-  has_many :providers, :through => :provider_images
+  has_many :legacy_provider_images, :dependent => :destroy
+  has_many :providers, :through => :legacy_provider_images
   belongs_to :provider_type
 
   validates_presence_of :name
@@ -91,12 +91,12 @@ class Image < ActiveRecord::Base
     end
     self.status = STATE_QUEUED
     self.save!
-    self.provider_images.each {|pimg| pimg.destroy}
+    self.legacy_provider_images.each {|pimg| pimg.destroy}
     Delayed::Job.enqueue(BuildJob.new(self.id))
   end
 
   def not_uploaded_providers
-    uploaded = self.provider_images
+    uploaded = self.legacy_provider_images
     Provider.all(:conditions => {:provider_type_id => self.provider_type.id}).select do |p|
       not uploaded.detect {|pimg| pimg.provider_id == p.id}
     end
@@ -144,7 +144,7 @@ class Image < ActiveRecord::Base
       raise "There is no image with '#{image_id}' id"
     end
 
-    if ProviderImage.find_by_provider_id_and_provider_image_key(account.provider.id, image_id)
+    if LegacyProviderImage.find_by_provider_id_and_provider_image_key(account.provider.id, image_id)
       raise "Image '#{image_id}' is already imported"
     end
 
@@ -173,7 +173,7 @@ class Image < ActiveRecord::Base
       image.upload
       image.save!
 
-      rep = ProviderImage.new(
+      rep = LegacyProviderImage.new(
         :image_id           => image.id,
         :provider_id        => account.provider.id,
         :provider_image_key => image_id,
@@ -218,10 +218,10 @@ class Image < ActiveRecord::Base
     provider_type.providers.each do |p|
       # upload only to providers with account
       unless p.provider_accounts.empty?
-        pimg = ProviderImage.create!(
+        pimg = LegacyProviderImage.create!(
           :image => self,
           :provider => p,
-          :status => ProviderImage::STATE_QUEUED
+          :status => LegacyProviderImage::STATE_QUEUED
         )
         Delayed::Job.enqueue(PushJob.new(pimg.id))
       end

@@ -16,7 +16,7 @@ class Icicle < ActiveRecord::Base
 
   validates_presence_of :uuid
   validates_uniqueness_of :uuid
-  belongs_to :provider_image
+  belongs_to :legacy_provider_image
 
   def self.create_or_update(uuid)
     icicle = Icicle.find_by_uuid(uuid) || Icicle.new(:uuid => uuid)

@@ -92,7 +92,7 @@ class Template < ActiveRecord::Base
 
   def providers
     # TODO: rewrite cleanly
-    ProviderImage.all(
+    LegacyProviderImage.all(
       :include => [:image, :provider],
       :conditions => {:images => {:template_id => self.id}}
     ).map {|p| p.provider}

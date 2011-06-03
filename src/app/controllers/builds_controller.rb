@@ -23,10 +23,10 @@ class BuildsController < ApplicationController
 
   def upload
     @tpl = Template.find(params[:template_id])
-    pimg = ProviderImage.create!(
+    pimg = LegacyProviderImage.create!(
       :image => Image.find(params[:image_id]),
       :provider => Provider.find(params[:provider_id]),
-      :status => ProviderImage::STATE_QUEUED
+      :status => LegacyProviderImage::STATE_QUEUED
     )
     Delayed::Job.enqueue(PushJob.new(pimg.id))
     redirect_to template_path(@tpl, :details_tab => 'builds')
@@ -61,7 +61,7 @@ class BuildsController < ApplicationController
           flash[:warning] = "could not find image #{image_id}"
         end
       elsif params[:provider_image_id]
-        provider_image = ProviderImage.find(params[:provider_image_id])
+        provider_image = LegacyProviderImage.find(params[:provider_image_id])
         if provider_image
           provider_image.retry_upload!
           flash[:notice] = "Queued upload of provider image #{provider_image.image.name} to #{provider_image.provider.name}"
@@ -81,7 +81,7 @@ class BuildsController < ApplicationController
 
   def update_status
     image = Image.find_by_uuid(params[:uuid])
-    image = ProviderImage.find_by_uuid(params[:uuid]) unless image
+    image = LegacyProviderImage.find_by_uuid(params[:uuid]) unless image
 
     if image
       image.status = params[:status]

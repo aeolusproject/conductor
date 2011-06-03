@@ -3,7 +3,7 @@ class CreateIcicles < ActiveRecord::Migration
     create_table :icicles do |t|
       t.string     :uuid
       t.text       :xml
-      t.integer    :provider_image_id
+      t.integer    :legacy_provider_image_id
       t.timestamps
     end
   end

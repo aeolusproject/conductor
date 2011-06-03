@@ -48,7 +48,7 @@ def match(instance)
       hwp = HardwareProfile.match_provider_hardware_profile(account.provider,
                                                             instance.hardware_profile)
 
-      provider_images = hwp.provider.provider_images.find(:all,
+      provider_images = hwp.provider.legacy_provider_images.find(:all,
                                                           :conditions => ['provider_image_key IS NOT NULL'])
       provider_images.each do |pi|
         if pi.image.template.id != template_id

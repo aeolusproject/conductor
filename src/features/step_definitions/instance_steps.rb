@@ -56,7 +56,7 @@ Given /^there is a "([^"]*)" stopped instance$/ do |name|
 end
 
 Given /^there is an uploaded image for a template$/ do
-  Factory :provider_image
+  Factory :legacy_provider_image
 end
 
 Given /^there is "([^"]*)" conductor hardware profile$/ do |name|

@@ -26,7 +26,7 @@ Builds for
           = submit_tag "Retry build", :name => "build"
         - if img.status == Image::STATE_COMPLETED
           %ul
-            - img.provider_images.each do |pimg|
+            - img.legacy_provider_images.each do |pimg|
               %li
                 - form_tag(retry_builds_path, { :method => :post }) do
                   = "#{pimg.provider.name}: #{pimg.status}"

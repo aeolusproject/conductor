@@ -19,12 +19,12 @@
 require 'rest_client'
 require 'nokogiri'
 
-class PushJob < Struct.new(:provider_image_id, :hydra)
+class PushJob < Struct.new(:legacy_provider_image_id, :hydra)
   def perform
     @logger = Delayed::Worker.logger
     @logger.info "--- start ---"
-    @logger.info "PushJob for provider_image_id: #{provider_image_id}"
-    provider_image = ProviderImage.find(provider_image_id)
+    @logger.info "PushJob for legacy_provider_image_id: #{legacy_provider_image_id}"
+    provider_image = LegacyProviderImage.find(legacy_provider_image_id)
     # TODO: what if a provider has multiple accounts
     # for now pick first account
     provider_account = provider_image.provider.provider_accounts.first
