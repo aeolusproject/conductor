@@ -4,7 +4,7 @@ class LegacyDeployablesController < ApplicationController
   before_filter :load_deployable_with_assemblies, :only => [:remove_assemblies, :add_assemblies, :pick_assemblies]
 
   def index
-    require_privilege(Privilege::VIEW, Template)
+    require_privilege(Privilege::VIEW, LegacyTemplate)
     @search_term = params[:q]
     return if @search_term.blank?
     search = LegacyDeployable.search() do
@@ -34,12 +34,12 @@ class LegacyDeployablesController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, Template)
+    require_privilege(Privilege::CREATE, LegacyTemplate)
     @deployable = LegacyDeployable.new
   end
 
   def create
-    require_privilege(Privilege::CREATE, Template)
+    require_privilege(Privilege::CREATE, LegacyTemplate)
     @deployable = LegacyDeployable.new(params[:legacy_deployable])
     @deployable.owner = current_user
     if @deployable.save
@@ -89,7 +89,7 @@ class LegacyDeployablesController < ApplicationController
 
   def pick_assemblies
     require_privilege(Privilege::MODIFY, @deployable)
-    @assemblies = Assembly.all - @deployable.assemblies
+    @assemblies = LegacyAssembly.all - @deployable.legacy_assemblies
     respond_to do |format|
       format.js { render :partial => 'pick_assemblies' }
       format.html { render 'pick_assemblies' }
@@ -99,7 +99,7 @@ class LegacyDeployablesController < ApplicationController
   def add_assemblies
     require_privilege(Privilege::MODIFY, @deployable)
     if assemblies = params.delete(:assemblies_selected)
-      @deployable.assembly_ids += assemblies.collect{|a| a.to_i}
+      @deployable.legacy_assembly_ids += assemblies.collect{|a| a.to_i}
       @deployable.save!
       flash[:notice] = "Assemblies saved."
     end
@@ -112,7 +112,7 @@ class LegacyDeployablesController < ApplicationController
   def remove_assemblies
     require_privilege(Privilege::MODIFY, @deployable)
     if params[:assemblies_selected].present?
-      @deployable.assembly_ids = @deployable.assembly_ids - params[:assemblies_selected].collect{|a| a.to_i}
+      @deployable.legacy_assembly_ids = @deployable.legacy_assembly_ids - params[:assemblies_selected].collect{|a| a.to_i}
       @deployable.save!
       flash[:notice] = "Assemblies removed."
     end
@@ -144,6 +144,6 @@ class LegacyDeployablesController < ApplicationController
   end
 
   def load_deployable_with_assemblies
-    @deployable = LegacyDeployable.find(params[:id], :include => :assemblies)
+    @deployable = LegacyDeployable.find(params[:id], :include => :legacy_assemblies)
   end
 end

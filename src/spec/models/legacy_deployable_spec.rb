@@ -19,15 +19,15 @@ describe LegacyDeployable do
 
   it "should have associated assembly" do
     d = Factory.build(:legacy_deployable)
-    d.assemblies.size.should eql(1)
+    d.legacy_assemblies.size.should eql(1)
   end
 
   it "should not be destroyable when it has running instances" do
     deployable = Factory.create(:legacy_deployable)
     deployment = Factory.create(:deployment, :legacy_deployable_id => deployable.id)
-    assembly = Factory.create(:assembly)
+    assembly = Factory.create(:legacy_assembly)
 
-    instance = Factory.create(:instance, :deployment_id => deployment.id, :assembly_id => assembly.id, :template_id => nil)
+    instance = Factory.create(:instance, :deployment_id => deployment.id, :legacy_assembly_id => assembly.id, :legacy_template_id => nil)
     LegacyDeployable.find(deployable).should_not be_destroyable
 
     instance.state = Instance::STATE_STOPPED
@@ -39,9 +39,9 @@ describe LegacyDeployable do
     deployable = Factory.build(:legacy_deployable)
     deployment = Factory.build(:deployment, :legacy_deployable_id => deployable.id)
     deployable.deployments << deployment
-    assembly = Factory.build(:assembly)
+    assembly = Factory.build(:legacy_assembly)
 
-    instance = Factory.build(:instance, :deployment_id => deployment.id, :assembly_id => assembly.id, :template_id => nil)
+    instance = Factory.build(:instance, :deployment_id => deployment.id, :legacy_assembly_id => assembly.id, :legacy_template_id => nil)
     instance.stub!(:restartable?).and_return(true)
     deployment.instances << instance
     deployable.should_not be_destroyable

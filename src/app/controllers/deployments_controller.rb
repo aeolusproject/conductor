@@ -28,7 +28,7 @@ class DeploymentsController < ApplicationController
     require_privilege(Privilege::CREATE, Deployment)
     @deployment = Deployment.new(:legacy_deployable_id => params[:legacy_deployable_id])
     respond_to do |format|
-      if @deployment.legacy_deployable.assemblies.empty?
+      if @deployment.legacy_deployable.legacy_assemblies.empty?
         flash[:warning] = "Deployable must have at least one assembly"
         format.js do
           load_deployments

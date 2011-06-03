@@ -57,9 +57,9 @@ class Permission < ActiveRecord::Base
                                       :foreign_key => "permission_object_id"
   belongs_to :provider_account,          :class_name => "ProviderAccount",
                                       :foreign_key => "permission_object_id"
-  belongs_to :template,               :class_name => "Template",
+  belongs_to :legacy_template,               :class_name => "LegacyTemplate",
                                       :foreign_key => "permission_object_id"
-  belongs_to :assembly,               :class_name => "Assembly",
+  belongs_to :legacy_assembly,               :class_name => "LegacyAssembly",
                                       :foreign_key => "permission_object_id"
   belongs_to :legacy_deployable,             :class_name => "LegacyDeployable",
                                       :foreign_key => "permission_object_id"

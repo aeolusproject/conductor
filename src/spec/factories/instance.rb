@@ -3,7 +3,7 @@ Factory.define :instance do |i|
   i.sequence(:external_key) { |n| "key#{n}" }
   i.association :hardware_profile, :factory => :mock_hwp1
   i.provider_account { Factory.build(:mock_provider_account) }
-  i.association :template, :factory => :template
+  i.association :legacy_template, :factory => :legacy_template
   i.association :pool, :factory => :pool
   i.association :owner, :factory => :user
   i.state "running"

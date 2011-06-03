@@ -130,8 +130,8 @@ en:
     index:
       deleted: "Deleted the following Pool Families: %{list}."
       not_deleted: "Could not delete the following Pool Families: %{list}."
-  templates:
-    templates: Templates
+  legacy_templates:
+    legacy_templates: Templates
     index:
       deleted:
         one: "Template %{list} was deleted."

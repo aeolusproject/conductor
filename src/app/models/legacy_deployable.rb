@@ -43,7 +43,7 @@ class LegacyDeployable < ActiveRecord::Base
     text :summary, :as => :code_substring
   end
 
-  has_and_belongs_to_many :assemblies
+  has_and_belongs_to_many :legacy_assemblies
   has_many :deployments
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
@@ -65,7 +65,7 @@ class LegacyDeployable < ActiveRecord::Base
   before_destroy :destroyable?
 
   def self.default_privilege_target_type
-    Template
+    LegacyTemplate
   end
 
   def update_xml
@@ -83,9 +83,9 @@ class LegacyDeployable < ActiveRecord::Base
   end
 
   def launchable?
-    return false if assemblies.empty?
-    assemblies.each do |a|
-      return false if a.templates.empty?
+    return false if legacy_assemblies.empty?
+    legacy_assemblies.each do |a|
+      return false if a.legacy_templates.empty?
       # TODO: should we check if there is an uploaded image for each template in
       # assembly?
     end

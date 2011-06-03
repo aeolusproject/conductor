@@ -15,13 +15,13 @@ class LegacyProviderImage < ActiveRecord::Base
   include ImageWarehouseObject
 
   belongs_to :provider
-  belongs_to :image
+  belongs_to :legacy_image
   has_one :icicle, :dependent => :destroy
 
   validates_presence_of :provider_id
-  validates_presence_of :image_id
+  validates_presence_of :legacy_image_id
   validates_uniqueness_of :uuid, :allow_nil => true
-  validates_uniqueness_of :image_id, :scope => :provider_id
+  validates_uniqueness_of :legacy_image_id, :scope => :provider_id
 
   STATE_QUEUED = 'queued'
   STATE_COMPLETED = 'completed'
@@ -55,7 +55,7 @@ class LegacyProviderImage < ActiveRecord::Base
     unless attrs[:image]
       raise "image uuid is not set"
     end
-    unless img = Image.find_by_uuid(attrs[:image])
+    unless img = LegacyImage.find_by_uuid(attrs[:image])
       raise "image with uuid #{attrs[:image]} not found"
     end
     begin
@@ -63,7 +63,7 @@ class LegacyProviderImage < ActiveRecord::Base
     rescue
       logger.error "Failed to fetch icicle '#{attrs[:icicle]}', setting icicle to nil: #{$!.message}"
     end
-    self.image_id = img.id
+    self.legacy_image_id = img.id
     self.provider_image_key = attrs[:target_identifier]
   end
 end

@@ -11,7 +11,7 @@ describe InstancesController do
   it "should provide ui to create new instance" do
      UserSession.create(@admin)
      get :new
-     response.should redirect_to(select_template_instances_path)
+     response.should redirect_to(select_legacy_template_instances_path)
   end
 
   it "should fail to grant access to new pool ui for unauthenticated user" do
@@ -24,14 +24,14 @@ describe InstancesController do
      @pool_user = @pool_user_permission.user
      UserSession.create(@pool_user)
      pool = Permission.first(:conditions => {:permission_object_type => 'Pool', :user_id => @pool_user.id}).permission_object
-     template = Factory.build(:template)
+     template = Factory.build(:legacy_template)
      template.save!
      hwp = Factory.build(:mock_hwp1)
      hwp.save!
      lambda do
        post :create, :instance => { :name => 'mockinstance',
                                     :pool_id => pool.id,
-                                    :template_id => template.id,
+                                    :legacy_template_id => template.id,
                                     :hardware_profile_id => hwp.id }
      end.should change(Instance, :count).by(1)
      inst = Instance.find(:first, :conditions => ['name = ?', 'mockinstance'])
@@ -45,14 +45,14 @@ describe InstancesController do
      @pool_user2 = @pool_user2_permission.user
      UserSession.create(@pool_user)
      pool = Permission.first(:conditions => {:permission_object_type => 'Pool', :user_id => @pool_user.id}).permission_object
-     template = Factory.build(:template)
+     template = Factory.build(:legacy_template)
      template.save!
      hwp = Factory.build(:mock_hwp1)
      hwp.save!
      lambda do
        post :create, :instance => { :name => 'mockinstance',
                                     :pool_id => pool.id,
-                                    :template_id => template.id,
+                                    :legacy_template_id => template.id,
                                     :hardware_profile_id => hwp.id }
      end.should change(Instance, :count).by(1)
      inst = Instance.find_by_name('mockinstance')
@@ -72,11 +72,11 @@ describe InstancesController do
     #instance.pool.enabled = false
     UserSession.create(@admin)
     pool = Factory(:pool, :enabled => false)
-    template = Factory(:template)
+    template = Factory(:legacy_template)
     hwp = Factory(:mock_hwp1)
     post :create, :instance => { :name => 'mockinstance',
                                  :pool_id => pool.id,
-                                 :template_id => template.id,
+                                 :legacy_template_id => template.id,
                                  :hardware_profile_id => hwp.id }
     response.flash[:warning].should == "Failed to launch instance: Pool is not enabled"
   end
@@ -84,11 +84,11 @@ describe InstancesController do
   it "should respond to restful delete for a single instance" do
     UserSession.create(@admin)
     pool = Factory(:pool)
-    template = Factory(:template)
+    template = Factory(:legacy_template)
     hwp = Factory(:mock_hwp1)
     post :create, :instance => { :name => 'mockinstance2',
                              :pool_id => pool.id,
-                             :template_id => template.id,
+                             :legacy_template_id => template.id,
                              :hardware_profile_id => hwp.id }
     instance = Instance.find_by_name('mockinstance2')
     # An instance in 'new' state is not destroyable, so we have to fake it:
@@ -102,18 +102,18 @@ describe InstancesController do
   it "should respond to restful delete for multiple instances" do
     UserSession.create(@admin)
     pool = Factory(:pool)
-    template = Factory(:template)
+    template = Factory(:legacy_template)
     hwp = Factory(:mock_hwp1)
     lambda do
       post :create, :instance => { :name => 'mockinstance3',
                                :pool_id => pool.id,
-                               :template_id => template.id,
+                               :legacy_template_id => template.id,
                                :hardware_profile_id => hwp.id }
     end.should change(Instance, :count).by(1)
     lambda do
       post :create, :instance => { :name => 'mockinstance4',
                                :pool_id => pool.id,
-                               :template_id => template.id,
+                               :legacy_template_id => template.id,
                                :hardware_profile_id => hwp.id }
     end.should change(Instance, :count).by(1)
     instance1 = Instance.find_by_name('mockinstance3')
@@ -130,12 +130,12 @@ describe InstancesController do
   it "should not allow editing of protected attributes by users" do
     UserSession.create(@admin)
     pool = Factory(:pool)
-    template = Factory(:template)
+    template = Factory(:legacy_template)
     hwp = Factory(:mock_hwp1)
     lambda do
       post :create, :instance => { :name => 'mockinstance5',
                                :pool_id => pool.id,
-                               :template_id => template.id,
+                               :legacy_template_id => template.id,
                                :hardware_profile_id => hwp.id }
     end.should change(Instance, :count).by(1)
     instance = Instance.find_by_name('mockinstance5')

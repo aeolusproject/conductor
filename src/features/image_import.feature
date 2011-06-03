@@ -20,7 +20,7 @@ Feature: Import Images
     And I fill in "ami_id" with "img1"
     Given I press "Import"
     Then I should see "Image successfully imported"
-    And I should be on the templates page
+    And I should be on the legacy_templates page
 
   Scenario: Import an already imported image
     When I select "provider1" from "provider_account_id"

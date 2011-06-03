@@ -47,7 +47,7 @@ namespace :db do
   def create_instance(cloud_account)
     instance = Instance.new({:name => "instance" + Time.now.to_s,
                              :hardware_profile_id => HardwareProfile.find(:first),
-                             :image_id => Image.find(:first),
+                             :image_id => LegacyImage.find(:first),
                              :state => Instance::STATE_NEW,
                              :pool_id => 1,
                              :cloud_account_id => cloud_account.id

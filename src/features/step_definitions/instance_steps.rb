@@ -120,7 +120,7 @@ end
 
 When /^I create mock instance$/ do
   inst = Factory.build :mock_running_instance
-  visit instances_url, :post, 'instance[name]' => inst.name, 'instance[template_id]' => inst.template_id
+  visit instances_url, :post, 'instance[name]' => inst.name, 'instance[legacy_template_id]' => inst.legacy_template_id
 end
 
 Then /^I should see mock instance in JSON format$/ do

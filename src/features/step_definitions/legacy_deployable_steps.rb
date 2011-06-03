@@ -29,7 +29,7 @@ end
 
 When /^I select default hardware profile for assemblies in "([^"]*)"$/ do |arg1|
   deployable = LegacyDeployable.find_by_name(arg1)
-  deployable.assemblies.each do |a|
+  deployable.legacy_assemblies.each do |a|
     select('mock_profile', :from => "hw_profiles_#{a.id}")
   end
 end

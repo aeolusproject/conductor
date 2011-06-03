@@ -59,16 +59,16 @@ describe Deployment do
     hwp = Factory(:mock_hwp1)
     hwp_ids = {}
     @deployment.save!
-    @deployment.legacy_deployable.assemblies.each {|a| hwp_ids[a.id.to_s] = hwp.id}
+    @deployment.legacy_deployable.legacy_assemblies.each {|a| hwp_ids[a.id.to_s] = hwp.id}
     @deployment.instances.should be_empty
     errs = @deployment.launch(hwp_ids, Factory(:user))
     errs.should be_empty
-    @deployment.instances.count.should == @deployment.legacy_deployable.assemblies.count
+    @deployment.instances.count.should == @deployment.legacy_deployable.legacy_assemblies.count
   end
 
-  it "should not launch a deployment if deployable has not assemblies" do
+  it "should not launch a deployment if deployable has not legacy_assemblies" do
     @deployment.save!
-    @deployment.legacy_deployable.assemblies = []
+    @deployment.legacy_deployable.legacy_assemblies = []
     lambda {@deployment.launch}.should raise_exception
   end
 

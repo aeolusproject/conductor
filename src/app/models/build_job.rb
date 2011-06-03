@@ -29,12 +29,12 @@ class BuildJob < Struct.new(:image_id, :hydra)
       if (@hydra == nil)
         @hydra = Typhoeus::Hydra.new
       end
-      image = Image.find(image_id)
+      image = LegacyImage.find(image_id)
       request = Typhoeus::Request.new(YAML.load_file("#{RAILS_ROOT}/config/image_factory_console.yml")['buildurl'],
                                       :method => :post,
                                       :timeout => 60*1000, # in milliseconds
                                       :params => {
-                                        :template => image.template.warehouse_url,
+                                        :template => image.legacy_template.warehouse_url,
                                         :target => image.provider_type.codename})
       request.on_complete do |response|
         if response.success?

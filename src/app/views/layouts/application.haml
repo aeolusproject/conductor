@@ -32,7 +32,7 @@
           - # navigation before the proper wireframes exist for all the sections.
           - # Then we'll want to switch to the simple-nav gem or something else.
           %li{:class => "#{'active' if controller.top_section == :design}" }
-            = link_to 'Design &amp; Deploy', templates_path
+            = link_to 'Design &amp; Deploy', legacy_templates_path
           %li{:class => "#{'active' unless [:design, :administer].include? controller.top_section}" }
             = link_to 'Monitor', pools_path
           %li{:class => "#{'active' if controller.top_section == :administer}" }

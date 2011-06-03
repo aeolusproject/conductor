@@ -24,7 +24,7 @@ class OwnerRoles < ActiveRecord::Migration
                  "Pool Owner",
                  "Provider Owner",
                  "Provider Account Owner",
-                 "Template Owner"]
+                 "LegacyTemplate Owner"]
 
   def self.up
     add_column :roles, :assign_to_owner, :boolean, :default => false

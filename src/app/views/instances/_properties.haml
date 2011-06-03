@@ -14,17 +14,17 @@
   %li
     = label_tag :private_addresses, 'Private Addresses'
     %span= @instance.private_addresses
-  - if @instance.template
+  - if @instance.legacy_template
     %li
       = label_tag :operating_system, 'Operating system'
-      %span= "#{@instance.template.xml.platform} #{@instance.template.xml.platform_version}"
+      %span= "#{@instance.legacy_template.xml.platform} #{@instance.legacy_template.xml.platform_version}"
     %li
-      = label_tag :base_template, 'Base Template'
-      %span= @instance.template.name
+      = label_tag :base_legacy_template, 'Base Template'
+      %span= @instance.legacy_template.name
   - else
     %li
       = label_tag :assembly, 'Assembly'
-      %span= @instance.assembly.name
+      %span= @instance.legacy_assembly.name
   %li
     = label_tag :provider, 'Provider'
     %span= @instance.provider_account.provider.name if @instance.provider_account

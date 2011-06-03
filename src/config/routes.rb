@@ -34,15 +34,15 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :pools, :collection => { :multi_destroy => :delete }
   map.resources :deployments, :collection  => { :multi_stop => :get, :launch_new => :get }
-  map.resources :instances, :collection => {:start => :get, :multi_stop => :get, :select_template => :get, :remove_failed => :get, :can_start => :get, :can_create => :get }, :member => {:key => :get}
+  map.resources :instances, :collection => {:start => :get, :multi_stop => :get, :select_legacy_template => :get, :remove_failed => :get, :can_start => :get, :can_create => :get }, :member => {:key => :get}
 
   map.can_start_instance '/instances/:instance_id/can_start/:provider_account_id', :controller => 'instances', :action => 'can_start', :conditions => { :method => :get }
   map.can_create_instance '/instances/:instance_id/can_create/:provider_account_id', :controller => 'instances', :action => 'can_create', :conditions => { :method => :get }
 
-  map.resources :assemblies
+  map.resources :legacy_assemblies
   map.resources :image_imports
   map.resources :legacy_deployables, :collection => { :multi_destroy => :delete }, :member => { :pick_assemblies => :get, :remove_assemblies => :delete, :add_assemblies => :put, :launch => :post }
-  map.resources :templates, :collection => {:collections => :get, :add_selected => :get, :metagroup_packages => :get, :remove_package => :get, :multi_destroy => :delete}
+  map.resources :legacy_templates, :collection => {:collections => :get, :add_selected => :get, :metagroup_packages => :get, :remove_package => :get, :multi_destroy => :delete}
   map.connect "/builds/update_status.:format", :controller => :builds, :action => :update_status
   map.resources :builds, :collection => { :delete => :delete, :upload => :get, :retry => :post }
 

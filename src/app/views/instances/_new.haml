@@ -1,14 +1,14 @@
 = error_messages_for 'instance'
 %h2 Launch instance
 - form_for @instance, :url => instances_path do
-  = hidden_field :instance, :template_id
+  = hidden_field :instance, :legacy_template_id
   %ul
     %li
       = label :instance, :name
       = text_field :instance, :name
     %li
-      = label :instance, :template
-      = text_field_tag :template_name, @instance.template ? @instance.template.name : '', :disabled => true
+      = label :instance, :legacy_template
+      = text_field_tag :template_name, @instance.legacy_template ? @instance.legacy_template.name : '', :disabled => true
     %li
       = label :instance, :pool
       - if @instance.pool

@@ -5,37 +5,37 @@ class BuildsController < ApplicationController
   end
 
   def create
-    @tpl = Template.find(params[:template_id])
+    @tpl = LegacyTemplate.find(params[:legacy_template_id])
     check_permission
 
     errors = {}
     warnings = []
     begin
       target = ProviderType.find(params[:target])
-      Image.create_and_build!(@tpl, target)
+      LegacyImage.create_and_build!(@tpl, target)
     rescue
       flash[:error] = "Warning: #{$!.message}"
       logger.error $!.message
       logger.error $!.backtrace.join("\n   ")
     end
-    redirect_to template_path(@tpl, :details_tab => 'builds')
+    redirect_to legacy_template_path(@tpl, :details_tab => 'builds')
   end
 
   def upload
-    @tpl = Template.find(params[:template_id])
+    @tpl = LegacyTemplate.find(params[:template_id])
     pimg = LegacyProviderImage.create!(
-      :image => Image.find(params[:image_id]),
+      :legacy_image => LegacyImage.find(params[:image_id]),
       :provider => Provider.find(params[:provider_id]),
       :status => LegacyProviderImage::STATE_QUEUED
     )
     Delayed::Job.enqueue(PushJob.new(pimg.id))
-    redirect_to template_path(@tpl, :details_tab => 'builds')
+    redirect_to legacy_template_path(@tpl, :details_tab => 'builds')
   end
 
   def delete
-    @tpl = Template.find(params[:template_id])
+    @tpl = LegacyTemplate.find(params[:template_id])
     # FIXME: add logic to delete image when v2 image factory lands
-    redirect_to template_path(@tpl, :details_tab => 'builds')
+    redirect_to legacy_template_path(@tpl, :details_tab => 'builds')
   end
 
   def edit
@@ -47,11 +47,11 @@ class BuildsController < ApplicationController
   end
 
   def retry
-    @tpl = Template.find(params[:template_id])
+    @tpl = LegacyTemplate.find(params[:legacy_template_id])
     check_permission
     begin
-      if params[:image_id]
-        image = Image.find(params[:image_id])
+      if params[:legacy_image_id]
+        image = LegacyImage.find(params[:legacy_image_id])
         if image
           errors = {}
           warnings = []
@@ -76,11 +76,11 @@ class BuildsController < ApplicationController
       logger.error $!.message
       logger.error $!.backtrace.join("\n   ")
     end
-    redirect_to template_path(@tpl, :details_tab => 'builds')
+    redirect_to legacy_template_path(@tpl, :details_tab => 'builds')
   end
 
   def update_status
-    image = Image.find_by_uuid(params[:uuid])
+    image = LegacyImage.find_by_uuid(params[:uuid])
     image = LegacyProviderImage.find_by_uuid(params[:uuid]) unless image
 
     if image
@@ -97,7 +97,7 @@ class BuildsController < ApplicationController
   end
   private
 
-  # TODO: DRY this, is used in templates controller too
+  # TODO: DRY this, is used in legacy_templates controller too
   def get_order(default)
     @order_dir = params[:order_dir] == 'desc' ? 'desc' : 'asc'
     @order_field = params[:order_field] || default

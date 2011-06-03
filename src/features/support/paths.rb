@@ -78,22 +78,22 @@ module NavigationHelpers
       url_for new_permission_path
 
     when /the new template page/
-      url_for new_template_path
+      url_for new_legacy_template_path
 
     when /the new template build page/
       url_for new_build_path
 
     when /the template builds page/
-      url_for template_path(@template, :details_tab => 'builds')
+      url_for legacy_template_path(@template, :details_tab => 'builds')
 
     when /the pool family provider accounts page/
       url_for pool_family_path(@pool_family, :details_tab => 'provider_accounts')
 
     when /the templates page/
-      templates_path
+      legacy_templates_path
 
     when /the create template page/
-      url_for create_template_path
+      url_for create_legacy_template_path
 
     when /the self service settings page/
       url_for :action => 'self_service', :controller => 'settings', :only_path => true

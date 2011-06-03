@@ -29,7 +29,7 @@ class PushJob < Struct.new(:legacy_provider_image_id, :hydra)
     # for now pick first account
     provider_account = provider_image.provider.provider_accounts.first
     cred_block = provider_account.build_credentials.to_xml.html_safe
-    response = RestClient.post(YAML.load_file("#{RAILS_ROOT}/config/image_factory_console.yml")['pushurl'], :image_id => provider_image.image.uuid,
+    response = RestClient.post(YAML.load_file("#{RAILS_ROOT}/config/image_factory_console.yml")['pushurl'], :image_id => provider_image.legacy_image.uuid,
                       :provider => provider_image.provider.name,
                       :credentials => cred_block
                     )

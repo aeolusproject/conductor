@@ -41,9 +41,9 @@ roles =
    ProviderAccount =>
      {"Provider Account User"  => [false, {ProviderAccount => [VIEW,USE]}],
       "Provider Account Owner" => [true,  {ProviderAccount => [VIEW,USE,MOD,    VPRM,GPRM]}]},
-   Template =>
-     {"Template User"          => [false, {Template     => [VIEW,USE]}],
-      "Template Owner"         => [true,  {Template     => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+   LegacyTemplate =>
+     {"Template User"          => [false, {LegacyTemplate     => [VIEW,USE]}],
+      "Template Owner"         => [true,  {LegacyTemplate     => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    BasePermissionObject =>
      {"Provider Creator"       => [false, {Provider     => [             CRE]}],
       "Provider Administrator" => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
@@ -56,8 +56,8 @@ roles =
                                            Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Quota        => [VIEW,    MOD],
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
-      "Template Administrator" => [false, {Template     => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "Template Creator"       => [false, {Template     => [VIEW,USE,    CRE]}],
+      "Template Administrator" => [false, {LegacyTemplate     => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
+      "Template Creator"       => [false, {LegacyTemplate     => [VIEW,USE,    CRE]}],
       "Administrator"          => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            HardwareProfile => [      MOD,CRE,VPRM,GPRM],
@@ -68,7 +68,7 @@ roles =
                                            Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Quota        => [VIEW,    MOD],
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM],
-                                           Template     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                           LegacyTemplate     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            BasePermissionObject => [ MOD,    VPRM,GPRM]}]}}
 Role.transaction do
   roles.each do |role_scope, scoped_hash|

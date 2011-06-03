@@ -7,9 +7,9 @@ class ImageImportsController < ApplicationController
 
   def create
     begin
-      Image.import(ProviderAccount.find(params[:provider_account_id]), params[:ami_id], current_user)
+      LegacyImage.import(ProviderAccount.find(params[:provider_account_id]), params[:ami_id], current_user)
       flash[:notice]="Image successfully imported"
-      redirect_to templates_path
+      redirect_to legacy_templates_path
     rescue Exception => e
       init_provider_vars
       # The full message may be multiple lines, including the actual request, so only include the first line:

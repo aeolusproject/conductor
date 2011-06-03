@@ -19,15 +19,15 @@ class WarehouseSync
     while true
       begin
         @logger.info "***** Runnning warehouse sync"
-        # TODO: I disabled template sync - templates should never
+        # TODO: I disabled template sync - legacy_templates should never
         # be changed by anything else than conductor
-        #@logger.info "*** syncing templates"
+        #@logger.info "*** syncing legacy_templates"
         #Template.all.each do |i|
         #  i.safe_warehouse_sync
         #  i.save! if i.changed?
         #end
         @logger.info "*** syncing images"
-        Image.all.each do |i|
+        LegacyImage.all.each do |i|
           i.safe_warehouse_sync
           if i.changed?
             i.save! rescue @logger.error "failed to save image #{i.uuid}: #{$!.message}"

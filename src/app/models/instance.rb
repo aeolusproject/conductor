@@ -78,8 +78,8 @@ class Instance < ActiveRecord::Base
   belongs_to :deployment
 
   belongs_to :hardware_profile
-  belongs_to :template
-  belongs_to :assembly
+  belongs_to :legacy_template
+  belongs_to :legacy_assembly
   belongs_to :frontend_realm
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   belongs_to :instance_hwp
@@ -93,8 +93,8 @@ class Instance < ActiveRecord::Base
 
   validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id
-  validates_presence_of :template_id, :unless => :deployment_id
-  validates_presence_of :assembly_id, :if => :deployment_id
+  validates_presence_of :legacy_template_id, :unless => :deployment_id
+  validates_presence_of :legacy_assembly_id, :if => :deployment_id
 
   #validates_presence_of :external_key
   # TODO: can we do uniqueness validation on indirect association
@@ -136,9 +136,9 @@ class Instance < ActiveRecord::Base
   USER_MUTABLE_ATTRS = ['name']
 
   def validate
-    if assembly and template
-      errors.add(:assembly, "Please specify either template or assembly, but not both")
-      errors.add(:template, "Please specify either template or assembly, but not both")
+    if legacy_assembly and legacy_template
+      errors.add(:legacy_assembly, "Please specify either template or legacy_assembly, but not both")
+      errors.add(:legacy_template, "Please specify either template or legacy_assembly, but not both")
     end
   end
 
@@ -294,7 +294,7 @@ class Instance < ActiveRecord::Base
 
   def self.list_or_search(query,order_field,order_dir)
     if query.blank?
-      instances = Instance.all(:include => [ :template, :owner ],
+      instances = Instance.all(:include => [ :legacy_template, :owner ],
                                :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
     else
       instances = search() { keywords(query) }.results

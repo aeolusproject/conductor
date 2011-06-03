@@ -36,7 +36,7 @@ class DeploymentRoles < ActiveRecord::Migration
                                            Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Quota        => [VIEW,    MOD],
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM],
-                                           Template     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                           LegacyTemplate     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            BasePermissionObject => [ MOD,    VPRM,GPRM]}]}}
   def self.up
     unless Role.all.size == 0

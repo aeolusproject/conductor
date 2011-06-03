@@ -92,7 +92,7 @@ namespace :dc do
       exit(1)
     end
     #account = get_account(args.provider, args.account)
-    img = Image.single_import(args.provider, args.username, args.password, args.image, User.find_by_login('admin'))
+    img = LegacyImage.single_import(args.provider, args.username, args.password, args.image, User.find_by_login('admin'))
     puts "Imported image with id '#{args.image}'"
   end
 
@@ -103,7 +103,7 @@ namespace :dc do
       exit(1)
     end
     list = YAML.load_file(args.yml_file)
-    Image.bulk_import(args.provider, args.username, args.password, list, User.find_by_login('admin'))
+    LegacyImage.bulk_import(args.provider, args.username, args.password, list, User.find_by_login('admin'))
   end
 
   def get_account(provider_name, account_name)

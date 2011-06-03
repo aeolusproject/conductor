@@ -33,8 +33,8 @@ describe RegistrationService do
 
       @user.quota.maximum_running_instances.should == @quota.maximum_running_instances
       @user.quota.maximum_total_instances.should == @quota.maximum_total_instances
-      BasePermissionObject.general_permission_scope.has_privilege(@user,Privilege::CREATE, Template).should == true
-      BasePermissionObject.general_permission_scope.has_privilege(@user,Privilege::USE, Template).should == true
+      BasePermissionObject.general_permission_scope.has_privilege(@user,Privilege::CREATE, LegacyTemplate).should == true
+      BasePermissionObject.general_permission_scope.has_privilege(@user,Privilege::USE, LegacyTemplate).should == true
     end
 
   end

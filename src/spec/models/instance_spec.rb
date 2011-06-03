@@ -24,22 +24,22 @@ describe Instance do
     @instance.should be_valid
   end
 
-  it "should require template to be set if there no deployment" do
-    @instance.template_id = nil
+  it "should require legacy_template to be set if there no deployment" do
+    @instance.legacy_template_id = nil
     @instance.deployment_id = nil
     @instance.should_not be_valid
 
-    @instance.template_id = 1
+    @instance.legacy_template_id = 1
     @instance.should be_valid
   end
 
-  it "should not allow template to be set if there's a deployment" do
+  it "should not allow legacy_template to be set if there's a deployment" do
     @instance.deployment_id = 1
-    @instance.template_id = 1
+    @instance.legacy_template_id = 1
     @instance.should_not be_valid
 
-    @instance.template_id = nil
-    @instance.assembly_id = 1
+    @instance.legacy_template_id = nil
+    @instance.legacy_assembly_id = 1
     @instance.should be_valid
   end
 

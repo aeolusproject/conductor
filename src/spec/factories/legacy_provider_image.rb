@@ -1,5 +1,5 @@
 Factory.define :legacy_provider_image do |ri|
-  ri.association :image
+  ri.association :legacy_image
   ri.association :provider
   ri.sequence(:provider_image_key) { |n| "provider_image_key#(n)" }
   ri.status "completed"

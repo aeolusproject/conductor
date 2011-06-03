@@ -1,0 +1,10 @@
+#dropdown
+.grid_16
+  %h2 New Template
+  /- form_for @tpl, :url => legacy_templates_path do |f|
+  - form_tag do
+    = render :partial => 'form'
+    = check_box_tag :create_deployable
+    = label_tag :create_deployable, "Create Deployable for this template"
+    = restful_submit_tag "Save", 'create', legacy_templates_path, 'POST', :class => "formbutton"
+    = link_to 'Cancel', legacy_templates_path, :class => 'button formbutton'

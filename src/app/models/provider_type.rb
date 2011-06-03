@@ -16,7 +16,7 @@
 class ProviderType < ActiveRecord::Base
 
   has_many :providers
-  has_many :images
+  has_many :legacy_images
   has_many :credential_definitions, :dependent => :destroy
 
   validates_presence_of :name

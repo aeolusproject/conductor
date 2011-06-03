@@ -15,9 +15,9 @@
     %p
     %h3 Assemblies hardware profiles
     %ul
-      - @deployment.legacy_deployable.assemblies.each do |assembly|
+      - @deployment.legacy_deployable.legacy_assemblies.each do |assembly|
         %li
-          - hwprofiles = @hardware_profiles.select {|hwp| hwp.architecture.value == assembly.templates.first.architecture}
+          - hwprofiles = @hardware_profiles.select {|hwp| hwp.architecture.value == assembly.legacy_templates.first.architecture}
           = label_tag "hw_profiles[#{assembly.id}]", assembly.name
           = select_tag "hw_profiles[#{assembly.id}]", options_from_collection_for_select(hwprofiles, 'id', 'name')
 

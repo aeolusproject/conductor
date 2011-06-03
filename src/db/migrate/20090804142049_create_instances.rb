@@ -25,7 +25,7 @@ class CreateInstances < ActiveRecord::Migration
       t.string    :external_key
       t.string    :name, :null => false, :limit => 1024
       t.integer   :hardware_profile_id, :null => false
-      t.integer   :template_id, :null => false
+      t.integer   :legacy_template_id, :null => false
       t.integer   :realm_id
       t.integer   :owner_id
       t.integer   :pool_id, :null => false

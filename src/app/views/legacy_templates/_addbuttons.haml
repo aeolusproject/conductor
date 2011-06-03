@@ -1,0 +1,4 @@
+%fieldset.clear
+  - cancel_path = @tpl.id ? edit_legacy_template_path(@tpl) : new_legacy_template_path
+  = restful_submit_tag "Add Selected", "add_selected", add_selected_legacy_templates_path, 'GET', {:class => "grid_2 alpha", :id => "do_add_software"}
+  = restful_submit_tag "Cancel", "cancel_add_software", cancel_path, 'GET', {:class => "grid_2", :id => "cancel_add_software"}

@@ -1,0 +1,35 @@
+- form_tag do
+  = link_to "Create", new_legacy_template_path, :class => 'button'
+  = restful_submit_tag "Delete", 'destroy', multi_destroy_legacy_templates_path, 'DELETE', :id => 'delete_button'
+
+  %table#legacy_templates_table
+    = sortable_table_header @header
+    %tbody
+      - if @legacy_templates.empty?
+        %tr
+          %td{:colspan => 6} No Templates
+      - else
+        - @legacy_templates.each do |template|
+          %tr
+            %td
+              = check_box_tag 'selected[]', template.id, @url_params[:select] == 'all', :id => "selected_#{template.id}"
+              = image_tag "blnk.png", :alt => template.platform, :class => "icon platform #{template.platform}"
+              = link_to template.name, legacy_template_path(template)
+            %td= template.platform_name
+            %td= template.platform_version
+            %td= image_tag 'blnk.png', :alt => 'yes', :class => "icon yes"
+            %td= template.architecture
+
+:javascript
+  $(document).ready(function () {
+    $('#delete_button').click(function(e) {
+      if ($("#legacy_templates_table input[@type=radio]:checked").length == 0) {
+        alert('Please select any template to be deleted before clicking Delete button.');
+        e.preventDefault();
+      } else {
+        if (!confirm("Are you sure you want to delete this template?")) {
+          e.preventDefault();
+        }
+      }
+    });
+  });

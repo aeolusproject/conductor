@@ -11,7 +11,7 @@ describe LegacyProviderImage do
   it "should have an image_id" do
     i = Factory.build(:mock_provider_image)
     i.should be_valid
-    i.image = nil
+    i.legacy_image = nil
     i.should_not be_valid
   end
 

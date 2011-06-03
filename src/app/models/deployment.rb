@@ -115,7 +115,7 @@ class Deployment < ActiveRecord::Base
   def launch(hw_profiles, user)
     errors = []
     raise "the deployable must have at least one assembly and each assembly must have at least one template" unless legacy_deployable.launchable?
-    legacy_deployable.assemblies.each do |assembly|
+    legacy_deployable.legacy_assemblies.each do |assembly|
       # TODO: for now we try to start all instances even if some of them fails
       begin
         Instance.transaction do
@@ -125,7 +125,7 @@ class Deployment < ActiveRecord::Base
             :name => "#{name}/#{assembly.name}",
             :frontend_realm => realm,
             :pool => pool,
-            :assembly => assembly,
+            :legacy_assembly => assembly,
             :state => Instance::STATE_NEW,
             :owner => user,
             :hardware_profile => hw_profile ? HardwareProfile.find(hw_profile) : nil

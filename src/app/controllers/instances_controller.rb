@@ -24,8 +24,8 @@ class InstancesController < ApplicationController
     @instance = Instance.new(params[:instance])
     require_privilege(Privilege::CREATE, Instance, @instance.pool) if @instance.pool
 
-    unless @instance.template
-      redirect_to select_template_instances_path
+    unless @instance.legacy_template
+      redirect_to select_legacy_template_instances_path
       return
     end
 
@@ -37,23 +37,23 @@ class InstancesController < ApplicationController
     end
   end
 
-  def select_template
-    # FIXME: we need to list only templates for particular user,
+  def select_legacy_template
+    # FIXME: we need to list only legacy_templates for particular user,
     # => TODO: add TEMPLATE_* permissions
-    @templates = Template.paginate(
+    @legacy_templates = LegacyTemplate.paginate(
       :page => params[:page] || 1,
-      :include => {:images => :legacy_provider_images},
+      :include => {:legacy_images => :legacy_provider_images},
       :conditions => "legacy_provider_images.status = '#{LegacyProviderImage::STATE_COMPLETED}'"
     )
     respond_to do |format|
       format.html
-      format.json { render :json => @templates }
+      format.json { render :json => @legacy_templates }
     end
   end
 
   def create
     if params[:cancel]
-      redirect_to select_template_instances_path
+      redirect_to select_legacy_template_instances_path
       return
     end
 
@@ -300,7 +300,7 @@ class InstancesController < ApplicationController
       :include => :architecture,
       :conditions => {
         :provider_id => nil,
-        'hardware_profile_properties.value' => @instance.template.architecture
+        'hardware_profile_properties.value' => @instance.legacy_template.architecture
       }
     )
   end
@@ -309,7 +309,7 @@ class InstancesController < ApplicationController
     @header = [
       {:name => 'VM NAME', :sort_attr => 'name'},
       {:name => 'STATUS', :sortable => false},
-      {:name => 'TEMPLATE', :sort_attr => 'templates.name'},
+      {:name => 'TEMPLATE', :sort_attr => 'legacy_templates.name'},
       {:name => 'PUBLIC ADDRESS', :sort_attr => 'public_addresses'},
       {:name => 'PROVIDER', :sortable => false},
       {:name => 'CREATED BY', :sort_attr => 'users.last_name'},
@@ -319,7 +319,7 @@ class InstancesController < ApplicationController
   end
 
   def load_instances
-    @instances = Instance.all(:include => [:template, :owner],
+    @instances = Instance.all(:include => [:legacy_template, :owner],
                               :conditions => {:pool_id => @pools},
                               :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )

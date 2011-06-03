@@ -1,0 +1,9 @@
+#dropdown
+.grid_16
+  %h2 Edit Template
+  /- form_for @tpl, :url => legacy_template_path(@tpl), :html => { :method => :put } do |f|
+  - form_tag do
+    = hidden_field_tag :id, @tpl.id
+    = render :partial => 'form'
+    = restful_submit_tag "Save", 'update', legacy_template_path(@tpl), 'PUT', :class => "formbutton"
+    = link_to 'Cancel', legacy_templates_path, :class => 'button formbutton'

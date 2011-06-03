@@ -9,7 +9,7 @@
         %th
         %th= "Name"
         %th= "Created"
-    -@deployable.assemblies(:include => :templates).each do |assembly|
+    -@deployable.legacy_assemblies(:include => :legacy_templates).each do |assembly|
       %tr
         %td
           %input{:name => "assemblies_selected[]", :type => "checkbox", :value => assembly.id, :id => "assembly_checkbox_#{assembly.id}" }
