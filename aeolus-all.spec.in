@@ -10,7 +10,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:	aeolus-conductor-daemons = %{version}-%{release}
 Requires:	aeolus-conductor-doc = %{version}-%{release}
-Requires:	condor = 7.6.0-3dcloud%{?dist}
+Requires:	condor-deltacloud-gahp = 7.6.0-4dcloud%{?dist}
 Requires:	iwhd
 Requires:	aeolus-configure
 Requires:	imagefactory
