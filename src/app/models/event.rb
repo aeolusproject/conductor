@@ -1,14 +1,15 @@
 # == Schema Information
-# Schema version: 20110207110131
+# Schema version: 20110603204130
 #
-# Table name: instance_events
+# Table name: events
 #
 #  id          :integer         not null, primary key
-#  instance_id :integer         not null
-#  event_type  :string(255)     not null
+#  source_id   :integer         not null
+#  source_type :string(255)     not null
 #  event_time  :datetime
-#  status      :string(255)
-#  message     :string(255)
+#  status_code :string(255)
+#  summary     :string(255)
+#  description :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime
 #

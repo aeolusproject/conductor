@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110207110131
+# Schema version: 20110603204130
 #
 # Table name: instances
 #
@@ -7,7 +7,7 @@
 #  external_key            :string(255)
 #  name                    :string(1024)    not null
 #  hardware_profile_id     :integer         not null
-#  template_id             :integer
+#  legacy_template_id      :integer
 #  frontend_realm_id       :integer
 #  owner_id                :integer
 #  pool_id                 :integer         not null
@@ -29,7 +29,7 @@
 #  time_last_stopped       :datetime
 #  created_at              :datetime
 #  updated_at              :datetime
-#  assembly_id             :integer
+#  legacy_assembly_id      :integer
 #  deployment_id           :integer
 #
 

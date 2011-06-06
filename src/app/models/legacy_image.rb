@@ -1,18 +1,18 @@
 # == Schema Information
-# Schema version: 20110223132404
+# Schema version: 20110603204130
 #
-# Table name: images
+# Table name: legacy_images
 #
-#  id               :integer         not null, primary key
-#  uuid             :string(255)
-#  name             :string(255)     not null
-#  build_id         :string(255)
-#  uri              :string(255)
-#  status           :string(255)
-#  template_id      :integer
-#  created_at       :datetime
-#  updated_at       :datetime
-#  provider_type_id :integer         default(100), not null
+#  id                 :integer         not null, primary key
+#  uuid               :string(255)
+#  name               :string(255)     not null
+#  build_id           :string(255)
+#  uri                :string(255)
+#  status             :string(255)
+#  legacy_template_id :integer
+#  created_at         :datetime
+#  updated_at         :datetime
+#  provider_type_id   :integer         default(100), not null
 #
 
 #

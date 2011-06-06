@@ -1,7 +1,7 @@
 # == Schema Information
-# Schema version: 20110207110131
+# Schema version: 20110603204130
 #
-# Table name: assemblies
+# Table name: legacy_assemblies
 #
 #  id           :integer         not null, primary key
 #  uuid         :string(255)     not null
@@ -14,6 +14,7 @@
 #  lock_version :integer         default(0)
 #  created_at   :datetime
 #  updated_at   :datetime
+#  owner_id     :integer
 #
 
 #

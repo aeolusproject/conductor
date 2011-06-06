@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110207110131
+# Schema version: 20110603204130
 #
 # Table name: pools
 #
@@ -11,6 +11,7 @@
 #  lock_version   :integer         default(0)
 #  created_at     :datetime
 #  updated_at     :datetime
+#  enabled        :boolean
 #
 
 #

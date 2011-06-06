@@ -1,7 +1,7 @@
 # == Schema Information
-# Schema version: 20110207110131
+# Schema version: 20110603204130
 #
-# Table name: deployables
+# Table name: legacy_deployables
 #
 #  id           :integer         not null, primary key
 #  name         :string(255)
@@ -13,6 +13,7 @@
 #  uri          :string(255)
 #  summary      :text
 #  uploaded     :boolean
+#  owner_id     :integer
 #
 
 #

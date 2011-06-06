@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110207110131
+# Schema version: 20110603204130
 #
 # Table name: pool_families
 #
@@ -9,6 +9,7 @@
 #  lock_version :integer         default(0)
 #  created_at   :datetime
 #  updated_at   :datetime
+#  quota_id     :integer
 #
 
 #

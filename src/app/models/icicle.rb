@@ -1,14 +1,14 @@
 # == Schema Information
-# Schema version: 20110223132404
+# Schema version: 20110603204130
 #
 # Table name: icicles
 #
-#  id                :integer         not null, primary key
-#  uuid              :string(255)
-#  xml               :text
-#  provider_image_id :integer
-#  created_at        :datetime
-#  updated_at        :datetime
+#  id                       :integer         not null, primary key
+#  uuid                     :string(255)
+#  xml                      :text
+#  legacy_provider_image_id :integer
+#  created_at               :datetime
+#  updated_at               :datetime
 #
 
 class Icicle < ActiveRecord::Base

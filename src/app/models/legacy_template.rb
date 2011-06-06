@@ -1,23 +1,24 @@
 # == Schema Information
-# Schema version: 20110207110131
+# Schema version: 20110603204130
 #
 # Table name: legacy_templates
 #
-#  id               :integer         not null, primary key
-#  uuid             :string(255)     not null
-#  xml              :binary          not null
-#  uri              :string(255)
-#  name             :string(255)
-#  platform         :string(255)
-#  platform_version :string(255)
-#  architecture     :string(255)
-#  summary          :text
-#  complete         :boolean
-#  uploaded         :boolean
-#  imported         :boolean
-#  images_count     :integer
-#  created_at       :datetime
-#  updated_at       :datetime
+#  id                  :integer         not null, primary key
+#  uuid                :string(255)     not null
+#  xml                 :binary          not null
+#  uri                 :string(255)
+#  name                :string(255)
+#  platform            :string(255)
+#  platform_version    :string(255)
+#  architecture        :string(255)
+#  summary             :text
+#  complete            :boolean
+#  uploaded            :boolean
+#  imported            :boolean
+#  legacy_images_count :integer
+#  created_at          :datetime
+#  updated_at          :datetime
+#  owner_id            :integer
 #
 
 require 'util/image_descriptor_xml'

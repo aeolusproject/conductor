@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 20110302120000
+# Schema version: 20110603204130
 #
-# Table name: provider_images
+# Table name: legacy_provider_images
 #
 #  id                 :integer         not null, primary key
-#  image_id           :integer         not null
+#  legacy_image_id    :integer         not null
 #  provider_id        :integer         not null
 #  provider_image_key :string(255)
 #  uuid               :string(255)
