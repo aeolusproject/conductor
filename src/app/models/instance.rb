@@ -59,6 +59,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 require 'sunspot_rails'
+require 'util/assembly_xml'
 class Instance < ActiveRecord::Base
   include SearchFilter
   include PermissionedObject
@@ -97,8 +98,6 @@ class Instance < ActiveRecord::Base
 
   validates_presence_of :pool_id
   validates_presence_of :hardware_profile_id
-  validates_presence_of :legacy_template_id, :unless => :deployment_id
-  validates_presence_of :legacy_assembly_id, :if => :deployment_id
 
   #validates_presence_of :external_key
   # TODO: can we do uniqueness validation on indirect association
@@ -189,6 +188,10 @@ class Instance < ActiveRecord::Base
 
   def image_build
     ImageBuild.find(image_build_uuid) if image_build_uuid
+  end
+
+  def assembly_xml
+    @assembly_xml ||= AssemblyXML.new(self[:assembly_xml].to_s)
   end
 
   # Provide method to check if requested action exists, so caller can decide

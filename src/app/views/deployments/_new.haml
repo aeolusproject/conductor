@@ -19,13 +19,34 @@
         = link_to('view deployable definition', '#')
 
 %h2
-  Images
+  Deployable details
 
--# Cannot implement this with real data until we have deployments implemented...
-= filter_table(['Image'], []) do |image|
+%ul
+  %li
+    Name:
+    = @deployment.deployable_xml.name
+  %li
+    Description:
+    = @deployment.deployable_xml.description
+  %li
+
+%h2
+  Assemblies
+
+= filter_table([{:name => 'Assembly Name'},
+                {:name => 'Hardware Profile'},
+		{:name => 'Image ID'},
+		{:name => 'Build ID'}],
+               @deployment.deployable_xml.assemblies) do |assembly|
   %tr
     %td
-      = image.name
+      = assembly.name
+    %td
+      = assembly.hwp
+    %td
+      = assembly.image_id
+    %td
+      = assembly.image_build
 
 - form_for @deployment do
   = hidden_field :deployment, :name

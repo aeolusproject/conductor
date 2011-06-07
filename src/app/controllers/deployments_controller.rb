@@ -52,6 +52,7 @@ class DeploymentsController < ApplicationController
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
     @deployment.import_xml_from_url(params[:deployable][:url]) if params[:deployable] && params[:deployable][:url]
+    @deployment.deployable_xml.validate!
     respond_to do |format|
       format.js { render :partial => 'new' }
       format.html

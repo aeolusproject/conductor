@@ -36,6 +36,8 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 require 'sunspot_rails'
+require 'util/deployable_xml'
+
 class Deployment < ActiveRecord::Base
   include SearchFilter
   include PermissionedObject
@@ -73,6 +75,14 @@ class Deployment < ActiveRecord::Base
   SEARCHABLE_COLUMNS = %w(name)
 
   USER_MUTABLE_ATTRS = ['name']
+
+  def validate
+    begin
+      deployable_xml.validate!
+    rescue DeployableXML::ValidationError => e
+      errors.add(:deployable_xml, e.message)
+    end
+  end
 
   def object_list
     super << pool
@@ -113,21 +123,23 @@ class Deployment < ActiveRecord::Base
 
   def launch(hw_profiles, user)
     errors = []
-    raise "the deployable must have at least one assembly and each assembly must have at least one template" unless legacy_deployable.launchable?
-    legacy_deployable.legacy_assemblies.each do |assembly|
+    deployable_xml.assemblies.each do |assembly|
       # TODO: for now we try to start all instances even if some of them fails
       begin
         Instance.transaction do
-          hw_profile = hw_profiles[assembly.id.to_s]
+          hw_profile = HardwareProfile.frontend.find_by_name(assembly.hwp)
+          raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
           instance = Instance.create!(
             :deployment => self,
             :name => "#{name}/#{assembly.name}",
             :frontend_realm => realm,
             :pool => pool,
-            :legacy_assembly => assembly,
+            :image_uuid => assembly.image_id,
+            :image_build_uuid => assembly.image_build,
+            :assembly_xml => assembly.to_s,
             :state => Instance::STATE_NEW,
             :owner => user,
-            :hardware_profile => hw_profile ? HardwareProfile.find(hw_profile) : nil
+            :hardware_profile => hw_profile
           )
           task = InstanceTask.create!({:user        => user,
                                        :task_target => instance,
@@ -151,6 +163,10 @@ class Deployment < ActiveRecord::Base
       deployments = search() { keywords(query) }.results
     end
     deployments
+  end
+
+  def deployable_xml
+    @deployable_xml ||= DeployableXML.new(self[:deployable_xml].to_s)
   end
 
   def import_xml_from_url(url)

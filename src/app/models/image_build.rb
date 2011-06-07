@@ -18,6 +18,13 @@ class ImageBuild < WarehouseModel
   end
 
   def target_images
-    TargetImage.all.collect {|ti| ti if ti.build == self.uuid}
+    TargetImage.all.select {|ti| ti.build == self.uuid}
+  end
+
+  def provider_images
+    target_uuids = target_images.collect {|ti| ti.uuid }
+    ProviderImage.all.select do |pi|
+      target_uuids.include?(pi.target_image)
+    end
   end
 end

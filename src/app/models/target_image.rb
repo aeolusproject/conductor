@@ -9,6 +9,6 @@ class TargetImage < WarehouseModel
   end
 
   def provider_images
-    ProviderImage.all.collect{|pi| pi.target_image == self.uuid}
+    ProviderImage.all.select{|pi| pi.target_image == self.uuid}
   end
 end

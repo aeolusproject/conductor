@@ -35,26 +35,20 @@ end
 def match(instance)
   possibles = []
 
-  legacy_template_id = instance.legacy_template ? instance.legacy_template.id : instance.legacy_assembly.legacy_templates.first.id
-
   PoolFamily.all.each do |pool_family|
     if instance.pool.pool_family.id != pool_family.id
       next
     end
 
+    image_build = instance.image_build || instance.image.latest_build
+    provider_images = image_build ? image_build.provider_images : []
     pool_family.provider_accounts.each do |account|
       # match_provider_hardware_profile returns a single provider
       # hardware_profile that can satisfy the input hardware_profile
       hwp = HardwareProfile.match_provider_hardware_profile(account.provider,
                                                             instance.hardware_profile)
 
-      provider_images = hwp.provider.legacy_provider_images.find(:all,
-                                                          :conditions => ['provider_image_key IS NOT NULL'])
-      provider_images.each do |pi|
-        if pi.legacy_image.legacy_template.id != legacy_template_id
-          next
-        end
-
+      provider_images.select {|pi| pi.provider == account.provider}.each do |pi|
         if not instance.frontend_realm.nil?
           instance.frontend_realm.realm_backend_targets.each do |brealm|
             possibles << Possible.new(pool_family, account, hwp, pi,
@@ -137,7 +131,7 @@ def condormatic_instance_create(task)
                  "grid_resource = deltacloud #{found.account.provider.url}\n")
     pipe_and_log(pipe, "DeltacloudUsername = #{found.account.credentials_hash['username']}\n")
     pipe_and_log(pipe, "DeltacloudPasswordFile = #{pwfilename}")
-    pipe_and_log(pipe, "DeltacloudImageId = #{found.provider_image.provider_image_key}\n")
+    pipe_and_log(pipe, "DeltacloudImageId = #{found.provider_image.target_identifier}\n")
     pipe_and_log(pipe,
                  "DeltacloudHardwareProfile = #{found.hwp.external_key}\n")
     pipe_and_log(pipe,
