@@ -8,6 +8,10 @@ class Image < WarehouseModel
     end
   end
 
+  def latest_build
+    ImageBuild.find(@latest_build) if @latest_build
+  end
+
   def image_builds
     ImageBuild.find_all_by_image_uuid(self.uuid)
   end
