@@ -182,6 +182,15 @@ class Instance < ActiveRecord::Base
     return_val
   end
 
+
+  def image
+    Image.find(image_uuid) if image_uuid
+  end
+
+  def image_build
+    ImageBuild.find(image_build_uuid) if image_build_uuid
+  end
+
   # Provide method to check if requested action exists, so caller can decide
   # if they want to throw an error of some sort before continuing
   # (ie in service api)
