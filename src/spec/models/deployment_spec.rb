@@ -16,13 +16,14 @@ describe Deployment do
     @deployment.should be_valid
   end
 
-  it "should require deployable to be set" do
-    @deployment.legacy_deployable_id = nil
-    @deployment.should_not be_valid
-
-    @deployment.legacy_deployable_id = 1
-    @deployment.should be_valid
-  end
+# This is in flux, and currently inapplicable
+#  it "should require deployable to be set" do
+#    @deployment.legacy_deployable_id = nil
+#    @deployment.should_not be_valid
+#
+#    @deployment.legacy_deployable_id = 1
+#    @deployment.should be_valid
+#  end
 
   it "should have a name of reasonable length" do
     [nil, '', 'x'*1025].each do |invalid_name|
