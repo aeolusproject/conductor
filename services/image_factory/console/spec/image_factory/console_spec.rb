@@ -14,6 +14,12 @@ module ImageFactory
         # We might be able to extract this somewhere to hold off
         # on tests until we get an agent_added notification
         sleep(5)
+        #TODO: take this snippet and make a fixture of some sort to use in tests
+        #tmpl = '<template> <name>tmpl1</name> <description>foo</description> <os> <name>Fedora</name>
+        # <arch>x86_64</arch> <version>14</version> <install type="url">
+        # <url>http://download.fedoraproject.org/pub/fedora/linux/releases/14/Fedora/x86_64/os/</url> </install>
+        # </os> <repositories> <repository name="custom"> <url>http://repos.fedorapeople.org/repos/aeolus/demo/webapp/</url>
+        # <signed>false</signed> </repository> </repositories> </template>'
       end
 
       describe "#q" do
@@ -34,6 +40,50 @@ module ImageFactory
           #@i.handler = BaseHandler.new(@logger)
           @i.handler.should_not_receive(:handle_failed)
           @i.push_image(@image.image_id, "mock", "some creds").image_id.should_not be_nil
+        end
+      end
+
+      describe "#build" do
+        it "should return an array of build-adaptors with uuids" do
+          @i.build("<template></template>", ["mock"]).each do |adaptor|
+            adaptor.image_id.should_not be_nil
+            adaptor.image.should_not be_nil
+            adaptor.build.should_not be_nil
+          end
+        end
+
+        it "should work with single target as string" do
+          @i.build("<template></template>", "mock").each do |adaptor|
+            adaptor.image_id.should_not be_nil
+            adaptor.image.should_not be_nil
+            adaptor.build.should_not be_nil
+          end
+        end
+      end
+
+      describe "#push" do
+        it "should return an array of build-adaptors with uuids" do
+          @i.build("<template></template>", ["mock"]).each do |adaptor|
+            #@i.handler = BaseHandler.new(@logger)
+            @i.handler.should_not_receive(:handle_failed)
+            @i.push(["mock"], "<provider_credentials/>", adaptor.image).each do |a|
+              a.image_id.should_not be_nil
+              a.image.should_not be_nil
+              a.build.should_not be_nil
+            end
+          end
+        end
+
+        it "should work with single provider as string" do
+          @i.build("<template></template>", "mock").each do |adaptor|
+            #@i.handler = BaseHandler.new(@logger)
+            @i.handler.should_not_receive(:handle_failed)
+            @i.push("mock1", "<provider_credentials/>", adaptor.image).each do |a|
+              a.image_id.should_not be_nil
+              a.image.should_not be_nil
+              a.build.should_not be_nil
+            end
+          end
         end
       end
 
@@ -108,6 +158,7 @@ module ImageFactory
       describe "#build_image" do
         it "should gracefully handle errors" do
           @output.should_receive(:debug).with(/Encountered error in build_image/)
+          @output.should_receive(:warn).with("[DEPRECATION] 'build_image' is deprecated.  Please use 'build' instead.")
           @i2.q=nil
           error = @i2.build_image("<template></template>", "mock")
           error.to_s.should include("undefined method")
@@ -117,8 +168,27 @@ module ImageFactory
        describe "#push_image" do
         it "should gracefully handle errors" do
           @output.should_receive(:debug).with(/Encountered error in push_image/)
+          @output.should_receive(:warn).with("[DEPRECATION] 'push_image' is deprecated.  Please use 'push' instead.")
           @i2.q=nil
           error = @i2.push_image(123, "mock", "some creds")
+          error.to_s.should include("undefined method")
+        end
+      end
+
+      describe "#build" do
+        it "should gracefully handle errors" do
+          @output.should_receive(:debug).with(/Encountered error in build_image/)
+          @i2.q=nil
+          error = @i2.build("<template></template>", "mock")
+          error.to_s.should include("undefined method")
+        end
+      end
+
+       describe "#push" do
+        it "should gracefully handle errors" do
+          @output.should_receive(:debug).with(/Encountered error in push_image/)
+          @i2.q=nil
+          error = @i2.push(123, "mock", "some creds")
           error.to_s.should include("undefined method")
         end
       end

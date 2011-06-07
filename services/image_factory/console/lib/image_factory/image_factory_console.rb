@@ -54,6 +54,57 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
   end
 
   # Call this method to initiate a build, and get back an
+  # array of BuildAdaptor objects.
+  # * template => String
+  # Description of what to build. Can be xml, uuid, or url
+  # * targets => Array
+  # Represents the names of the clouds to target (ec2, mock, rackspace, etc)
+  # * image_id => String
+  # The UUID of an image previously built
+  # * build_id => String
+  # The UUID of a previous build of the image
+  # * Returns => an array of BuildAdaptor objects
+  #
+  def build(template, targets, image='', build='')
+    targets = [targets] unless targets.instance_of?(Array)
+    # TODO: return error if there is a problem calling this method or getting
+    # a factory instance
+    begin
+      response = factory.build_image(image, build, template, targets)
+      build_adaptors(response)
+    rescue Exception => e
+      @logger.debug "Encountered error in build_image: #{e}"
+      return e
+    end
+  end
+
+  # Call this method to push an image to a provider, and get back an
+  # array of BuildAdaptor objects.
+  # * providers => Array
+  # Represents the target providers to build for (ec2-us-east, mock1, etc)
+  # * credentials => String
+  # XML block to be used for registration, upload, etc
+  # * image_id => String
+  # The UUID of an image previously built
+  # * build_id => String
+  # The UUID of a previous build of the image
+  # * Returns => an array of BuildAdaptor objects
+  #
+  def push(providers, credentials, image_id, build_id='')
+    providers = [providers] unless providers.instance_of?(Array)
+    # TODO: return error if there is a problem calling this method or getting
+    # a factory instance
+    begin
+      response = factory.push_image(image_id, build_id, providers, credentials)
+      build_adaptors(response)
+    rescue Exception => e
+      @logger.debug "Encountered error in push_image: #{e}"
+      return e
+    end
+  end
+
+  # <b>DEPRECATED:</b> Please use <tt>build</tt> instead.
+  # Call this method to initiate a build, and get back an
   # BuildAdaptor object.
   # * descriptor => String
   # This can be either xml or a url pointing to the xml
@@ -62,6 +113,7 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
   # * Returns => a BuildAdaptor object
   #
   def build_image(descriptor, target)
+    @logger.warn "[DEPRECATION] 'build_image' is deprecated.  Please use 'build' instead."
     # TODO: return error if there is a problem calling this method or getting
     # a factory instance
     begin
@@ -73,6 +125,7 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
     end
   end
 
+  # <b>DEPRECATED:</b> Please use <tt>push</tt> instead.
   # Call this method to push an image to a provider, and get back an
   # BuildAdaptor object.
   # * image_id => String (uuid)
@@ -83,6 +136,7 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
   # * Returns => a BuildAdaptor object
   #
   def push_image(image_id, provider, credentials)
+    @logger.warn "[DEPRECATION] 'push_image' is deprecated.  Please use 'push' instead."
     # TODO: return error if there is a problem calling this method or getting
     # a factory instance
     begin
@@ -139,13 +193,23 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
     @factory ||= @q.query("{class:ImageFactory, package:'com.redhat.imagefactory'}").first
   end
 
+  def build_adaptors(response)
+    ret = []
+    response['build_adaptors'].each do |imgfacaddr|
+      query = Qmf2::Query.new(Qmf2::DataAddr.new(imgfacaddr))
+      ret << @q.query(query,5).first
+    end
+    ret
+  end
+
   def build_adaptor(response)
+    @logger.warn "[DEPRECATION] 'build_adaptor' is deprecated.  Please use 'build_adaptors' instead."
     imgfacaddr = Qmf2::DataAddr.new(response['build_adaptor'])
     query = Qmf2::Query.new(imgfacaddr)
     @q.query(query,5).first
   end
 
+  def make_array(a)
+    return a ||= [a] unless a.instance_of?(Array)
+  end
 end
-
-#i = ImageBuilderConsole.new
-#i.run
