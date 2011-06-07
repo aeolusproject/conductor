@@ -213,9 +213,14 @@ class ApplicationController < ActionController::Base
 
   def require_user
     return if current_user
-    store_location
-    flash[:notice] = "You must be logged in to access this page"
-    redirect_to login_url
+    respond_to do |format|
+      format.html do
+        store_location
+        flash[:notice] = "You must be logged in to access this page"
+        redirect_to login_url
+      end
+      format.xml { head :unauthorized }
+    end
   end
 
   def require_no_user
