@@ -36,7 +36,7 @@ Feature: Manage Users
   Scenario: Administrator cancels the creation of a user account
     Given I am on the users page
     And there are 2 users
-    When I follow "create"
+    When I follow "New User"
     Then I should be on the new user page
     When I follow "cancel"
     Then there should be 2 users

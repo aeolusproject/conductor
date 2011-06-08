@@ -12,4 +12,4 @@
             %li.alert
               %dt.subject.critical= inst
               %dd.type Instance Failure
-              %dd.desc= "#{i.last_error.blank? ? i.state : i.last_error}"
+              %dd.desc= "#{inst.last_error.blank? ? inst.state : inst.last_error}"

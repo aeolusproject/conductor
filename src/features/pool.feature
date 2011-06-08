@@ -42,7 +42,7 @@ Feature: Manage Pools
     | running_instances         | 8        |
     And I am on the pools page
     Then I should see the following:
-    | mockpool | Deployments: 0	| Instances: 0 | Pending: 0	| Failed: 0	| Instance quota usage: 80 |
+    | mockpool | Deployments 0	| Instances 0 | Quota Used 80 |
 
   Scenario: Enter invalid characters into Name field
     Given I am on the new pool page
@@ -158,28 +158,24 @@ Feature: Manage Pools
   Scenario: Switch pretty view to filtred view on pools index
     Given I am on the pools page
     And I see "Overview"
-    And I should see "expand all"
     When I follow "Filter View"
     Then I should see "Pools" within "#details-view"
     And I should see "Instances" within "#details-view"
     And I should see "Deployments" within "#details-view"
-    And I should not see "expand all"
-    When I follow "Pretty View"
 
   Scenario: Switch from filtred view to pretty view on pools index
     Given I am on the pools page
     And I follow "Filter View"
-    And I should see "Pools" within "#view"
+    And I should see "Pools" within "#details-view"
     When I follow "Pretty View"
-    Then I should not see "Pools" within "#view"
-    And I should see "expand all"
+    Then I should see "Your Pools" within "section.pools"
 
   Scenario: Display alerts
     Given There is a mock pulp repository
     And there is a "fail1" failed instance
     When I go to the pools page
     Then I should see "Alerts"
-    And I should see "fail1: error"
+    And I should see "Instance Failure error"
 
   Scenario: Pools#show pretty view
     Given a pool "mockpool" exists with deployment "mockdeployment"
