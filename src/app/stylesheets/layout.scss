@@ -1,6 +1,6 @@
 /* ###########################################################################
 Generated SCSS for Aeolus UI [aeolus_ui]
-Compiled on Fri May 20 10:40:30 +0200 2011
+Compiled on 2011-06-05 21:07:09 -0700
 ########################################################################### */
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -164,18 +164,9 @@ table {
   border-spacing: 0;
 }
 
-thead {
-  background: #eee;
-}
-
-th {
-  padding-left: 10px;
-}
-
 th,
 td,
 caption {
-  padding-left: 10px;
   font-weight: normal;
   vertical-align: top;
   text-align: left;
@@ -186,6 +177,10 @@ svg {
   For IE9.
 */
   overflow: hidden;
+}
+
+form{
+  display: inline;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -640,14 +635,14 @@ Page Layout -- v.0.0.2 [layout] (layout.scss)
 $width: 960px;
 $font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 $font-family-em: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-$font-family-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 
 /* body */
 
 html, body{ height: 100%; }
 
 body{
-  background: url('../../images/body-bg.png');
+  background: url('/../../images/body-bg.png');
   font-family: $font-family-base;
   font-size: 12px; /* 12px base */
   color: #333;
@@ -659,30 +654,6 @@ strong, em, b, i{ font-family: $font-family-em; }
   position: relative;
   min-height: 100%;
   margin-bottom: -40px;
-}
-
-/* typography */
-
-.label{
-  font-family: $font-family-base;
-  font-size: 12px;
-}
-
-.label.micro{ font-size: 9px; }
-.label.small{ font-size: 11px; }
-
-.label.light{
-  font-weight: normal;
-  color: #666;
-}
-
-.label.strong{
-  font-weight: bold;
-  color: #333;
-}
-
-.label.caps{
-  text-transform: uppercase;
 }
 
 /* Content */
@@ -703,12 +674,12 @@ div#content{
   border: 1px solid #999;
   position: relative;
   z-index: 100;
-  
+
   div.header{
     background-color: #ccc;
     height: 60px;
   }
-  
+
 }
 
 
@@ -725,27 +696,27 @@ Application Button Set -- v.0.0.1 [button] (button.scss)
 
 /* ------------------------------------------
 CSS3 GITHUB BUTTONS (Nicolas Gallagher)
-Licensed under Unlicense 
+Licensed under Unlicense
 http://github.com/necolas/css3-github-buttons
 ------------------------------------------ */
 
 
 /* ------------------------------------------------------------------------------------------------------------- BUTTON */
 
-.button { 
-    position: relative; 
-    overflow: visible; 
-    display: inline-block; 
-    padding: 0.5em 1em; 
-    border: 1px solid #d4d4d4; 
+.button {
+    position: relative;
+    overflow: visible;
+    display: inline-block;
+    padding: 0.5em 1em;
+    border: 1px solid #d4d4d4;
     margin: 0;
-    text-decoration: none; 
-    text-shadow: 1px 1px 0 #fff; 
-    font:11px/normal sans-serif; 
-    color: #333; 
-    white-space: nowrap; 
-    cursor: pointer; 
-    outline: none; 
+    text-decoration: none;
+    text-shadow: 1px 1px 0 #fff;
+    font:11px/normal sans-serif;
+    color: #333;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
     background-color: #ececec;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
     background-image: -moz-linear-gradient(#f4f4f4, #ececec);
@@ -753,14 +724,14 @@ http://github.com/necolas/css3-github-buttons
     background-image: linear-gradient(#f4f4f4, #ececec);
     -webkit-background-clip: padding;
     -moz-background-clip: padding;
-    -o-background-clip: padding-box; 
+    -o-background-clip: padding-box;
     /*background-clip: padding-box;*/ /* commented out due to Opera 11.10 bug */
-    -webkit-border-radius: 0.2em; 
-    -moz-border-radius: 0.2em; 
-    border-radius: 0.2em; 
+    -webkit-border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    border-radius: 0.2em;
     /* IE hacks */
-    zoom: 1; 
-    *display: inline; 
+    zoom: 1;
+    *display: inline;
 }
 
 .button:hover,
@@ -769,9 +740,9 @@ http://github.com/necolas/css3-github-buttons
 .button.active {
     border-color: #3072b3;
     border-bottom-color: #2a65a0;
-    text-decoration: none; 
-    text-shadow: -1px -1px 0 rgba(0,0,0,0.3); 
-    color: #fff; 
+    text-decoration: none;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+    color: #fff;
     background-color: #3C8DDE;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599bdc), to(#3072b3));
     background-image: -moz-linear-gradient(#599bdc, #3072b3);
@@ -800,13 +771,13 @@ http://github.com/necolas/css3-github-buttons
 
 .button.icon:before {
     content: "";
-    position: relative; 
-    top: 1px; 
+    position: relative;
+    top: 1px;
     float:left;
-    width: 12px; 
-    height: 12px; 
-    margin: 0 0.75em 0 -0.25em; 
-    background: url(../../images/button-icons.png) 0 99px no-repeat;
+    width: 12px;
+    height: 12px;
+    margin: 0 0.75em 0 -0.25em;
+    background: url(/../../images/button-icons.png) 0 99px no-repeat;
 }
 
 .button.arrowup.icon:before { background-position: 0 0; }
@@ -981,10 +952,10 @@ http://github.com/necolas/css3-github-buttons
 
 .button.danger:hover,
 .button.danger:focus,
-.button.danger:active {     
+.button.danger:active {
     border-color: #b53f3a;
     border-bottom-color: #a0302a;
-    color: #fff; 
+    color: #fff;
     background-color: #dc5f59;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dc5f59), to(#b33630));
     background-image: -moz-linear-gradient(#dc5f59, #b33630);
@@ -993,7 +964,7 @@ http://github.com/necolas/css3-github-buttons
 }
 
 .button.danger:active,
-.button.danger.active {   
+.button.danger.active {
     border-color: #a0302a;
     border-bottom-color: #bf4843;
     background-color: #b33630;
@@ -1006,9 +977,9 @@ http://github.com/necolas/css3-github-buttons
 /* ............................................................................................................. Pill */
 
 .button.pill {
-    -webkit-border-radius: 50em; 
-    -moz-border-radius: 50em; 
-    border-radius: 50em; 
+    -webkit-border-radius: 50em;
+    -moz-border-radius: 50em;
+    border-radius: 50em;
 }
 
 /* ............................................................................................................. Disable */
@@ -1020,7 +991,7 @@ http://github.com/necolas/css3-github-buttons
 /* ............................................................................................................. Big */
 
 .button.big {
-    font-size: 14px; 
+    font-size: 14px;
 }
 
 .button.big.icon:before { top: 0; }
@@ -1036,8 +1007,8 @@ http://github.com/necolas/css3-github-buttons
     padding: 0;
     margin: 0;
     /* IE hacks */
-    zoom: 1; 
-    *display: inline; 
+    zoom: 1;
+    *display: inline;
 }
 
 .button + .button,
@@ -1055,41 +1026,41 @@ http://github.com/necolas/css3-github-buttons
 
 .button-group .button {
     float: left;
-    margin-left: -1px; 
+    margin-left: -1px;
 }
 
 .button-group > .button:not(:first-child):not(:last-child),
-.button-group li:not(:first-child):not(:last-child) .button { 
-    -webkit-border-radius: 0; 
-    -moz-border-radius: 0; 
-    border-radius: 0; 
+.button-group li:not(:first-child):not(:last-child) .button {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
 }
 
 .button-group > .button:first-child,
-.button-group li:first-child .button { 
-    margin-left: 0; 
-    -webkit-border-top-right-radius: 0; 
-    -webkit-border-bottom-right-radius: 0; 
-    -moz-border-radius-topright: 0; 
-    -moz-border-radius-bottomright: 0; 
-    border-top-right-radius: 0; 
-    border-bottom-right-radius: 0; 
+.button-group li:first-child .button {
+    margin-left: 0;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -moz-border-radius-topright: 0;
+    -moz-border-radius-bottomright: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .button-group > .button:last-child,
-.button-group li:last-child > .button { 
-    -webkit-border-top-left-radius: 0; 
-    -webkit-border-bottom-left-radius: 0; 
-    -moz-border-radius-topleft: 0; 
-    -moz-border-radius-bottomleft: 0; 
-    border-top-left-radius: 0; 
-    border-bottom-left-radius: 0; 
+.button-group li:last-child > .button {
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    -moz-border-radius-bottomleft: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 /* ............................................................................................................. Minor */
 
 .button-group.minor-group .button {
-    border: 1px solid #d4d4d4; 
+    border: 1px solid #d4d4d4;
     text-shadow: none;
     background-image: none;
     background-color: #fff;
@@ -1146,15 +1117,15 @@ div.query-input input[type="text"]{
 
 div.query-input input[type="submit"]{
   display:inline;
-  background: transparent url('../../images/button-search.png') no-repeat left center;
+  background: transparent url('/../../images/button-search.png') no-repeat left center;
   color: transparent;
   border: 0px;
   width: 25px; height: 25px;
   margin-left: -25px;
   outline: none;
   cursor: pointer;
-  &:hover{ background: transparent url('../../images/button-search-over.png') no-repeat left center; }
-  &:active{ background: transparent url('../../images/button-search-down.png') no-repeat left center; }
+  &:hover{ background: transparent url('/../../images/button-search-over.png') no-repeat left center; }
+  &:active{ background: transparent url('/../../images/button-search-down.png') no-repeat left center; }
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1164,41 +1135,40 @@ App Masthead -- v.0.0.2 [masthead] (masthead.scss)
 header#masthead{
   height: 49px;
   background-color: #E7E7E7;
-  background: url('../../images/masthead-bg.png') repeat-x;
+  background: url('/../../images/masthead-bg.png') repeat-x;
   position: relative;
-  margin-bottom: 22px;
-  
+
   img#logo{
     position: absolute;
     top: 8px;
   }
-  
+
   div.container{
     margin: 0 auto;
     width: 960px;
     overflow: hidden;
     position: relative;
   }
-  
+
   a.user-dropdown{
     border: 1px solid #ccc;
-    background: url('../../images/button-userdrop.png') no-repeat center center;
-    background: url('../../images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(239,239,239,0), rgba(204,204,204,0));
-    background: url('../../images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(239,239,239)),color-stop(1, rgb(204,204,204)));
+    background: url('/../../images/button-userdrop.png') no-repeat center center;
+    background: url('/../../images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(239,239,239,0), rgba(204,204,204,0));
+    background: url('/../../images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(239,239,239)),color-stop(1, rgb(204,204,204)));
     width: 46px;
     margin-left: 4px;
     padding: 5px 2px 5px 2px;
     color: transparent;
     font-size: 12px; /* match the font-size of the query box, for proper valign */
-    
+
     &:active{
-      background: url('../../images/button-userdrop.png') no-repeat center center;
-      background: url('../../images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(232,232,232,0), rgba(210,210,210,0));
-      background: url('../../images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(232,232,232)),color-stop(1, rgb(210,210,210)));
+      background: url('/../../images/button-userdrop.png') no-repeat center center;
+      background: url('/../../images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(232,232,232,0), rgba(210,210,210,0));
+      background: url('/../../images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(232,232,232)),color-stop(1, rgb(210,210,210)));
     }
-    
+
   }
-  
+
   nav#system{
     float:right;
     margin-top: 6px;
@@ -1207,12 +1177,67 @@ header#masthead{
       li{ display: inline; }
       li + li{ margin-left: 10px; }
       li.separator{
-        background: url('../../images/masthead-nav-separator.gif') no-repeat left top;
+        background: url('/../../images/masthead-nav-separator.gif') no-repeat left top;
         padding: 8px 1px 8px 1px;
       }
     }
   }
-  
+
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Alert Flash -- v.0.0.1 [flash] (flash.scss)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+#flash-hud{
+  width: 944px;
+  margin: 0 auto;
+  background-color: #ddd;
+  -webkit-border-radius: 0px 0px 7px 7px;
+  -moz-border-radius: 0px 0px 7px 7px;
+  border-radius: 0px 0px 7px 7px;
+  border: 1px solid #999;
+  padding: 8px;
+  margin-top: -4px;
+
+  a.control{
+    float: right;
+    color: #999;
+    font-size: 11px;
+  }
+
+  .flash-group{
+    display: table;
+  }
+
+  .flash-subset{
+    display: table-row;
+
+    div.heading{
+      display: table-cell;
+      text-align: right;
+      border-right: 1px solid #ccc;
+      padding-right: 8px;
+      width: 20px;
+    }
+
+    ul{
+      display: table-cell;
+      font-size: 12px;
+      padding-left: 8px;
+      list-style: none;
+
+      li + li{
+        margin-top: 6px;
+      }
+    }
+
+  }
+
+  .flash-group + .flash-group{
+    margin-top: 10px;
+  }
+
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1224,6 +1249,8 @@ $font-family-nav-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", s
 
 
 nav#primary {
+  margin-top: 22px;
+
   ul.container{
     width: 950px;
     margin: 0 auto;
@@ -1234,13 +1261,13 @@ nav#primary {
       float: left;
       position: relative;
       display: inline-block;
-      background: url('../../images/tab-inactive-right.png') no-repeat right top;
+      background: url('/../../images/tab-inactive-right.png') no-repeat right top;
       height: 34px;
       margin-right: 6px;
       z-index: 1;
-      a{ 
+      a{
         display: block;
-        background:url('../../images/tab-inactive-left.png') no-repeat left top; 
+        background:url('/../../images/tab-inactive-left.png') no-repeat left top;
         padding: 10px 16px 14px 16px;
         margin-left: -11px;
         font-family: $font-family-nav-primary;
@@ -1255,11 +1282,11 @@ nav#primary {
     }
     li.active{
       margin-top: -5px;
-      background: url('../../images/tab-active-right.png') no-repeat right top;
+      background: url('/../../images/tab-active-right.png') no-repeat right top;
       z-index: 1000;
       height: 43px;
-      a{ 
-        background:url('../../images/tab-active-left.png') no-repeat left top; 
+      a{
+        background:url('/../../images/tab-active-left.png') no-repeat left top;
         padding: 12px 20px 12px 20px;
         font-size: 16px;
         color: #666;
@@ -1276,10 +1303,10 @@ Breadcrumb Navigation -- v.0.0.2 [nav_hist_bar] (nav_hist_bar.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 nav#nav_history{
-  
+
   display: block;
   margin: 6px 0px 12px 0px;
-  
+
   ol.nav_hist_bar{
 
     list-style: none;
@@ -1302,7 +1329,7 @@ nav#nav_history{
     }
 
   }
-  
+
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1312,7 +1339,7 @@ Page Header -- v.0.0.1 [header] (header.scss)
 $font-family-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
 div#content .page-header{
-  
+
   display: block;
   background: #ccc;
   height: 56px;
@@ -1320,27 +1347,52 @@ div#content .page-header{
   padding: 6px;
   position: relative;
   z-index: 900;
-  background: transparent url('../../images/header_bg.png') repeat-x top center;
-  
+  background: transparent url('/../../images/header_bg.png') repeat-x top center;
+
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.40);
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.40);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.40);
-  
+
   h1{
     font-family: $font-family-primary;
     font-weight: 200;
     font-size: 25px;
     margin-top: 6px;
     color: #333;
-    text-shadow: 1px 1px 0 #fff; 
+    text-shadow: 1px 1px 0 #fff;
     display: inline-block;
-  }
-  
-  h1.pools{
-    background: transparent url('../../images/header_icon_pools.png') no-repeat 8px center;
     padding: 6px 7px 7px 54px;
   }
-  
+
+  h1.pools{
+    background: transparent url('/../../images/header_icon_pools.png') no-repeat 8px center;
+  }
+
+  h1.section-index{
+    background: transparent url('/../../images/header_icon_section-index.png') no-repeat 8px center;
+  }
+
+  h1.users{
+    background: transparent url('/../../images/header_icon_users.png') no-repeat 8px center;
+  }
+
+  h1.roles{
+    background: transparent url('/../../images/header_icon_roles.png') no-repeat 8px center;
+  }
+
+  h1.providers{
+    background: transparent url('/../../images/header_icon_providers.png') no-repeat 8px center;
+  }
+
+  h1.provider-accounts{
+    background: transparent url('/../../images/header_icon_provider-accounts.png') no-repeat 8px center;
+    padding: 6px 7px 7px 60px;
+  }
+
+  h1.settings{
+    background: transparent url('/../../images/header_icon_settings.png') no-repeat 8px center;
+  }
+
   #obj_actions{
     position: absolute;
     right: 0px;
@@ -1348,9 +1400,9 @@ div#content .page-header{
     display: inline-block;
     margin-right: 24px;
   }
-  
+
   .corner{
-    background: transparent url('../../images/header_corner.png') no-repeat top center;
+    background: transparent url('/../../images/header_corner.png') no-repeat top center;
     width: 10px;
     height: 10px;
     position: absolute;
@@ -1358,11 +1410,11 @@ div#content .page-header{
     bottom: -10px;
     z-index: 1;
   }
-  
+
   .button{
     border-color: #fff;
   }
-  
+
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1374,30 +1426,30 @@ $dd_padding: 10px;
 $dd_icon_padding_right: 4px;
 
 #scoreboard{
-  
+
   background-color: #efefef;
   display: inline-block;
   padding: 8px $dd_padding 10px $dd_padding;
   height: 40px;
-  
+
   /* statistic group list */
   ul.groups{ list-style: none; }
-  ul.groups > li{ 
-    display: inline-block; 
-    text-align: center; 
-    margin: 0px; 
+  ul.groups > li{
+    display: inline-block;
+    text-align: center;
+    margin: 0px;
   }
-  ul.groups > li + li{ 
-    background: transparent url('../../images/sb_separator.png') repeat-y 0px 0px;
+  ul.groups > li + li{
+    background: transparent url('/../../images/sb_separator.png') repeat-y 0px 0px;
     padding-left: 2px;
     margin-left: -6px;
   }
-  
+
   /* statistic sub-group list */
   ul.subgroup{ list-style: none; }
   ul.subgroup > li{ display: inline-block; text-align: center; }
   ul.subgroup > li + li{ margin-left: -$dd_padding; }
-  
+
   dt{
     text-align: center;
     font-size: 11px;
@@ -1407,7 +1459,7 @@ $dd_icon_padding_right: 4px;
     text-transform: uppercase;
     padding: 0px $dd_padding 0px $dd_padding;
   }
-  
+
   dd{
     display: inline;
     padding: 0px $dd_padding 0px $dd_padding;
@@ -1415,63 +1467,63 @@ $dd_icon_padding_right: 4px;
     color: #999;
     font-family: $font-family-primary;
   }
-  
+
   dd + dd{
     margin-left: -$dd_padding; /* compensate for padding-right */
   }
-  
+
   /* icons */
-  
+
   dd.pool{
-    background: transparent url('../../images/sb_icon_pool.png') no-repeat $dd_padding 4px;
+    background: transparent url('/../../images/sb_icon_pool.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
-  
+
   dd.pool.partial{
-    background: transparent url('../../images/sb_icon_poolsemi.png') no-repeat $dd_padding 4px;
+    background: transparent url('/../../images/sb_icon_poolsemi.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
-  
+
   dd.provider{
-    background: transparent url('../../images/sb_icon_provider.png') no-repeat $dd_padding 4px;
+    background: transparent url('/../../images/sb_icon_provider.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 22px;
   }
-  
+
   dd.deployment{
-    background: transparent url('../../images/sb_icon_deployment.png') no-repeat $dd_padding 4px;
+    background: transparent url('/../../images/sb_icon_deployment.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 23px;
   }
-  
+
   dd.instance{
-    background: transparent url('../../images/sb_icon_instance.png') no-repeat $dd_padding 4px;
+    background: transparent url('/../../images/sb_icon_instance.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
   }
-  
+
   dd.instance.pending{
-    background: transparent url('../../images/sb_icon_instance_pending.png') no-repeat $dd_padding 4px;
+    background: transparent url('/../../images/sb_icon_instance_pending.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
-  
+
   dd.instance.failure{
-    background: transparent url('../../images/sb_icon_instance_failure.png') no-repeat $dd_padding 4px;
+    background: transparent url('/../../images/sb_icon_instance_failure.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
   }
-  
+
   dd.alert{
-    background: transparent url('../../images/sb_icon_alert.png') no-repeat $dd_padding 4px;
+    background: transparent url('/../../images/sb_icon_alert.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 29px;
   }
-  
+
   dd.update{
-    background: transparent url('../../images/sb_icon_update.png') no-repeat $dd_padding 4px;
+    background: transparent url('/../../images/sb_icon_update.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
   }
-  
+
   dd.quota{
-    background: transparent url('../../images/sb_icon_quota.png') no-repeat $dd_padding 4px;
+    background: transparent url('/../../images/sb_icon_quota.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
   }
-  
+
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1481,14 +1533,14 @@ Page Footer -- v.0.0.1 [footer] (footer.scss)
 /* Footer */
 
 footer.standard{
-  
+
   background: rgba(0, 0, 0, 0.20);
   position: relative;
   height: 40px;
   width: 100%;
   font-size: 11px;
   clear:both;
-  
+
   div.container{
     margin: 0 auto;
     width: 946px;
@@ -1496,16 +1548,16 @@ footer.standard{
     padding: 0px 10px 0px 10px;
     height: 40px;
   }
-  
+
   img.logo{
     margin-right: 14px;
   }
-  
+
   span.copyright{
     display: inline-block;
     color: #666;
   }
-  
+
   nav.footer{
     display: inline-block;
     padding: 14px;
@@ -1514,6 +1566,6 @@ footer.standard{
       padding-right: 6px;
     }
   }
-  
+
 }
 

@@ -1,4 +1,8 @@
-= render :partial => 'header_index'
+%header.page-header
+  %h1.section-index Overview
+  -# Insert appropriate controls here, or ommit %ul.controls
+  .corner &nbsp;
+
 = render :partial => 'scoreboard_index'
 = render :partial => 'alerts_index'
 = pretty_filter_toggle(pools_path(:view => 'pretty'), pools_path(:view => 'filter'))
