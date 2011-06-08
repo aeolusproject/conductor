@@ -7,7 +7,5 @@
 
 = render :partial => 'scoreboard_index'
 = render :partial => 'alerts_index'
-- if params[:view] == 'filter'
-  = render :partial => 'layouts/tabpanel'
-- else
-  = render :partial => 'pretty_list'
+%section.content-section.pools
+  = render :partial => @view

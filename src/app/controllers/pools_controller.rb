@@ -37,12 +37,14 @@ class PoolsController < ApplicationController
     end
     statistics
     respond_to do |format|
-      format.js { if filter_view?
-                    render :partial => params[:only_tab] == "true" ? @details_tab[:view] : 'layouts/tabpanel'
-                  else
-                    render :partial => 'pretty_list'
-                  end }
-      format.html
+      format.js do
+        if filter_view?
+          render :partial => params[:only_tab] == "true" ? @details_tab[:view] : 'layouts/tabpanel'
+        else
+          render :partial => 'pretty_list'
+        end
+      end
+      format.html { @view = filter_view? ? 'layouts/tabpanel' : 'pretty_list' }
       format.json { render :json => @pools }
     end
     save_breadcrumb(pools_path(:viewstate => @viewstate ? @viewstate.id : nil))
@@ -52,7 +54,7 @@ class PoolsController < ApplicationController
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::VIEW, @pool)
     @statistics = @pool.statistics
-    @view = params[:view] == 'filter' ? 'deployments/filter_view' : 'deployments/pretty_view'
+    @view = filter_view? ? 'deployments/filter_view' : 'deployments/pretty_view'
     respond_to do |format|
       format.js { render :partial => @view, :locals => {:deployments => @pool.deployments} }
       format.html { render :action => :show}

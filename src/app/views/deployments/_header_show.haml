@@ -1,0 +1,5 @@
+%header.page-header
+  %h1.deployments
+    = [@deployment.name, "Deployment"].join(' ')
+  = pretty_filter_toggle(deployment_path(@deployment, :view => 'pretty'), deployment_path(@deployment, :view => 'filter'))
+  .corner &nbsp;

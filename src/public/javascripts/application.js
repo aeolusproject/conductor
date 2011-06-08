@@ -79,22 +79,31 @@ var Conductor = {
     $('#details-view').tabs('destroy').tabs();
   },
 
-  bind_pretty_toggle: function() {
-    $("#pretty_view").click(function(){
-      $.get($(this).attr("href"), $(this).serialize(),
-        function(result) {
-          $("#view").html(result);
-        });
-      return false;
+  /* This hooks the specified callback to the jQuery element's click action in
+     a non-evil manner: it will not hijack middle-click, ctrl+click or
+     shift+click actions because these already have a defined behaviour in
+     most browsers. */
+  nicelyHookAjaxClick: function($element, callback) {
+    $element.live('click', function(ev) {
+      if(ev.which == 2 || ev.metaKey || ev.ctrlKey || ev.shiftKey) return true;
+
+      ev.preventDefault();
+      callback.call($element);
     });
-    $("#filter_view").click(function(){
-      $.get($(this).attr("href"), $(this).serialize(),
-        function(result) {
-          $("#view").html(result);
-          $('#details-selected').hide();
-          $('#details-view').tabs('destroy').tabs();
-        });
-      return false;
+  },
+
+  bind_pretty_toggle: function() {
+    Conductor.nicelyHookAjaxClick($("#pretty_view"), function() {
+      $.get($(this).attr("href"), $(this).serialize(), function(result) {
+        $('#content .content-section').html(result);
+      });
+    });
+    Conductor.nicelyHookAjaxClick($("#filter_view"), function() {
+      $.get($(this).attr("href"), $(this).serialize(), function(result) {
+        $('#content .content-section').html(result);
+        $('#details-selected').hide();
+        $('#details-view').tabs();
+      });
     });
   },
 

@@ -1,10 +1,9 @@
 = render :partial => 'header_show'
 = render :partial => 'scoreboard_show'
-= pretty_filter_toggle(pool_path(@pool, :view => 'pretty'), pool_path(@pool, :view => 'filter'))
 
 -# TODO - Alerts aren't implemented just yet
 -#= render :partial => 'alerts'
 
 -# TODO: %w(Deployments History Properties Permissions) links/tabs, plus filter links/icons, go here
-%div#view
+%section.content-section
   = render :partial => @view, :locals => {:deployments => @pool.deployments}

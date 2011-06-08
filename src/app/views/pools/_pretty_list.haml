@@ -1,36 +1,35 @@
-%section.content-section.pools
-  %header
-    %h2 Your Pools
-    %span.label.badge.dark.count= @pools.length
+%header
+  %h2 Your Pools
+  %span.label.badge.dark.count= @pools.length
 
-  .content
-    - @pools.each do |pool|
-      %div.pool.overview{:id => ['pool', pool.id]}
-        %header
-          %h3.name
-            %a{:href => pool_path(pool)}= pool.name
-          %dl.statistics
-            %ul.groups
-              %li
-                %dt Deployments
-                %dd.count.deployment= pool.deployments.count
-              %li
-                %dt Instances
-                %dd.count.instance= pool.instances.count
-                %dd.count.instance.pending= pool.instances.select {|i| i.state == Instance::STATE_PENDING }.length
-                %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR }.length
-              %li
-                %dt Quota Used
-                %dd.percentage.quota= pool.quota ? pool.quota.percentage_used.to_s + "%" : 'unlimited'
-          %a.control{:href => '#'}
-            %span Expand/Collapse
-        %div.content.deployment-array
-          = render :partial => 'deployments', :locals => {:deployments => pool.deployments}
-        %ul.content.actions
-          %li
-            %a{:href => pool_path(pool)}= "#{pool.name} Pool details &raquo;"
-          %li
-            = link_to 'New Deployment', launch_new_deployments_path, :class => 'button primary', :id => 'new_deployment_button'
+.content
+  - @pools.each do |pool|
+    %div.pool.overview{:id => ['pool', pool.id]}
+      %header
+        %h3.name
+          %a{:href => pool_path(pool)}= pool.name
+        %dl.statistics
+          %ul.groups
+            %li
+              %dt Deployments
+              %dd.count.deployment= pool.deployments.count
+            %li
+              %dt Instances
+              %dd.count.instance= pool.instances.count
+              %dd.count.instance.pending= pool.instances.select {|i| i.state == Instance::STATE_PENDING }.length
+              %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR }.length
+            %li
+              %dt Quota Used
+              %dd.percentage.quota= pool.quota ? pool.quota.percentage_used.to_s + "%" : 'unlimited'
+        %a.control{:href => '#'}
+          %span Expand/Collapse
+      %div.content.deployment-array
+        = render :partial => 'deployments', :locals => {:deployments => pool.deployments}
+      %ul.content.actions
+        %li
+          %a{:href => pool_path(pool)}= "#{pool.name} Pool details &raquo;"
+        %li
+          = link_to 'New Deployment', launch_new_deployments_path, :class => 'button primary', :id => 'new_deployment_button'
 
 :javascript
   $(document).ready(function() {

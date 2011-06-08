@@ -111,13 +111,9 @@ class DeploymentsController < ApplicationController
     @tab_captions = ['Properties', 'Instances', 'Provider Services', 'Required Services', 'History', 'Permissions','Operation']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(deployment_path(@deployment), @deployment.name)
+    @view = filter_view? ? 'filter_view_show' : 'pretty_view_show'
     respond_to do |format|
-      format.js do
-        if @url_params.delete :details_pane
-          render :partial => 'layouts/details_pane' and return
-        end
-        render :partial => @details_tab and return
-      end
+      format.js { render :partial => @view }
       format.html { render :action => 'show'}
       format.json { render :json => @deployment }
     end
