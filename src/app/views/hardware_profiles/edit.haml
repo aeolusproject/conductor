@@ -1,6 +1,21 @@
-%h3
-  Edit Hardware Profile
--form_for @hardware_profile, :url => hardware_profile_path(@hardware_profile), :html => { :multipart => true } do |hwp_form|
-  = render :partial => "form", :locals => { :hwp_form => hwp_form }
+= render :partial => 'layouts/admin_header'
 
-= render :partial => 'matching_provider_hardware_profiles'
+%header.page-header
+  %h1{:class => controller.controller_name}= @hardware_profile.name.titlecase
+  #obj_actions.button-container
+    = link_to 'New Hardware Profile', hardware_profile_url, :class => 'button primary', :id => 'new_user_button'
+    %div.button-group
+      = link_to 'Cancel Editing', hardware_profile_path(@hardware_profile), :class => 'button pill danger', :id => 'new_user_button'
+  .corner &nbsp;
+
+%section.content-section.hardware_profile
+  %header
+    %h2 Properties
+
+  .content
+    %h3
+      Edit Hardware Profile
+    -form_for @hardware_profile, :url => hardware_profile_path(@hardware_profile), :html => { :multipart => true } do |hwp_form|
+      = render :partial => "form", :locals => { :hwp_form => hwp_form }
+
+    = render :partial => 'matching_provider_hardware_profiles'

@@ -75,7 +75,13 @@ class HardwareProfilesController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
+    if HardwareProfile.destroy(params[:id])
+       flash[:notice] = "Hardware profile was deleted!"
+    else
+       flash[:error] = "Hardware profile was not deleted!"
+    end
+    redirect_to hardware_profiles_path
   end
 
   def edit
