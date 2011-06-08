@@ -30,6 +30,7 @@
 - form_for @deployment do
   = hidden_field :deployment, :name
   = hidden_field :deployment, :pool_id
+  = hidden_field :deployment, :realm_id
   -# FIXME: Passing chunks of XML around in hidden form fields doesn't feel right
   = hidden_field :deployment, :deployable_xml
   = submit_tag 'Launch'

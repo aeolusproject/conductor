@@ -16,9 +16,10 @@ class DeploymentsController < ApplicationController
 
   # It is expected that params[:pool_id] will be set on requests into this method
   def launch_new
-    require_privilege(Privilege::CREATE, Deployment)
     @pool = Pool.find(params[:pool_id]) or raise "Invalid pool"
+    require_privilege(Privilege::CREATE, Deployment)
     @deployment = Deployment.new(:pool_id => @pool.id)
+    init_new_deployment_attrs
     respond_to do |format|
       format.js { render :partial => 'launch_new' }
       format.html
@@ -41,9 +42,9 @@ class DeploymentsController < ApplicationController
 
   # launch_new will post here, but you can use this RESTfully as well
   def new
-    require_privilege(Privilege::CREATE, Deployment)
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
+    require_privilege(Privilege::CREATE, Deployment, @pool)
     @deployment.import_xml_from_url(params[:deployable][:url]) if params[:deployable] && params[:deployable][:url]
     respond_to do |format|
       format.js { render :partial => 'new' }
@@ -75,8 +76,8 @@ class DeploymentsController < ApplicationController
   end
 
   def create
-    require_privilege(Privilege::CREATE, Deployment)
     @deployment = Deployment.new(params[:deployment])
+    require_privilege(Privilege::CREATE, Deployment, @deployment.pool)
     @deployment.owner = current_user
     respond_to do |format|
       if @deployment.save
