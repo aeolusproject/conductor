@@ -1,13 +1,20 @@
-#details.grid_13
-  = error_messages_for :provider_account
-  %h2
-  = t('provider_accounts.new.new_provider_account')
-  %label{ :for => :provider_id }
-    Provider
-  %fieldset
-  - unless @providers.empty?
-    - form_for(@provider_account, :url => provider_accounts_path, :html => {:multipart => true})  do |f|
-      = render :partial => 'provider_selection'
+= render :partial => 'layouts/admin_header'
+= render :partial => 'section_header'
+
+%section.content-section.provider_accounts
+  %header
+    %h2 New Provider Account
+
+  .content
+    = error_messages_for :provider_account
+    %h2
+      = t('provider_accounts.new.new_provider_account')
+      %label{ :for => :provider_id }
+        Provider
       %fieldset
-        .grid_13.alpha.omega
-          = f.submit t(:add), :class => "ra nomargin dialogbutton"
+      - unless @providers.empty?
+        - form_for(@provider_account, :url => provider_accounts_path, :html => {:multipart => true})  do |f|
+          = render :partial => 'provider_selection'
+          %fieldset
+            .grid_13.alpha.omega
+              = f.submit t(:add), :class => "ra nomargin dialogbutton"

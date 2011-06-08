@@ -1,14 +1,22 @@
-#details.grid_13
-  = error_messages_for :provider_account
-  %h2
-    = t('provider_accounts.edit.edit_provider_account')
-  - form_tag(provider_account_path, { :method => :put, :multipart => true }) do
-    = render :partial => 'provider_selection'
-    %fieldset.clearfix
-      .grid_13.alpha.omega
-        = submit_tag t(:save), :class => "ra nomargin dialogbutton"
-    %section
-      %p.requirement
-        %span.required *
-        \-
-        = t('provider_accounts.edit.required_field')
+= render :partial => 'layouts/admin_header'
+%header.page-header
+  %h1{:class => controller.controller_name}= @provider_account.name
+  #obj_actions.button-container
+    = link_to 'New Provider Account', new_provider_account_url, :class => 'button primary', :id => 'new_user_button'
+    %div.button-group
+      = link_to 'Cancel Editing', provider_account_path(@provider_account), :class => 'button pill danger', :id => 'new_user_button'
+  .corner &nbsp;
+
+%section.content-section.user
+  %header
+    %h2 Properties
+
+  .content
+    = error_messages_for :provider_account
+    %h2
+      = t('provider_accounts.edit.edit_provider_account')
+    - form_tag(provider_account_path, { :method => :put, :multipart => true }) do
+      = render :partial => 'provider_selection'
+      %fieldset.clearfix
+        .grid_13.alpha.omega
+          = submit_tag t(:save), :class => "ra nomargin dialogbutton"

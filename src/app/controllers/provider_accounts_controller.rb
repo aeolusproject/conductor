@@ -111,6 +111,16 @@ class ProviderAccountsController < ApplicationController
     end
   end
 
+  def destroy
+    require_privilege(Privilege::MODIFY, @provider_account)
+    if ProviderAccount.destroy(params[:id])
+      flash[:notice] = "Provider account was deleted!"
+    else
+      flash[:error] = "Provider account was not deleted!"
+    end
+    redirect_to provider_accounts_path
+  end
+
   def multi_destroy
     if params[:accounts_selected].blank?
       flash[:notice] = "You must select some accounts first."
