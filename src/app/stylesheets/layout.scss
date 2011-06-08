@@ -642,7 +642,7 @@ $font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 html, body{ height: 100%; }
 
 body{
-  background: url('/images/body-bg.png');
+  background: url('../../images/body-bg.png');
   font-family: $font-family-base;
   font-size: 12px; /* 12px base */
   color: #333;
@@ -777,7 +777,7 @@ http://github.com/necolas/css3-github-buttons
     width: 12px;
     height: 12px;
     margin: 0 0.75em 0 -0.25em;
-    background: url(/images/button-icons.png) 0 99px no-repeat;
+    background: url(../../images/button-icons.png) 0 99px no-repeat;
 }
 
 .button.arrowup.icon:before { background-position: 0 0; }
@@ -1117,15 +1117,15 @@ div.query-input input[type="text"]{
 
 div.query-input input[type="submit"]{
   display:inline;
-  background: transparent url('/images/button-search.png') no-repeat left center;
+  background: transparent url('../../images/button-search.png') no-repeat left center;
   color: transparent;
   border: 0px;
   width: 25px; height: 25px;
   margin-left: -25px;
   outline: none;
   cursor: pointer;
-  &:hover{ background: transparent url('/images/button-search-over.png') no-repeat left center; }
-  &:active{ background: transparent url('/images/button-search-down.png') no-repeat left center; }
+  &:hover{ background: transparent url('../../images/button-search-over.png') no-repeat left center; }
+  &:active{ background: transparent url('../../images/button-search-down.png') no-repeat left center; }
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1195,7 +1195,7 @@ App Masthead -- v.0.0.2 [masthead] (masthead.scss)
 header#masthead{
   height: 49px;
   background-color: #E7E7E7;
-  background: url('/images/masthead-bg.png') repeat-x;
+  background: url('../../images/masthead-bg.png') repeat-x;
   position: relative;
 
   img#logo{
@@ -1212,9 +1212,9 @@ header#masthead{
 
   a.user-dropdown{
     border: 1px solid #ccc;
-    background: url('/images/button-userdrop.png') no-repeat center center;
-    background: url('/images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(239,239,239,0), rgba(204,204,204,0));
-    background: url('/images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(239,239,239)),color-stop(1, rgb(204,204,204)));
+    background: url('../../images/button-userdrop.png') no-repeat center center;
+    background: url('../../images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(239,239,239,0), rgba(204,204,204,0));
+    background: url('../../images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(239,239,239)),color-stop(1, rgb(204,204,204)));
     width: 46px;
     margin-left: 4px;
     padding: 5px 2px 5px 2px;
@@ -1222,9 +1222,9 @@ header#masthead{
     font-size: 12px; /* match the font-size of the query box, for proper valign */
 
     &:active{
-      background: url('/images/button-userdrop.png') no-repeat center center;
-      background: url('/images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(232,232,232,0), rgba(210,210,210,0));
-      background: url('/images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(232,232,232)),color-stop(1, rgb(210,210,210)));
+      background: url('../../images/button-userdrop.png') no-repeat center center;
+      background: url('../../images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(232,232,232,0), rgba(210,210,210,0));
+      background: url('../../images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(232,232,232)),color-stop(1, rgb(210,210,210)));
     }
 
   }
@@ -1237,7 +1237,7 @@ header#masthead{
       li{ display: inline; }
       li + li{ margin-left: 10px; }
       li.separator{
-        background: url('/images/masthead-nav-separator.gif') no-repeat left top;
+        background: url('../../images/masthead-nav-separator.gif') no-repeat left top;
         padding: 8px 1px 8px 1px;
       }
     }
@@ -1321,13 +1321,13 @@ nav#primary {
       float: left;
       position: relative;
       display: inline-block;
-      background: url('/images/tab-inactive-right.png') no-repeat right top;
+      background: url('../../images/tab-inactive-right.png') no-repeat right top;
       height: 34px;
       margin-right: 6px;
       z-index: 1;
       a{
         display: block;
-        background:url('/images/tab-inactive-left.png') no-repeat left top;
+        background:url('../../images/tab-inactive-left.png') no-repeat left top;
         padding: 10px 16px 14px 16px;
         margin-left: -11px;
         font-family: $font-family-nav-primary;
@@ -1342,11 +1342,11 @@ nav#primary {
     }
     li.active{
       margin-top: -5px;
-      background: url('/images/tab-active-right.png') no-repeat right top;
+      background: url('../../images/tab-active-right.png') no-repeat right top;
       z-index: 1000;
       height: 43px;
       a{
-        background:url('/images/tab-active-left.png') no-repeat left top;
+        background:url('../../images/tab-active-left.png') no-repeat left top;
         padding: 12px 20px 12px 20px;
         font-size: 16px;
         color: #666;
@@ -1407,7 +1407,7 @@ div#content .page-header{
   padding: 6px;
   position: relative;
   z-index: 900;
-  background: transparent url('/images/header_bg.png') repeat-x top center;
+  background: transparent url('../../images/header_bg.png') repeat-x top center;
 
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.40);
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.40);
@@ -1425,32 +1425,32 @@ div#content .page-header{
   }
 
   h1.pools{
-    background: transparent url('/images/header_icon_pools.png') no-repeat 8px center;
+    background: transparent url('../../images/header_icon_pools.png') no-repeat 8px center;
   }
 
   h1.section-index{
-    background: transparent url('/images/header_icon_section-index.png') no-repeat 8px center;
+    background: transparent url('../../images/header_icon_section-index.png') no-repeat 8px center;
   }
 
   h1.users{
-    background: transparent url('/images/header_icon_users.png') no-repeat 8px center;
+    background: transparent url('../../images/header_icon_users.png') no-repeat 8px center;
   }
 
   h1.roles{
-    background: transparent url('/images/header_icon_roles.png') no-repeat 8px center;
+    background: transparent url('../../images/header_icon_roles.png') no-repeat 8px center;
   }
 
   h1.providers{
-    background: transparent url('/images/header_icon_providers.png') no-repeat 8px center;
+    background: transparent url('../../images/header_icon_providers.png') no-repeat 8px center;
   }
 
   h1.provider-accounts{
-    background: transparent url('/images/header_icon_provider-accounts.png') no-repeat 8px center;
+    background: transparent url('../../images/header_icon_provider-accounts.png') no-repeat 8px center;
     padding: 6px 7px 7px 60px;
   }
 
   h1.settings{
-    background: transparent url('/images/header_icon_settings.png') no-repeat 8px center;
+    background: transparent url('../../images/header_icon_settings.png') no-repeat 8px center;
   }
 
   #obj_actions{
@@ -1462,7 +1462,7 @@ div#content .page-header{
   }
 
   .corner{
-    background: transparent url('/images/header_corner.png') no-repeat top center;
+    background: transparent url('../../images/header_corner.png') no-repeat top center;
     width: 10px;
     height: 10px;
     position: absolute;
@@ -1500,7 +1500,7 @@ $dd_icon_padding_right: 4px;
     margin: 0px;
   }
   ul.groups > li + li{
-    background: transparent url('/images/sb_separator.png') repeat-y 0px 0px;
+    background: transparent url('../../images/sb_separator.png') repeat-y 0px 0px;
     padding-left: 2px;
     margin-left: -6px;
   }
@@ -1535,52 +1535,52 @@ $dd_icon_padding_right: 4px;
   /* icons */
 
   dd.pool{
-    background: transparent url('/images/sb_icon_pool.png') no-repeat $dd_padding 4px;
+    background: transparent url('../../images/sb_icon_pool.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
 
   dd.pool.partial{
-    background: transparent url('/images/sb_icon_poolsemi.png') no-repeat $dd_padding 4px;
+    background: transparent url('../../images/sb_icon_poolsemi.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
 
   dd.provider{
-    background: transparent url('/images/sb_icon_provider.png') no-repeat $dd_padding 4px;
+    background: transparent url('../../images/sb_icon_provider.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 22px;
   }
 
   dd.deployment{
-    background: transparent url('/images/sb_icon_deployment.png') no-repeat $dd_padding 4px;
+    background: transparent url('../../images/sb_icon_deployment.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 23px;
   }
 
   dd.instance{
-    background: transparent url('/images/sb_icon_instance.png') no-repeat $dd_padding 4px;
+    background: transparent url('../../images/sb_icon_instance.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
   }
 
   dd.instance.pending{
-    background: transparent url('/images/sb_icon_instance_pending.png') no-repeat $dd_padding 4px;
+    background: transparent url('../../images/sb_icon_instance_pending.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
 
   dd.instance.failure{
-    background: transparent url('/images/sb_icon_instance_failure.png') no-repeat $dd_padding 4px;
+    background: transparent url('../../images/sb_icon_instance_failure.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
   }
 
   dd.alert{
-    background: transparent url('/images/sb_icon_alert.png') no-repeat $dd_padding 4px;
+    background: transparent url('../../images/sb_icon_alert.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 29px;
   }
 
   dd.update{
-    background: transparent url('/images/sb_icon_update.png') no-repeat $dd_padding 4px;
+    background: transparent url('../../images/sb_icon_update.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
   }
 
   dd.quota{
-    background: transparent url('/images/sb_icon_quota.png') no-repeat $dd_padding 4px;
+    background: transparent url('../../images/sb_icon_quota.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
   }
 
@@ -1604,7 +1604,7 @@ section.content-section{
 
   /* Header code */
   header{
-    background: transparent url('/images/section-border.png') repeat-x bottom left;
+    background: transparent url('../../images/section-border.png') repeat-x bottom left;
     position: relative;
     h2{
       font-family: $font-family-primary;
@@ -1692,7 +1692,7 @@ section.content-section{
     }
 
     hr{
-      background-image: url('/images/deploy_separator_dark.png') repeat-x bottom left;
+      background-image: url('../../images/deploy_separator_dark.png') repeat-x bottom left;
       display: block;
       height: 2px;
     }
@@ -1707,7 +1707,7 @@ section.content-section{
 
     span.alert.warn{
       padding-left: 24px;
-      background: transparent url('/images/alert_icon_warn_white.png') no-repeat 6px 0px;
+      background: transparent url('../../images/alert_icon_warn_white.png') no-repeat 6px 0px;
     }
 
     ul.statistics{
@@ -1723,7 +1723,7 @@ section.content-section{
           padding: 2px;
           padding-left: 24px;
           color: #fff;
-          background: transparent url('/images/deploy_icon_uptime.png') no-repeat 6px 0px;
+          background: transparent url('../../images/deploy_icon_uptime.png') no-repeat 6px 0px;
         }
 
         span.instance{
@@ -1733,7 +1733,7 @@ section.content-section{
           padding-left: 24px;
           font-size: 14px;
           color: #fff;
-          background: transparent url('/images/deploy_icon_instance.png') no-repeat 6px 0px;
+          background: transparent url('../../images/deploy_icon_instance.png') no-repeat 6px 0px;
         }
 
       }
@@ -1749,7 +1749,7 @@ section.content-section{
       font-weight: 200;
       color: #fff;
       padding-left: 34px;
-      background: transparent url('/images/deploy_icon_provider.png') no-repeat 6px 0px;
+      background: transparent url('../../images/deploy_icon_provider.png') no-repeat 6px 0px;
     }
   }
 
@@ -1772,7 +1772,7 @@ section.content-section{
     }
 
     hr{
-      background-image: url('/images/deploy_separator_dark.png') repeat-x bottom left;
+      background-image: url('../../images/deploy_separator_dark.png') repeat-x bottom left;
       display: block;
       height: 2px;
     }
@@ -1787,7 +1787,7 @@ section.content-section{
 
     span.alert.warn{
       padding-left: 24px;
-      background: transparent url('/images/alert_icon_warn_white.png') no-repeat 6px 0px;
+      background: transparent url('../../images/alert_icon_warn_white.png') no-repeat 6px 0px;
     }
 
     ul.statistics{
@@ -1803,7 +1803,7 @@ section.content-section{
           padding: 2px;
           padding-left: 24px;
           color: #fff;
-          background: transparent url('/images/deploy_icon_uptime.png') no-repeat 6px 0px;
+          background: transparent url('../../images/deploy_icon_uptime.png') no-repeat 6px 0px;
         }
 
         span.instance{
@@ -1813,7 +1813,7 @@ section.content-section{
           padding-left: 24px;
           font-size: 14px;
           color: #fff;
-          background: transparent url('/images/deploy_icon_instance.png') no-repeat 6px 0px;
+          background: transparent url('../../images/deploy_icon_instance.png') no-repeat 6px 0px;
         }
 
       }
@@ -1829,7 +1829,7 @@ section.content-section{
       font-weight: 200;
       color: #fff;
       padding-left: 34px;
-      background: transparent url('/images/deploy_icon_provider.png') no-repeat 6px 0px;
+      background: transparent url('../../images/deploy_icon_provider.png') no-repeat 6px 0px;
     }
 
   }
@@ -1888,12 +1888,12 @@ dl.alerts{
 
     dt.subject.warn{
       padding-left: $alert_padding*2 + 14px;
-      background: transparent url('/images/alert_icon_warn.png') no-repeat $alert_padding 8px;
+      background: transparent url('../../images/alert_icon_warn.png') no-repeat $alert_padding 8px;
     }
 
     dt.subject.critical{
       padding-left: $alert_padding*2 + 16px;
-      background: transparent url('/images/alert_icon_critical.png') no-repeat $alert_padding 7px;
+      background: transparent url('../../images/alert_icon_critical.png') no-repeat $alert_padding 7px;
     }
 
     dd{
@@ -1953,7 +1953,7 @@ div.pool.overview{
       float: left;
       width: 230px;
       height: $bar_height;
-      background: transparent url('/images/pool_bar_name-bg-normal.png') no-repeat 0px 0px;
+      background: transparent url('../../images/pool_bar_name-bg-normal.png') no-repeat 0px 0px;
       border-right: 1px solid #a9a9a9;
       vertical-align: top;
 
@@ -1984,7 +1984,7 @@ div.pool.overview{
       color: transparent;
       height: 28px;
       width: 28px;
-      background: transparent url('/images/pool_bar_expand-btn.png') no-repeat 0px -56px;
+      background: transparent url('../../images/pool_bar_expand-btn.png') no-repeat 0px -56px;
       &:active{
         background-position: 0px -84px;
       };
@@ -1998,7 +1998,7 @@ div.pool.overview{
     dl.statistics{
       display: inline-block;
       height: $bar_height;
-      background: transparent url('/images/pool_bar_prop-gradient.png') repeat-y 0px 0px;
+      background: transparent url('../../images/pool_bar_prop-gradient.png') repeat-y 0px 0px;
     }
 
     /* statistic group list */
@@ -2009,7 +2009,7 @@ div.pool.overview{
       margin: 0px;
     }
     ul.groups > li + li{
-      background: transparent url('/images/sb_separator.png') repeat-y 0px 0px;
+      background: transparent url('../../images/sb_separator.png') repeat-y 0px 0px;
       padding-left: $dd_padding;
       margin-left: -6px;
     }
@@ -2046,52 +2046,52 @@ div.pool.overview{
     $icon_y: 2px;
 
     dd.pool{
-      background: transparent url('/images/sb_icon_pool.png') no-repeat $dd_padding $icon_y;
+      background: transparent url('../../images/sb_icon_pool.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
     }
 
     dd.pool.partial{
-      background: transparent url('/images/sb_icon_poolsemi.png') no-repeat $dd_padding $icon_y;
+      background: transparent url('../../images/sb_icon_poolsemi.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
     }
 
     dd.provider{
-      background: transparent url('/images/sb_icon_provider.png') no-repeat $dd_padding $icon_y;
+      background: transparent url('../../images/sb_icon_provider.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 22px;
     }
 
     dd.deployment{
-      background: transparent url('/images/sb_icon_deployment.png') no-repeat $dd_padding $icon_y;
+      background: transparent url('../../images/sb_icon_deployment.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 23px;
     }
 
     dd.instance{
-      background: transparent url('/images/sb_icon_instance.png') no-repeat $dd_padding $icon_y;
+      background: transparent url('../../images/sb_icon_instance.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
     }
 
     dd.instance.pending{
-      background: transparent url('/images/sb_icon_instance_pending.png') no-repeat $dd_padding $icon_y;
+      background: transparent url('../../images/sb_icon_instance_pending.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
     }
 
     dd.instance.failure{
-      background: transparent url('/images/sb_icon_instance_failure.png') no-repeat $dd_padding $icon_y;
+      background: transparent url('../../images/sb_icon_instance_failure.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
     }
 
     dd.alert{
-      background: transparent url('/images/sb_icon_alert.png') no-repeat $dd_padding $icon_y;
+      background: transparent url('../../images/sb_icon_alert.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 29px;
     }
 
     dd.update{
-      background: transparent url('/images/sb_icon_update.png') no-repeat $dd_padding $icon_y;
+      background: transparent url('../../images/sb_icon_update.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
     }
 
     dd.quota{
-      background: transparent url('/images/sb_icon_quota.png') no-repeat $dd_padding $icon_y;
+      background: transparent url('../../images/sb_icon_quota.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
     }
 
@@ -2117,7 +2117,7 @@ div.pool.overview{
 
 div.pool.overview.alert{
   header{
-    h3.name{ background: transparent url('/images/pool_bar_name-bg-alert.png') no-repeat 0px 0px; }
+    h3.name{ background: transparent url('../../images/pool_bar_name-bg-alert.png') no-repeat 0px 0px; }
     h3.name a{
       color: #FF6666;
       &:hover{ color: #ff0000;};
