@@ -1,6 +1,6 @@
 /* ###########################################################################
 Generated SCSS for Aeolus UI [aeolus_ui]
-Compiled on 2011-06-05 21:07:09 -0700
+Compiled on 2011-06-06 20:38:44 -0700
 ########################################################################### */
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -642,7 +642,7 @@ $font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 html, body{ height: 100%; }
 
 body{
-  background: url('/../../images/body-bg.png');
+  background: url('/images/body-bg.png');
   font-family: $font-family-base;
   font-size: 12px; /* 12px base */
   color: #333;
@@ -777,7 +777,7 @@ http://github.com/necolas/css3-github-buttons
     width: 12px;
     height: 12px;
     margin: 0 0.75em 0 -0.25em;
-    background: url(/../../images/button-icons.png) 0 99px no-repeat;
+    background: url(/images/button-icons.png) 0 99px no-repeat;
 }
 
 .button.arrowup.icon:before { background-position: 0 0; }
@@ -1117,15 +1117,75 @@ div.query-input input[type="text"]{
 
 div.query-input input[type="submit"]{
   display:inline;
-  background: transparent url('/../../images/button-search.png') no-repeat left center;
+  background: transparent url('/images/button-search.png') no-repeat left center;
   color: transparent;
   border: 0px;
   width: 25px; height: 25px;
   margin-left: -25px;
   outline: none;
   cursor: pointer;
-  &:hover{ background: transparent url('/../../images/button-search-over.png') no-repeat left center; }
-  &:active{ background: transparent url('/../../images/button-search-down.png') no-repeat left center; }
+  &:hover{ background: transparent url('/images/button-search-over.png') no-repeat left center; }
+  &:active{ background: transparent url('/images/button-search-down.png') no-repeat left center; }
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Textual Labels -- v.0.0.1 [label] (label.scss)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+$font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-em: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+
+.label{
+  font-family: $font-family-base;
+  font-size: 12px;
+}
+
+.label.micro{ font-size: 9px; }
+.label.small{ font-size: 11px; }
+
+.label.invert{
+  color: #fff;
+}
+
+.label.light{
+  font-weight: normal;
+  color: #666;
+}
+
+.label.strong{
+  font-weight: bold;
+  color: #333;
+}
+
+.label.caps{
+  text-transform: uppercase;
+}
+
+.label.badge{
+  display: inline-block;
+  -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;
+  background-color: #efefef;
+  border: 1px solid transparent;
+  padding: 0px 4px 0px 4px;
+  min-width: 10px;
+  font-size: 11px;
+  color: #000;
+  font-family: $font-family-primary;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.50);
+  -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.50);
+  -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.50);
+  text-align: center;
+}
+
+.label.badge.alert{
+  background-color: #c00;
+  color: #fff;
+}
+
+.label.badge.dark{
+  color: #fff;
+  background: #333;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1135,7 +1195,7 @@ App Masthead -- v.0.0.2 [masthead] (masthead.scss)
 header#masthead{
   height: 49px;
   background-color: #E7E7E7;
-  background: url('/../../images/masthead-bg.png') repeat-x;
+  background: url('/images/masthead-bg.png') repeat-x;
   position: relative;
 
   img#logo{
@@ -1152,9 +1212,9 @@ header#masthead{
 
   a.user-dropdown{
     border: 1px solid #ccc;
-    background: url('/../../images/button-userdrop.png') no-repeat center center;
-    background: url('/../../images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(239,239,239,0), rgba(204,204,204,0));
-    background: url('/../../images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(239,239,239)),color-stop(1, rgb(204,204,204)));
+    background: url('/images/button-userdrop.png') no-repeat center center;
+    background: url('/images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(239,239,239,0), rgba(204,204,204,0));
+    background: url('/images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(239,239,239)),color-stop(1, rgb(204,204,204)));
     width: 46px;
     margin-left: 4px;
     padding: 5px 2px 5px 2px;
@@ -1162,9 +1222,9 @@ header#masthead{
     font-size: 12px; /* match the font-size of the query box, for proper valign */
 
     &:active{
-      background: url('/../../images/button-userdrop.png') no-repeat center center;
-      background: url('/../../images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(232,232,232,0), rgba(210,210,210,0));
-      background: url('/../../images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(232,232,232)),color-stop(1, rgb(210,210,210)));
+      background: url('/images/button-userdrop.png') no-repeat center center;
+      background: url('/images/button-userdrop.png') no-repeat center center, -moz-linear-gradient(top, rgba(232,232,232,0), rgba(210,210,210,0));
+      background: url('/images/button-userdrop.png') no-repeat center center, -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(232,232,232)),color-stop(1, rgb(210,210,210)));
     }
 
   }
@@ -1177,7 +1237,7 @@ header#masthead{
       li{ display: inline; }
       li + li{ margin-left: 10px; }
       li.separator{
-        background: url('/../../images/masthead-nav-separator.gif') no-repeat left top;
+        background: url('/images/masthead-nav-separator.gif') no-repeat left top;
         padding: 8px 1px 8px 1px;
       }
     }
@@ -1261,13 +1321,13 @@ nav#primary {
       float: left;
       position: relative;
       display: inline-block;
-      background: url('/../../images/tab-inactive-right.png') no-repeat right top;
+      background: url('/images/tab-inactive-right.png') no-repeat right top;
       height: 34px;
       margin-right: 6px;
       z-index: 1;
       a{
         display: block;
-        background:url('/../../images/tab-inactive-left.png') no-repeat left top;
+        background:url('/images/tab-inactive-left.png') no-repeat left top;
         padding: 10px 16px 14px 16px;
         margin-left: -11px;
         font-family: $font-family-nav-primary;
@@ -1282,11 +1342,11 @@ nav#primary {
     }
     li.active{
       margin-top: -5px;
-      background: url('/../../images/tab-active-right.png') no-repeat right top;
+      background: url('/images/tab-active-right.png') no-repeat right top;
       z-index: 1000;
       height: 43px;
       a{
-        background:url('/../../images/tab-active-left.png') no-repeat left top;
+        background:url('/images/tab-active-left.png') no-repeat left top;
         padding: 12px 20px 12px 20px;
         font-size: 16px;
         color: #666;
@@ -1347,7 +1407,7 @@ div#content .page-header{
   padding: 6px;
   position: relative;
   z-index: 900;
-  background: transparent url('/../../images/header_bg.png') repeat-x top center;
+  background: transparent url('/images/header_bg.png') repeat-x top center;
 
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.40);
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.40);
@@ -1365,32 +1425,32 @@ div#content .page-header{
   }
 
   h1.pools{
-    background: transparent url('/../../images/header_icon_pools.png') no-repeat 8px center;
+    background: transparent url('/images/header_icon_pools.png') no-repeat 8px center;
   }
 
   h1.section-index{
-    background: transparent url('/../../images/header_icon_section-index.png') no-repeat 8px center;
+    background: transparent url('/images/header_icon_section-index.png') no-repeat 8px center;
   }
 
   h1.users{
-    background: transparent url('/../../images/header_icon_users.png') no-repeat 8px center;
+    background: transparent url('/images/header_icon_users.png') no-repeat 8px center;
   }
 
   h1.roles{
-    background: transparent url('/../../images/header_icon_roles.png') no-repeat 8px center;
+    background: transparent url('/images/header_icon_roles.png') no-repeat 8px center;
   }
 
   h1.providers{
-    background: transparent url('/../../images/header_icon_providers.png') no-repeat 8px center;
+    background: transparent url('/images/header_icon_providers.png') no-repeat 8px center;
   }
 
   h1.provider-accounts{
-    background: transparent url('/../../images/header_icon_provider-accounts.png') no-repeat 8px center;
+    background: transparent url('/images/header_icon_provider-accounts.png') no-repeat 8px center;
     padding: 6px 7px 7px 60px;
   }
 
   h1.settings{
-    background: transparent url('/../../images/header_icon_settings.png') no-repeat 8px center;
+    background: transparent url('/images/header_icon_settings.png') no-repeat 8px center;
   }
 
   #obj_actions{
@@ -1402,7 +1462,7 @@ div#content .page-header{
   }
 
   .corner{
-    background: transparent url('/../../images/header_corner.png') no-repeat top center;
+    background: transparent url('/images/header_corner.png') no-repeat top center;
     width: 10px;
     height: 10px;
     position: absolute;
@@ -1440,7 +1500,7 @@ $dd_icon_padding_right: 4px;
     margin: 0px;
   }
   ul.groups > li + li{
-    background: transparent url('/../../images/sb_separator.png') repeat-y 0px 0px;
+    background: transparent url('/images/sb_separator.png') repeat-y 0px 0px;
     padding-left: 2px;
     margin-left: -6px;
   }
@@ -1475,55 +1535,628 @@ $dd_icon_padding_right: 4px;
   /* icons */
 
   dd.pool{
-    background: transparent url('/../../images/sb_icon_pool.png') no-repeat $dd_padding 4px;
+    background: transparent url('/images/sb_icon_pool.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
 
   dd.pool.partial{
-    background: transparent url('/../../images/sb_icon_poolsemi.png') no-repeat $dd_padding 4px;
+    background: transparent url('/images/sb_icon_poolsemi.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
 
   dd.provider{
-    background: transparent url('/../../images/sb_icon_provider.png') no-repeat $dd_padding 4px;
+    background: transparent url('/images/sb_icon_provider.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 22px;
   }
 
   dd.deployment{
-    background: transparent url('/../../images/sb_icon_deployment.png') no-repeat $dd_padding 4px;
+    background: transparent url('/images/sb_icon_deployment.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 23px;
   }
 
   dd.instance{
-    background: transparent url('/../../images/sb_icon_instance.png') no-repeat $dd_padding 4px;
+    background: transparent url('/images/sb_icon_instance.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
   }
 
   dd.instance.pending{
-    background: transparent url('/../../images/sb_icon_instance_pending.png') no-repeat $dd_padding 4px;
+    background: transparent url('/images/sb_icon_instance_pending.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
 
   dd.instance.failure{
-    background: transparent url('/../../images/sb_icon_instance_failure.png') no-repeat $dd_padding 4px;
+    background: transparent url('/images/sb_icon_instance_failure.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
   }
 
   dd.alert{
-    background: transparent url('/../../images/sb_icon_alert.png') no-repeat $dd_padding 4px;
+    background: transparent url('/images/sb_icon_alert.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 29px;
   }
 
   dd.update{
-    background: transparent url('/../../images/sb_icon_update.png') no-repeat $dd_padding 4px;
+    background: transparent url('/images/sb_icon_update.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
   }
 
   dd.quota{
-    background: transparent url('/../../images/sb_icon_quota.png') no-repeat $dd_padding 4px;
+    background: transparent url('/images/sb_icon_quota.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
   }
 
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Content Section Container -- v.0.0.1 [section] (section.scss)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+$font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-em: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
+
+header.page-header + section.content-section{ margin-bottom: 36px; }
+#scoreboard + section.content-section{ margin-top: 36px; }
+section.content-section + section.content-section{ margin-top: 36px; }
+
+section.content-section{
+  padding: 4px;
+  margin-bottom: 36px;
+
+  /* Header code */
+  header{
+    background: transparent url('/images/section-border.png') repeat-x bottom left;
+    position: relative;
+    h2{
+      font-family: $font-family-primary;
+      font-size: 21px;
+      font-weight: 200;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+    .badge{
+      vertical-align: 2px;
+      bottom: 4px;
+    }
+    .section-controls{
+      position: absolute;
+      right: 0px;
+      bottom: 4px;
+      display: inline-block;
+      font-size: 11px;
+
+      a.collapse{
+        text-decoration: none;
+        color: #666;
+      }
+    }
+
+    /* nav */
+    nav.faceted{
+      ul{ list-style: none; display: inline-block; font-family: $font-family-primary; }
+      li{ display: inline-block; margin-bottom: 1px; }
+      li + li{ margin-left: 40px; }
+      a{
+        display: inline-block;
+        padding-bottom: 6px;
+        text-decoration: none;
+        color: #666;
+        font-weight: 200;
+      }
+      a.active{
+        border-bottom: 4px solid #0084b7;
+        font-weight: bold;
+        color: #000;
+      }
+    }
+  }
+
+  /* Content */
+
+  .content{
+    margin-top: 10px;
+  }
+
+  .content.tight{
+    margin-top: 0px;
+  }
+
+  /* Deployment Array */
+
+  ul.deployable-cards{
+    margin-top: 16px;
+    list-style: none;
+  }
+
+  ul.deployable-cards > li{
+    display: inline-block;
+  }
+
+  ul.deployable-cards > li + li{
+    margin-left: 26px;
+  }
+
+  div.deployable{
+    background-color: #e5e5e5;
+    -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+    border: 1px solid #ccc;
+    width: 154px;
+    height: 154px;
+    font-family: $font-family-primary;
+
+    h3{
+      font-size: 13px;
+      font-weight: 200;
+      color: #333;
+      padding: 6px;
+      display: block;
+    }
+
+    hr{
+      background-image: url('/images/deploy_separator_dark.png') repeat-x bottom left;
+      display: block;
+      height: 2px;
+    }
+
+    span.alert{
+      display: block;
+      margin: 10px;
+      font-size: 13px;
+      font-weight: 200;
+      color: #fff;
+    }
+
+    span.alert.warn{
+      padding-left: 24px;
+      background: transparent url('/images/alert_icon_warn_white.png') no-repeat 6px 0px;
+    }
+
+    ul.statistics{
+      list-style: none;
+      margin: 8px;
+      li{
+        display: block;
+
+        span.uptime{
+          display: inline-block;
+          font-size: 14px;
+          height: 16px;
+          padding: 2px;
+          padding-left: 24px;
+          color: #fff;
+          background: transparent url('/images/deploy_icon_uptime.png') no-repeat 6px 0px;
+        }
+
+        span.instance{
+          display: inline-block;
+          height: 16px;
+          padding: 2px;
+          padding-left: 24px;
+          font-size: 14px;
+          color: #fff;
+          background: transparent url('/images/deploy_icon_instance.png') no-repeat 6px 0px;
+        }
+
+      }
+      li + li{
+        margin-top: 6px;
+      }
+    }
+
+    span.provider{
+      display: block;
+      margin: 10px;
+      font-size: 13px;
+      font-weight: 200;
+      color: #fff;
+      padding-left: 34px;
+      background: transparent url('/images/deploy_icon_provider.png') no-repeat 6px 0px;
+    }
+  }
+
+  div.deployable.alert{
+    background-image: -moz-linear-gradient(top, rgba(174,4,4,1), rgba(136,0,0, 1));
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(174,4,4,1)), to(rgba(136,0,0, 1)));
+    -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+    border: 1px solid #990000;
+    width: 154px;
+    height: 154px;
+    font-family: $font-family-primary;
+
+    h3{
+      font-size: 13px;
+      font-weight: 200;
+      color: #fff;
+      padding: 6px;
+      display: block;
+      background-color: #A10303;
+    }
+
+    hr{
+      background-image: url('/images/deploy_separator_dark.png') repeat-x bottom left;
+      display: block;
+      height: 2px;
+    }
+
+    span.alert{
+      display: block;
+      margin: 10px;
+      font-size: 13px;
+      font-weight: 200;
+      color: #fff;
+    }
+
+    span.alert.warn{
+      padding-left: 24px;
+      background: transparent url('/images/alert_icon_warn_white.png') no-repeat 6px 0px;
+    }
+
+    ul.statistics{
+      list-style: none;
+      margin: 8px;
+      li{
+        display: block;
+
+        span.uptime{
+          display: inline-block;
+          font-size: 14px;
+          height: 16px;
+          padding: 2px;
+          padding-left: 24px;
+          color: #fff;
+          background: transparent url('/images/deploy_icon_uptime.png') no-repeat 6px 0px;
+        }
+
+        span.instance{
+          display: inline-block;
+          height: 16px;
+          padding: 2px;
+          padding-left: 24px;
+          font-size: 14px;
+          color: #fff;
+          background: transparent url('/images/deploy_icon_instance.png') no-repeat 6px 0px;
+        }
+
+      }
+      li + li{
+        margin-top: 6px;
+      }
+    }
+
+    span.provider{
+      display: block;
+      margin: 10px;
+      font-size: 13px;
+      font-weight: 200;
+      color: #fff;
+      padding-left: 34px;
+      background: transparent url('/images/deploy_icon_provider.png') no-repeat 6px 0px;
+    }
+
+  }
+
+}
+
+section.content-section + section.content-section {
+  margin-top: 36px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Alert Components -- v.0.0.1 [alert] (alert.scss)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+$font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-em: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
+
+.content.closed{
+  border-bottom: 1px solid #efefef;
+}
+
+$alert_padding: 8px;
+
+/* Alerts list */
+dl.alerts{
+
+  font-family: $font-family-base;
+
+  ul{
+    list-style: none;
+    display: table;
+    width: 100%;
+  }
+
+  li.alert{
+
+    display: table-row;
+    height: 14px;
+    width: 100%;
+
+    dt{
+      display: table-cell;
+      padding: $alert_padding;
+    }
+
+    dt.subject{
+      font-family: $font-family-primary;
+      font-size: 13px;
+      color: #333;
+    }
+
+    dt.subject.warn{
+      padding-left: $alert_padding*2 + 14px;
+      background: transparent url('/images/alert_icon_warn.png') no-repeat $alert_padding 8px;
+    }
+
+    dt.subject.critical{
+      padding-left: $alert_padding*2 + 16px;
+      background: transparent url('/images/alert_icon_critical.png') no-repeat $alert_padding 7px;
+    }
+
+    dd{
+      display: table-cell;
+      padding: $alert_padding;
+    }
+
+    dd.type{
+      font-family: $font-family-primary;
+      font-size: 13px;
+      font-weight: 200;
+      color: #666;
+      padding-left: 10px;
+    }
+
+    dd.desc{
+      font-family: $font-family-base;
+      font-size: 11px;
+      color: #999;
+      padding-left: 10px;
+    }
+
+  }
+
+  li.alert + li.alert{
+    dt{border-top: 1px solid #efefef;}
+    dd{border-top: 1px solid #efefef;}
+  }
+
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Pool Components -- v.0.0.1 [pool] (pool.scss)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+$font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
+$dd_padding: 10px;
+$dd_icon_padding_right: 4px;
+$bar_height: 37px;
+
+div.pool.overview{
+
+  header{
+    position: relative;
+    height: $bar_height;
+    width: 100%;
+    background-color: #e5e5e5;
+    -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+    border: 1px solid #bcbcbc;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.20);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.20);
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.20);
+
+    h3.name{
+      display: block;
+      float: left;
+      width: 230px;
+      height: $bar_height;
+      background: transparent url('/images/pool_bar_name-bg-normal.png') no-repeat 0px 0px;
+      border-right: 1px solid #a9a9a9;
+      vertical-align: top;
+
+      a{
+        display: block;
+        text-decoration: none;
+        padding: 9px;
+        padding-left: 30px;
+        font-family: $font-family-primary;
+        font-size: 17px;
+        color: #666;
+        &:hover{color: #333;}
+      }
+      /* text-shadow: -1px -1px 1px rgba(0,0,0,0.3); */
+    }
+
+    a.control{
+      display: block;
+      float: right;
+      position: absolute;
+      outline: 0;
+      top: 0;
+      right: 0;
+      text-align: left;
+      margin: 5px 5px;
+      float: right;
+      font-size: 11px;
+      color: transparent;
+      height: 28px;
+      width: 28px;
+      background: transparent url('/images/pool_bar_expand-btn.png') no-repeat 0px -56px;
+      &:active{
+        background-position: 0px -84px;
+      };
+
+      span{
+        position: absolute;
+        top: -999em;
+      }
+    }
+
+    dl.statistics{
+      display: inline-block;
+      height: $bar_height;
+      background: transparent url('/images/pool_bar_prop-gradient.png') repeat-y 0px 0px;
+    }
+
+    /* statistic group list */
+    ul.groups{ list-style: none; padding: 7px; }
+    ul.groups > li{
+      display: inline-block;
+      text-align: center;
+      margin: 0px;
+    }
+    ul.groups > li + li{
+      background: transparent url('/images/sb_separator.png') repeat-y 0px 0px;
+      padding-left: $dd_padding;
+      margin-left: -6px;
+    }
+
+    /* statistic sub-group list */
+    ul.subgroup{ list-style: none; }
+    ul.subgroup > li{ display: inline-block; text-align: center; }
+    ul.subgroup > li + li{ margin-left: -$dd_padding; }
+
+    dt{
+      display: inline;
+      font-size: 11px;
+      font-weight: normal;
+      color: #999;
+      text-transform: uppercase;
+      padding: 0px 0px 0px 0px;
+    }
+
+    dd{
+      display: inline;
+      padding: 0px $dd_padding 0px $dd_padding;
+      font-size: 20px;
+      color: #999;
+      font-family: $font-family-primary;
+      vertical-align: middle;
+    }
+
+    dd + dd{
+      margin-left: -$dd_padding; /* compensate for padding-right */
+    }
+
+    /* icons */
+
+    $icon_y: 2px;
+
+    dd.pool{
+      background: transparent url('/images/sb_icon_pool.png') no-repeat $dd_padding $icon_y;
+      padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
+    }
+
+    dd.pool.partial{
+      background: transparent url('/images/sb_icon_poolsemi.png') no-repeat $dd_padding $icon_y;
+      padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
+    }
+
+    dd.provider{
+      background: transparent url('/images/sb_icon_provider.png') no-repeat $dd_padding $icon_y;
+      padding-left: ($dd_padding + $dd_icon_padding_right) + 22px;
+    }
+
+    dd.deployment{
+      background: transparent url('/images/sb_icon_deployment.png') no-repeat $dd_padding $icon_y;
+      padding-left: ($dd_padding + $dd_icon_padding_right) + 23px;
+    }
+
+    dd.instance{
+      background: transparent url('/images/sb_icon_instance.png') no-repeat $dd_padding $icon_y;
+      padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
+    }
+
+    dd.instance.pending{
+      background: transparent url('/images/sb_icon_instance_pending.png') no-repeat $dd_padding $icon_y;
+      padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
+    }
+
+    dd.instance.failure{
+      background: transparent url('/images/sb_icon_instance_failure.png') no-repeat $dd_padding $icon_y;
+      padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
+    }
+
+    dd.alert{
+      background: transparent url('/images/sb_icon_alert.png') no-repeat $dd_padding $icon_y;
+      padding-left: ($dd_padding + $dd_icon_padding_right) + 29px;
+    }
+
+    dd.update{
+      background: transparent url('/images/sb_icon_update.png') no-repeat $dd_padding $icon_y;
+      padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
+    }
+
+    dd.quota{
+      background: transparent url('/images/sb_icon_quota.png') no-repeat $dd_padding $icon_y;
+      padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
+    }
+
+  }
+
+  ul.actions{
+    list-style: none;
+    display: block;
+    text-align: right;
+    width: 100%;
+    margin: 10px 0px 0px 0px;
+    font-size: 11px;
+
+    li{
+      display: inline-block;
+    }
+    li + li{
+      margin-left: 14px;
+    }
+  }
+
+}
+
+div.pool.overview.alert{
+  header{
+    h3.name{ background: transparent url('/images/pool_bar_name-bg-alert.png') no-repeat 0px 0px; }
+    h3.name a{
+      color: #FF6666;
+      &:hover{ color: #ff0000;};
+    }
+  }
+}
+
+div.pool.overview.collapsed{
+
+  header{
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    border: 1px solid #ccc;
+
+    a.control{
+      background-position: 0px -0px;
+      &:active{background-position: 0px -28px;}
+      &:hover{color: #333;}
+    }
+
+  }
+  .content{ display: none; }
+}
+
+div.pool.overview + div.pool.overview{
+  margin-top: 28px;
+}
+
+div.pool.overview + div.pool.overview.collapsed{
+  margin-top: 28px;
+}
+
+div.pool.overview.collapsed + div.pool.overview.collapsed{
+  margin-top: 6px;
+}
+
+div.pool.overview.collapsed + div.pool.overview{
+  margin-top: 6px;
+}
+
+header + div.pool.overview{
+  margin-top: 16px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

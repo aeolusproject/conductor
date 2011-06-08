@@ -1,13 +1,12 @@
 %header.page-header
   %h1.section-index Overview
   -# Insert appropriate controls here, or ommit %ul.controls
+  = pretty_filter_toggle(pools_path(:view => 'pretty'), pools_path(:view => 'filter'))
   .corner &nbsp;
 
 = render :partial => 'scoreboard_index'
 = render :partial => 'alerts_index'
-= pretty_filter_toggle(pools_path(:view => 'pretty'), pools_path(:view => 'filter'))
-%div#view
-  - if params[:view] == 'filter'
-    = render :partial => 'layouts/tabpanel'
-  - else
-    = render :partial => 'pretty_list'
+- if params[:view] == 'filter'
+  = render :partial => 'layouts/tabpanel'
+- else
+  = render :partial => 'pretty_list'

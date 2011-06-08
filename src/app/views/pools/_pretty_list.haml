@@ -1,38 +1,45 @@
-= link_to "expand all", "#", :class => "reveal_all"
-= link_to "New Pool", new_pool_path
-%table#pools_pretty_view
-  - @pools.each do |pool|
-    %tr
-      %td
-        = link_to pool.name, pool_path(pool)
-      %td
-        Deployments:
-        = pool.deployments.count
-      %td
-        Instances:
-        = pool.instances.count
-      %td
-        Pending:
-        = pool.instances.select {|i| i.state == Instance::STATE_PENDING }.length
-      %td
-        Failed:
-        = pool.instances.select {|i| i.state == Instance::STATE_ERROR }.length
-      %td
-        Instance quota usage:
-        = pool.quota ? pool.quota.percentage_used.to_s + "%" : 'unlimited'
-      %td
-        = link_to "+", "#", :class => "toggle"
-    %tr
-      %td{:colspan => 7}
-        = render :partial => 'deployments', :locals => {:deployments => pool.deployments}
+%section.content-section.pools
+  %header
+    %h2 Your Pools
+    %span.label.badge.dark.count= @pools.length
+
+  .content
+    - @pools.each do |pool|
+      %div.pool.overview{:id => ['pool', pool.id]}
+        %header
+          %h3.name
+            %a{:href => pool_path(pool)}= pool.name
+          %dl.statistics
+            %ul.groups
+              %li
+                %dt Deployments
+                %dd.count.deployment= pool.deployments.count
+              %li
+                %dt Instances
+                %dd.count.instance= pool.instances.count
+                %dd.count.instance.pending= pool.instances.select {|i| i.state == Instance::STATE_PENDING }.length
+                %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR }.length
+              %li
+                %dt Quota Used
+                %dd.percentage.quota= pool.quota ? pool.quota.percentage_used.to_s + "%" : 'unlimited'
+          %a.control{:href => '#'}
+            %span Expand/Collapse
+        %div.content.deployment-array
+          = render :partial => 'deployments', :locals => {:deployments => pool.deployments}
+        %ul.content.actions
+          %li
+            %a{:href => pool_path(pool)}= "#{pool.name} Pool details &raquo;"
+          %li
+            = link_to 'New Deployment', launch_new_deployments_path, :class => 'button primary', :id => 'new_deployment_button'
 
 :javascript
   $(document).ready(function() {
-    $('ul.deployments_list').hide()
-    $('a.toggle').click( function() {
-      $(this).closest('tr').next().find('ul').toggle();
-   });
-   $('a.reveal_all').click( function() {
-      $('#pools_pretty_view').find('tr td ul').toggle();
-   });
+    $('div.pool').each(function(){
+      var this_pool = this;
+      $(this).addClass('collapsed');
+      $(this).find('header a.control').click(function(){
+        $(this_pool).toggleClass('collapsed');
+        return false;
+      });
+    })
   });

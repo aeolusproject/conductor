@@ -1,7 +1,15 @@
 - if @failed_instances.count > 0
-  %div.alerts
-    Alerts
-    %ul
-      - @failed_instances.each do |i|
-        %li
-          = "#{i.name}: #{i.last_error.blank? ? i.state : i.last_error}"
+  %section.content-section.alerts
+    %header
+      %h2 Alerts
+      %span.label.badge.alert.count= @failed_instances.length
+      .section-controls
+        %a.collapse{'href'=>'#'} Collapse
+    .content.collapsible.closed
+      %dl.alerts
+        %ul
+          - @failed_instances.each do |inst|
+            %li.alert
+              %dt.subject.critical= inst
+              %dd.type Instance Failure
+              %dd.desc= "#{i.last_error.blank? ? i.state : i.last_error}"
