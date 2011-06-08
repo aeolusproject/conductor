@@ -239,6 +239,14 @@ class ApplicationController < ActionController::Base
     session[:return_to] = nil
   end
 
+  ############################################################################
+  # Breadcrumb-Related functionality
+  ############################################################################
+
+  def clear_breadcrumbs
+    session[:breadcrumbs] = []
+  end
+
   def shift_breadcrumbs
     session[:breadcrumbs] ||= []
     shifted_breadcrumb = session[:breadcrumbs].shift unless session[:breadcrumbs].length < 3 || request.request_uri == session[:breadcrumbs].last[:path]

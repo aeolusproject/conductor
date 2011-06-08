@@ -8,7 +8,9 @@ class UsersController < ApplicationController
   end
 
   def index
+    clear_breadcrumbs
     require_privilege(Privilege::VIEW, User)
+    save_breadcrumb(users_path, "Users")
     @params = params
     @search_term = params[:q]
     if @search_term.blank?
@@ -68,6 +70,7 @@ class UsersController < ApplicationController
       end
       format.html
     end
+    save_breadcrumb(user_path(@user), [@user.first_name, @user.last_name].join(' ').titlecase)
   end
 
   def edit

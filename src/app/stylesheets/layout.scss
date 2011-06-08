@@ -1,6 +1,6 @@
 /* ###########################################################################
 Generated SCSS for Aeolus UI [aeolus_ui]
-Compiled on 2011-06-06 20:38:44 -0700
+Compiled on 2011-06-06 21:29:07 -0700
 ########################################################################### */
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1834,6 +1834,10 @@ section.content-section{
 
   }
 
+}
+
+header.page-header + section.content-section{
+  margin-top: 36px;
 }
 
 section.content-section + section.content-section {

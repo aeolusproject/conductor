@@ -1,29 +1,34 @@
-- form_tag do
-  = link_to "Create", new_user_url, :class => 'button'
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button'
+%section.content-section.users
+  %header
+    %h2 Enabled Users
+    %span.label.badge.dark.count= @users.length
 
-  %table#users_table
-    %thead
-      %tr
-        %th
-        %th= link_to "User ID", users_url(:sort_by => "login")
-        %th= link_to "Last Name", users_url(:sort_by => "last_name")
-        %th= link_to "First Name", users_url(:sort_by => "first_name")
-        %th= link_to "% Quota Used", users_url(:sort_by => "percentage_quota_used")
-        %th
-          =link_to "Quota", users_url(:sort_by => "quota")
-          %span (Instances)
-        %th= link_to "e-mail", users_url(:sort_by => "email")
-    -@users.each do |user|
-      %tr
-        %td
-          %input{:name => "user_selected[]", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
-        %td= link_to user.login, user_path(user)
-        %td= user.last_name
-        %td= user.first_name
-        %td= sprintf("%.2f", user.quota.percentage_used)
-        %td= Quota.no_limit(user.quota.maximum_running_instances) ? "Unlimited" : user.quota.maximum_running_instances
-        %td= user.email
+  .content
+    - form_tag do
+      = restful_submit_tag "Delete", 'destroy', multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button'
+
+      %table#users_table
+        %thead
+          %tr
+            %th.ignore
+            %th= link_to "User ID", users_url(:sort_by => "login")
+            %th= link_to "Last Name", users_url(:sort_by => "last_name")
+            %th= link_to "First Name", users_url(:sort_by => "first_name")
+            %th= link_to "% Quota Used", users_url(:sort_by => "percentage_quota_used")
+            %th
+              =link_to "Quota", users_url(:sort_by => "quota")
+              %span (Instances)
+            %th= link_to "e-mail", users_url(:sort_by => "email")
+        -@users.each do |user|
+          %tr{:class => cycle('stripe')}
+            %td
+              %input{:name => "user_selected[]", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
+            %td= link_to user.login, user_path(user)
+            %td= user.last_name
+            %td= user.first_name
+            %td= sprintf("%.2f", user.quota.percentage_used)
+            %td= Quota.no_limit(user.quota.maximum_running_instances) ? "Unlimited" : user.quota.maximum_running_instances
+            %td= user.email
 
 :javascript
   $(document).ready(function () {
