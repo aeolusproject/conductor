@@ -133,7 +133,7 @@ module Warehouse
     end
 
     def create_bucket(bucket)
-      @connection.do_request "/#{bucket}", :method => :put
+      @connection.do_request "/#{bucket}", :method => :put rescue RestClient::InternalServerError
       Bucket.new(bucket, @connection)
     end
 
@@ -153,6 +153,9 @@ module Warehouse
       return result.value
     end
 
+    def query(bucket_name, query_string)
+      @connection.do_request "/#{bucket_name}/_query", {:method => :post, :content => query_string}
+    end
   end
 
 end
