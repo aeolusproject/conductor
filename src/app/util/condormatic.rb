@@ -91,6 +91,9 @@ def write_pw_file(job_name, pw)
   FileUtils.mkdir_p(pwdir, options={:mode => 0700})
   FileUtils.chown('aeolus', 'aeolus', pwdir)
 
+  # Restrict job names to relatively sane characters only
+  job_name.gsub!(/[^a-zA-Z0-9\.\-]/, '_')
+
   pwfilename = File.join(pwdir, job_name)
 
   tmpfile = Tempfile.new(job_name, pwdir)
