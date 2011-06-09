@@ -32,7 +32,7 @@ Feature: Manage Realms
     And there is a realm "testrealm1"
     When I follow "testrealm1"
     And I follow "Edit"
-    Then I should see "Editing Realm:"
+    Then I should see "Properties"
     When I fill in "frontend_realm[name]" with "testrealm2"
     And I press "Save"
     Then I should see "Realm updated successfully!"
@@ -65,5 +65,5 @@ Feature: Manage Realms
     Given I am on the realms page
     And there is a realm "testrealm1"
     When I follow "testrealm1"
-    And I press "Delete"
+    And I press "delete_button"
     Then I should see "You must select at least one mapping to delete"

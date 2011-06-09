@@ -48,6 +48,16 @@ class RealmsController < ApplicationController
     render :new
   end
 
+  def destroy
+    require_privilege(Privilege::MODIFY, Realm)
+    if FrontendRealm.destroy(params[:id])
+      flash[:notice] = "Realm was deleted!"
+    else
+      flash[:error] = "Realm was not deleted!"
+    end
+    redirect_to realms_path
+  end
+
   def multi_destroy
     if params[:realm_selected].blank?
       flash[:error] = 'You must select at least one realm to delete.'
