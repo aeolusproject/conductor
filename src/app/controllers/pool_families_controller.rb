@@ -69,6 +69,15 @@ class PoolFamiliesController < ApplicationController
     end
   end
 
+  def destroy
+    if PoolFamily.destroy(params[:id])
+      flash[:notice] = "Pool Family was deleted!"
+    else
+      flash[:error] = "Pool Family cannot be deleted!"
+    end
+    redirect_to pool_families_path
+  end
+
   def add_provider_account
     @pool_family = PoolFamily.find(params[:id])
     @provider_account = ProviderAccount.find(params[:provider_account_id])
@@ -112,21 +121,21 @@ class PoolFamiliesController < ApplicationController
   def load_tab_captions_and_details_tab
     @tab_captions = ['Properties', 'History', 'Permissions', 'Provider Accounts', 'Pools']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
-    @provider_accounts_header = [{ :name => "Provider Account", :sort_attr => :name}]
+    @provider_accounts_header = [{:name => "Provider Account", :sort_attr => :name}]
   end
 
   def set_params_and_header
     @url_params = params.clone
-    @header = [{ :name => "Name", :sort_attr => :name},
-               { :name => "Quota limit", :sort_attr => :name},
-               { :name => "Quota currently in use", :sort_attr => :name},
+    @header = [{:name => "Name", :sort_attr => :name},
+               {:name => "Quota limit", :sort_attr => :name},
+               {:name => "Quota currently in use", :sort_attr => :name},
     ]
   end
 
   def load_pool_families
     @pool_families = PoolFamily.paginate(:all,
                                          :page => params[:page] || 1,
-                                         :order => ( params[:order_field] || 'name' ) + ' ' + (params[:order_dir] || 'asc')
-                                        )
+                                         :order => (params[:order_field] || 'name') + ' ' + (params[:order_dir] || 'asc')
+    )
   end
 end

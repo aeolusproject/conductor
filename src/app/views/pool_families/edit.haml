@@ -1,7 +1,17 @@
-%h3
-  Editing
-  = @pool_family.name
-  Pool Family
+= render :partial => 'layouts/admin_header'
 
--form_for @pool_family, :url => pool_family_path(@pool_family), :html => { :method => :put } do |f|
-  = render :partial => 'form', :locals => { :form => f, :cancel_path => providers_path }
+%header.page-header
+  %h1{:class => controller.controller_name}= @pool_family.name
+  #obj_actions.button-container
+    = link_to 'New Pool Family', new_pool_family_url, :class => 'button primary', :id => 'new_user_button'
+    %div.button-group
+      = link_to 'Cancel Editing', pool_family_path(@pool_family), :class => 'button pill danger', :id => 'new_user_button'
+  .corner &nbsp;
+
+%section.content-section.pool_family
+  %header
+    %h2 Properties
+
+  .content
+    -form_for @pool_family, :url => pool_family_path(@pool_family), :html => { :method => :put } do |f|
+      = render :partial => 'form', :locals => { :form => f, :cancel_path => providers_path }

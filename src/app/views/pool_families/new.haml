@@ -1,3 +1,10 @@
-%h2 Create a new Pool family
-- form_for @pool_family, :url => pool_families_path do |f|
-  = render :partial => "form", :locals => { :form => f, :cancel_path => pool_families_path }
+= render :partial => 'layouts/admin_header'
+= render :partial => 'section_header'
+
+%section.content-section.pool_family
+  %header
+    %h2 New Pool Family
+
+  .content
+    - form_for @pool_family, :url => pool_families_path do |f|
+      = render :partial => "form", :locals => { :form => f, :cancel_path => pool_families_path }
