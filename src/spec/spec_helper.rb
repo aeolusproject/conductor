@@ -7,6 +7,7 @@ require 'spec/rails'
 require 'authlogic/test_case'
 require 'timecop'
 require 'database_cleaner'
+require 'vcr_setup'
 
 # Uncomment the next line to use webrat's matchers
 #require 'webrat/integrations/rspec-rails'

@@ -13,6 +13,9 @@ require 'cucumber/rails/world'
 require 'cucumber/rails/active_record'
 require 'cucumber/web/tableish'
 
+# Pull in our VCR configuration
+require File.expand_path(File.dirname(__FILE__) + '../../../spec/vcr_setup.rb')
+
 require 'webrat'
 require 'webrat/core/matchers'
 
