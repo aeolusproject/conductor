@@ -1,20 +1,29 @@
-- form_tag do
-  = link_to "New Account", new_provider_account_path, :class => 'button'
-  = restful_submit_tag "Delete", "delete", multi_destroy_provider_accounts_path, 'DELETE', :class => 'button'
-  %p
-    Select:&nbsp;
-    = link_to "All", @url_params.merge(:select => 'all')
-    %span> ,&nbsp;
-    = link_to "None", @url_params.merge(:select => 'none')
-  %table
-    = sortable_table_header @header
-    - @accounts.each do |account|
-      %tr
-        %td
-          - selected = @url_params[:select] == 'all'
-          %input{:name => 'accounts_selected[]', :type => 'checkbox', :value => account.id, :id => "account_checkbox_#{account.id}", :checked => selected }
-          = link_to account.name, provider_account_path(account)
-        %td
-          =account.credentials_hash['username']
-        %td
-          =account.provider.provider_type.name
+%section.content-section.provider_accounts
+  %header
+    %h2 Provider Accounts
+    %span.label.badge.dark.count= @accounts.length
+
+  .content
+    - form_tag multi_destroy_provider_accounts_path do
+      = submit_tag "Delete", :id => 'delete_button', :class => 'button'
+      %p
+        Select:&nbsp;
+        = link_to "All", @url_params.merge(:select => 'all')
+        %span> ,&nbsp;
+        = link_to "None", @url_params.merge(:select => 'none')
+
+      %table#provider_accounts_table
+        %thead
+          %tr
+            %th.ignore
+            %th= link_to "Provider Account Name", hardware_profiles_path(:sort_by => "name")
+            %th= link_to "Username", hardware_profiles_path(:sort_by => "name")
+            %th= link_to "Provider Type", hardware_profiles_path(:sort_by => "name")
+        - @accounts.each do |account|
+          %tr
+            %td
+              - selected = @url_params[:select] == 'all'
+              = check_box_tag "accounts_selected[]", account.id, selected, :id => "account_checkbox_#{account.id}"
+            %td= link_to account.name, provider_account_path(account)
+            %td= account.credentials_hash['username']
+            %td= account.provider.provider_type.name

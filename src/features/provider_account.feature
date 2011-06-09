@@ -12,7 +12,7 @@ Feature: Manage Provider Accounts
     Given I am on the homepage
     And there is a provider named "testprovider"
     When I go to the provider accounts page
-    Then I should see "New Account"
+    Then I should see "New Provider Account"
     And there should be no provider accounts
 
   Scenario: List providers in XML format
@@ -32,7 +32,7 @@ Feature: Manage Provider Accounts
     Given there is a provider named "testprovider"
     And there are no provider accounts
     And I am on the provider accounts page
-    When I follow "New Account"
+    When I follow "New Provider Account"
     Then I should be on the new provider account page
     And I should see "New Account"
     When I select "testprovider" from "provider_account_provider_id"
@@ -51,7 +51,7 @@ Feature: Manage Provider Accounts
     Given there is a provider named "testprovider"
     And there are no provider accounts
     And I am on the provider accounts page
-    When I follow "New Account"
+    When I follow "New Provider Account"
     Then I should be on the new provider account page
     And I should see "New Account"
     When I select "testprovider" from "provider_account_provider_id"

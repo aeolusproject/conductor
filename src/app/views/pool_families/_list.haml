@@ -1,23 +1,31 @@
-- form_tag do
-  = link_to "Create", new_pool_family_path, :class => "button"
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_pool_families_path, 'DELETE', :id => 'delete_button', :class => 'button'
+%section.content-section.pool_families
+  %header
+    %h2 Pool Families
+    %span.label.badge.dark.count= @pool_families.length
 
-  %p
-    Select:&nbsp;
-    = link_to "All", @url_params.merge(:select => 'all')
-    %span> ,&nbsp;
-    = link_to "None", @url_params.merge(:select => 'none')
+  .content
+    - form_tag multi_destroy_pool_families_path do
+      = submit_tag "Delete", :id => 'delete_button', :class => 'button'
 
-  %table#pool_families_table
-    = sortable_table_header @header
-    - unless @pool_families.blank?
-      - @pool_families.each do |pool_family|
-        %tr
-          %td
-            - selected = @url_params[:select] == 'all'
-            %input{:name => "pool_family_selected[]", :type => "checkbox", :value => pool_family.id, :id => "pool_family_checkbox_#{pool_family.id}", :checked => selected }
-            = link_to pool_family.name, pool_family_path(pool_family)
-          %td
-            = pool_family.quota.maximum_running_instances or 'unlimited'
-          %td
-            = "#{pool_family.quota.percentage_used} %"
+      %p
+        Select:&nbsp;
+        = link_to "All", @url_params.merge(:select => 'all')
+        %span> ,&nbsp;
+        = link_to "None", @url_params.merge(:select => 'none')
+
+      %table#pool_families_table
+        %thead
+          %tr
+            %th.ignore
+            %th= link_to "Pool Family Name", pool_families_path(:sort_by => "name")
+            %th= link_to "Quota limit", pool_families_path(:sort_by => "quota")
+            %th= link_to "Quota currently in use", pool_families_path(:sort_by => "quota")
+        - unless @pool_families.blank?
+          - @pool_families.each do |pool_family|
+            %tr{:class => cycle('stripe')}
+              %td
+                - selected = @url_params[:select] == 'all'
+                = check_box_tag "pool_family_selected[]", pool_family.id, selected, :id => "pool_family_checkbox_#{pool_family.id}"
+              %td= link_to pool_family.name, pool_family_path(pool_family)
+              %td= pool_family.quota.maximum_running_instances or 'unlimited'
+              %td= "#{pool_family.quota.percentage_used} %"

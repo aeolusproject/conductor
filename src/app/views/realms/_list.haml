@@ -1,19 +1,27 @@
-- form_tag do
-  = link_to "Create", new_realm_path, :class => "button"
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_realms_path, 'DELETE', :id => 'delete_button', :class => 'button'
+%section.content-section.realms
+  %header
+    %h2 Realms
+    %span.label.badge.dark.count= @realms.length
 
-  %p
-    Select:&nbsp;
-    = link_to "All", @url_params.merge(:select => 'all')
-    %span> ,&nbsp;
-    = link_to "None", @url_params.merge(:select => 'none')
+  .content
+    - form_tag multi_destroy_realms_path do
+      = submit_tag "Delete", :id => 'delete_button', :class => 'button'
 
-  %table#realms_table
-    = sortable_table_header @header
-    - unless @realms.blank?
-      - @realms.each do |realm|
-        %tr
-          %td
-            - selected = @url_params[:select] == 'all'
-            %input{:name => "id[]", :type => "checkbox", :value => realm.id, :id => "realm_id_#{realm.id}", :checked => selected }
-            = link_to realm.name, realm_path(realm)
+      %p
+        Select:&nbsp;
+        = link_to "All", @url_params.merge(:select => 'all')
+        %span> ,&nbsp;
+        = link_to "None", @url_params.merge(:select => 'none')
+
+      %table#realms_table
+        %thead
+          %tr
+            %th.ignore
+            %th= link_to "Realm Name", hardware_profiles_path(:sort_by => "name")
+        - unless @realms.blank?
+          - @realms.each do |realm|
+            %tr{:class => cycle('stripe')}
+              %td
+                - selected = @url_params[:select] == 'all'
+                = check_box_tag "realm_selected[]", realm.id, selected, :id => "realm_checkbox_#{realm.id}"
+              %td= link_to realm.name, realm_path(realm)

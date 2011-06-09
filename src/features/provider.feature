@@ -50,7 +50,7 @@ Feature: Manage Providers
   Scenario: Create a new Provider
     Given I am on the providers page
     And there is not a provider named "testprovider"
-    When I follow "Create"
+    When I follow "New Provider"
     Then I should be on the new provider page
     When I fill in "provider[name]" with "testprovider"
     And I fill in "provider[url]" with "http://localhost:3001/api"
@@ -63,7 +63,7 @@ Feature: Manage Providers
   Scenario: Create a new Provider failure when using wrong url
     Given I am on the providers page
     And there is not a provider named "testprovider"
-    When I follow "Create"
+    When I follow "New Provider"
     Then I should be on the new provider page
     When I fill in "provider[name]" with "testprovider"
     And I fill in "provider[url]" with "http://localhost:3010/api"

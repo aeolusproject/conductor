@@ -11,7 +11,7 @@ Feature: Manage Realms
 
   Scenario: Create new frontend realm
     Given I am on the realms page
-    When I follow "Create"
+    When I follow "New Realm"
     Then I should see "Create a new Realm"
     When I fill in "frontend_realm[name]" with "testrealm2"
     And I press "Save"

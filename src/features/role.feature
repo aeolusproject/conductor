@@ -37,7 +37,7 @@ Feature: Manage Roles
     And there are 2 more roles
     When I check "Admiral" role
     And I check "Captain" role
-    And I press "Destroy"
+    And I press "Delete"
     Then there should be 0 more roles
     And I should be on the roles page
     And I should not see "Captain"

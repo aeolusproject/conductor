@@ -4,8 +4,8 @@
     %span.label.badge.dark.count= @users.length
 
   .content
-    - form_tag do
-      = restful_submit_tag "Delete", 'destroy', multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button'
+    - form_tag multi_destroy_users_path do
+      = submit_tag "Delete", :id => 'delete_button', :class => 'button'
 
       %table#users_table
         %thead
@@ -22,7 +22,7 @@
         -@users.each do |user|
           %tr{:class => cycle('stripe')}
             %td
-              %input{:name => "user_selected[]", :type => "checkbox", :value => user.id, :id => "user_checkbox_#{user.id}" }
+              = check_box_tag "user_selected[]", user.id, false, :id => "user_checkbox_#{user.id}"
             %td= link_to user.login, user_path(user)
             %td= user.last_name
             %td= user.first_name

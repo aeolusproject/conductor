@@ -49,11 +49,11 @@ class RealmsController < ApplicationController
   end
 
   def multi_destroy
-    if params[:id].blank?
+    if params[:realm_selected].blank?
       flash[:error] = 'You must select at least one realm to delete.'
     else
       require_privilege(Privilege::MODIFY, Realm)
-      FrontendRealm.destroy(params[:id])
+      FrontendRealm.destroy(params[:realm_selected])
     end
     redirect_to realms_path
   end

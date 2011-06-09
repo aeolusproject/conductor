@@ -20,7 +20,7 @@ end
 
 When /^(?:|I )check "([^"]*)" realm$/ do |realm_name|
   realm = FrontendRealm.find_by_name(realm_name)
-  check("realm_id_#{realm.id}")
+  check("realm_checkbox_#{realm.id}")
 end
 
 Then /^there should be only (\d+) realms$/ do |number|

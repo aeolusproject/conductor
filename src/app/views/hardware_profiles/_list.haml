@@ -1,28 +1,33 @@
-- form_tag do
-  #object-actions
-    = link_to "New Hardware Profile", new_hardware_profile_path, :class => 'button'
-    = restful_submit_tag "Delete", 'destroy', multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button', :class => 'button'
-  #selections
-    %p
-      Select:&nbsp;
-      = link_to "All", @url_params.merge(:select => 'all')
-      %span> ,&nbsp;
-      = link_to "None", @url_params.merge(:select => 'none')
+%section.content-section.hardware_profiles
+  %header
+    %h2 Hardware Profiles
+    %span.label.badge.dark.count= @hardware_profiles.length
 
-  #list
-    %table
-      = sortable_table_header @header
-      - @hardware_profiles.each do |hwp|
-        %tr
-          %td
-            - selected = @url_params[:select] == 'all'
-            %input{:name => "hardware_profile_selected[]", :type => "checkbox", :value => hwp.id, :id => "hardware_profile_checkbox_#{hwp.id}", :checked => selected }
-            = link_to hwp.name, hardware_profile_path(hwp)
-          %td
-            =hwp.architecture.to_s
-          %td
-            =hwp.memory.to_s
-          %td
-            =hwp.storage.to_s
-          %td
-            =hwp.cpu.to_s
+  .content
+    - form_tag  multi_destroy_hardware_profiles_path do
+      = submit_tag "Delete", :id => 'delete_button', :class => 'button'
+      %p
+        Select:&nbsp;
+        = link_to "All", @url_params.merge(:select => 'all')
+        %span> ,&nbsp;
+        = link_to "None", @url_params.merge(:select => 'none')
+
+      %table#hardware_profiles_table
+        %thead
+          %tr
+            %th.ignore
+            %th= link_to "Hardware Profile Name", hardware_profiles_path(:sort_by => "name")
+            %th= link_to "Architecture", hardware_profiles_path(:sort_by => "architecture")
+            %th= link_to "Memory", hardware_profiles_path(:sort_by => "memory")
+            %th= link_to "Storage", hardware_profiles_path(:sort_by => "storage")
+            %th= link_to "Virtual CPU", hardware_profiles_path(:sort_by => "cpu")
+        - @hardware_profiles.each do |hwp|
+          %tr{:class => cycle('stripe')}
+            %td
+              - selected = @url_params[:select] == 'all'
+              = check_box_tag "hardware_profile_selected[]", hwp.id, selected, :id => "hardware_profile_checkbox_#{hwp.id}"
+            %td= link_to hwp.name, hardware_profile_path(hwp)
+            %td= hwp.architecture.to_s
+            %td= hwp.memory.to_s
+            %td= hwp.storage.to_s
+            %td= hwp.cpu.to_s

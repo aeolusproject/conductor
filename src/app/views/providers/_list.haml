@@ -1,20 +1,30 @@
-- form_tag do
-  = link_to "Create", new_provider_url, :class => "button"
-  = restful_submit_tag "Delete", 'destroy', multi_destroy_providers_path, 'DELETE', :id => 'delete_button', :class => 'button'
+%section.content-section.providers
+  %header
+    %h2 Providers
+    %span.label.badge.dark.count= @providers.length
 
-  %p
-    Select:&nbsp;
-    = link_to "All", @url_params.merge(:select => 'all')
-    %span> ,&nbsp;
-    = link_to "None", @url_params.merge(:select => 'none')
+  .content
+    - form_tag multi_destroy_providers_path do
+      = submit_tag "Delete", :id => 'delete_button', :class => 'button'
 
-  %table#providers_table
-    = sortable_table_header @header
-    -@providers.each do |provider|
-      %tr
-        %td
-          - selected = @url_params[:select] == 'all'
-          %input{:name => "provider_selected[]", :type => "checkbox", :value => provider.id, :id => "provider_checkbox_#{provider.id}", :checked => selected }
-          = link_to provider.name, provider_path(provider)
-        %td= provider.url
-        %td= provider.provider_type.name
+      %p
+        Select:&nbsp;
+        = link_to "All", @url_params.merge(:select => 'all')
+        %span> ,&nbsp;
+        = link_to "None", @url_params.merge(:select => 'none')
+
+      %table#providers_table
+        %thead
+          %tr
+            %th.ignore
+            %th= link_to "Provider Name", providers_path(:sort_by => "name")
+            %th= link_to "Provider URL", providers_path(:sort_by => "url")
+            %th= link_to "Provider Type", providers_path(:sort_by => "type")
+        - @providers.each do |provider|
+          %tr{:class => cycle('stripe')}
+            %td
+              - selected = @url_params[:select] == 'all'
+              = check_box_tag "provider_selected[]", provider.id, selected, :id => "provider_checkbox_#{provider.id}"
+            %td= link_to provider.name, provider_path(provider)
+            %td= provider.url
+            %td= provider.provider_type.name

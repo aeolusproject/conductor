@@ -29,7 +29,7 @@ Feature: Pool Families
   Scenario: Create a new Pool family
     Given I am on the pool families page
     And there is not a pool family named "testpoolfamily"
-    When I follow "Create"
+    When I follow "New Pool Family"
     Then I should be on the new pool family page
     When I fill in "pool_family[name]" with "testpoolfamily"
     When I fill in "pool_family[quota_attributes][maximum_running_instances]" with "2"
