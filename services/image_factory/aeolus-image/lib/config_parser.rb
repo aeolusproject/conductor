@@ -54,6 +54,9 @@ module Aeolus
           opts.on('-r', '--provider NAME', 'name of specific provider (ie ec2-us-east1)') do |name|
             @options[:provider] = name
           end
+          opts.on('-I', '--image ID', 'ID of the base image, can be used in build and push commands, see examples') do |id|
+            @options[:image] = id
+          end
           opts.on('-d', '--daemon', 'run as a background process') do
             @options[:subcommand] = :images
           end
@@ -97,17 +100,11 @@ module Aeolus
           opts.on('-e', '--template FILE', 'path to file that contains template xml') do |file|
             @options[:template] = file
           end
-          opts.on('-I', '--image ID', 'image to rebuild. When specified w/o template and target, rebuilds from latest build') do |id|
-            @options[:image] = id
-          end
 
           opts.separator ""
           opts.separator "Push options:"
           opts.on('-B', '--build ID', 'push all target images for a build, to same providers as previously') do |id|
             @options[:build] = id
-          end
-          opts.on('-I', '--image ID', 'push all the target images for the latest build') do |id|
-            @options[:image] = id
           end
           opts.on('-A', '--account NAME', 'name of specific provider account to use for push') do |name|
             @options[:account] = name
@@ -178,7 +175,8 @@ module Aeolus
       end
 
       def build
-        "Not implemented"
+        b = BuildCommand.new(@options)
+        b.run
       end
 
       def push
