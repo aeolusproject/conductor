@@ -5,8 +5,14 @@ class DeploymentsController < ApplicationController
 
   layout 'application'
 
+  viewstate :show do |default|
+    default.merge!({
+      :view => 'pretty',
+    })
+  end
+
   def index
-    save_breadcrumb(deployments_path(:viewstate => @viewstate ? @viewstate.id : nil))
+    save_breadcrumb(deployments_path(:viewstate => viewstate_id))
     respond_to do |format|
       format.js { render :partial => 'list' }
       format.html
@@ -110,7 +116,7 @@ class DeploymentsController < ApplicationController
     init_new_deployment_attrs
     @tab_captions = ['Properties', 'Instances', 'Provider Services', 'Required Services', 'History', 'Permissions','Operation']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
-    save_breadcrumb(deployment_path(@deployment), @deployment.name)
+    save_breadcrumb(deployment_path(@deployment, :viewstate => viewstate_id), @deployment.name)
     @view = filter_view? ? 'filter_view_show' : 'pretty_view_show'
     respond_to do |format|
       format.js { render :partial => @view }

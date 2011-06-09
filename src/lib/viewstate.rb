@@ -166,5 +166,9 @@ module ActionController
     def viewstate_params
       params.reject {|k,v| ['controller', 'action', 'id', '_method', 'viewstate'].include? k}
     end
+
+    def viewstate_id
+      @viewstate ? @viewstate.id : nil
+    end
   end
 end

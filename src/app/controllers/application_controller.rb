@@ -160,7 +160,11 @@ class ApplicationController < ActionController::Base
 
   # let's suppose that 'pretty' view is default
   def filter_view?
-    params[:view] == 'filter'
+    if @viewstate
+      @viewstate.state['view'] == 'filter'
+    else
+      params[:view] == 'filter'
+    end
   end
 
   private

@@ -6,7 +6,7 @@ class InstancesController < ApplicationController
   def index
     @params = params
     @search_term = params[:q]
-    save_breadcrumb(instances_path(:viewstate => @viewstate ? @viewstate.id : nil))
+    save_breadcrumb(instances_path(:viewstate => viewstate_id))
     if @search_term.blank?
       load_instances
     else

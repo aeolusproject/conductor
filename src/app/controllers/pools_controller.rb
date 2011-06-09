@@ -6,10 +6,13 @@ class PoolsController < ApplicationController
 
   viewstate :index do |default|
     default.merge!({
-      :pretty_view => true,
-      :order_field => 'name',
-      :order_dir => 'asc',
-      :page => 1
+      :view => 'pretty',
+    })
+  end
+
+  viewstate :show do |default|
+    default.merge!({
+      :view => 'pretty',
     })
   end
 
@@ -47,7 +50,7 @@ class PoolsController < ApplicationController
       format.html { @view = filter_view? ? 'layouts/tabpanel' : 'pretty_list' }
       format.json { render :json => @pools }
     end
-    save_breadcrumb(pools_path(:viewstate => @viewstate ? @viewstate.id : nil))
+    save_breadcrumb(pools_path(:viewstate => viewstate_id))
   end
 
   def show
@@ -60,7 +63,7 @@ class PoolsController < ApplicationController
       format.html { render :action => :show}
       format.json { render :json => @pool }
     end
-    save_breadcrumb(pool_path(@pool), @pool.name)
+    save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
   end
 
   def new
