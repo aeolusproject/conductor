@@ -1,18 +1,23 @@
-%h3
-  Properties for
-  = @provider.name
-%dl
-  %dt
-    Provider name
-  %dd
-    = @provider.name
-  %dt
-    Provider URL
-  %dd
-    = @provider.url
-  %dt
-    Provider Type
-  %dd
-    = @provider.provider_type.name
-= link_to "Edit", edit_provider_path(@provider), {:class => 'button'}
-= link_to "Test", provider_path(@provider, {:test_provider => true}), { :class => 'button' }
+%table
+  %thead
+    %tr
+      %th.show
+        Properties for
+        = @provider.name
+      %th.show
+  %tbody
+    %tr
+      %td
+        %label Provider name
+      %td
+        = @provider.name
+    %tr
+      %td
+        %label Provider URL
+      %td
+        = @provider.url
+    %tr
+      %td
+        %label Provider Type
+      %td
+        = @provider.provider_type.name

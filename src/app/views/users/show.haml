@@ -1,12 +1,11 @@
 = render :partial => 'layouts/admin_header'
 %header.page-header
-  %h1{:class => controller.controller_name}= [@user.first_name, @user.last_name].join(' ').titlecase
+  %h1{:class => controller.controller_name}= @user.name
   #obj_actions.button-container
     = link_to 'New User', new_user_url, :class => 'button primary', :id => 'new_user_button'
-    %form.button-group{:action => user_url(@user), :method => 'POST'}
+    .button-group
       = link_to 'Edit', edit_user_path(@user), :class => 'button pill'
-      %input{:name => "user_selected[]", :type => "hidden", :value => @user.id}
-      = restful_submit_tag('Delete', 'destroy', multi_destroy_users_path, 'DELETE', :class => "button pill danger")
+      = button_to 'Delete', user_path(@user), :method => :delete, :confirm => "Are you sure you vant to delete this user?", :class => "button pill danger"
   .corner &nbsp;
 
 %section.content-section.user

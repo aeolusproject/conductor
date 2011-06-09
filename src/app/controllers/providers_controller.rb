@@ -107,6 +107,16 @@ class ProvidersController < ApplicationController
     redirect_to providers_url
   end
 
+  def destroy
+    provider = Provider.find(params[:id])
+    require_privilege(Privilege::MODIFY, provider)
+    provider.destroy
+
+    respond_to do |format|
+      format.html { redirect_to providers_path }
+    end
+  end
+
   def test_connection(provider)
     @provider.errors.clear
     if @provider.connect

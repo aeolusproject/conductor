@@ -1,3 +1,9 @@
-%h2 Create a new Provider
-- form_for @provider, :url => providers_path do |f|
-  = render :partial => "form", :locals => { :form => f, :cancel_path => providers_path }
+= render :partial => 'layouts/admin_header'
+= render :partial => 'section_header'
+
+%section.content-section.users
+  %header
+    %h2 New Provider
+  .content
+    - form_for @provider, :url => providers_path do |f|
+      = render :partial => "form", :locals => { :form => f, :cancel_path => providers_path }

@@ -114,6 +114,15 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
+  def destroy
+    require_privilege(Privilege::MODIFY, User)
+    User.destroy(params[:id])
+
+    respond_to do |format|
+      format.html { redirect_to users_path }
+    end
+  end
+
   protected
 
   def load_users

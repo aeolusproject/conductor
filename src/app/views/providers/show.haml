@@ -3,11 +3,10 @@
   %h1{:class => controller.controller_name}= @provider.name
   #obj_actions.button-container
     = link_to 'New Provider', new_provider_url, :class => 'button primary', :id => 'new_provider_button'
-    %form.button-group{:action => provider_path(@provider), :method => 'POST'}
+    .button-group
       = link_to 'Edit', edit_provider_path(@provider), :class => 'button pill'
       = link_to "Test", provider_path(@provider, {:test_provider => true}), { :class => 'button' }
-      %input{:name => "provider_selected[]", :type => "hidden", :value => @provider.id}
-      = restful_submit_tag('Delete', 'destroy', multi_destroy_providers_path, 'DELETE', :class => "button pill danger")
+      = button_to 'Delete', provider_path(@provider), :method => :delete, :confirm => "Are you sure you vant to delete this provider?", :class => "button pill danger"
   .corner &nbsp;
 
 %section.content-section.provider

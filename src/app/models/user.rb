@@ -72,4 +72,8 @@ class User < ActiveRecord::Base
   # confirmation field but leave the password field blank. We have to check
   # that manually:
   validates_confirmation_of :password, :if => "password.blank? and !password_confirmation.blank?"
+
+  def name
+    "#{first_name} #{last_name}"
+  end
 end
