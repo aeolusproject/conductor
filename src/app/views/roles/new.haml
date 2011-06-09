@@ -1,3 +1,9 @@
-%h2 New Role
-- form_for @role, :url => roles_path do |f|
-    = render :partial => "form", :locals => { :form => f }
+= render :partial => 'layouts/admin_header'
+= render :partial => 'section_header'
+%section.content-section.users
+  %header
+    %h2 New Role
+
+  .content
+    - form_for @role, :url => roles_path do |f|
+      = render :partial => "form", :locals => { :form => f }

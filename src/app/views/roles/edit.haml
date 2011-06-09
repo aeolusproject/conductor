@@ -1,4 +1,22 @@
-%h2 Editing Role: #{@role.name}
+= render :partial => 'layouts/admin_header'
 
-- form_for @role, :url => role_path(@role), :html => { :method => :put } do |f|
-  = render :partial => "form", :locals => { :form => f }
+%header.page-header
+  %h1{:class => controller.controller_name}= @role.name.titlecase
+  #obj_actions.button-container
+    = link_to 'New Role', new_role_url, :class => 'button primary', :id => 'new_role_button'
+    %div.button-group
+      = link_to 'Cancel Editing', role_path(@role), :class => 'button pill danger', :id => 'new_role_button'
+  .corner &nbsp;
+
+%section.content-section.role
+  %header
+    %h2 Properties
+
+  .content
+    - if check_privilege(Privilege::MODIFY, Role)
+      %h2 Editing role: #{@role.name}
+    - else
+      %h2 Editing Role:
+
+    - form_for @role, :url => role_path(@role), :html => { :method => :put } do |f|
+      = render :partial => "form", :locals => { :form => f }

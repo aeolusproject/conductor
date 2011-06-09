@@ -1,23 +1,20 @@
-.grid_13
-  %h2 #{@role.name}
-  %strong Scope:
-  %span #{@role.scope}
-  %table
-    %thead
-      %tr
-        %th.show
-          Privileges
-        %th.show
-    %tbody
+%strong Scope:
+%span #{@role.scope}
+%table
+  %thead
+    %tr
+      %th.show
+        Privileges
+      %th.show
+  %tbody
+    %tr
+      %td
+        %label Action
+      %td
+        %label Target type
+    -@role.privileges.each do |privilege|
       %tr
         %td
-          %label Action
+          = privilege.action
         %td
-          %label Target type
-      -@role.privileges.each do |privilege|
-        %tr
-          %td
-            = privilege.action
-          %td
-            = privilege.target_type
-  = link_to t(:edit), edit_role_path(@role), :class => 'button formbutton'
+          = privilege.target_type

@@ -86,6 +86,12 @@ class RolesController < ApplicationController
     redirect_to roles_url
   end
 
+  def destroy
+    require_privilege(Privilege::PERM_SET)
+    Role.destroy(params[:id])
+    redirect_to roles_url
+  end
+
   protected
 
   def load_params_and_headers
