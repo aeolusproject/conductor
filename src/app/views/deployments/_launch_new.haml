@@ -19,7 +19,7 @@
     %span.name_available
   %p
     Choose a realm
-    = select :deployment, :realm_id, @realms.map{|r| [r.name, r.id]}
+    = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
   = submit_tag('Next')
 
 :javascript
