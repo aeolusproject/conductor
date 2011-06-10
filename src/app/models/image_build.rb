@@ -3,7 +3,12 @@ class ImageBuild < WarehouseModel
 
   def initialize(attrs)
     attrs.each do |k,v|
-      self.class.send(:attr_accessor, k.to_sym) unless respond_to?(:"#{k}=")
+      if k.to_sym == :image
+        sym = :attr_writer
+      else
+        sym = :attr_accessor
+      end
+      self.class.send(sym, k.to_sym) unless respond_to?(:"#{k}=")
       send(:"#{k}=", v)
     end
   end
@@ -17,14 +22,18 @@ class ImageBuild < WarehouseModel
     end.compact
   end
 
+  def image
+    Image.find(@image) if @image
+  end
+
   def target_images
-    TargetImage.all.select {|ti| ti.build == self.uuid}
+    TargetImage.all.select {|ti| ti.build and (ti.build.uuid == self.uuid)}
   end
 
   def provider_images
-    target_uuids = target_images.collect {|ti| ti.uuid }
+    targets = target_images
     ProviderImage.all.select do |pi|
-      target_uuids.include?(pi.target_image)
+      targets.include?(pi.target_image)
     end
   end
 end

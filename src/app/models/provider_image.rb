@@ -3,7 +3,7 @@ class ProviderImage < WarehouseModel
 
   def initialize(attrs)
     attrs.each do |k,v|
-      if k.to_sym == :provider
+      if [:provider, :target_image].include?(k.to_sym)
         sym = :attr_writer
       else
         sym = :attr_accessor
@@ -11,6 +11,10 @@ class ProviderImage < WarehouseModel
       self.class.send(sym, k.to_sym) unless respond_to?(:"#{k}=")
       send(:"#{k}=", v)
     end
+  end
+
+  def target_image
+    TargetImage.find(@target_image) if @target_image
   end
 
   def provider

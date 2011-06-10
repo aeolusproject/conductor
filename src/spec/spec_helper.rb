@@ -75,11 +75,4 @@ Spec::Runner.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
-
-  def create_test_iwhd_data_for(bucket_name)
-    require 'warehouse_client'
-     warehouse_client = Warehouse::Client.new(YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")['baseurl'])
-     bucket = warehouse_client.create_bucket(bucket_name)
-     bucket.create_object("#{bucket_name}_testing_uuid","",{:uuid => "#{bucket_name}_testing_uuid"})
-  end
 end
