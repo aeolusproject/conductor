@@ -121,6 +121,12 @@ var Conductor = {
         }
       }
     });
+  },
+
+  closeNotification: function() {
+    $('.control').click(function() {
+      $('#flash-hud').slideUp(100).fadeOut(100);
+    });
   }
 
 };
@@ -215,4 +221,5 @@ $(document).ready(function () {
   Conductor.enhanceDetailsTabs();
   Conductor.bind_pretty_toggle();
   Conductor.multiDestroyValidation();
+  Conductor.closeNotification();
 });

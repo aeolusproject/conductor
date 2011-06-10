@@ -1,5 +1,5 @@
 #flash-hud
-  %a.control{:href => '#'} Close
+  = link_to "Close","#", :class => "control"
   -if flash[:success]
     .notice.flash-group
       .flash-subset
