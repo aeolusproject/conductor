@@ -109,6 +109,20 @@ var Conductor = {
     acceptsSettings.html = "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
     $.ajaxSetup({accepts: acceptsSettings, dataType: 'html'})
   },
+
+  multiDestroyValidation: function() {
+    $('#delete_button').click(function(e) {
+      if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
+        alert('Please make a selection before clicking Delete button.');
+        e.preventDefault();
+      } else {
+        if (!confirm("Are you sure you want to proceed with deletion?")) {
+          e.preventDefault();
+        }
+      }
+    });
+  }
+
 };
 
 /* custom methods */
@@ -200,4 +214,5 @@ $(document).ready(function () {
   Conductor.enhanceListView();
   Conductor.enhanceDetailsTabs();
   Conductor.bind_pretty_toggle();
+  Conductor.multiDestroyValidation();
 });

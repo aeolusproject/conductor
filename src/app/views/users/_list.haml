@@ -7,7 +7,7 @@
     - form_tag multi_destroy_users_path do
       = submit_tag "Delete", :id => 'delete_button', :class => 'button danger'
 
-      %table#users_table
+      %table#users_table.checkbox_table
         %thead
           %tr
             %th.ignore
@@ -29,17 +29,3 @@
             %td= sprintf("%.2f", user.quota.percentage_used)
             %td= Quota.no_limit(user.quota.maximum_running_instances) ? "Unlimited" : user.quota.maximum_running_instances
             %td= user.email
-
-:javascript
-  $(document).ready(function () {
-    $('#delete_button').click(function(e) {
-      if ($("#users_table input[@type=radio]:checked").length == 0) {
-        alert('Please select any user to be deleted before clicking Delete button.');
-        e.preventDefault();
-      } else {
-        if (!confirm("Are you sure you want to delete this user?")) {
-          e.preventDefault();
-        }
-      }
-    });
-  });
