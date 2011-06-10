@@ -7,8 +7,19 @@ module ActionController
         self.default_viewstates ||= {}
         self.default_viewstates[action] = block
 
+        setup_viewstate_handlers
         setup_viewstate_routes(action)
-        before_filter :handle_viewstate, :only => [action]
+      end
+
+      def setup_viewstate_handlers
+        unless self.filter_chain.include? :handle_viewstate
+          before_filter :handle_viewstate, :only => self.default_viewstates.keys
+        else
+          # Don't append a new filter; update the existing one instead
+          filter_index = self.filter_chain.index :handle_viewstate
+          filter = self.filter_chain[filter_index]
+          filter.options[:only] = Set.new(self.default_viewstates.keys)
+        end
       end
 
       def setup_viewstate_routes(action)
@@ -119,38 +130,28 @@ module ActionController
       result
     end
 
-    def viewstate
-      if viewstate_given?
-        if vs = find_viewstate(params[:viewstate])
-          @viewstate = vs
-        else
-          @viewstate = create_viewstate
-        end
-      else
-        if vs = session_viewstate
-          @viewstate = vs
-        else
-          @viewstate = create_viewstate
-        end
-      end
-      set_session_viewstate(@viewstate)
-      @viewstate.state
-    end
-
     def handle_viewstate
-      viewstate
-      if viewstate_modified?
+      if viewstate_given?
+        @viewstate = (find_viewstate(params[:viewstate]) or create_viewstate)
+
+        @viewstate.uuid = params[:viewstate]
         @viewstate.state = @viewstate.state.merge(viewstate_params)
-      end
+        set_session_viewstate(@viewstate)
+      elsif viewstate_modified?
+        @viewstate = (find_viewstate or create_viewstate)
 
-      return unless (viewstate_given? or viewstate_modified?)
+        @viewstate.state = @viewstate.state.merge(viewstate_params)
+        set_session_viewstate(@viewstate)
 
-      if @viewstate and not viewstate_given?
-        params[:viewstate] = @viewstate.id
         respond_to do |format|
-          format.html { redirect_to params }
+          format.html do
+            params[:viewstate] = @viewstate.id
+            redirect_to params
+          end
           format.js { }
         end
+      else
+        @viewstate = nil
       end
     end
 
@@ -163,7 +164,7 @@ module ActionController
     end
 
     def viewstate_params
-      params.reject {|k,v| ['controller', 'action', '_method', 'viewstate'].include? k}
+      params.reject {|k,v| ['controller', 'action', 'id', '_method', 'viewstate'].include? k}
     end
   end
 end
