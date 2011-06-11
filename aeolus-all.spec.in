@@ -19,6 +19,7 @@ Requires:	rubygem(image_factory_connector)
 Requires:	mongodb-server
 Requires:	mod_ssl
 Requires:	deltacloud-core
+Requires:	ntp
 # FIXME: this Requires doesn't actually belong here, it belongs in
 # deltacloud-core.  We leave it in until deltacloud-core is fixed
 Requires:	rubygem(aws)
