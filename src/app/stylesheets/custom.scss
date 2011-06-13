@@ -13,3 +13,21 @@
 #admin_subsections a {
   color: blue;
 }
+
+#user-menu.nojs a {
+  margin-left: 1em;
+}
+
+#user-menu.js {
+  position: fixed;
+  width: 100px;
+  height: 30px;
+  background: white;
+  display: none;
+  border: 2px solid #E7E7E7;
+  padding: 0.5em;
+
+  a {
+    display: block;
+  }
+}

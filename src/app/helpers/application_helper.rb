@@ -245,4 +245,8 @@ module ApplicationHelper
       :filter_link => filter_link
     }
   end
+
+  def javascript?
+    session[:javascript_enabled]
+  end
 end
