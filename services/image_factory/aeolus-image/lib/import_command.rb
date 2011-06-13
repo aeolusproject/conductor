@@ -26,7 +26,7 @@ module Aeolus
         #This is a temporary hack in case the agent doesn't show up on bus
         #immediately
         sleep(5)
-        import_map = @console.import_image(@options[:image], @options[:build], @options[:id], @options[:description], @options[:target].first, @options[:provider])
+        import_map = @console.import_image(@options[:image], @options[:build], @options[:id], @options[:description], @options[:target].first, @options[:provider].first)
         puts ""
         puts "Target Image: " + import_map['target_image']
         puts "Image: " + import_map['image']

@@ -9,7 +9,7 @@ module Aeolus
         @stdout_orig = $stdout
         $stdout = StringIO.new
         @options = {}
-        @options[:target] = ['mock','mock']
+        @options[:target] = ['mock','ec2']
         @options[:template] = 'spec/sample_data/custom_repo.tdl'
       end
 

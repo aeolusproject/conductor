@@ -54,7 +54,7 @@ module Aeolus
           opts.on('-r', '--description NAME', 'description (e.g. "<image><name>MyImage</name></image>" or "/home/user/myImage.xml")') do |description|
             @options[:description] = description
           end
-          opts.on('-r', '--provider NAME', 'name of specific provider (ie ec2-us-east1)') do |name|
+          opts.on('-r', '--provider NAME1,NAME2',  Array,'name of specific provider (ie ec2-us-east1)') do |name|
             @options[:provider] = name
           end
           opts.on('-I', '--image ID', 'ID of the base image, can be used in build and push commands, see examples') do |id|
@@ -141,7 +141,7 @@ module Aeolus
 
           opts.separator ""
           opts.separator "Push examples:"
-          opts.separator "aeolus-image push --provider ec2-us-east-1 --id $target_image_id  # push the target image to the specified provider"
+          opts.separator "aeolus-image push --provider ec2-us-east-1,my-rhev-m --id $image_id         # push the image to the specified providers"
           opts.separator "aeolus-image push --build $build_id                               # push all target images for a build, to same providers as previously"
           opts.separator "aeolus-image push --account $provider_account --build $build_id   # ditto, using a specific provider account"
           opts.separator "aeolus-image push --image $image_id                               # push all the target images for the latest build"
@@ -192,7 +192,8 @@ module Aeolus
       end
 
       def push
-        "Not implemented"
+        b = PushCommand.new(@options)
+        b.run
       end
 
       def import
