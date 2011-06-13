@@ -1,6 +1,6 @@
 class RealmsController < ApplicationController
   before_filter :require_user
-  before_filter :load_realms, :only =>[:index,:show]
+  before_filter :load_realms, :only =>[:index, :show]
   layout 'application'
 
   def top_section
@@ -59,11 +59,26 @@ class RealmsController < ApplicationController
   end
 
   def multi_destroy
+    deleted = []
+    not_deleted = []
     if params[:realm_selected].blank?
       flash[:error] = 'You must select at least one realm to delete.'
     else
-      require_privilege(Privilege::MODIFY, Realm)
-      FrontendRealm.destroy(params[:realm_selected])
+      FrontendRealm.find(params[:realm_selected]).each do |realm|
+        require_privilege(Privilege::MODIFY, Realm)
+        if realm.destroy
+          deleted << realm.name
+        else
+          not_deleted << realm.name
+        end
+      end
+    end
+
+    unless deleted.empty?
+      flash[:notice] = "These Realms were deleted: #{deleted.join(', ')}"
+    end
+    unless not_deleted.empty?
+      flash[:error] = "Could not deleted these Realms: #{not_deleted.join(', ')}"
     end
     redirect_to realms_path
   end
@@ -75,8 +90,8 @@ class RealmsController < ApplicationController
     @tab_captions = ['Properties', 'Mapping']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
 
-    @backend_realm_targets = @realm.realm_backend_targets.select {|x| x.realm_or_provider_type == 'Realm'}
-    @backend_provider_targets = @realm.realm_backend_targets.select {|x| x.realm_or_provider_type == 'Provider'}
+    @backend_realm_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Realm' }
+    @backend_provider_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Provider' }
 
     respond_to do |format|
       format.js do
@@ -85,7 +100,7 @@ class RealmsController < ApplicationController
         end
         render :partial => @details_tab
       end
-      format.html { render :action => 'show'}
+      format.html { render :action => 'show' }
     end
   end
 
@@ -98,7 +113,7 @@ class RealmsController < ApplicationController
   end
 
   def load_realms
-    @header = [{ :name => "Name", :sort_attr => :name}]
+    @header = [{:name => "Name", :sort_attr => :name}]
     @url_params = params.clone
     @realms = FrontendRealm.all
   end

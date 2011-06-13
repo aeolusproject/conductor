@@ -41,7 +41,7 @@ class ProvidersController < ApplicationController
 
     @url_params = params.clone
     require_privilege(Privilege::VIEW, @provider)
-    @tab_captions = ['Properties', 'HW Profiles', 'Realms', 'Provider Accounts', 'Services','History','Permissions']
+    @tab_captions = ['Properties', 'HW Profiles', 'Realms', 'Provider Accounts', 'Services', 'History', 'Permissions']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
 
     if params.delete :test_provider
@@ -101,9 +101,24 @@ class ProvidersController < ApplicationController
   end
 
   def multi_destroy
+    deleted = []
+    not_deleted = []
     Provider.find(params[:provider_selected]).each do |provider|
-      provider.destroy if check_privilege(Privilege::MODIFY, provider)
+      check_privilege(Privilege::MODIFY, provider)
+      if provider.destroy
+        deleted << provider.name
+      else
+        not_deleted << provider.name
+      end
     end
+
+    unless deleted.empty?
+      flash[:notice] = "These Realms were deleted: #{deleted.join(', ')}"
+    end
+    unless not_deleted.empty?
+      flash[:error] = "Could not deleted these Realms: #{not_deleted.join(', ')}"
+    end
+
     redirect_to providers_url
   end
 
@@ -129,18 +144,18 @@ class ProvidersController < ApplicationController
 
   protected
   def set_view_envs
-    @header = [{ :name => "Provider name", :sort_attr => :name },
-               { :name => "Provider URL", :sort_attr => :name }
+    @header = [{:name => "Provider name", :sort_attr => :name},
+               {:name => "Provider URL", :sort_attr => :name}
     ]
     @url_params = params.clone
   end
 
-    def load_providers
-      @header = [{ :name => "Provider name", :sort_attr => :name },
-                 { :name => "Provider URL", :sort_attr => :name },
-                 { :name => "Provider Type", :sort_attr => :name }
-      ]
-      @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
-      @url_params = params.clone
-    end
+  def load_providers
+    @header = [{:name => "Provider name", :sort_attr => :name},
+               {:name => "Provider URL", :sort_attr => :name},
+               {:name => "Provider Type", :sort_attr => :name}
+    ]
+    @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
+    @url_params = params.clone
+  end
 end

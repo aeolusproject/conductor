@@ -40,8 +40,7 @@ Feature: Manage Roles
     And I press "Delete"
     Then there should be 0 more roles
     And I should be on the roles page
-    And I should not see "Captain"
-    And I should not see "Admiral"
+    And I should see "These Roles were deleted: Captain, Admiral"
 
 #  Scenario: Search roles
 #    Given a role "Admiral" exists

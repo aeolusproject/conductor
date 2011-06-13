@@ -115,7 +115,24 @@ class HardwareProfilesController < ApplicationController
   end
 
   def multi_destroy
-    HardwareProfile.destroy(params[:hardware_profile_selected])
+    deleted=[]
+    not_deleted=[]
+
+    HardwareProfile.find(params[:hardware_profile_selected]).each do |hwp|
+      if hwp.destroy
+        deleted << hwp.name
+      else
+        not_deleted << hwp.name
+      end
+    end
+
+    unless deleted.empty?
+      flash[:notice] = "These Hardware Profiles were deleted: #{deleted.join(', ')}"
+    end
+    unless not_deleted.empty?
+      flash[:error] = "Could not deleted these Hardware Profiles: #{not_deleted.join(', ')}"
+    end
+
     redirect_to hardware_profiles_path
   end
 

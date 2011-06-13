@@ -52,8 +52,7 @@ Feature: Manage Realms
     And I press "Delete"
     Then there should be only 0 realms
     And I should be on the realms page
-    And I should not see "testrealm1"
-    And I should not see "testrealm2"
+    And I should see "These Realms were deleted: testrealm1, testrealm2"
 
   Scenario: Delete realm without selecting one
     Given I am on the realms page

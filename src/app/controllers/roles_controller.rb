@@ -81,8 +81,24 @@ class RolesController < ApplicationController
   end
 
   def multi_destroy
+    deleted=[]
+    not_deleted=[]
     require_privilege(Privilege::PERM_SET)
-    Role.destroy(params[:role_selected])
+    Role.find(params[:role_selected]).each do |role|
+      if role.destroy
+        deleted << role.name
+      else
+        not_deleted << role.name
+      end
+    end
+
+    unless deleted.empty?
+      flash[:notice] = "These Roles were deleted: #{deleted.join(', ')}"
+    end
+    unless not_deleted.empty?
+      flash[:error] = "Could not deleted these Roles: #{not_deleted.join(', ')}"
+    end
+
     redirect_to roles_url
   end
 
