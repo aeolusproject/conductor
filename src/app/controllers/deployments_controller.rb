@@ -91,12 +91,14 @@ class DeploymentsController < ApplicationController
     @deployment.owner = current_user
     respond_to do |format|
       if @deployment.save
-        flash[:notice] = "Deployment launched"
-        errors = @deployment.launch(params[:hw_profiles] || {}, current_user)
-        unless errors.empty?
+        status = @deployment.launch(params[:hw_profiles] || {}, current_user)
+        if status[:errors].empty?
+          flash[:notice] = "Deployment launched"
+        else
           flash[:error] = {
             :summary  => "Failed to launch following assemblies:",
-            :failures => errors
+            :failures => status[:errors],
+            :successes => status[:successes]
           }
         end
         format.js { render :partial => 'properties' }

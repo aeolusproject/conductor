@@ -122,7 +122,7 @@ class Deployment < ActiveRecord::Base
   end
 
   def launch(hw_profiles, user)
-    errors = []
+    status = { :errors => {}, :successes => {} }
     deployable_xml.assemblies.each do |assembly|
       # TODO: for now we try to start all instances even if some of them fails
       begin
@@ -146,13 +146,14 @@ class Deployment < ActiveRecord::Base
                                        :action      => InstanceTask::ACTION_CREATE})
           condormatic_instance_create(task)
         end
+        status[:successes][assembly.name] = 'launched'
       rescue
         logger.error $!
         logger.error $!.backtrace.join("\n    ")
-        errors << "#{assembly.name}: #{$!}"
+        status[:errors][assembly.name] = $!
       end
     end
-    errors
+    status
   end
 
   def self.list_or_search(query,order_field,order_dir)
