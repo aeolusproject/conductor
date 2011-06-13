@@ -12,7 +12,7 @@ Feature: Manage Pools
     And there is not a pool named "mockpool"
     When I follow "New Pool"
     Then I should be on the new pool page
-    And I should see "Create a new Pool"
+    And I should see "Create New Pool"
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I fill in "quota_instances" with "unlimited"
@@ -25,7 +25,7 @@ Feature: Manage Pools
     Given I request XHR
     And I am on the new pool page
     Then I should get back a partial
-    And I should see "Create a new Pool"
+    And I should see "Create New Pool"
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I fill in "quota_instances" with "unlimited"
@@ -73,7 +73,7 @@ Feature: Manage Pools
     When I follow "Filter View"
     And I follow "New Pool"
     Then I should be on the new pool page
-    And I should see "Create a new Pool"
+    And I should see "Create New Pool"
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I press "Save"
@@ -85,7 +85,7 @@ Feature: Manage Pools
     And I follow "Filter View"
     And I follow "New Pool"
     Then I should be on the new pool page
-    And I should see "Create a new Pool"
+    And I should see "Create New Pool"
     When I fill in "pool_name" with "foopool"
     And I select "default" from "pool_pool_family_id"
     And I press "Save"
