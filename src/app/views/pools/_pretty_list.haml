@@ -29,7 +29,7 @@
         %li
           %a{:href => pool_path(pool)}= "#{pool.name} Pool details &raquo;"
         %li
-          = link_to 'New Deployment', launch_new_deployments_path, :class => 'button primary', :id => 'new_deployment_button'
+          = link_to 'New Deployment', launch_new_deployments_path(:pool_id => pool.id), :class => 'button primary', :id => 'new_deployment_button'
 
 :javascript
   $(document).ready(function() {
