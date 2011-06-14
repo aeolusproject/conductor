@@ -10,6 +10,6 @@
         %ul
           - @failed_instances.each do |inst|
             %li.alert
-              %dt.subject.critical= inst
+              %dt.subject.critical= inst.name
               %dd.type Instance Failure
               %dd.desc= "#{inst.last_error.blank? ? inst.state : inst.last_error}"
