@@ -14,7 +14,7 @@
       var selected_provider;
       $("#provider_account_provider_id").change(function()
       {
-          selected_provider = $("option:selected").attr('value');
+          selected_provider = $(this).find("option:selected").attr('value');
           $.get("#{set_selected_provider_provider_accounts_url}", {'provider_account[provider_id]':selected_provider},
             function(result) {
               $("#provider_type").html(result);
