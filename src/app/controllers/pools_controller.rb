@@ -18,6 +18,7 @@ class PoolsController < ApplicationController
 
   def index
     clear_breadcrumbs
+    save_breadcrumb(pools_path(:viewstate => @viewstate ? @viewstate.id : nil))
 
     @user_pools = Pool.list_for_user(current_user, Privilege::VIEW)
     if filter_view?
@@ -50,11 +51,11 @@ class PoolsController < ApplicationController
       format.html { @view = filter_view? ? 'layouts/tabpanel' : 'pretty_list' }
       format.json { render :json => @pools }
     end
-    save_breadcrumb(pools_path(:viewstate => viewstate_id))
   end
 
   def show
     @pool = Pool.find(params[:id])
+    save_breadcrumb(pool_path(@pool), @pool.name)
     require_privilege(Privilege::VIEW, @pool)
     @statistics = @pool.statistics
     @view = filter_view? ? 'deployments/filter_view' : 'deployments/pretty_view'
@@ -63,7 +64,6 @@ class PoolsController < ApplicationController
       format.html { render :action => :show}
       format.json { render :json => @pool }
     end
-    save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
   end
 
   def new

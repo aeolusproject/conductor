@@ -9,6 +9,8 @@ class RolesController < ApplicationController
   end
 
   def index
+    clear_breadcrumbs
+    save_breadcrumb(roles_path)
     @search_term = params[:q]
     if @search_term.blank?
       load_roles
@@ -48,6 +50,7 @@ class RolesController < ApplicationController
     @url_params = params.clone
     @tab_captions = ['Properties']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    save_breadcrumb(role_path(@role), @role.name)
     respond_to do |format|
       format.js do
         if @url_params.delete :details_pane

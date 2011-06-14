@@ -8,6 +8,8 @@ class ProvidersController < ApplicationController
   end
 
   def index
+    clear_breadcrumbs
+    save_breadcrumb(providers_path)
     @params = params
     @search_term = params[:q]
 
@@ -47,6 +49,8 @@ class ProvidersController < ApplicationController
     if params.delete :test_provider
       test_connection(@provider)
     end
+
+    save_breadcrumb(provider_path(@provider), @provider.name)
 
     respond_to do |format|
       format.js do

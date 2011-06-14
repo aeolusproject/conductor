@@ -12,6 +12,8 @@ class HardwareProfilesController < ApplicationController
   end
 
   def index
+    clear_breadcrumbs
+    save_breadcrumb(hardware_profiles_path)
     @params = params
     respond_to do |format|
       format.js do
@@ -41,6 +43,7 @@ class HardwareProfilesController < ApplicationController
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     properties
     matching_provider_hardware_profiles
+    save_breadcrumb(hardware_profile_path(@hardware_profile), @hardware_profile.name)
 
     respond_to do |format|
       format.js do

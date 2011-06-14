@@ -8,9 +8,9 @@ class UsersController < ApplicationController
   end
 
   def index
-    clear_breadcrumbs
     require_privilege(Privilege::VIEW, User)
-    save_breadcrumb(users_path, "Users")
+    clear_breadcrumbs
+    save_breadcrumb(users_path)
     @params = params
     @search_term = params[:q]
     if @search_term.blank?
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::VIEW, User) unless current_user == @user
     @quota_resources = @user.quota.quota_resources
-
+    save_breadcrumb(user_path(@user), @user.name)
     @url_params = params.clone
     @tab_captions = ['Properties']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
@@ -70,7 +70,6 @@ class UsersController < ApplicationController
       end
       format.html
     end
-    save_breadcrumb(user_path(@user), [@user.first_name, @user.last_name].join(' ').titlecase)
   end
 
   def edit

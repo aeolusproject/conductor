@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   include ApplicationService
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user, :filter_view?
-  before_filter :shift_breadcrumbs
+  before_filter :read_breadcrumbs
   layout 'old'
 
   def top_section; end
@@ -247,15 +247,13 @@ class ApplicationController < ActionController::Base
   # Breadcrumb-Related functionality
   ############################################################################
 
-  def clear_breadcrumbs
-    session[:breadcrumbs] = []
+  def read_breadcrumbs
+    session[:breadcrumbs] ||= []
+    @read_breadcrumbs = session[:breadcrumbs].last(2)
   end
 
-  def shift_breadcrumbs
-    session[:breadcrumbs] ||= []
-    shifted_breadcrumb = session[:breadcrumbs].shift unless session[:breadcrumbs].length < 3 || request.request_uri == session[:breadcrumbs].last[:path]
-    #TODO waiting for the ViewState to be implemented
-    #ViewState.find(shifted_breadcrumb[:viewstate]).mark_for_deletion if shifted_breadcrumb[:viewstate]
+  def clear_breadcrumbs
+    session[:breadcrumbs] = []
   end
 
   def save_breadcrumb(path, name = controller_name)
@@ -263,9 +261,12 @@ class ApplicationController < ActionController::Base
     breadcrumbs = session[:breadcrumbs]
     viewstate = @viewstate ? @viewstate.id : nil
 
-    if breadcrumbs.empty? or path != breadcrumbs.last[:path]
-      breadcrumbs.push({:name => name, :path => path, :viewstate => viewstate, :class => controller_name})
+    #if item with desired path is already in bc, then remove every bc behind it
+    if index = breadcrumbs.find_index {|b| b[:path] == path}
+      breadcrumbs.slice!(index, breadcrumbs.length)
     end
+    read_breadcrumbs
+    breadcrumbs.push({:name => name, :path => path, :viewstate => viewstate, :class => controller_name})
 
     session[:breadcrumbs] = breadcrumbs
   end

@@ -7,6 +7,11 @@ class RealmsController < ApplicationController
     :administer
   end
 
+  def index
+    clear_breadcrumbs
+    save_breadcrumb(realms_path)
+  end
+
   def new
     require_privilege(Privilege::CREATE, Realm)
     @realm = FrontendRealm.new
@@ -92,6 +97,8 @@ class RealmsController < ApplicationController
 
     @backend_realm_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Realm' }
     @backend_provider_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Provider' }
+
+    save_breadcrumb(realm_path(@realm), @realm.name)
 
     respond_to do |format|
       format.js do

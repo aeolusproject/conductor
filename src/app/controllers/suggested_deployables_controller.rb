@@ -7,6 +7,8 @@ class SuggestedDeployablesController < ApplicationController
   end
 
   def index
+    clear_breadcrumbs
+    save_breadcrumb(suggested_deployables_path(:viewstate => @viewstate ? @viewstate.id : nil))
     @suggested_deployables = SuggestedDeployable.list_for_user(current_user, Privilege::VIEW)
     set_header
   end
@@ -19,6 +21,7 @@ class SuggestedDeployablesController < ApplicationController
   def show
     @suggested_deployable = SuggestedDeployable.find(params[:id])
     require_privilege(Privilege::VIEW, @suggested_deployable)
+    save_breadcrumb(suggested_deployable_path(@suggested_deployable), @suggested_deployable.name)
   end
 
   def create

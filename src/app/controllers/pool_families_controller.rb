@@ -10,6 +10,8 @@ class PoolFamiliesController < ApplicationController
   end
 
   def index
+    clear_breadcrumbs
+    save_breadcrumb(pool_families_path)
     @search_term = params[:q]
     if @search_term.blank?
       load_pool_families
@@ -57,6 +59,7 @@ class PoolFamiliesController < ApplicationController
   def show
     @pool_family = PoolFamily.find(params[:id])
     @url_params = params.clone
+    save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
 
     respond_to do |format|
       format.js do

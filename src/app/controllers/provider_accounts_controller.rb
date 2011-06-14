@@ -9,6 +9,8 @@ class ProviderAccountsController < ApplicationController
   end
 
   def index
+    clear_breadcrumbs
+    save_breadcrumb(provider_accounts_path)
     # TODO: this is temporary solution how to combine search and permissions
     # filtering
     @search_term = params[:q]
@@ -35,6 +37,8 @@ class ProviderAccountsController < ApplicationController
       test_account(@account)
       render :action => 'show' and return
     end
+
+    save_breadcrumb(provider_account_path(@account), @account.name)
 
     respond_to do |format|
       format.js do
