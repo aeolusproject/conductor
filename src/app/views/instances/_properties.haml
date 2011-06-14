@@ -24,7 +24,7 @@
   - else
     %li
       = label_tag :assembly, 'Assembly'
-      %span= @instance.legacy_assembly.name
+      %span= @instance.assembly_xml ? @instance.assembly_xml.name : ''
   %li
     = label_tag :provider, 'Provider'
     %span= @instance.provider_account.provider.name if @instance.provider_account
