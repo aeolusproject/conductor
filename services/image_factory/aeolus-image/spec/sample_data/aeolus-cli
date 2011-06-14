@@ -1,0 +1,7 @@
+iwhd:
+  url: http://localhost:9090
+
+conductor:
+  url: http://localhost:3000/conductor
+  username: admin
+  password: password
