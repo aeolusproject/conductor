@@ -61,60 +61,56 @@ Factory.define :mock_hwp2_arch, :parent => :hardware_profile_property do |p|
   p.value 'x86_64'
 end
 
-Factory.define :agg_hwp1_memory, :parent => :hardware_profile_property do |p|
+Factory.define :front_hwp1_memory, :parent => :hardware_profile_property do |p|
   p.name 'memory'
   p.kind 'fixed'
   p.unit 'MB'
-  p.value 1740.8
+  p.value 1
 end
 
-Factory.define :agg_hwp1_storage, :parent => :hardware_profile_property do |p|
+Factory.define :front_hwp1_storage, :parent => :hardware_profile_property do |p|
   p.name 'storage'
   p.kind 'fixed'
   p.unit 'GB'
-  p.value 160
+  p.value 1
 end
 
-Factory.define :agg_hwp1_cpu, :parent => :hardware_profile_property do |p|
+Factory.define :front_hwp1_cpu, :parent => :hardware_profile_property do |p|
   p.name 'cpu'
   p.kind 'fixed'
   p.unit 'count'
   p.value 1
 end
 
-Factory.define :agg_hwp1_arch, :parent => :hardware_profile_property do |p|
+Factory.define :front_hwp1_arch, :parent => :hardware_profile_property do |p|
   p.name 'architecture'
   p.kind 'fixed'
   p.unit 'label'
-  p.value 'i386'
+  p.value 'x86_64'
 end
 
-Factory.define :agg_hwp2_memory, :parent => :hardware_profile_property do |p|
+Factory.define :front_hwp2_memory, :parent => :hardware_profile_property do |p|
   p.name 'memory'
-  p.kind 'range'
-  p.unit 'MB'
-  p.value 10240
-  p.range_first 7680
-  p.range_last 15360
-end
-
-Factory.define :agg_hwp2_storage, :parent => :hardware_profile_property do |p|
-  p.name 'storage'
-  p.kind 'enum'
-  p.unit 'GB'
-  p.value 850
-#  p.property_enum_entries { |p| [p.association(:agg_hwp2_storage_enum1),
-#                                p.association(:agg_hwp2_storage_enum2)] }
-end
-
-Factory.define :agg_hwp2_cpu, :parent => :hardware_profile_property do |p|
-  p.name 'cpu'
   p.kind 'fixed'
-  p.unit 'count'
+  p.unit 'MB'
+  p.value 1024
+end
+
+Factory.define :front_hwp2_storage, :parent => :hardware_profile_property do |p|
+  p.name 'storage'
+  p.kind 'fixed'
+  p.unit 'GB'
   p.value 2
 end
 
-Factory.define :agg_hwp2_arch, :parent => :hardware_profile_property do |p|
+Factory.define :front_hwp2_cpu, :parent => :hardware_profile_property do |p|
+  p.name 'cpu'
+  p.kind 'fixed'
+  p.unit 'count'
+  p.value 1
+end
+
+Factory.define :front_hwp2_arch, :parent => :hardware_profile_property do |p|
   p.name 'architecture'
   p.kind 'fixed'
   p.unit 'label'
@@ -153,28 +149,28 @@ Factory.define :ec2_hwp1_arch, :parent => :hardware_profile_property do |p|
   p.value 'i386'
 end
 
-Factory.define :agg_hwp3_memory, :parent => :hardware_profile_property do |p|
+Factory.define :front_hwp3_memory, :parent => :hardware_profile_property do |p|
   p.name 'memory'
   p.kind 'fixed'
   p.unit 'MB'
   p.value 1740.8
 end
 
-Factory.define :agg_hwp3_storage, :parent => :hardware_profile_property do |p|
+Factory.define :front_hwp3_storage, :parent => :hardware_profile_property do |p|
   p.name 'storage'
   p.kind 'fixed'
   p.unit 'GB'
-  p.value 160
+  p.value 3
 end
 
-Factory.define :agg_hwp3_cpu, :parent => :hardware_profile_property do |p|
+Factory.define :front_hwp3_cpu, :parent => :hardware_profile_property do |p|
   p.name 'cpu'
   p.kind 'fixed'
   p.unit 'count'
   p.value 1
 end
 
-Factory.define :agg_hwp3_arch, :parent => :hardware_profile_property do |p|
+Factory.define :front_hwp3_arch, :parent => :hardware_profile_property do |p|
   p.name 'architecture'
   p.kind 'fixed'
   p.unit 'label'

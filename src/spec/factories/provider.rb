@@ -5,6 +5,7 @@ Factory.define :provider do |p|
 end
 
 Factory.define :mock_provider, :parent => :provider do |p|
+  p.name 'mock'
   p.provider_type {ProviderType.find_by_codename("mock")}
   p.url 'http://localhost:3001/api'
   p.hardware_profiles { |hp| [hp.association(:mock_hwp1), hp.association(:mock_hwp2)] }

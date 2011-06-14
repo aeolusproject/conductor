@@ -5,6 +5,8 @@ describe Deployment do
     @quota = Factory :quota
     @pool = Factory(:pool, :quota_id => @quota.id)
     @deployment = Factory.build(:deployment, :pool_id => @pool.id)
+    @hwp1 = Factory(:front_hwp1)
+    @hwp2 = Factory(:front_hwp2)
     @actions = ['start', 'stop']
   end
 
@@ -57,20 +59,11 @@ describe Deployment do
   end
 
   it "should launch instances when launching deployment" do
-    hwp = Factory(:mock_hwp1)
-    hwp_ids = {}
     @deployment.save!
-    @deployment.legacy_deployable.legacy_assemblies.each {|a| hwp_ids[a.id.to_s] = hwp.id}
     @deployment.instances.should be_empty
-    errs = @deployment.launch(hwp_ids, Factory(:user))
-    errs.should be_empty
-    @deployment.instances.count.should == @deployment.legacy_deployable.legacy_assemblies.count
-  end
-
-  it "should not launch a deployment if deployable has not legacy_assemblies" do
-    @deployment.save!
-    @deployment.legacy_deployable.legacy_assemblies = []
-    lambda {@deployment.launch}.should raise_exception
+    hwp_ids = {}
+    @deployment.launch(hwp_ids, Factory(:user))[:errors].should be_empty
+    @deployment.instances.count.should == 2
   end
 
 end
