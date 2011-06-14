@@ -11,7 +11,10 @@
   %p
     What do you want to launch?
   %p
-    Provide the URL of the Deployable definition
+    Select the Deployable definition
+    = select_tag :suggested_deployable_id, options_for_select([['custom -- type bellow', 'custom']] + @suggested_deployables.map {|d| [d.name, d.id]}, params[:suggested_deployable_id])
+  %p
+    Or provide the URL of the Deployable definition
     = text_field('deployable', 'url')
   %p
     Name your deployment

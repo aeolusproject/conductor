@@ -25,6 +25,7 @@ class DeploymentsController < ApplicationController
     @pool = Pool.find(params[:pool_id]) or raise "Invalid pool"
     require_privilege(Privilege::CREATE, Deployment)
     @deployment = Deployment.new(:pool_id => @pool.id)
+    @suggested_deployables = SuggestedDeployable.list_for_user(current_user, Privilege::USE)
     init_new_deployment_attrs
     respond_to do |format|
       format.js { render :partial => 'launch_new' }
@@ -51,8 +52,10 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
-    @deployment.import_xml_from_url(params[:deployable][:url]) if params[:deployable] && params[:deployable][:url]
+    url = get_deployable_url
+    @deployment.import_xml_from_url(url) if url
     @deployment.deployable_xml.validate!
+    @suggested_deployables = SuggestedDeployable.list_for_user(current_user, Privilege::USE)
     respond_to do |format|
       format.js { render :partial => 'new' }
       format.html
@@ -254,5 +257,16 @@ class DeploymentsController < ApplicationController
       :include => :architecture,
       :conditions => {:provider_id => nil}
     )
+  end
+
+  def get_deployable_url
+    if params[:suggested_deployable_id].to_s == 'custom'
+      url = params[:deployable] ? params[:deployable][:url] : nil
+    else
+      sdeployable = SuggestedDeployable.find(params[:suggested_deployable_id])
+      require_privilege(Privilege::USE, sdeployable)
+      url = sdeployable.url
+    end
+    url
   end
 end
