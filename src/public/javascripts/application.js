@@ -95,12 +95,12 @@ var Conductor = {
   bind_pretty_toggle: function() {
     Conductor.nicelyHookAjaxClick($("#pretty_view"), function() {
       $.get($(this).attr("href"), $(this).serialize(), function(result) {
-        $('#content .content-section').html(result);
+        $('#content .toggle-view').html(result);
       });
     });
     Conductor.nicelyHookAjaxClick($("#filter_view"), function() {
       $.get($(this).attr("href"), $(this).serialize(), function(result) {
-        $('#content .content-section').html(result);
+        $('#content .toggle-view').html(result);
         $('#details-selected').hide();
         $('#details-view').tabs();
       });

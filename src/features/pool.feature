@@ -181,10 +181,10 @@ Feature: Manage Pools
     Given a pool "mockpool" exists with deployment "mockdeployment"
     When I am viewing the pool "mockpool"
     And I follow "Pretty View"
-    Then I should see "0 Instances" within "#content .content-section"
+    Then I should see "0 Instances" within "#content .content-section.toggle-view"
 
   Scenario: Pools#show filter view
     Given a pool "mockpool" exists with deployment "mockdeployment"
     When I am viewing the pool "mockpool"
     And I follow "Filter View"
-    Then I should not see "0 Instances" within "#content .content-section"
+    Then I should not see "0 Instances" within "#content .content-section.toggle-view"
