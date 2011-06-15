@@ -5,20 +5,30 @@ require 'rake/gempackagetask'
 require 'rake/rdoctask'
 require 'rake/testtask'
 require 'spec/rake/spectask'
+require 'rake/rpmtask'
+
+RPMBUILD_DIR = "#{File.expand_path('~')}/rpmbuild"
+RPM_SPEC = "rubygem-aeolus-cli.spec"
 
 spec = Gem::Specification.new do |s|
-  s.name = 'aeolus-image'
+  s.name = 'aeolus-cli'
   s.version = '0.0.1'
   s.has_rdoc = true
-  s.extra_rdoc_files = ['README', 'LICENSE']
-  s.summary = 'Your summary here'
-  s.description = s.summary
-  s.author = ''
-  s.email = ''
-  # s.executables = ['your_executable_here']
-  s.files = %w(LICENSE README Rakefile) + Dir.glob("{bin,lib,spec}/**/*")
+  s.summary= 'cli for aeolus cloud suite'
+  s.description = 'Commandline interface for working with the aeolus cloud management suite'
+  s.author = 'Jason Guiditta, Martyn Taylor'
+  s.email = 'jguiditt@redhat.com, mtaylor@redhat.com'
+  s.license = 'GPL-2'
+  s.homepage = 'http://aeolusproject.org'
+  s.executables << 'aeolus-image'
+  s.files = %w(Rakefile) + Dir.glob("{bin,lib,spec}/**/*")
   s.require_path = "lib"
   s.bindir = "bin"
+  s.add_dependency('nokogiri', '>=0.4.0')
+  s.add_dependency('rest-client')
+  s.add_dependency('image_factory_console', '>=0.4.0')
+
+  s.add_development_dependency('rspec', '~>1.3.0')
 end
 
 Rake::GemPackageTask.new(spec) do |p|
@@ -43,4 +53,10 @@ end
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*.rb']
   t.libs << Dir["lib"]
+end
+
+Rake::RpmTask.new(RPM_SPEC) do |rpm|
+  rpm.need_tar = true
+  rpm.package_files.include("lib/*")
+  rpm.topdir = "#{RPMBUILD_DIR}"
 end
