@@ -1,4 +1,17 @@
-%h3
-  Pretty View
+%header
+  %h2 Instances
+%ul.instances_list
+  - @deployment.instances.each do |instance|
+    %li
+      = instance.name
+      %ul
+        %li
+          Uptime:
+          = count_uptime(instance.created_at)
+        %li
+          IP Address:
+          = instance.public_addresses
+        %li
+          State:
+          = instance.state
 
-= render :partial => 'properties'

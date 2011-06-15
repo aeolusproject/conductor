@@ -1,6 +1,6 @@
 %div.deployment_pretty
   %h3
-    = deployment.name
+    = link_to(deployment.name, deployment)
   %ul
     %li
       = count_uptime(deployment.created_at)

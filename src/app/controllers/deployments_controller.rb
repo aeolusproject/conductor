@@ -120,9 +120,8 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.find(params[:id])
     require_privilege(Privilege::VIEW, @deployment)
     init_new_deployment_attrs
-    @tab_captions = ['Properties', 'Instances', 'Provider Services', 'Required Services', 'History', 'Permissions','Operation']
-    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(deployment_path(@deployment, :viewstate => viewstate_id), @deployment.name)
+    @failed_instances = @deployment.instances.select {|instance| instance.state == Instance::STATE_CREATE_FAILED || instance.state == Instance::STATE_ERROR}
     @view = filter_view? ? 'filter_view_show' : 'pretty_view_show'
     respond_to do |format|
       format.js { render :partial => @view }
