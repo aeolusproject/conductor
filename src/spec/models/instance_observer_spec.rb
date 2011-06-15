@@ -168,4 +168,24 @@ describe InstanceObserver do
     @instance.save!
     @instance.instance_key.name.should != @provider_account.instance_key.name
   end
+
+
+  it "should track the events of the instance lifetime" do
+    @instance.events.should have(1).items
+    @instance.events[0].summary.should match /created/
+
+    @instance.state = Instance::STATE_RUNNING
+    @instance.save!
+
+    @instance = Instance.find(@instance.id)
+    @instance.events.should have(2).items
+    @instance.events[1].summary.should match /state.*running/
+
+    @instance.state = Instance::STATE_STOPPED
+    @instance.save!
+
+    @instance = Instance.find(@instance.id)
+    @instance.events.should have(3).items
+    @instance.events[2].summary.should match /state.*stopped/
+  end
 end

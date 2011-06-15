@@ -1,3 +1,8 @@
 %h3
   History for
   = @instance.name
+%ul
+  - @instance.events.each do |event|
+    %li
+      = @instance.name
+      = event.summary

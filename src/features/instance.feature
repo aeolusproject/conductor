@@ -207,3 +207,9 @@ Feature: Manage Instances
     And I accept JSON
     When I stop "mock1" instance
     Then I should get back JSON object with success and errors
+
+  Scenario: Show instance history
+    Given a mock running instance exists
+    And I am viewing the mock instance detail
+    When I follow "history"
+    Then I should see "created" within "#details-selected"

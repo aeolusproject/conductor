@@ -61,6 +61,12 @@ class InstanceObserver < ActiveRecord::Observer
     end
   end
 
+  def after_create(instance)
+    event = Event.new(:source => instance, :event_time => instance.created_at,
+                      :summary => "created")
+    event.save!
+  end
+
   def after_update(instance)
     # we try to generate unique key only when instance is running
     # and provider_account for this instance has instance_key (provider account
@@ -68,6 +74,12 @@ class InstanceObserver < ActiveRecord::Observer
     if instance.state_changed? and instance.state == Instance::STATE_RUNNING and
       not instance.instance_key and instance.provider_account and instance.provider_account.instance_key
         instance.delay.create_unique_key
+    end
+
+    if instance.state_changed?
+      event = Event.new(:source => instance, :event_time => DateTime.now,
+                        :summary => "state changed to #{instance.state}")
+      event.save!
     end
   end
 
