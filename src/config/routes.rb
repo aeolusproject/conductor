@@ -68,7 +68,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :account, :controller => "users"
   map.resources :permissions, :collection => { :list => :get }
 
-  map.root :controller => 'deployments'
+  map.root :controller => 'pools'
 
 
   # Allow downloading Web Service WSDL as a file with an extension
