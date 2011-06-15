@@ -24,25 +24,6 @@ describe Instance do
     @instance.should be_valid
   end
 
-  it "should require legacy_template to be set if there no deployment" do
-    @instance.legacy_template_id = nil
-    @instance.deployment_id = nil
-    @instance.should_not be_valid
-
-    @instance.legacy_template_id = 1
-    @instance.should be_valid
-  end
-
-  it "should not allow legacy_template to be set if there's a deployment" do
-    @instance.deployment_id = 1
-    @instance.legacy_template_id = 1
-    @instance.should_not be_valid
-
-    @instance.legacy_template_id = nil
-    @instance.legacy_assembly_id = 1
-    @instance.should be_valid
-  end
-
   it "should have a name of reasonable length" do
     [nil, '', 'x'*1025].each do |invalid_name|
       @instance.name = invalid_name
