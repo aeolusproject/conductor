@@ -4,9 +4,21 @@ module Aeolus
   module Image
     describe ConfigParser do
       it "should parse the specified command" do
-        config_parser = ConfigParser.new(%w(list))
+        config_parser = ConfigParser.new(%w(list  --images))
         config_parser.process
         config_parser.command.should == 'list'
+      end
+
+      it "should exit gracefully when a required subcommand is not provided" do
+        begin
+          silence_stream(STDOUT) do
+            config_parser = ConfigParser.new(%w(list))
+            config_parser.process
+            config_parser.should_receive(:exit).with(0)
+          end
+        rescue SystemExit => e
+          e.status.should == 0
+        end
       end
 
       it "should notify the user of an invalid command" do

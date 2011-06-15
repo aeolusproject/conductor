@@ -171,7 +171,14 @@ module Aeolus
         # For the list example above, that object would call a method 'images' based on the item
         # @options[:subcommand] being :images, so internally that class may do something like:
         # self.send(@options[:subcommand])
-        "Not implemented"
+        if @options[:subcommand].nil?
+          # TODO: Pull out Print Usage into seporate method, and print
+          puts "Could not find subcommand for list, run `./aeolus-image --help` for usage instructions"
+          exit(0)
+        else
+          list_command = ListCommand.new(@options)
+          list_command.send(@options[:subcommand])
+        end
       end
 
       def build
