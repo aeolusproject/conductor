@@ -103,6 +103,33 @@ class ImageFactoryConsole < Qmf2::ConsoleHandler
     end
   end
 
+# Call this method to import an image
+# array of BuildAdaptor objects.
+# * image => string
+# The uuid of an existing image
+# * build => string
+# the uuid of an existing build, or the empty string
+# * target_identifier => string
+# the target specific image ID
+# * image_desc => string
+# an xml string description of the image
+# * target => string
+# name of the cloud to target
+# * provider => string
+# the name of the cloud provider, often a region
+# Returns => a map including UUIDs as strings for 'target_image', 'build', 'image', 'provider_image'
+
+  def import_image(image, build, target_identifier, image_description, target, provider)
+    # TODO: return error if there is a problem calling this method or getting
+    # a factory instance
+    begin
+      factory.import_image(image, build, target_identifier, image_description, target, provider)
+    rescue Exception => e
+      @logger.debug "Encountered error in import_image: #{e}"
+      return e
+    end
+  end
+
   # <b>DEPRECATED:</b> Please use <tt>build</tt> instead.
   # Call this method to initiate a build, and get back an
   # BuildAdaptor object.

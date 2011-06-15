@@ -43,6 +43,16 @@ module ImageFactory
         end
       end
 
+      describe "#import_image" do
+        it "should return a build-adaptor with uuid" do
+          @import = @i.import_image("", "", "ami-test", "<image><name>Test Image</name></image>", "ec2", "ec2-us-east-1")
+          is_uuid?(@import['image']).should == true
+          is_uuid?(@import['target_image']).should == true
+          is_uuid?(@import['build']).should == true
+          is_uuid?(@import['provider_image']).should == true
+        end
+      end
+
       describe "#build" do
         it "should return an array of build-adaptors with uuids" do
           @i.build("<template></template>", ["mock"]).each do |adaptor|
@@ -199,5 +209,9 @@ module ImageFactory
       end
     end
 
+    def is_uuid?(test_string)
+      regexp = Regexp.new('^[\w]{8}[-][\w]{4}[-][\w]{4}[-][\w]{4}[-][\w]{12}')
+      regexp.match(test_string) ? true : false
+    end
   end
 end
