@@ -1,0 +1,23 @@
+!!! 5
+%html{"xml:lang" => "en", :lang => "en"}
+  %head
+    %meta{:charset => 'utf-8'}/
+    %title Aeolus Conductor : Login
+    = stylesheet_link_tag '/stylesheets/reset.css'
+    = stylesheet_link_tag '/stylesheets/compiled/login.css'
+    /[if lt IE 9]
+      = javascript_include_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
+      = stylesheet_link_tag '/stylesheets/layout_ie.css'
+    = javascript_include_tag "jquery-1.6.1.min.js"
+    = javascript_include_tag "jquery.showpassword.js"
+    = yield :scripts
+  %body#auth
+    #stage &nbsp;
+    #primary-container
+      -if flash[:warning]
+        %div.error
+          %p.text= flash[:warning]
+      -if flash[:error]
+        %div.error
+          %p.text= flash[:error]
+      = yield

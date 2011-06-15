@@ -3,38 +3,6 @@ Feature: User authentication
   As a user
   I must register and log in
 
-  @register
-  Scenario: Register as new user
-    Given I am on the homepage
-    When I follow "Create one now"
-    Then I should be on the new account page
-    And I should see "New Account"
-    When I fill in the following:
-      | Choose a username | testuser             |
-      | Choose a password | secret               |
-      | Confirm password  | secret               |
-      | First name        | Joe                  |
-      | Last name         | Tester               |
-      | E-mail            | testuser@example.com |
-    And I press "Save"
-    Then I should be on the root page
-
-  Scenario: Want to register new user but decide to cancel
-    Given I am on the homepage
-    When I follow "Create one now"
-    Then I should be on the new account page
-    And I should see "New Account"
-    When I fill in the following:
-      | Choose a username | canceleduser         |
-      | Choose a password | secret               |
-      | Confirm password  | secret               |
-      | First name        | Joe                  |
-      | Last name         | Tester               |
-      | E-mail            | testuser@example.com |
-    And I follow "Cancel"
-    Then I should be on the login page
-    And there should not be user with login "canceluser"
-
   Scenario: Log in as registered user
     Given I am a registered user
     And I am on the login page
@@ -63,9 +31,9 @@ Feature: User authentication
     And I am on the legacy assemblies page
     When I follow "Log out"
     Then I should be logged out
-    And I should see "Logout successful!"
-    And I should see "Create one now."
-    And I should see "Log In"
+    And I should see "Username:"
+    And I should see "Password:"
+    And I should see "Show my password"
 
   Scenario: Change user login to one with invalid length
     Given I am logged in

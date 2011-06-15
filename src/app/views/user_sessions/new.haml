@@ -1,37 +1,68 @@
 :javascript
+  /* todo: cleanup soon */
   $(document).ready(function() {
+    $('#password-input').showPassword({'checkbox':'#reveal'});
+    $('#username').focus(); // bring the username to focus
+
+    $('#help-btn').click(function(){ alert('Help functionality is not yet available.'); });
+
+    $('#security-btn').click(function(){
+      $('#login').hide();
+      $('#security').animate({ 'left': 0, 'width': 502 },{queue:false,duration:150});
+    });
+
+    $('#show-login').click(function(){
+      $('#security').animate({ 'left': -$('#security').outerWidth() + 143, 'width': 500 },{queue:false,duration:150});
+      $('#login').show();
+    });
+
     $('#new_user_session').submit(function() {
+      $('#progress-indicator').show();
+      var form_data = $(this).serialize(); /* serialize() is sensitive to disabled elements */
+      $('#login input').each(function(){ $(this).attr('disabled', true); });
       $.ajax({
         url: this.action,
         type: 'POST',
         dataType: 'script',
-        data: $(this).serialize(),
+        data: form_data,
         error: function(response) {
           //TODO: for some reason error connection errors are not handled by 'error' callback,
           //what's worse jquery sets 'textStatus' to success, if we want to catch connection errors
           //we will have to check if status code == 0 in 'complete' callback
-          if ($('#notification').length == 0) $('#content').prepend('<div id=notification></div>');
+          $('#error-content').remove();
+          $('#primary-container').prepend('<div id="error-content" class="error" style="opacity: 0; position: relative;"></div>');
           var text = $.isEmptyObject(response.responseText) ? response.statusText : response.responseText;
-          $('#notification').html('<div class=warning>' + text  + '</div>')
+          $('#error-content').html('<p class="text">' + text  + '</div>');
+          $('#error-content').animate({ 'opacity': 1, 'top': -10 },{queue:false,duration:150});
+          $('#progress-indicator').hide();
+          $('#login input').each(function(){ $(this).removeAttr('disabled'); });
         },
       });
       return false;
     });
   })
 
-.modalbox
-  %h2 Log In
-  .conductor_form
-    - form_for @user_session, :url => user_session_path do |f|
-      %fieldset
-        = f.label :login, "Username:"
-        = f.text_field :login
-      %fieldset
-        = f.label :password, "Password:"
-        = f.password_field :password
-      %div.indented
-        = f.check_box :remember_me
-        = f.label :remember_me
-      %div.indented
-        = link_to "Don't have an account? Create one now.", register_path, :class => 'actionlink'
-      = f.submit "Login", :class => "submit dialogbutton"
+#card-surround
+  #card
+    = render :partial => 'security'
+    .panel#login
+      .content
+        - form_for @user_session, :url => user_session_path do |f|
+          %fieldset.primary
+            = f.label :login, "Username:"
+            = f.text_field :login, :class => 'username'
+          %fieldset.primary
+            = f.label :password, "Password:"
+            = f.password_field :password, :class => 'password', :id => 'password-input'
+          %fieldset.reveal_pass
+            %input{:type => 'checkbox', :id => 'reveal'}
+            %label{:for => 'reveal'} Show my password
+          %div.group.bottom.left
+            .options
+              %a.help#help-btn{:href => '#'}
+                %span Login Assistance
+              %a.security#security-btn{:href => '#'}
+                %span Security Info
+          %div.group.bottom.submit
+            = image_tag 'login-spinner.gif', :alt => 'Working...', :id => 'progress-indicator'
+            = f.submit "Login", :class => "button", :id => 'login-btn'
