@@ -25,3 +25,21 @@ Warehouse::Connection.class_eval do
     return result
   end
 end
+
+# Mock request for deployable xml
+Deployment.class_eval do
+  def import_xml_from_url(url)
+    # Right now we allow this to raise exceptions on timeout / errors
+    result = nil
+    response = nil
+    VCR.use_cassette('deployable_xml', :record => :new_episodes) do
+      resource = RestClient::Resource.new(url, :open_timeout => 10, :timeout => 45)
+      response = resource.get
+    end
+    if response.code == 200
+      self.deployable_xml = response
+    else
+      false
+    end
+  end
+end

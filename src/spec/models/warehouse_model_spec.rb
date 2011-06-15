@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe WarehouseModel do
 
-  before do
-    create_test_iwhd_data_for("builds")
-  end
-
   describe "==" do
     it "should be true for cloned object" do
       image1 = Image.new({:uuid => '123', :foo => 'bar'})

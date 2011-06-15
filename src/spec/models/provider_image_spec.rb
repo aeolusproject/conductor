@@ -3,6 +3,7 @@ require 'spec_helper'
 describe ProviderImage do
   before do
     @provider = Factory.build(:mock_provider)
+    @provider.name = "mock"
     @provider.save
   end
 
@@ -30,7 +31,7 @@ describe ProviderImage do
   end
 
   describe "provider" do
-    it "should return target image" do
+    it "should return provider" do
       ProviderImage.find("3cdd9f26-b211-454b-89ff-655b0ebbff03").provider.should ==
         @provider
     end
