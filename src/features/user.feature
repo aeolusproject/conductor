@@ -56,6 +56,38 @@ Feature: Manage Users
     Then I should see "Deleted user"
     And there should be 1 user
 
+  Scenario: Create new user
+    Given I am on the users page
+    When I follow "New User"
+    Then I should be on the new user page
+    And I should see "New Account"
+    When I fill in the following:
+      | Choose a username | testuser2             |
+      | Choose a password | secret                |
+      | Confirm password  | secret                |
+      | First name        | Joe                   |
+      | Last name         | Tester                |
+      | E-mail            | testuser2@example.com |
+    And I press "Save"
+    Then I should be on the users page
+    And I should see "User registered!"
+
+  Scenario: Want to register new user but decide to cancel
+    Given I am on the users page
+    When I follow "New User"
+    Then I should be on the new user page
+    And I should see "New Account"
+    When I fill in the following:
+      | Choose a username | testuser2             |
+      | Choose a password | secret                |
+      | Confirm password  | secret                |
+      | First name        | Joe                   |
+      | Last name         | Tester                |
+      | E-mail            | testuser2@example.com |
+    And I follow "Cancel"
+    Then I should be on the users page
+    And there should not be user with login "canceluser"
+
 #  Scenario: Search for users
 #    Given there is a user "myuser"
 #    And there is a user "someuser"
