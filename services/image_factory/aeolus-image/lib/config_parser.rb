@@ -51,11 +51,17 @@ module Aeolus
           opts.on('-d', '--id ID', 'id for a given object') do |id|
             @options[:id] = id
           end
+          opts.on('-r', '--description NAME', 'description (e.g. "<image><name>MyImage</name></image>" or "/home/user/myImage.xml")') do |description|
+            @options[:description] = description
+          end
           opts.on('-r', '--provider NAME', 'name of specific provider (ie ec2-us-east1)') do |name|
             @options[:provider] = name
           end
           opts.on('-I', '--image ID', 'ID of the base image, can be used in build and push commands, see examples') do |id|
             @options[:image] = id
+          end
+          opts.on('-T', '--target TARGET1,TARGET2', Array, 'provider type (ec2, rackspace, rhevm, etc)') do |name|
+            @options[:target] = name
           end
           opts.on('-d', '--daemon', 'run as a background process') do
             @options[:subcommand] = :images
@@ -94,9 +100,6 @@ module Aeolus
 
           opts.separator ""
           opts.separator "Build options:"
-          opts.on('-T', '--target TARGET1,TARGET2', Array, 'provider type (ec2, rackspace, rhevm, etc)') do |name|
-            @options[:target] = name
-          end
           opts.on('-e', '--template FILE', 'path to file that contains template xml') do |file|
             @options[:template] = file
           end
@@ -145,7 +148,9 @@ module Aeolus
 
           opts.separator ""
           opts.separator "Import examples:"
-          opts.separator "aeolus-image import --provider ec2-us-east-1 --id $ami_id  # import an AMI from the specified provider"
+          opts.separator "aeolus-image import --provider ec2-us-east-1 --target ec2 --id $ami_id # import an AMI from the specified provider"
+          opts.separator "aeolus-image import --provider ec2-us-east-1 --target ec2 --id $ami_id --description '<image><name>My Image</name></image>' # import an AMI from the specified provider"
+          opts.separator "aeolus-image import --provider ec2-us-east-1 --target ec2 --id $ami_id --description <path_to_xml_file> # import an AMI from the specified provider"
 
           opts.separator ""
           opts.separator "Delete examples:"
@@ -191,7 +196,8 @@ module Aeolus
       end
 
       def import
-        "Not implemented"
+        import_command = ImportCommand.new(@options)
+        import_command.import_image
       end
 
       def delete

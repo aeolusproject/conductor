@@ -69,6 +69,14 @@ module Aeolus
         config_parser = ConfigParser.new(%w(delete --build 12345))
         config_parser.options[:build].should == '12345'
       end
+
+      it "should set options hash for valid import options" do
+        config_parser = ConfigParser.new(%w(import --provider ec2-us-east-1a --description /path/to/file --id ami-123456 --target ec2))
+        config_parser.options[:provider].should == 'ec2-us-east-1a'
+        config_parser.options[:target].should == ['ec2']
+        config_parser.options[:description].should == '/path/to/file'
+        config_parser.options[:id].should == 'ami-123456'
+      end
     end
   end
 end
