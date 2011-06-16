@@ -19,7 +19,7 @@
           %input{:name => 'instance_selected[]', :type => 'checkbox', :value => instance.id, :id => "instance_checkbox_#{instance.id}" }
           = link_to instance.name, instance_path(instance)
         %td
-          = instance.legacy_assembly.present? ? link_to((instance.legacy_assembly.name), legacy_assembly_path(instance.legacy_assembly)) : '&mdash;'
+          = instance.assembly_xml.name
         %td
           = instance.deployment.present? ? link_to((instance.deployment.name), deployment_path(instance.deployment)) : '&mdash;'
         %td

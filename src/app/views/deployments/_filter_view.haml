@@ -7,7 +7,7 @@
     %td
       = link_to(deployment.name, deployment)
     %td
-      = link_to(deployment.legacy_deployable.name, deployment.legacy_deployable) if deployment.legacy_deployable
+      = deployment.deployable_xml.name
     %td
       = count_uptime(deployment.created_at)
     %td

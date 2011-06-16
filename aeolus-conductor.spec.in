@@ -132,10 +132,7 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/users app/views/provider_accounts \
       app/views/roles app/views/providers app/views/settings \
       app/views/realms app/views/pool_families app/views/layouts\
-      app/views/quotas app/views/legacy_deployables \
-      app/views/image_imports app/views/legacy_assemblies \
-      app/views/legacy_templates app/views/builds \
-      app/views/permissions app/views/legacy_templates/xml \
+      app/views/quotas app/views/permissions \
       app/views/deployments app/views/pools \
       app/views/instances app/views/user_sessions"
 html="public"
@@ -152,11 +149,11 @@ png="public/images public/images/icons public/stylesheets/images \
 rake="lib/tasks"
 rb="app/models app/controllers \
     app/helpers \
-    app/services app/util app/util/repository_manager \
+    app/services app/util \
     config config/initializers config/environments db db/migrate dutils \
     features/support features/step_definitions lib public spec \
     spec/controllers spec/factories spec/helpers spec/models spec/services \
-    spec/utils warehouse_sync"
+    warehouse_sync"
 rhtml="app/views/layouts"
 scss="app/stylesheets"
 svg="public/images public/images/icons public/javascripts/jquery-svg"
@@ -187,7 +184,6 @@ done
 # something of a policy we are encoding in the RPM, it is nice to give the user
 # sane defaults.  The user can still override this with their own configuration
 %{__cp} src/config/database.pg %{buildroot}%{app_root}/config/database.yml
-%{__cp} src/config/image_descriptor_package_metagroups.conf %{buildroot}%{app_root}/config
 
 %{__mkdir} -p %{buildroot}%{app_root}/dbomatic
 %{__cp} src/dbomatic/dbomatic %{buildroot}%{app_root}/dbomatic

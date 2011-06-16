@@ -21,77 +21,9 @@ class InstancesController < ApplicationController
   end
 
   def new
-    @instance = Instance.new(params[:instance])
-    require_privilege(Privilege::CREATE, Instance, @instance.pool) if @instance.pool
-
-    unless @instance.legacy_template
-      redirect_to select_legacy_template_instances_path
-      return
-    end
-
-    init_new_instance_attrs
-    respond_to do |format|
-      format.js { render :partial => 'new' }
-      format.html
-      format.json { render :json => @instance }
-    end
-  end
-
-  def select_legacy_template
-    # FIXME: we need to list only legacy_templates for particular user,
-    # => TODO: add TEMPLATE_* permissions
-    @legacy_templates = LegacyTemplate.paginate(
-      :page => params[:page] || 1,
-      :include => {:legacy_images => :legacy_provider_images},
-      :conditions => "legacy_provider_images.status = '#{LegacyProviderImage::STATE_COMPLETED}'"
-    )
-    respond_to do |format|
-      format.html
-      format.json { render :json => @legacy_templates }
-    end
   end
 
   def create
-    if params[:cancel]
-      redirect_to select_legacy_template_instances_path
-      return
-    end
-
-    @instance = Instance.new(params[:instance])
-    @instance.state = Instance::STATE_NEW
-    @instance.owner = current_user
-
-    respond_to do |format|
-      begin
-        require_privilege(Privilege::CREATE, Instance,
-                          Pool.find(@instance.pool_id))
-        free_quota = Quota.can_start_instance?(@instance, nil)
-        raise "Pool is not enabled" unless @instance.pool and @instance.pool.enabled
-        @instance.transaction do
-          @instance.save!
-          # set owner permissions:
-          @task = InstanceTask.create!({:user        => current_user,
-                                        :task_target => @instance,
-                                        :action      => InstanceTask::ACTION_CREATE})
-          condormatic_instance_create(@task)
-        end
-      rescue
-        init_new_instance_attrs
-        flash[:warning] = "Failed to launch instance: #{$!}"
-        format.js { render :partial => 'new' }
-        format.html { render :new }
-        format.json { render :json => @instance, :status => :unprocessable_entity}
-      else
-        if free_quota
-          flash[:notice] = "Instance added."
-        else
-          flash[:warning] = "Quota Exceeded: Instance will not start until you have free quota"
-        end
-        format.js { render :partial => 'properties', :id => @instance.id }
-        format.html { redirect_to instances_path }
-        format.json { render :json => @instance, :status => :created }
-      end
-    end
   end
 
   def show
@@ -309,7 +241,6 @@ class InstancesController < ApplicationController
     @header = [
       {:name => 'VM NAME', :sort_attr => 'name'},
       {:name => 'STATUS', :sortable => false},
-      {:name => 'TEMPLATE', :sort_attr => 'legacy_templates.name'},
       {:name => 'PUBLIC ADDRESS', :sort_attr => 'public_addresses'},
       {:name => 'PROVIDER', :sortable => false},
       {:name => 'CREATED BY', :sort_attr => 'users.last_name'},
@@ -319,7 +250,7 @@ class InstancesController < ApplicationController
   end
 
   def load_instances
-    @instances = Instance.all(:include => [:legacy_template, :owner],
+    @instances = Instance.all(:include => [:owner],
                               :conditions => {:pool_id => @pools},
                               :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )

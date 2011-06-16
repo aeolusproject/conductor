@@ -1,6 +1,5 @@
 class SuggestedDeployablesController < ApplicationController
   before_filter :require_user
-  layout 'application'
 
   def top_section
     :administer

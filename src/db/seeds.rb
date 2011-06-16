@@ -41,9 +41,6 @@ roles =
    ProviderAccount =>
      {"Provider Account User"  => [false, {ProviderAccount => [VIEW,USE]}],
       "Provider Account Owner" => [true,  {ProviderAccount => [VIEW,USE,MOD,    VPRM,GPRM]}]},
-   LegacyTemplate =>
-     {"Template User"          => [false, {LegacyTemplate     => [VIEW,USE]}],
-      "Template Owner"         => [true,  {LegacyTemplate     => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    SuggestedDeployable =>
      {"SuggestedDeployable User"          => [false, {SuggestedDeployable     => [VIEW,USE]}],
       "SuggestedDeployable Owner"         => [true,  {SuggestedDeployable     => [VIEW,USE,MOD,VPRM,GPRM]}]},
@@ -61,8 +58,6 @@ roles =
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
       "SuggestedDeployable Administrator" => [false, {SuggestedDeployable => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
       "SuggestedDeployable Global User"   => [false, {SuggestedDeployable=> [VIEW,USE]}],
-      "Template Administrator" => [false, {LegacyTemplate     => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "Template Creator"       => [false, {LegacyTemplate     => [VIEW,USE,    CRE]}],
       "Administrator"          => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            HardwareProfile => [      MOD,CRE,VPRM,GPRM],
@@ -73,7 +68,6 @@ roles =
                                            Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Quota        => [VIEW,    MOD],
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM],
-                                           LegacyTemplate      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            SuggestedDeployable => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            BasePermissionObject => [ MOD,    VPRM,GPRM]}]}}
 Role.transaction do
@@ -103,20 +97,17 @@ default_quota = Quota.create
 
 default_pool = Pool.find_by_name("default_pool")
 default_role = Role.find_by_name("Pool User")
-default_template_role = Role.find_by_name("Template Creator")
 default_suggested_deployable_role = Role.find_by_name("SuggestedDeployable Global User")
 
 settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,
   "self_service_default_pool" => default_pool,
   "self_service_default_role" => default_role,
-  "self_service_default_template_obj" => BasePermissionObject.general_permission_scope,
-  "self_service_default_template_role" => default_template_role,
   "self_service_default_suggested_deployable_obj" => BasePermissionObject.general_permission_scope,
   "self_service_default_suggested_deployable_role" => default_suggested_deployable_role,
   # perm list in the format:
   #   "[resource1_key, resource1_role], [resource2_key, resource2_role], ..."
-  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_template_obj,self_service_default_template_role], [self_service_default_suggested_deployable_obj,self_service_default_suggested_deployable_role]"}
+  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_suggested_deployable_obj,self_service_default_suggested_deployable_role]"}
 settings.each_pair do |key, value|
   MetadataObject.set(key, value)
 end

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110607104800
+# Schema version: 20110616100915
 #
 # Table name: suggested_deployables
 #
@@ -7,6 +7,7 @@
 #  name        :string(1024)    not null
 #  description :text            not null
 #  url         :string(255)
+#  owner_id    :integer
 #
 
 class SuggestedDeployable < ActiveRecord::Base

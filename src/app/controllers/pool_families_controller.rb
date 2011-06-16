@@ -3,7 +3,6 @@ class PoolFamiliesController < ApplicationController
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pool_families, :only =>[:show]
   before_filter :load_tab_captions_and_details_tab, :only => [:show]
-  layout 'application'
 
   def top_section
     :administer

@@ -131,15 +131,6 @@ en:
     index:
       deleted: "Deleted the following Pool Families: %{list}."
       not_deleted: "Could not delete the following Pool Families: %{list}."
-  legacy_templates:
-    legacy_templates: Templates
-    index:
-      deleted:
-        one: "Template %{list} was deleted."
-        other: "Templates %{list} were deleted."
-      not_deleted:
-        one: "Template %{list} was not deleted."
-        other: "Templates %{list} were not deleted."
   suggested_deployables:
     index:
       suggested_deployables: Suggested Deployables

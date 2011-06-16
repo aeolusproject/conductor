@@ -77,23 +77,8 @@ module NavigationHelpers
     when /the new permission page/
       url_for new_permission_path
 
-    when /the new template page/
-      url_for new_legacy_template_path
-
-    when /the new template build page/
-      url_for new_build_path
-
-    when /the template builds page/
-      url_for legacy_template_path(@template, :details_tab => 'builds')
-
     when /the pool family provider accounts page/
       url_for pool_family_path(@pool_family, :details_tab => 'provider_accounts')
-
-    when /the templates page/
-      legacy_templates_path
-
-    when /the create template page/
-      url_for create_legacy_template_path
 
     when /the self service settings page/
       url_for :action => 'self_service', :controller => 'settings', :only_path => true
@@ -113,14 +98,8 @@ module NavigationHelpers
     when /^(.*)'s provider account page$/
       provider_account_path(ProviderAccount.find_by_label($1))
 
-    when /the deployable deployments page/
-      legacy_deployable_path(@deployable, :details_tab => 'deployments')
-
     when /the operational status of deployment page/
       deployment_path(@deployment, :details_tab => 'operation')
-
-    when /^(.*)'s deployable page$/
-      legacy_deployable_path(LegacyDeployable.find_by_name($1))
 
     when /^(.*)'s edit deployment page$/
       edit_deployment_path(Deployment.find_by_name($1))

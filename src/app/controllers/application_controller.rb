@@ -28,7 +28,6 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user, :filter_view?
   before_filter :read_breadcrumbs
-  layout 'old'
 
   def top_section; end
 

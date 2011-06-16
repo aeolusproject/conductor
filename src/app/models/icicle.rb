@@ -1,14 +1,13 @@
 # == Schema Information
-# Schema version: 20110603204130
+# Schema version: 20110616100915
 #
 # Table name: icicles
 #
-#  id                       :integer         not null, primary key
-#  uuid                     :string(255)
-#  xml                      :text
-#  legacy_provider_image_id :integer
-#  created_at               :datetime
-#  updated_at               :datetime
+#  id         :integer         not null, primary key
+#  uuid       :string(255)
+#  xml        :text
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 class Icicle < ActiveRecord::Base
@@ -16,7 +15,6 @@ class Icicle < ActiveRecord::Base
 
   validates_presence_of :uuid
   validates_uniqueness_of :uuid
-  belongs_to :legacy_provider_image
 
   def self.create_or_update(uuid)
     icicle = Icicle.find_by_uuid(uuid) || Icicle.new(:uuid => uuid)

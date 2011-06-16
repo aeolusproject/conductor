@@ -47,7 +47,8 @@ When /^I forget to enter my password$/ do
 end
 
 When /^I want to edit my profile$/ do
-  click_link "#{user.first_name} #{user.last_name}"
+  click_link "My Account"
+  click_link "Edit"
 end
 
 Then /^I should be logged out$/ do

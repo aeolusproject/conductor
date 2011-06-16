@@ -33,22 +33,6 @@ ProviderAccount.class_eval do
 #  end
 end
 
-RepositoryManager.class_eval do
-  def load_config
-    [{
-      'baseurl' => 'http://pulptest',
-      'yumurl'  => 'http://pulptest',
-      'type'    => 'pulp'
-    }]
-  end
-end
-
-LegacyTemplate.class_eval do
-  def upload
-    true
-  end
-end
-
 InstanceKey.class_eval do
   def replace_on_server(addr, new)
     true

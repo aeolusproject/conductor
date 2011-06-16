@@ -5,24 +5,10 @@ class AddTargetIdColumnToLegacyImages < ActiveRecord::Migration
 
   def self.up
     add_column :legacy_images, :provider_type_id, :integer, :null => false, :default => 100
-    transform_target_column
     remove_column :legacy_images, :target  end
 
   def self.down
     add_column :legacy_images, :target, :integer
-    transform_target_column_back
     remove_column :legacy_images, :provider_type_id
-  end
-
-  def self.transform_target_column
-    LegacyImage.all.each do |image|
-      image.update_attribute(:provider_type_id, ProviderType.first(:conditions => {:name => PROVIDER_TYPES[image.target] }).id)
-    end
-  end
-
-  def self.transform_target_column_back
-    LegacyImage.all.each do |image|
-      image.update_attribute(:target, INVERTED_PROVIDER_TYPES[image.provider_type.name])
-    end
   end
 end

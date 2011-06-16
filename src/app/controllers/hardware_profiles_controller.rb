@@ -5,7 +5,6 @@ class HardwareProfilesController < ApplicationController
   before_filter :load_hardware_profile, :only => [:show]
   before_filter :setup_new_hardware_profile, :only => [:new]
   before_filter :setup_hardware_profile, :only => [:new, :create, :edit, :update]
-  layout 'application'
 
   def top_section
     :administer

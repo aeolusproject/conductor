@@ -95,53 +95,54 @@ Feature: Manage Instances
     And I should see "mock2: stop action was successfully queued"
     And I should see "mock3: stop is an invalid action"
 
-  @tag
-  Scenario: Search for instances
-    Given there are the following instances:
-    | name      | external_key | state   | public_addresses    | private_addresses     |
-    | mockname  | ext_mock     | running | mock.public.address  | mock.private.address  |
-    | test      | ext_test     | pending | test.public.address  | test.private.address  |
-    | other     | ext_other    | stopped | other.public.address | other.private.address |
-    And there is the following instance with a differently-named owning user:
-    | name  | external_key | state   | public_addresses    | private_addresses     |
-    | foo   | ext_foo      | stopped | foo.public.address  | foo.private.address   |
-    And I am on the the instances page
-    When I fill in "q" with "mockname"
-    And I press "Search"
-    Then I should see "mock"
-    And I should not see "test"
-    And I should not see "other"
-    And I should not see "foo"
-    When I fill in "q" with "ext_other"
-    And I press "Search"
-    Then I should not see "mock"
-    And I should not see "test"
-    And I should see "other"
-    And I should not see "foo"
-    When I fill in "q" with "pending"
-    And I press "Search"
-    Then I should not see "mock"
-    And I should see "test"
-    And I should not see "other"
-    And I should not see "foo"
-    When I fill in "q" with "mock.public.address"
-    And I press "Search"
-    Then I should see "mock"
-    And I should not see "test"
-    And I should not see "other"
-    And I should not see "foo"
-    When I fill in "q" with "test.private.address"
-    And I press "Search"
-    Then I should not see "mock"
-    And I should see "test"
-    And I should not see "other"
-    And I should not see "foo"
-    When I fill in "q" with "Doe"
-    And I press "Search"
-    Then I should not see "mock"
-    And I should not see "test"
-    And I should not see "other"
-    And I should see "foo"
+  # not supported in UI now
+  #@tag
+  #Scenario: Search for instances
+  #  Given there are the following instances:
+  #  | name      | external_key | state   | public_addresses    | private_addresses     |
+  #  | mockname  | ext_mock     | running | mock.public.address  | mock.private.address  |
+  #  | test      | ext_test     | pending | test.public.address  | test.private.address  |
+  #  | other     | ext_other    | stopped | other.public.address | other.private.address |
+  #  And there is the following instance with a differently-named owning user:
+  #  | name  | external_key | state   | public_addresses    | private_addresses     |
+  #  | foo   | ext_foo      | stopped | foo.public.address  | foo.private.address   |
+  #  And I am on the the instances page
+  #  When I fill in "q" with "mockname"
+  #  And I press "Search"
+  #  Then I should see "mock"
+  #  And I should not see "test"
+  #  And I should not see "other"
+  #  And I should not see "foo"
+  #  When I fill in "q" with "ext_other"
+  #  And I press "Search"
+  #  Then I should not see "mock"
+  #  And I should not see "test"
+  #  And I should see "other"
+  #  And I should not see "foo"
+  #  When I fill in "q" with "pending"
+  #  And I press "Search"
+  #  Then I should not see "mock"
+  #  And I should see "test"
+  #  And I should not see "other"
+  #  And I should not see "foo"
+  #  When I fill in "q" with "mock.public.address"
+  #  And I press "Search"
+  #  Then I should see "mock"
+  #  And I should not see "test"
+  #  And I should not see "other"
+  #  And I should not see "foo"
+  #  When I fill in "q" with "test.private.address"
+  #  And I press "Search"
+  #  Then I should not see "mock"
+  #  And I should see "test"
+  #  And I should not see "other"
+  #  And I should not see "foo"
+  #  When I fill in "q" with "Doe"
+  #  And I press "Search"
+  #  Then I should not see "mock"
+  #  And I should not see "test"
+  #  And I should not see "other"
+  #  And I should see "foo"
 
 
   Scenario: Instance with correct id is displayed when id is greater than 10
@@ -192,15 +193,16 @@ Feature: Manage Instances
     When I am viewing the mock instance
     Then I should get back a partial
 
-  Scenario: Create an instance and get JSON response
-    Given I accept JSON
-    When I create mock instance
-    Then I should get back instance in JSON format
+  # for now it's not supported to create an instance, only deployment
+  #Scenario: Create an instance and get JSON response
+  #  Given I accept JSON
+  #  When I create mock instance
+  #  Then I should get back instance in JSON format
 
-  Scenario: Create an instance over XHR
-    Given I request XHR
-    When I create mock instance
-    Then I should get back a partial
+  #Scenario: Create an instance over XHR
+  #  Given I request XHR
+  #  When I create mock instance
+  #  Then I should get back a partial
 
   Scenario: Stop an instance
     Given there is a "mock1" running instance
@@ -211,5 +213,5 @@ Feature: Manage Instances
   Scenario: Show instance history
     Given a mock running instance exists
     And I am viewing the mock instance detail
-    When I follow "history"
-    Then I should see "created" within "#details-selected"
+    Then I should see "History for"
+    Then I should see "created"

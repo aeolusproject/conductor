@@ -53,7 +53,6 @@ class Privilege < ActiveRecord::Base
   ACTIONS = [ CREATE, MODIFY, USE, VIEW,
               PERM_SET, PERM_VIEW]
   TYPES   = { BasePermissionObject => [MODIFY, PERM_SET, PERM_VIEW],
-              LegacyTemplate => ACTIONS,
               Pool => ACTIONS - [USE],
               PoolFamily => ACTIONS - [USE],
               Instance => ACTIONS,

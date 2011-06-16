@@ -18,7 +18,7 @@ Feature: User authentication
 
   Scenario: Edit profile
     Given I am logged in
-    And I am on the legacy assemblies page
+    And I am on the root page
     When I want to edit my profile
     Then should see "Editing Account"
     When I fill in "E-mail" with "changed@example.com"
@@ -28,7 +28,7 @@ Feature: User authentication
 
   Scenario: log out
     Given I am logged in
-    And I am on the legacy assemblies page
+    And I am on the root page
     When I follow "Log out"
     Then I should be logged out
     And I should see "Username:"
@@ -37,7 +37,7 @@ Feature: User authentication
 
   Scenario: Change user login to one with invalid length
     Given I am logged in
-    And I am on the legacy assemblies page
+    And I am on the root page
     When I want to edit my profile
     Then should see "Editing Account"
     When I enter a string of length "101" into "user[login]"

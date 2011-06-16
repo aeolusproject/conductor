@@ -1,7 +1,6 @@
 class RealmsController < ApplicationController
   before_filter :require_user
   before_filter :load_realms, :only =>[:index, :show]
-  layout 'application'
 
   def top_section
     :administer

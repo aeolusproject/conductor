@@ -1,9 +1,0 @@
-!!! XML
-- if property.kind == "range"
-  %property{ :kind => property.kind, :name => property.name, :unit => property.unit, :value => property.value, :first => property.range_first, :last => property.range_last }<>
-- else
-  %property{ :kind => property.kind, :name => property.name, :unit => property.unit, :value => property.value }<>
-    - if property.kind == "enum"
-      %enum<>
-        - property.property_enum_entries.each do |e|
-          %entry{ :value => e.value }<>

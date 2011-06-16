@@ -6,12 +6,6 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :deployments, t('deployments.deployments'),deployments_path, :highlights_on => /^\/$|\/deployments/
       second_level.item :instances, t("instances.instances"), instances_path
     end
-    first_level.item :image_factory, t(:image_factory), legacy_templates_path, :highlights_on => /\/image_factory/ do |second_level|
-      second_level.item :legacy_templates, t('legacy_templates.legacy_templates'), legacy_templates_path
-      second_level.item :assemblies, t(:assemblies), legacy_assemblies_path
-      second_level.item :deployables, t('deployables.index.deployables'), legacy_deployables_path
-      second_level.item :image_imports, t(:image_imports), new_image_import_path
-    end
     first_level.item :administration, t(:administration), users_path, :highlights_on => /\/admin/ do |second_level|
       second_level.item :users, t(:users), users_path, :highlights_on => /\/users/
       second_level.item :roles, t(:roles), roles_path, :highlights_on => /\/roles/

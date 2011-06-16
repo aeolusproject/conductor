@@ -3,8 +3,6 @@ class DeploymentsController < ApplicationController
   before_filter :load_deployments, :only => [:index, :show]
   before_filter :load_deployment, :only => [:edit, :update]
 
-  layout 'application'
-
   viewstate :show do |default|
     default.merge!({
       :view => 'pretty',
@@ -34,19 +32,6 @@ class DeploymentsController < ApplicationController
     end
   end
 
-  # TODO - 03may2011 - This is going away
-  def legacy_launch_new
-    @launchable_deployables = []
-    LegacyDeployable.all.each do |deployable|
-      @launchable_deployables << deployable if deployable.launchable?
-    end
-    respond_to do |format|
-      format.js { render :partial => 'legacy_launch_new' }
-      format.html
-      format.json { render :json => @launchable_deployables }
-    end
-  end
-
   # launch_new will post here, but you can use this RESTfully as well
   def new
     @deployment = Deployment.new(params[:deployment])
@@ -60,28 +45,6 @@ class DeploymentsController < ApplicationController
       format.js { render :partial => 'new' }
       format.html
       format.json { render :json => @deployment }
-    end
-  end
-
-  # TODO - 03may2011 - This is going away
-  def legacy_new
-    require_privilege(Privilege::CREATE, Deployment)
-    @deployment = Deployment.new(:legacy_deployable_id => params[:legacy_deployable_id])
-    respond_to do |format|
-      if @deployment.legacy_deployable.legacy_assemblies.empty?
-        flash[:warning] = "Deployable must have at least one assembly"
-        format.js do
-          load_deployments
-          render :partial => 'list'
-        end
-        format.html { redirect_to deployments_path }
-        format.json { render :json => {:error => flash[:warning]}, :status => :unprocessable_entity }
-      else
-        init_new_deployment_attrs
-        format.js { render :partial => 'legacy_new' }
-        format.html
-        format.json { render :json => @deployment }
-      end
     end
   end
 
@@ -109,7 +72,7 @@ class DeploymentsController < ApplicationController
         @pool = @deployment.pool
         flash.now[:warning] = "Deployment launch failed"
         init_new_deployment_attrs
-        format.js { legacy_launch_new }
+        format.js { launch_new }
         format.html { render :action => 'new' }
         format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
       end
