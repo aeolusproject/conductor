@@ -43,30 +43,6 @@ module Aeolus
         end
       end
 
-      describe "#read_file" do
-        after(:each) do
-          #@b.console.shutdown
-        end
-
-        it "should give user explanation of missing file and exit" do
-          @options[:template] = 'foo.fake'
-          b = BuildCommand.new(@options, @output)
-          begin
-            b.read_file
-          rescue SystemExit => e
-            e.status.should == 1
-          end
-          $stdout.string.should  include("Cannot find specified file")
-        end
-
-        it "should set the @options[:template_str] to file content for a valid file" do
-          b = BuildCommand.new(@options, @output)
-          b.read_file
-          b.options[:template_str].should include("<template>")
-          b.console.shutdown
-        end
-      end
-
       describe "#combo_implemented?" do
         it "should give useful feedback if no template or target is specified" do
           @options[:template] = ''

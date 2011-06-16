@@ -20,7 +20,12 @@ module Aeolus
 
       def run
         if combo_implemented?
-          read_file
+          @options[:template_str] = read_file(@options[:template])
+          if @options[:template_str].nil?
+            puts "Cannot find specified file"
+            quit(1)
+          end
+
           #This is a temporary hack in case the agent doesn't show up on bus immediately
           sleep(5)
           @console.build(@options[:template_str], @options[:target], @options[:image]).each do |adaptor|
@@ -35,17 +40,6 @@ module Aeolus
         end
       end
 
-      #TODO: Consider if this and the next method should be protected or private
-      def read_file
-        full_path = File.expand_path(@options[:template])
-        if File.exist?(full_path) && !File.directory?(full_path)
-          @options[:template_str] = File.read(File.expand_path(@options[:template]))
-        else
-          puts "Cannot find specified file"
-          quit(1)
-        end
-      end
-
       def combo_implemented?
         if @options[:template].empty? || @options[:target].empty?
           puts "This combination of parameters is not currently supported"
@@ -54,11 +48,11 @@ module Aeolus
         true
       end
 
-      private
       def quit(code)
         @console.shutdown
-        exit(code)
+        super
       end
+
     end
   end
 end

@@ -33,6 +33,23 @@ module Aeolus
         create_resource('conductor')
       end
 
+      def read_file(path)
+        begin
+          full_path = File.expand_path(path)
+          if File.exist?(full_path) && !File.directory?(full_path)
+            File.read(full_path)
+          else
+            return nil
+          end
+        rescue
+          nil
+        end
+      end
+
+      def quit(code)
+        exit(code)
+      end
+
       private
       def load_config
         begin
