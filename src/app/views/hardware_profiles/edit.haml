@@ -10,11 +10,10 @@
 
 %section.content-section.hardware_profile
   %header
-    %h2 Properties
+    %h2
+      Edit Hardware Profile
 
   .content
-    %h3
-      Edit Hardware Profile
     -form_for @hardware_profile, :url => hardware_profile_path(@hardware_profile), :html => { :multipart => true } do |hwp_form|
       = render :partial => "form", :locals => { :hwp_form => hwp_form }
 

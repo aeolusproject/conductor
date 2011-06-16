@@ -67,6 +67,16 @@ class SuggestedDeployablesController < ApplicationController
     redirect_to suggested_deployables_path
   end
 
+  def destroy
+    suggested_deployable = SuggestedDeployable.find(params[:id])
+    require_privilege(Privilege::MODIFY, suggested_deployable)
+    suggested_deployable.destroy
+
+    respond_to do |format|
+      format.html { redirect_to suggested_deployables_path }
+    end
+  end
+
   private
 
   def set_header

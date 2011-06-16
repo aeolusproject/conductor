@@ -10,5 +10,5 @@
     = form.label :url, 'URL'
     = form.text_field :url
 
-= submit_tag 'Cancel', :name => 'cancel'
-= submit_tag 'Save', :name => 'save'
+= link_to 'Cancel', suggested_deployables_path, :class => 'button danger'
+= submit_tag 'Save', :name => 'save', :class => 'button'

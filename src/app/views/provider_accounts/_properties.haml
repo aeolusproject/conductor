@@ -1,11 +1,18 @@
-%h3
-  Properties for
-  = @account.name
-%p
-  %label
-    Running instances quota:
-  = @account.quota.maximum_running_instances or 'unlimited'
-%p
-  %label
-    Account ID:
-  = @account.credentials_hash['account_number']
+%table
+  %thead
+    %tr
+      %th.show
+        Properties for
+        = @account.name
+      %th.show
+  %tbody
+    %tr
+      %td
+        %label Running instances quota:
+      %td
+        = @account.quota.maximum_running_instances or 'unlimited'
+    %tr
+      %td
+        %label Account ID:
+      %td
+        = @account.credentials_hash['account_number']

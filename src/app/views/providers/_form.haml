@@ -10,5 +10,5 @@
   = form.select(:provider_type_id, ProviderType.all.collect {|provider_type| [provider_type.name,provider_type.id] }, :prompt => "Select type of provider")
 
 %fieldset
-  = form.submit "Save",  :class => "submit formbutton button"
-  = link_to t(:cancel), cancel_path, :class => 'button formbutton danger'
+  = form.submit "Save",  :class => "submit button button"
+  = link_to t(:cancel), cancel_path, :class => 'button button danger'

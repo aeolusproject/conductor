@@ -33,13 +33,13 @@ Feature: Manage Provider Accounts
     And I am on the provider accounts page
     When I follow "New Provider Account"
     Then I should be on the new provider account page
-    And I should see "New Account"
+    And I should see "New Provider Account"
     When I select "testprovider" from "provider_account_provider_id"
     And I fill in "provider_account[label]" with "testaccount"
     And I fill in "provider_account[credentials_hash][username]" with "mockuser"
     And I fill in "provider_account[credentials_hash][password]" with "mockpassword"
     And I fill in "quota[maximum_running_instances]" with "13"
-    And I press "Add"
+    And I press "Save"
     Then I should be on testaccount's provider account page
     And I should see "Provider account added"
     And I should have a provider account named "testaccount"
@@ -52,13 +52,13 @@ Feature: Manage Provider Accounts
     And I am on the provider accounts page
     When I follow "New Provider Account"
     Then I should be on the new provider account page
-    And I should see "New Account"
+    And I should see "New Provider Account"
     When I select "testprovider" from "provider_account_provider_id"
     And I fill in "provider_account[label]" with "testaccount"
     When I fill in "provider_account[credentials_hash][username]" with "mockuser"
     And I fill in "provider_account[credentials_hash][password]" with "wrongpassword"
     And I fill in "quota[maximum_running_instances]" with "13"
-    And I press "Add"
+    And I press "Save"
     Then I should see "Credentials are invalid!"
 
   Scenario: Delete a provider account

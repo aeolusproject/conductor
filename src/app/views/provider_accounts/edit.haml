@@ -9,14 +9,11 @@
 
 %section.content-section.user
   %header
-    %h2 Properties
+    %h2
+      Edit Provider Account:
+      = @provider_account.name
 
   .content
-    = error_messages_for :provider_account
-    %h2
-      = t('provider_accounts.edit.edit_provider_account')
-    - form_tag(provider_account_path, { :method => :put, :multipart => true }) do
-      = render :partial => 'provider_selection'
-      %fieldset.clearfix
-        .grid_13.alpha.omega
-          = submit_tag t(:save), :class => "ra nomargin dialogbutton"
+    - unless @providers.empty?
+      - form_for(@provider_account, :url => provider_accounts_path, :html => {:multipart => true})  do |f|
+        = render :partial => "form", :locals => { :form => f }

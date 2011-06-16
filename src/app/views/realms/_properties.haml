@@ -1,3 +1,12 @@
-.grid_13
-  %h2 #{@realm.name}
-  = link_to t(:edit), edit_realm_path(@realm), :class => 'button formbutton'
+%table
+  %thead
+    %tr
+      %th.show
+        Realm Details
+      %th.show
+  %tbody
+    %tr
+      %td
+        %label Realm Name
+      %td
+        = @realm.name

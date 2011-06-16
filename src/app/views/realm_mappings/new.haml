@@ -10,4 +10,4 @@
   - label_method = @realm_target.realm_or_provider_type == 'Realm' ? 'name_with_provider' : 'name'
   = select_tag 'realm_backend_target[realm_or_provider_id]', options_from_collection_for_select(@backend_targets, 'id', label_method)
   %fieldset
-    = f.submit "Save",  :class => "submit formbutton"
+    = f.submit "Save",  :class => "submit button"

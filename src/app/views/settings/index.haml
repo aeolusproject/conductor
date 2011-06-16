@@ -1,36 +1,42 @@
 = render :partial => 'layouts/admin_header'
-%div#view
-  %ul.tiles{:class => 'container_16'}
-    %li#services.grid_8.disabled
-      = image_tag "blnk.png", :class => "icon", :alt => ""
-      %h2
-        = t('.define_services')
-      %p
-        = t('.define_services_desc')
-      %button{:disabled => "disabled"}
-        = t(:continue)
-    %li#permissions.grid_8
-      = image_tag "blnk.png", :class => "icon", :alt => ""
-      %h2
-        = t('.permissions')
-      %p
-        = t('.permissions_desc')
-      = link_to t(:continue), self_service_settings_path, :class => 'button'
-    %li#settings.grid_8
-      = image_tag "blnk.png", :class => "icon", :alt => ""
-      %h2
-        = t('.general_settings')
-      %p
-        = t('.general_settings_desc')
-      = link_to t(:continue), general_settings_settings_path, :class => 'button'
-    %li#locales.grid_8.disabled
-      = image_tag "blnk.png", :class => "icon", :alt => ""
-      %h2
-        = t('.define_locales')
-      %p
-        = t('.define_locales_desc')
-      %button{:disabled => "disabled"}
-        = t(:continue)
+= render :partial => 'section_header'
+
+%section.content-section.settings
+  %header
+    %h2 Settings
+
+  .content
+    %ul.tiles{:class => 'container_16'}
+      %li#services.grid_8.disabled
+        = image_tag "blnk.png", :class => "icon", :alt => ""
+        %h2
+          = t('.define_services')
+        %p
+          = t('.define_services_desc')
+        %button{:disabled => "disabled"}
+          = t(:continue)
+      %li#permissions.grid_8
+        = image_tag "blnk.png", :class => "icon", :alt => ""
+        %h2
+          = t('.permissions')
+        %p
+          = t('.permissions_desc')
+        = link_to t(:continue), self_service_settings_path, :class => 'button'
+      %li#settings.grid_8
+        = image_tag "blnk.png", :class => "icon", :alt => ""
+        %h2
+          = t('.general_settings')
+        %p
+          = t('.general_settings_desc')
+        = link_to t(:continue), general_settings_settings_path, :class => 'button'
+      %li#locales.grid_8.disabled
+        = image_tag "blnk.png", :class => "icon", :alt => ""
+        %h2
+          = t('.define_locales')
+        %p
+          = t('.define_locales_desc')
+        %button{:disabled => "disabled"}
+          = t(:continue)
 
   :javascript
     $(document).ready(function () {

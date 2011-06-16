@@ -1,4 +1,12 @@
-%h3
-  Properties for
-  = @pool_family.name
-= link_to "Edit", edit_pool_family_path(@pool_family), {:class => 'button'}
+%table
+  %thead
+    %tr
+      %th.show
+        Pool Family Details
+      %th.show
+  %tbody
+    %tr
+      %td
+        %label Name
+      %td
+        = @pool_family.name

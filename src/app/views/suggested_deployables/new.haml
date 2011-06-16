@@ -1,3 +1,10 @@
-%h2 Add new deployable
-- form_for @suggested_deployable, :url => suggested_deployables_path do |f|
-  = render :partial => "form", :locals => { :form => f }
+= render :partial => 'layouts/admin_header'
+= render :partial => 'section_header'
+
+%section.content-section.provider_accounts
+  %header
+    %h2 Add New Deployable
+
+  .content
+    - form_for @suggested_deployable, :url => suggested_deployables_path do |f|
+      = render :partial => "form", :locals => { :form => f }

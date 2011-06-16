@@ -9,8 +9,8 @@ Feature: Manage Suggested Deployables
 
   Scenario: Create new deployable
     Given I am on the suggested deployables page
-    When I follow "Add Deployable"
-    Then I should see "Add new deployable"
+    When I follow "New Deployable"
+    Then I should see "Add New Deployable"
     When I fill in "suggested_deployable[name]" with "test1"
     When I fill in "suggested_deployable[description]" with "description"
     When I fill in "suggested_deployable[url]" with "http://random_url"
@@ -22,7 +22,7 @@ Feature: Manage Suggested Deployables
     And I am on the suggested deployables page
     When I follow "testdepl"
     And I follow "Edit"
-    Then I should see "Edit deployable"
+    Then I should see "Editing Deployable"
     When I fill in "suggested_deployable[name]" with "testdepl-renamed"
     And I press "Save"
     Then I should see "Deployable updated successfully!"
@@ -32,7 +32,7 @@ Feature: Manage Suggested Deployables
     Given a suggested deployable "testdepl" exists
     And I am on the suggested deployables page
     When I follow "testdepl"
-    Then I should see "'testdepl' Deployable"
+    Then I should see "testdepl"
     And I should see "Name"
     And I should see "Description"
     And I should see "URL"
@@ -48,3 +48,12 @@ Feature: Manage Suggested Deployables
     And I should be on the suggested deployables page
     And I should not see "testdepl1"
     And I should not see "testdepl2"
+
+  Scenario: Delete deployable
+    Given a suggested deployable "testdepl1" exists
+    And I am on the suggested deployables page
+    When I follow "testdepl1"
+    And I press "Delete"
+    Then there should be only 0 suggested deployables
+    And I should be on the suggested deployables page
+    And I should not see "testdepl1"
