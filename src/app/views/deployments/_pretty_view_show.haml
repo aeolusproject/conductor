@@ -14,4 +14,6 @@
         %li
           State:
           = instance.state
-
+      - if instance.instance_key
+        %li
+          = link_to("Download key", key_instance_path(instance))
