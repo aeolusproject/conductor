@@ -345,6 +345,10 @@ begin
   parse_log_file(parser) if File.exists? CONDOR_EVENT_LOG_FILE
   logger.info "Parsed existing event log file - current postition: #{get_log_file_pos}"
 
+  # hacky fix for BZ #712316 (better dbomatic implementation in progress)
+  # wait until condor event log file exists
+  sleep 2 until File.exist?(CONDOR_EVENT_LOG_FILE)
+
   # track the modification time of the file for changes
   logfile_timestamp = File.mtime(CONDOR_EVENT_LOG_FILE)
 
