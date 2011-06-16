@@ -36,10 +36,6 @@ Given /^there are these providers:$/ do |table|
   end
 end
 
-Given /^this provider has (\d+) provider images$/ do |number|
-  number.to_i.times { |i| Factory(:legacy_provider_image, :provider => @provider) }
-end
-
 Given /^this provider has (\d+) hardware profiles$/ do |number|
   number.to_i.times { |i| Factory(:mock_hwp1, :provider => @provider) }
 end
@@ -51,10 +47,6 @@ end
 
 Given /^this provider has a provider account$/ do
   Factory(:mock_provider_account, :provider => @provider)
-end
-
-Then /^there should not be any provider images$/ do
-  LegacyProviderImage.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
 end
 
 Then /^there should not be any hardware profiles$/ do

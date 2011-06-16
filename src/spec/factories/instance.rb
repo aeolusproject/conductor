@@ -3,10 +3,16 @@ Factory.define :instance do |i|
   i.sequence(:external_key) { |n| "key#{n}" }
   i.association :hardware_profile, :factory => :mock_hwp1
   i.association :provider_account, :factory => :mock_provider_account
-  i.association :legacy_template, :factory => :legacy_template
   i.association :pool, :factory => :pool
   i.association :owner, :factory => :user
   i.state "running"
+  i.after_build do |instance|
+    deployment = Factory.build :deployment
+    assembly = deployment.deployable_xml.assemblies[0]
+    instance.image_uuid = assembly.image_id
+    instance.image_build_uuid = assembly.image_build
+    instance.assembly_xml = assembly.to_s
+  end
 end
 
 Factory.define :other_owner_instance, :parent => :instance do |i|

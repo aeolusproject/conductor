@@ -6,7 +6,6 @@ Feature: Manage Providers
   Background:
     Given I am an authorised user
     And I am logged in
-    And There is a mock pulp repository
 
   Scenario: List providers
     Given I am on the homepage
@@ -75,7 +74,6 @@ Feature: Manage Providers
   Scenario: Delete a provider
     Given I am on the homepage
     And there is a provider named "provider1"
-    And this provider has 5 provider images
     And this provider has 5 hardware profiles
     And this provider has a realm
     And this provider has a provider account
@@ -83,7 +81,6 @@ Feature: Manage Providers
     And I check "provider1" provider
     And I press "Delete"
     And there should not exist a provider named "provider1"
-    And there should not be any provider images
     And there should not be any hardware profiles
     And there should not be a provider account
     And there should not be a realm

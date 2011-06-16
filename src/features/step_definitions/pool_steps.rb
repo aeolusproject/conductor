@@ -26,8 +26,9 @@ Given /^a pool "([^"]*)" exists with deployment "([^"]*)"$/ do |pool_name, deplo
   pool_family = PoolFamily.find_by_name('default') || Factory(:pool_family)
   quota = Factory(:quota)
   pool = Pool.find_by_name(pool_name) || Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota)
-  deployable = LegacyDeployable.create!(:name => 'deployable1', :owner => User.first)
-  Deployment.create!(:name => deployment_name, :pool => pool, :legacy_deployable => deployable, :owner => User.first)
+  deployment = Deployment.new(:name => deployment_name, :pool => pool, :owner => User.first)
+  deployment.import_xml_from_url("http://localhost/deployables/deployable1.xml")
+  deployment.save!
 end
 
 Then /^I should have a pool named "([^\"]*)"$/ do |name|

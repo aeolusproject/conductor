@@ -6,7 +6,6 @@ Feature: Manage Provider Accounts
   Background:
     Given I am an authorised user
     And I am logged in
-    And There is a mock pulp repository
 
   Scenario: List provider accounts
     Given I am on the homepage

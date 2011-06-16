@@ -55,12 +55,8 @@ Given /^there is a "([^"]*)" stopped instance$/ do |name|
   Factory :instance, :name => name, :state => Instance::STATE_STOPPED
 end
 
-Given /^there is an uploaded image for a template$/ do
-  Factory :legacy_provider_image
-end
-
 Given /^there is "([^"]*)" conductor hardware profile$/ do |name|
-  Factory :mock_hwp2, :name => name
+  Factory :front_hwp1, :name => name
 end
 
 Given /^there is "([^"]*)" frontend realm$/ do |name|
@@ -120,7 +116,7 @@ end
 
 When /^I create mock instance$/ do
   inst = Factory.build :mock_running_instance
-  visit instances_url, :post, 'instance[name]' => inst.name, 'instance[legacy_template_id]' => inst.legacy_template_id
+  visit instances_url, :post, 'instance[name]' => inst.name, 'instance[assembly_xml]' => inst[:deployment_xml], 'instance.image_uuid' => inst.image_uuid, 'instance.image_build_uuid' => inst.image_build_uuid
 end
 
 Then /^I should see mock instance in JSON format$/ do

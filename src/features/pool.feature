@@ -171,7 +171,6 @@ Feature: Manage Pools
     Then I should see "Your Pools" within "section.pools"
 
   Scenario: Display alerts
-    Given There is a mock pulp repository
     And there is a "fail1" failed instance
     When I go to the pools page
     Then I should see "Alerts"

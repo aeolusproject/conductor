@@ -299,8 +299,8 @@ class InstancesController < ApplicationController
     @hardware_profiles = HardwareProfile.all(
       :include => :architecture,
       :conditions => {
-        :provider_id => nil,
-        'hardware_profile_properties.value' => @instance.legacy_template.architecture
+        :provider_id => nil
+       #FIXME arch?
       }
     )
   end

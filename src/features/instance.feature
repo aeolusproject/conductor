@@ -7,7 +7,6 @@ Feature: Manage Instances
   Background:
     Given I am an authorised user
     And I am logged in
-    And There is a mock pulp repository
 
   Scenario: Download an Instance Key
     Given a mock running instance exists
@@ -51,31 +50,13 @@ Feature: Manage Instances
     Then I should get back a partial
     And I should see "mock1"
 
-  Scenario: Launch instance
-    Given there is an uploaded image for a template
-    And I am on the instances page
-    And there is "mock_profile" conductor hardware profile
-    And there is "mock_realm" frontend realm
-    And there is "mock_pool" pool
-    When I press "Create"
-    Then I should see "Show Templates"
-    When I press "Launch"
-    Then I should be on the new instance page
-    When I fill in "instance_name" with "mock1"
-    And I select "mock_profile" from "instance_hardware_profile_id"
-    And I select "mock_pool" from "instance_pool_id"
-    And I select "mock_realm" from "instance_frontend_realm_id"
-    And I press "Launch"
-    Then I should be on the instances page
-    And I should see "mock1"
-
   Scenario: Show instance details
     Given there is a "mock1" instance
     And I am on the instances page
     When I follow "mock1"
     And I should see "Name"
     And I should see "Status"
-    And I should see "Base Template"
+    And I should see "Assembly"
 
   Scenario: Show instance details over XHR
     Given there is a "mock1" instance

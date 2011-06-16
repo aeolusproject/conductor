@@ -1,7 +1,8 @@
 Given /^there is a deployment named "([^"]*)" belonging to "([^"]*)" owned by "([^"]*)"$/ do |deployment_name, deployable_name, owner_name|
   user = Factory(:user, :login => owner_name, :last_name => owner_name)
-  deployable = LegacyDeployable.create!(:name => deployable_name, :owner => user)
-  @deployment = Deployment.create!({:name => deployment_name, :pool => Pool.first, :owner => user, :legacy_deployable_id => deployable.id})
+  @deployment = Deployment.new({:name => deployment_name, :pool => Pool.first, :owner => user})
+  @deployment.import_xml_from_url("http://localhost/deployables/deployable1.xml")
+  @deployment.save
 end
 
 When /^I check "([^"]*)" deployment/ do |name|
@@ -38,9 +39,8 @@ end
 When /^I create a deployment$/ do
   deployment = Factory.build :deployment
   deployment.pool.save!
-  deployment.legacy_deployable.save!
   visit(deployments_url, :post, 'deployment[name]' => deployment.name,
-        'deployment[pool_id]' => deployment.pool.id, 'deployment[legacy_deployable_id]' => deployment.legacy_deployable.id)
+        'deployment[pool_id]' => deployment.pool.id, 'deployment[deployable_xml]' => deployment[:deployable_xml])
 end
 
 Then /^I should get back a deployment in JSON format$/ do
