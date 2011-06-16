@@ -6,7 +6,7 @@
 
 Summary: QMF Console for Aeolus Image Factory
 Name: rubygem-%{gemname}
-Version: 0.3.0
+Version: 0.4.0
 Release: 1%{?dist}%{?extra_release}
 Group: Development/Languages
 License: GPLv2+ or Ruby
@@ -49,5 +49,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jun 16 2011  <jguiditt@redhat.com> - 0.4.0-1
+- Add support for push, build and import methods
 * Thu Mar 10 2011  <morazi@redhat.com> - 0.2.0-1
 - Initial package
