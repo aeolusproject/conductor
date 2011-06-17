@@ -1,6 +1,6 @@
 /* ###########################################################################
 Generated SCSS for Aeolus UI [aeolus_ui]
-Compiled on 2011-06-06 21:29:07 -0700
+Compiled on 2011-06-16 16:13:58 -0700
 ########################################################################### */
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1447,6 +1447,24 @@ div#content .page-header{
   h1.provider_accounts{
     background: transparent url('../../images/header_icon_provider-accounts.png') no-repeat 8px center;
     padding: 6px 7px 7px 60px;
+  }
+
+  h1.hardware_profiles{
+    background: transparent url('../../images/header_icon_hardware-profiles.png') no-repeat 8px center;
+    padding: 6px 7px 7px 46px;
+  }
+
+  h1.realms{
+    background: transparent url('../../images/header_icon_realms.png') no-repeat 8px center;
+  }
+
+  h1.pool_families{
+    background: transparent url('../../images/header_icon_pool-families.png') no-repeat 8px center;
+    padding: 6px 7px 7px 54px;
+  }
+
+  h1.suggested_deployables{
+    background: transparent url('../../images/header_icon_deployables.png') no-repeat 8px center;
   }
 
   h1.settings{
