@@ -1,6 +1,6 @@
 /* ###########################################################################
 Generated SCSS for Aeolus UI [aeolus_ui]
-Compiled on 2011-06-16 16:13:58 -0700
+Compiled on 2011-06-16 17:12:35 -0700
 ########################################################################### */
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -701,7 +701,7 @@ http://github.com/necolas/css3-github-buttons
 ------------------------------------------ */
 
 
-/* ------------------------------------------------------------------------------------------------------------- BUTTON */
+/* ----------------------------------------------------------------- BUTTON */
 
 .button {
     position: relative;
@@ -767,7 +767,7 @@ http://github.com/necolas/css3-github-buttons
     border: 0;
 }
 
-/* ............................................................................................................. Icons */
+/* ------------------------------------------------------------------ Icons */
 
 .button.icon:before {
     content: "";
@@ -936,15 +936,15 @@ http://github.com/necolas/css3-github-buttons
 .button.user.icon:active:before { background-position: -12px -360px; }
 
 
-/* ------------------------------------------------------------------------------------------------------------- BUTTON EXTENSIONS */
+/* ------------------------------------------------------ BUTTON EXTENSIONS */
 
-/* ............................................................................................................. Primary */
+/* ---------------------------------------------------------------- Primary */
 
 .button.primary {
     font-weight: bold;
 }
 
-/* ............................................................................................................. Danger */
+/* ----------------------------------------------------------------- Danger */
 
 .button.danger {
     color: #900;
@@ -974,7 +974,7 @@ http://github.com/necolas/css3-github-buttons
     background-image: linear-gradient(#b33630, #dc5f59);
 }
 
-/* ............................................................................................................. Pill */
+/* ------------------------------------------------------------------- Pill */
 
 .button.pill {
     -webkit-border-radius: 50em;
@@ -982,13 +982,13 @@ http://github.com/necolas/css3-github-buttons
     border-radius: 50em;
 }
 
-/* ............................................................................................................. Disable */
+/* ---------------------------------------------------------------- Disable */
 
 .button.disable {
     opacity: 0.5;
 }
 
-/* ............................................................................................................. Big */
+/* -------------------------------------------------------------------- Big */
 
 .button.big {
     font-size: 14px;
@@ -997,9 +997,9 @@ http://github.com/necolas/css3-github-buttons
 .button.big.icon:before { top: 0; }
 
 
-/* ------------------------------------------------------------------------------------------------------------- BUTTON GROUPS */
+/* ---------------------------------------------------------- BUTTON GROUPS */
 
-/* ............................................................................................................. Standard */
+/* --------------------------------------------------------------- Standard */
 
 .button-group {
     display: inline-block;
@@ -1057,7 +1057,7 @@ http://github.com/necolas/css3-github-buttons
     border-bottom-left-radius: 0;
 }
 
-/* ............................................................................................................. Minor */
+/* ------------------------------------------------------------------ Minor */
 
 .button-group.minor-group .button {
     border: 1px solid #d4d4d4;
@@ -1081,12 +1081,52 @@ http://github.com/necolas/css3-github-buttons
     opacity: 0.8;
 }
 
-/* ------------------------------------------------------------------------------------------------------------- BUTTON CONTAINER */
+/* ------------------------------------------------------- BUTTON CONTAINER */
 /* For mixing buttons and button groups, e.g., in a navigation bar */
 
 .button-container .button,
 .button-container .button-group {
     vertical-align: top;
+}
+/* --------------------------------------------------------- CUSTOM BUTTONS */
+
+span.view-toggle{
+  display: inline-block;
+}
+
+a.view-toggle{
+  background: url('../../images/button-viewtoggle.png') no-repeat top left;
+  display: block;
+  float:left;
+  width: 38px;
+  height: 27px;
+}
+
+a.view-toggle span{
+  position: absolute;
+  top: -999em;
+}
+
+a.view-toggle.pretty{
+  &:active{
+    background-position: -75px 0px;
+  }
+}
+
+a.view-toggle.filter{
+  width: 36px;
+  background-position: -39px 0px;
+  &:active{
+    background-position: -114px 0px;
+  }
+}
+
+a.view-toggle.pretty.active{
+  background-position: -75px 0px;
+}
+
+a.view-toggle.filter.active{
+  background-position: -114px 0px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

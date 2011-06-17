@@ -38,7 +38,7 @@ Feature: Manage Instances
     And I am on the home page
     When I follow "Monitor"
     Then I should be on the pools page
-    When I follow "Filter View"
+    When I follow link with ID "filter_view"
     And I follow "Instances"
     Then I should be on the pools page
     And I should see "mock1"

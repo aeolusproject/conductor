@@ -94,15 +94,21 @@ var Conductor = {
 
   bind_pretty_toggle: function() {
     Conductor.nicelyHookAjaxClick($("#pretty_view"), function() {
+      var link_element = this;
       $.get($(this).attr("href"), $(this).serialize(), function(result) {
         $('#content .toggle-view').html(result);
+        $(link_element).addClass('active');
+        $("#filter_view").removeClass('active');
       });
     });
     Conductor.nicelyHookAjaxClick($("#filter_view"), function() {
+      var link_element = this;
       $.get($(this).attr("href"), $(this).serialize(), function(result) {
         $('#content .toggle-view').html(result);
         $('#details-selected').hide();
         $('#details-view').tabs();
+        $(link_element).addClass('active');
+        $("#pretty_view").removeClass('active');
       });
     });
   },
