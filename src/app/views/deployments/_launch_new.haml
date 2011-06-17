@@ -32,7 +32,6 @@
         Choose a realm
         = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
       = submit_tag 'Next', :class => 'button'
-' -- user-entered deployable aren't really any more "custom" than suggested deployables -- they all go to an arbitrary httpd uRL to pull content.
 
 :javascript
   // FIXME: This has a theoretical race condition: if responses come back out of order, the value
