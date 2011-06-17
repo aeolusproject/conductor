@@ -58,12 +58,6 @@ namespace :dc do
   end
 
 
-  desc 'Download and parse repository xml files'
-  task :prepare_repos => :environment do |t, args|
-    require 'util/repository_manager'
-    RepositoryManager.new.repositories.each { |repo| repo.prepare_repo if repo.type == 'xml' }
-  end
-
   desc 'Create user "admin" for CloudEngine'
   task :create_admin_user => :environment do
     Rake::Task[:'dc:create_user'].invoke('admin', 'password', 'admin@aeolusproject.org', 'Administrator', 'Administrator')
