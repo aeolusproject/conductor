@@ -26,6 +26,11 @@ Given /^a deployment "([^"]*)" exists$/ do |arg1|
   Factory(:deployment, :name => arg1) unless Deployment.find_by_name(arg1)
 end
 
+Given /^the deployment "([^"]*)" has an instance named "([^"]*)"$/ do |d_name, i_name|
+  deployment = Deployment.find_by_name(d_name)
+  deployment.instances << Factory(:instance, :name => i_name)
+end
+
 When /^I am viewing the deployment "([^"]*)"$/ do |arg1|
   visit deployment_url(Deployment.find_by_name(arg1))
 end

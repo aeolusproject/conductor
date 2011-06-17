@@ -116,10 +116,11 @@ Feature: Manage Deployments
 
   Scenario: View a deployment via XHR
     And a deployment "mockdeployment" exists
+    And the deployment "mockdeployment" has an instance named "myinstance"
     And I request XHR
     When I am viewing the deployment "mockdeployment"
     Then I should get back a partial
-    And I should see "mockdeployment"
+    And I should see "myinstance"
 
   Scenario: Create a deployment and get JSON response
     And I accept JSON
