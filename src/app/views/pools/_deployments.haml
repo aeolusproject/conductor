@@ -1,6 +1,14 @@
-%ul.deployments_list
-  - deployments.each do |deployment|
-    %li
-      =deployment.name
-      =count_uptime(deployment.created_at)
-      =deployment.instances.count if deployment.instances
+- deployments.in_groups_of(5, false) do |group|
+  %ul.deployment-array.small
+    - group.each do |deployment|
+      %li.deployment
+        %h3.name
+          = link_to deployment.name, deployment_path(deployment)
+        %dl.statistics
+          %ul
+            %li.left
+              %dt.uptime Uptime
+              %dd= count_uptime(deployment.created_at || Time.now)
+            %li.right
+              %dt.instances.count Instances
+              %dd= deployment.instances.count || 0

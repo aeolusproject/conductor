@@ -1,6 +1,6 @@
 /* ###########################################################################
 Generated SCSS for Aeolus UI [aeolus_ui]
-Compiled on 2011-06-16 17:12:35 -0700
+Compiled on 2011-06-16 22:42:20 -0700
 ########################################################################### */
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1718,180 +1718,6 @@ section.content-section{
     margin-top: 0px;
   }
 
-  /* Deployment Array */
-
-  ul.deployable-cards{
-    margin-top: 16px;
-    list-style: none;
-  }
-
-  ul.deployable-cards > li{
-    display: inline-block;
-  }
-
-  ul.deployable-cards > li + li{
-    margin-left: 26px;
-  }
-
-  div.deployable{
-    background-color: #e5e5e5;
-    -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
-    border: 1px solid #ccc;
-    width: 154px;
-    height: 154px;
-    font-family: $font-family-primary;
-
-    h3{
-      font-size: 13px;
-      font-weight: 200;
-      color: #333;
-      padding: 6px;
-      display: block;
-    }
-
-    hr{
-      background-image: url('../../images/deploy_separator_dark.png') repeat-x bottom left;
-      display: block;
-      height: 2px;
-    }
-
-    span.alert{
-      display: block;
-      margin: 10px;
-      font-size: 13px;
-      font-weight: 200;
-      color: #fff;
-    }
-
-    span.alert.warn{
-      padding-left: 24px;
-      background: transparent url('../../images/alert_icon_warn_white.png') no-repeat 6px 0px;
-    }
-
-    ul.statistics{
-      list-style: none;
-      margin: 8px;
-      li{
-        display: block;
-
-        span.uptime{
-          display: inline-block;
-          font-size: 14px;
-          height: 16px;
-          padding: 2px;
-          padding-left: 24px;
-          color: #fff;
-          background: transparent url('../../images/deploy_icon_uptime.png') no-repeat 6px 0px;
-        }
-
-        span.instance{
-          display: inline-block;
-          height: 16px;
-          padding: 2px;
-          padding-left: 24px;
-          font-size: 14px;
-          color: #fff;
-          background: transparent url('../../images/deploy_icon_instance.png') no-repeat 6px 0px;
-        }
-
-      }
-      li + li{
-        margin-top: 6px;
-      }
-    }
-
-    span.provider{
-      display: block;
-      margin: 10px;
-      font-size: 13px;
-      font-weight: 200;
-      color: #fff;
-      padding-left: 34px;
-      background: transparent url('../../images/deploy_icon_provider.png') no-repeat 6px 0px;
-    }
-  }
-
-  div.deployable.alert{
-    background-image: -moz-linear-gradient(top, rgba(174,4,4,1), rgba(136,0,0, 1));
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(174,4,4,1)), to(rgba(136,0,0, 1)));
-    -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
-    border: 1px solid #990000;
-    width: 154px;
-    height: 154px;
-    font-family: $font-family-primary;
-
-    h3{
-      font-size: 13px;
-      font-weight: 200;
-      color: #fff;
-      padding: 6px;
-      display: block;
-      background-color: #A10303;
-    }
-
-    hr{
-      background-image: url('../../images/deploy_separator_dark.png') repeat-x bottom left;
-      display: block;
-      height: 2px;
-    }
-
-    span.alert{
-      display: block;
-      margin: 10px;
-      font-size: 13px;
-      font-weight: 200;
-      color: #fff;
-    }
-
-    span.alert.warn{
-      padding-left: 24px;
-      background: transparent url('../../images/alert_icon_warn_white.png') no-repeat 6px 0px;
-    }
-
-    ul.statistics{
-      list-style: none;
-      margin: 8px;
-      li{
-        display: block;
-
-        span.uptime{
-          display: inline-block;
-          font-size: 14px;
-          height: 16px;
-          padding: 2px;
-          padding-left: 24px;
-          color: #fff;
-          background: transparent url('../../images/deploy_icon_uptime.png') no-repeat 6px 0px;
-        }
-
-        span.instance{
-          display: inline-block;
-          height: 16px;
-          padding: 2px;
-          padding-left: 24px;
-          font-size: 14px;
-          color: #fff;
-          background: transparent url('../../images/deploy_icon_instance.png') no-repeat 6px 0px;
-        }
-
-      }
-      li + li{
-        margin-top: 6px;
-      }
-    }
-
-    span.provider{
-      display: block;
-      margin: 10px;
-      font-size: 13px;
-      font-weight: 200;
-      color: #fff;
-      padding-left: 34px;
-      background: transparent url('../../images/deploy_icon_provider.png') no-repeat 6px 0px;
-    }
-
-  }
-
 }
 
 header.page-header + section.content-section{
@@ -2219,6 +2045,289 @@ div.pool.overview.collapsed + div.pool.overview{
 
 header + div.pool.overview{
   margin-top: 16px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Deployment Components -- v.0.0.1 [deployment] (deployment.scss)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+$font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-em: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
+
+/* Deployment Array */
+
+ul.deployable-cards{
+  margin-top: 16px;
+  list-style: none;
+
+  li{
+    display: inline-block;
+  }
+
+  li + li{
+    margin-left: 26px;
+  }
+
+  div.deployable{
+    background-color: #e5e5e5;
+    -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+    border: 1px solid #ccc;
+    width: 154px;
+    height: 154px;
+    font-family: $font-family-primary;
+
+    h3{
+      font-size: 13px;
+      font-weight: 200;
+      color: #333;
+      padding: 6px;
+      display: block;
+    }
+
+    hr{
+      background-image: url('../../images/deploy_separator_dark.png') repeat-x bottom left;
+      display: block;
+      height: 2px;
+    }
+
+    span.alert{
+      display: block;
+      margin: 10px;
+      font-size: 13px;
+      font-weight: 200;
+      color: #fff;
+    }
+
+    span.alert.warn{
+      padding-left: 24px;
+      background: transparent url('../../images/alert_icon_warn_white.png') no-repeat 6px 0px;
+    }
+
+    ul.statistics{
+      list-style: none;
+      margin: 8px;
+      li{
+        display: block;
+
+        span.uptime{
+          display: inline-block;
+          font-size: 14px;
+          height: 16px;
+          padding: 2px;
+          padding-left: 24px;
+          color: #fff;
+          background: transparent url('../../images/deploy_icon_uptime.png') no-repeat 6px 0px;
+        }
+
+        span.instance{
+          display: inline-block;
+          height: 16px;
+          padding: 2px;
+          padding-left: 24px;
+          font-size: 14px;
+          color: #fff;
+          background: transparent url('../../images/deploy_icon_instance.png') no-repeat 6px 0px;
+        }
+
+      }
+      li + li{
+        margin-top: 6px;
+      }
+    }
+
+    span.provider{
+      display: block;
+      margin: 10px;
+      font-size: 13px;
+      font-weight: 200;
+      color: #fff;
+      padding-left: 34px;
+      background: transparent url('../../images/deploy_icon_provider.png') no-repeat 6px 0px;
+    }
+  }
+
+  div.deployable.alert{
+    background-image: -moz-linear-gradient(top, rgba(174,4,4,1), rgba(136,0,0, 1));
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(174,4,4,1)), to(rgba(136,0,0, 1)));
+    -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+    border: 1px solid #990000;
+    width: 154px;
+    height: 154px;
+    font-family: $font-family-primary;
+
+    h3{
+      font-size: 13px;
+      font-weight: 200;
+      color: #fff;
+      padding: 6px;
+      display: block;
+      background-color: #A10303;
+    }
+
+    hr{
+      background-image: url('../../images/deploy_separator_dark.png') repeat-x bottom left;
+      display: block;
+      height: 2px;
+    }
+
+    span.alert{
+      display: block;
+      margin: 10px;
+      font-size: 13px;
+      font-weight: 200;
+      color: #fff;
+    }
+
+    span.alert.warn{
+      padding-left: 24px;
+      background: transparent url('../../images/alert_icon_warn_white.png') no-repeat 6px 0px;
+    }
+
+    ul.statistics{
+      list-style: none;
+      margin: 8px;
+      li{
+        display: block;
+
+        span.uptime{
+          display: inline-block;
+          font-size: 14px;
+          height: 16px;
+          padding: 2px;
+          padding-left: 24px;
+          color: #fff;
+          background: transparent url('../../images/deploy_icon_uptime.png') no-repeat 6px 0px;
+        }
+
+        span.instance{
+          display: inline-block;
+          height: 16px;
+          padding: 2px;
+          padding-left: 24px;
+          font-size: 14px;
+          color: #fff;
+          background: transparent url('../../images/deploy_icon_instance.png') no-repeat 6px 0px;
+        }
+
+      }
+      li + li{
+        margin-top: 6px;
+      }
+    }
+
+    span.provider{
+      display: block;
+      margin: 10px;
+      font-size: 13px;
+      font-weight: 200;
+      color: #fff;
+      padding-left: 34px;
+      background: transparent url('../../images/deploy_icon_provider.png') no-repeat 6px 0px;
+    }
+
+  }
+
+}
+
+/********************************************* Small Deployable Card Arrays */
+
+$deployment-small-height: 84px;
+$deployment-small-width: 174px;
+$deployment-small-padding: 8px;
+
+ul.deployment-array.small{
+
+  margin-top: 10px;
+  list-style: none;
+  display: table;
+
+  li.deployment{
+    display: table-cell;
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #efefef;
+    -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+    padding: $deployment-small-padding;
+    width: $deployment-small-width - ($deployment-small-padding * 2);
+    height: $deployment-small-height - ($deployment-small-padding * 2);
+    overflow: hidden;
+
+    h3.name{
+      font-family: $font-family-base;
+      font-weight: normal;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    dl.statistics{
+      ul{list-style: none;}
+      li{display: inline-block;}
+      li.left{text-align: left;}
+      li.right{text-align: right; float: right;}
+      dt{font-size: 9px; text-transform: uppercase; padding: 4px; color: #999; display: block; margin-bottom: 4px;}
+      dt.uptime{
+        padding-left: 20px;
+        background: url('../../images/deployment_small_icon_uptime.png') no-repeat top left;
+      }
+      dt.count.instances{
+        padding-right: 20px;
+        background: url('../../images/deployment_small_icon_instances.png') no-repeat top right;
+      }
+      dd{
+        font-family: $font-family-primary;
+        font-size: 13px;
+        color: #666;
+      }
+    }
+
+  }
+
+  li.deployment + li.deployment{
+    margin-left: 14px;
+  }
+
+  li.deployment.pending, li.deployment.alert, li.deployment.failure{
+    h3.name{margin: 0; margin-bottom: 8px; color: #fff;}
+  }
+
+  /* pending */
+  li.deployment.pending{
+    background: #efefef url('../../images/deployment_small_pending_bg.png') no-repeat bottom right;
+    h3.name{color: #333;}
+    span.status{
+      font-family: $font-family-primary;
+      font-size: 13px;
+      color: #333;
+    }
+  }
+
+  /* alert */
+  li.deployment.alert{
+    background: url('../../images/deployment_small_alert_bg.png') no-repeat bottom right;
+    span.alert-type{display: block; font-size: 13px; color: #fff; font-weight: normal;}
+    span.occurred-at{
+      font-family: $font-family-primary;
+      font-size: 11px;
+      color: #fff;
+    }
+  }
+
+  /* failure */
+  li.deployment.failure{
+    background: url('../../images/deployment_small_failure_bg.png') no-repeat bottom right;
+    span.failure-type{display: block; font-size: 13px; color: #fff; font-weight: normal;}
+    span.occurred-at{
+      font-family: $font-family-primary;
+      font-size: 11px;
+      color: #fff;
+    }
+  }
+
+}
+
+ul.deployment-array.small + ul.deployment-array.small{
+  margin-top: 10px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

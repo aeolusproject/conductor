@@ -4,7 +4,7 @@
 
 .content
   - @pools.each do |pool|
-    %div.pool.overview{:id => ['pool', pool.id]}
+    %div.pool.overview{:id => ['pool', pool.id], :class => ('collapsed' unless pool.deployments.count > 0)}
       %header
         %h3.name
           %a{:href => pool_path(pool)}= pool.name
@@ -20,10 +20,10 @@
               %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR }.length
             %li
               %dt Quota Used
-              %dd.percentage.quota= pool.quota ? pool.quota.percentage_used.to_s + "%" : 'unlimited'
+              %dd.percentage.quota= pool.quota ? pool.quota.percentage_used.to_s + "%" : '&infin;'
         %a.control{:href => '#'}
           %span Expand/Collapse
-      %div.content.deployment-array
+      %div.content
         = render :partial => 'deployments', :locals => {:deployments => pool.deployments}
       %ul.content.actions
         %li
@@ -35,7 +35,6 @@
   $(document).ready(function() {
     $('div.pool').each(function(){
       var this_pool = this;
-      $(this).addClass('collapsed');
       $(this).find('header a.control').click(function(){
         $(this_pool).toggleClass('collapsed');
         return false;

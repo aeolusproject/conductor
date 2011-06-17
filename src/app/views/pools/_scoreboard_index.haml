@@ -17,14 +17,14 @@
         %ul.subgroup
           %li
             %dt= t("alerts")
-            %dd.count.alert 3
+            %dd.count.alert= @statistics[:instances_failed]
           %li
             %dt= t("updates")
             %dd.count.update 0
       %li
         %dt= t("pools.index.quota_used")
-        %dd.percentage.quota 86%
+        %dd.percentage.quota 0%
         %dd.fraction.instance
-          %span.part 21
+          %span.part 0
           %span.divider.label.small.caps of
-          %span.total 25
+          %span.total 0
