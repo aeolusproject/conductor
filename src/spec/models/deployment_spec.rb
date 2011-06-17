@@ -61,8 +61,8 @@ describe Deployment do
   it "should launch instances when launching deployment" do
     @deployment.save!
     @deployment.instances.should be_empty
-    hwp_ids = {}
-    @deployment.launch(hwp_ids, Factory(:user))[:errors].should be_empty
+    @deployment.stub!(:condormatic_instance_create).and_return(true)
+    @deployment.launch(Factory(:user))[:errors].should be_empty
     @deployment.instances.count.should == 2
   end
 

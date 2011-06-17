@@ -33,6 +33,12 @@ ProviderAccount.class_eval do
 #  end
 end
 
+Deployment.class_eval do
+  def condormatic_instance_create(task)
+    true
+  end
+end
+
 InstanceKey.class_eval do
   def replace_on_server(addr, new)
     true

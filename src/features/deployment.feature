@@ -38,6 +38,8 @@ Feature: Manage Deployments
     When I press "Launch"
     Then I should see "Deployment launched"
     Then I should see "mynewdeployment Deployment"
+    And I should see "mynewdeployment/frontend"
+    And I should see "mynewdeployment/backend"
 
   Scenario: Launch new deployment over XHR
     Given a pool "mockpool" exists

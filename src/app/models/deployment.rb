@@ -119,11 +119,12 @@ class Deployment < ActiveRecord::Base
     instances.all? {|i| i.destroyable? }
   end
 
-  def launch(hw_profiles, user)
+  def launch(user)
     status = { :errors => {}, :successes => {} }
     deployable_xml.assemblies.each do |assembly|
       # TODO: for now we try to start all instances even if some of them fails
       begin
+        task = nil
         Instance.transaction do
           hw_profile = HardwareProfile.frontend.find_by_name(assembly.hwp)
           raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
@@ -142,9 +143,13 @@ class Deployment < ActiveRecord::Base
           task = InstanceTask.create!({:user        => user,
                                        :task_target => instance,
                                        :action      => InstanceTask::ACTION_CREATE})
-          condormatic_instance_create(task)
         end
-        status[:successes][assembly.name] = 'launched'
+        condormatic_instance_create(task)
+        if task.state == Task::STATE_FAILED
+          status[:errors][assembly.name] = 'failed'
+        else
+          status[:successes][assembly.name] = 'launched'
+        end
       rescue
         logger.error $!
         logger.error $!.backtrace.join("\n    ")

@@ -54,7 +54,7 @@ class DeploymentsController < ApplicationController
     @deployment.owner = current_user
     respond_to do |format|
       if @deployment.save
-        status = @deployment.launch(params[:hw_profiles] || {}, current_user)
+        status = @deployment.launch(current_user)
         if status[:errors].empty?
           flash[:notice] = "Deployment launched"
         else
