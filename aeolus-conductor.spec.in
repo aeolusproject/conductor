@@ -153,8 +153,7 @@ rb="app/models app/controllers \
     app/services app/util \
     config config/initializers config/environments db db/migrate dutils \
     features/support features/step_definitions lib public spec \
-    spec/controllers spec/factories spec/helpers spec/models spec/services \
-    warehouse_sync"
+    spec/controllers spec/factories spec/helpers spec/models spec/services"
 rhtml="app/views/layouts"
 scss="app/stylesheets"
 svg="public/images public/images/icons public/javascripts/jquery-svg"
@@ -189,16 +188,12 @@ done
 %{__mkdir} -p %{buildroot}%{app_root}/dbomatic
 %{__cp} src/dbomatic/dbomatic %{buildroot}%{app_root}/dbomatic
 
-%{__mkdir} -p %{buildroot}%{app_root}/warehouse_sync
-%{__cp} src/warehouse_sync/warehouse_sync-server %{buildroot}%{app_root}/warehouse_sync
-
 # move documentation to the correct place
 %{__cp} src/doc/* %{buildroot}/%{doc_root}
 
 # copy over init scripts and various config
 %{__cp} conf/aeolus-conductor %{buildroot}%{_initrddir}
 %{__cp} conf/conductor-dbomatic %{buildroot}%{_initrddir}
-%{__cp} conf/conductor-warehouse_sync %{buildroot}%{_initrddir}
 %{__cp} conf/conductor-delayed_job %{buildroot}%{_initrddir}
 %{__cp} conf/aeolus-conductor-httpd.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/aeolus-conductor.conf
 %{__cp} conf/aeolus-conductor.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/aeolus-conductor
@@ -215,7 +210,6 @@ touch %{buildroot}%{_localstatedir}/log/%{name}/thin.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/dbomatic.log
 touch %{buildroot}%{_localstatedir}/run/%{name}/event_log_position
-touch %{buildroot}%{_localstatedir}/log/%{name}/warehouse_sync.log
 
 %{__mkdir} -p %{buildroot}%{app_root}/log
 touch %{buildroot}%{app_root}/log/delayed_job.log
@@ -258,7 +252,6 @@ fi
 # Register the services
 /sbin/chkconfig --add aeolus-conductor
 /sbin/chkconfig --add conductor-dbomatic
-/sbin/chkconfig --add conductor-warehouse_sync
 /sbin/chkconfig --add conductor-delayed_job
 
 %preun daemons
@@ -267,8 +260,6 @@ if [ $1 = 0 ]; then
    /sbin/chkconfig --del aeolus-conductor
    /sbin/service conductor-dbomatic stop > /dev/null 2>&1
    /sbin/chkconfig --del conductor-dbomatic
-   /sbin/service conductor-warehouse_sync stop > /dev/null 2>&1
-   /sbin/chkconfig --del conductor-warehouse_sync
    /sbin/service conductor-delayed_job stop > /dev/null 2>&1
    /sbin/chkconfig --del conductor-delayed_job
 fi
@@ -288,7 +279,6 @@ fi
 %{app_root}/Rakefile
 %{app_root}/script/delayed_job
 %{app_root}/solr
-%{app_root}/warehouse_sync
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
 
@@ -296,7 +286,6 @@ fi
 %defattr(-,root,root,-)
 %{_initrddir}/aeolus-conductor
 %{_initrddir}/conductor-dbomatic
-%{_initrddir}/conductor-warehouse_sync
 %{_initrddir}/conductor-delayed_job
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/aeolus-conductor
