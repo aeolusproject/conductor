@@ -130,7 +130,7 @@ class Deployment < ActiveRecord::Base
           instance = Instance.create!(
             :deployment => self,
             :name => "#{name}/#{assembly.name}",
-            :frontend_realm => realm,
+            :frontend_realm => frontend_realm,
             :pool => pool,
             :image_uuid => assembly.image_id,
             :image_build_uuid => assembly.image_build,

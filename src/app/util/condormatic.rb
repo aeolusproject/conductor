@@ -50,9 +50,11 @@ def match(instance)
 
       provider_images.select {|pi| pi.provider == account.provider}.each do |pi|
         if not instance.frontend_realm.nil?
-          instance.frontend_realm.realm_backend_targets.each do |brealm|
-            possibles << Possible.new(pool_family, account, hwp, pi,
-                                      brealm.realm)
+          instance.frontend_realm.realm_backend_targets.each do |brealm_target|
+            if brealm_target.target_provider == account.provider
+              possibles << Possible.new(pool_family, account, hwp, pi,
+                                        brealm_target.target_realm)
+            end
           end
         else
           possibles << Possible.new(pool_family, account, hwp, pi, nil)
