@@ -5,8 +5,8 @@
 
 -# TODO: Actually design nav for the Administer section.
 -# Ugly hack to avoid moving files around for the moment.. Abs position the nav :/
-#tab_actions{:style => "margin-bottom: 5px;"}
-  %span.label.small Control Panels
+#tab_actions{:style => "position: absolute; top: -32px; right: 0px;"}
+  %label.label.small{:for => 'admin-section-select'} Control Panels
   %select#admin-section-select
     %option{:value => users_path} Choose section...
     %option{:value => users_path} Users
