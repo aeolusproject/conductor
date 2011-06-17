@@ -1,29 +1,37 @@
 = if request.xhr?
-  = render :partial => '/layouts/notification'
+  = render :partial => '/layouts/new_notification'
 %header.page-header
-  %h1
+  %h1{:class => controller.controller_name}
     New Deployment in
     = @pool.name
-%h2
-  Deployment Details
-- form_for :deployment, {:url => new_deployment_path, :method => :get} do
-  = hidden_field :deployment, :pool_id
-  %p
-    What do you want to launch?
-  %p
-    Select the Deployable definition
-    = select_tag :suggested_deployable_id, options_for_select([['custom -- type bellow', 'custom']] + @suggested_deployables.map {|d| [d.name, d.id]}, params[:suggested_deployable_id])
-  %p
-    Or provide the URL of the Deployable definition
-    = text_field('deployable', 'url')
-  %p
-    Name your deployment
-    = text_field(:deployment, :name)
-    %span.name_available
-  %p
-    Choose a realm
-    = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
-  = submit_tag('Next')
+  #obj_actions.button-container
+    = link_to 'Cancel', pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
+  .corner &nbsp;
+
+%section.content-section.deployment
+  %header
+    %h2
+      Deployment Details
+
+  .content
+    - form_for :deployment, {:url => new_deployment_path, :method => :get} do
+      = hidden_field :deployment, :pool_id
+      %p
+        What do you want to launch?
+      %p
+        Select the Deployable definition
+        = select_tag :suggested_deployable_id, options_for_select([['custom -- type bellow', 'custom']] + @suggested_deployables.map {|d| [d.name, d.id]}, params[:suggested_deployable_id])
+      %p
+        Or provide the URL of the Deployable definition
+        = text_field('deployable', 'url')
+      %p
+        Name your deployment
+        = text_field(:deployment, :name)
+        %span.name_available
+      %p
+        Choose a realm
+        = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
+      = submit_tag 'Next', :class => 'button'
 
 :javascript
   // FIXME: This has a theoretical race condition: if responses come back out of order, the value

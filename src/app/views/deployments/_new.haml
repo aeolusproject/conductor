@@ -1,10 +1,11 @@
 = error_messages_for 'deployment'
 %header.page-header
-  %h1
+  %h1{:class => controller.controller_name}
     Deployment
     = @deployment.name
-%h2
-  Launch Summary
+  #obj_actions.button-container
+    = link_to 'Cancel', pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
+  .corner &nbsp;
 
 #scoreboard
   %dl.statistics
@@ -16,44 +17,52 @@
         %dt= t("deployments.deployment")
         %dd= @deployment.name
       %li
-        = link_to('view deployable definition', '#')
+        %dt deployable definition
+        %dd= link_to('view', '#')
 
-%h2
-  Deployable details
+%section.content-section.deployable_details
+  %header
+    %h2
+      Deployable details
 
-%ul
-  %li
-    Name:
-    = @deployment.deployable_xml.name
-  %li
-    Description:
-    = @deployment.deployable_xml.description
-  %li
+  .content
 
-%h2
-  Assemblies
+    %ul
+      %li
+        Name:
+        = @deployment.deployable_xml.name
+      %li
+        Description:
+        = @deployment.deployable_xml.description
 
-= filter_table([{:name => 'Assembly Name'},
-                {:name => 'Hardware Profile'},
-		{:name => 'Image ID'},
-		{:name => 'Build ID'}],
-               @deployment.deployable_xml.assemblies) do |assembly|
-  %tr
-    %td
-      = assembly.name
-    %td
-      = assembly.hwp
-    %td
-      = assembly.image_id
-    %td
-      = assembly.image_build
+%section.content-section.deployable_details
+  %header
+    %h2
+      Assemblies
 
-- form_for @deployment do
-  = hidden_field :deployment, :name
-  = hidden_field :deployment, :pool_id
-  = hidden_field :deployment, :frontend_realm_id
-  -# FIXME: Passing chunks of XML around in hidden form fields doesn't feel right
-  = hidden_field :deployment, :deployable_xml
-  = submit_tag 'Launch'
+  .content
 
--# Quota checking to go here as well, once I understand how it works with new code
+    = filter_table([{:name => 'Assembly Name'},
+                    {:name => 'Hardware Profile'},
+        {:name => 'Image ID'},
+        {:name => 'Build ID'}],
+                   @deployment.deployable_xml.assemblies) do |assembly|
+      %tr
+        %td
+          = assembly.name
+        %td
+          = assembly.hwp
+        %td
+          = assembly.image_id
+        %td
+          = assembly.image_build
+
+    - form_for @deployment do
+      = hidden_field :deployment, :name
+      = hidden_field :deployment, :pool_id
+      = hidden_field :deployment, :frontend_realm_id
+      -# FIXME: Passing chunks of XML around in hidden form fields doesn't feel right
+      = hidden_field :deployment, :deployable_xml
+      = submit_tag 'Launch', :class => 'button'
+
+    -# Quota checking to go here as well, once I understand how it works with new code
