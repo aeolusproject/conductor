@@ -224,7 +224,7 @@ class DeploymentsController < ApplicationController
   end
 
   def get_deployable_url
-    if params[:suggested_deployable_id].to_s == 'custom'
+    if params[:suggested_deployable_id].to_s == 'other'
       url = params[:deployable] ? params[:deployable][:url] : nil
     else
       sdeployable = SuggestedDeployable.find(params[:suggested_deployable_id])
