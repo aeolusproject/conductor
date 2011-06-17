@@ -134,7 +134,8 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/realms app/views/pool_families app/views/layouts\
       app/views/quotas app/views/permissions \
       app/views/deployments app/views/pools \
-      app/views/instances app/views/user_sessions"
+      app/views/instances app/views/user_sessions \
+      app/views/suggested_deployables"
 html="public"
 ico="public"
 jpg="public/images public/stylesheets/images"
