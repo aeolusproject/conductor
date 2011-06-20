@@ -1,8 +1,8 @@
 %header.page-header
   %h1.pools
     = [@pool.name, "Pool"].join(' ')
-  = pretty_filter_toggle(pool_path(@pool, :view => 'pretty'), pool_path(@pool, :view => 'filter'))
   #obj_actions.button-container
+    = pretty_filter_toggle(pool_path(@pool, :view => 'pretty'), pool_path(@pool, :view => 'filter'))
     = link_to 'New Deployment', launch_new_deployments_path(:pool_id => @pool.id), :class => 'button primary', :id => 'new_deployment_button'
     -# ditch form_for since it doesn't allow specification of a CSS class.
     %form.button-group{:action => pool_url(@pool), :method => 'POST'}
