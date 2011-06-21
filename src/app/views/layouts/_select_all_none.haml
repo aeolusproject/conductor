@@ -1,0 +1,5 @@
+%p
+  Select:&nbsp;
+  = link_to "All", params.merge(:select => 'all')
+  %span> ,&nbsp;
+  = link_to "None", params.merge(:select => 'none')

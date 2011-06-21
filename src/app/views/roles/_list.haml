@@ -6,12 +6,8 @@
   .content
     - form_tag multi_destroy_roles_path do
       = submit_tag "Delete", :id => 'delete_button', :class => 'button'
-      %p
-        Select:&nbsp;
-        = link_to "All", @url_params.merge(:select => 'all')
-        %span> ,&nbsp;
-        = link_to "None", @url_params.merge(:select => 'none')
 
+      = render :partial => 'layouts/select_all_none'
       %table#roles_table.checkbox_table
         %thead
           %tr
@@ -20,6 +16,6 @@
         - @roles.each do |role|
           %tr{:class => cycle('stripe')}
             %td
-              - selected = @url_params[:select] == 'all'
+              - selected = params[:select] == 'all'
               = check_box_tag "role_selected[]", role.id, selected, :id => "role_checkbox_#{role.id}"
             %td= link_to role.name, role_path(role)

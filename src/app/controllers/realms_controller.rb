@@ -90,7 +90,6 @@ class RealmsController < ApplicationController
   def show
     @realm = FrontendRealm.find(params[:id])
 
-    @url_params = params.clone
     @tab_captions = ['Properties', 'Mapping']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
 
@@ -101,7 +100,7 @@ class RealmsController < ApplicationController
 
     respond_to do |format|
       format.js do
-        if @url_params.delete :details_pane
+        if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab
@@ -120,7 +119,6 @@ class RealmsController < ApplicationController
 
   def load_realms
     @header = [{:name => "Name", :sort_attr => :name}]
-    @url_params = params.clone
     @realms = FrontendRealm.all
   end
 end

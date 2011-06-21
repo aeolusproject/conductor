@@ -57,12 +57,11 @@ class UsersController < ApplicationController
     require_privilege(Privilege::VIEW, User) unless current_user == @user
     @quota_resources = @user.quota.quota_resources
     save_breadcrumb(user_path(@user), @user.name)
-    @url_params = params.clone
     @tab_captions = ['Properties']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     respond_to do |format|
       format.js do
-        if @url_params.delete :details_pane
+        if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab

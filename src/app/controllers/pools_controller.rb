@@ -198,7 +198,6 @@ class PoolsController < ApplicationController
   protected
 
   def set_params_and_header
-    @url_params = params.clone
     @header = [
       { :name => '', :sortable => false },
       { :name => '', :sortable => false },

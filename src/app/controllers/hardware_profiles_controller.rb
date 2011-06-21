@@ -46,7 +46,7 @@ class HardwareProfilesController < ApplicationController
 
     respond_to do |format|
       format.js do
-        if @url_params.delete :details_pane
+        if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab and return
@@ -182,7 +182,6 @@ class HardwareProfilesController < ApplicationController
   def setup_hardware_profile
     @tab_captions = ['Matched Provider Hardware Profiles']
     @details_tab = 'matching_provider_hardware_profiles'
-    @url_params = params
     @header  = [
       { :name => "Name", :sort_attr => :name},
       { :name => "Unit", :sort_attr => :unit},
@@ -190,7 +189,6 @@ class HardwareProfilesController < ApplicationController
   end
 
   def set_params_and_header
-    @url_params = params
     @header = [
       { :name => "Hardware Profile Name", :sort_attr => :name },
       { :name => "Architecture", :sort_attr => :architecture },

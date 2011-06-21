@@ -41,7 +41,7 @@ class ProviderAccountsController < ApplicationController
 
     respond_to do |format|
       format.js do
-        if @url_params.delete :details_pane
+        if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab and return
@@ -186,7 +186,6 @@ class ProviderAccountsController < ApplicationController
       { :name => "Username", :sortable => false},
       { :name => "Provider Type", :sortable => false }
     ]
-    @url_params = params
   end
 
   def load_accounts

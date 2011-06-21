@@ -46,13 +46,12 @@ class RolesController < ApplicationController
     require_privilege(Privilege::PERM_VIEW)
     @role = Role.find(params[:id])
 
-    @url_params = params.clone
     @tab_captions = ['Properties']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(role_path(@role), @role.name)
     respond_to do |format|
       format.js do
-        if @url_params.delete :details_pane
+        if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab
@@ -116,7 +115,6 @@ class RolesController < ApplicationController
     @header = [
       { :name => "Role name", :sort_attr => :name }
     ]
-    @url_params = params.clone
   end
 
   def load_roles

@@ -190,7 +190,6 @@ class DeploymentsController < ApplicationController
 
   private
   def load_deployments
-    @url_params = params
     @deployments = Deployment.paginate(:all,
       :page => params[:page] || 1,
       :order => (params[:order_field] || 'name')  +' '+ (params[:order_dir] || 'asc')

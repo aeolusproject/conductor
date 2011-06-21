@@ -7,11 +7,7 @@
     - form_tag multi_destroy_realms_path do
       = submit_tag "Delete", :id => 'delete_button', :class => 'button'
 
-      %p
-        Select:&nbsp;
-        = link_to "All", @url_params.merge(:select => 'all')
-        %span> ,&nbsp;
-        = link_to "None", @url_params.merge(:select => 'none')
+      = render :partial => 'layouts/select_all_none'
 
       %table#realms_table.checkbox_table
         %thead
@@ -22,6 +18,6 @@
           - @realms.each do |realm|
             %tr{:class => cycle('stripe')}
               %td
-                - selected = @url_params[:select] == 'all'
+                - selected = params[:select] == 'all'
                 = check_box_tag "realm_selected[]", realm.id, selected, :id => "realm_checkbox_#{realm.id}"
               %td= link_to realm.name, realm_path(realm)

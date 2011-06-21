@@ -10,12 +10,7 @@
     - form_header = capture_haml do
       = restful_submit_tag "Delete", "destroy", multi_destroy_suggested_deployables_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
-      %p
-        Select:&nbsp;
-        = link_to "All", params.merge(:select => 'all')
-        %span> ,&nbsp;
-        = link_to "None", params.merge(:select => 'none')
-
+      = render :partial => 'layouts/select_all_none'
     = filter_table(@header, @suggested_deployables, :form_header => form_header) do |deployable|
       %table#deployables_table.checkbox_table
         %tr

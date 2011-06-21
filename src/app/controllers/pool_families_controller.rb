@@ -57,12 +57,11 @@ class PoolFamiliesController < ApplicationController
 
   def show
     @pool_family = PoolFamily.find(params[:id])
-    @url_params = params.clone
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
 
     respond_to do |format|
       format.js do
-        if @url_params.delete :details_pane
+        if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab and return
@@ -127,7 +126,6 @@ class PoolFamiliesController < ApplicationController
   end
 
   def set_params_and_header
-    @url_params = params.clone
     @header = [{:name => "Name", :sort_attr => :name},
                {:name => "Quota limit", :sort_attr => :name},
                {:name => "Quota currently in use", :sort_attr => :name},

@@ -35,7 +35,7 @@
     - @deployments.each do |deployment|
       %tr
         %td
-          - selected = @url_params[:select] == 'all'
+          - selected = params[:select] == 'all'
           %input{:name => "deployments_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}", :checked => selected }
         %td
           -#there will be icons (belongs to mockups)

@@ -40,7 +40,6 @@ class ProvidersController < ApplicationController
     @hardware_profiles = @provider.hardware_profiles
     @realm_names = @provider.realms.collect { |r| r.name }
 
-    @url_params = params.clone
     require_privilege(Privilege::VIEW, @provider)
     @tab_captions = ['Properties', 'HW Profiles', 'Realms', 'Provider Accounts', 'Services', 'History', 'Permissions']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
@@ -53,7 +52,7 @@ class ProvidersController < ApplicationController
 
     respond_to do |format|
       format.js do
-        if @url_params.delete :details_pane
+        if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab and return
@@ -150,7 +149,6 @@ class ProvidersController < ApplicationController
     @header = [{:name => "Provider name", :sort_attr => :name},
                {:name => "Provider URL", :sort_attr => :name}
     ]
-    @url_params = params.clone
   end
 
   def load_providers
@@ -159,6 +157,5 @@ class ProvidersController < ApplicationController
                {:name => "Provider Type", :sort_attr => :name}
     ]
     @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
-    @url_params = params.clone
   end
 end

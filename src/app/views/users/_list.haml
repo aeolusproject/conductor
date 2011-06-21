@@ -7,11 +7,7 @@
     - form_tag multi_destroy_users_path do
       = submit_tag "Delete", :id => 'delete_button', :class => 'button danger'
 
-      %p
-        Select:&nbsp;
-        = link_to "All", params.merge(:select => 'all')
-        %span> ,&nbsp;
-        = link_to "None", params.merge(:select => 'none')
+      = render :partial => 'layouts/select_all_none'
 
       %table#users_table.checkbox_table
         %thead

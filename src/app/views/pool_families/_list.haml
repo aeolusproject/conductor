@@ -7,11 +7,7 @@
     - form_tag multi_destroy_pool_families_path do
       = submit_tag "Delete", :id => 'delete_button', :class => 'button'
 
-      %p
-        Select:&nbsp;
-        = link_to "All", @url_params.merge(:select => 'all')
-        %span> ,&nbsp;
-        = link_to "None", @url_params.merge(:select => 'none')
+      = render :partial => 'layouts/select_all_none'
 
       %table#pool_families_table.checkbox_table
         %thead
@@ -24,7 +20,7 @@
           - @pool_families.each do |pool_family|
             %tr{:class => cycle('stripe')}
               %td
-                - selected = @url_params[:select] == 'all'
+                - selected = params[:select] == 'all'
                 = check_box_tag "pool_family_selected[]", pool_family.id, selected, :id => "pool_family_checkbox_#{pool_family.id}"
               %td= link_to pool_family.name, pool_family_path(pool_family)
               %td= pool_family.quota.maximum_running_instances or 'unlimited'

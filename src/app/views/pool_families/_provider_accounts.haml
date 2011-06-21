@@ -12,7 +12,7 @@
       - @pool_family.provider_accounts.each do |provider_account|
         %tr
           %td
-            - selected = @url_params[:select_provider_accounts] == 'all'
+            - selected = params[:select_provider_accounts] == 'all'
             %input{:name => "provider_account_selected[]", :type => "checkbox", :value => provider_account.id, :id => "provider_account_checkbox_#{provider_account.id}", :checked => selected }
             = provider_account.name
 

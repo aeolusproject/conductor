@@ -6,11 +6,8 @@
   .content
     - form_tag multi_destroy_provider_accounts_path do
       = submit_tag "Delete", :id => 'delete_button', :class => 'button'
-      %p
-        Select:&nbsp;
-        = link_to "All", @url_params.merge(:select => 'all')
-        %span> ,&nbsp;
-        = link_to "None", @url_params.merge(:select => 'none')
+
+      = render :partial => 'layouts/select_all_none'
 
       %table#provider_accounts_table.checkbox_table
         %thead
@@ -22,7 +19,7 @@
         - @accounts.each do |account|
           %tr
             %td
-              - selected = @url_params[:select] == 'all'
+              - selected = params[:select] == 'all'
               = check_box_tag "accounts_selected[]", account.id, selected, :id => "account_checkbox_#{account.id}"
             %td= link_to account.name, provider_account_path(account)
             %td= account.credentials_hash['username']
