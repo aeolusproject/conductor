@@ -7,6 +7,12 @@
     - form_tag multi_destroy_users_path do
       = submit_tag "Delete", :id => 'delete_button', :class => 'button danger'
 
+      %p
+        Select:&nbsp;
+        = link_to "All", params.merge(:select => 'all')
+        %span> ,&nbsp;
+        = link_to "None", params.merge(:select => 'none')
+
       %table#users_table.checkbox_table
         %thead
           %tr
@@ -22,7 +28,8 @@
         -@users.each do |user|
           %tr{:class => cycle('stripe')}
             %td
-              = check_box_tag "user_selected[]", user.id, false, :id => "user_checkbox_#{user.id}"
+              - selected = params[:select] == 'all'
+              = check_box_tag "user_selected[]", user.id, selected, :id => "user_checkbox_#{user.id}"
             %td= link_to user.login, user_path(user)
             %td= user.last_name
             %td= user.first_name

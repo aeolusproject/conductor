@@ -9,11 +9,19 @@
   .content
     - form_header = capture_haml do
       = restful_submit_tag "Delete", "destroy", multi_destroy_suggested_deployables_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+
+      %p
+        Select:&nbsp;
+        = link_to "All", params.merge(:select => 'all')
+        %span> ,&nbsp;
+        = link_to "None", params.merge(:select => 'none')
+
     = filter_table(@header, @suggested_deployables, :form_header => form_header) do |deployable|
       %table#deployables_table.checkbox_table
         %tr
           %td
-            %input{:name => "suggested_deployables_selected[]", :type => "checkbox", :value => deployable.id, :id => "suggested_deployable_checkbox_#{deployable.id}" }
+            - selected = params[:select] == 'all'
+            = check_box_tag "suggested_deployables_selected[]", deployable.id, selected, :id => "suggested_deployable_checkbox_#{deployable.id}"
           %td
             = link_to deployable.name, suggested_deployable_path(deployable.id)
           %td
