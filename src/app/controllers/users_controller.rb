@@ -89,7 +89,7 @@ class UsersController < ApplicationController
       render :action => 'edit' and return
     else
       flash[:notice] = "User updated!"
-      redirect_to (@user == current_user) ? root_url : users_url
+      redirect_to user_path(@user)
     end
   end
 

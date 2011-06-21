@@ -88,6 +88,21 @@ Feature: Manage Users
     Then I should be on the users page
     And there should not be user with login "canceluser"
 
+  @tag
+  Scenario: Edit existing user
+    Given I am on the users page
+    And I follow "testuser"
+    Then I should be on the testuser's user page
+    And I should see "John"
+    When I follow "Edit"
+    Then I should be on the testuser's edit user page
+    And I fill in "user_first_name" with "Joe"
+    When I press "Save"
+    Then I should be on the testuser's user page
+    And I should see "User updated!"
+    And I should see "Joe"
+
+
 #  Scenario: Search for users
 #    Given there is a user "myuser"
 #    And there is a user "someuser"
