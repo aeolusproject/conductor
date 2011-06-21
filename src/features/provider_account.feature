@@ -78,6 +78,27 @@ Feature: Manage Provider Accounts
     And I should see "was deleted"
     And there should be no provider accounts
 
+  Scenario: Edit a existing Provider Account
+    Given there is a provider named "testprovider"
+    And there is a provider account named "testaccount"
+    And I am on the provider accounts page
+    And I follow "testaccount"
+    When I follow "Edit"
+    And I fill in "provider_account[label]" with "testaccount_updated"
+    And I press "Save"
+    Then I should see "testaccount_updated"
+    And I should see "Provider Account updated!" within ".flashes"
+
+  Scenario: Edit a existing Provider Account with invalid credentials
+    Given there is a provider named "testprovider"
+    And there is a provider account named "testaccount"
+    And I am on the provider accounts page
+    And I follow "testaccount"
+    When I follow "Edit"
+    And I fill in "provider_account[label]" with ""
+    And I press "Save"
+    Then I should see "Provider Account wasn't updated!"
+
 #  Scenario: Search for Provider Accounts
 #    Given there is a provider named "testprovider"
 #    And there is a provider account named "testaccount"
