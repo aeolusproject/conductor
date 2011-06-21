@@ -42,4 +42,5 @@ class FrontendRealm < ActiveRecord::Base
   has_many :backend_providers, :through => :realm_backend_targets, :source => :provider, :conditions => "realm_backend_targets.realm_or_provider_type = 'Provider'"
 
   validates_presence_of :name
+  validates_uniqueness_of :name
 end

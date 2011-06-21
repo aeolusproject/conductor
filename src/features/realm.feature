@@ -17,6 +17,15 @@ Feature: Manage Realms
     And I press "Save"
     Then I should see "Realm was added."
 
+  Scenario: Validate unique frontend realm name
+    Given I am on the realms page
+    And there is a realm "testrealm1"
+    When I follow "New Realm"
+    Then I should see "Create a new Realm"
+    When I fill in "frontend_realm[name]" with "testrealm1"
+    And I press "Save"
+    Then I should see "Name has already been taken"
+
   Scenario: Add realm mapping
     Given I am on the realms page
     And there is a realm "testrealm1"
