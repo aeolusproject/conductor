@@ -52,7 +52,7 @@ class QuotasController < ApplicationController
       flash[:notice] = "Quota updated!"
       redirect_to :action => 'show', :id => @parent, :parent_type => @parent_type
     else
-      flash[:notice] = "Could not update quota, please check you have entered valid values"
+      flash[:warning] = "Could not update quota, please check you have entered valid values"
       render :action => "edit"
     end
   end

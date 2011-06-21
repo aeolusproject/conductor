@@ -71,7 +71,7 @@ class ProvidersController < ApplicationController
     end
     @provider = Provider.new(params[:provider])
     if !@provider.connect
-      flash[:notice] = "Failed to connect to Provider"
+      flash[:warning] = "Failed to connect to Provider"
       render :action => "new"
     else
       if @provider.save && @provider.populate_hardware_profiles
@@ -79,7 +79,7 @@ class ProvidersController < ApplicationController
         flash[:notice] = "Provider added."
         redirect_to providers_path
       else
-        flash[:notice] = "Cannot add the provider."
+        flash[:warning] = "Cannot add the provider."
         render :action => "new"
       end
     end
@@ -90,14 +90,14 @@ class ProvidersController < ApplicationController
     require_privilege(Privilege::MODIFY, @provider)
     @provider.update_attributes(params[:provider])
     if !@provider.connect
-      flash[:notice] = "Failed to connect to Provider"
+      flash[:warning] = "Failed to connect to Provider"
       render :action => "edit"
     else
       if @provider.errors.empty? and @provider.save
         flash[:notice] = "Provider updated."
         redirect_to providers_path
       else
-        flash[:notice] = "Cannot update the provider."
+        flash[:warning] = "Cannot update the provider."
         render :action => 'edit'
       end
     end
@@ -140,7 +140,7 @@ class ProvidersController < ApplicationController
     if @provider.connect
       flash[:notice] = "Successfuly Connected to Provider"
     else
-      flash[:notice] = "Failed to Connect to Provider"
+      flash[:warning] = "Failed to Connect to Provider"
       @provider.errors.add :url
     end
   end

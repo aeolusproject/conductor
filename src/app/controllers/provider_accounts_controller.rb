@@ -126,7 +126,7 @@ class ProviderAccountsController < ApplicationController
 
   def multi_destroy
     if params[:accounts_selected].blank?
-      flash[:notice] = "You must select some accounts first."
+      flash[:warning] = "You must select some accounts first."
       redirect_to provider_accounts_url and return
     end
 
