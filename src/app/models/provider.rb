@@ -46,7 +46,7 @@ class Provider < ActiveRecord::Base
   has_many :provider_accounts, :dependent => :destroy
   has_many :hardware_profiles, :dependent => :destroy
   has_many :realms, :dependent => :destroy
-  has_many :realm_backend_targets, :as => :realm_or_provider
+  has_many :realm_backend_targets, :as => :realm_or_provider, :dependent => :destroy
   has_many :frontend_realms, :through => :realm_backend_targets
   belongs_to :provider_type
 

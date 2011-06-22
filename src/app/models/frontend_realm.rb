@@ -32,7 +32,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class FrontendRealm < ActiveRecord::Base
-  has_many :realm_backend_targets
+  has_many :realm_backend_targets, :dependent => :destroy
   has_many :instances
 
   # there is a problem with has_many through + polymophic in AR:

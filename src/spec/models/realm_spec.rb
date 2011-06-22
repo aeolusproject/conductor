@@ -26,4 +26,16 @@ describe Realm do
     @frontend_realm1.backend_providers.first.id.should == @provider.id
   end
 
+  it "should delete a provider from backend target when the provider is deleted" do
+    @backend_realm.destroy
+    @frontend_realm1.backend_realms.should be_empty
+    @provider.destroy
+    @frontend_realm1.realm_backend_targets.should be_empty
+  end
+
+  it "should delete backend targets when frontend realm is deleted" do
+    @frontend_realm1.destroy
+    RealmBackendTarget.all(:conditions => {:frontend_realm_id => @frontend_realm1.id}).should be_empty
+  end
+
 end
