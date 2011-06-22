@@ -11,7 +11,11 @@ module Aeolus
           regexp.match(image.to_s).should_not == nil
         end
       end
-
+      it "should return not implemented for unimplemented subcommands" do
+        l = ListCommand.new()
+        r = l.targets
+        r.should eql("This option or combination is not yet implemented")
+      end
     end
   end
 end

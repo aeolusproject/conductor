@@ -15,6 +15,10 @@ module Aeolus
       end
 
       protected
+      def not_implemented
+        "This option or combination is not yet implemented"
+      end
+
       def logger(logger=nil)
         @logger ||= logger
         unless @logger
