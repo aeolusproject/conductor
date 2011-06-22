@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<deployable name="Redmine">
+<description>Redmine is a web-based project management application</description>
+<assemblies>
+<assembly name="web" hwp="hwp1">
+<image id="4fc38a0d-1383-4e1d-bc43-850e42541bc0">
+</image>
+</assembly>
+<assembly name="database" hwp="hwp1">
+<image id="4fc38a0d-1383-4e1d-bc43-850e42541bc0" build="bb7f6e3e-90cc-4072-afd0-030af99de555">
+</image>
+</assembly>
+</assemblies>
+</deployable>
