@@ -1,22 +1,13 @@
 require 'spec_helper'
-require 'stringio'
 
 module Aeolus
   module Image
     describe PushCommand do
 
       before(:each) do
-        @output = double('output')
-        @stdout_orig = $stdout
-        $stdout = StringIO.new
-        @options = {}
         @options[:provider] = ['mock']
         @options[:user] = 'admin'
         @options[:password] = 'password'
-      end
-
-      after(:each) do
-        $stdout = @stdout_orig
       end
 
       describe "#run" do
@@ -49,8 +40,8 @@ module Aeolus
 
       describe "#combo_implemented?" do
         it "should give useful feedback if no template or target is specified" do
-          @options[:id] = ''
-          @options[:provider] = []
+          @options.delete(:id)
+          @options.delete(:provider)
           b = PushCommand.new(@options, @output)
           begin
             b.combo_implemented?

@@ -2,6 +2,7 @@ $: << File.expand_path(File.join(File.dirname(__FILE__), "../lib"))
 $: << File.expand_path(File.join(File.dirname(__FILE__), "."))
 require 'rubygems'
 require 'config_parser'
+require 'stringio'
 require 'base_command'
 require 'list_command'
 require 'build_command'
@@ -38,5 +39,14 @@ Spec::Runner.configure do |config|
         YAML::load(File.open(File.join(File.dirname(__FILE__), "sample_data/aeolus-cli")))
       end
     end
+  end
+  config.before(:each) do
+    @output = double('output')
+    @stdout_orig = $stdout
+    $stdout = StringIO.new
+    @options = {}
+  end
+  config.after(:each) do
+    $stdout = @stdout_orig
   end
 end

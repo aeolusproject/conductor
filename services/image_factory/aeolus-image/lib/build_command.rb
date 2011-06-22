@@ -28,7 +28,7 @@ module Aeolus
 
           #This is a temporary hack in case the agent doesn't show up on bus immediately
           sleep(5)
-          @console.build(@options[:template_str], @options[:target], @options[:image]).each do |adaptor|
+          @console.build(@options[:template_str], @options[:target], @options[:image], @options[:build]).each do |adaptor|
             puts ""
             puts "Target Image: #{adaptor.image_id}"
             puts "Image: #{adaptor.image}"

@@ -14,10 +14,10 @@ module Aeolus
           silence_stream(STDOUT) do
             config_parser = ConfigParser.new(%w(list))
             config_parser.process
-            config_parser.should_receive(:exit).with(0)
+            config_parser.should_receive(:exit).with(1)
           end
         rescue SystemExit => e
-          e.status.should == 0
+          e.status.should == 1
         end
       end
 
@@ -32,10 +32,10 @@ module Aeolus
       it "should exit gracefully with bad params" do
         begin
           silence_stream(STDOUT) do
-            ConfigParser.new(%w(delete --fred)).should_receive(:exit).with(0)
+            ConfigParser.new(%w(delete --fred)).should_receive(:exit).with(1)
           end
         rescue SystemExit => e
-          e.status.should == 0
+          e.status.should == 1
         end
       end
 

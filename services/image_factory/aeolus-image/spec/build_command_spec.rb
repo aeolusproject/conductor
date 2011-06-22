@@ -1,20 +1,11 @@
 require 'spec_helper'
-require 'stringio'
 
 module Aeolus
   module Image
     describe BuildCommand do
       before(:each) do
-        @output = double('output')
-        @stdout_orig = $stdout
-        $stdout = StringIO.new
-        @options = {}
         @options[:target] = ['mock','ec2']
         @options[:template] = 'spec/sample_data/custom_repo.tdl'
-      end
-
-      after(:each) do
-        $stdout = @stdout_orig
       end
 
       describe "#run" do
@@ -39,7 +30,7 @@ module Aeolus
           rescue SystemExit => e
             e.status.should == 1
           end
-          $stdout.string.should  include("This combination of parameters is not currently supported")
+          $stdout.string.should include("This combination of parameters is not currently supported")
         end
       end
 
@@ -53,7 +44,7 @@ module Aeolus
           rescue SystemExit => e
             e.status.should == 1
           end
-          $stdout.string.should  include("This combination of parameters is not currently supported")
+          $stdout.string.should include("This combination of parameters is not currently supported")
         end
       end
     end

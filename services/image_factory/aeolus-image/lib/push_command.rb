@@ -6,13 +6,19 @@ module Aeolus
       attr_accessor :console
       def initialize(opts={}, logger=nil)
         super(opts, logger)
+        default = {
+          :provider => [],
+          :id => '',
+          :build => ''
+        }
+        @options = default.merge(@options)
         @console = ImageFactoryConsole.new()
         @console.start
       end
       def run
         if combo_implemented?
           sleep(5)
-          @console.push(@options[:provider], get_creds, @options[:id]).each do |adaptor|
+          @console.push(@options[:provider], get_creds, @options[:id], @options[:build]).each do |adaptor|
             puts ""
             puts "Provider Image: #{adaptor.image_id}"
             puts "Image: #{adaptor.image}"

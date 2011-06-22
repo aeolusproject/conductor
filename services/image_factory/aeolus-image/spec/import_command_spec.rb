@@ -1,20 +1,12 @@
 require 'spec_helper'
-require 'stringio'
 
 module Aeolus
   module Image
     describe ImportCommand do
       before(:each) do
-        @stdout_orig = $stdout
-        $stdout = StringIO.new
-        @options = {}
         @options[:id] = "ami-test"
         @options[:target] = "ec2"
         @options[:provider] = "ec2-us-east-1"
-      end
-
-      after(:each) do
-        $stdout = @stdout_orig
       end
 
       describe "#import_image" do

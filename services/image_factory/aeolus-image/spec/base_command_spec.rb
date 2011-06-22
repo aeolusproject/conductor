@@ -3,10 +3,6 @@ require 'spec_helper'
 module Aeolus
   module Image
     describe BaseCommand do
-      before(:each) do
-        @stdout_orig = $stdout
-        $stdout = StringIO.new
-      end
 
       it "should determine the correct credentials for HTTP Authentication" do
         basec = BaseCommand.new

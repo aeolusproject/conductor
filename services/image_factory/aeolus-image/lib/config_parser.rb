@@ -163,7 +163,10 @@ module Aeolus
           @optparse.parse!(@args)
         rescue OptionParser::InvalidOption
           puts "Warning: Invalid option"
-          exit(0)
+          exit(1)
+        rescue OptionParser::MissingArgument => e
+          puts "Warning, #{e.message}"
+          exit(1)
         end
       end
 
@@ -179,7 +182,7 @@ module Aeolus
         if @options[:subcommand].nil?
           # TODO: Pull out Print Usage into seporate method, and print
           puts "Could not find subcommand for list, run `./aeolus-image --help` for usage instructions"
-          exit(0)
+          exit(1)
         else
           list_command = ListCommand.new(@options)
           list_command.send(@options[:subcommand])
