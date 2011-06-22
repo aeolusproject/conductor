@@ -91,6 +91,15 @@ class DeploymentsController < ApplicationController
     save_breadcrumb(deployment_path(@deployment, :viewstate => viewstate_id), @deployment.name)
     @failed_instances = @deployment.instances.select {|instance| instance.state == Instance::STATE_CREATE_FAILED || instance.state == Instance::STATE_ERROR}
     @view = filter_view? ? 'filter_view_show' : 'pretty_view_show'
+    #TODO add links to real data for history,properties,permissions
+    @tabs = [{:name => 'Instances', :view => @view, :id => 'instances', :count => @deployment.instances.count},
+             {:name => 'Services', :view => @view, :id => 'services'},
+             {:name => 'History', :view => @view, :id => 'history'},
+             {:name => 'Properties', :view => @view, :id => 'properties'},
+             {:name => 'Permissions', :view => @view, :id => 'permissions'}
+    ]
+    details_tab_name = params[:details_tab].blank? ? 'instances' : params[:details_tab]
+    @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
     respond_to do |format|
       format.js { render :partial => @view }
       format.html { render :action => 'show'}

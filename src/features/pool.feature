@@ -159,14 +159,14 @@ Feature: Manage Pools
     Given I am on the pools page
     And I see "Overview"
     And I follow link with ID "filter_view"
-    Then I should see "Pools" within "#details-view"
-    And I should see "Instances" within "#details-view"
-    And I should see "Deployments" within "#details-view"
+    Then I should see "Pools" within "#tab-container-1-nav"
+    And I should see "Instances" within "#tab-container-1-nav"
+    And I should see "Deployments" within "#tab-container-1-nav"
 
   Scenario: Switch from filtred view to pretty view on pools index
     Given I am on the pools page
     And I follow link with ID "filter_view"
-    And I should see "Pools" within "#details-view"
+    And I should see "Pools" within "#tab-container-1-nav"
     When I follow link with ID "pretty_view"
     Then I should see "Your Pools" within "section.pools"
 
@@ -180,10 +180,10 @@ Feature: Manage Pools
     Given a pool "mockpool" exists with deployment "mockdeployment"
     When I am viewing the pool "mockpool"
     And I follow link with ID "pretty_view"
-    Then I should see "0 Instances" within "#content .content-section.toggle-view"
+    Then I should see "0 Instances" within ".content.collapsible.toggle-view.pools"
 
   Scenario: Pools#show filter view
     Given a pool "mockpool" exists with deployment "mockdeployment"
     When I am viewing the pool "mockpool"
     And I follow link with ID "filter_view"
-    Then I should not see "0 Instances" within "#content .content-section.toggle-view"
+    Then I should not see "0 Instances" within ".content.collapsible.toggle-view.pools"

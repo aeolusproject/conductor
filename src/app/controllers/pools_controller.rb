@@ -58,8 +58,16 @@ class PoolsController < ApplicationController
     require_privilege(Privilege::VIEW, @pool)
     @statistics = @pool.statistics
     @view = filter_view? ? 'deployments/filter_view' : 'deployments/pretty_view'
+    #TODO add links to real data for history,properties,permissions
+    @tabs = [{:name => 'Deployments', :view => @view, :id => 'deployments', :count => @pool.deployments.count},
+             {:name => 'History', :view => @view, :id => 'history'},
+             {:name => 'Properties', :view => @view, :id => 'properties'},
+             {:name => 'Permissions', :view => @view, :id => 'permissions'}
+    ]
+    details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
+    @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
     respond_to do |format|
-      format.js { render :partial => @view, :locals => {:deployments => @pool.deployments} }
+      format.js { render :partial => @view, :locals => {:deployments => @pool.deployments}}
       format.html { render :action => :show}
       format.json { render :json => @pool }
     end

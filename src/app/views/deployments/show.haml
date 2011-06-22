@@ -1,4 +1,17 @@
 = render :partial => 'header_show'
 = render :partial => 'alerts_show'
-%section.content-section.toggle-view
-  = render :partial => @view
+%section.content-section
+  %header#tab-container-1
+    %nav.faceted
+      %ul#tab-container-1-nav
+        - @tabs.each do |tab|
+          %li
+            %a{ :href => url_for(:details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]}"}
+              = tab[:name]
+          -if tab[:count]
+            %span.label.badge.count.dark=tab[:count]
+    .section-controls
+      %a.collapse{'href'=>'#'} Collapse
+  .content.collapsible.toggle-view.pools
+    %section.content-section.toggle-view#content
+      = render :partial => @view

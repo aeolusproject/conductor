@@ -11,7 +11,7 @@ Feature: Manage Deployments
     Given there is a deployment named "MySQL Cluster" belonging to "Databases" owned by "bob"
     And I am on the pools page
     When I follow link with ID "filter_view"
-    And I follow "Deployments" within "#details-view"
+    And I follow "Deployments" within "#tab-container-1-nav"
     Then I should see "MySQL Cluster"
     And I should see "bob"
 

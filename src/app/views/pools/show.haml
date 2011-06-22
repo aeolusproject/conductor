@@ -5,5 +5,18 @@
 -#= render :partial => 'alerts'
 
 -# TODO: %w(Deployments History Properties Permissions) links/tabs, plus filter links/icons, go here
-%section.content-section.toggle-view
-  = render :partial => @view, :locals => {:deployments => @pool.deployments}
+%section.content-section
+  %header#tab-container-1
+    %nav.faceted
+      %ul#tab-container-1-nav
+        - @tabs.each do |tab|
+          %li
+            %a{ :href => url_for(:details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]}"}
+              = tab[:name]
+          -if tab[:count]
+            %span.label.badge.count.dark=tab[:count]
+    .section-controls
+      %a.collapse{'href'=>'#'} Collapse
+  .content.collapsible.toggle-view.pools
+    %ul.deployable-cards
+      = render :partial => @view, :locals => {:deployments => @pool.deployments}
