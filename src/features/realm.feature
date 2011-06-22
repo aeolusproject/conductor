@@ -36,6 +36,16 @@ Feature: Manage Realms
     When I press "Save"
     Then I should see "Realm mapping was added."
 
+  Scenario: Add a realm mapping w/o selecting backend target
+    Given I am on the realms page
+    And there is a realm "testrealm1"
+    And there is no provider
+    When I follow "testrealm1"
+    And I follow "Add mapping to provider"
+    Then I should see "Create a new Realm Mapping"
+    When I press "Save"
+    Then I should see "Realm or provider can't be blank"
+
   Scenario: Change the name
     Given I am on the realms page
     And there is a realm "testrealm1"

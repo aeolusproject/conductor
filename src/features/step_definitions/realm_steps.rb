@@ -26,3 +26,7 @@ end
 Then /^there should be only (\d+) realms$/ do |number|
   FrontendRealm.count.should == number.to_i
 end
+
+Given /^there is no provider$/ do
+  Provider.destroy_all
+end
