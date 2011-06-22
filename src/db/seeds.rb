@@ -121,6 +121,7 @@ if ProviderType.all.empty?
   ProviderType.create!(:name => "RHEV-M", :codename =>"rhev-m")
   ProviderType.create!(:name => "OpenNebula", :codename =>"opennebula")
   ProviderType.create!(:name => "CondorCloud", :codename =>"condorcloud", :build_supported => 'true')
+  ProviderType.create!(:name => "VMWare vSphere", :codename =>"vmware", :build_supported => 'true')
 end
 
 # fill table CredentialDefinitions by default values
