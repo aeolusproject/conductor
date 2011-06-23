@@ -29,6 +29,7 @@ class ProviderAccountsController < ApplicationController
   def show
     @tab_captions = ['Properties', 'Credentials', 'History', 'Permissions']
     @account = ProviderAccount.find(params[:id])
+    @account_id = @account.credentials_hash['account_id']
     require_privilege(Privilege::VIEW, @account)
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
 

@@ -11,8 +11,9 @@
         %label Running instances quota:
       %td
         = @account.quota.maximum_running_instances or 'unlimited'
-    %tr
-      %td
-        %label Account ID:
-      %td
-        = @account.credentials_hash['account_number']
+    - if @account_id
+      %tr
+        %td
+          = label_tag "Account number:"
+        %td
+          = @account_id
