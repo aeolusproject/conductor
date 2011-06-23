@@ -40,6 +40,7 @@ module Warehouse
     def attrs(list)
       attrs = {}
       list.each do |att|
+        next if att.match('-')
         attrs[att] = (@connection.do_request("#{@path}/#{att}", :plain => true) rescue nil)
       end
       attrs
