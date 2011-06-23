@@ -36,15 +36,20 @@ class DeploymentsController < ApplicationController
   def new
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
+    @suggested_deployables = SuggestedDeployable.list_for_user(current_user, Privilege::USE)
     require_privilege(Privilege::CREATE, Deployment, @pool)
     url = get_deployable_url
-    @deployment.import_xml_from_url(url) if url
-    @deployment.deployable_xml.validate!
-    @suggested_deployables = SuggestedDeployable.list_for_user(current_user, Privilege::USE)
     respond_to do |format|
-      format.js { render :partial => 'new' }
-      format.html
-      format.json { render :json => @deployment }
+      if @deployment.accessible_and_valid_deployable_xml?(url)
+        format.js { render :partial => 'new' }
+        format.html
+        format.json { render :json => @deployment }
+      else
+        init_new_deployment_attrs
+        format.js { render :partial => 'launch_new' }
+        format.html { render :launch_new }
+        format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
+      end
     end
   end
 

@@ -139,3 +139,15 @@ Feature: Manage Deployments
     And I accept JSON
     When I stop "mockdeployment" deployment
     Then I should get back JSON object with success and errors
+
+  Scenario: Provider invalid deployable xml URL when launching a deployment
+    Given a pool "mockpool" exists
+    When I am viewing the pool "mockpool"
+    And I follow "New Deployment"
+    Then I should see "New Deployment in mockpool"
+    When I fill in "deployable_url" with "http://invalid.deployable.url/"
+    And I fill in "deployment_name" with "mynewdeployment"
+    And I press "Next"
+    Then I should see "New Deployment in mockpool"
+    And I should see "Deployment Details"
+    And I should see "failed to get the deployable definition"

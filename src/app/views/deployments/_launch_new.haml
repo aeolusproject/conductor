@@ -15,6 +15,7 @@
 
   .content
     - form_for :deployment, {:url => new_deployment_path, :method => :get} do
+      = error_messages_for :deployment
       = hidden_field :deployment, :pool_id
       %p
         What do you want to launch?

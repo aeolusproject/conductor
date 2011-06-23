@@ -169,6 +169,17 @@ class Deployment < ActiveRecord::Base
     deployments
   end
 
+  def accessible_and_valid_deployable_xml?(url)
+    begin
+      import_xml_from_url(url)
+      deployable_xml.validate!
+      true
+    rescue
+      errors.add(:base, "failed to get the deployable definition: #{$!}")
+      false
+    end
+  end
+
   def deployable_xml
     @deployable_xml ||= DeployableXML.new(self[:deployable_xml].to_s)
   end
