@@ -21,7 +21,7 @@ class DeploymentsController < ApplicationController
   # It is expected that params[:pool_id] will be set on requests into this method
   def launch_new
     @pool = Pool.find(params[:pool_id]) or raise "Invalid pool"
-    require_privilege(Privilege::CREATE, Deployment)
+    require_privilege(Privilege::CREATE, Deployment, @pool)
     @deployment = Deployment.new(:pool_id => @pool.id)
     @suggested_deployables = SuggestedDeployable.list_for_user(current_user, Privilege::USE)
     init_new_deployment_attrs

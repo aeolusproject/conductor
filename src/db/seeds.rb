@@ -58,6 +58,10 @@ roles =
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
       "SuggestedDeployable Administrator" => [false, {SuggestedDeployable => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
       "SuggestedDeployable Global User"   => [false, {SuggestedDeployable=> [VIEW,USE]}],
+      "Pool Global User"                  => [false, {Pool         => [VIEW],
+                                                      Instance     => [             CRE],
+                                                      Deployment   => [             CRE],
+                                                      Quota        => [VIEW]}],
       "Administrator"          => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            HardwareProfile => [      MOD,CRE,VPRM,GPRM],
@@ -98,6 +102,7 @@ default_quota = Quota.create
 default_pool = Pool.find_by_name("default_pool")
 default_role = Role.find_by_name("Pool User")
 default_suggested_deployable_role = Role.find_by_name("SuggestedDeployable Global User")
+default_pool_global_user_role = Role.find_by_name("Pool Global User")
 
 settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,
@@ -105,9 +110,11 @@ settings = {"allow_self_service_logins" => "true",
   "self_service_default_role" => default_role,
   "self_service_default_suggested_deployable_obj" => BasePermissionObject.general_permission_scope,
   "self_service_default_suggested_deployable_role" => default_suggested_deployable_role,
+  "self_service_default_pool_global_user_obj" => BasePermissionObject.general_permission_scope,
+  "self_service_default_pool_global_user_role" => default_pool_global_user_role,
   # perm list in the format:
   #   "[resource1_key, resource1_role], [resource2_key, resource2_role], ..."
-  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_suggested_deployable_obj,self_service_default_suggested_deployable_role]"}
+  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_suggested_deployable_obj,self_service_default_suggested_deployable_role], [self_service_default_pool_global_user_obj,self_service_default_pool_global_user_role]"}
 settings.each_pair do |key, value|
   MetadataObject.set(key, value)
 end
