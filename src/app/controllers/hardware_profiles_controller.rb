@@ -65,11 +65,11 @@ class HardwareProfilesController < ApplicationController
   def create
     build_hardware_profile(params[:hardware_profile])
     if params[:commit] == 'Save'
-      if @hardware_profile.save!
+      if @hardware_profile.save
         redirect_to hardware_profiles_path
       else
         params.delete :commit
-        render :action => 'create'
+        render :action => 'new'
       end
     else
       matching_provider_hardware_profiles
@@ -108,7 +108,7 @@ class HardwareProfilesController < ApplicationController
       render :edit and return
     end
 
-    unless @hardware_profile.save!
+    unless @hardware_profile.save
       render :action => 'edit' and return
     else
       flash[:notice] = "Hardware Profile updated!"

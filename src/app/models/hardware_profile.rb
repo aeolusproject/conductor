@@ -58,16 +58,20 @@ class HardwareProfile < ActiveRecord::Base
   belongs_to :provider
 
   belongs_to :memory,       :class_name => "HardwareProfileProperty",
-                            :dependent => :destroy
+                            :dependent => :destroy,
+                            :validate => false
 
   belongs_to :storage,      :class_name => "HardwareProfileProperty",
-                            :dependent => :destroy
+                            :dependent => :destroy,
+                            :validate => false
 
   belongs_to :cpu,          :class_name => "HardwareProfileProperty",
-                            :dependent => :destroy
+                            :dependent => :destroy,
+                            :validate => false
 
   belongs_to :architecture, :class_name => "HardwareProfileProperty",
-                            :dependent => :destroy
+                            :dependent => :destroy,
+                            :validate => false
 
   accepts_nested_attributes_for :memory, :cpu, :storage, :architecture
 

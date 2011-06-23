@@ -145,3 +145,17 @@ Feature: Manage Pools
      Then I should see the following:
      | Name         | Memory | CPU | Storage | Architecture |
      | m1-small     | 1740   | 2   | 250     | i386         |
+
+  Scenario: validate hwp inputs
+    Given I am on the hardware profiles page
+     When I follow "New Hardware Profile"
+     Then I should be on the new hardware profile page
+     When I fill in "name" with "Test Hardware Profile"
+     And I enter the following details for the Hardware Profile Properties
+     | name         | value | unit  |
+     | memory       |       | MB    |
+     | cpu          |       | count |
+     | storage      |       | GB    |
+     | architecture |       | label |
+     And I press "Save"
+     Then I should see "errors prohibited this hardware profile from being saved"
