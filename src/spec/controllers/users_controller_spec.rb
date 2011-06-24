@@ -84,7 +84,7 @@ describe UsersController do
     UserSession.create(@tuser)
     put :update, :id => @tuser.id, :user => {}, :commit => 'Save'
 
-    response.should redirect_to(root_path)
+    response.should redirect_to(user_path(@tuser))
   end
 
 end
