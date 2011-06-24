@@ -2,5 +2,6 @@
   %h1.deployments
     = [@deployment.name, "Deployment"].join(' ')
   #obj_actions.button-container
-    = pretty_filter_toggle(deployment_path(@deployment, :view => 'pretty'), deployment_path(@deployment, :view => 'filter'))
+    .button-group
+      = pretty_filter_toggle(deployment_path(@deployment, :view => 'pretty'), deployment_path(@deployment, :view => 'filter'))
   .corner &nbsp;

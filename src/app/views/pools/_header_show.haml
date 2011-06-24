@@ -2,10 +2,10 @@
   %h1.pools
     = [@pool.name, "Pool"].join(' ')
   #obj_actions.button-container
-    = pretty_filter_toggle(pool_path(@pool, :view => 'pretty'), pool_path(@pool, :view => 'filter'))
+    .button-group
+      = pretty_filter_toggle(pool_path(@pool, :view => 'pretty'), pool_path(@pool, :view => 'filter'))
     = link_to 'New Deployment', launch_new_deployments_path(:pool_id => @pool.id), :class => 'button primary', :id => 'new_deployment_button'
-    -# ditch form_for since it doesn't allow specification of a CSS class.
-    %form.button-group{:action => pool_url(@pool), :method => 'POST'}
+    .button-group
       = link_to 'Edit', edit_pool_path(@pool), :class => 'button pill', :id => 'edit_pool_button'
-      = restful_submit_tag('Delete', 'destroy', pool_url(@pool), 'DELETE', :class => "button pill danger")
+      = button_to 'Delete', pool_path(@pool), :method => :delete, :confirm => "Are you sure you vant to delete this pool?", :class => "button pill danger"
   .corner &nbsp;
