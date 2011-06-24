@@ -36,7 +36,7 @@ Spec::Runner.configure do |config|
   config.before(:all) do
     Aeolus::Image::BaseCommand.class_eval do
       def load_config
-        YAML::load(File.open(File.join(File.dirname(__FILE__), "sample_data/aeolus-cli")))
+        YAML::load(File.open(File.join(File.dirname(__FILE__), "/../examples/aeolus-cli")))
       end
     end
   end

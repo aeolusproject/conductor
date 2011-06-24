@@ -5,7 +5,7 @@ module Aeolus
     describe BuildCommand do
       before(:each) do
         @options[:target] = ['mock','ec2']
-        @options[:template] = 'spec/sample_data/custom_repo.tdl'
+        @options[:template] = "#{File.dirname(__FILE__)}" + "/../examples/custom_repo.tdl"
       end
 
       describe "#run" do

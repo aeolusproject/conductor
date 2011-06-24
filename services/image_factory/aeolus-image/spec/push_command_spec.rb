@@ -14,7 +14,7 @@ module Aeolus
         before(:each) do
           options = {}
           options[:target] = ['mock','ec2']
-          options[:template] = 'spec/sample_data/custom_repo.tdl'
+          options[:template] = "#{File.dirname(__FILE__)}" + "/../examples/custom_repo.tdl"
           b = BuildCommand.new(options)
           sleep(5)
           tmpl_str = b.send(:read_file, options[:template])
