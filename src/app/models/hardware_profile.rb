@@ -96,11 +96,23 @@ class HardwareProfile < ActiveRecord::Base
   end
 
   def add_properties(api_profile)
-    self.memory = new_property(api_profile.memory)
-    self.storage = new_property(api_profile.storage)
-    self.cpu = new_property(api_profile.cpu)
-    self.architecture = new_property(api_profile.architecture)
+    self.memory = new_property(api_profile.memory || default_profile(:memory))
+    self.storage = new_property(api_profile.storage || default_profile(:storage))
+    self.cpu = new_property(api_profile.cpu || default_profile(:cpu))
+    self.architecture = new_property(api_profile.architecture || default_profile(:architecture))
   end
+
+  # If there is no property (nil on the API), create a default
+  def default_profile(type)
+    return nil unless [:memory, :storage, :cpu, :architecture].include?(type)
+    HardwareProfileProperty.new(
+        :name => type.to_s,
+        :kind => :fixed,
+        :unit => {:memory => 'MB', :cpu => 'count', :storage => 'GB', :architecture => 'label'}[type],
+        :value => nil
+    )
+  end
+
   def new_property(prop)
     return nil if prop.nil?
     the_property = HardwareProfileProperty.new(:name  => prop.name,
@@ -186,7 +198,6 @@ class HardwareProfile < ActiveRecord::Base
     if back_end_hwp.name == "opaque"
       return false
     end
-
     match_hardware_profile_property(front_end_hwp.memory, back_end_hwp.memory) &&
     match_hardware_profile_property(front_end_hwp.cpu, back_end_hwp.cpu) &&
     match_hardware_profile_property(front_end_hwp.storage, back_end_hwp.storage) &&
@@ -194,6 +205,11 @@ class HardwareProfile < ActiveRecord::Base
   end
 
   def self.match_hardware_profile_property(front_end_property, back_end_property)
+    # if the front_end_property is nil, we don't care about it, so everything matches:
+    return true if front_end_property.nil?
+    # if the back_end_property is nil, it only matches if front-end is also nil:
+    return false if back_end_property.nil?
+    # Otherwise, neither are nil, so compare normally:
     match = false
     case back_end_property.kind
       when "fixed"

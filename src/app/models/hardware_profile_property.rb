@@ -63,17 +63,22 @@ class HardwareProfileProperty < ActiveRecord::Base
      :in => [FIXED, RANGE, ENUM]
 
   validates_presence_of :unit
-  validates_presence_of :value
   validates_numericality_of :value, :greater_than => 0,
-                :if => Proc.new{|p| p.name == MEMORY or p.name == STORAGE or p.name == CPU}
+                :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE or p.name == CPU) and p.value.present?}
 
   validates_numericality_of :range_first, :greater_than => 0,
                 :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE or p.name == CPU) and
-                                     p.kind == RANGE}
+                                     p.kind == RANGE and p.value.present?}
   validates_numericality_of :range_last, :greater_than => 0,
                 :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE or p.name == CPU) and
-                                     p.kind == RANGE}
+                                     p.kind == RANGE and p.value.present?}
   validates_associated :property_enum_entries
+
+  def before_validation
+    # If the form isn't filled out, it comes in as "", which we treat as nil:
+    self.value = nil if self.value==""
+  end
+
   def validate
     case name
     when MEMORY
