@@ -3,8 +3,6 @@
     = link_to(deployment.name, deployment)
   %ul
     %li
-      = count_uptime(deployment.created_at)
-    %li
       = deployment.instances.count
       Instances
   %p

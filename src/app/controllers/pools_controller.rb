@@ -228,7 +228,6 @@ class PoolsController < ApplicationController
       { :name => '', :sortable => false },
       { :name => t("deployments.deployment_name"), :sortable => false },
       { :name => t("deployables.index.base_deployable"), :sortable => false },
-      { :name => t("uptime"), :sortable => false },
       { :name => t("instances.instances"), :sortable => false },
       { :name => t("providers.provider"), :sortable => false }
     ]

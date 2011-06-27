@@ -33,9 +33,6 @@
     = label_tag :instantiation_time, 'Instantiation Time'
     %span= @instance.created_at.strftime("%d-%b-%Y %H:%M:%S")
   %li
-    = label_tag :uptime, 'Uptime'
-    %span= @instance.total_state_time(@instance.state)
-  %li
     = label_tag :current_alerts, 'Current Alerts'
     %span= 0
   %li

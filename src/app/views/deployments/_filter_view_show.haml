@@ -1,6 +1,6 @@
 %header
   %h2 Instances
-= filter_table([{:name =>''}, {:name => ''}, {:name => 'Name'}, {:name => 'Uptime'}, {:name => 'Public Address'}, {:name => 'State'}], @deployment.instances) do |instance|
+= filter_table([{:name =>''}, {:name => ''}, {:name => 'Name'}, {:name => 'Public Address'}, {:name => 'State'}], @deployment.instances) do |instance|
   %tr
     %td
       %input{:name => "instance_selected[]", :type => "checkbox", :value => instance.id, :id => "instance_checkbox_#{instance.id}" }
@@ -8,8 +8,6 @@
       -#there will be icons (belongs to mockups)
     %td
       = instance.name
-    %td
-      = count_uptime(instance.created_at)
     %td
       = instance.public_addresses
     %td

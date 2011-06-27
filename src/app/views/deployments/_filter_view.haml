@@ -9,8 +9,6 @@
     %td
       = deployment.deployable_xml.name
     %td
-      = count_uptime(deployment.created_at)
-    %td
       = deployment.instances.count
     %td
       = link_to(deployment.provider.provider_type.name, deployment.provider) if deployment.provider
