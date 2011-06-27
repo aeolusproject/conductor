@@ -187,3 +187,18 @@ Feature: Manage Pools
     When I am viewing the pool "mockpool"
     And I follow link with ID "filter_view"
     Then I should not see "0 Instances" within ".content.collapsible.toggle-view.pools"
+
+  Scenario: Hide/Show stopped instances
+    Given I am on the pools page
+    And there is a "mock1" running instance
+    And there is a "mock2" running instance
+    And there is a "mock3" stopped instance
+    When I follow link with ID "filter_view"
+    And I follow "Instances"
+    And I should see "mock1"
+    And I should see "mock2"
+    And I should not see "mock3"
+    When I follow "show all"
+    And I should see "mock1"
+    And I should see "mock2"
+    And I should see "mock3"

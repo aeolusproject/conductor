@@ -1,6 +1,13 @@
 - form_tag do
   = restful_submit_tag 'Stop', 'stop', multi_stop_instances_path, 'GET', :class => 'button'
   = restful_submit_tag 'Remove failed', 'remove_failed', remove_failed_instances_path, 'GET', :class => 'button'
+  - if @hide_stopped
+    %b Stopped
+    instances are hidden:
+    = link_to "show all", params.merge('hide_stopped' => 'false')
+  - else
+    Showing all instances:
+    = link_to "hide stopped", params.merge('hide_stopped' => 'true')
 
   = render :partial => 'layouts/select_all_none'
 

@@ -6,6 +6,7 @@ class PoolsController < ApplicationController
   viewstate :index do |default|
     default.merge!({
       :view => 'pretty',
+      :hide_stopped => 'true',
     })
   end
 
@@ -32,6 +33,10 @@ class PoolsController < ApplicationController
         @pools = Pool.list_or_search(params[:q], params[:order_field],params[:order_dir])
       when 'instances'
         @instances = Instance.list_or_search(params[:q], params[:order_field],params[:order_dir])
+        @hide_stopped = @viewstate && @viewstate.state['hide_stopped'] == 'true'
+        if @hide_stopped
+          @instances.delete_if { |i| i.state == Instance::STATE_STOPPED }
+        end
       when 'deployments'
         @deployments = Deployment.list_or_search(params[:q], params[:order_field],params[:order_dir])
       end
