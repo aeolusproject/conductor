@@ -10,7 +10,10 @@
   %p
     = link_to('Share this view', '#')
     = link_to('Add/Remove Columns', '#')
-  %table(class="#{lower_class}_table")
+
+  = render :partial => 'layouts/select_all_none'
+
+  %table.flat.checkbox_table
     %thead
       %tr
       - columns.each do |column|

@@ -81,7 +81,7 @@ Feature: Manage Pools
     And there is a "mock1" hardware profile
     And I am on the the hardware profiles page
     When I follow "mock1"
-    Then I should see "mock1(Front End)"
+    Then I should see "mock1 (Front End)"
 
    Scenario: Create a new Hardware Profile
     Given I am on the hardware profiles page

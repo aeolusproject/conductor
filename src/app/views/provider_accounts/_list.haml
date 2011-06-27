@@ -9,7 +9,7 @@
 
       = render :partial => 'layouts/select_all_none'
 
-      %table#provider_accounts_table.checkbox_table
+      %table#provider_accounts_table.flat.checkbox_table
         %thead
           %tr
             %th.ignore
@@ -17,7 +17,7 @@
             %th= link_to "Username", hardware_profiles_path(:sort_by => "name")
             %th= link_to "Provider Type", hardware_profiles_path(:sort_by => "name")
         - @accounts.each do |account|
-          %tr
+          %tr{:class => cycle('nostripe','stripe')}
             %td
               - selected = params[:select] == 'all'
               = check_box_tag "accounts_selected[]", account.id, selected, :id => "account_checkbox_#{account.id}"

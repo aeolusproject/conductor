@@ -9,14 +9,14 @@
 
       = render :partial => 'layouts/select_all_none'
 
-      %table#realms_table.checkbox_table
+      %table#realms_table.flat.checkbox_table
         %thead
           %tr
             %th.ignore
             %th= link_to "Realm Name", hardware_profiles_path(:sort_by => "name")
         - unless @realms.blank?
           - @realms.each do |realm|
-            %tr{:class => cycle('stripe')}
+            %tr{:class => cycle('nostripe','stripe')}
               %td
                 - selected = params[:select] == 'all'
                 = check_box_tag "realm_selected[]", realm.id, selected, :id => "realm_checkbox_#{realm.id}"

@@ -9,7 +9,7 @@
 
       = render :partial => 'layouts/select_all_none'
 
-      %table#hardware_profiles_table.checkbox_table
+      %table#hardware_profiles_table.flat.checkbox_table
         %thead
           %tr
             %th.ignore
@@ -19,7 +19,7 @@
             %th= link_to "Storage", hardware_profiles_path(:sort_by => "storage")
             %th= link_to "Virtual CPU", hardware_profiles_path(:sort_by => "cpu")
         - @hardware_profiles.each do |hwp|
-          %tr{:class => cycle('stripe')}
+          %tr{:class => cycle('nostripe','stripe')}
             %td
               - selected = params[:select] == 'all'
               = check_box_tag "hardware_profile_selected[]", hwp.id, selected, :id => "hardware_profile_checkbox_#{hwp.id}"

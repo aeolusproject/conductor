@@ -1,0 +1,25 @@
+%section.content-section.roles
+  %header
+    %h2 Deployables List
+    %span.label.badge.dark.count= @suggested_deployables.length
+
+  .content
+    - form_tag multi_destroy_suggested_deployables_path do
+      = submit_tag "Delete", :id => 'delete_button', :class => 'button danger'
+
+      = render :partial => 'layouts/select_all_none'
+      %table#deployables_table.flat.checkbox_table
+        %thead
+          %tr
+            %th.ignore
+            %th= link_to "Name", suggested_deployables_path(:sort_by => "name")
+            %th= link_to "URL", suggested_deployables_path(:sort_by => "url")
+        - @suggested_deployables.each do |suggested_deployable|
+          %tr{:class => cycle('nostripe','stripe')}
+            %td
+              - selected = params[:select] == 'all'
+              = check_box_tag "suggested_deployables_selected[]", suggested_deployable.id, selected, :id => "suggested_deployable_checkbox_#{suggested_deployable.id}"
+            %td
+              = link_to suggested_deployable.name, suggested_deployable_path(suggested_deployable.id)
+            %td
+              = suggested_deployable.url

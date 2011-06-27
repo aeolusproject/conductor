@@ -2,40 +2,40 @@
   = render :partial => '/layouts/notification'
 
 - form_tag do
-  = restful_submit_tag "Stop", "multi_stop", multi_stop_deployments_path, 'POST', :id => 'stop_button'
+  = restful_submit_tag "Stop", "multi_stop", multi_stop_deployments_path, 'POST', :id => 'stop_button', :class => 'button'
   = label_tag "More actions"
   = select_tag("more_actions",nil, :disabled => true)
-
 
   %p
     Viewing
     = select_tag("deployments_running", "<option>Deployments running</option>",:disabled => true)
     = @deployments.count.to_s + " results"
     = text_field_tag :q, @search_term || "Search result for...", :disabled => true
+  = render :partial => 'layouts/select_all_none'
 
-  %table#deployments_table
-    %tr
-      %th
-        = check_box_tag "all"
-      %th
-        -#there will be icons (belongs to mockups)
-      %th
-        = t("pools.index.deployment_name")
-      %th
-        = t("pools.index.deployed_on")
-      %th
-        = t("instances.instances")
-      %th
-        = t("pools.index.pool")
-      %th
-        = t("pools.index.pool_family")
-      %th
-        = t("pools.index.owner")
+  %table#deployments_table.flat.checkbox_table
+    %thead
+      %tr
+        %th.ignore
+        %th
+          -#there will be icons (belongs to mockups)
+        %th
+          = t("pools.index.deployment_name")
+        %th
+          = t("pools.index.deployed_on")
+        %th
+          = t("instances.instances")
+        %th
+          = t("pools.index.pool")
+        %th
+          = t("pools.index.pool_family")
+        %th
+          = t("pools.index.owner")
     - @deployments.each do |deployment|
       %tr
         %td
           - selected = params[:select] == 'all'
-          %input{:name => "deployments_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}", :checked => selected }
+          = check_box_tag "deployments_selected[]", deployment.id, selected, :id => "deployment_checkbox_#{deployment.id}"
         %td
           -#there will be icons (belongs to mockups)
         %td

@@ -9,7 +9,7 @@
 
       = render :partial => 'layouts/select_all_none'
 
-      %table#pool_families_table.checkbox_table
+      %table#pool_families_table.flat.checkbox_table
         %thead
           %tr
             %th.ignore
@@ -18,7 +18,7 @@
             %th= link_to "Quota currently in use", pool_families_path(:sort_by => "quota")
         - unless @pool_families.blank?
           - @pool_families.each do |pool_family|
-            %tr{:class => cycle('stripe')}
+            %tr{:class => cycle('nostripe','stripe')}
               %td
                 - selected = params[:select] == 'all'
                 = check_box_tag "pool_family_selected[]", pool_family.id, selected, :id => "pool_family_checkbox_#{pool_family.id}"

@@ -9,7 +9,7 @@
 
       = render :partial => 'layouts/select_all_none'
 
-      %table#providers_table.checkbox_table
+      %table#providers_table.flat.checkbox_table
         %thead
           %tr
             %th.ignore
@@ -17,7 +17,7 @@
             %th= link_to "Provider URL", providers_path(:sort_by => "url")
             %th= link_to "Provider Type", providers_path(:sort_by => "type")
         - @providers.each do |provider|
-          %tr{:class => cycle('stripe')}
+          %tr{:class => cycle('nostripe', 'stripe')}
             %td
               - selected = params[:select] == 'all'
               = check_box_tag "provider_selected[]", provider.id, selected, :id => "provider_checkbox_#{provider.id}"

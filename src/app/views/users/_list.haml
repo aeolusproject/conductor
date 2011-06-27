@@ -9,7 +9,7 @@
 
       = render :partial => 'layouts/select_all_none'
 
-      %table#users_table.checkbox_table
+      %table#users_table.flat.checkbox_table
         %thead
           %tr
             %th.ignore
@@ -22,7 +22,7 @@
               %span (Instances)
             %th= link_to "e-mail", users_url(:sort_by => "email")
         -@users.each do |user|
-          %tr{:class => cycle('stripe')}
+          %tr{:class => cycle('nostripe','stripe')}
             %td
               - selected = params[:select] == 'all'
               = check_box_tag "user_selected[]", user.id, selected, :id => "user_checkbox_#{user.id}"

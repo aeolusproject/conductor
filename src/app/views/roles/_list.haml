@@ -8,13 +8,13 @@
       = submit_tag "Delete", :id => 'delete_button', :class => 'button'
 
       = render :partial => 'layouts/select_all_none'
-      %table#roles_table.checkbox_table
+      %table#roles_table.flat.checkbox_table
         %thead
           %tr
             %th.ignore
             %th= link_to "Role Name", roles_path(:sort_by => "name")
         - @roles.each do |role|
-          %tr{:class => cycle('stripe')}
+          %tr{:class => cycle('nostripe','stripe')}
             %td
               - selected = params[:select] == 'all'
               = check_box_tag "role_selected[]", role.id, selected, :id => "role_checkbox_#{role.id}"

@@ -1,7 +1,4 @@
-%h3
-  = @hardware_profile.name + "(" + (@hardware_profile.provider_id.nil? ? "Front End" : "Provider" ) + ")"
-  = link_to 'Edit', edit_hardware_profile_path(@hardware_profile), :class => 'button'
-%table
+%table.flat
   = sortable_table_header @properties_header
   - @hwp_properties.each do |hwpp|
     %tr

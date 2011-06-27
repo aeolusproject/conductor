@@ -1,10 +1,10 @@
 - form_header = capture_haml do
   = link_to "New Pool", new_pool_path, { :class => 'button' }
-  = restful_submit_tag "Destroy", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button'
+  = restful_submit_tag "Destroy", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
   = label_tag "More actions"
   = select_tag("more_actions",nil, :disabled => true)
 = filter_table(@header, @pools, :form_header => form_header) do |pool|
-  %tr
+  %tr{:class => cycle('nostripe','stripe')}
     %td
       %input{:name => "pools_selected[]", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
     %td
@@ -23,17 +23,3 @@
       = pool.quota ? pool.quota.percentage_used.to_s + "%": 'unlimited'
     %td
       = link_to(pool.pool_family.name, pool.pool_family)
-
-:javascript
-  $(document).ready(function () {
-    $('#delete_button').click(function(e) {
-      if ($("#pools_table input[@type=checkbox]:checked").length == 0) {
-        alert('Please select any pool to be deleted before clicking Delete button.');
-        e.preventDefault();
-      } else {
-        if (!confirm("Are you sure you want to delete this pool?")) {
-          e.preventDefault();
-        }
-      }
-    });
-  });
