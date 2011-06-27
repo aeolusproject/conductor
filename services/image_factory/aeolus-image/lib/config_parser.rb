@@ -125,16 +125,16 @@ module Aeolus
           opts.separator ""
           opts.separator "List Examples:"
           opts.separator "aeolus-image list --images                  # list available images"
-          opts.separator "aeolus-image list --builds $image_id        # list the builds of an image"
-          opts.separator "aeolus-image list --targetimages $build_id  # list the target images from a build"
-          opts.separator "aeolus-image list --targets                 # list the values available for the --target parameter"
-          opts.separator "aeolus-image list --providers               # list the values available for the --provider parameter"
-          opts.separator "aeolus-image list --accounts                # list the values available for the --account parameter"
+          opts.separator "aeolus-image list --builds $image_id        # (NOT IMPLEMENTED) list the builds of an image"
+          opts.separator "aeolus-image list --targetimages $build_id  # (NOT IMPLEMENTED) list the target images from a build"
+          opts.separator "aeolus-image list --targets                 # (NOT IMPLEMENTED) list the values available for the --target parameter"
+          opts.separator "aeolus-image list --providers               # (NOT IMPLEMENTED) list the values available for the --provider parameter"
+          opts.separator "aeolus-image list --accounts                # (NOT IMPLEMENTED) list the values available for the --account parameter"
 
           opts.separator ""
           opts.separator "Build examples:"
           opts.separator "aeolus-image build --target ec2 --template my.tmpl  # build a new image for ec2 from the template"
-          opts.separator "aeolus-image build --image $image_id                # rebuild the image template and targets from latest build"
+          opts.separator "aeolus-image build --image $image_id                # (NOT IMPLEMENTED) rebuild the image template and targets from latest build"
           opts.separator %q{aeolus-image build --target ec2,rackspace \         # rebuild the image with a new template and set of targets
                    --image $image_i \
                    --template my.tmpl}
@@ -142,9 +142,9 @@ module Aeolus
           opts.separator ""
           opts.separator "Push examples:"
           opts.separator "aeolus-image push --provider ec2-us-east-1,my-rhev-m --id $image_id         # push the image to the specified providers"
-          opts.separator "aeolus-image push --build $build_id                               # push all target images for a build, to same providers as previously"
-          opts.separator "aeolus-image push --account $provider_account --build $build_id   # ditto, using a specific provider account"
-          opts.separator "aeolus-image push --image $image_id                               # push all the target images for the latest build"
+          opts.separator "aeolus-image push --build $build_id                               # (NOT IMPLEMENTED) push all target images for a build, to same providers as previously"
+          opts.separator "aeolus-image push --account $provider_account --build $build_id   # (NOT IMPLEMENTED) ditto, using a specific provider account"
+          opts.separator "aeolus-image push --image $image_id                               # (NOT IMPLEMENTED) push all the target images for the latest build"
 
           opts.separator ""
           opts.separator "Import examples:"
@@ -153,7 +153,7 @@ module Aeolus
           opts.separator "aeolus-image import --provider ec2-us-east-1 --target ec2 --id $ami_id --description <path_to_xml_file> # import an AMI from the specified provider"
 
           opts.separator ""
-          opts.separator "Delete examples:"
+          opts.separator "Delete examples: (DELETE CURRENTLY NOT IMPLEMENTED) "
           opts.separator "aeolus-image delete --build $build_id               # deletes a build, updating latest/parent references as appropriate"
           opts.separator "aeolus-image delete --targetimage $target_image     # deletes a target image and its provider images"
           opts.separator "aeolus-image delete --providerimage $provider_image # deletes a provider image"
