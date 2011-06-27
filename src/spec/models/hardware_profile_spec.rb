@@ -29,24 +29,31 @@ describe HardwareProfile do
   end
 
   it "should require valid amount of memory" do
-    [nil, "hello", -1].each do |fail_value|
+    ["hello", -1].each do |fail_value|
       @hp.memory.value = fail_value
       @hp.should_not be_valid
     end
   end
 
   it "should require valid amount of storage" do
-    [nil, "hello", -1].each do |fail_value|
+    ["hello", -1].each do |fail_value|
       @hp.storage.value = fail_value
       @hp.should_not be_valid
     end
   end
 
   it "should require valid amount of CPU" do
-    [nil, "hello", -1].each do |fail_value|
+    ["hello", -1].each do |fail_value|
       @hp.cpu.value = fail_value
       @hp.should_not be_valid
     end
+  end
+
+  it "should accept nil values" do
+    @hp.cpu.value = nil
+    @hp.memory.value = nil
+    @hp.storage.value = nil
+    @hp.should be_valid
   end
 
   it "should allow numerical amount of CPU" do

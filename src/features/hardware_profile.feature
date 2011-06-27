@@ -153,9 +153,9 @@ Feature: Manage Pools
      When I fill in "name" with "Test Hardware Profile"
      And I enter the following details for the Hardware Profile Properties
      | name         | value | unit  |
-     | memory       |       | MB    |
-     | cpu          |       | count |
-     | storage      |       | GB    |
+     | memory       | ten   | MB    |
+     | cpu          | no    | count |
+     | storage      | ?     | GB    |
      | architecture |       | label |
      And I press "Save"
      Then I should see "errors prohibited this hardware profile from being saved"
