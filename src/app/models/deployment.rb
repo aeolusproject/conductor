@@ -195,4 +195,7 @@ class Deployment < ActiveRecord::Base
     end
   end
 
+  def properties
+    {:name => name, :owner => "#{owner.first_name}  #{owner.last_name}", :created => created_at, :pool => pool.name}
+  end
 end

@@ -59,6 +59,27 @@ var Conductor = {
     }
   },
 
+  tabAjaxRequest: function () {
+    $('#tab-container-1-nav a').live("click",function(e) {
+      if (e.which==2||e.metaKey||e.ctrlKey||e.shiftKey) return true;
+
+      e.preventDefault();
+      var url = $(this).attr('href');
+      $.get(url, function(data) {
+        $('#tab').html(data)
+          .show();
+      });
+      Conductor.tabRemoveActiveClass();
+      $(this).addClass('active');
+    });
+  },
+
+  tabRemoveActiveClass: function () {
+    $('#tab-container-1-nav a').each(function(index) {
+        $(this).removeClass('active');
+    });
+  },
+
   enhanceListView: function () {
     $('#list-view table tbody a').live("click",function(e) {
       if (e.which==2||e.metaKey||e.ctrlKey||e.shiftKey) return true;
@@ -251,4 +272,5 @@ $(document).ready(function () {
   Conductor.multiDestroyValidation();
   Conductor.closeNotification();
   Conductor.enhanceUserMenu();
+  Conductor.tabAjaxRequest();
 });

@@ -151,3 +151,18 @@ Feature: Manage Deployments
     Then I should see "New Deployment in mockpool"
     And I should see "Deployment Details"
     And I should see "failed to get the deployable definition"
+
+  Scenario: Show deployment switch to deployment properties and back
+    Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
+    When I am on the deployments page
+    And I follow "testdeployment"
+    And I should see "testdeployment"
+    And I follow "Properties"
+    Then I should see the following:
+      | Property Name | Value          |
+      | Pool	        | default_pool   |
+      | Owner	        | John testuser  |
+      | Name	        | testdeployment |
+
+    When I follow "Instances"
+    Then I should see "testdeployment"

@@ -12,6 +12,5 @@
             %span.label.badge.count.dark=tab[:count]
     .section-controls
       %a.collapse{'href'=>'#'} Collapse
-  .content.collapsible.toggle-view.pools
-    %section.content-section.toggle-view#content
-      = render :partial => @view
+  .content.collapsible.toggle-view.deployments#tab
+    = render :partial => @view

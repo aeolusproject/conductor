@@ -69,7 +69,10 @@ class DeploymentsController < ApplicationController
             :successes => status[:successes]
           }
         end
-        format.js { render :partial => 'properties' }
+        format.js do
+          @deployment_properties = @deployment.properties
+          render :partial => 'properties'
+        end
         format.html { redirect_to deployment_path(@deployment) }
         format.json { render :json => @deployment, :status => :created }
       else
@@ -91,17 +94,21 @@ class DeploymentsController < ApplicationController
     save_breadcrumb(deployment_path(@deployment, :viewstate => viewstate_id), @deployment.name)
     @failed_instances = @deployment.instances.select {|instance| instance.state == Instance::STATE_CREATE_FAILED || instance.state == Instance::STATE_ERROR}
     @view = filter_view? ? 'filter_view_show' : 'pretty_view_show'
-    #TODO add links to real data for history,properties,permissions
+    #TODO add links to real data for history, permissions, services
     @tabs = [{:name => 'Instances', :view => @view, :id => 'instances', :count => @deployment.instances.count},
              {:name => 'Services', :view => @view, :id => 'services'},
-             {:name => 'History', :view => @view, :id => 'history'},
-             {:name => 'Properties', :view => @view, :id => 'properties'},
-             {:name => 'Permissions', :view => @view, :id => 'permissions'}
+             {:name => 'History', :view => 'history', :id => 'history'},
+             {:name => 'Properties', :view => 'properties', :id => 'properties'},
+             {:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
     ]
     details_tab_name = params[:details_tab].blank? ? 'instances' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
+    @deployment_properties = @deployment.properties
+    if params[:details_tab]
+      @view = @details_tab[:view]
+    end
     respond_to do |format|
-      format.js { render :partial => @view }
+      format.js   { render :partial => @details_tab[:view] }
       format.html { render :action => 'show'}
       format.json { render :json => @deployment }
     end
@@ -123,7 +130,10 @@ class DeploymentsController < ApplicationController
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
         flash[:success] = t('deployments.updated', :count => 1, :list => @deployment.name)
-        format.js { render :partial => 'properties' }
+        format.js do
+          @deployment_properties = @deployment.properties
+          render :partial => 'properties'
+        end
         format.html { redirect_to @deployment }
         format.json { render :json => @deployment }
       else

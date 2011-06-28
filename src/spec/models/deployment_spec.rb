@@ -66,4 +66,8 @@ describe Deployment do
     @deployment.instances.count.should == 2
   end
 
+  it "should return properties hash" do
+    @deployment.properties.should be_a_kind_of(Hash)
+    @deployment.properties.should == {:created=>nil, :pool=>@deployment.pool.name, :owner=>"John  Smith", :name=>@deployment.name}
+  end
 end
