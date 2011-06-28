@@ -32,49 +32,6 @@ class Possible
   end
 end
 
-def match(instance)
-  possibles = []
-
-  PoolFamily.all.each do |pool_family|
-    if instance.pool.pool_family.id != pool_family.id
-      next
-    end
-
-    image_build = instance.image_build || instance.image.latest_build
-    provider_images = image_build ? image_build.provider_images : []
-    pool_family.provider_accounts.each do |account|
-      # match_provider_hardware_profile returns a single provider
-      # hardware_profile that can satisfy the input hardware_profile
-      hwp = HardwareProfile.match_provider_hardware_profile(account.provider,
-                                                            instance.hardware_profile)
-
-      provider_images.select {|pi| pi.provider == account.provider}.each do |pi|
-        if not instance.frontend_realm.nil?
-          instance.frontend_realm.realm_backend_targets.each do |brealm_target|
-            if brealm_target.target_provider == account.provider
-              possibles << Possible.new(pool_family, account, hwp, pi,
-                                        brealm_target.target_realm)
-            end
-          end
-        else
-          possibles << Possible.new(pool_family, account, hwp, pi, nil)
-        end
-      end
-    end
-  end
-
-  possibles.each do |match|
-    # FIXME: we should have something smarter here that prioritizes
-    # and/or chooses the "cheapest" possibility.  For now, just return the
-    # first that fits under quota
-    if Quota.can_start_instance?(instance, match.account)
-      return match
-    end
-  end
-
-  return nil
-end
-
 def pipe_and_log(pipe, instr)
   pipe.puts instr
   Rails.logger.error instr
@@ -104,7 +61,7 @@ end
 
 def condormatic_instance_create(task)
   instance = task.instance
-  found = match(instance)
+  found = instance.match
 
   begin
     if found.nil?

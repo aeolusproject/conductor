@@ -307,6 +307,49 @@ class Instance < ActiveRecord::Base
     instances
   end
 
+  def match
+    possibles = []
+
+    PoolFamily.all.each do |pool_family|
+      if pool.pool_family.id != pool_family.id
+        next
+      end
+
+      image_build = image_build || image.latest_build
+      provider_images = image_build ? image_build.provider_images : []
+      pool_family.provider_accounts.each do |account|
+        # match_provider_hardware_profile returns a single provider
+        # hardware_profile that can satisfy the input hardware_profile
+        hwp = HardwareProfile.match_provider_hardware_profile(account.provider,
+                                                              hardware_profile)
+
+        provider_images.select {|pi| pi.provider == account.provider}.each do |pi|
+          if not frontend_realm.nil?
+            frontend_realm.realm_backend_targets.each do |brealm_target|
+              if brealm_target.target_provider == account.provider
+                possibles << Possible.new(pool_family, account, hwp, pi,
+                                          brealm_target.target_realm)
+              end
+            end
+          else
+            possibles << Possible.new(pool_family, account, hwp, pi, nil)
+          end
+        end
+      end
+    end
+
+    possibles.each do |match|
+      # FIXME: we should have something smarter here that prioritizes
+      # and/or chooses the "cheapest" possibility.  For now, just return the
+      # first that fits under quota
+      if Quota.can_start_instance?(self, match.account)
+        return match
+      end
+    end
+
+    return nil
+  end
+
   named_scope :with_hardware_profile, lambda {
       {:include => :hardware_profile}
   }
