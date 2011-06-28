@@ -67,7 +67,7 @@ def match(instance)
     # FIXME: we should have something smarter here that prioritizes
     # and/or chooses the "cheapest" possibility.  For now, just return the
     # first that fits under quota
-    if Quota.can_create_instance?(instance, match.account)
+    if Quota.can_start_instance?(instance, match.account)
       return match
     end
   end
@@ -167,6 +167,7 @@ def condormatic_instance_create(task)
     instance.state = Instance::STATE_CREATE_FAILED
   else
     task.state = Task::STATE_PENDING
+    instance.state = Instance::STATE_PENDING
   end
   instance.save!
   task.save!

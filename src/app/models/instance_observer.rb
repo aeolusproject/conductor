@@ -1,6 +1,7 @@
 class InstanceObserver < ActiveRecord::Observer
 
   ACTIVE_STATES = [ Instance::STATE_PENDING, Instance::STATE_RUNNING, Instance::STATE_SHUTTING_DOWN, Instance::STATE_STOPPED ]
+  RUNNING_STATES = [ Instance::STATE_PENDING, Instance::STATE_RUNNING, Instance::STATE_SHUTTING_DOWN ]
 
   def before_save(an_instance)
     if an_instance.changed?
@@ -42,18 +43,16 @@ class InstanceObserver < ActiveRecord::Observer
       if parent
         quota = parent.quota
         if quota
-	  if state_to == Instance::STATE_RUNNING
-	    quota.running_instances += 1
-	  elsif state_from == Instance::STATE_RUNNING
-	    quota.running_instances -= 1
-	  end
+          if !RUNNING_STATES.include?(state_from) && RUNNING_STATES.include?(state_to)
+            quota.running_instances += 1
+          elsif RUNNING_STATES.include?(state_from) && !RUNNING_STATES.include?(state_to)
+            quota.running_instances -= 1
+          end
 
-	  if state_from != nil
-	    if !ACTIVE_STATES.include?(state_from) && ACTIVE_STATES.include?(state_to)
-	      quota.total_instances += 1
-      elsif ACTIVE_STATES.include?(state_from) && !ACTIVE_STATES.include?(state_to)
-	      quota.total_instances -= 1
-	    end
+          if !ACTIVE_STATES.include?(state_from) && ACTIVE_STATES.include?(state_to)
+            quota.total_instances += 1
+          elsif ACTIVE_STATES.include?(state_from) && !ACTIVE_STATES.include?(state_to)
+            quota.total_instances -= 1
           end
           quota.save!
         end

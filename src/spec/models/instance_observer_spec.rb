@@ -139,11 +139,29 @@ describe InstanceObserver do
     end
   end
 
-  it "should update a pool, cloud account and user quota when an instance state goes from running to another active state" do
+  it "should not update pool, cloud account and user quota when an instance state goes from pending to running to shutting down" do
+    @instance.state = Instance::STATE_PENDING
+    @instance.save!
+
     @instance.state = Instance::STATE_RUNNING
     @instance.save!
 
     @instance.state = Instance::STATE_SHUTTING_DOWN
+    @instance.save!
+
+    [@provider_account_quota, @pool_quota, @user_quota].each do |quota|
+      quota = Quota.find(quota.id)
+      quota.running_instances.should == 1
+      quota.total_instances.should == 1
+    end
+  end
+
+
+  it "should update a pool, cloud account and user quota when an instance state goes from running to stopped state" do
+    @instance.state = Instance::STATE_RUNNING
+    @instance.save!
+
+    @instance.state = Instance::STATE_STOPPED
     @instance.save!
 
     [@provider_account_quota, @pool_quota, @user_quota].each do |quota|
