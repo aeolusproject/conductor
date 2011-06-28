@@ -100,6 +100,10 @@ class Quota < ActiveRecord::Base
     return true
   end
 
+  def reached?
+    !Quota.no_limit(maximum_running_instances) && running_instances >= maximum_running_instances
+  end
+
   def quota_resources()
     quota_resources =  {"running_instances" => QuotaResource.new("Running Instances", running_instances, maximum_running_instances, nil, ""),
             "total_instances" => QuotaResource.new("Total Instances", total_instances, maximum_total_instances, nil, "")}

@@ -17,6 +17,10 @@ class ProviderImage < WarehouseModel
     TargetImage.find(@target_image) if @target_image
   end
 
+  def provider_name
+    @provider
+  end
+
   def provider
     Provider.find_by_name(@provider)
   end

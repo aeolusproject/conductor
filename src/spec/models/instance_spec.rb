@@ -120,4 +120,43 @@ describe Instance do
     instance.get_action_list.should be_empty
   end
 
+  it "shouldn't return any matches if pool quota is reached" do
+    @quota.maximum_running_instances = 1
+    @quota.running_instances = 1
+    @quota.save!
+    @instance.matches.last.should include('Pool quota reached')
+  end
+
+  it "shouldn't return any matches if pool family quota is reached" do
+    quota = @pool.pool_family.quota
+    quota.maximum_running_instances = 1
+    quota.running_instances = 1
+    quota.save!
+    @instance.matches.last.should include('Pool family quota reached')
+  end
+
+  it "shouldn't return any matches if user quota is reached" do
+    quota = @instance.owner.quota
+    quota.maximum_running_instances = 1
+    quota.running_instances = 1
+    quota.save!
+    @instance.matches.last.should include('User quota reached')
+  end
+
+  it "shouldn't return any matches if there are no provider accounts associated with pool family" do
+    @instance.pool.pool_family.provider_accounts = []
+    @instance.matches.last.should include('There are no provider accounts associated with pool family of selected pool.')
+  end
+
+  it "shouldn't match provider accounts where image is not pushed" do
+    @pool.pool_family.provider_accounts = [Factory(:mock_provider_account, :label => 'testaccount')]
+    @instance.matches.last.should include('testaccount: image is not pushed to this provider account')
+  end
+
+  it "should return a match if all requirements are satisfied" do
+    build = @instance.image_build || @instance.image.latest_build
+    provider = Factory(:mock_provider, :name => build.provider_images.first.provider_name)
+    @pool.pool_family.provider_accounts = [Factory(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+    @instance.matches.first.should_not be_empty
+  end
 end

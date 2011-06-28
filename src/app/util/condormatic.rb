@@ -61,12 +61,12 @@ end
 
 def condormatic_instance_create(task)
   instance = task.instance
-  found = instance.match
+  matches, errors = instance.matches
+  found = matches.first
 
   begin
     if found.nil?
-      Rails.logger.error "Couldn't find a match!"
-      raise ("Could not find a matching backend provider")
+      raise "Could not find a matching backend provider, errors: #{errors.join(', ')}"
     end
 
     job_name = "job_#{instance.name}_#{instance.id}"
@@ -117,17 +117,19 @@ def condormatic_instance_create(task)
     Rails.logger.error "$? (return value?) is #{$?}"
     raise ("Error calling condor_submit: #{out}") if $? != 0
 
+    task.state = Task::STATE_PENDING
+    instance.state = Instance::STATE_PENDING
   rescue Exception => ex
     Rails.logger.error ex.message
     Rails.logger.error ex.backtrace
     task.state = Task::STATE_FAILED
     instance.state = Instance::STATE_CREATE_FAILED
-  else
-    task.state = Task::STATE_PENDING
-    instance.state = Instance::STATE_PENDING
+    # exception is raised after ensure block
+    raise ex
+  ensure
+    instance.save!
+    task.save!
   end
-  instance.save!
-  task.save!
 end
 
 def condormatic_instance_stop(task)

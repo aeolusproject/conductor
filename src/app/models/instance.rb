@@ -307,47 +307,51 @@ class Instance < ActiveRecord::Base
     instances
   end
 
-  def match
-    possibles = []
+  def matches
+    errors = []
+    if pool.pool_family.provider_accounts.empty?
+      errors << 'There are no provider accounts associated with pool family of selected pool.'
+    end
+    errors << 'Pool quota reached' if pool.quota.reached?
+    errors << 'Pool family quota reached' if pool.pool_family.quota.reached?
+    errors << 'User quota reached' if owner.quota.reached?
+    return [[], errors] unless errors.empty?
 
-    PoolFamily.all.each do |pool_family|
-      if pool.pool_family.id != pool_family.id
+    build = image_build || image.latest_build
+    provider_images = build ? build.provider_images : []
+    possibles = []
+    pool.pool_family.provider_accounts.each do |account|
+      # match_provider_hardware_profile returns a single provider
+      # hardware_profile that can satisfy the input hardware_profile
+      hwp = HardwareProfile.match_provider_hardware_profile(account.provider,
+                                                            hardware_profile)
+      account_images = provider_images.select {|pi| pi.provider == account.provider}
+      if account_images.empty?
+        errors << "#{account.name}: image is not pushed to this provider account"
         next
       end
-
-      image_build = image_build || image.latest_build
-      provider_images = image_build ? image_build.provider_images : []
-      pool_family.provider_accounts.each do |account|
-        # match_provider_hardware_profile returns a single provider
-        # hardware_profile that can satisfy the input hardware_profile
-        hwp = HardwareProfile.match_provider_hardware_profile(account.provider,
-                                                              hardware_profile)
-
-        provider_images.select {|pi| pi.provider == account.provider}.each do |pi|
-          if not frontend_realm.nil?
-            frontend_realm.realm_backend_targets.each do |brealm_target|
-              if brealm_target.target_provider == account.provider
-                possibles << Possible.new(pool_family, account, hwp, pi,
-                                          brealm_target.target_realm)
-              end
-            end
-          else
-            possibles << Possible.new(pool_family, account, hwp, pi, nil)
+      if account.quota.reached?
+        errors << "#{account.name}: provider account quota reached"
+        next
+      end
+      account_images.each do |pi|
+        if not frontend_realm.nil?
+          blreams = frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == account.provider}
+          if brealms.empty?
+            errors << "Realm #{rontend_realm.nam} is not mapped to any provider or provider realm"
+            next
           end
+          brealms.each do |brealm_target|
+            possibles << Possible.new(pool.pool_family, account, hwp, pi,
+                                      brealm_target.target_realm)
+          end
+        else
+          possibles << Possible.new(pool.pool_family, account, hwp, pi, nil)
         end
       end
     end
 
-    possibles.each do |match|
-      # FIXME: we should have something smarter here that prioritizes
-      # and/or chooses the "cheapest" possibility.  For now, just return the
-      # first that fits under quota
-      if Quota.can_start_instance?(self, match.account)
-        return match
-      end
-    end
-
-    return nil
+    [possibles, errors]
   end
 
   named_scope :with_hardware_profile, lambda {
