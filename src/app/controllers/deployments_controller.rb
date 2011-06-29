@@ -163,7 +163,7 @@ class DeploymentsController < ApplicationController
         load_deployments
         render :partial => 'list'
       end
-      format.html { redirect_to deployments_url }
+      format.html { redirect_to pools_url }
       format.json { render :json => {:success => destroyed, :errors => failed} }
     end
   end

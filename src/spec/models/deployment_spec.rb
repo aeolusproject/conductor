@@ -70,4 +70,22 @@ describe Deployment do
     @deployment.properties.should be_a_kind_of(Hash)
     @deployment.properties.should == {:created=>nil, :pool=>@deployment.pool.name, :owner=>"John  Smith", :name=>@deployment.name}
   end
+
+  it "should be removable under with stopped or create_failed instances" do
+    @deployment.save!
+    inst1 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+    inst2 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+
+    @deployment.should_not be_destroyable
+    @deployment.destroy.should == false
+
+    inst1.state = Instance::STATE_CREATE_FAILED
+    inst1.save!
+    inst2.state = Instance::STATE_STOPPED
+    inst2.save!
+
+    @deployment = Deployment.find(@deployment.id)
+    @deployment.should be_destroyable
+    expect { @deployment.destroy }.to change(Deployment, :count).by(-1)
+  end
 end

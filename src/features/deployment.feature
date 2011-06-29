@@ -166,3 +166,10 @@ Feature: Manage Deployments
 
     When I follow "Instances"
     Then I should see "testdeployment"
+
+  Scenario: Delete a deployment
+    Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
+    And I am on the pools page
+    When I follow "testdeployment"
+    And I press "Delete"
+    Then I should see "The deployment testdeployment was successfully deleted"

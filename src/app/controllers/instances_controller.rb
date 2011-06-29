@@ -151,28 +151,6 @@ class InstancesController < ApplicationController
     end
   end
 
-  def remove_failed
-    notices = ""
-    errors = ""
-    Instance.find(params[:instance_selected]).each do |instance|
-      begin
-        require_privilege(Privilege::USE,instance)
-        raise ActionError.new("remove failed cannot be performed on this instance.") unless
-          instance.state == Instance::STATE_ERROR
-        condormatic_instance_reset_error(instance)
-        notices << "#{instance.name}: remove failed action was successfully queued."
-      rescue Exception => err
-        errors << "#{instance.name}: " + err + "<br/>"
-      end
-    end
-    flash[:notice] = notices unless notices.blank?
-    flash[:error] = errors unless errors.blank?
-    respond_to do |format|
-      format.html { redirect_to instances_path }
-      format.json { render :json => {:success => notices, :errors => errors}, :status => :unprocessable_entity }
-    end
-  end
-
   def can_create
     respond_to do |format|
       begin

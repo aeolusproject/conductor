@@ -65,14 +65,6 @@ Feature: Manage Instances
     Then I should get back a partial
     And I should see "Name"
 
-  Scenario: Remove failed instances
-    Given there is a "mock1" failed instance
-    And I am on the instances page
-    When I check "mock1" instance
-    And I press "Remove failed"
-    Then I should be on the instances page
-    And I should see "mock1: remove failed action was successfully queued"
-
   Scenario: Stop instance
     Given there is a "mock1" running instance
     And I am on the instances page

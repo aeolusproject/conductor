@@ -1,6 +1,5 @@
 - form_tag do
   = restful_submit_tag 'Stop', 'stop', multi_stop_instances_path, 'GET', :class => 'button'
-  = restful_submit_tag 'Remove failed', 'remove_failed', remove_failed_instances_path, 'GET', :class => 'button'
   - if @hide_stopped
     %b Stopped
     instances are hidden:

@@ -47,7 +47,7 @@ class Deployment < ActiveRecord::Base
 
   belongs_to :pool
 
-  has_many :instances
+  has_many :instances, :dependent => :destroy
 
   belongs_to :realm
   belongs_to :frontend_realm

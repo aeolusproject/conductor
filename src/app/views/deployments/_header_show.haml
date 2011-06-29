@@ -4,4 +4,6 @@
   #obj_actions.button-container
     .button-group
       = pretty_filter_toggle(deployment_path(@deployment, :view => 'pretty'), deployment_path(@deployment, :view => 'filter'))
+    .button-group
+      = button_to 'Delete', deployment_path(@deployment), :method => :delete, :confirm => "Are you sure you vant to delete this deployment?", :class => "button pill danger"
   .corner &nbsp;
