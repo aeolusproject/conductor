@@ -7,5 +7,5 @@
 
   .content
     - unless @providers.empty?
-      - form_for(@provider_account, :url => provider_accounts_path, :html => {:multipart => true})  do |f|
+      - form_for(@provider_account, :url => provider_accounts_path, :html => {:multipart => true, :class => 'generic'})  do |f|
         = render :partial => "form", :locals => { :form => f }

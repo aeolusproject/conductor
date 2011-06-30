@@ -6,5 +6,5 @@
     %h2 New Pool Family
 
   .content
-    - form_for @pool_family, :url => pool_families_path do |f|
+    - form_for @pool_family, :url => pool_families_path, :html => {:class => 'generic'} do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => pool_families_path }

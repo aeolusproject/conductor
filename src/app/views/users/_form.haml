@@ -1,43 +1,55 @@
 = form.error_messages
 %fieldset
-  = form.label :login, t(:choose_name), :class => "grid_3 alpha"
-  = form.text_field :login, :class => "grid_5"
+  %p
+    = form.label :login, t(:choose_name)
+    = form.text_field :login, :class => "em"
+
+%fieldset.inline
+  %p
+    = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password)
+    = form.password_field :password
+  %p
+    = form.label :password_confirmation, t(:confirm_password)
+    = form.password_field :password_confirmation
+
+%fieldset.inline
+  %p
+    = form.label :first_name, t(:first_name)
+    = form.text_field :first_name
+  %p
+    = form.label :last_name, t(:last_name)
+    = form.text_field :last_name
+
 %fieldset
-  = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password), :class => "grid_3 alpha"
-  = form.password_field :password, :class => "grid_5"
-%fieldset
-  = form.label :password_confirmation, t(:confirm_password), :class => "grid_3 alpha"
-  = form.password_field :password_confirmation, :class => "grid_5"
+  %p
+    = form.label :email, t(:email)
+    = form.text_field :email, :class => 'long'
+
+-if check_privilege(Privilege::MODIFY, User)
+  %fieldset.inline
+    %legend User Treatment
+    %p
+      = select_tag 'user_treatment', options_for_select([t(:choose_treatment)])
+    %p
+      = submit_tag t(:apply), :disabled => true
+
+  - form.fields_for :quota do |quota_form|
+    %fieldset
+      %p
+        = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
+        = quota_form.text_field :maximum_running_instances
+        (instances)
+        = quota_form.error_message_on :maximum_running_instances, 'Maximum Running Instances '
+
 -if check_privilege(Privilege::MODIFY, User)
   %fieldset
-    = form.label :user_status, "User Status:", :class => "alpha grid_3"
-    .grid_5
+    %legend User Status
+    %p.radio-group
       = radio_button_tag "user_status","Active",true
       = label_tag "user_status_active", "Active"
       = radio_button_tag "user_status","Inactive", false, :disabled => true
       = label_tag "user_status_inactive", "Inactive"
-%fieldset
-  = form.label :first_name, t(:first_name), :class => "alpha grid_3"
-  = form.text_field :first_name, :class => "grid_5"
-%fieldset
-  = form.label :last_name, t(:last_name), :class => "alpha grid_3"
-  = form.text_field :last_name, :class => "grid_5"
-%fieldset
-  = form.label :email, t(:email), :class => "alpha grid_3"
-  = form.text_field :email, :class => "grid_5"
--if check_privilege(Privilege::MODIFY, User)
-  %h3.grid_16 User Treatment
-  %fieldset
-    = label_tag 'apply_treatment', t(:apply_treatment), :class => "alpha grid_3"
-    = select_tag 'user_treatment', options_for_select([t(:choose_treatment)]), :class => "grid_5"
-    = submit_tag t(:apply), :disabled => true, :class => "grid_2"
 
-  - form.fields_for :quota do |quota_form|
-    %fieldset
-      = quota_form.label :maximum_running_instances, t(:maximum_running_instances), :class => "alpha grid_3"
-      = quota_form.text_field :maximum_running_instances, :class => "grid_5"
-      (instances)
-      = quota_form.error_message_on :maximum_running_instances, 'Maximum Running Instances '
-%fieldset
+%fieldset.options
   = form.submit "Save",  :class => "submit button"
   = link_to t(:cancel), cancel_path, :class => 'button danger'

@@ -16,5 +16,5 @@
       %h2 Editing Account
 
   .content
-    - form_for @user, :url => user_path(@user), :html => { :method => :put } do |f|
+    - form_for @user, :url => user_path(@user), :html => { :method => :put, :class => 'generic' } do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => users_path }

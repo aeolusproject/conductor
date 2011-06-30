@@ -5,5 +5,5 @@
     %h2 New Role
 
   .content
-    - form_for @role, :url => roles_path do |f|
+    - form_for @role, :url => roles_path, :html => {:class => 'generic'} do |f|
       = render :partial => "form", :locals => { :form => f }

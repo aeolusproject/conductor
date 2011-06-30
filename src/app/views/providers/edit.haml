@@ -15,5 +15,5 @@
       = @provider.name
 
   .content
-    -form_for @provider, :url => provider_path(@provider), :html => { :method => :put } do |f|
+    -form_for @provider, :url => provider_path(@provider), :html => { :method => :put, :class => 'generic' } do |f|
       = render :partial => 'form', :locals => { :form => f, :cancel_path => provider_path(@provider)}

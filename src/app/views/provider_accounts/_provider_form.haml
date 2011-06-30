@@ -1,25 +1,28 @@
 %fieldset
-  = label :provider_account, "Account name:"
-  = text_field :provider_account, :label
+  %p
+    = label :provider_account, "Account Name"
+    = text_field :provider_account, :label, :class => 'em long'
 - CredentialDefinition::CREDENTIAL_DEFINITIONS_ORDER.each do |cred_order|
   - @provider_account.all_credentials(@selected_provider).each do |cred|
     - if cred_order == cred.credential_definition.name
       %fieldset
-        = label_tag cred.credential_definition.label
-        - if cred.credential_definition.input_type == "password"
-          = password_field_tag "provider_account[credentials_hash][#{cred.credential_definition.name}]", cred.value
-        - elsif cred.credential_definition.input_type == "file"
-          = file_field_tag "provider_account[credentials_hash][#{cred.credential_definition.name}]", :value => cred.value
-        - else
-          = text_field_tag "provider_account[credentials_hash][#{cred.credential_definition.name}]", cred.value
+        %p
+          = label_tag cred.credential_definition.label
+          - if cred.credential_definition.input_type == "password"
+            = password_field_tag "provider_account[credentials_hash][#{cred.credential_definition.name}]", cred.value
+          - elsif cred.credential_definition.input_type == "file"
+            = file_field_tag "provider_account[credentials_hash][#{cred.credential_definition.name}]", :value => cred.value
+          - else
+            = text_field_tag "provider_account[credentials_hash][#{cred.credential_definition.name}]", cred.value
 
-= label_tag "Quota"
-= text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || "unlimited", :id => "quota_instances", :class => "grid_3 omega"
-(
-%button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances\");" }<>
-  = t('provider_accounts.form.unlimited_quota')
-)
 %fieldset
+  %p
+    = label_tag "Quota"
+    = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || "unlimited", :id => "quota_instances"
+    (
+    %button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances\");" }<>
+      = t('provider_accounts.form.unlimited_quota')
+    )
 
 :javascript
   function set_unlimited_quota(elem_id) {

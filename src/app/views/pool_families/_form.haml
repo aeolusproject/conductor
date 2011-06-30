@@ -1,12 +1,14 @@
 = error_messages_for :pool_family
-= form.error_message_on :name, 'Name '
 %fieldset
-  = form.label :name,'Pool Family Name:'
-  = form.text_field :name, :title => 'pool_family_name', :value => @pool_family.name
+  %p
+    = form.label :name,'Pool Family Name'
+    = form.text_field :name, :title => 'pool_family_name', :value => @pool_family.name, :class => 'em long'
+
 %fieldset
   - form.fields_for :quota do |quota_form|
-    %fieldset
-      = quota_form.label :maximum_running_instances, t(:maximum_running_instances), :class => "alpha grid_3"
+    %p
+      = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
       = quota_form.text_field :maximum_running_instances
-%fieldset
+
+%fieldset.options
   = form.submit "Save",  :class => "submit button"

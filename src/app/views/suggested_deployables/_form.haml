@@ -1,14 +1,15 @@
 = error_messages_for 'suggested_deployable'
-%ul
-  %li
+%fieldset
+  %p
     = form.label :name
-    = form.text_field :name
-  %li
+    = form.text_field :name, :class => 'em long'
+  %p
     = form.label :description
-    = form.text_area :description
-  %li
+    = form.text_area :description, :class => 'long'
+  %p
     = form.label :url, 'URL'
-    = form.text_field :url
+    = form.text_field :url, :class => 'long'
 
-= link_to 'Cancel', suggested_deployables_path, :class => 'button danger'
-= submit_tag 'Save', :name => 'save', :class => 'button'
+%fieldset.options
+  = link_to 'Cancel', suggested_deployables_path, :class => 'button danger'
+  = submit_tag 'Save', :name => 'save', :class => 'button'

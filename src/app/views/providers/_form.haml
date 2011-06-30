@@ -1,14 +1,15 @@
 = form.error_messages
 %fieldset
-  = form.label :name,'Provider name:'
-  = form.text_field :name, :title => 'provider_name', :value => @provider.name
-%fieldset
-  = form.label :url, 'Provider URL:'
-  = form.text_field :url, :title => 'provider_url', :value => @provider.url
-%fieldset
-  = form.label :provider_type
-  = form.select(:provider_type_id, ProviderType.all.collect {|provider_type| [provider_type.name,provider_type.id] }, :prompt => "Select type of provider")
+  %p
+    = form.label :name,'Provider name:'
+    = form.text_field :name, :title => 'provider_name', :value => @provider.name, :class => 'em long'
+  %p
+    = form.label :url, 'Provider URL:'
+    = form.text_field :url, :title => 'provider_url', :value => @provider.url, :class => 'long'
+  %p
+    = form.label :provider_type
+    = form.select(:provider_type_id, ProviderType.all.collect {|provider_type| [provider_type.name,provider_type.id] }, :prompt => "Select type of provider")
 
-%fieldset
-  = form.submit "Save",  :class => "submit button button"
-  = link_to t(:cancel), cancel_path, :class => 'button button danger'
+%fieldset.options
+  = form.submit "Save",  :class => "submit button"
+  = link_to t(:cancel), cancel_path, :class => 'button danger'

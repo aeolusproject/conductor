@@ -1,6 +1,6 @@
 /* ###########################################################################
 Generated SCSS for Aeolus UI [aeolus_ui]
-Compiled on 2011-06-16 22:42:20 -0700
+Compiled on Wed Jun 29 20:41:07 -0700 2011
 ########################################################################### */
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2328,6 +2328,182 @@ ul.deployment-array.small{
 
 ul.deployment-array.small + ul.deployment-array.small{
   margin-top: 10px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Flat Table Component -- v.0.0.1 [flat_table] (flat_table.scss)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+$font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
+
+/* padding configuration */
+$th_padding: 8px 10px 8px 10px;
+$td_padding: 8px;
+
+/* color configuration */
+$cell_color_base: #ffffff;
+$cell_color_header: #cccccc;
+$cell_color_stripe: #efefef;
+$cell_color_selected: #f9fafe;
+$cell_color_gradient: 5%;
+
+$cell_header_text_color: #666666;
+
+/* useful mixins */
+@mixin gradient-bg($from, $to){
+  background-color: $cell_color_base;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($from), to($to));
+  background-image: -moz-linear-gradient($from, $to);
+  background-image: -o-linear-gradient($from, $to);
+  background-image: linear-gradient($from, $to);
+}
+
+/* Flat Table ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+table.flat{
+
+  border-collapse: separate;
+  font-family: $font-family-primary;
+
+  /* header */
+
+  th{
+    @include gradient-bg($cell_color_base, $cell_color_header);
+    text-align: center;
+    font-size: 11px;
+    color: $cell_header_text_color;
+    font-weight: bold;
+    text-shadow: 0px 1px 0px #ffffff;
+    padding: $th_padding;
+    border-bottom: 1px solid #D6DADD;
+    border-left: 1px solid darken(#E9EAEC, $cell_color_gradient);
+  }
+
+  th.ignore{
+    background-color: transparent;
+    background-image: none;
+    border: 0;
+  }
+
+  th.ignore + th{
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    border-top-left-radius: 5px;
+  }
+
+  td{
+    $cell_color_end: darken($cell_color_base, $cell_color_gradient);
+    border-spacing: 0px;
+    text-align: center;
+    padding: $td_padding;
+    border-top: 1px solid #fff;
+    font-size: 12px;
+    color: #333;
+    @include gradient-bg($cell_color_base, $cell_color_end);
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid darken($cell_color_end, $cell_color_gradient);
+    border-right: 1px solid darken($cell_color_end, $cell_color_gradient);
+  }
+
+  tr{
+    height: 30px;
+  }
+
+  tr.stripe{
+    td{
+      $cell_color_end: darken($cell_color_stripe, $cell_color_gradient);
+      @include gradient-bg($cell_color_stripe, $cell_color_end);
+      border-bottom: 1px solid darken($cell_color_stripe, $cell_color_gradient);
+      border-right: 1px solid darken($cell_color_stripe, $cell_color_gradient);
+    }
+  }
+
+  tr.selected{
+    td{
+      $cell_color_end: darken($cell_color_selected, $cell_color_gradient);
+      @include gradient-bg($cell_color_selected, $cell_color_end);
+      border-top: 1px solid #fff;
+      border-left: 1px solid #fff;
+      border-bottom: 1px solid darken($cell_color_end, $cell_color_gradient);
+      border-right: 1px solid darken($cell_color_end, $cell_color_gradient);
+    }
+  }
+
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Form Components -- v.0.0.1 [form] (form.scss)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+$font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$label-font: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
+
+form.generic{
+
+  fieldset{
+    p + p{
+      margin-top: 10px;
+    }
+    p.radio-group label{
+      display: inline;
+    }
+  }
+
+  fieldset.inline p{
+    display: inline-block;
+  }
+
+  fieldset.em{
+    padding: 10px;
+    background-color: #dfdfdf;
+    border: 1px solid #999;
+    margin: 10px 0px 10px 0px;
+  }
+
+  fieldset + fieldset{
+    margin-top: 10px;
+  }
+
+  fieldset legend{
+    font-family: $font-family-primary;
+    font-size: 16px;
+    font-weight: light;
+  }
+
+  label{
+    display: block;
+    font-family: $label-font;
+    font-size: 12px;
+    text-shadow: 0px 1px 0px #ffffff;
+    padding-bottom: 2px;
+    font-weight: normal;
+  }
+
+  label span{
+    font-size: 11px;
+    color: #666;
+  }
+
+  input[type="text"],input[type="password"]{
+    padding: 4px;
+    width: 200px;
+    font-size: 13px;
+  }
+
+  input.em{
+    font-size: 16px;
+    padding: 6px;
+  }
+
+  input.long{
+    width: 400px;
+  }
+
+  input.short{
+    width: 100px;
+  }
+
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -6,7 +6,7 @@
     %h2 New Account
 
   .content
-    - form_for @user, :url => users_path do |f|
+    - form_for @user, :url => users_path, :html => {:class => 'generic'} do |f|
       -if current_user
         = render :partial => "form", :locals => { :form => f, :cancel_path => users_path }
       -else

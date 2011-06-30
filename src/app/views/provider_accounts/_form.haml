@@ -1,5 +1,5 @@
 = error_messages_for :provider_account
 = render :partial => 'provider_selection'
-%fieldset
+%fieldset.options
   = form.submit 'Save', :class => "button"
-  = link_to t(:cancel), provider_accounts_path, :class => 'button button danger'
+  = link_to t(:cancel), provider_accounts_path, :class => 'button danger'
