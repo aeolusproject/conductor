@@ -21,7 +21,16 @@ module Aeolus
       end
 
       def targetimages
-        not_implemented
+        doc = Nokogiri::XML iwhd['/target_images'].get
+        doc.xpath("/objects/object/key").each do |target_image|
+          begin
+            if iwhd['/target_images/' + target_image.text + "/build"].get == @options[:id]
+              puts target_image.text
+            end
+          rescue RestClient::ResourceNotFound
+          end
+        end
+        quit(0)
       end
 
       def targets
