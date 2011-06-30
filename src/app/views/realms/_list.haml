@@ -13,7 +13,7 @@
         %thead
           %tr
             %th.ignore
-            %th= link_to "Realm Name", hardware_profiles_path(:sort_by => "name")
+            %th= link_to "Realm Name", params.merge(:sort_by => "name")
         - unless @realms.blank?
           - @realms.each do |realm|
             %tr{:class => cycle('nostripe','stripe')}
