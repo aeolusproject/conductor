@@ -35,7 +35,14 @@ module Aeolus
       end
 
       def accounts
-        not_implemented
+        print_values = [["NAME", "PROVIDER", "PROVIDER TYPE"]]
+        doc = Nokogiri::XML conductor['/provider_accounts/'].get
+        doc.xpath("/provider_accounts/provider_account").each do |account|
+          print_values << [account.xpath("name").text, account.xpath("provider").text, account.xpath("provider_type").text]
+        end
+
+        format_print(print_values)
+        quit(0)
       end
 
       private
