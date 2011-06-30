@@ -325,6 +325,10 @@ class Instance < ActiveRecord::Base
       # hardware_profile that can satisfy the input hardware_profile
       hwp = HardwareProfile.match_provider_hardware_profile(account.provider,
                                                             hardware_profile)
+      unless hwp
+        errors << "#{account.name}: hardware profile match not found"
+        next
+      end
       account_images = provider_images.select {|pi| pi.provider == account.provider}
       if account_images.empty?
         errors << "#{account.name}: image is not pushed to this provider account"

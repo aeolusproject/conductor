@@ -153,6 +153,13 @@ describe Instance do
     @instance.matches.last.should include('testaccount: image is not pushed to this provider account')
   end
 
+  it "shouldn't match provider accounts where matching hardware profile not found" do
+    account = Factory(:mock_provider_account, :label => 'testaccount')
+    account.provider.hardware_profiles.destroy_all
+    @pool.pool_family.provider_accounts << account
+    @instance.matches.last.should include('testaccount: hardware profile match not found')
+  end
+
   it "should return a match if all requirements are satisfied" do
     build = @instance.image_build || @instance.image.latest_build
     provider = Factory(:mock_provider, :name => build.provider_images.first.provider_name)
