@@ -147,7 +147,7 @@ var Conductor = {
   },
 
   multiDestroyValidation: function() {
-    $('#delete_button').click(function(e) {
+    $('#delete_button').live('click', function(e) {
       if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
         alert('Please make a selection before clicking Delete button.');
         e.preventDefault();
