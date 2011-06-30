@@ -1,4 +1,4 @@
-= filter_table(@deployments_header, deployments) do |deployment|
+= filter_table(@deployments_header, @deployments) do |deployment|
   %tr
     %td
       %input{:name => "deployment_selected[]", :type => "checkbox", :value => deployment.id, :id => "deployment_checkbox_#{deployment.id}" }

@@ -1,4 +1,5 @@
-- deployments.in_groups_of(5, false) do |group|
+- @deployments ||= deployments
+- @deployments.in_groups_of(5, false) do |group|
   %ul.deployment-array.small
     - group.each do |deployment|
       %li.deployment

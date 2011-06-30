@@ -18,7 +18,7 @@ class PoolsController < ApplicationController
 
   def index
     clear_breadcrumbs
-    save_breadcrumb(pools_path(:viewstate => @viewstate ? @viewstate.id : nil))
+    save_breadcrumb(pools_path(:viewstate => viewstate_id))
 
     @user_pools = Pool.list_for_user(current_user, Privilege::VIEW)
     if filter_view?
@@ -59,20 +59,27 @@ class PoolsController < ApplicationController
 
   def show
     @pool = Pool.find(params[:id])
-    save_breadcrumb(pool_path(@pool), @pool.name)
+    save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
     require_privilege(Privilege::VIEW, @pool)
     @statistics = @pool.statistics
-    @view = filter_view? ? 'deployments/filter_view' : 'deployments/pretty_view'
+    @view = filter_view? ? 'deployments/filter_view' : 'deployments/pretty_view' unless params[:details_tab]
+    if params[:details_tab] == 'deployments'
+      @view = filter_view? ? 'deployments/filter_view' : 'deployments/pretty_view'
+    elsif params[:details_tab] == 'history'
+      @view = filter_view? ? 'history_filter' : 'history_pretty'
+    end
     #TODO add links to real data for history,properties,permissions
     @tabs = [{:name => 'Deployments', :view => @view, :id => 'deployments', :count => @pool.deployments.count},
              {:name => 'History', :view => @view, :id => 'history'},
              {:name => 'Properties', :view => 'properties', :id => 'properties'},
-             {:name => 'Permissions', :view => @view, :id => 'permissions'}
+             {:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
     ]
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
+    @deployments = @pool.deployments if @details_tab[:id] == 'deployments'
+    @view = @details_tab[:view]
     respond_to do |format|
-      format.js { render :partial => params[:only_tab] == "true" ? @details_tab[:view] : @view , :locals => {:deployments => @pool.deployments}}
+      format.js { render :partial => @view }
       format.html { render :action => :show}
       format.json { render :json => @pool }
     end

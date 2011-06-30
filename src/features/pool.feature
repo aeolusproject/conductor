@@ -33,7 +33,6 @@ Feature: Manage Pools
     Then I should get back a partial
     And I should see "mockpool"
 
-  @tag
   Scenario: View Pool's Quota Usage
     Given I have Pool Creator permissions on a pool named "mockpool"
     And the "mockpool" Pool has a quota with following capacities:

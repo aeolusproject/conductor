@@ -7,7 +7,7 @@
     %div.pool.overview{:id => ['pool', pool.id], :class => ('collapsed' unless pool.deployments.count > 0)}
       %header
         %h3.name
-          %a{:href => pool_path(pool)}= pool.name
+          = link_to pool.name, pool
         %dl.statistics
           %ul.groups
             %li
