@@ -19,7 +19,13 @@ module Aeolus
       end
 
       def targets
-        not_implemented
+        targets = [["NAME", "TARGET CODE"]]
+        targets << ["Mock", "mock"]
+        targets << ["Amazon EC2", "ec2"]
+        targets << ["VMWare VSphere", "vmware"]
+        targets << ["Condor Cloud", "condor_cloud"]
+        format_print(targets)
+        quit(0)
       end
 
       def providers
