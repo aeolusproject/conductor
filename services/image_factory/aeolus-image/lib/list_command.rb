@@ -11,7 +11,13 @@ module Aeolus
       end
 
       def builds
-        not_implemented
+        doc = Nokogiri::XML iwhd['/builds'].get
+        doc.xpath("/objects/object/key").each do |build|
+          if iwhd['/builds/' + build.text + "/image"].get == @options[:id]
+            puts build.text
+          end
+        end
+        quit(0)
       end
 
       def targetimages
