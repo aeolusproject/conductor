@@ -336,9 +336,9 @@ class Instance < ActiveRecord::Base
       end
       account_images.each do |pi|
         if not frontend_realm.nil?
-          blreams = frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == account.provider}
+          brealms = frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == account.provider}
           if brealms.empty?
-            errors << "Realm #{rontend_realm.nam} is not mapped to any provider or provider realm"
+            errors << "Realm #{frontend_realm.name} is not mapped to any provider or provider realm"
             next
           end
           brealms.each do |brealm_target|
