@@ -121,7 +121,7 @@ def condormatic_instance_create(task)
     instance.state = Instance::STATE_PENDING
   rescue Exception => ex
     Rails.logger.error ex.message
-    Rails.logger.error ex.backtrace
+    Rails.logger.error ex.backtrace.join("\n")
     task.state = Task::STATE_FAILED
     instance.state = Instance::STATE_CREATE_FAILED
     # exception is raised after ensure block
