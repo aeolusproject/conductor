@@ -261,7 +261,7 @@ class ApplicationController < ActionController::Base
     viewstate = @viewstate ? @viewstate.id : nil
 
     #if item with desired path is already in bc, then remove every bc behind it
-    if index = breadcrumbs.find_index {|b| b[:path] == path}
+    if index = breadcrumbs.find_index {|b| b[:path] == path || path.split('?')[0] == b[:path] }
       breadcrumbs.slice!(index, breadcrumbs.length)
     end
     read_breadcrumbs
