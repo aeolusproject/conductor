@@ -68,6 +68,8 @@ class ProviderAccount < ActiveRecord::Base
   validate :validate_presence_of_credentials
   validate :validate_credentials
   validate :validate_unique_username
+  before_create :no_account?
+  before_destroy :destroyable?
 
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
@@ -92,8 +94,15 @@ class ProviderAccount < ActiveRecord::Base
     return true
   end
 
-  # Hooks
-  before_destroy :destroyable?
+  def no_account?
+    #if provider.provider_accounts.empty?
+    if provider.provider_accounts.empty?
+      return true
+    else
+      errors.add(:base, "Only one account is supported per provider")
+      return false
+    end
+  end
 
   def object_list
     super << provider

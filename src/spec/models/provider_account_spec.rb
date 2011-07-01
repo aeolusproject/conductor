@@ -93,4 +93,16 @@ EOT
     provider_account1.credentials_hash.should == provider_account2.credentials_hash
     provider_account2.should be_valid
   end
+
+  it "should fail to create more than one account per provider" do
+    provider = Factory :mock_provider
+    acc1 = Factory(:mock_provider_account, :provider => provider)
+    acc2 = Factory.build(:mock_provider_account, :provider => provider)
+    acc2.stub!(:valid_credentials?).and_return(true)
+    acc2.stub!(:validate_unique_username).and_return(true)
+    provider.provider_accounts << acc1
+    provider.provider_accounts << acc2
+    acc2.save.should == false
+    acc2.errors[:base].should include('Only one account is supported per provider')
+  end
 end
