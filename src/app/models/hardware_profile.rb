@@ -96,10 +96,19 @@ class HardwareProfile < ActiveRecord::Base
   end
 
   def add_properties(api_profile)
-    self.memory = new_property(api_profile.memory || default_profile(:memory))
-    self.storage = new_property(api_profile.storage || default_profile(:storage))
-    self.cpu = new_property(api_profile.cpu || default_profile(:cpu))
-    self.architecture = new_property(api_profile.architecture || default_profile(:architecture))
+    self.memory = property_from_api_or_default(api_profile, :memory)
+    self.storage = property_from_api_or_default(api_profile, :storage)
+    self.cpu = property_from_api_or_default(api_profile, :cpu)
+    self.architecture = property_from_api_or_default(api_profile, :architecture)
+  end
+
+  def property_from_api_or_default(api_profile, attribute)
+    prop = nil
+    begin
+      prop = api_profile.send(attribute)
+    rescue NoMethodError
+    end
+    new_property(prop || default_profile(attribute))
   end
 
   # If there is no property (nil on the API), create a default
