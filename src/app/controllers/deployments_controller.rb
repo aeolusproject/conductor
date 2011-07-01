@@ -248,7 +248,7 @@ class DeploymentsController < ApplicationController
 
   def get_deployable_url
     if params[:suggested_deployable_id].to_s == 'other'
-      url = params[:deployable] ? params[:deployable][:url] : nil
+      url = params[:deployable_url]
     else
       sdeployable = SuggestedDeployable.find(params[:suggested_deployable_id])
       require_privilege(Privilege::USE, sdeployable)
