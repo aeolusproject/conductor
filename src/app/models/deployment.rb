@@ -151,9 +151,9 @@ class Deployment < ActiveRecord::Base
           status[:successes][assembly.name] = 'launched'
         end
       rescue
-        logger.error $!
+        logger.error $!.message
         logger.error $!.backtrace.join("\n    ")
-        status[:errors][assembly.name] = $!
+        status[:errors][assembly.name] = $!.message
       end
     end
     status
@@ -175,7 +175,7 @@ class Deployment < ActiveRecord::Base
       deployable_xml.validate!
       true
     rescue
-      errors.add(:base, "failed to get the deployable definition: #{$!}")
+      errors.add(:base, "failed to get the deployable definition: #{$!.message}")
       false
     end
   end
