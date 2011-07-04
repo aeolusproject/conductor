@@ -113,7 +113,12 @@ class UsersController < ApplicationController
 
   def destroy
     require_privilege(Privilege::MODIFY, User)
-    User.destroy(params[:id])
+    user = User.find(params[:id])
+    if user == current_user
+      flash[:warning] = "Cannot delete #{user.login}: you are logged in as this user"
+    else
+      user.destroy
+    end
 
     respond_to do |format|
       format.html { redirect_to users_path }
