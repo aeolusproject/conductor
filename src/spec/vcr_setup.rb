@@ -27,8 +27,8 @@ Warehouse::Connection.class_eval do
 end
 
 # Mock request for deployable xml
-Deployment.class_eval do
-  def import_xml_from_url(url)
+DeployableXML.class_eval do
+  def self.import_xml_from_url(url)
     # Right now we allow this to raise exceptions on timeout / errors
     result = nil
     response = nil
@@ -37,7 +37,7 @@ Deployment.class_eval do
       response = resource.get
     end
     if response.code == 200
-      self.deployable_xml = response
+      response
     else
       false
     end

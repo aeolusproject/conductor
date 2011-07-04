@@ -27,7 +27,7 @@ Given /^a pool "([^"]*)" exists with deployment "([^"]*)"$/ do |pool_name, deplo
   quota = Factory(:quota)
   pool = Pool.find_by_name(pool_name) || Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota)
   deployment = Deployment.new(:name => deployment_name, :pool => pool, :owner => User.first)
-  deployment.import_xml_from_url("http://localhost/deployables/deployable1.xml")
+  deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable1.xml")
   deployment.save!
 end
 

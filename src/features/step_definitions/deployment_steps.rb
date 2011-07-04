@@ -1,7 +1,7 @@
 Given /^there is a deployment named "([^"]*)" belonging to "([^"]*)" owned by "([^"]*)"$/ do |deployment_name, deployable_name, owner_name|
   user = Factory(:user, :login => owner_name, :last_name => owner_name)
   @deployment = Deployment.new({:name => deployment_name, :pool => Pool.first, :owner => user})
-  @deployment.import_xml_from_url("http://localhost/deployables/deployable1.xml")
+  @deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable1.xml")
   @deployment.save
 end
 

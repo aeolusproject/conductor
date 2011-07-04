@@ -34,6 +34,7 @@ class SuggestedDeployablesController < ApplicationController
     @suggested_deployable.owner = current_user
     if @suggested_deployable.save
       flash[:notice] = 'Deployable added'
+      flash[:warning] = "Deployable url doesn't resolve valid XML file" unless @suggested_deployable.accessible_and_valid_deployable_xml?(@suggested_deployable.url)
       redirect_to suggested_deployables_path
     else
       render :new

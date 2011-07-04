@@ -17,10 +17,22 @@ class SuggestedDeployable < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 1024
   validates_presence_of :url
+  validates_format_of :url, :with => URI::regexp
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   after_create "assign_owner_roles(owner)"
+
+  def accessible_and_valid_deployable_xml?(url)
+    begin
+      deployable_xml = DeployableXML.new(DeployableXML.import_xml_from_url(url))
+      deployable_xml.validate!
+      true
+    rescue
+      false
+    end
+  end
+
 end

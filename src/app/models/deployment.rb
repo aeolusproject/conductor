@@ -171,7 +171,7 @@ class Deployment < ActiveRecord::Base
 
   def accessible_and_valid_deployable_xml?(url)
     begin
-      import_xml_from_url(url)
+      self.deployable_xml = DeployableXML.import_xml_from_url(url)
       deployable_xml.validate!
       true
     rescue
@@ -182,17 +182,6 @@ class Deployment < ActiveRecord::Base
 
   def deployable_xml
     @deployable_xml ||= DeployableXML.new(self[:deployable_xml].to_s)
-  end
-
-  def import_xml_from_url(url)
-    # Right now we allow this to raise exceptions on timeout / errors
-    resource = RestClient::Resource.new(url, :open_timeout => 10, :timeout => 45)
-    response = resource.get
-    if response.code == 200
-      self.deployable_xml = response
-    else
-      false
-    end
   end
 
   def properties

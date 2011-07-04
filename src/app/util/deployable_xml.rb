@@ -61,4 +61,15 @@ class DeployableXML
       AssemblyXML.new(assembly_node.to_s)
     end
   end
+
+  def self.import_xml_from_url(url)
+    # Right now we allow this to raise exceptions on timeout / errors
+    resource = RestClient::Resource.new(url, :open_timeout => 10, :timeout => 45)
+    response = resource.get
+    if response.code == 200
+      response
+    else
+      false
+    end
+  end
 end
