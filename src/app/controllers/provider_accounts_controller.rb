@@ -74,18 +74,16 @@ class ProviderAccountsController < ApplicationController
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @provider_account.quota.set_maximum_running_instances(limit)
 
-    if @provider_account.invalid? || !@provider_account.valid_credentials?
+    @provider_account.pool_families << PoolFamily.default
+    if @provider_account.save
+      @provider_account.assign_owner_roles(current_user)
+      @provider_account.populate_realms
+      flash[:notice] = "Provider account added."
+      redirect_to provider_account_path(@provider_account)
+    else
       flash[:error] = "Credentials are invalid!"
       render :action => 'new' and return
     end
-
-    @provider_account.pool_families << PoolFamily.default
-    @provider_account.save!
-    @provider_account.assign_owner_roles(current_user)
-    if @provider_account.populate_realms
-      flash[:notice] = "Provider account added."
-    end
-    redirect_to provider_account_path(@provider_account)
   end
 
   def edit

@@ -13,8 +13,8 @@ ProviderAccount.class_eval do
 
   alias :generate_auth_key_original :generate_auth_key
 
-  def validate_credentials
-    true
+  def valid_credentials?
+    credentials_hash['username'].to_s == 'mockuser' && credentials_hash['password'].to_s == 'mockpassword'
   end
 
   def generate_auth_key
