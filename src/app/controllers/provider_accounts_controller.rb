@@ -75,13 +75,19 @@ class ProviderAccountsController < ApplicationController
     @provider_account.quota.set_maximum_running_instances(limit)
 
     @provider_account.pool_families << PoolFamily.default
-    if @provider_account.save
-      @provider_account.assign_owner_roles(current_user)
-      @provider_account.populate_realms
-      flash[:notice] = "Provider account added."
-      redirect_to provider_account_path(@provider_account)
-    else
-      flash[:error] = "Credentials are invalid!"
+    begin
+      if @provider_account.save
+        @provider_account.assign_owner_roles(current_user)
+        @provider_account.populate_realms
+        flash[:notice] = t('provider_accounts.index.account_added', :list => @provider_account.name, :count => 1)
+        redirect_to provider_account_path(@provider_account)
+      else
+        flash[:error] = "Credentials are invalid!"
+        render :action => 'new' and return
+      end
+    rescue Exception => e
+      flash[:error] = "#{t('provider_accounts.index.account_not_added', :list => @provider_account.name,
+        :count => 1)}: #{e.message}"
       render :action => 'new' and return
     end
   end

@@ -41,7 +41,7 @@ Feature: Manage Provider Accounts
     And I fill in "quota[maximum_running_instances]" with "13"
     And I press "Save"
     Then I should be on testaccount's provider account page
-    And I should see "Provider account added"
+    And I should see "Account testaccount was added."
     And I should have a provider account named "testaccount"
     And I should see "Properties for testaccount"
     And I should see "Running instances quota: 13"

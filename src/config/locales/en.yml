@@ -192,6 +192,12 @@ en:
       account_not_deleted:
         one: "Account %{list} was not deleted. There are instances associated with it."
         other: "Accounts %{list} were not deleted. They have instances associated with them."
+      account_added:
+        one: "Account %{list} was added."
+        other: "Accounts %{list} were added."
+      account_not_added:
+        one: "Account %{list} could not be added"
+        other: "Accounts %{list} could not be added"
     new:
       new_provider_account: New Account
       required_field: Required field.
