@@ -1,1 +1,9 @@
 = render :partial => 'new'
+:javascript
+  $('#deployable-xml-link').click(function () {
+    xml = $('#deployment_deployable_xml').val();
+    // This is a really roundabout way of escaping HTML in jQuery:
+    escaped_xml = $('<div/>').text(xml).html();
+    win = window.open('');
+    win.document.write('<pre>' + escaped_xml + '</pre>');
+  });
