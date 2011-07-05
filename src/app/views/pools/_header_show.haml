@@ -7,5 +7,5 @@
     = link_to 'New Deployment', launch_new_deployments_path(:pool_id => @pool.id), :class => 'button primary', :id => 'new_deployment_button'
     .button-group
       = link_to 'Edit', edit_pool_path(@pool), :class => 'button pill', :id => 'edit_pool_button'
-      = button_to 'Delete', pool_path(@pool), :method => :delete, :confirm => "Are you sure you vant to delete this pool?", :class => "button pill danger"
+      = button_to 'Delete', pool_path(@pool), :method => :delete, :confirm => t('pools.index.confirm_delete'), :class => "button pill danger"
   .corner &nbsp;

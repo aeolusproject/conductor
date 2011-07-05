@@ -6,7 +6,7 @@
     .button-group
       = link_to 'Edit', edit_provider_path(@provider), :class => 'button pill'
       = link_to "Test", provider_path(@provider, {:test_provider => true}), { :class => 'button' }
-      = button_to 'Delete', provider_path(@provider), :method => :delete, :confirm => "Are you sure you vant to delete this provider?", :class => "button pill danger"
+      = button_to 'Delete', provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "button pill danger"
   .corner &nbsp;
 
 %section.content-section.provider

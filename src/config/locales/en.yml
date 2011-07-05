@@ -1,6 +1,8 @@
 en:
   dashboard: Dashboard
-  users: Users
+  users:
+    users: Users
+    confirm_delete: "Are you sure you want to delete this user?"
   about: About
   configure: Configure
   hello: Hello
@@ -72,6 +74,7 @@ en:
     deployments: Deployments
     deployment: Deployment
     deployment_name: Deployment Name
+    confirm_delete: "Are you sure you want to delete this deployment?"
     updated:
       one: "The deployment %{list} was successfully updated."
       other: "The deployments %{list} were successfully updated."
@@ -120,6 +123,7 @@ en:
       pending: Pending
       failed: Failed
       quota_used: Quota Used
+      confirm_delete: "Are you sure you want to delete this pool?"
       pool_deleted:
         one: "Pool %{list} was deleted."
         other: "Pools %{list} were deleted."
@@ -175,6 +179,7 @@ en:
   providers:
     provider: Provider
     providers: Providers
+    confirm_delete: "Are you sure you want to delete this provider?"
     form:
       provider_name: Provider Name
       provider_url: Provider URL
