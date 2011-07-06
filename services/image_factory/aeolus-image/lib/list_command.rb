@@ -6,8 +6,24 @@ module Aeolus
       end
 
       def images
-        doc = Nokogiri::XML iwhd['/images'].get
-        doc.xpath("/objects/object/key").collect { |node| "uuid: " + node.text }
+        images = [["UUID", "NAME", "OS", "OS VERSION", "ARCH", "DESCRIPTION"]]
+        doc = Nokogiri::XML iwhd['/target_images'].get
+        doc.xpath("/objects/object/key").each do |targetimage|
+          begin
+            build = iwhd["/target_images/" + targetimage + "/build"].get
+            image = iwhd["/builds/" + build + "/image"].get
+            template_xml = Nokogiri::XML iwhd["/templates/" + iwhd["/target_images/" + targetimage + "/template"].get].get
+            images << [image,
+                       template_xml.xpath("/template/name").text,
+                       template_xml.xpath("/template/os/name").text,
+                       template_xml.xpath("/template/os/version").text,
+                       template_xml.xpath("/template/os/arch").text,
+                       template_xml.xpath("/template/description").text]
+          rescue RestClient::ResourceNotFound, RestClient::InternalServerError
+          end
+        end
+        format_print(images)
+        quit(0)
       end
 
       def builds
