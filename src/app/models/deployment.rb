@@ -57,9 +57,6 @@ class Deployment < ActiveRecord::Base
            :order => "permissions.id ASC"
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   after_create "assign_owner_roles(owner)"
-  # TODO - Strictly, this should be a belongs_to, but :through seems to only work one-way,
-  # and we don't much care about the inverse here.
-  has_one :provider, :through => :realm
 
   validates_presence_of :pool_id
 
@@ -186,5 +183,10 @@ class Deployment < ActiveRecord::Base
 
   def properties
     {:name => name, :owner => "#{owner.first_name}  #{owner.last_name}", :created => created_at, :pool => pool.name}
+  end
+
+  def provider
+    # I REALLY want to get this via a join, but no dice...
+    instances.first.provider_account.provider rescue nil
   end
 end
