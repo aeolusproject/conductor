@@ -9,7 +9,8 @@
   %label.label.small{:for => 'admin-section-select'} Control Panels
   %select#admin-section-select
     %option{:value => users_path} Choose section...
-    %option{:value => users_path} Users
+    - if check_privilege(Privilege::VIEW, User)
+      %option{:value => users_path} Users
     %option{:value => roles_path} Roles
     %option{:value => providers_path} Providers
     %option{:value => provider_accounts_path} Provider Accounts
