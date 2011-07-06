@@ -98,41 +98,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # don't define find_opts for array inputs
-  def json_hash(full_items, attributes, arg_list=[], find_opts={}, id_method=:id)
-    page = params[:page].to_i
-    paginate_opts = {:page => page,
-                     :order => "#{params[:sortname]} #{params[:sortorder]}",
-                     :per_page => params[:rp]}
-    arg_list << find_opts.merge(paginate_opts)
-    item_list = full_items.paginate(*arg_list)
-    json_hash = {}
-    json_hash[:page] = page
-    json_hash[:total] = item_list.total_entries
-    json_hash[:rows] = item_list.collect do |item|
-      item_hash = {}
-      item_hash[:id] = item.send(id_method)
-      item_hash[:cell] = attributes.collect do |attr|
-        if attr.is_a? Array
-          value = item
-          attr.each { |attr_item| value = (value.nil? ? nil : value.send(attr_item))}
-          value
-        else
-          item.send(attr)
-        end
-      end
-      item_hash
-    end
-    json_hash
-  end
-
-  # json_list is a helper method used to format data for paginated flexigrid tables
-  #
-  # FIXME: what is the intent of this comment? don't define find_opts for array inputs
-  def json_list(full_items, attributes, arg_list=[], find_opts={}, id_method=:id)
-    render :json => json_hash(full_items, attributes, arg_list, find_opts, id_method).to_json
-  end
-
   def get_nav_items
     if current_user.present?
       @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
