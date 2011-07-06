@@ -124,7 +124,7 @@ class InstancesController < ApplicationController
   def multi_stop
     notices = ""
     errors = ""
-    Instance.find(params[:instance_selected]).each do |instance|
+    Instance.find(params[:instance_selected] || []).each do |instance|
       begin
         require_privilege(Privilege::USE,instance)
         unless instance.valid_action?('stop')
@@ -143,6 +143,8 @@ class InstancesController < ApplicationController
         errors << "#{instance.name}: " + err + "<br/>"
       end
     end
+    # If nothing is selected, display an error message:
+    errors = t('instances.none_selected') if errors.blank? && notices.blank?
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
     respond_to do |format|

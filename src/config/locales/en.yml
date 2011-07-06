@@ -101,6 +101,7 @@ en:
     not_deleted:
       one: "The instance %{list} could not be deleted."
       other: "The instances %{list} could not be deleted."
+    none_selected: "You must select one or more instances to stop."
   searches: Searches
   image_factory: Image Factory
   assemblies: Assemblies
