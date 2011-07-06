@@ -46,7 +46,6 @@ dist:
 
 rpms: dist
 	cd services/image_factory/console; rake rpms $(RAKE_EXTRA_RELEASE)
-	cd services/image_factory/image_factory_connector; rake rpms $(RAKE_EXTRA_RELEASE)
 	cd services/image_factory/aeolus-image; rake rpms $(RAKE_EXTRA_RELEASE)
 	rpmbuild $(RPM_FLAGS) -ta aeolus-conductor-$(VERSION).tar.gz
 	rpmbuild $(RPM_FLAGS) -ba aeolus-all.spec

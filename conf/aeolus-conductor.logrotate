@@ -11,13 +11,6 @@ notifempty
   endscript
 }
 
-/var/log/aeolus-conductor/aeolus-connector.log {
-  sharedscripts
-  postrotate
-      /etc/init.d/aeolus-connector restart
-  endscript
-}
-
 /var/log/aeolus-conductor/dbomatic.log {
   sharedscripts
   postrotate

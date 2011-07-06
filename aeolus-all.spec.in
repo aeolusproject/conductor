@@ -15,7 +15,6 @@ Requires:	iwhd
 Requires:	aeolus-configure
 Requires:	imagefactory
 Requires:	qpid-cpp-server
-Requires:	rubygem(image_factory_connector)
 Requires:	rubygem(aeolus-cli)
 Requires:	mongodb-server
 Requires:	mod_ssl

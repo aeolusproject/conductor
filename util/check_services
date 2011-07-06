@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-init_scripts=%w(aeolus-conductor aeolus-connector condor conductor-delayed_job deltacloud-core deltacloud-ec2-us-east-1 deltacloud-ec2-us-west-1 deltacloud-mock httpd imagefactory iwhd libvirtd mongod ntpd postgresql qpidd)
+init_scripts=%w(aeolus-conductor condor conductor-delayed_job deltacloud-core deltacloud-ec2-us-east-1 deltacloud-ec2-us-west-1 deltacloud-mock httpd imagefactory iwhd libvirtd mongod ntpd postgresql qpidd)
 
 init_scripts.each do |script|
 	puts "\nChecking #{script} ..."
@@ -16,7 +16,6 @@ end
 commands = [
  {:name => 'development solr', :command => 'lsof -i :8981'},
  {:name => 'production solr', 	:command => 'lsof -i :8983'},
- {:name => 'connector',		:command => 'lsof -i :2003'},
  {:name => 'condor_q',		:command => 'condor_q'},
  {:name => 'condor_status',	:command => 'condor_status'}
 ]
