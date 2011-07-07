@@ -2,8 +2,6 @@
   %h1.pools
     = [@pool.name, "Pool"].join(' ')
   #obj_actions.button-container
-    .button-group
-      = pretty_filter_toggle(pool_path(@pool, :view => 'pretty', :details_tab => @details_tab[:id]), pool_path(@pool, :view => 'filter', :details_tab => @details_tab[:id]))
     = link_to 'New Deployment', launch_new_deployments_path(:pool_id => @pool.id), :class => 'button primary', :id => 'new_deployment_button'
     .button-group
       = link_to 'Edit', edit_pool_path(@pool), :class => 'button pill', :id => 'edit_pool_button'

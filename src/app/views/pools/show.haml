@@ -15,6 +15,9 @@
               = tab[:name]
           -if tab[:count]
             %span.label.badge.count.dark=tab[:count]
+    #obj_actions.button-container
+    .button-group
+      = pretty_filter_toggle(pool_path(@pool, :view => 'pretty', :details_tab => @details_tab[:id]), pool_path(@pool, :view => 'filter', :details_tab => @details_tab[:id]))
     .section-controls
       %a.collapse{'href'=>'#'} Collapse
   .content.collapsible.toggle-view.pools#tab
