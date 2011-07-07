@@ -121,14 +121,14 @@ end
 
 # Provider types actually supported
 if ProviderType.all.empty?
-  ProviderType.create!(:name => "Mock", :build_supported => true, :codename =>"mock")
-  ProviderType.create!(:name => "Amazon EC2", :build_supported => true, :codename =>"ec2", :ssh_user => "root", :home_dir => "/root")
+  ProviderType.create!(:name => "Mock", :codename =>"mock")
+  ProviderType.create!(:name => "Amazon EC2", :codename =>"ec2", :ssh_user => "root", :home_dir => "/root")
   ProviderType.create!(:name => "GoGrid", :codename =>"gogrid")
   ProviderType.create!(:name => "Rackspace", :codename =>"rackspace")
   ProviderType.create!(:name => "RHEV-M", :codename =>"rhevm")
   ProviderType.create!(:name => "OpenNebula", :codename =>"opennebula")
-  ProviderType.create!(:name => "CondorCloud", :codename =>"condorcloud", :build_supported => 'true')
-  ProviderType.create!(:name => "VMWare vSphere", :codename =>"vsphere", :build_supported => 'true')
+  ProviderType.create!(:name => "CondorCloud", :codename =>"condorcloud")
+  ProviderType.create!(:name => "VMWare vSphere", :codename =>"vsphere")
 end
 
 # fill table CredentialDefinitions by default values
