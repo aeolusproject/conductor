@@ -1,6 +1,11 @@
 class SettingsController < ApplicationController
   before_filter :require_user
 
+  def index
+    clear_breadcrumbs
+    save_breadcrumb(settings_path(:viewstate => viewstate_id))
+  end
+
   def top_section
     :administer
   end
