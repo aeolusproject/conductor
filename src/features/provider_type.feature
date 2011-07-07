@@ -19,4 +19,4 @@ Feature: Manage Providers
     | OpenNebula   | opennebula   | false   |
     | Amazon EC2   | ec2          | true    |
     | CondorCloud  | condorcloud  | true    |
-    | RHEV-M       | rhev-m       | false   |
+    | RHEV-M       | rhevm        | false   |
