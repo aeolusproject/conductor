@@ -102,6 +102,15 @@ Feature: Manage Users
     And I should see "User updated!"
     And I should see "Joe"
 
+  Scenario: Display failed login count
+    Given there is a user "test"
+    And I log out
+    When I fill login "test" and incorrect password
+    Then I should see "Login failed"
+    When I login as authorised user
+    And I go to test's user page
+    Then "test" user failed login count is more than zero
+
 
 #  Scenario: Search for users
 #    Given there is a user "myuser"

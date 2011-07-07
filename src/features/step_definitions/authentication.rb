@@ -2,6 +2,10 @@ def user
   @user ||= Factory :user
 end
 
+def admin_user
+  @user ||= Factory :admin_user
+end
+
 def login(login, password)
   user
   visit path_to("the login page")
@@ -29,6 +33,11 @@ When /^I login$/ do
   login(user.login, user.password)
 end
 
+When /^I login as authorised user$/ do
+  admin_user = @admin_permission.user
+  login(admin_user.login, admin_user.password)
+end
+
 Given /^I am a new user$/ do
   signup
 end
@@ -49,6 +58,10 @@ end
 When /^I want to edit my profile$/ do
   click_link "My Account"
   click_link "Edit"
+end
+
+When /^I log out$/ do
+ visit '/logout'
 end
 
 Then /^I should be logged out$/ do
@@ -73,4 +86,13 @@ end
 
 When /^I login with incorrect credentials$/ do
   login("wrong_username", "wrong_password")
+end
+
+When /^I fill login "([^\"]*)" and incorrect password$/ do |login|
+  login(login, "wrong_password")
+end
+
+Then /^"([^"]*)" user failed login count is more than zero$/ do |login|
+  user = User.find_by_login(login)
+  user.failed_login_count.should > 0
 end
