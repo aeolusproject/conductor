@@ -204,6 +204,12 @@ class HardwareProfile < ActiveRecord::Base
   end
 
   def self.match_hardware_profile(front_end_hwp, back_end_hwp)
+    # short-term hack to deal with the fact that t1.micro HWP is
+    # ebs-only, but we don't support ebs yet. Longer-term we'll need
+    # to handle this case explicitly
+    if back_end_hwp.name == "t1.micro"
+      return false
+    end
     if back_end_hwp.name == "opaque"
       return false
     end
