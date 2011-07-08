@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Provider do
   context "(using stubbed out connect method)" do
     before(:each) do
-      @client = mock('', :null_object => true)
+      @client = mock('DeltaCloud').as_null_object
       @provider = Factory.build(:mock_provider)
       @provider.stub!(:connect).and_return(@client)
     end
@@ -47,7 +47,7 @@ describe Provider do
       @provider.stub(:connect).and_return(nil)
       deltacloud = @provider.connect
       @provider.should have(1).error_on(:url)
-      @provider.errors.on(:url).should eql("must be a valid provider url")
+      @provider.errors[:url].first.should eql("must be a valid provider url")
       @provider.should_not be_valid
       deltacloud.should be_nil
     end
@@ -86,7 +86,7 @@ describe Provider do
 
   context "(using original connect method)" do
     it "should log errors when connecting to invalid url" do
-      @logger = mock('Logger', :null_object => true)
+      @logger = mock('Logger').as_null_object
       @provider = Factory.build(:mock_provider)
       @provider.stub!(:logger).and_return(@logger)
 

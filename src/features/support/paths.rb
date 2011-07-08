@@ -30,7 +30,7 @@ module NavigationHelpers
       account_path
 
     when /the login error page/
-      user_session_path
+      url_for :controller => 'user_sessions', :action => 'new', :only_path => true
 
     when /the providers page/
       url_for :controller => 'providers', :action => 'index', :only_path => true

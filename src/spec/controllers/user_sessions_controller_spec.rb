@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe UserSessionsController do
+
   fixtures :all
   before(:each) do
     @tuser = Factory :tuser
@@ -8,7 +9,7 @@ describe UserSessionsController do
   end
 
   it "should call new method" do
-    route_for(:controller => 'user_sessions', :action => 'new').should == 'login'
+    {:get => 'login'}.should route_to(:controller => 'user_sessions', :action => 'new')
     get :new
     @current_user.should == nil
     UserSession.find.should == nil

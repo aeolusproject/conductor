@@ -25,7 +25,7 @@ namespace :db do
   SHORT_ACC = PROB_SHORT_REPONSE + PROB_FAILURE
   MEDIUM_ACC = PROB_MEDIUM_RESPONSE + PROB_SHORT_REPONSE + PROB_FAILURE
 
-  task :demo_data, :cloud_account_id, :user_id, :time_period, :number_of_tasks, :needs => :environment do |t, args|
+  task :demo_data, [:cloud_account_id, :user_id, :time_period, :number_of_tasks] => :environment do |t, args|
 
     @time_scale = args[:time_period].to_f * 60 * 60
     @number_of_tasks = args[:number_of_tasks]

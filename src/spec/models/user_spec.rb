@@ -47,16 +47,16 @@ describe User do
     u = Factory(:tuser)
     u.first_name = ('a' * 256)
     u.valid?.should be_false
-    u.errors[:first_name].should_not be_nil
-    u.errors[:first_name].should =~ /^is too long.*/
+    u.errors[:first_name].first.should_not be_nil
+    u.errors[:first_name].first.should =~ /^is too long.*/
   end
 
   it "should not be valid if last name is too long" do
     u = Factory(:tuser)
     u.last_name = ('a' * 256)
     u.valid?.should be_false
-    u.errors[:last_name].should_not be_nil
-    u.errors[:last_name].should =~ /^is too long.*/
+    u.errors[:last_name].first.should_not be_nil
+    u.errors[:last_name].first.should =~ /^is too long.*/
   end
 
   it "should require quota to be set" do

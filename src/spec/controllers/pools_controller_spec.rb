@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe PoolsController do
+
   fixtures :all
   before(:each) do
     @admin_permission = Factory :admin_permission
@@ -20,7 +21,7 @@ describe PoolsController do
      response.should_not be_success
   end
 
-  it "should provider means to create new pool" do
+  it "should provide means to create new pool" do
      UserSession.create(@admin)
      lambda do
        post :create, :pool => {

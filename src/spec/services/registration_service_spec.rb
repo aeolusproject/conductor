@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe RegistrationService do
 
+  fixtures :all
   before(:each) do
   end
 
@@ -14,7 +15,7 @@ describe RegistrationService do
       r.save.should be_false
       user.errors.empty?.should be_false
       user.errors.find_all do |attr,msg|
-        ["email","password","password_confirmation"].include?(attr).should be_true
+        [:email, :password,  :password_confirmation].include?(attr).should be_true
       end
     end
 

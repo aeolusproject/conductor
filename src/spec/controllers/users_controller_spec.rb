@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe UsersController do
 
+  fixtures :all
   before(:each) do
     @tuser = Factory :tuser
     @admin_permission = Factory :admin_permission
