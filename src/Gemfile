@@ -1,0 +1,36 @@
+source 'http://rubygems.org'
+
+gem 'rails'
+
+gem 'sqlite3', :require => 'sqlite3'
+
+gem 'authlogic'
+gem 'deltacloud-client', :require => 'deltacloud'
+gem 'sass'
+gem 'haml'
+gem 'will_paginate'
+gem 'nokogiri'
+gem 'compass'
+gem 'compass-960-plugin', :require => 'ninesixty'
+gem 'simple-navigation'
+gem 'typhoeus'
+gem 'rest-client'
+#gem 'rack-restful_submit'
+gem 'net-scp', :require => 'net/scp'
+gem 'uuidtools'
+gem 'pg'
+gem 'thin'
+gem 'json'
+gem 'railties'
+group :development, :test do
+  #gem 'rspec-rails'
+  #gem 'factory_girl_rails'
+  #gem 'timecop'
+
+  #gem 'cucumber'
+  #gem 'cucumber-rails'
+  #gem 'database_cleaner'
+  #gem 'webrat'
+  #gem 'vcr'
+  #gem 'webmock'
+end

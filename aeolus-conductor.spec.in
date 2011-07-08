@@ -171,6 +171,7 @@ done
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
 %{__cp} src/config.ru %{buildroot}%{app_root}
+%{__cp} src/Gemfile %{buildroot}%{app_root}
 
 %{__mkdir} -p %{buildroot}%{app_root}/config
 %{__cp} src/config/database.pg %{buildroot}%{app_root}/config
@@ -262,6 +263,7 @@ fi
 %{app_root}/log
 %{app_root}/public
 %{app_root}/Rakefile
+%{app_root}/Gemfile
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
 
