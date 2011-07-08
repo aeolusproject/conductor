@@ -187,9 +187,12 @@ class ProviderAccountsController < ApplicationController
   def set_view_vars
     #FIXME need to include atributes from credentials, credential_definitions and provider_type in load_accounts query to make it work
     @header = [
-      { :name => "Name", :sortable => false },
-      { :name => "Username", :sortable => false},
-      { :name => "Provider Type", :sortable => false }
+      { :name => '', :sortable => false },
+      { :name => t("provider_accounts.index.provider_account_name"), :sortable => false },
+      { :name => t("provider_accounts.index.username"), :sortable => false},
+      { :name => t("provider_accounts.index.provider_type"), :sortable => false },
+      { :name => t("provider_accounts.index.quota_used"), :sortable => false },
+      { :name => t("provider_accounts.index.quota_limit"), :sortable => false },
     ]
   end
 
