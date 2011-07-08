@@ -21,4 +21,10 @@
 
 class UserSession < Authlogic::Session::Base
   generalize_credentials_error_messages true
+
+  # http://railsplugins.org/plugins/56-authlogic
+  def to_key
+    new_record? ? nil : [self.send(self.class.primary_key)]
+  end
+
 end

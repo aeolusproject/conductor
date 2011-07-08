@@ -52,7 +52,6 @@ class Provider < ActiveRecord::Base
   validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
   validates_length_of :name,  :maximum => 255
 
-
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
@@ -67,7 +66,7 @@ class Provider < ActiveRecord::Base
       self.provider_accounts.each do |c|
         unless c.instances.empty?
           inst_list = c.instances.map {|i| i.name}.join(', ')
-          self.errors.add_to_base "there are instances for cloud account '#{c.name}': #{inst_list}"
+          self.errors.add(:base, "there are instances for cloud account '#{c.name}': #{inst_list}")
         end
       end
     end
@@ -95,7 +94,7 @@ class Provider < ActiveRecord::Base
   end
 
   protected
-  def validate
+  def validate_provider
     if !nil_or_empty(url)
       errors.add("url", "must be a valid provider url") unless valid_framework?
     end

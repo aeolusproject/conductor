@@ -39,7 +39,7 @@
 
 class HardwareProfile < ActiveRecord::Base
   has_many :instances
-  named_scope :frontend, :conditions => { :provider_id => nil }
+  scope :frontend, :conditions => { :provider_id => nil }
   has_many :provider_instances, :class_name => "Instance",
            :foreign_key => "provider_hardware_profile_id"
 

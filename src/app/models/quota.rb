@@ -36,6 +36,8 @@
 
 class Quota < ActiveRecord::Base
 
+  set_table_name "quotas"
+
   has_one :pool
   has_one :pool_family
   has_one :provider_account

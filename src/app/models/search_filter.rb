@@ -20,7 +20,7 @@
 module SearchFilter
   def self.included(base)
     base.class_eval do
-      named_scope :search_filter, lambda {|str, cols|
+      scope :search_filter, lambda {|str, cols|
         if str.to_s.empty?
           {:conditions => {}}
         else

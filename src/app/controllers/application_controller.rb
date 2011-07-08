@@ -25,12 +25,10 @@ require 'viewstate.rb'
 class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
   include ApplicationService
-  filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user, :filter_view?
   before_filter :read_breadcrumbs
 
   def top_section; end
-
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -77,7 +75,7 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_error(hash)
-    log_error(hash[:error]) if hash[:error]
+    logger.fatal(hash[:error].to_s) if hash[:error]
     msg = hash[:message] || hash[:error].message
     title = hash[:title] || "Internal Server Error"
     status = hash[:status] || :internal_server_error
@@ -199,7 +197,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_location
-    session[:return_to] = request.request_uri
+    session[:return_to] = request.fullpath
   end
 
   def redirect_back_or_default(default)

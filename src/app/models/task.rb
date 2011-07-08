@@ -136,7 +136,9 @@ class Task < ActiveRecord::Base
     time_ended - time_started
   end
 
-  def validate
+  validate :validate_task
+
+  def validate_task
     errors.add("created_at", "Task started but does not have the creation time set") if time_started and created_at.nil?
     # Removed check on time_started exisiting. if time_ended does.  This can now occur, when the task fails before is starts.  e.g. When Over Qutoa
     #errors.add("time_started", "Task ends but does not have the start time set") if time_ended and time_started.nil?
