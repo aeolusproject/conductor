@@ -1,7 +1,4 @@
-# Rack Dispatcher
+# This file is used by Rack-based servers to start the application.
 
-# Require your environment file to bootstrap Rails
-require File.dirname(__FILE__) + '/config/environment'
-
-# Dispatch the request
-run ActionController::Dispatcher.new
+require ::File.expand_path('../config/environment',  __FILE__)
+run Conductor::Application
