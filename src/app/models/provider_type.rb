@@ -8,7 +8,6 @@
 #  codename        :string(255)     not null
 #  ssh_user        :string(255)
 #  home_dir        :string(255)
-#  build_supported :boolean
 #  created_at      :datetime
 #  updated_at      :datetime
 #

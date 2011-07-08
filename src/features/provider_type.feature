@@ -12,11 +12,11 @@ Feature: Manage Providers
     When I go to the provider types page
     Then I should get a XML document
     And there should be these provider types:
-    | name         | codename     | build_supported |
-    | Mock         | mock         | true    |
-    | GoGrid       | gogrid       | false   |
-    | Rackspace    | rackspace    | false   |
-    | OpenNebula   | opennebula   | false   |
-    | Amazon EC2   | ec2          | true    |
-    | CondorCloud  | condorcloud  | true    |
-    | RHEV-M       | rhevm        | false   |
+    | name         | codename    |
+    | Mock         | mock        |
+    | GoGrid       | gogrid      |
+    | Rackspace    | rackspace   |
+    | OpenNebula   | opennebula  |
+    | Amazon EC2   | ec2         |
+    | CondorCloud  | condorcloud |
+    | RHEV-M       | rhevm       |
