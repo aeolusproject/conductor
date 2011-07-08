@@ -96,10 +96,10 @@ class DeploymentsController < ApplicationController
     @view = filter_view? ? 'filter_view_show' : 'pretty_view_show'
     #TODO add links to real data for history, permissions, services
     @tabs = [{:name => 'Instances', :view => @view, :id => 'instances', :count => @deployment.instances.count},
-             {:name => 'Services', :view => @view, :id => 'services'},
-             {:name => 'History', :view => 'history', :id => 'history'},
-             {:name => 'Properties', :view => 'properties', :id => 'properties'},
-             {:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
+             #{:name => 'Services', :view => @view, :id => 'services'},
+             #{:name => 'History', :view => 'history', :id => 'history'},
+             {:name => 'Properties', :view => 'properties', :id => 'properties'}
+             #{:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
     ]
     details_tab_name = params[:details_tab].blank? ? 'instances' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase

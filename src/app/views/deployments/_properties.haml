@@ -8,3 +8,8 @@
     %tr
       %td=key.to_s.capitalize
       %td=value
+
+:javascript
+  Conductor.setupPrettyFilterURL(
+            '#{url_for(:action => :show, :details_tab => 'properties', :view => 'filter' )}',
+            '#{url_for(:action => :show, :details_tab => 'properties', :view => 'pretty' )}');

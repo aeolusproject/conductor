@@ -14,3 +14,8 @@
       - if instance.instance_key
         %li
           = link_to("Download key", key_instance_path(instance))
+
+:javascript
+  Conductor.setupPrettyFilterURL(
+            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter' )}',
+            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty' )}');

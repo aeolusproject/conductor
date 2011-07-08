@@ -12,3 +12,8 @@
       = instance.public_addresses
     %td
       = instance.state
+
+:javascript
+  Conductor.setupPrettyFilterURL(
+            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter' )}',
+            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty' )}');
