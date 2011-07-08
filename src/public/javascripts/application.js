@@ -70,25 +70,14 @@ var Conductor = {
           .show();
       });
 
-      if ($(this).hasClass("show"))
-        $.get('/pools/show/viewstate', function(data){
-            var data = JSON.parse(data);
-            Conductor.setupToogleTypeViewUrl(data.details_tab);
-      });
-
       Conductor.tabRemoveActiveClass();
       $(this).addClass('active');
     });
   },
 
-  setupToogleTypeViewUrl: function (tab) {
-    var oldPrettyUrl = $("span.view-toggle a#pretty_view").attr('href');
-    var oldFilterUrl = $("span.view-toggle a#filter_view").attr('href');
-    var prettyUrl = oldPrettyUrl.replace(/tab=.*&/, "tab=" + tab + "&");
-    var filterUrl = oldFilterUrl.replace(/tab=.*&/, "tab=" + tab + "&");
-    $("span.view-toggle a#pretty_view").attr('href', prettyUrl);
-    $("span.view-toggle a#filter_view").attr('href', filterUrl);
-
+  setupPrettyFilterURL: function (filter_url,pretty_url) {
+    $("span.view-toggle a#pretty_view").attr('href', pretty_url);
+    $("span.view-toggle a#filter_view").attr('href', filter_url);
   },
 
   tabRemoveActiveClass: function () {

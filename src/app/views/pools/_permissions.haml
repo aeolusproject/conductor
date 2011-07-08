@@ -1,2 +1,7 @@
 %h3
   Permissions have not been implemented yet.
+
+:javascript
+  Conductor.setupPrettyFilterURL(
+            '#{url_for(:action => :show, :details_tab => 'permissions', :view => 'filter' )}',
+            '#{url_for(:action => :show, :details_tab => 'permissions', :view => 'pretty' )}');

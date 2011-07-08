@@ -1,1 +1,6 @@
 = render :partial => @deployments
+
+:javascript
+  Conductor.setupPrettyFilterURL(
+            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter' )}',
+            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty' )}');

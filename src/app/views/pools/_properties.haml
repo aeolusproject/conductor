@@ -2,3 +2,8 @@
   Properties for
   = @pool.name
 = link_to "Edit", edit_pool_path(@pool), { :class => 'button' }
+
+:javascript
+  Conductor.setupPrettyFilterURL(
+            '#{url_for(:action => :show, :details_tab => 'properties', :view => 'filter' )}',
+            '#{url_for(:action => :show, :details_tab => 'properties', :view => 'pretty' )}');

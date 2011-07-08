@@ -12,3 +12,8 @@
       = deployment.instances.count
     %td
       = link_to(deployment.provider.provider_type.name, deployment.provider) if deployment.provider
+
+:javascript
+  Conductor.setupPrettyFilterURL(
+            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter' )}',
+            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty' )}');
