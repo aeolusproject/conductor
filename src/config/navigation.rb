@@ -7,8 +7,8 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :instances, t("instances.instances"), instances_path
     end
     first_level.item :administration, t(:administration), users_path, :highlights_on => /\/admin/ do |second_level|
-      second_level.item :users, t(:users), users_path, :highlights_on => /\/users/
-      second_level.item :roles, t(:roles), roles_path, :highlights_on => /\/roles/
+      second_level.item :users, t('users.users'), users_path, :highlights_on => /\/users/
+      second_level.item :roles, t('roles.roles'), roles_path, :highlights_on => /\/roles/
       second_level.item :providers, t('providers.providers'), providers_path, :highlights_on => /\/providers/
       second_level.item :provider_accounts, t(:provider_accounts_item), provider_accounts_path, :highlights_on => /\/provider_accounts/
       second_level.item :hardware_profiles, t(:cloud_engine_hardware_profiles), hardware_profiles_path, :highlights_on => /\/hardware_profiles/

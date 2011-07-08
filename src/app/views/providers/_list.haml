@@ -4,23 +4,15 @@
     %span.label.badge.dark.count= @providers.length
 
   .content
-    - form_tag multi_destroy_providers_path do
-      = submit_tag "Delete", :id => 'delete_button', :class => 'button danger'
+    - form_header = capture_haml do
+      = restful_submit_tag "Delete", "destroy", multi_destroy_providers_path, 'DELETE',
+        :id => 'delete_button', :class => 'button danger'
 
-      = render :partial => 'layouts/select_all_none'
-
-      %table#providers_table.flat.checkbox_table
-        %thead
-          %tr
-            %th.ignore
-            %th= link_to "Provider Name", providers_path(:sort_by => "name")
-            %th= link_to "Provider URL", providers_path(:sort_by => "url")
-            %th= link_to "Provider Type", providers_path(:sort_by => "type")
-        - @providers.each do |provider|
-          %tr{:class => cycle('nostripe', 'stripe')}
-            %td
-              - selected = params[:select] == 'all'
-              = check_box_tag "provider_selected[]", provider.id, selected, :id => "provider_checkbox_#{provider.id}"
-            %td= link_to provider.name, provider_path(provider)
-            %td= provider.url
-            %td= provider.provider_type.name
+    = filter_table(@header, @providers, :form_header => form_header) do |provider|
+      %tr{:class => cycle('nostripe', 'stripe')}
+        %td
+          - selected = params[:select] == 'all'
+          = check_box_tag "provider_selected[]", provider.id, selected, :id => "provider_checkbox_#{provider.id}"
+        %td= link_to provider.name, provider_path(provider)
+        %td= provider.url
+        %td= provider.provider_type.name

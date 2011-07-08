@@ -4,20 +4,13 @@
     %span.label.badge.dark.count= @realms.length
 
   .content
-    - form_tag multi_destroy_realms_path do
-      = submit_tag "Delete", :id => 'delete_button', :class => 'button'
+    - form_header = capture_haml do
+      = restful_submit_tag "Delete", "destroy", multi_destroy_realms_path, 'DELETE',
+        :id => 'delete_button', :class => 'button danger'
 
-      = render :partial => 'layouts/select_all_none'
-
-      %table#realms_table.flat.checkbox_table
-        %thead
-          %tr
-            %th.ignore
-            %th= link_to "Realm Name", params.merge(:sort_by => "name")
-        - unless @realms.blank?
-          - @realms.each do |realm|
-            %tr{:class => cycle('nostripe','stripe')}
-              %td
-                - selected = params[:select] == 'all'
-                = check_box_tag "realm_selected[]", realm.id, selected, :id => "realm_checkbox_#{realm.id}"
-              %td= link_to realm.name, realm_path(realm)
+    = filter_table(@header, @realms, :form_header => form_header) do |realm|
+      %tr{:class => cycle('nostripe','stripe')}
+        %td
+          - selected = params[:select] == 'all'
+          = check_box_tag "realm_selected[]", realm.id, selected, :id => "realm_checkbox_#{realm.id}"
+        %td= link_to realm.name, realm_path(realm)

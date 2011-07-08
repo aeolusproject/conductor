@@ -146,16 +146,15 @@ class ProvidersController < ApplicationController
 
   protected
   def set_view_envs
-    @header = [{:name => "Provider name", :sort_attr => :name},
-               {:name => "Provider URL", :sort_attr => :name}
+    @header = [
+      {:name => '', :sortable => false},
+      {:name => t("providers.index.provider_name"), :sort_attr => :name},
+      {:name => t("providers.index.provider_url"), :sort_attr => :name},
+      {:name => t("providers.index.provider_type"), :sort_attr => :name},
     ]
   end
 
   def load_providers
-    @header = [{:name => "Provider name", :sort_attr => :name},
-               {:name => "Provider URL", :sort_attr => :name},
-               {:name => "Provider Type", :sort_attr => :name}
-    ]
     @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
   end
 end

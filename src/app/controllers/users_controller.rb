@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     clear_breadcrumbs
     save_breadcrumb(users_path)
     @params = params
+    load_headers
     @search_term = params[:q]
     if @search_term.blank?
       load_users
@@ -138,6 +139,18 @@ class UsersController < ApplicationController
     else
       @users = User.all(:order => sort_order)
     end
+  end
+
+  def load_headers
+    @header = [
+      { :name => '', :sortable => false },
+      { :name => t('users.index.user_id'), :sortable => false },
+      { :name => t('users.index.last_name'), :sortable => false },
+      { :name => t('users.index.first_name'), :sortable => false },
+      { :name => t('users.index.quota_used'), :sortable => false },
+      { :name => t('users.index.quota_instances'), :sortable => false },
+      { :name => t('users.index.email'), :sortable => false },
+    ]
   end
 
 end

@@ -113,7 +113,8 @@ class RolesController < ApplicationController
 
   def load_params_and_headers
     @header = [
-      { :name => "Role name", :sort_attr => :name }
+      { :name => '', :sortable => false },
+      { :name => t("roles.index.role_name"), :sortable => :name },
     ]
   end
 

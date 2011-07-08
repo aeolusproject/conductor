@@ -126,9 +126,11 @@ class PoolFamiliesController < ApplicationController
   end
 
   def set_params_and_header
-    @header = [{:name => "Name", :sort_attr => :name},
-               {:name => "Quota limit", :sort_attr => :name},
-               {:name => "Quota currently in use", :sort_attr => :name},
+    @header = [
+      {:name => '', :sortable => false},
+      {:name => t("pool_families.index.name"), :sort_attr => :name},
+      {:name => t("pool_families.index.quota_used"), :sort_attr => :name},
+      {:name => t("pool_families.index.quota_limit"), :sort_attr => :name},
     ]
   end
 

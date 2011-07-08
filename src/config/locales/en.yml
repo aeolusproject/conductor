@@ -3,6 +3,13 @@ en:
   users:
     users: Users
     confirm_delete: "Are you sure you want to delete this user?"
+    index:
+      user_id: User ID
+      last_name: Last Name
+      first_name: First Name
+      quota_used: Quota Used
+      quota_instances: Quota Limit
+      email: e-mail
   about: About
   configure: Configure
   hello: Hello
@@ -107,7 +114,10 @@ en:
   assemblies: Assemblies
   template_collections: Template Collections
   administration: Administration
-  roles: Roles
+  roles:
+    roles: Roles
+    index:
+      role_name: Role Name
   cloud_providers: Cloud Providers
   provider_accounts_item: Provider Account
   cloud_engine_hardware_profiles: Hardware Profiles
@@ -131,11 +141,24 @@ en:
       pool_not_deleted:
         one: "Pool %{list} was not deleted. There are instances associated with it."
         other: "Pools %{list} were not deleted. They have instances associated with them."
+  hardware_profiles:
+    index:
+      hardware_profile_name: Hardware Profile Name
+      architecture: Architecture
+      memory: Memory
+      storage: Storage
+      virtual_cpu: Virtual CPU
+  realms:
+    index:
+      realm_name: Realm Name
   pool_families:
     pool_families: Pool Families
     index:
       deleted: "Deleted the following Pool Families: %{list}."
       not_deleted: "Could not delete the following Pool Families: %{list}."
+      name: Name
+      quota_used: Quota Used
+      quota_limit: Quota Limit
   suggested_deployables:
     index:
       suggested_deployables: Suggested Deployables
@@ -181,6 +204,10 @@ en:
     provider: Provider
     providers: Providers
     confirm_delete: "Are you sure you want to delete this provider?"
+    index:
+      provider_name: Provider Name
+      provider_url: Provider URL
+      provider_type: Provider Type
     form:
       provider_name: Provider Name
       provider_url: Provider URL

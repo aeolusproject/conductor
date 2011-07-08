@@ -118,7 +118,10 @@ class RealmsController < ApplicationController
   end
 
   def load_realms
-    @header = [{:name => "Name", :sort_attr => :name}]
+    @header = [
+      {:name => '', :sortable => false},
+      {:name => t("realms.index.realm_name"), :sort_attr => :name},
+    ]
     @realms = FrontendRealm.all
   end
 end

@@ -4,24 +4,15 @@
     %span.label.badge.dark.count= @pool_families.length
 
   .content
-    - form_tag multi_destroy_pool_families_path do
-      = submit_tag "Delete", :id => 'delete_button', :class => 'button'
+    - form_header = capture_haml do
+      = restful_submit_tag "Delete", "destroy", multi_destroy_pool_families_path, 'DELETE',
+        :id => 'delete_button', :class => 'button danger'
 
-      = render :partial => 'layouts/select_all_none'
-
-      %table#pool_families_table.flat.checkbox_table
-        %thead
-          %tr
-            %th.ignore
-            %th= link_to "Pool Family Name", pool_families_path(:sort_by => "name")
-            %th= link_to "Quota limit", pool_families_path(:sort_by => "quota")
-            %th= link_to "Quota currently in use", pool_families_path(:sort_by => "quota")
-        - unless @pool_families.blank?
-          - @pool_families.each do |pool_family|
-            %tr{:class => cycle('nostripe','stripe')}
-              %td
-                - selected = params[:select] == 'all'
-                = check_box_tag "pool_family_selected[]", pool_family.id, selected, :id => "pool_family_checkbox_#{pool_family.id}"
-              %td= link_to pool_family.name, pool_family_path(pool_family)
-              %td= pool_family.quota.maximum_running_instances or 'unlimited'
-              %td= "#{pool_family.quota.percentage_used} %"
+    = filter_table(@header, @pool_families, :form_header => form_header) do |pool_family|
+      %tr{:class => cycle('nostripe','stripe')}
+        %td
+          - selected = params[:select] == 'all'
+          = check_box_tag "pool_family_selected[]", pool_family.id, selected, :id => "pool_family_checkbox_#{pool_family.id}"
+        %td= link_to pool_family.name, pool_family_path(pool_family)
+        %td= "#{pool_family.quota.percentage_used} %"
+        %td= pool_family.quota.maximum_running_instances or 'unlimited'
