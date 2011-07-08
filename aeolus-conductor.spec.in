@@ -121,10 +121,8 @@ getent passwd aeolus >/dev/null || \
 # extension may exist.  For instance cgi="public" means that src/public/*.cgi
 # will be copied from the source into the RPM.
 builder="app/views/errors"
-cgi="public"
 css="public/stylesheets public/stylesheets/jquery.ui-1.8.1 \
      public/javascripts/jquery-svg"
-fcgi="public"
 feature="features"
 gif="public/images public/stylesheets/images"
 haml="app/views/hardware_profiles app/views/realm_mappings \
@@ -151,7 +149,7 @@ rb="app/models app/controllers \
     app/helpers \
     app/services app/util \
     config config/initializers config/environments db db/migrate dutils \
-    features/support features/step_definitions lib public spec \
+    features/support features/step_definitions lib spec \
     spec/controllers spec/factories spec/helpers spec/models spec/services"
 rhtml="app/views/layouts"
 scss="app/stylesheets"
@@ -160,7 +158,7 @@ ttf="public/fonts"
 txt="public"
 yml="config config/locales"
 
-for filetype in builder cgi css fcgi feature gif haml html ico jpg js json \
+for filetype in builder css feature gif haml html ico jpg js json \
     key opts png rake rb rhtml scss svg ttf txt yml; do
     dirs=${!filetype}
 

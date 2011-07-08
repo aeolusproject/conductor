@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-
-if Process.uid == 0 or Process.gid == 0
-  puts "Aeolus Conductor cannot be run as root"
-  exit(1)
-end
-
-require File.dirname(__FILE__) + '/../config/boot'
-require 'commands/server'
