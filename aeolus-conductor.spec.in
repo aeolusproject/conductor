@@ -125,7 +125,6 @@ builder="app/views/errors"
 cgi="public"
 css="public/stylesheets public/stylesheets/jquery.ui-1.8.1 \
      public/javascripts/jquery-svg"
-erb="app/views/layouts"
 fcgi="public"
 feature="features"
 gif="public/images public/stylesheets/images"
@@ -162,7 +161,7 @@ ttf="public/fonts"
 txt="public"
 yml="config config/locales"
 
-for filetype in builder cgi css erb fcgi feature gif haml html ico jpg js json \
+for filetype in builder cgi css fcgi feature gif haml html ico jpg js json \
     key opts png rake rb rhtml scss svg ttf txt yml; do
     dirs=${!filetype}
 
