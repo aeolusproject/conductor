@@ -40,3 +40,5 @@ config.action_mailer.delivery_method = :test
 config.gem 'rspec-rails', :version => '>= 1.3.2', :lib => false unless File.directory?(File.join(Rails.root, 'vendor/plugins/rspec-rails'))
 config.gem "factory_girl", :lib => "factory_girl", :version => ">=1.3.1"
 config.gem 'timecop', :lib => 'timecop', :version => '>= 0.3.5'
+config.gem 'vcr', :lib => 'vcr', :version => '>= 1.10.0'
+config.gem 'webmock', :lib => 'webmock', :version => '>= 1.6.4'
