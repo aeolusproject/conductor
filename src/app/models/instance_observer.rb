@@ -33,14 +33,15 @@ class InstanceObserver < ActiveRecord::Observer
   end
 
   def update_quota(state_from, state_to, an_instance)
-
-    hwp = an_instance.hardware_profile
     pool = an_instance.pool
+    pool_family = pool.pool_family
     user = an_instance.owner
     provider_account = an_instance.provider_account
 
-    [provider_account, pool, user].each do |parent|
+    [provider_account, pool_family, pool, user].each do |parent|
       if parent
+        # Since pool and pool_family are related, updating one can cause the other to become stale
+        parent.reload if parent.class == Pool
         quota = parent.quota
         if quota
           if !RUNNING_STATES.include?(state_from) && RUNNING_STATES.include?(state_to)
