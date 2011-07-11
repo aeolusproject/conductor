@@ -15,6 +15,7 @@
           = check_box_tag "accounts_selected[]", account.id, selected, :id => "account_checkbox_#{account.id}"
         %td= link_to account.name, provider_account_path(account)
         %td= account.credentials_hash['username']
+        %td= account.provider.name
         %td= account.provider.provider_type.name
         %td= account.quota ? account.quota.percentage_used.to_s + "%": 'unlimited'
         %td= account.quota.maximum_running_instances or 'unlimited'

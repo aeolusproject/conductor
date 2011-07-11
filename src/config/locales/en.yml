@@ -221,6 +221,7 @@ en:
       provider_accounts: Provider Accounts
       provider_account_name: Provider Account Name
       username: Username
+      provider_name: Provider Name
       provider_type: Provider Type
       quota_used: Quota Used
       quota_limit: Quota Limit
