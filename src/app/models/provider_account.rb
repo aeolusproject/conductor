@@ -34,15 +34,9 @@
 # Likewise, all the methods added will be available for all controllers.
 
 require 'nokogiri'
-require 'sunspot_rails'
 
 class ProviderAccount < ActiveRecord::Base
   include PermissionedObject
-
-  searchable do
-    text :name, :as => :code_substring
-    text(:username, :as => :code_substring) { credentials_hash['username'] }
-  end
 
   # Relations
   belongs_to :provider

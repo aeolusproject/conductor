@@ -7,10 +7,6 @@ require(File.join(File.dirname(__FILE__), 'config', 'boot'))
 require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
-begin
-  require 'sunspot/rails/tasks'
-rescue LoadError
-end
 
 begin
   #gem 'delayed_job', :version => '~>2.0.4'

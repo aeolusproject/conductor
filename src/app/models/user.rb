@@ -46,15 +46,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-require 'sunspot_rails'
 class User < ActiveRecord::Base
-  non_solr_attributes = [:single_access_token, :last_request_at, :created_at, :quota_id, :crypted_password, :updated_at, :perishable_token, :failed_login_count, :current_login_ip, :password_salt, :current_login_at, :persistence_token, :login_count, :last_login_ip, :last_login_at]
-  searchable :ignore_attribute_changes_of => non_solr_attributes do
-    text :login, :as => :code_substring
-    text :last_name, :as => :code_substring
-    text :first_name, :as => :code_substring
-    text :email, :as => :code_substring
-  end
   acts_as_authentic
 
   has_many :permissions

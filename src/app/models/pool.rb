@@ -35,12 +35,8 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-require 'sunspot_rails'
 class Pool < ActiveRecord::Base
   include PermissionedObject
-  searchable do
-    text :name, :as => :code_substring
-  end
   has_many :instances,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   belongs_to :pool_family

@@ -56,22 +56,9 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-require 'sunspot_rails'
 require 'util/assembly_xml'
 class Instance < ActiveRecord::Base
-  include SearchFilter
   include PermissionedObject
-
-  searchable do
-    text :name, :as => :code_substring
-    text :external_key, :as => :code_substring
-    text :public_addresses, :as => :code_substring
-    text :private_addresses, :as => :code_substring
-    text :state, :as => :code_substring
-    text :owner do
-      owner.last_name + " " + owner.first_name
-    end
-  end
 
   cattr_reader :per_page
   @@per_page = 15

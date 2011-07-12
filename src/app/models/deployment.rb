@@ -34,16 +34,10 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-require 'sunspot_rails'
 require 'util/deployable_xml'
 
 class Deployment < ActiveRecord::Base
-  include SearchFilter
   include PermissionedObject
-
-  searchable do
-    text :name, :as => :code_substring
-  end
 
   belongs_to :pool
 

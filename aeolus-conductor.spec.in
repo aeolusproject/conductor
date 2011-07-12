@@ -30,7 +30,6 @@ Requires: rubygem(rest-client)
 Requires: rubygem(builder)
 Requires: rubygem(json)
 Requires: rubygem(rack-restful_submit)
-Requires: rubygem(sunspot_rails)
 Requires: rubygem(delayed_job)
 Requires: rubygem(net-scp)
 Requires: rubygem(uuidtools)
@@ -157,12 +156,11 @@ rhtml="app/views/layouts"
 scss="app/stylesheets"
 svg="public/images public/images/icons public/javascripts/jquery-svg"
 ttf="public/fonts"
-txt="solr/conf public"
-xml="solr/conf"
+txt="public"
 yml="config config/locales"
 
 for filetype in builder cgi css erb fcgi feature gif haml html ico jpg js json \
-    key opts png rake rb rhtml scss svg ttf txt xml yml; do
+    key opts png rake rb rhtml scss svg ttf txt yml; do
     dirs=${!filetype}
 
     for dir in $dirs; do
@@ -215,8 +213,6 @@ touch %{buildroot}%{app_root}/log/delayed_job.log
 
 # copy script files over
 %{__cp} -r src/script %{buildroot}%{app_root}
-
-%{__mkdir} -p %{buildroot}%{app_root}/solr/data
 
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
 
@@ -277,7 +273,6 @@ fi
 %attr(777, root, root) %{app_root}/public
 %{app_root}/Rakefile
 %{app_root}/script/delayed_job
-%{app_root}/solr
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
 

@@ -37,19 +37,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-require 'sunspot_rails'
 class HardwareProfile < ActiveRecord::Base
-  searchable do
-    text :name, :as => :code_substring
-    text(:architecture) { architecture.try :value }
-    text(:memory) { memory.try :value }
-    text(:storage) { storage.try :value }
-    text(:cpu) { cpu.try :value }
-    boolean :frontend do
-      provider_id.nil?
-    end
-  end
-
   has_many :instances
   named_scope :frontend, :conditions => { :provider_id => nil }
   has_many :provider_instances, :class_name => "Instance",

@@ -50,7 +50,6 @@ Rails::Initializer.run do |config|
   config.gem "typhoeus"
   config.gem 'rest-client', :version => '>= 1.6.1'
   config.gem 'rack-restful_submit', :version => '1.1.2'
-  config.gem 'sunspot_rails', :lib => 'sunspot/rails'
   config.gem 'delayed_job', :version => '~>2.0.4'
   config.gem 'net-scp', :lib => 'net/scp'
   config.gem 'uuidtools'
