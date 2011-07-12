@@ -45,11 +45,11 @@ class RealmsController < ApplicationController
     @realm = FrontendRealm.new(params[:frontend_realm])
     if @realm.save
       flash[:notice] = "Realm was added."
-      redirect_to realms_path and return
+      redirect_to realm_path(@realm)
+    else
+      load_backend_realms
+      render :new
     end
-
-    load_backend_realms
-    render :new
   end
 
   def destroy
