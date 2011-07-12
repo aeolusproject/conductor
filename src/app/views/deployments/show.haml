@@ -14,6 +14,6 @@
     .button-group
       = pretty_filter_toggle(deployment_path(@deployment, :view => 'pretty'), deployment_path(@deployment, :view => 'filter'))
     .section-controls
-      %a.collapse{'href'=>'#'} Collapse
+      -#%a.collapse{'href'=>'#'} Collapse
   .content.collapsible.toggle-view.deployments#tab
     = render :partial => @view

@@ -21,7 +21,7 @@
             %li
               %dt Quota Used
               %dd.percentage.quota= pool.quota ? pool.quota.percentage_used.to_s + "%" : '&infin;'
-        %a.control{:href => '#'}
+        -#%a.control{:href => '#'}
           %span Expand/Collapse
       %div.content
         = render :partial => 'deployments', :locals => {:deployments => pool.deployments}
