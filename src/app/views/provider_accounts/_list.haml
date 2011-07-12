@@ -17,5 +17,5 @@
         %td= account.credentials_hash['username']
         %td= account.provider.name
         %td= account.provider.provider_type.name
-        %td= account.quota ? account.quota.percentage_used.to_s + "%": 'unlimited'
+        %td= number_to_percentage account.quota.percentage_used, :precision => 0
         %td= account.quota.maximum_running_instances or 'unlimited'

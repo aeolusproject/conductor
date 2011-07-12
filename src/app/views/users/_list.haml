@@ -16,6 +16,6 @@
         %td= link_to user.login, user_path(user)
         %td= user.last_name
         %td= user.first_name
-        %td= user.quota ? user.quota.percentage_used.to_s + "%": 'unlimited'
-        %td= Quota.no_limit(user.quota.maximum_running_instances) ? "Unlimited" : user.quota.maximum_running_instances
+        %td= number_to_percentage user.quota.percentage_used, :precision => 0
+        %td= user.quota.maximum_running_instances or "Unlimited"
         %td= user.email

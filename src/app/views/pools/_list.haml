@@ -20,6 +20,6 @@
     %td
       = pool.statistics[:instances_deployed]
     %td
-      = pool.quota ? pool.quota.percentage_used.to_s + "%": 'unlimited'
+      = number_to_percentage(pool.quota.percentage_used, :precision => 0)
     %td
       = link_to(pool.pool_family.name, pool.pool_family)

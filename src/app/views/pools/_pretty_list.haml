@@ -20,7 +20,8 @@
               %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR }.length
             %li
               %dt Quota Used
-              %dd.percentage.quota= pool.quota ? pool.quota.percentage_used.to_s + "%" : '&infin;'
+              %dd.percentage.quota
+                = number_to_percentage(pool.quota.percentage_used, :precision => 0)
         %a.control{:href => '#'}
           %span Expand/Collapse
       %div.content

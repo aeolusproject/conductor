@@ -22,9 +22,10 @@
             %dd.count.update 0
       %li
         %dt Quota Used
-        %dd.percentage.quota 0%
+        %dd.percentage.quota
+          = number_to_percentage(@pool.quota.percentage_used, :precision => 0)
         %dd.fraction.instance
-          %span.part 0
+          %span.part= @statistics[:used_quota]
           %span.divider.label.small.caps of
-          %span.total 0
--# TODO: Implement alerts, updates, and quota overview
+          %span.total= @statistics[:available_quota] or '&infin;'
+-# TODO: Implement alerts and updates

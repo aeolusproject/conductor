@@ -14,5 +14,5 @@
           - selected = params[:select] == 'all'
           = check_box_tag "pool_family_selected[]", pool_family.id, selected, :id => "pool_family_checkbox_#{pool_family.id}"
         %td= link_to pool_family.name, pool_family_path(pool_family)
-        %td= "#{pool_family.quota.percentage_used} %"
+        %td= number_to_percentage pool_family.quota.percentage_used, :precision => 0
         %td= pool_family.quota.maximum_running_instances or 'unlimited'

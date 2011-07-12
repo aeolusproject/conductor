@@ -75,7 +75,7 @@ class Pool < ActiveRecord::Base
     instances.all? {|i| i.destroyable? }
   end
 
-  # TODO: Implement Alerts, Updates, and Quotas
+  # TODO: Implement Alerts and Updates
   def statistics
     # TODO - Need to set up cache invalidation before this is safe
     #Rails.cache.fetch("pool-#{id}-statistics") do
@@ -84,7 +84,9 @@ class Pool < ActiveRecord::Base
         :deployments => deployments.count,
         :instances_deployed => instances.deployed.count,
         :instances_pending => instances.pending.count,
-        :instances_failed => instances.failed.count
+        :instances_failed => instances.failed.count,
+        :used_quota => quota.running_instances,
+        :available_quota => quota.maximum_running_instances
       }
     #end
   end
