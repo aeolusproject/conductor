@@ -80,6 +80,8 @@ def condormatic_instance_create(task)
     pwfilename = write_pw_file(job_name,
                                found.account.credentials_hash['password'])
 
+    instance.provider_account = found.account
+
     # I use the 2>&1 to get stderr and stdout together because popen3 does not
     # support the ability to get the exit value of the command in ruby 1.8.
     pipe = IO.popen("condor_submit 2>&1", "w+")
