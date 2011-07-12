@@ -48,4 +48,12 @@ describe Pool do
     pool.should_not be_destroyable
   end
 
+  it "should require quota to be set" do
+    pool = Factory :pool
+    pool.should be_valid
+
+    pool.quota = nil
+    pool.should_not be_valid
+  end
+
 end

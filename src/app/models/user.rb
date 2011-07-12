@@ -54,9 +54,10 @@ class User < ActiveRecord::Base
   has_many :deployments, :foreign_key => "owner_id"
   has_many :view_states
 
-  belongs_to :quota, :autosave => true
+  belongs_to :quota, :autosave => true, :dependent => :destroy
   accepts_nested_attributes_for :quota
 
+  validates_presence_of :quota
   validates_length_of :first_name, :maximum => 255, :allow_blank => true
   validates_length_of :last_name,  :maximum => 255, :allow_blank => true
 

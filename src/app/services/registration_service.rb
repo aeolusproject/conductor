@@ -6,11 +6,6 @@ class RegistrationService
   end
 
   def save
-    unless valid?
-      @error = "validation failed"
-      return false
-    end
-
     User.transaction do
       begin
         if @user.quota.nil? || @user.quota.invalid?

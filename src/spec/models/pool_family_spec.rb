@@ -45,4 +45,10 @@ describe PoolFamily do
     @pool_family.errors[:name].should =~ /^must only contain.*/
   end
 
+  it "should require quota to be set" do
+    @pool_family.should be_valid
+
+    @pool_family.quota = nil
+    @pool_family.should_not be_valid
+  end
 end

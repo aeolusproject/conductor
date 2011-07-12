@@ -105,4 +105,11 @@ EOT
     acc2.save.should == false
     acc2.errors[:base].should include('Only one account is supported per provider')
   end
+
+  it "should require quota to be set" do
+    @provider_account.should be_valid
+
+    @provider_account.quota = nil
+    @provider_account.should_not be_valid
+  end
 end

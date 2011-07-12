@@ -10,7 +10,7 @@ describe User do
   end
 
   it "should require password confirmation" do
-    user = User.new(Factory.attributes_for(:tuser))
+    user = Factory.build :tuser
     user.should be_valid
     user.password_confirmation = "different password"
     user.should_not be_valid
@@ -57,6 +57,14 @@ describe User do
     u.valid?.should be_false
     u.errors[:last_name].should_not be_nil
     u.errors[:last_name].should =~ /^is too long.*/
+  end
+
+  it "should require quota to be set" do
+    user = Factory :tuser
+    user.should be_valid
+
+    user.quota = nil
+    user.should_not be_valid
   end
 
 end

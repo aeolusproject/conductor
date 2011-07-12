@@ -40,7 +40,7 @@ class ProviderAccount < ActiveRecord::Base
 
   # Relations
   belongs_to :provider
-  belongs_to :quota, :autosave => true
+  belongs_to :quota, :autosave => true, :dependent => :destroy
   has_many :instances
   has_and_belongs_to_many :pool_families
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
@@ -59,6 +59,7 @@ class ProviderAccount < ActiveRecord::Base
   validates_presence_of :provider
   validates_presence_of :label
   validates_uniqueness_of :label
+  validates_presence_of :quota
   validate :validate_presence_of_credentials
   validate :validate_credentials
   validate :validate_unique_username

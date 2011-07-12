@@ -9,6 +9,7 @@ describe RegistrationService do
 
     it "should return errors on user when user is missing required fields" do
       user = User.new(:login => 'baduser')
+      user.quota = Quota.new
       r = RegistrationService.new(user)
       r.save.should be_false
       user.errors.empty?.should be_false
@@ -91,6 +92,7 @@ describe RegistrationService do
     it "doesn't save quota if user save! raise error" do
       user_attributes = Factory.attributes_for(:user)
       user = User.new(user_attributes)
+      user.quota = Quota.new
       user.should_receive(:save!).and_raise(ActiveRecord::RecordInvalid.new(user))
       registration_process = RegistrationService.new(user)
 

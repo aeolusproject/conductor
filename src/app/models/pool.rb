@@ -45,6 +45,7 @@ class Pool < ActiveRecord::Base
   #has_many :images,  :dependent => :destroy
 
   validates_presence_of :name
+  validates_presence_of :quota
   validates_presence_of :pool_family
   validates_inclusion_of :enabled, :in => [true, false]
   validates_uniqueness_of :name

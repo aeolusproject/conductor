@@ -127,7 +127,7 @@ class GraphService
     providers.each do |provider|
       running_instances = 0
       provider.provider_accounts.each do |account|
-        running_instances = running_instances + account.quota.running_instances if account.quota
+        running_instances += account.quota.running_instances
       end
       if running_instances > 0
         pie_opts[:"#{provider.name}"] = running_instances

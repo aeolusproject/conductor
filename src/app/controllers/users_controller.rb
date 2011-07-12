@@ -37,6 +37,7 @@ class UsersController < ApplicationController
 
     require_privilege(Privilege::MODIFY, User) unless current_user.nil?
     @user = User.new(params[:user])
+    @user.quota ||= Quota.new
 
     @registration = RegistrationService.new(@user)
     unless @registration.save
