@@ -54,7 +54,7 @@ module Aeolus
         targets << ["Mock", "mock"]
         targets << ["Amazon EC2", "ec2"]
         targets << ["RHEV-M", "rhevm"]
-        targets << ["VMWare VSphere", "vsphere"]
+        targets << ["VMware vSphere", "vsphere"]
         targets << ["Condor Cloud", "condor_cloud"]
         format_print(targets)
         quit(0)
