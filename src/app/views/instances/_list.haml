@@ -9,24 +9,14 @@
     Showing all instances:
     = link_to "hide stopped", params.merge('hide_stopped' => 'true')
 
-  = render :partial => 'layouts/select_all_none'
-
-  %table#instances_table.flat.checkbox_table
-    %thead
-      %tr
-        %th.ignore
-        %th Name
-        %th State
-        %th Public addresses
-        %th Provider
-        %th Owner
-    - @instances.each do |instance|
-      %tr
-        %td
-          - selected = params[:select] == 'all'
-          = check_box_tag "instance_selected[]", instance.id, selected, :id => "instance_checkbox_#{instance.id}"
-        %td= link_to instance.name, instance_path(instance)
-        %td= instance.state
-        %td= instance.public_addresses
-        %td= instance.provider_account ? instance.provider_account.provider.name : ''
-        %td= owner_name(instance)
+= filter_table([{:name =>''}, {:name => ''}, {:name => 'Name'}, {:name => 'Public Address'}, {:name => 'State'}, {:name => 'Provider'}, {:name => 'Owner'}], @instances, :form_header => form_header) do |instance|
+  %tr{ :class => cycle('nostripe', 'stripe') }
+    %td
+      - selected = params[:select] == 'all'
+      = check_box_tag "instance_selected[]", instance.id, selected, :id => "instance_checkbox_#{instance.id}"
+    %td
+    %td= link_to instance.name, instance_path(instance)
+    %td= instance.public_addresses
+    %td= instance.state
+    %td= instance.provider_account ? instance.provider_account.provider.name : ''
+    %td= owner_name(instance)
