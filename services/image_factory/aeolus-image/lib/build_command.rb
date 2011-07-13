@@ -26,6 +26,16 @@ module Aeolus
             quit(1)
           end
 
+          # Validate XML against TDL Schema
+          errors = validate_xml_document("examples/tdl.rng", @options[:template_str])
+          if errors.length > 0
+            puts "ERROR: The given Template does not conform to the TDL Schema, see below for specific details:"
+            errors.each do |error|
+              puts "- " + error.message
+            end
+            quit(1)
+          end
+
           #This is a temporary hack in case the agent doesn't show up on bus immediately
           sleep(5)
           @console.build(@options[:template_str], @options[:target], @options[:image], @options[:build]).each do |adaptor|

@@ -57,6 +57,20 @@ module Aeolus
           File.delete(new_file)
         end
       end
+
+      describe "#validate_xml_document?" do
+        it "should return errors given non compliant xml" do
+          b = BaseCommand.new
+          errors = b.send(:validate_xml_document, "examples/tdl.rng", File.read("spec/fixtures/invalid_template.tdl"))
+          errors.length.should > 0
+        end
+
+        it "should return no errors" do
+          b = BaseCommand.new
+          errors = b.send(:validate_xml_document, "examples/tdl.rng", File.read("spec/fixtures/valid_template.tdl"))
+          errors.length.should == 0
+        end
+      end
     end
   end
 end

@@ -65,6 +65,12 @@ module Aeolus
         exit(code)
       end
 
+      def validate_xml_document(schema_path, xml_string)
+        schema = Nokogiri::XML::RelaxNG(File.read(schema_path))
+        doc = Nokogiri::XML xml_string
+        schema.validate(doc)
+      end
+
       private
       def load_config
         begin

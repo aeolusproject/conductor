@@ -32,6 +32,17 @@ module Aeolus
           end
           $stdout.string.should include("This combination of parameters is not currently supported")
         end
+        it "should exit with appropriate message when a non compliant template is given" do
+          @options[:template] = "spec/fixtures/invalid_template.tdl"
+          @options[:image] = '825c94d1-1353-48ca-87b9-36f02e069a8d'
+          b = BuildCommand.new(@options, @output)
+          begin
+            b.run
+          rescue SystemExit => e
+            e.status.should == 1
+          end
+          $stdout.string.should include("ERROR: The given Template does not conform to the TDL Schema")
+        end
       end
 
       describe "#combo_implemented?" do
