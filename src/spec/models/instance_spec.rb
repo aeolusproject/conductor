@@ -148,6 +148,34 @@ describe Instance do
     @instance.matches.last.should include('There are no provider accounts associated with pool family of selected pool.')
   end
 
+  it "should not return matches if account quota is exceeded" do
+    # Other tests expect that @instance is built but not created, but we need it saved:
+    @instance.save!
+    build = @instance.image_build || @instance.image.latest_build
+    provider = Factory(:mock_provider, :name => build.provider_images.first.provider_name)
+    account = Factory(:mock_provider_account, :provider => provider, :label => 'testaccount')
+    @pool.pool_family.provider_accounts = [account]
+    @pool.pool_family.save!
+    @instance.provider_account = account
+    @instance.save!
+    quota = account.quota
+    quota.maximum_running_instances = 1
+    quota.save!
+
+    # With no running instances and a quota of one, we should have a match:
+    @instance.matches.first.should_not be_empty
+
+    # But with a running instance, we should not have a match
+    quota.running_instances = 1
+    quota.save!
+    # These next two lines are orthogonal but felt fragile so test them while we're here:
+    quota.running_instances.should == 1
+    quota.should be_reached
+    # I'm not sure why this line is required, but it is:
+    @instance.pool.pool_family.provider_accounts.first.quota.reload
+    @instance.matches.first.should be_empty
+  end
+
   it "shouldn't match provider accounts where image is not pushed" do
     @pool.pool_family.provider_accounts = [Factory(:mock_provider_account, :label => 'testaccount')]
     @instance.matches.last.should include('testaccount: image is not pushed to this provider account')
