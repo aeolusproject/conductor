@@ -1,5 +1,6 @@
 - form_tag do
   = restful_submit_tag 'Stop', 'stop', multi_stop_instances_path, 'GET'
+  = hidden_field_tag 'backlink', request.url
   Show only
   = hidden_field_tag 'details_tab', 'instances'
   = select '', 'state', Instance::STATES, { :include_blank => true, :selected => params[:state] }

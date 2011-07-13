@@ -148,7 +148,7 @@ class InstancesController < ApplicationController
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
     respond_to do |format|
-      format.html { redirect_to instances_path }
+      format.html { redirect_to params[:backlink] || pools_path(:view => 'filter', :details_tab => 'instances') }
       format.json { render :json => {:success => notices, :errors => errors} }
     end
   end
