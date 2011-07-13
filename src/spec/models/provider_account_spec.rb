@@ -6,10 +6,12 @@ describe ProviderAccount do
     @provider_account = Factory.build :mock_provider_account
   end
 
-  it "should not be destroyable if it has instances" do
+  it "should not be destroyable if it has instance with status other than stopped" do
     @provider_account.instances << Instance.new
     @provider_account.destroyable?.should be_false
     @provider_account.destroy.should be_false
+    @provider_account.instances.each { |i| i.state = "stopped" }
+    @provider_account.destroyable?.should be_true
     @provider_account.instances.clear
     @provider_account.destroyable?.should be_true
     @provider_account.destroy.equal?(@provider_account).should be_true

@@ -121,7 +121,7 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def destroyable?
-    instances.empty?
+    instances.empty? || instances.all? { |i| i.destroyable? }
   end
 
   def connect

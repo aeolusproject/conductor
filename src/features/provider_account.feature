@@ -78,6 +78,18 @@ Feature: Manage Provider Accounts
     And I should see "was deleted"
     And there should be no provider accounts
 
+  Scenario: Delete a provider account with stopped instances
+    Given there is a provider named "testprovider"
+    And there is a provider account named "testaccount"
+    And the account has an instance associated with it
+    And all the account instances are stopped
+    And I am on the provider accounts page
+    When I check the "testaccount" account
+    And I press "Delete"
+    Then I should be on the provider accounts page
+    And I should see "was deleted"
+    And there should be no provider accounts
+
   Scenario: Edit a existing Provider Account
     Given there is a provider named "testprovider"
     And there is a provider account named "testaccount"

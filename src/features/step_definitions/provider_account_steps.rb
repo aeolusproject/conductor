@@ -2,6 +2,13 @@ Given /^the account has an instance associated with it$/ do
   Factory :instance, :provider_account => @provider_account
 end
 
+Given /^all the account instances are stopped$/ do
+  @provider_account.instances.each do |i|
+    i.state = Instance::STATE_STOPPED
+    i.save
+  end
+end
+
 When /^I delete all instances from the account$/ do
   @provider_account.instances.each do |i|
     i.state = Instance::STATE_STOPPED
