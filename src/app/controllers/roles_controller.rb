@@ -10,16 +10,7 @@ class RolesController < ApplicationController
   def index
     clear_breadcrumbs
     save_breadcrumb(roles_path)
-    @search_term = params[:q]
-    if @search_term.blank?
-      load_roles
-      return
-    end
-
-    search = Role.search() do
-      keywords(params[:q])
-    end
-    @roles = search.results
+    load_roles
   end
 
   def new

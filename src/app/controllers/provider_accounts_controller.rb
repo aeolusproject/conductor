@@ -10,15 +10,7 @@ class ProviderAccountsController < ApplicationController
   def index
     clear_breadcrumbs
     save_breadcrumb(provider_accounts_path)
-    # TODO: this is temporary solution how to combine search and permissions
-    # filtering
-    @search_term = params[:q]
-    unless @search_term.blank?
-      search = ProviderAccount.search do
-        keywords(params[:q])
-      end
-      @accounts &= search.results
-    end
+    load_accounts
 
     respond_to do |format|
       format.html

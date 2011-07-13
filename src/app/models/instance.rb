@@ -284,14 +284,9 @@ class Instance < ActiveRecord::Base
     (state == STATE_CREATE_FAILED) or (state == STATE_STOPPED and not restartable?)
   end
 
-  def self.list_or_search(query,order_field,order_dir)
-    if query.blank?
-      instances = Instance.all(:include => [ :owner ],
-                               :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
-    else
-      instances = search() { keywords(query) }.results
-    end
-    instances
+  def self.list(order_field, order_dir)
+    Instance.all(:include => [ :owner ],
+                 :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
   end
 
   def matches

@@ -11,16 +11,7 @@ class PoolFamiliesController < ApplicationController
   def index
     clear_breadcrumbs
     save_breadcrumb(pool_families_path)
-    @search_term = params[:q]
-    if @search_term.blank?
-      load_pool_families
-      return
-    end
-
-    search = PoolFamily.search() do
-      keywords(params[:q])
-    end
-    @pool_families = search.results
+    load_pool_families
   end
 
   def new

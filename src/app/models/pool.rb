@@ -91,14 +91,9 @@ class Pool < ActiveRecord::Base
     #end
   end
 
-  def self.list_or_search(query,order_field,order_dir)
-    if query.blank?
-      pools = Pool.all(:include => [ :quota, :pool_family ],
-                       :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
-    else
-      pools = search() { keywords(query) }.results
-    end
-    pools
+  def self.list(order_field, order_dir)
+    Pool.all(:include => [ :quota, :pool_family ],
+             :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
   end
 
 end

@@ -21,17 +21,7 @@ class HardwareProfilesController < ApplicationController
         render :partial => 'matching_provider_hardware_profiles' and return
       end
       format.html do
-        @search_term = params[:q]
-        if @search_term.blank?
-          load_hardware_profiles
-          return
-        end
-
-        search = HardwareProfile.search do
-          keywords(params[:q])
-          with(:frontend, true)
-        end
-        @hardware_profiles = search.results
+        load_hardware_profiles
       end
     end
   end

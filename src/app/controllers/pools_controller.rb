@@ -30,18 +30,18 @@ class PoolsController < ApplicationController
       @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
       case @details_tab[:id]
       when 'pools'
-        @pools = Pool.list_or_search(params[:q], params[:order_field],params[:order_dir])
+        @pools = Pool.list(params[:order_field],params[:order_dir])
       when 'instances'
-        @instances = Instance.list_or_search(params[:q], params[:order_field],params[:order_dir])
+        @instances = Instance.list(params[:order_field],params[:order_dir])
         @hide_stopped = @viewstate && @viewstate.state['hide_stopped'] == 'true'
         if @hide_stopped
           @instances.delete_if { |i| i.state == Instance::STATE_STOPPED }
         end
       when 'deployments'
-        @deployments = Deployment.list_or_search(params[:q], params[:order_field],params[:order_dir])
+        @deployments = Deployment.list(params[:order_field],params[:order_dir])
       end
     else
-      @pools = Pool.list_or_search(params[:q], params[:order_field],params[:order_dir])
+      @pools = Pool.list(params[:order_field],params[:order_dir])
     end
     statistics
     respond_to do |format|

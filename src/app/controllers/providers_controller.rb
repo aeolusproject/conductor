@@ -10,13 +10,7 @@ class ProvidersController < ApplicationController
     clear_breadcrumbs
     save_breadcrumb(providers_path)
     @params = params
-    @search_term = params[:q]
-
-    if @search_term.blank?
-      load_providers
-    else
-      @providers = Provider.search { keywords(params[:q]) }.results
-    end
+    load_providers
 
     respond_to do |format|
       format.html

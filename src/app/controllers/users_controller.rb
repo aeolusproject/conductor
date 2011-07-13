@@ -12,16 +12,7 @@ class UsersController < ApplicationController
     save_breadcrumb(users_path)
     @params = params
     load_headers
-    @search_term = params[:q]
-    if @search_term.blank?
-      load_users
-      return
-    end
-
-    search = User.search do
-      keywords(params[:q])
-    end
-    @users = search.results
+    load_users
   end
 
   def new

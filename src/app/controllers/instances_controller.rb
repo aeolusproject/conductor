@@ -5,13 +5,8 @@ class InstancesController < ApplicationController
 
   def index
     @params = params
-    @search_term = params[:q]
     save_breadcrumb(instances_path(:viewstate => viewstate_id))
-    if @search_term.blank?
-      load_instances
-    else
-      @instances = Instance.search { keywords(params[:q]) }.results
-    end
+    load_instances
 
     respond_to do |format|
       format.js { render :partial => 'list' }
