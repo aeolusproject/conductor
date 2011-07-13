@@ -1,0 +1,36 @@
+.TH aeolus-image 1  "July 07, 2011" "version 0.4" "USER COMMANDS"
+.SH NAME
+aeolus-image push \- command for pushing aeolus images to back end providers
+.SH SYNOPSIS
+.B aeolus-image push [\-h|--help] [\-u|--username] [\-w|--password] [\-id [image-id]] [-r|--provider [provider-name]]
+.SH DESCRIPTION
+aeolus-image push allows users to push built images to a particular backend provider
+.SH OPTIONS
+.TP
+\-u, --user <username>
+Conductor username
+.TP
+\-w, --password <password>
+Conductor password
+.TP
+\-r|--provider
+The a list of the provider names this image should be pushed to
+.TP
+\--id <id>
+The id of the image for pushing
+.TP
+\-d, --daemon
+Run as a background process
+.TP
+Get usage information for this command and associated commmands
+\-h, --help
+.SH EXAMPLES
+.TP
+Push an image with id 12345678-bbbb-1234--1234567890ab to provider ec2-us-east-1
+.B aeolus-image push
+\--id 12345678-bbbb-1234--1234567890ab
+\--provider ec2-us-east-1
+.SH AUTHOR
+Martyn Taylor (mtaylor@redhat.com), Jason Guiditta (jguiditta@redhat.com)
+.SH SEE ALSO
+aeolus-image-list(1), aeolus-image-build(1), aeolus-image-import(1)

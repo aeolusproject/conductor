@@ -3,6 +3,7 @@
 %define gemdir %(ruby -rubygems -e 'puts Gem::dir' 2>/dev/null)
 %define gemname aeolus-cli
 %define geminstdir %{gemdir}/gems/%{gemname}-%{version}
+%define mandir /usr/man/man1
 
 Summary: Commandline interface for working with the Aeolus cloud suite
 Name: rubygem-%{gemname}
@@ -26,22 +27,24 @@ Provides: rubygem(%{gemname}) = %{version}
 %description
 QMF Console for Aeolus Image Factory
 
-
 %prep
 
 %build
 
 %install
 rm -rf %{buildroot}
+
 mkdir -p %{buildroot}%{gemdir}
 gem install --local --install-dir %{buildroot}%{gemdir} \
             --force --rdoc %{SOURCE0}
 
 mkdir -p %{buildroot}/%{_bindir}
 mv %{buildroot}%{gemdir}/bin/* %{buildroot}/%{_bindir}
-rmdir %{buildroot}%{gemdir}/bin
 find %{buildroot}%{geminstdir}/bin -type f | xargs chmod a+x
+rmdir %{buildroot}%{gemdir}/bin
 
+mkdir -p %{buildroot}%{mandir}
+mv %{buildroot}%{geminstdir}/man/* %{buildroot}%{mandir}
 
 %clean
 rm -rf %{buildroot}
@@ -53,8 +56,10 @@ rm -rf %{buildroot}
 %doc %{gemdir}/doc/%{gemname}-%{version}
 %{gemdir}/cache/%{gemname}-%{version}.gem
 %{gemdir}/specifications/%{gemname}-%{version}.gemspec
-
+%{mandir}
 
 %changelog
+* Mon Jul 04 2011  <mtaylor@redhat.com>  - 0.0.1-1
+- Added man files
 * Wed Jun 15 2011  <jguiditt@redhat.com> - 0.0.1-1
 - Initial package

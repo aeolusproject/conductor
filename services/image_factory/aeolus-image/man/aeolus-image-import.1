@@ -1,0 +1,57 @@
+.TH aeolus-image 1  "July 07, 2011" "version 0.4" "USER COMMANDS"
+.SH NAME
+aeolus-image import \- command for importing existing provider images into aeolus
+.SH SYNOPSIS
+.B aeolus-image import [\-h|--help] [\-u|--username] [\-w|--password] [\-r|--provider [provider-name]] [\--id [provider-image-id]] [--description [path-to-file|xml string]] [\T|--target [target]] [\-d|--daemon]
+.SH DESCRIPTION
+aeolus-image import allows users to import pre-existing images that exist in cloud provders for example AMI from EC2, into aeolus.
+.SH OPTIONS
+.TP
+\-u, --user <username>
+Conductor username
+.TP
+\-w, --password <password>
+Conductor password
+.TP
+\-r, --provider <provider-name>
+The provider name as it exists in conductor from where the importing image resides
+.TP
+\--id <provider-image-id>
+The providers ID given to the importing image
+.TP
+\-T, --target
+The target type for the given provider
+.TP
+\--description <path-to-xml-description|xml string>
+A user defined description to associate with the importing image
+.TP
+\-d, --daemon
+Run as a background process
+.TP
+Get usage information for this command and associated commmands
+\-h, --help
+.SH EXAMPLES
+.TP
+Import the AMI ami-1234567 from the provider ec2-us-east-1 into aeolus
+.B aeolus-image import
+\--provider ec2-us-east-1
+\--target ec2
+\--id ami-1234567
+.TP
+Import the AMI ami-1234567 from the provider ec2-us-west-1 into aeolus with a given xml description
+.B aeolus-image import
+\--provider ec2-us-west-1
+\--target ec2
+\--id ami-1234567
+\--description '<image><name>myAMI</name></image>'
+.TP
+Import the AMI ami-1234567 from the provider ec2-us-west-1 into aeolus providing a path to the description XML file
+.B aeolus-image import
+\--provider ec2-us-west-1
+\--target ec23
+\--id ami-1234567
+\--description /foo/bar/description.xml
+.SH AUTHOR
+Martyn Taylor (mtaylor@redhat.com), Jason Guiditta (jguiditta@redhat.com)
+.SH SEE ALSO
+aeolus-image-list(1), aeolus-image-push(1), aeolus-image-build(1)

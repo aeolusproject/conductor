@@ -21,7 +21,7 @@ spec = Gem::Specification.new do |s|
   s.license = 'GPL-2'
   s.homepage = 'http://aeolusproject.org'
   s.executables << 'aeolus-image'
-  s.files = %w(Rakefile) + Dir.glob("{bin,lib,spec,examples}/**/*")
+  s.files = %w(Rakefile) + Dir.glob("{bin,lib,spec,examples,man}/**/*")
   s.require_path = "lib"
   s.bindir = "bin"
   s.add_dependency('nokogiri', '>=0.4.0')
