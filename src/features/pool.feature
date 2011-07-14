@@ -96,13 +96,13 @@ Feature: Manage Pools
   Scenario: Cannot delete default_pool
     Given I am on the pools page
     When I follow link with ID "filter_view"
-    And I check "default_pool" pool
+    And I check "Default" pool
     And I press "Destroy"
     Then I should see "The default pool cannot be deleted"
-    And I should see "default_pool"
+    And I should see "Default"
 
   Scenario: Cannot delete default_pool by renaming it
-    Given I renamed default_pool to pool_default
+    Given I renamed Default to pool_default
     And I am on the pools page
     When I follow link with ID "filter_view"
     And I check "pool_default" pool

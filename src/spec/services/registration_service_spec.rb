@@ -30,7 +30,7 @@ describe RegistrationService do
 
       @pools = Pool.list_for_user(@user, Privilege::CREATE, :target_type => Instance)
       @pools.length.should == 1
-      @pools[0].name.should == "default_pool"
+      @pools[0].name.should == "Default"
 
       @user.quota.maximum_running_instances.should == @quota.maximum_running_instances
       @user.quota.maximum_total_instances.should == @quota.maximum_total_instances

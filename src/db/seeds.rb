@@ -2,7 +2,7 @@
 PoolFamily.create!(:name => "default", :description => "default pool family", :quota => Quota.create)
 
 # Default Pool
-Pool.create!(:name => "default_pool", :quota => Quota.create, :pool_family => PoolFamily.find_by_name('default'), :enabled => true)
+Pool.create!(:name => "Default", :quota => Quota.create, :pool_family => PoolFamily.find_by_name('default'), :enabled => true)
 
 
 # Create default roles
@@ -99,7 +99,7 @@ MetadataObject.set("default_pool_family", PoolFamily.find_by_name('default'))
 
 default_quota = Quota.create
 
-default_pool = Pool.find_by_name("default_pool")
+default_pool = Pool.find_by_name("Default")
 default_role = Role.find_by_name("Pool User")
 default_suggested_deployable_role = Role.find_by_name("SuggestedDeployable Global User")
 default_pool_global_user_role = Role.find_by_name("Pool Global User")

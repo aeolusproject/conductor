@@ -65,8 +65,8 @@ Given /^the "([^\"]*)" Pool has a quota with following capacities:$/ do |name,ta
   @pool.save
 end
 
-Given /^I renamed default_pool to pool_default$/ do
-  p = Pool.find_by_name("default_pool")
+Given /^I renamed Default to pool_default$/ do
+  p = Pool.find_by_name("Default")
   p.name = "pool_default"
   p.save
 end

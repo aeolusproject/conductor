@@ -160,7 +160,7 @@ Feature: Manage Deployments
     And I follow "Properties"
     Then I should see the following:
       | Property Name | Value          |
-      | Pool	        | default_pool   |
+      | Pool	        | Default   |
       | Owner	        | John testuser  |
       | Name	        | testdeployment |
 
