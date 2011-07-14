@@ -14,7 +14,7 @@
         = t('.self_service_default')
       - form_for @self_service_default_quota, :url => { :action => 'update' } do |form|
         %h3 Instances
-        %fieldset.clearfix
+        -#%fieldset.clearfix
           %label.grid_2.alpha Permissions:
           .grid_4 My personal Instances
           .grid_4 Full Instance Permission
@@ -25,7 +25,7 @@
             (
             %a{:href=>'#'}> Remove
             )
-        %fieldset.clearfix.gap
+        -#%fieldset.clearfix.gap
           .grid_4.prefix_2.alpha
             %select.disabled{:disabled => true}
               %option
@@ -55,8 +55,8 @@
           = text_field :self_service_default_quota, :maximum_running_instances, :class => 'grid_5'
           .grid_2.la (instances)
           = form.error_message_on :maximum_running_instances, 'Maximum Running Instances '
-        %h3 POOLS
-        %fieldset.clearfix
+        -#%h3 POOLS
+        -#%fieldset.clearfix
           %label.grid_2.alpha Permissions:
           .grid_4 General Usage
           .grid_4 Regular Pool User
@@ -67,7 +67,7 @@
             (
             %a{:href=>'#'}> Remove
             )
-        %fieldset.clearfix.gap
+        -#%fieldset.clearfix.gap
           .grid_4.prefix_2.alpha
             %select.disabled{:disabled => true}
               %option
@@ -90,8 +90,8 @@
             (
             %a{:href=>'#'}> Add
             )
-        %h3 TEMPLATES
-        %fieldset.clearfix
+        -#%h3 TEMPLATES
+        -#%fieldset.clearfix
           %label.grid_2.alpha Permissions:
           .grid_4 General Usage
           .grid_4 Basic Template User
@@ -102,7 +102,7 @@
             (
             %a{:href=>'#'}> Remove
             )
-        %fieldset.clearfix.gap
+        -#%fieldset.clearfix.gap
           .grid_4.prefix_2.alpha
             %select.disabled{:disabled => true}
               %option

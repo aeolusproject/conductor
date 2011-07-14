@@ -196,7 +196,8 @@ en:
       define_services:  Define Services
       define_services_desc: View, edit and define services that Aeolus Conductor will offer. These services will be mapped to individual providers based on their capabilities.
       permissions: Permissions
-      permissions_desc: Create and edit User Treatments that are applied to users. Treatments pair together Roles with Categories of Instances, Pools and Templates. Manage the categories, and define and edit Roles. Roles group together sets of permissions that are relevant to Pools, Templates and Instances.
+#      permissions_desc: Create and edit User Treatments that are applied to users. Treatments pair together Roles with Categories of Instances, Pools and Templates. Manage the categories, and define and edit Roles. Roles group together sets of permissions that are relevant to Pools, Templates and Instances.
+      permissions_desc: Modify self-service default quota.
     self_service:
       self_service_default: 'User Treatment: Self-service default'
       quota: Quota
