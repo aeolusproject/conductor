@@ -18,6 +18,13 @@ describe ProviderAccount do
     @provider_account.should be_frozen
   end
 
+  it "should be destroyable if it has a config server" do
+    @provider_account.config_server = ConfigServer.new
+    @provider_account.destroyable?.should be_true
+    @provider_account.destroy.equal?(@provider_account).should be_true
+    @provider_account.should be_frozen
+  end
+
   it "should check the validitiy of the cloud account login credentials" do
     mock_provider = Factory :mock_provider
 
