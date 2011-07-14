@@ -8,23 +8,28 @@ module Aeolus
       def images
         images = [["UUID", "NAME", "TARGET", "OS", "OS VERSION", "ARCH", "DESCRIPTION"]]
         doc = Nokogiri::XML iwhd['/target_images'].get
+        # Check for any invalid data in iwhd
+        invalid_images = []
         doc.xpath("/objects/object/key").each do |targetimage|
           begin
-            build = iwhd["/target_images/" + targetimage + "/build"].get
+            build = iwhd["/target_images/" + targetimage.text + "/build"].get
             image = iwhd["/builds/" + build + "/image"].get
-            template_xml = Nokogiri::XML iwhd["/templates/" + iwhd["/target_images/" + targetimage + "/template"].get].get
-
-            images << [image,
-                       template_xml.xpath("/template/name").text,
-                       iwhd["/target_images/" + targetimage + "/target"].get,
-                       template_xml.xpath("/template/os/name").text,
-                       template_xml.xpath("/template/os/version").text,
-                       template_xml.xpath("/template/os/arch").text,
-                       template_xml.xpath("/template/description").text]
-          rescue RestClient::ResourceNotFound, RestClient::InternalServerError
+            template_info = get_template_info(image, targetimage.text)
+            if template_info
+              images << template_info
+            else
+              images << [image, get_image_name(image), iwhd["/target_images/" + targetimage + "/target"].get, "", "", "", ""]
+            end
+          rescue
+            invalid_images << targetimage.text
           end
         end
         format_print(images)
+
+        unless invalid_images.empty?
+          puts "\nN.B. following images were not listed, aeolus-image encountered some invalid data in iwhd:"
+          puts invalid_images.join "\n"
+        end
         quit(0)
       end
 
@@ -98,6 +103,28 @@ module Aeolus
             printf("%-#{width + 5}s", value)
           end
           puts ""
+        end
+      end
+
+      def get_template_info(image, targetimage)
+        begin
+          template = Nokogiri::XML iwhd["/templates/" + iwhd["/target_images/" + targetimage + "/template"].get].get
+          [image, template.xpath("/template/name").text,
+                  iwhd["/target_images/" + targetimage + "/target"].get,
+                  template.xpath("/template/os/name").text,
+                  template.xpath("/template/os/version").text,
+                  template.xpath("/template/os/arch").text,
+                  template.xpath("/template/description").text]
+        rescue
+        end
+      end
+
+      def get_image_name(image)
+        begin
+          template_xml = Nokogiri::XML iwhd["images/" + image].get
+          template_xml.xpath("/image/name").text
+        rescue
+          ""
         end
       end
     end
