@@ -5,11 +5,16 @@ aeolus-image \- command for listing aeolus image associated objects.
 .B aeolus-image list [\-h|--help] [\-u|--username] [\-w|--password] [\-i|--images] [\-b|--builds [image id]] [\-t|--targetimages [build id]] [\-g|--targets] [\-a|--accounts] [\-p|--providers]
 .SH DESCRIPTION
 aeolus-image list commands allows users to list information on the contents of particular objects in image warehouse including:
-.B images: high level image represenation associated with underlying provider and target images.
-.B builds: an object representation of a particular build that has taken place for a high level image
-.B targets: particular targets available to build agains, for example 'ec2'
-.B targetimages: represents builds of particular image against a target.  For example building against target 'ec2' would create an AMI specific image
-.B providerimages: represents the actual images that have been uploaded to a provider.  Similiar to a target image but specific to a particular provider
+.P
+images: high level image representation associated with underlying provider and target images
+.br
+builds: an object representation of a particular build that has taken place for a high level image
+.br
+targets: particular targets available to build against, for example 'ec2'
+.br
+targetimages: represents builds of particular image against a target.  For example building against target 'ec2' would create an AMI specific image
+.br
+providerimages: represents the actual images that have been uploaded to a provider.  Similiar to a target image but specific to a particular provider
 .SH OPTIONS
 .TP
 \-u, --user <username>
@@ -32,7 +37,7 @@ Retrieve the target images from a build
 Retrieve the provider images from a target image
 .TP
 \-g, --targets
-Retrieve a list of availabe targets
+Retrieve a list of available targets
 .TP
 \-p, --providers
 Retrieve a list of available providers
