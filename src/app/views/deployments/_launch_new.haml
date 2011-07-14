@@ -1,38 +1,47 @@
 = if request.xhr?
   = render :partial => '/layouts/new_notification'
 %header.page-header
-  %h1{:class => controller.controller_name}
-    New Deployment in
-    = @pool.name
+  %h1.deployments
+    New Deployment
+    %span= "to #{@pool.name.capitalize} Pool"
   #obj_actions.button-container
     = link_to 'Cancel', pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
   .corner &nbsp;
 
 %section.content-section.deployment
   %header
-    %h2
-      Deployment Details
+    %h2 Deployment Details
 
   .content
-    - form_for :deployment, {:url => new_deployment_path, :method => :get} do
+    - form_for :deployment, {:url => new_deployment_path, :method => :get, :html => {:class => 'generic'}} do
       = error_messages_for :deployment
       = hidden_field :deployment, :pool_id
-      %p
-        What do you want to launch?
-      %p
-        Select the Deployable definition
-        = select_tag :suggested_deployable_id, options_for_select([['other (enter below)', 'other']] + @suggested_deployables.map {|d| [d.name, d.id]}, params[:suggested_deployable_id])
-      %p
-        Or provide the URL of the Deployable definition
-        = text_field_tag :deployable_url, params[:deployable_url]
-      %p
-        Name your deployment
-        = text_field(:deployment, :name)
-        %span.name_available
-      %p
-        Choose a realm
-        = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
-      = submit_tag 'Next', :class => 'button'
+      %fieldset
+        %p
+          %label{:for => 'deployment_name'}
+            Deployment Name
+            %span (uniquely identifies your deployment)
+          = text_field(:deployment, :name, :class => 'em long')
+          %span#name_avail_indicator
+
+      %fieldset
+        %p
+          %label{:for => 'suggested_deployable_id'} Deployable Definition
+          = select_tag :suggested_deployable_id, options_for_select([['Load definition from URL', 'other']] + @suggested_deployables.map {|d| [d.name, d.id]}, params[:suggested_deployable_id])
+        %p#deployable-url-section
+          %label{:for => 'deployable_url'}
+            Deployable URL
+            %span (must be a valid URL including http://)
+          = text_field_tag :deployable_url, params[:deployable_url], :class => 'long'
+
+      %fieldset
+        %p
+          %label{:for => 'frontend_realm_id'} Realm
+          = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
+
+      %fieldset.options
+        = submit_tag 'Next', :class => 'button'
+
 
 :javascript
   // FIXME: This has a theoretical race condition: if responses come back out of order, the value
@@ -40,10 +49,17 @@
   // Might be nice to build something in application.js to guard against this, and that also
   // introduces a ~250ms buffer so we don't do a lookup on every single keystroke...
   $(document).ready(function () {
+    $('#suggested_deployable_id').change(function(){
+      if($(this).val() !== 'other'){
+        $('#deployable-url-section').hide();
+      }else{
+        $('#deployable-url-section').show();
+      }
+    });
     $('#deployment_name').keyup(function(e) {
       e.preventDefault();
       $.get('#{check_name_deployments_path}', {name: $('#deployment_name').val() }, function(data) {
-        $('.name_available').html(data == "false" ? "That name is already in use" : "Name available");
+        $('#name_avail_indicator').html(data == "false" ? "That name is already in use" : "Name available");
       });
     });
   });

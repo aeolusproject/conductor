@@ -30,7 +30,7 @@ Feature: Manage Deployments
     And there is "front_hwp2" conductor hardware profile
     When I am viewing the pool "mockpool"
     And I follow "New Deployment"
-    Then I should see "New Deployment in mockpool"
+    Then I should see "New Deployment"
     When I fill in "deployable_url" with "http://localhost/deployables/deployable1.xml"
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "Next"
@@ -49,7 +49,7 @@ Feature: Manage Deployments
     And I request XHR
     And I follow "New Deployment"
     Then I should get back a partial
-    Then I should see "New Deployment in mockpool"
+    Then I should see "New Deployment"
     When I fill in "deployable_url" with "http://localhost/deployables/deployable1.xml"
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "Next"
@@ -144,11 +144,11 @@ Feature: Manage Deployments
     Given a pool "mockpool" exists
     When I am viewing the pool "mockpool"
     And I follow "New Deployment"
-    Then I should see "New Deployment in mockpool"
+    Then I should see "New Deployment"
     When I fill in "deployable_url" with "http://invalid.deployable.url/"
     And I fill in "deployment_name" with "mynewdeployment"
     And I press "Next"
-    Then I should see "New Deployment in mockpool"
+    Then I should see "New Deployment"
     And I should see "Deployment Details"
     And I should see "failed to get the deployable definition"
 

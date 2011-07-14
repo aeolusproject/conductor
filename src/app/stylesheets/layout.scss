@@ -1464,6 +1464,14 @@ div#content .page-header{
     padding: 6px 7px 7px 54px;
   }
 
+  h1 span{
+    color: #666;
+  }
+
+  h1.no-icon{
+    padding: 7px;
+  }
+
   h1.pools{
     background: transparent url('../../images/header_icon_pools.png') no-repeat 8px center;
   }
@@ -1505,6 +1513,10 @@ div#content .page-header{
 
   h1.suggested_deployables{
     background: transparent url('../../images/header_icon_deployables.png') no-repeat 8px center;
+  }
+
+  h1.deployments{
+    background: transparent url('../../images/header_icon_deployments.png') no-repeat 8px center;
   }
 
   h1.settings{
