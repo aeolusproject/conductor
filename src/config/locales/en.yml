@@ -82,6 +82,7 @@ en:
     deployment: Deployment
     deployment_name: Deployment Name
     confirm_delete: "Are you sure you want to delete this deployment?"
+    disabled_pool: "Cannot launch a Deployment in this Pool. The pool has been disabled."
     updated:
       one: "The deployment %{list} was successfully updated."
       other: "The deployments %{list} were successfully updated."

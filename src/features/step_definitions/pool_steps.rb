@@ -19,13 +19,15 @@ end
 Given /^a pool "([^"]*)" exists$/ do |pool_name|
   pool_family = PoolFamily.find_by_name('default') || Factory(:pool_family)
   quota = Factory(:quota)
-  Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota)
+  Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota, :enabled => true)
+end
+
+Given /^a pool "([^"]*)" exists and is disabled$/ do |pool_name|
+  Factory :disabled_pool, :name => pool_name
 end
 
 Given /^a pool "([^"]*)" exists with deployment "([^"]*)"$/ do |pool_name, deployment_name|
-  pool_family = PoolFamily.find_by_name('default') || Factory(:pool_family)
-  quota = Factory(:quota)
-  pool = Pool.find_by_name(pool_name) || Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota)
+  pool = Pool.find_by_name(pool_name) || Factory(:pool, :name => pool_name)
   deployment = Deployment.new(:name => deployment_name, :pool => pool, :owner => User.first)
   deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable1.xml")
   deployment.save!

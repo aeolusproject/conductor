@@ -56,6 +56,9 @@ module NavigationHelpers
     when /the show pool page/
       pool_path
 
+    when /the page for the pool "([^"]*)"/
+      pool_path(Pool.find_by_name($1))
+
     when /the pool realms page/
       pool_realms_path
 

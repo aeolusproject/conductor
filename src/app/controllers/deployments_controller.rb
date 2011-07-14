@@ -22,6 +22,11 @@ class DeploymentsController < ApplicationController
   def launch_new
     @pool = Pool.find(params[:pool_id]) or raise "Invalid pool"
     require_privilege(Privilege::CREATE, Deployment, @pool)
+    unless @pool.enabled
+      flash[:warning] = t 'deployments.disabled_pool'
+      redirect_to pool_path(@pool) and return
+    end
+
     @deployment = Deployment.new(:pool_id => @pool.id)
     @suggested_deployables = SuggestedDeployable.list_for_user(current_user, Privilege::USE)
     init_new_deployment_attrs

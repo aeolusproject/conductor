@@ -58,6 +58,15 @@ Feature: Manage Deployments
     Then I should see "Created"
     Then I should see "mynewdeployment"
 
+  Scenario: Launch a deployment in a disabled pool
+    Given a pool "Disabled" exists and is disabled
+    And there is "front_hwp1" conductor hardware profile
+    And there is "front_hwp2" conductor hardware profile
+    When I am viewing the pool "Disabled"
+    And I follow "New Deployment"
+    Then I should see "pool has been disabled"
+    And I should be on the page for the pool "Disabled"
+
   Scenario: Stop deployments
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
     When I go to the deployments page
@@ -105,19 +114,19 @@ Feature: Manage Deployments
     And I should see "Jenkins"
 
   Scenario: View all deployments in JSON format
-    And there are 2 deployments
+    Given there are 2 deployments
     And I accept JSON
     When I go to the deployments page
     Then I should see 2 deployments in JSON format
 
   Scenario: View a deployment in JSON format
-    And a deployment "mockdeployment" exists
+    Given a deployment "mockdeployment" exists
     And I accept JSON
     When I am viewing the deployment "mockdeployment"
     Then I should see deployment "mockdeployment" in JSON format
 
   Scenario: View a deployment via XHR
-    And a deployment "mockdeployment" exists
+    Given a deployment "mockdeployment" exists
     And the deployment "mockdeployment" has an instance named "myinstance"
     And I request XHR
     When I am viewing the deployment "mockdeployment"
@@ -125,12 +134,12 @@ Feature: Manage Deployments
     And I should see "myinstance"
 
   Scenario: Create a deployment and get JSON response
-    And I accept JSON
+    Given I accept JSON
     When I create a deployment
     Then I should get back a deployment in JSON format
 
   Scenario: Create a deployment and get XHR response
-    And I request XHR
+    Given I request XHR
     When I create a deployment
     Then I should get back a partial
 

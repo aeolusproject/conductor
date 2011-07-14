@@ -58,6 +58,7 @@ class Deployment < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :pool_id
   validates_length_of :name, :maximum => 1024
   validates_presence_of :owner_id
+  validate :pool_must_be_enabled
 
   before_destroy :destroyable?
 
@@ -71,6 +72,10 @@ class Deployment < ActiveRecord::Base
     rescue DeployableXML::ValidationError => e
       errors.add(:deployable_xml, e.message)
     end
+  end
+
+  def pool_must_be_enabled
+    errors.add(:pool, "must be enabled") unless pool and pool.enabled
   end
 
   def object_list

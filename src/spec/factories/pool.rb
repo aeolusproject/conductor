@@ -8,3 +8,7 @@ end
 Factory.define :tpool, :parent => :pool do |p|
   p.name 'tpool'
 end
+
+Factory.define :disabled_pool, :parent => :pool do |p|
+  p.enabled false
+end

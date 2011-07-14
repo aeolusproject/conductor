@@ -11,11 +11,17 @@ describe Deployment do
   end
 
   it "should require pool to be set" do
+    @deployment.should be_valid
+
     @deployment.pool_id = nil
     @deployment.should_not be_valid
+  end
 
-    @deployment.pool_id = 1
+  it "should require a pool that is not disabled" do
     @deployment.should be_valid
+
+    @deployment.pool.enabled = false
+    @deployment.should_not be_valid
   end
 
 # This is in flux, and currently inapplicable
