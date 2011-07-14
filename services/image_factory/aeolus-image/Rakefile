@@ -8,10 +8,10 @@ require 'spec/rake/spectask'
 require 'rake/rpmtask'
 
 RPMBUILD_DIR = "#{File.expand_path('~')}/rpmbuild"
-RPM_SPEC = "rubygem-aeolus-cli.spec"
+RPM_SPEC = "rubygem-aeolus-image.spec"
 
 spec = Gem::Specification.new do |s|
-  s.name = 'aeolus-cli'
+  s.name = 'aeolus-image'
   s.version = '0.0.1'
   s.has_rdoc = true
   s.summary= 'cli for aeolus cloud suite'

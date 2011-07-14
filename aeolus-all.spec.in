@@ -15,7 +15,7 @@ Requires:	iwhd
 Requires:	aeolus-configure
 Requires:	imagefactory
 Requires:	qpid-cpp-server
-Requires:	rubygem(aeolus-cli)
+Requires:	rubygem(aeolus-image)
 Requires:	mongodb-server
 Requires:	mod_ssl
 Requires:	deltacloud-core

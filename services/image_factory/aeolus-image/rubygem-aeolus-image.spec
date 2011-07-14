@@ -1,7 +1,6 @@
-# Generated from image_factory_console-0.2.0.gem by gem2rpm -*- rpm-spec -*-
 %define ruby_sitelib %(ruby -rrbconfig -e "puts Config::CONFIG['sitelibdir']")
 %define gemdir %(ruby -rubygems -e 'puts Gem::dir' 2>/dev/null)
-%define gemname aeolus-cli
+%define gemname aeolus-image
 %define geminstdir %{gemdir}/gems/%{gemname}-%{version}
 %define mandir /usr/man/man1
 
@@ -23,6 +22,9 @@ Requires: rubygem(image_factory_console) >= 0.4.0
 BuildRequires: rubygems
 BuildArch: noarch
 Provides: rubygem(%{gemname}) = %{version}
+
+Obsoletes: rubygem-aeolus-cli
+Provides: rubygem(aeolus-cli)
 
 %description
 QMF Console for Aeolus Image Factory
