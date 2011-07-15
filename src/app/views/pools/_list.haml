@@ -18,7 +18,7 @@
     %td
       = pool.statistics[:instances_pending]
     %td
-      = pool.statistics[:instances_deployed]
+      = pool.statistics[:instances_failed]
     %td
       = number_to_percentage(pool.quota.percentage_used, :precision => 0)
     %td
