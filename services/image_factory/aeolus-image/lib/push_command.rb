@@ -16,17 +16,22 @@ module Aeolus
         @console.start
       end
       def run
-        if combo_implemented?
-          sleep(5)
-          @console.push(@options[:provider], get_creds, @options[:id], @options[:build]).each do |adaptor|
-            puts ""
-            puts "Provider Image: #{adaptor.image_id}"
-            puts "Image: #{adaptor.image}"
-            puts "Build: #{adaptor.build}"
-            puts "Status: #{adaptor.status}"
-            puts "Percent Complete: #{adaptor.percent_complete}"
+        begin
+          if combo_implemented?
+            sleep(5)
+            @console.push(@options[:provider], get_creds, @options[:id], @options[:build]).each do |adaptor|
+              puts ""
+              puts "Provider Image: #{adaptor.image_id}"
+              puts "Image: #{adaptor.image}"
+              puts "Build: #{adaptor.build}"
+              puts "Status: #{adaptor.status}"
+              puts "Percent Complete: #{adaptor.percent_complete}"
+            end
+            quit(0)
           end
-          quit(0)
+        rescue
+          puts "An Error occured whilst trying to push this build, please check aeolus-image --help for details on how to use this command"
+          quit(1)
         end
       end
 
