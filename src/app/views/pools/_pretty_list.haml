@@ -17,7 +17,7 @@
               %dt Instances
               %dd.count.instance= pool.instances.count
               %dd.count.instance.pending= pool.instances.select {|i| i.state == Instance::STATE_PENDING }.length
-              %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR }.length
+              %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR || i.state == Instance::STATE_CREATE_FAILED }.length
             %li
               %dt Quota Used
               %dd.percentage.quota
