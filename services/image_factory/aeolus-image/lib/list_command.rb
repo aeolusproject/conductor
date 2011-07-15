@@ -6,15 +6,17 @@ module Aeolus
       end
 
       def images
-        images = [["UUID", "NAME", "OS", "OS VERSION", "ARCH", "DESCRIPTION"]]
+        images = [["UUID", "NAME", "TARGET", "OS", "OS VERSION", "ARCH", "DESCRIPTION"]]
         doc = Nokogiri::XML iwhd['/target_images'].get
         doc.xpath("/objects/object/key").each do |targetimage|
           begin
             build = iwhd["/target_images/" + targetimage + "/build"].get
             image = iwhd["/builds/" + build + "/image"].get
             template_xml = Nokogiri::XML iwhd["/templates/" + iwhd["/target_images/" + targetimage + "/template"].get].get
+
             images << [image,
                        template_xml.xpath("/template/name").text,
+                       iwhd["/target_images/" + targetimage + "/target"].get,
                        template_xml.xpath("/template/os/name").text,
                        template_xml.xpath("/template/os/version").text,
                        template_xml.xpath("/template/os/arch").text,
