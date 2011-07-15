@@ -20,3 +20,8 @@
     %td= instance.state
     %td= instance.provider_account ? instance.provider_account.provider.name : ''
     %td= owner_name(instance)
+
+:javascript
+  Conductor.setupPrettyFilterURL(
+            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter' )}',
+            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty' )}');

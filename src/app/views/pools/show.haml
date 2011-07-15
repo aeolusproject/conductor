@@ -16,8 +16,9 @@
             -if tab[:count]
               %span.label.badge.count.dark=tab[:count]
     .section-controls
-      .button-group
-        = pretty_filter_toggle(pool_path(@pool, :view => 'pretty', :details_tab => @details_tab[:id]), pool_path(@pool, :view => 'filter', :details_tab => @details_tab[:id]))
+      #obj_actions.button-container
+        .button-group
+          = pretty_filter_toggle(pool_path(@pool, :view => 'pretty', :details_tab => @details_tab[:id]), pool_path(@pool, :view => 'filter', :details_tab => @details_tab[:id]))
   .content.collapsible.toggle-view.pools#tab
     %ul.deployable-cards
       = render :partial => @view

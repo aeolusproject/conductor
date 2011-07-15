@@ -76,8 +76,8 @@ var Conductor = {
   },
 
   setupPrettyFilterURL: function (filter_url,pretty_url) {
-    $("span.view-toggle a#pretty_view").attr('href', pretty_url);
-    $("span.view-toggle a#filter_view").attr('href', filter_url);
+    $(".section-controls span.view-toggle a#pretty_view").attr('href', pretty_url);
+    $(".section-controls span.view-toggle a#filter_view").attr('href', filter_url);
   },
 
   tabRemoveActiveClass: function () {

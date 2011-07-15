@@ -105,7 +105,12 @@ class DeploymentsController < ApplicationController
     init_new_deployment_attrs
     save_breadcrumb(deployment_path(@deployment, :viewstate => viewstate_id), @deployment.name)
     @failed_instances = @deployment.instances.select {|instance| instance.state == Instance::STATE_CREATE_FAILED || instance.state == Instance::STATE_ERROR}
-    @view = filter_view? ? 'filter_view_show' : 'pretty_view_show'
+    if filter_view?
+      @view = 'instances/list'
+      @instances = @deployment.instances
+    else
+      @view = 'pretty_view_show'
+    end
     #TODO add links to real data for history, permissions, services
     @tabs = [{:name => 'Instances', :view => @view, :id => 'instances', :count => @deployment.instances.count},
              #{:name => 'Services', :view => @view, :id => 'services'},

@@ -12,7 +12,7 @@
             %span.label.badge.count.dark=tab[:count]
     .section-controls
       #obj_actions.button-container
-      .button-group
-        = pretty_filter_toggle(deployment_path(@deployment, :view => 'pretty'), deployment_path(@deployment, :view => 'filter'))
+        .button-group
+          = pretty_filter_toggle(deployment_path(@deployment, :view => 'pretty'), deployment_path(@deployment, :view => 'filter'))
   .content.collapsible.toggle-view.deployments#tab
     = render :partial => @view
