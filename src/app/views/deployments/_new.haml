@@ -4,6 +4,13 @@
     Deployment
     = @deployment.name
   #obj_actions.button-container
+    - form_for @deployment do
+      = hidden_field :deployment, :name
+      = hidden_field :deployment, :pool_id
+      = hidden_field :deployment, :frontend_realm_id
+      -# FIXME: Passing chunks of XML around in hidden form fields doesn't feel right
+      = hidden_field :deployment, :deployable_xml
+      = submit_tag 'Launch this deployment', :class => 'button primary', :id => 'launch_deployment'
     = link_to 'Cancel', pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
   .corner &nbsp;
 
@@ -20,6 +27,7 @@
         %dt deployable definition
         %dd= link_to('view', '#', :id => 'deployable-xml-link')
 
+
 %section.content-section.deployable_details
   %header
     %h2
@@ -35,18 +43,17 @@
         Description:
         = @deployment.deployable_xml.description
 
-%section.content-section.deployable_details
+%section.content-section.assemblies
   %header
     %h2
       Assemblies
 
   .content
 
-    = filter_table([{:name => 'Assembly Name'},
-                    {:name => 'Hardware Profile'},
-        {:name => 'Image ID'},
-        {:name => 'Build ID'}],
-                   @deployment.deployable_xml.assemblies) do |assembly|
+    = filter_table([{:name => 'Assembly Name'}, {:name => 'Hardware Profile'},
+                    {:name => 'Image ID'}, {:name => 'Build ID'}],
+                    @deployment.deployable_xml.assemblies,
+                    :show_select_toggle => false) do |assembly|
       %tr
         %td
           = assembly.name
@@ -56,13 +63,5 @@
           = assembly.image_id
         %td
           = assembly.image_build
-
-    - form_for @deployment do
-      = hidden_field :deployment, :name
-      = hidden_field :deployment, :pool_id
-      = hidden_field :deployment, :frontend_realm_id
-      -# FIXME: Passing chunks of XML around in hidden form fields doesn't feel right
-      = hidden_field :deployment, :deployable_xml
-      = submit_tag 'Launch', :class => 'button'
 
     -# Quota checking to go here as well, once I understand how it works with new code

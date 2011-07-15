@@ -116,6 +116,8 @@ module ApplicationHelper
 
   def filter_table(columns, rows, options={}, &block)
     _class = rows.first.try(:class) || Object
+    filter_widgets_opts = options[:show_filter_widgets]
+    select_togle_opts = options[:show_select_toggle]
     render :partial => 'layouts/filter_table', :locals => {
         # TODO - Right now saved_searches are not functional; this will need to be expanded
         :form_header => options[:form_header] ? options[:form_header] : '',
@@ -127,7 +129,9 @@ module ApplicationHelper
         :columns => columns,
         :lower_class => _class.to_s.tableize,
         :block => block,
-        :rows => rows
+        :rows => rows,
+        :show_filter_widgets => filter_widgets_opts.nil? ? false : filter_widgets_opts,
+        :show_select_toggle => select_togle_opts.nil? ? true : select_togle_opts,
     }
   end
 
