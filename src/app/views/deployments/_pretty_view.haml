@@ -1,4 +1,22 @@
-= render :partial => @deployments
+- @deployments.in_groups_of(5, false) do |group|
+  %ul.deployment-array.large
+    - group.each do |deployment|
+      %li.deployment
+        %h3.name
+          = link_to deployment.name, deployment_path(deployment)
+        %dl.statistics
+          %ul
+            %li.uptime
+              %dt.uptime Uptime
+              %dd= count_uptime(deployment.created_at)
+            %li.instances
+              %dt.instances.count Instances
+              %dd
+                = deployment.instances.count || 0
+                %span.inline-label Instances
+            %li.provider
+              %dt.instances.count Provider
+              %dd Amazon EC2
 
 :javascript
   Conductor.setupPrettyFilterURL(

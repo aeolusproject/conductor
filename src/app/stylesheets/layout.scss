@@ -2068,182 +2068,128 @@ $font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helve
 $font-family-em: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 $font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 
-/* Deployment Array */
+/************************************************************************** */
+/********************************************* Large Deployable Card Arrays */
+/****************************************************************************/
 
-ul.deployable-cards{
-  margin-top: 16px;
+/* todo: move this elsewhere */
+
+$deployment-large-height: 154px;
+$deployment-large-width: 154px;
+$deployment-large-padding: 8px;
+
+ul.deployment-array.large{
+
+  margin-top: 38px;
   list-style: none;
+  display: table;
 
-  li{
-    display: inline-block;
-  }
-
-  li + li{
-    margin-left: 26px;
-  }
-
-  div.deployable{
-    background-color: #e5e5e5;
-    -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+  li.deployment{
+    display: table-cell;
+    float: left;
     border: 1px solid #ccc;
-    width: 154px;
-    height: 154px;
-    font-family: $font-family-primary;
+    background-color: #efefef;
+    -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+    padding: $deployment-large-padding;
+    width: $deployment-large-width - ($deployment-large-padding * 2);
+    height: $deployment-large-height - ($deployment-large-padding * 2);
+    overflow: hidden;
+    position: relative;
 
-    h3{
+    h3.name{
+      font-family: $font-family-base;
+      font-weight: normal;
       font-size: 13px;
-      font-weight: 200;
-      color: #333;
-      padding: 6px;
-      display: block;
-    }
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #ccc;
 
-    hr{
-      background-image: url('../../images/deploy_separator_dark.png') repeat-x bottom left;
-      display: block;
-      height: 2px;
-    }
-
-    span.alert{
-      display: block;
-      margin: 10px;
-      font-size: 13px;
-      font-weight: 200;
-      color: #fff;
-    }
-
-    span.alert.warn{
-      padding-left: 24px;
-      background: transparent url('../../images/alert_icon_warn_white.png') no-repeat 6px 0px;
-    }
-
-    ul.statistics{
-      list-style: none;
-      margin: 8px;
-      li{
-        display: block;
-
-        span.uptime{
-          display: inline-block;
-          font-size: 14px;
-          height: 16px;
-          padding: 2px;
-          padding-left: 24px;
-          color: #fff;
-          background: transparent url('../../images/deploy_icon_uptime.png') no-repeat 6px 0px;
-        }
-
-        span.instance{
-          display: inline-block;
-          height: 16px;
-          padding: 2px;
-          padding-left: 24px;
-          font-size: 14px;
-          color: #fff;
-          background: transparent url('../../images/deploy_icon_instance.png') no-repeat 6px 0px;
-        }
-
+      a{
+        color: inherit;
+        text-decoration: underline;
+        &:hover{ color: #000; }
       }
-      li + li{
-        margin-top: 6px;
+
+    }
+
+    dl.statistics{
+      margin-top: 8px;
+      ul{list-style: none; margin-left: 12px;}
+      li{display: block; height: 24px; padding-left: 26px; padding-top: 1px;}
+      li.uptime{ background: transparent url('../../images/deployment_large_uptime.png') no-repeat 6px 0px; }
+      li.instances{ background: transparent url('../../images/deployment_large_instances.png') no-repeat 6px 0px; }
+      li.provider{
+        background: transparent url('../../images/deployment_large_icon_provider.png') no-repeat 0px 0px;
+        position: absolute;
+        bottom: 0px;
+      }
+      dt{ display:none; }
+      dd{
+        font-family: $font-family-primary;
+        font-size: 14px;
+        color: #666;
+      }
+      dd span.inline-label{
+        font-family: $font-family-base;
+        font-size: 11px;
+        text-transform: uppercase;
       }
     }
 
-    span.provider{
-      display: block;
-      margin: 10px;
-      font-size: 13px;
-      font-weight: 200;
-      color: #fff;
-      padding-left: 34px;
-      background: transparent url('../../images/deploy_icon_provider.png') no-repeat 6px 0px;
-    }
   }
 
-  div.deployable.alert{
+  li.deployment + li.deployment{
+    margin-left: 38px;
+  }
+
+  li.deployment.pending, li.deployment.alert, li.deployment.failure{
+    h3.name{margin: 0; margin-bottom: 8px; color: #fff;}
+  }
+
+  /* alert */
+  li.deployment.alert{
+    background-color: rgb(174,4,4);
     background-image: -moz-linear-gradient(top, rgba(174,4,4,1), rgba(136,0,0, 1));
     background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(174,4,4,1)), to(rgba(136,0,0, 1)));
-    -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
-    border: 1px solid #990000;
-    width: 154px;
-    height: 154px;
-    font-family: $font-family-primary;
 
-    h3{
-      font-size: 13px;
-      font-weight: 200;
-      color: #fff;
-      padding: 6px;
-      display: block;
-      background-color: #A10303;
-    }
-
-    hr{
-      background-image: url('../../images/deploy_separator_dark.png') repeat-x bottom left;
-      display: block;
-      height: 2px;
-    }
+    h3.name{ a{ color: inherit; } }
 
     span.alert{
       display: block;
-      margin: 10px;
       font-size: 13px;
       font-weight: 200;
       color: #fff;
     }
 
     span.alert.warn{
-      padding-left: 24px;
-      background: transparent url('../../images/alert_icon_warn_white.png') no-repeat 6px 0px;
+      padding-left: 20px;
+      background: transparent url('../../images/alert_icon_warn_white.png') no-repeat 0px 0px;
     }
 
-    ul.statistics{
-      list-style: none;
-      margin: 8px;
-      li{
-        display: block;
-
-        span.uptime{
-          display: inline-block;
-          font-size: 14px;
-          height: 16px;
-          padding: 2px;
-          padding-left: 24px;
-          color: #fff;
-          background: transparent url('../../images/deploy_icon_uptime.png') no-repeat 6px 0px;
-        }
-
-        span.instance{
-          display: inline-block;
-          height: 16px;
-          padding: 2px;
-          padding-left: 24px;
-          font-size: 14px;
-          color: #fff;
-          background: transparent url('../../images/deploy_icon_instance.png') no-repeat 6px 0px;
-        }
-
+    dl.statistics{
+      li.uptime{ background: transparent url('../../images/deployment_large_uptime_white.png') no-repeat 6px 0px; }
+      li.instances{ background: transparent url('../../images/deployment_large_instances_white.png') no-repeat 6px 0px; }
+      li.provider{
+        background: transparent url('../../images/deployment_large_icon_provider_white.png') no-repeat 0px 0px;
+        position: absolute;
+        bottom: 0px;
       }
-      li + li{
-        margin-top: 6px;
-      }
+      dd{ color: #fff; }
     }
-
-    span.provider{
-      display: block;
-      margin: 10px;
-      font-size: 13px;
-      font-weight: 200;
-      color: #fff;
-      padding-left: 34px;
-      background: transparent url('../../images/deploy_icon_provider.png') no-repeat 6px 0px;
-    }
-
   }
 
 }
 
+ul.deployment-array.large + ul.deployment-array.large{
+  margin-top: 10px;
+}
+
+
+
+
+/************************************************************************** */
 /********************************************* Small Deployable Card Arrays */
+/************************************************************************** */
 
 $deployment-small-height: 84px;
 $deployment-small-width: 174px;
