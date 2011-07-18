@@ -141,8 +141,8 @@ module Aeolus
 
           opts.separator ""
           opts.separator "Push examples:"
-          opts.separator "aeolus-image push --provider ec2-us-east-1 --id $image_id         # push the image to the specified provider"
-          opts.separator "aeolus-image push --build $build_id                               # (NOT IMPLEMENTED) push all target images for a build, to same providers as previously"
+          opts.separator "aeolus-image push --provider ec2-us-east-1 --id $image_id         # initial push of an image build via image id to the specified provider"
+          opts.separator "aeolus-image push --build $build_id                               # push an image build via build id to the specified provider"
           opts.separator "aeolus-image push --account $provider_account --build $build_id   # (NOT IMPLEMENTED) ditto, using a specific provider account"
           opts.separator "aeolus-image push --image $image_id                               # (NOT IMPLEMENTED) push all the target images for the latest build"
 

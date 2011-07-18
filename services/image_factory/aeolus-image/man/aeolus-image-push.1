@@ -26,9 +26,13 @@ Get usage information for this command and associated commmands
 \-h, --help
 .SH EXAMPLES
 .TP
-Push an image with id 12345678-bbbb-1234--1234567890ab to provider ec2-us-east-1
+Initial push of an image with id 12345678-bbbb-1234--1234567890ab to provider ec2-us-east-1
 .B aeolus-image push
 \--id 12345678-bbbb-1234--1234567890ab
+\--provider ec2-us-east-1
+Push a build with id 12345678-bbbb-1234--1234567890ab to provider ec2-us-east-1
+.B aeolus-image push
+\--build 12345678-bbbb-1234--1234567890ab
 \--provider ec2-us-east-1
 .SH AUTHOR
 Martyn Taylor (mtaylor@redhat.com), Jason Guiditta (jguiditta@redhat.com)
