@@ -26,7 +26,7 @@ Factory.define :mock_hwp1_arch, :parent => :hardware_profile_property do |p|
   p.name 'architecture'
   p.kind 'fixed'
   p.unit 'label'
-  p.value 'i386'
+  p.value 'x86_64'
 end
 
 Factory.define :mock_hwp2_memory, :parent => :hardware_profile_property do |p|
@@ -146,7 +146,7 @@ Factory.define :ec2_hwp1_arch, :parent => :hardware_profile_property do |p|
   p.name 'architecture'
   p.kind 'fixed'
   p.unit 'label'
-  p.value 'i386'
+  p.value 'x86_64'
 end
 
 Factory.define :front_hwp3_memory, :parent => :hardware_profile_property do |p|
@@ -174,7 +174,7 @@ Factory.define :front_hwp3_arch, :parent => :hardware_profile_property do |p|
   p.name 'architecture'
   p.kind 'fixed'
   p.unit 'label'
-  p.value 'i386'
+  p.value 'x86_64'
 end
 
 Factory.define :hwpp_range, :parent => :hardware_profile_property do |p|
@@ -204,5 +204,5 @@ Factory.define :hwpp_arch, :parent => :hardware_profile_property do |p|
   p.name 'architecture'
   p.kind 'fixed'
   p.unit 'label'
-  p.value 'i386'
+  p.value 'x86_64'
 end

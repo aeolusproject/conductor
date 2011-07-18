@@ -182,3 +182,16 @@ Feature: Manage Deployments
     When I follow "testdeployment"
     And I press "Delete"
     Then I should see "The deployment testdeployment was successfully deleted"
+
+  Scenario: Launch a deployment which is not launchable
+    Given a pool "mockpool" exists
+    And there is "front_hwp1" conductor hardware profile
+    When I am viewing the pool "mockpool"
+    And I follow "New Deployment"
+    Then I should see "New Deployment"
+    When I fill in "deployable_url" with "http://localhost/deployables/deployable1.xml"
+    When I fill in "deployment_name" with "mynewdeployment"
+    When I press "Next"
+    Then I should see "Deployable details"
+    And I should see "Some assemblies will not be launched:"
+    And I should see "backend: Hardware Profile front_hwp2 not found."

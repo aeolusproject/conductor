@@ -183,4 +183,35 @@ class Deployment < ActiveRecord::Base
     # I REALLY want to get this via a join, but no dice...
     instances.first.provider_account.provider rescue nil
   end
+
+  # we try to create an instance for each assembly and check
+  # if a match is found
+  def check_assemblies_matches(user)
+    errs = {}
+    deployable_xml.assemblies.each do |assembly|
+      begin
+        hw_profile = HardwareProfile.frontend.find_by_name(assembly.hwp)
+        raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
+        instance = Instance.new(
+          :deployment => self,
+          :name => "#{name}/#{assembly.name}",
+          :frontend_realm => frontend_realm,
+          :pool => pool,
+          :image_uuid => assembly.image_id,
+          :image_build_uuid => assembly.image_build,
+          :assembly_xml => assembly.to_s,
+          :state => Instance::STATE_NEW,
+          :owner => user,
+          :hardware_profile => hw_profile
+        )
+        possibles, errors = instance.matches
+        if possibles.empty? and not errors.empty?
+          raise errors.join(", ")
+        end
+      rescue
+        errs[assembly.name] = $!.message
+      end
+    end
+    errs
+  end
 end

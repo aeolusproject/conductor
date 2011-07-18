@@ -94,4 +94,15 @@ describe Deployment do
     @deployment.should be_destroyable
     expect { @deployment.destroy }.to change(Deployment, :count).by(-1)
   end
+
+  it "should return errors when checking assemblies matches which are not launchable" do
+    user = Factory(:user)
+    image_id = @deployment.deployable_xml.assemblies.first.image_id
+    provider_name = Image.find(image_id).latest_build.provider_images.first.provider_name
+    provider = Factory(:mock_provider, :name => provider_name)
+    @deployment.pool.pool_family.provider_accounts = [Factory(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+    @deployment.check_assemblies_matches(user).should be_empty
+    @deployment.pool.pool_family.provider_accounts.destroy_all
+    @deployment.check_assemblies_matches(user).should_not be_empty
+  end
 end

@@ -46,6 +46,13 @@ class DeploymentsController < ApplicationController
     url = get_deployable_url
     respond_to do |format|
       if @deployment.accessible_and_valid_deployable_xml?(url)
+        errors = @deployment.check_assemblies_matches(current_user)
+        unless errors.empty?
+          flash[:error] = {
+            :summary => "Some assemblies will not be launched:",
+            :failures => errors
+          }
+        end
         format.js { render :partial => 'new' }
         format.html
         format.json { render :json => @deployment }
