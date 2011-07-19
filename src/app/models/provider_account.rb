@@ -51,8 +51,6 @@ class ProviderAccount < ActiveRecord::Base
   # validation of credentials is done in provider_account validation, :validate => false prevents nested_attributes from validation
   has_many :credentials, :dependent => :destroy, :validate => false
   accepts_nested_attributes_for :credentials
-  # eventually, this might be "has_many", but first pass is one-to-one
-  has_one :config_server, :dependent => :destroy
 
   # Helpers
   attr_accessor :x509_cert_priv_file, :x509_cert_pub_file

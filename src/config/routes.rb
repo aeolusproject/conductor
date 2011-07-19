@@ -46,7 +46,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :provider_types, :only => :index
   map.resources :users, :collection => { :multi_destroy => :delete }
   map.resources :provider_accounts, :collection => { :multi_destroy => :delete, :set_selected_provider => :get}
-  map.resources :config_servers, :collection => { :test => :get }
   map.resources :roles, :collection => { :multi_destroy => :delete }
   map.resources :settings, :collection => { :self_service => :get, :general_settings => :get }
   map.resources :pool_families, :collection => { :multi_destroy => :delete, :add_provider_account => :post, :multi_destroy_provider_accounts => :delete }

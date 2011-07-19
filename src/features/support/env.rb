@@ -19,9 +19,6 @@ require File.expand_path(File.dirname(__FILE__) + '../../../spec/vcr_setup.rb')
 require 'webrat'
 require 'webrat/core/matchers'
 
-# Pull in the ability to stub out methods
-require 'spec/stubs/cucumber'
-
 Webrat.configure do |config|
   config.mode = :rails
   config.open_error_files = false # Set to true if you want error pages to pop up in the browser
