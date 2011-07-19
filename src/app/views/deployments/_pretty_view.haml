@@ -16,7 +16,7 @@
                 %span.inline-label Instances
             %li.provider
               %dt.instances.count Provider
-              %dd Amazon EC2
+              %dd= deployment.provider.provider_type.name unless deployment.provider.blank?
 
 :javascript
   Conductor.setupPrettyFilterURL(
