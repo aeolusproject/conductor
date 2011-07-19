@@ -65,6 +65,7 @@ var Conductor = {
 
       e.preventDefault();
       var url = $(this).attr('href');
+      $('#tab').html('<span class="loading_tabs"></span>');
       $.get(url, function(data) {
         $('#tab').html(data)
           .show();
