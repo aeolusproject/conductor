@@ -18,6 +18,12 @@ Given /^I am viewing the mock instance detail$/ do
   visit instance_url(mock_instance)
 end
 
+Given /^the instance "([^"]*)" is in the (\w*) state$/ do |instance, state|
+  instance = Instance.find_by_name(instance)
+  instance.state = state
+  instance.save!
+end
+
 When /^I am viewing the pending instance detail$/ do
   visit instance_url(pending_instance)
 end

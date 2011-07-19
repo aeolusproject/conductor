@@ -115,6 +115,33 @@ class Deployment < ActiveRecord::Base
     instances.all? {|i| i.destroyable? }
   end
 
+  def stop_instances_and_destroy!
+    if destroyable?
+      destroy
+      return
+    end
+
+    if instances.all? {|i| i.destroyable? or i.state == Instance::STATE_RUNNING}
+      # The deployment will be destroyed from an InstanceObserver callback once
+      # all instances are stopped.
+      self.scheduled_for_deletion = true
+      self.save!
+
+      # stop all deployment's instances
+      instances.each do |instance|
+        break unless instance.state == Instance::STATE_RUNNING
+
+        @task = instance.queue_action(instance.owner, 'stop')
+        unless @task
+          raise ActionError.new("stop cannot be performed on this instance.")
+        end
+        condormatic_instance_stop(@task)
+      end
+    else
+      raise ActionError.new 'all instances must be stopped or running'
+    end
+  end
+
   def launch(user)
     status = { :errors => {}, :successes => {} }
     deployable_xml.assemblies.each do |assembly|

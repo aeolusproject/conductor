@@ -90,8 +90,8 @@ en:
       one: "The deployment %{list} could not be updated."
       other: "The deployments %{list} could not be updated."
     deleted:
-      one: "The deployment %{list} was successfully deleted."
-      other: "The deployments %{list} were succesfully deleted."
+      one: "The deployment %{list} was scheduled for deletion."
+      other: "The deployments %{list} were scheduled for deletion."
     not_deleted:
       one: "The deployment %{list} could not be deleted."
       other: "The deployments %{list} could not be deleted."

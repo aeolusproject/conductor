@@ -105,4 +105,23 @@ describe Deployment do
     @deployment.pool.pool_family.provider_accounts.destroy_all
     @deployment.check_assemblies_matches(user).should_not be_empty
   end
+
+  it "should be able to stop running instances on deletion" do
+    @deployment.save!
+    inst1 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+    inst2 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+
+    @deployment.stop_instances_and_destroy!
+
+    # this emulates Condor stopping the actual instances
+    # and dbomatic reflecting the changes back to Conductor
+    inst1.state = Instance::STATE_STOPPED; inst1.save!
+    inst2.state = Instance::STATE_STOPPED; inst2.save!
+
+
+    # verify that the deployment and all its instances are deleted
+    lambda {Deployment.find(@deployment.id)}.should raise_error(ActiveRecord::RecordNotFound)
+    lambda {Instance.find(inst1.id)}.should raise_error(ActiveRecord::RecordNotFound)
+    lambda {Instance.find(inst2.id)}.should raise_error(ActiveRecord::RecordNotFound)
+  end
 end

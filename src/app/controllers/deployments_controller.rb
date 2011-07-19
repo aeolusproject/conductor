@@ -166,9 +166,13 @@ class DeploymentsController < ApplicationController
     destroyed = []
     failed = []
     Deployment.find(ids_list).each do |deployment|
-      if check_privilege(Privilege::MODIFY, deployment) && deployment.destroyable?
-        deployment.destroy
-        destroyed << deployment.name
+      if check_privilege(Privilege::MODIFY, deployment)
+        begin
+          deployment.stop_instances_and_destroy!
+          destroyed << deployment.name
+        rescue
+          failed << deployment.name
+        end
       else
         failed << deployment.name
       end

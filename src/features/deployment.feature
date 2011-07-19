@@ -181,7 +181,16 @@ Feature: Manage Deployments
     And I am on the pools page
     When I follow "testdeployment"
     And I press "Delete"
-    Then I should see "The deployment testdeployment was successfully deleted"
+    Then I should see "The deployment testdeployment was scheduled for deletion"
+
+  Scenario: Delete a deployment with running instances
+    Given a deployment "mockdeployment" exists
+    And the deployment "mockdeployment" has an instance named "myinstance"
+    And the instance "myinstance" is in the running state
+    And I am on the pools page
+    When I follow "mockdeployment"
+    And I press "Delete"
+    Then I should see "The deployment mockdeployment was scheduled for deletion"
 
   Scenario: Launch a deployment which is not launchable
     Given a pool "mockpool" exists
