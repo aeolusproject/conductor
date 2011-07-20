@@ -27,7 +27,7 @@ module Aeolus
           end
 
           # Validate XML against TDL Schema
-          errors = validate_xml_document("examples/tdl.rng", @options[:template_str])
+          errors = validate_xml_document(File.dirname(__FILE__) + "/../examples/tdl.rng", @options[:template_str])
           if errors.length > 0
             puts "ERROR: The given Template does not conform to the TDL Schema, see below for specific details:"
             errors.each do |error|
