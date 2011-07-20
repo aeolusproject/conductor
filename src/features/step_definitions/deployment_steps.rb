@@ -28,7 +28,7 @@ end
 
 Given /^the deployment "([^"]*)" has an instance named "([^"]*)"$/ do |d_name, i_name|
   deployment = Deployment.find_by_name(d_name)
-  deployment.instances << Factory(:instance, :name => i_name)
+  deployment.instances << Factory(:instance, :name => i_name, :pool => deployment.pool)
 end
 
 When /^I am viewing the deployment "([^"]*)"$/ do |arg1|

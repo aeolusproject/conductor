@@ -110,6 +110,15 @@ Feature: Manage Pools
     Then I should see "The default pool cannot be deleted"
     And I should see "pool_default"
 
+  Scenario: Cannot delete pool with running instances
+    Given I am on the pools page
+    And a pool "Amazon Startrek Pool" exists with deployment "testdeployment"
+    And the deployment "testdeployment" has an instance named "testinstance"
+    When I follow link with ID "filter_view"
+    And I check "Amazon Startrek Pool" pool
+    And I press "delete_button"
+    Then I should see "was not deleted"
+
   Scenario: View all pools in JSON format
     Given there are 2 pools
     And I accept JSON

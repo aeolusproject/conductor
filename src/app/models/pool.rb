@@ -58,7 +58,7 @@ class Pool < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
-  has_many :deployments
+  has_many :deployments, :dependent => :destroy
 
   before_destroy :destroyable?
 
