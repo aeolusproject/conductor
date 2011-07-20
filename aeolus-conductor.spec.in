@@ -19,23 +19,25 @@ Source0:    aeolus-conductor-%{version}.tar.gz
 
 Requires: ruby >= 1.8.1
 Requires: ruby(abi) = 1.8
-Requires: rubygem(rails) >= 2.1.1
-Requires: rubygem(haml)
+Requires: rubygem(rails) >= 3.0.5
+Requires: rubygem(haml) >= 3.1
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate)
 Requires: rubygem(parseconfig)
-Requires: rubygem(authlogic)
+Requires: rubygem(authlogic) >= 3.0.2
 Requires: rubygem(deltacloud-client) >= 0.0.9.8
-Requires: rubygem(compass)
+Requires: rubygem(compass) >= 0.10.2
 Requires: rubygem(compass-960-plugin)
 Requires: rubygem(simple-navigation)
 Requires: rubygem(typhoeus)
-Requires: rubygem(rest-client)
+Requires: rubygem(rest-client) >= 1.6.1
 Requires: rubygem(builder)
 Requires: rubygem(json)
 Requires: rubygem(rack-restful_submit)
 Requires: rubygem(net-scp)
 Requires: rubygem(uuidtools)
+Requires: rubygem(sqlite3)
+Requires: rubygem(pg)
 Requires: postgresql
 Requires: postgresql-server
 Requires: ruby-postgres
@@ -76,14 +78,16 @@ Summary: Aeolus Conductor development and testing files
 Group:   Applications/Internet
 Requires: %{name} = %{version}-%{release}
 Requires: rubygem(cucumber)
+Requires: rubygem(cucumber-rails)
 Requires: rubygem(rspec)
 Requires: rubygem(timecop)
 Requires: rubygem(cucumber-rails)
-Requires: rubygem(rspec-rails)
-Requires: rubygem(webrat)
-Requires: rubygem(database_cleaner)
+Requires: rubygem(rspec-rails) >= 2.0.1
+Requires: rubygem(webrat) >= 0.7.2
+Requires: rubygem(database_cleaner) >= 0.5.0
 Requires: rubygem(factory_girl)
 Requires: rubygem(vcr)
+Requires: rubygem(factory_girl_rails)
 
 %description devel
 Tests and other development tools for the Aeolus Conductor.
