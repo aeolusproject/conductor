@@ -33,7 +33,6 @@ GIT_RELEASE	= $(date)git$(git_head)
 RPMDIR		= $$(rpm --eval '%{_rpmdir}')
 RPM_FLAGS	= --define "conductor_cache_dir $(CONDUCTOR_CACHE_DIR)"
 RPM_FLAGS	+= $(if $(_conductor_dev),--define "extra_release .$(GIT_RELEASE)")
-RAKE_EXTRA_RELEASE	= $(if $(_conductor_dev),"extra_release=.$(GIT_RELEASE)")
 
 dist:
 	sed -e 's/@VERSION@/$(VERSION)/' aeolus-all.spec.in > aeolus-all.spec
@@ -45,8 +44,6 @@ dist:
 
 
 rpms: dist
-	cd services/image_factory/console; rake rpms $(RAKE_EXTRA_RELEASE)
-	cd services/image_factory/aeolus-image; rake rpms $(RAKE_EXTRA_RELEASE)
 	rpmbuild $(RPM_FLAGS) -ta aeolus-conductor-$(VERSION).tar.gz
 	rpmbuild $(RPM_FLAGS) -ba aeolus-all.spec
 

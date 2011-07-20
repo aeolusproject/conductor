@@ -1,9 +1,0 @@
-
-# Below is the correct format for this file, please update any older version you may have
-:iwhd:
-  :url: http://localhost:9090
-
-:conductor:
-  :url: http://localhost:3000/conductor
-  :username: admin
-  :password: password
