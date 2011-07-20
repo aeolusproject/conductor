@@ -29,11 +29,11 @@ Feature: Pool Families
   Scenario: Create a new Pool family
     Given I am on the pool families page
     And there is not a pool family named "testpoolfamily"
-    When I follow "New Pool Family"
+    When I follow "new_pool_family_button"
     Then I should be on the new pool family page
     When I fill in "pool_family[name]" with "testpoolfamily"
     When I fill in "pool_family[quota_attributes][maximum_running_instances]" with "2"
-    And I press "Save"
+    And I press "pool_family_submit"
     Then I should be on the pool families page
     And I should see "Pool family was added."
     And I should have a pool family named "testpoolfamily"
@@ -43,14 +43,14 @@ Feature: Pool Families
     And there is a pool family named "poolfamily1"
     When I go to the pool families page
     And I check "poolfamily1" pool family
-    And I press "Delete"
+    And I press "delete_button"
     Then there should not exist a pool family named "poolfamily1"
 
   Scenario: Disallow deletion of default pool family
     Given I am on the pool families page
     Then I should see "default"
     When I check "default" pool family
-    And I press "Delete"
+    And I press "delete_button"
     Then I should see "Could not delete the following Pool Families: default."
     And I should see "default"
 
@@ -99,5 +99,5 @@ Feature: Pool Families
     And I am on the pool family provider accounts page
     Then I should see "testaccount"
     When I check "testaccount" provider account
-    And I press "Remove selected"
+    And I press "delete_button"
     Then there should not exist a provider account assigned to "testpoolfamily"

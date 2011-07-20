@@ -5,7 +5,7 @@
     = link_to 'New Pool Family', new_pool_family_url, :class => 'button primary', :id => 'new_user_button'
     .button-group
       = link_to 'Edit', edit_pool_family_path(@pool_family), :class => 'button pill'
-      = button_to 'Delete', pool_family_path(@pool_family), :method => :delete, :confirm => "Are you sure you want to delete?", :class => "button pill danger"
+      = button_to 'Delete', pool_family_path(@pool_family), :method => :delete, :confirm => "Are you sure you want to delete?", :class => "button pill danger", :id => 'delete_pool_family_button'
   .corner &nbsp;
 
 %section.content-section.pool_family
