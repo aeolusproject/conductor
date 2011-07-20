@@ -14,5 +14,3 @@
 #CONDUCTOR_USER=aeolus
 #CONDUCTOR_GROUP=aeolus
 
-# URL prefix for Rails application
-#PREFIX=/conductor
