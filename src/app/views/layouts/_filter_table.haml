@@ -1,24 +1,30 @@
-- form_tag do
-  - if form_header
-    = form_header
-  - if show_filter_widgets
-    %p
-      Viewing
+- form_tag({}, :class => 'filterable-data') do
+
+  -if form_header
+    %ul.obj_actions
+      %li= form_header
+
+  %div.controls
+    %ul.filter-controls
+      -if show_select_toggle
+        %li= render :partial => 'layouts/select_all_none'
+      - if show_filter_widgets
+        -# %li
+          -#%a.button.pill{:href => '#'} Filter
+        -# %li
+          -# %a.button.pill{:href => '#'} Add/Remove Columns
+
+    %li
+      %label{:for => "select_#{lower_class}"} Viewing
       = select_tag("select_#{lower_class}", saved_searches.join.html_safe,:disabled => true)
-      = object_count.to_s + " results"
-      = text_field_tag :q, search_term || "Search result for...", :disabled => true
-      = link_to('Filters', '#')
-    %p
-      = link_to('Share this view', '#')
-      = link_to('Add/Remove Columns', '#')
+    %li.object-count
+      %strong= object_count.to_s
+      results
+    -# %li
+      -# %a.button.pill{:href => '#'} Save and Share
 
-  -if show_select_toggle
-    = render :partial => 'layouts/select_all_none'
-
-  %table.flat.checkbox_table
+  %table.checkbox_table
     %thead
-      -if show_filter_widgets or show_select_toggle
-        %tr
       - columns.each do |column|
         %th
           = column[:name]

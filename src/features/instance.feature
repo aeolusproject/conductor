@@ -69,7 +69,7 @@ Feature: Manage Instances
     Given there is a "mock1" running instance
     And I am on the instances page
     When I check "mock1" instance
-    And I press "Stop"
+    And I press "Stop Selected Instances"
     Then I should be on the instances page
     And I should see "mock1: stop action was successfully queued"
 
@@ -81,7 +81,7 @@ Feature: Manage Instances
     When I check "mock1" instance
     And I check "mock2" instance
     And I check "mock3" instance
-    And I press "Stop"
+    And I press "Stop Selected Instances"
     Then I should be on the instances page
     And I should see "mock1: stop action was successfully queued"
     And I should see "mock2: stop action was successfully queued"

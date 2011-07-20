@@ -1,24 +1,25 @@
 - if request.xhr?
   = render :partial => '/layouts/notification'
 
-- form_tag do
-  = restful_submit_tag "Stop", "multi_stop", multi_stop_deployments_path, 'POST', :id => 'stop_button', :class => 'button'
-  = label_tag "More actions"
-  = select_tag("more_actions",nil, :disabled => true)
+- form_tag({}, :class => 'filterable-data') do
+  %ul.obj_actions
+    %li= restful_submit_tag "Stop Selected Deployments", "multi_stop", multi_stop_deployments_path, 'POST', :id => 'stop_button', :class => 'button'
 
-  %p
-    Viewing
-    = select_tag("deployments_running", "<option>Deployments running</option>",:disabled => true)
-    = @deployments.count.to_s + " results"
-    = text_field_tag :q, @search_term || "Search result for...", :disabled => true
-  = render :partial => 'layouts/select_all_none'
+  %div.controls
+    %ul.filter-controls
+      %li= render :partial => 'layouts/select_all_none'
 
-  %table#deployments_table.flat.checkbox_table
+    %li
+      %label{:for => "deployments_running"} Viewing
+      = select_tag("deployments_running", "<option>Deployments running</option>",:disabled => true)
+    %li.object-count
+      %strong= @deployments.count.to_s
+      results
+
+  %table#deployments_table.checkbox_table
     %thead
       %tr
         %th.ignore
-        %th
-          -#there will be icons (belongs to mockups)
         %th
           = t("pools.index.deployment_name")
         %th
@@ -36,8 +37,6 @@
         %td
           - selected = params[:select] == 'all'
           = check_box_tag "deployments_selected[]", deployment.id, selected, :id => "deployment_checkbox_#{deployment.id}"
-        %td
-          -#there will be icons (belongs to mockups)
         %td
           = link_to deployment.name, deployment_path(deployment)
         %td

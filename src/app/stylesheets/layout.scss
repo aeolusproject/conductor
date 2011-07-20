@@ -2317,8 +2317,48 @@ $cell_header_text_color: #666666;
   background-image: linear-gradient($from, $to);
 }
 
+/* Filterable Form */
+form.filterable-data{
+
+  ul.obj_actions{
+    padding: 6px 0px 6px 0px;
+
+    list-style: none;
+    li{ display: inline-block; }
+    li + li{ padding-left: 6px; }
+  }
+
+  div.controls{
+    display: block;
+    font-family: $font-family-primary;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    padding: 10px;
+
+    ul{ list-style: none; display: inline-block; }
+    li{ display: inline; }
+    li + li{ padding-left: 6px; }
+    ul.view-contols{
+
+    }
+    ul.filter-controls{
+      float: right;
+    }
+
+  }
+
+  table{
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+  }
+
+}
+
+
 /* Flat Table ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-table.flat{
+table.flat, form.filterable-data table{
 
   border-collapse: separate;
   font-family: $font-family-primary;

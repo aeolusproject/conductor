@@ -1,5 +1,5 @@
 - form_header = capture_haml do
-  = restful_submit_tag 'Stop', 'stop', multi_stop_instances_path, 'GET', :class => 'button'
+  = restful_submit_tag 'Stop Selected Instances', 'stop', multi_stop_instances_path, 'GET', :class => 'button'
   = hidden_field_tag 'backlink', request.url
   - if @hide_stopped
     %b Stopped
