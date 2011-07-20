@@ -1,5 +1,5 @@
 - form_header = capture_haml do
-  = link_to "New Pool", new_pool_path, { :class => 'button' }
+  = link_to "New Pool", new_pool_path, { :class => 'button', :id => 'new_pool_button' }
   = restful_submit_tag "Destroy", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
   = label_tag "More actions"
   = select_tag("more_actions",nil, :disabled => true)

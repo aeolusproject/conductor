@@ -25,7 +25,7 @@
       = form.check_box :enabled
 
   %fieldset.options
-    = form.submit "Save", :class => 'button'
+    = form.submit "Save", :class => 'button', :id => 'save_button'
     = link_to 'Cancel', pools_path, :class => 'button danger'
 
 :javascript

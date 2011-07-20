@@ -10,13 +10,13 @@ Feature: Manage Pools
   Scenario: Create a new Pool
     Given I am on the pools page
     And there is not a pool named "mockpool"
-    When I follow "New Pool"
+    When I follow "new_pool_button"
     Then I should be on the new pool page
     And I should see "Create New Pool"
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I fill in "quota_instances" with "unlimited"
-    And I press "Save"
+    And I press "save_button"
     Then I should be on the pool page
     And I should see "mockpool Pool"
     And I should have a pool named "mockpool"
@@ -29,7 +29,7 @@ Feature: Manage Pools
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I fill in "quota_instances" with "unlimited"
-    And I press "Save"
+    And I press "save_button"
     Then I should get back a partial
     And I should see "mockpool"
 
@@ -46,7 +46,7 @@ Feature: Manage Pools
   Scenario: Enter invalid characters into Name field
     Given I am on the new pool page
     When I fill in "pool[name]" with "@%&*())_@!#!"
-    And I press "Save"
+    And I press "save_button"
     Then I should see "Name must only contain: numbers, letters, spaces, '_' and '-'"
 
   Scenario: Delete pools
@@ -58,7 +58,7 @@ Feature: Manage Pools
     Then there should be 3 pools
     When I check "Redhat Voyager Pool" pool
     And I check "Amazon Startrek Pool" pool
-    And I press "Destroy"
+    And I press "delete_button"
     Then there should only be 1 pools
     And I should be on the pools page
     When I go to the pools page
@@ -70,24 +70,24 @@ Feature: Manage Pools
     And there is not a pool named "mockpool"
     And there is not a pool named "foopool"
     When I follow link with ID "filter_view"
-    And I follow "New Pool"
+    And I follow "new_pool_button"
     Then I should be on the new pool page
     And I should see "Create New Pool"
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
-    And I press "Save"
+    And I press "save_button"
     Then I should be on the pool page
     And I should see "Pool added"
     And I should see "mockpool"
     And I should have a pool named "mockpool"
     When I go to the pools page
     And I follow link with ID "filter_view"
-    And I follow "New Pool"
+    And I follow "new_pool_button"
     Then I should be on the new pool page
     And I should see "Create New Pool"
     When I fill in "pool_name" with "foopool"
     And I select "default" from "pool_pool_family_id"
-    And I press "Save"
+    And I press "save_button"
     Then I should be on the pool page
     And I should see "Pool added"
     And I should have a pool named "mockpool"
@@ -97,7 +97,7 @@ Feature: Manage Pools
     Given I am on the pools page
     When I follow link with ID "filter_view"
     And I check "Default" pool
-    And I press "Destroy"
+    And I press "delete_button"
     Then I should see "The default pool cannot be deleted"
     And I should see "Default"
 
@@ -106,7 +106,7 @@ Feature: Manage Pools
     And I am on the pools page
     When I follow link with ID "filter_view"
     And I check "pool_default" pool
-    And I press "Destroy"
+    And I press "delete_button"
     Then I should see "The default pool cannot be deleted"
     And I should see "pool_default"
 
@@ -202,11 +202,11 @@ Feature: Manage Pools
     And there is a "mock2" running instance
     And there is a "mock3" stopped instance
     When I follow link with ID "filter_view"
-    And I follow "Instances"
+    And I follow "details_instances"
     And I should see "mock1"
     And I should see "mock2"
     And I should not see "mock3"
-    When I follow "show all"
+    When I follow "show_all_instances"
     And I should see "mock1"
     And I should see "mock2"
     And I should see "mock3"
