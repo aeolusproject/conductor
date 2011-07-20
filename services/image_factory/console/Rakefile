@@ -28,10 +28,10 @@ require 'spec/rake/spectask'
 require 'rake/rpmtask'
 
 RPMBUILD_DIR = "#{File.expand_path('~')}/rpmbuild"
-RPM_SPEC = "rubygem-image_factory_console.spec"
+RPM_SPEC = "rubygem-imagefactory-console.spec"
 
 spec = Gem::Specification.new do |s|
-  s.name = 'image_factory_console'
+  s.name = 'imagefactory-console'
   s.version = '0.4.0'
   s.has_rdoc = true
   #s.extra_rdoc_files = ['README', 'COPYING']

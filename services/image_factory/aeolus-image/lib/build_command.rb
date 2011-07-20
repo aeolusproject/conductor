@@ -1,4 +1,4 @@
-require 'image_factory'
+require 'imagefactory'
 
 module Aeolus
   module Image

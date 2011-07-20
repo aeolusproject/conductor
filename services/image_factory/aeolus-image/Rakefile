@@ -26,7 +26,7 @@ spec = Gem::Specification.new do |s|
   s.bindir = "bin"
   s.add_dependency('nokogiri', '>=0.4.0')
   s.add_dependency('rest-client')
-  s.add_dependency('image_factory_console', '>=0.4.0')
+  s.add_dependency('imagefactory-console', '>=0.4.0')
 
   s.add_development_dependency('rspec', '~>1.3.0')
 end

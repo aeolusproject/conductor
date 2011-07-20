@@ -17,7 +17,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: rubygems
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(rest-client)
-Requires: rubygem(image_factory_console) >= 0.4.0
+Requires: rubygem(imagefactory-console) >= 0.4.0
 
 BuildRequires: rubygems
 BuildArch: noarch
