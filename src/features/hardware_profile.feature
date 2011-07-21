@@ -85,7 +85,7 @@ Feature: Manage Pools
 
    Scenario: Create a new Hardware Profile
     Given I am on the hardware profiles page
-     When I follow "New Hardware Profile"
+     When I follow "new_hardware_profile_button"
      Then I should be on the new hardware profile page
      When I fill in "name" with "Test Hardware Profile"
      And I enter the following details for the Hardware Profile Properties
@@ -94,7 +94,7 @@ Feature: Manage Pools
      | cpu          | 2     | count |
      | storage      | 250   | GB    |
      | architecture | i386  | label |
-     And I press "Save"
+     And I press "save_button"
      Then I should be on the hardware profiles page
      And I should see the following:
      | Test Hardware Profile | 1740   | 2 | 250 | i386 |
@@ -120,7 +120,7 @@ Feature: Manage Pools
     | cpu          | 2             | count |
     | storage      | 300           | GB    |
     | architecture | i386          | label |
-    And I press "Check Matches"
+    And I press "check_matches"
     Then I should see the following:
     | Provider  | Name         | Memory | CPU | Storage | Architecture |
     | provider1 | m1-medium    | 1740   | 2   | 500     | i386         |
@@ -132,7 +132,7 @@ Feature: Manage Pools
      | m1-small | 2048   | 4   | 160     | x86_64         |
      And I am on the hardware profiles page
      When I follow "m1-small"
-     When I follow "edit"
+     When I follow "edit_button"
      Then I should be on the edit hardware profiles page
      When I enter the following details for the Hardware Profile Properties
      | name         | value | unit  |
@@ -140,7 +140,7 @@ Feature: Manage Pools
      | cpu          | 2     | count |
      | storage      | 250   | GB    |
      | architecture | i386  | label |
-     And I press "Save"
+     And I press "save_button"
      Then I should be on the hardware profiles page
      Then I should see the following:
      | Name         | Memory | CPU | Storage | Architecture |
@@ -148,7 +148,7 @@ Feature: Manage Pools
 
   Scenario: validate hwp inputs
     Given I am on the hardware profiles page
-     When I follow "New Hardware Profile"
+     When I follow "new_hardware_profile_button"
      Then I should be on the new hardware profile page
      When I fill in "name" with "Test Hardware Profile"
      And I enter the following details for the Hardware Profile Properties
@@ -157,5 +157,5 @@ Feature: Manage Pools
      | cpu          | no    | count |
      | storage      | ?     | GB    |
      | architecture |       | label |
-     And I press "Save"
+     And I press "save_button"
      Then I should see "errors prohibited this hardware profile from being saved"

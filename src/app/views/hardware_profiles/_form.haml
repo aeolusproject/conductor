@@ -15,5 +15,5 @@
             =hwpp_form.select("value", ["i386", "x86_64"], {})
           -else
             =hwpp_form.text_field(:value)
-= hwp_form.submit 'Check Matches', :class => "submit button"
-= hwp_form.submit 'Save', :class => 'submit button'
+= hwp_form.submit 'Check Matches', :class => "submit button", :id => 'check_matches'
+= hwp_form.submit 'Save', :class => 'submit button', :id => 'save_button'
