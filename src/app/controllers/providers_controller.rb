@@ -67,7 +67,7 @@ class ProvidersController < ApplicationController
       flash[:warning] = "Failed to connect to Provider"
       render :action => "new"
     else
-      if @provider.save && @provider.populate_hardware_profiles
+      if @provider.save
         @provider.assign_owner_roles(current_user)
         flash[:notice] = "Provider added."
         redirect_to providers_path

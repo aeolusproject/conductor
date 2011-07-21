@@ -235,4 +235,25 @@ class ProviderAccount < ActiveRecord::Base
       credentials.detect {|c| c.credential_definition_id == cd.id} || Credential.new(:credential_definition => cd, :value => nil)
     end
   end
+
+  # Some providers don't allow fetching HWPs without authentication,
+  # so we cannot populate them until after a provider account is added.
+  def populate_hardware_profiles
+    # If the provider already has hardware profiles, do not refetch them:
+    return provider.hardware_profiles if provider.hardware_profiles.present?
+    # FIXME: once API has hw profiles, change the below
+    hardware_profiles = connect.hardware_profiles
+    _provider = provider
+    self.transaction do
+      hardware_profiles.each do |hardware_profile|
+        ar_hardware_profile = HardwareProfile.new(:external_key =>
+                                                  hardware_profile.id,
+                                                  :name => hardware_profile.id,
+                                                  :provider_id => _provider.id)
+        ar_hardware_profile.add_properties(hardware_profile)
+        ar_hardware_profile.save!
+      end
+    end
+  end
+
 end
