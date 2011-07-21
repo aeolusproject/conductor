@@ -84,22 +84,6 @@ class Provider < ActiveRecord::Base
     end
   end
 
-  def populate_hardware_profiles
-    # FIXME: once API has hw profiles, change the below
-    hardware_profiles = connect.hardware_profiles
-    # FIXME: this should probably be in the same transaction as provider.save
-    self.transaction do
-      hardware_profiles.each do |hardware_profile|
-        ar_hardware_profile = HardwareProfile.new(:external_key =>
-                                                  hardware_profile.id,
-                                                  :name => hardware_profile.id,
-                                                  :provider_id => id)
-        ar_hardware_profile.add_properties(hardware_profile)
-        ar_hardware_profile.save!
-      end
-    end
-  end
-
   def pools
     cloud_accounts.collect {|account| account.pools}.flatten.uniq
   end

@@ -9,6 +9,7 @@ class ProviderAccountObserver < ActiveRecord::Observer
     if key = account.generate_auth_key
       account.update_attribute(:instance_key, InstanceKey.create!(:pem => key.pem.first, :name => key.id, :instance_key_owner => account))
     end
+    account.populate_hardware_profiles
   end
 
   private
