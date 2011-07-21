@@ -4,8 +4,8 @@
   #obj_actions.button-container
     = link_to 'New Realm', new_realm_url, :class => 'button primary', :id => 'new_realm_button'
     .button-group
-      = link_to 'Edit', edit_realm_path(@realm), :class => 'button pill'
-      = button_to 'Delete', realm_path(@realm), :method => :delete, :confirm => "Are you sure you want to delete?", :class => 'button pill danger'
+      = link_to 'Edit', edit_realm_path(@realm), :class => 'button pill', :id => 'edit_realm_button'
+      = button_to 'Delete', realm_path(@realm), :method => :delete, :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete_realm_button'
   .corner &nbsp;
 
 %section.content-section.realm
