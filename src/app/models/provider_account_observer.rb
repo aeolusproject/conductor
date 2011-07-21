@@ -23,7 +23,7 @@ class ProviderAccountObserver < ActiveRecord::Observer
     # bug should be fixed soon)
     #client.create_bucket(:name => bucket_name) unless client.bucket(bucket_name)
     begin
-      client.create_bucket(:name => bucket_name)
+      client.create_bucket('id' => bucket_name)
     rescue Exception => e
       Rails.logger.error e.message
       Rails.logger.error e.backtrace.join("\n  ")
