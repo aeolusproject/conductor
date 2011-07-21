@@ -12,48 +12,49 @@ module ActionController
       end
 
       def setup_viewstate_handlers
-        unless self.filter_chain.include? :handle_viewstate
+        unless self.before_filter.include? :handle_viewstate
           before_filter :handle_viewstate, :only => self.default_viewstates.keys
         else
           # Don't append a new filter; update the existing one instead
-          filter_index = self.filter_chain.index :handle_viewstate
-          filter = self.filter_chain[filter_index]
+          filter_index = self.before_filter.index :handle_viewstate
+          filter = self.before_filter[filter_index]
           filter.options[:only] = Set.new(self.default_viewstates.keys)
         end
       end
 
       def setup_viewstate_routes(action)
-        self.send(:define_method, :get_viewstate)  { get_viewstate_body(action) }
-        self.send(:define_method, :put_viewstate) { put_viewstate_body(action) }
-        self.send(:define_method, :post_viewstate) { post_viewstate_body(action) }
-        self.send(:define_method, :delete_viewstate) { delete_viewstate_body(action) }
+        @@viewstate_routes ||= []
+        self.send(:define_method, "get_viewstate_#{action}")  { get_viewstate_body(action) }
+        self.send(:define_method, "put_viewstate_#{action}") { put_viewstate_body(action) }
+        self.send(:define_method, "post_viewstate_#{action}") { post_viewstate_body(action) }
+        self.send(:define_method, "delete_viewstate_#{action}") { delete_viewstate_body(action) }
 
-        route_url = "#{controller_name}/#{action}/viewstate/:id"
-        return if ActionController::Routing::Routes.routes.any? {|r| r.to_s.include? route_url }
+        route_url = "#{controller_name}/#{action}/viewstate(/:id)"
+        routes = Conductor::Application.routes.routes
+        return if routes.any? {|r| r.to_s.include? route_url }
 
-        get_viewstate_route = ActionController::Routing::Routes.builder.build(route_url,
-                                                                              :controller => controller_name,
-                                                                              :action => 'get_viewstate',
-                                                                              :conditions => {:method => :get})
-        ActionController::Routing::Routes.routes.insert(0, get_viewstate_route)
+        [:get, :put, :post, :delete].each do |method|
+        @@viewstate_routes << { :url => route_url, :method => method,
+          :controller => controller_name, :action => "#{method}_viewstate_#{action}" }
+        end
+        @@viewstate_routes.uniq!
 
-        put_viewstate_route = ActionController::Routing::Routes.builder.build(route_url,
-                                                                              :controller => controller_name,
-                                                                              :action => 'put_viewstate',
-                                                                              :conditions => {:method => :put})
-        ActionController::Routing::Routes.routes.insert(0, put_viewstate_route)
-
-        post_viewstate_route = ActionController::Routing::Routes.builder.build(route_url,
-                                                                              :controller => controller_name,
-                                                                              :action => 'post_viewstate',
-                                                                              :conditions => {:method => :post})
-        ActionController::Routing::Routes.routes.insert(0, post_viewstate_route)
-
-        delete_viewstate_route = ActionController::Routing::Routes.builder.build(route_url,
-                                                                                :controller => controller_name,
-                                                                                :action => 'delete_viewstate',
-                                                                                :conditions => {:method => :delete})
-        ActionController::Routing::Routes.routes.insert(0, delete_viewstate_route)
+        begin
+          route_set = Conductor::Application.routes
+          route_set.disable_clear_and_finalize = true
+          route_set.clear!
+          route_set.draw do
+            @@viewstate_routes.each do |route|
+              match(route[:url], :via => route[:method],
+                    :controller => route[:controller],
+                    :action => route[:action])
+            end
+          end
+          Conductor::Application.routes_reloader.paths.each { |path| load(path) }
+          ActiveSupport.on_load(:action_controller) { route_set.finalize! }
+        ensure
+          route_set.disable_clear_and_finalize = false
+        end
       end
     end
 
