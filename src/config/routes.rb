@@ -56,6 +56,7 @@ Conductor::Application.routes.draw do
   # match ':controller(/:action(/:id(.:format)))'
 
   #Do we still need this one? => resource :user_session
+  resource :user_session
   match 'login',       :to => 'user_sessions#new',     :as => 'login'
   match 'logout',      :to => 'user_sessions#destroy', :as => 'logout'
   match 'register',    :to => 'users#new',             :as => 'register'
@@ -75,29 +76,82 @@ Conductor::Application.routes.draw do
   end
 
   resources :pools, :collection => { :multi_destroy => :delete }
-  resources :deployments, :collection  => { :multi_stop => :get, :launch_new => :get, :check_name => :get }
-  resources :instances, :collection => {:start => :get, :multi_stop => :get, :remove_failed => :get, :can_start => :get, :can_create => :get }, :member => {:key => :get}
+
+  resources :deployments do
+    collection do
+      get 'multi_stop'
+      get 'launch_new'
+      get 'check_name'
+    end
+  end
+
+  resources :instances do
+    collection do
+      get 'start'
+      get 'multi_stop'
+      get 'remove_failed'
+      get 'can_start'
+      get 'can_create'
+    end
+    get 'key', :on => :member
+  end
 
   #map.can_start_instance '/instances/:instance_id/can_start/:provider_account_id', :controller => 'instances', :action => 'can_start', :conditions => { :method => :get }
   #map.can_create_instance '/instances/:instance_id/can_create/:provider_account_id', :controller => 'instances', :action => 'can_create', :conditions => { :method => :get }
 
   resources :image_imports
 
-  resources :hardware_profiles, :collection => { :multi_destroy => :delete }
-  resources :providers, :collection => { :multi_destroy => :delete }
-  #This may be the correct way to do the above now....
-  #resources :providers do
-  #  resources :accounts, :to => :cloud_accounts
-  #end
+  resources :hardware_profiles do
+    delete 'multi_destroy', :on => :collection
+  end
+
+  resources :providers do
+    delete 'multi_destroy', :on => :collection
+  end
+
   resources :provider_types, :only => :index
-  resources :users, :collection => { :multi_destroy => :delete }
-  resources :provider_accounts, :collection => { :multi_destroy => :delete, :set_selected_provider => :get}
-  resources :roles, :collection => { :multi_destroy => :delete }
-  resources :settings, :collection => { :self_service => :get, :general_settings => :get }
-  resources :pool_families, :collection => { :multi_destroy => :delete, :add_provider_account => :post, :multi_destroy_provider_accounts => :delete }
-  resources :realms, :collection => { :multi_destroy => :delete }
-  resources :realm_mappings, :collection => { :multi_destroy => :delete }
-  resources :suggested_deployables, :collection => { :multi_destroy => :delete }
+
+  resources :users do
+    delete 'multi_destroy', :on => :collection
+  end
+
+  resources :provider_accounts do
+    collection do
+      delete 'multi_destroy'
+      get 'set_selected_provider'
+    end
+  end
+
+  resources :roles do
+    delete 'multi_destroy', :on => :collection
+  end
+
+  resources :settings do
+    collection do
+      get 'self_service'
+      get 'general_settings'
+    end
+  end
+
+  resources :pool_families do
+    collection do
+      delete 'multi_destroy'
+      post 'add_provider_account'
+      delete 'multi_destroy_provider_accounts'
+    end
+  end
+
+  resources :realms do
+    delete 'multi_destroy', :on => :collection
+  end
+
+  resources :realm_mappings do
+    delete 'multi_destroy', :on => :collection
+  end
+
+  resources :suggested_deployables do
+    delete 'multi_destroy', :on => :collection
+  end
 
   #match 'matching_profiles', :to => '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }, :as =>'matching_profiles'
   match     'dashboard', :to => 'dashboard', :as => 'dashboard'
