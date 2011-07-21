@@ -40,7 +40,7 @@
           = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
 
       %fieldset.options
-        = submit_tag 'Next', :class => 'button'
+        = submit_tag 'Next', :class => 'button', :id => "next_button"
 
 
 :javascript

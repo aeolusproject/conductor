@@ -11,7 +11,7 @@ Feature: Manage Deployments
     Given there is a deployment named "MySQL Cluster" belonging to "Databases" owned by "bob"
     And I am on the pools page
     When I follow link with ID "filter_view"
-    And I follow "Deployments" within "#tab-container-1-nav"
+    And I follow "details_deployments" within "#tab-container-1-nav"
     Then I should see "MySQL Cluster"
     And I should see "bob"
 
@@ -20,7 +20,7 @@ Feature: Manage Deployments
     And I am on the pools page
     And I request XHR
     When I follow link with ID "filter_view"
-    And I follow "Deployments"
+    And I follow "details_deployments"
     Then I should see "MySQL Cluster"
     And I should see "bob"
 
@@ -29,13 +29,13 @@ Feature: Manage Deployments
     And there is "front_hwp1" conductor hardware profile
     And there is "front_hwp2" conductor hardware profile
     When I am viewing the pool "mockpool"
-    And I follow "New Deployment"
+    And I follow "new_deployment_button"
     Then I should see "New Deployment"
     When I fill in "deployable_url" with "http://localhost/deployables/deployable1.xml"
     When I fill in "deployment_name" with "mynewdeployment"
-    When I press "Next"
+    When I press "next_button"
     Then I should see "Deployable details"
-    When I press "Launch"
+    When I press "launch_deployment"
     Then I should see "Deployment launched"
     Then I should see "mynewdeployment Deployment"
     And I should see "mynewdeployment/frontend"
@@ -47,14 +47,14 @@ Feature: Manage Deployments
     And there is "front_hwp2" conductor hardware profile
     When I am viewing the pool "mockpool"
     And I request XHR
-    And I follow "New Deployment"
+    And I follow "new_deployment_button"
     Then I should get back a partial
     Then I should see "New Deployment"
     When I fill in "deployable_url" with "http://localhost/deployables/deployable1.xml"
     When I fill in "deployment_name" with "mynewdeployment"
-    When I press "Next"
+    When I press "next_button"
     Then I should see "Deployable details"
-    When I press "Launch"
+    When I press "launch_deployment"
     Then I should see "Created"
     Then I should see "mynewdeployment"
 
@@ -63,7 +63,7 @@ Feature: Manage Deployments
     And there is "front_hwp1" conductor hardware profile
     And there is "front_hwp2" conductor hardware profile
     When I am viewing the pool "Disabled"
-    And I follow "New Deployment"
+    And I follow "new_deployment_button"
     Then I should see "pool has been disabled"
     And I should be on the page for the pool "Disabled"
 
@@ -72,7 +72,7 @@ Feature: Manage Deployments
     When I go to the deployments page
     Then I should see "testdeployment"
     When I check "testdeployment" deployment
-    And I press "Stop"
+    And I press "stop_button"
     Then I should see "testdeployment"
 
   Scenario: Stop a deployment over XHR
@@ -82,7 +82,7 @@ Feature: Manage Deployments
     Then I should get back a partial
     And I should see "testdeployment"
     When I check "testdeployment" deployment
-    And I press "Stop"
+    And I press "stop_button"
     Then I should get back a partial
     And I should see "testdeployment"
 
@@ -96,8 +96,8 @@ Feature: Manage Deployments
     Given there is a deployment named "Hudson" belonging to "QA Infrastructure" owned by "joe"
     When I go to Hudson's edit deployment page
     Then I should see "Edit deployment"
-    When I fill in "name" with "Jenkins"
-    And I press "Save"
+    When I fill in "deployment_name" with "Jenkins"
+    And I press "save_button"
     Then I should be on Jenkins's deployment page
     And I should see "Jenkins"
 
@@ -108,7 +108,7 @@ Feature: Manage Deployments
     Then I should get back a partial
     And I should see "Edit deployment"
     When I fill in "name" with "Jenkins"
-    And I press "Save"
+    And I press "save_button"
     Then I should get back a partial
     And I should be on Jenkins's deployment page
     And I should see "Jenkins"
@@ -152,11 +152,11 @@ Feature: Manage Deployments
   Scenario: Provider invalid deployable xml URL when launching a deployment
     Given a pool "mockpool" exists
     When I am viewing the pool "mockpool"
-    And I follow "New Deployment"
+    And I follow "new_deployment_button"
     Then I should see "New Deployment"
     When I fill in "deployable_url" with "http://invalid.deployable.url/"
     And I fill in "deployment_name" with "mynewdeployment"
-    And I press "Next"
+    And I press "next_button"
     Then I should see "New Deployment"
     And I should see "Deployment Details"
     And I should see "failed to get the deployable definition"
@@ -173,14 +173,14 @@ Feature: Manage Deployments
       | Owner	        | John testuser  |
       | Name	        | testdeployment |
 
-    When I follow "Instances"
+    When I follow "details_instances"
     Then I should see "testdeployment"
 
   Scenario: Delete a deployment
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
     And I am on the pools page
     When I follow "testdeployment"
-    And I press "Delete"
+    And I press "delete_button"
     Then I should see "The deployment testdeployment was scheduled for deletion"
 
   Scenario: Delete a deployment with running instances
@@ -189,7 +189,7 @@ Feature: Manage Deployments
     And the instance "myinstance" is in the running state
     And I am on the pools page
     When I follow "mockdeployment"
-    And I press "Delete"
+    And I press "delete_button"
     Then I should see "The deployment mockdeployment was scheduled for deletion"
 
   Scenario: Launch a deployment which is not launchable
