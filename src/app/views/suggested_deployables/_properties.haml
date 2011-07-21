@@ -8,16 +8,16 @@
   %tbody
     %tr
       %td
-        %label Name:
+        %label{:name => 'name'} Name:
       %td
         = @suggested_deployable.name
     %tr
       %td
-        %label Description:
+        %label{:name => 'description'} Description:
       %td
         = @suggested_deployable.description
     %tr
       %td
-        %label URL:
+        %label{:name => 'url'} URL:
       %td
         = @suggested_deployable.url

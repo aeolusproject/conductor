@@ -9,22 +9,22 @@ Feature: Manage Suggested Deployables
 
   Scenario: Create new deployable
     Given I am on the suggested deployables page
-    When I follow "New Deployable"
+    When I follow "new_deployable_button"
     Then I should see "Add New Deployable"
     When I fill in "suggested_deployable[name]" with "test1"
     When I fill in "suggested_deployable[description]" with "description"
     When I fill in "suggested_deployable[url]" with "http://random_url"
-    And I press "Save"
+    And I press "save_button"
     Then I should see "Deployable added"
 
   Scenario: Change the name
     Given a suggested deployable "testdepl" exists
     And I am on the suggested deployables page
     When I follow "testdepl"
-    And I follow "Edit"
+    And I follow "edit_button"
     Then I should see "Editing Deployable"
     When I fill in "suggested_deployable[name]" with "testdepl-renamed"
-    And I press "Save"
+    And I press "save_button"
     Then I should see "Deployable updated successfully!"
     And I should see "testdepl-renamed"
 
@@ -34,8 +34,8 @@ Feature: Manage Suggested Deployables
     When I follow "testdepl"
     Then I should see "testdepl"
     And I should see "Name"
-    And I should see "Description"
-    And I should see "URL"
+    And I should see "description"
+    And I should see "url"
 
   Scenario: Delete deployables
     Given a suggested deployable "testdepl1" exists
@@ -43,7 +43,7 @@ Feature: Manage Suggested Deployables
     And I am on the suggested deployables page
     When I check "testdepl1" suggested deployable
     And I check "testdepl2" suggested deployable
-    And I press "Delete"
+    And I press "delete_button"
     Then there should be only 0 suggested deployables
     And I should be on the suggested deployables page
     And I should not see "testdepl1"
@@ -53,7 +53,7 @@ Feature: Manage Suggested Deployables
     Given a suggested deployable "testdepl1" exists
     And I am on the suggested deployables page
     When I follow "testdepl1"
-    And I press "Delete"
+    And I press "delete_button"
     Then there should be only 0 suggested deployables
     And I should be on the suggested deployables page
     And I should not see "testdepl1"
