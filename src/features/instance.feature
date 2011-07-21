@@ -12,7 +12,7 @@ Feature: Manage Instances
     Given a mock running instance exists
     And I am viewing the mock instance detail
     And I see "SSH key"
-    When I follow "Download"
+    When I follow "download_ssh_key"
     Then I should see the Save dialog for a .pem file
 
   Scenario: Download an Instance Key over XHR
@@ -20,7 +20,7 @@ Feature: Manage Instances
     And I request XHR
     When I am viewing the mock instance detail
     And I see "SSH key"
-    When I follow "Download"
+    When I follow "download_ssh_key"
     Then I should see the Save dialog for a .pem file
 
   Scenario: Don't see' an Instance Key
@@ -36,10 +36,10 @@ Feature: Manage Instances
   Scenario: I want to view all instances
     Given there is a "mock1" instance
     And I am on the home page
-    When I follow "Monitor"
+    When I follow "monitor"
     Then I should be on the pools page
-    When I follow link with ID "filter_view"
-    And I follow "Instances"
+    When I follow "filter_view"
+    And I follow "details_instances"
     Then I should be on the pools page
     And I should see "mock1"
 
@@ -69,7 +69,7 @@ Feature: Manage Instances
     Given there is a "mock1" running instance
     And I am on the instances page
     When I check "mock1" instance
-    And I press "Stop Selected Instances"
+    And I press "stop_selected_instances"
     Then I should be on the instances page
     And I should see "mock1: stop action was successfully queued"
 
@@ -81,7 +81,7 @@ Feature: Manage Instances
     When I check "mock1" instance
     And I check "mock2" instance
     And I check "mock3" instance
-    And I press "Stop Selected Instances"
+    And I press "stop_selected_instances"
     Then I should be on the instances page
     And I should see "mock1: stop action was successfully queued"
     And I should see "mock2: stop action was successfully queued"
@@ -148,7 +148,7 @@ Feature: Manage Instances
     Given there is a "Tomct" instance
     And I am on Tomct's edit instance page
     And I fill in "name" with "Tomcat"
-    And I press "Save"
+    And I press "save"
     Then I should be on Tomcat's instance page
     And I should see "Tomcat"
 
@@ -157,7 +157,7 @@ Feature: Manage Instances
     And I request XHR
     When I am on Tomct's edit instance page
     And I fill in "name" with "Tomcat"
-    And I press "Save"
+    And I press "save"
     Then I should get back a partial
     And I should see "Tomcat"
 

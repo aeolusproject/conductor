@@ -41,7 +41,7 @@
   - if @instance.instance_key
     %li
       = label_tag :instance_key, 'SSH key'
-      %span= link_to("Download", key_instance_path(@instance))
+      %span= link_to("Download", key_instance_path(@instance), :id =>'download_ssh_key')
   %li
     = label_tag :owner, 'Owner'
     %span= "#{@instance.owner.first_name} #{@instance.owner.last_name}"
