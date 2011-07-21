@@ -28,4 +28,4 @@
       - columns.each do |column|
         %th
           = column[:name]
-    = rows.collect {|row| capture_haml(row, &block)}.to_s
+    = rows.collect {|row| capture_haml(row, &block)}.to_s.html_safe
