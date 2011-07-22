@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-context CredentialDefinition do
+describe CredentialDefinition do
   before(:each) do
     @cred_def = Factory.build(:credential_definition)
   end
