@@ -59,7 +59,8 @@ Feature: Manage Provider Accounts
     And I fill in "provider_account[credentials_hash][password]" with "wrongpassword"
     And I fill in "quota[maximum_running_instances]" with "13"
     And I press "Save"
-    Then I should see "Credentials are invalid!"
+    Then I should see "Cannot add the provider account."
+    Then I should see "Login Credenials are Invalid for this Provider"
 
   Scenario: Delete a provider account
     Given there is a provider named "testprovider"

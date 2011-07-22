@@ -74,7 +74,7 @@ class ProviderAccountsController < ApplicationController
         flash[:notice] = t('provider_accounts.index.account_added', :list => @provider_account.name, :count => 1)
         redirect_to provider_account_path(@provider_account)
       else
-        flash[:error] = "Credentials are invalid!"
+        flash[:error] = "Cannot add the provider account."
         render :action => 'new' and return
       end
     rescue Exception => e
