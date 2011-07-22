@@ -26,7 +26,7 @@ describe ProviderAccountsController do
     post :create, :provider_account => {:provider_id => @provider.id}
     response.should be_success
     response.should render_template("new")
-    response.flash[:error].should == "Credentials are invalid!"
+    response.flash[:error].should == "Cannot add the provider account."
   end
 
   it "should permit users with account modify permission to access edit cloud account interface" do
