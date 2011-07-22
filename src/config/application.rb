@@ -41,7 +41,7 @@ module Conductor
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
-    require 'lib/warehouse_model.rb'
+    require File.dirname(__FILE__) + '/../lib/warehouse_model'
 
     config.after_initialize do
       Haml::Template.options[:format] = :html5

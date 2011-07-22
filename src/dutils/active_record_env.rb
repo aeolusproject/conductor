@@ -18,6 +18,7 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 $: << File.join(File.dirname(__FILE__), "../app")
+$: << File.join(File.dirname(__FILE__), "..")
 
 require 'rubygems'
 
