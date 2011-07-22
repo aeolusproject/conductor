@@ -26,7 +26,7 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 ENV['RAILS_ENV'] = 'development' unless ENV['RAILS_ENV']
 
 require File.dirname(__FILE__) + '/../config/boot'
-require "#{RAILS_ROOT}/config/environment"
+require File.dirname(__FILE__) + '/../config/environment'
 
 def database_connect
   conf = YAML::load(File.open(File.dirname(__FILE__) + '/../config/database.yml'))
