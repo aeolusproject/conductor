@@ -103,11 +103,11 @@ class Instance < ActiveRecord::Base
              STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED,
              STATE_ERROR]
 
-  named_scope :deployed,  :conditions => { :state => [STATE_RUNNING, STATE_SHUTTING_DOWN] }
+  scope :deployed,  :conditions => { :state => [STATE_RUNNING, STATE_SHUTTING_DOWN] }
   # FIXME: "pending" is misleading as it doesn't just cover STATE_PENDING
-  named_scope :pending,   :conditions => { :state => [STATE_NEW, STATE_PENDING] }
+  scope :pending,   :conditions => { :state => [STATE_NEW, STATE_PENDING] }
   # FIXME: "failed" is misleading too...
-  named_scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR] }
+  scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR] }
 
 
   SEARCHABLE_COLUMNS = %w(name state)
@@ -340,7 +340,17 @@ class Instance < ActiveRecord::Base
     read_attribute(:public_addresses)
   end
 
-  named_scope :with_hardware_profile, lambda {
+  def create_auth_key
+    raise "instance provider_account is not set" unless self.provider_account
+    client = self.provider_account.connect
+    return nil unless client && client.feature?(:instances, :authentication_key)
+    kname = "#{self.name}_#{Time.now.to_i}_key_#{self.object_id}".gsub(/[^a-zA-Z0-9\.\-]/, '_')
+    if key = client.create_key(:name => kname)
+      self.update_attribute(:instance_key, InstanceKey.create!(:pem => key.pem.first, :name => key.id, :instance_key_owner => self))
+    end
+  end
+
+  scope :with_hardware_profile, lambda {
       {:include => :hardware_profile}
   }
 

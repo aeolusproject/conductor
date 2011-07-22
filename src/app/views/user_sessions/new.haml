@@ -47,7 +47,7 @@
     = render :partial => 'security'
     .panel#login
       .content
-        - form_for @user_session, :url => user_session_path do |f|
+        = form_for @user_session, :url => user_session_path do |f|
           %fieldset.primary
             = f.label :login, "Username:"
             = f.text_field :login, :class => 'username'

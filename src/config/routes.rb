@@ -55,7 +55,6 @@ Conductor::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 
-  #Do we still need this one? => resource :user_session
   resource :user_session
   match 'login',       :to => 'user_sessions#new',     :as => 'login'
   match 'logout',      :to => 'user_sessions#destroy', :as => 'logout'

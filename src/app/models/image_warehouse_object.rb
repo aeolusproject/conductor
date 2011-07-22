@@ -23,7 +23,7 @@ class WarehouseObjectNotFoundError < Exception;end
 
 module ImageWarehouseObject
 
-  WAREHOUSE_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")
+  WAREHOUSE_CONFIG = YAML.load_file("#{::Rails.root.to_s}/config/image_warehouse.yml")
 
   def xml
     @xml ||= ImageDescriptorXML.new(self[:xml].to_s)

@@ -54,6 +54,7 @@ class HardwareProfileProperty < ActiveRecord::Base
 
   has_many :property_enum_entries
 
+  before_validation :is_form_empty?
   validates_presence_of :name
   validates_inclusion_of :name,
      :in => [MEMORY, STORAGE, CPU, ARCHITECTURE]
@@ -74,10 +75,6 @@ class HardwareProfileProperty < ActiveRecord::Base
                                      p.kind == RANGE and p.value.present?}
   validates_associated :property_enum_entries
 
-  def before_validation
-    # If the form isn't filled out, it comes in as "", which we treat as nil:
-    self.value = nil if self.value==""
-  end
 
   def validate
     case name
@@ -146,5 +143,10 @@ class HardwareProfileProperty < ActiveRecord::Base
     return name == "architecture" ? sort_value : sort_value.to_f
   end
 
+  protected
+  def is_form_empty?
+    # If the form isn't filled out, it comes in as "", which we treat as nil:
+    self.value = nil if self.value==""
+  end
 end
 

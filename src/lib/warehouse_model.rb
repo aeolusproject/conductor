@@ -3,7 +3,7 @@ class BucketObjectNotFound < Exception;end
 class BucketNotFound < Exception;end
 
 class WarehouseModel
-  WAREHOUSE_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/image_warehouse.yml")
+  WAREHOUSE_CONFIG = YAML.load_file("#{::Rails.root.to_s}/config/image_warehouse.yml")
 
   def ==(other_obj)
     # If the objects have different instance variables defined, they're definitely not ==

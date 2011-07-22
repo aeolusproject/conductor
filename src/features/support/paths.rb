@@ -30,7 +30,7 @@ module NavigationHelpers
       account_path
 
     when /the login error page/
-      url_for :controller => 'user_sessions', :action => 'new', :only_path => true
+      user_session_path
 
     when /the providers page/
       url_for :controller => 'providers', :action => 'index', :only_path => true
@@ -120,8 +120,8 @@ module NavigationHelpers
       pool = Pool.find_by_name($1)
       pool_path(pool, :view => 'filter')
 
-    when /^the (.*)'s user page$/
-      user_path(User.find_by_login($1))
+    when /^the user page$/
+      user_path #(User.find_by_login($1))
 
     when /^the (.*)'s edit user page$/
       edit_user_path(User.find_by_login($1))
