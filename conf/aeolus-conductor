@@ -14,34 +14,32 @@
 
 RAILS_ENV="${RAILS_ENV:-production}"
 CONDUCTOR_DIR="${CONDUCTOR_DIR:-/usr/share/aeolus-conductor}"
-THIN_LOG="${THIN_LOG:-/var/log/aeolus-conductor/thin.log}"
+CONDUCTOR_USER="${CONDUCTOR_USER:-aeolus}"
+THIN_PROG="${THIN_PROG:-thin}"
 THIN_PID="${THIN_PID:-/var/run/aeolus-conductor/thin.pid}"
-THIN_LOCKFILE="${THIN_LOCKFILE:-/var/lock/subsys/aeolus-conductor}"
-AEOLUS_USER="${AEOLUS_USER:-aeolus}"
-AEOLUS_GROUP="${AEOLUS_GROUP:-aeolus}"
+THIN_LOG="${THIN_LOG:-/var/log/aeolus-conductor/thin.log}"
 PREFIX="${PREFIX:-/conductor}"
-ADAPTER="${ADAPTER:-rails}"
+ADDR="${ADDR:-127.0.0.1}"
 
-THIN_PROG=thin
-ADDR=127.0.0.1
+export RAILS_RELATIVE_URL_ROOT=$PREFIX
+
 RETVAL=0
-
 STARTTIMEOUT=20
 
 . /etc/init.d/functions
 
 start() {
     echo -n "Starting aeolus-conductor: "
-    if [ -f $THIN_PID ] && checkpid `cat $THIN_PID` ; then
+    if [ -f "$THIN_PID" ] && checkpid `cat $THIN_PID` ; then
       echo_failure
       echo
       echo "Thin is already running"
       exit 1
     fi
 
-    $THIN_PROG start -c $CONDUCTOR_DIR -l $THIN_LOG -P $THIN_PID \
-      -a $ADDR -e $RAILS_ENV --user $AEOLUS_USER --group $AEOLUS_GROUP \
-      -d --prefix=$PREFIX -A $ADAPTER
+    $THIN_PROG start -c "$CONDUCTOR_DIR" -l "$THIN_LOG" -P "$THIN_PID" \
+	-a $ADDR -e $RAILS_ENV --user $CONDUCTOR_USER -d --prefix=$PREFIX \
+	--rackup "$CONDUCTOR_DIR/config.ru"
     RETVAL=$?
     if [ $RETVAL -eq 0 ] ; then
       # wait until we can contact the server
@@ -68,15 +66,7 @@ start() {
 
 stop() {
     echo -n "Shutting down aeolus-conductor: "
-    $THIN_PROG stop -c $CONDUCTOR_DIR -P $THIN_PID
-    RETVAL=$?
-    if [ $RETVAL -eq 0 ] && rm -f $THIN_LOCKFILE ; then
-	echo_success
-	echo
-    else
-	echo_failure
-	echo
-    fi
+    killproc -p $THINPID thin
 }
 
 case "$1" in
@@ -100,7 +90,7 @@ case "$1" in
 	RETVAL=$?
 	;;
     *)
-      echo "Usage: aeolus-conductor {start|stop|restart|status}"
+      echo "Usage: aeolus-conductor {start|stop|restart|reload|force-reload|status}"
       exit 1
   ;;
 esac

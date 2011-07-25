@@ -1,16 +1,21 @@
 # root directory of the Aeolus Conductor Rails application
 #CONDUCTOR_DIR=/usr/share/aeolus-conductor
 
-# location of the logfile
-#THIN_LOG=/var/log/aeolus-conductor/thin.log
+# user under which Rails application runs
+#CONDUCTOR_USER=aeolus
 
-# location of the lockfile
-#THIN_LOCKFILE=/var/lock/subsys/aeolus-conductor
+# location of the thin program
+#THIN_PROG=thin
 
-# location of the file containing running process ID
+# location for the thin pid file
 #THIN_PID=/var/run/aeolus-conductor/thin.pid
 
-# user and group under which Rails application runs
-#CONDUCTOR_USER=aeolus
-#CONDUCTOR_GROUP=aeolus
+# location for the thin log file
+#THIN_LOG=/var/log/aeolus-conductor/thin.log
 
+# prefix for the conductor
+#PREFIX=/conductor
+
+# address that the conductor should listen on (127.0.0.1 by default, when
+# proxying through apache
+#ADDR=127.0.0.1
