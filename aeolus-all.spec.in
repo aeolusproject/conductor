@@ -6,7 +6,6 @@ Summary:	A meta-package to pull in all components for Aeolus
 Group:		Applications/Internet
 License:	GPLv2+
 URL:		http://aeolusproject.org
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:	aeolus-conductor-daemons = %{version}-%{release}
 Requires:	aeolus-conductor-doc = %{version}-%{release}
@@ -37,5 +36,8 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
-* Mon Apr 04 2011 Chris Lalancette <clalance@redhat.com>
+* Thu Jul 21 2011 Mo Morsi <mmorsi@redhat.com> - 0.3.0-2
+- Updates to conform to Fedora guidelines
+
+* Mon Apr 04 2011 Chris Lalancette <clalance@redhat.com> - 0.3.0-1
 - Initial build

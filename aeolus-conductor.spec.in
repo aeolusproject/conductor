@@ -1,5 +1,5 @@
-%define app_root %{_datadir}/%{name}
-%define doc_root %{_datadir}/%{name}-doc
+%global app_root %{_datadir}/%{name}
+%global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
 Version:  @VERSION@
@@ -10,8 +10,12 @@ Group:    Applications/System
 License:  GPLv2+ and MIT and BSD
 URL:      http://aeolusproject.org
 
+# to build source tarball
+# git clone  git://git.fedorahosted.org/aeolus/conductor.git
+# git checkout v0.3.0_RC_1
+# make dist
+# cp aeolus-conductor-0.3.0.tar.gz ~/rpmbuild/SOURCES
 Source0:    aeolus-conductor-%{version}.tar.gz
-BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Requires: ruby >= 1.8.1
 Requires: ruby(abi) = 1.8
@@ -96,8 +100,6 @@ getent passwd aeolus >/dev/null || \
     -s /sbin/nologin -r -d /var/aeolus aeolus 2> /dev/null || :
 
 %install
-%{__rm} -rf %{buildroot}
-
 %{__mkdir} -p %{buildroot}
 %{__mkdir} -p %{buildroot}%{app_root}
 %{__mkdir} -p %{buildroot}%{doc_root}
@@ -216,9 +218,6 @@ touch %{buildroot}%{app_root}/log/delayed_job.log
 
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post
 # symlink the configuration bits from /usr/share/aeolus-conductor/config
 # into /etc/aeolus-conductor.  Note that we unceremoniously use -f here;
@@ -230,10 +229,10 @@ touch %{buildroot}%{app_root}/log/delayed_job.log
 %{__ln_s} -f %{app_root}/config/database.yml %{_sysconfdir}/%{name}
 
 %postun
-# kind of a weird construct.  There are two cases where %postun gets called;
+# kind of a weird construct.  There are two cases where postun gets called;
 # during the removal of a package and during the cleanup after an upgrade.
 # During removal, we want to remove the symlinks; during upgrade we do not.
-# Therefore, we check to see if %{app_root}/app is still there; if it is,
+# Therefore, we check to see if app_root/app is still there; if it is,
 # then we assume it is an upgrade and do nothing, otherwise we assume it is
 # a removal and delete the symlinks
 if [ ! -d %{app_root}/app ]; then
@@ -260,7 +259,6 @@ if [ $1 = 0 ]; then
 fi
 
 %files
-%defattr(-,root,root,-)
 %dir %{app_root}
 %{app_root}/app
 %{app_root}/config
@@ -270,14 +268,13 @@ fi
 %{app_root}/dutils
 %{app_root}/lib
 %{app_root}/log
-%attr(777, root, root) %{app_root}/public
+%{app_root}/public
 %{app_root}/Rakefile
 %{app_root}/script/delayed_job
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
 
 %files daemons
-%defattr(-,root,root,-)
 %{_initrddir}/aeolus-conductor
 %{_initrddir}/conductor-dbomatic
 %{_initrddir}/conductor-delayed_job
@@ -292,17 +289,22 @@ fi
 %doc AUTHORS COPYING
 
 %files doc
-%defattr(-,root,root,-)
 %{doc_root}
 %doc AUTHORS COPYING
 
 %files devel
-%defattr(-,root,root,-)
 %{app_root}/features
 %{app_root}/script
 %{app_root}/spec
 
 %changelog
+* Thu Jul 21 2011 Mo Morsi <mmorsi@redhat.com> - 0.3.0-2
+- update Source0 checkout instructions
+
+* Wed Jul 20 2011 Mo Morsi <mmorsi@redhat.com> - 0.3.0-1
+- new upstream release
+- changes to conform to fedora guidelines
+
 * Tue Apr 05 2011 Chris Lalancette <clalance@redhat.com> - 0.0.3-2
 - Large spec file cleanup
 - Split out development files into a -devel package
