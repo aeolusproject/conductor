@@ -35,9 +35,9 @@ Feature: Manage Providers
     And each provider should have "provider_type"
     And there should be these provider:
     | name         | url                       | provider_type |
-    | provider1    | http://localhost:3001/api | mock          |
-    | provider2    | http://localhost:3001/api | mock          |
-    | provider3    | http://localhost:3001/api | mock          |
+    | provider1    | http://localhost:3002/api | mock          |
+    | provider2    | http://localhost:3002/api | mock          |
+    | provider3    | http://localhost:3002/api | mock          |
 
   Scenario: Show provider details
     Given there is a provider named "testprovider"
@@ -52,7 +52,7 @@ Feature: Manage Providers
     When I follow "New Provider"
     Then I should be on the new provider page
     When I fill in "provider[name]" with "testprovider"
-    And I fill in "provider[url]" with "http://localhost:3001/api"
+    And I fill in "provider[url]" with "http://localhost:3002/api"
     And I select "Amazon EC2" from "provider_provider_type_id"
     And I press "Save"
     Then I should be on the providers page
