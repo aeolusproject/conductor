@@ -131,6 +131,8 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
         @public_addresses = string
       elsif @tag == "DeltacloudPrivateNetworkAddresses"
         @private_addresses = string
+      elsif @tag == "DeltacloudProviderId"
+        @provider_instance_id = string
       end
     end
   end
@@ -199,6 +201,15 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
     @logger.info "update_instance_addresses completed for #{inst}"
   end
 
+  def update_provider_instance_id(inst)
+    @logger.info "update_provider_instance_id for #{inst}, \
+                  setting id: #{@provider_instance_id}"
+
+    inst.provider_instance_id = @provider_instance_id
+    inst.save!
+    @logger.info "update_provider_instance_id completed for #{inst}"
+  end
+
   # Create a new entry for events which we have all the necessary data for
   def end_element(element)
     begin
@@ -211,9 +222,10 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
           @logger.info "Instance #{inst} found, running update events"
           update_instance_state_event(inst)
           update_instance_addresses(inst)
+          update_provider_instance_id(inst)
           @logger.info "Instance #{inst} update events completed"
         end
-        @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = @hold_reason = @public_addresses = @private_addresses = nil
+        @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = @hold_reason = @public_addresses = @private_addresses = @provider_instance_id = nil
       end
     rescue Exception => e
       @logger.error "#{e.backtrace.shift}: #{e.message}"
