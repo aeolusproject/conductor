@@ -18,13 +18,3 @@
           %li
             %dt= t("alerts")
             %dd.count.alert= @statistics[:instances_failed]
-          %li
-            %dt= t("updates")
-            %dd.count.update 0
-      %li
-        %dt= t("pools.index.quota_used")
-        %dd.percentage.quota 0%
-        %dd.fraction.instance
-          %span.part 0
-          %span.divider.label.small.caps of
-          %span.total 0
