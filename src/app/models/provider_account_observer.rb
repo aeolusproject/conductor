@@ -6,9 +6,6 @@ class ProviderAccountObserver < ActiveRecord::Observer
     if account.provider.provider_type_id == ProviderType.find_by_codename("ec2").id
       create_bucket(account)
     end
-    if key = account.generate_auth_key
-      account.update_attribute(:instance_key, InstanceKey.create!(:pem => key.pem.first, :name => key.id, :instance_key_owner => account))
-    end
     account.populate_hardware_profiles
   end
 

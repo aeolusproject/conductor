@@ -11,18 +11,8 @@ end
 
 ProviderAccount.class_eval do
 
-  alias :generate_auth_key_original :generate_auth_key
-
   def valid_credentials?
     credentials_hash['username'].to_s == 'mockuser' && credentials_hash['password'].to_s == 'mockpassword'
-  end
-
-  def generate_auth_key
-    key = OpenStruct.new(:pem => 'PEM')
-    def key.id
-      "mock_#{Time.now.to_i}_key_#{self.object_id}"
-    end
-    key
   end
 
 #  def instance_key

@@ -34,36 +34,7 @@
 # Likewise, all the methods added will be available for all controllers.
 #
 
-require 'openssl'
-require 'base64'
-
 class InstanceKey < ActiveRecord::Base
 
   belongs_to :instance_key_owner, :polymorphic => true
-
-  def replace_key(addr, old_pem)
-    key = generate_ssh_key
-    replace_on_server(addr, old_pem, key[:public])
-    self.pem = key[:private]
-  end
-
-  private
-
-  def replace_on_server(addr, old_pem, new_pub)
-    provider_type = self.instance_key_owner.provider_account.provider.provider_type
-    Net::SCP::start(addr, provider_type.ssh_user, :key_data => [old_pem], :keys => []) do |scp|
-      scp.upload! StringIO.new(new_pub), File.join(provider_type.home_dir, '/.ssh/authorized_keys')
-    end
-  end
-
-  def generate_ssh_key
-    key = OpenSSL::PKey::RSA.generate(1024)
-    writer = Net::SSH::Buffer.new
-    writer.write_key key
-    ssh_key = Base64.encode64( writer.to_s ).strip.gsub( /[\n\r\t ]/, "" )
-    {
-      :private => key.export,
-      :public => "#{key.ssh_type} #{ssh_key} #{ENV['USER']}@#{ENV['HOSTNAME']}"
-    }
-  end
 end

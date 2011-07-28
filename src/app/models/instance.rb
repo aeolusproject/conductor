@@ -228,27 +228,12 @@ class Instance < ActiveRecord::Base
     end
   end
 
-  def create_unique_key
-    return unless self.provider_account and self.provider_account.instance_key
-    # deltacloud/ec2 api's create_key method returns only private part of
-    # key -> we don't know public part, so we generate new ssh key
-    # and replace whole authorized_keys file
-    key_name = "#{self.name}_rsa_#{Time.now.to_f}"
-    self.instance_key = InstanceKey.new(self.provider_account.instance_key.attributes.merge({
-      :instance_key_owner => self,
-      :name => key_name
-    }))
-    begin
-      self.instance_key.replace_key(self.public_addresses, self.provider_account.instance_key.pem)
-      self.events.create!(:summary => "successfully updated ssh key", :event_time  => Time.now)
-    rescue
-      msg = "failed to upload ssh key: #{$!}"
-      self.last_error = msg
-      self.events.create!(:summary => msg, :event_time  => Time.now)
-    ensure
-      # if replace_key fails, we still save instance_key - should be copy of
-      # provider_account key which was used when launching instance
-      self.instance_key.save!
+  def create_auth_key
+    raise "instance provider_account is not set" unless self.provider_account
+    client = self.provider_account.connect
+    return nil unless client && client.feature?(:instances, :authentication_key)
+    if key = client.create_key(:name => key_name)
+      self.instance_key = InstanceKey.create!(:pem => key.pem.first, :name => key.id, :instance_key_owner => self)
       self.save!
     end
   end
@@ -358,4 +343,10 @@ class Instance < ActiveRecord::Base
   named_scope :with_hardware_profile, lambda {
       {:include => :hardware_profile}
   }
+
+  private
+
+  def key_name
+    "#{self.name}_#{Time.now.to_i}_key_#{self.object_id}".gsub(/[^a-zA-Z0-9\.\-]/, '_')
+  end
 end

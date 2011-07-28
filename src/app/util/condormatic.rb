@@ -75,12 +75,12 @@ def condormatic_instance_create(task)
 
     overrides = HardwareProfile.generate_override_property_values(instance.hardware_profile,
                                                                   found.hwp)
-    keyname = found.account.instance_key ? found.account.instance_key.name : ''
-
     pwfilename = write_pw_file(job_name,
                                found.account.credentials_hash['password'])
 
     instance.provider_account = found.account
+    instance.create_auth_key unless instance.instance_key
+    keyname = instance.instance_key ? instance.instance_key.name : ''
 
     # I use the 2>&1 to get stderr and stdout together because popen3 does not
     # support the ability to get the exit value of the command in ruby 1.8.

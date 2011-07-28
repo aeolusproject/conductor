@@ -201,12 +201,6 @@ class ProviderAccount < ActiveRecord::Base
     label_value_pairs.sort { |a, b| a[:label] <=> b[:label] }
   end
 
-  def generate_auth_key
-    client = connect
-    return nil unless client && client.feature?(:instances, :authentication_key)
-    client.create_key(:name => "#{self.name}_#{Time.now.to_i}_key_#{self.object_id}")
-  end
-
   def credentials_hash
       @credentials_hash = {}
      # Credential.all(:conditions => {:provider_account_id => id}, :include => :credential_definition).each do |cred|
