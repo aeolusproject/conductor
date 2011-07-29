@@ -34,7 +34,6 @@ Requires: rubygem(rest-client) >= 1.6.1
 Requires: rubygem(builder)
 Requires: rubygem(json)
 Requires: rubygem(rack-restful_submit)
-Requires: rubygem(net-scp)
 Requires: rubygem(uuidtools)
 Requires: rubygem(sqlite3)
 Requires: rubygem(pg)
