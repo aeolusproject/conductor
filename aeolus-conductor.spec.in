@@ -77,7 +77,6 @@ Summary: Aeolus Conductor development and testing files
 Group:   Applications/Internet
 Requires: %{name} = %{version}-%{release}
 Requires: rubygem(cucumber)
-Requires: rubygem(cucumber-rails)
 Requires: rubygem(rspec)
 Requires: rubygem(timecop)
 Requires: rubygem(cucumber-rails)
@@ -148,12 +147,10 @@ opts="spec"
 png="public/images public/images/icons public/stylesheets/images \
      public/stylesheets/jquery.ui-1.8.1/images"
 rake="lib/tasks"
-rb="app/models app/controllers \
-    app/helpers \
-    app/services app/util \
-    config config/initializers config/environments db db/migrate dutils \
-    features/support features/step_definitions lib spec \
-    spec/controllers spec/factories spec/helpers spec/models spec/services"
+rb="app/models app/controllers app/helpers app/services app/util config \
+    config/initializers config/environments db db/migrate dutils \
+    features/support features/step_definitions lib spec spec/controllers \
+    spec/factories spec/helpers spec/models spec/services"
 rhtml="app/views/layouts"
 scss="app/stylesheets"
 svg="public/images public/images/icons public/javascripts/jquery-svg"
@@ -161,8 +158,8 @@ ttf="public/fonts"
 txt="public"
 yml="config config/locales"
 
-for filetype in builder css feature gif haml html ico jpg js json \
-    key opts png rake rb rhtml scss svg ttf txt yml; do
+for filetype in builder css feature gif haml html ico jpg js json key opts png \
+    rake rb rhtml scss svg ttf txt yml; do
     dirs=${!filetype}
 
     for dir in $dirs; do
