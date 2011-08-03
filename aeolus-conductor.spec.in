@@ -19,10 +19,10 @@ Source0:    aeolus-conductor-%{version}.tar.gz
 
 Requires: ruby >= 1.8.1
 Requires: ruby(abi) = 1.8
-Requires: rubygem(rails) >= 3.0.5
+Requires: rubygem(rails) >= 3.0.7
 Requires: rubygem(haml) >= 3.1
 Requires: rubygem(nokogiri) >= 1.4.0
-Requires: rubygem(will_paginate)
+Requires: rubygem(will_paginate) >= 3.0
 Requires: rubygem(parseconfig)
 Requires: rubygem(authlogic) >= 3.0.2
 Requires: rubygem(deltacloud-client) >= 0.0.9.8

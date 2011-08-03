@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails'
+gem 'rails', ' >= 3.0.7'
 
 gem 'sqlite3', :require => 'sqlite3'
 
@@ -8,7 +8,7 @@ gem 'authlogic'
 gem 'deltacloud-client', :require => 'deltacloud'
 gem 'sass'
 gem 'haml'
-gem 'will_paginate'
+gem 'will_paginate', '>= 3.0.pre1'
 gem 'nokogiri'
 gem 'compass'
 gem 'compass-960-plugin', :require => 'ninesixty'
@@ -25,11 +25,10 @@ group :development, :test do
   #gem 'rspec-rails'
   #gem 'factory_girl_rails'
   #gem 'timecop'
-
+  #gem 'capybara'
   #gem 'cucumber'
   #gem 'cucumber-rails'
   #gem 'database_cleaner'
-  #gem 'webrat'
   #gem 'vcr'
   #gem 'webmock'
 end
