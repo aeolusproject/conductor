@@ -4,7 +4,6 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'authlogic/test_case'
 require 'timecop'
-require 'database_cleaner'
 require 'vcr_setup'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -36,18 +35,5 @@ RSpec.configure do |config|
 
   config.after(:each, :type => :controller) do
     #current_user_session.destroy
-  end
-
-  # Database cleaner
-  DatabaseCleaner.strategy = :truncation
-  DatabaseCleaner.clean_with(:truncation)
-
-  config.before(:suite) do
-    DatabaseCleaner.start
-    load "#{Rails.root}/db/seeds.rb"
-  end
-
-  config.after(:suite) do
-    DatabaseCleaner.clean
   end
 end
