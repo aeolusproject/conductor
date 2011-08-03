@@ -14,7 +14,7 @@
 
   .content
     - form_for :deployment, {:url => new_deployment_path, :method => :get, :html => {:class => 'generic'}} do
-      = error_messages_for :deployment
+      = error_messages_for @deployment
       = hidden_field :deployment, :pool_id
       %fieldset
         %p

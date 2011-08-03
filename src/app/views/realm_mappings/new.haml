@@ -1,7 +1,7 @@
 = render :partial => 'layouts/admin_header'
 %div#view
 
-= error_messages_for 'realm_target'
+= error_messages_for @realm_target
 %h2 Create a new Realm Mapping
 - form_for @realm_target, :url => realm_mappings_path do |f|
   = f.hidden_field :frontend_realm_id

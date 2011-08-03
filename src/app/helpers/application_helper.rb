@@ -253,4 +253,12 @@ module ApplicationHelper
   def javascript?
     session[:javascript_enabled]
   end
+
+  def error_messages_for(obj)
+    flash[:error] ||= "" if obj.errors.present?
+    obj.errors.each_pair do |attr, error|
+      #TODO - Need to format this in some sensible way... <ul>?
+      flash[:error] << "#{attr.to_s.humanize} #{error}"
+    end
+  end
 end
