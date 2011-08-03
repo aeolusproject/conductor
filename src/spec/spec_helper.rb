@@ -29,24 +29,25 @@ RSpec.configure do |config|
   # == Notes
   #
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
+
   config.before(:each, :type => :controller) do
     #activate_authlogic
   end
+
   config.after(:each, :type => :controller) do
     #current_user_session.destroy
   end
 
   # Database cleaner
+  DatabaseCleaner.strategy = :truncation
+  DatabaseCleaner.clean_with(:truncation)
+
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.start
     load "#{Rails.root}/db/seeds.rb"
   end
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
 
-  config.after(:each) do
+  config.after(:suite) do
     DatabaseCleaner.clean
   end
 end
