@@ -76,6 +76,7 @@ class ApplicationController < ActionController::Base
 
   def handle_error(hash)
     logger.fatal(hash[:error].to_s) if hash[:error]
+    logger.fatal(hash[:error].backtrace.join("\n ")) if hash[:error]
     msg = hash[:message] || hash[:error].message
     title = hash[:title] || "Internal Server Error"
     status = hash[:status] || :internal_server_error
