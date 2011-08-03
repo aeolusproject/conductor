@@ -235,8 +235,7 @@ class DeploymentsController < ApplicationController
 
   private
   def load_deployments
-    @deployments = Deployment.paginate(:all,
-      :page => params[:page] || 1,
+    @deployments = Deployment.paginate(:page => params[:page] || 1,
       :order => (params[:order_field] || 'name')  +' '+ (params[:order_dir] || 'asc')
     )
     @header = [

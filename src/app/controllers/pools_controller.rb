@@ -241,7 +241,7 @@ class PoolsController < ApplicationController
   end
 
   def load_pools
-    @pools = Pool.paginate(:all, :include => [ :quota, :pool_family ],
+    @pools = Pool.paginate(:include => [ :quota, :pool_family ],
       :page => params[:page] || 1,
       :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )

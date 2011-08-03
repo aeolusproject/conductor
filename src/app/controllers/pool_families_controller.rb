@@ -126,8 +126,7 @@ class PoolFamiliesController < ApplicationController
   end
 
   def load_pool_families
-    @pool_families = PoolFamily.paginate(:all,
-                                         :page => params[:page] || 1,
+    @pool_families = PoolFamily.paginate(:page => params[:page] || 1,
                                          :order => (params[:order_field] || 'name') + ' ' + (params[:order_dir] || 'asc')
     )
   end
