@@ -37,7 +37,7 @@ class UserSessionsController < ApplicationController
           flash[:notice] = "Login successful!"
           redirect_back_or_default root_url
         end
-        format.js { render :text => "window.location='#{root_url}'" }
+        format.js { render :status => 201, :text => root_url }
       end
     else
       respond_to do |format|

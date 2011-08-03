@@ -23,8 +23,13 @@
       $.ajax({
         url: this.action,
         type: 'POST',
-        dataType: 'script',
+        accepts: { html: "application/javascript" },
+        dataType: 'html',
         data: form_data,
+        success: function(data, textStatus, jqXHR) {
+          if(jqXHR.status === 201) window.location = data;
+          else window.location.reload();
+        },
         error: function(response) {
           //TODO: for some reason error connection errors are not handled by 'error' callback,
           //what's worse jquery sets 'textStatus' to success, if we want to catch connection errors
@@ -32,7 +37,8 @@
           $('#error-content').remove();
           $('#primary-container').prepend('<div id="error-content" class="error" style="opacity: 0; position: relative;"></div>');
           var text = $.isEmptyObject(response.responseText) ? response.statusText : response.responseText;
-          $('#error-content').html('<p class="text">' + text  + '</div>');
+          if(response.status !== 401) text = "Internal Server Error";
+          $('#error-content').html('<p class="text">' + text  + '</p>');
           $('#error-content').animate({ 'opacity': 1, 'top': -10 },{queue:false,duration:150});
           $('#progress-indicator').hide();
           $('#login input').each(function(){ $(this).removeAttr('disabled'); });
