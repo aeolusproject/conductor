@@ -1,9 +1,9 @@
 def user
-  @user ||= Factory :user
+  @user ||= FactoryGirl.create :user
 end
 
 def admin_user
-  @user ||= Factory :admin_user
+  @user ||= FactoryGirl.create :admin_user
 end
 
 def login(login, password)

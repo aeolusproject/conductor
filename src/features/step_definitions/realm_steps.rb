@@ -7,7 +7,7 @@ Given /^a realm "([^"]*)" exists$/ do |realm_name|
 end
 
 Given /^a provider "([^"]*)" exists$/ do |name|
-  Factory(:mock_provider, :name => name)
+  FactoryGirl.create(:mock_provider, :name => name)
 end
 
 Given /^there is a realm "([^"]*)"$/ do |name|

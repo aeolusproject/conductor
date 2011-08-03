@@ -15,7 +15,7 @@ describe Pool do
   end
 
   it "should not be valid if name is too long" do
-    u = Factory(:pool)
+    u = FactoryGirl.create(:pool)
     u.name = ('a' * 256)
     u.valid?.should be_false
     u.errors[:name].should_not be_nil
@@ -49,7 +49,7 @@ describe Pool do
   end
 
   it "should require quota to be set" do
-    pool = Factory :pool
+    pool = FactoryGirl.create :pool
     pool.should be_valid
 
     pool.quota = nil

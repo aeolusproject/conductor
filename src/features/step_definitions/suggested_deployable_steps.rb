@@ -1,5 +1,5 @@
 Given /^a suggested deployable "([^"]*)" exists$/ do |arg1|
-  Factory :suggested_deployable, :name => arg1
+  FactoryGirl.create :suggested_deployable, :name => arg1
 end
 
 When /^I check "([^"]*)" suggested deployable$/ do |arg1|

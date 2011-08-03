@@ -1,11 +1,11 @@
 Given /^I am an authorised user$/ do
-  @admin_permission = Factory :admin_permission
+  @admin_permission = FactoryGirl.create :admin_permission
   @user = @admin_permission.user
 end
 
 Given /^I have Pool Creator permissions on a pool named "([^\"]*)"$/ do |name|
-  @pool = Factory(:pool, :name => name)
-  Factory(:pool_creator_permission, :user => @user, :permission_object => @pool)
+  @pool = FactoryGirl.create(:pool, :name => name)
+  FactoryGirl.create(:pool_creator_permission, :user => @user, :permission_object => @pool)
 end
 
 Then /^there should be (\d+) pools$/ do |number|
@@ -17,17 +17,17 @@ Given /^there is not a pool named "([^\"]*)"$/ do |name|
 end
 
 Given /^a pool "([^"]*)" exists$/ do |pool_name|
-  pool_family = PoolFamily.find_by_name('default') || Factory(:pool_family)
-  quota = Factory(:quota)
+  pool_family = PoolFamily.find_by_name('default') || FactoryGirl.create(:pool_family)
+  quota = FactoryGirl.create(:quota)
   Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota, :enabled => true)
 end
 
 Given /^a pool "([^"]*)" exists and is disabled$/ do |pool_name|
-  Factory :disabled_pool, :name => pool_name
+  FactoryGirl.create :disabled_pool, :name => pool_name
 end
 
 Given /^a pool "([^"]*)" exists with deployment "([^"]*)"$/ do |pool_name, deployment_name|
-  pool = Pool.find_by_name(pool_name) || Factory(:pool, :name => pool_name)
+  pool = Pool.find_by_name(pool_name) || FactoryGirl.create(:pool, :name => pool_name)
   deployment = Deployment.new(:name => deployment_name, :pool => pool, :owner => User.first)
   deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable1.xml")
   deployment.save!
@@ -61,7 +61,7 @@ Given /^the "([^\"]*)" Pool has a quota with following capacities:$/ do |name,ta
   end
 
   @pool = Pool.find_by_name(name)
-  @quota = Factory(:quota, quota_hash)
+  @quota = FactoryGirl.create(:quota, quota_hash)
 
   @pool.quota_id = @quota.id
   @pool.save
@@ -106,6 +106,6 @@ end
 Given /^there are (\d+) pools$/ do |arg1|
   Pool.all.each {|i| i.destroy}
   arg1.to_i.times do |i|
-    Factory :pool, :name => "pool#{i}"
+    FactoryGirl.create :pool, :name => "pool#{i}"
   end
 end

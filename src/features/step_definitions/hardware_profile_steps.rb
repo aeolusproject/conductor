@@ -5,21 +5,21 @@ Given /^there are the following conductor hardware profiles:$/ do |table|
 end
 
 Given /^the Hardare Profile "([^"]*)" has the following Provider Hardware Profiles:$/ do |name, table|
-  provider = Factory :mock_provider
+  provider = FactoryGirl.create :mock_provider
   front_end_hwp = HardwareProfile.find_by_name(name)
   back_end_hwps = table.hashes.collect { |hash| create_hwp(hash, provider) }
 end
 
 Given /^there is a "([^"]*)" hardware profile$/ do |arg1|
-  Factory(:mock_hwp1, :name => arg1)
+  FactoryGirl.create(:mock_hwp1, :name => arg1)
 end
 
 def create_hwp(hash, provider=nil)
-  memory = Factory(:mock_hwp1_memory, :value => hash[:memory])
-  storage = Factory(:mock_hwp1_storage, :value => hash[:storage])
-  cpu = Factory(:mock_hwp1_cpu, :value => hash[:cpu])
-  arch = Factory(:mock_hwp1_arch, :value => hash[:architecture])
-  Factory(:mock_hwp1, :name => hash[:name], :memory => memory, :cpu => cpu, :storage => storage, :architecture => arch, :provider => provider)
+  memory = FactoryGirl.create(:mock_hwp1_memory, :value => hash[:memory])
+  storage = FactoryGirl.create(:mock_hwp1_storage, :value => hash[:storage])
+  cpu = FactoryGirl.create(:mock_hwp1_cpu, :value => hash[:cpu])
+  arch = FactoryGirl.create(:mock_hwp1_arch, :value => hash[:architecture])
+  FactoryGirl.create(:mock_hwp1, :name => hash[:name], :memory => memory, :cpu => cpu, :storage => storage, :architecture => arch, :provider => provider)
 end
 
 When /^I enter the following details for the Hardware Profile Properties$/ do |table|
@@ -33,13 +33,13 @@ When /^I enter the following details for the Hardware Profile Properties$/ do |t
 end
 
 Given /^there are the following provider hardware profiles:$/ do |table|
-  provider = Factory :mock_provider
+  provider = FactoryGirl.create :mock_provider
   create_provider_hardware_profiles(provider, table)
 end
 
 Given /^there are (\d+) hardware profiles$/ do |count|
   count.to_i.times do |i|
-    Factory(:mock_hwp1, :name => "hwprofile#{i}")
+    FactoryGirl.create(:mock_hwp1, :name => "hwprofile#{i}")
   end
 end
 

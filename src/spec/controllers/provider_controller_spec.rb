@@ -4,7 +4,7 @@ describe ProvidersController do
 
   fixtures :all
   before(:each) do
-    @admin_permission = Factory :provider_admin_permission
+    @admin_permission = FactoryGirl.create :provider_admin_permission
     @provider = @admin_permission.permission_object
     @admin = @admin_permission.user
     activate_authlogic

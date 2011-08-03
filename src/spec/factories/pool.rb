@@ -1,14 +1,18 @@
-Factory.define :pool do |p|
-  p.sequence(:name) { |n| "mypool#{n}" }
-  p.pool_family { |p| PoolFamily.find_by_name('default') }
-  p.association :quota
-  p.enabled true
-end
+FactoryGirl.define do
 
-Factory.define :tpool, :parent => :pool do |p|
-  p.name 'tpool'
-end
+  factory :pool do
+    sequence(:name) { |n| "mypool#{n}" }
+    pool_family { PoolFamily.find_by_name('default') }
+    association :quota
+    enabled true
+  end
 
-Factory.define :disabled_pool, :parent => :pool do |p|
-  p.enabled false
+  factory :tpool, :parent => :pool do
+    name 'tpool'
+  end
+
+  factory :disabled_pool, :parent => :pool do
+    enabled false
+  end
+
 end

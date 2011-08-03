@@ -4,8 +4,8 @@ describe UsersController do
 
   fixtures :all
   before(:each) do
-    @tuser = Factory :tuser
-    @admin_permission = Factory :admin_permission
+    @tuser = FactoryGirl.create :tuser
+    @admin_permission = FactoryGirl.create :admin_permission
     @admin = @admin_permission.user
     activate_authlogic
   end

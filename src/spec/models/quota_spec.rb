@@ -3,17 +3,17 @@ require 'spec_helper'
 describe Quota do
 
   before(:each) do
-   @provider_account_quota = Factory :quota
+   @provider_account_quota = FactoryGirl.create :quota
    @provider_account = Factory.build(:mock_provider_account, :quota_id => @provider_account_quota.id)
 
-   @pool_quota = Factory :quota
-   @pool = Factory(:pool, :quota_id => @pool_quota.id)
+   @pool_quota = FactoryGirl.create :quota
+   @pool = FactoryGirl.create(:pool, :quota_id => @pool_quota.id)
 
-   @user_quota = Factory :quota
-   @user = Factory(:user, :quota_id => @user_quota.id)
+   @user_quota = FactoryGirl.create :quota
+   @user = FactoryGirl.create(:user, :quota_id => @user_quota.id)
 
-   @hwp = Factory :mock_hwp1
-   @instance = Factory(:new_instance, :pool => @pool, :hardware_profile => @hwp, :provider_account_id => @provider_account.id, :owner => @user)
+   @hwp = FactoryGirl.create :mock_hwp1
+   @instance = FactoryGirl.create(:new_instance, :pool => @pool, :hardware_profile => @hwp, :provider_account_id => @provider_account.id, :owner => @user)
   end
 
   it "should return true when asking if an instance can be created/started when there is sufficient quota space" do
@@ -22,13 +22,13 @@ describe Quota do
   end
 
   it "should return true when asking if an instance can be created/started when using unlimited Quotas" do
-    @user.quota = Factory :unlimited_quota
+    @user.quota = FactoryGirl.create :unlimited_quota
     @user.save!
 
-    @pool.quota = Factory :unlimited_quota
+    @pool.quota = FactoryGirl.create :unlimited_quota
     @pool.save!
 
-    @provider_account.quota = Factory :unlimited_quota
+    @provider_account.quota = FactoryGirl.create :unlimited_quota
     @provider_account.save!
 
     Quota.can_create_instance?(@instance, @provider_account).should == true

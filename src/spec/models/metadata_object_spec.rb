@@ -27,7 +27,7 @@ describe MetadataObject do
   end
 
   it "setting activerecord object value should work" do
-    MetadataObject.set("test_obj", Factory(:pool))
+    MetadataObject.set("test_obj", FactoryGirl.create(:pool))
     MetadataObject.lookup("test_obj").should be_a(Pool)
   end
 

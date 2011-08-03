@@ -1,14 +1,18 @@
-Factory.define :quota do |f|
-  f.maximum_running_instances 10
-  f.maximum_total_instances 15
-end
+FactoryGirl.define do
 
-Factory.define :full_quota, :parent => :quota do |f|
-  f.running_instances 10
-  f.total_instances 15
-end
+  factory :quota do
+    maximum_running_instances 10
+    maximum_total_instances 15
+  end
 
-Factory.define :unlimited_quota, :parent => :quota do |f|
-  f.maximum_running_instances nil
-  f.maximum_total_instances nil
+  factory :full_quota, :parent => :quota do
+    running_instances 10
+    total_instances 15
+  end
+
+  factory :unlimited_quota, :parent => :quota do
+    maximum_running_instances nil
+    maximum_total_instances nil
+  end
+
 end

@@ -1,13 +1,13 @@
 def mock_instance
-  @mock_instance ||= Factory :mock_running_instance
+  @mock_instance ||= FactoryGirl.create :mock_running_instance
 end
 
 def pending_instance
-  @pending_instance ||= Factory :mock_pending_instance
+  @pending_instance ||= FactoryGirl.create :mock_pending_instance
 end
 
 Given /^a mock running instance exists$/ do
-  mock_instance.instance_key = Factory :mock_instance_key, :instance_key_owner => mock_instance
+  mock_instance.instance_key = FactoryGirl.create :mock_instance_key, :instance_key_owner => mock_instance
 end
 
 Given /^a mock pending instance exists$/ do
@@ -46,31 +46,31 @@ Then /^I should see the Save dialog for a (.+) file$/ do |filetype|
 end
 
 Given /^there is a "([^"]*)" instance$/ do |name|
-  Factory :instance, :name => name
+  FactoryGirl.create :instance, :name => name
 end
 
 Given /^there is a "([^"]*)" failed instance$/ do |name|
-  Factory :instance, :name => name, :state => Instance::STATE_ERROR
+  FactoryGirl.create :instance, :name => name, :state => Instance::STATE_ERROR
 end
 
 Given /^there is a "([^"]*)" running instance$/ do |name|
-  Factory :instance, :name => name, :state => Instance::STATE_RUNNING
+  FactoryGirl.create :instance, :name => name, :state => Instance::STATE_RUNNING
 end
 
 Given /^there is a "([^"]*)" stopped instance$/ do |name|
-  Factory :instance, :name => name, :state => Instance::STATE_STOPPED
+  FactoryGirl.create :instance, :name => name, :state => Instance::STATE_STOPPED
 end
 
 Given /^there is "([^"]*)" conductor hardware profile$/ do |name|
-  Factory :front_hwp1, :name => name
+  FactoryGirl.create :front_hwp1, :name => name
 end
 
 Given /^there is "([^"]*)" frontend realm$/ do |name|
-  Factory :frontend_realm, :name => name
+  FactoryGirl.create :frontend_realm, :name => name
 end
 
 Given /^there is "([^"]*)" pool$/ do |arg1|
-  Factory :pool, :name => arg1
+  FactoryGirl.create :pool, :name => arg1
 end
 
 
@@ -81,7 +81,7 @@ end
 
 Given /^there are the following instances:$/ do |table|
   table.hashes.each do |hash|
-    Factory(:instance, :name => hash['name'],
+    FactoryGirl.create(:instance, :name => hash['name'],
                        :external_key => hash['external_key'],
                        :state => hash['state'],
                        :public_addresses => hash['public_addresses'],
@@ -91,7 +91,7 @@ end
 
 Given /^there is the following instance with a differently-named owning user:$/ do |table|
   table.hashes.each do |hash|
-    Factory(:other_owner_instance, :name => hash['name'],
+    FactoryGirl.create(:other_owner_instance, :name => hash['name'],
                        :external_key => hash['external_key'],
                        :state => hash['state'],
                        :public_addresses => hash['public_addresses'],
@@ -103,7 +103,7 @@ end
 Given /^there are (\d+) instances$/ do |count|
   Instance.all.each {|i| i.destroy}
   count.to_i.times do |i|
-    Factory :mock_pending_instance, :name => "inst#{i}"
+    FactoryGirl.create :mock_pending_instance, :name => "inst#{i}"
   end
 end
 

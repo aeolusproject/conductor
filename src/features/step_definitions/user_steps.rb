@@ -1,6 +1,6 @@
 Given /^there is a user "([^"]*)"$/ do |name|
   unless User.find_by_login(name)
-    Factory :user, :login => name, :email => "#{name}@example.com"
+    FactoryGirl.create :user, :login => name, :email => "#{name}@example.com"
   end
 end
 

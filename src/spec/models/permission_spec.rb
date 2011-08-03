@@ -3,10 +3,10 @@ require 'spec_helper'
 describe Permission do
 
   before(:each) do
-    @admin_permission = Factory :admin_permission
-    @provider_admin_permission = Factory :provider_admin_permission
-    @pool_creator_permission = Factory :pool_creator_permission
-    @pool_user_permission = Factory :pool_user_permission
+    @admin_permission = FactoryGirl.create :admin_permission
+    @provider_admin_permission = FactoryGirl.create :provider_admin_permission
+    @pool_creator_permission = FactoryGirl.create :pool_creator_permission
+    @pool_user_permission = FactoryGirl.create :pool_user_permission
 
     @admin = @admin_permission.user
     @provider_admin = @provider_admin_permission.user
@@ -52,7 +52,7 @@ describe Permission do
   end
 
   it "Pool User should NOT be able to create instances in another pool" do
-    Factory(:tpool).has_privilege(@pool_user, Privilege::CREATE, Instance).should be_false
+    FactoryGirl.create(:tpool).has_privilege(@pool_user, Privilege::CREATE, Instance).should be_false
   end
 
 end

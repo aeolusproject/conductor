@@ -1,3 +1,5 @@
-Factory.define :frontend_realm do |r|
-  r.sequence(:name) { |n| "realm#{n}" }
+FactoryGirl.define do
+  factory :frontend_realm do
+    sequence(:name) { |n| "realm#{n}" }
+  end
 end

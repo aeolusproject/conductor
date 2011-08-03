@@ -1,27 +1,31 @@
-Factory.define :provider do |p|
-  p.sequence(:name) { |n| "provider#{n}" }
-  p.provider_type { Factory.build :provider_type }
-  p.url { |p| "http://www." + p.name + ".com/api" }
-end
+FactoryGirl.define do
 
-Factory.define :mock_provider, :parent => :provider do |p|
-  p.provider_type {ProviderType.find_by_codename("mock")}
-  p.url 'http://localhost:3002/api'
-  p.hardware_profiles { |hp| [hp.association(:mock_hwp1), hp.association(:mock_hwp2)] }
-  p.after_create { |p| p.realms << Factory(:realm1, :provider => p) << Factory(:realm2, :provider => p) }
-end
+  factory :provider do
+    sequence(:name) { |n| "provider#{n}" }
+    provider_type { Factory.build :provider_type }
+    url { |p| "http://www." + p.name + ".com/api" }
+  end
 
-Factory.define :mock_provider2, :parent => :provider do |p|
-  p.name 'mock2'
-  p.provider_type { ProviderType.find_by_codename("mock") }
-  p.url 'http://localhost:3002/api'
-  p.after_create { |p| p.realms << Factory(:realm3, :provider => p) }
-end
+  factory :mock_provider, :parent => :provider do
+    provider_type {ProviderType.find_by_codename("mock")}
+    url 'http://localhost:3002/api'
+    hardware_profiles { |hp| [hp.association(:mock_hwp1), hp.association(:mock_hwp2)] }
+    after_create { |p| p.realms << FactoryGirl.create(:realm1, :provider => p) << FactoryGirl.create(:realm2, :provider => p) }
+  end
 
-Factory.define :ec2_provider, :parent => :provider do |p|
-  p.name 'amazon-ec2'
-  p.provider_type { ProviderType.find_by_codename("ec2") }
-  p.url 'http://localhost:3002/api'
-  p.hardware_profiles { |hp| [hp.association(:ec2_hwp1)] }
-  p.after_create { |p| p.realms << Factory(:realm4, :provider => p) }
+  factory :mock_provider2, :parent => :provider do
+    name 'mock2'
+    provider_type { ProviderType.find_by_codename("mock") }
+    url 'http://localhost:3002/api'
+    after_create { |p| p.realms << FactoryGirl.create(:realm3, :provider => p) }
+  end
+
+  factory :ec2_provider, :parent => :provider do
+    name 'amazon-ec2'
+    provider_type { ProviderType.find_by_codename("ec2") }
+    url 'http://localhost:3002/api'
+    hardware_profiles { |hp| [hp.association(:ec2_hwp1)] }
+    after_create { |p| p.realms << FactoryGirl.create(:realm4, :provider => p) }
+  end
+
 end

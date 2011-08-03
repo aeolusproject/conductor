@@ -3,7 +3,7 @@ require 'spec_helper'
 describe PoolFamily do
 
   before(:each) do
-    @pool = Factory :pool
+    @pool = FactoryGirl.create :pool
     @pool_family = @pool.pool_family
     @provider_account = Factory.build :mock_provider_account
     @provider_account.pool_families << @pool_family

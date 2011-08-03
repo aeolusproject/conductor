@@ -4,7 +4,7 @@ describe UserSessionsController do
 
   fixtures :all
   before(:each) do
-    @tuser = Factory :tuser
+    @tuser = FactoryGirl.create :tuser
     activate_authlogic
   end
 

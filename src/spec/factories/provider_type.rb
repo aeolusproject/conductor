@@ -1,14 +1,18 @@
-Factory.define :provider_type do |p|
-  p.sequence(:name) { |n| "name#{n}" }
-  p.sequence(:codename) { |n| "codename#{n}" }
-end
+FactoryGirl.define do
 
-Factory.define :mock_provider_type, :parent => :provider_type do |p|
-  p.name 'Mock'
-  p.codename 'mock'
-end
+  factory :provider_type do
+    sequence(:name) { |n| "name#{n}" }
+    sequence(:codename) { |n| "codename#{n}" }
+  end
 
-Factory.define :ec2_provider_type, :parent => :provider_type do |p|
-  p.name 'Amazon EC2'
-  p.codename 'ec2'
+  factory :mock_provider_type, :parent => :provider_type do
+    name 'Mock'
+    codename 'mock'
+  end
+
+  factory :ec2_provider_type, :parent => :provider_type do
+    name 'Amazon EC2'
+    codename 'ec2'
+  end
+
 end

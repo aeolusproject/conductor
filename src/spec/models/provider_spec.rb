@@ -77,7 +77,7 @@ describe Provider do
       # note: same situation will be with images
       HardwareProfile.destroy_all
 
-      instance = Factory(:instance)
+      instance = FactoryGirl.create(:instance)
       provider = instance.provider_account.provider
       provider.destroy
       provider.destroyed?.should be_false

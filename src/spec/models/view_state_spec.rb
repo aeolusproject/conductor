@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ViewState do
 
   before(:each) do
-    @view_state = Factory :view_state
+    @view_state = FactoryGirl.create :view_state
   end
 
   it "should require a unique name" do
@@ -46,7 +46,7 @@ describe ViewState do
     @view_state.user_id = nil
     @view_state.should_not be_valid
 
-    user = Factory :user
+    user = FactoryGirl.create :user
     @view_state.user_id = user.id
     @view_state.should be_valid
   end

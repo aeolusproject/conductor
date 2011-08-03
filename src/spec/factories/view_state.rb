@@ -1,8 +1,9 @@
-Factory.define :view_state do |vs|
-  vs.sequence(:name) { |n| "view-state#{n}" }
-  vs.controller 'pools'
-  vs.action 'view'
-  vs.state({"sort-column" => "name", "sort-order" => "desc",
-                          "columns" => ["name", "deployments", "instances"]})
-  vs.association :user
+FactoryGirl.define do
+  factory :view_state do
+    sequence(:name) { |n| "view-state#{n}" }
+    controller 'pools'
+    action 'view'
+    state("sort-column" => "name", "sort-order" => "desc", "columns" => ["name", "deployments", "instances"])
+    association :user
+  end
 end

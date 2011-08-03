@@ -1,37 +1,39 @@
-Factory.define :user do |u|
-  u.sequence(:login) { |n| "user#{n}" }
-  u.email { |e| "#{e.login}@example.host" }
-  u.password 'secret'
-  u.password_confirmation 'secret'
-  u.first_name 'John'
-  u.last_name 'Smith'
-  u.association :quota
-end
+FactoryGirl.define do
 
-Factory.define :other_named_user, :parent => :user do |u|
-  u.first_name 'Jane'
-  u.last_name 'Doe'
-end
+  factory :user do |u|
+    sequence(:login) { |n| "user#{n}" }
+    password 'secret'
+    password_confirmation 'secret'
+    first_name 'John'
+    last_name 'Smith'
+    association :quota
+    after_build { |u| u.email ||= "#{u.login}@example.com" }
+  end
 
-Factory.define :tuser, :parent => :user do |u|
-end
+  factory :other_named_user, :parent => :user do
+    first_name 'Jane'
+    last_name 'Doe'
+  end
 
-Factory.define :admin_user, :parent => :user do |u|
-  u.login 'admin'
-end
+  factory :tuser, :parent => :user do
+  end
 
-Factory.define :pool_creator_user, :parent => :user do |u|
-end
+  factory :admin_user, :parent => :user do
+    login 'admin'
+  end
 
-Factory.define :provider_admin_user, :parent => :user do |u|
-end
+  factory :pool_creator_user, :parent => :user do
+  end
 
-Factory.define :pool_user, :parent => :user do |u|
-  u.sequence(:login) { |n| "pool_user#{n}" }
-  u.email { |e| "#{e.login}@example.com" }
-end
+  factory :provider_admin_user, :parent => :user do
+  end
 
-Factory.define :pool_user2, :parent => :user do |u|
-  u.sequence(:login) { |n| "pool_user2#{n}" }
-  u.email { |e| "#{e.login}@example.com" }
+  factory :pool_user, :parent => :user do
+    sequence(:login) { |n| "pool_user#{n}" }
+  end
+
+  factory :pool_user2, :parent => :user do
+    sequence(:login) { |n| "pool_user2#{n}" }
+  end
+
 end

@@ -19,13 +19,13 @@ describe ProviderAccount do
   end
 
   it "should check the validitiy of the cloud account login credentials" do
-    mock_provider = Factory :mock_provider
+    mock_provider = FactoryGirl.create :mock_provider
 
     invalid_provider_account = Factory.build(:mock_provider_account, :provider => mock_provider)
     invalid_provider_account.credentials_hash = {'username' => "wrong_username", 'password' => "wrong_password"}
     invalid_provider_account.should_not be_valid
 
-    ec2_provider = Factory :ec2_provider
+    ec2_provider = FactoryGirl.create :ec2_provider
     invalid_ec2_provider_account = Factory.build(:ec2_provider_account, :provider => ec2_provider)
     invalid_ec2_provider_account.credentials_hash = {'username' => "", 'password' => nil}
     invalid_ec2_provider_account.valid_credentials?.should == false
@@ -72,15 +72,15 @@ EOT
   end
 
   it "should create provider account with same username for different provider" do
-    provider_account1 = Factory :mock_provider_account
+    provider_account1 = FactoryGirl.create :mock_provider_account
     provider_account2 = Factory.build(:mock_provider_account, :provider => Factory.create(:mock_provider2))
     provider_account1.credentials_hash.should == provider_account2.credentials_hash
     provider_account2.should be_valid
   end
 
   it "should fail to create more than one account per provider" do
-    provider = Factory :mock_provider
-    acc1 = Factory(:mock_provider_account, :provider => provider)
+    provider = FactoryGirl.create :mock_provider
+    acc1 = FactoryGirl.create(:mock_provider_account, :provider => provider)
     acc2 = Factory.build(:mock_provider_account, :provider => provider)
     acc2.stub!(:valid_credentials?).and_return(true)
     acc2.stub!(:validate_unique_username).and_return(true)

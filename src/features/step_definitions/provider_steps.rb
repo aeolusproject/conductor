@@ -8,7 +8,7 @@ Given /^there is not a provider named "([^"]*)"$/ do |name|
 end
 
 Given /^there is a provider named "([^\"]*)"$/ do |name|
-  @provider = Factory(:mock_provider, :name => name)
+  @provider = FactoryGirl.create(:mock_provider, :name => name)
 end
 
 Then /^I should have a provider named "([^\"]*)"$/ do |name|
@@ -32,21 +32,21 @@ end
 
 Given /^there are these providers:$/ do |table|
   table.hashes.each do |hash|
-    hash['url'].nil? ? Factory(:mock_provider, :name => hash['name']) : Factory(:mock_provider, :name => hash['name'], :url => hash['url'])
+    hash['url'].nil? ? FactoryGirl.create(:mock_provider, :name => hash['name']) : FactoryGirl.create(:mock_provider, :name => hash['name'], :url => hash['url'])
   end
 end
 
 Given /^this provider has (\d+) hardware profiles$/ do |number|
-  number.to_i.times { |i| Factory(:mock_hwp1, :provider => @provider) }
+  number.to_i.times { |i| FactoryGirl.create(:mock_hwp1, :provider => @provider) }
 end
 
 
 Given /^this provider has a realm$/ do
-  Factory(:realm, :provider => @provider)
+  FactoryGirl.create(:realm, :provider => @provider)
 end
 
 Given /^this provider has a provider account$/ do
-  Factory(:mock_provider_account, :provider => @provider)
+  FactoryGirl.create(:mock_provider_account, :provider => @provider)
 end
 
 Then /^there should not be any hardware profiles$/ do

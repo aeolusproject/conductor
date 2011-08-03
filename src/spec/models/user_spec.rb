@@ -44,7 +44,7 @@ describe User do
   end
 
   it "should not be valid if first name is too long" do
-    u = Factory(:tuser)
+    u = FactoryGirl.create(:tuser)
     u.first_name = ('a' * 256)
     u.valid?.should be_false
     u.errors[:first_name].first.should_not be_nil
@@ -52,7 +52,7 @@ describe User do
   end
 
   it "should not be valid if last name is too long" do
-    u = Factory(:tuser)
+    u = FactoryGirl.create(:tuser)
     u.last_name = ('a' * 256)
     u.valid?.should be_false
     u.errors[:last_name].first.should_not be_nil
@@ -60,7 +60,7 @@ describe User do
   end
 
   it "should require quota to be set" do
-    user = Factory :tuser
+    user = FactoryGirl.create :tuser
     user.should be_valid
 
     user.quota = nil

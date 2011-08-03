@@ -20,10 +20,10 @@ describe RegistrationService do
     end
 
     it "should register a user with default pool/quota/role perms when default settings set" do
-      @user = Factory :user
+      @user = FactoryGirl.create :user
       @pool = MetadataObject.lookup("self_service_default_pool")
       @role = MetadataObject.lookup("self_service_default_role")
-      @quota = Factory :quota
+      @quota = FactoryGirl.create :quota
       MetadataObject.set("self_service_default_quota", @quota)
 
       @registration_service = RegistrationService.new(@user)

@@ -1,41 +1,45 @@
-Factory.define :credential do |c|
-  c.association :credential_definition
-  c.sequence(:value) {|n| "value#{n}"}
-end
+FactoryGirl.define do
 
-# EC2 credentials
-Factory.define :ec2_username_credential, :parent => :credential do |c|
-  c.value "mockuser"
-  c.credential_definition { CredentialDefinition.find_by_name('username',:conditions => {:provider_type_id => ProviderType.find_by_codename('ec2')})}
-end
+  factory :credential do
+    association :credential_definition
+    sequence(:value) { |n| "value#{n}" }
+  end
 
-Factory.define :ec2_password_credential, :parent => :credential do |c|
-  c.value "mockpassword"
-  c.credential_definition { CredentialDefinition.find_by_name('password',:conditions => {:provider_type_id => ProviderType.find_by_codename('ec2')})}
-end
+  # EC2 credentials
+  factory :ec2_username_credential, :parent => :credential do
+    value "mockuser"
+    credential_definition { CredentialDefinition.find_by_name('username',:conditions => {:provider_type_id => ProviderType.find_by_codename('ec2')})}
+  end
 
-Factory.define :ec2_account_id_credential, :parent => :credential do |c|
-  c.value "3141"
-  c.credential_definition { CredentialDefinition.find_by_name('account_id',:conditions => {:provider_type_id => ProviderType.find_by_codename('ec2')})}
-end
+  factory :ec2_password_credential, :parent => :credential do
+    value "mockpassword"
+    credential_definition { CredentialDefinition.find_by_name('password',:conditions => {:provider_type_id => ProviderType.find_by_codename('ec2')})}
+  end
 
-Factory.define :ec2_x509private_credential, :parent => :credential do |c|
-  c.value "x509 private key"
-  c.credential_definition { CredentialDefinition.find_by_name('x509private',:conditions => {:provider_type_id => ProviderType.find_by_codename('ec2')})}
-end
+  factory :ec2_account_id_credential, :parent => :credential do
+    value "3141"
+    credential_definition { CredentialDefinition.find_by_name('account_id',:conditions => {:provider_type_id => ProviderType.find_by_codename('ec2')})}
+  end
 
-Factory.define :ec2_x509public_credential, :parent => :credential do |c|
-  c.value "x509 public key"
-  c.credential_definition { CredentialDefinition.find_by_name('x509public',:conditions => {:provider_type_id => ProviderType.find_by_codename('ec2')})}
-end
+  factory :ec2_x509private_credential, :parent => :credential do
+    value "x509 private key"
+    credential_definition { CredentialDefinition.find_by_name('x509private',:conditions => {:provider_type_id => ProviderType.find_by_codename('ec2')})}
+  end
 
-#Mock & Others credentials
-Factory.define :username_credential, :parent => :credential do |c|
-  c.value "mockuser"
-  c.credential_definition { CredentialDefinition.find_by_name('username',:conditions => {:provider_type_id => ProviderType.find_by_codename('mock')})}
-end
+  factory :ec2_x509public_credential, :parent => :credential do
+    value "x509 public key"
+    credential_definition { CredentialDefinition.find_by_name('x509public',:conditions => {:provider_type_id => ProviderType.find_by_codename('ec2')})}
+  end
 
-Factory.define :password_credential, :parent => :credential do |c|
-  c.value "mockpassword"
-  c.credential_definition { CredentialDefinition.find_by_name('password',:conditions => {:provider_type_id => ProviderType.find_by_codename('mock')})}
+  #Mock & Others credentials
+  factory :username_credential, :parent => :credential do
+    value "mockuser"
+    credential_definition { CredentialDefinition.find_by_name('username',:conditions => {:provider_type_id => ProviderType.find_by_codename('mock')})}
+  end
+
+  factory :password_credential, :parent => :credential do
+    value "mockpassword"
+    credential_definition { CredentialDefinition.find_by_name('password',:conditions => {:provider_type_id => ProviderType.find_by_codename('mock')})}
+  end
+
 end

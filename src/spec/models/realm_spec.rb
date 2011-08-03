@@ -3,10 +3,10 @@ require 'spec_helper'
 describe Realm do
 
   before(:each) do
-    @provider = Factory :mock_provider
-    @backend_realm = Factory :backend_realm, :provider => @provider
+    @provider = FactoryGirl.create :mock_provider
+    @backend_realm = FactoryGirl.create :backend_realm, :provider => @provider
 
-    @frontend_realm1 = Factory :frontend_realm
+    @frontend_realm1 = FactoryGirl.create :frontend_realm
     RealmBackendTarget.create!(:frontend_realm => @frontend_realm1, :realm_or_provider => @backend_realm)
     RealmBackendTarget.create!(:frontend_realm => @frontend_realm1, :realm_or_provider => @provider)
   end

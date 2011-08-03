@@ -9,7 +9,7 @@ describe Icicle do
   end
 
   it "should have a unique uuid" do
-    old = Factory(:icicle)
+    old = FactoryGirl.create(:icicle)
     old.should be_valid
     new = Factory.build(:icicle, :uuid => old.uuid)
     new.should_not be_valid

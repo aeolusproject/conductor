@@ -1,6 +1,8 @@
-Factory.define :instance_key do |p|
-  p.sequence(:name) { |n| "instance_key#{n}" }
-  p.pem "
+FactoryGirl.define do
+
+  factory :instance_key do
+    sequence(:name) { |n| "instance_key#{n}" }
+    pem "
 -----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEAm+Ri7uZz7iVTLLxtPiV2gLD37OOvovZ0VpWR3T7HK5NgxjlJssIjc8uKqPqY
 EdXssF+ZKKypiQzFkMhowthkw1sGN5R3NBrIiRKR1mcVuE7iiRBFikBoF/CaaXP2LSNtMv4xkUXO
@@ -25,13 +27,15 @@ uH9ebPTGZc5cTpOEV9SupUez4cAedBGeHVDHy06sATrgIwKBgQCdqFhrse+uhRacK1LAymvBsou5
 1FGvv2zb+xR/fB/6+a4RMFsp9jO6lzTn/K1wsaZ6FNcdxB4V8ouveF0exhH/MEc0vWI47A==
 -----END RSA PRIVATE KEY-----
 "
-end
+  end
 
-Factory.define :ec2_instance_key1, :parent => :instance_key do |p|
-  p.instance_key_owner { |p| p.association(:ec2_instance) }
-  p.name "1_user"
-end
+  factory :ec2_instance_key1, :parent => :instance_key do
+    instance_key_owner { |p| p.association(:ec2_instance) }
+    name "1_user"
+  end
 
-Factory.define :mock_instance_key, :parent => :instance_key do |m|
-  m.instance_key_owner { |c| c.association(:instance) }
+  factory :mock_instance_key, :parent => :instance_key do
+    instance_key_owner { |c| c.association(:instance) }
+  end
+
 end

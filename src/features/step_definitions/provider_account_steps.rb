@@ -1,5 +1,5 @@
 Given /^the account has an instance associated with it$/ do
-  Factory :instance, :provider_account => @provider_account
+  FactoryGirl.create :instance, :provider_account => @provider_account
 end
 
 Given /^all the account instances are stopped$/ do
@@ -39,12 +39,12 @@ end
 
 Given /^there is a provider account named "([^"]*)"$/ do |label|
   @provider = Provider.find_by_name('testprovider')
-  @provider_account = Factory(:mock_provider_account, :provider => @provider, :label => label)
+  @provider_account = FactoryGirl.create(:mock_provider_account, :provider => @provider, :label => label)
 end
 
 Given /^there is a second provider account named "([^"]*)"$/ do |label|
-  @provider =  Factory(:provider, :name => 'secondprovider')
-  @provider_account = Factory(:provider_account, :provider => @provider, :label => label)
+  @provider =  FactoryGirl.create(:provider, :name => 'secondprovider')
+  @provider_account = FactoryGirl.create(:provider_account, :provider => @provider, :label => label)
 end
 
 
@@ -60,13 +60,13 @@ Given /^that there are these provider accounts:$/ do |table|
 end
 
 Given /^there is ec2 provider account "([^"]*)"$/ do |arg1|
-  provider =  Factory(:ec2_provider, :name => 'ec2provider')
-  Factory(:ec2_provider_account, :label => arg1, :provider => provider)
+  provider =  FactoryGirl.create(:ec2_provider, :name => 'ec2provider')
+  FactoryGirl.create(:ec2_provider_account, :label => arg1, :provider => provider)
 end
 
 Given /^there is mock provider account "([^"]*)"$/ do |arg1|
-  provider =  Factory(:mock_provider, :name => 'mockprovider')
-  Factory(:mock_provider_account, :label => arg1, :provider => provider)
+  provider =  FactoryGirl.create(:mock_provider, :name => 'mockprovider')
+  FactoryGirl.create(:mock_provider_account, :label => arg1, :provider => provider)
 end
 
 Then /^there should be these mock provider accounts:$/ do |table|

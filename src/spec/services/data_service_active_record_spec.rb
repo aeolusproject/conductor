@@ -11,7 +11,7 @@ describe DataServiceActiveRecord do
     data = [[25, 10], [40, 20], [20, 20]]
     free = 0
     for i in 0..2
-      quota = Factory(:quota, :maximum_total_instances => data[i][0], :total_instances => data[i][1])
+      quota = FactoryGirl.create(:quota, :maximum_total_instances => data[i][0], :total_instances => data[i][1])
       provider_account = Factory.build(:provider_account, :provider => provider, :quota => quota)
       provider_account.credentials_hash = {:username => "username" + i.to_s, :password => 'mockpassword'}
       provider_account.stub!(:valid_credentials?).and_return(true)
@@ -35,7 +35,7 @@ describe DataServiceActiveRecord do
     provider.save!
 
 
-    quota = Factory(:quota,
+    quota = FactoryGirl.create(:quota,
                     :maximum_running_instances => 40,
                     :maximum_total_instances => 50,
                     :running_instances => 20,
@@ -57,8 +57,8 @@ describe DataServiceActiveRecord do
   end
 
   it "should calculate the average, max and min task submission times" do
-    pool = Factory(:pool)
-    instance = Factory(:instance, :pool_id => pool.id)
+    pool = FactoryGirl.create(:pool)
+    instance = FactoryGirl.create(:instance, :pool_id => pool.id)
 
     start_time = Time.utc(2010,"jan",1,20,15,1)
     for i in 1..10 do
@@ -84,8 +84,8 @@ describe DataServiceActiveRecord do
   end
 
   it "should create data points for the average, max and min task submission times between two times at given intervals" do
-    pool = Factory(:pool)
-    instance = Factory(:instance, :pool_id => pool.id)
+    pool = FactoryGirl.create(:pool)
+    instance = FactoryGirl.create(:instance, :pool_id => pool.id)
 
     expected_averages = [ 20, 40, 60, 80, 100]
     no_intervals = expected_averages.length
@@ -109,7 +109,7 @@ describe DataServiceActiveRecord do
   end
 
   it "should create data points for mean, max and min task submission times at given intervals for a provider with multiple accounts" do
-    pool = Factory :pool
+    pool = FactoryGirl.create :pool
 
     expected_averages = []
     expected_averages[0] = [ 20, 40, 60, 80, 100]
@@ -133,7 +133,7 @@ describe DataServiceActiveRecord do
       provider_account.stub!(:valid_credentials?).and_return(true)
       provider_account.save!
 
-      instance = Factory(:instance, :provider_account_id => provider_account.id, :pool_id => pool.id)
+      instance = FactoryGirl.create(:instance, :provider_account_id => provider_account.id, :pool_id => pool.id)
       generate_tasks(start_time, interval_length, instance, expected_average)
     end
 
@@ -162,12 +162,12 @@ describe DataServiceActiveRecord do
     runtime3 = [100, 200, 300, 400, 500]
     runtimes = [runtime1, runtime2, runtime3]
 
-    pool = Factory(:pool)
-    provider_account = Factory :mock_provider_account
+    pool = FactoryGirl.create(:pool)
+    provider_account = FactoryGirl.create :mock_provider_account
 
     for i in 0..2 do
        runtimes[i].each do |runtime|
-         instance = Factory(:instance, :pool => pool, :provider_account => provider_account, :state => Instance::STATE_STOPPED)
+         instance = FactoryGirl.create(:instance, :pool => pool, :provider_account => provider_account, :state => Instance::STATE_STOPPED)
          instance.save!
 
          instance.time_last_pending = start_times[i] + (interval_length / 2)
@@ -185,13 +185,13 @@ describe DataServiceActiveRecord do
   end
 
   it "should generate the mean max and min instance runtimes of instances for a given provider account or pool" do
-    pool = Factory(:pool)
+    pool = FactoryGirl.create(:pool)
 
-    provider_account = Factory :mock_provider_account
+    provider_account = FactoryGirl.create :mock_provider_account
 
     start_time = Time.utc(2010,"jan",1,20,15,1)
     [50, 100, 150, 200, 250].each do |runtime|
-      instance = Factory(:new_instance, :pool => pool, :provider_account => provider_account)
+      instance = FactoryGirl.create(:new_instance, :pool => pool, :provider_account => provider_account)
       instance.time_last_pending = start_time
       instance.time_last_running = start_time
       instance.acc_running_time = runtime
@@ -204,9 +204,9 @@ describe DataServiceActiveRecord do
   end
 
   it "should calculate the average time it takes a provider to complete a task between two times" do
-    pool = Factory(:pool)
-    provider_account = Factory(:mock_provider_account)
-    instance = Factory(:instance, :pool => pool, :provider_account => provider_account)
+    pool = FactoryGirl.create(:pool)
+    provider_account = FactoryGirl.create(:mock_provider_account)
+    instance = FactoryGirl.create(:instance, :pool => pool, :provider_account => provider_account)
 
     start_time = Time.utc(2010,"jan",1,20,15,1)
     task_completion_times = [10, 20, 30, 40, 50]
@@ -242,9 +242,9 @@ describe DataServiceActiveRecord do
     create_time = start_time + 1
     end_time = create_time + 1
 
-    pool = Factory(:pool)
-    provider_account = Factory :mock_provider_account
-    instance = Factory(:instance, :pool => pool, :provider_account => provider_account)
+    pool = FactoryGirl.create(:pool)
+    provider_account = FactoryGirl.create :mock_provider_account
+    instance = FactoryGirl.create(:instance, :pool => pool, :provider_account => provider_account)
 
     failures = 5
     non_failures = 20
@@ -288,9 +288,9 @@ describe DataServiceActiveRecord do
     failures = [5, 10, 15]
     number_of_instances = 20
 
-    pool = Factory(:pool)
-    provider_account = Factory :mock_provider_account
-    instance = Factory(:instance, :pool => pool, :provider_account => provider_account)
+    pool = FactoryGirl.create(:pool)
+    provider_account = FactoryGirl.create :mock_provider_account
+    instance = FactoryGirl.create(:instance, :pool => pool, :provider_account => provider_account)
 
     for i in 0..2
       for j in 1..failures[i]

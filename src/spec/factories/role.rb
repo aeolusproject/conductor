@@ -1,4 +1,6 @@
-Factory.define :role do |r|
-  r.sequence(:name) {|n| "Role name #{n}" }
-  r.scope 'Pool'
+FactoryGirl.define do
+  factory :role do
+    sequence(:name) { |n| "Role name #{n}" }
+    scope 'Pool'
+  end
 end

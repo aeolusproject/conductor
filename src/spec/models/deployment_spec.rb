@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe Deployment do
   before(:each) do
-    @quota = Factory :quota
-    @pool = Factory(:pool, :quota_id => @quota.id)
+    @quota = FactoryGirl.create :quota
+    @pool = FactoryGirl.create(:pool, :quota_id => @quota.id)
     @deployment = Factory.build(:deployment, :pool_id => @pool.id)
-    @hwp1 = Factory(:front_hwp1)
-    @hwp2 = Factory(:front_hwp2)
+    @hwp1 = FactoryGirl.create(:front_hwp1)
+    @hwp2 = FactoryGirl.create(:front_hwp2)
     @actions = ['start', 'stop']
   end
 
@@ -68,7 +68,7 @@ describe Deployment do
     @deployment.save!
     @deployment.instances.should be_empty
     @deployment.stub!(:condormatic_instance_create).and_return(true)
-    @deployment.launch(Factory(:user))[:errors].should be_empty
+    @deployment.launch(FactoryGirl.create(:user))[:errors].should be_empty
     @deployment.instances.count.should == 2
   end
 
@@ -96,11 +96,11 @@ describe Deployment do
   end
 
   it "should return errors when checking assemblies matches which are not launchable" do
-    user = Factory(:user)
+    user = FactoryGirl.create(:user)
     image_id = @deployment.deployable_xml.assemblies.first.image_id
     provider_name = Image.find(image_id).latest_build.provider_images.first.provider_name
-    provider = Factory(:mock_provider, :name => provider_name)
-    @deployment.pool.pool_family.provider_accounts = [Factory(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+    provider = FactoryGirl.create(:mock_provider, :name => provider_name)
+    @deployment.pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
     @deployment.check_assemblies_matches(user).should be_empty
     @deployment.pool.pool_family.provider_accounts.destroy_all
     @deployment.check_assemblies_matches(user).should_not be_empty

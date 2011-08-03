@@ -4,12 +4,12 @@ describe ProviderAccountsController do
 
   fixtures :all
   before(:each) do
-    @provider_account = Factory :mock_provider_account
+    @provider_account = FactoryGirl.create :mock_provider_account
     @provider = @provider_account.provider
 
     @admin_permission = Permission.create :role => Role.find(:first, :conditions => ['name = ?', 'Provider Administrator']),
                                           :permission_object => @provider,
-                                          :user => Factory(:provider_admin_user)
+                                          :user => FactoryGirl.create(:provider_admin_user)
     @admin = @admin_permission.user
     activate_authlogic
   end

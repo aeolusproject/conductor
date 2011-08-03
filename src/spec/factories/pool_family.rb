@@ -1,5 +1,7 @@
-Factory.define :pool_family do |z|
-  z.sequence(:name) { |n| "pool_family#{n}" }
-  z.description 'pool family'
-  z.association :quota
+FactoryGirl.define do
+  factory :pool_family do
+    sequence(:name) { |n| "pool_family#{n}" }
+    description 'pool family'
+    association :quota
+  end
 end

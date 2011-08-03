@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Instance do
   before(:each) do
-    @quota = Factory :quota
-    @pool = Factory(:pool, :quota_id => @quota.id)
+    @quota = FactoryGirl.create :quota
+    @pool = FactoryGirl.create(:pool, :quota_id => @quota.id)
     @instance = Factory.build(:instance, :pool_id => @pool.id)
     @actions = ['start', 'stop']
   end
@@ -79,7 +79,7 @@ describe Instance do
   describe "with time capsule" do
 
     it "should properly calculate the total time that the instance has been in a monitored state" do
-      instance = Factory :new_instance
+      instance = FactoryGirl.create :new_instance
       Timecop.travel(Time.local(2008, 9, 1, 10, 5, 0, 0, 0))
 
       [ Instance::STATE_PENDING, Instance::STATE_RUNNING, Instance::STATE_SHUTTING_DOWN, Instance::STATE_STOPPED ].each do |s|
@@ -152,8 +152,8 @@ describe Instance do
     # Other tests expect that @instance is built but not created, but we need it saved:
     @instance.save!
     build = @instance.image_build || @instance.image.latest_build
-    provider = Factory(:mock_provider, :name => build.provider_images.first.provider_name)
-    account = Factory(:mock_provider_account, :provider => provider, :label => 'testaccount')
+    provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
+    account = FactoryGirl.create(:mock_provider_account, :provider => provider, :label => 'testaccount')
     @pool.pool_family.provider_accounts = [account]
     @pool.pool_family.save!
     @instance.provider_account = account
@@ -177,12 +177,12 @@ describe Instance do
   end
 
   it "shouldn't match provider accounts where image is not pushed" do
-    @pool.pool_family.provider_accounts = [Factory(:mock_provider_account, :label => 'testaccount')]
+    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount')]
     @instance.matches.last.should include('testaccount: image is not pushed to this provider account')
   end
 
   it "shouldn't match provider accounts where matching hardware profile not found" do
-    account = Factory(:mock_provider_account, :label => 'testaccount')
+    account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount')
     account.provider.hardware_profiles.destroy_all
     @pool.pool_family.provider_accounts << account
     @instance.matches.last.should include('testaccount: hardware profile match not found')
@@ -190,8 +190,8 @@ describe Instance do
 
   it "should return a match if all requirements are satisfied" do
     build = @instance.image_build || @instance.image.latest_build
-    provider = Factory(:mock_provider, :name => build.provider_images.first.provider_name)
-    @pool.pool_family.provider_accounts = [Factory(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+    provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
+    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
     @instance.matches.first.should_not be_empty
   end
 end

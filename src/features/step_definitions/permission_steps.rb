@@ -1,5 +1,5 @@
 Given /^a user "([^\"]*)" exists$/ do |login|
-  @user = Factory(:user, :login => login)
+  @user = FactoryGirl.create(:user, :login => login)
 end
 
 Given /^there is not a permission for the user "([^\"]*)"$/ do |login|
@@ -7,7 +7,7 @@ Given /^there is not a permission for the user "([^\"]*)"$/ do |login|
 end
 
 Given /^there is a permission for the user "([^\"]*)"$/ do |login|
-  @admin_permission = Factory(:admin_permission, :user_id => @user.id)
+  @admin_permission = FactoryGirl.create(:admin_permission, :user_id => @user.id)
 end
 
 Given /^I delete the permission$/ do

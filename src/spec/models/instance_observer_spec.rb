@@ -3,17 +3,17 @@ require 'spec_helper'
 describe InstanceObserver do
 
   before(:each) do
-   @provider_account_quota = Factory :quota
-   @provider_account = Factory(:mock_provider_account, :quota_id => @provider_account_quota.id)
+   @provider_account_quota = FactoryGirl.create :quota
+   @provider_account = FactoryGirl.create(:mock_provider_account, :quota_id => @provider_account_quota.id)
 
-   @pool_quota = Factory :quota
-   @pool = Factory(:pool, :quota_id => @pool_quota.id)
+   @pool_quota = FactoryGirl.create :quota
+   @pool = FactoryGirl.create(:pool, :quota_id => @pool_quota.id)
 
-   @user_quota = Factory :quota
-   @user = Factory(:user, :quota_id => @user_quota.id)
+   @user_quota = FactoryGirl.create :quota
+   @user = FactoryGirl.create(:user, :quota_id => @user_quota.id)
 
-   @hwp = Factory :mock_hwp1
-   @instance = Factory(:new_instance, :pool => @pool, :hardware_profile => @hwp, :provider_account_id => @provider_account.id, :owner => @user)
+   @hwp = FactoryGirl.create :mock_hwp1
+   @instance = FactoryGirl.create(:new_instance, :pool => @pool, :hardware_profile => @hwp, :provider_account_id => @provider_account.id, :owner => @user)
 
    Timecop.travel(Time.local(2008, 9, 1, 10, 5, 0, 0, 0))
   end
@@ -178,9 +178,9 @@ describe InstanceObserver do
     @provider_account.stub!(:connect).and_return(client)
     @instance.stub!(:provider_account).and_return(@provider_account)
 
-    @instance.instance_key = Factory(:instance_key, :name => 'key1', :instance_key_owner => @instance)
+    @instance.instance_key = FactoryGirl.create(:instance_key, :name => 'key1', :instance_key_owner => @instance)
     @instance.instance_key.stub!(:replace_on_server).and_return(true)
-    @provider_account.instance_key = Factory(:instance_key, :name => 'key1', :instance_key_owner => @provider_account)
+    @provider_account.instance_key = FactoryGirl.create(:instance_key, :name => 'key1', :instance_key_owner => @provider_account)
 
     @instance.state = Instance::STATE_RUNNING
     @instance.save!

@@ -1,5 +1,5 @@
 Given /^there is a deployment named "([^"]*)" belonging to "([^"]*)" owned by "([^"]*)"$/ do |deployment_name, deployable_name, owner_name|
-  user = Factory(:user, :login => owner_name, :last_name => owner_name)
+  user = FactoryGirl.create(:user, :login => owner_name, :last_name => owner_name)
   @deployment = Deployment.new({:name => deployment_name, :pool => Pool.first, :owner => user})
   @deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable1.xml")
   @deployment.save
@@ -13,7 +13,7 @@ end
 Given /^there are (\d+) deployments$/ do |arg1|
   Deployment.all.each {|i| i.destroy}
   arg1.to_i.times do |i|
-    Factory :deployment, :name => "deployment#{i}"
+    FactoryGirl.create :deployment, :name => "deployment#{i}"
   end
 end
 
@@ -23,12 +23,12 @@ Then /^I should see (\d+) deployments in JSON format$/ do |arg1|
 end
 
 Given /^a deployment "([^"]*)" exists$/ do |arg1|
-  Factory(:deployment, :name => arg1) unless Deployment.find_by_name(arg1)
+  FactoryGirl.create(:deployment, :name => arg1) unless Deployment.find_by_name(arg1)
 end
 
 Given /^the deployment "([^"]*)" has an instance named "([^"]*)"$/ do |d_name, i_name|
   deployment = Deployment.find_by_name(d_name)
-  deployment.instances << Factory(:instance, :name => i_name, :pool => deployment.pool)
+  deployment.instances << FactoryGirl.create(:instance, :name => i_name, :pool => deployment.pool)
 end
 
 When /^I am viewing the deployment "([^"]*)"$/ do |arg1|

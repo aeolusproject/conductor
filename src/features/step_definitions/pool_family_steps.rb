@@ -1,11 +1,11 @@
 Given /^there are these pool families:$/ do |table|
   table.hashes.each do |hash|
-    Factory(:pool_family, :name => hash['name'])
+    FactoryGirl.create(:pool_family, :name => hash['name'])
   end
 end
 
 Given /^there is a pool family named "([^\"]*)"$/ do |name|
-  @pool_family = Factory(:pool_family, :name => name)
+  @pool_family = FactoryGirl.create(:pool_family, :name => name)
 end
 
 Given /^there is not a pool family named "([^"]*)"$/ do |name|
