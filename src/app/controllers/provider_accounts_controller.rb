@@ -33,13 +33,13 @@ class ProviderAccountsController < ApplicationController
     save_breadcrumb(provider_account_path(@account), @account.name)
 
     respond_to do |format|
+      format.html { render :action => 'show'}
       format.js do
         if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab and return
       end
-      format.html { render :action => 'show'}
     end
   end
 
@@ -155,16 +155,17 @@ class ProviderAccountsController < ApplicationController
     @quota = Quota.new
     @provider_account = ProviderAccount.new
     respond_to do |format|
-      format.js {
-        @providers = Provider.find(:all)
-        @selected_provider = Provider.find(params[:provider_account][:provider_id])
-        render :partial => 'provider_selection'
-      }
       format.html {
         @providers = Provider.find(:all)
         @selected_provider = Provider.find(params[:provider_account][:provider_id])
         render :action => 'new', :layout => true
       }
+      format.js {
+        @providers = Provider.find(:all)
+        @selected_provider = Provider.find(params[:provider_account][:provider_id])
+        render :partial => 'provider_selection'
+      }
+
     end
   end
 

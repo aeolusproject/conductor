@@ -12,8 +12,8 @@ class DeploymentsController < ApplicationController
   def index
     save_breadcrumb(deployments_path(:viewstate => viewstate_id))
     respond_to do |format|
-      format.js { render :partial => 'list' }
       format.html
+      format.js { render :partial => 'list' }
       format.json { render :json => @deployments }
     end
   end
@@ -31,8 +31,8 @@ class DeploymentsController < ApplicationController
     @suggested_deployables = SuggestedDeployable.list_for_user(current_user, Privilege::USE)
     init_new_deployment_attrs
     respond_to do |format|
-      format.js { render :partial => 'launch_new' }
       format.html
+      format.js { render :partial => 'launch_new' }
       format.json { render :json => @deployment }
     end
   end
@@ -53,13 +53,13 @@ class DeploymentsController < ApplicationController
             :failures => errors
           }
         end
-        format.js { render :partial => 'new' }
         format.html
+        format.js { render :partial => 'new' }
         format.json { render :json => @deployment }
       else
         init_new_deployment_attrs
-        format.js { render :partial => 'launch_new' }
         format.html { render :launch_new }
+        format.js { render :partial => 'launch_new' }
         format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
       end
     end
@@ -83,19 +83,19 @@ class DeploymentsController < ApplicationController
             :successes => status[:successes]
           }
         end
+        format.html { redirect_to deployment_path(@deployment) }
         format.js do
           @deployment_properties = @deployment.properties
           render :partial => 'properties'
         end
-        format.html { redirect_to deployment_path(@deployment) }
         format.json { render :json => @deployment, :status => :created }
       else
         # We need @pool to re-display the form
         @pool = @deployment.pool
         flash.now[:warning] = "Deployment launch failed"
         init_new_deployment_attrs
-        format.js { launch_new }
         format.html { render :action => 'new' }
+        format.js { launch_new }
         format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
       end
     end
@@ -127,8 +127,8 @@ class DeploymentsController < ApplicationController
       @view = @details_tab[:view]
     end
     respond_to do |format|
-      format.js   { render :partial => @details_tab[:view] }
       format.html { render :action => 'show'}
+      format.js   { render :partial => @details_tab[:view] }
       format.json { render :json => @deployment }
     end
   end
@@ -136,8 +136,8 @@ class DeploymentsController < ApplicationController
   def edit
     require_privilege(Privilege::MODIFY, @deployment)
     respond_to do |format|
-      format.js { render :partial => 'edit' }
       format.html
+      format.js { render :partial => 'edit' }
       format.json { render :json => @deployment }
     end
   end
@@ -149,16 +149,16 @@ class DeploymentsController < ApplicationController
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
         flash[:success] = t('deployments.updated', :count => 1, :list => @deployment.name)
+        format.html { redirect_to @deployment }
         format.js do
           @deployment_properties = @deployment.properties
           render :partial => 'properties'
         end
-        format.html { redirect_to @deployment }
         format.json { render :json => @deployment }
       else
         flash[:error] = t('deployments.not_updated', :count => 1, :list => @deployment.name)
-        format.js { render :partial => 'edit' }
         format.html { render :action => :edit }
+        format.js { render :partial => 'edit' }
         format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
       end
     end
@@ -182,11 +182,11 @@ class DeploymentsController < ApplicationController
     flash[:success] = t('deployments.deleted', :list => destroyed, :count => destroyed.size) if destroyed.present?
     flash[:error] = t('deployments.not_deleted', :list => failed, :count => failed.size) if failed.present?
     respond_to do |format|
+      format.html { redirect_to pools_url }
       format.js do
         load_deployments
         render :partial => 'list'
       end
-      format.html { redirect_to pools_url }
       format.json { render :json => {:success => destroyed, :errors => failed} }
     end
   end
@@ -218,11 +218,11 @@ class DeploymentsController < ApplicationController
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
     respond_to do |format|
+      format.html { redirect_to pools_path(:details_tab => 'deployments', :filter_view => filter_view?) }
       format.js do
         load_deployments
         render :partial => 'list'
       end
-      format.html { redirect_to pools_path(:details_tab => 'deployments', :filter_view => filter_view?) }
       format.json { render :json => {:success => notices, :errors => errors} }
     end
   end

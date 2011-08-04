@@ -41,13 +41,13 @@ class RolesController < ApplicationController
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(role_path(@role), @role.name)
     respond_to do |format|
+      format.html
       format.js do
         if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab
       end
-      format.html
     end
   end
 

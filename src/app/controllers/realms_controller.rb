@@ -99,13 +99,13 @@ class RealmsController < ApplicationController
     save_breadcrumb(realm_path(@realm), @realm.name)
 
     respond_to do |format|
+      format.html { render :action => 'show' }
       format.js do
         if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab
       end
-      format.html { render :action => 'show' }
     end
   end
 

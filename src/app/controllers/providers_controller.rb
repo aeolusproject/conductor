@@ -45,13 +45,13 @@ class ProvidersController < ApplicationController
     save_breadcrumb(provider_path(@provider), @provider.name)
 
     respond_to do |format|
+      format.html { render :action => 'show' }
       format.js do
         if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab and return
       end
-      format.html { render :action => 'show' }
     end
   end
 

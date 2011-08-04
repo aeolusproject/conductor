@@ -53,13 +53,13 @@ class UsersController < ApplicationController
     @tab_captions = ['Properties']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     respond_to do |format|
+      format.html
       format.js do
         if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab
       end
-      format.html
     end
   end
 

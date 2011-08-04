@@ -45,6 +45,7 @@ class PoolsController < ApplicationController
     end
     statistics
     respond_to do |format|
+      format.html { @view = filter_view? ? 'layouts/tabpanel' : 'pretty_list' }
       format.js do
         if filter_view?
           render :partial => params[:only_tab] == "true" ? @details_tab[:view] : 'layouts/tabpanel'
@@ -52,7 +53,6 @@ class PoolsController < ApplicationController
           render :partial => 'pretty_list'
         end
       end
-      format.html { @view = filter_view? ? 'layouts/tabpanel' : 'pretty_list' }
       format.json { render :json => @pools }
     end
   end
@@ -79,8 +79,8 @@ class PoolsController < ApplicationController
     @deployments = @pool.deployments if @details_tab[:id] == 'deployments'
     @view = @details_tab[:view]
     respond_to do |format|
-      format.js { render :partial => @view }
       format.html { render :action => :show}
+      format.js { render :partial => @view }
       format.json { render :json => @pool }
     end
   end
@@ -115,8 +115,8 @@ class PoolsController < ApplicationController
         format.json { render :json => @pool, :status => :created }
       else
         flash.now[:warning] = "Pool creation failed."
-        format.js { render :partial => 'new' }
         format.html { render :new }
+        format.js { render :partial => 'new' }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
       end
     end
@@ -127,8 +127,8 @@ class PoolsController < ApplicationController
     require_privilege(Privilege::MODIFY, @pool)
     @quota = @pool.quota
     respond_to do |format|
-      format.js { render :partial => 'edit' }
       format.html
+      format.js { render :partial => 'edit' }
       format.json { render :json => @pool }
     end
   end
@@ -143,13 +143,13 @@ class PoolsController < ApplicationController
     respond_to do |format|
       if @pool.update_attributes(params[:pool])
         flash[:notice] = "Pool updated."
-        format.js { render :partial => 'show', :id => @pool.id }
         format.html { redirect_to :action => 'show', :id => @pool.id }
+        format.js { render :partial => 'show', :id => @pool.id }
         format.json { render :json => @pool }
       else
         flash[:error] = "Pool wasn't updated!"
-        format.js { render :partial => 'edit', :id => @pool.id }
         format.html { render :action => :edit }
+        format.js { render :partial => 'edit', :id => @pool.id }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
       end
     end
@@ -173,11 +173,11 @@ class PoolsController < ApplicationController
     flash[:error] = t('pools.index.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
     respond_to do |format|
       # TODO - What is expected to be returned on an AJAX delete?
+      format.html { redirect_to pools_url }
       format.js do
         load_pools
         render :partial => 'list'
       end
-      format.html { redirect_to pools_url }
       format.json { render :json => {:success => destroyed, :errors => failed} }
     end
   end

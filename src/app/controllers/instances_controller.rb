@@ -9,8 +9,8 @@ class InstancesController < ApplicationController
     load_instances
 
     respond_to do |format|
-      format.js { render :partial => 'list' }
       format.html
+      format.js { render :partial => 'list' }
       format.json { render :json => @instances }
     end
   end
@@ -27,13 +27,13 @@ class InstancesController < ApplicationController
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(instance_path(@instance), @instance.name)
     respond_to do |format|
+      format.html { render :action => 'show'}
       format.js do
         if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab and return
       end
-      format.html { render :action => 'show'}
       format.json { render :json => @instance }
     end
   end
@@ -41,8 +41,8 @@ class InstancesController < ApplicationController
   def edit
     require_privilege(Privilege::MODIFY, @instance)
     respond_to do |format|
-      format.js { render :partial => 'edit', :id => @instance.id }
       format.html
+      format.js { render :partial => 'edit', :id => @instance.id }
       format.json { render :json => @instance }
     end
   end
@@ -56,13 +56,13 @@ class InstancesController < ApplicationController
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @instance) and @instance.update_attributes(attrs)
         flash[:success] = t('instances.updated', :count => 1, :list => @instance.name)
-        format.js { render :partial => 'properties' }
         format.html { redirect_to @instance }
+        format.js { render :partial => 'properties' }
         format.json { render :json => @instance }
       else
         flash[:error] = t('instances.not_updated', :count =>1, :list => @instance.name)
-        format.js { render :partial => 'edit' }
         format.html { render :action => :edit }
+        format.js { render :partial => 'edit' }
         format.json { render :json => @instance.errors, :status => :unprocessable_entity }
       end
     end
@@ -83,12 +83,12 @@ class InstancesController < ApplicationController
     flash[:error] = t('instances.not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
     respond_to do |format|
       # FIXME: _list does not show flash messages, but I'm not sure that showing _list is proper anyway
+      format.html { render :action => :show }
       format.js do
         set_view_vars
         load_instances
         render :partial => 'list'
       end
-      format.html { render :action => :show }
       format.json { render :json => {:success => destroyed, :errors => failed} }
     end
   end
@@ -97,18 +97,18 @@ class InstancesController < ApplicationController
     respond_to do |format|
       if @instance.instance_key.nil?
         flash[:warning] = "SSH Key not found for this Instance."
-        format.js { render :partial => 'properties' }
         format.html { redirect_to instance_path(@instance) }
+        format.js { render :partial => 'properties' }
         format.json { render :json => flash[:warning], :status => :not_found }
       else
+        format.html { send_data @instance.instance_key.pem,
+                                :filename => "#{@instance.instance_key.name}.pem",
+                                :type => "text/plain" }
         format.js do
           send_data @instance.instance_key.pem,
                                 :filename => "#{@instance.instance_key.name}.pem",
                                 :type => "text/plain"
         end
-        format.html { send_data @instance.instance_key.pem,
-                                :filename => "#{@instance.instance_key.name}.pem",
-                                :type => "text/plain" }
         format.json { render :json => {:key => @instance.instance_key.pem,
                                       :filename => "#{@instance.instance_key.name}.pem",
                                       :type => "text/plain" } }

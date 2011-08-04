@@ -51,13 +51,13 @@ class PoolFamiliesController < ApplicationController
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
 
     respond_to do |format|
+      format.html
       format.js do
         if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
         render :partial => @details_tab and return
       end
-      format.html
     end
   end
 
