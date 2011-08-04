@@ -66,7 +66,9 @@ class Deployment < ActiveRecord::Base
 
   USER_MUTABLE_ATTRS = ['name']
 
-  def validate
+  validate :validate_xml
+
+  def validate_xml
     begin
       deployable_xml.validate!
     rescue DeployableXML::ValidationError => e

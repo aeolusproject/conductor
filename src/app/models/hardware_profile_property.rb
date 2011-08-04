@@ -75,8 +75,9 @@ class HardwareProfileProperty < ActiveRecord::Base
                                      p.kind == RANGE and p.value.present?}
   validates_associated :property_enum_entries
 
+  validate :validate_hwp
 
-  def validate
+  def validate_hwp
     case name
     when MEMORY
       unless unit == UNIT_MB
