@@ -8,8 +8,8 @@
           %li
             %a{ :href => url_for(:details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]}"}
               = tab[:name]
-          -if tab[:count]
-            %span.label.badge.count.dark=tab[:count]
+            -if tab[:count]
+              %span.label.badge.count.dark=tab[:count]
     .section-controls
       #obj_actions.button-container
         .button-group
