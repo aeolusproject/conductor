@@ -109,7 +109,7 @@ module ApplicationHelper
     end
     header = content_tag('thead') do
       content_tag('tr') do
-        columns.join
+        columns.join.html_safe
       end
     end
   end
