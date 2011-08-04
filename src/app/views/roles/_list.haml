@@ -4,11 +4,10 @@
     %span.label.badge.dark.count= @roles.length
 
   .content
-    - form_header = capture_haml do
-      = restful_submit_tag "Delete", "destroy", multi_destroy_roles_path, 'DELETE',
-        :id => 'delete_button', :class => 'button danger'
+    - content_for :form_header do
+      %li= restful_submit_tag "Delete", "destroy", multi_destroy_roles_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
-    = filter_table(@header, @roles, :form_header => form_header) do |role|
+    = filter_table(@header, @roles) do |role|
       %tr{:class => cycle('nostripe','stripe')}
         %td
           - selected = params[:select] == 'all'

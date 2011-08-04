@@ -119,8 +119,8 @@ module ApplicationHelper
     filter_widgets_opts = options[:show_filter_widgets]
     select_togle_opts = options[:show_select_toggle]
     render :partial => 'layouts/filter_table', :locals => {
+        :form_header => options[:form_header] || :form_header,
         # TODO - Right now saved_searches are not functional; this will need to be expanded
-        :form_header => options[:form_header] ? options[:form_header] : '',
         :saved_searches => ["<option>All #{_class.name.pluralize}</option>"],
         :object_count => rows.count,
         # TODO - We need to support searches and filters below

@@ -1,8 +1,8 @@
 - form_tag({}, :class => 'filterable-data') do
 
-  -if form_header
+  - if content_for? form_header
     %ul.obj_actions
-      %li= form_header
+      = yield form_header
 
   %div.controls
     %ul.filter-controls

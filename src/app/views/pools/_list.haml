@@ -1,9 +1,10 @@
-- form_header = capture_haml do
-  = link_to "New Pool", new_pool_path, { :class => 'button', :id => 'new_pool_button' }
-  = restful_submit_tag "Destroy", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
-  = label_tag "More actions"
-  = select_tag("more_actions",nil, :disabled => true)
-= filter_table(@header, @pools, :form_header => form_header) do |pool|
+- content_for :form_header do
+  %li= link_to "New Pool", new_pool_path, { :class => 'button', :id => 'new_pool_button' }
+  %li= restful_submit_tag "Destroy", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+  %li
+    = label_tag "More actions"
+    = select_tag("more_actions",nil, :disabled => true)
+= filter_table(@header, @pools) do |pool|
   %tr{:class => cycle('nostripe','stripe')}
     %td
       %input{:name => "pools_selected[]", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }

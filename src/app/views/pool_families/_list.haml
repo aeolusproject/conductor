@@ -4,11 +4,10 @@
     %span.label.badge.dark.count= @pool_families.length
 
   .content
-    - form_header = capture_haml do
-      = restful_submit_tag "Delete", "destroy", multi_destroy_pool_families_path, 'DELETE',
-        :id => 'delete_button', :class => 'button danger'
+    - content_for :form_header do
+      %li= restful_submit_tag "Delete", "destroy", multi_destroy_pool_families_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
-    = filter_table(@header, @pool_families, :form_header => form_header) do |pool_family|
+    = filter_table(@header, @pool_families) do |pool_family|
       %tr{:class => cycle('nostripe','stripe')}
         %td
           - selected = params[:select] == 'all'

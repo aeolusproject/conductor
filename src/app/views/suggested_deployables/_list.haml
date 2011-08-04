@@ -4,11 +4,10 @@
     %span.label.badge.dark.count= @suggested_deployables.length
 
   .content
-    - form_header = capture_haml do
-      = restful_submit_tag "Delete", "destroy", multi_destroy_suggested_deployables_path, 'DELETE',
-        :id => 'delete_button', :class => 'button danger'
+    - content_for :form_header do
+      %li= restful_submit_tag "Delete", "destroy", multi_destroy_suggested_deployables_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
-    = filter_table(@header, @suggested_deployables, :form_header => form_header) do |suggested_deployable|
+    = filter_table(@header, @suggested_deployables) do |suggested_deployable|
       %tr{:class => cycle('nostripe','stripe')}
         %td
           - selected = params[:select] == 'all'

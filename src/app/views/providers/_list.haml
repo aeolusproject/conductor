@@ -4,11 +4,10 @@
     %span.label.badge.dark.count= @providers.length
 
   .content
-    - form_header = capture_haml do
-      = restful_submit_tag "Delete", "destroy", multi_destroy_providers_path, 'DELETE',
-        :id => 'delete_button', :class => 'button danger'
+    - content_for :form_header do
+      %li= restful_submit_tag "Delete", "destroy", multi_destroy_providers_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
-    = filter_table(@header, @providers, :form_header => form_header) do |provider|
+    = filter_table(@header, @providers) do |provider|
       %tr{:class => cycle('nostripe', 'stripe')}
         %td
           - selected = params[:select] == 'all'

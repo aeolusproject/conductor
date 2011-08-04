@@ -1,15 +1,16 @@
-- form_header = capture_haml do
-  = restful_submit_tag 'Stop Selected Instances', 'stop', multi_stop_instances_path, 'GET', :class => 'button', :id => 'stop_selected_instances'
+- content_for :form_header do
+  %li= restful_submit_tag 'Stop Selected Instances', 'stop', multi_stop_instances_path, 'GET', :class => 'button', :id => 'stop_selected_instances'
   = hidden_field_tag 'backlink', request.url
-  - if @hide_stopped
-    %b Stopped
-    instances are hidden:
-    = link_to "show all", params.merge('hide_stopped' => 'false'), :id => 'show_all_instances'
-  - else
-    Showing all instances:
-    = link_to "hide stopped", params.merge('hide_stopped' => 'true')
+  %li
+    - if @hide_stopped
+      %b Stopped
+      instances are hidden:
+      = link_to "show all", params.merge('hide_stopped' => 'false'), :id => 'show_all_instances'
+    - else
+      Showing all instances:
+      = link_to "hide stopped", params.merge('hide_stopped' => 'true')
 
-= filter_table([{:name =>''}, {:name => ''}, {:name => 'Name'}, {:name => 'Public Address'}, {:name => 'State'}, {:name => 'Provider'}, {:name => 'Owner'}], @instances, :form_header => form_header) do |instance|
+= filter_table([{:name =>''}, {:name => ''}, {:name => 'Name'}, {:name => 'Public Address'}, {:name => 'State'}, {:name => 'Provider'}, {:name => 'Owner'}], @instances) do |instance|
   %tr{ :class => cycle('nostripe', 'stripe') }
     %td
       - selected = params[:select] == 'all'

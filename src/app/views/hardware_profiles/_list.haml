@@ -4,11 +4,10 @@
     %span.label.badge.dark.count= @hardware_profiles.length
 
   .content
-    - form_header = capture_haml do
-      = restful_submit_tag "Delete", "destroy", multi_destroy_hardware_profiles_path, 'DELETE',
-        :id => 'delete_button', :class => 'button danger'
+    - content_for :form_header do
+      %li= restful_submit_tag "Delete", "destroy", multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
-    = filter_table(@header, @hardware_profiles, :form_header => form_header) do |hwp|
+    = filter_table(@header, @hardware_profiles) do |hwp|
       %tr{:class => cycle('nostripe','stripe')}
         %td
           - selected = params[:select] == 'all'
