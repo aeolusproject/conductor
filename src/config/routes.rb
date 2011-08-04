@@ -72,9 +72,8 @@ Conductor::Application.routes.draw do
   resources :pools do
     get :hardware_profiles
     get :realms
+    delete :multi_destroy, :on => :collection
   end
-
-  resources :pools, :collection => { :multi_destroy => :delete }
 
   resources :deployments do
     collection do
