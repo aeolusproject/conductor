@@ -55,6 +55,10 @@ class ProviderAccountsController < ApplicationController
   end
 
   def create
+    unless params[:provider_account][:provider].nil?
+      provider = params[:provider_account].delete(:provider)
+      params[:provider_account][:provider_id] = Provider.find_by_name(provider).id
+    end
     @selected_provider = @provider = Provider.find(params[:provider_account][:provider_id])
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
 
