@@ -69,6 +69,7 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.new(params[:deployment])
     require_privilege(Privilege::CREATE, Deployment, @deployment.pool)
     @deployment.owner = current_user
+    @deployment.accessible_and_valid_deployable_xml?(get_deployable_url)
     respond_to do |format|
       if @deployment.save
         status = @deployment.launch(current_user)
