@@ -115,9 +115,9 @@ class ApplicationController < ActionController::Base
       return params[attr_key].to_a if params.include?(attr_key)
     end
     if params[:id].present?
-      return params[:id].to_a
+      return Array(params[:id])
     elsif params[:ids].present?
-      return params[:ids].to_a
+      return Array(params[:ids])
     end
   end
 
