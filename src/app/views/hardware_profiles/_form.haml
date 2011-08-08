@@ -1,19 +1,17 @@
 = error_messages_for @hardware_profile
-=hwp_form.label :name
-=hwp_form.text_field :name
+= hwp_form.label :name
+= hwp_form.text_field :name
 %table
   = sortable_table_header @header
   - [:memory, :cpu, :storage, :architecture].each do |type|
-    - hwp_form.fields_for type do |hwpp_form|
+    = hwp_form.fields_for type do |hwpp_form|
       %tr
-        %td
-          =hwpp_form.text_field(:name, :readonly => "readonly")
-        %td
-          =hwpp_form.text_field(:unit, :size => 5, :readonly => "readonly")
+        %td= hwpp_form.text_field(:name, :readonly => "readonly")
+        %td= hwpp_form.text_field(:unit, :size => 5, :readonly => "readonly")
         %td
           -if type == :architecture
-            =hwpp_form.select("value", ["i386", "x86_64"], {})
+            = hwpp_form.select("value", ["i386", "x86_64"], {})
           -else
-            =hwpp_form.text_field(:value)
+            = hwpp_form.text_field(:value)
 = hwp_form.submit 'Check Matches', :class => "submit button", :id => 'check_matches'
 = hwp_form.submit 'Save', :class => 'submit button', :id => 'save_button'

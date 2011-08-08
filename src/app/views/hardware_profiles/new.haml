@@ -6,7 +6,7 @@
     %h2 New Hardware Profile
 
   .content
-    -form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true } do |hwp_form|
+    = form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true } do |hwp_form|
       = render :partial => "form", :locals => { :hwp_form => hwp_form }
 
     = render :partial => 'matching_provider_hardware_profiles' if params[:commit] == 'Check Matches'
