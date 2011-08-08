@@ -15,6 +15,7 @@
 RAILS_ENV="${RAILS_ENV:-production}"
 CONDUCTOR_DIR="${CONDUCTOR_DIR:-/usr/share/aeolus-conductor}"
 CONDUCTOR_USER="${CONDUCTOR_USER:-aeolus}"
+CONDUCTOR_GROUP="${CONDUCTOR_GROUP:-aeolus}"
 THIN_PROG="${THIN_PROG:-thin}"
 THIN_PID="${THIN_PID:-/var/run/aeolus-conductor/thin.pid}"
 THIN_LOG="${THIN_LOG:-/var/log/aeolus-conductor/thin.log}"
@@ -38,7 +39,7 @@ start() {
     fi
 
     $THIN_PROG start -c "$CONDUCTOR_DIR" -l "$THIN_LOG" -P "$THIN_PID" \
-	-a $ADDR -e $RAILS_ENV --user $CONDUCTOR_USER -d --prefix=$PREFIX \
+	-a $ADDR -e $RAILS_ENV --user $CONDUCTOR_USER -g $CONDUCTOR_GROUP -d --prefix=$PREFIX \
 	--rackup "$CONDUCTOR_DIR/config.ru"
     RETVAL=$?
     if [ $RETVAL -eq 0 ] ; then

@@ -4,6 +4,9 @@
 # user under which Rails application runs
 #CONDUCTOR_USER=aeolus
 
+# group under which Rails application runs
+#CONDUCTOR_GROUP=aeolus
+
 # location of the thin program
 #THIN_PROG=thin
 
