@@ -16,7 +16,7 @@ ProviderAccount.class_eval do
   end
 
 #  def instance_key
-#    @key = mock('Key', :null_object => true)
+#    @key = mock('Key').as_null_object
 #    @key.stub!(:pem).and_return("PEM")
 #    @key.stub!(:id).and_return("1_user")
 #    @key

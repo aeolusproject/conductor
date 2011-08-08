@@ -173,7 +173,7 @@ describe InstanceObserver do
   end
 
   it "should generate instance key when instance is running" do
-    client = mock('DeltaCloud', :null_object => true)
+    client = mock('DeltaCloud').as_null_object
     client.stub!(:"feature?").and_return(true)
     @provider_account.stub!(:connect).and_return(client)
     @instance.stub!(:provider_account).and_return(@provider_account)
