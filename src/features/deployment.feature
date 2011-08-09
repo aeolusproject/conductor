@@ -184,6 +184,17 @@ Feature: Manage Deployments
     And I press "delete_button"
     Then I should see "The deployment testdeployment was scheduled for deletion"
 
+  Scenario: Delete multiple deployments
+    Given a deployment "mydeployment1" exists
+    And a deployment "mydeployment2" exists
+    And I am on the pools page
+    When I follow link with ID "filter_view"
+    And I follow "Deployments"
+    And I check "mydeployment1" deployment
+    And I check "mydeployment2" deployment
+    And I press "delete_button"
+    Then I should see "The deployments mydeployment1, mydeployment2 were scheduled for deletion"
+
   Scenario: Delete a deployment with running instances
     Given a deployment "mockdeployment" exists
     And the deployment "mockdeployment" has an instance named "myinstance"

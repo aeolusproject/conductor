@@ -62,9 +62,9 @@ class PoolsController < ApplicationController
     save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
     require_privilege(Privilege::VIEW, @pool)
     @statistics = @pool.statistics
-    @view = filter_view? ? 'deployments/filter_view' : 'deployments/pretty_view' unless params[:details_tab]
+    @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view' unless params[:details_tab]
     if params[:details_tab] == 'deployments'
-      @view = filter_view? ? 'deployments/filter_view' : 'deployments/pretty_view'
+      @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
     elsif params[:details_tab] == 'history'
       @view = filter_view? ? 'history_filter' : 'history_pretty'
     end
@@ -234,8 +234,11 @@ class PoolsController < ApplicationController
       { :name => '', :sortable => false },
       { :name => '', :sortable => false },
       { :name => t("deployments.deployment_name"), :sortable => false },
+      { :name => t("pools.index.deployed_on"), :sortable => false },
       { :name => t("deployables.index.base_deployable"), :sortable => false },
       { :name => t("instances.instances"), :sortable => false },
+      { :name => t("pools.index.pool"), :sortable => false },
+      { :name => t("pools.index.owner"), :sortable => false },
       { :name => t("providers.provider"), :sortable => false }
     ]
   end

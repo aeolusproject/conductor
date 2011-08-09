@@ -1,51 +1,34 @@
 - if request.xhr?
   = render :partial => '/layouts/notification'
 
-= form_tag(multi_stop_deployments_path, :method => :post, :class => 'filterable-data') do
-  %ul.obj_actions
-    %li= submit_tag "Stop Selected Deployments", :id => 'stop_button', :class => 'button'
+- content_for :form_header do
+  %li= restful_submit_tag 'Stop Selected', 'stop', multi_stop_deployments_path, 'POST', :class => 'button', :id => "stop_button"
+  %li= restful_submit_tag 'Delete Selected', 'destroy', multi_destroy_deployments_path, 'DELETE', :class => 'button danger', :id => "delete_button"
+  = hidden_field_tag 'backlink', request.url
 
-  %div.controls
-    %ul.filter-controls
-      %li= render :partial => 'layouts/select_all_none'
-
-    %li
-      %label{:for => "deployments_running"} Viewing
-      = select_tag("deployments_running", "<option>Deployments running</option>",:disabled => true)
-    %li.object-count
-      %strong= @deployments.count.to_s
-      results
-
-  %table#deployments_table.checkbox_table
-    %thead
-      %tr
-        %th.ignore
-        %th
-          = t("pools.index.deployment_name")
-        %th
-          = t("pools.index.deployed_on")
-        %th
-          = t("instances.instances")
-        %th
-          = t("pools.index.pool")
-        %th
-          = t("pools.index.pool_family")
-        %th
-          = t("pools.index.owner")
-    - @deployments.each do |deployment|
-      %tr
-        %td
-          - selected = params[:select] == 'all'
-          = check_box_tag "deployments_selected[]", deployment.id, selected, :id => "deployment_checkbox_#{deployment.id}"
-        %td
-          = link_to deployment.name, deployment_path(deployment)
-        %td
-          = deployment.created_at
-        %td
-          = deployment.instances.count
-        %td
-          = link_to deployment.pool.name, pool_path(deployment.pool)
-        %td
-          = deployment.pool.pool_family.name
-        %td
-          = owner_name(deployment)
+= filter_table(@deployments_header, @deployments) do |deployment|
+  %tr{ :class => cycle('nostripe', 'stripe') }
+    %td
+      - selected = params[:select] == 'all'
+      = check_box_tag "deployments_selected[]", deployment.id, selected, :id => "deployment_checkbox_#{deployment.id}"
+    %td
+      -#there will be icons (belongs to mockups)
+    %td
+      = link_to(deployment.name, deployment)
+    %td
+      = deployment.created_at
+    %td
+      = deployment.deployable_xml.name
+    %td
+      = deployment.instances.count
+    %td
+      = link_to deployment.pool.name, pool_path(deployment.pool)
+    %td
+      = owner_name(deployment)
+    %td
+      = link_to(deployment.provider.provider_type.name, deployment.provider) if deployment.provider
+:javascript
+  Conductor.setupPrettyFilterURL(
+    '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter' )}',
+    '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty' )}'
+  );

@@ -95,6 +95,7 @@ en:
     not_deleted:
       one: "The deployment %{list} could not be deleted."
       other: "The deployments %{list} could not be deleted."
+    none_selected: "You must select one or more deployments."
   instances:
     instances: Instances
     updated:

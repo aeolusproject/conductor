@@ -165,9 +165,31 @@ class DeploymentsController < ApplicationController
   end
 
   def destroy
+    deployment = Deployment.find(params[:id])
+    if check_privilege(Privilege::MODIFY, deployment)
+      begin
+        deployment.stop_instances_and_destroy!
+        flash[:success] = t('deployments.deleted', :list => deployment.name, :count => 1)
+      rescue
+        flash[:error] = t('deployments.not_deleted', :list => deployment.name, :count => 1)
+      end
+    else
+      flash[:error] = t('deployments.not_deleted', :list => deployment.name, :count => 1)
+    end
+    respond_to do |format|
+      format.js do
+        load_deployments
+        render :partial => 'list'
+      end
+      format.html { redirect_to pools_url(:view => 'filter', :details_tab => 'deployments') }
+      format.json { render :json => {:success => destroyed, :errors => failed} }
+    end
+  end
+
+  def multi_destroy
     destroyed = []
     failed = []
-    Deployment.find(ids_list).each do |deployment|
+    Deployment.find(params[:deployments_selected] || []).each do |deployment|
       if check_privilege(Privilege::MODIFY, deployment)
         begin
           deployment.stop_instances_and_destroy!
@@ -179,10 +201,12 @@ class DeploymentsController < ApplicationController
         failed << deployment.name
       end
     end
-    flash[:success] = t('deployments.deleted', :list => destroyed, :count => destroyed.size) if destroyed.present?
+    # If nothing is selected, display an error message:
+    flash[:error] = t('deployments.none_selected') if failed.blank? && destroyed.blank?
+    flash[:success] = t('deployments.deleted', :list => destroyed.join(', '), :count => destroyed.size) if destroyed.present?
     flash[:error] = t('deployments.not_deleted', :list => failed, :count => failed.size) if failed.present?
     respond_to do |format|
-      format.html { redirect_to pools_url }
+      format.html { redirect_to params[:backlink] || pools_url(:view => 'filter', :details_tab => 'deployments') }
       format.js do
         load_deployments
         render :partial => 'list'
@@ -194,7 +218,7 @@ class DeploymentsController < ApplicationController
   def multi_stop
     notices = ""
     errors = ""
-    Deployment.find(params[:deployments_selected]).each do |deployment|
+    Deployment.find(params[:deployments_selected] || []).each do |deployment|
       deployment.instances.each do |instance|
         begin
           require_privilege(Privilege::USE,instance)
@@ -215,6 +239,8 @@ class DeploymentsController < ApplicationController
         end
       end
     end
+    # If nothing is selected, display an error message:
+    errors = t('deployments.none_selected') if errors.blank? && notices.blank?
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
     respond_to do |format|
@@ -240,13 +266,16 @@ class DeploymentsController < ApplicationController
     @deployments = Deployment.paginate(:page => params[:page] || 1,
       :order => (params[:order_field] || 'name')  +' '+ (params[:order_dir] || 'asc')
     )
-    @header = [
-      { :name => "", :sort_attr => :name },
-      { :name => "Deployment name", :sort_attr => :name },
-      { :name => "Deployable", :sortable => false },
-      { :name => "Owner", :sort_attr => "owner.login"},
-      { :name => "Running Since", :sort_attr => :running_since },
-      { :name => "Pool", :sort_attr => "pool.name" }
+    @deployments_header = [
+      { :name => '', :sortable => false },
+      { :name => '', :sortable => false },
+      { :name => t("deployments.deployment_name"), :sortable => false },
+      { :name => t("pools.index.deployed_on"), :sortable => false },
+      { :name => t("deployables.index.base_deployable"), :sortable => false },
+      { :name => t("instances.instances"), :sortable => false },
+      { :name => t("pools.index.pool"), :sortable => false },
+      { :name => t("pools.index.owner"), :sortable => false },
+      { :name => t("providers.provider"), :sortable => false }
     ]
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, :target_type => Deployment)
     @deployments = Deployment.all(:include => :owner,

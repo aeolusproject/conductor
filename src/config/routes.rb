@@ -83,6 +83,7 @@ Conductor::Application.routes.draw do
   resources :deployments do
     collection do
       get 'multi_stop'
+      delete :multi_destroy
       get 'launch_new'
       get 'check_name'
     end
