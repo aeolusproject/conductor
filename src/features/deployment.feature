@@ -107,7 +107,7 @@ Feature: Manage Deployments
     When I go to Hudson's edit deployment page
     Then I should get back a partial
     And I should see "Edit deployment"
-    When I fill in "name" with "Jenkins"
+    When I fill in "deployment_name" with "Jenkins"
     And I press "save_button"
     Then I should get back a partial
     And I should be on Jenkins's deployment page

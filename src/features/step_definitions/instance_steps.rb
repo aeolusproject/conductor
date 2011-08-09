@@ -37,11 +37,11 @@ When /^I manually go to the key action for this instance$/ do
 end
 
 Given /^I see "([^"]*)"$/ do |text|
-  response.should contain(text)
+  page.should contain(text)
 end
 
 Then /^I should see the Save dialog for a (.+) file$/ do |filetype|
-  response.headers["Content-Disposition"].should
+  page.headers["Content-Disposition"].should
   match(/^attachment;\sfilename=.*#{filetype}$/)
 end
 
@@ -108,16 +108,16 @@ Given /^there are (\d+) instances$/ do |count|
 end
 
 Given /^I accept JSON$/ do
-  header 'Accept', 'application/json'
+  page.driver.header 'Accept', 'application/json'
 end
 
 Given /^I request XHR$/ do
-  header 'accept', 'application/javascript'
-  header 'X-Requested-With', 'XMLHttpRequest'
+  page.driver.header 'accept', 'application/javascript'
+  page.driver.header 'X-Requested-With', 'XMLHttpRequest'
 end
 
 Then /^I should see (\d+) instances in JSON format$/ do |count|
-  ActiveSupport::JSON.decode(response.body).length.should == count.to_i
+  ActiveSupport::JSON.decode(page.source).length.should == count.to_i
 end
 
 When /^I create mock instance$/ do
@@ -126,12 +126,12 @@ When /^I create mock instance$/ do
 end
 
 Then /^I should see mock instance in JSON format$/ do
-  data = ActiveSupport::JSON.decode(response.body)
+  data = ActiveSupport::JSON.decode(page.source)
   data['instance']['name'].should == mock_instance.name
 end
 
 Then /^I should get back instance in JSON format$/ do
-  data = ActiveSupport::JSON.decode(response.body)
+  data = ActiveSupport::JSON.decode(page.source)
   data['instance'].should_not be_nil
 end
 
@@ -141,7 +141,7 @@ When /^I stop "([^"]*)" instance$/ do |arg1|
 end
 
 Then /^I should get back JSON object with success and errors$/ do
-  data = ActiveSupport::JSON.decode(response.body)
+  data = ActiveSupport::JSON.decode(page.source)
   data['success'].should_not be_nil
   data['errors'].should_not be_nil
 end
