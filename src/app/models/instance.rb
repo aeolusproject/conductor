@@ -57,6 +57,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 require 'util/assembly_xml'
+require 'util/condormatic'
 class Instance < ActiveRecord::Base
   include PermissionedObject
 
