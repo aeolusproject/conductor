@@ -28,7 +28,7 @@
         = render :partial => 'deployments', :locals => {:deployments => pool.deployments}
       %ul.content.actions
         %li
-          = link_to "#{pool.name} Pool details &raquo;", pool_path(pool), :class =>'pool_details'
+          = link_to "#{html_escape(pool.name)} Pool details &raquo;".html_safe, pool_path(pool), :class =>'pool_details'
         %li
           = link_to 'New Deployment', launch_new_deployments_path(:pool_id => pool.id), :class => 'button primary', :id => 'new_deployment_button'
 
