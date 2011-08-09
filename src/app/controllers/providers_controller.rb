@@ -131,7 +131,7 @@ class ProvidersController < ApplicationController
   def test_connection(provider)
     @provider.errors.clear
     if @provider.connect
-      flash[:notice] = "Successfuly Connected to Provider"
+      flash[:notice] = "Successfully Connected to Provider"
     else
       flash[:warning] = "Failed to Connect to Provider"
       @provider.errors.add :url
