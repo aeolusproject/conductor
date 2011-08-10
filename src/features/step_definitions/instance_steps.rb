@@ -41,7 +41,7 @@ Given /^I see "([^"]*)"$/ do |text|
 end
 
 Then /^I should see the Save dialog for a (.+) file$/ do |filetype|
-  page.headers["Content-Disposition"].should
+  page.response_headers["Content-Disposition"].should
   match(/^attachment;\sfilename=.*#{filetype}$/)
 end
 
@@ -138,7 +138,7 @@ end
 
 When /^I stop "([^"]*)" instance$/ do |arg1|
   inst = Instance.find_by_name(arg1)
-  visit multi_stop_instances_url, :post, 'instance_selected[]' => inst.id
+  visit multi_stop_instances_url('instance_selected[]' => inst.id)
 end
 
 Then /^I should get back JSON object with success and errors$/ do

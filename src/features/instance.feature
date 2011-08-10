@@ -147,7 +147,7 @@ Feature: Manage Instances
   Scenario: Edit an instance name
     Given there is a "Tomct" instance
     And I am on Tomct's edit instance page
-    And I fill in "name" with "Tomcat"
+    And I fill in "instance_name" with "Tomcat"
     And I press "save"
     Then I should be on Tomcat's instance page
     And I should see "Tomcat"
@@ -156,7 +156,7 @@ Feature: Manage Instances
     Given there is a "Tomct" instance
     And I request XHR
     When I am on Tomct's edit instance page
-    And I fill in "name" with "Tomcat"
+    And I fill in "instance_name" with "Tomcat"
     And I press "save"
     Then I should get back a partial
     And I should see "Tomcat"
