@@ -36,7 +36,7 @@
     %p
       = submit_tag t(:apply), :disabled => true
 
-  - form.fields_for :quota do |quota_form|
+  = form.fields_for :quota do |quota_form|
     %fieldset
       %p
         = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
