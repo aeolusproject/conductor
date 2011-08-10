@@ -9,7 +9,6 @@
 
   .content
     .grid_13{:class => 'container_16'}
-      = error_messages_for @parent_type
       %h2
         = t('.self_service_default')
       - form_for @self_service_default_quota, :url => { :action => 'update' } do |form|
