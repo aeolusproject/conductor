@@ -62,7 +62,12 @@ Conductor::Application.routes.draw do
 
   resource  'account', :to => 'users'
   resources :users, :instances, :templates, :builds
-  resources :permissions, :collection => { :list => :get}
+  resources :permissions do
+    collection do
+      get :list
+    end
+  end
+
   resources :settings do
     collection do
       get :self_service
