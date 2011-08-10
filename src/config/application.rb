@@ -46,5 +46,7 @@ module Conductor
     config.after_initialize do
       Haml::Template.options[:format] = :html5
     end
+
+    config.middleware.use Rack::RestfulSubmit
   end
 end
