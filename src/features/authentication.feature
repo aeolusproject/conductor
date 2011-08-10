@@ -23,7 +23,7 @@ Feature: User authentication
     Then should see "Editing Account"
     When I fill in "E-mail" with "changed@example.com"
     And I press "Save"
-    Then I should be on the user page
+    Then I should be on the my user page
     And I should see "User updated!"
 
   Scenario: log out

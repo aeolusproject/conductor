@@ -120,8 +120,8 @@ module NavigationHelpers
       pool = Pool.find_by_name($1)
       pool_path(pool, :view => 'filter')
 
-    when /^the user page$/
-      user_path #(User.find_by_login($1))
+    when /^the my user page$/
+      user_path(user) #(User.find_by_login($1))
 
     when /^the (.*)'s edit user page$/
       edit_user_path(User.find_by_login($1))
