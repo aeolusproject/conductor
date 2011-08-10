@@ -69,7 +69,8 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.new(params[:deployment])
     require_privilege(Privilege::CREATE, Deployment, @deployment.pool)
     @deployment.owner = current_user
-    @deployment.accessible_and_valid_deployable_xml?(get_deployable_url)
+    url = get_deployable_url
+    @deployment.accessible_and_valid_deployable_xml?(uri) unless url.nil?
     respond_to do |format|
       if @deployment.save
         status = @deployment.launch(current_user)
@@ -268,13 +269,14 @@ class DeploymentsController < ApplicationController
   end
 
   def get_deployable_url
-    if params[:suggested_deployable_id].to_s == 'other'
-      url = params[:deployable_url]
+    if !params.has_key?(:suggested_deployable_id)
+      return nil
+    elsif params[:suggested_deployable_id].to_s == 'other'
+      return params[:deployable_url]
     else
       sdeployable = SuggestedDeployable.find(params[:suggested_deployable_id])
       require_privilege(Privilege::USE, sdeployable)
-      url = sdeployable.url
+      return sdeployable.url
     end
-    url
   end
 end
