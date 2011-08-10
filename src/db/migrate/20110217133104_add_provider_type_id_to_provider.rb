@@ -4,7 +4,6 @@ class AddProviderTypeIdToProvider < ActiveRecord::Migration
   INVERTED_PROVIDER_TYPES = PROVIDER_TYPES.invert
 
   def self.up
-    load_provider_types
     add_column :providers, :provider_type_id, :integer, :null => false, :default => 100
     rename_column :providers, :provider_type, :provider_type_int
     transform_provider_type_column
@@ -16,17 +15,6 @@ class AddProviderTypeIdToProvider < ActiveRecord::Migration
     transform_provider_type_column_back
     rename_column :providers, :provider_type_temporary, :provider_type
     remove_column :providers, :provider_type_id
-  end
-
-  def self.load_provider_types
-    if ProviderType.all.empty?
-      ProviderType.create!(:name => "Mock", :build_supported => true, :codename =>"mock")
-      ProviderType.create!(:name => "Amazon EC2", :build_supported => true, :codename =>"ec2", :ssh_user => "ec2-user", :home_dir => "/home/ec2-user")
-      ProviderType.create!(:name => "GoGrid", :codename =>"gogrid")
-      ProviderType.create!(:name => "Rackspace", :codename =>"rackspace")
-      ProviderType.create!(:name => "RHEV-M", :codename =>"rhevm")
-      ProviderType.create!(:name => "OpenNebula", :codename =>"opennebula")
-    end
   end
 
   def self.transform_provider_type_column

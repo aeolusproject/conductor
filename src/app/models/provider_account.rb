@@ -250,10 +250,10 @@ class ProviderAccount < ActiveRecord::Base
     root << node
 
     node = Nokogiri::XML::Node.new('provider_type', doc)
-    node.content = self.provider.provider_type.codename
+    node.content = self.provider.provider_type.deltacloud_driver
     root << node
 
-    credential_node_name = provider.provider_type.codename + '_credentials'
+    credential_node_name = provider.provider_type.deltacloud_driver + '_credentials'
     credential_node = Nokogiri::XML::Node.new(credential_node_name, doc)
     node = Nokogiri::XML::Node.new('provider_credentials', doc)
     node << credential_node

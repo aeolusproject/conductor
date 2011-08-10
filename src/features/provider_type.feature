@@ -12,12 +12,12 @@ Feature: Manage Providers
     When I go to the provider types page
     Then I should get a XML document
     And there should be these provider types:
-    | name         | codename    |
-    | Mock         | mock        |
-    | GoGrid       | gogrid      |
-    | Rackspace    | rackspace   |
-    | OpenNebula   | opennebula  |
-    | Amazon EC2   | ec2         |
-    | RHEV-M       | rhevm       |
-    | Condor Cloud   | condorcloud |
-    | VMware vSphere | vsphere     |
+    | name         | deltacloud_driver    |
+    | Mock         | mock                 |
+    | GoGrid       | gogrid               |
+    | Rackspace    | rackspace            |
+    | OpenNebula   | opennebula           |
+    | Amazon EC2   | ec2                  |
+    | RHEV-M       | rhevm                |
+    | Condor Cloud   | condorcloud        |
+    | VMware vSphere | vsphere            |

@@ -125,27 +125,27 @@ end
 
 # Provider types actually supported
 if ProviderType.all.empty?
-  ProviderType.create!(:name => "Mock", :codename =>"mock")
-  ProviderType.create!(:name => "Amazon EC2", :codename =>"ec2", :ssh_user => "root", :home_dir => "/root")
-  ProviderType.create!(:name => "GoGrid", :codename =>"gogrid")
-  ProviderType.create!(:name => "Rackspace", :codename =>"rackspace")
-  ProviderType.create!(:name => "RHEV-M", :codename =>"rhevm")
-  ProviderType.create!(:name => "OpenNebula", :codename =>"opennebula")
-  ProviderType.create!(:name => "Condor Cloud", :codename =>"condorcloud")
-  ProviderType.create!(:name => "VMware vSphere", :codename =>"vsphere")
+  ProviderType.create!(:name => "Mock", :deltacloud_driver =>"mock")
+  ProviderType.create!(:name => "Amazon EC2", :deltacloud_driver =>"ec2", :ssh_user => "root", :home_dir => "/root")
+  ProviderType.create!(:name => "GoGrid", :deltacloud_driver =>"gogrid")
+  ProviderType.create!(:name => "Rackspace", :deltacloud_driver =>"rackspace")
+  ProviderType.create!(:name => "RHEV-M", :deltacloud_driver =>"rhevm")
+  ProviderType.create!(:name => "OpenNebula", :deltacloud_driver =>"opennebula")
+  ProviderType.create!(:name => "Condor Cloud", :deltacloud_driver =>"condorcloud")
+  ProviderType.create!(:name => "VMware vSphere", :deltacloud_driver =>"vsphere")
 end
 
 # fill table CredentialDefinitions by default values
 if CredentialDefinition.all.empty?
   ProviderType.all.each do |provider_type|
-    unless provider_type.codename == 'ec2'
+    unless provider_type.deltacloud_driver == 'ec2'
       CredentialDefinition.create!(:name => 'username', :label => 'Username', :input_type => 'text', :provider_type_id => provider_type.id)
       CredentialDefinition.create!(:name => 'password', :label => 'Password', :input_type => 'password', :provider_type_id => provider_type.id)
     end
   end
 
   #for ec2 provider type
-  ec2 = ProviderType.find_by_codename 'ec2'
+  ec2 = ProviderType.find_by_deltacloud_driver 'ec2'
   CredentialDefinition.create!(:name => 'username', :label => 'Access Key', :input_type => 'text', :provider_type_id => ec2.id)
   CredentialDefinition.create!(:name => 'password', :label => 'Secret Access Key', :input_type => 'password', :provider_type_id => ec2.id)
   CredentialDefinition.create!(:name => 'account_id', :label => 'Account Number', :input_type => 'text', :provider_type_id => ec2.id)

@@ -19,7 +19,7 @@ class ProviderType < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_presence_of :codename
-  validates_uniqueness_of :codename
+  validates_presence_of :deltacloud_driver
+  validates_uniqueness_of :deltacloud_driver
 
 end

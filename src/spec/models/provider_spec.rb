@@ -65,7 +65,7 @@ describe Provider do
     it "should set valid cloud type" do
       @client.driver_name = @provider.provider_type
       @provider.provider_type = nil
-      @provider.provider_type = ProviderType.find_by_codename "mock"
+      @provider.provider_type = ProviderType.find_by_deltacloud_driver "mock"
       @provider.should be_valid
     end
 
