@@ -152,17 +152,20 @@ class InstancesController < ApplicationController
     respond_to do |format|
       begin
         provider_account = ProviderAccount.find(params[:provider_account_id])
-        @instance = Instance.find(params[:instance_id])
+        @instance = Instance.find(params[:id])
         @action_request = "can_create"
         @value = Quota.can_create_instance?(@instance, provider_account)
         format.html { render :partial => 'can_perform_state_change.xml' }
+        format.xml { render :partial => 'can_perform_state_change.xml' }
         format.json { render :json => {:action_request => @action_request, :instance_id => @instance.id, :value => @value} }
       rescue ActiveRecord::RecordNotFound
         format.html { head :not_found }
         format.json { render :json => {:error => 'Record not found'}, :status => :not_found }
+        format.xml { render :xml => {:error => 'Record not found'}, :status => :not_found }
       rescue Exception
         format.html { head :internal_server_error }
         format.json { render :json => {:error => $!}, :status => :internal_server_error }
+        format.xml { render :xml => {:error => $!}, :status => :internal_server_error }
       end
     end
   end
@@ -171,10 +174,11 @@ class InstancesController < ApplicationController
     respond_to do |format|
       begin
         provider_account = ProviderAccount.find(params[:provider_account_id])
-        @instance = Instance.find(params[:instance_id])
+        @instance = Instance.find(params[:id])
         @action_request = "can_start"
         @value = Quota.can_start_instance?(@instance, provider_account)
         format.html { render :partial => 'can_perform_state_change.xml' }
+        format.xml { render :partial => 'can_perform_state_change.xml' }
         format.json { render :json => {:action_request => @action_request, :instance_id => @instance.id, :value => @value} }
       rescue ActiveRecord::RecordNotFound => e
         format.html do
@@ -182,12 +186,14 @@ class InstancesController < ApplicationController
           head :not_found
         end
         format.json { render :json => {:error => 'Record not found'}, :status => :not_found }
+        format.xml { render :xml => {:error => 'Record not found'}, :status => :not_found }
       rescue Exception => e
         format.html do
           puts e.inspect
           head :internal_server_error
         end
         format.json { render :json => {:error => $!}, :status => :internal_server_error }
+        format.xml { render :xml => {:error => $!}, :status => :internal_server_error }
       end
     end
   end

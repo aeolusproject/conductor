@@ -93,10 +93,12 @@ Conductor::Application.routes.draw do
       get 'start'
       get 'multi_stop'
       get 'remove_failed'
+    end
+    member do
       get 'can_start'
       get 'can_create'
+      get 'key'
     end
-    get 'key', :on => :member
   end
 
   #map.can_start_instance '/instances/:instance_id/can_start/:provider_account_id', :controller => 'instances', :action => 'can_start', :conditions => { :method => :get }
