@@ -105,7 +105,16 @@ class CondorEventLog < Nokogiri::XML::SAX::Document
 
   # Store the name of the event log attribute we're looking at
   def start_element(element, attributes)
-    @tag = attributes[1] if element == "a"
+    # NOTE: this code is written to work both with Nokogiri 1.4.x and 1.5.x
+    # As soon as we stop supporting 1.4.x, we should change this to:
+    #     @tag = attributes.first[1] if element == "a"
+    # and remove the rest.
+
+    return unless element == "a"
+
+    # Nokogiri 1.5.x passes attributes as [['name1', 'val1'], ['name2,'val2']]
+    # while Nokogiri 1.4.x uses a flat array
+    @tag = (Array === attributes.first) ? attributes.first[1] : attributes[1]
   end
 
   # Store the value of the event log attribute we're looking at
