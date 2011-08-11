@@ -168,6 +168,12 @@ for filetype in builder css feature gif haml html ico jpg js json key opts png \
     done
 done
 
+# precompile stylesheets
+cd src
+compass compile --output-style compact
+%{__mv} public/stylesheets/compiled %{buildroot}%{app_root}/public/stylesheets/
+cd ..
+
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
 %{__cp} src/config.ru %{buildroot}%{app_root}
