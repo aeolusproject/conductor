@@ -61,7 +61,7 @@ Conductor::Application.routes.draw do
   match 'register',    :to => 'users#new',             :as => 'register'
 
   resource  'account', :to => 'users'
-  resources :users, :instances, :templates, :builds
+  resources :templates, :builds
   resources :permissions do
     collection do
       get :list
