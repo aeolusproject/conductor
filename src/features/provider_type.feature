@@ -19,5 +19,5 @@ Feature: Manage Providers
     | OpenNebula   | opennebula           |
     | Amazon EC2   | ec2                  |
     | RHEV-M       | rhevm                |
-    | Condor Cloud   | condorcloud        |
+    | Condor Cloud   | condor             |
     | VMware vSphere | vsphere            |

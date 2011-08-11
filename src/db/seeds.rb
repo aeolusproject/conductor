@@ -131,7 +131,7 @@ if ProviderType.all.empty?
   ProviderType.create!(:name => "Rackspace", :deltacloud_driver =>"rackspace")
   ProviderType.create!(:name => "RHEV-M", :deltacloud_driver =>"rhevm")
   ProviderType.create!(:name => "OpenNebula", :deltacloud_driver =>"opennebula")
-  ProviderType.create!(:name => "Condor Cloud", :deltacloud_driver =>"condorcloud")
+  ProviderType.create!(:name => "Condor Cloud", :deltacloud_driver =>"condor")
   ProviderType.create!(:name => "VMware vSphere", :deltacloud_driver =>"vsphere")
 end
 
