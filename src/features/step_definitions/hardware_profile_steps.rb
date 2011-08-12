@@ -25,8 +25,10 @@ end
 When /^I enter the following details for the Hardware Profile Properties$/ do |table|
   table.hashes.each do |hash|
     hash.each_pair do |key, value|
-      unless (hash[:name] == "architecture" && (key == "range_first" || key == "range_last" || key == "property_enum_entries")) || key == "name"
+      if !(hash[:name] == "architecture" || key == "name")
         When "I fill in \"#{"hardware_profile_" + hash[:name] + "_attributes_" + key}\" with \"#{value}\""
+      elsif hash[:name] == "architecture" && key == 'value'
+        When "I select \"#{value}\" from \"#{"hardware_profile_" + hash[:name] + "_attributes_" + key}\""
       end
     end
   end

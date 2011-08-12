@@ -95,8 +95,8 @@ module NavigationHelpers
     when /the new hardware profile page/
       url_for new_hardware_profile_path
 
-    when /the edit hardware profiles page/
-      url_for :action => 'edit', :controller => 'hardware_profiles', :only_path => true
+    when /^(.*)'s edit hardware profile page$/
+      edit_hardware_profile_path(HardwareProfile.find_by_name($1))
 
     when /^(.*)'s provider account page$/
       provider_account_path(ProviderAccount.find_by_label($1))

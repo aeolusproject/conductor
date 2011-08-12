@@ -83,11 +83,11 @@ Feature: Manage Pools
     When I follow "mock1"
     Then I should see "mock1 (Front End)"
 
-   Scenario: Create a new Hardware Profile
+  Scenario: Create a new Hardware Profile
     Given I am on the hardware profiles page
      When I follow "new_hardware_profile_button"
      Then I should be on the new hardware profile page
-     When I fill in "name" with "Test Hardware Profile"
+     When I fill in "hardware_profile_name" with "Test Hardware Profile"
      And I enter the following details for the Hardware Profile Properties
      | name         | value | unit  |
      | memory       | 1740  | MB    |
@@ -113,7 +113,7 @@ Feature: Manage Pools
     | m1-medium    | 8192   | 4   | 500     | i386         |
     | m1-large     | 2048   | 4   | 850     | x86_64       |
     And I am on the new hardware profile page
-    When I fill in "name" with "Test Hardware Profile"
+    When I fill in "hardware_profile_name" with "Test Hardware Profile"
     And I enter the following details for the Hardware Profile Properties
     | name         | value         | unit  |
     | memory       | 1740          | MB    |
@@ -133,7 +133,7 @@ Feature: Manage Pools
      And I am on the hardware profiles page
      When I follow "m1-small"
      When I follow "edit_button"
-     Then I should be on the edit hardware profiles page
+     Then I should be on m1-small's edit hardware profile page
      When I enter the following details for the Hardware Profile Properties
      | name         | value | unit  |
      | memory       | 1740  | MB    |
@@ -146,11 +146,11 @@ Feature: Manage Pools
      | Name         | Memory | CPU | Storage | Architecture |
      | m1-small     | 1740   | 2   | 250     | i386         |
 
-  Scenario: validate hwp inputs
+  Scenario: Validate hwp inputs
     Given I am on the hardware profiles page
      When I follow "new_hardware_profile_button"
      Then I should be on the new hardware profile page
-     When I fill in "name" with "Test Hardware Profile"
+     When I fill in "hardware_profile_name" with "Test Hardware Profile"
      And I enter the following details for the Hardware Profile Properties
      | name         | value | unit  |
      | memory       | ten   | MB    |
@@ -158,4 +158,4 @@ Feature: Manage Pools
      | storage      | ?     | GB    |
      | architecture |       | label |
      And I press "save_button"
-     Then I should see "errors prohibited this hardware profile from being saved"
+     Then I should see "is invalid"
