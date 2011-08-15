@@ -73,7 +73,7 @@ class Instance < ActiveRecord::Base
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   belongs_to :instance_hwp
 
-  has_one :instance_key, :as => :instance_key_owner, :dependent => :destroy
+  has_one :instance_key, :dependent => :destroy
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
@@ -234,7 +234,7 @@ class Instance < ActiveRecord::Base
     client = self.provider_account.connect
     return nil unless client && client.feature?(:instances, :authentication_key)
     if key = client.create_key(:name => key_name)
-      self.instance_key = InstanceKey.create!(:pem => key.pem.first, :name => key.id, :instance_key_owner => self)
+      self.instance_key = InstanceKey.create!(:pem => key.pem.first, :name => key.id, :instance => self)
       self.save!
     end
   end
@@ -339,16 +339,6 @@ class Instance < ActiveRecord::Base
       end
     end
     read_attribute(:public_addresses)
-  end
-
-  def create_auth_key
-    raise "instance provider_account is not set" unless self.provider_account
-    client = self.provider_account.connect
-    return nil unless client && client.feature?(:instances, :authentication_key)
-    kname = "#{self.name}_#{Time.now.to_i}_key_#{self.object_id}".gsub(/[^a-zA-Z0-9\.\-]/, '_')
-    if key = client.create_key(:name => kname)
-      self.update_attribute(:instance_key, InstanceKey.create!(:pem => key.pem.first, :name => key.id, :instance_key_owner => self))
-    end
   end
 
   scope :with_hardware_profile, lambda {

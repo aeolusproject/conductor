@@ -35,6 +35,5 @@
 #
 
 class InstanceKey < ActiveRecord::Base
-
-  belongs_to :instance_key_owner, :polymorphic => true
+  belongs_to :instance
 end

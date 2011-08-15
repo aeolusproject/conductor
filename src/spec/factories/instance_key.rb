@@ -30,12 +30,12 @@ uH9ebPTGZc5cTpOEV9SupUez4cAedBGeHVDHy06sATrgIwKBgQCdqFhrse+uhRacK1LAymvBsou5
   end
 
   factory :ec2_instance_key1, :parent => :instance_key do
-    instance_key_owner { |p| p.association(:ec2_instance) }
+    association :instance, :factory => :ec2_instance
     name "1_user"
   end
 
   factory :mock_instance_key, :parent => :instance_key do
-    instance_key_owner { |c| c.association(:instance) }
+    association :instance, :factory => :instance
   end
 
 end

@@ -47,7 +47,6 @@ class ProviderAccount < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
-  has_one :instance_key, :as => :instance_key_owner, :dependent => :destroy
   # validation of credentials is done in provider_account validation, :validate => false prevents nested_attributes from validation
   has_many :credentials, :dependent => :destroy, :validate => false
   accepts_nested_attributes_for :credentials

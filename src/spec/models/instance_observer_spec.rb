@@ -172,22 +172,6 @@ describe InstanceObserver do
     end
   end
 
-  it "should generate instance key when instance is running" do
-    client = mock('DeltaCloud').as_null_object
-    client.stub!(:"feature?").and_return(true)
-    @provider_account.stub!(:connect).and_return(client)
-    @instance.stub!(:provider_account).and_return(@provider_account)
-
-    @instance.instance_key = FactoryGirl.create(:instance_key, :name => 'key1', :instance_key_owner => @instance)
-    @instance.instance_key.stub!(:replace_on_server).and_return(true)
-    @provider_account.instance_key = FactoryGirl.create(:instance_key, :name => 'key1', :instance_key_owner => @provider_account)
-
-    @instance.state = Instance::STATE_RUNNING
-    @instance.save!
-    @instance.instance_key.name.should != @provider_account.instance_key.name
-  end
-
-
   it "should track the events of the instance lifetime" do
     @instance.events.should have(1).items
     @instance.events[0].summary.should match /created/

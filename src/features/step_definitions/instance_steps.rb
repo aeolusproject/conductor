@@ -7,7 +7,7 @@ def pending_instance
 end
 
 Given /^a mock running instance exists$/ do
-  mock_instance.instance_key = FactoryGirl.create :mock_instance_key, :instance_key_owner => mock_instance
+  mock_instance.instance_key = FactoryGirl.create :mock_instance_key, :instance => mock_instance
 end
 
 Given /^a mock pending instance exists$/ do
