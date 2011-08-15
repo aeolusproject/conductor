@@ -5,5 +5,5 @@
   %header
     %h2 New Provider
   .content
-    - form_for @provider, :url => providers_path, :html => {:class => 'generic'} do |f|
+    = form_for @provider, :url => providers_path, :html => {:class => 'generic'} do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => providers_path }

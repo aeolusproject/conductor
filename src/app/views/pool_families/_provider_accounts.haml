@@ -3,7 +3,7 @@
   = @pool_family.name
 
 - unless @pool_family.provider_accounts.blank?
-  - form_tag do
+  = form_tag do
     = restful_submit_tag "Remove selected", 'destroy', multi_destroy_provider_accounts_pool_families_path(:pool_family_id => @pool_family.id), 'DELETE', :id => 'delete_button', :class => 'button danger'
     = #submit_tag "Remove selected"
 
@@ -17,7 +17,7 @@
             = provider_account.name
 
 - unless @pool_family.provider_accounts.count == ProviderAccount.all.count
-  - form_for :pool_family, :url => add_provider_account_pool_families_path(:id => @pool_family.id) do |f|
+  = form_for :pool_family, :url => add_provider_account_pool_families_path(:id => @pool_family.id) do |f|
     - unless @pool_family.provider_accounts.blank?
       = select_tag :provider_account_id, options_for_select(ProviderAccount.find(:all, :conditions => [ "id NOT IN (?)", @pool_family.provider_account_ids ]).collect{ |pa| [pa.name, pa.id] })
     - else

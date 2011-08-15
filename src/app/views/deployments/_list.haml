@@ -1,7 +1,7 @@
 - if request.xhr?
   = render :partial => '/layouts/notification'
 
-- form_tag(multi_stop_deployments_path, :method => :post, :class => 'filterable-data') do
+= form_tag(multi_stop_deployments_path, :method => :post, :class => 'filterable-data') do
   %ul.obj_actions
     %li= submit_tag "Stop Selected Deployments", :id => 'stop_button', :class => 'button'
 

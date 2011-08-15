@@ -6,5 +6,5 @@
     %h2 Add New Deployable
 
   .content
-    - form_for @suggested_deployable, :url => suggested_deployables_path, :html => {:class => 'generic'} do |f|
+    = form_for @suggested_deployable, :url => suggested_deployables_path, :html => {:class => 'generic'} do |f|
       = render :partial => "form", :locals => { :form => f }

@@ -1,4 +1,4 @@
-- form_tag multi_destroy_realm_mappings_path(:frontend_realm_id => @realm.id) do
+= form_tag multi_destroy_realm_mappings_path(:frontend_realm_id => @realm.id) do
   = link_to "Add mapping to realm", new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button", :id => 'mapping_to_realm_button'
   = link_to "Add mapping to provider", new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button", :id => 'mapping_to_provider_button'
   = submit_tag "Delete", :id => 'delete_button', :class => 'button danger'

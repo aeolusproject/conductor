@@ -15,7 +15,7 @@
         %td= permission.role.name
         %td
           - if check_privilege(Privilege::PERM_SET)
-            - form_tag :action => 'destroy' do
+            = form_tag :action => 'destroy' do
               = hidden_field :permission, :id, :value => permission.id
               = submit_tag "delete", :class => "submit_link", :id => "delete_#{permission.id}"
       - }

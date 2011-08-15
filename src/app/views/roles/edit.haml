@@ -18,5 +18,5 @@
     - else
       %h2 Editing Role:
 
-    - form_for @role, :url => role_path(@role), :html => { :method => :put, :class => 'generic' } do |f|
+    = form_for @role, :url => role_path(@role), :html => { :method => :put, :class => 'generic' } do |f|
       = render :partial => "form", :locals => { :form => f }

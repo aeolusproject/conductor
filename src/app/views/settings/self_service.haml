@@ -11,7 +11,7 @@
     .grid_13{:class => 'container_16'}
       %h2
         = t('.self_service_default')
-      - form_for @self_service_default_quota, :url => { :action => 'update' } do |form|
+      = form_for @self_service_default_quota, :url => { :action => 'update' } do |form|
         %h3 Instances
         -#%fieldset.clearfix
           %label.grid_2.alpha Permissions:

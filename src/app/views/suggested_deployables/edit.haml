@@ -11,5 +11,5 @@
     %h2 Editing Deployable
 
   .content
-    - form_for @suggested_deployable, :url => suggested_deployable_path(@suggested_deployable), :html => { :method => :put, :class => 'generic' } do |f|
+    = form_for @suggested_deployable, :url => suggested_deployable_path(@suggested_deployable), :html => { :method => :put, :class => 'generic' } do |f|
       = render :partial => "form", :locals => { :form => f }

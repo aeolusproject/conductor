@@ -4,7 +4,7 @@
     Deployment
     = @deployment.name
   #obj_actions.button-container
-    - form_for @deployment do
+    = form_for @deployment do
       = hidden_field :deployment, :name
       = hidden_field :deployment, :pool_id
       = hidden_field :deployment, :frontend_realm_id
