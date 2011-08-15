@@ -37,7 +37,7 @@ When /^I manually go to the key action for this instance$/ do
 end
 
 Given /^I see "([^"]*)"$/ do |text|
-  page.should contain(text)
+  page.should have_content(text)
 end
 
 Then /^I should see the Save dialog for a (.+) file$/ do |filetype|
@@ -109,6 +109,7 @@ end
 
 Given /^I accept JSON$/ do
   page.driver.header 'Accept', 'application/json'
+  header 'Accept', 'application/json'
 end
 
 Given /^I request XHR$/ do

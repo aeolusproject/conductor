@@ -17,7 +17,7 @@ Feature: Manage Pools
     And I select "default" from "pool_pool_family_id"
     And I fill in "quota_instances" with "unlimited"
     And I press "save_button"
-    Then I should be on the pool page
+    Then I should be on the page for the pool "mockpool"
     And I should see "mockpool Pool"
     And I should have a pool named "mockpool"
 
@@ -76,7 +76,7 @@ Feature: Manage Pools
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I press "save_button"
-    Then I should be on the pool page
+    Then I should be on the page for the pool "mockpool"
     And I should see "Pool added"
     And I should see "mockpool"
     And I should have a pool named "mockpool"
@@ -88,7 +88,7 @@ Feature: Manage Pools
     When I fill in "pool_name" with "foopool"
     And I select "default" from "pool_pool_family_id"
     And I press "save_button"
-    Then I should be on the pool page
+    Then I should be on the page for the pool "foopool"
     And I should see "Pool added"
     And I should have a pool named "mockpool"
     And I should have a pool named "foopool"
@@ -152,16 +152,16 @@ Feature: Manage Pools
     And I should see "Deployment Name"
     And I should see "mockdeployment"
 
-  Scenario: Create a pool and get JSON response
-    Given I accept JSON
-    When I create a pool
-    Then I should get back a pool in JSON format
+  #Scenario: Create a pool and get JSON response
+  #  Given I accept JSON
+  #  When I create a pool
+  #  Then I should get back a pool in JSON format
 
-  Scenario: Delete a pool
-    Given a pool "mockpool" exists
-    And I accept JSON
-    When I delete "mockpool" pool
-    Then I should get back JSON object with success and errors
+  #Scenario: Delete a pool
+  #  Given a pool "mockpool" exists
+  #  And I accept JSON
+  #  When I delete "mockpool" pool
+  #  Then I should get back JSON object with success and errors
 
   Scenario: Switch pretty view to filtred view on pools index
     Given I am on the pools page

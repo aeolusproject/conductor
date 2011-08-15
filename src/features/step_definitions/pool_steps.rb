@@ -74,7 +74,7 @@ Given /^I renamed Default to pool_default$/ do
 end
 
 Then /^I should see (\d+) pools in JSON format$/ do |arg1|
-  data = ActiveSupport::JSON.decode(page.body)
+  data = ActiveSupport::JSON.decode(page.source)
   data.length.should == arg1.to_i
 end
 
@@ -84,23 +84,22 @@ end
 
 Then /^I should see pool "([^"]*)" in JSON format$/ do |arg1|
   pool = Pool.find_by_name(arg1)
-  data = ActiveSupport::JSON.decode(page.body)
+  data = ActiveSupport::JSON.decode(page.source)
   data['pool']['name'].should == pool.name
 end
 
 When /^I create a pool$/ do
   pool = Factory.build :pool
-  pool.pool_family.save!
-  visit pools_url, :post, 'pool[name]' => pool.name, 'pool[pool_family_id]' => pool.pool_family.id
+  post pools_path(:pool => { :name => pool.name, :pool_family_id => pool.pool_family.id}, :format => :json)
 end
 
 Then /^I should get back a pool in JSON format$/ do
-  data = ActiveSupport::JSON.decode(page.body)
+  data = ActiveSupport::JSON.decode(page.source)
   data['pool'].should_not be_nil
 end
 
 When /^I delete "([^"]*)" pool$/ do |arg1|
-  visit(multi_destroy_pools_url, :post, 'pools_selected[]' => Pool.find_by_name(arg1).id)
+  visit multi_destroy_pools_url('pools_selected[]' => Pool.find_by_name(arg1).id)
 end
 
 Given /^there are (\d+) pools$/ do |arg1|
