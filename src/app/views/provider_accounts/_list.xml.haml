@@ -5,4 +5,4 @@
       %name= account.name
       %provider= account.provider.name
       %provider_type= account.provider.provider_type.codename
-      = account.build_credentials.root.xpath('/provider_credentials').to_s
+      = account.build_credentials.root.xpath('/provider_credentials').to_s.html_safe
