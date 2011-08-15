@@ -187,6 +187,7 @@ class ApplicationController < ActionController::Base
         redirect_to login_url
       end
       format.xml { head :unauthorized }
+      format.json { render :json => "You must be logged in to access this page" }
     end
   end
 
