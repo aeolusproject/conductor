@@ -5,7 +5,7 @@
 
   .content
     - content_for :form_header do
-      %li= restful_submit_tag "Delete", "destroy", multi_destroy_suggested_deployables_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+      %li= restful_submit_tag "Delete", "destroy", multi_destroy_provider_accounts_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
     = filter_table(@header, @accounts) do |account|
       %tr{:class => cycle('nostripe','stripe')}

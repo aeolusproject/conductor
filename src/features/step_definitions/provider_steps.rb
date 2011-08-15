@@ -62,11 +62,12 @@ Then /^there should not be a realm$/ do
 end
 
 Given /^I accept XML$/ do
-  header 'Accept', 'application/xml'
+  page.driver.header 'Accept', 'application/xml'
+  page.driver.header 'Content-Type', 'application/xml'
 end
 
 Then /^I should get a XML document$/ do
-  @xml_response = Nokogiri::XML(response.body)
+  @xml_response = Nokogiri::XML(page.source)
 end
 
 Then /^XML should contain (\d+) providers$/ do |arg1|
