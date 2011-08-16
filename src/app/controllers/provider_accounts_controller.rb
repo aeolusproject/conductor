@@ -14,7 +14,7 @@ class ProviderAccountsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.xml { render :partial => 'list.xml' }
+      format.xml { render :text => ProviderAccount.xml_export(@accounts) }
     end
   end
 

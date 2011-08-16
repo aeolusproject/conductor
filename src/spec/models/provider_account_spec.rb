@@ -47,19 +47,7 @@ describe ProviderAccount do
     @provider_account.connect.should be_nil
   end
 
-  it "should generate credentials xml" do
-    expected_xml = <<EOT
-<?xml version="1.0"?>
-<provider_credentials>
-  <ec2_credentials>
-    <access_key>user</access_key>
-    <account_number>1234</account_number>
-    <certificate>cert</certificate>
-    <key>priv_key</key>
-    <secret_access_key>pass</secret_access_key>
-  </ec2_credentials>
-</provider_credentials>
-EOT
+  it "should generate xml for a provider account" do
     provider_account = Factory.build(:ec2_provider_account)
     provider_account.credentials_hash = {
                                   'username' => 'user',
@@ -68,7 +56,21 @@ EOT
                                   'x509private' => 'priv_key',
                                   'x509public' => 'cert'
                                  }
-    provider_account.build_credentials.to_s.should eql(expected_xml)
+    expected_xml = %Q{<provider_account>
+  <name>#{provider_account.label}</name>
+  <provider>#{provider_account.provider.name}</provider>
+  <provider_type>ec2</provider_type>
+  <provider_credentials>
+    <ec2_credentials>
+      <access_key>user</access_key>
+      <account_number>1234</account_number>
+      <certificate>cert</certificate>
+      <key>priv_key</key>
+      <secret_access_key>pass</secret_access_key>
+    </ec2_credentials>
+  </provider_credentials>
+</provider_account>}
+    provider_account.to_xml.should eql(expected_xml)
   end
 
   it "should create provider account with same username for different provider" do

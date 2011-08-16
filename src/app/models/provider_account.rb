@@ -172,23 +172,6 @@ class ProviderAccount < ActiveRecord::Base
     DeltaCloud::valid_credentials?(credentials_hash['username'].to_s, credentials_hash['password'].to_s, provider.url)
   end
 
-  def build_credentials
-    doc = Nokogiri::XML('')
-    doc.root = Nokogiri::XML::Node.new('provider_credentials', doc)
-    root = doc.root.at_xpath('/provider_credentials')
-
-    credential_node_name = provider.provider_type.codename + '_credentials'
-    credential_node = Nokogiri::XML::Node.new(credential_node_name, doc)
-    root << credential_node
-
-    creds_label_hash.each do |h|
-      element = Nokogiri::XML::Node.new(h[:label], doc)
-      element.content = h[:value]
-      credential_node << element
-    end
-    doc
-  end
-
   def creds_label_hash
     label_value_pairs = credentials.map do |c|
       { :label => c.credential_definition.label.downcase.split.join('_'),
@@ -249,4 +232,44 @@ class ProviderAccount < ActiveRecord::Base
     end
   end
 
+  def to_xml
+    doc = Nokogiri::XML('')
+    doc.root = Nokogiri::XML::Node.new('provider_account', doc)
+    root = doc.root.at_xpath('/provider_account')
+
+    node = Nokogiri::XML::Node.new('name', doc)
+    node.content = self.name
+    root << node
+
+    node = Nokogiri::XML::Node.new('provider', doc)
+    node.content = self.provider.name
+    root << node
+
+    node = Nokogiri::XML::Node.new('provider_type', doc)
+    node.content = self.provider.provider_type.codename
+    root << node
+
+    credential_node_name = provider.provider_type.codename + '_credentials'
+    credential_node = Nokogiri::XML::Node.new(credential_node_name, doc)
+    node = Nokogiri::XML::Node.new('provider_credentials', doc)
+    node << credential_node
+    root << node
+
+    creds_label_hash.each do |h|
+      element = Nokogiri::XML::Node.new(h[:label], doc)
+      element.content = h[:value]
+      credential_node << element
+    end
+    doc.root.to_xml
+  end
+
+  def self.xml_export(accounts)
+    doc = Nokogiri::XML('')
+    doc.root = Nokogiri::XML::Node.new('provider_accounts', doc)
+    root = doc.root.at_xpath('/provider_accounts')
+    accounts.each do |account|
+      root << account.to_xml
+    end
+    doc.to_xml
+  end
 end
