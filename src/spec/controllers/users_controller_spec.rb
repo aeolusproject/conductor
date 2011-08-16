@@ -36,7 +36,7 @@ describe UsersController do
         returned_user = assigns[:user]
         returned_user.errors.empty?.should be_false
         returned_user.should have(2).errors_on(:login)
-        returned_user.should have(2).errors_on(:email)
+        returned_user.should have(1).errors_on(:email)
         returned_user.should have(1).error_on(:password)
         returned_user.should have(1).error_on(:password_confirmation)
 
