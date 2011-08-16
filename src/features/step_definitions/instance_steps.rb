@@ -128,12 +128,12 @@ end
 
 Then /^I should see mock instance in JSON format$/ do
   data = ActiveSupport::JSON.decode(page.source)
-  data['instance']['name'].should == mock_instance.name
+  data['name'].should == mock_instance.name
 end
 
 Then /^I should get back instance in JSON format$/ do
   data = ActiveSupport::JSON.decode(page.source)
-  data['instance'].should_not be_nil
+  data.should_not be_blank
 end
 
 When /^I stop "([^"]*)" instance$/ do |arg1|

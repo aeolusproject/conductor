@@ -87,6 +87,7 @@ Conductor::Application.routes.draw do
       get 'launch_new'
       get 'check_name'
     end
+    resources :instances
   end
 
   resources :instances do

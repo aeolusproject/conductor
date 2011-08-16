@@ -345,6 +345,14 @@ class Instance < ActiveRecord::Base
       {:include => :hardware_profile}
   }
 
+  def as_json(options={})
+    super(options).merge({
+      :owner => owner.name,
+      :provider => provider_account ? provider_account.provider.name : '',
+      :href => Rails.application.routes.url_helpers.instance_path(id),
+    })
+  end
+
   private
 
   def key_name

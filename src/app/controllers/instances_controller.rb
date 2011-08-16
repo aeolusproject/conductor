@@ -180,8 +180,10 @@ class InstancesController < ApplicationController
   end
 
   def load_instances
+    conditions = { :pool_id => @pools }
+    conditions[:deployment_id] = params[:deployment_id] unless params[:deployment_id].blank?
     @instances = Instance.all(:include => [:owner],
-                              :conditions => {:pool_id => @pools},
+                              :conditions => conditions,
                               :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
     )
   end

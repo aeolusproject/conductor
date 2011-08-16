@@ -19,3 +19,12 @@
   Conductor.setupPrettyFilterURL(
             '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter' )}',
             '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty' )}');
+
+%script#instanceTemplate{ :type => 'text/x-jquery-tmpl' }
+  :plain
+    <li>${name}
+      <ul>
+        <li>IP Address: ${public_addresses}</li>
+        <li>State: ${state}</li>
+      </ul>
+    </li>

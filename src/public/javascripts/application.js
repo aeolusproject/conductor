@@ -1,13 +1,14 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
-var Conductor = {
+
+$.extend(Conductor, {
   extendTable: function(options) {
     var table = $(options.id);
     var wrapper = $(".wrapper", table);
 
     // show searchfield (it's disabled by default because with JS off,
-    // when enter is pressed in search field, form is submited
+    // when enter is pressed in search field, form is submited)
     $(".search_field", table).css('display', 'block');
 
     // make column head links ajax
@@ -172,6 +173,52 @@ var Conductor = {
     });
   },
 
+  prefixedPath: function(path) {
+    var prefix = this.PATH_PREFIX;
+    if(path.length === 0) return prefix;
+    if(prefix.length === 0) return path;
+
+    if(prefix[prefix.length-1] !== '/') prefix += '/';
+    if(path[0] === '/') path = path.slice(1);
+
+    return prefix + path;
+  },
+
+  AJAX_REFRESH_INTERVAL: 5000,
+
+  initializeBackbone: function() {
+    for(router in Conductor.Routers) {
+      if(Conductor.Routers.hasOwnProperty(router) &&
+            router[0] === router.toUpperCase()[0]) {
+        new Conductor.Routers[router]();
+      }
+    }
+    Backbone.history.start({pushState: true, root: Conductor.PATH_PREFIX})
+  },
+
+  idFromURLFragment: function(urlFragment) {
+    return urlFragment.split('?')[0];
+  },
+
+  saveCheckboxes: function(checkboxSelector, $scope) {
+    if(!$scope) $scope = $;
+
+    var result = [];
+    $scope.find(checkboxSelector + ':checked').each(function() {
+      result.push(this.value)
+    });
+    return result;
+  },
+
+  restoreCheckboxes: function(checkedIds, checkboxSelector, $scope) {
+    if(!$scope) $scope = $;
+
+    $.each(checkedIds, function(index, id) {
+      var $checkbox = $scope.find(checkboxSelector + '[value="' + id + '"]');
+      $checkbox.prop('checked', true);
+    });
+  },
+
   enhanceUserMenu: function() {
     var $userDropdown = $('#system a.user-dropdown');
     if($userDropdown.length == 0) return;
@@ -185,7 +232,7 @@ var Conductor = {
     });
   },
 
-};
+});
 
 /* custom methods */
 (function($){
@@ -280,4 +327,5 @@ $(document).ready(function () {
   Conductor.closeNotification();
   Conductor.enhanceUserMenu();
   Conductor.tabAjaxRequest();
+  Conductor.initializeBackbone();
 });

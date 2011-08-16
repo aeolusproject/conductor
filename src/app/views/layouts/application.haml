@@ -18,8 +18,15 @@
     = javascript_include_tag "jquery.tmpl.min.js"
     = javascript_include_tag "underscore-min.js"
     = javascript_include_tag "backbone-min.js"
+    :javascript
+      window.Conductor = {}
+      window.Conductor.PATH_PREFIX = "#{root_path}"
     = javascript_include_tag "application.js"
     = javascript_include_tag "yetii-min.js"
+
+    = javascript_include_tag "backbone/models.js"
+    = javascript_include_tag "backbone/views.js"
+    = javascript_include_tag "backbone/routers.js"
     = yield :scripts
   %body
     #primary-container

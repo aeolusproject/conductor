@@ -38,7 +38,7 @@ end
 Then /^I should see deployment "([^"]*)" in JSON format$/ do |arg1|
   depl = Deployment.find_by_name(arg1)
   data = ActiveSupport::JSON.decode(page.source)
-  data['deployment']['name'].should == depl.name
+  data['name'].should == depl.name
 end
 
 When /^I create a deployment$/ do
@@ -50,7 +50,7 @@ end
 
 Then /^I should get back a deployment in JSON format$/ do
   data = ActiveSupport::JSON.decode(page.source)
-  data['deployment'].should_not be_nil
+  data.should_not be_blank
 end
 
 Then /^I should get back a partial$/ do

@@ -26,3 +26,16 @@
   Conductor.setupPrettyFilterURL(
             '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter' )}',
             '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty' )}');
+
+%script#instanceTemplate{ :type => 'text/x-jquery-tmpl' }
+  :plain
+    <tr>
+      <td><input type="checkbox" id="instance_checkbox_${id}"
+                 name="instance_selected[]" value="${id}"></td>
+      <td />
+      <td><a href="${href}">${name}</a></td>
+      <td>${public_addresses}</td>
+      <td>${state}</td>
+      <td>${provider}</td>
+      <td>${owner}</td>
+    </tr>

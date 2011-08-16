@@ -85,7 +85,7 @@ end
 Then /^I should see pool "([^"]*)" in JSON format$/ do |arg1|
   pool = Pool.find_by_name(arg1)
   data = ActiveSupport::JSON.decode(page.source)
-  data['pool']['name'].should == pool.name
+  data['name'].should == pool.name
 end
 
 When /^I create a pool$/ do
@@ -95,7 +95,7 @@ end
 
 Then /^I should get back a pool in JSON format$/ do
   data = ActiveSupport::JSON.decode(page.source)
-  data['pool'].should_not be_nil
+  data.should_not be_blank
 end
 
 When /^I delete "([^"]*)" pool$/ do |arg1|
