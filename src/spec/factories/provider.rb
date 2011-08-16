@@ -17,6 +17,7 @@ FactoryGirl.define do
     name 'mock2'
     provider_type { ProviderType.find_by_deltacloud_driver("mock") }
     url 'http://localhost:3002/api'
+    deltacloud_provider 'mock'
     after_create { |p| p.realms << FactoryGirl.create(:realm3, :provider => p) }
   end
 
@@ -24,6 +25,7 @@ FactoryGirl.define do
     name 'amazon-ec2'
     provider_type { ProviderType.find_by_deltacloud_driver("ec2") }
     url 'http://localhost:3002/api'
+    deltacloud_provider 'ec2-us-east-1'
     hardware_profiles { |hp| [hp.association(:ec2_hwp1)] }
     after_create { |p| p.realms << FactoryGirl.create(:realm4, :provider => p) }
   end

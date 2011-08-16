@@ -21,3 +21,13 @@
         %label Provider Type
       %td
         = @provider.provider_type.name
+    %tr
+      %td
+        %label X-Deltacloud-Driver
+      %td
+        = @provider.provider_type.deltacloud_driver
+    %tr
+      %td
+        %label X-Deltacloud-Provider
+      %td
+        = @provider.deltacloud_provider

@@ -145,6 +145,8 @@ class ProvidersController < ApplicationController
       {:name => t("providers.index.provider_name"), :sort_attr => :name},
       {:name => t("providers.index.provider_url"), :sort_attr => :name},
       {:name => t("providers.index.provider_type"), :sort_attr => :name},
+      {:name => t("providers.index.x_deltacloud_driver"), :sort_attr => :name},
+      {:name => t("providers.index.x_deltacloud_provider"), :sort_attr => :name},
     ]
   end
 

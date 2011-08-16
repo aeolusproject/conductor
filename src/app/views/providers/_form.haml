@@ -9,6 +9,9 @@
   %p
     = form.label :provider_type
     = form.select(:provider_type_id, ProviderType.all.collect {|provider_type| [provider_type.name,provider_type.id] }, :prompt => "Select type of provider")
+  %p
+    = form.label :url, 'X-Deltacloud-Provider:'
+    = form.text_field :deltacloud_provider, :title => 'deltacloud_provider', :value => @provider.deltacloud_provider, :class => 'long'
 
 %fieldset.options
   = form.submit "Save",  :class => "submit button"

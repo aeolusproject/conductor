@@ -229,6 +229,8 @@ en:
       provider_name: Provider Name
       provider_url: Provider URL
       provider_type: Provider Type
+      x_deltacloud_driver: X-Deltacloud-Driver
+      x_deltacloud_provider: X-Deltacloud-Provider
     form:
       provider_name: Provider Name
       provider_url: Provider URL
