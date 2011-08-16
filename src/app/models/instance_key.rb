@@ -36,4 +36,13 @@
 
 class InstanceKey < ActiveRecord::Base
   belongs_to :instance
+
+  def before_destroy
+    begin
+      instance.provider_account.connect.key(self.name).destroy!
+    rescue
+      Rails.logger.error "failed to destroy instance key #{self.name} of instance #{instance.name}: #{$!.message}"
+    end
+    true
+  end
 end

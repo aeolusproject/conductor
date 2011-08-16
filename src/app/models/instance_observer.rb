@@ -76,13 +76,15 @@ class InstanceObserver < ActiveRecord::Observer
   end
 
   def after_save(instance)
-    if instance.state_changed? and
-       instance.state == Instance::STATE_STOPPED and
-       instance.deployment and
-       instance.deployment.scheduled_for_deletion and
-       instance.deployment.destroyable?
+    if instance.state_changed? and instance.state == Instance::STATE_STOPPED
+      instance.instance_key.destroy if instance.instance_key
 
-      instance.deployment.destroy
+      if instance.deployment and
+        instance.deployment.scheduled_for_deletion and
+        instance.deployment.destroyable?
+
+        instance.deployment.destroy
+      end
     end
   end
 
