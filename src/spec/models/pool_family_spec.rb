@@ -35,14 +35,14 @@ describe PoolFamily do
     @pool_family.name = ('a' * 256)
     @pool_family.valid?.should be_false
     @pool_family.errors[:name].should_not be_nil
-    @pool_family.errors[:name].should =~ /^is too long.*/
+    @pool_family.errors[:name][0].should =~ /^is too long.*/
   end
 
   it "should not be valid if name contains special characters" do
     @pool_family.name = '.'
     @pool_family.valid?.should be_false
     @pool_family.errors[:name].should_not be_nil
-    @pool_family.errors[:name].should =~ /^must only contain.*/
+    @pool_family.errors[:name][0].should =~ /^must only contain.*/
   end
 
   it "should require quota to be set" do
