@@ -7,7 +7,7 @@ FactoryGirl.define do
     first_name 'John'
     last_name 'Smith'
     association :quota
-    after_build { |u| u.email ||= "#{u.login}@example.com" }
+    u.email { |e| "#{e.login}@example.host" }
   end
 
   factory :other_named_user, :parent => :user do
