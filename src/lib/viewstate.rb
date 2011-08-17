@@ -143,14 +143,6 @@ module ActionController
 
         @viewstate.state = @viewstate.state.merge(viewstate_params)
         set_session_viewstate(@viewstate)
-
-        respond_to do |format|
-          format.html do
-            params[:viewstate] = @viewstate.id
-            redirect_to params
-          end
-          format.js { }
-        end
       else
         @viewstate = nil
       end
