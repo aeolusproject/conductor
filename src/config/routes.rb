@@ -96,14 +96,9 @@ Conductor::Application.routes.draw do
       get 'remove_failed'
     end
     member do
-      get 'can_start'
-      get 'can_create'
       get 'key'
     end
   end
-
-  #map.can_start_instance '/instances/:instance_id/can_start/:provider_account_id', :controller => 'instances', :action => 'can_start', :conditions => { :method => :get }
-  #map.can_create_instance '/instances/:instance_id/can_create/:provider_account_id', :controller => 'instances', :action => 'can_create', :conditions => { :method => :get }
 
   resources :image_imports
 

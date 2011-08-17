@@ -1,5 +1,5 @@
 class InstancesController < ApplicationController
-  before_filter :require_user, :except => [:can_start, :can_create]
+  before_filter :require_user
   before_filter :load_instance, :only => [:show, :key, :edit, :update]
   before_filter :set_view_vars, :only => [:show, :index]
 
@@ -145,56 +145,6 @@ class InstancesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to params[:backlink] || pools_path(:view => 'filter', :details_tab => 'instances') }
       format.json { render :json => {:success => notices, :errors => errors} }
-    end
-  end
-
-  def can_create
-    respond_to do |format|
-      begin
-        provider_account = ProviderAccount.find(params[:provider_account_id])
-        @instance = Instance.find(params[:id])
-        @action_request = "can_create"
-        @value = Quota.can_create_instance?(@instance, provider_account)
-        format.html { render :partial => 'can_perform_state_change.xml' }
-        format.xml { render :partial => 'can_perform_state_change.xml' }
-        format.json { render :json => {:action_request => @action_request, :instance_id => @instance.id, :value => @value} }
-      rescue ActiveRecord::RecordNotFound
-        format.html { head :not_found }
-        format.json { render :json => {:error => 'Record not found'}, :status => :not_found }
-        format.xml { render :xml => {:error => 'Record not found'}, :status => :not_found }
-      rescue Exception
-        format.html { head :internal_server_error }
-        format.json { render :json => {:error => $!}, :status => :internal_server_error }
-        format.xml { render :xml => {:error => $!}, :status => :internal_server_error }
-      end
-    end
-  end
-
-  def can_start
-    respond_to do |format|
-      begin
-        provider_account = ProviderAccount.find(params[:provider_account_id])
-        @instance = Instance.find(params[:id])
-        @action_request = "can_start"
-        @value = Quota.can_start_instance?(@instance, provider_account)
-        format.html { render :partial => 'can_perform_state_change.xml' }
-        format.xml { render :partial => 'can_perform_state_change.xml' }
-        format.json { render :json => {:action_request => @action_request, :instance_id => @instance.id, :value => @value} }
-      rescue ActiveRecord::RecordNotFound => e
-        format.html do
-          puts e.inspect
-          head :not_found
-        end
-        format.json { render :json => {:error => 'Record not found'}, :status => :not_found }
-        format.xml { render :xml => {:error => 'Record not found'}, :status => :not_found }
-      rescue Exception => e
-        format.html do
-          puts e.inspect
-          head :internal_server_error
-        end
-        format.json { render :json => {:error => $!}, :status => :internal_server_error }
-        format.xml { render :xml => {:error => $!}, :status => :internal_server_error }
-      end
     end
   end
 
