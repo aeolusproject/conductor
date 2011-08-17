@@ -35,6 +35,8 @@ Requires: rubygem(rack-restful_submit)
 Requires: rubygem(uuidtools)
 Requires: rubygem(sqlite3)
 Requires: rubygem(fastercsv)
+Requires: rubygem(warden)
+Requires: rubygem(rails_warden)
 Requires: rubygem(pg)
 Requires: postgresql
 Requires: postgresql-server

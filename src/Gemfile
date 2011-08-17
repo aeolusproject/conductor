@@ -22,6 +22,8 @@ gem 'thin'
 gem 'json'
 gem 'railties'
 gem 'fastercsv'
+gem 'warden'
+gem 'rails_warden'
 group :development, :test do
   #gem 'rspec-rails'
   #gem 'factory_girl_rails'
