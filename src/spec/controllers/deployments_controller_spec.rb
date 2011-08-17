@@ -21,7 +21,7 @@ describe DeploymentsController do
     end.should change(Deployment, :count).by(-1)
   end
 
-  it "should allow RESTful delete of multiple deployments" do
+  it "should allow multi destroy of multiple deployments" do
     UserSession.create(@admin)
     deployment1 = nil
     deployment2 = nil
@@ -32,7 +32,7 @@ describe DeploymentsController do
       deployment2.save!
     end.should change(Deployment, :count).by(2)
     lambda do
-      delete :destroy, :ids => [deployment1.id, deployment2.id]
+      post :multi_destroy, :deployments_selected => [deployment1.id, deployment2.id]
     end.should change(Deployment, :count).by(-2)
   end
 
