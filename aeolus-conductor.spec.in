@@ -230,6 +230,7 @@ touch %{buildroot}%{_localstatedir}/run/%{name}/event_log_position
 %{__ln_s} -f %{app_root}/config/environments/production.rb %{_sysconfdir}/%{name}
 %{__ln_s} -f %{app_root}/config/environments/test.rb %{_sysconfdir}/%{name}
 %{__ln_s} -f %{app_root}/config/database.yml %{_sysconfdir}/%{name}
+%{__ln_s} -f %{app_root}/config/settings.yml %{_sysconfdir}/%{name}
 
 %postun
 # kind of a weird construct.  There are two cases where postun gets called;
@@ -243,6 +244,7 @@ if [ ! -d %{app_root}/app ]; then
    rm -f %{_sysconfdir}/%{name}/production.rb
    rm -f %{_sysconfdir}/%{name}/test.rb
    rm -f %{_sysconfdir}/%{name}/database.yml
+   rm -f %{_sysconfdir}/%{name}/settings.yml
 fi
 
 %post daemons

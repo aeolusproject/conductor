@@ -21,6 +21,7 @@ class ProvidersController < ApplicationController
   def new
     require_privilege(Privilege::CREATE, Provider)
     @provider = Provider.new
+    @provider.url = Provider::DEFAULT_DELTACLOUD_URL
   end
 
   def edit
