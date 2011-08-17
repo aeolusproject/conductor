@@ -79,7 +79,6 @@ describe Provider do
 
       instance = FactoryGirl.create(:instance)
       provider = instance.provider_account.provider
-      provider.destroy
       provider.destroyed?.should be_false
     end
   end

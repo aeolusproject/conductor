@@ -51,6 +51,7 @@ class Provider < ActiveRecord::Base
 
   validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
   validates_length_of :name,  :maximum => 255
+  validate :validate_provider
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
