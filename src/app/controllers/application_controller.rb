@@ -25,7 +25,7 @@ require 'viewstate.rb'
 class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
   include ApplicationService
-  helper_method :current_user_session, :current_user, :filter_view?
+  helper_method :current_user, :filter_view?
   before_filter :read_breadcrumbs
 
   def top_section; end
@@ -168,16 +168,6 @@ class ApplicationController < ActionController::Base
     return hash
   end
 
-  def current_user_session
-    return @current_user_session unless @current_user_session.nil?
-    @current_user_session = UserSession.find
-  end
-
-  def current_user
-    return @current_user unless @current_user.nil?
-    @current_user = current_user_session && current_user_session.user
-  end
-
   def require_user
     return if current_user
     respond_to do |format|
@@ -192,7 +182,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_no_user
-    return unless current_user
+    return true unless current_user
     store_location
     flash[:notice] = "You must be logged out to access this page"
     redirect_to account_url

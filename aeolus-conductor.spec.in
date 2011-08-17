@@ -24,7 +24,6 @@ Requires: rubygem(haml) >= 3.1
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate) >= 3.0
 Requires: rubygem(parseconfig)
-Requires: rubygem(authlogic) >= 3.0.2
 Requires: rubygem(deltacloud-client) >= 0.0.9.8
 Requires: rubygem(simple-navigation)
 Requires: rubygem(typhoeus)

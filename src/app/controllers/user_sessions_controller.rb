@@ -29,30 +29,35 @@ class UserSessionsController < ApplicationController
   end
 
   def create
-    @user_session = UserSession.new(params[:user_session])
-    if @user_session.save
-      session[:javascript_enabled] = request.xhr?
-      respond_to do |format|
-        format.html do
-          flash[:notice] = "Login successful!"
-          redirect_back_or_default root_url
-        end
-        format.js { render :status => 201, :text => root_url }
+    authenticate!
+    session[:javascript_enabled] = request.xhr?
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "Login successful!"
+        redirect_back_or_default root_url
       end
-    else
-      respond_to do |format|
-        format.html do
-          flash.now[:warning] = "Login failed: The Username and Password you entered do not match"
-          render :action => :new
-        end
-        format.js { render :status=> 401, :text => "Login failed: The Username and Password you entered do not match" }
-      end
+      format.js { render :status => 201, :text => root_url }
     end
   end
 
+  def unauthenticated
+    Rails.logger.warn "Request is unauthenticated for #{request.remote_ip}"
+
+    respond_to do |format|
+      format.html do
+        @user_session = UserSession.new(params[:user_session])
+        flash[:warning] = "Login failed: The Username and Password you entered do not match"
+        render :action => :new
+      end
+      format.js { render :status=> 401, :text => "Login failed: The Username and Password you entered do not match" }
+    end
+
+    return false
+  end
+
   def destroy
-    current_user_session.destroy
     clear_breadcrumbs
+    logout
     flash[:notice] = "Logout successful!"
     redirect_back_or_default login_url
   end

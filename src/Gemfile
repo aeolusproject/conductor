@@ -4,7 +4,6 @@ gem 'rails', ' >= 3.0.7'
 
 gem 'sqlite3', :require => 'sqlite3'
 
-gem 'authlogic'
 gem 'deltacloud-client', :require => 'deltacloud'
 gem 'sass'
 gem 'haml'
