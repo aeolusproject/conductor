@@ -25,7 +25,6 @@ class UserSessionsController < ApplicationController
   layout 'login'
 
   def new
-    @user_session = UserSession.new
   end
 
   def create
@@ -45,7 +44,6 @@ class UserSessionsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @user_session = UserSession.new(params[:user_session])
         flash[:warning] = "Login failed: The Username and Password you entered do not match"
         render :action => :new
       end

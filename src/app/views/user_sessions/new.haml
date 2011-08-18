@@ -53,13 +53,13 @@
     = render :partial => 'security'
     .panel#login
       .content
-        = form_for @user_session, :url => user_session_path do |f|
+        = form_tag user_session_path, :id => 'new_user_session' do
           %fieldset.primary
-            = f.label :login, "Username:"
-            = f.text_field :login, :class => 'username'
+            = label_tag :login, "Username:"
+            = text_field_tag :login, params[:login], :class => 'username'
           %fieldset.primary
-            = f.label :password, "Password:"
-            = f.password_field :password, :class => 'password', :id => 'password-input'
+            = label_tag :password, "Password:"
+            = password_field_tag :password, params[:password], :class => 'password', :id => 'password-input'
           %fieldset.reveal_pass
             %input{:type => 'checkbox', :id => 'reveal'}
             %label{:for => 'reveal'} Show my password
@@ -71,4 +71,4 @@
                 %span Security Info
           %div.group.bottom.submit
             = image_tag 'login-spinner.gif', :alt => 'Working...', :id => 'progress-indicator'
-            = f.submit "Login", :class => "button", :id => 'login-btn'
+            = submit_tag "Login", :class => "button", :id => 'login-btn'

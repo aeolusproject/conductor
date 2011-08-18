@@ -27,12 +27,12 @@ end
 # authenticate against database
 Warden::Strategies.add(:database) do
   def valid?
-    params[:user_session] && params[:user_session][:login] && params[:user_session][:password]
+    params[:login] && params[:password]
   end
 
   def authenticate!
-    Rails.logger.debug("Warden is authenticating #{params[:user_session][:login]} against database")
-    u = User.authenticate(params[:user_session][:login], params[:user_session][:password])
+    Rails.logger.debug("Warden is authenticating #{params[:login]} against database")
+    u = User.authenticate(params[:login], params[:password])
     u ? success!(u) : fail!("Username or password is not correct - could not log in")
   end
 end

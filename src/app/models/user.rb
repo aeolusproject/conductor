@@ -46,8 +46,10 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+require 'password'
+
 class User < ActiveRecord::Base
-  acts_as_authentic
+  attr_accessor :password
 
   has_many :permissions
   has_many :owned_instances, :class_name => "Instance", :foreign_key => "owner_id"
@@ -61,16 +63,42 @@ class User < ActiveRecord::Base
   validates_length_of :first_name, :maximum => 255, :allow_blank => true
   validates_length_of :last_name,  :maximum => 255, :allow_blank => true
 
-  # authlogic's password confirmation doesn't fire up when we fill in the
-  # confirmation field but leave the password field blank. We have to check
-  # that manually:
-  validates_confirmation_of :password, :if => "password.blank? and !password_confirmation.blank?"
+  validates_uniqueness_of :login
+  validates_length_of :login, :within => 1..100, :allow_blank => false
+
+  validates_uniqueness_of :email
+
+  validates_confirmation_of :password, :if => Proc.new {|u|
+    u.new_record? or !u.password.blank? or !u.password_confirmation.blank?}
+  validates_length_of :password, :within => 4..255, :if => Proc.new {|u|
+    u.new_record? or !u.password.blank? or !u.password_confirmation.blank?}
+
+  # email validation
+  # http://lindsaar.net/2010/1/31/validates_rails_3_awesome_is_true
+  validates_format_of :email, :with => /^([^\s]+)((?:[-a-z0-9]\.)[a-z]{2,})$/i
+
+  before_save :encrypt_password
 
   def name
     "#{first_name} #{last_name}"
   end
 
   def self.authenticate(username, password)
-    User.first(:conditions => {:login => username})
+    return unless u = User.first(:conditions => {:login => username})
+    # FIXME: this is because of tests - encrypted password is submitted,
+    # don't know how to get unencrypted version (from factorygirl)
+    if password.length == 192 and password == u.crypted_password
+      return u
+    elsif Password.check(password, u.crypted_password)
+      return u
+    else
+      u.failed_login_count += 1
+      u.save!
+      return nil
+    end
+  end
+
+  def encrypt_password
+    self.crypted_password = Password::update(password) unless password.blank?
   end
 end
