@@ -89,7 +89,7 @@ def condormatic_instance_create(task)
     pipe_and_log(pipe, "executable = #{job_name}\n")
 
     pipe_and_log(pipe,
-                 "grid_resource = deltacloud #{found.account.provider.url}\n")
+                 "grid_resource = deltacloud #{found.account.provider.encoded_url_with_driver_and_provider};\n")
     pipe_and_log(pipe, "DeltacloudUsername = #{found.account.credentials_hash['username']}\n")
     pipe_and_log(pipe, "DeltacloudPasswordFile = #{pwfilename}")
     pipe_and_log(pipe, "DeltacloudImageId = #{found.provider_image.target_identifier}\n")

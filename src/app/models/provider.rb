@@ -64,6 +64,13 @@ class Provider < ActiveRecord::Base
 
   before_destroy :destroyable?
 
+  def encoded_url_with_driver_and_provider
+    url_extras = ";driver=#{provider_type.deltacloud_driver}"
+    if deltacloud_provider
+      url_extras += ";provider=#{CGI::escape(deltacloud_provider)}"
+    end
+    return url + url_extras
+  end
   # there is a destroy dependency for a cloud accounts association,
   # but a cloud account is silently not destroyed when there is
   # an instance for the cloud account
@@ -81,7 +88,12 @@ class Provider < ActiveRecord::Base
 
   def connect
     begin
-      return DeltaCloud.new(nil, nil, url)
+      opts = {:username => nil,
+              :password => nil,
+              :driver => provider_type.deltacloud_driver }
+      opts[:provider] = deltacloud_provider if deltacloud_provider
+      client = DeltaCloud.new(nil, nil, url)
+      return client.with_config(opts)
     rescue Exception => e
       logger.error("Error connecting to framework: #{e.message}")
       logger.error("Backtrace: #{e.backtrace.join("\n")}")

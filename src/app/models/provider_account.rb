@@ -129,7 +129,14 @@ class ProviderAccount < ActiveRecord::Base
 
   def connect
     begin
-      return DeltaCloud.new(credentials_hash['username'], credentials_hash['password'], provider.url)
+      opts = {:username => credentials_hash['username'],
+              :password => credentials_hash['password'],
+              :driver => provider.provider_type.deltacloud_driver }
+      opts[:provider] = provider.deltacloud_provider if provider.deltacloud_provider
+      client = DeltaCloud.new(credentials_hash['username'],
+                              credentials_hash['password'],
+                              provider.url)
+      return client.with_config(opts)
     rescue Exception => e
       logger.error("Error connecting to framework: #{e.message}")
       logger.error("Backtrace: #{e.backtrace.join("\n")}")
@@ -173,7 +180,12 @@ class ProviderAccount < ActiveRecord::Base
     if credentials_hash['username'].blank? || credentials_hash['password'].blank?
       return false
     end
-    DeltaCloud::valid_credentials?(credentials_hash['username'].to_s, credentials_hash['password'].to_s, provider.url)
+      opts = {:driver => provider.provider_type.deltacloud_driver }
+      opts[:provider] = provider.deltacloud_provider if provider.deltacloud_provider
+    DeltaCloud::valid_credentials?(credentials_hash['username'].to_s,
+                                   credentials_hash['password'].to_s,
+                                   provider.url,
+                                   opts)
   end
 
   def creds_label_hash
