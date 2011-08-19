@@ -34,8 +34,9 @@
 
 class InstanceKey < ActiveRecord::Base
   belongs_to :instance
+  before_destroy :destroy_instance_key
 
-  def before_destroy
+  def destroy_instance_key
     begin
       instance.provider_account.connect.key(self.name).destroy!
     rescue
