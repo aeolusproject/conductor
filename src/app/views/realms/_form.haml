@@ -1,6 +1,4 @@
-- if @realm.errors.any?
-  - @realm.errors.full_messages.each do |err|
-    = err
+- error_messages_for @realm
 %fieldset
   = form.label :name, 'Realm Name'
   = form.text_field :name, :title => 'realm_name', :value => @realm.name, :class => 'em long'

@@ -53,7 +53,7 @@
             = t('.quota') + ":"
           = text_field :self_service_default_quota, :maximum_running_instances, :class => 'grid_5'
           .grid_2.la (instances)
-          = form.error_message_on :maximum_running_instances, 'Maximum Running Instances '
+        = error_messages_for @self_service_default_quota if @self_service_default_quota
         -#%h3 POOLS
         -#%fieldset.clearfix
           %label.grid_2.alpha Permissions:

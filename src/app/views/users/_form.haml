@@ -1,6 +1,4 @@
-%ul
-  =@user.errors.full_messages.each do |msg|
-    %li =msg
+- error_messages_for @user
 
 %fieldset
   %p
@@ -42,7 +40,7 @@
         = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
         = quota_form.text_field :maximum_running_instances
         (instances)
-        = quota_form.error_message_on :maximum_running_instances, 'Maximum Running Instances '
+        = error_messages_for @user.quota if @user and @user.quota
 
 -if check_privilege(Privilege::MODIFY, User)
   %fieldset
