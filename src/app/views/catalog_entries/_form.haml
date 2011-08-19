@@ -1,0 +1,18 @@
+= error_messages_for @catalog_entry
+%fieldset
+  %p
+    = form.label :name
+    = form.text_field :name, :class => 'em long'
+  %p
+    = form.label :catalog_id
+    = form.select :catalog_id, @catalogs.collect{|c| [c.name, c.id]}
+  %p
+    = form.label :description
+    = form.text_area :description, :class => 'long'
+  %p
+    = form.label :url, 'URL'
+    = form.text_field :url, :class => 'long'
+
+%fieldset.options
+  = link_to 'Cancel', catalog_entries_path, :class => 'button danger'
+  = submit_tag 'Save', :name => 'save', :class => 'button', :id => 'save_button'

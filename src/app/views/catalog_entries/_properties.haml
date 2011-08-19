@@ -1,0 +1,23 @@
+%table
+  %thead
+    %tr
+      %th.show
+        Properties for
+        = @catalog_entry.name
+      %th.show
+  %tbody
+    %tr
+      %td
+        %label{:name => 'name'} Name:
+      %td
+        = @catalog_entry.name
+    %tr
+      %td
+        %label{:name => 'description'} Description:
+      %td
+        = @catalog_entry.description
+    %tr
+      %td
+        %label{:name => 'url'} URL:
+      %td
+        = @catalog_entry.url
