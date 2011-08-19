@@ -32,7 +32,6 @@ class UsersController < ApplicationController
 
     @registration = RegistrationService.new(@user)
     unless @registration.save
-      flash.now[:warning] = "User registration failed: #{@registration.error}"
       render :action => 'new' and return
     end
 

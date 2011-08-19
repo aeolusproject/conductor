@@ -40,7 +40,6 @@
         = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
         = quota_form.text_field :maximum_running_instances
         (instances)
-        = error_messages_for @user.quota if @user and @user.quota
 
 -if check_privilege(Privilege::MODIFY, User)
   %fieldset
