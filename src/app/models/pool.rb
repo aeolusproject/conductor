@@ -43,6 +43,7 @@ class Pool < ActiveRecord::Base
   has_many :deployments
   # NOTE: Commented out because images table doesn't have pool_id foreign key?!
   #has_many :images,  :dependent => :destroy
+  has_many :catalogs, :dependent => :destroy
 
   validates_presence_of :name
   validates_presence_of :quota

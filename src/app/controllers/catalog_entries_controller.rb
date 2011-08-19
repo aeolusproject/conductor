@@ -38,6 +38,7 @@ class CatalogEntriesController < ApplicationController
       flash[:warning] = "Deployable url doesn't resolve valid XML file" unless @catalog_entry.accessible_and_valid_deployable_xml?(@catalog_entry.url)
       redirect_to catalog_entries_path
     else
+      load_catalogs
       render :new
     end
   end
@@ -57,6 +58,7 @@ class CatalogEntriesController < ApplicationController
       flash[:notice] = 'Catalog entry updated successfully!'
       redirect_to catalog_entries_url
     else
+      load_catalogs
       render :action => 'edit'
     end
   end

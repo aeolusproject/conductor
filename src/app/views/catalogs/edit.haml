@@ -1,0 +1,15 @@
+%header.page-header
+  %h1{:class => controller.controller_name}= @catalog.name
+  #obj_actions.button-container
+    = link_to 'New Catalog', new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
+    .button-group
+      = link_to 'Cancel Editing', catalogs_path, :class => 'button pill danger', :id => 'cancel_catalog_button'
+  .corner &nbsp;
+
+%section.content-section.user
+  %header
+    %h2 Editing Catalog
+
+  .content
+    = form_for @catalog, :url => catalog_path(@catalog), :html => { :method => :put, :class => 'generic' } do |f|
+      = render :partial => "form", :locals => { :form => f }

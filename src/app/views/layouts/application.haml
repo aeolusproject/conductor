@@ -51,7 +51,7 @@
           %li{:class => "#{'active' unless [:design, :administer].include? controller.top_section}" }
             = link_to 'Monitor', pools_path, :id => 'monitor'
           %li{:class => "#{'active' if controller.top_section == :administer}" }
-            = link_to 'Administer', suggested_deployables_path
+            = link_to 'Administer', catalog_entries_path
 
       #content
         -# works with any 960 container (.container_16 or .container_24)

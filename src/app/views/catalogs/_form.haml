@@ -1,0 +1,12 @@
+= error_messages_for @catalog
+%fieldset
+  %p
+    = form.label :name
+    = form.text_field :name, :class => 'em long'
+  %p
+    = form.label :pool_id
+    = form.select(:pool_id, @pools.collect{|p| [p.name, p.id]}, :prompt => "Select pool")
+
+%fieldset.options
+  = link_to 'Cancel', catalog_entries_path, :class => 'button danger'
+  = submit_tag 'Save', :name => 'save', :class => 'button', :id => 'save_button'

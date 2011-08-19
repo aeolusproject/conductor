@@ -161,11 +161,22 @@ en:
       name: Name
       quota_used: Quota Used
       quota_limit: Quota Limit
-  suggested_deployables:
+  catalog_entries:
     index:
-      suggested_deployables: Suggested Deployables
+      catalog_entries: Catalog Entries
       name: Name
       url: URL
+  catalogs:
+    index:
+      name: Name
+      catalogs: Catalogs
+      catalog_name: Catalog Name
+    updated:
+      one: Catalog updated successfully!
+      many: Catalogs updated successfully!
+    created:
+      one: Catalog created!
+      many: Catalogs created!
   deployables:
     index:
       deployables: Deployables

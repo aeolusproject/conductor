@@ -151,8 +151,13 @@ Conductor::Application.routes.draw do
     delete 'multi_destroy', :on => :collection
   end
 
-  resources :suggested_deployables do
+  resources :catalog_entries do
     delete 'multi_destroy', :on => :collection
+  end
+
+  resources :catalogs do
+    delete 'multi_destroy', :on => :collection
+    post 'create'
   end
 
   #match 'matching_profiles', :to => '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }, :as =>'matching_profiles'

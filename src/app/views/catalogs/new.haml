@@ -3,8 +3,8 @@
 
 %section.content-section.provider_accounts
   %header
-    %h2 Add New Deployable
+    %h2 Add New Catalog
 
   .content
-    = form_for @suggested_deployable, :url => suggested_deployables_path, :html => {:class => 'generic'} do |f|
+    = form_for @catalog, :url => catalogs_path, :html => {:class => 'generic'} do |f|
       = render :partial => "form", :locals => { :form => f }

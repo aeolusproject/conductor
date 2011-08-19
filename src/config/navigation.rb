@@ -14,7 +14,8 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :hardware_profiles, t(:cloud_engine_hardware_profiles), hardware_profiles_path, :highlights_on => /\/hardware_profiles/
       second_level.item :realms, t(:cloud_engine_realms), realms_path, :highlights_on => /\/realms/
       second_level.item :pool_families, t('pool_families.pool_families'), pool_families_path, :highlights_on => /\/pool_families/
-      second_level.item :suggested_deployables, t('suggested_deployables.index.suggested_deployables'), suggested_deployables_path, :highlights_on => /\/suggested_deployables/
+      second_level.item :catalogs, t('catalogs.index.catalogs'), catalogs_path, :highlights_on => /\/catalogs/
+      second_level.item :catalog_entries, t('catalog_entries.index.catalog_entries'), catalog_entries_path, :highlights_on => /\/catalog_entries/
       second_level.item :settings, t('settings.settings'), settings_path, :highlights_on => /\/settings/
     end
     first_level.item :dashboard, t(:dashboard), '#'
