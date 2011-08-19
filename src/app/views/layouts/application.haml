@@ -13,14 +13,20 @@
       = stylesheet_link_tag '/stylesheets/layout_ie.css'
     = stylesheet_link_tag '/stylesheets/compiled/custom.css'
 
+    :javascript
+      window.Conductor = {}
+      window.Conductor.PATH_PREFIX = "#{root_path}"
+      // This hack prevents Backbone from switching to the #/pools/1 type URLs
+      // when the browser doesn't support the HTML5 History API.
+      window.history || (window.history = {});
+      window.history.pushState || (window.history.pushState = function(){});
+
     = javascript_include_tag "jquery-1.6.1.min.js"
     = javascript_include_tag "jquery.ui-1.8.1/jquery-ui-1.8.1.custom.min.js"
     = javascript_include_tag "jquery.tmpl.min.js"
     = javascript_include_tag "underscore-min.js"
     = javascript_include_tag "backbone-min.js"
-    :javascript
-      window.Conductor = {}
-      window.Conductor.PATH_PREFIX = "#{root_path}"
+
     = javascript_include_tag "application.js"
     = javascript_include_tag "yetii-min.js"
 
