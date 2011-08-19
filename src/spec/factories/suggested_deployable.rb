@@ -1,8 +1,9 @@
 FactoryGirl.define do
-  factory :suggested_deployable do
-    sequence(:name) { |n| "suggested_deployable#{n}" }
+  factory :catalog_entry do
+    sequence(:name) { |n| "catalog_entry#{n}" }
     url "http://url_to_deployable"
-    description "suggested deployable description"
+    description "catalog entry description"
     association :owner, :factory => :user
+    association :catalog, :factory => :catalog
   end
 end
