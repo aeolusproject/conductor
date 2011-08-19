@@ -28,7 +28,7 @@ class DeploymentsController < ApplicationController
     end
 
     @deployment = Deployment.new(:pool_id => @pool.id)
-    @catalog_entries = SuggestedDeployable.list_for_user(current_user, Privilege::USE)
+    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE)
     init_new_deployment_attrs
     respond_to do |format|
       format.html
@@ -41,7 +41,7 @@ class DeploymentsController < ApplicationController
   def new
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
-    @catalog_entries = SuggestedDeployable.list_for_user(current_user, Privilege::USE)
+    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE)
     require_privilege(Privilege::CREATE, Deployment, @pool)
     url = get_deployable_url
     respond_to do |format|
@@ -303,9 +303,9 @@ class DeploymentsController < ApplicationController
     elsif params[:catalog_entry_id].to_s == 'other'
       return params[:deployable_url]
     else
-      sdeployable = SuggestedDeployable.find(params[:catalog_entry_id])
-      require_privilege(Privilege::USE, sdeployable)
-      return sdeployable.url
+      c_entry = CatalogEntry.find(params[:catalog_entry_id])
+      require_privilege(Privilege::USE, c_entry)
+      return c_entry.url
     end
   end
 end
