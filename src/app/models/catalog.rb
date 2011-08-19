@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: catalogs
+#
+#  id         :integer         not null, primary key
+#  pool_id    :integer
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Catalog < ActiveRecord::Base
  include PermissionedObject
 

@@ -1,5 +1,4 @@
 # == Schema Information
-# Schema version: 20110616100915
 #
 # Table name: instances
 #
@@ -33,6 +32,7 @@
 #  image_uuid              :string(255)
 #  image_build_uuid        :string(255)
 #  provider_image_uuid     :string(255)
+#  provider_instance_id    :string(255)
 #
 
 #

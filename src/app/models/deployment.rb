@@ -1,18 +1,18 @@
 # == Schema Information
-# Schema version: 20110616100915
 #
 # Table name: deployments
 #
-#  id                :integer         not null, primary key
-#  name              :string(1024)    not null
-#  realm_id          :integer
-#  owner_id          :integer
-#  pool_id           :integer         not null
-#  lock_version      :integer         default(0)
-#  created_at        :datetime
-#  updated_at        :datetime
-#  frontend_realm_id :integer
-#  deployable_xml    :text
+#  id                     :integer         not null, primary key
+#  name                   :string(1024)    not null
+#  realm_id               :integer
+#  owner_id               :integer
+#  pool_id                :integer         not null
+#  lock_version           :integer         default(0)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  frontend_realm_id      :integer
+#  deployable_xml         :text
+#  scheduled_for_deletion :boolean         default(FALSE), not null
 #
 
 #

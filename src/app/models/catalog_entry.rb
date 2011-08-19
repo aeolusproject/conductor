@@ -1,13 +1,13 @@
 # == Schema Information
-# Schema version: 20110616100915
 #
-# Table name: suggested_deployables
+# Table name: catalog_entries
 #
 #  id          :integer         not null, primary key
 #  name        :string(1024)    not null
 #  description :text            not null
 #  url         :string(255)
 #  owner_id    :integer
+#  catalog_id  :integer         not null
 #
 
 class CatalogEntry < ActiveRecord::Base
