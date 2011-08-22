@@ -12,6 +12,9 @@ Conductor.Routers.Pools = Backbone.Router.extend({
   },
 
   show: function(id) {
+    id = Conductor.idFromURLFragment(id);
+    if(! _.isNumber(id)) return;
+
     var pool = new Conductor.Models.Pool({ id: id });
     var view = new Conductor.Views.PoolsShow({ model: pool });
     pool.bind('change', function() { view.render() });
@@ -32,6 +35,8 @@ Conductor.Routers.Deployments = Backbone.Router.extend({
 
   show: function(id) {
     id = Conductor.idFromURLFragment(id);
+    if(! _.isNumber(id)) return;
+
     var deployment = new Conductor.Models.Deployment({ id: id });
     var view = new Conductor.Views.DeploymentsShow({ model: deployment,
         collection: deployment.instances });

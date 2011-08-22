@@ -197,7 +197,7 @@ $.extend(Conductor, {
   },
 
   idFromURLFragment: function(urlFragment) {
-    return urlFragment.split('?')[0];
+    return parseInt(urlFragment.split('?')[0]);
   },
 
   saveCheckboxes: function(checkboxSelector, $scope) {
