@@ -46,6 +46,9 @@ Requires: ruby-postgres
 # and is accessible in the init script
 Requires: curl
 
+BuildRequires: rubygem(compass) >= 0.10.2
+BuildRequires: rubygem(compass-960-plugin)
+
 BuildArch: noarch
 
 %description
