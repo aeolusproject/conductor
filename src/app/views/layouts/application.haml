@@ -20,6 +20,7 @@
       // when the browser doesn't support the HTML5 History API.
       window.history || (window.history = {});
       window.history.pushState || (window.history.pushState = function(){});
+      window.history.replaceState || (window.history.replaceState = function(){});
 
     = javascript_include_tag "jquery-1.6.1.min.js"
     = javascript_include_tag "jquery.ui-1.8.1/jquery-ui-1.8.1.custom.min.js"
