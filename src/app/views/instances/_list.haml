@@ -1,4 +1,5 @@
 - content_for :form_header do
+  %li= link_to "Export events", export_events_instances_path, :class => 'button'
   %li= restful_submit_tag 'Stop Selected Instances', 'stop', multi_stop_instances_path, 'GET', :class => 'button', :id => 'stop_selected_instances'
   = hidden_field_tag 'backlink', request.url
   %li

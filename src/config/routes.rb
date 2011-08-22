@@ -95,6 +95,7 @@ Conductor::Application.routes.draw do
       get 'start'
       get 'multi_stop'
       get 'remove_failed'
+      get 'export_events'
     end
     member do
       get 'key'

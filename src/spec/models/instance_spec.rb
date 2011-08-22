@@ -194,4 +194,21 @@ describe Instance do
     @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
     @instance.matches.first.should_not be_empty
   end
+
+  it "should return csv header string for export" do
+    reader = CSV::Reader.create(Instance.csv_export([FactoryGirl.create(:instance)]))
+    header = reader.shift
+      ['Status_code','Event_time','Summary','Source_type','Description','Source_id'].each do |attribute|
+        header[0].split(';').include?(attribute).should be_true
+      end
+  end
+
+  it "should return csv string for export" do
+    instance = FactoryGirl.create(:instance)
+    export_string = Instance.csv_export([instance]).gsub(/\s+/, "")
+
+    export_string.include?(instance.id.to_s).should be_true
+    export_string.include?("Instance").should be_true
+    export_string.include?("created").should be_true
+  end
 end

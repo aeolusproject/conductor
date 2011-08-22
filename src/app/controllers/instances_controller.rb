@@ -1,7 +1,7 @@
 class InstancesController < ApplicationController
   before_filter :require_user
   before_filter :load_instance, :only => [:show, :key, :edit, :update]
-  before_filter :set_view_vars, :only => [:show, :index]
+  before_filter :set_view_vars, :only => [:show, :index, :export_events]
 
   def index
     @params = params
@@ -12,6 +12,7 @@ class InstancesController < ApplicationController
       format.html
       format.js { render :partial => 'list' }
       format.json { render :json => @instances }
+
     end
   end
 
@@ -146,6 +147,12 @@ class InstancesController < ApplicationController
       format.html { redirect_to params[:backlink] || pools_path(:view => 'filter', :details_tab => 'instances') }
       format.json { render :json => {:success => notices, :errors => errors} }
     end
+  end
+
+  def export_events
+    send_data(Instance.csv_export(load_instances),
+              :type => 'text/csv; charset=utf-8; header=present',
+              :filename => "export.csv")
   end
 
   private
