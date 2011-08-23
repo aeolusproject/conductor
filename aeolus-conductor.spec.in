@@ -36,6 +36,7 @@ Requires: rubygem(json)
 Requires: rubygem(rack-restful_submit)
 Requires: rubygem(uuidtools)
 Requires: rubygem(sqlite3)
+Requires: rubygem(fastercsv)
 Requires: rubygem(pg)
 Requires: postgresql
 Requires: postgresql-server
