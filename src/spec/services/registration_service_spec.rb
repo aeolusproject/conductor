@@ -42,11 +42,8 @@ describe RegistrationService do
   describe "with quota" do
 
     it "passed via nested attributes to user model" do
-      user_attributes = Factory.attributes_for(:user)
-      user_attributes[:quota_attributes] = {}
-      user_attributes[:quota_attributes][:maximum_running_instances] = 2
-      user_attributes[:quota_attributes][:maximum_total_instances] = 5
-      user = User.new(user_attributes)
+      user = Factory.build(:user)
+      user.quota = Quota.new(:maximum_running_instances => 2, :maximum_total_instances => 5)
       registration_process = RegistrationService.new(user)
 
       lambda do
