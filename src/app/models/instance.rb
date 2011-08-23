@@ -341,16 +341,6 @@ class Instance < ActiveRecord::Base
     read_attribute(:public_addresses)
   end
 
-  def create_auth_key
-    raise "instance provider_account is not set" unless self.provider_account
-    client = self.provider_account.connect
-    return nil unless client && client.feature?(:instances, :authentication_key)
-    kname = "#{self.name}_#{Time.now.to_i}_key_#{self.object_id}".gsub(/[^a-zA-Z0-9\.\-]/, '_')
-    if key = client.create_key(:name => kname)
-      self.update_attribute(:instance_key, InstanceKey.create!(:pem => key.pem.first, :name => key.id, :instance_key_owner => self))
-    end
-  end
-
   def self.csv_export(instances)
     csv_string = FasterCSV.generate(:col_sep => ";", :row_sep => "\r\n") do |csv|
       event_attributes = Event.new.attributes.keys.reject {|key| key if key == "created_at" || key == "updated_at"}
