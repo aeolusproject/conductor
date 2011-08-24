@@ -72,4 +72,32 @@ describe PoolsController do
     end.should change(Pool, :count).by(-2)
   end
 
+  context "JSON format responses for " do
+    before do
+      accept_json
+      UserSession.create(@admin)
+    end
+
+    describe "#create" do
+      before do
+        @pool_attributes = Factory.attributes_for(:pool)
+        post :create, :pool => @pool_attributes
+      end
+
+      it { response.should be_success }
+      it { ActiveSupport::JSON.decode(response.body)["name"].should == @pool_attributes[:name] }
+      it { ActiveSupport::JSON.decode(response.body)["enabled"].should == @pool_attributes[:enabled] }
+    end
+
+    describe "#destroy" do
+      before do
+        @pool = Factory.build(:pool)
+        Pool.stub!(:find).and_return([@pool])
+        delete :multi_destroy, :pools_selected => [@pool.id], :format => :json
+      end
+
+      it { response.should be_success }
+      it { ActiveSupport::JSON.decode(response.body)["success"].should == [@pool.name] }
+    end
+  end
 end

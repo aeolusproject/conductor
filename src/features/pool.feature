@@ -152,17 +152,6 @@ Feature: Manage Pools
     And I should see "Deployment Name"
     And I should see "mockdeployment"
 
-  #Scenario: Create a pool and get JSON response
-  #  Given I accept JSON
-  #  When I create a pool
-  #  Then I should get back a pool in JSON format
-
-  #Scenario: Delete a pool
-  #  Given a pool "mockpool" exists
-  #  And I accept JSON
-  #  When I delete "mockpool" pool
-  #  Then I should get back JSON object with success and errors
-
   Scenario: Switch pretty view to filtred view on pools index
     Given I am on the pools page
     And I see "Overview"
