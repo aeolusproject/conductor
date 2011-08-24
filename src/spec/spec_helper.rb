@@ -6,6 +6,17 @@ require 'authlogic/test_case'
 require 'timecop'
 require 'vcr_setup'
 
+module RequestContentTypeHelper
+  def accept_json
+    @request.env["HTTP_ACCEPT"] = "application/json"
+  end
+
+  def accept_xml
+    @request.env["HTTP_ACCEPT"] = "application/xml"
+  end
+end
+
+include RequestContentTypeHelper
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
