@@ -185,12 +185,6 @@ Feature: Manage Instances
     When I am viewing the mock instance
     Then I should get back a partial
 
-  # for now it's not supported to create an instance, only deployment
-  #Scenario: Create an instance and get JSON response
-  #  Given I accept JSON
-  #  When I create mock instance
-  #  Then I should get back instance in JSON format
-
   #Scenario: Create an instance over XHR
   #  Given I request XHR
   #  When I create mock instance
