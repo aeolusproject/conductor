@@ -133,12 +133,6 @@ Feature: Manage Deployments
     Then I should get back a partial
     And I should see "myinstance"
 
-  #Scenario: Create a deployment and get JSON response
-  #  Given I accept JSON
-  #  When I create a deployment
-  #  Then show me the page
-  #  Then I should get back a deployment in JSON format
-
   Scenario: Create a deployment and get XHR response
     Given I request XHR
     When I create a deployment

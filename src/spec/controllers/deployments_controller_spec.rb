@@ -36,4 +36,33 @@ describe DeploymentsController do
     end.should change(Deployment, :count).by(-2)
   end
 
+  context "JSON format responses for " do
+    before do
+      accept_json
+      UserSession.create(@admin)
+    end
+
+    describe "#create" do
+      before do
+        @deployment = Factory.build(:deployment)
+        Deployment.stub!(:new).and_return(@deployment)
+        post :create
+      end
+
+      it { response.should be_success }
+      it { ActiveSupport::JSON.decode(response.body)["name"].should == @deployment.name }
+    end
+
+    describe "#destroy" do
+      before do
+        @deployment = Factory.build(:deployment)
+        Deployment.stub!(:find).and_return([@deployment])
+        delete :multi_destroy, :deployments_selected => [@deployment.id], :format => :json
+      end
+
+      it { response.should be_success }
+      it { ActiveSupport::JSON.decode(response.body)["success"].should == [@deployment.name] }
+    end
+  end
+
 end
