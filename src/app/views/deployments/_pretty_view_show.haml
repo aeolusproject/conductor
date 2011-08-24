@@ -11,9 +11,9 @@
         %li
           State:
           = instance.state
-      - if instance.instance_key
+      - if instance.instance_key_path
         %li
-          = link_to("Download key", key_instance_path(instance))
+          = link_to("Download key", instance.instance_key_path)
 
 :javascript
   Conductor.setupPrettyFilterURL(
@@ -26,5 +26,8 @@
       <ul>
         <li>IP Address: ${public_addresses}</li>
         <li>State: ${state}</li>
+        {{if instance_key_path}}
+          <li><a href="${instance_key_path}">Download key</a></li>
+        {{/if}}
       </ul>
     </li>
