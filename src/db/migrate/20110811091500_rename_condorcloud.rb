@@ -1,5 +1,7 @@
 class RenameCondorcloud < ActiveRecord::Migration
   def self.up
+    # Not sure why this is necessary, but it is:
+    ProviderType.reset_column_information
     condorcloud_type =  ProviderType.find_by_deltacloud_driver('condorcloud')
     if condorcloud_type
       condorcloud_type.deltacloud_driver = "condor"

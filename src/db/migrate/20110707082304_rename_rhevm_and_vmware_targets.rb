@@ -12,8 +12,10 @@ class RenameRhevmAndVmwareTargets < ActiveRecord::Migration
 
   def self.rename_type(old, new)
     type = ProviderType.find_by_codename(old)
-    type.codename = new
-    type.save
+    if type
+      type.codename = new
+      type.save
+    end
   end
 
 end
