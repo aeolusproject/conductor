@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class PoolFamiliesController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
@@ -15,11 +17,14 @@ class PoolFamiliesController < ApplicationController
   end
 
   def new
+    require_privilege(Privilege::CREATE, PoolFamily)
     @pool_family = PoolFamily.new(:quota => Quota.new)
   end
 
   def create
     @pool_family = PoolFamily.new(params[:pool_family])
+    require_privilege(Privilege::CREATE, PoolFamily)
+
     unless @pool_family.save
       flash.now[:warning] = "Pool family's creation failed."
       render :new and return
@@ -32,11 +37,14 @@ class PoolFamiliesController < ApplicationController
 
   def edit
     @pool_family = PoolFamily.find(params[:id])
+    require_privilege(Privilege::MODIFY, @pool_family)
     @pool_family.quota ||= Quota.new
   end
 
   def update
     @pool_family = PoolFamily.find(params[:id])
+    require_privilege(Privilege::MODIFY, @pool_family)
+
     unless @pool_family.update_attributes(params[:pool_family])
       flash[:error] = "Pool Family wasn't updated!"
       render :action => 'edit' and return
@@ -48,6 +56,8 @@ class PoolFamiliesController < ApplicationController
 
   def show
     @pool_family = PoolFamily.find(params[:id])
+    require_privilege(Privilege::VIEW, @pool_family)
+
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
 
     respond_to do |format|
@@ -62,7 +72,9 @@ class PoolFamiliesController < ApplicationController
   end
 
   def destroy
-    if PoolFamily.destroy(params[:id])
+    pool_family = PoolFamily.find(params[:id])
+    require_privilege(Privilege::MODIFY, pool_family)
+    if pool_family.destroy
       flash[:notice] = "Pool Family was deleted!"
     else
       flash[:error] = "Pool Family cannot be deleted!"
@@ -72,7 +84,9 @@ class PoolFamiliesController < ApplicationController
 
   def add_provider_account
     @pool_family = PoolFamily.find(params[:id])
+    require_privilege(Privilege::MODIFY, @pool_family)
     @provider_account = ProviderAccount.find(params[:provider_account_id])
+    require_privilege(Privilege::VIEW, @provider_account)
 
     @pool_family.provider_accounts << @provider_account
     flash[:notice] = "Provider Account has been added"
@@ -83,7 +97,7 @@ class PoolFamiliesController < ApplicationController
     deleted = []
     not_deleted = []
     PoolFamily.find(params[:pool_family_selected]).each do |pool_family|
-      if pool_family.destroy
+      if check_privilege(Privilege::MODIFY, pool_family) && pool_family.destroy
         deleted << pool_family.name
       else
         not_deleted << pool_family.name
@@ -100,9 +114,12 @@ class PoolFamiliesController < ApplicationController
 
   def multi_destroy_provider_accounts
     @pool_family = PoolFamily.find(params[:pool_family_id])
+    require_privilege(Privilege::MODIFY, @pool_family)
 
     ProviderAccount.find(params[:provider_account_selected]).each do |provider_account|
-      @pool_family.provider_accounts.delete provider_account
+      if check_privilege(Privilege::VIEW, provider_account)
+        @pool_family.provider_accounts.delete provider_account
+      end
     end
 
     redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts')
@@ -126,8 +143,8 @@ class PoolFamiliesController < ApplicationController
   end
 
   def load_pool_families
-    @pool_families = PoolFamily.paginate(:page => params[:page] || 1,
-                                         :order => (params[:order_field] || 'name') + ' ' + (params[:order_dir] || 'asc')
-    )
+    @pool_families = PoolFamily.list_for_user(@current_user, Privilege::VIEW).paginate(
+      :page => params[:page] || 1,
+      :order => (params[:order_field] || 'name') + ' ' + (params[:order_dir] || 'asc'))
   end
 end
