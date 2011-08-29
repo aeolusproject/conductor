@@ -14,7 +14,6 @@
 #  public_addresses        :string(255)
 #  private_addresses       :string(255)
 #  state                   :string(255)
-#  condor_job_id           :string(255)
 #  last_error              :text
 #  lock_version            :integer         default(0)
 #  acc_pending_time        :integer         default(0)
@@ -57,7 +56,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 require 'util/assembly_xml'
-require 'util/condormatic'
 class Instance < ActiveRecord::Base
   include PermissionedObject
 
@@ -290,6 +288,18 @@ class Instance < ActiveRecord::Base
                  :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
   end
 
+  class Match
+    attr_reader :pool_family, :provider_account, :hwp, :provider_image, :realm
+
+    def initialize(pool_family, provider_account, hwp, provider_image, realm)
+      @pool_family = pool_family
+      @provider_account = provider_account
+      @hwp = hwp
+      @provider_image = provider_image
+      @realm = realm
+    end
+  end
+
   def matches
     errors = []
     if pool.pool_family.provider_accounts.empty?
@@ -302,7 +312,7 @@ class Instance < ActiveRecord::Base
 
     build = image_build || image.latest_build
     provider_images = build ? build.provider_images : []
-    possibles = []
+    matched = []
     pool.pool_family.provider_accounts.each do |account|
       # match_provider_hardware_profile returns a single provider
       # hardware_profile that can satisfy the input hardware_profile
@@ -329,16 +339,15 @@ class Instance < ActiveRecord::Base
             next
           end
           brealms.each do |brealm_target|
-            possibles << Possible.new(pool.pool_family, account, hwp, pi,
-                                      brealm_target.target_realm)
+            matched << Match.new(pool.pool_family, account, hwp, pi, brealm_target.target_realm)
           end
         else
-          possibles << Possible.new(pool.pool_family, account, hwp, pi, nil)
+          matched << Match.new(pool.pool_family, account, hwp, pi, nil)
         end
       end
     end
 
-    [possibles, errors]
+    [matched, errors]
   end
 
   def public_addresses

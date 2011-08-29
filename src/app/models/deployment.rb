@@ -140,7 +140,7 @@ class Deployment < ActiveRecord::Base
         unless @task
           raise ActionError.new("stop cannot be performed on this instance.")
         end
-        condormatic_instance_stop(@task)
+        Taskomatic.stop_instance(@task)
       end
     else
       raise ActionError.new 'all instances must be stopped or running'
@@ -172,7 +172,7 @@ class Deployment < ActiveRecord::Base
                                        :task_target => instance,
                                        :action      => InstanceTask::ACTION_CREATE})
         end
-        condormatic_instance_create(task)
+        Taskomatic.create_instance(task)
         if task.state == Task::STATE_FAILED
           status[:errors][assembly.name] = 'failed'
         else

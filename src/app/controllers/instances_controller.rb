@@ -127,13 +127,12 @@ class InstancesController < ApplicationController
           raise ActionError.new("stop is an invalid action.")
         end
 
-        # not sure if task is used as everything goes through condor
         #permissons check here
         @task = instance.queue_action(current_user, 'stop')
         unless @task
           raise ActionError.new("stop cannot be performed on this instance.")
         end
-        condormatic_instance_stop(@task)
+        Taskomatic.stop_instance(@task)
         notices << "#{instance.name}: stop action was successfully queued.<br/>"
       rescue Exception => err
         errors << "#{instance.name}: " + err + "<br/>"

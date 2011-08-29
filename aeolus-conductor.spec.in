@@ -24,7 +24,7 @@ Requires: rubygem(haml) >= 3.1
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate) >= 3.0
 Requires: rubygem(parseconfig)
-Requires: rubygem(deltacloud-client) >= 0.0.9.8
+Requires: rubygem(deltacloud-client) >= 0.4.0
 Requires: rubygem(simple-navigation)
 Requires: rubygem(typhoeus)
 Requires: rubygem(rest-client) >= 1.6.1
@@ -154,7 +154,7 @@ png="public/images public/images/icons public/stylesheets/images \
      public/stylesheets/jquery.ui-1.8.1/images"
 rake="lib/tasks"
 rb="app/models app/controllers app/helpers app/services app/util config \
-    config/initializers config/environments db db/migrate dutils \
+    config/initializers config/environments db db/migrate \
     features/support features/step_definitions lib spec spec/controllers \
     spec/factories spec/helpers spec/models spec/services"
 rhtml="app/views/layouts"
@@ -271,7 +271,6 @@ fi
 %{app_root}/config.ru
 %{app_root}/db
 %{app_root}/dbomatic
-%{app_root}/dutils
 %{app_root}/lib
 %{app_root}/log
 %{app_root}/public

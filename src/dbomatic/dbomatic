@@ -17,19 +17,21 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-$: << File.join(File.dirname(__FILE__), "../dutils")
+$: << File.join(File.dirname(__FILE__), "../app")
 
 require 'rubygems'
-require 'dutils'
-require 'nokogiri'
 require 'optparse'
+require 'singleton'
+require 'logger'
+require 'util/taskomatic'
+require 'fileutils'
 
 help = false
 daemon = true
-condor_event_log_dir    =   "/var/log/condor"
-dbomatic_run_dir        =   "/var/run/aeolus-conductor"
-dbomatic_log_dir        =   "/var/log/aeolus-conductor"
-dbomatic_pid_dir        =   "/var/run/aeolus-conductor"
+dbomatic_log_dir = "/var/log/aeolus-conductor"
+dbomatic_pid_dir = "/var/run/aeolus-conductor"
+$dbomatic_timeout = 60
+$deltacloud_timeout = 30
 
 optparse = OptionParser.new do |opts|
 
@@ -39,6 +41,9 @@ dbomatic [options]
 
 Options:
 BANNER
+  opts.on( '-d', '--deltacloud-timeout N', 'Time(in seconds) to wait for backend clouds to respond (defaults to #{$deltacloud_timeout})', Integer) do |timeout|
+    $deltacloud_timeout = timeout
+  end
   opts.on( '-f', '--pid-file PATH', "Use PATH to the dbomatic pid directory (defaults to #{dbomatic_pid_dir})") do |newpath|
     dbomatic_pid_dir = newpath
   end
@@ -47,11 +52,8 @@ BANNER
     dbomatic_log_dir = newpath
   end
   opts.on( '-n', '--nodaemon', 'Do not daemonize (useful in combination with -l for debugging)') { daemon = false }
-  opts.on( '-p', '--path PATH', "Use PATH to the condor log directory (defaults to #{condor_event_log_dir})") do |newpath|
-    condor_event_log_dir = newpath
-  end
-  opts.on( '-r', '--run PATH', "Use PATH to the dbomatic runtime directory (defaults to #{dbomatic_run_dir})") do |newpath|
-    dbomatic_run_dir = newpath
+  opts.on( '-t', '--timeout N', 'Time out (in seconds) between refreshes (defaults to #{$dbomatic_timeout})', Integer) do |timeout|
+    $dbomatic_timeout = timeout
   end
 end
 
@@ -69,289 +71,198 @@ if help
   exit(0)
 end
 
-CONDOR_EVENT_LOG_FILE       =   "#{condor_event_log_dir}/EventLog"
-CONDOR_EVENT_LOG_FILE_OLD   =   "#{condor_event_log_dir}/EventLog.old"
-EVENT_LOG_POS_FILE          =   "#{dbomatic_run_dir}/event_log_position"
 if dbomatic_log_dir == '-'
   DBOMATIC_LOG_FILE        = STDOUT
-  DBOMATIC_PARSER_LOG_FILE = STDOUT
 else
   DBOMATIC_LOG_FILE        = "#{dbomatic_log_dir}/dbomatic.log"
-  DBOMATIC_PARSER_LOG_FILE = "#{dbomatic_log_dir}/dbomatic-parser.log"
-end
-
-# daemonize
-if daemon
-  # note that this requires 'active_support', which we get for free from dutils
-  Process.daemon
 end
 
 # Custom Log Format
 class DBomaticLogger < Logger
-  def format_message(severity, timestamp, progname, msg)
-    "#{timestamp.to_formatted_s(:db)} #{severity} #{msg}\n"
-  end
-end
-
-# Handle the event log's xml
-class CondorEventLog < Nokogiri::XML::SAX::Document
-  attr_accessor :tag, :event_type, :event_cmd, :event_time, :trigger_type, :grid_resource, :execute_host, :username, :hold_reason, :private_addresses, :public_addresses
+  include Singleton
 
   def initialize
-    @logger       = DBomaticLogger.new(DBOMATIC_PARSER_LOG_FILE)
-    @logger.level = Logger::DEBUG
-    @logger.info    "DBOmatic parser starting up"
+    super(DBOMATIC_LOG_FILE)
   end
 
-  # Store the name of the event log attribute we're looking at
-  def start_element(element, attributes)
-    # NOTE: this code is written to work both with Nokogiri 1.4.x and 1.5.x
-    # As soon as we stop supporting 1.4.x, we should change this to:
-    #     @tag = attributes.first[1] if element == "a"
-    # and remove the rest.
-
-    return unless element == "a"
-
-    # Nokogiri 1.5.x passes attributes as [['name1', 'val1'], ['name2,'val2']]
-    # while Nokogiri 1.4.x uses a flat array
-    @tag = (Array === attributes.first) ? attributes.first[1] : attributes[1]
-  end
-
-  # Store the value of the event log attribute we're looking at
-  def characters(string)
-    unless string.strip == ""
-      if @tag == "MyType"
-        @event_type = string
-      elsif @tag == "Cmd"
-        @event_cmd = string
-      elsif @tag == "EventTime"
-        @event_time = string
-      elsif @tag == "TriggerEventTypeName"
-        @trigger_type = string
-      elsif @tag == "GridResource"
-        @grid_resource = string
-      elsif @tag == "ExecuteHost"
-        @execute_host = string
-      elsif @tag == "DeltacloudUsername"
-        @username = string
-      elsif @tag == "HoldReason"
-        @hold_reason = string
-      elsif @tag == "DeltacloudPublicNetworkAddresses"
-        @public_addresses = string
-      elsif @tag == "DeltacloudPrivateNetworkAddresses"
-        @private_addresses = string
-      elsif @tag == "DeltacloudProviderId"
-        @provider_instance_id = string
-      end
-    end
-  end
-
-  def update_instance_state_event(inst)
-    @logger.info "update_instance_state_event for #{inst}"
-
-    if @trigger_type == "ULOG_GRID_SUBMIT"
-      inst.state = Instance::STATE_PENDING
-    elsif @trigger_type == "ULOG_JOB_ABORTED" or @trigger_type == "ULOG_JOB_TERMINATED"
-      inst.state = Instance::STATE_STOPPED
-    elsif @trigger_type == "ULOG_EXECUTE"
-      inst.state = Instance::STATE_RUNNING
-    elsif @trigger_type == "ULOG_SUBMIT"
-      # ULOG_SUBMIT happens when the job is first submitted to condor.
-      # However, it's not a state that we care to export to users, but it's
-      # also not an error, so we just silently ignore it.
-    elsif @trigger_type == "ULOG_JOB_HELD"
-      # The job has some error condition.
-      #
-      # FIXME: we also may want to delete this job from condor, depending
-      # on the error.  For instance, if you are trying to start an instance
-      # with a mismatched image and hardwareprofile architecture, the only
-      # reasonable way out is to create a new instance.  Needs thought.
-      #  - I've added a condormatic_instance_reset_error() method to reset
-      #    error conditions such as this.  In the future we should give different
-      #    options based on the error condition.
-      # FIXME: Right now we don't parse out the HoldReason (or HoldReasonCode)
-      # so for now I'm going to set this to STATE_ERROR as there are multiple
-      # possible reasons for going into the 'held' state.
-      #
-      # FIXME: This only adds the error to the instance 'last_error' field.  We
-      # should really be logging this information into the event log but that is not
-      # set up at this time so for now this will do.
-      inst.last_error = @hold_reason
-      inst.state = Instance::STATE_ERROR
-    else
-      @logger.warn "Unexpected trigger type #{@trigger_type}, not updating instance state"
-      return
-    end
-
-    begin
-      @logger.info "update_instance_state_event saving instance #{inst}"
-      inst.save!
-      @logger.debug "updated_instance_state_event saved instance #{inst}, creating event for state #{inst.state}@#{@event_time}"
-      inst.events.create!(:status_code => inst.state,
-                          :event_time  => @event_time)
-    rescue Exception => e
-      @logger.error "#{e.backtrace.shift}: #{e.message}"
-      e.backtrace.each do |step|
-        @logger.error "\tfrom #{step}"
-      end
-    end
-
-    @logger.info "update_instance_state_event completed fo #{inst}"
-  end
-
-  def update_instance_addresses(inst)
-    @logger.info "update_instance_addresses for #{inst}, \
-                  setting public addresses: #{@public_addresses} \
-                  --- and private addresses #{private_addresses}"
-
-    inst.public_addresses = @public_addresses
-    inst.private_addresses = @private_addresses
-    inst.save!
-    @logger.info "update_instance_addresses completed for #{inst}"
-  end
-
-  def update_provider_instance_id(inst)
-    @logger.info "update_provider_instance_id for #{inst}, \
-                  setting id: #{@provider_instance_id}"
-
-    inst.provider_instance_id = @provider_instance_id
-    inst.save!
-    @logger.info "update_provider_instance_id completed for #{inst}"
-  end
-
-  # Create a new entry for events which we have all the necessary data for
-  def end_element(element)
-    begin
-      if element == "c" and @event_type == "JobAdInformationEvent" and !@trigger_type.nil?
-
-        inst = Instance.find(:first, :conditions => ['condor_job_id = ?', @event_cmd])
-        if inst.nil?
-          @logger.warn "Unexpected nil instance, skipping..."
-        else
-          @logger.info "Instance #{inst} found, running update events"
-          update_instance_state_event(inst)
-          update_instance_addresses(inst)
-          update_provider_instance_id(inst)
-          @logger.info "Instance #{inst} update events completed"
-        end
-        @tag = @event_type = @event_cmd = @event_time = @trigger_type = @grid_resource = @execute_host = @hold_reason = @public_addresses = @private_addresses = @provider_instance_id = nil
-      end
-    rescue Exception => e
-      @logger.error "#{e.backtrace.shift}: #{e.message}"
-      e.backtrace.each do |step|
-        @logger.error "\tfrom #{step}"
-      end
-    end
+  def format_message(severity, timestamp, progname, msg)
+    "#{timestamp.strftime('%Y-%m-%d %H:%M:%S')} #{severity} #{msg}\n"
   end
 end
 
-# Retrieve the current parsing position
-# of the log file as stored in the log
-# file postion tracker
-def get_log_file_pos
-  pos = 0
-  if File.exists?(EVENT_LOG_POS_FILE)
-    File.open(EVENT_LOG_POS_FILE, 'r') { |f| pos = f.read.to_i }
-  end
-  pos
-end
-
-# Set the current parsing position
-# of the log file in the log file
-# position tracker
-def set_log_file_pos(pos)
-  File.open(EVENT_LOG_POS_FILE, 'w') { |f| f.write pos.to_s }
-end
-
-# FIXME we should make sure everything here is done atomically
-def parse_log_file(parser)
-  # since the actual log file may be rotated out
-  # open a new handle every time we want to parse
-  log_file = File.open(CONDOR_EVENT_LOG_FILE)
-
-  # persistantly store log position in filesystem
-  # incase of dbomatic restarts
-  log_file.pos = get_log_file_pos
-
-  # if the log has been rotated out
-  # FIXME probably can use a better check for this, like tracking
-  # the modification times of these files. Also what happens if condor
-  # rotates the logs multiple times b4 this executes (is this possible?)
-  if log_file.pos > File.size(CONDOR_EVENT_LOG_FILE)
-    if File.exists?(CONDOR_EVENT_LOG_FILE_OLD)
-      # finish parsing old log file
-      old_log_file = File.open(CONDOR_EVENT_LOG_FILE_OLD)
-      old_log_file.pos = log_file.pos
-      while s = old_log_file.gets
-        parser << s
-      end
-    end
-
-    # reset position
-    log_file.pos = 0
-  end
-
-  while s = log_file.gets
-    parser << s
-  end
-
-  set_log_file_pos(log_file.pos)
-end
-
-logger = DBomaticLogger.new(DBOMATIC_LOG_FILE)
+logger = DBomaticLogger.instance
 logger.level = Logger::DEBUG
-logger.datetime_format = "%Y-%m-%d %H:%M "  # simplify time output
+logger.datetime_format = "%Y-%m-%d %H:%M:%S "  # simplify time output
 logger.info "DBOmatic starting up"
 
-begin
-  DBOMATIC_PID_FILE = "#{dbomatic_pid_dir}/dbomatic.pid"
-  FileUtils.mkdir_p File.dirname(DBOMATIC_PID_FILE)
-  open(DBOMATIC_PID_FILE, "w") {|f| f.write(Process.pid) }
-  File.chmod(0644, DBOMATIC_PID_FILE)
+# daemonize
+if daemon
+  rd, wr = IO.pipe
 
-  parser = Nokogiri::XML::SAX::PushParser.new CondorEventLog.new
+  pid = fork
+  if pid
+    # parent
 
-  # XXX hack, condor event log doesn't seem to have a top level element
-  # enclosing everything else in the doc (as standards conforming xml must).
-  # Create one for parsing purposes.
-  parser << "<events>"
+    # doesn't need the write end of the pipe, so close it out
+    wr.close
 
-  parse_log_file(parser) if File.exists? CONDOR_EVENT_LOG_FILE
-  logger.info "Parsed existing event log file - current postition: #{get_log_file_pos}"
+    # wait around for data to come in from the pipe
+    data = rd.read(1)
+    rd.close
 
-  # hacky fix for BZ #712316 (better dbomatic implementation in progress)
-  # wait until condor event log file exists
-  sleep 2 until File.exist?(CONDOR_EVENT_LOG_FILE)
+    if data.nil?
+      # assume the child wrote the error
+      exit 1
+    end
 
-  # track the modification time of the file for changes
-  logfile_timestamp = File.mtime(CONDOR_EVENT_LOG_FILE)
+    exit 0
+  else
+    # child
+    rd.close
 
-  logger.info "Beginning main event loop"
-  while true
-    sleep 2
-    logger.debug "Checking for condor event log modification"
-    if File.mtime(CONDOR_EVENT_LOG_FILE) > logfile_timestamp
-      logger.info "EventLog modification event triggered, parsing log"
-      begin
-        logfile_timestamp = File.mtime(CONDOR_EVENT_LOG_FILE)
-        parse_log_file parser
-      rescue Exception => e
-        logger.error "Parser error: #{e.backtrace.shift}: #{e.message}"
-        e.backtrace.each do |step|
-          logger.error "\tfrom #{step}"
-        end
+    Process.setsid
+    exit if fork
+
+    Dir.chdir "/"
+
+    File.umask 022
+
+    STDIN.reopen "/dev/null"       # Free file descriptors and
+    STDOUT.reopen "/dev/null", "a" # point them somewhere sensible.
+    STDERR.reopen '/dev/null', 'a'
+
+    trap("TERM") { exit }
+
+    begin
+      DBOMATIC_PID_FILE = "#{dbomatic_pid_dir}/dbomatic.pid"
+      FileUtils.mkdir_p File.dirname(DBOMATIC_PID_FILE)
+      open(DBOMATIC_PID_FILE, "w") {|f| f.write(Process.pid) }
+      File.chmod(0644, DBOMATIC_PID_FILE)
+    rescue Exception => e
+      logger.error "#{e.backtrace.shift}: #{e.message}"
+      e.backtrace.each do |step|
+        logger.error "\tfrom #{step}"
       end
-      logger.info "EventLog modification event trigger completed, parsing finished - current position #{get_log_file_pos}"
+      raise
+    end
+
+    wr.write("a")
+    wr.close
+  end
+
+end
+
+def self.now
+  Time.now.strftime('%Y-%m-%d %H:%M:%S')
+end
+
+def collect_accounts
+  accounts = []
+  Pool.all.each do |pool|
+    pool.instances.each do |instance|
+      if instance.provider_account and instance.state != Instance::STATE_NEW and not accounts.include?(instance.provider_account)
+        accounts << instance.provider_account
+      end
     end
   end
-  logger.info "Main event loop completed"
+  accounts
+end
 
-  parser << "</events>"
-  parser.finish
-  logger.info "Finished parsing, now exiting"
+def check_one_account(account)
+  connection = account.connect
+
+  account.instances.each do |instance|
+    # optimization; right now we ignore instances that are in the STOPPED state.
+    # when we get to stateful instances, this will need to change
+    if instance.state != Instance::STATE_NEW and instance.state != Instance::STATE_STOPPED
+      api_instance = connection.instance(instance.external_key)
+      if api_instance
+        DBomaticLogger.instance.debug("updating instance state for #{instance.name}: #{instance.external_key}")
+        instance.state = Taskomatic.dcloud_to_instance_state(api_instance.state)
+
+        # only update the public and private addresses if they are not nil.
+        # this prevents us from deleting known information about instances
+        if not api_instance.public_addresses.empty?
+          instance.public_addresses = api_instance.public_addresses.map {|i| i[:address]}.join(',')
+        end
+        if not api_instance.private_addresses.empty?
+          instance.private_addresses = api_instance.private_addresses.map {|i| i[:address]}.join(',')
+        end
+
+        instance.save!
+        instance.events.create!(:status_code => instance.state, :event_time => now)
+      else
+        DBomaticLogger.instance.debug("ignoring unknown instance #{instance.name} #{instance.external_key}")
+      end
+    end
+  end
+end
+
+def refresh_instances
+  accounts = collect_accounts
+
+  # the idea here is that we fork off one process for each provider account.
+  # this is so that one slow or non-responsive deltacloud doesn't hold up the
+  # status for all of them
+  pids = []
+  ActiveRecord::Base.remove_connection
+  accounts.each do |account|
+    pid = Process.fork
+    if pid.nil?
+      # child
+      ActiveRecord::Base.establish_connection
+      check_one_account(account)
+      Kernel.exit!
+    else
+      # parent
+      pids << pid
+    end
+  end
+  ActiveRecord::Base.establish_connection
+
+  # only the parent gets here, as all children exit above
+  start = Time.now.to_i
+  while not pids.empty?
+    pid = Process.wait(pid=-1, flags=Process::WNOHANG)
+    if not pid.nil?
+      pids.delete(pid)
+      next
+    end
+
+    # before sleeping, see if we have exceeded the timeout.  If so, kill off
+    # all remaining children and just hope for the best next time around
+    if (Time.now.to_i - start) > $deltacloud_timeout
+      DBomaticLogger.instance.warn "Connection timeout of #{$deltacloud_timeout} seconds exceeded, backend clouds could not be contacted.  Will try again in #{$dbomatic_timeout} seconds"
+      pids.each {|pid| Process.kill(9, pid)}
+    end
+
+    sleep 1
+  end
+end
+
+begin
+  # load in the rails models; we delay it until here because the Process.daemon
+  # above wreaks havoc with the database connection
+  require File.expand_path(File.dirname(__FILE__) + '/../config/environment')
 rescue Exception => e
   logger.error "#{e.backtrace.shift}: #{e.message}"
   e.backtrace.each do |step|
     logger.error "\tfrom #{step}"
   end
+  raise
+end
+
+logger.info "Beginning main event loop"
+while true
+  logger.debug "Deltacloud instances refresh started"
+  begin
+    refresh_instances
+  rescue Exception => e
+    logger.error "#{e.backtrace.shift}: #{e.message}"
+    e.backtrace.each do |step|
+      logger.error "\tfrom #{step}"
+    end
+  end
+  logger.debug "Deltacloud instances refresh completed"
+  sleep $dbomatic_timeout
 end

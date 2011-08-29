@@ -14,7 +14,7 @@
 CONDUCTOR_DIR="${CONDUCTOR_DIR:-/usr/share/aeolus-conductor}"
 DBOMATIC_LOG="${DBOMATIC_LOG:-/var/log/aeolus-conductor/dbomatic.log}"
 DBOMATIC_PID="${DBOMATIC_PID:-/var/run/aeolus-conductor/dbomatic.pid}"
-DBOMATIC_LOCKFILE="${DBOMATIC_LOCKFILE:-/var/lock/subsys/conductor-dbomatic }"
+DBOMATIC_LOCKFILE="${DBOMATIC_LOCKFILE:-/var/lock/subsys/conductor-dbomatic}"
 AEOLUS_USER="${AEOLUS_USER:-aeolus}"
 
 DBOMATIC_PATH=$CONDUCTOR_DIR/dbomatic

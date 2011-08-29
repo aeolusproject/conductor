@@ -9,7 +9,6 @@ URL:		http://aeolusproject.org
 
 Requires:	aeolus-conductor-daemons = %{version}-%{release}
 Requires:	aeolus-conductor-doc = %{version}-%{release}
-Requires:	condor-deltacloud-gahp
 Requires:	iwhd
 Requires:	aeolus-configure
 Requires:	imagefactory
