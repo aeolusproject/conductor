@@ -4,7 +4,7 @@
     %ul
       %li.account
         %span.name.label.strong.small-caps
-          = "#{@current_user.first_name} #{@current_user.last_name}" if @current_user.present?
+          = "#{current_user.first_name} #{current_user.last_name}" if current_user.present?
         %a.button.pill.user-dropdown{:href => '#'} &nbsp;
         %span#user-menu{ :class => javascript? ? 'js' : 'nojs' }
           = link_to "My Account", account_path

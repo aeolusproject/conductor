@@ -129,7 +129,7 @@ class InstancesController < ApplicationController
 
         # not sure if task is used as everything goes through condor
         #permissons check here
-        @task = instance.queue_action(@current_user, 'stop')
+        @task = instance.queue_action(current_user, 'stop')
         unless @task
           raise ActionError.new("stop cannot be performed on this instance.")
         end
@@ -163,7 +163,7 @@ class InstancesController < ApplicationController
   end
 
   def init_new_instance_attrs
-    @pools = Pool.list_for_user(@current_user, Privilege::CREATE, {:target_type => Instance,:conditions=>{ :enabled => true}})
+    @pools = Pool.list_for_user(current_user, Privilege::CREATE, {:target_type => Instance,:conditions=>{ :enabled => true}})
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
       :include => :architecture,
@@ -183,7 +183,7 @@ class InstancesController < ApplicationController
       {:name => 'CREATED BY', :sort_attr => 'users.last_name'},
     ]
 
-    @pools = Pool.list_for_user(@current_user, Privilege::CREATE, :target_type => Instance)
+    @pools = Pool.list_for_user(current_user, Privilege::CREATE, :target_type => Instance)
   end
 
   def load_instances

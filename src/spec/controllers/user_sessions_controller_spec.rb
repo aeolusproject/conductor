@@ -11,7 +11,7 @@ describe UserSessionsController do
   it "should call new method" do
     {:get => 'login'}.should route_to(:controller => 'user_sessions', :action => 'new')
     get :new
-    @current_user.should == nil
+    current_user.should == nil
     UserSession.find.should == nil
     response.should be_success
   end

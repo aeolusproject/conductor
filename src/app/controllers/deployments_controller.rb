@@ -228,7 +228,7 @@ class DeploymentsController < ApplicationController
 
           # not sure if task is used as everything goes through condor
           #permissons check here
-          @task = instance.queue_action(@current_user, 'stop')
+          @task = instance.queue_action(current_user, 'stop')
           unless @task
             raise ActionError.new("stop cannot be performed on this instance.")
           end
@@ -289,7 +289,7 @@ class DeploymentsController < ApplicationController
   end
 
   def init_new_deployment_attrs
-    @pools = Pool.list_for_user(@current_user, Privilege::CREATE, :target_type => Deployment)
+    @pools = Pool.list_for_user(current_user, Privilege::CREATE, :target_type => Deployment)
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
       :include => :architecture,

@@ -99,8 +99,8 @@ class ApplicationController < ActionController::Base
 
   def get_nav_items
     if current_user.present?
-      @providers = Provider.list_for_user(@current_user, Privilege::VIEW)
-      @pools = Pool.list_for_user(@current_user, Privilege::VIEW)
+      @providers = Provider.list_for_user(current_user, Privilege::VIEW)
+      @pools = Pool.list_for_user(current_user, Privilege::VIEW)
     end
   end
 

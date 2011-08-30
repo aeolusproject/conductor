@@ -1,6 +1,6 @@
 %h1
   Red Hat Cloud Engine
-- unless @current_user.nil?
+- unless current_user.nil?
   %ul
     /
       FIXME: commented out because these links don't do anything yet
@@ -12,9 +12,9 @@
           = t(:configure)
 
     %li.hello
-      - link_to edit_user_path(@current_user) do
+      - link_to edit_user_path(current_user) do
         = t(:hello) + " "
         %b
-          = "#{@current_user.first_name} #{@current_user.last_name}"
+          = "#{current_user.first_name} #{current_user.last_name}"
     %li.logout
       = link_to t(:logout), logout_url
