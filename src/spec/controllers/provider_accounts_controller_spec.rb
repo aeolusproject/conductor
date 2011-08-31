@@ -4,6 +4,7 @@ describe ProviderAccountsController do
 
   fixtures :all
   before(:each) do
+    @tuser = FactoryGirl.create :tuser
     @provider_account = FactoryGirl.create :mock_provider_account
     @provider = @provider_account.provider
 
@@ -11,18 +12,17 @@ describe ProviderAccountsController do
                                           :permission_object => @provider,
                                           :user => FactoryGirl.create(:provider_admin_user)
     @admin = @admin_permission.user
-    activate_authlogic
   end
 
   it "shows provider accounts as list" do
-    UserSession.create(@admin)
+    mock_warden(@admin)
     get :index, :provider_id => @provider.id
     response.should be_success
     response.should render_template("index")
   end
 
   it "doesn't allow to save provider's account if not valid credentials" do
-    UserSession.create(@admin)
+    mock_warden(@admin)
     post :create, :provider_account => {:provider_id => @provider.id}
     response.should be_success
     response.should render_template("new")
@@ -30,14 +30,14 @@ describe ProviderAccountsController do
   end
 
   it "should permit users with account modify permission to access edit cloud account interface" do
-    UserSession.create(@admin)
+    mock_warden(@admin)
     get :edit, :id => @provider_account.id
     response.should be_success
     response.should render_template("edit")
   end
 
   it "should allow users with account modify password to update a cloud account" do
-    UserSession.create(@admin)
+    mock_warden(@admin)
     @provider_account.credentials_hash = {:username => 'mockuser2', :password => "foobar"}
     @provider_account.stub!(:valid_credentials?).and_return(true)
     @provider_account.quota = Quota.new
@@ -48,7 +48,7 @@ describe ProviderAccountsController do
   end
 
   it "should allow users with account modify permission to delete a cloud account" do
-    UserSession.create(@admin)
+    mock_warden(@admin)
     lambda do
       post :multi_destroy, :accounts_selected => [@provider_account.id]
     end.should change(ProviderAccount, :count).by(-1)
@@ -57,24 +57,26 @@ describe ProviderAccountsController do
   end
 
   it "should deny access to users without account modify permission" do
+    mock_warden(@tuser)
     get :edit, :id => @provider_account.id
-    response.should_not be_success
+    response.should render_template('layouts/error')
 
     post :update, :id => @provider_account.id, :provider_account => { :password => 'foobar' }
-    response.should_not be_success
+    response.should render_template('layouts/error')
 
     post :destroy, :id => @provider_account.id
-    response.should_not be_success
+    response.should render_template('layouts/error')
   end
 
   it "should provide ui to create new account" do
-     UserSession.create(@admin)
+     mock_warden(@admin)
      get :new, :provider_id => @provider.id
      response.should be_success
      response.should render_template("new")
   end
 
   it "should fail to grant access to account UIs for unauthenticated user" do
+     mock_warden(nil)
      get :new
      response.should_not be_success
   end

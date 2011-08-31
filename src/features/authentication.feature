@@ -30,8 +30,7 @@ Feature: User authentication
     Given I am logged in
     And I am on the root page
     When I follow "Log out"
-    Then I should be logged out
-    And I should see "Username:"
+    Then I should see "Username:"
     And I should see "Password:"
     And I should see "Show my password"
 

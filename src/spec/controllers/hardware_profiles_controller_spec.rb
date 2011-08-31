@@ -6,11 +6,10 @@ describe HardwareProfilesController do
   before(:each) do
     @admin_permission = FactoryGirl.create :admin_permission
     @admin = @admin_permission.user
-    activate_authlogic
   end
 
   it "should provide ui to view all hardware profiles" do
-     UserSession.create(@admin)
+     mock_warden(@admin)
      @request.accept = "text/html"
      get :index
      response.should be_success

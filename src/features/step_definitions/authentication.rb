@@ -9,9 +9,9 @@ end
 def login(login, password)
   user
   visit path_to("the login page")
-  fill_in "user_session[login]", :with => login
-  fill_in "user_session[password]", :with => password
-  click_button "Login"
+  fill_in "login", :with => login
+  fill_in "password", :with => password
+  click_button "login-btn"
 end
 
 def signup
@@ -36,6 +36,7 @@ end
 When /^I login as authorised user$/ do
   admin_user = @admin_permission.user
   login(admin_user.login, admin_user.password)
+  page.should have_content('Login successful!')
 end
 
 Given /^I am a new user$/ do
@@ -44,7 +45,7 @@ end
 
 Given /^I am logged in$/ do
   login(user.login, user.password)
-  UserSession.find.should_not == nil
+  page.should have_content('Login successful!')
 end
 
 Given /^there are not any roles$/ do
@@ -62,10 +63,6 @@ end
 
 When /^I log out$/ do
  visit '/logout'
-end
-
-Then /^I should be logged out$/ do
-  UserSession.find.should == nil
 end
 
 Then /^I should have one private pool named "([^\"]*)"$/ do |login|

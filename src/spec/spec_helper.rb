@@ -2,7 +2,6 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'authlogic/test_case'
 require 'timecop'
 require 'vcr_setup'
 
@@ -21,8 +20,14 @@ include RequestContentTypeHelper
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+def mock_warden(user)
+  request.env['warden'] = mock(Warden, :authenticate => user,
+                                       :authenticate! => user,
+                                       :user => user,
+                                       :raw_session => nil)
+end
+
 RSpec.configure do |config|
-  include Authlogic::TestCase
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
   config.fixture_path = Rails.root.join("spec/fixtures")

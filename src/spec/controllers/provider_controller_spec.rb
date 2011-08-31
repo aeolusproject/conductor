@@ -7,8 +7,7 @@ describe ProvidersController do
     @admin_permission = FactoryGirl.create :provider_admin_permission
     @provider = @admin_permission.permission_object
     @admin = @admin_permission.user
-    activate_authlogic
-    UserSession.create(@admin)
+    mock_warden(@admin)
   end
 
   describe "provide ui to view hardware profiles" do

@@ -5,11 +5,10 @@ describe DeploymentsController do
   before(:each) do
     @admin_permission = FactoryGirl.create(:admin_permission)
     @admin = @admin_permission.user
-    activate_authlogic
   end
 
   it "should allow RESTful delete of a single deployment" do
-    UserSession.create(@admin)
+    mock_warden(@admin)
     deployment = nil
     lambda do
       deployment = FactoryGirl.create(:deployment)
@@ -22,7 +21,7 @@ describe DeploymentsController do
   end
 
   it "should allow multi destroy of multiple deployments" do
-    UserSession.create(@admin)
+    mock_warden(@admin)
     deployment1 = nil
     deployment2 = nil
     lambda do
@@ -39,7 +38,7 @@ describe DeploymentsController do
   context "JSON format responses for " do
     before do
       accept_json
-      UserSession.create(@admin)
+      mock_warden(@admin)
     end
 
     describe "#create" do

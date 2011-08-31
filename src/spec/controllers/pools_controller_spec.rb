@@ -6,23 +6,23 @@ describe PoolsController do
   before(:each) do
     @admin_permission = FactoryGirl.create :admin_permission
     @admin = @admin_permission.user
-    activate_authlogic
   end
 
   it "should provide ui to create new pool" do
-     UserSession.create(@admin)
+     mock_warden(@admin)
      get :new
      response.should be_success
      response.should render_template("new")
   end
 
   it "should fail to grant access to new pool ui for unauthenticated user" do
+     mock_warden(nil)
      get :new
      response.should_not be_success
   end
 
   it "should provide means to create new pool" do
-     UserSession.create(@admin)
+     mock_warden(@admin)
      lambda do
        post :create, :pool => {
          :name => 'foopool',
@@ -35,7 +35,7 @@ describe PoolsController do
   end
 
   it "should allow RESTful delete of a single pool" do
-    UserSession.create(@admin)
+    mock_warden(@admin)
     lambda do
       post :create, :pool => {
           :name => 'pool1',
@@ -50,7 +50,7 @@ describe PoolsController do
   end
 
   it "should allow RESTful delete of multiple pools" do
-    UserSession.create(@admin)
+    mock_warden(@admin)
     lambda do
       post :create, :pool => {
           :name => 'pool1',
@@ -75,7 +75,7 @@ describe PoolsController do
   context "JSON format responses for " do
     before do
       accept_json
-      UserSession.create(@admin)
+      mock_warden(@admin)
     end
 
     describe "#create" do

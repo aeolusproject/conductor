@@ -8,11 +8,10 @@ describe PoolFamiliesController do
     @admin = @admin_permission.user
     @user_permission = FactoryGirl.create :pool_user_permission
     @user = @user_permission.user
-    activate_authlogic
   end
 
   it "should allow authorized users to create pool family" do
-    UserSession.create(@admin)
+    mock_warden(@admin)
     lambda do
      post :create, :pool_family => {
        :name => 'test',
@@ -24,7 +23,7 @@ describe PoolFamiliesController do
   end
 
   it "should prevent unauthorized users from creating pool families" do
-    UserSession.create(@user)
+    mock_warden(@user)
     lambda do
      post :create, :pool_family => {
        :name => 'test',
@@ -36,7 +35,7 @@ describe PoolFamiliesController do
 
   it "should allow authorized users to edit pool family" do
     pool_family = FactoryGirl.create :pool_family
-    UserSession.create(@admin)
+    mock_warden(@admin)
     put :update, :id => pool_family.id, :pool_family => {
       :name => 'updated pool family',
       :quota_attributes => { :maximum_running_instances => 10 },
@@ -47,7 +46,7 @@ describe PoolFamiliesController do
 
   it "should prevent unauthorized users from creating pool families" do
     pool_family = FactoryGirl.create :pool_family
-    UserSession.create(@user)
+    mock_warden(@user)
     put :update, :id => pool_family.id, :pool_family => {
       :name => 'updated pool family',
       :quota_attributes => { :maximum_running_instances => 10 },

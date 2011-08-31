@@ -67,4 +67,21 @@ describe User do
     user.should_not be_valid
   end
 
+  it "should encrypt password when a user is saved" do
+    user = FactoryGirl.build :tuser
+    user.encrypted_password.should be_nil
+    user.save!
+    user.encrypted_password.should_not be_nil
+  end
+
+
+  it "should authenticate a user with valid password" do
+    user = FactoryGirl.create :tuser
+    User.authenticate(user.login, user.password).should_not be_nil
+  end
+
+  it "should not authenticate a user with valid password" do
+    user = FactoryGirl.create :tuser
+    User.authenticate(user.login, 'invalid').should be_nil
+  end
 end
