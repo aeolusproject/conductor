@@ -350,21 +350,6 @@ class Instance < ActiveRecord::Base
     [matched, errors]
   end
 
-  def public_addresses
-    # FIXME: detect MAC format properly
-    addr = read_attribute(:public_addresses)
-    if addr and addr =~ /\w\w:\w\w:\w\w:\w\w:\w\w:\w\w/
-      begin
-        client = provider_account.connect
-        self.public_addresses = client.instance(provider_instance_id).public_addresses.first
-        save!
-      rescue
-        logger.error "failed to fetch public address for #{self.name}: #{$!.message}"
-      end
-    end
-    read_attribute(:public_addresses)
-  end
-
   def self.csv_export(instances)
     csv_string = FasterCSV.generate(:col_sep => ";", :row_sep => "\r\n") do |csv|
       event_attributes = Event.new.attributes.keys.reject {|key| key if key == "created_at" || key == "updated_at"}
