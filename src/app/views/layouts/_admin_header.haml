@@ -1,29 +1,17 @@
--#We'll figure out a better way to deal with this later.
-%noscript
-  %nav#admin_subsections
-    = render_navigation({:expand_all => true, :level => 2})
-
--# TODO: Actually design nav for the Administer section.
--# Ugly hack to avoid moving files around for the moment.. Abs position the nav :/
-#tab_actions{:style => "position: absolute; top: -32px; right: 0px;"}
-  %label.label.small{:for => 'admin-section-select'} Control Panels
-  %select#admin-section-select
-    %option{:value => users_path} Choose section...
-    - if check_privilege(Privilege::VIEW, User)
-      %option{:value => users_path} Users
-    %option{:value => roles_path} Roles
-    %option{:value => providers_path} Providers
-    %option{:value => provider_accounts_path} Provider Accounts
-    %option{:value => hardware_profiles_path} Hardware Profiles
-    %option{:value => realms_path} Realms
-    %option{:value => pool_families_path} Pool Families
-    %option{:value => catalogs_path} Catalogs
-    %option{:value => catalog_entries_path} Catalog Entries
-    %option{:value => settings_path} Settings
-
-:javascript
-  $(document).ready(function() {
-    $('select#admin-section-select').change(function() {
-      window.location = $(this).val();
-    });
-  });
+%nav#administer_nav
+  %ul
+    %li
+      - link_to users_path do
+        %div.users Users &amp; Groups
+    %li
+      - link_to users_path do
+        %div.environments Environments
+    %li
+      - link_to users_path, :class => "selected" do
+        %div.content Content
+    %li
+      - link_to providers_path do
+        %div.providers Cloud Providers
+  .clear
+#admin_page_header
+  this is admin_page_header

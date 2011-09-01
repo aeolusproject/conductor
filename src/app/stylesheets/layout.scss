@@ -981,21 +981,91 @@ nav#primary {
       }
     }
     li.active{
-      margin-top: -5px;
-      background: url('../../images/tab-active-right.png') no-repeat right top;
       z-index: 1000;
       height: 43px;
       a{
-        background:url('../../images/tab-active-left.png') no-repeat left top;
         padding: 12px 20px 12px 20px;
         font-size: 16px;
         color: #666;
+      }
+    }
+    li.active.monitor{
+      margin-top: -5px;
+      background: url('../../images/tab-active-right.png') no-repeat right top;
+      a{
+        background:url('../../images/tab-active-left.png') no-repeat left top;
+      }
+    }
+    li.active.administer{
+      margin-top: -6px;
+      background: url('../../images/administer-tab-active-right.png') no-repeat right top;
+      a{
+        background:url('../../images/administer-tab-active-left.png') no-repeat left top;
       }
     }
     li + li{
       margin-right: 6px;
     }
   }
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Administer section navigation-- v.0.0.2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+nav#administer_nav {
+  background: transparent url(../../images/administer_nav_bg.png) left bottom repeat-x;
+  -webkit-border-radius: 7px 7px 0px 0px;
+  -moz-border-radius: 7px 7px 0px 0px;
+  border-radius: 7px 7px 0px 0px;
+  padding-top: 7px;
+
+  ul{
+    display: table;
+    margin: 0 auto;
+  }
+
+  li {
+    float: left;
+    text-align: center;
+    list-style-type: none;
+
+    a{
+      text-decoration: none;
+      display: block;
+      color: black;
+
+      div{padding: 45px 10px 12px 10px;}
+      div.users{background: transparent url(../../images/administer_nav_users_icon.png) center 16px no-repeat;}
+      div.environments{background: transparent url(../../images/administer_nav_environments_icon.png) center 14px no-repeat;}
+      div.content{background: transparent url(../../images/administer_nav_content_icon.png) center 13px no-repeat;}
+      div.providers{background: transparent url(../../images/administer_nav_providers_icon.png) center 13px no-repeat;}
+    }
+    a:hover{
+      background: transparent url(../../images/administer_nav_bg_hover.png) center bottom no-repeat;
+    }
+    a.selected{
+      background: transparent url(../../images/administer_nav_bg_hover.png) center bottom no-repeat;
+    }
+  }
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Admin Page Header -- v.0.0.2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+#admin_page_header{
+  background: #e7e7e7; /* Old browsers */
+  background: -moz-linear-gradient(top, #e7e7e7 0%, #dadada 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e7e7e7), color-stop(100%,#dadada)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* Opera11.10+ */
+  background: -ms-linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* IE10+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e7e7e7', endColorstr='#dadada',GradientType=0 ); /* IE6-9 */
+  background: linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* W3C */
+  border-bottom: 1px solid #C4C4C4;
+  margin: -7px 0px 0px 0px;
+  padding-top: 7px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
