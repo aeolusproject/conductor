@@ -26,6 +26,8 @@ class HardwareProfilesController < ApplicationController
 
   def show
     @hardware_profile = HardwareProfile.find(params[:id].to_a.first)
+    require_privilege(Privilege::VIEW, @hardware_profile)
+
     @tab_captions = ['Properties', 'History', 'Matching Provider Hardware Profiles']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     properties
@@ -44,6 +46,8 @@ class HardwareProfilesController < ApplicationController
   end
 
   def new
+    require_privilege(Privilege::CREATE, HardwareProfile)
+
     respond_to do |format|
       format.html { render :action => 'new'}
       format.js { render :partial => 'matching_provider_hardware_profiles' }
@@ -51,6 +55,8 @@ class HardwareProfilesController < ApplicationController
   end
 
   def create
+    require_privilege(Privilege::CREATE, HardwareProfile)
+
     build_hardware_profile(params[:hardware_profile])
     if params[:commit] == 'Save'
       if @hardware_profile.save
@@ -66,7 +72,9 @@ class HardwareProfilesController < ApplicationController
   end
 
   def destroy
-    if HardwareProfile.destroy(params[:id])
+    hardware_profile = HardwareProfile.find(params[:id])
+    require_privilege(Privilege::MODIFY, hardware_profile)
+    if hardware_profile.destroy
        flash[:notice] = "Hardware profile was deleted!"
     else
        flash[:error] = "Hardware profile was not deleted!"
@@ -78,20 +86,19 @@ class HardwareProfilesController < ApplicationController
     unless @hardware_profile
       @hardware_profile = HardwareProfile.find(params[:id])
     end
+    require_privilege(Privilege::MODIFY, @hardware_profile)
     matching_provider_hardware_profiles
   end
 
   def update
-    if params[:commit] == "Reset"
-      redirect_to edit_hardware_profile_url(@hardware_profile) and return
-    end
-
     if params[:id]
       @hardware_profile = HardwareProfile.find(params[:id])
+      require_privilege(Privilege::MODIFY, @hardware_profile)
       build_hardware_profile(params[:hardware_profile])
     end
 
     if params[:commit] == "Check Matches"
+      require_privilege(Privilege::VIEW, HardwareProfile)
       matching_provider_hardware_profiles
       render :edit and return
     end
@@ -109,7 +116,7 @@ class HardwareProfilesController < ApplicationController
     not_deleted=[]
 
     HardwareProfile.find(params[:hardware_profile_selected]).each do |hwp|
-      if hwp.destroy
+      if check_privilege(Privilege::MODIFY, hwp) && hwp.destroy
         deleted << hwp.name
       else
         not_deleted << hwp.name

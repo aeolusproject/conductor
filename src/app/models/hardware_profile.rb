@@ -38,6 +38,8 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class HardwareProfile < ActiveRecord::Base
+  include PermissionedObject
+  has_many :permissions, :as => :permission_object, :dependent => :destroy
   has_many :instances
   scope :frontend, :conditions => { :provider_id => nil }
   has_many :provider_instances, :class_name => "Instance",

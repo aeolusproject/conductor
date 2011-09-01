@@ -1,4 +1,4 @@
-Feature: Manage Pools
+Feature: Manage Hardware Profiles
   In order to manage my cloud infrastructure
   As an admin
   I want to manage Hardware Profiles
