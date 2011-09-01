@@ -183,7 +183,6 @@ form{
   display: inline;
 }
 
-
 /* `Clear Floated Elements
 ----------------------------------------------------------------------------------------------------*/
 
@@ -253,19 +252,27 @@ strong, em, b, i{ font-family: $font-family-em; }
 
 /* Content */
 
-$contentpadding: 7px;
+$monitorcontentpadding: 7px;
+$administercontentpadding: 0px;
+
+body.monitor div#content{
+  width: $width - (2 * $monitorcontentpadding);
+  padding: $monitorcontentpadding;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.50);
+  -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
+  -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
+}
+body.administer div#content{
+  width: $width;
+  padding: $administercontentpadding;
+}
 
 div#content{
-  width: $width - (2 * $contentpadding);
   margin: 0 auto;
   margin-bottom: 98px;
   min-height: 200px;
   -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
   background-color: #FAFAFA;
-  padding: $contentpadding;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.50);
-  -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
-  -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
   border: 1px solid #999;
   position: relative;
   z-index: 100;
@@ -276,8 +283,6 @@ div#content{
   }
 
 }
-
-
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Page Layout -- v.0.0.2 [layout] (layout_ie.css)

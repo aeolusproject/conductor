@@ -37,7 +37,7 @@
     = javascript_include_tag "rails.js"
     = csrf_meta_tag
     = yield :scripts
-  %body
+  %body{:class => "#{controller.top_section == :administer ? 'administer' : 'monitor'}" }
     #primary-container
 
       %header#masthead
