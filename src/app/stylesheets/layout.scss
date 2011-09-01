@@ -248,6 +248,7 @@ strong, em, b, i{ font-family: $font-family-em; }
   position: relative;
   min-height: 100%;
   display: block;
+  margin-bottom: -40px;
 }
 
 /* Content */
@@ -269,7 +270,7 @@ body.administer div#content{
 
 div#content{
   margin: 0 auto;
-  margin-bottom: 98px;
+  margin-bottom: 58px;
   min-height: 200px;
   -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
   background-color: #FAFAFA;
@@ -2179,6 +2180,11 @@ form.generic{
 Page Footer -- v.0.0.1 [footer] (footer.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
+.clearfooter{
+  height: 40px;
+  clear: both;
+}
+
 /* Footer */
 
 footer.standard{
@@ -2209,7 +2215,7 @@ footer.standard{
 
   nav.footer{
     display: inline-block;
-    padding: 14px;
+    padding: 14px 14px 13px 14px;
     a{
       color: #fff;
       padding-right: 6px;

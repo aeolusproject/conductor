@@ -24,26 +24,6 @@
   border-radius: 0em 50em 50em 0em;
 }
 
-/*fixes scrollbar and footer issues*/
-#primary-container{
-  margin-bottom: -40px;
-}
-
-div#content{
-  margin-bottom: 58px;
-}
-
-.clearfooter{
-  height: 40px;
-  clear: both;
-}
-
-footer.standard{
-  nav.footer{
-    padding: 14px 14px 13px 14px;
-  }
-}
-
 .deployable_details .content li {
   list-style-type: none;
 }
