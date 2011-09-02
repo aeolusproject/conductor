@@ -21,10 +21,6 @@ class RolesController < ApplicationController
   before_filter :load_roles, :only => [:show]
   before_filter :load_params_and_headers, :only => [:index]
 
-  def top_section
-    :administer
-  end
-
   def index
     clear_breadcrumbs
     save_breadcrumb(roles_path)

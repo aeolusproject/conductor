@@ -19,10 +19,6 @@
 class CatalogEntriesController < ApplicationController
   before_filter :require_user
 
-  def top_section
-    :administer
-  end
-
   def index
     clear_breadcrumbs
     save_breadcrumb(catalog_entries_path(:viewstate => @viewstate ? @viewstate.id : nil))

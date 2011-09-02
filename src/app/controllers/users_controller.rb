@@ -20,10 +20,6 @@ class UsersController < ApplicationController
   before_filter :require_user, :except => [:new, :create]
   before_filter :load_users, :only => [:show]
 
-  def top_section
-    :administer
-  end
-
   def index
     require_privilege(Privilege::VIEW, User)
     clear_breadcrumbs

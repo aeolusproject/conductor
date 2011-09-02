@@ -27,8 +27,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :filter_view?
   before_filter :read_breadcrumbs
 
-  def top_section; end
-
   # General error handlers, must be in order from least specific
   # to most specific
   rescue_from Exception, :with => :handle_general_error

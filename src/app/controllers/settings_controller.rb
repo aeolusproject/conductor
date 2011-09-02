@@ -24,10 +24,6 @@ class SettingsController < ApplicationController
     save_breadcrumb(settings_path(:viewstate => viewstate_id))
   end
 
-  def top_section
-    :administer
-  end
-
   # Settings MetaData Keys
   SELF_SERVICE_DEFAULT_QUOTA = "self_service_default_quota"
   KEYS = [SELF_SERVICE_DEFAULT_QUOTA]

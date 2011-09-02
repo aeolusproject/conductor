@@ -19,10 +19,6 @@
 class CatalogsController < ApplicationController
   before_filter :require_user
 
-  def top_section
-    :administer
-  end
-
   def index
     clear_breadcrumbs
     @catalogs = Catalog.list_for_user(current_user, Privilege::VIEW)

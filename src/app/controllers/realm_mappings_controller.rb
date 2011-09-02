@@ -19,10 +19,6 @@
 class RealmMappingsController < ApplicationController
   before_filter :require_user
 
-  def top_section
-    :administer
-  end
-
   def new
     require_privilege(Privilege::CREATE, Realm)
     @realm_target = RealmBackendTarget.new(:frontend_realm_id => params[:frontend_realm_id], :realm_or_provider_type => params[:realm_or_provider_type])

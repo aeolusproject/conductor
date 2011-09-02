@@ -20,10 +20,6 @@ class RealmsController < ApplicationController
   before_filter :require_user
   before_filter :load_realms, :only =>[:index, :show]
 
-  def top_section
-    :administer
-  end
-
   def index
     clear_breadcrumbs
     save_breadcrumb(realms_path)

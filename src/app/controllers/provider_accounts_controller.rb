@@ -21,10 +21,6 @@ class ProviderAccountsController < ApplicationController
   before_filter :load_accounts, :only => [:index,:show]
   before_filter :set_view_vars, :only => [:index,:show]
 
-  def top_section
-    :administer
-  end
-
   def index
     clear_breadcrumbs
     save_breadcrumb(provider_accounts_path)

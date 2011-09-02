@@ -20,10 +20,6 @@ class ProvidersController < ApplicationController
   before_filter :require_user
   before_filter :set_view_envs, :only => [:show, :index]
 
-  def top_section
-    :administer
-  end
-
   def index
     clear_breadcrumbs
     save_breadcrumb(providers_path)

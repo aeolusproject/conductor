@@ -24,10 +24,6 @@ class PoolFamiliesController < ApplicationController
   before_filter :load_pool_families, :only =>[:show]
   before_filter :load_tab_captions_and_details_tab, :only => [:show]
 
-  def top_section
-    :administer
-  end
-
   def index
     clear_breadcrumbs
     save_breadcrumb(pool_families_path)

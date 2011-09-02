@@ -24,10 +24,6 @@ class HardwareProfilesController < ApplicationController
   before_filter :setup_new_hardware_profile, :only => [:new]
   before_filter :setup_hardware_profile, :only => [:new, :create, :edit, :update]
 
-  def top_section
-    :administer
-  end
-
   def index
     clear_breadcrumbs
     save_breadcrumb(hardware_profiles_path)
