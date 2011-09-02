@@ -26,8 +26,6 @@ Requires: rubygem(will_paginate) >= 3.0
 Requires: rubygem(parseconfig)
 Requires: rubygem(authlogic) >= 3.0.2
 Requires: rubygem(deltacloud-client) >= 0.0.9.8
-Requires: rubygem(compass) >= 0.10.2
-Requires: rubygem(compass-960-plugin)
 Requires: rubygem(simple-navigation)
 Requires: rubygem(typhoeus)
 Requires: rubygem(rest-client) >= 1.6.1
@@ -45,9 +43,6 @@ Requires: ruby-postgres
 # to ensure the service is actually started
 # and is accessible in the init script
 Requires: curl
-
-BuildRequires: rubygem(compass) >= 0.10.2
-BuildRequires: rubygem(compass-960-plugin)
 
 BuildArch: noarch
 
@@ -174,10 +169,11 @@ for filetype in builder css feature gif haml html ico jpg js json key opts png \
 done
 
 # precompile stylesheets
-cd src
-compass compile --output-style compact
-%{__mv} public/stylesheets/compiled %{buildroot}%{app_root}/public/stylesheets/
-cd ..
+%{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
+sass --style compact ./src/app/stylesheets/application.scss %{buildroot}%{app_root}/public/stylesheets/compiled/application.css
+sass --style compact ./src/app/stylesheets/custom.scss %{buildroot}%{app_root}/public/stylesheets/compiled/custom.css
+sass --style compact ./src/app/stylesheets/layout.scss %{buildroot}%{app_root}/public/stylesheets/compiled/layout.css
+sass --style compact ./src/app/stylesheets/login.scss %{buildroot}%{app_root}/public/stylesheets/compiled/login.css
 
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}

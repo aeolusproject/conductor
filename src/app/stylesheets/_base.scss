@@ -1,5 +1,3 @@
-@import "grid";
-
 $screenfont: "Liberation Sans", "Droid Sans", Helvetica, Arial, sans-serif;
 /* $headlinefont: "Roadgeek E", Interstate, sans-serif; */
 $headlinefont: "FreeWay Bold", FreeWay, Interstate, sans-serif;
@@ -25,8 +23,6 @@ $headercl: #333;
 $goodcl: #bfcc29;
 $okcl: #f6a20a;
 $badcl: #cb292b;
-
-@import "text";
 
 @mixin border-radius($radius) {
   border-radius: $radius;

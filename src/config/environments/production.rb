@@ -65,7 +65,5 @@ Conductor::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-end
 
-# Disable stylesheet updates on production
-Compass.configuration.sass_options = { :never_update => true }
+end
