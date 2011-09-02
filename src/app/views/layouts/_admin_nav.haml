@@ -1,16 +1,16 @@
 %nav#administer_nav
   %ul
     %li
-      - link_to users_path do
+      = link_to users_path do
         %div.users Users &amp; Groups
     %li
-      - link_to users_path do
+      = link_to users_path do
         %div.environments Environments
     %li
-      - link_to users_path, :class => "selected" do
+      = link_to users_path, :class => "selected" do
         %div.content Content
     %li
-      - link_to providers_path do
+      = link_to providers_path do
         %div.providers Cloud Providers
   .clear
 #admin_page_header

@@ -17,9 +17,9 @@ en:
   login: Log in
   logout: Log out
   operation: Operate
-  monitor: Dashboard
+  monitor: Monitor
   browse_objects: Browse Objecs
-  administration: Administer
+  administer: Administer
   system_settings: System Settings
   manage_providers: Manage Providers
   provider_summary: Provider Summary

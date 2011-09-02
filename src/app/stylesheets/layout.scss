@@ -966,6 +966,30 @@ nav#primary {
       height: 34px;
       margin-right: 6px;
       z-index: 1;
+      &.selected{
+        z-index: 1000;
+        height: 43px;
+        a{
+          padding: 12px 20px 12px 20px;
+          font-size: 16px;
+          color: #666;
+        }
+      }
+      &.selected.monitor{
+        margin-top: -5px;
+        background: url('../../images/tab-active-right.png') no-repeat right top;
+        a{
+          background:url('../../images/tab-active-left.png') no-repeat left top;
+        }
+      }
+      &.selected.administer{
+        margin-top: -6px;
+        background: url('../../images/administer-tab-active-right.png') no-repeat right top;
+        a{
+          background:url('../../images/administer-tab-active-left.png') no-repeat left top;
+        }
+      }
+
       a{
         display: block;
         background:url('../../images/tab-inactive-left.png') no-repeat left top;
@@ -979,29 +1003,6 @@ nav#primary {
         text-decoration: none;
         font-weight: bold;
         color: #fff;
-      }
-    }
-    li.active{
-      z-index: 1000;
-      height: 43px;
-      a{
-        padding: 12px 20px 12px 20px;
-        font-size: 16px;
-        color: #666;
-      }
-    }
-    li.active.monitor{
-      margin-top: -5px;
-      background: url('../../images/tab-active-right.png') no-repeat right top;
-      a{
-        background:url('../../images/tab-active-left.png') no-repeat left top;
-      }
-    }
-    li.active.administer{
-      margin-top: -6px;
-      background: url('../../images/administer-tab-active-right.png') no-repeat right top;
-      a{
-        background:url('../../images/administer-tab-active-left.png') no-repeat left top;
       }
     }
     li + li{
@@ -1035,18 +1036,18 @@ nav#administer_nav {
       text-decoration: none;
       display: block;
       color: black;
+      &:hover{
+        background: transparent url(../../images/administer_nav_bg_hover.png) center bottom no-repeat;
+      }
+      &.selected{
+        background: transparent url(../../images/administer_nav_bg_hover.png) center bottom no-repeat;
+      }
 
       div{padding: 45px 10px 12px 10px;}
       div.users{background: transparent url(../../images/administer_nav_users_icon.png) center 16px no-repeat;}
       div.environments{background: transparent url(../../images/administer_nav_environments_icon.png) center 14px no-repeat;}
       div.content{background: transparent url(../../images/administer_nav_content_icon.png) center 13px no-repeat;}
       div.providers{background: transparent url(../../images/administer_nav_providers_icon.png) center 13px no-repeat;}
-    }
-    a:hover{
-      background: transparent url(../../images/administer_nav_bg_hover.png) center bottom no-repeat;
-    }
-    a.selected{
-      background: transparent url(../../images/administer_nav_bg_hover.png) center bottom no-repeat;
     }
   }
 }

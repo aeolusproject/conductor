@@ -37,7 +37,7 @@
     = javascript_include_tag "rails.js"
     = csrf_meta_tag
     = yield :scripts
-  %body{:class => "#{controller.top_section == :administer ? 'administer' : 'monitor'}" }
+  %body{:class => "#{(["pools" ,"deployments", "instances"].include? controller_name) ? 'monitor' : 'administer'}" }
     #primary-container
 
       %header#masthead
@@ -46,14 +46,7 @@
       = render :partial => '/layouts/new_notification' unless flash.empty?
 
       %nav#primary
-        %ul.container
-          - # NOTE this is a hack to implement switching between the top-level
-          - # navigation before the proper wireframes exist for all the sections.
-          - # Then we'll want to switch to the simple-nav gem or something else.
-          %li{:class => "#{'active' unless [:design, :administer].include? controller.top_section} monitor" }
-            = link_to 'Monitor', pools_path, :id => 'monitor'
-          %li{:class => "#{'active' if controller.top_section == :administer} administer" }
-            = link_to 'Administer', catalog_entries_path
+        =render_navigation :level => 1
 
       #content
         -# works with any 960 container (.container_16 or .container_24)
