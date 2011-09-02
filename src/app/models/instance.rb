@@ -374,6 +374,10 @@ class Instance < ActiveRecord::Base
     })
   end
 
+  def first_running?
+    not deployment.instances.deployed.any? {|i| i != self}
+  end
+
   private
 
   def key_name

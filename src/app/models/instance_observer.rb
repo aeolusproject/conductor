@@ -72,6 +72,24 @@ class InstanceObserver < ActiveRecord::Observer
       event = Event.new(:source => instance, :event_time => DateTime.now,
                         :summary => "state changed to #{instance.state}")
       event.save!
+      if instance.state == Instance::STATE_RUNNING && instance.deployment
+        event2 = Event.new(:source => instance.deployment, :event_time => DateTime.now,
+                        :status_code => "first_running", :summary => "1st instance is running") if instance.first_running?
+        event3 = Event.new(:source => instance.deployment, :event_time => DateTime.now,
+                        :status_code => "all_running", :summary => "All instances are running") if instance.deployment.all_instances_running?
+        event2.save! if event2
+        event3.save! if event3
+      elsif (instance.state == Instance::STATE_STOPPED || instance.state == Instance::STATE_ERROR) && instance.deployment
+        if instance.deployment.any_instance_running? && !(instance.deployment.events.empty?)
+          event4 = Event.new(:source => instance.deployment, :event_time => DateTime.now,
+                             :status_code => "some_stopped", :summary => "Some instances are stopped") if instance.deployment.events.lifetime.last{|e|e.status_code == :all_running}
+        else
+          event4 = Event.new(:source => instance.deployment, :event_time => DateTime.now,
+                             :status_code => "all_stopped", :summary => "All instances are stopped")
+        end
+        event4.save! if event4
+      end
+
     end
   end
 

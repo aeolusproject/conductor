@@ -8,6 +8,12 @@
     %tr
       %td=key.to_s.capitalize
       %td=value
+  %tr
+    %td Global Uptime
+    %td=count_uptime(@deployment.uptime_all)
+  %tr
+    %td Uptime 1st instance running
+    %td=count_uptime(@deployment.uptime_1st_instance)
 
 :javascript
   Conductor.setupPrettyFilterURL(

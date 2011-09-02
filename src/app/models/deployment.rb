@@ -50,6 +50,9 @@ class Deployment < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
+
+  has_many :events, :as => :source
+
   after_create "assign_owner_roles(owner)"
 
   validates_presence_of :pool_id
@@ -242,5 +245,41 @@ class Deployment < ActiveRecord::Base
       end
     end
     errs
+  end
+
+  def all_instances_running?
+    instances.deployed.count == instances.count
+  end
+
+  def any_instance_running?
+    instances.any? {|i| i.state == Instance::STATE_RUNNING }
+  end
+
+  def uptime_1st_instance
+    return if events.empty?
+    if instances.deployed.empty?
+      if instances.count > 1 && events.find_by_status_code(:all_stopped) && events.find_by_status_code(:first_running)
+        events.find_by_status_code(:all_stopped).event_time - events.find_by_status_code(:first_running).event_time
+      elsif events.find_by_status_code(:all_stopped) && events.find_by_status_code(:all_running)
+        events.find_by_status_code(:all_stopped).event_time - events.find_by_status_code(:all_running).event_time
+      end
+    else
+      if instances.count > 1 && events.find_by_status_code(:first_running)
+        Time.now.utc - events.find_by_status_code(:first_running).event_time
+      elsif events.find_by_status_code(:all_running)
+        Time.now.utc - events.find_by_status_code(:all_running).event_time
+      end
+    end
+  end
+
+  def uptime_all
+    return if events.empty?
+    if instances.deployed.count == instances.count && events.find_by_status_code(:all_running)
+      Time.now.utc - events.lifetime.last.event_time
+    elsif instances.count > 1 && events.find_by_status_code(:all_running) && events.find_by_status_code(:some_stopped)
+      events.find_by_status_code(:some_stopped).event_time - events.find_by_status_code(:all_running).event_time
+    elsif events.find_by_status_code(:all_stopped) && events.find_by_status_code(:all_running)
+      events.find_by_status_code(:all_stopped).event_time - events.find_by_status_code(:all_running).event_time
+    end
   end
 end

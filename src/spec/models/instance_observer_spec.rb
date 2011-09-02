@@ -77,7 +77,7 @@ describe InstanceObserver do
 
   it "should set accumlated shutting down time when instance changes state from state shutting down" do
     @instance.state = Instance::STATE_SHUTTING_DOWN
-    @instance.save!;
+    @instance.save!
 
     Timecop.freeze(Time.now + 1.second)
 
@@ -199,4 +199,17 @@ describe InstanceObserver do
     @instance.instance_key.reload
     @instance.instance_key.should be_nil
   end
+
+  it "should create event when one of deployment's instance stop/fail'" do
+    deployment = Factory :deployment
+    instance1 = Factory :mock_running_instance, :deployment => deployment
+    instance2 = Factory :mock_running_instance, :deployment => deployment
+    instance3 = Factory :mock_pending_instance, :deployment => deployment
+    instance3.state = Instance::STATE_RUNNING
+    instance3.save!
+    instance2.state = Instance::STATE_ERROR
+    instance2.save!
+    deployment.events.last.status_code.should == "some_stopped"
+  end
+
 end

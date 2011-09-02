@@ -211,4 +211,26 @@ describe Instance do
     export_string.include?("Instance").should be_true
     export_string.include?("created").should be_true
   end
+
+  context "When more instances of deployment are starting" do
+    it "should return true if first instance of deployment is running" do
+      deployment = Factory :deployment
+      instance1 = Factory(:mock_running_instance, :deployment => deployment)
+      instance2 = Factory(:mock_pending_instance, :deployment => deployment)
+      instance3 = Factory(:mock_pending_instance, :deployment => deployment)
+      instance1.first_running?.should be_true
+      instance2.update_attribute :state, Instance::STATE_RUNNING
+      instance2.first_running?.should be_false
+    end
+
+    it "should return true if all instance of deployment is running" do
+      deployment = Factory :deployment
+      instance1 = Factory(:mock_running_instance, :deployment => deployment)
+      instance2 = Factory(:mock_running_instance, :deployment => deployment)
+      instance3 = Factory(:mock_pending_instance, :deployment => deployment)
+      deployment.all_instances_running?.should be_false
+      instance3.update_attribute :state, Instance::STATE_RUNNING
+      deployment.all_instances_running?.should be_true
+    end
+  end
 end

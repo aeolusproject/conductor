@@ -39,4 +39,6 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :source_id
   validates_presence_of :source_type
+
+  scope :lifetime, where(:status_code => [:first_running, :all_running, :some_running, :all_stopped])
 end

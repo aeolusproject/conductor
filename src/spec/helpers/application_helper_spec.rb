@@ -32,6 +32,14 @@ describe ApplicationHelper do
       node.first['id'].should == 'delete'
     end
 
+    it "count_uptime should return right values" do
+      count_uptime(Time.now-(Time.now-10)).should be_true
+    end
+
+    it "count_uptime should return N/A if nil is passed as parameter" do
+      count_uptime(nil).should == "N/A"
+    end
+
   end
 
 end

@@ -124,4 +124,20 @@ describe Deployment do
     lambda {Instance.find(inst1.id)}.should raise_error(ActiveRecord::RecordNotFound)
     lambda {Instance.find(inst2.id)}.should raise_error(ActiveRecord::RecordNotFound)
   end
+
+  it "should be return nil if deployment has no events " do
+    deployment = Factory :deployment
+    deployment.uptime_1st_instance.should be_nil
+    deployment.uptime_all.should be_nil
+  end
+
+  it "should return false if no deployed instances" do
+    deployment = Factory.build :deployment
+    instance = Factory.build(:mock_running_instance, :deployment => deployment)
+    instance2 = Factory.build(:mock_pending_instance, :deployment => deployment)
+    deployment.stub(:instances){[instance, instance2]}
+    deployment.any_instance_running?.should be_true
+    instance.state = Instance::STATE_PENDING
+    deployment.any_instance_running?.should be_false
+  end
 end
