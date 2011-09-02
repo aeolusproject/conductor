@@ -1,4 +1,4 @@
-= render :partial => 'layouts/admin_header'
+= render :partial => 'layouts/admin_nav'
 %header.page-header
   %h1{:class => controller.controller_name}= @hardware_profile.name + " (" + (@hardware_profile.provider_id.nil? ? "Front End" : "Provider" ) + ")"
   #obj_actions.button-container
