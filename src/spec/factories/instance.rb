@@ -39,4 +39,12 @@ FactoryGirl.define do
     association :instance_key, :factory => :ec2_instance_key1
   end
 
+  factory :instance_with_disabled_provider, :parent => :new_instance do
+    association :provider_account, :factory => :disabled_provider_account
+  end
+
+  factory :instance_in_disabled_pool, :parent => :new_instance do
+    association :pool, :factory => :disabled_pool
+  end
+
 end

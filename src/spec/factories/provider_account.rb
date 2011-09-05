@@ -26,4 +26,8 @@ FactoryGirl.define do
 
   end
 
+  factory :disabled_provider_account, :parent => :mock_provider_account do
+    association :provider, :factory => :disabled_provider
+  end
+
 end

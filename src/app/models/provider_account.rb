@@ -123,6 +123,10 @@ class ProviderAccount < ActiveRecord::Base
     instances.empty? || instances.all? { |i| i.destroyable? }
   end
 
+  def enabled?
+    provider and provider.enabled?
+  end
+
   def connect
     begin
       return DeltaCloud.new(credentials_hash['username'], credentials_hash['password'], provider.url)

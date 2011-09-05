@@ -64,4 +64,8 @@ class PoolFamily < ActiveRecord::Base
     # A PoolFamily is destroyable unless it is the default PoolFamily
     self != PoolFamily.default
   end
+
+  def enabled?
+    provider_accounts.blank? or provider_accounts.any? {|acc| acc.enabled?}
+  end
 end

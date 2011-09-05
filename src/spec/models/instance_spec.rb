@@ -212,6 +212,18 @@ describe Instance do
     export_string.include?("created").should be_true
   end
 
+  it "should not be launchable if its provider is disabled" do
+    instance = FactoryGirl.build(:instance_with_disabled_provider)
+    instance.should_not be_enabled
+    instance.should_not be_valid
+  end
+
+  it "should not be launchable if its pool is disabled" do
+    instance = FactoryGirl.build(:instance_in_disabled_pool)
+    instance.should_not be_enabled
+    instance.should_not be_valid
+  end
+
   context "When more instances of deployment are starting" do
     it "should return true if first instance of deployment is running" do
       deployment = Factory :deployment

@@ -116,6 +116,8 @@ class Instance < ActiveRecord::Base
   validates_inclusion_of :state,
      :in => STATES
 
+  validate :pool_and_account_enabled_validation, :on => :create
+
   before_destroy :destroyable?
 
   # A user should only be able to update certain attributes, but the API may permit other attributes to be
@@ -156,6 +158,19 @@ class Instance < ActiveRecord::Base
     # filter actions based on quota
     # FIXME: not doing quota filtering now
     return_val
+  end
+
+  def enabled?
+    pool and pool.enabled? and (provider_account.nil? or provider_account.enabled?)
+  end
+
+  def pool_and_account_enabled_validation
+    return if enabled?
+
+    errors.add(:pool, 'must be enabled') unless pool and pool.enabled?
+    unless provider_account.nil? or provider_account.enabled?
+      errors.add(:provider_account, 'must be enabled')
+    end
   end
 
 

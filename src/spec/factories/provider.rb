@@ -28,4 +28,8 @@ FactoryGirl.define do
     after_create { |p| p.realms << FactoryGirl.create(:realm4, :provider => p) }
   end
 
+  factory :disabled_provider, :parent => :mock_provider do
+    enabled false
+  end
+
 end
