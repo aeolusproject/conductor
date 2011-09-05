@@ -22,16 +22,10 @@ SimpleNavigation::Configuration.run do |navigation|
     first_level.dom_class = 'container'
     first_level.item :monitor, t(:monitor), pools_path, :class => 'monitor', :highlights_on => lambda { ["pools" ,"deployments", "instances"].include? controller_name }
     first_level.item :administer, t(:administer), users_path, :class => 'administer', :highlights_on => /\/admin/ do |second_level|
-      second_level.item :users, t('users.users'), users_path, :highlights_on => /\/users/
-      second_level.item :roles, t('roles.roles'), roles_path, :highlights_on => /\/roles/
-      second_level.item :providers, t('providers.providers'), providers_path, :highlights_on => /\/providers/
-      second_level.item :provider_accounts, t(:provider_accounts_item), provider_accounts_path, :highlights_on => /\/provider_accounts/
-      second_level.item :hardware_profiles, t(:cloud_engine_hardware_profiles), hardware_profiles_path, :highlights_on => /\/hardware_profiles/
-      second_level.item :realms, t(:cloud_engine_realms), realms_path, :highlights_on => /\/realms/
-      second_level.item :pool_families, t('pool_families.pool_families'), pool_families_path, :highlights_on => /\/pool_families/
-      second_level.item :catalogs, t('catalogs.index.catalogs'), catalogs_path, :highlights_on => /\/catalogs/
-      second_level.item :catalog_entries, t('catalog_entries.index.catalog_entries'), catalog_entries_path, :highlights_on => /\/catalog_entries/
-      second_level.item :settings, t('settings.settings'), settings_path, :highlights_on => /\/settings/
+      second_level.item :users_and_groups, "Users & Groups", users_path, :link => { :class => 'users' }, :highlights_on => /\/users/
+      second_level.item :environments, "Environments", hardware_profiles_path, :link => { :class => 'environments' }, :highlights_on => /\/users/
+      second_level.item :content, "Content", realms_path, :link => { :class => 'content' }, :highlights_on => /\/users/
+      second_level.item :cloud_providers, "Cloud Providers", providers_path, :link => { :class => 'providers' }, :highlights_on => /\/providers/
     end
   end
 end

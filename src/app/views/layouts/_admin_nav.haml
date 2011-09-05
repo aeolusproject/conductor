@@ -1,17 +1,4 @@
 %nav#administer_nav
-  %ul
-    %li
-      = link_to users_path do
-        %div.users Users &amp; Groups
-    %li
-      = link_to users_path do
-        %div.environments Environments
-    %li
-      = link_to users_path, :class => "selected" do
-        %div.content Content
-    %li
-      = link_to providers_path do
-        %div.providers Cloud Providers
-  .clear
+  = render_navigation :level => 2
 #admin_page_header
   this is admin_page_header, this div is going to go away from this partial
