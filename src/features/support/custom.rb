@@ -34,3 +34,11 @@ InstanceKey.class_eval do
     true
   end
 end
+
+# for cucumber tests we want to authenticate against local db,
+# not LDAP
+User.class_eval do
+  class << self
+    alias authenticate_using_ldap authenticate
+  end
+end

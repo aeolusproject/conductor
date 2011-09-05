@@ -5,7 +5,6 @@ Rails.configuration.middleware.use RailsWarden::Manager do |config|
   # all UI requests are handled in the default scope
   config.scope_defaults(
     :user,
-    #:strategies   => [AppConfig.warden.to_sym],
     :strategies   => [:database],
     :store        => true,
     :action       => 'unauthenticated'
@@ -33,6 +32,22 @@ Warden::Strategies.add(:database) do
   def authenticate!
     Rails.logger.debug("Warden is authenticating #{params[:login]} against database")
     u = User.authenticate(params[:login], params[:password])
+    u ? success!(u) : fail!("Username or password is not correct - could not log in")
+  end
+end
+
+
+# authenticate against LDAP
+Warden::Strategies.add(:ldap) do
+
+  # relevant only when username and password params are set
+  def valid?
+    params[:login] && params[:password]
+  end
+
+  def authenticate!
+    Rails.logger.debug("Warden is authenticating #{params[:username]} against ldap")
+    u = User.authenticate_using_ldap(params[:login], params[:password])
     u ? success!(u) : fail!("Username or password is not correct - could not log in")
   end
 end

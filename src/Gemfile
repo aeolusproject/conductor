@@ -23,6 +23,7 @@ gem 'railties'
 gem 'fastercsv'
 gem 'warden'
 gem 'rails_warden'
+gem 'ruby-net-ldap'
 group :development, :test do
   #gem 'rspec-rails'
   #gem 'factory_girl_rails'

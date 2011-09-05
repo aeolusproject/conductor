@@ -47,9 +47,15 @@
 # Likewise, all the methods added will be available for all controllers.
 
 require 'password'
+require 'ldap'
 
 class User < ActiveRecord::Base
   attr_accessor :password
+
+  # this attr is used when validating non-local (ldap) users
+  # - these users have blank password, so validation should accept nil password
+  # for them
+  attr_accessor :ignore_password
 
   has_many :permissions
   has_many :owned_instances, :class_name => "Instance", :foreign_key => "owner_id"
@@ -66,16 +72,17 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :login
   validates_length_of :login, :within => 1..100, :allow_blank => false
 
-  validates_uniqueness_of :email
+  #validates_uniqueness_of :email
 
-  validates_confirmation_of :password, :if => Proc.new {|u|
-    u.new_record? or !u.password.blank? or !u.password_confirmation.blank?}
-  validates_length_of :password, :within => 4..255, :if => Proc.new {|u|
-    u.new_record? or !u.password.blank? or !u.password_confirmation.blank?}
+  validates_confirmation_of :password, :if => Proc.new {|u| u.check_password?}
+  validates_length_of :password, :within => 4..255, :if => Proc.new {|u| u.check_password?}
 
   # email validation
   # http://lindsaar.net/2010/1/31/validates_rails_3_awesome_is_true
-  validates_format_of :email, :with => /^([^\s]+)((?:[-a-z0-9]\.)[a-z]{2,})$/i
+  # TODO: if email is not filled in in LDAP, LDAP user won't be able to login
+  # -> can we suppose that LDAP user is always filled in or should we disable
+  # email checking?
+  #validates_format_of :email, :with => /^([^\s]+)((?:[-a-z0-9]\.)[a-z]{2,})$/i
 
   before_save :encrypt_password
 
@@ -84,7 +91,7 @@ class User < ActiveRecord::Base
   end
 
   def self.authenticate(username, password)
-    return unless u = User.first(:conditions => {:login => username})
+    return unless u = User.find_by_login(username)
     # FIXME: this is because of tests - encrypted password is submitted,
     # don't know how to get unencrypted version (from factorygirl)
     if password.length == 192 and password == u.crypted_password
@@ -98,7 +105,28 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.authenticate_using_ldap(username, password)
+    if Ldap.valid_ldap_authentication? username, password
+      u = User.find_by_login(username) || create_ldap_user!(username)
+      return u
+    else
+      return nil
+    end
+  end
+
+  def check_password?
+    # don't check password if it's a new no-local user (ldap)
+    # or if a user is updated
+    new_record? ? !ignore_password : (!password.blank? or !password_confirmation.blank?)
+  end
+
+  private
+
   def encrypt_password
     self.crypted_password = Password::update(password) unless password.blank?
+  end
+
+  def self.create_ldap_user!(login)
+    User.create!(:login => login, :quota => Quota.new, :ignore_password => true)
   end
 end
