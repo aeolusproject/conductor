@@ -1,15 +1,7 @@
 = render :partial => 'layouts/admin_nav'
-%header.page-header
-  %h1{:class => controller.controller_name}= @provider.name
-  #obj_actions.button-container
-    = link_to 'New Provider', new_provider_url, :class => 'button primary', :id => 'new_provider_button'
-    .button-group
-      = link_to 'Edit', edit_provider_path(@provider), :class => 'button pill'
-      = link_to "Test", provider_path(@provider, {:test_provider => true}), { :class => 'button' }
-      = button_to 'Delete', provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "button pill danger"
-  .corner &nbsp;
+= render :partial => 'section_header'
 
-%section.content-section.provider
+%section.admin-content-section.provider
   %header
     %h2 Properties
 

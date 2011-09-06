@@ -1,19 +1,22 @@
 = render :partial => 'layouts/admin_nav'
+= render :partial => 'section_header'
 
-%header.page-header
-  %h1{:class => controller.controller_name}= @provider.name
-  #obj_actions.button-container
-    = link_to 'New Provider', new_provider_url, :class => 'button primary', :id => 'new_provider_button'
-    .button-group
-      = link_to 'Cancel Editing', provider_path(@provider), :class => 'button pill danger', :id => 'new_provider_button'
-  .corner &nbsp;
-
-%section.content-section.provider
+%section.admin-content-section.provider
   %header
     %h2
-      Editing Provider:
-      = @provider.name
-
+      Alerts
+  .content
+    unimplemented
+%section.admin-content-section.provider
+  %header
+    %h2
+      Activity
+  .content
+    unimplemented
+%section.admin-content-section.provider
+  %header
+    %h2
+      Settings
   .content
     -form_for @provider, :url => provider_path(@provider), :html => { :method => :put, :class => 'generic' } do |f|
-      = render :partial => 'form', :locals => { :form => f, :cancel_path => provider_path(@provider)}
+      = render :partial => 'form', :locals => { :form => f }
