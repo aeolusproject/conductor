@@ -62,6 +62,10 @@ class DeployableXML
     end
   end
 
+  def image_uuids
+    @image_uuids ||= @root.xpath('/deployable/assemblies/assembly/image').collect{|x| x['id']}
+  end
+
   def self.import_xml_from_url(url)
     # Right now we allow this to raise exceptions on timeout / errors
     resource = RestClient::Resource.new(url, :open_timeout => 10, :timeout => 45)

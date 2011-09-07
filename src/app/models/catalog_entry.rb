@@ -29,12 +29,17 @@ class CatalogEntry < ActiveRecord::Base
 
   def accessible_and_valid_deployable_xml?(url)
     begin
-      deployable_xml = DeployableXML.new(DeployableXML.import_xml_from_url(url))
+      deployable_xml = fetch_deployable
       deployable_xml.validate!
       true
     rescue
       false
     end
+  end
+
+  # Fetch the deployable contained at :url
+  def fetch_deployable
+    DeployableXML.new(DeployableXML.import_xml_from_url(url))
   end
 
 end
