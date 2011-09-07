@@ -1,13 +1,14 @@
 %header.admin-page-header
-  %h1= @provider ? @provider.name : Provider.first.name
+  %h1= @provider.name.blank? ? "Editing Provider" : @provider.name
   #obj_actions
     %span.label.light Choose a provider:
     %ul#provider_select
       %li
-        = link_to @provider ? @provider.name : Provider.first.name, {}, :class => 'roundbutton'
+        = link_to @provider.name.blank? ? "Editing Provider" : @provider.name
         %ul
-          %li= link_to "+ Create New Provider", new_provider_path
-          - Provider.all.each do |provider|
+          %li= link_to "+ Create New Provider", new_provider_path, :id => "create_new_provider"
+          - @providers.each do |provider|
             %li= link_to provider.name, edit_provider_path(provider)
 
-    = link_to "on/off", {}, :class => "roundbutton"
+    = link_to "on/off"
+    = #button_to "on/off", edit_provider_path(@provider, :provider => {:enabled => "#{!@provider.enabled}"}), :method => :post, :confirm => "Disabling provider forces all instances to stop", :class => "roundbutton #{@provider.enabled ? 'green' : ''}"

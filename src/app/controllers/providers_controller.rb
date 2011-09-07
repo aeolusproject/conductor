@@ -19,15 +19,20 @@
 class ProvidersController < ApplicationController
   before_filter :require_user
   before_filter :set_view_envs, :only => [:show, :index]
+  before_filter :load_providers, :only => [:index, :show, :new, :edit, :create, :update]
 
   def index
-    clear_breadcrumbs
-    save_breadcrumb(providers_path)
     @params = params
-    load_providers
+    @provider = @providers.first
 
     respond_to do |format|
-      format.html
+      format.html do
+        if @providers.present?
+          redirect_to edit_provider_path(@provider)
+        else
+          render :action => :index
+        end
+      end
       format.xml { render :partial => 'list.xml' }
     end
   end
@@ -41,10 +46,13 @@ class ProvidersController < ApplicationController
   def edit
     @provider = Provider.find_by_id(params[:id])
     require_privilege(Privilege::MODIFY, @provider)
+
+    if params.delete :test_provider
+      test_connection(@provider)
+    end
   end
 
   def show
-    load_providers
     @provider = Provider.find(params[:id])
     @hardware_profiles = @provider.hardware_profiles
     @realm_names = @provider.realms.collect { |r| r.name }
@@ -85,7 +93,7 @@ class ProvidersController < ApplicationController
       if @provider.save
         @provider.assign_owner_roles(current_user)
         flash[:notice] = "Provider added."
-        redirect_to providers_path
+        redirect_to edit_provider_path(@provider)
       else
         flash[:warning] = "Cannot add the provider."
         render :action => "new"
@@ -103,7 +111,7 @@ class ProvidersController < ApplicationController
     else
       if @provider.errors.empty? and @provider.save
         flash[:notice] = "Provider updated."
-        redirect_to providers_path
+        redirect_to edit_provider_path(@provider)
       else
         flash[:warning] = "Cannot update the provider."
         render :action => 'edit'
@@ -166,6 +174,6 @@ class ProvidersController < ApplicationController
   end
 
   def load_providers
-    @providers = Provider.list_for_user(current_user, Privilege::VIEW)
+    @providers = Provider.list_for_user(@current_user, Privilege::VIEW, :order => :name)
   end
 end

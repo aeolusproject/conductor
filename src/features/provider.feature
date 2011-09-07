@@ -49,13 +49,13 @@ Feature: Manage Providers
   Scenario: Create a new Provider
     Given I am on the providers page
     And there is not a provider named "testprovider"
-    When I follow "New Provider"
+    When I follow "create_new_provider"
     Then I should be on the new provider page
     When I fill in "provider[name]" with "testprovider"
     And I fill in "provider[url]" with "http://localhost:3002/api"
     And I select "Amazon EC2" from "provider_provider_type_id"
-    And I press "Save"
-    Then I should be on the providers page
+    And I press "save"
+    Then I should be on the testprovider's edit provider page
     And I should see "Provider added"
     And I should have a provider named "testprovider"
 
@@ -67,7 +67,7 @@ Feature: Manage Providers
     When I fill in "provider[name]" with "testprovider"
     And I fill in "provider[url]" with "http://localhost:3010/api"
     And I select "Amazon EC2" from "provider_provider_type_id"
-    And I press "Save"
+    And I press "save"
     Then I should be on the providers page
     And I should see "Failed to connect to Provider"
 
@@ -77,9 +77,8 @@ Feature: Manage Providers
     And this provider has 5 hardware profiles
     And this provider has a realm
     And this provider has a provider account
-    When I go to the providers page
-    And I check "provider1" provider
-    And I press "Delete"
+    When I go to the provider1's edit provider page
+    And I press "delete"
     And there should not exist a provider named "provider1"
     And there should not be any hardware profiles
     And there should not be a provider account

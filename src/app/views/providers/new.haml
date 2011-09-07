@@ -1,9 +1,21 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'section_header'
+%header.admin-page-header
+  %h1= @provider.name.blank? ? "New Provider" : @provider.name
+  #obj_actions
+    %span.label.light Choose a provider:
+    %ul#provider_select
+      %li
+        = link_to "Create New Provider"
+        %ul
+          %li= link_to "+ Create New Provider", new_provider_path, :id => "create_new_provider"
+          - @providers.each do |provider|
+            %li= link_to provider.name, edit_provider_path(provider)
 
-%section.content-section.users
+    = link_to "on/off"
+
+%section.admin-content-section.users
   %header
-    %h2 New Provider
+    %h2 Settings
   .content
     = form_for @provider, :url => providers_path, :html => {:class => 'generic'} do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => providers_path }

@@ -44,6 +44,9 @@ module NavigationHelpers
     when /the provider settings page/
       url_for :controller => 'providers', :action => 'settings', :only_path => true
 
+    when /^the (.*)'s edit provider page$/
+      edit_provider_path(Provider.find_by_name($1))
+
     when /the settings page/
       settings_path
 

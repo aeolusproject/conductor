@@ -1,3 +1,4 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'section_header'
-= render :partial => 'list'
+%section.admin-content-section.provider
+  No providers available. Please create one first.
+  = link_to "Create New Provider", new_provider_path, :class => 'button', :id => "create_new_provider"

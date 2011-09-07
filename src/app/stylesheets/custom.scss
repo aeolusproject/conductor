@@ -5,8 +5,11 @@ header.admin-page-header .roundbutton{
   font-weight: bold;
   padding: 3px 10px;
   -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px;
-}
 
+  &.green{
+    background: green;
+  }
+}
 
 #user-menu.nojs a {
   margin-left: 1em;

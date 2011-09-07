@@ -18,5 +18,7 @@
     %h2
       Settings
   .content
-    -form_for @provider, :url => provider_path(@provider), :html => { :method => :put, :class => 'generic' } do |f|
+    = form_for @provider, :url => provider_path(@provider), :html => { :method => :put, :class => 'generic' } do |f|
       = render :partial => 'form', :locals => { :form => f }
+    = link_to "Test Connection", edit_provider_path(@provider, :test_provider => true), :class => 'button'
+    = button_to 'Delete Provider', provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "button danger", :id => "delete"
