@@ -22,4 +22,7 @@ Conductor::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
+
+  # Otherwise we eat these connections even outside of tests:
+  WebMock.allow_net_connect! if defined?(WebMock)
 end
