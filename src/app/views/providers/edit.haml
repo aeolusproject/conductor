@@ -13,12 +13,21 @@
       Activity
   .content
     unimplemented
-%section.admin-content-section.provider
-  %header
-    %h2
-      Settings
-  .content
-    = form_for @provider, :url => provider_path(@provider), :html => { :method => :put, :class => 'generic' } do |f|
-      = render :partial => 'form', :locals => { :form => f }
-    = link_to "Test Connection", edit_provider_path(@provider, :test_provider => true), :class => 'button'
-    = button_to 'Delete Provider', provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "button danger", :id => "delete"
+%section.admin-content-section
+  %header#tab-container-1
+    %h2 Settings
+    %nav.faceted
+      %ul#tab-container-1-nav
+        - @tabs.each do |tab|
+          %li
+            %a{ :href => url_for(:details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"}
+              = tab[:name]
+            -if tab[:count]
+              %span.label.badge.count.dark=tab[:count]
+    .section-controls
+      #obj_actions.button-container
+        .button-group
+          = pretty_filter_toggle(edit_provider_path(@provider, :view => 'pretty', :details_tab => @details_tab[:id]), edit_provider_path(@provider, :view => 'filter', :details_tab => @details_tab[:id]))
+  .content.collapsible.toggle-view.pools#tab
+    %ul.deployable-cards
+      = render :partial => @view

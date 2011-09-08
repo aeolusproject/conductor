@@ -1,20 +1,15 @@
-%section.content-section.provider_accounts
-  %header
-    %h2 Provider Accounts
-    %span.label.badge.dark.count= @accounts.length
+.content
+  - content_for :form_header do
+    %li= restful_submit_tag "Delete", "destroy", multi_destroy_provider_accounts_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
-  .content
-    - content_for :form_header do
-      %li= restful_submit_tag "Delete", "destroy", multi_destroy_provider_accounts_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
-
-    = filter_table(@header, @accounts) do |account|
-      %tr{:class => cycle('nostripe','stripe')}
-        %td
-          - selected = params[:select] == 'all'
-          = check_box_tag "accounts_selected[]", account.id, selected, :id => "account_checkbox_#{account.id}"
-        %td= link_to account.name, provider_account_path(account)
-        %td= account.credentials_hash['username']
-        %td= account.provider.name
-        %td= account.provider.provider_type.name
-        %td= number_to_percentage account.quota.percentage_used, :precision => 0
-        %td= account.quota.maximum_running_instances or 'unlimited'
+  = filter_table([{ :name => '', :sortable => false }, { :name => t("provider_accounts.index.provider_account_name"), :sortable => false }, { :name => t("provider_accounts.index.username"), :sortable => false}, { :name => t("provider_accounts.index.provider_name"), :sortable => false }, { :name => t("provider_accounts.index.provider_type"), :sortable => false }, { :name => t("provider_accounts.index.quota_used"), :sortable => false }, { :name => t("provider_accounts.index.quota_limit"), :sortable => false }], @provider_accounts) do |account|
+    %tr{:class => cycle('nostripe','stripe')}
+      %td
+        - selected = params[:select] == 'all'
+        = check_box_tag "accounts_selected[]", account.id, selected, :id => "account_checkbox_#{account.id}"
+      %td= link_to account.name, provider_account_path(account)
+      %td= account.credentials_hash['username']
+      %td= account.provider.name
+      %td= account.provider.provider_type.name
+      %td= number_to_percentage account.quota.percentage_used, :precision => 0
+      %td= account.quota.maximum_running_instances or 'unlimited'

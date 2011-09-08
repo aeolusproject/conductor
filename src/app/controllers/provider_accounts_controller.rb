@@ -19,7 +19,6 @@
 class ProviderAccountsController < ApplicationController
   before_filter :require_user
   before_filter :load_accounts, :only => [:index,:show]
-  before_filter :set_view_vars, :only => [:index,:show]
 
   def index
     clear_breadcrumbs
@@ -28,7 +27,7 @@ class ProviderAccountsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.xml { render :text => ProviderAccount.xml_export(@accounts) }
+      format.xml { render :text => ProviderAccount.xml_export(@provider_accounts) }
     end
   end
 
@@ -195,20 +194,7 @@ class ProviderAccountsController < ApplicationController
     flash.now[:error] = "Test Connection Failed: Could not connect to provider"
   end
 
-  def set_view_vars
-    #FIXME need to include atributes from credentials, credential_definitions and provider_type in load_accounts query to make it work
-    @header = [
-      { :name => '', :sortable => false },
-      { :name => t("provider_accounts.index.provider_account_name"), :sortable => false },
-      { :name => t("provider_accounts.index.username"), :sortable => false},
-      { :name => t("provider_accounts.index.provider_name"), :sortable => false },
-      { :name => t("provider_accounts.index.provider_type"), :sortable => false },
-      { :name => t("provider_accounts.index.quota_used"), :sortable => false },
-      { :name => t("provider_accounts.index.quota_limit"), :sortable => false },
-    ]
-  end
-
   def load_accounts
-    @accounts = ProviderAccount.list_for_user(current_user, Privilege::VIEW)
+    @provider_accounts = ProviderAccount.list_for_user(current_user, Privilege::VIEW)
   end
 end

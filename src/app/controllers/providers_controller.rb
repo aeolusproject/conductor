@@ -50,6 +50,30 @@ class ProvidersController < ApplicationController
     if params.delete :test_provider
       test_connection(@provider)
     end
+
+    @view = filter_view? ? 'provider_accounts/list' : 'edit' unless params[:details_tab]
+    if params[:details_tab] == 'connections'
+      @view = filter_view? ? 'provider_accounts/list' : 'edit'
+    #elsif params[:details_tab] == 'realms'
+    #  @realms = @provider.realms
+    #  @view = filter_view? ? 'realms/list' : 'realms/list'
+    end
+    #TODO add links to real data for history,properties,permissions
+    @tabs = [{:name => 'Connections', :view => @view, :id => 'connections', :count => @provider.provider_accounts.count},
+    #         {:name => 'Realms', :view => @view, :id => 'realms', :count => @provider.realms.count},
+    #         {:name => 'Hardware', :view => @view, :id => 'hardware_profiles', :count => @provider.hardware_profiles.count},
+    #         {:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.roles.count},
+    ]
+    details_tab_name = params[:details_tab].blank? ? 'connections' : params[:details_tab]
+    @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
+    @provider_accounts = @provider.provider_accounts if @details_tab[:id] == 'connections'
+    @view = @details_tab[:view]
+    respond_to do |format|
+      format.html { render :action => :edit}
+      format.js { render :partial => @view }
+      format.json { render :json => @provider }
+    end
+
   end
 
   def show
@@ -64,8 +88,6 @@ class ProvidersController < ApplicationController
     if params.delete :test_provider
       test_connection(@provider)
     end
-
-    save_breadcrumb(provider_path(@provider), @provider.name)
 
     respond_to do |format|
       format.html { render :action => 'show' }
@@ -117,28 +139,6 @@ class ProvidersController < ApplicationController
         render :action => 'edit'
       end
     end
-  end
-
-  def multi_destroy
-    deleted = []
-    not_deleted = []
-    Provider.find(params[:provider_selected]).each do |provider|
-      check_privilege(Privilege::MODIFY, provider)
-      if provider.destroy
-        deleted << provider.name
-      else
-        not_deleted << provider.name
-      end
-    end
-
-    unless deleted.empty?
-      flash[:notice] = "These Realms were deleted: #{deleted.join(', ')}"
-    end
-    unless not_deleted.empty?
-      flash[:error] = "Could not deleted these Realms: #{not_deleted.join(', ')}"
-    end
-
-    redirect_to providers_url
   end
 
   def destroy
