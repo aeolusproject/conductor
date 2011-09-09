@@ -1,33 +1,44 @@
 = render :partial => 'layouts/admin_nav'
 = render :partial => 'section_header'
 
-%section.admin-content-section.provider
-  %header
-    %h2
-      Alerts
-  .content
-    unimplemented
-%section.admin-content-section.provider
-  %header
-    %h2
-      Activity
-  .content
-    unimplemented
-%section.admin-content-section
-  %header#tab-container-1
-    %h2 Settings
-    %nav.faceted
-      %ul#tab-container-1-nav
-        - @tabs.each do |tab|
-          %li
-            %a{ :href => url_for(:details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"}
-              = tab[:name]
-            -if tab[:count]
-              %span.label.badge.count.dark=tab[:count]
-    .section-controls
-      #obj_actions.button-container
-        .button-group
-          = pretty_filter_toggle(edit_provider_path(@provider, :view => 'pretty', :details_tab => @details_tab[:id]), edit_provider_path(@provider, :view => 'filter', :details_tab => @details_tab[:id]))
-  .content.collapsible.toggle-view.pools#tab
-    %ul.deployable-cards
-      = render :partial => @view
+- if @provider.enabled
+  %section.admin-content-section.provider
+    %header
+      %h2
+        Alerts
+    .content
+      unimplemented
+  %section.admin-content-section.provider
+    %header
+      %h2
+        Activity
+    .content
+      unimplemented
+  %section.admin-content-section
+    %header#tab-container-1
+      %h2 Settings
+      %nav.faceted
+        %ul#tab-container-1-nav
+          - @tabs.each do |tab|
+            %li
+              %a{ :href => url_for(:details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"}
+                = tab[:name]
+              -if tab[:count]
+                %span.label.badge.count.dark=tab[:count]
+      .section-controls
+        #obj_actions.button-container
+          .button-group
+            = pretty_filter_toggle(edit_provider_path(@provider, :view => 'pretty', :details_tab => @details_tab[:id]), edit_provider_path(@provider, :view => 'filter', :details_tab => @details_tab[:id]))
+    .content.collapsible.toggle-view.pools#tab
+      %ul.deployable-cards
+        = render :partial => @view
+- else
+  %section.admin-content-section
+    %header
+      %h2 Provider is disabled.
+    %p.centered
+      The provider "
+      = @provider.name
+      " is currently
+      %strong disabled.
+      To enable and configure provider, click the slide switch in the upper-right-hand corner of this window.

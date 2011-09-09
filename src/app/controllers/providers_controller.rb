@@ -174,6 +174,6 @@ class ProvidersController < ApplicationController
   end
 
   def load_providers
-    @providers = Provider.list_for_user(@current_user, Privilege::VIEW, :order => :name)
+    @providers = Provider.list_for_user(current_user, Privilege::VIEW, :order => :name)
   end
 end
