@@ -34,7 +34,6 @@ Requires: rubygem(rack-restful_submit)
 Requires: rubygem(uuidtools)
 Requires: rubygem(sqlite3)
 Requires: rubygem(fastercsv)
-Requires: rubygem(warden)
 Requires: rubygem(rails_warden)
 Requires: rubygem(aeolus-image)
 Requires: rubygem(pg)
@@ -84,12 +83,14 @@ Requires: rubygem(cucumber)
 Requires: rubygem(rspec)
 Requires: rubygem(timecop)
 Requires: rubygem(cucumber-rails)
-Requires: rubygem(rspec-rails) >= 2.0.1
-Requires: rubygem(webrat) >= 0.7.2
+Requires: rubygem(rspec-rails) >= 2.6.1
+Requires: rubygem(capybara) >= 1.0.0
 Requires: rubygem(database_cleaner) >= 0.5.0
 Requires: rubygem(factory_girl)
 Requires: rubygem(vcr)
 Requires: rubygem(factory_girl_rails)
+Requires: rubygem(webmock)
+Requires: rubygem(launchy)
 
 %description devel
 Tests and other development tools for the Aeolus Conductor.
@@ -182,7 +183,6 @@ sass --style compact ./src/app/stylesheets/login.scss %{buildroot}%{app_root}/pu
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
 %{__cp} src/config.ru %{buildroot}%{app_root}
-%{__cp} src/Gemfile %{buildroot}%{app_root}
 
 %{__mkdir} -p %{buildroot}%{app_root}/config
 %{__cp} src/config/database.pg %{buildroot}%{app_root}/config
@@ -276,7 +276,6 @@ fi
 %{app_root}/log
 %{app_root}/public
 %{app_root}/Rakefile
-%{app_root}/Gemfile
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
 

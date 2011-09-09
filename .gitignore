@@ -18,5 +18,3 @@ src/public/stylesheets/compiled
 development.sqlite3
 production.sqlite3
 test.sqlite3
-
-Gemfile.lock

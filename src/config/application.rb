@@ -4,7 +4,42 @@ require 'rails/all'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+if ENV['USE_BUNDLER'] == 'yes'
+  puts "===== application.rb will try and use bundler ========="
+  Bundler.require(:default, Rails.env) if defined?(Bundler)
+else
+  puts 'Using gem require instead of bundler'
+  require 'rails_warden'
+  require 'net/ldap'
+  require 'deltacloud'
+  require 'sass'
+  require 'haml'
+  require 'will_paginate'
+  require 'nokogiri'
+  require 'simple-navigation'
+  require 'typhoeus'
+  require 'rest-client'
+  require 'rack-restful_submit'
+  require 'uuidtools'
+  require 'pg'
+  require 'thin'
+  require 'json'
+  require 'fastercsv'
+  #require 'railties'
+
+  if (ENV["RAILS_ENV"] == "cucumber" || ENV["RAILS_ENV"] == "test")
+    puts "========= cucumber/test env deps loaded... =========="
+    require 'rspec-rails'
+    require 'factory_girl_rails'
+    require 'timecop'
+    require 'capybara'
+    require 'cucumber'
+    require 'database_cleaner'
+    require 'vcr'
+    require 'webmock'
+    require 'launchy'
+  end
+end
 
 $: << File.join(File.dirname(__FILE__), "../app")
 

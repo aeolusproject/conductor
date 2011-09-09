@@ -41,6 +41,7 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
   #
+  config.mock_with :rspec
   # == Notes
   #
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
