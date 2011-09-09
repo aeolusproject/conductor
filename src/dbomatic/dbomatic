@@ -195,6 +195,24 @@ def check_one_account(account)
         DBomaticLogger.instance.debug("ignoring unknown instance #{instance.name} #{instance.external_key}")
       end
     end
+
+    # For RHEV, we need to start up the instance after the vm has been created
+    # and state changes from PENDING to STOPPED
+    if instance.state == Instance::STATE_STOPPED and instance.total_state_time(Instance::STATE_RUNNING) == 0
+      api_instance = connection.instance(instance.external_key)
+      if api_instance
+        DBomaticLogger.instance.debug("starting instance #{instance.name}: #{instance.external_key}")
+        # TODO: do we need to set an actual user here instead of nil?
+        task = instance.queue_action(nil, 'start')
+        unless task
+          raise ActionError.new("start cannot be performed on this instance.")
+        end
+        Taskomatic.start_instance(task)
+        instance.state = Taskomatic.dcloud_to_instance_state(api_instance.state)
+        instance.save!
+        instance.events.create!(:status_code => instance.state, :event_time => now)
+      end
+    end
   end
 end
 
