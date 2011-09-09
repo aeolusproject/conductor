@@ -37,6 +37,7 @@
 
 class Pool < ActiveRecord::Base
   include PermissionedObject
+  include ActionView::Helpers::NumberHelper
   has_many :instances,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   belongs_to :pool_family
@@ -87,10 +88,14 @@ class Pool < ActiveRecord::Base
       {
         :cloud_providers => instances.collect{|i| i.provider_account}.uniq.count,
         :deployments => deployments.count,
+        :total_instances => (instances.deployed.count +
+                             instances.pending.count + instances.failed.count),
         :instances_deployed => instances.deployed.count,
         :instances_pending => instances.pending.count,
         :instances_failed => instances.failed.count,
         :used_quota => quota.running_instances,
+        :quota_percent => number_to_percentage(quota.percentage_used,
+                                               :precision => 0),
         :available_quota => quota.maximum_running_instances
       }
     #end
@@ -99,6 +104,19 @@ class Pool < ActiveRecord::Base
   def self.list(order_field, order_dir)
     Pool.all(:include => [ :quota, :pool_family ],
              :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
+  end
+
+  def as_json(options={})
+    super(options).merge({
+      :statistics => statistics,
+      :deployments_count => deployments.count,
+      :href => Rails.application.routes.url_helpers.pool_path(id),
+      :pool_family => {
+        :name => pool_family.name,
+        :href => Rails.application.routes.url_helpers.pool_family_path(pool_family.id),
+      },
+
+    })
   end
 
 end

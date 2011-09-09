@@ -4,11 +4,35 @@ Conductor.Routers = Conductor.Routers || {}
 Conductor.Routers.Pools = Backbone.Router.extend({
   routes: {
     '': 'index',
-    'pools': 'index',
+    'pools:query': 'index',
     'pools/:id': 'show',
   },
 
   index: function() {
+    setInterval(function() {
+      var view = new Conductor.Views.PoolsIndex();
+
+      switch(view.currentTab()) {
+      case 'pools':
+        view.collection = new Conductor.Models.Pools();
+        break;
+      case 'deployments':
+        view.collection = new Conductor.Models.Deployments();
+        break;
+      case 'instances':
+        view.collection = new Conductor.Models.Instances();
+        break;
+      default:
+        return;
+      }
+
+      view.collection.bind('change', function() { view.render() });
+
+      view.collection.fetch({ success: function() {
+        view.collection.trigger('change')
+      }})
+
+    }, Conductor.AJAX_REFRESH_INTERVAL);
   },
 
   show: function(id) {

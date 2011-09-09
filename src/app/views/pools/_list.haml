@@ -15,12 +15,27 @@
     %td
       = pool.deployments.count
     %td
-      = (pool.statistics[:instances_deployed] + pool.statistics[:instances_pending] + pool.statistics[:instances_failed])
+      = pool.statistics[:total_instances]
     %td
       = pool.statistics[:instances_pending]
     %td
       = pool.statistics[:instances_failed]
     %td
-      = number_to_percentage(pool.quota.percentage_used, :precision => 0)
+      = pool.statistics[:quota_percent]
     %td
       = link_to(pool.pool_family.name, pool.pool_family)
+
+%script#poolTemplate{ :type => 'text/x-jquery-tmpl' }
+  :plain
+    <tr>
+      <td><input type="checkbox" id="pool_checkbox_${id}"
+                 name="pools_selected[]" value="${id}"></td>
+      <td />
+      <td><a href="${href}">${name}</a></td>
+      <td>${deployments_count}</td>
+      <td>${statistics.total_instances}</td>
+      <td>${statistics.instances_pending}</td>
+      <td>${statistics.instances_failed}</td>
+      <td>${statistics.quota_percent}</td>
+      <td><a href="${pool_family.href}">${pool_family.name}</a></td>
+    </tr>

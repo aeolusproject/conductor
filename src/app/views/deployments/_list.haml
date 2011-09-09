@@ -32,3 +32,20 @@
     '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter' )}',
     '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty' )}'
   );
+
+%script#deploymentTemplate{ :type => 'text/x-jquery-tmpl' }
+  :plain
+    <tr>
+      <td><input type="checkbox" id="deployment_checkbox_${id}"
+                 name="deployments_selected[]" value="${id}"></td>
+      <td />
+      <td><a href="${href}">${name}</a></td>
+      <td>${created_at}</td>
+      <td>${deployable_xml_name}</td>
+      <td>${instances_count}</td>
+      <td><a href="${pool.href}">${pool.name}</a></td>
+      <td>${owner}</td>
+      {{if provider}}
+        <td><a href="${provider.href}">${provider.name}</a></td>
+      {{/if}}
+    </tr>

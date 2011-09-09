@@ -282,4 +282,26 @@ class Deployment < ActiveRecord::Base
       events.find_by_status_code(:all_stopped).event_time - events.find_by_status_code(:all_running).event_time
     end
   end
+
+  def as_json(options={})
+    json = super(options).merge({
+      :owner => owner.name,
+      :deployable_xml_name => deployable_xml.name,
+      :instances_count => instances.count,
+      :href => Rails.application.routes.url_helpers.deployment_path(id),
+      :pool => {
+        :name => pool.name,
+        :href => Rails.application.routes.url_helpers.pool_path(pool.id),
+      },
+    })
+
+    if provider
+      json[:provider] = {
+        :name => provider.provider_type.name,
+        :href => Rails.application.routes.url_helpers.provider_path(provider.id),
+      }
+    end
+
+    json
+  end
 end
