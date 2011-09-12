@@ -1,13 +1,14 @@
 .content
   - content_for :form_header do
-    %li= restful_submit_tag "Delete", "destroy", multi_destroy_provider_accounts_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+    %li= restful_submit_tag "Delete Selected", "destroy", multi_destroy_provider_accounts_path, 'DELETE', :id => 'delete_button', :class => 'button pill danger'
+    %li= link_to "New Account", new_provider_provider_account_path(@provider), :id => 'new_provider_account', :class => 'button pill'
 
   = filter_table(provider_accounts_header, @provider_accounts) do |account|
     %tr{:class => cycle('nostripe','stripe')}
       %td
         - selected = params[:select] == 'all'
         = check_box_tag "accounts_selected[]", account.id, selected, :id => "account_checkbox_#{account.id}"
-      %td= link_to account.name, provider_account_path(account)
+      %td= link_to account.name, provider_provider_account_path(@provider, account)
       %td= account.credentials_hash['username']
       %td= account.provider.name
       %td= account.provider.provider_type.name

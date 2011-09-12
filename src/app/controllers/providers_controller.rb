@@ -77,7 +77,7 @@ class ProvidersController < ApplicationController
     @view = @details_tab[:view]
 
     respond_to do |format|
-      format.html { render :action => :edit}
+      format.html
       format.js { render :partial => @view }
       format.json { render :json => @provider }
     end

@@ -242,7 +242,7 @@ en:
   provider_accounts:
     index:
       provider_accounts: Provider Accounts
-      provider_account_name: Provider Account Name
+      provider_account_name: Account Name
       username: Username
       provider_name: Provider Name
       provider_type: Provider Type

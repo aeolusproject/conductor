@@ -1,6 +1,7 @@
 .content
   - content_for :form_header do
-    %li= restful_submit_tag "Delete", "destroy", multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+    %li= restful_submit_tag "Delete Selected", "destroy", multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button', :class => 'button  pill danger'
+    %li= link_to "New Hardware", new_provider_hardware_profile_path(@provider), :id => 'new_hardware_profile', :class => 'button pill'
 
   = filter_table(hardware_profiles_header, @hardware_profiles) do |hwp|
     %tr{:class => cycle('nostripe','stripe')}

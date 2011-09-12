@@ -128,6 +128,10 @@ Conductor::Application.routes.draw do
 
   resources :providers do
     delete 'multi_destroy', :on => :collection
+
+    resources :provider_accounts
+    resources :realms
+    resources :hardware_profiles
   end
 
   resources :provider_types, :only => :index

@@ -5,6 +5,7 @@
     %ul#provider_select
       %li
         = link_to @provider.name.blank? ? "Editing Provider" : @provider.name
+        ▼
         %ul
           %li= link_to "+ Create New Provider", new_provider_path, :id => "create_new_provider"
           - @providers.each do |provider|

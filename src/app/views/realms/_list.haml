@@ -1,6 +1,7 @@
 .content
   - content_for :form_header do
-    %li= restful_submit_tag "Delete", "destroy", multi_destroy_realms_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+    %li= restful_submit_tag "Delete Selected", "destroy", multi_destroy_realms_path, 'DELETE', :id => 'delete_button', :class => 'button pill danger'
+    %li= link_to "New Realm", new_provider_realm_path(@provider), :id => 'new_realm', :class => 'button pill'
 
   = filter_table(realms_header, @realms) do |realm|
     %tr{:class => cycle('nostripe','stripe')}

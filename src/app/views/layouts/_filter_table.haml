@@ -1,8 +1,5 @@
 = form_tag({}, :class => 'filterable-data') do
 
-  - if content_for? form_header
-    %ul.obj_actions
-      = yield form_header
 
   %div.controls
     %ul.filter-controls
@@ -13,7 +10,6 @@
           -#%a.button.pill{:href => '#'} Filter
         -# %li
           -# %a.button.pill{:href => '#'} Add/Remove Columns
-
     %li
       %label{:for => "select_#{lower_class}"} Viewing
       = select_tag("select_#{lower_class}", saved_searches.join.html_safe,:disabled => true)
@@ -22,6 +18,8 @@
       results
     -# %li
       -# %a.button.pill{:href => '#'} Save and Share
+    - if content_for? form_header
+      = yield form_header
 
   %table.checkbox_table
     %thead
