@@ -36,6 +36,7 @@ Requires: rubygem(sqlite3)
 Requires: rubygem(fastercsv)
 Requires: rubygem(warden)
 Requires: rubygem(rails_warden)
+Requires: rubygem(aeolus-image)
 Requires: rubygem(pg)
 Requires: rubygem(ruby-net-ldap)
 Requires: postgresql
