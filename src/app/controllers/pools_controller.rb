@@ -69,11 +69,15 @@ class PoolsController < ApplicationController
       @view = filter_view? ? 'history_filter' : 'history_pretty'
     end
     #TODO add links to real data for history,properties,permissions
-    @tabs = [{:name => 'Deployments', :view => @view, :id => 'deployments', :count => @pool.deployments.count},
-             #{:name => 'History', :view => @view, :id => 'history'},
-             {:name => 'Properties', :view => 'properties', :id => 'properties'}
-             #{:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
+    @tabs = [{:name => 'Deployments',     :view => @view,         :id => 'deployments', :count => @pool.deployments.count},
+             #{:name => 'History',        :view => @view,         :id => 'history'},
+             {:name => 'Properties',      :view => 'properties',  :id => 'properties'},
+             {:name => 'Catalog Images',  :view => 'images',      :id => 'images'}
+             #{:name => 'Permissions',    :view => 'permissions', :id => 'permissions'}
     ]
+    if "images" == params[:details_tab]
+      @map = @pool.provider_image_map
+    end
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
     @deployments = @pool.deployments if @details_tab[:id] == 'deployments'

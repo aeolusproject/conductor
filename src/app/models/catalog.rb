@@ -23,15 +23,4 @@ class Catalog < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 1024
 
-  # Round up Catalog Entries, fetch their Deployables, and extract image UUIDs.
-  def fetch_images
-    images = []
-      catalog_entries.each do |entry|
-        entry.fetch_deployable.image_uuids.each do |uuid|
-          images << Aeolus::Image::Image.find(uuid)
-        end
-      end
-    images.compact.uniq
-  end
-
 end

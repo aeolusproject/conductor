@@ -21,23 +21,27 @@ class Image < WarehouseModel
     ImageBuild.find_all_by_image_uuid(self.uuid)
   end
 
-  # This is extraordinarily inefficient, but we allow it assuming that the calls we're
-  # making will be optimized soon enough.
-  # Returns a hash of {image => [ProviderImages]}, which is really weird but exactly what we'll need
-  def self.provider_images_for_images(images)
-    return_obj = {}
+  # The iwhd API really isn't built for what we're trying to do.
+  # Here's a nutty workaround to not issues thousands of queries.
+  # images should be an array of Aeolus::Image::Image objects
+  # Please don't shoot me for this!
+  def self.provider_images_for_image_list(images)
+    # Fetch all of these, but only once
+    provider_images = Aeolus::Image::ProviderImage.all
+    target_images = Aeolus::Image::TargetImage.all
+    builds = Aeolus::Image::ImageBuild.all
+    return_objs = {}
     images.each do |image|
-      return_obj[image] = []
-      uuid = image.uuid
-      Aeolus::Image::ImageBuild.find_all_by_image_uuid(uuid).each do |build|
-        build.target_images.each do |target_image|
-          target_image.provider_images.each do |provider_image|
-            return_obj[image] << provider_image
-          end
+      _builds = builds.select{|b| b.instance_variable_get('@image') == image.uuid}
+      _builds.each do |build|
+        _target_images = target_images.select{|ti| ti.instance_variable_get('@build') == build.uuid}
+        _target_images.each do |target_image|
+          _provider_images = provider_images.select{|pi| pi.instance_variable_get('@target_image') == target_image.uuid}
+          return_objs[image.uuid] = _provider_images
         end
       end
     end
-    return_obj
+    return_objs
   end
 
 end

@@ -42,4 +42,17 @@ class CatalogEntry < ActiveRecord::Base
     DeployableXML.new(DeployableXML.import_xml_from_url(url))
   end
 
+  # Round up Catalog Entries, fetch their Deployables, and extract image UUIDs.
+  def fetch_images
+    images = []
+      fetch_image_uuids.each do |uuid|
+        images << Aeolus::Image::Image.find(uuid)
+      end
+    images.compact.uniq
+  end
+
+  def fetch_image_uuids
+    fetch_deployable.image_uuids
+  end
+
 end
