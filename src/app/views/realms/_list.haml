@@ -1,15 +1,10 @@
-%section.content-section.realms
-  %header
-    %h2 Realms
-    %span.label.badge.dark.count= @realms.length
+.content
+  - content_for :form_header do
+    %li= restful_submit_tag "Delete", "destroy", multi_destroy_realms_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
-  .content
-    - content_for :form_header do
-      %li= restful_submit_tag "Delete", "destroy", multi_destroy_realms_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
-
-    = filter_table(@header, @realms) do |realm|
-      %tr{:class => cycle('nostripe','stripe')}
-        %td
-          - selected = params[:select] == 'all'
-          = check_box_tag "realm_selected[]", realm.id, selected, :id => "realm_checkbox_#{realm.id}"
-        %td= link_to realm.name, realm_path(realm)
+  = filter_table(realms_header, @realms) do |realm|
+    %tr{:class => cycle('nostripe','stripe')}
+      %td
+        - selected = params[:select] == 'all'
+        = check_box_tag "realm_selected[]", realm.id, selected, :id => "realm_checkbox_#{realm.id}"
+      %td= link_to realm.name, realm_path(realm)

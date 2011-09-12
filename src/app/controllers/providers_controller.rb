@@ -18,7 +18,6 @@
 
 class ProvidersController < ApplicationController
   before_filter :require_user
-  before_filter :set_view_envs, :only => [:show, :index]
   before_filter :load_providers, :only => [:index, :show, :new, :edit, :create, :update]
 
   def index
@@ -54,20 +53,29 @@ class ProvidersController < ApplicationController
     @view = filter_view? ? 'provider_accounts/list' : 'edit' unless params[:details_tab]
     if params[:details_tab] == 'connections'
       @view = filter_view? ? 'provider_accounts/list' : 'edit'
-    #elsif params[:details_tab] == 'realms'
-    #  @realms = @provider.realms
-    #  @view = filter_view? ? 'realms/list' : 'realms/list'
+    elsif params[:details_tab] == 'realms'
+      @view = filter_view? ? 'realms/list' : 'realms/list'
+    elsif params[:details_tab] == 'hardware_profiles'
+      @view = filter_view? ? 'hardware_profiles/list' : 'hardware_profiles/list'
+    #elsif params[:details_tab] == 'roles'
+    #  @view = filter_view? ? 'permissions/list' : 'permissions/list'
     end
     #TODO add links to real data for history,properties,permissions
-    @tabs = [{:name => 'Connections', :view => @view, :id => 'connections', :count => @provider.provider_accounts.count},
-    #         {:name => 'Realms', :view => @view, :id => 'realms', :count => @provider.realms.count},
-    #         {:name => 'Hardware', :view => @view, :id => 'hardware_profiles', :count => @provider.hardware_profiles.count},
-    #         {:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.roles.count},
+    @tabs = [{:name => 'Connectivity', :view => @view, :id => 'connections', :count => @provider.provider_accounts.count},
+             {:name => 'Realms', :view => @view, :id => 'realms', :count => @provider.realms.count},
+             {:name => 'Hardware', :view => @view, :id => 'hardware_profiles', :count => @provider.hardware_profiles.count},
+             {:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
     ]
     details_tab_name = params[:details_tab].blank? ? 'connections' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
+
     @provider_accounts = @provider.provider_accounts if @details_tab[:id] == 'connections'
+    @realms = @provider.realms if @details_tab[:id] == 'realms'
+    @hardware_profiles = @provider.hardware_profiles if @details_tab[:id] == 'hardware_profiles'
+    #@permissions = @provider.permissions if @details_tab[:id] == 'roles'
+
     @view = @details_tab[:view]
+
     respond_to do |format|
       format.html { render :action => :edit}
       format.js { render :partial => @view }
@@ -162,17 +170,6 @@ class ProvidersController < ApplicationController
   end
 
   protected
-  def set_view_envs
-    @header = [
-      {:name => '', :sortable => false},
-      {:name => t("providers.index.provider_name"), :sort_attr => :name},
-      {:name => t("providers.index.provider_url"), :sort_attr => :name},
-      {:name => t("providers.index.provider_type"), :sort_attr => :name},
-      {:name => t("providers.index.x_deltacloud_driver"), :sort_attr => :name},
-      {:name => t("providers.index.x_deltacloud_provider"), :sort_attr => :name},
-    ]
-  end
-
   def load_providers
     @providers = Provider.list_for_user(current_user, Privilege::VIEW, :order => :name)
   end

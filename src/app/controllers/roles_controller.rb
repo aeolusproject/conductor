@@ -19,7 +19,6 @@
 class RolesController < ApplicationController
   before_filter :require_user
   before_filter :load_roles, :only => [:show]
-  before_filter :load_params_and_headers, :only => [:index]
 
   def index
     clear_breadcrumbs
@@ -115,13 +114,6 @@ class RolesController < ApplicationController
   end
 
   protected
-
-  def load_params_and_headers
-    @header = [
-      { :name => '', :sortable => false },
-      { :name => t("roles.index.role_name"), :sortable => :name },
-    ]
-  end
 
   def load_roles
     @roles = Role.paginate(:page => params[:page] || 1,

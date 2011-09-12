@@ -2,7 +2,7 @@
   - content_for :form_header do
     %li= restful_submit_tag "Delete", "destroy", multi_destroy_provider_accounts_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
-  = filter_table([{ :name => '', :sortable => false }, { :name => t("provider_accounts.index.provider_account_name"), :sortable => false }, { :name => t("provider_accounts.index.username"), :sortable => false}, { :name => t("provider_accounts.index.provider_name"), :sortable => false }, { :name => t("provider_accounts.index.provider_type"), :sortable => false }, { :name => t("provider_accounts.index.quota_used"), :sortable => false }, { :name => t("provider_accounts.index.quota_limit"), :sortable => false }], @provider_accounts) do |account|
+  = filter_table(provider_accounts_header, @provider_accounts) do |account|
     %tr{:class => cycle('nostripe','stripe')}
       %td
         - selected = params[:select] == 'all'

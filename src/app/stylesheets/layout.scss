@@ -1515,6 +1515,8 @@ section.admin-content-section{
 
     /* nav */
     nav.faceted{
+      float: right;
+      margin-right: 100px;
       ul{ list-style: none; display: inline-block; font-family: $font-family-primary; }
       li{ display: inline-block; margin-bottom: 1px; }
       li + li{ margin-left: 40px; }

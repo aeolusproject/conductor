@@ -1,19 +1,14 @@
-%section.content-section.hardware_profiles
-  %header
-    %h2 Hardware Profiles
-    %span.label.badge.dark.count= @hardware_profiles.length
+.content
+  - content_for :form_header do
+    %li= restful_submit_tag "Delete", "destroy", multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
-  .content
-    - content_for :form_header do
-      %li= restful_submit_tag "Delete", "destroy", multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
-
-    = filter_table(@header, @hardware_profiles) do |hwp|
-      %tr{:class => cycle('nostripe','stripe')}
-        %td
-          - selected = params[:select] == 'all'
-          = check_box_tag "hardware_profile_selected[]", hwp.id, selected, :id => "hardware_profile_checkbox_#{hwp.id}"
-        %td= link_to hwp.name, hardware_profile_path(hwp)
-        %td= hwp.architecture.to_s
-        %td= hwp.memory.to_s
-        %td= hwp.storage.to_s
-        %td= hwp.cpu.to_s
+  = filter_table(hardware_profiles_header, @hardware_profiles) do |hwp|
+    %tr{:class => cycle('nostripe','stripe')}
+      %td
+        - selected = params[:select] == 'all'
+        = check_box_tag "hardware_profile_selected[]", hwp.id, selected, :id => "hardware_profile_checkbox_#{hwp.id}"
+      %td= link_to hwp.name, hardware_profile_path(hwp)
+      %td= hwp.architecture.to_s
+      %td= hwp.memory.to_s
+      %td= hwp.storage.to_s
+      %td= hwp.cpu.to_s
