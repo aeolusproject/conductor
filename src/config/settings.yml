@@ -1,1 +1,8 @@
 default_deltacloud_url: http://localhost:3002/api
+
+auth:
+  # supported strategies: database, ldap
+  strategy: database
+  ldap:
+    host: localhost
+    base: ou=People,dc=my-domain,dc=com

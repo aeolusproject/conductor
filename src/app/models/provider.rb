@@ -37,9 +37,6 @@ class Provider < ActiveRecord::Base
   require 'util/conductor'
   include PermissionedObject
 
-  # once we're using settings.yml for other things we should move this
-  # to a more general location
-  SETTINGS_CONFIG = YAML.load_file("#{::Rails.root.to_s}/config/settings.yml")
   DEFAULT_DELTACLOUD_URL = SETTINGS_CONFIG['default_deltacloud_url']
 
   has_many :provider_accounts, :dependent => :destroy

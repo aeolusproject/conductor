@@ -13,21 +13,21 @@
 require 'net/ldap'
 
 module Ldap
-  def self.valid_ldap_authentication?(uid, password)
-    ldap = LdapConnection.new
+  def self.valid_ldap_authentication?(uid, password, ldap_config)
+    ldap = LdapConnection.new(ldap_config)
     ldap.bind? uid, password
   end
 
   class LdapConnection
     attr_reader :ldap, :host, :base
 
-    def initialize(config={})
+    def initialize(config)
       @ldap = Net::LDAP.new
-      @ldap.host = @host = 'localhost' #AppConfig.ldap.host
-      @base = "ou=People,dc=my-domain,dc=com" #AppConfig.ldap.base
+      @ldap.host = config['host']
+      @base = config['base']
     end
 
-    def bind?(uid=nil, password=nil)
+    def bind?(uid, password)
       begin
         @ldap.auth "uid=#{uid},#{@base}", password
         @ldap.bind

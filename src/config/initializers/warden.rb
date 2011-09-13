@@ -5,7 +5,7 @@ Rails.configuration.middleware.use RailsWarden::Manager do |config|
   # all UI requests are handled in the default scope
   config.scope_defaults(
     :user,
-    :strategies   => [:database],
+    :strategies   => [SETTINGS_CONFIG['auth']['strategy'].to_sym],
     :store        => true,
     :action       => 'unauthenticated'
   )
