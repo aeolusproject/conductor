@@ -6,3 +6,5 @@ auth:
   ldap:
     host: localhost
     base: ou=People,dc=my-domain,dc=com
+:iwhd:
+  :url: http://localhost:9090
