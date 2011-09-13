@@ -4,7 +4,7 @@
 
   %fieldset
     %p
-      = form.label :name, "Name"
+      = form.label :name, "Name", :class => 'em'
       = form.text_field :name, :class => 'em long'
     %p
       = form.label :pool_family_id, "Pool Family"
@@ -22,7 +22,7 @@
 
   %fieldset
     %p
-      = form.label :enabled, "Pool Enabled?"
+      = form.label :enabled, "Pool Enabled?", :class => 'checkbox'
       = form.check_box :enabled
 
   %fieldset.options

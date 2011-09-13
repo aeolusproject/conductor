@@ -2246,7 +2246,7 @@ $font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helve
 $label-font: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 $font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 
-form.generic{
+body.monitor form.generic{
 
   fieldset{
     p + p{
@@ -2280,11 +2280,25 @@ form.generic{
 
   label{
     display: block;
+    padding-bottom: 2px;
     font-family: $label-font;
     font-size: 12px;
     text-shadow: 0px 1px 0px #ffffff;
-    padding-bottom: 2px;
     font-weight: normal;
+  }
+
+  body.administer label{
+    float: left;
+    width: 200px;
+    text-align: right;
+    padding: 6px 7px 5px 0px;
+
+    &.checkbox{
+      padding: 3px 7px 0px 0px;
+    }
+    &.em{
+      padding: 10px 7px 8px 0px;
+    }
   }
 
   label span{
@@ -2298,9 +2312,96 @@ form.generic{
     font-size: 13px;
   }
 
+  body.administer input[type="text"],input[type="password"]{
+    border: 1px solid #C4C4C4;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.50);
+    -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
+    -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
+  }
+
   input.em{
     font-size: 16px;
-    padding: 6px;
+    padding: 6px 4px;
+  }
+
+  input.long{
+    width: 400px;
+  }
+
+  input.short{
+    width: 100px;
+  }
+
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Administer section Form Components -- v.0.0.1 [form] (form.scss)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+$font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$label-font: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
+
+body.administer form.generic{
+
+  fieldset{
+    p + p{
+      margin-top: 10px;
+    }
+    p.radio-group label{
+      display: inline;
+    }
+  }
+
+  fieldset.inline p{
+    display: inline-block;
+  }
+
+  fieldset.em{
+    padding: 10px;
+    background-color: #dfdfdf;
+    border: 1px solid #999;
+    margin: 10px 0px 10px 0px;
+  }
+
+  fieldset + fieldset{
+    margin-top: 10px;
+  }
+
+  fieldset legend{
+    font-family: $font-family-primary;
+    font-size: 16px;
+    font-weight: light;
+  }
+
+  label{
+    display: block;
+    float: left;
+    width: 160px;
+    text-align: right;
+    padding: 6px 7px 5px 0px;
+    font-family: $label-font;
+    font-size: 12px;
+    text-shadow: 0px 1px 0px #ffffff;
+    font-weight: normal;
+
+    &.checkbox{
+      padding: 3px 7px 0px 0px;
+    }
+  }
+
+  label span{
+    font-size: 11px;
+    color: #666;
+  }
+
+  input[type="text"],input[type="password"]{
+    padding: 4px;
+    width: 200px;
+    font-size: 13px;
+    border: 1px solid #C4C4C4;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.50);
+    -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
+    -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
   }
 
   input.long{

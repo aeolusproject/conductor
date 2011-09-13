@@ -3,12 +3,12 @@
 %fieldset
   %p
     = form.label :name,'Provider name:'
-    = form.text_field :name, :title => 'provider_name', :value => @provider.name, :class => 'em long'
+    = form.text_field :name, :title => 'provider_name', :value => @provider.name, :class => 'long'
   %p
     = form.label :url, 'Provider URL:'
     = form.text_field :url, :title => 'provider_url', :value => @provider.url, :class => 'long'
   %p
-    = form.label :provider_type
+    = form.label :provider_type, 'Provider type:'
     = form.select(:provider_type_id, ProviderType.all.collect {|provider_type| [provider_type.name,provider_type.id] }, :prompt => "Select type of provider")
   %p
     = form.label :url, 'X-Deltacloud-Provider:'

@@ -6,6 +6,7 @@
   %p
     = label_tag "Cloud type: "
     = @selected_provider.provider_type.name
+    .clear
     - unless @selected_provider.provider_type.deltacloud_driver.nil?
       = render :partial => "provider_form", :locals => { :provider_type => @selected_provider.provider_type}
     - else
