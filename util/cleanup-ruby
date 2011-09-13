@@ -1,0 +1,17 @@
+#!/bin/bash
+
+GEMLIST=$(gem list -l --no-versions)
+
+for gem in $GEMLIST; do
+    RUBYGEMVER=$(rpm -q rubygem-$gem --qf '%{VERSION}\n')
+    if [ $? -eq 0 ]; then
+        echo "rubygem-$gem" >> packages-rubygems
+        continue
+    fi
+done
+
+cat packages-rubygems | xargs sudo yum erase -y
+gem list | cut -d" " -f1 > gem-list-noversions
+cat gem-list-noversions | xargs sudo gem uninstall -aIx
+rm packages-rubygems
+rm gem-list-noversions
