@@ -41,9 +41,10 @@ Conductor.Routers.Pools = Backbone.Router.extend({
 
     var pool = new Conductor.Models.Pool({ id: id });
     var view = new Conductor.Views.PoolsShow({ model: pool });
-    pool.bind('change', function() { view.render() });
 
-    setInterval(function() { pool.fetch() }, Conductor.AJAX_REFRESH_INTERVAL);
+    setInterval(function() {
+      pool.fetch({ success: function() { view.render(); } })
+    }, Conductor.AJAX_REFRESH_INTERVAL);
   },
 });
 

@@ -107,7 +107,7 @@ class Pool < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super(options).merge({
+    result = super(options).merge({
       :statistics => statistics,
       :deployments_count => deployments.count,
       :href => Rails.application.routes.url_helpers.pool_path(id),
@@ -117,6 +117,12 @@ class Pool < ActiveRecord::Base
       },
 
     })
+
+    if options[:with_deployments]
+      result[:deployments] = deployments.map {|d| d.as_json}
+    end
+
+    result
   end
 
   def provider_image_map

@@ -40,7 +40,14 @@ Conductor.Views.PoolsShow = Backbone.View.extend({
 
   render: function() {
     this.$('h1.pools').text(this.model.get('name') + ' Pool');
-    return this;
+
+    var $template = $('#deploymentTemplate');
+    var $table = this.$('table.checkbox_table > tbody');
+    if($table.length === 0 || $template.length === 0) return;
+
+    var checkboxes = Conductor.saveCheckboxes('td :checkbox', $table);
+    $table.empty().append($template.tmpl(this.model.get('deployments')))
+    Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
   },
 });
 
