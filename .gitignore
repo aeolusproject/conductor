@@ -9,7 +9,8 @@ src/.idea
 
 src/db/schema.rb
 
-# compass compiled and temporary files
+# sass compiled and temporary files
+.sass-cache
 src/tmp
 src/public/stylesheets/compiled
 
