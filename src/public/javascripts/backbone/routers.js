@@ -39,10 +39,12 @@ Conductor.Routers.Pools = Backbone.Router.extend({
     id = Conductor.idFromURLFragment(id);
     if(! _.isNumber(id)) return;
 
-    var pool = new Conductor.Models.Pool({ id: id });
-    var view = new Conductor.Views.PoolsShow({ model: pool });
-
     setInterval(function() {
+      var pool = new Conductor.Models.Pool({ id: id });
+      var view = new Conductor.Views.PoolsShow({ model: pool });
+
+      if(view.currentTab() !== 'deployments') return;
+
       pool.fetch({ success: function() { view.render(); } })
     }, Conductor.AJAX_REFRESH_INTERVAL);
   },

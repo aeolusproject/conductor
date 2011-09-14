@@ -38,16 +38,41 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
 Conductor.Views.PoolsShow = Backbone.View.extend({
   el: '#content',
 
+  currentTab: function() {
+    if($('#details_deployments.active').length > 0) {
+      return 'deployments';
+    }
+    else if ($('#details_properties.active').length > 0) {
+      return 'properties';
+    }
+    else if ($('#details_images.active').length > 0) {
+      return 'images';
+    }
+  },
+
   render: function() {
     this.$('h1.pools').text(this.model.get('name') + ' Pool');
 
     var $template = $('#deploymentTemplate');
-    var $table = this.$('table.checkbox_table > tbody');
-    if($table.length === 0 || $template.length === 0) return;
+    if($template.length === 0) return;
 
-    var checkboxes = Conductor.saveCheckboxes('td :checkbox', $table);
-    $table.empty().append($template.tmpl(this.model.get('deployments')))
-    Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
+    var $table = this.$('table.checkbox_table > tbody');
+    var deployments = this.model.get('deployments');
+    if($table.length !== 0) {
+      var checkboxes = Conductor.saveCheckboxes('td :checkbox', $table);
+      $table.empty().append($template.tmpl(deployments))
+      Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
+    }
+    else {
+      var $cards = this.$('ul.deployable-cards').empty()
+      var cardsPerRow = 5;
+      for(var i = 0; i < deployments.length; i += cardsPerRow) {
+        var $row = this.make('ul',
+          {class: 'deployment-array large'},
+          $template.tmpl(deployments.slice(i, i + cardsPerRow)));
+        $cards.append($row);
+      }
+    }
   },
 });
 

@@ -288,6 +288,7 @@ class Deployment < ActiveRecord::Base
       :owner => owner.name,
       :deployable_xml_name => deployable_xml.name,
       :instances_count => instances.count,
+      :uptime => ApplicationHelper.count_uptime(uptime_1st_instance),
       :href => Rails.application.routes.url_helpers.deployment_path(id),
       :pool => {
         :name => pool.name,

@@ -265,4 +265,6 @@ module ApplicationHelper
       flash[:error] << "#{attr.to_s.humanize} #{error}"
     end
   end
+
+  module_function :count_uptime
 end

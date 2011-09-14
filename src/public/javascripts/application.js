@@ -184,7 +184,7 @@ $.extend(Conductor, {
     return prefix + path;
   },
 
-  AJAX_REFRESH_INTERVAL: 5000,
+  AJAX_REFRESH_INTERVAL: 30 * 1000,
 
   initializeBackbone: function() {
     for(router in Conductor.Routers) {

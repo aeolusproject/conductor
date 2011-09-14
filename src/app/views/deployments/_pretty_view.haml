@@ -1,24 +1,55 @@
-- @deployments.in_groups_of(5, false) do |group|
-  %ul.deployment-array.large
-    - group.each do |deployment|
-      %li.deployment
-        %h3.name
-          = link_to deployment.name, deployment_path(deployment)
-        %dl.statistics
-          %ul
-            %li.uptime
-              %dt.uptime Uptime
-              %dd= count_uptime(deployment.uptime_1st_instance)
-            %li.instances
-              %dt.instances.count Instances
-              %dd
-                = deployment.instances.count || 0
-                %span.inline-label Instances
-            %li.provider
-              %dt.instances.count Provider
-              %dd= deployment.provider.provider_type.name unless deployment.provider.blank?
+%ul.deployable-cards
+  - @deployments.in_groups_of(5, false) do |group|
+    %ul.deployment-array.large
+      - group.each do |deployment|
+        %li.deployment
+          %h3.name
+            = link_to deployment.name, deployment_path(deployment)
+          %dl.statistics
+            %ul
+              %li.uptime
+                %dt.uptime Uptime
+                %dd= count_uptime(deployment.uptime_1st_instance)
+              %li.instances
+                %dt.instances.count Instances
+                %dd
+                  = deployment.instances.count || 0
+                  %span.inline-label Instances
+              %li.provider
+                %dt.instances.count Provider
+                %dd= deployment.provider.provider_type.name unless deployment.provider.blank?
 
 :javascript
   Conductor.setupPrettyFilterURL(
             '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter' )}',
             '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty' )}');
+
+
+
+%script#deploymentTemplate{ :type => 'text/x-jquery-tmpl' }
+  :plain
+    <li class="deployment">
+      <h3 class="name">
+        <a href="${href}">${name}</a>
+      </h3>
+      <dl class="statistics">
+        <ul>
+          <li class="uptime">
+            <dt class="uptime">Uptime</dt>
+            <dd>${uptime}</dd>
+          </li>
+          <li class="instances">
+            <dt class="instances count">Instances</dt>
+            <dd>${instances_count}
+              <span class="inline-label">Instances</span>
+            </dd>
+          </li>
+          <li class="provider">
+            <dt class="instances count">Provider</dt>
+            <dd>
+              {{if provider}} ${provider.name} {{/if}}
+            </dd>
+          </li>
+        </ul>
+      </dl>
+    </li>
