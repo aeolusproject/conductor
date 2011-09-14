@@ -63,7 +63,7 @@ class ProviderAccountsController < ApplicationController
     if @providers.empty?
       flash[:error] = "You don't have any provider yet. Please create one!"
     else
-      @selected_provider = @providers.first unless @providers.blank?
+      @selected_provider = Provider.find(params[:provider_id])
     end
   end
 
@@ -89,7 +89,7 @@ class ProviderAccountsController < ApplicationController
         @provider_account.assign_owner_roles(current_user)
         @provider_account.populate_realms
         flash[:notice] = t('provider_accounts.index.account_added', :list => @provider_account.name, :count => 1)
-        redirect_to provider_account_path(@provider_account)
+        redirect_to edit_provider_path(@provider_account.provider, :view => 'filter', :details_tab => 'connectivity')
       else
         flash[:error] = "Cannot add the provider account."
         render :action => 'new' and return
@@ -146,7 +146,7 @@ class ProviderAccountsController < ApplicationController
 
     succeeded = []
     failed = []
-    ProviderAccount.find(params[:accounts_selected]).each do |account|
+    @provider_accounts = ProviderAccount.find(params[:accounts_selected]).each do |account|
       if check_privilege(Privilege::MODIFY, account) && account.destroyable?
         account.destroy
         succeeded << account.label
@@ -161,7 +161,7 @@ class ProviderAccountsController < ApplicationController
     unless failed.empty?
       flash[:error] = t 'provider_accounts.index.account_not_deleted', :count => failed.length, :list => failed.join(', ')
     end
-    redirect_to provider_accounts_url
+    redirect_to edit_provider_path(@provider_accounts.first.provider, :view => 'filter', :details_tab => 'connectivity')
   end
 
   def set_selected_provider

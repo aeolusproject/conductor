@@ -1,11 +1,12 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'section_header'
+%header.admin-page-header
+  %h1 New Provider Account
+  #obj_actions
+    Return to:
+    = link_to "Cloud Providers", edit_provider_path(@selected_provider, :view => 'filter', :details_tab => 'connectivity'), :class => 'rounded-link'
 
-%section.content-section.provider_accounts
-  %header
-    %h2 New Provider Account
-
+%section.admin-content-section.provider_accounts
   .content
     - unless @providers.empty?
-      = form_for(@provider_account, :url => provider_accounts_path, :html => {:multipart => true, :class => 'generic'})  do |f|
+      = form_for([@provider, @provider_account], :url => provider_accounts_path, :html => {:multipart => true, :class => 'generic'})  do |f|
         = render :partial => "form", :locals => { :form => f }
