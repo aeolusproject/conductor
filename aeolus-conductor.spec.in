@@ -47,6 +47,8 @@ Requires: ruby-postgres
 # and is accessible in the init script
 Requires: curl
 
+BuildRequires: rubygem(sass)
+
 BuildArch: noarch
 
 %description
@@ -155,7 +157,6 @@ rb="app/models app/controllers app/helpers app/services app/util config \
     features/support features/step_definitions lib spec spec/controllers \
     spec/factories spec/helpers spec/models spec/services"
 rhtml="app/views/layouts"
-scss="app/stylesheets"
 svg="public/images public/images/icons public/javascripts/jquery-svg"
 ttf="public/fonts"
 txt="public"
