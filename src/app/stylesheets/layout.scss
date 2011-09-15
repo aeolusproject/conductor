@@ -251,6 +251,8 @@ strong, em, b, i{ font-family: $font-family-em; }
   margin-bottom: -40px;
 }
 
+.align-center{text-align: center;}
+
 /* Content */
 
 $monitorcontentpadding: 7px;
@@ -808,9 +810,9 @@ $font-family-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-
   -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;
   background-color: #efefef;
   border: 1px solid transparent;
-  padding: 0px 4px 0px 4px;
+  padding: 1px 4px 0px 4px;
   min-width: 10px;
-  font-size: 11px;
+  font-size: 10px;
   color: #000;
   font-family: $font-family-primary;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.50);
@@ -1043,10 +1045,10 @@ nav#administer_nav {
       display: block;
       color: black;
       padding: 45px 10px 12px 10px;
-      &.users{background: transparent url(../../images/administer_nav_users_icon.png) center 16px no-repeat;}
-      &.environments{background: transparent url(../../images/administer_nav_environments_icon.png) center 14px no-repeat;}
-      &.content{background: transparent url(../../images/administer_nav_content_icon.png) center 13px no-repeat;}
-      &.providers{background: transparent url(../../images/administer_nav_providers_icon.png) center 13px no-repeat;}
+      &.users{background: transparent url(../../images/administer_nav_icons.png) center -191px no-repeat;}
+      &.environments{background: transparent url(../../images/administer_nav_icons.png) center -53px no-repeat;}
+      &.content{background: transparent url(../../images/administer_nav_icons.png) center 13px no-repeat;}
+      &.providers{background: transparent url(../../images/administer_nav_icons.png) center -120px no-repeat;}
     }
   }
 }
@@ -1194,12 +1196,14 @@ header.admin-page-header{
     text-shadow: 1px 1px 0 #fff;
     display: inline-block;
     padding: 6px 7px 7px 7px;
+
+    &.disabled{color: #c4c4c4;}
   }
 
   #obj_actions{
     float: right;
     display: inline-block;
-    margin: 20px 0px 0px 0px;
+    margin: 17px 0px 0px 0px;
   }
 
   .button{
@@ -1210,14 +1214,24 @@ header.admin-page-header{
     display: inline-block;
     list-style-type: none;
     position: relative;
-    & > li {height: 30px;}
+    & > li{
+      height: 30px;
+      padding: 0px 15px 0px 0px;
+      margin: 0px 15px 0px 10px;
+      background: transparent url('../../images/admin_header_provider_select.png') right 1px no-repeat;
+      & > a{
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
+      }
+    }
 
     ul{
       display: none;
       width: 170px;
       position: absolute;
       top: 27px;
-      left: -60px;
+      right: 0px;
       background: white;
       list-style-type: none;
       border: 1px solid #666666;
@@ -1244,6 +1258,19 @@ header.admin-page-header{
     li:hover > ul {
       display: block;
       z-index: 1000;
+    }
+  }
+
+  input[type="submit"].provider_toggle{
+    border: none;
+    width: 45px;
+    height: 21px;
+
+    &.on{
+      background: transparent url('../../images/provider_on_off.png') left center;
+    }
+    &.off{
+      background: transparent url('../../images/provider_on_off.png') right center;
     }
   }
 
@@ -1495,6 +1522,15 @@ section.admin-content-section{
       font-weight: 200;
       display: inline-block;
       margin-bottom: 4px;
+      padding-right: 40px;
+
+      &.activity{ background: transparent url('../../images/admin_h2_icons.png') right 0px no-repeat; }
+      &.roles{ background: transparent url('../../images/admin_h2_icons.png') right -28px no-repeat; }
+      &.settings{ background: transparent url('../../images/admin_h2_icons.png') right -56px no-repeat; }
+      &.pools{ background: transparent url('../../images/admin_h2_icons.png') right -84px no-repeat; }
+      &.members{ background: transparent url('../../images/admin_h2_icons.png') right -112px no-repeat; }
+
+      &.alerts{color: #c00000;}
     }
     .badge{
       vertical-align: 2px;
@@ -1545,6 +1581,8 @@ section.admin-content-section{
   .content.tight{
     margin-top: 0px;
   }
+
+  img{padding: 10px;}
 }
 
 header.admin-page-header + section.admin-content-section{margin-top: 26px;}

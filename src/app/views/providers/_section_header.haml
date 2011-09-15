@@ -1,11 +1,10 @@
 %header.admin-page-header
-  %h1= @provider.name.blank? ? "Editing Provider" : @provider.name
+  %h1{:class => @provider.enabled ? 'enabled' : 'disabled'}= @provider.name.blank? ? "Editing Provider" : @provider.name
   #obj_actions
     %span.label.light Choose a provider:
     %ul#provider_select
       %li
-        = link_to @provider.name.blank? ? "Editing Provider" : @provider.name
-        ▼
+        = link_to @provider.name.blank? ? "Editing Provider" : @provider.name, "javascript:void(0)"
         %ul
           %li= link_to "+ Create New Provider", new_provider_path, :id => "create_new_provider"
           - @providers.each do |provider|
@@ -13,4 +12,4 @@
 
     = form_for @provider, :url => provider_path(@provider), :html => { :method => :put, :class => 'generic' } do |f|
       = f.hidden_field :enabled, :value => !@provider.enabled
-      = f.submit @provider.enabled ? 'on' : 'off', :confirm => "#{@provider.enabled ? "Disable provider? All it's instances will be stopped!" : 'Enable provider?'}"
+      = f.submit "", :confirm => "#{@provider.enabled ? "Disable provider? All it's instances will be stopped!" : 'Enable provider?'}", :class => "provider_toggle #{@provider.enabled ? "on" : "off"}"

@@ -4,19 +4,20 @@
 - if @provider.enabled
   %section.admin-content-section.provider
     %header
-      %h2
+      %h2.alerts
         Alerts
+        %span.label.badge.count.alert 2
     .content
       unimplemented
   %section.admin-content-section.provider
     %header
-      %h2
+      %h2.activity
         Activity
     .content
       unimplemented
   %section.admin-content-section
     %header#tab-container-1
-      %h2 Settings
+      %h2.settings Settings
       %nav.faceted
         %ul#tab-container-1-nav
           - @tabs.each do |tab|
@@ -34,11 +35,12 @@
         = render :partial => @view
 - else
   %section.admin-content-section
-    %header
-      %h2 Provider is disabled.
-    %p.centered
+    %header.align-center
+      %h2.disabled Provider is disabled.
+    %p.align-center
       The provider "
       = @provider.name
       " is currently
       %strong disabled.
       To enable and configure provider, click the slide switch in the upper-right-hand corner of this window.
+      = image_tag "provider_enable_hint.png"
