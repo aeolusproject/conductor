@@ -2,13 +2,28 @@
 = render :partial => 'section_header'
 
 - if @provider.enabled
-  %section.admin-content-section.provider
+  %section.admin-content-section.alerts
     %header
       %h2.alerts
         Alerts
-        %span.label.badge.count.alert 2
-    .content
-      unimplemented
+        %span.label.badge.count.alert 3
+      .section-controls
+        = link_to "Toggle Alerts", "#", :class => 'collapse alerts'
+    .content.collapsible
+      %dl.alerts
+        %ul
+          %li.alert
+            %dt.subject.critical Subject
+            %dd.type Alert type
+            %dd.desc Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer [...]
+          %li.alert
+            %dt.subject.warn Subject
+            %dd.type Alert type
+            %dd.desc Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer [...]
+          %li.alert
+            %dt.subject.critical Subject
+            %dd.type Alert type
+            %dd.desc Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer [...]
   %section.admin-content-section.provider
     %header
       %h2.activity

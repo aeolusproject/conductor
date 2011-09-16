@@ -125,6 +125,12 @@ $.extend(Conductor, {
     });
   },
 
+  toggleCollapsible: function() {
+    $('.collapse').click(function() {
+      $(this).parents('section').find('.collapsible').slideToggle(80);
+    });
+  },
+
   prefixedPath: function(path) {
     var prefix = this.PATH_PREFIX;
     if(path.length === 0) return prefix;
@@ -277,6 +283,7 @@ $(document).ready(function () {
   Conductor.bind_pretty_toggle();
   Conductor.multiDestroyValidation();
   Conductor.closeNotification();
+  Conductor.toggleCollapsible();
   Conductor.enhanceUserMenu();
   Conductor.tabAjaxRequest();
   Conductor.initializeBackbone();

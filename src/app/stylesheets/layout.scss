@@ -1627,16 +1627,17 @@ dl.alerts{
       font-family: $font-family-primary;
       font-size: 13px;
       color: #333;
+      font-weight: bold;
     }
 
     dt.subject.warn{
-      padding-left: $alert_padding*2 + 14px;
+      padding-left: $alert_padding*2 + 16px;
       background: transparent url('../../images/alert_icon_warn.png') no-repeat $alert_padding 8px;
     }
 
     dt.subject.critical{
       padding-left: $alert_padding*2 + 16px;
-      background: transparent url('../../images/alert_icon_critical.png') no-repeat $alert_padding 7px;
+      background: transparent url('../../images/alert_icon_critical.png') no-repeat $alert_padding 8px;
     }
 
     dd{
