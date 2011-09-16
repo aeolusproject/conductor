@@ -13,6 +13,3 @@
   %p
     = form.label :url, 'X-Deltacloud-Provider:'
     = form.text_field :deltacloud_provider, :title => 'deltacloud_provider', :value => @provider.deltacloud_provider, :class => 'long'
-
-%fieldset.options
-  = form.submit "Save",  :class => "submit button", :id => 'save'

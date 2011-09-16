@@ -2412,6 +2412,10 @@ body.administer form.generic{
     font-weight: light;
   }
 
+  fieldset.options{
+    text-align: right;
+  }
+
   label{
     display: block;
     float: left;

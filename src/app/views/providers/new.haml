@@ -5,7 +5,7 @@
     %span.label.light Choose a provider:
     %ul#provider_select
       %li
-        = link_to "Create New Provider"
+        = link_to "Create New Provider", "javascript:void(0)"
         %ul
           %li= link_to "+ Create New Provider", new_provider_path, :id => "create_new_provider"
           - @providers.each do |provider|
@@ -13,7 +13,9 @@
 
 %section.admin-content-section.users
   %header
-    %h2 Settings
+    %h2.settings Settings
   .content
     = form_for @provider, :url => providers_path, :html => {:class => 'generic'} do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => providers_path }
+      %fieldset.options
+        = f.submit "Save Provider", :class => "submit button pill", :id => 'save'
