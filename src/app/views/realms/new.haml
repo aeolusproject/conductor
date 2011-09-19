@@ -6,5 +6,5 @@
     %h2 Create a new Realm
 
   .content
-    = form_for @realm, :url => realms_path, :html => {:class => 'generic'} do |f|
+    = form_for [@provider, @realm], :url => realms_path, :html => {:class => 'generic'} do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => realms_path }

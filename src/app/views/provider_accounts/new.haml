@@ -3,10 +3,12 @@
   %h1 New Provider Account
   #obj_actions
     Return to:
-    = link_to "Cloud Providers", edit_provider_path(@selected_provider, :view => 'filter', :details_tab => 'connectivity'), :class => 'rounded-link'
+    = link_to "Cloud Providers", edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity'), :class => 'rounded-link'
 
 %section.admin-content-section.provider_accounts
   .content
     - unless @providers.empty?
-      = form_for([@provider, @provider_account], :url => provider_accounts_path, :html => {:multipart => true, :class => 'generic'})  do |f|
+      = form_for([@provider, @provider_account], :html => {:multipart => true, :class => 'generic'})  do |f|
         = render :partial => "form", :locals => { :form => f }
+        %fieldset.options
+          = f.submit 'Save', :class => "button pill", :id => 'save'

@@ -1,19 +1,27 @@
 = render :partial => 'layouts/admin_nav'
-%header.page-header
-  %h1{:class => controller.controller_name}= @provider_account.name
-  #obj_actions.button-container
-    = link_to 'New Provider Account', new_provider_account_url, :class => 'button primary', :id => 'new_user_button'
-    %div.button-group
-      = link_to 'Cancel Editing', provider_account_path(@provider_account), :class => 'button pill danger', :id => 'new_user_button'
-  .corner &nbsp;
+%header.admin-page-header
+  %h1
+    Account:
+    = @provider_account.name
+  #obj_actions
+    Return to:
+    = link_to "Cloud Providers", edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity'), :class => 'rounded-link'
 
-%section.content-section.user
+%section.admin-content-section
   %header
-    %h2
-      Edit Provider Account:
-      = @provider_account.name
+    %h2.settings Settings
+    .section-controls
+      #obj_actions.button-container
+        .button-group
+          %span.view-toggle
+            = link_to "", provider_provider_account_path(@provider, @provider_account), :class => "view-toggle pretty", :title => "Provider Account Detail"
+            = link_to "", edit_provider_provider_account_path(@provider, @provider_account), :class => "view-toggle filter active", :title => "Edit Provider Account"
 
   .content
     - unless @providers.empty?
-      = form_for(@provider_account, :url => provider_account_path(@provider_account), :html => {:multipart => true,:method => :put, :class => 'generic'})  do |f|
+      = form_for([@provider, @provider_account], :html => {:multipart => true,:method => :put, :class => 'generic'})  do |f|
         = render :partial => "form", :locals => { :form => f }
+        %fieldset.options
+          .button-group
+            = f.submit 'Save Changes', :class => "button pill", :id => 'save'
+            = link_to "Delete Account", provider_provider_account_path(@provider, @provider_account), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger'

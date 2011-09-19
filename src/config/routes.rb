@@ -129,7 +129,12 @@ Conductor::Application.routes.draw do
   resources :providers do
     delete 'multi_destroy', :on => :collection
 
-    resources :provider_accounts
+    resources :provider_accounts do
+      collection do
+        delete 'multi_destroy'
+        get 'set_selected_provider'
+      end
+    end
     resources :realms
     resources :hardware_profiles
   end
@@ -138,13 +143,6 @@ Conductor::Application.routes.draw do
 
   resources :users do
     delete 'multi_destroy', :on => :collection
-  end
-
-  resources :provider_accounts do
-    collection do
-      delete 'multi_destroy'
-      get 'set_selected_provider'
-    end
   end
 
   resources :roles do

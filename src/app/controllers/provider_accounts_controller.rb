@@ -33,17 +33,16 @@ class ProviderAccountsController < ApplicationController
 
   def show
     @tab_captions = ['Properties', 'Credentials', 'History', 'Permissions']
-    @account = ProviderAccount.find(params[:id])
-    @account_id = @account.credentials_hash['account_id']
-    require_privilege(Privilege::VIEW, @account)
+    @provider_account = ProviderAccount.find(params[:id])
+    @provider = Provider.find(params[:provider_id])
+    @account_id = @provider_account.credentials_hash['account_id']
+    require_privilege(Privilege::VIEW, @provider_account)
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
 
     if params.delete :test_account
-      test_account(@account)
+      test_account(@provider_account)
       render :action => 'show' and return
     end
-
-    save_breadcrumb(provider_account_path(@account), @account.name)
 
     respond_to do |format|
       format.html { render :action => 'show'}
@@ -63,7 +62,7 @@ class ProviderAccountsController < ApplicationController
     if @providers.empty?
       flash[:error] = "You don't have any provider yet. Please create one!"
     else
-      @selected_provider = Provider.find(params[:provider_id])
+      @provider = Provider.find(params[:provider_id])
     end
   end
 
@@ -72,12 +71,11 @@ class ProviderAccountsController < ApplicationController
       provider = params[:provider_account].delete(:provider)
       params[:provider_account][:provider_id] = Provider.find_by_name(provider).id
     end
-    @selected_provider = @provider = Provider.find(params[:provider_account][:provider_id])
+    @provider = Provider.find(params[:provider_account][:provider_id])
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
 
     @providers = Provider.all
     @provider_account = ProviderAccount.new(params[:provider_account])
-    @provider_account.provider = @provider
     @provider_account.quota = @quota = Quota.new
 
     limit = params[:quota][:maximum_running_instances] if params[:quota]
@@ -89,7 +87,7 @@ class ProviderAccountsController < ApplicationController
         @provider_account.assign_owner_roles(current_user)
         @provider_account.populate_realms
         flash[:notice] = t('provider_accounts.index.account_added', :list => @provider_account.name, :count => 1)
-        redirect_to edit_provider_path(@provider_account.provider, :view => 'filter', :details_tab => 'connectivity')
+        redirect_to edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity')
       else
         flash[:error] = "Cannot add the provider account."
         render :action => 'new' and return
@@ -103,6 +101,7 @@ class ProviderAccountsController < ApplicationController
 
   def edit
     @provider_account = ProviderAccount.find(params[:id])
+    @provider = Provider.find(params[:provider_id])
     @selected_provider = @provider_account.provider
     @quota = @provider_account.quota
     @providers = Provider.find(:all)
@@ -121,7 +120,7 @@ class ProviderAccountsController < ApplicationController
     @provider_account.quota.set_maximum_running_instances(limit)
     if @provider_account.update_attributes(params[:provider_account])
       flash[:notice] = "Provider Account updated!"
-      redirect_to provider_account_path(@provider_account)
+      redirect_to edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity')
     else
       flash[:error] = "Provider Account wasn't updated!"
       render :action => :edit
@@ -130,18 +129,20 @@ class ProviderAccountsController < ApplicationController
 
   def destroy
     require_privilege(Privilege::MODIFY, @provider_account)
+    @provider = Provider.find(params[:provider_id])
     if ProviderAccount.destroy(params[:id])
       flash[:notice] = "Provider account was deleted!"
     else
       flash[:error] = "Provider account was not deleted!"
     end
-    redirect_to provider_accounts_path
+    redirect_to edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity')
   end
 
   def multi_destroy
+    @provider = Provider.find(params[:provider_id])
     if params[:accounts_selected].blank?
       flash[:warning] = "You must select some accounts first."
-      redirect_to provider_accounts_url and return
+      redirect_to edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity') and return
     end
 
     succeeded = []
@@ -161,7 +162,7 @@ class ProviderAccountsController < ApplicationController
     unless failed.empty?
       flash[:error] = t 'provider_accounts.index.account_not_deleted', :count => failed.length, :list => failed.join(', ')
     end
-    redirect_to edit_provider_path(@provider_accounts.first.provider, :view => 'filter', :details_tab => 'connectivity')
+    redirect_to edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity')
   end
 
   def set_selected_provider
@@ -170,12 +171,12 @@ class ProviderAccountsController < ApplicationController
     respond_to do |format|
       format.html {
         @providers = Provider.find(:all)
-        @selected_provider = Provider.find(params[:provider_account][:provider_id])
+        @provider = Provider.find(params[:provider_account][:provider_id])
         render :action => 'new', :layout => true
       }
       format.js {
         @providers = Provider.find(:all)
-        @selected_provider = Provider.find(params[:provider_account][:provider_id])
+        @provider = Provider.find(params[:provider_account][:provider_id])
         render :partial => 'provider_selection'
       }
 

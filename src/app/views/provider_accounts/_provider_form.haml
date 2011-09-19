@@ -3,7 +3,7 @@
     = label :provider_account, "Account Name"
     = text_field :provider_account, :label, :class => 'em long'
 - CredentialDefinition::CREDENTIAL_DEFINITIONS_ORDER.each do |cred_order|
-  - @provider_account.all_credentials(@selected_provider).each do |cred|
+  - @provider_account.all_credentials(@provider).each do |cred|
     - if cred_order == cred.credential_definition.name
       %fieldset
         %p

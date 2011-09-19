@@ -8,4 +8,4 @@
       %td
         - selected = params[:select] == 'all'
         = check_box_tag "realm_selected[]", realm.id, selected, :id => "realm_checkbox_#{realm.id}"
-      %td= link_to realm.name, realm_path(realm)
+      %td= link_to realm.name, provider_realm_path(@provider, realm)

@@ -7,11 +7,12 @@ Feature: Manage Provider Accounts
     Given I am an authorised user
     And I am logged in
 
-  Scenario: List provider accounts
+  Scenario: List provider accounts for provider
     Given I am on the homepage
     And there is a provider named "testprovider"
-    When I go to the provider accounts page
-    Then I should see "New Provider Account"
+    When I go to the testprovider's edit provider page
+    And I follow "filter_view"
+    Then I should see "New Account"
     And there should be no provider accounts
 
   Scenario: List providers in XML format
@@ -30,9 +31,10 @@ Feature: Manage Provider Accounts
   Scenario: Create a new Provider Account
     Given there is a provider named "testprovider"
     And there are no provider accounts
-    And I am on the provider accounts page
-    When I follow "New Provider Account"
-    Then I should be on the new provider account page
+    When I go to the testprovider's edit provider page
+    And I follow "filter_view"
+    And I follow "New Account"
+    Then I should be on the new provider provider account page
     And I should see "New Provider Account"
     When I select "testprovider" from "provider_account_provider_id"
     And I fill in "provider_account[label]" with "testaccount"

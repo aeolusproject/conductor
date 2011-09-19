@@ -3,14 +3,14 @@
     %tr
       %th.show
         Properties for
-        = @account.name
+        = @provider_account.name
       %th.show
   %tbody
     %tr
       %td
         %label Running instances quota:
       %td
-        = @account.quota.maximum_running_instances or 'unlimited'
+        = @provider_account.quota.maximum_running_instances or 'unlimited'
     - if @account_id
       %tr
         %td
