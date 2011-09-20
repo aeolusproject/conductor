@@ -29,13 +29,14 @@ module Ldap
 
     def initialize(config)
       @ldap = Net::LDAP.new
-      @ldap.host = config['host']
-      @base = config['base']
+      @ldap.host = config[:host]
+      @ldap.port = config[:port] || 389
+      @username_dn = config[:username_dn]
     end
 
     def bind?(uid, password)
       begin
-        @ldap.auth "uid=#{uid},#{@base}", password
+        @ldap.auth(@username_dn % uid, password)
         @ldap.bind
       rescue Exception => e
         Rails.logger.error e.message

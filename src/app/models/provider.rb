@@ -37,7 +37,7 @@ class Provider < ActiveRecord::Base
   require 'util/conductor'
   include PermissionedObject
 
-  DEFAULT_DELTACLOUD_URL = SETTINGS_CONFIG['default_deltacloud_url']
+  DEFAULT_DELTACLOUD_URL = SETTINGS_CONFIG[:default_deltacloud_url]
 
   has_many :provider_accounts, :dependent => :destroy
   has_many :hardware_profiles, :dependent => :destroy
