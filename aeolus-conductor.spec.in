@@ -206,6 +206,8 @@ sass --style compact ./src/app/stylesheets/login.scss %{buildroot}%{app_root}/pu
 %{__cp} conf/aeolus-conductor.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/aeolus-conductor
 %{__cp} conf/aeolus-conductor.sysconf %{buildroot}%{_sysconfdir}/sysconfig/aeolus-conductor
 %{__cp} conf/conductor-rails.sysconf %{buildroot}%{_sysconfdir}/sysconfig/conductor-rails
+%{__mkdir} -p %{buildroot}%{_libdir}/../lib/tmpfiles.d
+%{__cp} conf/aeolus-tmpfiles.conf %{buildroot}%{_libdir}/../lib/tmpfiles.d/aeolus.conf
 
 %{__mkdir} -p %{buildroot}%{app_root}/config/image_descriptor_xmls
 
@@ -216,7 +218,6 @@ sass --style compact ./src/app/stylesheets/login.scss %{buildroot}%{app_root}/pu
 touch %{buildroot}%{_localstatedir}/log/%{name}/thin.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/dbomatic.log
-touch %{buildroot}%{_localstatedir}/run/%{name}/event_log_position
 
 %{__mkdir} -p %{buildroot}%{app_root}/log
 
@@ -289,6 +290,7 @@ fi
 %attr(-, aeolus, aeolus) %{_localstatedir}/run/%{name}
 %attr(-, aeolus, aeolus) %{_localstatedir}/log/%{name}
 %doc AUTHORS COPYING
+%{_libdir}/../lib/tmpfiles.d/aeolus.conf
 
 %files doc
 %{doc_root}
