@@ -1,5 +1,6 @@
 = form_for @pool, :html => {:class => 'generic'} do |form|
-  = error_messages_for @pool
+  - if @pool.errors.any?
+    = render 'layouts/error_messages', :object => @pool
 
   %fieldset
     %p

@@ -1,4 +1,5 @@
-= error_messages_for @instance
+- if @instance.errors.any?
+  = render 'layouts/error_messages', :object => @instance
 %h2 Edit instance
 = form_for @instance do
   %ul

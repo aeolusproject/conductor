@@ -1,5 +1,6 @@
 .conductor_form
-  = error_messages_for @permission
+  - if @permission.errors.any?
+    = render 'layouts/error_messages', :object => @permission
   %h2
     Add new Permission for #{@permission_object.name}
   %br/

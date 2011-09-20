@@ -150,14 +150,5 @@ module ApplicationHelper
     session[:javascript_enabled]
   end
 
-  def error_messages_for(obj)
-    return unless obj and obj.errors.present?
-    flash[:error] ||= ""
-    obj.errors.each_pair do |attr, error|
-      #TODO - Need to format this in some sensible way... <ul>?
-      flash[:error] << "#{attr.to_s.humanize} #{error}"
-    end
-  end
-
   module_function :count_uptime
 end

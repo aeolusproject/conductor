@@ -1,4 +1,5 @@
-- error_messages_for @realm
+- if @realm.errors.any?
+  = render 'layouts/error_messages', :object => @realm
 %fieldset
   = form.label :name, 'Realm Name'
   = form.text_field :name, :title => 'realm_name', :value => @realm.name, :class => 'em long'

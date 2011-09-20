@@ -53,7 +53,8 @@
             = t('.quota') + ":"
           = text_field :self_service_default_quota, :maximum_running_instances, :class => 'grid_5'
           .grid_2.la (instances)
-        = error_messages_for @self_service_default_quota if @self_service_default_quota
+        - if @self_service_default_quota.errors.any?
+          = render 'layouts/error_messages', :object => @self_service_default_quota
         -#%h3 POOLS
         -#%fieldset.clearfix
           %label.grid_2.alpha Permissions:

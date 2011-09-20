@@ -1,4 +1,5 @@
-= form.error_messages
+- if @provider.errors.any?
+  = render 'layouts/error_messages', :object => @provider
 %fieldset
   %p
     = form.label :name,'Provider name:'
