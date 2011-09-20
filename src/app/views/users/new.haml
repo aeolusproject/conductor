@@ -1,13 +1,28 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'section_header'
+%header.admin-page-header
+  %h1.users New User
+  #obj_actions
+    Return to:
+    = link_to "Users & Groups", users_path, :class => 'rounded-link'
 
-%section.content-section.users
-  %header
-    %h2 New Account
-
+%section.admin-content-section.users
   .content
+    .align-center
+      %p
+        %strong Enter necessary information about your new user and click "Create User" when you are finished.
+        %br
+        %br
+    #user_card.user_form_card
+      %header.user-card-header
+        %h2 Kenneth Keiter
+      .user-card-content
+        %dl
+          %dt E-mail Address
+          %dd kkeiter@redhat.com
+          %dt Username
+          %dd kkeiter
     = form_for @user, :url => users_path, :html => {:class => 'generic'} do |f|
       -if current_user
-        = render :partial => "form", :locals => { :form => f, :cancel_path => users_path }
+        = render :partial => "form", :locals => { :form => f }
       -else
-        = render :partial => "form", :locals => { :form => f, :cancel_path => login_path }
+        = render :partial => "form", :locals => { :form => f }

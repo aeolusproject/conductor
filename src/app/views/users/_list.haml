@@ -1,11 +1,12 @@
-%section.content-section.users
+%section.admin-content-section.users
   %header
-    %h2 Enabled Users
-    %span.label.badge.dark.count= @users.length
-
+    %h2#users.users Users
+    .section-controls
+      #obj_actions
+        = link_to "", new_user_path, :class => 'add-user-button'
   .content
     - content_for :form_header do
-      %li= restful_submit_tag "Delete", "destroy", multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+      %li= restful_submit_tag "Delete Selected", "destroy", multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button pill danger'
 
     = filter_table(@header, @users) do |user|
       %tr{:class => cycle('nostripe','stripe')}

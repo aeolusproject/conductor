@@ -124,6 +124,7 @@ class UsersController < ApplicationController
       flash[:warning] = "Cannot delete #{user.login}: you are logged in as this user"
     else
       user.destroy
+      flash[:notice] = "User has been succesfully deleted."
     end
 
     respond_to do |format|

@@ -1,17 +1,58 @@
 = render :partial => 'layouts/admin_nav'
-%header.page-header
-  %h1{:class => controller.controller_name}= @user.name
-  #obj_actions.button-container
-    = link_to 'New User', new_user_url, :class => 'button primary', :id => 'new_user_button'
-    .button-group
-      = link_to 'Edit', edit_user_path(@user), :class => 'button pill'
-      = button_to 'Delete', user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button pill danger"
-  .corner &nbsp;
+%header.admin-page-header
+  #obj_actions
+    Return to:
+    = link_to "Users & Groups", users_path, :class => 'rounded-link'
 
-%section.content-section.user
+%section.admin-content-section.user
+  .content
+    #user_card.user_stats_card
+      %header.user-card-header
+        %h2= @user.name
+      .user-card-content
+        %dl
+          %dt E-mail Address
+          %dd= @user.email
+          %dt Username
+          %dd= @user.login
+        #obj_actions.button-group
+          = link_to 'Edit', edit_user_path(@user), :class => 'button'
+          = link_to 'Delete', user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button danger"
+        .clear
+    %dl.user_stats
+      %ul
+        %div
+          %li
+            %dt CREATED
+            %dd= l(@user.created_at.to_date, :format => :long) if @user.created_at
+          %li
+            %dt NUMBER OF LOGINS
+            %dd= @user.login_count
+          %li
+            %dt LAST LOGIN
+            %dd= l(@user.last_login_at, :format => :long) if @user.last_login_at
+        %div
+          %li
+            %dt LAST UPDATED
+            %dd= l(@user.updated_at, :format => :long) if @user.updated_at
+          %li
+            %dt FAILED LOGINS
+            %dd= @user.failed_login_count
+          %li
+            %dt LAST LOGIN IP
+            %dd= @user.last_login_ip
+  .clear
+
+%section.admin-content-section.user
   %header
-    %h2 Properties
+    %h2.activity Activity
 
   .content
-    %div#view
-      = render :partial => 'properties'
+    Unimplemented.
+
+%section.admin-content-section.user
+  %header
+    %h2.roles Roles &amp; Permissions
+
+  .content
+    = render :partial => 'properties'

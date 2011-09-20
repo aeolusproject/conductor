@@ -3,10 +3,18 @@
 
 %fieldset
   %p
+    = form.label :first_name, t(:first_name)
+    = form.text_field :first_name
+  %p
+    = form.label :last_name, t(:last_name)
+    = form.text_field :last_name
+  %p
+    = form.label :email, t(:email)
+    = form.text_field :email
+%fieldset
+  %p
     = form.label :login, t(:choose_name)
     = form.text_field :login, :class => "em"
-
-%fieldset.inline
   %p
     = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password)
     = form.password_field :password
@@ -14,26 +22,13 @@
     = form.label :password_confirmation, t(:confirm_password)
     = form.password_field :password_confirmation
 
-%fieldset.inline
-  %p
-    = form.label :first_name, t(:first_name)
-    = form.text_field :first_name
-  %p
-    = form.label :last_name, t(:last_name)
-    = form.text_field :last_name
-
-%fieldset
-  %p
-    = form.label :email, t(:email)
-    = form.text_field :email, :class => 'long'
-
 -if check_privilege(Privilege::MODIFY, User)
   %fieldset.inline
-    %legend User Treatment
     %p
+      %label User Treatment
       = select_tag 'user_treatment', options_for_select([t(:choose_treatment)])
     %p
-      = submit_tag t(:apply), :disabled => true
+      = submit_tag t(:apply), :disabled => true, :class => 'button pill'
 
   = form.fields_for :quota do |quota_form|
     %fieldset
@@ -52,5 +47,4 @@
       = label_tag "user_status_inactive", "Inactive"
 
 %fieldset.options
-  = form.submit "Save",  :class => "submit button"
-  = link_to t(:cancel), cancel_path, :class => 'button danger', :id => 'cancel'
+  = form.submit "Save User",  :class => "submit button pill"

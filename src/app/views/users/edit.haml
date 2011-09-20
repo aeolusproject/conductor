@@ -1,20 +1,23 @@
 = render :partial => 'layouts/admin_nav'
+%header.admin-page-header
+  - if check_privilege(Privilege::MODIFY, User)
+    %h1.users Edit User
+  - else
+    %h1.users Edit Account
+  #obj_actions
+    Return to:
+    = link_to "Users & Groups", users_path, :class => 'rounded-link'
 
-%header.page-header
-  %h1{:class => controller.controller_name}= @user.name
-  #obj_actions.button-container
-    = link_to 'New User', new_user_url, :class => 'button primary', :id => 'new_user_button'
-    .button-group
-      = link_to 'Cancel Editing', user_path(@user), :class => 'button pill danger', :id => 'new_user_button'
-  .corner &nbsp;
-
-%section.content-section.user
-  %header
-    - if check_privilege(Privilege::MODIFY, User)
-      %h2 Editing User: #{@user.first_name} #{@user.last_name}
-    - else
-      %h2 Editing Account
-
+%section.admin-content-section.user
   .content
+    #user_card.user_form_card
+      %header.user-card-header
+        %h2= @user.name
+      .user-card-content
+        %dl
+          %dt E-mail Address
+          %dd= @user.email
+          %dt Username
+          %dd= @user.login
     = form_for @user, :url => user_path(@user), :html => { :method => :put, :class => 'generic' } do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => users_path }

@@ -732,6 +732,19 @@ a.view-toggle.filter.active{
   background-position: -114px 0px;
 }
 
+a.add-group-button{
+  background: transparent url('../../images/button-add-user-group.png') no-repeat top left;
+  display: block;
+  width: 50px;
+  height: 25px;
+}
+a.add-user-button{
+  background: transparent url('../../images/button-add-user-group.png') no-repeat bottom left;
+  display: block;
+  width: 50px;
+  height: 25px;
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Application Input Controls -- v.0.0.1 [input] (input.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -1187,6 +1200,8 @@ header.admin-page-header{
   padding: 7px 15px 6px 6px;
   z-index: 900;
 
+  min-height: 50px;
+
   h1{
     font-family: $font-family-primary;
     font-weight: 200;
@@ -1198,6 +1213,15 @@ header.admin-page-header{
     padding: 6px 7px 7px 7px;
 
     &.disabled{color: #c4c4c4;}
+
+    &.users{
+      padding-left: 54px;
+      background: transparent url('../../images/admin_h1_icons.png') 7px 7px no-repeat;
+    }
+    &.groups{
+      padding-left: 54px;
+      background: transparent url('../../images/admin_h1_icons.png') 7px -34px no-repeat;
+    }
   }
 
   #obj_actions{
@@ -1209,6 +1233,17 @@ header.admin-page-header{
   .button{
     border-color: #fff;
   }
+
+  .rounded-link{
+    background: #cccccc;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 3px 6px;
+    -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px;
+    border: none;
+  }
+
 
   ul#provider_select{
     display: inline-block;
@@ -1528,7 +1563,8 @@ section.admin-content-section{
       &.roles{ background: transparent url('../../images/admin_h2_icons.png') right -28px no-repeat; }
       &.settings{ background: transparent url('../../images/admin_h2_icons.png') right -56px no-repeat; }
       &.pools{ background: transparent url('../../images/admin_h2_icons.png') right -84px no-repeat; }
-      &.members{ background: transparent url('../../images/admin_h2_icons.png') right -112px no-repeat; }
+      &.users{ background: transparent url('../../images/admin_h2_icons.png') right -112px no-repeat; }
+      &.groups{ background: transparent url('../../images/admin_h2_icons.png') right -140px no-repeat; }
 
       &.alerts{color: #c00000;}
     }
@@ -1588,6 +1624,80 @@ section.admin-content-section{
 header.admin-page-header + section.admin-content-section{margin-top: 26px;}
 section.admin-content-section + section.admin-content-section {margin-top: 26px;}
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+User Card
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+div#user_card{
+  width: 325px;
+  -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.70);
+  -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.70);
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.70);
+
+  &.user_stats_card{
+    float: left;
+    margin: -75px 10px 10px 0px;
+  }
+  &.user_form_card{
+    float: right;
+    margin-right: 120px;
+  }
+
+  header.user-card-header{
+    background: #0099CC;
+    -webkit-border-radius: 7px 7px 0px 0px; -moz-border-radius: 7px 7px 0px 0px; border-radius: 7px 7px 0px 0px;
+    border-bottom: 1px solid #006699;
+
+    h2{
+      color: white;
+      padding: 15px 10px 10px 60px;
+      background: transparent url('../../images/user_card_icon.png') no-repeat 12px 10px;
+    }
+  }
+
+  div.user-card-content{
+    padding: 15px 15px 15px 60px;
+    background: #efefef;
+    -webkit-border-radius: 0px 0px 7px 7px; -moz-border-radius: 0px 0px 7px 7px; border-radius: 0px 0px 7px 7px;
+    border-top: 1px solid white;
+
+    dl{
+      dd{
+        color: black;
+        font-weight: bold;
+        font-size: 16px;
+      }
+      dd + dt{
+        margin-top: 10px;
+      }
+    }
+
+    #obj_actions{
+      float: right;
+    }
+  }
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+User Stats Definition List (users/show)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+dl.user_stats{
+  display: table;
+
+  div{display: table-row;}
+  li{
+    list-style-type: none;
+    display: table-cell;
+    padding: 10px;
+  }
+
+  dd{
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Alert Components -- v.0.0.1 [alert] (alert.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -2403,7 +2513,7 @@ body.administer form.generic{
   }
 
   fieldset + fieldset{
-    margin-top: 10px;
+    margin-top: 20px;
   }
 
   fieldset legend{

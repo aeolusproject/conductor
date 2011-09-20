@@ -1,3 +1,22 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'section_header'
+%header.admin-page-header
+  #obj_actions
+    Quick Jump:
+    = link_to 'Groups', "#groups", :class => 'rounded-link'
+    = link_to 'Users', "#users", :class => 'rounded-link'
+    = link_to 'Roles', "#roles", :class => 'rounded-link'
+  .clear
+%section.admin-content-section
+  %header
+    %h2#groups.groups Groups
+    .section-controls
+      #obj_actions
+        = link_to "", "#", :class => 'add-group-button'
+  .content
+    Unimplemented.
 = render :partial => 'list'
+%section.admin-content-section
+  %header
+    %h2#roles.roles Roles
+  .content
+    Unimplemented.
