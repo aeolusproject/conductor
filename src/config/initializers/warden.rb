@@ -27,6 +27,13 @@ Rails.configuration.middleware.use RailsWarden::Manager do |config|
     :store        => true,
     :action       => 'unauthenticated'
   )
+
+  config.scope_defaults(
+    :api,
+    :strategies   => [SETTINGS_CONFIG[:auth][:strategy].to_sym],
+    :store        => false,
+    :action       => 'unauthenticated'
+  )
 end
 
 class Warden::SessionSerializer
@@ -41,15 +48,24 @@ class Warden::SessionSerializer
   end
 end
 
+module Warden::Mixins::Common
+  def get_credentials
+    if request.authorization && request.authorization =~ /^Basic (.*)/m
+      Rails.logger.debug("Using basic HTTP auth header")
+      ActiveSupport::Base64.decode64($1).split(/:/, 2)
+    else
+      [params[:login], params[:password]]
+    end
+  end
+end
+
 # authenticate against database
 Warden::Strategies.add(:database) do
-  def valid?
-    params[:login] && params[:password]
-  end
-
   def authenticate!
-    Rails.logger.debug("Warden is authenticating #{params[:login]} against database")
-    u = User.authenticate(params[:login], params[:password])
+    login, password = get_credentials
+    return unless login && password
+    Rails.logger.debug("Warden is authenticating #{login} against database")
+    u = User.authenticate(login, password)
     u ? success!(u) : fail!("Username or password is not correct - could not log in")
   end
 end
@@ -57,15 +73,11 @@ end
 
 # authenticate against LDAP
 Warden::Strategies.add(:ldap) do
-
-  # relevant only when username and password params are set
-  def valid?
-    params[:login] && params[:password]
-  end
-
   def authenticate!
-    Rails.logger.debug("Warden is authenticating #{params[:username]} against ldap")
-    u = User.authenticate_using_ldap(params[:login], params[:password])
+    login, password = get_credentials
+    return unless login && password
+    Rails.logger.debug("Warden is authenticating #{login} against ldap")
+    u = User.authenticate_using_ldap(login, password)
     u ? success!(u) : fail!("Username or password is not correct - could not log in")
   end
 end

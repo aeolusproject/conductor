@@ -167,8 +167,18 @@ class ApplicationController < ActionController::Base
     return hash
   end
 
+  def http_auth_user
+    return unless request.authorization && request.authorization =~ /^Basic (.*)/m
+    authenticate!(:scope => :api)
+    # we use :api scope for authentication to avoid saving session.
+    # But it's handy to set authenticated user in default scope, so we
+    # can use current_user, instead of current_user(:api)
+    env['warden'].set_user(user(:api)) if user(:api)
+    return user(:api)
+  end
+
   def require_user
-    return if current_user
+    return if current_user or http_auth_user
     respond_to do |format|
       format.html do
         store_location
