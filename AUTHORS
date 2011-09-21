@@ -1,7 +1,7 @@
    aeolus-conductor Authors
    =========================
 
-The primary maintainers and people with commit access rights:
+People who have contributed to aeolus-conductor:
 
   Scott Seago          <sseago@redhat.com>
   Hugh Brock           <hbrock@redhat.com>
@@ -10,5 +10,26 @@ The primary maintainers and people with commit access rights:
   Mohammed Morsi       <mmorsi@redhat.com>
   Ian Main             <imain@redhat.com>
   David Lutterkort     <dlutter@redhat.com>
+  Chris Lalancette     <clalance@redhat.com>
+  Richard Su           <rwsu@redhat.com>
+  Tomas Sedovic        <tsedovic@redhat.com>
+  Angus Thomas         <athomas@redhat.com>
+  Francesco Vollero    <fvollero@redhat.com>
+  Greg Blomquist       <gblomqui@redhat.com>
+  Jakub Steiner        <jsteiner@redhat.com>
+  James Laska          <jlaska@redhat.com>
+  Jan Provaznik        <jprovazn@redhat.com>
+  Jiri Tomasek         <jtomasek@redhat.com>
+  Jozef Zigmund        <jzigmund@redhat.com>
+  Justin Clift         <jclift@redhat.com>
+  Kenneth Keiter       <kkeiter@redhat.com>
+  Ladislav Martincik   <lmartinc@redhat.com>
+  Maros Zatko          <mzatko@redhat.com>
+  Martyn Taylor        <mtaylor@redhat.com>
+  Matt Wagner          <mawagner@redhat.com>
+  Michael Fojtik       <mfojtik@redhat.com>
+  Mike Orazi           <morazi@redhat.com>
+  Simon Harris         <sharris@redhat.com>
+  Tomas Hrcka          <thrcka@redhat.com>
 
   [....send patches to get your name here....]
