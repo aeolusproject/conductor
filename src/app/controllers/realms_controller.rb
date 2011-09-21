@@ -27,7 +27,7 @@ class RealmsController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, Realm)
-    @provider = Provider.find(params[:provider_id])
+    #@provider = Provider.find(params[:provider_id])
     @realm = FrontendRealm.new
     load_backend_realms
   end
@@ -57,7 +57,7 @@ class RealmsController < ApplicationController
 
   def create
     require_privilege(Privilege::CREATE, Realm)
-    @provider = Provider.find(params[:provider_id])
+    #@provider = Provider.find(params[:provider_id])
     @realm = FrontendRealm.new(params[:frontend_realm])
     if @realm.save
       flash[:notice] = "Realm was added."

@@ -135,8 +135,6 @@ Conductor::Application.routes.draw do
         get 'set_selected_provider'
       end
     end
-    resources :realms
-    resources :hardware_profiles
   end
 
   resources :provider_types, :only => :index

@@ -62,7 +62,7 @@ class ProvidersController < ApplicationController
     end
     #TODO add links to real data for history,properties,permissions
     @tabs = [{:name => 'Connectivity', :view => @view, :id => 'connectivity', :count => @provider.provider_accounts.count},
-             {:name => 'Realms', :view => @view, :id => 'realms', :count => @provider.realms.count},
+             {:name => 'Realms', :view => @view, :id => 'realms', :count => @provider.frontend_realms.count},
              {:name => 'Hardware', :view => @view, :id => 'hardware_profiles', :count => @provider.hardware_profiles.count},
              {:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
     ]
@@ -70,7 +70,8 @@ class ProvidersController < ApplicationController
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 
     @provider_accounts = @provider.provider_accounts if @details_tab[:id] == 'connectivity'
-    @realms = @provider.realms if @details_tab[:id] == 'realms'
+    #@realms = @provider.realms if @details_tab[:id] == 'realms'
+    @realms = @provider.frontend_realms if @details_tab[:id] == 'realms'
     @hardware_profiles = @provider.hardware_profiles if @details_tab[:id] == 'hardware_profiles'
     #@permissions = @provider.permissions if @details_tab[:id] == 'roles'
 

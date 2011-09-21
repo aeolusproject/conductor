@@ -1,15 +1,17 @@
 = render :partial => 'layouts/admin_nav'
-%div#view
+%header.admin-page-header
+%section.admin-content-section
+  %header
+    %h2 Create a new Realm Mapping
+  .content
+    - if @realm_target.errors.any?
+      = render 'layouts/error_messages', :object => @realm_target
 
-- if @realm_target.errors.any?
-  = render 'layouts/error_messages', :object => @realm_target
+    = form_for @realm_target, :url => realm_mappings_path do |f|
+      = f.hidden_field :frontend_realm_id
+      = f.hidden_field :realm_or_provider_type
 
-%h2 Create a new Realm Mapping
-= form_for @realm_target, :url => realm_mappings_path do |f|
-  = f.hidden_field :frontend_realm_id
-  = f.hidden_field :realm_or_provider_type
-
-  - label_method = @realm_target.realm_or_provider_type == 'Realm' ? 'name_with_provider' : 'name'
-  = select_tag 'realm_backend_target[realm_or_provider_id]', options_from_collection_for_select(@backend_targets, 'id', label_method)
-  %fieldset
-    = f.submit "Save",  :class => "submit button"
+      - label_method = @realm_target.realm_or_provider_type == 'Realm' ? 'name_with_provider' : 'name'
+      = select_tag 'realm_backend_target[realm_or_provider_id]', options_from_collection_for_select(@backend_targets, 'id', label_method)
+      %fieldset
+        = f.submit "Save",  :class => "submit button"

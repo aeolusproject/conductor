@@ -1,25 +1,22 @@
 = render :partial => 'layouts/admin_nav'
-%header.page-header
+%header.admin-page-header
   %h1{:class => controller.controller_name}= @realm.name
   #obj_actions.button-container
     = link_to 'New Realm', new_realm_url, :class => 'button primary', :id => 'new_realm_button'
     .button-group
       = link_to 'Edit', edit_realm_path(@realm), :class => 'button pill', :id => 'edit_realm_button'
-      = button_to 'Delete', realm_path(@realm), :method => :delete, :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete_realm_button'
-  .corner &nbsp;
+      = link_to 'Delete', realm_path(@realm), :method => :delete, :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete_realm_button'
 
-%section.content-section.realm
+%section.admin-content-section.realm
   %header
     %h2 Properties
 
   .content
-    %div#view
-      = render :partial => 'properties'
+    = render :partial => 'properties'
 
-%section.content-section.realm_mapping
+%section.admin-content-section.realm_mapping
   %header
     %h2 Realm Mapping
 
   .content
-    %div#view
-      = render :partial => 'mapping'
+    = render :partial => 'mapping'

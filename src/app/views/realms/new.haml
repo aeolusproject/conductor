@@ -1,10 +1,11 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'section_header'
+%header.admin-page-header
+  %h1 Create New Realm
+  #obj_actions
+    Return to:
+    = link_to "Cloud Providers", edit_provider_path(Provider.all.first, :view => 'filter', :details_tab => 'realms'), :class => 'rounded-link'
 
-%section.content-section.users
-  %header
-    %h2 Create a new Realm
-
+%section.admin-content-section.users
   .content
-    = form_for [@provider, @realm], :url => realms_path, :html => {:class => 'generic'} do |f|
-      = render :partial => "form", :locals => { :form => f, :cancel_path => realms_path }
+    = form_for @realm, :url => realms_path, :html => {:class => 'generic'} do |f|
+      = render :partial => "form", :locals => { :form => f }
