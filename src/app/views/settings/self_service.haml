@@ -1,9 +1,9 @@
-%header.page-header
+= render :partial => 'layouts/admin_nav'
+%header.admin-page-header
   %h1{:class => controller.controller_name}  Self-service Settings
   #obj_actions.button-group
-  .corner &nbsp;
 
-%section.content-section.settings
+%section.admin-content-section.settings
   %header
     %h2 Settings
 
@@ -128,3 +128,4 @@
         .grid_13.omega.alpha.gap
           %button.formbutton Reset
           = submit_tag t(:save), :class => "submit formbutton"
+    .clear

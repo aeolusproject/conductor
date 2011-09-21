@@ -1,10 +1,7 @@
 = render :partial => 'layouts/admin_nav'
 = render :partial => 'section_header'
 
-%section.content-section.settings
-  %header
-    %h2 Settings
-
+%section.admin-content-section.settings
   .content
     %ul.tiles{:class => 'container_16'}
       -#%li#services.grid_8.disabled
@@ -37,6 +34,7 @@
           = t('.define_locales_desc')
         %button{:disabled => "disabled"}
           = t(:continue)
+      .clear
 
   :javascript
     $(document).ready(function () {
