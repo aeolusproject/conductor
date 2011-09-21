@@ -1,21 +1,5 @@
-# == Schema Information
-# Schema version: 20110207110131
 #
-# Table name: permissions
-#
-#  id                     :integer         not null, primary key
-#  role_id                :integer         not null
-#  user_id                :integer         not null
-#  permission_object_id   :integer
-#  permission_object_type :string(255)
-#  lock_version           :integer         default(0)
-#  created_at             :datetime
-#  updated_at             :datetime
-#
-
-#
-# Copyright (C) 2009 Red Hat, Inc.
-# Written by Scott Seago <sseago@redhat.com>
+# Copyright (C) 2011 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,6 +15,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
+
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: permissions
+#
+#  id                     :integer         not null, primary key
+#  role_id                :integer         not null
+#  user_id                :integer         not null
+#  permission_object_id   :integer
+#  permission_object_type :string(255)
+#  lock_version           :integer         default(0)
+#  created_at             :datetime
+#  updated_at             :datetime
+#
 
 class Permission < ActiveRecord::Base
   belongs_to :role

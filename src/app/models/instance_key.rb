@@ -1,17 +1,5 @@
-# == Schema Information
 #
-# Table name: instance_keys
-#
-#  id          :integer         not null, primary key
-#  instance_id :integer         not null
-#  name        :string(255)     not null
-#  pem         :text
-#  created_at  :datetime
-#  updated_at  :datetime
-#
-
- #
-# Copyright (C) 2009 Red Hat, Inc.
+# Copyright (C) 2011 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,6 +15,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
+
+# == Schema Information
+#
+# Table name: instance_keys
+#
+#  id          :integer         not null, primary key
+#  instance_id :integer         not null
+#  name        :string(255)     not null
+#  pem         :text
+#  created_at  :datetime
+#  updated_at  :datetime
+#
 
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.

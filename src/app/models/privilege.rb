@@ -1,20 +1,5 @@
-# == Schema Information
-# Schema version: 20110207110131
 #
-# Table name: privileges
-#
-#  id           :integer         not null, primary key
-#  role_id      :integer         not null
-#  target_type  :string(255)     not null
-#  action       :string(255)     not null
-#  lock_version :integer         default(0)
-#  created_at   :datetime
-#  updated_at   :datetime
-#
-
-#
-# Copyright (C) 2009 Red Hat, Inc.
-# Written by Scott Seago <sseago@redhat.com>
+# Copyright (C) 2011 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,6 +15,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
+
+# == Schema Information
+# Schema version: 20110207110131
+#
+# Table name: privileges
+#
+#  id           :integer         not null, primary key
+#  role_id      :integer         not null
+#  target_type  :string(255)     not null
+#  action       :string(255)     not null
+#  lock_version :integer         default(0)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
 
 class Privilege < ActiveRecord::Base
 
