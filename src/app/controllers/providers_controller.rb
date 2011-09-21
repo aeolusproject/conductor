@@ -64,7 +64,7 @@ class ProvidersController < ApplicationController
     @tabs = [{:name => 'Connectivity', :view => @view, :id => 'connectivity', :count => @provider.provider_accounts.count},
              {:name => 'Realms', :view => @view, :id => 'realms', :count => @provider.frontend_realms.count},
              {:name => 'Hardware', :view => @view, :id => 'hardware_profiles', :count => @provider.hardware_profiles.count},
-             {:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
+             #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
     ]
     details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
