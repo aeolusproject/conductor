@@ -35,7 +35,6 @@ else
   require 'will_paginate'
   require 'nokogiri'
   require 'simple-navigation'
-  require 'typhoeus'
   require 'rest-client'
   require 'rack-restful_submit'
   require 'uuidtools'

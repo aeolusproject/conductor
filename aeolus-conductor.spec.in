@@ -25,7 +25,6 @@ Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate) >= 3.0
 Requires: rubygem(deltacloud-client) >= 0.4.0
 Requires: rubygem(simple-navigation)
-Requires: rubygem(typhoeus)
 Requires: rubygem(rest-client) >= 1.6.1
 Requires: rubygem(builder)
 Requires: rubygem(json)

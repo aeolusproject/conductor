@@ -138,7 +138,6 @@ GEM
     timecop (0.3.5)
     treetop (1.4.9)
       polyglot (>= 0.2.5)
-    typhoeus (0.2.0)
     tzinfo (0.3.26)
     uuidtools (2.1.1)
     vcr (1.10.0)
@@ -179,7 +178,6 @@ DEPENDENCIES
   sqlite3
   thin
   timecop
-  typhoeus
   uuidtools
   vcr
   webmock
