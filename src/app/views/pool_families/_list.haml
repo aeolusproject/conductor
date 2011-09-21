@@ -1,11 +1,13 @@
-%section.content-section.pool_families
+%section.admin-content-section.pool_families
   %header
-    %h2 Pool Families
-    %span.label.badge.dark.count= @pool_families.length
+    %h2.pools Pool Families
+    .section-controls
+      #obj_actions
+        = link_to "New Pool Family", new_pool_family_path, :class => 'button pill'
 
   .content
     - content_for :form_header do
-      %li= restful_submit_tag "Delete", "destroy", multi_destroy_pool_families_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+      %li= restful_submit_tag "Delete Selected", "destroy", multi_destroy_pool_families_path, 'DELETE', :id => 'delete_button', :class => 'button pill danger'
 
     = filter_table(@header, @pool_families) do |pool_family|
       %tr{:class => cycle('nostripe','stripe')}

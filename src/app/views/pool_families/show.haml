@@ -1,18 +1,12 @@
 = render :partial => 'layouts/admin_nav'
-%header.page-header
-  %h1{:class => controller.controller_name}= @pool_family.name
+%header.admin-page-header
+  %h1= @pool_family.name
   #obj_actions.button-container
-    = link_to 'New Pool Family', new_pool_family_url, :class => 'button primary', :id => 'new_user_button'
     .button-group
       = link_to 'Edit', edit_pool_family_path(@pool_family), :class => 'button pill'
-      = button_to 'Delete', pool_family_path(@pool_family), :method => :delete, :confirm => "Are you sure you want to delete?", :class => "button pill danger", :id => 'delete_pool_family_button'
-  .corner &nbsp;
+      = link_to 'Delete', pool_family_path(@pool_family), :method => :delete, :confirm => "Are you sure you want to delete?", :class => "button pill danger", :id => 'delete_pool_family_button'
 
-%section.content-section.pool_family
-  %header
-    %h2 Properties
-
+%section.admin-content-section.pool_family
   .content
-    %div#view
-      = render :partial => 'properties'
-      = render :partial => 'provider_accounts'
+    = render :partial => 'properties'
+    = render :partial => 'provider_accounts'

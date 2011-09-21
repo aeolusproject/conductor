@@ -1,16 +1,14 @@
 = render :partial => 'layouts/admin_nav'
 
-%header.page-header
-  %h1{:class => controller.controller_name}= @pool_family.name
-  #obj_actions.button-container
-    = link_to 'New Pool Family', new_pool_family_url, :class => 'button primary', :id => 'new_user_button'
-    %div.button-group
-      = link_to 'Cancel Editing', pool_family_path(@pool_family), :class => 'button pill danger', :id => 'new_user_button'
-  .corner &nbsp;
+%header.admin-page-header
+  %h1= @pool_family.name
+  #obj_actions
+    Return to:
+    = link_to 'Environments', pool_families_path, :class => 'rounded-link'
 
-%section.content-section.pool_family
+%section.admin-content-section.pool_family
   %header
-    %h2 Properties
+    %h2.settings Settings
 
   .content
     -form_for @pool_family, :url => pool_family_path(@pool_family), :html => { :method => :put, :class => 'generic' } do |f|
