@@ -97,6 +97,11 @@ logger.info "DBOmatic starting up"
 
 # daemonize
 if daemon
+  # if we are daemonizing under systemd, it cares very deeply that we write
+  # the PID file *before* the original parent goes away (due to possible race
+  # conditions).  Therefore we use the pipe trick; the original parent opens
+  # a pipe, and then waits around for the final child to write a byte to it
+  # to signal completion
   rd, wr = IO.pipe
 
   pid = fork
@@ -223,6 +228,12 @@ def refresh_instances
   # this is so that one slow or non-responsive deltacloud doesn't hold up the
   # status for all of them
   pids = []
+
+  # sharing a single database connection amongst multiple processes causes
+  # havoc with ActiveRecord.  Instead, close down the connection in the parent
+  # before forking, and then have each child re-establish their own connection.
+  # We also have to have the parent re-establish the connection so that
+  # "collect_accounts" works properly
   ActiveRecord::Base.remove_connection
   accounts.each do |account|
     pid = Process.fork
