@@ -1,14 +1,13 @@
 = render :partial => 'layouts/admin_nav'
-%header.page-header
+%header.admin-page-header
   %h1{:class => controller.controller_name}= @catalog_entry.name
   #obj_actions.button-container
     = link_to 'New Catalog Entry', new_catalog_entry_url, :class => 'button primary', :id => 'new_catalog_entry_button'
     .button-group
       = link_to 'Edit', edit_catalog_entry_path(@catalog_entry), :class => 'button pill', :id => 'edit_button'
-      = button_to "Delete", catalog_entry_path(@catalog_entry), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete_button'
-  .corner &nbsp;
+      = link_to "Delete", catalog_entry_path(@catalog_entry), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete_button'
 
-%section.content-section.user
+%section.admin-content-section.user
   %header
     %h2 Properties
 
