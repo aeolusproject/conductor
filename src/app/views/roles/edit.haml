@@ -1,13 +1,12 @@
 = render :partial => 'layouts/admin_nav'
-%header.page-header
+%header.admin-page-header
   %h1{:class => controller.controller_name}= @role.name.titlecase
   #obj_actions.button-container
     = link_to 'New Role', new_role_url, :class => 'button primary', :id => 'new_role_button'
     %div.button-group
       = link_to 'Cancel Editing', role_path(@role), :class => 'button pill danger', :id => 'new_role_button'
-  .corner &nbsp;
 
-%section.content-section.role
+%section.admin-content-section.role
   %header
     %h2 Properties
 

@@ -22,7 +22,7 @@ SimpleNavigation::Configuration.run do |navigation|
     first_level.dom_class = 'container'
     first_level.item :monitor, t(:monitor), pools_path, :class => 'monitor', :link => { :id => 'monitor' }, :highlights_on => /\/deployments|\/pools|\/instances/
     first_level.item :administer, t(:administer), users_path, :class => 'administer' do |second_level|
-      second_level.item :users_and_groups, "Users & Groups", users_path, :link => { :class => 'users' }, :highlights_on => /\/users/
+      second_level.item :users_and_groups, "Users & Groups", users_path, :link => { :class => 'users' }, :highlights_on => /\/users|\/roles/
       second_level.item :environments, "Environments", settings_path, :link => { :class => 'environments' }, :highlights_on => /\/settings/
       second_level.item :content, "Content", catalogs_path, :link => { :class => 'content' }, :highlights_on => /\/catalogs|\/catalog_entries/
       second_level.item :cloud_providers, "Cloud Providers", providers_path, :link => { :class => 'providers' }, :highlights_on => /\/providers|\/realms|\/realm_mappingsi|\/hardware_profiles/
