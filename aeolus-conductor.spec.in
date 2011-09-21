@@ -40,7 +40,6 @@ Requires: rubygem(pg)
 Requires: rubygem(ruby-net-ldap)
 Requires: postgresql
 Requires: postgresql-server
-Requires: ruby-postgres
 
 # to ensure the service is actually started
 # and is accessible in the init script
