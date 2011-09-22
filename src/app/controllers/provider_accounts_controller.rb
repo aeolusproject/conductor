@@ -26,7 +26,8 @@ class ProviderAccountsController < ApplicationController
     load_accounts
 
     respond_to do |format|
-      format.html
+      #xml list of provider_accounts for aeolus-image, aeolus-image could work with prov. accounts list for givent provider
+      #to resemble html views logic, so this route could be removed (provider_accounts could be user only as nested resource)
       format.xml { render :text => ProviderAccount.xml_export(@provider_accounts) }
     end
   end

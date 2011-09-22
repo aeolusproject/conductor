@@ -30,10 +30,10 @@ describe ProvidersController do
 
   describe "provide ui to view hardware profiles" do
     before do
-      get :show, :id => @provider.id, :details_tab => 'hw_profiles', :format => :js
+      get :edit, :id => @provider.id, :details_tab => 'hardware_profiles', :format => :js
     end
 
-    it { response.should render_template(:partial => 'providers/_hw_profiles') }
+    it { response.should render_template(:partial => 'hardware_profiles/_list') }
     it { response.should be_success }
     it { assigns[:hardware_profiles].size.should == @provider.hardware_profiles.size }
   end

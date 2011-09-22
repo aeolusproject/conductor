@@ -31,10 +31,9 @@ Feature: Manage Provider Accounts
   Scenario: Create a new Provider Account
     Given there is a provider named "testprovider"
     And there are no provider accounts
-    When I go to the testprovider's edit provider page
-    And I follow "filter_view"
-    And I follow "New Account"
-    Then I should be on the new provider provider account page
+    And I am on the testprovider's provider accounts page
+    When I follow "New Account"
+    Then I should be on testprovider's new provider account page
     And I should see "New Provider Account"
     When I select "testprovider" from "provider_account_provider_id"
     And I fill in "provider_account[label]" with "testaccount"
@@ -42,18 +41,16 @@ Feature: Manage Provider Accounts
     And I fill in "provider_account[credentials_hash][password]" with "mockpassword"
     And I fill in "quota[maximum_running_instances]" with "13"
     And I press "Save"
-    Then I should be on testaccount's provider account page
+    Then I should be on the testprovider's edit provider page
     And I should see "Account testaccount was added."
     And I should have a provider account named "testaccount"
-    And I should see "Properties for testaccount"
-    And I should see "Running instances quota: 13"
 
   Scenario: Create a new Provider Account using wrong credentials
     Given there is a provider named "testprovider"
     And there are no provider accounts
-    And I am on the provider accounts page
-    When I follow "New Provider Account"
-    Then I should be on the new provider account page
+    And I am on the testprovider's provider accounts page
+    And I follow "New Account"
+    Then I should be on testprovider's new provider account page
     And I should see "New Provider Account"
     When I select "testprovider" from "provider_account_provider_id"
     And I fill in "provider_account[label]" with "testaccount"
@@ -68,16 +65,16 @@ Feature: Manage Provider Accounts
     Given there is a provider named "testprovider"
     And there is a provider account named "testaccount"
     And the account has an instance associated with it
-    And I am on the provider accounts page
+    And I am on the testprovider's provider accounts page
     When I check the "testaccount" account
     And I press "Delete"
-    Then I should be on the provider accounts page
+    Then I should be on the testprovider's edit provider page
     And I should see "was not deleted"
     And there should be 1 provider account
     When I delete all instances from the account
     And I check the "testaccount" account
     And I press "Delete"
-    Then I should be on the provider accounts page
+    Then I should be on the testprovider's edit provider page
     And I should see "was deleted"
     And there should be no provider accounts
 
@@ -86,17 +83,17 @@ Feature: Manage Provider Accounts
     And there is a provider account named "testaccount"
     And the account has an instance associated with it
     And all the account instances are stopped
-    And I am on the provider accounts page
+    And I am on the testprovider's provider accounts page
     When I check the "testaccount" account
     And I press "Delete"
-    Then I should be on the provider accounts page
+    Then I should be on the testprovider's edit provider page
     And I should see "was deleted"
     And there should be no provider accounts
 
   Scenario: Edit a existing Provider Account
     Given there is a provider named "testprovider"
     And there is a provider account named "testaccount"
-    And I am on the provider accounts page
+    And I am on the testprovider's provider accounts page
     And I follow "testaccount"
     When I follow "Edit"
     And I fill in "provider_account[label]" with "testaccount_updated"
@@ -107,7 +104,7 @@ Feature: Manage Provider Accounts
   Scenario: Edit a existing Provider Account with invalid credentials
     Given there is a provider named "testprovider"
     And there is a provider account named "testaccount"
-    And I am on the provider accounts page
+    And I am on the testprovider's provider accounts page
     And I follow "testaccount"
     When I follow "Edit"
     And I fill in "provider_account[label]" with ""

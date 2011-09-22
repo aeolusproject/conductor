@@ -47,6 +47,9 @@ module NavigationHelpers
     when /^the (.*)'s edit provider page$/
       edit_provider_path(Provider.find_by_name($1))
 
+    when /^the (.*)'s provider accounts page$/
+      edit_provider_path(Provider.find_by_name($1), :view => 'filter', :details_tab => 'connectivity')
+
     when /the settings page/
       settings_path
 
@@ -101,8 +104,11 @@ module NavigationHelpers
     when /^(.*)'s edit hardware profile page$/
       edit_hardware_profile_path(HardwareProfile.find_by_name($1))
 
-    when /^(.*)'s provider account page$/
-      provider_account_path(ProviderAccount.find_by_label($1))
+    when /^(.*)'s provider ^(.*)'s provider account page$/
+      provider_provider_account_path(Provider.find_by_name($1), ProviderAccount.find_by_label($2))
+
+    when /^(.*)'s new provider account page$/
+      new_provider_provider_account_path(Provider.find_by_name($1))
 
     when /the operational status of deployment page/
       deployment_path(@deployment, :details_tab => 'operation')

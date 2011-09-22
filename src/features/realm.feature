@@ -12,7 +12,7 @@ Feature: Manage Realms
   Scenario: Create new frontend realm
     Given I am on the realms page
     When I follow "new_realm_button"
-    Then I should see "Create a new Realm"
+    Then I should see "Create New Realm"
     When I fill in "frontend_realm_name" with "testrealm2"
     And I press "Save"
     Then I should see "Realm was added."
@@ -21,7 +21,7 @@ Feature: Manage Realms
     Given I am on the realms page
     And there is a realm "testrealm1"
     When I follow "new_realm_button"
-    Then I should see "Create a new Realm"
+    Then I should see "Create New Realm"
     When I fill in "frontend_realm_name" with "testrealm1"
     And I press "frontend_realm_submit"
     Then I should see "Name has already been taken"

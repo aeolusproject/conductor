@@ -55,7 +55,7 @@ Feature: Manage Catalog Entries
     Given a catalog entry "testdepl1" exists
     And I am on the catalog entries page
     When I follow "testdepl1"
-    And I press "delete_button"
+    And I follow "delete"
     Then there should be only 0 catalog entries
     And I should be on the catalog entries page
     And I should not see "testdepl1"

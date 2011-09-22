@@ -5,7 +5,7 @@
     = link_to 'New Catalog Entry', new_catalog_entry_url, :class => 'button primary', :id => 'new_catalog_entry_button'
     .button-group
       = link_to 'Edit', edit_catalog_entry_path(@catalog_entry), :class => 'button pill', :id => 'edit_button'
-      = link_to "Delete", catalog_entry_path(@catalog_entry), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete_button'
+      = link_to "Delete", catalog_entry_path(@catalog_entry), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete'
 
 %section.admin-content-section.user
   %header

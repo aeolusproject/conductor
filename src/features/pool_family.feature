@@ -24,7 +24,7 @@ Feature: Pool Families
     Given there is a pool family named "testpoolfamily"
     And I am on the pool families page
     When I follow "testpoolfamily"
-    Then I should see "Properties"
+    Then I should see "Pool Family Details"
 
   Scenario: Create a new Pool family
     Given I am on the pool families page

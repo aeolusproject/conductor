@@ -13,7 +13,7 @@ Feature: Manage Users
     And there is a user "testuser"
     When I follow "testuser"
     And I follow "Edit"
-    Then I should see "Editing User:"
+    Then I should see "Edit User"
     When I fill in "user[password]" with "new password"
     And I fill in "user[password_confirmation]" with ""
     And I press "Save"
@@ -33,15 +33,6 @@ Feature: Manage Users
     When I follow "testuser"
     Then I should be on testuser's user page
 
-  Scenario: Administrator cancels the creation of a user account
-    Given I am on the users page
-    And there are 2 users
-    When I follow "New User"
-    Then I should be on the new user page
-    When I follow "cancel"
-    Then there should be 2 users
-    And I should be on the users page
-
   Scenario: Delete users
     Given there is a user "testuser"
     And I am on the users page
@@ -58,9 +49,9 @@ Feature: Manage Users
 
   Scenario: Create new user
     Given I am on the users page
-    When I follow "New User"
+    When I follow "add_user_button"
     Then I should be on the new user page
-    And I should see "New Account"
+    And I should see "New User"
     When I fill in the following:
       | Choose a username | testuser2             |
       | Choose a password | secret                |
@@ -74,9 +65,9 @@ Feature: Manage Users
 
   Scenario: Want to register new user but decide to cancel
     Given I am on the users page
-    When I follow "New User"
+    When I follow "add_user_button"
     Then I should be on the new user page
-    And I should see "New Account"
+    And I should see "New User"
     When I fill in the following:
       | Choose a username | testuser2             |
       | Choose a password | secret                |
@@ -84,7 +75,7 @@ Feature: Manage Users
       | First name        | Joe                   |
       | Last name         | Tester                |
       | E-mail            | testuser2@example.com |
-    And I follow "Cancel"
+    And I follow "Users & Groups"
     Then I should be on the users page
     And there should not be user with login "canceluser"
 

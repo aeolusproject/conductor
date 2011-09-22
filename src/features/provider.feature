@@ -41,8 +41,7 @@ Feature: Manage Providers
 
   Scenario: Show provider details
     Given there is a provider named "testprovider"
-    And I am on the providers page
-    When I follow "testprovider"
+    When I am on the testprovider's edit provider page
     Then I should see "Provider name"
     And I should see "Provider URL"
 
@@ -78,7 +77,7 @@ Feature: Manage Providers
     And this provider has a realm
     And this provider has a provider account
     When I go to the provider1's edit provider page
-    And I press "delete"
+    And I follow "delete"
     And there should not exist a provider named "provider1"
     And there should not be any hardware profiles
     And there should not be a provider account

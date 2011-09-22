@@ -20,7 +20,7 @@ Feature: User authentication
     Given I am logged in
     And I am on the root page
     When I want to edit my profile
-    Then should see "Editing Account"
+    Then should see "Edit Account"
     When I fill in "E-mail" with "changed@example.com"
     And I press "Save"
     Then I should be on the my user page
@@ -38,7 +38,7 @@ Feature: User authentication
     Given I am logged in
     And I am on the root page
     When I want to edit my profile
-    Then should see "Editing Account"
+    Then should see "Edit Account"
     When I enter a string of length "101" into "user[login]"
     And I press "Save"
     Then I should see "Login is too long (maximum is 100 characters)"
