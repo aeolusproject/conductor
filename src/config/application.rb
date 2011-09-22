@@ -44,7 +44,7 @@ else
   require 'fastercsv'
   #require 'railties'
 
-  if (ENV["RAILS_ENV"] == "cucumber" || ENV["RAILS_ENV"] == "test")
+  unless (ENV["RAILS_ENV"] == "production")
     puts "========= cucumber/test env deps loaded... =========="
     require 'rspec-rails'
     require 'factory_girl_rails'
