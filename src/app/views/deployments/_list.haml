@@ -39,13 +39,13 @@
       <td><input type="checkbox" id="deployment_checkbox_${id}"
                  name="deployments_selected[]" value="${id}"></td>
       <td />
-      <td><a href="${href}">${name}</a></td>
+      <td><a href="#{deployment_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
       <td>${created_at}</td>
       <td>${deployable_xml_name}</td>
       <td>${instances_count}</td>
-      <td><a href="${pool.href}">${pool.name}</a></td>
+      <td><a href="#{pool_path('replace_id').sub('replace_id', '${pool.id}')}">${pool.name}</a></td>
       <td>${owner}</td>
       {{if provider}}
-        <td><a href="${provider.href}">${provider.name}</a></td>
+        <td><a href="#{provider_path('replace_id').sub('replace_id', '${provider.id}')}">${provider.name}</a></td>
       {{/if}}
     </tr>

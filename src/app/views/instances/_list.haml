@@ -34,7 +34,7 @@
       <td><input type="checkbox" id="instance_checkbox_${id}"
                  name="instance_selected[]" value="${id}"></td>
       <td />
-      <td><a href="${href}">${name}</a></td>
+      <td><a href="#{instance_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
       <td>${public_addresses}</td>
       <td>${state}</td>
       <td>${provider}</td>

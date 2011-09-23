@@ -120,7 +120,7 @@ module ApplicationHelper
       time = (time - hours)   / 24
       days = time % 7
 
-      result_string<< pluralize(days.to_i, 'day') if days != 0
+      result_string<< "#{days.to_i} #{(days.to_i > 1 ? 'days' : 'day')}" if days != 0
       result_string<<"#{"%02d"%hours.to_i}:#{"%02d"%minutes.to_i}:#{"%02d"%seconds.to_i}"
       result_string.join(", ")
     else
