@@ -31,11 +31,11 @@
       <td><input type="checkbox" id="pool_checkbox_${id}"
                  name="pools_selected[]" value="${id}"></td>
       <td />
-      <td><a href="${href}">${name}</a></td>
+      <td><a href="#{pool_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
       <td>${deployments_count}</td>
       <td>${statistics.total_instances}</td>
       <td>${statistics.instances_pending}</td>
       <td>${statistics.instances_failed}</td>
       <td>${statistics.quota_percent}</td>
-      <td><a href="${pool_family.href}">${pool_family.name}</a></td>
+      <td><a href="#{pool_family_path('replace_id').sub('replace_id', '${pool_family.id}')}">${pool_family.name}</a></td>
     </tr>

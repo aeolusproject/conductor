@@ -288,17 +288,16 @@ class Deployment < ActiveRecord::Base
       :deployable_xml_name => deployable_xml.name,
       :instances_count => instances.count,
       :uptime => ApplicationHelper.count_uptime(uptime_1st_instance),
-      :href => Rails.application.routes.url_helpers.deployment_path(id),
       :pool => {
         :name => pool.name,
-        :href => Rails.application.routes.url_helpers.pool_path(pool.id),
+        :id => pool.id,
       },
     })
 
     if provider
       json[:provider] = {
         :name => provider.provider_type.name,
-        :href => Rails.application.routes.url_helpers.provider_path(provider.id),
+        :id => provider.id,
       }
     end
 

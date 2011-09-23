@@ -370,16 +370,11 @@ class Instance < ActiveRecord::Base
       {:include => :hardware_profile}
   }
 
-  def instance_key_path
-    Rails.application.routes.url_helpers.key_instance_path(self) if instance_key
-  end
-
   def as_json(options={})
     super(options).merge({
       :owner => owner.name,
       :provider => provider_account ? provider_account.provider.name : '',
-      :href => Rails.application.routes.url_helpers.instance_path(id),
-      :instance_key_path => instance_key_path,
+      :has_key => !(instance_key.nil?)
     })
   end
 

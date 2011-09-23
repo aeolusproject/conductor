@@ -110,10 +110,9 @@ class Pool < ActiveRecord::Base
     result = super(options).merge({
       :statistics => statistics,
       :deployments_count => deployments.count,
-      :href => Rails.application.routes.url_helpers.pool_path(id),
       :pool_family => {
         :name => pool_family.name,
-        :href => Rails.application.routes.url_helpers.pool_family_path(pool_family.id),
+        :id => pool_family.id,
       },
 
     })
