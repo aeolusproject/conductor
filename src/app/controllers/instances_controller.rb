@@ -151,9 +151,9 @@ class InstancesController < ApplicationController
           raise ActionError.new("stop cannot be performed on this instance.")
         end
         Taskomatic.stop_instance(@task)
-        notices << "#{instance.name}: stop action was successfully queued.<br/>"
+        notices << "#{instance.name}: stop action was successfully queued."
       rescue Exception => err
-        errors << "#{instance.name}: " + err + "<br/>"
+        errors << "#{instance.name}: " + err
       end
     end
     # If nothing is selected, display an error message:
