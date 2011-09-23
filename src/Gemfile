@@ -21,6 +21,7 @@ gem 'fastercsv'
 gem 'rails_warden'
 gem 'ruby-net-ldap'
 gem 'aeolus-image'
+gem 'oauth'
 group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-core'

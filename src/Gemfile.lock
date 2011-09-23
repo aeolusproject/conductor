@@ -84,6 +84,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.16)
     nokogiri (1.5.0.beta.4)
+    oauth (0.4.4)
     pg (0.11.0)
     polyglot (0.3.1)
     rack (1.3.0)
@@ -174,6 +175,7 @@ DEPENDENCIES
   json
   launchy
   nokogiri
+  oauth
   pg
   rack-restful_submit
   rails (>= 3.0.7)

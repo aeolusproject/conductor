@@ -12,3 +12,7 @@
     # :port: 389
 :iwhd:
   :url: http://localhost:9090
+# :oauth:
+#   'http://example.com:5000/api':
+#     :consumer_key: consumer_key_here
+#     :consumer_secret: consumer_secret_here
