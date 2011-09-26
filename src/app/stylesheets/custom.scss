@@ -17,8 +17,8 @@
 }
 
 /*fixes the button_to helper used in button-group problem*/
-.button-group .button-to div{display: inline;}
-.button-group .button-to div .button.pill{
+.button-group .button_to div{display: inline;}
+.button-group .button_to div .button.pill{
   -webkit-border-radius: 0em 50em;
   -moz-border-radius: 0em 50em 50em 0em;
   border-radius: 0em 50em 50em 0em;
