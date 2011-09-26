@@ -1,0 +1,61 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://example.com:5000/katello/api/organizations
+    body:
+    headers:
+      user-agent:
+      - OAuth gem v0.4.4
+      authorization:
+      - OAuth oauth_consumer_key="cloud_forms", oauth_nonce="ieQTc0gxyo6Z4PlQkgPvxdRCyvrtsLAVU9zfVdyDsnE", oauth_signature="u%2B9yniABqqpQgTAmQQJS5tNEv4g%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1317068969", oauth_version="1.0"
+      katello-user:
+      - admin
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      x-ua-compatible:
+      - IE=Edge,chrome=1
+      etag:
+      - "\"4f3973e2332582b0da3bec1870776fbb\""
+      content-type:
+      - application/json; charset=utf-8
+      x-runtime:
+      - "0.058187"
+      server:
+      - thin 1.2.11 codename Bat-Shit Crazy
+      cache-control:
+      - max-age=0, private, must-revalidate
+    body: "[{\"name\":\"ACME_Corporation\",\"created_at\":\"2011-09-20T17:45:42Z\",\"updated_at\":\"2011-09-20T17:45:42Z\",\"id\":1,\"cp_key\":\"ACME_Corporation\",\"description\":\"ACME Corporation Organization\"}]"
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://example.com:5000/katello/api/organizations
+    body:
+    headers:
+      user-agent:
+      - OAuth gem v0.4.4
+      katello-user:
+      - admin
+      authorization:
+      - OAuth oauth_consumer_key="test", oauth_nonce="zoT39JgdwI0fjqg9ZfJ2xN4QxyJyIghW7wWUHAxfY", oauth_signature="UFM87n9CcQXGsOUbHttPJs9NQOg%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1317068970", oauth_version="1.0"
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 401
+      message: Unauthorized
+    headers:
+      x-ua-compatible:
+      - IE=Edge,chrome=1
+      content-type:
+      - text/html; charset=utf-8
+      server:
+      - thin 1.2.11 codename Bat-Shit Crazy
+      x-runtime:
+      - "0.017754"
+      cache-control:
+      - no-cache
+    body: " "
+    http_version: "1.1"

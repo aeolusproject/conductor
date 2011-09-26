@@ -61,3 +61,13 @@ DeployableXML.class_eval do
     end
   end
 end
+
+require 'oauth'
+OAuth::AccessToken.class_eval do
+  def request(method, path, *args)
+    # By default, headers are ignored: https://www.relishapp.com/myronmarston/vcr/v/1-6-0/docs/cassettes/request-matching
+    VCR.use_cassette('oauth', :record => :new_episodes, :match_requests_on => [:method, :uri, :body, :headers]) do
+      super(method, path, *args)
+    end
+  end
+end
