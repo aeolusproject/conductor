@@ -26,18 +26,18 @@ describe HardwareProfilesController do
     @admin = @admin_permission.user
   end
 
-  it "should provide ui to view all hardware profiles" do
-      mock_warden(@admin)
-     @request.accept = "text/html"
-     get :index
-     response.should be_success
-     assigns[:hardware_profiles].size.should == HardwareProfile.count
-     response.should render_template("index")
-  end
-
   describe "Authorization" do
 
     context "Admin" do
+      it "should provide ui to view all hardware profiles" do
+        mock_warden(@admin)
+        @request.accept = "text/html"
+        get :index
+        response.should be_success
+        assigns[:hardware_profiles].size.should == HardwareProfile.count
+        response.should render_template("index")
+      end
+
       it "should be able to create hardware profiles" do
         mock_warden(@admin)
         lambda do
@@ -84,6 +84,16 @@ describe HardwareProfilesController do
       before(:each) do
         @user_permission = FactoryGirl.create :pool_user_permission
         @user = @user_permission.user
+      end
+
+      it "should not list hw profiles which I'm not allowed to see" do
+        hardware_profile = Factory.create :hardware_profile
+        mock_warden(@user)
+        @request.accept = "text/html"
+        get :index
+        response.should be_success
+        assigns[:hardware_profiles].find {|p| p.name == hardware_profile.name}.should be_nil
+        response.should render_template("index")
       end
 
       it "should not be able to create hardware profiles" do

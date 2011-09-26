@@ -28,7 +28,7 @@ class HardwareProfilesController < ApplicationController
     save_breadcrumb(hardware_profiles_path)
     @params = params
     respond_to do |format|
-      format.html { load_hardware_profiles }
+      format.html
       format.js do
         build_hardware_profile(params[:hardware_profile])
         matching_provider_hardware_profiles
@@ -197,13 +197,13 @@ class HardwareProfilesController < ApplicationController
   end
 
   def load_hardware_profiles
-    sort_field = params[:order_field].nil? ? "name" : params[:order_field]
-    sort_order = params[:order_dir] == "asc" || params[:order_dir].nil? ? "" : "desc"
+    sort_field = params[:order_field].blank? ? "name" : params[:order_field]
+    sort_order = params[:order_dir].to_s == "desc" ? "desc" : "asc"
     if sort_field == "name"
-      @hardware_profiles = HardwareProfile.all(:order => sort_field + " " + sort_order, :conditions => 'provider_id IS NULL')
+      @hardware_profiles = HardwareProfile.list_for_user(current_user, Privilege::VIEW, :order => "hardware_profiles.name #{sort_order}", :conditions => ['provider_id IS NULL', {}])
     else
-      @hardware_profiles = HardwareProfile.all(:conditions => 'provider_id IS NULL')
-      if sort_order == ""
+      @hardware_profiles = HardwareProfile.list_for_user(current_user, Privilege::VIEW, :conditions => ['provider_id IS NULL', {}])
+      if sort_order == "asc"
         @hardware_profiles.sort! {|x,y| x.get_property_map[sort_field].sort_value(true) <=> y.get_property_map[sort_field].sort_value(true)}
       else
         @hardware_profiles.sort! {|x,y| y.get_property_map[sort_field].sort_value(false) <=> x.get_property_map[sort_field].sort_value(false)}
