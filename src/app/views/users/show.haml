@@ -17,7 +17,7 @@
           %dd= @user.login
         #obj_actions.button-group
           = link_to 'Edit', edit_user_path(@user), :class => 'button'
-          = link_to 'Delete', user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button danger"
+          = button_to 'Delete', user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button danger"
         .clear
     %dl.user_stats
       %ul

@@ -5,7 +5,7 @@
     = link_to 'New Hardware Profile', new_hardware_profile_url, :class => 'button primary', :id => 'new_role_button'
     .button-group
       = link_to 'Edit', edit_hardware_profile_path(@hardware_profile), :class => 'button pill', :id => 'edit_button'
-      = link_to 'Delete', hardware_profile_path(@hardware_profile), :method => :delete, :confirm => "Are you sure you want to delete?", :class => 'button pill danger'
+      = button_to 'Delete', hardware_profile_path(@hardware_profile), :method => :delete, :confirm => "Are you sure you want to delete?", :class => 'button pill danger'
 %section.admin-content-section.hardware_profile
   %header
     %h2 Properties

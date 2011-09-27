@@ -39,6 +39,6 @@ Feature: Manage Catalogs
     Given there is a "Bad" catalog
     And I am on the catalogs page
     When I follow "Bad"
-    And I follow "delete"
+    And I press "delete"
     Then I should be on the catalogs page
     And I should not see "Bad"

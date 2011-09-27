@@ -5,7 +5,7 @@
     = link_to 'New Role', new_role_url, :class => 'button primary', :id => 'new_role_button'
     .button-group
       = link_to 'Edit', edit_role_path(@role), :class => 'button pill'
-      = link_to 'Delete', role_path(@role), :method => :delete, :class => 'button pill danger',
+      = button_to 'Delete', role_path(@role), :method => :delete, :class => 'button pill danger',
         :confirm => "Are you sure you want to delete this role?"
 
 %section.admin-content-section.role
