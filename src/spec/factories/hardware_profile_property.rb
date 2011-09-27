@@ -227,4 +227,20 @@ FactoryGirl.define do
     value 'x86_64'
   end
 
+  factory :hwpp_ranged_cpu, :parent => :hardware_profile_property do
+    name 'cpu'
+    kind 'range'
+    unit 'count'
+    range_first 1
+    range_last 32
+    value 2
+  end
+
+  factory :hwpp_nil_cpu, :parent => :hardware_profile_property do
+    name 'cpu'
+    kind 'fixed'
+    unit 'count'
+    value nil
+  end
+
 end

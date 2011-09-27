@@ -75,4 +75,22 @@ FactoryGirl.define do
     external_key 'front_hwp3_key'
   end
 
+  factory :back_hwp_ranged_cpu, :parent => :hardware_profile do
+    memory { |p| p.association(:front_hwp1_memory) }
+    storage { |p| p.association(:front_hwp1_storage) }
+    cpu { |p| p.association(:hwpp_ranged_cpu) }
+    architecture { |p| p.association(:front_hwp1_arch) }
+    name 'cpu_range'
+    external_key 'cpu_range'
+  end
+
+  factory :front_end_nil_cpu, :parent => :hardware_profile do
+    memory { |p| p.association(:front_hwp3_memory) }
+    storage { |p| p.association(:front_hwp3_storage) }
+    cpu { |p| p.association(:hwpp_nil_cpu) }
+    architecture { |p| p.association(:front_hwp3_arch) }
+    name 'front_nil_cpu'
+    external_key 'front_nil_cpu'
+  end
+
 end

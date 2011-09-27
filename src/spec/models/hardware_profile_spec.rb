@@ -208,6 +208,14 @@ describe HardwareProfile do
     HardwareProfile.match_hardware_profile_property(front_end_cpu, back_end_cpu_fail).should == false
   end
 
+  it "should handle nils in ranged values in generate_override_property_values" do
+    fe_hwp = Factory.create(:front_end_nil_cpu)
+    be_hwp = Factory.create(:back_hwp_ranged_cpu)
+    overrides = HardwareProfile.generate_override_property_values(fe_hwp, be_hwp)
+    overrides[:cpu].should_not be_blank
+  end
+
+
   def create_hwpp_enum(value_array, properties = {})
     hwpp_enum = FactoryGirl.create(:hwpp_enum, properties)
     value_array.each do |value|
