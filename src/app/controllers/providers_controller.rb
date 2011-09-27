@@ -46,6 +46,8 @@ class ProvidersController < ApplicationController
     @provider = Provider.find_by_id(params[:id])
     require_privilege(Privilege::MODIFY, @provider)
 
+    @alerts = provider_alerts(@provider)
+
     if params.delete :test_provider
       test_connection(@provider)
     end
@@ -174,4 +176,36 @@ class ProvidersController < ApplicationController
   def load_providers
     @providers = Provider.list_for_user(current_user, Privilege::VIEW, :order => :name)
   end
+
+  def provider_alerts(provider)
+    alerts = []
+
+    # Quota Alerts
+    provider.provider_accounts.each do |provider_account|
+      unless provider_account.quota.maximum_running_instances == nil
+        if provider_account.quota.maximum_running_instances < provider_account.quota.running_instances
+          alerts << {
+            :type => "critical",
+            :subject => "Quota",
+            :alert_type => "Account Quota Exceeded",
+            :path => edit_provider_provider_account_path(@provider,provider_account),
+            :description => "Quota limit of running instances for #{provider_account.name} account has been exceeded."
+          }
+        end
+
+        if (70..100) === provider_account.quota.percentage_used.round
+          alerts << {
+            :type => "warning",
+            :subject => "Quota",
+            :alert_type => "#{provider_account.quota.percentage_used.round}% Account Quota Reached",
+            :path => provider_provider_account_path(@provider,provider_account),
+            :description => "#{provider_account.quota.percentage_used.round}% of Quota limit for running instances for #{provider_account.name} account has been reached."
+          }
+        end
+      end
+    end
+
+    return alerts
+  end
+
 end

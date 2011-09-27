@@ -111,6 +111,30 @@ Feature: Manage Provider Accounts
     And I press "Save"
     Then I should see "Provider Account wasn't updated!"
 
+  Scenario: Display alert when Provider Account Quota is over 70% filled
+    Given there is a provider named "testprovider"
+    And there is a provider account named "testaccount"
+    And the account has an instance associated with it
+    And I am on the testprovider's provider accounts page
+    When I follow "testaccount"
+    And I follow "Edit"
+    And I fill in "quota[maximum_running_instances]" with "1"
+    And I press "save"
+    Then I should be on the testprovider's edit provider page
+    And I should see "Account Quota Reached"
+
+  Scenario: Display alert when Provider Account Quota is exceeded
+    Given there is a provider named "testprovider"
+    And there is a provider account named "testaccount"
+    And the account has an instance associated with it
+    And I am on the testprovider's provider accounts page
+    When I follow "testaccount"
+    And I follow "Edit"
+    And I fill in "quota[maximum_running_instances]" with "0"
+    And I press "save"
+    Then I should be on the testprovider's edit provider page
+    And I should see "Account Quota Exceeded"
+
 #  Scenario: Search for Provider Accounts
 #    Given there is a provider named "testprovider"
 #    And there is a provider account named "testaccount"

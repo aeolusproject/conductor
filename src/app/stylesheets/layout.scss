@@ -1740,7 +1740,7 @@ dl.alerts{
       font-weight: bold;
     }
 
-    dt.subject.warn{
+    dt.subject.warning{
       padding-left: $alert_padding*2 + 16px;
       background: transparent url('../../images/alert_icon_warn.png') no-repeat $alert_padding 8px;
     }

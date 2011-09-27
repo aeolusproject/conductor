@@ -27,5 +27,5 @@
         %dd.fraction.instance
           %span.part= @statistics[:used_quota]
           %span.divider.label.small.caps of
-          %span.total= @statistics[:available_quota] or '&infin;'
+          %span.total= @statistics[:available_quota] or '&infin;'.html_safe
 -# TODO: Implement alerts and updates

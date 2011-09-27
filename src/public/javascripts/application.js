@@ -120,13 +120,15 @@ $.extend(Conductor, {
   },
 
   closeNotification: function() {
-    $('.control').click(function() {
+    $('.control').click(function(e) {
+      e.preventDefault();
       $('#flash-hud').slideUp(100).fadeOut(100);
     });
   },
 
   toggleCollapsible: function() {
-    $('.collapse').click(function() {
+    $('.collapse').click(function(e) {
+      e.preventDefault();
       $(this).parents('section').find('.collapsible').slideToggle(80);
     });
   },

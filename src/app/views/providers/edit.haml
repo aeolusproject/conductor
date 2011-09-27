@@ -6,24 +6,18 @@
     %header
       %h2.alerts
         Alerts
-        %span.label.badge.count.alert 3
+        %span.label.badge.count.alert= @alerts.count
       .section-controls
-        = link_to "Toggle Alerts", "#", :class => 'collapse alerts'
-    .content.collapsible
-      %dl.alerts
-        %ul
-          %li.alert
-            %dt.subject.critical Subject
-            %dd.type Alert type
-            %dd.desc Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer [...]
-          %li.alert
-            %dt.subject.warn Subject
-            %dd.type Alert type
-            %dd.desc Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer [...]
-          %li.alert
-            %dt.subject.critical Subject
-            %dd.type Alert type
-            %dd.desc Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer [...]
+        = link_to "Toggle Alerts", "#", :class => 'collapse alerts' unless @alerts.blank?
+    - unless @alerts.blank?
+      .content.collapsible
+        %dl.alerts
+          %ul
+            - @alerts.each do |alert|
+              %li.alert
+                %dt.subject{ :class => alert[:type] }= alert[:subject]
+                %dd.type= link_to alert[:alert_type], alert[:path]
+                %dd.desc= alert[:description]
   %section.admin-content-section.provider
     %header
       %h2.activity
