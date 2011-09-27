@@ -14,7 +14,11 @@
         %div.heading
           =image_tag 'flash_notice_icon.png', :alt => 'Notices'
         %ul.flashes
-          %li= flash[:notice]
+          -if flash[:notice].kind_of?(Array)
+            -flash[:notice].each do |msg|
+              %li= msg
+          -else flash[:notice]
+            %li= flash[:notice]
 
   -if flash[:warning]
     .warning.flash-group
@@ -30,7 +34,7 @@
         %div.heading
           =image_tag 'flash_error_icon.png', :alt => 'Errors'
         =flash[:error]
-    -else
+    -elsif flash[:error].kind_of?(Hash)
       -unless flash[:error][:successes].blank?
         .notice.flash-group
           .flash-subset
@@ -55,3 +59,11 @@
             -else
               -flash[:error].each do |e|
                 %li= e
+    -elsif flash[:error].kind_of?(Array)
+      .error.flash-group
+        .flash-subset
+          %div.heading
+            =image_tag 'flash_error_icon.png', :alt => 'Errors'
+          %ul.flashes
+            -flash[:error].each do |msg|
+              %li= msg

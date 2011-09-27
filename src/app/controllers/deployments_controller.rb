@@ -238,8 +238,8 @@ class DeploymentsController < ApplicationController
   end
 
   def multi_stop
-    notices = ""
-    errors = ""
+    notices = []
+    errors = []
     Deployment.find(params[:deployments_selected] || []).each do |deployment|
       deployment.instances.each do |instance|
         begin
@@ -254,9 +254,9 @@ class DeploymentsController < ApplicationController
             raise ActionError.new("stop cannot be performed on this instance.")
           end
           Taskomatic.stop_instance(@task)
-          notices << "Deployment: #{instance.deployment.name}, Instance:  #{instance.name}: stop action was successfully queued.<br/>"
+          notices << "Deployment: #{instance.deployment.name}, Instance:  #{instance.name}: stop action was successfully queued."
         rescue Exception => err
-          errors << "Deployment: #{instance.deployment.name}, Instance: #{instance.name}: " + err + "<br/>"
+          errors << "Deployment: #{instance.deployment.name}, Instance: #{instance.name}: " + err
         end
       end
     end
