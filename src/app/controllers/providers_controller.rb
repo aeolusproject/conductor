@@ -52,32 +52,7 @@ class ProvidersController < ApplicationController
       test_connection(@provider)
     end
 
-    @view = filter_view? ? 'provider_accounts/list' : 'edit' unless params[:details_tab]
-    if params[:details_tab] == 'connectivity'
-      @view = filter_view? ? 'provider_accounts/list' : 'edit'
-    elsif params[:details_tab] == 'realms'
-      @view = filter_view? ? 'realms/list' : 'realms/list'
-    elsif params[:details_tab] == 'hardware_profiles'
-      @view = filter_view? ? 'hardware_profiles/list' : 'hardware_profiles/list'
-    #elsif params[:details_tab] == 'roles'
-    #  @view = filter_view? ? 'permissions/list' : 'permissions/list'
-    end
-    #TODO add links to real data for history,properties,permissions
-    @tabs = [{:name => 'Connectivity', :view => @view, :id => 'connectivity', :count => @provider.provider_accounts.count},
-             {:name => 'Realms', :view => @view, :id => 'realms', :count => @provider.frontend_realms.count},
-             {:name => 'Hardware', :view => @view, :id => 'hardware_profiles', :count => @provider.hardware_profiles.count},
-             #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
-    ]
-    details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
-    @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
-
-    @provider_accounts = @provider.provider_accounts if @details_tab[:id] == 'connectivity'
-    #@realms = @provider.realms if @details_tab[:id] == 'realms'
-    @realms = @provider.frontend_realms if @details_tab[:id] == 'realms'
-    @hardware_profiles = @provider.hardware_profiles if @details_tab[:id] == 'hardware_profiles'
-    #@permissions = @provider.permissions if @details_tab[:id] == 'roles'
-
-    @view = @details_tab[:view]
+    load_provider_tabs
 
     respond_to do |format|
       format.html
@@ -139,7 +114,8 @@ class ProvidersController < ApplicationController
     require_privilege(Privilege::MODIFY, @provider)
     @provider.update_attributes(params[:provider])
     if !@provider.connect
-      flash[:warning] = "Failed to connect to Provider"
+      flash.now[:warning] = "Failed to connect to Provider"
+      load_provider_tabs
       render :action => "edit"
     else
       if @provider.errors.empty? and @provider.save
@@ -147,6 +123,7 @@ class ProvidersController < ApplicationController
         redirect_to edit_provider_path(@provider)
       else
         flash[:warning] = "Cannot update the provider."
+        load_provider_tabs
         render :action => 'edit'
       end
     end
@@ -165,9 +142,9 @@ class ProvidersController < ApplicationController
   def test_connection(provider)
     @provider.errors.clear
     if @provider.connect
-      flash[:notice] = "Successfully Connected to Provider"
+      flash.now[:notice] = "Successfully Connected to Provider"
     else
-      flash[:warning] = "Failed to Connect to Provider"
+      flash.now[:warning] = "Failed to Connect to Provider"
       @provider.errors.add :url
     end
   end
@@ -208,4 +185,32 @@ class ProvidersController < ApplicationController
     return alerts
   end
 
+  def load_provider_tabs
+    @view = filter_view? ? 'provider_accounts/list' : 'edit' unless params[:details_tab]
+    if params[:details_tab] == 'connectivity'
+      @view = filter_view? ? 'provider_accounts/list' : 'edit'
+    elsif params[:details_tab] == 'realms'
+      @view = filter_view? ? 'realms/list' : 'realms/list'
+    elsif params[:details_tab] == 'hardware_profiles'
+      @view = filter_view? ? 'hardware_profiles/list' : 'hardware_profiles/list'
+    #elsif params[:details_tab] == 'roles'
+    #  @view = filter_view? ? 'permissions/list' : 'permissions/list'
+    end
+    #TODO add links to real data for history,properties,permissions
+    @tabs = [{:name => 'Connectivity', :view => @view, :id => 'connectivity', :count => @provider.provider_accounts.count},
+             {:name => 'Realms', :view => @view, :id => 'realms', :count => @provider.frontend_realms.count},
+             {:name => 'Hardware', :view => @view, :id => 'hardware_profiles', :count => @provider.hardware_profiles.count},
+             #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
+    ]
+    details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
+    @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
+
+    @provider_accounts = @provider.provider_accounts if @details_tab[:id] == 'connectivity'
+    #@realms = @provider.realms if @details_tab[:id] == 'realms'
+    @realms = @provider.frontend_realms if @details_tab[:id] == 'realms'
+    @hardware_profiles = @provider.hardware_profiles if @details_tab[:id] == 'hardware_profiles'
+    #@permissions = @provider.permissions if @details_tab[:id] == 'roles'
+
+    @view = @details_tab[:view]
+  end
 end
