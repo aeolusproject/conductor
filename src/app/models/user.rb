@@ -95,23 +95,27 @@ class User < ActiveRecord::Base
     # FIXME: this is because of tests - encrypted password is submitted,
     # don't know how to get unencrypted version (from factorygirl)
     if password.length == 192 and password == u.crypted_password
-      return u
+      u.login_count += 1
     elsif Password.check(password, u.crypted_password)
-      return u
+      u.login_count += 1
     else
       u.failed_login_count += 1
       u.save!
-      return nil
+      u = nil
     end
+    u.save! unless u.nil?
+    return u
   end
 
   def self.authenticate_using_ldap(username, password)
     if Ldap.valid_ldap_authentication?(username, password, SETTINGS_CONFIG[:auth][:ldap])
       u = User.find_by_login(username) || create_ldap_user!(username)
-      return u
+      u.login_count += 1
     else
-      return nil
+      u = nil
     end
+    u.save! unless u.nil?
+    return u
   end
 
   def check_password?
