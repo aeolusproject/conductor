@@ -128,6 +128,10 @@ class DeploymentsController < ApplicationController
     if filter_view?
       @view = 'instances/list'
       @instances = @deployment.instances
+      @hide_stopped = @viewstate && @viewstate.state['hide_stopped'] == 'true'
+      if @hide_stopped
+        @instances.delete_if { |i| i.state == Instance::STATE_STOPPED }
+      end
     else
       @view = 'pretty_view_show'
     end
