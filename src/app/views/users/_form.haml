@@ -4,17 +4,17 @@
 %fieldset
   %p
     = form.label :first_name, t(:first_name)
-    = form.text_field :first_name
+    = form.text_field :first_name, :class =>"check_change"
   %p
     = form.label :last_name, t(:last_name)
-    = form.text_field :last_name
+    = form.text_field :last_name, :class =>"check_change"
   %p
     = form.label :email, t(:email)
-    = form.text_field :email
+    = form.text_field :email, :class =>"check_change"
 %fieldset
   %p
     = form.label :login, t(:choose_name)
-    = form.text_field :login, :class => "em"
+    = form.text_field :login, :class => "em check_change"
   %p
     = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password)
     = form.password_field :password
@@ -48,3 +48,21 @@
 
 %fieldset.options
   = form.submit "Save User",  :class => "submit button pill"
+
+:javascript
+  $('.check_change').change(function(){
+    switch(this.id){
+      case 'user_last_name':
+        $('span#last_name').text(this.value);
+        break;
+      case 'user_first_name':
+        $('span#first_name').text(this.value);
+        break;
+      case 'user_email':
+        $('dd#email').text(this.value);
+        break;
+      case 'user_login':
+        $('dd#login').text(this.value);
+        break;
+    }
+  });

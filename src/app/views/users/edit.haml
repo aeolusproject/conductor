@@ -12,12 +12,14 @@
   .content
     #user_card.user_form_card
       %header.user-card-header
-        %h2= @user.name
+        %h2
+          %span#first_name= @user.first_name
+          %span#last_name= @user.last_name
       .user-card-content
         %dl
           %dt E-mail Address
-          %dd= @user.email
+          %dd#email= @user.email
           %dt Username
-          %dd= @user.login
+          %dd#login= @user.login
     = form_for @user, :url => user_path(@user), :html => { :method => :put, :class => 'generic' } do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => users_path }
