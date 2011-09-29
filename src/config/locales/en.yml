@@ -5,6 +5,7 @@ en:
     confirm_delete: "Are you sure you want to delete this user?"
     index:
       user_id: User ID
+      username: Username
       last_name: Last Name
       first_name: First Name
       quota_used: Quota Used
@@ -34,6 +35,9 @@ en:
   define_profiles: Define Profiles
   define_locales: Define Locales
   permissions: Permissions
+  role: Role
+  user: User
+  privileges: Privileges
   general_settings: General Settings
   new_user: New User
   edit_user: Edit User

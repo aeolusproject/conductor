@@ -10,6 +10,17 @@ Given /^there is a permission for the user "([^\"]*)"$/ do |login|
   @admin_permission = FactoryGirl.create(:admin_permission, :user_id => @user.id)
 end
 
+Given /^there is a permission for the user "([^\"]*)" on the pool "([^\"]*)"$/ do |login, pool_name|
+  @pool_user_permission = FactoryGirl.create(:pool_user_permission, :user_id => @user.id,
+                                         :permission_object => Pool.find_by_name(pool_name))
+end
+
 Given /^I delete the permission$/ do
-  click_button "delete_#{@admin_permission.id}"
+  check "permission_checkbox_#{@pool_user_permission.id}"
+  click_button "delete_button"
+end
+
+When /^(?:|I )select "([^"]*)" role for the user "([^"]*)"$/ do |role_name, user_name|
+  user = User.find_by_login(user_name)
+  select(role_name, :from => "user_role_selected_#{user.id}")
 end

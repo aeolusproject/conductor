@@ -20,6 +20,7 @@ class PoolsController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pools, :only => [:show]
+  before_filter :set_permissions_header, :only => [:show]
 
   viewstate :index do |default|
     default.merge!({
@@ -91,10 +92,21 @@ class PoolsController < ApplicationController
              #{:name => 'History',        :view => @view,         :id => 'history'},
              {:name => 'Properties',      :view => 'properties',  :id => 'properties'},
              {:name => 'Catalog Images',  :view => 'images',      :id => 'images'}
-             #{:name => 'Permissions',    :view => 'permissions', :id => 'permissions'}
     ]
     if "images" == params[:details_tab]
       @map = @pool.provider_image_map
+    end
+
+    if "permissions" == params[:details_tab]
+      require_privilege(Privilege::PERM_VIEW, @pool)
+      @permission_object = @pool
+    end
+    if @pool.has_privilege(current_user, Privilege::PERM_VIEW)
+      @roles = Role.find_all_by_scope(@permission_object.class.name)
+      @tabs << {:name => 'Users',
+                :view => 'permissions',
+                :id => 'permissions',
+                :count => @pool.permissions.count}
     end
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase

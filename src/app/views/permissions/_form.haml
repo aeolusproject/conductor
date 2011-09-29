@@ -1,0 +1,16 @@
+- content_for :form_footer do
+  = hidden_field_tag :permission_object_type, @permission_object.class.name
+  = hidden_field_tag :permission_object_id, @permission_object.id
+  = link_to 'Cancel', polymorphic_path(@permission_object,
+                                       :details_tab => :permissions,
+                                       :only_tab => true), :class => 'button danger'
+  = restful_submit_tag "Grant Access", "create", permissions_path, 'POST', :id => 'save_button'
+= filter_table(@header, @users) do |user|
+  %tr{:class => cycle('nostripe','stripe')}
+    %td
+      -# - selected = params[:select] == 'all'
+      -#  = check_box_tag "user_selected[]", user.id, selected, :id => "user_checkbox_#{user.id}"
+    %td= link_to user.login, user_path(user)
+    %td= user.last_name
+    %td= user.first_name
+    %td= select_tag "user_role_selected[]", options_for_select([['', "#{user.id},"]] + @roles.map {|r| [ r.name, "#{user.id},#{r.id}" ] }, :disabled => @permission_object.permissions.where(:user_id=>user.id).collect {|p| "#{user.id},#{p.role.id}"}), :id => "user_role_selected_#{user.id}"

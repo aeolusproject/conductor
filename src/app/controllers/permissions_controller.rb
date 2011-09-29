@@ -18,40 +18,150 @@
 
 class PermissionsController < ApplicationController
   before_filter :require_user
+  before_filter :set_permissions_header
 
-  def show
-    @permission = Permission.find(params[:id])
-    require_privilege(Privilege::PERM_VIEW, @permission.permission_object)
-  end
-
-  def list
-    set_permission_object Privilege::PERM_VIEW
-  end
-
-  def new
-    set_permission_object Privilege::PERM_SET
-    @permission = Permission.new(:permission_object_type => @permission_object.class,
-                                 :permission_object_id => @permission_object.id)
-    @users = User.all
-    @roles = Role.find_all_by_scope(@permission_object.class.name)
-  end
-
-  def create
-    @permission = Permission.new(params[:permission])
-    require_privilege(Privilege::PERM_SET, @permission.permission_object)
-    if request.post? && @permission.save
-      flash[:notice] = "Permission record added."
-      redirect_to :action => "list",
-                  :permission_object_type => @permission.permission_object_type,
-                  :permission_object_id => @permission.permission_object_id
-    else
-      @permission_object = @permission.permission_object
-      @users = User.all
-      @roles = Role.find_all_by_scope(@permission_object.class.name)
-      render :action => 'new'
+  def index
+    obj_type = params[:permission_object_type]
+    id = params[:permission_object_id]
+    @permission_object = obj_type.constantize.find(id) if obj_type and id
+    raise RuntimeError, "invalid permission object" if @permission_object.nil?
+    respond_to do |format|
+      format.html
+      format.json { render :json => @permission_object.as_json }
+      format.js { render :partial => 'index' }
     end
   end
 
+  def new
+    obj_type = params[:permission_object_type]
+    id = params[:permission_object_id]
+    @permission_object = obj_type.constantize.find(id) if obj_type and id
+    require_privilege(Privilege::PERM_SET, @permission_object)
+    @users = User.all
+    @roles = Role.find_all_by_scope(@permission_object.class.name)
+    load_headers
+    load_users
+    respond_to do |format|
+      format.html
+      format.js { render :partial => 'new' }
+    end
+  end
+
+  def create
+    obj_type = params[:permission_object_type]
+    id = params[:permission_object_id]
+    @permission_object = obj_type.constantize.find(id) if obj_type and id
+    require_privilege(Privilege::PERM_SET, @permission_object)
+    added=[]
+    not_added=[]
+    params[:user_role_selected].each do |user_role|
+      user_id,role_id = user_role.split(",")
+      unless role_id.nil?
+        permission = Permission.new(:user_id => user_id,
+                                    :role_id => role_id,
+                                    :permission_object => @permission_object)
+        if permission.save
+          added << permission.user.login + " " + permission.role.name
+        else
+          not_added << permission.user.login + " " + permission.role.name
+        end
+      end
+    end
+    unless added.empty?
+      flash[:notice] = "These User Roles were added: #{added.join(', ')}"
+    end
+    unless not_added.empty?
+      flash[:error] = "Could not add these User Roles: #{not_added.join(', ')}"
+    end
+    if added.empty? and not_added.empty?
+      flash[:error] = "No users selected"
+    end
+    respond_to do |format|
+      format.html { redirect_to polymorphic_path(@permission_object,
+                                       :details_tab => :permissions,
+                                       :only_tab => true) }
+      format.js { render :partial => 'index',
+                    :permission_object_type => @permission_object.class.name,
+                    :permission_object_id => @permission_object.id }
+    end
+  end
+
+  def multi_update
+    obj_type = params[:permission_object_type]
+    id = params[:permission_object_id]
+    @permission_object = obj_type.constantize.find(id) if obj_type and id
+    require_privilege(Privilege::PERM_SET, @permission_object)
+    modified=[]
+    not_modified=[]
+    params[:permission_role_selected].each do |permission_role|
+      permission_id,role_id = permission_role.split(",")
+      unless role_id.nil?
+        permission = Permission.find(permission_id)
+        role = Role.find(role_id)
+        old_role = permission.role
+        unless permission.role == role
+          permission.role = role
+          if permission.save
+            modified << permission.user.login + " " + permission.role.name + " from " + old_role.name
+          else
+            not_modified << permission.user.login + " " + permission.role.name
+          end
+        end
+      end
+    end
+    unless modified.empty?
+      flash[:notice] = "These User Roles were modified: #{modified.join(', ')}"
+    end
+    unless not_modified.empty?
+      flash[:error] = "Could not add these User Roles: #{not_modified.join(', ')}"
+    end
+    if modified.empty? and not_modified.empty?
+      flash[:error] = "No users selected"
+    end
+    respond_to do |format|
+      format.html { redirect_to polymorphic_path(@permission_object,
+                                       :details_tab => :permissions,
+                                       :only_tab => true) }
+      format.js { render :partial => 'index',
+                    :permission_object_type => @permission_object.class.name,
+                    :permission_object_id => @permission_object.id }
+    end
+  end
+
+  def multi_destroy
+    obj_type = params[:permission_object_type]
+    id = params[:permission_object_id]
+    @permission_object = obj_type.constantize.find(id) if obj_type and id
+    raise RuntimeError, "invalid permission object" if @permission_object.nil?
+    require_privilege(Privilege::PERM_SET, @permission_object)
+    deleted=[]
+    not_deleted=[]
+
+    Permission.find(params[:permission_selected]).each do |p|
+      if check_privilege(Privilege::PERM_SET, p.permission_object) && p.destroy
+        deleted << p.user.login + " " + p.role.name
+      else
+        not_deleted << p.user.login + " " + p.role.name
+      end
+    end
+
+    unless deleted.empty?
+      flash[:notice] = "These Permission Grants were deleted: #{deleted.join(', ')}"
+    end
+    unless not_deleted.empty?
+      flash[:error] = "Could not delete these Permission Grants: #{not_deleted.join(', ')}"
+    end
+    respond_to do |format|
+      format.html { redirect_to polymorphic_path(@permission_object,
+                                       :details_tab => :permissions,
+                                       :only_tab => true) }
+        format.js { render :partial => 'index',
+                    :permission_object_type => @permission_object.class.name,
+                    :permission_object_id => @permission_object.id }
+        format.json { render :json => @permission, :status => :created }
+    end
+
+  end
   def destroy
     if request.post?
       p =Permission.find(params[:permission][:id])
@@ -65,25 +175,19 @@ class PermissionsController < ApplicationController
 
   private
 
-  def set_permission_object(action)
-    if !params[:permission_object_type].nil?
-      @permission_object =
-        params[:permission_object_type].constantize.find(params[:permission_object_id])
-    elsif !params[:pool_id].nil?
-      @permission_object = Pool.find params[:pool_id]
-    elsif !params[:provider_id].nil?
-      @permission_object = Provider.find params[:provider_id]
-    elsif !params[:cloud_account_id].nil?
-      @permission_object = ProviderAccount.find params[:cloud_account_id]
-    elsif !params[:base_permission_object_id].nil?
-      @permission_object = BasePermissionObject.find params[:base_permission_object_id]
-    else
-      @permission_object = BasePermissionObject.general_permission_scope
-    end
+  def load_users
+    sort_order = params[:sort_by].nil? ? "login" : params[:sort_by]
+    @users = User.all(:order => sort_order)
+  end
 
-    raise ActiveRecord::RecordNotFound if @permission_object.nil?
-
-    require_privilege(action, @permission_object)
+  def load_headers
+    @header = [
+      { :name => '', :sortable => false },
+      { :name => t('users.index.username'), :sortable => false },
+      { :name => t('users.index.last_name'), :sortable => false },
+      { :name => t('users.index.first_name'), :sortable => false },
+      { :name => t('role'), :sortable => false }
+    ]
   end
 
 end

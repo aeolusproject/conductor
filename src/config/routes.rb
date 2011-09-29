@@ -83,6 +83,8 @@ Conductor::Application.routes.draw do
   resources :permissions do
     collection do
       get :list
+      delete :multi_destroy
+      post :multi_update
     end
   end
 

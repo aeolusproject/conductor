@@ -1,0 +1,14 @@
+%header.page-header
+  %h1{:class => controller.controller_name} Grant Access
+  #obj_actions.button-group
+    Return to
+    = link_to "#{@permission_object.name} #{@permission_object.class}", polymorphic_path(@permission_object, :details_tab => :permissions, :only_tab => true), :class => 'button primary', :id => 'new_pool_button'
+  .corner &nbsp;
+
+%section.content-section.pools
+  Choose roles for users you would like to grant access to this #{@permission_object.class}
+  %header
+    %h2 Users
+
+  .content
+    = render :partial => 'form'

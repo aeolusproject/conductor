@@ -249,4 +249,14 @@ class ApplicationController < ActionController::Base
   def sort_direction
     %w[asc desc].include?(params[:order_dir]) ? params[:order_dir] : "asc"
   end
+
+  def set_permissions_header
+    @permission_list_header = [
+      { :name => '', :sortable => false },
+      { :name => t("user"), :sort_attr => :last_name },
+      { :name => t("role"), :sort_attr => :role},
+      { :name => t("privileges")},
+    ]
+  end
+
 end

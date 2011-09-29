@@ -7,40 +7,50 @@ Feature: Manage Permissions
     Given I am an authorised user
     And I am logged in
     And a user "testuser" exists
+    And a pool "PermissionPool" exists
 
   Scenario: Create a new Permission
-    Given I am on the permissions page
+    Given I am viewing the pool "PermissionPool"
+    When I follow link with ID "details_permissions"
     And there is not a permission for the user "testuser"
-    When I follow "Add a new permission record"
+    When I follow "Grant Access"
     Then I should be on the new permission page
-    And I should see "new Permission"
-    When I select "testuser" from "permission[user_id]"
-    And I select "Provider Creator" from "permission[role_id]"
-    And I press "Save"
-    Then I should be on the permissions page
-    And I should see "Permission record added"
+    And I should see "Choose roles for users"
+    When I select "Pool User" role for the user "testuser"
+    And I press "Grant Access"
+    Then I should be on the page for the pool "PermissionPool"
+    And I should see "These User Roles were added"
     And I should see "testuser"
 
   Scenario: Create a second permission on a resource
-    Given there is a permission for the user "testuser"
-    And I am on the new permission page
-    When I select "testuser" from "permission[user_id]"
-    And I select "Provider Creator" from "permission[role_id]"
-    And I press "Save"
-    Then I should be on the permissions page
-    And I should see "Permission record added"
+    Given there is a permission for the user "testuser" on the pool "PermissionPool"
+    And I am viewing the pool "PermissionPool"
+    When I follow link with ID "details_permissions"
+    When I follow "Grant Access"
+    Then I should be on the new permission page
+    And I should see "Choose roles for users"
+    When I select "Pool Owner" role for the user "testuser"
+    And I press "Grant Access"
+    Then I should be on the page for the pool "PermissionPool"
+    And I should see "These User Roles were added"
     And I should see "testuser"
 
   Scenario: Attempt to duplicate a permission
-    Given there is a permission for the user "testuser"
-    And I am on the new permission page
-    When I select "testuser" from "permission[user_id]"
-    And I select "Administrator" from "permission[role_id]"
-    And I press "Save"
-    Then I should see "new Permission"
+    Given there is a permission for the user "testuser" on the pool "PermissionPool"
+    And I am viewing the pool "PermissionPool"
+    When I follow link with ID "details_permissions"
+    When I follow "Grant Access"
+    Then I should be on the new permission page
+    And I should see "Choose roles for users"
+    When I select "Pool User" role for the user "testuser"
+    And I press "Grant Access"
+    Then I should be on the page for the pool "PermissionPool"
+    And I should see "Could not add these User Roles"
+    And I should see "testuser"
 
   Scenario: Delete a permission
-    Given there is a permission for the user "testuser"
-    And I am on the permissions page
+    Given there is a permission for the user "testuser" on the pool "PermissionPool"
+    And I am viewing the pool "PermissionPool"
+    When I follow link with ID "details_permissions"
     When I delete the permission
-    Then I should be on the permissions page
+    Then I should be on the page for the pool "PermissionPool"
