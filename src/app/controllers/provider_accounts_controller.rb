@@ -88,7 +88,7 @@ class ProviderAccountsController < ApplicationController
         @provider_account.assign_owner_roles(current_user)
         @provider_account.populate_realms
         flash[:notice] = t('provider_accounts.index.account_added', :list => @provider_account.name, :count => 1)
-        redirect_to edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity')
+        redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
       else
         flash[:error] = "Cannot add the provider account."
         render :action => 'new' and return
@@ -121,7 +121,7 @@ class ProviderAccountsController < ApplicationController
     @provider_account.quota.set_maximum_running_instances(limit)
     if @provider_account.update_attributes(params[:provider_account])
       flash[:notice] = "Provider Account updated!"
-      redirect_to edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity')
+      redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
     else
       flash[:error] = "Provider Account wasn't updated!"
       render :action => :edit
@@ -136,14 +136,14 @@ class ProviderAccountsController < ApplicationController
     else
       flash[:error] = "Provider account was not deleted!"
     end
-    redirect_to edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity')
+    redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
   end
 
   def multi_destroy
     @provider = Provider.find(params[:provider_id])
     if params[:accounts_selected].blank?
       flash[:warning] = "You must select some accounts first."
-      redirect_to edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity') and return
+      redirect_to edit_provider_path(@provider, :details_tab => 'accounts') and return
     end
 
     succeeded = []
@@ -163,7 +163,7 @@ class ProviderAccountsController < ApplicationController
     unless failed.empty?
       flash[:error] = t 'provider_accounts.index.account_not_deleted', :count => failed.length, :list => failed.join(', ')
     end
-    redirect_to edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity')
+    redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
   end
 
   def set_selected_provider

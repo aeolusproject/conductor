@@ -5,17 +5,11 @@
     = @provider_account.name
   #obj_actions
     Return to:
-    = link_to "Cloud Providers", edit_provider_path(@provider, :view => 'filter', :details_tab => 'connectivity'), :class => 'rounded-link'
+    = link_to "Cloud Providers", edit_provider_path(@provider, :details_tab => 'accounts'), :class => 'rounded-link'
 
 %section.admin-content-section
   %header
     %h2.settings Settings
-    .section-controls
-      #obj_actions.button-container
-        .button-group
-          %span.view-toggle
-            = link_to "", provider_provider_account_path(@provider, @provider_account), :class => "view-toggle pretty", :title => "Provider Account Detail"
-            = link_to "", edit_provider_provider_account_path(@provider, @provider_account), :class => "view-toggle filter active", :title => "Edit Provider Account"
 
   .content
     - unless @providers.empty?

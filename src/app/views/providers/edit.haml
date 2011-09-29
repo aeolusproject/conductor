@@ -31,17 +31,11 @@
         %ul#tab-container-1-nav
           - @tabs.each do |tab|
             %li
-              %a{ :href => url_for(:details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"}
-                = tab[:name]
+              = link_to tab[:name], edit_provider_path(@provider, :details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"
               -if tab[:count]
                 %span.label.badge.count.dark=tab[:count]
-      .section-controls
-        #obj_actions.button-container
-          .button-group
-            = pretty_filter_toggle(edit_provider_path(@provider, :view => 'pretty', :details_tab => @details_tab[:id]), edit_provider_path(@provider, :view => 'filter', :details_tab => @details_tab[:id]))
-    .content.collapsible.toggle-view.pools#tab
-      %ul.deployable-cards
-        = render :partial => @view
+    .content#tab
+      = render :partial => @view
 - else
   %section.admin-content-section
     %header.align-center

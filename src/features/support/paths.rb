@@ -48,7 +48,7 @@ module NavigationHelpers
       edit_provider_path(Provider.find_by_name($1))
 
     when /^the (.*)'s provider accounts page$/
-      edit_provider_path(Provider.find_by_name($1), :view => 'filter', :details_tab => 'connectivity')
+      edit_provider_path(Provider.find_by_name($1), :details_tab => 'accounts')
 
     when /the settings page/
       settings_path

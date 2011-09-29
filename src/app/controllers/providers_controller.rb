@@ -123,6 +123,7 @@ class ProvidersController < ApplicationController
     if !@provider.connect
       flash.now[:warning] = "Failed to connect to Provider"
       load_provider_tabs
+      @alerts = provider_alerts(@provider)
       render :action => "edit"
     else
       if @provider.errors.empty? and @provider.save
@@ -131,6 +132,7 @@ class ProvidersController < ApplicationController
       else
         flash[:warning] = "Cannot update the provider."
         load_provider_tabs
+        @alerts = provider_alerts(@provider)
         render :action => 'edit'
       end
     end
@@ -193,25 +195,17 @@ class ProvidersController < ApplicationController
   end
 
   def load_provider_tabs
-    @view = filter_view? ? 'provider_accounts/list' : 'edit' unless params[:details_tab]
-    if params[:details_tab] == 'connectivity'
-      @view = filter_view? ? 'provider_accounts/list' : 'edit'
-    elsif params[:details_tab] == 'realms'
-      @view = 'realms/list'
-    #elsif params[:details_tab] == 'roles'
-    #  @view = filter_view? ? 'permissions/list' : 'permissions/list'
-    end
-
     @realms = @provider.all_associated_frontend_realms
     #TODO add links to real data for history,properties,permissions
-    @tabs = [{:name => 'Connectivity', :view => @view, :id => 'connectivity', :count => @provider.provider_accounts.count},
-             {:name => 'Realms', :view => @view, :id => 'realms', :count => @realms.count},
+    @tabs = [{:name => 'Connectivity', :view => 'edit', :id => 'connectivity', :count => @provider.provider_accounts.count},
+             {:name => 'Accounts', :view => 'provider_accounts/list', :id => 'accounts', :count => @provider.provider_accounts.count},
+             {:name => 'Realms', :view => 'realms/list', :id => 'realms', :count => @realms.count},
              #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
     ]
     details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 
-    @provider_accounts = @provider.provider_accounts if @details_tab[:id] == 'connectivity'
+    @provider_accounts = @provider.provider_accounts if @details_tab[:id] == 'accounts'
     #@permissions = @provider.permissions if @details_tab[:id] == 'roles'
 
     @view = @details_tab[:view]

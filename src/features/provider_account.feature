@@ -10,8 +10,7 @@ Feature: Manage Provider Accounts
   Scenario: List provider accounts for provider
     Given I am on the homepage
     And there is a provider named "testprovider"
-    When I go to the testprovider's edit provider page
-    And I follow "filter_view"
+    When I go to the testprovider's provider accounts page
     Then I should see "New Account"
     And there should be no provider accounts
 
@@ -98,8 +97,7 @@ Feature: Manage Provider Accounts
     When I follow "Edit"
     And I fill in "provider_account[label]" with "testaccount_updated"
     And I press "Save"
-    Then I should see "testaccount_updated"
-    And I should see "Provider Account updated!" within ".flashes"
+    Then I should see "Provider Account updated!" within ".flashes"
 
   Scenario: Edit a existing Provider Account with invalid credentials
     Given there is a provider named "testprovider"
