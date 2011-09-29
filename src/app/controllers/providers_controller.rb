@@ -151,7 +151,7 @@ class ProvidersController < ApplicationController
 
   protected
   def load_providers
-    @providers = Provider.list_for_user(current_user, Privilege::VIEW, :order => :name)
+    @providers = Provider.list_for_user(current_user, Privilege::VIEW)
   end
 
   def provider_alerts(provider)

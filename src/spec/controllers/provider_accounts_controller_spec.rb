@@ -32,11 +32,10 @@ describe ProviderAccountsController do
     @admin = @admin_permission.user
   end
 
-  it "shows provider accounts as list" do
+  it "shows provider accounts as XML list" do
     mock_warden(@admin)
-    get :index, :provider_id => @provider.id
+    get :index, :format => :xml
     response.should be_success
-    response.should render_template("index")
   end
 
   it "doesn't allow to save provider's account if not valid credentials" do
@@ -49,7 +48,7 @@ describe ProviderAccountsController do
 
   it "should permit users with account modify permission to access edit cloud account interface" do
     mock_warden(@admin)
-    get :edit, :id => @provider_account.id
+    get :edit, :provider_id => @provider, :id => @provider_account.id
     response.should be_success
     response.should render_template("edit")
   end
