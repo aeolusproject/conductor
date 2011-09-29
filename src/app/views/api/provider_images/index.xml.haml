@@ -1,0 +1,4 @@
+!!!XML
+%provider_images{:type => 'xs:list', :href=>api_provider_images_url}
+  - @images.each do |img|
+    = render :partial => 'image', :locals => {:image => img}

@@ -31,6 +31,12 @@ module RequestContentTypeHelper
   def accept_xml
     @request.env["HTTP_ACCEPT"] = "application/xml"
   end
+
+  def send_and_accept_xml
+    @request.env["HTTP_ACCEPT"] = "application/xml"
+    @request.env["CONTENT_TYPE"] = "application/xml"
+  end
+
 end
 
 include RequestContentTypeHelper

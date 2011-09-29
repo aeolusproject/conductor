@@ -1,0 +1,8 @@
+!!!XML
+%image{:id => image.uuid, :href => api_image_url(image.uuid) }
+  %name{:type => 'xs:string'}= image.name
+  %description{:type => 'xs:string'}= image.description
+  %os{:type => 'xs:string'}= image.os.name
+  %os_version{:type => 'xs:string'}= image.os.version
+  %arch{:type => 'xs:string'}= image.os.arch
+  %link{:rel=>'builds', :href => api_image_builds_url(image.uuid)}

@@ -1,0 +1,4 @@
+!!! XML
+%builds{:type => 'xs:list'}
+  - @builds.each do |bld|
+    = render :partial => 'build', :locals => {:build => bld}

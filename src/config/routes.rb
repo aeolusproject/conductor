@@ -181,6 +181,20 @@ Conductor::Application.routes.draw do
     post 'create'
   end
 
+  namespace :api do
+    resources :images do
+      resources :builds
+    end
+    resources :builds
+    resources :provider_images do
+      resources :target_images
+    end
+    resources :target_images do
+      resources :provider_images
+    end
+   # :except => [:new, :edit]
+  end
+
   #match 'matching_profiles', :to => '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }, :as =>'matching_profiles'
   match     'dashboard', :to => 'dashboard', :as => 'dashboard'
   root      :to => "pools#index"

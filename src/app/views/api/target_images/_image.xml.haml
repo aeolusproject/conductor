@@ -1,0 +1,7 @@
+!!!XML
+%target_image{:id => image.uuid, :href => api_target_image_url(image.uuid) }
+  %icicle= image.icicle
+  %object_type= image.object_type
+  %template= image.template
+  %link{:rel=>'build', :href=>api_build_url(image.build.uuid), :id=>image.build.uuid}
+  %link{:rel=>'provider_images', :href => api_target_image_provider_images_url(image.uuid)}

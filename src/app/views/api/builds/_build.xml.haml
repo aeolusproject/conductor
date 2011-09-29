@@ -1,0 +1,3 @@
+!!! XML
+%build{:id => build.uuid, :href => api_build_url(build.uuid) }
+  %image{:type => 'xs:string', :href => api_image_url(build.image.uuid)}= build.image.uuid
