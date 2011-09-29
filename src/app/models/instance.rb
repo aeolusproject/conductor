@@ -247,7 +247,7 @@ class Instance < ActiveRecord::Base
     client = self.provider_account.connect
     return nil unless client && client.feature?(:instances, :authentication_key)
     if key = client.create_key(:name => key_name)
-      self.instance_key = InstanceKey.create!(:pem => key.pem.first, :name => key.id, :instance => self)
+      self.instance_key = InstanceKey.create!(:pem => key.pem, :name => key.id, :instance => self)
       self.save!
     end
   end
