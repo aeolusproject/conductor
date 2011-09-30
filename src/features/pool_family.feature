@@ -42,16 +42,16 @@ Feature: Pool Families
     Given I am on the homepage
     And there is a pool family named "poolfamily1"
     When I go to the pool families page
-    And I check "poolfamily1" pool family
-    And I press "delete_button"
+    And I follow "poolfamily1"
+    And I press "delete_pool_family_button"
     Then there should not exist a pool family named "poolfamily1"
 
   Scenario: Disallow deletion of default pool family
     Given I am on the pool families page
     Then I should see "default"
-    When I check "default" pool family
-    And I press "delete_button"
-    Then I should see "Could not delete the following Pool Families: default."
+    When I follow "default"
+    And I press "delete_pool_family_button"
+    Then I should see "Pool Family cannot be deleted!"
     And I should see "default"
 
 #  Scenario: Search for pool families

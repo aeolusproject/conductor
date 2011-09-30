@@ -1,2 +1,45 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'list'
+= #render :partial => 'list'
+%section.admin-content-section.pool_families
+  %header
+    %h2.pools Pool Families
+    .section-controls
+      #obj_actions
+        = link_to "New Pool Family", new_pool_family_path, :class => 'button pill', :id => 'new_pool_family_button'
+
+  .content
+    - @pool_families.each do |pool_family|
+      %table.pool_families
+        %caption
+          .caption_content
+            %header
+              %h2
+                = link_to pool_family.name, pool_family
+              .section-controls
+                #obj_actions
+                  = link_to "Edit", edit_pool_family_path(pool_family), :class => 'rounded-link'
+                  = link_to "New Pool", new_pool_path, :class => 'rounded-link'
+        - unless pool_family.pools.blank?
+          %tr
+            %th Pool Name
+            %th Deployments
+            %th Total Inst.
+            %th Pending Inst.
+            %th Failed Inst.
+            %th Quota Used
+            %th Active Inst.
+            %th Available Inst.
+            %th Catalog
+            %th
+          - pool_family.pools.each do |pool|
+            %tr
+              %td= link_to pool.name, pool
+              %td= pool.deployments.count
+              %td= pool.statistics[:total_instances]
+              %td= pool.statistics[:instances_pending]
+              %td= pool.statistics[:instances_failed]
+              %td= pool.statistics[:quota_percent]
+              %td
+              %td
+              %td= link_to pool.catalogs.first.name, catalog_path(pool.catalogs.first) if pool.catalogs.any?
+              %td= link_to 'Edit', edit_pool_path(pool), :class => 'rounded-link'

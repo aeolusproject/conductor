@@ -4,7 +4,7 @@
   #obj_actions.button-container
     .button-group
       = link_to 'Edit', edit_pool_family_path(@pool_family), :class => 'button pill'
-      = link_to 'Delete', pool_family_path(@pool_family), :method => :delete, :confirm => "Are you sure you want to delete?", :class => "button pill danger", :id => 'delete_pool_family_button'
+      = button_to 'Delete', pool_family_path(@pool_family), :method => :delete, :confirm => "Are you sure you want to delete?", :class => "button pill danger", :id => 'delete_pool_family_button'
 
 %section.admin-content-section.pool_family
   .content
