@@ -100,6 +100,22 @@ describe Provider do
       provider = instance.provider_account.provider
       provider.destroyed?.should be_false
     end
+
+    it "should return all associated frontend realms" do
+      provider1 = Factory.create(:mock_provider)
+      frontend_realm = FactoryGirl.create :frontend_realm
+      backend_realm = FactoryGirl.create :backend_realm, :provider => provider1
+      t = RealmBackendTarget.create!(:frontend_realm => frontend_realm, :realm_or_provider => backend_realm)
+      provider1.all_associated_frontend_realms.count.should == 1
+      t.destroy
+      provider1.realms.reload
+      provider1.frontend_realms.reload
+      provider1.all_associated_frontend_realms.count.should == 0
+      RealmBackendTarget.create!(:frontend_realm => frontend_realm, :realm_or_provider => provider1)
+      provider1.realms.reload
+      provider1.frontend_realms.reload
+      provider1.all_associated_frontend_realms.count.should == 1
+    end
   end
 
   context "(using original connect method)" do
