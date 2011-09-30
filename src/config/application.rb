@@ -42,6 +42,7 @@ else
   require 'thin'
   require 'json'
   require 'fastercsv'
+  require 'active_support/core_ext'
   #require 'railties'
 
   unless (ENV["RAILS_ENV"] == "production")
