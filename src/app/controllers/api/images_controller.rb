@@ -27,13 +27,13 @@ module Api
     layout :false
 
     def index
-      @images = Aeolus::Image::Image.all
+      @images = Aeolus::Image::Warehouse::Image.all
       respond_with(@images)
     end
 
     def show
       id = params[:id]
-      @image = Aeolus::Image::Image.find(id)
+      @image = Aeolus::Image::Warehouse::Image.find(id)
       if @image
         respond_with(@image)
       else
