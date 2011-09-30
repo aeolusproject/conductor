@@ -17,4 +17,4 @@
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
 config = YAML.load_file("#{::Rails.root.to_s}/config/settings.yml")
-Aeolus::Image::WarehouseModel.send(:class_variable_set, '@@config', config)
+Aeolus::Image::Warehouse::WarehouseModel.send(:class_variable_set, '@@config', config)

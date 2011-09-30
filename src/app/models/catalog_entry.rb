@@ -64,7 +64,7 @@ class CatalogEntry < ActiveRecord::Base
   def fetch_images
     images = []
       fetch_image_uuids.each do |uuid|
-        images << Aeolus::Image::Image.find(uuid)
+        images << Aeolus::Image::Warehouse::Image.find(uuid)
       end
     images.compact.uniq
   end

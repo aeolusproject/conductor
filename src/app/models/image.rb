@@ -42,13 +42,13 @@ class Image < WarehouseModel
 
   # The iwhd API really isn't built for what we're trying to do.
   # Here's a nutty workaround to not issues thousands of queries.
-  # images should be an array of Aeolus::Image::Image objects
+  # images should be an array of Aeolus::Image::Warehouse::Image objects
   # Please don't shoot me for this!
   def self.provider_images_for_image_list(images)
     # Fetch all of these, but only once
-    provider_images = Aeolus::Image::ProviderImage.all
-    target_images = Aeolus::Image::TargetImage.all
-    builds = Aeolus::Image::ImageBuild.all
+    provider_images = Aeolus::Image::Warehouse::ProviderImage.all
+    target_images = Aeolus::Image::Warehouse::TargetImage.all
+    builds = Aeolus::Image::Warehouse::ImageBuild.all
     return_objs = {}
     images.each do |image|
       _builds = builds.select{|b| b.instance_variable_get('@image') == image.uuid}
