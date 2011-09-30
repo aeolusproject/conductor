@@ -64,7 +64,6 @@ class ProvidersController < ApplicationController
 
   def show
     @provider = Provider.find(params[:id])
-    @hardware_profiles = @provider.hardware_profiles
     @realm_names = @provider.realms.collect { |r| r.name }
 
     require_privilege(Privilege::VIEW, @provider)
@@ -191,15 +190,12 @@ class ProvidersController < ApplicationController
       @view = filter_view? ? 'provider_accounts/list' : 'edit'
     elsif params[:details_tab] == 'realms'
       @view = filter_view? ? 'realms/list' : 'realms/list'
-    elsif params[:details_tab] == 'hardware_profiles'
-      @view = filter_view? ? 'hardware_profiles/list' : 'hardware_profiles/list'
     #elsif params[:details_tab] == 'roles'
     #  @view = filter_view? ? 'permissions/list' : 'permissions/list'
     end
     #TODO add links to real data for history,properties,permissions
     @tabs = [{:name => 'Connectivity', :view => @view, :id => 'connectivity', :count => @provider.provider_accounts.count},
              {:name => 'Realms', :view => @view, :id => 'realms', :count => @provider.frontend_realms.count},
-             {:name => 'Hardware', :view => @view, :id => 'hardware_profiles', :count => @provider.hardware_profiles.count},
              #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
     ]
     details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
@@ -208,7 +204,6 @@ class ProvidersController < ApplicationController
     @provider_accounts = @provider.provider_accounts if @details_tab[:id] == 'connectivity'
     #@realms = @provider.realms if @details_tab[:id] == 'realms'
     @realms = @provider.frontend_realms if @details_tab[:id] == 'realms'
-    @hardware_profiles = @provider.hardware_profiles if @details_tab[:id] == 'hardware_profiles'
     #@permissions = @provider.permissions if @details_tab[:id] == 'roles'
 
     @view = @details_tab[:view]
