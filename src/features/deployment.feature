@@ -175,7 +175,7 @@ Feature: Manage Deployments
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
     And I am on the pools page
     When I follow "testdeployment"
-    And I press "delete_button"
+    And I press "delete"
     Then I should see "The deployment testdeployment was scheduled for deletion"
 
   Scenario: Delete multiple deployments
@@ -195,7 +195,7 @@ Feature: Manage Deployments
     And the instance "myinstance" is in the running state
     And I am on the pools page
     When I follow "mockdeployment"
-    And I press "delete_button"
+    And I press "delete"
     Then I should see "The deployment mockdeployment was scheduled for deletion"
 
   Scenario: Launch a deployment which is not launchable
