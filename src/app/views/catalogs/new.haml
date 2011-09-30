@@ -1,10 +1,12 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'section_header'
 
-%section.admin-content-section.provider_accounts
+%header.admin-page-header
   %header
-    %h2 Add New Catalog
+  %h1 Add New Catalog
+  #obj_actions
+    Return to:
+    = link_to "Catalogs", catalogs_path, :class => 'rounded-link'
 
-  .content
-    = form_for @catalog, :url => catalogs_path, :html => {:class => 'generic'} do |f|
-      = render :partial => "form", :locals => { :form => f }
+%section.admin-content-section
+  = form_for @catalog, :url => catalogs_path, :html => {:class => 'generic'} do |f|
+    = render :partial => "form", :locals => { :form => f }

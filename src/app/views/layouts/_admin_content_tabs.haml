@@ -1,0 +1,14 @@
+%section.admin-content-section
+  %header#tab-container-1
+    %h2 &nbsp;
+    %nav.faceted
+      %ul#tab-container-1-nav
+        - @tabs.each do |tab|
+          %li
+            %a{ :href => tab[:url], :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"}
+              = tab[:name]
+            -if tab[:count]
+              %span.label.badge.count.dark=tab[:count]
+  .content.collapsible.toggle-view.pools#tab
+    %ul.deployable-cards
+      = render :partial => 'list'

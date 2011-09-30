@@ -23,6 +23,11 @@ class RealmsController < ApplicationController
   def index
     clear_breadcrumbs
     save_breadcrumb(realms_path)
+    set_admin_content_tabs 'realms'
+    respond_to do |format|
+      format.html
+      format.js { render :partial => 'list' }
+    end
   end
 
   def new

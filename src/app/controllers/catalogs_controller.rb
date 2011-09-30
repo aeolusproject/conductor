@@ -24,6 +24,11 @@ class CatalogsController < ApplicationController
     @catalogs = Catalog.list_for_user(current_user, Privilege::VIEW)
     save_breadcrumb(catalogs_path(:viewstate => @viewstate ? @viewstate.id : nil))
     set_header
+    set_admin_content_tabs 'catalogs'
+    respond_to do |format|
+      format.html
+      format.js { render :partial => 'list' }
+    end
   end
 
   def new

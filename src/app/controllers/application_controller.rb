@@ -232,4 +232,13 @@ class ApplicationController < ActionController::Base
     session[:breadcrumbs] = breadcrumbs
   end
 
+  def set_admin_content_tabs(tab)
+    @tabs = [{:name => 'Catalogs', :url => catalogs_url, :id => 'catalogs'},
+             {:name => 'Realms', :url => realms_url, :id => 'realms'},
+             {:name => 'Hardware', :url => hardware_profiles_url, :id => 'hardware_profiles'},
+    ]
+    unless @details_tab = @tabs.find {|t| t[:id] == tab}
+      raise "Tab '#{tab}' doesn't exist"
+    end
+  end
 end

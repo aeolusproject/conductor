@@ -27,12 +27,17 @@ class HardwareProfilesController < ApplicationController
     clear_breadcrumbs
     save_breadcrumb(hardware_profiles_path)
     @params = params
+    set_admin_content_tabs 'hardware_profiles'
     respond_to do |format|
       format.html
       format.js do
-        build_hardware_profile(params[:hardware_profile])
-        matching_provider_hardware_profiles
-        render :partial => 'matching_provider_hardware_profiles' and return
+        if params[:hardware_profile]
+          build_hardware_profile(params[:hardware_profile])
+          matching_provider_hardware_profiles
+          render :partial => 'matching_provider_hardware_profiles'
+        else
+          render :partial => 'list'
+        end
       end
     end
   end

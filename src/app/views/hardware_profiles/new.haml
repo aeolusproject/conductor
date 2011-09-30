@@ -1,12 +1,14 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'section_header'
+
+%header.admin-page-header
+  %header
+  %h1 New Hardware Profile
+  #obj_actions
+    Return to:
+    = link_to "Hardware Profiles", hardware_profiles_path, :class => 'rounded-link'
 
 %section.admin-content-section
-  %header
-    %h2 New Hardware Profile
+  = form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true } do |hwp_form|
+    = render :partial => "form", :locals => { :hwp_form => hwp_form }
 
-  .content
-    = form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true } do |hwp_form|
-      = render :partial => "form", :locals => { :hwp_form => hwp_form }
-
-    = render :partial => 'matching_provider_hardware_profiles' if params[:commit] == 'Check Matches'
+  = render :partial => 'matching_provider_hardware_profiles' if params[:commit] == 'Check Matches'
