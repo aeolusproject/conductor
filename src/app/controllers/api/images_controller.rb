@@ -40,5 +40,42 @@ module Api
         render :nothing => true, :status => 404
       end
     end
+
+    def create
+      req = process_post(request.body.read)
+      begin
+        if req[:type] == :failed
+          render :text => "Insufficient Parameters supplied", :status => 400
+        else
+          @image = Aeolus::Image::Factory::Image.new(req[:params])
+          @image.save!
+          respond_with(@image)
+        end
+      rescue ActiveResource::BadRequest
+        render :text => "Parameter Data Incorrect", :status => 400
+      rescue
+         render :text => "Internal Server Error From Factory", :status => 500
+      end
+    end
+
+    private
+    def process_post(body)
+      doc = Nokogiri::XML body
+      if !doc.xpath("/image/targets").empty? && !doc.xpath("/image/tdl/template").empty?
+        { :type => :build, :params => { :template => doc.xpath("/image/tdl/template").to_s,
+                                        :targets => doc.xpath("/image/targets").text }
+        }
+      elsif !doc.xpath("/image/target_name").empty? && !doc.xpath("/image/target_identifier").empty? &&
+                 !doc.xpath("/image/image_descriptor").empty? && !doc.xpath("/image/provider_name").empty?
+
+        { :type => :import, :params => { :target_name => doc.xpath("/image/target_name").text,
+                                         :target_identifier => doc.xpath("/image/target_identifier").text,
+                                         :image_descriptor => doc.xpath("/image/image_descriptor").children.first.to_s,
+                                         :provider_name => doc.xpath("/image/provider_name").text }
+        }
+      else
+        { :type => :failed }
+      end
+    end
   end
 end
