@@ -39,5 +39,40 @@ module Api
       end
     end
 
+    def create
+      req = process_post(request.body.read)
+      begin
+        if req[:type] == :failed
+          render :text => "Insufficient Parameters supplied", :status => 400
+        else
+          @provider_image = Aeolus::Image::Factory::ProviderImage.new(req[:params])
+          @provider_image.save!
+          respond_with(@provider_image)
+        end
+      rescue ActiveResource::BadRequest
+        render :text => "Parameter Data Incorrect", :status => 400
+      rescue
+        render :text => "Internal Server Error", :status => 500
+      end
+    end
+
+    private
+    def process_post(body)
+      doc = Nokogiri::XML body
+      if !doc.xpath("/image/provider_name").empty? && !doc.xpath("/image/provider_account").empty? &&
+           !doc.xpath("/image/image_id").empty? && !doc.xpath("/image/build_id").empty? &&
+             !doc.xpath("/image/target_image_id").empty?
+        if provider_account = ProviderAccount.find_by_label(doc.xpath("/image/provider_account").text)
+          #TODO check user permission on this provider account
+          { :type => :push, :params => { :provider => doc.xpath("/image/provider_name").text,
+                                         :credentials => provider_account.to_xml,
+                                         :image_id => doc.xpath("/image/image_id").text,
+                                         :build_id => doc.xpath("/image/build_id").text,
+                                         :target_image_id => doc.xpath("/image/target_image_id").text } }
+        end
+      else
+        { :type => :failed }
+      end
+    end
   end
 end
