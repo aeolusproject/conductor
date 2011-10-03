@@ -10,22 +10,3 @@
         %label{:name => 'pool'} Pool:
       %td
         = @catalog.pool.name
-
-%section.admin-content-section.catalog_entries
-  %header
-    %h2 Catalog Entries
-    %span.label.badge.dark.count= @catalog.catalog_entries.length
-
-  .content
-    - content_for :form_header do
-      %li= restful_submit_tag "Delete", "destroy", multi_destroy_catalog_entries_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
-
-    = filter_table(@header, @catalog.catalog_entries) do |catalog_entry|
-      %tr{:class => cycle('nostripe','stripe')}
-        %td
-          - selected = params[:select] == 'all'
-          = check_box_tag "catalog_entries_selected[]", catalog_entry.id, selected, :id => "catalog_entry_checkbox_#{catalog_entry.id}"
-        %td
-          = link_to catalog_entry.name, catalog_entry_path(catalog_entry.id)
-        %td
-          = catalog_entry.url
