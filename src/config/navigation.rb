@@ -26,6 +26,7 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :environments, "Environments", pool_families_path, :link => { :class => 'environments' }, :highlights_on => /\/pool_families/
       second_level.item :content, "Content", catalogs_path, :link => { :class => 'content' }, :highlights_on => /\/catalogs|\/catalog_entries|\/realms|\/hardware_profiles|\/realm_mappings/
       second_level.item :cloud_providers, "Cloud Providers", providers_path, :link => { :class => 'providers' }, :highlights_on => /\/providers/
+      second_level.item :settings, "Settings", settings_path, :link => { :class => 'settings'}, :highlights_on => /\/settings/
     end
   end
 end
