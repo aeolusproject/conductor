@@ -43,7 +43,7 @@ describe ProviderAccountsController do
     post :create, :provider_account => {:provider_id => @provider.id}
     response.should be_success
     response.should render_template("new")
-    response.flash[:error].should == "Cannot add the provider account."
+    request.flash[:error].should == "Cannot add the provider account."
   end
 
   it "should permit users with account modify permission to access edit cloud account interface" do
@@ -60,29 +60,38 @@ describe ProviderAccountsController do
     @provider_account.quota = Quota.new
     @provider_account.save.should be_true
     post :update, :id => @provider_account.id, :provider_account => { :credentials_hash => {:username => 'mockuser', :password => 'mockpassword'} }
-    response.should redirect_to provider_account_path(@provider_account)
+    response.should redirect_to edit_provider_path(@provider_account.provider_id, :details_tab => 'accounts')
     ProviderAccount.find(@provider_account.id).credentials_hash['password'].should == "mockpassword"
   end
 
   it "should allow users with account modify permission to delete a cloud account" do
     mock_warden(@admin)
     lambda do
-      post :multi_destroy, :accounts_selected => [@provider_account.id]
+      post :multi_destroy, :provider_id => @provider_account.provider_id, :accounts_selected => [@provider_account.id]
     end.should change(ProviderAccount, :count).by(-1)
-    response.should redirect_to provider_accounts_url
+    response.should redirect_to edit_provider_path(@provider_account.provider_id, :details_tab => 'accounts')
     ProviderAccount.find_by_id(@provider_account.id).should be_nil
   end
 
-  it "should deny access to users without account modify permission" do
-    mock_warden(@tuser)
-    get :edit, :id => @provider_account.id
-    response.should render_template('layouts/error')
+  describe "should deny access to users without account modify permission" do
+    before do
+      mock_warden(@tuser)
+    end
 
-    post :update, :id => @provider_account.id, :provider_account => { :password => 'foobar' }
-    response.should render_template('layouts/error')
+    it "for edit" do
+      get :edit, :provider_id => @provider_account.provider_id, :id => @provider_account.id
+      response.should render_template('layouts/error')
+    end
 
-    post :destroy, :id => @provider_account.id
-    response.should render_template('layouts/error')
+    it "for update" do
+      post :update, :id => @provider_account.id, :provider_account => { :password => 'foobar' }
+      response.should render_template('layouts/error')
+    end
+
+    it "for destroy" do
+      post :destroy, :id => @provider_account.id
+      response.should render_template('layouts/error')
+    end
   end
 
   it "should provide ui to create new account" do

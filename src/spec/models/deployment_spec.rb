@@ -82,13 +82,6 @@ describe Deployment do
     @deployment.get_action_list.should eql(["start", "stop", "reboot"])
   end
 
-  it "should launch instances when launching deployment" do
-    @deployment.save!
-    @deployment.instances.should be_empty
-    @deployment.stub!(:condormatic_instance_create).and_return(true)
-    @deployment.launch(FactoryGirl.create(:user))[:errors].should be_empty
-    @deployment.instances.count.should == 2
-  end
 
   it "should return properties hash" do
     @deployment.properties.should be_a_kind_of(Hash)
@@ -112,16 +105,30 @@ describe Deployment do
     @deployment.should be_destroyable
     expect { @deployment.destroy }.to change(Deployment, :count).by(-1)
   end
+  describe "using image from iwhd" do
+    before do
+      image_id = @deployment.deployable_xml.assemblies.first.image_id
+      provider_name = Image.find(image_id).latest_build.provider_images.first.provider_name
+      provider = FactoryGirl.create(:mock_provider, :name => provider_name)
+      @deployment.pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+      @user_for_launch = FactoryGirl.create(:user)
+    end
 
-  it "should return errors when checking assemblies matches which are not launchable" do
-    user = FactoryGirl.create(:user)
-    image_id = @deployment.deployable_xml.assemblies.first.image_id
-    provider_name = Image.find(image_id).latest_build.provider_images.first.provider_name
-    provider = FactoryGirl.create(:mock_provider, :name => provider_name)
-    @deployment.pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
-    @deployment.check_assemblies_matches(user).should be_empty
-    @deployment.pool.pool_family.provider_accounts.destroy_all
-    @deployment.check_assemblies_matches(user).should_not be_empty
+    it "should return errors when checking assemblies matches which are not launchable" do
+        @deployment.check_assemblies_matches(@user_for_launch).should be_empty
+        @deployment.pool.pool_family.provider_accounts.destroy_all
+        @deployment.check_assemblies_matches(@user_for_launch).should_not be_empty
+    end
+
+    it "should launch instances when launching deployment" do
+      @deployment.save!
+      @deployment.instances.should be_empty
+
+      Taskomatic.stub!(:create_instance).and_return(true)
+      @deployment.launch(@user_for_launch)[:errors].should be_empty
+      @deployment.instances.count.should == 2
+    end
+
   end
 
   it "should be able to stop running instances on deletion" do
