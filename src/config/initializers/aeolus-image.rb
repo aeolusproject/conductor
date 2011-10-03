@@ -18,3 +18,5 @@
 
 config = YAML.load_file("#{::Rails.root.to_s}/config/settings.yml")
 Aeolus::Image::Warehouse::WarehouseModel.send(:class_variable_set, '@@config', config)
+
+Aeolus::Image::Factory::Base.site = config[:imagefactory][:url]

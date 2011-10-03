@@ -16,3 +16,6 @@
 #   'http://example.com:5000/api':
 #     :consumer_key: consumer_key_here
 #     :consumer_secret: consumer_secret_here
+#
+:imagefactory:
+  :url: https://localhost:8075/imagefactory
