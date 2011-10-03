@@ -21,6 +21,8 @@
 
 module Api
   class BuildsController < ApplicationController
+    before_filter :require_user
+
     respond_to :xml
     layout :false
 
@@ -32,7 +34,6 @@ module Api
     def show
       id = params[:id]
       @build = Aeolus::Image::Warehouse::ImageBuild.find(id)
-      p @build
       if @build
         respond_with(@build)
       else
