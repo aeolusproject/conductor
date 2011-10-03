@@ -202,10 +202,10 @@ class HardwareProfilesController < ApplicationController
   end
 
   def load_hardware_profiles
-    sort_field = params[:order_field].blank? ? "name" : params[:order_field]
-    sort_order = params[:order_dir].to_s == "desc" ? "desc" : "asc"
+    sort_order = sort_direction
+    sort_field = sort_column(HardwareProfile)
     if sort_field == "name"
-      @hardware_profiles = HardwareProfile.list_for_user(current_user, Privilege::VIEW, :order => "hardware_profiles.name #{sort_order}", :conditions => ['provider_id IS NULL', {}])
+      @hardware_profiles = HardwareProfile.list_for_user(current_user, Privilege::VIEW, :order => "hardware_profiles.name #{sort_direction}", :conditions => ['provider_id IS NULL', {}])
     else
       @hardware_profiles = HardwareProfile.list_for_user(current_user, Privilege::VIEW, :conditions => ['provider_id IS NULL', {}])
       if sort_order == "asc"

@@ -117,7 +117,7 @@ class RolesController < ApplicationController
 
   def load_roles
     @roles = Role.paginate(:page => params[:page] || 1,
-      :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
+      :order => (sort_column(Role)+' '+ (sort_direction))
     )
   end
 

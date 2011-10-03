@@ -285,7 +285,7 @@ class DeploymentsController < ApplicationController
   private
   def load_deployments
     @deployments = Deployment.paginate(:page => params[:page] || 1,
-      :order => (params[:order_field] || 'name')  +' '+ (params[:order_dir] || 'asc')
+      :order => (sort_column(Deployment) +' '+ sort_direction)
     )
     @deployments_header = [
       { :name => '', :sortable => false },
@@ -301,7 +301,7 @@ class DeploymentsController < ApplicationController
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, :target_type => Deployment)
     @deployments = Deployment.all(:include => :owner,
                               :conditions => {:pool_id => @pools},
-                              :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
+                              :order => (sort_column(Deployment) +' '+ sort_direction)
     )
   end
 

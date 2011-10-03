@@ -208,7 +208,7 @@ class InstancesController < ApplicationController
     conditions[:deployment_id] = params[:deployment_id] unless params[:deployment_id].blank?
     @instances = Instance.all(:include => [:owner],
                               :conditions => conditions,
-                              :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
+                              :order => (sort_column(Instance) +' '+ sort_direction)
     )
   end
 end

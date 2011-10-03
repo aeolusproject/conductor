@@ -48,18 +48,18 @@ class PoolsController < ApplicationController
       @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
       case @details_tab[:id]
       when 'pools'
-        @pools = Pool.list(params[:order_field],params[:order_dir])
+        @pools = Pool.list(sort_column(Pool), sort_direction)
       when 'instances'
-        @instances = Instance.list(params[:order_field],params[:order_dir])
+        @instances = Instance.list(sort_column(Instance), sort_direction)
         @hide_stopped = @viewstate && @viewstate.state['hide_stopped'] == 'true'
         if @hide_stopped
           @instances.delete_if { |i| i.state == Instance::STATE_STOPPED }
         end
       when 'deployments'
-        @deployments = Deployment.list(params[:order_field],params[:order_dir])
+        @deployments = Deployment.list(sort_column(Deployment), sort_direction)
       end
     else
-      @pools = Pool.list(params[:order_field],params[:order_dir])
+      @pools = Pool.list(sort_column(Pool), sort_direction)
     end
     statistics
     respond_to do |format|
@@ -268,7 +268,7 @@ class PoolsController < ApplicationController
   def load_pools
     @pools = Pool.paginate(:include => [ :quota, :pool_family ],
       :page => params[:page] || 1,
-      :order => (params[:order_field] || 'name') +' '+ (params[:order_dir] || 'asc')
+      :order => (sort_column(Pool)+' '+ sort_direction)
     )
   end
 

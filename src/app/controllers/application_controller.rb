@@ -241,4 +241,12 @@ class ApplicationController < ActionController::Base
       raise "Tab '#{tab}' doesn't exist"
     end
   end
+
+  def sort_column(model, default="name")
+    model.column_names.include?(params[:order_field]) ? params[:order_field] : default
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:order_dir]) ? params[:order_dir] : "asc"
+  end
 end

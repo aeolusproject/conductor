@@ -159,6 +159,6 @@ class PoolFamiliesController < ApplicationController
   def load_pool_families
     @pool_families = PoolFamily.list_for_user(current_user, Privilege::VIEW).paginate(
       :page => params[:page] || 1,
-      :order => (params[:order_field] || 'name') + ' ' + (params[:order_dir] || 'asc'))
+      :order => (sort_column(PoolFamily) + ' ' + sort_direction))
   end
 end
