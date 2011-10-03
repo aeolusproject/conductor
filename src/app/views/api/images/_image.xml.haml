@@ -5,4 +5,6 @@
   %os{:type => 'xs:string'}= image.os.name
   %os_version{:type => 'xs:string'}= image.os.version
   %arch{:type => 'xs:string'}= image.os.arch
-  %link{:rel=>'builds', :href => api_image_builds_url(image.uuid)}
+  %builds{:type => 'xs:list'}
+    - @builds[image.uuid].each do |bld|
+      %build{:id => bld.uuid, :href => api_build_url(bld.uuid)}

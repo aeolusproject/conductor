@@ -21,13 +21,17 @@
 
 module Api
   class ImagesController < ApplicationController
-#    before_filter :require_user
+    before_filter :require_user
 
     respond_to :xml
     layout :false
 
     def index
       @images = Aeolus::Image::Warehouse::Image.all
+      @builds = {}
+      @images.each do |img|
+        @builds.merge!({img.uuid => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(img.uuid)})
+      end
       respond_with(@images)
     end
 
@@ -35,6 +39,7 @@ module Api
       id = params[:id]
       @image = Aeolus::Image::Warehouse::Image.find(id)
       if @image
+        @builds = {@image.uuid => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(@image.uuid)}
         respond_with(@image)
       else
         render :nothing => true, :status => 404
