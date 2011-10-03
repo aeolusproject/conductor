@@ -32,11 +32,21 @@ date		= $(shell date --utc +%Y%m%d%H%M%S)
 GIT_RELEASE	= $(date)git$(git_head)
 RPMDIR		= $$(rpm --eval '%{_rpmdir}')
 RPM_FLAGS	= --define "conductor_cache_dir $(CONDUCTOR_CACHE_DIR)"
-RPM_FLAGS	+= $(if $(_conductor_dev),--define "extra_release .$(GIT_RELEASE)")
 
-dist:
-	sed -e 's/@VERSION@/$(VERSION)/' aeolus-all.spec.in > aeolus-all.spec
-	sed -e 's/@VERSION@/$(VERSION)/' aeolus-conductor.spec.in > aeolus-conductor.spec
+# Only include a githash in the %{release} when _conductor_dev is enabled
+ifeq ($(_conductor_dev),)
+EXTRA_RELEASE = ""
+else
+EXTRA_RELEASE = ".$(GIT_RELEASE)"
+endif
+
+aeolus-all.spec:
+	sed -e "s|@VERSION@|0.4.0|;s|^\(Release:[^%]*\)|\1$(EXTRA_RELEASE)|" aeolus-all.spec.in > aeolus-all.spec
+
+aeolus-conductor.spec:
+	sed -e "s|@VERSION@|0.4.0|;s|^\(Release:[^%]*\)|\1$(EXTRA_RELEASE)|" aeolus-conductor.spec.in > aeolus-conductor.spec
+
+dist: aeolus-all.spec aeolus-conductor.spec
 	mkdir -p dist/aeolus-conductor-$(VERSION)
 	cp -a aeolus-conductor.spec AUTHORS conf COPYING Makefile src \
 		dist/aeolus-conductor-$(VERSION)
