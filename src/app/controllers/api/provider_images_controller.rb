@@ -21,6 +21,8 @@
 
 module Api
   class ProviderImagesController < ApplicationController
+    before_filter :require_user
+
     respond_to :xml
     layout :false
 
