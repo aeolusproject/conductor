@@ -4,6 +4,6 @@
   %object_type= image.object_type
   %template= image.template
   %build{:href=>api_build_url(image.build.uuid), :id=>image.build.uuid}
-  %provider_images{:href => api_target_image_provider_images_url(image.uuid)}
+  %provider_images
     - image.provider_images.each do |pimg|
       %provider_image{:id => pimg.uuid, :href => api_provider_image_url(pimg.uuid)}

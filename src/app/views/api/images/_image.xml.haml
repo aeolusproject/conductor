@@ -2,10 +2,9 @@
 %image{:id => image.uuid, :href => api_image_url(image.uuid) }
   %name= image.name
   %description= image.description
-  - if !image.os.nil?
-    %os= image.os.name
-    %os_version= image.os.version
-    %arch= image.os.arch
+  %os= image.os.name
+  %os_version= image.os.version
+  %arch= image.os.arch
   %builds{:type => 'xs:list'}
     - @builds[image.uuid].each do |bld|
       %build{:id => bld.uuid, :href => api_build_url(bld.uuid)}

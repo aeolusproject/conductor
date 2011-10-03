@@ -28,6 +28,7 @@ module Api
 
     def index
       @images = Aeolus::Image::Warehouse::Image.all
+      # TODO This should be in aeolus-image-rubygem
       @builds = {}
       @images.each do |img|
         @builds.merge!({img.uuid => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(img.uuid)})
