@@ -31,7 +31,7 @@ module Api
       # TODO This should be in aeolus-image-rubygem
       @builds = {}
       @images.each do |img|
-        @builds.merge!({img.uuid => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(img.uuid)})
+        @builds.merge!({img.id => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(img.id)})
       end
       respond_with(@images)
     end
@@ -40,7 +40,7 @@ module Api
       id = params[:id]
       @image = Aeolus::Image::Warehouse::Image.find(id)
       if @image
-        @builds = {@image.uuid => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(@image.uuid)}
+        @builds = {@image.id => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(@image.id)}
         respond_with(@image)
       else
         render :nothing => true, :status => 404

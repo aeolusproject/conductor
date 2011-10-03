@@ -1,6 +1,3 @@
 !!! XML
-%build{:id => build.uuid, :href => api_build_url(build.uuid) }
-  %image{:type => 'xs:string', :href => api_image_url(build.image.uuid)}= build.image.uuid
-  %target_images
-    - build.target_images.each do |target_image|
-      %target_image{:id => target_image.uuid, :href => api_target_image_url(target_image.uuid)}
+build{:id => build.id, :href => api_build_url(build.id) }
+  %image{:type => 'xs:string', :href => api_image_url(build.image.id)}= build.image.id

@@ -38,16 +38,16 @@ describe Api::BuildsController do
       before do
         @os = mock(:OS, :name => 'fedora', :version => '15', :arch => 'x86_64')
         @image = mock(Aeolus::Image::Warehouse::Image,
-                      :uuid => '5',
+                      :id => '5',
                       :os => @os,
                       :name => 'test',
                       :description => 'test image')
 
         @target_image = mock(Aeolus::Image::Warehouse::TargetImage,
-                        :uuid => "1")
+                        :id => "1")
 
         @build = mock(Aeolus::Image::Warehouse::ImageBuild,
-                      :uuid => '10',
+                      :id => '10',
                       :image => @image,
                       :target_images => [@target_image])
 
@@ -59,8 +59,8 @@ describe Api::BuildsController do
       it { response.headers['Content-Type'].should include("application/xml") }
       it {
         resp = Hash.from_xml(response.body)
-        resp['builds']['build']['id'].should == @build.uuid
-        resp['builds']['build']['image'].should == @image.uuid
+        resp['builds']['build']['id'].should == @build.id
+        resp['builds']['build']['image'].should == @image.id
       }
     end
 
@@ -68,16 +68,16 @@ describe Api::BuildsController do
       before do
         @os = mock(:OS, :name => 'fedora', :version => '15', :arch => 'x86_64')
         @image = mock(Aeolus::Image::Warehouse::Image,
-                      :uuid => '5',
+                      :id => '5',
                       :os => @os,
                       :name => 'test',
                       :description => 'test image')
 
         @target_image = mock(Aeolus::Image::Warehouse::TargetImage,
-                        :uuid => "1")
+                        :id => "1")
 
         @build = mock(Aeolus::Image::Warehouse::ImageBuild,
-                      :uuid => '10',
+                      :id => '10',
                       :image => @image,
                       :target_images => [@target_image])
 
@@ -89,8 +89,8 @@ describe Api::BuildsController do
       it { response.headers['Content-Type'].should include("application/xml") }
       it {
         resp = Hash.from_xml(response.body)
-        resp['build']['id'].should == @build.uuid
-        resp['build']['image'].should == @image.uuid
+        resp['build']['id'].should == @build.id
+        resp['build']['image'].should == @image.id
       }
     end
   end

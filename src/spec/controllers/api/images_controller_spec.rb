@@ -38,7 +38,7 @@ describe Api::ImagesController do
       before do
         @os = mock(:OS, :name => 'fedora', :version => '15', :arch => 'x86_64')
         @image = mock(Aeolus::Image::Warehouse::Image,
-                      :uuid => '5',
+                      :id => '5',
                       :os => @os,
                       :name => 'test',
                       :description => 'test image')
@@ -53,7 +53,7 @@ describe Api::ImagesController do
       it {
         resp = Hash.from_xml(response.body)
         resp['images']['image']['name'].should == @image.name
-        resp['images']['image']['id'].should == @image.uuid
+        resp['images']['image']['id'].should == @image.id
         resp['images']['image']['os'].should == @image.os.name
         resp['images']['image']['arch'].should == @image.os.arch
         resp['images']['image']['os_version'].should == @image.os.version
@@ -65,12 +65,12 @@ describe Api::ImagesController do
       before do
         @os = mock(:OS, :name => 'fedora', :version => '15', :arch => 'x86_64')
         @image = mock(Aeolus::Image::Warehouse::Image,
-                      :uuid => '5',
+                      :id => '5',
                       :os => @os,
                       :name => 'test',
                       :description => 'test image')
         Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
-        Aeolus::Image::Warehouse::ImageBuild.stub(:find_all_by_image_uuid).and_return([])
+        Aeolus::Image::Warehouse::ImageBuild.stub(:find_all_by_image_id).and_return([])
         get :show, :id => '5'
       end
 
@@ -79,7 +79,7 @@ describe Api::ImagesController do
       it {
         resp = Hash.from_xml(response.body)
         resp['image']['name'].should == @image.name
-        resp['image']['id'].should == @image.uuid
+        resp['image']['id'].should == @image.id
         resp['image']['os'].should == @image.os.name
         resp['image']['arch'].should == @image.os.arch
         resp['image']['os_version'].should == @image.os.version

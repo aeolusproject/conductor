@@ -37,11 +37,11 @@ describe Api::TargetImagesController do
     describe "#index" do
       before do
         @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
-                       :uuid => '42')
+                       :id => '42')
         @build  = mock(Aeolus::Image::Warehouse::ImageBuild,
-                      :uuid => '543')
+                      :id => '543')
         @timage = mock(Aeolus::Image::Warehouse::TargetImage,
-                       :uuid => '100',
+                       :id => '100',
                        :icicle => '321',
                        :object_type => 'target_image',
                        :template => '12',
@@ -56,24 +56,24 @@ describe Api::TargetImagesController do
       it { response.headers['Content-Type'].should include("application/xml") }
       it {
         resp = Hash.from_xml(response.body)
-        resp['target_images']['target_image']['id'].should == @timage.uuid
+        resp['target_images']['target_image']['id'].should == @timage.id
         resp['target_images']['target_image']['icicle'].should == @timage.icicle
         resp['target_images']['target_image']['object_type'].should == @timage.object_type
         resp['target_images']['target_image']['template'].should == @timage.template
-        resp['target_images']['target_image']['build']['id'].should == @timage.build.uuid
+        resp['target_images']['target_image']['build']['id'].should == @timage.build.id
         pimgs = resp['target_images']['target_image']['provider_images']
-          pimgs['provider_image']['id'].should == @pimage.uuid
+          pimgs['provider_image']['id'].should == @pimage.id
       }
     end
 
     describe "#show" do
       before do
         @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
-                       :uuid => '42')
+                       :id => '42')
         @build  = mock(Aeolus::Image::Warehouse::ImageBuild,
-                      :uuid => '543')
+                      :id => '543')
         @timage = mock(Aeolus::Image::Warehouse::TargetImage,
-                       :uuid => '100',
+                       :id => '100',
                        :icicle => '321',
                        :object_type => 'target_image',
                        :template => '12',
@@ -88,13 +88,13 @@ describe Api::TargetImagesController do
       it { response.headers['Content-Type'].should include("application/xml") }
       it {
         resp = Hash.from_xml(response.body)
-        resp['target_image']['id'].should == @timage.uuid
+        resp['target_image']['id'].should == @timage.id
         resp['target_image']['icicle'].should == @timage.icicle
         resp['target_image']['object_type'].should == @timage.object_type
         resp['target_image']['template'].should == @timage.template
-        resp['target_image']['build']['id'].should == @timage.build.uuid
+        resp['target_image']['build']['id'].should == @timage.build.id
         pimgs = resp['target_image']['provider_images']
-          pimgs['provider_image']['id'].should == @pimage.uuid
+          pimgs['provider_image']['id'].should == @pimage.id
       }
     end
   end

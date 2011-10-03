@@ -1,10 +1,10 @@
 !!!XML
-%image{:id => image.uuid, :href => api_image_url(image.uuid) }
+%image{:id => image.id, :href => api_image_url(image.id) }
   %name= image.name
   %description= image.description
   %os= image.os.name
   %os_version= image.os.version
   %arch= image.os.arch
   %builds{:type => 'xs:list'}
-    - @builds[image.uuid].each do |bld|
-      %build{:id => bld.uuid, :href => api_build_url(bld.uuid)}
+    - @builds[image.id].each do |bld|
+      %build{:id => bld.id, :href => api_build_url(bld.id)}

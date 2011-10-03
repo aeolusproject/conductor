@@ -37,10 +37,9 @@ describe Api::ProviderImagesController do
     describe "#index" do
       before do
         @timage = mock(Aeolus::Image::Warehouse::TargetImage,
-                       :uuid => '300')
+                       :id => '300')
         @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
                        :id => '17',
-                       :uuid => '17',
                        :icicle => '30',
                        :object_type => 'provider_image',
                        :target_identifier => '80',
@@ -54,21 +53,20 @@ describe Api::ProviderImagesController do
       it { response.headers['Content-Type'].should include("application/xml") }
       it {
         resp = Hash.from_xml(response.body)
-        resp['provider_images']['provider_image']['id'].should == @pimage.uuid
+        resp['provider_images']['provider_image']['id'].should == @pimage.id
         resp['provider_images']['provider_image']['icicle'].should == @pimage.icicle
         resp['provider_images']['provider_image']['object_type'].should == @pimage.object_type
         resp['provider_images']['provider_image']['target_identifier'].should == @pimage.target_identifier
-        resp['provider_images']['provider_image']['target_image']['id'].should == @pimage.target_image.uuid
+        resp['provider_images']['provider_image']['target_image']['id'].should == @pimage.target_image.id
       }
     end
 
     describe "#show" do
       before do
         @timage = mock(Aeolus::Image::Warehouse::TargetImage,
-                       :uuid => '300')
+                       :id => '300')
         @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
                        :id => '17',
-                       :uuid => '17',
                        :icicle => '30',
                        :object_type => 'provider_image',
                        :target_identifier => '80',
@@ -82,11 +80,11 @@ describe Api::ProviderImagesController do
       it { response.headers['Content-Type'].should include("application/xml") }
       it {
         resp = Hash.from_xml(response.body)
-        resp['provider_image']['id'].should == @pimage.uuid
+        resp['provider_image']['id'].should == @pimage.id
         resp['provider_image']['icicle'].should == @pimage.icicle
         resp['provider_image']['object_type'].should == @pimage.object_type
         resp['provider_image']['target_identifier'].should == @pimage.target_identifier
-        resp['provider_image']['target_image']['id'].should == @pimage.target_image.uuid
+        resp['provider_image']['target_image']['id'].should == @pimage.target_image.id
       }
     end
   end
