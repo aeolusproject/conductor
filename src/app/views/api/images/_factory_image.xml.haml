@@ -1,7 +1,7 @@
 !!!XML
-%image{:id => image.id, :href => image.href }
-  %build{:id => image.build.id, :href => image.build.href}
-    %targetimages
+%image{:id => image.id, :href => api_image_url(image.id) }
+  %build{:id => image.build.id, :href => api_build_url(image.build.id)}
+    %target_images
       - image.build.target_images.each do |target_image|
-        %targetimage{:id => target_image.id, :href => target_image.href}
+        %target_image{:id => target_image.id, :href => api_target_image_url(target_image.id)}
         %status=Aeolus::Image::Factory::TargetImage.status(target_image.id)
