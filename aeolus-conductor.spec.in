@@ -138,7 +138,9 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/deployments app/views/pools \
       app/views/instances app/views/user_sessions \
       app/views/catalog_entries app/views/catalogs \
-      app/views/provider_types"
+      app/views/provider_types app/views/api/images \
+      app/views/api/builds app/views/api/provider_images \
+      app/views/api/target_images"
 html="public"
 ico="public"
 jpg="public/images public/stylesheets/images"
@@ -152,8 +154,8 @@ opts="spec"
 png="public/images public/images/icons public/stylesheets/images \
      public/stylesheets/jquery.ui-1.8.1/images"
 rake="lib/tasks"
-rb="app/models app/controllers app/helpers app/services app/util config \
-    config/initializers config/environments db db/migrate \
+rb="app/models app/controllers app/controllers/api app/helpers app/services app/util \
+    config config/initializers config/environments db db/migrate \
     features/support features/step_definitions lib spec spec/controllers \
     spec/factories spec/helpers spec/models spec/services"
 rhtml="app/views/layouts"
@@ -301,6 +303,9 @@ fi
 %{app_root}/spec
 
 %changelog
+* Tue Oct 04 2011 Maros Zatko <mzatko@redhat.com> - 0.4.0-1
+- added controllers/api + views
+
 * Thu Jul 21 2011 Mo Morsi <mmorsi@redhat.com> - 0.3.0-2
 - update Source0 checkout instructions
 
