@@ -2,21 +2,21 @@
 %header.admin-page-header
   #obj_actions
     Quick Jump:
-    = link_to 'Groups', "#groups", :class => 'rounded-link'
+    /= link_to 'Groups', "#groups", :class => 'rounded-link'
     = link_to 'Users', "#users", :class => 'rounded-link'
-    = link_to 'Roles', "#roles", :class => 'rounded-link'
+    /= link_to 'Roles', "#roles", :class => 'rounded-link'
   .clear
-%section.admin-content-section
-  %header
-    %h2#groups.groups Groups
-    .section-controls
-      #obj_actions
-        = link_to "", "#", :class => 'add-group-button', :id => 'add_group_button'
-  .content
-    Unimplemented.
+/%section.admin-content-section
+/  %header
+/    %h2#groups.groups Groups
+/    .section-controls
+/      #obj_actions
+/        = link_to "", "#", :class => 'add-group-button', :id => 'add_group_button'
+/  .content
+/    Unimplemented.
 = render :partial => 'list'
-%section.admin-content-section
-  %header
-    %h2#roles.roles Roles
-  .content
-    Unimplemented.
+/%section.admin-content-section
+/  %header
+/    %h2#roles.roles Roles
+/  .content
+/    Unimplemented.
