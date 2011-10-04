@@ -4,4 +4,4 @@
     %target_images
       - image.build.target_images.each do |target_image|
         %target_image{:id => target_image.id, :href => api_target_image_url(target_image.id)}
-        %status=Aeolus::Image::Factory::TargetImage.status(target_image.id)
+        %status=(Aeolus::Image::Factory::TargetImage.status(target_image.id) || "COMPLETE")
