@@ -114,6 +114,30 @@ class Provider < ActiveRecord::Base
     (frontend_realms + realms.map {|r| r.frontend_realms}.flatten).uniq
   end
 
+  def stop_instances(user)
+    errs = []
+    provider_accounts.each do |pa|
+      pa.instances.stopable.each do |instance|
+        begin
+          unless instance.valid_action?('stop')
+            raise "stop is an invalid action."
+          end
+
+          unless @task = instance.queue_action(user, 'stop')
+            raise "stop cannot be performed on this instance."
+          end
+          Taskomatic.stop_instance(@task)
+        rescue Exception => e
+          err = "Error while stopping an instance #{instance.name}: #{e.message}"
+          errs << err
+          logger.error err
+          logger.error e.backtrace.join("\n  ")
+        end
+      end
+    end
+    errs
+  end
+
   protected
   def validate_provider
     if !nil_or_empty(url)

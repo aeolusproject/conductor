@@ -116,6 +116,16 @@ describe Provider do
       provider1.frontend_realms.reload
       provider1.all_associated_frontend_realms.count.should == 1
     end
+
+    it "should stop all associated instances" do
+      provider1 = Factory.create(:mock_provider)
+      pa = FactoryGirl.create(:mock_provider_account, :provider => provider1)
+      inst1 = FactoryGirl.create(:instance, :provider_account => pa)
+      inst2 = FactoryGirl.create(:instance, :provider_account => pa)
+      errs = provider1.stop_instances(nil)
+      errs.should be_empty
+    end
+
   end
 
   context "(using original connect method)" do

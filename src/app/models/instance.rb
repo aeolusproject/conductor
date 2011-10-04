@@ -107,6 +107,7 @@ class Instance < ActiveRecord::Base
   scope :pending,   :conditions => { :state => [STATE_NEW, STATE_PENDING] }
   # FIXME: "failed" is misleading too...
   scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR] }
+  scope :stopable,    :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING] }
 
 
   SEARCHABLE_COLUMNS = %w(name state)

@@ -91,3 +91,10 @@ Then /^there should be these provider:$/ do |table|
     p[:provider_type].should == hash[:provider_type]
   end
 end
+
+Given /^this provider has a provider account with (\d+) running instances$/ do |arg1|
+  pa = FactoryGirl.create(:mock_provider_account, :provider => @provider)
+  arg1.to_i.times do |i|
+    FactoryGirl.create(:instance, :provider_account => pa, :state => 'running')
+  end
+end

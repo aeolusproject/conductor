@@ -83,6 +83,15 @@ Feature: Manage Providers
     And there should not be a provider account
     And there should not be a realm
 
+  Scenario: Disable a provider
+    Given there is a provider named "provider1"
+    And this provider has a provider account with 2 running instances
+    When I go to the provider1's edit provider page
+    And I press "provider_submit"
+    Then I should be on the provider1's edit provider page
+    And I should see "Provider is disabled."
+    And I should not see "Error while stopping an instance"
+
 #  Scenario: Search for hardware profiles
 #    Given there are these providers:
 #    | name          | url                         |

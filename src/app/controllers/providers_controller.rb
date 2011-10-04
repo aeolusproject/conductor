@@ -111,7 +111,15 @@ class ProvidersController < ApplicationController
   def update
     @provider = Provider.find_by_id(params[:id])
     require_privilege(Privilege::MODIFY, @provider)
+    old_enabled = @provider.enabled
     @provider.update_attributes(params[:provider])
+    # stop running instances when a provider is disabled
+    # it would be better to have this in provider's observer
+    # but we need to display error message when an error occurs
+    if old_enabled and not @provider.enabled
+      errs = @provider.stop_instances(current_user)
+      flash[:error] = errs unless errs.empty?
+    end
     if !@provider.connect
       flash.now[:warning] = "Failed to connect to Provider"
       load_provider_tabs
