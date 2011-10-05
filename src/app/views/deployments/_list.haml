@@ -20,6 +20,8 @@
     %td
       = deployment.deployable_xml.name
     %td
+      = deployment.deployment_state
+    %td
       = deployment.instances.count
     %td
       = link_to deployment.pool.name, pool_path(deployment.pool)
@@ -42,6 +44,7 @@
       <td><a href="#{deployment_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
       <td>${created_at}</td>
       <td>${deployable_xml_name}</td>
+      <td>${deployment_state}</td>
       <td>${instances_count}</td>
       <td><a href="#{pool_path('replace_id').sub('replace_id', '${pool.id}')}">${pool.name}</a></td>
       <td>${owner}</td>

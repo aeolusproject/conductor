@@ -102,6 +102,7 @@ en:
       one: "The deployment %{list} could not be deleted."
       other: "The deployments %{list} could not be deleted."
     none_selected: "You must select one or more deployments."
+    state: State
   instances:
     instances: Instances
     updated:
@@ -194,6 +195,7 @@ en:
       name: Name
       description: Description
       base_deployable: Base Deployable
+      state: State
       deleted:
         one: "Deployable %{list} was deleted."
         other: "Deployables %{list} were deleted."

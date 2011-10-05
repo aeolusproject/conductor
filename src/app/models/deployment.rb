@@ -55,7 +55,6 @@ class Deployment < ActiveRecord::Base
   after_create "assign_owner_roles(owner)"
 
   validates_presence_of :pool_id
-
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id
   validates_length_of :name, :maximum => 1024
@@ -65,8 +64,8 @@ class Deployment < ActiveRecord::Base
   before_destroy :destroyable?
 
   SEARCHABLE_COLUMNS = %w(name)
-
   USER_MUTABLE_ATTRS = ['name']
+  STATE_MIXED = "mixed"
 
   validate :validate_xml
 
@@ -286,6 +285,7 @@ class Deployment < ActiveRecord::Base
     json = super(options).merge({
       :owner => owner.name,
       :deployable_xml_name => deployable_xml.name,
+      :deployment_state => deployment_state,
       :instances_count => instances.count,
       :uptime => ApplicationHelper.count_uptime(uptime_1st_instance),
       :pool => {
@@ -302,5 +302,14 @@ class Deployment < ActiveRecord::Base
     end
 
     json
+  end
+
+  def deployment_state
+    return instances.first.state if not instances.empty? and instances.length == 1
+    oracle = instances.first.state
+    instances.each do |i|
+      return STATE_MIXED if i.state != oracle
+    end
+    return oracle
   end
 end

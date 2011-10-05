@@ -270,6 +270,7 @@ class PoolsController < ApplicationController
       { :name => t("deployments.deployment_name"), :sortable => false },
       { :name => t("pools.index.deployed_on"), :sortable => false },
       { :name => t("deployables.index.base_deployable"), :sortable => false },
+      { :name => t("deployables.index.state"), :sortable => false },
       { :name => t("instances.instances"), :sortable => false },
       { :name => t("pools.index.pool"), :sortable => false },
       { :name => t("pools.index.owner"), :sortable => false },
