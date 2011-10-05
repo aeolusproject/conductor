@@ -136,7 +136,7 @@ class HardwareProfileProperty < ActiveRecord::Base
       when "fixed"
          sort_value =  value
       when "range"
-        sort_value = ascending ? range_from : range_to
+        sort_value = ascending ? range_first : range_last
       when "enum"
         entries = (property_enum_entries.map { |enum| enum.value }).sort!
         sort_value = ascending ? entries.first : entries.last

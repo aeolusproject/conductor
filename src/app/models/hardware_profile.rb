@@ -137,29 +137,13 @@ class HardwareProfile < ActiveRecord::Base
 
   def self.match_provider_hardware_profile(provider, hardware_profile)
     hardware_profiles = match_hardware_profiles(provider, hardware_profile)
-    matched_hwp = hardware_profiles.first
-    value = '99999999'
-    hardware_profiles.each do |hwp|
-      case hwp.memory.kind
-        when "fixed"
-          if BigDecimal.new(hwp.memory.value.to_s) < BigDecimal.new(value.to_s)
-            value = hwp.memory.value
-            matched_hwp = hwp
-          end
-        when "range"
-          if BigDecimal.new(hwp.memory.range_last.to_s) < BigDecimal.new(value.to_s)
-            value = hwp.memory.range_last
-            matched_hwp = hwp
-          end
-        when "enum"
-          values = create_array_from_property(hwp.memory.to_s).sort
-          if BigDecimal.new(value.last) < BigDecimal.new(value.to_s)
-            value = values.last
-            matched_hwp = hwp
-          end
-      end
-    end
-    return matched_hwp
+    # there can be multiple matching hw profiles,
+    # for now pick hw profile with lowest memory.
+    # (supposing that memory is most expensive component
+    # of hw profile)
+    hardware_profiles.sort do |hw1, hw2|
+      BigDecimal.new(hw1.memory.sort_value(false).to_s) <=> BigDecimal.new(hw2.memory.sort_value(false).to_s)
+    end.first
   end
 
   def self.generate_override_property_values(front_end_hwp, back_end_hwp)
@@ -180,7 +164,7 @@ class HardwareProfile < ActiveRecord::Base
         return front_end_property.value.present? ? front_end_property.value : back_end_property.value
       when "enum"
         create_array_from_property(back_end_property).sort!.each do |value|
-          if BigDecimal.new(value) >= BigDecimal.new(front_end_property.value)
+          if front_end_property.value.nil? or BigDecimal.new(value) >= BigDecimal.new(front_end_property.value)
             return value
           end
         end
@@ -223,7 +207,7 @@ class HardwareProfile < ActiveRecord::Base
         match = BigDecimal.new(back_end_property.range_last.to_s) >= BigDecimal.new(front_end_property.value.to_s) ? true : false
       when "enum"
         create_array_from_property(back_end_property).each do |value|
-          if BigDecimal.new(value) >= BigDecimal.new(front_end_property.value.to_s)
+          if front_end_property.value.nil? or BigDecimal.new(value) >= BigDecimal.new(front_end_property.value)
             match = true
           end
         end

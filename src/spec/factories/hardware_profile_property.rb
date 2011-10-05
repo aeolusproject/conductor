@@ -243,4 +243,11 @@ FactoryGirl.define do
     value nil
   end
 
+  factory :hwpp_nil_storage, :parent => :hardware_profile_property do
+    name 'storage'
+    kind 'enum'
+    unit 'GB'
+    value nil
+  end
+
 end

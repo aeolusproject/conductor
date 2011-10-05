@@ -95,7 +95,7 @@ describe HardwareProfile do
     front_end_cpu = FactoryGirl.create(:hwpp_fixed, :name => 'cpu', :unit => 'count', :value => '2')
     front_end_architecture = FactoryGirl.create(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    back_end_memory1 = FactoryGirl.create(:hwpp_range, :name => 'memory', :unit => 'MB', :value => '4048', :range_first => '1024', :range_last => '4048')
+    back_end_memory1 = create_hwpp_enum(['1024', '2048', '4048'], {:name => 'memory', :unit => 'MB', :value => '4048'})
     back_end_storage1 = create_hwpp_enum(['500', '1500', '2000'], {:name => 'storage', :unit => 'GB', :value => '1500'})
     back_end_cpu1 = FactoryGirl.create(:hwpp_range, :name => 'cpu', :unit => 'count', :value => '4', :range_first => '1', :range_last => '4')
     back_end_architecture1 = FactoryGirl.create(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
@@ -215,6 +215,13 @@ describe HardwareProfile do
     overrides[:cpu].should_not be_blank
   end
 
+  it "should handle nils in enum values in generate_override_property_values" do
+    p = create_hwpp_enum(['500', '1500', '2000'], {:name => 'storage', :unit => 'GB', :value => '1500'})
+    fe_hwp = Factory.create(:front_end_nil_storage)
+    be_hwp = Factory.create(:mock_hwp2, :storage => p)
+    overrides = HardwareProfile.generate_override_property_values(fe_hwp, be_hwp)
+    overrides[:storage].should_not be_blank
+  end
 
   def create_hwpp_enum(value_array, properties = {})
     hwpp_enum = FactoryGirl.create(:hwpp_enum, properties)
