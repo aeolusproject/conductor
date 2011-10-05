@@ -39,6 +39,7 @@ describe Api::ProviderImagesController do
         @timage = mock(Aeolus::Image::Warehouse::TargetImage,
                        :uuid => '300')
         @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
+                       :id => '17',
                        :uuid => '17',
                        :icicle => '30',
                        :object_type => 'provider_image',
@@ -66,6 +67,7 @@ describe Api::ProviderImagesController do
         @timage = mock(Aeolus::Image::Warehouse::TargetImage,
                        :uuid => '300')
         @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
+                       :id => '17',
                        :uuid => '17',
                        :icicle => '30',
                        :object_type => 'provider_image',

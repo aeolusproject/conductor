@@ -1,9 +1,12 @@
 !!!XML
 %target_image{:id => image.uuid, :href => api_target_image_url(image.uuid) }
-  %icicle= image.icicle
-  %object_type= image.object_type
-  %template= image.template
-  %build{:href=>api_build_url(image.build.uuid), :id=>image.build.uuid}
-  %provider_images
-    - image.provider_images.each do |pimg|
-      %provider_image{:id => pimg.uuid, :href => api_provider_image_url(pimg.uuid)}
+  - if @image.respond_to?('status')
+    %status=@image.status
+  - else
+    %icicle= image.icicle
+    %object_type= image.object_type
+    %template= image.template
+    %build{:href=>api_build_url(image.build.uuid), :id=>image.build.uuid}
+    %provider_images
+      - image.provider_images.each do |pimg|
+        %provider_image{:id => pimg.uuid, :href => api_provider_image_url(pimg.uuid)}

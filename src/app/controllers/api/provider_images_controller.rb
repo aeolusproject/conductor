@@ -37,7 +37,15 @@ module Api
       if @image
         respond_with(@image)
       else
-        render :nothing => true, :status => 404
+        status = Aeolus::Image::Factory::ProviderImage.status(id)
+        if !status.nil?
+          @image = Aeolus::Image::Factory::ProviderImage.new(:id => id,
+                                                             :href => api_provider_image_url(id),
+                                                             :status => status)
+          respond_with(@image)
+        else
+          render :text => "Resource Not Found", :status => 404
+        end
       end
     end
 

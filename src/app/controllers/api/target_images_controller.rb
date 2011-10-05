@@ -41,5 +41,22 @@ module Api
       end
     end
 
+    def show
+      id = params[:id]
+      @image = Aeolus::Image::Warehouse::TargetImage.find(id)
+      if @image
+        respond_with(@image)
+      else
+        status = Aeolus::Image::Factory::TargetImage.status(id)
+        if !status.nil?
+          @image = Aeolus::Image::Factory::TargetImage.new(:id => id,
+                                                           :href => api_target_image_url(id),
+                                                           :status => status)
+          respond_with(@image)
+        else
+          render :text => "Resource Not Found", :status => 404
+        end
+      end
+    end
   end
 end
