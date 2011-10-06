@@ -94,8 +94,9 @@ class ProviderAccountsController < ApplicationController
         render :action => 'new' and return
       end
     rescue Exception => e
+      error = humanize_error(e.message, :context => :deltacloud)
       flash[:error] = "#{t('provider_accounts.index.account_not_added', :list => @provider_account.name,
-        :count => 1)}: #{e.message}"
+        :count => 1)}: #{error}"
       render :action => 'new' and return
     end
   end

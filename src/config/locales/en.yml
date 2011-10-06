@@ -298,3 +298,6 @@ en:
         certificate: "Could not validate config server connection (url: %{url}).  Certificate error: %{msg}"
         unhandled_response: "Could not validate config server connection (url: %{url}).  HTTP Status Code: %{code}"
   uptime: Uptime
+  deltacloud:
+    unreachable: "Deltacloud is unreachable. Please verify that it is running."
+  connection_refused: "The connection to the remote host was refused."

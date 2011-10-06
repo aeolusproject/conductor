@@ -259,4 +259,20 @@ class ApplicationController < ActionController::Base
     ]
   end
 
+  # Try to clean up and internationalize certain errors we get from other components
+  # Accepts a string or an Exception
+  def humanize_error(error, options={})
+    error = error.message if error.is_a?(Exception)
+    if error.match("Connection refused - connect\\(2\\)")
+      if options[:context] == :deltacloud
+        return t('deltacloud.unreachable')
+      else
+        return t('connection_refused')
+      end
+    else
+      # Nothing else matched
+      error
+    end
+  end
+
 end
