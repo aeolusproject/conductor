@@ -28,16 +28,6 @@ describe ProvidersController do
     mock_warden(@admin)
   end
 
-  describe "provide ui to view hardware profiles" do
-    before do
-      get :edit, :id => @provider.id, :details_tab => 'hardware_profiles', :format => :js
-    end
-
-    it { response.should render_template(:partial => 'hardware_profiles/_list') }
-    it { response.should be_success }
-    it { assigns[:hardware_profiles].size.should == @provider.hardware_profiles.size }
-  end
-
   describe "provide ui to view realms" do
     before do
       get :show, :id => @provider.id, :details_tab => 'realms', :format => :js
