@@ -190,6 +190,7 @@ Conductor::Application.routes.draw do
     post 'create'
   end
 
+  get 'api', :controller => 'api/entrypoint', :action => 'index'
   namespace :api do
     resources :images do
       resources :builds
