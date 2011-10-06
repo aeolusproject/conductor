@@ -39,7 +39,7 @@ FactoryGirl.define do
     name 'cpu'
     kind 'fixed'
     unit 'count'
-    value 1.0
+    value 1
   end
 
   factory :mock_hwp1_arch, :parent => :hardware_profile_property do
@@ -71,10 +71,38 @@ FactoryGirl.define do
     name 'cpu'
     kind 'fixed'
     unit 'count'
-    value 2.0
+    value 2
   end
 
   factory :mock_hwp2_arch, :parent => :hardware_profile_property do
+    name 'architecture'
+    kind 'fixed'
+    unit 'label'
+    value 'x86_64'
+  end
+
+  factory :mock_hwp_fake_memory, :parent => :hardware_profile_property do
+    name 'memory'
+    kind 'fixed'
+    unit 'MB'
+    value 1740.8
+  end
+
+  factory :mock_hwp_fake_storage, :parent => :hardware_profile_property do
+    name 'storage'
+    kind 'fixed'
+    unit 'GB'
+    value 160
+  end
+
+  factory :mock_hwp_fake_cpu, :parent => :hardware_profile_property do
+    name 'cpu'
+    kind 'fixed'
+    unit 'count'
+    value 1
+  end
+
+  factory :mock_hwp_fake_arch, :parent => :hardware_profile_property do
     name 'architecture'
     kind 'fixed'
     unit 'label'
@@ -159,7 +187,7 @@ FactoryGirl.define do
     name 'cpu'
     kind 'fixed'
     unit 'count'
-    value 1.0
+    value 1
   end
 
   factory :ec2_hwp1_arch, :parent => :hardware_profile_property do

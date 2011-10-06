@@ -15,11 +15,11 @@ Given /^there is a "([^"]*)" hardware profile$/ do |arg1|
 end
 
 def create_hwp(hash, provider=nil)
-  memory = FactoryGirl.create(:mock_hwp1_memory, :value => hash[:memory])
-  storage = FactoryGirl.create(:mock_hwp1_storage, :value => hash[:storage])
-  cpu = FactoryGirl.create(:mock_hwp1_cpu, :value => hash[:cpu])
-  arch = FactoryGirl.create(:mock_hwp1_arch, :value => hash[:architecture])
-  FactoryGirl.create(:mock_hwp1, :name => hash[:name], :memory => memory, :cpu => cpu, :storage => storage, :architecture => arch, :provider => provider)
+  memory = FactoryGirl.create(:mock_hwp_fake_memory, :value => hash[:memory])
+  storage = FactoryGirl.create(:mock_hwp_fake_storage, :value => hash[:storage])
+  cpu = FactoryGirl.create(:mock_hwp_fake_cpu, :value => hash[:cpu])
+  arch = FactoryGirl.create(:mock_hwp_fake_arch, :value => hash[:architecture])
+  FactoryGirl.create(:mock_hwp_fake, :name => hash[:name], :memory => memory, :cpu => cpu, :storage => storage, :architecture => arch, :provider => provider)
 end
 
 When /^I enter the following details for the Hardware Profile Properties$/ do |table|

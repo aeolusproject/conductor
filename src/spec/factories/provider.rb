@@ -52,4 +52,8 @@ FactoryGirl.define do
     enabled false
   end
 
+  factory :mock_provider_for_vcr_data, :parent => :mock_provider do
+    name "mock"
+    after_create { |p| p.provider_accounts << FactoryGirl.create(:mock_provider_account, :provider => p) }
+  end
 end

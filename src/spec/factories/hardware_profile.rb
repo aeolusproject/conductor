@@ -28,7 +28,7 @@ FactoryGirl.define do
     storage { |p| p.association(:mock_hwp1_storage) }
     cpu { |p| p.association(:mock_hwp1_cpu) }
     architecture { |p| p.association(:mock_hwp1_arch) }
-    sequence(:external_key) { |n| "mock_hwp1_key#{n}" }
+    sequence(:external_key) { |n| "m1-small" }
   end
 
   factory :mock_hwp2, :parent => :hardware_profile do
@@ -36,7 +36,15 @@ FactoryGirl.define do
     storage { |p| p.association(:mock_hwp2_storage) }
     cpu { |p| p.association(:mock_hwp2_cpu) }
     architecture { |p| p.association(:mock_hwp2_arch) }
-    external_key 'mock_hwp2_key'
+    external_key 'm1-large'
+  end
+
+  factory :mock_hwp_fake, :parent => :hardware_profile do
+    memory { |p| p.association(:mock_hwp_fake_memory) }
+    storage { |p| p.association(:mock_hwp_fake_storage) }
+    cpu { |p| p.association(:mock_hwp_fake_cpu) }
+    architecture { |p| p.association(:mock_hwp_fake_arch) }
+    sequence(:external_key) { |n| "mock_hwp_fake_key#{n}" }
   end
 
   factory :front_hwp1, :parent => :hardware_profile do

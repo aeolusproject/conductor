@@ -37,7 +37,7 @@ Given /^there are these providers:$/ do |table|
 end
 
 Given /^this provider has (\d+) hardware profiles$/ do |number|
-  number.to_i.times { |i| FactoryGirl.create(:mock_hwp1, :provider => @provider) }
+  number.to_i.times { |i| FactoryGirl.create(:mock_hwp_fake, :provider => @provider) }
 end
 
 
