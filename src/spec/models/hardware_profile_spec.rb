@@ -146,9 +146,9 @@ describe HardwareProfile do
     back_end_cpu = FactoryGirl.create(:hwpp_range, :name => 'cpu', :unit => 'count', :value => '4', :range_first => '1', :range_last => '8')
     back_end_architecture = FactoryGirl.create(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
-    HardwareProfile.generate_override_property_value(front_end_memory, back_end_memory).should == '2048'
+    HardwareProfile.generate_override_property_value(front_end_memory, back_end_memory).should == 2048
     HardwareProfile.generate_override_property_value(front_end_storage, back_end_storage).should == '1500'
-    HardwareProfile.generate_override_property_value(front_end_cpu, back_end_cpu).should == '2'
+    HardwareProfile.generate_override_property_value(front_end_cpu, back_end_cpu).should == 2
   end
 
   it "should correctly match a front end hardware profile with a back end hardware profile" do
@@ -215,6 +215,7 @@ describe HardwareProfile do
     overrides[:cpu].should_not be_blank
   end
 
+
   it "should handle nils in enum values in generate_override_property_values" do
     p = create_hwpp_enum(['500', '1500', '2000'], {:name => 'storage', :unit => 'GB', :value => '1500'})
     fe_hwp = Factory.create(:front_end_nil_storage)
@@ -222,6 +223,15 @@ describe HardwareProfile do
     overrides = HardwareProfile.generate_override_property_values(fe_hwp, be_hwp)
     overrides[:storage].should_not be_blank
   end
+
+  it "should return an integer for ranged values" do
+    fe_hwp = Factory.create(:front_end_with_floats)
+    be_hwp = Factory.create(:back_hwp_ranged_cpu)
+    overrides = HardwareProfile.generate_override_property_values(fe_hwp, be_hwp)
+    overrides[:cpu].is_a?(Integer).should be_true
+  end
+
+
 
   def create_hwpp_enum(value_array, properties = {})
     hwpp_enum = FactoryGirl.create(:hwpp_enum, properties)

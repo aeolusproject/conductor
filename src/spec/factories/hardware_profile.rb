@@ -110,4 +110,13 @@ FactoryGirl.define do
     external_key 'front_nil_storage'
   end
 
+  factory :front_end_with_floats, :parent => :hardware_profile do
+    memory { |p| p.association(:front_hwp3_memory) }
+    storage { |p| p.association(:front_hwp3_storage) }
+    cpu { |p| p.association(:hwpp_float_cpu) }
+    architecture { |p| p.association(:front_hwp3_arch) }
+    name 'front_float_cpu'
+    external_key 'front_float_cpu'
+  end
+
 end

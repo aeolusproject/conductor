@@ -161,7 +161,7 @@ class HardwareProfile < ActiveRecord::Base
       when "fixed"
         return back_end_property.value
       when "range"
-        return front_end_property.value.present? ? front_end_property.value : back_end_property.value
+        return front_end_property.value.present? ? front_end_property.value.to_i : back_end_property.value
       when "enum"
         create_array_from_property(back_end_property).sort!.each do |value|
           if front_end_property.value.nil? or BigDecimal.new(value) >= BigDecimal.new(front_end_property.value)

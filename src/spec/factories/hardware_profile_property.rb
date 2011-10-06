@@ -278,4 +278,11 @@ FactoryGirl.define do
     value nil
   end
 
+  factory :hwpp_float_cpu, :parent => :hardware_profile_property do
+    name 'cpu'
+    kind 'fixed'
+    unit 'count'
+    value 1.0
+  end
+
 end
