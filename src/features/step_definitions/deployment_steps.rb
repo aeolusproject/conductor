@@ -1,7 +1,8 @@
 Given /^there is a deployment named "([^"]*)" belonging to "([^"]*)" owned by "([^"]*)"$/ do |deployment_name, deployable_name, owner_name|
   user = FactoryGirl.create(:user, :login => owner_name, :last_name => owner_name)
-  @deployment = Deployment.new({:name => deployment_name, :pool => Pool.first, :owner => user})
-  @deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable1.xml")
+  @deployment = Factory.create(:deployment, {:name => deployment_name, :pool => Pool.first, :owner => user})
+  instance = Factory.create(:instance, {:deployment => @deployment})
+  @deployment.instances << instance
   @deployment.save
 end
 
@@ -23,7 +24,13 @@ Then /^I should see (\d+) deployments in JSON format$/ do |arg1|
 end
 
 Given /^a deployment "([^"]*)" exists$/ do |arg1|
-  FactoryGirl.create(:deployment, :name => arg1) unless Deployment.find_by_name(arg1)
+  @deployment = Deployment.find_by_name(arg1)
+  if not @deployment
+    @deployment = FactoryGirl.create(:deployment, :name => arg1)
+    instance = Factory.create(:instance, {:deployment => @deployment})
+    @deployment.instances << instance
+  end
+  @deployment
 end
 
 Given /^the deployment "([^"]*)" has an instance named "([^"]*)"$/ do |d_name, i_name|

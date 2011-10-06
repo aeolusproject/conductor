@@ -28,7 +28,9 @@ end
 
 Given /^a pool "([^"]*)" exists with deployment "([^"]*)"$/ do |pool_name, deployment_name|
   pool = Pool.find_by_name(pool_name) || FactoryGirl.create(:pool, :name => pool_name)
-  deployment = Deployment.new(:name => deployment_name, :pool => pool, :owner => User.first)
+  deployment = Factory.create(:deployment, {:name => deployment_name, :pool => pool, :owner => User.first})
+  instance = Factory.create(:instance, :deployment => deployment)
+  deployment.stub(:instances){[instance]}
   deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable1.xml")
   deployment.save!
 end

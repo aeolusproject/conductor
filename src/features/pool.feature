@@ -177,7 +177,7 @@ Feature: Manage Pools
     Given a pool "mockpool" exists with deployment "mockdeployment"
     When I am viewing the pool "mockpool"
     And I follow link with ID "pretty_view"
-    Then I should see "0 Instances" within ".content.collapsible.toggle-view.pools"
+    Then I should not see "0 Instances" within ".content.collapsible.toggle-view.pools"
 
   Scenario: Pools#show filter view
     Given a pool "mockpool" exists with deployment "mockdeployment"
