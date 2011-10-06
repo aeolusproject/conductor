@@ -140,7 +140,7 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/catalog_entries app/views/catalogs \
       app/views/provider_types app/views/api/images \
       app/views/api/builds app/views/api/provider_images \
-      app/views/api/target_images"
+      app/views/api/target_images app/views/api/entrypoint"
 html="public"
 ico="public"
 jpg="public/images public/stylesheets/images"
@@ -157,7 +157,7 @@ rake="lib/tasks"
 rb="app/models app/controllers app/controllers/api app/helpers app/services app/util \
     config config/initializers config/environments db db/migrate \
     features/support features/step_definitions lib spec spec/controllers \
-    spec/factories spec/helpers spec/models spec/services"
+    spec/factories spec/helpers spec/models spec/services spec/controllers/api"
 rhtml="app/views/layouts"
 svg="public/images public/images/icons public/javascripts/jquery-svg"
 ttf="public/fonts"
