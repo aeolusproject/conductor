@@ -41,8 +41,8 @@ EXTRA_RELEASE = ".$(GIT_RELEASE)"
 endif
 
 dist:
-	sed -e "s|@VERSION@|0.4.0|;s|^\(Release:[^%]*\)|\1$(EXTRA_RELEASE)|" aeolus-conductor.spec.in > aeolus-conductor.spec
-	sed -e "s|@VERSION@|0.4.0|;s|^\(Release:[^%]*\)|\1$(EXTRA_RELEASE)|" aeolus-all.spec.in > aeolus-all.spec
+	sed -e "s|@VERSION@|$(VERSION)|;s|^\(Release:[^%]*\)|\1$(EXTRA_RELEASE)|" aeolus-conductor.spec.in > aeolus-conductor.spec
+	sed -e "s|@VERSION@|$(VERSION)|;s|^\(Release:[^%]*\)|\1$(EXTRA_RELEASE)|" aeolus-all.spec.in > aeolus-all.spec
 
 	mkdir -p dist/aeolus-conductor-$(VERSION)
 	cp -a aeolus-conductor.spec AUTHORS conf COPYING Makefile src \
