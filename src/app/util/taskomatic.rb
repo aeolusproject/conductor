@@ -157,6 +157,7 @@ module Taskomatic
                            :hwp_cpu => overrides[:cpu],
                            :hwp_storage => overrides[:storage],
                            :realm_id => (match.realm.external_key rescue nil),
+                           :user_data => (instance.user_data),
                            :keyname => (instance.instance_key.name rescue nil))
   end
 
