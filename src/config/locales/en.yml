@@ -266,6 +266,8 @@ en:
       account_not_added:
         one: "Account %{list} could not be added"
         other: "Accounts %{list} could not be added"
+      config_server_saved: "Config Server data was successfully saved"
+      config_server_not_saved: "An error occurred while saving the Config Server data."
     new:
       new_provider_account: New Account
       required_field: Required field.
@@ -283,4 +285,16 @@ en:
       account_number: AWS Account ID
       account_private_cert: EC2 x509 private key
       account_public_cert: EC2 x509 public key
+  config_servers:
+    certificate_help: Provide a certificate to enable https support
+    new:
+      new_config_server: New Config Server
+    edit:
+      edit_config_server: Edit Config Server
+    errors:
+      connection:
+        generic: "Could not validate config server connection (url: %{url}).  Check the connection parameters and try again."
+        generic_with_message: "Could not validate config server connection (url: %{url}).  %{msg}"
+        certificate: "Could not validate config server connection (url: %{url}).  Certificate error: %{msg}"
+        unhandled_response: "Could not validate config server connection (url: %{url}).  HTTP Status Code: %{code}"
   uptime: Uptime

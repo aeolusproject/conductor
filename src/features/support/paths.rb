@@ -110,6 +110,13 @@ module NavigationHelpers
     when /^(.*)'s new provider account page$/
       new_provider_provider_account_path(Provider.find_by_name($1))
 
+    when /the new config server page/
+      url_for new_config_server_path
+
+    when /^the edit config server page/
+      @config_server.stub!(:connection_valid?).and_return(true)
+      edit_config_server_path(@config_server)
+
     when /the operational status of deployment page/
       deployment_path(@deployment, :details_tab => 'operation')
 
@@ -134,7 +141,6 @@ module NavigationHelpers
 
     when /^the (.*)'s edit user page$/
       edit_user_path(User.find_by_login($1))
-
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

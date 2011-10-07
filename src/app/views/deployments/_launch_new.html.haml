@@ -62,7 +62,7 @@
         $('#deployable-url-section').show();
       }
     });
-    $('#deployment_name').keyup(function(e) {
+    $('#deployment_name').blur(function(e) {
       e.preventDefault();
       $.get('#{check_name_deployments_path}', {name: $('#deployment_name').val() }, function(data) {
         $('#name_avail_indicator').html(data == "false" ? "That name is already in use" : "Name available");

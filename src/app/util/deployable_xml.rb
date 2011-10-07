@@ -21,6 +21,12 @@ require 'util/assembly_xml'
 
 class DeployableXML
   class ValidationError < RuntimeError; end
+=begin
+  <deployable name="deployable_name">
+    <description>Description</description>
+    <assemblies> ... (see assembly_xml.rb) </assemblies>
+  </deployable>
+=end
 
   def initialize(xmlstr = "")
     @doc = Nokogiri::XML(xmlstr)
@@ -41,7 +47,7 @@ class DeployableXML
     raise ValidationError, "<deployable> element not found" unless @root
     errors = []
     errors << "deployable name not found" unless name
-    if assemblies.size > 0
+    unless assemblies.empty?
       assemblies.each do |assembly|
         begin
           assembly.validate!
@@ -64,6 +70,10 @@ class DeployableXML
 
   def image_uuids
     @image_uuids ||= @root.xpath('/deployable/assemblies/assembly/image').collect{|x| x['id']}
+  end
+
+  def requires_config_server?
+    assemblies.any? {|assembly| assembly.requires_config_server? }
   end
 
   def self.import_xml_from_url(url)

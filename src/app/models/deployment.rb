@@ -34,6 +34,7 @@
 #
 
 require 'util/deployable_xml'
+require 'util/config_server_util'
 
 class Deployment < ActiveRecord::Base
   include PermissionedObject
@@ -145,7 +146,11 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def launch(user)
+  def launch(user, config_values = nil)
+    if deployable_xml.requires_config_server?
+      return launch_in_single_account(user, config_values)
+    end
+
     status = { :errors => {}, :successes => {} }
     deployable_xml.assemblies.each do |assembly|
       # TODO: for now we try to start all instances even if some of them fails
@@ -322,5 +327,75 @@ class Deployment < ActiveRecord::Base
   def permissioned_frontend_hwprofile(user, hwp_name)
     HardwareProfile.list_for_user(user, Privilege::VIEW,
       :conditions => ['hardware_profiles.name = :name AND provider_id IS NULL', {:name => hwp_name}]).first
+  end
+
+  def launch_in_single_account(user, config_values = nil)
+    # first, create all the instance objects,
+    # then find if there is at least a single account where they can all launch,
+    # then generate the instance configs for the instances,
+    # then, for each instance send the instance configs to the config server,
+    # and launch the instance
+    #
+    # TODO: need to be able to handle deployable-level errors
+    #
+    status = { :errors => {}, :successes => {} }
+    assembly_instances = {}
+    deployable_xml.assemblies.each do |assembly|
+      begin
+        Instance.transaction do
+          hw_profile = HardwareProfile.frontend.find_by_name(assembly.hwp)
+          raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
+          instance = Instance.create!(
+              :deployment => self,
+              :name => "#{name}/#{assembly.name}",
+              :frontend_realm => frontend_realm,
+              :pool => pool,
+              :image_uuid => assembly.image_id,
+              :image_build_uuid => assembly.image_build,
+              :assembly_xml => assembly.to_s,
+              :state => Instance::STATE_NEW,
+              :owner => user,
+              :hardware_profile => hw_profile
+          )
+          assembly_instances[assembly.name] = instance
+        end
+      rescue
+        logger.error $!.message
+        logger.error $!.backtrace.join("\n    ")
+        status[:errors][assembly.name] = $!.message
+      end
+    end
+    matches, errors = Instance.matches(assembly_instances.values)
+    if matches.empty?
+      #TODO:need to have a way to show the errors in a meaningful way
+      status[:errors][name] = errors
+      return status
+    end
+    found = matches.first
+    config_server = found.account.config_server
+    instance_configs = ConfigServerUtil.instance_configs(deployable_xml, config_values, config_server)
+    assembly_instances.each do |assembly_name, instance|
+      config = instance_configs[assembly_name]
+      begin
+        instance.user_data = config.user_data
+        instance.instance_config_xml = config.to_s
+        instance.save!
+        task = InstanceTask.create!({:user        => user,
+                                     :task_target => instance,
+                                     :action      => InstanceTask::ACTION_CREATE})
+        config_server.send_config(config)
+        condormatic_instance_create(task, found)
+        if task.state == Task::STATE_FAILED
+          status[:errors][assembly_name] = 'failed'
+        else
+          status[:successes][assembly_name] = 'launched'
+        end
+      rescue
+        logger.error $!.message
+        logger.error $!.backtrace.join("\n    ")
+        status[:errors][assembly_name] = $!.message
+      end
+    end
+    status
   end
 end

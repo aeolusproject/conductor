@@ -147,6 +147,12 @@ Conductor::Application.routes.draw do
     delete 'multi_destroy', :on => :collection
   end
 
+  resources :config_servers do
+    member do
+      get 'test'
+    end
+  end
+
   resources :roles do
     delete 'multi_destroy', :on => :collection
   end

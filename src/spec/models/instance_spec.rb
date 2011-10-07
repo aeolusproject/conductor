@@ -263,4 +263,54 @@ describe Instance do
       deployment.all_instances_running?.should be_true
     end
   end
+  it "should match if the account has a config server and the instance has configs" do
+    build = @instance.image_build || @instance.image.latest_build
+    provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
+    account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount_config_server', :provider => provider)
+    config_server = FactoryGirl.create(:mock_config_server, :provider_account => account)
+    @pool.pool_family.provider_accounts = [account]
+
+    @instance.stub!(:requires_config_server?).and_return(true)
+
+    matches, errors = @instance.matches
+    matches.should_not be_empty
+    matches.first.account.should eql(account)
+  end
+
+  it "should not match if the account does not have a config server and the instance has configs" do
+    build = @instance.image_build || @instance.image.latest_build
+    provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
+    account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount_no_config_server', :provider => provider)
+    @pool.pool_family.provider_accounts = [account]
+
+    @instance.stub!(:requires_config_server?).and_return(true)
+
+    matches, errors = @instance.matches
+    matches.should be_empty
+    errors.should_not be_empty
+    errors.select {|e| e.include?("no config server available") }.should_not be_empty
+  end
+
+  it "should match only the intersecting provider accounts for all instances" do
+    account1 = FactoryGirl.create(:mock_provider_account, :label => "test_account1")
+    possible1 = Possible.new(nil,account1,nil,nil,nil)
+    account2 = FactoryGirl.create(:mock_provider_account, :label => "test_account2")
+    possible2 = Possible.new(nil,account2,nil,nil,nil)
+    account3 = FactoryGirl.create(:mock_provider_account, :label => "test_account3")
+    possible3 = Possible.new(nil,account3,nil,nil,nil)
+
+    # not gonna test the individual instance "machtes" logic again
+    # just stub out the behavior
+    instance1 = Factory.build(:instance)
+    instance1.stub!(:matches).and_return([[possible1, possible2], []])
+    instance2 = Factory.build(:instance)
+    instance2.stub!(:matches).and_return([[possible2, possible3], []])
+    instance3 = Factory.build(:instance)
+    instance3.stub!(:matches).and_return([[possible2], []])
+
+    instances = [instance1, instance2, instance3]
+    matches, errors = Instance.matches(instances)
+    matches.should_not be_empty
+    matches.first.account.should eql(account2)
+  end
 end

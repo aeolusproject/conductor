@@ -29,6 +29,9 @@ Capybara.default_selector = :css
 #
 ActionController::Base.allow_rescue = false
 
+# Pull in the ability to stub out methods
+require 'spec/stubs/cucumber'
+
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin

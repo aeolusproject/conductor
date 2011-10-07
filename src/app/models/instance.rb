@@ -46,6 +46,7 @@
 #  updated_at              :datetime
 #  deployment_id           :integer
 #  assembly_xml            :text
+#  instance_config_xml     :text
 #  image_uuid              :string(255)
 #  image_build_uuid        :string(255)
 #  provider_image_uuid     :string(255)
@@ -56,6 +57,8 @@
 # Likewise, all the methods added will be available for all controllers.
 
 require 'util/assembly_xml'
+require 'util/instance_config_xml'
+
 class Instance < ActiveRecord::Base
   include PermissionedObject
 
@@ -185,6 +188,12 @@ class Instance < ActiveRecord::Base
     @assembly_xml ||= AssemblyXML.new(self[:assembly_xml].to_s)
   end
 
+  def instance_config_xml
+    if not self[:instance_config_xml].nil?
+      @instance_config_xml ||= InstanceConfigXML.new(self[:instance_config_xml].to_s)
+    end
+  end
+
   # Provide method to check if requested action exists, so caller can decide
   # if they want to throw an error of some sort before continuing
   # (ie in service api)
@@ -284,6 +293,10 @@ class Instance < ActiveRecord::Base
     (state == STATE_CREATE_FAILED) or (state == STATE_STOPPED and not restartable?)
   end
 
+  def requires_config_server?
+    not instance_config_xml.nil? or assembly_xml.requires_config_server?
+  end
+
   def self.list(order_field, order_dir)
     Instance.all(:include => [ :owner ],
                  :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
@@ -330,6 +343,10 @@ class Instance < ActiveRecord::Base
       end
       if account.quota.reached?
         errors << "#{account.name}: provider account quota reached"
+        next
+      end
+      if requires_config_server? and account.config_server.nil?
+        errors << "#{account.name}: no config server available for provider account"
         next
       end
       account_images.each do |pi|
@@ -381,6 +398,33 @@ class Instance < ActiveRecord::Base
 
   def first_running?
     not deployment.instances.deployed.any? {|i| i != self}
+  end
+
+  # find the list of possibles that will accommodate all of the instances
+  def self.matches(instances)
+    matches = nil
+    errors = []
+    instances.each do |instance|
+      m, e = instance.matches
+      if matches.nil?
+        matches = m.dup
+      else
+        matches.delete_if {|match| not m.include?(match) }
+      end
+      errors << e
+    end
+    # For now, this only checks the account's quota to see whether all the
+    # instances can launch there
+    # TODO:  Determine if there's more to check here
+    matches.reject! do |match|
+      rejected = false
+      if !match.account.quota.can_start? instances
+        errors << "#{match.account} quota limit too low to launch deployable"
+        rejected = true
+      end
+      rejected
+    end
+    [matches, errors]
   end
 
   private

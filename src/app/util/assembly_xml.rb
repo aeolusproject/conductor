@@ -17,8 +17,18 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
+require 'util/config_tooling_xml'
+require 'util/service_xml'
+
 class AssemblyXML
   class ValidationError < RuntimeError; end
+=begin Assembly XML Format
+  <assembly name="assembly_name" hwp="hardware_profile">
+    <image id="image_id"/>
+    <tooling> ... (see config_tooling_xml.rb) </tooling>
+    <services> ... (see service_xml.rb) </services>
+  </assembly>
+=end
 
   def initialize(xmlstr = "")
     @doc = Nokogiri::XML(xmlstr)
@@ -31,6 +41,7 @@ class AssemblyXML
   end
 
   def validate!
+    # hmm...seems like all this validation should be replaced by relaxNG
     raise ValidationError, "Assembly XML root element not found" unless @doc.root
     raise ValidationError, "<assembly> element not found" unless @root
     errors = []
@@ -46,6 +57,22 @@ class AssemblyXML
       end
     else
       errors << "<image> element not found"
+    end
+    if config_tooling
+      begin
+        config_tooling.validate!
+      rescue ConfigToolingXML::ValidationError => e
+        errors << e.message
+      end
+    end
+    unless services.empty?
+      services.each do |service|
+        begin
+          service.validate!
+        rescue ServiceXML::ValidationError => e
+          errors << e.message
+        end
+      end
     end
     raise ValidationError, errors.join(", ") unless errors.empty?
   end
@@ -66,4 +93,27 @@ class AssemblyXML
     @image["build"] if @image
   end
 
+  def requires_config_server?
+    not (config_tooling.nil? and services.empty? and output_parameters.empty?)
+  end
+
+  def config_tooling
+    @config_tooling ||= if @root and @root.at_xpath('tooling')
+      ConfigToolingXML.new(@root.at_xpath('tooling').to_s)
+    end
+  end
+
+  def services
+    @services ||=
+      @root.xpath('services/service').collect do |service_node|
+      ServiceXML.new(service_node.to_s)
+    end
+  end
+
+  def output_parameters
+    @output_parameters ||=
+      @root.xpath('returns/parameter').collect do |parameter_node|
+      parameter_node['name']
+    end
+  end
 end
