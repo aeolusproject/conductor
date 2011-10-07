@@ -6,11 +6,5 @@
     %h2 New Config Server
 
   .content
-    = error_messages_for :config_server
-    %h2
-      = t('config_servers.new.new_config_server')
-    - form_for(@config_server, :url => config_servers_path) do |f|
-      = render :partial => 'config_server_form', :locals => {:from => "new"}
-      -#%fieldset
-        .grid_13.alpha.omega
-          = f.submit t(:add), :class => "ra nomargin dialogbutton"
+    = form_for @config_server, :url => config_servers_path, :html => {:class => "generic"} do |f|
+      = render :partial => 'config_server_form', :locals => {:form => f }

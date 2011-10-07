@@ -38,27 +38,27 @@ class ConfigServer < ActiveRecord::Base
   class ConnectionStatus
     attr_reader :state, :message
     def initialize
-      @state = :UNTESTED
+      @state = :untested
     end
 
     def untested?
-      return :UNTESTED == @state
+      @state == :untested
     end
 
     def fail!(message)
-      @state = :FAILURE
+      @state = :failure
       @message = message
     end
     def fail?
-      return :FAILURE == @state
+       @state == :failure
     end
 
     def success!(message=nil)
-      @state = :SUCCESS
+      @state = :success
       @message = message
     end
     def success?
-      return :SUCCESS == @state
+      @state == :success
     end
   end
   @@status_fields = [:host, :port, :username, :password, :certificate]

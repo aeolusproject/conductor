@@ -63,12 +63,14 @@ class Deployment < ActiveRecord::Base
   validate :pool_must_be_enabled
 
   before_destroy :destroyable?
+  before_create :inject_launch_parameters
 
   SEARCHABLE_COLUMNS = %w(name)
   USER_MUTABLE_ATTRS = ['name']
   STATE_MIXED = "mixed"
 
   validate :validate_xml
+  validate :validate_launch_parameters
 
   def validate_xml
     begin
@@ -76,6 +78,18 @@ class Deployment < ActiveRecord::Base
     rescue DeployableXML::ValidationError => e
       errors.add(:deployable_xml, e.message)
     end
+  end
+
+  def validate_launch_parameters
+    launch_parameters.each do |asm, services|
+      services.each do |service, params|
+        params.each do |param, value|
+          if value.blank?
+            errors.add(:launch_parameters, "#{asm}.#{service}.#{param} cannot be blank")
+          end
+        end
+      end
+  end
   end
 
   def pool_must_be_enabled
@@ -144,6 +158,14 @@ class Deployment < ActiveRecord::Base
     else
       raise ActionError.new 'all instances must be stopped or running'
     end
+  end
+
+  def launch_parameters
+    @launch_parameters ||= {}
+  end
+
+  def launch_parameters=(launch_parameters)
+    @launch_parameters = launch_parameters
   end
 
   def launch(user, config_values = nil)
@@ -397,5 +419,15 @@ class Deployment < ActiveRecord::Base
       end
     end
     status
+  end
+
+  def inject_launch_parameters
+    launch_parameters.each_pair do |assembly, svcs|
+      svcs.each_pair do |service, params|
+        params.each_pair do |param, value|
+          deployable_xml.set_parameter_value(assembly, service, param, value)
+        end
+      end
+    end
   end
 end

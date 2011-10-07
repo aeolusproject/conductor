@@ -1,0 +1,12 @@
+- service.parameters.each do |parameter|
+  %tr
+    %td{:width => "30%", :style => "text-align:right"}
+      = parameter.name
+    %td{:style => "text-align:left"}
+      - if not parameter.reference?
+        - if service.name
+          = text_field_tag "deployment[launch_parameters][#{assembly}][#{service.name}][#{parameter.name}]", parameter.value
+        - else
+          = text_field_tag "deployment[launch_parameters][#{assembly}][##EMPTY##][#{parameter.name}]", parameter.value
+      - else
+        = "Reference to #{parameter.reference_string}"

@@ -249,12 +249,12 @@ module ConfigServerUtil
           val = nil
           if vals[param.name]
             val = ValueParameterConfig.new(param.name, vals[param.name])
-          elsif param.default
-            val = ValueParameterConfig.new(param.name, param.default)
-          elsif param.reference
-            assembly_uuid = @assembly_uuids[param.reference.assembly]
+          elsif param.value
+            val = ValueParameterConfig.new(param.name, param.value)
+          elsif param.reference?
+            assembly_uuid = @assembly_uuids[param.reference_assembly]
             val = ReferenceParameterConfig.new(param.name,
-                      assembly_uuid, param.reference.parameter)
+                      assembly_uuid, param.reference_parameter)
           else
             raise InstanceConfigError, "No value provided for parameter.  " +
               "Assembly: #{@assembly.name}, Service: #{service.name}, " +

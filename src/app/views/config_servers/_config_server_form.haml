@@ -1,22 +1,24 @@
-%fieldset.clearfix
-  - if not @config_server.id.nil?
-    = hidden_field_tag "config_server[id]", @config_server.id
-  = hidden_field_tag "provider_account_id", @provider_account.id
-  = label_tag "config_server[host]", "Host: "
-  = text_field_tag "config_server[host]", @config_server.host
-%fieldset.clearfix
-  = label_tag "config_server[port]", "Port: "
-  = text_field_tag "config_server[port]", @config_server.port
-%fieldset.clearfix
-  = label_tag "config_server[username]", "Username: "
-  = text_field_tag "config_server[username]", @config_server.username
-%fieldset.clearfix
-  = label_tag "config_server[password]", "Password: "
-  = password_field_tag "config_server[password]", @config_server.password
-%fieldset.clearfix
-  = label_tag "config_server[certificate]", "Certificate: "
-  = text_area_tag "config_server[certificate]", @config_server.certificate, :rows => 20, :cols => 64
-  = t('config_servers.certificate_help')
-%fieldset.clearfix
-  .grid_13.alpha.omega
-    = submit_tag t(:save), :class => "ra nomargin dialogbutton"
+= error_messages_for @config_server
+%fieldset
+  %p
+    = hidden_field_tag "provider_account_id", @provider_account.id
+    = form.label :host
+    = form.text_field :host, :class => 'em long'
+  %p
+    = form.label :port
+    = form.text_field :port
+  %p
+    = form.label :username
+    = form.text_field :username
+  %p
+    = form.label :password
+    = password_field_tag "config_server[password]", @config_server.password
+  %p
+    = form.label :certificate
+    %div.help
+      = t('config_servers.certificate_help')
+    = form.text_area :certificate, :rows => 20, :cols => 64
+
+%fieldset.options
+  = link_to t(:cancel), provider_account_path(@provider_account), :class => "button danger"
+  = submit_tag t(:save), :name => "save", :class => "button", :id => "save_button"

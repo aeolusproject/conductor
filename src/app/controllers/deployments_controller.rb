@@ -21,6 +21,7 @@ class DeploymentsController < ApplicationController
   before_filter :load_deployments, :only => [:index, :show]
   before_filter :load_deployment, :only => [:edit, :update]
 
+
   viewstate :show do |default|
     default.merge!({
       :view => 'pretty',
@@ -329,4 +330,5 @@ class DeploymentsController < ApplicationController
       return c_entry.url
     end
   end
+
 end
