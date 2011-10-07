@@ -24,10 +24,14 @@ Feature: Manage Deployments
     Then I should see "MySQL Cluster"
     And I should see "bob"
 
+  #It's difficult to mock out all the dependencies to get the instance launching
+  #working in a testable scenario.
   Scenario: Launch new deployment
     Given a pool "mockpool" exists
     And there is "front_hwp1" conductor hardware profile
     And there is "front_hwp2" conductor hardware profile
+    And there is mock provider account "my_mock_provider"
+    And there is a provider account "my_mock_provider" related to pool family "default"
     When I am viewing the pool "mockpool"
     And I follow "new_deployment_button"
     Then I should see "New Deployment"
@@ -210,3 +214,38 @@ Feature: Manage Deployments
     Then I should see "Deployable details"
     And I should see "Some assemblies will not be launched:"
     And I should see "backend: Hardware Profile front_hwp2 not found."
+
+  Scenario: Verify that the launch parameters are displayed
+    Given a pool "mockpool" exists
+    And there is "front_hwp1" conductor hardware profile
+    And there is "front_hwp2" conductor hardware profile
+    And there is mock provider account "my_mock_provider"
+    And there is a provider account "my_mock_provider" related to pool family "default"
+    When  I am viewing the pool "mockpool"
+    And   I follow "New Deployment"
+    Then  I should see "New Deployment"
+    When  I fill in "deployable_url" with "http://localhost/deployables/deployable_with_launch_parameters.xml"
+    And   I fill in "deployment_name" with "deployment_with_launch_parameters"
+    And   I press "Next"
+    Then  I should see "Deployable details"
+    And   I should see "parameter_1"
+    And   I should see "parameter_2"
+
+  Scenario: Verify that the launch parameters are required
+    Given a pool "mockpool" exists
+    And there is "front_hwp1" conductor hardware profile
+    And there is "front_hwp2" conductor hardware profile
+    And there is mock provider account "my_mock_provider"
+    And there is a provider account "my_mock_provider" related to pool family "default"
+    When  I am viewing the pool "mockpool"
+    And   I follow "New Deployment"
+    Then  I should see "New Deployment"
+    When  I fill in "deployable_url" with "http://localhost/deployables/deployable_with_launch_parameters.xml"
+    And   I fill in "deployment_name" with "deployment_with_launch_parameters"
+    And   I press "Next"
+    Then  I should see "Deployable details"
+    And   I should see "launch_parameter_1"
+    And   I should see "launch_parameter_2"
+    When  I fill in "deployment_launch_parameters_assembly_with_launch_parameters_service_with_launch_parameters_launch_parameter_1" with "value_1"
+    And   I press "launch_deployment"
+    Then  I should see "launch_parameter_2 cannot be blank"
