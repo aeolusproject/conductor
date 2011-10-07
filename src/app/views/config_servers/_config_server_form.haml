@@ -1,4 +1,5 @@
-= error_messages_for @config_server
+- if @config_server.errors.any?
+  = render 'layouts/error_messages', :object => @config_server
 %fieldset
   %p
     = hidden_field_tag "provider_account_id", @provider_account.id
@@ -20,5 +21,5 @@
     = form.text_area :certificate, :rows => 20, :cols => 64
 
 %fieldset.options
-  = link_to t(:cancel), provider_account_path(@provider_account), :class => "button danger"
+  = link_to t(:cancel), provider_provider_account_path(@provider_account.provider, @provider_account), :class => "button danger"
   = submit_tag t(:save), :name => "save", :class => "button", :id => "save_button"

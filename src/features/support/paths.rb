@@ -104,7 +104,7 @@ module NavigationHelpers
     when /^(.*)'s edit hardware profile page$/
       edit_hardware_profile_path(HardwareProfile.find_by_name($1))
 
-    when /^(.*)'s provider ^(.*)'s provider account page$/
+    when /^(.*)'s provider (.*)'s provider account page$/
       provider_provider_account_path(Provider.find_by_name($1), ProviderAccount.find_by_label($2))
 
     when /^(.*)'s new provider account page$/

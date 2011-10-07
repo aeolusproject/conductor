@@ -27,7 +27,9 @@ class ConfigServersController < ApplicationController
     else
       flash[:notice] = "Test successful"
     end
-    redirect_to provider_account_path(config_server.provider_account.id)
+    provider_account = config_server.provider_account
+    provider = provider_account.provider
+    redirect_to provider_provider_account_path(provider, provider_account)
   end
 
   def create
@@ -44,7 +46,7 @@ class ConfigServersController < ApplicationController
     end
     @config_server.save!
     flash[:notice] = "Config server added."
-    redirect_to provider_account_path(@provider_account)
+    redirect_to provider_provider_account_path(@provider_account.provider, @provider_account)
   end
 
   def update
@@ -54,7 +56,7 @@ class ConfigServersController < ApplicationController
 
     if @config_server.update_attributes(params[:config_server])
       flash[:notice] = "Config server updated."
-      redirect_to provider_account_path(@provider_account)
+      redirect_to provider_provider_account_path(@provider_account.provider, @provider_account)
     else
       flash[:error] = "Config server was not updated"
       render :action => :edit
@@ -69,6 +71,8 @@ class ConfigServersController < ApplicationController
     else
       flash[:error] = "Config server was not deleted"
     end
-    redirect_to provider_account_path(@config_server.provider_account)
+    provider_account = @config_server.provider_account
+    provider = provider_account.provider
+    redirect_to provider_provider_account_path(provider, provider_account)
   end
 end

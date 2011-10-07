@@ -14,7 +14,7 @@ Given /^I am not sure about the config server credentials$/ do
 end
 
 Given /^there is a mock config server "(http|https):\/\/(.*):(.*)" for account "(.*)"$/ do |scheme,host,port,acc|
-  provider = Factory :mock_provider, :name => "mock_provider"
+  provider = Factory :mock_provider, :name => "mockprovider"
   mock_account = Factory :mock_provider_account, :label => acc, :provider => provider
   params = {:host => host, :port => port, :provider_account => mock_account}
   if "https" == scheme

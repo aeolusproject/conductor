@@ -21,21 +21,21 @@
       %td
         %label Config Server:
       %td
-        - missing_config_server = @account.config_server.nil?
+        - missing_config_server = @provider_account.config_server.nil?
         %span#config_server
-          = missing_config_server ? "None" : @account.config_server.base_url
+          = missing_config_server ? "None" : @provider_account.config_server.base_url
         %span#config_server_control
           - if missing_config_server
             [
-            = link_to 'Add', new_config_server_url + "?provider_account_id=#{@account.id}"
+            = link_to 'Add', new_config_server_url + "?provider_account_id=#{@provider_account.id}"
             ]
           - else
             [
-            = link_to 'Edit', edit_config_server_path(@account.config_server)
+            = link_to 'Edit', edit_config_server_path(@provider_account.config_server)
             ]
             [
-            = link_to 'Test', test_config_server_path(@account.config_server)
+            = link_to 'Test', test_config_server_path(@provider_account.config_server)
             ]
             [
-            = link_to 'Delete', config_server_path(@account.config_server), :method => 'delete', :confirm => "Are you sure you want to delete this config server?"
+            = link_to 'Delete', config_server_path(@provider_account.config_server), :method => 'delete', :confirm => "Are you sure you want to delete this config server?"
             ]

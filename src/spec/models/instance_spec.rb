@@ -274,7 +274,7 @@ describe Instance do
 
     matches, errors = @instance.matches
     matches.should_not be_empty
-    matches.first.account.should eql(account)
+    matches.first.provider_account.should eql(account)
   end
 
   it "should not match if the account does not have a config server and the instance has configs" do
@@ -293,11 +293,11 @@ describe Instance do
 
   it "should match only the intersecting provider accounts for all instances" do
     account1 = FactoryGirl.create(:mock_provider_account, :label => "test_account1")
-    possible1 = Possible.new(nil,account1,nil,nil,nil)
+    possible1 = Instance::Match.new(nil,account1,nil,nil,nil)
     account2 = FactoryGirl.create(:mock_provider_account, :label => "test_account2")
-    possible2 = Possible.new(nil,account2,nil,nil,nil)
+    possible2 = Instance::Match.new(nil,account2,nil,nil,nil)
     account3 = FactoryGirl.create(:mock_provider_account, :label => "test_account3")
-    possible3 = Possible.new(nil,account3,nil,nil,nil)
+    possible3 = Instance::Match.new(nil,account3,nil,nil,nil)
 
     # not gonna test the individual instance "machtes" logic again
     # just stub out the behavior
@@ -311,6 +311,6 @@ describe Instance do
     instances = [instance1, instance2, instance3]
     matches, errors = Instance.matches(instances)
     matches.should_not be_empty
-    matches.first.account.should eql(account2)
+    matches.first.provider_account.should eql(account2)
   end
 end
