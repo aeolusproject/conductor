@@ -313,6 +313,14 @@ class Instance < ActiveRecord::Base
       @provider_image = provider_image
       @realm = realm
     end
+
+    def ==(other)
+      self.pool_family == other.pool_family &&
+        self.provider_account == other.provider_account &&
+        self.hwp == other.hwp &&
+        self.provider_image == other.provider_image &&
+        self.realm == other.realm
+    end
   end
 
   def matches
