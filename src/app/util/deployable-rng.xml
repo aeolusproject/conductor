@@ -24,7 +24,9 @@
   <start>
     <element name="deployable">
       <attribute name="name"><text/></attribute>
-      <element name="description"><text/></element>
+      <optional>
+        <element name="description"><text/></element>
+      </optional>
       <ref name="assemblies-definition"/>
     </element>
   </start>
