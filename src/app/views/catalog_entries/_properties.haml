@@ -20,4 +20,4 @@
       %td
         %label{:name => 'url'} URL:
       %td
-        = @catalog_entry.url
+        = link_to @catalog_entry.url, catalog_entry_path(@catalog_entry.id, :deployable_xml => true)

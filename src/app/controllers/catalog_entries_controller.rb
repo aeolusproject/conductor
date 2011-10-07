@@ -33,6 +33,15 @@ class CatalogEntriesController < ApplicationController
   end
 
   def show
+    if params[:deployable_xml]
+      if redirect_to_deployable_xml?
+        redirect_to @catalog_entry.url 
+        return
+      end
+
+      flash[:warning] = "Catalog entry XML file is either invalid or no longer reachable at #{@catalog_entry.url}"
+      redirect_to catalog_path(@catalog_entry.owner)
+    end
     @catalog_entry = CatalogEntry.find(params[:id])
     require_privilege(Privilege::VIEW, @catalog_entry)
     save_breadcrumb(catalog_entry_path(@catalog_entry), @catalog_entry.name)
@@ -104,6 +113,12 @@ class CatalogEntriesController < ApplicationController
       { :name => t("catalogs.index.catalog_name"), :sortable => false },
       { :name => t("catalog_entries.index.url"), :sortable => :url }
     ]
+  end
+
+  def redirect_to_deployable_xml?
+    @catalog_entry = CatalogEntry.find(params[:id])
+    require_privilege(Privilege::VIEW, @catalog_entry)
+    @catalog_entry.accessible_and_valid_deployable_xml?(@catalog_entry.url)
   end
 
   def load_catalogs

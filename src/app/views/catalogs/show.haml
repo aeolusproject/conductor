@@ -31,4 +31,5 @@
         %td
           = link_to catalog_entry.name, catalog_entry_path(catalog_entry.id)
         %td
-          = catalog_entry.url
+          = link_to catalog_entry.url, catalog_entry_path(catalog_entry.id, :deployable_xml => true)
+
