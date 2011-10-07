@@ -43,9 +43,13 @@ describe Api::BuildsController do
                       :name => 'test',
                       :description => 'test image')
 
+        @target_image = mock(Aeolus::Image::Warehouse::TargetImage,
+                        :uuid => "1")
+
         @build = mock(Aeolus::Image::Warehouse::ImageBuild,
                       :uuid => '10',
-                      :image => @image)
+                      :image => @image,
+                      :target_images => [@target_image])
 
         Aeolus::Image::Warehouse::ImageBuild.stub(:all).and_return([@build])
         get :index
@@ -69,9 +73,13 @@ describe Api::BuildsController do
                       :name => 'test',
                       :description => 'test image')
 
+        @target_image = mock(Aeolus::Image::Warehouse::TargetImage,
+                        :uuid => "1")
+
         @build = mock(Aeolus::Image::Warehouse::ImageBuild,
                       :uuid => '10',
-                      :image => @image)
+                      :image => @image,
+                      :target_images => [@target_image])
 
         Aeolus::Image::Warehouse::ImageBuild.stub(:find).and_return(@build)
         get :show, :id => '10'
