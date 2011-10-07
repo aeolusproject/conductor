@@ -305,11 +305,15 @@ class Deployment < ActiveRecord::Base
   end
 
   def deployment_state
-    return instances.first.state if not instances.empty? and instances.length == 1
-    oracle = instances.first.state
-    instances.each do |i|
-      return STATE_MIXED if i.state != oracle
+    unless instances.empty?
+      return instances.first.state if not instances.empty? and instances.length == 1
+      oracle = instances.first.state
+      instances.each do |i|
+        return STATE_MIXED if i.state != oracle
+      end
+      return oracle
+    else
+      return
     end
-    return oracle
   end
 end
