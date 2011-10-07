@@ -56,7 +56,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-require 'util/assembly_xml'
+require 'util/deployable_xml'
 require 'util/instance_config_xml'
 
 class Instance < ActiveRecord::Base
@@ -419,8 +419,8 @@ class Instance < ActiveRecord::Base
     # TODO:  Determine if there's more to check here
     matches.reject! do |match|
       rejected = false
-      if !match.account.quota.can_start? instances
-        errors << "#{match.account} quota limit too low to launch deployable"
+      if !match.provider_account.quota.can_start? instances
+        errors << "#{match.provider_account} quota limit too low to launch deployable"
         rejected = true
       end
       rejected

@@ -42,6 +42,9 @@
           <!-- the image id corresponds to an image warehouse image id -->
           <element name="image">
             <attribute name="id"><text/></attribute>
+            <optional>
+              <attribute name="build"><text/></attribute>
+            </optional>
           </element>
           <optional>
             <ref name="services-definition"/>
@@ -67,7 +70,7 @@
     </element>
   </define>
 
-  <!-- tooling describes the executable, additional files, and runtime
+  <!-- service describes the executable, additional files, and runtime
        parameters that should be propagated to the launched instance -->
   <define name="service-configuration-definition">
     <element name="executable">

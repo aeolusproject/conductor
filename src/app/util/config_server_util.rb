@@ -116,8 +116,8 @@ module ConfigServerUtil
     end
 
     def executable
-      @executable ||= if @svc.config_tooling and @svc.config_tooling.executable
-        @svc.config_tooling.executable
+      @executable ||= if @svc.executable
+        @svc.executable
       end
     end
 
@@ -136,7 +136,7 @@ module ConfigServerUtil
       unless files.empty?
         xml "  <files>\n"
         files.each do |file|
-          xml "    <file url='#{file.url}'/>\n"
+          xml "    <file url='#{file}'/>\n"
         end
         xml "  </files>\n"
       end
@@ -196,19 +196,6 @@ module ConfigServerUtil
       xml "<instance-config id='#{@uuid}' name='#{@assembly.name}'"
       xml " password='#{password}'" if password
       xml ">\n  <deployable name='#{@deployable_name}' id='#{@deployable_id}'/>\n"
-      if @assembly.config_tooling
-        config_tooling = @assembly.config_tooling
-        if config_tooling.executable
-          xml "  <executable url='#{config_tooling.executable}'/>\n"
-        end
-        unless config_tooling.files.empty?
-          xml "  <files>\n"
-          config_tooling.files.map do |f|
-            xml "    <file url='#{f.url}'/>\n"
-          end.join
-          xml "  </files>\n"
-        end
-      end
       xml "  <provided-parameters>\n"
       provided_parameters.map do |p|
         xml "    <provided-parameter name='#{p}'/>\n"
@@ -222,14 +209,14 @@ module ConfigServerUtil
 
     private
     def executable
-      @executable ||= if @assembly.config_tooling and @assembly.config_tooling.executable
-        @assembly.config_tooling.executable
+      @executable ||= if @assembly.executable
+        @assembly.executable
       end
     end
 
     def files
-      @files ||= unless @assembly.config_tooling.nil? or @assembly.config_tooling.files.empty?
-        @assembly.config_tooling.files.map {|f| f.url }
+      @files ||= unless @assembly.files.empty?
+        @assembly.files
       end
     end
 

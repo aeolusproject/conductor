@@ -410,7 +410,7 @@ class Deployment < ActiveRecord::Base
       return status
     end
     found = matches.first
-    config_server = found.account.config_server
+    config_server = found.provider_account.config_server
     instance_configs = ConfigServerUtil.instance_configs(deployable_xml, config_values, config_server)
     assembly_instances.each do |assembly_name, instance|
       config = instance_configs[assembly_name]

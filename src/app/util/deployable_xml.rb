@@ -113,8 +113,8 @@ class AssemblyXML
     if xmlstr_or_node.is_a? Nokogiri::XML::Node
       @root = xmlstr_or_node
     else
-      doc = Nokogiri::XML(xmlstr)
-      @root = doc.root.at_xpath("/assembly") if doc.root
+      doc = Nokogiri::XML(xmlstr_or_node)
+      @root = doc.at_xpath("./assembly") if doc.root
     end
   end
 
@@ -133,6 +133,14 @@ class AssemblyXML
 
   def image_id
     @image_id ||= image['id']
+  end
+
+  def name
+    @name ||= @root['name']
+  end
+
+  def hwp
+    @hwp ||= @root['hwp']
   end
 
   def image_build
