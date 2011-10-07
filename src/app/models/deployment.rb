@@ -193,6 +193,7 @@ class Deployment < ActiveRecord::Base
             :owner => user,
             :hardware_profile => hw_profile
           )
+
           task = InstanceTask.create!({:user        => user,
                                        :task_target => instance,
                                        :action      => InstanceTask::ACTION_CREATE})
@@ -379,6 +380,21 @@ class Deployment < ActiveRecord::Base
               :owner => user,
               :hardware_profile => hw_profile
           )
+          # store the assembly's parameters
+          assembly.services.each do |service|
+            service.parameters.each do |parameter|
+              if not parameter.reference?
+                param = InstanceParameter.create!(
+                  :instance => instance,
+                  :service => service.name,
+                  :name => parameter.name,
+                  :type => parameter.type,
+                  :value => parameter.value
+                )
+              end
+            end
+          end
+
           assembly_instances[assembly.name] = instance
         end
       rescue
@@ -406,7 +422,7 @@ class Deployment < ActiveRecord::Base
                                      :task_target => instance,
                                      :action      => InstanceTask::ACTION_CREATE})
         config_server.send_config(config)
-        condormatic_instance_create(task, found)
+        Taskomatic.create_instance(task)
         if task.state == Task::STATE_FAILED
           status[:errors][assembly_name] = 'failed'
         else

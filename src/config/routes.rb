@@ -120,6 +120,7 @@ Conductor::Application.routes.draw do
     member do
       get 'key'
     end
+    resources :instance_parameters
   end
 
   resources :image_imports

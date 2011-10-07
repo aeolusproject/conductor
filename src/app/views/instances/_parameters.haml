@@ -1,0 +1,10 @@
+%h3
+  Config Parameters for
+  = @instance.name
+%ul
+  - @instance.instance_parameters.each do |parameter|
+    %li
+      = parameter.service
+      = parameter.name
+      = parameter.type
+      = parameter.value

@@ -122,8 +122,8 @@ module ConfigServerUtil
     end
 
     def files
-      @files ||= if @svc.config_tooling and not @svc.config_tooling.files.empty?
-        @svc.config_tooling.files.map {|f| f.url}
+      @files ||= if not @svc.files.empty?
+        @svc.files
       else []; end
     end
 
