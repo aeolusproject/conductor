@@ -25,7 +25,6 @@ FactoryGirl.define do
       deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable1.xml")
     end
   end
-
   factory :deployment_with_launch_parameters, :parent => :deployment do
     after_build do |deployment|
       deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable_with_launch_parameters.xml")

@@ -183,4 +183,18 @@ describe Deployment do
     deployment.stub(:instances){[instance, instance2]}
     deployment.deployment_state.should == Deployment::STATE_MIXED
   end
+
+  it "should not have any instance parameters" do
+    @deployment = Factory.build :deployment
+    instance = Factory.build(:mock_running_instance, :deployment => @deployment)
+    @deployment.stub(:instances){[instance]}
+    @deployment.instances[0].instance_parameters.should be_empty
+  end
+
+  it "should have instance parameters" do
+    d = Factory.build :deployment_with_launch_parameters
+    instance = Factory.build(:mock_running_instance, :deployment => d)
+    d.stub(:instances){[instance]}
+    d.instances[0].instance_parameters.count.should >= 0
+  end
 end
