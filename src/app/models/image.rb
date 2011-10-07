@@ -50,13 +50,15 @@ class Image < WarehouseModel
     target_images = Aeolus::Image::Warehouse::TargetImage.all
     builds = Aeolus::Image::Warehouse::ImageBuild.all
     return_objs = {}
-    images.each do |image|
-      _builds = builds.select{|b| b.instance_variable_get('@image') == image.uuid}
-      _builds.each do |build|
-        _target_images = target_images.select{|ti| ti.instance_variable_get('@build') == build.uuid}
-        _target_images.each do |target_image|
-          _provider_images = provider_images.select{|pi| pi.instance_variable_get('@target_image') == target_image.uuid}
-          return_objs[image.uuid] = _provider_images
+    unless images.nil? 
+      images.each do |image|
+        _builds = builds.select{|b| b.instance_variable_get('@image') == image.uuid}
+        _builds.each do |build|
+          _target_images = target_images.select{|ti| ti.instance_variable_get('@build') == build.uuid}
+          _target_images.each do |target_image|
+            _provider_images = provider_images.select{|pi| pi.instance_variable_get('@target_image') == target_image.uuid}
+            return_objs[image.uuid] = _provider_images
+          end
         end
       end
     end
