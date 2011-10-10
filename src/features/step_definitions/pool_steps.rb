@@ -110,3 +110,17 @@ Given /^there are (\d+) pools$/ do |arg1|
     FactoryGirl.create :pool, :name => "pool#{i}"
   end
 end
+
+Given /^"([^"]*)" has catalog "([^"]*)"$/ do |pool_name, catalog_name|
+  pool_family = PoolFamily.find_by_name('default') || FactoryGirl.create(:pool_family)
+  quota = FactoryGirl.create(:quota)
+  pool = Pool.find_by_name('mockpool') || Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota, :enabled => true)
+  catalog = FactoryGirl.create :catalog, :name => catalog_name, :pool => pool
+end
+
+Given /^"([^"]*)" has catalog_entry "([^"]*)"$/ do |catalog_name, catalog_entry_name|
+  catalog_entry = FactoryGirl.create :catalog_entry, :name => catalog_entry_name
+  catalog = Catalog.find_by_name(catalog_name)
+  catalog_entry.catalog = catalog
+  catalog_entry.save!
+end

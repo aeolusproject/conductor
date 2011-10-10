@@ -45,24 +45,24 @@ class Image < WarehouseModel
   # images should be an array of Aeolus::Image::Warehouse::Image objects
   # Please don't shoot me for this!
   def self.provider_images_for_image_list(images)
-    # Fetch all of these, but only once
-    provider_images = Aeolus::Image::Warehouse::ProviderImage.all
-    target_images = Aeolus::Image::Warehouse::TargetImage.all
-    builds = Aeolus::Image::Warehouse::ImageBuild.all
-    return_objs = {}
     unless images.nil? 
-      images.each do |image|
-        _builds = builds.select{|b| b.instance_variable_get('@image') == image.uuid}
-        _builds.each do |build|
-          _target_images = target_images.select{|ti| ti.instance_variable_get('@build') == build.uuid}
-          _target_images.each do |target_image|
-            _provider_images = provider_images.select{|pi| pi.instance_variable_get('@target_image') == target_image.uuid}
-            return_objs[image.uuid] = _provider_images
+      # Fetch all of these, but only once
+      provider_images = Aeolus::Image::Warehouse::ProviderImage.all
+      target_images = Aeolus::Image::Warehouse::TargetImage.all
+      builds = Aeolus::Image::Warehouse::ImageBuild.all
+      return_objs = {}
+        images.each do |image|
+          _builds = builds.select{|b| b.instance_variable_get('@image') == image.uuid}
+          _builds.each do |build|
+            _target_images = target_images.select{|ti| ti.instance_variable_get('@build') == build.uuid}
+            _target_images.each do |target_image|
+              _provider_images = provider_images.select{|pi| pi.instance_variable_get('@target_image') == target_image.uuid}
+              return_objs[image.uuid] = _provider_images
+            end
           end
         end
-      end
+      return_objs
     end
-    return_objs
   end
 
 end

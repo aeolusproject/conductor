@@ -199,3 +199,11 @@ Feature: Manage Pools
     And I should see "mock1"
     And I should see "mock2"
     And I should see "mock3"
+
+Scenario: Select Catalog Images on pool detail page
+    Given a pool "mockpool" exists
+    And "mockpool" has catalog "mockcatalog"
+    And "mockcatalog" has catalog_entry "mockcatalogentry" 
+    When I am viewing the pool "mockpool"
+    And I follow link with ID "details_images"
+    Then I should see "mockcatalog" within "#tab"

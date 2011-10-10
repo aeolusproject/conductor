@@ -71,7 +71,7 @@ class CatalogEntry < ActiveRecord::Base
       fetch_image_uuids.each do |uuid|
         images << Aeolus::Image::Warehouse::Image.find(uuid)
       end
-      images.compact.uniq
+      return images.compact.uniq
     end
   end
 
