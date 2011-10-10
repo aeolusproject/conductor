@@ -111,7 +111,8 @@ describe Deployment do
       provider_name = Image.find(image_id).latest_build.provider_images.first.provider_name
       provider = FactoryGirl.create(:mock_provider, :name => provider_name)
       @deployment.pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
-      @user_for_launch = FactoryGirl.create(:user)
+      admin_perms = FactoryGirl.create :admin_permission
+      @user_for_launch = admin_perms.user
     end
 
     it "should return errors when checking assemblies matches which are not launchable" do
@@ -121,6 +122,15 @@ describe Deployment do
     end
 
     it "should launch instances when launching deployment" do
+      @deployment.save!
+      @deployment.instances.should be_empty
+
+      Taskomatic.stub!(:create_instance).and_return(true)
+      @deployment.launch(@user_for_launch)[:errors].should be_empty
+      @deployment.instances.count.should == 2
+    end
+
+    it "should not launch instances if user has no access to hardware profile" do
       @deployment.save!
       @deployment.instances.should be_empty
 

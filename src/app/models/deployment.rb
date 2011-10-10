@@ -152,7 +152,7 @@ class Deployment < ActiveRecord::Base
       begin
         task = nil
         Instance.transaction do
-          hw_profile = HardwareProfile.frontend.find_by_name(assembly.hwp)
+          hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
           raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
           instance = Instance.create!(
             :deployment => self,
@@ -220,7 +220,7 @@ class Deployment < ActiveRecord::Base
     errs = {}
     deployable_xml.assemblies.each do |assembly|
       begin
-        hw_profile = HardwareProfile.frontend.find_by_name(assembly.hwp)
+        hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
         raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
         instance = Instance.new(
           :deployment => self,
@@ -315,5 +315,12 @@ class Deployment < ActiveRecord::Base
     else
       return
     end
+  end
+
+  private
+
+  def permissioned_frontend_hwprofile(user, hwp_name)
+    HardwareProfile.list_for_user(user, Privilege::VIEW,
+      :conditions => ['hardware_profiles.name = :name AND provider_id IS NULL', {:name => hwp_name}]).first
   end
 end
