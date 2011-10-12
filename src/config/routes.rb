@@ -205,6 +205,12 @@ Conductor::Application.routes.draw do
    # :except => [:new, :edit]
   end
 
+  scope "/api" do
+    resources :providers, :as => 'api_providers', :only => [:index, :show]
+    resources :provider_accounts, :as => 'api_provider_accounts', :only => [:index, :show]
+    resources :provider_types, :as => 'api_provider_types', :only => [:index, :show]
+  end
+
   #match 'matching_profiles', :to => '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }, :as =>'matching_profiles'
   match     'dashboard', :to => 'dashboard', :as => 'dashboard'
   root      :to => "pools#index"
