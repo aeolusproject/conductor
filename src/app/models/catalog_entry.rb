@@ -32,7 +32,7 @@ class CatalogEntry < ActiveRecord::Base
   include PermissionedObject
 
   validates_presence_of :name
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :scope => :catalog_id
   validates_length_of :name, :maximum => 1024
   validates_presence_of :url
   validates_format_of :url, :with => URI::regexp
