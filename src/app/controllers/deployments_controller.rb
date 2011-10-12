@@ -47,7 +47,7 @@ class DeploymentsController < ApplicationController
     end
 
     @deployment = Deployment.new(:pool_id => @pool.id)
-    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE)
+    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE).select{|ce| ce.catalog.pool == @pool}
     init_new_deployment_attrs
     respond_to do |format|
       format.html
@@ -60,7 +60,7 @@ class DeploymentsController < ApplicationController
   def new
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
-    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE)
+    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE).select{|ce| ce.catalog.pool == @pool}
     require_privilege(Privilege::CREATE, Deployment, @pool)
     url = get_deployable_url
     respond_to do |format|
