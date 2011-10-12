@@ -2259,6 +2259,115 @@ ul.deployment-array.small + ul.deployment-array.small{
   margin-top: 10px;
 }
 
+/************************************************************************** */
+/********************************************* Launch from catalog elements */
+/************************************************************************** */
+
+.catalog_info{
+  text-align:center;
+  h3{
+    padding:20px 0px 20px 0px;
+  }
+  }
+.catalog_list{
+  position: relative;
+  vertical-align:center;
+}
+.catalog_list .more{
+  display:none;
+  width: 164px;
+  & > li.catalog{
+    width:100%;
+    text-align:left;
+    padding: 10px 0px 10px 0px;
+    margin: 0px !important;
+    a {
+      padding-left: 10px;
+    }
+  }
+  li.catalog:hover{
+    background:#C4E0F0;
+  }
+}
+.catalog_link{
+  background: url(../../images/deployment-button.png) no-repeat center;
+  padding: 7px 15px;
+}
+.catalog_link:hover{
+  background-color:#e0e0e0;
+  background: url(../../images/deployment-button-pressed.png) no-repeat center;
+
+  .more{
+    border: 1px solid #999999;
+    display:block;
+    position:absolute;
+    z-index:1;
+    background-color:#e0e0e0;
+    right:-15px;
+    top:5px;
+    -webkit-border-radius: 7px 0px 7px 7px; -moz-border-radius: 7px 0px 7px 7px; border-radius: 7px 0px 7px 7px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.50);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.50);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.50);
+  }
+}
+table.catalog_pretty {
+  width: 100%;
+  #border: 1px solid #ccc;
+  background-color: #efefef;
+  background: -moz-linear-gradient(top, #efefef 0%, #e0e0e0 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#efefef), color-stop(100%,#e0e0e0)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* Opera11.10+ */
+  background: -ms-linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* IE10+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#e0e0e0',GradientType=0 ); /* IE6-9 */
+  background: linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* W3C */
+  -webkit-border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; border-radius: 7px 7px 7px 7px;
+  tr {
+    padding:5px;
+    border-bottom: 1px solid #CCCCCC;
+
+  }
+
+  tr:last-child {
+    border:none;
+  }
+
+  td.info{
+    padding:5px;
+    width:80%;
+    h2.catalog_entry{
+      font-size: 16px;
+      margin-top: 6px;
+      display: inline-block;
+      padding: 6px 7px 7px 44px;
+      background: transparent url('../../images/deployment_large_icon_provider.png') no-repeat 8px center;
+      }
+    .catalog_entry_description{
+      padding-left: 44px;
+    }
+  }
+
+  td.controls{
+    text-align: right;
+    vertical-align: middle;
+    form div{
+      display:inline;
+    }
+  }
+
+  table{
+    width:90%;
+    tr td{
+      padding:10px;
+    }
+    tr th{
+      padding:10px;
+    }
+  }
+}
+
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Flat Table Component -- v.0.0.1 [flat_table] (flat_table.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

@@ -1,0 +1,58 @@
+= render :partial => 'layouts/nav_history'
+%header.page-header
+  %h1=@catalog.name
+  #obj_actions.button-container
+    = link_to 'Edit', edit_catalog_path(@catalog), :class => 'button pill', :id => 'edit_button'
+%span.catalog_info
+  %h3="Choose a deployable to launch in the #{@catalog.pool.name} pool"
+.content
+  %table.catalog_pretty
+    - @catalog_entries.each do |entry|
+      %tr.entry_row
+        %td.info
+          %h2.catalog_entry=entry.name
+          %div.catalog_entry_description=entry.description
+        %td.controls
+          =link_to "Details","#", :class => "collapse"
+          =#link_to "Select","#", :class=> "button pill"
+          =button_to "Select", launch_time_params_deployments_path(:deployment => { :name => entry.name, :pool_id => @catalog.pool.id }, :catalog_entry_id => entry.id ), :class=> "button pill"
+      %tr.details_row
+        %td
+          %table
+            %tr
+              %th
+                %h2 Image ID
+              %th Profile
+              %th HDD
+              %th RAM
+              %th ARCH
+            -entry.fetch_images.each do |image|
+              %tr
+                %td
+                  %h2=image.id
+                %td=entry.hw_profile_for_image(image.id).name
+                %td=entry.hw_profile_for_image(image.id).storage
+                %td=entry.hw_profile_for_image(image.id).memory
+                %td=entry.hw_profile_for_image(image.id).architecture
+        %td
+          %h2 Deployable URI
+          %span=entry.url
+  %div.align-center
+    %div
+      =will_paginate @catalog_entries
+    %div
+      = link_to 'Cancel', root_path, :class => 'button pill', :id => 'edit_button'
+
+:javascript
+  $(document).ready(function() {
+    $('.details_row').each(function(){
+      $(this).hide();
+    })
+    $('.entry_row').each(function(){
+      var this_row = this;
+      $(this).find('a.collapse').click(function(){
+        $(this_row).next().toggle();
+        return false;
+      });
+    })
+  });

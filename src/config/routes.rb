@@ -108,6 +108,7 @@ Conductor::Application.routes.draw do
       post 'launch_time_params'
       post 'overview'
       get 'check_name'
+      get 'launch_from_catalog'
     end
     resources :instances
   end

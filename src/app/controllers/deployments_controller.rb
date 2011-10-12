@@ -313,6 +313,11 @@ class DeploymentsController < ApplicationController
     render :text => deployment.nil?.to_s
   end
 
+  def launch_from_catalog
+    @catalog = Catalog.find(params[:catalog_id])
+    @catalog_entries = @catalog.catalog_entries.paginate(:page => params[:page] || 1, :per_page => 6)
+    require_privilege(Privilege::VIEW, @catalog)
+  end
   private
   def load_deployments
     @deployments = Deployment.paginate(:page => params[:page] || 1,

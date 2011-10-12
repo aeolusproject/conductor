@@ -80,4 +80,11 @@ class CatalogEntry < ActiveRecord::Base
     deployable.image_uuids unless deployable.nil?
   end
 
+  def hw_profile_for_image(image_id)
+    fetch_deployable.assemblies.each do |as|
+      if as.image_id == image_id
+       return HardwareProfile.find_by_name(as.hwp)
+      end
+    end
+  end
 end
