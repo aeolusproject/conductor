@@ -82,13 +82,14 @@ class ParameterXML
 end
 
 class ServiceXML
-  def initialize(name, executable, files, parameters)
+  def initialize(name, description, executable, files, parameters)
     @name = name
+    @description = description
     @executable = executable
     @file_nodes = files || []
     @parameter_nodes = parameters || []
   end
-  def name; @name; end
+  attr_reader :name, :description
 
   def executable
     @executable['url'] if @executable
@@ -176,10 +177,11 @@ class AssemblyXML
     # collect the service level tooling
     nil_if_empty(@root.xpath("./services/service").collect do |service|
       name = service['name']
+      description = service.at_xpath('./description')
       exe = service.at_xpath("./executable")
       files = service.xpath("./files/file")
       parameters = service.xpath("./parameters/parameter")
-      ServiceXML.new(name, exe, files, parameters)
+      ServiceXML.new(name, (description and description.text), exe, files, parameters)
     end)
   end
 

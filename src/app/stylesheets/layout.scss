@@ -372,6 +372,18 @@ http://github.com/necolas/css3-github-buttons
     padding: 0;
     border: 0;
 }
+.button.disabled, .button[disabled] {
+  cursor: default;
+  background: transparent;
+  opacity: 0.6;
+  /* @include no-box-shadow; */
+  &:hover {
+    background: transparent;
+    text-decoration: none;
+    color: inherit;
+    text-shadow: inherit;
+  }
+}
 
 /* ------------------------------------------------------------------ Icons */
 

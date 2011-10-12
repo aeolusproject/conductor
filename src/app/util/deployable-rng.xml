@@ -66,6 +66,9 @@
       <oneOrMore>
         <element name="service">
           <attribute name="name"><text/></attribute>
+          <optional>
+            <element name="description"><text/></element>
+          </optional>
           <ref name="service-configuration-definition"/>
         </element>
       </oneOrMore>

@@ -51,3 +51,108 @@ ul.deployment-array.small li.deployment {
 .hidden {
   display: none;
 }
+
+
+.launch-time-params h2 {
+  font-size: 16px;
+  font-weight: normal;
+  text-align: center;
+}
+
+$services_width: 250px;
+$services_border: 1px solid #b0b0b0;
+$services_background: #efefef;
+
+form.generic section.services {
+  position: relative;
+  border: $services_border;
+  margin: 1em;
+  padding: 0 0 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  border-radius: 1em;
+  min-height: 300px;
+  background: $services_background;
+  overflow: hidden;
+
+
+  h4.service {
+    font-size: 14px;
+    font-weight: normal;
+    position: relative;
+    z-index: 1;
+    $left_padding: 26px;
+    padding: 0.5em 0 0.5em $left_padding;
+    width: $services_width - $left_padding + 1px;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      background: darken($services_background, 20%);
+      cursor: pointer;
+    }
+    &.selected {
+      background: $services_background;
+      border-bottom: $services_border;
+      cursor: default;
+    }
+    &.filled-out {
+      background-image: url('../../images/filled_out_params_indicator.png');
+      background-repeat: no-repeat;
+      background-position: 8px center;
+    }
+  }
+
+  .parameters {
+    display: none;
+    position: absolute;
+    top: 88px;
+    left: $services_width;
+    padding: 1em;
+  }
+
+  #service-headers {
+    position: absolute;
+    z-index: 0;
+    background: transparent url('../../images/services_bg.png') repeat top center;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-right: $services_border;
+    width: $services_width;
+
+    $left-corners: 1em 0 0 1em;
+    -webkit-border-radius: $left-corners;
+    -moz-border-radius: $left-corners;
+    border-radius: $left-corners;
+  }
+
+
+  header {
+    background-image: none;
+    background: #dddddd;
+    margin-left: $services_width;
+    padding: 1em;
+    height: 40px;
+
+    $topright-corner: 0 1em 0 0;
+    -webkit-border-radius: $topright-corner;
+    -moz-border-radius: $topright-corner;
+    border-radius: $topright-corner;
+
+    h3 {
+      font-size: 22px;
+      font-weight: normal;
+    }
+  }
+
+  label {
+    display: block;
+    float: left;
+    min-width: 120px;
+    text-align: right;
+    padding: 6px 7px 5px 0px;
+    font-size: 14px;
+    text-shadow: 0px 1px 0px #ffffff;
+    font-weight: normal;
+  }
+}

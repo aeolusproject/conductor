@@ -105,6 +105,7 @@ Conductor::Application.routes.draw do
       get 'multi_stop'
       delete :multi_destroy
       get 'launch_new'
+      post 'launch_time_params'
       get 'check_name'
     end
     resources :instances

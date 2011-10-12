@@ -102,6 +102,9 @@ en:
       other: "The deployments %{list} could not be deleted."
     none_selected: "You must select one or more deployments."
     state: State
+    launch_time_params:
+      configure_launch_time_params: "Configure launch-time parameters for your deployment:"
+      finalize: Finalize
   instances:
     instances: Instances
     updated:

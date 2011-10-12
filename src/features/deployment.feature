@@ -227,9 +227,9 @@ Feature: Manage Deployments
     When  I fill in "deployable_url" with "http://localhost/deployables/deployable_with_launch_parameters.xml"
     And   I fill in "deployment_name" with "deployment_with_launch_parameters"
     And   I press "Next"
-    Then  I should see "Deployable details"
-    And   I should see "parameter_1"
-    And   I should see "parameter_2"
+    Then  I should see "Configure launch-time parameters"
+    And   I should see "Parameter 1"
+    And   I should see "Parameter 2"
 
   Scenario: Verify that the launch parameters are required
     Given a pool "mockpool" exists
@@ -243,9 +243,11 @@ Feature: Manage Deployments
     When  I fill in "deployable_url" with "http://localhost/deployables/deployable_with_launch_parameters.xml"
     And   I fill in "deployment_name" with "deployment_with_launch_parameters"
     And   I press "Next"
-    Then  I should see "Deployable details"
-    And   I should see "launch_parameter_1"
-    And   I should see "launch_parameter_2"
+    Then  I should see "Configure launch-time parameters"
+    And   I should see "Launch Parameter 1"
+    And   I should see "Launch Parameter 2"
     When  I fill in "deployment_launch_parameters_assembly_with_launch_parameters_service_with_launch_parameters_launch_parameter_1" with "value_1"
-    And   I press "launch_deployment"
+    And   I press "submit_params"
+    Then  I should see "Deployable details"
+    When   I press "launch_deployment"
     Then  I should see "launch_parameter_2 cannot be blank"

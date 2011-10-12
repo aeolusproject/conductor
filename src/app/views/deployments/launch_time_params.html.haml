@@ -1,0 +1,67 @@
+= render :partial => 'layouts/nav_history'
+%header.page-header
+  %h1.deployments
+    = [@deployment.pool.name, "Pool"].join(' ')
+  .corner &nbsp;
+
+%section.content-section.deployments.launch-time-params
+  %h2= t('.configure_launch_time_params')
+  = form_for @deployment, :url => new_deployment_path, :html => {:method => :get, :class => 'generic'} do
+    = hidden_field :deployment, :name
+    = hidden_field :deployment, :pool_id
+    = hidden_field :deployment, :frontend_realm_id
+    = hidden_field_tag :catalog_entry_id, params[:catalog_entry_id]
+    = hidden_field_tag :deployable_url, params[:deployable_url]
+
+    %section.services
+      %header
+        %h3.service
+        %p.description
+
+      - @services.each do |service, assembly_name|
+        %h4.service= service.name.titleize
+        %p.hidden.description= service.description
+
+        .parameters
+          - service.parameters.each do |parameter|
+            .parameter
+              - if not parameter.reference?
+                - id = "deployment[launch_parameters][#{assembly_name}][#{service.name}][#{parameter.name}]"
+                = label_tag id, parameter.name.titleize + ':'
+                = text_field_tag id, parameter.value
+              - else
+                = "Reference to #{parameter.reference_string}"
+
+      #service-headers
+
+    = submit_tag t('.finalize'), :class => 'button primary', :id => 'submit_params'
+
+:javascript
+  (function () {
+    function selectService($service) {
+      $('.service.selected').next().next('.parameters').hide();
+      $('.service.selected').removeClass('selected');
+      $service.addClass('selected');
+      $service.next().next('.parameters').show();
+
+      $service.parents('.services').find('header .service').text($service.text());
+      $service.parents('.services').find('header .description')
+          .text($service.next('.description').text());
+    }
+
+    var $services = $('.launch-time-params .services h4.service');
+    selectService($services.first());
+    $services.live('click', function(e) { selectService($(this)); });
+
+    $('#submit_params').attr('disabled', true);
+    $('.parameter input').live('keydown', function(e) {
+      $('.launch-time-params .parameters').each(function() {
+        var $parameters = $(this).find('.parameter input');
+        var filledOut = _.all($parameters, function(item) {
+          return ! _.isEmpty($(item).val());
+        });
+        $(this).prev().prev('.service').toggleClass('filled-out', filledOut);
+        $('#submit_params').attr('disabled', !filledOut);
+      });
+    });
+  })();

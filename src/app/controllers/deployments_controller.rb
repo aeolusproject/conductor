@@ -56,22 +56,47 @@ class DeploymentsController < ApplicationController
     end
   end
 
+  def launch_time_params
+    @deployment = Deployment.new(params[:deployment])
+    @pool = @deployment.pool
+    require_privilege(Privilege::CREATE, Deployment, @pool)
+    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE)
+
+    url = get_deployable_url
+    unless @deployment.accessible_and_valid_deployable_xml?(url)
+      init_new_deployment_attrs
+      render 'launch_new' and return
+    end
+
+    @services = []
+    @deployment.deployable_xml.assemblies.each do |assembly|
+      assembly.services.each do |service|
+        @services << [service, assembly.name]
+      end
+    end
+
+    if @services.empty? or @services.all? {|s, a| s.parameters.empty?}
+      # we can skip the launch-time parameters screen
+      check_assemblies_for_errors
+      render 'new' and return
+    end
+  end
+
   # launch_new will post here, but you can use this RESTfully as well
   def new
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE).select{|ce| ce.catalog.pool == @pool}
     require_privilege(Privilege::CREATE, Deployment, @pool)
+
+    @launch_parameters_id = SecureRandom.hex(8)
+    session[:launch_parameters] ||= {}
+    session[:launch_parameters][@launch_parameters_id] = @deployment.launch_parameters
+
     url = get_deployable_url
     respond_to do |format|
       if @deployment.accessible_and_valid_deployable_xml?(url)
-        errors = @deployment.check_assemblies_matches(current_user)
-        unless errors.empty?
-          flash[:error] = {
-            :summary => "Some assemblies will not be launched:",
-            :failures => errors
-          }
-        end
+        check_assemblies_for_errors
         format.html
         format.js { render :partial => 'new' }
         format.json { render :json => @deployment }
@@ -85,6 +110,12 @@ class DeploymentsController < ApplicationController
   end
 
   def create
+    launch_parameters_id = params.delete(:launch_parameters_id)
+    unless launch_parameters_id.blank?
+      session[:launch_parameters] ||= {}
+      params[:deployment][:launch_parameters] = session[:launch_parameters].delete(launch_parameters_id)
+    end
+
     @deployment = Deployment.new(params[:deployment])
     require_privilege(Privilege::CREATE, Deployment, @deployment.pool)
     @deployment.owner = current_user
@@ -309,6 +340,16 @@ class DeploymentsController < ApplicationController
 
   def load_deployment
     @deployment = Deployment.find(params[:id])
+  end
+
+  def check_assemblies_for_errors
+    errors = @deployment.check_assemblies_matches(current_user)
+    unless errors.empty?
+      flash[:error] = {
+        :summary => "Some assemblies will not be launched:",
+        :failures => errors
+      }
+    end
   end
 
   def init_new_deployment_attrs

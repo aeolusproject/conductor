@@ -9,6 +9,7 @@
       = hidden_field :deployment, :name
       = hidden_field :deployment, :pool_id
       = hidden_field :deployment, :frontend_realm_id
+      = hidden_field_tag :launch_parameters_id, @launch_parameters_id
       -# FIXME: Passing chunks of XML around in hidden form fields doesn't feel right
       = hidden_field :deployment, :deployable_xml
       = submit_tag 'Launch this deployment', :class => 'button primary', :id => 'launch_deployment'
@@ -65,9 +66,5 @@
             %td= assembly.hwp
             %td= assembly.image_id
             %td= assembly.image_build
-            -if not assembly.services.empty?
-              %tr
-                %td{:colspan => 4}
-                  = render 'deployments/services', :assembly => assembly
 
 -# Quota checking to go here as well, once I understand how it works with new code

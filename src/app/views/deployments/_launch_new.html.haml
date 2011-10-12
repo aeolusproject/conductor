@@ -14,7 +14,7 @@
       = t 'deployments.deployment_details'
 
   .content
-    = form_for :deployment, {:url => new_deployment_path, :method => :get, :html => {:class => 'generic'}} do
+    = form_for :deployment, {:url => launch_time_params_deployments_path, :method => :post, :html => {:class => 'generic'}} do
       - if @deployment.errors.any?
         = render 'layouts/error_messages', :object => @deployment
       = hidden_field :deployment, :pool_id
