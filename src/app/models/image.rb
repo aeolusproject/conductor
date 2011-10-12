@@ -45,7 +45,7 @@ class Image < WarehouseModel
   # images should be an array of Aeolus::Image::Warehouse::Image objects
   # Please don't shoot me for this!
   def self.provider_images_for_image_list(images)
-    unless images.nil? 
+    unless images.nil?
       # Fetch all of these, but only once
       provider_images = Aeolus::Image::Warehouse::ProviderImage.all
       target_images = Aeolus::Image::Warehouse::TargetImage.all

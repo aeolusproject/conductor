@@ -21,13 +21,16 @@ class CatalogEntriesController < ApplicationController
 
   def index
     clear_breadcrumbs
-    save_breadcrumb(catalog_entries_path(:viewstate => @viewstate ? @viewstate.id : nil))
+    save_breadcrumb(catalog_catalog_entries_path(:viewstate => @viewstate ? @viewstate.id : nil))
     @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::VIEW)
+    @catalog = @catalog_entries.first.catalog unless @catalog_entries.empty?
     set_header
   end
 
   def new
+    @catalog = Catalog.find(params[:catalog_id])
     @catalog_entry = CatalogEntry.new(params[:catalog_entry])
+    @catalog_entry.catalog = @catalog unless not @catalog_entry.catalog.nil?
     require_privilege(Privilege::CREATE, CatalogEntry)
     load_catalogs
   end
@@ -35,31 +38,36 @@ class CatalogEntriesController < ApplicationController
   def show
     if params[:deployable_xml]
       if redirect_to_deployable_xml?
-        redirect_to @catalog_entry.url 
+        redirect_to @catalog_entry.url
         return
       end
 
       flash[:warning] = "Catalog entry XML file is either invalid or no longer reachable at #{@catalog_entry.url}"
-      redirect_to catalog_path(@catalog_entry.owner)
+      redirect_to catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry)
+      return
     end
     @catalog_entry = CatalogEntry.find(params[:id])
     require_privilege(Privilege::VIEW, @catalog_entry)
-    save_breadcrumb(catalog_entry_path(@catalog_entry), @catalog_entry.name)
+    save_breadcrumb(catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry), @catalog_entry.name)
   end
 
   def create
     if params[:cancel]
-      redirect_to catalog_entries_path
+      redirect_to catalog_catalog_entries_path
       return
     end
 
     require_privilege(Privilege::CREATE, CatalogEntry)
+
+    @catalog = Catalog.find(params[:catalog_id])
+    require_privilege(Privilege::MODIFY, @catalog)
     @catalog_entry = CatalogEntry.new(params[:catalog_entry])
+    @catalog_entry.catalog = @catalog
     @catalog_entry.owner = current_user
     if @catalog_entry.save
       flash[:notice] = 'Catalog entry added'
       flash[:warning] = "Deployable url doesn't resolve valid XML file" unless @catalog_entry.accessible_and_valid_deployable_xml?(@catalog_entry.url)
-      redirect_to catalog_entries_path
+      redirect_to catalog_path(@catalog)
     else
       load_catalogs
       render :new
@@ -69,6 +77,7 @@ class CatalogEntriesController < ApplicationController
   def edit
     @catalog_entry = CatalogEntry.find(params[:id])
     require_privilege(Privilege::MODIFY, @catalog_entry)
+    @catalog = @catalog_entry.catalog
     load_catalogs
   end
 
@@ -79,7 +88,7 @@ class CatalogEntriesController < ApplicationController
 
     if @catalog_entry.update_attributes(params[:catalog_entry])
       flash[:notice] = 'Catalog entry updated successfully!'
-      redirect_to catalog_entries_url
+      redirect_to catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry)
     else
       load_catalogs
       render :action => 'edit'
@@ -87,20 +96,23 @@ class CatalogEntriesController < ApplicationController
   end
 
   def multi_destroy
+    @catalog = nil
     CatalogEntry.find(params[:catalog_entries_selected]).to_a.each do |d|
       require_privilege(Privilege::MODIFY, d)
+      @catalog = d.catalog
       d.destroy
     end
-    redirect_to catalog_entries_path
+    redirect_to catalog_path(@catalog)
   end
 
   def destroy
     catalog_entry = CatalogEntry.find(params[:id])
     require_privilege(Privilege::MODIFY, catalog_entry)
+    @catalog = catalog_entry.catalog
     catalog_entry.destroy
 
     respond_to do |format|
-      format.html { redirect_to catalog_entries_path }
+      format.html { redirect_to catalog_path(@catalog) }
     end
   end
 

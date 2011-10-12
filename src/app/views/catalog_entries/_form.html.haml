@@ -15,5 +15,5 @@
     = form.text_field :url, :class => 'long'
 
 %fieldset.options
-  = link_to 'Cancel', catalog_entries_path, :class => 'button danger'
+  = link_to 'Cancel', catalog_path(@catalog), :class => 'button danger'
   = submit_tag 'Save', :name => 'save', :class => 'button', :id => 'save_button'

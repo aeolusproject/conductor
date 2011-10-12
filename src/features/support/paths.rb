@@ -142,6 +142,13 @@ module NavigationHelpers
     when /^the (.*)'s edit user page$/
       edit_user_path(User.find_by_login($1))
 
+    when /^the "(.*)" catalog page/
+      url_for catalog_path(Catalog.find_by_name($1))
+
+
+    when /^the "(.*)" catalog catalog entries page/
+      url_for catalog_catalog_entries_path(Catalog.find_by_name($1))
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

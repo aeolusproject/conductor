@@ -13,6 +13,11 @@
         = @catalog_entry.name
     %tr
       %td
+        %label{:catalog_id => 'catalog_id'} Catalog:
+      %td
+        = @catalog_entry.catalog.name
+    %tr
+      %td
         %label{:name => 'description'} Description:
       %td
         = @catalog_entry.description
@@ -20,4 +25,4 @@
       %td
         %label{:name => 'url'} URL:
       %td
-        = link_to @catalog_entry.url, catalog_entry_path(@catalog_entry.id, :deployable_xml => true)
+        = link_to @catalog_entry.url, catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry.id, :deployable_xml => true)

@@ -181,13 +181,12 @@ Conductor::Application.routes.draw do
     delete 'multi_destroy', :on => :collection
   end
 
-  resources :catalog_entries do
-    delete 'multi_destroy', :on => :collection
-  end
-
   resources :catalogs do
     delete 'multi_destroy', :on => :collection
     post 'create'
+    resources :catalog_entries do
+      delete 'multi_destroy', :on => :collection
+    end
   end
 
   get 'api', :controller => 'api/entrypoint', :action => 'index'

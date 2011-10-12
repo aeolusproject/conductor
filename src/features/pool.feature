@@ -203,7 +203,7 @@ Feature: Manage Pools
 Scenario: Select Catalog Images on pool detail page
     Given a pool "mockpool" exists
     And "mockpool" has catalog "mockcatalog"
-    And "mockcatalog" has catalog_entry "mockcatalogentry" 
+    And "mockcatalog" has catalog_entry "mockcatalogentry"
     When I am viewing the pool "mockpool"
     And I follow link with ID "details_images"
     Then I should see "mockcatalog" within "#tab"

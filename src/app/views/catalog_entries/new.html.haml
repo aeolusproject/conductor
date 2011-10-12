@@ -6,5 +6,5 @@
     %h2 Add New Catalog Entry
 
   .content
-    = form_for @catalog_entry, :url => catalog_entries_path, :html => {:class => 'generic'} do |f|
+    = form_for @catalog_entry, :url => catalog_catalog_entries_path(@catalog), :html => {:class => 'generic'} do |f|
       = render :partial => "form", :locals => { :form => f }
