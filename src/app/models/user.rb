@@ -68,12 +68,9 @@ class User < ActiveRecord::Base
   validates_presence_of :quota
   validates_length_of :first_name, :maximum => 255, :allow_blank => true
   validates_length_of :last_name,  :maximum => 255, :allow_blank => true
-
   validates_uniqueness_of :login
   validates_length_of :login, :within => 1..100, :allow_blank => false
-
-  #validates_uniqueness_of :email
-
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :unless => Proc.new {|u| u.email.nil?}
   validates_confirmation_of :password, :if => Proc.new {|u| u.check_password?}
   validates_length_of :password, :within => 4..255, :if => Proc.new {|u| u.check_password?}
 

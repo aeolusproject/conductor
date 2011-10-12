@@ -44,22 +44,16 @@ describe User do
     user2.should_not be_valid
   end
 
-  #it "should require unique email" do
-  #  user1 = Factory.create(:tuser)
-  #  user2 = Factory.create(:tuser)
-  #  user1.should be_valid
-  #  user2.should be_valid
+  it "should require valid email" do
+    user = FactoryGirl.create(:email_user)
+    user.should be_valid
 
-  #  user2.email = user1.email
-  #  user2.should_not be_valid
-  #end
+    user = FactoryGirl.create(:email_user, :email => "foo@bar.org")
+    user.should be_valid
 
-  #it "should requive valid email" do
-  #  user = User.new(Factory.attributes_for(:tuser))
-
-  #  user.email = "invalid-email"
-  #  user.should_not be_valid
-  #end
+    user.email = "invalid"
+    user.should_not be_valid
+  end
 
   it "should not be valid if first name is too long" do
     u = FactoryGirl.create(:tuser)
