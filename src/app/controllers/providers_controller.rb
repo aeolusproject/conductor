@@ -111,30 +111,30 @@ class ProvidersController < ApplicationController
   def update
     @provider = Provider.find_by_id(params[:id])
     require_privilege(Privilege::MODIFY, @provider)
-    old_enabled = @provider.enabled
-    @provider.update_attributes(params[:provider])
-    # stop running instances when a provider is disabled
-    # it would be better to have this in provider's observer
-    # but we need to display error message when an error occurs
-    if old_enabled and not @provider.enabled
-      errs = @provider.stop_instances(current_user)
-      flash[:error] = errs unless errs.empty?
-    end
-    if !@provider.connect
-      flash.now[:warning] = "Failed to connect to Provider"
+    @provider.attributes = params[:provider]
+    provider_disabled = @provider.enabled_changed? && !@provider.enabled
+    if @provider.save
+      # stop running instances when a provider is disabled
+      # it would be better to have this in provider's observer
+      # but we need to display error message when an error occurs
+      if provider_disabled
+        errs = @provider.stop_instances(current_user)
+        flash[:error] = errs unless errs.empty?
+      end
+      flash[:notice] = "Provider updated."
+      redirect_to edit_provider_path(@provider)
+    else
+      # we reset 'enabled' attribute to real state
+      # if save failed
+      @provider.reset_enabled!
+      unless @provider.connect
+        flash.now[:warning] = "Failed to connect to Provider"
+      else
+        flash.now[:warning] = "Cannot update the provider."
+      end
       load_provider_tabs
       @alerts = provider_alerts(@provider)
       render :action => "edit"
-    else
-      if @provider.errors.empty? and @provider.save
-        flash[:notice] = "Provider updated."
-        redirect_to edit_provider_path(@provider)
-      else
-        flash[:warning] = "Cannot update the provider."
-        load_provider_tabs
-        @alerts = provider_alerts(@provider)
-        render :action => 'edit'
-      end
     end
   end
 
