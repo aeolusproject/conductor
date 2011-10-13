@@ -133,6 +133,15 @@ Feature: Manage Provider Accounts
     Then I should be on the testprovider's edit provider page
     And I should see "Account Quota Exceeded"
 
+  Scenario: Test Provider Account connection
+    Given there is a provider named "testprovider"
+    And there is a provider account named "testaccount"
+    And I am on the testprovider's provider accounts page
+    When I follow "testaccount"
+    Then I should see "Test Connection"
+    When I follow "Test Connection"
+    Then I should see "Test Connection Success"
+
 #  Scenario: Search for Provider Accounts
 #    Given there is a provider named "testprovider"
 #    And there is a provider account named "testaccount"

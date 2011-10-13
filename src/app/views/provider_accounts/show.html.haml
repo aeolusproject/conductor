@@ -11,8 +11,9 @@
   %header
     %h2 Properties
     .section-controls
-      #obj_actions.button-container
+      #obj_actions.button-group
         = link_to "Edit", edit_provider_provider_account_path(@provider, @provider_account), :class => "button pill", :title => "Edit Provider Account"
+        = link_to "Test Connection", provider_provider_account_path(@provider, @provider_account, :test_account => true), :class => 'button pill'
 
   .content
     = render :partial => 'properties'
