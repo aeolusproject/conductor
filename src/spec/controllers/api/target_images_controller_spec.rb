@@ -18,84 +18,203 @@
 
 require 'spec_helper'
 require 'aeolus_image'
-require 'pp'
 
 describe Api::TargetImagesController do
   render_views
 
-  before(:each) do
-    @admin_permission = FactoryGirl.create :admin_permission
-    @admin = @admin_permission.user
-    mock_warden(@admin)
+  shared_examples_for "Api::TargetImagesController responding with XML" do
+    before(:each) do
+      send_and_accept_xml
+
+      @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
+                     :id => '42')
+      @build  = mock(Aeolus::Image::Warehouse::ImageBuild,
+                     :id => '543')
+      @timage = mock(Aeolus::Image::Warehouse::TargetImage,
+                     :id => '100',
+                     :icicle => '321',
+                     :object_type => 'target_image',
+                     :template => '12',
+                     :build => @build,
+                     :provider_images => [@pimage])
+    end
+
+    context "when authenticated as admin" do
+
+      before(:each) do
+        @admin_permission = FactoryGirl.create :admin_permission
+        @admin = @admin_permission.user
+        mock_warden(@admin)
+      end
+
+      describe "#index" do
+        context "when there are 3 target images" do
+          before(:each) do
+            @timage_collection = [@timage, @timage, @timage]
+            Aeolus::Image::Warehouse::TargetImage.stub(:all).and_return(@timage_collection)
+            get :index
+          end
+
+          it { response.should be_success }
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have 3 target images" do
+            resp = Hash.from_xml(response.body)
+            resp['target_images']['target_image'].size.should be_equal(@timage_collection.size)
+          end
+          it "should have target images with correct attributes" do
+            resp = Hash.from_xml(response.body)
+            @timage_collection.each_with_index do |timage, index|
+              resp['target_images']['target_image'][index]['id'].should == timage.id
+              resp['target_images']['target_image'][index]['icicle'].should == timage.icicle
+              resp['target_images']['target_image'][index]['object_type'].should == timage.object_type
+              resp['target_images']['target_image'][index]['template'].should == timage.template
+              resp['target_images']['target_image'][index]['build']['id'].should == timage.build.id
+              pimgs = resp['target_images']['target_image'][index]['provider_images']
+              pimgs['provider_image']['id'].should == @pimage.id
+            end
+          end
+        end
+
+        context "when there is only 1 target images" do
+          before(:each) do
+            Aeolus::Image::Warehouse::TargetImage.stub(:all).and_return([@timage])
+            get :index
+          end
+
+          it { response.should be_success }
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have a target image with correct attributes" do
+            resp = Hash.from_xml(response.body)
+            resp['target_images']['target_image']['id'].should == @timage.id
+            resp['target_images']['target_image']['icicle'].should == @timage.icicle
+            resp['target_images']['target_image']['object_type'].should == @timage.object_type
+            resp['target_images']['target_image']['template'].should == @timage.template
+            resp['target_images']['target_image']['build']['id'].should == @timage.build.id
+            pimgs = resp['target_images']['target_image']['provider_images']
+            pimgs['provider_image']['id'].should == @pimage.id
+          end
+        end
+
+        context "when there is no target images" do
+          before(:each) do
+            Aeolus::Image::Warehouse::TargetImage.stub(:all).and_return([])
+            get :index
+          end
+
+          it { response.should be_success }
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have no target image" do
+            resp = Hash.from_xml(response.body)
+            resp['target_images']['target_image'].should be_nil
+          end
+        end
+      end
+
+      describe "#show" do
+        context "when there is wanted target image in warehouse" do
+          before(:each) do
+
+            Aeolus::Image::Warehouse::TargetImage.stub(:find).and_return(@timage)
+            get :show, :id => '100'
+          end
+
+          it { response.should be_success}
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have a target image with correct attributes" do
+            resp = Hash.from_xml(response.body)
+            resp['target_image']['id'].should == @timage.id
+            resp['target_image']['icicle'].should == @timage.icicle
+            resp['target_image']['object_type'].should == @timage.object_type
+            resp['target_image']['template'].should == @timage.template
+            resp['target_image']['build']['id'].should == @timage.build.id
+            pimgs = resp['target_image']['provider_images']
+            pimgs['provider_image']['id'].should == @pimage.id
+          end
+        end
+
+        context "when there is NOT wanted target image in warehouse" do
+          before(:each) do
+
+            Aeolus::Image::Warehouse::TargetImage.stub(:find).and_return(nil)
+          end
+
+          context "and it has status in factory" do
+            before(:each) do
+              @timage_status = 'COMPLETED'
+              Aeolus::Image::Factory::TargetImage.stub(:status).and_return(@timage_status)
+              @timage_id = '100'
+              get :show, :id => @timage_id
+            end
+
+            it { response.should be_success}
+            it { response.headers['Content-Type'].should include("application/xml") }
+            it "should have a target image with correct attributes" do
+              resp = Hash.from_xml(response.body)
+              resp['target_image']['id'].should == @timage_id;
+              resp['target_image']['status'].should == @timage_status;
+            end
+          end
+
+          context "and it has NOT status in factory" do
+            before(:each) do
+              Aeolus::Image::Factory::TargetImage.stub(:status).and_return(nil)
+              get :show, :id => '100'
+            end
+
+            it { response.should be_not_found}
+            it { response.headers['Content-Type'].should include("application/xml") }
+
+          end
+
+        end
+      end
+    end
+
+    context "when not authenticated" do
+      before(:each) do
+        mock_warden(nil)
+      end
+
+      describe "#index" do
+
+        before(:each) do
+          get :index
+        end
+
+        it "should be unauthorized" do
+          response.response_code.should == 401
+        end
+        it { response.headers['Content-Type'].should include("application/xml") }
+      end
+
+      describe "#show" do
+
+        before(:each) do
+          get :show, :id => '5'
+        end
+
+        it "should be unauthorized" do
+          response.response_code.should == 401
+        end
+        it { response.headers['Content-Type'].should include("application/xml") }
+      end
+    end
   end
 
-  context "XML format responses for " do
-    before do
+  context "XML format responses for Accept: application/xml" do
+    before(:each) do
       send_and_accept_xml
     end
 
-    describe "#index" do
-      before do
-        @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
-                       :id => '42')
-        @build  = mock(Aeolus::Image::Warehouse::ImageBuild,
-                      :id => '543')
-        @timage = mock(Aeolus::Image::Warehouse::TargetImage,
-                       :id => '100',
-                       :icicle => '321',
-                       :object_type => 'target_image',
-                       :template => '12',
-                       :build => @build,
-                       :provider_images => [@pimage])
-
-        Aeolus::Image::Warehouse::TargetImage.stub(:all).and_return([@timage])
-        get :index
-      end
-
-      it { response.should be_success }
-      it { response.headers['Content-Type'].should include("application/xml") }
-      it {
-        resp = Hash.from_xml(response.body)
-        resp['target_images']['target_image']['id'].should == @timage.id
-        resp['target_images']['target_image']['icicle'].should == @timage.icicle
-        resp['target_images']['target_image']['object_type'].should == @timage.object_type
-        resp['target_images']['target_image']['template'].should == @timage.template
-        resp['target_images']['target_image']['build']['id'].should == @timage.build.id
-        pimgs = resp['target_images']['target_image']['provider_images']
-          pimgs['provider_image']['id'].should == @pimage.id
-      }
-    end
-
-    describe "#show" do
-      before do
-        @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
-                       :id => '42')
-        @build  = mock(Aeolus::Image::Warehouse::ImageBuild,
-                      :id => '543')
-        @timage = mock(Aeolus::Image::Warehouse::TargetImage,
-                       :id => '100',
-                       :icicle => '321',
-                       :object_type => 'target_image',
-                       :template => '12',
-                       :build => @build,
-                       :provider_images => [@pimage])
-
-        Aeolus::Image::Warehouse::TargetImage.stub(:find).and_return(@timage)
-        get :show, :id => '100'
-      end
-
-      it { response.should be_success}
-      it { response.headers['Content-Type'].should include("application/xml") }
-      it {
-        resp = Hash.from_xml(response.body)
-        resp['target_image']['id'].should == @timage.id
-        resp['target_image']['icicle'].should == @timage.icicle
-        resp['target_image']['object_type'].should == @timage.object_type
-        resp['target_image']['template'].should == @timage.template
-        resp['target_image']['build']['id'].should == @timage.build.id
-        pimgs = resp['target_image']['provider_images']
-          pimgs['provider_image']['id'].should == @pimage.id
-      }
-    end
+    it_behaves_like "Api::TargetImagesController responding with XML"
   end
+
+  context "XML format responses for Accept: */*" do
+    before(:each) do
+      accept_all
+    end
+
+    it_behaves_like "Api::TargetImagesController responding with XML"
+  end
+
 end

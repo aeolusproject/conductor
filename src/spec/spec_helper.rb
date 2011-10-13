@@ -24,6 +24,10 @@ require 'timecop'
 require 'vcr_setup'
 
 module RequestContentTypeHelper
+  def accept_all
+    @request.env["HTTP_ACCEPT"] = "*/*"
+  end
+
   def accept_json
     @request.env["HTTP_ACCEPT"] = "application/json"
   end

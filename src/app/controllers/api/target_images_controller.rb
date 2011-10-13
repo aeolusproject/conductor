@@ -37,16 +37,6 @@ module Api
       if @image
         respond_with(@image)
       else
-        render :nothing => true, :status => 404
-      end
-    end
-
-    def show
-      id = params[:id]
-      @image = Aeolus::Image::Warehouse::TargetImage.find(id)
-      if @image
-        respond_with(@image)
-      else
         status = Aeolus::Image::Factory::TargetImage.status(id)
         if !status.nil?
           @image = Aeolus::Image::Factory::TargetImage.new(:id => id,

@@ -18,80 +18,168 @@
 
 require 'spec_helper'
 require 'aeolus_image'
-require 'pp'
 
 describe Api::BuildsController do
   render_views
 
-  before(:each) do
-    @admin_permission = FactoryGirl.create :admin_permission
-    @admin = @admin_permission.user
-    mock_warden(@admin)
+  shared_examples_for "Api::BuildsController responding with XML" do
+    before(:each) do
+      @os = mock(:OS, :name => 'fedora', :version => '15', :arch => 'x86_64')
+      @image = mock(Aeolus::Image::Warehouse::Image,
+                    :id => '5',
+                    :os => @os,
+                    :name => 'test',
+                    :description => 'test image')
+
+      @target_image = mock(Aeolus::Image::Warehouse::TargetImage,
+                           :id => "1")
+
+      @build = mock(Aeolus::Image::Warehouse::ImageBuild,
+                    :id => '10',
+                    :image => @image,
+                    :target_images => [@target_image])
+    end
+
+    context "when authenticated as admin" do
+
+      before(:each) do
+        @admin_permission = FactoryGirl.create :admin_permission
+        @admin = @admin_permission.user
+        mock_warden(@admin)
+      end
+
+      describe "#index" do
+        context "when there are 3 builds" do
+
+          before(:each) do
+            @build_collection = [@build, @build, @build]
+
+            Aeolus::Image::Warehouse::ImageBuild.stub(:all).and_return(@build_collection)
+            get :index
+          end
+
+          it { response.should be_success }
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have 3 builds" do
+            resp = Hash.from_xml(response.body)
+            resp['builds']['build'].size.should be_equal(@build_collection.size)
+          end
+          it "should have builds with correct attributes" do
+            resp = Hash.from_xml(response.body)
+            @build_collection.each_with_index do |build, index|
+              resp['builds']['build'][index]['id'].should == build.id
+              resp['builds']['build'][index]['image'].should == @image.id
+            end
+          end
+        end
+        context "when there is only 1 build" do
+
+          before(:each) do
+            Aeolus::Image::Warehouse::ImageBuild.stub(:all).and_return([@build])
+            get :index
+          end
+
+          it { response.should be_success }
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have a build with correct attributes" do
+            resp = Hash.from_xml(response.body)
+            resp['builds']['build']['id'].should == @build.id
+            resp['builds']['build']['image'].should == @image.id
+          end
+        end
+
+        context "when there is no build" do
+
+          before(:each) do
+            Aeolus::Image::Warehouse::ImageBuild.stub(:all).and_return([])
+            get :index
+          end
+
+          it { response.should be_success }
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have no build" do
+            resp = Hash.from_xml(response.body)
+            resp['builds']['build'].should be_nil
+          end
+        end
+      end
+
+      describe "#show" do
+        context "when there is wanted build" do
+
+          before(:each) do
+            Aeolus::Image::Warehouse::ImageBuild.stub(:find).and_return(@build)
+            get :show, :id => '10'
+          end
+
+          it { response.should be_success}
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have a build with correct attributes" do
+            resp = Hash.from_xml(response.body)
+            resp['build']['id'].should == @build.id
+            resp['build']['image'].should == @image.id
+          end
+        end
+
+        context "when there is NOT wanted build" do
+
+          before(:each) do
+            Aeolus::Image::Warehouse::ImageBuild.stub(:find).and_return(nil)
+            get :show, :id => '10'
+          end
+
+          it { response.should be_not_found}
+          it { response.headers['Content-Type'].should include("application/xml") }
+        end
+      end
+    end
+
+    context "when not authenticated" do
+
+      before(:each) do
+        mock_warden(nil)
+      end
+
+      describe "#index" do
+
+        before(:each) do
+          get :index
+        end
+
+        it "should be unauthorized" do
+          response.response_code.should == 401
+        end
+        it { response.headers['Content-Type'].should include("application/xml") }
+      end
+
+      describe "#show" do
+
+        before(:each) do
+          get :show, :id => '5'
+        end
+
+        it "should be unauthorized" do
+          response.response_code.should == 401
+        end
+        it { response.headers['Content-Type'].should include("application/xml") }
+      end
+    end
   end
 
-  context "XML format responses for " do
-    before do
+  context "XML format responses for Accept: application/xml" do
+    before(:each) do
       send_and_accept_xml
     end
 
-    describe "#index" do
-      before do
-        @os = mock(:OS, :name => 'fedora', :version => '15', :arch => 'x86_64')
-        @image = mock(Aeolus::Image::Warehouse::Image,
-                      :id => '5',
-                      :os => @os,
-                      :name => 'test',
-                      :description => 'test image')
-
-        @target_image = mock(Aeolus::Image::Warehouse::TargetImage,
-                        :id => "1")
-
-        @build = mock(Aeolus::Image::Warehouse::ImageBuild,
-                      :id => '10',
-                      :image => @image,
-                      :target_images => [@target_image])
-
-        Aeolus::Image::Warehouse::ImageBuild.stub(:all).and_return([@build])
-        get :index
-      end
-
-      it { response.should be_success }
-      it { response.headers['Content-Type'].should include("application/xml") }
-      it {
-        resp = Hash.from_xml(response.body)
-        resp['builds']['build']['id'].should == @build.id
-        resp['builds']['build']['image'].should == @image.id
-      }
-    end
-
-    describe "#show" do
-      before do
-        @os = mock(:OS, :name => 'fedora', :version => '15', :arch => 'x86_64')
-        @image = mock(Aeolus::Image::Warehouse::Image,
-                      :id => '5',
-                      :os => @os,
-                      :name => 'test',
-                      :description => 'test image')
-
-        @target_image = mock(Aeolus::Image::Warehouse::TargetImage,
-                        :id => "1")
-
-        @build = mock(Aeolus::Image::Warehouse::ImageBuild,
-                      :id => '10',
-                      :image => @image,
-                      :target_images => [@target_image])
-
-        Aeolus::Image::Warehouse::ImageBuild.stub(:find).and_return(@build)
-        get :show, :id => '10'
-      end
-
-      it { response.should be_success}
-      it { response.headers['Content-Type'].should include("application/xml") }
-      it {
-        resp = Hash.from_xml(response.body)
-        resp['build']['id'].should == @build.id
-        resp['build']['image'].should == @image.id
-      }
-    end
+    it_behaves_like "Api::BuildsController responding with XML"
   end
+
+  context "XML format responses for Accept: */*" do
+    before(:each) do
+      accept_all
+    end
+
+    it_behaves_like "Api::BuildsController responding with XML"
+  end
+
 end
