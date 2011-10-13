@@ -27,7 +27,7 @@ class ProvidersController < ApplicationController
     respond_to do |format|
       format.html do
         if @providers.present?
-          redirect_to edit_provider_path(@provider)
+          redirect_to edit_provider_path(@provider), :notice => flash[:notice]
         else
           render :action => :index
         end
@@ -144,7 +144,7 @@ class ProvidersController < ApplicationController
     provider.destroy
 
     respond_to do |format|
-      format.html { redirect_to providers_path }
+      format.html { redirect_to providers_path, :notice => t("providers.index.deleted") }
     end
   end
 
