@@ -2389,6 +2389,10 @@ table.flat, form.filterable-data table{
 Pool Families Table
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 table.pool_families{
+  a{
+    color: white;
+    text-decoration: none;
+  }
   border-collapse: separate;
   width: 100%;
   color: white;
