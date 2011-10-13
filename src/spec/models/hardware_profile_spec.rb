@@ -137,6 +137,7 @@ describe HardwareProfile do
 
   it "should generate the correct override property values for a given property" do
     front_end_memory = FactoryGirl.create(:hwpp_fixed, :name => 'memory', :unit => 'MB', :value => '2048')
+    front_end_memory2 = FactoryGirl.create(:hwpp_fixed, :name => 'memory', :unit => 'MB', :value => '1.0')
     front_end_storage = FactoryGirl.create(:hwpp_fixed, :name => 'storage', :unit => 'GB', :value => '850')
     front_end_cpu = FactoryGirl.create(:hwpp_fixed, :name => 'cpu', :unit => 'count', :value => '2')
     front_end_architecture = FactoryGirl.create(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
@@ -147,6 +148,7 @@ describe HardwareProfile do
     back_end_architecture = FactoryGirl.create(:hwpp_fixed, :name => 'architecture', :unit => 'label', :value => 'x86_64')
 
     HardwareProfile.generate_override_property_value(front_end_memory, back_end_memory).should == 2048
+    HardwareProfile.generate_override_property_value(front_end_memory2, back_end_memory).should == 1024
     HardwareProfile.generate_override_property_value(front_end_storage, back_end_storage).should == '1500'
     HardwareProfile.generate_override_property_value(front_end_cpu, back_end_cpu).should == 2
   end
