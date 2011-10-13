@@ -80,7 +80,6 @@ en:
   resource_management: Resource Management
   overview: Overview
   alerts: Alerts
-  updates: Udates
   deployments:
     deployments: Deployments
     deployment: Deployment

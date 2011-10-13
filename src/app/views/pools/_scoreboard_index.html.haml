@@ -18,13 +18,10 @@
           %li
             %dt= t("alerts")
             %dd.count.alert= @statistics[:instances_failed]
-          %li
-            %dt= t("updates")
-            %dd.count.update 0
       %li
         %dt= t("pools.index.quota_used")
-        %dd.percentage.quota 0%
+        %dd.percentage.quota= number_to_percentage(@statistics[:pf_used_percentage], :precision => 0)
         %dd.fraction.instance
-          %span.part 0
+          %span.part= @statistics[:pf_running_instances]
           %span.divider.label.small.caps of
-          %span.total 0
+          %span.total= @statistics[:pf_available_quota].nil? ? raw('&infin;') : @statistics[:pf_available_quota]
