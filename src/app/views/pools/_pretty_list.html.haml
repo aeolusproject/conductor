@@ -1,5 +1,5 @@
 %header
-  %h2 Your Pools
+  %h2=t 'pools.index.your_pools'
   %span.label.badge.dark.count= @pools.length
 
 .content
@@ -11,15 +11,15 @@
         %dl.statistics
           %ul.groups
             %li
-              %dt Deployments
+              %dt=t 'deployments.deployments'
               %dd.count.deployment= pool.deployments.count
             %li
-              %dt Instances
+              %dt=t 'instances.instances'
               %dd.count.instance= pool.instances.count
               %dd.count.instance.pending= pool.instances.select {|i| i.state == Instance::STATE_PENDING }.length
               %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR || i.state == Instance::STATE_CREATE_FAILED }.length
             %li
-              %dt Quota Used
+              %dt=t'quota_used'
               %dd.percentage.quota
                 = number_to_percentage(pool.quota.percentage_used, :precision => 0)
         %a.control{:href => '#'}
@@ -28,9 +28,9 @@
         = render :partial => 'deployments', :locals => {:deployments => pool.deployments}
       %ul.content.actions
         %li
-          = link_to "#{html_escape(pool.name)} Pool details &raquo;".html_safe, pool_path(pool), :class =>'pool_details'
+          = link_to ("#{html_escape(pool.name)} " + "#{t'pools.index.pool_details'}" + " &raquo;").html_safe, pool_path(pool), :class =>'pool_details'
         %li
-          = link_to 'New Deployment', launch_new_deployments_path(:pool_id => pool.id), :class => 'button primary', :id => 'new_deployment_button'
+          = link_to "#{t'deployments.new_deployment'}", launch_new_deployments_path(:pool_id => pool.id), :class => 'button primary', :id => 'new_deployment_button'
           = render :partial => 'layouts/catalog_dropdown', :locals => {:catalogs => pool.catalogs}
 
 :javascript

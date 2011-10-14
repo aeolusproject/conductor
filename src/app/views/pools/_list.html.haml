@@ -1,8 +1,8 @@
 - content_for :form_header do
-  %li= link_to "New Pool", new_pool_path, { :class => 'button', :id => 'new_pool_button' }
-  %li= restful_submit_tag "Destroy", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+  %li= link_to "#{t'pools.new_pool'}", new_pool_path, { :class => 'button', :id => 'new_pool_button' }
+  %li= restful_submit_tag "#{t'pools.index.destroy'}", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
   %li
-    = label_tag "More actions"
+    = label_tag "#{t'pools.list.more_actions'}"
     = select_tag("more_actions",nil, :disabled => true)
 = filter_table(@header, @pools) do |pool|
   %tr{:class => cycle('nostripe','stripe')}

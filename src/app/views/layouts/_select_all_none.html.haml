@@ -1,3 +1,4 @@
-Select:&nbsp;
-= link_to "All", params.merge(:select => 'all')
-= link_to "None", params.merge(:select => 'none')
+="#{t'select.select'}:"
+&nbsp;
+= link_to "#{t'select.all'}", params.merge(:select => 'all')
+= link_to "#{t'select.none'}", params.merge(:select => 'none')

@@ -151,7 +151,7 @@ class PoolFamiliesController < ApplicationController
     @header = [
       {:name => '', :sortable => false},
       {:name => t("pool_families.index.name"), :sort_attr => :name},
-      {:name => t("pool_families.index.quota_used"), :sort_attr => :name},
+      {:name => t("quota_used"), :sort_attr => :name},
       {:name => t("pool_families.index.quota_limit"), :sort_attr => :name},
     ]
   end

@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
   include ApplicationService
   helper_method :current_user, :filter_view?
-  before_filter :read_breadcrumbs
+  before_filter :read_breadcrumbs, :set_locale
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -38,6 +38,7 @@ class ApplicationController < ActionController::Base
   helper_method :check_privilege
 
   protected
+
   # permissions checking
 
   def handle_perm_error(error)
@@ -300,4 +301,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_locale
+    I18n.locale = detect_locale || I18n.default_locale
+  end
+
+  def detect_locale
+    languages = env['HTTP_ACCEPT_LANGUAGE'].split(',')
+    prefs = []
+    languages.each do |language|
+      language += ";q=1.0" unless language.match(";q=\d+\.\d+")
+      lang_code, lang_weight = language.split(";q=")
+      lang_code = lang_code.gsub(/-[a-z]+$/i) { |x| x.upcase }.to_sym
+      prefs << [lang_weight, lang_code]
+    end
+    # This is slightly abusing array sorting
+    ordered_languages = prefs.sort.reverse.collect{|p| p[1]}
+
+    (ordered_languages & I18n.available_locales).first
+  end
 end

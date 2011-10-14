@@ -7,8 +7,8 @@
           = "#{current_user.first_name} #{current_user.last_name}" if current_user.present?
         %a.button.pill.user-dropdown{:href => '#'} &nbsp;
         %span#user-menu{ :class => javascript? ? 'js' : 'nojs' }
-          = link_to "My Account", account_path
-          = link_to t(:logout), logout_path
+          = link_to t('masthead.my_account'), account_path
+          = link_to t('masthead.logout'), logout_path
       %li.separator
       %li
         %div.query-input

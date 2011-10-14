@@ -153,7 +153,7 @@ class UsersController < ApplicationController
       { :name => t('users.index.user_id'), :sortable => false },
       { :name => t('users.index.last_name'), :sortable => false },
       { :name => t('users.index.first_name'), :sortable => false },
-      { :name => t('users.index.quota_used'), :class => 'center', :sortable => false },
+      { :name => t('quota_used'), :class => 'center', :sortable => false },
       { :name => t('users.index.quota_instances'), :class => 'center', :sortable => false },
       { :name => t('users.index.email'), :sortable => false },
     ]

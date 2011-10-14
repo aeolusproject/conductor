@@ -4,30 +4,31 @@
 
   %fieldset
     %p
-      = form.label :name, "Name", :class => 'em'
+      = form.label :name, t('name'), :class => 'em'
       = form.text_field :name, :class => 'em long'
     %p
-      = form.label :pool_family_id, "Pool Family"
+      = form.label :pool_family_id, t("pool_families.pool_family")
       = form.collection_select :pool_family_id, PoolFamily.all, :id, :name
 
   %fieldset
     %p
       %label
-        Quota
+        = t('quota')
         %span
-          (# instances or
-          %a#unlimited_quota_btn{:href => '#'} unlimited
+          (#
+          =t('pools.form.instance_or')
+          %a#unlimited_quota_btn{:href => '#'}=t('pools.form.unlimited')
           )
       = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || "unlimited", :id => "quota_instances"
 
   %fieldset
     %p
-      = form.label :enabled, "Pool Enabled?", :class => 'checkbox'
+      = form.label :enabled, "#{t('pools.form.pool_enabled')}?", :class => 'checkbox'
       = form.check_box :enabled
 
   %fieldset.options
-    = form.submit "Save", :class => 'button', :id => 'save_button'
-    = link_to 'Cancel', pools_path, :class => 'button danger'
+    = form.submit t("save"), :class => 'button', :id => 'save_button'
+    = link_to t('cancel'), pools_path, :class => 'button danger'
 
 :javascript
   $(document).ready(function(){

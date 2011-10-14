@@ -8,15 +8,15 @@
           %dl.statistics
             %ul
               %li.uptime
-                %dt.uptime Uptime
+                %dt.uptime=t'uptime'
                 %dd= count_uptime(deployment.uptime_1st_instance)
               %li.instances
-                %dt.instances.count Instances
+                %dt.instances.count=t'instances.instances'
                 %dd
                   = deployment.instances.count || 0
-                  %span.inline-label Instances
+                  %span.inline-label=t'instances.instances'
               %li.provider
-                %dt.instances.count Provider
+                %dt.instances.count=t'providers.provider'
                 %dd= deployment.provider.provider_type.name unless deployment.provider.blank?
 
 :javascript
@@ -35,17 +35,17 @@
       <dl class="statistics">
         <ul>
           <li class="uptime">
-            <dt class="uptime">Uptime</dt>
+            <dt class="uptime">#{t'uptime'}</dt>
             <dd>${uptime}</dd>
           </li>
           <li class="instances">
-            <dt class="instances count">Instances</dt>
+            <dt class="instances count">#{t'instances.instances'}</dt>
             <dd>${instances_count}
-              <span class="inline-label">Instances</span>
+              <span class="inline-label">#{t'instances.instances'}</span>
             </dd>
           </li>
           <li class="provider">
-            <dt class="instances count">Provider</dt>
+            <dt class="instances count">#{t'providers.provider'}</dt>
             <dd>
               {{if provider}} ${provider.name} {{/if}}
             </dd>

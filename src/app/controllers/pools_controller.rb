@@ -41,9 +41,9 @@ class PoolsController < ApplicationController
     @user_pools = Pool.list_for_user(current_user, Privilege::VIEW)
     @user_pool_families = PoolFamily.list_for_user(current_user, Privilege::VIEW)
     if filter_view?
-      @tabs = [{:name => 'Pools', :view => 'list', :id => 'pools'},
-               {:name => 'Deployments', :view => 'deployments/list', :id => 'deployments'},
-               {:name => 'Instances', :view => 'instances/list', :id => 'instances'},
+      @tabs = [{:name => "#{t'pools.index.pools'}", :view => 'list', :id => 'pools'},
+               {:name => "#{t'deployments.deployments'}", :view => 'deployments/list', :id => 'deployments'},
+               {:name => "#{t'instances.instances'}", :view => 'instances/list', :id => 'instances'},
       ]
       details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
       @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
@@ -88,16 +88,18 @@ class PoolsController < ApplicationController
     elsif params[:details_tab] == 'history'
       @view = filter_view? ? 'history_filter' : 'history_pretty'
     end
-    #TODO add links to real data for history,properties
-    @tabs = [{:name => 'Deployments',     :view => @view,         :id => 'deployments', :count => @pool.deployments.count},
+
+    #TODO add links to real data for history,properties,permissions
+    @tabs = [{:name => "#{t'deployments.deployments'}",:view => @view, :id => 'deployments', :count => @pool.deployments.count},
              #{:name => 'History',        :view => @view,         :id => 'history'},
-             {:name => 'Properties',      :view => 'properties',  :id => 'properties'},
-             {:name => 'Catalog Images',  :view => 'images',      :id => 'images'}
+             {:name => "#{t'properties'}", :view => 'properties', :id => 'properties'},
+             {:name => "#{t'catalog_images'}", :view => 'images', :id => 'images'}
     ]
     if "images" == params[:details_tab]
       @map = @pool.provider_image_map
     end
     add_permissions_tab(@pool)
+
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
     @deployments = @pool.deployments if @details_tab[:id] == 'deployments'
@@ -132,13 +134,13 @@ class PoolsController < ApplicationController
     respond_to do |format|
       if @pool.save
         @pool.assign_owner_roles(current_user)
-        flash[:notice] = "Pool added."
+        flash[:notice] = t "pools.flash.notice.added"
         format.html { redirect_to :action => 'show', :id => @pool.id }
         # TODO - The new UI is almost certainly going to want a new partial for .js
         format.js { render :partial => 'show', :id => @pool.id }
         format.json { render :json => @pool, :status => :created }
       else
-        flash.now[:warning] = "Pool creation failed."
+        flash.now[:warning] = t "pools.flash.warning.creation_failed"
         format.html { render :new }
         format.js { render :partial => 'new' }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
@@ -166,12 +168,12 @@ class PoolsController < ApplicationController
     @pool.quota.set_maximum_running_instances(limit)
     respond_to do |format|
       if @pool.update_attributes(params[:pool])
-        flash[:notice] = "Pool updated."
+        flash[:notice] = t "pools.flash.notice.updated"
         format.html { redirect_to :action => 'show', :id => @pool.id }
         format.js { render :partial => 'show', :id => @pool.id }
         format.json { render :json => @pool }
       else
-        flash[:error] = "Pool wasn't updated!"
+        flash[:error] = t "pools.flash.error.not_updated"
         format.html { render :action => :edit }
         format.js { render :partial => 'edit', :id => @pool.id }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
@@ -193,8 +195,8 @@ class PoolsController < ApplicationController
         failed << pool.name
       end
     end
-    flash[:success] = t('pools.index.pool_deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
-    flash[:error] = t('pools.index.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
+    flash[:success] = t('pools.flash.success.pool_deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
+    flash[:error] = t('pools.flash.error.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
     respond_to do |format|
       # TODO - What is expected to be returned on an AJAX delete?
       format.html { redirect_to pools_url }
@@ -225,10 +227,10 @@ class PoolsController < ApplicationController
     end
 
     unless destroyed.empty?
-      flash[:notice] = t('pools.index.pool_deleted', :count => destroyed.length, :list => destroyed.join(', '))
+      flash[:notice] = t('pools.flash.success.pool_deleted', :count => destroyed.length, :list => destroyed.join(', '))
     end
     unless failed.empty?
-      error_messages << t('pools.index.pool_not_deleted', :count => failed.length, :list => failed.join(', '))
+      error_messages << t('pools.flash.error.pool_not_deleted', :count => failed.length, :list => failed.join(', '))
     end
     unless error_messages.empty?
       flash[:error] = error_messages.join('<br />')
@@ -250,7 +252,7 @@ class PoolsController < ApplicationController
       { :name => t("instances.instances"), :class => 'center', :sortable => false },
       { :name => t("pools.index.pending"), :class => 'center', :sortable => false },
       { :name => t("pools.index.failed"), :class => 'center', :sortable => false },
-      { :name => t("pools.index.quota_used"), :class => 'center', :sortable => false },
+      { :name => t("quota_used"), :class => 'center', :sortable => false },
       { :name => t("pools.index.pool_family"), :sortable => false },
 
     ]

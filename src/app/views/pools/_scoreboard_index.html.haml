@@ -16,10 +16,10 @@
       %li
         %ul.subgroup
           %li
-            %dt= t("alerts")
+            %dt= t("alerts_label")
             %dd.count.alert= @statistics[:instances_failed]
       %li
-        %dt= t("pools.index.quota_used")
+        %dt= t("quota_used")
         %dd.percentage.quota= number_to_percentage(@statistics[:pf_used_percentage], :precision => 0)
         %dd.fraction.instance
           %span.part= @statistics[:pf_running_instances]

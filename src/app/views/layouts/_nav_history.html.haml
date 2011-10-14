@@ -1,6 +1,8 @@
 - unless @read_breadcrumbs.blank?
   %nav#nav_history
-    %span.label.light.small &laquo; Return to
+    %span.label.light.small
+      &laquo;
+      =t ('return_to')
     %ol.nav_hist_bar
       - @read_breadcrumbs.each do |breadcrumb|
         %li{:class => breadcrumb[:class]}

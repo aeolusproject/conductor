@@ -4,14 +4,14 @@
       %li.deployment
         %h3.name
           = link_to deployment.name, deployment_path(deployment)
-          Global uptime
+          = t 'pools.index.global_uptime'
           = count_uptime(deployment.uptime_all)
         %dl.statistics
           %ul
             %li.right
-              %dt.instances.count Instances
+              %dt.instances.count= t 'instances.instances'
               %dd= deployment.instances.count || 0
 
             %li.left
-              %dt Uptime
+              %dt=t :uptime
               %dd= count_uptime(deployment.uptime_1st_instance)

@@ -1,7 +1,7 @@
 - if @failed_instances.count > 0
   %section.content-section.alerts
     %header
-      %h2 Alerts
+      %h2=t "alerts_label"
       %span.label.badge.alert.count= @failed_instances.length
       .section-controls
         -#%a.collapse{'href'=>'#'} Collapse
@@ -11,5 +11,5 @@
           - @failed_instances.each do |inst|
             %li.alert
               %dt.subject.critical= inst.name
-              %dd.type Instance Failure
+              %dd.type=t "alerts.instance_failure"
               %dd.desc= "#{inst.last_error.blank? ? inst.state : inst.last_error}"

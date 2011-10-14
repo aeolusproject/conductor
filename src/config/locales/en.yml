@@ -8,7 +8,6 @@ en:
       username: Username
       last_name: Last Name
       first_name: First Name
-      quota_used: Quota Used
       quota_instances: Quota Limit
       email: e-mail
   about: About
@@ -16,7 +15,6 @@ en:
   hello: Hello
   advanced_search: Advanced Search
   login: Log in
-  logout: Log out
   operation: Operate
   monitor: Monitor
   browse_objects: Browse Objecs
@@ -42,8 +40,6 @@ en:
   new_user: New User
   edit_user: Edit User
   pools_and_zones: "Pools & Zones"
-  new_pool: New Pool
-  edit_pool: Edit Pool
   audit_report: Audit / Report
   assistance_requests: Assistance Requests
   define: Define
@@ -62,6 +58,7 @@ en:
   edit: Edit
   add: Add
   save: Save
+  delete: Delete
   remove: Remove
   reset: Reset
   create_account: Create Account
@@ -80,11 +77,18 @@ en:
   apply: Apply
   resource_management: Resource Management
   overview: Overview
-  alerts: Alerts
+  alerts_label: Alerts
+  updates: Udates
+  quota_used: Quota Used
+  return_to: Return to
+  properties: Properties
+  catalog_images: Catalog Images
+  quota: Quota
   deployments:
     deployments: Deployments
     deployment: Deployment
     deployment_name: Deployment Name
+    new_deployment: New Deployment
     deployment_name_subtext: "(uniquely identifies your deployment)"
     deployment_details: Deployment Details
     confirm_delete: "Are you sure you want to delete this deployment?"
@@ -116,6 +120,9 @@ en:
       description: Description
       image_ids: Image IDs
       launch: Launch
+    list:
+      stop_selected: Stop Selected
+      delete_selected: Delete Selected
   instances:
     instances: Instances
     updated:
@@ -131,6 +138,19 @@ en:
       one: "The instance %{list} could not be deleted."
       other: "The instances %{list} could not be deleted."
     none_selected: "You must select one or more instances to stop."
+    list:
+      export_events: Export events
+      stop_selected_instances: Stop selected instances
+      stopped_instances_hidden: Stopped instances are hidden
+      showing_all_instances: Showing all instances
+      show_all: show all
+      hide_stopped: hide stopped
+      table:
+        name: Name
+        public_address: Public Address
+        state: State
+        provider: Provider
+        owner: Owner
   searches: Searches
   image_factory: Image Factory
   assemblies: Assemblies
@@ -145,24 +165,46 @@ en:
   cloud_engine_hardware_profiles: Hardware Profiles
   cloud_engine_realms: Realms
   pools:
+    pools: Pools
+    new_pool: New Pool
+    edit_pool: Edit Pool
+    create_new_pool: Create New Pool
     index:
       pool: Pool
       pool_name: Pool name
       deployment_name: Deployment name
       deployed_on: Deployed on
-      pools: Pools
       pool_family: Pool Family
       owner: Owner
       pending: Pending
       failed: Failed
-      quota_used: Quota Used
       confirm_delete: "Are you sure you want to delete this pool?"
-      pool_deleted:
-        one: "Pool %{list} was deleted."
-        other: "Pools %{list} were deleted."
-      pool_not_deleted:
-        one: "Pool %{list} was not deleted. There are instances associated with it."
-        other: "Pools %{list} were not deleted. They have instances associated with them."
+      overview: Overview
+      your_pools: Your Pools
+      pool_details: Pool details
+      global_uptime: Global uptime
+      destroy: Destroy
+    flash:
+      notice:
+        added: Pool added.
+        updated: Pool updated.
+      success:
+        pool_deleted:
+          one: Pool %{list} was deleted.
+          other: Pools %{list} were deleted.
+      error:
+        pool_not_deleted:
+          one: Pool %{list} was not deleted. There are instances associated with it.
+          other: Pools %{list} were not deleted. They have instances associated with them.
+        not_updated: Pool wasn't updated!
+      warning:
+        creation_failed: Pool creation failed.
+    list:
+      more_actions: More actions
+    form:
+      instance_or: instance or
+      unlimited: unlimited
+      pool_enabled: Pool enabled
   hardware_profiles:
     index:
       hardware_profile_name: Hardware Profile Name
@@ -176,11 +218,11 @@ en:
       realm_name: Realm Name
   pool_families:
     pool_families: Pool Families
+    pool_family: Pool Family
     index:
       deleted: "Deleted the following Pool Families: %{list}."
       not_deleted: "Could not delete the following Pool Families: %{list}."
       name: Name
-      quota_used: Quota Used
       quota_limit: Quota Limit
   catalog_entries:
     index:
@@ -241,7 +283,6 @@ en:
       permissions_desc: Modify self-service default quota.
     self_service:
       self_service_default: 'User Treatment: Self-service default'
-      quota: Quota
       account: Account
   providers:
     provider: Provider
@@ -269,7 +310,6 @@ en:
       username: Username
       provider_name: Provider Name
       provider_type: Provider Type
-      quota_used: Quota Used
       quota_limit: Quota Limit
       account_deleted:
         one: "Account %{list} was deleted."
@@ -318,3 +358,15 @@ en:
   deltacloud:
     unreachable: "Deltacloud is unreachable. Please verify that it is running."
   connection_refused: "The connection to the remote host was refused."
+  alerts:
+    instance_failure: Instance Failure
+  select:
+    select: Select
+    all: All
+    none: None
+  filter_table:
+    viewing: Viewing
+    results: Results
+  masthead:
+    my_account: My Account
+    logout: Log out

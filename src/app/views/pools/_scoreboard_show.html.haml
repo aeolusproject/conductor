@@ -2,26 +2,26 @@
   %dl.statistics
     %ul.groups
       %li
-        %dt Cloud Providers
+        %dt=t'cloud_providers'
         %dd.count.provider= @statistics[:cloud_providers]
       %li
-        %dt Deployments
+        %dt=t'deployments.deployments'
         %dd.count.deployment= @statistics[:deployments]
       %li
-        %dt Instances
+        %dt=t'instances.instances'
         %dd.count.instance= @statistics[:instances_deployed]
         %dd.count.instance.pending= @statistics[:instances_pending]
         %dd.count.instance.failure= @statistics[:instances_failed]
       %li
         %ul.subgroup
           %li
-            %dt Alerts
+            %dt=t'alerts_label'
             %dd.count.alert 0
           %li
-            %dt Updates
+            %dt=t'updates'
             %dd.count.update 0
       %li
-        %dt Quota Used
+        %dt=t'quota_used'
         %dd.percentage.quota
           = number_to_percentage(@pool.quota.percentage_used, :precision => 0)
         %dd.fraction.instance

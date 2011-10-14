@@ -1,9 +1,9 @@
 %header.page-header
   %h1.pools
-    = [@pool.name, "Pool"].join(' ')
+    = [@pool.name, "#{t'pools.index.pool'}"].join(' ')
   #obj_actions.button-container
-    = link_to 'New Deployment', launch_new_deployments_path(:pool_id => @pool.id), :class => 'button primary', :id => 'new_deployment_button'
+    = link_to t('deployments.new_deployment'), launch_new_deployments_path(:pool_id => @pool.id), :class => 'button primary', :id => 'new_deployment_button'
     .button-group
-      = link_to 'Edit', edit_pool_path(@pool), :class => 'button pill', :id => 'edit_pool_button'
-      = button_to 'Delete', pool_path(@pool), :method => :delete, :confirm => t('pools.index.confirm_delete'), :class => "button pill danger", :id => 'delete_pool_button'
+      = link_to t('edit'), edit_pool_path(@pool), :class => 'button pill', :id => 'edit_pool_button'
+      = button_to t('delete'), pool_path(@pool), :method => :delete, :confirm => t('pools.index.confirm_delete'), :class => "button pill danger", :id => 'delete_pool_button'
   .corner &nbsp;

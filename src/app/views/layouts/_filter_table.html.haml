@@ -11,11 +11,12 @@
         -# %li
           -# %a.button.pill{:href => '#'} Add/Remove Columns
     %li
-      %label{:for => "select_#{lower_class}"} Viewing
+      %label{:for => "select_#{lower_class}"}=t 'filter_table.viewing'
       = select_tag("select_#{lower_class}", saved_searches.join.html_safe,:disabled => true)
     %li.object-count
-      %strong= object_count.to_s
-      results
+      %strong
+        = object_count.to_s
+        =t 'filter_table.results'
     -# %li
       -# %a.button.pill{:href => '#'} Save and Share
     - if content_for? form_header

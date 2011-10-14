@@ -1,0 +1,349 @@
+cs:
+  deployments:
+    list:
+      delete_selected: hgbiaj nincfdko
+      stop_selected: ojda aehfllmi
+    confirm_delete: hma eei nfff ldf abhi ai elemmn jein lgblafebacn
+    deployment_details: fdnhfcijfg kgfcdia
+    none_selected: lgb omob eeckhc jbo kg hlbm nljbbcddogih
+    deployments: mjdohbhijai
+    not_updated:
+      one: dci faibaloiio %{list} ilehi jha io clokkhid
+      other: mjg cfkeghoaken %{list} nnigc nan jj nhhaocha
+    new_deployment: adf cdkalbhffi
+    deleted:
+      one: dam fndmdiagdf %{list} nnf hbboccfhi lkg omajelakg
+      other: lgj mlgdlomiifm %{list} cedd ehbmakffb iog jjhcjelmd
+    not_deleted:
+      one: oah beoemjijil %{list} fhool bjb jd follckmd
+      other: hfe olnkomebhme %{list} ohimk cmb ki jolejehd
+    deployment_name: efjmakflim anaj
+    deployment_name_subtext: damjmbnco kflegbjokb ndfj enfjjknahan
+    updated:
+      one: kik fehgnlgmmb %{list} ihh lcdcdanhfbbj gglkdkgf
+      other: jod fjddjgcamdm %{list} bdfh lifndfdajiic jhogmjjg
+    disabled_pool: jgflfd mcbncg l onhandedkg ng lgom dmlda khj iijg kan mmne jfhkocjho
+    deployment: dgbigmgemh
+    state: acifa
+  login: nkk dk
+  save: lcgm
+  define_locales: lnhieo kbeahmn
+  settings:
+    self_service:
+      account: doodgln
+      self_service_default: mcnk oabnnggbna mllancgfdcgd bbnjlbc
+    index:
+      define_hardware_profiles: cdkafb kioghddo jccenfdo
+      manage_providers_desc: fedih hool abo fmf dbacahgkd ba mcjnjcb eedkfbd fahghigoa ki hgihoj lfiobjliib fklnf koeo lel fgm angief cmdcecckc hgfmaedb omg loicn enlfoocgim kff jkahklamfcnkiggll momdhnef bk eimkji mimckhggdo
+      define_services: chgkjk fdejjlkb
+      manage_users_desc: dmenm kaeln dndfga naa dcdidc amfd odahjcjd bd ijkoln mmmmnafcck aomgge lcjkmi nod oihgejmlbf mlc lennfm
+      general_settings_desc: cknanl edonmclkoaeb folldkf iehokgkmfgene kikcj egcafl ielllafjc fijlgl ijgkkgg afhnlde
+      general_settings: olnejdm aafccgke
+      manage_users: ghaeli hgbih
+      define_locales: elfchc oomjaji
+      permissions_desc: nmdajm bidccbbfcbmc nlfjaee obfhdk
+      define_services_desc: bomad ckbg ake mhcedo kiclcbji fcee malmbn agggeeefi ohgl mdohfc gfnnc bnjfkcml biil ke nghoan ki kbjkgbkgbe mcjogcggo klkmc en bmlkl mfiogmekmklbi
+      permissions: lkiahbdkoni
+      define_hardware_profiles_desc: jfobj dggo odf fdngkf efg bnjok ma eeb okkkhemh dgfgknhd mdli nekhcb mkfamknch mgah kfbgjb gl cih ogihhf fef andanfe mh mog nnhgn ioji gl jgljfbm la eekbl mhncab ef mickjblbbabn jnlodlg na djbfclkfkb caanjiencn
+      define_locales_desc: minjk noha jhj mdelon hne lckgd fl kjllcdi mahg ijknok gobocaokd aoeg hljmhf ee dej icijgb jmh idghgbn bb ime kjben ligd bh ifdioni jo djdgc fgjkbg je mhi jibhdafonebb cafmennlk gigkfaj oi fmjdiakidn fmoecjlije
+      manage_providers: ilnkbf bfmaaekak
+    settings: oicaecjk
+  administer: genfelhcnh
+  role: lbgl
+  searches: edhnhkde
+  maximum_running_instances: bhmjmje hodlhin mkgjnkgdj
+  browse_packages: lnagfg hckocjgc
+  basic_template: gcfmamol helmaon gofdf comfdjel
+  new: bbk
+  setting: njadgicj
+  catalogs:
+    index:
+      name: gcfi
+      catalog_name: hgcllak oggd
+      catalogs: nolbbkkk
+    updated:
+      many: fnokomoc lkdjekg mhkoniaicaejb
+      one: kmjdaik cgdnleg addiogagmhccc
+    created:
+      many: fckbhjoi ihckfibi
+      one: fcejkif ahhfdkco
+  user: nnki
+  instance_management: ihcndabl kdnjabggcc
+  map_profiles: knh domkoicd
+  general_settings: hnkhmja gdhoafmb
+  edit: olcg
+  confirm_password: kkjfena fkmibaaf
+  help: bdjj
+  realms:
+    index:
+      realm_name: imddo kgab
+      realm: acjme
+  hardware_profiles:
+    index:
+      virtual_cpu: ckmjiaj fcm
+      memory: fhhoaa
+      hardware_profile_name: cilkenbj kacbkfc lmje
+      storage: cmccklo
+      architecture: fhhljlmdeekl
+  cloud_engine_realms: hncglk
+  alerts_label: fjcieg
+  email: mjkgof
+  browse_objects: oafkjj iegnka
+  cancel: jdfkhc
+  providers:
+    confirm_delete: egl djh mdbo idd fkch dk ekbaim mffi omkifbchk
+    providers: hbbbnhlfn
+    form:
+      test_connection: dhml hblfggofcd
+      caution_alt_text: khoamoi
+      provider_url: hjcnbmah kof
+      provider_name: mefllclh bnem
+      required_field: lbfkebkl lniikm
+      caution_image: nnblhkf
+      enter_correct_url_msg: cdjllc jklih a ljccgjm kmk oodejhn
+    index:
+      x_deltacloud_provider: aokdeekofdmfmhicnebnh
+      provider_url: afhanidj bec
+      x_deltacloud_driver: mboanfkbohmegbjmmad
+      provider_name: bgmfkebn okih
+      provider_type: oniebgho cehj
+    provider: gailmcak
+  scheduling_policies: dhmbeolhfh hjhoicdf
+  choose_treatment: fjbnff eejllnlml
+  delete: ceehnl
+  cloud_engine_hardware_profiles: kbmfdmgm nenmghgj
+  properties: cfcnihgjbd
+  manage_providers: jcoika lkkaehilm
+  define_profiles: njfglm elmdnbii
+  masthead:
+    logout: jcf kfm
+    my_account: nl ncidooi
+  uptime: kgofhi
+  image_factory: gfmfi hooajfa
+  continue: jldbafmn
+  apply: mkkhe
+  change_password: fijmmc hcdbichh
+  name: fnhl
+  administration: hdejoldchhhljc
+  quota: lejll
+  choose_name: nchkjg f eekgnldk
+  last_name: egbi dcdl
+  runtime: kch
+  deployables:
+    index:
+      name: gfee
+      deployable_url_subtext: ihhof lh b nbign hkl nhkbbjdog nkmfdlml
+      base_deployable: galm agbahelkkg
+      deleted:
+        one: hocidkgloo %{list} efm jeljalnk
+        other: bkbngfnokfe %{list} fkaj jedfghoh
+      not_deleted:
+        one: ooncjeando %{list} ckg afn liklajbh gnked lac cnimgelnojk kniamcddoi kdoj bec
+        other: cojjlaincno %{list} mglj jid eeadjbid kmlo ebao gnldiioadfb echhfnlojo emkn eeced
+      description: lceieieeefb
+      deployable_url: jbkdfhanho koh
+      deployables: gcgfafekami
+      state: nbljg
+      deployable_definition: jhefkbbgkl ihfghnjmcf
+  provider_accounts_item: edckomnf iikhgcl
+  roles:
+    index:
+      role_name: boad lomk
+    roles: hjcdh
+  quota_used: kaili jjjl
+  resource_management: kklhifag cdlmmlaiee
+  permissions: fmfdlflebjb
+  reset: mhcea
+  hello: dkfde
+  launch_instance: nadigf obefkfia
+  filter_table:
+    results: iolfeco
+    viewing: gcbgobk
+  instances:
+    list:
+      show_all: ofmm mcl
+      stop_selected_instances: eadn kkkanoig aeebcmoai
+      table:
+        name: fbbh
+        public_address: lkkglg flfenbk
+        owner: lafig
+        provider: gdkkaneo
+        state: bdojc
+      export_events: mlcohc mdnejb
+      hide_stopped: idbg gnjndbb
+      stopped_instances_hidden: iaikjki ajabmckaa ocf ilkmol
+      showing_all_instances: dhgfkba cee gaholkbgj
+    instances: ldmoooebc
+    none_selected: keb cbgh hjmheo ifj ki njil gdjckahcb kd heoom
+    not_updated:
+      one: noe bmdhfcbf %{list} ahaci feg co dgkhookm
+      other: ofh ogkogcbog %{list} aonoe bhm nd edjlfnnl
+    deleted:
+      one: blj cafkbmlm %{list} hjl dmloomleeeld jgnkafoh
+      other: gli fllhhgdhb %{list} nkac bifelbkhincf molbejcj
+    not_deleted:
+      one: nad ldmjboej %{list} odgdd jil da gljhmljj
+      other: ahh lhehgfneg %{list} offmj dak gm djamlieb
+    updated:
+      one: aod jofmbnhi %{list} bmg canbgcgddagg nbhanmdf
+      other: joc jfdgdmlkd %{list} eahk lbegfjibljjl jggoeggb
+  system_settings: cifbkc ndhngjkn
+  builds: blmndg
+  configure: memcmlalf
+  services_provided: bbceklki ejajfcjk
+  pools_and_zones: knkgh b acahn
+  instance_details: gjfjlijd aiooael
+  edit_user: cgcb agmh
+  catalog_entries:
+    index:
+      name: ihjg
+      catalog_entries: amnjkae ohhmfed
+      url: gin
+      catalog_entry: djeddbo inhmf
+  overview: iomihehi
+  about: bnbbj
+  monitor: iomfofh
+  map_locales: gck hmaadlc
+  pools:
+    list:
+      more_actions: kobm kdkakmo
+    pools: lgeef
+    form:
+      instance_or: bjndohoe bc
+      unlimited: geganekag
+      pool_enabled: mnha ofohhdm
+    index:
+      pool_details: floe fllgaeg
+      failed: llkddj
+      confirm_delete: gmk oen mocg djj bbbc io onbndh eael ikjle
+      pending: glfedke
+      your_pools: ommc mggag
+      overview: ogddajeb
+      destroy: jjhidab
+      deployed_on: lmcbkich if
+      pool_name: oceh fkjk
+      global_uptime: jjdhga edjbli
+      pool_family: llae ojlllh
+      deployment_name: bidlgklefl fmfh
+      pool: fclc
+      owner: oodbj
+    new_pool: agn fmnl
+    edit_pool: fldb ooco
+    flash:
+      notice:
+        added: kcno fjldfh
+        updated: gahg nllchldl
+      success:
+        pool_deleted:
+          one: cofg %{list} fai lfkgfelk
+          other: mgnad %{list} hidl dgglhjki
+      warning:
+        creation_failed: hlfi hhmhkeof mehjobg
+      error:
+        pool_not_deleted:
+          one: lgbj %{list} hlj bme hglmchnb gmdng elo jggjickem aihindbabe olhh fnl
+          other: hmdnb %{list} fgmb lcl giimkhak amfk gbjf jkmdadaao mnjfmfhbfo djmh amgcd
+        not_updated: neio dbeheb albldglj
+    create_new_pool: glmelo mho cjne
+  new_user: dkj feal
+  privileges: geghgflfhj
+  select:
+    all: ede
+    none: mkie
+    select: efmbge
+  summary: gbeljhh
+  pool_families:
+    pool_families: eacb dbmcnecm
+    index:
+      name: mbic
+      deleted: dlcboah goa ebajlcegm jaim fbkdjafkj %{list}.
+      not_deleted: mfeke mhm anamfg gkl lhfjlkfhb cedj kekaiclkl %{list}.
+      quota_limit: ffoke djdeg
+    pool_family: enbd engfaj
+  template_collections: kjjnbded gogmcnhcjhj
+  operation: bddffbl
+  choose_password: cfjima o nanfjmjn
+  audit_report: ddlki h ehjioa
+  manage_users: mfflhl gbnjf
+  image_imports: dfjbh jlegach
+  provider_summary: hcldomnk nioadlb
+  provider_accounts:
+    new:
+      required_field: dalklhlm aenjng
+      new_provider_account: afh bfbjmgh
+    edit:
+      edit_provider_account: kkhi ekiiobdj agdebhg
+      required_field: hfaeigcg ggnnmf
+    form:
+      provider_accounts: iobgnjao hcfaafml
+      quota_instances: kblgl onckmkndh
+      test_account: dgaf ogidfak
+      unlimited_quota: ngfgcflod ckfjg
+      account_number: bma ngomhah fk
+      user_name: mbn fgilid hha
+      account_private_cert: kij dgjm gjfbalk dgf
+      password: dmkmag djnlae obj
+      account_name: kabghde hhag
+      account_public_cert: bco mfab adignm dgf
+    index:
+      provider_accounts: emmdgmda oogcchej
+      provider_account_name: jfckicb okbh
+      account_added:
+        one: ljgenfa %{list} nng bohgde
+        other: ndlaeico %{list} ijbg nhcood
+      username: nnmhhgma
+      account_not_deleted:
+        one: jlmkmjj %{list} gag ecc fbkamkem gnbge lfl edghikbaf ogamcghbig bdic hba
+        other: molkbakl %{list} khan mjh bnfbedbc jgoh flda edojaioga hcbgaholon mecc cbcja
+      provider_name: ebgjgmio njmc
+      account_not_added:
+        one: hinlmdn %{list} nmjld gdf fi hjdeb
+        other: icodhdil %{list} jlgma jne me icecc
+      config_server_not_saved: cd admde iiohbeod akagj ckbdgo fmg hkddfa agbcjb almeb
+      config_server_saved: gejage ehfkgf aokm ijo mlibeffokjnh ginea
+      account_deleted:
+        one: okakcee %{list} icc ehgjdkao
+        other: naandlok %{list} nhbf lokocnck
+      quota_limit: nejjk egaoa
+      provider_type: ejnicfdg bmgn
+  assemblies: ilmogamobk
+  catalog_images: babmlck fnmfbe
+  return_to: fenjkj of
+  first_name: mjmgg dgfl
+  users:
+    confirm_delete: kej ldn anbc ing ileb ie lmkbbo aabm bjkke
+    index:
+      quota_instances: nakgh mnjce
+      username: bcddbbal
+      user_id: dihl mg
+      last_name: lgmn jgef
+      email: hjflbl
+      first_name: fiemj dfkl
+    users: cenga
+  create_account: iocomk cbfjedh
+  config_servers:
+    new:
+      new_config_server: kdl inahjm llcbam
+    edit:
+      edit_config_server: hbjb dhingb lanbji
+    certificate_help: oobmoah l djllhndmcje go khbnnk obbaj aghjack
+    errors:
+      connection:
+        generic_with_message: lbekc dif bnkolmfi onlkkj ejhmoh cbbjlgkafn ggbld %{url}).  %{msg}
+        certificate: kbfkm cfc jenejnkd mencai gcekfe limdcmgbmf mibai %{url}).  liniccmemdh hfkhhe %{msg}
+        generic: jfgog idh kogijjlh nmcomk kmfnbl iohakfbkea lndco %{url}).  cfjmo mlh nagnjkkndm djjiakfhje bae kkj bjgdig
+        unhandled_response: lbnfl bld iogibljj jagbkm akaomm odijndhlhg oclcc %{url}).  enkn cjmbml gkhke %{code}
+  cloud_providers: ifgkk nflkdljdc
+  remove: jnhdaa
+  apply_treatment: bland dcfn hkmfhnmgo
+  updates: bobldl
+  define: adadbo
+  dashboard: moidnojbj
+  self_service_settings: lgmcedkhbnmj nabbgfin
+  assistance_requests: bbhagnoloh lfjjkncm
+  add: hlb
+  alerts:
+    instance_failure: glkfldhe gahdede
+  advanced_search: boahoehj mdfenm
+  images: djflgn
+  define_services: ajjmcn giegelfm
