@@ -92,6 +92,17 @@ Feature: Manage Providers
     And I should see "Provider is disabled."
     And I should not see "Error while stopping an instance"
 
+  Scenario: Persist selected provider
+    Given there is a provider named "provider1"
+    And there is a provider named "provider2"
+    When I am on the provider1's edit provider page
+    And I follow "Cloud Providers"
+    Then I should be on the provider1's edit provider page
+    When I am on the provider2's edit provider page
+    And I follow "Cloud Providers"
+    Then I should be on the provider2's edit provider page
+
+
 #  Scenario: Search for hardware profiles
 #    Given there are these providers:
 #    | name          | url                         |

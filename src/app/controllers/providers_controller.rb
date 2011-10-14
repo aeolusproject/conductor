@@ -22,7 +22,14 @@ class ProvidersController < ApplicationController
 
   def index
     @params = params
-    @provider = @providers.first
+
+    begin
+      @provider = Provider.find(session[:current_provider_id]) if session[:current_provider_id]
+    rescue ActiveRecord::RecordNotFound => exc
+      logger.error(exc.message)
+    ensure
+      @provider ||= @providers.first
+    end
 
     respond_to do |format|
       format.html do
@@ -34,6 +41,7 @@ class ProvidersController < ApplicationController
       end
       format.xml { render :partial => 'list.xml' }
     end
+
   end
 
   def new
@@ -44,6 +52,7 @@ class ProvidersController < ApplicationController
 
   def edit
     @provider = Provider.find_by_id(params[:id])
+    session[:current_provider_id] = @provider.id
     require_privilege(Privilege::MODIFY, @provider)
 
     @alerts = provider_alerts(@provider)
@@ -142,6 +151,7 @@ class ProvidersController < ApplicationController
     provider = Provider.find(params[:id])
     require_privilege(Privilege::MODIFY, provider)
     provider.destroy
+    session[:current_provider_id] = nil
 
     respond_to do |format|
       format.html { redirect_to providers_path, :notice => t("providers.index.deleted") }
