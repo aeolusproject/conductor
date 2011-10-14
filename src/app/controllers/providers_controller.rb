@@ -212,6 +212,7 @@ class ProvidersController < ApplicationController
              {:name => 'Realms', :view => 'realms/list', :id => 'realms', :count => @realms.count},
              #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
     ]
+    add_permissions_tab(@provider, "edit_")
     details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 

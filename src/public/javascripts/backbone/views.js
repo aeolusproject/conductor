@@ -81,6 +81,11 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
 
   el: '#content',
 
+  currentTab: function() {
+    if($('#details_instances.active').length > 0) {
+      return 'instances';
+    }
+  },
   render: function() {
     var $instances = this.$('ul.instances_list');
     if($instances.length === 0) {

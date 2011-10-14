@@ -143,6 +143,7 @@ class DeploymentsController < ApplicationController
              {:name => 'Properties', :view => 'properties', :id => 'properties'}
              #{:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
     ]
+    add_permissions_tab(@deployment)
     details_tab_name = params[:details_tab].blank? ? 'instances' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
     @deployment_properties = @deployment.properties

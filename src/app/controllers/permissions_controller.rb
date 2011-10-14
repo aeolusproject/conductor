@@ -21,10 +21,7 @@ class PermissionsController < ApplicationController
   before_filter :set_permissions_header
 
   def index
-    obj_type = params[:permission_object_type]
-    id = params[:permission_object_id]
-    @permission_object = obj_type.constantize.find(id) if obj_type and id
-    raise RuntimeError, "invalid permission object" if @permission_object.nil?
+    set_permission_object(Privilege::PERM_VIEW)
     respond_to do |format|
       format.html
       format.json { render :json => @permission_object.as_json }
@@ -33,10 +30,7 @@ class PermissionsController < ApplicationController
   end
 
   def new
-    obj_type = params[:permission_object_type]
-    id = params[:permission_object_id]
-    @permission_object = obj_type.constantize.find(id) if obj_type and id
-    require_privilege(Privilege::PERM_SET, @permission_object)
+    set_permission_object
     @users = User.all
     @roles = Role.find_all_by_scope(@permission_object.class.name)
     load_headers
@@ -48,10 +42,7 @@ class PermissionsController < ApplicationController
   end
 
   def create
-    obj_type = params[:permission_object_type]
-    id = params[:permission_object_id]
-    @permission_object = obj_type.constantize.find(id) if obj_type and id
-    require_privilege(Privilege::PERM_SET, @permission_object)
+    set_permission_object
     added=[]
     not_added=[]
     params[:user_role_selected].each do |user_role|
@@ -77,9 +68,10 @@ class PermissionsController < ApplicationController
       flash[:error] = "No users selected"
     end
     respond_to do |format|
-      format.html { redirect_to polymorphic_path(@permission_object,
-                                       :details_tab => :permissions,
-                                       :only_tab => true) }
+      format.html { redirect_to send("#{@path_prefix}polymorphic_path",
+                                     @permission_object,
+                                     :details_tab => :permissions,
+                                     :only_tab => true) }
       format.js { render :partial => 'index',
                     :permission_object_type => @permission_object.class.name,
                     :permission_object_id => @permission_object.id }
@@ -87,10 +79,7 @@ class PermissionsController < ApplicationController
   end
 
   def multi_update
-    obj_type = params[:permission_object_type]
-    id = params[:permission_object_id]
-    @permission_object = obj_type.constantize.find(id) if obj_type and id
-    require_privilege(Privilege::PERM_SET, @permission_object)
+    set_permission_object
     modified=[]
     not_modified=[]
     params[:permission_role_selected].each do |permission_role|
@@ -119,9 +108,10 @@ class PermissionsController < ApplicationController
       flash[:error] = "No users selected"
     end
     respond_to do |format|
-      format.html { redirect_to polymorphic_path(@permission_object,
-                                       :details_tab => :permissions,
-                                       :only_tab => true) }
+      format.html { redirect_to send("#{@path_prefix}polymorphic_path",
+                                     @permission_object,
+                                     :details_tab => :permissions,
+                                     :only_tab => true) }
       format.js { render :partial => 'index',
                     :permission_object_type => @permission_object.class.name,
                     :permission_object_id => @permission_object.id }
@@ -129,11 +119,7 @@ class PermissionsController < ApplicationController
   end
 
   def multi_destroy
-    obj_type = params[:permission_object_type]
-    id = params[:permission_object_id]
-    @permission_object = obj_type.constantize.find(id) if obj_type and id
-    raise RuntimeError, "invalid permission object" if @permission_object.nil?
-    require_privilege(Privilege::PERM_SET, @permission_object)
+    set_permission_object
     deleted=[]
     not_deleted=[]
 
@@ -152,9 +138,10 @@ class PermissionsController < ApplicationController
       flash[:error] = "Could not delete these Permission Grants: #{not_deleted.join(', ')}"
     end
     respond_to do |format|
-      format.html { redirect_to polymorphic_path(@permission_object,
-                                       :details_tab => :permissions,
-                                       :only_tab => true) }
+      format.html { redirect_to send("#{@path_prefix}polymorphic_path",
+                                     @permission_object,
+                                     :details_tab => :permissions,
+                                     :only_tab => true) }
         format.js { render :partial => 'index',
                     :permission_object_type => @permission_object.class.name,
                     :permission_object_id => @permission_object.id }
@@ -190,4 +177,12 @@ class PermissionsController < ApplicationController
     ]
   end
 
+  def set_permission_object (required_role=Privilege::PERM_SET)
+    obj_type = params[:permission_object_type]
+    id = params[:permission_object_id]
+    @path_prefix = params[:path_prefix]
+    @permission_object = obj_type.constantize.find(id) if obj_type and id
+    raise RuntimeError, "invalid permission object" if @permission_object.nil?
+    require_privilege(required_role, @permission_object)
+  end
 end

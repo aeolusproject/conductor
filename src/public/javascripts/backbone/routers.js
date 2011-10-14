@@ -64,12 +64,15 @@ Conductor.Routers.Deployments = Backbone.Router.extend({
     id = Conductor.idFromURLFragment(id);
     if(! _.isNumber(id)) return;
 
-    var deployment = new Conductor.Models.Deployment({ id: id });
-    var view = new Conductor.Views.DeploymentsShow({ model: deployment,
-        collection: deployment.instances });
-    deployment.bind('change', function() { view.render() });
-
     setInterval(function() {
+      var deployment = new Conductor.Models.Deployment({ id: id });
+      var view = new Conductor.Views.DeploymentsShow({ model: deployment,
+        collection: deployment.instances });
+
+      if(view.currentTab() !== 'instances') return;
+
+      deployment.bind('change', function() { view.render() });
+
       deployment.instances.fetch({success: function(instances) {
         deployment.change();
       } })

@@ -250,6 +250,24 @@ class ApplicationController < ActionController::Base
     %w[asc desc].include?(params[:order_dir]) ? params[:order_dir] : "asc"
   end
 
+  def add_permissions_tab(perm_obj, path_prefix = "")
+    @path_prefix = path_prefix
+    if "permissions" == params[:details_tab]
+      require_privilege(Privilege::PERM_VIEW, perm_obj)
+      @permission_object = perm_obj
+    end
+    if perm_obj.has_privilege(current_user, Privilege::PERM_VIEW)
+      @roles = Role.find_all_by_scope(@permission_object.class.name)
+      if @tabs
+        @tabs << {:name => 'Users',
+                  :view => 'permissions',
+                  :id => 'permissions',
+                  :count => perm_obj.permissions.count}
+      end
+    end
+    set_permissions_header
+  end
+
   def set_permissions_header
     @permission_list_header = [
       { :name => '', :class => 'checkbox', :sortable => false },
