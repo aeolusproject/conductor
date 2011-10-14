@@ -186,6 +186,9 @@ en:
     created:
       one: Catalog created!
       many: Catalogs created!
+    deleted:
+      one: Catalog deleted!
+      other: "%{count} Catalogs deleted!"
   deployables:
     index:
       deployables: Deployables

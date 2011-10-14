@@ -42,3 +42,14 @@ Feature: Manage Catalogs
     And I press "delete"
     Then I should be on the catalogs page
     And I should not see "Bad"
+    And I should see "Catalog deleted!"
+
+  Scenario: Delete multiple catalogs
+    Given there is a "Bad" catalog
+    And there is a "Worse" catalog
+    And I am on the catalogs page
+    When I check "Bad" catalog
+    And I check "Worse" catalog
+    And I press "delete_button"
+    Then I should be on the catalogs page
+    And I should see "2 Catalogs deleted!"

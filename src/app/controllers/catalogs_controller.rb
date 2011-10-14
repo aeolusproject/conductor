@@ -81,11 +81,12 @@ class CatalogsController < ApplicationController
   end
 
   def multi_destroy
-    Catalog.find(params[:catalogs_selected]).to_a.each do |catalog|
+    catalogs = Catalog.find(params[:catalogs_selected])
+    catalogs.to_a.each do |catalog|
       require_privilege(Privilege::MODIFY, catalog)
       catalog.destroy
     end
-    redirect_to catalogs_path
+    redirect_to catalogs_path, :notice => t("catalogs.deleted", :count => catalogs.count)
   end
 
   def destroy
@@ -94,7 +95,7 @@ class CatalogsController < ApplicationController
     catalog.destroy
 
     respond_to do |format|
-      format.html { redirect_to catalogs_path }
+      format.html { redirect_to catalogs_path, :notice => t("catalogs.deleted", :count => 1) }
     end
   end
 
