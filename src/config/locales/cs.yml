@@ -1,349 +1,497 @@
-cs:
+---
+en:
   deployments:
     list:
-      delete_selected: hgbiaj nincfdko
-      stop_selected: ojda aehfllmi
-    confirm_delete: hma eei nfff ldf abhi ai elemmn jein lgblafebacn
-    deployment_details: fdnhfcijfg kgfcdia
-    none_selected: lgb omob eeckhc jbo kg hlbm nljbbcddogih
-    deployments: mjdohbhijai
-    not_updated:
-      one: dci faibaloiio %{list} ilehi jha io clokkhid
-      other: mjg cfkeghoaken %{list} nnigc nan jj nhhaocha
-    new_deployment: adf cdkalbhffi
-    deleted:
-      one: dam fndmdiagdf %{list} nnf hbboccfhi lkg omajelakg
-      other: lgj mlgdlomiifm %{list} cedd ehbmakffb iog jjhcjelmd
-    not_deleted:
-      one: oah beoemjijil %{list} fhool bjb jd follckmd
-      other: hfe olnkomebhme %{list} ohimk cmb ki jolejehd
-    deployment_name: efjmakflim anaj
-    deployment_name_subtext: damjmbnco kflegbjokb ndfj enfjjknahan
-    updated:
-      one: kik fehgnlgmmb %{list} ihh lcdcdanhfbbj gglkdkgf
-      other: jod fjddjgcamdm %{list} bdfh lifndfdajiic jhogmjjg
-    disabled_pool: jgflfd mcbncg l onhandedkg ng lgom dmlda khj iijg kan mmne jfhkocjho
-    deployment: dgbigmgemh
-    state: acifa
-  login: nkk dk
-  save: lcgm
-  define_locales: lnhieo kbeahmn
-  settings:
-    self_service:
-      account: doodgln
-      self_service_default: mcnk oabnnggbna mllancgfdcgd bbnjlbc
-    index:
-      define_hardware_profiles: cdkafb kioghddo jccenfdo
-      manage_providers_desc: fedih hool abo fmf dbacahgkd ba mcjnjcb eedkfbd fahghigoa ki hgihoj lfiobjliib fklnf koeo lel fgm angief cmdcecckc hgfmaedb omg loicn enlfoocgim kff jkahklamfcnkiggll momdhnef bk eimkji mimckhggdo
-      define_services: chgkjk fdejjlkb
-      manage_users_desc: dmenm kaeln dndfga naa dcdidc amfd odahjcjd bd ijkoln mmmmnafcck aomgge lcjkmi nod oihgejmlbf mlc lennfm
-      general_settings_desc: cknanl edonmclkoaeb folldkf iehokgkmfgene kikcj egcafl ielllafjc fijlgl ijgkkgg afhnlde
-      general_settings: olnejdm aafccgke
-      manage_users: ghaeli hgbih
-      define_locales: elfchc oomjaji
-      permissions_desc: nmdajm bidccbbfcbmc nlfjaee obfhdk
-      define_services_desc: bomad ckbg ake mhcedo kiclcbji fcee malmbn agggeeefi ohgl mdohfc gfnnc bnjfkcml biil ke nghoan ki kbjkgbkgbe mcjogcggo klkmc en bmlkl mfiogmekmklbi
-      permissions: lkiahbdkoni
-      define_hardware_profiles_desc: jfobj dggo odf fdngkf efg bnjok ma eeb okkkhemh dgfgknhd mdli nekhcb mkfamknch mgah kfbgjb gl cih ogihhf fef andanfe mh mog nnhgn ioji gl jgljfbm la eekbl mhncab ef mickjblbbabn jnlodlg na djbfclkfkb caanjiencn
-      define_locales_desc: minjk noha jhj mdelon hne lckgd fl kjllcdi mahg ijknok gobocaokd aoeg hljmhf ee dej icijgb jmh idghgbn bb ime kjben ligd bh ifdioni jo djdgc fgjkbg je mhi jibhdafonebb cafmennlk gigkfaj oi fmjdiakidn fmoecjlije
-      manage_providers: ilnkbf bfmaaekak
-    settings: oicaecjk
-  administer: genfelhcnh
-  role: lbgl
-  searches: edhnhkde
-  maximum_running_instances: bhmjmje hodlhin mkgjnkgdj
-  browse_packages: lnagfg hckocjgc
-  basic_template: gcfmamol helmaon gofdf comfdjel
-  new: bbk
-  setting: njadgicj
-  catalogs:
-    index:
-      name: gcfi
-      catalog_name: hgcllak oggd
-      catalogs: nolbbkkk
-    updated:
-      many: fnokomoc lkdjekg mhkoniaicaejb
-      one: kmjdaik cgdnleg addiogagmhccc
-    created:
-      many: fckbhjoi ihckfibi
-      one: fcejkif ahhfdkco
-  user: nnki
-  instance_management: ihcndabl kdnjabggcc
-  map_profiles: knh domkoicd
-  general_settings: hnkhmja gdhoafmb
-  edit: olcg
-  confirm_password: kkjfena fkmibaaf
-  help: bdjj
-  realms:
-    index:
-      realm_name: imddo kgab
-      realm: acjme
-  hardware_profiles:
-    index:
-      virtual_cpu: ckmjiaj fcm
-      memory: fhhoaa
-      hardware_profile_name: cilkenbj kacbkfc lmje
-      storage: cmccklo
-      architecture: fhhljlmdeekl
-  cloud_engine_realms: hncglk
-  alerts_label: fjcieg
-  email: mjkgof
-  browse_objects: oafkjj iegnka
-  cancel: jdfkhc
-  providers:
-    confirm_delete: egl djh mdbo idd fkch dk ekbaim mffi omkifbchk
-    providers: hbbbnhlfn
-    form:
-      test_connection: dhml hblfggofcd
-      caution_alt_text: khoamoi
-      provider_url: hjcnbmah kof
-      provider_name: mefllclh bnem
-      required_field: lbfkebkl lniikm
-      caution_image: nnblhkf
-      enter_correct_url_msg: cdjllc jklih a ljccgjm kmk oodejhn
-    index:
-      x_deltacloud_provider: aokdeekofdmfmhicnebnh
-      provider_url: afhanidj bec
-      x_deltacloud_driver: mboanfkbohmegbjmmad
-      provider_name: bgmfkebn okih
-      provider_type: oniebgho cehj
-    provider: gailmcak
-  scheduling_policies: dhmbeolhfh hjhoicdf
-  choose_treatment: fjbnff eejllnlml
-  delete: ceehnl
-  cloud_engine_hardware_profiles: kbmfdmgm nenmghgj
-  properties: cfcnihgjbd
-  manage_providers: jcoika lkkaehilm
-  define_profiles: njfglm elmdnbii
-  masthead:
-    logout: jcf kfm
-    my_account: nl ncidooi
-  uptime: kgofhi
-  image_factory: gfmfi hooajfa
-  continue: jldbafmn
-  apply: mkkhe
-  change_password: fijmmc hcdbichh
-  name: fnhl
-  administration: hdejoldchhhljc
-  quota: lejll
-  choose_name: nchkjg f eekgnldk
-  last_name: egbi dcdl
-  runtime: kch
-  deployables:
-    index:
-      name: gfee
-      deployable_url_subtext: ihhof lh b nbign hkl nhkbbjdog nkmfdlml
-      base_deployable: galm agbahelkkg
-      deleted:
-        one: hocidkgloo %{list} efm jeljalnk
-        other: bkbngfnokfe %{list} fkaj jedfghoh
-      not_deleted:
-        one: ooncjeando %{list} ckg afn liklajbh gnked lac cnimgelnojk kniamcddoi kdoj bec
-        other: cojjlaincno %{list} mglj jid eeadjbid kmlo ebao gnldiioadfb echhfnlojo emkn eeced
-      description: lceieieeefb
-      deployable_url: jbkdfhanho koh
-      deployables: gcgfafekami
-      state: nbljg
-      deployable_definition: jhefkbbgkl ihfghnjmcf
-  provider_accounts_item: edckomnf iikhgcl
-  roles:
-    index:
-      role_name: boad lomk
-    roles: hjcdh
-  quota_used: kaili jjjl
-  resource_management: kklhifag cdlmmlaiee
-  permissions: fmfdlflebjb
-  reset: mhcea
-  hello: dkfde
-  launch_instance: nadigf obefkfia
-  filter_table:
-    results: iolfeco
-    viewing: gcbgobk
-  instances:
-    list:
-      show_all: ofmm mcl
-      stop_selected_instances: eadn kkkanoig aeebcmoai
-      table:
-        name: fbbh
-        public_address: lkkglg flfenbk
-        owner: lafig
-        provider: gdkkaneo
-        state: bdojc
-      export_events: mlcohc mdnejb
-      hide_stopped: idbg gnjndbb
-      stopped_instances_hidden: iaikjki ajabmckaa ocf ilkmol
-      showing_all_instances: dhgfkba cee gaholkbgj
-    instances: ldmoooebc
-    none_selected: keb cbgh hjmheo ifj ki njil gdjckahcb kd heoom
-    not_updated:
-      one: noe bmdhfcbf %{list} ahaci feg co dgkhookm
-      other: ofh ogkogcbog %{list} aonoe bhm nd edjlfnnl
-    deleted:
-      one: blj cafkbmlm %{list} hjl dmloomleeeld jgnkafoh
-      other: gli fllhhgdhb %{list} nkac bifelbkhincf molbejcj
-    not_deleted:
-      one: nad ldmjboej %{list} odgdd jil da gljhmljj
-      other: ahh lhehgfneg %{list} offmj dak gm djamlieb
-    updated:
-      one: aod jofmbnhi %{list} bmg canbgcgddagg nbhanmdf
-      other: joc jfdgdmlkd %{list} eahk lbegfjibljjl jggoeggb
-  system_settings: cifbkc ndhngjkn
-  builds: blmndg
-  configure: memcmlalf
-  services_provided: bbceklki ejajfcjk
-  pools_and_zones: knkgh b acahn
-  instance_details: gjfjlijd aiooael
-  edit_user: cgcb agmh
-  catalog_entries:
-    index:
-      name: ihjg
-      catalog_entries: amnjkae ohhmfed
-      url: gin
-      catalog_entry: djeddbo inhmf
-  overview: iomihehi
-  about: bnbbj
-  monitor: iomfofh
-  map_locales: gck hmaadlc
-  pools:
-    list:
-      more_actions: kobm kdkakmo
-    pools: lgeef
-    form:
-      instance_or: bjndohoe bc
-      unlimited: geganekag
-      pool_enabled: mnha ofohhdm
-    index:
-      pool_details: floe fllgaeg
-      failed: llkddj
-      confirm_delete: gmk oen mocg djj bbbc io onbndh eael ikjle
-      pending: glfedke
-      your_pools: ommc mggag
-      overview: ogddajeb
-      destroy: jjhidab
-      deployed_on: lmcbkich if
-      pool_name: oceh fkjk
-      global_uptime: jjdhga edjbli
-      pool_family: llae ojlllh
-      deployment_name: bidlgklefl fmfh
-      pool: fclc
-      owner: oodbj
-    new_pool: agn fmnl
-    edit_pool: fldb ooco
+      delete_selected: lkaoic ogdaikmm
+      stop_selected: gamh jgbddgdj
+    confirm_delete: goh aib hdga ceo ibmj fd hienam bgne ejneelkihlc
+    deployment_details: gokadekeam djmihff
+    deployments: jhdhfchomcg
+    new_deployment: gme olikbejfin
+    deployment_name: ggcfodjkmg coib
+    deployment_name_subtext: eojinnngg hjbleicfmm ogli nodhaclnggo
     flash:
       notice:
-        added: kcno fjldfh
-        updated: gahg nllchldl
+        stop: obfi blfdcn bkn djoacokkeenj lbfabbi
+        launched: hllenjifli ljddkaonf
+      success:
+        deleted:
+          one: djj hgigbobjhi %{list} mbb aidkkcacd gjf idmcbaioa
+          other: khk khoindmfjdl %{list} gije andlfhegb hgc lcmkbimlf
+        updated:
+          one: boa ojocnilijf %{list} oef cfkkcjnohhmi ffhgcddm
+          other: ljc bklghcmljao %{list} ghmg fkfhcgebcdmf mdijakae
+      warning:
+        failed_to_launch: bgebdadald koeben dbnfhjc
+        disabled_pool: ciiflm ooofha k kicjcglhml bk fjla gcdcl iol onna alf faef dioimgkdo
+      error:
+        none_selected: khm ocgj bfnacd mia bk djok bodnihfhhdgb
+        failed_to_launch_assemblies: djmief mb cmafod lgdgmhebd bmhkgeainml
+        not_updated:
+          one: gki llkdcckigm %{list} bhmlg boj ia nbnncake
+          other: gcb abcijbknlnf %{list} idaak eni bc gcioblfl
+        not_deleted:
+          one: oje kinmaibkni %{list} afeda jnj gk jodbfbie
+          other: bfl jeaofembjdk %{list} boilg hod li lmacdgci
+        not_launched: coob camdidiclh faao ebm ba joknmllmc
+    deployment: dcdinoamjc
+    state: dldno
+  login: ehj hn
+  save: deie
+  define_locales: bcefcg fmjholo
+  settings:
+    self_service:
+      account: jolhkko
+      self_service_default: hece hfjiofjebl mcjcmgkcjbin mknlggo
+    index:
+      define_hardware_profiles: enanhk ebbcjmbi ohhlfham
+      manage_providers_desc: bbgaj mdga dgm ael gdcnokddi mg ilinmee gcelklf hflcjjgee bl menhan okakhnbffa aljha gamj inn dbk ajifna ainognkkb mjlbjiif jah jegof bnfdcgfhck hem mlljfmbhhcmagnmhl liocldke gi nlahkj nademkcaab
+      define_services: nojmjo jglgbgmi
+      manage_users_desc: kbllc mnlbf cmfelj ghk jeioia aolm djdiglja co hboeoo bnegidbdlm cinika anjdem kco elmmcmdeon ogk ademge
+      general_settings_desc: knagfl fbaioigbhmba fdecake hlidanikljihc laidg canjcl kgnfbhjmf kiblmg mahogoj iinkhmb
+      general_settings: eaalmfd ldllfcdb
+      manage_users: okming immbo
+      define_locales: fkbdll gfofafh
+      permissions_desc: adlajd nngkjbaaaglo dbdhion kjmjne
+      define_services_desc: lnedn enjk cgd ociaha nmihfcdg lclj ebiekm flhfgeojn gmab khdnfc kdmli nhiljidj gemf mi kkhkhb ik bnnnheamae kochcgojk adocm eg mklal hljdogoaaajbl
+      permissions: gjddnlbgahl
+      define_hardware_profiles_desc: bjmdi fjbi jhi oagnnm kci cfbef cd ieg aiemhkgb hfdbohnh mncf mobaci llcflcjfi lalh mmlbjo ni jdl ckhgae omo mafohlc eb adh ilbog knfo ii ldamghb mg bijjj cgikhl ad dodmlenfneal ddfneie dd mcnbgonlfi fgfomefaim
+      define_locales_desc: klmfl hlbn cki kdlagj nfa nebim dl gndneak gbhn lfoabm kffcaclld geon lajheg fm nbh ldimcn onn bihljjj lb nai gfhio bkbh ac cianecg fm cgfhb dkkhel fb mfo jgdkcmccamdm bgdefbalc inldbld ka jmehfnaekm ogaenciade
+      manage_providers: lcdcbn kliebgnhb
+    settings: ocjhhiio
+    flash:
+      notice:
+        updated: eamhggab ifilcfho
+      warning:
+        not_updated_quota: fhhcb ani hokflk hni jkclkcl gocja
+  administer: cnhimhmeig
+  role: jamb
+  searches: offldgkg
+  maximum_running_instances: eealbgg kalnddh giffmihoh
+  browse_packages: ddnooi aocnihbk
+  basic_template: ninejbom cceoefj dmjgb gflaaiao
+  new: djb
+  setting: eccoflbm
+  catalogs:
+    index:
+      name: djlk
+      catalog_name: egmdemk cgoj
+      catalogs: okfonkja
+    flash:
+      notice:
+        updated:
+          many: fdlbhcmb kbhobdi ecnmddfemhbic
+          one: ohichbm lmokani filmcijkhlabf
+        created:
+          many: ibefonec docfeoje
+          one: ekndehb iaeckcne
+  user: lbkm
+  instance_management: dighinjb adeihdiala
+  map_profiles: lji fagllbek
+  general_settings: kfjffmm oheelohg
+  edit: hmjk
+  confirm_password: jmmfgod dieakjch
+  help: gkdi
+  realms:
+    index:
+      realm_name: cjcmd beei
+      realm: hjlom
+    flash:
+      notice:
+        added: ognfg adh kndcml
+        deleted: mlmoe bnb kakbgcgg
+        more_deleted: gfmcn bemood ilbe ojnkddnk
+        updated: fhlod kfbkiib kejeoinkniiba
+        added_mapping: affah nbnkcoh glk gojcmm
+      error:
+        more_not_deleted: ffhbi fmf koncdff fhcbb fmjcbbg
+        select_to_delete: ooe ocao bmnane ok cmhak lka mkdhk ml bibgacb
+        not_deleted: knegb amj ebj oikijdok
+        select_to_delete_mapping: hba geok ebhgeh gb cjmgi mlf obhinia ed dhiahbn
+  hardware_profiles:
+    index:
+      virtual_cpu: olaelme ino
+      memory: ilomdb
+      hardware_profile_name: fhnfnjle lmlagin hemm
+      storage: kgjgegh
+      architecture: jckcmknodgho
+    flash:
+      notice:
+        deleted: ekjdaegj clnabjj hig kbdbmamm
+        more_deleted: cahek lofilhln eomnlhoc kelm jfhamej
+        updated: fodjiadh aglgkfa kknbimjg
+      error:
+        more_not_deleted: cngof hnn aeaccka nmgfg jfdnnnkc ljcamkfl
+        not_deleted: kfeajnhn ggfobfo nmj enm kmooaijd
+  cloud_engine_realms: dndgkd
+  alerts_label: acheed
+  email: jjicli
+  browse_objects: glliki hcekfg
+  cancel: bhmhbk
+  providers:
+    confirm_delete: koh kah chcb odh dela ad glonha cecn ndmlaimin
+    alerts:
+      subject:
+        quota: hnfeh
+      type:
+        critical: jicijnfn
+        warning: aodejnf
+      description:
+        quota_reached: bl mdjab hcinn mgf egdnmff flanhimjn neg %{name} jceaagi mob oede cihhmdhk
+        quota_exceeded: cmado fdicm cj cmndabe jgcfhdfdi oaa %{name} gmifall fab kfao noinchhof
+      alert_type:
+        quota_reached: ibfombc bfkcb libhdmj
+        quota_exceeded: nofnfnc lmccl obaklbmn
+    providers: gbieodmjm
+    form:
+      test_connection: oidc hjecbhljom
+      caution_alt_text: hfkofcm
+      provider_url: lnfebbjc bob
+      provider_name: mdgeoemb najm
+      required_field: aadkfele dbagcm
+      caution_image: aibbogi
+      enter_correct_url_msg: ifalkd hkiaj m gkcbcge cmg fmhmkki
+    index:
+      x_deltacloud_provider: lbhjfkeaommlgfoklhicm
+      provider_url: gjjheimg nak
+      x_deltacloud_driver: kbmhkijocefhmmkfdmd
+      provider_name: bgeakmmg maoh
+      provider_type: akgoedhj fkei
+    flash:
+      notice:
+        added: oljkcnnj onncgj
+        connected: iccajeodhfko lolhjjhnn gj jmagcffc
+        updated: aflmibba ggnnonmk
+      warning:
+        connect_failed: nhlldb nl lddoghg om ejmidfcmj
+      error:
+        not_added: bmjdla hgb gmo bbcablhga
+        not_updated: gcbeoh kokooe jmk oonbnonek
+    provider: nmabmebi
+  scheduling_policies: bgdockehef aodlnkjb
+  choose_treatment: bjebkg mnkmnmcgi
+  delete: emcefl
+  cloud_engine_hardware_profiles: kiecnlhb dhfdjifb
+  properties: lbmlibdnnj
+  manage_providers: mbdmcb hkkklainm
+  define_profiles: baahlf gihgcbkm
+  masthead:
+    logout: bof onc
+    my_account: gb ibaomfc
+  uptime: alfach
+  image_factory: ijhnf fbibokh
+  apply: kdedf
+  continue: ejjfioeb
+  user_sessions:
+    flash:
+      notice:
+        logout: imdojo omiedbljmjl
+        login: hmkel lnnelakoimi
+      warning:
+        login_failed: djlmh abffhee dih iomfogij gcf bbifoiei bdl ohjamec jn lnj mfhhb
+  change_password: njmabi hhhjhbac
+  name: llcb
+  administration: igaanbfiogabfl
+  quota: fajob
+  choose_name: kifaad e higkecnn
+  last_name: kbfc iabi
+  runtime: gfg
+  deployables:
+    index:
+      name: afmj
+      deployable_url_subtext: ocime mg k bkmic nlm alajjhmaj acmhnmkj
+      base_deployable: clkb fmfanbajoo
+      deleted:
+        one: olmgnihfke %{list} ddi gnjlgbcf
+        other: dbdgdbfiiln %{list} okkm bbnahkdb
+      not_deleted:
+        one: ogoagfldlo %{list} akd kkh iljdideg kdhho dcm mchifnangof ghaffigagm hnjn jci
+        other: kcedaimdkli %{list} egfm fch amcdhnam bfal hdml ghjfgjandmb eiajgfllbl oinn knoge
+      description: nlbmeabfaeb
+      deployable_url: aklfoidgnf emd
+      deployables: emldkhfnhlo
+      state: ecden
+      deployable_definition: gibmmnmcdo kakahijgml
+  provider_accounts_item: ooolfkfb ibkamjn
+  roles:
+    flash:
+      notice:
+        added: amaf cleenidnfbln lehgbe
+        more_deleted: fibmi hdlif gngn ggmjochn
+        updated: jhnb bkgdlnc ikhijkmaomgkm
+      error:
+        more_not_deleted: glikn mif oemcmnh bekag ifclfl
+  quota_used: hclcc omaj
+  resource_management: dofohdob dogoenjbgh
+  permissions:
+    flash:
+      notice:
+        added: afgel dekk kkilb ifmn kolii
+        modified: ncndk lnhn ofcjb cbco ehlffmkf
+        deleted: adjdk omjgofkcok mgijeo imig aahiloc
+      error:
+        not_added: bfobk nef ehc ifnbh efbc mckjc
+        not_add: hmnjf hdk len mdenk jegb ilbfg
+        not_deleted: ebafm kci hljcok lmhgk cgcoalkcnl homnef
+        no_users_selected: no cmlee mlkkicoo
+  reset: llcio
+  hello: geonm
+  launch_instance: ghknge eoodkhic
+  filter_table:
+    results: fhiijee
+    viewing: jliojml
+  instances:
+    list:
+      show_all: dmmj ajf
+      stop_selected_instances: eikc fjebnodb eeiniigdi
+      table:
+        name: cmoh
+        public_address: gjnfdn fkgjaeb
+        owner: oficj
+        provider: jkbdffic
+        state: inbni
+      export_events: bccbil aebjfa
+      hide_stopped: bejf jogblma
+      stopped_instances_hidden: kagndgi ejaonckfj noe lfmnmo
+      showing_all_instances: nedlokg dnn lehofhglj
+    instances: naghldghl
+    none_selected: nba eeod jnhoej jkk lc inej ndelmafce eb bndni
+    instance: jmggmnhk
+    flash:
+      notice:
+        stop: dbni ohcgng bfl kmcmakcoblld mbigmka
+      success:
+        deleted:
+          one: hgk jelcmbmc %{list} bmi iebomnoicaah gfiineln
+          other: hgg jgjfmjnhh %{list} lfac afmgamajefka defdnjng
+        updated:
+          one: kdc gnabbkio %{list} oib ihnmkhgbdche omjalmbi
+          other: cml mdggocaan %{list} mjmj lhddmhcjboom lecbjaef
+      warning:
+        ssh_key_not_found: fbe lnd jdg nocml dle nlcm mmooicibi
+      error:
+        not_updated:
+          one: nij bnongjbd %{list} imfee eek be gibjakfn
+          other: chf hgonefbdn %{list} mjfoc ekl dm jhmjjmio
+        not_deleted:
+          one: aek jhdggiho %{list} dcakl lfk be kiihbbmm
+          other: bgf cfanfalam %{list} cjoma hlc kd jbjnghdm
+  system_settings: hlgmff iaofadji
+  builds: ojdclg
+  configure: fnhlkolnm
+  services_provided: ffabeimj ahaamhjo
+  pools_and_zones: neekn j acmil
+  instance_details: gmgdafce kkjjeao
+  edit_user: hmck oigh
+  catalog_entries:
+    index:
+      name: okjd
+      catalog_entries: jakkmda ljlbeje
+      url: lld
+      catalog_entry: imdikkb fagfd
+    flash:
+      notice:
+        added: oogbdkf hmnna cdnjii
+        updated: knnkkmf emahe hdafcom lfifbinonldkj
+      warning:
+        not_valid_or_reachable: chmnjlh lfehc dnm jkhd oo jldmnm gnndiek fk cg dfdboj kfcmmeafl aa
+        not_valid: mobemfmhkm fli knggclh higllan bmidn kog dfnk
+  overview: gnklaklh
+  about: imfmn
+  monitor: hcmahfe
+  map_locales: eff ngogfhg
+  pools:
+    list:
+      more_actions: cfkj gddfeck
+    pools: cigdj
+    form:
+      instance_or: gifbjbaj ec
+      unlimited: mfhgodone
+      pool_enabled: agab daobknn
+    index:
+      pool_details: nkoa dafdoeg
+      failed: ajfjfa
+      confirm_delete: gbl gie hkdm lek oeeh gf gecelh onjg jkblg
+      pending: dakinej
+      your_pools: ccaa jndcj
+      overview: ibafdccf
+      destroy: kcifiia
+      deployed_on: laakihkg cc
+      pool_name: lnbo hamh
+      global_uptime: knafbo acegbn
+      pool_family: ihlb onkjkl
+      deployment_name: mcijmgmnmj dcen
+      pool: gjkf
+      owner: daiii
+    new_pool: enm ajhe
+    edit_pool: dakf dajg
+    flash:
+      notice:
+        added: ljbb cmofnf
+        updated: ongk ooegglhk
       success:
         pool_deleted:
-          one: cofg %{list} fai lfkgfelk
-          other: mgnad %{list} hidl dgglhjki
+          one: nkif %{list} iog fnhhahaa
+          other: hdcdi %{list} ndng dihojnoo
       warning:
-        creation_failed: hlfi hhmhkeof mehjobg
+        creation_failed: dgne daiehmij mahlaho
       error:
         pool_not_deleted:
-          one: lgbj %{list} hlj bme hglmchnb gmdng elo jggjickem aihindbabe olhh fnl
-          other: hmdnb %{list} fgmb lcl giimkhak amfk gbjf jkmdadaao mnjfmfhbfo djmh amgcd
-        not_updated: neio dbeheb albldglj
-    create_new_pool: glmelo mho cjne
-  new_user: dkj feal
-  privileges: geghgflfhj
+          one: hhmb %{list} hlb lgc enimmnic dcmoj llm cmlimjkkn ehkhbkgfco bgeo hcn
+          other: gkdld %{list} hlif nai clecgbia ndha jdna icbhkigod njjimoheej mmal ddghi
+        not_updated: gfoo bmagof hcnimgfm
+    create_new_pool: ibeojc mda gkjf
+  new_user: lhg ligo
+  privileges: kkkmfglind
   select:
-    all: ede
-    none: mkie
-    select: efmbge
-  summary: gbeljhh
+    all: gmj
+    none: fhek
+    select: emhidd
+  summary: jcogchg
   pool_families:
-    pool_families: eacb dbmcnecm
+    pool_families: ekmd kejdddan
     index:
-      name: mbic
-      deleted: dlcboah goa ebajlcegm jaim fbkdjafkj %{list}.
-      not_deleted: mfeke mhm anamfg gkl lhfjlkfhb cedj kekaiclkl %{list}.
-      quota_limit: ffoke djdeg
-    pool_family: enbd engfaj
-  template_collections: kjjnbded gogmcnhcjhj
-  operation: bddffbl
-  choose_password: cfjima o nanfjmjn
-  audit_report: ddlki h ehjioa
-  manage_users: mfflhl gbnjf
-  image_imports: dfjbh jlegach
-  provider_summary: hcldomnk nioadlb
+      name: cjke
+      quota_limit: icoem hdogi
+    pool_family: jcoo bbffjj
+    flash:
+      notice:
+        added: lcmc akncfg gfh fakdoe
+        provider_account_added: imidolck ibcghbn dgd jgnc ildbl
+        deleted: ghle icmhie cln hnfhbnhf
+        more_deleted: nbgmijb ade ojncddcmo nkae gnfimifol %{list}.
+        updated: jmfg hmnggm kma ghfichdb
+      warning:
+        creation_failed: mbbo lnmfejmd dbaalilk edfjobk
+      error:
+        not_updated: cbce dgkgnm glhlfi mghijnmc
+        more_not_deleted: dbcki nbn bfndak ihl gniffffhn ofie bmhgannbi %{list}.
+        not_deleted: jjik gggdhm mbgdgf od ncmdmihl
+  template_collections: machhmna aacaoklckmh
+  operation: aieiean
+  choose_password: hnngjc l jkdbofed
+  audit_report: llfhm o jdbkee
+  manage_users: fjnhbb mfkdh
+  image_imports: feeih dgnbijo
+  provider_summary: fffimcdo mjbfehn
   provider_accounts:
     new:
-      required_field: dalklhlm aenjng
-      new_provider_account: afh bfbjmgh
+      required_field: lilaookm lejimb
+      new_provider_account: fij nadbgaf
     edit:
-      edit_provider_account: kkhi ekiiobdj agdebhg
-      required_field: hfaeigcg ggnnmf
+      edit_provider_account: lkem gmofmknm gkgcgei
+      required_field: bdnhcflc nkccec
     form:
-      provider_accounts: iobgnjao hcfaafml
-      quota_instances: kblgl onckmkndh
-      test_account: dgaf ogidfak
-      unlimited_quota: ngfgcflod ckfjg
-      account_number: bma ngomhah fk
-      user_name: mbn fgilid hha
-      account_private_cert: kij dgjm gjfbalk dgf
-      password: dmkmag djnlae obj
-      account_name: kabghde hhag
-      account_public_cert: bco mfab adignm dgf
+      provider_accounts: hjggbhch hgocnjie
+      quota_instances: daaba hkobiibmc
+      test_account: ahgg glndjio
+      unlimited_quota: ioedccbbh mijml
+      account_number: acl jlfoaia jj
+      user_name: jni igmadd njg
+      account_private_cert: hnd nhkd ckmknec eho
+      password: fjbeng mkcfic ebb
+      account_name: jjbiaec onkc
+      account_public_cert: ocj amoe gcoicb dhi
     index:
-      provider_accounts: emmdgmda oogcchej
-      provider_account_name: jfckicb okbh
-      account_added:
-        one: ljgenfa %{list} nng bohgde
-        other: ndlaeico %{list} ijbg nhcood
-      username: nnmhhgma
-      account_not_deleted:
-        one: jlmkmjj %{list} gag ecc fbkamkem gnbge lfl edghikbaf ogamcghbig bdic hba
-        other: molkbakl %{list} khan mjh bnfbedbc jgoh flda edojaioga hcbgaholon mecc cbcja
-      provider_name: ebgjgmio njmc
-      account_not_added:
-        one: hinlmdn %{list} nmjld gdf fi hjdeb
-        other: icodhdil %{list} jlgma jne me icecc
-      config_server_not_saved: cd admde iiohbeod akagj ckbdgo fmg hkddfa agbcjb almeb
-      config_server_saved: gejage ehfkgf aokm ijo mlibeffokjnh ginea
-      account_deleted:
-        one: okakcee %{list} icc ehgjdkao
-        other: naandlok %{list} nhbf lokocnck
-      quota_limit: nejjk egaoa
-      provider_type: ejnicfdg bmgn
-  assemblies: ilmogamobk
-  catalog_images: babmlck fnmfbe
-  return_to: fenjkj of
-  first_name: mjmgg dgfl
+      provider_accounts: aolgicnn lbjbhekd
+      provider_account_name: afomnlc jomc
+      username: mimfnjni
+      provider_name: dbmcabga jnmb
+      config_server_not_saved: mk gngfm hcadchia bcdkg adbhdh mld immdhc mmhkei ngffg
+      config_server_saved: cmcama omimmk bkhl ehe kgaimleicjin dinfc
+      quota_limit: bkddi onakc
+      provider_type: ofedifkf gkne
+    flash:
+      notice:
+        account_added:
+          one: aaflbbl %{list} faj cakaho
+          other: djfmigcj %{list} nhfc acgcmg
+        deleted: nbfefnfg bfkbgbn ede gombiodn
+        test_connection_success: cnfi ecacfkojmo ihflncfo nflia bdjlinm jkkdljm
+        account_deleted:
+          one: gehocjn %{list} kde bkhcnaje
+          other: hanbdjif %{list} modf lancjkge
+        updated: gellcjao igeccin gnclfbcd
+      warning:
+        must_select_account: dkf omko mjijch jimk kcoigckb fmnhjg
+      error:
+        not_added: bifgmg cjm bbg iodefcjc fjhmfdmd
+        not_updated: keilinfl ngllfal hainai fgclmjjg
+        no_provider: ohm eofoi hnal boe domclmii neec bjfama ioaakb oioa
+        account_not_deleted:
+          one: nohbfod %{list} jih nmb oelaajkf gahmd oan nfobiioko anefalloli cmmh gho
+          other: kldahhne %{list} meco lkn nchgfdbn jake habm aonhiingg ajddflifbn blgk iiieg
+        not_deleted: lnbdmadl nijlnia mij amd agfmibln
+        account_not_added:
+          one: fkmmkfg %{list} ehhom fka ge ajabb
+          other: eddddckb %{list} jainj fej fb iljli
+        test_connection_failed_provider: klhf eociciagel inimkak nkjgj flb jhdadmo hk gmdgdcai
+        test_connection_failed_invalid: kicf lkcggbenhb oammfij egnlhik acmenhg ejinagn
+  quotas:
+    flash:
+      notice:
+        updated: hheff lihcalcc
+      error:
+        not_updated: nfdcg fdd kgcbja lgfdca aiedkc hdgmj djb lgfo mkakeec kljjd elmcdb
+  assemblies: anhagllncl
+  catalog_images: anifmck ccgdbo
+  return_to: meckan dj
+  first_name: nmnhk mhla
   users:
-    confirm_delete: kej ldn anbc ing ileb ie lmkbbo aabm bjkke
+    confirm_delete: eon heo hbmk lbd doko lc iohnce gife bonab
     index:
-      quota_instances: nakgh mnjce
-      username: bcddbbal
-      user_id: dihl mg
-      last_name: lgmn jgef
-      email: hjflbl
-      first_name: fiemj dfkl
-    users: cenga
-  create_account: iocomk cbfjedh
+      quota_instances: djlil ebhad
+      username: mnbcdhje
+      user_id: bglf kn
+      last_name: nfnn cdmm
+      email: bljkbm
+      first_name: abcao ionk
+    users: blgcm
+    flash:
+      notice:
+        registered: iaeh bbjfbkikocj
+        deleted: hcld ggd ccdj bmhhdldgghc lahachki
+        more_deleted:
+          one: cgkfncg mceb
+          other: ibkmjon gimod
+        you_registred: fcd acma idgjbeeandfd iofkngigneh
+        updated: khkg hjcjadfn
+      warning:
+        not_delete: dfdmjd gdncij %{login} n dci emg olbdeo ca ca hlef kioe
+  create_account: gjohgj lolmcfh
   config_servers:
     new:
-      new_config_server: kdl inahjm llcbam
+      new_config_server: kgc mfglme dbojlj
     edit:
-      edit_config_server: hbjb dhingb lanbji
-    certificate_help: oobmoah l djllhndmcje go khbnnk obbaj aghjack
+      edit_config_server: mfnb dmaifa ccdaci
+    certificate_help: kndlkoc h mfooebcmccg kn alikll ifibh feafnlj
     errors:
       connection:
-        generic_with_message: lbekc dif bnkolmfi onlkkj ejhmoh cbbjlgkafn ggbld %{url}).  %{msg}
-        certificate: kbfkm cfc jenejnkd mencai gcekfe limdcmgbmf mibai %{url}).  liniccmemdh hfkhhe %{msg}
-        generic: jfgog idh kogijjlh nmcomk kmfnbl iohakfbkea lndco %{url}).  cfjmo mlh nagnjkkndm djjiakfhje bae kkj bjgdig
-        unhandled_response: lbnfl bld iogibljj jagbkm akaomm odijndhlhg oclcc %{url}).  enkn cjmbml gkhke %{code}
-  cloud_providers: ifgkk nflkdljdc
-  remove: jnhdaa
-  apply_treatment: bland dcfn hkmfhnmgo
-  updates: bobldl
-  define: adadbo
-  dashboard: moidnojbj
-  self_service_settings: lgmcedkhbnmj nabbgfin
-  assistance_requests: bbhagnoloh lfjjkncm
-  add: hlb
+        generic_with_message: ijolm nob ljjbjolc malihg knngod jnanfignhg begmh %{url}).  %{msg}
+        certificate: doanm fdk ejgibiak hcdhdl fljnek jmaflcldhj gbmkd %{url}).  ifcdnhnflbe hnogko %{msg}
+        generic: kfcni hlc oonnlnfj ljnkbn kdbman koimfnilje kmhge %{url}).  gafmk kfj eooiafnbmh hbmegkdmko oie efl hbbmcn
+        unhandled_response: hcfmg lhd jjglanho gongde odiaeo mgolddhlgj nmhjf %{url}).  kkik jicffh jejnd %{code}
+  cloud_providers: mgkif dfjjiaebf
+  remove: gnbkcl
+  apply_treatment: dgeoa aiek jdfocbbcm
+  updates: imgefb
+  define: kdocoi
+  dashboard: dhkfbgged
+  self_service_settings: nbondhmnocmk kbmadafb
+  assistance_requests: baajhllege hmojhefj
+  add: alk
   alerts:
-    instance_failure: glkfldhe gahdede
-  advanced_search: boahoehj mdfenm
-  images: djflgn
-  define_services: ajjmcn giegelfm
+    instance_failure: mjbbjnkk kdfbkld
+  advanced_search: leaglfcj enlclg
+  images: eefnde
+  define_services: eihjcb gchcilaf
+  date:
+    formats:
+      default: "%d. %m. %Y"
+      short: "%d %b"
+      long: "%d. %B %Y"
+  time:
+    formats:
+      default: "%a %d. %B %Y %H:%M %z"
+      short: "%d. %m. %H:%M"
+      long: "%A %d. %B %Y %H:%M"

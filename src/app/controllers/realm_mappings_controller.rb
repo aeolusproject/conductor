@@ -29,7 +29,7 @@ class RealmMappingsController < ApplicationController
     require_privilege(Privilege::CREATE, Realm)
     @realm_target = RealmBackendTarget.new(params[:realm_backend_target])
     if @realm_target.save
-      flash[:notice] = "Realm mapping was added."
+      flash[:notice] = t"realms.flash.notice.added_"
       redirect_to realm_path(@realm_target.frontend_realm, :details_tab => 'mapping') and return
       #redirect_to realms_path and return
     end
@@ -41,7 +41,7 @@ class RealmMappingsController < ApplicationController
   def multi_destroy
     require_privilege(Privilege::MODIFY, Realm)
     if params[:id].blank?
-      flash[:error] = 'You must select at least one mapping to delete.'
+      flash[:error] = t"realms.flash.error.select_to_delete_mapping"
       redirect_to realm_path(params[:frontend_realm_id], :details_tab => 'mapping')
     else
       # TODO: add permissions checks

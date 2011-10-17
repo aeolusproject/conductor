@@ -39,7 +39,7 @@ class RolesController < ApplicationController
     @role.scope = BasePermissionObject.to_s if @role.scope.nil?
 
     if @role.save
-      flash[:notice] = 'Role successfully saved!'
+      flash[:notice] = t"roles.flash.notice.added"
       redirect_to roles_path and return
     end
 
@@ -78,7 +78,7 @@ class RolesController < ApplicationController
     end
 
     if @role.update_attributes(params[:role])
-      flash[:notice] = 'Role updated successfully!'
+      flash[:notice] = t"roles.flash.notice.updated"
       redirect_to roles_url and return
     end
 
@@ -98,10 +98,10 @@ class RolesController < ApplicationController
     end
 
     unless deleted.empty?
-      flash[:notice] = "These Roles were deleted: #{deleted.join(', ')}"
+      flash[:notice] = "#{t('roles.flash.notice.more_deleted')} #{deleted.join(', ')}"
     end
     unless not_deleted.empty?
-      flash[:error] = "Could not deleted these Roles: #{not_deleted.join(', ')}"
+      flash[:error] = "#{t('roles.flash.error.more_not_deletedX')} #{not_deleted.join(', ')}"
     end
 
     redirect_to roles_url

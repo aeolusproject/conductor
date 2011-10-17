@@ -10,6 +10,24 @@ en:
       first_name: First Name
       quota_instances: Quota Limit
       email: e-mail
+    flash:
+      notice:
+        registered: "User registered!"
+        you_registred: "You have successfully registered!"
+        updated: "User updated!"
+        deleted: "User has been succesfully deleted."
+        more_deleted:
+          one: Deleted user
+          other: Deleted users
+      warning:
+        not_delete: "Cannot delete %{login} : you are logged in as this user"
+  user_sessions:
+    flash:
+      notice:
+        login: "Login successful!"
+        logout: "Logout successful!"
+      warning:
+        login_failed: "Login failed: The Username and Password you entered do not match"
   about: About
   configure: Configure
   hello: Hello
@@ -92,20 +110,6 @@ en:
     deployment_name_subtext: "(uniquely identifies your deployment)"
     deployment_details: Deployment Details
     confirm_delete: "Are you sure you want to delete this deployment?"
-    disabled_pool: "Cannot launch a Deployment in this Pool. The pool has been disabled."
-    updated:
-      one: "The deployment %{list} was successfully updated."
-      other: "The deployments %{list} were successfully updated."
-    not_updated:
-      one: "The deployment %{list} could not be updated."
-      other: "The deployments %{list} could not be updated."
-    deleted:
-      one: "The deployment %{list} was scheduled for deletion."
-      other: "The deployments %{list} were scheduled for deletion."
-    not_deleted:
-      one: "The deployment %{list} could not be deleted."
-      other: "The deployments %{list} could not be deleted."
-    none_selected: "You must select one or more deployments."
     state: State
     launch_time_params:
       configure_launch_time_params: "Configure launch-time parameters for your deployment:"
@@ -123,20 +127,33 @@ en:
     list:
       stop_selected: Stop Selected
       delete_selected: Delete Selected
+    flash:
+      notice:
+        launched: "Deployment launched."
+        stop: "stop action was successfully queued."
+      warning:
+        disabled_pool: "Cannot launch a Deployment in this Pool. The pool has been disabled."
+        failed_to_launch: "Deployment launch failed!"
+      error:
+        not_launched: "Some assemblies will not be launched:"
+        failed_to_launch_assemblies: "Failed to launch following assemblies:"
+        not_deleted:
+          one: "The deployment %{list} could not be deleted."
+          other: "The deployments %{list} could not be deleted."
+        none_selected: "You must select one or more deployments."
+        not_updated:
+          one: "The deployment %{list} could not be updated."
+          other: "The deployments %{list} could not be updated."
+      success:
+        deleted:
+          one: "The deployment %{list} was scheduled for deletion."
+          other: "The deployments %{list} were scheduled for deletion."
+        updated:
+          one: "The deployment %{list} was successfully updated."
+          other: "The deployments %{list} were successfully updated."
   instances:
     instances: Instances
-    updated:
-      one: "The instance %{list} was successfully updated."
-      other: "The instances %{list} were successfully updated."
-    not_updated:
-      one: "The instance %{list} could not be updated."
-      other: "The instances %{list} could not be updated."
-    deleted:
-      one: "The instance %{list} was successfully deleted."
-      other: "The instances %{list} were successfully deleted."
-    not_deleted:
-      one: "The instance %{list} could not be deleted."
-      other: "The instances %{list} could not be deleted."
+    instance: Instance
     none_selected: "You must select one or more instances to stop."
     list:
       export_events: Export events
@@ -151,6 +168,25 @@ en:
         state: State
         provider: Provider
         owner: Owner
+    flash:
+      warning:
+        ssh_key_not_found: "SSH Key not found for this Instance."
+      error:
+        not_updated:
+          one: "The instance %{list} could not be updated."
+          other: "The instances %{list} could not be updated."
+        not_deleted:
+          one: "The instance %{list} could not be deleted."
+          other: "The instances %{list} could not be deleted."
+      success:
+        updated:
+          one: "The instance %{list} was successfully updated."
+          other: "The instances %{list} were successfully updated."
+        deleted:
+          one: "The instance %{list} was successfully deleted."
+          other: "The instances %{list} were successfully deleted."
+      notice:
+        stop: "stop action was successfully queued."
   searches: Searches
   image_factory: Image Factory
   assemblies: Assemblies
@@ -212,38 +248,75 @@ en:
       memory: Memory
       storage: Storage
       virtual_cpu: Virtual CPU
+    flash:
+      notice:
+        deleted: "Hardware profile was deleted!"
+        updated: "Hardware Profile updated!"
+        more_deleted: These Hardware Profiles were deleted
+      error:
+        not_deleted: "Hardware profile was not deleted!"
+        more_not_deleted: Could not deleted these Hardware Profiles
   realms:
     index:
       realm: Realm
       realm_name: Realm Name
+    flash:
+      notice:
+        added_mapping: "Realm mapping was added."
+        updated: "Realm updated successfully!"
+        added: "Realm was added."
+        deleted: "Realm was deleted!"
+        more_deleted: "These Realms were deleted:"
+      error:
+        select_to_delete_mapping: "You must select at least one mapping to delete."
+        not_deleted: "Realm was not deleted!"
+        select_to_delete: "You must select at least one realm to delete."
+        more_not_deleted: "Could not deleted these Realms:"
   pool_families:
     pool_families: Pool Families
     pool_family: Pool Family
     index:
-      deleted: "Deleted the following Pool Families: %{list}."
-      not_deleted: "Could not delete the following Pool Families: %{list}."
       name: Name
       quota_limit: Quota Limit
+    flash:
+      notice:
+        added: "Pool family was added."
+        updated: "Pool Family was updated!"
+        deleted: "Pool Family was deleted!"
+        provider_account_added: "Provider Account has been added"
+        more_deleted: "Deleted the following Pool Families: %{list}."
+      warning:
+        creation_failed: "Pool family's creation failed."
+      error:
+        not_updated: "Pool Family wasn't updated!"
+        not_deleted: "Pool Family cannot be deleted!"
+        more_not_deleted: "Could not delete the following Pool Families: %{list}."
   catalog_entries:
     index:
       catalog_entry: Catalog Entry
       catalog_entries: Catalog Entries
       name: Name
       url: URL
+    flash:
+      warning:
+        not_valid_or_reachable: Catalog entry XML file is either invalid or no longer reachable at
+        not_valid: Deployable url doesn't resolve valid XML file
+      notice:
+        added: Catalog entry added.
+        updated: Catalog entry updated successfully!
   catalogs:
     index:
       name: Name
       catalogs: Catalogs
       catalog_name: Catalog Name
-    updated:
-      one: Catalog updated successfully!
-      many: Catalogs updated successfully!
-    created:
-      one: Catalog created!
-      many: Catalogs created!
-    deleted:
-      one: Catalog deleted!
-      other: "%{count} Catalogs deleted!"
+    flash:
+      notice:
+        updated:
+          one: Catalog updated successfully!
+          many: Catalogs updated successfully!
+        created:
+          one: Catalog created!
+          many: Catalogs created!
   deployables:
     index:
       deployables: Deployables
@@ -284,6 +357,11 @@ en:
     self_service:
       self_service_default: 'User Treatment: Self-service default'
       account: Account
+    flash:
+      warning:
+        not_updated_quota: "Could not update the default quota"
+      notice:
+        updated: "Settings Updated!"
   providers:
     provider: Provider
     providers: Providers
@@ -303,6 +381,28 @@ en:
       test_connection: Test Connection
       required_field: Required field.
       caution_image: Caution
+    flash:
+      notice:
+        added: "Provider added."
+        updated: "Provider updated."
+        connected: "Successfully Connected to Provider"
+      error:
+        not_added: "Cannot add the provider."
+        not_updated: "Cannot update the provider."
+      warning:
+        connect_failed: "Failed to connect to Provider!"
+    alerts:
+      type:
+        critical: Critical
+        warning: Warning
+      subject:
+        quota: Quota
+      alert_type:
+        quota_exceeded: Account Quota Exceeded
+        quota_reached: Account Quota Reached
+      description:
+        quota_exceeded: "Quota limit of running instances for %{name} account has been exceeded."
+        quota_reached: "of Quota limit for running instances for %{name} account has been reached."
   provider_accounts:
     index:
       provider_accounts: Provider Accounts
@@ -311,18 +411,6 @@ en:
       provider_name: Provider Name
       provider_type: Provider Type
       quota_limit: Quota Limit
-      account_deleted:
-        one: "Account %{list} was deleted."
-        other: "Accounts %{list} were deleted."
-      account_not_deleted:
-        one: "Account %{list} was not deleted. There are instances associated with it."
-        other: "Accounts %{list} were not deleted. They have instances associated with them."
-      account_added:
-        one: "Account %{list} was added."
-        other: "Accounts %{list} were added."
-      account_not_added:
-        one: "Account %{list} could not be added"
-        other: "Accounts %{list} could not be added"
       config_server_saved: "Config Server data was successfully saved"
       config_server_not_saved: "An error occurred while saving the Config Server data."
     new:
@@ -342,6 +430,32 @@ en:
       account_number: AWS Account ID
       account_private_cert: EC2 x509 private key
       account_public_cert: EC2 x509 public key
+    flash:
+      notice:
+        account_added:
+          one: "Account %{list} was added."
+          other: "Accounts %{list} were added."
+        updated: "Provider Account updated!"
+        deleted: "Provider account was deleted!"
+        account_deleted:
+          one: "Account %{list} was deleted."
+          other: "Accounts %{list} were deleted."
+        test_connection_success: "Test Connection Success: Valid Account Details"
+      error:
+        no_provider: "You don't have any provider yet. Please create one!"
+        not_added: "Cannot add the provider account."
+        account_not_added:
+          one: "Account %{list} could not be added"
+          other: "Accounts %{list} could not be added"
+        not_updated: "Provider Account wasn't updated!"
+        not_deleted: "Provider account was not deleted!"
+        account_not_deleted:
+          one: "Account %{list} was not deleted. There are instances associated with it."
+          other: "Accounts %{list} were not deleted. They have instances associated with them."
+        test_connection_failed_invalid: "Test Connection Failed: Invalid Account Details"
+        test_connection_failed_provider: "Test Connection Failed: Could not connect to provider"
+      warning:
+        must_select_account: "You must select some accounts first."
   config_servers:
     certificate_help: Provide a certificate to enable https support
     new:
@@ -370,3 +484,40 @@ en:
   masthead:
     my_account: My Account
     logout: Log out
+  permissions:
+    flash:
+      notice:
+        modified: These User Roles were modified
+        deleted: These Permission Grants were deleted
+        added: These User Roles were added
+      error:
+        not_add: Could not add these User Roles
+        no_users_selected: No users selected
+        not_deleted: Could not delete these Permission Grants
+        not_added: Could not add these User Roles
+  quotas:
+    flash:
+      notice:
+        updated: "Quota updated!"
+      error:
+        not_updated: "Could not update quota, please check you have entered valid values"
+  roles:
+    flash:
+      notice:
+        added: "Role successfully saved!"
+        updated: "Role updated successfully!"
+        more_deleted: "These Roles were deleted:"
+      error:
+        more_not_deleted: "Could not deleted these Roles:"
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%d %B, %Y %H:%M"
+    am: "am"
+    pm: "pm"

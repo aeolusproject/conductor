@@ -59,13 +59,13 @@ class PermissionsController < ApplicationController
       end
     end
     unless added.empty?
-      flash[:notice] = "These User Roles were added: #{added.join(', ')}"
+      flash[:notice] = "#{t('permissions.flash.notice.added')}: #{added.join(', ')}"
     end
     unless not_added.empty?
-      flash[:error] = "Could not add these User Roles: #{not_added.join(', ')}"
+      flash[:error] = "#{t('permissions.flash.error.not_added')}: #{not_added.join(', ')}"
     end
     if added.empty? and not_added.empty?
-      flash[:error] = "No users selected"
+      flash[:error] = t "permissions.flash.error.no_users_selected"
     end
     respond_to do |format|
       format.html { redirect_to send("#{@path_prefix}polymorphic_path",
@@ -99,13 +99,13 @@ class PermissionsController < ApplicationController
       end
     end
     unless modified.empty?
-      flash[:notice] = "These User Roles were modified: #{modified.join(', ')}"
+      flash[:notice] = "#{t('permissions.flash.notice.modified')}: #{modified.join(', ')}"
     end
     unless not_modified.empty?
-      flash[:error] = "Could not add these User Roles: #{not_modified.join(', ')}"
+      flash[:error] = "#{t('permissions.flash.error.not_add')}: #{not_modified.join(', ')}"
     end
     if modified.empty? and not_modified.empty?
-      flash[:error] = "No users selected"
+      flash[:error] = t"permissions.flash.error.no_users_selected"
     end
     respond_to do |format|
       format.html { redirect_to send("#{@path_prefix}polymorphic_path",
@@ -132,10 +132,10 @@ class PermissionsController < ApplicationController
     end
 
     unless deleted.empty?
-      flash[:notice] = "These Permission Grants were deleted: #{deleted.join(', ')}"
+      flash[:notice] = "#{t('permissions.flash.notice.deleted')}: #{deleted.join(', ')}"
     end
     unless not_deleted.empty?
-      flash[:error] = "Could not delete these Permission Grants: #{not_deleted.join(', ')}"
+      flash[:error] = "#{t('permissions.flash.error.not_deleted')}: #{not_deleted.join(', ')}"
     end
     respond_to do |format|
       format.html { redirect_to send("#{@path_prefix}polymorphic_path",

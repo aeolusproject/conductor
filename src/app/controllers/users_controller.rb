@@ -50,10 +50,10 @@ class UsersController < ApplicationController
     end
 
     if current_user != @user
-      flash[:notice] = "User registered!"
+      flash[:notice] = t"users.flash.notice.registered"
       redirect_to users_url
     else
-      flash[:notice] = "You have successfully registered!"
+      flash[:notice] = t"users.flash.notice.you_registred"
       redirect_to root_url
     end
   end
@@ -94,7 +94,7 @@ class UsersController < ApplicationController
     unless @user.update_attributes(params[:user])
       render :action => 'edit' and return
     else
-      flash[:notice] = "User updated!"
+      flash[:notice] = t"users.flash.notice.updated"
       redirect_to user_path(@user)
     end
   end
@@ -104,15 +104,14 @@ class UsersController < ApplicationController
     deleted_users = []
     User.find(params[:user_selected]).each do |user|
       if user == current_user
-        flash[:warning] = "Cannot delete #{user.login}: you are logged in as this user"
+        flash[:warning] = "#{t('users.flash.warning.not_delete', :login => "#{user.login}")}"
       else
         user.destroy
         deleted_users << user.login
       end
     end
     unless deleted_users.empty?
-      msg = "Deleted user#{'s' if deleted_users.length > 1}"
-      flash[:notice] =  "#{msg}: #{deleted_users.join(', ')}"
+      flash[:notice] =  "#{t('users.flash.notice.more_deleted', :count => deleted_users.length)} #{deleted_users.join(', ')}"
     end
     redirect_to users_url
   end
@@ -121,10 +120,10 @@ class UsersController < ApplicationController
     require_privilege(Privilege::MODIFY, User)
     user = User.find(params[:id])
     if user == current_user
-      flash[:warning] = "Cannot delete #{user.login}: you are logged in as this user"
+      flash[:warning] = "#{t('users.flash.warning.not_delete', :login => "#{user.login}")}"
     else
       user.destroy
-      flash[:notice] = "User has been succesfully deleted."
+      flash[:notice] = t"users.flash.notice.deleted"
     end
 
     respond_to do |format|

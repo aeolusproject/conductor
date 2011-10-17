@@ -93,9 +93,9 @@ class HardwareProfilesController < ApplicationController
     hardware_profile = HardwareProfile.find(params[:id])
     require_privilege(Privilege::MODIFY, hardware_profile)
     if hardware_profile.destroy
-       flash[:notice] = "Hardware profile was deleted!"
+       flash[:notice] = t "hardware_profiles.flash.notice.deleted"
     else
-       flash[:error] = "Hardware profile was not deleted!"
+       flash[:error] = t "hardware_profiles.flash.error.not_deleted"
     end
     redirect_to hardware_profiles_path
   end
@@ -124,7 +124,7 @@ class HardwareProfilesController < ApplicationController
     unless @hardware_profile.save
       render :action => 'edit' and return
     else
-      flash[:notice] = "Hardware Profile updated!"
+      flash[:notice] = t"hardware_profiles.flash.notice.updated"
       redirect_to hardware_profiles_path
     end
   end
@@ -142,10 +142,10 @@ class HardwareProfilesController < ApplicationController
     end
 
     unless deleted.empty?
-      flash[:notice] = "These Hardware Profiles were deleted: #{deleted.join(', ')}"
+      flash[:notice] = "#{t('hardware_profiles.flash.notice.more_deleted')}: #{deleted.join(', ')}"
     end
     unless not_deleted.empty?
-      flash[:error] = "Could not deleted these Hardware Profiles: #{not_deleted.join(', ')}"
+      flash[:error] = "#{t('hardware_profiles.flash.error.more_not_deleted')}: #{not_deleted.join(', ')}"
     end
 
     redirect_to hardware_profiles_path

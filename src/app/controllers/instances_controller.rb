@@ -74,12 +74,12 @@ class InstancesController < ApplicationController
     params[:instance].each_pair{|k,v| attrs[k] = v if Instance::USER_MUTABLE_ATTRS.include?(k)}
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @instance) and @instance.update_attributes(attrs)
-        flash[:success] = t('instances.updated', :count => 1, :list => @instance.name)
+        flash[:success] = t('instances.flash.success.updated', :count => 1, :list => @instance.name)
         format.html { redirect_to @instance }
         format.js { render :partial => 'properties' }
         format.json { render :json => @instance }
       else
-        flash[:error] = t('instances.not_updated', :count =>1, :list => @instance.name)
+        flash[:error] = t('instances.flash.error.not_updated', :count =>1, :list => @instance.name)
         format.html { render :action => :edit }
         format.js { render :partial => 'edit' }
         format.json { render :json => @instance.errors, :status => :unprocessable_entity }
@@ -98,8 +98,8 @@ class InstancesController < ApplicationController
         failed << instance.name
       end
     end
-    flash[:success] = t('instances.deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
-    flash[:error] = t('instances.not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
+    flash[:success] = t('instances.flash.success.deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
+    flash[:error] = t('instances.flash.error.not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
     respond_to do |format|
       # FIXME: _list does not show flash messages, but I'm not sure that showing _list is proper anyway
       format.html { render :action => :show }
@@ -115,7 +115,7 @@ class InstancesController < ApplicationController
   def key
     respond_to do |format|
       if @instance.instance_key.nil?
-        flash[:warning] = "SSH Key not found for this Instance."
+        flash[:warning] = t "instances.flash.warning.ssh_key_not_found"
         format.html { redirect_to instance_path(@instance) }
         format.js { render :partial => 'properties' }
         format.json { render :json => flash[:warning], :status => :not_found }
@@ -151,7 +151,7 @@ class InstancesController < ApplicationController
           raise ActionError.new("stop cannot be performed on this instance.")
         end
         Taskomatic.stop_instance(@task)
-        notices << "#{instance.name}: stop action was successfully queued."
+        notices << "#{instance.name}: #{t('instances.flash.notice.stop')}"
       rescue Exception => err
         errors << "#{instance.name}: " + err
       end

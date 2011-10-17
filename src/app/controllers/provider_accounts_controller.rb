@@ -61,7 +61,7 @@ class ProviderAccountsController < ApplicationController
     @quota = Quota.new
     @providers = Provider.all
     if @providers.empty?
-      flash[:error] = "You don't have any provider yet. Please create one!"
+      flash[:error] = t"provider_accounts.flash.error.no_provider"
     else
       @provider = Provider.find(params[:provider_id])
     end
@@ -87,15 +87,15 @@ class ProviderAccountsController < ApplicationController
       if @provider_account.save
         @provider_account.assign_owner_roles(current_user)
         @provider_account.populate_realms
-        flash[:notice] = t('provider_accounts.index.account_added', :list => @provider_account.name, :count => 1)
+        flash[:notice] = t('provider_accounts.flash.notice.account_added', :list => @provider_account.name, :count => 1)
         redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
       else
-        flash[:error] = "Cannot add the provider account."
+        flash[:error] = t"provider_accounts.flash.error.not_added"
         render :action => 'new' and return
       end
     rescue Exception => e
       error = humanize_error(e.message, :context => :deltacloud)
-      flash[:error] = "#{t('provider_accounts.index.account_not_added', :list => @provider_account.name,
+      flash[:error] = "#{t('provider_accounts.flash.error.account_not_added', :list => @provider_account.name,
         :count => 1)}: #{error}"
       render :action => 'new' and return
     end
@@ -121,10 +121,10 @@ class ProviderAccountsController < ApplicationController
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @provider_account.quota.set_maximum_running_instances(limit)
     if @provider_account.update_attributes(params[:provider_account])
-      flash[:notice] = "Provider Account updated!"
+      flash[:notice] = t"provider_accounts.flash.notice.updated"
       redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
     else
-      flash[:error] = "Provider Account wasn't updated!"
+      flash[:error] = t"provider_accounts.flash.error.not_updated"
       render :action => :edit
     end
   end
@@ -133,9 +133,9 @@ class ProviderAccountsController < ApplicationController
     require_privilege(Privilege::MODIFY, @provider_account)
     @provider = Provider.find(params[:provider_id])
     if ProviderAccount.destroy(params[:id])
-      flash[:notice] = "Provider account was deleted!"
+      flash[:notice] = t"provider_accounts.flash.notice.deleted"
     else
-      flash[:error] = "Provider account was not deleted!"
+      flash[:error] = t"provider_accounts.flash.error.not_deleted"
     end
     redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
   end
@@ -143,7 +143,7 @@ class ProviderAccountsController < ApplicationController
   def multi_destroy
     @provider = Provider.find(params[:provider_id])
     if params[:accounts_selected].blank?
-      flash[:warning] = "You must select some accounts first."
+      flash[:warning] = t"provider_accounts.flash.warning.must_select_account"
       redirect_to edit_provider_path(@provider, :details_tab => 'accounts') and return
     end
 
@@ -159,10 +159,10 @@ class ProviderAccountsController < ApplicationController
     end
 
     unless succeeded.empty?
-      flash[:notice] = t 'provider_accounts.index.account_deleted', :count => succeeded.length, :list => succeeded.join(', ')
+      flash[:notice] = t 'provider_accounts.flash.notice.account_deleted', :count => succeeded.length, :list => succeeded.join(', ')
     end
     unless failed.empty?
-      flash[:error] = t 'provider_accounts.index.account_not_deleted', :count => failed.length, :list => failed.join(', ')
+      flash[:error] = t 'provider_accounts.flash.error.account_not_deleted', :count => failed.length, :list => failed.join(', ')
     end
     redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
   end
@@ -189,12 +189,12 @@ class ProviderAccountsController < ApplicationController
 
   def test_account(account)
     if account.valid_credentials?
-      flash.now[:notice] = "Test Connection Success: Valid Account Details"
+      flash.now[:notice] = t"provider_accounts.flash.notice.test_connection_success"
     else
-      flash.now[:error] = "Test Connection Failed: Invalid Account Details"
+      flash.now[:error] = t"provider_accounts.flash.error.test_connection_failed_invalid"
     end
   rescue
-    flash.now[:error] = "Test Connection Failed: Could not connect to provider"
+    flash.now[:error] = t"provider_accounts.flash.error.test_connection_failed_provider"
   end
 
   def load_accounts

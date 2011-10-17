@@ -103,15 +103,15 @@ class ProvidersController < ApplicationController
     end
     @provider = Provider.new(params[:provider])
     if !@provider.connect
-      flash[:warning] = "Failed to connect to Provider"
+      flash[:warning] = t"providers.flash.warning.connect_failed"
       render :action => "new"
     else
       if @provider.save
         @provider.assign_owner_roles(current_user)
-        flash[:notice] = "Provider added."
+        flash[:notice] = t"providers.flash.notice.added"
         redirect_to edit_provider_path(@provider)
       else
-        flash[:warning] = "Cannot add the provider."
+        flash[:warning] = t"providers.flash.error.not_added"
         render :action => "new"
       end
     end
@@ -130,16 +130,16 @@ class ProvidersController < ApplicationController
         errs = @provider.stop_instances(current_user)
         flash[:error] = errs unless errs.empty?
       end
-      flash[:notice] = "Provider updated."
+      flash[:notice] = t"providers.flash.notice.updated"
       redirect_to edit_provider_path(@provider)
     else
       # we reset 'enabled' attribute to real state
       # if save failed
       @provider.reset_enabled!
       unless @provider.connect
-        flash.now[:warning] = "Failed to connect to Provider"
+        flash.now[:warning] = t"providers.flash.warning.connect_failed"
       else
-        flash.now[:warning] = "Cannot update the provider."
+        flash[:error] = t"providers.flash.error.not_updated"
       end
       load_provider_tabs
       @alerts = provider_alerts(@provider)
@@ -161,9 +161,9 @@ class ProvidersController < ApplicationController
   def test_connection(provider)
     @provider.errors.clear
     if @provider.connect
-      flash.now[:notice] = "Successfully Connected to Provider"
+      flash.now[:notice] = t"providers.flash.notice.connected"
     else
-      flash.now[:warning] = "Failed to Connect to Provider"
+      flash.now[:warning] = t"providers.flash.warning.connect_failed"
       @provider.errors.add :url
     end
   end
@@ -181,21 +181,21 @@ class ProvidersController < ApplicationController
       unless provider_account.quota.maximum_running_instances == nil
         if provider_account.quota.maximum_running_instances < provider_account.quota.running_instances
           alerts << {
-            :type => "critical",
-            :subject => "Quota",
-            :alert_type => "Account Quota Exceeded",
+            :type => "#{t'providers.alerts.type.critical'}",
+            :subject => "#{t'providers.alerts.subject.quota'}",
+            :alert_type => "#{t'providers.alerts.alert_type.quota_exceeded'}",
             :path => edit_provider_provider_account_path(@provider,provider_account),
-            :description => "Quota limit of running instances for #{provider_account.name} account has been exceeded."
+            :description => "#{t'providers.alerts.description.quota_exceeded', :name => "#{provider_account.name}"}"
           }
         end
 
         if (70..100) === provider_account.quota.percentage_used.round
           alerts << {
-            :type => "warning",
-            :subject => "Quota",
-            :alert_type => "#{provider_account.quota.percentage_used.round}% Account Quota Reached",
+            :type => "#{t'providers.alerts.type.warning'}",
+            :subject => "#{t'providers.alerts.subject.quota'}",
+            :alert_type => "#{provider_account.quota.percentage_used.round}% #{t'providers.alerts.alert_type.quota_reached'}",
             :path => provider_provider_account_path(@provider,provider_account),
-            :description => "#{provider_account.quota.percentage_used.round}% of Quota limit for running instances for #{provider_account.name} account has been reached."
+            :description => "#{provider_account.quota.percentage_used.round}% #{t'providers.alerts.description.quota_reached', :name => "#{provider_account.name}" }"
           }
         end
       end

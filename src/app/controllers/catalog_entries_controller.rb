@@ -42,7 +42,7 @@ class CatalogEntriesController < ApplicationController
         return
       end
 
-      flash[:warning] = "Catalog entry XML file is either invalid or no longer reachable at #{@catalog_entry.url}"
+      flash[:warning] = t("catalog_entries.flash.warning.not_valid_or_reachable") + " #{@catalog_entry.url}"
       redirect_to catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry)
       return
     end
@@ -65,9 +65,9 @@ class CatalogEntriesController < ApplicationController
     @catalog_entry.catalog = @catalog
     @catalog_entry.owner = current_user
     if @catalog_entry.save
-      flash[:notice] = 'Catalog entry added'
-      flash[:warning] = "Deployable url doesn't resolve valid XML file" unless @catalog_entry.accessible_and_valid_deployable_xml?(@catalog_entry.url)
-      redirect_to catalog_path(@catalog)
+      flash[:notice] = t "catalog_entries.flash.notice.added"
+      flash[:warning] = t("catalog_entries.flash.warning.not_valid") unless @catalog_entry.accessible_and_valid_deployable_xml?(@catalog_entry.url)
+      redirect_to catalog_entries_path
     else
       load_catalogs
       render :new
@@ -87,7 +87,7 @@ class CatalogEntriesController < ApplicationController
     params[:catalog_entry].delete(:owner_id) if params[:catalog_entry]
 
     if @catalog_entry.update_attributes(params[:catalog_entry])
-      flash[:notice] = 'Catalog entry updated successfully!'
+      flash[:notice] = t"catalog_entries.flash.notice.updated"
       redirect_to catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry)
     else
       load_catalogs

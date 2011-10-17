@@ -53,7 +53,7 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.new(params[:catalog])
     require_privilege(Privilege::MODIFY, @catalog.pool)
     if @catalog.save
-      flash[:notice] = t('catalogs.created', :count => 1)
+      flash[:notice] = t('catalogs.flash.notice.created', :count => 1)
       redirect_to catalogs_path and return
     else
       load_pools
@@ -73,7 +73,7 @@ class CatalogsController < ApplicationController
     require_privilege(Privilege::MODIFY, @catalog.pool)
 
     if @catalog.update_attributes(params[:catalog])
-      flash[:notice] = t('catalogs.updated', :count => 1)
+      flash[:notice] = t('catalogs.flash.notice.updated', :count => 1)
       redirect_to catalogs_url
     else
       render :action => 'edit'

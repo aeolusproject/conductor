@@ -42,7 +42,7 @@ class DeploymentsController < ApplicationController
     @pool = Pool.find(params[:pool_id]) or raise "Invalid pool"
     require_privilege(Privilege::CREATE, Deployment, @pool)
     unless @pool.enabled
-      flash[:warning] = t 'deployments.disabled_pool'
+      flash[:warning] = t 'deployments.flash.warning.disabled_pool'
       redirect_to pool_path(@pool) and return
     end
 
@@ -123,10 +123,10 @@ class DeploymentsController < ApplicationController
       if @deployment.save
         status = @deployment.launch(current_user)
         if status[:errors].empty?
-          flash[:notice] = "Deployment launched"
+          flash[:notice] = t "deployments.flash.notice.launched"
         else
           flash[:error] = {
-            :summary  => "Failed to launch following assemblies:",
+            :summary  => t("deployments.flash.error.failed_to_launch_assemblies"),
             :failures => status[:errors],
             :successes => status[:successes]
           }
@@ -140,7 +140,7 @@ class DeploymentsController < ApplicationController
       else
         # We need @pool to re-display the form
         @pool = @deployment.pool
-        flash.now[:warning] = "Deployment launch failed"
+        flash.now[:warning] = t "deployments.flash.warning.failed_to_launch"
         init_new_deployment_attrs
         format.html { render :action => 'overview' }
         format.js { launch_new }
@@ -201,7 +201,7 @@ class DeploymentsController < ApplicationController
     params[:deployment].each_pair{|k,v| attrs[k] = v if Deployment::USER_MUTABLE_ATTRS.include?(k)}
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
-        flash[:success] = t('deployments.updated', :count => 1, :list => @deployment.name)
+        flash[:success] = t('deployments.flash.success.updated', :count => 1, :list => @deployment.name)
         format.html { redirect_to @deployment }
         format.js do
           @deployment_properties = @deployment.properties
@@ -209,7 +209,7 @@ class DeploymentsController < ApplicationController
         end
         format.json { render :json => @deployment }
       else
-        flash[:error] = t('deployments.not_updated', :count => 1, :list => @deployment.name)
+        flash[:error] = t('deployments.flash.error.not_updated', :count => 1, :list => @deployment.name)
         format.html { render :action => :edit }
         format.js { render :partial => 'edit' }
         format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
@@ -222,12 +222,12 @@ class DeploymentsController < ApplicationController
     if check_privilege(Privilege::MODIFY, deployment)
       begin
         deployment.stop_instances_and_destroy!
-        flash[:success] = t('deployments.deleted', :list => deployment.name, :count => 1)
+        flash[:success] = t('deployments.flash.success.deleted', :list => deployment.name, :count => 1)
       rescue
-        flash[:error] = t('deployments.not_deleted', :list => deployment.name, :count => 1)
+        flash[:error] = t('deployments.flash.error.not_deleted', :list => deployment.name, :count => 1)
       end
     else
-      flash[:error] = t('deployments.not_deleted', :list => deployment.name, :count => 1)
+      flash[:error] = t('deployments.flash.error.not_deleted', :list => deployment.name, :count => 1)
     end
     respond_to do |format|
       format.js do
@@ -255,9 +255,9 @@ class DeploymentsController < ApplicationController
       end
     end
     # If nothing is selected, display an error message:
-    flash[:error] = t('deployments.none_selected') if failed.blank? && destroyed.blank?
-    flash[:success] = t('deployments.deleted', :list => destroyed.join(', '), :count => destroyed.size) if destroyed.present?
-    flash[:error] = t('deployments.not_deleted', :list => failed, :count => failed.size) if failed.present?
+    flash[:error] = t('deployments.flash.error.none_selected') if failed.blank? && destroyed.blank?
+    flash[:success] = t('deployments.flash.success.deleted', :list => destroyed.join(', '), :count => destroyed.size) if destroyed.present?
+    flash[:error] = t('deployments.flash.error.not_deleted', :list => failed, :count => failed.size) if failed.present?
     respond_to do |format|
       format.html { redirect_to params[:backlink] || pools_url(:view => 'filter', :details_tab => 'deployments') }
       format.js do
@@ -285,14 +285,14 @@ class DeploymentsController < ApplicationController
             raise ActionError.new("stop cannot be performed on this instance.")
           end
           Taskomatic.stop_instance(@task)
-          notices << "Deployment: #{instance.deployment.name}, Instance:  #{instance.name}: stop action was successfully queued."
+          notices << "#{t('deployments.deployment')}: #{instance.deployment.name}, #{t('instances.instance')}:  #{instance.name}: #{t('deployments.flash.notice.stop')}"
         rescue Exception => err
-          errors << "Deployment: #{instance.deployment.name}, Instance: #{instance.name}: " + err
+          errors << "#{t('deployments.deployment')}: #{instance.deployment.name}, #{t('instances.instance')}: #{instance.name}: " + err
         end
       end
     end
     # If nothing is selected, display an error message:
-    errors = t('deployments.none_selected') if errors.blank? && notices.blank?
+    errors = t('deployments.flash.error.none_selected') if errors.blank? && notices.blank?
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
     respond_to do |format|
@@ -350,7 +350,7 @@ class DeploymentsController < ApplicationController
     errors = @deployment.check_assemblies_matches(current_user)
     unless errors.empty?
       flash[:error] = {
-        :summary => "Some assemblies will not be launched:",
+        :summary => t("deployments.flash.error.not_launched"),
         :failures => errors
       }
     end

@@ -32,7 +32,7 @@ class UserSessionsController < ApplicationController
     session[:javascript_enabled] = request.xhr?
     respond_to do |format|
       format.html do
-        flash[:notice] = "Login successful!"
+        flash[:notice] = t"user_sessions.flash.notice.login"
         redirect_back_or_default root_url
       end
       format.js { render :status => 201, :text => root_url }
@@ -45,10 +45,10 @@ class UserSessionsController < ApplicationController
     respond_to do |format|
       format.xml { head :unauthorized }
       format.html do
-        flash[:warning] = "Login failed: The Username and Password you entered do not match"
+        flash[:warning] = t"user_sessions.flash.warning.login_failed"
         render :action => :new
       end
-      format.js { render :status=> 401, :text => "Login failed: The Username and Password you entered do not match" }
+      format.js { render :status=> 401, :text => "#{t('user_sessions.flash.warning.login_failed')}" }
     end
 
     return false
@@ -57,7 +57,7 @@ class UserSessionsController < ApplicationController
   def destroy
     clear_breadcrumbs
     logout
-    flash[:notice] = "Logout successful!"
+    flash[:notice] = t"user_sessions.flash.notice.logout"
     redirect_back_or_default login_url
   end
 end

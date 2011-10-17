@@ -40,11 +40,11 @@ class PoolFamiliesController < ApplicationController
     require_privilege(Privilege::CREATE, PoolFamily)
 
     unless @pool_family.save
-      flash.now[:warning] = "Pool family's creation failed."
+      flash.now[:warning] = t"pool_families.flash.warning.creation_failed"
       render :new and return
     else
       @pool_family.assign_owner_roles(current_user)
-      flash[:notice] = "Pool family was added."
+      flash[:notice] = t"pool_families.flash.notice.added"
       redirect_to pool_families_path
     end
   end
@@ -60,10 +60,10 @@ class PoolFamiliesController < ApplicationController
     require_privilege(Privilege::MODIFY, @pool_family)
 
     unless @pool_family.update_attributes(params[:pool_family])
-      flash[:error] = "Pool Family wasn't updated!"
+      flash[:error] = t "pool_families.flash.error.not_updated"
       render :action => 'edit' and return
     else
-      flash[:notice] = "Pool Family was updated!"
+      flash[:notice] = t "pool_families.flash.notice.updated"
       redirect_to pool_families_path
     end
   end
@@ -89,9 +89,9 @@ class PoolFamiliesController < ApplicationController
     pool_family = PoolFamily.find(params[:id])
     require_privilege(Privilege::MODIFY, pool_family)
     if pool_family.destroy
-      flash[:notice] = "Pool Family was deleted!"
+      flash[:notice] = t "pool_families.flash.notice.deleted"
     else
-      flash[:error] = "Pool Family cannot be deleted!"
+      flash[:error] = t "pool_families.flash.error.not_deleted"
     end
     redirect_to pool_families_path
   end
@@ -103,7 +103,7 @@ class PoolFamiliesController < ApplicationController
     require_privilege(Privilege::VIEW, @provider_account)
 
     @pool_family.provider_accounts << @provider_account
-    flash[:notice] = "Provider Account has been added"
+    flash[:notice] = t"pool_families.flash.notice.provider_account_added"
     redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts')
   end
 
@@ -118,10 +118,10 @@ class PoolFamiliesController < ApplicationController
       end
     end
     if deleted.size > 0
-      flash[:notice] = t 'pool_families.index.deleted', :list => deleted.join(', ')
+      flash[:notice] = t 'pool_families.flash.notice.more_deleted', :list => deleted.join(', ')
     end
     if not_deleted.size > 0
-      flash[:error] = t 'pool_families.index.not_deleted', :list => not_deleted.join(', ')
+      flash[:error] = t 'pool_families.flash.error.more_not_deleted', :list => not_deleted.join(', ')
     end
     redirect_to pool_families_path
   end

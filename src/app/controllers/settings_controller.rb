@@ -43,7 +43,7 @@ class SettingsController < ApplicationController
         if key == SELF_SERVICE_DEFAULT_QUOTA
           @self_service_default_quota = MetadataObject.lookup(key)
           if !@self_service_default_quota.update_attributes(params[key])
-            flash[:warning] = "Could not update the default quota"
+            flash[:warning] = t"settings.flash.warning.not_updated_quota"
             render :self_service
             return
           end
@@ -60,7 +60,7 @@ class SettingsController < ApplicationController
         end
       end
     end
-    flash[:notice] = "Settings Updated!"
+    flash[:notice] = t"settings.flash.notice.updated"
     redirect_to :action => 'self_service'
   end
 

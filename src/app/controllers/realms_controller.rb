@@ -52,7 +52,7 @@ class RealmsController < ApplicationController
     end
 
     if @realm.update_attributes(params[:frontend_realm])
-      flash[:notice] = 'Realm updated successfully!'
+      flash[:notice] = t"realms.flash.notice.updated"
       redirect_to realms_url and return
     end
 
@@ -65,7 +65,7 @@ class RealmsController < ApplicationController
     #@provider = Provider.find(params[:provider_id])
     @realm = FrontendRealm.new(params[:frontend_realm])
     if @realm.save
-      flash[:notice] = "Realm was added."
+      flash[:notice] = t"realms.flash.notice.added"
       redirect_to realm_path(@realm)
     else
       load_backend_realms
@@ -76,9 +76,9 @@ class RealmsController < ApplicationController
   def destroy
     require_privilege(Privilege::MODIFY, Realm)
     if FrontendRealm.destroy(params[:id])
-      flash[:notice] = "Realm was deleted!"
+      flash[:notice] = t "realms.flash.notice.deleted"
     else
-      flash[:error] = "Realm was not deleted!"
+      flash[:error] = t"realms.flash.error.not_deleted"
     end
     redirect_to realms_path
   end
@@ -87,7 +87,7 @@ class RealmsController < ApplicationController
     deleted = []
     not_deleted = []
     if params[:realm_selected].blank?
-      flash[:error] = 'You must select at least one realm to delete.'
+      flash[:error] = t"realms.flash.error.select_to_delete"
     else
       FrontendRealm.find(params[:realm_selected]).each do |realm|
         require_privilege(Privilege::MODIFY, Realm)
@@ -100,10 +100,10 @@ class RealmsController < ApplicationController
     end
 
     unless deleted.empty?
-      flash[:notice] = "These Realms were deleted: #{deleted.join(', ')}"
+      flash[:notice] = "#{t('realms.flash.notice.more_deleted')} #{deleted.join(', ')}"
     end
     unless not_deleted.empty?
-      flash[:error] = "Could not deleted these Realms: #{not_deleted.join(', ')}"
+      flash[:error] = "#{t('realms.flash.error.more_not_deleted')} #{not_deleted.join(', ')}"
     end
     redirect_to realms_path
   end
