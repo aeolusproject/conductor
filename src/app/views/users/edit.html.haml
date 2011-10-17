@@ -1,12 +1,12 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
   - if check_privilege(Privilege::MODIFY, User)
-    %h1.users Edit User
+    %h1.users=t'users.edit.edit_user'
   - else
-    %h1.users Edit Account
+    %h1.users=t'users.edit.edit_account'
   #obj_actions
-    Return to:
-    = link_to "Users & Groups", users_path, :class => 'rounded-link'
+    =t'users.return_to'
+    = link_to "#{t'users.users_groups'}", users_path, :class => 'rounded-link'
 
 %section.admin-content-section.user
   .content
@@ -17,9 +17,9 @@
           %span#last_name= @user.last_name
       .user-card-content
         %dl
-          %dt E-mail Address
+          %dt=t'users.show.e-mail'
           %dd#email= @user.email
-          %dt Username
+          %dt=t'users.show.username'
           %dd#login= @user.login
     = form_for @user, :url => user_path(@user), :html => { :method => :put, :class => 'generic' } do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => users_path }

@@ -25,7 +25,7 @@
 -if check_privilege(Privilege::MODIFY, User)
   %fieldset.inline
     %p
-      %label User Treatment
+      %label=t'users.form.user_treatment'
       = select_tag 'user_treatment', options_for_select([t(:choose_treatment)])
     %p
       = submit_tag t(:apply), :disabled => true, :class => 'button pill'
@@ -35,11 +35,11 @@
       %p
         = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
         = quota_form.text_field :maximum_running_instances
-        (instances)
+        =t'instances.instances'
 
 -if check_privilege(Privilege::MODIFY, User)
   %fieldset
-    %legend User Status
+    %legend=t'users.form.user_status'
     %ul.radio-group
       %li
         = label_tag "user_status_active", "Active"
@@ -47,8 +47,9 @@
       %li
         = label_tag "user_status_inactive", "Inactive"
         = radio_button_tag "user_status","Inactive", false, :disabled => true
+
 %fieldset.options
-  = form.submit "Save User",  :class => "submit button pill"
+  = form.submit "#{t'users.form.save_user'}",  :class => "submit button pill"
 
 :javascript
   $('.check_change').change(function(){

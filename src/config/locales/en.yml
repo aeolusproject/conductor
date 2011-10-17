@@ -1,8 +1,11 @@
 en:
   dashboard: Dashboard
   users:
+    users_groups: "Users & Groups"
+    return_to: "Return to:"
     users: Users
     confirm_delete: "Are you sure you want to delete this user?"
+    quick_jump: "Quick Jump:"
     index:
       user_id: User ID
       username: Username
@@ -10,6 +13,30 @@ en:
       first_name: First Name
       quota_instances: Quota Limit
       email: e-mail
+    show:
+      e-mail: "E-mail Address"
+      username: Username
+      edit: Edit
+      delete: Delete
+      created: CREATED
+      number_of_logins: NUMBER OF LOGINS
+      last_login: LAST LOGIN
+      last_updated: LAST UPDATED
+      failed_logins: FAILED LOGINS
+      last_login_ip: LAST LOGIN IP
+    form:
+      user_treatment: User Treatment
+      save_user: Save User
+      user_status: User Status
+    new:
+      new_user: New User
+      neccessary_information: "Enter necessary information about your new user and click 'Create User' when you are finished."
+    list:
+      delete_selected: Delete Selected
+      unlimited: Unlimited
+    edit:
+      edit_user: Edit User
+      edit_account: Edit Account
     flash:
       notice:
         registered: "User registered!"

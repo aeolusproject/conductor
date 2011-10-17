@@ -1,15 +1,15 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1.users New User
+  %h1.users=t'users.new.new_user'
   #obj_actions
-    Return to:
-    = link_to "Users & Groups", users_path, :class => 'rounded-link'
+    =t'users.return_to'
+    = link_to "#{t'users.users_groups'}", users_path, :class => 'rounded-link'
 
 %section.admin-content-section.users
   .content
     .align-center
       %p
-        %strong Enter necessary information about your new user and click "Create User" when you are finished.
+        %strong=t'users.new.neccessary_information'
         %br
         %br
     #user_card.user_form_card
@@ -19,9 +19,9 @@
           %span#last_name &nbsp;
       .user-card-content
         %dl
-          %dt E-mail Address
+          %dt=t'users.show.e-mail'
           %dd#email &nbsp;
-          %dt Username
+          %dt=t'users.show.username'
           %dd#login &nbsp;
     = form_for @user, :url => users_path, :html => {:class => 'generic'} do |f|
       -if current_user

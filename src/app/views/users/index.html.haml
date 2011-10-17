@@ -1,9 +1,9 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
   #obj_actions
-    Quick Jump:
+    =t'users.quick_jump'
     /= link_to 'Groups', "#groups", :class => 'rounded-link'
-    = link_to 'Users', "#users", :class => 'rounded-link'
+    = link_to "#{t'users.users'}", "#users", :class => 'rounded-link'
     /= link_to 'Roles', "#roles", :class => 'rounded-link'
   .clear
 /%section.admin-content-section

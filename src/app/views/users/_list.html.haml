@@ -1,12 +1,12 @@
 %section.admin-content-section.users
   %header
-    %h2#users.users Users
+    %h2#users.users=t'users.users'
     .section-controls
       #obj_actions
         = link_to "", new_user_path, :class => 'add-user-button', :id => 'add_user_button'
   .content
     - content_for :form_header do
-      %li= restful_submit_tag "Delete Selected", "destroy", multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button pill danger'
+      %li= restful_submit_tag "#{t'users.list.delete_selected'}", "destroy", multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button pill danger'
 
     = filter_table(@header, @users) do |user|
       %tr{:class => cycle('nostripe','stripe')}
@@ -17,5 +17,5 @@
         %td= user.last_name
         %td= user.first_name
         %td{:class => 'center'}= number_to_percentage user.quota.percentage_used, :precision => 0
-        %td{:class => 'center'}= user.quota.maximum_running_instances or "Unlimited"
+        %td{:class => 'center'}= user.quota.maximum_running_instances or "#{t'users.list.unlimited'}"
         %td= user.email

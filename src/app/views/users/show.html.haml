@@ -1,7 +1,7 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
   #obj_actions
-    Return to:
+    =t'users.return_to'
     = link_to "Users & Groups", users_path, :class => 'rounded-link'
 
 %section.admin-content-section.user
@@ -11,35 +11,35 @@
         %h2= @user.name
       .user-card-content
         %dl
-          %dt E-mail Address
+          %dt=t'users.show.e-mail'
           %dd= @user.email
-          %dt Username
+          %dt=t'users.show.username'
           %dd= @user.login
         #obj_actions.button-group
-          = link_to 'Edit', edit_user_path(@user), :class => 'button'
-          = button_to 'Delete', user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button danger"
+          = link_to "#{t('users.show.edit')}", edit_user_path(@user), :class => 'button'
+          = button_to "#{t('users.show.delete')}", user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button danger"
         .clear
     %dl.user_stats
       %ul
         %div
           %li
-            %dt CREATED
+            %dt=t'users.show.created'
             %dd= l(@user.created_at.to_date, :format => :long) if @user.created_at
           %li
-            %dt NUMBER OF LOGINS
+            %dt=t'users.show.number_of_logins'
             %dd= @user.login_count
           %li
-            %dt LAST LOGIN
+            %dt=t'users.show.last_login'
             %dd= l(@user.last_login_at, :format => :long) if @user.last_login_at
         %div
           %li
-            %dt LAST UPDATED
+            %dt=t'users.show.last_updated'
             %dd= l(@user.updated_at, :format => :long) if @user.updated_at
           %li
-            %dt FAILED LOGINS
+            %dt=t'users.show.failed_logins'
             %dd= @user.failed_login_count
           %li
-            %dt LAST LOGIN IP
+            %dt=t'users.show.last_login_ip'
             %dd= @user.last_login_ip
   .clear
 
