@@ -70,7 +70,7 @@ describe Api::ImagesController do
                       :name => 'test',
                       :description => 'test image')
         Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
-        Aeolus::Image::Warehouse::ImageBuild.stub(:find_all_by_image_id).and_return([])
+        Aeolus::Image::Warehouse::ImageBuild.stub(:find_all_by_image_uuid).and_return([])
         get :show, :id => '5'
       end
 
