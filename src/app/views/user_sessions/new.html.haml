@@ -4,7 +4,7 @@
     $('#password-input').showPassword({'checkbox':'#reveal'});
     $('#username').focus(); // bring the username to focus
 
-    $('#help-btn').click(function(){ alert('Help functionality is not yet available.'); });
+    $('#help-btn').click(function(){ alert("#{t('user_sessions.new.help')}"); });
 
     $('#security-btn').click(function(){
       $('#login').hide();
@@ -55,20 +55,20 @@
       .content
         = form_tag user_session_path, :id => 'new_user_session' do
           %fieldset.primary
-            = label_tag :login, "Username:"
+            = label_tag :login, t("user_sessions.new.username")
             = text_field_tag :login, params[:login], :class => 'username'
           %fieldset.primary
-            = label_tag :password, "Password:"
+            = label_tag :password, t("user_sessions.new.password")
             = password_field_tag :password, params[:password], :class => 'password', :id => 'password-input'
           %fieldset.reveal_pass
             %input{:type => 'checkbox', :id => 'reveal'}
-            %label{:for => 'reveal'} Show my password
+            %label{:for => 'reveal'}= t"user_sessions.new.show_password"
           %div.group.bottom.left
             .options
               %a.help#help-btn{:href => '#'}
-                %span Login Assistance
+                %span=t"user_sessions.new.login_assistance"
               %a.security#security-btn{:href => '#'}
-                %span Security Info
+                %span=t"user_sessions.new.security_info"
           %div.group.bottom.submit
             = image_tag 'login-spinner.gif', :alt => 'Working...', :id => 'progress-indicator'
-            = submit_tag "Login", :class => "button", :id => 'login-btn'
+            = submit_tag "#{t('user_sessions.new.login')}", :class => "button", :id => 'login-btn'

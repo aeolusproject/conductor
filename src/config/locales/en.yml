@@ -15,13 +15,31 @@ en:
         registered: "User registered!"
         you_registred: "You have successfully registered!"
         updated: "User updated!"
-        deleted: "User has been succesfully deleted."
+        deleted: "User has been successfully deleted."
         more_deleted:
           one: Deleted user
           other: Deleted users
       warning:
         not_delete: "Cannot delete %{login} : you are logged in as this user"
   user_sessions:
+    new:
+      username: "Username:"
+      password: "Password:"
+      show_password: Show my password
+      login_assistance: Login Assistance
+      security_info: Security Info
+      login: Login
+      help: "Help functionality is not yet available."
+    security:
+      encrypted_connection: Encrypted Connection
+      unencrypted_connection:  Unencrypted Connection
+      expiration: "Expiration: Unknown"
+      issued: "Certificate issued by:"
+      unknown_ca: Unknown Certificate Authority
+      message: "Your connection to Aeolus Conductor at %{host} is currently secure and encrypted using SSL encryption (unknown strength)."
+      message_unencrypted: "Your connection to Aeolus Conductor at %{host} is currently unencrypted. This could lead to potential theft of sensitive information."
+      message_unencrypted2: If you believe this to be an error, please do not attempt to login; contact your system administrator immediately.
+      return_to_login: Return to Login
     flash:
       notice:
         login: "Login successful!"

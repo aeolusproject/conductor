@@ -1,25 +1,27 @@
 - if request.ssl?
   .panel#security
     %header.secure
-      %h1 Encrypted Connection
-      %span.expiration Expiration: Unknown
+      %h1=t'user_sessions.security.encrypted_connection'
+      %span.expiration=t 'user_sessions.security.expiration'
     .content
       %p
-        <strong>Certificate issued by:</strong><br />Unknown Certificate Authority
+        =t'user_sessions.security.issued'
+        %br
+        =t'user_sessions.security.unknown_ca'
       %p
-        Your connection to Aeolus Conductor at #{h request.host} is currently <strong>secure and encrypted</strong> using SSL encryption (unknown strength).
+        =t'user_sessions.security.message', :host => "#{h request.host}"
       %p
         %input.button#show-login{:type => 'button', :value => 'Return to Login'}
     = image_tag 'login-card-logo-upstream.png', :id => 'logo'
 -else
   .panel#security
     %header.unsecure
-      %h1 Unencrypted Connection
+      %h1=t'user_sessions.security.unencrypted_connection'
     .content
       %p
-        Your connection to Aeolus Conductor at #{h request.host} is currently unencrypted. This could lead to potential theft of sensitive information.
+        =t'user_sessions.security.message_unencrypted', :host => "#{h request.host}"
       %p
-        If you believe this to be an error, please do not attempt to login; contact your system administrator immediately.
+        =t'user_sessions.security.message_unencrypted2'
       %p
-        %input.button#show-login{:type => 'button', :value => 'Return to Login'}
+        %input.button#show-login{:type => 'button', :value => "#{t('user_sessions.security.return_to_login')}"}
     = image_tag 'login-card-logo-upstream.png', :id => 'logo'
