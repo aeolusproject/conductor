@@ -36,6 +36,10 @@ describe ProviderAccountsController do
     mock_warden(@admin)
     get :index, :format => :xml
     response.should be_success
+
+    # it should have not provider accounts credentials
+    resp = Hash.from_xml(response.body)
+    resp['provider_accounts']['provider_account']['provider_credentials'].should be_nil
   end
 
   it "doesn't allow to save provider's account if not valid credentials" do

@@ -72,7 +72,7 @@ describe ProviderAccount do
     @provider_account.connect.should be_nil
   end
 
-  it "should generate xml for a provider account" do
+  it "should generate xml for a provider account with credentials" do
     provider_account = Factory.build(:ec2_provider_account)
     provider_account.credentials_hash = {
                                   'username' => 'user',
@@ -95,7 +95,27 @@ describe ProviderAccount do
     </ec2_credentials>
   </provider_credentials>
 </provider_account>}
+    # default parameters for ProviderAccount#to_xml generates xml without credentials
+    provider_account.to_xml(:with_credentials => true).should eql(expected_xml)
+  end
+
+  it "should generate xml for a provider account without credentials" do
+    provider_account = Factory.build(:ec2_provider_account)
+    provider_account.credentials_hash = {
+                                  'username' => 'user',
+                                  'password' => 'pass',
+                                  'account_id' => '1234',
+                                  'x509private' => 'priv_key',
+                                  'x509public' => 'cert'
+                                 }
+    expected_xml = %Q{<provider_account>
+  <name>#{provider_account.label}</name>
+  <provider>#{provider_account.provider.name}</provider>
+  <provider_type>ec2</provider_type>
+</provider_account>}
+    # default parameters for ProviderAccount#to_xml generates xml without credentials
     provider_account.to_xml.should eql(expected_xml)
+    provider_account.to_xml(:with_credentials => false).should eql(expected_xml)
   end
 
   it "should create provider account with same username for different provider" do

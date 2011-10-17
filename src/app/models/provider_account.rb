@@ -250,7 +250,14 @@ class ProviderAccount < ActiveRecord::Base
     end
   end
 
-  def to_xml
+  # Returns XML representation of ProviderAccount
+  #
+  # @param [Hash] options Options hash
+  # @option options [Boolean] :with_credentials (false) Whether to include credentials or not
+  # @return [String] XML
+  def to_xml(options = {})
+    with_credentials = options[:with_credentials] || false
+
     doc = Nokogiri::XML('')
     doc.root = Nokogiri::XML::Node.new('provider_account', doc)
     root = doc.root.at_xpath('/provider_account')
@@ -267,17 +274,20 @@ class ProviderAccount < ActiveRecord::Base
     node.content = self.provider.provider_type.deltacloud_driver
     root << node
 
-    credential_node_name = provider.provider_type.deltacloud_driver + '_credentials'
-    credential_node = Nokogiri::XML::Node.new(credential_node_name, doc)
-    node = Nokogiri::XML::Node.new('provider_credentials', doc)
-    node << credential_node
-    root << node
+    if with_credentials
+      credential_node_name = provider.provider_type.deltacloud_driver + '_credentials'
+      credential_node = Nokogiri::XML::Node.new(credential_node_name, doc)
+      node = Nokogiri::XML::Node.new('provider_credentials', doc)
+      node << credential_node
+      root << node
 
-    creds_label_hash.each do |h|
-      element = Nokogiri::XML::Node.new(h[:label], doc)
-      element.content = h[:value]
-      credential_node << element
+      creds_label_hash.each do |h|
+        element = Nokogiri::XML::Node.new(h[:label], doc)
+        element.content = h[:value]
+        credential_node << element
+      end
     end
+
     doc.root.to_xml
   end
 
