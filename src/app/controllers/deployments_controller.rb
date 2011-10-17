@@ -47,7 +47,6 @@ class DeploymentsController < ApplicationController
     end
 
     @deployment = Deployment.new(:pool_id => @pool.id)
-    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE).select{|ce| ce.catalog.pool == @pool}
     init_new_deployment_attrs
     respond_to do |format|
       format.html
@@ -56,24 +55,19 @@ class DeploymentsController < ApplicationController
     end
   end
 
+
+
   def launch_time_params
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
-    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE)
+    init_new_deployment_attrs
 
-    url = get_deployable_url
-    unless @deployment.accessible_and_valid_deployable_xml?(url)
-      init_new_deployment_attrs
+    unless @deployment.accessible_and_valid_deployable_xml?(@deployable_url)
       render 'launch_new' and return
     end
 
-    @services = []
-    @deployment.deployable_xml.assemblies.each do |assembly|
-      assembly.services.each do |service|
-        @services << [service, assembly.name]
-      end
-    end
+    load_assemblies_services
 
     if @services.empty? or @services.all? {|s, a| s.parameters.empty?}
       # we can skip the launch-time parameters screen
@@ -82,26 +76,22 @@ class DeploymentsController < ApplicationController
     end
   end
 
-  # launch_new will post here, but you can use this RESTfully as well
-  def new
+  def overview
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
-    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE).select{|ce| ce.catalog.pool == @pool}
     require_privilege(Privilege::CREATE, Deployment, @pool)
+    init_new_deployment_attrs
 
-    @launch_parameters_id = SecureRandom.hex(8)
-    session[:launch_parameters] ||= {}
-    session[:launch_parameters][@launch_parameters_id] = @deployment.launch_parameters
+    @launch_parameters_encoded = Base64.encode64(ActiveSupport::JSON.encode(
+        @deployment.launch_parameters))
 
-    url = get_deployable_url
     respond_to do |format|
-      if @deployment.accessible_and_valid_deployable_xml?(url)
+      if @deployment.accessible_and_valid_deployable_xml?(@deployable_url)
         check_assemblies_for_errors
-        format.html
+        format.html {render 'new'}
         format.js { render :partial => 'new' }
         format.json { render :json => @deployment }
       else
-        init_new_deployment_attrs
         format.html { render :launch_new }
         format.js { render :partial => 'launch_new' }
         format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
@@ -110,17 +100,25 @@ class DeploymentsController < ApplicationController
   end
 
   def create
-    launch_parameters_id = params.delete(:launch_parameters_id)
-    unless launch_parameters_id.blank?
-      session[:launch_parameters] ||= {}
-      params[:deployment][:launch_parameters] = session[:launch_parameters].delete(launch_parameters_id)
+    launch_parameters_encoded = params.delete(:launch_parameters_encoded)
+    unless launch_parameters_encoded.blank?
+      decoded_parameters = JSON.load(Base64.decode64(launch_parameters_encoded))
+      params[:deployment][:launch_parameters] = decoded_parameters
     end
 
     @deployment = Deployment.new(params[:deployment])
-    require_privilege(Privilege::CREATE, Deployment, @deployment.pool)
+    @pool = @deployment.pool
+    require_privilege(Privilege::CREATE, Deployment, @pool)
+    init_new_deployment_attrs
+
     @deployment.owner = current_user
-    url = get_deployable_url
-    @deployment.accessible_and_valid_deployable_xml?(url) unless url.nil?
+    load_assemblies_services
+
+    if params.delete(:commit) == 'back'
+      view = launch_parameters_encoded.blank? ? 'launch_new' : 'launch_time_params'
+      render view and return
+    end
+
     respond_to do |format|
       if @deployment.save
         status = @deployment.launch(current_user)
@@ -340,6 +338,7 @@ class DeploymentsController < ApplicationController
 
   def load_deployment
     @deployment = Deployment.find(params[:id])
+    @pool = @deployment.pool
   end
 
   def check_assemblies_for_errors
@@ -353,13 +352,16 @@ class DeploymentsController < ApplicationController
   end
 
   def init_new_deployment_attrs
+    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE).select{|ce| ce.catalog.pool == @pool}
+    @deployable_url = get_deployable_url
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, :target_type => Deployment)
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
-      :include => :architecture,
-      :conditions => {:provider_id => nil}
-    )
+        :include => :architecture,
+        :conditions => {:provider_id => nil}
+      )
   end
+
 
   def get_deployable_url
     if !params.has_key?(:catalog_entry_id)
@@ -370,6 +372,15 @@ class DeploymentsController < ApplicationController
       c_entry = CatalogEntry.find(params[:catalog_entry_id])
       require_privilege(Privilege::USE, c_entry)
       return c_entry.url
+    end
+  end
+
+  def load_assemblies_services
+    @services = []
+    @deployment.deployable_xml.assemblies.each do |assembly|
+      assembly.services.each do |service|
+        @services << [service, assembly.name]
+      end
     end
   end
 

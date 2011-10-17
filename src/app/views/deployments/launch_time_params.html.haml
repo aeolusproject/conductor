@@ -6,7 +6,7 @@
 
 %section.content-section.deployments.launch-time-params
   %h2= t('.configure_launch_time_params')
-  = form_for @deployment, :url => new_deployment_path, :html => {:method => :get, :class => 'generic'} do
+  = form_for @deployment, :url => overview_deployments_path, :html => {:method => :post, :class => 'generic'} do
     = hidden_field :deployment, :name
     = hidden_field :deployment, :pool_id
     = hidden_field :deployment, :frontend_realm_id
@@ -28,7 +28,8 @@
               - if not parameter.reference?
                 - id = "deployment[launch_parameters][#{assembly_name}][#{service.name}][#{parameter.name}]"
                 = label_tag id, parameter.name.titleize + ':'
-                = text_field_tag id, parameter.value
+                - value = get_hash_multi(params, [:deployment, :launch_parameters, assembly_name, service.name, parameter.name])
+                = text_field_tag id, (parameter.value or value)
               - else
                 = "Reference to #{parameter.reference_string}"
 

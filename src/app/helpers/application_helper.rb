@@ -151,5 +151,9 @@ module ApplicationHelper
     session[:javascript_enabled]
   end
 
+  def get_hash_multi(hash, keys)
+    keys.reduce(hash) {|h, k| h[k] if (h and h.respond_to? :keys) }
+  end
+
   module_function :count_uptime
 end

@@ -2,69 +2,40 @@
   = render 'layouts/error_messages', :object => @deployment
 = form_for @deployment do
   %header.page-header
-    %h1{:class => controller.controller_name}
-      Deployment
-      = @deployment.name
-    #obj_actions.button-container
-      = hidden_field :deployment, :name
-      = hidden_field :deployment, :pool_id
-      = hidden_field :deployment, :frontend_realm_id
-      = hidden_field_tag :launch_parameters_id, @launch_parameters_id
-      -# FIXME: Passing chunks of XML around in hidden form fields doesn't feel right
-      = hidden_field :deployment, :deployable_xml
-      = submit_tag 'Launch this deployment', :class => 'button primary', :id => 'launch_deployment'
-      = link_to 'Cancel', pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
-  .corner &nbsp;
-
-  #scoreboard
-    %dl.statistics
-      %ul.groups
-        %li
-          %dt= t("pools.index.pool")
-          %dd= @pool.name
-        %li
-          %dt= t("deployments.deployment")
-          %dd= @deployment.name
-        %li
-          %dt deployable definition
-          %dd= link_to('view', '#', :id => 'deployable-xml-link')
-
+    %h1{:class => controller.controller_name}= t('.pool_name', :pool => @pool.name)
+    .corner &nbsp;
+  = hidden_field :deployment, :name
+  = hidden_field :deployment, :pool_id
+  = hidden_field :deployment, :frontend_realm_id
+  = hidden_field_tag :launch_parameters_encoded, @launch_parameters_encoded
+  = hidden_field_tag :catalog_entry_id, params[:catalog_entry_id]
+  = hidden_field_tag :deployable_url, params[:deployable_url]
+  -# FIXME: Passing chunks of XML around in hidden form fields doesn't feel right
+  = hidden_field :deployment, :deployable_xml
 
   %section.content-section.deployable_details
-    %header
-      %h2
-        Deployable details
+    %header.confirmation
+      %h2= t('.header', :deployment => @deployment.name, :pool => @pool.name)
+      %p= t('.confirmation', :deployment => @deployment.name, :pool => @pool.name, :quota => 10)
 
     .content
+      %h3= t '.description'
+      %p= @deployment.deployable_xml.description
+
+      %h3= t('.deployable_uri')
+      %a{ :id => 'deployable-xml-link', :href => @deployable_url}
+        = @deployable_url
+        &rArr;
+
+      %h3= t('.image_ids')
 
       %ul
-        %li
-          Name:
-          = @deployment.deployable_xml.name
-        %li
-          Description:
-          = @deployment.deployable_xml.description
+      - @deployment.deployable_xml.assemblies.each do |assembly|
+        %li.image-id
+          = assembly.image_id
 
-  %section.content-section.assemblies
-    %header
-      %h2
-        Assemblies
-
-    .content
-      -# Avoiding filter table here b/c it adds a form and we want the fields
-      -# from deployments/services to be part of the top level form, not part
-      -# of the filter form
-      %table.flat{:width => "100%"}
-        %thead
-          %th Assembly Name
-          %th Hardware Profile
-          %th Image ID
-          %th Build ID
-        - @deployment.deployable_xml.assemblies.each do |assembly|
-          %tr
-            %td= assembly.name
-            %td= assembly.hwp
-            %td= assembly.image_id
-            %td= assembly.image_build
-
+  #action-buttons
+    = link_to t(:cancel), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
+    = submit_tag t(:back), :class => 'button', :value => 'back'
+    = submit_tag t('.launch'), :class => 'button primary', :id => 'launch_deployment'
 -# Quota checking to go here as well, once I understand how it works with new code

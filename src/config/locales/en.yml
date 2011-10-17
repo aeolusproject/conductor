@@ -66,6 +66,7 @@ en:
   reset: Reset
   create_account: Create Account
   cancel: Cancel
+  back: Back
   choose_name: Choose a username
   choose_password: Choose a password
   change_password: Change password
@@ -105,6 +106,16 @@ en:
     launch_time_params:
       configure_launch_time_params: "Configure launch-time parameters for your deployment:"
       finalize: Finalize
+    new:
+      pool_name: %{pool} Pool
+      header: Deploy "%{deployment}" to %{pool} Pool?
+      confirmation: >
+        Are you sure you wish to deploy "%{deployment}" to the %{pool} Pool? Doing
+        so will utilize %{quota} of your overall deployment quota.
+      deployable_uri: Deployable URI
+      description: Description
+      image_ids: Image IDs
+      launch: Launch
   instances:
     instances: Instances
     updated:
