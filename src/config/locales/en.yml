@@ -79,9 +79,7 @@ en:
   advanced_search: Advanced Search
   login: Log in
   operation: Operate
-  monitor: Monitor
   browse_objects: Browse Objecs
-  administer: Administer
   system_settings: System Settings
   manage_providers: Manage Providers
   provider_summary: Provider Summary
@@ -566,3 +564,13 @@ en:
       long: "%d %B, %Y %H:%M"
     am: "am"
     pm: "pm"
+  navigation:
+    first_level:
+      monitor: Monitor
+      administer: Administer
+    second_level:
+      users_groups: Users & Groups
+      environments: Environments
+      content: Content
+      cloud_providers: Cloud Providers
+      settings: Settings
