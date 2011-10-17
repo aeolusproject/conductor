@@ -2,27 +2,27 @@
   %thead
     %tr
       %th.show
-        Properties for
+        =t'catalog_entries.properties.properties_for'
         = @catalog_entry.name
       %th.show
   %tbody
     %tr
       %td
-        %label{:name => 'name'} Name:
+        %label{:name => 'name'}=t('catalog_entries.index.name')+":"
       %td
         = @catalog_entry.name
     %tr
       %td
-        %label{:catalog_id => 'catalog_id'} Catalog:
+        %label{:catalog_id => 'catalog_id'}=t('catalog_entries.form.catalog') + ":"
       %td
         = @catalog_entry.catalog.name
     %tr
       %td
-        %label{:name => 'description'} Description:
+        %label{:name => 'description'}=t('catalog_entries.form.description')+":"
       %td
         = @catalog_entry.description
     %tr
       %td
-        %label{:name => 'url'} URL:
+        %label{:name => 'url'}=t('catalog_entries.index.url')+":"
       %td
         = link_to @catalog_entry.url, catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry.id, :deployable_xml => true)

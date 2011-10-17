@@ -335,11 +335,29 @@ en:
         not_deleted: "Pool Family cannot be deleted!"
         more_not_deleted: "Could not delete the following Pool Families: %{list}."
   catalog_entries:
+    new_catalog_entry: New Catalog Entry
     index:
       catalog_entry: Catalog Entry
       catalog_entries: Catalog Entries
       name: Name
       url: URL
+    new:
+      add_catalog_entry: Add New Catalog Entry
+    form:
+      catalog: Catalog
+      description: Description
+      cancel: Cancel
+      save: Save
+    show:
+      edit: Edit
+      delete: Delete
+      confirm_delete: "Are you sure you want to delete?"
+    properties:
+      properties_for: Properties for
+    edit:
+      editing_catalog_entry: Editing Catalog Entry
+    list:
+      catalog_entries_list: Catalog Entries List
     flash:
       warning:
         not_valid_or_reachable: Catalog entry XML file is either invalid or no longer reachable at

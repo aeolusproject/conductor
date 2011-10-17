@@ -2,18 +2,18 @@
   = render 'layouts/error_messages', :object => @catalog_entry
 %fieldset
   %p
-    = form.label :name
+    = form.label :name, t('catalog_entries.index.name')
     = form.text_field :name, :class => 'em long'
   %p
-    = form.label :catalog_id
+    = form.label :catalog_id, t('catalog_entries.form.catalog')
     = form.select :catalog_id, @catalogs.collect{|c| [c.name, c.id]}
   %p
-    = form.label :description
+    = form.label :description, t('catalog_entries.form.description')
     = form.text_area :description, :class => 'long'
   %p
-    = form.label :url, 'URL'
+    = form.label :url, t('catalog_entries.index.url')
     = form.text_field :url, :class => 'long'
 
 %fieldset.options
-  = link_to 'Cancel', catalog_path(@catalog), :class => 'button danger'
-  = submit_tag 'Save', :name => 'save', :class => 'button', :id => 'save_button'
+  = link_to "#{t'catalog_entries.form.cancel'}", catalog_path(@catalog), :class => 'button danger'
+  = submit_tag "#{t'catalog_entries.form.save'}", :name => 'save', :class => 'button', :id => 'save_button'

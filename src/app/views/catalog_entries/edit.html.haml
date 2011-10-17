@@ -8,7 +8,7 @@
 
 %section.admin-content-section.user
   %header
-    %h2 Editing Catalog Entry
+    %h2=t'catalog_entries.edit.editing_catalog_entry'
 
   .content
     = form_for @catalog_entry, :url => catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry), :html => { :method => :put, :class => 'generic' } do |f|
