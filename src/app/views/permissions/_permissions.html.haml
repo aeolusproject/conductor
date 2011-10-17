@@ -2,7 +2,7 @@
   - if check_privilege(Privilege::PERM_SET)
     %li
       = link_to "Grant Access", new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id), { :class => 'button primary', :id => 'new_permission_button'}
-      = restful_submit_tag "Revoke Access", "destroy", multi_destroy_permissions_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+      = restful_submit_tag "Revoke Access", "destroy", multi_destroy_permissions_path, 'DELETE', :id => 'revoke_button', :class => 'button danger'
       = restful_submit_tag "Edit", "multi_update", multi_update_permissions_path, 'POST', :id => 'edit_button', :class => 'hidden'
     .corner &nbsp;
     = hidden_field_tag :permission_object_type, @permission_object.class.name

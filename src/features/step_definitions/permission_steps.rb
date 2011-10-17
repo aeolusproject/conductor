@@ -17,7 +17,7 @@ end
 
 Given /^I delete the permission$/ do
   check "permission_checkbox_#{@pool_user_permission.id}"
-  click_button "delete_button"
+  click_button "revoke_button"
 end
 
 When /^(?:|I )select "([^"]*)" role for the user "([^"]*)"$/ do |role_name, user_name|

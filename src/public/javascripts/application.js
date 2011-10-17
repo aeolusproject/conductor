@@ -119,6 +119,19 @@ $.extend(Conductor, {
     });
   },
 
+  multiRevokeValidation: function() {
+    $('#revoke_button').live('click', function(e) {
+      if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
+        alert('Please make a selection before clicking Revoke Access button.');
+        e.preventDefault();
+      } else {
+        if (!confirm("Are you sure you want to proceed?")) {
+          e.preventDefault();
+        }
+      }
+    });
+  },
+
   closeNotification: function() {
     $('.control').click(function(e) {
       e.preventDefault();
@@ -284,6 +297,7 @@ $(document).ready(function () {
   Conductor.enhanceDetailsTabs();
   Conductor.bind_pretty_toggle();
   Conductor.multiDestroyValidation();
+  Conductor.multiRevokeValidation();
   Conductor.closeNotification();
   Conductor.toggleCollapsible();
   Conductor.enhanceUserMenu();
