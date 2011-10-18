@@ -3,7 +3,6 @@
   - if @image.respond_to?('status')
     %status=@image.status
   - else
-    %icicle= image.icicle
     %object_type= image.object_type
     %template= image.template
     %build{:href=>api_build_url(image.build.id), :id=>image.build.id}

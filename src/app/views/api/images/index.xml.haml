@@ -1,4 +1,4 @@
 !!!XML
-%images{:type => 'xs:list', :href => api_images_url}
+%images
   - @images.each do |img|
     = render :partial => 'image', :locals => {:image => img}

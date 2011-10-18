@@ -3,7 +3,6 @@
   - if @image.respond_to?('status')
     %status=@image.status
   - else
-    %icicle= image.icicle
     %object_type= image.object_type
     %target_identifier= image.target_identifier
     %status="COMPLETE"
