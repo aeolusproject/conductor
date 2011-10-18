@@ -163,9 +163,9 @@ svg="public/images public/images/icons public/javascripts/jquery-svg"
 ttf="public/fonts"
 txt="public"
 yml="config config/locales"
-
+xml="app/util"
 for filetype in builder css feature gif haml html ico jpg js json key opts png \
-    rake rb rhtml scss svg ttf txt yml; do
+    rake rb rhtml scss svg ttf txt yml xml; do
     dirs=${!filetype}
 
     for dir in $dirs; do
