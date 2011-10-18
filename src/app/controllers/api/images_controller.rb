@@ -66,7 +66,7 @@ module Api
 
     private
     def process_post(body)
-      doc = Nokogiri::XML body
+      doc = Nokogiri::XML CGI.unescapeHTML(body)
       if !doc.xpath("/image/targets").empty? && !doc.xpath("/image/tdl/template").empty?
         { :type => :build, :params => { :template => doc.xpath("/image/tdl/template").to_s,
                                         :targets => doc.xpath("/image/targets").text }

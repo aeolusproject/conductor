@@ -68,7 +68,7 @@ module Api
 
     private
     def process_post(body)
-      doc = Nokogiri::XML body
+      doc = Nokogiri::XML CGI.unescapeHTML(body)
       if !doc.xpath("/image/provider_name").empty? && !doc.xpath("/image/provider_account").empty? &&
            !doc.xpath("/image/image_id").empty? && !doc.xpath("/image/build_id").empty? &&
              !doc.xpath("/image/target_image_id").empty?
