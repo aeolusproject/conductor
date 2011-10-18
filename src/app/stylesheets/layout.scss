@@ -2395,6 +2395,7 @@ table.pool_families{
   a{
     color: white;
     text-decoration: none;
+    &:hover{ text-decoration: underline; }
   }
   border-collapse: separate;
   width: 100%;
