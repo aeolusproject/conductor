@@ -27,7 +27,11 @@ module Api
     layout :false
 
     def index
-      @images = Aeolus::Image::Warehouse::TargetImage.all
+      if params[:build_id]
+        @images = Aeolus::Image::Warehouse::ProviderImage.find(params[:build_id]).target_images
+      else
+        @images = Aeolus::Image::Warehouse::TargetImage.all
+      end
       respond_with(@images)
     end
 

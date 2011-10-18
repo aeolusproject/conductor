@@ -197,7 +197,6 @@ Conductor::Application.routes.draw do
     resources :images do
       resources :builds
     end
-
     resources :builds do
       resources :target_images
     end
