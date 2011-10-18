@@ -2599,6 +2599,16 @@ body.administer form.generic{
     p.radio-group label{
       display: inline;
     }
+    ul.radio-group input{
+      display: inline;
+      margin-left: 1em;
+      margin-top: 0.7em;
+    }
+    ul.radio-group li{
+      display: block;
+      list-style-type: none;
+      overflow: hidden;
+    }
   }
 
   fieldset.inline p{

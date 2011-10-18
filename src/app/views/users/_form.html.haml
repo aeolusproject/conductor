@@ -40,12 +40,13 @@
 -if check_privilege(Privilege::MODIFY, User)
   %fieldset
     %legend User Status
-    %p.radio-group
-      = radio_button_tag "user_status","Active",true
-      = label_tag "user_status_active", "Active"
-      = radio_button_tag "user_status","Inactive", false, :disabled => true
-      = label_tag "user_status_inactive", "Inactive"
-
+    %ul.radio-group
+      %li
+        = label_tag "user_status_active", "Active"
+        = radio_button_tag "user_status","Active",true
+      %li
+        = label_tag "user_status_inactive", "Inactive"
+        = radio_button_tag "user_status","Inactive", false, :disabled => true
 %fieldset.options
   = form.submit "Save User",  :class => "submit button pill"
 
