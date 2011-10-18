@@ -188,6 +188,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_user_api
+    return if current_user or http_auth_user
+    respond_to do |format|
+      format.xml { head :unauthorized }
+    end
+  end
+
   def require_no_user
     return true unless current_user
     store_location
