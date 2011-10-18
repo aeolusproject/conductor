@@ -21,7 +21,7 @@
 
 module Api
   class ImagesController < ApplicationController
-    before_filter :require_user
+    before_filter :require_user_api
 
     respond_to :xml
     layout :false
@@ -43,7 +43,8 @@ module Api
         @builds = {@image.id => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(@image.id)}
         respond_with(@image)
       else
-        render :nothing => true, :status => 404
+        #render :nothing => true, :status => 404
+        render :xml => :not_found, :status => :not_found
       end
     end
 

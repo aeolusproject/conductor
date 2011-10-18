@@ -21,7 +21,7 @@
 
 module Api
   class TargetImagesController < ApplicationController
-    before_filter :require_user
+    before_filter :require_user_api
 
     respond_to :xml
     layout :false

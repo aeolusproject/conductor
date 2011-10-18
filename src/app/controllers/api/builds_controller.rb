@@ -21,7 +21,7 @@
 
 module Api
   class BuildsController < ApplicationController
-    before_filter :require_user
+    before_filter :require_user_api
 
     respond_to :xml
     layout :false
@@ -37,7 +37,8 @@ module Api
       if @build
         respond_with(@build)
       else
-        render :nothing => true, :status => 404
+        #render :nothing => true, :status => 404
+        render :xml => :not_found, :status => :not_found
       end
     end
   end
