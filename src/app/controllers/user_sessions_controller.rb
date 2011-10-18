@@ -43,6 +43,7 @@ class UserSessionsController < ApplicationController
     Rails.logger.warn "Request is unauthenticated for #{request.remote_ip}"
 
     respond_to do |format|
+      format.xml { head :unauthorized }
       format.html do
         flash[:warning] = "Login failed: The Username and Password you entered do not match"
         render :action => :new
