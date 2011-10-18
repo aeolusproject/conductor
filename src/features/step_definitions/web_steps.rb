@@ -42,6 +42,7 @@ When /^(.*) within (.*[^:]):$/ do |step, parent, table_or_string|
 end
 
 Given /^(?:|I )am on (.+)$/ do |page_name|
+  page.driver.header 'Accept-Language', 'en-US'
   visit path_to(page_name)
 end
 

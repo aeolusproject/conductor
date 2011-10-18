@@ -44,6 +44,7 @@ Given /^I am a new user$/ do
 end
 
 Given /^I am logged in$/ do
+  page.driver.header 'Accept-Language', 'en-US'
   login(user.login, user.password)
   page.should have_content('Login successful!')
 end
