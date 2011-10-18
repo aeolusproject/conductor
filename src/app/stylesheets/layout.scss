@@ -240,6 +240,8 @@ body{
   font-family: $font-family-base;
   font-size: 12px; /* 12px base */
   color: #333;
+  a{ color: #333; }
+  a:hover{ text-decoration: none; }
 }
 
 strong, em, b, i{ font-family: $font-family-em; }
