@@ -6,6 +6,7 @@
     %object_type= image.object_type
     %template= image.template
     %build{:href=>api_build_url(image.build.id), :id=>image.build.id}
-    %provider_images
+    %status="COMPLETE"
+    %provider_image
       - image.provider_images.each do |pimg|
         %provider_image{:id => pimg.id, :href => api_provider_image_url(pimg.id)}
