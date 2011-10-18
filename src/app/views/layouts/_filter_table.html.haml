@@ -24,7 +24,7 @@
   %table.checkbox_table
     %thead
       - columns.each do |column|
-        %th
+        %th{:class => column[:class]}
           = column[:name]
     = rows.collect {|row| capture_haml(row, &block)}.to_s.html_safe
 

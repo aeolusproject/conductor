@@ -1619,7 +1619,6 @@ section.admin-content-section{
     margin-top: 0px;
   }
 
-  img{padding: 10px;}
 }
 
 header.admin-page-header + section.admin-content-section{margin-top: 26px;}
@@ -2254,17 +2253,19 @@ Flat Table Component -- v.0.0.1 [flat_table] (flat_table.scss)
 $font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 
 /* padding configuration */
-$th_padding: 8px 10px 8px 10px;
-$td_padding: 8px;
+$th_padding: 8px 10px 4px 10px;
+$td_padding: 2px 10px;
 
 /* color configuration */
-$cell_color_base: #ffffff;
-$cell_color_header: #cccccc;
+$cell_color_base: #f3f3f3;
+$cell_color_header: #d2d2d2;
 $cell_color_stripe: #efefef;
 $cell_color_selected: #f9fafe;
 $cell_color_gradient: 5%;
 
 $cell_header_text_color: #666666;
+
+$cell_anchor_text_color: #3286B8;
 
 /* useful mixins */
 @mixin gradient-bg($from, $to){
@@ -2318,21 +2319,26 @@ form.filterable-data{
 /* Flat Table ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 table.flat, form.filterable-data table{
 
-  border-collapse: separate;
+  border-collapse: collapse;
   font-family: $font-family-primary;
 
   /* header */
 
   th{
     @include gradient-bg($cell_color_base, $cell_color_header);
-    text-align: center;
+    text-align: left;
     font-size: 11px;
     color: $cell_header_text_color;
     font-weight: bold;
     text-shadow: 0px 1px 0px #ffffff;
     padding: $th_padding;
-    border-bottom: 1px solid #D6DADD;
-    border-left: 1px solid darken(#E9EAEC, $cell_color_gradient);
+    vertical-align: middle;
+    border: 1px solid #bfbfbf;
+    border-top: none;
+
+    &.checkbox{ width: 21px; text-align: center; }
+    &.alert{ width: 16px; text-align: center; }
+    &.center{ text-align: center;}
   }
 
   th.ignore{
@@ -2350,28 +2356,29 @@ table.flat, form.filterable-data table{
   td{
     $cell_color_end: darken($cell_color_base, $cell_color_gradient);
     border-spacing: 0px;
-    text-align: center;
+    text-align: left;
     padding: $td_padding;
+    vertical-align: middle;
     border-top: 1px solid #fff;
     font-size: 12px;
     color: #333;
-    @include gradient-bg($cell_color_base, $cell_color_end);
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
-    border-bottom: 1px solid darken($cell_color_end, $cell_color_gradient);
-    border-right: 1px solid darken($cell_color_end, $cell_color_gradient);
-  }
+    background: #FAFAFA;
+    border: 1px solid #d1d1d1;
 
-  tr{
-    height: 30px;
+    a{
+      color: $cell_anchor_text_color;
+      text-decoration: none;
+      &:hover{ text-decoration: underline; }
+    }
+
+    &.checkbox{ width: 21px; text-align: center; }
+    &.alert{ width: 16px; text-align: center; }
+    &.center{ text-align: center;}
   }
 
   tr.stripe{
     td{
-      $cell_color_end: darken($cell_color_stripe, $cell_color_gradient);
-      @include gradient-bg($cell_color_stripe, $cell_color_end);
-      border-bottom: 1px solid darken($cell_color_stripe, $cell_color_gradient);
-      border-right: 1px solid darken($cell_color_stripe, $cell_color_gradient);
+      background: #F3F3F3;
     }
   }
 
