@@ -9,7 +9,7 @@
 
     = filter_table(@header, @catalog_entries) do |catalog_entry|
       %tr{:class => cycle('nostripe','stripe')}
-        %td
+        %td{:class => 'checkbox'}
           - selected = params[:select] == 'all'
           = check_box_tag "catalog_entries_selected[]", catalog_entry.id, selected, :id => "catalog_entry_checkbox_#{catalog_entry.id}"
         %td

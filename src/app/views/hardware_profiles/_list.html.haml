@@ -10,6 +10,6 @@
         = check_box_tag "hardware_profile_selected[]", hwp.id, selected, :id => "hardware_profile_checkbox_#{hwp.id}"
       %td= link_to hwp.name, hardware_profile_path(hwp)
       %td= hwp.architecture.to_s
-      %td= hwp.memory.to_s
-      %td= hwp.storage.to_s
-      %td= hwp.cpu.to_s
+      %td{:class => 'center'}= hwp.memory.to_s
+      %td{:class => 'center'}= hwp.storage.to_s
+      %td{:class => 'center'}= hwp.cpu.to_s

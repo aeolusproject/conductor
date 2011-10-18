@@ -255,25 +255,25 @@ class PoolsController < ApplicationController
 
   def set_params_and_header
     @header = [
-      { :name => '', :sortable => false },
-      { :name => '', :sortable => false },
+      { :name => '', :class => 'checkbox', :sortable => false },
+      { :name => '', :class => 'alert', :sortable => false },
       { :name => t("pools.index.pool_name"), :sort_attr => :name },
-      { :name => t("deployments.deployments"), :sortable => false },
-      { :name => t("instances.instances"), :sortable => false },
-      { :name => t("pools.index.pending"), :sortable => false },
-      { :name => t("pools.index.failed"), :sortable => false },
-      { :name => t("pools.index.quota_used"), :sortable => false },
+      { :name => t("deployments.deployments"), :class => 'center', :sortable => false },
+      { :name => t("instances.instances"), :class => 'center', :sortable => false },
+      { :name => t("pools.index.pending"), :class => 'center', :sortable => false },
+      { :name => t("pools.index.failed"), :class => 'center', :sortable => false },
+      { :name => t("pools.index.quota_used"), :class => 'center', :sortable => false },
       { :name => t("pools.index.pool_family"), :sortable => false },
 
     ]
     @deployments_header = [
-      { :name => '', :sortable => false },
-      { :name => '', :sortable => false },
+      { :name => '', :class => 'checkbox', :sortable => false },
+      { :name => '', :class => 'alert', :sortable => false },
       { :name => t("deployments.deployment_name"), :sortable => false },
       { :name => t("pools.index.deployed_on"), :sortable => false },
       { :name => t("deployables.index.base_deployable"), :sortable => false },
       { :name => t("deployables.index.state"), :sortable => false },
-      { :name => t("instances.instances"), :sortable => false },
+      { :name => t("instances.instances"), :class => 'center', :sortable => false },
       { :name => t("pools.index.pool"), :sortable => false },
       { :name => t("pools.index.owner"), :sortable => false },
       { :name => t("providers.provider"), :sortable => false }

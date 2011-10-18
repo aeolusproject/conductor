@@ -8,27 +8,18 @@
 
 = filter_table(@deployments_header, @deployments) do |deployment|
   %tr{ :class => cycle('nostripe', 'stripe') }
-    %td
+    %td{:class => 'checkbox'}
       - selected = params[:select] == 'all'
       = check_box_tag "deployments_selected[]", deployment.id, selected, :id => "deployment_checkbox_#{deployment.id}"
-    %td
-      -#there will be icons (belongs to mockups)
-    %td
-      = link_to(deployment.name, deployment)
-    %td
-      = deployment.created_at
-    %td
-      = deployment.deployable_xml.name
-    %td
-      = deployment.deployment_state
-    %td
-      = deployment.instances.count
-    %td
-      = link_to deployment.pool.name, pool_path(deployment.pool)
-    %td
-      = owner_name(deployment)
-    %td
-      = link_to(deployment.provider.provider_type.name, deployment.provider) if deployment.provider
+    %td{:class => 'alert'}= #there will be icons (belongs to mockups)
+    %td= link_to(deployment.name, deployment)
+    %td= deployment.created_at
+    %td= deployment.deployable_xml.name
+    %td= deployment.deployment_state
+    %td{:class => 'center'}= deployment.instances.count
+    %td= link_to deployment.pool.name, pool_path(deployment.pool)
+    %td= owner_name(deployment)
+    %td= link_to(deployment.provider.provider_type.name, deployment.provider) if deployment.provider
 :javascript
   Conductor.setupPrettyFilterURL(
     '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter' )}',
@@ -38,14 +29,14 @@
 %script#deploymentTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain
     <tr>
-      <td><input type="checkbox" id="deployment_checkbox_${id}"
+      <td class="checkbox"><input type="checkbox" id="deployment_checkbox_${id}"
                  name="deployments_selected[]" value="${id}"></td>
-      <td />
+      <td class="alert"/>
       <td><a href="#{deployment_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
       <td>${created_at}</td>
       <td>${deployable_xml_name}</td>
       <td>${deployment_state}</td>
-      <td>${instances_count}</td>
+      <td class="center">${instances_count}</td>
       <td><a href="#{pool_path('replace_id').sub('replace_id', '${pool.id}')}">${pool.name}</a></td>
       <td>${owner}</td>
       {{if provider}}

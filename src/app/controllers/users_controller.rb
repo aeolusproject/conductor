@@ -149,12 +149,12 @@ class UsersController < ApplicationController
 
   def load_headers
     @header = [
-      { :name => '', :sortable => false },
+      { :name => '', :class => 'checkbox', :sortable => false },
       { :name => t('users.index.user_id'), :sortable => false },
       { :name => t('users.index.last_name'), :sortable => false },
       { :name => t('users.index.first_name'), :sortable => false },
-      { :name => t('users.index.quota_used'), :sortable => false },
-      { :name => t('users.index.quota_instances'), :sortable => false },
+      { :name => t('users.index.quota_used'), :class => 'center', :sortable => false },
+      { :name => t('users.index.quota_instances'), :class => 'center', :sortable => false },
       { :name => t('users.index.email'), :sortable => false },
     ]
   end

@@ -6,36 +6,28 @@
     = select_tag("more_actions",nil, :disabled => true)
 = filter_table(@header, @pools) do |pool|
   %tr{:class => cycle('nostripe','stripe')}
-    %td
+    %td{:class => 'checkbox'}
       %input{:name => "pools_selected[]", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
-    %td
-      -#there will be icons (belongs to mockups)
-    %td
-      = link_to(pool.name, pool)
-    %td
-      = pool.deployments.count
-    %td
-      = pool.statistics[:total_instances]
-    %td
-      = pool.statistics[:instances_pending]
-    %td
-      = pool.statistics[:instances_failed]
-    %td
-      = pool.statistics[:quota_percent]
-    %td
-      = link_to(pool.pool_family.name, pool.pool_family)
+    %td{:class => 'alert'}= #there will be icons (belongs to mockups)
+    %td= link_to(pool.name, pool)
+    %td{:class => 'center'}= pool.deployments.count
+    %td{:class => 'center'}= pool.statistics[:total_instances]
+    %td{:class => 'center'}= pool.statistics[:instances_pending]
+    %td{:class => 'center'}= pool.statistics[:instances_failed]
+    %td{:class => 'center'}= pool.statistics[:quota_percent]
+    %td= link_to(pool.pool_family.name, pool.pool_family)
 
 %script#poolTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain
     <tr>
-      <td><input type="checkbox" id="pool_checkbox_${id}"
+      <td class="checkbox"><input type="checkbox" id="pool_checkbox_${id}"
                  name="pools_selected[]" value="${id}"></td>
-      <td />
+      <td class="alert" />
       <td><a href="#{pool_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
-      <td>${deployments_count}</td>
-      <td>${statistics.total_instances}</td>
-      <td>${statistics.instances_pending}</td>
-      <td>${statistics.instances_failed}</td>
-      <td>${statistics.quota_percent}</td>
+      <td class="center">${deployments_count}</td>
+      <td class="center">${statistics.total_instances}</td>
+      <td class="center">${statistics.instances_pending}</td>
+      <td class="center">${statistics.instances_failed}</td>
+      <td class="center">${statistics.quota_percent}</td>
       <td><a href="#{pool_family_path('replace_id').sub('replace_id', '${pool_family.id}')}">${pool_family.name}</a></td>
     </tr>

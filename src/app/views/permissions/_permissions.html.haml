@@ -10,7 +10,7 @@
 
 = filter_table(@permission_list_header, @permission_object.permissions) do |permission|
   %tr{:class => cycle('nostripe','stripe')}
-    %td
+    %td{:class => 'checkbox'}
       - if check_privilege(Privilege::PERM_SET)
         - selected = params[:select] == 'all'
         = check_box_tag "permission_selected[]", permission.id, selected, :id => "permission_checkbox_#{permission.id}"

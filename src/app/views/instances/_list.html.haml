@@ -11,12 +11,12 @@
       Showing all instances:
       = link_to "hide stopped", params.merge('hide_stopped' => 'true')
 
-= filter_table([{:name =>''}, {:name => ''}, {:name => 'Name'}, {:name => 'Public Address'}, {:name => 'State'}, {:name => 'Provider'}, {:name => 'Owner'}], @instances) do |instance|
+= filter_table(instances_header, @instances) do |instance|
   %tr{ :class => cycle('nostripe', 'stripe') }
-    %td
+    %td{:class => 'checkbox'}
       - selected = params[:select] == 'all'
       = check_box_tag "instance_selected[]", instance.id, selected, :id => "instance_checkbox_#{instance.id}"
-    %td
+    %td{:class => 'alert'}
     %td= link_to instance.name, instance_path(instance)
     %td= instance.public_addresses
     %td= instance.state
@@ -31,9 +31,9 @@
 %script#instanceTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain
     <tr>
-      <td><input type="checkbox" id="instance_checkbox_${id}"
+      <td class="checkbox"><input type="checkbox" id="instance_checkbox_${id}"
                  name="instance_selected[]" value="${id}"></td>
-      <td />
+      <td class="alert" />
       <td><a href="#{instance_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
       <td>${public_addresses}</td>
       <td>${state}</td>

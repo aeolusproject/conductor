@@ -20,4 +20,15 @@
 # Likewise, all the methods added will be available for all controllers.
 
 module InstancesHelper
+  def instances_header
+    [
+      {:name =>'', :class => 'checkbox', :sortable => false },
+      {:name => '', :class => 'alert', :sortable => false },
+      {:name => 'Name', :sortable => false },
+      {:name => 'Public Address', :sortable => false },
+      {:name => 'State', :sortable => false },
+      {:name => 'Provider', :sortable => false },
+      {:name => 'Owner', :sortable => false }
+    ]
+  end
 end

@@ -5,7 +5,7 @@
 
   = filter_table(realms_header, @realms) do |realm|
     %tr{:class => cycle('nostripe','stripe')}
-      %td
+      %td{:class => 'checkbox'}
         - selected = params[:select] == 'all'
         = check_box_tag "realm_selected[]", realm.id, selected, :id => "realm_checkbox_#{realm.id}"
       %td= link_to realm.name, realm_path(realm)
