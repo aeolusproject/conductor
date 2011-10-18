@@ -32,7 +32,6 @@ describe Api::TargetImagesController do
                      :id => '543')
       @timage = mock(Aeolus::Image::Warehouse::TargetImage,
                      :id => '100',
-                     :icicle => '321',
                      :object_type => 'target_image',
                      :template => '12',
                      :build => @build,
@@ -50,6 +49,7 @@ describe Api::TargetImagesController do
       describe "#index" do
         context "when there are 3 target images" do
           before(:each) do
+            send_and_accept_xml
             @timage_collection = [@timage, @timage, @timage]
             Aeolus::Image::Warehouse::TargetImage.stub(:all).and_return(@timage_collection)
             get :index
@@ -65,11 +65,10 @@ describe Api::TargetImagesController do
             resp = Hash.from_xml(response.body)
             @timage_collection.each_with_index do |timage, index|
               resp['target_images']['target_image'][index]['id'].should == timage.id
-              resp['target_images']['target_image'][index]['icicle'].should == timage.icicle
               resp['target_images']['target_image'][index]['object_type'].should == timage.object_type
               resp['target_images']['target_image'][index]['template'].should == timage.template
               resp['target_images']['target_image'][index]['build']['id'].should == timage.build.id
-              pimgs = resp['target_images']['target_image'][index]['provider_images']
+              pimgs = resp['target_images']['target_image'][index]['provider_image']
               pimgs['provider_image']['id'].should == @pimage.id
             end
           end
@@ -77,6 +76,7 @@ describe Api::TargetImagesController do
 
         context "when there is only 1 target images" do
           before(:each) do
+            send_and_accept_xml
             Aeolus::Image::Warehouse::TargetImage.stub(:all).and_return([@timage])
             get :index
           end
@@ -86,11 +86,10 @@ describe Api::TargetImagesController do
           it "should have a target image with correct attributes" do
             resp = Hash.from_xml(response.body)
             resp['target_images']['target_image']['id'].should == @timage.id
-            resp['target_images']['target_image']['icicle'].should == @timage.icicle
             resp['target_images']['target_image']['object_type'].should == @timage.object_type
             resp['target_images']['target_image']['template'].should == @timage.template
             resp['target_images']['target_image']['build']['id'].should == @timage.build.id
-            pimgs = resp['target_images']['target_image']['provider_images']
+            pimgs = resp['target_images']['target_image']['provider_image']
             pimgs['provider_image']['id'].should == @pimage.id
           end
         end
@@ -113,7 +112,6 @@ describe Api::TargetImagesController do
       describe "#show" do
         context "when there is wanted target image in warehouse" do
           before(:each) do
-
             Aeolus::Image::Warehouse::TargetImage.stub(:find).and_return(@timage)
             get :show, :id => '100'
           end
@@ -123,18 +121,17 @@ describe Api::TargetImagesController do
           it "should have a target image with correct attributes" do
             resp = Hash.from_xml(response.body)
             resp['target_image']['id'].should == @timage.id
-            resp['target_image']['icicle'].should == @timage.icicle
             resp['target_image']['object_type'].should == @timage.object_type
             resp['target_image']['template'].should == @timage.template
             resp['target_image']['build']['id'].should == @timage.build.id
-            pimgs = resp['target_image']['provider_images']
+            pimgs = resp['target_image']['provider_image']
             pimgs['provider_image']['id'].should == @pimage.id
           end
         end
 
         context "when there is NOT wanted target image in warehouse" do
           before(:each) do
-
+            send_and_accept_xml
             Aeolus::Image::Warehouse::TargetImage.stub(:find).and_return(nil)
           end
 
@@ -178,6 +175,7 @@ describe Api::TargetImagesController do
       describe "#index" do
 
         before(:each) do
+          send_and_accept_xml
           get :index
         end
 

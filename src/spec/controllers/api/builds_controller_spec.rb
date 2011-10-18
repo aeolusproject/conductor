@@ -124,6 +124,7 @@ describe Api::BuildsController do
         context "when there is NOT wanted build" do
 
           before(:each) do
+            send_and_accept_xml
             Aeolus::Image::Warehouse::ImageBuild.stub(:find).and_return(nil)
             get :show, :id => '10'
           end
@@ -143,6 +144,7 @@ describe Api::BuildsController do
       describe "#index" do
 
         before(:each) do
+          send_and_accept_xml
           get :index
         end
 
@@ -155,6 +157,7 @@ describe Api::BuildsController do
       describe "#show" do
 
         before(:each) do
+          send_and_accept_xml
           get :show, :id => '5'
         end
 

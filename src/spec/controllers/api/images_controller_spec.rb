@@ -101,6 +101,7 @@ describe Api::ImagesController do
         context "when there is no image" do
 
           before(:each) do
+            send_and_accept_xml
             Aeolus::Image::Warehouse::Image.stub(:all).and_return([])
             get :index
           end
@@ -141,6 +142,7 @@ describe Api::ImagesController do
         context "when there is NOT wanted image" do
 
           before(:each) do
+            send_and_accept_xml
             Aeolus::Image::Warehouse::Image.stub(:find).and_return(nil)
             get :show, :id => '5'
           end
@@ -160,6 +162,7 @@ describe Api::ImagesController do
       describe "#index" do
 
         before(:each) do
+          send_and_accept_xml
           get :index
         end
 
@@ -172,6 +175,7 @@ describe Api::ImagesController do
       describe "#show" do
 
         before(:each) do
+          send_and_accept_xml
           get :show, :id => '5'
         end
 

@@ -30,7 +30,7 @@ describe Api::ProviderImagesController do
                      :id => '300')
       @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
                      :id => '17',
-                     :icicle => '30',
+                     :provider_name => 'provider_name',
                      :object_type => 'provider_image',
                      :target_identifier => '80',
                      :target_image => @timage)
@@ -65,7 +65,6 @@ describe Api::ProviderImagesController do
             resp = Hash.from_xml(response.body)
             @provider_image_collection.each_with_index do |pimage, index|
               resp['provider_images']['provider_image'][index]['id'].should == pimage.id
-              resp['provider_images']['provider_image'][index]['icicle'].should == pimage.icicle
               resp['provider_images']['provider_image'][index]['object_type'].should == pimage.object_type
               resp['provider_images']['provider_image'][index]['target_identifier'].should == pimage.target_identifier
               resp['provider_images']['provider_image'][index]['target_image']['id'].should == pimage.target_image.id
@@ -85,7 +84,6 @@ describe Api::ProviderImagesController do
           it "should have a provider image with corrent attributes" do
             resp = Hash.from_xml(response.body)
             resp['provider_images']['provider_image']['id'].should == @pimage.id
-            resp['provider_images']['provider_image']['icicle'].should == @pimage.icicle
             resp['provider_images']['provider_image']['object_type'].should == @pimage.object_type
             resp['provider_images']['provider_image']['target_identifier'].should == @pimage.target_identifier
             resp['provider_images']['provider_image']['target_image']['id'].should == @pimage.target_image.id
@@ -123,7 +121,7 @@ describe Api::ProviderImagesController do
           it "should have a provider image with correct attributes" do
             resp = Hash.from_xml(response.body)
             resp['provider_image']['id'].should == @pimage.id
-            resp['provider_image']['icicle'].should == @pimage.icicle
+            resp['provider_image']['provider'].should == @pimage.provider_name
             resp['provider_image']['object_type'].should == @pimage.object_type
             resp['provider_image']['target_identifier'].should == @pimage.target_identifier
             resp['provider_image']['target_image']['id'].should == @pimage.target_image.id

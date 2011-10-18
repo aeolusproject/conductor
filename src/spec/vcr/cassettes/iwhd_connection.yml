@@ -378,7 +378,7 @@
       <object>
       	<object_body path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295"/>
       	<object_attr_list path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/_attrs"/>
-      	<object_attr name="icicle" path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/icicle"/>
+      	<object_attr name="provider" path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/provider"/>
       	<object_attr name="object_type" path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/object_type"/>
       	<object_attr name="target" path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/target"/>
       	<object_attr name="target_parameters" path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/target_parameters"/>
@@ -550,7 +550,7 @@
       <object>
       	<object_body path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1"/>
       	<object_attr_list path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/_attrs"/>
-      	<object_attr name="icicle" path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/icicle"/>
+      	<object_attr name="provider" path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/provider"/>
       	<object_attr name="object_type" path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/object_type"/>
       	<object_attr name="target" path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/target"/>
       	<object_attr name="target_parameters" path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/target_parameters"/>
@@ -937,7 +937,7 @@
       	<object_body path="http://localhost:9090/target_images/1a955a06-ca92-4546-9121-6c35e162f67b"/>
       	<object_attr_list path="http://localhost:9090/target_images/1a955a06-ca92-4546-9121-6c35e162f67b/_attrs"/>
       	<object_attr name="build" path="http://localhost:9090/target_images/1a955a06-ca92-4546-9121-6c35e162f67b/build"/>
-      	<object_attr name="icicle" path="http://localhost:9090/target_images/1a955a06-ca92-4546-9121-6c35e162f67b/icicle"/>
+      	<object_attr name="provider" path="http://localhost:9090/target_images/1a955a06-ca92-4546-9121-6c35e162f67b/provider"/>
       	<object_attr name="object_type" path="http://localhost:9090/target_images/1a955a06-ca92-4546-9121-6c35e162f67b/object_type"/>
       	<object_attr name="target" path="http://localhost:9090/target_images/1a955a06-ca92-4546-9121-6c35e162f67b/target"/>
       	<object_attr name="target_parameters" path="http://localhost:9090/target_images/1a955a06-ca92-4546-9121-6c35e162f67b/target_parameters"/>
@@ -1133,7 +1133,7 @@
       	<object_body path="http://localhost:9090/target_images/ce1c6d32-5e26-4feb-9b86-83435a39b1f0"/>
       	<object_attr_list path="http://localhost:9090/target_images/ce1c6d32-5e26-4feb-9b86-83435a39b1f0/_attrs"/>
       	<object_attr name="build" path="http://localhost:9090/target_images/ce1c6d32-5e26-4feb-9b86-83435a39b1f0/build"/>
-      	<object_attr name="icicle" path="http://localhost:9090/target_images/ce1c6d32-5e26-4feb-9b86-83435a39b1f0/icicle"/>
+      	<object_attr name="provider" path="http://localhost:9090/target_images/ce1c6d32-5e26-4feb-9b86-83435a39b1f0/provider"/>
       	<object_attr name="object_type" path="http://localhost:9090/target_images/ce1c6d32-5e26-4feb-9b86-83435a39b1f0/object_type"/>
       	<object_attr name="target" path="http://localhost:9090/target_images/ce1c6d32-5e26-4feb-9b86-83435a39b1f0/target"/>
       	<object_attr name="target_parameters" path="http://localhost:9090/target_images/ce1c6d32-5e26-4feb-9b86-83435a39b1f0/target_parameters"/>
@@ -1495,7 +1495,7 @@
       <object>
       	<object_body path="http://localhost:9090/provider_images/3cdd9f26-b211-454b-89ff-655b0ebbff03"/>
       	<object_attr_list path="http://localhost:9090/provider_images/3cdd9f26-b211-454b-89ff-655b0ebbff03/_attrs"/>
-      	<object_attr name="icicle" path="http://localhost:9090/provider_images/3cdd9f26-b211-454b-89ff-655b0ebbff03/icicle"/>
+      	<object_attr name="provider" path="http://localhost:9090/provider_images/3cdd9f26-b211-454b-89ff-655b0ebbff03/provider"/>
       	<object_attr name="object_type" path="http://localhost:9090/provider_images/3cdd9f26-b211-454b-89ff-655b0ebbff03/object_type"/>
       	<object_attr name="provider" path="http://localhost:9090/provider_images/3cdd9f26-b211-454b-89ff-655b0ebbff03/provider"/>
       	<object_attr name="target_identifier" path="http://localhost:9090/provider_images/3cdd9f26-b211-454b-89ff-655b0ebbff03/target_identifier"/>
@@ -1667,7 +1667,7 @@
       <object>
       	<object_body path="http://localhost:9090/provider_images/aa57b1ab-f565-4a7a-b054-58ef5af1a053"/>
       	<object_attr_list path="http://localhost:9090/provider_images/aa57b1ab-f565-4a7a-b054-58ef5af1a053/_attrs"/>
-      	<object_attr name="icicle" path="http://localhost:9090/provider_images/aa57b1ab-f565-4a7a-b054-58ef5af1a053/icicle"/>
+      	<object_attr name="provider" path="http://localhost:9090/provider_images/aa57b1ab-f565-4a7a-b054-58ef5af1a053/provider"/>
       	<object_attr name="object_type" path="http://localhost:9090/provider_images/aa57b1ab-f565-4a7a-b054-58ef5af1a053/object_type"/>
       	<object_attr name="provider" path="http://localhost:9090/provider_images/aa57b1ab-f565-4a7a-b054-58ef5af1a053/provider"/>
       	<object_attr name="target_identifier" path="http://localhost:9090/provider_images/aa57b1ab-f565-4a7a-b054-58ef5af1a053/target_identifier"/>
@@ -2006,6 +2006,98 @@
     headers: 
       date: 
       - Wed, 15 Jun 2011 14:01:50 GMT
+      content-length: 
+      - "0"
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/target_images/1a955a06-ca92-4546-9121-6c35e162f67b/provider
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 404
+      message: Not Found
+    headers: 
+      date: 
+      - Tue, 18 Oct 2011 23:24:03 GMT
+      content-length: 
+      - "0"
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/target_images/ce1c6d32-5e26-4feb-9b86-83435a39b1f0/provider
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 404
+      message: Not Found
+    headers: 
+      date: 
+      - Tue, 18 Oct 2011 23:24:07 GMT
+      content-length: 
+      - "0"
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/provider
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 404
+      message: Not Found
+    headers: 
+      date: 
+      - Tue, 18 Oct 2011 23:32:29 GMT
+      content-length: 
+      - "0"
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/provider
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 404
+      message: Not Found
+    headers: 
+      date: 
+      - Tue, 18 Oct 2011 23:35:08 GMT
       content-length: 
       - "0"
     body: 
