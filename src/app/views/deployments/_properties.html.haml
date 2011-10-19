@@ -1,18 +1,18 @@
 %table.properties_table
   %thead
     %tr
-      %th Property Name
-      %th Value
+      %th=t 'deployments.properties.property_name'
+      %th=t 'deployments.properties.value'
   %tbody
   -@deployment_properties.each do |key, value|
     %tr
       %td=key.to_s.capitalize
       %td=value
   %tr
-    %td Global Uptime
+    %td= t 'deployments.properties.global_uptime'
     %td=count_uptime(@deployment.uptime_all)
   %tr
-    %td Uptime 1st instance running
+    %td= t 'deployments.properties.uptime_1st_instance'
     %td=count_uptime(@deployment.uptime_1st_instance)
 
 :javascript

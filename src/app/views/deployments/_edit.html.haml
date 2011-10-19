@@ -1,11 +1,11 @@
 - if @deployment.errors.any?
   = render 'layouts/error_messages', :object => @deployment
-%h2 Edit deployment
+%h2=t 'deployments.edit.edit_deployment'
 = form_for @deployment do
   %ul
     %li
-      = label :deployment, :name
+      = label :deployment, t('name')
       = text_field :deployment, :name
 
-  = submit_tag 'Cancel', :name => 'cancel'
-  = submit_tag 'Save', :name => 'save', :id => 'save_button'
+  = submit_tag t('cancel'), :name => 'cancel'
+  = submit_tag t('save'), :name => 'save', :id => 'save_button'

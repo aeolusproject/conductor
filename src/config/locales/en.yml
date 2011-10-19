@@ -153,6 +153,7 @@ en:
     deployment_name_subtext: "(uniquely identifies your deployment)"
     deployment_details: Deployment Details
     confirm_delete: "Are you sure you want to delete this deployment?"
+    list_of_events: List of deployment events
     state: State
     launch_time_params:
       configure_launch_time_params: "Configure launch-time parameters for your deployment:"
@@ -167,9 +168,42 @@ en:
       description: Description
       image_ids: Image IDs
       launch: Launch
+    new:
+      launch: Launch this deployment
+      deployable_definition: Deployable definition
+      view: View
+      deployable_details: Deployable details
+      name: "Name:"
+      description: "Description:"
+      asseblies_name: Assembly Name
+      hardware_profile: Hardware Profile
+      image_id: Image ID
+      build_id: Build ID
+    edit:
+      edit_deployment: Edit deployment
+    launch_new:
+      to_pool: "to %{name} Pool"
+      already_in_use: That name is already in use
+      name_available: Name available
+    operation:
+      operational_status: Operational status of
+      count_of_instances: "Count of instances:"
+    properties:
+      property_name: Property Name
+      value: Value
+      global_uptime: Global Uptime
+      uptime_1st_instance: Uptime 1st instance running
+    provider_services:
+      list_of_services: List of services required by deployment
+    required_services:
+      list_of_required_services: List of services required by deployment
     list:
       stop_selected: Stop Selected
       delete_selected: Delete Selected
+    pretty_view_show:
+      ip_address: "IP Address:"
+      state: "State:"
+      download_key: Download key
     flash:
       notice:
         launched: "Deployment launched."
@@ -285,6 +319,8 @@ en:
       unlimited: unlimited
       pool_enabled: Pool enabled
   hardware_profiles:
+    hardware: Hardware
+    hardware_profile: Hardware Profile
     index:
       hardware_profile_name: Hardware Profile Name
       architecture: Architecture
@@ -300,6 +336,7 @@ en:
         not_deleted: "Hardware profile was not deleted!"
         more_not_deleted: Could not deleted these Hardware Profiles
   realms:
+    realms: Realms
     index:
       realm: Realm
       realm_name: Realm Name

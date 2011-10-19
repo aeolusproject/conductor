@@ -1,5 +1,5 @@
-%h3 Operational status of #{@deployment.name}
+%h3= t('deployments.operation.operational_status')+ " #{@deployment.name}"
 
 %br
-Count of instances:
+=t 'deployments.operation.count_of_instances'
 = @deployment.instances.count

@@ -2,10 +2,10 @@
   = render :partial => '/layouts/new_notification'
 %header.page-header
   %h1.deployments
-    New Deployment
-    %span= "to #{@pool.name.capitalize} Pool"
+    =t 'deployments.new_deployment'
+    %span= t('deployments.launch_new.to_pool', :name => "#{@pool.name.capitalize}")
   #obj_actions.button-container
-    = link_to 'Cancel', pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
+    = link_to t('cancel'), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
   .corner &nbsp;
 
 %section.content-section.deployment
@@ -65,7 +65,7 @@
     $('#deployment_name').blur(function(e) {
       e.preventDefault();
       $.get('#{check_name_deployments_path}', {name: $('#deployment_name').val() }, function(data) {
-        $('#name_avail_indicator').html(data == "false" ? "That name is already in use" : "Name available");
+        $('#name_avail_indicator').html(data == "false" ? "#{t'deployments.launch_new.already_in_use'}" : "#{t'deployments.launch_new.name_available'}");
       });
     });
   });

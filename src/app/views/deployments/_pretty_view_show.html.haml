@@ -1,19 +1,19 @@
 %header
-  %h2 Instances
+  %h2=t 'instances.instances'
 %ul.instances_list
   - @deployment.instances.each do |instance|
     %li
       = instance.name
       %ul
         %li
-          IP Address:
+          = t 'deployments.pretty_view_show.ip_address'
           = instance.public_addresses
         %li
-          State:
+          = t 'deployments.pretty_view_show.state'
           = instance.state
       - if instance.instance_key
         %li
-          = link_to("Download key", key_instance_path(instance))
+          = link_to t('deployments.pretty_view_show.download_key'), key_instance_path(instance)
 
 :javascript
   Conductor.setupPrettyFilterURL(
@@ -24,10 +24,10 @@
   :plain
     <li>${name}
       <ul>
-        <li>IP Address: ${public_addresses}</li>
-        <li>State: ${state}</li>
+        <li>#{t('deployments.pretty_view_show.ip_address')}: ${public_addresses}</li>
+        <li>#{t('deployments.pretty_view_show.state')}: ${state}</li>
         {{if has_key}}
-          <li><a href="#{key_instance_path('replace_id').sub('replace_id', '${id}')}">Download key</a></li>
+          <li><a href="#{key_instance_path('replace_id').sub('replace_id', '${id}')}">#{t('deployments.pretty_view_show.download_key')}</a></li>
         {{/if}}
       </ul>
     </li>
