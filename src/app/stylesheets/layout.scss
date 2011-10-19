@@ -2376,7 +2376,7 @@ $font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 
 /* padding configuration */
 $th_padding: 8px 10px 4px 10px;
-$td_padding: 2px 10px;
+$td_padding: 5px 10px 3px 10px;
 
 /* color configuration */
 $cell_color_base: #f3f3f3;
@@ -2414,16 +2414,18 @@ form.filterable-data{
     font-family: $font-family-primary;
     font-size: 12px;
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 7px 5px;
 
     ul{ list-style: none; display: inline-block; }
     li{ display: inline; }
-    li + li{ padding-left: 6px; }
-    ul.view-contols{
-
-    }
     ul.filter-controls{
       float: right;
+      position: relative;
+      li + li{
+        margin-left: 4px;
+        padding-left: 4px;
+        border-left: 1px solid #cccccc;
+      }
     }
 
   }
@@ -2493,8 +2495,8 @@ table.flat, form.filterable-data table{
       &:hover{ text-decoration: underline; }
     }
 
-    &.checkbox{ width: 21px; text-align: center; }
-    &.alert{ width: 16px; text-align: center; }
+    &.checkbox{ width: 21px; text-align: center; padding: 0px; }
+    &.alert{ width: 16px; text-align: center; padding: 0px;}
     &.center{ text-align: center;}
   }
 

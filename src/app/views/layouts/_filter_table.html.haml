@@ -1,28 +1,29 @@
 = form_tag({}, :class => 'filterable-data') do
 
-
   %div.controls
-    %ul.filter-controls
-      -if show_select_toggle
-        %li= render :partial => 'layouts/select_all_none'
-      - if show_filter_widgets
-        -# %li
-          -#%a.button.pill{:href => '#'} Filter
-        -# %li
-          -# %a.button.pill{:href => '#'} Add/Remove Columns
-    %li
-      %label{:for => "select_#{lower_class}"}=t 'filter_table.viewing'
-      = select_tag("select_#{lower_class}", saved_searches.join.html_safe,:disabled => true)
-    %li.object-count
-      %strong
-        = object_count.to_s
-        =t 'filter_table.results'
-    -# %li
-      -# %a.button.pill{:href => '#'} Save and Share
+    - if show_select_toggle
+      %li= render :partial => 'layouts/select_all_none'
     - if content_for? form_header
-      = yield form_header
+      %ul.actions
+        = yield form_header
 
-  %table.checkbox_table
+    %ul.filter-controls
+      - if show_filter_widgets
+        %li
+          %label{:for => "select_#{lower_class}"}=t 'filter_table.viewing'
+          = select_tag("select_#{lower_class}", saved_searches.join.html_safe,:disabled => true)
+          %span.label.badge.dark= object_count.to_s
+          = link_to "Filter", "#", :class => 'button pill'
+        %li.column_actions
+          = link_to "Icon", "#"
+          %ul
+            %li= link_to "Add/Remove Columns", "#"
+            %li= link_to "Freeze Column", "#"
+        %li= text_field_tag :search, nil, :placeholder => "Search"
+      -# %li
+        -# %a.button.pill{:href => '#'} Save and Share
+
+  %table.flat.checkbox_table
     %thead
       - columns.each do |column|
         %th{:class => column[:class]}

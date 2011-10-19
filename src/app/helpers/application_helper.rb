@@ -83,7 +83,7 @@ module ApplicationHelper
         :lower_class => _class.to_s.tableize,
         :block => block,
         :rows => rows,
-        :show_filter_widgets => filter_widgets_opts.nil? ? false : filter_widgets_opts,
+        :show_filter_widgets => filter_widgets_opts.nil? ? true : filter_widgets_opts,
         :show_select_toggle => select_togle_opts.nil? ? true : select_togle_opts,
     }
   end
