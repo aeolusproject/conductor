@@ -2420,11 +2420,43 @@ form.filterable-data{
     li{ display: inline; }
     ul.filter-controls{
       float: right;
-      position: relative;
-      li + li{
-        margin-left: 4px;
+      & > li + li{
+        margin-left: 2px;
         padding-left: 4px;
         border-left: 1px solid #cccccc;
+        &.more_actions{
+          border-left: none;
+          margin-left: 0px;
+          padding-left: 0px;
+        }
+      }
+    }
+
+    li.more_actions{
+      position: relative;
+      padding: 0px 0px 8px 0px;
+      & > span {
+        border: 1px solid #bbb;
+        border-radius: 3px;
+        padding: 3px 4px;
+        @include gradient-bg($cell_color_base, $cell_color_header);
+      }
+      ul{
+        display: none;
+        position: absolute;
+        top: 22px;
+        left: 0px;
+        background: white;
+        border: 1px solid #bbb;
+        padding: 4px 6px;
+        width: 150px;
+        line-height: 1.5;
+        li a{ text-decoration: none; }
+        li a:hover{ text-decoration: underline; }
+      }
+      &:hover > ul{
+        display: block;
+        z-index: 1000;
       }
     }
 
