@@ -6,7 +6,7 @@
         = link_to "", new_user_path, :class => 'add-user-button', :id => 'add_user_button'
   .content
     - content_for :form_header do
-      %li= restful_submit_tag "#{t'users.list.delete_selected'}", "destroy", multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button pill danger'
+      %li= restful_submit_tag "#{t'users.list.delete_selected'}", "destroy", multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
     = filter_table(@header, @users) do |user|
       %tr{:class => cycle('nostripe','stripe')}

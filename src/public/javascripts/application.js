@@ -146,6 +146,16 @@ $.extend(Conductor, {
     });
   },
 
+  selectAllCheckboxes: function() {
+    $('.select_all').live('click', function(source) {
+      checkboxes = $(this).parents('table').find("tbody input[type=checkbox]");
+      for(var i in checkboxes){
+        checkboxes[i].checked = source.target.checked;
+      }
+    });
+  },
+
+
   prefixedPath: function(path) {
     var prefix = this.PATH_PREFIX;
     if(path.length === 0) return prefix;
@@ -300,6 +310,7 @@ $(document).ready(function () {
   Conductor.multiRevokeValidation();
   Conductor.closeNotification();
   Conductor.toggleCollapsible();
+  Conductor.selectAllCheckboxes();
   Conductor.enhanceUserMenu();
   Conductor.tabAjaxRequest();
   Conductor.initializeBackbone();
