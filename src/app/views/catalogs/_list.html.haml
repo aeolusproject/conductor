@@ -1,7 +1,7 @@
 .content
   - content_for :form_header do
-    %li= restful_submit_tag "Delete", "destroy", multi_destroy_catalogs_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
-    %li= link_to "New Catalog", new_catalog_path, :id => 'new_catalog_button', :class => 'button pill'
+    %li= restful_submit_tag t("delete"), "destroy", multi_destroy_catalogs_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+    %li= link_to t("catalogs.new_catalog"), new_catalog_path, :id => 'new_catalog_button', :class => 'button pill'
 
   = filter_table(@header, @catalogs) do |catalog|
     %tr{:class => cycle('nostripe','stripe')}

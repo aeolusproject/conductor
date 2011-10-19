@@ -1,4 +1,4 @@
 %header.admin-page-header
-  %h1{:class => controller.controller_name} Catalogs
+  %h1{:class => controller.controller_name}=t('catalogs.catalogs')
   #obj_actions.button-group
-    = link_to 'New Catalog', new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
+    = link_to t('catalogs.new_catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'

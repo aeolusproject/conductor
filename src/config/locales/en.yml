@@ -366,10 +366,16 @@ en:
         added: Catalog entry added.
         updated: Catalog entry updated successfully!
   catalogs:
+    catalogs: Catalogs
+    new_catalog: New Catalog
     index:
       name: Name
-      catalogs: Catalogs
       catalog_name: Catalog Name
+    new:
+      add_catalog: Add New Catalog
+    edit:
+      edit_catalog: Editing Catalog
+      cancel_editing: Cancel Editing
     flash:
       notice:
         updated:

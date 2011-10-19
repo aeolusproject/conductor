@@ -2,10 +2,10 @@
 
 %header.admin-page-header
   %header
-  %h1 Add New Catalog
+  %h1=t'catalogs.new.add_catalog'
   #obj_actions
-    Return to:
-    = link_to "Catalogs", catalogs_path, :class => 'rounded-link'
+    = t'return_to'
+    = link_to t("catalogs.catalogs"), catalogs_path, :class => 'rounded-link'
 
 %section.admin-content-section
   = form_for @catalog, :url => catalogs_path, :html => {:class => 'generic'} do |f|

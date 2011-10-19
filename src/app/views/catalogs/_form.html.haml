@@ -2,12 +2,12 @@
   = render 'layouts/error_messages', :object => @catalog
 %fieldset
   %p
-    = form.label :name
+    = form.label :name, t('catalogs.index.name')
     = form.text_field :name, :class => 'em long'
   %p
-    = form.label :pool_id
+    = form.label :pool_id, t('pools.pool')
     = form.select(:pool_id, @pools.collect{|p| [p.name, p.id]}, :prompt => "Select pool")
 
 %fieldset.options
-  = link_to 'Cancel', catalogs_path, :class => 'button danger'
-  = submit_tag 'Save', :name => 'save', :class => 'button', :id => 'save_button'
+  = link_to t('cancel'), catalogs_path, :class => 'button danger'
+  = submit_tag t('save'), :name => 'save', :class => 'button', :id => 'save_button'

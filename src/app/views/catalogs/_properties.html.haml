@@ -2,11 +2,11 @@
   %tbody
     %tr
       %td
-        %label{:name => 'name'} Name:
+        %label{:name => 'name'}=t('catalogs.index.name') + ":"
       %td
         = @catalog.name
     %tr
       %td
-        %label{:name => 'pool'} Pool:
+        %label{:name => 'pool'}=t('pools.pool') + ":"
       %td
         = @catalog.pool.name
