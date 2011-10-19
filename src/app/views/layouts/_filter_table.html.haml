@@ -11,16 +11,14 @@
           %label{:for => "select_#{lower_class}"}=t 'filter_table.viewing'
           = select_tag("select_#{lower_class}", saved_searches.join.html_safe,:disabled => true)
           %span.label.badge.dark= object_count.to_s
-          = link_to "Filter", "#", :class => 'button pill'
-        %li
-        %li.more_actions
-          %span= image_tag "button-userdrop.png"
-          %ul
-            %li= link_to "Add/Remove Columns", "#"
-            %li= link_to "Freeze Column", "#"
-        %li= text_field_tag :search, nil, :placeholder => "Search"
-      -# %li
-        -# %a.button.pill{:href => '#'} Save and Share
+        /  = link_to "Filter", "#", :class => 'button pill'
+        /%li
+        /%li.more_actions
+        /  %span= image_tag "button-userdrop.png"
+        /  %ul
+        /    %li= link_to "Add/Remove Columns", "#"
+        /    %li= link_to "Freeze Column", "#"
+        /%li= text_field_tag :search, nil, :placeholder => "Search"
     .clear
 
   %table.flat.checkbox_table
