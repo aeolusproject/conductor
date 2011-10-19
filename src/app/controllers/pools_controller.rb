@@ -257,7 +257,7 @@ class PoolsController < ApplicationController
 
     ]
     @deployments_header = [
-      { :name => '', :class => 'checkbox', :sortable => false },
+      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => '', :class => 'alert', :sortable => false },
       { :name => t("deployments.deployment_name"), :sortable => false },
       { :name => t("pools.index.deployed_on"), :sortable => false },

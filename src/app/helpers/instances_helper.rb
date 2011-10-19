@@ -22,7 +22,7 @@
 module InstancesHelper
   def instances_header
     [
-      {:name =>'', :class => 'checkbox', :sortable => false },
+      {:name => 'checkbox', :class => 'checkbox', :sortable => false },
       {:name => '', :class => 'alert', :sortable => false },
       {:name => 'Name', :sortable => false },
       {:name => 'Public Address', :sortable => false },

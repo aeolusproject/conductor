@@ -148,7 +148,7 @@ class UsersController < ApplicationController
 
   def load_headers
     @header = [
-      { :name => '', :class => 'checkbox', :sortable => false },
+      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => t('users.index.user_id'), :sortable => false },
       { :name => t('users.index.last_name'), :sortable => false },
       { :name => t('users.index.first_name'), :sortable => false },

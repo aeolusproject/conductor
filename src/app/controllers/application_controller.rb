@@ -278,7 +278,7 @@ class ApplicationController < ActionController::Base
 
   def set_permissions_header
     @permission_list_header = [
-      { :name => '', :class => 'checkbox', :sortable => false },
+      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => t("user"), :sort_attr => :last_name },
       { :name => t("role"), :sort_attr => :role},
       { :name => t("privileges")},

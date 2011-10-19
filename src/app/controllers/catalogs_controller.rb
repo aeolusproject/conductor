@@ -103,7 +103,7 @@ class CatalogsController < ApplicationController
 
   def set_header
     @header = [
-      { :name => '', :class => 'checkbox', :sortable => false },
+      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => t("catalogs.index.name"), :sort_attr => :name },
       { :name => t('pools.index.pool_name'), :sortable => false }
     ]

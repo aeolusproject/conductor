@@ -1,7 +1,7 @@
 module ProviderAccountsHelper
   def provider_accounts_header
     [
-      { :name => '', :sortable => false, :class => 'checkbox' },
+      { :name => 'checkbox', :sortable => false, :class => 'checkbox' },
       { :name => '', :sortable => false, :class => 'alert' },
       { :name => t("provider_accounts.index.provider_account_name"), :sortable => false },
       { :name => t("provider_accounts.index.username"), :sortable => false},

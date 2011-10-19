@@ -324,7 +324,7 @@ class DeploymentsController < ApplicationController
       :order => (sort_column(Deployment) +' '+ sort_direction)
     )
     @deployments_header = [
-      { :name => '', :class => 'checkbox', :sortable => false },
+      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => '', :class => 'alert', :sortable => false },
       { :name => t("deployments.deployment_name"), :sortable => false },
       { :name => t("pools.index.deployed_on"), :sortable => false },
