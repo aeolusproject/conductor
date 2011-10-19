@@ -216,7 +216,7 @@ class Instance < ActiveRecord::Base
   def total_state_time(state)
 
     if !STATES.include?(state)
-      return "Error, could not calculate state time: invalid state"
+      return I18n.t('instances.errors.invalid_state')
     end
 
     case state
@@ -249,7 +249,7 @@ class Instance < ActiveRecord::Base
         end
 
       else
-        return "Error, could not calculate state time: state is not monitored"
+        return I18n.t('state_not_monitored')
     end
   end
 
@@ -326,11 +326,12 @@ class Instance < ActiveRecord::Base
   def matches
     errors = []
     if pool.pool_family.provider_accounts.empty?
-      errors << 'There are no provider accounts associated with pool family of selected pool.'
+      errors << I18n.t('instances.errors.no_provider_accounts')
     end
-    errors << 'Pool quota reached' if pool.quota.reached?
-    errors << 'Pool family quota reached' if pool.pool_family.quota.reached?
-    errors << 'User quota reached' if owner.quota.reached?
+    errors << I18n.t('instances.errors.pool_quota_reached') if pool.quota.reached?
+    errors << I18n.t('instances.errors.pool_family_quota_reached') if pool.pool_family.quota.reached?
+    errors << I18n.t('instances.errors.user_quota_reached') if owner.quota.reached?
+    errors << I18n.t('instances.errors.image_not_found', :b_uuid=> image_build_uuid, :i_uuid => image_uuid) if image_build.nil? and image.nil?
     return [[], errors] unless errors.empty?
 
     build = image_build || image.latest_build
@@ -342,27 +343,27 @@ class Instance < ActiveRecord::Base
       hwp = HardwareProfile.match_provider_hardware_profile(account.provider,
                                                             hardware_profile)
       unless hwp
-        errors << "#{account.name}: hardware profile match not found"
+        errors << I18n.t('instances.errors.hw_profile_match_not_found', :account_name => account.name)
         next
       end
       account_images = provider_images.select {|pi| pi.provider == account.provider}
       if account_images.empty?
-        errors << "#{account.name}: image is not pushed to this provider account"
+        errors << I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => account.name)
         next
       end
       if account.quota.reached?
-        errors << "#{account.name}: provider account quota reached"
+        errors << I18n.t('instances.errors.provider_account_quota_reached', :account_name => account.name)
         next
       end
       if requires_config_server? and account.config_server.nil?
-        errors << "#{account.name}: no config server available for provider account"
+        errors << I18n.t('instances.errors.no_config_server_available', :account_name => account.name)
         next
       end
       account_images.each do |pi|
         if not frontend_realm.nil?
           brealms = frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == account.provider}
           if brealms.empty?
-            errors << "Realm #{frontend_realm.name} is not mapped to any provider or provider realm"
+            errors << I18n.t('instances.errors.realm_not_mapped', :frontend_realm_name => frontend_realm.name)
             next
           end
           brealms.each do |brealm_target|
@@ -428,7 +429,7 @@ class Instance < ActiveRecord::Base
     matches.reject! do |match|
       rejected = false
       if !match.provider_account.quota.can_start? instances
-        errors << "#{match.provider_account} quota limit too low to launch deployable"
+        errors << I18n.t('instances.errors.provider_account_quota_too_low', :match_provider_account => match.provider_account)
         rejected = true
       end
       rejected

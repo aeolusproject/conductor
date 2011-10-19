@@ -264,6 +264,20 @@ en:
           other: "The instances %{list} were successfully deleted."
       notice:
         stop: "stop action was successfully queued."
+    errors:
+      image_not_found: "No image build was found with uuid %{b_uuid} and no image was found with uuid %{i_uuid}"
+      user_quota_reached: "User quota reached"
+      pool_family_quota_reached: "Pool family quota reached"
+      pool_quota_reached: "Pool quota reached"
+      no_provider_accounts: "There are no provider accounts associated with pool family of selected pool."
+      invalid_state: "Error, could not calculate state time: invalid state"
+      state_not_monitored: "Error, could not calculate state time: state is not monitored"
+      hw_profile_match_not_found: "%{account_name}: hardware profile match not found"
+      image_not_pushed_to_provider: "%{account_name}: image is not pushed to this provider account"
+      provider_account_quota_reached:  "%{account_name}: provider account quota reached"
+      no_config_server_available: "%{account_name}: no config server available for provider account"
+      realm_not_mapped: "Realm %{frontend_realm_name} is not mapped to any provider or provider realm"
+      provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch deployable"
   searches: Searches
   image_factory: Image Factory
   assemblies: Assemblies
