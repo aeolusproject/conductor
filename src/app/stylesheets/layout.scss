@@ -2492,9 +2492,9 @@ table.flat, form.filterable-data table{
     border: 1px solid #bfbfbf;
     border-top: none;
 
-    &.checkbox{ width: 21px; text-align: center; }
-    &.alert{ width: 16px; text-align: center; }
-    &.center{ text-align: center;}
+    &.checkbox{ width: 21px; text-align: center; padding: 0px 3px; }
+    &.alert{ width: 16px; text-align: center; padding: 0px 4px;}
+    &.center{ text-align: center; }
   }
 
   th.ignore{
@@ -2527,8 +2527,8 @@ table.flat, form.filterable-data table{
       &:hover{ text-decoration: underline; }
     }
 
-    &.checkbox{ width: 21px; text-align: center; padding: 0px; }
-    &.alert{ width: 16px; text-align: center; padding: 0px;}
+    &.checkbox{ width: 21px; text-align: center; padding: 0px 3px; }
+    &.alert{ width: 16px; text-align: center; padding: 0px 4px;}
     &.center{ text-align: center;}
   }
 

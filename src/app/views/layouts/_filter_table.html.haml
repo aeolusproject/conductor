@@ -1,8 +1,6 @@
 = form_tag({}, :class => 'filterable-data') do
 
   %div.controls
-    - if show_select_toggle
-      %li= render :partial => 'layouts/select_all_none'
     - if content_for? form_header
       %ul.actions
         = yield form_header
@@ -27,9 +25,12 @@
 
   %table.flat.checkbox_table
     %thead
-      - columns.each do |column|
-        %th{:class => column[:class]}
-          = column[:name]
+      %tr
+        - columns.each do |column|
+          - if column[:name] == 'checkbox'
+            %th{:class => column[:class]}= check_box_tag :select_all, nil
+          -else
+            %th{:class => column[:class]}= column[:name]
     = rows.collect {|row| capture_haml(row, &block)}.to_s.html_safe
 
   - if content_for? form_footer

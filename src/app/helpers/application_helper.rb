@@ -69,7 +69,6 @@ module ApplicationHelper
   def filter_table(columns, rows, options={}, &block)
     _class = rows.first.try(:class) || Object
     filter_widgets_opts = options[:show_filter_widgets]
-    select_togle_opts = options[:show_select_toggle]
     render :partial => 'layouts/filter_table', :locals => {
         :form_header => options[:form_header] || :form_header,
         :form_footer => options[:form_footer] || :form_footer,
@@ -84,7 +83,6 @@ module ApplicationHelper
         :block => block,
         :rows => rows,
         :show_filter_widgets => filter_widgets_opts.nil? ? true : filter_widgets_opts,
-        :show_select_toggle => select_togle_opts.nil? ? true : select_togle_opts,
     }
   end
 

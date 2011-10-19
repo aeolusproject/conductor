@@ -245,7 +245,7 @@ class PoolsController < ApplicationController
 
   def set_params_and_header
     @header = [
-      { :name => '', :class => 'checkbox', :sortable => false },
+      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => '', :class => 'alert', :sortable => false },
       { :name => t("pools.index.pool_name"), :sort_attr => :name },
       { :name => t("deployments.deployments"), :class => 'center', :sortable => false },
