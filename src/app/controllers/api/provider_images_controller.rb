@@ -61,8 +61,24 @@ module Api
         end
       rescue ActiveResource::BadRequest
         render :text => "Parameter Data Incorrect", :status => 400
-      rescue
+      rescue => e
+        raise e
         render :text => "Internal Server Error", :status => 500
+      end
+    end
+
+    def destroy
+      begin
+        if image = Aeolus::Image::Warehouse::ProviderImage.find(params[:id])
+          if image.delete!
+            render :text => "Provider Image Deleted", :status => 200
+          end
+        else
+          render :text => "Unable to find Provider Image", :status => 404
+        end
+      rescue => e
+        raise e
+        render :text => "Unable to Delete Provider Image", :status => 500
       end
     end
 

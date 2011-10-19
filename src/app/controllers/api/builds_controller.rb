@@ -41,5 +41,20 @@ module Api
         render :xml => :not_found, :status => :not_found
       end
     end
+
+    def destroy
+      begin
+        if build = Aeolus::Image::Warehouse::ImageBuild.find(params[:id])
+          if build.delete!
+            render :text => "Build Deleted", :status => 200
+          end
+        else
+          render :text => "Unable to find Build", :status => 404
+        end
+      rescue => e
+        raise e
+        render :text => "Unable to Delete Build", :status => 500
+      end
+    end
   end
 end

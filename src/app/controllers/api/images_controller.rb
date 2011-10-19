@@ -65,6 +65,21 @@ module Api
       end
     end
 
+    def destroy
+      begin
+        if image = Aeolus::Image::Warehouse::Image.find(params[:id])
+          if image.delete!
+            render :text => "Image Deleted", :status => 200
+          end
+        else
+          render :text => "Unable to find Image", :status => 404
+        end
+      rescue => e
+        raise e
+        render :text => "Unable to Delete Image", :status => 500
+      end
+    end
+
     private
     def process_post(body)
       doc = Nokogiri::XML CGI.unescapeHTML(body)

@@ -48,5 +48,20 @@ module Api
         end
       end
     end
+
+    def destroy
+      begin
+        if image = Aeolus::Image::Warehouse::TargetImage.find(params[:id])
+          if image.delete!
+            render :text => "Target Image Deleted", :status => 200
+          end
+        else
+          render :text => "Unable to find Target Image", :status => 404
+        end
+      rescue => e
+        raise e
+        render :text => "Unable to Delete Target Image", :status => 500
+      end
+    end
   end
 end
