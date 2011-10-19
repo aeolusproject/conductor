@@ -85,16 +85,17 @@ module Api
     private
     def process_post(body)
       doc = Nokogiri::XML CGI.unescapeHTML(body)
-      if !doc.xpath("/image/provider_name").empty? && !doc.xpath("/image/provider_account").empty? &&
-           !doc.xpath("/image/image_id").empty? && !doc.xpath("/image/build_id").empty? &&
-             !doc.xpath("/image/target_image_id").empty?
-        if provider_account = ProviderAccount.find_by_label(doc.xpath("/image/provider_account").text)
+      puts Nokogiri::XML CGI.unescapeHTML(body)
+      if !doc.xpath("/provider_image/provider_name").empty? && !doc.xpath("/provider_image/provider_account").empty? &&
+           !doc.xpath("/provider_image/image_id").empty? && !doc.xpath("/provider_image/build_id").empty? &&
+             !doc.xpath("/provider_image/target_image_id").empty?
+        if provider_account = ProviderAccount.find_by_label(doc.xpath("/provider_image/provider_account").text)
           #TODO check user permission on this provider account
-          { :type => :push, :params => { :provider => doc.xpath("/image/provider_name").text,
+          { :type => :push, :params => { :provider => doc.xpath("/provider_image/provider_name").text,
                                          :credentials => provider_account.to_xml(:with_credentials => true),
-                                         :image_id => doc.xpath("/image/image_id").text,
-                                         :build_id => doc.xpath("/image/build_id").text,
-                                         :target_image_id => doc.xpath("/image/target_image_id").text } }
+                                         :image_id => doc.xpath("/provider_image/image_id").text,
+                                         :build_id => doc.xpath("/provider_image/build_id").text,
+                                         :target_image_id => doc.xpath("/provider_image/target_image_id").text } }
         end
       else
         { :type => :failed }
