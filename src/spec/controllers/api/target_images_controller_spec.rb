@@ -68,7 +68,7 @@ describe Api::TargetImagesController do
               resp['target_images']['target_image'][index]['object_type'].should == timage.object_type
               resp['target_images']['target_image'][index]['template'].should == timage.template
               resp['target_images']['target_image'][index]['build']['id'].should == timage.build.id
-              pimgs = resp['target_images']['target_image'][index]['provider_image']
+              pimgs = resp['target_images']['target_image'][index]['provider_images']
               pimgs['provider_image']['id'].should == @pimage.id
             end
           end
@@ -89,7 +89,7 @@ describe Api::TargetImagesController do
             resp['target_images']['target_image']['object_type'].should == @timage.object_type
             resp['target_images']['target_image']['template'].should == @timage.template
             resp['target_images']['target_image']['build']['id'].should == @timage.build.id
-            pimgs = resp['target_images']['target_image']['provider_image']
+            pimgs = resp['target_images']['target_image']['provider_images']
             pimgs['provider_image']['id'].should == @pimage.id
           end
         end
@@ -124,7 +124,7 @@ describe Api::TargetImagesController do
             resp['target_image']['object_type'].should == @timage.object_type
             resp['target_image']['template'].should == @timage.template
             resp['target_image']['build']['id'].should == @timage.build.id
-            pimgs = resp['target_image']['provider_image']
+            pimgs = resp['target_image']['provider_images']
             pimgs['provider_image']['id'].should == @pimage.id
           end
         end

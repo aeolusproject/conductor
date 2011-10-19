@@ -4,4 +4,8 @@
     %target_images
       - image.build.target_images.each do |target_image|
         %target_image{:id => target_image.id, :href => api_target_image_url(target_image.id)}
-        %status=(Aeolus::Image::Factory::TargetImage.status(target_image.id) || "COMPLETE")
+          %provider_images
+            - if target_image.respond_to?(:provider_images)
+              - target_image.provider_images.each do |provider_image|
+                %provider_image{:id => provider_image.id, :href => api_provider_image_url(provider_image.id)}
+                  %status="COMPLETE"
