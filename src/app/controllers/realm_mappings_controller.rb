@@ -29,7 +29,7 @@ class RealmMappingsController < ApplicationController
     require_privilege(Privilege::CREATE, Realm)
     @realm_target = RealmBackendTarget.new(params[:realm_backend_target])
     if @realm_target.save
-      flash[:notice] = t"realms.flash.notice.added_"
+      flash[:notice] = t"realms.flash.notice.added_mapping"
       redirect_to realm_path(@realm_target.frontend_realm, :details_tab => 'mapping') and return
       #redirect_to realms_path and return
     end

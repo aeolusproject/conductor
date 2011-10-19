@@ -86,7 +86,7 @@ class CatalogsController < ApplicationController
       require_privilege(Privilege::MODIFY, catalog)
       catalog.destroy
     end
-    redirect_to catalogs_path, :notice => t("catalogs.deleted", :count => catalogs.count)
+    redirect_to catalogs_path, :notice => t("catalogs.flash.notice.deleted", :count => catalogs.count)
   end
 
   def destroy
@@ -95,7 +95,7 @@ class CatalogsController < ApplicationController
     catalog.destroy
 
     respond_to do |format|
-      format.html { redirect_to catalogs_path, :notice => t("catalogs.deleted", :count => 1) }
+      format.html { redirect_to catalogs_path, :notice => t("catalogs.flash.notice.deleted", :count => 1) }
     end
   end
 

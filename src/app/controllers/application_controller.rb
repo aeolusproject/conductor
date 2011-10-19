@@ -302,7 +302,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = detect_locale || I18n.default_locale
+    I18n.locale = env.nil? ? I18n.default_locale : detect_locale
   end
 
   def detect_locale

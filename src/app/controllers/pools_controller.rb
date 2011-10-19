@@ -41,7 +41,7 @@ class PoolsController < ApplicationController
     @user_pools = Pool.list_for_user(current_user, Privilege::VIEW)
     @user_pool_families = PoolFamily.list_for_user(current_user, Privilege::VIEW)
     if filter_view?
-      @tabs = [{:name => "#{t'pools.index.pools'}", :view => 'list', :id => 'pools'},
+      @tabs = [{:name => "#{t'pools.pools'}", :view => 'list', :id => 'pools'},
                {:name => "#{t'deployments.deployments'}", :view => 'deployments/list', :id => 'deployments'},
                {:name => "#{t'instances.instances'}", :view => 'instances/list', :id => 'instances'},
       ]
@@ -264,7 +264,7 @@ class PoolsController < ApplicationController
       { :name => t("deployables.index.base_deployable"), :sortable => false },
       { :name => t("deployables.index.state"), :sortable => false },
       { :name => t("instances.instances"), :class => 'center', :sortable => false },
-      { :name => t("pools.index.pool"), :sortable => false },
+      { :name => t("pools.pool"), :sortable => false },
       { :name => t("pools.index.owner"), :sortable => false },
       { :name => t("providers.provider"), :sortable => false }
     ]

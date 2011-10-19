@@ -244,12 +244,12 @@ en:
   cloud_engine_hardware_profiles: Hardware Profiles
   cloud_engine_realms: Realms
   pools:
+    pool: Pool
     pools: Pools
     new_pool: New Pool
     edit_pool: Edit Pool
     create_new_pool: Create New Pool
     index:
-      pool: Pool
       pool_name: Pool name
       deployment_name: Deployment name
       deployed_on: Deployed on
@@ -374,10 +374,13 @@ en:
       notice:
         updated:
           one: Catalog updated successfully!
-          many: Catalogs updated successfully!
+          other: Catalogs updated successfully!
         created:
           one: Catalog created!
-          many: Catalogs created!
+          other: Catalogs created!
+        deleted:
+          one: Catalog deleted!
+          other: "%{count} Catalogs deleted!"
   deployables:
     index:
       deployables: Deployables
