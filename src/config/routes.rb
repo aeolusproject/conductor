@@ -197,13 +197,16 @@ Conductor::Application.routes.draw do
     resources :images do
       resources :builds
     end
-    resources :builds
-    resources :provider_images do
+
+    resources :builds do
       resources :target_images
     end
+
     resources :target_images do
       resources :provider_images
     end
+
+    resources :provider_images
    # :except => [:new, :edit]
   end
 
