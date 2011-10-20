@@ -67,7 +67,7 @@ class CatalogEntriesController < ApplicationController
     if @catalog_entry.save
       flash[:notice] = t "catalog_entries.flash.notice.added"
       flash[:warning] = t("catalog_entries.flash.warning.not_valid") unless @catalog_entry.accessible_and_valid_deployable_xml?(@catalog_entry.url)
-      redirect_to catalog_entries_path
+      redirect_to catalog_catalog_entries_path(@catalog)
     else
       load_catalogs
       render :new
