@@ -2414,6 +2414,7 @@ form.filterable-data{
     font-family: $font-family-primary;
     font-size: 12px;
     border: 1px solid #ccc;
+    border-bottom: none;
     padding: 7px 5px;
 
     ul{ list-style: none; display: inline-block; }
@@ -2464,9 +2465,6 @@ form.filterable-data{
 
   table{
     width: 100%;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
   }
 
 }
@@ -2490,7 +2488,6 @@ table.flat, form.filterable-data table{
     padding: $th_padding;
     vertical-align: middle;
     border: 1px solid #bfbfbf;
-    border-top: none;
 
     &.checkbox{ width: 21px; text-align: center; padding: 0px 3px; }
     &.alert{ width: 16px; text-align: center; padding: 0px 4px;}
