@@ -2289,14 +2289,22 @@ ul.deployment-array.small + ul.deployment-array.small{
     background:#C4E0F0;
   }
 }
+
+div.catalog_link{
+  display:inline-block;
+}
+
 .catalog_link{
   background: url(../../images/deployment-button.png) no-repeat center;
   padding: 7px 15px;
 }
+
 .catalog_link:hover{
   background-color:#e0e0e0;
   background: url(../../images/deployment-button-pressed.png) no-repeat center;
-
+  ul li {
+    list-style-type: none;
+  }
   .more{
     border: 1px solid #999999;
     display:block;
