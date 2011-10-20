@@ -2279,10 +2279,11 @@ ul.deployment-array.small + ul.deployment-array.small{
   & > li.catalog{
     width:100%;
     text-align:left;
-    padding: 10px 0px 10px 0px;
     margin: 0px !important;
     a {
-      padding-left: 10px;
+      padding: 10px 0px 10px 10px;
+      display: block;
+      text-decoration: none;
     }
   }
   li.catalog:hover{
