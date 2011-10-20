@@ -652,3 +652,17 @@ en:
       content: Content
       cloud_providers: Cloud Providers
       settings: Settings
+  application_controller:
+    access_denied: Access denied
+    some_actions_failed: Some actions failed
+    action_error: Action Error
+    internal_server_error: Internal Server Error
+    flash:
+      notice:
+        record_not_exist: "The record you tried to access does not exist, it may have been deleted"
+        must_be_logged: You must be logged in to access this page
+        must_not_be_logged: You must be logged out to access this page
+    admin_tabs:
+      catalogs: Catalogs
+      realms: Realms
+      hardware: Hardware

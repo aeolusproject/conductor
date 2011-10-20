@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
 
   def handle_perm_error(error)
     handle_error(:error => error, :status => :forbidden,
-                 :title => "Access denied")
+                 :title => t('application_controller.access_denied'))
   end
 
   def handle_partial_success_error(error)
@@ -58,26 +58,26 @@ class ApplicationController < ActionController::Base
     @failures = error.failures
     handle_error(:error => error, :status => :ok,
                  :message => error.message + ": " + failures_arr.join(", "),
-                 :title => "Some actions failed")
+                 :title => t('application_controller.some_actions_failed'))
   end
 
   def handle_action_error(error)
     handle_error(:error => error, :status => :conflict,
-                 :title => "Action Error")
+                 :title => t('application_controller.action_error'))
   end
 
   def handle_general_error(error)
     flash[:errmsg] = error.message
     handle_error(:error => error, :status => :internal_server_error,
-                 :title => "Internal Server Error")
+                 :title => t('application_controller.internal_server_error'))
   end
 
   def handle_error(hash)
     logger.fatal(hash[:error].to_s) if hash[:error]
     logger.fatal(hash[:error].backtrace.join("\n ")) if hash[:error]
     msg = hash[:message] || hash[:error].message
-    title = hash[:title] || "Internal Server Error"
-    status = hash[:status] || :internal_server_error
+    title = hash[:title] || t('application_controller.internal_server_error')
+    status = hash[:status] || t('application_controller.internal_server_error')
     respond_to do |format|
       format.html { html_error_page(title, msg, status) }
       format.json { render :json => json_error_hash(msg, status) }
@@ -104,7 +104,7 @@ class ApplicationController < ActionController::Base
 
   def handle_active_record_not_found_error(error)
     redirect_to :controller => params[:controller]
-    flash[:notice] = "The record you tried to access does not exist, it may have been deleted"
+    flash[:notice] = t('application_controller.flash.notice.record_not_exist')
   end
 
   # Returns an array of ids from params[:id], params[:ids].
@@ -181,7 +181,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html do
         store_location
-        flash[:notice] = "You must be logged in to access this page"
+        flash[:notice] = t('application_controller.flash.notice.must_be_logged')
         redirect_to login_url
       end
       format.xml { head :unauthorized }
@@ -199,7 +199,7 @@ class ApplicationController < ActionController::Base
   def require_no_user
     return true unless current_user
     store_location
-    flash[:notice] = "You must be logged out to access this page"
+    flash[:notice] = t('application_controller.flash.notice.must_not_be_logged')
     redirect_to account_url
   end
 
@@ -241,9 +241,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_admin_content_tabs(tab)
-    @tabs = [{:name => 'Catalogs', :url => catalogs_url, :id => 'catalogs'},
-             {:name => 'Realms', :url => realms_url, :id => 'realms'},
-             {:name => 'Hardware', :url => hardware_profiles_url, :id => 'hardware_profiles'},
+    @tabs = [{:name => t('application_controller.admin_tabs.catalogs'), :url => catalogs_url, :id => 'catalogs'},
+             {:name => t('application_controller.admin_tabs.realms'), :url => realms_url, :id => 'realms'},
+             {:name => t('application_controller.admin_tabs.hardware'), :url => hardware_profiles_url, :id => 'hardware_profiles'},
     ]
     unless @details_tab = @tabs.find {|t| t[:id] == tab}
       raise "Tab '#{tab}' doesn't exist"
@@ -267,7 +267,7 @@ class ApplicationController < ActionController::Base
     if perm_obj.has_privilege(current_user, Privilege::PERM_VIEW)
       @roles = Role.find_all_by_scope(@permission_object.class.name)
       if @tabs
-        @tabs << {:name => 'Users',
+        @tabs << {:name => t('users.users'),
                   :view => 'permissions',
                   :id => 'permissions',
                   :count => perm_obj.permissions.count}
@@ -302,7 +302,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = env.nil? ? I18n.default_locale : detect_locale
+    I18n.locale = env.nil? || env['HTTP_ACCEPT_LANGUAGE'].nil? ? I18n.default_locale : detect_locale
   end
 
   def detect_locale
