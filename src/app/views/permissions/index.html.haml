@@ -1,1 +1,5 @@
-= render :partial => 'permissions'
+- if @permission_object == BasePermissionObject.general_permission_scope
+  = render :partial => 'layouts/admin_nav'
+  = render :partial => 'layouts/admin_users_tabs'
+- else
+  = render :partial => 'permissions'

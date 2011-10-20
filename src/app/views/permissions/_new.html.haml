@@ -2,11 +2,11 @@
   %h1{:class => controller.controller_name} Grant Access
   #obj_actions.button-group
     Return to
-    = link_to "#{@permission_object.name} #{@permission_object.class}", send("#{@path_prefix}polymorphic_path", @permission_object, :details_tab => :permissions, :only_tab => true), :class => 'button primary', :id => 'new_pool_button'
+    = link_to @return_text, @return_path, :class => 'button primary', :id => 'new_pool_button'
   .corner &nbsp;
 
 %section.content-section.pools
-  Choose roles for users you would like to grant access to this #{@permission_object.class}
+  = @summary_text
   %header
     %h2 Users
 

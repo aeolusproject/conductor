@@ -250,6 +250,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_admin_users_tabs(tab)
+    @tabs = [{:name => 'Users', :url => users_url, :id => 'catalogs'},
+             #{:name => 'Groups', :url => groups_url, :id => 'groups'},
+             {:name => 'Global Role Grants', :url => permissions_url, :id => 'permissions'},
+    ]
+    unless @details_tab = @tabs.find {|t| t[:id] == tab}
+      raise "Tab '#{tab}' doesn't exist"
+    end
+  end
+
   def sort_column(model, default="name")
     model.column_names.include?(params[:order_field]) ? params[:order_field] : default
   end

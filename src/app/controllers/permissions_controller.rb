@@ -22,10 +22,11 @@ class PermissionsController < ApplicationController
 
   def index
     set_permission_object(Privilege::PERM_VIEW)
+    @roles = Role.find_all_by_scope(@permission_object.class.name)
     respond_to do |format|
       format.html
       format.json { render :json => @permission_object.as_json }
-      format.js { render :partial => 'index' }
+      format.js { render :partial => 'permissions' }
     end
   end
 
@@ -33,6 +34,13 @@ class PermissionsController < ApplicationController
     set_permission_object
     @users = User.all
     @roles = Role.find_all_by_scope(@permission_object.class.name)
+    if @permission_object == BasePermissionObject.general_permission_scope
+      @return_text = "Global Role Grants"
+      @summary_text =  "Choose global role assignments for users"
+    else
+      @return_text =  "#{@permission_object.name} #{@permission_object.class}"
+      @summary_text = "Choose roles for users you would like to grant access to this #{@permission_object.class}"
+    end
     load_headers
     load_users
     respond_to do |format|
@@ -68,10 +76,7 @@ class PermissionsController < ApplicationController
       flash[:error] = t "permissions.flash.error.no_users_selected"
     end
     respond_to do |format|
-      format.html { redirect_to send("#{@path_prefix}polymorphic_path",
-                                     @permission_object,
-                                     :details_tab => :permissions,
-                                     :only_tab => true) }
+      format.html { redirect_to @return_path }
       format.js { render :partial => 'index',
                     :permission_object_type => @permission_object.class.name,
                     :permission_object_id => @permission_object.id }
@@ -108,10 +113,7 @@ class PermissionsController < ApplicationController
       flash[:error] = t"permissions.flash.error.no_users_selected"
     end
     respond_to do |format|
-      format.html { redirect_to send("#{@path_prefix}polymorphic_path",
-                                     @permission_object,
-                                     :details_tab => :permissions,
-                                     :only_tab => true) }
+      format.html { redirect_to @return_path }
       format.js { render :partial => 'index',
                     :permission_object_type => @permission_object.class.name,
                     :permission_object_id => @permission_object.id }
@@ -138,10 +140,7 @@ class PermissionsController < ApplicationController
       flash[:error] = "#{t('permissions.flash.error.not_deleted')}: #{not_deleted.join(', ')}"
     end
     respond_to do |format|
-      format.html { redirect_to send("#{@path_prefix}polymorphic_path",
-                                     @permission_object,
-                                     :details_tab => :permissions,
-                                     :only_tab => true) }
+      format.html { redirect_to @return_path }
         format.js { render :partial => 'index',
                     :permission_object_type => @permission_object.class.name,
                     :permission_object_id => @permission_object.id }
@@ -181,8 +180,20 @@ class PermissionsController < ApplicationController
     obj_type = params[:permission_object_type]
     id = params[:permission_object_id]
     @path_prefix = params[:path_prefix]
+    unless obj_type or id
+      @permission_object = BasePermissionObject.general_permission_scope
+    end
     @permission_object = obj_type.constantize.find(id) if obj_type and id
     raise RuntimeError, "invalid permission object" if @permission_object.nil?
+    if @permission_object == BasePermissionObject.general_permission_scope
+      @return_path = permissions_path
+      set_admin_users_tabs 'permissions'
+    else
+      @return_path = send("#{@path_prefix}polymorphic_path",
+                                     @permission_object,
+                                     :details_tab => :permissions,
+                                     :only_tab => true)
+    end
     require_privilege(required_role, @permission_object)
   end
 end

@@ -24,6 +24,7 @@ class UsersController < ApplicationController
     require_privilege(Privilege::VIEW, User)
     clear_breadcrumbs
     save_breadcrumb(users_path)
+    set_admin_users_tabs 'catalogs'
     @params = params
     load_headers
     load_users

@@ -1,22 +1,2 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  #obj_actions
-    =t'users.quick_jump'
-    /= link_to 'Groups', "#groups", :class => 'rounded-link'
-    = link_to "#{t'users.users'}", "#users", :class => 'rounded-link'
-    /= link_to 'Roles', "#roles", :class => 'rounded-link'
-  .clear
-/%section.admin-content-section
-/  %header
-/    %h2#groups.groups Groups
-/    .section-controls
-/      #obj_actions
-/        = link_to "", "#", :class => 'add-group-button', :id => 'add_group_button'
-/  .content
-/    Unimplemented.
-= render :partial => 'list'
-/%section.admin-content-section
-/  %header
-/    %h2#roles.roles Roles
-/  .content
-/    Unimplemented.
+= render :partial => 'layouts/admin_users_tabs'
