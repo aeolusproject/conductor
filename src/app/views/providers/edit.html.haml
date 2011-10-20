@@ -26,7 +26,7 @@
         %ul
           - @alerts.each do |alert|
             %li.alert
-              %dt.subject{ :class => alert[:type] }= alert[:subject]
+              %dt.subject{ :class => alert[:class] }= alert[:subject]
               %dd.type= link_to alert[:alert_type], alert[:path]
               %dd.desc= alert[:description]
 /%section.admin-content-section.provider

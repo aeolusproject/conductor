@@ -181,21 +181,23 @@ class ProvidersController < ApplicationController
       unless provider_account.quota.maximum_running_instances == nil
         if provider_account.quota.maximum_running_instances < provider_account.quota.running_instances
           alerts << {
-            :type => "#{t'providers.alerts.type.critical'}",
+            :class => "critical",
             :subject => "#{t'providers.alerts.subject.quota'}",
             :alert_type => "#{t'providers.alerts.alert_type.quota_exceeded'}",
             :path => edit_provider_provider_account_path(@provider,provider_account),
-            :description => "#{t'providers.alerts.description.quota_exceeded', :name => "#{provider_account.name}"}"
+            :description => "#{t'providers.alerts.description.quota_exceeded', :name => "#{provider_account.name}"}",
+            :account_id => provider_account.id
           }
         end
 
         if (70..100) === provider_account.quota.percentage_used.round
           alerts << {
-            :type => "#{t'providers.alerts.type.warning'}",
+            :class => "warning",
             :subject => "#{t'providers.alerts.subject.quota'}",
             :alert_type => "#{provider_account.quota.percentage_used.round}% #{t'providers.alerts.alert_type.quota_reached'}",
             :path => provider_provider_account_path(@provider,provider_account),
-            :description => "#{provider_account.quota.percentage_used.round}% #{t'providers.alerts.description.quota_reached', :name => "#{provider_account.name}" }"
+            :description => "#{provider_account.quota.percentage_used.round}% #{t'providers.alerts.description.quota_reached', :name => "#{provider_account.name}" }",
+            :account_id => provider_account.id
           }
         end
       end

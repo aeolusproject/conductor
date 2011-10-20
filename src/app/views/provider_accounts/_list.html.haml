@@ -8,7 +8,7 @@
       %td{:class => 'checkbox'}
         - selected = params[:select] == 'all'
         = check_box_tag "accounts_selected[]", account.id, selected, :id => "account_checkbox_#{account.id}"
-      %td{:class => 'alert'}= #image_tag "sb_icon_instance_failure.png"
+      %td{:class => 'alert'}= image_tag "sb_icon_instance_failure.png" unless @alerts.select {|alert| alert[:account_id] == account.id }.empty?
       %td= link_to account.name, provider_provider_account_path(@provider, account)
       %td= account.credentials_hash['username']
       %td= account.provider.name
