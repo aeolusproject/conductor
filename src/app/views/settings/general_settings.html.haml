@@ -1,50 +1,50 @@
 %header.admin-page-header
-  %h1{:class => controller.controller_name} General Settings
+  %h1{:class => controller.controller_name}= t'settings.general_settings.general_settings'
   #obj_actions.button-group
 
 %section.admin-content-section.settings
   %header
-    %h2 Settings
+    %h2= t'settings.settings'
 
   .content
     %form{:class => 'container_16'}
       .grid_16
-        %h1 Portal
+        %h1= t'settings.general_settings.portal'
         %fieldset.clearfix
-          %label.grid_5.alpha Brand Icon:
+          %label.grid_5.alpha= t 'settings.general_settings.brand_icon'
           .grid_6
             %input{:type => "file", :disabled => true}
         %fieldset.clearfix
-          %label.grid_5.alpha Tag Line:
+          %label.grid_5.alpha= t 'settings.general_settings.tag_line'
           %textarea.grid_6.disabled{:disabled => true}
         %fieldset.clearfix
           .grid_5.alpha.disabled.ra
             %input{:type => "checkbox", :disabled => true}
-            %label Allow Self Service Account Creation:
+            %label= t 'settings.general_settings.allow_self_service'
           .grid_6.disabled
             %select{:disabled => true}
-              %option Select User Treatment
+              %option= t'settings.general_settings.select_treatment'
         %fieldset.clearfix
-          %label.alpha.grid_5 Primary URL Port:
+          %label.alpha.grid_5= t'settings.general_settings.primary_url_port'
           %input.grid_6{:value => "3000", :disabled => true}
-        %h1 Content
+        %h1=t 'settings.general_settings.content'
         %fieldset.clearfix
-          %label.grid_5.alpha Entitlement Mode:
+          %label.grid_5.alpha=t 'settings.general_settings.entitlement_mode'
           .grid_5
             %ul.block
               %li
                 %input{:type => "radio", :name => "entitlement", :disabled => true}
-                %label.disabled User Brings Subscriptions
+                %label.disabled=t 'settings.general_settings.user_brings_subscriptions'
               %li
                 %input{:type => "radio", :name => "entitlement", :disabled => true}
-                %label.disabled System Provides Subscriptions
+                %label.disabled= t'settings.general_settings.system_subscription'
         %fieldset.clearfix
-          %label.grid_5.alpha Certitifcate:
+          %label.grid_5.alpha= t'settings.general_settings.certificate'
           .grid_6
             %input{:type => "file", :disabled => true}
         %fieldset.clearfix
-          %label.alpha.grid_5 Content Manager URL:
+          %label.alpha.grid_5=t 'settings.general_settings.content_manager_url'
           %input.grid_6{:disabled => true}
         %fieldset.clearfix
-          %button.formbutton{:disabled => true} Reset
-          %button.formbutton{:disabled => true} Save
+          %button.formbutton{:disabled => true}=t 'reset'
+          %button.formbutton{:disabled => true}=t 'save'
