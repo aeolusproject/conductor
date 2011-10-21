@@ -169,7 +169,7 @@ class PermissionsController < ApplicationController
   def load_headers
     @header = [
       { :name => '', :sortable => false },
-      { :name => t('users.index.username'), :sortable => false },
+      { :name => t('users.index.username') },
       { :name => t('users.index.last_name'), :sortable => false },
       { :name => t('users.index.first_name'), :sortable => false },
       { :name => t('role'), :sortable => false }
