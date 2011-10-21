@@ -1,54 +1,54 @@
 %h3
-  Properties for
+  = t 'instances.properties.properties_for'
   = @instance.name
 %ul
   %li
-    = label_tag :name, 'Name'
+    = label_tag :name, t('instances.properties.name')
     %span= @instance.name
   %li
-    = label_tag :status, 'Status'
+    = label_tag :status, t('instances.properties.status')
     %span= @instance.state
   %li
-    = label_tag :public_addresses, 'Public Addresses'
+    = label_tag :public_addresses, t('instances.properties.public_addresses')
     %span= @instance.public_addresses
   %li
-    = label_tag :private_addresses, 'Private Addresses'
+    = label_tag :private_addresses, t('instances.properties.private_adresses')
     %span= @instance.private_addresses
-  %li
-    = label_tag :assembly, 'Assembly'
+    = label_tag :assembly, t('instances.properties.assembly')
     %span= @instance.assembly_xml.name
   %li
-    = label_tag :provider, 'Provider'
+    = label_tag :provider, t('instances.properties.provider')
     %span= @instance.provider_account.provider.name if @instance.provider_account
   %li
-    = label_tag :architecture, 'Architecture'
+    = label_tag :architecture, t('instances.properties.architecture')
     %span= @instance.hardware_profile.architecture.value
   %li
-    = label_tag :memory, 'Memory'
+    = label_tag :memory, t('instances.properties.memory')
     %span= @instance.hardware_profile.memory.value
   %li
-    = label_tag :storage, 'Storage'
+    = label_tag :storage, t('instances.properties.storage')
     %span= @instance.hardware_profile.storage.value
   %li
-    = label_tag :instantiation_time, 'Instantiation Time'
+    = label_tag :instantiation_time, t('instances.properties.instantiation_time')
     %span= @instance.created_at.strftime("%d-%b-%Y %H:%M:%S")
   %li
-    = label_tag :current_alerts, 'Current Alerts'
+    = label_tag :current_alerts, t('instances.properties.current_alerts')
     %span= 0
-  %li
-    = label_tag :console_connection, 'Console Connection'
-    %span= 'via SSH'
+    = label_tag :console_connection, t('instances.properties.console_connection')
+    %span= t('instances.properties.via_ssh')
   - if @instance.instance_key
     %li
-      = label_tag :instance_key, 'SSH key'
-      %span= link_to("Download", key_instance_path(@instance), :id =>'download_ssh_key')
+      = label_tag :instance_key, t('instances.properties.ssh_key')
+      %span= link_to t('instances.properties.download'), key_instance_path(@instance), :id =>'download_ssh_key'
   %li
-    = label_tag :owner, 'Owner'
+    = label_tag :owner, t('instances.properties.owner')
     %span= "#{@instance.owner.first_name} #{@instance.owner.last_name}"
   %li
-    = label_tag :shared_to, 'Shared to'
-    %span= "N/A"
+    = label_tag :shared_to, t('instances.properties.shared_to')
+    %span= t('instances.properties.n_a')
   - if @instance.state == Instance::STATE_ERROR
     %li
-      = label_tag :error, 'Error'
+      = label_tag :error, t('instances.properties.error')
       %span= @instance.last_error
+  %li
+  %li

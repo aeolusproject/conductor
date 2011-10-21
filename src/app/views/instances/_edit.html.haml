@@ -1,11 +1,11 @@
 - if @instance.errors.any?
   = render 'layouts/error_messages', :object => @instance
-%h2 Edit instance
+%h2= t'instances.edit.edit_instance'
 = form_for @instance do
   %ul
     %li
-      = label :instance, :name
+      = label :instance, t('instances.edit.name')
       = text_field :instance, :name
 
-  = submit_tag 'Cancel', :name => 'cancel'
-  = submit_tag 'Save', :name => 'save', :id => 'save'
+  = submit_tag t('cancel'), :name => 'cancel'
+  = submit_tag t('save'), :name => 'save', :id => 'save'

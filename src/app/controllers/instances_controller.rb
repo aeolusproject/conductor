@@ -42,7 +42,7 @@ class InstancesController < ApplicationController
 
   def show
     load_instances
-    @tab_captions = ['Properties', 'History', 'Permissions']
+    @tab_captions = [t('instances.tab_captions.properties'), t('instances.tab_captions.history'), t('instances.tab_captions.permissions')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(instance_path(@instance), @instance.name)
     respond_to do |format|
@@ -142,13 +142,13 @@ class InstancesController < ApplicationController
       begin
         require_privilege(Privilege::USE,instance)
         unless instance.valid_action?('stop')
-          raise ActionError.new("stop is an invalid action.")
+          raise ActionError.new(t('instances.errors.stop_invalid'))
         end
 
         #permissons check here
         @task = instance.queue_action(current_user, 'stop')
         unless @task
-          raise ActionError.new("stop cannot be performed on this instance.")
+          raise ActionError.new(t('instances.errors.stop_not_be_performed'))
         end
         Taskomatic.stop_instance(@task)
         notices << "#{instance.name}: #{t('instances.flash.notice.stop')}"
@@ -193,11 +193,11 @@ class InstancesController < ApplicationController
 
   def set_view_vars
     @header = [
-      {:name => 'VM NAME', :sort_attr => 'name'},
-      {:name => 'STATUS', :sortable => false},
-      {:name => 'PUBLIC ADDRESS', :sort_attr => 'public_addresses'},
-      {:name => 'PROVIDER', :sortable => false},
-      {:name => 'CREATED BY', :sort_attr => 'users.last_name'},
+      {:name => t('instances.headers.vm_name'), :sort_attr => 'name'},
+      {:name => t('instances.headers.status'), :sortable => false},
+      {:name => t('instances.headers.public_address'), :sort_attr => 'public_addresses'},
+      {:name => t('instances.headers.provider'), :sortable => false},
+      {:name => t('instances.headers.created_by'), :sort_attr => 'users.last_name'},
     ]
 
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, :target_type => Instance)
