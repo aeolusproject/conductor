@@ -383,6 +383,40 @@ en:
       memory: Memory
       storage: Storage
       virtual_cpu: Virtual CPU
+    tab_captions:
+      properties: Properties
+      history: History
+      matching_provider_hwp: Matching Provider Hardware Profiles
+    properties_headers:
+      name: Name
+      unit: Unit
+      min_value: Minimum Value
+    provider_hwp_headers:
+      provider_name: Provider Name
+      hwp_name: Hardware Profile Name
+      architecture: Architecture
+      memory: Memory
+      storage: Storage
+      virtual_cpu: Virtual CPU
+    form:
+      name: Name
+      check_matches: Check Matches
+    history:
+      history: History
+    list:
+      new_hardware: New Hardware Profile
+      delete_selected: Delete Selected
+    matching_provider_hwp:
+      no_matching_provider_hwp: No Matching Provider Hardware Profiles Could be found
+    create:
+      check_matching_hwp: Check Matching Hardware Profiles
+    edit:
+      cancel_editing: Cancel Editing
+      edit_hwp: Edit Hardware Profile
+    new:
+      new_hwp: New Hardware Profile
+    show:
+      matching_hwp: Matching Provider Hardware Profiles
     flash:
       notice:
         deleted: "Hardware profile was deleted!"
@@ -496,7 +530,6 @@ en:
       not_deleted:
         one: "Deployable %{list} was not deleted. There are deployments associated with it."
         other: "Deployables %{list} were not deleted. They have deployments associated with them."
-  setting: Settings
   name: Name
   summary: Summary
   settings:
@@ -520,6 +553,20 @@ en:
     self_service:
       self_service_default: 'User Treatment: Self-service default'
       account: Account
+    general_settings:
+       general_settings: General Settings
+       portal: Portal
+       brand_icon: "Brand Icon:"
+       tag_line: "Tag Line:"
+       allow_self_service: "Allow Self Service Account Creation:"
+       select_treatment: Select User Treatment
+       primary_url_port: "Primary URL Port:"
+       content: Content
+       entitlement_mode: "Entitlement Mode:"
+       user_brings_subscriptions: User Brings Subscriptions
+       system_subscription: System Provides Subscription
+       certificate: "Certitifcate:"
+       content_manager_url: "Content Manager URL:"
     flash:
       warning:
         not_updated_quota: "Could not update the default quota"

@@ -2,10 +2,10 @@
 
 %header.admin-page-header
   %header
-  %h1 New Hardware Profile
+  %h1=t'hardware_profiles.new.new_hwp'
   #obj_actions
-    Return to:
-    = link_to "Hardware Profiles", hardware_profiles_path, :class => 'rounded-link'
+    = t'return_to'
+    = link_to t('hardware_profiles.hardware_profiles'), hardware_profiles_path, :class => 'rounded-link'
 
 %section.admin-content-section
   = form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true } do |hwp_form|

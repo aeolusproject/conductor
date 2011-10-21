@@ -46,7 +46,7 @@ class HardwareProfilesController < ApplicationController
     @hardware_profile = HardwareProfile.find(params[:id].to_a.first)
     require_privilege(Privilege::VIEW, @hardware_profile)
 
-    @tab_captions = ['Properties', 'History', 'Matching Provider Hardware Profiles']
+    @tab_captions = [t('hardware_profiles.tab_captions.properties'), t('hardware_profiles.tab_captions.history'), t('hardware_profiles.tab_captions.matching_provider_hwp')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     properties
     matching_provider_hardware_profiles
@@ -168,21 +168,21 @@ class HardwareProfilesController < ApplicationController
 
   def properties
     @properties_header = [
-      { :name => "Name", :sort_attr => :name},
-      { :name => "Unit", :sort_attr => :unit},
-      { :name => "Minimum Value", :sort_attr => :value}]
+      { :name => t('hardware_profiles.properties_headers.name'), :sort_attr => :name},
+      { :name => t('hardware_profiles.properties_headers.unit'), :sort_attr => :unit},
+      { :name => t('hardware_profiles.properties_headers.min_value'), :sort_attr => :value}]
     @hwp_properties = [@hardware_profile.memory, @hardware_profile.cpu, @hardware_profile.storage, @hardware_profile.architecture]
   end
 
   #TODO Update this method when moving to new HWP Model
   def matching_provider_hardware_profiles
     @provider_hwps_header  = [
-      { :name => "Provider Name", :sort_attr => "provider.name" },
-      { :name => "Hardware Profile Name", :sort_attr => :name },
-      { :name => "Architecture", :sort_attr => :architecture },
-      { :name => "Memory", :sort_attr => :memory},
-      { :name => "Storage", :sort_attr => :storage },
-      { :name => "Virtual CPU", :sort_attr => :cpu}
+      { :name => t('hardware_profiles.provider_hwp_headers.provider_name'), :sort_attr => "provider.name" },
+      { :name => t('hardware_profiles.provider_hwp_headers.hwp_name'), :sort_attr => :name },
+      { :name => t('hardware_profiles.provider_hwp_headers.architecture'), :sort_attr => :architecture },
+      { :name => t('hardware_profiles.provider_hwp_headers.memory'), :sort_attr => :memory},
+      { :name => t('hardware_profiles.provider_hwp_headers.storage'), :sort_attr => :storage },
+      { :name => t('hardware_profiles.provider_hwp_headers.virtual_cpu'), :sort_attr => :cpu}
     ]
 
     begin
@@ -193,12 +193,12 @@ class HardwareProfilesController < ApplicationController
   end
 
   def setup_hardware_profile
-    @tab_captions = ['Matched Provider Hardware Profiles']
+    @tab_captions = [t('hardware_profiles.tab_captions.matching_provider_hwp')]
     @details_tab = 'matching_provider_hardware_profiles'
     @header  = [
-      { :name => "Name", :sort_attr => :name},
-      { :name => "Unit", :sort_attr => :unit},
-      { :name => "Minimum Value", :sort_attr => :value}]
+      { :name => t('hardware_profiles.properties_headers.name'), :sort_attr => :name},
+      { :name => t('hardware_profiles.properties_headers.unit'), :sort_attr => :unit},
+      { :name => t('hardware_profiles.properties_headers.min_value'), :sort_attr => :value}]
   end
 
   def load_hardware_profiles

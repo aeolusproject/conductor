@@ -3,14 +3,13 @@
 %header.admin-page-header
   %h1{:class => controller.controller_name}= @hardware_profile.name.titlecase
   #obj_actions.button-container
-    = link_to 'New Hardware Profile', hardware_profile_url, :class => 'button primary', :id => 'new_user_button'
+    = link_to t('hardware_profiles.list.new_hardware'), hardware_profile_url, :class => 'button primary', :id => 'new_user_button'
     %div.button-group
-      = link_to 'Cancel Editing', hardware_profile_path(@hardware_profile), :class => 'button pill danger', :id => 'new_user_button'
+      = link_to t('hardware_profiles.edit.cancel_editing'), hardware_profile_path(@hardware_profile), :class => 'button pill danger', :id => 'new_user_button'
 
 %section.admin-content-section.hardware_profile
   %header
-    %h2
-      Edit Hardware Profile
+    %h2=t('hardware_profiles.edit.edit_hwp')
 
   .content
     = form_for @hardware_profile, :url => hardware_profile_path(@hardware_profile), :html => { :multipart => true } do |hwp_form|
