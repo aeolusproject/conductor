@@ -236,6 +236,8 @@ en:
         updated:
           one: "The deployment %{list} was successfully updated."
           other: "The deployments %{list} were successfully updated."
+    errors:
+      config_server_connection: 'Cannot connect to the config server'
   instances:
     instances: Instances
     instance: Instance

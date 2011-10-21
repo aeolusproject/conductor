@@ -248,7 +248,13 @@ class Deployment < ActiveRecord::Base
         task = InstanceTask.create!({:user        => user,
                                      :task_target => instance,
                                      :action      => InstanceTask::ACTION_CREATE})
-        config_server.send_config(config) if deployable_xml.requires_config_server?
+        if deployable_xml.requires_config_server?
+          begin
+            config_server.send_config(config)
+          rescue Errno::ECONNREFUSED
+            raise I18n.t 'deployments.errors.config_server_connection'
+          end
+        end
         Taskomatic.create_instance(task)
         if task.state == Task::STATE_FAILED
           status[:errors][assembly_name] = 'failed'
