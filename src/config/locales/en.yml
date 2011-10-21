@@ -571,6 +571,7 @@ en:
     self_service:
       self_service_default: 'User Treatment: Self-service default'
       account: Account
+      self_service_settings: "Self-service Settings"
     general_settings:
        general_settings: General Settings
        portal: Portal
