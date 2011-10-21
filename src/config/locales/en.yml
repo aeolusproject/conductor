@@ -377,6 +377,7 @@ en:
   hardware_profiles:
     hardware: Hardware
     hardware_profile: Hardware Profile
+    hardware_profiles: Hardware Profiles
     index:
       hardware_profile_name: Hardware Profile Name
       architecture: Architecture
