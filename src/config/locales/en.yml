@@ -232,6 +232,10 @@ en:
     instances: Instances
     instance: Instance
     none_selected: "You must select one or more instances to stop."
+    tab_captions:
+      properties: Properties
+      history: History
+      permissions: Permissions
     list:
       export_events: Export events
       stop_selected_instances: Stop selected instances
@@ -245,6 +249,36 @@ en:
         state: State
         provider: Provider
         owner: Owner
+    edit:
+      edit_instance: Edit instance
+      name: Name
+    history:
+       history_for: History for
+    parameters:
+       config_parameters_for: Config Parameters for
+    permissions:
+     permissions_for: Permissions for
+    properties:
+      properties_for: Properties for
+      name: Name
+      status: Status
+      public_addresses: Public Addresses
+      private_adresses: Private Addresses
+      assembly: Assembly
+      provider: Provider
+      architecture: Architecture
+      memory: Memory
+      storage: Storage
+      instantiation_time: Instantiation Time
+      current_alerts: Current Alerts
+      console_connection: Console Connection
+      via_ssh: via SSH
+      ssh_key: SSH key
+      download: Download
+      owner: Owner
+      shared_to: Shared to
+      error: Error
+      n_a: "N/A"
     flash:
       warning:
         ssh_key_not_found: "SSH Key not found for this Instance."
@@ -278,6 +312,14 @@ en:
       no_config_server_available: "%{account_name}: no config server available for provider account"
       realm_not_mapped: "Realm %{frontend_realm_name} is not mapped to any provider or provider realm"
       provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch deployable"
+      stop_invalid: "stop is an invalid action."
+      stop_not_be_performed: "stop cannot be performed on this instance."
+    headers:
+      vm_name: VM NAME
+      status: STATUS
+      public_address: PUBLIC ADDRESS
+      provider: PROVIDER
+      created_by: CREATED BY
   searches: Searches
   image_factory: Image Factory
   assemblies: Assemblies
