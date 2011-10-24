@@ -35,11 +35,11 @@ class PermissionsController < ApplicationController
     @users = User.all
     @roles = Role.find_all_by_scope(@permission_object.class.name)
     if @permission_object == BasePermissionObject.general_permission_scope
-      @return_text = "Global Role Grants"
-      @summary_text =  "Choose global role assignments for users"
+      @return_text = t("permissions.new.global_role_grants")
+      @summary_text =  t("permissions.new.choose_global_role")
     else
       @return_text =  "#{@permission_object.name} #{@permission_object.class}"
-      @summary_text = "Choose roles for users you would like to grant access to this #{@permission_object.class}"
+      @summary_text = t('permissions.new.choose_roles')+ "#{@permission_object.class}"
     end
     load_headers
     load_users
