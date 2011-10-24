@@ -111,7 +111,7 @@ class RealmsController < ApplicationController
   def show
     @realm = FrontendRealm.find(params[:id])
 
-    @tab_captions = ['Properties', 'Mapping']
+    @tab_captions = [t('realms.tab_captions.properties'), t('realms.tab_captions.mapping')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
 
     @backend_realm_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Realm' }

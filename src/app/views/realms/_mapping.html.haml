@@ -1,11 +1,11 @@
 = form_tag multi_destroy_realm_mappings_path(:frontend_realm_id => @realm.id) do
-  = link_to "Add mapping to realm", new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button", :id => 'mapping_to_realm_button'
-  = link_to "Add mapping to provider", new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button", :id => 'mapping_to_provider_button'
-  = submit_tag "Delete", :id => 'delete_button', :class => 'button danger'
+  = link_to t('realms.mapping.mapping_realm'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button", :id => 'mapping_to_realm_button'
+  = link_to t('realms.mapping.mapping_provider'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button", :id => 'mapping_to_provider_button'
+  = submit_tag t('delete'), :id => 'delete_button', :class => 'button danger'
 
 
   - unless @backend_provider_targets.empty?
-    %h2 Realm '#{@realm.name}' is mapped to providers:
+    %h2= t('realms.mapping.realm_mapped_providers', :name=> "#{@realm.name}")
     %table.flat.checkbox_table
       - @backend_provider_targets.each do |backend|
         %tr{:class => cycle('nostripe','stripe')}
@@ -13,7 +13,7 @@
           %td= backend.realm_or_provider.name
 
   - unless @backend_realm_targets.empty?
-    %h2 Realm '#{@realm.name}' is mapped to realms:
+    %h2= t('realms.mapping.realm_mapped_realms', :name=> "#{@realm.name}")
     %table.flat.checkbox_table
       - @backend_realm_targets.each do |backend|
         %tr{:class => cycle('nostripe','stripe')}
