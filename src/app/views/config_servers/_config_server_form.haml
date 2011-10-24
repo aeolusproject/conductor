@@ -3,19 +3,19 @@
 %fieldset
   %p
     = hidden_field_tag "provider_account_id", @provider_account.id
-    = form.label :host
+    = form.label :host, t('.host')
     = form.text_field :host, :class => 'em long'
   %p
-    = form.label :port
+    = form.label :port, t('.port')
     = form.text_field :port
   %p
-    = form.label :username
+    = form.label :username, t('.username')
     = form.text_field :username
   %p
-    = form.label :password
+    = form.label :password, t('.password')
     = password_field_tag "config_server[password]", @config_server.password
   %p
-    = form.label :certificate
+    = form.label :certificate, t('.certificate')
     %div.help
       = t('config_servers.certificate_help')
     = form.text_area :certificate, :rows => 20, :cols => 64

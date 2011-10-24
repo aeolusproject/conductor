@@ -692,10 +692,28 @@ en:
         must_select_account: "You must select some accounts first."
   config_servers:
     certificate_help: Provide a certificate to enable https support
+    section_header:
+      config_server: Config Server
     new:
       new_config_server: New Config Server
     edit:
       edit_config_server: Edit Config Server
+    config_server_form:
+      host: Host
+      port: Port
+      username: Username
+      password: Password
+      certificate: Certificate
+    flash:
+      notice:
+        test_successful: Test successful
+        added: Config server added.
+        updated: Config server updated.
+        deleted: Config server was deleted.
+      error:
+        invalid: The config server information is invalid.
+        not_updated: Config server was not updated
+        not_deleted: Config server was not deleted
     errors:
       connection:
         generic: "Could not validate config server connection (url: %{url}).  Check the connection parameters and try again."
