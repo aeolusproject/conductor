@@ -151,6 +151,7 @@ en:
   accounts: Accounts
   catalog_images: Catalog Images
   quota: Quota
+  choose: Choose
   deployments:
     deployments: Deployments
     deployment: Deployment
@@ -445,9 +446,34 @@ en:
         more_not_deleted: Could not deleted these Hardware Profiles
   realms:
     realms: Realms
+    new_realm: New Realm
     index:
       realm: Realm
       realm_name: Realm Name
+    tab_captions:
+      properties: Properties
+      mapping: Mapping
+    form:
+      realm_name: Realm Name
+    list:
+      delete_selected: Delete Selected
+    mapping:
+      mapping_realm: Add mapping to realm
+      mapping_provider: Add mapping to provider
+      realm_mapped_providers: "Realm %{name} is mapped to providers:"
+      realm_mapped_realms: "Realm %{name} is mapped to realms:"
+    properties:
+      realm_details: Realm Details
+      realm_name: Realm Name
+    edit:
+      cancel_editing: Cancel Editing
+      properties: Properties
+    new:
+      create_realm: Create New Realm
+    show:
+      properties: Properties
+      realm_mapping: Realm Mapping
+      sure_to_delete: Are you sure you want to delete?
     flash:
       notice:
         added_mapping: "Realm mapping was added."
@@ -650,6 +676,7 @@ en:
         quota_exceeded: "Quota limit of running instances for %{name} account has been exceeded."
         quota_reached: "of Quota limit for running instances for %{name} account has been reached."
   provider_accounts:
+    new_provider_account: New Account
     index:
       provider_accounts: Provider Accounts
       provider_account_name: Account Name
@@ -660,11 +687,17 @@ en:
       config_server_saved: "Config Server data was successfully saved"
       config_server_not_saved: "An error occurred while saving the Config Server data."
     new:
-      new_provider_account: New Account
+      new_provider_account: New Provider Account
       required_field: Required field.
+      cloud_providers: Cloud Providers
     edit:
       edit_provider_account: Edit Provider Account
       required_field: Required field.
+      account: "Account:"
+      delete_account: Delete Account
+    show:
+      account: "Account:"
+      test_connection: Test Connection
     form:
       provider_accounts: Provider Accounts
       account_name: Account Name
@@ -676,6 +709,32 @@ en:
       account_number: AWS Account ID
       account_private_cert: EC2 x509 private key
       account_public_cert: EC2 x509 public key
+    tab_captions:
+      properties: Properties
+      credentials: Credentials
+      history: History
+      permissions: Permissions
+    credentials:
+      credentials_for: Credentials for
+    history:
+      history_for: History for
+    list:
+      delete_selected: Delete Selected
+    permissions:
+      permissions_for: Permissions for
+    properties:
+      properties_for: Properties for
+      running_instances_quota: "Running instances quota:"
+      unlimited: unlimited
+      account_number: "Account number:"
+      config_server:  "Config Server:"
+      none: None
+      test: Test
+      sure_to_delete: "Are you sure you want to delete this config server?"
+    provider_selection:
+      cloud_type: "Cloud type: "
+    rhevm:
+      login_form: "Login form for RHEV-M (not implemented yet)"
     flash:
       notice:
         account_added:
@@ -702,6 +761,7 @@ en:
         test_connection_failed_provider: "Test Connection Failed: Could not connect to provider"
       warning:
         must_select_account: "You must select some accounts first."
+        no_provider: "You don't have any provider yet"
   config_servers:
     certificate_help: Provide a certificate to enable https support
     section_header:
@@ -749,6 +809,13 @@ en:
     my_account: My Account
     logout: Log out
   permissions:
+    revoke_access: "Revoke Access"
+    form:
+      grant_access: Grant Access
+    new:
+      choose_roles: Choose roles for users you would like to grant access to this
+      global_role_grants: Global Role Grants
+      choose_global_role: Choose global role assignments for users
     flash:
       notice:
         modified: These User Roles were modified
@@ -760,12 +827,41 @@ en:
         not_deleted: Could not delete these Permission Grants
         not_added: Could not add these User Roles
   quotas:
+    quota: Quota
+    edit:
+      edit_for: Edit Quota for
+      max_running_instnaces: Max Running Instances
+    show:
+      no_quota: There is no Quota on this
+      resource: Resource
+      max_capacity: Max Capacity
+      used: Used
+      available: Available
     flash:
       notice:
         updated: "Quota updated!"
       error:
         not_updated: "Could not update quota, please check you have entered valid values"
   roles:
+    new_role: New Role
+    tab_captions:
+      properties: Properties
+    form:
+      name: Name
+    list:
+      roles_list: Roles List
+    properties:
+      scope: "Scope:"
+      privileges: Privileges
+      action: Action
+      target_type: Target type
+    edit:
+      cancel_editing: Cancel Editing
+      properties: Properties
+      editing_role: "Editing Role:"
+    show:
+      sure_to_delete: "Are you sure you want to delete this role?"
+      properties: Properties
     flash:
       notice:
         added: "Role successfully saved!"
@@ -809,3 +905,6 @@ en:
       catalogs: Catalogs
       realms: Realms
       hardware: Hardware
+  realm_mappings:
+    new:
+      create_new: Create a new Realm Mapping
