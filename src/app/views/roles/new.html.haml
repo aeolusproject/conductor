@@ -2,7 +2,7 @@
 = render :partial => 'section_header'
 %section.admin-content-section.users
   %header
-    %h2 New Role
+    %h2=t'roles.new_role'
 
   .content
     = form_for @role, :url => roles_path, :html => {:class => 'generic'} do |f|

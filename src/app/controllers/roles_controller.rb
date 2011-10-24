@@ -50,7 +50,7 @@ class RolesController < ApplicationController
     require_privilege(Privilege::PERM_VIEW)
     @role = Role.find(params[:id])
 
-    @tab_captions = ['Properties']
+    @tab_captions = [t('roles.tab_captions.properties')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(role_path(@role), @role.name)
     respond_to do |format|

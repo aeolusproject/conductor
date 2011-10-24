@@ -1,17 +1,17 @@
-%strong Scope:
+%strong=t 'roles.properties.scope'
 %span #{@role.scope}
 %table
   %thead
     %tr
       %th.show
-        Privileges
+        =t 'roles.properties.privileges'
       %th.show
   %tbody
     %tr
       %td
-        %label Action
+        %label= t'roles.properties.action'
       %td
-        %label Target type
+        %label= t'roles.properties.target_type'
     -@role.privileges.each do |privilege|
       %tr
         %td

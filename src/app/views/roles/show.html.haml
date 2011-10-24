@@ -2,15 +2,15 @@
 %header.admin-page-header
   %h1{:class => controller.controller_name}= @role.name
   #obj_actions.button-container
-    = link_to 'New Role', new_role_url, :class => 'button primary', :id => 'new_role_button'
+    = link_to t('roles.new_role'), new_role_url, :class => 'button primary', :id => 'new_role_button'
     .button-group
-      = link_to 'Edit', edit_role_path(@role), :class => 'button pill'
-      = button_to 'Delete', role_path(@role), :method => :delete, :class => 'button pill danger',
-        :confirm => "Are you sure you want to delete this role?"
+      = link_to t('edit'), edit_role_path(@role), :class => 'button pill'
+      = button_to t('delete'), role_path(@role), :method => :delete, :class => 'button pill danger',
+        :confirm => t('roles.show.sure_to_delete')
 
 %section.admin-content-section.role
   %header
-    %h2 Properties
+    %h2= t'roles.show.properties'
 
   .content
     = render :partial => 'properties'
