@@ -1,7 +1,7 @@
 .content
   - content_for :form_header do
-    %li= restful_submit_tag "Delete Selected", "destroy", multi_destroy_provider_provider_accounts_path(@provider), 'DELETE', :id => 'delete_button', :class => 'button danger'
-    %li= link_to "New Account", new_provider_provider_account_path(@provider), :id => 'new_provider_account', :class => 'button'
+    %li= restful_submit_tag t('delete'), "destroy", multi_destroy_provider_provider_accounts_path(@provider), 'DELETE', :id => 'delete_button', :class => 'button danger'
+    %li= link_to t('provider_accounts.new_provider_account'), new_provider_provider_account_path(@provider), :id => 'new_provider_account', :class => 'button'
 
   = filter_table(provider_accounts_header, @provider_accounts) do |account|
     %tr{:class => cycle('nostripe','stripe')}

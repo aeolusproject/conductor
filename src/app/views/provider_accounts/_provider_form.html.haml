@@ -1,6 +1,6 @@
 %fieldset
   %p
-    = label :provider_account, "Account Name"
+    = label :provider_account, t('provider_accounts.index.provider_name')
     = text_field :provider_account, :label, :class => 'em long'
 - CredentialDefinition::CREDENTIAL_DEFINITIONS_ORDER.each do |cred_order|
   - @provider_account.all_credentials(@provider).each do |cred|
@@ -17,8 +17,8 @@
 
 %fieldset
   %p
-    = label_tag "Quota"
-    = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || "unlimited", :id => "quota_instances"
+    = label_tag t("quotas.quota")
+    = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || t('provider_accounts.properties.unlimited'), :id => "quota_instances"
     (
     %button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances\");" }<>
       = t('provider_accounts.form.unlimited_quota')
@@ -26,5 +26,5 @@
 
 :javascript
   function set_unlimited_quota(elem_id) {
-    $("#" + elem_id)[0].value = "unlimited";
+    $("#" + elem_id)[0].value = t('provider_accounts.properties.unlimited');
   }

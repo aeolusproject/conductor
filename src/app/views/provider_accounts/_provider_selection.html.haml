@@ -1,16 +1,16 @@
 %fieldset#provider_type
   %p
-    = label_tag "Provider"
+    = label_tag t('providers.provider')
     = select(:provider_account, :provider_id, options_for_select(@providers.map{ |p| [p.name, p.id] }, :selected => @provider.id))
-    = restful_submit_tag "Choose", 'set_selected_provider',set_selected_provider_provider_provider_accounts_path(@provider), 'GET', :class => 'button pill'
+    = restful_submit_tag t('choose'), 'set_selected_provider',set_selected_provider_provider_provider_accounts_path(@provider), 'GET', :class => 'button pill'
   %p
-    = label_tag "Cloud type: "
+    = label_tag t('provider_accounts.provider_selection.cloud_type')
     = @provider.provider_type.name
     .clear
     - unless @provider.provider_type.deltacloud_driver.nil?
       = render :partial => "provider_form", :locals => { :provider_type => @provider.provider_type}
     - else
-      = flash.now[:warning] = "You don't have any provider yet"
+      = flash.now[:warning] = t('provider_accounts.flash.warning.no_provider')
 
 :javascript
   $(document).ready(function(){

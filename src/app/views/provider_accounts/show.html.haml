@@ -1,19 +1,19 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
   %h1
-    Account:
+    =t'provider_accounts.new.new_provider_account'
     = @provider_account.name
   #obj_actions
-    Return to:
-    = link_to "Cloud Providers", edit_provider_path(@provider, :details_tab => 'accounts'), :class => 'rounded-link'
+    =t'return_to'
+    = link_to t('provider_accounts.new.cloud_providers'), edit_provider_path(@provider, :details_tab => 'accounts'), :class => 'rounded-link'
 
 %section.admin-content-section
   %header
-    %h2 Properties
+    %h2=t'properties'
     .section-controls
       #obj_actions.button-group
-        = link_to "Edit", edit_provider_provider_account_path(@provider, @provider_account), :class => "button pill", :title => "Edit Provider Account"
-        = link_to "Test Connection", provider_provider_account_path(@provider, @provider_account, :test_account => true), :class => 'button pill'
+        = link_to t('edit'), edit_provider_provider_account_path(@provider, @provider_account), :class => "button pill", :title => "Edit Provider Account"
+        = link_to t('provider_accounts.show.test_connection'), provider_provider_account_path(@provider, @provider_account, :test_account => true), :class => 'button pill'
 
   .content
     = render :partial => 'properties'

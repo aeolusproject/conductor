@@ -33,7 +33,7 @@ class ProviderAccountsController < ApplicationController
   end
 
   def show
-    @tab_captions = ['Properties', 'Credentials', 'History', 'Permissions']
+    @tab_captions = [t('provider_accounts.tab_captions.properties'), t('provider_accounts.tab_captions.credentials'), t('provider_accounts.tab_captions.history'), t('provider_accounts.tab_captions.permissions')]
     @provider_account = ProviderAccount.find(params[:id])
     @provider = Provider.find(params[:provider_id])
     @account_id = @provider_account.credentials_hash['account_id']

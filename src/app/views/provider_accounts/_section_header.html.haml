@@ -1,5 +1,5 @@
 %header.page-header
-  %h1{:class => controller.controller_name} Provider Accounts
+  %h1{:class => controller.controller_name}=t'provider_accounts.index.provider_accounts'
   #obj_actions.button-group
-    = link_to 'New Provider Account', new_provider_account_url, :class => 'button primary', :id => 'new_provider_account_button'
+    = link_to t('provider_accounts.new.new_provider_account'), new_provider_account_url, :class => 'button primary', :id => 'new_provider_account_button'
   .corner &nbsp;
