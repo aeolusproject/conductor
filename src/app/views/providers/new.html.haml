@@ -1,21 +1,21 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1= @provider.name.blank? ? "New Provider" : @provider.name
+  %h1= @provider.name.blank? ? t("providers.new.new_provider") : @provider.name
   #obj_actions
     %span.label.light Choose a provider:
     %ul#provider_select
       %li
-        = link_to "Create New Provider", "javascript:void(0)"
+        = link_to t("providers.index.create_new_provider"), "javascript:void(0)"
         %ul
-          %li= link_to "+ Create New Provider", new_provider_path, :id => "create_new_provider"
+          %li= link_to "+ " + t("providers.index.create_new_provider"), new_provider_path, :id => "create_new_provider"
           - @providers.each do |provider|
             %li= link_to provider.name, edit_provider_path(provider)
 
 %section.admin-content-section.users
   %header
-    %h2.settings Settings
+    %h2.settings= t("settings.settings")
   .content
     = form_for @provider, :url => providers_path, :html => {:class => 'generic'} do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => providers_path }
       %fieldset.options
-        = f.submit "Save Provider", :class => "submit button pill", :id => 'save'
+        = f.submit t("providers.new.save_provider"), :class => "submit button pill", :id => 'save'

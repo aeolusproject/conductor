@@ -76,8 +76,8 @@ class ProvidersController < ApplicationController
     @realm_names = @provider.realms.collect { |r| r.name }
 
     require_privilege(Privilege::VIEW, @provider)
-    @tab_captions = ['Properties', 'HW Profiles', 'Realms', 'Provider Accounts', 'Services', 'History', 'Permissions']
-    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    @tab_captions = [t("properties"), t('hw_profiles'), t('realm_s'), t("provider_accounts.index.provider_accounts"), t('services'), t('history'), t('permissions')]
+    @details_tab = params[:details_tab].blank? ? t("properties") : params[:details_tab]
 
     if params.delete :test_provider
       test_connection(@provider)
@@ -209,9 +209,9 @@ class ProvidersController < ApplicationController
   def load_provider_tabs
     @realms = @provider.all_associated_frontend_realms
     #TODO add links to real data for history,properties,permissions
-    @tabs = [{:name => 'Connectivity', :view => 'edit', :id => 'connectivity', :count => @provider.provider_accounts.count},
-             {:name => 'Accounts', :view => 'provider_accounts/list', :id => 'accounts', :count => @provider.provider_accounts.count},
-             {:name => 'Realms', :view => 'realms/list', :id => 'realms', :count => @realms.count},
+    @tabs = [{:name => t('connectivity'), :view => 'edit', :id => 'connectivity', :count => @provider.provider_accounts.count},
+             {:name => t('accounts'), :view => 'provider_accounts/list', :id => 'accounts', :count => @provider.provider_accounts.count},
+             {:name => t('realm_s'), :view => 'realms/list', :id => 'realms', :count => @realms.count},
              #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
     ]
     add_permissions_tab(@provider, "edit_")

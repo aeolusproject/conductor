@@ -42,7 +42,7 @@ Feature: Manage Providers
   Scenario: Show provider details
     Given there is a provider named "testprovider"
     When I am on the testprovider's edit provider page
-    Then I should see "Provider name"
+    Then I should see "Provider Name"
     And I should see "Provider URL"
 
   Scenario: Create a new Provider

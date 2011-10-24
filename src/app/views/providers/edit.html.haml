@@ -4,22 +4,19 @@
 - unless @provider.enabled
   %section.admin-content-section
     %header.align-center
-      %h2.disabled Provider is disabled.
+      %h2.disabled= t('providers.edit.provider_id_disabled')
     %p.align-center
-      The provider "
-      = @provider.name
-      " is currently
-      %strong disabled.
-      To enable and configure provider, click the slide switch in the upper-right-hand corner of this window.
+      = t("providers.edit.provider_disabled", :name => @provider.name)
+      = t("providers.edit.enable_configure_providers")
       = image_tag "provider_enable_hint.png"
 
 %section.admin-content-section.alerts
   %header
     %h2.alerts
-      Alerts
+      = t("alerts_label")
       %span.label.badge.count.alert= @alerts.count
     .section-controls
-      = link_to "Toggle Alerts", "#", :class => 'collapse alerts' unless @alerts.blank?
+      = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @alerts.blank?
   - unless @alerts.blank?
     .content.collapsible
       %dl.alerts
@@ -37,7 +34,7 @@
 /    unimplemented
 %section.admin-content-section
   %header#tab-container-1
-    %h2.settings Settings
+    %h2.settings= t("settings.settings")
     %nav.faceted
       %ul#tab-container-1-nav
         - @tabs.each do |tab|

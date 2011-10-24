@@ -2,32 +2,32 @@
   %thead
     %tr
       %th.show
-        Properties for
+        =t("catalog_entries.properties.properties_for")
         = @provider.name
       %th.show
   %tbody
     %tr
       %td
-        %label Provider name
+        %label= t("providers.index.provider_name")
       %td
         = @provider.name
     %tr
       %td
-        %label Provider URL
+        %label= t("providers.index.provider_url")
       %td
         = @provider.url
     %tr
       %td
-        %label Provider Type
+        %label= t("providers.index.provider_type")
       %td
         = @provider.provider_type.name
     %tr
       %td
-        %label X-Deltacloud-Driver
+        %label= t("providers.index.x_deltacloud_driver")
       %td
         = @provider.provider_type.deltacloud_driver
     %tr
       %td
-        %label X-Deltacloud-Provider
+        %label= t("providers.index.x_deltacloud_provider")
       %td
         = @provider.deltacloud_provider
