@@ -1,9 +1,17 @@
+#if ARGV[0] != null
+#  echo ARGV[0]
+#fi
+
 rm ~/rpmbuild/RPMS/noarch/*.rpm
 cd ../
 make clean
 make rpms
-cd ../configure
-rake rpms 
+cd ../aeolus-configure
+rake rpms
+cd ../aeolus-image-rubygem
+rake rpms
+cd ../aeolus-image
+rake rpms
 sudo yum --nogpgcheck -y install ~/rpmbuild/RPMS/noarch/rubygem-* \
 ~/rpmbuild/RPMS/noarch/aeolus-* --enablerepo=fedora-aeolus-testing
 cd ../conductor/util
