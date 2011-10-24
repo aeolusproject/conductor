@@ -1,10 +1,10 @@
 %h3
-  Provider Accounts for
+  = t("pool_families.provider_accounts_for")
   = @pool_family.name
 
 - unless @pool_family.provider_accounts.blank?
   = form_tag do
-    = restful_submit_tag "Remove selected", 'destroy', multi_destroy_provider_accounts_pool_families_path(:pool_family_id => @pool_family.id), 'DELETE', :id => 'delete_button', :class => 'button danger'
+    = restful_submit_tag t("pool_families.remove_selected"), 'destroy', multi_destroy_provider_accounts_pool_families_path(:pool_family_id => @pool_family.id), 'DELETE', :id => 'delete_button', :class => 'button danger'
     = #submit_tag "Remove selected"
 
     %table#provider_accounts_table.checkbox_table
@@ -22,4 +22,4 @@
       = select_tag :provider_account_id, options_for_select(ProviderAccount.find(:all, :conditions => [ "id NOT IN (?)", @pool_family.provider_account_ids ]).collect{ |pa| [pa.name, pa.id] })
     - else
       = select_tag :provider_account_id, options_for_select(ProviderAccount.all.collect{ |pa| [pa.name, pa.id] })
-    = f.submit "Add to #{@pool_family.name}"
+    = f.submit t("pool_families.add_to_pool_family", :name => @pool)

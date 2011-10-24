@@ -489,9 +489,30 @@ en:
   pool_families:
     pool_families: Pool Families
     pool_family: Pool Family
+    confirm_delete: "Are you sure you want to delete?"
+    pool_family_details: Pool Family Details
+    provider_accounts_for: Provider Accounts for
+    remove_selected: Remove selected
+    add_to_pool_family: "Add to %{name}"
     index:
       name: Name
       quota_limit: Quota Limit
+      new_pool_family: New Pool Family
+      pool_name: Pool Name
+      deployments: Deployments
+      total_instancies: "Total Inst."
+      pending_instances: "Pending Inst."
+      quota_used: "Quota Used"
+      active_instances: "Active Inst."
+      available_instances: "Available Inst."
+      failed_instances: "Failed Inst."
+      catalog: "Catalog"
+    new:
+      environments: Environments
+    edit:
+      return_to: "Return to:"
+    form:
+      pool_family_name: Pool Family Name
     flash:
       notice:
         added: "Pool family was added."

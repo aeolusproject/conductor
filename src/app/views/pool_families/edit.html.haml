@@ -3,12 +3,12 @@
 %header.admin-page-header
   %h1= @pool_family.name
   #obj_actions
-    Return to:
-    = link_to 'Environments', pool_families_path, :class => 'rounded-link'
+    = t("pool_families.edit.return_to")
+    = link_to t("pool_families.new.environments"), pool_families_path, :class => 'rounded-link'
 
 %section.admin-content-section.pool_family
   %header
-    %h2.settings Settings
+    %h2.settings= t("settings.settings")
 
   .content
     -form_for @pool_family, :url => pool_family_path(@pool_family), :html => { :method => :put, :class => 'generic' } do |f|
