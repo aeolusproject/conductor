@@ -14,17 +14,14 @@
     %p
       %label
         = t('quota')
-        %span
-          (#
-          =t('pools.form.instance_or')
-          %a#unlimited_quota_btn{:href => '#'}=t('pools.form.unlimited')
-          )
-      = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || "unlimited", :id => "quota_instances"
+      = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || 10, :id => "quota_instances"
+      = check_box_tag :unlimited_quota, 1, @quota.maximum_running_instances.nil?
+      = label_tag :unlimited_quota, t('.unlimited'), :class => 'checkbox'
 
   %fieldset
     %p
-      = form.label :enabled, "#{t('pools.form.pool_enabled')}?", :class => 'checkbox'
       = form.check_box :enabled
+      = form.label :enabled, "#{t('pools.form.pool_enabled')}?", :class => 'checkbox'
 
   %fieldset.options
     = form.submit t("save"), :class => 'button', :id => 'save_button'
@@ -32,8 +29,13 @@
 
 :javascript
   $(document).ready(function(){
-    $('#unlimited_quota_btn').click(function(){
-      $('#quota_instances').val('unlimited');
-      return false;
+    function enhanceQuotaField() {
+      var unlimited = $('#unlimited_quota').prop('checked');
+      $('#quota_instances').attr('disabled', unlimited);
+    }
+
+    $('#unlimited_quota').click(function(){
+      enhanceQuotaField();
     });
+    enhanceQuotaField();
   });

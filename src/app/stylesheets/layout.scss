@@ -2698,6 +2698,10 @@ body.monitor form.generic{
     font-size: 12px;
     text-shadow: 0px 1px 0px #ffffff;
     font-weight: normal;
+
+    &.checkbox {
+      display: inline;
+    }
   }
 
   body.administer label{

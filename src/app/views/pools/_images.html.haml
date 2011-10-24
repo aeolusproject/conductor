@@ -1,19 +1,19 @@
 - @map.each_pair do |catalog, catalog_entries|
   %h1{:style => 'font-size: 18pt;'}
     = catalog.name
-    Catalog
+    = t('.catalog')
 
   - catalog_entries.each_pair do |entry, images|
     %h2{:style => 'font-size: 16pt;'}
       = entry.name
-      Catalog Entry
+      = t('.catalog_entry')
 
     - images.each_pair do |image, provider_images|
       %h3{:style => 'font-size: 14pt;'}
-        Image:
+        = t('.image')
         = "#{image.name} (#{image.uuid})"
 
       %ul
       - provider_images.each do |provider_image|
         %li
-          = "#{provider_image.uuid} pushed to #{provider_image.provider_name}"
+          = t('.pushed', :uuid => provider_image.uuid, :provider => provider_image.provider_name)

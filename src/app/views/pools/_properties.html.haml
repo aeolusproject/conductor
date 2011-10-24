@@ -1,7 +1,6 @@
 %h3
-  Properties for
-  = @pool.name
-= link_to "Edit", edit_pool_path(@pool), { :class => 'button' }
+  = t('.properties', :pool => @pool.name)
+= link_to t(:edit), edit_pool_path(@pool), { :class => 'button' }
 
 :javascript
   Conductor.setupPrettyFilterURL(

@@ -30,7 +30,7 @@
         %li
           = link_to ("#{html_escape(pool.name)} " + "#{t'pools.index.pool_details'}" + " &raquo;").html_safe, pool_path(pool), :class =>'pool_details'
         %li
-          = link_to "#{t'deployments.new_deployment'}", launch_new_deployments_path(:pool_id => pool.id), :class => 'button primary', :id => 'new_deployment_button'
+          = link_to t('deployments.new_deployment'), launch_new_deployments_path(:pool_id => pool.id), :class => 'button primary', :id => 'new_deployment_button'
         %li.catalog_link
           = render :partial => 'layouts/catalog_dropdown', :locals => {:catalogs => pool.catalogs}
 

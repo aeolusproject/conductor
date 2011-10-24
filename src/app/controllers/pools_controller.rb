@@ -85,8 +85,6 @@ class PoolsController < ApplicationController
     @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view' unless params[:details_tab]
     if params[:details_tab] == 'deployments'
       @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
-    elsif params[:details_tab] == 'history'
-      @view = filter_view? ? 'history_filter' : 'history_pretty'
     end
 
     #TODO add links to real data for history,properties,permissions
@@ -127,9 +125,7 @@ class PoolsController < ApplicationController
 
     @pool = Pool.new(params[:pool])
     @pool.quota = @quota = Quota.new
-
-    limit = params[:quota][:maximum_running_instances] if params[:quota]
-    @pool.quota.set_maximum_running_instances(limit)
+    set_quota
 
     respond_to do |format|
       if @pool.save
@@ -162,10 +158,9 @@ class PoolsController < ApplicationController
   def update
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool)
+    set_quota
     @quota = @pool.quota
 
-    limit = params[:quota][:maximum_running_instances] if params[:quota]
-    @pool.quota.set_maximum_running_instances(limit)
     respond_to do |format|
       if @pool.update_attributes(params[:pool])
         flash[:notice] = t "pools.flash.notice.updated"
@@ -187,7 +182,7 @@ class PoolsController < ApplicationController
     error_messages = []
     Pool.find(ids_list('pools_selected')).each do |pool|
       if pool.id == MetadataObject.lookup("self_service_default_pool").id
-        error_messages << "The default pool cannot be deleted"
+        error_messages << t("pools.flash.error.default_pool_not_deleted")
       elsif check_privilege(Privilege::MODIFY, pool) && pool.destroyable?
         pool.destroy
         destroyed << pool.name
@@ -217,7 +212,7 @@ class PoolsController < ApplicationController
       # default_pool cannot be deleted because metadata object has it tied
       # to id of 1 and deleting it prevents new users from being created
       if pool.id == MetadataObject.lookup("self_service_default_pool").id
-        error_messages << "The default pool cannot be deleted"
+        error_messages << t("pools.flash.error.default_pool_not_deleted")
       elsif check_privilege(Privilege::MODIFY, pool) && pool.destroyable?
         pool.destroy
         destroyed << pool.name
@@ -283,6 +278,15 @@ class PoolsController < ApplicationController
     params[:state] = 'running' unless params.keys.include?('state')
     conditions = params[:state].present? ? ['state=?', params[:state]] : ''
     @instances = @pool.instances.find(:all, :conditions => conditions)
+  end
+
+  def set_quota
+    limit = if params.has_key? :quota and not params[:unlimited_quota]
+              params[:quota][:maximum_running_instances]
+            else
+              nil
+            end
+    @pool.quota.set_maximum_running_instances(limit)
   end
 
   def statistics

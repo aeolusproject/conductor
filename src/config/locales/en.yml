@@ -359,6 +359,15 @@ en:
       pool_details: Pool details
       global_uptime: Global uptime
       destroy: Destroy
+    images:
+      catalog: Catalog
+      catalog_entry: Catalog Entry
+      image: "Image:"
+      pushed: %{uuid} pushed to %{provider}
+    properties:
+      properties: Properties for %{pool}
+    header_show:
+      pool_name: %{name} Pool
     flash:
       notice:
         added: Pool added.
@@ -371,9 +380,11 @@ en:
         pool_not_deleted:
           one: Pool %{list} was not deleted. There are instances associated with it.
           other: Pools %{list} were not deleted. They have instances associated with them.
-        not_updated: Pool wasn't updated!
+        not_updated: "Pool wasn't updated!"
+        default_pool_not_deleted: The default pool cannot be deleted
       warning:
         creation_failed: Pool creation failed.
+    valid_format_of_name: "must only contain: numbers, letters, spaces, '_' and '-'"
     list:
       more_actions: More actions
     form:
