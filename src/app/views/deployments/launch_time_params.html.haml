@@ -50,12 +50,7 @@
           .text($service.next('.description').text());
     }
 
-    var $services = $('.launch-time-params .services h4.service');
-    selectService($services.first());
-    $services.live('click', function(e) { selectService($(this)); });
-
-    $('#submit_params').attr('disabled', true);
-    $('.parameter input').live('keydown', function(e) {
+    function checkEnteredParams() {
       $('.launch-time-params .parameters').each(function() {
         var $parameters = $(this).find('.parameter input');
         var filledOut = _.all($parameters, function(item) {
@@ -64,5 +59,15 @@
         $(this).prev().prev('.service').toggleClass('filled-out', filledOut);
         $('#submit_params').attr('disabled', !filledOut);
       });
+    }
+
+    var $services = $('.launch-time-params .services h4.service');
+    selectService($services.first());
+    $services.live('click', function(e) { selectService($(this)); });
+
+    $('#submit_params').attr('disabled', true);
+    $('.parameter input').live('keydown', function(e) {
+      checkEnteredParams();
     });
+    checkEnteredParams();
   })();
