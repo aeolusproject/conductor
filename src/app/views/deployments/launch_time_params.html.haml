@@ -31,7 +31,7 @@
                 - value = get_hash_multi(params, [:deployment, :launch_parameters, assembly_name, service.name, parameter.name])
                 = text_field_tag id, (parameter.value or value)
               - else
-                = "Reference to #{parameter.reference_string}"
+                = t('.reference', :assembly => parameter.reference_assembly, :parameter => parameter.reference_parameter)
 
       #service-headers
 
