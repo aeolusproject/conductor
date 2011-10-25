@@ -165,6 +165,7 @@ en:
     launch_time_params:
       configure_launch_time_params: "Configure launch-time parameters for your deployment:"
       finalize: Finalize
+      reference: "Reference to %{assembly}'s return parameter: %{parameter}"
     overview:
       pool_name: %{pool} Pool
       header: Deploy "%{deployment}" to %{pool} Pool?

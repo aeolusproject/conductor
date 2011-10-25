@@ -55,17 +55,6 @@ class ParameterXML
     reference_node['parameter'] if reference?
   end
 
-  # shortcut method for accessing ref as a string
-  def reference_string
-    if reference?
-      if reference_service
-        "REF::$(#{reference_assembly}).$(#{reference_service}).$(#{reference_parameter})"
-      else
-        "REF::$(#{reference_assembly}).$(#{reference_parameter})"
-      end
-    end
-  end
-
   private
   def reference_node
     @reference ||= @root.at_xpath("./reference")
