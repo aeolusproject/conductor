@@ -251,9 +251,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_admin_users_tabs(tab)
-    @tabs = [{:name => 'Users', :url => users_url, :id => 'catalogs'},
-             #{:name => 'Groups', :url => groups_url, :id => 'groups'},
-             {:name => 'Global Role Grants', :url => permissions_url, :id => 'permissions'},
+    @tabs = [{:name => t('application_controller.admin_tabs.users'), :url => users_url, :id => 'users'},
+             #{:name => t('application_controller.admin_tabs.groups'), :url => groups_url, :id => 'groups'},
+             {:name => t('application_controller.admin_tabs.permissions'), :url => permissions_url, :id => 'permissions'},
     ]
     unless @details_tab = @tabs.find {|t| t[:id] == tab}
       raise "Tab '#{tab}' doesn't exist"
