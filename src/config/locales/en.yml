@@ -169,7 +169,7 @@ en:
     overview:
       pool_name: %{pool} Pool
       header: Deploy "%{deployment}" to %{pool} Pool?
-      confirmation: >
+      confirmation:
         Are you sure you wish to deploy "%{deployment}" to the %{pool} Pool? Doing
         so will utilize %{quota} of your overall deployment quota.
       deployable_uri: Deployable URI
@@ -193,6 +193,9 @@ en:
       to_pool: "to %{name} Pool"
       already_in_use: That name is already in use
       name_available: Name available
+      next: Next
+      load_definition: Load definition from URL
+      other: other
     operation:
       operational_status: Operational status of
       count_of_instances: "Count of instances:"
@@ -238,6 +241,8 @@ en:
           other: "The deployments %{list} were successfully updated."
     errors:
       config_server_connection: 'Cannot connect to the config server'
+      stop_invalid_action: "stop is an invalid action."
+      cannot_stop: "stop cannot be performed on this instance."
   instances:
     instances: Instances
     instance: Instance
