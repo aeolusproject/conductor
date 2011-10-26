@@ -216,3 +216,22 @@ form.generic section.services {
     font-weight: normal;
   }
 }
+
+.instances_list {
+  li {
+    list-style-type: none;
+  }
+
+  .state {
+    font-weight: bold;
+  }
+
+  li.instance {
+    margin-top: 1em;
+    font-weight: bold;
+
+    ul {
+      font-weight: normal;
+    }
+  }
+}

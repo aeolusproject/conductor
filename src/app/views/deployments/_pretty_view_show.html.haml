@@ -2,7 +2,7 @@
   %h2=t 'instances.instances'
 %ul.instances_list
   - @deployment.instances.each do |instance|
-    %li
+    %li.instance
       = instance.name
       %ul
         %li
@@ -10,7 +10,7 @@
           = instance.public_addresses
         %li
           = t 'deployments.pretty_view_show.state'
-          = instance.state
+          %span.state= instance.state
       - if instance.instance_key
         %li
           = link_to t('deployments.pretty_view_show.download_key'), key_instance_path(instance)
@@ -22,10 +22,11 @@
 
 %script#instanceTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain
-    <li>${name}
+    <li class="instance">${name}
       <ul>
-        <li>#{t('deployments.pretty_view_show.ip_address')}: ${public_addresses}</li>
-        <li>#{t('deployments.pretty_view_show.state')}: ${state}</li>
+        <li>#{t('deployments.pretty_view_show.ip_address')} ${public_addresses}</li>
+        <li>#{t('deployments.pretty_view_show.state')}
+          <span class="state">${state}</span></li>
         {{if has_key}}
           <li><a href="#{key_instance_path('replace_id').sub('replace_id', '${id}')}">#{t('deployments.pretty_view_show.download_key')}</a></li>
         {{/if}}
