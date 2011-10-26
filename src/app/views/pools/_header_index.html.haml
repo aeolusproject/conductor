@@ -3,7 +3,7 @@
   #obj_actions.button-container
     .button-group
       = pretty_filter_toggle(pools_path(:view => 'pretty'), pools_path(:view => 'filter'))
-    = link_to t('pools.index.new_pool'), new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
+    = link_to t('pools.new_pool'), new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
   .corner &nbsp;
 
 = render :partial => 'scoreboard_index'

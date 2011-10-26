@@ -166,10 +166,10 @@ class DeploymentsController < ApplicationController
       @view = 'pretty_view_show'
     end
     #TODO add links to real data for history, permissions, services
-    @tabs = [{:name => 'Instances', :view => @view, :id => 'instances', :count => @deployment.instances.count},
+    @tabs = [{:name => t('instances.instances'), :view => @view, :id => 'instances', :count => @deployment.instances.count},
              #{:name => 'Services', :view => @view, :id => 'services'},
              #{:name => 'History', :view => 'history', :id => 'history'},
-             {:name => 'Properties', :view => 'properties', :id => 'properties'}
+             {:name => t('properties'), :view => 'properties', :id => 'properties'}
              #{:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
     ]
     add_permissions_tab(@deployment)
@@ -276,13 +276,13 @@ class DeploymentsController < ApplicationController
         begin
           require_privilege(Privilege::USE,instance)
           unless instance.valid_action?('stop')
-            raise ActionError.new("stop is an invalid action.")
+            raise ActionError.new(t('deployments.errors.stop_invalid_action'))
           end
 
           #permissons check here
           @task = instance.queue_action(current_user, 'stop')
           unless @task
-            raise ActionError.new("stop cannot be performed on this instance.")
+            raise ActionError.new(t('deployments.errors.cannot_stop'))
           end
           Taskomatic.stop_instance(@task)
           notices << "#{t('deployments.deployment')}: #{instance.deployment.name}, #{t('instances.instance')}:  #{instance.name}: #{t('deployments.flash.notice.stop')}"

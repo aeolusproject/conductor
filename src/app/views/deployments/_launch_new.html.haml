@@ -31,7 +31,7 @@
         %p
           %label{:for => 'catalog_entry_id'}
             = t('catalog_entries.index.catalog_entry')
-          = select_tag :catalog_entry_id, options_for_select([['Load definition from URL', 'other']] + @catalog_entries.map {|d| [d.name, d.id]}, params[:catalog_entry_id])
+          = select_tag :catalog_entry_id, options_for_select([[t('.load_definition'), t('.other')]] + @catalog_entries.map {|d| [d.name, d.id]}, params[:catalog_entry_id])
         %p#deployable-url-section
           %label{:for => 'deployable_url'}
             = t('deployables.index.deployable_url')
@@ -46,7 +46,7 @@
           = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
 
       %fieldset.options
-        = submit_tag 'Next', :class => 'button', :id => "next_button"
+        = submit_tag t('.next'), :class => 'button', :id => "next_button"
 
 
 :javascript
