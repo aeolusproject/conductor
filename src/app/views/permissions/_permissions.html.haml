@@ -1,6 +1,6 @@
 - content_for :form_header do
   - if check_privilege(Privilege::PERM_SET)
-    %li= link_to t('permissions.form.grant_access'), new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id), { :class => 'button primary', :id => 'new_permission_button'}
+    %li= link_to t('permissions.form.grant_access'), new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id, :path_prefix => @path_prefix), { :class => 'button primary', :id => 'new_permission_button'}
     %li= restful_submit_tag t('permissions.revoke_access'), "destroy", multi_destroy_permissions_path, 'DELETE', :id => 'revoke_button', :class => 'button danger'
     %li= restful_submit_tag t('edit'), "multi_update", multi_update_permissions_path, 'POST', :id => 'edit_button', :class => 'hidden'
     = hidden_field_tag :permission_object_type, @permission_object.class.name
