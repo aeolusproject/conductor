@@ -77,6 +77,27 @@ namespace :dc do
     Rake::Task[:'dc:create_admin_user'].invoke
   end
 
+  desc 'Generate keys for OAuth and create config/oauth.json'
+  task :oauth_keys do
+    oauth_config_file = "#{::Rails.root}/config/oauth.json"
+    if File.exist?(oauth_config_file)
+      puts "config/oauth.json already exists; not overwriting"
+    else
+      oauth_keys = {
+        :iwhd => {
+          :consumer_key => random_key,
+          :consumer_secret => random_key
+        },
+        :factory => {
+          :consumer_key => random_key,
+          :consumer_secret => random_key
+        }
+      }
+      key_file = File.open(oauth_config_file, 'w+')
+      key_file.write(oauth_keys.to_json)
+    end
+  end
+
   def get_account(provider_name, account_name)
     unless provider = Provider.find_by_name(provider_name)
       raise "There is no provider with '#{provider_name}' name"
@@ -85,5 +106,9 @@ namespace :dc do
       raise "There is no account with '#{account_name}' label"
     end
     account
+  end
+
+  def random_key(bytes=24)
+    SecureRandom.base64(bytes)
   end
 end
