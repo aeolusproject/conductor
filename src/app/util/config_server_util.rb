@@ -155,9 +155,10 @@ module ConfigServerUtil
     attr_reader :hardware_profile, :realm, :uuid
     attr_reader :services, :provided_params
 
-    def initialize(assembly, assembly_uuids, config_values, deployable_id, deployable_name, config_server)
+    def initialize(instance, assembly_uuids, config_values, deployable_id, deployable_name, config_server)
       super()
-      @assembly = assembly
+      @instance = instance
+      @assembly = instance.assembly_xml
       @assembly_uuids = assembly_uuids
       @config_values = config_values || {}
       @deployable_id = deployable_id
@@ -165,37 +166,21 @@ module ConfigServerUtil
 
       @config_server = config_server
 
-      @uuid = @assembly_uuids[@assembly.name]
+      @uuid = @instance.uuid
     end
 
     def hardware_profile
       @assembly.hwd if @assembly
     end
 
-    def user_data(opts={})
-      opts[:base_64] ||= true
-      user_data = "#{@config_server.host}:#{@config_server.port}:#{@uuid}"
-      if @config_server.password
-        # if the config server requires a password, use "password" for this
-        # guest
-        user_data << ":password"
-      end
-      return (opts[:base_64]) ? [user_data].pack("m0").delete("\n") : user_data
-    end
-
     def to_s
-      to_xml
+      @config_xml ||= to_xml
     end
 
     protected
     def _xml
-      password = nil
-      if @config_server and @config_server.password
-        password = "password".crypt("NaCl")
-      end
-      xml "<instance-config id='#{@uuid}' name='#{@assembly.name}'"
-      xml " password='#{password}'" if password
-      xml ">\n  <deployable name='#{@deployable_name}' id='#{@deployable_id}'/>\n"
+      xml "<instance-config id='#{@uuid}' name='#{@assembly.name}' secret='#{@instance.secret}'>\n"
+      xml "  <deployable name='#{@deployable_name}' id='#{@deployable_id}'/>\n"
       xml "  <provided-parameters>\n"
       provided_parameters.map do |p|
         xml "    <provided-parameter name='#{p}'/>\n"
@@ -254,20 +239,27 @@ module ConfigServerUtil
     end
   end
 
-  def self.instance_configs(deployable, config_values, config_server)
-    deployable_id = UUIDTools::UUID.timestamp_create.to_s
+  # Generates the instance configuration data for all the instances
+  # in a deployable.  The instance configurations need to be generated together
+  # in order to resolve inter-assembly dependent parameters.
+  def self.instance_configs(deployment, instances, config_server)
+    deployment_id = deployment.uuid
+    deployable = deployment.deployable_xml
     # we need the list of assembly UUIDs before we start processing the
     # assemblies to help resolve cross assembly dependencies
-    assembly_uuids = deployable.assemblies.map do |assembly|
-      {assembly.name => UUIDTools::UUID.timestamp_create.to_s}
-    end.inject :merge
-    deployable.assemblies.map do |assembly|
-      if assembly.requires_config_server?
-        values = config_values.nil? ? nil : config_values[assembly.name]
-        {assembly.name => InstanceConfigXML.new(assembly, assembly_uuids,
-                              values, deployable_id, deployable.name,
-                              config_server)}
-      end
+
+    # need to have the list of instance UUIDs before processing the instance
+    # configurations in order to resolve inter-assembly dependencies
+    assembly_uuids = {}
+    instances.each do |instance|
+      assembly_uuids[instance.assembly_xml.name] = instance.uuid
+      instance.secret = Instance.generate_oauth_secret
+      instance.save!
+    end
+    instances.map do |instance|
+      {instance.uuid => InstanceConfigXML.new(instance, assembly_uuids,
+                                              nil, deployment_id, deployable.name,
+                                              config_server)}
     end.compact.inject :merge
   end
 end

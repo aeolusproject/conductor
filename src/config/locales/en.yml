@@ -810,11 +810,9 @@ en:
     edit:
       edit_config_server: Edit Config Server
     config_server_form:
-      host: Host
-      port: Port
-      username: Username
-      password: Password
-      certificate: Certificate
+      endpoint: Server Endpoint (URL)
+      key: Consumer Key
+      secret: Consumer Secret
     flash:
       notice:
         test_successful: Test successful
@@ -829,7 +827,6 @@ en:
       connection:
         generic: "Could not validate config server connection (url: %{url}).  Check the connection parameters and try again."
         generic_with_message: "Could not validate config server connection (url: %{url}).  %{msg}"
-        certificate: "Could not validate config server connection (url: %{url}).  Certificate error: %{msg}"
         unhandled_response: "Could not validate config server connection (url: %{url}).  HTTP Status Code: %{code}"
   uptime: Uptime
   deltacloud:

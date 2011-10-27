@@ -18,8 +18,9 @@ Feature: Config Servers
     And I should see "[ Add ]" within "#config_server_control"
     When I follow "Add"
     Then I should be on the new config server page
-    When I fill in "config_server[host]" with "valid_host"
-    When I fill in "config_server[port]" with "valid_port"
+    When I fill in "config_server[endpoint]" with "valid"
+    And I fill in "config_server[key]" with "valid"
+    And I fill in "config_server[secret]" with "valid"
     And I press "Save"
     Then I should be on mockprovider's provider mock_account's provider account page
     And I should see "Config server added"
@@ -27,17 +28,18 @@ Feature: Config Servers
 
   # This is essentially the same scenario as the first, but creates
   # a different stubbed ConfigServer, so it fails
-  Scenario: I cannot add a config server with invalid host or port information
+  Scenario: I cannot add a config server with invalid endpoint
     Given I am on the homepage
     And there is mock provider account "mock_account"
-    And I am not sure about the config server host
+    And I am not sure about the config server endpoint
     When I go to mockprovider's provider mock_account's provider account page
     Then I should see "None" within "#config_server"
     And I should see "[ Add ]" within "#config_server_control"
     When I follow "Add"
     Then I should be on the new config server page
-    When I fill in "config_server[host]" with "invalid"
-    When I fill in "config_server[port]" with "invalid"
+    When I fill in "config_server[endpoint]" with "invalid"
+    And I fill in "config_server[key]" with "valid"
+    And I fill in "config_server[secret]" with "valid"
     And I press "Save"
     Then I should see "The config server information is invalid"
     And I should see "Could not validate config server connection"
@@ -53,10 +55,9 @@ Feature: Config Servers
     And I should see "[ Add ]" within "#config_server_control"
     When I follow "Add"
     Then I should be on the new config server page
-    When I fill in "config_server[host]" with "valid"
-    When I fill in "config_server[port]" with "valid"
-    When I fill in "config_server[username]" with "invalid"
-    When I fill in "config_server[password]" with "invalid"
+    When I fill in "config_server[endpoint]" with "valid"
+    When I fill in "config_server[key]" with "invalid"
+    When I fill in "config_server[secret]" with "invalid"
     And I press "Save"
     Then I should see "The config server information is invalid"
     And I should see "Could not validate config server connection"
@@ -92,16 +93,16 @@ Feature: Config Servers
 
   Scenario: I should see an error when I test a config server with invalid credentials
     Given I am on the homepage
-    And there is a mock config server "https://bad_credentials:443" for account "mock_account"
+    And there is a mock config server "https://bad_credentials" for account "mock_account"
     When I go to mockprovider's provider mock_account's provider account page
     Then I should see "[ Test ]" within "#config_server_control"
     When I follow "Test" within "#config_server_control"
     Then I should see "Could not validate config server connection"
     And I should see "Unauthorized"
 
-  Scenario: I should see an error when I test a config server with an invalid host
+  Scenario: I should see an error when I test a config server with an invalid endpoint
     Given I am on the homepage
-    And there is a mock config server "https://bad_host:443" for account "mock_account"
+    And there is a mock config server "https://bad_host" for account "mock_account"
     When I go to mockprovider's provider mock_account's provider account page
     Then I should see "[ Test ]" within "#config_server_control"
     When I follow "Test" within "#config_server_control"

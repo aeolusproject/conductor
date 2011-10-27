@@ -23,7 +23,7 @@
       %td
         - missing_config_server = @provider_account.config_server.nil?
         %span#config_server
-          = missing_config_server ? t('provider_accounts.properties.none') : @provider_account.config_server.base_url
+          = missing_config_server ? t('provider_accounts.properties.none') : @provider_account.config_server.endpoint
         %span#config_server_control
           - if missing_config_server
             [

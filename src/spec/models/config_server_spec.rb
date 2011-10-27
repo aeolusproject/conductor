@@ -6,26 +6,22 @@ describe ConfigServer do
       @config_server = Factory.build :mock_config_server
     end
 
-    it "should require a host" do
+    it "should require an endpoint" do
       @config_server.should be_valid
-      @config_server.host = nil
+      @config_server.endpoint = nil
       @config_server.should_not be_valid
     end
 
-    it "should require a port" do
+    it "should require a key" do
       @config_server.should be_valid
-      @config_server.port = nil
+      @config_server.key = nil
       @config_server.should_not be_valid
     end
 
-    it "should suggest https when a cert is present" do
-      @config_server.certificate = "abc"
-      @config_server.base_url.should =~ /https:\/\/.*/
-    end
-
-    it "should suggest http when a cert is not present" do
-      @config_server.certificate = nil
-      @config_server.base_url.should =~ /http:\/\/.*/
+    it "should require a secret" do
+      @config_server.should be_valid
+      @config_server.secret = nil
+      @config_server.should_not be_valid
     end
   end
 

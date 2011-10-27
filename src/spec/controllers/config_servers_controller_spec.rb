@@ -26,7 +26,7 @@ describe ConfigServersController do
 
     it "should allow users with account modify permissions to update a Config Server" do
       mock_warden(@admin)
-      post :update, :id => @config_server.id, :config_server => {:host => "host", :port => "port"}
+      post :update, :id => @config_server.id, :config_server => {:endpoint => "https://localhost", :key => "key", :secret => "secret"}
       response.should be_success
     end
   end
@@ -49,12 +49,13 @@ describe ConfigServersController do
 
     it "should allow users with account modify permissions to create a Config Server" do
       mock_warden(@admin)
-      config_server = Factory :mock_config_server, :host => "host", :port => "port"
+      config_server = Factory :mock_config_server
       ConfigServer.stub!(:new).and_return(config_server)
       post :create, :provider_account_id => @provider_account.id,
         :config_server => {
-          :host => "host",
-          :port => "port"
+          :endpiont => "https://localhost",
+          :key => "key",
+          :secret => "secret"
         }
       response.should redirect_to(provider_provider_account_path(@provider_account.provider, @provider_account))
       request.flash[:error].should be_nil
@@ -62,52 +63,67 @@ describe ConfigServersController do
 
     it "should fail creating a config server when the username or password is invalid" do
       mock_warden(@admin)
-      config_server = Factory :invalid_credentials_config_server, :host => "host", :port => "port", :username => "invalid", :password => "invalid"
+      config_server = Factory :invalid_credentials_config_server, :endpoint => "https://localhost", :key => "invalid", :secret => "invalid"
       ConfigServer.stub!(:new).and_return(config_server)
       post :create, :provider_account_id => @provider_account.id,
         :config_server => {
-          :host => "host",
-          :port => "port",
-          :username => "invalid",
-          :password => "invalid"
+          :endpoint => "https://localhost",
+          :key => "invalid",
+          :secret => "invalid"
         }
       response.should be_success
       response.should render_template("new")
       request.flash[:error].should == "The config server information is invalid."
     end
 
-    it "should fail creating a config server when the host and port are invalid" do
+    it "should fail creating a config server when the endpoint is invalid" do
       mock_warden(@admin)
-      config_server = Factory :invalid_host_or_port_config_server, :host => "invalid", :port => "invalid"
+      config_server = Factory :invalid_endpoint_config_server
       ConfigServer.stub!(:new).and_return(config_server)
       post :create, :provider_account_id => @provider_account.id,
         :config_server => {
-          :host => "invalid",
-          :port => "invalid"
+          :endpoint => "invalid",
+          :key => "key",
+          :secret => "secret"
         }
       response.should be_success
       response.should render_template("new")
       request.flash[:error].should == "The config server information is invalid."
     end
 
-    it "should require that port is provided" do
+    it "should require that endpoint is provided" do
       mock_warden(@admin)
       post :create, :provider_account_id => @provider_account.id,
         :config_server => {
-          :host => "host",
-          :port => ""
+          :endpoint => "",
+          :key => "key",
+          :secret => "secret"
         }
       response.should be_success
       response.should render_template("new")
       request.flash[:error].should == "The config server information is invalid."
     end
 
-    it "should require that host is provided" do
+    it "should require that key is provided" do
       mock_warden(@admin)
       post :create, :provider_account_id => @provider_account.id,
         :config_server => {
-          :host => "",
-          :port => "port"
+          :endpoint => "https://localhost",
+          :key => "",
+          :secret => "secret"
+        }
+      response.should be_success
+      response.should render_template("new")
+      request.flash[:error].should == "The config server information is invalid."
+    end
+
+    it "should require that secret is provided" do
+      mock_warden(@admin)
+      post :create, :provider_account_id => @provider_account.id,
+        :config_server => {
+          :endpoint => "https://localhost",
+          :key => "key",
+          :secret => ""
         }
       response.should be_success
       response.should render_template("new")

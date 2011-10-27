@@ -31,6 +31,7 @@
 #  frontend_realm_id      :integer
 #  deployable_xml         :text
 #  scheduled_for_deletion :boolean         default(FALSE), not null
+#  uuid                   :text            not null
 #
 
 require 'util/deployable_xml'
@@ -64,6 +65,7 @@ class Deployment < ActiveRecord::Base
 
   before_destroy :destroyable?
   before_create :inject_launch_parameters
+  before_create :generate_uuid
 
   SEARCHABLE_COLUMNS = %w(name)
   USER_MUTABLE_ATTRS = ['name']
@@ -224,8 +226,9 @@ class Deployment < ActiveRecord::Base
         status[:errors][assembly.name] = $!.message
       end
     end
+    # figure out which config server to use
+    # and, generate the instance configurations for the instances
     if deployable_xml.requires_config_server?
-      # config server specific code
       matches, errors = Instance.matches(assembly_instances.values)
       if matches.empty?
         #TODO:need to have a way to show the errors in a meaningful way
@@ -234,14 +237,14 @@ class Deployment < ActiveRecord::Base
       end
       found = matches.first
       config_server = found.provider_account.config_server
-      instance_configs = ConfigServerUtil.instance_configs(deployable_xml, config_values, config_server)
+      instance_configs = ConfigServerUtil.instance_configs(self, assembly_instances.values, config_server)
     end
     # now actually do the launch
     assembly_instances.each do |assembly_name, instance|
-      config = instance_configs[assembly_name] if deployable_xml.requires_config_server?
+      config = instance_configs[instance.uuid] if deployable_xml.requires_config_server?
       begin
         if deployable_xml.requires_config_server?
-          instance.user_data = config.user_data
+          instance.user_data = Instance.generate_user_data(instance, config_server)
           instance.instance_config_xml = config.to_s
           instance.save!
         end
@@ -418,5 +421,9 @@ class Deployment < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def generate_uuid
+    self[:uuid] = UUIDTools::UUID.timestamp_create.to_s
   end
 end

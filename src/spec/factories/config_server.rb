@@ -1,12 +1,11 @@
 Factory.define :config_server do |f|
-  f.sequence(:host) {|n| "config_server#{n}" }
+  f.sequence(:endpoint) {|n| "config_server#{n}" }
 end
 
 Factory.define :base_config_server, :parent => :config_server do |f|
-  f.host "localhost"
-  f.port "80"
-  f.username "username"
-  f.password "password"
+  f.endpoint "https://localhost"
+  f.key "key0123456789"
+  f.secret "secret0123456789abcdefg"
 end
 
 Factory.define :mock_config_server, :parent => :base_config_server do |f|
@@ -17,10 +16,9 @@ Factory.define :mock_config_server, :parent => :base_config_server do |f|
 end
 
 Factory.define :invalid_credentials_config_server, :parent => :base_config_server do |f|
-  f.port "443"
-  f.username "bad_username"
-  f.password "bad_password"
-  f.certificate "cert"
+  f.endpoint "https://localhost"
+  f.key "bad_key"
+  f.secret "bad_secret"
   f.to_create do |cs|
     # the default_strategy initialization parameter seemed much better
   end
@@ -29,10 +27,11 @@ Factory.define :invalid_credentials_config_server, :parent => :base_config_serve
   end
 end
 
-Factory.define :invalid_host_or_port_config_server, :parent => :base_config_server do |f|
-  f.host "bad_host"
-  f.port "443"
-  f.certificate "cert"
+Factory.define :invalid_endpoint_config_server, :parent => :base_config_server do |f|
+  f.endpoint "https://bad_host"
+  f.key "bad_key"
+  f.secret "bad_secret"
+
   f.to_create do |cs|
     # the default_strategy initialization parameter seemed much better
   end

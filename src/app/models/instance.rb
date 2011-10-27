@@ -51,6 +51,9 @@
 #  image_build_uuid        :string(255)
 #  provider_image_uuid     :string(255)
 #  provider_instance_id    :string(255)
+#  user_data               :string(255)
+#  uuid                    :string(255)
+#  secret                  :string(255)
 #
 
 # Filters added to this controller apply to all controllers in the application.
@@ -93,6 +96,8 @@ class Instance < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id
   validates_length_of :name, :maximum => 1024
+
+  before_create :generate_uuid
 
   STATE_NEW            = "new"
   STATE_PENDING        = "pending"
@@ -275,6 +280,18 @@ class Instance < ActiveRecord::Base
     return stats
   end
 
+  USER_DATA_VERSION = "1"
+  OAUTH_SECRET_SEED = [('a'..'z'),('A'..'Z'),(0..9)].map{|i| i.to_a}.flatten
+  def self.generate_oauth_secret
+    # generates a string of between 40 and 50 characters consisting of a
+    # random selection of alphanumeric (upper and lower case) characters
+    (0..(rand(10) + 40)).map { OAUTH_SECRET_SEED[rand(OAUTH_SECRET_SEED.length)] }.join
+  end
+
+  def self.generate_user_data(instance, config_server)
+    ["#{USER_DATA_VERSION}|#{config_server.endpoint}|#{instance.uuid}|#{instance.secret}"].pack("m0").delete("\n")
+  end
+
   def restartable?
     # TODO: we don't support stateful instances yet, so it's `false` for the time being.
     # In the meantime, we can use this method to write validation code for cases
@@ -438,5 +455,9 @@ class Instance < ActiveRecord::Base
 
   def key_name
     "#{self.name}_#{Time.now.to_i}_key_#{self.object_id}".gsub(/[^a-zA-Z0-9\.\-]/, '_')
+  end
+
+  def generate_uuid
+    self[:uuid] = UUIDTools::UUID.timestamp_create.to_s
   end
 end
