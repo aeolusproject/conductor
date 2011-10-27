@@ -2293,12 +2293,15 @@ div.catalog_link{
 
 .catalog_link{
   background: url(../../images/deployment-button.png) no-repeat center;
-  padding: 7px 15px;
+  border: 1px solid #D4D4D4;
+  border-radius: 2px;
+  padding: 5px 14px;
 }
 
 .catalog_link:hover{
   background-color:#e0e0e0;
-  background: url(../../images/deployment-button-pressed.png) no-repeat center;
+  border-color: #999;
+  background: url(../../images/deployment-button-pressed.png) no-repeat top center;
   ul li {
     list-style-type: none;
   }
@@ -2308,12 +2311,35 @@ div.catalog_link{
     position:absolute;
     z-index:1000;
     background-color:#e0e0e0;
-    right:-14px;
-    top:5px;
+    top: 5px;
+    right: -15px;
     -webkit-border-radius: 7px 0px 7px 7px; -moz-border-radius: 7px 0px 7px 7px; border-radius: 7px 0px 7px 7px;
     /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.50);
     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.50);
     -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.50);*/
+  }
+}
+
+#content ul.content.actions li.catalog_link {
+  margin-left: 2px;
+}
+
+#obj_actions .catalog_link {
+  width: 30px;
+  height: 23px;
+  padding: 0;
+  margin: 0 15px 0 2px;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  border-color: white;
+
+  &:hover {
+    border-color: #999;
+  }
+
+  .more {
+    top: 9px;
+    right: -1px;
   }
 }
 
