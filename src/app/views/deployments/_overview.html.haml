@@ -16,7 +16,7 @@
   %section.content-section.deployable_details
     %header.confirmation
       %h2= t('.header', :deployment => @deployment.name, :pool => @pool.name)
-      %p= t('.confirmation', :deployment => @deployment.name, :pool => @pool.name, :quota => 10)
+      %p= t('.confirmation', :deployment => @deployment.name, :pool => @pool.name, :quota => number_to_percentage(@additional_quota, :precision => 0))
 
     .content
       %h3= t '.description'

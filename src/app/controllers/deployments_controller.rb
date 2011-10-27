@@ -72,6 +72,7 @@ class DeploymentsController < ApplicationController
     if @services.empty? or @services.all? {|s, a| s.parameters.empty?}
       # we can skip the launch-time parameters screen
       check_assemblies_for_errors
+      @additional_quota = count_additional_quota(@deployment)
       render 'overview' and return
     end
   end
@@ -88,6 +89,8 @@ class DeploymentsController < ApplicationController
     respond_to do |format|
       if @deployment.accessible_and_valid_deployable_xml?(@deployable_url)
         check_assemblies_for_errors
+        @additional_quota = count_additional_quota(@deployment)
+
         format.html
         format.js { render :partial => 'overview' }
         format.json { render :json => @deployment }
@@ -339,6 +342,11 @@ class DeploymentsController < ApplicationController
                               :conditions => {:pool_id => @pools},
                               :order => (sort_column(Deployment) +' '+ sort_direction)
     )
+  end
+
+  def count_additional_quota(deployment)
+    assembly_count = deployment.deployable_xml.assemblies.count
+    @additional_quota = deployment.pool.quota.percentage_used(assembly_count)
   end
 
   def load_deployment

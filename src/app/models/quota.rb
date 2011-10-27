@@ -142,13 +142,13 @@ class Quota < ActiveRecord::Base
     return quota_resources
   end
 
-  def percentage_used
-    if Quota.no_limit(maximum_running_instances) || running_instances == 0
+  def percentage_used(count=running_instances)
+    if Quota.no_limit(maximum_running_instances) || count == 0
       return 0
     elsif maximum_running_instances == 0
       return 100
     else
-      percentage_used = (running_instances.to_f / maximum_running_instances.to_f) * 100
+      percentage_used = (count.to_f / maximum_running_instances.to_f) * 100
       return percentage_used
     end
   end
