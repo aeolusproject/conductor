@@ -176,6 +176,11 @@ en:
       description: Description
       image_ids: Image IDs
       launch: Launch
+    launch_from_catalog:
+      profile: Profile
+      hint: Choose a deployable to launch in the "%{pool}" pool
+      details: Details
+      select: Select
     new:
       launch: Launch this deployment
       deployable_definition: Deployable definition
@@ -561,7 +566,7 @@ en:
     flash:
       warning:
         not_valid_or_reachable: Catalog entry XML file is either invalid or no longer reachable at
-        not_valid: Deployable url doesn't resolve valid XML file
+        not_valid: "Deployable url doesn't resolve valid XML file"
       notice:
         added: Catalog entry added.
         updated: Catalog entry updated successfully!

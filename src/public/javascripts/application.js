@@ -142,7 +142,7 @@ $.extend(Conductor, {
   toggleCollapsible: function() {
     $('.collapse').click(function(e) {
       e.preventDefault();
-      $(this).parents('section').find('.collapsible').slideToggle(80);
+      $(this).parents('.collapse_entity').find('.collapsible').slideToggle(80);
     });
   },
 
