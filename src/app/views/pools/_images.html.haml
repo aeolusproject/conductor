@@ -1,19 +1,26 @@
-- @map.each_pair do |catalog, catalog_entries|
-  %h1{:style => 'font-size: 18pt;'}
-    = catalog.name
-    = t('.catalog')
+-if flash[:error]
+  -if flash[:error].kind_of?(String)
+    .flash-subset
+      %div.heading
+        =image_tag 'flash_error_icon.png', :alt => 'Errors'
+        =flash[:error]
+-else
+  - @map.each_pair do |catalog, catalog_entries|
+    %h1{:style => 'font-size: 18pt;'}
+      = catalog.name
+      = t('.catalog')
 
-  - catalog_entries.each_pair do |entry, images|
-    %h2{:style => 'font-size: 16pt;'}
-      = entry.name
-      = t('.catalog_entry')
+    - catalog_entries.each_pair do |entry, images|
+      %h2{:style => 'font-size: 16pt;'}
+        = entry.name
+        = t('.catalog_entry')
 
-    - images.each_pair do |image, provider_images|
-      %h3{:style => 'font-size: 14pt;'}
-        = t('.image')
-        = "#{image.name} (#{image.uuid})"
+      - images.each_pair do |image, provider_images|
+        %h3{:style => 'font-size: 14pt;'}
+          = t('.image')
+          = "#{image.name} (#{image.uuid})"
 
-      %ul
-      - provider_images.each do |provider_image|
-        %li
-          = t('.pushed', :uuid => provider_image.uuid, :provider => provider_image.provider_name)
+        %ul
+        - provider_images.each do |provider_image|
+          %li
+            = t('.pushed', :uuid => provider_image.uuid, :provider => provider_image.provider_name)

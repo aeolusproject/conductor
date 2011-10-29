@@ -206,4 +206,4 @@ Scenario: Select Catalog Images on pool detail page
     And "mockcatalog" has catalog_entry "mockcatalogentry"
     When I am viewing the pool "mockpool"
     And I follow link with ID "details_images"
-    Then I should see "mockcatalog" within "#tab"
+    Then I should see a pools "mockcatalog" within "#tab"

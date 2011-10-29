@@ -94,7 +94,11 @@ class PoolsController < ApplicationController
              {:name => "#{t'catalog_images'}", :view => 'images', :id => 'images'}
     ]
     if "images" == params[:details_tab]
-      @map = @pool.provider_image_map
+      begin
+        @map = @pool.provider_image_map
+      rescue
+        flash[:error] = t 'pools.flash.error.iwhd_unavailable' 
+      end
     end
     add_permissions_tab(@pool)
 

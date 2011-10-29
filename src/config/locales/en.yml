@@ -396,6 +396,7 @@ en:
           other: Pools %{list} were not deleted. They have instances associated with them.
         not_updated: "Pool wasn't updated!"
         default_pool_not_deleted: The default pool cannot be deleted
+        iwhd_unavailable: Catalog Images are unavailable. It appears the image warehouse is not reachable
       warning:
         creation_failed: Pool creation failed.
     valid_format_of_name: "must only contain: numbers, letters, spaces, '_' and '-'"

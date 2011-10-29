@@ -77,6 +77,14 @@ Given /^I renamed Default to pool_default$/ do
   p.save
 end
 
+Then /^I should see a pools "([^""]*)"$/ do |arg1|
+  if page.has_content? "unavailable"
+    page.should have_content("Catalog Images are unavailable. It appears the image warehouse is not reachable")
+  else
+    page.should have_content(arg1)
+  end
+end
+
 Then /^I should see (\d+) pools in JSON format$/ do |arg1|
   data = ActiveSupport::JSON.decode(page.source)
   data.length.should == arg1.to_i
