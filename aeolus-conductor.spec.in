@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  0%{?dist}
+Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
