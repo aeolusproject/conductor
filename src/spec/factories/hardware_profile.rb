@@ -28,7 +28,7 @@ FactoryGirl.define do
     storage { |p| p.association(:mock_hwp1_storage) }
     cpu { |p| p.association(:mock_hwp1_cpu) }
     architecture { |p| p.association(:mock_hwp1_arch) }
-    sequence(:external_key) { |n| "m1-small" }
+    sequence(:external_key) { |n| "m1-xlarge" }
   end
 
   factory :mock_hwp2, :parent => :hardware_profile do

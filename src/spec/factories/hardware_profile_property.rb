@@ -25,21 +25,21 @@ FactoryGirl.define do
     name 'memory'
     kind 'fixed'
     unit 'MB'
-    value 1740.8
+    value 12288
   end
 
   factory :mock_hwp1_storage, :parent => :hardware_profile_property do
     name 'storage'
     kind 'fixed'
     unit 'GB'
-    value 160
+    value 4096
   end
 
   factory :mock_hwp1_cpu, :parent => :hardware_profile_property do
     name 'cpu'
     kind 'fixed'
     unit 'count'
-    value 1
+    value 4
   end
 
   factory :mock_hwp1_arch, :parent => :hardware_profile_property do
