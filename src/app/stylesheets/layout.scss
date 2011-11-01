@@ -2264,11 +2264,11 @@ ul.deployment-array.small + ul.deployment-array.small{
 /************************************************************************** */
 
 .catalog_link{
-  background: #ececec url(../../images/deployment-button.png) no-repeat center;
+  background: #ececec url(../../images/deployment-button.png) no-repeat 1px 1px;
   border: 1px solid #D4D4D4;
   border-radius: 2px;
-  font-size: 15px;
-  padding: 4px 14px 3px 14px;
+  font:11px/normal sans-serif;
+  padding: 0.5em 14px 0.5em 14px;
   display:inline-block;
   vertical-align: top;
 
@@ -2279,16 +2279,27 @@ ul.deployment-array.small + ul.deployment-array.small{
       font-size: 12px;
       width: 164px;
       border: 1px solid #999999;
+      border-top: none;
       display:none;
       position:absolute;
       z-index:1000;
-      background-color:#e0e0e0;
-      top: 7px;
+      background-color:#ececec;
+      top: 10px;
       right: -15px;
       -webkit-border-radius: 4px 0px 4px 4px; -moz-border-radius: 4px 0px 4px 4px; border-radius: 4px 0px 4px 4px;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.50);
-      -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.50);
-      -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.50);
+      box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
+      -moz-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
+      -webkit-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
+      &:before{
+        content:"";
+        position: absolute;
+        left: -1px;
+        width: 132px;
+        height: 4px;
+        border-top: 1px solid #999;
+        border-left: 1px solid #999;
+        -webkit-border-radius: 4px 0px 0px 0px; -moz-border-radius: 4px 0px 0px 0px; border-radius: 4px 0px 0px 0px;
+      }
       li.catalog{
         list-style-type: none;
         width:100%;
@@ -2311,10 +2322,10 @@ ul.deployment-array.small + ul.deployment-array.small{
   &:hover{
     border-color: #999;
     background: #ececec url(../../images/deployment-button-pressed.png) no-repeat 2px 0px;
-    padding: 4px 14px 10px 14px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.50);
-    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.50);
-    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.50);
+    padding: 0.5em 14px 1em 14px;
+    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
+    -moz-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
+    -webkit-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
 
     .more{
       display: block;
