@@ -2885,6 +2885,7 @@ footer.standard{
   clear: both;
 
   div.container{
+    position: relative;
     margin: 0 auto;
     width: 946px;
     background: rgba(0, 0, 0, 0.12);
@@ -2892,13 +2893,18 @@ footer.standard{
     height: 40px;
   }
 
-  img.logo{
+  .logo{
     margin-right: 14px;
+    font-size: 18px;
+    top: 9px;
+    position: absolute;
   }
 
-  span.copyright{
-    display: inline-block;
-    color: #666;
+  #legal {
+    position: absolute;
+    top: 0;
+    right: 1em;
+    color: #fff;
   }
 
   nav.footer{
@@ -2906,9 +2912,14 @@ footer.standard{
     padding: 14px 14px 13px 14px;
     a{
       color: #fff;
-      padding-right: 6px;
+      margin-right: 6px;
+      text-decoration: none;
+      border-bottom: 1px dotted;
     }
   }
 
+  span.copyright{
+    display: inline-block;
+  }
 }
 
