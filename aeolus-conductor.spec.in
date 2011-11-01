@@ -276,7 +276,15 @@ fi
 %files
 %dir %{app_root}
 %{app_root}/app
-%{app_root}/config
+%dir %{app_root}/config
+%{app_root}/config/environments
+%{app_root}/config/initializers
+%{app_root}/config/locales
+%{app_root}/config/*.rb
+%{app_root}/config/database.mysql
+%{app_root}/config/database.pg
+%{app_root}/config/database.sqlite
+%config %{app_root}/config/*.yml
 %{app_root}/config.ru
 %{app_root}/db
 %{app_root}/dbomatic
