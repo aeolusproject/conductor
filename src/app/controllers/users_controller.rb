@@ -139,7 +139,7 @@ class UsersController < ApplicationController
   protected
 
   def load_users
-    @users = User.all
+    @users = User.apply_preset_filter(params[:users_preset_filter])
     sort_order = params[:sort_by].nil? ? "login" : params[:sort_by]
     # TODO: (lmartinc) Optimize this sort! hell!
     if sort_order == "percentage_quota_used"
@@ -147,7 +147,7 @@ class UsersController < ApplicationController
     elsif sort_order == "quota"
       @users.sort! {|x,y| (x.quota.maximum_running_instances and y.quota.maximum_running_instances) ? x.quota.maximum_running_instances <=> y.quota.maximum_running_instances : (x ? 1 : -1) }
     else
-      @users = User.all(:order => sort_order)
+      @users = User.apply_preset_filter(params[:users_preset_filter]).order(sort_order)
     end
   end
 

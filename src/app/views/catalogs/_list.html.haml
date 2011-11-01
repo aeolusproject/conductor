@@ -2,6 +2,21 @@
   %li= restful_submit_tag t("delete"), "destroy", multi_destroy_catalogs_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
   %li= link_to t("catalogs.new_catalog"), new_catalog_path, :id => 'new_catalog_button', :class => 'button'
 
+- content_for :filter_controls do
+  %li
+    = label_tag :catalogs_preset_filter, t('filter_table.viewing')
+    = select_tag(:catalogs_preset_filter, options_for_select(Catalog::PRESET_FILTERS_OPTIONS.collect{|x| [x[:title], x[:id]]}, :selected => params[:catalogs_preset_filter]), :include_blank => "All Catalogs")
+    = restful_submit_tag "Apply", "index", catalogs_path, 'GET', :class => 'button', :id => 'apply_catalogs_preset_filter'
+    %span.label.badge.dark= @catalogs.count
+
+  :javascript
+    $(document).ready(function(){
+      $("#apply_catalogs_preset_filter").hide();
+      $("#catalogs_preset_filter").change(function() {
+        $("#apply_catalogs_preset_filter").click();
+      });
+    });
+
 = filter_table(@header, @catalogs) do |catalog|
   %tr{:class => cycle('nostripe','stripe')}
     %td{:class => 'checkbox'}

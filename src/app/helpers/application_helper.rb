@@ -68,12 +68,10 @@ module ApplicationHelper
 
   def filter_table(columns, rows, options={}, &block)
     _class = rows.first.try(:class) || Object
-    filter_widgets_opts = options[:show_filter_widgets]
     render :partial => 'layouts/filter_table', :locals => {
         :form_header => options[:form_header] || :form_header,
+        :filter_controls => options[:filter_controls] || :filter_controls,
         :form_footer => options[:form_footer] || :form_footer,
-        # TODO - Right now saved_searches are not functional; this will need to be expanded
-        :saved_searches => ["<option>All #{_class.name.pluralize}</option>"],
         :object_count => rows.count,
         # TODO - We need to support searches and filters below
         :search_term => nil,
@@ -82,7 +80,6 @@ module ApplicationHelper
         :lower_class => _class.to_s.tableize,
         :block => block,
         :rows => rows,
-        :show_filter_widgets => filter_widgets_opts.nil? ? true : filter_widgets_opts,
     }
   end
 
