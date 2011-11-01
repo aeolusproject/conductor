@@ -26,7 +26,6 @@ Feature: Manage Deployments
 
   #It's difficult to mock out all the dependencies to get the instance launching
   #working in a testable scenario.
-  @wip
   Scenario: Launch new deployment
     Given a pool "mockpool" exists
     And there is "front_hwp1" conductor hardware profile
@@ -80,7 +79,6 @@ Feature: Manage Deployments
     And I press "stop_button"
     Then I should see "testdeployment"
 
-  @wip
   Scenario: Stop a deployment over XHR
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
     And I request XHR
@@ -177,7 +175,6 @@ Feature: Manage Deployments
     When I follow "details_instances"
     Then I should see "testdeployment"
 
-  @wip
   Scenario: Delete a deployment
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
     And I am on the pools page
@@ -185,7 +182,6 @@ Feature: Manage Deployments
     And I press "delete"
     Then I should see "The deployment testdeployment was scheduled for deletion"
 
-  @wip
   Scenario: Delete multiple deployments
     Given a deployment "mydeployment1" exists
     And a deployment "mydeployment2" exists
@@ -197,7 +193,6 @@ Feature: Manage Deployments
     And I press "delete_button"
     Then I should see "The deployments mydeployment1, mydeployment2 were scheduled for deletion"
 
-  @wip
   Scenario: Delete a deployment with running instances
     Given a deployment "mockdeployment" exists
     And the deployment "mockdeployment" has an instance named "myinstance"
