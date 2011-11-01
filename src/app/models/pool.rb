@@ -77,10 +77,6 @@ class Pool < ActiveRecord::Base
     instances.all? {|i| i.destroyable? }
   end
 
-  def enabled?
-    self.enabled and pool_family and pool_family.enabled?
-  end
-
   # TODO: Implement Alerts and Updates
   def statistics
     # TODO - Need to set up cache invalidation before this is safe

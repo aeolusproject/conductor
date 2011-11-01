@@ -93,7 +93,8 @@ class Deployment < ActiveRecord::Base
   end
 
   def pool_must_be_enabled
-    errors.add(:pool, "must be enabled") unless pool and pool.enabled?
+    errors.add(:pool, I18n.t('pools.errors.must_be_enabled')) unless pool and pool.enabled?
+    errors.add(:pool, I18n.t('pools.errors.providers_disabled')) if pool and pool.pool_family.all_providers_disabled?
   end
 
   def object_list

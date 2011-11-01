@@ -230,16 +230,27 @@ describe Instance do
     export_string.include?("created").should be_true
   end
 
-  it "should not be launchable if its provider is disabled" do
-    instance = FactoryGirl.build(:instance_with_disabled_provider)
-    instance.should_not be_enabled
-    instance.should_not be_valid
+  it "should not be launchable on disabled provider account" do
+    instance = FactoryGirl.create(:instance)
+    pf = instance.pool.pool_family
+    pf.provider_accounts = [FactoryGirl.create(:disabled_provider_account)]
+    errors = instance.matches.last
+    errors.find {|e| e =~ /provider must be enabled/}.should_not be_nil
   end
 
   it "should not be launchable if its pool is disabled" do
     instance = FactoryGirl.build(:instance_in_disabled_pool)
-    instance.should_not be_enabled
     instance.should_not be_valid
+    instance.errors[:pool].should_not be_empty
+    instance.errors[:pool].first.should == "must be enabled"
+  end
+
+  it "should not be launchable if its pool's providers are all disabled" do
+    instance = FactoryGirl.build(:instance)
+    instance.pool.pool_family.provider_accounts << FactoryGirl.create(:disabled_provider_account)
+    instance.should_not be_valid
+    instance.errors[:pool].should_not be_empty
+    instance.errors[:pool].first.should == "has all associated providers disabled"
   end
 
   context "When more instances of deployment are starting" do

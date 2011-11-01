@@ -163,17 +163,9 @@ class Instance < ActiveRecord::Base
     return_val
   end
 
-  def enabled?
-    pool and pool.enabled? and (provider_account.nil? or provider_account.enabled?)
-  end
-
   def pool_and_account_enabled_validation
-    return if enabled?
-
-    errors.add(:pool, 'must be enabled') unless pool and pool.enabled?
-    unless provider_account.nil? or provider_account.enabled?
-      errors.add(:provider_account, 'must be enabled')
-    end
+    errors.add(:pool, I18n.t('pools.errors.must_be_enabled')) unless pool and pool.enabled?
+    errors.add(:pool, I18n.t('pools.errors.providers_disabled')) if pool and pool.pool_family.all_providers_disabled?
   end
 
 
@@ -338,6 +330,11 @@ class Instance < ActiveRecord::Base
     provider_images = build ? build.provider_images : []
     matched = []
     pool.pool_family.provider_accounts.each do |account|
+      unless account.provider.enabled?
+        errors << I18n.t('instances.errors.must_be_enabled', :account_name => account.name)
+        next
+      end
+
       # match_provider_hardware_profile returns a single provider
       # hardware_profile that can satisfy the input hardware_profile
       hwp = HardwareProfile.match_provider_hardware_profile(account.provider,

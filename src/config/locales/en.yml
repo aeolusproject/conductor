@@ -334,6 +334,7 @@ en:
       provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch deployable"
       stop_invalid: "stop is an invalid action."
       stop_not_be_performed: "stop cannot be performed on this instance."
+      must_be_enabled: "%{account_name}: provider must be enabled"
     headers:
       vm_name: VM NAME
       status: STATUS
@@ -406,6 +407,9 @@ en:
       instance_or: instance or
       unlimited: unlimited
       pool_enabled: Pool enabled
+    errors:
+      providers_disabled: has all associated providers disabled
+      must_be_enabled: must be enabled
   hardware_profiles:
     hardware: Hardware
     hardware_profile: Hardware Profile

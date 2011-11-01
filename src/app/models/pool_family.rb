@@ -65,7 +65,7 @@ class PoolFamily < ActiveRecord::Base
     self != PoolFamily.default
   end
 
-  def enabled?
-    provider_accounts.blank? or provider_accounts.any? {|acc| acc.enabled?}
+  def all_providers_disabled?
+    !provider_accounts.empty? and !provider_accounts.any? {|acc| acc.provider.enabled?}
   end
 end
