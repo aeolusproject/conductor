@@ -207,6 +207,8 @@ Conductor::Application.routes.draw do
 
     resources :provider_images
    # :except => [:new, :edit]
+
+    resources :hooks
   end
 
   scope "/api" do
