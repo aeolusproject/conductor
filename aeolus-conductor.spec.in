@@ -179,7 +179,6 @@ done
 
 # precompile stylesheets
 %{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
-sass --style compact ./src/app/stylesheets/application.scss %{buildroot}%{app_root}/public/stylesheets/compiled/application.css
 sass --style compact ./src/app/stylesheets/custom.scss %{buildroot}%{app_root}/public/stylesheets/compiled/custom.css
 sass --style compact ./src/app/stylesheets/layout.scss %{buildroot}%{app_root}/public/stylesheets/compiled/layout.css
 sass --style compact ./src/app/stylesheets/login.scss %{buildroot}%{app_root}/public/stylesheets/compiled/login.css
