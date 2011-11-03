@@ -74,13 +74,15 @@ module PermissionedObject
         query_include = find_hash[:include]
         query_order = find_hash[:order]
         query_conditions = find_hash[:conditions]
-        return [] if user.nil? or action.nil? or target_type.nil?
+        return where("1=0") if user.nil? or action.nil? or target_type.nil?
         if BasePermissionObject.general_permission_scope.has_privilege(user,
                                                                        action,
                                                                        target_type)
-          find(:all, :include => query_include,
-                     :order => query_order,
-                     :conditions => query_conditions)
+          #find(:all, :include => query_include,
+          #           :order => query_order,
+          #           :conditions => query_conditions)
+          includes(query_include).where(query_conditions).order(query_order)
+          #scoped
         else
           include_clause = self.list_for_user_include
           if query_include.is_a?(Array)
@@ -97,9 +99,10 @@ module PermissionedObject
             conditions_str = "(#{self.list_for_user_conditions}) and (#{query_conditions[0]})"
             conditions_hash.merge!(query_conditions[1]) { |key, h1, h2| h1 }
           end
-          find(:all, :include => include_clause,
-               :conditions => [conditions_str, conditions_hash],
-               :order => query_order)
+          #find(:all, :include => include_clause,
+          #     :conditions => [conditions_str, conditions_hash],
+          #     :order => query_order)
+          includes(include_clause).where([conditions_str, conditions_hash]).order(query_order)
         end
       end
     end
