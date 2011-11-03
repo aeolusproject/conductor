@@ -961,6 +961,8 @@ en:
       users: Users
       groups: Groups
       permissions: Global Role Grants
+      pool_families: Pool Families
+      images: Images
   realm_mappings:
     new:
       create_new: Create a new Realm Mapping

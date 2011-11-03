@@ -27,7 +27,12 @@ class PoolFamiliesController < ApplicationController
   def index
     clear_breadcrumbs
     save_breadcrumb(pool_families_path)
+    set_admin_environments_tabs 'pool_families'
     load_pool_families
+    respond_to do |format|
+      format.html
+      format.js { render :partial => 'list' }
+    end
   end
 
   def new

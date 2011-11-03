@@ -265,6 +265,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_admin_environments_tabs(tab)
+    @tabs = [{:name => t('application_controller.admin_tabs.pool_families'), :url => pool_families_url, :id => 'pool_families'},
+             {:name => t('application_controller.admin_tabs.images'), :url => images_url, :id => 'images'},
+    ]
+    unless @details_tab = @tabs.find {|t| t[:id] == tab}
+      raise "Tab '#{tab}' doesn't exist"
+    end
+  end
+
   def sort_column(model, default="name")
     model.column_names.include?(params[:order_field]) ? params[:order_field] : default
   end
