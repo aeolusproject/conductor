@@ -1,19 +1,43 @@
 %section.admin-content-section.pool_families
   %header
-    %h2.pools Pool Families
+    %h2.pools= t("pool_families.pool_families")
     .section-controls
       #obj_actions
-        = link_to "New Pool Family", new_pool_family_path, :class => 'button pill', :id => 'new_pool_family_button'
+        = link_to t("pool_families.index.new_pool_family"), new_pool_family_path, :class => 'button pill', :id => 'new_pool_family_button'
 
   .content
-    - content_for :form_header do
-      %li= restful_submit_tag "Delete Selected", "destroy", multi_destroy_pool_families_path, 'DELETE', :id => 'delete_button', :class => 'button pill danger'
-
-    = filter_table(@header, @pool_families) do |pool_family|
-      %tr{:class => cycle('nostripe','stripe')}
-        %td
-          - selected = params[:select] == 'all'
-          = check_box_tag "pool_family_selected[]", pool_family.id, selected, :id => "pool_family_checkbox_#{pool_family.id}"
-        %td= link_to pool_family.name, pool_family_path(pool_family)
-        %td= number_to_percentage pool_family.quota.percentage_used, :precision => 0
-        %td= pool_family.quota.maximum_running_instances or 'unlimited'
+    - @pool_families.each do |pool_family|
+      %table.pool_families
+        %caption
+          .caption_content
+            %header
+              %h2
+                = link_to pool_family.name, pool_family
+              .section-controls
+                #obj_actions
+                  = link_to t(:edit), edit_pool_family_path(pool_family), :class => 'rounded-link'
+                  = link_to t("pools.new_pool"), new_pool_path, :class => 'rounded-link'
+        - unless pool_family.pools.blank?
+          %tr
+            %th= t("pool_families.index.pool_name")
+            %th= t("pool_families.index.deployments")
+            %th= t("pool_families.index.total_instancies")
+            %th= t("pool_families.index.pending_instances")
+            %th= t("pool_families.index.failed_instances")
+            %th= t("pool_families.index.quota_used")
+            %th= t("pool_families.index.active_instances")
+            %th= t("pool_families.index.available_instances")
+            %th= t("pool_families.index.catalog")
+            %th
+          - pool_family.pools.each do |pool|
+            %tr
+              %td= link_to pool.name, pool
+              %td= pool.deployments.count
+              %td= pool.statistics[:total_instances]
+              %td= pool.statistics[:instances_pending]
+              %td= pool.statistics[:instances_failed]
+              %td= pool.statistics[:quota_percent]
+              %td= pool.statistics[:used_quota]
+              %td= pool.statistics[:available_quota].nil? ? raw('&infin;') : pool.statistics[:available_quota]
+              %td= link_to pool.catalogs.first.name, catalog_path(pool.catalogs.first) if pool.catalogs.any?
+              %td= link_to t(:edit), edit_pool_path(pool), :class => 'rounded-link'

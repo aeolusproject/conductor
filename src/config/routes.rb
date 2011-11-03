@@ -192,6 +192,8 @@ Conductor::Application.routes.draw do
     end
   end
 
+  resources :images
+
   get 'api', :controller => 'api/entrypoint', :action => 'index'
   namespace :api do
     resources :images do
