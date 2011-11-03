@@ -1,14 +1,14 @@
-%header.page-header
+%header.admin-page-header
   %h1{:class => controller.controller_name}= t'permissions.form.grant_access'
   #obj_actions.button-group
     = t'return_to'
-    = link_to @return_text, @return_path, :class => 'button primary', :id => 'new_pool_button'
-  .corner &nbsp;
+    = link_to @return_text, @return_path, :class => 'rounded-link', :id => 'new_pool_button'
 
-%section.content-section.pools
-  = @summary_text
-  %header
-    %h2= t'users.users'
-
+%section.admin-content-section.pools
+  .align-center
+    %strong= @summary_text
   .content
+    %header
+      %h2#users.users= t'users.users'
+
     = render :partial => 'form'

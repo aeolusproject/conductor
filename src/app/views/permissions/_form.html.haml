@@ -2,8 +2,8 @@
   = hidden_field_tag :permission_object_type, @permission_object.class.name
   = hidden_field_tag :permission_object_id, @permission_object.id
   = hidden_field_tag :path_prefix, @path_prefix
-  = link_to t('cancel'), @return_path, :class => 'button danger'
-  = restful_submit_tag t('permissions.form.grant_access'), "create", permissions_path, 'POST', :id => 'save_button'
+  %li= restful_submit_tag t('permissions.form.grant_access'), "create", permissions_path, 'POST', :id => 'save_button', :class => 'button'
+  %li= link_to t('cancel'), @return_path, :class => 'button danger'
 = filter_table(@header, @users) do |user|
   %tr{:class => cycle('nostripe','stripe')}
     %td
