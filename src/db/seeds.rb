@@ -79,6 +79,8 @@ roles =
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
       "CatalogEntry Administrator" => [false, {CatalogEntry => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
       "CatalogEntry Global User"   => [false, {CatalogEntry=> [VIEW,USE]}],
+      "Catalog Global User"   => [false, {Catalog => [VIEW,USE]}],
+      "HWP Global User"   => [false, {HardwareProfile => [VIEW,USE]}],
       "Pool Global User"                  => [false, {Pool         => [VIEW],
                                                       Instance     => [             CRE],
                                                       Deployment   => [             CRE],
@@ -113,9 +115,6 @@ Role.transaction do
   end
 end
 
-# General permission scope
-BasePermissionObject.create!(:name => "general_permission_scope")
-
 # Set meta objects
 MetadataObject.set("default_pool_family", PoolFamily.find_by_name('default'))
 
@@ -125,6 +124,8 @@ default_pool = Pool.find_by_name("Default")
 default_role = Role.find_by_name("Pool User")
 default_catalog_entry_role = Role.find_by_name("CatalogEntry Global User")
 default_pool_global_user_role = Role.find_by_name("Pool Global User")
+default_catalog_global_user_role = Role.find_by_name("Catalog Global User")
+default_hwp_global_user_role = Role.find_by_name("HWP Global User")
 
 settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,
@@ -134,9 +135,13 @@ settings = {"allow_self_service_logins" => "true",
   "self_service_default_catalog_entry_role" => default_catalog_entry_role,
   "self_service_default_pool_global_user_obj" => BasePermissionObject.general_permission_scope,
   "self_service_default_pool_global_user_role" => default_pool_global_user_role,
+  "self_service_default_catalog_global_user_obj" => BasePermissionObject.general_permission_scope,
+  "self_service_default_catalog_global_user_role" => default_catalog_global_user_role,
+  "self_service_default_hwp_global_user_obj" => BasePermissionObject.general_permission_scope,
+  "self_service_default_hwp_global_user_role" => default_hwp_global_user_role,
   # perm list in the format:
   #   "[resource1_key, resource1_role], [resource2_key, resource2_role], ..."
-  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_catalog_entry_obj,self_service_default_catalog_entry_role], [self_service_default_pool_global_user_obj,self_service_default_pool_global_user_role]"}
+  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_catalog_entry_obj,self_service_default_catalog_entry_role], [self_service_default_pool_global_user_obj,self_service_default_pool_global_user_role], [self_service_default_catalog_global_user_obj,self_service_default_catalog_global_user_role],[self_service_default_hwp_global_user_obj,self_service_default_hwp_global_user_role] "}
 settings.each_pair do |key, value|
   MetadataObject.set(key, value)
 end

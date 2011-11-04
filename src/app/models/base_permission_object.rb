@@ -40,6 +40,8 @@ class BasePermissionObject < ActiveRecord::Base
   GENERAL_PERMISSION_SCOPE = "general_permission_scope"
 
   def self.general_permission_scope
-    self.find_by_name(GENERAL_PERMISSION_SCOPE)
+    base_permission = self.find_by_name(GENERAL_PERMISSION_SCOPE)
+    base_permission = self.create!(:name => GENERAL_PERMISSION_SCOPE) unless base_permission
+    base_permission
   end
 end
