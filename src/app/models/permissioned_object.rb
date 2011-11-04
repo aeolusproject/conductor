@@ -68,41 +68,15 @@ module PermissionedObject
          privileges.target_type=:target_type and
          privileges.action=:action"
       end
-      # :conditions in hash must match form ["foo=:param and ...", {:param => value}]
-      def self.list_for_user(user, action, find_hash={})
-        target_type = find_hash.fetch(:target_type, self.default_privilege_target_type)
-        query_include = find_hash[:include]
-        query_order = find_hash[:order]
-        query_conditions = find_hash[:conditions]
+      def self.list_for_user(user, action, target_type=self.default_privilege_target_type)
         return where("1=0") if user.nil? or action.nil? or target_type.nil?
-        if BasePermissionObject.general_permission_scope.has_privilege(user,
-                                                                       action,
-                                                                       target_type)
-          #find(:all, :include => query_include,
-          #           :order => query_order,
-          #           :conditions => query_conditions)
-          includes(query_include).where(query_conditions).order(query_order)
-          #scoped
+        if BasePermissionObject.general_permission_scope.has_privilege(user, action, target_type)
+          scoped
         else
           include_clause = self.list_for_user_include
-          if query_include.is_a?(Array)
-            include_clause += query_include
-          elsif !query_include.nil?
-            include_clause << query_include
-          end
-          conditions_hash = {:user => user.id,
-                             :target_type => target_type.name,
-                             :action => action}
-          if query_conditions.nil?
-            conditions_str = self.list_for_user_conditions
-          else
-            conditions_str = "(#{self.list_for_user_conditions}) and (#{query_conditions[0]})"
-            conditions_hash.merge!(query_conditions[1]) { |key, h1, h2| h1 }
-          end
-          #find(:all, :include => include_clause,
-          #     :conditions => [conditions_str, conditions_hash],
-          #     :order => query_order)
-          includes(include_clause).where([conditions_str, conditions_hash]).order(query_order)
+          conditions_hash = {:user => user.id, :target_type => target_type.name, :action => action}
+          conditions_str = self.list_for_user_conditions
+          includes(include_clause).where(conditions_str, conditions_hash)
         end
       end
     end

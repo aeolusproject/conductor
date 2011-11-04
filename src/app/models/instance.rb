@@ -267,7 +267,7 @@ class Instance < ActiveRecord::Base
     }
 
     instances = []
-    pools = Pool.list_for_user(user, Privilege::VIEW, :target_type => Instance)
+    pools = Pool.list_for_user(user, Privilege::VIEW, Instance)
     pools.each{|pool| pool.instances.each {|i| instances << i}}
     instances.each do |i|
       if i.state == Instance::STATE_RUNNING

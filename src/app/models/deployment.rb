@@ -409,8 +409,7 @@ class Deployment < ActiveRecord::Base
   private
 
   def permissioned_frontend_hwprofile(user, hwp_name)
-    HardwareProfile.list_for_user(user, Privilege::VIEW,
-      :conditions => ['hardware_profiles.name = :name AND provider_id IS NULL', {:name => hwp_name}]).first
+    HardwareProfile.list_for_user(user, Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => hwp_name}).first
   end
 
   def inject_launch_parameters

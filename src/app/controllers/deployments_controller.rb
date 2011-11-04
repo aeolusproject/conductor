@@ -337,7 +337,7 @@ class DeploymentsController < ApplicationController
       { :name => t("pools.index.owner"), :sortable => false },
       { :name => t("providers.provider"), :sortable => false }
     ]
-    @pools = Pool.list_for_user(current_user, Privilege::CREATE, :target_type => Deployment)
+    @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
     @deployments = Deployment.all(:include => :owner,
                               :conditions => {:pool_id => @pools},
                               :order => (sort_column(Deployment) +' '+ sort_direction)
@@ -367,7 +367,7 @@ class DeploymentsController < ApplicationController
   def init_new_deployment_attrs
     @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE).select{|ce| ce.catalog.pool == @pool}
     @deployable_url = get_deployable_url
-    @pools = Pool.list_for_user(current_user, Privilege::CREATE, :target_type => Deployment)
+    @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
         :include => :architecture,

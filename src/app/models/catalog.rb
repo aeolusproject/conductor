@@ -50,7 +50,6 @@ class Catalog < ActiveRecord::Base
       #query = PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
       #where(query)
       #query = includes(:pool).where("pools.name" => "Default").to_sql
-      #list_for_user(User.first, Privilege::VIEW, :conditions => query)
       includes(:pool).where("pools.name" => "Default")
     else
       scoped

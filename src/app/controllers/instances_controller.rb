@@ -180,7 +180,7 @@ class InstancesController < ApplicationController
   end
 
   def init_new_instance_attrs
-    @pools = Pool.list_for_user(current_user, Privilege::CREATE, {:target_type => Instance,:conditions=>{ :enabled => true}})
+    @pools = Pool.list_for_user(current_user, Privilege::CREATE, Instance).where(:enabled => true)
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
       :include => :architecture,
@@ -200,7 +200,7 @@ class InstancesController < ApplicationController
       {:name => t('instances.headers.created_by'), :sort_attr => 'users.last_name'},
     ]
 
-    @pools = Pool.list_for_user(current_user, Privilege::CREATE, :target_type => Instance)
+    @pools = Pool.list_for_user(current_user, Privilege::CREATE, Instance)
   end
 
   def load_instances

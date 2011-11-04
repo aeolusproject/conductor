@@ -47,7 +47,7 @@ describe RegistrationService do
       @registration_service = RegistrationService.new(@user)
       @registration_service.save
 
-      @pools = Pool.list_for_user(@user, Privilege::CREATE, :target_type => Instance)
+      @pools = Pool.list_for_user(@user, Privilege::CREATE, Instance)
       @pools.length.should == 1
       @pools[0].name.should == "Default"
 
