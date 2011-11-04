@@ -196,7 +196,9 @@ Conductor::Application.routes.draw do
     end
   end
 
-  resources :images
+  resources :images do
+    delete 'multi_destroy', :on => :collection
+  end
 
   get 'api', :controller => 'api/entrypoint', :action => 'index'
   namespace :api do
