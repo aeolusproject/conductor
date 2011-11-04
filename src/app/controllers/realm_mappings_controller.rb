@@ -53,6 +53,12 @@ class RealmMappingsController < ApplicationController
   protected
 
   def load_backend_targets
-    @backend_targets = @realm_target.realm_or_provider_type == 'Realm' ? Realm.all : Provider.list_for_user(current_user, Privilege::VIEW)
+    @backend_targets = if @realm_target.realm_or_provider_type == 'Realm'
+      Realm.scan_for_new
+      Realm.all
+    else
+      Provider.list_for_user(current_user, Privilege::VIEW)
+    end
+
   end
 end

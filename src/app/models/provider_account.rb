@@ -153,25 +153,31 @@ class ProviderAccount < ActiveRecord::Base
     label.blank? ? credentials_hash['username'] : label
   end
 
-  # FIXME: for already-mapped accounts, update rather than add new
   def populate_realms
     client = connect
-    realms = client.realms
-    # FIXME: this should probably be in the same transaction as cloud_account.save
+    deltacloud_realms = client.realms
+    conductor_realms = Realm.where(:provider_id => provider.id)
+    deltacloud_realm_ids = deltacloud_realms.collect{|r| r.id}
+    conductor_realm_ids = conductor_realms.collect{|r| r.external_key}
+
+    # I don't know if this transaction is really necessary, but it was here so let's keep it.
     self.transaction do
-      realms.each do |realm|
-        #ignore if it exists
-        #FIXME: we need to handle keeping in sync forupdates as well as
-        # account permissions
-        unless Realm.find_by_external_key_and_provider_id(realm.id,
-                                                          provider.id)
-          ar_realm = Realm.new(:external_key => realm.id,
-                               :name => realm.name ? realm.name : realm.id,
-                               :provider_id => provider.id)
+      # Delete anything in Conductor that's not in Deltacloud
+      conductor_realms.each do |c_realm|
+        c_realm.destroy unless deltacloud_realm_ids.include?(c_realm.external_key)
+      end
+
+      # Add anything in Deltacloud to Conductor if it's not already there
+      deltacloud_realms.each do |d_realm|
+        unless conductor_realm_ids.include?(d_realm.id)
+          ar_realm = Realm.new(:external_key => d_realm.id,
+                                 :name => d_realm.name ? d_realm.name : d_realm.id,
+                                 :provider_id => provider.id)
           ar_realm.save!
         end
       end
     end
+
   end
 
   def valid_credentials?
