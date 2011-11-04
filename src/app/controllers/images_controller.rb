@@ -21,6 +21,14 @@ class ImagesController < ApplicationController
 
   def index
     set_admin_environments_tabs 'images'
+    @header = [
+      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
+      { :name => t('images.index.name'), :sort_attr => :name },
+      { :name => t('images.index.os'), :sort_attr => :name },
+      { :name => t('images.index.os_version'), :sort_attr => :name },
+      { :name => t('images.index.architecture'), :sort_attr => :name },
+    ]
+    @images = Aeolus::Image::Warehouse::Image.all
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
@@ -28,6 +36,10 @@ class ImagesController < ApplicationController
   end
 
   def show
+    @image = Aeolus::Image::Warehouse::Image.find(params[:id])
+    @builds = @image.image_builds
+    build_id = params[:build].blank? ? @image.latest_build : params[:build]
+    @build = @builds.find {|b| b.id == build_id}
   end
 
   def edit
