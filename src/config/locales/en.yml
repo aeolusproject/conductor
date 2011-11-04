@@ -613,6 +613,7 @@ en:
       all_catalogs: "All Catalogs"
       belongs_to_default_pool: "Belongs to Default Pool"
   images:
+    environment: %{environment} Environment
     index:
       images: Images
       name: Name
@@ -632,6 +633,32 @@ en:
       warning:
         delete_failed: Unable to Delete Image
         not_found: Image not found
+        invalid_xml:
+          The provided XML is not valid. Please fix it before continuing.
+      error:
+        invalid_url: Could not load the provided URL
+    new:
+      new_image: New Image
+      description:
+        Choose one of the following options to upload or import an image into
+        "%{environment} Environment".
+      upload: Upload
+      from_url: From URL
+      name: "Name:"
+      choose_file: "Choose a template file:"
+      image_url: "Template URL:"
+      edit_file: "Edit this file before saving:"
+    edit_xml:
+      edit: Edit
+      save_and_continue: Save and Continue
+    overview:
+      valid_image: Valid Image
+      description:
+        The markup and image references in "%{name}" were succesfully
+        validated. You may now save the image, and create a deployable.
+      make_deployable: Automatically make "%{name}" deployable.
+      back: Back
+      save_template: Save Template
   provider_images:
     flash:
       notice:

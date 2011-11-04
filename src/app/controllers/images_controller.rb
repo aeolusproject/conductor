@@ -48,13 +48,78 @@ class ImagesController < ApplicationController
     @provider_types = ProviderType.all
   end
 
+  def new
+    @environment = PoolFamily.find(params[:environment])
+  end
+
+  def edit_xml
+    @environment = PoolFamily.find(params[:environment])
+    @name = params[:name]
+
+    if params.has_key? :image_url
+      url = params[:image_url]
+      begin
+        xml_source = RestClient.get(url, :accept => :xml)
+      rescue RestClient::Exception, SocketError, URI::InvalidURIError
+        flash.now[:error] = t('images.flash.error.invalid_url')
+        render :new and return
+      end
+    else
+      file = params[:image_file]
+      xml_source = file && file.read
+    end
+
+    begin
+      doc = Nokogiri::XML(xml_source) { |config| config.strict }
+      add_template_name(doc, @name)
+      @xml = doc.to_xml
+    rescue Nokogiri::XML::SyntaxError
+      flash.now[:error] = t('images.flash.warning.invalid_xml')
+      @xml = xml_source
+      render :edit_xml and return
+    end
+    render :overview unless params[:edit]
+  end
+
+  def overview
+    @environment = PoolFamily.find(params[:environment])
+    @name = params[:name]
+    @xml = params[:image_xml]
+
+    begin
+      doc = Nokogiri::XML(@xml) { |config| config.strict }
+      xml_name = doc.xpath('/template/name').first
+      @name = xml_name.content unless xml_name.blank?
+    rescue Nokogiri::XML::SyntaxError
+      flash.now[:error] = t('images.flash.warning.invalid_xml')
+      render :edit_xml
+    end
+  end
+
+  def create
+    @environment = PoolFamily.find(params[:environment])
+    @name = params[:name]
+    @xml = params[:image_xml]
+
+    if params.has_key? :back
+      render :edit_xml and return
+    end
+
+    begin
+      xml_attributes = Hash.from_xml @xml
+      @image = Image.new(xml_attributes || {})
+    rescue REXML::ParseException
+      flash.now[:error] = t('images.flash.warning.invalid_xml')
+      render :edit_xml and return
+    end
+    # TODO: update the template and render the proper view
+    redirect_to image_path(@image)
+  end
+
   def edit
   end
 
   def update
-  end
-
-  def create
   end
 
   def destroy
@@ -77,5 +142,20 @@ class ImagesController < ApplicationController
       image.delete!
     end
     redirect_to images_path, :notice => t("images.flash.notice.multiple_deleted", :count => selected_images.count)
+  end
+
+  protected
+  def add_template_name(doc, name)
+    return unless doc
+
+    if doc.root.nil? || doc.root.name != 'template'
+      doc.root = doc.create_element('template')
+    end
+
+    if doc.xpath('/template/name').empty?
+      doc.xpath('/template').first << doc.create_element('name')
+    end
+
+    doc.xpath('/template/name').first.content = name unless name.blank?
   end
 end

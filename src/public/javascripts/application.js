@@ -69,7 +69,7 @@ $.extend(Conductor, {
       if(ev.which == 2 || ev.metaKey || ev.ctrlKey || ev.shiftKey) return true;
 
       ev.preventDefault();
-      callback.call($element);
+      callback.call($(this), ev);
     });
   },
 

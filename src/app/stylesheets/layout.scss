@@ -259,7 +259,7 @@ strong, em, b, i{ font-family: $font-family-em; }
 /* Content */
 
 $monitorcontentpadding: 7px;
-$administercontentpadding: 0px 0px 40px 0px;
+$administercontentpadding: 0px 0px 0px 0px;
 
 body.monitor div#content{
   width: $width - (2 * $monitorcontentpadding);

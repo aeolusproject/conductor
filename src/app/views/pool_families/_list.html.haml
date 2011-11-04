@@ -17,6 +17,7 @@
                 #obj_actions
                   = link_to t(:edit), edit_pool_family_path(pool_family), :class => 'rounded-link'
                   = link_to t("pools.new_pool"), new_pool_path, :class => 'rounded-link'
+                  = link_to t("images.new.new_image"), new_image_path( :environment => pool_family.id), :class => 'rounded-link'
         - unless pool_family.pools.blank?
           %tr
             %th= t("pool_families.index.pool_name")

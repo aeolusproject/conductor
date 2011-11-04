@@ -198,7 +198,11 @@ Conductor::Application.routes.draw do
   end
 
   resources :images do
-    delete 'multi_destroy', :on => :collection
+    collection do
+      post 'edit_xml'
+      post 'overview'
+      delete 'multi_destroy'
+    end
   end
 
   resources :provider_images
