@@ -23,6 +23,10 @@
         = @catalog_entry.description
     %tr
       %td
-        %label{:name => 'url'}=t('catalog_entries.index.url')+":"
+        %label{:name => 'xml'}=t('catalog_entries.index.deployable_xml')+":"
       %td
-        = link_to @catalog_entry.url, catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry.id, :deployable_xml => true)
+        - if params[:deployable_xml]
+          = text_area_tag :xml, @catalog_entry.xml, :disabled => true
+          = link_to t(".edit_deployable_xml"), edit_catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry.id, :edit_xml => true)
+        - else
+          = link_to @catalog_entry.xml_filename, catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry.id, :deployable_xml => true)

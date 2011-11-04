@@ -29,23 +29,12 @@ class CatalogEntriesController < ApplicationController
 
   def new
     @catalog = Catalog.find(params[:catalog_id])
-    @catalog_entry = CatalogEntry.new(params[:catalog_entry])
-    @catalog_entry.catalog = @catalog unless not @catalog_entry.catalog.nil?
+    @catalog_entry = params[:catalog_entry].nil? ? CatalogEntry.new() : CatalogEntry.new(params[:catalog_entry])
     require_privilege(Privilege::CREATE, CatalogEntry)
     load_catalogs
   end
 
   def show
-    if params[:deployable_xml]
-      if redirect_to_deployable_xml?
-        redirect_to @catalog_entry.url
-        return
-      end
-
-      flash[:warning] = t("catalog_entries.flash.warning.not_valid_or_reachable") + " #{@catalog_entry.url}"
-      redirect_to catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry)
-      return
-    end
     @catalog_entry = CatalogEntry.find(params[:id])
     require_privilege(Privilege::VIEW, @catalog_entry)
     save_breadcrumb(catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry), @catalog_entry.name)
@@ -58,18 +47,22 @@ class CatalogEntriesController < ApplicationController
     end
 
     require_privilege(Privilege::CREATE, CatalogEntry)
-
-    @catalog = Catalog.find(params[:catalog_id])
     require_privilege(Privilege::MODIFY, @catalog)
     @catalog_entry = CatalogEntry.new(params[:catalog_entry])
-    @catalog_entry.catalog = @catalog
     @catalog_entry.owner = current_user
+
     if @catalog_entry.save
       flash[:notice] = t "catalog_entries.flash.notice.added"
-      flash[:warning] = t("catalog_entries.flash.warning.not_valid") unless @catalog_entry.accessible_and_valid_deployable_xml?(@catalog_entry.url)
-      redirect_to catalog_catalog_entries_path(@catalog)
+      flash[:warning] = t("catalog_entries.flash.warning.not_valid") unless @catalog_entry.valid_deployable_xml?
+      if params[:edit_xml]
+        redirect_to edit_catalog_catalog_entry_path @catalog_entry.catalog.id, @catalog_entry.id, :edit_xml =>true
+      else
+        redirect_to catalog_catalog_entries_path(@catalog)
+      end
     else
+      @catalog = Catalog.find(params[:catalog_id])
       load_catalogs
+      params.delete(:edit_xml) if params[:edit_xml]
       render :new
     end
   end
@@ -123,14 +116,12 @@ class CatalogEntriesController < ApplicationController
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => t("catalog_entries.index.name"), :sort_attr => :name },
       { :name => t("catalogs.index.catalog_name"), :sortable => false },
-      { :name => t("catalog_entries.index.url"), :sortable => :url }
+      { :name => t("catalog_entries.index.deployable_xml"), :sortable => :url }
     ]
   end
 
   def redirect_to_deployable_xml?
-    @catalog_entry = CatalogEntry.find(params[:id])
-    require_privilege(Privilege::VIEW, @catalog_entry)
-    @catalog_entry.accessible_and_valid_deployable_xml?(@catalog_entry.url)
+
   end
 
   def load_catalogs

@@ -44,7 +44,7 @@ class CatalogsController < ApplicationController
     @header = [
       { :name => '', :sortable => false },
       { :name => t("catalog_entries.index.name"), :sort_attr => :name },
-      { :name => t('catalog_entries.index.url'), :sortable => false }
+      { :name => t('catalog_entries.index.deployable_xml'), :sortable => false }
     ]
   end
 

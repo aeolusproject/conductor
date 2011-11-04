@@ -562,20 +562,24 @@ en:
       catalog_entry: Catalog Entry
       catalog_entries: Catalog Entries
       name: Name
-      url: URL
+      deployable_xml: Deployable XML
     new:
       add_catalog_entry: Add New Catalog Entry
     form:
+      choose_xml: "Choose Deployable XML file:"
       catalog: Catalog
       description: Description
       cancel: Cancel
       save: Save
+      deployable_xml: "Deployable XML:"
+      edit_xml_after_save: "Edit XML file after save"
     show:
       edit: Edit
       delete: Delete
       confirm_delete: "Are you sure you want to delete?"
     properties:
       properties_for: Properties for
+      edit_deployable_xml: Edit Deployable XML
     edit:
       editing_catalog_entry: Editing Catalog Entry
     list:
@@ -583,7 +587,7 @@ en:
     flash:
       warning:
         not_valid_or_reachable: Catalog entry XML file is either invalid or no longer reachable at
-        not_valid: "Deployable url doesn't resolve valid XML file"
+        not_valid: "Deployable XML file doesn't resolve valid XML"
       notice:
         added: Catalog entry added.
         updated: Catalog entry updated successfully!

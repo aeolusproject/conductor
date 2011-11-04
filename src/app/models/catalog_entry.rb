@@ -34,8 +34,7 @@ class CatalogEntry < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :catalog_id
   validates_length_of :name, :maximum => 1024
-  validates_presence_of :url
-  validates_format_of :url, :with => URI::regexp
+  validates_presence_of :xml
   validates_presence_of :catalog
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
@@ -45,9 +44,9 @@ class CatalogEntry < ActiveRecord::Base
   belongs_to :catalog
   after_create "assign_owner_roles(owner)"
 
-  def accessible_and_valid_deployable_xml?(url)
+  def valid_deployable_xml?
     begin
-      deployable_xml = fetch_deployable
+      deployable_xml = DeployableXML.new(xml)
       deployable_xml.validate!
       true
     rescue
@@ -87,4 +86,17 @@ class CatalogEntry < ActiveRecord::Base
       end
     end
   end
+
+  #method used with uploading deployable xml in catalog_entries#new
+  def xml=(data)
+    #for new
+    unless data.instance_variables.empty?
+      write_attribute :xml_filename, data.original_filename
+      write_attribute :xml, data.tempfile.read
+    #for update
+    else
+      write_attribute :xml, data
+    end
+  end
+
 end
