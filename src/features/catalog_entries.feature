@@ -13,8 +13,8 @@ Feature: Manage Catalog Entries
     When I follow "new_catalog_entry_button"
     Then I should see "Add New Catalog Entry"
     When I fill in "catalog_entry[name]" with "test1"
-    When I fill in "catalog_entry[description]" with "description"
-    When I fill in "catalog_entry[url]" with "http://random_url"
+    And I fill in "catalog_entry[description]" with "description"
+    When I attach the file "features/upload_files/deployable.xml" to "catalog_entry[xml]"
     And I press "save_button"
     Then I should see "Catalog entry added"
 
@@ -38,7 +38,7 @@ Feature: Manage Catalog Entries
     Then I should see "testdepl"
     And I should see "Name"
     And I should see "description"
-    And I should see "url"
+    And I should see "Deployable XML"
 
   Scenario: Delete deployables
     Given there is a "default" catalog

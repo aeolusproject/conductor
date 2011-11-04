@@ -19,7 +19,7 @@
 FactoryGirl.define do
   factory :catalog_entry do
     sequence(:name) { |n| "catalog_entry#{n}" }
-    url "http://url_to_deployable"
+    xml "<?xml version=\"1.0\"?><deplyable name='my'></deployable>"
     description "catalog entry description"
     association :catalog, :factory => :catalog
     association :owner, :factory => :user

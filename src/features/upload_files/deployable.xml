@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<deployable name="my">
+    <description>This is my testing image</description>
+    <assemblies>
+        <assembly name="frontend" hwp="hwp1">
+            <image id="d4856cf0-740f-4f62-9e82-390b05040233" build="d13681df-148b-4239-894d-cfc472d2ac64">
+            </image>
+            <services>
+                <service name="apache-server">
+                    <description>Provides configuration options for the Apache application</description>
+                    <executable url="http://localhost:81/deployable.xml" />
+                    <parameters>
+                        <parameter name="hostname" type="scalar" />
+                        <parameter name="port" type="scalar" />
+                    </parameters>
+                </service>
+                <service name="domain-configuration">
+                    <executable url="http://localhost:81/deployable.xml" />
+                    <parameters>
+                        <parameter name="domain" type="scalar" />
+                    </parameters>
+                </service>
+                <service name="security-certificates">
+                    <executable url="http://localhost:81/deployable.xml" />
+                    <parameters>
+                        <parameter name="private-key" type="scalar" />
+                        <parameter name="public-key" type="scalar" />
+                    </parameters>
+                </service>
+                <service name="network-configuration">
+                    <executable url="http://localhost:81/deployable.xml" />
+                    <parameters>
+                        <parameter name="ip-address" type="scalar" />
+                        <parameter name="gateway" type="scalar" />
+                        <parameter name="dns" type="scalar" />
+                        <parameter name="mask" type="scalar" />
+                    </parameters>
+                </service>
+              </services>
+        </assembly>
+    </assemblies>
+</deployable>

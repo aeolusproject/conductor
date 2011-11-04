@@ -48,9 +48,9 @@ describe CatalogEntry do
     catalog_entry2.should be_valid
   end
 
-  it "should have a url" do
+  it "should have xml content" do
     catalog_entry = FactoryGirl.create :catalog_entry
-    catalog_entry.url = ''
+    catalog_entry.xml = ''
     catalog_entry.should_not be_valid
   end
 
