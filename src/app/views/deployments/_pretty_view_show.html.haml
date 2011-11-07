@@ -14,6 +14,9 @@
       - if instance.instance_key
         %li
           = link_to t('deployments.pretty_view_show.download_key'), key_instance_path(instance)
+      - if instance.valid_action?('reboot')
+        %li
+          = button_to t('instances.reboot'), reboot_instance_path(instance)
 
 :javascript
   Conductor.setupPrettyFilterURL(

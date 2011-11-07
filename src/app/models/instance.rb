@@ -451,6 +451,11 @@ class Instance < ActiveRecord::Base
     [matches, errors]
   end
 
+  def reboot
+    task = self.queue_action(@current_user, 'reboot')
+    Taskomatic.reboot_instance(task)
+  end
+
   private
 
   def key_name

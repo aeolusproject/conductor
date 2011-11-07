@@ -172,6 +172,19 @@ class InstancesController < ApplicationController
               :filename => "export.csv")
   end
 
+  def reboot
+    instance = Instance.find(params[:id])
+    begin
+      instance.reboot
+      flash[:notice] = t('instances.flash.notice.reboot', :name => instance.name)
+    rescue Exception => err
+      flash[:error] = t('instance.error', :name => instance.name, :err => err)
+    end
+    respond_to do |format|
+      format.html { redirect_to deployment_path(instance.deployment, :details_tab => 'instances')}
+    end
+  end
+
   private
 
   def load_instance

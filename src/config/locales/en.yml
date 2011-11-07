@@ -253,6 +253,7 @@ en:
       cannot_stop: "stop cannot be performed on this instance."
   instances:
     instances: Instances
+    reboot: Reboot
     instance: Instance
     none_selected: "You must select one or more instances to stop."
     tab_captions:
@@ -312,6 +313,7 @@ en:
         not_deleted:
           one: "The instance %{list} could not be deleted."
           other: "The instances %{list} could not be deleted."
+        not_rebooted: "The instance %{name} was not rebooted because %{err}"
       success:
         updated:
           one: "The instance %{list} was successfully updated."
@@ -321,6 +323,7 @@ en:
           other: "The instances %{list} were successfully deleted."
       notice:
         stop: "stop action was successfully queued."
+        reboot: "%{name}: reboot action was successfully queued."
     errors:
       image_not_found: "No image build was found with uuid %{b_uuid} and no image was found with uuid %{i_uuid}"
       user_quota_reached: "User quota reached"
