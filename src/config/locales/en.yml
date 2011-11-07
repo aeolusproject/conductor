@@ -514,6 +514,7 @@ en:
     confirm_delete: "Are you sure you want to delete?"
     pool_family_details: Pool Family Details
     provider_accounts_for: Provider Accounts for
+    choose_provider_accounts: Choose Provider Accounts to enable for this Pool Family
     remove_selected: Remove selected
     add_to_pool_family: "Add to %{name}"
     index:
@@ -540,7 +541,8 @@ en:
         added: "Pool family was added."
         updated: "Pool Family was updated!"
         deleted: "Pool Family was deleted!"
-        provider_account_added: "Provider Account has been added"
+        provider_accounts_added: "These Provider Account have been added"
+        provider_accounts_removed: "These Provider Accounts were removed"
         more_deleted: "Deleted the following Pool Families: %{list}."
       warning:
         creation_failed: "Pool family's creation failed."
@@ -548,6 +550,10 @@ en:
         not_updated: "Pool Family wasn't updated!"
         not_deleted: "Pool Family cannot be deleted!"
         more_not_deleted: "Could not delete the following Pool Families: %{list}."
+        provider_accounts_not_added: "Could not add these Provider Accounts"
+        provider_accounts_not_removed: "Could not remove these Provider Accounts"
+        select_to_add_accounts: "You must select at least one Provider Account to add."
+        select_to_remove_accounts: "You must select at least one Provider Account to remove."
   catalog_entries:
     new_catalog_entry: New Catalog Entry
     index:
@@ -723,6 +729,8 @@ en:
         quota_reached: "of Quota limit for running instances for %{name} account has been reached."
   provider_accounts:
     new_provider_account: New Account
+    add_provider_account: Add Account
+    remove_provider_accounts: Remove Accounts
     index:
       provider_accounts: Provider Accounts
       provider_account_name: Account Name

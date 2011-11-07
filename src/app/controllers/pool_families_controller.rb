@@ -70,9 +70,10 @@ class PoolFamiliesController < ApplicationController
 
   def show
     @pool_family = PoolFamily.find(params[:id])
-    require_privilege(Privilege::VIEW, @pool_family)
-
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
+    require_privilege(Privilege::VIEW, @pool_family)
+    load_pool_family_tabs
+
 
     respond_to do |format|
       format.html
@@ -80,7 +81,7 @@ class PoolFamiliesController < ApplicationController
         if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
-        render :partial => @details_tab and return
+        render :partial => @view and return
       end
     end
   end
@@ -96,15 +97,43 @@ class PoolFamiliesController < ApplicationController
     redirect_to pool_families_path
   end
 
-  def add_provider_account
+  def add_provider_accounts
     @pool_family = PoolFamily.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool_family)
-    @provider_account = ProviderAccount.find(params[:provider_account_id])
-    require_privilege(Privilege::VIEW, @provider_account)
+    @provider_accounts = ProviderAccount.
+      list_for_user(current_user, Privilege::USE).
+      where('id not in (?)', @pool_family.provider_accounts.empty? ?
+                             0 : @pool_family.provider_accounts.map(&:id))
 
-    @pool_family.provider_accounts << @provider_account
-    flash[:notice] = t"pool_families.flash.notice.provider_account_added"
-    redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts')
+    load_tab_captions_and_details_tab('provider_accounts')
+    load_pool_family_tabs
+
+    added = []
+    not_added = []
+
+    if params[:accounts_selected].blank?
+      flash[:error] = t"pool_families.flash.error.select_to_add_accounts" if request.post?
+    else
+      ProviderAccount.find(params[:accounts_selected]).each do |provider_account|
+        if check_privilege(Privilege::USE, provider_account) and
+            !@pool_family.provider_accounts.include?(provider_account) and
+            @pool_family.provider_accounts << provider_account
+          added << provider_account.name
+        else
+          not_added << provider_account.name
+        end
+      end
+      unless added.empty?
+        flash[:notice] = "#{t('pool_families.flash.notice.provider_accounts_added')}: #{added.join(', ')}"
+      end
+      unless not_added.empty?
+        flash[:error] = "#{t('pool_families.flash.error.provider_accounts_not_added')}: #{not_added.join(', ')}"
+      end
+      respond_to do |format|
+        format.html { redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts') }
+        format.js { render :partial => 'provider_accounts' }
+      end
+    end
   end
 
   def multi_destroy
@@ -126,25 +155,50 @@ class PoolFamiliesController < ApplicationController
     redirect_to pool_families_path
   end
 
-  def multi_destroy_provider_accounts
-    @pool_family = PoolFamily.find(params[:pool_family_id])
+  def remove_provider_accounts
+    @pool_family = PoolFamily.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool_family)
+    load_tab_captions_and_details_tab('provider_accounts')
+    removed=[]
+    not_removed=[]
 
-    ProviderAccount.find(params[:provider_account_selected]).each do |provider_account|
-      if check_privilege(Privilege::VIEW, provider_account)
-        @pool_family.provider_accounts.delete provider_account
+    if params[:accounts_selected].blank?
+      flash[:error] = t"pool_families.flash.error.select_to_remove_accounts"
+    else
+      ProviderAccount.find(params[:accounts_selected]).each do |provider_account|
+        if @pool_family.provider_accounts.delete provider_account
+          removed << provider_account.name
+        else
+          not_removed << provider_account.name
+        end
+      end
+      unless removed.empty?
+        flash[:notice] = "#{t('pool_families.flash.notice.provider_accounts_removed')}: #{removed.join(', ')}"
+      end
+      unless not_removed.empty?
+        flash[:error] = "#{t('pool_families.flash.error.provider_accounts_not_removed')}: #{not_removed.join(', ')}"
       end
     end
-
-    redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts')
+    respond_to do |format|
+      format.html { redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts') }
+        format.js { render :partial => 'provider_accounts' }
+    end
   end
 
   protected
 
-  def load_tab_captions_and_details_tab
+  def load_tab_captions_and_details_tab(details_tab = 'properties')
     @tab_captions = ['Properties', 'History', 'Permissions', 'Provider Accounts', 'Pools']
-    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
-    @provider_accounts_header = [{:name => "Provider Account", :sort_attr => :name}]
+    @details_tab_name = params[:details_tab].blank? ? details_tab : params[:details_tab]
+    @provider_accounts_header = [
+           { :name => 'checkbox', :sortable => false, :class => 'checkbox' },
+           { :name => t("provider_accounts.index.provider_account_name"), :sortable => false },
+           { :name => t("provider_accounts.index.username"), :sortable => false},
+           { :name => t("provider_accounts.index.provider_name"), :sortable => false },
+           { :name => t("provider_accounts.index.provider_type"), :sortable => false },
+           { :name => t("quota_used"), :sortable => false, :class => 'center' },
+           { :name => t("provider_accounts.index.quota_limit"), :sortable => false, :class => 'center' }
+                                ]
   end
 
   def set_params_and_header
@@ -160,5 +214,15 @@ class PoolFamiliesController < ApplicationController
     @pool_families = PoolFamily.list_for_user(current_user, Privilege::VIEW).paginate(
       :page => params[:page] || 1,
       :order => (sort_column(PoolFamily) + ' ' + sort_direction))
+  end
+
+  def load_pool_family_tabs
+    @tabs = [{:name => t('pools.pools'),:view => 'pools', :id => 'pools', :count => @pool_family.pools.count},
+             {:name => t('accounts'), :view => 'provider_accounts', :id => 'provider_accounts', :count => @pool_family.provider_accounts.count},
+    ]
+    add_permissions_tab(@pool_family)
+    details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
+    @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
+    @view = @details_tab[:view]
   end
 end

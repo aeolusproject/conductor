@@ -24,7 +24,7 @@ Feature: Pool Families
     Given there is a pool family named "testpoolfamily"
     And I am on the pool families page
     When I follow "testpoolfamily"
-    Then I should see "Pool Family Details"
+    Then I should see "Pools"
 
   Scenario: Create a new Pool family
     Given I am on the pool families page
@@ -85,9 +85,10 @@ Feature: Pool Families
     And there is a provider named "testprovider"
     And there is a provider account named "testaccount"
     And I am on the pool family provider accounts page
-    Then I should see "Provider Accounts for"
-    When I select "testaccount" from "provider_account_id"
-    And I press "pool_family_submit"
+    Then I should see "Account Name"
+    When I follow "Add Account"
+    When I check the "testaccount" account
+    And I press "Add Account"
     Then there should be 1 provider accounts assigned to "testpoolfamily"
     And I should see "testaccount"
 
@@ -98,6 +99,6 @@ Feature: Pool Families
     And there is a provider account "testaccount" related to pool family "testpoolfamily"
     And I am on the pool family provider accounts page
     Then I should see "testaccount"
-    When I check "testaccount" provider account
-    And I press "delete_button"
+    When I check the "testaccount" account
+    And I press "Remove Accounts"
     Then there should not exist a provider account assigned to "testpoolfamily"

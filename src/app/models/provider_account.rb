@@ -42,7 +42,7 @@ class ProviderAccount < ActiveRecord::Base
   belongs_to :provider
   belongs_to :quota, :autosave => true, :dependent => :destroy
   has_many :instances
-  has_and_belongs_to_many :pool_families
+  has_and_belongs_to_many :pool_families, :uniq => true
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"

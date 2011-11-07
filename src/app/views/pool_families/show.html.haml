@@ -6,7 +6,16 @@
       = link_to t('edit'), edit_pool_family_path(@pool_family), :class => 'button pill'
       = button_to t('delete'), pool_family_path(@pool_family), :method => :delete, :confirm => t("pool_families.confirm_delete"), :class => "button pill danger", :id => 'delete_pool_family_button'
 
-%section.admin-content-section.pool_family
-  .content
-    = render :partial => 'properties'
-    = render :partial => 'provider_accounts'
+%section.admin-content-section.pool_families
+  %header#tab-container-1
+    %h2.settings= #t("settings.settings")
+    %nav.faceted
+      %ul#tab-container-1-nav
+        - @tabs.each do |tab|
+          %li
+            %a{ :href => url_for(:details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"}
+              = tab[:name]
+            -if tab[:count]
+              %span.label.badge.count.dark=tab[:count]
+  .content#tab
+    = render :partial => @view

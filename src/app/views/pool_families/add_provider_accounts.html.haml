@@ -1,0 +1,16 @@
+= render :partial => 'layouts/admin_nav'
+%header.admin-page-header
+  %h1= @pool_family.name
+  #obj_actions.button-container
+    .button-group
+      = t'return_to'
+      = link_to @pool_family.name, pool_family_path(@pool_family, :details_tab => 'provider_accounts'), :class => 'rounded-link', :id => 'new_pool_button'
+  .corner &nbsp;
+
+%section.admin-content-section.pool_families
+  %h3= t("pool_families.choose_provider_accounts")
+  %header#tab-container-1
+    %h2.settings= #t("settings.settings")
+    %nav.faceted
+  .content#tab
+    = render :partial => 'add_provider_accounts_form'
