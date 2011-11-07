@@ -172,7 +172,11 @@ Conductor::Application.routes.draw do
     collection do
       delete 'multi_destroy'
       post 'add_provider_account'
-      delete 'multi_destroy_provider_accounts'
+    end
+    member do
+      get 'add_provider_accounts'
+      post 'add_provider_accounts'
+      post 'remove_provider_accounts'
     end
   end
 

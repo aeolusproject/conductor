@@ -40,7 +40,7 @@ class PoolFamily < ActiveRecord::Base
   has_many :pools,  :dependent => :destroy
   belongs_to :quota, :dependent => :destroy
   accepts_nested_attributes_for :quota
-  has_and_belongs_to_many :provider_accounts
+  has_and_belongs_to_many :provider_accounts, :uniq => true
   has_many :permissions, :as => :permission_object, :dependent => :destroy
 
   validates_length_of :name, :maximum => 255
