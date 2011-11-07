@@ -5,7 +5,7 @@
 - content_for :filter_controls do
   %li
     = label_tag :catalogs_preset_filter, t('filter_table.viewing')
-    = select_tag(:catalogs_preset_filter, options_for_select(Catalog::PRESET_FILTERS_OPTIONS.collect{|x| [x[:title], x[:id]]}, :selected => params[:catalogs_preset_filter]), :include_blank => "All Catalogs")
+    = select_tag(:catalogs_preset_filter, preset_filters_options_for_select(Catalog::PRESET_FILTERS_OPTIONS, params[:catalogs_preset_filter]), :include_blank => "All Catalogs")
     = restful_submit_tag "Apply", "index", catalogs_path, 'GET', :class => 'button', :id => 'apply_catalogs_preset_filter'
     %span.label.badge.dark= @catalogs.count
 

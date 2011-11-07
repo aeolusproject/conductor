@@ -84,15 +84,13 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
 
   PRESET_FILTERS_OPTIONS = [
-    {:title => "Name starts with A", :id => "A", :query => "last_name LIKE 'A%'"},
-    {:title => "Name starts with B", :id => "B", :query => "last_name LIKE 'B%'"},
-    {:title => "Name starts with C", :id => "C", :query => "last_name LIKE 'C%'"}
+    {:title => "Name starts with A", :id => "name_starts_with_A", :query => where("last_name LIKE 'A%'")},
+    {:title => "Name starts with B", :id => "name_starts_with_B", :query => where("last_name LIKE 'B%'")}
   ]
 
   def self.apply_preset_filter(preset_filter_id)
     if preset_filter_id.present?
-      query = PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
-      where(query)
+      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
     else
       scoped
     end

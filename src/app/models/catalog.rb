@@ -42,15 +42,12 @@ class Catalog < ActiveRecord::Base
   validates_length_of :name, :maximum => 1024
 
   PRESET_FILTERS_OPTIONS = [
-    {:title => "Belongs to Default Pool", :id => "A", :query => "name LIKE 'A%'"}
+    {:title => "Belongs to Default Pool", :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}
   ]
 
   def self.apply_preset_filter(preset_filter_id)
     if preset_filter_id.present?
-      #query = PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
-      #where(query)
-      #query = includes(:pool).where("pools.name" => "Default").to_sql
-      includes(:pool).where("pools.name" => "Default")
+      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
     else
       scoped
     end
