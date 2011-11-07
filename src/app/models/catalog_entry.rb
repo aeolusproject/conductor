@@ -57,7 +57,7 @@ class CatalogEntry < ActiveRecord::Base
   # Fetch the deployable contained at :url
   def fetch_deployable
     begin
-      DeployableXML.new(DeployableXML.import_xml_from_url(url))
+      DeployableXML.new(xml)
     rescue
       return nil
     end

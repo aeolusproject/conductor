@@ -35,6 +35,7 @@ Feature: Manage Deployments
     When I am viewing the pool "mockpool"
     And I follow "new_deployment_button"
     Then I should see "New Deployment"
+    And show me the page
     When I fill in "deployable_url" with "http://localhost/deployables/deployable1.xml"
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "next_button"

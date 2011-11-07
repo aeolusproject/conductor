@@ -279,13 +279,13 @@ class Deployment < ActiveRecord::Base
                    :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
   end
 
-  def accessible_and_valid_deployable_xml?(url)
+  def valid_deployable_xml?(xml)
     begin
-      self.deployable_xml = DeployableXML.import_xml_from_url(url)
+      self.deployable_xml = DeployableXML.new(xml)
       deployable_xml.validate!
       true
     rescue
-      errors.add(:base, "failed to get the deployable definition: #{$!.message}")
+      errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{$!.message}"))
       false
     end
   end

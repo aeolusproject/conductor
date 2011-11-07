@@ -32,12 +32,6 @@
           %label{:for => 'catalog_entry_id'}
             = t('catalog_entries.index.catalog_entry')
           = select_tag :catalog_entry_id, options_for_select([[t('.load_definition'), t('.other')]] + @catalog_entries.map {|d| [d.name, d.id]}, params[:catalog_entry_id])
-        %p#deployable-url-section
-          %label{:for => 'deployable_url'}
-            = t('deployables.index.deployable_url')
-            %span
-              = t('deployables.index.deployable_url_subtext')
-          = text_field_tag :deployable_url, params[:deployable_url], :class => 'long'
 
       %fieldset
         %p

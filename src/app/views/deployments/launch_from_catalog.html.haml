@@ -6,14 +6,14 @@
   .corner &nbsp;
 %section.content-section
   .align-center
-    %strong= t("deployments.launch_from_catalog.hint", :pool =>  @catalog.pool.name)
+    %strong= t(".hint", :pool =>  @catalog.pool.name)
   %ul.catalog_pretty
     - @catalog_entries.each do |entry|
       %li.collapse_entity
         .summary
           .controls
-            = link_to t("deplyments.launch_from_catalog.details"),"#", :class => "collapse"
-            = button_to t("deployments.launch_from_catalog.select"), launch_time_params_deployments_path(:deployment => { :name => entry.name, :pool_id => @catalog.pool.id }, :catalog_entry_id => entry.id ), :class=> "button pill"
+            = link_to t(".details"),"#", :class => "collapse"
+            = button_to t(".select"), launch_time_params_deployments_path(:deployment => { :name => entry.name, :pool_id => @catalog.pool.id }, :catalog_entry_id => entry.id ), :class=> "button pill"
           .info
             %h2= entry.name
             %p= entry.description
@@ -22,13 +22,13 @@
           %table
             %tr
               %th
-                %strong Image ID
-              %th Profile
-              %th HDD
-              %th RAM
-              %th ARCH
+                %strong= t'.image_id'
+              %th=t'.profile'
+              %th=t'.hdd'
+              %th=t'.ram'
+              %th=t'.arch'
               %th
-                %strong Deployable URI
+                %strong=t'.deployable_xml'
             -entry.fetch_images.each do |image|
               %tr
                 %td
@@ -37,7 +37,7 @@
                 %td= entry.hw_profile_for_image(image.id).storage
                 %td= entry.hw_profile_for_image(image.id).memory
                 %td= entry.hw_profile_for_image(image.id).architecture
-                %td= entry.url
+                %td= link_to entry.xml_filename, catalog_catalog_entry_path(entry.catalog, entry.id, :deployable_xml => true)
 
   .align-center
     %div= will_paginate @catalog_entries

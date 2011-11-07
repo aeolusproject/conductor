@@ -58,12 +58,13 @@ class DeploymentsController < ApplicationController
 
 
   def launch_time_params
+    @catalog_entry = CatalogEntry.find(params[:catalog_entry_id])
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
     init_new_deployment_attrs
 
-    unless @deployment.accessible_and_valid_deployable_xml?(@deployable_url)
+    unless !(@deployable_xml.nil?) && @deployment.valid_deployable_xml?(@deployable_xml)
       render 'launch_new' and return
     end
 
@@ -78,16 +79,15 @@ class DeploymentsController < ApplicationController
   end
 
   def overview
+    @catalog_entry = CatalogEntry.find(params[:catalog_entry_id])
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
     init_new_deployment_attrs
-
-    @launch_parameters_encoded = Base64.encode64(ActiveSupport::JSON.encode(
-        @deployment.launch_parameters))
+    @launch_parameters_encoded = Base64.encode64(ActiveSupport::JSON.encode(@deployment.launch_parameters))
 
     respond_to do |format|
-      if @deployment.accessible_and_valid_deployable_xml?(@deployable_url)
+      if !(@deployable_xml.nil?) && @deployment.valid_deployable_xml?(@deployable_xml)
         check_assemblies_for_errors
         @additional_quota = count_additional_quota(@deployment)
 
@@ -113,10 +113,11 @@ class DeploymentsController < ApplicationController
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
     init_new_deployment_attrs
+    @deployment.deployable_xml = @deployable_xml if @deployable_xml
+    @catalog_entry = CatalogEntry.find(params[:catalog_entry_id])
 
     @deployment.owner = current_user
     load_assemblies_services
-
     if params.delete(:commit) == 'back'
       view = launch_parameters_encoded.blank? ? 'launch_new' : 'launch_time_params'
       render view and return
@@ -129,9 +130,9 @@ class DeploymentsController < ApplicationController
           flash[:notice] = t "deployments.flash.notice.launched"
         else
           flash[:error] = {
-            :summary  => t("deployments.flash.error.failed_to_launch_assemblies"),
-            :failures => status[:errors],
-            :successes => status[:successes]
+              :summary  => t("deployments.flash.error.failed_to_launch_assemblies"),
+              :failures => status[:errors],
+              :successes => status[:successes]
           }
         end
         format.html { redirect_to deployment_path(@deployment) }
@@ -173,7 +174,7 @@ class DeploymentsController < ApplicationController
              #{:name => 'Services', :view => @view, :id => 'services'},
              #{:name => 'History', :view => 'history', :id => 'history'},
              {:name => t('properties'), :view => 'properties', :id => 'properties'}
-             #{:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
+    #{:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
     ]
     add_permissions_tab(@deployment)
     details_tab_name = params[:details_tab].blank? ? 'instances' : params[:details_tab]
@@ -321,26 +322,28 @@ class DeploymentsController < ApplicationController
     @catalog_entries = @catalog.catalog_entries.paginate(:page => params[:page] || 1, :per_page => 6)
     require_privilege(Privilege::VIEW, @catalog)
   end
+
   private
+
   def load_deployments
     @deployments = Deployment.paginate(:page => params[:page] || 1,
-      :order => (sort_column(Deployment) +' '+ sort_direction)
+                                       :order => (sort_column(Deployment) +' '+ sort_direction)
     )
     @deployments_header = [
-      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-      { :name => '', :class => 'alert', :sortable => false },
-      { :name => t("deployments.deployment_name"), :sortable => false },
-      { :name => t("pools.index.deployed_on"), :sortable => false },
-      { :name => t("deployables.index.base_deployable"), :sortable => false },
-      { :name => t("instances.instances"), :class => 'center', :sortable => false },
-      { :name => t("pools.pool"), :sortable => false },
-      { :name => t("pools.index.owner"), :sortable => false },
-      { :name => t("providers.provider"), :sortable => false }
+        { :name => 'checkbox', :class => 'checkbox', :sortable => false },
+        { :name => '', :class => 'alert', :sortable => false },
+        { :name => t("deployments.deployment_name"), :sortable => false },
+        { :name => t("pools.index.deployed_on"), :sortable => false },
+        { :name => t("deployables.index.base_deployable"), :sortable => false },
+        { :name => t("instances.instances"), :class => 'center', :sortable => false },
+        { :name => t("pools.pool"), :sortable => false },
+        { :name => t("pools.index.owner"), :sortable => false },
+        { :name => t("providers.provider"), :sortable => false }
     ]
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
     @deployments = Deployment.all(:include => :owner,
-                              :conditions => {:pool_id => @pools},
-                              :order => (sort_column(Deployment) +' '+ sort_direction)
+                                  :conditions => {:pool_id => @pools},
+                                  :order => (sort_column(Deployment) +' '+ sort_direction)
     )
   end
 
@@ -358,34 +361,21 @@ class DeploymentsController < ApplicationController
     errors = @deployment.check_assemblies_matches(current_user)
     unless errors.empty?
       flash[:error] = {
-        :summary => t("deployments.flash.error.not_launched"),
-        :failures => errors
+          :summary => t("deployments.flash.error.not_launched"),
+          :failures => errors
       }
     end
   end
 
   def init_new_deployment_attrs
     @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE).select{|ce| ce.catalog.pool == @pool}
-    @deployable_url = get_deployable_url
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
+    @deployable_xml = params[:catalog_entry_id] ? CatalogEntry.find(params[:catalog_entry_id]).xml : nil
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
         :include => :architecture,
         :conditions => {:provider_id => nil}
-      )
-  end
-
-
-  def get_deployable_url
-    if !params.has_key?(:catalog_entry_id)
-      return nil
-    elsif params[:catalog_entry_id].to_s == 'other'
-      return params[:deployable_url]
-    else
-      c_entry = CatalogEntry.find(params[:catalog_entry_id])
-      require_privilege(Privilege::USE, c_entry)
-      return c_entry.url
-    end
+    )
   end
 
   def load_assemblies_services

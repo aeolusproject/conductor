@@ -9,9 +9,6 @@
   = hidden_field :deployment, :frontend_realm_id
   = hidden_field_tag :launch_parameters_encoded, @launch_parameters_encoded
   = hidden_field_tag :catalog_entry_id, params[:catalog_entry_id]
-  = hidden_field_tag :deployable_url, params[:deployable_url]
-  -# FIXME: Passing chunks of XML around in hidden form fields doesn't feel right
-  = hidden_field :deployment, :deployable_xml
 
   %section.content-section.deployable_details
     %header.confirmation
@@ -22,10 +19,9 @@
       %h3= t '.description'
       %p= @deployment.deployable_xml.description
 
-      %h3= t('.deployable_uri')
-      %a{ :id => 'deployable-xml-link', :href => @deployable_url}
-        = @deployable_url
-        &rArr;
+      %h3= t('.deployable_xml')
+      =link_to @catalog_entry.xml_filename, catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry.id, :deployable_xml => true)
+      &rArr;
 
       %h3= t('.image_ids')
 

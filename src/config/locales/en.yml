@@ -175,7 +175,7 @@ en:
       confirmation:
         Are you sure you wish to deploy "%{deployment}" to the %{pool} Pool? Doing
         so will utilize %{quota} of your overall deployment quota.
-      deployable_uri: Deployable URI
+      deployable_xml: Deployable XML
       description: Description
       image_ids: Image IDs
       launch: Launch
@@ -184,6 +184,12 @@ en:
       hint: Choose a deployable to launch in the "%{pool}" pool
       details: Details
       select: Select
+      image_id: Image ID
+      profile: Profile
+      hdd: HDD
+      ram: RAM
+      arch: ARCH
+      deployable_xml: Deployable XML
     new:
       launch: Launch this deployment
       deployable_definition: Deployable definition
@@ -202,7 +208,7 @@ en:
       already_in_use: That name is already in use
       name_available: Name available
       next: Next
-      load_definition: Load definition from URL
+      load_definition: Load definition from XML
       other: other
     operation:
       operational_status: Operational status of
@@ -251,6 +257,7 @@ en:
       config_server_connection: 'Cannot connect to the config server'
       stop_invalid_action: "stop is an invalid action."
       cannot_stop: "stop cannot be performed on this instance."
+      not_valid_deployable_xml: "seems to be not valid deployable XML: %{msg}"
   instances:
     instances: Instances
     reboot: Reboot
