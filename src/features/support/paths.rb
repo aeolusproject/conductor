@@ -89,6 +89,9 @@ module NavigationHelpers
     when /the pool family provider accounts page/
       url_for pool_family_path(@pool_family, :details_tab => 'provider_accounts')
 
+    when /the image's show page/
+      url_for image_path(@image.id)
+
     when /the self service settings page/
       url_for :action => 'self_service', :controller => 'settings', :only_path => true
 

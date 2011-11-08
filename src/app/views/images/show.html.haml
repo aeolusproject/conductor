@@ -8,12 +8,37 @@
       = button_to t("delete"), image_path(@image.id), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button danger', :id => 'delete'
 
 - unless @build
-  TODO: build not found
+  = t('images.show.build_not_found')
 -else
-  t('images.show.provider_images') for build
-  = @build.uuid
-
-  - @build.target_images.each do |target_image|
-    = target_image.target
-    - target_image.provider_images.each do |provider_image|
-      = provider_image.provider
+  %section.admin-content-section
+    %header
+      %h2
+        = t('images.show.provider_images')
+    .content
+      %ul
+        - @build.target_images.each do |target_image|
+          - type = @provider_types.find {|pt| pt.deltacloud_driver == target_image.target}
+          %ul
+            = type.name
+            / TODO: what if an account is renamed in condutor?
+            - all_accounts = type.provider_accounts_for_user(current_user)
+            - target_image.provider_images.each do |provider_image|
+              %li
+                = form_tag provider_image_path(provider_image.id), :method => :delete do
+                  - all_accounts.delete_if {|a| a.name == provider_image.provider}
+                  = hidden_field_tag 'image_id', @image.id
+                  = "#{t('images.show.provider_account')}: #{provider_image.provider}"
+                  %br
+                  = "#{t('images.show.image_uuid')}: #{provider_image.id}"
+                  %br
+                  = submit_tag t('delete'), :class => 'button danger'
+            - all_accounts.each do |account|
+              %li
+                = form_tag provider_images_path do
+                  = hidden_field_tag 'account_id', account.id
+                  = hidden_field_tag 'image_id', @image.id
+                  = hidden_field_tag 'build_id', @build.id
+                  = hidden_field_tag 'target_image_id', target_image.id
+                  = "#{t('images.show.provider_account')}: #{account.name}"
+                  %br
+                  = submit_tag t('images.show.upload')

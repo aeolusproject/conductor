@@ -616,6 +616,28 @@ en:
       os: OS
       os_version: OS Version
       architecture: Architecture
+    show:
+      provider_images: Provider Images
+      provider_account: Provider Account
+      image_uuid: Image UUID
+      upload: Upload
+      build_not_found: "Build not found"
+    flash:
+      notice:
+        deleted: Image Deleted
+        multiple_deleted: "%{count} Images Deleted"
+      warning:
+        delete_failed: Unable to Delete Image
+        not_found: Image not found
+  provider_images:
+    flash:
+      notice:
+        deleted: Provider Image Deleted
+        upload_start: Provider Image Upload Started
+      warning:
+        delete_failed: Unable to Delete Provider Image
+        not_found: Provider Image not found
+        upload_failed: Unable to Upload Provider Image
   deployables:
     index:
       deployables: Deployables

@@ -38,8 +38,14 @@ class ImagesController < ApplicationController
   def show
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
     @builds = @image.image_builds
-    build_id = params[:build].blank? ? @image.latest_build : params[:build]
-    @build = @builds.find {|b| b.id == build_id}
+    @build = if params[:build].present?
+               @builds.find {|b| b.id == params[:build]}
+             elsif @image.latest_build
+               @builds.find {|b| b.id == @image.latest_build}
+             else
+               @builds.first
+             end
+    @provider_types = ProviderType.all
   end
 
   def edit
@@ -52,5 +58,24 @@ class ImagesController < ApplicationController
   end
 
   def destroy
+    if image = Aeolus::Image::Warehouse::Image.find(params[:id])
+      if image.delete!
+        flash[:notice] = t('images.flash.notice.deleted')
+      else
+        flash[:warning] = t('images.flash.warning.delete_failed')
+      end
+    else
+      flash[:warning] = t('images.flash.warning.not_found')
+    end
+    redirect_to images_path
+  end
+
+  def multi_destroy
+    selected_images = params[:images_selected].to_a
+    selected_images.each do |uuid|
+      image = Aeolus::Image::Warehouse::Image.find(uuid)
+      image.delete!
+    end
+    redirect_to images_path, :notice => t("images.flash.notice.multiple_deleted", :count => selected_images.count)
   end
 end
