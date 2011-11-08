@@ -9,8 +9,8 @@
         %span#user-menu{ :class => javascript? ? 'js' : 'nojs' }
           = link_to t('masthead.my_account'), account_path
           = link_to t('masthead.logout'), logout_path
-      %li.separator
-      %li
-        %div.query-input
-          -# Using verbatim HTML because CSS inline-block requires it.
-          != "<input type='text' placeholder='Search...' /><input type='submit' value='search' />"
+/      %li.separator
+/      %li
+/        %div.query-input
+/          -# Using verbatim HTML because CSS inline-block requires it.
+/          != "<input type='text' placeholder='Search...' /><input type='submit' value='search' />"
