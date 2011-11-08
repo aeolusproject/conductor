@@ -21,6 +21,83 @@ require 'aeolus_image'
 
 describe Api::ProviderImagesController do
   render_views
+  context "create helper methods" do
+
+    describe "#find_target_image_for_account" do
+
+      before(:each) do
+        @controller = Api::ProviderImagesController.new
+        provider = FactoryGirl.create :mock_provider_for_vcr_data
+        @account = provider.provider_accounts.first
+
+        image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35')
+        build = mock(Aeolus::Image::Warehouse::ImageBuild, :id => '93e43784-114d-431c-a775-61261baed80f',
+                                                           :image => image)
+        @mock_target_image = mock(Aeolus::Image::Warehouse::TargetImage, :id => '42691826-7e02-4256-9d5d-5720d6fd58e0',
+                                                                         :target => 'mock',
+                                                                         :build => build)
+        @ec2_target_image = mock(Aeolus::Image::Warehouse::TargetImage, :id => 'c69e4be2-5596-4523-8eb8-c6ba97cbed4f',
+                                                                        :target => 'ec2',
+                                                                        :build => build)
+      end
+
+      it "should return the correct target image when a match is found" do
+        @controller.find_target_image_for_account([@ec2_target_image, @mock_target_image], @account).should == @mock_target_image
+      end
+
+      it "should return the nil when no match is found" do
+        @controller.find_target_image_for_account([@ec2_target_image, @ec2_target_image], @account).should == nil
+      end
+    end
+
+    describe "#list_target_images" do
+
+      before(:each) do
+        @target_image = mock(Aeolus::Image::Warehouse::TargetImage, :id => '42691826-7e02-4256-9d5d-5720d6fd58e0',
+                                                                    :target => 'mock',
+                                                                    :build => @build)
+        @build1 = mock(Aeolus::Image::Warehouse::ImageBuild, :target_images => [@target_image, @target_image])
+        @build2 = mock(Aeolus::Image::Warehouse::ImageBuild, :target_images => [@target_image, @target_image])
+        @image = mock(Aeolus::Image::Warehouse::Image, :image_builds => [@build1, @build2])
+      end
+
+      it "should raise bad request when no provider account is given" do
+        begin
+          doc = Nokogiri::XML CGI.unescapeHTML "<provider_image></provider_image>"
+          @controller.list_target_images(doc)
+        rescue => e
+          e.instance_of?(ActiveResource::BadRequest).should == true
+        end
+      end
+
+      it "should return a single target image when a target image is provided" do
+        doc = Nokogiri::XML "<provider_image>
+                               <provider_account>MockAccount</provider_account>
+                               <target_image_id>1234</image_id>
+                             </provider_image>"
+        Aeolus::Image::Warehouse::TargetImage.stub(:find).and_return(@target_image)
+        @controller.list_target_images(doc).size.should == 1
+      end
+
+      it "should return a list of target images when a build is provided" do
+        doc = Nokogiri::XML "<provider_image>
+                               <provider_account>MockAccount</provider_account>
+                               <build_id>1234</image_id>
+                             </provider_image>"
+        Aeolus::Image::Warehouse::ImageBuild.stub(:find).and_return(@build1)
+        @controller.list_target_images(doc).size.should == 2
+      end
+
+      it "should return a list of target images when an image is provided" do
+        doc = Nokogiri::XML "<provider_image>
+                               <provider_account>MockAccount</provider_account>
+                               <image_id>1234</image_id>
+                             </provider_image>"
+        Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
+        @controller.list_target_images(doc).size.should == 4
+      end
+    end
+  end
 
   shared_examples_for "Api::ProviderImagesController responding with XML" do
     before(:each) do

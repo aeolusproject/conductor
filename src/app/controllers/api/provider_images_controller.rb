@@ -54,17 +54,34 @@ module Api
     end
 
     def create
-      req = process_post(request.body.read)
+      doc = Nokogiri::XML CGI.unescapeHTML(request.body.read)
       begin
-        if req[:type] == :failed
-          render :text => "Insufficient Parameters supplied", :status => 400
-        else
-          @provider_image = Aeolus::Image::Factory::ProviderImage.new(req[:params])
-          @provider_image.save!
-          respond_with(@provider_image)
+        target_images = list_target_images(doc)
+      rescue ActiveResource::BadRequest => e
+        render :text => e.message, :status => 400
+        return
+      end
+
+      @provider_images = []
+      @errors = []
+      begin
+        doc.xpath("/provider_image/provider_account").text.split(",").each do |account_name|
+          if account = ProviderAccount.find_by_label(account_name)
+            if target_image = find_target_image_for_account(target_images, account)
+              begin
+                @provider_images << send_push_request(target_image, account)
+              rescue ActiveResource::BadRequest
+                @errors << "Invalid Parameters for Account: " + account_name + " TargetImage: " + target_image.id
+              rescue => e
+                @errors << "Internal Server Error: Could not push TargetImage: " + target_image.id + " to " + account_name
+              end
+            else
+              @errors << "Could not find an appropriate TargetImage for account " + account_name
+            end
+          else
+            @errors << "Could not find Account Named: " + account_name
+          end
         end
-      rescue ActiveResource::BadRequest
-        render :text => "Parameter Data Incorrect", :status => 400
       rescue => e
         raise e
         render :text => "Internal Server Error", :status => 500
@@ -86,24 +103,55 @@ module Api
       end
     end
 
-    private
-    def process_post(body)
-      doc = Nokogiri::XML CGI.unescapeHTML(body)
-      puts Nokogiri::XML CGI.unescapeHTML(body)
-      if !doc.xpath("/provider_image/provider_name").empty? && !doc.xpath("/provider_image/provider_account").empty? &&
-           !doc.xpath("/provider_image/image_id").empty? && !doc.xpath("/provider_image/build_id").empty? &&
-             !doc.xpath("/provider_image/target_image_id").empty?
-        if provider_account = ProviderAccount.find_by_label(doc.xpath("/provider_image/provider_account").text)
-          #TODO check user permission on this provider account
-          { :type => :push, :params => { :provider => doc.xpath("/provider_image/provider_name").text,
-                                         :credentials => provider_account.to_xml(:with_credentials => true),
-                                         :image_id => doc.xpath("/provider_image/image_id").text,
-                                         :build_id => doc.xpath("/provider_image/build_id").text,
-                                         :target_image_id => doc.xpath("/provider_image/target_image_id").text } }
-        end
+    def list_target_images(doc)
+      if doc.xpath("/provider_image/provider_account").empty?
+        raise(ActiveResource::BadRequest.new("Invalid Parameters: No Provider Account Given"))
       else
-        { :type => :failed }
+        target_images = []
+        if !doc.xpath("/provider_image/image_id").empty?
+          Aeolus::Image::Warehouse::Image.find(doc.xpath("/provider_image/image_id").text).image_builds.each do |build|
+            target_images += build.target_images
+          end
+          target_images
+        elsif !doc.xpath("/provider_image/build_id").empty?
+          if build = Aeolus::Image::Warehouse::ImageBuild.find(doc.xpath("/provider_image/build_id").text)
+            target_images = build.target_images
+          else
+            raise(ActiveResource::ResourceNotFound.new("Could not find the specified build"))
+          end
+        elsif !doc.xpath("/provider_image/target_image_id").empty?
+          if target_image = Aeolus::Image::Warehouse::TargetImage.find(doc.xpath("/provider_image/target_image_id").text)
+            target_images << target_image
+          end
+        else
+          raise(ActiveResource::BadRequest.new("Invalid Parameters: No Image, Build or TargetImage Provided in Request"))
+        end
+        if target_images.empty?
+          raise(ActiveResource::ResourceNotFound.new("Could not find any matching Target Images"))
+        else
+          target_images
+        end
       end
     end
+
+    def send_push_request(target_image, account)
+      provider_image = Aeolus::Image::Factory::ProviderImage.new({:provider => account.provider.name,
+                                                                  :credentials => account.to_xml(:with_credentials => true),
+                                                                  :image_id => target_image.build.image.id,
+                                                                  :build_id => target_image.build.id,
+                                                                  :target_image_id => target_image.id })
+      provider_image.save!
+      provider_image
+    end
+
+    def find_target_image_for_account(target_images, account)
+      target_images.each do |target_image|
+        if target_image.target == account.provider.provider_type.deltacloud_driver
+          return target_image
+        end
+      end
+      nil
+    end
+
   end
 end
