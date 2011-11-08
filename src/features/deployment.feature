@@ -28,6 +28,8 @@ Feature: Manage Deployments
   #working in a testable scenario.
   Scenario: Launch new deployment
     Given a pool "mockpool" exists
+    And "mockpool" has catalog "test"
+    And "test" has catalog_entry "test_catalog_entry"
     And there is "front_hwp1" conductor hardware profile
     And there is "front_hwp2" conductor hardware profile
     And there is mock provider account "my_mock_provider"
@@ -35,8 +37,7 @@ Feature: Manage Deployments
     When I am viewing the pool "mockpool"
     And I follow "new_deployment_button"
     Then I should see "New Deployment"
-    And show me the page
-    When I fill in "deployable_url" with "http://localhost/deployables/deployable1.xml"
+    When I select "test_catalog_entry" from "catalog_entry_id"
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "next_button"
     Then I should see "Are you sure you wish to deploy"
@@ -48,6 +49,8 @@ Feature: Manage Deployments
 
   Scenario: Launch new deployment over XHR
     Given a pool "mockpool" exists
+    And "mockpool" has catalog "test"
+    And "test" has catalog_entry "test_catalog_entry"
     And there is "front_hwp1" conductor hardware profile
     And there is "front_hwp2" conductor hardware profile
     When I am viewing the pool "mockpool"
@@ -55,7 +58,7 @@ Feature: Manage Deployments
     And I follow "new_deployment_button"
     Then I should get back a partial
     Then I should see "New Deployment"
-    When I fill in "deployable_url" with "http://localhost/deployables/deployable1.xml"
+    When I select "test_catalog_entry" from "catalog_entry_id"
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "next_button"
     Then I should see "Are you sure you wish to deploy"
@@ -149,18 +152,6 @@ Feature: Manage Deployments
     When I stop "mockdeployment" deployment
     Then I should get back JSON object with success and errors
 
-  Scenario: Provider invalid deployable xml URL when launching a deployment
-    Given a pool "mockpool" exists
-    When I am viewing the pool "mockpool"
-    And I follow "new_deployment_button"
-    Then I should see "New Deployment"
-    When I fill in "deployable_url" with "http://invalid.deployable.url/"
-    And I fill in "deployment_name" with "mynewdeployment"
-    And I press "next_button"
-    Then I should see "New Deployment"
-    And I should see "Deployment Details"
-    And I should see "failed to get the deployable definition"
-
   Scenario: Show deployment switch to deployment properties and back
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
     When I am on the deployments page
@@ -205,11 +196,13 @@ Feature: Manage Deployments
 
   Scenario: Launch a deployment which is not launchable
     Given a pool "mockpool" exists
+    And "mockpool" has catalog "test"
+    And "test" has catalog_entry "test_catalog_entry"
     And there is "front_hwp1" conductor hardware profile
     When I am viewing the pool "mockpool"
     And I follow "New Deployment"
     Then I should see "New Deployment"
-    When I fill in "deployable_url" with "http://localhost/deployables/deployable1.xml"
+    When I select "test_catalog_entry" from "catalog_entry_id"
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "Next"
     Then I should see "Are you sure you wish to deploy"
@@ -218,6 +211,8 @@ Feature: Manage Deployments
 
   Scenario: Verify that the launch parameters are displayed
     Given a pool "mockpool" exists
+    And "mockpool" has catalog "test"
+    And "test" has catalog_entry with parameters "test_catalog_entry"
     And there is "front_hwp1" conductor hardware profile
     And there is "front_hwp2" conductor hardware profile
     And there is mock provider account "my_mock_provider"
@@ -225,7 +220,7 @@ Feature: Manage Deployments
     When  I am viewing the pool "mockpool"
     And   I follow "New Deployment"
     Then  I should see "New Deployment"
-    When  I fill in "deployable_url" with "http://localhost/deployables/deployable_with_launch_parameters.xml"
+    When  I select "test_catalog_entry" from "catalog_entry_id"
     And   I fill in "deployment_name" with "deployment_with_launch_parameters"
     And   I press "Next"
     Then  I should see "Configure launch-time parameters"
@@ -234,6 +229,8 @@ Feature: Manage Deployments
 
   Scenario: Verify that the launch parameters are required
     Given a pool "mockpool" exists
+    And "mockpool" has catalog "test"
+    And "test" has catalog_entry with parameters "test_catalog_entry"
     And there is "front_hwp1" conductor hardware profile
     And there is "front_hwp2" conductor hardware profile
     And there is mock provider account "my_mock_provider"
@@ -241,7 +238,7 @@ Feature: Manage Deployments
     When  I am viewing the pool "mockpool"
     And   I follow "New Deployment"
     Then  I should see "New Deployment"
-    When  I fill in "deployable_url" with "http://localhost/deployables/deployable_with_launch_parameters.xml"
+    When  I select "test_catalog_entry" from "catalog_entry_id"
     And   I fill in "deployment_name" with "deployment_with_launch_parameters"
     And   I press "Next"
     Then  I should see "Configure launch-time parameters"
@@ -250,5 +247,5 @@ Feature: Manage Deployments
     When  I fill in "deployment_launch_parameters_assembly_with_launch_parameters_service_with_launch_parameters_launch_parameter_1" with "value_1"
     And   I press "submit_params"
     Then  I should see "Are you sure you wish to deploy"
-    When   I press "launch_deployment"
+    When  I press "launch_deployment"
     Then  I should see "launch_parameter_2 cannot be blank"

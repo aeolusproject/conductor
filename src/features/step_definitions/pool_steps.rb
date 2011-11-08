@@ -134,3 +134,10 @@ Given /^"([^"]*)" has catalog_entry "([^"]*)"$/ do |catalog_name, catalog_entry_
   catalog_entry.catalog = catalog
   catalog_entry.save!
 end
+
+Given /^"([^"]*)" has catalog_entry with parameters "([^"]*)"$/ do |catalog_name, catalog_entry_name|
+  catalog_entry = FactoryGirl.create :catalog_entry_with_parameters, :name => catalog_entry_name
+  catalog = Catalog.find_by_name(catalog_name)
+  catalog_entry.catalog = catalog
+  catalog_entry.save!
+end
