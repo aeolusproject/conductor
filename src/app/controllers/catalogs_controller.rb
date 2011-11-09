@@ -21,7 +21,7 @@ class CatalogsController < ApplicationController
 
   def index
     clear_breadcrumbs
-    @catalogs = Catalog.list_for_user(current_user, Privilege::VIEW).apply_preset_filter(params[:catalogs_preset_filter])
+    @catalogs = Catalog.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:catalogs_preset_filter], :search_filter => params[:catalogs_search])
     save_breadcrumb(catalogs_path(:viewstate => @viewstate ? @viewstate.id : nil))
     set_header
     set_admin_content_tabs 'catalogs'

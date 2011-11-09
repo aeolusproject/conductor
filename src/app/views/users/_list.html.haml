@@ -20,7 +20,9 @@
   /  %ul
   /    %li= link_to "Add/Remove Columns", "#"
   /    %li= link_to "Freeze Column", "#"
-  /%li= text_field_tag :search, nil, :placeholder => "Search"
+  %li
+    = text_field_tag :users_search, params[:users_search], :placeholder => "Search"
+    = restful_submit_tag "Apply", "index", users_path, 'GET', :class => 'button', :id => 'apply_users_search'
 
   :javascript
     $(document).ready(function(){

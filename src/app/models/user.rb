@@ -83,19 +83,6 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
 
-  PRESET_FILTERS_OPTIONS = [
-    {:title => "Name starts with A", :id => "name_starts_with_A", :query => where("last_name LIKE 'A%'")},
-    {:title => "Name starts with B", :id => "name_starts_with_B", :query => where("last_name LIKE 'B%'")}
-  ]
-
-  def self.apply_preset_filter(preset_filter_id)
-    if preset_filter_id.present?
-      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
-    else
-      scoped
-    end
-  end
-
   def name
     "#{first_name} #{last_name}"
   end
@@ -134,7 +121,32 @@ class User < ActiveRecord::Base
     new_record? ? !ignore_password : (!password.blank? or !password_confirmation.blank?)
   end
 
+  PRESET_FILTERS_OPTIONS = [
+    {:title => "Name starts with A", :id => "name_starts_with_A", :query => where("last_name LIKE 'A%'")},
+    {:title => "Name starts with B", :id => "name_starts_with_B", :query => where("last_name LIKE 'B%'")}
+  ]
+
+  def self.apply_filters(options = {})
+    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
+  end
+
   private
+
+  def self.apply_preset_filter(preset_filter_id)
+    if preset_filter_id.present?
+      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
+    else
+      scoped
+    end
+  end
+
+  def self.apply_search_filter(search)
+    if search
+      where("first_name ILIKE :search OR last_name ILIKE :search OR login ILIKE :search OR email ILIKE :search", :search => "%#{search}%")
+    else
+      scoped
+    end
+  end
 
   def encrypt_password
     self.crypted_password = Password::update(password) unless password.blank?

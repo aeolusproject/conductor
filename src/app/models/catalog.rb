@@ -45,9 +45,23 @@ class Catalog < ActiveRecord::Base
     {:title => "Belongs to Default Pool", :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}
   ]
 
+  def self.apply_filters(options = {})
+    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
+  end
+
+  private
+
   def self.apply_preset_filter(preset_filter_id)
     if preset_filter_id.present?
       PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
+    else
+      scoped
+    end
+  end
+
+  def self.apply_search_filter(search)
+    if search
+      includes(:pool).where("catalogs.name ILIKE :search OR pools.name ILIKE :search", :search => "%#{search}%")
     else
       scoped
     end
