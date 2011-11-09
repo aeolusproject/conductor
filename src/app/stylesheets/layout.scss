@@ -2493,6 +2493,33 @@ form.filterable-data{
       }
     }
 
+    li.table-search-filter{
+      input[type="text"]{
+        display: inline;
+        -webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px;
+        border: 1px solid #ccc;
+        height: 23px;
+        width: 130px;
+        outline: none;
+        padding: 0px 26px 0px 10px;
+        margin:0px;
+        font-size: 12px;
+      }
+      input[type="submit"]{
+        display: inline-block;
+        vertical-align: top;
+        background: transparent url('../../images/button-search.png') no-repeat 5px center;
+        border: none;
+        height: 25px;
+        width: 30px;
+        margin-left: -30px;
+        outline: none;
+        cursor: pointer;
+        &:hover{ background: transparent url('../../images/button-search-over.png') no-repeat 5px center; }
+        &:active{ background: transparent url('../../images/button-search-down.png') no-repeat 5px center; }
+      }
+    }
+
   }
 
   table{
