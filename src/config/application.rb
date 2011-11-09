@@ -92,6 +92,8 @@ module Conductor
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
+    require File.dirname(__FILE__) + '/../lib/exceptions'
+
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
     require File.dirname(__FILE__) + '/../lib/warehouse_model'

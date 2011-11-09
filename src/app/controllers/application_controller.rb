@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActionError, :with => :handle_action_error
   rescue_from PartialSuccessError, :with => :handle_partial_success_error
   rescue_from ActiveRecord::RecordNotFound, :with => :handle_active_record_not_found_error
+  rescue_from Aeolus::Conductor::API::Error, :with => :handle_api_error
 
   helper_method :check_privilege
 
@@ -105,6 +106,10 @@ class ApplicationController < ActionController::Base
   def handle_active_record_not_found_error(error)
     redirect_to :controller => params[:controller]
     flash[:notice] = t('application_controller.flash.notice.record_not_exist')
+  end
+
+  def handle_api_error(error)
+    render :template => 'api/error', :locals => {:error => error}, :status => error.status
   end
 
   # Returns an array of ids from params[:id], params[:ids].
