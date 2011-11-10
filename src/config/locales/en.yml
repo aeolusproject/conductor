@@ -112,6 +112,7 @@ en:
   basic_template: Template Builder Basic Workflow
   browse_packages: Browse Packages
   builds: Builds
+  images: Images
   runtime: Run
   instance_management: Instance Management
   instance_details: Instance Details
@@ -603,13 +604,6 @@ en:
     preset_filters:
       all_catalogs: "All Catalogs"
       belongs_to_default_pool: "Belongs to Default Pool"
-  images:
-    index:
-      images: Images
-      name: Name
-      os: OS
-      os_version: OS Version
-      architecture: Architecture
   deployables:
     index:
       deployables: Deployables
