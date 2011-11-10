@@ -121,10 +121,7 @@ class User < ActiveRecord::Base
     new_record? ? !ignore_password : (!password.blank? or !password_confirmation.blank?)
   end
 
-  PRESET_FILTERS_OPTIONS = [
-    {:title => I18n.t("users.preset_filters.name_starts_with_A"), :id => "name_starts_with_A", :query => where("last_name LIKE 'A%'")},
-    {:title => I18n.t("users.preset_filters.name_starts_with_B"), :id => "name_starts_with_B", :query => where("last_name LIKE 'B%'")}
-  ]
+  PRESET_FILTERS_OPTIONS = []
 
   def self.apply_filters(options = {})
     apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])

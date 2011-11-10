@@ -26,7 +26,6 @@ class UsersController < ApplicationController
     save_breadcrumb(users_path)
     set_admin_users_tabs 'users'
     @params = params
-    @preset_filters_ids = ["name_starts_with_A"]
     load_headers
     load_users
     respond_to do |format|
