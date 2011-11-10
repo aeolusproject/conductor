@@ -68,20 +68,14 @@ class ProviderAccountsController < ApplicationController
   end
 
   def create
-    unless params[:provider_account][:provider].nil?
-      provider = params[:provider_account].delete(:provider)
-      params[:provider_account][:provider_id] = Provider.find_by_name(provider).id
-    end
-    @provider = Provider.find(params[:provider_account][:provider_id])
+    @provider = Provider.find(params[:provider_id])
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
-
+    params[:provider_account][:provider_id] = @provider.id
     @providers = Provider.all
     @provider_account = ProviderAccount.new(params[:provider_account])
     @provider_account.quota = @quota = Quota.new
-
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @provider_account.quota.set_maximum_running_instances(limit)
-
     @provider_account.pool_families << PoolFamily.default
     begin
       if @provider_account.save
