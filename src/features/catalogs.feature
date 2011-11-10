@@ -53,3 +53,18 @@ Feature: Manage Catalogs
     And I press "delete_button"
     Then I should be on the catalogs page
     And I should see "2 Catalogs deleted!"
+
+  Scenario: Search catalogs
+    Given there is a "mycatalog" catalog
+    And there is a "somecatalog" catalog
+    And I am on the catalogs page
+    Then I should see "mycatalog"
+    And I should see "somecatalog"
+    When I fill in "catalogs_search" with "some"
+    And I press "apply_catalogs_search"
+    Then I should see "somecatalog"
+    And I should not see "mycatalog"
+    When I fill in "catalogs_search" with "mycatalog"
+    And I press "apply_catalogs_search"
+    Then I should see "mycatalog"
+    And I should not see "somecatalog"

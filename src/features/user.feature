@@ -102,17 +102,17 @@ Feature: Manage Users
     Then "test" user failed login count is more than zero
 
 
-#  Scenario: Search for users
-#    Given there is a user "myuser"
-#    And there is a user "someuser"
-#    And I am on the users page
-#    Then I should see "myuser"
-#    And I should see "someuser"
-#    When I fill in "q" with "some"
-#    And I press "Search"
-#    Then I should see "someuser"
-#    And I should not see "myuser"
-#    When I fill in "q" with "myuser"
-#    And I press "Search"
-#    Then I should see "myuser"
-#    And I should not see "someuser"
+  Scenario: Search for users
+    Given there is a user "myuser"
+    And there is a user "someuser"
+    And I am on the users page
+    Then I should see "myuser"
+    And I should see "someuser"
+    When I fill in "users_search" with "some"
+    And I press "apply_users_search"
+    Then I should see "someuser"
+    And I should not see "myuser"
+    When I fill in "users_search" with "myuser"
+    And I press "apply_users_search"
+    Then I should see "myuser"
+    And I should not see "someuser"
