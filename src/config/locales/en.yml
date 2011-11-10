@@ -48,6 +48,10 @@ en:
           other: Deleted users
       warning:
         not_delete: "Cannot delete %{login} : you are logged in as this user"
+    preset_filters:
+      all_users: "All Users"
+      name_starts_with_A: "Name starts with A"
+      name_starts_with_B: "Name starts with B"
   user_sessions:
     new:
       username: "Username:"
@@ -597,6 +601,9 @@ en:
         deleted:
           one: Catalog deleted!
           other: "%{count} Catalogs deleted!"
+    preset_filters:
+      all_catalogs: "All Catalogs"
+      belongs_to_default_pool: "Belongs to Default Pool"
   deployables:
     index:
       deployables: Deployables
@@ -841,6 +848,8 @@ en:
   filter_table:
     viewing: Viewing
     results: Results
+    search: Search
+    apply_filters: "Apply filters"
   masthead:
     my_account: My Account
     logout: Log out

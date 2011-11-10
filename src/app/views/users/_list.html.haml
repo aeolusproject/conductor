@@ -10,8 +10,8 @@
 - content_for :filter_controls do
   %li
     = label_tag :users_preset_filter, t('filter_table.viewing')
-    = select_tag(:users_preset_filter, preset_filters_options_for_select(User::PRESET_FILTERS_OPTIONS, params[:users_preset_filter], @preset_filters_ids), :include_blank => "All users")
-    = restful_submit_tag "Apply", "index", users_path, 'GET', :class => 'button', :id => 'apply_users_preset_filter'
+    = select_tag(:users_preset_filter, preset_filters_options_for_select(User::PRESET_FILTERS_OPTIONS, params[:users_preset_filter], @preset_filters_ids), :include_blank => t("users.preset_filters.all_users"))
+    = restful_submit_tag t("filter_table.apply_filters"), "index", users_path, 'GET', :class => 'button', :id => 'apply_users_preset_filter'
     %span.label.badge.dark= @users.count
   /  = link_to "Filter", "#", :class => 'button pill'
   /%li
@@ -21,7 +21,7 @@
   /    %li= link_to "Add/Remove Columns", "#"
   /    %li= link_to "Freeze Column", "#"
   %li.table-search-filter
-    = text_field_tag :users_search, params[:users_search], :placeholder => "Search"
+    = text_field_tag :users_search, params[:users_search], :placeholder => t("filter_table.search")
     = restful_submit_tag "", "index", users_path, 'GET', :class => 'button', :id => 'apply_users_search'
 
   :javascript

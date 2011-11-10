@@ -5,11 +5,11 @@
 - content_for :filter_controls do
   %li
     = label_tag :catalogs_preset_filter, t('filter_table.viewing')
-    = select_tag(:catalogs_preset_filter, preset_filters_options_for_select(Catalog::PRESET_FILTERS_OPTIONS, params[:catalogs_preset_filter]), :include_blank => "All Catalogs")
-    = restful_submit_tag "Apply", "index", catalogs_path, 'GET', :class => 'button', :id => 'apply_catalogs_preset_filter'
+    = select_tag(:catalogs_preset_filter, preset_filters_options_for_select(Catalog::PRESET_FILTERS_OPTIONS, params[:catalogs_preset_filter]), :include_blank => t("catalogs.preset_filters.all_catalogs"))
+    = restful_submit_tag t("filter_table.apply_filters"), "index", catalogs_path, 'GET', :class => 'button', :id => 'apply_catalogs_preset_filter'
     %span.label.badge.dark= @catalogs.count
   %li.table-search-filter
-    = text_field_tag :catalogs_search, params[:catalogs_search], :placeholder => "Search"
+    = text_field_tag :catalogs_search, params[:catalogs_search], :placeholder => t("filter_table.search")
     = restful_submit_tag "", "index", catalogs_path, 'GET', :class => 'button', :id => 'apply_catalogs_search'
 
   :javascript

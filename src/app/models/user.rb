@@ -122,8 +122,8 @@ class User < ActiveRecord::Base
   end
 
   PRESET_FILTERS_OPTIONS = [
-    {:title => "Name starts with A", :id => "name_starts_with_A", :query => where("last_name LIKE 'A%'")},
-    {:title => "Name starts with B", :id => "name_starts_with_B", :query => where("last_name LIKE 'B%'")}
+    {:title => I18n.t("users.preset_filters.name_starts_with_A"), :id => "name_starts_with_A", :query => where("last_name LIKE 'A%'")},
+    {:title => I18n.t("users.preset_filters.name_starts_with_B"), :id => "name_starts_with_B", :query => where("last_name LIKE 'B%'")}
   ]
 
   def self.apply_filters(options = {})

@@ -42,7 +42,7 @@ class Catalog < ActiveRecord::Base
   validates_length_of :name, :maximum => 1024
 
   PRESET_FILTERS_OPTIONS = [
-    {:title => "Belongs to Default Pool", :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}
+    {:title => I18n.t("catalogs.preset_filters.belongs_to_default_pool"), :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}
   ]
 
   def self.apply_filters(options = {})
