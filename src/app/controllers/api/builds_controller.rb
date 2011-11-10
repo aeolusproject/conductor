@@ -41,8 +41,7 @@ module Api
       if @build
         respond_with(@build)
       else
-        #render :nothing => true, :status => 404
-        render :xml => :not_found, :status => :not_found
+        raise(Aeolus::Conductor::API::BuildNotFound.new(404, "Could not find Build " + id))
       end
     end
 
@@ -53,11 +52,10 @@ module Api
             render :text => "Build Deleted", :status => 200
           end
         else
-          render :text => "Unable to find Build", :status => 404
+          raise(Aeolus::Conductor::API::BuildNotFound.new(404, "Could not find Build " + params[:id]))
         end
       rescue => e
-        raise e
-        render :text => "Unable to Delete Build", :status => 500
+        raise(Aeolus::Conductor::API::BuildDeleteFailure.new(500, e.message))
       end
     end
   end

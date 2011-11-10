@@ -48,7 +48,7 @@ module Api
                                                            :status => status)
           respond_with(@image)
         else
-          render :text => "Resource Not Found", :status => 404
+          raise(Aeolus::Conductor::API::TargetImageStatusNotFound.new(404, "Could not find status for TargetImage " + id))
         end
       end
     end
@@ -60,11 +60,10 @@ module Api
             render :text => "Target Image Deleted", :status => 200
           end
         else
-          render :text => "Unable to find Target Image", :status => 404
+          raise(Aeolus::Conductor::API::TargetImageNotFound.new(404, "Could not find TargetImage " + params[:id]))
         end
       rescue => e
-        raise e
-        render :text => "Unable to Delete Target Image", :status => 500
+        raise(Aeolus::Conductor::API::TargetImageDeleteFailure.new(500, e.message))
       end
     end
   end

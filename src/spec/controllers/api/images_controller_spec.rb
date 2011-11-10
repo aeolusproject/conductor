@@ -139,6 +139,22 @@ describe Api::ImagesController do
           end
         end
 
+        context "exception should be thrown if image is missing" do
+
+          before(:each) do
+            send_and_accept_xml
+            Aeolus::Image::Warehouse::Image.stub(:find).and_return(nil)
+            get :show, :id => '3'
+          end
+
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have error" do
+            resp = Hash.from_xml(response.body)
+            resp['error']['code'].should == "ImageNotFound"
+            resp['error']['message'].should == "Could not find Image 3"
+          end
+        end
+
         context "when there is NOT wanted image" do
 
           before(:each) do
@@ -151,7 +167,44 @@ describe Api::ImagesController do
           it { response.headers['Content-Type'].should include("application/xml") }
         end
       end
+
+      describe "#create" do
+        context "exception should be thrown if request is empty" do
+
+          before(:each) do
+            send_and_accept_xml
+            Aeolus::Image::Warehouse::Image.stub(:find).and_return(nil)
+            get :create, :id => '3'
+          end
+
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have error" do
+            resp = Hash.from_xml(response.body)
+            resp['error']['code'].should == "InsufficientParametersSupplied"
+            resp['error']['message'].should == "Please specify a type, build or import"
+          end
+        end
+      end
+
+      describe "#destroy" do
+        context "exception should be thrown if image is missing" do
+
+          before(:each) do
+            send_and_accept_xml
+            Aeolus::Image::Warehouse::Image.stub(:find).and_return(nil)
+            get :destroy, :id => '3'
+          end
+
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have error" do
+            resp = Hash.from_xml(response.body)
+            resp['error']['code'].should == "ImageDeleteFailure"
+            resp['error']['message'].should == "Could not find Image 3"
+          end
+        end
+      end
     end
+
 
     context "when not authenticated" do
 

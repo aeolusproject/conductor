@@ -48,7 +48,7 @@ module Api
                                                              :status => status)
           respond_with(@image)
         else
-          render :text => "Resource Not Found", :status => 404
+          raise(Aeolus::Conductor::API::ProviderImageStatusNotFound.new(404, "Could not find status for ProviderImage " + id))
         end
       end
     end
@@ -58,33 +58,30 @@ module Api
       begin
         target_images = list_target_images(doc)
       rescue ActiveResource::BadRequest => e
-        render :text => e.message, :status => 400
+        raise(Aeolus::Conductor::API::InsufficientParametersSupplied.new(400, "In grabbing list of target images: " + e.message))
         return
       end
 
       @provider_images = []
       @errors = []
-      begin
-        doc.xpath("/provider_image/provider_account").text.split(",").each do |account_name|
-          if account = ProviderAccount.find_by_label(account_name)
-            if target_image = find_target_image_for_account(target_images, account)
-              begin
-                @provider_images << send_push_request(target_image, account)
-              rescue ActiveResource::BadRequest
-                @errors << "Invalid Parameters for Account: " + account_name + " TargetImage: " + target_image.id
-              rescue => e
-                @errors << "Internal Server Error: Could not push TargetImage: " + target_image.id + " to " + account_name
-              end
-            else
-              @errors << "Could not find an appropriate TargetImage for account " + account_name
-            end
-          else
-            @errors << "Could not find Account Named: " + account_name
-          end
+      doc.xpath("/provider_image/provider_account").text.split(",").each do |account_name|
+        account = ProviderAccount.find_by_label(account_name)
+        if !account
+          raise(Aeolus::Conductor::API::ProviderAccountNotFound.new(404, "Could not find provider account for name " + account_name))
         end
-      rescue => e
-        raise e
-        render :text => "Internal Server Error", :status => 500
+
+        target_image = find_target_image_for_account(target_images, account)
+        if !target_image
+          raise(Aeolus::Conductor::API::TargetImageNotFound.new(404, "Could not find an appropriate target image for account " + account_name))
+        end
+
+        begin
+          @provider_images << send_push_request(target_image, account)
+        rescue ActiveResource::BadRequest
+          raise(Aeolus::Conductor::API::ParameterDataIncorrect.new(400, "Invalid Parameters for Account: " + account_name + " TargetImage: " + target_image.id))
+        rescue => e
+          raise(Aeolus::Conductor::API::PushError.new(500, "Could not push TargetImage " + target_image.id + " to " + account_name + " and error " + e.message))
+        end
       end
     end
 
@@ -95,39 +92,47 @@ module Api
             render :text => "Provider Image Deleted", :status => 200
           end
         else
-          render :text => "Unable to find Provider Image", :status => 404
+          raise(Aeolus::Conductor::API::ProviderImageNotFound.new(404, "Could not find a ProviderImage for id " + params[:id]))
         end
       rescue => e
-        raise e
-        render :text => "Unable to Delete Provider Image", :status => 500
+        raise(Aeolus::Conductor::API::ProviderImageDeleteFailure.new(500, e.message))
       end
     end
 
     def list_target_images(doc)
       if doc.xpath("/provider_image/provider_account").empty?
-        raise(ActiveResource::BadRequest.new("Invalid Parameters: No Provider Account Given"))
+        raise(Aeolus::Conductor::API::InsufficientParametersSupplied.new(400, "No provider account given"))
       else
         target_images = []
         if !doc.xpath("/provider_image/image_id").empty?
-          Aeolus::Image::Warehouse::Image.find(doc.xpath("/provider_image/image_id").text).image_builds.each do |build|
+          image_id = doc.xpath("/provider_image/image_id").text
+          image = Aeolus::Image::Warehouse::Image.find(image_id)
+          if !image
+            raise(Aeolus::Conductor::API::ImageNotFound.new(404, "Could not find Image " + image_id))
+          end
+          image.image_builds.each do |build|
             target_images += build.target_images
           end
           target_images
         elsif !doc.xpath("/provider_image/build_id").empty?
-          if build = Aeolus::Image::Warehouse::ImageBuild.find(doc.xpath("/provider_image/build_id").text)
+          build_id = doc.xpath("/provider_image/build_id").text
+          if build = Aeolus::Image::Warehouse::ImageBuild.find(build_id)
             target_images = build.target_images
           else
-            raise(ActiveResource::ResourceNotFound.new("Could not find the specified build"))
+            raise(Aeolus::Conductor::API::BuildNotFound.new(404, "Could not find Build " + build_id))
           end
         elsif !doc.xpath("/provider_image/target_image_id").empty?
-          if target_image = Aeolus::Image::Warehouse::TargetImage.find(doc.xpath("/provider_image/target_image_id").text)
-            target_images << target_image
+          target_image_id = doc.xpath("/provider_image/target_image_id").text
+          target_image = Aeolus::Image::Warehouse::TargetImage.find(target_image_id)
+          if !target_image
+            raise(Aeolus::Conductor::API::TargetImageNotFound.new(404, "Could not find TargetImage " + target_image_id))
           end
+          target_images << target_image
         else
-          raise(ActiveResource::BadRequest.new("Invalid Parameters: No Image, Build or TargetImage Provided in Request"))
+          raise(Aeolus::Conductor::API::InsufficientParametersSupplied.new(400, "Invalid Parameters: No Image, Build or TargetImage Provided in Request"))
         end
         if target_images.empty?
-          raise(ActiveResource::ResourceNotFound.new("Could not find any matching Target Images"))
+          raise(Aeolus::Conductor::API::InsufficientParametersSupplied.new(400, "Could not find any matching Target Images"))
         else
           target_images
         end
