@@ -1,9 +1,5 @@
 %fieldset#provider_type
   %p
-    = label_tag t('providers.provider')
-    = select(:provider_account, :provider_id, options_for_select(@providers.map{ |p| [p.name, p.id] }, :selected => @provider.id))
-    = restful_submit_tag t('choose'), 'set_selected_provider',set_selected_provider_provider_provider_accounts_path(@provider), 'GET', :class => 'button pill'
-  %p
     = label_tag t('provider_accounts.provider_selection.cloud_type')
     = @provider.provider_type.name
     .clear

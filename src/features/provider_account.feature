@@ -34,7 +34,6 @@ Feature: Manage Provider Accounts
     When I follow "New Account"
     Then I should be on testprovider's new provider account page
     And I should see "New Provider Account"
-    When I select "testprovider" from "provider_account_provider_id"
     And I fill in "provider_account[label]" with "testaccount"
     And I fill in "provider_account[credentials_hash][username]" with "mockuser"
     And I fill in "provider_account[credentials_hash][password]" with "mockpassword"
@@ -51,7 +50,6 @@ Feature: Manage Provider Accounts
     And I follow "New Account"
     Then I should be on testprovider's new provider account page
     And I should see "New Provider Account"
-    When I select "testprovider" from "provider_account_provider_id"
     And I fill in "provider_account[label]" with "testaccount"
     When I fill in "provider_account[credentials_hash][username]" with "mockuser"
     And I fill in "provider_account[credentials_hash][password]" with "wrongpassword"
