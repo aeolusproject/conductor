@@ -32,6 +32,12 @@ class CatalogEntriesController < ApplicationController
     @catalog_entry = params[:catalog_entry].nil? ? CatalogEntry.new() : CatalogEntry.new(params[:catalog_entry])
     require_privilege(Privilege::CREATE, CatalogEntry)
     load_catalogs
+    @tabs = [t('catalog_entries.new.upload'), t('catalog_entries.new.from_url')]
+    @form_option= params[:from_url].nil? ? 'upload' : 'from_url'
+    respond_to do |format|
+        format.html
+        format.js {render :partial => @form_option}
+    end
   end
 
   def show

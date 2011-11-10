@@ -6,5 +6,26 @@
     %h2=t'catalog_entries.new.add_catalog_entry'
 
   .content
-    = form_for @catalog_entry, :url => catalog_catalog_entries_path(@catalog), :html => {:class => 'generic', :multipart => true } do |f|
-      = render :partial => "form", :locals => { :form => f }
+    %h3=t'.choose_option_to_upload'
+    %nav.faceted
+      %ul#tab-container-1-nav
+        = link_to t('catalog_entries.new.upload'), new_catalog_catalog_entry_path(@catalog), :id => "upload"
+        = link_to t('catalog_entries.new.from_url'), new_catalog_catalog_entry_path(@catalog, :from_url => true), :id => "from_url"
+    .form_option
+    = render :partial => @form_option
+
+:javascript
+  $(document).ready(function() {
+    $("a#upload").click(function(ev){
+      ev.preventDefault();
+      $.get('#{new_catalog_catalog_entry_url(@catalog)}', function(data){
+        $('.form_option').html(data).show();
+      });
+    });
+    $("a#from_url").click(function(ev){
+      ev.preventDefault();
+      $.get('#{new_catalog_catalog_entry_url(@catalog, :from_url => true)}', function(data){
+        $('.form_option').html(data).show();
+      });
+    });
+  });

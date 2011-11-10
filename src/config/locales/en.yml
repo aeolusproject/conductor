@@ -572,6 +572,9 @@ en:
       deployable_xml: Deployable XML
     new:
       add_catalog_entry: Add New Catalog Entry
+      choose_option_to_upload: Choose one of the following options to upload deployable XML file
+      upload: Upload
+      from_url: From URL
     form:
       choose_xml: "Choose Deployable XML file:"
       catalog: Catalog
@@ -580,6 +583,7 @@ en:
       save: Save
       deployable_xml: "Deployable XML:"
       edit_xml_after_save: "Edit XML file after save"
+      deployable_xml_url: "URL of Deployable XML:"
     show:
       edit: Edit
       delete: Delete

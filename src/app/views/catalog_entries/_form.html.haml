@@ -15,18 +15,9 @@
     %p
       = form.label :description, t('.description')
       = form.text_area :description, :class => 'long'
-
-    - if controller.action_name == 'new'
-      %p
-        = form.label :xml, t('.choose_xml')
-        = form.file_field :xml
-      %p
-        = check_box_tag(:edit_xml, true, false)
-        = label_tag t('.edit_xml_after_save')
-    - else
-      %p
-        = form.label :xml, t('.deployable_xml')
-        = link_to t("catalog_entries.properties.edit_deployable_xml"), edit_catalog_catalog_entry_path(@catalog_entry.catalog.id, @catalog_entry.id, :edit_xml=>true)
+    %p
+      = form.label :xml, t('.deployable_xml')
+      = link_to t("catalog_entries.properties.edit_deployable_xml"), edit_catalog_catalog_entry_path(@catalog_entry.catalog.id, @catalog_entry.id, :edit_xml=>true)
 
 %fieldset.options
   = link_to "#{t'.cancel'}", catalog_path(@catalog), :class => 'button danger'
