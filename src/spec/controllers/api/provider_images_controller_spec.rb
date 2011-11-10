@@ -66,7 +66,7 @@ describe Api::ProviderImagesController do
           doc = Nokogiri::XML CGI.unescapeHTML "<provider_image></provider_image>"
           @controller.list_target_images(doc)
         rescue => e
-          e.instance_of?(ActiveResource::BadRequest).should == true
+          e.instance_of?(Aeolus::Conductor::API::InsufficientParametersSupplied).should == true
         end
       end
 
@@ -236,11 +236,45 @@ describe Api::ProviderImagesController do
 
             it { response.should be_not_found}
             it { response.headers['Content-Type'].should include("application/xml") }
-
+            it "should have error" do
+              resp = Hash.from_xml(response.body)
+              resp['error']['code'].should == "ProviderImageStatusNotFound"
+              resp['error']['message'].should == "Could not find status for ProviderImage 100"
+            end
           end
+       end
 
+        describe "#create" do
+          context "with incomplete parameters" do
+            before(:each) do
+              Aeolus::Image::Factory::ProviderImage.stub(:status).and_return(nil)
+              get :create, :id => '100'
+            end
+
+            it { response.headers['Content-Type'].should include("application/xml") }
+            it "should have error" do
+              resp = Hash.from_xml(response.body)
+              resp['error']['code'].should == "InsufficientParametersSupplied"
+              resp['error']['message'].should == "No provider account given"
+            end
+          end
         end
 
+        describe "#destroy" do
+          context "and deleting an object that doesn't exist" do
+            before(:each) do
+              Aeolus::Image::Factory::ProviderImage.stub(:status).and_return(nil)
+              get :destroy, :id => '99'
+            end
+
+            it { response.headers['Content-Type'].should include("application/xml") }
+            it "should have error" do
+              resp = Hash.from_xml(response.body)
+              resp['error']['code'].should == "ProviderImageDeleteFailure"
+              resp['error']['message'].should == "Could not find a ProviderImage for id 99"
+            end
+          end
+        end
       end
     end
 

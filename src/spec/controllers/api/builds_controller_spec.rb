@@ -132,6 +132,38 @@ describe Api::BuildsController do
           it { response.should be_not_found}
           it { response.headers['Content-Type'].should include("application/xml") }
         end
+
+        context "exception should be thrown for missing image" do
+          before(:each) do
+            send_and_accept_xml
+            Aeolus::Image::Warehouse::ImageBuild.stub(:find).and_return(nil)
+            get :show, :id => '3'
+          end
+
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have error" do
+            resp = Hash.from_xml(response.body)
+            resp['error']['code'].should == "BuildNotFound"
+            resp['error']['message'].should == "Could not find Build 3"
+          end
+        end
+      end
+
+      describe "#destroy" do
+        context "exception should be thrown for missing image" do
+          before(:each) do
+            send_and_accept_xml
+            Aeolus::Image::Warehouse::ImageBuild.stub(:find).and_return(nil)
+            get :destroy, :id => '3'
+          end
+
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have error" do
+            resp = Hash.from_xml(response.body)
+            resp['error']['code'].should == "BuildDeleteFailure"
+            resp['error']['message'].should == "Could not find Build 3"
+          end
+        end
       end
     end
 

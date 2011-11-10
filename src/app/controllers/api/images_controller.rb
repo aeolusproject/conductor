@@ -43,25 +43,35 @@ module Api
         @builds = {@image.id => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(@image.id)}
         respond_with(@image)
       else
-        #render :nothing => true, :status => 404
-        render :xml => :not_found, :status => :not_found
+        raise(Aeolus::Conductor::API::ImageNotFound.new(404, "Could not find Image " + id))
       end
     end
 
     def create
+      @errors=[]
       req = process_post(request.body.read)
       begin
         if req[:type] == :failed
-          render :text => "Insufficient Parameters supplied", :status => 400
+          raise(Aeolus::Conductor::API::InsufficientParametersSupplied.new(400, "Please specify a type, build or import"))
         else
+          @targetnotfound=false
+          @badtarget=""
+          req[:params][:targets].split(",").each do |t|
+            target = ProviderType.find_by_deltacloud_driver(t)
+            if !target
+              @targetnotfound=true
+              @badtarget=t
+            end
+          end
+          if @targetnotfound
+            raise(Aeolus::Conductor::API::TargetNotFound.new(404, "Could not find target " + @badtarget))
+          end
           @image = Aeolus::Image::Factory::Image.new(req[:params])
           @image.save!
           respond_with(@image)
         end
-      rescue ActiveResource::BadRequest
-        render :text => "Parameter Data Incorrect", :status => 400
-      rescue
-         render :text => "Internal Server Error From Factory", :status => 500
+      rescue ActiveResource::BadRequest => e
+        raise(Aeolus::Conductor::API::ParameterDataIncorrect.new(400, e.message))
       end
     end
 
@@ -72,11 +82,10 @@ module Api
             render :text => "Image Deleted", :status => 200
           end
         else
-          render :text => "Unable to find Image", :status => 404
+          raise(Aeolus::Conductor::API::ImageNotFound.new(404, "Could not find Image " + params[:id]))
         end
       rescue => e
-        raise e
-        render :text => "Unable to Delete Image", :status => 500
+        raise(Aeolus::Conductor::API::ImageDeleteFailure.new(500, e.message))
       end
     end
 

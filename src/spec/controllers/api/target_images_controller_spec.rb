@@ -160,11 +160,31 @@ describe Api::TargetImagesController do
 
             it { response.should be_not_found}
             it { response.headers['Content-Type'].should include("application/xml") }
-
+            it "should have error" do
+              resp = Hash.from_xml(response.body)
+              resp['error']['code'].should == "TargetImageStatusNotFound"
+              resp['error']['message'].should == "Could not find status for TargetImage 100"
+            end
           end
 
         end
       end
+
+      describe "#destroy" do
+        context "an object that doesn't exist" do
+          before(:each) do
+            get :destroy, :id => '99'
+          end
+
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have error" do
+            resp = Hash.from_xml(response.body)
+            resp['error']['code'].should == "TargetImageDeleteFailure"
+            resp['error']['message'].should == "Could not find TargetImage 99"
+          end
+        end
+      end
+
     end
 
     context "when not authenticated" do
