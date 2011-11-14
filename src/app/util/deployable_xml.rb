@@ -75,20 +75,10 @@ class ServiceXML
     @name = name
     @description = description
     @executable = executable
-    @file_nodes = files || []
+    @files = files || []
     @parameter_nodes = parameters || []
   end
-  attr_reader :name, :description
-
-  def executable
-    @executable['url'] if @executable
-  end
-
-  def files
-    @files ||= @file_nodes.collect do |file_node|
-      file_node['url']
-    end
-  end
+  attr_reader :name, :description, :executable, :files
 
   def parameters
     @parameters ||= @parameter_nodes.collect do |param_node|

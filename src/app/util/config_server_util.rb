@@ -116,27 +116,23 @@ module ConfigServerUtil
     end
 
     def executable
-      @executable ||= if @svc.executable
-        @svc.executable
-      end
+      @executable ||= @svc.executable
     end
 
     def files
-      @files ||= if not @svc.files.empty?
-        @svc.files
-      else []; end
+      @files ||= @svc.files
     end
 
     protected
     def _xml
       xml "<service name='#{@name}'>\n"
       if executable
-        xml "  <executable url='#{executable}'/>\n"
+        xml "  #{executable.to_xml}"
       end
       unless files.empty?
         xml "  <files>\n"
         files.each do |file|
-          xml "    <file url='#{file}'/>\n"
+          xml  "    #{file.to_xml}\n"
         end
         xml "  </files>\n"
       end
@@ -193,18 +189,6 @@ module ConfigServerUtil
     end
 
     private
-    def executable
-      @executable ||= if @assembly.executable
-        @assembly.executable
-      end
-    end
-
-    def files
-      @files ||= unless @assembly.files.empty?
-        @assembly.files
-      end
-    end
-
     def provided_parameters
       @provided_parameters ||= unless @assembly.output_parameters.empty?
         @assembly.output_parameters.dup

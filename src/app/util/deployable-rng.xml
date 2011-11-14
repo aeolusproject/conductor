@@ -81,15 +81,11 @@
   <!-- service describes the executable, additional files, and runtime
        parameters that should be propagated to the launched instance -->
   <define name="service-configuration-definition">
-    <element name="executable">
-      <attribute name="url"><text/></attribute>
-    </element>
+    <ref name="configuration-executable-definition"/>
     <optional>
       <element name="files">
         <oneOrMore>
-          <element name="file">
-            <attribute name="url"><text/></attribute>
-          </element>
+          <ref name="configuration-file-definition"/>
         </oneOrMore>
       </element>
     </optional>
@@ -100,6 +96,27 @@
         </oneOrMore>
       </element>
     </optional>
+  </define>
+
+  <define name="configuration-executable-definition">
+    <element name="executable">
+      <choice>
+        <attribute name="url"><text/></attribute>
+        <element name="contents"><text/></element>
+      </choice>
+    </element>
+  </define>
+
+  <define name="configuration-file-definition">
+    <element name="file">
+      <choice>
+        <attribute name="url"><text/></attribute>
+        <element name="contents">
+          <attribute name="filename"><text/></attribute>
+          <text/>
+        </element>
+      </choice>
+    </element>
   </define>
 
   <define name="configuration-parameter-definition">
