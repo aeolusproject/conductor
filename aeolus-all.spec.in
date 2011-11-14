@@ -24,6 +24,7 @@ Requires:	deltacloud-core-ec2
 Requires:	deltacloud-core-rhevm
 Requires:	deltacloud-core-vsphere
 Requires:	ntp
+Requires:	rsyslog-relp
 
 BuildArch: noarch
 
