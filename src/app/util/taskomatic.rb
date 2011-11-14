@@ -150,15 +150,16 @@ module Taskomatic
 
     overrides = HardwareProfile.generate_override_property_values(instance.hardware_profile, match.hwp)
 
-    client.create_instance(:image_id => match.provider_image.target_identifier,
-                           :name => instance.name.tr("/", "-"),
-                           :hwp_id => match.hwp.external_key,
-                           :hwp_memory => overrides[:memory],
-                           :hwp_cpu => overrides[:cpu],
-                           :hwp_storage => overrides[:storage],
-                           :realm_id => (match.realm.external_key rescue nil),
-                           :user_data => (instance.user_data),
-                           :keyname => (instance.instance_key.name rescue nil))
+    client_args = {:image_id => match.provider_image.target_identifier,
+                  :name => instance.name.tr("/", "-"),
+                  :hwp_id => match.hwp.external_key,
+                  :hwp_memory => overrides[:memory],
+                  :hwp_cpu => overrides[:cpu],
+                  :hwp_storage => overrides[:storage],
+                  :keyname => (instance.instance_key.name rescue nil)}
+    client_args.merge!({:realm_id => match.realm.external_key}) if (match.realm.external_key.present? rescue false)
+    client_args.merge!({:user_data => instance.user_data}) if instance.user_data.present?
+    client.create_instance(client_args)
   end
 
   def self.matches(instance)
