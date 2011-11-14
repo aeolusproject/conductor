@@ -155,7 +155,33 @@ class HardwareProfile < ActiveRecord::Base
     return property_overrides
   end
 
+  PRESET_FILTERS_OPTIONS = [
+    #{:title => I18n.t("hardware_profiles.preset_filters.i386architecture"), :id => "i386architecture", :query => includes(:architecture).where('architecture.value' => "i386")},
+    #{:title => I18n.t("hardware_profiles.preset_filters.x86_64architecture"), :id => "x86_64architecture", :query => includes(:architecture).where('architecture.value' => "x86_64")}
+  ]
+
+  def self.apply_filters(options = {})
+    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
+  end
+
   private
+
+  def self.apply_preset_filter(preset_filter_id)
+    if preset_filter_id.present?
+      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
+    else
+      scoped
+    end
+  end
+
+  def self.apply_search_filter(search)
+    if search
+      where("name ILIKE :search", :search => "%#{search}%")
+    else
+      scoped
+    end
+  end
+
   def self.generate_override_property_value(front_end_property, back_end_property)
     case back_end_property.kind
       when "fixed"

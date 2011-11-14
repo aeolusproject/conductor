@@ -302,4 +302,28 @@ class ProviderAccount < ActiveRecord::Base
     end
     doc.to_xml
   end
+
+  PRESET_FILTERS_OPTIONS = []
+
+  def self.apply_filters(options = {})
+    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
+  end
+
+  private
+
+  def self.apply_preset_filter(preset_filter_id)
+    if preset_filter_id.present?
+      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
+    else
+      scoped
+    end
+  end
+
+  def self.apply_search_filter(search)
+    if search
+      includes(:provider => [:provider_type]).where("provider_accounts.name ILIKE :search OR provider_accounts.name ILIKE :search OR providers.name ILIKE :search OR provider_types.name ILIKE :search", :search => "%#{search}%")
+    else
+      scoped
+    end
+  end
 end

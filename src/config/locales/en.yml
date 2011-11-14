@@ -260,6 +260,8 @@ en:
       stop_invalid_action: "stop is an invalid action."
       cannot_stop: "stop cannot be performed on this instance."
       not_valid_deployable_xml: "seems to be not valid deployable XML: %{msg}"
+    preset_filters:
+      all_deployments: All Deployments
   instances:
     instances: Instances
     reboot: Reboot
@@ -425,6 +427,14 @@ en:
     errors:
       providers_disabled: has all associated providers disabled
       must_be_enabled: must be enabled
+    preset_filters:
+      all_pools: All Pools
+      enabled_pools: Enabled Pools
+      with_instances: With Instances
+      with_running_instances: With running Instances
+      with_create_failed_instances: With failed Instances
+      with_pending_instances: With pending Instances
+      with_stopped_instances: With stopped Instances
   hardware_profiles:
     hardware: Hardware
     hardware_profile: Hardware Profile
@@ -477,6 +487,10 @@ en:
       error:
         not_deleted: "Hardware profile was not deleted!"
         more_not_deleted: Could not deleted these Hardware Profiles
+    preset_filters:
+      all_hardware_profiles: "All Hardware Profiles"
+      x86_64architecture: "x86_64 architecture"
+      i386architecture: "i368 architecture"
   realms:
     realms: Realms
     new_realm: New Realm
@@ -519,6 +533,8 @@ en:
         not_deleted: "Realm was not deleted!"
         select_to_delete: "You must select at least one realm to delete."
         more_not_deleted: "Could not deleted these Realms:"
+    preset_filters:
+      all_realms: "All Realms"
   pool_families:
     pool_families: Pool Families
     pool_family: Pool Family
@@ -619,6 +635,8 @@ en:
       notice:
         added: Catalog entry added.
         updated: Catalog entry updated successfully!
+    preset_filters:
+      all_catalog_entries: All Catalog Entries
   catalogs:
     catalogs: Catalogs
     new_catalog: New Catalog
@@ -840,6 +858,8 @@ en:
       quota_limit: Quota Limit
       config_server_saved: "Config Server data was successfully saved"
       config_server_not_saved: "An error occurred while saving the Config Server data."
+    preset_filters:
+      all_provider_accounts: "All Accounts"
     new:
       new_provider_account: New Provider Account
       required_field: Required field.

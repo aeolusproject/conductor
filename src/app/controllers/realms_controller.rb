@@ -143,6 +143,6 @@ class RealmsController < ApplicationController
       {:name => '', :sortable => false},
       {:name => t("realms.index.realm_name"), :sort_attr => :name},
     ]
-    @realms = FrontendRealm.all
+    @realms = FrontendRealm.apply_filters(:preset_filter_id => params[:realms_preset_filter], :search_filter => params[:realms_search])
   end
 end

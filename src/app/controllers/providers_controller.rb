@@ -209,7 +209,7 @@ class ProvidersController < ApplicationController
   def load_provider_tabs
     @realms = @provider.all_associated_frontend_realms
     #TODO add links to real data for history,properties,permissions
-    @tabs = [{:name => t('connectivity'), :view => 'edit', :id => 'connectivity', :count => @provider.provider_accounts.count},
+    @tabs = [{:name => t('connectivity'), :view => 'edit', :id => 'connectivity'},
              {:name => t('accounts'), :view => 'provider_accounts/list', :id => 'accounts', :count => @provider.provider_accounts.count},
              {:name => t('realm_s'), :view => 'realms/list', :id => 'realms', :count => @realms.count},
              #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
@@ -218,7 +218,7 @@ class ProvidersController < ApplicationController
     details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 
-    @provider_accounts = @provider.provider_accounts if @details_tab[:id] == 'accounts'
+    @provider_accounts = @provider.provider_accounts.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:provider_accounts_preset_filter], :search_filter => params[:provider_accounts_search]) if @details_tab[:id] == 'accounts'
     #@permissions = @provider.permissions if @details_tab[:id] == 'roles'
 
     @view = @details_tab[:view]

@@ -324,25 +324,20 @@ class DeploymentsController < ApplicationController
   private
 
   def load_deployments
-    @deployments = Deployment.paginate(:page => params[:page] || 1,
-                                       :order => (sort_column(Deployment) +' '+ sort_direction)
-    )
     @deployments_header = [
-        { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-        { :name => '', :class => 'alert', :sortable => false },
-        { :name => t("deployments.deployment_name"), :sortable => false },
-        { :name => t("pools.index.deployed_on"), :sortable => false },
-        { :name => t("deployables.index.base_deployable"), :sortable => false },
-        { :name => t("instances.instances"), :class => 'center', :sortable => false },
-        { :name => t("pools.pool"), :sortable => false },
-        { :name => t("pools.index.owner"), :sortable => false },
-        { :name => t("providers.provider"), :sortable => false }
+      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
+      { :name => '', :class => 'alert', :sortable => false },
+      { :name => t("deployments.deployment_name"), :sortable => false },
+      { :name => t("pools.index.deployed_on"), :sortable => false },
+      { :name => t("deployables.index.base_deployable"), :sortable => false },
+      { :name => t("deployables.index.state"), :sortable => false },
+      { :name => t("instances.instances"), :class => 'center', :sortable => false },
+      { :name => t("pools.pool"), :sortable => false },
+      { :name => t("pools.index.owner"), :sortable => false },
+      { :name => t("providers.provider"), :sortable => false }
     ]
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
-    @deployments = Deployment.all(:include => :owner,
-                                  :conditions => {:pool_id => @pools},
-                                  :order => (sort_column(Deployment) +' '+ sort_direction)
-    )
+    @deployments = Deployment.includes(:owner).apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).where('deployments.pool_id' => @pools).order(sort_column(Deployment) +' '+ sort_direction).paginate(:page => params[:page] || 1)
   end
 
   def count_additional_quota(deployment)

@@ -1,11 +1,28 @@
 %section.admin-content-section
   %header
     %h2=t'catalog_entries.list.catalog_entries_list'
-    %span.label.badge.dark.count= @catalog_entries.length
 
   .content
     - content_for :form_header do
       %li= restful_submit_tag t("catalog_entries.show.delete"), "destroy", multi_destroy_catalog_catalog_entries_path(@catalog), 'DELETE', :id => 'delete_button', :class => 'button danger'
+
+    - content_for :filter_controls do
+      %li
+        = label_tag :catalog_entries_preset_filter, t('filter_table.viewing')
+        = select_tag(:catalog_entries_preset_filter, preset_filters_options_for_select(CatalogEntry::PRESET_FILTERS_OPTIONS, params[:catalog_entries_preset_filter]), :include_blank => t("catalog_entries.preset_filters.all_catalog_entries"), :disabled => true)
+        = restful_submit_tag t("filter_table.apply_filters"), "filter", catalog_catalog_entries_path(@catalog), 'GET', :class => 'button', :id => 'apply_catalog_entries_preset_filter'
+        %span.label.badge.dark= @catalog_entries.count
+      %li.table-search-filter
+        = text_field_tag :catalog_entries_search, params[:catalog_entries_search], :placeholder => t("filter_table.search")
+        = restful_submit_tag "", "search", catalog_catalog_entries_path(@catalog), 'GET', :class => 'button', :id => 'apply_catalog_entries_search'
+
+      :javascript
+        $(document).ready(function(){
+          $("#apply_catalog_entries_preset_filter").hide();
+          $("#catalog_entries_preset_filter").change(function() {
+            $("#apply_catalog_entries_preset_filter").click();
+          });
+        });
 
     = filter_table(@header, @catalog_entries) do |catalog_entry|
       %tr{:class => cycle('nostripe','stripe')}

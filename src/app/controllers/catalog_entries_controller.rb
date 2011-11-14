@@ -25,6 +25,7 @@ class CatalogEntriesController < ApplicationController
     save_breadcrumb(catalog_catalog_entries_path(:viewstate => @viewstate ? @viewstate.id : nil))
     @deployables = Deployable.list_for_user(current_user, Privilege::VIEW)
     @catalog_entries = @deployables.collect { |d| d.catalog_entries.first }
+    #@catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:catalog_entries_preset_filter], :search_filter => params[:catalog_entries_search])
     @catalog = @catalog_entries.first.catalog unless @catalog_entries.empty?
     set_header
   end

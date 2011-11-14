@@ -1,6 +1,26 @@
 - content_for :form_header do
   %li= link_to "#{t'pools.new_pool'}", new_pool_path, { :class => 'button', :id => 'new_pool_button' }
   %li= restful_submit_tag "#{t'pools.index.destroy'}", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+
+- content_for :filter_controls do
+  %li
+    = label_tag :pools_preset_filter, t('filter_table.viewing')
+    = select_tag(:pools_preset_filter, preset_filters_options_for_select(Pool::PRESET_FILTERS_OPTIONS, params[:pools_preset_filter]), :include_blank => t("pools.preset_filters.all_pools"))
+    = hidden_field_tag :view, "filter"
+    = restful_submit_tag t("filter_table.apply_filters"), "filter", request.fullpath, 'GET', :class => 'button', :id => 'apply_pools_preset_filter'
+    %span.label.badge.dark= @user_pools.count
+  %li.table-search-filter
+    = text_field_tag :pools_search, params[:pools_search], :placeholder => t("filter_table.search")
+    = restful_submit_tag "", "search", request.fullpath, 'GET', :class => 'button', :id => 'apply_pools_search'
+
+  :javascript
+    $(document).ready(function(){
+      $("#apply_pools_preset_filter").hide();
+      $("#pools_preset_filter").change(function() {
+        $("#apply_pools_preset_filter").click();
+      });
+    });
+
 = filter_table(@header, @pools) do |pool|
   %tr{:class => cycle('nostripe','stripe')}
     %td{:class => 'checkbox'}

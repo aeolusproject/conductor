@@ -67,7 +67,6 @@ class Deployment < ActiveRecord::Base
   before_create :inject_launch_parameters
   before_create :generate_uuid
 
-  SEARCHABLE_COLUMNS = %w(name)
   USER_MUTABLE_ATTRS = ['name']
   STATE_MIXED = "mixed"
 
@@ -425,7 +424,29 @@ class Deployment < ActiveRecord::Base
     end
   end
 
+  PRESET_FILTERS_OPTIONS = []
+
+  def self.apply_filters(options = {})
+    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
+  end
+
   private
+
+  def self.apply_preset_filter(preset_filter_id)
+    if preset_filter_id.present?
+      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
+    else
+      scoped
+    end
+  end
+
+  def self.apply_search_filter(search)
+    if search
+      includes(:pool).where("pools.name ILIKE :search OR deployments.deployable_xml ILIKE :search OR deployments.name ILIKE :search", :search => "%#{search}%")
+    else
+      scoped
+    end
+  end
 
   def permissioned_frontend_hwprofile(user, hwp_name)
     HardwareProfile.list_for_user(user, Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => hwp_name}).first

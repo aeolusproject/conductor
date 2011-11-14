@@ -39,6 +39,7 @@ class CatalogsController < ApplicationController
 
   def show
     @catalog = Catalog.find(params[:id])
+    @catalog_entries = @catalog.catalog_entries.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:catalog_entries_preset_filter], :search_filter => params[:catalog_entries_search])
     require_privilege(Privilege::VIEW, @catalog)
     save_breadcrumb(catalogs_path(@catalog), @catalog.name)
     @header = [

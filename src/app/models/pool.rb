@@ -143,4 +143,35 @@ class Pool < ActiveRecord::Base
     return_obj
   end
 
+  PRESET_FILTERS_OPTIONS = [
+    {:title => I18n.t("pools.preset_filters.enabled_pools"), :id => "enabled_pools", :query => where("pools.enabled" => true)},
+    {:title => I18n.t("pools.preset_filters.with_instances"), :id => "with_instances", :query => includes(:deployments => :instances).where("instances.id" => true)},
+    {:title => I18n.t("pools.preset_filters.with_pending_instances"), :id => "with_pending_instances", :query => includes(:deployments => :instances).where("instances.state" => "pending")},
+    {:title => I18n.t("pools.preset_filters.with_running_instances"), :id => "with_running_instances", :query => includes(:deployments => :instances).where("instances.state" => "running")},
+    {:title => I18n.t("pools.preset_filters.with_create_failed_instances"), :id => "with_create_failed_instances", :query => includes(:deployments => :instances).where("instances.state" => "create_failed")},
+    {:title => I18n.t("pools.preset_filters.with_stopped_instances"), :id => "with_stopped_instances", :query => includes(:deployments => :instances).where("instances.state" => "stopped")}
+  ]
+
+  def self.apply_filters(options = {})
+    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
+  end
+
+  private
+
+  def self.apply_preset_filter(preset_filter_id)
+    if preset_filter_id.present?
+      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
+    else
+      scoped
+    end
+  end
+
+  def self.apply_search_filter(search)
+    if search
+      includes(:pool_family).where("pools.name ILIKE :search OR pool_families.name ILIKE :search", :search => "%#{search}%")
+    else
+      scoped
+    end
+  end
+
 end

@@ -2,6 +2,25 @@
   %li= restful_submit_tag t('realms.list.delete_selected'), "destroy", multi_destroy_realms_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
   %li= link_to t('realms.new_realm'), new_realm_path, :id => 'new_realm_button', :class => 'button'
 
+- content_for :filter_controls do
+  %li
+    = label_tag :realms_preset_filter, t('filter_table.viewing')
+    = select_tag(:realms_preset_filter, preset_filters_options_for_select(FrontendRealm::PRESET_FILTERS_OPTIONS, params[:realms_preset_filter]), :include_blank => t("realms.preset_filters.all_realms"), :disabled => true)
+    = hidden_field_tag :details_tab, "realms"
+    = restful_submit_tag t("filter_table.apply_filters"), "index", request.fullpath, 'GET', :class => 'button', :id => 'apply_realms_preset_filter'
+    %span.label.badge.dark= @realms.count
+  %li.table-search-filter
+    = text_field_tag :realms_search, params[:realms_search], :placeholder => t("filter_table.search")
+    = restful_submit_tag "", "index", request.fullpath, 'GET', :class => 'button', :id => 'apply_realms_search'
+
+  :javascript
+    $(document).ready(function(){
+      $("#apply_realms_preset_filter").hide();
+      $("#realms_preset_filter").change(function() {
+        $("#apply_realms_preset_filter").click();
+      });
+    });
+
 = filter_table(realms_header, @realms) do |realm|
   %tr{:class => cycle('nostripe','stripe')}
     %td{:class => 'checkbox'}

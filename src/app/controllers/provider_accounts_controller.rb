@@ -192,6 +192,6 @@ class ProviderAccountsController < ApplicationController
   end
 
   def load_accounts
-    @provider_accounts = ProviderAccount.list_for_user(current_user, Privilege::VIEW)
+    @provider_accounts = ProviderAccount.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:provider_accounts_preset_filter], :search_filter => params[:provider_accounts_search])
   end
 end

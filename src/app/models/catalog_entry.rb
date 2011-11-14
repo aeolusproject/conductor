@@ -38,4 +38,27 @@ class CatalogEntry < ActiveRecord::Base
 
   # This probably goes away once we separate catalog entry creation from deployables
   accepts_nested_attributes_for :deployable
+  PRESET_FILTERS_OPTIONS = []
+
+  def self.apply_filters(options = {})
+    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
+  end
+
+  private
+
+  def self.apply_preset_filter(preset_filter_id)
+    if preset_filter_id.present?
+      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
+    else
+      scoped
+    end
+  end
+
+  def self.apply_search_filter(search)
+    if search
+      where("name ILIKE :search", :search => "%#{search}%")
+    else
+      scoped
+    end
+  end
 end

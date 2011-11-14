@@ -21,12 +21,12 @@ class PoolsController < ApplicationController
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pools, :only => [:show]
 
-  viewstate :index do |default|
-    default.merge!({
-      :view => 'pretty',
-      :hide_stopped => 'true',
-    })
-  end
+  #viewstate :index do |default|
+  #  default.merge!({
+  #    :view => 'pretty',
+  #    :hide_stopped => 'true',
+  #  })
+  #end
 
   viewstate :show do |default|
     default.merge!({
@@ -49,7 +49,7 @@ class PoolsController < ApplicationController
       @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
       case @details_tab[:id]
       when 'pools'
-        @pools = Pool.list(sort_column(Pool), sort_direction)
+        @pools = Pool.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search])
       when 'instances'
         @instances = Instance.list(sort_column(Instance), sort_direction)
         @hide_stopped = @viewstate && @viewstate.state['hide_stopped'] == 'true'
@@ -57,7 +57,7 @@ class PoolsController < ApplicationController
           @instances.delete_if { |i| i.state == Instance::STATE_STOPPED }
         end
       when 'deployments'
-        @deployments = Deployment.list(sort_column(Deployment), sort_direction)
+        @deployments = Deployment.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search])
       end
     else
       @pools = Pool.list(sort_column(Pool), sort_direction)
