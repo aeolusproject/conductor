@@ -64,7 +64,7 @@ class DeploymentsController < ApplicationController
     require_privilege(Privilege::CREATE, Deployment, @pool)
     init_new_deployment_attrs
 
-    unless !(@deployable_xml.nil?) && @deployment.valid_deployable_xml?(@deployable_xml)
+    unless @deployable_xml && @deployment.valid_deployable_xml?(@deployable_xml)
       render 'launch_new' and return
     end
 
@@ -87,7 +87,7 @@ class DeploymentsController < ApplicationController
     @launch_parameters_encoded = Base64.encode64(ActiveSupport::JSON.encode(@deployment.launch_parameters))
 
     respond_to do |format|
-      if !(@deployable_xml.nil?) && @deployment.valid_deployable_xml?(@deployable_xml)
+      if @deployable_xml && @deployment.valid_deployable_xml?(@deployable_xml)
         check_assemblies_for_errors
         @additional_quota = count_additional_quota(@deployment)
 
@@ -108,14 +108,12 @@ class DeploymentsController < ApplicationController
       decoded_parameters = JSON.load(Base64.decode64(launch_parameters_encoded))
       params[:deployment][:launch_parameters] = decoded_parameters
     end
-
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
     init_new_deployment_attrs
     @deployment.deployable_xml = @deployable_xml if @deployable_xml
-    @catalog_entry = CatalogEntry.find(params[:catalog_entry_id])
-
+    @catalog_entry = CatalogEntry.find(params[:catalog_entry_id]) if params.has_key?(:catalog_entry_id)
     @deployment.owner = current_user
     load_assemblies_services
     if params.delete(:commit) == 'back'

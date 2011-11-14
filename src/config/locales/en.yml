@@ -597,7 +597,7 @@ en:
       catalog_entries_list: Catalog Entries List
     flash:
       warning:
-        not_valid_or_reachable: Catalog entry XML file is either invalid or no longer reachable at
+        not_valid_or_reachable: "Catalog entry XML file is either invalid or no longer reachable at %{url}"
         not_valid: "Deployable XML file doesn't resolve valid XML"
       notice:
         added: Catalog entry added.

@@ -15,6 +15,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
+require 'uri'
 
 class CatalogEntriesController < ApplicationController
   before_filter :require_user
@@ -30,10 +31,9 @@ class CatalogEntriesController < ApplicationController
   def new
     @catalog = Catalog.find(params[:catalog_id])
     @catalog_entry = params[:catalog_entry].nil? ? CatalogEntry.new() : CatalogEntry.new(params[:catalog_entry])
-    require_privilege(Privilege::CREATE, CatalogEntry)
+    require_privilege(Privilege::CREATE, CatalogEntry, @catalog)
     load_catalogs
-    @tabs = [t('catalog_entries.new.upload'), t('catalog_entries.new.from_url')]
-    @form_option= params[:from_url].nil? ? 'upload' : 'from_url'
+    @form_option= params.has_key?(:from_url) ? 'from_url' : 'upload'
     respond_to do |format|
         format.html
         format.js {render :partial => @form_option}
@@ -52,14 +52,22 @@ class CatalogEntriesController < ApplicationController
       return
     end
 
-    require_privilege(Privilege::CREATE, CatalogEntry)
-    require_privilege(Privilege::MODIFY, @catalog)
+    @catalog = Catalog.find(params[:catalog_entry][:catalog_id])
+    require_privilege(Privilege::CREATE, CatalogEntry, @catalog)
     @catalog_entry = CatalogEntry.new(params[:catalog_entry])
     @catalog_entry.owner = current_user
 
+    if params.has_key? :url
+        xml = import_xml_from_url(params[:url])
+        unless xml.nil?
+          #store xml_filename for url (i.e. url ends to: foo || foo.xml)
+          @catalog_entry.xml_filename =  File.basename(URI.parse(params[:url]).path)
+          @catalog_entry.xml = xml
+        end
+    end
+
     if @catalog_entry.save
       flash[:notice] = t "catalog_entries.flash.notice.added"
-      flash[:warning] = t("catalog_entries.flash.warning.not_valid") unless @catalog_entry.valid_deployable_xml?
       if params[:edit_xml]
         redirect_to edit_catalog_catalog_entry_path @catalog_entry.catalog.id, @catalog_entry.id, :edit_xml =>true
       else
@@ -69,6 +77,8 @@ class CatalogEntriesController < ApplicationController
       @catalog = Catalog.find(params[:catalog_id])
       load_catalogs
       params.delete(:edit_xml) if params[:edit_xml]
+      flash[:warning]= t('catalog_entries.flash.warning.not_valid') if @catalog_entry.errors.has_key?(:xml)
+      @form_option = params[:catalog_entry].has_key?(:xml) ? 'upload' : 'from_url'
       render :new
     end
   end
@@ -126,11 +136,19 @@ class CatalogEntriesController < ApplicationController
     ]
   end
 
-  def redirect_to_deployable_xml?
-
-  end
-
   def load_catalogs
     @catalogs = Catalog.list_for_user(current_user, Privilege::MODIFY)
+  end
+
+  def import_xml_from_url(url)
+    begin
+      response = RestClient.get(url, :accept => :xml)
+      if response.code == 200
+        response
+      end
+    rescue RestClient::Exception, SocketError, URI::InvalidURIError
+      flash[:error] = t('catalog_entries.flash.warning.not_valid_or_reachable', :url => url)
+      nil
+    end
   end
 end

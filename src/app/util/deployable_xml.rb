@@ -203,6 +203,7 @@ class DeployableXML
 
   def validate!
     # load the relaxNG file and validate
+    return false if @root.nil?
     errors = relax.validate(@root.document) || []
     # ...and validate the assembly
     assemblies.each do |assembly|
@@ -212,7 +213,7 @@ class DeployableXML
         errors << e.message
       end
     end
-    raise ValidationError, errors.join(", ") unless errors.empty?
+    errors.empty?
   end
 
   def assemblies

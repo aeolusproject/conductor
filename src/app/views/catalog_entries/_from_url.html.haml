@@ -16,8 +16,8 @@
       = text_field_tag :url
     %p
       = check_box_tag(:edit_xml, true, false)
-      = label_tag t('catalog_entries.form.edit_xml_after_save')
+      = label_tag :edit_xml, t('catalog_entries.form.edit_xml_after_save')
 
   %fieldset.options
-    = link_to "#{t'cancel'}", catalog_path(@catalog), :class => 'button danger'
-    = submit_tag "#{t'save'}", :name => 'save', :class => 'button', :id => 'save_button'
+    = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
+    = submit_tag t('save'), :name => 'save', :class => 'button', :id => 'save_button'

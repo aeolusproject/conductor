@@ -36,6 +36,7 @@ class CatalogEntry < ActiveRecord::Base
   validates_length_of :name, :maximum => 1024
   validates_presence_of :xml
   validates_presence_of :catalog
+  validate :valid_deployable_xml?
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
@@ -45,12 +46,9 @@ class CatalogEntry < ActiveRecord::Base
   after_create "assign_owner_roles(owner)"
 
   def valid_deployable_xml?
-    begin
-      deployable_xml = DeployableXML.new(xml)
-      deployable_xml.validate!
-      true
-    rescue
-      false
+    deployable_xml = DeployableXML.new(xml)
+    unless deployable_xml.validate!
+      errors.add(:xml, I18n.t('catalog_entries.flash.warning.not_valid'))
     end
   end
 
@@ -90,10 +88,10 @@ class CatalogEntry < ActiveRecord::Base
   #method used with uploading deployable xml in catalog_entries#new
   def xml=(data)
     #for new
-    unless data.instance_variables.empty?
+    if data.instance_variables.include?("@original_filename") && data.instance_variables.include?("@tempfile")
       write_attribute :xml_filename, data.original_filename
       write_attribute :xml, data.tempfile.read
-    #for update
+    #for update or new from_url
     else
       write_attribute :xml, data
     end
