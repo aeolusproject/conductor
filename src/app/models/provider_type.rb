@@ -41,7 +41,7 @@ class ProviderType < ActiveRecord::Base
   validates_uniqueness_of :deltacloud_driver
 
   def provider_accounts_for_user(user)
-    providers = Provider.list_for_user(user, Privilege::VIEW, :conditions => {:provider_type_id => self.id})
-    providers.inject([]) {|all, p| all += ProviderAccount.list_for_user(user, Privilege::VIEW, :conditions => {:provider_id => p.id})}
+    providers = Provider.list_for_user(user, Privilege::VIEW).where(:provider_type_id => self.id)
+    providers.inject([]) {|all, p| all += ProviderAccount.list_for_user(user, Privilege::VIEW).where(:provider_id => p.id)}
   end
 end
