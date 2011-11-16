@@ -171,8 +171,42 @@ describe Api::TargetImagesController do
       end
 
       describe "#destroy" do
+        before(:each) do
+          send_and_accept_xml
+        end
+
+        context "when target image exists" do
+          before(:each) do
+            Aeolus::Image::Warehouse::TargetImage.stub(:find).and_return(@timage)
+          end
+
+          context "and delete succeeds" do
+            before(:each) do
+              @timage.stub(:delete!).and_return(true)
+
+              delete :destroy, :id => @timage.id
+            end
+
+            it { response.should be_success}
+            it { response.headers['Content-Type'].should include("application/xml") }
+          end
+
+          context "and delete fails" do
+            before(:each) do
+              @timage.stub(:delete!).and_throw(Exception)
+
+              delete :destroy, :id => @timage.id
+            end
+
+            it { response.status.should == 500}
+            it { response.headers['Content-Type'].should include("application/xml") }
+          end
+
+        end
+
         context "an object that doesn't exist" do
           before(:each) do
+            Aeolus::Image::Warehouse::TargetImage.stub(:find).and_return(nil)
             get :destroy, :id => '99'
           end
 
@@ -184,7 +218,6 @@ describe Api::TargetImagesController do
           end
         end
       end
-
     end
 
     context "when not authenticated" do
@@ -216,6 +249,19 @@ describe Api::TargetImagesController do
         end
         it { response.headers['Content-Type'].should include("application/xml") }
       end
+
+      describe "#destroy" do
+
+        before(:each) do
+          delete :destroy, :id => '5'
+        end
+
+        it "should be unauthorized" do
+          response.response_code.should == 401
+        end
+        it { response.headers['Content-Type'].should include("application/xml") }
+      end
+
     end
   end
 
