@@ -54,6 +54,8 @@ module Api
         else
           raise(Aeolus::Conductor::API::BuildNotFound.new(404, "Could not find Build " + params[:id]))
         end
+      rescue Aeolus::Conductor::API::BuildNotFound => e
+        raise(e)
       rescue => e
         raise(Aeolus::Conductor::API::BuildDeleteFailure.new(500, e.message))
       end
