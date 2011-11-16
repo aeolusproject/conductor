@@ -276,6 +276,103 @@ describe Api::ProviderImagesController do
           end
         end
       end
+
+      describe "#destroy" do
+        before(:each) do
+          send_and_accept_xml
+        end
+
+        context "when image exists" do
+          before(:each) do
+            Aeolus::Image::Warehouse::ProviderImage.stub(:find).and_return(@pimage)
+          end
+
+          context "and delete succeeds" do
+            before(:each) do
+              @pimage.stub(:delete!).and_return(true)
+
+              delete :destroy, :id => @pimage.id
+            end
+
+            it { response.should be_success}
+            it { response.headers['Content-Type'].should include("application/xml") }
+          end
+
+          context "and delete fails" do
+            before(:each) do
+              @pimage.stub(:delete!).and_throw(Exception)
+
+              delete :destroy, :id => @pimage.id
+            end
+
+            it { response.status.should == 500}
+            it { response.headers['Content-Type'].should include("application/xml") }
+          end
+
+        end
+
+        context "when image is not found" do
+          before(:each) do
+            Aeolus::Image::Warehouse::ProviderImage.stub(:find).and_return(nil)
+            delete :destroy, :id => @pimage.id
+          end
+
+          it { response.status.should == 404}
+          it { response.headers['Content-Type'].should include("application/xml") }
+        end
+
+
+      end
+
+      describe "#create" do
+        context "when posting empty request" do
+          before(:each) do
+            post :create
+          end
+
+          it {response.response_code.should == 400}
+        end
+
+        context "when posting invalid xml" do
+          before(:each) do
+            request.env['RAW_POST_DATA'] = "<xml></xml>"
+            post :create
+          end
+
+          it {response.response_code.should == 400}
+        end
+
+        context "when trying to build image" do
+          before(:each) do
+            @provider_account = FactoryGirl.create :mock_provider_account
+            xml = Nokogiri::XML::Builder.new do |x|
+              x.provider_image {
+                x.image_id "17"
+                x.build_id "8"
+                x.target_image_id "9"
+                x.provider_account @provider_account.label
+                x.provider_name "mock"
+              }
+            end
+            Aeolus::Image::Factory::ProviderImage.stub(:status).and_return("nil")
+            Aeolus::Image::Factory::ProviderImage.stub(:new).and_return(@pimage)
+            @pimage.stub(:save!)
+            request.env['RAW_POST_DATA'] = xml.to_xml
+            post :create
+          end
+
+          it { response.response_code == 200 }
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have an image with correct attributes" do
+            resp = Hash.from_xml(response.body)
+            resp['provider_image']['id'].should == "17"
+            resp['provider_image']['status'].should == "nil"
+         end
+        end
+
+      end
+
+
     end
 
     context "when not authenticated" do
@@ -307,6 +404,31 @@ describe Api::ProviderImagesController do
         end
         it { response.headers['Content-Type'].should include("application/xml") }
       end
+
+      describe "#destroy" do
+
+        before(:each) do
+          delete :destroy, :id => '5'
+        end
+
+        it "should be unauthorized" do
+          response.response_code.should == 401
+        end
+        it { response.headers['Content-Type'].should include("application/xml") }
+      end
+
+      describe "#create" do
+
+        before(:each) do
+          post :create, :id => '5'
+        end
+
+        it "should be unauthorized" do
+          response.response_code.should == 401
+        end
+        it { response.headers['Content-Type'].should include("application/xml") }
+      end
+
     end
   end
 
