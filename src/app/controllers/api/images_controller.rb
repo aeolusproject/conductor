@@ -83,7 +83,7 @@ module Api
       begin
         if image = Aeolus::Image::Warehouse::Image.find(params[:id])
           if image.delete!
-            render :text => "Image Deleted", :status => 200
+            render :xml => "<status>Image Deleted</status>", :status => 200
           end
         else
           raise(Aeolus::Conductor::API::ImageNotFound.new(404, "Could not find Image " + params[:id]))
@@ -104,6 +104,7 @@ module Api
                  !doc.xpath("/image/image_descriptor").empty? && !doc.xpath("/image/provider_name").empty?
 
         { :type => :import, :params => { :target_name => doc.xpath("/image/target_name").text,
+                                         :targets => doc.xpath("/image/target_name").text,
                                          :target_identifier => doc.xpath("/image/target_identifier").text,
                                          :image_descriptor => doc.xpath("/image/image_descriptor").children.first.to_s,
                                          :provider_name => doc.xpath("/image/provider_name").text }
