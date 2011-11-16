@@ -28,12 +28,15 @@ describe Api::ImagesController do
 
       @os = mock(:OS, :name => 'fedora', :version => '15', :arch => 'x86_64')
       @build = mock(Aeolus::Image::Warehouse::ImageBuild,
-                    :id => '7')
+                    :id => '7',
+                    :target_images => [])
       @image = mock(Aeolus::Image::Warehouse::Image,
                     :id => '5',
                     :os => @os,
                     :name => 'test',
-                    :description => 'test image')
+                    :description => 'test image',
+                    :build => @build
+                    )
       Aeolus::Image::Warehouse::ImageBuild.stub(:find_all_by_image_uuid).and_return([@build])
     end
 
@@ -169,8 +172,8 @@ describe Api::ImagesController do
       end
 
       describe "#create" do
-        context "exception should be thrown if request is empty" do
 
+        context "exception should be thrown if request is empty" do
           before(:each) do
             send_and_accept_xml
             Aeolus::Image::Warehouse::Image.stub(:find).and_return(nil)
@@ -184,6 +187,76 @@ describe Api::ImagesController do
             resp['error']['message'].should == "Please specify a type, build or import"
           end
         end
+
+        context "when posting invalid xml" do
+          before(:each) do
+            request.env['RAW_POST_DATA'] = "<xml></xml>"
+            post :create
+          end
+
+          it {response.response_code.should == 400}
+        end
+
+        context "when trying to build image" do
+          before(:each) do
+            xml = Nokogiri::XML::Builder.new do
+              image {
+                targets "tgts"
+                tdl {
+                  template "templ"
+                  target "tgt"
+                }
+              }
+            end
+            Aeolus::Image::Factory::Image.stub(:new).and_return(@image)
+            @image.stub(:save!)
+            Aeolus::Image::Factory::TargetImage.stub(:status).and_return(nil)
+
+            request.env['RAW_POST_DATA'] = xml.to_xml
+            post :create
+          end
+
+          it { response.response_code == 200 }
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have an image with correct attributes" do
+            resp = Hash.from_xml(response.body)
+            resp['image']['id'].should == @image.id
+            resp['image']['build']['target_images'].should == "\n"
+            resp['image']['build']['id'].should == @build.id
+         end
+        end
+
+        context "when trying to import image" do
+          before(:each) do
+            xml = Nokogiri::XML::Builder.new do
+              image {
+                target_name "tname"
+                target_identifier "tid"
+                image_descriptor {
+                  child "c1"
+                  child "c2"
+                }
+                provider_name "mock"
+              }
+            end
+            Aeolus::Image::Factory::Image.stub(:new).and_return(@image)
+            @image.stub(:save!)
+
+            request.env['RAW_POST_DATA'] = xml.to_xml
+            post :create
+          end
+
+          it { response.response_code == 200 }
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should have an image with correct attributes" do
+            resp = Hash.from_xml(response.body)
+            resp['image']['id'].should == @image.id
+            resp['image']['build']['target_images'].should == "\n"
+            resp['image']['build']['id'].should == @build.id
+         end
+
+        end
+
       end
 
       describe "#destroy" do
@@ -202,7 +275,49 @@ describe Api::ImagesController do
             resp['error']['message'].should == "Could not find Image 3"
           end
         end
+
+        context "when image exists" do
+          before(:each) do
+            Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
+          end
+
+          context "and delete succeeds" do
+            before(:each) do
+              @image.stub(:delete!).and_return(true)
+
+              delete :destroy, :id => @image.id
+            end
+
+            it { response.should be_success}
+            it { response.headers['Content-Type'].should include("application/xml") }
+          end
+
+          context "and delete fails" do
+            before(:each) do
+              @image.stub(:delete!).and_throw(Exception)
+
+              delete :destroy, :id => @image.id
+            end
+
+            it { response.status.should == 500}
+            it { response.headers['Content-Type'].should include("application/xml") }
+          end
+
+        end
+
+#        context "when image is not found" do
+#          before(:each) do
+#            Aeolus::Image::Warehouse::Image.stub(:find).and_return(nil)
+#            delete :destroy, :id => @image.id
+#          end
+#
+#          it { response.status.should == 404}
+#          it { response.headers['Content-Type'].should include("application/xml") }
+#        end
+
+
       end
+
     end
 
 
@@ -230,6 +345,30 @@ describe Api::ImagesController do
         before(:each) do
           send_and_accept_xml
           get :show, :id => '5'
+        end
+
+        it "should be unauthorized" do
+          response.response_code.should == 401
+        end
+        it { response.headers['Content-Type'].should include("application/xml") }
+      end
+
+      describe "#create" do
+
+        before(:each) do
+          post :create, :id => '5'
+        end
+
+        it "should be unauthorized" do
+          response.response_code.should == 401
+        end
+        it { response.headers['Content-Type'].should include("application/xml") }
+      end
+
+      describe "#destroy" do
+
+        before(:each) do
+          delete :destroy, :id => '5'
         end
 
         it "should be unauthorized" do
