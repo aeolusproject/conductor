@@ -252,6 +252,7 @@ describe Api::ProviderImagesController do
             end
 
             it { response.headers['Content-Type'].should include("application/xml") }
+            it { response.status.should == 400}
             it "should have error" do
               resp = Hash.from_xml(response.body)
               resp['error']['code'].should == "InsufficientParametersSupplied"
@@ -264,13 +265,15 @@ describe Api::ProviderImagesController do
           context "and deleting an object that doesn't exist" do
             before(:each) do
               Aeolus::Image::Factory::ProviderImage.stub(:status).and_return(nil)
+              Aeolus::Image::Warehouse::ProviderImage.stub(:find).and_return(nil)
               get :destroy, :id => '99'
             end
 
             it { response.headers['Content-Type'].should include("application/xml") }
+            it { response.status.should == 404}
             it "should have error" do
               resp = Hash.from_xml(response.body)
-              resp['error']['code'].should == "ProviderImageDeleteFailure"
+              resp['error']['code'].should == "ProviderImageNotFound"
               resp['error']['message'].should == "Could not find a ProviderImage for id 99"
             end
           end
@@ -356,6 +359,18 @@ describe Api::ProviderImagesController do
             end
             Aeolus::Image::Factory::ProviderImage.stub(:status).and_return("nil")
             Aeolus::Image::Factory::ProviderImage.stub(:new).and_return(@pimage)
+            @target_image = mock(Aeolus::Image::Warehouse::TargetImage, :id => '42691826-7e02-4256-9d5d-5720d6fd58e0',
+                                                                        :target => 'mock')
+            @build1 = mock(Aeolus::Image::Warehouse::ImageBuild, :id=>'3', :target_images => [@target_image, @target_image])
+            @build2 = mock(Aeolus::Image::Warehouse::ImageBuild, :id=>'2', :target_images => [@target_image, @target_image])
+            @image = mock(Aeolus::Image::Warehouse::Image, :id=>'1', :image_builds => [@build1, @build2])
+
+            @build1.stub(:image).and_return(@image)
+            @build2.stub(:image).and_return(@image)
+            @target_image.stub(:build).and_return(@build1)
+
+            Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
+
             @pimage.stub(:save!)
             request.env['RAW_POST_DATA'] = xml.to_xml
             post :create
@@ -365,8 +380,8 @@ describe Api::ProviderImagesController do
           it { response.headers['Content-Type'].should include("application/xml") }
           it "should have an image with correct attributes" do
             resp = Hash.from_xml(response.body)
-            resp['provider_image']['id'].should == "17"
-            resp['provider_image']['status'].should == "nil"
+            resp['provider_images']['provider_image']['id'].should == "17"
+            resp['provider_images']['provider_image']['status'].should == "nil"
          end
         end
 
