@@ -141,6 +141,7 @@ describe Api::BuildsController do
           end
 
           it { response.headers['Content-Type'].should include("application/xml") }
+          it { response.status.should == 404}
           it "should have error" do
             resp = Hash.from_xml(response.body)
             resp['error']['code'].should == "BuildNotFound"
@@ -158,9 +159,10 @@ describe Api::BuildsController do
           end
 
           it { response.headers['Content-Type'].should include("application/xml") }
+          it { response.status.should == 404}
           it "should have error" do
             resp = Hash.from_xml(response.body)
-            resp['error']['code'].should == "BuildDeleteFailure"
+            resp['error']['code'].should == "BuildNotFound"
             resp['error']['message'].should == "Could not find Build 3"
           end
         end
