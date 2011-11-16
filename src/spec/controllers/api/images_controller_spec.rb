@@ -201,10 +201,10 @@ describe Api::ImagesController do
           before(:each) do
             xml = Nokogiri::XML::Builder.new do
               image {
-                targets "tgts"
+                targets "mock"
                 tdl {
                   template "templ"
-                  target "tgt"
+                  target "mock"
                 }
               }
             end
@@ -230,7 +230,7 @@ describe Api::ImagesController do
           before(:each) do
             xml = Nokogiri::XML::Builder.new do
               image {
-                target_name "tname"
+                target_name "mock"
                 target_identifier "tid"
                 image_descriptor {
                   child "c1"
