@@ -94,6 +94,8 @@ module Api
         else
           raise(Aeolus::Conductor::API::ProviderImageNotFound.new(404, "Could not find a ProviderImage for id " + params[:id]))
         end
+      rescue Aeolus::Conductor::API::ProviderImageNotFound => e
+        raise(e)
       rescue => e
         raise(Aeolus::Conductor::API::ProviderImageDeleteFailure.new(500, e.message))
       end
