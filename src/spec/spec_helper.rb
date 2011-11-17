@@ -21,7 +21,12 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'timecop'
-require 'vcr_setup'
+
+if ENV['VCR_RECORD']
+  require 'vcr_setup'
+else
+  require 'vcr_setup_norec'
+end
 
 module RequestContentTypeHelper
   def accept_all
@@ -74,11 +79,11 @@ RSpec.configure do |config|
   #
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
 
-  config.before(:each, :type => :controller) do
-    #activate_authlogic
-  end
+  #config.before(:each, :type => :controller) do
+  #  activate_authlogic
+  #end
 
-  config.after(:each, :type => :controller) do
-    #current_user_session.destroy
-  end
+  #config.after(:each, :type => :controller) do
+  #  current_user_session.destroy
+  #end
 end
