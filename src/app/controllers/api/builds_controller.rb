@@ -41,7 +41,7 @@ module Api
       if @build
         respond_with(@build)
       else
-        raise(Aeolus::Conductor::API::BuildNotFound.new(404, "Could not find Build " + id))
+        raise(Aeolus::Conductor::API::BuildNotFound.new(404, t("api.error_messages.build_not_found", :build => id)))
       end
     end
 
@@ -52,7 +52,7 @@ module Api
             render :text => "Build Deleted", :status => 200
           end
         else
-          raise(Aeolus::Conductor::API::BuildNotFound.new(404, "Could not find Build " + params[:id]))
+          raise(Aeolus::Conductor::API::BuildNotFound.new(404, t("api.error_messages.build_not_found", :build => params[:id])))
         end
       rescue Aeolus::Conductor::API::BuildNotFound => e
         raise(e)

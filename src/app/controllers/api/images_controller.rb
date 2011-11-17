@@ -38,7 +38,7 @@ module Api
         @builds = @image.image_builds
         respond_with(@image)
       else
-        raise(Aeolus::Conductor::API::ImageNotFound.new(404, "Could not find Image " + id))
+        raise(Aeolus::Conductor::API::ImageNotFound.new(404, t("api.error_messages.image_not_found", :image => id)))
       end
     end
 
@@ -47,7 +47,7 @@ module Api
       req = process_post(request.body.read)
       begin
         if req[:type] == :failed
-          raise(Aeolus::Conductor::API::InsufficientParametersSupplied.new(400, "Please specify a type, build or import"))
+          raise(Aeolus::Conductor::API::InsufficientParametersSupplied.new(400, t("api.error_messages.specify_a_type_build_or_import")))
         elsif req[:type] == :build
           @targetnotfound=false
           @badtarget=""
@@ -59,7 +59,7 @@ module Api
             end
           end
           if @targetnotfound
-            raise(Aeolus::Conductor::API::TargetNotFound.new(404, "Could not find target " + @badtarget))
+            raise(Aeolus::Conductor::API::TargetNotFound.new(404, t("api.error_messages.target_not_found", :target => @badtarget)))
           end
           @image = Aeolus::Image::Factory::Image.new(req[:params])
           @image.save!
@@ -81,7 +81,7 @@ module Api
             render :xml => "<status>Image Deleted</status>", :status => 200
           end
         else
-          raise(Aeolus::Conductor::API::ImageNotFound.new(404, "Could not find Image " + params[:id]))
+          raise(Aeolus::Conductor::API::ImageNotFound.new(404, t("api.error_messages.image_not_found", :image => params[:id])))
         end
       rescue => e
         raise(Aeolus::Conductor::API::ImageDeleteFailure.new(500, e.message))

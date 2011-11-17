@@ -1067,3 +1067,21 @@ en:
   realm_mappings:
     new:
       create_new: Create a new Realm Mapping
+  api:
+    error_messages:
+      build_not_found: Could not find Build %{build}
+      image_not_found: Could not find Image %{image}
+      in_grabbing_target_images: "In grabbing list of target images: %{error}"
+      invalid_parameters_for_account_and_target_image: "Invalid parameters for Account: %{account} TargetImage: %{targetimage}"
+      no_image_build_or_target_image: "Invalid Parameters: No Image, Build or TargetImage provided in request"
+      no_matching_target_image: Could not find any matching Target Images
+      no_provider_account_given: No provider account given
+      provider_account_not_found: Could not find provider account for name %{name}
+      provider_image_not_found: Could not find ProviderImage %{providerimage}
+      provider_image_status_not_found: Could not find status for ProviderImage %{providerimage}
+      push_error: "Could not push TargetImage %{targetimage} to %{account} and error %{error}"
+      specify_a_type_build_or_import: Please specify a type, build or import
+      target_image_status_not_found: Could not find status for TargetImage %{targetimage}
+      target_image_not_found: Could not find TargetImage %{targetimage}
+      target_image_not_found_for_account: Could not find an appropriate target image for account %{account}
+      target_not_found: Could not find Target %{target}

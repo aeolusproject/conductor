@@ -274,7 +274,7 @@ describe Api::ProviderImagesController do
             it "should have error" do
               resp = Hash.from_xml(response.body)
               resp['error']['code'].should == "ProviderImageNotFound"
-              resp['error']['message'].should == "Could not find a ProviderImage for id 99"
+              resp['error']['message'].should == "Could not find ProviderImage 99"
             end
           end
         end
