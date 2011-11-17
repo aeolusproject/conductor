@@ -232,6 +232,7 @@ def refresh_instances
   # before forking, and then have each child re-establish their own connection.
   # We also have to have the parent re-establish the connection so that
   # "collect_accounts" works properly
+  ActiveRecord::Base.logger = nil
   ActiveRecord::Base.remove_connection
   accounts.each do |account|
     pid = Process.fork
