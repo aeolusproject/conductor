@@ -53,7 +53,7 @@ module Api
       begin
         if req[:type] == :failed
           raise(Aeolus::Conductor::API::InsufficientParametersSupplied.new(400, "Please specify a type, build or import"))
-        else
+        elsif req[:type] == :build
           @targetnotfound=false
           @badtarget=""
           req[:params][:targets].split(",").each do |t|
@@ -66,6 +66,10 @@ module Api
           if @targetnotfound
             raise(Aeolus::Conductor::API::TargetNotFound.new(404, "Could not find target " + @badtarget))
           end
+          @image = Aeolus::Image::Factory::Image.new(req[:params])
+          @image.save!
+          respond_with(@image)
+        elsif req[:type] == :import
           @image = Aeolus::Image::Factory::Image.new(req[:params])
           @image.save!
           respond_with(@image)
