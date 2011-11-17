@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  1%{?dist}
+Release:  2%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -318,6 +318,9 @@ fi
 %{app_root}/spec
 
 %changelog
+* Thu Nov 17 2011 Steve Linabery <slinaber@redhat.com> 0.6.0-2
+- Bump release for building release packages
+
 * Wed Nov 16 2011 Steve Linabery <slinaber@redhat.com> 0.6.0-1
 - Bump release for building release packages
 

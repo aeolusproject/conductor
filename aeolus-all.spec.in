@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -37,6 +37,9 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Thu Nov 17 2011 Steve Linabery <slinaber@redhat.com> 0.6.0-2
+- Bump release for building release packages
+
 * Wed Nov 16 2011 Steve Linabery <slinaber@redhat.com> 0.6.0-1
 - Bump release for building release packages
 
