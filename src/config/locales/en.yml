@@ -113,12 +113,10 @@ en:
   general_settings: General Settings
   new_user: New User
   edit_user: Edit User
-  pools_and_zones: "Pools & Zones"
   audit_report: Audit / Report
   assistance_requests: Assistance Requests
   define: Define
   image_imports: Image Imports
-  basic_template: Template Builder Basic Workflow
   browse_packages: Browse Packages
   builds: Builds
   runtime: Run
@@ -388,8 +386,6 @@ en:
       other_than_stopped: "Non-stopped Instances"
   searches: Searches
   image_factory: Image Factory
-  assemblies: Assemblies
-  template_collections: Template Collections
   administration: Administration
   roles:
     roles: Roles
@@ -398,7 +394,6 @@ en:
   cloud_providers: Cloud Providers
   provider_accounts_item: Provider Account
   cloud_engine_hardware_profiles: Hardware Profiles
-  cloud_engine_realms: Realms
   pools:
     pool: Pool
     pools: Pools
@@ -407,7 +402,6 @@ en:
     create_new_pool: Create New Pool
     index:
       pool_name: Pool name
-      deployment_name: Deployment name
       deployed_on: Deployed on
       pool_family: Pool Family
       owner: Owner
@@ -890,7 +884,6 @@ en:
       define_services:  Define Services
       define_services_desc: View, edit and define services that Aeolus Conductor will offer. These services will be mapped to individual providers based on their capabilities.
       permissions: Permissions
-#      permissions_desc: Create and edit User Treatments that are applied to users. Treatments pair together Roles with Categories of Instances, Pools and Templates. Manage the categories, and define and edit Roles. Roles group together sets of permissions that are relevant to Pools, Templates and Instances.
       permissions_desc: Modify self-service default quota.
     self_service:
       self_service_default: 'User Treatment: Self-service default'
