@@ -100,6 +100,12 @@ class CatalogsController < ApplicationController
     end
   end
 
+  def filter
+    original_path = Rails.application.routes.recognize_path(params[:current_path])
+    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
+    redirect_to original_path.merge(original_params).merge("catalogs_preset_filter" => params[:catalogs_preset_filter], "catalogs_search" => params[:catalogs_search])
+  end
+
   private
 
   def set_header

@@ -159,11 +159,8 @@ class DeploymentsController < ApplicationController
     @failed_instances = @deployment.instances.select {|instance| instance.state == Instance::STATE_CREATE_FAILED || instance.state == Instance::STATE_ERROR}
     if filter_view?
       @view = 'instances/list'
-      @instances = @deployment.instances
-      @hide_stopped = @viewstate && @viewstate.state['hide_stopped'] == 'true'
-      if @hide_stopped
-        @instances.delete_if { |i| i.state == Instance::STATE_STOPPED }
-      end
+      params[:instances_preset_filter] = "other_than_stopped" unless params[:instances_preset_filter]
+      @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list(sort_column(Instance), sort_direction).where("instances.deployment_id" => @deployment.id)
     else
       @view = 'pretty_view_show'
     end
@@ -319,6 +316,12 @@ class DeploymentsController < ApplicationController
     @catalog = Catalog.find(params[:catalog_id])
     @deployables = @catalog.deployables.paginate(:page => params[:page] || 1, :per_page => 6)
     require_privilege(Privilege::VIEW, @catalog)
+  end
+
+  def filter
+    original_path = Rails.application.routes.recognize_path(params[:current_path])
+    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
+    redirect_to original_path.merge(original_params).merge("deployments_preset_filter" => params[:deployments_preset_filter], "deployments_search" => params[:deployments_search])
   end
 
   private

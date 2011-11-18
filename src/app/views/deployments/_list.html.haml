@@ -9,14 +9,13 @@
 - content_for :filter_controls do
   %li
     = label_tag :deployments_preset_filter, t('filter_table.viewing')
-    = select_tag(:deployments_preset_filter, preset_filters_options_for_select(Deployment::PRESET_FILTERS_OPTIONS, params[:deployments_preset_filter]), :include_blank => t("deployments.deployments_filters.all_deployments"))
-    = hidden_field_tag :view, "filter"
-    = hidden_field_tag :details_tab, "deployments"
-    = restful_submit_tag t("filter_table.apply_filters"), "filter", request.fullpath, 'GET', :class => 'button', :id => 'apply_deployments_preset_filter'
+    = select_tag(:deployments_preset_filter, preset_filters_options_for_select(Deployment::PRESET_FILTERS_OPTIONS, params[:deployments_preset_filter]), :include_blank => t("deployments.deployments_filters.all_deployments"), :disabled => true)
+    = hidden_field_tag :current_path, request.fullpath
+    = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_deployments_path, 'POST', :class => 'button', :id => 'apply_deployments_preset_filter'
     %span.label.badge.dark= @deployments.count
   %li.table-search-filter
     = text_field_tag :deployments_search, params[:deployments_search], :placeholder => t("filter_table.search")
-    = restful_submit_tag "", "search", request.fullpath, 'GET', :class => 'button', :id => 'apply_deployments_search'
+    = restful_submit_tag "", "search", filter_deployments_path, 'POST', :class => 'button', :id => 'apply_deployments_search'
 
   :javascript
     $(document).ready(function(){
@@ -59,7 +58,9 @@
       <td class="center">${instances_count}</td>
       <td><a href="#{pool_path('replace_id').sub('replace_id', '${pool.id}')}">${pool.name}</a></td>
       <td>${owner}</td>
-      {{if provider}}
-        <td><a href="#{provider_path('replace_id').sub('replace_id', '${provider.id}')}">${provider.name}</a></td>
-      {{/if}}
+      <td>
+        {{if provider}}
+          <a href="#{provider_path('replace_id').sub('replace_id', '${provider.id}')}">${provider.name}</a>
+        {{/if}}
+      </td>
     </tr>

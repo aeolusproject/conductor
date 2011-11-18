@@ -179,6 +179,12 @@ class InstancesController < ApplicationController
     do_operation(:reboot)
   end
 
+  def filter
+    original_path = Rails.application.routes.recognize_path(params[:current_path])
+    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
+    redirect_to original_path.merge(original_params).merge("instances_preset_filter" => params[:instances_preset_filter], "instances_search" => params[:instances_search])
+  end
+
   private
 
   def load_instance
@@ -211,12 +217,11 @@ class InstancesController < ApplicationController
   end
 
   def load_instances
-    conditions = { :pool_id => @pools }
-    conditions[:deployment_id] = params[:deployment_id] unless params[:deployment_id].blank?
-    @instances = Instance.all(:include => [:owner],
-                              :conditions => conditions,
-                              :order => (sort_column(Instance) +' '+ sort_direction)
-    )
+    if params[:deployment_id].blank?
+      @instances = Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).where("instances.pool_id" => @pools)
+    else
+      @instances = Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).where("instances.pool_id" => @pools, "instances.deployment_id" => params[:deployment_id])
+    end
   end
 
   def do_operation(operation)

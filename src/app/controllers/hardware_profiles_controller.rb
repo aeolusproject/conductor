@@ -151,6 +151,12 @@ class HardwareProfilesController < ApplicationController
     redirect_to hardware_profiles_path
   end
 
+  def filter
+    original_path = Rails.application.routes.recognize_path(params[:current_path])
+    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
+    redirect_to original_path.merge(original_params).merge("hardware_profiles_preset_filter" => params[:hardware_profiles_preset_filter], "hardware_profiles_search" => params[:hardware_profiles_search])
+  end
+
   private
   def setup_new_hardware_profile
     if params[:hardware_profile]

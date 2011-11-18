@@ -179,6 +179,12 @@ class ProviderAccountsController < ApplicationController
     end
   end
 
+  def filter
+    original_path = Rails.application.routes.recognize_path(params[:current_path])
+    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
+    redirect_to original_path.merge(original_params).merge("provider_accounts_preset_filter" => params[:provider_accounts_preset_filter], "provider_accounts_search" => params[:provider_accounts_search])
+  end
+
   protected
 
   def test_account(account)

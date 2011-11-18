@@ -358,6 +358,13 @@ en:
       public_address: PUBLIC ADDRESS
       provider: PROVIDER
       created_by: CREATED BY
+    preset_filters:
+      all_instances: All Instances
+      stopped: Stopped Instances
+      running: Running Instances
+      create_failed: Failed Instances
+      pending: Pending Instances
+      other_than_stopped: "Non-stopped Instances"
   searches: Searches
   image_factory: Image Factory
   assemblies: Assemblies
@@ -1000,6 +1007,8 @@ en:
         no_users_selected: No users selected
         not_deleted: Could not delete these Permission Grants
         not_added: Could not add these User Roles
+    preset_filters:
+      all_permissions: All Permissions
   quotas:
     quota: Quota
     edit:

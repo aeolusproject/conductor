@@ -21,12 +21,11 @@ class PoolsController < ApplicationController
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pools, :only => [:show]
 
-  #viewstate :index do |default|
-  #  default.merge!({
-  #    :view => 'pretty',
-  #    :hide_stopped => 'true',
-  #  })
-  #end
+  viewstate :index do |default|
+    default.merge!({
+      :view => 'pretty',
+    })
+  end
 
   viewstate :show do |default|
     default.merge!({
@@ -51,11 +50,8 @@ class PoolsController < ApplicationController
       when 'pools'
         @pools = Pool.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search])
       when 'instances'
-        @instances = Instance.list(sort_column(Instance), sort_direction)
-        @hide_stopped = @viewstate && @viewstate.state['hide_stopped'] == 'true'
-        if @hide_stopped
-          @instances.delete_if { |i| i.state == Instance::STATE_STOPPED }
-        end
+        params[:instances_preset_filter] = "other_than_stopped" unless params[:instances_preset_filter]
+        @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list(sort_column(Instance), sort_direction)
       when 'deployments'
         @deployments = Deployment.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search])
       end
@@ -104,7 +100,7 @@ class PoolsController < ApplicationController
 
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
-    @deployments = @pool.deployments if @details_tab[:id] == 'deployments'
+    @deployments = @pool.deployments.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]) if @details_tab[:id] == 'deployments'
     @view = @details_tab[:view]
     respond_to do |format|
       format.html { render :action => :show}
@@ -238,6 +234,13 @@ class PoolsController < ApplicationController
       format.html { redirect_to pools_url }
       format.json { render :json => {:success => destroyed, :errors => failed} }
     end
+  end
+
+  def filter
+    #redirects to path of the table view medged with filter and search params
+    original_path = Rails.application.routes.recognize_path(params[:current_path])
+    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
+    redirect_to original_path.merge(original_params).merge("pools_preset_filter" => params[:pools_preset_filter], "pools_search" => params[:pools_search])
   end
 
   protected

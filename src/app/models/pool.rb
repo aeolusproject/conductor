@@ -145,7 +145,6 @@ class Pool < ActiveRecord::Base
 
   PRESET_FILTERS_OPTIONS = [
     {:title => I18n.t("pools.preset_filters.enabled_pools"), :id => "enabled_pools", :query => where("pools.enabled" => true)},
-    {:title => I18n.t("pools.preset_filters.with_instances"), :id => "with_instances", :query => includes(:deployments => :instances).where("instances.id" => true)},
     {:title => I18n.t("pools.preset_filters.with_pending_instances"), :id => "with_pending_instances", :query => includes(:deployments => :instances).where("instances.state" => "pending")},
     {:title => I18n.t("pools.preset_filters.with_running_instances"), :id => "with_running_instances", :query => includes(:deployments => :instances).where("instances.state" => "running")},
     {:title => I18n.t("pools.preset_filters.with_create_failed_instances"), :id => "with_create_failed_instances", :query => includes(:deployments => :instances).where("instances.state" => "create_failed")},

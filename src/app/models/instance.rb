@@ -309,8 +309,9 @@ class Instance < ActiveRecord::Base
   end
 
   def self.list(order_field, order_dir)
-    Instance.all(:include => [ :owner ],
-                 :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
+    #Instance.all(:include => [ :owner ],
+    #             :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
+    includes(:owner).order((order_field || 'name') +' '+ (order_dir || 'asc'))
   end
 
   class Match
@@ -472,7 +473,35 @@ class Instance < ActiveRecord::Base
     deployed? ? (Time.now - time_last_running) : 0
   end
 
+  PRESET_FILTERS_OPTIONS = [
+    {:title => I18n.t("instances.preset_filters.other_than_stopped"), :id => "other_than_stopped", :query => where("instances.state != ?", "stopped")},
+    {:title => I18n.t("instances.preset_filters.create_failed"), :id => "create_failed", :query => where("instances.state" => "create_failed")},
+    {:title => I18n.t("instances.preset_filters.stopped"), :id => "stopped", :query => where("instances.state" => "stopped")},
+    {:title => I18n.t("instances.preset_filters.running"), :id => "running", :query => where("instances.state" => "running")},
+    {:title => I18n.t("instances.preset_filters.pending"), :id => "pending", :query => where("instances.state" => "pending")}
+  ]
+
+  def self.apply_filters(options = {})
+    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
+  end
+
   private
+
+  def self.apply_preset_filter(preset_filter_id)
+    if preset_filter_id.present?
+      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
+    else
+      scoped
+    end
+  end
+
+  def self.apply_search_filter(search)
+    if search
+      where("instances.name ILIKE :search OR instances.state ILIKE :search", :search => "%#{search}%")
+    else
+      scoped
+    end
+  end
 
   def key_name
     "#{self.name}_#{Time.now.to_i}_key_#{self.object_id}".gsub(/[^a-zA-Z0-9\.\-]/, '_')

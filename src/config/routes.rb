@@ -85,6 +85,7 @@ Conductor::Application.routes.draw do
       get :list
       delete :multi_destroy
       post :multi_update
+      post :filter
     end
   end
 
@@ -98,6 +99,7 @@ Conductor::Application.routes.draw do
     get :hardware_profiles
     get :realms
     delete :multi_destroy, :on => :collection
+    post :filter, :on => :collection
   end
 
   resources :deployments do
@@ -109,6 +111,7 @@ Conductor::Application.routes.draw do
       post 'overview'
       get 'check_name'
       get 'launch_from_catalog'
+      post 'filter'
     end
     resources :instances
   end
@@ -119,6 +122,7 @@ Conductor::Application.routes.draw do
       get 'multi_stop'
       get 'remove_failed'
       get 'export_events'
+      post 'filter'
     end
     member do
       get 'key'
@@ -132,6 +136,7 @@ Conductor::Application.routes.draw do
 
   resources :hardware_profiles do
     delete 'multi_destroy', :on => :collection
+    post :filter, :on => :collection
   end
 
   resources :providers do
@@ -141,6 +146,7 @@ Conductor::Application.routes.draw do
       collection do
         delete 'multi_destroy'
         get 'set_selected_provider'
+        post :filter
       end
     end
   end
@@ -151,6 +157,7 @@ Conductor::Application.routes.draw do
 
   resources :users do
     delete 'multi_destroy', :on => :collection
+    post :filter, :on => :collection
   end
 
   resources :config_servers do
@@ -184,6 +191,7 @@ Conductor::Application.routes.draw do
 
   resources :realms do
     delete 'multi_destroy', :on => :collection
+    post :filter, :on => :collection
   end
 
   resources :realm_mappings do
@@ -193,8 +201,10 @@ Conductor::Application.routes.draw do
   resources :catalogs do
     delete 'multi_destroy', :on => :collection
     post 'create'
+    post :filter, :on => :collection
     resources :catalog_entries do
       delete 'multi_destroy', :on => :collection
+      post :filter, :on => :collection
     end
   end
 
