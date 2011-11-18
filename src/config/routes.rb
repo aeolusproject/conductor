@@ -198,6 +198,8 @@ Conductor::Application.routes.draw do
     end
   end
 
+  resources :catalog_entries
+
   resources :images do
     collection do
       post 'edit_xml'

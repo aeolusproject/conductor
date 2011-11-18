@@ -45,5 +45,4 @@ describe CatalogEntry do
     catalog_entry.deployable.xml = ''
     catalog_entry.deployable.should_not be_valid
   end
-
 end

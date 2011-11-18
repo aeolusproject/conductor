@@ -577,6 +577,11 @@ en:
       choose_option_to_upload: Choose one of the following options to upload deployable XML file
       upload: Upload
       from_url: From URL
+      hw_profile: Default Hardware Profile
+    new_from_image:
+      catalog_entry_name: "%{name}"
+      title: Create Application Blueprint
+      description: "Creating an application blueprint from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the application blueprint, and define a default cloud resource profile."
     form:
       choose_xml: "Choose Deployable XML file:"
       catalog: "Catalog: "
@@ -657,6 +662,7 @@ en:
       notice:
         deleted: Image Deleted
         multiple_deleted: "%{count} Images Deleted"
+        created: Image created
       warning:
         delete_failed: Unable to Delete Image
         not_found: Image not found

@@ -30,11 +30,18 @@ class CatalogEntriesController < ApplicationController
   end
 
   def new
-    @catalog = Catalog.find(params[:catalog_id])
     @catalog_entry = params[:catalog_entry].nil? ? CatalogEntry.new() : CatalogEntry.new(params[:catalog_entry])
     @catalog_entry.deployable = Deployable.new unless @catalog_entry.deployable
-    require_privilege(Privilege::MODIFY, @catalog)
     require_privilege(Privilege::CREATE, Deployable)
+    if params[:create_from_image]
+      @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
+      @hw_profiles = HardwareProfile.frontend.list_for_user(current_user, Privilege::VIEW)
+      @catalog_entry.deployable.name = @image.name
+      load_catalogs
+    else
+      @catalog = Catalog.find(params[:catalog_id])
+      require_privilege(Privilege::MODIFY, @catalog)
+    end
     @form_option= params.has_key?(:from_url) ? 'from_url' : 'upload'
     respond_to do |format|
         format.html
@@ -56,11 +63,17 @@ class CatalogEntriesController < ApplicationController
       return
     end
 
-    @catalog = Catalog.find(params[:catalog_id])
+
+    @catalog_entry = CatalogEntry.new(params[:catalog_entry])
+    if params[:create_from_image].present?
+      @catalog = @catalog_entry.catalog
+      @catalog_entry.deployable = Deployable.new unless @catalog_entry.deployable
+    else
+      @catalog = Catalog.find(params[:catalog_id])
+      @catalog_entry.catalog = @catalog
+    end
     require_privilege(Privilege::MODIFY, @catalog)
     require_privilege(Privilege::CREATE, Deployable)
-    @catalog_entry = CatalogEntry.new(params[:catalog_entry])
-    @catalog_entry.catalog = @catalog
     @catalog_entry.deployable.owner = current_user
 
     if params.has_key? :url
@@ -70,6 +83,10 @@ class CatalogEntriesController < ApplicationController
           @catalog_entry.deployable.xml_filename =  File.basename(URI.parse(params[:url]).path)
           @catalog_entry.deployable.xml = xml
         end
+    elsif params[:create_from_image].present?
+      hw_profile = HardwareProfile.frontend.find(params[:hardware_profile])
+      require_privilege(Privilege::VIEW, hw_profile)
+      @catalog_entry.deployable.set_from_image(params[:create_from_image], hw_profile)
     end
 
     if @catalog_entry.save
@@ -80,10 +97,17 @@ class CatalogEntriesController < ApplicationController
         redirect_to catalog_catalog_entries_path(@catalog)
       end
     else
-      @catalog = Catalog.find(params[:catalog_id])
-      params.delete(:edit_xml) if params[:edit_xml]
       flash[:warning]= t('catalog_entries.flash.warning.not_valid') if @catalog_entry.errors.has_key?(:xml)
-      @form_option = params[:catalog_entry][:deployable].has_key?(:xml) ? 'upload' : 'from_url'
+      if params[:create_from_image].present?
+        load_catalogs
+        @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
+        @hw_profiles = HardwareProfile.frontend.list_for_user(current_user, Privilege::VIEW)
+        @catalog_entry.deployable.name = @image.name
+      else
+        params.delete(:edit_xml) if params[:edit_xml]
+        @form_option = params[:catalog_entry].has_key?(:xml) ? 'upload' : 'from_url'
+        @form_option = params[:catalog_entry][:deployable].has_key?(:xml) ? 'upload' : 'from_url'
+      end
       render :new
     end
   end

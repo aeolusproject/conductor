@@ -86,4 +86,23 @@ class Deployable < ActiveRecord::Base
       write_attribute :xml, data
     end
   end
+
+  def set_from_image(image_id, hw_profile)
+    image = Aeolus::Image::Warehouse::Image.find(image_id)
+    doc = Nokogiri::XML ''
+    doc.root = doc.create_element('deployable', :name => image.name)
+    description = doc.create_element('description')
+    doc.root << description
+    assemblies = doc.create_element('assemblies')
+    doc.root << assemblies
+    assembly = doc.create_element('assembly', :name => image.name, :hwp => hw_profile.name)
+    assemblies << assembly
+    img = doc.create_element('image', :id => image.uuid)
+    assembly << img
+
+    self.description = ''
+    self.xml = doc.to_s
+    self.xml_filename = image.name
+    self.name = image.name
+  end
 end

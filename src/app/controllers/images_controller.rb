@@ -118,7 +118,11 @@ class ImagesController < ApplicationController
       :template => @template.uuid
     })
     flash.now[:error] = t('images.flash.notice.created')
-    redirect_to image_path(@image.id)
+    if params[:make_deployable]
+      redirect_to new_catalog_entry_path(:create_from_image => @image.id)
+    else
+      redirect_to image_path(@image.id)
+    end
   end
 
   def edit
