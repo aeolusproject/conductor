@@ -40,7 +40,7 @@ class ImagesController < ApplicationController
     @builds = @image.image_builds
     @build = if params[:build].present?
                @builds.find {|b| b.id == params[:build]}
-             elsif @image.latest_build
+             elsif @image.respond_to?(:latest_build) and @image.latest_build
                @builds.find {|b| b.id == @image.latest_build}
              else
                @builds.first
@@ -106,14 +106,24 @@ class ImagesController < ApplicationController
     end
 
     begin
-      xml_attributes = Hash.from_xml @xml
-      @image = Image.new(xml_attributes || {})
+      uuid = UUIDTools::UUID.timestamp_create.to_s
+      @template = Aeolus::Image::Warehouse::Template.create!(uuid, @xml, {
+        :object_type => 'template',
+        :uuid => uuid
+      })
+      uuid = UUIDTools::UUID.timestamp_create.to_s
+      body = "<image><name>#{@template.name}</name></image>"
+      @image = Aeolus::Image::Warehouse::Image.create!(uuid, body, {
+        :uuid => uuid,
+        :object_type => 'image',
+        :template => @template.uuid
+      })
+      flash.now[:error] = t('images.flash.notice.created')
     rescue REXML::ParseException
       flash.now[:error] = t('images.flash.warning.invalid_xml')
       render :edit_xml and return
     end
-    # TODO: update the template and render the proper view
-    redirect_to image_path(@image)
+    redirect_to image_path(@image.id)
   end
 
   def edit
