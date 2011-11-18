@@ -93,8 +93,8 @@ en:
   operation: Operate
   browse_objects: Browse Objecs
   system_settings: System Settings
-  manage_providers: Manage Providers
-  provider_summary: Provider Summary
+  manage_providers: Manage Cloud Resource Providers
+  provider_summary: Cloud Resource Provider Summary
   provider_accounts: Provider Accounts
   scheduling_policies: Scheduling Policies
   services_provided: Services Provided
@@ -116,7 +116,7 @@ en:
   audit_report: Audit / Report
   assistance_requests: Assistance Requests
   define: Define
-  image_imports: Image Imports
+  image_imports: Component Outline Imports
   browse_packages: Browse Packages
   builds: Builds
   runtime: Run
@@ -156,44 +156,45 @@ en:
   hw_profiles: HW Profiles
   services: Services
   history: History
-  realm_s: Realms
+  realm_s: Cloud Resource Clusters
   connectivity: Connectivity
   accounts: Accounts
   catalog_images: Catalog Images
   quota: Quota
   choose: Choose
   deployments:
-    deployments: Deployments
-    deployment: Deployment
-    deployment_name: Deployment Name
-    new_deployment: New Deployment
-    deployment_name_subtext: "(uniquely identifies your deployment)"
-    deployment_details: Deployment Details
-    confirm_delete: "Are you sure you want to delete this deployment?"
-    list_of_events: List of deployment events
+    deployments: Applications
+    deployment: Application
+    deployment_name: Application Name
+    new_deployment: New Application
+    deployment_name_subtext: "(uniquely identifies your application)"
+    deployment_details: Application Details
+    confirm_delete: "Are you sure you want to delete this application?"
+    list_of_events: List of application events
     state: State
     launch_time_params:
-      configure_launch_time_params: "Configure launch-time parameters for your deployment:"
+      configure_launch_time_params: "Configure launch-time parameters for your application:"
       finalize: Finalize
       reference: "Reference to %{assembly}'s return parameter: %{parameter}"
     overview:
-      pool_name: %{pool} Pool
-      header: Deploy "%{deployment}" to %{pool} Pool?
+      pool_name: %{pool} Cloud Resource Zone
+      header: Deploy "%{deployment}" to %{pool} Cloud Resource Zone?
       confirmation:
-        Are you sure you wish to deploy "%{deployment}" to the %{pool} Pool? Doing
-        so will utilize %{quota} of your overall deployment quota.
-      deployable_xml: Deployable XML
+        Are you sure you wish to deploy "%{deployment}" to the %{pool} Cloud Resource Zone? Doing
+        so will utilize %{quota} of your overall application quota.
+      deployable_xml: Application Blueprint XML
+      deployable_uri: Application Blueprint URI
       name: Name
       description: Description
-      image_ids: Image IDs
+      image_ids: Component Outline IDs
       launch: Launch
     launch_from_catalog:
       profile: Profile
-      hint: Choose a deployable to launch in the "%{pool}" pool
-      no_catalog_entry: 'No available deployable. Please add one first!'
+      hint: Choose an application blueprint to launch in the "%{pool}" cloud resource zone
+      no_catalog_entry: 'No available application blueprint. Please add one first!'
       details: Details
       select: Select
-      image_id: Image ID
+      image_id: Component Outline ID
       profile: Profile
       hdd: HDD
       ram: RAM
@@ -208,12 +209,12 @@ en:
       description: "Description:"
       asseblies_name: Assembly Name
       hardware_profile: Hardware Profile
-      image_id: Image ID
+      image_id: Component Outline ID
       build_id: Build ID
     edit:
-      edit_deployment: Edit deployment
+      edit_deployment: Edit application
     launch_new:
-      to_pool: "to %{name} Pool"
+      to_pool: "to %{name} Cloud Resource Zone"
       already_in_use: That name is already in use
       name_available: Name available
       next: Next
@@ -229,9 +230,9 @@ en:
       global_uptime: Global Uptime
       uptime_1st_instance: Uptime 1st instance running
     provider_services:
-      list_of_services: List of services required by deployment
+      list_of_services: List of services required by application
     required_services:
-      list_of_required_services: List of services required by deployment
+      list_of_required_services: List of services required by application
     list:
       stop_selected: Stop Selected
       delete_selected: Delete Selected
@@ -244,28 +245,28 @@ en:
       stop: "Stop"
     flash:
       notice:
-        launched: "Deployment launched."
+        launched: "Application launched."
         stop: "stop action was successfully queued."
       warning:
-        disabled_pool: "Cannot launch a Deployment in this Pool. The pool has been disabled."
-        failed_to_launch: "Deployment launch failed!"
+        disabled_pool: "Cannot launch a Application in this Cloud Resource Zone. It has been disabled."
+        failed_to_launch: "Application launch failed!"
       error:
-        not_launched: "Some assemblies will not be launched:"
-        failed_to_launch_assemblies: "Failed to launch following assemblies:"
+        not_launched: "Some component blueprints will not be launched:"
+        failed_to_launch_assemblies: "Failed to launch following component blueprints:"
         not_deleted:
-          one: "The deployment %{list} could not be deleted."
-          other: "The deployments %{list} could not be deleted."
-        none_selected: "You must select one or more deployments."
+          one: "The application %{list} could not be deleted."
+          other: "The applications %{list} could not be deleted."
+        none_selected: "You must select one or more applications."
         not_updated:
-          one: "The deployment %{list} could not be updated."
-          other: "The deployments %{list} could not be updated."
+          one: "The application %{list} could not be updated."
+          other: "The applications %{list} could not be updated."
       success:
         deleted:
-          one: "The deployment %{list} was scheduled for deletion."
-          other: "The deployments %{list} were scheduled for deletion."
+          one: "The application %{list} was scheduled for deletion."
+          other: "The applications %{list} were scheduled for deletion."
         updated:
-          one: "The deployment %{list} was successfully updated."
-          other: "The deployments %{list} were successfully updated."
+          one: "The application %{list} was successfully updated."
+          other: "The applications %{list} were successfully updated."
     errors:
       config_server_connection: 'Cannot connect to the config server'
       stop_invalid_action: "stop is an invalid action."
@@ -298,7 +299,7 @@ en:
         name: Name
         public_address: Public Address
         state: State
-        provider: Provider
+        provider: Cloud Resource Provider
         owner: Owner
     edit:
       edit_instance: Edit instance
@@ -315,8 +316,8 @@ en:
       status: Status
       public_addresses: Public Addresses
       private_adresses: Private Addresses
-      assembly: Assembly
-      provider: Provider
+      assembly: Component Blueprint
+      provider: Cloud Resource Provider
       architecture: Architecture
       memory: Memory
       storage: Storage
@@ -353,24 +354,24 @@ en:
         stop: "stop action was successfully queued."
         reboot: "%{name}: reboot action was successfully queued."
     errors:
-      image_not_found: "No image build was found with uuid %{b_uuid} and no image was found with uuid %{i_uuid}"
+      image_not_found: "No image build was found with uuid %{b_uuid} and no component outline was found with uuid %{i_uuid}"
       user_quota_reached: "User quota reached"
-      pool_family_quota_reached: "Pool family quota reached"
-      pool_quota_reached: "Pool quota reached"
-      no_provider_accounts: "There are no provider accounts associated with pool family of selected pool."
+      pool_family_quota_reached: "Cloud quota reached"
+      pool_quota_reached: "Cloud Resource Zone quota reached"
+      no_provider_accounts: "There are no provider accounts associated with cloud of selected cloud resource zone."
       invalid_state: "Error, could not calculate state time: invalid state"
       state_not_monitored: "Error, could not calculate state time: state is not monitored"
-      hw_profile_match_not_found: "%{account_name}: hardware profile match not found"
-      image_not_pushed_to_provider: "%{account_name}: image is not pushed to this provider account"
+      hw_profile_match_not_found: "%{account_name}: cloud resource profile match not found"
+      image_not_pushed_to_provider: "%{account_name}: component outline is not pushed to this provider account"
       provider_account_quota_reached:  "%{account_name}: provider account quota reached"
       no_config_server_available: "%{account_name}: no config server available for provider account"
-      realm_not_mapped: "Realm %{frontend_realm_name} is not mapped to any provider or provider realm"
-      provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch deployable"
+      realm_not_mapped: "Cloud Resource Cluster %{frontend_realm_name} is not mapped to any cloud resource provider or provider realm"
+      provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch application blueprint"
       stop_invalid: "stop is an invalid action."
       stop_not_be_performed: "stop cannot be performed on this instance."
       must_be_enabled: "%{account_name}: provider must be enabled"
       cannot_destroy: "destroy cannot be performed on this instance."
-      architecture_mismatch: "Assembly hardware profile architecture (%{inst_arch}) doesn't match image hardware profile architecture (%{img_arch})."
+      architecture_mismatch: "Assembly hardware profile architecture (%{inst_arch}) doesn't match hardware profile architecture (%{img_arch})."
     headers:
       vm_name: VM NAME
       status: STATUS
@@ -391,67 +392,67 @@ en:
     roles: Roles
     index:
       role_name: Role Name
-  cloud_providers: Cloud Providers
+  cloud_providers: Cloud Resource Providers
   provider_accounts_item: Provider Account
-  cloud_engine_hardware_profiles: Hardware Profiles
+  cloud_engine_hardware_profiles: Cloud Resource Profiles
   pools:
-    pool: Pool
-    pools: Pools
-    new_pool: New Pool
-    edit_pool: Edit Pool
-    create_new_pool: Create New Pool
+    pool: Cloud Resource Zone
+    pools: Cloud Resource Zones
+    new_pool: New Cloud Resource Zone
+    edit_pool: Edit Cloud Resource Zone
+    create_new_pool: Create New Cloud Resource Zone
     index:
-      pool_name: Pool name
+      pool_name: Cloud Resource Zone name
       deployed_on: Deployed on
-      pool_family: Pool Family
+      pool_family: Cloud
       owner: Owner
       pending: Pending
       failed: Failed
-      confirm_delete: "Are you sure you want to delete this pool?"
+      confirm_delete: "Are you sure you want to delete this cloud resource zone?"
       overview: Overview
-      your_pools: Your Pools
-      pool_details: Pool details
+      your_pools: Your Cloud Resource Zones
+      pool_details: Cloud Resource Zone details
       global_uptime: Global uptime
       destroy: Destroy
     images:
       catalog: Catalog
       catalog_entry: Deployable
-      image: "Image:"
+      image: "Component Outline:"
       pushed: %{uuid} pushed to %{provider}
     properties:
       properties: Properties for %{pool}
     header_show:
-      pool_name: %{name} Pool
+      pool_name: %{name} Cloud Resource Zone
     flash:
       notice:
-        added: Pool added.
-        updated: Pool updated.
+        added: Cloud Resource Zone added.
+        updated: Cloud Resource Zone updated.
       success:
         pool_deleted:
-          one: Pool %{list} was deleted.
-          other: Pools %{list} were deleted.
+          one: Cloud Resource Zone %{list} was deleted.
+          other: Cloud Resource Zones %{list} were deleted.
       error:
         pool_not_deleted:
-          one: Pool %{list} was not deleted. There are instances associated with it.
-          other: Pools %{list} were not deleted. They have instances associated with them.
-        not_updated: "Pool wasn't updated!"
-        default_pool_not_deleted: The default pool cannot be deleted
-        iwhd_unavailable: Catalog Images are unavailable. It appears the image warehouse is not reachable
+          one: Cloud Resource Zone %{list} was not deleted. There are instances associated with it.
+          other: Cloud Resource Zones %{list} were not deleted. They have instances associated with them.
+        not_updated: "Cloud Resource Zone wasn't updated!"
+        default_pool_not_deleted: The default cloud resource zone cannot be deleted
+        iwhd_unavailable: Catalog Images are unavailable. It appears the Image Warehouse is not reachable
       warning:
-        creation_failed: Pool creation failed.
+        creation_failed: Cloud Resource Zone creation failed.
     valid_format_of_name: "must only contain: numbers, letters, spaces, '_' and '-'"
     list:
       more_actions: More actions
     form:
       instance_or: instance or
       unlimited: unlimited
-      pool_enabled: Pool enabled
+      pool_enabled: Cloud Resource Zone enabled
     errors:
-      providers_disabled: has all associated providers disabled
+      providers_disabled: has all associated cloud resource providers disabled
       must_be_enabled: must be enabled
     preset_filters:
-      all_pools: All Pools
-      enabled_pools: Enabled Pools
+      all_pools: All Cloud Resource Zones
+      enabled_pools: Enabled Cloud Resource Zones
       with_instances: With Instances
       with_running_instances: With running Instances
       with_create_failed_instances: With failed Instances
@@ -459,10 +460,10 @@ en:
       with_stopped_instances: With stopped Instances
   hardware_profiles:
     hardware: Hardware
-    hardware_profile: Hardware Profile
-    hardware_profiles: Hardware Profiles
+    hardware_profile: Cloud Resource Profile
+    hardware_profiles: Cloud Resource Profiles
     index:
-      hardware_profile_name: Hardware Profile Name
+      hardware_profile_name: Cloud Resource Profile Name
       architecture: Architecture
       memory: Memory
       storage: Storage
@@ -470,14 +471,14 @@ en:
     tab_captions:
       properties: Properties
       history: History
-      matching_provider_hwp: Matching Provider Hardware Profiles
+      matching_provider_hwp: Matching Provider Cloud Resource Profiles
     properties_headers:
       name: Name
       unit: Unit
       min_value: Minimum Value
     provider_hwp_headers:
-      provider_name: Provider Name
-      hwp_name: Hardware Profile Name
+      provider_name: Cloud Resource Provider Name
+      hwp_name: Cloud Resource Profile Name
       architecture: Architecture
       memory: Memory
       storage: Storage
@@ -488,91 +489,91 @@ en:
     history:
       history: History
     list:
-      new_hardware: New Hardware Profile
+      new_hardware: New Cloud Resource Profile
       delete_selected: Delete Selected
     matching_provider_hwp:
-      no_matching_provider_hwp: No Matching Provider Hardware Profiles Could be found
+      no_matching_provider_hwp: No Matching Provider Cloud Resource Profiles Could be found
     create:
-      check_matching_hwp: Check Matching Hardware Profiles
+      check_matching_hwp: Check Matching Cloud Resource Profiles
     edit:
       cancel_editing: Cancel Editing
-      edit_hwp: Edit Hardware Profile
+      edit_hwp: Edit Cloud Resource Profile
     new:
-      new_hwp: New Hardware Profile
+      new_hwp: New Cloud Resource Profile
     show:
-      matching_hwp: Matching Provider Hardware Profiles
+      matching_hwp: Matching Provider Cloud Resource Profiles
     flash:
       notice:
-        deleted: "Hardware profile was deleted!"
-        updated: "Hardware Profile updated!"
-        more_deleted: These Hardware Profiles were deleted
+        deleted: "Cloud Resource Profile was deleted!"
+        updated: "Cloud Resource Profile updated!"
+        more_deleted: These Cloud Resource Profiles were deleted
       error:
-        not_deleted: "Hardware profile was not deleted!"
-        more_not_deleted: Could not deleted these Hardware Profiles
+        not_deleted: "Cloud Resource Profile was not deleted!"
+        more_not_deleted: Could not delete these Cloud Resource Profiles
     preset_filters:
       all_hardware_profiles: "All Hardware Profiles"
       x86_64architecture: "x86_64 architecture"
       i386architecture: "i368 architecture"
   realms:
-    realms: Realms
-    new_realm: New Realm
+    realms: Cloud Resource Clusters
+    new_realm: New Cloud Resource Cluster
     index:
-      realm: Realm
-      realm_name: Realm Name
+      realm: Cloud Resource Cluster
+      realm_name: Cloud Resource Cluster Name
     tab_captions:
       properties: Properties
       mapping: Mapping
     form:
-      realm_name: Realm Name
+      realm_name: Cloud Resource Cluster Name
       description: Description
     list:
       delete_selected: Delete Selected
     mapping:
-      mapping_realm: Add mapping to realm
-      mapping_provider: Add mapping to provider
-      realm_mapped_providers: "Realm %{name} is mapped to providers:"
-      realm_mapped_realms: "Realm %{name} is mapped to realms:"
+      mapping_realm: Add mapping to cloud resource cluster
+      mapping_provider: Add mapping to cloud resource provider
+      realm_mapped_providers: "Cloud Resource Cluster %{name} is mapped to providers:"
+      realm_mapped_realms: "Cloud Resource Cluster %{name} is mapped to provider realms:"
     properties:
-      realm_details: Realm Details
-      realm_name: Realm Name
+      realm_details: Cloud Resource Cluster Details
+      realm_name: Cloud Resource Cluster Name
     edit:
       cancel_editing: Cancel Editing
       properties: Properties
     new:
-      create_realm: Create New Realm
+      create_realm: Create New Cloud Resource Cluster
     show:
       properties: Properties
-      realm_mapping: Realm Mapping
+      realm_mapping: Cloud Resource Cluster Mapping
       sure_to_delete: Are you sure you want to delete?
     flash:
       notice:
-        added_mapping: "Realm mapping was added."
-        updated: "Realm updated successfully!"
-        added: "Realm was added."
-        deleted: "Realm was deleted!"
-        more_deleted: "These Realms were deleted:"
+        added_mapping: "Cloud Resource Cluster mapping was added."
+        updated: "Cloud Resource Cluster updated successfully!"
+        added: "Cloud Resource Cluster was added."
+        deleted: "Cloud Resource Cluster was deleted!"
+        more_deleted: "These Cloud Resource Clusters were deleted:"
       error:
         select_to_delete_mapping: "You must select at least one mapping to delete."
-        not_deleted: "Realm was not deleted!"
-        select_to_delete: "You must select at least one realm to delete."
-        more_not_deleted: "Could not deleted these Realms:"
+        not_deleted: "Cloud Resource Cluster was not deleted!"
+        select_to_delete: "You must select at least one cloud resource cluster to delete."
+        more_not_deleted: "Could not deleted these Cloud Resource Clusters:"
     preset_filters:
-      all_realms: "All Realms"
+      all_realms: "All Cloud Resource Clusters"
   pool_families:
-    pool_families: Pool Families
-    pool_family: Pool Family
+    pool_families: Clouds
+    pool_family: Cloud
     confirm_delete: "Are you sure you want to delete?"
-    pool_family_details: Pool Family Details
+    pool_family_details: Cloud Details
     provider_accounts_for: Provider Accounts for
-    choose_provider_accounts: Choose Provider Accounts to enable for this Pool Family
+    choose_provider_accounts: Choose Provider Accounts to enable for this Cloud
     remove_selected: Remove selected
     add_to_pool_family: "Add to %{name}"
     index:
       name: Name
       quota_limit: Quota Limit
-      new_pool_family: New Pool Family
-      pool_name: Pool Name
-      deployments: Deployments
+      new_pool_family: New Cloud
+      pool_name: Cloud Resource Zone Name
+      deployments: Applications
       total_instancies: "Total Inst."
       pending_instances: "Pending Inst."
       quota_used: "Quota Used"
@@ -585,25 +586,25 @@ en:
       catalog: "Catalog"
       total_statistics: TOTAL
     new:
-      environments: Environments
+      environments: Clouds
     edit:
       return_to: "Return to:"
     form:
-      pool_family_name: Pool Family Name
+      pool_family_name: Cloud Name
     flash:
       notice:
-        added: "Pool family was added."
-        updated: "Pool Family was updated!"
-        deleted: "Pool Family was deleted!"
+        added: "Cloud was added."
+        updated: "Cloud was updated!"
+        deleted: "Cloud was deleted!"
         provider_accounts_added: "These Provider Account have been added"
         provider_accounts_removed: "These Provider Accounts were removed"
-        more_deleted: "Deleted the following Pool Families: %{list}."
+        more_deleted: "Deleted the following Clouds: %{list}."
       warning:
-        creation_failed: "Pool family's creation failed."
+        creation_failed: "Cloud's creation failed."
       error:
-        not_updated: "Pool Family wasn't updated!"
-        not_deleted: "Pool Family cannot be deleted!"
-        more_not_deleted: "Could not delete the following Pool Families: %{list}."
+        not_updated: "Cloud wasn't updated!"
+        not_deleted: "Cloud cannot be deleted!"
+        more_not_deleted: "Could not delete the following Clouds: %{list}."
         provider_accounts_not_added: "Could not add these Provider Accounts"
         provider_accounts_not_removed: "Could not remove these Provider Accounts"
         select_to_add_accounts: "You must select at least one Provider Account to add."
@@ -628,7 +629,7 @@ en:
       edit_xml: Edit XML
       delete: Delete
       confirm_delete: "Are you sure you want to delete?"
-      image: Image
+      image: Component Outline
       build: Build
       catalogs: Catalogs
       roles: Roles
@@ -640,10 +641,10 @@ en:
       catalog_entries_list: Deployables List
     flash:
       warning:
-        not_valid_or_reachable: "Deployable XML file is either invalid or no longer reachable at %{url}"
-        no_url_provided: "No URL provided for the deployable XML file."
-        not_valid: "Deployable XML file doesn't resolve valid XML"
-        failed: Deployable was not created.
+        not_valid_or_reachable: Catalog entry XML file is either invalid or no longer reachable at
+        no_url_provided: "No URL provided for the application blueprint XML file."
+        not_valid: "Application Blueprint url doesn't resolve valid XML file"
+        failed: Application Blueprint was not created.
       notice:
         added: Deployable added to catalog %{catalog}.
         updated: Deployable updated successfully!
@@ -680,7 +681,7 @@ en:
         one_not_deleted: "Catalog cannot be deleted! Some deployable has the last reference to this catalog!"
     preset_filters:
       all_catalogs: "All Catalogs"
-      belongs_to_default_pool: "Belongs to Default Pool"
+      belongs_to_default_pool: "Belongs to Default Cloud Resource Zone"
     catalog_list:
       no_catalogs: "-- No Catalogs --"
   target_images:
@@ -691,78 +692,78 @@ en:
         delete_failed: Unable to Delete Target Image
         not_found: Target Image not found
   images:
-    environment: %{environment} Environment
+    environment: %{environment} Cloud
     import:
-      import_image: Import Image
+      import_image: Import Component Outline
       provider_account: Provider Account
-      image_id: Image ID
-      name: Image Name
-      image_imported: The image was imported successfully.
-      image_not_imported: The image could not be imported. Check the Image Factory log for further details.
-      blank_id: Image ID cannot be blank.
+      image_id: Component Outline ID
+      name: Component Outline Name
+      image_imported: The component outline was imported successfully.
+      image_not_imported: The component outline could not be imported. Check the Image Factory log for further details.
+      blank_id: Component Outline ID cannot be blank.
     index:
-      images: Images
+      images: Component Outlines
       name: Name
       os: OS
       os_version: OS Version
       architecture: Architecture
       last_rebuild: Last Rebuild
       import: Import
-      new: New Image
+      new: New Component Outline
     show:
       provider_images: Provider Images
       provider_account: Provider Account
-      image_uuid: Image UUID
+      image_uuid: Component Outline UUID
       upload: Upload
       build_not_found: "Build not found"
-      new_deployable_from_image: "New Deployable from Image"
+      new_deployable_from_image: "New Deployable from Component Outline"
       view_build: View build
       rebuild_all: Rebuild All
       build: Build
       delete: Delete
       account: Account
-      image_uri: Image URI
-      provider: Provider
+      image_uri: Component Outline URI
+      provider: Cloud Resource Provider
       build_date: Build Completion Date
       latest: Latest
       select_build: Select
       template_xml: View Template XML
     flash:
       notice:
-        deleted: Image Deleted
-        multiple_deleted: "%{count} Images Deleted"
-        created: Image created
+        deleted: Component Outline Deleted
+        multiple_deleted: "%{count} Component Outlines Deleted"
+        created: Component Outline created
       warning:
-        delete_failed: Unable to Delete Image
-        not_found: Image not found
+        delete_failed: Unable to Delete Component Outline
+        not_found: Component Outline not found
       error:
         invalid_url: Could not load the provided URL
         no_file: You must specify the template XML file
-        no_template: "The image doesn't have a template because it's been imported."
+        no_template: "The image doesn't have a component outline because it's been imported."
         no_provider_accounts: Images cannot be built, as no provider accounts are currently enabled.
     new:
-      new_image: New Image
+      new_image: New Component Outline
       description:
-        Choose one of the following options to upload or import an image into
-        "%{environment} Environment".
+        Choose one of the following options to upload or import an component outline into
+        "%{environment} Cloud".
       upload: Upload
       from_url: From URL
       name: "Name:"
-      choose_file: "Choose a template file:"
-      image_url: "Template URL:"
+      choose_file: "Choose a component outline file:"
+      image_url: "Component Outline URL:"
       edit_file: "Edit this file before saving:"
     edit_xml:
       edit: Edit
       save_and_continue: Save and Continue
     overview:
-      valid_image: Valid Image
+      valid_image: Valid Component Outline
       description:
-        The markup and image references in "%{name}" were succesfully
-        validated. You may now save the image, and create a deployable.
-      make_deployable: Automatically make "%{name}" deployable.
+        The markup and component outline references in "%{name}" were succesfully
+        validated. You may now save the component outline, and create a application blueprint.
+      make_deployable: Automatically make "%{name}" application blueprint.
       back: Back
-      save_template: Save Template
-    not_on_provider: The requested image was not found on the provider.
+      save_template: Save Component Outline
+    not_on_provider: The requested component outline was not found on the provider.
   template_xml:
     errors:
       xml_parse_error: Failed to parse XML.
@@ -782,38 +783,38 @@ en:
         upload_failed: Unable to Upload Provider Image
   deployables:
     index:
-      deployables: Deployables
-      deployable_definition: Deployable Definition
-      deployable_url: Deployable URL
+      deployables: Application Blueprints
+      deployable_definition: Application Blueprint Definition
+      deployable_url: Application Blueprint URL
       deployable_url_subtext: "(must be a valid URL including http://)"
       name: Name
       description: Description
-      base_deployable: Base Deployable
+      base_deployable: Base Application Blueprint
       state: State
       deleted:
-        one: "Deployable %{list} was deleted."
-        other: "Deployables %{list} were deleted."
+        one: "Application Blueprint %{list} was deleted."
+        other: "Application Blueprints %{list} were deleted."
       not_deleted:
-        one: "Deployable %{list} was not deleted. There are deployments associated with it."
-        other: "Deployables %{list} were not deleted. They have deployments associated with them."
+        one: "Application Blueprint %{list} was not deleted. There are applications associated with it."
+        other: "Application Blueprints %{list} were not deleted. They have applications associated with them."
     new:
       no_catalog_selected: 'no catalog selected'
     new_from_image:
       catalog_entry_name: "%{name}"
-      title: Create Deployable
-      description: "Creating a deployable from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the deployable, and define a default cloud resource profile."
+      title: Create Application Blueprint
+      description: "Creating a application blueprint from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the application blueprint, and define a default cloud resource profile."
       no_available_catalog: 'No catalog'
     show:
-      images: "Images"
+      images: Component Outlines
       launch: "Launch"
       edit: Edit
       edit_xml: Edit XML
       delete: Delete
       build: Build
       start: Start
-      rebuild_all: Build missing images
-      push_all: Push missing images
-      missing_images: Images missing from the Image Warehouse
+      rebuild_all: Build missing component outlines
+      push_all: Push missing component outlines
+      missing_images: Component Outlines missing from the Image Warehouse
       choose_catalog: "Choose a catalog to enable access:"
       add_catalog: "Add +"
       name: Name
@@ -821,30 +822,30 @@ en:
       hdd: HDD
       ram: RAM
       arch: ARCH
-      repair_images: Repair Images
-      images_valid: Images Valid
+      repair_images: Repair Component Outlines
+      images_valid: Component Outlines Valid
       build_description:
-        "Allow this deployable's associated image(s) to be built and
+        "Allow this deployable's associated component outlines(s) to be built and
         pushed to cloud resource providers by enabling them below."
       catalog_name: Catalog name
-      environment: Environment
+      environment: Cloud
       build_statuses_descriptions:
-        not_built: "Images are not Built"
-        building: "Images are being built."
-        not_pushed: "Some of the images are not pushed"
-        pushing: "Images are being pushed."
-        pushed: "All Images are pushed and recent."
+        not_built: "Component Outlines are not Built"
+        building: "Component Outlines are being built."
+        not_pushed: "Some of the component outlines are not pushed"
+        pushing: "Component Outlines are being pushed."
+        pushed: "All Component Outlines are pushed and recent."
       build_missing: "Build missing"
       push_missing: "Push missing"
     form:
-      choose_xml: Choose Deployable XML file
+      choose_xml: Choose Application Blueprint XML file
       catalog: Catalog
       description: Description
       cancel: Cancel
       save: Save
-      deployable_xml: Deployable XML
+      deployable_xml: Application Blueprint XML
       edit_xml_after_save: Edit XML file after save
-      deployable_xml_url: URL of Deployable XML
+      deployable_xml_url: URL of Application Blueprint XML
       none: None
       multiple: None
     flash:
@@ -856,7 +857,7 @@ en:
           other: "%{count} deployables %{not_deleted} were not deleted!"
         not_selected: "No deployable was not selected!"
       warning:
-        failed: "Deployable was not created: %{message}"
+        failed: "Application Blueprint was not created: %{message}"
       notice:
         deleted:
           one: "Deployable %{deleted} delete successfully!"
@@ -865,7 +866,7 @@ en:
       attribute_not_exists: invalid
       hwp_not_exists: "Hardware profile %{name} specified in XML doesn't exist."
     properties:
-      edit_deployable_xml: Edit Deployable XML
+      edit_deployable_xml: Edit Application Blueprint XML
   name: Name
   summary: Summary
   settings:
@@ -874,12 +875,12 @@ en:
       general_settings: General Settings
       general_settings_desc: Enable Self-service Account Registration, Setup Custom Branding, Manage Content Sources
       define_locales: Define Locales
-      define_locales_desc: View, edit and define the names of locales that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to the geographical locations offered by individual providers.
+      define_locales_desc: View, edit and define the names of locales that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to the geographical locations offered by individual cloud resource providers.
       manage_users: Manage Users
       manage_users_desc: View, edit, create and delete user accounts on Aeolus Conductor. Adjust quotas and privileges for users.
-      define_hardware_profiles: Define Hardware Profiles
-      define_hardware_profiles_desc: View, edit and define the names of the hardware profiles that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to capabilities offered by individual providers.
-      manage_providers: Manage Providers
+      define_hardware_profiles: Define Cloud Resource Profiles
+      define_hardware_profiles_desc: View, edit and define the names of the cloud resource profiles that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to capabilities offered by individual cloud resource providers.
+      manage_providers: Manage Cloud Resource Providers
       manage_providers_desc: View, edit and add providers of virtual compute resources to Aeolus Conductor. View, edit and add Aeolus Conductor accounts for these providers. Map provider-specific concepts to Aeolus Conductor.
       define_services:  Define Services
       define_services_desc: View, edit and define services that Aeolus Conductor will offer. These services will be mapped to individual providers based on their capabilities.
@@ -909,34 +910,34 @@ en:
       notice:
         updated: "Settings Updated!"
   providers:
-    provider: Provider
-    providers: Providers
+    provider: Cloud Resource Provider
+    providers: Cloud Resource Providers
     confirm_delete: "Are you sure you want to delete this provider?"
-    editing_provider: Editing Provider
+    editing_provider: Editing Cloud Resource Provider
     choose_a_provider: "Choose a provider:"
     disable_provider: "Disable provider? All it's instances will be stopped!"
     enable_provider: "Enable provider?"
     index:
-      provider_name: Provider Name
-      provider_url: Provider URL
-      provider_type: Provider Type
+      provider_name: Cloud Resource Provider Name
+      provider_url: Cloud Resource Provider URL
+      provider_type: Cloud Resource Provider Type
       x_deltacloud_driver: X-Deltacloud-Driver
       x_deltacloud_provider: X-Deltacloud-Provider
       no_providers_available: No providers available. Please create one first.
-      create_new_provider: "Create New Provider"
+      create_new_provider: "Create New Cloud Resource Provider"
     new:
-      new_provider: New Provider
-      save_provider: Save Provider
+      new_provider: New Cloud Resource Provider
+      save_provider: Save Cloud Resource Provider
     edit:
-      provider_id_disabled: "Provider is disabled."
+      provider_id_disabled: "Cloud Resource Provider is disabled."
       toggle_alerts: Toggle Alerts
       provider_disabled: "The provider %{name} is currently disabled."
       enable_configure_providers: "To enable and configure provider, click the slide switch in the upper-right-hand corner of this window."
     form:
       x_deltacloud_provider: "X-Deltacloud-Provider:"
-      provider_name: "Provider Name:"
-      provider_url: "Provider URL:"
-      provider_type: "Provider Type:"
+      provider_name: "Cloud Resource Provider Name:"
+      provider_url: "Cloud Resource Provider URL:"
+      provider_type: "Cloud Resource Provider Type:"
       select_type_of_provider: Select type of provider
       caution_alt_text: Caution
       enter_correct_url_msg: Please enter a correct URL format.
@@ -945,16 +946,16 @@ en:
       caution_image: Caution
     flash:
       notice:
-        added: "Provider added."
-        updated: "Provider updated."
-        connected: "Successfully Connected to Provider"
-        deleted: "Provider has been successfully deleted."
+        added: "Cloud Resource Provider added."
+        updated: "Cloud Resource Provider updated."
+        connected: "Successfully Connected to Cloud Resource Provider"
+        deleted: "Cloud Resource Provider has been successfully deleted."
       error:
         not_added: "Cannot add the provider."
         not_updated: "Cannot update the provider."
         not_deleted: "Provider was not deleted"
       warning:
-        connect_failed: "Failed to connect to Provider!"
+        connect_failed: "Failed to connect to Cloud Resource Provider!"
     alerts:
       type:
         critical: Critical
@@ -975,8 +976,8 @@ en:
       provider_accounts: Provider Accounts
       provider_account_name: Account Name
       username: Username
-      provider_name: Provider Name
-      provider_type: Provider Type
+      provider_name: Cloud Resource Provider Name
+      provider_type: Cloud Resource Provider Type
       quota_limit: Quota Limit
       priority: Priority
       config_server_saved: "Config Server data was successfully saved"
@@ -986,7 +987,7 @@ en:
     new:
       new_provider_account: New Provider Account
       required_field: Required field.
-      cloud_providers: Cloud Providers
+      cloud_providers: Cloud Resource Providers
     edit:
       edit_provider_account: Edit Provider Account
       required_field: Required field.
@@ -1040,7 +1041,7 @@ en:
           one: "Account %{list} was added."
           other: "Accounts %{list} were added."
         updated: "Provider Account updated!"
-        deleted: "Provider account was deleted!"
+        deleted: "Cloud Resource Provider account was deleted!"
         account_deleted:
           one: "Account %{list} was deleted."
           other: "Accounts %{list} were deleted."
@@ -1052,7 +1053,7 @@ en:
           one: "Account %{list} could not be added"
           other: "Accounts %{list} could not be added"
         not_updated: "Provider Account wasn't updated!"
-        not_deleted: "Provider account was not deleted!"
+        not_deleted: "Cloud Resource Provider account was not deleted!"
         account_not_deleted:
           one: "Account %{list} was not deleted. There are instances associated with it."
           other: "Accounts %{list} were not deleted. They have instances associated with them."
@@ -1060,7 +1061,7 @@ en:
         test_connection_failed_provider: "Test Connection Failed: Could not connect to provider"
       warning:
         must_select_account: "You must select some accounts first."
-        no_provider: "You don't have any provider yet"
+        no_provider: "You don't have any cloud resource providers yet"
     errors:
       populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
       populate_realms_failed: "Failed to populate realms: %{message}"
@@ -1193,9 +1194,9 @@ en:
       administer: Administer
     second_level:
       users: Users
-      environments: Environments
+      environments: Clouds
       content: Content
-      cloud_providers: Cloud Providers
+      cloud_providers: Cloud Resource Providers
       settings: Settings
   application_controller:
     permission_denied: You have insufficient privileges to perform the selected action.
@@ -1210,16 +1211,16 @@ en:
         must_not_be_logged: You must be logged out to access this page
     admin_tabs:
       catalogs: Catalogs
-      realms: Realms
+      realms: Cloud Resource Clusters
       hardware: Hardware
       users: Users
       groups: Groups
       permissions: Global Role Grants
-      pool_families: Pool Families
-      images: Images
+      pool_families: Clouds
+      images: Component Outlines
   realm_mappings:
     new:
-      create_new: Create a new Realm Mapping
+      create_new: Create a new Cloud Resource Cluster Mapping
   api:
     error_messages:
       build_not_found: Could not find Build %{build}
