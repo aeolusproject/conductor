@@ -49,7 +49,43 @@ class ImagesController < ApplicationController
   end
 
   def new
-    @environment = PoolFamily.find(params[:environment])
+    if 'import' == params[:tab]
+      @providers = Provider.all
+      render :import and return
+    else
+      @environment = PoolFamily.find(params[:environment])
+    end
+
+  end
+
+  def import
+    provider = Provider.find(params[:provider])
+    begin
+      xml = Nokogiri::XML(CGI.unescapeHTML(params[:description_xml].read)).to_s
+    rescue Exception => e
+      if params[:description_xml].present?
+        flash[:warning] = t("images.import.bad_xml")
+        logger.error "XML was provided when importing image, but we are falling back on generic XML because we caught an exception: #{e.message}"
+      end
+      xml = "<image><name>#{params[:image_id]}</name></image>"
+    end
+    image = Aeolus::Image::Factory::Image.new(
+      :target_name => provider.provider_type.deltacloud_driver,
+      :provider_name => provider.name,
+      :target_identifier => params[:image_id],
+      :image_descriptor => xml
+    )
+    begin
+      if image.save!
+        flash[:success] = t("images.import.image_imported")
+        redirect_to image_url(image) and return
+      else
+        raise
+      end
+    rescue
+      flash[:error] = t("images.import.image_not_imported")
+      redirect_to new_image_url(:tab => 'import')
+    end
   end
 
   def edit_xml

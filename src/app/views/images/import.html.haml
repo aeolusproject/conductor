@@ -1,0 +1,22 @@
+= render :partial => 'layouts/admin_nav'
+%header.admin-page-header
+  %h1.images= t('.import_image')
+  #obj_actions.button-container
+
+%section.admin-content-section.image-import
+
+  %section#image-file-form
+    = form_tag(import_images_path, { :multipart => true, :method => :post }) do
+      %fieldset
+        %p
+          = label_tag :provider, t('.provider')
+          = select_tag :provider, options_for_select(@providers.collect{|x| [x.name, x.id]})
+        %p
+          = label_tag :image_id, t('.image_id')
+          = text_field_tag :image_id
+        %p
+          = label_tag :description, t('.description')
+          = file_field_tag :description_xml
+
+      .buttons.container
+        = submit_tag t(:continue), :id => "file_button", :class => "button primary"

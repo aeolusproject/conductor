@@ -205,6 +205,7 @@ Conductor::Application.routes.draw do
       post 'edit_xml'
       post 'overview'
       delete 'multi_destroy'
+      post 'import'
     end
   end
 
