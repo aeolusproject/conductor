@@ -19,7 +19,15 @@ module Aeolus
           event.event_id.should =='020001'
         end
       end
-
+      describe "#attributes" do
+        it "should return the Cidr attributes plus the 2 defined in the Base class as a single level array" do
+          event = Cidr.new
+          event.attributes.include?(:event_id).should be_true
+          event.attributes.include?(:target).should be_true
+          event.attributes.include?(:owner).should be_true
+          event.attributes.include?(:hardware_profile).should be_true
+        end
+      end
       describe "#changed_fields" do
         it "should return a list if changes present" do
           event = Cidr.new({:owner=>'sseago',:old_values=>{:owner=>'jayg'}})

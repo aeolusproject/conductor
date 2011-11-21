@@ -18,6 +18,13 @@ module Aeolus
           result.should be_true
         end
       end
+      describe "#attributes" do
+        it "should return the attributes defined in the Base class as a single level array" do
+          event = Base.new
+          event.attributes.include?(:event_id).should be_true
+          event.attributes.include?(:target).should be_true
+        end
+      end
       describe "#changed_fields" do
         it "should return empty array if no changes present" do
           event = Base.new
