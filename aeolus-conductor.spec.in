@@ -178,6 +178,7 @@ for filetype in builder css feature gif haml html ico jpg js json key opts png \
         %{__cp} src/$dir/*.$filetype %{buildroot}%{app_root}/$dir
     done
 done
+%{__rm} %{buildroot}%{app_root}/config/initializers/secret_token.rb
 
 # precompile stylesheets
 %{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
