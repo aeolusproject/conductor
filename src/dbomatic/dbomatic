@@ -193,9 +193,11 @@ def check_one_account(account)
         if not api_instance.private_addresses.empty?
           instance.private_addresses = api_instance.private_addresses.map {|i| i[:address]}.join(',')
         end
-
-        instance.save!
-        instance.events.create!(:status_code => instance.state, :event_time => now)
+        # Only update the instance / create an event if anything has changed!
+        if instance.changed?
+          instance.save!
+          instance.events.create!(:status_code => instance.state, :event_time => now)
+        end
       else
         DBomaticLogger.instance.debug("ignoring unknown instance #{instance.name} #{instance.external_key}")
       end
