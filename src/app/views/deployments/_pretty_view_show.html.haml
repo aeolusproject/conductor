@@ -1,37 +1,73 @@
-%header
-  %h2=t 'instances.instances'
-%ul.instances_list
-  - @deployment.instances.each do |instance|
+%ul.instances-array
+  - @deployment.instances.ascending_by_name.each do |instance|
     %li.instance
-      = instance.name
-      %ul
-        %li
-          = t 'deployments.pretty_view_show.ip_address'
-          = instance.public_addresses
-        %li
-          = t 'deployments.pretty_view_show.state'
-          %span.state= instance.state
-      - if instance.instance_key
-        %li
-          = link_to t('deployments.pretty_view_show.download_key'), key_instance_path(instance)
-      - if instance.valid_action?('reboot')
-        %li
-          = button_to t('instances.reboot'), reboot_instance_path(instance)
+      %h3.name
+        = instance.name
+      %hr
+      %dl.statistics
+        %ul
+          %li
+            %dt.uptime
+            %dd= count_uptime(instance.uptime)
+          %li
+            %dt.ip_address= t('deployments.pretty_view_show.ip_address')
+            %dd= instance.public_addresses.present? ? instance.public_addresses : '-'
+          %li
+            %dt.state= t('deployments.pretty_view_show.state')
+            %dd= instance.state
+          %li
+            = link_to t('deployments.pretty_view_show.download_key'), key_instance_path(instance)
+      %hr
+      .actions
+        %ul
+          - available_actions = instance.get_action_list
+          %li= button_to(t('deployments.pretty_view_show.stop'), stop_instance_path(instance), :disabled => !available_actions.include?(InstanceTask::ACTION_STOP))
+          %li= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path(instance), :disabled => !available_actions.include?(InstanceTask::ACTION_REBOOT))
 
 :javascript
   Conductor.setupPrettyFilterURL(
             '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter' )}',
             '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty' )}');
 
-%script#instanceTemplate{ :type => 'text/x-jquery-tmpl' }
+%script#instanceTemplate{:type => 'text/x-jquery-tmpl'}
   :plain
-    <li class="instance">${name}
-      <ul>
-        <li>#{t('deployments.pretty_view_show.ip_address')} ${public_addresses}</li>
-        <li>#{t('deployments.pretty_view_show.state')}
-          <span class="state">${state}</span></li>
-        {{if has_key}}
-          <li><a href="#{key_instance_path('replace_id').sub('replace_id', '${id}')}">#{t('deployments.pretty_view_show.download_key')}</a></li>
-        {{/if}}
-      </ul>
+    <li class="instance">
+      <h3 class="name">${name}</h3>
+      <hr>
+      <dl class="statistics">
+        <ul>
+          <li>
+            <dt class="uptime"></dt>
+            <dd>  ${uptime}</dd>
+          </li>
+          <li>
+            <dt class="ip_address">#{t('deployments.pretty_view_show.ip_address')}</dt>
+            <dd>${public_addresses}</dd>
+          </li>
+          <li>
+            <dt class="state">#{t('deployments.pretty_view_show.state')}</dt>
+            <dd>${state}</dd>
+          </li>
+          <li>
+            <a href="#{key_instance_path('replace_id').sub('replace_id', '${id}')}">#{t('deployments.pretty_view_show.download_key')}</a>
+          </li>
+        </ul>
+      </dl>
+      <hr>
+      <div class="actions">
+        <ul>
+          {{if stop_enabled}}
+            <li>#{button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => false)}</li>
+          {{else}}
+            <li>#{button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => true)}</li>
+          {{/if}}
+
+
+          {{if reboot_enabled}}
+            <li>#{button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => false)}</li>
+          {{else}}
+            <li>#{button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => true)}</li>
+          {{/if}}
+        </ul>
+      </div>
     </li>

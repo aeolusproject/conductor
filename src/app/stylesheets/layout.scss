@@ -2261,6 +2261,92 @@ ul.deployment-array.small + ul.deployment-array.small{
 }
 
 /************************************************************************** */
+/********************************************* Instances Card Array         */
+/************************************************************************** */
+
+$instances-height: 190px;
+$instances-width: 290px;
+$instances-padding: 4px;
+
+ul.instances-array{
+
+  list-style: none;
+  display: table;
+
+  li.instance{
+    margin: 10px;
+    display: table-cell;
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #efefef;
+    -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+    padding: $instances-padding;
+    width: $instances-width - ($instances-padding * 2);
+    /*height: $instances-height - ($instances-padding * 2);*/
+    overflow: hidden;
+
+    h3.name{
+      text-align: center;
+      font-family: $font-family-base;
+      font-weight: bold;
+      font-size: 13px;
+      margin: 12px 0px;
+    }
+
+    hr{
+      width:100%;
+      height:0;
+      border-top:1px solid #ccc;
+      border-bottom:1px solid #fff;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    dl.statistics{
+      ul{
+        list-style: none;
+      }
+      li{
+        padding: 2px;
+        font-family: $font-family-primary;
+        font-size: 12px;
+        text-align: center;
+      }
+      dt{
+        height: 17px;
+        width: 85px;
+        float: left;
+        text-align: right;
+        text-transform: uppercase;
+        color: #999;
+      }
+      dt.uptime{
+        background: url('../../images/deployment_small_icon_uptime.png') no-repeat top right;
+      }
+      dd{
+        margin-left: 95px;
+        text-align: left;
+        color: #666;
+        word-wrap: break-word;
+      }
+    }
+
+    .actions{
+        ul{
+          display: table;
+          margin: 0 auto;
+          list-style: none;
+            font-size: 11px;
+
+          li{
+            float: left;
+          }
+        }
+    }
+  }
+}
+
+/************************************************************************** */
 /********************************************* Launch from catalog elements */
 /************************************************************************** */
 
@@ -2950,4 +3036,3 @@ footer.standard{
     display: inline-block;
   }
 }
-

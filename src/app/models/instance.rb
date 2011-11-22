@@ -117,6 +117,7 @@ class Instance < ActiveRecord::Base
   # FIXME: "failed" is misleading too...
   scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR] }
   scope :stopable,    :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING] }
+  scope :ascending_by_name, :order => 'name ASC'
 
 
   SEARCHABLE_COLUMNS = %w(name state)
@@ -413,10 +414,14 @@ class Instance < ActiveRecord::Base
   }
 
   def as_json(options={})
+    available_actions = get_action_list
     super(options).merge({
       :owner => owner.name,
       :provider => provider_account ? provider_account.provider.name : '',
-      :has_key => !(instance_key.nil?)
+      :has_key => !(instance_key.nil?),
+      :uptime => ApplicationHelper.count_uptime(uptime),
+      :stop_enabled => available_actions.include?(InstanceTask::ACTION_STOP),
+      :reboot_enabled => available_actions.include?(InstanceTask::ACTION_REBOOT)
     })
   end
 
@@ -451,9 +456,20 @@ class Instance < ActiveRecord::Base
     [matches, errors]
   end
 
+  def stop
+    do_operation('stop')
+  end
+
   def reboot
-    task = self.queue_action(@current_user, 'reboot')
-    Taskomatic.reboot_instance(task)
+    do_operation('reboot')
+  end
+
+  def deployed?
+    [STATE_RUNNING, STATE_SHUTTING_DOWN].include?(state)
+  end
+
+  def uptime
+    deployed? ? (Time.now - time_last_running) : 0
   end
 
   private
@@ -465,4 +481,13 @@ class Instance < ActiveRecord::Base
   def generate_uuid
     self[:uuid] = UUIDTools::UUID.timestamp_create.to_s
   end
+
+  def do_operation(operation)
+    @task = self.queue_action(@current_user, operation)
+    unless @task
+      raise ActionError.new(t("instances.errors.#{operation}_not_be_performed"))
+    end
+    Taskomatic.send("#{operation}_instance", @task)
+  end
+
 end

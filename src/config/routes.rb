@@ -122,6 +122,7 @@ Conductor::Application.routes.draw do
     end
     member do
       get 'key'
+      post 'stop'
       post 'reboot'
     end
     resources :instance_parameters

@@ -229,6 +229,8 @@ en:
       ip_address: "IP Address:"
       state: "State:"
       download_key: Download key
+      reboot: "Restart"
+      stop: "Stop"
     flash:
       notice:
         launched: "Deployment launched."

@@ -30,7 +30,6 @@ class InstancesController < ApplicationController
       format.html
       format.js { render :partial => 'list' }
       format.json { render :json => @instances }
-
     end
   end
 
@@ -172,17 +171,12 @@ class InstancesController < ApplicationController
               :filename => "export.csv")
   end
 
+  def stop
+    do_operation(:stop)
+  end
+
   def reboot
-    instance = Instance.find(params[:id])
-    begin
-      instance.reboot
-      flash[:notice] = t('instances.flash.notice.reboot', :name => instance.name)
-    rescue Exception => err
-      flash[:error] = t('instance.error', :name => instance.name, :err => err)
-    end
-    respond_to do |format|
-      format.html { redirect_to deployment_path(instance.deployment, :details_tab => 'instances')}
-    end
+    do_operation(:reboot)
   end
 
   private
@@ -223,5 +217,18 @@ class InstancesController < ApplicationController
                               :conditions => conditions,
                               :order => (sort_column(Instance) +' '+ sort_direction)
     )
+  end
+
+  def do_operation(operation)
+    instance = Instance.find(params[:id])
+    begin
+      instance.send(operation)
+      flash[:notice] = t("instances.flash.notice.#{operation}", :name => instance.name)
+    rescue Exception => err
+      flash[:error] = t('instance.error', :name => instance.name, :err => err)
+    end
+    respond_to do |format|
+      format.html { redirect_to deployment_path(instance.deployment, :details_tab => 'instances')}
+    end
   end
 end

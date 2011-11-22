@@ -1,5 +1,6 @@
 = render :partial => 'layouts/nav_history'
 = render :partial => 'header_show'
+= render :partial => 'pools/scoreboard_show', :locals => {:@statistics => @deployment.pool.statistics, :@pool => @deployment.pool}
 = render :partial => 'alerts_show'
 %section.content-section
   %header#tab-container-1

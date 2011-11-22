@@ -87,7 +87,7 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
     }
   },
   render: function() {
-    var $instances = this.$('ul.instances_list');
+    var $instances = this.$('ul.instances-array');
     if($instances.length === 0) {
       $instances = this.$('table.checkbox_table > tbody');
     }
