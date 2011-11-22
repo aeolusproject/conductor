@@ -87,14 +87,14 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def self.authenticate(username, password)
+  def self.authenticate(username, password, ipaddress)
     return unless u = User.find_by_login(username)
     # FIXME: this is because of tests - encrypted password is submitted,
     # don't know how to get unencrypted version (from factorygirl)
     if password.length == 192 and password == u.crypted_password
-      u.login_count += 1
+      update_login_attributes(u, ipaddress)
     elsif Password.check(password, u.crypted_password)
-      u.login_count += 1
+      update_login_attributes(u, ipaddress)
     else
       u.failed_login_count += 1
       u.save!
@@ -104,15 +104,22 @@ class User < ActiveRecord::Base
     return u
   end
 
-  def self.authenticate_using_ldap(username, password)
+  def self.authenticate_using_ldap(username, password, ipaddress)
     if Ldap.valid_ldap_authentication?(username, password, SETTINGS_CONFIG[:auth][:ldap])
       u = User.find_by_login(username) || create_ldap_user!(username)
       u.login_count += 1
+      update_login_attributes(u, ipaddress)
     else
       u = nil
     end
     u.save! unless u.nil?
     return u
+  end
+
+  def self.update_login_attributes(u, ipaddress)
+    u.login_count += 1
+    u.last_login_ip = ipaddress
+    u.last_login_at = DateTime.now
   end
 
   def check_password?

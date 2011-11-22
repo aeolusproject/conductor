@@ -39,6 +39,7 @@ FactoryGirl.define do
   end
 
   factory :tuser, :parent => :user do
+    last_login_ip '192.168.1.1'
   end
 
   factory :admin_user, :parent => :user do

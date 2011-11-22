@@ -89,17 +89,17 @@ describe User do
 
   it "should authenticate a user with valid password" do
     user = FactoryGirl.create :tuser
-    User.authenticate(user.login, user.password).should_not be_nil
+    User.authenticate(user.login, user.password, user.last_login_ip).should_not be_nil
   end
 
   it "should not authenticate a user with valid password" do
     user = FactoryGirl.create :tuser
-    User.authenticate(user.login, 'invalid').should be_nil
+    User.authenticate(user.login, 'invalid', user.last_login_ip).should be_nil
   end
 
   it "should authenticate a user against LDAP and create local user w/o password" do
     Ldap.should_receive(:valid_ldap_authentication?).and_return(true)
-    User.authenticate_using_ldap('ldapuser', 'random').should_not be_nil
+    User.authenticate_using_ldap('ldapuser', 'random', '192.168.1.1').should_not be_nil
     u = User.find_by_login('ldapuser')
     u.should_not be_nil
     u.crypted_password.should be_nil
@@ -108,7 +108,7 @@ describe User do
   it "should authenticate a user against LDAP and return existing user" do
     user = FactoryGirl.create(:tuser, :ignore_password => true, :password => nil)
     Ldap.should_receive(:valid_ldap_authentication?).and_return(true)
-    u = User.authenticate_using_ldap(user.login, 'random')
+    u = User.authenticate_using_ldap(user.login, 'random', user.last_login_ip)
     u.should_not be_nil
     u.id.should == user.id
   end
