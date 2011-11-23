@@ -213,15 +213,18 @@ Conductor::Application.routes.draw do
   resources :deployables
 
   resources :images do
+    member do
+      post 'rebuild_all'
+    end
     collection do
       post 'edit_xml'
       post 'overview'
       delete 'multi_destroy'
       post 'import'
     end
+    resources :target_images
+    resources :provider_images
   end
-
-  resources :provider_images
 
   get 'api', :controller => 'api/entrypoint', :action => 'index'
   namespace :api do

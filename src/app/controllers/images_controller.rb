@@ -37,15 +37,22 @@ class ImagesController < ApplicationController
 
   def show
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
-    @builds = @image.image_builds
-    @build = if params[:build].present?
-               @builds.find {|b| b.id == params[:build]}
-             elsif @image.respond_to?(:latest_build) and @image.latest_build
-               @builds.find {|b| b.id == @image.latest_build}
-             else
-               @builds.first
-             end
-    @provider_types = ProviderType.all
+    @account_groups = ProviderAccount.group_by_type(current_user)
+    # according to imagefactory Builder.first shouldn't be implemented yet
+    # but it does what we need - returns builder object which contains
+    # all builds
+    @builder = Aeolus::Image::Factory::Builder.first
+    load_builds
+    load_target_images(@build)
+  end
+
+  def rebuild_all
+    @image = Aeolus::Image::Warehouse::Image.find(params[:id])
+    factory_image = Aeolus::Image::Factory::Image.new(:id => @image.id)
+    factory_image.targets = Provider.list_for_user(current_user, Privilege::VIEW).map {|p| p.provider_type.deltacloud_driver}.uniq.join(',')
+    factory_image.template = @image.template_xml.to_s
+    factory_image.save!
+    redirect_to image_path(@image.id)
   end
 
   def new
@@ -202,5 +209,24 @@ class ImagesController < ApplicationController
     end
 
     doc.xpath('/template/name').first.content = name unless name.blank?
+  end
+
+  def load_target_images(build)
+    @target_images_by_target = {}
+    return unless build
+    build.target_images.each {|timg| @target_images_by_target[timg.target] = timg}
+    @target_images_by_target
+  end
+
+  def load_builds
+    @builds = @image.image_builds.sort {|a, b| a.timestamp <=> b.timestamp}.reverse
+    @latest_build = @image.latest_pushed_or_unpushed_build.uuid rescue nil
+    @build = if params[:build].present?
+               @builds.find {|b| b.id == params[:build]}
+             elsif @latest_build
+               @builds.find {|b| b.id == @latest_build}
+             else
+               @builds.first
+             end
   end
 end

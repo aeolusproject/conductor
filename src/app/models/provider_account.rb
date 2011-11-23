@@ -308,6 +308,27 @@ class ProviderAccount < ActiveRecord::Base
 
   PRESET_FILTERS_OPTIONS = []
 
+  def self.group_by_type(user)
+    res = {}
+    ProviderAccount.list_for_user(user, Privilege::VIEW).each do |account|
+      ptype = account.provider.provider_type
+      res[ptype.deltacloud_driver] ||= {:type => ptype, :accounts => []}
+      res[ptype.deltacloud_driver][:accounts] << account
+    end
+    res
+  end
+
+  def warehouse_id
+    # TODO: provider_account_identifier is not set for 'mock' provider images
+    # in warehouse, provider_image is supposed to be pushed to all mock provider
+    # accounts then
+    if provider.provider_type.deltacloud_driver == 'mock'
+      return nil
+    else
+      return credentials_hash['username']
+    end
+  end
+
   private
 
   def self.apply_search_filter(search)

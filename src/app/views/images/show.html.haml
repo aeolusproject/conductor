@@ -6,39 +6,69 @@
     = link_to t('images.index.images'), images_path
     .button-group
       = button_to t("delete"), image_path(@image.id), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button danger', :id => 'delete'
+    = link_to t('.new_deployable_from_image'), new_catalog_entry_path(:create_from_image => @image.id)
 
-- unless @build
-  = t('images.show.build_not_found')
--else
-  %section.admin-content-section
-    %header
-      %h2
-        = t('images.show.provider_images')
-    .content
-      %ul
-        - @build.target_images.each do |target_image|
-          - type = @provider_types.find {|pt| pt.deltacloud_driver == target_image.target}
-          %ul
-            = type.name
-            / TODO: what if an account is renamed in condutor?
-            - all_accounts = type.provider_accounts_for_user(current_user)
-            - target_image.provider_images.each do |provider_image|
-              %li
-                = form_tag provider_image_path(provider_image.id), :method => :delete do
-                  - all_accounts.delete_if {|a| a.name == provider_image.provider}
-                  = hidden_field_tag 'image_id', @image.id
-                  = "#{t('images.show.provider_account')}: #{provider_image.provider}"
-                  %br
-                  = "#{t('images.show.image_uuid')}: #{provider_image.id}"
-                  %br
-                  = submit_tag t('delete'), :class => 'button danger'
-            - all_accounts.each do |account|
-              %li
-                = form_tag provider_images_path do
-                  = hidden_field_tag 'account_id', account.id
-                  = hidden_field_tag 'image_id', @image.id
-                  = hidden_field_tag 'build_id', @build.id
-                  = hidden_field_tag 'target_image_id', target_image.id
-                  = "#{t('images.show.provider_account')}: #{account.name}"
-                  %br
-                  = submit_tag t('images.show.upload')
+%section.admin-content-section
+  %header
+    %h2
+      = t('.provider_images')
+    = t'.view_build'
+    = form_tag image_path(@image.id), :method => :get do
+      = select_tag :build, options_for_build_select(@builds, @build, @latest_build)
+      = submit_tag t('.select_build'), :id => 'seletect_build_button'
+    = button_to t('.rebuild_all'), rebuild_all_image_path(@image.id)
+  .content
+    %dl.image_builds
+      - @account_groups.each do |driver, group|
+        - timg = @target_images_by_target[driver]
+        %dt
+          %h1
+            = group[:type].name
+          - if @build and b = @builder.find_active_build(@build.id, driver)
+            = label_tag b.status
+          - elsif timg
+            = button_to t('.delete'), image_target_image_path(@image.id, timg.id), :method => :delete
+          - elsif @build and @build.id == @latest_build
+            = button_to t('.build'), image_target_images_path(@image.id, :target => driver, :build_id => @build ? @build.id : nil), :method => :post
+          - else
+            &nbsp;
+        %dd
+          %div
+            %table
+              %thead
+                %th
+                  = t'.account'
+                %th
+                  = t'.provider'
+                %th
+                  = t'.image_uri'
+                %th
+                  &nbsp;
+              %tbody
+                - group[:accounts].each do |account|
+                  - pimg = timg ? timg.find_provider_image_by_provider_and_account(account.provider.name, account.warehouse_id).first : nil
+                  %tr
+                    %td
+                      = account.name
+                    %td
+                      = account.provider.name
+                    %td
+                      = pimg ? pimg.target_identifier : '-'
+                    %td
+                      - if timg and b = @builder.find_active_push(timg.id, account.provider.name, account.warehouse_id)
+                        = label_tag b.status
+                      - elsif timg and not pimg and @build and @build.id == @latest_build
+                        = button_to t('.upload'), image_provider_images_path(@image.id, :build_id => @build.id, :target_image_id => timg.id, :account_id => account.id), :method => :post
+                      - elsif pimg
+                        = button_to t('delete'), image_provider_image_path(@image.id, pimg.id), :method => :delete
+                      - else
+                        &nbsp;
+        .clear
+
+:javascript
+  $(document).ready(function(){
+    $("#seletect_build_button").hide();
+    $("#build").change(function() {
+      $("#seletect_build_button").click();
+    });
+  });

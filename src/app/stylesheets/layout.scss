@@ -2260,6 +2260,7 @@ ul.deployment-array.small + ul.deployment-array.small{
   margin-top: 10px;
 }
 
+
 /************************************************************************** */
 /********************************************* Instances Card Array         */
 /************************************************************************** */
@@ -2485,6 +2486,42 @@ ul.catalog_pretty {
     }
   }
 }
+
+/************************************************************************** */
+/********************************************* Image show view */
+/************************************************************************** */
+
+.image_builds h1 {
+  padding: 10px;
+  font-size: 16px;
+}
+
+dl.image_builds {
+  border: 1px solid #ccc;
+  -webkit-border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; border-radius: 7px 7px 7px 7px;
+  margin: 10px 0px 10px 0px;
+  background: #eee;
+  dt{
+    padding: 20px;
+    float:left;
+    text-align: center;
+    width:150px;
+    border-right: solid #ccc 1px;
+    border-top: 1px solid #ccc;
+  }
+  dd{
+    margin-left: 180px;
+    border-top: 1px solid #ccc;
+    table{
+      margin: 10px 10px 10px 42px;
+      td,th{ padding: 10px; width: 150px;}
+      td:first-child, th:first-child{padding-left: 0px;}
+      td:last-child, th:last-child{padding-right: 0px;}
+      th{border-bottom: 1px solid #CCCCCC;font-weight: bold;}
+    }
+  }
+}
+
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Flat Table Component -- v.0.0.1 [flat_table] (flat_table.scss)

@@ -16,38 +16,37 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-class ProviderImagesController < ApplicationController
+class TargetImagesController < ApplicationController
   before_filter :require_user
 
   def create
-    provider_account = ProviderAccount.find(params[:account_id])
-    @provider_image = Aeolus::Image::Factory::ProviderImage.new(
-      :provider => provider_account.provider.name,
-      :credentials => provider_account.to_xml(:with_credentials => true),
-      :image_id => params[:image_id],
-      :build_id => params[:build_id],
-      :target_image_id => params[:target_image_id]
-    )
-    if @provider_image.save
-      flash[:notice] = t('provider_images.flash.notice.upload_start')
-    else
-      flash[:warning] = t('provider_images.flash.warning.upload_failed')
+    wh_image = Aeolus::Image::Warehouse::Image.find(params[:image_id])
+
+    begin
+      timage = Aeolus::Image::Factory::Image.new(
+        :id => params[:image_id],
+        :template => wh_image.template_xml.to_s,
+        :build_id => params[:build_id],
+        :targets => params[:target]
+      )
+      timage.save!
+    rescue
+      logger.error $!.message
+      logger.error $!.backtrace.join("\n  ")
+      flash[:warning] = $!.message
     end
     redirect_to image_path(params[:image_id], :build => params[:build_id])
   end
 
   def destroy
-    if image = Aeolus::Image::Warehouse::ProviderImage.find(params[:id])
-      target_id = image.target_identifier
-      provider = image.provider
+    if image = Aeolus::Image::Warehouse::TargetImage.find(params[:id])
       if image.delete!
-        flash[:notice] = t('provider_images.flash.notice.deleted',
-                           :target_id => target_id, :provider => provider)
+        flash[:notice] = t('target_images.flash.notice.deleted')
       else
-        flash[:warning] = t('provider_images.flash.warning.delete_failed')
+        flash[:warning] = t('target_images.flash.warning.delete_failed')
       end
     else
-      flash[:warning] = t('provider_images.flash.warning.not_found')
+      flash[:warning] = t('target_images.flash.warning.not_found')
     end
     build_id = image.build.id rescue nil
     redirect_to image_path(params[:image_id], :build => build_id)

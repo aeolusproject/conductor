@@ -16,27 +16,15 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-# == Schema Information
-# Schema version: 20110309105149
-#
-# Table name: provider_types
-#
-#  id              :integer         not null, primary key
-#  name            :string(255)     not null
-#  codename        :string(255)     not null
-#  ssh_user        :string(255)
-#  home_dir        :string(255)
-#  created_at      :datetime
-#  updated_at      :datetime
-#
+# Filters added to this controller apply to all controllers in the application.
+# Likewise, all the methods added will be available for all controllers.
 
-class ProviderType < ActiveRecord::Base
-
-  has_many :providers
-  has_many :credential_definitions, :dependent => :destroy
-
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates_presence_of :deltacloud_driver
-  validates_uniqueness_of :deltacloud_driver
+module ImagesHelper
+  def options_for_build_select(builds, selected, latest)
+      options_for_select(builds.map do |b|
+        label = Time.at(b.timestamp.to_f).to_s
+        label += " (#{t'images.show.latest'})" if b.uuid == latest
+        [label, b.uuid]
+      end, selected ? selected.uuid : nil)
+  end
 end

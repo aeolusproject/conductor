@@ -603,8 +603,8 @@ en:
       hw_profile: Default Hardware Profile
     new_from_image:
       catalog_entry_name: "%{name}"
-      title: Create Application Blueprint
-      description: "Creating an application blueprint from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the application blueprint, and define a default cloud resource profile."
+      title: Create Deployable
+      description: "Creating a deployable from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the deployable, and define a default cloud resource profile."
     form:
       choose_xml: "Choose Deployable XML file:"
       catalog: "Catalog: "
@@ -625,7 +625,7 @@ en:
       rebuild_all: Rebuild all images
       start: Start
       build_description:
-        "Allow this application blueprint's associated image(s) to be built and
+        "Allow this deployable's associated image(s) to be built and
         pushed to cloud resource providers by enabling them below."
       catalog_name: Catalog name
       environment: Environment
@@ -669,6 +669,13 @@ en:
     preset_filters:
       all_catalogs: "All Catalogs"
       belongs_to_default_pool: "Belongs to Default Pool"
+  target_images:
+    flash:
+      notice:
+        deleted: Target Image Deleted
+      warning:
+        delete_failed: Unable to Delete Target Image
+        not_found: Target Image not found
   images:
     environment: %{environment} Environment
     import:
@@ -691,6 +698,17 @@ en:
       image_uuid: Image UUID
       upload: Upload
       build_not_found: "Build not found"
+      new_deployable_from_image: "New Deployable from Image"
+      view_build: View build
+      rebuild_all: Rebuild All
+      build: Build
+      delete: Delete
+      account: Account
+      image_uri: Image URI
+      provider: Provider
+      build_date: Build Completion Date
+      latest: Latest
+      select_build: Select
     flash:
       notice:
         deleted: Image Deleted
