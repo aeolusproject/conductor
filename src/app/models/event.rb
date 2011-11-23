@@ -36,6 +36,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Event < ActiveRecord::Base
+  require File.join(RAILS_ROOT, 'lib/aeolus/event')
   belongs_to :source, :polymorphic => true
 
   validates_presence_of :source_id
