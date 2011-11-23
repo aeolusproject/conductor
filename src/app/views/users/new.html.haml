@@ -21,7 +21,7 @@
           %dd#email &nbsp;
           %dt=t'users.show.username'
           %dd#login &nbsp;
-    = form_for @user, :url => users_path, :html => {:class => 'generic'} do |f|
+    = form_for @user, :url => users_path, :builder => ApplicationHelper::FormBuilderWithRequiredFields, :html => {:class => 'generic'} do |f|
       -if current_user
         = render :partial => "form", :locals => { :form => f }
       -else

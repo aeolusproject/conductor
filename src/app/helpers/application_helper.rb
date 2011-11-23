@@ -161,4 +161,21 @@ module ApplicationHelper
   end
 
   module_function :count_uptime
+
+  class FormBuilderWithRequiredFields < ActionView::Helpers::FormBuilder
+
+    def label(method, text = nil, options = {}, &block)
+      text << ' *' if required?(object, method, options)
+      super(method, text, options, &block)
+    end
+
+    private
+
+    def required?(object, attribute, options)
+      return options[:required] if options.has_key?(:required)
+      object.class.validators_on(attribute).map(&:class).include? ActiveModel::Validations::PresenceValidator
+    end
+
+  end
+
 end
