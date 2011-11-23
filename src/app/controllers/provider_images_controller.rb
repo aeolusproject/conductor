@@ -50,8 +50,11 @@ class ProviderImagesController < ApplicationController
 
   def destroy
     if image = Aeolus::Image::Warehouse::ProviderImage.find(params[:id])
+      target_id = image.target_identifier
+      provider = image.provider
       if image.delete!
-        flash[:notice] = t('provider_images.flash.notice.deleted')
+        flash[:notice] = t('provider_images.flash.notice.deleted',
+                           :target_id => target_id, :provider => provider)
       else
         flash[:warning] = t('provider_images.flash.warning.delete_failed')
       end

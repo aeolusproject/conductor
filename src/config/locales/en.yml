@@ -693,7 +693,10 @@ en:
   provider_images:
     flash:
       notice:
-        deleted: Provider Image Deleted
+        deleted:
+          "Provider Image Deleted. If you want to remove the actual image stored
+          by the provider, visit the %{provider}'s management console and seek
+          out the \"%{target_id}\" image."
         upload_start: Provider Image Upload Started
       warning:
         delete_failed: Unable to Delete Provider Image
