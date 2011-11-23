@@ -28,11 +28,6 @@ module Api
 
     def index
       @images = Aeolus::Image::Warehouse::Image.all
-      # TODO This should be in aeolus-image-rubygem
-      @builds = {}
-      @images.each do |img|
-        @builds.merge!({img.id => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(img.id)})
-      end
       respond_with(@images)
     end
 
@@ -40,7 +35,7 @@ module Api
       id = params[:id]
       @image = Aeolus::Image::Warehouse::Image.find(id)
       if @image
-        @builds = {@image.id => Aeolus::Image::Warehouse::ImageBuild.find_all_by_image_uuid(@image.id)}
+        @builds = @image.image_builds
         respond_with(@image)
       else
         raise(Aeolus::Conductor::API::ImageNotFound.new(404, "Could not find Image " + id))

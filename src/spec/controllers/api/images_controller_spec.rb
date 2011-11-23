@@ -35,9 +35,10 @@ describe Api::ImagesController do
                     :os => @os,
                     :name => 'test',
                     :description => 'test image',
+                    :image_builds => [@build],
                     :build => @build
                     )
-      Aeolus::Image::Warehouse::ImageBuild.stub(:find_all_by_image_uuid).and_return([@build])
+      Aeolus::Image::Warehouse::ImageBuild.stub(:where).and_return([@build])
     end
 
     context "when authenticated as admin" do
