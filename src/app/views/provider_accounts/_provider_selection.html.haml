@@ -1,6 +1,10 @@
 %fieldset#provider_type
   %p
-    = label_tag t('provider_accounts.provider_selection.cloud_type')
+    = label_tag :provider_name, t(".provider_name")
+    = @provider.name
+    .clear
+  %p
+    = label_tag t('.cloud_type')
     = @provider.provider_type.name
     .clear
     - unless @provider.provider_type.deltacloud_driver.nil?

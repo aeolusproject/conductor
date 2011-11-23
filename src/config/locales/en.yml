@@ -862,6 +862,7 @@ en:
       sure_to_delete: "Are you sure you want to delete this config server?"
     provider_selection:
       cloud_type: "Cloud type: "
+      provider_name: "Provider Name: "
     rhevm:
       login_form: "Login form for RHEV-M (not implemented yet)"
     flash:

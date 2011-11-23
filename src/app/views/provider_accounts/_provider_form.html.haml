@@ -1,6 +1,6 @@
 %fieldset
   %p
-    = label :provider_account, t('provider_accounts.index.provider_name')
+    = label :provider_account, t('provider_accounts.index.provider_account_name')
     = text_field :provider_account, :label, :class => 'em long'
 - CredentialDefinition::CREDENTIAL_DEFINITIONS_ORDER.each do |cred_order|
   - @provider_account.all_credentials(@provider).each do |cred|
