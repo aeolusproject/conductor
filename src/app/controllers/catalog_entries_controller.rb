@@ -35,7 +35,6 @@ class CatalogEntriesController < ApplicationController
     @catalog_entry.deployable = Deployable.new unless @catalog_entry.deployable
     require_privilege(Privilege::MODIFY, @catalog)
     require_privilege(Privilege::CREATE, Deployable)
-    load_catalogs
     @form_option= params.has_key?(:from_url) ? 'from_url' : 'upload'
     respond_to do |format|
         format.html
@@ -55,10 +54,11 @@ class CatalogEntriesController < ApplicationController
       return
     end
 
-    @catalog = Catalog.find(params[:catalog_entry][:catalog_id])
+    @catalog = Catalog.find(params[:catalog_id])
     require_privilege(Privilege::MODIFY, @catalog)
     require_privilege(Privilege::CREATE, Deployable)
     @catalog_entry = CatalogEntry.new(params[:catalog_entry])
+    @catalog_entry.catalog = @catalog
     @catalog_entry.deployable.owner = current_user
 
     if params.has_key? :url
@@ -79,7 +79,6 @@ class CatalogEntriesController < ApplicationController
       end
     else
       @catalog = Catalog.find(params[:catalog_id])
-      load_catalogs
       params.delete(:edit_xml) if params[:edit_xml]
       flash[:warning]= t('catalog_entries.flash.warning.not_valid') if @catalog_entry.errors.has_key?(:xml)
       @form_option = params[:catalog_entry][:deployable].has_key?(:xml) ? 'upload' : 'from_url'
@@ -91,7 +90,6 @@ class CatalogEntriesController < ApplicationController
     @catalog_entry = CatalogEntry.find(params[:id])
     require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
     @catalog = @catalog_entry.catalog
-    load_catalogs
   end
 
   def update
@@ -103,7 +101,6 @@ class CatalogEntriesController < ApplicationController
       flash[:notice] = t"catalog_entries.flash.notice.updated"
       redirect_to catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry)
     else
-      load_catalogs
       render :action => 'edit'
     end
   end

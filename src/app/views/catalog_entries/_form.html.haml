@@ -8,8 +8,9 @@
         = deployable_fields.text_area :xml, :class => 'long'
   - else
     %p
-      = form.label :catalog_id, t('.catalog')
-      = form.select :catalog_id, @catalogs.collect{|c| [c.name, c.id]}, :selected => params[:catalog_entry].nil? ? @catalog.id : params[:catalog_entry][:catalog_id]
+      = form.label :catalog_id, t('catalog_entries.form.catalog')
+      = @catalog.name
+      .clear
     = form.fields_for :deployable, @catalog_entry.deployable do |deployable_fields|
       %p
         = deployable_fields.label :name, t('catalog_entries.index.name')

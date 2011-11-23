@@ -4,7 +4,8 @@
   %fieldset
     %p
       = form.label :catalog_id, t('catalog_entries.form.catalog')
-      = form.select :catalog_id, @catalogs.collect{|c| [c.name, c.id]}, :selected => params[:catalog_entry].nil? ? @catalog.id : params[:catalog_entry][:catalog_id]
+      = @catalog.name
+      .clear
   =form.fields_for :deployable, @catalog_entry.deployable do |deployable_fields|
     %fieldset
       %p

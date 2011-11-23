@@ -579,7 +579,7 @@ en:
       from_url: From URL
     form:
       choose_xml: "Choose Deployable XML file:"
-      catalog: Catalog
+      catalog: "Catalog: "
       description: Description
       cancel: Cancel
       save: Save
