@@ -159,3 +159,18 @@ Feature: Manage Hardware Profiles
      | architecture |       | label |
      And I press "save_button"
      Then I should see "is invalid"
+
+  Scenario: Search Hardware Profiles
+    Given there is a "myhardware_profile" hardware profile
+    And there is a "somehardware_profile" hardware profile
+    And I am on the hardware_profiles page
+    Then I should see "myhardware_profile"
+    And I should see "somehardware_profile"
+    When I fill in "hardware_profiles_search" with "some"
+    And I press "apply_hardware_profiles_search"
+    Then I should see "somehardware_profile"
+    And I should not see "myhardware_profile"
+    When I fill in "hardware_profiles_search" with "myhardware_profile"
+    And I press "apply_hardware_profiles_search"
+    Then I should see "myhardware_profile"
+    And I should not see "somehardware_profile"

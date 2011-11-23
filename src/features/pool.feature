@@ -195,15 +195,42 @@ Feature: Manage Pools
     And I should see "mock1"
     And I should see "mock2"
     And I should not see "mock3"
-    When I follow "show_all_instances"
+    When I select "" from "instances_preset_filter"
+    And I press "apply_instances_preset_filter"
     And I should see "mock1"
     And I should see "mock2"
     And I should see "mock3"
 
-Scenario: Select Catalog Images on pool detail page
+  Scenario: Select Catalog Images on pool detail page
     Given a pool "mockpool" exists
     And "mockpool" has catalog "mockcatalog"
     And "mockcatalog" has catalog_entry "mockcatalogentry"
     When I am viewing the pool "mockpool"
     And I follow link with ID "details_images"
     Then I should see a pools "mockcatalog" within "#tab"
+
+  Scenario: Filter Pools
+    Given a pool "mypool" exists
+    And a pool "somepool" exists with deployment "somedeployment"
+    And I am on the pools filter view page
+    Then I should see "mypool"
+    And I should see "somepool"
+    When I select "With running Instances" from "pools_preset_filter"
+    And I press "apply_pools_preset_filter"
+    Then I should see "somepool"
+    And I should not see "mypool"
+
+  Scenario: Search Pools
+    Given a pool "mypool" exists
+    And a pool "somepool" exists
+    And I am on the pools filter view page
+    Then I should see "mypool"
+    And I should see "somepool"
+    When I fill in "pools_search" with "some"
+    And I press "apply_pools_search"
+    Then I should see "somepool"
+    And I should not see "mypool"
+    When I fill in "pools_search" with "mypool"
+    And I press "apply_pools_search"
+    Then I should see "mypool"
+    And I should not see "somepool"

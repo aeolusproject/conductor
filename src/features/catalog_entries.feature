@@ -71,3 +71,19 @@ Feature: Manage Catalog Entries
     Then there should be only 0 catalog entries
     And I should be on the "default" catalog page
     And I should not see "testdepl1"
+
+  #Scenario: Search Catalog Entries
+  #  Given there is a "testcatalog" catalog
+  #  And a catalog entry "mycatalog_entry" exists
+  #  And a catalog entry "somecatalog_entry" exists
+  #  And I am on the "testcatalog" catalog catalog entries page
+  #  Then I should see "mycatalog_entry"
+  #  And I should see "somecatalog_entry"
+  #  When I fill in "catalog_entries_search" with "some"
+  #  And I press "apply_catalog_entries_search"
+  #  Then I should see "somecatalog_entry"
+  #  And I should not see "mycatalog_entry"
+  #  When I fill in "catalog_entries_search" with "mycatalog_entry"
+  #  And I press "apply_catalog_entries_search"
+  #  Then I should see "mycatalog_entry"
+  #  And I should not see "somecatalog_entry"

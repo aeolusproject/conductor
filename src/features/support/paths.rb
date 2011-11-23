@@ -62,6 +62,9 @@ module NavigationHelpers
     when /the pools page/
       pools_path
 
+    when /the pools filter view page/
+      pools_path(:view => 'filter')
+
     when /the new pool page/
       new_pool_path
 

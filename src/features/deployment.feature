@@ -249,3 +249,18 @@ Feature: Manage Deployments
     Then  I should see "Are you sure you wish to deploy"
     When  I press "launch_deployment"
     Then  I should see "launch_parameter_2 cannot be blank"
+
+  Scenario: Search deployments
+    Given a deployment "mydeployment" exists
+    And a deployment "somedeployment" exists
+    And I am on the deployments page
+    Then I should see "mydeployment"
+    And I should see "somedeployment"
+    When I fill in "deployments_search" with "some"
+    And I press "apply_deployments_search"
+    Then I should see "somedeployment"
+    And I should not see "mydeployment"
+    When I fill in "deployments_search" with "mydeployment"
+    And I press "apply_deployments_search"
+    Then I should see "mydeployment"
+    And I should not see "somedeployment"

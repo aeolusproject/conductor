@@ -101,7 +101,6 @@ Feature: Manage Users
     And I go to test's user page
     Then "test" user failed login count is more than zero
 
-
   Scenario: Search for users
     Given there is a user "myuser"
     And there is a user "someuser"

@@ -85,3 +85,18 @@ Feature: Manage Realms
     When I follow "testrealm1"
     And I press "delete_button"
     Then I should see "You must select at least one mapping to delete"
+
+  Scenario: Search Realms
+    Given a realm "myrealm" exists
+    And a realm "somerealm" exists
+    And I am on the realms page
+    Then I should see "myrealm"
+    And I should see "somerealm"
+    When I fill in "realms_search" with "some"
+    And I press "apply_realms_search"
+    Then I should see "somerealm"
+    And I should not see "myrealm"
+    When I fill in "realms_search" with "myrealm"
+    And I press "apply_realms_search"
+    Then I should see "myrealm"
+    And I should not see "somerealm"

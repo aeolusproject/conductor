@@ -140,18 +140,10 @@ Feature: Manage Provider Accounts
     When I follow "Test Connection"
     Then I should see "Test Connection Success"
 
-#  Scenario: Search for Provider Accounts
-#    Given there is a provider named "testprovider"
-#    And there is a provider account named "testaccount"
-#    And there is a second provider account named "otheraccount"
-#    And I am on the provider accounts page
-#    When I fill in "q" with "test"
-#    And I press "Search"
-#    Then I should see the following:
-#    | testaccount | mockuser |
-#    And I should not see "otheraccount"
-#    When I fill in "q" with "other"
-#    And I press "Search"
-#    Then I should see the following:
-#    | otheraccount |
-#    And I should not see "testaccount"
+  Scenario: Search for Provider Accounts
+    Given there is a provider named "testprovider"
+    And there is a provider account named "testaccount"
+    And I am on the testprovider's provider accounts page
+    When I fill in "provider_accounts_search" with "abc"
+    And I press "apply_provider_accounts_search"
+    And I should not see "testaccount"

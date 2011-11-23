@@ -201,3 +201,29 @@ Feature: Manage Instances
     And I am viewing the mock instance detail
     Then I should see "History for"
     Then I should see "created"
+
+  Scenario: Filter Instances
+    Given there is a "myinstance" running instance
+    And there is a "someinstance" stopped instance
+    And I am on the instances page
+    Then I should see "myinstance"
+    And I should see "someinstance"
+    When I select "Stopped Instances" from "instances_preset_filter"
+    And I press "apply_instances_preset_filter"
+    Then I should not see "myinstance"
+    And I should see "someinstance"
+
+  Scenario: Search instances
+    Given there is a "myinstance" instance
+    And there is a "someinstance" instance
+    And I am on the instances page
+    Then I should see "myinstance"
+    And I should see "someinstance"
+    When I fill in "instances_search" with "some"
+    And I press "apply_instances_search"
+    Then I should see "someinstance"
+    And I should not see "myinstance"
+    When I fill in "instances_search" with "myinstance"
+    And I press "apply_instances_search"
+    Then I should see "myinstance"
+    And I should not see "someinstance"
