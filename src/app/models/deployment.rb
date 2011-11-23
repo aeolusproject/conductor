@@ -370,6 +370,25 @@ class Deployment < ActiveRecord::Base
     end
   end
 
+  # A deployment "starts" when _all_ instances begin to run
+  def start_time
+    if instances.deployed.count == instances.count && ev = events.find_by_status_code(:all_running)
+      ev.event_time
+    else
+      nil
+    end
+  end
+
+  # A deployment "ends" when one or more instances stop, assuming they were ever all-running
+  def end_time
+    if events.find_by_status_code(:all_running)
+      ev = events.find_by_status_code(:some_stopped) || events.find_by_status_code(:all_stopped)
+      ev.present? ? ev.event_time : nil
+    else
+      nil
+    end
+  end
+
   def as_json(options={})
     json = super(options).merge({
       :owner => owner.name,
