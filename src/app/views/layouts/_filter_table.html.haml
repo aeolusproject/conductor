@@ -1,14 +1,15 @@
 = form_tag({}, :class => 'filterable-data') do
 
-  %div.controls
-    %ul.filter-controls
-      = yield filter_controls if content_for? filter_controls
+  - if content_for? filter_controls or content_for? form_header
+    %div.controls
+      %ul.filter-controls
+        = yield filter_controls if content_for? filter_controls
 
-    - if content_for? form_header
-      %ul.actions
-        = yield form_header
+      - if content_for? form_header
+        %ul.actions
+          = yield form_header
 
-    .clear
+      .clear
 
   %table.flat.checkbox_table
     %thead

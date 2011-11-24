@@ -79,7 +79,6 @@ class PoolFamiliesController < ApplicationController
     require_privilege(Privilege::VIEW, @pool_family)
     load_pool_family_tabs
 
-
     respond_to do |format|
       format.html
       format.js do
@@ -229,5 +228,21 @@ class PoolFamiliesController < ApplicationController
     details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
     @view = @details_tab[:view]
+
+    if @view == 'pools'
+      @pools_header = [
+        {:name => t("pool_families.index.pool_name"), :sortable => false},
+        {:name => t("pool_families.index.deployments"), :class => 'center', :sortable => false},
+        {:name => t("pool_families.index.total_instancies"), :class => 'center', :sortable => false},
+        {:name => t("pool_families.index.pending_instances"), :class => 'center', :sortable => false},
+        {:name => t("pool_families.index.failed_instances"), :class => 'center', :sortable => false},
+        {:name => t("pool_families.index.quota_used"), :class => 'center', :sortable => false},
+        {:name => t("pool_families.index.active_instances"), :class => 'center', :sortable => false},
+        {:name => t("pool_families.index.available_instances"), :class => 'center', :sortable => false},
+        {:name => t("pool_families.index.catalog"), :sortable => false},
+        {:name => '', :sortable => false}
+      ]
+    end
+
   end
 end

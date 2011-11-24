@@ -42,5 +42,6 @@
             = link_to tab[:name], edit_provider_path(@provider, :details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"
             -if tab[:count]
               %span.label.badge.count.dark=tab[:count]
+    .clear
   .content#tab
     = render :partial => @view
