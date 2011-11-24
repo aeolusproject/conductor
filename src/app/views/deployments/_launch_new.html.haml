@@ -29,9 +29,9 @@
 
       %fieldset
         %p
-          %label{:for => 'catalog_entry_id'}
-            = t('catalog_entries.index.catalog_entry')
-          = select_tag :catalog_entry_id, options_for_select([[t('.load_definition'), t('.other')]] + @catalog_entries.map {|d| [d.name, d.id]}, params[:catalog_entry_id])
+          %label{:for => 'deployable_id'}
+            = t('catalog_entries.index.deployable')
+          = select_tag :deployable_id, options_for_select([[t('.load_definition'), t('.other')]] + @deployables.map {|d| [d.name, d.id]}, params[:deployable_id])
 
       %fieldset
         %p
@@ -49,7 +49,7 @@
   // Might be nice to build something in application.js to guard against this, and that also
   // introduces a ~250ms buffer so we don't do a lookup on every single keystroke...
   $(document).ready(function () {
-    $('#catalog_entry_id').change(function(){
+    $('#deployable_id').change(function(){
       if($(this).val() !== 'other'){
         $('#deployable-url-section').hide();
       }else{

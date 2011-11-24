@@ -8,7 +8,7 @@
   = hidden_field :deployment, :pool_id
   = hidden_field :deployment, :frontend_realm_id
   = hidden_field_tag :launch_parameters_encoded, @launch_parameters_encoded
-  = hidden_field_tag :catalog_entry_id, params[:catalog_entry_id]
+  = hidden_field_tag :deployable_id, params[:deployable_id]
 
   %section.content-section.deployable_details
     %header.confirmation
@@ -20,7 +20,7 @@
       %p= @deployment.deployable_xml.description
 
       %h3= t('.deployable_xml')
-      =link_to @catalog_entry.xml_filename, catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry.id, :deployable_xml => true)
+      =link_to @deployable.xml_filename, catalog_catalog_entry_path(@deployable.catalogs.first, @deployable.catalog_entries.first.id, :deployable_xml => true)
       &rArr;
 
       %h3= t('.image_ids')

@@ -3,14 +3,17 @@
     = render 'layouts/error_messages', :object => @catalog_entry
   %fieldset
     %p
-      = form.label :name, t('catalog_entries.index.name')
-      = form.text_field :name, :class => 'em long'
-    %p
       = form.label :catalog_id, t('catalog_entries.form.catalog')
       = form.select :catalog_id, @catalogs.collect{|c| [c.name, c.id]}, :selected => params[:catalog_entry].nil? ? @catalog.id : params[:catalog_entry][:catalog_id]
-    %p
-      = form.label :description, t('catalog_entries.form.description')
-      = form.text_area :description, :class => 'long'
+  =form.fields_for :deployable, @catalog_entry.deployable do |deployable_fields|
+    %fieldset
+      %p
+        = deployable_fields.label :name, t('catalog_entries.index.name')
+        = deployable_fields.text_field :name, :class => 'em long'
+      %p
+        = deployable_fields.label :description, t('catalog_entries.form.description')
+        = deployable_fields.text_area :description, :class => 'long'
+  %fieldset
     %p
       = label_tag :url, t('catalog_entries.form.deployable_xml_url')
       = text_field_tag :url

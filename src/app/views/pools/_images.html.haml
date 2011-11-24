@@ -5,15 +5,15 @@
         =image_tag 'flash_error_icon.png', :alt => 'Errors'
         =flash[:error]
 -else
-  - @map.each_pair do |catalog, catalog_entries|
+  - @map.each_pair do |catalog, deployables|
     %h1{:style => 'font-size: 18pt;'}
       = catalog.name
       = t('.catalog')
 
-    - catalog_entries.each_pair do |entry, images|
+    - deployables.each_pair do |deployable, images|
       %h2{:style => 'font-size: 16pt;'}
-        = entry.name
-        = t('.catalog_entry')
+        = deployable.name
+        = t('.deployable')
 
       - images.each_pair do |image, provider_images|
         %h3{:style => 'font-size: 14pt;'}

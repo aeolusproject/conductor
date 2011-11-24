@@ -58,7 +58,7 @@ class DeploymentsController < ApplicationController
 
 
   def launch_time_params
-    @catalog_entry = CatalogEntry.find(params[:catalog_entry_id])
+    @deployable = Deployable.find(params[:deployable_id])
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
@@ -79,7 +79,7 @@ class DeploymentsController < ApplicationController
   end
 
   def overview
-    @catalog_entry = CatalogEntry.find(params[:catalog_entry_id])
+    @deployable = Deployable.find(params[:deployable_id])
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
@@ -113,7 +113,7 @@ class DeploymentsController < ApplicationController
     require_privilege(Privilege::CREATE, Deployment, @pool)
     init_new_deployment_attrs
     @deployment.deployable_xml = @deployable_xml if @deployable_xml
-    @catalog_entry = CatalogEntry.find(params[:catalog_entry_id]) if params.has_key?(:catalog_entry_id)
+    @deployable = Deployable.find(params[:deployable_id]) if params.has_key?(:deployable_id)
     @deployment.owner = current_user
     load_assemblies_services
     if params.delete(:commit) == 'back'
@@ -317,7 +317,7 @@ class DeploymentsController < ApplicationController
 
   def launch_from_catalog
     @catalog = Catalog.find(params[:catalog_id])
-    @catalog_entries = @catalog.catalog_entries.paginate(:page => params[:page] || 1, :per_page => 6)
+    @deployables = @catalog.deployables.paginate(:page => params[:page] || 1, :per_page => 6)
     require_privilege(Privilege::VIEW, @catalog)
   end
 
@@ -366,9 +366,9 @@ class DeploymentsController < ApplicationController
   end
 
   def init_new_deployment_attrs
-    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::USE).select{|ce| ce.catalog.pool == @pool}
+    @deployables = Deployable.list_for_user(current_user, Privilege::USE).select{|d| d.catalogs.collect {|c| c.pool}.include?(@pool)}
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
-    @deployable_xml = params[:catalog_entry_id] ? CatalogEntry.find(params[:catalog_entry_id]).xml : nil
+    @deployable_xml = params[:deployable_id] ? Deployable.find(params[:deployable_id]).xml : nil
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
         :include => :architecture,

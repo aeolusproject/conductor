@@ -8,15 +8,15 @@
   .align-center
     %strong= t(".hint", :pool =>  @catalog.pool.name)
   %ul.catalog_pretty
-    - @catalog_entries.each do |entry|
+    - @deployables.each do |deployable|
       %li.collapse_entity
         .summary
           .controls
             = link_to t(".details"),"#", :class => "collapse"
-            = button_to t(".select"), launch_time_params_deployments_path(:deployment => { :name => entry.name, :pool_id => @catalog.pool.id }, :catalog_entry_id => entry.id ), :class=> "button pill"
+            = button_to t(".select"), launch_time_params_deployments_path(:deployment => { :name => deployable.name, :pool_id => @catalog.pool.id }, :deployable_id => deployable.id ), :class=> "button pill"
           .info
-            %h2= entry.name
-            %p= entry.description
+            %h2= deployable.name
+            %p= deployable.description
           .clear
         .details.collapsible
           %table
@@ -29,15 +29,15 @@
               %th=t'.arch'
               %th
                 %strong=t'.deployable_xml'
-            -entry.fetch_images.each do |image|
+            -deployable.fetch_images.each do |image|
               %tr
                 %td
                   %strong= image.id
-                %td= entry.hw_profile_for_image(image.id).name
-                %td= entry.hw_profile_for_image(image.id).storage
-                %td= entry.hw_profile_for_image(image.id).memory
-                %td= entry.hw_profile_for_image(image.id).architecture
-                %td= link_to entry.xml_filename, catalog_catalog_entry_path(entry.catalog, entry.id, :deployable_xml => true)
+                %td= deployable.hw_profile_for_image(image.id).name
+                %td= deployable.hw_profile_for_image(image.id).storage
+                %td= deployable.hw_profile_for_image(image.id).memory
+                %td= deployable.hw_profile_for_image(image.id).architecture
+                %td= link_to deployable.xml_filename, catalog_catalog_entry_path(deployable.catalogs.first, deployable.catalog_entries.first.id, :deployable_xml => true)
 
   .align-center
     %div= will_paginate @catalog_entries

@@ -13,8 +13,8 @@
           - selected = params[:select] == 'all'
           = check_box_tag "catalog_entries_selected[]", catalog_entry.id, selected, :id => "catalog_entry_checkbox_#{catalog_entry.id}"
         %td
-          = link_to catalog_entry.name, catalog_catalog_entry_path(@catalog, catalog_entry.id)
+          = link_to catalog_entry.deployable.name, catalog_catalog_entry_path(@catalog, catalog_entry.id)
         %td
           = link_to catalog_entry.catalog.name, catalog_entry.catalog
         %td
-          = link_to catalog_entry.xml_filename, catalog_catalog_entry_path(@catalog, catalog_entry.id)
+          = link_to catalog_entry.deployable.xml_filename, catalog_catalog_entry_path(@catalog, catalog_entry.id)

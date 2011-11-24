@@ -23,7 +23,8 @@ class CatalogEntriesController < ApplicationController
   def index
     clear_breadcrumbs
     save_breadcrumb(catalog_catalog_entries_path(:viewstate => @viewstate ? @viewstate.id : nil))
-    @catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::VIEW)
+    @deployables = Deployable.list_for_user(current_user, Privilege::VIEW)
+    @catalog_entries = @deployables.collect { |d| d.catalog_entries.first }
     @catalog = @catalog_entries.first.catalog unless @catalog_entries.empty?
     set_header
   end
@@ -31,7 +32,9 @@ class CatalogEntriesController < ApplicationController
   def new
     @catalog = Catalog.find(params[:catalog_id])
     @catalog_entry = params[:catalog_entry].nil? ? CatalogEntry.new() : CatalogEntry.new(params[:catalog_entry])
-    require_privilege(Privilege::CREATE, CatalogEntry, @catalog)
+    @catalog_entry.deployable = Deployable.new unless @catalog_entry.deployable
+    require_privilege(Privilege::MODIFY, @catalog)
+    require_privilege(Privilege::CREATE, Deployable)
     load_catalogs
     @form_option= params.has_key?(:from_url) ? 'from_url' : 'upload'
     respond_to do |format|
@@ -42,8 +45,8 @@ class CatalogEntriesController < ApplicationController
 
   def show
     @catalog_entry = CatalogEntry.find(params[:id])
-    require_privilege(Privilege::VIEW, @catalog_entry)
-    save_breadcrumb(catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry), @catalog_entry.name)
+    require_privilege(Privilege::VIEW, @catalog_entry.deployable)
+    save_breadcrumb(catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry), @catalog_entry.deployable.name)
   end
 
   def create
@@ -53,16 +56,17 @@ class CatalogEntriesController < ApplicationController
     end
 
     @catalog = Catalog.find(params[:catalog_entry][:catalog_id])
-    require_privilege(Privilege::CREATE, CatalogEntry, @catalog)
+    require_privilege(Privilege::MODIFY, @catalog)
+    require_privilege(Privilege::CREATE, Deployable)
     @catalog_entry = CatalogEntry.new(params[:catalog_entry])
-    @catalog_entry.owner = current_user
+    @catalog_entry.deployable.owner = current_user
 
     if params.has_key? :url
         xml = import_xml_from_url(params[:url])
         unless xml.nil?
           #store xml_filename for url (i.e. url ends to: foo || foo.xml)
-          @catalog_entry.xml_filename =  File.basename(URI.parse(params[:url]).path)
-          @catalog_entry.xml = xml
+          @catalog_entry.deployable.xml_filename =  File.basename(URI.parse(params[:url]).path)
+          @catalog_entry.deployable.xml = xml
         end
     end
 
@@ -78,22 +82,22 @@ class CatalogEntriesController < ApplicationController
       load_catalogs
       params.delete(:edit_xml) if params[:edit_xml]
       flash[:warning]= t('catalog_entries.flash.warning.not_valid') if @catalog_entry.errors.has_key?(:xml)
-      @form_option = params[:catalog_entry].has_key?(:xml) ? 'upload' : 'from_url'
+      @form_option = params[:catalog_entry][:deployable].has_key?(:xml) ? 'upload' : 'from_url'
       render :new
     end
   end
 
   def edit
     @catalog_entry = CatalogEntry.find(params[:id])
-    require_privilege(Privilege::MODIFY, @catalog_entry)
+    require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
     @catalog = @catalog_entry.catalog
     load_catalogs
   end
 
   def update
     @catalog_entry = CatalogEntry.find(params[:id])
-    require_privilege(Privilege::MODIFY, @catalog_entry)
-    params[:catalog_entry].delete(:owner_id) if params[:catalog_entry]
+    require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
+    params[:catalog_entry][:deployable].delete(:owner_id) if params[:catalog_entry] and params[:catalog_entry][:deployable]
 
     if @catalog_entry.update_attributes(params[:catalog_entry])
       flash[:notice] = t"catalog_entries.flash.notice.updated"
@@ -107,8 +111,11 @@ class CatalogEntriesController < ApplicationController
   def multi_destroy
     @catalog = nil
     CatalogEntry.find(params[:catalog_entries_selected]).to_a.each do |d|
-      require_privilege(Privilege::MODIFY, d)
+      require_privilege(Privilege::MODIFY, d.catalog)
+      require_privilege(Privilege::MODIFY, d.deployable)
       @catalog = d.catalog
+      # Don't do this when we're managing deployables independently
+      d.deployable.destroy
       d.destroy
     end
     redirect_to catalog_path(@catalog)
@@ -116,8 +123,11 @@ class CatalogEntriesController < ApplicationController
 
   def destroy
     catalog_entry = CatalogEntry.find(params[:id])
-    require_privilege(Privilege::MODIFY, catalog_entry)
+    require_privilege(Privilege::MODIFY, catalog_entry.catalog)
+    require_privilege(Privilege::MODIFY, catalog_entry.deployable)
     @catalog = catalog_entry.catalog
+    # Don't do this when we're managing deployables independently
+    catalog_entry.deployable.destroy
     catalog_entry.destroy
 
     respond_to do |format|
