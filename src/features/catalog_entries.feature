@@ -10,11 +10,12 @@ Feature: Manage Catalog Entries
   Scenario: Create new catalog entry
     Given there is a "default" catalog
     When I am on the "default" catalog catalog entries page
+    Then I should see "Catalog Entries"
     When I follow "new_catalog_entry_button"
     Then I should see "Add New Catalog Entry"
-    When I fill in "catalog_entry[name]" with "test1"
-    And I fill in "catalog_entry[description]" with "description"
-    When I attach the file "features/upload_files/deployable.xml" to "catalog_entry[xml]"
+    When I fill in "catalog_entry[deployable_attributes][name]" with "test1"
+    And I fill in "catalog_entry[deployable_attributes][description]" with "description"
+    When I attach the file "features/upload_files/deployable.xml" to "catalog_entry[deployable_attributes][xml]"
     And I press "save_button"
     Then I should see "Catalog entry added"
 
@@ -25,7 +26,7 @@ Feature: Manage Catalog Entries
     When I follow "testdepl"
     And I follow "edit_button"
     Then I should see "Editing Catalog Entry"
-    When I fill in "catalog_entry[name]" with "testdepl-renamed"
+    When I fill in "catalog_entry[deployable_attributes][name]" with "testdepl-renamed"
     And I press "save_button"
     Then I should see "Catalog entry updated successfully!"
     And I should see "testdepl-renamed"

@@ -22,36 +22,28 @@ describe CatalogEntry do
   it "should have a name of reasonable length" do
     catalog_entry = FactoryGirl.create :catalog_entry
     [nil, '', 'x'*1025].each do |invalid_name|
-      catalog_entry.name = invalid_name
-      catalog_entry.should_not be_valid
+      catalog_entry.deployable.name = invalid_name
+      catalog_entry.deployable.should_not be_valid
     end
-    catalog_entry.name = 'x'*1024
-    catalog_entry.should be_valid
+    catalog_entry.deployable.name = 'x'*1024
+    catalog_entry.deployable.should be_valid
   end
 
   it "should have unique name" do
     catalog = FactoryGirl.create :catalog
     catalog_entry = FactoryGirl.create :catalog_entry, :catalog => catalog
-    catalog_entry2 = Factory.build(:catalog_entry, :name => catalog_entry.name, :catalog => catalog)
-    catalog_entry2.should_not be_valid
+    deployable2 = Factory.build(:deployable, :name => catalog_entry.deployable.name)
+    catalog_entry2 = Factory.build(:catalog_entry, :deployable => deployable2, :catalog => catalog)
+    catalog_entry2.deployable.should_not be_valid
 
-    catalog_entry2.name = 'unique name'
-    catalog_entry2.should be_valid
-  end
-
-  it "should have a valid name across catalogs" do
-    catalog1 = FactoryGirl.create :catalog
-    catalog2 = FactoryGirl.create :catalog
-    catalog_entry1 = FactoryGirl.create :catalog_entry, :name =>"same name", :catalog => catalog1
-    catalog_entry2 = FactoryGirl.create :catalog_entry, :name => "same name", :catalog => catalog2
-    catalog_entry1.should be_valid
-    catalog_entry2.should be_valid
+    catalog_entry2.deployable.name = 'unique name'
+    catalog_entry2.deployable.should be_valid
   end
 
   it "should have xml content" do
     catalog_entry = FactoryGirl.create :catalog_entry
-    catalog_entry.xml = ''
-    catalog_entry.should_not be_valid
+    catalog_entry.deployable.xml = ''
+    catalog_entry.deployable.should_not be_valid
   end
 
 end
