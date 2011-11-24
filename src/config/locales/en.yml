@@ -30,7 +30,7 @@ en:
       user_status: User Status
     new:
       new_user: New User
-      neccessary_information: "Enter necessary information about your new user and click 'Create User' when you are finished."
+      neccessary_information: "Enter necessary information about your new user and click 'Save User' when you are finished."
     list:
       delete_selected: Delete Selected
       unlimited: Unlimited
