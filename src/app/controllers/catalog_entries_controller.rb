@@ -46,6 +46,8 @@ class CatalogEntriesController < ApplicationController
     @catalog_entry = CatalogEntry.find(params[:id])
     require_privilege(Privilege::VIEW, @catalog_entry.deployable)
     save_breadcrumb(catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry), @catalog_entry.deployable.name)
+    @providers = Provider.all
+    @catalogs_options = Catalog.all.map {|c| [c.name, c.id]}
   end
 
   def create

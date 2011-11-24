@@ -590,9 +590,19 @@ en:
       edit: Edit
       delete: Delete
       confirm_delete: "Are you sure you want to delete?"
-    properties:
-      properties_for: Properties for
-      edit_deployable_xml: Edit Deployable XML
+      image: Image
+      build: Build
+      catalogs: Catalogs
+      roles: Roles
+      rebuild_all: Rebuild all images
+      start: Start
+      build_description:
+        "Allow this application blueprint's associated image(s) to be built and
+        pushed to cloud resource providers by enabling them below."
+      catalog_name: Catalog name
+      environment: Environment
+      choose_catalog: "Choose a catalog to enable access:"
+      add_catalog: "Add +"
     edit:
       editing_catalog_entry: Editing Catalog Entry
     list:
