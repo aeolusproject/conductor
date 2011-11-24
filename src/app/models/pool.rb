@@ -124,18 +124,18 @@ class Pool < ActiveRecord::Base
   end
 
   def provider_image_map
-    catalog_entries = catalogs.collect{|c| c.catalog_entries}.flatten
-    all_images = catalog_entries.collect{|ce| ce.fetch_images}.flatten.uniq.compact
+    deployables = catalogs.collect{|c| c.deployables}.flatten
+    all_images = deployables.collect{|d| d.fetch_images}.flatten.uniq.compact
     provider_images = Image.provider_images_for_image_list(all_images)
     return_obj = {}
     catalogs.each do |catalog|
       return_obj[catalog] = {}
-      catalog.catalog_entries.each do |catalog_entry|
-        images = catalog_entry.fetch_images
+      catalog.deployables.each do |deployable|
+        images = deployable.fetch_images
         unless images.nil?
-          return_obj[catalog][catalog_entry] = {}
+          return_obj[catalog][deployable] = {}
           images.each do |image|
-            return_obj[catalog][catalog_entry][image] = provider_images.nil? ? {} : provider_images[image.uuid]
+            return_obj[catalog][deployable][image] = provider_images.nil? ? {} : provider_images[image.uuid]
           end
         end
       end

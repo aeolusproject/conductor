@@ -62,9 +62,9 @@ roles =
    Catalog =>
      {"Catalog User"            => [false, {Catalog => [VIEW, USE]}],
       "Catalog Administrator"   => [true,  {Catalog => [VIEW,USE,MOD,VPRM,GPRM]}]},
-   CatalogEntry =>
-     {"CatalogEntry User"          => [false, {CatalogEntry     => [VIEW,USE]}],
-      "CatalogEntry Owner"         => [true,  {CatalogEntry     => [VIEW,USE,MOD,VPRM,GPRM]}]},
+   Deployable =>
+     {"Deployable User"          => [false, {Deployable     => [VIEW,USE]}],
+      "Deployable Owner"         => [true,  {Deployable     => [VIEW,USE,MOD,VPRM,GPRM]}]},
    BasePermissionObject =>
      {"Provider Creator"       => [false, {Provider     => [             CRE]}],
       "Provider Administrator" => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
@@ -77,8 +77,8 @@ roles =
                                            Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Quota        => [VIEW,    MOD],
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
-      "CatalogEntry Administrator" => [false, {CatalogEntry => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "CatalogEntry Global User"   => [false, {CatalogEntry=> [VIEW,USE]}],
+      "Deployable Administrator" => [false, {Deployable => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
+      "Deployable Global User"   => [false, {Deployable=> [VIEW,USE]}],
       "Catalog Global User"   => [false, {Catalog => [VIEW,USE]}],
       "HWP Global User"   => [false, {HardwareProfile => [VIEW,USE]}],
       "Pool Global User"                  => [false, {Pool         => [VIEW],
@@ -96,7 +96,7 @@ roles =
                                            Quota        => [VIEW,    MOD],
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            Catalog      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
-                                           CatalogEntry => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                           Deployable => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            BasePermissionObject => [ MOD,    VPRM,GPRM]}]}}
 Role.transaction do
   roles.each do |role_scope, scoped_hash|
@@ -122,7 +122,7 @@ default_quota = Quota.create
 
 default_pool = Pool.find_by_name("Default")
 default_role = Role.find_by_name("Pool User")
-default_catalog_entry_role = Role.find_by_name("CatalogEntry Global User")
+default_deployable_role = Role.find_by_name("Deployable Global User")
 default_pool_global_user_role = Role.find_by_name("Pool Global User")
 default_catalog_global_user_role = Role.find_by_name("Catalog Global User")
 default_hwp_global_user_role = Role.find_by_name("HWP Global User")
@@ -131,8 +131,8 @@ settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,
   "self_service_default_pool" => default_pool,
   "self_service_default_role" => default_role,
-  "self_service_default_catalog_entry_obj" => BasePermissionObject.general_permission_scope,
-  "self_service_default_catalog_entry_role" => default_catalog_entry_role,
+  "self_service_default_deployable_obj" => BasePermissionObject.general_permission_scope,
+  "self_service_default_deployable_role" => default_deployable_role,
   "self_service_default_pool_global_user_obj" => BasePermissionObject.general_permission_scope,
   "self_service_default_pool_global_user_role" => default_pool_global_user_role,
   "self_service_default_catalog_global_user_obj" => BasePermissionObject.general_permission_scope,
@@ -141,7 +141,7 @@ settings = {"allow_self_service_logins" => "true",
   "self_service_default_hwp_global_user_role" => default_hwp_global_user_role,
   # perm list in the format:
   #   "[resource1_key, resource1_role], [resource2_key, resource2_role], ..."
-  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_catalog_entry_obj,self_service_default_catalog_entry_role], [self_service_default_pool_global_user_obj,self_service_default_pool_global_user_role], [self_service_default_catalog_global_user_obj,self_service_default_catalog_global_user_role],[self_service_default_hwp_global_user_obj,self_service_default_hwp_global_user_role] "}
+  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_deployable_obj,self_service_default_deployable_role], [self_service_default_pool_global_user_obj,self_service_default_pool_global_user_role], [self_service_default_catalog_global_user_obj,self_service_default_catalog_global_user_role],[self_service_default_hwp_global_user_obj,self_service_default_hwp_global_user_role] "}
 settings.each_pair do |key, value|
   MetadataObject.set(key, value)
 end

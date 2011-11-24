@@ -52,7 +52,7 @@ class Permission < ActiveRecord::Base
                                       :foreign_key => "permission_object_id"
   belongs_to :deployment,             :class_name => "Deployment",
                                       :foreign_key => "permission_object_id"
-  belongs_to :catalog_entry,          :class_name => "CatalogEntry",
+  belongs_to :deployable,             :class_name => "Deployable",
                                       :foreign_key => "permission_object_id"
   belongs_to :catalog,                :class_name => "Catalog",
                                       :foreign_key => "permission_object_id"

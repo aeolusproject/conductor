@@ -32,6 +32,7 @@ class Catalog < ActiveRecord::Base
 
   belongs_to :pool
   has_many :catalog_entries, :dependent => :destroy
+  has_many :deployables, :through => :catalog_entries
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
