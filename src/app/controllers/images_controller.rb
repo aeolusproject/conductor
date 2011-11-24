@@ -105,24 +105,19 @@ class ImagesController < ApplicationController
       render :edit_xml and return
     end
 
-    begin
-      uuid = UUIDTools::UUID.timestamp_create.to_s
-      @template = Aeolus::Image::Warehouse::Template.create!(uuid, @xml, {
-        :object_type => 'template',
-        :uuid => uuid
-      })
-      uuid = UUIDTools::UUID.timestamp_create.to_s
-      body = "<image><name>#{@template.name}</name></image>"
-      @image = Aeolus::Image::Warehouse::Image.create!(uuid, body, {
-        :uuid => uuid,
-        :object_type => 'image',
-        :template => @template.uuid
-      })
-      flash.now[:error] = t('images.flash.notice.created')
-    rescue REXML::ParseException
-      flash.now[:error] = t('images.flash.warning.invalid_xml')
-      render :edit_xml and return
-    end
+    uuid = UUIDTools::UUID.timestamp_create.to_s
+    @template = Aeolus::Image::Warehouse::Template.create!(uuid, @xml, {
+      :object_type => 'template',
+      :uuid => uuid
+    })
+    uuid = UUIDTools::UUID.timestamp_create.to_s
+    body = "<image><name>#{@template.name}</name></image>"
+    @image = Aeolus::Image::Warehouse::Image.create!(uuid, body, {
+      :uuid => uuid,
+      :object_type => 'image',
+      :template => @template.uuid
+    })
+    flash.now[:error] = t('images.flash.notice.created')
     redirect_to image_path(@image.id)
   end
 
