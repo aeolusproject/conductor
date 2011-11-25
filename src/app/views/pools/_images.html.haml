@@ -6,21 +6,20 @@
         =flash[:error]
 -else
   - @map.each_pair do |catalog, deployables|
-    %h1{:style => 'font-size: 18pt;'}
-      = catalog.name
-      = t('.catalog')
+    %div.catalog_deployments_and_images
+      %h1
+        = catalog.name
+        = t('.catalog')
+      - deployables.each_pair do |deployable, images|
+        %h2
+          = deployable.name
+          = t('.deployable')
 
-    - deployables.each_pair do |deployable, images|
-      %h2{:style => 'font-size: 16pt;'}
-        = deployable.name
-        = t('.deployable')
+        - images.each_pair do |image, provider_images|
+          %h3
+            = t('.image')
+            = "#{image.name} (#{image.uuid})"
 
-      - images.each_pair do |image, provider_images|
-        %h3{:style => 'font-size: 14pt;'}
-          = t('.image')
-          = "#{image.name} (#{image.uuid})"
-
-        %ul
-        - provider_images.each do |provider_image|
-          %li
-            = t('.pushed', :uuid => provider_image.uuid, :provider => provider_image.provider_name)
+          %ul
+            - provider_images.each do |provider_image|
+              %li= t('.pushed', :uuid => provider_image.uuid, :provider => provider_image.provider_name)

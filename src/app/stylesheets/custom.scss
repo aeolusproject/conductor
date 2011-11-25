@@ -346,3 +346,25 @@ section.admin-content-section.image-upload-overview {
     margin: auto;
   }
 }
+
+.catalog_deployments_and_images{
+  color: #606060;
+  position: relative;
+  h1{
+    font-size: 16px;
+  }
+  h2{
+    font-size: 12px;
+    padding-left: 10px;
+    padding-top: 10px;
+  }
+  h3{
+    font-size: 12px;
+    padding-left: 10px;
+  }
+  ul li{
+    padding-left: 10px;
+    padding-top:5px;
+    list-style-type: none;
+  }
+}
