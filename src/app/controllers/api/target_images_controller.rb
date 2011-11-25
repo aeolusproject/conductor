@@ -28,7 +28,7 @@ module Api
 
     def index
       if params[:build_id]
-        @images = Aeolus::Image::Warehouse::ProviderImage.find(params[:build_id]).target_images
+        @images = Aeolus::Image::Warehouse::ImageBuild.find(params[:build_id]).target_images
       else
         @images = Aeolus::Image::Warehouse::TargetImage.all
       end
