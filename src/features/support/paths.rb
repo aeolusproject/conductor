@@ -26,6 +26,12 @@ module NavigationHelpers
     when /^(.*)'s realm page$/i
        realm_path(FrontendRealm.find_by_name($1))
 
+    when /^(.*)'s catalog entry page$/i
+      deployable = Deployable.find_by_name($1)
+      catalog_entry = deployable.catalog_entries.first
+      catalog = catalog_entry.catalog
+      catalog_catalog_entry_path(catalog, catalog_entry)
+
     when /the account page/
       account_path
 

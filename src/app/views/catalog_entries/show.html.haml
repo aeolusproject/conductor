@@ -6,7 +6,7 @@
       = button_to t('catalog_entries.show.delete'), catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
       = link_to t('catalog_entries.show.edit'), edit_catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry), :class => 'button', :id => 'edit_button'
 
-    = link_to t('deployments.overview.launch'), '#'
+    = link_to t('deployments.overview.launch'), launch_new_deployments_path(:deployable_id => @catalog_entry.deployable.id, :pool_id => @catalog_entry.catalog.pool), :id => :launch_deployment
 
 %section.admin-content-section.deployable
   %section.image

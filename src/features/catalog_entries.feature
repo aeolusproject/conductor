@@ -42,6 +42,13 @@ Feature: Manage Catalog Entries
     And I should see "Catalogs"
     And I should see "Roles"
 
+  Scenario: Launch  a deployment
+    Given there is a "default" catalog
+    And a catalog entry "testdepl" exists
+    And I am on testdepl's catalog entry page
+    When I follow "launch_deployment"
+    Then I should be on the launch new deployments page
+
   Scenario: Delete deployables
     Given there is a "default" catalog
     And a catalog entry "testdepl1" exists for "default" catalog
