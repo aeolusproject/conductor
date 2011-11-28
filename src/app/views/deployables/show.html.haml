@@ -39,19 +39,28 @@
     %header
       %h2= t('.build')
 
-      = form_tag() do
-        = select_tag :build_option, options_for_select([[t("rebuild_all"), 1]])
-        = submit_tag t('.start'), :id => :start_build
+      - if @missing_images.empty?
+        = form_tag(catalog_deployable_build_path(@catalog, @deployable)) do
+          = select_tag :build_options, options_for_select([[t(".build_missing"), :build_missing], [t(".push_missing"), :push_missing]])
+          = submit_tag t('.start'), :id => :start_build
 
-      %p.description= t('.build_description')
+        %p.description= t('.build_description')
 
-      %ul#providers-list
-        - @providers.each do |provider|
-          %li
-            %span.provider= provider.name
-            %span.status Building 98%
-            -#= form_tag()
-            -#  %button on/off
+        %ul#providers-list
+          - @build_results.each do |provider_type, results|
+            %li
+              = provider_type
+              %ul
+                - results.each do |result|
+                  %li
+                    %span.provider= result[:provider]
+                    %span.account= result[:account]
+                    %span.status= result[:status]
+      - else
+        %h3= t('.missing_images')
+        %ul#missing-images-list
+          - @missing_images.each do |uuid|
+            %li= uuid
 
 
   %section.catalogs

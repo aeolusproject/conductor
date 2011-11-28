@@ -783,6 +783,15 @@ en:
       not_deleted:
         one: "Deployable %{list} was not deleted. There are deployments associated with it."
         other: "Deployables %{list} were not deleted. They have deployments associated with them."
+    show:
+      build: Build
+      build_description:
+        "Allow this deployable's associated image(s) to be built and pushed to
+        providers by enabling them below."
+      start: Start
+      rebuild_all: Build missing images
+      push_all: Push missing images
+      missing_images: Images missing from the Image Warehouse
     flash:
       error:
         attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"

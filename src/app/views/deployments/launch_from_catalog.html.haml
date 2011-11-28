@@ -29,7 +29,7 @@
               %th=t'.arch'
               %th
                 %strong=t'.deployable_xml'
-            -deployable.fetch_images.each do |image|
+            -deployable.fetch_images.compact.each do |image|
               %tr
                 %td
                   %strong= image.id
