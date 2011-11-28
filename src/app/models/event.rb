@@ -36,7 +36,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Event < ActiveRecord::Base
-  require File.join(RAILS_ROOT, 'lib/aeolus/event')
+  require 'lib/aeolus/event'
   belongs_to :source, :polymorphic => true
 
   validates_presence_of :source_id
@@ -61,8 +61,7 @@ class Event < ActiveRecord::Base
         instance = Instance.find(source_id)
         # If we have a time_last_running, use it; otherwise, we just started and it's not populated yet
         start_time = instance.time_last_running || Time.now
-        # If we're stopping, set terminate_time to current time
-        terminate_time = status_code == 'stopped' ? Time.now : nil
+        terminate_time = status_code == 'stopped' ? instance.time_last_stopped : nil
         # Because this is an after-save hook, rescue any possible exceptions -- if for some reason
         # we cannot save the Event, we don't want to abort the Instance update transaction.
         begin
@@ -83,13 +82,13 @@ class Event < ActiveRecord::Base
           })
           e.process
         rescue Exception => e
-          logger.debug "Caught exception trying to save event for instance: #{e.message}"
+          logger.error "Caught exception trying to save event for instance: #{e.message}"
           return true
         end
       end
       # There is also a "summary" attribute on state changes, but we don't appear to need to check it
     when "Deployment"
-      if ['first_running', 'all_stopped', 'all_running'].include?(status_code)
+      if ['some_stopped', 'first_running', 'all_stopped', 'all_running'].include?(status_code)
         deployment = Deployment.find(source_id)
         begin
           # TODO - The Cddr method supports a :deployable_id, but we don't implement this at the moment
@@ -107,7 +106,7 @@ class Event < ActiveRecord::Base
           })
           e.process
         rescue Exception => e
-          logger.debug "Caught exception trying to svae event for deployment: #{e.message}"
+          logger.error "Caught exception trying to save event for deployment: #{e.message}"
           return true
         end
       end

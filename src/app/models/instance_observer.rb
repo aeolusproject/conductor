@@ -86,6 +86,8 @@ class InstanceObserver < ActiveRecord::Observer
   end
 
   def after_update(instance)
+    # This can get stale, so reload it -- if it exists
+    instance.deployment.reload if instance.deployment
     if instance.state_changed?
       event = Event.new(:source => instance, :event_time => DateTime.now,
                         :summary => "state changed to #{instance.state}",
