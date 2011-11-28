@@ -105,6 +105,54 @@ describe Deployment do
     @deployment.should be_destroyable
     expect { @deployment.destroy }.to change(Deployment, :count).by(-1)
   end
+
+  it "should return start_time once an instance has started" do
+    @deployment.save!
+    @deployment.start_time.should be_nil
+    instance = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
+    instance.save!
+    @deployment.start_time.should be_nil
+    instance.state = Instance::STATE_RUNNING
+    instance.save!
+    @deployment.start_time.should_not be_nil
+  end
+
+  it "should return end_time once an instance has started and stopped" do
+    @deployment.save!
+    instance = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
+    instance.save!
+    instance.state = Instance::STATE_RUNNING
+    instance.save!
+    @deployment.end_time.should be_nil
+    instance.state = Instance::STATE_STOPPED
+    instance.save!
+    @deployment.end_time.should_not be_nil
+  end
+
+  it "should log events as instances start and stop" do
+    @deployment.save!
+    instance1 = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
+    instance2 = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
+    instance1.save!
+    @deployment.events.where(:status_code => 'first_running').should be_empty
+    instance1.state = Instance::STATE_RUNNING
+    instance1.save!
+    @deployment.events.where(:status_code => 'first_running').should be_present
+    @deployment.events.where(:status_code => 'all_running').should be_empty
+    instance2.state = Instance::STATE_RUNNING
+    instance2.save!
+    @deployment.events.where(:status_code => 'all_running').should be_present
+    # Now test stop events
+    instance1.state = Instance::STATE_STOPPED
+    instance1.save!
+    @deployment.events.where(:status_code => 'some_stopped').should be_present
+    @deployment.events.where(:status_code => 'all_stopped').should_not be_present
+    instance2.state = Instance::STATE_STOPPED
+    instance2.save!
+    @deployment.events.where(:status_code => 'all_stopped').should be_present
+  end
+
+
   describe "using image from iwhd" do
     before do
       image_id = @deployment.deployable_xml.assemblies.first.image_id
