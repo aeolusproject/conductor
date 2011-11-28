@@ -40,5 +40,5 @@
                 %td= link_to deployable.xml_filename, catalog_catalog_entry_path(deployable.catalogs.first, deployable.catalog_entries.first.id, :deployable_xml => true)
 
   .align-center
-    %div= will_paginate @catalog_entries
+    %div= will_paginate @deployables
     %div= link_to t('cancel'), root_path, :class => 'button pill', :id => 'edit_button'
