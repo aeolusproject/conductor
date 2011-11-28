@@ -62,6 +62,21 @@ class DeployablesController < ApplicationController
         flash[:error] = assembly[key] if key.to_s =~ /^error\w+/
       end
     end
+    images = @deployable.fetch_images
+    uuids = @deployable.fetch_image_uuids
+    @missing_images = images.zip(uuids).select{|p| p.first.nil?}.map{|p| p.second}
+    return unless @missing_images.empty?
+
+    @build_results = {}
+    ProviderAccount.list_for_user(current_user, Privilege::VIEW).each do |account|
+      type = account.provider.provider_type.deltacloud_driver
+      @build_results[type] ||= []
+      @build_results[type] << {
+        :account => account.label,
+        :provider => account.provider.name,
+        :status => @deployable.build_status(images, account),
+      }
+    end
   end
 
   def create
@@ -167,6 +182,24 @@ class DeployablesController < ApplicationController
     original_path = Rails.application.routes.recognize_path(params[:current_path])
     original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
     redirect_to original_path.merge(original_params).merge("catalog_entries_preset_filter" => params[:catalog_entries_preset_filter], "catalog_entries_search" => params[:catalog_entries_search])
+  end
+
+  def build
+    catalog = Catalog.find(params[:catalog_id])
+    deployable = Deployable.find(params[:deployable_id])
+    require_privilege(Privilege::MODIFY, catalog)
+    require_privilege(Privilege::MODIFY, deployable)
+
+    images = deployable.fetch_images
+    accounts = ProviderAccount.list_for_user(current_user, Privilege::VIEW)
+    options = params[:build_options].to_sym
+    case options
+    when :build_missing
+      deployable.build_missing(images, accounts)
+    when :push_missing
+      deployable.push_missing(images, accounts)
+    end
+    redirect_to catalog_deployable_path(catalog, deployable)
   end
 
   private

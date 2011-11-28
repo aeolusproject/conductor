@@ -132,8 +132,8 @@ class Pool < ActiveRecord::Base
     catalogs.each do |catalog|
       return_obj[catalog] = {}
       catalog.deployables.each do |deployable|
-        images = deployable.fetch_images
-        unless images.nil?
+        images = deployable.fetch_images.compact
+        unless images.empty?
           return_obj[catalog][deployable] = {}
           images.each do |image|
             return_obj[catalog][deployable][image] = provider_images.nil? ? {} : provider_images[image.uuid]
