@@ -27,7 +27,7 @@ class Deployable < ActiveRecord::Base
   validates_length_of :name, :maximum => 1024
 
   validates_presence_of :xml
-  validate :valid_deployable_xml?
+  validate :valid_deployable_xml?, :if => Proc.new { |deployable| !deployable.xml.blank? }
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
