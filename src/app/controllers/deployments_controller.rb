@@ -255,8 +255,8 @@ class DeploymentsController < ApplicationController
     end
     # If nothing is selected, display an error message:
     flash[:error] = t('deployments.flash.error.none_selected') if failed.blank? && destroyed.blank?
-    flash[:success] = t('deployments.flash.success.deleted', :list => destroyed.join(', '), :count => destroyed.size) if destroyed.present?
-    flash[:error] = t('deployments.flash.error.not_deleted', :list => failed, :count => failed.size) if failed.present?
+    flash[:success] = t('deployments.flash.success.deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
+    flash[:error] = t('deployments.flash.error.not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
     respond_to do |format|
       format.html { redirect_to params[:backlink] || pools_url(:view => 'filter', :details_tab => 'deployments') }
       format.js do
