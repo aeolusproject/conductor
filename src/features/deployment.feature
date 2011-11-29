@@ -183,7 +183,7 @@ Feature: Manage Deployments
     And I check "mydeployment1" deployment
     And I check "mydeployment2" deployment
     And I press "delete_button"
-    Then I should see "The deployments mydeployment1, mydeployment2 were scheduled for deletion"
+    Then I should see "The deployments mydeployment1 and mydeployment2 were scheduled for deletion"
 
   Scenario: Delete a deployment with running instances
     Given a deployment "mockdeployment" exists
