@@ -50,6 +50,9 @@ require 'password'
 require 'ldap'
 
 class User < ActiveRecord::Base
+  class << self
+    include CommonFilterMethods
+  end
   attr_accessor :password
 
   # this attr is used when validating non-local (ldap) users
@@ -130,19 +133,7 @@ class User < ActiveRecord::Base
 
   PRESET_FILTERS_OPTIONS = []
 
-  def self.apply_filters(options = {})
-    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
-  end
-
   private
-
-  def self.apply_preset_filter(preset_filter_id)
-    if preset_filter_id.present?
-      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
-    else
-      scoped
-    end
-  end
 
   def self.apply_search_filter(search)
     if search

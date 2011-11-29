@@ -38,6 +38,9 @@
 class Pool < ActiveRecord::Base
   include PermissionedObject
   include ActionView::Helpers::NumberHelper
+  class << self
+    include CommonFilterMethods
+  end
   has_many :instances,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   belongs_to :pool_family
@@ -151,19 +154,7 @@ class Pool < ActiveRecord::Base
     {:title => I18n.t("pools.preset_filters.with_stopped_instances"), :id => "with_stopped_instances", :query => includes(:deployments => :instances).where("instances.state" => "stopped")}
   ]
 
-  def self.apply_filters(options = {})
-    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
-  end
-
   private
-
-  def self.apply_preset_filter(preset_filter_id)
-    if preset_filter_id.present?
-      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
-    else
-      scoped
-    end
-  end
 
   def self.apply_search_filter(search)
     if search

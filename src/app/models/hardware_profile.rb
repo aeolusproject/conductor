@@ -38,6 +38,9 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class HardwareProfile < ActiveRecord::Base
+  class << self
+    include CommonFilterMethods
+  end
   include PermissionedObject
   has_many :permissions, :as => :permission_object, :dependent => :destroy
   has_many :instances
@@ -160,19 +163,7 @@ class HardwareProfile < ActiveRecord::Base
     #{:title => I18n.t("hardware_profiles.preset_filters.x86_64architecture"), :id => "x86_64architecture", :query => includes(:architecture).where('architecture.value' => "x86_64")}
   ]
 
-  def self.apply_filters(options = {})
-    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
-  end
-
   private
-
-  def self.apply_preset_filter(preset_filter_id)
-    if preset_filter_id.present?
-      PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
-    else
-      scoped
-    end
-  end
 
   def self.apply_search_filter(search)
     if search
