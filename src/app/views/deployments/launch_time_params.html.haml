@@ -28,7 +28,10 @@
                 - id = "deployment[launch_parameters][#{assembly_name}][#{service.name}][#{parameter.name}]"
                 = label_tag id, parameter.name.titleize + ':'
                 - value = get_hash_multi(params, [:deployment, :launch_parameters, assembly_name, service.name, parameter.name])
-                = text_field_tag id, (parameter.value or value)
+                - if parameter.type == "password"
+                  = password_field_tag id, (parameter.value or value)
+                - else
+                  = text_field_tag id, (parameter.value or value)
               - else
                 = t('.reference', :assembly => parameter.reference_assembly, :parameter => parameter.reference_parameter)
 
