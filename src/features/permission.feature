@@ -19,7 +19,7 @@ Feature: Manage Permissions
     When I select "Pool User" role for the user "testuser"
     And I press "Grant Access"
     Then I should be on the page for the pool "PermissionPool"
-    And I should see "These User Roles were added"
+    And I should see "Added the following User Roles"
     And I should see "testuser"
 
   Scenario: Create a second permission on a resource
@@ -32,7 +32,7 @@ Feature: Manage Permissions
     When I select "Pool Owner" role for the user "testuser"
     And I press "Grant Access"
     Then I should be on the page for the pool "PermissionPool"
-    And I should see "These User Roles were added"
+    And I should see "Added the following User Roles"
     And I should see "testuser"
 
   Scenario: Attempt to duplicate a permission
@@ -54,3 +54,4 @@ Feature: Manage Permissions
     When I follow link with ID "details_permissions"
     When I delete the permission
     Then I should be on the page for the pool "PermissionPool"
+    And I should see "Deleted the following Permission Grants"

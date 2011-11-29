@@ -1049,14 +1049,17 @@ en:
       choose_global_role: Choose global role assignments for users
     flash:
       notice:
-        modified: These User Roles were modified
-        deleted: These Permission Grants were deleted
-        added: These User Roles were added
+        modified: "Successfully modified the following User Roles: %{list}"
+        deleted: "Deleted the following Permission Grants: %{list}"
+        added: "Added the following User Roles: %{list}"
       error:
-        not_add: Could not add these User Roles
+        not_add: "Could not add these User Roles: %{list}"
         no_users_selected: No users selected
-        not_deleted: Could not delete these Permission Grants
-        not_added: Could not add these User Roles
+        not_deleted: "Could not delete these Permission Grants: %{list}"
+        not_added: "Could not add these User Roles: %{list}"
+      fragment:
+        user_and_role: "%{user} (%{role})"
+        user_and_role_change: "%{user} (from %{old_role} to %{role})"
     preset_filters:
       all_permissions: All Permissions
   quotas:

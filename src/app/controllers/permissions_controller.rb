@@ -58,17 +58,19 @@ class PermissionsController < ApplicationController
                                     :role_id => role_id,
                                     :permission_object => @permission_object)
         if permission.save
-          added << permission.user.login + " " + permission.role.name
+          added << t('permissions.flash.fragment.user_and_role', :user => permission.user.login,
+                      :role => permission.role.name)
         else
-          not_added << permission.user.login + " " + permission.role.name
+          not_added << t('permissions.flash.fragment.user_and_role', :user => permission.user.login,
+                          :role => permission.role.name)
         end
       end
     end
     unless added.empty?
-      flash[:notice] = "#{t('permissions.flash.notice.added')}: #{added.join(', ')}"
+      flash[:notice] = t('permissions.flash.notice.added', :list => added.to_sentence)
     end
     unless not_added.empty?
-      flash[:error] = "#{t('permissions.flash.error.not_added')}: #{not_added.join(', ')}"
+      flash[:error] = t('permissions.flash.error.not_added', :list => not_added.to_sentence)
     end
     if added.empty? and not_added.empty?
       flash[:error] = t "permissions.flash.error.no_users_selected"
@@ -94,21 +96,25 @@ class PermissionsController < ApplicationController
         unless permission.role == role
           permission.role = role
           if permission.save
-            modified << permission.user.login + " " + permission.role.name + " from " + old_role.name
+            modified << t('permissions.flash.fragment.user_and_role_change', :user => permission.user.login,
+                            :old_role => old_role.name,
+                            :role => permission.role.name)
           else
-            not_modified << permission.user.login + " " + permission.role.name
+            not_modified << t('permissions.flash.fragment.user_and_role_change', :user => permission.user.login,
+                            :old_role => old_role.name,
+                            :role => permission.role.name)
           end
         end
       end
     end
     unless modified.empty?
-      flash[:notice] = "#{t('permissions.flash.notice.modified')}: #{modified.join(', ')}"
+      flash[:notice] = t('permissions.flash.notice.modified', :list => modified.to_sentence)
     end
     unless not_modified.empty?
-      flash[:error] = "#{t('permissions.flash.error.not_add')}: #{not_modified.join(', ')}"
+      flash[:error] = t('permissions.flash.error.not_add', :list => not_modified.to_sentence)
     end
     if modified.empty? and not_modified.empty?
-      flash[:error] = t"permissions.flash.error.no_users_selected"
+      flash[:error] = t("permissions.flash.error.no_users_selected")
     end
     respond_to do |format|
       format.html { redirect_to @return_path }
@@ -125,17 +131,19 @@ class PermissionsController < ApplicationController
 
     Permission.find(params[:permission_selected]).each do |p|
       if check_privilege(Privilege::PERM_SET, p.permission_object) && p.destroy
-        deleted << p.user.login + " " + p.role.name
+        deleted << t('permissions.flash.fragment.user_and_role', :user => p.user.login,
+                      :role => p.role.name)
       else
-        not_deleted << p.user.login + " " + p.role.name
+        not_deleted << t('permissions.flash.fragment.user_and_role', :user => p.user.login,
+                      :role => p.role.name)
       end
     end
 
     unless deleted.empty?
-      flash[:notice] = "#{t('permissions.flash.notice.deleted')}: #{deleted.join(', ')}"
+      flash[:notice] = t('permissions.flash.notice.deleted', :list => deleted.to_sentence)
     end
     unless not_deleted.empty?
-      flash[:error] = "#{t('permissions.flash.error.not_deleted')}: #{not_deleted.join(', ')}"
+      flash[:error] = t('permissions.flash.error.not_deleted', :list => not_deleted.to_sentence)
     end
     respond_to do |format|
       format.html { redirect_to @return_path }
