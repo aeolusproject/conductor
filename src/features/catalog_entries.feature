@@ -40,7 +40,7 @@ Feature: Manage Catalog Entries
     And I should see "Image"
     And I should see "Build"
     And I should see "Catalogs"
-    And I should see "Roles"
+    And I should see "Users"
 
   Scenario: Launch  a deployment
     Given there is a "default" catalog

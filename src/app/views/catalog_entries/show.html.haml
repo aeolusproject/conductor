@@ -51,6 +51,8 @@
         = @catalog_entry.catalog.pool.pool_family.name
 
 
-  %section.roles
-    %header
-      %h2= t('.roles')
+  - if check_privilege(Privilege::PERM_VIEW,@permission_object)
+    %section.roles
+      %header
+        %h2= t('users.users')
+      = render :partial => 'permissions/permissions'

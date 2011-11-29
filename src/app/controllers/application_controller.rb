@@ -282,6 +282,13 @@ class ApplicationController < ActionController::Base
     %w[asc desc].include?(params[:order_dir]) ? params[:order_dir] : "asc"
   end
 
+  def add_permissions_inline(perm_obj, path_prefix = "")
+    @permission_object = perm_obj
+    @path_prefix = path_prefix
+    @roles = Role.find_all_by_scope(@permission_object.class.name)
+    set_permissions_header
+  end
+
   def add_permissions_tab(perm_obj, path_prefix = "")
     @path_prefix = path_prefix
     if "permissions" == params[:details_tab]

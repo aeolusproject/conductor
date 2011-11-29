@@ -56,6 +56,7 @@ class CatalogEntriesController < ApplicationController
     save_breadcrumb(catalog_catalog_entry_path(@catalog_entry.catalog, @catalog_entry), @catalog_entry.deployable.name)
     @providers = Provider.all
     @catalogs_options = Catalog.all.map {|c| [c.name, c.id]}
+    add_permissions_inline(@catalog_entry.deployable)
   end
 
   def create

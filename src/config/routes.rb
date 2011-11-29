@@ -210,6 +210,8 @@ Conductor::Application.routes.draw do
 
   resources :catalog_entries
 
+  resources :deployables
+
   resources :images do
     collection do
       post 'edit_xml'

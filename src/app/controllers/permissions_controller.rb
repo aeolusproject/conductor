@@ -180,6 +180,7 @@ class PermissionsController < ApplicationController
     obj_type = params[:permission_object_type]
     id = params[:permission_object_id]
     @path_prefix = params[:path_prefix]
+    @use_tabs = params[:use_tabs]
     unless obj_type or id
       @permission_object = BasePermissionObject.general_permission_scope
     end
@@ -191,8 +192,8 @@ class PermissionsController < ApplicationController
     else
       @return_path = send("#{@path_prefix}polymorphic_path",
                                      @permission_object,
-                                     :details_tab => :permissions,
-                                     :only_tab => true)
+                          @use_tabs == "yes" ? {:details_tab => :permissions,
+                            :only_tab => true} : {})
     end
     require_privilege(required_role, @permission_object)
   end
