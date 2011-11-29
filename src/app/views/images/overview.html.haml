@@ -3,23 +3,23 @@
   %h1.images= @name
   #obj_actions.button-container
     = t :return_to
-    = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment)
+    = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment), :class => 'rounded-link'
 
-%section.admin-content-section.image-upload-overview
-  .overview
-    %header
-      %h2= t('.valid_image')
-
-    %p.description= t('.description', :name => @name)
-
+%section.admin-content-section
+  .content.buildpush
     = form_tag(images_path, {:method => :post}) do
       = hidden_field_tag :environment, @environment.id
       = hidden_field_tag :name, @name
       %input{ :type => :hidden, :name => :image_xml, :value => @xml}
 
-      = check_box_tag :make_deployable, 1, true
-      = label_tag :make_deployable, t('.make_deployable', :name => @name)
+    .lefted.image-upload-overview
+      %h2= t('.valid_image')
+      %p.description= t('.description', :name => @name)
 
-      .buttons.container
+      %fieldset.align-center
+        = check_box_tag :make_deployable, 1, true
+        = label_tag :make_deployable, t('.make_deployable', :name => @name)
+    .centered
+      %fieldset.align-center
         = submit_tag t('.back'), :name => 'back', :id => 'back_button', :class => 'button'
         = submit_tag t('.save_template'), :name => 'save', :id => 'save_button', :class => 'button primary'

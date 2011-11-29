@@ -3,53 +3,57 @@
   %h1.images= t('.new_image')
   #obj_actions.button-container
     = t :return_to
-    = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment)
+    = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment), :class => 'rounded-link'
 
-%section.admin-content-section.image-upload
-  %p.description= t('.description', :environment => @environment.name)
+%section.admin-content-section
+  .content.buildpush
+    .centered
+      %p.description.align-center
+        %strong= t('.description', :environment => @environment.name)
 
-  %nav#image-upload-tabs.faceted
-    %ul.tabs
-      %li
-        %a{ :href => '#image-file-form', :class => 'selected'}= t('.upload')
-      %li
-        %a{ :href => '#image-url-form'}= t('.from_url')
+      %nav#image-upload-tabs.faceted
+        %ul.tabs
+          %li
+            %a{ :href => '#image-file-form', :class => 'active'}= t('.upload')
+          %li
+            %a{ :href => '#image-url-form'}= t('.from_url')
+      .clear
 
-  %section#image-file-form
-    = form_tag(edit_xml_images_path, { :multipart => true }) do
-      = hidden_field_tag :environment, @environment.id
-      %fieldset
-        %p
-          = label_tag :name, t('.name')
-          = text_field_tag :name, @name
-        %p
-          = label_tag :image_file, t('.choose_file')
-          = file_field_tag :image_file
-        %p
-          = label_tag :edit, t('.edit_file')
-          = check_box_tag :edit, 1, true
+      %section#image-file-form
+        = form_tag(edit_xml_images_path, { :multipart => true, :class => 'generic' }) do
+          = hidden_field_tag :environment, @environment.id
+          %fieldset
+            %p
+              = label_tag :name, t('.name')
+              = text_field_tag :name, @name
+            %p
+              = label_tag :image_file, t('.choose_file')
+              = file_field_tag :image_file
+            %p
+              = label_tag :edit, t('.edit_file')
+              = check_box_tag :edit, 1, true
 
-      .buttons.container
-        = link_to t(:cancel), pool_family_path(@environment), :class => "button danger"
-        = submit_tag t(:continue), :id => "file_button", :class => "button primary"
+          %fieldset.align-center
+            = link_to t(:cancel), pool_family_path(@environment), :class => "button danger"
+            = submit_tag t(:continue), :id => "file_button", :class => "button primary"
 
-  %section#image-url-form
-    = form_tag(edit_xml_images_path, { :multipart => true }) do
-      = hidden_field_tag :environment, @environment.id
-      %fieldset
-        %p
-          = label_tag :name, t('.name')
-          = text_field_tag :name, @name
-        %p
-          = label_tag :image_url, t('.image_url')
-          = text_field_tag :image_url, params[:image_url]
-        %p
-          = label_tag :edit, t('.edit_file')
-          = check_box_tag :edit, 1, true
+      %section#image-url-form
+        = form_tag(edit_xml_images_path, { :multipart => true, :class => 'generic' }) do
+          = hidden_field_tag :environment, @environment.id
+          %fieldset
+            %p
+              = label_tag :name, t('.name')
+              = text_field_tag :name, @name
+            %p
+              = label_tag :image_url, t('.image_url')
+              = text_field_tag :image_url, params[:image_url]
+            %p
+              = label_tag :edit, t('.edit_file')
+              = check_box_tag :edit, 1, true
 
-      .buttons.container
-        = link_to t(:cancel), pool_family_path(@environment), :class => "button danger"
-        = submit_tag t(:continue), :id => "url_button", :class => "button primary"
+          %fieldset.align-center
+            = link_to t(:cancel), pool_family_path(@environment), :class => "button danger"
+            = submit_tag t(:continue), :id => "url_button", :class => "button primary"
 
 :javascript
   (function() {
@@ -62,14 +66,14 @@
       $('#image-upload-tabs a').each(function() {
         var $tab = $(this);
         var $form = linkedForm($tab);
-        $form.toggle($tab.hasClass('selected'));
+        $form.toggle($tab.hasClass('active'));
       })
     }
 
     refreshTabs();
     Conductor.nicelyHookAjaxClick($('#image-upload-tabs a'), function() {
-      $('#image-upload-tabs a.selected').removeClass('selected')
-      $(this).addClass('selected')
+      $('#image-upload-tabs a.active').removeClass('active')
+      $(this).addClass('active')
       refreshTabs()
     })
   })()
