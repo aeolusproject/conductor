@@ -1,5 +1,6 @@
 require File.join(File.dirname(__FILE__), 'event', 'accessor')
 require File.join(File.dirname(__FILE__), 'event', 'converter')
+require File.join(File.dirname(__FILE__), 'event', 'syslog_converter')
 require File.join(File.dirname(__FILE__), 'event', 'base')
 require File.join(File.dirname(__FILE__), 'event', 'cidr')
 require File.join(File.dirname(__FILE__), 'event', 'cddr')

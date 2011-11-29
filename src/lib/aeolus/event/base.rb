@@ -2,7 +2,7 @@ module Aeolus
   module Event
     class Base
       extend Aeolus::Event::Accessor
-      attr_accessor :target, :event_id, :action
+      attr_accessor :event_id, :action
 
       # Base objects, or an implementor, can be initialized by passing in
       # a hash containing any attributes the caller wishes to set, including
@@ -23,9 +23,8 @@ module Aeolus
       # is a syslog convertor to back this method, but other targets can be added
       # over time, as needed.
       def process(output_target=nil, source='conductor', uuid=nil)
-        @target = output_target unless output_target.nil?
-        true
-        # TODO: Call any required transformation methods to output properly to given targets
+        target = output_target.nil? ? Aeolus::Event::SyslogConverter.new : output_target
+        target.process(self)
       end
 
       def attributes
@@ -60,7 +59,6 @@ module Aeolus
 
       protected
       def set_defaults
-        @target = 'syslog'
         yield if block_given?
       end
     end

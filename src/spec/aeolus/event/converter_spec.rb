@@ -29,6 +29,21 @@ module Aeolus
           @c.formatted_msg.include?("\"owner=fred\"").should be_false
         end
       end
+
+      describe "#emit" do
+
+        before(:each) do
+          @output = double('output')
+          @c = Converter.new(@output)
+          event = Aeolus::Event::Cidr.new({:owner=>'fred', :hardware_profile => 'm1.large'})
+          @c.transform(event)
+        end
+
+        it "should print the formatted message to STDOUT" do
+          @output.should_receive(:puts).with(@c.formatted_msg).once
+          @c.emit
+        end
+      end
     end
   end
 end

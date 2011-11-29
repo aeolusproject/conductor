@@ -7,7 +7,7 @@ module Aeolus
       describe "#new" do
         it "should set default values on creation" do
           event = Cidr.new
-          event.target.should == "syslog"
+          event.event_id.should == "020001"
         end
         it "should set all attributes passed in" do
           event = Cidr.new({:owner=>'fred', :hardware_profile => 'm1.large'})
@@ -23,7 +23,6 @@ module Aeolus
         it "should return the Cidr attributes plus the 2 defined in the Base class as a single level array" do
           event = Cidr.new
           event.attributes.include?(:event_id).should be_true
-          event.attributes.include?(:target).should be_true
           event.attributes.include?(:owner).should be_true
           event.attributes.include?(:hardware_profile).should be_true
         end

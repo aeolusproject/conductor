@@ -2,6 +2,18 @@ module Aeolus
   module Event
     class Converter
       attr_accessor :output, :formatted_msg
+      def initialize(out=STDOUT)
+        @output = out
+      end
+
+      def process(event)
+        if transform(event)
+          emit
+          return true
+        end
+        return false
+      end
+
       def transform(event)
         @formatted_msg= ""
         event.attributes.each do |attribute|
@@ -9,6 +21,11 @@ module Aeolus
         end
         return true
       end
+
+      def emit
+        @output.puts formatted_msg
+      end
+
       private
       def format_value(val)
         if val.nil?
