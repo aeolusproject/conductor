@@ -4,7 +4,7 @@
   %fieldset
     %p
       = form.label :catalog_id, t('catalog_entries.form.catalog')
-      = @catalog.name
+      %span.text_instead_input= @catalog.name
       .clear
   = form.fields_for :deployable, @catalog_entry.deployable do |deployable_fields|
     %fieldset
@@ -22,6 +22,6 @@
       = check_box_tag(:edit_xml, true, false)
       = label_tag :edit_xml, t('catalog_entries.form.edit_xml_after_save')
 
-  %fieldset.options
+  %fieldset.align-center
     = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
-    = submit_tag t('save'), :name => 'save', :class => 'button', :id => 'save_button'
+    = submit_tag t('save'), :name => 'save', :class => 'button primary', :id => 'save_button'

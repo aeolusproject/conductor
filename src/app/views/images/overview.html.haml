@@ -12,14 +12,14 @@
       = hidden_field_tag :name, @name
       %input{ :type => :hidden, :name => :image_xml, :value => @xml}
 
-    .lefted.image-upload-overview
-      %h2= t('.valid_image')
-      %p.description= t('.description', :name => @name)
+      .lefted.image-upload-overview
+        %h2= t('.valid_image')
+        %p.description= t('.description', :name => @name)
 
-      %fieldset.align-center
-        = check_box_tag :make_deployable, 1, true
-        = label_tag :make_deployable, t('.make_deployable', :name => @name)
-    .centered
-      %fieldset.align-center
-        = submit_tag t('.back'), :name => 'back', :id => 'back_button', :class => 'button'
-        = submit_tag t('.save_template'), :name => 'save', :id => 'save_button', :class => 'button primary'
+        %fieldset.align-center
+          = check_box_tag :make_deployable, 1, true
+          = label_tag :make_deployable, t('.make_deployable', :name => @name)
+      .centered
+        %fieldset.align-center
+          = submit_tag t('.back'), :name => 'back', :id => 'back_button', :class => 'button'
+          = submit_tag t('.save_template'), :name => 'save', :id => 'save_button', :class => 'button primary'

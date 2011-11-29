@@ -2441,10 +2441,14 @@ ul.instances-array{
         width:100%;
         text-align:left;
         margin: 0px !important;
-        a {
+        a{
           padding: 7px 10px 7px 10px;
           display: block;
           text-decoration: none;
+        }
+        div.catalog_with_checkbox{
+          padding: 7px 10px;
+          input[type="checkbox"]{margin: 0px; padding: 0px; float: right;}
         }
         &:hover{
           background:#C4E0F0;
@@ -3061,6 +3065,10 @@ body.administer form.generic{
     width: 100px;
   }
 
+  span.text_instead_input{
+    display: inline-block;
+    padding: 6px;
+  }
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -217,25 +217,6 @@ form.generic section.services {
   }
 }
 
-.instances_list {
-  li {
-    list-style-type: none;
-  }
-
-  .state {
-    font-weight: bold;
-  }
-
-  li.instance {
-    margin-top: 1em;
-    font-weight: bold;
-
-    ul {
-      font-weight: normal;
-    }
-  }
-}
-
 .catalog_deployments_and_images{
   color: #606060;
   position: relative;

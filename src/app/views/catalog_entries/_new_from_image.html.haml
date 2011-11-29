@@ -18,8 +18,23 @@
           %div
             = form.label :catalog_id, t('catalog_entries.form.catalog')
             = form.select :catalog_id, @catalogs.collect{|c| [c.name, c.id]}
+            %span.text_instead_input= "Catalog1"
+            %span.catalog_link
+              &nbsp
+              %div.catalog_list
+                %ul.more
+                  - @catalogs.each do |catalog|
+                    %li.catalog
+                      .catalog_with_checkbox
+                        = check_box_tag :catalog_ids
+                        = catalog.name
+                        .clear
             .clear
       .centered
         %fieldset.align-center
           = link_to "#{t'catalog_entries.form.cancel'}", catalogs_path, :class => 'button danger'
           = submit_tag "#{t'catalog_entries.form.save'}", :name => 'save', :class => 'button primary', :id => 'save_button'
+
+:javascript
+    $(document).ready(function(){
+    });
