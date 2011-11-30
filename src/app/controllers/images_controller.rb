@@ -16,6 +16,8 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
+require 'app/util/temlate_xml'
+
 class ImagesController < ApplicationController
   before_filter :require_user
 
@@ -113,6 +115,7 @@ class ImagesController < ApplicationController
     end
 
     begin
+      tpl = TemplateXML.new(xml_source)
       doc = Nokogiri::XML(xml_source) { |config| config.strict }
       add_template_name(doc, @name)
       @xml = doc.to_xml
