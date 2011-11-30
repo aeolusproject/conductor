@@ -16,8 +16,6 @@
 # MA  02110-1301, USA.  A copy of the GNU General Public License is
 # also available at http://www.gnu.org/copyleft/gpl.html.
 
-require 'app/util/temlate_xml'
-
 class ImagesController < ApplicationController
   before_filter :require_user
 
@@ -106,7 +104,7 @@ class ImagesController < ApplicationController
       begin
         xml_source = RestClient.get(url, :accept => :xml)
       rescue RestClient::Exception, SocketError, URI::InvalidURIError
-        flash.now[:error] = t('images.flash.error.invalid_url')
+        flash.now[:error] = t('template_xml.flash.error.invalid_url')
         render :new and return
       end
     else
@@ -115,12 +113,17 @@ class ImagesController < ApplicationController
     end
 
     begin
-      tpl = TemplateXML.new(xml_source)
-      doc = Nokogiri::XML(xml_source) { |config| config.strict }
-      add_template_name(doc, @name)
-      @xml = doc.to_xml
+      doc = TemplateXML.new(xml_source)
     rescue Nokogiri::XML::SyntaxError
-      flash.now[:error] = t('images.flash.warning.invalid_xml')
+      errors = [t('template_xml.errors.xml_parse_error')]
+    else
+      doc.name = @name
+      @xml = doc.to_xml
+      errors = doc.validate
+    end
+
+    if errors.any?
+      flash.now[:error] = errors
       @xml = xml_source
       render :edit_xml and return
     end
@@ -132,13 +135,10 @@ class ImagesController < ApplicationController
     @name = params[:name]
     @xml = params[:image_xml]
 
-    begin
-      doc = Nokogiri::XML(@xml) { |config| config.strict }
-      xml_name = doc.xpath('/template/name').first
-      @name = xml_name.content unless xml_name.blank?
-    rescue Nokogiri::XML::SyntaxError
-      flash.now[:error] = t('images.flash.warning.invalid_xml')
-      render :edit_xml
+    errors = TemplateXML.validate(@xml)
+    if errors.any?
+      flash.now[:error] = errors
+      render :edit_xml and return
     end
   end
 
@@ -148,6 +148,12 @@ class ImagesController < ApplicationController
     @xml = params[:image_xml]
 
     if params.has_key? :back
+      render :edit_xml and return
+    end
+
+    errors = TemplateXML.validate(@xml)
+    if errors.any?
+      flash.now[:error] = errors
       render :edit_xml and return
     end
 

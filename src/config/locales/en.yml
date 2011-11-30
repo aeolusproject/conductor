@@ -749,6 +749,11 @@ en:
       make_deployable: Automatically make "%{name}" deployable.
       back: Back
       save_template: Save Template
+  template_xml:
+    errors:
+      xml_parse_error: Failed to parse XML.
+      invalid_xml: "XML is not valid:"
+      name_is_not_set: Name is not set.
   provider_images:
     flash:
       notice:
