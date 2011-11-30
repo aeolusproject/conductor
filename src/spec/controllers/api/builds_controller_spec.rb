@@ -37,7 +37,8 @@ describe Api::BuildsController do
       @build = mock(Aeolus::Image::Warehouse::ImageBuild,
                     :id => '10',
                     :image => @image,
-                    :target_images => [@target_image])
+                    :target_images => [@target_image],
+                    :provider_images => [mock(ProviderImage, :target_identifier => "ami-1234567", :provider => "provider")] * 2)
     end
 
     context "when authenticated as admin" do

@@ -26,8 +26,12 @@ describe Api::TargetImagesController do
     before(:each) do
       send_and_accept_xml
 
-      @pimage = mock(Aeolus::Image::Warehouse::ImageBuild,
+      @build = mock(Aeolus::Image::Warehouse::ImageBuild,
                      :id => '42')
+      @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
+                     :id => '42',
+                     :target_identifier => "ami-1234567",
+                     :provider => "provider")
       @build  = mock(Aeolus::Image::Warehouse::ImageBuild,
                      :id => '543')
       @timage = mock(Aeolus::Image::Warehouse::TargetImage,

@@ -55,9 +55,10 @@ module Api
 
     def destroy
       begin
-        if image = Aeolus::Image::Warehouse::TargetImage.find(params[:id])
-          if image.delete!
-            render :text => "Target Image Deleted", :status => 200
+        if @image = Aeolus::Image::Warehouse::TargetImage.find(params[:id])
+          @provider_images = @image.provider_images
+          if @image.delete!
+            respond_with(@image, @provider_images)
           end
         else
           raise(Aeolus::Conductor::API::TargetImageNotFound.new(404, t("api.error_messages.target_image_not_found", :targetimage => params[:id])))

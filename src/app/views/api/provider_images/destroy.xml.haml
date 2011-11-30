@@ -1,0 +1,6 @@
+!!!XML
+%provider_image{:id => @image.id, :href => api_image_url(@image.id) }
+  %content
+    %provider_content
+      %provider= @image.provider
+      %target_identifier= @image.target_identifier

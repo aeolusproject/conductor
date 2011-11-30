@@ -36,7 +36,8 @@ describe Api::ImagesController do
                     :name => 'test',
                     :description => 'test image',
                     :image_builds => [@build],
-                    :build => @build
+                    :build => @build,
+                    :provider_images => [mock(ProviderImage, :target_identifier => "ami-1234567", :provider => "provider")] * 2
                     )
       Aeolus::Image::Warehouse::ImageBuild.stub(:where).and_return([@build])
     end
@@ -285,7 +286,6 @@ describe Api::ImagesController do
           context "and delete succeeds" do
             before(:each) do
               @image.stub(:delete!).and_return(true)
-
               delete :destroy, :id => @image.id
             end
 

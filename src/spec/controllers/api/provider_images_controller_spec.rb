@@ -108,6 +108,7 @@ describe Api::ProviderImagesController do
       @pimage = mock(Aeolus::Image::Warehouse::ProviderImage,
                      :id => '17',
                      :provider_name => 'provider_name',
+                     :provider => "provider",
                      :object_type => 'provider_image',
                      :target_identifier => '80',
                      :target_image => @timage)

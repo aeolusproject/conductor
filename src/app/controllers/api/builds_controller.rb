@@ -47,9 +47,10 @@ module Api
 
     def destroy
       begin
-        if build = Aeolus::Image::Warehouse::ImageBuild.find(params[:id])
-          if build.delete!
-            render :text => "Build Deleted", :status => 200
+        if @build = Aeolus::Image::Warehouse::ImageBuild.find(params[:id])
+          @provider_images = @build.provider_images
+          if @build.delete!
+            respond_with(@build, @provider_images)
           end
         else
           raise(Aeolus::Conductor::API::BuildNotFound.new(404, t("api.error_messages.build_not_found", :build => params[:id])))

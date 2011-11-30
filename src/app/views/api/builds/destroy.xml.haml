@@ -1,0 +1,8 @@
+!!!XML
+%build{:id => @build.id, :href => api_image_url(@build.id) }
+  %status="DELETED"
+  %content
+    - @provider_images.each do |pi|
+      %provider_content
+        %provider= pi.provider
+        %target_identifier= pi.target_identifier
