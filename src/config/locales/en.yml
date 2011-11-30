@@ -700,6 +700,7 @@ en:
       os: OS
       os_version: OS Version
       architecture: Architecture
+      last_rebuild: Last Rebuild
     show:
       provider_images: Provider Images
       provider_account: Provider Account

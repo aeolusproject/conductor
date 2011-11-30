@@ -27,6 +27,7 @@ class ImagesController < ApplicationController
       { :name => t('images.index.os'), :sort_attr => :name },
       { :name => t('images.index.os_version'), :sort_attr => :name },
       { :name => t('images.index.architecture'), :sort_attr => :name },
+      { :name => t('images.index.last_rebuild'), :sortable => false },
     ]
     @images = Aeolus::Image::Warehouse::Image.all
     respond_to do |format|
