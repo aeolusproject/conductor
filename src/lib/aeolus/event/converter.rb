@@ -30,10 +30,10 @@ module Aeolus
       def format_value(val)
         if val.nil?
           val = ""
-        elsif val.split.size > 1
+        elsif val.respond_to?(:split) && val.split.size > 1
           val = "\"#{val}\""
         end
-        return val
+        return val.to_s
       end
     end
   end
