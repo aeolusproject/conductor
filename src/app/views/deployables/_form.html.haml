@@ -9,7 +9,7 @@
   - else
     %p
       = form.label :catalog_id, t('catalog_entries.form.catalog')
-      = @catalog.name
+      = @catalog ? @catalog.name : @catalog_entry.catalog.name
       .clear
     = form.fields_for :deployable, @catalog_entry.deployable do |deployable_fields|
       %p

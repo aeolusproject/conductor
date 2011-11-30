@@ -57,6 +57,12 @@ class DeployablesController < ApplicationController
     @providers = Provider.all
     @catalogs_options = Catalog.all.map {|c| [c.name, c.id] unless c == @catalog_entry.catalog}.compact
     add_permissions_inline(@catalog_entry.deployable)
+    @image_details = @catalog_entry.deployable.get_image_details
+    @image_details.each do |assembly|
+      assembly.keys.each do |key|
+        flash[:error] = assembly[key] if key.to_s =~ /^error\w+/
+      end
+    end
   end
 
   def create

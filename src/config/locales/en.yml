@@ -632,6 +632,11 @@ en:
       environment: Environment
       choose_catalog: "Choose a catalog to enable access:"
       add_catalog: "Add +"
+      name: Name
+      profile: Profile
+      hdd: HDD
+      ram: RAM
+      arch: ARCH
     edit:
       editing_catalog_entry: Editing Catalog Entry
     list:
@@ -772,6 +777,12 @@ en:
       not_deleted:
         one: "Deployable %{list} was not deleted. There are deployments associated with it."
         other: "Deployables %{list} were not deleted. They have deployments associated with them."
+    flash:
+      error:
+        attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"
+    error:
+      attribute_not_exists: invalid
+      hwp_not_exists: "Hardware profile %{name} doesn't exist in DB"
   name: Name
   summary: Summary
   settings:

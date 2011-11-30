@@ -12,8 +12,28 @@
   %section.image
     %header
       %h2= t('.image')
-      %pre= @catalog_entry.deployable.xml
-
+      %table
+        %thead
+          %tr
+            %th=t'.name'
+            %th=t'.hwp_profile'
+            %th=t'.hdd'
+            %th=t'.ram'
+            %th=t'.arch'
+        %tbody
+        - @image_details.each do |assembly|
+          %tr
+            - if assembly.has_key?(:name)
+              %td=assembly[:name]
+            -else
+              %td=assembly[:error_name]
+            -if assembly.has_key?(:hwp)
+              %td=assembly[:hwp][:name]
+              %td=assembly[:hwp][:hdd]
+              %td=assembly[:hwp][:ram]
+              %td=assembly[:hwp][:arch]
+            -else
+              %td Not exist in DB
 
   %section.build
     %header
