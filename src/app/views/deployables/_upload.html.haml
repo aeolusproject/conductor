@@ -1,4 +1,4 @@
-= form_for @catalog_entry, :url => catalog_catalog_entries_path(@catalog), :html => {:class => 'generic', :multipart => true } do |form|
+= form_for @catalog_entry, :url => catalog_deployables_path(@catalog), :html => {:class => 'generic', :multipart => true } do |form|
   - if @catalog_entry.errors.any?
     = render 'layouts/error_messages', :object => @catalog_entry
   %fieldset

@@ -39,6 +39,8 @@ class CatalogEntry < ActiveRecord::Base
   validates_presence_of :catalog
   validates_presence_of :deployable
 
+  validates_uniqueness_of :catalog_id, :scope => [:deployable_id]
+
   # This probably goes away once we separate catalog entry creation from deployables
   accepts_nested_attributes_for :deployable
   PRESET_FILTERS_OPTIONS = []

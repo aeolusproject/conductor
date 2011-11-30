@@ -640,9 +640,11 @@ en:
       warning:
         not_valid_or_reachable: "Catalog entry XML file is either invalid or no longer reachable at %{url}"
         not_valid: "Deployable XML file doesn't resolve valid XML"
+        failed: Catalog entry was not created.
       notice:
         added: Catalog entry added.
         updated: Catalog entry updated successfully!
+        deleted: Catalog entry deleted.
     preset_filters:
       all_catalog_entries: All Catalog Entries
   catalogs:

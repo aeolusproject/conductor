@@ -18,7 +18,7 @@
 
 require 'spec_helper'
 
-describe CatalogEntriesController do
+describe DeployablesController do
 
   fixtures :all
   before(:each) do
@@ -40,7 +40,7 @@ describe CatalogEntriesController do
     catalog = FactoryGirl.create(:catalog)
     mock_warden(@admin)
     post(:create, :create_from_image => @image.id, :hardware_profile => hw_profile.id, :catalog_entry => {:catalog_id => catalog.id})
-    response.should redirect_to(catalog_catalog_entries_url(catalog.id))
+    response.should redirect_to(catalog_deployables_url(catalog.id))
   end
 
 end

@@ -20,7 +20,7 @@
       %p= @deployment.deployable_xml.description
 
       %h3= t('.deployable_xml')
-      =link_to @deployable.xml_filename, catalog_catalog_entry_path(@deployable.catalogs.first, @deployable.catalog_entries.first.id, :deployable_xml => true)
+      =link_to @deployable.xml_filename, catalog_deployable_path(@deployable.catalogs.first, @deployable.catalog_entries.first.id, :deployable_xml => true)
       &rArr;
 
       %h3= t('.image_ids')

@@ -1,25 +1,21 @@
-%header.admin-page-header
-  %h1.catalog_entries=t'catalog_entries.new.add_catalog_entry'
-  #obj_actions
-    =t'users.return_to'
-    = link_to t('catalog_entries.new.catalog_detail', :name => @catalog.name ), catalog_path(@catalog), :class => 'rounded-link'
+= render :partial => 'section_header'
 
 %section.admin-content-section
-  .content.buildpush
-    .centered
-      %p.description.align-center
-        %strong= t'.choose_option_to_upload'
+  %header
+    %h2=t'catalog_entries.new.add_catalog_entry'
 
-      %nav#image-upload-tabs.faceted
-        %ul.tabs
-          %li
-            = link_to t('catalog_entries.new.upload'), new_catalog_catalog_entry_path(@catalog), :id => "upload", :class => "#{'active' if @form_option == 'upload'}"
-          %li
-            = link_to t('catalog_entries.new.from_url'), new_catalog_catalog_entry_path(@catalog, :from_url => true), :id => "from_url", :class => "#{'active' if @form_option == 'from_url'}"
-      .clear
+%section.admin-content-section.image-upload
+  %p.description=t'.choose_option_to_upload'
 
-      .form_option
-        = render :partial => @form_option
+  %nav#image-upload-tabs.faceted
+    %ul.tabs
+      %li
+        = link_to t('catalog_entries.new.upload'), new_catalog_deployable_path(@catalog), :id => "upload", :class => "#{'selected' if @form_option == 'upload'}"
+      %li
+        = link_to t('catalog_entries.new.from_url'), new_catalog_deployable_path_path(@catalog, :from_url => true), :id => "from_url", :class => "#{'selected' if @form_option == 'from_url'}"
+
+    .form_option
+      = render :partial => @form_option
 
 :javascript
   $(document).ready(function() {
@@ -52,8 +48,8 @@
   });
 
   function change_selected($add_selected, $remove_selected){
-    $remove_selected.removeClass('active');
-    $add_selected.addClass('active');
+    $remove_selected.removeClass('selected');
+    $add_selected.addClass('selected');
   }
 
   function read_name_field() {

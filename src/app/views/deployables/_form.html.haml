@@ -20,7 +20,7 @@
         = deployable_fields.text_area :description, :class => 'long'
       %p
         = deployable_fields.label :xml, t('.deployable_xml')
-        = link_to t("catalog_entries.properties.edit_deployable_xml"), edit_catalog_catalog_entry_path(@catalog_entry.catalog.id, @catalog_entry.id, :edit_xml=>true)
+        = link_to t("catalog_entries.properties.edit_deployable_xml"), edit_catalog_deployable_path(@catalog_entry.catalog.id, @catalog_entry.id, :edit_xml=>true)
 
 %fieldset.options
   = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'

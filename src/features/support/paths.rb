@@ -30,7 +30,7 @@ module NavigationHelpers
       deployable = Deployable.find_by_name($1)
       catalog_entry = deployable.catalog_entries.first
       catalog = catalog_entry.catalog
-      catalog_catalog_entry_path(catalog, catalog_entry)
+      catalog_deployable_path(catalog, catalog_entry)
 
     when /the account page/
       account_path
@@ -159,7 +159,7 @@ module NavigationHelpers
 
 
     when /^the "(.*)" catalog catalog entries page/
-      url_for catalog_catalog_entries_path(Catalog.find_by_name($1))
+      url_for catalog_deployables_path(Catalog.find_by_name($1))
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

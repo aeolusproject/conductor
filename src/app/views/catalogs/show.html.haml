@@ -20,19 +20,19 @@
 
   .content
     - content_for :form_header do
-      %li= restful_submit_tag t("delete"), "destroy", multi_destroy_catalog_catalog_entries_path(@catalog), 'DELETE', :id => 'delete_button', :class => 'button danger'
-      %li= link_to t("catalog_entries.new_catalog_entry"), new_catalog_catalog_entry_path(@catalog), :class => 'button', :id => 'new_catalog_entry_button'
+      %li= restful_submit_tag t("delete"), "destroy", multi_destroy_catalog_deployables_path(@catalog), 'DELETE', :id => 'delete_button', :class => 'button danger'
+      %li= link_to t("catalog_entries.new_catalog_entry"), new_catalog_deployable_path(@catalog), :class => 'button', :id => 'new_catalog_entry_button'
 
     - content_for :filter_controls do
       %li
         = label_tag :catalog_entries_preset_filter, t('filter_table.viewing')
         = hidden_field_tag :current_path, request.fullpath
         = select_tag(:catalog_entries_preset_filter, preset_filters_options_for_select(CatalogEntry::PRESET_FILTERS_OPTIONS, params[:catalog_entries_preset_filter]), :include_blank => t("catalog_entries.preset_filters.all_catalog_entries"), :disabled => true)
-        = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_catalog_catalog_entries_path(@catalog), 'POST', :class => 'button', :id => 'apply_catalog_entries_preset_filter'
+        = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_catalog_deployables_path(@catalog), 'POST', :class => 'button', :id => 'apply_catalog_entries_preset_filter'
         %span.label.badge.dark= @catalog_entries.count
       %li.table-search-filter
         = text_field_tag :catalog_entries_search, params[:catalog_entries_search], :placeholder => t("filter_table.search")
-        = restful_submit_tag "", "search", filter_catalog_catalog_entries_path(@catalog), 'POST', :class => 'button', :id => 'apply_catalog_entries_search'
+        = restful_submit_tag "", "search", filter_catalog_deployables_path(@catalog), 'POST', :class => 'button', :id => 'apply_catalog_entries_search'
 
       :javascript
         $(document).ready(function(){
@@ -48,6 +48,6 @@
           - selected = params[:select] == 'all'
           = check_box_tag "catalog_entries_selected[]", catalog_entry.id, selected, :id => "catalog_entry_checkbox_#{catalog_entry.id}"
         %td
-          = link_to catalog_entry.deployable.name, catalog_catalog_entry_path(@catalog, catalog_entry.id)
+          = link_to catalog_entry.deployable.name, catalog_deployable_path(@catalog, catalog_entry)
         %td
-          = link_to catalog_entry.deployable.xml_filename, catalog_catalog_entry_path(@catalog, catalog_entry.id, :deployable_xml => true)
+          = link_to catalog_entry.deployable.xml_filename, catalog_deployable_path(@catalog, catalog_entry, :deployable_xml => true)

@@ -202,7 +202,7 @@ Conductor::Application.routes.draw do
     delete 'multi_destroy', :on => :collection
     post 'create'
     post :filter, :on => :collection
-    resources :catalog_entries do
+    resources :deployables do
       delete 'multi_destroy', :on => :collection
       post :filter, :on => :collection
     end

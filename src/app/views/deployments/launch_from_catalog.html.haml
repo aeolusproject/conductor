@@ -37,7 +37,7 @@
                 %td= deployable.hw_profile_for_image(image.id).storage
                 %td= deployable.hw_profile_for_image(image.id).memory
                 %td= deployable.hw_profile_for_image(image.id).architecture
-                %td= link_to deployable.xml_filename, catalog_catalog_entry_path(deployable.catalogs.first, deployable.catalog_entries.first.id, :deployable_xml => true)
+                %td= link_to deployable.xml_filename, catalog_deployable_path(deployable.catalogs.first, deployable.catalog_entries.first.id, :deployable_xml => true)
 
   .align-center
     %div= will_paginate @deployables
