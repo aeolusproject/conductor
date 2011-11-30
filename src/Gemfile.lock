@@ -28,7 +28,7 @@ GEM
       activesupport (= 3.0.10)
     activesupport (3.0.10)
     addressable (2.2.6)
-    aeolus-image (0.1.0)
+    aeolus-image (0.2.0)
       imagefactory-console (>= 0.4.0)
       nokogiri (>= 0.4.0)
       rest-client
@@ -153,7 +153,7 @@ GEM
     warden (1.0.3)
       rack (>= 1.0.0)
     webmock (1.6.4)
-      addressable (> 2.2.5, ~> 2.2)
+      addressable (~> 2.2, > 2.2.5)
       crack (>= 0.1.7)
     will_paginate (3.0.pre2)
     xpath (0.1.4)
