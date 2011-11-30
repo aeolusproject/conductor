@@ -140,11 +140,13 @@ class Deployment < ActiveRecord::Base
 
   def stop_instances_and_destroy!
     if destroyable?
+      destroy_deployment_config
       destroy
       return
     end
 
     if instances.all? {|i| i.destroyable? or i.state == Instance::STATE_RUNNING}
+      destroy_deployment_config
       # The deployment will be destroyed from an InstanceObserver callback once
       # all instances are stopped.
       self.scheduled_for_deletion = true
@@ -450,6 +452,18 @@ class Deployment < ActiveRecord::Base
           deployable_xml.set_parameter_value(assembly, service, param, value)
         end
       end
+    end
+  end
+
+  def destroy_deployment_config
+    # the implication here is that if there is an instance in this deployment
+    # with userdata, then a config server was associated with this deployment;
+    # further, the config server associated with one instance is the same config
+    # server used for all instances in the deployment
+    # this logic could easily change
+    if instances.any? {|instance| instance.user_data}
+      configserver = instances.first.provider_account.config_server
+      configserver.delete_deployment_config(uuid) if configserver
     end
   end
 

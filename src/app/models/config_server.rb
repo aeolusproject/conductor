@@ -71,6 +71,8 @@ class ConfigServer < ActiveRecord::Base
   validates_presence_of :secret
   validate :validate_connection
 
+  API_VERSION = "1"
+
   # Reports the error message (if any) produced by testing the connection to
   # this config server.
   def connection_error_msg
@@ -97,11 +99,22 @@ class ConfigServer < ActiveRecord::Base
   end
 
   def send_config(instance_config)
-    url = "#{endpoint}/configs/0/#{instance_config.uuid}"
+    url = "#{endpoint}/configs/#{API_VERSION}/#{instance_config.uuid}"
     args = get_connection_args(url, "post")
     data = CGI::escape(instance_config.to_s)
     args[:payload] = "data=#{data}"
     RestClient::Request.execute(args)
+  end
+
+  def delete_deployment_config(deployment_uuid)
+    url = "#{endpoint}/deployment/#{API_VERSION}/#{deployment_uuid}"
+    args = get_connection_args(url, "delete")
+    begin
+      RestClient::Request.execute(args)
+    rescue RestClient::ResourceNotFound => e
+      # allow for 404s, this means that the configs don't exist on this config
+      # server
+    end
   end
 
   private
