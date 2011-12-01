@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  0%{?dist}
+Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -320,6 +320,103 @@ fi
 %{app_root}/spec
 
 %changelog
+* Thu Dec 1 2011 Steve Linabery <slinaber@redhat.com> - 0.7.0-1
+- 4178a0a Adds functionality to delete deployment configurations from config server
+- cce4c7e Added pagination to events on instance detail page
+- bf3868b Clean up minor unneeded test output.
+- a9c520d Fixing aeolus-conductor.spec.in
+- 0e2b2d4 format_value is more cautious with calling .split
+- f35d2d7 Redmine #2515: Write and test actual logging behavior.
+- 9a4be2b Redmine #2514: Write and test transformation of api data into correct log format.
+- 3c1cc5c RM #2822: Add way to retrieve full list of attributes for validation.
+- 2723e13 Comments out EventSpec for now
+- d5f05a3 Rescue possibly-risky calls when creating a CDDR
+- fc2cafa Fixing message for user creation
+- 0167f7d Adding required fields indicator for user form
+- c5c1b98 remove repeating sql statements in rails.log
+- c239f6c Added build timestamp to image list view
+- 32f5ea0 Updated images controller to use TemplateXML
+- 1f447f4 Created TemplateXML model
+- d86537c Correct bad call left after rubygem refactor
+- af0ab18 Display the details for each image on the Deployable Details page
+- 81a2c60 Event.rb uses full path to lib/aeolus/event
+- 9df721a Fix for creating new Deployable page
+- ad13160 Allow Deployable XML files to contain in-line configurations
+- 42597dd Registering/deregistering multiple catalogs to deployment Renaming CatalogEntriesController to DeployablesController
+- 35d6fef catalogs dropdown in Create new catalog entry from template, new catalog_entry form styling
+- 79d5ab7 Buildpush layout
+- fcc950a obscured launch parameter if it is password
+- b0ed5b9 Update Image show UI
+- c44778d Return provider cleanup content via API
+- 2e3ead5 Updated Gemfile.lock for aeolus-image 0.2.0
+- 7e068e9 Permissions page for deployables.
+- a5ff27c Fixes failing test introduced by previous commit.
+- 1aecfb4 Deployment flash error is no longer mashed together.
+- 11b82d9 extracted apply_filters and apply_preset_filters methods to common_filter_methods module
+- 01ab731 Cucumber tests for search and filters
+- dd41e62 Added filter method, updated filters and search through the application
+- ba22842 Added filters and search to tables through application
+- 9016b1f Fixes bugs and warnings exposed by tests
+- 4b78e5d Adds tests for Events
+- 60e6245 lib/aeolus/event code is included in RPM and called for Events
+- b86f1fd DBomatic does not write events; after-save hooks already handle this
+- bd26168 InstanceObserver includes :status_code, :change_hash parameters to Event
+- 3317495 Event model calls Event API after_create
+- de655cf Define start_time and end_time for Deployment
+- 8fc332f Remove secret_token.rb from conductor rpm - v2
+- e36fa46 internationalize api error messages
+- ae2cdf6 Fix pagginate on launch_from_catalog site
+- a4b892b Image import GUI
+- cecbf26 Fixes pool family detail, pools tab. Adds generic table instead of pool_families one
+- 24fa151 BZ744713 - changed font styles for catalog images
+- 99eda06 BZ#755933 Last login, Last login IP fields empty
+- 5e1b27a Launch deployment from the Deployable Details page
+- 8c8ae24 Correct bad call in Api::TargetImagesController
+- 5d4d456 Updated API for new aeolus-image-rubygem changes
+- 7da907f added reraising of BuildNotFound exception
+- d2b1de1 changed return text to xml, add targets to import params
+- f0d2b77 added reraising of ProviderImageNotFound expection
+- 838179e API::ProviderImages spec, mock in #create + minor fixes
+- ecacfa4 API::Images spec, minor xml fixes
+- e3e193b API::Builds spec, minor return expectations fixes
+- 2707489 API::TargetImages spec, #destroy
+- b983da4 API::ProviderImages spec, #create #destroy
+- 9f2c3e8 API::ImagesController spec, #create #destroy
+- 9ee78b8 API::BuildsController spec #create #destroy
+- 7b904f4 Display the backend provider image ID when deleted
+- 6c7802e UI - create catalog entry from an image
+- 2b43395 Removed unused rescue block when creating a template
+- 56a2d9f Fix broken the Catalog Entries Cucumber feature
+- eeac165 Add the skeleton for the Deployable Details page
+- 131887d Add the name of belonging provider in provder_account#new/edit form
+- 304c42b Change dropdown of catalogs to the name of belonging catalog in catalog_entry#new/edit form
+- 6decf95 spec and cucumber changes for catalog_entry/deployable refactoring
+- 1671422 view and controller changes for catalog_entry/deployable refactoring
+- ff83dda Refactored catalog_entry model into catalog_entry and deployable models.
+- 77dce31 Implementing pretty view for instances
+- 4823c2b Changed aeolus user to 180:180 per bz 754274
+- 0301070 dbomatic only writes instance events if they have changed
+- 279331f Added options for creating catalog entry via upload XML or url to XML
+- 0e7a2f9 Added tabs to catalog_entries#new form
+- d88865d Fix tests after removing URL of catalog entry from launch form
+- 4705924 Remove URL of catalog entry from launch UI
+- bd41e3a Fixed specs and cukes after the change in catalog entries.
+- 28e8fb8 Changes for catalog entry new/edit form.
+- 39632a8 Added migration, that deletes URL attribute from catalog_entries and adds 2 column(xml, and xml_filename)
+- 8e6f8dc Save template in warehouse
+- d207889 Improved tests performance
+- 65c7a75 Comments failing Image test
+- 63903e6 Bump version number following imminent release of 0.6.0 from the 0.6.x branch
+- 3a8a4d3 Updates ProviderType to use Rails 3 syntax
+- f2f751b Add screens for template import
+- 6f0b310 Fix spec so rpm builds.
+- 690eb08 Task #2710 reboot of instance
+- 62d2b4d Add initial 2 events to be sent.
+- a6c4081 Initial Event API implementation.
+- 57c4066 Added image detail page
+- 78b505b Added images index view
+- 6534ce1 Added empty images controller
+
 * Tue Oct 04 2011 Maros Zatko <mzatko@redhat.com> - 0.4.0-1
 - added controllers/api + views
 
