@@ -33,25 +33,25 @@ FactoryGirl.define do
   end
 
   factory :pool_creator_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'Pool Creator']) || FactoryGirl.create(:role, :name => 'Pool Creator') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Zone Creator']) || FactoryGirl.create(:role, :name => 'Zone Creator') }
     permission_object { |r| BasePermissionObject.general_permission_scope }
     user { |r| r.association(:pool_creator_user) }
   end
 
   factory :pool_user_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'Pool User']) || FactoryGirl.create(:role, :name => 'Pool User') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Zone User']) || FactoryGirl.create(:role, :name => 'Zone User') }
     permission_object { |r| r.association(:pool) }
     user { |r| r.association(:pool_user) }
   end
 
   factory :pool_user2_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'Pool User']) || FactoryGirl.create(:role, :name => 'Pool User') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Zone User']) || FactoryGirl.create(:role, :name => 'Zone User') }
     permission_object { |r| r.association(:pool) }
     user { |r| r.association(:pool_user2) }
   end
 
   factory :pool_family_user_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'Pool Family User']) || FactoryGirl.create(:role, :name => 'Pool Family User') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Cloud User']) || FactoryGirl.create(:role, :name => 'Cloud User') }
     permission_object { |r| r.association(:pool_family) }
     user { |r| r.association(:pool_family_user) }
   end

@@ -36,20 +36,20 @@ roles =
      {"Instance Controller"    => [false, {Instance     => [VIEW,USE]}],
       "Instance Owner"         => [true,  {Instance     => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    Deployment =>
-     {"Deployment Controller"  => [false, {Deployment => [VIEW,USE],
+     {"Application User"       => [false, {Deployment => [VIEW,USE],
                                            Instance   => [VIEW]}],
-      "Deployment Owner"       => [true,  {Deployment => [VIEW,USE,MOD,    VPRM,GPRM],
+      "Application Owner"      => [true,  {Deployment => [VIEW,USE,MOD,    VPRM,GPRM],
                                            Instance   => [VIEW,USE,MOD]}]},
    PoolFamily =>
-     {"Pool Family User"       => [false, {Pool         => [VIEW]}],
-      "Pool Family Owner"      => [true,  {PoolFamily   => [VIEW,    MOD,    VPRM,GPRM],
+     {"Cloud User"             => [false, {Pool         => [VIEW]}],
+      "Cloud Owner"            => [true,  {PoolFamily   => [VIEW,    MOD,    VPRM,GPRM],
                                            Pool         => [VIEW,    MOD,CRE,VPRM,GPRM]}]},
    Pool =>
-     {"Pool User"              => [false, {Pool         => [VIEW],
+     {"Zone User"              => [false, {Pool         => [VIEW],
                                            Instance     => [             CRE],
                                            Deployment   => [             CRE],
                                            Quota        => [VIEW]}],
-      "Pool Owner"             => [true,  {Pool         => [VIEW,    MOD,    VPRM,GPRM],
+      "Zone Owner"             => [true,  {Pool         => [VIEW,    MOD,    VPRM,GPRM],
                                            Instance     => [VIEW,USE,MOD,CRE],
                                            Deployment   => [VIEW,USE,MOD,CRE],
                                            Quota        => [VIEW]}]},
@@ -63,25 +63,25 @@ roles =
      {"Catalog User"            => [false, {Catalog => [VIEW, USE]}],
       "Catalog Administrator"   => [true,  {Catalog => [VIEW,USE,MOD,VPRM,GPRM]}]},
    Deployable =>
-     {"Deployable User"          => [false, {Deployable     => [VIEW,USE]}],
-      "Deployable Owner"         => [true,  {Deployable     => [VIEW,USE,MOD,VPRM,GPRM]}]},
+     {"Application Blueprint User"  => [false, {Deployable     => [VIEW,USE]}],
+      "Application Blueprint Owner" => [true,  {Deployable     => [VIEW,USE,MOD,VPRM,GPRM]}]},
    BasePermissionObject =>
      {"Provider Creator"       => [false, {Provider     => [             CRE]}],
       "Provider Administrator" => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "HWP Administrator"      => [false, {HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM]}],
-      "Realm Administrator"    => [false, {Realm        => [     USE,MOD,CRE,VPRM,GPRM]}],
-      "Pool Creator"           => [false, {Pool         => [             CRE]}],
-      "Pool Administrator"     => [false, {Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
+      "Profile Administrator"  => [false, {HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM]}],
+      "Cluster Administrator"  => [false, {Realm        => [     USE,MOD,CRE,VPRM,GPRM]}],
+      "Zone Creator"           => [false, {Pool         => [             CRE]}],
+      "Zone Administrator"     => [false, {Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            Instance     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Quota        => [VIEW,    MOD],
                                            PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
-      "Deployable Administrator" => [false, {Deployable => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "Deployable Global User"   => [false, {Deployable=> [VIEW,USE]}],
-      "Catalog Global User"   => [false, {Catalog => [VIEW,USE]}],
-      "HWP Global User"   => [false, {HardwareProfile => [VIEW,USE]}],
-      "Pool Global User"                  => [false, {Pool         => [VIEW],
+      "Application Blueprint Administrator" => [false, {Deployable => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
+      "Application Blueprint Global User"   => [false, {Deployable=> [VIEW,USE]}],
+      "Catalog Global User"    => [false, {Catalog => [VIEW,USE]}],
+      "Profile Global User"    => [false, {HardwareProfile => [VIEW,USE]}],
+      "Zone Global User"                  => [false, {Pool         => [VIEW],
                                                       Instance     => [             CRE],
                                                       Deployment   => [             CRE],
                                                       Quota        => [VIEW]}],
@@ -122,11 +122,11 @@ MetadataObject.set("default_pool_family", PoolFamily.find_by_name('default'))
 default_quota = Quota.create
 
 default_pool = Pool.find_by_name("Default")
-default_role = Role.find_by_name("Pool User")
-default_deployable_role = Role.find_by_name("Deployable Global User")
-default_pool_global_user_role = Role.find_by_name("Pool Global User")
+default_role = Role.find_by_name("Zone User")
+default_deployable_role = Role.find_by_name("Application Blueprint Global User")
+default_pool_global_user_role = Role.find_by_name("Zone Global User")
 default_catalog_global_user_role = Role.find_by_name("Catalog Global User")
-default_hwp_global_user_role = Role.find_by_name("HWP Global User")
+default_hwp_global_user_role = Role.find_by_name("Profile Global User")
 
 settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,
