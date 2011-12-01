@@ -44,6 +44,7 @@ class InstancesController < ApplicationController
     @tab_captions = [t('instances.tab_captions.properties'), t('instances.tab_captions.history'), t('instances.tab_captions.permissions')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(instance_path(@instance), @instance.name)
+    @events = @instance.events.descending_by_created_at.paginate(:page => params[:page] || 1)
     respond_to do |format|
       format.html { render :action => 'show'}
       format.js do

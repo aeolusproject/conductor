@@ -46,6 +46,7 @@ class Event < ActiveRecord::Base
   attr_accessor :change_hash # allows us to pass in .changes on the parent ("source") object
 
   scope :lifetime, where(:status_code => [:first_running, :all_running, :some_running, :all_stopped])
+  scope :descending_by_created_at, order('created_at DESC')
 
   # Notifies the Event API if certain conditions are met
   def transmit_event
@@ -117,4 +118,5 @@ class Event < ActiveRecord::Base
   def change_hash
     @change_hash || {}
   end
+
 end

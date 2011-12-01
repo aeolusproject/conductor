@@ -2,7 +2,9 @@
   = t 'instances.history.history_for'
   = @instance.name
 %ul
-  - @instance.events.each do |event|
+  - @events.each do |event|
     %li
       = @instance.name
       = event.summary
+
+= will_paginate @events
