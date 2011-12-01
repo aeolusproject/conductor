@@ -6,8 +6,10 @@ module Aeolus
 
       describe "#process" do
         it "should return true when an event is sent successfully" do
+          out = double('out')
           event = Base.new
-          converter = Aeolus::Event::Converter.new
+          converter = Aeolus::Event::Converter.new(out)
+          out.should_receive(:puts).with(any_args()).once
           result = event.process(converter)
           result.should be_true
         end
