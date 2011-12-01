@@ -15,7 +15,7 @@
 #
 class AlterMetadataObjectValueLimit < ActiveRecord::Migration
   def self.up
-    execute "ALTER TABLE metadata_objects ALTER COLUMN value TYPE varchar(510)"
+    change_column :metadata_objects, :value, :text
   end
 
   def self.down
