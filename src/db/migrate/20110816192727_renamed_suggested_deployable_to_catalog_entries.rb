@@ -17,7 +17,8 @@
 class RenamedSuggestedDeployableToCatalogEntries < ActiveRecord::Migration
   def self.up
     rename_table :suggested_deployables, :catalog_entries
-    add_column :catalog_entries, :catalog_id, :integer, :null => false
+    add_column :catalog_entries, :catalog_id, :integer
+    change_column :catalog_entries, :catalog_id, :integer, :null => false
   end
 
   def self.down
