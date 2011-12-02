@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  1%{?dist}
+Release:  2%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -320,6 +320,12 @@ fi
 %{app_root}/spec
 
 %changelog
+* Tue Dec  2 2011 Steve Linabery <slinaber@redhat.com> - 0.7.0-2
+- bump release
+- bb7ec61 Add Build & Push to Deployable Details
+- 7a4270f Deploaybles and catalog_entries cleanups
+- 598e492 Moving from GPL to ASL
+
 * Thu Dec 1 2011 Steve Linabery <slinaber@redhat.com> - 0.7.0-1
 - 4178a0a Adds functionality to delete deployment configurations from config server
 - cce4c7e Added pagination to events on instance detail page
