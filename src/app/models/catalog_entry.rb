@@ -27,10 +27,6 @@
 #
 
 class CatalogEntry < ActiveRecord::Base
-  class << self
-    include CommonFilterMethods
-  end
-
   belongs_to :catalog
   belongs_to :deployable
 
@@ -41,15 +37,4 @@ class CatalogEntry < ActiveRecord::Base
 
   # This probably goes away once we separate catalog entry creation from deployables
   accepts_nested_attributes_for :deployable
-  PRESET_FILTERS_OPTIONS = []
-
-  private
-
-  def self.apply_search_filter(search)
-    if search
-      where("name ILIKE :search", :search => "%#{search}%")
-    else
-      scoped
-    end
-  end
 end

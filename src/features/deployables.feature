@@ -13,27 +13,27 @@ Feature: Manage Catalog Entries
     Then I should see "Catalog Entries"
     When I follow "new_catalog_entry_button"
     Then I should see "Add New Catalog Entry"
-    When I fill in "catalog_entry[deployable_attributes][name]" with "test1"
-    And I fill in "catalog_entry[deployable_attributes][description]" with "description"
-    When I attach the file "features/upload_files/deployable.xml" to "catalog_entry[deployable_attributes][xml]"
+    When I fill in "deployable[name]" with "test1"
+    And I fill in "deployable[description]" with "description"
+    When I attach the file "features/upload_files/deployable.xml" to "deployable[xml]"
     And I press "save_button"
     Then I should see "Catalog entry added"
 
   Scenario: Change the name
     Given there is a "default" catalog
-    And a catalog entry "testdepl" exists
+    And a catalog entry "testdepl" exists for "default" catalog
     When I am on the "default" catalog catalog entries page
     When I follow "testdepl"
     And I follow "edit_button"
     Then I should see "Editing Catalog Entry"
-    When I fill in "catalog_entry[deployable_attributes][name]" with "testdepl-renamed"
+    When I fill in "deployable[name]" with "testdepl-renamed"
     And I press "save_button"
     Then I should see "Catalog entry updated successfully!"
     And I should see "testdepl-renamed"
 
   Scenario: Show catalog entry details
     Given there is a "default" catalog
-    And a catalog entry "testdepl" exists
+    And a catalog entry "testdepl" exists for "default" catalog
     And I am on the "default" catalog catalog entries page
     When I follow "testdepl"
     Then I should see "testdepl"
@@ -44,7 +44,7 @@ Feature: Manage Catalog Entries
 
   Scenario: Launch  a deployment
     Given there is a "default" catalog
-    And a catalog entry "testdepl" exists
+    And a catalog entry "testdepl" exists for "default" catalog
     And I am on testdepl's catalog entry page
     When I follow "launch_deployment"
     Then I should be on the launch new deployments page
@@ -57,7 +57,7 @@ Feature: Manage Catalog Entries
     When I check "testdepl1" catalog entry
     And I check "testdepl2" catalog entry
     And I press "delete_button"
-    Then there should be only 0 catalog entries
+    Then there should be only 0 catalog entries for "default" catalog
     And I should be on the "default" catalog page
     And I should not see "testdepl1"
     And I should not see "testdepl2"
@@ -68,7 +68,7 @@ Feature: Manage Catalog Entries
     And I am on the "default" catalog page
     When I follow "testdepl1"
     And I press "delete"
-    Then there should be only 0 catalog entries
+    Then there should be only 0 catalog entries for "default" catalog
     And I should be on the "default" catalog page
     And I should not see "testdepl1"
 

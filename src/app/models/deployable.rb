@@ -15,6 +15,11 @@
 #
 
 class Deployable < ActiveRecord::Base
+  class << self
+    include CommonFilterMethods
+  end
+
+
   include PermissionedObject
 
   validates_presence_of :name
@@ -27,11 +32,13 @@ class Deployable < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
-  has_many :catalog_entries
+  has_many :catalog_entries, :dependent => :destroy
   has_many :catalogs, :through => :catalog_entries
 
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   after_create "assign_owner_roles(owner)"
+
+  PRESET_FILTERS_OPTIONS = []
 
   def valid_deployable_xml?
     deployable_xml = DeployableXML.new(xml)
@@ -133,4 +140,15 @@ class Deployable < ActiveRecord::Base
     #returned value [{:name => 'assembly1',{:hwp => {...}}, {:error => "msg"}, {assembly3} ..]
     result_array
   end
+
+  private
+
+  def self.apply_search_filter(search)
+    if search
+      where("name ILIKE :search", :search => "%#{search}%")
+    else
+      scoped
+    end
+  end
+
 end

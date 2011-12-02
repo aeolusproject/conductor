@@ -21,21 +21,21 @@ class DeployablesController < ApplicationController
   def index
     clear_breadcrumbs
     save_breadcrumb(catalog_deployables_path(:viewstate => @viewstate ? @viewstate.id : nil))
-    @deployables = Deployable.list_for_user(current_user, Privilege::VIEW)
+    @catalog = Catalog.find(params[:catalog_id])
+    @deployables = @catalog.deployables
     @catalog_entries = @deployables.collect { |d| d.catalog_entries.first }
     #@catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:catalog_entries_preset_filter], :search_filter => params[:catalog_entries_search])
-    @catalog = @catalog_entries.first.catalog unless @catalog_entries.empty?
     set_header
   end
 
   def new
-    @catalog_entry = params[:catalog_entry].nil? ? CatalogEntry.new() : CatalogEntry.new(params[:catalog_entry])
-    @catalog_entry.deployable = Deployable.new unless @catalog_entry.deployable
+    @deployable = Deployable.new(params[:deployable])
     require_privilege(Privilege::CREATE, Deployable)
     if params[:create_from_image]
       @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
       @hw_profiles = HardwareProfile.frontend.list_for_user(current_user, Privilege::VIEW)
-      @catalog_entry.deployable.name = @image.name
+      @deployable.name = @image.name
+      @selected_catalogs = params[:catalog_id].to_a
       load_catalogs
     else
       @catalog = Catalog.find(params[:catalog_id])
@@ -49,13 +49,14 @@ class DeployablesController < ApplicationController
   end
 
   def show
-    @catalog_entry = CatalogEntry.find(params[:id])
-    require_privilege(Privilege::VIEW, @catalog_entry.deployable)
-    save_breadcrumb(catalog_deployable_path(@catalog_entry.catalog, @catalog_entry), @catalog_entry.deployable.name)
+    @deployable = Deployable.find(params[:id])
+    @catalog = Catalog.find(params[:catalog_id])
+    require_privilege(Privilege::VIEW, @deployable)
+    save_breadcrumb(catalog_deployable_path(@catalog, @deployable), @deployable.name)
     @providers = Provider.all
-    @catalogs_options = Catalog.all.map {|c| [c.name, c.id] unless c == @catalog_entry.catalog}.compact
-    add_permissions_inline(@catalog_entry.deployable)
-    @image_details = @catalog_entry.deployable.get_image_details
+    @catalogs_options = Catalog.all.map {|c| [c.name, c.id] unless c == @catalog}.compact
+    add_permissions_inline(@deployable)
+    @image_details = @deployable.get_image_details
     @image_details.each do |assembly|
       assembly.keys.each do |key|
         flash[:error] = assembly[key] if key.to_s =~ /^error\w+/
@@ -69,69 +70,70 @@ class DeployablesController < ApplicationController
       return
     end
 
-
-    @catalog_entry = CatalogEntry.new(params[:catalog_entry])
-    if params[:create_from_image].present?
-      @catalog = @catalog_entry.catalog
-      @catalog_entry.deployable = Deployable.new unless @catalog_entry.deployable
-    else
-      @catalog = Catalog.find(params[:catalog_id])
-      @catalog_entry.catalog = @catalog
-    end
-    require_privilege(Privilege::MODIFY, @catalog)
     require_privilege(Privilege::CREATE, Deployable)
-    @catalog_entry.deployable.owner = current_user
+    @deployable = Deployable.new(params[:deployable])
+    @selected_catalogs = Catalog.find(params[:catalog_id]).to_a
+    @deployable.owner = current_user
 
     if params.has_key? :url
         xml = import_xml_from_url(params[:url])
         unless xml.nil?
           #store xml_filename for url (i.e. url ends to: foo || foo.xml)
-          @catalog_entry.deployable.xml_filename =  File.basename(URI.parse(params[:url]).path)
-          @catalog_entry.deployable.xml = xml
+          @deployable.xml_filename =  File.basename(URI.parse(params[:url]).path)
+          @deployable.xml = xml
         end
     elsif params[:create_from_image].present?
       hw_profile = HardwareProfile.frontend.find(params[:hardware_profile])
       require_privilege(Privilege::VIEW, hw_profile)
-      @catalog_entry.deployable.set_from_image(params[:create_from_image], hw_profile)
+      @deployable.set_from_image(params[:create_from_image], hw_profile)
     end
 
-    if @catalog_entry.save
-      flash[:notice] = t "catalog_entries.flash.notice.added"
-      if params[:edit_xml]
-        redirect_to edit_catalog_deployable_path @catalog_entry.catalog.id, @catalog_entry.id, :edit_xml =>true
-      else
-        redirect_to catalog_deployables_path(@catalog)
+    begin
+      raise t("deployables.flash.error.no_catalog") if @selected_catalogs.empty?
+      @deployable.transaction do
+        @deployable.save!
+        @selected_catalogs.each do |catalog|
+          require_privilege(Privilege::MODIFY, catalog)
+          CatalogEntry.create!(:catalog_id => catalog.id, :deployable_id => @deployable.id)
+        end
+        flash[:notice] = t "catalog_entries.flash.notice.added"
+        if params[:edit_xml]
+          redirect_to edit_catalog_deployable_path @selected_catalogs.first, @deployable.id, :edit_xml =>true
+        else
+          redirect_to catalog_deployables_path(@selected_catalogs.first)
+        end
       end
-    else
-      flash[:warning]= t('catalog_entries.flash.warning.not_valid') if @catalog_entry.errors.has_key?(:xml)
+    rescue => e
+      flash[:warning]= t('deployables.flash.warning.failed', :message => e.message)
+      flash[:warning]= t('catalog_entries.flash.warning.not_valid') if @deployable.errors.has_key?(:xml)
       if params[:create_from_image].present?
         load_catalogs
         @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
         @hw_profiles = HardwareProfile.frontend.list_for_user(current_user, Privilege::VIEW)
-        @catalog_entry.deployable.name = @image.name
+        @deployable.name = @image.name
       else
+        @catalog = @selected_catalogs.first
         params.delete(:edit_xml) if params[:edit_xml]
-        @form_option = params[:catalog_entry].has_key?(:xml) ? 'upload' : 'from_url'
-        @form_option = params[:catalog_entry][:deployable].has_key?(:xml) ? 'upload' : 'from_url'
+        @form_option = params[:deployable].has_key?(:xml) ? 'upload' : 'from_url'
       end
       render :new
     end
   end
 
   def edit
-    @catalog_entry = CatalogEntry.find(params[:id])
-    require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
-    @catalog = @catalog_entry.catalog
+    @deployable = Deployable.find(params[:id])
+    require_privilege(Privilege::MODIFY, @deployable)
+    @catalog = Catalog.find(params[:catalog_id])
   end
 
   def update
-    @catalog_entry = CatalogEntry.find(params[:id])
-    require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
-    params[:catalog_entry][:deployable].delete(:owner_id) if params[:catalog_entry] and params[:catalog_entry][:deployable]
+    @deployable = Deployable.find(params[:id])
+    require_privilege(Privilege::MODIFY, @deployable)
+    params[:deployable].delete(:owner_id) if params[:deployable]
 
-    if @catalog_entry.update_attributes(params[:catalog_entry])
+    if @deployable.update_attributes(params[:deployable])
       flash[:notice] = t"catalog_entries.flash.notice.updated"
-      redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry)
+      redirect_to catalog_deployable_path(params[:catalog_id], @deployable)
     else
       render :action => 'edit'
     end
@@ -139,28 +141,25 @@ class DeployablesController < ApplicationController
 
   def multi_destroy
     @catalog = nil
-    CatalogEntry.find(params[:catalog_entries_selected]).to_a.each do |d|
-      require_privilege(Privilege::MODIFY, d.catalog)
-      require_privilege(Privilege::MODIFY, d.deployable)
-      @catalog = d.catalog
-      # Don't do this when we're managing deployables independently
-      d.deployable.destroy
+    Deployable.find(params[:deployables_selected]).to_a.each do |d|
+      # TODO: delete only in catalogs where I have permission to
+      #require_privilege(Privilege::MODIFY, d.catalog)
+      require_privilege(Privilege::MODIFY, d)
+      #@catalog = d.catalog
       d.destroy
     end
-    redirect_to catalog_path(@catalog)
+    redirect_to catalog_path(params[:catalog_id])
   end
 
   def destroy
-    catalog_entry = CatalogEntry.find(params[:id])
-    require_privilege(Privilege::MODIFY, catalog_entry.catalog)
-    require_privilege(Privilege::MODIFY, catalog_entry.deployable)
-    @catalog = catalog_entry.catalog
-    # Don't do this when we're managing deployables independently
-    catalog_entry.deployable.destroy
-    catalog_entry.destroy
+    deployable = Deployable.find(params[:id])
+    # TODO: delete only in catalogs where I have permission to
+    #require_privilege(Privilege::MODIFY, catalog_entry.catalog)
+    require_privilege(Privilege::MODIFY, deployable)
+    deployable.destroy
 
     respond_to do |format|
-      format.html { redirect_to catalog_path(@catalog) }
+      format.html { redirect_to catalog_path(params[:catalog_id]) }
     end
   end
 

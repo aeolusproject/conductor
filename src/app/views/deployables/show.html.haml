@@ -1,12 +1,12 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1{:class => controller.controller_name}= @catalog_entry.deployable.name
+  %h1{:class => controller.controller_name}= @deployable.name
   #obj_actions.button-container
     .button-group
-      = button_to t('catalog_entries.show.delete'), catalog_deployable_path(@catalog_entry.catalog, @catalog_entry), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
-      = link_to t('catalog_entries.show.edit'), edit_catalog_deployable_path(@catalog_entry.catalog, @catalog_entry), :class => 'button', :id => 'edit_button'
+      = button_to t('catalog_entries.show.delete'), catalog_deployable_path(@catalog, @deployable), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
+      = link_to t('catalog_entries.show.edit'), edit_catalog_deployable_path(@catalog, @deployable), :class => 'button', :id => 'edit_button'
 
-    = link_to t('deployments.overview.launch'), launch_new_deployments_path(:deployable_id => @catalog_entry.deployable.id, :pool_id => @catalog_entry.catalog.pool), :id => :launch_deployment
+    = link_to t('deployments.overview.launch'), launch_new_deployments_path(:deployable_id => @deployable.id, :pool_id => @catalog.pool), :id => :launch_deployment
 
 %section.admin-content-section.deployable
   %section.image
@@ -61,7 +61,7 @@
       %p= t('.choose_catalog')
       = form_for(:catalog_entry, :url => catalog_entries_path) do |f|
         = f.select :catalog_id, options_for_select(@catalogs_options)
-        = f.hidden_field(:deployable_id, :value => @catalog_entry.deployable.id)
+        = f.hidden_field(:deployable_id, :value => @deployable.id)
         = f.submit t('catalog_entries.show.add_catalog'), :id => :add_catalog
 
       %table
@@ -70,10 +70,10 @@
             %label= t('.catalog_name')
           %th
             %label= t('.environment')
-        - @catalog_entry.deployable.catalog_entries.each do |catalog_entry|
+        - @deployable.catalog_entries.each do |catalog_entry|
           %tr
             %td
-              = button_to t('catalog_entries.show.delete'), catalog_entry_path(@catalog_entry), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :id => 'delete'
+              = button_to t('catalog_entries.show.delete'), catalog_entry_path(catalog_entry), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :id => 'delete'
               = catalog_entry.catalog.name
             %td= catalog_entry.catalog.pool.pool_family.name
 

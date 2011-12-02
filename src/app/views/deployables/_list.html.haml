@@ -10,9 +10,9 @@
       %li
         = label_tag :catalog_entries_preset_filter, t('filter_table.viewing')
         = hidden_field_tag :current_path, request.fullpath
-        = select_tag(:catalog_entries_preset_filter, preset_filters_options_for_select(CatalogEntry::PRESET_FILTERS_OPTIONS, params[:catalog_entries_preset_filter]), :include_blank => t("catalog_entries.preset_filters.all_catalog_entries"), :disabled => true)
+        = select_tag(:catalog_entries_preset_filter, preset_filters_options_for_select(Deployable::PRESET_FILTERS_OPTIONS, params[:catalog_entries_preset_filter]), :include_blank => t("catalog_entries.preset_filters.all_catalog_entries"), :disabled => true)
         = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_catalog_deployables_path(@catalog), 'POST', :class => 'button', :id => 'apply_catalog_entries_preset_filter'
-        %span.label.badge.dark= @catalog_entries.count
+        %span.label.badge.dark= @deployables.count
       %li.table-search-filter
         = text_field_tag :catalog_entries_search, params[:catalog_entries_search], :placeholder => t("filter_table.search")
         = restful_submit_tag "", "search", filter_catalog_deployables_path(@catalog), 'POST', :class => 'button', :id => 'apply_catalog_entries_search'
@@ -25,14 +25,14 @@
           });
         });
 
-    = filter_table(@header, @catalog_entries) do |catalog_entry|
+    = filter_table(@header, @deployables) do |deployable|
       %tr{:class => cycle('nostripe','stripe')}
         %td{:class => 'checkbox'}
           - selected = params[:select] == 'all'
-          = check_box_tag "catalog_entries_selected[]", catalog_entry.id, selected, :id => "catalog_entry_checkbox_#{catalog_entry.id}"
+          = check_box_tag "deployables_selected[]", deployable.id, selected, :id => "deployable_checkbox_#{deployable.id}"
         %td
-          = link_to catalog_entry.deployable.name, catalog_deployable_path(@catalog, catalog_entry.id)
+          = link_to deployable.name, catalog_deployable_path(@catalog, deployable.id)
         %td
-          = link_to catalog_entry.catalog.name, catalog_entry.catalog
+          = link_to @catalog.name, @catalog
         %td
-          = link_to catalog_entry.deployable.xml_filename, catalog_deployable_path(@catalog, catalog_entry.id)
+          = link_to deployable.xml_filename, catalog_deployable_path(@catalog, deployable.id)

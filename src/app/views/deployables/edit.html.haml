@@ -1,15 +1,15 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1{:class => controller.controller_name}= @catalog_entry.deployable.name
+  %h1{:class => controller.controller_name}= @deployable.name
   #obj_actions.button-container
-    = link_to 'New Deployable', new_catalog_deployable_path(@catalog_entry.catalog, @catalog_entry), :class => 'button primary', :id => 'new_deployable_button'
+    = link_to 'New Deployable', new_catalog_deployable_path(@catalog, @deployable), :class => 'button primary', :id => 'new_deployable_button'
     .button-group
-      = link_to 'Cancel Editing', catalog_deployables_path(@catalog_entry.catalog), :class => 'button pill danger', :id => 'new_deployable_button'
+      = link_to 'Cancel Editing', catalog_deployables_path(@catalog), :class => 'button pill danger', :id => 'new_deployable_button'
 
 %section.admin-content-section.user
   %header
     %h2=t'catalog_entries.edit.editing_catalog_entry'
 
   .content
-    = form_for @catalog_entry, :url => catalog_deployable_path(@catalog_entry.catalog, @catalog_entry), :html => { :method => :put, :class => 'generic' } do |f|
+    = form_for @deployable, :url => catalog_deployable_path(@catalog, @deployable), :html => { :method => :put, :class => 'generic' } do |f|
       = render :partial => "form", :locals => { :form => f }

@@ -1,12 +1,12 @@
 %header.admin-page-header
-  %h1.deployables= t('.catalog_entry_name', :name => @catalog_entry.deployable.name)
+  %h1.deployables= t('.catalog_entry_name', :name => @deployable.name)
 
 %section.admin-content-section
   .content.buildpush
-    = form_for @catalog_entry, :html => {:class => 'generic'} do |form|
+    = form_for @deployable, :html => {:class => 'generic'} do |form|
       = hidden_field_tag :create_from_image, params[:create_from_image]
-      - if @catalog_entry.errors.any?
-        = render 'layouts/error_messages', :object => @catalog_entry
+      - if @deployable.errors.any?
+        = render 'layouts/error_messages', :object => @deployable
       .lefted.new-catalog-entry-from-image
         %h2= t('.title')
         %p= t('.description', :name => @image.name)
@@ -17,8 +17,8 @@
             .clear
           %div
             = form.label :catalog_id, t('catalog_entries.form.catalog')
-            = form.select :catalog_id, @catalogs.collect{|c| [c.name, c.id]}
-            %span.text_instead_input= "Catalog1"
+            /= form.select :catalog_id, @catalogs.collect{|c| [c.name, c.id]}
+            %span.text_instead_input= @selected_catalogs.empty? ? t('deployables.form.none') : @selected_catalogs.count > 1 ? t('deployables.form.multiple') : @selected_catalogs.first.name
             %span.catalog_link
               &nbsp
               %div.catalog_list
@@ -26,7 +26,7 @@
                   - @catalogs.each do |catalog|
                     %li.catalog
                       .catalog_with_checkbox
-                        = check_box_tag :catalog_ids
+                        = check_box_tag 'catalog_id[]', catalog.id, @selected_catalogs.any?{|c| c.id == catalog.id}
                         = catalog.name
                         .clear
             .clear
