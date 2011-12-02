@@ -170,7 +170,7 @@ class ImagesController < ApplicationController
     })
     flash.now[:error] = t('images.flash.notice.created')
     if params[:make_deployable]
-      redirect_to new_catalog_entry_path(:create_from_image => @image.id)
+      redirect_to new_deployable_path(:create_from_image => @image.id)
     else
       redirect_to image_path(@image.id)
     end

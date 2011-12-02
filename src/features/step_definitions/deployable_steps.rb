@@ -13,18 +13,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-Given /^a catalog entry "([^"]*)" exists$/ do |arg1|
-  deployable = FactoryGirl.create :deployable, :name => arg1
-  entry = FactoryGirl.create :catalog_entry, :deployable => deployable
-end
-
 When /^I check "([^"]*)" catalog entry$/ do |arg1|
   dep = CatalogEntry.find_by_deployable_id(Deployable.find_by_name(arg1))
-  check("catalog_entry_checkbox_#{dep.id}")
+  check("deployable_checkbox_#{dep.id}")
 end
 
-Then /^there should be only (\d+) catalog entries$/ do |arg1|
-  CatalogEntry.count.should == arg1.to_i
+Then /^there should be only (\d+) catalog entries for "([^"]*)" catalog$/ do |arg1, catalog_name|
+  catalog = Catalog.find_by_name(catalog_name) || FactoryGirl.create(:catalog, :name => catalog_name)
+  catalog.catalog_entries.count.should == arg1.to_i
 end
 
 Given /^a catalog entry "([^"]*)" exists for "([^"]*)" catalog$/ do |arg1, catalog_name|

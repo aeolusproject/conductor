@@ -37,7 +37,7 @@ describe DeployablesController do
     hw_profile = FactoryGirl.create(:front_hwp1)
     catalog = FactoryGirl.create(:catalog)
     mock_warden(@admin)
-    post(:create, :create_from_image => @image.id, :hardware_profile => hw_profile.id, :catalog_entry => {:catalog_id => catalog.id})
+    post(:create, :create_from_image => @image.id, :hardware_profile => hw_profile.id, :catalog_id => catalog.id)
     response.should redirect_to(catalog_deployables_url(catalog.id))
   end
 

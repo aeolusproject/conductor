@@ -786,6 +786,9 @@ en:
     flash:
       error:
         attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"
+        no_catalog: "No catalogs selected"
+      warning:
+        failed: "Deployable was not created: %{message}"
     error:
       attribute_not_exists: invalid
       hwp_not_exists: "Hardware profile %{name} doesn't exist in DB"

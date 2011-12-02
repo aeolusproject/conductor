@@ -22,10 +22,10 @@ class CatalogEntriesController < ApplicationController
     require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
 
     if @catalog_entry.save
-      redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry), :notice => t('catalog_entries.flash.notice.added')
+      redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry.deployable), :notice => t('catalog_entries.flash.notice.added')
     else
       flash[:warning] = t('catalog_entries.flash.warning.failed')
-      redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry.deployable.catalog_entries.first)
+      redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry.deployable)
     end
   end
 
@@ -37,14 +37,7 @@ class CatalogEntriesController < ApplicationController
     require_privilege(Privilege::MODIFY, @catalog_entry.catalog)
     require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
     @catalog_entry.destroy
-
-    if deployable.catalog_entries.empty?
-      redirect_to catalog_path(catalog), :notice => t('catalog_entries.flash.notice.deleted')
-    else
-      catalog_entry_to_nagigate = deployable.catalog_entries.first
-      redirect_to catalog_deployable_path(catalog_entry_to_nagigate.catalog, catalog_entry_to_nagigate), :notice => t('catalog_entries.flash.notice.deleted')
-    end
-
+    redirect_to catalog_deployable_path(catalog, deployable), :notice => t('catalog_entries.flash.notice.deleted')
   end
 
 end
