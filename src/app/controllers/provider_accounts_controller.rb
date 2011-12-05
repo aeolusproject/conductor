@@ -66,7 +66,13 @@ class ProviderAccountsController < ApplicationController
   end
 
   def create
-    @provider = Provider.find(params[:provider_id])
+    if params[:provider_account][:provider].present?
+      @provider = Provider.find_by_name(params[:provider_account][:provider])
+      params[:provider_account][:provider] = @provider
+      params[:provider_id] = @provider.id
+    else
+      @provider = Provider.find(params[:provider_id])
+    end
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
     params[:provider_account][:provider_id] = @provider.id
     @providers = Provider.all
