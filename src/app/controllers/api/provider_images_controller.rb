@@ -25,8 +25,12 @@ module Api
     layout :false
 
     def index
-      if params[:target_image_id]
-        @images = Aeolus::Image::Warehouse::TargetImage.find(params[:target_image_id]).provider_images
+      if id = params[:target_image_id]
+        if target_image = Aeolus::Image::Warehouse::TargetImage.find(params[:target_image_id])
+          @images = target_image.provider_images
+        else
+          raise(Aeolus::Conductor::API::TargetImageNotFound.new(400, t("api.error_messages.target_image_not_found", :targetimage => id)))
+        end
       else
         @images = Aeolus::Image::Warehouse::ProviderImage.all
       end
