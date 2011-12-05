@@ -28,6 +28,30 @@ namespace :dc do
   end
 
 
+  desc 'Create and register a list of ldap users, separated by ":"'
+  task :create_ldap_users, [:logins] => :environment do |t, args|
+    unless args.logins
+      puts "Usage: rake 'dc:create_ldap_users[login1:login2:...]'"
+      exit(1)
+    end
+
+    args.logins.split(":").each do |login|
+      user = User.find_by_login(args.login)
+
+      if user
+        puts "User already exists: #{login}"
+      end
+
+      begin
+        user = User.create_ldap_user!(login)
+        puts "User #{login} registered"
+      rescue Exception => e
+        puts "User registration failed: #{e}"
+      end
+    end
+  end
+
+
   desc 'Grant administrator privileges to registred user'
   task :site_admin, [:login] => :environment do |t, args|
     unless args.login
