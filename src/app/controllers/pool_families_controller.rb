@@ -75,6 +75,7 @@ class PoolFamiliesController < ApplicationController
     @pool_family = PoolFamily.find(params[:id])
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
     require_privilege(Privilege::VIEW, @pool_family)
+    @images = Aeolus::Image::Warehouse::Image.all
     load_pool_family_tabs
 
     respond_to do |format|
@@ -221,13 +222,15 @@ class PoolFamiliesController < ApplicationController
   def load_pool_family_tabs
     @tabs = [{:name => t('pools.pools'),:view => 'pools', :id => 'pools', :count => @pool_family.pools.count},
              {:name => t('accounts'), :view => 'provider_accounts', :id => 'provider_accounts', :count => @pool_family.provider_accounts.count},
+             {:name => t('images.index.images'), :view => 'images', :id => 'images', :count => @images.count},
     ]
     add_permissions_tab(@pool_family)
     details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
     @view = @details_tab[:view]
 
-    if @view == 'pools'
+    case
+    when @view == 'pools'
       @pools_header = [
         {:name => t("pool_families.index.pool_name"), :sortable => false},
         {:name => t("pool_families.index.deployments"), :class => 'center', :sortable => false},
@@ -239,6 +242,15 @@ class PoolFamiliesController < ApplicationController
         {:name => t("pool_families.index.available_instances"), :class => 'center', :sortable => false},
         {:name => t("pool_families.index.catalog"), :sortable => false},
         {:name => '', :sortable => false}
+      ]
+    when @view == 'images'
+      @header = [
+        { :name => 'checkbox', :class => 'checkbox', :sortable => false },
+        { :name => t('images.index.name'), :sort_attr => :name },
+        { :name => t('images.index.os'), :sort_attr => :name },
+        { :name => t('images.index.os_version'), :sort_attr => :name },
+        { :name => t('images.index.architecture'), :sort_attr => :name },
+        { :name => t('images.index.last_rebuild'), :sortable => false },
       ]
     end
 
