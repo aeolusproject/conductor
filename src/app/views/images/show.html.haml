@@ -10,13 +10,13 @@
 
 %section.admin-content-section
   %header
-    %h2
-      = t('.provider_images')
-    = t'.view_build'
-    = form_tag image_path(@image.id), :method => :get do
-      = select_tag :build, options_for_build_select(@builds, @build, @latest_build)
-      = submit_tag t('.select_build'), :id => 'seletect_build_button'
-    = button_to t('.rebuild_all'), rebuild_all_image_path(@image.id)
+    %h2= t('.provider_images')
+    .section-controls
+      = t'.view_build'
+      = form_tag image_path(@image.id), :method => :get do
+        = select_tag :build, options_for_build_select(@builds, @build, @latest_build)
+        = submit_tag t('.select_build'), :id => 'seletect_build_button'
+      = button_to t('.rebuild_all'), rebuild_all_image_path(@image.id)
   .content
     %dl.image_builds
       - @account_groups.each do |driver, group|

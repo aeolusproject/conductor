@@ -2,7 +2,7 @@
   %h1.deployables= t('.catalog_entry_name', :name => @deployable.name)
 
 %section.admin-content-section
-  .content.buildpush
+  .content
     = form_for @deployable, :html => {:class => 'generic'} do |form|
       = hidden_field_tag :create_from_image, params[:create_from_image]
       - if @deployable.errors.any?

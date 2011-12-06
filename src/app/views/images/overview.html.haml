@@ -6,7 +6,7 @@
     = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment), :class => 'rounded-link'
 
 %section.admin-content-section
-  .content.buildpush
+  .content
     = form_tag(images_path, {:method => :post}) do
       = hidden_field_tag :environment, @environment.id
       = hidden_field_tag :name, @name
