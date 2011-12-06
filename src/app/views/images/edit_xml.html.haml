@@ -9,8 +9,8 @@
   %header
     %h2= t('.edit')
 
-  .content.tight.buildpush
-    = form_tag(overview_images_path, {:method => :post}) do
+  .content.tight
+    = form_tag(overview_images_path, {:method => :post, :class => 'generic'}) do
       = hidden_field_tag :environment, @environment.id
       = hidden_field_tag :name, @name
       = text_area_tag :image_xml, @xml, :class => 'edit_xml'

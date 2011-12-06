@@ -1,11 +1,11 @@
 %fieldset#provider_type
   %p
     = label_tag :provider_name, t(".provider_name")
-    = @provider.name
+    %span.text_instead_input= @provider.name
     .clear
   %p
     = label_tag t('.cloud_type')
-    = @provider.provider_type.name
+    %span.text_instead_input= @provider.provider_type.name
     .clear
     - unless @provider.provider_type.deltacloud_driver.nil?
       = render :partial => "provider_form", :locals => { :provider_type => @provider.provider_type}

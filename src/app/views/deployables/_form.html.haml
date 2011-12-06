@@ -1,15 +1,15 @@
 - if @deployable.errors.any?
   = render 'layouts/error_messages', :object => @deployable
-%fieldset
-  = form_for @deployable do |form|
+= form_for @deployable do |form|
+  %fieldset
     - if params[:edit_xml]
       %p
-        = form.label :xml, t('.deployable_xml')
-        = form.text_area :xml, :class => 'long'
+        %h2= t('.deployable_xml')
+        = form.text_area :xml, :class => 'edit_xml'
     - else
       %p
         = label_tag :catalog_id, t('catalog_entries.form.catalog')
-        = @catalog.name
+        %span.text_instead_input= @catalog.name
         .clear
       %p
         = form.label :name, t('catalog_entries.index.name')
@@ -19,8 +19,8 @@
         = form.text_area :description, :class => 'long'
       %p
         = form.label :xml, t('.deployable_xml')
-        = link_to t("catalog_entries.properties.edit_deployable_xml"), edit_catalog_deployable_path(@catalog.id, @deployable.id, :edit_xml=>true)
+        %span.text_instead_input= link_to t("catalog_entries.properties.edit_deployable_xml"), edit_catalog_deployable_path(@catalog.id, @deployable.id, :edit_xml=>true)
 
-%fieldset.options
-  = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
-  = submit_tag t('save'), :name => 'save', :class => 'button', :id => 'save_button'
+  %fieldset.align-center
+    = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
+    = submit_tag t('save'), :name => 'save', :class => 'button', :id => 'save_button'

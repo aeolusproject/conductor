@@ -8,86 +8,106 @@
 
     = link_to t('deployments.overview.launch'), launch_new_deployments_path(:deployable_id => @deployable.id, :pool_id => @catalog.pool), :id => :launch_deployment
 
-%section.admin-content-section.deployable
-  %section.image
-    %header
-      %h2= t('.image')
-      %table
+%section.admin-content-section
+  %header
+    %h2.users= t('.images')
+  .content
+    .centered
+      %table.light_table
         %thead
           %tr
-            %th=t'.name'
+            %th
+            %th
+              %strong=t'.name'
             %th=t'.hwp_profile'
-            %th=t'.hdd'
-            %th=t'.ram'
-            %th=t'.arch'
+            %th.align-center=t'.hdd'
+            %th.align-center=t'.ram'
+            %th.align-center=t'.arch'
         %tbody
-        - @image_details.each do |assembly|
-          %tr
-            - if assembly.has_key?(:name)
-              %td=assembly[:name]
-            -else
-              %td=assembly[:error_name]
-            -if assembly.has_key?(:hwp)
-              %td=assembly[:hwp][:name]
-              %td=assembly[:hwp][:hdd]
-              %td=assembly[:hwp][:ram]
-              %td=assembly[:hwp][:arch]
-            -else
-              %td Not exist in DB
+          - @image_details.each do |assembly|
+            %tr
+              %td image ready
+              - if assembly.has_key?(:name)
+                %td
+                  %strong=assembly[:name]
+              -else
+                %td=assembly[:error_name]
+              -if assembly.has_key?(:hwp)
+                %td=assembly[:hwp][:name]
+                %td.align-center=assembly[:hwp][:hdd]
+                %td.align-center=assembly[:hwp][:ram]
+                %td.align-center=assembly[:hwp][:arch]
+              -else
+                %td Not exist in DB
 
-  %section.build
+%section.admin-content-section
+  - if @missing_images.empty?
     %header
       %h2= t('.build')
-
-      - if @missing_images.empty?
+      .section-controls
         = form_tag(catalog_deployable_build_path(@catalog, @deployable)) do
           = select_tag :build_options, options_for_select([[t(".build_missing"), :build_missing], [t(".push_missing"), :push_missing]])
-          = submit_tag t('.start'), :id => :start_build
+          = submit_tag t('.start'), :id => :start_build, :class => 'button pill'
+    .content
+      %p.description.align-center= t('.build_description')
 
-        %p.description= t('.build_description')
-
-        %ul#providers-list
-          - @build_results.each do |provider_type, results|
-            %li
-              = provider_type
-              %ul
+      %ul#providers-list.catalog_pretty
+        - @build_results.each do |provider_type, results|
+          %li.collapse_entity
+            .summary
+              .info
+                %h2= provider_type
+              .controls
+                = link_to t(".details"),"#", :class => "collapse"
+            .details.collapsible
+              %table
+                %tr
+                  %th=t'.provider'
+                  %th=t'.account'
+                  %th.align-center=t'.status'
                 - results.each do |result|
-                  %li
-                    %span.provider= result[:provider]
-                    %span.account= result[:account]
-                    %span.status= result[:status]
-      - else
-        %h3= t('.missing_images')
-        %ul#missing-images-list
-          - @missing_images.each do |uuid|
-            %li= uuid
-
-
-  %section.catalogs
+                  %tr
+                    %td= result[:provider]
+                    %td= result[:account]
+                    %td.align-center= result[:status]
+  - else
     %header
-      %h2= t('.catalogs')
+      %h2= t('.build')
+    .content
+      %h3= t('.missing_images')
+      %ul#missing-images-list
+        - @missing_images.each do |uuid|
+          %li= uuid
 
-      %p= t('.choose_catalog')
+%section.admin-content-section
+  %header
+    %h2= t('.catalogs')
+    .section-controls
       = form_for(:catalog_entry, :url => catalog_entries_path) do |f|
+        = f.label :catalog_id, t('catalog_entries.show.choose_catalog')
         = f.select :catalog_id, options_for_select(@catalogs_options)
         = f.hidden_field(:deployable_id, :value => @deployable.id)
-        = f.submit t('catalog_entries.show.add_catalog'), :id => :add_catalog
-
-      %table
+        = f.submit t('catalog_entries.show.add_catalog'), :id => :add_catalog, :class => 'button pill'
+  .content
+    .centered
+      %table.light_table
         %tr
           %th
-            %label= t('.catalog_name')
           %th
-            %label= t('.environment')
+            %label
+              %strong= t('.catalog_name')
+          %th
+            %label
+              %strong= t('.environment')
         - @deployable.catalog_entries.each do |catalog_entry|
           %tr
-            %td
-              = button_to t('catalog_entries.show.delete'), catalog_entry_path(catalog_entry), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :id => 'delete'
-              = catalog_entry.catalog.name
+            %td= button_to t('catalog_entries.show.delete'), catalog_entry_path(catalog_entry), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :id => 'delete'
+            %td= catalog_entry.catalog.name
             %td= catalog_entry.catalog.pool.pool_family.name
 
-  - if check_privilege(Privilege::PERM_VIEW,@permission_object)
-    %section.roles
-      %header
-        %h2= t('users.users')
+- if check_privilege(Privilege::PERM_VIEW,@permission_object)
+  %section.admin-content-section
+    %header
+      %h2.roles= t('users.users')
+    .content
       = render :partial => 'permissions/permissions'

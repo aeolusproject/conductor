@@ -183,6 +183,7 @@ svg {
 form{
   display: inline;
 }
+form.button_to > div {display: inline;}
 
 /* `Clear Floated Elements
 ----------------------------------------------------------------------------------------------------*/
@@ -1637,54 +1638,42 @@ section.admin-content-section{
 
   p.description{ margin-bottom: 20px }
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Centered div
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  div.centered{
+    width: 600px; margin: 10px auto;
+  }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Left aligned div
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  div.lefted{
+    padding-right: 380px;
+    margin: 0px 50px;
+    min-height: 160px;
+    h2{
+      font-family: $font-family-primary;
+      font-size: 21px;
+      font-weight: 200;
+      margin-bottom: 4px;
+      padding-right: 40px;
+      text-align: center;
+    }
+    p{ text-align: center; margin: 10px 0px 10px 0px; }
+  }
+
 }
 
-header.admin-page-header + section.admin-content-section{margin-top: 26px;}
-section.admin-content-section + section.admin-content-section {margin-top: 26px;}
+header.admin-page-header + section.admin-content-section{margin-top: 10px;}
+section.admin-content-section + section.admin-content-section {margin-top: 10px;}
 section.admin-content-section{ margin-bottom: 10px; }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Build Push
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-section.admin-content-section{
-  .content.buildpush{
-    fieldset{margin-top: 20px;}
-
-    textarea.edit_xml{
-      box-sizing: border-box; -webkit-box-sizing:border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box;
-      width: 100%;
-      padding: 5px 3px;
-      height: 300px;
-      border: 1px solid #C4C4C4;
-      resize: vertical;
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.50);
-      -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
-      -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
-    }
-
-    div.centered{
-      width: 600px; margin: 10px auto;
-    }
-
-    div.lefted{
-      padding-right: 380px;
-      margin: 0px 50px;
-      min-height: 160px;
-      h2{
-        font-family: $font-family-primary;
-        font-size: 21px;
-        font-weight: 200;
-        margin-bottom: 4px;
-        padding-right: 40px;
-        text-align: center;
-      }
-      p{ text-align: center; margin: 10px 0px 10px 0px; }
-    }
-    div.lefted.image-upload-overview{background: url(../../images/template-valid.png) no-repeat 600px top;}
-    div.lefted.new-catalog-entry-from-image{background: url(../../images/template-valid.png) no-repeat 600px top;}
-  }
-}
-
+div.lefted.image-upload-overview{background: url(../../images/template-valid.png) no-repeat 600px top;}
+div.lefted.new-catalog-entry-from-image{background: url(../../images/template-valid.png) no-repeat 600px top;}
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 User Card
@@ -2396,6 +2385,18 @@ ul.instances-array{
 }
 
 /************************************************************************** */
+/********************************************* Deployable Detail page */
+/************************************************************************** */
+
+table.light_table{
+  margin: 10px;
+  td,th{ padding: 10px; }
+  th{border-bottom: 1px solid #CCCCCC;}
+  td:first-child, th:first-child{padding-left: 0px;}
+  td:last-child, th:last-child{padding-right: 0px;}
+}
+
+/************************************************************************** */
 /********************************************* Launch from catalog elements */
 /************************************************************************** */
 
@@ -2504,14 +2505,14 @@ ul.catalog_pretty {
       background: -ms-linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* IE10+ */
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#e0e0e0',GradientType=0 ); /* IE6-9 */
       background: linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* W3C */
+      display: table;
+      width: 100%;
+      box-sizing: border-box; -webkit-box-sizing:border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box;
 
       div.controls{
-        width: 200px;
-        float: right;
         text-align: right;
         display: table-cell;
         vertical-align: middle;
-        div{ display: inline; }
         a{ margin-right: 10px; text-decoration: none; }
         a:after{ content: " ▼"; }
         a:hover{ color: black; }
@@ -2519,13 +2520,14 @@ ul.catalog_pretty {
 
       div.info{
         padding-left: 32px;
-        background: transparent url('../../images/deployment_large_icon_provider.png') no-repeat left top;
+        background: transparent url('../../images/deployment_large_icon_provider.png') no-repeat left center;
         h2{ font-size: 16px; }
+        display: table-cell;
+        vertical-align: middle;
       }
     }
 
     div.details.collapsible{
-      display: none;
       background: #eee;
       border-top: 1px solid #ccc;
       table{
@@ -2535,6 +2537,7 @@ ul.catalog_pretty {
         td:last-child, th:last-child{padding-right: 0px;}
         th{border-bottom: 1px solid #CCCCCC;}
       }
+      &.collapsed{display: none;}
     }
   }
 }
@@ -2970,7 +2973,6 @@ body.monitor form.generic{
   input.short{
     width: 100px;
   }
-
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3067,7 +3069,19 @@ body.administer form.generic{
 
   span.text_instead_input{
     display: inline-block;
-    padding: 6px;
+    padding: 6px 0px;
+  }
+
+  textarea.edit_xml{
+    box-sizing: border-box; -webkit-box-sizing:border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box;
+    width: 100%;
+    padding: 5px 3px;
+    height: 300px;
+    border: 1px solid #C4C4C4;
+    resize: vertical;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.50);
+    -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
+    -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
   }
 }
 
