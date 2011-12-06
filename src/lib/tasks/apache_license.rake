@@ -12,7 +12,7 @@ namespace :license do
 
   task :verify  do |t, args|
     gpl=%x[find ./ -type f -iname '*.rb' -exec grep -qE "http://www.gnu.org/copyleft/gpl.html" {} \\; -print].split
-    gpl_nor_asl=%x[find ./ -type f -iname '*.rb' \\! -exec grep -qE "http://www.gnu.org/copyleft/gpl.html" {} \\; -print].split
+    gpl_nor_asl=%x[find ./ -type f -iname '*.rb' \\! -exec grep -qE "(Apache License|http://www.gnu.org/copyleft/gpl.html)" {} \\; -print].split
     apache=%x[find ./ -type f -iname '*.rb' -exec grep -qE "Apache License" {} \\; -print].split
     if (!ENV["list"] or ENV["list"].empty?)
       puts "Files that contain GPL License: %d" % (gpl.size)
