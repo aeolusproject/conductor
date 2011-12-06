@@ -54,7 +54,7 @@ class DeployablesController < ApplicationController
     require_privilege(Privilege::VIEW, @deployable)
     save_breadcrumb(catalog_deployable_path(@catalog, @deployable), @deployable.name)
     @providers = Provider.all
-    @catalogs_options = Catalog.all.map {|c| [c.name, c.id] unless c == @catalog}.compact
+    @catalogs_options = Catalog.list_for_user(current_user, Privilege::VIEW).select {|c| !@deployable.catalogs.include?(c)}
     add_permissions_inline(@deployable)
     @image_details = @deployable.get_image_details
     @image_details.each do |assembly|
