@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  3%{?dist}
+Release:  4%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -320,6 +320,10 @@ fi
 %{app_root}/spec
 
 %changelog
+* Tue Dec  6 2011 Steve Linabery <slinaber@redhat.com> - 0.7.0-4
+- f68883d Fixed list of catalog entries on deployables show page
+- 8452fc1 deployable detail styles and fixes through biuldpush ui
+
 * Mon Dec  5 2011 Steve Linabery <slinaber@redhat.com> - 0.7.0-3
 - 1d51c4c RM 2879 - Secondary method for creating provider accounts using a provider name instead of an id
 - fd3ee58 BZ#754956 Return appropriate error code when parent not found
