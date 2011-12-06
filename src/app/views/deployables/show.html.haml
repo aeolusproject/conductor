@@ -85,7 +85,7 @@
     .section-controls
       = form_for(:catalog_entry, :url => catalog_entries_path) do |f|
         = f.label :catalog_id, t('catalog_entries.show.choose_catalog')
-        = f.select :catalog_id, options_for_select(@catalogs_options)
+        = f.select :catalog_id, options_for_select(@catalogs_options.map {|c| [c.name, c.id]})
         = f.hidden_field(:deployable_id, :value => @deployable.id)
         = f.submit t('catalog_entries.show.add_catalog'), :id => :add_catalog, :class => 'button pill'
   .content
