@@ -694,6 +694,7 @@ en:
       architecture: Architecture
       last_rebuild: Last Rebuild
       import: Import
+      new: New Image
     show:
       provider_images: Provider Images
       provider_account: Provider Account
