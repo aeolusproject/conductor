@@ -31,7 +31,7 @@
         %p
           %label{:for => 'deployable_id'}
             = t('catalog_entries.index.deployable')
-          = select_tag :deployable_id, options_for_select([[t('.load_definition'), t('.other')]] + @deployables.map {|d| [d.name, d.id]}, params[:deployable_id])
+          = select_tag :deployable_id, options_for_select(@deployables.map {|d| [d.name, d.id]}, params[:deployable_id])
 
       %fieldset
         %p
