@@ -653,6 +653,12 @@ en:
         deleted: Catalog entry deleted.
     preset_filters:
       all_catalog_entries: All Catalog Entries
+    build_statuses_descriptions:
+      not_built: "Images are not Built"
+      building: "Images are being built."
+      not_pushed: "Some of the images are not pushed"
+      pushing: "Images are being pushed."
+      pushed: "All Images are pushed and recent."
   catalogs:
     catalogs: Catalogs
     new_catalog: New Catalog

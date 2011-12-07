@@ -24,21 +24,21 @@
             %th.align-center=t'.ram'
             %th.align-center=t'.arch'
         %tbody
-          - @image_details.each do |assembly|
+          - @images_details.each do |assembly|
             %tr
-              %td image ready
+              %td= image_ready?(assembly)
               - if assembly.has_key?(:name)
                 %td
                   %strong=assembly[:name]
               -else
                 %td=assembly[:error_name]
-              -if assembly.has_key?(:hwp)
-                %td=assembly[:hwp][:name]
-                %td.align-center=assembly[:hwp][:hdd]
-                %td.align-center=assembly[:hwp][:ram]
-                %td.align-center=assembly[:hwp][:arch]
+              -if assembly.has_key?(:hwp_name)
+                %td=assembly[:hwp_name]
+                %td.align-center=assembly[:hwp_hdd]
+                %td.align-center=assembly[:hwp_ram]
+                %td.align-center=assembly[:hwp_arch]
               -else
-                %td Not exist in DB
+                %td{:colspan => 4}= assembly[:error_hwp]
 
 %section.admin-content-section
   - if @missing_images.empty?
@@ -53,23 +53,18 @@
 
       %ul#providers-list.catalog_pretty
         - @build_results.each do |provider_type, results|
-          %li.collapse_entity
-            .summary
-              .info
-                %h2= provider_type
-              .controls
-                = link_to t(".details"),"#", :class => "collapse"
-            .details.collapsible
-              %table
-                %tr
-                  %th=t'.provider'
-                  %th=t'.account'
-                  %th.align-center=t'.status'
-                - results.each do |result|
-                  %tr
-                    %td= result[:provider]
-                    %td= result[:account]
-                    %td.align-center= result[:status]
+          - results.each do |result|
+            %li
+              .summary
+                .info
+                  %h2= provider_type
+                  %span= result[:provider]
+                  |
+                  %span= result[:account]
+                .controls
+                  .build_status
+                    %span= t("catalog_entries.build_statuses_descriptions.#{result[:status]}")
+                    %div{:class => "build_status_icon #{result[:status]}"}
   - else
     %header
       %h2= t('.build')

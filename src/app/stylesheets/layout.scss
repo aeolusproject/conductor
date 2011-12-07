@@ -2397,10 +2397,26 @@ ul.instances-array{
 
 table.light_table{
   margin: 10px;
-  td,th{ padding: 10px; }
+  td,th{ padding: 5px 10px; vertical-align: middle;}
   th{border-bottom: 1px solid #CCCCCC;}
   td:first-child, th:first-child{padding-left: 0px;}
   td:last-child, th:last-child{padding-right: 0px;}
+}
+
+div.build_status{
+  float: right;
+  .build_status_icon{
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px; height: 18px;
+    margin-left: 10px;
+
+    &.not_built{ background: transparent url(../../images/build_status.png) no-repeat left center; }
+    &.building{ background: transparent url(../../images/spinner.gif) no-repeat center center; }
+    &.not_pushed{ background: transparent url(../../images/build_status.png) no-repeat center center; }
+    &.pushing{ background: transparent url(../../images/spinner.gif) no-repeat center center; }
+    &.pushed{ background: transparent url(../../images/build_status.png) no-repeat right center; }
+  }
 }
 
 /************************************************************************** */
@@ -2499,9 +2515,13 @@ ul.catalog_pretty {
   margin: 10px 0px 10px 0px;
   li{
     list-style-type: none;
-
     &:not(:first-child){border-top: 1px solid #ccc;}
 
+    &:first-child div.summary{ -webkit-border-radius: 7px 7px 0px 0px; -moz-border-radius: 7px 7px 0px 0px; border-radius: 7px 7px 0px 0px; }
+    &:last-child div.summary{ -webkit-border-radius: 0px 0px 7px 7px; -moz-border-radius: 0px 0px 7px 7px; border-radius: 0px 0px 7px 7px; }
+    &:last-child div.details{ -webkit-border-radius: 0px 0px 7px 7px; -moz-border-radius: 0px 0px 7px 7px; border-radius: 0px 0px 7px 7px; }
+    &:only-child div.summary{ -webkit-border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; border-radius: 7px 7px 7px 7px; }
+    &:only-child div.details{ -webkit-border-radius: 0px 0px 7px 7px; -moz-border-radius: 0px 0px 7px 7px; border-radius: 0px 0px 7px 7px; }
     div.summary{
       padding: 10px;
       background-color: #efefef;
@@ -2537,8 +2557,9 @@ ul.catalog_pretty {
     div.details.collapsible{
       background: #eee;
       border-top: 1px solid #ccc;
+      padding: 10px;
       table{
-        margin: 10px 10px 10px 42px;
+        margin: 0px 0px 0px 32px;
         td,th{ padding: 10px; }
         td:first-child, th:first-child{padding-left: 0px;}
         td:last-child, th:last-child{padding-right: 0px;}

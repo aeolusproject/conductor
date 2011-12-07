@@ -108,32 +108,32 @@ class Deployable < ActiveRecord::Base
 
   #get details of image for deployable#show
   def get_image_details
-    stored_xml = Nokogiri::XML(xml)
-    result_array ||= []
-    stored_xml.xpath("//assembly").each do |assembly|
-      if assembly.attr('name')
-        assembly_hash ||= {:name => assembly.attr('name')}
+    deployable_xml = DeployableXML.new(xml)
+    assemblies_array ||= []
+    deployable_xml.assemblies.each do |assembly|
+      if assembly.name
+        assembly_hash ||= {:name => assembly.name}
       else
         assembly_hash ||= {:error_name => I18n.t('deployables.error.attribute_not_exist')}
       end
-      if assembly.attr('hwp')
-        hwp_name = stored_xml.xpath("//assembly").attr('hwp').value
+      assembly_hash[:image_uuid] = assembly.image_id
+      if assembly.hwp
+        hwp_name = assembly.hwp
         hwp = HardwareProfile.find_by_name(hwp_name)
         if hwp
-          assembly_hash[:hwp] = {:name => hwp_name}
-          assembly_hash[:hwp][:hdd] = hwp.storage.value
-          assembly_hash[:hwp][:ram] = hwp.memory.value
-          assembly_hash[:hwp][:arch] = hwp.architecture.value
+          assembly_hash[:hwp_name] = hwp.name
+          assembly_hash[:hwp_hdd] = hwp.storage.value
+          assembly_hash[:hwp_ram] = hwp.memory.value
+          assembly_hash[:hwp_arch] = hwp.architecture.value
         else
           assembly_hash[:error_hwp] = I18n.t('deployables.error.hwp_not_exists', :name => hwp_name)
         end
       else
         assembly_hash[:error_hwp] = I18n.t('deployables.error.attribute_not_exist')
       end
-      result_array << assembly_hash
+      assemblies_array << assembly_hash
     end
-    #returned value [{:name => 'assembly1',{:hwp => {...}}, {:error => "msg"}, {assembly3} ..]
-    result_array
+    assemblies_array
   end
 
   def build_status(images, account)

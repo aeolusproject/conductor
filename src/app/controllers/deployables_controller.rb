@@ -56,8 +56,8 @@ class DeployablesController < ApplicationController
     @providers = Provider.all
     @catalogs_options = Catalog.list_for_user(current_user, Privilege::VIEW).select {|c| !@deployable.catalogs.include?(c)}
     add_permissions_inline(@deployable)
-    @image_details = @deployable.get_image_details
-    @image_details.each do |assembly|
+    @images_details = @deployable.get_image_details
+    @images_details.each do |assembly|
       assembly.keys.each do |key|
         flash[:error] = assembly[key] if key.to_s =~ /^error\w+/
       end
