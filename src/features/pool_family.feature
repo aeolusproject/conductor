@@ -6,6 +6,7 @@ Feature: Pool Families
   Background:
     Given I am an authorised user
     And I am logged in
+    And I'm connected to the warehouse
 
   Scenario: List pool families
     Given I am on the homepage
@@ -87,7 +88,7 @@ Feature: Pool Families
     And I am on the pool family provider accounts page
     Then I should see "Account Name"
     When I follow "Add Account"
-    When I check the "testaccount" account
+    And I check the "testaccount" account
     And I press "Add Account"
     Then there should be 1 provider accounts assigned to "testpoolfamily"
     And I should see "testaccount"

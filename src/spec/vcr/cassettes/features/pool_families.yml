@@ -1,0 +1,234 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      user-agent: 
+      - OAuth gem v0.4.4
+      accept-encoding: 
+      - gzip, deflate
+      authorization: 
+      - OAuth oauth_consumer_key="Bd7BOggYyK3AV64tRQcU9rxFtrebCLtt", oauth_nonce="pBIf0kWGxScw4npq1Gf2OzXpYQKrdtXCfLlXTbQRQo", oauth_signature="qLKooszQvguJ2itBPh7bVU3%2BRps%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1323343693", oauth_version="1.0"
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Thu, 08 Dec 2011 11:28:13 GMT
+      transfer-encoding: 
+      - chunked
+    body: |
+      <objects>
+      	<object>
+      		<bucket>images</bucket>
+      		<key>fb0c1ad8-2020-11e1-a84d-001f161d4fcc</key>
+      	</object>
+      </objects>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc
+    body: op=parts
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      user-agent: 
+      - OAuth gem v0.4.4
+      accept-encoding: 
+      - gzip, deflate
+      authorization: 
+      - OAuth oauth_body_hash="2jmj7l5rSw0yVb%2FvlWAYkK%2FYBwk%3D", oauth_consumer_key="Bd7BOggYyK3AV64tRQcU9rxFtrebCLtt", oauth_nonce="83KVRgb21tJqZUiMgVULTaoV9UgmAuzCcuRLg1ujpXI", oauth_signature="sD6797%2B40XhsxZTt6ciax%2BfwEEU%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1323343693", oauth_version="1.0"
+      content-length: 
+      - "8"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Thu, 08 Dec 2011 11:28:13 GMT
+      transfer-encoding: 
+      - chunked
+    body: |
+      <object>
+      	<object_body path="http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc"/>
+      	<object_attr_list path="http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/_attrs"/>
+      	<object_attr name="latest_build" path="http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/latest_build"/>
+      	<object_attr name="latest_unpushed" path="http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/latest_unpushed"/>
+      	<object_attr name="object_type" path="http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/object_type"/>
+      	<object_attr name="template" path="http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/template"/>
+      	<object_attr name="uuid" path="http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/uuid"/>
+      </object>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/latest_build
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      user-agent: 
+      - OAuth gem v0.4.4
+      accept-encoding: 
+      - gzip, deflate
+      authorization: 
+      - OAuth oauth_consumer_key="Bd7BOggYyK3AV64tRQcU9rxFtrebCLtt", oauth_nonce="9ym1ybsYS7qLQDSKbSsSN0NziFcSnTP9pEhzNuZlqM", oauth_signature="5K6E%2Fksa%2Fn73qL0s9buFynoJ6U0%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1323343693", oauth_version="1.0"
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Thu, 08 Dec 2011 11:28:13 GMT
+      content-length: 
+      - "36"
+    body: 3f9a1de7-444f-49cf-b1cc-e8ea2557287e
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/latest_unpushed
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      user-agent: 
+      - OAuth gem v0.4.4
+      accept-encoding: 
+      - gzip, deflate
+      authorization: 
+      - OAuth oauth_consumer_key="Bd7BOggYyK3AV64tRQcU9rxFtrebCLtt", oauth_nonce="gtirZvcwzCzv7FlzeyOeS9KZCOTaWNgJshof2zpVn7s", oauth_signature="pCcAIj%2F58UpHjW4mRvAWk8JIfoI%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1323343693", oauth_version="1.0"
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Thu, 08 Dec 2011 11:28:14 GMT
+      content-length: 
+      - "4"
+    body: None
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/object_type
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      user-agent: 
+      - OAuth gem v0.4.4
+      accept-encoding: 
+      - gzip, deflate
+      authorization: 
+      - OAuth oauth_consumer_key="Bd7BOggYyK3AV64tRQcU9rxFtrebCLtt", oauth_nonce="9y2gl7q8fvJKolk2GUlIxR6gS1s7HZFcq2RXoLYBmw", oauth_signature="6hrxehBRbjR8gRdnGll8HMtmh68%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1323343694", oauth_version="1.0"
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Thu, 08 Dec 2011 11:28:14 GMT
+      content-length: 
+      - "5"
+    body: image
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/template
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      user-agent: 
+      - OAuth gem v0.4.4
+      accept-encoding: 
+      - gzip, deflate
+      authorization: 
+      - OAuth oauth_consumer_key="Bd7BOggYyK3AV64tRQcU9rxFtrebCLtt", oauth_nonce="I130Hkva9C1CNdhbOx27PEjbQSwlLmYWzvt5yCZNs", oauth_signature="JslF%2FRmestcpWZTmjx8gu18H9Vc%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1323343694", oauth_version="1.0"
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Thu, 08 Dec 2011 11:28:14 GMT
+      content-length: 
+      - "36"
+    body: facba9d0-2020-11e1-a84d-001f161d4fcc
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc/uuid
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      user-agent: 
+      - OAuth gem v0.4.4
+      accept-encoding: 
+      - gzip, deflate
+      authorization: 
+      - OAuth oauth_consumer_key="Bd7BOggYyK3AV64tRQcU9rxFtrebCLtt", oauth_nonce="jZZ2nPU70jPoQRSkPr4tubXvuwG27oIeLOnViACTiw", oauth_signature="dF%2ByrycX3ZuPyVm3nwe0VOVOIzg%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1323343694", oauth_version="1.0"
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Thu, 08 Dec 2011 11:28:14 GMT
+      content-length: 
+      - "36"
+    body: fb0c1ad8-2020-11e1-a84d-001f161d4fcc
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/fb0c1ad8-2020-11e1-a84d-001f161d4fcc
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      user-agent: 
+      - OAuth gem v0.4.4
+      accept-encoding: 
+      - gzip, deflate
+      authorization: 
+      - OAuth oauth_consumer_key="Bd7BOggYyK3AV64tRQcU9rxFtrebCLtt", oauth_nonce="sXp2JRrtMzOLmIMcyUKsB3Sb4wFU5UmbpAEuWOeWXKw", oauth_signature="uTd%2FBg%2ByPza3qcu4iZ89QlKyOd8%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1323343695", oauth_version="1.0"
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Thu, 08 Dec 2011 11:28:15 GMT
+      transfer-encoding: 
+      - chunked
+    body: <image><name>Fedora</name></image>
+    http_version: "1.1"

@@ -19,3 +19,14 @@ if ENV['VCR_RECORD']
 else
   require File.expand_path(File.dirname(__FILE__) + '../../../spec/vcr_setup_norec.rb')
 end
+
+def use_casette(casette)
+  path = "#{::Rails.root.to_s}/spec/vcr/cassettes/features/#{casette}.yml"
+  VCR.config do |c|
+    c.cassette_library_dir = File.dirname(path)
+    c.stub_with :webmock
+    c.allow_http_connections_when_no_cassette = true
+  end
+
+  VCR::Cassette.new(File.basename(path, '.yml'), :record => :none)
+end

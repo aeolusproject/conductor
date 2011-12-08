@@ -13,6 +13,11 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+
+Given /I'm connected to the warehouse/ do
+  use_casette('pool_families')
+end
+
 Given /^there are these pool families:$/ do |table|
   table.hashes.each do |hash|
     FactoryGirl.create(:pool_family, :name => hash['name'])

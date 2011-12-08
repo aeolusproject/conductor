@@ -109,7 +109,6 @@ class PoolFamiliesController < ApplicationController
                              0 : @pool_family.provider_accounts.map(&:id))
 
     load_tab_captions_and_details_tab('provider_accounts')
-    load_pool_family_tabs
 
     added = []
     not_added = []
