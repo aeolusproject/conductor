@@ -150,6 +150,7 @@ module Api
                                                                   :build_id => target_image.build.id,
                                                                   :target_image_id => target_image.id })
       provider_image.save!
+      provider_image.account = account.label
       provider_image
     end
 

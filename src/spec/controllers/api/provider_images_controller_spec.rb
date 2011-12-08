@@ -108,9 +108,9 @@ describe Api::ProviderImagesController do
                      :provider_name => 'provider_name',
                      :provider => "provider",
                      :object_type => 'provider_image',
+                     :account => 'account',
                      :target_identifier => '80',
                      :target_image => @timage)
-
     end
 
     context "when authenticated as admin" do
@@ -369,8 +369,8 @@ describe Api::ProviderImagesController do
             @target_image.stub(:build).and_return(@build1)
 
             Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
+            controller.stub(:send_push_request).and_return(@pimage)
 
-            @pimage.stub(:save!)
             request.env['RAW_POST_DATA'] = xml.to_xml
             post :create
           end

@@ -1,3 +1,5 @@
 !!!XML
 %provider_image{:id => provider_image.id, :href => api_provider_image_url(provider_image.id) }
   %status=Aeolus::Image::Factory::ProviderImage.status(provider_image.id)
+  %provider=provider_image.provider
+  %account=provider_image.account
