@@ -6,7 +6,7 @@
     = link_to t('images.index.images'), images_path
     .button-group
       = button_to t("delete"), image_path(@image.id), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button danger', :id => 'delete'
-    = link_to t('.new_deployable_from_image'), new_catalog_entry_path(:create_from_image => @image.id)
+    = link_to t('.new_deployable_from_image'), new_deployable_path(:create_from_image => @image.id)
 
 %section.admin-content-section
   %header
