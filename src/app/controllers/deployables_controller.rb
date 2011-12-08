@@ -143,6 +143,7 @@ class DeployablesController < ApplicationController
 
   def update
     @deployable = Deployable.find(params[:id])
+    @catalog = Catalog.find(params[:catalog_id])
     require_privilege(Privilege::MODIFY, @deployable)
     params[:deployable].delete(:owner_id) if params[:deployable]
 
@@ -150,7 +151,7 @@ class DeployablesController < ApplicationController
       flash[:notice] = t"catalog_entries.flash.notice.updated"
       redirect_to catalog_deployable_path(params[:catalog_id], @deployable)
     else
-      render :action => 'edit'
+      render :action => 'edit', :edit_xml => params[:edit_xml]
     end
   end
 
