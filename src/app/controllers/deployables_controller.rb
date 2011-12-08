@@ -57,18 +57,25 @@ class DeployablesController < ApplicationController
     @catalogs_options = Catalog.list_for_user(current_user, Privilege::VIEW).select {|c| !@deployable.catalogs.include?(c)}
     add_permissions_inline(@deployable)
     @images_details = @deployable.get_image_details
-    @images_details.each do |assembly|
-      assembly.keys.each do |key|
-        flash[:error] = assembly[key] if key.to_s =~ /^error\w+/
-      end
-    end
     images = @deployable.fetch_images
     uuids = @deployable.fetch_image_uuids
     @missing_images = images.zip(uuids).select{|p| p.first.nil?}.map{|p| p.second}
+
+    @images_details.each do |assembly|
+      assembly.keys.each do |key|
+        @deployable_errors ||= []
+        @deployable_errors << "#{assembly[:name]}: #{assembly[key]}" if key.to_s =~ /^error\w+/
+      end
+      if @missing_images.include?(assembly[:image_uuid])
+        @deployable_errors << "#{assembly[:name]}: Image (UUID: #{assembly[:image_uuid]}) doesn't exist."
+      end
+      flash.now[:error] = @deployable_errors unless @deployable_errors.empty?
+    end
+
     return unless @missing_images.empty?
 
     @build_results = {}
-    ProviderAccount.list_for_user(current_user, Privilege::VIEW).each do |account|
+    ProviderAccount.list_for_user(current_user, Privilege::VIEW).includes(:provider).where('providers.enabled' => true).each do |account|
       type = account.provider.provider_type.deltacloud_driver
       @build_results[type] ||= []
       @build_results[type] << {

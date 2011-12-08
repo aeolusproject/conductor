@@ -111,12 +111,9 @@ class Deployable < ActiveRecord::Base
     deployable_xml = DeployableXML.new(xml)
     assemblies_array ||= []
     deployable_xml.assemblies.each do |assembly|
-      if assembly.name
-        assembly_hash ||= {:name => assembly.name}
-      else
-        assembly_hash ||= {:error_name => I18n.t('deployables.error.attribute_not_exist')}
-      end
+      assembly_hash ||= {:name => assembly.name}
       assembly_hash[:image_uuid] = assembly.image_id
+      assembly_hash[:images_count] = assembly.image.count
       if assembly.hwp
         hwp_name = assembly.hwp
         hwp = HardwareProfile.find_by_name(hwp_name)

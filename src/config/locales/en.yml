@@ -618,6 +618,7 @@ en:
       deployable_xml_url: "URL of Deployable XML:"
     show:
       edit: Edit
+      edit_xml: Edit XML
       delete: Delete
       confirm_delete: "Are you sure you want to delete?"
       image: Image
@@ -626,18 +627,6 @@ en:
       roles: Roles
       rebuild_all: Rebuild all images
       start: Start
-      build_description:
-        "Allow this deployable's associated image(s) to be built and
-        pushed to cloud resource providers by enabling them below."
-      catalog_name: Catalog name
-      environment: Environment
-      choose_catalog: "Choose a catalog to enable access:"
-      add_catalog: "Add +"
-      name: Name
-      profile: Profile
-      hdd: HDD
-      ram: RAM
-      arch: ARCH
     edit:
       editing_catalog_entry: Editing Catalog Entry
     list:
@@ -653,12 +642,6 @@ en:
         deleted: Catalog entry deleted.
     preset_filters:
       all_catalog_entries: All Catalog Entries
-    build_statuses_descriptions:
-      not_built: "Images are not Built"
-      building: "Images are being built."
-      not_pushed: "Some of the images are not pushed"
-      pushing: "Images are being pushed."
-      pushed: "All Images are pushed and recent."
   catalogs:
     catalogs: Catalogs
     new_catalog: New Catalog
@@ -791,14 +774,37 @@ en:
         one: "Deployable %{list} was not deleted. There are deployments associated with it."
         other: "Deployables %{list} were not deleted. They have deployments associated with them."
     show:
+      launch: "Launch"
+      edit: Edit
+      edit_xml: Edit XML
+      delete: Delete
       build: Build
-      build_description:
-        "Allow this deployable's associated image(s) to be built and pushed to
-        providers by enabling them below."
       start: Start
       rebuild_all: Build missing images
       push_all: Push missing images
       missing_images: Images missing from the Image Warehouse
+      choose_catalog: "Choose a catalog to enable access:"
+      add_catalog: "Add +"
+      name: Name
+      hw_profile: HW Profile
+      hdd: HDD
+      ram: RAM
+      arch: ARCH
+      repair_images: Repair Images
+      images_ready: Images Ready
+      build_description:
+        "Allow this deployable's associated image(s) to be built and
+        pushed to cloud resource providers by enabling them below."
+      catalog_name: Catalog name
+      environment: Environment
+      build_statuses_descriptions:
+        not_built: "Images are not Built"
+        building: "Images are being built."
+        not_pushed: "Some of the images are not pushed"
+        pushing: "Images are being pushed."
+        pushed: "All Images are pushed and recent."
+      build_missing: "Build missing"
+      push_missing: "Push missing"
     flash:
       error:
         attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"
@@ -807,7 +813,7 @@ en:
         failed: "Deployable was not created: %{message}"
     error:
       attribute_not_exists: invalid
-      hwp_not_exists: "Hardware profile %{name} doesn't exist in DB"
+      hwp_not_exists: "Hardware profile %{name} specified in XML doesn't exist."
   name: Name
   summary: Summary
   settings:

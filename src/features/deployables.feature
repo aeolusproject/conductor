@@ -42,11 +42,11 @@ Feature: Manage Catalog Entries
     And I should see "Catalogs"
     And I should see "Users"
 
-  Scenario: Launch  a deployment
+  Scenario: Launch a deployment
     Given there is a "default" catalog
     And a catalog entry "testdepl" exists for "default" catalog
     And I am on testdepl's catalog entry page
-    When I follow "launch_deployment"
+    When I follow "launch_deployment_button"
     Then I should be on the launch new deployments page
 
   Scenario: Delete deployables

@@ -3,10 +3,15 @@
   %h1{:class => controller.controller_name}= @deployable.name
   #obj_actions.button-container
     .button-group
-      = button_to t('catalog_entries.show.delete'), catalog_deployable_path(@catalog, @deployable), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
-      = link_to t('catalog_entries.show.edit'), edit_catalog_deployable_path(@catalog, @deployable), :class => 'button', :id => 'edit_button'
+      = button_to t('.delete'), catalog_deployable_path(@catalog, @deployable), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
+      = link_to t('.edit'), edit_catalog_deployable_path(@catalog, @deployable), :class => 'button', :id => 'edit_button'
+      = link_to t('.edit_xml'), edit_catalog_deployable_path(@catalog, @deployable, :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
 
-    = link_to t('deployments.overview.launch'), launch_new_deployments_path(:deployable_id => @deployable.id, :pool_id => @catalog.pool), :id => :launch_deployment
+    - if @deployable_errors.empty?
+      = link_to t('.launch'), launch_new_deployments_path(:deployable_id => @deployable.id, :pool_id => @catalog.pool), :id => :launch_deployment_button
+    -else
+      %a{:id => :launch_deployment_button, :class => 'disabled'}= t('.launch')
+
 
 %section.admin-content-section
   %header
@@ -16,29 +21,25 @@
       %table.light_table
         %thead
           %tr
-            %th
+            %th.status
             %th
               %strong=t'.name'
-            %th=t'.hwp_profile'
+            %th.align-center=t'.images'
+            %th=t'.hw_profile'
             %th.align-center=t'.hdd'
             %th.align-center=t'.ram'
             %th.align-center=t'.arch'
         %tbody
           - @images_details.each do |assembly|
             %tr
-              %td= image_ready?(assembly)
-              - if assembly.has_key?(:name)
-                %td
-                  %strong=assembly[:name]
-              -else
-                %td=assembly[:error_name]
-              -if assembly.has_key?(:hwp_name)
-                %td=assembly[:hwp_name]
-                %td.align-center=assembly[:hwp_hdd]
-                %td.align-center=assembly[:hwp_ram]
-                %td.align-center=assembly[:hwp_arch]
-              -else
-                %td{:colspan => 4}= assembly[:error_hwp]
+              %td.status= image_ready?(assembly)
+              %td
+                %strong=assembly[:name]
+              %td.align-center=assembly[:images_count]
+              %td=assembly[:hwp_name]
+              %td.align-center=assembly[:hwp_hdd]
+              %td.align-center=assembly[:hwp_ram]
+              %td.align-center=assembly[:hwp_arch]
 
 %section.admin-content-section
   - if @missing_images.empty?
@@ -63,13 +64,15 @@
                   %span= result[:account]
                 .controls
                   .build_status
-                    %span= t("catalog_entries.build_statuses_descriptions.#{result[:status]}")
+                    %span= t(".build_statuses_descriptions.#{result[:status]}")
                     %div{:class => "build_status_icon #{result[:status]}"}
   - else
     %header
       %h2= t('.build')
     .content
-      %h3= t('.missing_images')
+      .centered.align-center
+        %strong Assemblies in Deployable XML arent properly configured.
+      %strong= t('.missing_images')
       %ul#missing-images-list
         - @missing_images.each do |uuid|
           %li= uuid
@@ -79,15 +82,15 @@
     %h2= t('.catalogs')
     .section-controls
       = form_for(:catalog_entry, :url => catalog_entries_path) do |f|
-        = f.label :catalog_id, t('catalog_entries.show.choose_catalog')
+        = f.label :catalog_id, t('.choose_catalog')
         = f.select :catalog_id, options_for_select(@catalogs_options.map {|c| [c.name, c.id]})
         = f.hidden_field(:deployable_id, :value => @deployable.id)
-        = f.submit t('catalog_entries.show.add_catalog'), :id => :add_catalog, :class => 'button pill', :disabled => @catalogs_options.empty?
+        = f.submit t('.add_catalog'), :id => :add_catalog, :class => 'button pill', :disabled => @catalogs_options.empty?
   .content
     .centered
       %table.light_table
         %tr
-          %th
+          %th.remove_catalog
           %th
             %label
               %strong= t('.catalog_name')
@@ -96,7 +99,7 @@
               %strong= t('.environment')
         - @deployable.catalog_entries.each do |catalog_entry|
           %tr
-            %td= button_to t('catalog_entries.show.delete'), catalog_entry_path(catalog_entry), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :id => 'delete'
+            %td.remove_catalog= button_to "", catalog_entry_path(catalog_entry), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :id => 'delete', :class => 'remove_catalog'
             %td= catalog_entry.catalog.name
             %td= catalog_entry.catalog.pool.pool_family.name
 
