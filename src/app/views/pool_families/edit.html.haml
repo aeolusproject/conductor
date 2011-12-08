@@ -11,5 +11,5 @@
     %h2.settings= t("settings.settings")
 
   .content
-    -form_for @pool_family, :url => pool_family_path(@pool_family), :html => { :method => :put, :class => 'generic' } do |f|
+    = form_for @pool_family, :url => pool_family_path(@pool_family), :html => { :method => :put, :class => 'generic' } do |f|
       = render :partial => 'form', :locals => { :form => f, :cancel_path => providers_path }
