@@ -103,7 +103,7 @@ class ImagesController < ApplicationController
       begin
         xml_source = RestClient.get(url, :accept => :xml)
       rescue RestClient::Exception, SocketError, URI::InvalidURIError
-        flash.now[:error] = t('template_xml.flash.error.invalid_url')
+        flash.now[:error] = t('images.flash.error.invalid_url')
         render :new and return
       end
     else
