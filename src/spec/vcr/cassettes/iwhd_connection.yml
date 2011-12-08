@@ -74,6 +74,7 @@
       	<object_attr name="latest_unpushed" path="http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922/latest_unpushed"/>
       	<object_attr name="object_type" path="http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922/object_type"/>
       	<object_attr name="uuid" path="http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922/uuid"/>
+      	<object_attr name="template" path="http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922/template"/>
       </object>
 
     http_version: "1.1"
@@ -2234,4 +2235,179 @@
       content-length: 
       - "0"
     body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922/template
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 13 Jun 2011 14:11:46 GMT
+      content-length: 
+      - "36"
+    body: e4b99e0e-1cc9-11e1-812a-5254002aa03c
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: http://localhost:9090/templates/e4b99e0e-1cc9-11e1-812a-5254002aa03c
+    body: op=parts
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "8"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 02 Jan 2012 12:42:43 GMT
+      transfer-encoding: 
+      - chunked
+    body: |
+      <object>
+      	<object_body path="http://localhost:9090/templates/e4b99e0e-1cc9-11e1-812a-5254002aa03c"/>
+      	<object_attr_list path="http://localhost:9090/templates/e4b99e0e-1cc9-11e1-812a-5254002aa03c/_attrs"/>
+      	<object_attr name="object_type" path="http://localhost:9090/templates/e4b99e0e-1cc9-11e1-812a-5254002aa03c/object_type"/>
+      	<object_attr name="uuid" path="http://localhost:9090/templates/e4b99e0e-1cc9-11e1-812a-5254002aa03c/uuid"/>
+      </object>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/templates/e4b99e0e-1cc9-11e1-812a-5254002aa03c/object_type
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 02 Jan 2012 12:42:45 GMT
+      content-length: 
+      - "8"
+    body: template
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/templates/e4b99e0e-1cc9-11e1-812a-5254002aa03c/uuid
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 02 Jan 2012 12:42:47 GMT
+      content-length: 
+      - "36"
+    body: e4b99e0e-1cc9-11e1-812a-5254002aa03c
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/templates/e4b99e0e-1cc9-11e1-812a-5254002aa03c
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 02 Jan 2012 12:42:48 GMT
+      transfer-encoding: 
+      - chunked
+    body: |-
+      <?xml version="1.0"?>
+      <template>
+        <name>test1</name>
+        <description>Some text here</description>
+        <os>
+          <name>Fedora</name>
+          <arch>x86_64</arch>
+          <version>14</version>
+          <install type="url">
+            <url>http://download.fedoraproject.org/pub/fedora/linux/releases/14/Fedora/x86_64/os/</url>
+          </install>
+        </os>
+        <repositories>
+          <repository name="custom">
+            <url>http://repos.fedorapeople.org/repos/aeolus/demo/webapp/</url>
+            <signed>false</signed>
+          </repository>
+        </repositories>
+      </template>
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/templates
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 02 Jan 2012 13:23:37 GMT
+      transfer-encoding: 
+      - chunked
+    body: |
+      <objects>
+      	<object>
+      		<bucket>templates</bucket>
+      		<key>e4b99e0e-1cc9-11e1-812a-5254002aa03c</key>
+      	</object>
+      	<object>
+      		<bucket>templates</bucket>
+      		<key>013b1526-1cca-11e1-812a-5254002aa03c</key>
+      	</object>
+      </objects>
+
     http_version: "1.1"

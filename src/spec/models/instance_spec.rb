@@ -204,6 +204,12 @@ describe Instance do
     @instance.matches.last.should include('testaccount: hardware profile match not found')
   end
 
+  it "shouldn't return any matches if instance hwp architecture doesn't match image architecture" do
+    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount')]
+    @instance.hardware_profile.architecture.value = 'i386'
+    @instance.matches.last.should include("Assembly hardware profile architecture (i386) doesn't match image hardware profile architecture (x86_64).")
+  end
+
   it "should return a match if all requirements are satisfied" do
     build = @instance.image_build || @instance.image.latest_pushed_build
     provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)

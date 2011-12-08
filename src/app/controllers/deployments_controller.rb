@@ -353,7 +353,7 @@ class DeploymentsController < ApplicationController
 
   def set_errors_flash(errors)
     unless errors.empty?
-      flash[:error] = {
+      flash.now[:error] = {
           :summary => t("deployments.flash.error.not_launched"),
           :failures => errors
       }

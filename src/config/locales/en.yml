@@ -359,6 +359,7 @@ en:
       stop_not_be_performed: "stop cannot be performed on this instance."
       must_be_enabled: "%{account_name}: provider must be enabled"
       cannot_destroy: "destroy cannot be performed on this instance."
+      architecture_mismatch: "Assembly hardware profile architecture (%{inst_arch}) doesn't match image hardware profile architecture (%{img_arch})."
     headers:
       vm_name: VM NAME
       status: STATUS
