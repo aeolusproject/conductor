@@ -2199,7 +2199,7 @@ ul.deployment-array.large + ul.deployment-array.large{
 /********************************************* Small Deployable Card Arrays */
 /************************************************************************** */
 
-$deployment-small-height: 84px;
+$deployment-small-height: 116px;
 $deployment-small-width: 174px;
 $deployment-small-padding: 8px;
 
@@ -2230,8 +2230,15 @@ ul.deployment-array.small{
     dl.statistics{
       ul{list-style: none;}
       li{display: inline-block;}
-      li.left{text-align: left;}
-      li.right{text-align: right; float: right;}
+      li.left{
+        text-align: left;
+        width: 50%;
+      }
+      li.right{
+        text-align: right;
+        float: right;
+        width: 50%;
+      }
       dt{font-size: 9px; text-transform: uppercase; padding: 4px; color: #999; display: block; margin-bottom: 4px;}
       dt.uptime{
         padding-left: 20px;
