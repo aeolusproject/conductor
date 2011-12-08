@@ -60,6 +60,15 @@
       list-style-type: none;
       margin-top: 4px;
     }
+    input[type="text"] {
+      padding: 4px;
+      width: 200px;
+      font-size: 13px;
+      border: 1px solid #c4c4c4;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+      -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+      -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
   }
 
   .image-id {

@@ -176,6 +176,7 @@ en:
         Are you sure you wish to deploy "%{deployment}" to the %{pool} Pool? Doing
         so will utilize %{quota} of your overall deployment quota.
       deployable_xml: Deployable XML
+      name: Name
       description: Description
       image_ids: Image IDs
       launch: Launch
