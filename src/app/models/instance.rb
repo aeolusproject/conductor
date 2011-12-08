@@ -129,7 +129,7 @@ class Instance < ActiveRecord::Base
   validate :pool_and_account_enabled_validation, :on => :create
 
   before_destroy :destroyable?
-
+  before_destroy :destroy_on_provider
   # A user should only be able to update certain attributes, but the API may permit other attributes to be
   # changed if called from another Aeolus component, so attr_protected isn't quite what we want:
   USER_MUTABLE_ATTRS = ['name']
@@ -481,6 +481,18 @@ class Instance < ActiveRecord::Base
     {:title => I18n.t("instances.preset_filters.running"), :id => "running", :query => where("instances.state" => "running")},
     {:title => I18n.t("instances.preset_filters.pending"), :id => "pending", :query => where("instances.state" => "pending")}
   ]
+
+  def destroy_on_provider
+    begin
+      @task = self.queue_action(self.owner, 'destroy')
+      unless @task
+        raise ActionError.new("destroy cannot be performed on this instance.")
+      end
+      Taskomatic.destroy_instance(@task)
+    rescue Exception => e
+      retry if self.tasks.last.action != 'destroy'
+    end
+  end
 
   private
 
