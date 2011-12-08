@@ -39,7 +39,7 @@ class TemplateXML
     begin
       doc = TemplateXML.new(xmlstr)
     rescue Nokogiri::XML::SyntaxError
-      return [I18n.t('template_xml.errors.xml_parser_error')]
+      return [I18n.t('template_xml.errors.xml_parse_error')]
     end
     return doc.validate
   end
