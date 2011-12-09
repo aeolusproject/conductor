@@ -5,6 +5,7 @@
     =t'return_to'
     = link_to t('images.index.images'), images_path, :class => 'rounded-link'
     .button-group
+    - unless @image.imported?
       = link_to t('.new_deployable_from_image'), new_deployable_path(:create_from_image => @image.id), :class => 'button pill'
       = button_to t("delete"), image_path(@image.id), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete'
 
@@ -16,7 +17,8 @@
       = form_tag image_path(@image.id), :method => :get do
         = select_tag :build, options_for_build_select(@builds, @build, @latest_build)
         = submit_tag t('.select_build'), :id => 'seletect_build_button'
-      = button_to t('.rebuild_all'), rebuild_all_image_path(@image.id), :class => 'button pill'
+      - unless @image.imported?
+        = button_to t('.rebuild_all'), rebuild_all_image_path(@image.id), :class => 'button pill'
   .content
     %ul.image_builds
       - @account_groups.each do |driver, group|
