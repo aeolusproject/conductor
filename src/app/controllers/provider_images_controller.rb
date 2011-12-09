@@ -26,9 +26,14 @@ class ProviderImagesController < ApplicationController
       :build_id => params[:build_id],
       :target_image_id => params[:target_image_id]
     )
-    if @provider_image.save
-      flash[:notice] = t('provider_images.flash.notice.upload_start')
-    else
+    begin
+      if @provider_image.save
+        flash[:notice] = t('provider_images.flash.notice.upload_start')
+      else
+        flash[:warning] = t('provider_images.flash.warning.upload_failed')
+      end
+    rescue Exception => e
+      logger.error "Caught exception importing image: #{e.message}"
       flash[:warning] = t('provider_images.flash.warning.upload_failed')
     end
     redirect_to image_path(params[:image_id], :build => params[:build_id])
