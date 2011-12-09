@@ -79,8 +79,9 @@ class ImagesController < ApplicationController
     begin
       image = Image.import(provider, params[:image_id])
       flash[:success] = t("images.import.image_imported")
-      redirect_to image_url(image) and return
-    rescue
+      redirect_to image_url(image.id) and return
+    rescue Exception => e
+      logger.error "Caught exception importing image: #{e.message}"
       flash[:error] = t("images.import.image_not_imported")
       redirect_to new_image_url(:tab => 'import')
     end
