@@ -4,6 +4,15 @@ Conductor.Views = Conductor.Views || {}
 Conductor.Views.PoolsIndex = Backbone.View.extend({
   el: '#content',
 
+  currentView: function() {
+    if ($('form.filterable-data').length > 0) {
+      return 'table'
+    }
+    else if ($('.deployment-array').length > 0) {
+      return 'pretty'
+    }
+  },
+
   currentTab: function() {
     if($('#details_pools.active').length > 0) {
       return 'pools';
@@ -17,21 +26,33 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
   },
 
   template: function() {
-    switch(this.currentTab()) {
-      case 'pools': return $('#poolTemplate');
-      case 'deployments': return $('#deploymentTemplate');
-      case 'instances': return $('#instanceTemplate');
+    if (this.currentView() == 'table') {
+      switch(this.currentTab()) {
+        case 'pools': return $('#poolTemplate');
+        case 'deployments': return $('#deploymentTemplate');
+        case 'instances': return $('#instanceTemplate');
+      }
+    }
+    else if (this.currentView() == 'pretty') {
+      return $('#deploymentPrettyTemplate');
     }
   },
 
   render: function() {
     var $template = this.template();
-    var $table = this.$('table.checkbox_table > tbody');
-    if($table.length === 0 || $template.length === 0) return;
 
-    var checkboxes = Conductor.saveCheckboxes('td :checkbox', $table);
-    $table.empty().append($template.tmpl(this.collection.toJSON()))
-    Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
+    if (this.currentView() == 'table') {
+      var $table = this.$('table.checkbox_table > tbody');
+      if($table.length === 0 || $template.length === 0) return;
+      var checkboxes = Conductor.saveCheckboxes('td :checkbox', $table);
+      $table.empty().append($template.tmpl(this.collection.toJSON()))
+      Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
+    }
+    else if (this.currentView() == 'pretty') {
+      $deployments = this.$('ul.deployment-array');
+      var $template = this.template();
+      $deployments.empty().append($template.tmpl(this.collection.toJSON()))
+    }
   },
 });
 
@@ -81,11 +102,6 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
 
   el: '#content',
 
-  currentTab: function() {
-    if($('#details_instances.active').length > 0) {
-      return 'instances';
-    }
-  },
   render: function() {
     var $instances = this.$('ul.instances-array');
     if($instances.length === 0) {

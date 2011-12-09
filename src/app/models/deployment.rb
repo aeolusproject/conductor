@@ -398,6 +398,7 @@ class Deployment < ActiveRecord::Base
       :deployment_state => deployment_state,
       :instances_count => instances.count,
       :uptime => ApplicationHelper.count_uptime(uptime_1st_instance),
+      :global_uptime => ApplicationHelper.count_uptime(uptime_all),
       :pool => {
         :name => pool.name,
         :id => pool.id,

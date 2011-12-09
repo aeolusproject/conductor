@@ -15,3 +15,25 @@
             %li.left
               %dt=t :uptime
               %dd= count_uptime(deployment.uptime_1st_instance)
+
+%script#deploymentPrettyTemplate{ :type => 'text/x-jquery-tmpl' }
+  :plain
+    <li class="deployment">
+      <h3 class="name">
+        <a href="#{deployment_path('replace_id').sub('replace_id', '${id}')}">${name}</a>
+        #{t 'pools.index.global_uptime'}
+        ${global_uptime}
+      </h3>
+      <dl class="statistics">
+        <ul>
+          <li class="right">
+            <dt class="instances count">#{t 'instances.instances'}</dt>
+            <dd>${instances_count}</dd>
+          </li>
+          <li class="left">
+            <dt>#{t :uptime}</dt>
+            <dd>${uptime}</dd>
+          </li>
+        </ul>
+      </dl>
+    </li>

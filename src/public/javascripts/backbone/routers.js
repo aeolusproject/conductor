@@ -12,18 +12,23 @@ Conductor.Routers.Pools = Backbone.Router.extend({
     setInterval(function() {
       var view = new Conductor.Views.PoolsIndex();
 
-      switch(view.currentTab()) {
-      case 'pools':
-        view.collection = new Conductor.Models.Pools();
-        break;
-      case 'deployments':
+      if (view.currentView() == 'table') {
+        switch(view.currentTab()) {
+        case 'pools':
+          view.collection = new Conductor.Models.Pools();
+          break;
+        case 'deployments':
+          view.collection = new Conductor.Models.Deployments();
+          break;
+        case 'instances':
+          view.collection = new Conductor.Models.Instances();
+          break;
+        default:
+          return;
+        }
+      }
+      else if (view.currentView() == 'pretty') {
         view.collection = new Conductor.Models.Deployments();
-        break;
-      case 'instances':
-        view.collection = new Conductor.Models.Instances();
-        break;
-      default:
-        return;
       }
 
       view.collection.bind('change', function() { view.render() });
