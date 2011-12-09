@@ -460,8 +460,11 @@ class Deployment < ActiveRecord::Base
     # server used for all instances in the deployment
     # this logic could easily change
     if instances.any? {|instance| instance.user_data}
-      configserver = instances.first.provider_account.config_server
-      configserver.delete_deployment_config(uuid) if configserver
+      # guard against the provider_account being nil
+      if instances.first.provider_account
+        configserver = instances.first.provider_account.config_server
+        configserver.delete_deployment_config(uuid) if configserver
+      end
     end
   end
 
