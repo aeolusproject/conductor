@@ -36,6 +36,7 @@ class ImagesController < ApplicationController
 
   def show
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
+    # FIXME: This should be narrowed if the image is imported
     @account_groups = ProviderAccount.group_by_type(current_user)
     # according to imagefactory Builder.first shouldn't be implemented yet
     # but it does what we need - returns builder object which contains
@@ -73,21 +74,12 @@ class ImagesController < ApplicationController
         flash[:warning] = t("images.import.bad_xml")
         logger.error "XML was provided when importing image, but we are falling back on generic XML because we caught an exception: #{e.message}"
       end
-      xml = "<image><name>#{params[:image_id]}</name></image>"
+      xml = nil # It'll be assigned in Image.import
     end
-    image = Aeolus::Image::Factory::Image.new(
-      :target_name => provider.provider_type.deltacloud_driver,
-      :provider_name => provider.name,
-      :target_identifier => params[:image_id],
-      :image_descriptor => xml
-    )
     begin
-      if image.save!
-        flash[:success] = t("images.import.image_imported")
-        redirect_to image_url(image) and return
-      else
-        raise
-      end
+      image = Image.import(provider, params[:image_id])
+      flash[:success] = t("images.import.image_imported")
+      redirect_to image_url(image) and return
     rescue
       flash[:error] = t("images.import.image_not_imported")
       redirect_to new_image_url(:tab => 'import')
