@@ -17,7 +17,6 @@
             .clear
           %div
             = form.label :catalog_id, t('catalog_entries.form.catalog')
-            /= form.select :catalog_id, @catalogs.collect{|c| [c.name, c.id]}
             %span.text_instead_input= @selected_catalogs.empty? ? t('deployables.form.none') : @selected_catalogs.count > 1 ? t('deployables.form.multiple') : @selected_catalogs.first.name
             %span.catalog_link
               &nbsp
@@ -34,7 +33,3 @@
         %fieldset.align-center
           = link_to "#{t'catalog_entries.form.cancel'}", catalogs_path, :class => 'button danger'
           = submit_tag "#{t'catalog_entries.form.save'}", :name => 'save', :class => 'button primary', :id => 'save_button'
-
-:javascript
-    $(document).ready(function(){
-    });
