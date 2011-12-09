@@ -53,11 +53,12 @@ class TemplateXML
       @xml.xpath('/template').first << @xml.create_element('name')
     end
 
-    @xml.xpath('/template/name').first.content = name unless name.blank?
+    name ||= ""
+    @xml.xpath('/template/name').first.content = name
   end
 
   def name
-    doc.xpath('/template/name').text
+    @xml.xpath('/template/name').text
   end
 
   def to_xml

@@ -102,7 +102,7 @@ class ImagesController < ApplicationController
       url = params[:image_url]
       begin
         xml_source = RestClient.get(url, :accept => :xml)
-      rescue RestClient::Exception, SocketError, URI::InvalidURIError
+      rescue RestClient::Exception, SocketError, URI::InvalidURIError, Errno::ECONNREFUSED
         flash.now[:error] = t('images.flash.error.invalid_url')
         render :new and return
       end
@@ -116,7 +116,8 @@ class ImagesController < ApplicationController
     rescue Nokogiri::XML::SyntaxError
       errors = [t('template_xml.errors.xml_parse_error')]
     else
-      doc.name = @name
+      doc.name = @name unless @name.blank?
+      @name = doc.name
       @xml = doc.to_xml
       errors = doc.validate
     end
@@ -134,10 +135,13 @@ class ImagesController < ApplicationController
     @name = params[:name]
     @xml = params[:image_xml]
 
-    errors = TemplateXML.validate(@xml)
+    doc = TemplateXML.new(@xml)
+    errors = doc.validate
     if errors.any?
       flash.now[:error] = errors
       render :edit_xml and return
+    else
+      @name = doc.name
     end
   end
 
@@ -205,20 +209,6 @@ class ImagesController < ApplicationController
   end
 
   protected
-  def add_template_name(doc, name)
-    return unless doc
-
-    if doc.root.nil? || doc.root.name != 'template'
-      doc.root = doc.create_element('template')
-    end
-
-    if doc.xpath('/template/name').empty?
-      doc.xpath('/template').first << doc.create_element('name')
-    end
-
-    doc.xpath('/template/name').first.content = name unless name.blank?
-  end
-
   def load_target_images(build)
     @target_images_by_target = {}
     return unless build
