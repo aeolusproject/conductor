@@ -21,7 +21,9 @@
             %dt=t'updates'
             %dd.count.update 0
       %li
-        %dt=t'quota_used'
+        %dt
+          = t("pool")
+          = t("quota_used")
         %dd.percentage.quota
           = number_to_percentage(@pool.quota.percentage_used, :precision => 0)
         %dd.fraction.instance

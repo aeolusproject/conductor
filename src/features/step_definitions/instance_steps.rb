@@ -68,6 +68,12 @@ Given /^there is a "([^"]*)" failed instance$/ do |name|
   FactoryGirl.create :instance, :name => name, :state => Instance::STATE_ERROR
 end
 
+Given /^there is a "([^"]*)" failed instance owned by "([^"]*)"$/ do |name, login|
+  instance = FactoryGirl.create :instance, :name => name, :state => Instance::STATE_ERROR
+  instance.owner = User.find_by_login(login)
+  instance.save
+end
+
 Given /^there is a "([^"]*)" running instance$/ do |name|
   FactoryGirl.create :instance, :name => name, :state => Instance::STATE_RUNNING
 end

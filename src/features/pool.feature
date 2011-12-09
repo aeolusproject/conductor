@@ -168,7 +168,7 @@ Feature: Manage Pools
     Then I should see "Your Pools" within "section.pools"
 
   Scenario: Display alerts
-    And there is a "fail1" failed instance
+    And there is a "fail1" failed instance owned by "admin"
     When I go to the pools page
     Then I should see "Alerts"
     And I should see "Instance Failure error"

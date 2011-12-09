@@ -35,8 +35,7 @@ class PoolsController < ApplicationController
     clear_breadcrumbs
     save_breadcrumb(pools_path(:viewstate => viewstate_id))
 
-    @user_pools = Pool.list_for_user(current_user, Privilege::VIEW)
-    @user_pool_families = PoolFamily.list_for_user(current_user, Privilege::VIEW)
+    @user_pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
     if filter_view?
       @tabs = [{:name => "#{t'pools.pools'}", :view => 'list', :id => 'pools'},
                {:name => "#{t'deployments.deployments'}", :view => 'deployments/list', :id => 'deployments'},
@@ -295,18 +294,17 @@ class PoolsController < ApplicationController
   end
 
   def statistics
-    instances = Instance.list_for_user(current_user, Privilege::VIEW)
-    pf_max_quotas = @user_pool_families.collect {|pf| pf.quota.maximum_running_instances}
+    instances = current_user.owned_instances
     @failed_instances = instances.select {|instance| instance.state == Instance::STATE_CREATE_FAILED || instance.state == Instance::STATE_ERROR}
     @statistics = {
               :pools_in_use => @user_pools.collect { |pool| pool.instances.pending.count > 0 || pool.instances.deployed.count > 0 }.count,
-              :deployments => Deployment.list_for_user(current_user, Privilege::VIEW).count,
+              :deployments => current_user.deployments.count,
               :instances => instances.count,
               :instances_pending => instances.select {|instance| instance.state == Instance::STATE_NEW || instance.state == Instance::STATE_PENDING}.count,
               :instances_failed => @failed_instances.count,
-              :pf_available_quota => pf_max_quotas.compact.size != @user_pool_families.size ? nil :  @user_pool_families.collect{|pf| pf.quota.maximum_running_instances}.inject(0){|sum, n| sum + n},
-              :pf_running_instances => @user_pool_families.collect{|pf| pf.quota.running_instances}.inject(0){|sum, n| sum + n},
-              :pf_used_percentage => @user_pool_families.collect {|pf| pf.quota.percentage_used}.inject(0){|sum, n| sum + n}
+              :user_available_quota => current_user.quota.maximum_running_instances,
+              :user_running_instances => current_user.quota.running_instances,
+              :user_used_percentage => current_user.quota.percentage_used
               }
   end
 end
