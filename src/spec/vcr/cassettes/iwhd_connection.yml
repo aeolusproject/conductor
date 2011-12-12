@@ -2102,3 +2102,30 @@
       - "0"
     body: 
     http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/85653387-88b2-46b0-b7b2-c779d2af06c7
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      user-agent: 
+      - OAuth gem v0.4.4
+      accept-encoding: 
+      - gzip, deflate
+      authorization: 
+      - OAuth oauth_consumer_key="zyqv6%2FWE9w41BrI%2BuefH7gyGZkBwOODG", oauth_nonce="LjcVnYTupxQT9t8dVyuEI33P4lg8ciOMtgeDV33SC5E", oauth_signature="1RRmzRcbLdwdPp%2BKUN4dBcZPw4I%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1323682684", oauth_version="1.0"
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 12 Dec 2011 09:38:06 GMT
+      transfer-encoding: 
+      - chunked
+    body: <image><name>testimg</name></image>
+    http_version: "1.1"
