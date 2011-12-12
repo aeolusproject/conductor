@@ -36,8 +36,19 @@ class ImagesController < ApplicationController
 
   def show
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
-    # FIXME: This should be narrowed if the image is imported
-    @account_groups = ProviderAccount.group_by_type(current_user)
+    if @image.imported?
+      begin
+        # For an imported image, we only want to show the actual provider account
+        # This can raise exceptions with old/bad data, though, so rescue and show all providers
+        acct = ProviderAccount.find_by_label(@image.provider_images.first.provider_account_identifier)
+        type = acct.provider.provider_type
+        @account_groups = {type.deltacloud_driver => {:type => type, :accounts => [acct]}}
+      rescue
+        @account_groups = ProviderAccount.group_by_type(current_user)
+      end
+    else
+      @account_groups = ProviderAccount.group_by_type(current_user)
+    end
     # according to imagefactory Builder.first shouldn't be implemented yet
     # but it does what we need - returns builder object which contains
     # all builds
