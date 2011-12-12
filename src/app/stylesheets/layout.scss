@@ -1068,6 +1068,11 @@ nav#administer_nav {
     }
     &.selected{
       background: transparent url(../../images/administer_nav_bg_hover.png) center bottom no-repeat;
+      a.users{ &:before{ background-position: -68px -26px; } }
+      a.environments{ &:before{ background-position: -100px -26px; } }
+      a.content{ &:before{ background-position: -132px -26px; } }
+      a.providers{ &:before{ background-position: -165px -26px; } }
+      a.settings{ &:before{ background-position: -203px -25px; } }
     }
 
     a{
@@ -1075,11 +1080,31 @@ nav#administer_nav {
       display: block;
       color: black;
       padding: 45px 10px 12px 10px;
-      &.users{background: transparent url(../../images/administer_nav_icons.png) center -221px no-repeat;}
-      &.environments{background: transparent url(../../images/administer_nav_icons.png) center -63px no-repeat;}
-      &.content{background: transparent url(../../images/administer_nav_icons.png) center 13px no-repeat;}
-      &.providers{background: transparent url(../../images/administer_nav_icons.png) center -140px no-repeat;}
-      &.settings{background: transparent url(../../images/administer_nav_icons.png) center -294px no-repeat;}
+      &.users{
+        position: relative;
+        &:before{ content: ''; position: absolute; top: 19px; left: 50%; margin-left: -15px; width: 30px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -68px 0px; }
+        &:hover{ &:before{ background-position: -68px -26px; } }
+      }
+      &.environments{
+        position: relative;
+        &:before{ content: ''; position: absolute; top: 18px; left: 50%; margin-left: -17px; width: 34px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -100px 0px; }
+        &:hover{ &:before{ background-position: -100px -26px; } }
+      }
+      &.content{
+        position: relative;
+        &:before{ content: ''; position: absolute; top: 18px; left: 50%; margin-left: -17px; width: 34px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -132px 0px; }
+        &:hover{ &:before{ background-position: -132px -26px; } }
+      }
+      &.providers{
+        position: relative;
+        &:before{ content: ''; position: absolute; top: 18px; left: 50%; margin-left: -17px; width: 34px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -165px 0px; }
+        &:hover{ &:before{ background-position: -165px -26px; } }
+      }
+      &.settings{
+        position: relative;
+        &:before{ content: ''; position: absolute; top: 19px; left: 50%; margin-left: -9px; width: 18px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -203px 0px; }
+        &:hover{ &:before{ background-position: -203px -25px; } }
+      }
     }
   }
 }
