@@ -1574,14 +1574,26 @@ section.admin-content-section{
       font-weight: 200;
       display: inline-block;
       margin-bottom: 4px;
-      padding-right: 40px;
+      padding: 2px 40px 0px 0px;
 
       &.activity{ background: transparent url('../../images/admin_h2_icons.png') right 0px no-repeat; }
-      &.roles{ background: transparent url('../../images/admin_h2_icons.png') right -28px no-repeat; }
+      &.roles{ background: transparent url('../../images/admin_h2_icons.png') right -29px no-repeat; }
       &.settings{ background: transparent url('../../images/admin_h2_icons.png') right -56px no-repeat; }
       &.pools{ background: transparent url('../../images/admin_h2_icons.png') right -84px no-repeat; }
       &.users{ background: transparent url('../../images/admin_h2_icons.png') right -112px no-repeat; }
       &.groups{ background: transparent url('../../images/admin_h2_icons.png') right -140px no-repeat; }
+      &.images{
+        position: relative;
+        &:after{ content: ''; position: absolute; right: 12px; width: 20px; height: 100%; background: transparent url('../../images/buildpush_symbols.png') -73px 3px no-repeat; }
+      }
+      &.build{
+        position: relative;
+        &:after{ content: ''; position: absolute; right: 15px; width: 16px; height: 100%; background: transparent url('../../images/buildpush_symbols.png') -56px 0px no-repeat; }
+      }
+      &.catalogs{
+        position: relative;
+        &:after{ content: ''; position: absolute; right: 15px; width: 20px; height: 100%; background: transparent url('../../images/buildpush_symbols.png') -93px 0px no-repeat; }
+      }
 
       &.alerts{color: #c00000;}
     }
@@ -2501,10 +2513,11 @@ table.light_table{
   th.remove_catalog{ text-align: right; border-bottom: none; }
   td.remove_catalog{ text-align: right; }
   td.remove_catalog input.remove_catalog{
-    background: transparent url(../../images/icon_remove.png) no-repeat -3px -3px;
+    background: transparent url(../../images/buildpush_symbols.png) -112px 2px no-repeat;
+    cursor: pointer;
     border: none;
-    width: 15px;
-    height: 15px;
+    width: 16px;
+    height: 16px;
   }
 }
 

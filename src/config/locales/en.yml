@@ -774,6 +774,7 @@ en:
         one: "Deployable %{list} was not deleted. There are deployments associated with it."
         other: "Deployables %{list} were not deleted. They have deployments associated with them."
     show:
+      images: "Images"
       launch: "Launch"
       edit: Edit
       edit_xml: Edit XML

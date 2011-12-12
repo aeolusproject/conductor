@@ -15,7 +15,7 @@
 
 %section.admin-content-section
   %header
-    %h2.users= t('.images')
+    %h2.images= t('.images')
   .content
     .centered
       %table.light_table
@@ -44,7 +44,7 @@
 %section.admin-content-section
   - if @missing_images.empty?
     %header
-      %h2= t('.build')
+      %h2.build= t('.build')
       .section-controls
         = form_tag(catalog_deployable_build_path(@catalog, @deployable)) do
           = select_tag :build_options, options_for_select([[t(".build_missing"), :build_missing], [t(".push_missing"), :push_missing]])
@@ -68,7 +68,7 @@
                     %div{:class => "build_status_icon #{result[:status]}"}
   - else
     %header
-      %h2= t('.build')
+      %h2.build= t('.build')
     .content
       .centered.align-center
         %strong Assemblies in Deployable XML arent properly configured.
@@ -79,7 +79,7 @@
 
 %section.admin-content-section
   %header
-    %h2= t('.catalogs')
+    %h2.catalogs= t('.catalogs')
     .section-controls
       = form_for(:catalog_entry, :url => catalog_entries_path) do |f|
         = f.label :catalog_id, t('.choose_catalog')
