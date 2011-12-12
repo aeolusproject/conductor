@@ -1,18 +1,25 @@
+Feature: Manage Images
+  In order to manage my cloud infrastructure
+  As a user
+  I want to manage instances
+
+  Background:
+    Given I am an authorised user
+    And I am logged in
+
+  Scenario: Uploading a template without specifying the file
+    Given there is a pool family named "testpoolfamily"
+    And I am on the pool families page
+    And I follow "New Image"
+    Then I should be on the new image page
+    When I fill in "name" with "my template"
+    And I press "file_button"
+    Then I should see "You must specify the template XML file"
+
 #
 # FIXME - This test is failing, but fixing it requires fixing a larger bug: we don't
 # use VCR the way we think we do when interacting with iwhd... That's a large can of worms.
 #
-
-#Feature: Manage Images
-#  In order to manage my cloud infrastructure
-#  As a user
-#  I want to manage instances
-
-#  Background:
-#    Given I am an authorised user
-#    And I am logged in
-
-
 #  Scenario: Show image details
 #    Given there is an image
 #    And I am on the images page

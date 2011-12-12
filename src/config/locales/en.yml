@@ -718,6 +718,7 @@ en:
         not_found: Image not found
       error:
         invalid_url: Could not load the provided URL
+        no_file: You must specify the template XML file
     new:
       new_image: New Image
       description:
