@@ -2717,6 +2717,16 @@ ul.catalog_pretty {
 /********************************************* Image show view */
 /************************************************************************** */
 
+#obj_actions.images {
+  #back_to_images {
+    margin: 0px 10px;
+  }
+
+  #delete, #new_deployable {
+    margin-top: -5px;
+  }
+}
+
 .image_builds h1 {
   padding: 10px;
   font-size: 16px;
