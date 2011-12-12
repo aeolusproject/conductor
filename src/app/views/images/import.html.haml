@@ -9,8 +9,8 @@
     = form_tag(import_images_path, { :multipart => true, :method => :post }) do
       %fieldset
         %p
-          = label_tag :provider, t('.provider')
-          = select_tag :provider, options_for_select(@providers.collect{|x| [x.name, x.id]})
+          = label_tag :provider_account, t('.provider_account')
+          = select_tag :provider_account, options_for_select(@accounts.collect{|x| [x.label, x.id]})
         %p
           = label_tag :image_id, t('.image_id')
           = text_field_tag :image_id

@@ -681,7 +681,7 @@ en:
     environment: %{environment} Environment
     import:
       import_image: Import Image
-      provider: Provider
+      provider_account: Provider Account
       image_id: Image ID
       description: Image Description
       bad_xml: Your image description could not be parsed and was ignored.

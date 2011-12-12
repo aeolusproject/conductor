@@ -57,7 +57,7 @@ class ImagesController < ApplicationController
 
   def new
     if 'import' == params[:tab]
-      @providers = Provider.all
+      @accounts = ProviderAccount.list_for_user(current_user, Privilege::USE)
       render :import and return
     else
       @environment = PoolFamily.find(params[:environment])
@@ -66,7 +66,7 @@ class ImagesController < ApplicationController
   end
 
   def import
-    provider = Provider.find(params[:provider])
+    account = ProviderAccount.find(params[:provider_account])
     begin
       xml = Nokogiri::XML(CGI.unescapeHTML(params[:description_xml].read)).to_s
     rescue Exception => e
@@ -77,7 +77,7 @@ class ImagesController < ApplicationController
       xml = nil # It'll be assigned in Image.import
     end
     begin
-      image = Image.import(provider, params[:image_id])
+      image = Image.import(account, params[:image_id])
       flash[:success] = t("images.import.image_imported")
       redirect_to image_url(image.id) and return
     rescue Exception => e

@@ -16,11 +16,11 @@
 
 class Image
 
-  # Given a Provider and an image ID, import the image
+  # Given a Provider Account and an image ID, import the image
   #  xml is an optional XML file describing the image (if omitted, we generate the XML)
-  #  account is an optional ProviderAccount that is attached after the fact
   # Returns the Aeolus::Image::Warehouse::Image object, or raises any exceptions encountered
-  def self.import(provider, image_id, xml=nil, account=nil)
+  def self.import(provider_account, image_id, xml=nil)
+    provider = provider_account.provider
     xml ||= "<image><name>#{image_id}</name></image>"
     image = Aeolus::Image::Factory::Image.new(
       :target_name => provider.provider_type.deltacloud_driver,
@@ -30,11 +30,10 @@ class Image
     )
     image.save!
     iwhd_image = Aeolus::Image::Warehouse::Image.find(image.id)
-    # If we have an account, set it:
-    if account
-      pimg = iwhd_image.provider_images.first
-      pimg.set_attr('provider_account_identifier', account.credentials_hash['username'])
-    end
+    # Set the account on the provider image
+    # This assumes (as is currently correct) that there will only be one provider image for imported images
+    pimg = iwhd_image.provider_images.first
+    pimg.set_attr('provider_account_identifier', provider_account.credentials_hash['username'])
     iwhd_image
   end
 
