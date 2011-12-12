@@ -63,8 +63,10 @@ module Api
           @image.save!
           respond_with(@image)
         elsif req[:type] == :import
-          @image = Aeolus::Image::Factory::Image.new(req[:params])
-          @image.save!
+          account = ProviderAccount.find_by_label(req[:params][:provider_account_name])
+          raise(Aeolus::Conductor::API::ProviderAccountNotFound.new(404, t("api.error_messages.provider_account_not_found",
+            :name => req[:params][:provider_account_name]))) unless account.present?
+          @image = Image.import(account, req[:params][:target_identifier], req[:params][:image_descriptor])
           respond_with(@image)
         end
       rescue ActiveResource::BadRequest => e
@@ -94,14 +96,12 @@ module Api
         { :type => :build, :params => { :template => doc.xpath("/image/tdl/template").to_s,
                                         :targets => doc.xpath("/image/targets").text }
         }
-      elsif !doc.xpath("/image/target_name").empty? && !doc.xpath("/image/target_identifier").empty? &&
-                 !doc.xpath("/image/image_descriptor").empty? && !doc.xpath("/image/provider_name").empty?
+      elsif !doc.xpath("/image/provider_account_name").empty? && !doc.xpath("/image/target_identifier").empty? &&
+                 !doc.xpath("/image/image_descriptor").empty?
 
-        { :type => :import, :params => { :target_name => doc.xpath("/image/target_name").text,
-                                         :targets => doc.xpath("/image/target_name").text,
-                                         :target_identifier => doc.xpath("/image/target_identifier").text,
+        { :type => :import, :params => { :target_identifier => doc.xpath("/image/target_identifier").text,
                                          :image_descriptor => doc.xpath("/image/image_descriptor").children.first.to_s,
-                                         :provider_name => doc.xpath("/image/provider_name").text }
+                                         :provider_account_name => doc.xpath("/image/provider_account_name").text }
         }
       else
         { :type => :failed }
