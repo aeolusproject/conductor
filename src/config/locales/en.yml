@@ -692,6 +692,7 @@ en:
       os_version: OS Version
       architecture: Architecture
       last_rebuild: Last Rebuild
+      import: Import
     show:
       provider_images: Provider Images
       provider_account: Provider Account
