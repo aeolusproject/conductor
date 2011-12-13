@@ -271,6 +271,7 @@ en:
     reboot: Reboot
     instance: Instance
     none_selected: "You must select one or more instances to stop."
+    none_selected_to_reboot: "You must select one or more instances to reboot."
     tab_captions:
       properties: Properties
       history: History
@@ -278,6 +279,7 @@ en:
     list:
       export_events: Export events
       stop_selected_instances: Stop selected instances
+      reboot_selected_instances: Reboot selected instances
       stopped_instances_hidden: Stopped instances are hidden
       showing_all_instances: Showing all instances
       show_all: show all
