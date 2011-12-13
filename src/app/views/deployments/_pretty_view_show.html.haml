@@ -15,8 +15,9 @@
           %li
             %dt.state= t('deployments.pretty_view_show.state')
             %dd= instance.state
-          %li
-            = link_to t('deployments.pretty_view_show.download_key'), key_instance_path(instance)
+          - if instance.instance_key
+            %li
+              = link_to t('deployments.pretty_view_show.download_key'), key_instance_path(instance)
       %hr
       .actions
         %ul
