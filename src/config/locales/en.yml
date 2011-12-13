@@ -99,6 +99,7 @@ en:
   define_locales: Define Locales
   permissions: Permissions
   role: Role
+  role_assignments: Role Assignments
   user: User
   privileges: Privileges
   general_settings: General Settings

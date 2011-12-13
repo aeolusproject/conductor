@@ -296,7 +296,7 @@ class ApplicationController < ActionController::Base
     if perm_obj.has_privilege(current_user, Privilege::PERM_VIEW)
       @roles = Role.find_all_by_scope(@permission_object.class.name)
       if @tabs
-        @tabs << {:name => t('users.users'),
+        @tabs << {:name => t('role_assignments'),
                   :view => 'permissions',
                   :id => 'permissions',
                   :count => perm_obj.permissions.count}
