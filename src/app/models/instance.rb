@@ -483,14 +483,16 @@ class Instance < ActiveRecord::Base
   ]
 
   def destroy_on_provider
-    begin
-      @task = self.queue_action(self.owner, 'destroy')
-      unless @task
-        raise ActionError.new("destroy cannot be performed on this instance.")
+    if (provider_account.label != "ec2" or provider_account.label != "mock") and state != STATE_CREATE_FAILED
+      begin
+        @task = self.queue_action(self.owner, 'destroy')
+        unless @task
+          raise ActionError.new("destroy cannot be performed on this instance.")
+        end
+        Taskomatic.destroy_instance(@task)
+      rescue Exception => e
+        retry if self.tasks.last.action != 'destroy'
       end
-      Taskomatic.destroy_instance(@task)
-    rescue Exception => e
-      retry if self.tasks.last.action != 'destroy'
     end
   end
 
