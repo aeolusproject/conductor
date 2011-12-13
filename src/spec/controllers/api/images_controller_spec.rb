@@ -28,6 +28,9 @@ describe Api::ImagesController do
       @build = mock(Aeolus::Image::Warehouse::ImageBuild,
                     :id => '7',
                     :target_images => [])
+      @provider_image = mock(Aeolus::Image::Warehouse::ProviderImage,
+                    :target_identifier => "ami-1234567",
+                    :provider => "provider")
       @image = mock(Aeolus::Image::Warehouse::Image,
                     :id => '5',
                     :os => @os,
@@ -35,8 +38,17 @@ describe Api::ImagesController do
                     :description => 'test image',
                     :image_builds => [@build],
                     :build => @build,
-                    :provider_images => [mock(Aeolus::Image::Warehouse::ProviderImage, :target_identifier => "ami-1234567", :provider => "provider")] * 2
+                    :provider_images => [@provider_image, @provider_image.clone]
                     )
+      @provider_account = mock(ProviderAccount,
+                    :label => 'mock',
+                    :credentials_hash => {'username' => 'foo', 'password' => 'bar'})
+      @provider_type = mock(ProviderType,
+                    :name => 'mock',
+                    :deltacloud_driver => 'mock')
+      @provider = mock(Provider,
+                    :name => 'mock',
+                    :provider_type => @provider_type)
       Aeolus::Image::Warehouse::ImageBuild.stub(:where).and_return([@build])
     end
 
@@ -230,17 +242,21 @@ describe Api::ImagesController do
           before(:each) do
             xml = Nokogiri::XML::Builder.new do
               image {
-                target_name "mock"
                 target_identifier "tid"
                 image_descriptor {
                   child "c1"
                   child "c2"
                 }
-                provider_name "mock"
+                provider_account_name "mock"
               }
             end
             Aeolus::Image::Factory::Image.stub(:new).and_return(@image)
+            ProviderAccount.stub(:find_by_label).and_return(@provider_account)
+            @provider_account.stub(:provider).and_return(@provider)
             @image.stub(:save!)
+            # We previously stubbed this out to return nil... That's inappropriate here:
+            Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
+            @provider_image.stub(:set_attr)
 
             request.env['RAW_POST_DATA'] = xml.to_xml
             post :create
