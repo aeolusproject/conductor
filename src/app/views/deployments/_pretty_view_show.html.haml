@@ -11,7 +11,7 @@
             %dd= count_uptime(instance.uptime)
           %li
             %dt.ip_address= t('deployments.pretty_view_show.ip_address')
-            %dd= instance.public_addresses.present? ? instance.public_addresses : '-'
+            %dd= instance.public_addresses.present? ? instance.public_addresses : t('deployments.pretty_view_show.no_ip_address')
           %li
             %dt.state= t('deployments.pretty_view_show.state')
             %dd= instance.state
@@ -43,7 +43,13 @@
           </li>
           <li>
             <dt class="ip_address">#{t('deployments.pretty_view_show.ip_address')}</dt>
-            <dd>${public_addresses}</dd>
+            <dd>
+              {{if public_addresses}}
+                ${public_addresses}
+              {{else}}
+                #{t('deployments.pretty_view_show.no_ip_address')}
+              {{/if}}
+            </dd>
           </li>
           <li>
             <dt class="state">#{t('deployments.pretty_view_show.state')}</dt>
@@ -62,7 +68,6 @@
           {{else}}
             <li>#{button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => true)}</li>
           {{/if}}
-
 
           {{if reboot_enabled}}
             <li>#{button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => false)}</li>

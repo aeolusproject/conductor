@@ -228,6 +228,7 @@ en:
       delete_selected: Delete Selected
     pretty_view_show:
       ip_address: "IP Address:"
+      no_ip_address: '-'
       state: "State:"
       download_key: Download key
       reboot: "Restart"
