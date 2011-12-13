@@ -288,7 +288,7 @@ class PoolsController < ApplicationController
     instances = current_user.owned_instances
     @failed_instances = instances.select {|instance| instance.state == Instance::STATE_CREATE_FAILED || instance.state == Instance::STATE_ERROR}
     @statistics = {
-              :pools_in_use => @user_pools.collect { |pool| pool.instances.pending.count > 0 || pool.instances.deployed.count > 0 }.count,
+              :pools_in_use => @user_pools.select { |pool| pool.instances.pending.count > 0 || pool.instances.deployed.count > 0 }.count,
               :deployments => current_user.deployments.count,
               :instances => instances.count,
               :instances_pending => instances.select {|instance| instance.state == Instance::STATE_NEW || instance.state == Instance::STATE_PENDING}.count,
