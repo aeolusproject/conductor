@@ -94,7 +94,7 @@ class DeployablesController < ApplicationController
 
     require_privilege(Privilege::CREATE, Deployable)
     @deployable = Deployable.new(params[:deployable])
-    @selected_catalogs = Catalog.find(params[:catalog_id] || []).to_a
+    @selected_catalogs = Catalog.find(params[:catalog_id].to_a)
     @deployable.owner = current_user
 
     if params.has_key? :url
