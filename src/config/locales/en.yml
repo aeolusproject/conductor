@@ -184,6 +184,7 @@ en:
     launch_from_catalog:
       profile: Profile
       hint: Choose a deployable to launch in the "%{pool}" pool
+      no_catalog_entry: 'No available catalog entry. Please add one first!'
       details: Details
       select: Select
       image_id: Image ID
