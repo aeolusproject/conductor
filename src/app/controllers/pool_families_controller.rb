@@ -19,14 +19,13 @@ require 'will_paginate/array'
 class PoolFamiliesController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
-  before_filter :load_pool_families, :only =>[:show]
+  before_filter :load_pool_families, :only =>[:index, :show]
   before_filter :load_tab_captions_and_details_tab, :only => [:show]
 
   def index
     clear_breadcrumbs
     save_breadcrumb(pool_families_path)
     set_admin_environments_tabs 'pool_families'
-    load_pool_families
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
@@ -213,9 +212,7 @@ class PoolFamiliesController < ApplicationController
   end
 
   def load_pool_families
-    @pool_families = PoolFamily.list_for_user(current_user, Privilege::VIEW).paginate(
-      :page => params[:page] || 1,
-      :order => (sort_column(PoolFamily) + ' ' + sort_direction))
+    @pool_families = PoolFamily.list_for_user(current_user, Privilege::VIEW, Pool).order(sort_column(PoolFamily) + ' ' + sort_direction)
   end
 
   def load_pool_family_tabs

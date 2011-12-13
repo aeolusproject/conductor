@@ -4,12 +4,12 @@ Feature: Pool Families
   I want to manage pool families
 
   Background:
-    Given I am an authorised user
-    And I am logged in
-    And I'm connected to the warehouse
+    Given I'm connected to the warehouse
 
   Scenario: List pool families
-    Given I am on the homepage
+    Given I am an authorised user
+    And I am logged in
+    And I am on the homepage
     And there are these pool families:
     | name      |
     | pool_family1 |
@@ -21,14 +21,25 @@ Feature: Pool Families
     | pool_family2 |
     | pool_family3 |
 
+  Scenario: List pool families as unprivileged user
+    Given I am logged in
+    And I can view pool family "testpoolfamily"
+    When I go to the pool families page
+    Then I should see "Pool Families"
+    And I should see "testpoolfamily"
+
   Scenario: Show pool family details
-    Given there is a pool family named "testpoolfamily"
+    Given I am an authorised user
+    And I am logged in
+    And there is a pool family named "testpoolfamily"
     And I am on the pool families page
     When I follow "testpoolfamily"
     Then I should see "Pools"
 
   Scenario: Create a new Pool family
-    Given I am on the pool families page
+    Given I am an authorised user
+    And I am logged in
+    And I am on the pool families page
     And there is not a pool family named "testpoolfamily"
     When I follow "new_pool_family_button"
     Then I should be on the new pool family page
@@ -40,7 +51,9 @@ Feature: Pool Families
     And I should have a pool family named "testpoolfamily"
 
   Scenario: Delete a pool family
-    Given I am on the homepage
+    Given I am an authorised user
+    And I am logged in
+    And I am on the homepage
     And there is a pool family named "poolfamily1"
     When I go to the pool families page
     And I follow "poolfamily1"
@@ -48,7 +61,9 @@ Feature: Pool Families
     Then there should not exist a pool family named "poolfamily1"
 
   Scenario: Disallow deletion of default pool family
-    Given I am on the pool families page
+    Given I am an authorised user
+    And I am logged in
+    And I am on the pool families page
     Then I should see "default"
     When I follow "default"
     And I press "delete_pool_family_button"
@@ -82,7 +97,9 @@ Feature: Pool Families
 #    And I should see "third_family"
 
   Scenario: Add provider account to pool family
-    Given there is a pool family named "testpoolfamily"
+    Given I am an authorised user
+    And I am logged in
+    And there is a pool family named "testpoolfamily"
     And there is a provider named "testprovider"
     And there is a provider account named "testaccount"
     And I am on the pool family provider accounts page
@@ -94,7 +111,9 @@ Feature: Pool Families
     And I should see "testaccount"
 
   Scenario: Remove provider account from pool family
-    Given there is a pool family named "testpoolfamily"
+    Given I am an authorised user
+    And I am logged in
+    And there is a pool family named "testpoolfamily"
     And there is a provider named "testprovider"
     And there is a provider account named "testaccount"
     And there is a provider account "testaccount" related to pool family "testpoolfamily"

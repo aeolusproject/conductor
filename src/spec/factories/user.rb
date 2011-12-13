@@ -58,4 +58,7 @@ FactoryGirl.define do
     sequence(:login) { |n| "pool_user2#{n}" }
   end
 
+  factory :pool_family_user, :parent => :user do
+    sequence(:login) { |n| "pool_family_user#{n}" }
+  end
 end

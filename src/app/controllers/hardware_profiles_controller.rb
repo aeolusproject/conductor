@@ -205,7 +205,7 @@ class HardwareProfilesController < ApplicationController
 
   def load_hardware_profiles
     sort_order = sort_direction
-    sort_field = sort_column(HardwareProfile)
+    sort_field = sort_column(HardwareProfile, 'name')
     if sort_field == "name"
       @hardware_profiles = HardwareProfile.list_for_user(current_user, Privilege::VIEW).where('provider_id IS NULL', {}).apply_filters(:preset_filter_id => params[:hardware_profiles_preset_filter], :search_filter => params[:hardware_profiles_search]).order("hardware_profiles.name #{sort_direction}")
     else
