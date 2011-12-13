@@ -109,7 +109,7 @@ class ImagesController < ApplicationController
     else
       file = params[:image_file]
       xml_source = file && file.read
-      if xml_source.blank?
+      unless xml_source
         flash.now[:error] = t('images.flash.error.no_file')
         render :new and return
       end
