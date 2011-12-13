@@ -185,6 +185,14 @@ form{
 }
 form.button_to > div {display: inline;}
 
+button::-moz-focus-inner, input[type="button"]::-moz-focus-inner, input[type="submit"]::-moz-focus-inner, input[type="reset"]::-moz-focus-inner {
+  padding: 0 !important;
+  border: 0 none !important;
+}
+button, input[type="button"], input[type="submit"], input[type="reset"] {
+  cursor: pointer;
+}
+
 /* `Clear Floated Elements
 ----------------------------------------------------------------------------------------------------*/
 
@@ -633,6 +641,7 @@ http://github.com/necolas/css3-github-buttons
 .button + .button,
 .button + .button-group,
 .button-group + .button,
+.rounded-link + .button-group,
 .button-group + .button-group {
     margin-left: 15px;
 }
@@ -1071,7 +1080,7 @@ nav#administer_nav {
       a.users{ &:before{ background-position: -68px -26px; } }
       a.environments{ &:before{ background-position: -100px -26px; } }
       a.content{ &:before{ background-position: -132px -26px; } }
-      a.providers{ &:before{ background-position: -165px -26px; } }
+      a.providers{ &:before{ background-position: -165px -25px; } }
       a.settings{ &:before{ background-position: -203px -25px; } }
     }
 
@@ -1098,7 +1107,7 @@ nav#administer_nav {
       &.providers{
         position: relative;
         &:before{ content: ''; position: absolute; top: 18px; left: 50%; margin-left: -17px; width: 34px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -165px 0px; }
-        &:hover{ &:before{ background-position: -165px -26px; } }
+        &:hover{ &:before{ background-position: -165px -25px; } }
       }
       &.settings{
         position: relative;
@@ -1151,6 +1160,7 @@ div#content .page-header{
 
   h1.pools{
     background: transparent url('../../images/header_icon_pools.png') no-repeat 8px center;
+    cursor: pointer;
   }
 
   h1.section-index{
@@ -1265,12 +1275,16 @@ header.admin-page-header{
       padding-left: 54px;
       background: transparent url('../../images/admin_h1_icons.png') 7px -34px no-repeat;
     }
+    &.images{
+      padding-left: 54px;
+      position: relative;
+      &:before{ content: ''; position: absolute; left: 12px; width: 27px; height: 100%; background: transparent url('../../images/buildpush_symbols.png') 0px 0px no-repeat; }
+    }
   }
 
   #obj_actions{
     float: right;
-    display: inline-block;
-    margin: 17px 0px 0px 0px;
+    margin: 14px 0px 0px 0px;
   }
 
   .button{
@@ -1278,6 +1292,8 @@ header.admin-page-header{
   }
 
   .rounded-link{
+    display: inline-block;
+    margin: 3px 0px 0px 0px;
     background: #cccccc;
     color: black;
     text-decoration: none;
@@ -1709,9 +1725,14 @@ section.admin-content-section{ margin-bottom: 10px; }
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Build Push
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-div.lefted.image-upload-overview{background: url(../../images/template-valid.png) no-repeat 600px top;}
-div.lefted.new-catalog-entry-from-image{background: url(../../images/template-valid.png) no-repeat 600px top;}
-
+div.lefted.image-upload-overview{
+  position: relative;
+  &:after{ content: ''; position: absolute; top: 0px; right: 143px; width: 107px; height: 100%; background: transparent url('../../images/template-valid.png') -111px 0px no-repeat; }
+}
+div.lefted.new-catalog-entry-from-image{
+  position: relative;
+  &:after{ content: ''; position: absolute; top: 0px; right: 100px; width: 185px; height: 100%; background: transparent url('../../images/new_catalog_entry_from_image.png') 0px no-repeat; }
+}
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 User Card
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -2544,6 +2565,14 @@ table.light_table{
     width: 16px;
     height: 16px;
   }
+  th.image_controls{ border-bottom: none; }
+  td.image_controls input.delete_image{
+    background: transparent url(../../images/buildpush_symbols.png) -112px 2px no-repeat;
+    cursor: pointer;
+    border: none;
+    width: 16px;
+    height: 16px;
+  }
 }
 
 div.build_status{
@@ -2717,43 +2746,53 @@ ul.catalog_pretty {
 /********************************************* Image show view */
 /************************************************************************** */
 
-#obj_actions.images {
-  #back_to_images {
-    margin: 0px 10px;
-  }
-
-  #delete, #new_deployable {
-    margin-top: -5px;
-  }
-}
-
-.image_builds h1 {
-  padding: 10px;
-  font-size: 16px;
-}
-
-dl.image_builds {
+ul.image_builds{
   border: 1px solid #ccc;
   -webkit-border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; border-radius: 7px 7px 7px 7px;
-  margin: 10px 0px 10px 0px;
-  background: #eee;
-  dt{
-    padding: 20px;
-    float:left;
-    text-align: center;
-    width:150px;
-    border-right: solid #ccc 1px;
-    border-top: 1px solid #ccc;
-  }
-  dd{
-    margin-left: 180px;
-    border-top: 1px solid #ccc;
-    table{
-      margin: 10px 10px 10px 42px;
-      td,th{ padding: 10px; width: 150px;}
-      td:first-child, th:first-child{padding-left: 0px;}
-      td:last-child, th:last-child{padding-right: 0px;}
-      th{border-bottom: 1px solid #CCCCCC;font-weight: bold;}
+  li{
+    list-style-type: none;
+    background-color: #efefef;
+    background: -moz-linear-gradient(top, #efefef 0%, #e0e0e0 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#efefef), color-stop(100%,#e0e0e0)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#e0e0e0',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* W3C */
+    border-bottom: 1px solid #ccc;
+    &:first-child { -webkit-border-radius: 7px 7px 0px 0px; -moz-border-radius: 7px 7px 0px 0px; border-radius: 7px 7px 0px 0px; }
+    &:last-child { border-bottom: none; -webkit-border-radius: 0px 0px 7px 7px; -moz-border-radius: 0px 0px 7px 7px; border-radius: 0px 0px 7px 7px; }
+    &:only-child { border-bottom: none; -webkit-border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; border-radius: 7px 7px 7px 7px; }
+    dl{
+      dt{
+        float: left;
+        width: 152px;
+        border-right: 1px solid #ccc;
+        padding: 25px 10px 25px 58px;
+        position: relative;
+        &:before{ content: ''; position: absolute; left: 20px; width: 28px; height: 20px; background: transparent url('../../images/buildpush_symbols.png') -28px 1px no-repeat; }
+        h3{
+          font-size: 18px;
+          font-weight: 200;
+        }
+        input[type="submit"]{
+          display: inline;
+          border: none;
+          background: none;
+          padding: 0px;
+          margin: 0px;
+          text-decoration: underline;
+          &:hover{ text-decoration: none; }
+        }
+      }
+      dd{
+        padding: 10px;
+        margin-left: 220px;
+        border-left: 1px solid #ccc;
+        table{
+          td.light{ color: #666;}
+        }
+      }
     }
   }
 }
@@ -3036,7 +3075,7 @@ table.pool_families{
     }
   }
 
-  .rounded-link{
+  .pool_family_button{
     background: #535353; /* Old browsers */
     background: -moz-linear-gradient(top, #535353 0%, #666666 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#535353), color-stop(100%,#666666)); /* Chrome,Safari4+ */
