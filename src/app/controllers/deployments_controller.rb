@@ -317,9 +317,7 @@ class DeploymentsController < ApplicationController
   end
 
   def filter
-    original_path = Rails.application.routes.recognize_path(params[:current_path])
-    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
-    redirect_to original_path.merge(original_params).merge("deployments_preset_filter" => params[:deployments_preset_filter], "deployments_search" => params[:deployments_search])
+    redirect_to_original({"deployments_preset_filter" => params[:deployments_preset_filter], "deployments_search" => params[:deployments_search]})
   end
 
   private

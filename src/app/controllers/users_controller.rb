@@ -135,9 +135,7 @@ class UsersController < ApplicationController
   end
 
   def filter
-    original_path = Rails.application.routes.recognize_path(params[:current_path])
-    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
-    redirect_to original_path.merge(original_params).merge("users_preset_filter" => params[:users_preset_filter], "users_search" => params[:users_search])
+    redirect_to_original({"users_preset_filter" => params[:users_preset_filter], "users_search" => params[:users_search]})
   end
 
   protected

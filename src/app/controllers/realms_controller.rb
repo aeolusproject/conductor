@@ -129,9 +129,7 @@ class RealmsController < ApplicationController
   end
 
   def filter
-    original_path = Rails.application.routes.recognize_path(params[:current_path])
-    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
-    redirect_to original_path.merge(original_params).merge("realms_preset_filter" => params[:realms_preset_filter], "realms_search" => params[:realms_search])
+    redirect_to_original({"realms_preset_filter" => params[:realms_preset_filter], "realms_search" => params[:realms_search]})
   end
 
   protected

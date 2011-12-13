@@ -349,4 +349,16 @@ class ApplicationController < ActionController::Base
 
     (ordered_languages & I18n.available_locales).first
   end
+
+  def redirect_to_original(extended_params = {})
+    path = params[:current_path]
+    # In cases when current_path contains prefix like '/conductor' recognize_path fails.
+    # It needs to be stripped out in order to get the path correctly.
+    root = ENV['RAILS_RELATIVE_URL_ROOT']
+    path = path.slice(root.length..path.length) if path.starts_with? root
+    path = Rails.application.routes.recognize_path(path)
+    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
+    redirect_to path.merge(original_params).merge(extended_params)
+  end
+
 end

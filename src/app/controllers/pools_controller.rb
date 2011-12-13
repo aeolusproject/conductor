@@ -234,10 +234,7 @@ class PoolsController < ApplicationController
   end
 
   def filter
-    #redirects to path of the table view medged with filter and search params
-    original_path = Rails.application.routes.recognize_path(params[:current_path])
-    original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
-    redirect_to original_path.merge(original_params).merge("pools_preset_filter" => params[:pools_preset_filter], "pools_search" => params[:pools_search])
+    redirect_to_original({"pools_preset_filter" => params[:pools_preset_filter], "pools_search" => params[:pools_search]})
   end
 
   protected
