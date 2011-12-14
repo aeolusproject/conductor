@@ -40,10 +40,12 @@ class ImagesController < ApplicationController
       begin
         # For an imported image, we only want to show the actual provider account
         # This can raise exceptions with old/bad data, though, so rescue and show all providers
-        acct = ProviderAccount.find_by_label(@image.provider_images.first.provider_account_identifier)
-        type = acct.provider.provider_type
+        pimg =  @image.provider_images.first
+        provider = Provider.find_by_name(pimg.provider)
+        type = provider.provider_type
+        acct = ProviderAccount.find_by_provider_name_and_login(provider.name, pimg.provider_account_identifier)
         @account_groups = {type.deltacloud_driver => {:type => type, :accounts => [acct]}}
-      rescue
+      rescue Exception => e
         @account_groups = ProviderAccount.group_by_type(current_user)
       end
     else

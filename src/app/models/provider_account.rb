@@ -327,6 +327,17 @@ class ProviderAccount < ActiveRecord::Base
     end
   end
 
+  # This is to allow us to look up the ProviderAccount for a given provider image
+  def self.find_by_provider_name_and_login(provider_name, login)
+    begin
+      provider = Provider.find_by_name(provider_name)
+      credential_definition = CredentialDefinition.find_by_provider_type_id_and_name(provider.provider_type.id, 'username')
+      Credential.find_by_credential_definition_id_and_value(credential_definition.id, login).provider_account
+    rescue
+      nil
+    end
+  end
+
   private
 
   def self.apply_search_filter(search)
