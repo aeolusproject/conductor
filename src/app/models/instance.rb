@@ -483,15 +483,20 @@ class Instance < ActiveRecord::Base
   ]
 
   def destroy_on_provider
-    if (provider_account.label != "ec2" or provider_account.label != "mock") and state != STATE_CREATE_FAILED
+    if (provider_account.provider.provider_type.deltacloud_driver != "ec2" or
+        provider_account.provider.provider_type.deltacloud_driver != "mock") and state != STATE_CREATE_FAILED
+      retries = 0
       begin
+        retries += 1
         @task = self.queue_action(self.owner, 'destroy')
         unless @task
-          raise ActionError.new("destroy cannot be performed on this instance.")
+          raise ActionError.new(t"instance.errors.cannot_destroy")
         end
         Taskomatic.destroy_instance(@task)
       rescue Exception => e
-        retry if self.tasks.last.action != 'destroy'
+        if self.tasks.last.action != 'destroy' or retries < 500
+          retry
+        end
       end
     end
   end

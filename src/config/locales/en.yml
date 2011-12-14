@@ -355,6 +355,7 @@ en:
       stop_invalid: "stop is an invalid action."
       stop_not_be_performed: "stop cannot be performed on this instance."
       must_be_enabled: "%{account_name}: provider must be enabled"
+      cannot_destroy: "destroy cannot be performed on this instance."
     headers:
       vm_name: VM NAME
       status: STATUS
