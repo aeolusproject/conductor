@@ -177,11 +177,11 @@ class Instance < ActiveRecord::Base
 
 
   def image
-    Image.find(image_uuid) if image_uuid
+    Aeolus::Image::Warehouse::Image.find(image_uuid) if image_uuid
   end
 
   def image_build
-    ImageBuild.find(image_build_uuid) if image_build_uuid
+    Aeolus::Image::Warehouse::ImageBuild.find(image_build_uuid) if image_build_uuid
   end
 
   def assembly_xml
