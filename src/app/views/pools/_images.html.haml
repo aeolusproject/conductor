@@ -5,21 +5,21 @@
         =image_tag 'flash_error_icon.png', :alt => 'Errors'
         =flash[:error]
 -else
-  - @map.each_pair do |catalog, deployables|
+  - @pool.catalogs.each do |catalog|
     %div.catalog_deployments_and_images
       %h1
         = catalog.name
         = t('.catalog')
-      - deployables.each_pair do |deployable, images|
+      - catalog.deployables.each do |deployable|
         %h2
           = deployable.name
           = t('.deployable')
 
-        - images.each_pair do |image, provider_images|
+        - deployable.fetch_images.compact.each do |image|
           %h3
             = t('.image')
             = "#{image.name} (#{image.uuid})"
 
           %ul
-            - provider_images.each do |provider_image|
+            - image.provider_images.each do |provider_image|
               %li= t('.pushed', :uuid => provider_image.uuid, :provider => provider_image.provider_name)

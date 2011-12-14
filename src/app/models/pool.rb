@@ -124,26 +124,6 @@ class Pool < ActiveRecord::Base
     result
   end
 
-  def provider_image_map
-    deployables = catalogs.collect{|c| c.deployables}.flatten
-    all_images = deployables.collect{|d| d.fetch_images}.flatten.uniq.compact
-    provider_images = Image.provider_images_for_image_list(all_images)
-    return_obj = {}
-    catalogs.each do |catalog|
-      return_obj[catalog] = {}
-      catalog.deployables.each do |deployable|
-        images = deployable.fetch_images.compact
-        unless images.empty?
-          return_obj[catalog][deployable] = {}
-          images.each do |image|
-            return_obj[catalog][deployable][image] = provider_images.nil? ? {} : provider_images[image.uuid]
-          end
-        end
-      end
-    end
-    return_obj
-  end
-
   PRESET_FILTERS_OPTIONS = [
     {:title => I18n.t("pools.preset_filters.enabled_pools"), :id => "enabled_pools", :query => where("pools.enabled" => true)},
     {:title => I18n.t("pools.preset_filters.with_pending_instances"), :id => "with_pending_instances", :query => includes(:deployments => :instances).where("instances.state" => "pending")},
