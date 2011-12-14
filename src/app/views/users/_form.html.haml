@@ -22,22 +22,13 @@
     = form.label :password_confirmation, t(:confirm_password), :required => form.object.new_record?
     = form.password_field :password_confirmation
 
--if check_privilege(Privilege::MODIFY, User)
-  %fieldset.inline
-    %p
-      %label=t'users.form.user_treatment'
-      = select_tag 'user_treatment', options_for_select([t(:choose_treatment)])
-    %p
-      = submit_tag t(:apply), :disabled => true, :class => 'button pill'
-
-  = form.fields_for :quota do |quota_form|
-    %fieldset
+- if check_privilege(Privilege::MODIFY, User)
+  %fieldset
+    = form.fields_for :quota do |quota_form|
       %p
         = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
         = quota_form.text_field :maximum_running_instances
-        =t'instances.instances'
 
--if check_privilege(Privilege::MODIFY, User)
   %fieldset
     %legend=t'users.form.user_status'
     %ul.radio-group

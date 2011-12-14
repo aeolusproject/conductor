@@ -3169,13 +3169,8 @@ body.administer form.generic{
     p + p{
       margin-top: 10px;
     }
-    p.radio-group label{
-      display: inline;
-    }
     ul.radio-group input{
-      display: inline;
-      margin-left: 1em;
-      margin-top: 0.7em;
+      margin: 6px 0px 0px 0px;
     }
     ul.radio-group li{
       display: block;
