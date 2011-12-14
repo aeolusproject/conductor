@@ -102,6 +102,7 @@ class PoolsController < ApplicationController
   def new
     require_privilege(Privilege::CREATE, Pool)
     @pool = Pool.new
+    @pool.pool_family = PoolFamily.find(params[:pool_family_id]) unless params[:pool_family_id].blank?
     @quota = Quota.new
     respond_to do |format|
       format.html
