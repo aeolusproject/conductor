@@ -35,7 +35,7 @@ describe Api::ImagesController do
                     :description => 'test image',
                     :image_builds => [@build],
                     :build => @build,
-                    :provider_images => [mock(ProviderImage, :target_identifier => "ami-1234567", :provider => "provider")] * 2
+                    :provider_images => [mock(Aeolus::Image::Warehouse::ProviderImage, :target_identifier => "ami-1234567", :provider => "provider")] * 2
                     )
       Aeolus::Image::Warehouse::ImageBuild.stub(:where).and_return([@build])
     end

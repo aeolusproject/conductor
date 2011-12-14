@@ -167,7 +167,7 @@ describe Instance do
   it "should not return matches if account quota is exceeded" do
     # Other tests expect that @instance is built but not created, but we need it saved:
     @instance.save!
-    build = @instance.image_build || @instance.image.latest_build
+    build = @instance.image_build || @instance.image.latest_pushed_build
     provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
     account = FactoryGirl.create(:mock_provider_account, :provider => provider, :label => 'testaccount')
     @pool.pool_family.provider_accounts = [account]
@@ -205,7 +205,7 @@ describe Instance do
   end
 
   it "should return a match if all requirements are satisfied" do
-    build = @instance.image_build || @instance.image.latest_build
+    build = @instance.image_build || @instance.image.latest_pushed_build
     provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
     @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
     @instance.matches.first.should_not be_empty
@@ -273,7 +273,7 @@ describe Instance do
     end
   end
   it "should match if the account has a config server and the instance has configs" do
-    build = @instance.image_build || @instance.image.latest_build
+    build = @instance.image_build || @instance.image.latest_pushed_build
     provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
     account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount_config_server', :provider => provider)
     config_server = FactoryGirl.create(:mock_config_server, :provider_account => account)
@@ -287,7 +287,7 @@ describe Instance do
   end
 
   it "should not match if the account does not have a config server and the instance has configs" do
-    build = @instance.image_build || @instance.image.latest_build
+    build = @instance.image_build || @instance.image.latest_pushed_build
     provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
     account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount_no_config_server', :provider => provider)
     @pool.pool_family.provider_accounts = [account]

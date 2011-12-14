@@ -26,7 +26,7 @@ VCR.config do |c|
 end
 
 # Mock all iwhd requests
-Warehouse::Connection.class_eval do
+Aeolus::Image::Warehouse::Connection.class_eval do
   def do_request(path = '', opts={})
     opts[:method]  ||= :get
     opts[:content] ||= ''

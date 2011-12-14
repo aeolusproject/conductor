@@ -2129,3 +2129,109 @@
       - chunked
     body: <image><name>testimg</name></image>
     http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: http://localhost:9090/target_images/_query
+    body: ($build == "c5fc000b-829a-4bb5-9df1-bb228da2c7ec")
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "50"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Wed, 14 Dec 2011 11:45:15 GMT
+      transfer-encoding: 
+      - chunked
+    body: |
+      <objects>
+      	<object>
+      		<bucket>target_images</bucket>
+      		<key>ce1c6d32-5e26-4feb-9b86-83435a39b1f0</key>
+      	</object>
+      </objects>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: http://localhost:9090/provider_images/_query
+    body: ($target_image == "ce1c6d32-5e26-4feb-9b86-83435a39b1f0")
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "57"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Wed, 14 Dec 2011 11:45:28 GMT
+      transfer-encoding: 
+      - chunked
+    body: |
+      <objects>
+      	<object>
+      		<bucket>provider_images</bucket>
+      		<key>aa57b1ab-f565-4a7a-b054-58ef5af1a053</key>
+      	</object>
+      </objects>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Wed, 14 Dec 2011 12:46:15 GMT
+      transfer-encoding: 
+      - chunked
+    body: <image><name>ami-01a56668</name></image>
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: http://localhost:9090/builds/_query
+    body: ($image == "85653387-88b2-46b0-b7b2-c779d2af06c7")
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "50"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 404
+      message: Not Found
+    headers: 
+      date: 
+      - Wed, 14 Dec 2011 13:53:22 GMT
+      content-length: 
+      - "0"
+    body: 
+    http_version: "1.1"
