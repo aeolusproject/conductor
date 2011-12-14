@@ -36,9 +36,4 @@ class ProviderImage < WarehouseModel
   def provider_name
     @provider
   end
-
-  def provider
-    Provider.find_by_name(@provider)
-  end
-
 end

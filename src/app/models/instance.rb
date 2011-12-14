@@ -346,7 +346,7 @@ class Instance < ActiveRecord::Base
     errors << I18n.t('instances.errors.image_not_found', :b_uuid=> image_build_uuid, :i_uuid => image_uuid) if image_build.nil? and image.nil?
     return [[], errors] unless errors.empty?
 
-    build = image_build || image.latest_build
+    build = image_build || image.latest_pushed_build
     provider_images = build ? build.provider_images : []
     matched = []
     pool.pool_family.provider_accounts.each do |account|
@@ -363,7 +363,7 @@ class Instance < ActiveRecord::Base
         errors << I18n.t('instances.errors.hw_profile_match_not_found', :account_name => account.name)
         next
       end
-      account_images = provider_images.select {|pi| pi.provider == account.provider}
+      account_images = provider_images.select {|pi| pi.provider_name == account.provider.name}
       if account_images.empty?
         errors << I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => account.name)
         next
