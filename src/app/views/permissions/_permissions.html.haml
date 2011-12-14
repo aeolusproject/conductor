@@ -5,6 +5,10 @@
     %li= restful_submit_tag t('edit'), "multi_update", multi_update_permissions_path, 'POST', :id => 'perm_edit_button', :class => 'hidden'
     = hidden_field_tag :permission_object_type, @permission_object.class.name
     = hidden_field_tag :permission_object_id, @permission_object.id
+
+    - @polymorphic_path_extras.each do |key, value|
+      = hidden_field_tag("polymorphic_path_extras[#{key}]", value)
+
     = hidden_field_tag :path_prefix, @path_prefix
     = hidden_field_tag :use_tabs, @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')
 

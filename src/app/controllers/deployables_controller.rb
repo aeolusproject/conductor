@@ -55,7 +55,7 @@ class DeployablesController < ApplicationController
     save_breadcrumb(catalog_deployable_path(@catalog, @deployable), @deployable.name)
     @providers = Provider.all
     @catalogs_options = Catalog.list_for_user(current_user, Privilege::VIEW).select {|c| !@deployable.catalogs.include?(c)}
-    add_permissions_inline(@deployable)
+    add_permissions_inline(@deployable, '', {:catalog_id => @catalog.id})
     @images_details = @deployable.get_image_details
     images = @deployable.fetch_images
     uuids = @deployable.fetch_image_uuids

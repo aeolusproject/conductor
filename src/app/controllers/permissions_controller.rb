@@ -186,6 +186,7 @@ class PermissionsController < ApplicationController
     obj_type = params[:permission_object_type]
     id = params[:permission_object_id]
     @path_prefix = params[:path_prefix]
+    @polymorphic_path_extras = params[:polymorphic_path_extras]
     @use_tabs = params[:use_tabs]
     unless obj_type or id
       @permission_object = BasePermissionObject.general_permission_scope
@@ -197,9 +198,11 @@ class PermissionsController < ApplicationController
       set_admin_users_tabs 'permissions'
     else
       @return_path = send("#{@path_prefix}polymorphic_path",
-                                     @permission_object,
+                          @permission_object.respond_to?(:to_polymorphic_path_param) ?
+                              @permission_object.to_polymorphic_path_param(@polymorphic_path_extras) :
+                              @permission_object,
                           @use_tabs == "yes" ? {:details_tab => :permissions,
-                            :only_tab => true} : {})
+                                                :only_tab => true} : {})
     end
     require_privilege(required_role, @permission_object)
   end

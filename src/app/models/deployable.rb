@@ -192,6 +192,12 @@ class Deployable < ActiveRecord::Base
     end
   end
 
+  def to_polymorphic_path_param(polymorphic_path_extras)
+    catalog = catalogs.find(polymorphic_path_extras[:catalog_id]) if (polymorphic_path_extras.present? &&
+        polymorphic_path_extras.has_key?(:catalog_id))
+    [catalog, self]
+  end
+
   private
 
   def self.apply_search_filter(search)
