@@ -16,6 +16,7 @@
 
 class ImagesController < ApplicationController
   before_filter :require_user
+  require "lib/image"
 
   def index
     set_admin_environments_tabs 'images'
@@ -44,6 +45,7 @@ class ImagesController < ApplicationController
         provider = Provider.find_by_name(pimg.provider)
         type = provider.provider_type
         acct = ProviderAccount.find_by_provider_name_and_login(provider.name, pimg.provider_account_identifier)
+        raise unless acct
         @account_groups = {type.deltacloud_driver => {:type => type, :accounts => [acct]}}
       rescue Exception => e
         @account_groups = ProviderAccount.group_by_type(current_user)
@@ -90,7 +92,7 @@ class ImagesController < ApplicationController
       xml = nil # It'll be assigned in Image.import
     end
     begin
-      image = Image.import(account, params[:image_id])
+      image = Image.import(account, params[:image_id], xml)
       flash[:success] = t("images.import.image_imported")
       redirect_to image_url(image.id) and return
     rescue Exception => e
