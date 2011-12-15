@@ -107,7 +107,7 @@ class DeployablesController < ApplicationController
     elsif params[:create_from_image].present?
       hw_profile = HardwareProfile.frontend.find(params[:hardware_profile])
       require_privilege(Privilege::VIEW, hw_profile)
-      @deployable.set_from_image(params[:create_from_image], hw_profile)
+      @deployable.set_from_image(params[:create_from_image], params[:deployable][:name], hw_profile)
     end
 
     begin
@@ -132,7 +132,6 @@ class DeployablesController < ApplicationController
         load_catalogs
         @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
         @hw_profiles = HardwareProfile.frontend.list_for_user(current_user, Privilege::VIEW)
-        @deployable.name = @image.name
       else
         @catalog = @selected_catalogs.first
         params.delete(:edit_xml) if params[:edit_xml]

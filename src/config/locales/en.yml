@@ -603,6 +603,7 @@ en:
       choose_option_to_upload: Choose one of the following options to upload deployable XML file
       upload: Upload
       from_url: From URL
+      name: Name
       hw_profile: Default Hardware Profile
       catalog_detail: "%{name} Catalog"
     form:
