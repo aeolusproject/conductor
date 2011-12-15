@@ -705,6 +705,7 @@ en:
       build_date: Build Completion Date
       latest: Latest
       select_build: Select
+      template_xml: View Template XML
     flash:
       notice:
         deleted: Image Deleted
@@ -716,6 +717,7 @@ en:
       error:
         invalid_url: Could not load the provided URL
         no_file: You must specify the template XML file
+        no_template: "The image doesn't have a template because it's been imported."
     new:
       new_image: New Image
       description:

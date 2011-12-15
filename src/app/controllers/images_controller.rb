@@ -70,6 +70,17 @@ class ImagesController < ApplicationController
     redirect_to image_path(@image.id)
   end
 
+  def template
+    image = Aeolus::Image::Warehouse::Image.find(params[:id])
+    template = Aeolus::Image::Warehouse::Template.find(image.template)
+    if template
+      render :xml => template.body
+    else
+      flash[:error] = t('images.flash.error.no_template')
+      redirect_to image_path(@image)
+    end
+  end
+
   def new
     if 'import' == params[:tab]
       @accounts = ProviderAccount.list_for_user(current_user, Privilege::USE)
