@@ -566,6 +566,9 @@ en:
       active_instances: "Active Inst."
       available_instances: "Available Inst."
       failed_instances: "Failed Inst."
+      enabled: Enabled
+      yes: Yes
+      no: No
       catalog: "Catalog"
     new:
       environments: Environments
