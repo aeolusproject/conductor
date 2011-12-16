@@ -86,6 +86,12 @@ class DeployablesController < ApplicationController
     end
   end
 
+  def definition
+    @deployable = Deployable.find(params[:deployable_id])
+    require_privilege(Privilege::VIEW, @deployable)
+    render :xml => @deployable.xml
+  end
+
   def create
     if params[:cancel]
       redirect_to catalog_deployables_path

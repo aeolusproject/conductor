@@ -204,6 +204,7 @@ Conductor::Application.routes.draw do
       delete 'multi_destroy', :on => :collection
       post :filter, :on => :collection
       post :build
+      get :definition
     end
   end
 
