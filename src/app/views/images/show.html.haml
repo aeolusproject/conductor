@@ -5,7 +5,6 @@
     =t'return_to'
     = link_to t('images.index.images'), images_path, :class => 'rounded-link'
     .button-group
-    - unless @image.imported?
       = link_to t('.new_deployable_from_image'), new_deployable_path(:create_from_image => @image.id), :class => 'button pill'
       - unless @image.imported?
         = link_to t('.template_xml'), template_image_path(@image.uuid), :class => 'button'
