@@ -68,7 +68,12 @@ module Api
           account = ProviderAccount.find_by_label(req[:params][:provider_account_name])
           raise(Aeolus::Conductor::API::ProviderAccountNotFound.new(404, t("api.error_messages.provider_account_not_found",
             :name => req[:params][:provider_account_name]))) unless account.present?
-          @image = Image.import(account, req[:params][:target_identifier], req[:params][:image_descriptor])
+          begin
+            @image = Image.import(account, req[:params][:target_identifier], req[:params][:image_descriptor])
+          rescue Aeolus::Conductor::Base::ImageNotFound
+            raise(Aeolus::Conductor::API::ImageNotFound.new(404, t("api.error_messages.image_not_found_on_provider",
+              :image => req[:params][:target_identifier])))
+          end
           respond_with(@image)
         end
       rescue ActiveResource::BadRequest => e

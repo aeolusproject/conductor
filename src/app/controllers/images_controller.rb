@@ -100,7 +100,11 @@ class ImagesController < ApplicationController
       redirect_to image_url(image.id) and return
     rescue Exception => e
       logger.error "Caught exception importing image: #{e.message}"
-      flash[:error] = t("images.import.image_not_imported")
+      if e.is_a?(Aeolus::Conductor::Base::ImageNotFound)
+        flash[:error] = t('images.not_on_provider')
+      else
+        flash[:error] = t("images.import.image_not_imported")
+      end
       redirect_to new_image_url(:tab => 'import')
     end
   end

@@ -16,8 +16,14 @@
 
 class Image
   # Given a ProviderAccount and an AMI/image ID on a provider, plus an optional XML string, use aeolus-image
-  # to import the image. Returns an Aeolus::Image::Factory::Image or returns any raised exceptions
+  # to import the image. Returns an Aeolus::Image::Factory::Image or allows exceptions to bubble up
   def self.import(provider_account, image_id, xml=nil)
+    # Verify that the image exists prior to import
+    conn = provider_account.connect
+    img = conn.image(image_id) rescue nil
+    raise Aeolus::Conductor::Base::ImageNotFound unless img.present?
+    # We have the image name in the cloud provider, so we might as well use it
+    xml ||= "<image><name>#{img.name}</name></image>" if img.name.present?
     provider = provider_account.provider
     account_id = provider_account.credentials_hash['username']
     Aeolus::Image.import(provider.name, provider.provider_type.deltacloud_driver, image_id, account_id, xml)

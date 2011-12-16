@@ -42,5 +42,9 @@ module Aeolus
       class TargetImageStatusNotFound < Error; end
       class TargetNotFound < Error; end
     end
+
+    module Base
+      class ImageNotFound < StandardError; end
+    end
   end
 end

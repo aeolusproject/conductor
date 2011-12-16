@@ -257,11 +257,15 @@ describe Api::ImagesController do
             # We previously stubbed this out to return nil... That's inappropriate here:
             Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
             @provider_image.stub(:set_attr)
+            @deltacloud_connection = mock("Deltacloud::API")
+            @provider_account.stub(:connect).and_return(@deltacloud_connection)
+            @deltacloud_image = mock("Deltacloud::API::Stateful::Image",
+              :name => 'mock-image')
+            @deltacloud_connection.stub(:image).and_return(@deltacloud_image)
 
             request.env['RAW_POST_DATA'] = xml.to_xml
             post :create
           end
-
           it { response.response_code == 200 }
           it { response.headers['Content-Type'].should include("application/xml") }
           it "should have an image with correct attributes" do
@@ -269,6 +273,41 @@ describe Api::ImagesController do
             resp['image']['id'].should == @image.id
             resp['image']['build']['target_images'].should == "\n"
             resp['image']['build']['id'].should == @build.id
+         end
+
+        end
+
+        context "when trying to import image that does not exist" do
+          before(:each) do
+            xml = Nokogiri::XML::Builder.new do
+              image {
+                target_identifier "tid2"
+                image_descriptor {
+                  child "c3"
+                  child "c4"
+                }
+                provider_account_name "mock2"
+              }
+            end
+            Aeolus::Image::Factory::Image.stub(:new).and_return(@image)
+            ProviderAccount.stub(:find_by_label).and_return(@provider_account)
+            @provider_account.stub(:provider).and_return(@provider)
+            @image.stub(:save!)
+            # We previously stubbed this out to return nil... That's inappropriate here:
+            Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
+            @provider_image.stub(:set_attr)
+            @deltacloud_connection = mock("Deltacloud::API")
+            @provider_account.stub(:connect).and_return(@deltacloud_connection)
+            @deltacloud_connection.stub(:image).and_raise("no image")
+
+            request.env['RAW_POST_DATA'] = xml.to_xml
+            post :create
+          end
+          it { response.response_code == 404 }
+          it { response.headers['Content-Type'].should include("application/xml") }
+          it "should include an error" do
+            resp = Hash.from_xml(response.body)
+            resp['error']['message'].should == "Could not find Image tid2 on provider"
          end
 
         end

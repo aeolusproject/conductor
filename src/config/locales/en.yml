@@ -741,6 +741,7 @@ en:
       make_deployable: Automatically make "%{name}" deployable.
       back: Back
       save_template: Save Template
+    not_on_provider: The requested image was not found on the provider.
   template_xml:
     errors:
       xml_parse_error: Failed to parse XML.
@@ -1188,6 +1189,7 @@ en:
     error_messages:
       build_not_found: Could not find Build %{build}
       image_not_found: Could not find Image %{image}
+      image_not_found_on_provider: "Could not find Image %{image} on provider"
       in_grabbing_target_images: "In grabbing list of target images: %{error}"
       invalid_parameters_for_account_and_target_image: "Invalid parameters for Account: %{account} TargetImage: %{targetimage}"
       no_image_build_or_target_image: "Invalid Parameters: No Image, Build or TargetImage provided in request"
