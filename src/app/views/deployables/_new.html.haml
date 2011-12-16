@@ -5,8 +5,6 @@
     %h2=t'catalog_entries.new.add_catalog_entry'
 
 %section.admin-content-section.image-upload
-  %p.description=t'.choose_option_to_upload'
-
   %nav#image-upload-tabs.faceted
     %ul.tabs
       %li
@@ -14,8 +12,8 @@
       %li
         = link_to t('catalog_entries.new.from_url'), new_catalog_deployable_path(@catalog, :from_url => true), :id => "from_url", :class => "#{'active' if @form_option == 'from_url'}"
 
-    .form_option
-      = render :partial => @form_option
+  .form_option
+    = render :partial => @form_option
 
 :javascript
   $(document).ready(function() {

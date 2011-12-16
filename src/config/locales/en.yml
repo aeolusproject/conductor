@@ -610,15 +610,6 @@ en:
       name: Name
       hw_profile: Default Hardware Profile
       catalog_detail: "%{name} Catalog"
-    form:
-      choose_xml: "Choose Deployable XML file:"
-      catalog: "Catalog: "
-      description: Description
-      cancel: Cancel
-      save: Save
-      deployable_xml: "Deployable XML:"
-      edit_xml_after_save: "Edit XML file after save"
-      deployable_xml_url: "URL of Deployable XML:"
     show:
       edit: Edit
       edit_xml: Edit XML
@@ -816,6 +807,15 @@ en:
         pushed: "All Images are pushed and recent."
       build_missing: "Build missing"
       push_missing: "Push missing"
+    form:
+      choose_xml: "Choose Deployable XML file:"
+      catalog: "Catalog: "
+      description: Description
+      cancel: Cancel
+      save: Save
+      deployable_xml: "Deployable XML:"
+      edit_xml_after_save: "Edit XML file after save"
+      deployable_xml_url: "URL of Deployable XML:"
     flash:
       error:
         attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"
@@ -825,6 +825,8 @@ en:
     error:
       attribute_not_exists: invalid
       hwp_not_exists: "Hardware profile %{name} specified in XML doesn't exist."
+    properties:
+      edit_deployable_xml: Edit Deployable XML
   name: Name
   summary: Summary
   settings:

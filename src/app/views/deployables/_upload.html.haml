@@ -3,23 +3,20 @@
     = render 'layouts/error_messages', :object => @deployable
   %fieldset
     %p
-      = label_tag :catalog_id, t('catalog_entries.form.catalog')
+      = label_tag :catalog_id, t('deployables.form.catalog')
       %span.text_instead_input= @catalog.name
-      .clear
-  %fieldset
     %p
-      = form.label :name, t('catalog_entries.index.name')
+      = form.label :name, t('deployables.index.name')
       = form.text_field :name, :class => 'em long'
     %p
-      = form.label :description, t('catalog_entries.form.description')
+      = form.label :description, t('deployables.form.description')
       = form.text_area :description, :class => 'long'
     %p
-      = form.label :xml, t('catalog_entries.form.choose_xml')
+      = form.label :xml, t('deployables.form.choose_xml')
       = form.file_field :xml
-  %fieldset
     %p
       = check_box_tag(:edit_xml, true, false)
-      = label_tag :edit_xml, t('catalog_entries.form.edit_xml_after_save')
+      = label_tag :edit_xml, t('deployables.form.edit_xml_after_save')
 
   %fieldset.align-center
     = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
