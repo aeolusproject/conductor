@@ -15,8 +15,8 @@
           = label_tag :image_id, t('.image_id')
           = text_field_tag :image_id
         %p
-          = label_tag :description, t('.description')
-          = file_field_tag :description_xml
+          = label_tag :name, t('.name')
+          = text_field_tag :name
 
       .buttons.container
         = submit_tag t(:continue), :id => "file_button", :class => "button primary"

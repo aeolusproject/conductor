@@ -93,15 +93,7 @@ class ImagesController < ApplicationController
 
   def import
     account = ProviderAccount.find(params[:provider_account])
-    begin
-      xml = Nokogiri::XML(CGI.unescapeHTML(params[:description_xml].read)).to_s
-    rescue Exception => e
-      if params[:description_xml].present?
-        flash[:warning] = t("images.import.bad_xml")
-        logger.error "XML was provided when importing image, but we are falling back on generic XML because we caught an exception: #{e.message}"
-      end
-      xml = nil # It'll be assigned in Image.import
-    end
+    xml = "<image><name>#{params[:name]}</name></image>" unless params[:name].blank?
     begin
       image = Image.import(account, params[:image_id], xml)
       flash[:success] = t("images.import.image_imported")
