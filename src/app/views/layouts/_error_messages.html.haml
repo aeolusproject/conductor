@@ -1,4 +1,10 @@
-= pluralize(object.errors.count, "error") + " prohibited this record from being saved:"
-%ul
-- object.errors.full_messages.each do |msg|
-  %li= msg
+- content_for :error_messages do
+  .error.flash-group
+    .flash-subset
+      %div.heading
+        =image_tag 'flash_warning_icon.png', :alt => 'Errors'
+      %ul.flashes
+        %li
+          %strong= pluralize(object.errors.count, "error") + " prohibited this record from being saved:"
+        - object.errors.full_messages.each do |msg|
+          %li= msg
