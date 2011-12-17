@@ -50,7 +50,6 @@ start() {
         /usr/bin/curl --silent http://$ADDR:3000$PREFIX >& /dev/null
         RETVAL=$?
         if [ $RETVAL -eq 0 ] ; then
-          touch $THIN_LOCKFILE
 	         echo_success
 	         echo
           exit 0
