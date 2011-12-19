@@ -36,5 +36,5 @@
   #action-buttons
     = link_to t(:cancel), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
     = submit_tag t(:back), :class => 'button', :value => 'back'
-    = submit_tag t('.launch'), :class => 'button primary', :id => 'launch_deployment'
+    = submit_tag t('.launch'), :id => 'launch_deployment_button', :disabled => (@errors && @errors.any?)
 -# Quota checking to go here as well, once I understand how it works with new code

@@ -41,7 +41,7 @@ Feature: Manage Deployments
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "next_button"
     Then I should see "Are you sure you wish to deploy"
-    When I press "launch_deployment"
+    When I press "launch_deployment_button"
     Then I should see "Deployment launched"
     Then I should see "mynewdeployment Deployment"
     And I should see "mynewdeployment/frontend"
@@ -62,7 +62,7 @@ Feature: Manage Deployments
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "next_button"
     Then I should see "Are you sure you wish to deploy"
-    When I press "launch_deployment"
+    When I press "launch_deployment_button"
     Then I should see "Created"
     Then I should see "mynewdeployment"
 
@@ -235,6 +235,7 @@ Feature: Manage Deployments
     And there is "front_hwp2" conductor hardware profile
     And there is mock provider account "my_mock_provider"
     And there is a provider account "my_mock_provider" related to pool family "default"
+    And there is a mock config server "https://mock:443" for account "my_mock_provider"
     When  I am viewing the pool "mockpool"
     And   I follow "New Deployment"
     Then  I should see "New Deployment"
@@ -247,7 +248,7 @@ Feature: Manage Deployments
     When  I fill in "deployment_launch_parameters_assembly_with_launch_parameters_service_with_launch_parameters_launch_parameter_1" with "value_1"
     And   I press "submit_params"
     Then  I should see "Are you sure you wish to deploy"
-    When  I press "launch_deployment"
+    When  I press "launch_deployment_button"
     Then  I should see "launch_parameter_2 cannot be blank"
 
   Scenario: Search deployments

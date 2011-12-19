@@ -39,7 +39,7 @@ FactoryGirl.define do
               <description>A Deployable with launch parameters</description>
                 <assemblies>
                   <assembly name='assembly_with_launch_parameters' hwp='front_hwp1'>
-                    <image id='34c87aa0-3405-42f8-820e-309054029295'/>
+                    <image id='85653387-88b2-46b0-b7b2-c779d2af06c7' build='c5fc000b-829a-4bb5-9df1-bb228da2c7ec'></image>
                     <services>
                       <service name='service_with_launch_parameters'>
                         <executable url='executable_url'/>

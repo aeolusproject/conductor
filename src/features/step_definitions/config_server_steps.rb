@@ -29,8 +29,10 @@ Given /^I am not sure about the config server credentials$/ do
 end
 
 Given /^there is a mock config server "(http|https):\/\/(.*)" for account "(.*)"$/ do |scheme,endpoint,acc|
-  provider = Factory :mock_provider, :name => "mockprovider"
-  mock_account = Factory :mock_provider_account, :label => acc, :provider => provider
+  provider = Provider.find_by_name "mockprovider"
+  provider ||= Factory :mock_provider, :name => "mockprovider"
+  mock_account = ProviderAccount.find_by_label(acc)
+  mock_account ||= Factory :mock_provider_account, :label => acc, :provider => provider
   params = {:endpoint => endpoint, :key => "key", :secret => "secret", :provider_account => mock_account}
 
   @config_server = Factory :mock_config_server, params

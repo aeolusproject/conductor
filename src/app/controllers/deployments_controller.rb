@@ -70,7 +70,8 @@ class DeploymentsController < ApplicationController
 
     if @services.empty? or @services.all? {|s, a| s.parameters.empty?}
       # we can skip the launch-time parameters screen
-      check_assemblies_for_errors
+      @errors = @deployment.check_assemblies_matches(current_user)
+      set_errors_flash(@errors)
       @additional_quota = count_additional_quota(@deployment)
       render 'overview' and return
     end
@@ -86,7 +87,8 @@ class DeploymentsController < ApplicationController
 
     respond_to do |format|
       if @deployable_xml && @deployment.valid_deployable_xml?(@deployable_xml)
-        check_assemblies_for_errors
+        @errors = @deployment.check_assemblies_matches(current_user)
+        set_errors_flash(@errors)
         @additional_quota = count_additional_quota(@deployment)
 
         format.html
@@ -349,8 +351,7 @@ class DeploymentsController < ApplicationController
     @pool = @deployment.pool
   end
 
-  def check_assemblies_for_errors
-    errors = @deployment.check_assemblies_matches(current_user)
+  def set_errors_flash(errors)
     unless errors.empty?
       flash[:error] = {
           :summary => t("deployments.flash.error.not_launched"),
