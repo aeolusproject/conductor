@@ -79,6 +79,8 @@ class Deployment < ActiveRecord::Base
       deployable_xml.validate!
     rescue DeployableXML::ValidationError => e
       errors.add(:deployable_xml, e.message)
+    rescue Nokogiri::XML::SyntaxError => e
+      errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{e.message}"))
     end
   end
 

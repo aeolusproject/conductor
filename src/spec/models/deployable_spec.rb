@@ -30,4 +30,12 @@ describe Deployable do
     doc.at_xpath('/deployable/assemblies/assembly')[:name].should eql(image.name)
     doc.at_xpath('/deployable/assemblies/assembly/image')[:id].should eql(image.uuid)
   end
+
+  it "should not be valid if xml is not parsable" do
+    deployable = FactoryGirl.build(:deployable)
+    deployable.should be_valid
+    deployable.xml << "</deployable>"
+    deployable.should_not be_valid
+  end
+
 end

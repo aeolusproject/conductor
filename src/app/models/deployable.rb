@@ -46,9 +46,13 @@ class Deployable < ActiveRecord::Base
   PRESET_FILTERS_OPTIONS = []
 
   def valid_deployable_xml?
-    deployable_xml = DeployableXML.new(xml)
-    unless deployable_xml.validate!
-      errors.add(:xml, I18n.t('catalog_entries.flash.warning.not_valid'))
+    begin
+      deployable_xml = DeployableXML.new(xml)
+      unless deployable_xml.validate!
+        errors.add(:xml, I18n.t('catalog_entries.flash.warning.not_valid'))
+      end
+    rescue Nokogiri::XML::SyntaxError => e
+      errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{e.message}"))
     end
   end
 
