@@ -896,7 +896,6 @@ en:
       provider_type: Provider Type
       x_deltacloud_driver: X-Deltacloud-Driver
       x_deltacloud_provider: X-Deltacloud-Provider
-      deleted: "Provider has been successfully deleted."
       no_providers_available: No providers available. Please create one first.
       create_new_provider: "Create New Provider"
     new:
@@ -923,9 +922,11 @@ en:
         added: "Provider added."
         updated: "Provider updated."
         connected: "Successfully Connected to Provider"
+        deleted: "Provider has been successfully deleted."
       error:
         not_added: "Cannot add the provider."
         not_updated: "Cannot update the provider."
+        not_deleted: "Provider was not deleted, because of errors %{errors}"
       warning:
         connect_failed: "Failed to connect to Provider!"
     alerts:
