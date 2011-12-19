@@ -14,13 +14,14 @@
           %div
             = form.label :name, t('catalog_entries.new.name')
             = form.text_field :name
+            .clear
           %div
             = form.label :hardware_profile, t('catalog_entries.new.hw_profile')
             = select_tag :hardware_profile, options_from_collection_for_select(@hw_profiles, :id, :name, params[:hardware_profile])
             .clear
           %div
             = form.label :catalog_id, t('deployables.form.catalog')
-            %span.text_instead_input= @selected_catalogs.empty? ? t('deployables.form.none') : @selected_catalogs.count > 1 ? t('deployables.form.multiple') : @selected_catalogs.first.name
+            %span.text_instead_input#checked_catalogs_list= @selected_catalogs.empty? ? t('deployables.form.none') : @selected_catalogs.count > 1 ? t('deployables.form.multiple') : @selected_catalogs.first.name
             %span.catalog_link
               &nbsp
               %div.catalog_list
@@ -36,3 +37,21 @@
         %fieldset.align-center
           = link_to t('deployables.form.cancel'), catalogs_path, :class => 'button danger'
           = submit_tag "#{t'deployables.form.save'}", :name => 'save', :class => 'button primary', :id => 'save_button'
+:javascript
+  function listChecked() {
+    $("#checked_catalogs_list").text(function(){
+      var str = [];
+      $(".catalog_list input:checked").each(function(){
+        str.push($(this).parent().text());
+      });
+      if (str.length > 1){
+        return "Multiple";
+      }else if (str.length == 0){
+        return "None";
+      }else{
+        return str.join(', ');
+      }
+    });
+  }
+  listChecked();
+  $(".catalog_list :checkbox").click(listChecked);

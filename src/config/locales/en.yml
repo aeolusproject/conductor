@@ -818,6 +818,8 @@ en:
       deployable_xml: "Deployable XML:"
       edit_xml_after_save: "Edit XML file after save"
       deployable_xml_url: "URL of Deployable XML:"
+      none: None
+      multiple: None
     flash:
       error:
         attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"
