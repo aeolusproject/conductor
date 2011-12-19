@@ -41,7 +41,7 @@ class CatalogsController < ApplicationController
     require_privilege(Privilege::VIEW, @catalog)
     save_breadcrumb(catalogs_path(@catalog), @catalog.name)
     @header = [
-      { :name => '', :sortable => false },
+      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => t("catalog_entries.index.name"), :sort_attr => :name },
       { :name => t('catalog_entries.index.deployable_xml'), :sortable => false }
     ]

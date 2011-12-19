@@ -19,7 +19,7 @@
             = select_tag :hardware_profile, options_from_collection_for_select(@hw_profiles, :id, :name, params[:hardware_profile])
             .clear
           %div
-            = form.label :catalog_id, t('catalog_entries.form.catalog')
+            = form.label :catalog_id, t('deployables.form.catalog')
             %span.text_instead_input= @selected_catalogs.empty? ? t('deployables.form.none') : @selected_catalogs.count > 1 ? t('deployables.form.multiple') : @selected_catalogs.first.name
             %span.catalog_link
               &nbsp
@@ -34,5 +34,5 @@
             .clear
       .centered
         %fieldset.align-center
-          = link_to t('catalog_entries.form.cancel'), catalogs_path, :class => 'button danger'
-          = submit_tag "#{t'catalog_entries.form.save'}", :name => 'save', :class => 'button primary', :id => 'save_button'
+          = link_to t('deployables.form.cancel'), catalogs_path, :class => 'button danger'
+          = submit_tag "#{t'deployables.form.save'}", :name => 'save', :class => 'button primary', :id => 'save_button'
