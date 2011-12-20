@@ -11,6 +11,11 @@
         %label=t'provider_accounts.properties.running_instances_quota'
       %td
         = @provider_account.quota.maximum_running_instances or t('unlimited')
+    %tr
+      %td
+        %label=t'provider_accounts.index.priority'
+      %td
+        = @provider_account.priority
     - if @account_id
       %tr
         %td

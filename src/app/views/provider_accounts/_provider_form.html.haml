@@ -17,6 +17,9 @@
 
 %fieldset
   %p
+    = label :provider_account, t('provider_accounts.index.priority')
+    = text_field :provider_account, :priority, :class => 'em'
+  %p
     = label_tag t("quotas.quota")
     = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || t('provider_accounts.properties.unlimited'), :id => "quota_instances"
     (

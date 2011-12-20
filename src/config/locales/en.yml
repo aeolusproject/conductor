@@ -943,6 +943,7 @@ en:
       provider_name: Provider Name
       provider_type: Provider Type
       quota_limit: Quota Limit
+      priority: Priority
       config_server_saved: "Config Server data was successfully saved"
       config_server_not_saved: "An error occurred while saving the Config Server data."
     preset_filters:
