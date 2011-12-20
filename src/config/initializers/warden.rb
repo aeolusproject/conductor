@@ -63,7 +63,8 @@ Warden::Strategies.add(:database) do
     login, password = get_credentials
     return unless login && password
     Rails.logger.debug("Warden is authenticating #{login} against database")
-    u = User.authenticate(login, password, request.remote_ip)
+    ipaddress = request.env[ 'HTTP_X_FORWARDED_FOR' ] ? request.env[ 'HTTP_X_FORWARDED_FOR' ] : request.remote_ip
+    u = User.authenticate(login, password, ipaddress)
     u ? success!(u) : fail!("Username or password is not correct - could not log in")
   end
 end
@@ -75,7 +76,8 @@ Warden::Strategies.add(:ldap) do
     login, password = get_credentials
     return unless login && password
     Rails.logger.debug("Warden is authenticating #{login} against ldap")
-    u = User.authenticate_using_ldap(login, password, request.remote_ip)
+    ipaddress = request.env[ 'HTTP_X_FORWARDED_FOR' ] ? request.env[ 'HTTP_X_FORWARDED_FOR' ] : request.remote_ip
+    u = User.authenticate_using_ldap(login, password, ipaddress)
     u ? success!(u) : fail!("Username or password is not correct - could not log in")
   end
 end
