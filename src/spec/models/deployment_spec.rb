@@ -154,9 +154,13 @@ describe Deployment do
   describe "using image from iwhd" do
     before do
       image_id = @deployment.deployable_xml.assemblies.first.image_id
-      provider_name = Aeolus::Image::Warehouse::Image.find(image_id).latest_pushed_build.provider_images.first.provider_name
-      provider = FactoryGirl.create(:mock_provider, :name => provider_name)
-      @deployment.pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+      @provider_image = provider_name = Aeolus::Image::Warehouse::Image.find(image_id).latest_pushed_build.provider_images.first
+      provider_name = @provider_image.provider_name
+      provider1 = FactoryGirl.create(:mock_provider, :name => provider_name)
+      provider2 = FactoryGirl.create(:mock_provider)
+      @provider_account1 = FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider1, :priority => 10)
+      @provider_account2 = FactoryGirl.create(:mock_provider_account, :label => 'testaccount2', :provider => provider2, :priority => 20)
+      @deployment.pool.pool_family.provider_accounts = [@provider_account2, @provider_account1]
       admin_perms = FactoryGirl.create :admin_permission
       @user_for_launch = admin_perms.user
     end
@@ -174,6 +178,29 @@ describe Deployment do
       Taskomatic.stub!(:create_instance).and_return(true)
       @deployment.launch(@user_for_launch)[:errors].should be_empty
       @deployment.instances.count.should == 2
+    end
+
+    it "should match provider accounts according to priority when launching deployment" do
+      @deployment.save!
+      @deployment.instances.should be_empty
+
+      Instance.any_instance.stub(:provider_images_for_match).and_return([@provider_image])
+      Taskomatic.stub!(:create_dcloud_instance).and_return(true)
+      Taskomatic.stub!(:handle_dcloud_error).and_return(true)
+      Taskomatic.stub!(:handle_instance_state).and_return(true)
+      @deployment.launch(@user_for_launch)[:errors].should be_empty
+      @deployment.reload
+      @deployment.instances.count.should == 2
+      @deployment.instances[0].provider_account.should == @provider_account1
+      @deployment.instances[1].provider_account.should == @provider_account1
+      @provider_account1.priority = 30
+      @provider_account1.save!
+      deployment2 = Factory.create(:deployment, :pool_id => @pool.id)
+      deployment2.launch(@user_for_launch)[:errors].should be_empty
+      deployment2.reload
+      deployment2.instances.count.should == 2
+      deployment2.instances[0].provider_account.should == @provider_account2
+      deployment2.instances[1].provider_account.should == @provider_account2
     end
 
     it "should not launch instances if user has no access to hardware profile" do
