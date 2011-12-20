@@ -338,6 +338,37 @@ class ProviderAccount < ActiveRecord::Base
     end
   end
 
+  def instance_matches(instance, matched, errors)
+    if !provider.enabled?
+      errors << I18n.t('instances.errors.must_be_enabled', :account_name => name)
+    elsif quota.reached?
+      errors << I18n.t('instances.errors.provider_account_quota_reached', :account_name => name)
+    # match_provider_hardware_profile returns a single provider
+    # hardware_profile that can satisfy the input hardware_profile
+    elsif !(hwp = HardwareProfile.match_provider_hardware_profile(provider, instance.hardware_profile))
+      errors << I18n.t('instances.errors.hw_profile_match_not_found', :account_name => name)
+    elsif (account_images = instance.provider_images_for_match(provider)).empty?
+      errors << I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => name)
+    elsif instance.requires_config_server? and config_server.nil?
+      errors << I18n.t('instances.errors.no_config_server_available', :account_name => name)
+    else
+      account_images.each do |pi|
+        if not instance.frontend_realm.nil?
+          brealms = instance.frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == provider}
+          if brealms.empty?
+            errors << I18n.t('instances.errors.realm_not_mapped', :frontend_realm_name => instance.frontend_realm.name)
+            next
+          end
+          brealms.each do |brealm_target|
+            matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, brealm_target.target_realm)
+          end
+        else
+          matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, nil)
+        end
+      end
+    end
+  end
+
   private
 
   def self.apply_search_filter(search)

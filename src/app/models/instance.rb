@@ -184,6 +184,15 @@ class Instance < ActiveRecord::Base
     Aeolus::Image::Warehouse::ImageBuild.find(image_build_uuid) if image_build_uuid
   end
 
+  def build
+    image_build || (image.nil? ? nil : image.latest_pushed_build)
+  end
+
+  def provider_images_for_match(provider)
+    the_build = build
+    (the_build ? the_build.provider_images : []).select {|pi| pi.provider_name == provider.name}
+  end
+
   def assembly_xml
     @assembly_xml ||= AssemblyXML.new(self[:assembly_xml].to_s)
   end
@@ -346,50 +355,10 @@ class Instance < ActiveRecord::Base
     errors << I18n.t('instances.errors.image_not_found', :b_uuid=> image_build_uuid, :i_uuid => image_uuid) if image_build.nil? and image.nil?
     return [[], errors] unless errors.empty?
 
-    build = image_build || image.latest_pushed_build
-    provider_images = build ? build.provider_images : []
     matched = []
     pool.pool_family.provider_accounts.each do |account|
-      unless account.provider.enabled?
-        errors << I18n.t('instances.errors.must_be_enabled', :account_name => account.name)
-        next
-      end
+      account.instance_matches(self, matched, errors)
 
-      # match_provider_hardware_profile returns a single provider
-      # hardware_profile that can satisfy the input hardware_profile
-      hwp = HardwareProfile.match_provider_hardware_profile(account.provider,
-                                                            hardware_profile)
-      unless hwp
-        errors << I18n.t('instances.errors.hw_profile_match_not_found', :account_name => account.name)
-        next
-      end
-      account_images = provider_images.select {|pi| pi.provider_name == account.provider.name}
-      if account_images.empty?
-        errors << I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => account.name)
-        next
-      end
-      if account.quota.reached?
-        errors << I18n.t('instances.errors.provider_account_quota_reached', :account_name => account.name)
-        next
-      end
-      if requires_config_server? and account.config_server.nil?
-        errors << I18n.t('instances.errors.no_config_server_available', :account_name => account.name)
-        next
-      end
-      account_images.each do |pi|
-        if not frontend_realm.nil?
-          brealms = frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == account.provider}
-          if brealms.empty?
-            errors << I18n.t('instances.errors.realm_not_mapped', :frontend_realm_name => frontend_realm.name)
-            next
-          end
-          brealms.each do |brealm_target|
-            matched << Match.new(pool.pool_family, account, hwp, pi, brealm_target.target_realm)
-          end
-        else
-          matched << Match.new(pool.pool_family, account, hwp, pi, nil)
-        end
-      end
     end
 
     [matched, errors]

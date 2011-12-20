@@ -32,10 +32,7 @@ module Taskomatic
 
       task.state = Task::STATE_RUNNING
       task.save!
-
-      Rails.logger.info "Task instance create completed with key #{dcloud_instance.id} and state #{dcloud_instance.state}"
-      task.instance.external_key = dcloud_instance.id
-      task.instance.state = dcloud_to_instance_state(dcloud_instance.state)
+      handle_instance_state(task.instance,dcloud_instance)
       task.instance.save!
     rescue HttpException => ex
       task.failure_code = Task::FAILURE_PROVIDER_CONTACT_FAILED
@@ -46,6 +43,12 @@ module Taskomatic
       task.instance.save!
       task.save!
     end
+  end
+
+  def self.handle_instance_state(instance, dcloud_instance)
+      Rails.logger.info "Task instance create completed with key #{dcloud_instance.id} and state #{dcloud_instance.state}"
+      instance.external_key = dcloud_instance.id
+      instance.state = dcloud_to_instance_state(dcloud_instance.state)
   end
 
   def self.do_action(task, action)
