@@ -59,6 +59,8 @@ class Provider < ActiveRecord::Base
 
   before_destroy :destroyable?
 
+  scope :enabled, where("enabled = ?", true)
+
   def encoded_url_with_driver_and_provider
     url_extras = ";driver=#{provider_type.deltacloud_driver}"
     if deltacloud_provider

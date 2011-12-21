@@ -68,6 +68,8 @@ class ProviderAccount < ActiveRecord::Base
   before_create :no_account?
   before_destroy :destroyable?
 
+  scope :enabled, where(:provider_id => Provider.enabled)
+
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
       errors.add(:base, "#{cd.label} can't be blank") if credentials_hash[cd.name].blank?
