@@ -14,7 +14,6 @@
               = link_to pool_family.name, pool_family
             .section-controls
               #obj_actions
-                = link_to t(:edit), edit_pool_family_path(pool_family), :class => 'pool_family_button'
                 = link_to t("pools.new_pool"), new_pool_path(:pool_family_id => pool_family.id), :class => 'pool_family_button'
                 = link_to t("images.new.new_image"), new_image_path( :environment => pool_family.id), :class => 'pool_family_button'
       - unless pool_family.pools.blank?
