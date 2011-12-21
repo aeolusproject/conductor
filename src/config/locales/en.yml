@@ -774,6 +774,8 @@ en:
       not_deleted:
         one: "Deployable %{list} was not deleted. There are deployments associated with it."
         other: "Deployables %{list} were not deleted. They have deployments associated with them."
+    new:
+      no_catalog_selected: 'no catalog selected'
     new_from_image:
       catalog_entry_name: "%{name}"
       title: Create Deployable

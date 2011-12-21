@@ -3,11 +3,11 @@
   %h1{:class => controller.controller_name}= @deployable.name
   #obj_actions.button-container
     .button-group
-      = button_to t('.delete'), catalog_deployable_path(@catalog, @deployable), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
-      = link_to t('.edit'), edit_catalog_deployable_path(@catalog, @deployable), :class => 'button', :id => 'edit_button'
-      = link_to t('.edit_xml'), edit_catalog_deployable_path(@catalog, @deployable, :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
+      = button_to t('.delete'), polymorphic_path([@catalog, @deployable]), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
+      = link_to t('.edit'), edit_polymorphic_path([@catalog, @deployable]), :class => 'button', :id => 'edit_button'
+      = link_to t('.edit_xml'), edit_polymorphic_path([@catalog, @deployable], :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
 
-    - if @deployable_errors.empty?
+    - if @catalog.present? && @deployable_errors.empty?
       = link_to t('.launch'), launch_new_deployments_path(:deployable_id => @deployable.id, :pool_id => @catalog.pool), :id => :launch_deployment_button
     -else
       %a{:id => :launch_deployment_button, :class => 'disabled'}= t('.launch')
@@ -46,9 +46,10 @@
     %header
       %h2.build= t('.build')
       .section-controls
-        = form_tag(catalog_deployable_build_path(@catalog, @deployable)) do
+        = form_tag(polymorphic_path([@catalog, @deployable], :action => 'build')) do
           = select_tag :build_options, options_for_select([[t(".build_missing"), :build_missing], [t(".push_missing"), :push_missing]])
           = submit_tag t('.start'), :id => :start_build, :class => 'button pill'
+
     .content
       %p.description.align-center= t('.build_description')
 

@@ -1,10 +1,14 @@
-= form_for @deployable, :url => catalog_deployables_path(@catalog), :html => {:class => 'generic', :multipart => true } do |form|
+= form_for @deployable, :url => polymorphic_path([@catalog, Deployable]), :html => {:class => 'generic', :multipart => true } do |form|
   - if @deployable.errors.any?
     = render 'layouts/error_messages', :object => @deployable
   %fieldset
     %p
       = form.label :catalog_id, t('deployables.form.catalog')
-      %span.text_instead_input= @catalog.name
+      %span.text_instead_input
+        - if @catalog.present?
+          =@catalog.name
+        - else
+          %em=t('deployables.new.no_catalog_selected')
     %p
       = form.label :name, t('deployables.index.name')
       = form.text_field :name, :class => 'em long'
@@ -19,5 +23,8 @@
       = label_tag :edit_xml, t('deployables.form.edit_xml_after_save')
 
   %fieldset.align-center
-    = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
+    -if @catalog.present?
+      = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
+    -else
+      = link_to t('cancel'), deployables_path, :class => 'button danger'
     = submit_tag t('save'), :name => 'save', :class => 'button primary', :id => 'save_button'

@@ -8,9 +8,9 @@
   %nav#image-upload-tabs.faceted
     %ul.tabs
       %li
-        = link_to t('catalog_entries.new.upload'), new_catalog_deployable_path(@catalog), :id => "upload", :class => "#{'active' if @form_option == 'upload'}"
+        = link_to t('catalog_entries.new.upload'), new_polymorphic_path([@catalog, Deployable]), :id => "upload", :class => "#{'active' if @form_option == 'upload'}"
       %li
-        = link_to t('catalog_entries.new.from_url'), new_catalog_deployable_path(@catalog, :from_url => true), :id => "from_url", :class => "#{'active' if @form_option == 'from_url'}"
+        = link_to t('catalog_entries.new.from_url'), new_polymorphic_path([@catalog, Deployable], :from_url => true), :id => "from_url", :class => "#{'active' if @form_option == 'from_url'}"
 
   .form_option
     = render :partial => @form_option
@@ -22,7 +22,7 @@
       var entry_description = read_description_field();
       var $clicked_element = $(this)
       ev.preventDefault();
-      $.get('#{new_catalog_deployable_url(@catalog)}', function(data){
+      $.get('#{new_polymorphic_url([@catalog, Deployable])}', function(data){
         change_selected($clicked_element, $('a#from_url'));
         $('.form_option').empty();
         $('.form_option').html(data).show();
@@ -35,7 +35,7 @@
       var entry_description = read_description_field();
       var $clicked_element = $(this)
       ev.preventDefault();
-      $.get('#{new_catalog_deployable_url(@catalog, :from_url => true)}', function(data){
+      $.get('#{new_polymorphic_url([@catalog, Deployable], :from_url => true)}', function(data){
         change_selected($clicked_element, $("a#upload"));
         $('.form_option').empty();
         $('.form_option').html(data).show();

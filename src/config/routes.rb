@@ -201,16 +201,29 @@ Conductor::Application.routes.draw do
     post 'create'
     post :filter, :on => :collection
     resources :deployables do
-      delete 'multi_destroy', :on => :collection
-      post :filter, :on => :collection
-      post :build
-      get :definition
+      collection do
+        delete 'multi_destroy'
+        post :filter
+      end
+      member do
+        post :build
+        get :definition
+      end
     end
   end
 
   resources :catalog_entries
 
-  resources :deployables
+  resources :deployables do
+    collection do
+      delete 'multi_destroy'
+      post :filter
+    end
+    member do
+      post :build
+      get :definition
+    end
+  end
 
   resources :images do
     member do

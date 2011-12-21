@@ -9,7 +9,11 @@
   - else
     %p
       = label_tag :catalog_id, t('.catalog')
-      %span.text_instead_input= @catalog.name
+      %span.text_instead_input
+        - if @catalog.present?
+          =@catalog.name
+        - else
+          %em=t('deployables.new.no_catalog_selected')
     %p
       = form.label :name, t('deployables.index.name')
       = form.text_field :name, :class => 'long'
@@ -18,8 +22,8 @@
       = form.text_area :description, :class => 'long'
     %p
       = form.label :xml, t('.deployable_xml')
-      %span.text_instead_input= link_to t("deployables.properties.edit_deployable_xml"), edit_catalog_deployable_path(@catalog.id, @deployable.id, :edit_xml=>true)
+      %span.text_instead_input= link_to t("deployables.properties.edit_deployable_xml"), edit_polymorphic_path([@catalog, @deployable], :edit_xml=>true)
 
 %fieldset.align-center
-  = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
+  = link_to t('cancel'), polymorphic_path([@catalog, @deployable]), :class => 'button danger'
   = submit_tag t('save'), :name => 'save', :class => 'button', :id => 'save_button'

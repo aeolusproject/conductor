@@ -20,11 +20,15 @@ class DeployablesController < ApplicationController
 
   def index
     clear_breadcrumbs
-    save_breadcrumb(catalog_deployables_path(:viewstate => @viewstate ? @viewstate.id : nil))
-    @catalog = Catalog.find(params[:catalog_id])
-    @deployables = @catalog.deployables
-    @catalog_entries = @deployables.collect { |d| d.catalog_entries.first }
-    #@catalog_entries = CatalogEntry.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:catalog_entries_preset_filter], :search_filter => params[:catalog_entries_search])
+    if params[:catalog_id].present?
+      save_breadcrumb(catalog_deployables_path(:viewstate => @viewstate ? @viewstate.id : nil))
+      @catalog = Catalog.find(params[:catalog_id])
+      @deployables = @catalog.deployables
+      @catalog_entries = @deployables.collect { |d| d.catalog_entries.first }
+    else
+      save_breadcrumb(deployables_path)
+      @deployables = Deployable.without_catalog.list_for_user(current_user, Privilege::VIEW)
+    end
     set_header
   end
 
@@ -37,7 +41,7 @@ class DeployablesController < ApplicationController
       @deployable.name = @image.name
       @selected_catalogs = params[:catalog_id].to_a
       load_catalogs
-    else
+    elsif params[:catalog_id].present?
       @catalog = Catalog.find(params[:catalog_id])
       require_privilege(Privilege::MODIFY, @catalog)
     end
@@ -50,12 +54,18 @@ class DeployablesController < ApplicationController
 
   def show
     @deployable = Deployable.find(params[:id])
-    @catalog = Catalog.find(params[:catalog_id])
+    @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
     require_privilege(Privilege::VIEW, @deployable)
-    save_breadcrumb(catalog_deployable_path(@catalog, @deployable), @deployable.name)
+    save_breadcrumb(polymorphic_path([@catalog, @deployable]), @deployable.name)
     @providers = Provider.all
     @catalogs_options = Catalog.list_for_user(current_user, Privilege::VIEW).select {|c| !@deployable.catalogs.include?(c)}
-    add_permissions_inline(@deployable, '', {:catalog_id => @catalog.id})
+
+    if @catalog.present?
+      add_permissions_inline(@deployable, '', {:catalog_id => @catalog.id})
+    else
+      add_permissions_inline(@deployable)
+    end
+
     @images_details = @deployable.get_image_details
     images = @deployable.fetch_images
     uuids = @deployable.fetch_image_uuids
@@ -87,14 +97,14 @@ class DeployablesController < ApplicationController
   end
 
   def definition
-    @deployable = Deployable.find(params[:deployable_id])
+    @deployable = Deployable.find(params[:id])
     require_privilege(Privilege::VIEW, @deployable)
     render :xml => @deployable.xml
   end
 
   def create
     if params[:cancel]
-      redirect_to catalog_deployables_path
+      redirect_to polymorphic_path([params[:catalog_id], Deployable])
       return
     end
 
@@ -117,7 +127,7 @@ class DeployablesController < ApplicationController
     end
 
     begin
-      raise t("deployables.flash.error.no_catalog") if @selected_catalogs.empty?
+      #raise t("deployables.flash.error.no_catalog") if @selected_catalogs.empty?
       @deployable.transaction do
         @deployable.save!
         @selected_catalogs.each do |catalog|
@@ -126,9 +136,9 @@ class DeployablesController < ApplicationController
         end
         flash[:notice] = t "catalog_entries.flash.notice.added"
         if params[:edit_xml]
-          redirect_to edit_catalog_deployable_path @selected_catalogs.first, @deployable.id, :edit_xml =>true
+          redirect_to edit_polymorphic_path([@selected_catalogs.first, @deployable], :edit_xml =>true)
         else
-          redirect_to catalog_deployables_path(@selected_catalogs.first)
+          redirect_to polymorphic_path([@selected_catalogs.first, Deployable])
         end
       end
     rescue => e
@@ -150,18 +160,18 @@ class DeployablesController < ApplicationController
   def edit
     @deployable = Deployable.find(params[:id])
     require_privilege(Privilege::MODIFY, @deployable)
-    @catalog = Catalog.find(params[:catalog_id])
+    @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
   end
 
   def update
     @deployable = Deployable.find(params[:id])
-    @catalog = Catalog.find(params[:catalog_id])
+    @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
     require_privilege(Privilege::MODIFY, @deployable)
     params[:deployable].delete(:owner_id) if params[:deployable]
 
     if @deployable.update_attributes(params[:deployable])
       flash[:notice] = t"catalog_entries.flash.notice.updated"
-      redirect_to catalog_deployable_path(params[:catalog_id], @deployable)
+      redirect_to polymorphic_path([@catalog, @deployable])
     else
       render :action => 'edit', :edit_xml => params[:edit_xml]
     end
@@ -176,18 +186,31 @@ class DeployablesController < ApplicationController
       #@catalog = d.catalog
       d.destroy
     end
-    redirect_to catalog_path(params[:catalog_id])
+
+    @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
+    if @catalog.present?
+      redirect_to catalog_path(@catalog)
+    else
+      redirect_to deployables_path
+    end
   end
 
   def destroy
     deployable = Deployable.find(params[:id])
+    @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
     # TODO: delete only in catalogs where I have permission to
     #require_privilege(Privilege::MODIFY, catalog_entry.catalog)
     require_privilege(Privilege::MODIFY, deployable)
     deployable.destroy
 
     respond_to do |format|
-      format.html { redirect_to catalog_path(params[:catalog_id]) }
+      format.html do
+        if @catalog.present?
+          redirect_to catalog_path(@catalog)
+        else
+          redirect_to deployables_path
+        end
+      end
     end
   end
 
@@ -196,9 +219,9 @@ class DeployablesController < ApplicationController
   end
 
   def build
-    catalog = Catalog.find(params[:catalog_id])
-    deployable = Deployable.find(params[:deployable_id])
-    require_privilege(Privilege::MODIFY, catalog)
+    catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
+    deployable = Deployable.find(params[:id])
+    require_privilege(Privilege::MODIFY, catalog) if catalog.present?
     require_privilege(Privilege::MODIFY, deployable)
 
     images = deployable.fetch_images
@@ -210,7 +233,7 @@ class DeployablesController < ApplicationController
     when :push_missing
       deployable.push_missing(images, accounts)
     end
-    redirect_to catalog_deployable_path(catalog, deployable)
+    redirect_to polymorphic_path([catalog, deployable])
   end
 
   private

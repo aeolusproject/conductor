@@ -38,6 +38,11 @@ class Deployable < ActiveRecord::Base
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   after_create "assign_owner_roles(owner)"
 
+  scope :without_catalog, lambda {
+    deployable_ids_in_association = CatalogEntry.select(:deployable_id).map(&:deployable_id)
+    where('id NOT IN (?)', deployable_ids_in_association)
+  }
+
   PRESET_FILTERS_OPTIONS = []
 
   def valid_deployable_xml?
