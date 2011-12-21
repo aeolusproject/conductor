@@ -55,9 +55,11 @@
             <dt class="state">#{t('deployments.pretty_view_show.state')}</dt>
             <dd>${state}</dd>
           </li>
-          <li>
-            <a href="#{key_instance_path('replace_id').sub('replace_id', '${id}')}">#{t('deployments.pretty_view_show.download_key')}</a>
-          </li>
+          {{if has_key}}
+            <li>
+              <a href="#{key_instance_path('replace_id').sub('replace_id', '${id}')}">#{t('deployments.pretty_view_show.download_key')}</a>
+            </li>
+          {{/if}}
         </ul>
       </dl>
       <hr>
