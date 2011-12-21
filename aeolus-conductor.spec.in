@@ -278,6 +278,7 @@ fi
 %files
 %dir %{app_root}
 %{app_root}/app
+%defattr(640,root,aeolus,750)
 %dir %{app_root}/config
 %{app_root}/config/environments
 %{app_root}/config/initializers
@@ -287,6 +288,7 @@ fi
 %{app_root}/config/database.pg
 %{app_root}/config/database.sqlite
 %config %{app_root}/config/*.yml
+%defattr(-,root,root,-)
 %{app_root}/config.ru
 %{app_root}/db
 %{app_root}/dbomatic
