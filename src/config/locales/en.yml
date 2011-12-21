@@ -662,6 +662,8 @@ en:
     preset_filters:
       all_catalogs: "All Catalogs"
       belongs_to_default_pool: "Belongs to Default Pool"
+    catalog_list:
+      no_catalogs: "-- No Catalogs --"
   target_images:
     flash:
       notice:
