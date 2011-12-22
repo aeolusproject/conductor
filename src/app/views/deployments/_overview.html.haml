@@ -26,8 +26,11 @@
       = link_to @deployable.xml_filename, definition_catalog_deployable_path(@deployable.catalogs.first, @deployable)
       &rArr;
 
-      %h3= t('.image_ids')
+      - if @realms.any?
+        %h3= t('realms.index.realm')
+        = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
 
+      %h3= t('.image_ids')
       %ul
       - @deployment.deployable_xml.assemblies.each do |assembly|
         %li.image-id
