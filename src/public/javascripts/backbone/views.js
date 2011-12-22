@@ -47,6 +47,8 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
       var checkboxes = Conductor.saveCheckboxes('td :checkbox', $table);
       $table.empty().append($template.tmpl(this.collection.toJSON()))
       Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
+      $table.find('tr:even').addClass('nostripe');
+      $table.find('tr:odd').addClass('stripe');
     }
     else if (this.currentView() == 'pretty') {
       $deployments = this.$('ul.deployment-array');
@@ -115,12 +117,8 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
     }
     if($instances.length === 0) return;
 
-    var checked_instances = Conductor.saveCheckboxes('td :checkbox', $instances);
     $instances.empty();
     $('#instanceTemplate').tmpl(this.collection.toJSON()).appendTo($instances);
-    Conductor.restoreCheckboxes(checked_instances, 'td :checkbox', $instances);
-    $instances.find('tr:even').addClass('nostripe');
-    $instances.find('tr:odd').addClass('stripe');
   },
 
 });
