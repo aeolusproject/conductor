@@ -202,19 +202,6 @@ $.extend(Conductor, {
     });
   },
 
-  enhanceUserMenu: function() {
-    var $userDropdown = $('#system a.user-dropdown');
-    if($userDropdown.length == 0) return;
-
-    var offset = $userDropdown.offset()
-    offset.top = offset.top + 40;
-    $('#user-menu').offset(offset)
-    $userDropdown.click(function(ev) {
-      ev.preventDefault();
-      $('#user-menu').toggle();
-    });
-  },
-
 });
 
 /* custom methods */
@@ -311,7 +298,6 @@ $(document).ready(function () {
   Conductor.closeNotification();
   Conductor.toggleCollapsible();
   Conductor.selectAllCheckboxes();
-  Conductor.enhanceUserMenu();
   Conductor.tabAjaxRequest();
   Conductor.initializeBackbone();
 });

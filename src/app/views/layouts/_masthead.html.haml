@@ -5,8 +5,9 @@
       %li.account
         %span.name.label.strong.small-caps
           = "#{current_user.first_name} #{current_user.last_name}" if current_user.present?
-        %a.button.pill.user-dropdown{:href => '#'} &nbsp;
-        %span#user-menu{ :class => javascript? ? 'js' : 'nojs' }
+        %input{:type => 'checkbox', :id => 'user-dropdown'}
+        %label{:for => "user-dropdown", :id => 'user-dropdown-label'} &nbsp;
+        #user-menu
           = link_to t('masthead.my_account'), account_path
           = link_to t('masthead.logout'), logout_path
 /      %li.separator
