@@ -407,6 +407,7 @@ class Deployment < ActiveRecord::Base
         :name => pool.name,
         :id => pool.id,
       },
+      :created_at => created_at.to_s
     })
 
     if provider
