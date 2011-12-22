@@ -57,6 +57,8 @@ class Deployment < ActiveRecord::Base
 
   after_create "assign_owner_roles(owner)"
 
+  scope :ascending_by_name, :order => 'name ASC'
+
   validates_presence_of :pool_id
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id

@@ -74,6 +74,8 @@ Conductor.Routers.Deployments = Backbone.Router.extend({
       var view = new Conductor.Views.DeploymentsShow({ model: deployment,
         collection: deployment.instances });
 
+      if(view.currentTab() !== 'instances') return;
+
       deployment.bind('change', function() { view.render() });
 
       deployment.instances.fetch({success: function(instances) {

@@ -45,12 +45,12 @@ class PoolsController < ApplicationController
       @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
       case @details_tab[:id]
       when 'pools'
-        @pools = Pool.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search])
+        @pools = Pool.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).list(sort_column(Pool), sort_direction)
       when 'instances'
         params[:instances_preset_filter] = "other_than_stopped" unless params[:instances_preset_filter]
         @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list(sort_column(Instance), sort_direction)
       when 'deployments'
-        @deployments = Deployment.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search])
+        @deployments = Deployment.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).list(sort_column(Deployment), sort_direction)
       end
     else
       @pools = Pool.list(sort_column(Pool), sort_direction)
