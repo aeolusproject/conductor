@@ -20,8 +20,10 @@ $.extend(Conductor, {
       var url = $(this).attr('href');
       $('#tab').html('<span class="loading_tabs"></span>');
       $.get(url, function(data) {
-        $('#tab').html(data)
-          .show();
+        $('#tab').html(data).show();
+      })
+      .error(function(data) {
+        $('#tab').html(data.responseText).show();
       });
 
       Conductor.tabRemoveActiveClass();

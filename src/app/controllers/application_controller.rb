@@ -86,7 +86,7 @@ class ApplicationController < ActionController::Base
 
   def html_error_page(title, msg, status)
     if request.xhr?
-      render :template => 'layouts/popup-error', :layout => 'popup', :status => status,
+      render :partial => 'layouts/popup-error', :status => status,
              :locals => {:title => title, :errmsg => msg}
     else
       render :template => 'layouts/error', :layout => 'application',
