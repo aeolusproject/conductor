@@ -151,7 +151,7 @@ class DeployablesController < ApplicationController
       else
         @catalog = @selected_catalogs.first
         params.delete(:edit_xml) if params[:edit_xml]
-        @form_option = params[:deployable].has_key?(:xml) ? 'upload' : 'from_url'
+        @form_option = params[:form_option].eql?('upload') ? 'upload' : 'from_url'
       end
       render :new
     end
