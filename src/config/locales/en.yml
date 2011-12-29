@@ -631,6 +631,7 @@ en:
     flash:
       warning:
         not_valid_or_reachable: "Catalog entry XML file is either invalid or no longer reachable at %{url}"
+        no_url_provided: "No URL provided for the catalog entry XML file."
         not_valid: "Deployable XML file doesn't resolve valid XML"
         failed: Catalog entry was not created.
       notice:

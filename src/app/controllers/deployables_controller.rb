@@ -258,7 +258,11 @@ class DeployablesController < ApplicationController
         response
       end
     rescue RestClient::Exception, SocketError, URI::InvalidURIError
-      flash[:error] = t('catalog_entries.flash.warning.not_valid_or_reachable', :url => url)
+      if url.present?
+        flash[:error] = t('catalog_entries.flash.warning.not_valid_or_reachable', :url => url)
+      else
+        flash[:error] = t('catalog_entries.flash.warning.no_url_provided')
+      end
       nil
     end
   end
