@@ -51,9 +51,18 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
       $table.find('tr:odd').addClass('stripe');
     }
     else if (this.currentView() == 'pretty') {
-      $deployments = this.$('ul.deployment-array');
-      var $template = this.template();
-      $deployments.empty().append($template.tmpl(this.collection.toJSON()))
+      var $rows = this.$('#deployment-arrays').empty();
+      var cardsPerRow = 5;
+      var deployments = this.collection.models.map(function(model) {
+        return model.attributes;
+      });
+
+      for(var i = 0; i < deployments.length; i += cardsPerRow) {
+        var $row = this.make('ul',
+          {class: 'deployment-array small'},
+          $template.tmpl(deployments.slice(i, i + cardsPerRow)));
+        $rows.append($row);
+      }
     }
   },
 });

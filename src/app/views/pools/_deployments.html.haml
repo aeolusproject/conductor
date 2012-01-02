@@ -1,20 +1,21 @@
-- deployments.in_groups_of(5, false) do |group|
-  %ul.deployment-array.small
-    - group.each do |deployment|
-      %li.deployment
-        %h3.name
-          = link_to deployment.name, deployment_path(deployment)
-          = t 'pools.index.global_uptime'
-          = count_uptime(deployment.uptime_all)
-        %dl.statistics
-          %ul
-            %li.right
-              %dt.instances.count= t 'instances.instances.other'
-              %dd= deployment.instances.count || 0
+#deployment-arrays
+  - deployments.in_groups_of(5, false) do |group|
+    %ul.deployment-array.small
+      - group.each do |deployment|
+        %li.deployment
+          %h3.name
+            = link_to deployment.name, deployment_path(deployment)
+            = t 'pools.index.global_uptime'
+            = count_uptime(deployment.uptime_all)
+          %dl.statistics
+            %ul
+              %li.right
+                %dt.instances.count= t 'instances.instances.other'
+                %dd= deployment.instances.count || 0
 
-            %li.left
-              %dt=t :uptime
-              %dd= count_uptime(deployment.uptime_1st_instance)
+              %li.left
+                %dt=t :uptime
+                %dd= count_uptime(deployment.uptime_1st_instance)
 
 %script#deploymentPrettyTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain
