@@ -2176,7 +2176,7 @@ $font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 /* todo: move this elsewhere */
 
 $deployment-large-height: 154px;
-$deployment-large-width: 154px;
+$deployment-large-width: 166px;
 $deployment-large-padding: 8px;
 
 ul.deployment-array.large{
@@ -2240,7 +2240,7 @@ ul.deployment-array.large{
   }
 
   li.deployment + li.deployment{
-    margin-left: 38px;
+    margin-left: 23px;
   }
 
   li.deployment.pending, li.deployment.alert, li.deployment.failure{

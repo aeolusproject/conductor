@@ -1,5 +1,10 @@
 en:
   dashboard: Dashboard
+  datetime:
+    distance_in_words:
+      x_hours:
+        one: 1 hour
+        other: %{count} hours
   users:
     users_groups: "Users & Groups"
     return_to: "Return to:"
