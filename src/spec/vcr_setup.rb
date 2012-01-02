@@ -42,23 +42,6 @@ Aeolus::Image::Warehouse::Connection.class_eval do
   end
 end
 
-Aeolus::Image::Warehouse::Connection.class_eval do
-  def do_request(path = '', opts={})
-    opts[:method]  ||= :get
-    opts[:content] ||= ''
-    opts[:plain]   ||= false
-    opts[:headers] ||= {}
-    result=nil
-    VCR.use_cassette('aeolus_image_warehouse_connection', :record => :new_episodes) do
-      result = RestClient::Request.execute :method => opts[:method], :url => @uri + path, :payload => opts[:content], :headers => opts[:headers]
-    end
-
-    return Nokogiri::XML result unless opts[:plain]
-    return result
-  end
-end
-
-
 # Mock request for deployable xml
 DeployableXML.class_eval do
   def self.import_xml_from_url(url)
