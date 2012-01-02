@@ -4,16 +4,16 @@
   %header
     %h2=t'catalog_entries.new.add_catalog_entry'
 
-%section.admin-content-section.image-upload
-  %nav#image-upload-tabs.faceted
-    %ul.tabs
-      %li
-        = link_to t('catalog_entries.new.upload'), new_polymorphic_path([@catalog, Deployable]), :id => "upload", :class => "#{'active' if @form_option == 'upload'}"
-      %li
-        = link_to t('catalog_entries.new.from_url'), new_polymorphic_path([@catalog, Deployable], :from_url => true), :id => "from_url", :class => "#{'active' if @form_option == 'from_url'}"
+  .content
+    %nav#image-upload-tabs.faceted
+      %ul.tabs
+        %li
+          = link_to t('catalog_entries.new.upload'), new_polymorphic_path([@catalog, Deployable]), :id => "upload", :class => "#{'active' if @form_option == 'upload'}"
+        %li
+          = link_to t('catalog_entries.new.from_url'), new_polymorphic_path([@catalog, Deployable], :from_url => true), :id => "from_url", :class => "#{'active' if @form_option == 'from_url'}"
 
-  .form_option
-    = render :partial => @form_option
+    .form_option
+      = render :partial => @form_option
 
 :javascript
   $(document).ready(function() {

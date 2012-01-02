@@ -138,7 +138,7 @@ class DeployablesController < ApplicationController
         if params[:edit_xml]
           redirect_to edit_polymorphic_path([@selected_catalogs.first, @deployable], :edit_xml =>true)
         else
-          redirect_to polymorphic_path([@selected_catalogs.first, Deployable])
+          redirect_to catalog_path(@selected_catalogs.first)
         end
       end
     rescue => e
