@@ -9,7 +9,7 @@
         %dl.statistics
           %ul
             %li.right
-              %dt.instances.count= t 'instances.instances'
+              %dt.instances.count= t 'instances.instances.other'
               %dd= deployment.instances.count || 0
 
             %li.left
@@ -27,7 +27,7 @@
       <dl class="statistics">
         <ul>
           <li class="right">
-            <dt class="instances count">#{t 'instances.instances'}</dt>
+            <dt class="instances count">#{t 'instances.instances.other'}</dt>
             <dd>${instances_count}</dd>
           </li>
           <li class="left">

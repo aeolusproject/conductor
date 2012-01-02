@@ -11,10 +11,10 @@
                 %dt.uptime=t'uptime'
                 %dd= count_uptime(deployment.uptime_1st_instance)
               %li.instances
-                %dt.instances.count=t'instances.instances'
+                %dt.instances.count=t'instances.instances.other'
                 %dd
                   = deployment.instances.count || 0
-                  %span.inline-label=t'instances.instances'
+                  %span.inline-label=t('instances.instances', :count => deployment.instances.count.to_i)
               %li.provider
                 %dt.instances.count=t'providers.provider'
                 %dd= deployment.provider.provider_type.name unless deployment.provider.blank?
@@ -39,9 +39,9 @@
             <dd>${uptime}</dd>
           </li>
           <li class="instances">
-            <dt class="instances count">#{t'instances.instances'}</dt>
+            <dt class="instances count">#{t'instances.instances.other'}</dt>
             <dd>${instances_count}
-              <span class="inline-label">#{t'instances.instances'}</span>
+              <span class="inline-label">${instances_count_text}</span>
             </dd>
           </li>
           <li class="provider">

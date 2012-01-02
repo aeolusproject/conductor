@@ -272,7 +272,9 @@ en:
     preset_filters:
       all_deployments: All Deployments
   instances:
-    instances: Instances
+    instances:
+      one: Instance
+      other: Instances
     reboot: Reboot
     instance: Instance
     none_selected: "You must select one or more instances to stop."
