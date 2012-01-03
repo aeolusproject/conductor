@@ -19,8 +19,6 @@
 
 module Api
   class ImagesController < ApplicationController
-    require "lib/image"
-
     before_filter :require_user_api
 
     respond_to :xml

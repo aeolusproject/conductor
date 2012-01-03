@@ -16,7 +16,6 @@
 
 class ImagesController < ApplicationController
   before_filter :require_user
-  require "lib/image"
 
   def index
     set_admin_environments_tabs 'images'
