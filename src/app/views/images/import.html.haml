@@ -6,7 +6,7 @@
 %section.admin-content-section.image-import
 
   %section#image-file-form
-    = form_tag(import_images_path, { :multipart => true, :method => :post }) do
+    = form_tag(import_images_path, { :multipart => true, :method => :post, :class => :generic }) do
       %fieldset
         %p
           = label_tag :provider_account, t('.provider_account')
