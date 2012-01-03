@@ -47,6 +47,9 @@ module Api
         if req[:type] == :failed
           raise(Aeolus::Conductor::API::InsufficientParametersSupplied.new(400, t("api.error_messages.specify_a_type_build_or_import")))
         elsif req[:type] == :build
+          errors = TemplateXML.validate(req[:params][:template])
+          raise Aeolus::Conductor::API::ParameterDataIncorrect.new(400, t("api.error_messages.invalid_template", :errors => errors.join(", "))) if errors.any?
+
           @targetnotfound=false
           @badtarget=""
           req[:params][:targets].split(",").each do |t|
