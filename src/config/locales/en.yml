@@ -189,7 +189,7 @@ en:
     launch_from_catalog:
       profile: Profile
       hint: Choose a deployable to launch in the "%{pool}" pool
-      no_catalog_entry: 'No available catalog entry. Please add one first!'
+      no_catalog_entry: 'No available deployable. Please add one first!'
       details: Details
       select: Select
       image_id: Image ID
@@ -415,7 +415,7 @@ en:
       destroy: Destroy
     images:
       catalog: Catalog
-      catalog_entry: Catalog Entry
+      catalog_entry: Deployable
       image: "Image:"
       pushed: %{uuid} pushed to %{provider}
     properties:
@@ -607,14 +607,14 @@ en:
         select_to_add_accounts: "You must select at least one Provider Account to add."
         select_to_remove_accounts: "You must select at least one Provider Account to remove."
   catalog_entries:
-    new_catalog_entry: New Catalog Entry
+    new_catalog_entry: New Deployable
     index:
-      catalog_entry: Catalog Entry
-      catalog_entries: Catalog Entries
+      catalog_entry: Deployable
+      catalog_entries: Deployables
       name: Name
       deployable_xml: Deployable XML
     new:
-      add_catalog_entry: Add New Catalog Entry
+      add_catalog_entry: Add New Deployable
       choose_option_to_upload: Choose one of the following options to upload deployable XML file
       upload: Upload
       from_url: From URL
@@ -633,21 +633,21 @@ en:
       rebuild_all: Rebuild all images
       start: Start
     edit:
-      editing_catalog_entry: Editing Catalog Entry
+      editing_catalog_entry: Editing Deployable
     list:
-      catalog_entries_list: Catalog Entries List
+      catalog_entries_list: Deployables List
     flash:
       warning:
-        not_valid_or_reachable: "Catalog entry XML file is either invalid or no longer reachable at %{url}"
-        no_url_provided: "No URL provided for the catalog entry XML file."
+        not_valid_or_reachable: "Deployable XML file is either invalid or no longer reachable at %{url}"
+        no_url_provided: "No URL provided for the deployable XML file."
         not_valid: "Deployable XML file doesn't resolve valid XML"
-        failed: Catalog entry was not created.
+        failed: Deployable was not created.
       notice:
-        added: Catalog entry added.
-        updated: Catalog entry updated successfully!
-        deleted: Catalog entry deleted.
+        added: Deployable added.
+        updated: Deployable updated successfully!
+        deleted: Deployable deleted.
     preset_filters:
-      all_catalog_entries: All Catalog Entries
+      all_catalog_entries: All Deployables
   catalogs:
     catalogs: Catalogs
     new_catalog: New Catalog
