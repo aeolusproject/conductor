@@ -18,6 +18,7 @@ class Image
   # Given a ProviderAccount and an AMI/image ID on a provider, plus an optional XML string, use aeolus-image
   # to import the image. Returns an Aeolus::Image::Factory::Image or allows exceptions to bubble up
   def self.import(provider_account, image_id, xml=nil)
+    raise Aeolus::Conductor::Base::BlankImageId unless image_id.present?
     # Verify that the image exists prior to import
     conn = provider_account.connect
     img = conn.image(image_id) rescue nil

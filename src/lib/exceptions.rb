@@ -45,6 +45,7 @@ module Aeolus
 
     module Base
       class ImageNotFound < StandardError; end
+      class BlankImageId < StandardError; end
     end
   end
 end

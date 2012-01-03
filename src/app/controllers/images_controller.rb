@@ -102,6 +102,8 @@ class ImagesController < ApplicationController
       logger.error "Caught exception importing image: #{e.message}"
       if e.is_a?(Aeolus::Conductor::Base::ImageNotFound)
         flash[:error] = t('images.not_on_provider')
+      elsif e.is_a?(Aeolus::Conductor::Base::BlankImageId)
+        flash[:error] = t('images.import.blank_id')
       else
         flash[:error] = t("images.import.image_not_imported")
       end

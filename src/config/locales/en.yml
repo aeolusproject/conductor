@@ -691,6 +691,7 @@ en:
       name: Image Name
       image_imported: The image was imported successfully.
       image_not_imported: The image could not be imported. Check the Image Factory log for further details.
+      blank_id: Image ID cannot be blank.
     index:
       images: Images
       name: Name
