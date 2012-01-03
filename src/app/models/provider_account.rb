@@ -68,7 +68,7 @@ class ProviderAccount < ActiveRecord::Base
   before_create :no_account?
   before_destroy :destroyable?
 
-  scope :enabled, where(:provider_id => Provider.enabled)
+  scope :enabled, lambda { where(:provider_id => Provider.enabled) }
 
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
