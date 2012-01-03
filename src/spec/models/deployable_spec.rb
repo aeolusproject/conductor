@@ -34,7 +34,7 @@ describe Deployable do
   it "should not be valid if xml is not parsable" do
     deployable = FactoryGirl.build(:deployable)
     deployable.should be_valid
-    deployable.xml << "</deployable>"
+    deployable.xml = deployable.xml.clone << "</deployable>"
     deployable.should_not be_valid
   end
 
