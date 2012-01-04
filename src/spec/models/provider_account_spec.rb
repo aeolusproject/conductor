@@ -123,7 +123,7 @@ describe ProviderAccount do
     provider_account2.should be_valid
   end
 
-  it "should fail to create more than one account per provider" do
+  it "should not fail to create more than one account per provider" do
     provider = FactoryGirl.create :mock_provider
     acc1 = FactoryGirl.create(:mock_provider_account, :provider => provider)
     acc2 = Factory.build(:mock_provider_account, :provider => provider)
@@ -131,8 +131,7 @@ describe ProviderAccount do
     acc2.stub!(:validate_unique_username).and_return(true)
     provider.provider_accounts << acc1
     provider.provider_accounts << acc2
-    acc2.save.should == false
-    acc2.errors[:base].should include('Only one account is supported per provider')
+    acc2.save.should == true
   end
 
   it "should require quota to be set" do

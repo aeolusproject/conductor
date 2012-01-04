@@ -230,7 +230,7 @@ class HardwareProfile < ActiveRecord::Base
         match = BigDecimal.new(back_end_property.range_last.to_s) >= BigDecimal.new(front_end_property.value.to_s) ? true : false
       when "enum"
         create_array_from_property(back_end_property).each do |value|
-          if front_end_property.value.nil? or BigDecimal.new(value) >= BigDecimal.new(front_end_property.value)
+          if front_end_property.value.nil? or BigDecimal.new(value) >= BigDecimal.new(front_end_property.value.to_s)
             match = true
           end
         end
