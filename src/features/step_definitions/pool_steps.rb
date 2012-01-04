@@ -158,3 +158,27 @@ Given /^"([^"]*)" has catalog_entry with parameters "([^"]*)"$/ do |catalog_name
   catalog_entry.catalog = catalog
   catalog_entry.save!
 end
+
+Then /^I should see the quota usage for the "([^"]*)" pool$/ do |pool|
+  text_present(pool)
+  text_present(I18n.t('deployments.deployments') + ' 0')
+  text_present(I18n.t('instances.instances.other') + ' 0')
+  text_present(I18n.t('quota_used') + ' 80')
+end
+
+Then /^I should see the "([^"]*)" deployment$/ do |name|
+  text_present(name)
+  localized_text_present('deployments.deployment_name')
+end
+
+Then /^I should see the filter_view contents for pools index$/ do
+  within("#tab-container-1-nav") do
+    localized_text_present('pools.pools')
+    localized_text_present('instances.instances.other')
+    localized_text_present('deployments.deployments')
+  end
+end
+
+Then /^I should see the pretty_view contents for pools index$/ do
+  within("section.pools") { localized_text_present('pools.index.your_pools') }
+end

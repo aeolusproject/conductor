@@ -36,14 +36,13 @@ Feature: Manage Deployments
     And there is a provider account "my_mock_provider" related to pool family "default"
     When I am viewing the pool "mockpool"
     And I follow "new_deployment_button"
-    Then I should see "New Deployment"
+    Then I should be on the launch new deployments page
     When I select "test_catalog_entry" from "deployable_id"
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "next_button"
     Then I should see "Are you sure you wish to deploy"
     When I press "launch_deployment_button"
-    Then I should see "Deployment launched"
-    Then I should see "mynewdeployment Deployment"
+    Then I should see a confirmation message
     And I should see "mynewdeployment/frontend"
     And I should see "mynewdeployment/backend"
 
@@ -57,7 +56,7 @@ Feature: Manage Deployments
     And I request XHR
     And I follow "new_deployment_button"
     Then I should get back a partial
-    Then I should see "New Deployment"
+    And I should be on the launch new deployments page
     When I select "test_catalog_entry" from "deployable_id"
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "next_button"
@@ -72,7 +71,7 @@ Feature: Manage Deployments
     And there is "front_hwp2" conductor hardware profile
     When I am viewing the pool "Disabled"
     And I follow "new_deployment_button"
-    Then I should see "pool has been disabled"
+    Then I should see a warning message
     And I should be on the page for the pool "Disabled"
 
   Scenario: Stop deployments
@@ -99,27 +98,6 @@ Feature: Manage Deployments
     When I am on the deployments page
     And I follow "testdeployment"
     Then I should see "testdeployment"
-
-  Scenario: Edit deployment name
-    Given there is a deployment named "Hudson" belonging to "QA Infrastructure" owned by "joe"
-    When I go to Hudson's edit deployment page
-    Then I should see "Edit deployment"
-    When I fill in "deployment_name" with "Jenkins"
-    And I press "save_button"
-    Then I should be on Jenkins's deployment page
-    And I should see "Jenkins"
-
-  Scenario: Edit deployment name using XHR
-    Given there is a deployment named "Hudson" belonging to "QA Infrastructure" owned by "joe"
-    And I request XHR
-    When I go to Hudson's edit deployment page
-    Then I should get back a partial
-    And I should see "Edit deployment"
-    When I fill in "deployment_name" with "Jenkins"
-    And I press "save_button"
-    Then I should get back a partial
-    And I should be on Jenkins's deployment page
-    And I should see "Jenkins"
 
   Scenario: View all deployments in JSON format
     Given there are 2 deployments
@@ -172,18 +150,20 @@ Feature: Manage Deployments
     And I am on the pools page
     When I follow "testdeployment"
     And I press "delete"
-    Then I should see "The deployment testdeployment was scheduled for deletion"
+    Then I should see a confirmation message
 
   Scenario: Delete multiple deployments
     Given a deployment "mydeployment1" exists
     And a deployment "mydeployment2" exists
     And I am on the pools page
     When I follow link with ID "filter_view"
-    And I follow "Deployments"
+    And I follow "details_deployments"
     And I check "mydeployment1" deployment
     And I check "mydeployment2" deployment
     And I press "delete_button"
-    Then I should see "The deployments mydeployment1 and mydeployment2 were scheduled for deletion"
+    Then I should see "mydeployment1"
+    Then I should see "mydeployment2"
+    Then I should see a confirmation message
 
   Scenario: Delete a deployment with running instances
     Given a deployment "mockdeployment" exists
@@ -192,7 +172,7 @@ Feature: Manage Deployments
     And I am on the pools page
     When I follow "mockdeployment"
     And I press "delete"
-    Then I should see "The deployment mockdeployment was scheduled for deletion"
+    Then I should see a confirmation message
 
   Scenario: Launch a deployment which is not launchable
     Given a pool "mockpool" exists
@@ -200,14 +180,14 @@ Feature: Manage Deployments
     And "test" has catalog_entry "test_catalog_entry"
     And there is "front_hwp1" conductor hardware profile
     When I am viewing the pool "mockpool"
-    And I follow "New Deployment"
-    Then I should see "New Deployment"
+    And I follow "new_deployment_button"
+    Then I should be on the launch new deployments page
     When I select "test_catalog_entry" from "deployable_id"
     When I fill in "deployment_name" with "mynewdeployment"
-    When I press "Next"
+    When I press "next_button"
     Then I should see "Are you sure you wish to deploy"
-    And I should see "Some assemblies will not be launched:"
-    And I should see "backend: Hardware Profile front_hwp2 not found."
+    And I should see an error message
+    And I should see "front_hwp2 not found."
 
   Scenario: Verify that the launch parameters are displayed
     Given a pool "mockpool" exists
@@ -218,11 +198,11 @@ Feature: Manage Deployments
     And there is mock provider account "my_mock_provider"
     And there is a provider account "my_mock_provider" related to pool family "default"
     When  I am viewing the pool "mockpool"
-    And   I follow "New Deployment"
-    Then  I should see "New Deployment"
+    And   I follow "new_deployment_button"
+    Then  I should be on the launch new deployments page
     When  I select "test_catalog_entry" from "deployable_id"
     And   I fill in "deployment_name" with "deployment_with_launch_parameters"
-    And   I press "Next"
+    And   I press "next_button"
     Then  I should see "Configure launch-time parameters"
     And   I should see "Parameter 1"
     And   I should see "Parameter 2"
@@ -237,11 +217,11 @@ Feature: Manage Deployments
     And there is a provider account "my_mock_provider" related to pool family "default"
     And there is a mock config server "https://mock:443" for account "my_mock_provider"
     When  I am viewing the pool "mockpool"
-    And   I follow "New Deployment"
-    Then  I should see "New Deployment"
+    And   I follow "new_deployment_button"
+    Then  I should be on the launch new deployments page
     When  I select "test_catalog_entry" from "deployable_id"
     And   I fill in "deployment_name" with "deployment_with_launch_parameters"
-    And   I press "Next"
+    And   I press "next_button"
     Then  I should see "Configure launch-time parameters"
     And   I should see "Launch Parameter 1"
     And   I should see "Launch Parameter 2"

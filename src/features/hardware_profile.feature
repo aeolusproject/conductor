@@ -14,8 +14,8 @@ Feature: Manage Hardware Profiles
     | m1-large  | 4096   | 4   | 850     | x86_64       |
     | m1-xlarge | 8192   | 8   | 1690    | x86_64       |
     And I am on the the hardware profiles page
-    Then I should see the following:
-    | Hardware Profile Name | Memory | Virtual CPU | Storage   | Architecture |
+    Then I should see the hardware profiles table
+    And I should see the following:
     | m1-small              | 1740   | 2           | 160       | i386         |
     | m1-large              | 4096   | 4           | 850       | x86_64       |
     | m1-xlarge             | 8192   | 8           | 1690      | x86_64       |

@@ -75,3 +75,11 @@ def create_provider_hardware_profiles(provider, table)
     create_hwp(hash, provider)
   end
 end
+
+Then /^I should see the hardware profiles table$/ do
+  localized_text_present 'hardware_profiles.index.hardware_profile_name'
+  localized_text_present 'hardware_profiles.index.memory'
+  localized_text_present 'hardware_profiles.index.virtual_cpu'
+  localized_text_present 'hardware_profiles.index.storage'
+  localized_text_present 'hardware_profiles.index.architecture'
+end
