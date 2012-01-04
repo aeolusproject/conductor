@@ -12,20 +12,18 @@ Feature: Manage Pools
     And there is not a pool named "mockpool"
     When I follow "new_pool_button"
     Then I should be on the new pool page
-    And I should see "Create New Pool"
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I fill in "quota_instances" with "unlimited"
     And I press "save_button"
     Then I should be on the page for the pool "mockpool"
-    And I should see "mockpool Pool"
+    And I should see "mockpool"
     And I should have a pool named "mockpool"
 
   Scenario: Create a new Pool over XHR
     Given I request XHR
     And I am on the new pool page
     Then I should get back a partial
-    And I should see "Create New Pool"
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I fill in "quota_instances" with "unlimited"
@@ -40,8 +38,7 @@ Feature: Manage Pools
     | maximum_running_instances | 10       |
     | running_instances         | 8        |
     And I am on the pools page
-    Then I should see the following:
-    | mockpool | Deployments 0	| Instances 0 | Quota Used 80 |
+    Then I should see the quota usage for the "mockpool" pool
 
   Scenario: Enter invalid characters into Name field
     Given I am on the new pool page
@@ -72,24 +69,22 @@ Feature: Manage Pools
     When I follow link with ID "filter_view"
     And I follow "new_pool_button"
     Then I should be on the new pool page
-    And I should see "Create New Pool"
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I press "save_button"
     Then I should be on the page for the pool "mockpool"
-    And I should see "Pool added"
+    And I should see a confirmation message
     And I should see "mockpool"
     And I should have a pool named "mockpool"
     When I go to the pools page
     And I follow link with ID "filter_view"
     And I follow "new_pool_button"
     Then I should be on the new pool page
-    And I should see "Create New Pool"
     When I fill in "pool_name" with "foopool"
     And I select "default" from "pool_pool_family_id"
     And I press "save_button"
     Then I should be on the page for the pool "foopool"
-    And I should see "Pool added"
+    And I should see a confirmation message
     And I should have a pool named "mockpool"
     And I should have a pool named "foopool"
 
@@ -98,7 +93,7 @@ Feature: Manage Pools
     When I follow link with ID "filter_view"
     And I check "Default" pool
     And I press "delete_button"
-    Then I should see "The default pool cannot be deleted"
+    Then I should see an error message
     And I should see "Default"
 
   Scenario: Cannot delete default_pool by renaming it
@@ -107,7 +102,7 @@ Feature: Manage Pools
     When I follow link with ID "filter_view"
     And I check "pool_default" pool
     And I press "delete_button"
-    Then I should see "The default pool cannot be deleted"
+    Then I should see an error message
     And I should see "pool_default"
 
   Scenario: Cannot delete pool with running instances
@@ -117,7 +112,7 @@ Feature: Manage Pools
     When I follow link with ID "filter_view"
     And I check "Amazon Startrek Pool" pool
     And I press "delete_button"
-    Then I should see "was not deleted"
+    Then I should see an error message
 
   Scenario: View all pools in JSON format
     Given there are 2 pools
@@ -149,23 +144,19 @@ Feature: Manage Pools
     And I request XHR
     When I go to the "mockpool42" pool filter view page
     Then I should get back a partial
-    And I should see "Deployment Name"
-    And I should see "mockdeployment"
+    And I should see the "mockdeployment" deployment
 
   Scenario: Switch pretty view to filtred view on pools index
     Given I am on the pools page
     And I see "Overview"
     And I follow link with ID "filter_view"
-    Then I should see "Pools" within "#tab-container-1-nav"
-    And I should see "Instances" within "#tab-container-1-nav"
-    And I should see "Deployments" within "#tab-container-1-nav"
+    Then I should see the filter_view contents for pools index
 
   Scenario: Switch from filtred view to pretty view on pools index
     Given I am on the pools page
     And I follow link with ID "filter_view"
-    And I should see "Pools" within "#tab-container-1-nav"
     When I follow link with ID "pretty_view"
-    Then I should see "Your Pools" within "section.pools"
+    Then I should see the pretty_view contents for pools index
 
   Scenario: Display alerts
     And there is a "fail1" failed instance owned by "admin"

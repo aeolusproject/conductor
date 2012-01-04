@@ -54,9 +54,7 @@ Feature: Manage Instances
     Given there is a "mock1" instance
     And I am on the instances page
     When I follow "mock1"
-    And I should see "Name"
-    And I should see "Status"
-    And I should see "Assembly"
+    Then I should see instance details
 
   Scenario: Show instance details over XHR
     Given there is a "mock1" instance

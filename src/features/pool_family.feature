@@ -25,8 +25,7 @@ Feature: Pool Families
     Given I am logged in
     And I can view pool family "testpoolfamily"
     When I go to the pool families page
-    Then I should see "Pool Families"
-    And I should see "testpoolfamily"
+    Then I should see "testpoolfamily"
 
   Scenario: Show pool family details
     Given I am an authorised user
@@ -34,7 +33,8 @@ Feature: Pool Families
     And there is a pool family named "testpoolfamily"
     And I am on the pool families page
     When I follow "testpoolfamily"
-    Then I should see "Pools"
+    Then I should be on the page for the pool family "testpoolfamily"
+    And I should see "testpoolfamily"
 
   Scenario: Create a new Pool family
     Given I am an authorised user
@@ -47,7 +47,7 @@ Feature: Pool Families
     When I fill in "pool_family[quota_attributes][maximum_running_instances]" with "2"
     And I press "pool_family_submit"
     Then I should be on the pool families page
-    And I should see "Pool family was added."
+    And I should see a confirmation message
     And I should have a pool family named "testpoolfamily"
 
   Scenario: Delete a pool family
@@ -67,7 +67,7 @@ Feature: Pool Families
     Then I should see "default"
     When I follow "default"
     And I press "delete_pool_family_button"
-    Then I should see "Pool Family cannot be deleted!"
+    Then I should see an error message
     And I should see "default"
 
 #  Scenario: Search for pool families

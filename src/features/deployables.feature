@@ -38,10 +38,7 @@ Feature: Manage Catalog Entries
     And I am on the "default" catalog catalog entries page
     When I follow "testdepl"
     Then I should see "testdepl"
-    And I should see "Image"
-    And I should see "Build"
-    And I should see "Catalogs"
-    And I should see "Users"
+    And I should be on testdepl's catalog entry page
 
   Scenario: Launch a deployment
     Given there is a "default" catalog

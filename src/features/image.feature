@@ -9,9 +9,7 @@ Feature: Manage Images
 
   Scenario: Uploading a template without specifying the file
     Given there is a pool family named "testpoolfamily"
-    And I am on the pool families page
-    And I follow "New Image"
-    Then I should be on the new image page
+    And I am on the new image page for "testpoolfamily"
     When I fill in "name" with "my template"
     And I press "file_button"
     Then I should see "You must specify the template XML file"
@@ -19,8 +17,7 @@ Feature: Manage Images
   Scenario: Edit an invalid XML when creating an image
     Given there is a pool family named "testpoolfamily"
     And I am on the pool families page
-    And I follow "New Image"
-    Then I should be on the new image page
+    And I am on the new image page for "testpoolfamily"
     When I fill in "name" with "my template"
     And I attach the file "features/upload_files/template.xml" to "image_file"
     And I check "edit"

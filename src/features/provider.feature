@@ -61,14 +61,14 @@ Feature: Manage Providers
   Scenario: Create a new Provider failure when using wrong url
     Given I am on the providers page
     And there is not a provider named "testprovider"
-    When I follow "New Provider"
+    When I follow "create_new_provider"
     Then I should be on the new provider page
     When I fill in "provider[name]" with "testprovider"
     And I fill in "provider[url]" with "http://localhost:3010/api"
     And I select "Amazon EC2" from "provider_provider_type_id"
     And I press "save"
     Then I should be on the providers page
-    And I should see "Failed to connect to Provider"
+    And I should see a warning message
 
   Scenario: Delete a provider
     Given I am on the homepage
@@ -96,10 +96,10 @@ Feature: Manage Providers
     Given there is a provider named "provider1"
     And there is a provider named "provider2"
     When I am on the provider1's edit provider page
-    And I follow "Cloud Providers"
+    And I click on the Providers icon in the menu
     Then I should be on the provider1's edit provider page
     When I am on the provider2's edit provider page
-    And I follow "Cloud Providers"
+    And I click on the Providers icon in the menu
     Then I should be on the provider2's edit provider page
 
 

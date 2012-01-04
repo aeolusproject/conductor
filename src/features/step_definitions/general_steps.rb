@@ -16,3 +16,31 @@
 Then /^I should see an input "([^\"]*)"$/ do |value|
   response.should have_selector("form input[value=#{value}]")
 end
+
+Then /^I should see a confirmation message$/ do
+  page.should have_selector '.flash-group.notice .flash-subset'
+end
+
+Then /^I should see a warning message$/ do
+  page.should have_selector '.flash-group.warning .flash-subset'
+end
+
+Then /^I should see an error message$/ do
+  page.should have_selector '.flash-group.error .flash-subset'
+end
+
+module LocalizationHelpers
+  def localized_text_present(selector)
+    text = I18n.translate!(selector)
+    text_present(text)
+  end
+
+  def text_present(text)
+    if page.respond_to? :should
+      page.should have_content(text)
+    else
+      assert page.has_content?(text)
+    end
+  end
+end
+World(LocalizationHelpers)
