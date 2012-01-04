@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  0%{?dist}
+Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -320,6 +320,112 @@ fi
 %{app_root}/spec
 
 %changelog
+* Wed Jan 04 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-1
+- d98cb57 Verify image exists before importing it from provider
+- 314c90e Allow creating deployables from imported images
+- b1e8993 Add realm selection to Deployment Overview
+- b94664f Added support to DeployablesController to handle deployables without catalog
+- 8d446e2 Fixing return_path in permissions#set_permission_object
+- 4297b08 Change version of aeolus-image gem to 0.3.0
+- 43440b1 Fixing jQuery template on deployments#show
+- 9762232 Fixing autoupdate on deployments#show
+- f1e6529 Prevent launching invalid deployments
+- 77b349b Removed edit pool family button from pool families table (bz768154)
+- a362758 Fix catalog dropdown when no catalog exist, bz769279
+- cb5bf9b BZ 768089: Add model and UI for provider account priority
+- e47d1a4 BZ 768089: spec test for provider account priority (revised)
+- a3164ca BZ 768089: Refactor provider account matching to facilitate stubbing (revised)
+- 93f464c Drop pretty/filter toggle from deployment details
+- c3b896d Rake task to insert ldap users.
+- 6512cb9 BZ 760901 - removed line touching unused lock file
+- 02dfa3f fix for bz #765901: fix pools_in_use calculation
+- 4f380bf new catalog entry from image, catalog select javascript
+- 5be3de8 error messages in flash hud
+- 3173e62 Replace description xml with name image import
+- 77014ab Add a View Template XML option to Image Details
+- 8668a57 BZ 767214 Removed the New Pool button from _section_header in pools controller
+- 879c6eb catalog entries checkbox in header to enable select all listed catalog entries, catalog entries new_from_image i18n fix
+- b062bc3 Fix message on launch from catalog
+- 53ccabe pool_family_id param added to new_pool_path
+- d5e79ff Deployable forms styling
+- ab67147 Image import uses lib/image.rb class
+- 0525111 Images#show properly detects ProviderAccount for imported image
+- f0dea6c Fix failing RSpec tests
+- a30691a images#show only shows the relevant provider for imported images
+- 74143b3 API import (used by aeolus-cli) requires Provider Account now.
+- c633f4c Image import is now linked to Provider Account, not just Provider
+- 203b032 Log any errors encountered during image import
+- 05f5067 Rescues a possible exception when creating a ProviderImage
+- 04254b9 Hides build and upload buttons for imported images
+- 72d9bf9 Image import uses new Image.import method
+- b4019c2 fix afterdestroy callback for instance
+- 003398f Fixed sort column
+- 93d196a Fix deployable xml link on the launch overview page
+- 415bddb Autoupdating deployments list on Pools#index
+- 17c333b Show pool enabled/disabled status in Environments
+- a211d72 added deployable name to create_from_image, BZ767109
+- 725ad8f buildpush ui icons and styling
+- d59142d Fix the pool families tests
+- a20c7fd Add Images tab to the Pool Family details page
+- 57afb0c Add "New Image" button to the images list
+- 53548d1 Remove User Treatment from User form BZ767189
+- 93d99a8 Fixed tests after removing warehouse models
+- cd330fb Fixed deployable link
+- c9c271a Removed warehouse models
+- bf22438 Removed some methods from warehouse models
+- 02d8dea Removed provider_images_for_image_list from image model
+- 245fa3e Fix for bz #765907: change permissions tab label from 'Users' to 'Role Assignments'
+- 057bf3b Fix missing translation on Import image button
+- 4438a1a BZ#753917 Added target to API Build Output
+- 926e1ac BZ#753917 Updated API to return Provider/Account on Push
+- 547e1a5 Fixing jQuery template on deployments#show
+- cf8cf19 Fixup for #761134
+- 01e9383 Fixing recognize_path calls when the path contains prefix
+- c784c3a Require a template file on the upload page
+- cd06da9 Style Image Details' header buttons
+- e15298b Don't display 'Download key' if there is not instance key
+- 1b4af97 Fixup for bz761096
+- 3ef5ea4 Quick Fix, destroy method is not called for ec2 and Mock instances, or if instance is in CREATE_FAILED state
+- 34db60c new administer section navigation icons
+- b196025 BUG-2751 - Delete instance on provider side when deleted in conductor
+- ea32f34 rootpw param in template XML changed is now required
+- 72fc9ac deployable details icons
+- 859c1c1 fix launch deployable test
+- 0978d61 deployable details Images part
+- cec00a2 fixed bug with updating deployable xml
+- c6dfc66 deployable details page styles, deployable details image section errors
+- f31b995 Use names correctly on template upload
+- 138d64d Input validation for new deployable from image
+- 243d454 Fixing deployment card on Pools#index
+- f11f6de Fix for bug #766038
+- ef2c43d fix for BZ #761509: User quota and other stats
+- 4c20a16 Allow changing deployment name on the Overview page
+- c02a0c4 BZ761132 fix broken translations for template xml
+- 32517e0 Fix flash message in images_controller#edit_xml
+- 13f897e Disabling Add button if no available catalog exists
+- ec56568 Condition added to XML validation in Deployable
+- 4f813b4 Fixed deprecation warning in pool_families#edit
+- 87cd77e Remove "load definition from XML" option from launch new deployment page
+- a6ea1ef Replaced new_catalog_entry_path with new_deployable_path to work with new controller structure
+- acd1159 Fixed a wrong regex on grep
+- a37aaf5 Added rake task to verify the status of licenses in the project
+- b7b467f Fixed list of catalog entries on deployables show page
+- bc11e96 deployable detail styles and fixes through biuldpush ui
+- 2c9a31d pool families list fix
+- f23ac0c RM 2879 - Secondary method for creating provider accounts using a provider name instead of an id
+- b24e67f BZ#754956 Return appropriate error code when parent not found
+- 971aaf2 List of users added to permissions page
+- ad124c6 Clean up Permission-related flash messages
+- 972777f Add Build & Push to Deployable Details
+- 978a43a Deploaybles and catalog_entries cleanups
+- 03f7931 Redmine #2254: Always compile scss in dev enviroment.
+- 122e55a Change sql statement to use rails helpers.
+- 869c8a6 Fix this migration so it also works on sqlite.
+- 077a18a Moving from GPL to ASL
+- 3bd07b2 Add relp dependency to metapackage.
+- 79e6dc9 bump version in Makefile and reset release
+- 9fe1011 Add changelog and bump release on specfile for 0.7.0 RC
+
 * Thu Dec 1 2011 Steve Linabery <slinaber@redhat.com> - 0.7.0-1
 - 4178a0a Adds functionality to delete deployment configurations from config server
 - cce4c7e Added pagination to events on instance detail page
