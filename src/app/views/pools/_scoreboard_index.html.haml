@@ -12,12 +12,12 @@
         %dt= t("instances.instances.other")
         %dd.count.instance= @statistics[:instances]
         %dd.count.instance.pending= @statistics[:instances_pending]
-        %dd.count.instance.failure= @statistics[:instances_failed]
+        %dd.count.instance.failure= @statistics[:instances_failed_count]
       %li
         %ul.subgroup
           %li
             %dt= t("alerts_label")
-            %dd.count.alert= @statistics[:instances_failed]
+            %dd.count.alert= @statistics[:instances_failed_count]
       %li
         %dt
           = t("user")

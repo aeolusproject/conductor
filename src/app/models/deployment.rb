@@ -442,6 +442,10 @@ class Deployment < ActiveRecord::Base
     end
   end
 
+  def failed_instances
+    instances.select {|instance| instance.failed?}
+  end
+
   PRESET_FILTERS_OPTIONS = []
 
   private

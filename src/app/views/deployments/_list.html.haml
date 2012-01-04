@@ -30,7 +30,7 @@
     %td{:class => 'checkbox'}
       - selected = params[:select] == 'all'
       = check_box_tag "deployments_selected[]", deployment.id, selected, :id => "deployment_checkbox_#{deployment.id}"
-    %td{:class => 'alert'}= #there will be icons (belongs to mockups)
+    %td{:class => 'alert'}= deployment.failed_instances.present? ? image_tag("sb_icon_instance_failure.png") : ""
     %td= link_to(deployment.name, deployment)
     %td= deployment.created_at
     %td= deployment.deployable_xml.name

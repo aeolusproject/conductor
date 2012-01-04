@@ -25,12 +25,12 @@
   %tr{:class => cycle('nostripe','stripe')}
     %td{:class => 'checkbox'}
       %input{:name => "pools_selected[]", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
-    %td{:class => 'alert'}= #there will be icons (belongs to mockups)
+    %td{:class => 'alert'}= (@statistics[:instances_failed] & pool.instances).present? ? image_tag("sb_icon_instance_failure.png") : ""
     %td= link_to(pool.name, pool)
     %td{:class => 'center'}= pool.deployments.count
     %td{:class => 'center'}= pool.statistics[:total_instances]
     %td{:class => 'center'}= pool.statistics[:instances_pending]
-    %td{:class => 'center'}= pool.statistics[:instances_failed]
+    %td{:class => 'center'}= pool.statistics[:instances_failed_count]
     %td{:class => 'center'}= pool.statistics[:quota_percent]
     %td= link_to(pool.pool_family.name, pool.pool_family)
 
@@ -44,7 +44,7 @@
       <td class="center">${deployments_count}</td>
       <td class="center">${statistics.total_instances}</td>
       <td class="center">${statistics.instances_pending}</td>
-      <td class="center">${statistics.instances_failed}</td>
+      <td class="center">${statistics.instances_failed_count}</td>
       <td class="center">${statistics.quota_percent}</td>
       <td><a href="#{pool_family_path('replace_id').sub('replace_id', '${pool_family.id}')}">${pool_family.name}</a></td>
     </tr>

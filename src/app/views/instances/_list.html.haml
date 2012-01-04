@@ -28,7 +28,7 @@
     %td{:class => 'checkbox'}
       - selected = params[:select] == 'all'
       = check_box_tag "instance_selected[]", instance.id, selected, :id => "instance_checkbox_#{instance.id}"
-    %td{:class => 'alert'}
+    %td{:class => 'alert'}= instance.failed? ? image_tag("sb_icon_instance_failure.png") : ""
     %td= link_to instance.name, instance_path(instance)
     %td= instance.public_addresses
     %td= instance.state
@@ -43,9 +43,8 @@
 %script#instanceTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain
     <tr>
-      <td class="checkbox"><input type="checkbox" id="instance_checkbox_${id}"
-                 name="instance_selected[]" value="${id}"></td>
-      <td class="alert" />
+      <td class="checkbox"><input type="checkbox" id="instance_checkbox_${id}" name="instance_selected[]" value="${id}"></td>
+      <td class="alert"></td>
       <td><a href="#{instance_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
       <td>${public_addresses}</td>
       <td>${state}</td>

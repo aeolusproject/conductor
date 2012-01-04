@@ -1,11 +1,11 @@
 - if @failed_instances.count > 0
-  %section.content-section.alerts
+  %section.content-section.alerts.collapse_entity
     %header
       %h2=t 'alerts_label'
-      %span.label.badge.alert.count= @failed_instances.length
+      %span.label.badge.alert.count= @failed_instances.count
       .section-controls
-        -#%a.collapse{'href'=>'#'} Collapse
-    .content.collapsible.closed
+        = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @statistics[:instances_failed].blank?
+    .content.collapsible
       %dl.alerts
         %ul
           - @failed_instances.each do |inst|
