@@ -7,9 +7,12 @@ Conductor.Models.Pool = Backbone.Model.extend({
 
 Conductor.Models.Pools = Backbone.Collection.extend({
   model: Backbone.Model.Pool,
-  url: Conductor.prefixedPath('/pools'),
+  queryParams: {},
+  url: function() {
+    var path = Conductor.prefixedPath('/pools');
+    return Conductor.parameterizedPath(path, this.queryParams);
+  }
 });
-
 
 Conductor.Models.Instance = Backbone.Model.extend({
   urlRoot: Conductor.prefixedPath('/instances'),
@@ -17,7 +20,11 @@ Conductor.Models.Instance = Backbone.Model.extend({
 
 Conductor.Models.Instances = Backbone.Collection.extend({
   model: Backbone.Model.Instance,
-  url: Conductor.prefixedPath('/instances'),
+  queryParams: {},
+  url: function() {
+    var path = Conductor.prefixedPath('/instances');
+    return Conductor.parameterizedPath(path, this.queryParams);
+  }
 });
 
 Conductor.Models.Deployment = Backbone.Model.extend({
@@ -32,5 +39,9 @@ Conductor.Models.Deployment = Backbone.Model.extend({
 
 Conductor.Models.Deployments = Backbone.Collection.extend({
   model: Backbone.Model.Deployment,
-  url: Conductor.prefixedPath('/deployments'),
+  queryParams: {},
+  url: function() {
+    var path = Conductor.prefixedPath('/deployments');
+    return Conductor.parameterizedPath(path, this.queryParams);
+  }
 });

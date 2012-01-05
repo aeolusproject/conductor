@@ -169,6 +169,19 @@ $.extend(Conductor, {
     return prefix + path;
   },
 
+  parameterizedPath: function(url, queryParams) {
+    var result = url;
+
+    if (!$.isEmptyObject(queryParams)) {
+      var params = $.map(queryParams, function(value, key) {
+        return key + '=' + value;
+      });
+      result += '?' + params.join('&');
+    }
+
+    return result;
+  },
+
   AJAX_REFRESH_INTERVAL: 30 * 1000,
 
   initializeBackbone: function() {

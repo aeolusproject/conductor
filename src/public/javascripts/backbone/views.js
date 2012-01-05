@@ -38,6 +38,36 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
     }
   },
 
+  urlParams: function() {
+    var paramsData = window.location.search.slice(1).split('&');
+    var params = {};
+    $.each(paramsData, function(index, value){
+      var eqSign = value.search('=');
+      if(eqSign != -1) {
+        params[value.substring(0, eqSign)] = value.substring(eqSign+1);
+      }
+    });
+
+    return params;
+  },
+
+  queryParams: function() {
+    var result = {};
+    var paramsToInclude = [this.currentTab() + '_preset_filter', this.currentTab() + '_search'];
+    var urlParams = this.urlParams();
+
+    $.each(paramsToInclude, function(paramIndex, paramValue) {
+      for (var urlParamName in urlParams) {
+        if (urlParamName == paramValue) {
+          result[urlParamName] = urlParams[urlParamName];
+          break;
+        }
+      };
+    });
+
+    return result;
+  },
+
   render: function() {
     var $template = this.template();
 

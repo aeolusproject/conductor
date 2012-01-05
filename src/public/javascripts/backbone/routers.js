@@ -31,10 +31,11 @@ Conductor.Routers.Pools = Backbone.Router.extend({
         view.collection = new Conductor.Models.Deployments();
       }
 
+      view.collection.queryParams = view.queryParams();
       view.collection.bind('change', function() { view.render() });
 
       view.collection.fetch({ success: function() {
-        view.collection.trigger('change')
+        view.collection.trigger('change');
       }})
 
     }, Conductor.AJAX_REFRESH_INTERVAL);
