@@ -81,17 +81,29 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
       $table.find('tr:odd').addClass('stripe');
     }
     else if (this.currentView() == 'pretty') {
-      var $rows = this.$('#deployment-arrays').empty();
       var cardsPerRow = 5;
+      var poolIds = this.collection.models.map(function(model) {
+        return model.attributes.pool.id;
+      });
+      poolIds.sort().filter(function(e,i,a) {
+        return i == a.indexOf(e);
+      });
       var deployments = this.collection.models.map(function(model) {
         return model.attributes;
       });
 
-      for(var i = 0; i < deployments.length; i += cardsPerRow) {
-        var $row = this.make('ul',
-          {class: 'deployment-array small'},
-          $template.tmpl(deployments.slice(i, i + cardsPerRow)));
-        $rows.append($row);
+      for(var j = 0; j < poolIds.length; j++) {
+        var poolId = poolIds[j];
+        var $rows = this.$('#deployment-arrays-' + poolId).empty();
+        var poolDeployments = deployments.filter(function(attributes) {
+	    return attributes.pool.id == poolId;
+        });
+        for(var i = 0; i < poolDeployments.length; i += cardsPerRow) {
+          var $row = this.make('ul',
+            {class: 'deployment-array small'},
+            $template.tmpl(poolDeployments.slice(i, i + cardsPerRow)));
+          $rows.append($row);
+        }
       }
     }
   },
