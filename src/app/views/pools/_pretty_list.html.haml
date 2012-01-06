@@ -25,7 +25,7 @@
         %a.control{:href => '#'}
           %span Expand/Collapse
       %div.content
-        = render :partial => 'deployments', :locals => {:deployments => pool.deployments.ascending_by_name}
+        = render :partial => 'deployments', :locals => {:pool => pool, :deployments => pool.deployments.ascending_by_name}
       %ul.content.actions
         %li
           = link_to ("#{html_escape(pool.name)} " + "#{t'pools.index.pool_details'}" + " &raquo;").html_safe, pool_path(pool), :class =>'pool_details'

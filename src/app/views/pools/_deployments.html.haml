@@ -1,4 +1,4 @@
-#deployment-arrays
+%div{:id => "deployment-arrays-#{pool.id}"}
   - deployments.in_groups_of(5, false) do |group|
     %ul.deployment-array.small
       - group.each do |deployment|
