@@ -127,7 +127,7 @@ class DeployablesController < ApplicationController
     end
 
     begin
-      #raise t("deployables.flash.error.no_catalog") if @selected_catalogs.empty?
+      raise t("deployables.flash.error.no_catalog") if @selected_catalogs.empty?
       @deployable.transaction do
         @deployable.save!
         @selected_catalogs.each do |catalog|
