@@ -359,30 +359,40 @@ class Deployment < ActiveRecord::Base
   end
 
   def uptime_1st_instance
-    return if events.empty?
+    return nil if events.empty?
+
+    first_running = events.find_by_status_code(:first_running)
     if instances.deployed.empty?
-      if instances.count > 1 && events.find_by_status_code(:all_stopped) && events.find_by_status_code(:first_running)
-        events.find_by_status_code(:all_stopped).event_time - events.find_by_status_code(:first_running).event_time
-      elsif events.find_by_status_code(:all_stopped) && events.find_by_status_code(:all_running)
-        events.find_by_status_code(:all_stopped).event_time - events.find_by_status_code(:all_running).event_time
+      all_stopped = events.find_last_by_status_code(:all_stopped)
+      if all_stopped && first_running && all_stopped.event_time > first_running.event_time
+        all_stopped.event_time - first_running.event_time
+      else
+        nil
       end
     else
-      if instances.count > 1 && events.find_by_status_code(:first_running)
-        Time.now.utc - events.find_by_status_code(:first_running).event_time
-      elsif events.find_by_status_code(:all_running)
-        Time.now.utc - events.find_by_status_code(:all_running).event_time
+      if first_running
+        Time.now.utc - first_running.event_time
+      else
+        nil
       end
     end
   end
 
   def uptime_all
-    return if events.empty?
-    if instances.deployed.count == instances.count && events.find_by_status_code(:all_running)
-      Time.now.utc - events.lifetime.last.event_time
-    elsif instances.count > 1 && events.find_by_status_code(:all_running) && events.find_by_status_code(:some_stopped)
-      events.find_by_status_code(:some_stopped).event_time - events.find_by_status_code(:all_running).event_time
-    elsif events.find_by_status_code(:all_stopped) && events.find_by_status_code(:all_running)
-      events.find_by_status_code(:all_stopped).event_time - events.find_by_status_code(:all_running).event_time
+    return nil if events.empty?
+
+    all_running = events.find_last_by_status_code(:all_running)
+    some_stopped = events.find_last_by_status_code(:some_stopped)
+    all_stopped = events.find_last_by_status_code(:all_stopped)
+
+    if instances.deployed.count == instances.count && all_running
+      Time.now.utc - all_running.event_time
+    elsif instances.count > 1 && all_running && some_stopped
+      some_stopped.event_time - all_running.event_time
+    elsif all_stopped && all_running && all_stopped.event_time > all_running.event_time
+      all_stopped.event_time - all_running.event_time
+    else
+      nil
     end
   end
 
