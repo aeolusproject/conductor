@@ -138,7 +138,7 @@ class DeployablesController < ApplicationController
         if params[:edit_xml]
           redirect_to edit_polymorphic_path([@selected_catalogs.first, @deployable], :edit_xml =>true)
         else
-          redirect_to polymorphic_path([@selected_catalogs.first, Deployable])
+          redirect_to catalog_path(@selected_catalogs.first)
         end
       end
     rescue => e
@@ -151,7 +151,7 @@ class DeployablesController < ApplicationController
       else
         @catalog = @selected_catalogs.first
         params.delete(:edit_xml) if params[:edit_xml]
-        @form_option = params[:deployable].has_key?(:xml) ? 'upload' : 'from_url'
+        @form_option = params[:form_option].eql?('upload') ? 'upload' : 'from_url'
       end
       render :new
     end
@@ -258,7 +258,11 @@ class DeployablesController < ApplicationController
         response
       end
     rescue RestClient::Exception, SocketError, URI::InvalidURIError
-      flash[:error] = t('catalog_entries.flash.warning.not_valid_or_reachable', :url => url)
+      if url.present?
+        flash[:error] = t('catalog_entries.flash.warning.not_valid_or_reachable', :url => url)
+      else
+        flash[:error] = t('catalog_entries.flash.warning.no_url_provided')
+      end
       nil
     end
   end

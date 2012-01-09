@@ -118,6 +118,7 @@ Conductor::Application.routes.draw do
     collection do
       get 'start'
       get 'multi_stop'
+      get 'multi_reboot'
       get 'remove_failed'
       get 'export_events'
       post 'filter'

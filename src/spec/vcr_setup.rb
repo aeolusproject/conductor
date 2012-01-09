@@ -33,7 +33,7 @@ Aeolus::Image::Warehouse::Connection.class_eval do
     opts[:plain]   ||= false
     opts[:headers] ||= {}
     result=nil
-    VCR.use_cassette('iwhd_connection', :record => :new_episodes) do
+    VCR.use_cassette('iwhd_connection', :record => :new_episodes, :match_requests_on => [:method, :uri, :body]) do
       result = RestClient::Request.execute :method => opts[:method], :url => @uri + path, :payload => opts[:content], :headers => opts[:headers]
     end
 
@@ -41,23 +41,6 @@ Aeolus::Image::Warehouse::Connection.class_eval do
     return result
   end
 end
-
-Aeolus::Image::Warehouse::Connection.class_eval do
-  def do_request(path = '', opts={})
-    opts[:method]  ||= :get
-    opts[:content] ||= ''
-    opts[:plain]   ||= false
-    opts[:headers] ||= {}
-    result=nil
-    VCR.use_cassette('aeolus_image_warehouse_connection', :record => :new_episodes) do
-      result = RestClient::Request.execute :method => opts[:method], :url => @uri + path, :payload => opts[:content], :headers => opts[:headers]
-    end
-
-    return Nokogiri::XML result unless opts[:plain]
-    return result
-  end
-end
-
 
 # Mock request for deployable xml
 DeployableXML.class_eval do

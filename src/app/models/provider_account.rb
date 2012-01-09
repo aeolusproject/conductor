@@ -65,8 +65,9 @@ class ProviderAccount < ActiveRecord::Base
   validate :validate_presence_of_credentials
   validate :validate_credentials
   validate :validate_unique_username
-  before_create :no_account?
   before_destroy :destroyable?
+
+  scope :enabled, lambda { where(:provider_id => Provider.enabled) }
 
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
@@ -89,16 +90,6 @@ class ProviderAccount < ActiveRecord::Base
       end
     end
     return true
-  end
-
-  def no_account?
-    #if provider.provider_accounts.empty?
-    if provider.provider_accounts.empty?
-      return true
-    else
-      errors.add(:base, "Only one account is supported per provider")
-      return false
-    end
   end
 
   def object_list
@@ -332,7 +323,10 @@ class ProviderAccount < ActiveRecord::Base
     begin
       provider = Provider.find_by_name(provider_name)
       credential_definition = CredentialDefinition.find_by_provider_type_id_and_name(provider.provider_type.id, 'username')
-      Credential.find_by_credential_definition_id_and_value(credential_definition.id, login).provider_account
+      where_hash = {:credential_definition_id => credential_definition.id, :value => login}
+      cred = Credential.where(where_hash).includes(:provider_account).where('provider_accounts.provider_id' => provider.id)
+      # The above should always return an array with zero (if an error) or one element, but rescue nil to be safe:
+      cred.first.provider_account rescue nil
     rescue
       nil
     end
@@ -347,7 +341,7 @@ class ProviderAccount < ActiveRecord::Base
     # hardware_profile that can satisfy the input hardware_profile
     elsif !(hwp = HardwareProfile.match_provider_hardware_profile(provider, instance.hardware_profile))
       errors << I18n.t('instances.errors.hw_profile_match_not_found', :account_name => name)
-    elsif (account_images = instance.provider_images_for_match(provider)).empty?
+    elsif (account_images = instance.provider_images_for_match(self)).empty?
       errors << I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => name)
     elsif instance.requires_config_server? and config_server.nil?
       errors << I18n.t('instances.errors.no_config_server_available', :account_name => name)

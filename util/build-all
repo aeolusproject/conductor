@@ -10,7 +10,7 @@ cd ../aeolus-configure
 rake rpms
 cd ../aeolus-image-rubygem
 rake rpms
-cd ../aeolus-image
+cd ../aeolus-cli
 rake rpms
 sudo yum --nogpgcheck -y install ~/rpmbuild/RPMS/noarch/rubygem-* \
 ~/rpmbuild/RPMS/noarch/aeolus-* --enablerepo=fedora-aeolus-testing

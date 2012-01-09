@@ -91,6 +91,7 @@ module Conductor
     config.encoding = "utf-8"
 
     require File.dirname(__FILE__) + '/../lib/exceptions'
+    require File.dirname(__FILE__) + '/../lib/image'
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]

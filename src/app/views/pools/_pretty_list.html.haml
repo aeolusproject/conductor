@@ -14,7 +14,7 @@
               %dt=t 'deployments.deployments'
               %dd.count.deployment= pool.deployments.count
             %li
-              %dt=t 'instances.instances'
+              %dt=t 'instances.instances.other'
               %dd.count.instance= pool.instances.count
               %dd.count.instance.pending= pool.instances.select {|i| i.state == Instance::STATE_PENDING }.length
               %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR || i.state == Instance::STATE_CREATE_FAILED }.length
@@ -25,7 +25,7 @@
         %a.control{:href => '#'}
           %span Expand/Collapse
       %div.content
-        = render :partial => 'deployments', :locals => {:deployments => pool.deployments}
+        = render :partial => 'deployments', :locals => {:pool => pool, :deployments => pool.deployments.ascending_by_name}
       %ul.content.actions
         %li
           = link_to ("#{html_escape(pool.name)} " + "#{t'pools.index.pool_details'}" + " &raquo;").html_safe, pool_path(pool), :class =>'pool_details'

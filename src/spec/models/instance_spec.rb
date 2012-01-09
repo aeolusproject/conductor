@@ -193,7 +193,8 @@ describe Instance do
   end
 
   it "shouldn't match provider accounts where image is not pushed" do
-    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount')]
+    account2 = FactoryGirl.create(:mock_provider_account2, :label => 'testaccount')
+    @pool.pool_family.provider_accounts = [account2]
     @instance.matches.last.should include('testaccount: image is not pushed to this provider account')
   end
 
@@ -202,6 +203,12 @@ describe Instance do
     account.provider.hardware_profiles.destroy_all
     @pool.pool_family.provider_accounts << account
     @instance.matches.last.should include('testaccount: hardware profile match not found')
+  end
+
+  it "shouldn't return any matches if instance hwp architecture doesn't match image architecture" do
+    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount')]
+    @instance.hardware_profile.architecture.value = 'i386'
+    @instance.matches.last.should include("Assembly hardware profile architecture (i386) doesn't match image hardware profile architecture (x86_64).")
   end
 
   it "should return a match if all requirements are satisfied" do

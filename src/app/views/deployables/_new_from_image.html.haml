@@ -26,12 +26,16 @@
               &nbsp
               %div.catalog_list
                 %ul.more
-                  - @catalogs.each do |catalog|
-                    %li.catalog
-                      .catalog_with_checkbox
-                        = check_box_tag 'catalog_id[]', catalog.id, @selected_catalogs.any?{|c| c.id == catalog.id}
-                        = catalog.name
-                        .clear
+                  - if @catalogs.empty?
+                    = t('deployables.new_from_image.no_available_catalog')
+                  - else
+                    - @catalogs.each do |catalog|
+                      %li.catalog
+                        .catalog_with_checkbox
+                          = check_box_tag 'catalog_id[]', catalog.id, @selected_catalogs.any?{|c| c.id == catalog.id}
+                          = catalog.name
+                          .clear
+
             .clear
       .centered
         %fieldset.align-center

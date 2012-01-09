@@ -10,14 +10,14 @@ Feature: Manage Catalog Entries
   Scenario: Create new catalog entry
     Given there is a "default" catalog
     When I am on the "default" catalog catalog entries page
-    Then I should see "Catalog Entries"
+    Then I should see "Deployables"
     When I follow "new_catalog_entry_button"
-    Then I should see "Add New Catalog Entry"
+    Then I should see "Add New Deployable"
     When I fill in "deployable[name]" with "test1"
     And I fill in "deployable[description]" with "description"
     When I attach the file "features/upload_files/deployable.xml" to "deployable[xml]"
     And I press "save_button"
-    Then I should see "Catalog entry added"
+    Then I should see "Deployable added"
 
   Scenario: Change the name
     Given there is a "default" catalog
@@ -25,10 +25,10 @@ Feature: Manage Catalog Entries
     When I am on the "default" catalog catalog entries page
     When I follow "testdepl"
     And I follow "edit_button"
-    Then I should see "Editing Catalog Entry"
+    Then I should see "Editing Deployable"
     When I fill in "deployable[name]" with "testdepl-renamed"
     And I press "save_button"
-    Then I should see "Catalog entry updated successfully!"
+    Then I should see "Deployable updated successfully!"
     And I should see "testdepl-renamed"
 
   Scenario: Show catalog entry details

@@ -178,6 +178,28 @@ class InstancesController < ApplicationController
     do_operation(:reboot)
   end
 
+  def multi_reboot
+    notices = ""
+    errors = ""
+    Instance.find(params[:instance_selected] || []).each do |instance|
+      begin
+        require_privilege(Privilege::USE,instance)
+        instance.reboot
+        notices << "#{instance.name}: #{t('instances.flash.notice.reboot', :name => instance.name)}"
+      rescue Exception => err
+        errors << "#{instance.name}: " + err
+      end
+    end
+    # If nothing is selected, display an error message:
+    errors = t('instances.none_selected_to_reboot') if errors.blank? && notices.blank?
+    flash[:notice] = notices unless notices.blank?
+    flash[:error] = errors unless errors.blank?
+    respond_to do |format|
+      format.html { redirect_to params[:backlink] || pools_path(:view => 'filter', :details_tab => 'instances') }
+      format.json { render :json => {:success => notices, :errors => errors} }
+    end
+  end
+
   def filter
     redirect_to_original({"instances_preset_filter" => params[:instances_preset_filter], "instances_search" => params[:instances_search]})
   end
@@ -215,9 +237,9 @@ class InstancesController < ApplicationController
 
   def load_instances
     if params[:deployment_id].blank?
-      @instances = Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).where("instances.pool_id" => @pools)
+      @instances = Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list(sort_column(Instance), sort_direction).where("instances.pool_id" => @pools)
     else
-      @instances = Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).where("instances.pool_id" => @pools, "instances.deployment_id" => params[:deployment_id])
+      @instances = Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list(sort_column(Instance), sort_direction).where("instances.pool_id" => @pools, "instances.deployment_id" => params[:deployment_id])
     end
   end
 

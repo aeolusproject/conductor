@@ -1,5 +1,10 @@
 en:
   dashboard: Dashboard
+  datetime:
+    distance_in_words:
+      x_hours:
+        one: 1 hour
+        other: %{count} hours
   users:
     users_groups: "Users & Groups"
     return_to: "Return to:"
@@ -184,7 +189,7 @@ en:
     launch_from_catalog:
       profile: Profile
       hint: Choose a deployable to launch in the "%{pool}" pool
-      no_catalog_entry: 'No available catalog entry. Please add one first!'
+      no_catalog_entry: 'No available deployable. Please add one first!'
       details: Details
       select: Select
       image_id: Image ID
@@ -267,10 +272,13 @@ en:
     preset_filters:
       all_deployments: All Deployments
   instances:
-    instances: Instances
+    instances:
+      one: Instance
+      other: Instances
     reboot: Reboot
     instance: Instance
     none_selected: "You must select one or more instances to stop."
+    none_selected_to_reboot: "You must select one or more instances to reboot."
     tab_captions:
       properties: Properties
       history: History
@@ -278,6 +286,7 @@ en:
     list:
       export_events: Export events
       stop_selected_instances: Stop selected instances
+      reboot_selected_instances: Reboot selected instances
       stopped_instances_hidden: Stopped instances are hidden
       showing_all_instances: Showing all instances
       show_all: show all
@@ -357,6 +366,7 @@ en:
       stop_not_be_performed: "stop cannot be performed on this instance."
       must_be_enabled: "%{account_name}: provider must be enabled"
       cannot_destroy: "destroy cannot be performed on this instance."
+      architecture_mismatch: "Assembly hardware profile architecture (%{inst_arch}) doesn't match image hardware profile architecture (%{img_arch})."
     headers:
       vm_name: VM NAME
       status: STATUS
@@ -405,7 +415,7 @@ en:
       destroy: Destroy
     images:
       catalog: Catalog
-      catalog_entry: Catalog Entry
+      catalog_entry: Deployable
       image: "Image:"
       pushed: %{uuid} pushed to %{provider}
     properties:
@@ -597,14 +607,14 @@ en:
         select_to_add_accounts: "You must select at least one Provider Account to add."
         select_to_remove_accounts: "You must select at least one Provider Account to remove."
   catalog_entries:
-    new_catalog_entry: New Catalog Entry
+    new_catalog_entry: New Deployable
     index:
-      catalog_entry: Catalog Entry
-      catalog_entries: Catalog Entries
+      catalog_entry: Deployable
+      catalog_entries: Deployables
       name: Name
       deployable_xml: Deployable XML
     new:
-      add_catalog_entry: Add New Catalog Entry
+      add_catalog_entry: Add New Deployable
       choose_option_to_upload: Choose one of the following options to upload deployable XML file
       upload: Upload
       from_url: From URL
@@ -623,20 +633,21 @@ en:
       rebuild_all: Rebuild all images
       start: Start
     edit:
-      editing_catalog_entry: Editing Catalog Entry
+      editing_catalog_entry: Editing Deployable
     list:
-      catalog_entries_list: Catalog Entries List
+      catalog_entries_list: Deployables List
     flash:
       warning:
-        not_valid_or_reachable: "Catalog entry XML file is either invalid or no longer reachable at %{url}"
+        not_valid_or_reachable: "Deployable XML file is either invalid or no longer reachable at %{url}"
+        no_url_provided: "No URL provided for the deployable XML file."
         not_valid: "Deployable XML file doesn't resolve valid XML"
-        failed: Catalog entry was not created.
+        failed: Deployable was not created.
       notice:
-        added: Catalog entry added.
-        updated: Catalog entry updated successfully!
-        deleted: Catalog entry deleted.
+        added: Deployable added.
+        updated: Deployable updated successfully!
+        deleted: Deployable deleted.
     preset_filters:
-      all_catalog_entries: All Catalog Entries
+      all_catalog_entries: All Deployables
   catalogs:
     catalogs: Catalogs
     new_catalog: New Catalog
@@ -680,6 +691,7 @@ en:
       name: Image Name
       image_imported: The image was imported successfully.
       image_not_imported: The image could not be imported. Check the Image Factory log for further details.
+      blank_id: Image ID cannot be blank.
     index:
       images: Images
       name: Name
@@ -781,6 +793,7 @@ en:
       catalog_entry_name: "%{name}"
       title: Create Deployable
       description: "Creating a deployable from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the deployable, and define a default cloud resource profile."
+      no_available_catalog: 'No available catalog exists'
     show:
       images: "Images"
       launch: "Launch"
@@ -893,7 +906,6 @@ en:
       provider_type: Provider Type
       x_deltacloud_driver: X-Deltacloud-Driver
       x_deltacloud_provider: X-Deltacloud-Provider
-      deleted: "Provider has been successfully deleted."
       no_providers_available: No providers available. Please create one first.
       create_new_provider: "Create New Provider"
     new:
@@ -920,9 +932,11 @@ en:
         added: "Provider added."
         updated: "Provider updated."
         connected: "Successfully Connected to Provider"
+        deleted: "Provider has been successfully deleted."
       error:
         not_added: "Cannot add the provider."
         not_updated: "Cannot update the provider."
+        not_deleted: "Provider was not deleted, because of errors %{errors}"
       warning:
         connect_failed: "Failed to connect to Provider!"
     alerts:
@@ -1192,6 +1206,7 @@ en:
       image_not_found_on_provider: "Could not find Image %{image} on provider"
       in_grabbing_target_images: "In grabbing list of target images: %{error}"
       invalid_parameters_for_account_and_target_image: "Invalid parameters for Account: %{account} TargetImage: %{targetimage}"
+      invalid_template: "Invalid template: %{errors}"
       no_image_build_or_target_image: "Invalid Parameters: No Image, Build or TargetImage provided in request"
       no_matching_target_image: Could not find any matching Target Images
       no_provider_account_given: No provider account given

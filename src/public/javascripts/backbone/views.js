@@ -38,6 +38,44 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
     }
   },
 
+  urlParams: function() {
+    var paramsData = window.location.search.slice(1).split('&');
+    var params = {};
+    $.each(paramsData, function(index, value){
+      var eqSign = value.search('=');
+      if(eqSign != -1) {
+        params[value.substring(0, eqSign)] = value.substring(eqSign+1);
+      }
+    });
+
+    return params;
+  },
+
+  queryParams: function() {
+    var result = {};
+    var paramsToInclude = [this.currentTab() + '_preset_filter', this.currentTab() + '_search'];
+    var urlParams = this.urlParams();
+
+    $.each(paramsToInclude, function(paramIndex, paramValue) {
+      for (var urlParamName in urlParams) {
+        if (urlParamName == paramValue) {
+          result[urlParamName] = urlParams[urlParamName];
+          break;
+        }
+      };
+    });
+    // If there is no URL param for the preset filter, we still need to merge in the preset filter
+    var filter = this.currentTab() + '_preset_filter';
+    if(result[filter] == undefined) {
+      var filter_selector = '#' + filter + ':enabled';
+      if($(filter_selector).val() != undefined) {
+        result[filter] = $(filter_selector).val();
+      }
+    };
+
+    return result;
+  },
+
   render: function() {
     var $template = this.template();
 
@@ -47,11 +85,32 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
       var checkboxes = Conductor.saveCheckboxes('td :checkbox', $table);
       $table.empty().append($template.tmpl(this.collection.toJSON()))
       Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
+      $table.find('tr:even').addClass('nostripe');
+      $table.find('tr:odd').addClass('stripe');
     }
     else if (this.currentView() == 'pretty') {
-      $deployments = this.$('ul.deployment-array');
-      var $template = this.template();
-      $deployments.empty().append($template.tmpl(this.collection.toJSON()))
+      var cardsPerRow = 5;
+      var poolIds = this.collection.models.map(function(model) {
+        return model.attributes.pool.id;
+      });
+      $.unique(poolIds);
+      var deployments = this.collection.models.map(function(model) {
+        return model.attributes;
+      });
+
+      for(var j = 0; j < poolIds.length; j++) {
+        var poolId = poolIds[j];
+        var $rows = this.$('#deployment-arrays-' + poolId).empty();
+        var poolDeployments = deployments.filter(function(attributes) {
+          return attributes.pool.id == poolId;
+        });
+        for(var i = 0; i < poolDeployments.length; i += cardsPerRow) {
+          var $row = this.make('ul',
+            {class: 'deployment-array small'},
+            $template.tmpl(poolDeployments.slice(i, i + cardsPerRow)));
+          $rows.append($row);
+        }
+      }
     }
   },
 });
@@ -102,6 +161,12 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
 
   el: '#content',
 
+  currentTab: function() {
+    if($('#details_instances.active').length > 0) {
+      return 'instances';
+    }
+  },
+
   render: function() {
     var $instances = this.$('ul.instances-array');
     if($instances.length === 0) {
@@ -109,12 +174,8 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
     }
     if($instances.length === 0) return;
 
-    var checked_instances = Conductor.saveCheckboxes('td :checkbox', $instances);
     $instances.empty();
     $('#instanceTemplate').tmpl(this.collection.toJSON()).appendTo($instances);
-    Conductor.restoreCheckboxes(checked_instances, 'td :checkbox', $instances);
-    $instances.find('tr:even').addClass('nostripe');
-    $instances.find('tr:odd').addClass('stripe');
   },
 
 });

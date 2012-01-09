@@ -57,6 +57,8 @@ class Deployment < ActiveRecord::Base
 
   after_create "assign_owner_roles(owner)"
 
+  scope :ascending_by_name, :order => 'name ASC'
+
   validates_presence_of :pool_id
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id
@@ -79,6 +81,8 @@ class Deployment < ActiveRecord::Base
       deployable_xml.validate!
     rescue DeployableXML::ValidationError => e
       errors.add(:deployable_xml, e.message)
+    rescue Nokogiri::XML::SyntaxError => e
+      errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{e.message}"))
     end
   end
 
@@ -397,12 +401,14 @@ class Deployment < ActiveRecord::Base
       :deployable_xml_name => deployable_xml.name,
       :deployment_state => deployment_state,
       :instances_count => instances.count,
+      :instances_count_text => I18n.t('instances.instances', :count => instances.count.to_i),
       :uptime => ApplicationHelper.count_uptime(uptime_1st_instance),
       :global_uptime => ApplicationHelper.count_uptime(uptime_all),
       :pool => {
         :name => pool.name,
         :id => pool.id,
       },
+      :created_at => created_at.to_s
     })
 
     if provider

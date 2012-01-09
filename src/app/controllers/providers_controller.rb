@@ -20,7 +20,6 @@ class ProvidersController < ApplicationController
 
   def index
     @params = params
-
     begin
       @provider = Provider.find(session[:current_provider_id]) if session[:current_provider_id]
     rescue ActiveRecord::RecordNotFound => exc
@@ -32,7 +31,7 @@ class ProvidersController < ApplicationController
     respond_to do |format|
       format.html do
         if @providers.present?
-          redirect_to edit_provider_path(@provider), :notice => flash[:notice]
+          redirect_to edit_provider_path(@provider), :flash => { :notice => flash[:notice], :error => flash[:error] }
         else
           render :action => :index
         end
@@ -148,11 +147,15 @@ class ProvidersController < ApplicationController
   def destroy
     provider = Provider.find(params[:id])
     require_privilege(Privilege::MODIFY, provider)
-    provider.destroy
-    session[:current_provider_id] = nil
+    if provider.destroy
+      session[:current_provider_id] = nil
+      flash[:notice] = t("providers.flash.notice.deleted")
+    else
+      flash[:error] = t("providers.flash.error.not_deleted", :errors => provider.errors)
+    end
 
     respond_to do |format|
-      format.html { redirect_to providers_path, :notice => t("providers.index.deleted") }
+      format.html { redirect_to providers_path }
     end
   end
 

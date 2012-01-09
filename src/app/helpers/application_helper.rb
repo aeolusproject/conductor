@@ -112,21 +112,26 @@ module ApplicationHelper
     title.split(' ').join('_').downcase
   end
 
-  def count_uptime(time)
-    if time
-      result_string = []
+  def count_uptime(delta_seconds)
+    if delta_seconds
+      seconds = delta_seconds.to_i
+      minutes = seconds / 60
+      hours = minutes / 60
+      days = hours / 24
+      months = days / 31
 
-      seconds = time % 60
-      time = (time - seconds) / 60
-      minutes = time % 60
-      time = (time - minutes) / 60
-      hours = time % 24
-      time = (time - hours)   / 24
-      days = time % 7
-
-      result_string<< "#{days.to_i} #{(days.to_i > 1 ? 'days' : 'day')}" if days != 0
-      result_string<<"#{"%02d"%hours.to_i}:#{"%02d"%minutes.to_i}:#{"%02d"%seconds.to_i}"
-      result_string.join(", ")
+      case
+      when months > 0
+        I18n.t('datetime.distance_in_words.x_months', :count => months)
+      when days > 0
+        I18n.t('datetime.distance_in_words.x_days', :count => days)
+      when hours > 0
+        I18n.t('datetime.distance_in_words.x_hours', :count => hours)
+      when minutes > 0
+        I18n.t('datetime.distance_in_words.x_minutes', :count => minutes)
+      else
+        I18n.t('datetime.distance_in_words.x_seconds', :count => seconds)
+      end
     else
       "N/A"
     end

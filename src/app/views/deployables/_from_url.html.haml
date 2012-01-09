@@ -2,6 +2,7 @@
   - if @deployable.errors.any?
     = render 'layouts/error_messages', :object => @deployable
   %fieldset
+    = hidden_field_tag('form_option', @form_option)
     %p
       = form.label :catalog_id, t('deployables.form.catalog')
       %span.text_instead_input

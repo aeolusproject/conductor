@@ -20,8 +20,10 @@ $.extend(Conductor, {
       var url = $(this).attr('href');
       $('#tab').html('<span class="loading_tabs"></span>');
       $.get(url, function(data) {
-        $('#tab').html(data)
-          .show();
+        $('#tab').html(data).show();
+      })
+      .error(function(data) {
+        $('#tab').html(data.responseText).show();
       });
 
       Conductor.tabRemoveActiveClass();
@@ -167,6 +169,19 @@ $.extend(Conductor, {
     return prefix + path;
   },
 
+  parameterizedPath: function(url, queryParams) {
+    var result = url;
+
+    if (!$.isEmptyObject(queryParams)) {
+      var params = $.map(queryParams, function(value, key) {
+        return key + '=' + value;
+      });
+      result += '?' + params.join('&');
+    }
+
+    return result;
+  },
+
   AJAX_REFRESH_INTERVAL: 30 * 1000,
 
   initializeBackbone: function() {
@@ -199,19 +214,6 @@ $.extend(Conductor, {
     $.each(checkedIds, function(index, id) {
       var $checkbox = $scope.find(checkboxSelector + '[value="' + id + '"]');
       $checkbox.prop('checked', true);
-    });
-  },
-
-  enhanceUserMenu: function() {
-    var $userDropdown = $('#system a.user-dropdown');
-    if($userDropdown.length == 0) return;
-
-    var offset = $userDropdown.offset()
-    offset.top = offset.top + 40;
-    $('#user-menu').offset(offset)
-    $userDropdown.click(function(ev) {
-      ev.preventDefault();
-      $('#user-menu').toggle();
     });
   },
 
@@ -311,7 +313,6 @@ $(document).ready(function () {
   Conductor.closeNotification();
   Conductor.toggleCollapsible();
   Conductor.selectAllCheckboxes();
-  Conductor.enhanceUserMenu();
   Conductor.tabAjaxRequest();
   Conductor.initializeBackbone();
 });

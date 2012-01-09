@@ -165,7 +165,7 @@ class DeploymentsController < ApplicationController
       @view = 'pretty_view_show'
     end
     #TODO add links to real data for history, permissions, services
-    @tabs = [{:name => t('instances.instances'), :view => @view, :id => 'instances', :count => @deployment.instances.count},
+    @tabs = [{:name => t('instances.instances.other'), :view => @view, :id => 'instances', :count => @deployment.instances.count},
              #{:name => 'Services', :view => @view, :id => 'services'},
              #{:name => 'History', :view => 'history', :id => 'history'},
              {:name => t('properties'), :view => 'properties', :id => 'properties'}
@@ -332,7 +332,7 @@ class DeploymentsController < ApplicationController
       { :name => t("pools.index.deployed_on"), :sortable => false },
       { :name => t("deployables.index.base_deployable"), :sortable => false },
       { :name => t("deployables.index.state"), :sortable => false },
-      { :name => t("instances.instances"), :class => 'center', :sortable => false },
+      { :name => t("instances.instances.other"), :class => 'center', :sortable => false },
       { :name => t("pools.pool"), :sortable => false },
       { :name => t("pools.index.owner"), :sortable => false },
       { :name => t("providers.provider"), :sortable => false }
@@ -353,7 +353,7 @@ class DeploymentsController < ApplicationController
 
   def set_errors_flash(errors)
     unless errors.empty?
-      flash[:error] = {
+      flash.now[:error] = {
           :summary => t("deployments.flash.error.not_launched"),
           :failures => errors
       }

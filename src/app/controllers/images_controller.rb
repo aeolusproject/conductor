@@ -16,7 +16,6 @@
 
 class ImagesController < ApplicationController
   before_filter :require_user
-  require "lib/image"
 
   def index
     set_admin_environments_tabs 'images'
@@ -44,14 +43,14 @@ class ImagesController < ApplicationController
         pimg =  @image.provider_images.first
         provider = Provider.find_by_name(pimg.provider)
         type = provider.provider_type
-        acct = ProviderAccount.find_by_provider_name_and_login(provider.name, pimg.provider_account_identifier)
+        acct = ProviderAccount.enabled.find_by_provider_name_and_login(provider.name, pimg.provider_account_identifier)
         raise unless acct
         @account_groups = {type.deltacloud_driver => {:type => type, :accounts => [acct]}}
       rescue Exception => e
-        @account_groups = ProviderAccount.group_by_type(current_user)
+        @account_groups = ProviderAccount.enabled.group_by_type(current_user)
       end
     else
-      @account_groups = ProviderAccount.group_by_type(current_user)
+      @account_groups = ProviderAccount.enabled.group_by_type(current_user)
     end
     # according to imagefactory Builder.first shouldn't be implemented yet
     # but it does what we need - returns builder object which contains
@@ -83,7 +82,7 @@ class ImagesController < ApplicationController
 
   def new
     if 'import' == params[:tab]
-      @accounts = ProviderAccount.list_for_user(current_user, Privilege::USE)
+      @accounts = ProviderAccount.enabled.list_for_user(current_user, Privilege::USE)
       render :import and return
     else
       @environment = PoolFamily.find(params[:environment])
@@ -102,6 +101,8 @@ class ImagesController < ApplicationController
       logger.error "Caught exception importing image: #{e.message}"
       if e.is_a?(Aeolus::Conductor::Base::ImageNotFound)
         flash[:error] = t('images.not_on_provider')
+      elsif e.is_a?(Aeolus::Conductor::Base::BlankImageId)
+        flash[:error] = t('images.import.blank_id')
       else
         flash[:error] = t("images.import.image_not_imported")
       end

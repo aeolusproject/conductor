@@ -31,10 +31,11 @@ Conductor.Routers.Pools = Backbone.Router.extend({
         view.collection = new Conductor.Models.Deployments();
       }
 
+      view.collection.queryParams = view.queryParams();
       view.collection.bind('change', function() { view.render() });
 
       view.collection.fetch({ success: function() {
-        view.collection.trigger('change')
+        view.collection.trigger('change');
       }})
 
     }, Conductor.AJAX_REFRESH_INTERVAL);
@@ -73,6 +74,8 @@ Conductor.Routers.Deployments = Backbone.Router.extend({
       var deployment = new Conductor.Models.Deployment({ id: id });
       var view = new Conductor.Views.DeploymentsShow({ model: deployment,
         collection: deployment.instances });
+
+      if(view.currentTab() !== 'instances') return;
 
       deployment.bind('change', function() { view.render() });
 

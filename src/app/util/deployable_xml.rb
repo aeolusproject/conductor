@@ -173,7 +173,7 @@ class DeployableXML
     if xmlstr_or_node.is_a? Nokogiri::XML::Node
       @root = xmlstr_or_node
     elsif xmlstr_or_node.is_a? String
-      @doc = Nokogiri::XML(xmlstr_or_node)
+      @doc = Nokogiri::XML(xmlstr_or_node) { |config| config.strict }
       @root = @doc.root.at_xpath("/deployable") if @doc.root
     end
     @relax_file = "#{File.dirname(File.expand_path(__FILE__))}/deployable-rng.xml"

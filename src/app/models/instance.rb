@@ -188,9 +188,13 @@ class Instance < ActiveRecord::Base
     image_build || (image.nil? ? nil : image.latest_pushed_build)
   end
 
-  def provider_images_for_match(provider)
-    the_build = build
-    (the_build ? the_build.provider_images : []).select {|pi| pi.provider_name == provider.name}
+  def provider_images_for_match(provider_account)
+    if (the_build = build)
+      the_build.provider_images_by_provider_and_account(
+       provider_account.provider.name, provider_account.warehouse_id)
+    else
+      []
+    end
   end
 
   def assembly_xml
@@ -344,6 +348,17 @@ class Instance < ActiveRecord::Base
     end
   end
 
+  def image_arch
+    # try to get architecture of the image associated with this instance
+    # for imported images template is empty -> architecture is not set,
+    # in this case we omit this check
+    return Aeolus::Image::Warehouse::Image.find(build.image.uuid).os.arch
+  rescue
+    logger.warn "failed to get image architecture for instance '#{name}', skipping architecture check: #{$!}"
+    logger.warn $!.backtrace.join("\n  ")
+    nil
+  end
+
   def matches
     errors = []
     if pool.pool_family.provider_accounts.empty?
@@ -353,6 +368,10 @@ class Instance < ActiveRecord::Base
     errors << I18n.t('instances.errors.pool_family_quota_reached') if pool.pool_family.quota.reached?
     errors << I18n.t('instances.errors.user_quota_reached') if owner.quota.reached?
     errors << I18n.t('instances.errors.image_not_found', :b_uuid=> image_build_uuid, :i_uuid => image_uuid) if image_build.nil? and image.nil?
+    arch = image_arch
+    if arch.present? and hardware_profile.architecture and hardware_profile.architecture.value != arch
+      errors << I18n.t('instances.errors.architecture_mismatch', :inst_arch => hardware_profile.architecture.value, :img_arch => arch)
+    end
     return [[], errors] unless errors.empty?
 
     matched = []
