@@ -1206,6 +1206,7 @@ en:
       image_not_found_on_provider: "Could not find Image %{image} on provider"
       in_grabbing_target_images: "In grabbing list of target images: %{error}"
       invalid_parameters_for_account_and_target_image: "Invalid parameters for Account: %{account} TargetImage: %{targetimage}"
+      invalid_template: "Invalid template: %{errors}"
       no_image_build_or_target_image: "Invalid Parameters: No Image, Build or TargetImage provided in request"
       no_matching_target_image: Could not find any matching Target Images
       no_provider_account_given: No provider account given

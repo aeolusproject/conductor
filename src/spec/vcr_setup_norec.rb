@@ -52,4 +52,4 @@ VCR.config do |c|
   c.allow_http_connections_when_no_cassette = true
 end
 
-VCR::Cassette.new(File.basename(file.path, '.yml'), :record => :none)
+VCR::Cassette.new(File.basename(file.path, '.yml'), :record => :none, :match_requests_on => [:method, :uri, :body])

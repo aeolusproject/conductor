@@ -188,9 +188,13 @@ class Instance < ActiveRecord::Base
     image_build || (image.nil? ? nil : image.latest_pushed_build)
   end
 
-  def provider_images_for_match(provider)
-    the_build = build
-    (the_build ? the_build.provider_images : []).select {|pi| pi.provider_name == provider.name}
+  def provider_images_for_match(provider_account)
+    if (the_build = build)
+      the_build.provider_images_by_provider_and_account(
+       provider_account.provider.name, provider_account.warehouse_id)
+    else
+      []
+    end
   end
 
   def assembly_xml

@@ -193,7 +193,8 @@ describe Instance do
   end
 
   it "shouldn't match provider accounts where image is not pushed" do
-    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount')]
+    account2 = FactoryGirl.create(:mock_provider_account2, :label => 'testaccount')
+    @pool.pool_family.provider_accounts = [account2]
     @instance.matches.last.should include('testaccount: image is not pushed to this provider account')
   end
 

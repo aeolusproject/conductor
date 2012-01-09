@@ -64,6 +64,14 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
         }
       };
     });
+    // If there is no URL param for the preset filter, we still need to merge in the preset filter
+    var filter = this.currentTab() + '_preset_filter';
+    if(result[filter] == undefined) {
+      var filter_selector = '#' + filter + ':enabled';
+      if($(filter_selector).val() != undefined) {
+        result[filter] = $(filter_selector).val();
+      }
+    };
 
     return result;
   },

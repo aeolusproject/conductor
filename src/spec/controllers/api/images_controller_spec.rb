@@ -211,11 +211,24 @@ describe Api::ImagesController do
 
         context "when trying to build image" do
           before(:each) do
+            tpl =%q{<template>
+                      <name>Fedora 15 Template</name>
+                      <os>
+                        <name>Fedora</name>
+                        <version>15</version>
+                        <arch>x86_64</arch>
+                        <install type='url'>
+                          <url>http://download.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/</url>
+                        </install>
+                        <rootpw>p@ssw0rd</rootpw>
+                      </os>
+                      <description>A Fedora 15 Image Factory Template</description>
+                    </template>}
             xml = Nokogiri::XML::Builder.new do
               image {
                 targets "mock"
                 tdl {
-                  template "templ"
+                  parent.add_child(Nokogiri::XML(tpl).root)
                   target "mock"
                 }
               }

@@ -2163,6 +2163,96 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :post
+    uri: http://localhost:9090/target_images/_query
+    body: ($build == "63838705-8608-44c6-aded-7c243137172c")
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "50"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Wed, 14 Dec 2011 11:45:15 GMT
+      transfer-encoding: 
+      - chunked
+    body: |
+      <objects>
+      	<object>
+      		<bucket>target_images</bucket>
+      		<key>1a955a06-ca92-4546-9121-6c35e162f67b</key>
+      	</object>
+      </objects>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: http://localhost:9090/provider_images/_query
+    body: ($target_image == "1a955a06-ca92-4546-9121-6c35e162f67b")
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "57"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Wed, 14 Dec 2011 11:45:28 GMT
+      transfer-encoding: 
+      - chunked
+    body: |
+      <objects>
+      	<object>
+      		<bucket>provider_images</bucket>
+      		<key>aa57b1ab-f565-4a7a-b054-58ef5af1a053</key>
+      	</object>
+      </objects>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: http://localhost:9090/provider_images/_query
+    body: ($target_image == "1a955a06-ca92-4546-9121-6c35e162f67b" && $provider == "mock")
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "80"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Wed, 14 Dec 2011 11:45:28 GMT
+      transfer-encoding: 
+      - chunked
+    body: |
+      <objects>
+      	<object>
+      		<bucket>provider_images</bucket>
+      		<key>aa57b1ab-f565-4a7a-b054-58ef5af1a053</key>
+      	</object>
+      </objects>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
     uri: http://localhost:9090/provider_images/_query
     body: ($target_image == "ce1c6d32-5e26-4feb-9b86-83435a39b1f0")
     headers: 
@@ -2189,6 +2279,59 @@
       	</object>
       </objects>
 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: http://localhost:9090/provider_images/_query
+    body: ($target_image == "ce1c6d32-5e26-4feb-9b86-83435a39b1f0" && $provider == "mock")
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "80"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Wed, 14 Dec 2011 11:45:28 GMT
+      transfer-encoding: 
+      - chunked
+    body: |
+      <objects>
+      	<object>
+      		<bucket>provider_images</bucket>
+      		<key>aa57b1ab-f565-4a7a-b054-58ef5af1a053</key>
+      	</object>
+      </objects>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: http://localhost:9090/provider_images/_query
+    body: ($target_image == "ce1c6d32-5e26-4feb-9b86-83435a39b1f0" && $provider == "mock2")
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "81"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 404
+      message: Not Found
+    headers: 
+      date: 
+      - Wed, 14 Dec 2011 13:53:22 GMT
+      content-length: 
+      - "0"
+    body: 
     http_version: "1.1"
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
