@@ -793,7 +793,7 @@ en:
       catalog_entry_name: "%{name}"
       title: Create Deployable
       description: "Creating a deployable from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the deployable, and define a default cloud resource profile."
-      no_available_catalog: 'No available catalog exists'
+      no_available_catalog: 'No catalog'
     show:
       images: "Images"
       launch: "Launch"
