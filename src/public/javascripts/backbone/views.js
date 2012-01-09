@@ -85,9 +85,7 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
       var poolIds = this.collection.models.map(function(model) {
         return model.attributes.pool.id;
       });
-      poolIds.sort().filter(function(e,i,a) {
-        return i == a.indexOf(e);
-      });
+      $.unique(poolIds);
       var deployments = this.collection.models.map(function(model) {
         return model.attributes;
       });
@@ -96,7 +94,7 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
         var poolId = poolIds[j];
         var $rows = this.$('#deployment-arrays-' + poolId).empty();
         var poolDeployments = deployments.filter(function(attributes) {
-	    return attributes.pool.id == poolId;
+          return attributes.pool.id == poolId;
         });
         for(var i = 0; i < poolDeployments.length; i += cardsPerRow) {
           var $row = this.make('ul',
