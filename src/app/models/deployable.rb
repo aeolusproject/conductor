@@ -104,7 +104,7 @@ class Deployable < ActiveRecord::Base
     doc.root << description
     assemblies = doc.create_element('assemblies')
     doc.root << assemblies
-    assembly = doc.create_element('assembly', :name => image.name, :hwp => hw_profile.name)
+    assembly = doc.create_element('assembly', :name => image.name.gsub(/[^a-zA-Z0-9]+/, '-'), :hwp => hw_profile.name)
     assemblies << assembly
     img = doc.create_element('image', :id => image.uuid)
     assembly << img
