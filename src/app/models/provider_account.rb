@@ -323,7 +323,10 @@ class ProviderAccount < ActiveRecord::Base
     begin
       provider = Provider.find_by_name(provider_name)
       credential_definition = CredentialDefinition.find_by_provider_type_id_and_name(provider.provider_type.id, 'username')
-      Credential.find_by_credential_definition_id_and_value(credential_definition.id, login).provider_account
+      where_hash = {:credential_definition_id => credential_definition.id, :value => login}
+      cred = Credential.where(where_hash).includes(:provider_account).where('provider_accounts.provider_id' => provider.id)
+      # The above should always return an array with zero (if an error) or one element, but rescue nil to be safe:
+      cred.first.provider_account rescue nil
     rescue
       nil
     end
