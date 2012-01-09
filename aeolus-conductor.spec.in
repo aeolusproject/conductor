@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  0%{?dist}
+Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -320,6 +320,45 @@ fi
 %{app_root}/spec
 
 %changelog
+* Mon Jan 09 2012 Steve Linabery <slinaber@redhat.com> - 0.9.0-1
+- 18ba534 Merge branch 'master' of github.com:aeolusproject/conductor
+- 0a37767 API - Added template checking when creating an image
+- 33d63a3 -change method of ensuring poolIds are unique, removed hard tab
+- 4aa3fce updated deployment index refresh to categorize deployments by pool
+- a2885b4 added pool ID to div identifier
+- 0a020e7 Support for multiple accounts per provider.
+- 6fa3ce3 Backbone will always use preset_filter value if present
+- 5e068fe Bump release
+- a18865d Update changelog entries
+- 9c027cd Fix autoupdate with table filters
+- 15c740b Adding 'No catalog' label when no catalog available for the deployable when creating image
+- 0c98f1b Use a lambda to delay the evaluation of Provider in conjunction with scope
+- d2a37e2 Reference lib/image by full path
+- 342c552 Display a specific error message for image import with a blank ID
+- a7ae8ec Add missing style to image import form
+- 90826d7 Rename Catalog Entries to Deployables in the UI
+- 55b28c5 update pools count with applying filters in pools table (bz770620)
+- 5adcc24 Autoupdating pretty view fixed on Pools#index for multiline array of deployments
+- 61934bc Fixing new deployable form
+- fdd00ab Fixing failing rspec tests
+- dd1d2db Localise instance count indicator in pretty view
+- eea7d11 Fix the uptime format
+- a627c74 BZ#755933 Last login,Last login IP fields empty.
+- 46ac73e Added architecture check
+- 7b24128 Removed duplicit vcr definition for aeolus-image
+- df5f048 BZ 769635, added scope enabled to Provider and ProviderAccount
+- 1853d01 Error displayed after provider destroy fails
+- 810714c Redirect to catalog detail after catalog entry is created succesfully
+- be4735d Fixing the date format in Deployment's json representation
+- 188c848 Table striping fixed for autoupdating on the table view of pools#index
+- fc0c339 Fixing autoupdating issues
+- d23ed06 Fixed error rendering for AJAX requests
+- 4c43e02 Fixing the permission partial
+- f5d8de1 Error message fixed for creating new deployable without providing url for the xml
+- d7d7a29 Deployable XML parsing switched to strict mode
+- fe236fc BZ#766163 Add reboot_multiple to grid view of instances,controller method and localization.
+- 0bae59e fix user dropdown in masthead
+
 * Wed Jan 04 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-1
 - d98cb57 Verify image exists before importing it from provider
 - 314c90e Allow creating deployables from imported images
