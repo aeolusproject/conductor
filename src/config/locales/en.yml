@@ -976,6 +976,7 @@ en:
       required_field: Required field.
       account: "Account:"
       delete_account: Delete Account
+      file_already_uploaded: "Already uploaded. Reupload?"
     show:
       account: "Account:"
       test_connection: Test Connection
