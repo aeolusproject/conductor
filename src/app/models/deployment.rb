@@ -55,6 +55,8 @@ class Deployment < ActiveRecord::Base
 
   has_many :events, :as => :source
 
+  has_many :provider_accounts, :through => :instances
+
   after_create "assign_owner_roles(owner)"
 
   scope :ascending_by_name, :order => 'name ASC'
@@ -454,7 +456,9 @@ class Deployment < ActiveRecord::Base
 
   def self.apply_search_filter(search)
     if search
-      includes(:pool).where("pools.name ILIKE :search OR deployments.deployable_xml ILIKE :search OR deployments.name ILIKE :search", :search => "%#{search}%")
+      includes(:pool, :provider_accounts => :provider).
+          where("pools.name ILIKE :search OR deployments.name ILIKE :search OR providers.name ILIKE :search",
+                :search => "%#{search}%")
     else
       scoped
     end
