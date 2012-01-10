@@ -369,6 +369,8 @@ class DeploymentsController < ApplicationController
         :include => :architecture,
         :conditions => {:provider_id => nil}
     )
+    @realm_choices = @realms.map{|r| [r.name, r.id]}
+    @realm_choices.unshift([I18n.t('deployments.launch_new.autoselect'), ''])
   end
 
   def load_assemblies_services

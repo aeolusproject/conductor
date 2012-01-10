@@ -221,6 +221,7 @@ en:
       next: Next
       load_definition: Load definition from XML
       other: other
+      autoselect: Auto-select
     operation:
       operational_status: Operational status of
       count_of_instances: "Count of instances:"

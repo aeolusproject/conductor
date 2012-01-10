@@ -28,7 +28,7 @@
 
       - if @realms.any?
         %h3= t('realms.index.realm')
-        = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
+        = select :deployment, :frontend_realm_id, @realm_choices
 
       %h3= t('.image_ids')
       %ul
