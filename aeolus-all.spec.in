@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,10 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Tue Jan 10 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-3
+- 981260f BZ#772682 Instance parameter values greater than 255 break deployment
+- aa20e01 find_by_provider_name_and_login takes provider into account now
+
 * Mon Jan 09 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-2
 - 18ba534 Merge branch 'master' of github.com:aeolusproject/conductor
 - 0a37767 API - Added template checking when creating an image
