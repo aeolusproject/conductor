@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  3%{?dist}
+Release:  4%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -322,6 +322,10 @@ fi
 %{app_root}/spec
 
 %changelog
+* Tue Jan 10 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-4
+- b068c7d BZ#766929 - database.yml is world-readable
+- 916d9f1 Bump release, add changelog, 0.8.0-3
+
 * Tue Jan 10 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-3
 - 981260f BZ#772682 Instance parameter values greater than 255 break deployment
 - aa20e01 find_by_provider_name_and_login takes provider into account now
