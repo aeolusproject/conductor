@@ -224,6 +224,19 @@ $.extend(Conductor, {
     });
   }
 
+  fetchAjaxDescription: function(selector_box, description_field, base_url) {
+    selector_box.live("change", function(e) {
+      var realm_id = $(e.target).val();
+      if(realm_id != "") {
+        $.getJSON(base_url + realm_id, function(json) {
+          description_field.html(json.description);
+        });
+      } else {
+        description_field.html('');
+      }
+    });
+  },
+
 });
 
 /* custom methods */
