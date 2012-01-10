@@ -37,7 +37,7 @@
         %p
           %label{:for => 'frontend_realm_id'}
             = t('realms.index.realm')
-          = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
+          = select :deployment, :frontend_realm_id, @realm_choices
 
       %fieldset.options
         = submit_tag t('.next'), :class => 'button', :id => "next_button"
