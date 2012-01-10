@@ -301,7 +301,15 @@ class Deployment < ActiveRecord::Base
   end
 
   def properties
-    {:name => name, :owner => "#{owner.first_name}  #{owner.last_name}", :created => created_at, :pool => pool.name}
+    result = {
+      :name => name,
+      :created => created_at,
+      :pool => pool.name
+    }
+
+    result[:owner] = "#{owner.first_name}  #{owner.last_name}" if owner.present?
+
+    result
   end
 
   def provider
