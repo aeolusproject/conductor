@@ -65,6 +65,8 @@ class ProviderAccount < ActiveRecord::Base
   validate :validate_presence_of_credentials
   validate :validate_credentials
   validate :validate_unique_username
+
+  after_create :populate_hardware_profiles
   before_destroy :destroyable?
 
   scope :enabled, lambda { where(:provider_id => Provider.enabled) }
