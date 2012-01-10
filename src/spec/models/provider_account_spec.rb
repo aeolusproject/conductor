@@ -64,6 +64,18 @@ describe ProviderAccount do
     provider_account.save.should == false
   end
 
+  it "should fail to create a cloud account if fetching of hw profiles fails" do
+    provider_account = Factory.build(:mock_provider_account)
+    provider_account.stub(:populate_hardware_profiles).and_raise(ActiveRecord::RecordInvalid)
+    provider_account.save.should == false
+  end
+
+  it "should fail to create a cloud account if fetching of realms fails" do
+    provider_account = Factory.build(:mock_provider_account)
+    provider_account.stub(:populate_realms).and_raise(ActiveRecord::RecordInvalid)
+    provider_account.save.should == false
+  end
+
   it "when calling connect and it fails with exception it will return nil" do
     DeltaCloud.should_receive(:new).and_raise(Exception.new)
 

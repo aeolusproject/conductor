@@ -1056,6 +1056,9 @@ en:
       warning:
         must_select_account: "You must select some accounts first."
         no_provider: "You don't have any provider yet"
+    errors:
+      populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
+      populate_realms_failed: "Failed to populate realms: %{message}"
   config_servers:
     certificate_help: Provide a certificate to enable https support
     section_header:
