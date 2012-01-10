@@ -405,7 +405,6 @@ class Deployment < ActiveRecord::Base
 
   def as_json(options={})
     json = super(options).merge({
-      :owner => owner.name,
       :deployable_xml_name => deployable_xml.name,
       :deployment_state => deployment_state,
       :instances_count => instances.count,
@@ -419,6 +418,8 @@ class Deployment < ActiveRecord::Base
       },
       :created_at => created_at.to_s
     })
+
+    json[:owner] = owner.name if owner.present?
 
     if provider
       json[:provider] = {
