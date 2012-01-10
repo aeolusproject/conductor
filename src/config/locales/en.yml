@@ -528,6 +528,7 @@ en:
       mapping: Mapping
     form:
       realm_name: Realm Name
+      description: Description
     list:
       delete_selected: Delete Selected
     mapping:

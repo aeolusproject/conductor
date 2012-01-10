@@ -29,6 +29,7 @@
       - if @realms.any?
         %h3= t('realms.index.realm')
         = select :deployment, :frontend_realm_id, @realm_choices
+        %div#realm-description
 
       %h3= t('.image_ids')
       %ul
@@ -41,3 +42,8 @@
     = submit_tag t(:back), :class => 'button', :value => 'back'
     = submit_tag t('.launch'), :id => 'launch_deployment_button', :disabled => (@errors && @errors.any?)
 -# Quota checking to go here as well, once I understand how it works with new code
+
+:javascript
+  $(document).ready(function () {
+    Conductor.fetchAjaxDescription($('#deployment_frontend_realm_id'), $('#realm-description'), "#{realms_url}/");
+  });
