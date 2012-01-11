@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<deployable name="my">
+<deployable version="1.0" name="my">
     <description>This is my testing image</description>
     <assemblies>
         <assembly name="frontend" hwp="hwp1">

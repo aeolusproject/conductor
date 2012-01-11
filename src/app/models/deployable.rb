@@ -99,7 +99,7 @@ class Deployable < ActiveRecord::Base
   def set_from_image(image_id, name, hw_profile)
     image = Aeolus::Image::Warehouse::Image.find(image_id)
     doc = Nokogiri::XML ''
-    doc.root = doc.create_element('deployable', :name => name)
+    doc.root = doc.create_element('deployable', :version => DeployableXML.version, :name => name)
     description = doc.create_element('description')
     doc.root << description
     assemblies = doc.create_element('assemblies')
