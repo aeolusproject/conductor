@@ -22,10 +22,10 @@ FactoryGirl.define do
               <description>This is my testing image</description>
               <assemblies>
                 <assembly name='frontend' hwp='front_hwp1'>
-                  <image id='85653387-88b2-46b0-b7b2-c779d2af06c7' build='c5fc000b-829a-4bb5-9df1-bb228da2c7ec'></image>
+                  <image id='53d2a281-448b-4872-b1b0-680edaad5922' build='63838705-8608-44c6-aded-7c243137172c'></image>
                 </assembly>
                 <assembly name='backend' hwp='front_hwp2'>
-                  <image id='85653387-88b2-46b0-b7b2-c779d2af06c7' build='c5fc000b-829a-4bb5-9df1-bb228da2c7ec'></image>
+                  <image id='53d2a281-448b-4872-b1b0-680edaad5922' build='63838705-8608-44c6-aded-7c243137172c'></image>
                 </assembly>
               </assemblies>
             </deployable>"
