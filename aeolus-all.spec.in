@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,10 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Tue Jan 10 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-5
+- becb88d Sanitize assembly name to prevent launch errors
+- 50b4f0d Bump release, add changelog, 0.8.0-4
+
 * Tue Jan 10 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-4
 - b068c7d BZ#766929 - database.yml is world-readable
 - 916d9f1 Bump release, add changelog, 0.8.0-3
