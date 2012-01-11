@@ -825,7 +825,7 @@ en:
       ram: RAM
       arch: ARCH
       repair_images: Repair Images
-      images_ready: Images Ready
+      images_valid: Images Valid
       build_description:
         "Allow this deployable's associated image(s) to be built and
         pushed to cloud resource providers by enabling them below."

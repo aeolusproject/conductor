@@ -7,7 +7,7 @@
       = link_to t('.edit'), edit_polymorphic_path([@catalog, @deployable]), :class => 'button', :id => 'edit_button'
       = link_to t('.edit_xml'), edit_polymorphic_path([@catalog, @deployable], :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
 
-    - if @catalog.present? && @deployable_errors.empty?
+    - if @catalog.present? && @deployable_errors.empty? && @pushed_count > 0
       = link_to t('.launch'), launch_new_deployments_path(:deployable_id => @deployable.id, :pool_id => @catalog.pool), :id => :launch_deployment_button
     -else
       %a{:id => :launch_deployment_button, :class => 'disabled'}= t('.launch')
@@ -32,7 +32,7 @@
         %tbody
           - @images_details.each do |assembly|
             %tr
-              %td.status= image_ready?(assembly)
+              %td.status= image_valid?(assembly)
               %td
                 %strong=assembly[:name]
               %td.align-center=assembly[:images_count]

@@ -80,8 +80,17 @@ Given /^there is ec2 provider account "([^"]*)"$/ do |arg1|
 end
 
 Given /^there is mock provider account "([^"]*)"$/ do |arg1|
-  provider =  FactoryGirl.create(:mock_provider, :name => 'mockprovider')
-  FactoryGirl.create(:mock_provider_account, :label => arg1, :provider => provider)
+  if (provider = Provider.find_by_name('mock'))
+    if account = provider.provider_accounts.first
+      account.label = arg1
+      account.save
+    else
+      FactoryGirl.create(:mock_provider_account, :label => arg1, :provider => provider)
+    end
+  else
+    provider = FactoryGirl.create(:mock_provider, :name => 'mock')
+    FactoryGirl.create(:mock_provider_account, :label => arg1, :provider => provider)
+  end
 end
 
 Then /^there should be these mock provider accounts:$/ do |table|
