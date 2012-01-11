@@ -39,7 +39,11 @@
     <tr>
       <td class="checkbox"><input type="checkbox" id="pool_checkbox_${id}"
                  name="pools_selected[]" value="${id}"></td>
-      <td class="alert" />
+      <td class="alert">
+        {{if statistics.instances_failed_count > 0}}
+          #{image_tag("sb_icon_instance_failure.png")}
+        {{/if}}
+      </td>
       <td><a href="#{pool_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
       <td class="center">${deployments_count}</td>
       <td class="center">${statistics.total_instances}</td>

@@ -414,7 +414,8 @@ class Instance < ActiveRecord::Base
       :has_key => !(instance_key.nil?),
       :uptime => ApplicationHelper.count_uptime(uptime),
       :stop_enabled => available_actions.include?(InstanceTask::ACTION_STOP),
-      :reboot_enabled => available_actions.include?(InstanceTask::ACTION_REBOOT)
+      :reboot_enabled => available_actions.include?(InstanceTask::ACTION_REBOOT),
+      :is_failed => failed?
     })
 
     json[:owner] = owner.name if owner.present?
