@@ -1185,6 +1185,7 @@ en:
       cloud_providers: Cloud Providers
       settings: Settings
   application_controller:
+    permission_denied: You have insufficient privileges to perform the selected action.
     access_denied: Access denied
     some_actions_failed: Some actions failed
     action_error: Action Error
