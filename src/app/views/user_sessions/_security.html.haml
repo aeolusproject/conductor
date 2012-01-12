@@ -12,7 +12,7 @@
         =t'user_sessions.security.message', :host => "#{h request.host}"
       %p
         %input.button#show-login{:type => 'button', :value => 'Return to Login'}
-    = image_tag 'login-card-logo-upstream.png', :id => 'logo'
+    = image_tag 'login-card-logo-cloudforms.png', :id => 'logo'
 -else
   .panel#security
     %header.unsecure
@@ -24,4 +24,4 @@
         =t'user_sessions.security.message_unencrypted2'
       %p
         %input.button#show-login{:type => 'button', :value => "#{t('user_sessions.security.return_to_login')}"}
-    = image_tag 'login-card-logo-upstream.png', :id => 'logo'
+    = image_tag 'login-card-logo-cloudforms.png', :id => 'logo'
