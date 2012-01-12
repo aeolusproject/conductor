@@ -1,0 +1,11 @@
+#scoreboard li {
+  float: left;
+}
+
+ul.groups li {
+  float: left;
+}
+
+nav.faceted ul li {
+  float: left;
+}
