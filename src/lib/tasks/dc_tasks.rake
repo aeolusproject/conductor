@@ -122,6 +122,25 @@ namespace :dc do
     end
   end
 
+  desc "Decrement user's login counter"
+  task :decrement_counter, [:login] => :environment do |t, args|
+    user = User.find_by_login(args.login)
+
+    unless user
+      puts "User '#{args.login}' not found"
+      exit(1)
+    end
+
+    user.login_count = user.login_count > 1 ? user.login_count - 1 : 0
+
+    if user.save
+      puts "Login counter for user #{args.login} updated"
+    else
+      puts "Failed to update login counter for user #{args.login}: #{user.errors.join(', ')}"
+    end
+
+  end
+
   def get_account(provider_name, account_name)
     unless provider = Provider.find_by_name(provider_name)
       raise "There is no provider with '#{provider_name}' name"
