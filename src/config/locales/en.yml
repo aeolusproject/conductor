@@ -6,7 +6,7 @@ en:
         one: 1 hour
         other: %{count} hours
   users:
-    users_groups: "Users & Groups"
+    users: "Users"
     return_to: "Return to:"
     users: Users
     confirm_delete: "Are you sure you want to delete this user?"
@@ -1192,7 +1192,7 @@ en:
       monitor: Monitor
       administer: Administer
     second_level:
-      users_groups: Users & Groups
+      users: Users
       environments: Environments
       content: Content
       cloud_providers: Cloud Providers
