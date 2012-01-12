@@ -31,6 +31,7 @@ FactoryGirl.define do
             </deployable>"
     description "deployable description"
     association :owner, :factory => :user
+
   end
 
   factory :deployable_with_parameters, :parent => :deployable do
