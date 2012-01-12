@@ -35,6 +35,12 @@ class CatalogEntry < ActiveRecord::Base
 
   validates_uniqueness_of :catalog_id, :scope => [:deployable_id]
 
+  before_destroy :check_deployable_references
+
+  def check_deployable_references
+    return deployable.catalogs.count > 1
+  end
+
   # This probably goes away once we separate catalog entry creation from deployables
   accepts_nested_attributes_for :deployable
 end

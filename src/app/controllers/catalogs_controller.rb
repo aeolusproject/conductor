@@ -80,21 +80,31 @@ class CatalogsController < ApplicationController
   end
 
   def multi_destroy
+    deleted = []
+    not_deleted = []
     catalogs = Catalog.find(params[:catalogs_selected])
     catalogs.to_a.each do |catalog|
       require_privilege(Privilege::MODIFY, catalog)
-      catalog.destroy
+      if catalog.destroy
+        deleted << catalog.name
+      else
+        not_deleted << catalog.name
+      end
     end
-    redirect_to catalogs_path, :notice => t("catalogs.flash.notice.deleted", :count => catalogs.count)
+    flash[:notice] = t("catalogs.flash.notice.deleted", :count => deleted.count, :deleted => deleted.join(', ')) unless deleted.empty?
+    flash[:error] = t("catalogs.flash.error.not_deleted", :count => not_deleted.count, :not_deleted => not_deleted.join(', ')) unless not_deleted.empty?
+    redirect_to catalogs_path
   end
 
   def destroy
     catalog = Catalog.find(params[:id])
     require_privilege(Privilege::MODIFY, catalog)
-    catalog.destroy
-
-    respond_to do |format|
-      format.html { redirect_to catalogs_path, :notice => t("catalogs.flash.notice.deleted", :count => 1) }
+    if catalog.destroy
+      flash[:notice] = t("catalogs.flash.notice.one_deleted")
+      redirect_to catalogs_path
+    else
+      flash[:error] = t("catalogs.flash.error.one_not_deleted")
+      redirect_to catalog_path(catalog)
     end
   end
 

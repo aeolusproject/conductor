@@ -668,8 +668,14 @@ en:
           one: Catalog created!
           other: Catalogs created!
         deleted:
-          one: Catalog deleted!
-          other: "%{count} Catalogs deleted!"
+          one: Catalog %{deleted} deleted!
+          other: "%{count} catalogs %{deleted} deleted!"
+        one_deleted: Catalog deleted!
+      error:
+        not_deleted:
+          one: "Catalog %{not_deleted} cannot be deleted! Some deployable has the last reference to this catalog!"
+          other: "These catalogs %{not_deleted} cannot be deleted! Some of their deployables have the last reference to the catalogs!"
+        one_not_deleted: "Catalog cannot be deleted! Some deployable has the last reference to this catalog!"
     preset_filters:
       all_catalogs: "All Catalogs"
       belongs_to_default_pool: "Belongs to Default Pool"
