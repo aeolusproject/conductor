@@ -83,6 +83,7 @@ class User < ActiveRecord::Base
   #validates_format_of :email, :with => /^([^\s]+)((?:[-a-z0-9]\.)[a-z]{2,})$/i
 
   before_save :encrypt_password
+  before_destroy :ensure_not_running_any_instances
 
   def name
     "#{first_name} #{last_name}"
@@ -148,4 +149,9 @@ class User < ActiveRecord::Base
   def self.create_ldap_user!(login)
     User.create!(:login => login, :quota => Quota.new, :ignore_password => true)
   end
+
+  def ensure_not_running_any_instances
+    raise I18n.t('users.errors.has_running_instances', :login => login) if deployments.any?{ |deployment| deployment.any_instance_running? }
+  end
+
 end
