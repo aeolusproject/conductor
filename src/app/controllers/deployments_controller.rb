@@ -165,10 +165,10 @@ class DeploymentsController < ApplicationController
       @view = 'pretty_view_show'
     end
     #TODO add links to real data for history, permissions, services
-    @tabs = [{:name => t('instances.instances.other'), :view => @view, :id => 'instances', :count => @deployment.instances.count},
+    @tabs = [{:name => t('instances.instances.other'), :view => @view, :id => 'instances', :count => @deployment.instances.count, :pretty_view_toggle => 'enabled'},
              #{:name => 'Services', :view => @view, :id => 'services'},
              #{:name => 'History', :view => 'history', :id => 'history'},
-             {:name => t('properties'), :view => 'properties', :id => 'properties'}
+             {:name => t('properties'), :view => 'properties', :id => 'properties', :pretty_view_toggle => 'disabled'}
     #{:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
     ]
     add_permissions_tab(@deployment)
