@@ -1,0 +1,8 @@
+body.monitor #obj_actions .button-group {
+  float: right;
+  padding-right: 90px;
+}
+body.monitor #obj_actions #new_pool_button {
+  position: absolute;
+  right: 0;
+}
