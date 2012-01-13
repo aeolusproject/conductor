@@ -107,17 +107,27 @@ class UsersController < ApplicationController
   def multi_destroy
     require_privilege(Privilege::MODIFY, User)
     deleted_users = []
-    User.find(params[:user_selected]).each do |user|
-      if user == current_user
-        flash[:warning] = "#{t('users.flash.warning.not_delete', :login => "#{user.login}")}"
-      else
-        user.destroy
-        deleted_users << user.login
+
+    begin
+      User.transaction do
+        User.find(params[:user_selected]).each do |user|
+          if user == current_user
+            flash[:warning] = t('users.flash.warning.not_delete_same_user', :login => "#{user.login}")
+          else
+            user.destroy
+            deleted_users << user.login
+          end
+        end
       end
+
+      unless deleted_users.empty?
+        flash[:notice] =  "#{t('users.flash.notice.more_deleted', :count => deleted_users.length)} #{deleted_users.join(', ')}"
+      end
+
+    rescue => ex
+      flash[:warning] = t('users.flash.warning.not_delete', :reason => ex.message)
     end
-    unless deleted_users.empty?
-      flash[:notice] =  "#{t('users.flash.notice.more_deleted', :count => deleted_users.length)} #{deleted_users.join(', ')}"
-    end
+
     redirect_to users_url
   end
 

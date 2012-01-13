@@ -52,11 +52,14 @@ en:
           one: Deleted user
           other: Deleted users
       warning:
-        not_delete: "Cannot delete %{login} : you are logged in as this user"
+        not_delete: 'Cannot delete: %{reason}'
+        not_delete_same_user: "Cannot delete %{login} : you are logged in as this user"
     preset_filters:
       all_users: "All Users"
       name_starts_with_A: "Name starts with A"
       name_starts_with_B: "Name starts with B"
+    errors:
+      has_running_instances: '%{login} has running instances'
   user_sessions:
     new:
       username: "Username:"
