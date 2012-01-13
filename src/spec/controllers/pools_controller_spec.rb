@@ -88,6 +88,18 @@ describe PoolsController do
     end.should change(Pool, :count).by(-2)
   end
 
+  context "unauthenticated JSON responses " do
+    before do
+      accept_json
+      mock_warden(nil)
+    end
+
+    it "should return 401" do
+      get :index
+      response.response_code.should == 401
+    end
+  end
+
   context "JSON format responses for " do
     before do
       accept_json
