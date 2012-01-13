@@ -155,13 +155,18 @@ class ImagesController < ApplicationController
     @name = params[:name]
     @xml = params[:image_xml]
 
-    doc = TemplateXML.new(@xml)
-    errors = doc.validate
+    begin
+      doc = TemplateXML.new(@xml)
+    rescue Nokogiri::XML::SyntaxError
+      errors = [t('template_xml.errors.xml_parse_error')]
+    else
+      @name = doc.name
+      errors = doc.validate
+    end
+
     if errors.any?
       flash.now[:error] = errors
       render :edit_xml and return
-    else
-      @name = doc.name
     end
   end
 
