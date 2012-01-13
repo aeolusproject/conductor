@@ -303,7 +303,8 @@ class ApplicationController < ActionController::Base
         @tabs << {:name => t('role_assignments'),
                   :view => 'permissions',
                   :id => 'permissions',
-                  :count => perm_obj.permissions.count}
+                  :count => perm_obj.permissions.count,
+                  :pretty_view_toggle => 'disabled'}
       end
     end
     set_permissions_header
