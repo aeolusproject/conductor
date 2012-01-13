@@ -106,13 +106,13 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
         });
         for(var i = 0; i < poolDeployments.length; i += cardsPerRow) {
           var $row = this.make('ul',
-            {class: 'deployment-array small'},
+            {'class': 'deployment-array small'},
             $template.tmpl(poolDeployments.slice(i, i + cardsPerRow)));
           $rows.append($row);
         }
       }
     }
-  },
+  }
 });
 
 Conductor.Views.PoolsShow = Backbone.View.extend({
@@ -148,12 +148,12 @@ Conductor.Views.PoolsShow = Backbone.View.extend({
       var cardsPerRow = 5;
       for(var i = 0; i < deployments.length; i += cardsPerRow) {
         var $row = this.make('ul',
-          {class: 'deployment-array large'},
+          {'class': 'deployment-array large'},
           $template.tmpl(deployments.slice(i, i + cardsPerRow)));
         $cards.append($row);
       }
     }
-  },
+  }
 });
 
 
@@ -176,6 +176,6 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
 
     $instances.empty();
     $('#instanceTemplate').tmpl(this.collection.toJSON()).appendTo($instances);
-  },
+  }
 
 });

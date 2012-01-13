@@ -217,7 +217,7 @@ $.extend(Conductor, {
       var $checkbox = $scope.find(checkboxSelector + '[value="' + id + '"]');
       $checkbox.prop('checked', true);
     });
-  },
+  }
 
 });
 

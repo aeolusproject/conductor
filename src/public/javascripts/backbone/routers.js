@@ -5,7 +5,7 @@ Conductor.Routers.Pools = Backbone.Router.extend({
   routes: {
     '': 'index',
     'pools:query': 'index',
-    'pools/:id': 'show',
+    'pools/:id': 'show'
   },
 
   index: function() {
@@ -53,14 +53,14 @@ Conductor.Routers.Pools = Backbone.Router.extend({
 
       pool.fetch({ success: function() { view.render(); } })
     }, Conductor.AJAX_REFRESH_INTERVAL);
-  },
+  }
 });
 
 
 Conductor.Routers.Deployments = Backbone.Router.extend({
   routes: {
     'deployments': 'index',
-    'deployments/:id': 'show',
+    'deployments/:id': 'show'
   },
 
   index: function() {
@@ -83,5 +83,5 @@ Conductor.Routers.Deployments = Backbone.Router.extend({
         deployment.change();
       } })
     }, Conductor.AJAX_REFRESH_INTERVAL);
-  },
+  }
 });
