@@ -35,7 +35,7 @@
             %td= pool.deployments.count
             %td= pool.statistics[:total_instances]
             %td= pool.statistics[:instances_pending]
-            %td= pool.statistics[:instances_failed]
+            %td= pool.statistics[:instances_failed_count]
             %td= pool.statistics[:quota_percent]
             %td= pool.statistics[:used_quota]
             %td= pool.statistics[:available_quota].nil? ? raw('&infin;') : pool.statistics[:available_quota]

@@ -169,6 +169,11 @@ end
 
 class DeployableXML
 
+  DEPLOYABLE_VERSION = "1.0"
+  def self.version
+    DEPLOYABLE_VERSION
+  end
+
   def initialize(xmlstr_or_node = "")
     if xmlstr_or_node.is_a? Nokogiri::XML::Node
       @root = xmlstr_or_node

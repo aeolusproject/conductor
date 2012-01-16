@@ -318,6 +318,10 @@ class Instance < ActiveRecord::Base
     (state == STATE_CREATE_FAILED) or (state == STATE_STOPPED and not restartable?)
   end
 
+  def failed?
+    state == Instance::STATE_CREATE_FAILED || state == Instance::STATE_ERROR
+  end
+
   def requires_config_server?
     not instance_config_xml.nil? or assembly_xml.requires_config_server?
   end
@@ -405,14 +409,18 @@ class Instance < ActiveRecord::Base
 
   def as_json(options={})
     available_actions = get_action_list
-    super(options).merge({
-      :owner => owner.name,
+    json = super(options).merge({
       :provider => provider_account ? provider_account.provider.name : '',
       :has_key => !(instance_key.nil?),
       :uptime => ApplicationHelper.count_uptime(uptime),
       :stop_enabled => available_actions.include?(InstanceTask::ACTION_STOP),
-      :reboot_enabled => available_actions.include?(InstanceTask::ACTION_REBOOT)
+      :reboot_enabled => available_actions.include?(InstanceTask::ACTION_REBOOT),
+      :is_failed => failed?
     })
+
+    json[:owner] = owner.name if owner.present?
+
+    json
   end
 
   def first_running?

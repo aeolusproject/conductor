@@ -301,7 +301,15 @@ class Deployment < ActiveRecord::Base
   end
 
   def properties
-    {:name => name, :owner => "#{owner.first_name}  #{owner.last_name}", :created => created_at, :pool => pool.name}
+    result = {
+      :name => name,
+      :created => created_at,
+      :pool => pool.name
+    }
+
+    result[:owner] = "#{owner.first_name}  #{owner.last_name}" if owner.present?
+
+    result
   end
 
   def provider
@@ -397,10 +405,10 @@ class Deployment < ActiveRecord::Base
 
   def as_json(options={})
     json = super(options).merge({
-      :owner => owner.name,
       :deployable_xml_name => deployable_xml.name,
       :deployment_state => deployment_state,
       :instances_count => instances.count,
+      :failed_instances_count => failed_instances.count,
       :instances_count_text => I18n.t('instances.instances', :count => instances.count.to_i),
       :uptime => ApplicationHelper.count_uptime(uptime_1st_instance),
       :global_uptime => ApplicationHelper.count_uptime(uptime_all),
@@ -410,6 +418,8 @@ class Deployment < ActiveRecord::Base
       },
       :created_at => created_at.to_s
     })
+
+    json[:owner] = owner.name if owner.present?
 
     if provider
       json[:provider] = {
@@ -432,6 +442,10 @@ class Deployment < ActiveRecord::Base
     else
       return
     end
+  end
+
+  def failed_instances
+    instances.select {|instance| instance.failed?}
   end
 
   PRESET_FILTERS_OPTIONS = []

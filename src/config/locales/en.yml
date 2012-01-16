@@ -668,8 +668,14 @@ en:
           one: Catalog created!
           other: Catalogs created!
         deleted:
-          one: Catalog deleted!
-          other: "%{count} Catalogs deleted!"
+          one: Catalog %{deleted} deleted!
+          other: "%{count} catalogs %{deleted} deleted!"
+        one_deleted: Catalog deleted!
+      error:
+        not_deleted:
+          one: "Catalog %{not_deleted} cannot be deleted! Some deployable has the last reference to this catalog!"
+          other: "These catalogs %{not_deleted} cannot be deleted! Some of their deployables have the last reference to the catalogs!"
+        one_not_deleted: "Catalog cannot be deleted! Some deployable has the last reference to this catalog!"
     preset_filters:
       all_catalogs: "All Catalogs"
       belongs_to_default_pool: "Belongs to Default Pool"
@@ -793,7 +799,7 @@ en:
       catalog_entry_name: "%{name}"
       title: Create Deployable
       description: "Creating a deployable from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the deployable, and define a default cloud resource profile."
-      no_available_catalog: 'No available catalog exists'
+      no_available_catalog: 'No catalog'
     show:
       images: "Images"
       launch: "Launch"
@@ -976,6 +982,7 @@ en:
       required_field: Required field.
       account: "Account:"
       delete_account: Delete Account
+      file_already_uploaded: "Already uploaded. Reupload?"
     show:
       account: "Account:"
       test_connection: Test Connection
@@ -1178,6 +1185,7 @@ en:
       cloud_providers: Cloud Providers
       settings: Settings
   application_controller:
+    permission_denied: You have insufficient privileges to perform the selected action.
     access_denied: Access denied
     some_actions_failed: Some actions failed
     action_error: Action Error

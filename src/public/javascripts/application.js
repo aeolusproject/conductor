@@ -78,6 +78,7 @@ $.extend(Conductor, {
   bind_pretty_toggle: function() {
     Conductor.nicelyHookAjaxClick($("#pretty_view"), function() {
       var link_element = this;
+      $('#content .toggle-view').html('<span class="loading_tabs"></span>');
       $.get($(this).attr("href"), $(this).serialize(), function(result) {
         $('#content .toggle-view').html(result);
         $(link_element).addClass('active');
@@ -86,6 +87,7 @@ $.extend(Conductor, {
     });
     Conductor.nicelyHookAjaxClick($("#filter_view"), function() {
       var link_element = this;
+      $('#content .toggle-view').html('<span class="loading_tabs"></span>');
       $.get($(this).attr("href"), $(this).serialize(), function(result) {
         $('#content .toggle-view').html(result);
         $('#details-selected').hide();

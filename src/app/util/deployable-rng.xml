@@ -24,6 +24,14 @@
 
   <start>
     <element name="deployable">
+      <optional>
+        <!-- make the version attribute optional for backwards compat -->
+        <attribute name="version">
+          <choice>
+            <value>1.0</value>
+          </choice>
+        </attribute>
+      </optional>
       <attribute name="name"><text/></attribute>
       <optional>
         <attribute name="id"><text/></attribute>

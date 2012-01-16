@@ -73,13 +73,9 @@ class InstanceTask < Task
           # FIXME if we allow actions based on the expected state after
           # automatic transitions, we need to call this method again with
           # the state from transition.to passed in.
-          unless transition.action.nil?
-            add_action = true
-            if (instance and user)
-              # FIXME: check permissions here if we filter actions by permission
-            end
-            actions << transition.action if add_action
-          end
+          next unless transition.action
+          next if instance.state == Instance::STATE_PENDING
+          actions << transition.action
         end
     end
     actions

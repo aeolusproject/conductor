@@ -19,7 +19,9 @@ class UsersController < ApplicationController
   before_filter :load_users, :only => [:show]
 
   def index
-    require_privilege(Privilege::VIEW, User)
+    if !check_privilege(Privilege::VIEW, User)
+      redirect_to account_url and return
+    end
     clear_breadcrumbs
     save_breadcrumb(users_path)
     set_admin_users_tabs 'users'

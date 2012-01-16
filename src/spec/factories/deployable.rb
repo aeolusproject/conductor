@@ -18,7 +18,7 @@ FactoryGirl.define do
   factory :deployable do
     sequence(:name) { |n| "deployable#{n}" }
     xml "<?xml version=\"1.0\"?>
-            <deployable name='my'>
+            <deployable version='1.0' name='my'>
               <description>This is my testing image</description>
               <assemblies>
                 <assembly name='frontend' hwp='front_hwp1'>
@@ -31,11 +31,12 @@ FactoryGirl.define do
             </deployable>"
     description "deployable description"
     association :owner, :factory => :user
+
   end
 
   factory :deployable_with_parameters, :parent => :deployable do
     xml "<?xml version=\"1.0\"?>
-            <deployable name='deployable_with_launch_parameters'>
+            <deployable version='1.0' name='deployable_with_launch_parameters'>
               <description>A Deployable with launch parameters</description>
                 <assemblies>
                   <assembly name='assembly_with_launch_parameters' hwp='front_hwp1'>

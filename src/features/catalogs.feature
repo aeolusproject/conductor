@@ -52,7 +52,7 @@ Feature: Manage Catalogs
     And I check "worse" catalog
     And I press "delete_button"
     Then I should be on the catalogs page
-    And I should see "2 Catalogs deleted!"
+    And I should see "2 catalogs bad, worse deleted!"
 
   Scenario: Search catalogs
     Given there is a "mycatalog" catalog

@@ -19,4 +19,11 @@ FactoryGirl.define do
     sequence(:name) { |n| "catalog#{n}" }
     association :pool, :factory => :pool
   end
+
+  factory :catalog_with_deployable, :parent => :catalog do |catalog|
+    catalog.after_create do |catalog|
+      deployable = Factory :deployable
+      Factory :catalog_entry, :catalog => catalog, :deployable => deployable
+    end
+  end
 end

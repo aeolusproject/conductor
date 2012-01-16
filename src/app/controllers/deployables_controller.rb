@@ -127,7 +127,7 @@ class DeployablesController < ApplicationController
     end
 
     begin
-      #raise t("deployables.flash.error.no_catalog") if @selected_catalogs.empty?
+      raise t("deployables.flash.error.no_catalog") if @selected_catalogs.empty?
       @deployable.transaction do
         @deployable.save!
         @selected_catalogs.each do |catalog|
@@ -142,8 +142,7 @@ class DeployablesController < ApplicationController
         end
       end
     rescue => e
-      flash[:warning]= t('deployables.flash.warning.failed', :message => e.message)
-      flash[:warning]= t('catalog_entries.flash.warning.not_valid') if @deployable.errors.has_key?(:xml)
+      flash.now[:warning]= t('deployables.flash.warning.failed', :message => e.message) if @deployable.errors.empty?
       if params[:create_from_image].present?
         load_catalogs
         @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])

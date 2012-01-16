@@ -89,8 +89,9 @@ class ApplicationController < ActionController::Base
       render :partial => 'layouts/popup-error', :status => status,
              :locals => {:title => title, :errmsg => msg}
     else
+      flash[:error] = msg
       render :template => 'layouts/error', :layout => 'application',
-             :locals => {:title => title, :errmsg => msg}
+             :locals => {:title => title, :errmsg => ''}
     end
   end
 

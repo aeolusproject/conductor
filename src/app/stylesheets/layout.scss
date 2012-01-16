@@ -2732,7 +2732,6 @@ ul.catalog_pretty {
     &:only-child div.summary{ -webkit-border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; border-radius: 7px 7px 7px 7px; }
     &:only-child div.details{ -webkit-border-radius: 0px 0px 7px 7px; -moz-border-radius: 0px 0px 7px 7px; border-radius: 0px 0px 7px 7px; }
     div.summary{
-      padding: 10px;
       background-color: #efefef;
       background: -moz-linear-gradient(top, #efefef 0%, #e0e0e0 100%); /* FF3.6+ */
       background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#efefef), color-stop(100%,#e0e0e0)); /* Chrome,Safari4+ */
@@ -2743,9 +2742,9 @@ ul.catalog_pretty {
       background: linear-gradient(top, #efefef 0%,#e0e0e0 100%); /* W3C */
       display: table;
       width: 100%;
-      box-sizing: border-box; -webkit-box-sizing:border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box;
 
       div.controls{
+        padding: 10px;
         text-align: right;
         display: table-cell;
         vertical-align: middle;
@@ -2755,8 +2754,8 @@ ul.catalog_pretty {
       }
 
       div.info{
-        padding-left: 32px;
-        background: transparent url('../../images/deployment_large_icon_provider.png') no-repeat left center;
+        padding: 10px 10px 10px 42px;
+        background: transparent url('../../images/deployment_large_icon_provider.png') no-repeat 10px center;
         h2{ font-size: 16px; }
         display: table-cell;
         vertical-align: middle;
