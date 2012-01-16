@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,30 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Mon Jan 16 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-7
+- 0d4bb59 Bump release, add changelog 0.8.0-6
+- b124885 Merge branch '1.0-staging' into 1.0-product
+- 1dcd95e Rebrand Aeolus as CloudForms Cloud Engine.
+- 442a2ac Fix for https://bugzilla.redhat.com/show_bug.cgi?id=745493
+- 1177784 BZ 773580 added redirect to account_url if user is not permissioned for admin
+- 42fdc52 BZ 773580 changed html error message to display flash error
+- 5030645 BZ 773580 replaced permission error message with locale message
+- cea9245 BZ 773580 added permission_denied messages
+- d72cfd2 Fixed rspec tests for bugfix in catalogs#destroy
+- a3a023a BZ 770815 User shouldn't be able to delete a catalog, when its deployables have the last reference to this catalog.
+- e0d3f8a Fixing deployment's json representation
+- 74f4c22 BZ 770093 disabled actions for instances in STATE_PENDING
+- 8e66f9d updated backbone templates to reflect alerts in deployments, pools and instances tables
+- feb9518 Alerts in pools list, pool detail, deployment detail, alerts in pools list, deployments list, instances list tables
+- e55da85 Show loadmask when switching pretty/filter views
+- a5a9870 Fixing instance's json representation
+- f032a28 Fixes message for deployment creation when no catalog selected
+- 60089fd added cancel button
+- 938f84d Removing redundant error messages from deployables#create
+- 3e702e8 Change label if no catalog found
+- f1640a0 Fixes box-sizing css issue appearing in chrome when included in table-like displayed div
+- f9c98db More user friendly certs status in provider accounts form
+
 * Fri Jan 13 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-6
 - 1dcd95e Rebrand Aeolus as CloudForms Cloud Engine.
 - cd3fdb3 Bump release, add changelog, 0.8.0-5
