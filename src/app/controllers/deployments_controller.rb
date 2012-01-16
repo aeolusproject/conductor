@@ -60,6 +60,7 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
+    require_privilege(Privilege::USE, @deployable)
     init_new_deployment_attrs
 
     unless @deployable_xml && @deployment.valid_deployable_xml?(@deployable_xml)
@@ -82,6 +83,7 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
+    require_privilege(Privilege::USE, @deployable)
     init_new_deployment_attrs
     @launch_parameters_encoded = Base64.encode64(ActiveSupport::JSON.encode(@deployment.launch_parameters))
 
@@ -113,7 +115,10 @@ class DeploymentsController < ApplicationController
     require_privilege(Privilege::CREATE, Deployment, @pool)
     init_new_deployment_attrs
     @deployment.deployable_xml = @deployable_xml if @deployable_xml
-    @deployable = Deployable.find(params[:deployable_id]) if params.has_key?(:deployable_id)
+    if params.has_key?(:deployable_id)
+      @deployable = Deployable.find(params[:deployable_id])
+      require_privilege(Privilege::USE, @deployable)
+    end
     @deployment.owner = current_user
     load_assemblies_services
     if params.delete(:commit) == 'back'
