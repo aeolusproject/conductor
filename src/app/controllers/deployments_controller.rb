@@ -314,7 +314,7 @@ class DeploymentsController < ApplicationController
 
   def launch_from_catalog
     @catalog = Catalog.find(params[:catalog_id])
-    @deployables = @catalog.deployables.paginate(:page => params[:page] || 1, :per_page => 6)
+    @deployables = @catalog.deployables.list_for_user(current_user, Privilege::VIEW).paginate(:page => params[:page] || 1, :per_page => 6)
     require_privilege(Privilege::VIEW, @catalog)
   end
 
