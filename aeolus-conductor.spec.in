@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  5%{?dist}
+Release:  6%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -322,6 +322,10 @@ fi
 %{app_root}/spec
 
 %changelog
+* Fri Jan 13 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-6
+- 1dcd95e Rebrand Aeolus as CloudForms Cloud Engine.
+- cd3fdb3 Bump release, add changelog, 0.8.0-5
+
 * Tue Jan 10 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-5
 - becb88d Sanitize assembly name to prevent launch errors
 - 50b4f0d Bump release, add changelog, 0.8.0-4
