@@ -3,6 +3,15 @@ Generated SCSS for Aeolus UI [aeolus_ui]
 Compiled on Wed Jul 13 12:26:53 -0700 2011
 ########################################################################### */
 
+/*VARIABLES AND MIXINS*/
+@mixin display_inline_block {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: top;
+  zoom: 1;
+  *display: inline;
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Page Layout -- v.0.0.2 [layout] (reset.css)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -321,7 +330,7 @@ http://github.com/necolas/css3-github-buttons
 .button {
     position: relative;
     overflow: visible;
-    display: inline-block;
+    @include display_inline_block;
     padding: 0.5em 1em;
     border: 1px solid #d4d4d4;
     margin: 0;
@@ -344,9 +353,6 @@ http://github.com/necolas/css3-github-buttons
     -webkit-border-radius: 0.2em;
     -moz-border-radius: 0.2em;
     border-radius: 0.2em;
-    /* IE hacks */
-    zoom: 1;
-    *display: inline;
 }
 
 .button:hover,
@@ -629,13 +635,10 @@ http://github.com/necolas/css3-github-buttons
 /* --------------------------------------------------------------- Standard */
 
 .button-group {
-    display: inline-block;
+    @include display_inline_block;
     list-style: none;
     padding: 0;
     margin: 0;
-    /* IE hacks */
-    zoom: 1;
-    *display: inline;
 }
 
 .button + .button,
@@ -719,7 +722,7 @@ http://github.com/necolas/css3-github-buttons
 /* --------------------------------------------------------- CUSTOM BUTTONS */
 
 span.view-toggle{
-  display: inline-block;
+  @include display_inline_block;
 }
 
 a.view-toggle{
@@ -777,7 +780,7 @@ Application Input Controls -- v.0.0.1 [input] (input.scss)
 /* Query Inputs */
 
 div.query-input{
-  display: inline-block;
+  @include display_inline_block;
   background-image: -moz-linear-gradient(top, rgba(209,209,209,1), rgba(230,230,230, 0));
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(209,209,209,1)), to(rgba(230,230,230, 0)));
   -webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px;
@@ -844,7 +847,7 @@ $font-family-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-
 }
 
 .label.badge{
-  display: inline-block;
+  @include display_inline_block;
   -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;
   background-color: #efefef;
   border: 1px solid transparent;
@@ -893,7 +896,8 @@ header#masthead{
   label#user-dropdown-label{
     border: 1px solid #ccc;
     background: #e7e7e7 url('../../images/button-userdrop.png') no-repeat center 4px;
-    display: inline-block;
+    @include display_inline_block;
+    vertical-align: middle;
     width: 46px;
     margin-left: 4px;
     padding: 5px 2px 5px 2px;
@@ -1034,9 +1038,8 @@ nav#primary {
     padding-left: 24px;
     height: 34px;
     li{
-      float: left;
       position: relative;
-      display: inline-block;
+      @include display_inline_block;
       background: url('../../images/tab-inactive-right.png') no-repeat right top;
       height: 34px;
       margin-right: 6px;
@@ -1181,7 +1184,7 @@ div#content .page-header{
     margin-top: 6px;
     color: #333;
     text-shadow: 1px 1px 0 #fff;
-    display: inline-block;
+    @include display_inline_block;
     padding: 6px 7px 7px 54px;
   }
 
@@ -1249,7 +1252,7 @@ div#content .page-header{
     position: absolute;
     right: 0px;
     top: 22px;
-    display: inline-block;
+    @include display_inline_block;
     margin-right: 24px;
   }
 
@@ -1287,6 +1290,7 @@ header.admin-page-header{
   margin: -7px 0px 0px 0px;
   padding: 7px 15px 6px 6px;
   z-index: 900;
+  position: relative;
 
   min-height: 50px;
 
@@ -1297,7 +1301,7 @@ header.admin-page-header{
     margin-top: 6px;
     color: #333;
     text-shadow: 1px 1px 0 #fff;
-    display: inline-block;
+    @include display_inline_block;
     padding: 6px 7px 7px 7px;
 
     &.disabled{color: #c4c4c4;}
@@ -1318,8 +1322,11 @@ header.admin-page-header{
   }
 
   #obj_actions{
-    float: right;
-    margin: 14px 0px 0px 0px;
+    position: absolute;
+    right: 0px;
+    top: 22px;
+    @include display_inline_block;
+    margin-right: 24px;
   }
 
   .button{
@@ -1327,8 +1334,8 @@ header.admin-page-header{
   }
 
   .rounded-link{
-    display: inline-block;
-    margin: 3px 0px 0px 0px;
+    @include display_inline_block;
+    margin: -3px 0px 0px 0px;
     background: #cccccc;
     color: black;
     text-decoration: none;
@@ -1339,7 +1346,8 @@ header.admin-page-header{
   }
 
   ul#provider_select{
-    display: inline-block;
+    @include display_inline_block;
+    margin-top: 5px;
     list-style-type: none;
     position: relative;
     & > li{
@@ -1449,14 +1457,14 @@ $dd_icon_padding_right: 4px;
 #scoreboard{
 
   background-color: #efefef;
-  display: inline-block;
+  @include display_inline_block;
   padding: 8px $dd_padding 10px $dd_padding;
   height: 40px;
 
   /* statistic group list */
   ul.groups{ list-style: none; }
   ul.groups > li{
-    display: inline-block;
+    @include display_inline_block;
     text-align: center;
     margin: 0px;
   }
@@ -1468,7 +1476,10 @@ $dd_icon_padding_right: 4px;
 
   /* statistic sub-group list */
   ul.subgroup{ list-style: none; }
-  ul.subgroup > li{ display: inline-block; text-align: center; }
+  ul.subgroup > li{
+    @include display_inline_block;
+    text-align: center;
+  }
   ul.subgroup > li + li{ margin-left: -$dd_padding; }
 
   dt{
@@ -1568,7 +1579,7 @@ section.content-section{
       font-family: $font-family-primary;
       font-size: 21px;
       font-weight: 200;
-      display: inline-block;
+      @include display_inline_block;
       margin-bottom: 4px;
     }
     .badge{
@@ -1579,7 +1590,7 @@ section.content-section{
       position: absolute;
       right: 0px;
       bottom: 4px;
-      display: inline-block;
+      @include display_inline_block;
       font-size: 11px;
 
       a.collapse{
@@ -1590,11 +1601,14 @@ section.content-section{
 
     /* nav */
     nav.faceted{
-      ul{ list-style: none; display: inline-block; font-family: $font-family-primary; }
-      li{ display: inline-block; margin-bottom: 1px; }
+      ul{ list-style: none; font-family: $font-family-primary; }
+      li{
+        @include display_inline_block;
+        margin-bottom: 1px;
+      }
       li + li{ margin-left: 40px; }
       a{
-        display: inline-block;
+        @include display_inline_block;
         padding-bottom: 6px;
         text-decoration: none;
         color: #666;
@@ -1648,7 +1662,7 @@ section.admin-content-section{
       font-family: $font-family-primary;
       font-size: 21px;
       font-weight: 200;
-      display: inline-block;
+      @include display_inline_block;
       margin-bottom: 4px;
       padding: 2px 40px 0px 0px;
 
@@ -1681,7 +1695,7 @@ section.admin-content-section{
       position: absolute;
       right: 0px;
       bottom: 4px;
-      display: inline-block;
+      @include display_inline_block;
       font-size: 11px;
 
       a.collapse{
@@ -1696,11 +1710,11 @@ section.admin-content-section{
 
   /* nav */
   nav.faceted{
-    ul{ list-style: none; display: inline-block; font-family: $font-family-primary; }
-    li{ display: inline-block; margin-bottom: 1px; }
+    ul{ list-style: none; @include display_inline_block; font-family: $font-family-primary; }
+    li{ @include display_inline_block; margin-bottom: 1px; }
     li + li{ margin-left: 40px; }
     a{
-      display: inline-block;
+      @include display_inline_block;
       padding-bottom: 6px;
       text-decoration: none;
       color: #666;
@@ -1994,7 +2008,7 @@ div.pool.overview{
     }
 
     dl.statistics{
-      display: inline-block;
+      @include display_inline_block;
       height: $bar_height;
       background: transparent url('../../images/pool_bar_prop-gradient.png') repeat-y 0px 0px;
     }
@@ -2002,7 +2016,7 @@ div.pool.overview{
     /* statistic group list */
     ul.groups{ list-style: none; padding: 7px; }
     ul.groups > li{
-      display: inline-block;
+      @include display_inline_block;
       text-align: center;
       margin: 0px;
     }
@@ -2014,7 +2028,7 @@ div.pool.overview{
 
     /* statistic sub-group list */
     ul.subgroup{ list-style: none; }
-    ul.subgroup > li{ display: inline-block; text-align: center; }
+    ul.subgroup > li{ @include display_inline_block; text-align: center; }
     ul.subgroup > li + li{ margin-left: -$dd_padding; }
 
     dt{
@@ -2104,7 +2118,7 @@ div.pool.overview{
     font-size: 11px;
 
     li{
-      display: inline-block;
+      @include display_inline_block;
     }
     li + li{
       margin-left: 14px;
@@ -2322,7 +2336,7 @@ ul.deployment-array.small{
 
     dl.statistics{
       ul{list-style: none;}
-      li{display: inline-block;}
+      li{@include display_inline_block;}
       li.left{
         text-align: left;
         width: 50%;
@@ -2489,7 +2503,7 @@ ul.instances-array{
 /************************************************************************** */
 
 #launch_deployment_button{
-  display: inline-block;
+  @include display_inline_block;
   margin: -7px 0px 0px 10px;
   padding: 13px 12px 9px 46px;
   font-weight: bold;
@@ -2615,7 +2629,7 @@ table.light_table{
 div.build_status{
   float: right;
   .build_status_icon{
-    display: inline-block;
+    @include display_inline_block;
     vertical-align: middle;
     width: 18px; height: 18px;
     margin-left: 10px;
@@ -2871,7 +2885,7 @@ form.filterable-data{
     padding: 6px 0px 6px 0px;
 
     list-style: none;
-    li{ display: inline-block; }
+    li{ @include display_inline_block; }
     li + li{ padding-left: 6px; }
   }
 
@@ -2883,7 +2897,7 @@ form.filterable-data{
     border-bottom: none;
     padding: 7px 5px;
 
-    ul{ list-style: none; display: inline-block; }
+    ul{ list-style: none; @include display_inline_block; }
     li{ display: inline; }
     ul.filter-controls{
       float: right;
@@ -2940,8 +2954,7 @@ form.filterable-data{
         font-size: 12px;
       }
       input[type="submit"]{
-        display: inline-block;
-        vertical-align: top;
+        @include display_inline_block;
         background: transparent url('../../images/button-search.png') no-repeat 5px center;
         border: none;
         height: 25px;
@@ -3152,7 +3165,7 @@ body.monitor form.generic{
   }
 
   fieldset.inline p{
-    display: inline-block;
+    @include display_inline_block;
   }
 
   fieldset.em{
@@ -3255,7 +3268,7 @@ body.administer form.generic{
   }
 
   fieldset.inline p{
-    display: inline-block;
+    @include display_inline_block;
   }
 
   fieldset.em{
@@ -3319,7 +3332,7 @@ body.administer form.generic{
   }
 
   span.text_instead_input{
-    display: inline-block;
+    @include display_inline_block;
     padding: 6px 0px;
   }
 
@@ -3386,7 +3399,7 @@ footer.standard{
   }
 
   nav.footer{
-    display: inline-block;
+    @include display_inline_block;
     padding: 14px 14px 13px 14px;
     a{
       color: #fff;
@@ -3396,7 +3409,5 @@ footer.standard{
     }
   }
 
-  span.copyright{
-    display: inline-block;
-  }
+  span.copyright{}
 }
