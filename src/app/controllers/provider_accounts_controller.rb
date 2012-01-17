@@ -72,6 +72,7 @@ class ProviderAccountsController < ApplicationController
       params[:provider_id] = @provider.id
     else
       @provider = Provider.find(params[:provider_id])
+      params[:provider_account][:provider] = @provider
     end
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
     params[:provider_account][:provider_id] = @provider.id
