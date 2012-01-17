@@ -1098,7 +1098,7 @@ en:
         generic: "Could not validate config server connection (url: %{url}).  Check the connection parameters and try again."
         generic_with_message: "Could not validate config server connection (url: %{url}).  %{msg}"
         unhandled_response: "Could not validate config server connection (url: %{url}).  HTTP Status Code: %{code}"
-  uptime: Uptime
+  uptime: 'Total Usage Time'
   deltacloud:
     unreachable: "Deltacloud is unreachable. Please verify that it is running."
   connection_refused: "The connection to the remote host was refused."
