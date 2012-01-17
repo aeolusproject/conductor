@@ -848,6 +848,7 @@ $font-family-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-
 
 .label.badge{
   @include display_inline_block;
+  vertical-align: baseline;
   -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;
   background-color: #efefef;
   border: 1px solid transparent;
@@ -1583,8 +1584,7 @@ section.content-section{
       margin-bottom: 4px;
     }
     .badge{
-      vertical-align: 2px;
-      bottom: 4px;
+      vertical-align: -6px;
     }
     .section-controls{
       position: absolute;
@@ -1689,7 +1689,6 @@ section.admin-content-section{
     }
     .badge{
       vertical-align: 2px;
-      bottom: 4px;
     }
     .section-controls{
       position: absolute;
