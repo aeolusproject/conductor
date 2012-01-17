@@ -423,7 +423,6 @@ class Deployment < ActiveRecord::Base
       :failed_instances_count => failed_instances.count,
       :instances_count_text => I18n.t('instances.instances', :count => instances.count.to_i),
       :uptime => ApplicationHelper.count_uptime(uptime_1st_instance),
-      :global_uptime => ApplicationHelper.count_uptime(uptime_all),
       :pool => {
         :name => pool.name,
         :id => pool.id,
