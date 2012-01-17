@@ -326,6 +326,7 @@ en:
       console_connection: Console Connection
       via_ssh: via SSH
       ssh_key: SSH key
+      ssh_key_name: SSH key name
       download: Download
       owner: Owner
       shared_to: Shared to
