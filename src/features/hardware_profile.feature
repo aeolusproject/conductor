@@ -174,3 +174,16 @@ Feature: Manage Hardware Profiles
     And I press "apply_hardware_profiles_search"
     Then I should see "myhardware_profile"
     And I should not see "somehardware_profile"
+
+  Scenario: Prevent modification of Backend Hardware Profiles
+    Given there are the following conductor hardware profiles:
+    | name      | memory | cpu |storage  | architecture |
+    | m1-small  | 1740   | 2   | 160     | i386         |
+    And the Hardare Profile "m1-small" has the following Provider Hardware Profiles:
+    | name      | memory | cpu |storage  | architecture |
+    | b1-small  | 1740   | 2   | 160     | i386         |
+    And I am on the hardware profiles page
+    When I follow "m1-small"
+    And I follow "b1-small"
+    Then I should not see the edit button
+    And I should not see the delete button
