@@ -111,4 +111,11 @@ describe User do
     u.id.should == user.id
   end
 
+  it "should reject destroy when user has running instances" do
+    user = Factory.create(:tuser)
+    deployment = Factory.create(:deployment, :owner => user)
+    instance = Factory.create(:mock_running_instance, :deployment_id => deployment.id)
+    lambda { user.destroy }.should raise_error(RuntimeError, "#{user.login} has running instances")
+  end
+
 end

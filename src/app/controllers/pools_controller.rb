@@ -81,7 +81,7 @@ class PoolsController < ApplicationController
     end
 
     #TODO add links to real data for history,properties,permissions
-    @tabs = [{:name => "#{t'deployments.deployments'}",:view => @view, :id => 'deployments', :count => @pool.deployments.count},
+    @tabs = [{:name => "#{t'deployments.deployments'}",:view => @view, :id => 'deployments', :count => @pool.deployments.count, :pretty_view_toggle => 'enabled'},
              #{:name => 'History',        :view => @view,         :id => 'history'},
              {:name => "#{t'properties'}", :view => 'properties', :id => 'properties'},
              {:name => "#{t'catalog_images'}", :view => 'images', :id => 'images'}

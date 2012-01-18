@@ -125,6 +125,7 @@ class RealmsController < ApplicationController
         end
         render :partial => @details_tab
       end
+      format.json { render :json => @realm }
     end
   end
 

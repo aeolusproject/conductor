@@ -85,13 +85,16 @@ class DeployablesController < ApplicationController
     return unless @missing_images.empty?
 
     @build_results = {}
+    @pushed_count = 0
     ProviderAccount.list_for_user(current_user, Privilege::VIEW).includes(:provider).where('providers.enabled' => true).each do |account|
       type = account.provider.provider_type.deltacloud_driver
       @build_results[type] ||= []
+      status = @deployable.build_status(images, account)
+      @pushed_count += 1 if (status == :pushed)
       @build_results[type] << {
         :account => account.label,
         :provider => account.provider.name,
-        :status => @deployable.build_status(images, account),
+        :status => status,
       }
     end
   end

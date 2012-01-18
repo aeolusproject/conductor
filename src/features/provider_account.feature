@@ -22,7 +22,7 @@ Feature: Manage Provider Accounts
     Then I should get a XML document
     And there should be these mock provider accounts:
     | name          | provider     | provider_type | username | password     |
-    | mock_account  | mockprovider | mock          |||
+    | mock_account  | mock         | mock          |||
     And there should be these ec2 provider accounts:
     | name         | provider   | provider_type | access_key | secret_access_key |
     | ec2_account  | ec2provider| ec2           |||

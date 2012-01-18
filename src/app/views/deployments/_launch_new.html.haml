@@ -37,7 +37,8 @@
         %p
           %label{:for => 'frontend_realm_id'}
             = t('realms.index.realm')
-          = select :deployment, :frontend_realm_id, @realms.map{|r| [r.name, r.id]}, :include_blank => true
+          = select :deployment, :frontend_realm_id, @realm_choices
+          %div#realm-description
 
       %fieldset.options
         = submit_tag t('.next'), :class => 'button', :id => "next_button"
@@ -62,4 +63,6 @@
         $('#name_avail_indicator').html(data == "false" ? "#{t'deployments.launch_new.already_in_use'}" : "#{t'deployments.launch_new.name_available'}");
       });
     });
+
+    Conductor.fetchAjaxDescription($('#deployment_frontend_realm_id'), $('#realm-description'), "#{realms_url}/");
   });

@@ -1,6 +1,7 @@
 - content_for :form_header do
   %li= restful_submit_tag t('realms.list.delete_selected'), "destroy", multi_destroy_realms_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
-  %li= link_to t('realms.new_realm'), new_realm_path, :id => 'new_realm_button', :class => 'button'
+  - if @provider.nil?
+    %li= link_to t('realms.new_realm'), new_realm_path, :id => 'new_realm_button', :class => 'button'
 
 - content_for :filter_controls do
   %li

@@ -72,6 +72,7 @@ class ProviderAccountsController < ApplicationController
       params[:provider_id] = @provider.id
     else
       @provider = Provider.find(params[:provider_id])
+      params[:provider_account][:provider] = @provider
     end
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
     params[:provider_account][:provider_id] = @provider.id
@@ -84,7 +85,6 @@ class ProviderAccountsController < ApplicationController
     begin
       if @provider_account.save
         @provider_account.assign_owner_roles(current_user)
-        @provider_account.populate_realms
         flash[:notice] = t('provider_accounts.flash.notice.account_added', :list => @provider_account.name, :count => 1)
         redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
       else

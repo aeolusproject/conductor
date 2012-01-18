@@ -28,3 +28,8 @@ Then /^I should see the image's name$/ do
     assert page.has_content?(@image.name)
   end
 end
+
+When /^I fill in "([^"]*)" with an invalid XML$/ do |arg1|
+  xml = '<?xml version="1.0"?><template>'
+  fill_in(arg1, :with => xml)
+end

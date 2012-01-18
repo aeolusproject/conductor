@@ -65,6 +65,8 @@ class ProviderAccount < ActiveRecord::Base
   validate :validate_presence_of_credentials
   validate :validate_credentials
   validate :validate_unique_username
+
+  before_create :populate_profiles_and_realms
   before_destroy :destroyable?
 
   scope :enabled, lambda { where(:provider_id => Provider.enabled) }
@@ -143,6 +145,22 @@ class ProviderAccount < ActiveRecord::Base
 
   def name
     label.blank? ? credentials_hash['username'] : label
+  end
+
+  def populate_profiles_and_realms
+    begin
+      populate_hardware_profiles
+    rescue
+      errors.add(:base, I18n.t("provider_accounts.errors.populate_hardware_profiles_failed", :message => $!.message))
+      return false
+    end
+    begin
+      populate_realms
+    rescue
+      errors.add(:base, I18n.t("provider_accounts.errors.populate_realms_failed", :message => $!.message))
+      return false
+    end
+    true
   end
 
   def populate_realms

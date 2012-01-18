@@ -40,6 +40,9 @@
     %li
       = label_tag :instance_key, t('instances.properties.ssh_key')
       %span= link_to t('instances.properties.download'), key_instance_path(@instance), :id =>'download_ssh_key'
+    %li
+      = label_tag :instance_key_name, t('instances.properties.ssh_key_name')
+      = @instance.instance_key.name
   %li
     = label_tag :owner, t('instances.properties.owner')
     %span= "#{@instance.owner.first_name} #{@instance.owner.last_name}"

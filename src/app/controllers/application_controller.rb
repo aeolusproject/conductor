@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_general_error(error)
-    flash[:errmsg] = error.message
+    flash[:error] = error.message
     handle_error(:error => error, :status => :internal_server_error,
                  :title => t('application_controller.internal_server_error'))
   end
@@ -189,7 +189,7 @@ class ApplicationController < ActionController::Base
         redirect_to login_url
       end
       format.xml { head :unauthorized }
-      format.json { render :json => "You must be logged in to access this page" }
+      format.json { head :unauthorized }
     end
   end
 

@@ -39,7 +39,7 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.find(params[:id])
     @deployables = @catalog.deployables.apply_filters(:preset_filter_id => params[:catalog_entries_preset_filter], :search_filter => params[:catalog_entries_search])
     require_privilege(Privilege::VIEW, @catalog)
-    save_breadcrumb(catalogs_path(@catalog), @catalog.name)
+    save_breadcrumb(catalog_path(@catalog), @catalog.name)
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => t("catalog_entries.index.name"), :sort_attr => :name },

@@ -52,11 +52,14 @@ en:
           one: Deleted user
           other: Deleted users
       warning:
-        not_delete: "Cannot delete %{login} : you are logged in as this user"
+        not_delete: 'Cannot delete: %{reason}'
+        not_delete_same_user: "Cannot delete %{login} : you are logged in as this user"
     preset_filters:
       all_users: "All Users"
       name_starts_with_A: "Name starts with A"
       name_starts_with_B: "Name starts with B"
+    errors:
+      has_running_instances: '%{login} has running instances'
   user_sessions:
     new:
       username: "Username:"
@@ -218,6 +221,7 @@ en:
       next: Next
       load_definition: Load definition from XML
       other: other
+      autoselect: Auto-select
     operation:
       operational_status: Operational status of
       count_of_instances: "Count of instances:"
@@ -322,6 +326,7 @@ en:
       console_connection: Console Connection
       via_ssh: via SSH
       ssh_key: SSH key
+      ssh_key_name: SSH key name
       download: Download
       owner: Owner
       shared_to: Shared to
@@ -524,6 +529,7 @@ en:
       mapping: Mapping
     form:
       realm_name: Realm Name
+      description: Description
     list:
       delete_selected: Delete Selected
     mapping:
@@ -819,7 +825,7 @@ en:
       ram: RAM
       arch: ARCH
       repair_images: Repair Images
-      images_ready: Images Ready
+      images_valid: Images Valid
       build_description:
         "Allow this deployable's associated image(s) to be built and
         pushed to cloud resource providers by enabling them below."
@@ -1051,6 +1057,9 @@ en:
       warning:
         must_select_account: "You must select some accounts first."
         no_provider: "You don't have any provider yet"
+    errors:
+      populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
+      populate_realms_failed: "Failed to populate realms: %{message}"
   config_servers:
     certificate_help: Provide a certificate to enable https support
     section_header:

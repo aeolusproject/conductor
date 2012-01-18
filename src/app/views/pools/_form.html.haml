@@ -29,9 +29,18 @@
 
 :javascript
   $(document).ready(function(){
+    var previousQuota = '#{@quota.maximum_running_instances || 10}';
+
     function enhanceQuotaField() {
       var unlimited = $('#unlimited_quota').prop('checked');
+      var quota = unlimited ? '#{t("pools.form.unlimited")}' : previousQuota;
+
+      if (unlimited) {
+        previousQuota = $('#quota_instances').val();
+      }
+
       $('#quota_instances').attr('disabled', unlimited);
+      $('#quota_instances').val(quota);
     }
 
     $('#unlimited_quota').click(function(){
