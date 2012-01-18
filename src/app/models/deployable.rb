@@ -151,12 +151,13 @@ class Deployable < ActiveRecord::Base
   end
 
   def image_status(image, account)
-    build = image.latest_pushed_or_unpushed_build
     target = account.provider.provider_type.deltacloud_driver
-    return :not_built unless build
 
     builder = Aeolus::Image::Factory::Builder.first
-    return :building if builder.find_active_build(build.id, target)
+    return :building if builder.find_active_build_by_imageid(image.id, target)
+
+    build = image.latest_pushed_or_unpushed_build
+    return :not_built unless build
 
     target_image = build.target_images.find { |ti| ti.target == target }
     return :not_built unless target_image
