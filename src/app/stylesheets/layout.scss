@@ -1101,14 +1101,16 @@ nav#administer_nav {
   border-radius: 7px 7px 0px 0px;
   padding-top: 7px;
   min-height: 71px;
+  position: relative;
+  z-index: 3;
+  text-align: center;
 
   ul{
-    display: table;
     margin: 0 auto;
   }
 
   li {
-    float: left;
+    @include display_inline_block;
     text-align: center;
     list-style-type: none;
     &:hover{
@@ -1284,14 +1286,13 @@ header.admin-page-header{
   background: -webkit-linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* Chrome10+,Safari5.1+ */
   background: -o-linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* Opera11.10+ */
   background: -ms-linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* IE10+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e7e7e7', endColorstr='#dadada',GradientType=0 ); /* IE6-9 */
   background: linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* W3C */
 
   border-bottom: 1px solid #C4C4C4;
   margin: -7px 0px 0px 0px;
   padding: 7px 15px 6px 6px;
-  z-index: 900;
   position: relative;
+  z-index: 2;
 
   min-height: 50px;
 
@@ -1348,7 +1349,6 @@ header.admin-page-header{
 
   ul#provider_select{
     @include display_inline_block;
-    margin-top: 5px;
     list-style-type: none;
     position: relative;
     & > li{
@@ -1367,6 +1367,7 @@ header.admin-page-header{
       display: none;
       width: 170px;
       position: absolute;
+      z-index: 1000;
       top: 27px;
       right: 0px;
       background: white;
@@ -1394,14 +1395,15 @@ header.admin-page-header{
     li:hover > a {}
     li:hover > ul {
       display: block;
-      z-index: 1000;
     }
   }
 
   input[type="submit"].provider_toggle{
+    @include display_inline_block;
     border: none;
     width: 45px;
     height: 21px;
+    margin-top: -4px;
 
     &.on{
       background: transparent url('../../images/provider_on_off.png') left center;
@@ -1658,6 +1660,7 @@ section.admin-content-section{
   /* Header code */
   header{
     position: relative;
+    zoom: 1; //fix IE float inside relative positioned element disapearing (http://www.satzansatz.de/cssd/rpfloat.html)
     h2{
       font-family: $font-family-primary;
       font-size: 21px;
