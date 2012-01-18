@@ -1781,6 +1781,10 @@ div.lefted.image-upload-overview{
 div.lefted.new-catalog-entry-from-image{
   position: relative;
   &:after{ content: ''; position: absolute; top: 0px; right: 100px; width: 185px; height: 100%; background: transparent url('../../images/new_catalog_entry_from_image.png') 0px no-repeat; }
+
+  fieldset > div {
+    min-height: 32px;
+  }
 }
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 User Card
