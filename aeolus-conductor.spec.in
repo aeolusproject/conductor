@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  7%{?dist}
+Release:  8%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -322,6 +322,32 @@ fi
 %{app_root}/spec
 
 %changelog
+* Wed Jan 18 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-8
+- 98ded3f Merge branch '1.0-staging' into 1.0-product
+- 6011cbf Replace casette bit dropped by fix for 745493
+- d24dcbe BZ 772996: relabel "images ready", disable 'launch' before build
+- ba48abf BZ770928: Change quota textfield when checking unlimited on pools#new
+- ce855b6 BZ 767107 Fix spacing on the Create Deployable from Catalog page
+- 36c73c4 BZ 773247 fixed flash error message type
+- 7944078 Filter for provider name on the list of deployments
+- 0a815f5 BZ 698665 - display ssh key pair name on instance show page
+- aaabc4e BZ 771519 (part 3) - Added :url atribute to provider_account forms
+- c092cb4 BZ 771519 (part 2) - HW profiles and realms population moved to create transaction
+- e686cfb BZ 771519 (part 1) - Removed ProviderAccount observer
+- 3d2f075 BZ 773466 - fixed exception handling of invalid template XML
+- 7f0eb07 BZ 773466 - added cucumber test for this bug
+- 942cd20 BZ 781450 - return 401 code for unauthenticated JSON requests
+- 93b37dd BZ 767204 added pretty_view_toggle enabled to deployments tab
+- 03a7783 BZ 767204 added data-pretty_view_toggle to tabs
+- eeb9ddf Fixes failing test revealed by previous patch
+- c3fb5c1 Adds description to Realms
+- ade4d69 Blank default realm at launch now shows 'Auto-select'
+- 1f32b4f BZ 752460 removed 'New Realm' button if viewing from provider
+- 4ab0fc1 BZ771599: Restrict user deletion when user has running instances
+- d95e5ee BZ 758644 - added rake task to decrement login counter
+- 97dfda5 BZ 773074 fixed breadcrumb path in show method
+- 8833ffd Bump release, add changelog 0.8.0-7
+
 * Mon Jan 16 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-7
 - 0d4bb59 Bump release, add changelog 0.8.0-6
 - b124885 Merge branch '1.0-staging' into 1.0-product
