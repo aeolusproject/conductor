@@ -222,7 +222,7 @@ $.extend(Conductor, {
       var $checkbox = $scope.find(checkboxSelector + '[value="' + id + '"]');
       $checkbox.prop('checked', true);
     });
-  }
+  },
 
   fetchAjaxDescription: function(selector_box, description_field, base_url) {
     selector_box.live("change", function(e) {
@@ -235,7 +235,7 @@ $.extend(Conductor, {
         description_field.html('');
       }
     });
-  },
+  }
 
 });
 
