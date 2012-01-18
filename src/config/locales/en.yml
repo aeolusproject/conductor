@@ -514,9 +514,9 @@ en:
           other: Hardware Profiles %{deleted} were deleted.
       error:
         not_deleted: "Hardware profile was not deleted!"
-        more_not_deleted:
-          one: "Insufficient permissions to delete hardware profile %{not_deleted}!"
-          other: "Insufficient permissions to delete %{count} hardware profiles %{not_deleted}!"
+      warning:
+        cannot_edit_backend_hwp: "Cannot modify Provider Hardware Profiles"
+        cannot_delete_backend_hwp: "Cannot delete Provider Hardware Profiles"
     preset_filters:
       all_hardware_profiles: "All Hardware Profiles"
       x86_64architecture: "x86_64 architecture"
