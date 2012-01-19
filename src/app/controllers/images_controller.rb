@@ -16,6 +16,7 @@
 
 class ImagesController < ApplicationController
   before_filter :require_user
+  before_filter :check_permissions, :except => [:index, :show]
 
   def index
     set_admin_environments_tabs 'images'
@@ -251,5 +252,10 @@ class ImagesController < ApplicationController
              else
                @builds.first
              end
+  end
+
+  # For now, Image permissions hijack the previously-unused PoolFamily USE privilege
+  def check_permissions
+    require_privilege(Privilege::USE, PoolFamily)
   end
 end
