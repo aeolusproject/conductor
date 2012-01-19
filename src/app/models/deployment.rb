@@ -64,7 +64,7 @@ class Deployment < ActiveRecord::Base
   validates_presence_of :pool_id
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id
-  validates_length_of :name, :maximum => 1024
+  validates_length_of :name, :maximum => 50
   validates_presence_of :owner_id
   validate :pool_must_be_enabled
 
