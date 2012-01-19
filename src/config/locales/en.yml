@@ -857,8 +857,16 @@ en:
       error:
         attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"
         no_catalog: "No catalogs selected"
+        not_deleted:
+          one: "Deployable %{not_deleted} delete failed!"
+          other: "%{count} deployables %{not_deleted} were not deleted!"
+        not_selected: "No deployable was not selected!"
       warning:
         failed: "Deployable was not created: %{message}"
+      notice:
+        deleted:
+          one: "Deployable %{deleted} delete successfully!"
+          other: "%{count} deployables %{deleted} were deleted!"
     error:
       attribute_not_exists: invalid
       hwp_not_exists: "Hardware profile %{name} specified in XML doesn't exist."
