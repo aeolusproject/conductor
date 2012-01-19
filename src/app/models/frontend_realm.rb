@@ -45,6 +45,8 @@ class FrontendRealm < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
+  validates_length_of :description, :maximum => 255, :allow_blank => true
+
   PRESET_FILTERS_OPTIONS = []
 
   private
