@@ -59,6 +59,7 @@ class ImagesController < ApplicationController
     @builder = Aeolus::Image::Factory::Builder.first
     load_builds
     load_target_images(@build)
+    flash[:error] = t("images.show.no_providers_error") if @account_groups.size == 0
   end
 
   def rebuild_all
