@@ -60,10 +60,9 @@ Feature: Manage Catalog Entries
     When I check "testdepl1" catalog entry
     And I check "testdepl2" catalog entry
     And I press "delete_button"
-    Then there should be only 0 catalog entries for "default" catalog
-    And I should be on the "default" catalog page
-    And I should not see "testdepl1"
-    And I should not see "testdepl2"
+    Then I should be on the "default" catalog page
+    And there should be only 0 catalog entries for "default" catalog
+    And I should see "2 deployables testdepl1, testdepl2 were deleted!"
 
   Scenario: Delete deployable
     Given there is a "default" catalog
@@ -71,9 +70,9 @@ Feature: Manage Catalog Entries
     And I am on the "default" catalog page
     When I follow "testdepl1"
     And I press "delete"
-    Then there should be only 0 catalog entries for "default" catalog
-    And I should be on the "default" catalog page
-    And I should not see "testdepl1"
+    Then I should be on the "default" catalog page
+    And there should be only 0 catalog entries for "default" catalog
+    And I should see "Deployable testdepl1 delete successfully!"
 
   #Scenario: Search Catalog Entries
   #  Given there is a "testcatalog" catalog
