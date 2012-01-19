@@ -32,6 +32,7 @@ module Aeolus
       class ImageNotFound < Error; end
       class InsufficientParametersSupplied < Error; end
       class ParameterDataIncorrect < Error; end
+      class PermissionDenied < Error; end
       class PushError < Error; end
       class ProviderAccountNotFound < Error; end
       class ProviderImageDeleteFailure < Error; end

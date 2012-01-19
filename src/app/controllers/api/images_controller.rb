@@ -20,6 +20,7 @@
 module Api
   class ImagesController < ApplicationController
     before_filter :require_user_api
+    before_filter :check_permissions, :only => [:create, :destroy]
 
     respond_to :xml
     layout :false
@@ -113,6 +114,14 @@ module Api
         }
       else
         { :type => :failed }
+      end
+    end
+
+    def check_permissions
+      if check_privilege(Privilege::USE, PoolFamily)
+        return true
+      else
+        raise Aeolus::Conductor::API::PermissionDenied.new(403, t("api.error_messages.insufficient_privileges"))
       end
     end
   end
