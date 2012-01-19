@@ -588,6 +588,7 @@ en:
       yes: Yes
       no: No
       catalog: "Catalog"
+      total_statistics: TOTAL
     new:
       environments: Environments
     edit:
