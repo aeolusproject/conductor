@@ -732,6 +732,7 @@ en:
       latest: Latest
       select_build: Select
       template_xml: View Template XML
+      no_providers_error: Images cannot be built, as no provider accounts are currently enabled.
     flash:
       notice:
         deleted: Image Deleted
