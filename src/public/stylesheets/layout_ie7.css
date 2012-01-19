@@ -1,3 +1,8 @@
 /*display table and table-cell ie fix*/
 dl.alerts li.alert{ margin-bottom: 5px; }
 dl.alerts li.alert dt, dl.alerts li.alert dd{ display: inline; }
+
+/* add proper spacing to the catalog dropdown button on pools#show */
+#obj_actions .catalog_link {
+  margin-right: 5px;
+}

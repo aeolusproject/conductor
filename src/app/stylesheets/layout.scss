@@ -2657,7 +2657,7 @@ div.build_status{
   border-radius: 2px;
   font:11px/normal sans-serif;
   padding: 0.5em 14px 0.5em 14px;
-  display:inline-block;
+  @include display_inline_block;
   vertical-align: top;
 
   .catalog_list{
