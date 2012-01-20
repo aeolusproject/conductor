@@ -2905,8 +2905,9 @@ form.filterable-data{
     border-bottom: none;
     padding: 7px 5px;
 
-    ul{ list-style: none; @include display_inline_block; }
-    li{ display: inline; }
+    ul{ list-style: none; }
+    li{ display: inline; vertical-align: middle; }
+    li > *{vertical-align: middle;}
     ul.filter-controls{
       float: right;
       & > li + li{
@@ -2923,7 +2924,7 @@ form.filterable-data{
 
     li.more_actions{
       position: relative;
-      padding: 0px 0px 8px 0px;
+      padding: 8px 0px 8px 0px;
       & > span {
         border: 1px solid #bbb;
         border-radius: 3px;
@@ -2933,7 +2934,7 @@ form.filterable-data{
       ul{
         display: none;
         position: absolute;
-        top: 22px;
+        top: 30px;
         left: 0px;
         background: white;
         border: 1px solid #bbb;
@@ -2954,20 +2955,18 @@ form.filterable-data{
         display: inline;
         -webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px;
         border: 1px solid #ccc;
-        height: 23px;
         width: 130px;
         outline: none;
-        padding: 0px 26px 0px 10px;
-        margin:0px;
+        padding: 5px 26px 5px 10px;
+        margin:0px -30px 0px 0px;
         font-size: 12px;
       }
       input[type="submit"]{
-        @include display_inline_block;
+        display:inline;
         background: transparent url('../../images/button-search.png') no-repeat 5px center;
-        border: none;
+        border: 0px;
         height: 25px;
         width: 30px;
-        margin-left: -30px;
         outline: none;
         cursor: pointer;
         &:hover{ background: transparent url('../../images/button-search-over.png') no-repeat 5px center; }
