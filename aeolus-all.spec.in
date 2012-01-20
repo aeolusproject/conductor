@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,26 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Wed Jan 20 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-9
+- a75d3e3 BZ 782420 - Adds Image Administrator role
+- 1f37ce5 IE: fix the Alerts layout in the Monitor section
+- bb65570 IE fix for the New Pool button on pools#index
+- 2fd73e2 IE: fix the pretty view cards spacing issue
+- 7a89a23 Bug 767570: check deployable permissions on each step in the launch process
+- 6175ea6 bug Bug 767563: Filter deployable list for user permissions
+- 2d42777 fixes badges alignment
+- b677082 Change version of gems in Gemfile.lock according to actual versions in F16
+- 67a2d0d Fixing syntax error in application.js
+- 67ec8b5 Fix pretty view toggle on deployments#show
+- 881d8c2 Pretty view toggle restored on deployments#show
+- 6d1364c Fix inline-block issue wchich caused errors in IE7
+- 0c29b8c Fix our JavaScript code to load under IE
+- ea1f3e8 Fix the horizontal lists under IE
+- cab7259 Create a special IE 7 stylesheet
+- b671774 BZ 754414 added summary statistics
+- c87f1d6 BZ 754414 added pool_family.index.total_statistics
+- 8c1c80c BZ 754414 added statistics method
+
 * Wed Jan 18 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-8
 - 98ded3f Merge branch '1.0-staging' into 1.0-product
 - 6011cbf Replace casette bit dropped by fix for 745493
