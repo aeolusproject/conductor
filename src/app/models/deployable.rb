@@ -171,36 +171,6 @@ class Deployable < ActiveRecord::Base
     :pushed
   end
 
-  def build_missing(images, accounts)
-    targets = accounts.map { |acc| acc.provider.provider_type.deltacloud_driver }.uniq.join(',')
-    images.each do |image|
-      factory_image = Aeolus::Image::Factory::Image.new(:id => image.id)
-      factory_image.targets = targets
-      factory_image.template = image.template
-      factory_image.save!
-    end
-  end
-
-  def push_missing(images, accounts)
-    images.each do |image|
-      accounts.each do |account|
-        if image_status(image, account) == :not_pushed
-          target = account.provider.provider_type.deltacloud_driver
-          build = image.latest_pushed_or_unpushed_build
-          target_image = build.target_images.find { |ti| ti.target == target }
-          provider_image = Aeolus::Image::Factory::ProviderImage.new(
-            :provider => account.provider.name,
-            :credentials => account.to_xml(:with_credentials => true),
-            :image_id => image.uuid,
-            :build_id => build.uuid,
-            :target_image_id => target_image.uuid
-          )
-          provider_image.save!
-        end
-      end
-    end
-  end
-
   def to_polymorphic_path_param(polymorphic_path_extras)
     catalog = catalogs.find(polymorphic_path_extras[:catalog_id]) if (polymorphic_path_extras.present? &&
         polymorphic_path_extras.has_key?(:catalog_id))
