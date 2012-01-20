@@ -151,7 +151,10 @@ class ProvidersController < ApplicationController
       session[:current_provider_id] = nil
       flash[:notice] = t("providers.flash.notice.deleted")
     else
-      flash[:error] = t("providers.flash.error.not_deleted", :errors => provider.errors)
+      flash[:error] = {
+        :summary => t("providers.flash.error.not_deleted"),
+        :failures => provider.errors.values.flatten
+      }
     end
 
     respond_to do |format|
