@@ -185,7 +185,7 @@ class Deployable < ActiveRecord::Base
 
   def self.apply_search_filter(search)
     if search
-      where("name ILIKE :search", :search => "%#{search}%")
+      where("lower(name) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
     end

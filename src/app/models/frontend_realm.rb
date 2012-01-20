@@ -53,7 +53,7 @@ class FrontendRealm < ActiveRecord::Base
 
   def self.apply_search_filter(search)
     if search
-      where("frontend_realms.name ILIKE :search", :search => "%#{search}%")
+      where("lower(frontend_realms.name) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
     end
