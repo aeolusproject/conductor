@@ -45,10 +45,6 @@
   - if @missing_images.empty?
     %header
       %h2.build= t('.build')
-      .section-controls
-        = form_tag(polymorphic_path([@catalog, @deployable], :action => 'build')) do
-          = select_tag :build_options, options_for_select([[t(".build_missing"), :build_missing], [t(".push_missing"), :push_missing]])
-          = submit_tag t('.start'), :id => :start_build, :class => 'button pill'
 
     .content
       %p.description.align-center= t('.build_description')

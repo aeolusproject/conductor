@@ -207,7 +207,6 @@ Conductor::Application.routes.draw do
         post :filter
       end
       member do
-        post :build
         get :definition
       end
     end
@@ -221,7 +220,6 @@ Conductor::Application.routes.draw do
       post :filter
     end
     member do
-      post :build
       get :definition
     end
   end
