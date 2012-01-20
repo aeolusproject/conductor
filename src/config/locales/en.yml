@@ -272,6 +272,7 @@ en:
       config_server_connection: 'Cannot connect to the config server'
       stop_invalid_action: "stop is an invalid action."
       cannot_stop: "stop cannot be performed on this instance."
+      all_stopped: "All instances must be stopped or running"
       not_valid_deployable_xml: "seems to be not valid deployable XML: %{msg}"
     preset_filters:
       all_deployments: All Deployments
