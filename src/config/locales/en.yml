@@ -950,7 +950,7 @@ en:
       error:
         not_added: "Cannot add the provider."
         not_updated: "Cannot update the provider."
-        not_deleted: "Provider was not deleted, because of errors %{errors}"
+        not_deleted: "Provider was not deleted"
       warning:
         connect_failed: "Failed to connect to Provider!"
     alerts:
