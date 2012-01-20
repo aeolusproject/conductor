@@ -486,7 +486,7 @@ class Instance < ActiveRecord::Base
         retries += 1
         @task = self.queue_action(self.owner, 'destroy')
         unless @task
-          raise ActionError.new(t"instance.errors.cannot_destroy")
+          raise I18n.t"instance.errors.cannot_destroy"
         end
         Taskomatic.destroy_instance(@task)
       rescue Exception => e
@@ -518,7 +518,7 @@ class Instance < ActiveRecord::Base
   def do_operation(operation)
     @task = self.queue_action(@current_user, operation)
     unless @task
-      raise ActionError.new(t("instances.errors.#{operation}_not_be_performed"))
+      raise I18n.t("instances.errors.#{operation}_not_be_performed")
     end
     Taskomatic.send("#{operation}_instance", @task)
   end

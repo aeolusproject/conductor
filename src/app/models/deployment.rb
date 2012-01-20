@@ -162,12 +162,12 @@ class Deployment < ActiveRecord::Base
 
         @task = instance.queue_action(instance.owner, 'stop')
         unless @task
-          raise ActionError.new("stop cannot be performed on this instance.")
+          raise I18n.t("deployments.errors.cannot_stop")
         end
         Taskomatic.stop_instance(@task)
       end
     else
-      raise ActionError.new 'all instances must be stopped or running'
+      raise I18n.t("deployments.errors.all_stopped")
     end
   end
 
