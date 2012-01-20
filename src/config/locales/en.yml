@@ -725,6 +725,11 @@ en:
       provider: Provider
       build_date: Build Completion Date
       latest: Latest
+      only_latest_builds_can_be_pushed: "Only latest build can be pushed"
+      not_built: "The image is not built yet"
+      missing_build: "Select a build first"
+      push_all: "Push all"
+      can_not_build_imported_image: "Imported image can't be built or pushed"
       select_build: Select
       template_xml: View Template XML
     flash:

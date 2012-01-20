@@ -142,33 +142,11 @@ class Deployable < ActiveRecord::Base
   end
 
   def build_status(images, account)
-    image_statuses = images.map { |i| image_status(i, account) }
+    image_statuses = images.map { |i| account.image_status(i) }
     return :not_built if image_statuses.any? { |status| status == :not_built }
     return :building if image_statuses.any? { |status| status == :building }
     return :pushing if image_statuses.any? { |status| status == :pushing }
     return :not_pushed if image_statuses.any? { |status| status == :not_pushed }
-    :pushed
-  end
-
-  def image_status(image, account)
-    target = account.provider.provider_type.deltacloud_driver
-
-    builder = Aeolus::Image::Factory::Builder.first
-    return :building if builder.find_active_build_by_imageid(image.id, target)
-
-    build = image.latest_pushed_or_unpushed_build
-    return :not_built unless build
-
-    target_image = build.target_images.find { |ti| ti.target == target }
-    return :not_built unless target_image
-
-    return :pushing if builder.find_active_push(target_image.id,
-                                                account.provider.name,
-                                                account.credentials_hash["username"])
-
-    provider_image = target_image.find_provider_image_by_provider_and_account(
-        account.provider.name, account.credentials_hash["username"]).first
-    return :not_pushed unless provider_image
     :pushed
   end
 
