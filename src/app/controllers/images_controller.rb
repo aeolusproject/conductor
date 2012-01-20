@@ -71,6 +71,33 @@ class ImagesController < ApplicationController
     redirect_to image_path(@image.id)
   end
 
+  def push_all
+    @image = Aeolus::Image::Warehouse::Image.find(params[:id])
+    @build = Aeolus::Image::Warehouse::ImageBuild.find(params[:build_id])
+    # only latest builds can be pushed
+    unless latest_build?(@build)
+      redirect_to image_path(@image.id)
+      return
+    end
+    accounts = ProviderAccount.list_for_user(current_user, Privilege::VIEW)
+    target_images = @build.target_images
+    accounts.each do |account|
+      if account.image_status(@image) == :not_pushed
+        target = account.provider.provider_type.deltacloud_driver
+        target_image = target_images.find { |ti| ti.target == target }
+        provider_image = Aeolus::Image::Factory::ProviderImage.new(
+          :provider => account.provider.name,
+          :credentials => account.to_xml(:with_credentials => true),
+          :image_id => @image.uuid,
+          :build_id => @build.uuid,
+          :target_image_id => target_image.uuid
+        )
+        provider_image.save!
+      end
+    end
+    redirect_to image_path(@image.id)
+  end
+
   def template
     image = Aeolus::Image::Warehouse::Image.find(params[:id])
     template = Aeolus::Image::Warehouse::Template.find(image.template)
@@ -258,5 +285,23 @@ class ImagesController < ApplicationController
   # For now, Image permissions hijack the previously-unused PoolFamily USE privilege
   def check_permissions
     require_privilege(Privilege::USE, PoolFamily)
+  end
+
+  def latest_build?(build)
+    unless build
+      flash[:error] = t('images.show.missing_build')
+      return false
+    end
+    begin
+      latest_build = @image.latest_pushed_or_unpushed_build.uuid
+      if latest_build != build.id
+        flash[:error] = t('images.show.only_latest_builds_can_be_pushed')
+        return false
+      end
+    rescue
+      flash[:error] = t('images.show.not_built')
+      return false
+    end
+    return true
   end
 end

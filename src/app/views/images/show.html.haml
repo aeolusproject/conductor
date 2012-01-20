@@ -19,8 +19,12 @@
       = form_tag image_path(@image.id), :method => :get do
         = select_tag :build, options_for_build_select(@builds, @build, @latest_build)
         = submit_tag t('.select_build'), :id => 'seletect_build_button'
-      - unless @image.imported?
+      - if @image.imported?
+        = t('.can_not_build_imported_image')
+      -else
         = button_to t('.rebuild_all'), rebuild_all_image_path(@image.id), :class => 'button pill'
+        - if @build and @build.id == @latest_build
+          = button_to t('.push_all'), push_all_image_path(@image.id, :build_id => @build.id), :class => 'button pill'
   .content
     %ul.image_builds
       - @account_groups.each do |driver, group|

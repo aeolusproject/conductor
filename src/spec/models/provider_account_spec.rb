@@ -182,4 +182,33 @@ describe ProviderAccount do
     end
   end
 
+  describe "#image_status" do
+    before(:each) do
+      provider = FactoryGirl.create(:mock_provider, :name => 'mock')
+      @account = FactoryGirl.create(:mock_provider_account, :provider => provider)
+      @image = mock(Aeolus::Image::Warehouse::Image, :latest_pushed_or_unpushed_build => nil, :id => 1)
+      # TODO: get rid of hardcoded image uuid here
+      @vcr_image = Aeolus::Image::Warehouse::Image.find('53d2a281-448b-4872-b1b0-680edaad5922')
+      @factory_build = mock(Aeolus::Image::Factory::Builder, :find_active_build_by_imageid => nil, :find_active_push => nil)
+      Aeolus::Image::Factory::Builder.stub(:first).and_return(@factory_build)
+    end
+
+    it "should return :building status" do
+      @factory_build.stub(:find_active_build_by_imageid).and_return(true)
+      @account.image_status(@image).should == :building
+    end
+
+    it "should return :not_built status" do
+      @account.image_status(@image).should == :not_built
+    end
+
+    it "should return :pushed status" do
+      @account.image_status(@vcr_image).should == :pushed
+    end
+
+    it "should return :pushing status" do
+      @factory_build.stub(:find_active_push).and_return(true)
+      @account.image_status(@vcr_image).should == :pushing
+    end
+  end
 end

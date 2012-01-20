@@ -227,6 +227,7 @@ Conductor::Application.routes.draw do
   resources :images do
     member do
       post 'rebuild_all'
+      post 'push_all'
       get 'template'
     end
     collection do
