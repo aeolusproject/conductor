@@ -469,8 +469,8 @@ class Deployment < ActiveRecord::Base
     if search
       includes(:pool, :provider_accounts => :provider).
           joins("LEFT OUTER JOIN provider_types ON provider_types.id = providers.provider_type_id").
-          where("pools.name ILIKE :search OR deployments.name ILIKE :search OR provider_types.name ILIKE :search",
-                :search => "%#{search}%")
+          where("lower(pools.name) LIKE :search OR lower(deployments.name) LIKE :search OR lower(provider_types.name) LIKE :search",
+                :search => "%#{search.downcase}%")
     else
       scoped
     end

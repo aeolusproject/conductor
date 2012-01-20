@@ -475,7 +475,7 @@ class Instance < ActiveRecord::Base
 
   def self.apply_search_filter(search)
     if search
-      where("instances.name ILIKE :search OR instances.state ILIKE :search", :search => "%#{search}%")
+      where("lower(instances.name) LIKE :search OR lower(instances.state) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
     end

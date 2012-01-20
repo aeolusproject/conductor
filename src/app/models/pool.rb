@@ -139,7 +139,7 @@ class Pool < ActiveRecord::Base
 
   def self.apply_search_filter(search)
     if search
-      includes(:pool_family).where("pools.name ILIKE :search OR pool_families.name ILIKE :search", :search => "%#{search}%")
+      includes(:pool_family).where("lower(pools.name) LIKE :search OR lower(pool_families.name) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
     end

@@ -384,7 +384,7 @@ class ProviderAccount < ActiveRecord::Base
 
   def self.apply_search_filter(search)
     if search
-      includes(:provider => [:provider_type]).where("provider_accounts.label ILIKE :search OR providers.name ILIKE :search OR provider_types.name ILIKE :search", :search => "%#{search}%")
+      includes(:provider => [:provider_type]).where("lower(provider_accounts.label) LIKE :search OR lower(providers.name) LIKE :search OR lower(provider_types.name) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
     end

@@ -57,7 +57,7 @@ class Catalog < ActiveRecord::Base
 
   def self.apply_search_filter(search)
     if search
-      includes(:pool).where("catalogs.name ILIKE :search OR pools.name ILIKE :search", :search => "%#{search}%")
+      includes(:pool).where("lower(catalogs.name) LIKE :search OR lower(pools.name) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
     end
