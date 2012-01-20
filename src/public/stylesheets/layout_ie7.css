@@ -11,3 +11,14 @@ dl.alerts li.alert dt, dl.alerts li.alert dd{ display: inline; }
 input[type="submit"].button {
   height: 28px;
 }
+
+/* fix the layout in the Select deployable from catalog selection page */
+ul.catalog_pretty .summary {
+  position: relative;
+  height: 100%;
+}
+ul.catalog_pretty .controls {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
