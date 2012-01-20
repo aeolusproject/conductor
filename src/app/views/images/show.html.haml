@@ -50,7 +50,7 @@
                   %th.image_controls
                 %tbody
                   - group[:accounts].each do |account|
-                    - pimg = timg ? timg.find_provider_image_by_provider_and_account(account.provider.name, account.warehouse_id).first : nil
+                    - pimg = timg ? timg.find_provider_image_by_provider_and_account(account.provider.name, account.credentials_hash['username']).first : nil
                     %tr
                       %td
                         %strong= account.name
@@ -59,7 +59,7 @@
                       %td.light
                         = pimg ? pimg.target_identifier : ''
                       %td.image_controls
-                        - if timg and b = @builder.find_active_push(timg.id, account.provider.name, account.warehouse_id)
+                        - if timg and b = @builder.find_active_push(timg.id, account.provider.name, account.credentials_hash['username'])
                           = label_tag b.status
                         - elsif timg and not pimg and @build and @build.id == @latest_build
                           = button_to t('.upload'), image_provider_images_path(@image.id, :build_id => @build.id, :target_image_id => timg.id, :account_id => account.id), :method => :post, :class => 'upload_image'

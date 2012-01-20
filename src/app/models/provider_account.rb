@@ -326,17 +326,6 @@ class ProviderAccount < ActiveRecord::Base
     res
   end
 
-  def warehouse_id
-    # TODO: provider_account_identifier is not set for 'mock' provider images
-    # in warehouse, provider_image is supposed to be pushed to all mock provider
-    # accounts then
-    if provider.provider_type.deltacloud_driver == 'mock'
-      return nil
-    else
-      return credentials_hash['username']
-    end
-  end
-
   # This is to allow us to look up the ProviderAccount for a given provider image
   def self.find_by_provider_name_and_login(provider_name, login)
     begin

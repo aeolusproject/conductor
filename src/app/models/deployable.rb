@@ -167,7 +167,7 @@ class Deployable < ActiveRecord::Base
                                                 account.credentials_hash["username"])
 
     provider_image = target_image.find_provider_image_by_provider_and_account(
-        account.provider.name, account.warehouse_id).first
+        account.provider.name, account.credentials_hash["username"]).first
     return :not_pushed unless provider_image
     :pushed
   end

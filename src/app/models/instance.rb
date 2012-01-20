@@ -192,7 +192,7 @@ class Instance < ActiveRecord::Base
   def provider_images_for_match(provider_account)
     if (the_build = build)
       the_build.provider_images_by_provider_and_account(
-       provider_account.provider.name, provider_account.warehouse_id)
+       provider_account.provider.name, provider_account.credentials_hash['username'])
     else
       []
     end
