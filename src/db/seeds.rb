@@ -83,6 +83,7 @@ roles =
                                                       Instance     => [             CRE],
                                                       Deployment   => [             CRE],
                                                       Quota        => [VIEW]}],
+      "Image Administrator"    => [false, {PoolFamily   => [VIEW, USE] }],
       "Administrator"          => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
                                            ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM],
@@ -92,7 +93,7 @@ roles =
                                            Instance     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Quota        => [VIEW,    MOD],
-                                           PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                           PoolFamily   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Catalog      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            Deployable => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                            BasePermissionObject => [ MOD,    VPRM,GPRM]}]}}

@@ -42,3 +42,15 @@
             %td= pool.enabled? ? t("pool_families.index.yes") : t("pool_families.index.no")
             %td= link_to pool.catalogs.first.name, catalog_path(pool.catalogs.first) if pool.catalogs.any?
             %td= link_to t(:edit), edit_pool_path(pool), :class => 'pool_family_button'
+        %tr
+          %td= t("pool_families.index.total_statistics")
+          %td= pool_family.statistics[:deployments]
+          %td= pool_family.statistics[:total_instances]
+          %td= pool_family.statistics[:instances_pending]
+          %td= pool_family.statistics[:instances_failed]
+          %td= pool_family.statistics[:quota_percent]
+          %td= pool_family.statistics[:used_quota]
+          %td= pool_family.statistics[:available_quota].nil? ? raw('&infin;') : pool_family.statistics[:available_quota]
+          %td
+          %td
+          %td

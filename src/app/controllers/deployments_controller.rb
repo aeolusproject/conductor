@@ -60,6 +60,7 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
+    require_privilege(Privilege::USE, @deployable)
     init_new_deployment_attrs
 
     unless @deployable_xml && @deployment.valid_deployable_xml?(@deployable_xml)
@@ -82,6 +83,7 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
+    require_privilege(Privilege::USE, @deployable)
     init_new_deployment_attrs
     @launch_parameters_encoded = Base64.encode64(ActiveSupport::JSON.encode(@deployment.launch_parameters))
 
@@ -113,7 +115,10 @@ class DeploymentsController < ApplicationController
     require_privilege(Privilege::CREATE, Deployment, @pool)
     init_new_deployment_attrs
     @deployment.deployable_xml = @deployable_xml if @deployable_xml
-    @deployable = Deployable.find(params[:deployable_id]) if params.has_key?(:deployable_id)
+    if params.has_key?(:deployable_id)
+      @deployable = Deployable.find(params[:deployable_id])
+      require_privilege(Privilege::USE, @deployable)
+    end
     @deployment.owner = current_user
     load_assemblies_services
     if params.delete(:commit) == 'back'
@@ -165,10 +170,10 @@ class DeploymentsController < ApplicationController
       @view = 'pretty_view_show'
     end
     #TODO add links to real data for history, permissions, services
-    @tabs = [{:name => t('instances.instances.other'), :view => @view, :id => 'instances', :count => @deployment.instances.count},
+    @tabs = [{:name => t('instances.instances.other'), :view => @view, :id => 'instances', :count => @deployment.instances.count, :pretty_view_toggle => 'enabled'},
              #{:name => 'Services', :view => @view, :id => 'services'},
              #{:name => 'History', :view => 'history', :id => 'history'},
-             {:name => t('properties'), :view => 'properties', :id => 'properties'}
+             {:name => t('properties'), :view => 'properties', :id => 'properties', :pretty_view_toggle => 'disabled'}
     #{:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
     ]
     add_permissions_tab(@deployment)
@@ -314,7 +319,7 @@ class DeploymentsController < ApplicationController
 
   def launch_from_catalog
     @catalog = Catalog.find(params[:catalog_id])
-    @deployables = @catalog.deployables.paginate(:page => params[:page] || 1, :per_page => 6)
+    @deployables = @catalog.deployables.list_for_user(current_user, Privilege::VIEW).paginate(:page => params[:page] || 1, :per_page => 6)
     require_privilege(Privilege::VIEW, @catalog)
   end
 

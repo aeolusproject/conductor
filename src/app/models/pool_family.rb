@@ -33,6 +33,7 @@
 
 class PoolFamily < ActiveRecord::Base
   include PermissionedObject
+  include ActionView::Helpers::NumberHelper
   DEFAULT_POOL_FAMILY_KEY = "default_pool_family"
 
   has_many :pools,  :dependent => :destroy
@@ -65,5 +66,21 @@ class PoolFamily < ActiveRecord::Base
 
   def all_providers_disabled?
     !provider_accounts.empty? and !provider_accounts.any? {|acc| acc.provider.enabled?}
+  end
+
+  def statistics
+    max = quota.maximum_running_instances
+    total = quota.running_instances
+    avail = max - total unless max.nil?
+    statistics = {
+      :deployments => pools.collect{|p| p.statistics[:deployments]}.sum,
+      :total_instances => pools.collect{|p| p.statistics[:total_instances]}.sum,
+      :instances_pending => pools.collect{|p| p.statistics[:instances_pending]}.sum,
+      :instances_failed => pools.collect{|p| p.statistics[:instances_failed_count]}.sum,
+      :used_quota => total,
+      :quota_percent => number_to_percentage(quota.percentage_used,
+                                             :precision => 0),
+      :available_quota => avail,
+    }
   end
 end

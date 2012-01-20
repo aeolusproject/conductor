@@ -10,7 +10,8 @@
     = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
     /[if lt IE 9]
       = javascript_include_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
-      = stylesheet_link_tag '/stylesheets/layout_ie.css'
+    /[if lt IE 8]
+      = stylesheet_link_tag '/stylesheets/layout_ie7.css'
     = stylesheet_link_tag '/stylesheets/compiled/custom.css'
 
     :javascript
@@ -61,4 +62,4 @@
             %a{:href => '#'} Disclaimer
             %a{:href => '#'} Terms of Use
             %a{:href => '#'} Support
-          %span.copyright Copyright &copy; 2011 Red Hat, Inc. All Rights Reserved.
+            %span.copyright Copyright &copy; 2011 Red Hat, Inc. All Rights Reserved.

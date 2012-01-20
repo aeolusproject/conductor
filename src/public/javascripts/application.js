@@ -28,6 +28,11 @@ $.extend(Conductor, {
 
       Conductor.tabRemoveActiveClass();
       $(this).addClass('active');
+
+      var visible = $(this).data('pretty_view_toggle') == 'enabled';
+      $('.button-group > .view-toggle').each(function(index, $element) {
+        $($element).toggle(visible);
+      });
     });
   },
 
@@ -230,7 +235,7 @@ $.extend(Conductor, {
         description_field.html('');
       }
     });
-  },
+  }
 
 });
 

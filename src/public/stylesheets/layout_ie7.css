@@ -1,0 +1,3 @@
+/*display table and table-cell ie fix*/
+dl.alerts li.alert{ margin-bottom: 5px; }
+dl.alerts li.alert dt, dl.alerts li.alert dd{ display: inline; }
