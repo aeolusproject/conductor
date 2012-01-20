@@ -6,3 +6,8 @@ dl.alerts li.alert dt, dl.alerts li.alert dd{ display: inline; }
 #obj_actions .catalog_link {
   margin-right: 5px;
 }
+
+/* fix the height of the submit buttons */
+input[type="submit"].button {
+  height: 28px;
+}
