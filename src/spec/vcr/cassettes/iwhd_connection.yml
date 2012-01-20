@@ -2224,7 +2224,7 @@
   request: !ruby/struct:VCR::Request 
     method: :post
     uri: http://localhost:9090/provider_images/_query
-    body: ($target_image == "1a955a06-ca92-4546-9121-6c35e162f67b" && $provider == "mock")
+    body: ($target_image == "1a955a06-ca92-4546-9121-6c35e162f67b" && $provider == "mock" && $provider_account_identifier == "mockuser")
     headers: 
       accept: 
       - "*/*; q=0.5, application/xml"
@@ -2284,7 +2284,7 @@
   request: !ruby/struct:VCR::Request 
     method: :post
     uri: http://localhost:9090/provider_images/_query
-    body: ($target_image == "ce1c6d32-5e26-4feb-9b86-83435a39b1f0" && $provider == "mock")
+    body: ($target_image == "ce1c6d32-5e26-4feb-9b86-83435a39b1f0" && $provider == "mock" && $provider_account_identifier == "mockuser")
     headers: 
       accept: 
       - "*/*; q=0.5, application/xml"
@@ -2314,7 +2314,7 @@
   request: !ruby/struct:VCR::Request 
     method: :post
     uri: http://localhost:9090/provider_images/_query
-    body: ($target_image == "ce1c6d32-5e26-4feb-9b86-83435a39b1f0" && $provider == "mock2")
+    body: ($target_image == "ce1c6d32-5e26-4feb-9b86-83435a39b1f0" && $provider == "mock2" && $provider_account_identifier == "mockuser")
     headers: 
       accept: 
       - "*/*; q=0.5, application/xml"
