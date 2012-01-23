@@ -152,4 +152,34 @@ describe ProviderAccount do
     @provider_account.quota = nil
     @provider_account.should_not be_valid
   end
+
+  context "validations" do
+    context "priority" do
+      it "can be positive integer" do
+        @provider_account.priority = 7
+        @provider_account.should be_valid
+      end
+
+      it "can be negative integer" do
+        @provider_account.priority = -32767
+        @provider_account.should be_valid
+      end
+
+      it "can be zero" do
+        @provider_account.priority = 0
+        @provider_account.should be_valid
+      end
+
+      it "can be blank" do
+        @provider_account.priority = ''
+        @provider_account.should be_valid
+      end
+
+      it "can't be text" do
+        @provider_account.priority = '(*&^$@!lkajsd'
+        @provider_account.should_not be_valid
+      end
+    end
+  end
+
 end
