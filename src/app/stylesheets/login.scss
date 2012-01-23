@@ -183,11 +183,10 @@ body#auth{
 
       input{
         width: 284px;
-        height: 33px;
+        padding: 8px 0px 8px 28px;
         font-size: 18px;
         color: #000;
         font-family: $font-family-primary;
-        padding-left: 28px;
       }
 
       input.username{ background: #fff url('../../images/login-username-icon.png') no-repeat 6px 8px; }

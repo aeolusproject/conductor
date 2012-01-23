@@ -479,7 +479,7 @@ class Instance < ActiveRecord::Base
   ]
 
   def destroy_on_provider
-    if (provider_account.provider.provider_type.deltacloud_driver != "ec2" or
+    if (provider_account.provider.provider_type.deltacloud_driver != "ec2" and
         provider_account.provider.provider_type.deltacloud_driver != "mock") and state != STATE_CREATE_FAILED
       retries = 0
       begin
