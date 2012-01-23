@@ -20,6 +20,8 @@ PoolFamily.create!(:name => "default", :description => "default pool family", :q
 # Default Pool
 Pool.create!(:name => "Default", :quota => Quota.create, :pool_family => PoolFamily.find_by_name('default'), :enabled => true)
 
+# Default Catalog
+Catalog.create!(:name => "Default", :pool => Pool.find_by_name("Default"))
 
 # Create default roles
 VIEW = "view"
