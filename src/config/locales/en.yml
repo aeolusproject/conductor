@@ -843,14 +843,14 @@ en:
       build_missing: "Build missing"
       push_missing: "Push missing"
     form:
-      choose_xml: "Choose Deployable XML file:"
-      catalog: "Catalog: "
+      choose_xml: Choose Deployable XML file
+      catalog: Catalog
       description: Description
       cancel: Cancel
       save: Save
-      deployable_xml: "Deployable XML:"
-      edit_xml_after_save: "Edit XML file after save"
-      deployable_xml_url: "URL of Deployable XML:"
+      deployable_xml: Deployable XML
+      edit_xml_after_save: Edit XML file after save
+      deployable_xml_url: URL of Deployable XML
       none: None
       multiple: None
     flash:

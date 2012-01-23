@@ -3318,7 +3318,7 @@ body.administer form.generic{
   label{
     display: block;
     float: left;
-    width: 160px;
+    width: 180px;
     text-align: right;
     padding: 6px 7px 5px 0px;
     font-family: $label-font;
@@ -3356,6 +3356,7 @@ body.administer form.generic{
 
   span.text_instead_input{
     @include display_inline_block;
+    font-weight: bold;
     padding: 6px 0px;
   }
 
