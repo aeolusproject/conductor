@@ -1008,7 +1008,7 @@ Alert Flash -- v.0.0.1 [flash] (flash.scss)
     display: table-row;
 
     div.heading{
-      display: table-cell;
+      display: inline;
       text-align: right;
       border-right: 1px solid #ccc;
       padding-right: 8px;
@@ -1016,7 +1016,7 @@ Alert Flash -- v.0.0.1 [flash] (flash.scss)
     }
 
     ul{
-      display: table-cell;
+      @include display_inline_block;
       font-size: 12px;
       padding-left: 8px;
       list-style: none;
