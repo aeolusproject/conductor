@@ -31,7 +31,7 @@ class ProvidersController < ApplicationController
     respond_to do |format|
       format.html do
         if @providers.present?
-          redirect_to edit_provider_path(@provider), :flash => { :notice => flash[:notice], :error => flash[:error] }
+          redirect_to edit_provider_path(@provider), :notice => flash[:notice], :error => flash[:error]
         else
           render :action => :index
         end
