@@ -73,7 +73,7 @@ describe ProviderAccount do
   it "should fail to create a cloud account if fetching of realms fails" do
     provider_account = Factory.build(:mock_provider_account)
     provider_account.stub(:populate_realms).and_raise(ActiveRecord::RecordInvalid)
-    provider_account.save.should == false
+    lambda {provider_account.save!}.should raise_exception
   end
 
   it "when calling connect and it fails with exception it will return nil" do

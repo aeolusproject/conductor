@@ -132,6 +132,66 @@ class Provider < ActiveRecord::Base
     errs
   end
 
+  def populate_realms
+    reload
+    conductor_acct_realms = {}
+    conductor_acct_realm_ids = {}
+    deltacloud_realms = []
+    dc_acct_realms = {}
+    dc_acct_realm_ids = {}
+    self.transaction do
+      provider_accounts.each do |acct|
+        client = acct.connect
+        dc_acct_realms[acct.label] = client.realms
+        dc_acct_realm_ids[acct.label] = dc_acct_realms[acct.label].collect{|r| r.id}
+        dc_acct_realms[acct.label].each do |dc_realm|
+          if deltacloud_realms.select {|r| r.id == dc_realm.id }.empty?
+            deltacloud_realms << dc_realm
+          end
+        end
+        conductor_acct_realms[acct.label] = acct.realms
+        conductor_acct_realm_ids[acct.label] = conductor_acct_realms[acct.label].collect{|r| r.external_key}
+
+        # Remove any provider account mappings in Conductor that aren't in Deltacloud
+        conductor_acct_realms[acct.label].each do |c_realm|
+          unless dc_acct_realm_ids[acct.label].include?(c_realm.external_key)
+            acct.realms.delete(c_realm)
+          end
+        end
+      end
+      deltacloud_realm_ids = deltacloud_realms.collect{|r| r.id}
+      # Delete anything in Conductor that's not in Deltacloud
+      conductor_realms = realms
+      conductor_realm_ids = conductor_realms.collect{|r| r.external_key}
+      conductor_realms.each do |c_realm|
+        unless deltacloud_realm_ids.include?(c_realm.external_key)
+          #c_realm.reload
+          c_realm.destroy
+        end
+      end
+
+      # Add anything in Deltacloud to Conductor if it's not already there
+      deltacloud_realms.each do |d_realm|
+        unless conductor_realm_ids.include?(d_realm.id)
+          ar_realm = Realm.new(:external_key => d_realm.id,
+                                 :name => d_realm.name ? d_realm.name : d_realm.id,
+                                 :provider_id => id)
+          ar_realm.save!
+        end
+      end
+
+      # add any new provider account realm mappings
+      provider_accounts.each do |acct|
+        dc_acct_realms[acct.label].each do |d_realm|
+          unless conductor_acct_realm_ids[acct.label].include?(d_realm.id)
+            acct.realms << realms.where("external_key" => d_realm.id)
+          end
+        end
+      end
+    end
+
+  end
+
   protected
   def validate_provider
     if !nil_or_empty(url)

@@ -1,0 +1,17 @@
+= render :partial => 'layouts/admin_nav'
+%header.admin-page-header
+  %h1{:class => controller.controller_name}= @realm.name
+
+%section.admin-content-section.realm
+  %header
+    %h2= t'realms.show.properties'
+
+  .content
+    = render :partial => 'properties'
+
+%section.admin-content-section.realm_mapping
+  %header
+    %h2= t'realms.show.realm_mapping'
+
+  .content
+    = render :partial => 'mapping'
