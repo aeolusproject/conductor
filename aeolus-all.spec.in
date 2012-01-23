@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,7 +38,16 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
-* Wed Jan 20 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-9
+* Mon Jan 23 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-10
+- d9d184f fixed EI login input text misalignment
+- d89ced4 filter form elements IE fix
+- dbccebc Provider selection and administer nav IE fixes. (bz740810, bz767844)
+- 77b8787 IE: layout fix for Select deployable from catalog
+- a9a0cb9 IE: fix the inconsistencies in the button heights
+- 35abb05 IE: fix the catalog dropdown layout in pools#show
+- c6bb710 BZ 773277 fixed logical operator mistake
+
+* Fri Jan 20 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-9
 - a75d3e3 BZ 782420 - Adds Image Administrator role
 - 1f37ce5 IE: fix the Alerts layout in the Monitor section
 - bb65570 IE fix for the New Pool button on pools#index
