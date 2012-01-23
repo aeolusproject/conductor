@@ -32,7 +32,11 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Realm < ActiveRecord::Base
+  class << self
+    include CommonFilterMethods
+  end
   belongs_to :provider
+  has_and_belongs_to_many :provider_accounts, :uniq => true
 
   has_many :realm_backend_targets, :as => :realm_or_provider, :dependent => :destroy
   has_many :frontend_realms, :through => :realm_backend_targets
@@ -45,6 +49,7 @@ class Realm < ActiveRecord::Base
 
   CONDUCTOR_REALM_PROVIDER_DELIMITER = ":"
   CONDUCTOR_REALM_ACCOUNT_DELIMITER = "/"
+  PRESET_FILTERS_OPTIONS = []
 
   def name_with_provider
     "#{self.provider.name}: #{self.name}"
@@ -55,11 +60,18 @@ class Realm < ActiveRecord::Base
   def self.scan_for_new
     providers = Provider.all(:include => :provider_accounts)
     providers.each do |provider|
-      # Some providers require authentication to fetch realms, so skip those that don't have accounts:
-      acct = provider.provider_accounts.first
-      next unless acct.present?
-      acct.populate_realms
+      provider.populate_realms
     end
     true
+  end
+
+  private
+
+  def self.apply_search_filter(search)
+    if search
+      where("lower(name) LIKE :search", :search => "%#{search.downcase}%")
+    else
+      scoped
+    end
   end
 end

@@ -140,7 +140,7 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/instances app/views/user_sessions \
       app/views/deployables app/views/catalogs \
       app/views/provider_types app/views/api/images \
-      app/views/config_servers \
+      app/views/config_servers app/views/provider_realms \
       app/views/api/hooks \
       app/views/api \
       app/views/images \

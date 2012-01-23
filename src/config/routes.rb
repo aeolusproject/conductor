@@ -193,6 +193,10 @@ Conductor::Application.routes.draw do
     post :filter, :on => :collection
   end
 
+  resources :provider_realms do
+    post :filter, :on => :collection
+  end
+
   resources :realm_mappings do
     delete 'multi_destroy', :on => :collection
   end

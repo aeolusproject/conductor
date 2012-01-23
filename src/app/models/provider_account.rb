@@ -44,6 +44,7 @@ class ProviderAccount < ActiveRecord::Base
   belongs_to :quota, :autosave => true, :dependent => :destroy
   has_many :instances
   has_and_belongs_to_many :pool_families, :uniq => true
+  has_and_belongs_to_many :realms, :uniq => true
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
@@ -67,7 +68,8 @@ class ProviderAccount < ActiveRecord::Base
   validate :validate_unique_username
   validates :priority, :numericality => { :only_integer => true}, :allow_blank => true
 
-  before_create :populate_profiles_and_realms
+  before_create :populate_profiles_and_validate
+  after_create :populate_realms_and_validate
   before_destroy :destroyable?
 
   scope :enabled, lambda { where(:provider_id => Provider.enabled) }
@@ -148,47 +150,28 @@ class ProviderAccount < ActiveRecord::Base
     label.blank? ? credentials_hash['username'] : label
   end
 
-  def populate_profiles_and_realms
+  def populate_profiles_and_validate
     begin
       populate_hardware_profiles
     rescue
       errors.add(:base, I18n.t("provider_accounts.errors.populate_hardware_profiles_failed", :message => $!.message))
       return false
     end
+    true
+  end
+
+  def populate_realms_and_validate
     begin
       populate_realms
     rescue
       errors.add(:base, I18n.t("provider_accounts.errors.populate_realms_failed", :message => $!.message))
-      return false
+      raise
     end
     true
   end
 
   def populate_realms
-    client = connect
-    deltacloud_realms = client.realms
-    conductor_realms = Realm.where(:provider_id => provider.id)
-    deltacloud_realm_ids = deltacloud_realms.collect{|r| r.id}
-    conductor_realm_ids = conductor_realms.collect{|r| r.external_key}
-
-    # I don't know if this transaction is really necessary, but it was here so let's keep it.
-    self.transaction do
-      # Delete anything in Conductor that's not in Deltacloud
-      conductor_realms.each do |c_realm|
-        c_realm.destroy unless deltacloud_realm_ids.include?(c_realm.external_key)
-      end
-
-      # Add anything in Deltacloud to Conductor if it's not already there
-      deltacloud_realms.each do |d_realm|
-        unless conductor_realm_ids.include?(d_realm.id)
-          ar_realm = Realm.new(:external_key => d_realm.id,
-                                 :name => d_realm.name ? d_realm.name : d_realm.id,
-                                 :provider_id => provider.id)
-          ar_realm.save!
-        end
-      end
-    end
-
+    provider.populate_realms
   end
 
   def valid_credentials?
@@ -362,7 +345,9 @@ class ProviderAccount < ActiveRecord::Base
             next
           end
           brealms.each do |brealm_target|
-            matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, brealm_target.target_realm)
+            if (brealm_target.target_realm.nil? || realms.include?(brealm_target.target_realm))
+              matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, brealm_target.target_realm)
+            end
           end
         else
           matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, nil)
