@@ -22,3 +22,9 @@ ul.catalog_pretty .controls {
   right: 0;
   top: 0;
 }
+
+/*users-show display-table fix*/
+dl.user_stats ul li{
+  float: left;
+  width: 180px;
+}
