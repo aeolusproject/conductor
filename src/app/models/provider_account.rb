@@ -65,6 +65,7 @@ class ProviderAccount < ActiveRecord::Base
   validate :validate_presence_of_credentials
   validate :validate_credentials
   validate :validate_unique_username
+  validates :priority, :numericality => { :only_integer => true}, :allow_blank => true
 
   before_create :populate_profiles_and_realms
   before_destroy :destroyable?
