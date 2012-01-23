@@ -1825,6 +1825,8 @@ div#user_card{
     background: #0099CC;
     -webkit-border-radius: 7px 7px 0px 0px; -moz-border-radius: 7px 7px 0px 0px; border-radius: 7px 7px 0px 0px;
     border-bottom: 1px solid #006699;
+    position: relative;
+    z-index: 2;
 
     h2{
       color: white;
@@ -1838,6 +1840,7 @@ div#user_card{
     background: #efefef;
     -webkit-border-radius: 0px 0px 7px 7px; -moz-border-radius: 0px 0px 7px 7px; border-radius: 0px 0px 7px 7px;
     border-top: 1px solid white;
+    zoom: 1;
 
     dl{
       dd{
