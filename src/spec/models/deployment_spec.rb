@@ -26,128 +26,141 @@ describe Deployment do
     @actions = ['start', 'stop']
   end
 
-  it "should require pool to be set" do
-    @deployment.should be_valid
+  describe "validations" do
+    it "should require pool to be set" do
+      @deployment.should be_valid
 
-    @deployment.pool_id = nil
-    @deployment.should_not be_valid
-  end
-
-  it "should require a pool that is not disabled" do
-    @deployment.should be_valid
-
-    @deployment.pool.enabled = false
-    @deployment.should_not be_valid
-  end
-
-# This is in flux, and currently inapplicable
-#  it "should require deployable to be set" do
-#    @deployment.legacy_deployable_id = nil
-#    @deployment.should_not be_valid
-#
-#    @deployment.legacy_deployable_id = 1
-#    @deployment.should be_valid
-#  end
-
-  it "should have a name of reasonable length" do
-    [nil, '', 'x'*1025].each do |invalid_name|
-      @deployment.name = invalid_name
+      @deployment.pool_id = nil
       @deployment.should_not be_valid
     end
-    @deployment.name = 'x'*1024
-    @deployment.should be_valid
 
+    it "should require a pool that is not disabled" do
+      @deployment.should be_valid
+
+      @deployment.pool.enabled = false
+      @deployment.should_not be_valid
+    end
+
+    # This is in flux, and currently inapplicable
+    #  it "should require deployable to be set" do
+    #    @deployment.legacy_deployable_id = nil
+    #    @deployment.should_not be_valid
+    #
+    #    @deployment.legacy_deployable_id = 1
+    #    @deployment.should be_valid
+    #  end
+
+    it "should have a name of reasonable length" do
+      [nil, '', 'x'*1025].each do |invalid_name|
+        @deployment.name = invalid_name
+        @deployment.should_not be_valid
+      end
+      @deployment.name = 'x'*1024
+      @deployment.should be_valid
+
+    end
+
+    it "should have unique name" do
+      @deployment.save!
+      second_deployment = Factory.build(:deployment,
+                                        :pool_id => @deployment.pool_id,
+                                        :name => @deployment.name)
+      second_deployment.should_not be_valid
+
+      second_deployment.name = 'unique name'
+      second_deployment.should be_valid
+    end
   end
 
-  it "should have unique name" do
-    @deployment.save!
-    second_deployment = Factory.build(:deployment,
-                                    :pool_id => @deployment.pool_id,
-                                    :name => @deployment.name)
-    second_deployment.should_not be_valid
+  describe ".get_action_list" do
+    it "should tell apart valid and invalid actions" do
+      @deployment.stub!(:get_action_list).and_return(@actions)
+      @deployment.valid_action?('invalid action').should == false
+      @deployment.valid_action?('start').should == true
+    end
 
-    second_deployment.name = 'unique name'
-    second_deployment.should be_valid
+    it "should return action list" do
+      @deployment.get_action_list.should eql(["start", "stop", "reboot"])
+    end
   end
 
-  it "should tell apart valid and invalid actions" do
-    @deployment.stub!(:get_action_list).and_return(@actions)
-    @deployment.valid_action?('invalid action').should == false
-    @deployment.valid_action?('start').should == true
+  describe ".properties" do
+    it "should return properties hash" do
+      @deployment.properties.should be_a_kind_of(Hash)
+      @deployment.properties.should == {:created=>nil, :pool=>@deployment.pool.name, :owner=>"John  Smith", :name=>@deployment.name}
+    end
   end
 
-  it "should return action list" do
-    @deployment.get_action_list.should eql(["start", "stop", "reboot"])
+  describe ".destroy" do
+    it "should be removable under with stopped or create_failed instances" do
+      @deployment.save!
+      inst1 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+      inst2 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+
+      @deployment.should_not be_destroyable
+      @deployment.destroy.should == false
+
+      inst1.state = Instance::STATE_CREATE_FAILED
+      inst1.save!
+      inst2.state = Instance::STATE_STOPPED
+      inst2.save!
+
+      @deployment = Deployment.find(@deployment.id)
+      @deployment.should be_destroyable
+      expect { @deployment.destroy }.to change(Deployment, :count).by(-1)
+    end
   end
 
-
-  it "should return properties hash" do
-    @deployment.properties.should be_a_kind_of(Hash)
-    @deployment.properties.should == {:created=>nil, :pool=>@deployment.pool.name, :owner=>"John  Smith", :name=>@deployment.name}
+  describe ".start_time" do
+    it "should return start_time once an instance has started" do
+      @deployment.save!
+      @deployment.start_time.should be_nil
+      instance = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
+      instance.save!
+      @deployment.start_time.should be_nil
+      instance.state = Instance::STATE_RUNNING
+      instance.save!
+      @deployment.start_time.should_not be_nil
+    end
   end
 
-  it "should be removable under with stopped or create_failed instances" do
-    @deployment.save!
-    inst1 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
-    inst2 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
-
-    @deployment.should_not be_destroyable
-    @deployment.destroy.should == false
-
-    inst1.state = Instance::STATE_CREATE_FAILED
-    inst1.save!
-    inst2.state = Instance::STATE_STOPPED
-    inst2.save!
-
-    @deployment = Deployment.find(@deployment.id)
-    @deployment.should be_destroyable
-    expect { @deployment.destroy }.to change(Deployment, :count).by(-1)
+  describe ".end_time" do
+    it "should return end_time once an instance has started and stopped" do
+      @deployment.save!
+      instance = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
+      instance.save!
+      instance.state = Instance::STATE_RUNNING
+      instance.save!
+      @deployment.end_time.should be_nil
+      instance.state = Instance::STATE_STOPPED
+      instance.save!
+      @deployment.end_time.should_not be_nil
+    end
   end
 
-  it "should return start_time once an instance has started" do
-    @deployment.save!
-    @deployment.start_time.should be_nil
-    instance = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
-    instance.save!
-    @deployment.start_time.should be_nil
-    instance.state = Instance::STATE_RUNNING
-    instance.save!
-    @deployment.start_time.should_not be_nil
-  end
-
-  it "should return end_time once an instance has started and stopped" do
-    @deployment.save!
-    instance = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
-    instance.save!
-    instance.state = Instance::STATE_RUNNING
-    instance.save!
-    @deployment.end_time.should be_nil
-    instance.state = Instance::STATE_STOPPED
-    instance.save!
-    @deployment.end_time.should_not be_nil
-  end
-
-  it "should log events as instances start and stop" do
-    @deployment.save!
-    instance1 = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
-    instance2 = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
-    instance1.save!
-    @deployment.events.where(:status_code => 'first_running').should be_empty
-    instance1.state = Instance::STATE_RUNNING
-    instance1.save!
-    @deployment.events.where(:status_code => 'first_running').should be_present
-    @deployment.events.where(:status_code => 'all_running').should be_empty
-    instance2.state = Instance::STATE_RUNNING
-    instance2.save!
-    @deployment.events.where(:status_code => 'all_running').should be_present
-    # Now test stop events
-    instance1.state = Instance::STATE_STOPPED
-    instance1.save!
-    @deployment.events.where(:status_code => 'some_stopped').should be_present
-    @deployment.events.where(:status_code => 'all_stopped').should_not be_present
-    instance2.state = Instance::STATE_STOPPED
-    instance2.save!
-    @deployment.events.where(:status_code => 'all_stopped').should be_present
+  describe "logging" do
+    it "should log events as instances start and stop" do
+      @deployment.save!
+      instance1 = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
+      instance2 = Factory.create :mock_pending_instance, :deployment_id => @deployment.id
+      instance1.save!
+      @deployment.events.where(:status_code => 'first_running').should be_empty
+      instance1.state = Instance::STATE_RUNNING
+      instance1.save!
+      @deployment.events.where(:status_code => 'first_running').should be_present
+      @deployment.events.where(:status_code => 'all_running').should be_empty
+      instance2.state = Instance::STATE_RUNNING
+      instance2.save!
+      @deployment.events.where(:status_code => 'all_running').should be_present
+      # Now test stop events
+      instance1.state = Instance::STATE_STOPPED
+      instance1.save!
+      @deployment.events.where(:status_code => 'some_stopped').should be_present
+      @deployment.events.where(:status_code => 'all_stopped').should_not be_present
+      instance2.state = Instance::STATE_STOPPED
+      instance2.save!
+      @deployment.events.where(:status_code => 'all_stopped').should be_present
+    end
   end
 
 
@@ -166,9 +179,9 @@ describe Deployment do
     end
 
     it "should return errors when checking assemblies matches which are not launchable" do
-        @deployment.check_assemblies_matches(@user_for_launch).should be_empty
-        @deployment.pool.pool_family.provider_accounts.destroy_all
-        @deployment.check_assemblies_matches(@user_for_launch).should_not be_empty
+      @deployment.check_assemblies_matches(@user_for_launch).should be_empty
+      @deployment.pool.pool_family.provider_accounts.destroy_all
+      @deployment.check_assemblies_matches(@user_for_launch).should_not be_empty
     end
 
     it "should launch instances when launching deployment" do
@@ -214,60 +227,139 @@ describe Deployment do
 
   end
 
-  it "should be able to stop running instances on deletion" do
-    @deployment.save!
-    inst1 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
-    inst2 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+  describe ".stop_instances_and_destroy!" do
+    it "should be able to stop running instances on deletion" do
+      @deployment.save!
+      inst1 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+      inst2 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
 
-    @deployment.stop_instances_and_destroy!
+      @deployment.stop_instances_and_destroy!
 
-    # this emulates Condor stopping the actual instances
-    # and dbomatic reflecting the changes back to Conductor
-    inst1.state = Instance::STATE_STOPPED; inst1.save!
-    inst2.state = Instance::STATE_STOPPED; inst2.save!
+      # this emulates Condor stopping the actual instances
+      # and dbomatic reflecting the changes back to Conductor
+      inst1.state = Instance::STATE_STOPPED; inst1.save!
+      inst2.state = Instance::STATE_STOPPED; inst2.save!
 
 
-    # verify that the deployment and all its instances are deleted
-    lambda {Deployment.find(@deployment.id)}.should raise_error(ActiveRecord::RecordNotFound)
-    lambda {Instance.find(inst1.id)}.should raise_error(ActiveRecord::RecordNotFound)
-    lambda {Instance.find(inst2.id)}.should raise_error(ActiveRecord::RecordNotFound)
+      # verify that the deployment and all its instances are deleted
+      lambda { Deployment.find(@deployment.id) }.should raise_error(ActiveRecord::RecordNotFound)
+      lambda { Instance.find(inst1.id) }.should raise_error(ActiveRecord::RecordNotFound)
+      lambda { Instance.find(inst2.id) }.should raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 
-  it "should be return nil if deployment has no events " do
-    deployment = Factory :deployment
-    deployment.uptime_1st_instance.should be_nil
-    deployment.uptime_all.should be_nil
+  describe ".any_instance_running?" do
+    it "should return false if no deployed instances" do
+      deployment = Factory.build :deployment
+      instance = Factory.build(:mock_running_instance, :deployment => deployment)
+      instance2 = Factory.build(:mock_pending_instance, :deployment => deployment)
+      deployment.stub(:instances) { [instance, instance2] }
+      deployment.any_instance_running?.should be_true
+      instance.state = Instance::STATE_PENDING
+      deployment.any_instance_running?.should be_false
+    end
   end
 
-  it "should return false if no deployed instances" do
-    deployment = Factory.build :deployment
-    instance = Factory.build(:mock_running_instance, :deployment => deployment)
-    instance2 = Factory.build(:mock_pending_instance, :deployment => deployment)
-    deployment.stub(:instances){[instance, instance2]}
-    deployment.any_instance_running?.should be_true
-    instance.state = Instance::STATE_PENDING
-    deployment.any_instance_running?.should be_false
+  describe "deployment_state" do
+    it "should return Deployment::STATE_MIXED if instances have differing states" do
+      deployment = Factory.build :deployment
+      instance = Factory.build(:mock_running_instance, :deployment => deployment)
+      instance2 = Factory.build(:mock_pending_instance, :deployment => deployment)
+      deployment.stub(:instances) { [instance, instance2] }
+      deployment.deployment_state.should == Deployment::STATE_MIXED
+    end
   end
 
-  it "should return mixed if instances have differing states" do
-    deployment = Factory.build :deployment
-    instance = Factory.build(:mock_running_instance, :deployment => deployment)
-    instance2 = Factory.build(:mock_pending_instance, :deployment => deployment)
-    deployment.stub(:instances){[instance, instance2]}
-    deployment.deployment_state.should == Deployment::STATE_MIXED
+  describe ".instances.instance_parameters" do
+    it "should not have any instance parameters" do
+      @deployment = Factory.build :deployment
+      instance = Factory.build(:mock_running_instance, :deployment => @deployment)
+      @deployment.stub(:instances) { [instance] }
+      @deployment.instances[0].instance_parameters.should be_empty
+    end
+
+    it "should have instance parameters" do
+      d = Factory.build :deployment_with_launch_parameters
+      instance = Factory.build(:mock_running_instance, :deployment => d)
+      d.stub(:instances) { [instance] }
+      d.instances[0].instance_parameters.count.should >= 0
+    end
   end
 
-  it "should not have any instance parameters" do
-    @deployment = Factory.build :deployment
-    instance = Factory.build(:mock_running_instance, :deployment => @deployment)
-    @deployment.stub(:instances){[instance]}
-    @deployment.instances[0].instance_parameters.should be_empty
+  describe ".uptime_1st_instance" do
+    context "without events" do
+      it "return nil if no events exists" do
+        @deployment.uptime_1st_instance.should == nil
+      end
+    end
+
+    context "with events" do
+      let!(:deployment) { Factory :deployment_with_1st_running_all_stopped }
+      before do
+        Time.stub_chain(:now, :utc).and_return(Time.utc(2012, 1, 22, 21, 26))
+      end
+
+      it "return seconds when some instance is deployed" do
+        deployment.stub_chain(:instances, :deployed).and_return(["bla"])
+        deployment.uptime_1st_instance.should == 201147.0
+      end
+
+
+      it "return seconds when all instances are stopped" do
+        deployment.uptime_1st_instance.should == 86400.0
+      end
+
+      it "return nil when either any instance of deployments never start" do
+        deployment.events.first.destroy
+        deployment.uptime_1st_instance.should == nil
+      end
+
+      it "return nil when instances are running but event with status code 'first_running' doesn't exist'" do
+        deployment.stub_chain(:instances, :deployed).and_return(["test"])
+        deployment.events.first.destroy
+        deployment.uptime_1st_instance.should == nil
+      end
+    end
   end
 
-  it "should have instance parameters" do
-    d = Factory.build :deployment_with_launch_parameters
-    instance = Factory.build(:mock_running_instance, :deployment => d)
-    d.stub(:instances){[instance]}
-    d.instances[0].instance_parameters.count.should >= 0
+  describe ".uptime_all" do
+    context "without events" do
+      it "return nil if no events exists" do
+        @deployment.uptime_all.should == nil
+      end
+    end
+
+    context "with events" do
+      let!(:deployment) { Factory :deployment_with_all_running_stopped_some_stopped }
+      before do
+        Time.stub_chain(:now, :utc).and_return(Time.utc(2012, 1, 22, 21, 26))
+      end
+
+      it "return seconds when all instances of deployment are running" do
+        deployment.stub_chain(:instances, :count).and_return(2)
+        deployment.stub_chain(:instances, :deployed, :count).and_return(2)
+        deployment.uptime_all.should == 201147.0
+      end
+
+      it "return seconds when some instance of deployment is stopped" do
+        deployment.stub_chain(:instances, :count).and_return(3)
+        deployment.stub_chain(:instances, :deployed, :count).and_return(2)
+        deployment.uptime_all.should == 7200.0
+
+      end
+
+      it "return seconds when all instances of deployment are stopped" do
+        deployment.stub_chain(:instances, :count).and_return(1)
+        deployment.stub_chain(:instances, :deployed, :count).and_return(0)
+        deployment.uptime_all.should == 86400.0
+      end
+
+      it "return nil in the other cases" do
+        deployment.stub_chain(:instances, :count).and_return(1)
+        deployment.stub_chain(:instances, :deployed, :count).and_return(0)
+        deployment.events.last.destroy
+        deployment.uptime_all.should == nil
+      end
+    end
   end
 end
