@@ -3148,6 +3148,7 @@ table.pool_families{
   }
 
   .pool_family_button{
+    @include display_inline_block;
     background: #535353; /* Old browsers */
     background: -moz-linear-gradient(top, #535353 0%, #666666 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#535353), color-stop(100%,#666666)); /* Chrome,Safari4+ */
@@ -3164,6 +3165,7 @@ table.pool_families{
 
     &:hover{
       border: 1px solid #909090;
+      text-decoration: none;
     }
   }
 }

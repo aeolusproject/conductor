@@ -28,3 +28,8 @@ dl.user_stats ul li{
   float: left;
   width: 180px;
 }
+
+/*fix pool_families tables*/
+table.pool_families{
+  border-collapse: collapse;
+}
