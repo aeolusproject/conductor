@@ -733,7 +733,6 @@ en:
       latest: Latest
       select_build: Select
       template_xml: View Template XML
-      no_providers_error: Images cannot be built, as no provider accounts are currently enabled.
     flash:
       notice:
         deleted: Image Deleted
@@ -746,6 +745,7 @@ en:
         invalid_url: Could not load the provided URL
         no_file: You must specify the template XML file
         no_template: "The image doesn't have a template because it's been imported."
+        no_provider_accounts: Images cannot be built, as no provider accounts are currently enabled.
     new:
       new_image: New Image
       description:
