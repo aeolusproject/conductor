@@ -428,33 +428,6 @@ class Instance < ActiveRecord::Base
     not deployment.instances.deployed.any? {|i| i != self}
   end
 
-  # find the list of possibles that will accommodate all of the instances
-  def self.matches(instances)
-    matches = nil
-    errors = []
-    instances.each do |instance|
-      m, e = instance.matches
-      if matches.nil?
-        matches = m.dup
-      else
-        matches.delete_if {|match| not m.include?(match) }
-      end
-      errors << e
-    end
-    # For now, this only checks the account's quota to see whether all the
-    # instances can launch there
-    # TODO:  Determine if there's more to check here
-    matches.reject! do |match|
-      rejected = false
-      if !match.provider_account.quota.can_start? instances
-        errors << I18n.t('instances.errors.provider_account_quota_too_low', :match_provider_account => match.provider_account)
-        rejected = true
-      end
-      rejected
-    end
-    [matches, errors]
-  end
-
   def stop
     do_operation('stop')
   end
