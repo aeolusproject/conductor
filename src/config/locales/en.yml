@@ -645,9 +645,9 @@ en:
         not_valid: "Deployable XML file doesn't resolve valid XML"
         failed: Deployable was not created.
       notice:
-        added: Deployable added.
+        added: Deployable added to catalog %{catalog}.
         updated: Deployable updated successfully!
-        deleted: Deployable deleted.
+        deleted: Deployable removed from catalog %{catalog}.
     preset_filters:
       all_catalog_entries: All Deployables
   catalogs:
