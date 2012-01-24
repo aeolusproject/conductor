@@ -22,8 +22,8 @@
       .actions
         %ul
           - available_actions = instance.get_action_list
-          %li= button_to(t('deployments.pretty_view_show.stop'), stop_instance_path(instance), :disabled => !available_actions.include?(InstanceTask::ACTION_STOP))
-          %li= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path(instance), :disabled => !available_actions.include?(InstanceTask::ACTION_REBOOT))
+          %li= button_to(t('deployments.pretty_view_show.stop'), stop_instance_path(instance), :disabled => !available_actions.include?(InstanceTask::ACTION_STOP), :class => "button danger")
+          %li= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path(instance), :disabled => !available_actions.include?(InstanceTask::ACTION_REBOOT), :class => "button danger")
 
 :javascript
   Conductor.setupPrettyFilterURL(
@@ -66,15 +66,15 @@
       <div class="actions">
         <ul>
           {{if stop_enabled}}
-            <li>#{button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => false)}</li>
+            <li>#{button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => false, :class => 'button danger')}</li>
           {{else}}
-            <li>#{button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => true)}</li>
+            <li>#{button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => true, :class => 'button danger')}</li>
           {{/if}}
 
           {{if reboot_enabled}}
-            <li>#{button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => false)}</li>
+            <li>#{button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => false, :class => 'button danger')}</li>
           {{else}}
-            <li>#{button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => true)}</li>
+            <li>#{button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => true, :class => 'button danger')}</li>
           {{/if}}
         </ul>
       </div>

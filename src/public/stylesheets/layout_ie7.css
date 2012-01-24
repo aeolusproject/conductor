@@ -33,3 +33,20 @@ dl.user_stats ul li{
 table.pool_families{
   border-collapse: collapse;
 }
+
+/* fix the separator colour in the Instance pretty view cards */
+#content ul.instances-array li.instance hr {
+  height: 2px;
+}
+
+/* center the Stop/Restart buttons in the Instance pretty view cards */
+#content li.instance .actions {
+  text-align: center;
+}
+#content li.instance .actions * {
+  text-align: left;
+}
+#content li.instance .actions ul {
+  zoom: 1;
+  display: inline;
+}
