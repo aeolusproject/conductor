@@ -180,13 +180,21 @@ class DeployablesController < ApplicationController
   end
 
   def multi_destroy
-    @catalog = nil
-    Deployable.find(params[:deployables_selected]).to_a.each do |d|
-      # TODO: delete only in catalogs where I have permission to
-      #require_privilege(Privilege::MODIFY, d.catalog)
-      require_privilege(Privilege::MODIFY, d)
-      #@catalog = d.catalog
-      d.destroy
+    deleted = []
+    not_deleted = []
+    if params[:deployables_selected]
+      Deployable.find(params[:deployables_selected]).to_a.each do |d|
+        require_privilege(Privilege::MODIFY, d)
+        if d.destroy
+          deleted << d.name
+        else
+          not_deleted << d.name
+        end
+      end
+      flash[:error] =  t("deployables.flash.error.not_deleted", :count => not_deleted.count, :not_deleted => not_deleted.join(', ')) unless not_deleted.empty?
+      flash[:notice] = t("deployables.flash.notice.deleted", :count => deleted.count, :deleted => deleted.join(', ')) unless deleted.empty?
+    else
+      flash[:error] = t("deployables.flash.error.not_selected")
     end
 
     @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
@@ -200,10 +208,12 @@ class DeployablesController < ApplicationController
   def destroy
     deployable = Deployable.find(params[:id])
     @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
-    # TODO: delete only in catalogs where I have permission to
-    #require_privilege(Privilege::MODIFY, catalog_entry.catalog)
     require_privilege(Privilege::MODIFY, deployable)
-    deployable.destroy
+    if deployable.destroy
+      flash[:notice] = t("deployables.flash.notice.deleted.one", :deleted => deployable.name)
+    else
+      flash[:error] = t("deployables.flash.error.not_deleted.one", :not_deleted => deployable.name)
+    end
 
     respond_to do |format|
       format.html do

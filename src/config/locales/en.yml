@@ -272,6 +272,7 @@ en:
       config_server_connection: 'Cannot connect to the config server'
       stop_invalid_action: "stop is an invalid action."
       cannot_stop: "stop cannot be performed on this instance."
+      all_stopped: "All instances must be stopped or running"
       not_valid_deployable_xml: "seems to be not valid deployable XML: %{msg}"
     preset_filters:
       all_deployments: All Deployments
@@ -744,6 +745,7 @@ en:
         invalid_url: Could not load the provided URL
         no_file: You must specify the template XML file
         no_template: "The image doesn't have a template because it's been imported."
+        no_provider_accounts: Images cannot be built, as no provider accounts are currently enabled.
     new:
       new_image: New Image
       description:
@@ -841,22 +843,30 @@ en:
       build_missing: "Build missing"
       push_missing: "Push missing"
     form:
-      choose_xml: "Choose Deployable XML file:"
-      catalog: "Catalog: "
+      choose_xml: Choose Deployable XML file
+      catalog: Catalog
       description: Description
       cancel: Cancel
       save: Save
-      deployable_xml: "Deployable XML:"
-      edit_xml_after_save: "Edit XML file after save"
-      deployable_xml_url: "URL of Deployable XML:"
+      deployable_xml: Deployable XML
+      edit_xml_after_save: Edit XML file after save
+      deployable_xml_url: URL of Deployable XML
       none: None
       multiple: None
     flash:
       error:
         attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"
         no_catalog: "No catalogs selected"
+        not_deleted:
+          one: "Deployable %{not_deleted} delete failed!"
+          other: "%{count} deployables %{not_deleted} were not deleted!"
+        not_selected: "No deployable was not selected!"
       warning:
         failed: "Deployable was not created: %{message}"
+      notice:
+        deleted:
+          one: "Deployable %{deleted} delete successfully!"
+          other: "%{count} deployables %{deleted} were deleted!"
     error:
       attribute_not_exists: invalid
       hwp_not_exists: "Hardware profile %{name} specified in XML doesn't exist."
@@ -949,7 +959,7 @@ en:
       error:
         not_added: "Cannot add the provider."
         not_updated: "Cannot update the provider."
-        not_deleted: "Provider was not deleted, because of errors %{errors}"
+        not_deleted: "Provider was not deleted"
       warning:
         connect_failed: "Failed to connect to Provider!"
     alerts:

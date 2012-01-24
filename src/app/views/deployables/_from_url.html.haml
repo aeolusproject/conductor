@@ -20,8 +20,8 @@
       = label_tag :url, t('deployables.form.deployable_xml_url')
       = text_field_tag :url, nil, :class => 'long'
     %p
-      = check_box_tag(:edit_xml, true, false)
       = label_tag :edit_xml, t('deployables.form.edit_xml_after_save')
+      = check_box_tag(:edit_xml, true, false)
 
   %fieldset.align-center
     -if @catalog.present?

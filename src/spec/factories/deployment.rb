@@ -28,4 +28,19 @@ FactoryGirl.define do
       deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable_with_launch_parameters.xml")
     end
   end
+
+  factory :deployment_with_1st_running_all_stopped, :parent => :deployment do
+    after_create do |deployment|
+      deployment.events << Factory.create(:event, :source => deployment, :event_time => "2012-01-20 13:33:33", :status_code => "first_running")
+      deployment.events << Factory.create(:event, :source => deployment, :event_time => "2012-01-21 13:33:33", :status_code => "all_stopped")
+    end
+  end
+
+  factory :deployment_with_all_running_stopped_some_stopped, :parent => :deployment do
+    after_create do |deployment|
+      deployment.events << Factory.create(:event, :source => deployment, :event_time => "2012-01-20 13:33:33", :status_code => "all_running")
+      deployment.events << Factory.create(:event, :source => deployment, :event_time => "2012-01-20 15:33:33", :status_code => "some_stopped")
+      deployment.events << Factory.create(:event, :source => deployment, :event_time => "2012-01-21 13:33:33", :status_code => "all_stopped")
+    end
+  end
 end

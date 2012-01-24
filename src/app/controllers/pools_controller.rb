@@ -183,6 +183,7 @@ class PoolsController < ApplicationController
     end
     flash[:success] = t('pools.flash.success.pool_deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
     flash[:error] = t('pools.flash.error.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
+    flash[:warning] = error_messages if error_messages.present?
     respond_to do |format|
       # TODO - What is expected to be returned on an AJAX delete?
       format.html { redirect_to pools_url }

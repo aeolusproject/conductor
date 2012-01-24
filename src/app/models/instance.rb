@@ -84,6 +84,7 @@ class Instance < ActiveRecord::Base
            :order => "permissions.id ASC"
   has_many :events, :as => :source, :dependent => :destroy
   has_many :instance_parameters, :dependent => :destroy
+  has_many :tasks, :as =>:task_target, :dependent => :destroy
   after_create "assign_owner_roles(owner)"
 
   validates_presence_of :pool_id
@@ -479,18 +480,18 @@ class Instance < ActiveRecord::Base
   ]
 
   def destroy_on_provider
-    if (provider_account.provider.provider_type.deltacloud_driver != "ec2" and
+    if provider_account and (provider_account.provider.provider_type.deltacloud_driver != "ec2" or
         provider_account.provider.provider_type.deltacloud_driver != "mock") and state != STATE_CREATE_FAILED
       retries = 0
       begin
         retries += 1
         @task = self.queue_action(self.owner, 'destroy')
         unless @task
-          raise ActionError.new(t"instance.errors.cannot_destroy")
+          raise I18n.t"instance.errors.cannot_destroy"
         end
         Taskomatic.destroy_instance(@task)
       rescue Exception => e
-        if self.tasks.last.action != 'destroy' or retries < 500
+        if self.tasks.last.action != 'destroy' and retries < 500
           retry
         end
       end
@@ -518,7 +519,7 @@ class Instance < ActiveRecord::Base
   def do_operation(operation)
     @task = self.queue_action(@current_user, operation)
     unless @task
-      raise ActionError.new(t("instances.errors.#{operation}_not_be_performed"))
+      raise I18n.t("instances.errors.#{operation}_not_be_performed")
     end
     Taskomatic.send("#{operation}_instance", @task)
   end

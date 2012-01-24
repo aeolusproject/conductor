@@ -11,7 +11,7 @@ describe CatalogsController do
 
     context "given empty catalog" do
 
-      before(:all) do
+      before(:each) do
         @catalog = Factory :catalog
       end
 
@@ -22,7 +22,7 @@ describe CatalogsController do
     end
 
     context "given catalog with one deployable, that is included in other catalog" do
-      before(:all) do
+      before(:each) do
         @catalog = Factory :catalog_with_deployable
         @catalog2 = Factory :catalog
         Factory :catalog_entry, :catalog_id => @catalog2.id, :deployable_id => @catalog.deployables.first.id
@@ -40,7 +40,7 @@ describe CatalogsController do
       end
 
     context "given catalog with one deployable, that is exclusive in this catalog" do
-      before(:all) do
+      before(:each) do
         @catalog = Factory :catalog_with_deployable
       end
 
