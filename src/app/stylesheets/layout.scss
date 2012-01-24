@@ -1318,6 +1318,7 @@ header.admin-page-header{
     text-shadow: 1px 1px 0 #fff;
     @include display_inline_block;
     padding: 6px 7px 7px 7px;
+    width: 490px; /* Otherwise we overlap with other components */
 
     &.disabled{color: #c4c4c4;}
 
