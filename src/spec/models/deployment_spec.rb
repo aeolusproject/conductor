@@ -51,11 +51,11 @@ describe Deployment do
     #  end
 
     it "should have a name of reasonable length" do
-      [nil, '', 'x'*1025].each do |invalid_name|
+      [nil, '', 'x'*51].each do |invalid_name|
         @deployment.name = invalid_name
         @deployment.should_not be_valid
       end
-      @deployment.name = 'x'*1024
+      @deployment.name = 'x'*50
       @deployment.should be_valid
 
     end
