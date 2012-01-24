@@ -59,6 +59,8 @@ describe DeploymentsController do
 
     describe "#create" do
       before do
+        Factory.create(:front_hwp1)
+        Factory.create(:front_hwp2)
         @deployment = Factory.build(:deployment)
         Deployment.stub!(:new).and_return(@deployment)
         post :create

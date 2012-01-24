@@ -306,27 +306,4 @@ describe Instance do
     errors.should_not be_empty
     errors.select {|e| e.include?("no config server available") }.should_not be_empty
   end
-
-  it "should match only the intersecting provider accounts for all instances" do
-    account1 = FactoryGirl.create(:mock_provider_account, :label => "test_account1")
-    possible1 = Instance::Match.new(nil,account1,nil,nil,nil)
-    account2 = FactoryGirl.create(:mock_provider_account, :label => "test_account2")
-    possible2 = Instance::Match.new(nil,account2,nil,nil,nil)
-    account3 = FactoryGirl.create(:mock_provider_account, :label => "test_account3")
-    possible3 = Instance::Match.new(nil,account3,nil,nil,nil)
-
-    # not gonna test the individual instance "machtes" logic again
-    # just stub out the behavior
-    instance1 = Factory.build(:instance)
-    instance1.stub!(:matches).and_return([[possible1, possible2], []])
-    instance2 = Factory.build(:instance)
-    instance2.stub!(:matches).and_return([[possible2, possible3], []])
-    instance3 = Factory.build(:instance)
-    instance3.stub!(:matches).and_return([[possible2], []])
-
-    instances = [instance1, instance2, instance3]
-    matches, errors = Instance.matches(instances)
-    matches.should_not be_empty
-    matches.first.provider_account.should eql(account2)
-  end
 end
