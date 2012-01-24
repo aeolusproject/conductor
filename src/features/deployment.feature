@@ -265,3 +265,21 @@ Feature: Manage Deployments
     And I press "apply_deployments_search"
     Then I should see "mydeployment"
     And I should not see "somedeployment"
+
+  Scenario: Launch from catalog page
+    Given there is a "catalog" catalog with deployable
+    And there is a "front_hwp1" hardware profile
+    And there is a "front_hwp2" hardware profile
+    When I am on the launch from the catalog "catalog" page
+    Then I should see "my"
+    And I should see "front_hwp1"
+    And I should see "front_hwp2"
+
+  Scenario: Launch from catalog page with hardware profile missing
+    Given there is a "catalog" catalog with deployable
+    And there is no "front_hwp1" hardware profile
+    And there is a "front_hwp2" hardware profile
+    When I am on the launch from the catalog "catalog" page
+    Then I should see "my"
+    And I should not see "front_hwp1"
+    And I should see "front_hwp2"

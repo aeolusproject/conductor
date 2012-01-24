@@ -29,15 +29,13 @@
                 %th=t'.arch'
                 %th
                   %strong=t'.deployable_xml'
-              -deployable.fetch_images.compact.each do |image|
+              -deployable.get_image_details.each do |assembly|
                 %tr
                   %td
-                    %strong= image.id
-                  %td= deployable.hw_profile_for_image(image.id).name
-                  %td= deployable.hw_profile_for_image(image.id).storage
-                  %td= deployable.hw_profile_for_image(image.id).memory
-                  %td= deployable.hw_profile_for_image(image.id).architecture
-                  %td= link_to deployable.xml_filename, catalog_deployable_path(deployable.catalogs.first, deployable.id, :deployable_xml => true)
+                    %strong= assembly[:image_uuid]
+                    -%w{hwp_name hwp_hdd hwp_ram hwp_arch}.map(&:to_sym).each do |property|
+                      %td= assembly[property]
+                    %td= link_to deployable.xml_filename, catalog_deployable_path(deployable.catalogs.first, deployable.id, :deployable_xml => true)
   - else
     #no-catalog-entry.align-center
       %strong= t(".no_catalog_entry")
