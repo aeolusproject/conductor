@@ -95,6 +95,9 @@ module NavigationHelpers
     when /the deployments page/
       deployments_path
 
+    when /the launch from the catalog "([^"]*)" page/
+      launch_from_catalog_deployments_path(:catalog_id => Catalog.find_by_name($1).id)
+
     when /the instances page/
       instances_path
 
