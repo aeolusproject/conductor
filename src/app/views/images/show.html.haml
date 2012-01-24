@@ -28,15 +28,16 @@
         %li
           %dl
             %dt
-              %h3= group[:type].name
-              - if @build and b = @builder.find_active_build(@build.id, driver)
-                = label_tag b.status
-              - elsif timg
-                = button_to t('.delete'), image_target_image_path(@image.id, timg.id), :method => :delete
-              - elsif @build and @build.id == @latest_build
-                = button_to t('.build'), image_target_images_path(@image.id, :target => driver, :build_id => @build ? @build.id : nil), :method => :post
-              - else
-                &nbsp;
+              .build-actions
+                %h3= group[:type].name
+                - if @build and b = @builder.find_active_build(@build.id, driver)
+                  = label_tag b.status
+                - elsif timg
+                  = button_to t('.delete'), image_target_image_path(@image.id, timg.id), :method => :delete
+                - elsif @build and @build.id == @latest_build
+                  = button_to t('.build'), image_target_images_path(@image.id, :target => driver, :build_id => @build ? @build.id : nil), :method => :post
+                - else
+                  &nbsp;
             %dd
               %table.light_table
                 %thead
