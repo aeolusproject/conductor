@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  10%{?dist}
+Release:  11%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -322,6 +322,32 @@ fi
 %{app_root}/spec
 
 %changelog
+* Tue Jan 24 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-11
+- e39090a Fixed deployable's tests after bugfix
+- 17ed5c2 BZ 781257 Add flash message when deployable were deleted
+- c76361b Pool families (Environments) table IE fix
+- 1f47b6e BZ 773402 fixed deployment name test to limit length to 50
+- 7990511 BZ#770911 Added N/A to missing fields on image list
+- e1af83b Fix the key of flash error message in images_controller #show and in the dictionary file
+- 21bef1c BZ#770354 added tests for priority field validation
+- 7aab614 BZ#770354 added validation for priority field
+- 49a0120 Added new tests after bugfix of BZ 743395 and reformat deployment_spec.rb for better reading
+- dba3a9e BZ 743395 Fixed counting uptime
+- fcfa0fa Fix the Add New Deployable form
+- ae4908a IE: fix the broken layout for flash messages
+- 7a1a020 BZ 783079 - fixed instance's destroy_on_provider
+- ad1b2c3 BZ 783519 - replaced ActionError with general Exception
+- 982a456 BZ 783096 - fixed error message for a provider deletion
+- a11d6d6 Fixed (random) rspec test failure
+- 97856dc user show page layout fixes (incl. IE)
+- ace6e14 user dropdown styling and IE fixes (bz772784)
+- c208e29 BZ 773402 enforce maximum length of 50 chars for names, as longer lengths result in creation errors
+- 0e63199 BZ 783050 added description length validation
+- 73ef4d5 BZ 773028 changed form to have more consistent layout with other admin forms
+- e1375f0 BZ 782550 added check to see if there are associated providers
+- bf2ce76 BZ 782550 add error message for images when no providers are enable
+- 09f0997 BZ 783082 added warning message when deleting default pool
+
 * Mon Jan 23 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-10
 - d9d184f fixed EI login input text misalignment
 - d89ced4 filter form elements IE fix
