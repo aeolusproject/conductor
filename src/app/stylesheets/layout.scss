@@ -1806,6 +1806,8 @@ User Card
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 div#user_card{
   width: 325px;
+  position: relative;
+  z-index: 2;
   -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
 
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.70);
@@ -1825,8 +1827,6 @@ div#user_card{
     background: #0099CC;
     -webkit-border-radius: 7px 7px 0px 0px; -moz-border-radius: 7px 7px 0px 0px; border-radius: 7px 7px 0px 0px;
     border-bottom: 1px solid #006699;
-    position: relative;
-    z-index: 2;
 
     h2{
       color: white;
