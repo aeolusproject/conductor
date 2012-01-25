@@ -315,8 +315,8 @@ class Deployment < ActiveRecord::Base
   end
 
   def provider
-    # I REALLY want to get this via a join, but no dice...
-    instances.first.provider_account.provider rescue nil
+    inst = instances.joins(:provider_account => :provider).first
+    inst && inst.provider_account && inst.provider_account.provider
   end
 
   # we try to create an instance for each assembly and check
