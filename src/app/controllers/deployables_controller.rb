@@ -137,7 +137,7 @@ class DeployablesController < ApplicationController
           require_privilege(Privilege::MODIFY, catalog)
           CatalogEntry.create!(:catalog_id => catalog.id, :deployable_id => @deployable.id)
         end
-        flash[:notice] = t "catalog_entries.flash.notice.added"
+        flash[:notice] = t("catalog_entries.flash.notice.added", :catalog => @selected_catalogs.map{|c| c.name}.join(", "))
         if params[:edit_xml]
           redirect_to edit_polymorphic_path([@selected_catalogs.first, @deployable], :edit_xml =>true)
         else
