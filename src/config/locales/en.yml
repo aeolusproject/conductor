@@ -368,7 +368,7 @@ en:
       image_not_pushed_to_provider: "%{account_name}: image is not pushed to this provider account"
       provider_account_quota_reached:  "%{account_name}: provider account quota reached"
       no_config_server_available: "%{account_name}: no config server available for provider account"
-      realm_not_mapped: "Realm %{frontend_realm_name} is not mapped to any provider or provider realm"
+      realm_not_mapped: "Realm %{frontend_realm_name} is not mapped to any applicable provider or provider realm"
       provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch deployable"
       stop_invalid: "stop is an invalid action."
       stop_not_be_performed: "stop cannot be performed on this instance."
