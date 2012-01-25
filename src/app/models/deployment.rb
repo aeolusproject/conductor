@@ -322,7 +322,7 @@ class Deployment < ActiveRecord::Base
   # we try to create an instance for each assembly and check
   # if a match is found
   def check_assemblies_matches(user)
-    errs = {}
+    errs = []
     deployable_xml.assemblies.each do |assembly|
       begin
         hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
@@ -341,10 +341,10 @@ class Deployment < ActiveRecord::Base
         )
         possibles, errors = instance.matches
         if possibles.empty? and not errors.empty?
-          raise errors.join(", ")
+          raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), errors)
         end
       rescue
-        errs[assembly.name] = $!.message
+        errs = $!.message
       end
     end
     errs

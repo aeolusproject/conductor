@@ -44,7 +44,7 @@
                 =image_tag 'flash_notice_icon.png', :alt => 'Notices'
               %ul.flashes
                 - flash[:error][:successes].each do |k, v|
-                  %li= "#{k}: #{v}"
+                  %li= [k, v.present? ? ": #{v}" : '']
         .error.flash-group
           -if !flash[:error][:summary].blank?
             .flash-subset
@@ -59,7 +59,7 @@
               -if !flash[:error][:failures].blank?
                 -if flash[:error][:failures].length > 1
                   -flash[:error][:failures].each do |k, v|
-                    %li= [k, ': ', v]
+                    %li= [k, v.present? ? ": #{v}" : '']
                 -else
                   -flash[:error][:failures].each do |k, v|
                     %li= [v]
