@@ -111,6 +111,14 @@ describe Deployment do
     end
   end
 
+  describe ".provider" do
+    it "should return provider for a deployment where only some instances have set provider account" do
+      @deployment.instances << FactoryGirl.create(:mock_running_instance, :provider_account => nil, :deployment => @deployment)
+      @deployment.instances << FactoryGirl.create(:mock_running_instance, :deployment => @deployment)
+      @deployment.provider.should_not be_nil
+    end
+  end
+
   describe ".start_time" do
     it "should return start_time once an instance has started" do
       @deployment.save!
