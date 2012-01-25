@@ -50,3 +50,8 @@ table.pool_families{
   zoom: 1;
   display: inline;
 }
+
+/* fix the user box border */
+#user_card {
+  border: 1px solid #b1b1b1;
+}
