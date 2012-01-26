@@ -362,4 +362,29 @@ describe Deployment do
       end
     end
   end
+
+  it "should find a single provider account to launch" do
+    account1 = FactoryGirl.create(:mock_provider_account, :label => "test_account1")
+    account2 = FactoryGirl.create(:mock_provider_account, :label => "test_account2")
+    account3 = FactoryGirl.create(:mock_provider_account, :label => "test_account3")
+    possible1 = Instance::Match.new(nil,account1,nil,nil,nil)
+    possible2 = Instance::Match.new(nil,account2,nil,nil,nil)
+    possible3 = Instance::Match.new(nil,account2,nil,nil,nil)
+    possible4 = Instance::Match.new(nil,account3,nil,nil,nil)
+    possible5 = Instance::Match.new(nil,account2,nil,nil,nil)
+
+    # not gonna test the individual instance "machtes" logic again
+    # just stub out the behavior
+    instance1 = Factory.build(:instance)
+    instance1.stub!(:matches).and_return([[possible1, possible2], []])
+    instance2 = Factory.build(:instance)
+    instance2.stub!(:matches).and_return([[possible3, possible4], []])
+    instance3 = Factory.build(:instance)
+    instance3.stub!(:matches).and_return([[possible5], []])
+
+    instances = [instance1, instance2, instance3]
+    matches, errors = @deployment.send(:common_provider_accounts_for, instances)
+    matches.should_not be_empty
+    matches.keys.first.should eql(account2)
+  end
 end

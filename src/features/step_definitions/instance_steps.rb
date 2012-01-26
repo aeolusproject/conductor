@@ -167,3 +167,9 @@ Then /^I should get back JSON object with success and errors$/ do
   data['success'].should_not be_nil
   data['errors'].should_not be_nil
 end
+
+Then /^I should see instance details$/ do
+  localized_text_present('instances.properties.name')
+  localized_text_present('instances.properties.status')
+  localized_text_present('instances.properties.assembly')
+end

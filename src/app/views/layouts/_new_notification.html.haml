@@ -31,10 +31,11 @@
 
     -if flash[:error]
       -if flash[:error].kind_of?(String)
-        .flash-subset
-          %div.heading
-            =image_tag 'flash_error_icon.png', :alt => 'Errors'
-          =flash[:error]
+        .error.flash-group
+          .flash-subset
+            %div.heading
+              =image_tag 'flash_error_icon.png', :alt => 'Errors'
+            =flash[:error]
       -elsif flash[:error].kind_of?(Hash)
         -unless flash[:error][:successes].blank?
           .notice.flash-group
@@ -45,18 +46,23 @@
                 - flash[:error][:successes].each do |k, v|
                   %li= "#{k}: #{v}"
         .error.flash-group
-          .flash-subset
-            %div.heading
-              =image_tag 'flash_warning_icon.png', :alt => 'Warnings'
-            %ul.flashes
-              %li= flash[:error][:summary]
+          -if !flash[:error][:summary].blank?
+            .flash-subset
+              %div.heading
+                =image_tag 'flash_warning_icon.png', :alt => 'Warnings'
+              %ul.flashes
+                %li= flash[:error][:summary]
           .flash-subset
             %div.heading
               =image_tag 'flash_error_icon.png', :alt => 'Errors'
             %ul.flashes
               -if !flash[:error][:failures].blank?
-                -flash[:error][:failures].each do |k, v|
-                  %li= [k, ': ', v]
+                -if flash[:error][:failures].length > 1
+                  -flash[:error][:failures].each do |k, v|
+                    %li= [k, ': ', v]
+                -else
+                  -flash[:error][:failures].each do |k, v|
+                    %li= [v]
               -else
                 -flash[:error].each do |e|
                   %li= e

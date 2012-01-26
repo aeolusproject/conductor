@@ -13,15 +13,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-Given /^there is a "([^"]*)" catalog$/ do |name|
-  FactoryGirl.create :catalog, :name => name
-end
 
-Given /^there is a "([^"]*)" catalog with deployable$/ do |name|
-  FactoryGirl.create :catalog_with_deployable, :name => name
-end
-
-When /^I check "([^"]*)" catalog$/ do |arg1|
-  catalog = Catalog.find_by_name(arg1)
-  check("catalog_checkbox_#{catalog.id}")
+Then /^I should not see the breadcrumbs section$/ do
+  page.should_not have_selector("#nav_history")
 end

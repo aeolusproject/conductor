@@ -57,7 +57,7 @@ class InstanceObserver < ActiveRecord::Observer
     [provider_account, pool_family, pool, user].each do |parent|
       if parent
         # Since pool and pool_family are related, updating one can cause the other to become stale
-        parent.reload if parent.class == Pool
+        parent.reload if [Pool, ProviderAccount].include? parent.class
         quota = parent.quota
         if quota
           if !RUNNING_STATES.include?(state_from) && RUNNING_STATES.include?(state_to)

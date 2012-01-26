@@ -89,11 +89,17 @@ module NavigationHelpers
     when /the page for the pool "([^"]*)"/
       pool_path(Pool.find_by_name($1))
 
+    when /the page for the pool family "([^"]*)"/
+      pool_family_path(PoolFamily.find_by_name($1))
+
     when /the pool realms page/
       pool_realms_path
 
     when /the deployments page/
       deployments_path
+
+    when /the launch from the catalog "([^"]*)" page/
+      launch_from_catalog_deployments_path(:catalog_id => Catalog.find_by_name($1).id)
 
     when /the instances page/
       instances_path
@@ -115,6 +121,10 @@ module NavigationHelpers
 
     when /the image's show page/
       url_for image_path(@image.id)
+
+    when /the new image page for "(\w*)"$/
+      pool_family = PoolFamily.find_by_name($1)
+      url_for new_image_path(:environment => pool_family)
 
     when /the self service settings page/
       url_for :action => 'self_service', :controller => 'settings', :only_path => true

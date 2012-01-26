@@ -5,8 +5,6 @@
         %li.deployment
           %h3.name
             = link_to deployment.name, deployment_path(deployment)
-            = t 'pools.index.global_uptime'
-            = count_uptime(deployment.uptime_all)
           %dl.statistics
             %ul
               %li.right
@@ -22,8 +20,6 @@
     <li class="deployment">
       <h3 class="name">
         <a href="#{deployment_path('replace_id').sub('replace_id', '${id}')}">${name}</a>
-        #{t 'pools.index.global_uptime'}
-        ${global_uptime}
       </h3>
       <dl class="statistics">
         <ul>

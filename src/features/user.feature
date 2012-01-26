@@ -75,7 +75,7 @@ Feature: Manage Users
       | First name        | Joe                   |
       | Last name         | Tester                |
       | E-mail            | testuser2@example.com |
-    And I follow "Users & Groups"
+    And I follow "Users"
     Then I should be on the users page
     And there should not be user with login "canceluser"
 

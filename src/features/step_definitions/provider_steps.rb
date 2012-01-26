@@ -113,3 +113,7 @@ Given /^this provider has a provider account with (\d+) running instances$/ do |
     FactoryGirl.create(:instance, :provider_account => pa, :state => 'running')
   end
 end
+
+When /^I click on the Providers icon in the menu$/ do
+  find('#administer_nav a.providers').click
+end

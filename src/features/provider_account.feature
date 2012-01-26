@@ -34,7 +34,7 @@ Feature: Manage Provider Accounts
     When I follow "New Account"
     Then I should be on testprovider's new provider account page
     And I should see "New Provider Account"
-    And I fill in "provider_account[label]" with "testaccount"
+    When I fill in "provider_account[label]" with "testaccount"
     And I fill in "provider_account[credentials_hash][username]" with "mockuser"
     And I fill in "provider_account[credentials_hash][password]" with "mockpassword"
     And I fill in "quota[maximum_running_instances]" with "13"

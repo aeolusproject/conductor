@@ -16,10 +16,8 @@
 
 module Taskomatic
 
-  def self.create_instance(task)
+  def self.create_instance(task, match)
     begin
-      match = matches(task.instance).first
-
       task.state = Task::STATE_PENDING
       task.save!
 
@@ -161,13 +159,4 @@ module Taskomatic
     client_args.merge!({:user_data => instance.user_data}) if instance.user_data.present?
     client.create_instance(client_args)
   end
-
-  def self.matches(instance)
-    matched, errors = instance.matches
-    if matched.empty?
-      raise "Could not find a matching backend provider, errors: #{errors.join(', ')}"
-    end
-    matched
-  end
-
 end

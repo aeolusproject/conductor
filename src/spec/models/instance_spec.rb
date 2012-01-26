@@ -140,7 +140,7 @@ describe Instance do
     @quota.maximum_running_instances = 1
     @quota.running_instances = 1
     @quota.save!
-    @instance.matches.last.should include('Pool quota reached')
+    @instance.matches.last.should include(I18n.t('instances.errors.pool_quota_reached'))
   end
 
   it "shouldn't return any matches if pool family quota is reached" do
@@ -148,7 +148,7 @@ describe Instance do
     quota.maximum_running_instances = 1
     quota.running_instances = 1
     quota.save!
-    @instance.matches.last.should include('Pool family quota reached')
+    @instance.matches.last.should include(I18n.t('instances.errors.pool_family_quota_reached'))
   end
 
   it "shouldn't return any matches if user quota is reached" do
@@ -161,7 +161,7 @@ describe Instance do
 
   it "shouldn't return any matches if there are no provider accounts associated with pool family" do
     @instance.pool.pool_family.provider_accounts = []
-    @instance.matches.last.should include('There are no provider accounts associated with pool family of selected pool.')
+    @instance.matches.last.should include(I18n.t('instances.errors.no_provider_accounts'))
   end
 
   it "should not return matches if account quota is exceeded" do
@@ -195,20 +195,20 @@ describe Instance do
   it "shouldn't match provider accounts where image is not pushed" do
     account2 = FactoryGirl.create(:mock_provider_account2, :label => 'testaccount')
     @pool.pool_family.provider_accounts = [account2]
-    @instance.matches.last.should include('testaccount: image is not pushed to this provider account')
+    @instance.matches.last.should include(I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => 'testaccount'))
   end
 
   it "shouldn't match provider accounts where matching hardware profile not found" do
     account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount')
     account.provider.hardware_profiles.destroy_all
     @pool.pool_family.provider_accounts << account
-    @instance.matches.last.should include('testaccount: hardware profile match not found')
+    @instance.matches.last.should include(I18n.t('instances.errors.hw_profile_match_not_found', :account_name => 'testaccount'))
   end
 
   it "shouldn't return any matches if instance hwp architecture doesn't match image architecture" do
     @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount')]
     @instance.hardware_profile.architecture.value = 'i386'
-    @instance.matches.last.should include("Assembly hardware profile architecture (i386) doesn't match image hardware profile architecture (x86_64).")
+    @instance.matches.last.should include(I18n.t('instances.errors.architecture_mismatch', :inst_arch => 'i386', :img_arch => 'x86_64'))
   end
 
   it "should return a match if all requirements are satisfied" do
@@ -255,7 +255,7 @@ describe Instance do
     instance.pool.pool_family.provider_accounts << FactoryGirl.create(:disabled_provider_account)
     instance.should_not be_valid
     instance.errors[:pool].should_not be_empty
-    instance.errors[:pool].first.should == "has all associated providers disabled"
+    instance.errors[:pool].first.should == I18n.t('pools.errors.providers_disabled')
   end
 
   context "When more instances of deployment are starting" do
@@ -305,28 +305,5 @@ describe Instance do
     matches.should be_empty
     errors.should_not be_empty
     errors.select {|e| e.include?("no config server available") }.should_not be_empty
-  end
-
-  it "should match only the intersecting provider accounts for all instances" do
-    account1 = FactoryGirl.create(:mock_provider_account, :label => "test_account1")
-    possible1 = Instance::Match.new(nil,account1,nil,nil,nil)
-    account2 = FactoryGirl.create(:mock_provider_account, :label => "test_account2")
-    possible2 = Instance::Match.new(nil,account2,nil,nil,nil)
-    account3 = FactoryGirl.create(:mock_provider_account, :label => "test_account3")
-    possible3 = Instance::Match.new(nil,account3,nil,nil,nil)
-
-    # not gonna test the individual instance "machtes" logic again
-    # just stub out the behavior
-    instance1 = Factory.build(:instance)
-    instance1.stub!(:matches).and_return([[possible1, possible2], []])
-    instance2 = Factory.build(:instance)
-    instance2.stub!(:matches).and_return([[possible2, possible3], []])
-    instance3 = Factory.build(:instance)
-    instance3.stub!(:matches).and_return([[possible2], []])
-
-    instances = [instance1, instance2, instance3]
-    matches, errors = Instance.matches(instances)
-    matches.should_not be_empty
-    matches.first.provider_account.should eql(account2)
   end
 end

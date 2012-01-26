@@ -29,6 +29,11 @@ Given /^there is a "([^"]*)" hardware profile$/ do |arg1|
   FactoryGirl.create(:mock_hwp1, :name => arg1)
 end
 
+Given /^there is no "([^"]+)" hardware profile$/ do |arg1|
+  hwp = HardwareProfile.find_by_name($1)
+  hwp.destroy if hwp
+end
+
 def create_hwp(hash, provider=nil)
   memory = FactoryGirl.create(:mock_hwp_fake_memory, :value => hash[:memory])
   storage = FactoryGirl.create(:mock_hwp_fake_storage, :value => hash[:storage])
@@ -69,4 +74,12 @@ def create_provider_hardware_profiles(provider, table)
   table.hashes.each do |hash|
     create_hwp(hash, provider)
   end
+end
+
+Then /^I should see the hardware profiles table$/ do
+  localized_text_present 'hardware_profiles.index.hardware_profile_name'
+  localized_text_present 'hardware_profiles.index.memory'
+  localized_text_present 'hardware_profiles.index.virtual_cpu'
+  localized_text_present 'hardware_profiles.index.storage'
+  localized_text_present 'hardware_profiles.index.architecture'
 end

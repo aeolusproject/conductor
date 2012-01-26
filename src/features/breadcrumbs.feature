@@ -13,12 +13,14 @@ Feature: Breadcrumbs
     When I go to the pools page
     Then I should see "testpool"
     When I follow "testpool"
-    Then I should see "Pools"
-    When I follow "Pools"
+    Then I should see "Pools" within "#nav_history"
+    When I follow "Pools" within "#nav_history"
     Then I should be on the pools page
 
-  Scenario: Dont create breadcrumb when reloading or pointing to the same route
-    Given I am on the deployments page
+  Scenario: Don't show breadcrumbs on the top level section
+    Given a pool "testpool" exists
+    And I am on the page for the pool "testpool"
     When I go to the pools page
-    And I go to the pools page
-    Then I should see "Deployments"
+    Then I should not see the breadcrumbs section
+    When I go to the pools page
+    Then I should not see the breadcrumbs section

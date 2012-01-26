@@ -53,6 +53,7 @@ class ConfigServersController < ApplicationController
     # server are tied to modifying the particular associated provider account
     require_privilege(Privilege::MODIFY, @provider_account)
 
+    params[:config_server].each_value(&:strip!)
     @config_server = ConfigServer.new(params[:config_server])
     @config_server.provider_account = @provider_account
     if @config_server.invalid?
@@ -69,6 +70,7 @@ class ConfigServersController < ApplicationController
     @provider_account = @config_server.provider_account
     require_privilege(Privilege::MODIFY, @provider_account)
 
+    params[:config_server].each_value(&:strip!)
     if @config_server.update_attributes(params[:config_server])
       flash[:notice] = t('config_servers.flash.notice.updated')
       redirect_to provider_provider_account_path(@provider_account.provider, @provider_account)

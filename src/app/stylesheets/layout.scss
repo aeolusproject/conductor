@@ -1318,6 +1318,7 @@ header.admin-page-header{
     text-shadow: 1px 1px 0 #fff;
     @include display_inline_block;
     padding: 6px 7px 7px 7px;
+    width: 490px; /* Otherwise we overlap with other components */
 
     &.disabled{color: #c4c4c4;}
 
@@ -1806,6 +1807,8 @@ User Card
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 div#user_card{
   width: 325px;
+  position: relative;
+  z-index: 2;
   -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
 
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.70);
@@ -1825,8 +1828,6 @@ div#user_card{
     background: #0099CC;
     -webkit-border-radius: 7px 7px 0px 0px; -moz-border-radius: 7px 7px 0px 0px; border-radius: 7px 7px 0px 0px;
     border-bottom: 1px solid #006699;
-    position: relative;
-    z-index: 2;
 
     h2{
       color: white;
@@ -2141,6 +2142,7 @@ div.pool.overview{
 
     li{
       @include display_inline_block;
+      vertical-align: middle;
     }
     li + li{
       margin-left: 14px;
@@ -2691,7 +2693,7 @@ div.build_status{
       position:absolute;
       z-index:1000;
       background-color:#ececec;
-      top: 10px;
+      top: 5px;
       right: -15px;
       -webkit-border-radius: 4px 0px 4px 4px; -moz-border-radius: 4px 0px 4px 4px; border-radius: 4px 0px 4px 4px;
       box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
@@ -2733,7 +2735,8 @@ div.build_status{
   &:hover{
     border-color: #999;
     background: #ececec url(../../images/deployment-button-pressed.png) no-repeat 2px 0px;
-    padding: 0.5em 14px 1em 14px;
+    padding: 0.5em 14px 0.5em 14px;
+    vertical-align: top;
     box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
     -moz-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
     -webkit-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
