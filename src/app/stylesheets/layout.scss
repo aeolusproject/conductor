@@ -1131,11 +1131,11 @@ nav#administer_nav {
     }
     &.selected{
       background: transparent url(../../images/administer_nav_bg_hover.png) center bottom no-repeat;
-      a.users{ &:before{ background-position: -68px -26px; } }
-      a.environments{ &:before{ background-position: -100px -26px; } }
-      a.content{ &:before{ background-position: -132px -26px; } }
-      a.providers{ &:before{ background-position: -165px -25px; } }
-      a.settings{ &:before{ background-position: -203px -25px; } }
+      a.users{ background-position: center -424px; }
+      a.environments{ background-position: center -494px; }
+      a.content{ background-position: center -564px; }
+      a.providers{ background-position: center -634px; }
+      a.settings{ background-position: center -704px; }
     }
 
     a{
@@ -1143,30 +1143,32 @@ nav#administer_nav {
       display: block;
       color: black;
       padding: 45px 10px 12px 10px;
+      position: relative;
+      background: transparent url("../../images/admin_nav_icons.png") no-repeat;
       &.users{
         position: relative;
-        &:before{ content: ''; position: absolute; top: 19px; left: 50%; margin-left: -15px; width: 30px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -68px 0px; }
-        &:hover{ &:before{ background-position: -68px -26px; } }
+        background-position: center -74px;
+        &:hover{ background-position: center -424px; }
       }
       &.environments{
         position: relative;
-        &:before{ content: ''; position: absolute; top: 18px; left: 50%; margin-left: -17px; width: 34px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -100px 0px; }
-        &:hover{ &:before{ background-position: -100px -26px; } }
+        background-position: center -144px;
+        &:hover{ background-position: center -494px; }
       }
       &.content{
         position: relative;
-        &:before{ content: ''; position: absolute; top: 18px; left: 50%; margin-left: -17px; width: 34px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -132px 0px; }
-        &:hover{ &:before{ background-position: -132px -26px; } }
+        background-position: center -214px;
+        &:hover{ background-position: center -564px; }
       }
       &.providers{
         position: relative;
-        &:before{ content: ''; position: absolute; top: 18px; left: 50%; margin-left: -17px; width: 34px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -165px 0px; }
-        &:hover{ &:before{ background-position: -165px -25px; } }
+        background-position: center -284px;
+        &:hover{ background-position: center -634px; }
       }
       &.settings{
         position: relative;
-        &:before{ content: ''; position: absolute; top: 19px; left: 50%; margin-left: -9px; width: 18px; height: 22px; background: transparent url('../../images/admin_nav_icons.png') -203px 0px; }
-        &:hover{ &:before{ background-position: -203px -25px; } }
+        background-position: center -354px;
+        &:hover{ background-position: center -704px; }
       }
     }
   }
