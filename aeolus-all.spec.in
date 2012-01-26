@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	11%{?dist}
+Release:	121%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,23 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Wed Jan 25 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-12
+- 53a5382 BZ 773261 added catalog parameter to catalog_entries.flash.notice.added
+- 8e99c73 BZ 773261 updated catalog/deployable interaction messages to be clearer
+- d60e281 BZ 783168 added whitespace trim to config_server parameters
+- 743a4db BZ 744284 remove summary message when a deployment fails to launch
+- 3ecb7b5 BZ 767759 - Launch multiple unique images
+- ae989f6 bz781474 - add a default catalog
+- c044de2 BZ767210 - "Users and Groups" tab now reads "Users"
+- 8e3f29a BZ781286 - Set max-width on admin-page-header h1
+- 71d0e6f User card shadow fix
+- 8f4eafb Pool actions alignment fix
+- be700a2 IE: fix the Instances pretty-view cards
+- 5df589e Remove orphaned dictionary entries
+- 5204f63 Make tests more I18n-friendly
+- 8bcb085 Correct displaying of assemblies
+- ffc5261 BZ772755, BZ773010, BZ773198: Change uptime label in deployment card
+
 * Tue Jan 24 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-11
 - e39090a Fixed deployable's tests after bugfix
 - 17ed5c2 BZ 781257 Add flash message when deployable were deleted
