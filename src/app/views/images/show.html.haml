@@ -50,6 +50,8 @@
                   %th
                     = t'.provider'
                   %th
+                    = t'.image_uuid'
+                  %th
                     = t'.image_uri'
                   %th.image_controls
                 %tbody
@@ -62,6 +64,8 @@
                         = account.provider.name
                       %td.light
                         = pimg ? pimg.target_identifier : ''
+                      %td.light
+                        = pimg ? pimg.id : ''
                       %td.image_controls
                         - if timg and b = @builder.find_active_push(timg.id, account.provider.name, account.credentials_hash['username'])
                           = label_tag b.status
