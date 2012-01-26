@@ -1,6 +1,7 @@
 - content_for :form_header do
   %li= restful_submit_tag t('hardware_profiles.list.delete_selected'), "destroy", multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
-  %li= link_to t('hardware_profiles.list.new_hardware'), new_hardware_profile_path, :id => 'new_hardware_profile_button', :class => 'button'
+  - if check_privilege(Privilege::CREATE, HardwareProfile)
+    %li= link_to t('hardware_profiles.list.new_hardware'), new_hardware_profile_path, :id => 'new_hardware_profile_button', :class => 'button'
 
 - content_for :filter_controls do
   %li

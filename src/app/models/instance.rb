@@ -119,7 +119,7 @@ class Instance < ActiveRecord::Base
   # FIXME: "failed" is misleading too...
   scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR] }
   scope :stopable,    :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING] }
-  scope :ascending_by_name, :order => 'name ASC'
+  scope :ascending_by_name, :order => 'instances.name ASC'
 
 
   SEARCHABLE_COLUMNS = %w(name state)

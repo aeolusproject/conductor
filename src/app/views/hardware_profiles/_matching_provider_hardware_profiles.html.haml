@@ -6,7 +6,16 @@
       %tr{:class => cycle('nostripe','stripe')}
         %td
           - if hwp.provider
-            = link_to hwp.provider.name, provider_path(hwp.provider)
+            -# FIXME: what do we show for end users without provider 'view' access?
+            -# currently showing mapping but not linking to (permission-lacking)
+            -# provider view, or should we hide the mapping completely if the user
+            -# doesn't have provider 'view' privileges -- probably depends on whether
+            -# end users are expected to have permission to get to the provider
+            -# show page (read-only). If not, then the below is probably correct.
+            - if check_privilege(Privilege::VIEW, hwp.provider)
+              = link_to hwp.provider.name, provider_path(hwp.provider)
+            - else
+              = hwp.provider.name
         %td
           = link_to hwp.name, hardware_profile_path(hwp)
         %td

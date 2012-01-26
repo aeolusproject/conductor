@@ -222,7 +222,7 @@ class ProvidersController < ApplicationController
     details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 
-    @provider_accounts = @provider.provider_accounts.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:provider_accounts_preset_filter], :search_filter => params[:provider_accounts_search]) if @details_tab[:id] == 'accounts'
+    @provider_accounts = @provider.provider_accounts.apply_filters(:preset_filter_id => params[:provider_accounts_preset_filter], :search_filter => params[:provider_accounts_search]).list_for_user(current_user, Privilege::VIEW) if @details_tab[:id] == 'accounts'
     #@permissions = @provider.permissions if @details_tab[:id] == 'roles'
 
     @view = @details_tab[:view]

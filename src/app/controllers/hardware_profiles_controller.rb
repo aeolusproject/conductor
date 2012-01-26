@@ -140,10 +140,10 @@ class HardwareProfilesController < ApplicationController
     end
 
     unless deleted.empty?
-      flash[:notice] = "#{t('hardware_profiles.flash.notice.more_deleted')}: #{deleted.join(', ')}"
+      flash[:notice] = t('hardware_profiles.flash.notice.more_deleted', :count => deleted.count, :deleted => deleted.join(', '))
     end
     unless not_deleted.empty?
-      flash[:error] = "#{t('hardware_profiles.flash.error.more_not_deleted')}: #{not_deleted.join(', ')}"
+      flash[:error] = t('hardware_profiles.flash.error.more_not_deleted', :count => not_deleted.count, :not_deleted => not_deleted.join(', '))
     end
 
     redirect_to hardware_profiles_path
@@ -207,9 +207,9 @@ class HardwareProfilesController < ApplicationController
     sort_order = sort_direction
     sort_field = sort_column(HardwareProfile, 'name')
     if sort_field == "name"
-      @hardware_profiles = HardwareProfile.list_for_user(current_user, Privilege::VIEW).where('provider_id IS NULL', {}).apply_filters(:preset_filter_id => params[:hardware_profiles_preset_filter], :search_filter => params[:hardware_profiles_search]).order("hardware_profiles.name #{sort_direction}")
+      @hardware_profiles = HardwareProfile.where('provider_id IS NULL', {}).apply_filters(:preset_filter_id => params[:hardware_profiles_preset_filter], :search_filter => params[:hardware_profiles_search]).list_for_user(current_user, Privilege::VIEW).order("hardware_profiles.name #{sort_direction}")
     else
-      @hardware_profiles = HardwareProfile.list_for_user(current_user, Privilege::VIEW).where('provider_id IS NULL', {}).apply_filters(:preset_filter_id => params[:hardware_profiles_preset_filter], :search_filter => params[:hardware_profiles_search])
+      @hardware_profiles = HardwareProfile.where('provider_id IS NULL', {}).apply_filters(:preset_filter_id => params[:hardware_profiles_preset_filter], :search_filter => params[:hardware_profiles_search]).list_for_user(current_user, Privilege::VIEW)
       if sort_order == "asc"
         @hardware_profiles.sort! {|x,y| x.get_property_map[sort_field].sort_value(true) <=> y.get_property_map[sort_field].sort_value(true)}
       else

@@ -1,5 +1,6 @@
 - content_for :form_header do
-  %li= link_to "#{t'pools.new_pool'}", new_pool_path, { :class => 'button', :id => 'new_pool_button' }
+  - if check_privilege(Privilege::CREATE, Pool)
+    %li= link_to "#{t'pools.new_pool'}", new_pool_path, { :class => 'button', :id => 'new_pool_button' }
   %li= restful_submit_tag "#{t'pools.index.destroy'}", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
 - content_for :filter_controls do
@@ -32,8 +33,10 @@
     %td{:class => 'center'}= pool.statistics[:instances_pending]
     %td{:class => 'center'}= pool.statistics[:instances_failed_count]
     %td{:class => 'center'}= pool.statistics[:quota_percent]
-    %td= link_to(pool.pool_family.name, pool.pool_family)
-
+    - if check_privilege(Privilege::VIEW, pool.pool_family)
+      %td= link_to(pool.pool_family.name, pool.pool_family)
+    - else
+      %td= pool.pool_family.name
 %script#poolTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain
     <tr>

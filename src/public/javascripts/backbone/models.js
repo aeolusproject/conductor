@@ -3,6 +3,12 @@ Conductor.Models = Conductor.Models || {}
 
 Conductor.Models.Pool = Backbone.Model.extend({
   urlRoot: Conductor.prefixedPath('/pools')
+
+  initialize: function() {
+    this.deployments = new Conductor.Models.Deployments().filter(function(attributes) {
+        return attributes.pool.id == this.id;
+        });
+  }
 });
 
 Conductor.Models.Pools = Backbone.Collection.extend({

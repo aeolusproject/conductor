@@ -45,15 +45,15 @@ class PoolsController < ApplicationController
       @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
       case @details_tab[:id]
       when 'pools'
-        @pools = Pool.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).list(sort_column(Pool), sort_direction)
+        @pools = Pool.apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction)
       when 'instances'
         params[:instances_preset_filter] = "other_than_stopped" unless params[:instances_preset_filter]
-        @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list(sort_column(Instance), sort_direction)
+        @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction)
       when 'deployments'
-        @deployments = Deployment.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).list(sort_column(Deployment), sort_direction)
+        @deployments = Deployment.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).list_for_user(current_user, Privilege::VIEW).list(sort_column(Deployment), sort_direction)
       end
     else
-      @pools = Pool.list(sort_column(Pool), sort_direction)
+      @pools = Pool.list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction)
     end
 
     statistics
@@ -74,7 +74,7 @@ class PoolsController < ApplicationController
     @pool = Pool.find(params[:id])
     save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
     require_privilege(Privilege::VIEW, @pool)
-    @statistics = @pool.statistics
+    @statistics = @pool.statistics(current_user)
     @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view' unless params[:details_tab]
     if params[:details_tab] == 'deployments'
       @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
@@ -90,7 +90,7 @@ class PoolsController < ApplicationController
 
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
-    @deployments = @pool.deployments.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]) if @details_tab[:id] == 'deployments'
+    @deployments = @pool.deployments.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).list_for_user(current_user, Privilege::VIEW) if @details_tab[:id] == 'deployments'
     @view = @details_tab[:view]
     respond_to do |format|
       format.html { render :action => :show}
@@ -273,7 +273,7 @@ class PoolsController < ApplicationController
     # (But if it's nil, we want to show all instances)
     params[:state] = 'running' unless params.keys.include?('state')
     conditions = params[:state].present? ? ['state=?', params[:state]] : ''
-    @instances = @pool.instances.find(:all, :conditions => conditions)
+    @instances = @pool.instances.list_for_user(current_user, Privilege::VIEW).find(:all, :conditions => conditions)
   end
 
   def set_quota

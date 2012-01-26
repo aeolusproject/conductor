@@ -65,7 +65,7 @@ class Pool < ActiveRecord::Base
 
   before_destroy :destroyable?
 
-  scope :ascending_by_name, :order => 'name ASC'
+  scope :ascending_by_name, :order => 'pools.name ASC'
 
   def cloud_accounts
     accounts = []
@@ -81,12 +81,14 @@ class Pool < ActiveRecord::Base
   end
 
   # TODO: Implement Alerts and Updates
-  def statistics
+  def statistics(user = nil)
     # TODO - Need to set up cache invalidation before this is safe
     #Rails.cache.fetch("pool-#{id}-statistics") do
     max = quota.maximum_running_instances
     total = quota.running_instances
     avail = max - total unless max.nil?
+    failed = (user.nil? ? instances.failed :
+              instances.failed.list_for_user(user, Privilege::VIEW))
     statistics = {
       :cloud_providers => instances.collect{|i| i.provider_account}.uniq.count,
       :deployments => deployments.count,
@@ -94,7 +96,8 @@ class Pool < ActiveRecord::Base
                            instances.pending.count + instances.failed.count),
       :instances_deployed => instances.deployed.count,
       :instances_pending => instances.pending.count,
-      :instances_failed => instances.failed,
+      :instances_failed => failed,
+      :instances_failed_visible_count => failed.count,
       :instances_failed_count => instances.failed.count,
       :used_quota => quota.running_instances,
       :quota_percent => number_to_percentage(quota.percentage_used,
