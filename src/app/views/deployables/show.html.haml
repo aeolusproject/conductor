@@ -17,29 +17,28 @@
   %header
     %h2.images= t('.images')
   .content
-    .centered
-      %table.light_table
-        %thead
+    %table.light_table
+      %thead
+        %tr
+          %th.status
+          %th
+            %strong=t'.name'
+          %th.align-center=t'.images'
+          %th=t'.hw_profile'
+          %th.align-center=t'.hdd'
+          %th.align-center=t'.ram'
+          %th.align-center=t'.arch'
+      %tbody
+        - @images_details.each do |assembly|
           %tr
-            %th.status
-            %th
-              %strong=t'.name'
-            %th.align-center=t'.images'
-            %th=t'.hw_profile'
-            %th.align-center=t'.hdd'
-            %th.align-center=t'.ram'
-            %th.align-center=t'.arch'
-        %tbody
-          - @images_details.each do |assembly|
-            %tr
-              %td.status= image_valid?(assembly)
-              %td
-                %strong=assembly[:name]
-              %td.align-center=assembly[:images_count]
-              %td=assembly[:hwp_name]
-              %td.align-center=assembly[:hwp_hdd]
-              %td.align-center=assembly[:hwp_ram]
-              %td.align-center=assembly[:hwp_arch]
+            %td.status= image_valid?(assembly)
+            %td
+              %strong=assembly[:name]
+            %td.align-center=assembly[:images_count]
+            %td=assembly[:hwp_name]
+            %td.align-center=assembly[:hwp_hdd]
+            %td.align-center=assembly[:hwp_ram]
+            %td.align-center=assembly[:hwp_arch]
 
 %section.admin-content-section
   - if @missing_images.empty?
