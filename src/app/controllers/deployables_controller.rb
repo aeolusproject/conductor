@@ -183,16 +183,25 @@ class DeployablesController < ApplicationController
   def multi_destroy
     deleted = []
     not_deleted = []
+    not_deleted_perms = []
     if params[:deployables_selected]
       Deployable.find(params[:deployables_selected]).to_a.each do |d|
-        require_privilege(Privilege::MODIFY, d)
-        if d.destroy
-          deleted << d.name
+        if check_privilege(Privilege::MODIFY, d)
+          if d.destroy
+            deleted << d.name
+          else
+            not_deleted << d.name
+          end
         else
-          not_deleted << d.name
+          not_deleted_perms << d.name
         end
       end
-      flash[:error] =  t("deployables.flash.error.not_deleted", :count => not_deleted.count, :not_deleted => not_deleted.join(', ')) unless not_deleted.empty?
+      unless not_deleted.empty? and not_deleted_perms.empty?
+        flasherr = []
+        flasherr =  t("deployables.flash.error.not_deleted", :count => not_deleted.count, :not_deleted => not_deleted.join(', ')) unless not_deleted.empty?
+        flasherr =  t("deployables.flash.error.not_deleted_perms", :count => not_deleted_perms.count, :not_deleted => not_deleted_perms.join(', ')) unless not_deleted_perms.empty?
+        flash[:error] = flasherr
+      end
       flash[:notice] = t("deployables.flash.notice.deleted", :count => deleted.count, :deleted => deleted.join(', ')) unless deleted.empty?
     else
       flash[:error] = t("deployables.flash.error.not_selected")

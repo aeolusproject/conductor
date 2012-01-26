@@ -509,10 +509,14 @@ en:
       notice:
         deleted: "Hardware profile was deleted!"
         updated: "Hardware Profile updated!"
-        more_deleted: These Hardware Profiles were deleted
+        more_deleted:
+          one: Hardware Profile %{deleted} was deleted.
+          other: Hardware Profiles %{deleted} were deleted.
       error:
         not_deleted: "Hardware profile was not deleted!"
-        more_not_deleted: Could not deleted these Hardware Profiles
+        more_not_deleted:
+          one: "Insufficient permissions to delete hardware profile %{not_deleted}!"
+          other: "Insufficient permissions to delete %{count} hardware profiles %{not_deleted}!"
     preset_filters:
       all_hardware_profiles: "All Hardware Profiles"
       x86_64architecture: "x86_64 architecture"
@@ -681,6 +685,9 @@ en:
         not_deleted:
           one: "Catalog %{not_deleted} cannot be deleted! Some deployable has the last reference to this catalog!"
           other: "These catalogs %{not_deleted} cannot be deleted! Some of their deployables have the last reference to the catalogs!"
+        not_deleted_perms:
+          one: "Insufficient permissions to delete catalog %{not_deleted}!"
+          other: "Insufficient permissions to delete %{count} catalogs %{not_deleted}!"
         one_not_deleted: "Catalog cannot be deleted! Some deployable has the last reference to this catalog!"
     preset_filters:
       all_catalogs: "All Catalogs"
@@ -873,6 +880,9 @@ en:
         not_deleted:
           one: "Deployable %{not_deleted} delete failed!"
           other: "%{count} deployables %{not_deleted} were not deleted!"
+        not_deleted_perms:
+          one: "Insufficient permissions to delete deployable %{not_deleted}!"
+          other: "Insufficient permissions to delete %{count} deployables %{not_deleted}!"
         not_selected: "No deployable was not selected!"
       warning:
         failed: "Deployable was not created: %{message}"
@@ -941,7 +951,8 @@ en:
       provider_type: Provider Type
       x_deltacloud_driver: X-Deltacloud-Driver
       x_deltacloud_provider: X-Deltacloud-Provider
-      no_providers_available: No providers available. Please create one first.
+      no_providers_available: No providers available.
+      create_one: Please create one first.
       create_new_provider: "Create New Provider"
     new:
       new_provider: New Provider

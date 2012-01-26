@@ -2,7 +2,8 @@
   %h2.pools= t("pool_families.pool_families")
   .section-controls
     #obj_actions
-      = link_to t("pool_families.index.new_pool_family"), new_pool_family_path, :class => 'button pill', :id => 'new_pool_family_button'
+      - if check_privilege(Privilege::CREATE, PoolFamily)
+        = link_to t("pool_families.index.new_pool_family"), new_pool_family_path, :class => 'button pill', :id => 'new_pool_family_button'
 
 .content
   - @pool_families.each do |pool_family|

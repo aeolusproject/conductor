@@ -3,5 +3,6 @@
     = [@deployment.name, t("deployments.deployment")].join(' ')
   #obj_actions.button-container
     .button-group
-      = button_to t('delete'), deployment_path(@deployment), :method => :delete, :confirm => t("deployments.confirm_delete"), :class => "button pill danger", :id => 'delete'
+      - if check_privilege(Privilege::MODIFY, @deployment)
+        = button_to t('delete'), deployment_path(@deployment), :method => :delete, :confirm => t("deployments.confirm_delete"), :class => "button pill danger", :id => 'delete'
   .corner &nbsp;

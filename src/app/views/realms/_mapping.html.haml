@@ -1,7 +1,8 @@
 = form_tag multi_destroy_realm_mappings_path(:frontend_realm_id => @realm.id) do
-  = link_to t('realms.mapping.mapping_realm'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button", :id => 'mapping_to_realm_button'
-  = link_to t('realms.mapping.mapping_provider'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button", :id => 'mapping_to_provider_button'
-  = submit_tag t('delete'), :id => 'delete_button', :class => 'button danger'
+  - if check_privilege(Privilege::MODIFY, Realm)
+    = link_to t('realms.mapping.mapping_realm'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button", :id => 'mapping_to_realm_button'
+    = link_to t('realms.mapping.mapping_provider'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button", :id => 'mapping_to_provider_button'
+    = submit_tag t('delete'), :id => 'delete_button', :class => 'button danger'
 
 
   - unless @backend_provider_targets.empty?

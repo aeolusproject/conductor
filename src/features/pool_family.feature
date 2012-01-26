@@ -25,7 +25,8 @@ Feature: Pool Families
     Given I am logged in
     And I can view pool family "testpoolfamily"
     When I go to the pool families page
-    Then I should see "testpoolfamily"
+    Then I should see "Pool Families"
+    And I should not see "testpoolfamily"
 
   Scenario: Show pool family details
     Given I am an authorised user

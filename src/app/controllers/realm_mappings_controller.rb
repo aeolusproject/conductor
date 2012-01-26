@@ -18,13 +18,13 @@ class RealmMappingsController < ApplicationController
   before_filter :require_user
 
   def new
-    require_privilege(Privilege::CREATE, Realm)
+    require_privilege(Privilege::MODIFY, Realm)
     @realm_target = RealmBackendTarget.new(:frontend_realm_id => params[:frontend_realm_id], :realm_or_provider_type => params[:realm_or_provider_type])
     load_backend_targets
   end
 
   def create
-    require_privilege(Privilege::CREATE, Realm)
+    require_privilege(Privilege::MODIFY, Realm)
     @realm_target = RealmBackendTarget.new(params[:realm_backend_target])
     if @realm_target.save
       flash[:notice] = t"realms.flash.notice.added_mapping"

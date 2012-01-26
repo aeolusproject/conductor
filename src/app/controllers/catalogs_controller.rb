@@ -19,7 +19,7 @@ class CatalogsController < ApplicationController
 
   def index
     clear_breadcrumbs
-    @catalogs = Catalog.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:catalogs_preset_filter], :search_filter => params[:catalogs_search])
+    @catalogs = Catalog.apply_filters(:preset_filter_id => params[:catalogs_preset_filter], :search_filter => params[:catalogs_search]).list_for_user(current_user, Privilege::VIEW)
     save_breadcrumb(catalogs_path(:viewstate => @viewstate ? @viewstate.id : nil))
     set_header
     set_admin_content_tabs 'catalogs'
@@ -82,17 +82,26 @@ class CatalogsController < ApplicationController
   def multi_destroy
     deleted = []
     not_deleted = []
+    not_deleted_perms = []
     catalogs = Catalog.find(params[:catalogs_selected])
     catalogs.to_a.each do |catalog|
-      require_privilege(Privilege::MODIFY, catalog)
-      if catalog.destroy
-        deleted << catalog.name
+      if check_privilege(Privilege::MODIFY, catalog)
+        if catalog.destroy
+          deleted << catalog.name
+        else
+          not_deleted << catalog.name
+        end
       else
-        not_deleted << catalog.name
+        not_deleted_perms << catalog.name
       end
     end
     flash[:notice] = t("catalogs.flash.notice.deleted", :count => deleted.count, :deleted => deleted.join(', ')) unless deleted.empty?
-    flash[:error] = t("catalogs.flash.error.not_deleted", :count => not_deleted.count, :not_deleted => not_deleted.join(', ')) unless not_deleted.empty?
+    unless not_deleted.empty? and not_deleted_perms.empty?
+      flasherr = []
+      flasherr = t("catalogs.flash.error.not_deleted", :count => not_deleted.count, :not_deleted => not_deleted.join(', ')) unless not_deleted.empty?
+      flasherr = t("catalogs.flash.error.not_deleted_perms", :count => not_deleted_perms.count, :not_deleted => not_deleted_perms.join(', ')) unless not_deleted_perms.empty?
+      flash[:error] = flasherr
+    end
     redirect_to catalogs_path
   end
 

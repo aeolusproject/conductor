@@ -1,4 +1,5 @@
 %header.admin-page-header
   %h1{:class => controller.controller_name}=t'catalog_entries.index.catalog_entries'
   #obj_actions.button-group
-    = link_to "#{t'catalog_entries.new_catalog_entry'}", new_polymorphic_path([@catalog, Deployable]), :class => 'button primary', :id => 'new_catalog_entry_button'
+    - if check_privilege(Privilege::CREATE, Deployable)
+      = link_to "#{t'catalog_entries.new_catalog_entry'}", new_polymorphic_path([@catalog, Deployable]), :class => 'button primary', :id => 'new_catalog_entry_button'
