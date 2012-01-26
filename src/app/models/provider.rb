@@ -108,12 +108,6 @@ class Provider < ActiveRecord::Base
   def supported_types
   end
 
-  # returns all frontend realms which are associated with this provider or a
-  # realm of this provider
-  def all_associated_frontend_realms
-    (frontend_realms + realms.map {|r| r.frontend_realms}.flatten).uniq
-  end
-
   def stop_instances(user)
     errs = []
     provider_accounts.each do |pa|
