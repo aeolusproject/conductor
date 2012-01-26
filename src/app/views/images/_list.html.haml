@@ -11,7 +11,7 @@
       - selected = params[:select] == 'all'
       = check_box_tag "images_selected[]", image.id, selected, :id => "image_checkbox_#{image.id}"
     %td
-      = link_to image.name, image_path(image.id)
+      = link_to (image.imported? ? image.name + " (Imported)" : image.name), image_path(image.id)
     %td
       = image.os.name.empty? ? "N/A" : image.os.name
     %td

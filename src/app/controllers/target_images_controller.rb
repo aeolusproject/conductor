@@ -38,7 +38,16 @@ class TargetImagesController < ApplicationController
 
   def destroy
     if image = Aeolus::Image::Warehouse::TargetImage.find(params[:id])
-      if image.delete!
+      i = image.build.image
+      if i.imported?
+        if i.delete!
+          flash[:notice] = t('images.flash.notice.deleted')
+          redirect_to images_path
+          return
+        else
+          flash[:warning] = t('images.flash.warning.delete_failed')
+        end
+      elsif image.delete!
         flash[:notice] = t('target_images.flash.notice.deleted')
       else
         flash[:warning] = t('target_images.flash.warning.delete_failed')
