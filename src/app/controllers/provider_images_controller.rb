@@ -43,7 +43,16 @@ class ProviderImagesController < ApplicationController
     if image = Aeolus::Image::Warehouse::ProviderImage.find(params[:id])
       target_id = image.target_identifier
       provider = image.provider
-      if image.delete!
+      i = image.target_image.build.image
+      if i.imported?
+        if i.delete!
+          flash[:notice] = t('images.flash.notice.deleted')
+          redirect_to images_path
+          return
+        else
+          flash[:warning] = t('images.flash.warning.delete_failed')
+        end
+      elsif image.delete!
         flash[:notice] = t('provider_images.flash.notice.deleted',
                            :target_id => target_id, :provider => provider)
       else
