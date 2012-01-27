@@ -40,6 +40,10 @@
                   = button_to t('.delete'), image_target_image_path(@image.id, timg.id), :method => :delete
                 - elsif @build and @build.id == @latest_build
                   = button_to t('.build'), image_target_images_path(@image.id, :target => driver, :build_id => @build ? @build.id : nil), :method => :post
+                  - failed_build_count = @builder.failed_build_count(@build.id, driver)
+                  - if failed_build_count > 0
+                    .light
+                      = t('images.show.failed_build_attempts', :count => failed_build_count)
                 - else
                   &nbsp;
             %dd
@@ -66,11 +70,14 @@
                         = pimg ? pimg.target_identifier : ''
                       %td.light
                         = pimg ? pimg.id : ''
-                      %td.image_controls
+                      %td.image_controls.light
                         - if timg and b = @builder.find_active_push(timg.id, account.provider.name, account.credentials_hash['username'])
                           = label_tag b.status
                         - elsif timg and not pimg and @build and @build.id == @latest_build
                           = button_to t('.upload'), image_provider_images_path(@image.id, :build_id => @build.id, :target_image_id => timg.id, :account_id => account.id), :method => :post, :class => 'upload_image'
+                          - failed_push_count = @builder.failed_push_count(timg.id, account.provider.name, account.credentials_hash['username'])
+                          - if failed_push_count > 0
+                            = t('images.show.failed_push_attempts', :count => failed_push_count )
                         - elsif pimg
                           = button_to "", image_provider_image_path(@image.id, pimg.id), :method => :delete, :class => 'delete_image'
                         - else
