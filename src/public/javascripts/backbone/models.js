@@ -51,3 +51,11 @@ Conductor.Models.Deployments = Backbone.Collection.extend({
     return Conductor.parameterizedPath(path, this.queryParams);
   }
 });
+
+Conductor.Models.Image = Backbone.Model.extend({
+  queryParams: {},
+  url: function() {
+    var path = Conductor.prefixedPath('/images/' + this.id);
+    return Conductor.parameterizedPath(path, this.queryParams);
+  }
+});
