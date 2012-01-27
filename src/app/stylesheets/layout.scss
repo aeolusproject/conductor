@@ -2684,6 +2684,7 @@ div.build_status{
 
   .catalog_list{
     position: relative;
+    z-index:1000;
 
     .more{
       font-size: 12px;
@@ -2692,7 +2693,6 @@ div.build_status{
       border-top: none;
       display:none;
       position:absolute;
-      z-index:1000;
       background-color:#ececec;
       top: 5px;
       right: -15px;
