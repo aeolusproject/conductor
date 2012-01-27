@@ -38,32 +38,10 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
     }
   },
 
-  urlParams: function() {
-    var paramsData = window.location.search.slice(1).split('&');
-    var params = {};
-    $.each(paramsData, function(index, value){
-      var eqSign = value.search('=');
-      if(eqSign != -1) {
-        params[value.substring(0, eqSign)] = value.substring(eqSign+1);
-      }
-    });
-
-    return params;
-  },
-
   queryParams: function() {
-    var result = {};
     var paramsToInclude = [this.currentTab() + '_preset_filter', this.currentTab() + '_search'];
-    var urlParams = this.urlParams();
+    var result = Conductor.extractQueryParams(paramsToInclude);
 
-    $.each(paramsToInclude, function(paramIndex, paramValue) {
-      for (var urlParamName in urlParams) {
-        if (urlParamName == paramValue) {
-          result[urlParamName] = urlParams[urlParamName];
-          break;
-        }
-      };
-    });
     // If there is no URL param for the preset filter, we still need to merge in the preset filter
     var filter = this.currentTab() + '_preset_filter';
     if(result[filter] == undefined) {
@@ -178,4 +156,25 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
     $('#instanceTemplate').tmpl(this.collection.toJSON()).appendTo($instances);
   }
 
+});
+
+
+Conductor.Views.ImagesShow = Backbone.View.extend({
+  el: '#content',
+
+  queryParams: function() {
+    var paramsToInclude = ['build'];
+    var result = Conductor.extractQueryParams(paramsToInclude);
+
+    return result;
+  },
+
+  render: function() {
+    var $builds = this.$('ul.image_builds');
+    if($builds.length === 0) return;
+
+    $builds.empty();
+
+    $('#imageBuildsTemplate').tmpl(this.model.toJSON()).appendTo($builds);
+  }
 });

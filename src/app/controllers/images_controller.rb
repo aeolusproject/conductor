@@ -60,6 +60,59 @@ class ImagesController < ApplicationController
     load_builds
     load_target_images(@build)
     flash[:error] = t("images.flash.error.no_provider_accounts") if @account_groups.size == 0
+
+    respond_to do |format|
+      format.html
+      format.json do
+        active_builds = @account_groups.keys.inject({})  do |result, driver|
+          result[driver] = @builder.find_active_build(@build.id, driver) if @build
+          result
+        end
+
+        active_pushes = @account_groups.inject({})  do |result, (driver, group)|
+          timg = @target_images_by_target[driver]
+          group[:accounts].each do |account|
+            result[account.id] = @builder.find_active_push(timg.id, account.provider.name, account.credentials_hash['username'])
+          end if timg.present?
+
+          result
+        end
+
+        provider_images = @account_groups.inject({})  do |result, (driver, group)|
+          timg = @target_images_by_target[driver]
+          group[:accounts].each do |account|
+            result[account.id] = timg.find_provider_image_by_provider_and_account(account.provider.name, account.credentials_hash['username']).first
+          end if timg.present?
+
+          result
+        end
+
+        failed_build_counts = @account_groups.keys.inject({})  do |result, driver|
+          result[driver] = @builder.failed_build_count(@build.id, driver) if @build
+          result
+        end
+
+        failed_push_counts = @account_groups.inject({})  do |result, (driver, group)|
+          timg = @target_images_by_target[driver]
+          group[:accounts].each do |account|
+            result[account.id] = @builder.failed_push_count(timg.id, account.provider.name, account.credentials_hash['username'])
+          end if timg.present?
+
+          result
+        end
+
+        render :json => { :image => @image,
+                          :build => @build,
+                          :account_groups => @account_groups,
+                          :provider_images => provider_images,
+                          :target_images_by_target => @target_images_by_target,
+                          :active_builds => active_builds,
+                          :active_pushes => active_pushes,
+                          :failed_build_counts => failed_build_counts,
+                          :failed_push_counts => failed_push_counts,
+                          :latest_build_id => @latest_build }
+      end
+    end
   end
 
   def rebuild_all

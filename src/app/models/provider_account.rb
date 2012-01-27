@@ -150,6 +150,12 @@ class ProviderAccount < ActiveRecord::Base
     label.blank? ? credentials_hash['username'] : label
   end
 
+  def as_json(options={})
+    super(options).merge({
+      :provider_name => provider.name
+    })
+  end
+
   def populate_profiles_and_validate
     begin
       populate_hardware_profiles
