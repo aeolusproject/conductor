@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	12%{?dist}
+Release:	13%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,22 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Thu Jan 26 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-13
+- 0354906 Rebrands to finalized branding.
+- 3c488a1 BZ 784183 - fixed provider name for deployments in mixed state
+- 1dc9f2f BZ72277 image ready button in deplyable detail fix
+- 345ad8e BZ#772353 Delete Imported Image when deleting imported target/provider image
+- 2a92339 Update to the Cloud Forms terminology
+- 92af3ee Update role names for 1.0 terminology
+- 47827a3 BZ770087 fixes search functionality in provider's realm tab
+- 6cb7044 BZ 783126 (part 2) - added 'push all' button to image show page
+- 9366ff0 BZ 783126 (part 1) - Removed ProviderAccount.wrehouse_id method
+- e43afe0 BZ 770358 - fixed image_status check
+- 6f815ce BZ 783133 - removed build/push actions from deployable show page
+- 5e9c09b Fixing pretty view toggle in pools#index
+- 2470a0a BZ781353: Fix images#show in FF 3.6
+- d4ad58b BZ770622: Filter for provider_type name on the list of deployments
+
 * Wed Jan 25 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-12
 - 53a5382 BZ 773261 added catalog parameter to catalog_entries.flash.notice.added
 - 8e99c73 BZ 773261 updated catalog/deployable interaction messages to be clearer
