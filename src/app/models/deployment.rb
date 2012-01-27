@@ -315,8 +315,8 @@ class Deployment < ActiveRecord::Base
   end
 
   def provider
-    # I REALLY want to get this via a join, but no dice...
-    instances.first.provider_account.provider rescue nil
+    inst = instances.joins(:provider_account => :provider).first
+    inst && inst.provider_account && inst.provider_account.provider
   end
 
   # we try to create an instance for each assembly and check
@@ -464,9 +464,12 @@ class Deployment < ActiveRecord::Base
   private
 
   def self.apply_search_filter(search)
+    # TODO: after upgrading to 3.1 the SQL join statement can be done in Rails way by adding a has_many association to providers through provider_accounts
+    #       (Rails before version 3.1 does not support nested associations with through param)
     if search
       includes(:pool, :provider_accounts => :provider).
-          where("pools.name ILIKE :search OR deployments.name ILIKE :search OR providers.name ILIKE :search",
+          joins("LEFT OUTER JOIN provider_types ON provider_types.id = providers.provider_type_id").
+          where("pools.name ILIKE :search OR deployments.name ILIKE :search OR provider_types.name ILIKE :search",
                 :search => "%#{search}%")
     else
       scoped

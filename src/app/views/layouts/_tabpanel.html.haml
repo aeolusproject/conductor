@@ -4,7 +4,9 @@
       %ul#tab-container-1-nav
         - @tabs.each do |tab|
           %li
-            %a{ :href => url_for(:details_tab => tab[:id], :view => "filter", :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]}"}
+            %a{ :href => url_for(:details_tab => tab[:id], :view => "filter", :only_tab => true),
+                :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]}",
+                'data-pretty_view_toggle' => tab[:pretty_view_toggle] }
               = tab[:name]
     .section-controls
       -#%a.collapse{'href'=>'#'} Collapse

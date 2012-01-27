@@ -2578,6 +2578,7 @@ table.light_table{
   th.status{ border-bottom: none; text-align: right; }
   td.status{ text-align: right; }
   td.status a{
+    white-space: nowrap;
     text-transform: uppercase;
     text-decoration: none;
     font-size: 10px;

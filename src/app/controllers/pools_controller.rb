@@ -37,9 +37,9 @@ class PoolsController < ApplicationController
 
     @user_pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
     if filter_view?
-      @tabs = [{:name => "#{t'pools.pools'}", :view => 'list', :id => 'pools'},
-               {:name => "#{t'deployments.deployments'}", :view => 'deployments/list', :id => 'deployments'},
-               {:name => "#{t'instances.instances.other'}", :view => 'instances/list', :id => 'instances'},
+      @tabs = [{:name => "#{t'pools.pools'}", :view => 'list', :id => 'pools', :pretty_view_toggle => 'enabled'},
+               {:name => "#{t'deployments.deployments'}", :view => 'deployments/list', :id => 'deployments', :pretty_view_toggle => 'enabled'},
+               {:name => "#{t'instances.instances.other'}", :view => 'instances/list', :id => 'instances', :pretty_view_toggle => 'enabled'},
       ]
       details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
       @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase

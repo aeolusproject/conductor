@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1{:class => controller.controller_name}= @image.name
+  %h1{:class => controller.controller_name}= @image.imported? ? @image.name + " (Imported)" : @image.name
   #obj_actions.button-container.images
     =t'return_to'
     = link_to t('images.index.images'), images_path, :class => 'rounded-link'
@@ -19,8 +19,12 @@
       = form_tag image_path(@image.id), :method => :get do
         = select_tag :build, options_for_build_select(@builds, @build, @latest_build)
         = submit_tag t('.select_build'), :id => 'seletect_build_button'
-      - unless @image.imported?
+      - if @image.imported?
+        = t('.can_not_build_imported_image')
+      -else
         = button_to t('.rebuild_all'), rebuild_all_image_path(@image.id), :class => 'button pill'
+        - if @build and @build.id == @latest_build
+          = button_to t('.push_all'), push_all_image_path(@image.id, :build_id => @build.id), :class => 'button pill'
   .content
     %ul.image_builds
       - @account_groups.each do |driver, group|
@@ -28,15 +32,16 @@
         %li
           %dl
             %dt
-              %h3= group[:type].name
-              - if @build and b = @builder.find_active_build(@build.id, driver)
-                = label_tag b.status
-              - elsif timg
-                = button_to t('.delete'), image_target_image_path(@image.id, timg.id), :method => :delete
-              - elsif @build and @build.id == @latest_build
-                = button_to t('.build'), image_target_images_path(@image.id, :target => driver, :build_id => @build ? @build.id : nil), :method => :post
-              - else
-                &nbsp;
+              .build-actions
+                %h3= group[:type].name
+                - if @build and b = @builder.find_active_build(@build.id, driver)
+                  = label_tag b.status
+                - elsif timg
+                  = button_to t('.delete'), image_target_image_path(@image.id, timg.id), :method => :delete
+                - elsif @build and @build.id == @latest_build
+                  = button_to t('.build'), image_target_images_path(@image.id, :target => driver, :build_id => @build ? @build.id : nil), :method => :post
+                - else
+                  &nbsp;
             %dd
               %table.light_table
                 %thead
@@ -49,7 +54,7 @@
                   %th.image_controls
                 %tbody
                   - group[:accounts].each do |account|
-                    - pimg = timg ? timg.find_provider_image_by_provider_and_account(account.provider.name, account.warehouse_id).first : nil
+                    - pimg = timg ? timg.find_provider_image_by_provider_and_account(account.provider.name, account.credentials_hash['username']).first : nil
                     %tr
                       %td
                         %strong= account.name
@@ -58,7 +63,7 @@
                       %td.light
                         = pimg ? pimg.target_identifier : ''
                       %td.image_controls
-                        - if timg and b = @builder.find_active_push(timg.id, account.provider.name, account.warehouse_id)
+                        - if timg and b = @builder.find_active_push(timg.id, account.provider.name, account.credentials_hash['username'])
                           = label_tag b.status
                         - elsif timg and not pimg and @build and @build.id == @latest_build
                           = button_to t('.upload'), image_provider_images_path(@image.id, :build_id => @build.id, :target_image_id => timg.id, :account_id => account.id), :method => :post, :class => 'upload_image'

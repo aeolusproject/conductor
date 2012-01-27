@@ -142,63 +142,12 @@ class Deployable < ActiveRecord::Base
   end
 
   def build_status(images, account)
-    image_statuses = images.map { |i| image_status(i, account) }
+    image_statuses = images.map { |i| account.image_status(i) }
     return :not_built if image_statuses.any? { |status| status == :not_built }
     return :building if image_statuses.any? { |status| status == :building }
     return :pushing if image_statuses.any? { |status| status == :pushing }
     return :not_pushed if image_statuses.any? { |status| status == :not_pushed }
     :pushed
-  end
-
-  def image_status(image, account)
-    build = image.latest_pushed_or_unpushed_build
-    target = account.provider.provider_type.deltacloud_driver
-    return :not_built unless build
-
-    builder = Aeolus::Image::Factory::Builder.first
-    return :building if builder.find_active_build(build.id, target)
-
-    target_image = build.target_images.find { |ti| ti.target == target }
-    return :not_built unless target_image
-
-    return :pushing if builder.find_active_push(target_image.id,
-                                                account.provider.name,
-                                                account.credentials_hash["username"])
-
-    provider_image = target_image.find_provider_image_by_provider_and_account(
-        account.provider.name, account.warehouse_id).first
-    return :not_pushed unless provider_image
-    :pushed
-  end
-
-  def build_missing(images, accounts)
-    targets = accounts.map { |acc| acc.provider.provider_type.deltacloud_driver }.uniq.join(',')
-    images.each do |image|
-      factory_image = Aeolus::Image::Factory::Image.new(:id => image.id)
-      factory_image.targets = targets
-      factory_image.template = image.template
-      factory_image.save!
-    end
-  end
-
-  def push_missing(images, accounts)
-    images.each do |image|
-      accounts.each do |account|
-        if image_status(image, account) == :not_pushed
-          target = account.provider.provider_type.deltacloud_driver
-          build = image.latest_pushed_or_unpushed_build
-          target_image = build.target_images.find { |ti| ti.target == target }
-          provider_image = Aeolus::Image::Factory::ProviderImage.new(
-            :provider => account.provider.name,
-            :credentials => account.to_xml(:with_credentials => true),
-            :image_id => image.uuid,
-            :build_id => build.uuid,
-            :target_image_id => target_image.uuid
-          )
-          provider_image.save!
-        end
-      end
-    end
   end
 
   def to_polymorphic_path_param(polymorphic_path_extras)

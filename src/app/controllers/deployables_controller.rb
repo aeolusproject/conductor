@@ -230,24 +230,6 @@ class DeployablesController < ApplicationController
     redirect_to_original({"catalog_entries_preset_filter" => params[:catalog_entries_preset_filter], "catalog_entries_search" => params[:catalog_entries_search]})
   end
 
-  def build
-    catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
-    deployable = Deployable.find(params[:id])
-    require_privilege(Privilege::MODIFY, catalog) if catalog.present?
-    require_privilege(Privilege::MODIFY, deployable)
-
-    images = deployable.fetch_images
-    accounts = ProviderAccount.list_for_user(current_user, Privilege::VIEW)
-    options = params[:build_options].to_sym
-    case options
-    when :build_missing
-      deployable.build_missing(images, accounts)
-    when :push_missing
-      deployable.push_missing(images, accounts)
-    end
-    redirect_to polymorphic_path([catalog, deployable])
-  end
-
   private
 
   def set_header
