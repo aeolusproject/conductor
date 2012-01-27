@@ -841,6 +841,10 @@ en:
         pushed: "All Images are pushed and recent."
       build_missing: "Build missing"
       push_missing: "Push missing"
+      image_uuid: "Image UUID: %{uuid}\n"
+      latest_build_uuid: "Latest Build UUID: %{uuid}\n"
+      target_images_uuids: "Target Images UUIDs: %{uuid}\n"
+      n_a: "N/A"
     form:
       choose_xml: Choose Deployable XML file
       catalog: Catalog

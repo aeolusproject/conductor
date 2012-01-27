@@ -28,17 +28,17 @@
           %th.align-center=t'.hdd'
           %th.align-center=t'.ram'
           %th.align-center=t'.arch'
-      %tbody
-        - @images_details.each do |assembly|
-          %tr
-            %td.status= image_valid?(assembly)
-            %td
-              %strong=assembly[:name]
-            %td.align-center=assembly[:images_count]
-            %td=assembly[:hwp_name]
-            %td.align-center=assembly[:hwp_hdd]
-            %td.align-center=assembly[:hwp_ram]
-            %td.align-center=assembly[:hwp_arch]
+        %tbody
+          - @images_details.each_with_index do |assembly, index|
+            %tr
+              %td.status= image_valid?(assembly)
+              %td
+                %strong{:title => "#{parse_images_hash_details(index, @images_hash_details)}"}=assembly[:name]
+              %td.align-center=assembly[:images_count]
+              %td=assembly[:hwp_name]
+              %td.align-center=assembly[:hwp_hdd]
+              %td.align-center=assembly[:hwp_ram]
+              %td.align-center=assembly[:hwp_arch]
 
 %section.admin-content-section
   - if @missing_images.empty?
