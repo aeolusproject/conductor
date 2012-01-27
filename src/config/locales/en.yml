@@ -736,6 +736,12 @@ en:
       can_not_build_imported_image: "Imported image can't be built or pushed"
       select_build: Select
       template_xml: View Template XML
+      failed_build_attempts:
+        one: '1 failed build attempt'
+        other: '%{count} failed build attempts'
+      failed_push_attempts:
+        one: '1 failed push attempt'
+        other: '%{count} failed push attempts'
     flash:
       notice:
         deleted: Image Deleted
