@@ -70,6 +70,7 @@ class DeployablesController < ApplicationController
     images = @deployable.fetch_images
     uuids = @deployable.fetch_image_uuids
     @missing_images = images.zip(uuids).select{|p| p.first.nil?}.map{|p| p.second}
+    @images_hash_details = images != [nil] ? @deployable.get_uuids_hash(images) : nil
 
     @images_details.each do |assembly|
       assembly.keys.each do |key|

@@ -211,12 +211,11 @@ class ProvidersController < ApplicationController
   end
 
   def load_provider_tabs
-    #frontend realms associated to provider or a realm of this provider, with applied filters
-    @realms = FrontendRealm.includes({:backend_realms => :provider}, :backend_providers).where("providers.id = :provider_id or (realm_backend_targets.realm_or_provider_id = :provider_id and realm_backend_targets.realm_or_provider_type = :provider_type)", :provider_id => @provider.id, :provider_type => 'Provider').apply_filters(:preset_filter_id => params[:realms_preset_filter], :search_filter => params[:realms_search])
+    @realms = @provider.realms.apply_filters(:preset_filter_id => params[:provider_realms_preset_filter], :search_filter => params[:provider_realms_search])
     #TODO add links to real data for history,properties,permissions
     @tabs = [{:name => t('connectivity'), :view => 'edit', :id => 'connectivity'},
              {:name => t('accounts'), :view => 'provider_accounts/list', :id => 'accounts', :count => @provider.provider_accounts.count},
-             {:name => t('realm_s'), :view => 'realms/list', :id => 'realms', :count => @realms.count},
+             {:name => t('realm_s'), :view => 'provider_realms/list', :id => 'realms', :count => @realms.count},
              #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
     ]
     add_permissions_tab(@provider, "edit_")

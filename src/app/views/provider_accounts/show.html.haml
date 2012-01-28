@@ -17,3 +17,10 @@
 
   .content
     = render :partial => 'properties'
+
+%section.admin-content-section.realm
+  %header
+    %h2= t'realm_s'
+
+  .content
+    = render :partial => 'provider_realms/list'

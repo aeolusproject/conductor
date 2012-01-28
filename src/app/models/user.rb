@@ -136,7 +136,7 @@ class User < ActiveRecord::Base
 
   def self.apply_search_filter(search)
     if search
-      where("first_name ILIKE :search OR last_name ILIKE :search OR login ILIKE :search OR email ILIKE :search", :search => "%#{search}%")
+      where("lower(first_name) LIKE :search OR lower(last_name) LIKE :search OR lower(login) LIKE :search OR lower(email) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
     end

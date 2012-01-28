@@ -18,4 +18,4 @@
       - @backend_realm_targets.each do |backend|
         %tr{:class => cycle('nostripe','stripe')}
           %td= check_box_tag "id[]", backend.id, :id => "backend_id_#{backend.id}"
-          %td= backend.realm_or_provider.name
+          %td= "#{backend.target_provider.name}: #{backend.target_realm.name}"

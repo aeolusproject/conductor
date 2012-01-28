@@ -156,11 +156,36 @@ class Deployable < ActiveRecord::Base
     [catalog, self]
   end
 
+  def get_uuids_hash(images)
+    image_uuids = []
+    target_image_uuids = []
+    latest_build_uuid = []
+
+    images.each do |i|
+      image_uuids << (i.respond_to?(:uuid) ? i.uuid : nil)
+      latest_build = i.latest_pushed_build if i.respond_to?(:latest_pushed_build)
+      latest_build_uuid << (latest_build ? latest_build.uuid : nil)
+      if latest_build
+        target_images = latest_build.target_images
+        target_image_uuids_for_build = []
+        target_images.each do |ti|
+          target_image_uuids_for_build << ti.uuid
+        end
+        target_image_uuids << target_image_uuids_for_build
+      else
+        target_image_uuids << nil
+      end
+    end
+
+  #return array [[image_uuid, latest_build_uuid, [target_image_uuids]], [..]]
+  image_uuids.zip(latest_build_uuid, target_image_uuids)
+  end
+
   private
 
   def self.apply_search_filter(search)
     if search
-      where("name ILIKE :search", :search => "%#{search}%")
+      where("lower(name) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
     end
