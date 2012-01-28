@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  13%{?dist}
+Release:  14%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -322,6 +322,12 @@ fi
 %{app_root}/spec
 
 %changelog
+* Fri Jan 27 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-14
+- dc5a853 Make tests (and app) work on mysql.
+- 62184b2 BZ 773027 Add image,build,targetImage hash to deployable details
+- c678fab BZ 781639: added column with Image UUID to provider images view
+- d95ea37 Bug 772644: Add provider_account association to provider realm (revised)
+
 * Thu Jan 26 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-13
 - 0354906 Rebrands to finalized branding.
 - 3c488a1 BZ 784183 - fixed provider name for deployments in mixed state
