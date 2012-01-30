@@ -4,7 +4,7 @@
     %td{:class => 'center'}= pool.deployments.count
     %td{:class => 'center'}= pool.statistics[:total_instances]
     %td{:class => 'center'}= pool.statistics[:instances_pending]
-    %td{:class => 'center'}= pool.statistics[:instances_failed]
+    %td{:class => 'center'}= pool.statistics[:instances_failed_count]
     %td{:class => 'center'}= pool.statistics[:quota_percent]
     %td{:class => 'center'}= pool.statistics[:used_quota]
     %td{:class => 'center'}= pool.statistics[:available_quota].nil? ? raw('&infin;') : pool.statistics[:available_quota]
