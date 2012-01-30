@@ -65,13 +65,21 @@ class InstanceObserver < ActiveRecord::Observer
           elsif RUNNING_STATES.include?(state_from) && !RUNNING_STATES.include?(state_to)
             quota.running_instances -= 1
           end
+          quota.transaction do
+            quota.lock!
+            if !RUNNING_STATES.include?(state_from) && RUNNING_STATES.include?(state_to)
+              quota.running_instances += 1
+            elsif RUNNING_STATES.include?(state_from) && !RUNNING_STATES.include?(state_to)
+              quota.running_instances -= 1
+            end
 
-          if !ACTIVE_STATES.include?(state_from) && ACTIVE_STATES.include?(state_to)
-            quota.total_instances += 1
-          elsif ACTIVE_STATES.include?(state_from) && !ACTIVE_STATES.include?(state_to)
-            quota.total_instances -= 1
-          end
-          quota.save!
+            if !ACTIVE_STATES.include?(state_from) && ACTIVE_STATES.include?(state_to)
+              quota.total_instances += 1
+            elsif ACTIVE_STATES.include?(state_from) && !ACTIVE_STATES.include?(state_to)
+              quota.total_instances -= 1
+            end
+            quota.save!
+           end
         end
       end
     end
