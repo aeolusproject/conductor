@@ -382,7 +382,6 @@ class Instance < ActiveRecord::Base
     matched = []
     pool.pool_family.provider_accounts.each do |account|
       account.instance_matches(self, matched, errors)
-
     end
 
     [matched, errors]

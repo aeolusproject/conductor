@@ -53,7 +53,7 @@ class ProviderRealmsController < ApplicationController
   end
 
   def filter
-    redirect_to_original({"provider_realms_preset_filter" => params[:realms_preset_filter], "realms_search" => params[:provider_realms_search]})
+    redirect_to_original({"provider_realms_preset_filter" => params[:provider_realms_preset_filter], "provider_realms_search" => params[:provider_realms_search]})
   end
 
   protected

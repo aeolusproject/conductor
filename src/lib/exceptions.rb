@@ -48,5 +48,21 @@ module Aeolus
       class ImageNotFound < StandardError; end
       class BlankImageId < StandardError; end
     end
+
+    module MultiError
+      class Error < StandardError
+        attr_reader :preamble
+        attr_reader :message
+        def initialize(preamble="", message=[])
+          @preamble = preamble
+          @message = message
+        end
+        def message
+          ([@preamble] + @message).flatten
+        end
+      end
+      class UnlaunchableAssembly < Error; end
+    end
+
   end
 end
