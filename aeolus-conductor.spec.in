@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  14%{?dist}
+Release:  15%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -322,6 +322,12 @@ fi
 %{app_root}/spec
 
 %changelog
+* Mon Jan 30 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-15
+- 079be24 BZ 773247 fix to prevent empty flash header from popping up
+- 9896920 BZ 785334 - fixed migration problem
+- 23e9e78 Move the text in the footer to our I18n dictionary
+- 2af0f68 catalog dropdown visibility fix
+
 * Fri Jan 27 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-14
 - dc5a853 Make tests (and app) work on mysql.
 - 62184b2 BZ 773027 Add image,build,targetImage hash to deployable details
