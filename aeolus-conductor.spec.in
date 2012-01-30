@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  15%{?dist}
+Release:  16%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -322,6 +322,13 @@ fi
 %{app_root}/spec
 
 %changelog
+* Mon Jan 30 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-16
+- 1586711 BZ770377 - Better formatting for deployable exceptions
+- d719d9e BZ770377 - Corrects realm mapping error text
+- 0c49fc2 Remove console gem dep from lock file.
+- f266327 provider realms search fix BZ770087
+- 6f4ae15 BZ781482: feedback for image build/push failures
+
 * Mon Jan 30 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-15
 - 079be24 BZ 773247 fix to prevent empty flash header from popping up
 - 9896920 BZ 785334 - fixed migration problem
