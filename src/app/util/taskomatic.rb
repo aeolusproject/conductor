@@ -70,7 +70,7 @@ module Taskomatic
       task.state = Task::STATE_FAILED
       task.message = ex.message
     ensure
-      task.save!
+      task.save! if Task.exists?(task.id)
     end
   end
 
