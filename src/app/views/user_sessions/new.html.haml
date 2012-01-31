@@ -4,8 +4,6 @@
     $('#password-input').showPassword({'checkbox':'#reveal'});
     $('#username').focus(); // bring the username to focus
 
-    $('#help-btn').click(function(){ alert("#{t('user_sessions.new.help')}"); });
-
     $('#security-btn').click(function(){
       $('#login').hide();
       $('#security').animate({ 'left': 0, 'width': 502 },{queue:false,duration:150});
@@ -65,8 +63,6 @@
             %label{:for => 'reveal'}= t"user_sessions.new.show_password"
           %div.group.bottom.left
             .options
-              %a.help#help-btn{:href => '#'}
-                %span=t"user_sessions.new.login_assistance"
               %a.security#security-btn{:href => '#'}
                 %span=t"user_sessions.new.security_info"
           %div.group.bottom.submit
