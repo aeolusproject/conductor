@@ -224,6 +224,24 @@ describe Deployment do
       deployment2.instances[1].provider_account.should == @provider_account2
     end
 
+    it "should not fail to launch if a provider account has a nil priority" do
+      @deployment.save!
+      @deployment.instances.should be_empty
+
+      @provider_account1.priority = nil
+      @provider_account1.save!
+
+      Instance.any_instance.stub(:provider_images_for_match).and_return([@provider_image])
+      Taskomatic.stub!(:create_dcloud_instance).and_return(true)
+      Taskomatic.stub!(:handle_dcloud_error).and_return(true)
+      Taskomatic.stub!(:handle_instance_state).and_return(true)
+      @deployment.launch(@user_for_launch)[:errors].should be_empty
+      @deployment.reload
+      @deployment.instances.count.should == 2
+      @deployment.instances[0].provider_account.should == @provider_account2
+      @deployment.instances[1].provider_account.should == @provider_account2
+    end
+
     it "should not launch instances if user has no access to hardware profile" do
       @deployment.save!
       @deployment.instances.should be_empty
