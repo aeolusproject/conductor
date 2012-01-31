@@ -2,10 +2,12 @@
 %header.admin-page-header
   %h1{:class => controller.controller_name}= @catalog.name
   #obj_actions.button-container
-    = link_to t('catalogs.new_catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
+    - if check_privilege(Privilege::CREATE, Catalog)
+      = link_to t('catalogs.new_catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
     .button-group
-      = link_to t('edit'), edit_catalog_path(@catalog), :class => 'button pill', :id => 'edit_button'
-      = button_to t("delete"), catalog_path(@catalog), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete'
+      - if check_privilege(Privilege::MODIFY, @catalog)
+        = link_to t('edit'), edit_catalog_path(@catalog), :class => 'button pill', :id => 'edit_button'
+        = button_to t("delete"), catalog_path(@catalog), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete'
 
 %section.admin-content-section.user
   %header
@@ -21,7 +23,8 @@
   .content
     - content_for :form_header do
       %li= restful_submit_tag t("delete"), "destroy", multi_destroy_catalog_deployables_path(@catalog), 'DELETE', :id => 'delete_button', :class => 'button danger'
-      %li= link_to t("catalog_entries.new_catalog_entry"), new_catalog_deployable_path(@catalog), :class => 'button', :id => 'new_deployable_button'
+      - if check_privilege(Privilege::CREATE, Deployable)
+        %li= link_to t("catalog_entries.new_catalog_entry"), new_catalog_deployable_path(@catalog), :class => 'button', :id => 'new_deployable_button'
 
     - content_for :filter_controls do
       %li

@@ -213,7 +213,7 @@ class PoolFamiliesController < ApplicationController
   end
 
   def load_pool_families
-    @pool_families = PoolFamily.list_for_user(current_user, Privilege::VIEW, Pool).order(sort_column(PoolFamily) + ' ' + sort_direction)
+    @pool_families = PoolFamily.list_for_user(current_user, Privilege::VIEW).order(sort_column(PoolFamily) + ' ' + sort_direction)
   end
 
   def load_pool_family_tabs

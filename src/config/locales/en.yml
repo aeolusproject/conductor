@@ -510,10 +510,14 @@ en:
       notice:
         deleted: "Cloud Resource Profile was deleted!"
         updated: "Cloud Resource Profile updated!"
-        more_deleted: These Cloud Resource Profiles were deleted
+        more_deleted:
+          one: Cloud Resource Profile %{deleted} was deleted.
+          other: Cloud Resource Profiles %{deleted} were deleted.
       error:
         not_deleted: "Cloud Resource Profile was not deleted!"
-        more_not_deleted: Could not delete these Cloud Resource Profiles
+        more_not_deleted:
+          one: "Insufficient permissions to delete Cloud Resource Profile %{not_deleted}!"
+          other: "Insufficient permissions to delete %{count} Cloud Resource Profiles %{not_deleted}!"
     preset_filters:
       all_hardware_profiles: "All Hardware Profiles"
       x86_64architecture: "x86_64 architecture"
@@ -682,6 +686,9 @@ en:
         not_deleted:
           one: "Catalog %{not_deleted} cannot be deleted! Some deployable has the last reference to this catalog!"
           other: "These catalogs %{not_deleted} cannot be deleted! Some of their deployables have the last reference to the catalogs!"
+        not_deleted_perms:
+          one: "Insufficient permissions to delete catalog %{not_deleted}!"
+          other: "Insufficient permissions to delete %{count} catalogs %{not_deleted}!"
         one_not_deleted: "Catalog cannot be deleted! Some deployable has the last reference to this catalog!"
     preset_filters:
       all_catalogs: "All Catalogs"
@@ -747,6 +754,9 @@ en:
       notice:
         deleted: Component Outline Deleted
         multiple_deleted: "%{count} Component Outlines Deleted"
+        multiple_deleted:
+          one: "%{count} Component Outline Deleted"
+          other: "%{count} Component Outlines deleted"
         created: Component Outline created
       warning:
         delete_failed: Unable to Delete Component Outline
@@ -874,6 +884,9 @@ en:
         not_deleted:
           one: "Deployable %{not_deleted} delete failed!"
           other: "%{count} deployables %{not_deleted} were not deleted!"
+        not_deleted_perms:
+          one: "Insufficient permissions to delete deployable %{not_deleted}!"
+          other: "Insufficient permissions to delete %{count} deployables %{not_deleted}!"
         not_selected: "No deployable was not selected!"
       warning:
         failed: "Application Blueprint was not created: %{message}"
@@ -942,7 +955,8 @@ en:
       provider_type: Cloud Resource Provider Type
       x_deltacloud_driver: X-Deltacloud-Driver
       x_deltacloud_provider: X-Deltacloud-Provider
-      no_providers_available: No providers available. Please create one first.
+      no_providers_available: No providers available.
+      create_one: Please create one first.
       create_new_provider: "Create New Cloud Resource Provider"
     new:
       new_provider: New Cloud Resource Provider

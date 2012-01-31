@@ -343,7 +343,7 @@ class DeploymentsController < ApplicationController
       { :name => t("providers.provider"), :sortable => false }
     ]
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
-    @deployments = Deployment.includes(:owner).apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).where('deployments.pool_id' => @pools).order(sort_column(Deployment, "deployments.name") +' '+ sort_direction).paginate(:page => params[:page] || 1)
+    @deployments = Deployment.includes(:owner).apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).list_for_user(current_user, Privilege::VIEW).where('deployments.pool_id' => @pools).order(sort_column(Deployment, "deployments.name") +' '+ sort_direction).paginate(:page => params[:page] || 1)
   end
 
   def count_additional_quota(deployment)

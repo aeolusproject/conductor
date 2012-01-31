@@ -1,4 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %section.admin-content-section.provider
   = t("providers.index.no_providers_available")
-  = link_to t("providers.index.create_new_provider"), new_provider_path, :class => 'button', :id => "create_new_provider"
+  - if check_privilege(Privilege::CREATE, Provider)
+    = t("providers.index.create_one")
+    = link_to t("providers.index.create_new_provider"), new_provider_path, :class => 'button', :id => "create_new_provider"

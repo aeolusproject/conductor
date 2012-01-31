@@ -12,13 +12,14 @@
           = t('.define_services_desc')
         %button{:disabled => "disabled"}
           = t(:continue)
-      %li#permissions.grid_8
-        = image_tag "blnk.png", :class => "icon", :alt => ""
-        %h2
-          = t('.permissions')
-        %p
-          = t('.permissions_desc')
-        = link_to t(:continue), self_service_settings_path, :class => 'button'
+      - if check_privilege(Privilege::MODIFY)
+        %li#permissions.grid_8
+          = image_tag "blnk.png", :class => "icon", :alt => ""
+          %h2
+            = t('.permissions')
+          %p
+            = t('.permissions_desc')
+          = link_to t(:continue), self_service_settings_path, :class => 'button'
       -#%li#settings.grid_8
         = image_tag "blnk.png", :class => "icon", :alt => ""
         %h2
