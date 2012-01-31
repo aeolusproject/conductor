@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  16%{?dist}
+Release:  17%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -322,6 +322,11 @@ fi
 %{app_root}/spec
 
 %changelog
+* Tue Jan 31 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-17
+- a1c5d20 Fixed flash[:notice] message in images#multi_destroy
+- 4fcf20e BZ782788: remove permission based filtering of provider accounts on deployables#show
+- dbbdb72 bug 784108: a bunch of permission tweaks to hide things from non-admins
+
 * Mon Jan 30 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-16
 - 1586711 BZ770377 - Better formatting for deployable exceptions
 - d719d9e BZ770377 - Corrects realm mapping error text
