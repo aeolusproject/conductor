@@ -121,7 +121,7 @@ class Deployable < ActiveRecord::Base
     deployable_xml.assemblies.each do |assembly|
       assembly_hash ||= {:name => assembly.name}
       assembly_hash[:image_uuid] = assembly.image_id
-      assembly_hash[:images_count] = assembly.image.count
+      assembly_hash[:images_count] = assembly.images_count
       if assembly.hwp
         hwp_name = assembly.hwp
         hwp = HardwareProfile.find_by_name(hwp_name)

@@ -108,6 +108,10 @@ class AssemblyXML
     @image ||= @root.at("image")
   end
 
+  def images_count
+    @root.xpath('./image').count
+  end
+
   def image_id
     @image_id ||= image['id']
   end
