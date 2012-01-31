@@ -98,6 +98,14 @@ class DeployablesController < ApplicationController
         :status => status,
       }
     end
+
+    respond_to do |format|
+      format.html
+      format.json do
+        render :json => { :build_results => @build_results }
+      end
+    end
+
   end
 
   def definition

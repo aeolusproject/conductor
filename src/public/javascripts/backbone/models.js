@@ -33,6 +33,16 @@ Conductor.Models.Instances = Backbone.Collection.extend({
   }
 });
 
+Conductor.Models.Deployable = Backbone.Model.extend({
+  initialize: function(options) {
+    this.catalog_id = options['catalog_id']
+  },
+
+  url: function() {
+    return Conductor.prefixedPath('/catalogs/' + this.catalog_id + '/deployables/' + this.id);;
+  }
+});
+
 Conductor.Models.Deployment = Backbone.Model.extend({
   urlRoot: Conductor.prefixedPath('/deployments'),
 
