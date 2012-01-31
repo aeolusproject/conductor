@@ -752,7 +752,9 @@ en:
     flash:
       notice:
         deleted: Image Deleted
-        multiple_deleted: "%{count} Images Deleted"
+        multiple_deleted:
+          one: "%{count} Image Deleted"
+          other: "%{count} Images deleted"
         created: Image created
       warning:
         delete_failed: Unable to Delete Image
