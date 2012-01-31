@@ -87,7 +87,7 @@ class DeployablesController < ApplicationController
 
     @build_results = {}
     @pushed_count = 0
-    ProviderAccount.list_for_user(current_user, Privilege::VIEW).includes(:provider).where('providers.enabled' => true).each do |account|
+    ProviderAccount.includes(:provider).where('providers.enabled' => true).each do |account|
       type = account.provider.provider_type.deltacloud_driver
       @build_results[type] ||= []
       status = @deployable.build_status(images, account)
