@@ -1,5 +1,9 @@
 %table.flat
-  = sortable_table_header @properties_header
+  %thead
+    %tr
+      - @properties_header.each do |header|
+        %th
+          = header[:name]
   - @hwp_properties.each do |hwpp|
     %tr
       %td

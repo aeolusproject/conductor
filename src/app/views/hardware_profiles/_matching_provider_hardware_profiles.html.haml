@@ -1,7 +1,10 @@
 - if @matching_hwps.size > 0
   %table.flat
     %thead
-      = sortable_table_header @provider_hwps_header
+      %tr
+        - @provider_hwps_header.each do |header|
+          %th
+            = header[:name]
     - @matching_hwps.each do |hwp|
       %tr{:class => cycle('nostripe','stripe')}
         %td
