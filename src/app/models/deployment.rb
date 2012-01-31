@@ -236,7 +236,17 @@ class Deployment < ActiveRecord::Base
       return status
     end
     # grab the account with the best priority that can launch this deployment
-    account = account_matches.keys.sort{|a,b| a.priority <=> b.priority}.first
+    account = account_matches.keys.sort do |a,b|
+      if a.priority.nil? and b.priority.nil?
+        0
+      elsif a.priority.nil?
+        1
+      elsif b.priority.nil?
+        -1
+      else
+        a.priority <=> b.priority
+      end
+    end.first
     instances_matches = account_matches[account]
 
     if deployable_xml.requires_config_server?
