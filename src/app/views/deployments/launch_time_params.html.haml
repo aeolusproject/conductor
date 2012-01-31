@@ -13,27 +13,30 @@
     = hidden_field_tag :deployable_id, params[:deployable_id]
 
     %section.services
+      .labels
+        - @services.each do |service, assembly_name|
+          %h4.service{:id => service.id}= service.name.titleize
+          %p.hidden.description= service.description
+
       %header
         %h3.service
         %p.description
 
-      - @services.each do |service, assembly_name|
-        %h4.service= service.name.titleize
-        %p.hidden.description= service.description
-
-        .parameters
-          - service.parameters.each do |parameter|
-            .parameter
-              - if not parameter.reference?
-                - id = "deployment[launch_parameters][#{assembly_name}][#{service.name}][#{parameter.name}]"
-                = label_tag id, parameter.name.titleize + ':'
-                - value = get_hash_multi(params, [:deployment, :launch_parameters, assembly_name, service.name, parameter.name])
-                - if parameter.type == "password"
-                  = password_field_tag id, (parameter.value or value)
+      .params-container
+        - @services.each do |service, assembly_name|
+          .parameters{:id => service.id}
+            - service.parameters.each do |parameter|
+              .parameter
+                - if not parameter.reference?
+                  - id = "deployment[launch_parameters][#{assembly_name}][#{service.name}][#{parameter.name}]"
+                  = label_tag id, parameter.name.titleize + ':'
+                  - value = get_hash_multi(params, [:deployment, :launch_parameters, assembly_name, service.name, parameter.name])
+                  - if parameter.type == "password"
+                    = password_field_tag id, (parameter.value or value)
+                  - else
+                    = text_field_tag id, (parameter.value or value)
                 - else
-                  = text_field_tag id, (parameter.value or value)
-              - else
-                = t('.reference', :assembly => parameter.reference_assembly, :parameter => parameter.reference_parameter)
+                  = t('.reference', :assembly => parameter.reference_assembly, :parameter => parameter.reference_parameter)
 
       #service-headers
 
@@ -42,10 +45,13 @@
 :javascript
   (function () {
     function selectService($service) {
-      $('.service.selected').next().next('.parameters').hide();
+      var old_param_id = $('.service.selected').attr('id');
+      $('div.params-container').find('#' + old_param_id).hide();
       $('.service.selected').removeClass('selected');
+
       $service.addClass('selected');
-      $service.next().next('.parameters').show();
+      var new_param_id = $service.attr('id');
+      $('div.params-container').find('#' + new_param_id).show();
 
       $service.parents('.services').find('header .service').text($service.text());
       $service.parents('.services').find('header .description')
@@ -58,12 +64,13 @@
         var filledOut = _.all($parameters, function(item) {
           return ! _.isEmpty($(item).val());
         });
-        $(this).prev().prev('.service').toggleClass('filled-out', filledOut);
+        var param_id = $(this).attr('id');
+        $('.labels').find('#' + param_id).toggleClass('filled-out', filledOut);
         $('#submit_params').attr('disabled', !filledOut);
       });
     }
 
-    var $services = $('.launch-time-params .services h4.service');
+    var $services = $('.launch-time-params .services .labels h4.service');
     selectService($services.first());
     $services.live('click', function(e) { selectService($(this)); });
 
