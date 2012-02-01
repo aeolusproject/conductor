@@ -106,6 +106,7 @@ Conductor::Application.routes.draw do
       delete :multi_destroy
       get 'launch_new'
       post 'launch_time_params'
+      get 'launch_time_params'
       post 'overview'
       get 'check_name'
       get 'launch_from_catalog'
