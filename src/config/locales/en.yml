@@ -1273,3 +1273,8 @@ en:
       target_image_not_found: Could not find TargetImage %{targetimage}
       target_image_not_found_for_account: Could not find an appropriate target image for account %{account}
       target_not_found: Could not find Target %{target}
+  support:
+    array:
+      words_connector: ', '
+      two_words_connector: ' and '
+      last_word_connector: ', and '
