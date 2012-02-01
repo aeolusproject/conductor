@@ -119,14 +119,13 @@ class ProvidersController < ApplicationController
     require_privilege(Privilege::MODIFY, @provider)
     @provider.attributes = params[:provider]
     provider_disabled = @provider.enabled_changed? && !@provider.enabled
+
+    if provider_disabled
+      disable_provider
+      return
+    end
+
     if @provider.save
-      # stop running instances when a provider is disabled
-      # it would be better to have this in provider's observer
-      # but we need to display error message when an error occurs
-      if provider_disabled
-        errs = @provider.stop_instances(current_user)
-        flash[:error] = errs unless errs.empty?
-      end
       flash[:notice] = t"providers.flash.notice.updated"
       redirect_to edit_provider_path(@provider)
     else
@@ -175,6 +174,30 @@ class ProvidersController < ApplicationController
   protected
   def load_providers
     @providers = Provider.list_for_user(current_user, Privilege::VIEW)
+  end
+
+  def disable_provider
+    @instances_to_terminate = @provider.instances_to_terminate
+    if @instances_to_terminate.any? and not params[:terminate]
+      render :action => "confirm_terminate"
+      return
+    end
+
+    res = @provider.disable(current_user)
+    if res[:failed_to_stop].present?
+      flash[:error] = {
+        :summary => t("providers.flash.warning.not_stopped_instances"),
+        :failures => res[:failed_to_stop]
+      }
+    elsif res[:failed_to_terminate].present?
+      flash[:error] = {
+        :summary => t("providers.flash.warning.not_terminated_instances"),
+        :failures => res[:failed_to_terminate].map {|i| i.name}
+      }
+    else
+      flash[:notice] = t"providers.flash.notice.disabled"
+    end
+    redirect_to edit_provider_path(@provider)
   end
 
   def provider_alerts(provider)

@@ -108,25 +108,48 @@ class Provider < ActiveRecord::Base
   def supported_types
   end
 
+  def disable(user)
+    res = {}
+    if valid_framework?
+      # if we can connect to the provider, try to stop running instances
+      # TODO: now provider is disabled even if stop request fails, is it ok?
+      res[:failed_to_stop] = stop_instances(user)
+    else
+      # if the provider is not accessible and there are no running
+      # instances, we just change state of all instances to stopped
+      res[:failed_to_terminate] = stoppable_instances.select do |i|
+        !i.update_attributes(:state => Instance::STATE_STOPPED)
+      end
+    end
+    if res[:failed_to_stop].blank? and res[:failed_to_terminate].blank?
+      update_attribute(:enabled, false)
+    end
+    res
+  end
+
+  def instances_to_terminate
+    valid_framework? ? [] : stoppable_instances
+  end
+
+  protected
+
   def stop_instances(user)
     errs = []
-    provider_accounts.each do |pa|
-      pa.instances.stopable.each do |instance|
-        begin
-          unless instance.valid_action?('stop')
-            raise "stop is an invalid action."
-          end
-
-          unless @task = instance.queue_action(user, 'stop')
-            raise "stop cannot be performed on this instance."
-          end
-          Taskomatic.stop_instance(@task)
-        rescue Exception => e
-          err = "Error while stopping an instance #{instance.name}: #{e.message}"
-          errs << err
-          logger.error err
-          logger.error e.backtrace.join("\n  ")
+    stoppable_instances.each do |instance|
+      begin
+        unless instance.valid_action?('stop')
+          raise "stop is an invalid action."
         end
+
+        unless @task = instance.queue_action(user, 'stop')
+          raise "stop cannot be performed on this instance."
+        end
+        Taskomatic.stop_instance(@task)
+      rescue Exception => e
+        err = "Error while stopping an instance #{instance.name}: #{e.message}"
+        errs << err
+        logger.error err
+        logger.error e.backtrace.join("\n  ")
       end
     end
     errs
@@ -192,7 +215,10 @@ class Provider < ActiveRecord::Base
 
   end
 
-  protected
+  def stoppable_instances
+    provider_accounts.inject([]) {|all, pa| all += pa.instances.stopable}
+  end
+
   def validate_provider
     if !nil_or_empty(url)
       errors.add("url", "must be a valid provider url") unless valid_framework?

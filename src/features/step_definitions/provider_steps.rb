@@ -26,6 +26,10 @@ Given /^there is a provider named "([^\"]*)"$/ do |name|
   @provider = FactoryGirl.create(:mock_provider, :name => name)
 end
 
+Given /^provider "([^"]*)" is not accessible$/ do |arg1|
+  Provider.any_instance.stub(:valid_framework?).and_return(false)
+end
+
 Then /^I should have a provider named "([^\"]*)"$/ do |name|
   Provider.find_by_name(name).should_not be_nil
 end
@@ -116,4 +120,9 @@ end
 
 When /^I click on the Providers icon in the menu$/ do
   find('#administer_nav a.providers').click
+end
+
+Then /^provider "([^"]*)" should have all instances stopped$/ do |arg1|
+  p = Provider.find_by_name(arg1)
+  p.instances_to_terminate.should be_empty
 end
