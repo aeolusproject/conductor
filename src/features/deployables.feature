@@ -47,7 +47,7 @@ Feature: Manage Catalog Entries
     And there is "front_hwp2" conductor hardware profile
     And I am on testdepl's catalog entry page
     When I follow "launch_deployment_button"
-    Then I should be on the launch new deployments page
+    Then I should be on the launch time params deployments page
 
   Scenario: Delete deployables
     Given there is a "default" catalog
