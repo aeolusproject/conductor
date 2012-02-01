@@ -1,9 +1,10 @@
 en:
-  disclaimer: Disclaimer
-  terms_of_use: Terms of Use
-  support: Support
-  copyright: "Copyright &copy; 2009-2012 Red Hat, Inc. All Rights Reserved."
-  dashboard: Dashboard
+  layout:
+    disclaimer: Disclaimer
+    terms_of_use: Terms of Use
+    support: Support
+    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc. All Rights Reserved."
+    dashboard: Dashboard
   datetime:
     distance_in_words:
       x_hours:
