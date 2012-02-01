@@ -109,6 +109,19 @@ describe Deployment do
       @deployment.should be_destroyable
       expect { @deployment.destroy }.to change(Deployment, :count).by(-1)
     end
+
+    it "should send stop request to all running instances before it's destroyed" do
+      @deployment.save!
+      inst1 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+      inst2 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+      inst2.state = Instance::STATE_STOPPED
+      inst2.save!
+      inst3 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+      Taskomatic.stub!(:stop_instance).and_return(nil)
+      @deployment.stop_instances_and_destroy!
+      inst1.tasks.last.action.should == 'stop'
+      inst3.tasks.last.action.should == 'stop'
+    end
   end
 
   describe ".provider" do
