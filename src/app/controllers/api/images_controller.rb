@@ -93,6 +93,8 @@ module Api
         else
           raise(Aeolus::Conductor::API::ImageNotFound.new(404, t("api.error_messages.image_not_found", :image => params[:id])))
         end
+      rescue Aeolus::Conductor::API::ImageNotFound => e
+        raise(e)
       rescue => e
         raise(Aeolus::Conductor::API::ImageDeleteFailure.new(500, e.message))
       end
