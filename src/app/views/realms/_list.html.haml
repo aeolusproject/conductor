@@ -23,6 +23,7 @@
       $("#realms_preset_filter").change(function() {
         $("#apply_realms_preset_filter").click();
       });
+      Conductor.clickOnEnterKeypress($('#realms_search'), $('#apply_realms_search'));
     });
 
 = filter_table(realms_header, @realms) do |realm|

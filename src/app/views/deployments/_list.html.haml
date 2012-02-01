@@ -23,6 +23,7 @@
       $("#deployments_preset_filter").change(function() {
         $("#apply_deployments_preset_filter").click();
       });
+      Conductor.clickOnEnterKeypress($('#deployments_search'), $('#apply_deployments_search'));
     });
 
 = filter_table(@deployments_header, @deployments) do |deployment|

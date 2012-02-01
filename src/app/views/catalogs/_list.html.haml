@@ -20,6 +20,7 @@
       $("#catalogs_preset_filter").change(function() {
         $("#apply_catalogs_preset_filter").click();
       });
+      Conductor.clickOnEnterKeypress($('#catalogs_search'), $('#apply_catalogs_search'));
     });
 
 = filter_table(@header, @catalogs) do |catalog|

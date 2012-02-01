@@ -21,6 +21,7 @@
       $("#instances_preset_filter").change(function() {
         $("#apply_instances_preset_filter").click();
       });
+      Conductor.clickOnEnterKeypress($('#instances_search'), $('#apply_instances_search'));
     });
 
 = filter_table(instances_header, @instances) do |instance|
