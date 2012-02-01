@@ -117,7 +117,7 @@ class ImagesController < ApplicationController
 
   def rebuild_all
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
-    targets = Provider.list_for_user(current_user, Privilege::VIEW).map {|p| p.provider_type.deltacloud_driver}.uniq
+    targets = Provider.enabled.list_for_user(current_user, Privilege::VIEW).map {|p| p.provider_type.deltacloud_driver}.uniq
     unless targets.empty?
       factory_image = Aeolus::Image::Factory::Image.new(:id => @image.id)
       factory_image.targets = targets.join(',')
