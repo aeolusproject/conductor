@@ -43,6 +43,7 @@
           $("#deployables_preset_filter").change(function() {
             $("#apply_deployables_preset_filter").click();
           });
+          Conductor.clickOnEnterKeypress($('#deployables_search'), $('#apply_deployables_search'));
         });
 
     = filter_table(@header, @deployables) do |deployable|

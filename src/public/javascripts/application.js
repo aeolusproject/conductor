@@ -256,6 +256,15 @@ $.extend(Conductor, {
     });
   },
 
+  clickOnEnterKeypress: function($textField, $button) {
+    $textField.live('keypress', function(e) {
+      if((e.keyCode || e.which) == 13) {
+        e.preventDefault();
+        $button.click();
+      }
+    });
+  },
+
   fetchAjaxDescription: function(selector_box, description_field, base_url) {
     selector_box.live("change", function(e) {
       var realm_id = $(e.target).val();
