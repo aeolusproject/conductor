@@ -104,8 +104,18 @@ describe Provider do
       pa = FactoryGirl.create(:mock_provider_account, :provider => provider1)
       inst1 = FactoryGirl.create(:instance, :provider_account => pa)
       inst2 = FactoryGirl.create(:instance, :provider_account => pa)
-      errs = provider1.stop_instances(nil)
+      errs = provider1.disable(nil)[:failed_to_stop]
       errs.should be_empty
+    end
+
+    it "should not disable provider if instance stop action fails" do
+      provider1 = Factory.create(:mock_provider)
+      pa = FactoryGirl.create(:mock_provider_account, :provider => provider1)
+      inst1 = FactoryGirl.create(:instance, :provider_account => pa)
+      Instance.any_instance.stub(:valid_action?).and_return(false)
+      errs = provider1.disable(nil)[:failed_to_stop]
+      errs.should_not be_empty
+      provider1.enabled.should be_true
     end
 
   end
@@ -119,6 +129,24 @@ describe Provider do
       @provider.logger.should_receive(:error).twice
       @provider.url = "http://invalid.provider/url"
       @provider.connect.should be_nil
+    end
+  end
+
+  context "(inaccessible provider with running instance)" do
+    before(:each) do
+      @provider = FactoryGirl.create(:mock_provider)
+      @provider.stub!(:valid_framework?).and_return(false)
+      acc = FactoryGirl.create(:mock_provider_account)
+      inst = FactoryGirl.create(:instance, :provider_account => acc)
+      @provider.provider_accounts << acc
+    end
+
+    it "should return list of instances to terminate" do
+      @provider.instances_to_terminate.should_not be_empty
+    end
+
+    it "should return empty list of not terminated instances when disabled" do
+      @provider.disable(nil)[:failed_to_terminate].should be_empty
     end
   end
 

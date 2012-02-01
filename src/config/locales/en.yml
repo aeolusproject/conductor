@@ -976,18 +976,26 @@ en:
       test_connection: Test Connection
       required_field: Required field.
       caution_image: Caution
+    confirm_terminate:
+      terminate_instances: "Provider is not accessible, status of following instances will be changed to 'stopped' but their actual state is unknown."
+      disabled_provider: "Disable Provider"
+      disable: "Disable"
     flash:
       notice:
         added: "Provider added."
         updated: "Provider updated."
+        disabled: "Provider disabled."
         connected: "Successfully Connected to Provider"
         deleted: "Provider has been successfully deleted."
       error:
         not_added: "Cannot add the provider."
         not_updated: "Cannot update the provider."
+        not_disabled: "Cannot disabled the provider."
         not_deleted: "Provider was not deleted"
       warning:
         connect_failed: "Failed to connect to Provider!"
+        not_stopped_instances: "Provider was not disabled, failed to stop following instances:"
+        not_terminated_instances: "Provider was not disabled, failed to change status to 'stopped' for following instances:"
     alerts:
       type:
         critical: Critical

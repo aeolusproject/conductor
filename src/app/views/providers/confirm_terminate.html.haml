@@ -1,0 +1,14 @@
+= render :partial => 'layouts/admin_nav'
+= render :partial => 'section_header'
+
+%section.admin-content-section
+  %header
+    %h2= t(".disable_provider?")
+
+  .content
+    = t ".terminate_instances"
+    %ul
+      - @instances_to_terminate.each do |i|
+        %li= i.name
+    = link_to t('cancel'), edit_provider_path(@provider), :class => 'button'
+    = button_to "Disable", provider_path(@provider, :terminate => true, :provider => {:enabled => false}), :class => 'button', :method => :put, :id => 'disable_button'
