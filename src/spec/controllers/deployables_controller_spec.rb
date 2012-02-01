@@ -41,7 +41,7 @@ describe DeployablesController do
       hw_profile = FactoryGirl.create(:front_hwp1)
       catalog = FactoryGirl.create(:catalog)
       post(:create, :create_from_image => @image.id, :deployable => {:name => @image.name}, :hardware_profile => hw_profile.id, :catalog_id => catalog.id)
-      response.should redirect_to(catalog_url(catalog.id))
+      response.should be_redirect
     end
   end
 

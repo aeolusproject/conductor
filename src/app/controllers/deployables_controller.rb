@@ -149,6 +149,8 @@ class DeployablesController < ApplicationController
         flash[:notice] = t("catalog_entries.flash.notice.added", :catalog => @selected_catalogs.map{|c| c.name}.join(", "))
         if params[:edit_xml]
           redirect_to edit_polymorphic_path([@selected_catalogs.first, @deployable], :edit_xml =>true)
+        elsif params[:create_from_image]
+          redirect_to @deployable
         else
           redirect_to catalog_path(@selected_catalogs.first)
         end
