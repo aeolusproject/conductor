@@ -333,8 +333,9 @@ class Deployment < ActiveRecord::Base
   # if a match is found
   def check_assemblies_matches(user)
     errs = []
-    deployable_xml.assemblies.each do |assembly|
-      begin
+    instances = []
+    begin
+      deployable_xml.assemblies.each do |assembly|
         hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
         raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
         instance = Instance.new(
@@ -349,13 +350,21 @@ class Deployment < ActiveRecord::Base
           :owner => user,
           :hardware_profile => hw_profile
         )
+        instances << instance
         possibles, errors = instance.matches
         if possibles.empty? and not errors.empty?
           raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), errors)
         end
-      rescue
-        errs = $!.message
       end
+
+      deployment_errors = []
+      deployment_errors << I18n.t('instances.errors.pool_quota_reached') if not pool.quota.can_start?(instances)
+      deployment_errors << I18n.t('instances.errors.pool_family_quota_reached') if not pool.pool_family.quota.can_start?(instances)
+      if not deployment_errors.empty?
+        raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), deployment_errors)
+      end
+    rescue
+      errs = $!.message
     end
     errs
   end
