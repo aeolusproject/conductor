@@ -728,7 +728,7 @@ en:
       image_uuid: Component Outline UUID
       upload: Upload
       build_not_found: "Build not found"
-      new_deployable_from_image: "New Application Blueprint from Component Outline"
+      new_deployable_from_image: "New Blueprint from Outline"
       view_build: View build
       rebuild_all: Rebuild All
       build: Build
@@ -744,7 +744,7 @@ en:
       push_all: "Push all"
       can_not_build_imported_image: "Imported image can't be built or pushed"
       select_build: Select
-      template_xml: View Component Outline XML
+      template_xml: View XML
       failed_build_attempts:
         one: '1 failed build attempt'
         other: '%{count} failed build attempts'
