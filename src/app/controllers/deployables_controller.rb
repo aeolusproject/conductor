@@ -41,6 +41,10 @@ class DeployablesController < ApplicationController
       @deployable.name = @image.name
       @selected_catalogs = params[:catalog_id].to_a
       load_catalogs
+      flash[:error] = []
+      flash[:error] << t("deployables.flash.error.no_catalog_exists") if @catalogs.empty?
+      flash[:error] << t("deployables.flash.error.no_hwp_exists") if @hw_profiles.empty?
+      @save_disabled = !(flash[:error].empty?)
     elsif params[:catalog_id].present?
       @catalog = Catalog.find(params[:catalog_id])
       require_privilege(Privilege::MODIFY, @catalog)
