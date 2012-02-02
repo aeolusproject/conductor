@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,27 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Thu Feb 02 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-18
+- f99dfdb BZ 785196 added favicon.ico
+- 55b3562 BZ785006 Clicking pool and deployment links in list view, leads to appropriate list view
+- 3d9d3f6 BZ#785188 Remove the Aeolus logo from the footer
+- 63d02c9 BZ#781604 Fix inconsistent Search behaviour on Enter keypress
+- 87b172a BZ786452 Correct inconsistency in returning errors at API controllers
+- d64aff3 BZ 785216 - Fix priority comparison for provider accounts
+- 777517d BZ 785231: deployments: css for reworked launch time params form
+- b2e101e BZ 785231: deployments: reworked launch time params form
+- 74714ba Make 'rake spec' output more readable.
+- 6a62246 Fix translation conflict in the footer
+- e5f5e40 BZ 786162 removed help button from login page
+- a4258fc BZ 783910 added missing priority information
+- 9209d58 Fixing translation missing for to_sentence method
+- 80bdb30 Fixing syntax error in model.js
+- 2ed8e5b BZ 782336 ActiveRecord object is displayed in the failed instance column for pools.
+- e2315c5 BZ773034: Autoupdate for images#show (rev. 3)
+- 69c91b9 BZ 750504 Editing/Deleting backend Hardware Profiles
+- 6d81de3 IE: Fix the missing images in the Administer navigation
+- 26ed80c IE: Add the border to the User details card
+
 * Tue Jan 31 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-17
 - a1c5d20 Fixed flash[:notice] message in images#multi_destroy
 - 4fcf20e BZ782788: remove permission based filtering of provider accounts on deployables#show
