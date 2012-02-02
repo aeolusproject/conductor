@@ -16,20 +16,9 @@ Feature: Manage Pools
     And I select "default" from "pool_pool_family_id"
     And I fill in "quota_instances" with "unlimited"
     And I press "save_button"
-    Then I should be on the page for the pool "mockpool"
+    Then I should be on the pools page
     And I should see "mockpool"
     And I should have a pool named "mockpool"
-
-  Scenario: Create a new Pool over XHR
-    Given I request XHR
-    And I am on the new pool page
-    Then I should get back a partial
-    When I fill in "pool_name" with "mockpool"
-    And I select "default" from "pool_pool_family_id"
-    And I fill in "quota_instances" with "unlimited"
-    And I press "save_button"
-    Then I should get back a partial
-    And I should see "mockpool"
 
   Scenario: View Pool's Quota Usage
     Given I have Pool Creator permissions on a pool named "mockpool"
@@ -72,18 +61,17 @@ Feature: Manage Pools
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
     And I press "save_button"
-    Then I should be on the page for the pool "mockpool"
+    Then I should be on the pools page
     And I should see a confirmation message
     And I should see "mockpool"
     And I should have a pool named "mockpool"
-    When I go to the pools page
-    And I follow link with ID "filter_view"
+    When I follow link with ID "filter_view"
     And I follow "new_pool_button"
     Then I should be on the new pool page
     When I fill in "pool_name" with "foopool"
     And I select "default" from "pool_pool_family_id"
     And I press "save_button"
-    Then I should be on the page for the pool "foopool"
+    Then I should be on the pools page
     And I should see a confirmation message
     And I should have a pool named "mockpool"
     And I should have a pool named "foopool"

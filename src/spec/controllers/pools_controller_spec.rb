@@ -46,8 +46,7 @@ describe PoolsController do
          :enabled => true
        }
      end.should change(Pool, :count).by(1)
-     id = Pool.find(:first, :conditions => ['name = ?', 'foopool']).id
-     response.should redirect_to(pool_path(id))
+     response.should redirect_to(pools_path)
   end
 
   it "should allow RESTful delete of a single pool" do
