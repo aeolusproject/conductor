@@ -40,7 +40,8 @@
       .centered
         %fieldset.align-center
           = link_to t('deployables.form.cancel'), catalogs_path, :class => 'button danger'
-          = submit_tag "#{t'deployables.form.save'}", :name => 'save', :class => 'button primary', :id => 'save_button'
+          = submit_tag "#{t'deployables.form.save'}", :name => 'save', :class => 'button primary', :id => 'save_button', :disabled => @save_disabled
+
 :javascript
   function listChecked() {
     $("#checked_catalogs_list").text(function(){
