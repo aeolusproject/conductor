@@ -25,6 +25,34 @@ describe DeployablesController do
     mock_warden(@admin)
   end
 
+  describe "#new" do
+    context "with params[:create_from_image]" do
+      before do
+        @deployable = stub_model(Deployable, :name => "test_new", :id => 1)
+        @image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :name => 'image1', :uuid => '3c58e0d6-d11a-4e68-8b12-233783e56d35')
+        Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
+      end
+
+      it "returns flash[:error] when no hardware profile exists" do
+        get :new, :create_from_image => @image.id
+        flash[:error].should eql(["No hardware profile exists! Please create one."])
+      end
+
+      it "returns flash[:error] when no catalog and hardware profile exists" do
+        Catalog.stub(:list_for_user).and_return([])
+        get :new, :create_from_image => @image.id
+        flash[:error].should eql(["No catalog exists! Please create one.","No hardware profile exists! Please create one."])
+      end
+
+      it "returns flash[:error] when no catalog exists" do
+        Catalog.stub(:list_for_user).and_return([])
+        HardwareProfile.stub(:list_for_user).and_return([mock(HardwareProfile)])
+        get :new, :create_from_image => @image.id
+        flash[:error].should eql(["No catalog exists! Please create one."])
+      end
+    end
+  end
+
   describe "#create" do
     before(:each) do
       @image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :name => 'image1', :uuid => '3c58e0d6-d11a-4e68-8b12-233783e56d35')
