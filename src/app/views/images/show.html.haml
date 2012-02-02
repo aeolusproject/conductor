@@ -45,6 +45,8 @@
                   - if failed_build_count > 0
                     .light
                       = t('images.show.failed_build_attempts', :count => failed_build_count)
+                - elsif !@build
+                  = button_to t('.build'), image_target_images_path(@image.id, :target => driver, :build_id => @build ? @build.id : nil), :method => :post
                 - else
                   &nbsp;
             %dd
