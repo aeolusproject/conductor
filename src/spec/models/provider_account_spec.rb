@@ -153,6 +153,24 @@ describe ProviderAccount do
     @provider_account.should_not be_valid
   end
 
+  it "should not set credentials in intialise" do
+    @provider_account = ProviderAccount.new({:credentials_hash => {"username" => "test", "password" => "test"}})
+    @provider_account.credentials_hash.should == {}
+  end
+
+  it "should not set credentials before provider is set" do
+    @provider_account = ProviderAccount.new
+    @provider_account.credentials_hash = {"username" => "test", "password" => "test"}
+    @provider_account.credentials_hash.should == {}
+  end
+
+  it "should set credentials after provider is set" do
+    provider = FactoryGirl.create :mock_provider
+    @provider_account = ProviderAccount.new({:provider => provider})
+    @provider_account.credentials_hash = {"username" => "test", "password" => "test"}
+    @provider_account.credentials_hash.should == {"username" => "test", "password" => "test"}
+  end
+
   context "validations" do
     context "priority" do
       it "can be positive integer" do

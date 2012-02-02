@@ -74,6 +74,11 @@ class ProviderAccount < ActiveRecord::Base
 
   scope :enabled, lambda { where(:provider_id => Provider.enabled) }
 
+  # We set credentials hash as protected so that it is not set during mass assign on new
+  # This is to avoid the scenario where the credentials are set before provider which
+  # will result in an exception.
+  attr_protected :credentials_hash
+
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
       errors.add(:base, "#{cd.label} can't be blank") if credentials_hash[cd.name].blank?
@@ -213,16 +218,18 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def credentials_hash=(hash={})
-    cred_defs = provider.provider_type.credential_definitions
-    hash.each do |k,v|
-      cred_def = cred_defs.detect {|d| d.name == k.to_s}
-      raise "Key #{k} not found" unless cred_def
-      unless cred = credentials.detect {|c| c.credential_definition_id == cred_def.id}
-          cred = Credential.new(:provider_account_id => id, :credential_definition_id => cred_def.id)
-          credentials << cred
+    if provider
+      cred_defs = provider.provider_type.credential_definitions
+      hash.each do |k,v|
+        cred_def = cred_defs.detect {|d| d.name == k.to_s}
+        raise "Key #{k} not found" unless cred_def
+        unless cred = credentials.detect {|c| c.credential_definition_id == cred_def.id}
+            cred = Credential.new(:provider_account_id => id, :credential_definition_id => cred_def.id)
+            credentials << cred
+        end
+        # we need to handle uploaded files:
+        cred.value = v.respond_to?(:read) ? v.read : v
       end
-      # we need to handle uploaded files:
-      cred.value = v.respond_to?(:read) ? v.read : v
     end
   end
 

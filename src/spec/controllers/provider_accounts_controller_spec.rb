@@ -42,7 +42,7 @@ describe ProviderAccountsController do
 
   it "doesn't allow to save provider's account if not valid credentials" do
     mock_warden(@admin)
-    post :create, :provider_account => {:provider_id => @provider.id}, :provider_id => @provider.id
+    post :create, :provider_account => {:provider_id => @provider.id, :credentials_hash => {}}, :provider_id => @provider.id
     response.should be_success
     response.should render_template("new")
     request.flash[:error].should == "Cannot add the provider account."

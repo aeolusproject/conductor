@@ -79,6 +79,7 @@ class ProviderAccountsController < ApplicationController
     params[:provider_account][:provider_id] = @provider.id
     @providers = Provider.all
     @provider_account = ProviderAccount.new(params[:provider_account])
+    @provider_account.credentials_hash = params[:provider_account][:credentials_hash]
     @provider_account.quota = @quota = Quota.new
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @provider_account.quota.set_maximum_running_instances(limit)
@@ -119,10 +120,14 @@ class ProviderAccountsController < ApplicationController
 
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @provider_account.quota.set_maximum_running_instances(limit)
-    if @provider_account.update_attributes(params[:provider_account])
+    credentials_hash = params[:provider_account].delete(:credentials_hash)
+    @provider_account.attributes = params[:provider_account]
+    @provider_account.credentials_hash= credentials_hash
+    if @provider_account.save
       flash[:notice] = t"provider_accounts.flash.notice.updated"
       redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
     else
+      puts "==================================================================\n" + @provider_account.errors.inspect
       flash[:error] = t"provider_accounts.flash.error.not_updated"
       render :action => :edit
     end
