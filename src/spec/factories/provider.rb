@@ -37,6 +37,13 @@ FactoryGirl.define do
     after_create { |p| p.realms << FactoryGirl.create(:realm3, :provider => p) }
   end
 
+  factory :mock_provider_with_unavailable_realm, :parent => :provider do
+    provider_type {ProviderType.find_by_deltacloud_driver("mock")}
+    url 'http://localhost:3002/api'
+    hardware_profiles { |hp| [hp.association(:mock_hwp1), hp.association(:mock_hwp2)] }
+    after_create { |p| p.realms << FactoryGirl.create(:realm1, :provider => p, :available => false) }
+  end
+
   factory :ec2_provider, :parent => :provider do
     name 'amazon-ec2'
     provider_type { ProviderType.find_by_deltacloud_driver("ec2") }

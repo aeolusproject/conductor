@@ -339,6 +339,8 @@ class ProviderAccount < ActiveRecord::Base
   def instance_matches(instance, matched, errors)
     if !provider.enabled?
       errors << I18n.t('instances.errors.must_be_enabled', :account_name => name)
+    elsif !provider.available?
+      errors << I18n.t('instances.errors.provider_not_available', :account_name => name)
     elsif quota.reached?
       errors << I18n.t('instances.errors.provider_account_quota_reached', :account_name => name)
     # match_provider_hardware_profile returns a single provider
@@ -358,7 +360,10 @@ class ProviderAccount < ActiveRecord::Base
             next
           end
           brealms.each do |brealm_target|
-            if (brealm_target.target_realm.nil? || realms.include?(brealm_target.target_realm))
+            # add match if realm is mapped to provider or if it's mapped to
+            # backend realm which is available and is accessible for this
+            # provider account
+            if (brealm_target.target_realm.nil? || (brealm_target.target_realm.available && realms.include?(brealm_target.target_realm)))
               matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, brealm_target.target_realm)
             end
           end

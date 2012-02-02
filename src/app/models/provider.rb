@@ -157,6 +157,15 @@ class Provider < ActiveRecord::Base
 
   def populate_realms
     reload
+
+    # if the provider is not running, mark as unavailable and don't refresh its
+    # realms
+    unless valid_framework?
+      update_attribute(:available, false)
+      logger.warn "provider #{name} is not available"
+      return
+    end
+
     conductor_acct_realms = {}
     conductor_acct_realm_ids = {}
     deltacloud_realms = []
@@ -164,7 +173,12 @@ class Provider < ActiveRecord::Base
     dc_acct_realm_ids = {}
     self.transaction do
       provider_accounts.each do |acct|
-        client = acct.connect
+        # if account is not accessible (but provider is running)
+        # account's realms will be removed
+        unless client = acct.connect
+          logger.warn "provider account #{acct.name} is not available"
+          next
+        end
         dc_acct_realms[acct.label] = client.realms
         dc_acct_realm_ids[acct.label] = dc_acct_realms[acct.label].collect{|r| r.id}
         dc_acct_realms[acct.label].each do |dc_realm|
@@ -195,16 +209,18 @@ class Provider < ActiveRecord::Base
 
       # Add anything in Deltacloud to Conductor if it's not already there
       deltacloud_realms.each do |d_realm|
-        unless conductor_realm_ids.include?(d_realm.id)
+        unless ar_realm = conductor_realms.detect {|r| r.external_key == d_realm.id}
           ar_realm = Realm.new(:external_key => d_realm.id,
                                  :name => d_realm.name ? d_realm.name : d_realm.id,
                                  :provider_id => id)
-          ar_realm.save!
         end
+        ar_realm.available = d_realm.state.downcase == 'available'
+        ar_realm.save!
       end
 
       # add any new provider account realm mappings
       provider_accounts.each do |acct|
+        next unless dc_acct_realms[acct.label]
         dc_acct_realms[acct.label].each do |d_realm|
           unless conductor_acct_realm_ids[acct.label].include?(d_realm.id)
             acct.realms << realms.where("external_key" => d_realm.id)

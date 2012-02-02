@@ -38,5 +38,4 @@ FactoryGirl.define do
     name 'backend_name'
     external_key 'backend_key'
   end
-
 end
