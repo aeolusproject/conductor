@@ -205,6 +205,25 @@ describe Instance do
     @instance.matches.last.should include(I18n.t('instances.errors.hw_profile_match_not_found', :account_name => 'testaccount'))
   end
 
+  it "shouldn't match frontend realms mapped to unavailable providers" do
+    build = @instance.image_build || @instance.image.latest_pushed_build
+    provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name, :available => false)
+    realm_target = FactoryGirl.create(:realm_backend_target, :realm_or_provider => provider)
+    @instance.frontend_realm = realm_target.frontend_realm
+    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+    @instance.matches.last.should include(I18n.t('instances.errors.provider_not_available', :account_name => 'testaccount'))
+  end
+
+  it "shouldn't match frontend realms mapped to unavailable realms" do
+    build = @instance.image_build || @instance.image.latest_pushed_build
+    provider = FactoryGirl.create(:mock_provider_with_unavailable_realm, :name => build.provider_images.first.provider_name)
+    realm_target = FactoryGirl.create(:realm_backend_target, :realm_or_provider => provider.realms.first)
+    @instance.frontend_realm = realm_target.frontend_realm
+    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+    @instance.matches.last.should include(I18n.t('instances.errors.realm_not_mapped', :frontend_realm_name => @instance.frontend_realm.name))
+  end
+
+
   it "shouldn't return any matches if instance hwp architecture doesn't match image architecture" do
     @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount')]
     @instance.hardware_profile.architecture.value = 'i386'
