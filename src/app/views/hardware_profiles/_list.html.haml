@@ -20,6 +20,7 @@
       $("#hardware_profiles_preset_filter").change(function() {
         $("#apply_hardware_profiles_preset_filter").click();
       });
+      Conductor.clickOnEnterKeypress($('#hardware_profiles_search'), $('#apply_hardware_profiles_search'));
     });
 
 = filter_table(hardware_profiles_header, @hardware_profiles) do |hwp|

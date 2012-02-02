@@ -120,39 +120,47 @@ form.generic section.services {
   background: $services_background;
   overflow: hidden;
 
+  .labels {
+    margin-top: 64px;
+    width: 250px;
+    float: left;
 
-  h4.service {
-    font-size: 14px;
-    font-weight: normal;
-    position: relative;
-    z-index: 1;
-    $left_padding: 26px;
-    padding: 0.5em 0 0.5em $left_padding;
-    width: $services_width - $left_padding + 1px;
-    border-bottom: 1px solid transparent;
+    h4.service {
+      font-size: 14px;
+      font-weight: normal;
+      position: relative;
+      z-index: 1;
+      $left_padding: 26px;
+      padding: 0.5em 0 0.5em $left_padding;
+      width: $services_width - $left_padding + 1px;
+      border-bottom: 1px solid transparent;
 
-    &:hover {
-      background: darken($services_background, 20%);
-      cursor: pointer;
-    }
-    &.selected {
-      background: $services_background;
-      border-bottom: $services_border;
-      cursor: default;
-    }
-    &.filled-out {
-      background-image: url('../../images/filled_out_params_indicator.png');
-      background-repeat: no-repeat;
-      background-position: 8px center;
+      &:hover {
+        background: darken($services_background, 20%);
+        cursor: pointer;
+      }
+      &.selected {
+        background: $services_background;
+        border-bottom: $services_border;
+        cursor: default;
+      }
+      &.filled-out {
+        background-image: url('../../images/filled_out_params_indicator.png');
+        background-repeat: no-repeat;
+        background-position: 8px center;
+      }
     }
   }
 
-  .parameters {
-    display: none;
-    position: absolute;
-    top: 88px;
-    left: $services_width;
-    padding: 1em;
+  .params-container {
+    margin-left: 250px;
+
+    .parameters {
+      display: none;
+      top: 88px;
+      left: $services_width;
+      padding: 1em;
+    }
   }
 
   #service-headers {

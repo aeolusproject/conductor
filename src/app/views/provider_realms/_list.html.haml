@@ -15,6 +15,7 @@
       $("#provider_realms_preset_filter").change(function() {
         $("#apply_provider_realms_preset_filter").click();
       });
+      Conductor.clickOnEnterKeypress($('#provider_realms_search'), $('#apply_provider_realms_search'));
     });
 
 = filter_table(provider_realms_header, @realms) do |realm|

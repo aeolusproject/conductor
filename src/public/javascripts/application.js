@@ -164,6 +164,34 @@ $.extend(Conductor, {
     });
   },
 
+  urlParams: function() {
+    var paramsData = window.location.search.slice(1).split('&');
+    var params = {};
+    $.each(paramsData, function(index, value){
+      var eqSign = value.search('=');
+      if(eqSign != -1) {
+        params[value.substring(0, eqSign)] = value.substring(eqSign+1);
+      }
+    });
+
+    return params;
+  },
+
+  extractQueryParams: function(paramsToInclude) {
+    var result = {};
+    var urlParams = Conductor.urlParams();
+
+    $.each(paramsToInclude, function(paramIndex, paramValue) {
+      for (var urlParamName in urlParams) {
+        if (urlParamName == paramValue) {
+          result[urlParamName] = urlParams[urlParamName];
+          break;
+        }
+      };
+    });
+
+    return result;
+  },
 
   prefixedPath: function(path) {
     var prefix = this.PATH_PREFIX;
@@ -205,6 +233,10 @@ $.extend(Conductor, {
     return parseInt(urlFragment.split('?')[0]);
   },
 
+  uuidFromURLFragment: function(urlFragment) {
+    return urlFragment.split('?')[0];
+  },
+
   saveCheckboxes: function(checkboxSelector, $scope) {
     if(!$scope) $scope = $;
 
@@ -221,6 +253,15 @@ $.extend(Conductor, {
     $.each(checkedIds, function(index, id) {
       var $checkbox = $scope.find(checkboxSelector + '[value="' + id + '"]');
       $checkbox.prop('checked', true);
+    });
+  },
+
+  clickOnEnterKeypress: function($textField, $button) {
+    $textField.live('keypress', function(e) {
+      if((e.keyCode || e.which) == 13) {
+        e.preventDefault();
+        $button.click();
+      }
     });
   },
 

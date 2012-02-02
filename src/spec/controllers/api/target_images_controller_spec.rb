@@ -212,11 +212,20 @@ describe Api::TargetImagesController do
             get :destroy, :id => '99'
           end
 
-          it { response.headers['Content-Type'].should include("application/xml") }
-          it "should have error" do
-            resp = Hash.from_xml(response.body)
-            resp['error']['code'].should == "TargetImageDeleteFailure"
-            resp['error']['message'].should == "Could not find TargetImage 99"
+          context "response code" do
+            subject { response.code.to_i }
+            it { should == 404 }
+          end
+          context "response's Content-Type header" do
+            subject { response.headers['Content-Type'] }
+            it { should include "application/xml" }
+          end
+          context "response's body" do
+            subject { Hash.from_xml response.body }
+            it "should have error" do
+              subject['error']['code'].should == "TargetImageNotFound"
+              subject['error']['message'].should == "Could not find TargetImage 99"
+            end
           end
         end
       end

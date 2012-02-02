@@ -23,6 +23,7 @@
           $("#catalog_entries_preset_filter").change(function() {
             $("#apply_catalog_entries_preset_filter").click();
           });
+          Conductor.clickOnEnterKeypress($('#catalog_entries_search'), $('#apply_catalog_entries_search'));
         });
 
     = filter_table(@header, @deployables) do |deployable|

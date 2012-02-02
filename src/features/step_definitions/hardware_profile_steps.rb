@@ -83,3 +83,13 @@ Then /^I should see the hardware profiles table$/ do
   localized_text_present 'hardware_profiles.index.storage'
   localized_text_present 'hardware_profiles.index.architecture'
 end
+
+Then /^I should not see the edit button$/ do
+  page.should have_no_selector('#edit_button')
+end
+
+Then /^I should not see the delete button$/ do
+  within('#obj_actions') do
+    page.should have_no_selector('input[value=delete]')
+  end
+end

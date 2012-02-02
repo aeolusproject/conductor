@@ -3,6 +3,7 @@
   %head
     %meta{:charset => 'utf-8'}/
     %title Aeolus Conductor
+    %link{:rel =>  'shortcut icon', :href => '/favicon.ico'}
     = stylesheet_link_tag '/stylesheets/reset.css'
     = stylesheet_link_tag '/stylesheets/960.css'
     = stylesheet_link_tag '/stylesheets/buttons.css'
@@ -56,10 +57,9 @@
       .clearfooter
     %footer.standard
       .container
-        %span.logo Aeolus
         #legal
           %nav.footer
-            %a{:href => '#'}= t :disclaimer
-            %a{:href => '#'}= t :terms_of_use
-            %a{:href => '#'}= t :support
-            %span.copyright!= t :copyright
+            %a{:href => '#'}= t('layout.disclaimer')
+            %a{:href => '#'}= t('layout.terms_of_use')
+            %a{:href => '#'}= t('layout.support')
+            %span.copyright!= t('layout.copyright')

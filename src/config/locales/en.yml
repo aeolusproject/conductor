@@ -1,9 +1,10 @@
 en:
-  disclaimer: Disclaimer
-  terms_of_use: Terms of Use
-  support: Support
-  copyright: "Copyright &copy; 2009-2012 Red Hat, Inc. All Rights Reserved."
-  dashboard: Dashboard
+  layout:
+    disclaimer: Disclaimer
+    terms_of_use: Terms of Use
+    support: Support
+    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc. All Rights Reserved."
+    dashboard: Dashboard
   datetime:
     distance_in_words:
       x_hours:
@@ -515,9 +516,9 @@ en:
           other: Cloud Resource Profiles %{deleted} were deleted.
       error:
         not_deleted: "Cloud Resource Profile was not deleted!"
-        more_not_deleted:
-          one: "Insufficient permissions to delete Cloud Resource Profile %{not_deleted}!"
-          other: "Insufficient permissions to delete %{count} Cloud Resource Profiles %{not_deleted}!"
+      warning:
+        cannot_edit_backend_hwp: "Cannot modify Provider Cloud Resource Profiles"
+        cannot_delete_backend_hwp: "Cannot delete Provider Cloud Resource Profiles"
     preset_filters:
       all_hardware_profiles: "All Hardware Profiles"
       x86_64architecture: "x86_64 architecture"
@@ -1275,3 +1276,8 @@ en:
       target_image_not_found: Could not find TargetImage %{targetimage}
       target_image_not_found_for_account: Could not find an appropriate target image for account %{account}
       target_not_found: Could not find Target %{target}
+  support:
+    array:
+      words_connector: ', '
+      two_words_connector: ' and '
+      last_word_connector: ', and '

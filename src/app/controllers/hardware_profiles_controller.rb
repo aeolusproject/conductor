@@ -90,6 +90,11 @@ class HardwareProfilesController < ApplicationController
   def destroy
     hardware_profile = HardwareProfile.find(params[:id])
     require_privilege(Privilege::MODIFY, hardware_profile)
+    if hardware_profile.provider_hardware_profile?
+      flash[:warning] = t "hardware_profiles.flash.warning.cannot_delete_backend_hwp"
+      redirect_to hardware_profile_path(hardware_profile)
+      return
+    end
     if hardware_profile.destroy
        flash[:notice] = t "hardware_profiles.flash.notice.deleted"
     else
@@ -103,6 +108,11 @@ class HardwareProfilesController < ApplicationController
       @hardware_profile = HardwareProfile.find(params[:id])
     end
     require_privilege(Privilege::MODIFY, @hardware_profile)
+    if @hardware_profile.provider_hardware_profile?
+      flash[:warning] = t "hardware_profiles.flash.warning.cannot_edit_backend_hwp"
+      redirect_to hardware_profile_path(@hardware_profile)
+      return
+    end
     matching_provider_hardware_profiles
   end
 

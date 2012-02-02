@@ -2,12 +2,12 @@ Conductor.Models = Conductor.Models || {}
 
 
 Conductor.Models.Pool = Backbone.Model.extend({
-  urlRoot: Conductor.prefixedPath('/pools')
+  urlRoot: Conductor.prefixedPath('/pools'),
 
   initialize: function() {
     this.deployments = new Conductor.Models.Deployments().filter(function(attributes) {
-        return attributes.pool.id == this.id;
-        });
+      return attributes.pool.id == this.id;
+    });
   }
 });
 
@@ -48,6 +48,14 @@ Conductor.Models.Deployments = Backbone.Collection.extend({
   queryParams: {},
   url: function() {
     var path = Conductor.prefixedPath('/deployments');
+    return Conductor.parameterizedPath(path, this.queryParams);
+  }
+});
+
+Conductor.Models.Image = Backbone.Model.extend({
+  queryParams: {},
+  url: function() {
+    var path = Conductor.prefixedPath('/images/' + this.id);
     return Conductor.parameterizedPath(path, this.queryParams);
   }
 });

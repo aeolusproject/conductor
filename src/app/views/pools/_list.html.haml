@@ -20,6 +20,7 @@
       $("#pools_preset_filter").change(function() {
         $("#apply_pools_preset_filter").click();
       });
+      Conductor.clickOnEnterKeypress($('#pools_search'), $('#apply_pools_search'));
     });
 
 = filter_table(@header, @pools) do |pool|
@@ -27,7 +28,7 @@
     %td{:class => 'checkbox'}
       %input{:name => "pools_selected[]", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
     %td{:class => 'alert'}= (@statistics[:instances_failed] & pool.instances).present? ? image_tag("sb_icon_instance_failure.png") : ""
-    %td= link_to(pool.name, pool)
+    %td= link_to(pool.name, pool_path(pool, :view => :filter))
     %td{:class => 'center'}= pool.deployments.count
     %td{:class => 'center'}= pool.statistics[:total_instances]
     %td{:class => 'center'}= pool.statistics[:instances_pending]
@@ -47,7 +48,7 @@
           #{image_tag("sb_icon_instance_failure.png")}
         {{/if}}
       </td>
-      <td><a href="#{pool_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
+      <td><a href="#{pool_path('replace_id', :view => :filter).sub('replace_id', '${id}')}">${name}</a></td>
       <td class="center">${deployments_count}</td>
       <td class="center">${statistics.total_instances}</td>
       <td class="center">${statistics.instances_pending}</td>

@@ -85,3 +85,22 @@ Conductor.Routers.Deployments = Backbone.Router.extend({
     }, Conductor.AJAX_REFRESH_INTERVAL);
   }
 });
+
+Conductor.Routers.Images = Backbone.Router.extend({
+  routes: {
+    'images/:id': 'show'
+  },
+
+  show: function(id) {
+    id = Conductor.uuidFromURLFragment(id);
+
+    setInterval(function() {
+      var image = new Conductor.Models.Image({ id: id });
+
+      var view = new Conductor.Views.ImagesShow({ model: image });
+      view.model.queryParams = view.queryParams();
+
+      image.fetch({ success: function() { view.render(); } })
+    }, Conductor.AJAX_REFRESH_INTERVAL);
+  }
+});
