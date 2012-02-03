@@ -220,7 +220,7 @@ describe Instance do
     realm_target = FactoryGirl.create(:realm_backend_target, :realm_or_provider => provider.realms.first)
     @instance.frontend_realm = realm_target.frontend_realm
     @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
-    @instance.matches.last.should include(I18n.t('instances.errors.realm_not_mapped', :frontend_realm_name => @instance.frontend_realm.name))
+    @instance.matches.last.should include(I18n.t('instances.errors.realm_not_mapped', :account_name => 'testaccount', :frontend_realm_name => @instance.frontend_realm.name))
   end
 
 

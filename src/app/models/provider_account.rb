@@ -356,7 +356,7 @@ class ProviderAccount < ActiveRecord::Base
         if not instance.frontend_realm.nil?
           brealms = instance.frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == provider}
           if brealms.empty?
-            errors << I18n.t('instances.errors.realm_not_mapped', :frontend_realm_name => instance.frontend_realm.name)
+            errors << I18n.t('instances.errors.realm_not_mapped', :account_name => name, :frontend_realm_name => instance.frontend_realm.name)
             next
           end
           brealms.each do |brealm_target|
