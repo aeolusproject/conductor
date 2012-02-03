@@ -1116,6 +1116,7 @@ en:
       invalid_credentials: Login credentials are invalid for this provider.
       populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
       populate_realms_failed: "Failed to populate realms: %{message}"
+      could_not_connect: "Could not connect to provider account.  Please contact an administrator."
   config_servers:
     certificate_help: Provide a certificate to enable https support
     section_header:
