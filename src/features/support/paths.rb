@@ -186,6 +186,13 @@ module NavigationHelpers
     when /^the "(.*)" catalog catalog entries page/
       url_for catalog_deployables_path(Catalog.find_by_name($1))
 
+    when /^the new deployable page for "(.*)"/
+      url_for new_catalog_deployable_path(Catalog.find_by_name($1))
+
+    when /^the edit deployable page for "(.*)"/
+      deployable = Deployable.find_by_name $1
+      url_for edit_catalog_deployable_path(deployable.catalogs.first, deployable)
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

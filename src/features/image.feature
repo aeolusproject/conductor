@@ -12,7 +12,7 @@ Feature: Manage Images
     And I am on the new image page for "testpoolfamily"
     When I fill in "name" with "my template"
     And I press "file_button"
-    Then I should see "You must specify the template XML file"
+    Then I should see an error message
 
   Scenario: Edit an invalid XML when creating an image
     Given there is a pool family named "testpoolfamily"
