@@ -178,11 +178,11 @@ class Instance < ActiveRecord::Base
 
 
   def image
-    Aeolus::Image::Warehouse::Image.find(image_uuid) if image_uuid
+    @image ||= Aeolus::Image::Warehouse::Image.find(image_uuid) if image_uuid
   end
 
   def image_build
-    Aeolus::Image::Warehouse::ImageBuild.find(image_build_uuid) if image_build_uuid
+    @image_build ||= Aeolus::Image::Warehouse::ImageBuild.find(image_build_uuid) if image_build_uuid
   end
 
   def build
@@ -357,7 +357,7 @@ class Instance < ActiveRecord::Base
     # try to get architecture of the image associated with this instance
     # for imported images template is empty -> architecture is not set,
     # in this case we omit this check
-    return Aeolus::Image::Warehouse::Image.find(build.image.uuid).os.arch
+    return image.os.arch
   rescue
     logger.warn "failed to get image architecture for instance '#{name}', skipping architecture check: #{$!}"
     logger.warn $!.backtrace.join("\n  ")
