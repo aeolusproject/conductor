@@ -155,7 +155,7 @@ en:
   quota_used: Quota Used
   return_to: Return to
   properties: Properties
-  hw_profiles: HW Profiles
+  hw_profiles: Cloud Resource Profiles
   services: Services
   history: History
   realm_s: Cloud Resource Clusters
@@ -201,16 +201,15 @@ en:
       hdd: HDD
       ram: RAM
       arch: ARCH
-      deployable_xml: Deployable XML
+      deployable_xml: Application Blueprint XML
     new:
-      launch: Launch this deployment
-      deployable_definition: Deployable definition
+      launch: Launch this application
+      deployable_definition: Application Blueprint definition
       view: View
-      deployable_details: Deployable details
+      deployable_details: Application Blueprint details
       name: "Name:"
       description: "Description:"
-      asseblies_name: Assembly Name
-      hardware_profile: Hardware Profile
+      hardware_profile: Cloud Resource Profile
       image_id: Component Outline ID
       build_id: Build ID
     edit:
@@ -274,9 +273,9 @@ en:
       stop_invalid_action: "stop is an invalid action."
       cannot_stop: "stop cannot be performed on this instance."
       all_stopped: "All instances must be stopped or running"
-      not_valid_deployable_xml: "seems to be not valid deployable XML: %{msg}"
+      not_valid_deployable_xml: "seems to be not valid application blueprint XML: %{msg}"
     preset_filters:
-      all_deployments: All Deployments
+      all_deployments: All Applications
   instances:
     instances:
       one: Instance
@@ -368,14 +367,14 @@ en:
       image_not_pushed_to_provider: "%{account_name}: component outline is not pushed to this provider account"
       provider_account_quota_reached:  "%{account_name}: provider account quota reached"
       no_config_server_available: "%{account_name}: no config server available for provider account"
-      realm_not_mapped: "%{account_name}: Cloud Resource Cluster %{frontend_realm_name} is not mapped to any cloud resource provider or provider realm"
+      realm_not_mapped: "%{account_name}: Cloud Resource Cluster %{frontend_realm_name} is not mapped to any cloud resource provider or provider cluster"
       provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch application blueprint"
       stop_invalid: "stop is an invalid action."
       stop_not_be_performed: "stop cannot be performed on this instance."
       must_be_enabled: "%{account_name}: provider must be enabled"
       provider_not_available: "%{account_name}: provider is not available"
       cannot_destroy: "destroy cannot be performed on this instance."
-      architecture_mismatch: "Assembly hardware profile architecture (%{inst_arch}) doesn't match hardware profile architecture (%{img_arch})."
+      architecture_mismatch: "Component blueprint cloud resource profile architecture (%{inst_arch}) doesn't match cloud resource profile architecture (%{img_arch})."
     headers:
       vm_name: VM NAME
       status: STATUS
@@ -420,7 +419,7 @@ en:
       destroy: Destroy
     images:
       catalog: Catalog
-      catalog_entry: Deployable
+      catalog_entry: Application Blueprint
       image: "Component Outline:"
       pushed: %{uuid} pushed to %{provider}
     properties:
@@ -519,7 +518,7 @@ en:
         cannot_edit_backend_hwp: "Cannot modify Provider Cloud Resource Profiles"
         cannot_delete_backend_hwp: "Cannot delete Provider Cloud Resource Profiles"
     preset_filters:
-      all_hardware_profiles: "All Hardware Profiles"
+      all_hardware_profiles: "All Cloud Resource Profiles"
       x86_64architecture: "x86_64 architecture"
       i386architecture: "i368 architecture"
   realms:
@@ -540,7 +539,7 @@ en:
       mapping_realm: Add mapping to cloud resource cluster
       mapping_provider: Add mapping to cloud resource provider
       realm_mapped_providers: "Cloud Resource Cluster %{name} is mapped to providers:"
-      realm_mapped_realms: "Cloud Resource Cluster %{name} is mapped to provider realms:"
+      realm_mapped_realms: "Cloud Resource Cluster %{name} is mapped to provider resource cluster:"
     properties:
       realm_details: Cloud Resource Cluster Details
       realm_name: Cloud Resource Cluster Name
@@ -618,19 +617,19 @@ en:
         select_to_add_accounts: "You must select at least one Provider Account to add."
         select_to_remove_accounts: "You must select at least one Provider Account to remove."
   catalog_entries:
-    new_catalog_entry: New Deployable
+    new_catalog_entry: New Application Blueprint
     index:
-      catalog_entry: Deployable
-      catalog_entries: Deployables
+      catalog_entry: Application Blueprint
+      catalog_entries: Application Blueprints
       name: Name
-      deployable_xml: Deployable XML
+      deployable_xml: Application Blueprint XML
     new:
-      add_catalog_entry: Add New Deployable
-      choose_option_to_upload: Choose one of the following options to upload deployable XML file
+      add_catalog_entry: Add New Application Blueprint
+      choose_option_to_upload: Choose one of the following options to upload application blueprint XML file
       upload: Upload
       from_url: From URL
       name: Name
-      hw_profile: Default Hardware Profile
+      hw_profile: Default Cloud Resource Profile
       catalog_detail: "%{name} Catalog"
     show:
       edit: Edit
@@ -644,21 +643,21 @@ en:
       rebuild_all: Rebuild all images
       start: Start
     edit:
-      editing_catalog_entry: Editing Deployable
+      editing_catalog_entry: Editing Application Blueprint
     list:
-      catalog_entries_list: Deployables List
+      catalog_entries_list: Application Blueprints List
     flash:
       warning:
-        not_valid_or_reachable: Catalog entry XML file is either invalid or no longer reachable at
+        not_valid_or_reachable: Application Blueprint XML file is either invalid or no longer reachable at
         no_url_provided: "No URL provided for the application blueprint XML file."
         not_valid: "Application Blueprint url doesn't resolve valid XML file"
         failed: Application Blueprint was not created.
       notice:
-        added: Deployable added to catalog %{catalog}.
-        updated: Deployable updated successfully!
-        deleted: Deployable removed from catalog %{catalog}.
+        added: Application Blueprint added to catalog %{catalog}.
+        updated: Application Blueprint updated successfully!
+        deleted: Application Blueprint removed from catalog %{catalog}.
     preset_filters:
-      all_catalog_entries: All Deployables
+      all_catalog_entries: All Application Blueprints
   catalogs:
     catalogs: Catalogs
     new_catalog: New Catalog
@@ -686,12 +685,12 @@ en:
         one_deleted: Catalog deleted!
       error:
         not_deleted:
-          one: "Catalog %{not_deleted} cannot be deleted! Some deployable has the last reference to this catalog!"
-          other: "These catalogs %{not_deleted} cannot be deleted! Some of their deployables have the last reference to the catalogs!"
+          one: "Catalog %{not_deleted} cannot be deleted! Some application blueprint has the last reference to this catalog!"
+          other: "These catalogs %{not_deleted} cannot be deleted! Some of their application blueprints have the last reference to the catalogs!"
         not_deleted_perms:
           one: "Insufficient permissions to delete catalog %{not_deleted}!"
           other: "Insufficient permissions to delete %{count} catalogs %{not_deleted}!"
-        one_not_deleted: "Catalog cannot be deleted! Some deployable has the last reference to this catalog!"
+        one_not_deleted: "Catalog cannot be deleted! Some application blueprint has the last reference to this catalog!"
     preset_filters:
       all_catalogs: "All Catalogs"
       belongs_to_default_pool: "Belongs to Default Cloud Resource Zone"
@@ -729,7 +728,7 @@ en:
       image_uuid: Component Outline UUID
       upload: Upload
       build_not_found: "Build not found"
-      new_deployable_from_image: "New Deployable from Component Outline"
+      new_deployable_from_image: "New Application Blueprint from Component Outline"
       view_build: View build
       rebuild_all: Rebuild All
       build: Build
@@ -745,7 +744,7 @@ en:
       push_all: "Push all"
       can_not_build_imported_image: "Imported image can't be built or pushed"
       select_build: Select
-      template_xml: View Template XML
+      template_xml: View Component Outline XML
       failed_build_attempts:
         one: '1 failed build attempt'
         other: '%{count} failed build attempts'
@@ -765,7 +764,7 @@ en:
         not_found: Component Outline not found
       error:
         invalid_url: Could not load the provided URL
-        no_file: You must specify the template XML file
+        no_file: You must specify the component outline XML file
         no_template: "The image doesn't have a component outline because it's been imported."
         no_provider_accounts: Images cannot be built, as no provider accounts are currently enabled.
     new:
@@ -845,14 +844,14 @@ en:
       choose_catalog: "Choose a catalog to enable access:"
       add_catalog: "Add +"
       name: Name
-      hw_profile: HW Profile
+      hw_profile: Cloud Resource Profile
       hdd: HDD
       ram: RAM
       arch: ARCH
       repair_images: Repair Component Outlines
       images_valid: Component Outlines Valid
       build_description:
-        "Allow this deployable's associated component outlines(s) to be built and
+        "Allow this application blueprint's associated component outlines(s) to be built and
         pushed to cloud resource providers by enabling them below."
       catalog_name: Catalog name
       environment: Cloud
@@ -864,7 +863,7 @@ en:
         pushed: "All Component Outlines are pushed and recent."
       build_missing: "Build missing"
       push_missing: "Push missing"
-      image_uuid: "Image UUID: %{uuid}\n"
+      image_uuid: "Component Outline UUID: %{uuid}\n"
       latest_build_uuid: "Latest Build UUID: %{uuid}\n"
       target_images_uuids: "Target Images UUIDs: %{uuid}\n"
       n_a: "N/A"
@@ -884,23 +883,23 @@ en:
         attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"
         no_catalog: "No catalogs selected"
         not_deleted:
-          one: "Deployable %{not_deleted} delete failed!"
-          other: "%{count} deployables %{not_deleted} were not deleted!"
+          one: "Application blueprint %{not_deleted} delete failed!"
+          other: "%{count} application blueprints %{not_deleted} were not deleted!"
         not_deleted_perms:
-          one: "Insufficient permissions to delete deployable %{not_deleted}!"
-          other: "Insufficient permissions to delete %{count} deployables %{not_deleted}!"
-        not_selected: "No deployable was not selected!"
+          one: "Insufficient permissions to delete application blueprint %{not_deleted}!"
+          other: "Insufficient permissions to delete %{count} application blueprint %{not_deleted}!"
+        not_selected: "No application blueprint was not selected!"
         no_catalog_exists: "No catalog exists! Please create one."
-        no_hwp_exists: "No hardware profile exists! Please create one."
+        no_hwp_exists: "No cloud resource profile exists! Please create one."
       warning:
         failed: "Application Blueprint was not created: %{message}"
       notice:
         deleted:
-          one: "Deployable %{deleted} delete successfully!"
-          other: "%{count} deployables %{deleted} were deleted!"
+          one: "Application blueprint %{deleted} deleted successfully!"
+          other: "%{count} application blueprints %{deleted} were deleted!"
     error:
       attribute_not_exists: invalid
-      hwp_not_exists: "Hardware profile %{name} specified in XML doesn't exist."
+      hwp_not_exists: "Cloud resource profile %{name} specified in XML doesn't exist."
     properties:
       edit_deployable_xml: Edit Application Blueprint XML
   name: Name
@@ -1110,8 +1109,8 @@ en:
     errors:
       exception_while_validating: An error occurred when checking provider credentials. Please check your setup and try again.
       invalid_credentials: Login credentials are invalid for this provider.
-      populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
-      populate_realms_failed: "Failed to populate realms: %{message}"
+      populate_hardware_profiles_failed: "Failed to populate cloud resource profiles: %{message}"
+      populate_realms_failed: "Failed to populate clusters: %{message}"
   config_servers:
     certificate_help: Provide a certificate to enable https support
     section_header:
@@ -1276,7 +1275,7 @@ en:
       in_grabbing_target_images: "In grabbing list of target images: %{error}"
       insufficient_privileges: Insufficient privileges to perform the requested action.
       invalid_parameters_for_account_and_target_image: "Invalid parameters for Account: %{account} TargetImage: %{targetimage}"
-      invalid_template: "Invalid template: %{errors}"
+      invalid_template: "Invalid component outline: %{errors}"
       no_image_build_or_target_image: "Invalid Parameters: No Image, Build or TargetImage provided in request"
       no_matching_target_image: Could not find any matching Target Images
       no_provider_account_given: No provider account given
