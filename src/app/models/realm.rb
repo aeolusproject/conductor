@@ -55,16 +55,6 @@ class Realm < ActiveRecord::Base
     "#{self.provider.name}: #{self.name}"
   end
 
-  # Run through all providers and try to find provider accounts
-  # This may be rather slow as it must query deltacloud for each provider
-  def self.scan_for_new
-    providers = Provider.all(:include => :provider_accounts)
-    providers.each do |provider|
-      provider.populate_realms
-    end
-    true
-  end
-
   private
 
   def self.apply_search_filter(search)
