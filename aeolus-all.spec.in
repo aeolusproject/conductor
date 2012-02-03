@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	19%{?dist}
+Release:	20%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,18 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Fri Feb  3 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-20
+- 3a5aa30 BZ786262 Fix missing navigation for Provider Realms
+- 78cbf85 BZ 786344 added pre-launch validation for multi-instance deployments
+- 3413bf7 BZ781579: Autoupdate for deployables#show
+- 70a31de BZ 786581: ui: "Clouds" icon in /pool_families is now cloud
+- 54fce80 BZ 785184: branding: shadowman's background from blue to red
+- 1ee0024 BZ750957 Redirect to pools pretty view after creating pools
+- 9ef3edb BZ 782879 fixes images count in images table in deployable detail page
+- f143e2f BZ 785184: branding: shadowman's background from blue to red
+- 559f99e BZ#782768 Fix a few typos in the Flash messages
+- d109293 Fix the Launch button on Deployable Details page
+
 * Thu Feb 02 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-19
 - a50be41 BZ#785189 Removed sort urls from hwp table headers
 - 64e9948 BZ#786126 Do not mass assign on credentials hash
