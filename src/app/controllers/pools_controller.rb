@@ -122,9 +122,7 @@ class PoolsController < ApplicationController
       if @pool.save
         @pool.assign_owner_roles(current_user)
         flash[:notice] = t "pools.flash.notice.added"
-        format.html { redirect_to :action => 'show', :id => @pool.id }
-        # TODO - The new UI is almost certainly going to want a new partial for .js
-        format.js { render :partial => 'show', :id => @pool.id }
+        format.html { redirect_to pools_path }
         format.json { render :json => @pool, :status => :created }
       else
         flash.now[:warning] = t "pools.flash.warning.creation_failed"

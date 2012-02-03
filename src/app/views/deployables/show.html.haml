@@ -9,7 +9,7 @@
         = link_to t('.edit_xml'), edit_polymorphic_path([@catalog, @deployable], :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
 
     - if @catalog.present? && @deployable_errors.empty? && @pushed_count > 0
-      = link_to t('.launch'), launch_new_deployments_path(:deployable_id => @deployable.id, :pool_id => @catalog.pool), :id => :launch_deployment_button
+      = link_to t('.launch'), launch_time_params_deployments_path(:deployable_id => @deployable.id, :deployment => { :name => @deployable.name, :pool_id => @catalog.pool }), :id => :launch_deployment_button
     -else
       %a{:id => :launch_deployment_button, :class => 'disabled'}= t('.launch')
 
@@ -106,3 +106,36 @@
       %h2.roles= t('role_assignments')
     .content
       = render :partial => 'permissions/permissions'
+
+%script#deployableBuildsTemplate{ :type => 'text/x-jquery-tmpl' }
+  :plain
+    {{each(provider_type, results) build_results}}
+      {{each(index, result) results}}
+        <li>
+          <div class="summary">
+            <div class="info">
+              <h2>${provider_type}</h2>
+              <span>${result['provider']}</span>
+              |
+              <span>${result['account']}</span>
+            </div>
+            <div class="controls">
+              <div class="build_status">
+                {{if result['status'] == 'not_built'}}
+                  <span>#{t('deployables.show.build_statuses_descriptions.not_built')}</span>
+                {{else result['status'] == 'building'}}
+                  <span>#{t('deployables.show.build_statuses_descriptions.building')}</span>
+                {{else result['status'] == 'not_pushed'}}
+                  <span>#{t('deployables.show.build_statuses_descriptions.not_pushed')}</span>
+                {{else result['status'] == 'pushing'}}
+                  <span>#{t('deployables.show.build_statuses_descriptions.pushing')}</span>
+                {{else result['status'] == 'pushed'}}
+                  <span>#{t('deployables.show.build_statuses_descriptions.pushed')}</span>
+                {{/if}}
+                <div class="build_status_icon ${result['status']}"></div>
+              </div>
+            </div>
+          </div>
+        </li>
+      {{/each}}
+    {{/each}}

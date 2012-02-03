@@ -134,6 +134,18 @@ Conductor.Views.PoolsShow = Backbone.View.extend({
   }
 });
 
+Conductor.Views.DeployablesShow = Backbone.View.extend({
+
+  el: '#content',
+
+  render: function() {
+    var $builds = this.$('ul#providers-list');
+    if($builds.length === 0) return;
+
+    $builds.empty();
+    $('#deployableBuildsTemplate').tmpl(this.model.toJSON()).appendTo($builds);
+  }
+});
 
 Conductor.Views.DeploymentsShow = Backbone.View.extend({
 
@@ -157,7 +169,6 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
   }
 
 });
-
 
 Conductor.Views.ImagesShow = Backbone.View.extend({
   el: '#content',

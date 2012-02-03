@@ -565,7 +565,7 @@ en:
         select_to_delete_mapping: "You must select at least one mapping to delete."
         not_deleted: "Cloud Resource Cluster was not deleted!"
         select_to_delete: "You must select at least one cloud resource cluster to delete."
-        more_not_deleted: "Could not deleted these Cloud Resource Clusters:"
+        more_not_deleted: "Could not delete these Cloud Resource Clusters:"
     preset_filters:
       all_realms: "All Cloud Resource Clusters"
   pool_families:
@@ -1209,7 +1209,7 @@ en:
         updated: "Role updated successfully!"
         more_deleted: "These Roles were deleted:"
       error:
-        more_not_deleted: "Could not deleted these Roles:"
+        more_not_deleted: "Could not delete these Roles:"
   date:
     formats:
       default: "%Y-%m-%d"
