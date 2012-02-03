@@ -19,6 +19,7 @@ CONDUCTOR_GROUP="${CONDUCTOR_GROUP:-aeolus}"
 THIN_PROG="${THIN_PROG:-thin}"
 THIN_PID="${THIN_PID:-/var/run/aeolus-conductor/thin.pid}"
 THIN_LOG="${THIN_LOG:-/var/log/aeolus-conductor/thin.log}"
+THIN_LOCKFILE="${THIN_LOCKFILE:-/var/lock/subsys/aeolus-conductor}"
 PREFIX="${PREFIX:-/conductor}"
 ADDR="${ADDR:-127.0.0.1}"
 
@@ -30,11 +31,11 @@ STARTTIMEOUT=60
 . /etc/init.d/functions
 
 start() {
-    echo -n "Starting aeolus-conductor: "
+    echo -n "Starting ${THIN_PROG}: "
     if [ -f "$THIN_PID" ] && checkpid `cat $THIN_PID` ; then
         echo_failure
         echo
-        echo "Thin is already running"
+        echo "${THIN_PROG} is already running"
         exit 1
     fi
 
@@ -50,6 +51,7 @@ start() {
             /usr/bin/curl --silent http://$ADDR:3000$PREFIX >& /dev/null
             RETVAL=$?
             if [ $RETVAL -eq 0 ] ; then
+                touch ${THIN_LOCKFILE}
                 echo_success
                 echo
                 exit 0
@@ -65,8 +67,11 @@ start() {
 }
 
 stop() {
-    echo -n "Shutting down aeolus-conductor: "
-    killproc -p $THIN_PID thin
+    echo -n "Shutting down ${THIN_PROG}: "
+    killproc -p $THIN_PID ${THIN_PROG}
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] && rm -f ${THIN_LOCKFILE} ${THIN_PID}
 }
 
 case "$1" in
@@ -86,7 +91,7 @@ case "$1" in
         restart
         ;;
     status)
-        status -p $THIN_PID
+        status -p ${THIN_PID} ${THIN_PROG}
         RETVAL=$?
         ;;
     *)
