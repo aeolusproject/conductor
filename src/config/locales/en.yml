@@ -587,8 +587,8 @@ en:
       available_instances: "Available Inst."
       failed_instances: "Failed Inst."
       enabled: Enabled
-      yes: Yes
-      no: No
+      answer_yes: "Yes"
+      answer_no: "No"
       catalog: "Catalog"
       total_statistics: TOTAL
     new:
