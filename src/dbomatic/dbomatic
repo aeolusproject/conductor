@@ -31,6 +31,7 @@ daemon = true
 dbomatic_log_dir = "/var/log/aeolus-conductor"
 dbomatic_pid_dir = "/var/run/aeolus-conductor"
 $dbomatic_timeout = 60
+$realms_timeout = 300
 $deltacloud_timeout = 30
 
 optparse = OptionParser.new do |opts|
@@ -54,6 +55,9 @@ BANNER
   opts.on( '-n', '--nodaemon', 'Do not daemonize (useful in combination with -l for debugging)') { daemon = false }
   opts.on( '-t', '--timeout N', 'Time out (in seconds) between refreshes (defaults to #{$dbomatic_timeout})', Integer) do |timeout|
     $dbomatic_timeout = timeout
+  end
+  opts.on( '-r', '--realms-timeout N', 'Time out (in seconds) between refreshes of realms (defaults to #{$realms_timeout})', Integer) do |timeout|
+    $realms_timeout = timeout
   end
 end
 
@@ -91,7 +95,7 @@ class DBomaticLogger < Logger
 end
 
 logger = DBomaticLogger.instance
-logger.level = Logger::DEBUG
+logger.level = Logger::INFO
 logger.datetime_format = "%Y-%m-%d %H:%M:%S "  # simplify time output
 logger.info "DBOmatic starting up"
 
@@ -182,7 +186,7 @@ def check_one_account(account)
     if instance.state != Instance::STATE_NEW and instance.state != Instance::STATE_STOPPED
       api_instance = connection.instance(instance.external_key)
       if api_instance
-        DBomaticLogger.instance.debug("updating instance state for #{instance.name}: #{instance.external_key}")
+        DBomaticLogger.instance.info("updating instance state for #{instance.name}: #{instance.external_key}")
         instance.state = Taskomatic.dcloud_to_instance_state(api_instance.state)
 
         # only update the public and private addresses if they are not nil.
@@ -196,7 +200,7 @@ def check_one_account(account)
         # Only update the instance / create an event if anything has changed!
         instance.save! if instance.changed?
       else
-        DBomaticLogger.instance.debug("ignoring unknown instance #{instance.name} #{instance.external_key}")
+        DBomaticLogger.instance.info("ignoring unknown instance #{instance.name} #{instance.external_key}")
       end
     end
 
@@ -205,7 +209,7 @@ def check_one_account(account)
     if instance.state == Instance::STATE_STOPPED and instance.total_state_time(Instance::STATE_RUNNING) == 0
       api_instance = connection.instance(instance.external_key)
       if api_instance
-        DBomaticLogger.instance.debug("starting instance #{instance.name}: #{instance.external_key}")
+        DBomaticLogger.instance.info("starting instance #{instance.name}: #{instance.external_key}")
         # TODO: do we need to set an actual user here instead of nil?
         task = instance.queue_action(nil, 'start')
         unless task
@@ -219,9 +223,7 @@ def check_one_account(account)
   end
 end
 
-def refresh_instances
-  accounts = collect_accounts
-
+def run_parallel(list)
   # the idea here is that we fork off one process for each provider account.
   # this is so that one slow or non-responsive deltacloud doesn't hold up the
   # status for all of them
@@ -232,14 +234,14 @@ def refresh_instances
   # before forking, and then have each child re-establish their own connection.
   # We also have to have the parent re-establish the connection so that
   # "collect_accounts" works properly
-  ActiveRecord::Base.logger = nil
+  ActiveRecord::Base.logger = DBomaticLogger.instance
   ActiveRecord::Base.remove_connection
-  accounts.each do |account|
+  list.each do |item|
     pid = Process.fork
     if pid.nil?
       # child
       ActiveRecord::Base.establish_connection
-      check_one_account(account)
+      yield item
       Kernel.exit!
     else
       # parent
@@ -268,6 +270,22 @@ def refresh_instances
   end
 end
 
+def refresh_instances
+  DBomaticLogger.instance.info "Deltacloud instances refresh started"
+  run_parallel(collect_accounts) do |account|
+    check_one_account(account)
+  end
+  DBomaticLogger.instance.info "Deltacloud instances refresh completed"
+end
+
+def refresh_realms
+  DBomaticLogger.instance.info "Deltacloud realms refresh started"
+  run_parallel(Provider.all) do |provider|
+    provider.populate_realms
+  end
+  DBomaticLogger.instance.info "Deltacloud realms refresh completed"
+end
+
 begin
   # load in the rails models; we delay it until here because the Process.daemon
   # above wreaks havoc with the database connection
@@ -280,17 +298,23 @@ rescue Exception => e
   raise
 end
 
+last_realms_refresh = 0
+
 logger.info "Beginning main event loop"
 while true
-  logger.debug "Deltacloud instances refresh started"
+  logger.info "Deltacloud refresh started"
   begin
     refresh_instances
+    if (Time.now.to_i - last_realms_refresh) > $realms_timeout
+      last_realms_refresh = Time.now.to_i
+      refresh_realms
+    end
   rescue Exception => e
     logger.error "#{e.backtrace.shift}: #{e.message}"
     e.backtrace.each do |step|
       logger.error "\tfrom #{step}"
     end
   end
-  logger.debug "Deltacloud instances refresh completed"
+  logger.info "Deltacloud refresh completed"
   sleep $dbomatic_timeout
 end
