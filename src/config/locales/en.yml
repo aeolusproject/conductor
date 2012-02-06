@@ -306,32 +306,33 @@ en:
       edit_instance: Edit instance
       name: Name
     history:
-       history_for: History for
+       history_for: "History for: "
     parameters:
        config_parameters_for: Config Parameters for
+       none: None
     permissions:
      permissions_for: Permissions for
     properties:
       properties_for: Properties for
-      name: Name
-      status: Status
-      public_addresses: Public Addresses
-      private_adresses: Private Addresses
-      assembly: Assembly
-      provider: Provider
-      architecture: Architecture
-      memory: Memory
-      storage: Storage
-      instantiation_time: Instantiation Time
-      current_alerts: Current Alerts
-      console_connection: Console Connection
+      name: "Name:"
+      status: "Status: "
+      public_addresses: "Public Addresses: "
+      private_adresses: "Private Addresses: "
+      assembly: "Assembly: "
+      provider: "Provider: "
+      architecture: "Architecture: "
+      memory: "Memory: "
+      storage: "Storage: "
+      instantiation_time: "Instantiation Time: "
+      current_alerts: "Current Alerts: "
+      console_connection: "Console Connection: "
       via_ssh: via SSH
-      ssh_key: SSH key
-      ssh_key_name: SSH key name
+      ssh_key: "SSH key: "
+      ssh_key_name: "SSH key name: "
       download: Download
-      owner: Owner
-      shared_to: Shared to
-      error: Error
+      owner: "Owner: "
+      shared_to: "Shared to: "
+      error: "Error: "
       n_a: "N/A"
     flash:
       warning:

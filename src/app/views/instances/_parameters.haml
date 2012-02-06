@@ -1,10 +1,14 @@
-%h3
-  = t 'instances.parameters.config_parameters_for'
-  = @instance.name
-%ul
-  - @instance.instance_parameters.each do |parameter|
-    %li
-      = parameter.service
-      = parameter.name
-      = parameter.type
-      = parameter.value
+%div.instance_details
+  %h3
+    = t 'instances.parameters.config_parameters_for'
+    = @instance.name
+  %ul
+    - if @instance.instance_parameters.empty?
+      %li= t("instances.parameters.none")
+    - else
+      - @instance.instance_parameters.each do |parameter|
+        %li
+          = parameter.service
+          = parameter.name
+          = parameter.type
+          = parameter.value
