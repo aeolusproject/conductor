@@ -115,11 +115,11 @@
                 button_to(t('images.show.build'), path, :method => :post)}
               {{if failed_build_counts[driver] > 1}}
                 <div class="light">
-                  #{t('images.show.failed_build_attemts', :count => '${failed_build_counts[driver]}' )}
+                  #{t('images.show.failed_build_attempts', :count => '${failed_build_counts[driver]}')}
                 </div>
               {{else failed_build_counts[driver] == 1}}
                 <div class="light">
-                  #{t('images.show.failed_build_attemts', :count => 1 )}
+                  #{t('images.show.failed_build_attempts', :count => 1 )}
                 </div>
               {{/if}}
             {{else}}
@@ -175,9 +175,9 @@
                           path = path.sub('replace_account_id', '${account[\'id\']}')
                           button_to(t('images.show.upload'), path, :method => :post, :class => 'upload_image')}
                           {{if failed_push_counts[account['id']] > 1}}
-                            #{t('images.show.failed_push_attemts', :count => '${failed_push_counts[account[\'id\']]}' )}
+                            #{t('images.show.failed_push_attempts', :count => '${failed_push_counts[account[\'id\']]}' )}
                           {{else failed_push_counts[account['id']] == 1}}
-                            #{t('images.show.failed_push_attemts', :count => 1 )}
+                            #{t('images.show.failed_push_attempts', :count => 1 )}
                           {{/if}}
                       {{else provider_images[account['id']]}}
                         #{path = image_provider_image_path('replace_image_id', 'replace_provider_image_id')
