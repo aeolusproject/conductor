@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  20%{?dist}
+Release:  21%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -322,6 +322,21 @@ fi
 %{app_root}/spec
 
 %changelog
+* Mon Feb  6 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-21
+- bf7a0f1 permit empty first / last names in create_admin rake task
+- 523be1f BZ 787280 - Remove unused links from footer
+- 5aba1bc BZ 786612: change "New component outline" to green
+- 8a80b0f BZ 786225 - New Image workflow tweak
+- 3b39e52 Fix a typo in images#show
+- 8cef905 BZ 743677 - stop/terminate instances when disabling inaccessible provider
+- f976660 BZ 784564 - some running instances were not stopped when deleting a deployment
+- d31f56e BZ 784499 added check to ensure task exists before saving
+- 86c1cbe BZ 786865: Add THIN_LOCKFILE for improved service shutdown and status
+- fc27711 Whitespace cleanup
+- a770e80 Fixed login redirect-to-original-destination issue (BZ 782242).
+- 69841ba Fixed 2 keys/values for successful conversion YAML to PO file
+- 3767f28 Make some more tests i18n-independent
+
 * Fri Feb  3 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-20
 - 3a5aa30 BZ786262 Fix missing navigation for Provider Realms
 - 78cbf85 BZ 786344 added pre-launch validation for multi-instance deployments
@@ -333,7 +348,6 @@ fi
 - f143e2f BZ 785184: branding: shadowman's background from blue to red
 - 559f99e BZ#782768 Fix a few typos in the Flash messages
 - d109293 Fix the Launch button on Deployable Details page
-
 
 * Thu Feb 02 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-19
 - a50be41 BZ#785189 Removed sort urls from hwp table headers
