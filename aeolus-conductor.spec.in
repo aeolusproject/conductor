@@ -17,6 +17,7 @@ URL:      http://aeolusproject.org
 # cp aeolus-conductor-0.3.0.tar.gz ~/rpmbuild/SOURCES
 Source0:    aeolus-conductor-%{version}.tar.gz
 
+Requires: system-logos
 Requires: ruby >= 1.8.1
 Requires: ruby(abi) = 1.8
 Requires: rubygem(rails) >= 3.0.7
@@ -229,6 +230,9 @@ touch %{buildroot}%{_localstatedir}/log/%{name}/dbomatic.log
 
 # copy script files over
 %{__cp} -r src/script %{buildroot}%{app_root}
+
+# link the redhat logo
+ln -svf %{_sysconfdir}/favicon.png %{buildroot}%{app_root}/public/images/favicon.png
 
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
 
