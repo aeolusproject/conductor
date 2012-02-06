@@ -317,7 +317,7 @@ class ImagesController < ApplicationController
   protected
   def load_target_images(build)
     @target_images_by_target = {}
-    return unless build
+    return unless build and @latest_build.present?
     build.target_images.each {|timg| @target_images_by_target[timg.target] = timg}
     @target_images_by_target
   end
@@ -330,7 +330,7 @@ class ImagesController < ApplicationController
              elsif @latest_build
                @builds.find {|b| b.id == @latest_build}
              else
-               @builds.first
+               nil
              end
   end
 
