@@ -1102,6 +1102,8 @@ en:
         must_select_account: "You must select some accounts first."
         no_provider: "You don't have any provider yet"
     errors:
+      exception_while_validating: An error occurred when checking provider credentials. Please check your setup and try again.
+      invalid_credentials: Login credentials are invalid for this provider.
       populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
       populate_realms_failed: "Failed to populate realms: %{message}"
   config_servers:

@@ -64,6 +64,14 @@ describe ProviderAccount do
     provider_account.save.should == false
   end
 
+  it "should add errors when testing credentials fails" do
+    provider_account = Factory.build(:mock_provider_account)
+    provider_account.credentials_hash = {'password' => "wrong_password"}
+    provider_account.stub(:valid_credentials).and_raise("DeltacloudError")
+    provider_account.save.should == false
+    provider_account.errors[:base].should == [I18n.t('provider_accounts.errors.exception_while_validating')]
+  end
+
   it "should fail to create a cloud account if fetching of hw profiles fails" do
     provider_account = Factory.build(:mock_provider_account)
     provider_account.stub(:populate_hardware_profiles).and_raise(ActiveRecord::RecordInvalid)
