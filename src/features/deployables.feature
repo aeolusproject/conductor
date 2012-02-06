@@ -11,14 +11,13 @@ Feature: Manage Catalog Entries
   Scenario: Create new catalog entry
     Given there is a "default" catalog
     When I am on the "default" catalog catalog entries page
-    Then I should see "Deployables"
-    When I follow "new_catalog_entry_button"
-    Then I should see "Add New Deployable"
+    And I follow "new_catalog_entry_button"
+    Then I should be on the new deployable page for "default"
     When I fill in "deployable[name]" with "test1"
     And I fill in "deployable[description]" with "description"
     When I attach the file "features/upload_files/deployable.xml" to "deployable[xml]"
     And I press "save_button"
-    Then I should see "Deployable added"
+    Then I should see a confirmation message
 
   Scenario: Change the name
     Given there is a "default" catalog
@@ -26,10 +25,10 @@ Feature: Manage Catalog Entries
     When I am on the "default" catalog catalog entries page
     When I follow "testdepl"
     And I follow "edit_button"
-    Then I should see "Editing Deployable"
+    Then I should be on the edit deployable page for "testdepl"
     When I fill in "deployable[name]" with "testdepl-renamed"
     And I press "save_button"
-    Then I should see "Deployable updated successfully!"
+    Then I should see a confirmation message
     And I should see "testdepl-renamed"
 
   Scenario: Show catalog entry details
@@ -59,7 +58,7 @@ Feature: Manage Catalog Entries
     And I press "delete_button"
     Then I should be on the "default" catalog page
     And there should be only 0 catalog entries for "default" catalog
-    And I should see "2 deployables testdepl1, testdepl2 were deleted!"
+    And I should see a confirmation message
 
   Scenario: Delete deployable
     Given there is a "default" catalog
@@ -69,7 +68,7 @@ Feature: Manage Catalog Entries
     And I press "delete"
     Then I should be on the "default" catalog page
     And there should be only 0 catalog entries for "default" catalog
-    And I should see "Deployable testdepl1 delete successfully!"
+    And I should see a confirmation message
 
   #Scenario: Search Catalog Entries
   #  Given there is a "testcatalog" catalog

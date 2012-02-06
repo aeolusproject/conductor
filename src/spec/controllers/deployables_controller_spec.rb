@@ -41,7 +41,7 @@ describe DeployablesController do
       hw_profile = FactoryGirl.create(:front_hwp1)
       catalog = FactoryGirl.create(:catalog)
       post(:create, :create_from_image => @image.id, :deployable => {:name => @image.name}, :hardware_profile => hw_profile.id, :catalog_id => catalog.id)
-      response.should redirect_to(catalog_url(catalog.id))
+      response.should be_redirect
     end
   end
 
@@ -64,7 +64,7 @@ describe DeployablesController do
 
       it "deletes a deployable and appears flash notice" do
         delete :destroy, :id => @deployable.id
-        flash[:notice].should eql("Deployable test_delete delete successfully!")
+        flash[:notice].should_not be_empty
       end
     end
 
@@ -80,7 +80,7 @@ describe DeployablesController do
 
       it "not delete a deployable and shows flash error" do
         delete :destroy, :id => @deployable.id
-        flash[:error].should eql("Deployable test_delete delete failed!")
+        flash[:error].should_not be_empty
       end
     end
   end
@@ -99,20 +99,20 @@ describe DeployablesController do
 
       it "deletes both deployables and shows flash notice" do
         delete :multi_destroy, :deployables_selected => [@deployable1.id, @deployable2.id]
-        flash[:notice].should eql("2 deployables #{@deployable1.name}, #{@deployable2.name} were deleted!")
+        flash[:notice].should_not be_empty
       end
 
       it "not delete deployable1 but not deployable2 and shows flash notice and error" do
         Deployable.any_instance.stub(:destroy).and_return(false)
         delete :multi_destroy, :deployables_selected => [@deployable1.id, @deployable2.id]
-        flash[:error].should eql("2 deployables #{@deployable1.name}, #{@deployable2.name} were not deleted!")
+        flash[:error].should_not be_empty
       end
     end
 
     context "without params[:deployables_selected]" do
       it "not delete a deployable and shows flash error" do
         delete :multi_destroy
-        flash[:error].should eql("No deployable was not selected!")
+        flash[:error].should_not be_empty
       end
     end
   end

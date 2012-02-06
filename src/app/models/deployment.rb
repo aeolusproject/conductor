@@ -158,7 +158,7 @@ class Deployment < ActiveRecord::Base
 
       # stop all deployment's instances
       instances.each do |instance|
-        break unless instance.state == Instance::STATE_RUNNING
+        next unless instance.state == Instance::STATE_RUNNING
 
         @task = instance.queue_action(instance.owner, 'stop')
         unless @task

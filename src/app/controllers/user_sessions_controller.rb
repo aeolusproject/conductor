@@ -23,6 +23,7 @@ class UserSessionsController < ApplicationController
   layout 'login'
 
   def new
+    session[:return_to] ||= request.get? ? request.request_uri : request.referer
   end
 
   def create
@@ -33,7 +34,7 @@ class UserSessionsController < ApplicationController
         flash[:notice] = t"user_sessions.flash.notice.login"
         redirect_back_or_default root_url
       end
-      format.js { render :status => 201, :text => root_url }
+      format.js { render :status => 201, :text => session[:return_to] || root_url }
     end
   end
 

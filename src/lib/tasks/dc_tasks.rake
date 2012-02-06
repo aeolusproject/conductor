@@ -1,7 +1,7 @@
 namespace :dc do
   desc 'Create and register a new user'
   task :create_user, [:login, :password, :email, :first_name, :last_name] => :environment do |t, args|
-    unless args.login && args.email && args.password && args.first_name && args.last_name
+    unless args.login && args.email && args.password
       puts "Usage: rake 'dc:create_user[login,password,email,first_name,last_name]'"
       exit(1)
     end
@@ -13,11 +13,14 @@ namespace :dc do
       exit(1)
     end
 
+    first_name = args.first_name.nil? ? "" : args.first_name
+    last_name  = args.last_name.nil?  ? "" : args.last_name
+
     user = User.new(:login => args.login, :email => args.email,
                     :password => args.password,
                     :password_confirmation => args.password,
-                    :first_name => args.first_name,
-                    :last_name => args.last_name,
+                    :first_name => first_name,
+                    :last_name  => last_name,
                     :quota => Quota.new)
     registration = RegistrationService.new(user)
     if registration.save

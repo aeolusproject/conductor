@@ -16,9 +16,6 @@
         %h2= t('.valid_image')
         %p.description= t('.description', :name => @name)
 
-        %fieldset.align-center
-          = check_box_tag :make_deployable, 1, true
-          = label_tag :make_deployable, t('.make_deployable', :name => @name)
       .centered
         %fieldset.align-center
           = submit_tag t('.back'), :name => 'back', :id => 'back_button', :class => 'button'

@@ -92,6 +92,18 @@ Feature: Manage Providers
     And I should see "Provider is disabled."
     And I should not see "Error while stopping an instance"
 
+  Scenario: Disable an inaccessible provider
+    Given there is a provider named "provider1"
+    And this provider has a provider account with 2 running instances
+    And provider "provider1" is not accessible
+    When I go to the provider1's edit provider page
+    And I press "provider_submit"
+    Then I should see "Provider is not accessible, status of following instances will be changed to 'stopped'"
+    When I press "disable_button"
+    Then I should be on the provider1's edit provider page
+    And I should see "Provider is disabled."
+    And provider "provider1" should have all instances stopped
+
   Scenario: Persist selected provider
     Given there is a provider named "provider1"
     And there is a provider named "provider2"
