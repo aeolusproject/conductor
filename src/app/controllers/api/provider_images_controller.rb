@@ -64,12 +64,16 @@ module Api
         return
       end
 
+      @pool_family = PoolFamily.find_by_name(target_images.first.build.image.environment)
+      environment_accounts = @pool_family.provider_accounts
       @provider_images = []
       @errors = []
       doc.xpath("/provider_image/provider_account").text.split(",").each do |account_name|
         account = ProviderAccount.find_by_label(account_name)
         if !account
           raise(Aeolus::Conductor::API::ProviderAccountNotFound.new(404, t("api.error_messages.provider_account_not_found", :name => account_name)))
+        elsif !environment_accounts.include?(account)
+          raise(Aeolus::Conductor::API::ParameterDataIncorrect.new(400, t("api.error_messages.account_not_found_in_environment", :account => account.label, :accounts => environment_accounts.collect{|a|a.label}.join(", "))))
         end
 
         target_image = find_target_image_for_account(target_images, account)

@@ -716,6 +716,7 @@ en:
         not_found: Target Image not found
   images:
     environment: %{environment} Environment
+    environment_header: Environment
     import:
       import_image: Import Image
       provider_account: Provider Account
@@ -903,6 +904,8 @@ en:
         not_selected: "No deployable was not selected!"
         no_catalog_exists: "No catalog exists! Please create one."
         no_hwp_exists: "No hardware profile exists! Please create one."
+        missing_image: "%{assembly}: Image (UUID: %{uuid}) doesn't exist"
+        wrong_environment: "%{assembly}: Image (UUID: %{uuid}) belongs to the wrong environment (%{wrong_env}) instead of %{environment}"
       warning:
         failed: "Deployable was not created: %{message}"
       notice:
@@ -1283,7 +1286,10 @@ en:
       create_new: Create a new Realm Mapping
   api:
     error_messages:
+      account_not_found_in_environment: "Provider Account %{account} is not in this environment. Valid accounts include %{accounts}."
       build_not_found: Could not find Build %{build}
+      environment_required: "Environment parameter is required."
+      environment_not_found: "Environment %{environment} was not found."
       image_not_found: Could not find Image %{image}
       image_not_found_on_provider: "Could not find Image %{image} on provider"
       in_grabbing_target_images: "In grabbing list of target images: %{error}"
@@ -1298,10 +1304,12 @@ en:
       provider_image_status_not_found: Could not find status for ProviderImage %{providerimage}
       push_error: "Could not push TargetImage %{targetimage} to %{account} and error %{error}"
       specify_a_type_build_or_import: Please specify a type, build or import
+      specify_environment: Please specify an environment
       target_image_status_not_found: Could not find status for TargetImage %{targetimage}
       target_image_not_found: Could not find TargetImage %{targetimage}
       target_image_not_found_for_account: Could not find an appropriate target image for account %{account}
       target_not_found: Could not find Target %{target}
+      target_not_found_in_environment: Target %{target} has no provider accounts in this environment. Valid targets include %{targets}."
   support:
     array:
       words_connector: ', '

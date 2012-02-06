@@ -146,7 +146,8 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/api \
       app/views/images \
       app/views/api/builds app/views/api/provider_images \
-      app/views/api/target_images app/views/api/entrypoint"
+      app/views/api/target_images app/views/api/entrypoint \
+      app/views/api/environments"
 html="public"
 ico="public"
 jpg="public/images public/stylesheets/images"

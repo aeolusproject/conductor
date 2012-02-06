@@ -1,0 +1,9 @@
+!!!XML
+%environment{:id => environment.id, :href => api_image_url(environment.id) }
+  %name= environment.name
+  %description= environment.description
+  %targets{:type => 'xs:list'}
+    - ProviderAccount.enabled.group_by_type(environment).select{|driver,group| group[:included]}.each do |driver, group|
+      %target{:name => driver}
+        - group[:accounts].select{|account| account[:included]==true}.each do |account|
+          %account{:name => account[:account].name}

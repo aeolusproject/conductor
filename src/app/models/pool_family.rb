@@ -36,6 +36,8 @@ class PoolFamily < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   DEFAULT_POOL_FAMILY_KEY = "default_pool_family"
 
+  after_update :fix_iwhd_environment_tags
+
   has_many :pools,  :dependent => :destroy
   belongs_to :quota, :dependent => :destroy
   accepts_nested_attributes_for :quota
@@ -82,5 +84,20 @@ class PoolFamily < ActiveRecord::Base
                                              :precision => 0),
       :available_quota => avail,
     }
+  end
+  def build_targets
+    targets = []
+    ProviderAccount.enabled.group_by_type(self).each do |driver, group|
+      targets << driver if group[:included]
+    end
+    targets
+  end
+
+  def fix_iwhd_environment_tags
+    if name_changed?
+      Aeolus::Image::Warehouse::Image.by_environment(name_was).each do |image|
+        image.set_attr("environment", name)
+      end
+    end
   end
 end

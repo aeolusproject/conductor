@@ -316,12 +316,17 @@ class ProviderAccount < ActiveRecord::Base
 
   PRESET_FILTERS_OPTIONS = []
 
-  def self.group_by_type(user)
+  def self.group_by_type(pool_family)
     res = {}
-    ProviderAccount.list_for_user(user, Privilege::VIEW).each do |account|
+    family_accounts = pool_family.nil? ? [] : pool_family.provider_accounts
+    ProviderAccount.enabled.each do |account|
       ptype = account.provider.provider_type
       res[ptype.deltacloud_driver] ||= {:type => ptype, :accounts => []}
-      res[ptype.deltacloud_driver][:accounts] << account
+      res[ptype.deltacloud_driver][:accounts] << {:account => account,
+                                                  :included => family_accounts.include?(account)}
+    end
+    res.each do |driver, group|
+      group[:included] = (group[:accounts].count{|a| a[:included]} > 0)
     end
     res
   end

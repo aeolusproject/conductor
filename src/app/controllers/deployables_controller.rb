@@ -63,7 +63,10 @@ class DeployablesController < ApplicationController
     require_privilege(Privilege::VIEW, @deployable)
     save_breadcrumb(polymorphic_path([@catalog, @deployable]), @deployable.name)
     @providers = Provider.all
-    @catalogs_options = Catalog.list_for_user(current_user, Privilege::VIEW).select {|c| !@deployable.catalogs.include?(c)}
+    @catalogs_options = Catalog.list_for_user(current_user, Privilege::VIEW).select do |c|
+      !@deployable.catalogs.include?(c) and
+        @deployable.catalogs.first.pool.pool_family == c.pool.pool_family
+    end
 
     if @catalog.present?
       add_permissions_inline(@deployable, '', {:catalog_id => @catalog.id})
@@ -71,28 +74,14 @@ class DeployablesController < ApplicationController
       add_permissions_inline(@deployable)
     end
 
-    @images_details = @deployable.get_image_details
-    images = @deployable.fetch_images
-    uuids = @deployable.fetch_image_uuids
-    @missing_images = images.zip(uuids).select{|p| p.first.nil?}.map{|p| p.second}
-    @images_hash_details = images != [nil] ? @deployable.get_uuids_hash(images) : nil
-
-    @images_details.each do |assembly|
-      assembly.keys.each do |key|
-        @deployable_errors ||= []
-        @deployable_errors << "#{assembly[:name]}: #{assembly[key]}" if key.to_s =~ /^error\w+/
-      end
-      if @missing_images.include?(assembly[:image_uuid])
-        @deployable_errors << "#{assembly[:name]}: Image (UUID: #{assembly[:image_uuid]}) doesn't exist."
-      end
-      flash.now[:error] = @deployable_errors unless @deployable_errors.empty?
-    end
+    @images_details, images, @missing_images, @deployable_errors = @deployable.get_image_details
+    flash.now[:error] = @deployable_errors unless @deployable_errors.empty?
 
     return unless @missing_images.empty?
 
     @build_results = {}
     @pushed_count = 0
-    ProviderAccount.includes(:provider).where('providers.enabled' => true).each do |account|
+    ProviderAccount.includes(:provider, :pool_families).where('providers.enabled' => true, 'pool_families.id' => @deployable.catalogs.first.pool.pool_family.id).each do |account|
       type = account.provider.provider_type.deltacloud_driver
       @build_results[type] ||= []
       status = @deployable.build_status(images, account)
@@ -163,8 +152,8 @@ class DeployablesController < ApplicationController
     rescue => e
       flash.now[:warning]= t('deployables.flash.warning.failed', :message => e.message) if @deployable.errors.empty?
       if params[:create_from_image].present?
-        load_catalogs
         @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
+        load_catalogs
         @hw_profiles = HardwareProfile.frontend.list_for_user(current_user, Privilege::VIEW)
       else
         @catalog = @selected_catalogs.first
@@ -267,7 +256,8 @@ class DeployablesController < ApplicationController
   end
 
   def load_catalogs
-    @catalogs = Catalog.list_for_user(current_user, Privilege::MODIFY)
+    @pool_family = PoolFamily.where(:name => @image.environment).first
+    @catalogs = Catalog.includes(:pool).list_for_user(current_user, Privilege::MODIFY).where('pools.pool_family_id' => @pool_family.id)
   end
 
   def import_xml_from_url(url)
