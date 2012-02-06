@@ -2,11 +2,14 @@
 %header.admin-page-header
   %h1.images= t('.import_image')
   #obj_actions.button-container
+    = t :return_to
+    = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment), :class => 'rounded-link'
 
 %section.admin-content-section.image-import
 
   %section#image-file-form
     = form_tag(import_images_path, { :multipart => true, :method => :post, :class => :generic }) do
+      = hidden_field_tag :environment, @environment.id
       %fieldset
         %p
           = label_tag :provider_account, t('.provider_account')

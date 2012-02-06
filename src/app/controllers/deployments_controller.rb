@@ -61,14 +61,15 @@ class DeploymentsController < ApplicationController
       redirect_to launch_new_deployments_path(:pool_id => params[:deployment][:pool_id]) and return
     end
 
-    @deployable = Deployable.find(params[:deployable_id])
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
+    init_new_deployment_attrs
     require_privilege(Privilege::CREATE, Deployment, @pool)
     require_privilege(Privilege::USE, @deployable)
-    init_new_deployment_attrs
+    img, img2, missing, d_errors = @deployable.get_image_details
+    flash[:error] = d_errors unless d_errors.empty?
 
-    unless @deployable_xml && @deployment.valid_deployable_xml?(@deployable_xml)
+    unless @deployable && @deployable.xml && @deployment.valid_deployable_xml?(@deployable.xml) && d_errors.empty?
       render 'launch_new' and return
     end
 
@@ -84,16 +85,17 @@ class DeploymentsController < ApplicationController
   end
 
   def overview
-    @deployable = Deployable.find(params[:deployable_id])
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
+    init_new_deployment_attrs
     require_privilege(Privilege::CREATE, Deployment, @pool)
     require_privilege(Privilege::USE, @deployable)
-    init_new_deployment_attrs
     @launch_parameters_encoded = Base64.encode64(ActiveSupport::JSON.encode(@deployment.launch_parameters))
+    img, img2, missing, d_errors = @deployable.get_image_details
+    flash[:error] = d_errors unless d_errors.empty?
 
     respond_to do |format|
-      if @deployable_xml && @deployment.valid_deployable_xml?(@deployable_xml)
+      if @deployable.xml && @deployment.valid_deployable_xml?(@deployable.xml) && d_errors.empty?
         @errors = @deployment.check_assemblies_matches(current_user)
         set_errors_flash(@errors)
         @additional_quota = count_additional_quota(@deployment)
@@ -119,44 +121,54 @@ class DeploymentsController < ApplicationController
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
     init_new_deployment_attrs
-    @deployment.deployable_xml = @deployable_xml if @deployable_xml
+    @deployment.deployable_xml = @deployable.xml if @deployable && @deployable.xml
     if params.has_key?(:deployable_id)
-      @deployable = Deployable.find(params[:deployable_id])
       require_privilege(Privilege::USE, @deployable)
     end
-    @deployment.owner = current_user
-    load_assemblies_services
-    if params.delete(:commit) == 'back'
-      view = launch_parameters_encoded.blank? ? 'launch_new' : 'launch_time_params'
-      render view and return
-    end
-
+    img, img2, missing, d_errors = @deployable.get_image_details
     respond_to do |format|
-      if @deployment.save
-        status = @deployment.launch(current_user)
-        if status[:errors].empty?
-          flash[:notice] = t "deployments.flash.notice.launched"
-        else
-          flash[:error] = {
+      unless d_errors.empty?
+        @pool = @deployment.pool
+        flash.now[:warning] = t "deployments.flash.warning.failed_to_launch"
+        flash[:error] = d_errors
+        format.html { render :action => 'overview' }
+        format.js { launch_new }
+        format.json { render :json => d_errors, :status => :unprocessable_entity }
+      else
+
+        @deployment.owner = current_user
+        load_assemblies_services
+        if params.delete(:commit) == 'back'
+          view = launch_parameters_encoded.blank? ? 'launch_new' : 'launch_time_params'
+          render view and return
+        end
+
+        if @deployment.save
+          status = @deployment.launch(current_user)
+          if status[:errors].empty?
+            flash[:notice] = t "deployments.flash.notice.launched"
+          else
+            flash[:error] = {
               :summary  => t("deployments.flash.error.failed_to_launch_assemblies"),
               :failures => status[:errors],
               :successes => status[:successes]
-          }
+            }
+          end
+          format.html { redirect_to deployment_path(@deployment) }
+          format.js do
+            @deployment_properties = @deployment.properties
+            render :partial => 'properties'
+          end
+          format.json { render :json => @deployment, :status => :created }
+        else
+          # We need @pool to re-display the form
+          @pool = @deployment.pool
+          flash.now[:warning] = t "deployments.flash.warning.failed_to_launch"
+          init_new_deployment_attrs
+          format.html { render :action => 'overview' }
+          format.js { launch_new }
+          format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
         end
-        format.html { redirect_to deployment_path(@deployment) }
-        format.js do
-          @deployment_properties = @deployment.properties
-          render :partial => 'properties'
-        end
-        format.json { render :json => @deployment, :status => :created }
-      else
-        # We need @pool to re-display the form
-        @pool = @deployment.pool
-        flash.now[:warning] = t "deployments.flash.warning.failed_to_launch"
-        init_new_deployment_attrs
-        format.html { render :action => 'overview' }
-        format.js { launch_new }
-        format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -372,7 +384,7 @@ class DeploymentsController < ApplicationController
   def init_new_deployment_attrs
     @deployables = Deployable.list_for_user(current_user, Privilege::USE).select{|d| d.catalogs.collect {|c| c.pool}.include?(@pool)}
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
-    @deployable_xml = params[:deployable_id] ? Deployable.find(params[:deployable_id]).xml : nil
+    @deployable = params[:deployable_id] ? Deployable.find(params[:deployable_id]) : nil
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
         :include => :architecture,

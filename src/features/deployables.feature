@@ -7,6 +7,7 @@ Feature: Manage Catalog Entries
     Given I am an authorised user
     And I am logged in
     And there is mock provider account "mock_account"
+    And there is a provider account "mock_account" related to pool family "default"
 
   Scenario: Create new catalog entry
     Given there is a "default" catalog

@@ -23,13 +23,14 @@ describe DeployablesController do
     @admin_permission = FactoryGirl.create :admin_permission
     @admin = @admin_permission.user
     mock_warden(@admin)
+    @catalog = FactoryGirl.create(:catalog)
   end
 
   describe "#new" do
     context "with params[:create_from_image]" do
       before do
         @deployable = stub_model(Deployable, :name => "test_new", :id => 1)
-        @image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :name => 'image1', :uuid => '3c58e0d6-d11a-4e68-8b12-233783e56d35')
+        @image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :name => 'image1', :uuid => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :environment => "default")
         Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
       end
 
@@ -39,13 +40,13 @@ describe DeployablesController do
       end
 
       it "returns flash[:error] when no catalog and hardware profile exists" do
-        Catalog.stub(:list_for_user).and_return([])
+        Catalog.stub(:list_for_user).and_return(Catalog.includes(:pool).where("1=0"))
         get :new, :create_from_image => @image.id
         flash[:error].should_not be_empty
       end
 
       it "returns flash[:error] when no catalog exists" do
-        Catalog.stub(:list_for_user).and_return([])
+        Catalog.stub(:list_for_user).and_return(Catalog.includes(:pool).where("1=0"))
         HardwareProfile.stub(:list_for_user).and_return([mock(HardwareProfile)])
         get :new, :create_from_image => @image.id
         flash[:error].should eql(["No catalog exists! Please create one."])
@@ -55,7 +56,7 @@ describe DeployablesController do
 
   describe "#create" do
     before(:each) do
-      @image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :name => 'image1', :uuid => '3c58e0d6-d11a-4e68-8b12-233783e56d35')
+      @image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :name => 'image1', :uuid => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :environment => "default")
       Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
     end
 
@@ -67,8 +68,7 @@ describe DeployablesController do
 
     it "creates new deployable from image via POST" do
       hw_profile = FactoryGirl.create(:front_hwp1)
-      catalog = FactoryGirl.create(:catalog)
-      post(:create, :create_from_image => @image.id, :deployable => {:name => @image.name}, :hardware_profile => hw_profile.id, :catalog_id => catalog.id)
+      post(:create, :create_from_image => @image.id, :deployable => {:name => @image.name}, :hardware_profile => hw_profile.id, :catalog_id => @catalog.id)
       response.should be_redirect
     end
   end

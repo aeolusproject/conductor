@@ -62,8 +62,11 @@ describe DeploymentsController do
         Factory.create(:front_hwp1)
         Factory.create(:front_hwp2)
         @deployment = Factory.build(:deployment)
+        catalog_entry = Factory.create(:catalog_entry)
+        @deployable = catalog_entry.deployable
+        @catalog = catalog_entry.catalog
         Deployment.stub!(:new).and_return(@deployment)
-        post :create
+        post :create, :deployable_id => @deployable.id
       end
 
       it { response.should be_success }

@@ -30,7 +30,7 @@
                 %th=t'.arch'
                 %th
                   %strong=t'.deployable_xml'
-              -deployable.get_image_details.each do |assembly|
+              -deployable.get_image_details.first.each do |assembly|
                 %tr
                   %td
                     %strong= assembly[:image_uuid]

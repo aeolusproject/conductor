@@ -56,7 +56,7 @@ describe Api::ProviderImagesController do
                                                                     :build => @build)
         @build1 = mock(Aeolus::Image::Warehouse::ImageBuild, :target_images => [@target_image, @target_image])
         @build2 = mock(Aeolus::Image::Warehouse::ImageBuild, :target_images => [@target_image, @target_image])
-        @image = mock(Aeolus::Image::Warehouse::Image, :image_builds => [@build1, @build2])
+        @image = mock(Aeolus::Image::Warehouse::Image, :image_builds => [@build1, @build2], :environment => 'default')
       end
 
       it "should raise bad request when no provider account is given" do
@@ -347,6 +347,7 @@ describe Api::ProviderImagesController do
         context "when trying to build image" do
           before(:each) do
             @provider_account = FactoryGirl.create :mock_provider_account
+            @provider_account.pool_families << PoolFamily.find_by_name('default')
             xml = Nokogiri::XML::Builder.new do |x|
               x.provider_image {
                 x.image_id "17"
@@ -362,7 +363,7 @@ describe Api::ProviderImagesController do
                                                                         :target => 'mock')
             @build1 = mock(Aeolus::Image::Warehouse::ImageBuild, :id=>'3', :target_images => [@target_image, @target_image])
             @build2 = mock(Aeolus::Image::Warehouse::ImageBuild, :id=>'2', :target_images => [@target_image, @target_image])
-            @image = mock(Aeolus::Image::Warehouse::Image, :id=>'1', :image_builds => [@build1, @build2])
+            @image = mock(Aeolus::Image::Warehouse::Image, :id=>'1', :image_builds => [@build1, @build2], :environment => 'default')
 
             @build1.stub(:image).and_return(@image)
             @build2.stub(:image).and_return(@image)

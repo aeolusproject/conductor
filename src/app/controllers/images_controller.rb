@@ -21,8 +21,8 @@ class ImagesController < ApplicationController
   def index
     set_admin_environments_tabs 'images'
     @header = [
-      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => t('images.index.name'), :sort_attr => :name },
+      { :name => t('images.environment_header'), :sort_attr => :name },
       { :name => t('images.index.os'), :sort_attr => :name },
       { :name => t('images.index.os_version'), :sort_attr => :name },
       { :name => t('images.index.architecture'), :sort_attr => :name },
@@ -37,6 +37,7 @@ class ImagesController < ApplicationController
 
   def show
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
+    @environment = PoolFamily.where('name' => @image.environment).first
     if @image.imported?
       begin
         # For an imported image, we only want to show the actual provider account
@@ -46,12 +47,12 @@ class ImagesController < ApplicationController
         type = provider.provider_type
         acct = ProviderAccount.enabled.find_by_provider_name_and_login(provider.name, pimg.provider_account_identifier)
         raise unless acct
-        @account_groups = {type.deltacloud_driver => {:type => type, :accounts => [acct]}}
+        @account_groups = {type.deltacloud_driver => {:type => type, :accounts => [[acct,@environment.provider_accounts.include?(acct)]]}}
       rescue Exception => e
-        @account_groups = ProviderAccount.enabled.group_by_type(current_user)
+        @account_groups = ProviderAccount.enabled.group_by_type(@environment)
       end
     else
-      @account_groups = ProviderAccount.enabled.group_by_type(current_user)
+      @account_groups = ProviderAccount.enabled.group_by_type(@environment)
     end
     # according to imagefactory Builder.first shouldn't be implemented yet
     # but it does what we need - returns builder object which contains
@@ -74,8 +75,8 @@ class ImagesController < ApplicationController
         active_pushes = @account_groups.inject({})  do |result, (driver, group)|
           timg = @target_images_by_target[driver]
           group[:accounts].each do |account|
-            result[account.id] = @builder.find_active_push(timg.id, account.provider.name, account.credentials_hash['username'])
-            result[account.id].attributes['status'].capitalize! if result[account.id]
+            result[account[:account].id] = @builder.find_active_push(timg.id, account[:account].provider.name, account[:account].credentials_hash['username'])
+            result[account[:account].id].attributes['status'].capitalize! if result[account[:account].id]
           end if timg.present?
 
           result
@@ -84,7 +85,7 @@ class ImagesController < ApplicationController
         provider_images = @account_groups.inject({})  do |result, (driver, group)|
           timg = @target_images_by_target[driver]
           group[:accounts].each do |account|
-            result[account.id] = timg.find_provider_image_by_provider_and_account(account.provider.name, account.credentials_hash['username']).first
+            result[account[:account].id] = timg.find_provider_image_by_provider_and_account(account[:account].provider.name, account[:account].credentials_hash['username']).first
           end if timg.present?
 
           result
@@ -98,7 +99,7 @@ class ImagesController < ApplicationController
         failed_push_counts = @account_groups.inject({})  do |result, (driver, group)|
           timg = @target_images_by_target[driver]
           group[:accounts].each do |account|
-            result[account.id] = @builder.failed_push_count(timg.id, account.provider.name, account.credentials_hash['username'])
+            result[account[:account].id] = @builder.failed_push_count(timg.id, account[:account].provider.name, account[:account].credentials_hash['username'])
           end if timg.present?
 
           result
@@ -120,7 +121,8 @@ class ImagesController < ApplicationController
 
   def rebuild_all
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
-    targets = Provider.enabled.list_for_user(current_user, Privilege::VIEW).map {|p| p.provider_type.deltacloud_driver}.uniq
+    @environment = PoolFamily.where('name' => @image.environment).first
+    targets = @environment.build_targets
     unless targets.empty?
       factory_image = Aeolus::Image::Factory::Image.new(:id => @image.id)
       factory_image.targets = targets.join(',')
@@ -132,13 +134,14 @@ class ImagesController < ApplicationController
 
   def push_all
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
+    @environment = PoolFamily.where('name' => @image.environment).first
     @build = Aeolus::Image::Warehouse::ImageBuild.find(params[:build_id])
     # only latest builds can be pushed
     unless latest_build?(@build)
       redirect_to image_path(@image.id)
       return
     end
-    accounts = ProviderAccount.list_for_user(current_user, Privilege::VIEW)
+    accounts = @environment.provider_accounts
     target_images = @build.target_images
     accounts.each do |account|
       if account.image_status(@image) == :not_pushed
@@ -169,20 +172,21 @@ class ImagesController < ApplicationController
   end
 
   def new
+    @environment = PoolFamily.find(params[:environment])
     if 'import' == params[:tab]
-      @accounts = ProviderAccount.enabled.list_for_user(current_user, Privilege::USE)
+      @accounts = @environment.provider_accounts.enabled.list_for_user(current_user, Privilege::USE)
       render :import and return
-    else
-      @environment = PoolFamily.find(params[:environment])
     end
 
   end
 
   def import
     account = ProviderAccount.find(params[:provider_account])
+    @environment = PoolFamily.find(params[:environment])
+
     xml = "<image><name>#{params[:name]}</name></image>" unless params[:name].blank?
     begin
-      image = Image.import(account, params[:image_id], xml)
+      image = Image.import(account, params[:image_id], @environment, xml)
       flash[:success] = t("images.import.image_imported")
       redirect_to image_url(image.id) and return
     rescue Exception => e
@@ -283,7 +287,8 @@ class ImagesController < ApplicationController
     @image = Aeolus::Image::Warehouse::Image.create!(uuid, body, {
       :uuid => uuid,
       :object_type => 'image',
-      :template => @tpl.uuid
+      :template => @tpl.uuid,
+      :environment => @environment.name
     })
     flash.now[:error] = t('images.flash.notice.created')
     redirect_to image_path(@image.id)

@@ -1,0 +1,4 @@
+!!!XML
+%environments
+  - @environments.each do |env|
+    = render :partial => 'environment', :locals => {:environment => env}

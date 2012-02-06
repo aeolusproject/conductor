@@ -117,28 +117,49 @@ class Deployable < ActiveRecord::Base
   #get details of image for deployable#show
   def get_image_details
     deployable_xml = DeployableXML.new(xml)
+    uuids = deployable_xml.image_uuids
+    images = []
+    missing_images = []
     assemblies_array ||= []
+    deployable_errors ||= []
     deployable_xml.assemblies.each do |assembly|
-      assembly_hash ||= {:name => assembly.name}
+      assembly_hash = {}
+      image = Aeolus::Image::Warehouse::Image.find(assembly.image_id)
+      if image.nil?
+        missing_images << assembly.image_id
+        deployable_errors << I18n.t("deployables.flash.error.missing_image",
+                                    :assembly => assembly.name,
+                                    :uuid => assembly.image_id)
+      else
+        if image.environment != catalogs.first.pool.pool_family.name
+          deployable_errors << I18n.t("deployables.flash.error.wrong_environment",
+                                      :assembly => assembly.name,
+                                      :uuid => assembly.image_id,
+                                      :wrong_env => image.environment,
+                                      :environment => catalogs.first.pool.pool_family.name)
+        end
+        images << image
+        assembly_hash[:build_and_target_uuids] = get_build_and_target_uuids(image)
+      end
+      assembly_hash[:name] = assembly.name
       assembly_hash[:image_uuid] = assembly.image_id
       assembly_hash[:images_count] = assembly.images_count
       if assembly.hwp
-        hwp_name = assembly.hwp
-        hwp = HardwareProfile.find_by_name(hwp_name)
+        hwp = HardwareProfile.find_by_name(assembly.hwp)
         if hwp
           assembly_hash[:hwp_name] = hwp.name
           assembly_hash[:hwp_hdd] = hwp.storage.value
           assembly_hash[:hwp_ram] = hwp.memory.value
           assembly_hash[:hwp_arch] = hwp.architecture.value
         else
-          assembly_hash[:error_hwp] = I18n.t('deployables.error.hwp_not_exists', :name => hwp_name)
+          deployable_errors << "#{assembly_hash[:name]}: " + I18n.t('deployables.error.hwp_not_exists', :name => assembly.hwp)
         end
       else
-        assembly_hash[:error_hwp] = I18n.t('deployables.error.attribute_not_exist')
+        deployable_errors << "#{assembly_hash[:name]}: " + I18n.t('deployables.error.attribute_not_exist')
       end
       assemblies_array << assembly_hash
     end
-    assemblies_array
+    [assemblies_array, images, missing_images, deployable_errors]
   end
 
   def build_status(images, account)
@@ -156,29 +177,11 @@ class Deployable < ActiveRecord::Base
     [catalog, self]
   end
 
-  def get_uuids_hash(images)
-    image_uuids = []
-    target_image_uuids = []
-    latest_build_uuid = []
-
-    images.each do |i|
-      image_uuids << (i.respond_to?(:uuid) ? i.uuid : nil)
-      latest_build = i.latest_pushed_build if i.respond_to?(:latest_pushed_build)
-      latest_build_uuid << (latest_build ? latest_build.uuid : nil)
-      if latest_build
-        target_images = latest_build.target_images
-        target_image_uuids_for_build = []
-        target_images.each do |ti|
-          target_image_uuids_for_build << ti.uuid
-        end
-        target_image_uuids << target_image_uuids_for_build
-      else
-        target_image_uuids << nil
-      end
-    end
-
-  #return array [[image_uuid, latest_build_uuid, [target_image_uuids]], [..]]
-  image_uuids.zip(latest_build_uuid, target_image_uuids)
+  def get_build_and_target_uuids(image)
+    latest_build = image.respond_to?(:latest_pushed_build) ? image.latest_pushed_build : nil
+    [(image.respond_to?(:uuid) ? image.uuid : nil),
+     (latest_build ? latest_build.uuid : nil),
+     (latest_build ? latest_build.target_images.collect { |ti| ti.uuid} : nil)]
   end
 
   private
