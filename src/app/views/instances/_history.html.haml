@@ -1,10 +1,10 @@
-%h3
-  = t 'instances.history.history_for'
-  = @instance.name
-%ul
-  - @events.each do |event|
-    %li
-      = @instance.name
-      = event.summary
+%div.instance_details
+  %h3
+    = t 'instances.history.history_for'
+    = @instance.name
+  %ol
+    - @events.each do |event|
+      %li
+        = event.summary
 
-= will_paginate @events
+  = will_paginate @events
