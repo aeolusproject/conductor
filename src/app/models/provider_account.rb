@@ -86,8 +86,12 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def validate_credentials
-    unless valid_credentials?
-      errors.add(:base, "Login Credentials are Invalid for this Provider")
+    begin
+      unless valid_credentials?
+        errors.add(:base, I18N.t('provider_accounts.errors.invalid_credentials'))
+      end
+    rescue
+      errors.add(:base, I18n.t('provider_accounts.errors.exception_while_validating'))
     end
   end
 
