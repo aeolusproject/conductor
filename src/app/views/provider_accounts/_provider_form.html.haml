@@ -21,11 +21,11 @@
   = label_tag t("quotas.quota")
   = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || t('provider_accounts.properties.unlimited'), :id => "quota_instances"
   (
-  %button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances\");" }<>
+  %button.linkbutton.nospace{ :type => 'button', :onclick => "set_unlimited_quota(\"quota_instances\");" }
     = t('provider_accounts.form.unlimited_quota')
   )
 
 :javascript
   function set_unlimited_quota(elem_id) {
-    $("#" + elem_id)[0].value = t('provider_accounts.properties.unlimited');
+    $("#" + elem_id)[0].value = "#{t('provider_accounts.properties.unlimited')}";
   }
