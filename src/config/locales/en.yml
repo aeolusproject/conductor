@@ -669,6 +669,8 @@ en:
     edit:
       edit_catalog: Editing Catalog
       cancel_editing: Cancel Editing
+    form:
+      select_pool: Select Pool
     flash:
       notice:
         updated:
