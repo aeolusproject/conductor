@@ -307,32 +307,33 @@ en:
       edit_instance: Edit instance
       name: Name
     history:
-       history_for: History for
+       history_for: "History for: "
     parameters:
        config_parameters_for: Config Parameters for
+       none: None
     permissions:
      permissions_for: Permissions for
     properties:
       properties_for: Properties for
-      name: Name
-      status: Status
-      public_addresses: Public Addresses
-      private_adresses: Private Addresses
-      assembly: Component Blueprint
-      provider: Cloud Resource Provider
-      architecture: Architecture
-      memory: Memory
-      storage: Storage
-      instantiation_time: Instantiation Time
-      current_alerts: Current Alerts
-      console_connection: Console Connection
+      name: "Name:"
+      status: "Status: "
+      public_addresses: "Public Addresses: "
+      private_adresses: "Private Addresses: "
+      assembly: "Component Blueprint: "
+      provider: "Cloud Resource Provider: "
+      architecture: "Architecture: "
+      memory: "Memory: "
+      storage: "Storage: "
+      instantiation_time: "Instantiation Time: "
+      current_alerts: "Current Alerts: "
+      console_connection: "Console Connection: "
       via_ssh: via SSH
-      ssh_key: SSH key
-      ssh_key_name: SSH key name
+      ssh_key: "SSH key: "
+      ssh_key_name: "SSH key name: "
       download: Download
-      owner: Owner
-      shared_to: Shared to
-      error: Error
+      owner: "Owner: "
+      shared_to: "Shared to: "
+      error: "Error: "
       n_a: "N/A"
     flash:
       warning:
@@ -367,11 +368,12 @@ en:
       image_not_pushed_to_provider: "%{account_name}: component outline is not pushed to this provider account"
       provider_account_quota_reached:  "%{account_name}: provider account quota reached"
       no_config_server_available: "%{account_name}: no config server available for provider account"
-      realm_not_mapped: "Cloud Resource Cluster %{frontend_realm_name} is not mapped to any cloud resource provider or provider realm"
+      realm_not_mapped: "%{account_name}: Cloud Resource Cluster %{frontend_realm_name} is not mapped to any cloud resource provider or provider realm"
       provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch application blueprint"
       stop_invalid: "stop is an invalid action."
       stop_not_be_performed: "stop cannot be performed on this instance."
       must_be_enabled: "%{account_name}: provider must be enabled"
+      provider_not_available: "%{account_name}: provider is not available"
       cannot_destroy: "destroy cannot be performed on this instance."
       architecture_mismatch: "Assembly hardware profile architecture (%{inst_arch}) doesn't match hardware profile architecture (%{img_arch})."
     headers:
@@ -886,6 +888,8 @@ en:
           one: "Insufficient permissions to delete deployable %{not_deleted}!"
           other: "Insufficient permissions to delete %{count} deployables %{not_deleted}!"
         not_selected: "No deployable was not selected!"
+        no_catalog_exists: "No catalog exists! Please create one."
+        no_hwp_exists: "No hardware profile exists! Please create one."
       warning:
         failed: "Application Blueprint was not created: %{message}"
       notice:
@@ -1102,6 +1106,8 @@ en:
         must_select_account: "You must select some accounts first."
         no_provider: "You don't have any cloud resource providers yet"
     errors:
+      exception_while_validating: An error occurred when checking provider credentials. Please check your setup and try again.
+      invalid_credentials: Login credentials are invalid for this provider.
       populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
       populate_realms_failed: "Failed to populate realms: %{message}"
   config_servers:

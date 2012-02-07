@@ -86,8 +86,12 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def validate_credentials
-    unless valid_credentials?
-      errors.add(:base, "Login Credentials are Invalid for this Provider")
+    begin
+      unless valid_credentials?
+        errors.add(:base, I18N.t('provider_accounts.errors.invalid_credentials'))
+      end
+    rescue
+      errors.add(:base, I18n.t('provider_accounts.errors.exception_while_validating'))
     end
   end
 
@@ -339,6 +343,8 @@ class ProviderAccount < ActiveRecord::Base
   def instance_matches(instance, matched, errors)
     if !provider.enabled?
       errors << I18n.t('instances.errors.must_be_enabled', :account_name => name)
+    elsif !provider.available?
+      errors << I18n.t('instances.errors.provider_not_available', :account_name => name)
     elsif quota.reached?
       errors << I18n.t('instances.errors.provider_account_quota_reached', :account_name => name)
     # match_provider_hardware_profile returns a single provider
@@ -354,11 +360,14 @@ class ProviderAccount < ActiveRecord::Base
         if not instance.frontend_realm.nil?
           brealms = instance.frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == provider}
           if brealms.empty?
-            errors << I18n.t('instances.errors.realm_not_mapped', :frontend_realm_name => instance.frontend_realm.name)
+            errors << I18n.t('instances.errors.realm_not_mapped', :account_name => name, :frontend_realm_name => instance.frontend_realm.name)
             next
           end
           brealms.each do |brealm_target|
-            if (brealm_target.target_realm.nil? || realms.include?(brealm_target.target_realm))
+            # add match if realm is mapped to provider or if it's mapped to
+            # backend realm which is available and is accessible for this
+            # provider account
+            if (brealm_target.target_realm.nil? || (brealm_target.target_realm.available && realms.include?(brealm_target.target_realm)))
               matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, brealm_target.target_realm)
             end
           end

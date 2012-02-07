@@ -19,6 +19,7 @@
               = link_to t(".details"),"#", :class => "collapse"
               = button_to t(".select"), launch_time_params_deployments_path(:deployment => { :name => deployable.name, :pool_id => @catalog.pool.id }, :deployable_id => deployable.id ), :class=> "button pill"
           .details.collapsible.collapsed
+            %p= deployable.description
             %table
               %tr
                 %th

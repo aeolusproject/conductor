@@ -2801,6 +2801,7 @@ ul.catalog_pretty {
         padding: 10px 10px 10px 42px;
         background: transparent url('../../images/deployment_large_icon_provider.png') no-repeat 10px center;
         h2{ font-size: 16px; }
+        p{ width: 600px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         display: table-cell;
         vertical-align: middle;
       }
@@ -2810,6 +2811,7 @@ ul.catalog_pretty {
       background: #eee;
       border-top: 1px solid #ccc;
       padding: 10px;
+      p{ padding: 0px 152px 10px 32px; }
       table{
         margin: 0px 0px 0px 32px;
         td,th{ padding: 10px; }

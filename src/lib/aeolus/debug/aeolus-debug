@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "fileutils"
+
+NAME="aeolus-debug"
+
+# Set up the options
+options = {}
+
+optparse = OptionParser.new do|opts|
+    opts.banner = "Usage: #{NAME} [options] command"
+
+    options[:basedir] = '/tmp'
+    opts.on('-d', '--dir [DIRECTORY]', 'Directory to place the tarball. Defaults to /tmp' ) do |opt|
+        options[:basedir] = opt
+    end
+
+    opts.on('-h', '--help', 'Display help and exit' ) do
+        puts opts
+        exit
+    end
+
+end
+
+optparse.parse!
+
+# Check that we are running as root
+if Process.uid != 0
+    puts "#{NAME} must be run as root"
+    exit
+end
+
+# Define what we want to collect
+SOURCES = [
+# Conductor
+"/var/log/aeolus**/**/*.log",
+"/etc/aeolus*/**/**",
+"/etc/imagefactory**/**",
+"/var/log/imagefactory.log",
+"/etc/iwhd**/**",
+"/var/log/iwhd.log",
+"/var/log/mongodb/mongodb.log",
+"/var/log/deltacloud-core**/**/*.log",
+"/var/log/libvirt*/**/**",
+"/etc/oz/oz.cfg",
+"/proc/cpuinfo",
+"/proc/meminfo"
+]
+
+# Collect the files
+timename =  "aeolus-debug-#{Time.now.strftime("%Y%m%d%H%M%S")}"
+target_dir = File.join(options[:basedir], timename)
+
+if File.exists?(target_dir)
+    puts "#{target_dir} already exists. Please delete it"
+    exit
+end
+
+FileUtils.mkdir_p(target_dir, :verbose => true)
+
+files = []
+SOURCES.each do |d|
+  files << Dir.glob(d)
+end
+
+files = files.flatten
+puts "File list: #{files}"
+files.each do |source|
+  file_dir = File.file?(source) ? File.dirname(source): source
+  complete_target = File.join(target_dir, file_dir)
+  FileUtils.mkdir_p(complete_target, :verbose => true)
+  FileUtils.cp(source, complete_target, {:verbose=>true,:preserve =>true}) if File.file?(source)
+end
+
+# Below are custom system calls to get more info
+system("rpm -qa | egrep 'aeolus|iwhd|deltacloud|imagefactory|oz' >> #{File.join(target_dir, 'packages')}")
+system("virsh capabilities >> #{File.join(target_dir, 'virsh_capabilities')}")
+
+# Tar the output and log it
+tarfile = target_dir + ".tar.gz"
+pwd = Dir.pwd()
+Dir.chdir(options[:basedir])
+system("tar -czvf #{tarfile} #{timename}")
+Dir.chdir(pwd)
+
+puts "A debug file has been created at #{tarfile}."
+
+# Clean up
+FileUtils.rm_r(target_dir)

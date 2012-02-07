@@ -118,6 +118,7 @@ getent passwd aeolus >/dev/null || \
 %{__mkdir} -p %{buildroot}%{_localstatedir}/lib/%{name}
 %{__mkdir} -p %{buildroot}%{_localstatedir}/log/%{name}
 %{__mkdir} -p %{buildroot}%{_localstatedir}/run/%{name}
+%{__mkdir} -p %{buildroot}/%{_bindir}
 
 # now copy over the rails source files.  This is a bit verbose, but only
 # takes in the stuff we need (and no backup files, etc)
@@ -163,7 +164,8 @@ rake="lib/tasks"
 rb="app/models app/controllers app/controllers/api app/helpers app/services app/util \
     config config/initializers config/environments db db/migrate \
     features/support features/step_definitions lib spec spec/controllers \
-    spec/factories spec/helpers spec/models spec/services spec/controllers/api lib/aeolus lib/aeolus/event"
+    spec/factories spec/helpers spec/models spec/services spec/controllers/api lib/aeolus \
+    lib/aeolus/event"
 rhtml="app/views/layouts"
 svg="public/images public/images/icons public/javascripts/jquery-svg"
 ttf="public/fonts"
@@ -190,6 +192,7 @@ sass --style compact ./src/app/stylesheets/login.scss %{buildroot}%{app_root}/pu
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
 %{__cp} src/config.ru %{buildroot}%{app_root}
+%{__cp} src/lib/aeolus/debug/aeolus-debug %{buildroot}%{_bindir}
 
 %{__mkdir} -p %{buildroot}%{app_root}/config
 %{__cp} src/config/database.pg %{buildroot}%{app_root}/config
@@ -297,6 +300,7 @@ fi
 %{app_root}/db
 %{app_root}/dbomatic
 %{app_root}/lib
+%{_bindir}/aeolus-debug
 %{app_root}/log
 %{app_root}/public
 %{app_root}/Rakefile

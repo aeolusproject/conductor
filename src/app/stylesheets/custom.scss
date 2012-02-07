@@ -235,3 +235,28 @@ form.generic section.services {
 #no-catalog-entry {
   margin-bottom: 30px;
 }
+
+.instance_details {
+
+  h3{
+    font-size: 22px;
+    font-weight: normal;
+    margin-bottom: 10px;
+  }
+
+  ul li {
+    list-style-type: none;
+    margin: 10px 15px;
+    font-weight: bold;
+    span {
+        font-weight: normal;
+    }
+  }
+
+  ol{
+    margin: 15px;
+    li {
+        margin:10px 15px;
+    }
+  }
+}
