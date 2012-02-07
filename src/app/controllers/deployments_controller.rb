@@ -56,6 +56,11 @@ class DeploymentsController < ApplicationController
 
 
   def launch_time_params
+    unless params.has_key?(:deployable_id)
+      flash[:error] = t('deployments.flash.warning.deployable_not_selected')
+      redirect_to launch_new_deployments_path(:pool_id => params[:deployment][:pool_id]) and return
+    end
+
     @deployable = Deployable.find(params[:deployable_id])
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
