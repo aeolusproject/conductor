@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	21%{?dist}
+Release:	22%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,25 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Tue Feb  7 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-22
+- c5963cf Added rspec examples for flash[:error] in deployables#new
+- 3f387e9 BZ 782503 Wrong flash message when user try to create a new deployable from built & pushed image without any hardware profile.
+- 6abd910 Larger administer navigation hover background image to accomodate nav items with long names
+- fc98c7a BZ #784971: Diagnostics Tooling
+- d973cbb BZ#753880 Catch exceptions on DC valid credentials request
+- d03def7 BZ#783218 added pessimistic database locking for quota to prevent updating with old values
+- c64db92 BZ 717987 (3) - Fixed error message when realm mapping not found
+- 27d4b1d BZ 717987 (2) - added realms refresh
+- fd15193 BZ 717987 (1) - Added realms available flag
+- dc9e671 Bug 785892 Allow build for selective targets
+- 730fd06 BZ 783904 PA quota when updated to unlimited, text should be automatically set to Unlimited.
+- e23bbe6 Fixed 2 keys/values for successful conversion YAML to PO file
+- 98708c0 BZ 783510 clean up\add css to instance details page
+- e144151 BZ 787046 - reduce number of iwhd operations in deployments/overview
+- caa1089 BZ 783075 added deployable.description to collapsed details for full display
+- 4a7ef23 BZ 783075 updated css for long description on deployments/launch_from_catalog
+- c4d02a9 BZ 784557 - send build request only if there are some providers
+
 * Mon Feb  6 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-21
 - bf7a0f1 permit empty first / last names in create_admin rake task
 - 523be1f BZ 787280 - Remove unused links from footer
