@@ -131,30 +131,6 @@ class Provider < ActiveRecord::Base
     valid_framework? ? [] : stoppable_instances
   end
 
-  protected
-
-  def stop_instances(user)
-    errs = []
-    stoppable_instances.each do |instance|
-      begin
-        unless instance.valid_action?('stop')
-          raise "stop is an invalid action."
-        end
-
-        unless @task = instance.queue_action(user, 'stop')
-          raise "stop cannot be performed on this instance."
-        end
-        Taskomatic.stop_instance(@task)
-      rescue Exception => e
-        err = "Error while stopping an instance #{instance.name}: #{e.message}"
-        errs << err
-        logger.error err
-        logger.error e.backtrace.join("\n  ")
-      end
-    end
-    errs
-  end
-
   def populate_realms
     reload
 
@@ -229,6 +205,30 @@ class Provider < ActiveRecord::Base
       end
     end
 
+  end
+
+  protected
+
+  def stop_instances(user)
+    errs = []
+    stoppable_instances.each do |instance|
+      begin
+        unless instance.valid_action?('stop')
+          raise "stop is an invalid action."
+        end
+
+        unless @task = instance.queue_action(user, 'stop')
+          raise "stop cannot be performed on this instance."
+        end
+        Taskomatic.stop_instance(@task)
+      rescue Exception => e
+        err = "Error while stopping an instance #{instance.name}: #{e.message}"
+        errs << err
+        logger.error err
+        logger.error e.backtrace.join("\n  ")
+      end
+    end
+    errs
   end
 
   def stoppable_instances
