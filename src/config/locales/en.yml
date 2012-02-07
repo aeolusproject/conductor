@@ -412,7 +412,7 @@ en:
       owner: Owner
       pending: Pending
       failed: Failed
-      confirm_delete: "Are you sure you want to delete this pool?"
+      confirm_delete: "Are you sure you want to delete this pool? All related catalogs and deployables will be deleted too!"
       overview: Overview
       your_pools: Your Pools
       pool_details: Pool details
