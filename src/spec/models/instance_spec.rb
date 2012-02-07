@@ -92,6 +92,15 @@ describe Instance do
     valid_task.should_not == false
   end
 
+  it "should create new event when an action is queued" do
+    @instance.save!
+    @instance.stub!(:get_action_list).and_return(@actions)
+    user = User.new
+    @instance.queue_action(user, 'stop')
+    @instance.events.should_not be_empty
+    @instance.events.last.status_code.should == 'stop_queued'
+  end
+
   describe "with time capsule" do
 
     it "should properly calculate the total time that the instance has been in a monitored state" do
