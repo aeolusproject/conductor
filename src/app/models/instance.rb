@@ -217,11 +217,15 @@ class Instance < ActiveRecord::Base
 
   def queue_action(user, action, data = nil)
     return false unless get_action_list.include?(action)
-    task = InstanceTask.new({ :user        => user,
-                              :task_target => self,
-                              :action      => action,
-                              :args        => data})
-    task.save!
+    task = InstanceTask.create!({ :user        => user,
+                                  :task_target => self,
+                                  :action      => action,
+                                  :args        => data})
+
+    event = Event.create!(:source => self, :event_time => Time.now,
+                          :summary => "#{action} action queued",
+                          :status_code => "#{action}_queued")
+
     return task
   end
 
