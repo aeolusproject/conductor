@@ -117,7 +117,7 @@ class ImagesController < ApplicationController
 
   def rebuild_all
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
-    targets = Provider.list_for_user(current_user, Privilege::VIEW).map {|p| p.provider_type.deltacloud_driver}.uniq
+    targets = Provider.enabled.list_for_user(current_user, Privilege::VIEW).map {|p| p.provider_type.deltacloud_driver}.uniq
     unless targets.empty?
       factory_image = Aeolus::Image::Factory::Image.new(:id => @image.id)
       factory_image.targets = targets.join(',')
@@ -317,7 +317,7 @@ class ImagesController < ApplicationController
   protected
   def load_target_images(build)
     @target_images_by_target = {}
-    return unless build
+    return unless build and @latest_build.present?
     build.target_images.each {|timg| @target_images_by_target[timg.target] = timg}
     @target_images_by_target
   end
@@ -330,7 +330,7 @@ class ImagesController < ApplicationController
              elsif @latest_build
                @builds.find {|b| b.id == @latest_build}
              else
-               @builds.first
+               nil
              end
   end
 
