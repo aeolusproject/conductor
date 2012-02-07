@@ -33,10 +33,9 @@ describe CatalogsController do
         response.should redirect_to catalogs_path
       end
 
-      it "cannot remove catalog2 because it is the last deployable's reference " do
-        delete :destroy, :id => @catalog.id
-        expect {delete :destroy, :id => @catalog2.id}.not_to change(Catalog, :count).by(-1)
-        response.should redirect_to catalog_path(@catalog2)
+      it "cannot remove deployable related to catalog because it is also related to catalog2" do
+        expect {delete :destroy, :id => @catalog.id}.not_to change(Deployable, :count)
+        response.should redirect_to catalogs_path
       end
 
     context "given catalog with one deployable, that is exclusive in this catalog" do
@@ -44,9 +43,9 @@ describe CatalogsController do
         @catalog = Factory :catalog_with_deployable
       end
 
-      it "cannot be deleted when its deployables has no reference to other catalogs" do
-        expect {delete :destroy, :id => @catalog.id}.not_to change(Catalog, :count).by(-1)
-        response.should redirect_to catalog_path(@catalog)
+      it "should delete its deployables if its deployables have no reference to other catalogs" do
+        expect {delete :destroy, :id => @catalog.id}.to change(Deployable, :count).by(-1)
+        response.should redirect_to catalogs_path
       end
     end
     end
