@@ -251,6 +251,7 @@ en:
       warning:
         disabled_pool: "Cannot launch a Deployment in this Pool. The pool has been disabled."
         failed_to_launch: "Deployment launch failed!"
+        deployable_not_selected: "You need to select deployable"
       error:
         not_launched: "Some assemblies will not be launched:"
         failed_to_launch_assemblies: "Failed to launch following assemblies:"
