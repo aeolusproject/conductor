@@ -271,16 +271,16 @@ class ImagesController < ApplicationController
     end
 
     uuid = UUIDTools::UUID.timestamp_create.to_s
-    @template = Aeolus::Image::Warehouse::Template.create!(uuid, @xml, {
+    @tpl = Aeolus::Image::Warehouse::Template.create!(uuid, @xml, {
       :object_type => 'template',
       :uuid => uuid
     })
     uuid = UUIDTools::UUID.timestamp_create.to_s
-    body = "<image><name>#{@template.name}</name></image>"
+    body = "<image><name>#{@tpl.name}</name></image>"
     @image = Aeolus::Image::Warehouse::Image.create!(uuid, body, {
       :uuid => uuid,
       :object_type => 'image',
-      :template => @template.uuid
+      :template => @tpl.uuid
     })
     flash.now[:error] = t('images.flash.notice.created')
     redirect_to image_path(@image.id)

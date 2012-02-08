@@ -23,7 +23,6 @@ class UserSessionsController < ApplicationController
   layout 'login'
 
   def new
-    session[:return_to] ||= request.get? ? request.request_uri : request.referer
   end
 
   def create

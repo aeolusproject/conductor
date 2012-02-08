@@ -38,7 +38,7 @@ class Catalog < ActiveRecord::Base
            :include => [:role],
            :order => "permissions.id ASC"
 
-  before_destroy :check_deployable_references
+  before_destroy :destroy_deployables_related_only_to_self
 
   validates_presence_of :pool
   validates_presence_of :name
@@ -48,9 +48,9 @@ class Catalog < ActiveRecord::Base
   PRESET_FILTERS_OPTIONS = [
     {:title => I18n.t("catalogs.preset_filters.belongs_to_default_pool"), :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}
   ]
-  def check_deployable_references
-    return true if deployables.empty?
-    !(deployables.any? {|d| d.catalogs.count == 1})
+
+  def destroy_deployables_related_only_to_self
+    deployables.each {|d| d.destroy if d.catalogs.count == 1}
   end
 
   private
