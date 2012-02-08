@@ -35,13 +35,13 @@ describe DeployablesController do
 
       it "returns flash[:error] when no hardware profile exists" do
         get :new, :create_from_image => @image.id
-        flash[:error].should eql(["No hardware profile exists! Please create one."])
+        flash[:error].should_not be_empty
       end
 
       it "returns flash[:error] when no catalog and hardware profile exists" do
         Catalog.stub(:list_for_user).and_return([])
         get :new, :create_from_image => @image.id
-        flash[:error].should eql(["No catalog exists! Please create one.","No hardware profile exists! Please create one."])
+        flash[:error].should_not be_empty
       end
 
       it "returns flash[:error] when no catalog exists" do
