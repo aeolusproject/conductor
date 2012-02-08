@@ -463,7 +463,7 @@ en:
       with_pending_instances: With pending Instances
       with_stopped_instances: With stopped Instances
   hardware_profiles:
-    hardware: Hardware
+    hardware: Cloud Resource Profiles
     hardware_profile: Cloud Resource Profile
     hardware_profiles: Cloud Resource Profiles
     index:
