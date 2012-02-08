@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	23%{?dist}
+Release:	24%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,15 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Wed Feb  8 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-24
+- 21bbfbf BZ 788117 - Don't set session[:return_to] in UserSessions#new
+- 44486b5 BZ 788018 Destroy deployables when deleting its last catalog
+- 7b6fbd8 BZ 773247 fix for empty message header
+- 2408968 BZ 783378 - log reboot (and other) instance action
+- 8088844 https://bugzilla.redhat.com/show_bug.cgi?id=786207
+- 419cb5a Make 2 deployables specs i18n-compatible
+- 3cc70ff BZ 785742 - @template variable name conflicts with simple-navigation plugin
+
 * Tue Feb  7 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-23
 - db4bad8 BZ 788114 - Un-protects populate_realms method
 - dc270e0 Fixed non i18n string in catalogs#new/edit form.
