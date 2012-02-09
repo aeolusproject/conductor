@@ -174,6 +174,10 @@ en:
     confirm_delete: "Are you sure you want to delete this deployment?"
     list_of_events: List of deployment events
     state: State
+    status:
+      running: All instances are running
+      pending: Some (but not all) instances are running
+      stopped: No instances are currently running
     launch_time_params:
       configure_launch_time_params: "Configure launch-time parameters for your deployment:"
       finalize: Finalize
