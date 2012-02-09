@@ -97,6 +97,15 @@
   display: none;
 }
 
+table.light_table tbody {
+  tr.collapsed {
+    display: none;
+  }
+
+  ul li {
+    list-style-type: none;
+  }
+}
 
 .launch-time-params h2 {
   font-size: 16px;
