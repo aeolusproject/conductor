@@ -5,6 +5,8 @@
         %li.deployment
           %h3.name
             = link_to deployment.name, deployment_path(deployment)
+          %span{ :class => "status #{deployment.status}", :title => deployment.as_json[:status_description]}
+            = deployment.status
           %dl.statistics
             %ul
               %li.right
@@ -21,6 +23,7 @@
       <h3 class="name">
         <a href="#{deployment_path('replace_id').sub('replace_id', '${id}')}">${name}</a>
       </h3>
+      <span class="status ${status}" title="${status_description}">${status}</span>
       <dl class="statistics">
         <ul>
           <li class="right">
