@@ -179,8 +179,8 @@ class InstancesController < ApplicationController
   end
 
   def multi_reboot
-    notices = ""
-    errors = ""
+    notices = []
+    errors = []
     Instance.find(params[:instance_selected] || []).each do |instance|
       begin
         require_privilege(Privilege::USE,instance)

@@ -376,6 +376,7 @@ en:
       provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch deployable"
       stop_invalid: "stop is an invalid action."
       stop_not_be_performed: "stop cannot be performed on this instance."
+      reboot_not_be_performed: "cannot be rebooted because it's not currently running."
       must_be_enabled: "%{account_name}: provider must be enabled"
       provider_not_available: "%{account_name}: provider is not available"
       cannot_destroy: "destroy cannot be performed on this instance."
