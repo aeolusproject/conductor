@@ -16,13 +16,4 @@ module DeployablesHelper
   def deployable_ready?
     false
   end
-
-  def parse_images_hash_details(index, hash)
-    return "N/A" unless hash
-    result = ""
-    result += (hash[index][0].nil? ? t(".image_uuid", :uuid => t(".n_a")) : t(".image_uuid", :uuid => "#{hash[index][0]}"))
-    result += (hash[index][1].nil? ? t(".latest_build_uuid", :uuid => t(".n_a")) : t(".latest_build_uuid", :uuid => "#{hash[index][1]}"))
-    result += (hash[index][2].nil? ? t(".target_images_uuids", :uuid => t(".n_a")) : t(".target_images_uuids", :uuid => "#{hash[index][2]}"))
-    result
-  end
 end

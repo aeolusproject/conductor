@@ -1,0 +1,9 @@
+%li
+  %strong="#{t("deployables.show.image_uuid")}"
+  ="#{(@images_hash_details[index][0].nil? ? t('deployables.show.n_a') : @images_hash_details[index][0])}"
+%li
+  %strong="#{t("deployables.show.latest_build_uuid")}"
+  ="#{(@images_hash_details[index][1].nil? ? t("deployables.show.n_a") : @images_hash_details[index][1])}"
+%li
+  %strong="#{t("deployables.show.target_images_uuids")}"
+  ="#{(@images_hash_details[index][2].nil? ? t("deployables.show.n_a") : @images_hash_details[index][2])}"
