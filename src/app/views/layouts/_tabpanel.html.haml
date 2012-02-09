@@ -12,3 +12,10 @@
       -#%a.collapse{'href'=>'#'} Collapse
   .content.collapsible#tab
     = render :partial => @details_tab[:view]
+
+:javascript
+  $(document).ready(function() {
+    $("#tab-container-1-nav li a").click(function(){
+      Conductor.tabIsClickedResetFilters = true;
+    });
+  });

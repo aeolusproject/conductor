@@ -3,6 +3,8 @@
 
 
 $.extend(Conductor, {
+  tabIsClickedResetFilters: false,
+
   positionFooter: function () {
     var $footer = $('footer');
     if ($(document.body).height() < $(window).height()) {
@@ -165,7 +167,12 @@ $.extend(Conductor, {
   },
 
   urlParams: function() {
-    var paramsData = window.location.search.slice(1).split('&');
+    if(Conductor.tabIsClickedResetFilters == false){
+      var paramsData = window.location.search.slice(1).split('&');
+    } else {
+      var paramsData = [];
+    }
+
     var params = {};
     $.each(paramsData, function(index, value){
       var eqSign = value.search('=');
