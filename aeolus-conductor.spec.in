@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  24%{?dist}
+Release:  25%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -330,6 +330,10 @@ fi
 %{app_root}/spec
 
 %changelog
+* Thu Feb 09 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-25
+- 2bbd6bb BZ773034, BZ781482: Fix jQuery template on images#show
+- 8654859 BZ 785094 - fixed cookie overflow and session store
+
 * Wed Feb  8 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-24
 - 21bbfbf BZ 788117 - Don't set session[:return_to] in UserSessions#new
 - 44486b5 BZ 788018 Destroy deployables when deleting its last catalog
