@@ -1,4 +1,13 @@
 en:
+  activerecord:
+    models:
+      realm: Cloud Resource Cluster
+      provider: Cloud Resource Provider
+    attributes:
+      realm_backend_target:
+        realm: Cloud Resource Cluster
+        provider: Cloud Resource Provider
+        realm_or_provider: Cloud Resource Cluster or Cloud Resource Provider
   layout:
     copyright: "Copyright &copy; 2009-2012 Red Hat, Inc. All Rights Reserved."
     dashboard: Dashboard
