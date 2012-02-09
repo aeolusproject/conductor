@@ -66,6 +66,8 @@ class ImagesController < ApplicationController
       format.json do
         active_builds = @account_groups.keys.inject({})  do |result, driver|
           result[driver] = @builder.find_active_build(@build.id, driver) if @build
+          result[driver].attributes['status'].capitalize! if result[driver]
+
           result
         end
 
@@ -73,6 +75,7 @@ class ImagesController < ApplicationController
           timg = @target_images_by_target[driver]
           group[:accounts].each do |account|
             result[account.id] = @builder.find_active_push(timg.id, account.provider.name, account.credentials_hash['username'])
+            result[account.id].attributes['status'].capitalize! if result[account.id]
           end if timg.present?
 
           result

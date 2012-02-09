@@ -101,32 +101,34 @@
       <li>
         <dl>
           <dt>
-            <h3>${groups['type']['name']}</h3>
-            {{if build && active_builds[driver]}}
-              <label>${active_builds[driver]['status']}</label>
-            {{else target_images_by_target[driver]}}
-              #{path = image_target_image_path('replace_image_id', 'replace_target_image_id')
-                path = path.sub('replace_image_id', '${image[\'uuid\']}')
-                path = path.sub('replace_target_image_id', '${target_images_by_target[driver][\'uuid\']}')
-                button_to(t('images.show.delete'), path, :method => :delete)}
-            {{else build && build['uuid'] == latest_build_id}}
-              #{path = image_target_images_path('replace_image_id', :target => 'replace_driver', :build_id => 'replace_build_id')
-                path = path.sub('replace_image_id', '${image[\'uuid\']}')
-                path = path.sub('replace_driver', '${driver}')
-                path = path.sub('replace_build_id', '${build[\'uuid\']}')
-                button_to(t('images.show.build'), path, :method => :post)}
-              {{if failed_build_counts[driver] > 1}}
-                <div class="light">
-                  #{t('images.show.failed_build_attempts', :count => '${failed_build_counts[driver]}')}
-                </div>
-              {{else failed_build_counts[driver] == 1}}
-                <div class="light">
-                  #{t('images.show.failed_build_attempts', :count => 1 )}
-                </div>
+            <div class="build-actions">
+              <h3>${groups['type']['name']}</h3>
+              {{if build && active_builds[driver]}}
+                <label>${active_builds[driver]['builder']['status']}</label>
+              {{else target_images_by_target[driver]}}
+                #{path = image_target_image_path('replace_image_id', 'replace_target_image_id')
+                  path = path.sub('replace_image_id', '${image[\'uuid\']}')
+                  path = path.sub('replace_target_image_id', '${target_images_by_target[driver][\'uuid\']}')
+                  button_to(t('images.show.delete'), path, :method => :delete)}
+              {{else build && build['uuid'] == latest_build_id}}
+                #{path = image_target_images_path('replace_image_id', :target => 'replace_driver', :build_id => 'replace_build_id')
+                  path = path.sub('replace_image_id', '${image[\'uuid\']}')
+                  path = path.sub('replace_driver', '${driver}')
+                  path = path.sub('replace_build_id', '${build[\'uuid\']}')
+                  button_to(t('images.show.build'), path, :method => :post)}
+                {{if failed_build_counts[driver] > 1}}
+                  <div class="light">
+                    #{t('images.show.failed_build_attempts', :count => '${failed_build_counts[driver]}')}
+                  </div>
+                {{else failed_build_counts[driver] == 1}}
+                  <div class="light">
+                    #{t('images.show.failed_build_attempts', :count => 1 )}
+                  </div>
+                {{/if}}
+              {{else}}
+                &nbsp;
               {{/if}}
-            {{else}}
-              &nbsp;
-            {{/if}}
+            </div>
           </dt>
           <dd>
             <table class="light_table">
@@ -168,7 +170,7 @@
                     </td>
                     <td class="image_controls light">
                       {{if target_images_by_target[driver] && active_pushes[account['id']]}}
-                        <label>${active_pushes[account['id']]['status']}</label>
+                        <label>${active_pushes[account['id']]['builder']['status']}</label>
                       {{else target_images_by_target[driver] && !provider_images[account['id']] && build &&  build['uuid'] == latest_build_id}}
                         #{path = image_provider_images_path('replace_image_id', :build_id => 'replace_build_id', :target_image_id => 'replace_target_image_id', :account_id => 'replace_account_id')
                           path = path.sub('replace_image_id', '${image[\'uuid\']}')
