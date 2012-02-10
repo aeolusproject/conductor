@@ -59,7 +59,7 @@ class DeployablesController < ApplicationController
 
   def show
     @deployable = Deployable.find(params[:id])
-    @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
+    @catalog = params[:catalog_id].present? ? Catalog.find(params[:catalog_id]) : @deployable.catalogs.first
     require_privilege(Privilege::VIEW, @deployable)
     save_breadcrumb(polymorphic_path([@catalog, @deployable]), @deployable.name)
     @providers = Provider.all
