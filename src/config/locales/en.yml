@@ -533,6 +533,10 @@ en:
     index:
       realm: Realm
       realm_name: Realm Name
+      realm_availability: Available?
+      realm_available:
+        true_value: "Yes"
+        false_value: "No"
     tab_captions:
       properties: Properties
       mapping: Mapping
@@ -558,6 +562,7 @@ en:
       properties: Properties
       realm_mapping: Realm Mapping
       sure_to_delete: Are you sure you want to delete?
+      realm_unavailable: "The realm %{name} is currently not available."
     flash:
       notice:
         added_mapping: "Realm mapping was added."
@@ -976,6 +981,7 @@ en:
       toggle_alerts: Toggle Alerts
       provider_disabled: "The provider %{name} is currently disabled."
       enable_configure_providers: "To enable and configure provider, click the slide switch in the upper-right-hand corner of this window."
+      provider_unavailable: "The provider %{name} is currently not available."
     form:
       x_deltacloud_provider: "X-Deltacloud-Provider:"
       provider_name: "Provider Name:"

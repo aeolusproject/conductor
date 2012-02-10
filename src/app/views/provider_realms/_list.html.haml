@@ -21,3 +21,4 @@
 = filter_table(provider_realms_header, @realms) do |realm|
   %tr{:class => cycle('nostripe','stripe')}
     %td= link_to realm.name, provider_realm_path(realm)
+    %td= availability_label(realm.available)
