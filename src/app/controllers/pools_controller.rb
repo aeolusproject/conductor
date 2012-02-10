@@ -66,7 +66,16 @@ class PoolsController < ApplicationController
           render :partial => 'pretty_list'
         end
       end
-      format.json { render :json => @pools }
+      format.json do
+        case @details_tab[:id]
+        when 'pools'
+          render :json => @pools
+        when 'instances'
+          render :json => @instances
+        when 'deployments'
+          render :json => @deployments
+        end
+      end
     end
   end
 
