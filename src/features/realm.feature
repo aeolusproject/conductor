@@ -44,7 +44,7 @@ Feature: Manage Realms
     And I follow "mapping_to_provider_button"
     Then I should be on the new realm mapping page
     And I press "realm_backend_target_submit"
-    Then I should see "Realm or provider can't be blank"
+    Then I should see an error message
 
   Scenario: Change the name
     Given I am on the realms page
