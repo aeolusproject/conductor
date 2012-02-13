@@ -6,4 +6,4 @@
     %ol.nav_hist_bar
       - @read_breadcrumbs.each do |breadcrumb|
         %li{:class => breadcrumb[:class]}
-          = link_to breadcrumb[:name].titleize, breadcrumb[:path]
+          = link_to breadcrumb[:name].titleize, breadcrumb[:path], :id => "#{breadcrumb[:class]}_breadcrumb"
