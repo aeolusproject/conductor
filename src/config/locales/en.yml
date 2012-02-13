@@ -1307,3 +1307,15 @@ en:
       words_connector: ', '
       two_words_connector: ' and '
       last_word_connector: ', and '
+  breadcrumbs:
+    pools: Pools
+    instances: Instances
+    pool_families: Pool Families
+    users: Users
+    realms: Realms
+    roles: Roles
+    hardware_profiles: Hardware Profiles
+    catalogs: Catalogs
+    provider_realms: Provider Realms
+    deployables: Deployables
+    deployments: Deployments
