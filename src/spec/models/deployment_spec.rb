@@ -300,12 +300,12 @@ describe Deployment do
   end
 
   describe "deployment_state" do
-    it "should return Deployment::STATE_MIXED if instances have differing states" do
+    it "should be pending if only some instances are running" do
       deployment = Factory.build :deployment
       instance = Factory.build(:mock_running_instance, :deployment => deployment)
       instance2 = Factory.build(:mock_pending_instance, :deployment => deployment)
       deployment.stub(:instances) { [instance, instance2] }
-      deployment.deployment_state.should == Deployment::STATE_MIXED
+      deployment.status.should == :pending
     end
   end
 

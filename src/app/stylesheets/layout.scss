@@ -1599,10 +1599,10 @@ section.content-section{
       font-size: 21px;
       font-weight: 200;
       @include display_inline_block;
+      vertical-align: middle;
       margin-bottom: 4px;
     }
     .badge{
-      vertical-align: -6px;
     }
     .section-controls{
       position: absolute;
@@ -1682,6 +1682,7 @@ section.admin-content-section{
       font-size: 21px;
       font-weight: 200;
       @include display_inline_block;
+      vertical-align: middle;
       margin-bottom: 4px;
       padding: 2px 40px 0px 0px;
 
@@ -2254,6 +2255,21 @@ ul.deployment-array.large{
 
     }
 
+    .status {
+      text-indent: -3000px;
+      display: block;
+      background: url('../../images/build_status.png') no-repeat;
+      width: 18px;
+      height: 18px;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+
+      &.stopped { background-position: 0px center; }
+      &.pending { background-position: -20px center; }
+      &.running { background-position: -40px center; }
+    }
+
     dl.statistics{
       margin-top: 8px;
       ul{list-style: none; margin-left: 12px;}
@@ -2345,6 +2361,7 @@ ul.deployment-array.small{
   height: 100%;
 
   li.deployment{
+    position: relative;
     display: table-cell;
     float: left;
     border: 1px solid #ccc;
@@ -2360,6 +2377,21 @@ ul.deployment-array.small{
       font-weight: normal;
       font-size: 13px;
       margin-bottom: 14px;
+    }
+
+    .status {
+      text-indent: -3000px;
+      display: block;
+      background: url('../../images/build_status.png') no-repeat;
+      width: 18px;
+      height: 18px;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+
+      &.stopped { background-position: 0px center; }
+      &.pending { background-position: -20px center; }
+      &.running { background-position: -40px center; }
     }
 
     dl.statistics{

@@ -23,6 +23,9 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
     else if ($('#details_instances.active').length > 0) {
       return 'instances';
     }
+    else {
+      return '';
+    }
   },
 
   template: function() {
@@ -41,6 +44,8 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
   queryParams: function() {
     var paramsToInclude = [this.currentTab() + '_preset_filter', this.currentTab() + '_search'];
     var result = Conductor.extractQueryParams(paramsToInclude);
+
+    result['details_tab'] = this.currentTab();
 
     // If there is no URL param for the preset filter, we still need to merge in the preset filter
     var filter = this.currentTab() + '_preset_filter';

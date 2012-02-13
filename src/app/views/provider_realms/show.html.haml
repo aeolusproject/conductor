@@ -2,6 +2,11 @@
 %header.admin-page-header
   %h1{:class => controller.controller_name}= @realm.name
 
+- unless @realm.available
+  %section.admin-content-section
+    %header.align-center
+      %h2.disabled= t('realms.show.realm_unavailable', :name => @realm.name)
+
 %section.admin-content-section.realm
   %header
     %h2= t'realms.show.properties'

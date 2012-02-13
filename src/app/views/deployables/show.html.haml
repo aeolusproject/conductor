@@ -29,17 +29,29 @@
           %th.align-center=t'.hdd'
           %th.align-center=t'.ram'
           %th.align-center=t'.arch'
-        %tbody
-          - @images_details.each_with_index do |assembly, index|
-            %tr
-              %td.status= image_valid?(assembly)
+          %th=t(".uuids")
+      %tbody
+        - @images_details.each_with_index do |assembly, index|
+          %tr
+            %td.status= image_valid?(assembly)
+            %td
+              %strong=assembly[:name]
+            %td.align-center=assembly[:images_count]
+            %td=assembly[:hwp_name]
+            %td.align-center=assembly[:hwp_hdd]
+            %td.align-center=assembly[:hwp_ram]
+            %td.align-center=assembly[:hwp_arch]
+            %td.align-center
+              - if @images_hash_details.nil?
+                = t(".n_a")
+              - else
+                %a.control{:href => '#'}=t(".show_hide_uuids")
+          - unless @images_hash_details.nil?
+            %tr.collapsed
               %td
-                %strong{:title => "#{parse_images_hash_details(index, @images_hash_details)}"}=assembly[:name]
-              %td.align-center=assembly[:images_count]
-              %td=assembly[:hwp_name]
-              %td.align-center=assembly[:hwp_hdd]
-              %td.align-center=assembly[:hwp_ram]
-              %td.align-center=assembly[:hwp_arch]
+              %td{:colspan => 7}
+                %ul
+                  = render :partial => "image_uuids", :locals => {:index => index}
 
 %section.admin-content-section
   - if @missing_images.empty?
@@ -106,6 +118,17 @@
       %h2.roles= t('role_assignments')
     .content
       = render :partial => 'permissions/permissions'
+
+:javascript
+  $(document).ready(function() {
+    $('table.light_table tbody tr').map(function(){
+      var this_row = this;
+      $(this).find('a.control').click(function(){
+        $(this_row).next().toggleClass('collapsed');
+        return false;
+      });
+    });
+  });
 
 %script#deployableBuildsTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain

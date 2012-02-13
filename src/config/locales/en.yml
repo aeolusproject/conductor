@@ -183,6 +183,10 @@ en:
     confirm_delete: "Are you sure you want to delete this application?"
     list_of_events: List of application events
     state: State
+    status:
+      running: All instances are running
+      pending: Some (but not all) instances are running
+      stopped: No instances are currently running
     launch_time_params:
       configure_launch_time_params: "Configure launch-time parameters for your application:"
       finalize: Finalize
@@ -381,6 +385,7 @@ en:
       provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch application blueprint"
       stop_invalid: "stop is an invalid action."
       stop_not_be_performed: "stop cannot be performed on this instance."
+      reboot_not_be_performed: "cannot be rebooted because it's not currently running."
       must_be_enabled: "%{account_name}: provider must be enabled"
       provider_not_available: "%{account_name}: provider is not available"
       cannot_destroy: "destroy cannot be performed on this instance."
@@ -537,6 +542,10 @@ en:
     index:
       realm: Cloud Resource Cluster
       realm_name: Cloud Resource Cluster Name
+      realm_availability: Available?
+      realm_available:
+        true_value: "Yes"
+        false_value: "No"
     tab_captions:
       properties: Properties
       mapping: Mapping
@@ -562,6 +571,7 @@ en:
       properties: Properties
       realm_mapping: Cloud Resource Cluster Mapping
       sure_to_delete: Are you sure you want to delete?
+      realm_unavailable: "The realm %{name} is currently not available."
     flash:
       notice:
         added_mapping: "Cloud Resource Cluster mapping was added."
@@ -877,6 +887,8 @@ en:
       latest_build_uuid: "Latest Build UUID: %{uuid}\n"
       target_images_uuids: "Target Images UUIDs: %{uuid}\n"
       n_a: "N/A"
+      uuids: "UUIDs"
+      show_hide_uuids: "Show/Hide"
     form:
       choose_xml: Choose Application Blueprint XML file
       catalog: Catalog
@@ -979,6 +991,7 @@ en:
       toggle_alerts: Toggle Alerts
       provider_disabled: "The provider %{name} is currently disabled."
       enable_configure_providers: "To enable and configure provider, click the slide switch in the upper-right-hand corner of this window."
+      provider_unavailable: "The provider %{name} is currently not available."
     form:
       x_deltacloud_provider: "X-Deltacloud-Provider:"
       provider_name: "Cloud Resource Provider Name:"
@@ -1121,6 +1134,7 @@ en:
       invalid_credentials: Login credentials are invalid for this provider.
       populate_hardware_profiles_failed: "Failed to populate cloud resource profiles: %{message}"
       populate_realms_failed: "Failed to populate clusters: %{message}"
+      could_not_connect: "Could not connect to provider account.  Please contact an administrator."
   config_servers:
     certificate_help: Provide a certificate to enable https support
     section_header:

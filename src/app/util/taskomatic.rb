@@ -145,6 +145,7 @@ module Taskomatic
 
   def self.create_dcloud_instance(instance, match)
     client = match.provider_account.connect
+    raise I18n.t("provider_accounts.errors.could_not_connect") unless client
 
     overrides = HardwareProfile.generate_override_property_values(instance.hardware_profile, match.hwp)
 
