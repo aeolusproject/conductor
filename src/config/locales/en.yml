@@ -9,7 +9,7 @@ en:
         provider: Cloud Resource Provider
         realm_or_provider: Cloud Resource Cluster or Cloud Resource Provider
   layout:
-    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc. All Rights Reserved."
+    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
     dashboard: Dashboard
   datetime:
     distance_in_words:
