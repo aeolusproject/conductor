@@ -1599,10 +1599,10 @@ section.content-section{
       font-size: 21px;
       font-weight: 200;
       @include display_inline_block;
+      vertical-align: middle;
       margin-bottom: 4px;
     }
     .badge{
-      vertical-align: -6px;
     }
     .section-controls{
       position: absolute;
@@ -1682,6 +1682,7 @@ section.admin-content-section{
       font-size: 21px;
       font-weight: 200;
       @include display_inline_block;
+      vertical-align: middle;
       margin-bottom: 4px;
       padding: 2px 40px 0px 0px;
 
