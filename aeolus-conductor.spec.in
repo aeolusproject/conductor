@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  25%{?dist}
+Release:  26%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -330,6 +330,23 @@ fi
 %{app_root}/spec
 
 %changelog
+* Mon Feb 13 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-26
+- e545be6 BZ788841: fixed failing test for References to Realms removed
+- 0eec133 References to Realms removed.
+- 881b076 Unify badges alignment through app
+- 999e744 BZ787810: Display availability status of providers and realms
+- d848455 BZ 785196 updated favicon link
+- 359ec8b BZ#789102 Default to first catalog of deployable if catalog not set
+- df050c7 Replaced string in backbone.js view
+- c8b9807 BZ 773027 Added partial of image's UUIDs
+- 8c56c18 BZ 789000 change PoolsIndex to always use Conductor.Models.Pools, allowing for more consistent queries
+- 5d3f4b5 BZ 789000 fix index to render proper json depending on tab
+- 843b810 BZ 782574 add error messages when unable to connect to provider account/iwhd
+- cb11552 BZ 782574 added exception if unable to connect to provider_account
+- 2d0ba35 BZ783923 Prevent redisplaying previous filters by backbone when the view is refreshed
+- 2fa8baf BZ#773226 Error message while rebooting stopped instances
+- 300049e BZ#743377 Show deployable status in the pretty view
+
 * Thu Feb 09 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-25
 - 2bbd6bb BZ773034, BZ781482: Fix jQuery template on images#show
 - 8654859 BZ 785094 - fixed cookie overflow and session store
