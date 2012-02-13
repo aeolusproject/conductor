@@ -17,3 +17,8 @@
 Then /^I should not see the breadcrumbs section$/ do
   page.should_not have_selector("#nav_history")
 end
+
+Then /^I should see the breadcrumbs section with "([^"]*)"$/ do |string|
+  page.should have_selector("#nav_history")
+  text_present(I18n.t("breadcrumbs.#{string}"))
+end

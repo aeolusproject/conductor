@@ -13,8 +13,8 @@ Feature: Breadcrumbs
     When I go to the pools page
     Then I should see "testpool"
     When I follow "testpool"
-    Then I should see "Pools" within "#nav_history"
-    When I follow "Pools" within "#nav_history"
+    Then I should see the breadcrumbs section with "pools"
+    When I follow "pools_breadcrumb" within "#nav_history"
     Then I should be on the pools page
 
   Scenario: Don't show breadcrumbs on the top level section

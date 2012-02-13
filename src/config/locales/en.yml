@@ -1317,3 +1317,15 @@ en:
       words_connector: ', '
       two_words_connector: ' and '
       last_word_connector: ', and '
+  breadcrumbs:
+    pools: Cloud Resource Zones
+    instances: Instances
+    pool_families: Clouds
+    users: Users
+    realms: Cloud Resource Clusters
+    roles: Roles
+    hardware_profiles: Cloud Resource Profiles
+    catalogs: Catalogs
+    provider_realms: Cloud Resource Clusters
+    deployables: Application Blueprints
+    deployments: Applications
