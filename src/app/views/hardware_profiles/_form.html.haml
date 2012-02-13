@@ -3,7 +3,11 @@
 = hwp_form.label :name, t('hardware_profiles.form.name')
 = hwp_form.text_field :name
 %table
-  = sortable_table_header @header
+  %thead
+    %tr
+      - @header.each do |header|
+        %th
+          = header[:name]
   - [:memory, :cpu, :storage, :architecture].each do |type|
     = hwp_form.fields_for type do |hwpp_form|
       %tr
