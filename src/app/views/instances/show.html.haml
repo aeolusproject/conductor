@@ -1,4 +1,16 @@
 = render :partial => 'layouts/nav_history'
-= render :partial => 'properties'
-= render :partial => 'parameters'
-= render :partial => 'history'
+%header.page-header
+  %h1.deployments
+    = @instance.name
+  .corner &nbsp;
+
+%section.content-section
+  %header#tab-container-1
+    %nav.faceted
+      %ul#tab-container-1-nav
+        - @tabs.each do |tab|
+          %li
+            %a{ :href => url_for(:details_tab => tab[:id]), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]}" }
+              = tab[:name]
+  .content.instance_details#tab
+    = render :partial => @view

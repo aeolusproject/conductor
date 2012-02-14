@@ -39,17 +39,22 @@ class InstancesController < ApplicationController
 
   def show
     load_instances
-    @tab_captions = [t('instances.tab_captions.properties'), t('instances.tab_captions.history'), t('instances.tab_captions.permissions')]
-    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(instance_path(@instance), @instance.name)
     @events = @instance.events.descending_by_created_at.paginate(:page => params[:page] || 1)
+    @view = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    @tabs = [
+      {:name => t('properties'), :view => @view, :id => 'properties'},
+      {:name => t('instances.parameters.config_parameters'), :view => 'parameters', :id => 'parameters'},
+      {:name => t('history'), :view => 'history', :id => 'history'}
+    ]
+    @details_tab = @tabs.find {|t| t[:view] == @view}
     respond_to do |format|
       format.html { render :action => 'show'}
       format.js do
         if params.delete :details_pane
           render :partial => 'layouts/details_pane' and return
         end
-        render :partial => @details_tab and return
+        render :partial => @details_tab[:view] and return
       end
       format.json { render :json => @instance }
     end
