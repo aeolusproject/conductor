@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  26%{?dist}
+Release:  27%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -330,6 +330,11 @@ fi
 %{app_root}/spec
 
 %changelog
+* Tue Feb 14 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-27
+- 1088eed BZ#788863 Removed Sort links on New HWP Page
+- 97e871b BZ 788350 Rename pools to "Cloud Resource Zone" in breadcrumb
+- e021a52 BZ 788153 - Remove "All Rights Reserved" text.
+
 * Mon Feb 13 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-26
 - e545be6 BZ788841: fixed failing test for References to Realms removed
 - 0eec133 References to Realms removed.
