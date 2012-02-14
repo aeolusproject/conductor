@@ -140,7 +140,7 @@ Feature: Manage Instances
     And there is a "mock1" instance
     And I am on the the instances page
     When I follow "mock1"
-    Then I should see "Properties for mock1"
+    Then I should see "Properties"
 
   Scenario: Edit an instance name
     Given there is a "Tomct" instance
@@ -197,7 +197,7 @@ Feature: Manage Instances
   Scenario: Show instance history
     Given a mock running instance exists
     And I am viewing the mock instance detail
-    Then I should see "History for"
+    And I follow "details_history"
     Then I should see "created"
 
   Scenario: Filter Instances

@@ -313,7 +313,7 @@ en:
     history:
        history_for: "History for: "
     parameters:
-       config_parameters_for: Config Parameters for
+       config_parameters: Config Parameters
        none: None
     permissions:
      permissions_for: Permissions for
