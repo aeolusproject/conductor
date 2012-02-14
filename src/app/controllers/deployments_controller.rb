@@ -177,7 +177,7 @@ class DeploymentsController < ApplicationController
     require_privilege(Privilege::VIEW, @deployment)
     init_new_deployment_attrs
     save_breadcrumb(deployment_path(@deployment, :viewstate => viewstate_id), @deployment.name)
-    @failed_instances = @deployment.failed_instances
+    @failed_instances = @deployment.failed_instances.list(sort_column(Instance), sort_direction)
     if filter_view?
       @view = 'instances/list'
       params[:instances_preset_filter] = "" unless params[:instances_preset_filter]

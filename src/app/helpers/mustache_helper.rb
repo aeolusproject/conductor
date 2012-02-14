@@ -52,6 +52,7 @@ module MustacheHelper
       :translated_state     => t("instances.states.#{instance.state}"),
       :public_addresses     => instance.public_addresses.present? ? instance.public_addresses : I18n.t('deployments.pretty_view_show.no_ip_address'),
       :instance_key_present => instance.instance_key.present?,
+      :last_error           => instance.last_error,
       :stop_enabled         => available_actions.include?(InstanceTask::ACTION_STOP),
       :reboot_enabled       => available_actions.include?(InstanceTask::ACTION_REBOOT),
       :owner                => instance.owner.present? ? instance.owner.name : nil,

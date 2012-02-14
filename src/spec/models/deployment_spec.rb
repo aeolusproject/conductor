@@ -343,6 +343,8 @@ describe Deployment do
       @deployment.reload
 
       @deployment.stop_instances_and_destroy!
+      inst1.reload
+      inst2.reload
 
       # this emulates Condor stopping the actual instances
       # and dbomatic reflecting the changes back to Conductor

@@ -472,7 +472,7 @@ class Deployment < ActiveRecord::Base
   end
 
   def failed_instances
-    instances.select {|instance| instance.failed?}
+    instances.failed
   end
 
   def update_state(changed_instance)

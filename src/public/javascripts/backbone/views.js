@@ -278,6 +278,39 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
       instanceCardsHtml += Mustache.to_html($template.html(), instance);
     });
     $instances.html(instanceCardsHtml);
+
+    var $alerts = this.$('#deployment-alerts');
+    var alertsVisible = $alerts.find('.collapsible').length == 0 || $alerts.find('.collapsible').is(":visible")
+    var failedInstances = _.compact(_.map(this.collection.models, function(model) {
+      if(model.get('failed')) {
+        return model.toJSON();
+      }
+      else {
+        return null;
+      }
+    }));
+
+    // Render alerts
+    $alerts.empty();
+    if(failedInstances.length == 0) return;
+
+    var $deploymentAlertTemplate = $('#deploymentAlertTemplate');
+    $alerts.html(Mustache.to_html($deploymentAlertTemplate.html(), {
+      'failed_instance_exists' : failedInstances.length > 0,
+      'failed_instances_count' : failedInstances.length,
+      'failed_instances' : failedInstances
+    }));
+
+    // Add callback to Toggle link
+    $alerts.find('a.collapse').click(function(e) {
+      e.preventDefault();
+      $(this).parents('.collapse_entity').find('.collapsible').slideToggle(80);
+    });
+
+    // Restore toggle state on alerts table
+    if(!alertsVisible) {
+      $alerts.find('.collapsible').hide();
+    }
   }
 
 });

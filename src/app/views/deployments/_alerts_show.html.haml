@@ -1,16 +1,8 @@
-- if @failed_instances.count > 0
-  %section.content-section.alerts.collapse_entity
-    %header
-      .section-controls
-        = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts'
-      %h2.alerts
-        =t 'alerts_label'
-        %span.label.badge.alert.count= @failed_instances.count
-    .content.collapsible
-      %dl.alerts
-        %ul
-          - @failed_instances.each do |inst|
-            %li.alert
-              %dt.subject.critical= inst.name
-              %dd.type=t 'alerts.instance_failure'
-              %dd.desc= "#{inst.last_error.blank? ? inst.state : inst.last_error}"
+#deployment-alerts
+  = render :partial => 'deployment_alerts',
+           :mustache => { :failed_instance_exists => @failed_instances.count > 0,
+                          :failed_instances_count => @failed_instances.count,
+                          :failed_instances => @failed_instances.map{ |instance| instance_for_mustache(instance) } }
+
+%script#deploymentAlertTemplate{ :type => 'text/html' }
+  = render :partial => 'deployment_alerts'

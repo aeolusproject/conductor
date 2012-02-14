@@ -75,6 +75,14 @@ module Taskomatic
     rescue Exception => ex
       task.state = Task::STATE_FAILED
       task.message = ex.message
+      task.instance.update_attributes(:last_error => ex.message)
+
+      # For RHEV-M, since we need to start up the instance after the vm has been created
+      # we also have to handle create_failed state events separately
+      if task.instance.state == Instance::STATE_STOPPED && task.action == InstanceTask::ACTION_START &&
+          task.instance.provider_account.provider.provider_type.deltacloud_driver == 'rhevm'
+        task.instance.update_attributes(:state => Instance::STATE_CREATE_FAILED)
+      end
     ensure
       task.save! if Task.exists?(task.id)
     end

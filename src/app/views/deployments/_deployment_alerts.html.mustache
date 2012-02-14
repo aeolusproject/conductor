@@ -1,0 +1,34 @@
+{{#failed_instance_exists}}
+  <section class="content-section alerts collapse_entity">
+    <header>
+      <div class="section-controls">
+        <%= link_to(t('providers.edit.toggle_alerts'), '#', :class => 'collapse alerts') %>
+      </div>
+      <h2 class="alerts">
+        <%= t('alerts_label') %>
+        <span class="label badge alert count">{{failed_instances_count}}</span>
+      </h2>
+    </header>
+    <div class="content collapsible" style="display: block;">
+      <dl class="alerts">
+        <ul>
+          {{#failed_instances}}
+            <li class="alert">
+              <dt class="subject critical">{{name}}</dt>
+              <dd class="type"><%= t('alerts.instance_failure') %></dd>
+              <dd class="desc">
+                {{#last_error}}
+                  {{last_error}}
+                {{/last_error}}
+
+                {{^last_error}}
+                  {{translated_state}}
+                {{/last_error}}
+              </dd>
+            </li>
+          {{/failed_instances}}
+        </ul>
+      </dl>
+    </div>
+  </section>
+{{/failed_instance_exists}}
