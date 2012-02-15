@@ -30,10 +30,10 @@ help = false
 daemon = true
 dbomatic_log_dir = "/var/log/aeolus-conductor"
 dbomatic_pid_dir = "/var/run/aeolus-conductor"
+# $dbomatic_timeout is also our polling interval between cloud status checks
 $dbomatic_timeout = 60
 $realms_timeout = 300
 $deltacloud_timeout = 30
-
 optparse = OptionParser.new do |opts|
 
   opts.banner = <<BANNER
@@ -200,7 +200,21 @@ def check_one_account(account)
         # Only update the instance / create an event if anything has changed!
         instance.save! if instance.changed?
       else
-        DBomaticLogger.instance.info("ignoring unknown instance #{instance.name} #{instance.external_key}")
+        # We have an instance in our database, but it didn't come back over the API
+        DBomaticLogger.instance.info("known instance missing from provider: #{instance.name} #{instance.external_key}")
+        if instance.state == Instance::STATE_VANISHED
+          # If the instance is found, we automatically update the state, so this means that the
+          # instance was missing on two *consecutive* calls.
+          DBomaticLogger.instance.info("instance was missing on last call as well, so deleting")
+          Event.create(
+            :source => instance, :event_time => Time.now,
+            :status_code => 'vanished', :summary => "Instance disappeared from cloud provider"
+          )
+          instance.destroy
+        else
+          DBomaticLogger.instance.info("instance was present on last call, so setting state to vanished but not deleting")
+          instance.update_attribute(:state, Instance::STATE_VANISHED)
+        end
       end
     end
 

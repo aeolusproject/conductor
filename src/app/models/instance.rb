@@ -108,16 +108,17 @@ class Instance < ActiveRecord::Base
   STATE_STOPPED        = "stopped"
   STATE_CREATE_FAILED  = "create_failed"
   STATE_ERROR          = "error"
+  STATE_VANISHED       = "vanished"
 
   STATES = [STATE_NEW, STATE_PENDING, STATE_RUNNING,
              STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED,
-             STATE_ERROR]
+             STATE_ERROR, STATE_VANISHED]
 
   scope :deployed,  :conditions => { :state => [STATE_RUNNING, STATE_SHUTTING_DOWN] }
   # FIXME: "pending" is misleading as it doesn't just cover STATE_PENDING
   scope :pending,   :conditions => { :state => [STATE_NEW, STATE_PENDING] }
   # FIXME: "failed" is misleading too...
-  scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR] }
+  scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR, STATE_VANISHED] }
   scope :stopable,    :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING] }
   scope :ascending_by_name, :order => 'instances.name ASC'
 
@@ -320,7 +321,7 @@ class Instance < ActiveRecord::Base
   end
 
   def destroyable?
-    (state == STATE_CREATE_FAILED) or (state == STATE_STOPPED and not restartable?)
+    (state == STATE_CREATE_FAILED) or (state == STATE_STOPPED and not restartable?) or (state == STATE_VANISHED)
   end
 
   def failed?
@@ -456,8 +457,8 @@ class Instance < ActiveRecord::Base
   ]
 
   def destroy_on_provider
-    if provider_account and (provider_account.provider.provider_type.deltacloud_driver != "ec2" or
-        provider_account.provider.provider_type.deltacloud_driver != "mock") and state != STATE_CREATE_FAILED
+    if provider_account and !['ec2', 'mock'].include?(provider_account.provider.provider_type.deltacloud_driver) and
+      ![STATE_CREATE_FAILED, STATE_VANISHED].include?(state)
       retries = 0
       begin
         retries += 1
