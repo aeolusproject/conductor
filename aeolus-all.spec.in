@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	27%{?dist}
+Release:	28%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,13 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Wed Feb 15 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-28
+- a4ed54b fixed "Udate" type
+- 4a4fcd5 BZ 790548 add spacing if there are multiple target image uuids
+- ef3b665 Fix of UUIDs labels
+- 7a022c0 BZ 786844 - Fix logic flaw in destroy_on_provider
+- edeb5b7 BZ 786844 - Reporting of deleted instances
+
 * Tue Feb 14 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-27
 - 1088eed BZ#788863 Removed Sort links on New HWP Page
 - 97e871b BZ 788350 Rename pools to "Cloud Resource Zone" in breadcrumb
