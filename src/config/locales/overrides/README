@@ -1,0 +1,7 @@
+If you have a custom translation for a key used in the application,
+simply create the appropriate yml files/dirs for your supported languages in
+this directory and add the keys/values you want to use instead of the
+default.  See the rails guide on i18n for examples[1].  If you follow the
+pattern in the parent locales/ dir, everything shoudl 'just work'
+
+[1] http://guides.rubyonrails.org/i18n.html#organization-of-locale-files
