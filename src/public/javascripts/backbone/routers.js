@@ -100,6 +100,7 @@ Conductor.Routers.Images = Backbone.Router.extend({
 
   show: function(id) {
     id = Conductor.uuidFromURLFragment(id);
+    if ( id == "edit_xml" || id == "overview" || id == "import" || id == "new" ) return;
 
     setInterval(function() {
       var image = new Conductor.Models.Image({ id: id });
