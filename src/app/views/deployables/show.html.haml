@@ -56,11 +56,9 @@
 %section.admin-content-section
   - if @missing_images.empty?
     %header
-      %h2.build= t('.build')
+      %h2.build= t('.build_status')
 
     .content
-      %p.description.align-center= t('.build_description')
-
       %ul#providers-list.catalog_pretty
         - @build_results.each do |provider_type, results|
           - results.each do |result|
@@ -77,7 +75,7 @@
                     %div{:class => "build_status_icon #{result[:status]}"}
   - else
     %header
-      %h2.build= t('.build')
+      %h2.build= t('.build_status')
     .content
       .centered.align-center
         %strong Assemblies in Deployable XML arent properly configured.

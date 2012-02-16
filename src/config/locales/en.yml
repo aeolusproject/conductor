@@ -857,7 +857,7 @@ en:
       edit: Edit
       edit_xml: Edit XML
       delete: Delete
-      build: Build
+      build_status: "Build Status"
       start: Start
       rebuild_all: Build missing images
       push_all: Push missing images
@@ -871,9 +871,6 @@ en:
       arch: ARCH
       repair_images: Repair Images
       images_valid: Images Valid
-      build_description:
-        "Allow this deployable's associated image(s) to be built and
-        pushed to cloud resource providers by enabling them below."
       catalog_name: Catalog name
       environment: Environment
       build_statuses_descriptions:
