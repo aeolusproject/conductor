@@ -48,8 +48,10 @@ class Deployable < ActiveRecord::Base
   def valid_deployable_xml?
     begin
       deployable_xml = DeployableXML.new(xml)
-      unless deployable_xml.validate!
+      if !deployable_xml.validate!
         errors.add(:xml, I18n.t('catalog_entries.flash.warning.not_valid'))
+      elsif !deployable_xml.unique_assembly_names?
+        errors.add(:xml, I18n.t('catalog_entries.flash.warning.not_valid_duplicate_assembly_names'))
       end
     rescue Nokogiri::XML::SyntaxError => e
       errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{e.message}"))

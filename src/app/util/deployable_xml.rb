@@ -212,6 +212,10 @@ class DeployableXML
     errors.empty?
   end
 
+  def unique_assembly_names?
+    @root.xpath("/deployable/assemblies/assembly/@name").collect { |e| e.value }.uniq!.nil?
+  end
+
   def assemblies
     @assemblies ||=
       @root.xpath('/deployable/assemblies/assembly').collect do |assembly_node|
