@@ -677,6 +677,7 @@ en:
         not_valid_or_reachable: "Deployable XML file is either invalid or no longer reachable at %{url}"
         no_url_provided: "No URL provided for the deployable XML file."
         not_valid: "Deployable XML file doesn't resolve valid XML"
+        not_valid_duplicate_assembly_names: "Deployable XML must contain unique assembly names"
         failed: Deployable was not created.
       notice:
         added: Deployable added to catalog %{catalog}.

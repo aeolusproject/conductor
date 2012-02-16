@@ -34,6 +34,21 @@ FactoryGirl.define do
 
   end
 
+  factory :deployable_unique_name_violation, :parent => :deployable do
+    xml "<?xml version=\"1.0\"?>
+            <deployable version='1.0' name='my'>
+              <description>This is my testing image</description>
+              <assemblies>
+                <assembly name='frontend' hwp='front_hwp1'>
+                  <image id='53d2a281-448b-4872-b1b0-680edaad5922' build='63838705-8608-44c6-aded-7c243137172c'></image>
+                </assembly>
+                <assembly name='frontend' hwp='front_hwp2'>
+                  <image id='53d2a281-448b-4872-b1b0-680edaad5922' build='63838705-8608-44c6-aded-7c243137172c'></image>
+                </assembly>
+              </assemblies>
+            </deployable>"
+  end
+
   factory :deployable_with_parameters, :parent => :deployable do
     xml "<?xml version=\"1.0\"?>
             <deployable version='1.0' name='deployable_with_launch_parameters'>
