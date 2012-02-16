@@ -2,7 +2,7 @@
   - @deployment.instances.ascending_by_name.each do |instance|
     %li.instance
       %h3.name
-        = instance.name
+        = link_to instance.name, instance
       %hr
       %dl.statistics
         %ul
@@ -17,7 +17,8 @@
             %dd= instance.state
           - if instance.instance_key
             %li
-              = link_to t('deployments.pretty_view_show.download_key'), key_instance_path(instance)
+              %dt
+              %dd= link_to t('deployments.pretty_view_show.download_key'), key_instance_path(instance)
       %hr
       .actions
         %ul
@@ -33,7 +34,7 @@
 %script#instanceTemplate{:type => 'text/x-jquery-tmpl'}
   :plain
     <li class="instance">
-      <h3 class="name">${name}</h3>
+      <h3 class="name"><a href="#{instance_path('replace_id').sub('replace_id', '${id}')}">${name}</a></h3>
       <hr>
       <dl class="statistics">
         <ul>
@@ -57,7 +58,8 @@
           </li>
           {{if has_key}}
             <li>
-              <a href="#{key_instance_path('replace_id').sub('replace_id', '${id}')}">#{t('deployments.pretty_view_show.download_key')}</a>
+              <dt/>
+              <dd><a href="#{key_instance_path('replace_id').sub('replace_id', '${id}')}">#{t('deployments.pretty_view_show.download_key')}</a></dd>
             </li>
           {{/if}}
         </ul>
