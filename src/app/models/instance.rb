@@ -459,21 +459,10 @@ class Instance < ActiveRecord::Base
   ]
 
   def destroy_on_provider
-    if provider_account and !['ec2', 'mock'].include?(provider_account.provider.provider_type.deltacloud_driver) and
-      ![STATE_CREATE_FAILED, STATE_VANISHED].include?(state)
-      retries = 0
-      begin
-        retries += 1
-        @task = self.queue_action(self.owner, 'destroy')
-        unless @task
-          raise I18n.t"instance.errors.cannot_destroy"
-        end
-        Taskomatic.destroy_instance(@task)
-      rescue Exception => e
-        if self.tasks.last.action != 'destroy' and retries < 500
-          retry
-        end
-      end
+    if provider_account and destroy_supported?(provider_account) and ![STATE_CREATE_FAILED, STATE_VANISHED].include?(state)
+      @task = self.queue_action(self.owner, 'destroy')
+      raise I18n.t("instance.errors.cannot_destroy") unless @task
+      Taskomatic.destroy_instance(@task)
     end
   end
 
@@ -485,6 +474,10 @@ class Instance < ActiveRecord::Base
     else
       scoped
     end
+  end
+
+  def destroy_supported?(account)
+    !['ec2', 'mock'].include?(account.provider.provider_type.deltacloud_driver)
   end
 
   def key_name
