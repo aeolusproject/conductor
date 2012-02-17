@@ -520,6 +520,9 @@ en:
           other: Hardware Profiles %{deleted} were deleted.
       error:
         not_deleted: "Hardware profile was not deleted!"
+        more_not_deleted:
+          one: "%{not_deleted} could not be deleted"
+          other: "Could not delete the following hardware profiles: %{not_deleted}"
       warning:
         cannot_edit_backend_hwp: "Cannot modify Provider Hardware Profiles"
         cannot_delete_backend_hwp: "Cannot delete Provider Hardware Profiles"
