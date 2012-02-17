@@ -1,0 +1,457 @@
+en:
+  activerecord:
+    models:
+      realm: Cloud Resource Cluster
+      provider: Cloud Resource Provider
+    attributes:
+      realm_backend_target:
+        realm: Cloud Resource Cluster
+        provider: Cloud Resource Provider
+        realm_or_provider: Cloud Resource Cluster or Cloud Resource Provider
+  manage_providers: Manage Cloud Resource Providers
+  provider_summary: Cloud Resource Provider Summary
+  image_imports: Component Outline Imports
+  updates: Updates
+  hw_profiles: Cloud Resource Profiles
+  realm_s: Cloud Resource Clusters
+  deployments:
+    deployments: Applications
+    deployment: Application
+    deployment_name: Application Name
+    new_deployment: New Application
+    deployment_name_subtext: "(uniquely identifies your application)"
+    deployment_details: Application Details
+    confirm_delete: "Are you sure you want to delete this application?"
+    list_of_events: List of application events
+    launch_time_params:
+      configure_launch_time_params: "Configure launch-time parameters for your application:"
+    overview:
+      pool_name: %{pool} Cloud Resource Zone
+      header: Deploy "%{deployment}" to %{pool} Cloud Resource Zone?
+      confirmation:
+        Are you sure you wish to deploy "%{deployment}" to the %{pool} Cloud Resource Zone? Doing
+        so will utilize %{quota} of your overall application quota.
+      deployable_xml: Application Blueprint XML
+      deployable_uri: Application Blueprint URI
+      image_ids: Component Outline IDs
+    launch_from_catalog:
+      hint: Choose an application blueprint to launch in the "%{pool}" cloud resource zone
+      no_catalog_entry: 'No available application blueprint. Please add one first!'
+      image_id: Component Outline ID
+      deployable_xml: Application Blueprint XML
+    new:
+      launch: Launch this application
+      deployable_definition: Application Blueprint definition
+      deployable_details: Application Blueprint details
+      hardware_profile: Cloud Resource Profile
+      image_id: Component Outline ID
+    edit:
+      edit_deployment: Edit application
+    launch_new:
+      to_pool: "to %{name} Cloud Resource Zone"
+    provider_services:
+      list_of_services: List of services required by application
+    required_services:
+      list_of_required_services: List of services required by application
+    flash:
+      notice:
+        launched: "Application launched."
+      warning:
+        disabled_pool: "Cannot launch a Application in this Cloud Resource Zone. It has been disabled."
+        failed_to_launch: "Application launch failed!"
+      error:
+        not_launched: "Some component blueprints will not be launched:"
+        failed_to_launch_assemblies: "Failed to launch following component blueprints:"
+        not_deleted:
+          one: "The application %{list} could not be deleted."
+          other: "The applications %{list} could not be deleted."
+        none_selected: "You must select one or more applications."
+        not_updated:
+          one: "The application %{list} could not be updated."
+          other: "The applications %{list} could not be updated."
+      success:
+        deleted:
+          one: "The application %{list} was scheduled for deletion."
+          other: "The applications %{list} were scheduled for deletion."
+        updated:
+          one: "The application %{list} was successfully updated."
+          other: "The applications %{list} were successfully updated."
+    errors:
+      not_valid_deployable_xml: "seems to be not valid application blueprint XML: %{msg}"
+    preset_filters:
+      all_deployments: All Applications
+  instances:
+    list:
+      table:
+        provider: Cloud Resource Provider
+    properties:
+      assembly: "Component Blueprint: "
+      provider: "Cloud Resource Provider: "
+    errors:
+      image_not_found: "No image build was found with uuid %{b_uuid} and no component outline was found with uuid %{i_uuid}"
+      pool_family_quota_reached: "Cloud quota reached"
+      pool_quota_reached: "Cloud Resource Zone quota reached"
+      no_provider_accounts: "There are no provider accounts associated with cloud of selected cloud resource zone."
+      hw_profile_match_not_found: "%{account_name}: cloud resource profile match not found"
+      image_not_pushed_to_provider: "%{account_name}: component outline is not pushed to this provider account"
+      realm_not_mapped: "%{account_name}: Cloud Resource Cluster %{frontend_realm_name} is not mapped to any cloud resource provider or provider cluster"
+      provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch application blueprint"
+      architecture_mismatch: "Component blueprint cloud resource profile architecture (%{inst_arch}) doesn't match cloud resource profile architecture (%{img_arch})."
+  cloud_providers: Cloud Resource Providers
+  cloud_engine_hardware_profiles: Cloud Resource Profiles
+  pools:
+    pool: Cloud Resource Zone
+    pools: Cloud Resource Zones
+    new_pool: New Cloud Resource Zone
+    edit_pool: Edit Cloud Resource Zone
+    create_new_pool: Create New Cloud Resource Zone
+    index:
+      pool_name: Cloud Resource Zone name
+      pool_family: Cloud
+      confirm_delete: "Are you sure you want to delete this cloud resource zone? All related catalogs and deployables will be deleted too!"
+      your_pools: Your Cloud Resource Zones
+      pool_details: Cloud Resource Zone details
+    images:
+      catalog_entry: Application Blueprint
+      image: "Component Outline:"
+    header_show:
+      pool_name: %{name} Cloud Resource Zone
+    flash:
+      notice:
+        added: Cloud Resource Zone added.
+        updated: Cloud Resource Zone updated.
+      success:
+        pool_deleted:
+          one: Cloud Resource Zone %{list} was deleted.
+          other: Cloud Resource Zones %{list} were deleted.
+      error:
+        pool_not_deleted:
+          one: Cloud Resource Zone %{list} was not deleted. There are instances associated with it.
+          other: Cloud Resource Zones %{list} were not deleted. They have instances associated with them.
+        not_updated: "Cloud Resource Zone wasn't updated!"
+        default_pool_not_deleted: The default cloud resource zone cannot be deleted
+        iwhd_unavailable: Catalog Images are unavailable. It appears the Image Warehouse is not reachable
+      warning:
+        creation_failed: Cloud Resource Zone creation failed.
+    form:
+      pool_enabled: Cloud Resource Zone enabled
+    errors:
+      providers_disabled: has all associated cloud resource providers disabled
+    preset_filters:
+      all_pools: All Cloud Resource Zones
+      enabled_pools: Enabled Cloud Resource Zones
+  hardware_profiles:
+    hardware: Cloud Resource Profiles
+    hardware_profile: Cloud Resource Profile
+    hardware_profiles: Cloud Resource Profiles
+    index:
+      hardware_profile_name: Cloud Resource Profile Name
+    tab_captions:
+      matching_provider_hwp: Matching Provider Cloud Resource Profiles
+    provider_hwp_headers:
+      provider_name: Cloud Resource Provider Name
+      hwp_name: Cloud Resource Profile Name
+    list:
+      new_hardware: New Cloud Resource Profile
+    matching_provider_hwp:
+      no_matching_provider_hwp: No Matching Provider Cloud Resource Profiles Could be found
+    create:
+      check_matching_hwp: Check Matching Cloud Resource Profiles
+    edit:
+      edit_hwp: Edit Cloud Resource Profile
+    new:
+      new_hwp: New Cloud Resource Profile
+    show:
+      matching_hwp: Matching Provider Cloud Resource Profiles
+    flash:
+      notice:
+        deleted: "Cloud Resource Profile was deleted!"
+        updated: "Cloud Resource Profile updated!"
+        more_deleted:
+          one: Cloud Resource Profile %{deleted} was deleted.
+          other: Cloud Resource Profiles %{deleted} were deleted.
+      error:
+        not_deleted: "Cloud Resource Profile was not deleted!"
+      warning:
+        cannot_edit_backend_hwp: "Cannot modify Provider Cloud Resource Profiles"
+        cannot_delete_backend_hwp: "Cannot delete Provider Cloud Resource Profiles"
+    preset_filters:
+      all_hardware_profiles: "All Cloud Resource Profiles"
+  realms:
+    realms: Cloud Resource Clusters
+    new_realm: New Cloud Resource Cluster
+    index:
+      realm: Cloud Resource Cluster
+      realm_name: Cloud Resource Cluster Name
+    form:
+      realm_name: Cloud Resource Cluster Name
+    mapping:
+      mapping_realm: Add mapping to cloud resource cluster
+      mapping_provider: Add mapping to cloud resource provider
+      realm_mapped_providers: "Cloud Resource Cluster %{name} is mapped to providers:"
+      realm_mapped_realms: "Cloud Resource Cluster %{name} is mapped to provider resource cluster:"
+    properties:
+      realm_details: Cloud Resource Cluster Details
+      realm_name: Cloud Resource Cluster Name
+    new:
+      create_realm: Create New Cloud Resource Cluster
+    show:
+      realm_mapping: Cloud Resource Cluster Mapping
+    flash:
+      notice:
+        added_mapping: "Cloud Resource Cluster mapping was added."
+        updated: "Cloud Resource Cluster updated successfully!"
+        added: "Cloud Resource Cluster was added."
+        deleted: "Cloud Resource Cluster was deleted!"
+        more_deleted: "These Cloud Resource Clusters were deleted:"
+      error:
+        not_deleted: "Cloud Resource Cluster was not deleted!"
+        select_to_delete: "You must select at least one cloud resource cluster to delete."
+        more_not_deleted: "Could not delete these Cloud Resource Clusters:"
+    preset_filters:
+      all_realms: "All Cloud Resource Clusters"
+  pool_families:
+    pool_families: Clouds
+    pool_family: Cloud
+    pool_family_details: Cloud Details
+    choose_provider_accounts: Choose Provider Accounts to enable for this Cloud
+    index:
+      new_pool_family: New Cloud
+      pool_name: Cloud Resource Zone Name
+      deployments: Applications
+    new:
+      environments: Clouds
+    form:
+      pool_family_name: Cloud Name
+    flash:
+      notice:
+        added: "Cloud was added."
+        updated: "Cloud was updated!"
+        deleted: "Cloud was deleted!"
+        more_deleted: "Deleted the following Clouds: %{list}."
+      warning:
+        creation_failed: "Cloud's creation failed."
+      error:
+        not_updated: "Cloud wasn't updated!"
+        not_deleted: "Cloud cannot be deleted!"
+        more_not_deleted: "Could not delete the following Clouds: %{list}."
+  catalog_entries:
+    new_catalog_entry: New Application Blueprint
+    index:
+      catalog_entry: Application Blueprint
+      catalog_entries: Application Blueprints
+      deployable_xml: Application Blueprint XML
+    new:
+      add_catalog_entry: Add New Application Blueprint
+      choose_option_to_upload: Choose one of the following options to upload application blueprint XML file
+      hw_profile: Default Cloud Resource Profile
+    show:
+      image: Component Outline
+    edit:
+      editing_catalog_entry: Editing Application Blueprint
+    list:
+      catalog_entries_list: Application Blueprints List
+    flash:
+      warning:
+        not_valid_or_reachable: Application Blueprint XML file is either invalid or no longer reachable at
+        no_url_provided: "No URL provided for the application blueprint XML file."
+        not_valid: "Application Blueprint url doesn't resolve valid XML file"
+        failed: Application Blueprint was not created.
+      notice:
+        added: Application Blueprint added to catalog %{catalog}.
+        updated: Application Blueprint updated successfully!
+        deleted: Application Blueprint removed from catalog %{catalog}.
+    preset_filters:
+      all_catalog_entries: All Application Blueprints
+  catalogs:
+    form:
+      select_pool: Select Zone
+    flash:
+      error:
+        not_deleted:
+          one: "Catalog %{not_deleted} cannot be deleted! Some application blueprint has the last reference to this catalog!"
+          other: "These catalogs %{not_deleted} cannot be deleted! Some of their application blueprints have the last reference to the catalogs!"
+        one_not_deleted: "Catalog cannot be deleted! Some application blueprint has the last reference to this catalog!"
+    preset_filters:
+      belongs_to_default_pool: "Belongs to Default Cloud Resource Zone"
+  images:
+    environment: %{environment} Cloud
+    import:
+      import_image: Import Component Outline
+      image_id: Component Outline ID
+      name: Component Outline Name
+      image_imported: The component outline was imported successfully.
+      image_not_imported: The component outline could not be imported. Check the Image Factory log for further details.
+      blank_id: Component Outline ID cannot be blank.
+    index:
+      images: Component Outlines
+      new: New Component Outline
+    show:
+      image_uuid: Component Outline UUID
+      new_deployable_from_image: "New Blueprint from Outline"
+      image_uri: Component Outline URI
+      provider: Cloud Resource Provider
+      template_xml: View XML
+    flash:
+      notice:
+        deleted: Component Outline Deleted
+        multiple_deleted: "%{count} Component Outlines Deleted"
+        multiple_deleted:
+          one: "%{count} Component Outline Deleted"
+          other: "%{count} Component Outlines deleted"
+        created: Component Outline created
+      warning:
+        delete_failed: Unable to Delete Component Outline
+        not_found: Component Outline not found
+      error:
+        no_file: You must specify the component outline XML file
+        no_template: "The image doesn't have a component outline because it's been imported."
+    new:
+      new_image: New Component Outline
+      description:
+        Choose one of the following options to upload or import an component outline into
+        "%{environment} Cloud".
+      choose_file: "Choose a component outline file:"
+      image_url: "Component Outline URL:"
+    overview:
+      valid_image: Valid Component Outline
+      description:
+        The markup and component outline references in "%{name}" were succesfully
+        validated. You may now save the component outline, and create a application blueprint.
+      make_deployable: Automatically make "%{name}" application blueprint.
+      save_template: Save Component Outline
+    not_on_provider: The requested component outline was not found on the provider.
+  deployables:
+    index:
+      deployables: Application Blueprints
+      deployable_definition: Application Blueprint Definition
+      deployable_url: Application Blueprint URL
+      base_deployable: Base Application Blueprint
+      deleted:
+        one: "Application Blueprint %{list} was deleted."
+        other: "Application Blueprints %{list} were deleted."
+      not_deleted:
+        one: "Application Blueprint %{list} was not deleted. There are applications associated with it."
+        other: "Application Blueprints %{list} were not deleted. They have applications associated with them."
+    new_from_image:
+      title: Create Application Blueprint
+      description: "Creating a application blueprint from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the application blueprint, and define a default cloud resource profile."
+    show:
+      images: Component Outlines
+      rebuild_all: Build missing component outlines
+      push_all: Push missing component outlines
+      missing_images: Component Outlines missing from the Image Warehouse
+      hw_profile: Cloud Resource Profile
+      repair_images: Repair Component Outlines
+      images_valid: Component Outlines Valid
+      build_description:
+        "Allow this application blueprint's associated component outlines(s) to be built and
+        pushed to cloud resource providers by enabling them below."
+      environment: Cloud
+      build_statuses_descriptions:
+        not_built: "Component Outlines are not Built"
+        building: "Component Outlines are being built."
+        not_pushed: "Some of the component outlines are not pushed"
+        pushing: "Component Outlines are being pushed."
+        pushed: "All Component Outlines are pushed and recent."
+      image_uuid: "Component Outline UUID: "
+      latest_build_uuid: "Latest Build UUID: "
+      target_images_uuids: "Target Images UUIDs: "
+    form:
+      choose_xml: Choose Application Blueprint XML file
+      deployable_xml: Application Blueprint XML
+      deployable_xml_url: URL of Application Blueprint XML
+    flash:
+      error:
+        not_deleted:
+          one: "Application blueprint %{not_deleted} delete failed!"
+          other: "%{count} application blueprints %{not_deleted} were not deleted!"
+        not_deleted_perms:
+          one: "Insufficient permissions to delete application blueprint %{not_deleted}!"
+          other: "Insufficient permissions to delete %{count} application blueprint %{not_deleted}!"
+        not_selected: "No application blueprint was not selected!"
+        no_hwp_exists: "No cloud resource profile exists! Please create one."
+      warning:
+        failed: "Application Blueprint was not created: %{message}"
+      notice:
+        deleted:
+          one: "Application blueprint %{deleted} deleted successfully!"
+          other: "%{count} application blueprints %{deleted} were deleted!"
+    error:
+      hwp_not_exists: "Cloud resource profile %{name} specified in XML doesn't exist."
+    properties:
+      edit_deployable_xml: Edit Application Blueprint XML
+  settings:
+    index:
+      define_locales_desc: View, edit and define the names of locales that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to the geographical locations offered by individual cloud resource providers.
+      define_hardware_profiles: Define Cloud Resource Profiles
+      define_hardware_profiles_desc: View, edit and define the names of the cloud resource profiles that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to capabilities offered by individual cloud resource providers.
+      manage_providers: Manage Cloud Resource Providers
+  providers:
+    provider: Cloud Resource Provider
+    providers: Cloud Resource Providers
+    editing_provider: Editing Cloud Resource Provider
+    index:
+      provider_name: Cloud Resource Provider Name
+      provider_url: Cloud Resource Provider URL
+      provider_type: Cloud Resource Provider Type
+      create_new_provider: "Create New Cloud Resource Provider"
+    new:
+      new_provider: New Cloud Resource Provider
+      save_provider: Save Cloud Resource Provider
+    edit:
+      provider_id_disabled: "Cloud Resource Provider is disabled."
+    form:
+      provider_name: "Cloud Resource Provider Name:"
+      provider_url: "Cloud Resource Provider URL:"
+      provider_type: "Cloud Resource Provider Type:"
+    flash:
+      notice:
+        added: "Cloud Resource Provider added."
+        updated: "Cloud Resource Provider updated."
+        disabled: "Cloud Resource Provider disabled."
+        connected: "Successfully Connected to Cloud Resource Provider"
+        deleted: "Cloud Resource Provider has been successfully deleted."
+      warning:
+        connect_failed: "Failed to connect to Cloud Resource Provider!"
+        not_stopped_instances: "Cloud Resource Provider was not disabled, failed to stop following instances:"
+        not_terminated_instances: "Cloud Resource Provider was not disabled, failed to change status to 'stopped' for following instances:"
+  provider_accounts:
+    index:
+      provider_name: Cloud Resource Provider Name
+      provider_type: Cloud Resource Provider Type
+    new:
+      cloud_providers: Cloud Resource Providers
+    flash:
+      notice:
+        deleted: "Cloud Resource Provider account was deleted!"
+      error:
+        not_deleted: "Cloud Resource Provider account was not deleted!"
+      warning:
+        no_provider: "You don't have any cloud resource providers yet"
+    errors:
+      populate_hardware_profiles_failed: "Failed to populate cloud resource profiles: %{message}"
+      populate_realms_failed: "Failed to populate clusters: %{message}"
+  navigation:
+    second_level:
+      environments: Clouds
+      cloud_providers: Cloud Resource Providers
+  application_controller:
+    admin_tabs:
+      realms: Cloud Resource Clusters
+      pool_families: Clouds
+      images: Component Outlines
+  realm_mappings:
+    new:
+      create_new: Create a new Cloud Resource Cluster Mapping
+  api:
+    error_messages:
+      invalid_template: "Invalid component outline: %{errors}"
+  breadcrumbs:
+    pools: Cloud Resource Zones
+    pool_families: Clouds
+    realms: Cloud Resource Clusters
+    hardware_profiles: Cloud Resource Profiles
+    provider_realms: Cloud Resource Clusters
+    deployables: Application Blueprints
+    deployments: Applications
