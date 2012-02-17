@@ -63,8 +63,11 @@ module Taskomatic
 
       Rails.logger.info("Task instance '#{action}' complete, now in state #{dcloud_instance.state}.")
 
-      task.instance.state = dcloud_to_instance_state(dcloud_instance.state)
-      task.instance.save!
+      # Don't update the instance if we're in the process of destroying it:
+      unless action == :destroy!
+        task.instance.state = dcloud_to_instance_state(dcloud_instance.state)
+        task.instance.save!
+      end
       task.state = Task::STATE_FINISHED
     rescue Exception => ex
       task.state = Task::STATE_FAILED
@@ -87,26 +90,7 @@ module Taskomatic
   end
 
   def self.destroy_instance(task)
-    task.time_started = Time.now
-
-    begin
-      client = task.instance.provider_account.connect
-      dcloud_instance = client.instance(task.instance.external_key)
-
-      task.state = Task::STATE_PENDING
-      task.save!
-
-      dcloud_instance.destroy!
-
-      Rails.logger.info("Task Destroy completed.")
-
-      task.state = Task::STATE_FINISHED
-    rescue Exception => ex
-      task.state = Task::STATE_FAILED
-      task.message = ex.message
-    ensure
-      task.save!
-    end
+    do_action(task, :destroy!)
   end
 
   def self.dcloud_to_instance_state(state_str)
