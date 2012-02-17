@@ -18,7 +18,8 @@
                   %span.inline-label=t('instances.instances', :count => deployment.instances.count.to_i)
               %li.provider
                 %dt.instances.count=t'providers.provider'
-                %dd= deployment.provider.provider_type.name unless deployment.provider.blank?
+                %dd
+                  %p.provider= deployment.provider.provider_type.name unless deployment.provider.blank?
 
 :javascript
   Conductor.setupPrettyFilterURL(
@@ -49,7 +50,7 @@
           <li class="provider">
             <dt class="instances count">#{t'providers.provider'}</dt>
             <dd>
-              {{if provider}} ${provider.name} {{/if}}
+              <p class="provider">{{if provider}} ${provider.name} {{/if}}</p>
             </dd>
           </li>
         </ul>
