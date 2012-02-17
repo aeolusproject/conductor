@@ -122,10 +122,9 @@ $.extend(Conductor, {
       if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
         alert('Please make a selection before clicking Delete button.');
         e.preventDefault();
-      } else {
-        if (!confirm("Are you sure you want to proceed with deletion?")) {
-          e.preventDefault();
-        }
+      }
+      else if (!confirm("Are you sure you want to proceed with deletion?")) {
+        e.preventDefault();
       }
     });
   },
@@ -135,10 +134,33 @@ $.extend(Conductor, {
       if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
         alert('Please make a selection before clicking Revoke Access button.');
         e.preventDefault();
-      } else {
-        if (!confirm("Are you sure you want to proceed?")) {
-          e.preventDefault();
-        }
+      }
+      else if (!confirm("Are you sure you want to proceed?")) {
+        e.preventDefault();
+      }
+    });
+  },
+
+  multiStopValidation: function() {
+    $('#stop_button, #stop_selected_instances').live('click', function(e) {
+      if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
+        alert('Please make a selection before clicking Stop button.');
+        e.preventDefault();
+      }
+      else if (!confirm("Are you sure you want to proceed?")) {
+        e.preventDefault();
+      }
+    });
+  },
+
+  multiRebootValidation: function() {
+    $('#reboot_selected_instances').live('click', function(e) {
+      if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
+        alert('Please make a selection before clicking Reboot button.');
+        e.preventDefault();
+      }
+      else if (!confirm("Are you sure you want to proceed?")) {
+        e.preventDefault();
       }
     });
   },
@@ -378,6 +400,8 @@ $(document).ready(function () {
   Conductor.bind_pretty_toggle();
   Conductor.multiDestroyValidation();
   Conductor.multiRevokeValidation();
+  Conductor.multiStopValidation();
+  Conductor.multiRebootValidation();
   Conductor.closeNotification();
   Conductor.toggleCollapsible();
   Conductor.selectAllCheckboxes();
