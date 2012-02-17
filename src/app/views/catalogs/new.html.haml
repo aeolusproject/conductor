@@ -2,7 +2,7 @@
 
 %header.admin-page-header
   %header
-  %h1=t'catalogs.new.add_catalog'
+  %h1= @title
   #obj_actions
     = t'return_to'
     = link_to t("catalogs.catalogs"), catalogs_path, :class => 'rounded-link'

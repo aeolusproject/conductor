@@ -1,8 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1
-    =t'provider_accounts.edit.account'
-    = @provider_account.name
+  %h1= @title
   #obj_actions
     =t'return_to'
     = link_to t('provider_accounts.new.cloud_providers'), edit_provider_path(@provider, :details_tab => 'accounts'), :class => 'rounded-link'

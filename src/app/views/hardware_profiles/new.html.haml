@@ -2,7 +2,7 @@
 
 %header.admin-page-header
   %header
-  %h1=t'hardware_profiles.new.new_hwp'
+  %h1= @title
   #obj_actions
     = t'return_to'
     = link_to t('hardware_profiles.hardware_profiles'), hardware_profiles_path, :class => 'rounded-link'

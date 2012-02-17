@@ -19,6 +19,7 @@ class RealmsController < ApplicationController
   before_filter :load_realms, :only =>[:index, :show]
 
   def index
+    @title = t('realms.realms')
     clear_breadcrumbs
     save_breadcrumb(realms_path)
     set_admin_content_tabs 'realms'
@@ -30,7 +31,7 @@ class RealmsController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, Realm)
-    #@provider = Provider.find(params[:provider_id])
+    @title = t 'realms.new.create_realm'
     @realm = FrontendRealm.new
     load_backend_realms
   end
@@ -38,6 +39,7 @@ class RealmsController < ApplicationController
   def edit
     require_privilege(Privilege::MODIFY, Realm)
     @realm = FrontendRealm.find(params[:id])
+    @title = @realm.name
     load_backend_realms
   end
 
@@ -108,7 +110,7 @@ class RealmsController < ApplicationController
 
   def show
     @realm = FrontendRealm.find(params[:id])
-
+    @title = @realm.name
     @tab_captions = [t('realms.tab_captions.properties'), t('realms.tab_captions.mapping')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
 
