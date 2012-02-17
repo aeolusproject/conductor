@@ -262,6 +262,10 @@ Conductor::Application.routes.draw do
    # :except => [:new, :edit]
 
     resources :hooks
+
+    resources :environments do
+      resources :images
+    end
   end
 
   scope "/api" do

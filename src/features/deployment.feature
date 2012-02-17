@@ -185,9 +185,8 @@ Feature: Manage Deployments
     When I select "test_catalog_entry" from "deployable_id"
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "next_button"
-    Then I should see "Are you sure you wish to deploy"
     And I should see an error message
-    And I should see "front_hwp2 not found."
+    And I should see "Hardware profile front_hwp2 specified in XML doesn't exist."
 
   Scenario: Verify that the launch parameters are displayed
     Given a pool "mockpool" exists

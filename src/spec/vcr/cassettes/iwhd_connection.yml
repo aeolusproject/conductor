@@ -75,6 +75,7 @@
       	<object_attr name="object_type" path="http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922/object_type"/>
       	<object_attr name="uuid" path="http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922/uuid"/>
       	<object_attr name="template" path="http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922/template"/>
+      	<object_attr name="environment" path="http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922/environment"/>
       </object>
 
     http_version: "1.1"
@@ -100,6 +101,29 @@
       content-length: 
       - "36"
     body: 63838705-8608-44c6-aded-7c243137172c
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/53d2a281-448b-4872-b1b0-680edaad5922/environment
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 13 Jun 2011 14:11:30 GMT
+      content-length: 
+      - "7"
+    body: default
     http_version: "1.1"
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
@@ -384,6 +408,7 @@
       	<object_attr name="target" path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/target"/>
       	<object_attr name="target_parameters" path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/target_parameters"/>
       	<object_attr name="template" path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/template"/>
+      	<object_attr name="environment" path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/environment"/>
       	<object_attr name="uuid" path="http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/uuid"/>
       </object>
 
@@ -506,6 +531,29 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
+    uri: http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/environment
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 13 Jun 2011 14:11:46 GMT
+      content-length: 
+      - "7"
+    body: default
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
     uri: http://localhost:9090/images/34c87aa0-3405-42f8-820e-309054029295/uuid
     body: 
     headers: 
@@ -557,6 +605,7 @@
       	<object_attr name="target_parameters" path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/target_parameters"/>
       	<object_attr name="template" path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/template"/>
       	<object_attr name="uuid" path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/uuid"/>
+      	<object_attr name="environment" path="http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/environment"/>
       </object>
 
     http_version: "1.1"
@@ -678,6 +727,29 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
+    uri: http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/environment
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 13 Jun 2011 14:11:48 GMT
+      content-length: 
+      - "7"
+    body: default
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
     uri: http://localhost:9090/images/ef6fd2bb-50d4-4f53-ae92-a68b01f82cf1/uuid
     body: 
     headers: 
@@ -727,6 +799,7 @@
       	<object_attr name="latest_unpushed" path="http://localhost:9090/images/85653387-88b2-46b0-b7b2-c779d2af06c7/latest_unpushed"/>
       	<object_attr name="object_type" path="http://localhost:9090/images/85653387-88b2-46b0-b7b2-c779d2af06c7/object_type"/>
       	<object_attr name="uuid" path="http://localhost:9090/images/85653387-88b2-46b0-b7b2-c779d2af06c7/uuid"/>
+      	<object_attr name="environment" path="http://localhost:9090/images/85653387-88b2-46b0-b7b2-c779d2af06c7/environment"/>
       </object>
 
     http_version: "1.1"
@@ -821,6 +894,29 @@
       content-length: 
       - "36"
     body: 85653387-88b2-46b0-b7b2-c779d2af06c7
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://localhost:9090/images/85653387-88b2-46b0-b7b2-c779d2af06c7/environment
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "0"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      date: 
+      - Mon, 13 Jun 2011 14:11:51 GMT
+      content-length: 
+      - "7"
+    body: default
     http_version: "1.1"
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 

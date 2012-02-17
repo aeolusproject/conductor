@@ -74,7 +74,7 @@ class PoolFamiliesController < ApplicationController
     @pool_family = PoolFamily.find(params[:id])
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
     require_privilege(Privilege::VIEW, @pool_family)
-    @images = Aeolus::Image::Warehouse::Image.all
+    @images = Aeolus::Image::Warehouse::Image.by_environment(@pool_family.name)
     load_pool_family_tabs
 
     respond_to do |format|

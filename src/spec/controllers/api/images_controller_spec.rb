@@ -33,22 +33,33 @@ describe Api::ImagesController do
                     :provider => "provider")
       @image = mock(Aeolus::Image::Warehouse::Image,
                     :id => '5',
+                    :environment => 'default',
                     :os => @os,
                     :name => 'test',
                     :description => 'test image',
                     :image_builds => [@build],
                     :build => @build,
-                    :provider_images => [@provider_image, @provider_image.clone]
+                    :provider_images => [@provider_image, @provider_image.clone],
+                    :uuid => '94dc260c-5821-11e1-9477-70f395039857'
                     )
-      @provider_account = mock(ProviderAccount,
-                    :label => 'mock',
-                    :credentials_hash => {'username' => 'foo', 'password' => 'bar'})
       @provider_type = mock(ProviderType,
                     :name => 'mock',
                     :deltacloud_driver => 'mock')
       @provider = mock(Provider,
                     :name => 'mock',
+                    :enabled => true,
                     :provider_type => @provider_type)
+      @provider_account = mock(ProviderAccount,
+                    :label => 'mock',
+                    :provider => @provider,
+                    :credentials_hash => {'username' => 'foo', 'password' => 'bar'})
+      @environment = mock(PoolFamily, :name => 'default')
+      ProviderAccount.any_instance.stub(:pool_families).and_return([@environment])
+      ProviderAccount.stub(:group_by_type).and_return(
+                                 "mock" => {:type => @provider_type,
+                                            :included => true,
+                                            :accounts => [@provider_account, true]})
+      PoolFamily.any_instance.stub(:provider_accounts).and_return([@provider_account])
       Aeolus::Image::Warehouse::ImageBuild.stub(:where).and_return([@build])
     end
 
@@ -82,6 +93,7 @@ describe Api::ImagesController do
             @image_collection.each_with_index do |image, index|
               resp['images']['image'][index]['name'].should == image.name
               resp['images']['image'][index]['id'].should == image.id
+              resp['images']['image'][index]['environment'].should == image.environment
               resp['images']['image'][index]['os'].should == image.os.name
               resp['images']['image'][index]['arch'].should == image.os.arch
               resp['images']['image'][index]['os_version'].should == image.os.version
@@ -105,6 +117,7 @@ describe Api::ImagesController do
             resp = Hash.from_xml(response.body)
             resp['images']['image']['name'].should == @image.name
             resp['images']['image']['id'].should == @image.id
+            resp['images']['image']['environment'].should == @image.environment
             resp['images']['image']['os'].should == @image.os.name
             resp['images']['image']['arch'].should == @image.os.arch
             resp['images']['image']['os_version'].should == @image.os.version
@@ -146,6 +159,7 @@ describe Api::ImagesController do
             resp = Hash.from_xml(response.body)
             resp['image']['name'].should == @image.name
             resp['image']['id'].should == @image.id
+            resp['image']['environment'].should == @image.environment
             resp['image']['os'].should == @image.os.name
             resp['image']['arch'].should == @image.os.arch
             resp['image']['os_version'].should == @image.os.version
@@ -231,9 +245,14 @@ describe Api::ImagesController do
                   parent.add_child(Nokogiri::XML(tpl).root)
                   target "mock"
                 }
+                environment "default"
               }
             end
             Aeolus::Image::Factory::Image.stub(:new).and_return(@image)
+            Aeolus::Image::Warehouse::Image.stub(:create!).and_return(@image)
+            Aeolus::Image::Warehouse::Template.stub(:create!).and_return(@image)
+            @image.stub(:targets=).and_return(@image)
+            @image.stub(:template=).and_return(@image)
             @image.stub(:save!)
             Aeolus::Image::Factory::TargetImage.stub(:status).and_return(nil)
 
@@ -261,12 +280,14 @@ describe Api::ImagesController do
                   child "c2"
                 }
                 provider_account_name "mock"
+                environment "default"
               }
             end
             Aeolus::Image::Factory::Image.stub(:new).and_return(@image)
             ProviderAccount.stub(:find_by_label).and_return(@provider_account)
             @provider_account.stub(:provider).and_return(@provider)
             @image.stub(:save!)
+            @image.stub(:set_attr)
             # We previously stubbed this out to return nil... That's inappropriate here:
             Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
             @provider_image.stub(:set_attr)
@@ -300,12 +321,14 @@ describe Api::ImagesController do
                   child "c4"
                 }
                 provider_account_name "mock2"
+                environment "default"
               }
             end
             Aeolus::Image::Factory::Image.stub(:new).and_return(@image)
             ProviderAccount.stub(:find_by_label).and_return(@provider_account)
             @provider_account.stub(:provider).and_return(@provider)
             @image.stub(:save!)
+            @image.stub(:set_attr)
             # We previously stubbed this out to return nil... That's inappropriate here:
             Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
             @provider_image.stub(:set_attr)

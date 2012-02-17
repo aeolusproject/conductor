@@ -4,20 +4,20 @@
       %td
         %strong="#{t("deployables.show.image_uuid")}"
       %td
-        ="#{(@images_hash_details[index][0].nil? ? t('deployables.show.n_a') : @images_hash_details[index][0])}"
+        ="#{(uuid_arr[0].nil? ? t('deployables.show.n_a') : uuid_arr[0])}"
     %tr
       %td
         %strong="#{t("deployables.show.latest_build_uuid")}"
       %td
-        ="#{(@images_hash_details[index][1].nil? ? t("deployables.show.n_a") : @images_hash_details[index][1])}"
+        ="#{(uuid_arr[1].nil? ? t("deployables.show.n_a") : uuid_arr[1])}"
     %tr
       %td
         %strong="#{t("deployables.show.target_images_uuids")}"
       %td
-        - if @images_hash_details[index][2].nil?
+        - if uuid_arr[2].nil?
           =t'deployables.show.n_a'
         - else
           %ul
-            - @images_hash_details[index][2].each do |image_uuid|
+            - uuid_arr[2].each do |image_uuid|
               %li
                 =image_uuid

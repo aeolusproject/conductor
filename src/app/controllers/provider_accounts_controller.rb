@@ -127,7 +127,6 @@ class ProviderAccountsController < ApplicationController
       flash[:notice] = t"provider_accounts.flash.notice.updated"
       redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
     else
-      puts "==================================================================\n" + @provider_account.errors.inspect
       flash[:error] = t"provider_accounts.flash.error.not_updated"
       render :action => :edit
     end

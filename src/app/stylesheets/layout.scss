@@ -2272,7 +2272,7 @@ ul.deployment-array.large{
 
     dl.statistics{
       margin-top: 8px;
-      ul{list-style: none; margin-left: 12px;}
+      ul{list-style: none; margin-left: 0px;}
       li{display: block; height: 24px; padding-left: 26px; padding-top: 1px;}
       li.uptime{ background: transparent url('../../images/deployment_large_uptime.png') no-repeat 6px 0px; }
       li.instances{ background: transparent url('../../images/deployment_large_instances.png') no-repeat 6px 0px; }
@@ -2280,6 +2280,13 @@ ul.deployment-array.large{
         background: transparent url('../../images/deployment_large_icon_provider.png') no-repeat 0px 0px;
         position: absolute;
         bottom: 0px;
+      }
+      p.provider{
+        position: absolute;
+        width: 100px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       dt{ display:none; }
       dd{
@@ -2548,10 +2555,10 @@ ul.instances-array{
           display: table;
           margin: 0 auto;
           list-style: none;
-            font-size: 11px;
 
           li{
             float: left;
+            margin-left: 4px;
           }
         }
     }
