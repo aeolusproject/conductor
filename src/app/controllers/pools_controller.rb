@@ -81,6 +81,7 @@ class PoolsController < ApplicationController
 
   def show
     @pool = Pool.find(params[:id])
+    @title = t('pools.header_show.pool_name', :name => @pool.name)
     save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
     require_privilege(Privilege::VIEW, @pool)
     @statistics = @pool.statistics(current_user)
@@ -110,6 +111,7 @@ class PoolsController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, Pool)
+    @title = t('pools.create_new_pool')
     @pool = Pool.new
     @pool.pool_family = PoolFamily.find(params[:pool_family_id]) unless params[:pool_family_id].blank?
     @quota = Quota.new
@@ -144,6 +146,7 @@ class PoolsController < ApplicationController
 
   def edit
     @pool = Pool.find(params[:id])
+    @title = t('pools.edit_pool', :pool => @pool.name)
     require_privilege(Privilege::MODIFY, @pool)
     @quota = @pool.quota
     respond_to do |format|

@@ -22,6 +22,7 @@ class UsersController < ApplicationController
     if !check_privilege(Privilege::VIEW, User)
       redirect_to account_url and return
     end
+    @title = t'users.users'
     clear_breadcrumbs
     save_breadcrumb(users_path)
     set_admin_users_tabs 'users'
@@ -36,6 +37,7 @@ class UsersController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, User) unless current_user.nil?
+    @title = t'users.new.new_user'
     @user = User.new
     @user.quota = Quota.new
   end
@@ -66,6 +68,7 @@ class UsersController < ApplicationController
   def show
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::VIEW, User) unless current_user == @user
+    @title = @user.name
     @quota_resources = @user.quota.quota_resources
     save_breadcrumb(user_path(@user), @user.name)
     @tab_captions = ['Properties']
@@ -84,6 +87,7 @@ class UsersController < ApplicationController
   def edit
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::MODIFY, User) unless @user == current_user
+    @title = t'users.edit.edit_user'
   end
 
   def update

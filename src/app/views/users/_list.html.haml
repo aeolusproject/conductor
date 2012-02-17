@@ -1,5 +1,5 @@
 %header
-  %h2#users.users=t'users.users'
+  %h2#users.users= @title
   .section-controls
     #obj_actions
       = link_to "", new_user_path, :class => 'add-user-button', :id => 'add_user_button'

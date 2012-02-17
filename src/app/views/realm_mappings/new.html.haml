@@ -1,7 +1,7 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
   %header
-    %h1= t'realm_mappings.new.create_new'
+    %h1= @title
 
 %section.admin-content-section
   - if @realm_target.errors.any?

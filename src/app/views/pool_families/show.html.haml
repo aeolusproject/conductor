@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1= @pool_family.name
+  %h1= @title
   #obj_actions.button-container
     .button-group
       = link_to t('edit'), edit_pool_family_path(@pool_family), :class => 'button pill'

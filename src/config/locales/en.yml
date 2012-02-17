@@ -1,5 +1,6 @@
 en:
   layout:
+    appname: Aeolus Conductor
     copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
     dashboard: Dashboard
   datetime:
@@ -179,6 +180,7 @@ en:
       pending: Some (but not all) instances are running
       stopped: No instances are currently running
     launch_time_params:
+      title: "Launch-time parameters"
       configure_launch_time_params: "Configure launch-time parameters for your deployment:"
       finalize: Finalize
       reference: "Reference to %{assembly}'s return parameter: %{parameter}"
@@ -205,6 +207,8 @@ en:
       ram: RAM
       arch: ARCH
       deployable_xml: Deployable XML
+    show:
+      name: %{name} Deployment
     new:
       launch: Launch this deployment
       deployable_definition: Deployable definition
@@ -408,7 +412,7 @@ en:
     pool: Pool
     pools: Pools
     new_pool: New Pool
-    edit_pool: Edit Pool
+    edit_pool: Edit Pool %{pool}
     create_new_pool: Create New Pool
     index:
       pool_name: Pool name
@@ -510,6 +514,8 @@ en:
     new:
       new_hwp: New Hardware Profile
     show:
+      frontend_hwp: %{name} (Front End)
+      backend_hwp: %{name} (Provider)
       matching_hwp: Matching Provider Hardware Profiles
     flash:
       notice:
@@ -1055,11 +1061,11 @@ en:
     edit:
       edit_provider_account: Edit Provider Account
       required_field: Required field.
-      account: "Account:"
+      account: "Edit Account: %{name}"
       delete_account: Delete Account
       file_already_uploaded: "Already uploaded. Reupload?"
     show:
-      account: "Account:"
+      account: "Account: %{name}"
       test_connection: Test Connection
     form:
       provider_accounts: Provider Accounts

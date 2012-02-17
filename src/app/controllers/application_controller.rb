@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
   include ApplicationService
   helper_method :current_user, :filter_view?
-  before_filter :read_breadcrumbs, :set_locale
+  before_filter :read_breadcrumbs, :set_locale, :set_default_title
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -354,6 +354,10 @@ class ApplicationController < ActionController::Base
     ordered_languages = prefs.sort.reverse.collect{|p| p[1]}
 
     (ordered_languages & I18n.available_locales).first
+  end
+
+  def set_default_title
+    @title = t 'layout.appname'
   end
 
   def redirect_to_original(extended_params = {})

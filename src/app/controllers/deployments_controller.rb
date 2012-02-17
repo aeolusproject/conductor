@@ -37,6 +37,7 @@ class DeploymentsController < ApplicationController
 
   # It is expected that params[:pool_id] will be set on requests into this method
   def launch_new
+    @title = t 'deployments.new_deployment'
     @pool = Pool.find(params[:pool_id]) or raise "Invalid pool"
     require_privilege(Privilege::CREATE, Deployment, @pool)
     unless @pool.enabled
@@ -56,6 +57,7 @@ class DeploymentsController < ApplicationController
 
 
   def launch_time_params
+    @title = t 'deployments.new_deployment'
     unless params.has_key?(:deployable_id)
       flash[:error] = t('deployments.flash.warning.deployable_not_selected')
       redirect_to launch_new_deployments_path(:pool_id => params[:deployment][:pool_id]) and return
@@ -85,6 +87,7 @@ class DeploymentsController < ApplicationController
   end
 
   def overview
+    @title = t 'deployments.new_deployment'
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     init_new_deployment_attrs
@@ -175,6 +178,7 @@ class DeploymentsController < ApplicationController
 
   def show
     @deployment = Deployment.find(params[:id])
+    @title = t('deployments.show.name', :name => @deployment.name)
     require_privilege(Privilege::VIEW, @deployment)
     init_new_deployment_attrs
     save_breadcrumb(deployment_path(@deployment, :viewstate => viewstate_id), @deployment.name)

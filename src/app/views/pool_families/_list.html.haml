@@ -1,5 +1,5 @@
 %header
-  %h2.pools= t("pool_families.pool_families")
+  %h2.pools= @title
   .section-controls
     #obj_actions
       - if check_privilege(Privilege::CREATE, PoolFamily)

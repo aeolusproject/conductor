@@ -1,7 +1,7 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
   - if check_privilege(Privilege::MODIFY, User)
-    %h1.users=t'users.edit.edit_user'
+    %h1.users= @title
   - else
     %h1.users=t'users.edit.edit_account'
   #obj_actions

@@ -8,7 +8,7 @@
 
 %section.admin-content-section.user
   %header
-    %h2=t('catalogs.edit.edit_catalog')
+    %h2= @title
 
   .content
     = form_for @catalog, :url => catalog_path(@catalog), :html => { :method => :put, :class => 'generic' } do |f|

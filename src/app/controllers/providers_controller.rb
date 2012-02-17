@@ -45,10 +45,12 @@ class ProvidersController < ApplicationController
     require_privilege(Privilege::CREATE, Provider)
     @provider = Provider.new
     @provider.url = Provider::DEFAULT_DELTACLOUD_URL
+    @title = t("providers.new.new_provider")
   end
 
   def edit
     @provider = Provider.find_by_id(params[:id])
+    @title = t 'cloud_providers'
     session[:current_provider_id] = @provider.id
     require_privilege(Privilege::MODIFY, @provider)
 

@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1=t 'realms.new.create_realm'
+  %h1= @title
   #obj_actions
     Return to:
     = link_to t('realms.realms'), realms_path, :class => 'rounded-link'

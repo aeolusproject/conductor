@@ -1,7 +1,7 @@
 = render :partial => 'layouts/nav_history'
 %header.page-header
   %h1.deployments
-    = [@deployment.pool.name, "Pool"].join(' ')
+    = t('pools.header_show.pool_name', :name => @deployment.pool.name)
   .corner &nbsp;
 
 %section.content-section.deployments.launch-time-params
