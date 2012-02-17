@@ -738,6 +738,7 @@ en:
       provider_images: Provider Images
       provider_account: Provider Account
       image_uuid: Image UUID
+      push: Push
       upload: Upload
       build_not_found: "Build not found"
       new_deployable_from_image: "New Deployable from Image"
