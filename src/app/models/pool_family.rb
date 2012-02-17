@@ -74,11 +74,13 @@ class PoolFamily < ActiveRecord::Base
     max = quota.maximum_running_instances
     total = quota.running_instances
     avail = max - total unless max.nil?
+    # Don't make repeat calls to the pools association
+    cached_pools = pools
     statistics = {
-      :deployments => pools.collect{|p| p.statistics[:deployments]}.sum,
-      :total_instances => pools.collect{|p| p.statistics[:total_instances]}.sum,
-      :instances_pending => pools.collect{|p| p.statistics[:instances_pending]}.sum,
-      :instances_failed => pools.collect{|p| p.statistics[:instances_failed_count]}.sum,
+      :deployments => cached_pools.collect{|p| p.deployments.count}.sum,
+      :total_instances => cached_pools.collect{|p| p.instances.not_stopped.count}.sum,
+      :instances_pending => cached_pools.collect{|p| p.instances.pending.count}.sum,
+      :instances_failed => cached_pools.collect{|p| p.instances.failed.count}.sum,
       :used_quota => total,
       :quota_percent => number_to_percentage(quota.percentage_used,
                                              :precision => 0),

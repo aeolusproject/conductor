@@ -1,12 +1,13 @@
 = filter_table(@pools_header, @pool_family.pools) do |pool|
+  - pool_stats = pool.statistics
   %tr{:class => cycle('nostripe','stripe')}
     %td= link_to pool.name, pool
     %td{:class => 'center'}= pool.deployments.count
-    %td{:class => 'center'}= pool.statistics[:total_instances]
-    %td{:class => 'center'}= pool.statistics[:instances_pending]
-    %td{:class => 'center'}= pool.statistics[:instances_failed_count]
-    %td{:class => 'center'}= pool.statistics[:quota_percent]
-    %td{:class => 'center'}= pool.statistics[:used_quota]
-    %td{:class => 'center'}= pool.statistics[:available_quota].nil? ? raw('&infin;') : pool.statistics[:available_quota]
+    %td{:class => 'center'}= pool_stats[:total_instances]
+    %td{:class => 'center'}= pool_stats[:instances_pending]
+    %td{:class => 'center'}= pool_stats[:instances_failed_count]
+    %td{:class => 'center'}= pool_stats[:quota_percent]
+    %td{:class => 'center'}= pool_stats[:used_quota]
+    %td{:class => 'center'}= pool_stats[:available_quota].nil? ? raw('&infin;') : pool_stats[:available_quota]
     %td= link_to pool.catalogs.first.name, catalog_path(pool.catalogs.first) if pool.catalogs.any?
     %td= link_to t(:edit), edit_pool_path(pool), :class => 'rounded-link'
