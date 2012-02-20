@@ -6,7 +6,7 @@ en:
     distance_in_words:
       x_hours:
         one: 1 hour
-        other: "%{count} hours"
+        other: %{count} hours
   users:
     users: "Users"
     return_to: "Return to:"
@@ -183,7 +183,7 @@ en:
       finalize: Finalize
       reference: "Reference to %{assembly}'s return parameter: %{parameter}"
     overview:
-      pool_name: "%{pool} Pool"
+      pool_name: %{pool} Pool
       header: Deploy "%{deployment}" to %{pool} Pool?
       confirmation:
         Are you sure you wish to deploy "%{deployment}" to the %{pool} Pool? Doing
@@ -427,11 +427,11 @@ en:
       catalog: Catalog
       catalog_entry: Deployable
       image: "Image:"
-      pushed: "%{uuid} pushed to %{provider}"
+      pushed: %{uuid} pushed to %{provider}
     properties:
       properties: Properties for %{pool}
     header_show:
-      pool_name: "%{name} Pool"
+      pool_name: %{name} Pool
     flash:
       notice:
         added: Pool added.
@@ -718,7 +718,7 @@ en:
         delete_failed: Unable to Delete Target Image
         not_found: Target Image not found
   images:
-    environment: "%{environment} Environment"
+    environment: %{environment} Environment
     environment_header: Environment
     import:
       import_image: Import Image
