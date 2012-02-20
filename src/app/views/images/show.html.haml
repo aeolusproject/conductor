@@ -19,10 +19,11 @@
     %h3= t('images.environment', :environment => @image.environment)
     %h2= t('.provider_images')
     .section-controls
-      = t'.view_build'
-      = form_tag image_path(@image.id), :method => :get do
-        = select_tag :build, options_for_build_select(@builds, @build, @latest_build)
-        = submit_tag t('.select_build'), :id => 'seletect_build_button'
+      - if @builds.any?
+        = t'.view_build'
+        = form_tag image_path(@image.id), :method => :get do
+          = select_tag :build, options_for_build_select(@builds, @build, @latest_build)
+          = submit_tag t('.select_build'), :id => 'select_build_button'
       - if check_privilege(Privilege::USE, PoolFamily) and @environment
         - if @image.imported?
           = t('.can_not_build_imported_image')
@@ -96,9 +97,9 @@
 
 :javascript
   $(document).ready(function(){
-    $("#seletect_build_button").hide();
+    $("#select_build_button").hide();
     $("#build").change(function() {
-      $("#seletect_build_button").click();
+      $("#select_build_button").click();
     });
   });
 

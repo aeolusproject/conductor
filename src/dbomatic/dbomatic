@@ -177,6 +177,15 @@ def collect_accounts
   accounts
 end
 
+# Extract 'ipv4' and 'hostname' addresses from Deltacloud
+def extract_addresses(address_list)
+  addresses = []
+  address_list.each do |address|
+    addresses << address[:address] if ['ipv4', 'hostname'].include?(address[:type])
+  end
+  addresses
+end
+
 def check_one_account(account)
   connection = account.connect
 
@@ -191,11 +200,11 @@ def check_one_account(account)
 
         # only update the public and private addresses if they are not nil.
         # this prevents us from deleting known information about instances
-        if not api_instance.public_addresses.empty?
-          instance.public_addresses = api_instance.public_addresses.map {|i| i[:address]}.join(',')
+        if (addresses = extract_addresses(api_instance.public_addresses)).present?
+          instance.public_addresses = addresses.join(',')
         end
-        if not api_instance.private_addresses.empty?
-          instance.private_addresses = api_instance.private_addresses.map {|i| i[:address]}.join(',')
+        if (addresses = extract_addresses(api_instance.private_addresses)).present?
+          instance.private_addresses = addresses.join(',')
         end
         # Only update the instance / create an event if anything has changed!
         instance.save! if instance.changed?
