@@ -92,8 +92,7 @@ class Pool < ActiveRecord::Base
     statistics = {
       :cloud_providers => instances.collect{|i| i.provider_account}.uniq.count,
       :deployments => deployments.count,
-      :total_instances => (instances.deployed.count +
-                           instances.pending.count + instances.failed.count),
+      :total_instances => instances.not_stopped.count,
       :instances_deployed => instances.deployed.count,
       :instances_pending => instances.pending.count,
       :instances_failed => failed,

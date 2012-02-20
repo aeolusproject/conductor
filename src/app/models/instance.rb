@@ -119,6 +119,8 @@ class Instance < ActiveRecord::Base
   scope :pending,   :conditions => { :state => [STATE_NEW, STATE_PENDING] }
   # FIXME: "failed" is misleading too...
   scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR, STATE_VANISHED] }
+  scope :stopped,   :conditions => {:state => STATE_STOPPED}
+  scope :not_stopped, :conditions => "state <> 'stopped'"
   scope :stopable,    :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING] }
   scope :ascending_by_name, :order => 'instances.name ASC'
 

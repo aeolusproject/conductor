@@ -24,16 +24,17 @@
     });
 
 = filter_table(@header, @pools) do |pool|
+  - pool_stats = pool.statistics
   %tr{:class => cycle('nostripe','stripe')}
     %td{:class => 'checkbox'}
       %input{:name => "pools_selected[]", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
     %td{:class => 'alert'}= (@statistics[:instances_failed] & pool.instances).present? ? image_tag("sb_icon_instance_failure.png") : ""
     %td= link_to(pool.name, pool_path(pool, :view => :filter))
     %td{:class => 'center'}= pool.deployments.count
-    %td{:class => 'center'}= pool.statistics[:total_instances]
-    %td{:class => 'center'}= pool.statistics[:instances_pending]
-    %td{:class => 'center'}= pool.statistics[:instances_failed_count]
-    %td{:class => 'center'}= pool.statistics[:quota_percent]
+    %td{:class => 'center'}= pool_stats[:total_instances]
+    %td{:class => 'center'}= pool_stats[:instances_pending]
+    %td{:class => 'center'}= pool_stats[:instances_failed_count]
+    %td{:class => 'center'}= pool_stats[:quota_percent]
     - if check_privilege(Privilege::VIEW, pool.pool_family)
       %td= link_to(pool.pool_family.name, pool.pool_family)
     - else

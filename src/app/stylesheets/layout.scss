@@ -1336,6 +1336,7 @@ header.admin-page-header{
       padding-left: 54px;
       position: relative;
       &:before{ content: ''; position: absolute; left: 12px; width: 27px; height: 100%; background: transparent url('../../images/buildpush_symbols.png') 0px 0px no-repeat; }
+      width: 350px;
     }
   }
 
@@ -1361,6 +1362,12 @@ header.admin-page-header{
     padding: 3px 6px;
     -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px;
     border: none;
+  }
+
+  span.return_to{
+    @include display_inline_block;
+    line-height: 15px;
+    padding: 5px 5px;
   }
 
   ul#provider_select{
