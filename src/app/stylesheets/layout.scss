@@ -2832,7 +2832,7 @@ ul.catalog_pretty {
         display: table-cell;
         vertical-align: middle;
         a{ margin-right: 10px; text-decoration: none; }
-        a:after{ content: " +"; }
+        a:after{ content: " ▼"; }
         a:hover{ color: black; }
       }
 
