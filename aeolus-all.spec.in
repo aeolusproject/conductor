@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	29%{?dist}
+Release:	30%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,12 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Mon Feb 20 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-30
+- a3df89b BZ 781286 - Fix overlapping H1 with long image names
+- 973cfb6 BZ 790827 added span.return_to css block
+- b8e9d6b BZ 790827 wrap return_to section in span.return_to for easier formatting
+- f405407 BZ #794759 - Pool Family page no longer runs thousands of SQL queries
+
 * Mon Feb 20 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-29
 - 9c9e210 BZ#788143 Fix missing translation on hwp deletion
 - a1feb5e Added back button to Provider realm show view and localization
