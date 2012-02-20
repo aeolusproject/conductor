@@ -47,7 +47,7 @@ class PoolsController < ApplicationController
       when 'pools'
         @pools = Pool.apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction)
       when 'instances'
-        params[:instances_preset_filter] = "other_than_stopped" unless params[:instances_preset_filter]
+        params[:instances_preset_filter] = "" unless params[:instances_preset_filter]
         @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction)
       when 'deployments'
         @deployments = Deployment.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).list_for_user(current_user, Privilege::VIEW).list(sort_column(Deployment), sort_direction)
