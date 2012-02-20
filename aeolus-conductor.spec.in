@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  30%{?dist}
+Release:  31%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -331,6 +331,10 @@ fi
 %{app_root}/spec
 
 %changelog
+* Mon Feb 20 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-31
+- d86682c BZ 790824 hide build select unless build exists
+- 61e2cd2 BZ 790516 - Only accept ipv4, hostname addresses for instances
+
 * Mon Feb 20 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-30
 - a3df89b BZ 781286 - Fix overlapping H1 with long image names
 - 973cfb6 BZ 790827 added span.return_to css block
