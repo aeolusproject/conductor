@@ -186,7 +186,6 @@ Feature: Manage Deployments
     When I fill in "deployment_name" with "mynewdeployment"
     When I press "next_button"
     And I should see an error message
-    And I should see "Hardware profile front_hwp2 specified in XML doesn't exist."
 
   Scenario: Verify that the launch parameters are displayed
     Given a pool "mockpool" exists
@@ -228,7 +227,7 @@ Feature: Manage Deployments
     And   I press "submit_params"
     Then  I should see "Are you sure you wish to deploy"
     When  I press "launch_deployment_button"
-    Then  I should see "launch_parameter_2 cannot be blank"
+    Then  I should see an error message
 
   Scenario: Search deployments
     Given a deployment "mydeployment" exists
