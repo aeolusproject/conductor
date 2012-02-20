@@ -1363,6 +1363,12 @@ header.admin-page-header{
     border: none;
   }
 
+  span.return_to{
+    @include display_inline_block;
+    line-height: 15px;
+    padding: 5px 5px;
+  }
+
   ul#provider_select{
     @include display_inline_block;
     list-style-type: none;
