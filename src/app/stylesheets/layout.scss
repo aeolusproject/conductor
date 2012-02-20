@@ -3154,6 +3154,7 @@ table.pool_families{
     -webkit-border-radius: 7px 7px 0px 0px;
     -moz-border-radius: 7px 7px 0px 0px;
     border-radius: 7px 7px 0px 0px;
+    box-sizing: border-box; -webkit-box-sizing:border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box;
 
     .caption_content{padding: 8px;}
   }
