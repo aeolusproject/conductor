@@ -2,8 +2,9 @@
 %header.admin-page-header
   %h1{:class => controller.controller_name}= @image.imported? ? @image.name + " (Imported)" : @image.name
   #obj_actions.button-container.images
-    =t'return_to'
-    = link_to t('images.index.images'), images_path, :class => 'rounded-link'
+    %span.return_to
+      =t'return_to'
+      = link_to t('images.index.images'), images_path, :class => 'rounded-link'
     - if check_privilege(Privilege::USE, PoolFamily)
       .button-group
         - if @environment
