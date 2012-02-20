@@ -41,7 +41,7 @@ start() {
 
     $THIN_PROG start -c "$CONDUCTOR_DIR" -l "$THIN_LOG" -P "$THIN_PID" \
     -a $ADDR -e $RAILS_ENV --user $CONDUCTOR_USER -g $CONDUCTOR_GROUP -d --prefix=$PREFIX \
-    --rackup "$CONDUCTOR_DIR/config.ru" -A rails
+    --rackup "$CONDUCTOR_DIR/config.ru"
     RETVAL=$?
     if [ $RETVAL -eq 0 ] ; then
         # wait until we can contact the server
