@@ -61,4 +61,8 @@ FactoryGirl.define do
     name "mock"
     after_create { |p| p.provider_accounts << FactoryGirl.create(:mock_provider_account, :provider => p) }
   end
+
+  factory :unavailable_mock_provider, :parent => :mock_provider do
+    available false
+  end
 end

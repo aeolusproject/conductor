@@ -134,13 +134,19 @@ class Provider < ActiveRecord::Base
   def populate_realms
     reload
 
+    self.available = valid_framework?
+    if self.available_changed?
+      if self.available
+        logger.warn "provider #{name} is now available"
+        save!
+      else
+        logger.warn "provider #{name} is not available"
+        update_attribute(:available, false)
+      end
+    end
     # if the provider is not running, mark as unavailable and don't refresh its
     # realms
-    unless valid_framework?
-      update_attribute(:available, false)
-      logger.warn "provider #{name} is not available"
-      return
-    end
+    return unless self.available
 
     conductor_acct_realms = {}
     conductor_acct_realm_ids = {}
