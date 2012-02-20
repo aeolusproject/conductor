@@ -1313,7 +1313,7 @@ en:
       target_image_not_found: Could not find TargetImage %{targetimage}
       target_image_not_found_for_account: Could not find an appropriate target image for account %{account}
       target_not_found: Could not find Target %{target}
-      target_not_found_in_environment: Target %{target} has no provider accounts in this environment. Valid targets include %{targets}."
+      target_not_found_in_environment: "Target %{target} has no provider accounts in this environment. Valid targets include %{targets}."
   support:
     array:
       words_connector: ', '
