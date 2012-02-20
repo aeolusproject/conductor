@@ -369,7 +369,7 @@ en:
         not_deleted_perms:
           one: "Insufficient permissions to delete application blueprint %{not_deleted}!"
           other: "Insufficient permissions to delete %{count} application blueprint %{not_deleted}!"
-        not_selected: "No application blueprint was not selected!"
+        not_selected: "No application blueprint was selected!"
         no_hwp_exists: "No cloud resource profile exists! Please create one."
       warning:
         failed: "Application Blueprint was not created: %{message}"
