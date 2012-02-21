@@ -106,10 +106,16 @@ class PoolFamiliesController < ApplicationController
   def add_provider_accounts
     @pool_family = PoolFamily.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool_family)
+
+    if ProviderAccount.count == 0
+      flash[:error] = t('pool_families.flash.error.no_provider_accounts')
+      redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts') and return
+    end
+
     @provider_accounts = ProviderAccount.
       list_for_user(current_user, Privilege::USE).
       where('id not in (?)', @pool_family.provider_accounts.empty? ?
-                             0 : @pool_family.provider_accounts.map(&:id))
+                               0 : @pool_family.provider_accounts.map(&:id))
 
     load_tab_captions_and_details_tab('provider_accounts')
 

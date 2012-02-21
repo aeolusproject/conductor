@@ -636,6 +636,7 @@ en:
         provider_accounts_not_removed: "Could not remove these Provider Accounts"
         select_to_add_accounts: "You must select at least one Provider Account to add."
         select_to_remove_accounts: "You must select at least one Provider Account to remove."
+        no_provider_accounts: "There are no provider accounts available."
   catalog_entries:
     new_catalog_entry: New Deployable
     index:
