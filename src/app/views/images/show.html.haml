@@ -16,7 +16,15 @@
 %section.admin-content-section
   %header
     %h2=t'properties'
-    %h3= t('images.environment', :environment => @image.environment)
+  .content
+    %table
+      %tbody
+        %tr
+          %td= t('images.environment')
+          %td= @image.environment
+
+%section.admin-content-section
+  %header
     %h2= t('.provider_images')
     .section-controls
       - if @builds.any?

@@ -727,7 +727,7 @@ en:
         delete_failed: Unable to Delete Target Image
         not_found: Target Image not found
   images:
-    environment: "%{environment} Environment"
+    environment: "Environment:"
     environment_header: Environment
     import:
       import_image: Import Image
