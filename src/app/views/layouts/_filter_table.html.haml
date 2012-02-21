@@ -19,6 +19,9 @@
             %th{:class => column[:class]}= check_box_tag :select_all, true, false, :class => 'select_all'
           -else
             %th{:class => column[:class]}= column[:name]
+      - if !rows.any?
+        %tr
+          %td{:colspan => columns.size}= t('search.no_results')
     = rows.collect {|row| capture_haml(row, &block)}.to_s.html_safe
 
   - if content_for? form_footer
