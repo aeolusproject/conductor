@@ -756,6 +756,8 @@ en:
       new_deployable_from_image: "New Deployable from Image"
       view_build: View build
       rebuild_all: Rebuild All
+      build_all: Build All
+      rebuild: Rebuild
       build: Build
       delete: Delete
       account: Account
