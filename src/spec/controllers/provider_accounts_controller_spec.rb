@@ -24,7 +24,7 @@ describe ProviderAccountsController do
     @provider_account = FactoryGirl.create :mock_provider_account
     @provider = @provider_account.provider
 
-    @admin_permission = Permission.create :role => Role.find(:first, :conditions => ['name = ?', 'Provider Administrator']),
+    @admin_permission = Permission.create :role => Role.find(:first, :conditions => ['name = ?', 'base.provider.admin']),
                                           :permission_object => @provider,
                                           :user => FactoryGirl.create(:provider_admin_user)
     @admin = @admin_permission.user

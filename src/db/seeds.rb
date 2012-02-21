@@ -16,7 +16,6 @@
 
 # Default Pool Family
 PoolFamily.create!(:name => "default", :description => "default pool family", :quota => Quota.create)
-
 # Default Pool
 Pool.create!(:name => "Default", :quota => Quota.create, :pool_family => PoolFamily.find_by_name('default'), :enabled => true)
 
@@ -33,72 +32,72 @@ GPRM = "set_perms"
 
 roles =
   {Instance =>
-     {"Instance Controller"    => [false, {Instance     => [VIEW,USE]}],
-      "Instance Owner"         => [true,  {Instance     => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+     {"instance.user"               => [false, {Instance     => [VIEW,USE]}],
+      "instance.owner"              => [true,  {Instance     => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    Deployment =>
-     {"Deployment Controller"  => [false, {Deployment => [VIEW,USE],
-                                           Instance   => [VIEW]}],
-      "Deployment Owner"       => [true,  {Deployment => [VIEW,USE,MOD,    VPRM,GPRM],
-                                           Instance   => [VIEW,USE,MOD]}]},
+     {"deployment.user"             => [false, {Deployment => [VIEW,USE],
+                                                                          Instance   => [VIEW]}],
+      "deployment.owner"            => [true,  {Deployment => [VIEW,USE,MOD,    VPRM,GPRM],
+                                                Instance   => [VIEW,USE,MOD]}]},
    PoolFamily =>
-     {"Pool Family User"       => [false, {Pool         => [VIEW]}],
-      "Pool Family Owner"      => [true,  {PoolFamily   => [VIEW,    MOD,    VPRM,GPRM],
-                                           Pool         => [VIEW,    MOD,CRE,VPRM,GPRM]}]},
+     {"pool_family.user"            => [false, {Pool         => [VIEW]}],
+      "pool_family.admin"           => [true,  {PoolFamily   => [VIEW,    MOD,    VPRM,GPRM],
+                                                                          Pool         => [VIEW,    MOD,CRE,VPRM,GPRM]}]},
    Pool =>
-     {"Pool User"              => [false, {Pool         => [VIEW],
-                                           Instance     => [             CRE],
-                                           Deployment   => [             CRE],
-                                           Quota        => [VIEW]}],
-      "Pool Owner"             => [true,  {Pool         => [VIEW,    MOD,    VPRM,GPRM],
-                                           Instance     => [VIEW,USE,MOD,CRE],
-                                           Deployment   => [VIEW,USE,MOD,CRE],
-                                           Quota        => [VIEW]}]},
+     {"pool.user"                   => [false, {Pool         => [VIEW],
+                                                                          Instance     => [             CRE],
+                                                                          Deployment   => [             CRE],
+                                                                          Quota        => [VIEW]}],
+      "pool.admin"                  => [true,  {Pool         => [VIEW,    MOD,    VPRM,GPRM],
+                                                                          Instance     => [VIEW,USE,MOD,CRE],
+                                                                          Deployment   => [VIEW,USE,MOD,CRE],
+                                                                          Quota        => [VIEW]}]},
    Provider =>
-     {"Provider Owner"         => [true,  {Provider     => [VIEW,    MOD,    VPRM,GPRM],
-                                           ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}]},
+     {"provider.admin"              => [true,  {Provider     => [VIEW,    MOD,    VPRM,GPRM],
+                                                ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}]},
    ProviderAccount =>
-     {"Provider Account User"  => [false, {ProviderAccount => [VIEW,USE]}],
-      "Provider Account Owner" => [true,  {ProviderAccount => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+     {"provider_account.user"       => [false, {ProviderAccount => [VIEW,USE]}],
+      "provider_account.owner"      => [true,  {ProviderAccount => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    Catalog =>
-     {"Catalog User"            => [false, {Catalog => [VIEW, USE]}],
-      "Catalog Administrator"   => [true,  {Catalog => [VIEW,USE,MOD,VPRM,GPRM]}]},
+     {"catalog.user"                => [false, {Catalog => [VIEW, USE]}],
+      "catalog.admin"               => [true,  {Catalog => [VIEW,USE,MOD,VPRM,GPRM]}]},
    Deployable =>
-     {"Deployable User"          => [false, {Deployable     => [VIEW,USE]}],
-      "Deployable Owner"         => [true,  {Deployable     => [VIEW,USE,MOD,VPRM,GPRM]}]},
+     {"deployable.user"             => [false, {Deployable     => [VIEW,USE]}],
+      "deployable.owner"            => [true,  {Deployable     => [VIEW,USE,MOD,VPRM,GPRM]}]},
    BasePermissionObject =>
-     {"Provider Creator"       => [false, {Provider     => [             CRE]}],
-      "Provider Administrator" => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
-                                           ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "HWP Administrator"      => [false, {HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM]}],
-      "Realm Administrator"    => [false, {Realm        => [     USE,MOD,CRE,VPRM,GPRM]}],
-      "Pool Creator"           => [false, {Pool         => [             CRE]}],
-      "Pool Administrator"     => [false, {Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
-                                           Instance     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
-                                           Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
-                                           Quota        => [VIEW,    MOD],
-                                           PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
-      "Deployable Administrator" => [false, {Deployable => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "Deployable Global User"   => [false, {Deployable=> [VIEW,USE]}],
-      "Catalog Global User"   => [false, {Catalog => [VIEW,USE]}],
-      "HWP Global User"   => [false, {HardwareProfile => [VIEW,USE]}],
-      "Pool Global User"                  => [false, {Pool         => [VIEW],
-                                                      Instance     => [             CRE],
-                                                      Deployment   => [             CRE],
-                                                      Quota        => [VIEW]}],
-      "Image Administrator"    => [false, {PoolFamily   => [VIEW, USE] }],
-      "Administrator"          => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
-                                           ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
-                                           HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM],
-                                           Realm        => [     USE,MOD,CRE,VPRM,GPRM],
-                                           User         => [VIEW,    MOD,CRE],
-                                           Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
-                                           Instance     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
-                                           Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
-                                           Quota        => [VIEW,    MOD],
-                                           PoolFamily   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
-                                           Catalog      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
-                                           Deployable => [VIEW,USE,MOD,CRE,VPRM,GPRM],
-                                           BasePermissionObject => [ MOD,    VPRM,GPRM]}]}}
+     {"base.provider.creator"       => [false, {Provider     => [             CRE]}],
+      "base.provider.admin"         => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                                ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
+      "base.hwp.admin"              => [false, {HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM]}],
+      "base.realm.admin"            => [false, {Realm        => [     USE,MOD,CRE,VPRM,GPRM]}],
+      "base.pool.creator"           => [false, {Pool         => [             CRE]}],
+      "base.pool.admin"             => [false, {Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                                Instance     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                                Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                                Quota        => [VIEW,    MOD],
+                                                PoolFamily   => [VIEW,    MOD,CRE,VPRM,GPRM]}],
+      "base.deployable.admin"       => [false, {Deployable => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
+      "base.deployable.user" => [false, {Deployable=> [VIEW,USE]}],
+      "base.catalog.user"    => [false, {Catalog => [VIEW,USE]}],
+      "base.hwp.user"        => [false, {HardwareProfile => [VIEW,USE]}],
+      "base.pool.user"       => [false, {Pool         => [VIEW],
+                                                Instance     => [             CRE],
+                                                Deployment   => [             CRE],
+                                                Quota        => [VIEW]}],
+      "base.image.admin"            => [false, {PoolFamily   => [VIEW, USE] }],
+      "base.admin"                  => [false, {Provider     => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                                ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                                HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                                Realm        => [     USE,MOD,CRE,VPRM,GPRM],
+                                                User         => [VIEW,    MOD,CRE],
+                                                Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
+                                                Instance     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                                Deployment   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                                Quota        => [VIEW,    MOD],
+                                                PoolFamily   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                                Catalog      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                                Deployable => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                                BasePermissionObject => [ MOD,    VPRM,GPRM]}]}}
 Role.transaction do
   roles.each do |role_scope, scoped_hash|
     scoped_hash.each do |role_name, role_def|
@@ -122,11 +121,11 @@ MetadataObject.set("default_pool_family", PoolFamily.find_by_name('default'))
 default_quota = Quota.create
 
 default_pool = Pool.find_by_name("Default")
-default_role = Role.find_by_name("Pool User")
-default_deployable_role = Role.find_by_name("Deployable Global User")
-default_pool_global_user_role = Role.find_by_name("Pool Global User")
-default_catalog_global_user_role = Role.find_by_name("Catalog Global User")
-default_hwp_global_user_role = Role.find_by_name("HWP Global User")
+default_role = Role.find_by_name("pool.user")
+default_deployable_role = Role.find_by_name("base.deployable.user")
+default_pool_global_user_role = Role.find_by_name("base.pool.user")
+default_catalog_global_user_role = Role.find_by_name("base.catalog.user")
+default_hwp_global_user_role = Role.find_by_name("base.hwp.user")
 
 settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,

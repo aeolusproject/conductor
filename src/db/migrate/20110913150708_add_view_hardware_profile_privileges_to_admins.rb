@@ -19,7 +19,7 @@ class AddViewHardwareProfilePrivilegesToAdmins < ActiveRecord::Migration
     return if Role.all.empty?
 
     Role.transaction do
-      ["HWP Administrator", "Administrator"].each do |role_name|
+      ["base.hwp.admin", "base.admin"].each do |role_name|
         role = Role.find_or_initialize_by_name(role_name)
 
         priv_type = HardwareProfile
