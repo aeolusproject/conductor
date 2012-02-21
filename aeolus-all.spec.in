@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	31%{?dist}
+Release:	32%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,14 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Tue Feb 21 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-32
+- 8dbc82e BZ795691 Fix and unify return to links
+- 9c591c2 BZ 790860 - re-enable provider availability
+- 4958638 BZ#789363 Add appropriate Titles to the layout
+- 3563b1a Fix minor syntax error.
+- 406d02a BZ #795667: Build shows all old terms in UI
+- 0982c10 https://bugzilla.redhat.com/show_bug.cgi?id=786010
+
 * Mon Feb 20 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-31
 - d86682c BZ 790824 hide build select unless build exists
 - 61e2cd2 BZ 790516 - Only accept ipv4, hostname addresses for instances
