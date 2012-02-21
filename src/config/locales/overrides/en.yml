@@ -34,6 +34,8 @@ en:
       no_catalog_entry: 'No available application blueprint. Please add one first!'
       image_id: Component Outline ID
       deployable_xml: Application Blueprint XML
+    show:
+      name: %{name} Application
     new:
       launch: Launch this application
       deployable_definition: Application Blueprint definition
@@ -98,7 +100,7 @@ en:
     pool: Cloud Resource Zone
     pools: Cloud Resource Zones
     new_pool: New Cloud Resource Zone
-    edit_pool: Edit Cloud Resource Zone
+    edit_pool: Edit Cloud Resource Zone %{pool}
     create_new_pool: Create New Cloud Resource Zone
     index:
       pool_name: Cloud Resource Zone name
@@ -167,6 +169,9 @@ en:
           other: Cloud Resource Profiles %{deleted} were deleted.
       error:
         not_deleted: "Cloud Resource Profile was not deleted!"
+        more_not_deleted:
+          one: "%{not_deleted} could not be deleted"
+          other: "Could not delete the following cloud resource profiles: %{not_deleted}"
       warning:
         cannot_edit_backend_hwp: "Cannot modify Provider Cloud Resource Profiles"
         cannot_delete_backend_hwp: "Cannot delete Provider Cloud Resource Profiles"
