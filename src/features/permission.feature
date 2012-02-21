@@ -29,7 +29,7 @@ Feature: Manage Permissions
     When I follow "Grant Access"
     Then I should be on the new permission page
     And I should see "Choose roles for users"
-    When I select "Pool Owner" role for the user "testuser"
+    When I select "Pool Admin" role for the user "testuser"
     And I press "Grant Access"
     Then I should be on the page for the pool "PermissionPool"
     And I should see "Added the following User Roles"
