@@ -238,7 +238,7 @@ class Deployment < ActiveRecord::Base
       rescue
         logger.error $!.message
         logger.error $!.backtrace.join("\n    ")
-        status[:errors][assembly.name] = $!.message
+        status[:errors][assembly.name] = $!.message.to_s.split("\n").first
       end
     end
 
@@ -298,7 +298,7 @@ class Deployment < ActiveRecord::Base
       rescue
         logger.error $!.message
         logger.error $!.backtrace.join("\n    ")
-        status[:errors][assembly_name] = $!.message
+        status[:errors][assembly_name] = $!.message.to_s.split("\n").first
       end
     end
     status
