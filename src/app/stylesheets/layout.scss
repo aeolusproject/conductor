@@ -1720,6 +1720,7 @@ section.admin-content-section{
       right: 0px;
       bottom: 4px;
       @include display_inline_block;
+      vertical-align: middle;
       font-size: 11px;
 
       a.collapse{
