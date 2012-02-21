@@ -119,6 +119,11 @@ class InstanceObserver < ActiveRecord::Observer
                              :change_hash => instance.changes)
         end
         event4.save! if event4
+      elsif instance.state == Instance::STATE_VANISHED
+        Event.create!(
+          :source => instance, :event_time => Time.now,
+          :status_code => 'vanished', :summary => "Instance disappeared from cloud provider"
+        )
       end
 
     end

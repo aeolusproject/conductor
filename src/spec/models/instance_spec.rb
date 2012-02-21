@@ -101,6 +101,12 @@ describe Instance do
     @instance.events.last.status_code.should == 'stop_queued'
   end
 
+  it "should create event when an instance vanishes" do
+    @instance.save!
+    @instance.update_attribute(:state, Instance::STATE_VANISHED)
+    @instance.events.last.status_code.should == "vanished"
+  end
+
   describe "with time capsule" do
 
     it "should properly calculate the total time that the instance has been in a monitored state" do

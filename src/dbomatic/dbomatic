@@ -211,19 +211,7 @@ def check_one_account(account)
       else
         # We have an instance in our database, but it didn't come back over the API
         DBomaticLogger.instance.info("known instance missing from provider: #{instance.name} #{instance.external_key}")
-        if instance.state == Instance::STATE_VANISHED
-          # If the instance is found, we automatically update the state, so this means that the
-          # instance was missing on two *consecutive* calls.
-          DBomaticLogger.instance.info("instance was missing on last call as well, so deleting")
-          Event.create(
-            :source => instance, :event_time => Time.now,
-            :status_code => 'vanished', :summary => "Instance disappeared from cloud provider"
-          )
-          instance.destroy
-        else
-          DBomaticLogger.instance.info("instance was present on last call, so setting state to vanished but not deleting")
-          instance.update_attribute(:state, Instance::STATE_VANISHED)
-        end
+        instance.update_attribute(:state, Instance::STATE_VANISHED)
       end
     end
 
