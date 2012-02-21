@@ -8,6 +8,8 @@ en:
       x_hours:
         one: 1 hour
         other: %{count} hours
+  search:
+    no_results: "No matching results."
   users:
     users: "Users"
     return_to: "Return to:"
