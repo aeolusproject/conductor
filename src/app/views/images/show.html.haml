@@ -28,7 +28,13 @@
         - if @image.imported?
           = t('.can_not_build_imported_image')
         -else
-          = button_to t('.rebuild_all'), rebuild_all_image_path(@image.id), :class => 'button pill'
+          - if @builds.any?
+            - build_text = '.rebuild'
+          - else
+            - build_text = '.build'
+          - if @account_groups.size > 1
+            - build_text << '_all'
+          = button_to t(build_text), rebuild_all_image_path(@image.id), :class => 'button pill'
           - if @build and @build.id == @latest_build
             = button_to t('.push_all'), push_all_image_path(@image.id, :build_id => @build.id), :class => 'button pill'
   .content
