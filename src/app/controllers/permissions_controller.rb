@@ -30,6 +30,7 @@ class PermissionsController < ApplicationController
 
   def new
     set_permission_object
+    @title = t'permissions.form.grant_access'
     @users = User.all
     @roles = Role.find_all_by_scope(@permission_object.class.name)
     if @permission_object == BasePermissionObject.general_permission_scope

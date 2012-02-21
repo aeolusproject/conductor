@@ -22,6 +22,7 @@ class HardwareProfilesController < ApplicationController
   before_filter :setup_hardware_profile, :only => [:new, :create, :edit, :update]
 
   def index
+    @title = t('hardware_profiles.hardware_profiles')
     clear_breadcrumbs
     save_breadcrumb(hardware_profiles_path)
     @params = params
@@ -43,6 +44,11 @@ class HardwareProfilesController < ApplicationController
   def show
     @hardware_profile = HardwareProfile.find(params[:id].to_a.first)
     require_privilege(Privilege::VIEW, @hardware_profile)
+    @title = if @hardware_profile.provider_hardware_profile?
+               t('hardware_profiles.show.backend_hwp', :name => @hardware_profile.name)
+             else
+               t('hardware_profiles.show.frontend_hwp', :name => @hardware_profile.name)
+             end
 
     @tab_captions = [t('hardware_profiles.tab_captions.properties'), t('hardware_profiles.tab_captions.history'), t('hardware_profiles.tab_captions.matching_provider_hwp')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
@@ -63,6 +69,7 @@ class HardwareProfilesController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, HardwareProfile)
+    @title = t'hardware_profiles.new.new_hwp'
 
     respond_to do |format|
       format.html { render :action => 'new'}
@@ -108,6 +115,7 @@ class HardwareProfilesController < ApplicationController
       @hardware_profile = HardwareProfile.find(params[:id])
     end
     require_privilege(Privilege::MODIFY, @hardware_profile)
+    @title = @hardware_profile.name.titlecase
     if @hardware_profile.provider_hardware_profile?
       flash[:warning] = t "hardware_profiles.flash.warning.cannot_edit_backend_hwp"
       redirect_to hardware_profile_path(@hardware_profile)

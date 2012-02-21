@@ -23,6 +23,7 @@ class PoolFamiliesController < ApplicationController
   before_filter :load_tab_captions_and_details_tab, :only => [:show]
 
   def index
+    @title = t("pool_families.pool_families")
     clear_breadcrumbs
     save_breadcrumb(pool_families_path)
     set_admin_environments_tabs 'pool_families'
@@ -33,6 +34,7 @@ class PoolFamiliesController < ApplicationController
   end
 
   def new
+    @title = t("pool_families.index.new_pool_family")
     require_privilege(Privilege::CREATE, PoolFamily)
     @pool_family = PoolFamily.new(:quota => Quota.new)
   end
@@ -54,6 +56,7 @@ class PoolFamiliesController < ApplicationController
   def edit
     @pool_family = PoolFamily.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool_family)
+    @title = @pool_family.name
     @pool_family.quota ||= Quota.new
   end
 
@@ -72,6 +75,7 @@ class PoolFamiliesController < ApplicationController
 
   def show
     @pool_family = PoolFamily.find(params[:id])
+    @title = @pool_family.name
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
     require_privilege(Privilege::VIEW, @pool_family)
     @images = Aeolus::Image::Warehouse::Image.by_environment(@pool_family.name)

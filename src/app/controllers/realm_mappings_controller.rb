@@ -19,6 +19,7 @@ class RealmMappingsController < ApplicationController
 
   def new
     require_privilege(Privilege::MODIFY, Realm)
+    @title = t'realm_mappings.new.create_new'
     @realm_target = RealmBackendTarget.new(:frontend_realm_id => params[:frontend_realm_id], :realm_or_provider_type => params[:realm_or_provider_type])
     load_backend_targets
   end

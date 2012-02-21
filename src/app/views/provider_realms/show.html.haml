@@ -1,10 +1,10 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1{:class => controller.controller_name}= @realm.name
+  %h1{:class => controller.controller_name}= @title
   #obj_actions.button_container
-    .button-group
+    .return_to
       = t('return_to')
-      = link_to t('provider_realms'), edit_provider_path(@realm.provider, :details_tab =>  'realms', :only_tab =>  true), :class =>  'rounded-link', :id =>  'back_to_provider_realms_button'
+      = link_to t('provider_realms'), edit_provider_path(@realm.provider, :details_tab =>  'realms', :only_tab =>  true), :id =>  'back_to_provider_realms_button'
 - unless @realm.available
   %section.admin-content-section
     %header.align-center

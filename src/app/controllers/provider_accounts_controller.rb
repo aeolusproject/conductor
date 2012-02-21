@@ -33,6 +33,7 @@ class ProviderAccountsController < ApplicationController
   def show
     @tab_captions = [t('provider_accounts.tab_captions.properties'), t('provider_accounts.tab_captions.credentials'), t('provider_accounts.tab_captions.history'), t('provider_accounts.tab_captions.permissions')]
     @provider_account = ProviderAccount.find(params[:id])
+    @title = t('provider_accounts.show.account', :name => @provider_account.name)
     @provider = Provider.find(params[:provider_id])
     @realms = @provider_account.realms
     @account_id = @provider_account.credentials_hash['account_id']
@@ -57,6 +58,7 @@ class ProviderAccountsController < ApplicationController
 
   def new
     @provider_account = ProviderAccount.new
+    @title = t'provider_accounts.new.new_provider_account'
     @quota = Quota.new
     @providers = Provider.all
     if @providers.empty?
@@ -103,6 +105,7 @@ class ProviderAccountsController < ApplicationController
 
   def edit
     @provider_account = ProviderAccount.find(params[:id])
+    @title = t('provider_accounts.edit.account', :name => @provider_account.name)
     @provider = Provider.find(params[:provider_id])
     @selected_provider = @provider_account.provider
     @quota = @provider_account.quota

@@ -30,6 +30,7 @@ class ProviderRealmsController < ApplicationController
 
   def show
     @realm = Realm.find(params[:id])
+    @title = @realm.name
 
     @tab_captions = [t('realms.tab_captions.properties'), t('realms.tab_captions.mapping')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]

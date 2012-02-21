@@ -9,9 +9,7 @@
 
 %section.content-section.user
   %header
-    %h2
-      =t'pools.edit_pool'
-      = @pool.name
+    %h2= @title
 
   .content
     = render :partial => 'form'

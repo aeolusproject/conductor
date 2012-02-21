@@ -1,7 +1,8 @@
 %header.admin-page-header
   #obj_actions
-    =t'users.quick_jump'
-    = link_to 'Groups', "#groups", :class => 'rounded-link'
-    = link_to 'Users', "#users", :class => 'rounded-link'
-    = link_to 'Roles', "#roles", :class => 'rounded-link'
+    .return_to
+      =t'users.quick_jump'
+      = link_to 'Groups', "#groups"
+      = link_to 'Users', "#users"
+      = link_to 'Roles', "#roles"
   .clear

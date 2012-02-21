@@ -1,9 +1,10 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1= t("pool_families.index.new_pool_family")
+  %h1= @title
   #obj_actions
-    = t("return_to")
-    = link_to t("pool_families.new.environments"), pool_families_path, :class => 'rounded-link'
+    .return_to
+      = t("return_to")
+      = link_to t("pool_families.new.environments"), pool_families_path
 
 %section.admin-content-section.pool_family
   .content

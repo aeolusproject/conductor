@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  %h1= @provider.name.blank? ? t("providers.new.new_provider") : @provider.name
+  %h1= @title
   #obj_actions
     %span.label.light Choose a provider:
     %ul#provider_select

@@ -18,6 +18,7 @@ class CatalogsController < ApplicationController
   before_filter :require_user
 
   def index
+    @title = t('catalogs.catalogs')
     clear_breadcrumbs
     @catalogs = Catalog.apply_filters(:preset_filter_id => params[:catalogs_preset_filter], :search_filter => params[:catalogs_search]).list_for_user(current_user, Privilege::VIEW)
     save_breadcrumb(catalogs_path(:viewstate => @viewstate ? @viewstate.id : nil))
@@ -32,11 +33,13 @@ class CatalogsController < ApplicationController
   def new
     require_privilege(Privilege::CREATE, Catalog)
     @catalog = Catalog.new(params[:catalog]) # ...when should there be params on new?
+    @title = t'catalogs.new.add_catalog'
     load_pools
   end
 
   def show
     @catalog = Catalog.find(params[:id])
+    @title = @catalog.name
     @deployables = @catalog.deployables.list_for_user(current_user, Privilege::VIEW).apply_filters(:preset_filter_id => params[:catalog_entries_preset_filter], :search_filter => params[:catalog_entries_search])
     require_privilege(Privilege::VIEW, @catalog)
     save_breadcrumb(catalog_path(@catalog), @catalog.name)
@@ -62,6 +65,7 @@ class CatalogsController < ApplicationController
 
   def edit
     @catalog = Catalog.find(params[:id])
+    @title = t('catalogs.edit.edit_catalog')
     load_pools
     require_privilege(Privilege::MODIFY, @catalog)
   end

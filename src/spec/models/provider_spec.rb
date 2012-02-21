@@ -148,6 +148,23 @@ describe Provider do
     it "should return empty list of not terminated instances when disabled" do
       @provider.disable(nil)[:failed_to_terminate].should be_empty
     end
+
+    it "should mark provider as unavailable if inaccessible" do
+      @provider.available.should be_true
+      @provider.populate_realms
+      @provider.available.should be_false
+    end
+  end
+
+  context "(unavailable provider)" do
+    before(:each) do
+      @provider = FactoryGirl.create(:unavailable_mock_provider)
+    end
+
+    it "should mark provider as available if it becomes accessible" do
+      @provider.populate_realms
+      @provider.available.should be_true
+    end
   end
 
 end

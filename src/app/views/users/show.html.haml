@@ -1,14 +1,15 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
   #obj_actions
-    =t'users.return_to'
-    = link_to t('users.users'), users_path, :class => 'rounded-link'
+    .return_to
+      =t'return_to'
+      = link_to t('users.users'), users_path
 
 %section.admin-content-section.user
   .content
     #user_card.user_stats_card
       %header.user-card-header
-        %h2= @user.name
+        %h2= @title
       .user-card-content
         %dl
           %dt=t'users.show.e-mail'
