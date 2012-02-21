@@ -5,8 +5,9 @@
   - else
     %h1.users=t'users.edit.edit_account'
   #obj_actions
-    =t'users.return_to'
-    = link_to "#{t'users.users'}", users_path, :class => 'rounded-link'
+    .return_to
+      =t'users.return_to'
+      = link_to "#{t'users.users'}", users_path
 
 %section.admin-content-section.user
   .content

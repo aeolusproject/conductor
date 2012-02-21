@@ -4,8 +4,9 @@
   %header
   %h1= @title
   #obj_actions
-    = t'return_to'
-    = link_to t("catalogs.catalogs"), catalogs_path, :class => 'rounded-link'
+    .return_to
+      = t'return_to'
+      = link_to t("catalogs.catalogs"), catalogs_path
 
 %section.admin-content-section
   = form_for @catalog, :url => catalogs_path, :html => {:class => 'generic'} do |f|
