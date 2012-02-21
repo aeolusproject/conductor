@@ -433,9 +433,9 @@ class Deployment < ActiveRecord::Base
   end
 
   def status
-    if instances.all? {|i| i.state == Instance::STATE_RUNNING}
+    if instances.any? and instances.all? {|i| i.state == Instance::STATE_RUNNING}
       :running
-    elsif instances.all? {|i| [Instance::STATE_STOPPED, Instance::STATE_ERROR, Instance::STATE_CREATE_FAILED].include? i.state}
+    elsif instances.empty? or instances.all? {|i| (Instance::FAILED_STATES + [Instance::STATE_STOPPED]).include?(i.state)}
       :stopped
     else
       :pending
