@@ -307,6 +307,12 @@ describe Deployment do
       deployment.stub(:instances) { [instance, instance2] }
       deployment.status.should == :pending
     end
+
+    it "should be stopped if no instances exist" do
+      deployment = Factory.build :deployment
+      deployment.stub(:instances) {[]}
+      deployment.status.should == :stopped
+    end
   end
 
   describe ".instances.instance_parameters" do
