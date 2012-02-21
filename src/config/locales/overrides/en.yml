@@ -455,3 +455,4 @@ en:
     provider_realms: Cloud Resource Clusters
     deployables: Application Blueprints
     deployments: Applications
+  provider_realms: Provider Cloud Resource Clusters
