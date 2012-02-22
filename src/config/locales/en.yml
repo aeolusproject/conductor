@@ -281,7 +281,6 @@ en:
           other: "The deployments %{list} were successfully updated."
     errors:
       config_server_connection: 'Cannot connect to the config server'
-      stop_invalid_action: "stop is an invalid action."
       cannot_stop: "stop cannot be performed on this instance."
       all_stopped: "All instances must be stopped or running"
       not_valid_deployable_xml: "seems to be not valid deployable XML: %{msg}"
@@ -345,6 +344,10 @@ en:
       shared_to: "Shared to: "
       error: "Error: "
       n_a: "N/A"
+    confirm_terminate:
+      terminate: "Terminate"
+      terminate_instances: "Terminate Instances"
+      terminate_instances_description: "Provider is not accessible, status of following instances will be changed to 'stopped' but their actual state is unknown."
     flash:
       warning:
         ssh_key_not_found: "SSH Key not found for this Instance."
@@ -365,6 +368,7 @@ en:
           other: "The instances %{list} were successfully deleted."
       notice:
         stop: "stop action was successfully queued."
+        forced_stop: "state changed to stopped."
         reboot: "%{name}: reboot action was successfully queued."
     errors:
       image_not_found: "No image build was found with uuid %{b_uuid} and no image was found with uuid %{i_uuid}"
@@ -380,9 +384,8 @@ en:
       no_config_server_available: "%{account_name}: no config server available for provider account"
       realm_not_mapped: "%{account_name}: realm %{frontend_realm_name} is not mapped to any applicable provider or provider realm"
       provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch deployable"
-      stop_invalid: "stop is an invalid action."
-      stop_not_be_performed: "stop cannot be performed on this instance."
-      reboot_not_be_performed: "cannot be rebooted because it's not currently running."
+      stop_invalid_action: "stop is an invalid action."
+      reboot_invalid_action: "reboot is an invalid action."
       must_be_enabled: "%{account_name}: provider must be enabled"
       provider_not_available: "%{account_name}: provider is not available"
       cannot_destroy: "destroy cannot be performed on this instance."
@@ -674,6 +677,7 @@ en:
         not_valid_or_reachable: "Deployable XML file is either invalid or no longer reachable at %{url}"
         no_url_provided: "No URL provided for the deployable XML file."
         not_valid: "Deployable XML file doesn't resolve valid XML"
+        not_valid_duplicate_assembly_names: "Deployable XML must contain unique assembly names"
         failed: Deployable was not created.
       notice:
         added: Deployable added to catalog %{catalog}.
@@ -727,7 +731,7 @@ en:
         delete_failed: Unable to Delete Target Image
         not_found: Target Image not found
   images:
-    environment: %{environment} Environment
+    environment: "Environment:"
     environment_header: Environment
     import:
       import_image: Import Image
@@ -1010,7 +1014,6 @@ en:
       required_field: Required field.
       caution_image: Caution
     confirm_terminate:
-      terminate_instances: "Provider is not accessible, status of following instances will be changed to 'stopped' but their actual state is unknown."
       disabled_provider: "Disable Provider"
       disable: "Disable"
     flash:

@@ -117,8 +117,16 @@ class Provider < ActiveRecord::Base
     else
       # if the provider is not accessible and there are no running
       # instances, we just change state of all instances to stopped
-      res[:failed_to_terminate] = stoppable_instances.select do |i|
-        !i.update_attributes(:state => Instance::STATE_STOPPED)
+      res[:failed_to_terminate] = instances_to_terminate.select do |i|
+        begin
+          i.update_attributes(:state => Instance::STATE_STOPPED)
+          false
+        rescue
+          true
+          # this should never happen, so display an error only in log file
+          logger.warn "failed to stop instance #{i.name}: #{$!.message}"
+          logger.warn $!.backtrace.join("\n ")
+        end
       end
     end
     if res[:failed_to_stop].blank? and res[:failed_to_terminate].blank?
@@ -128,7 +136,8 @@ class Provider < ActiveRecord::Base
   end
 
   def instances_to_terminate
-    valid_framework? ? [] : stoppable_instances
+    return [] if valid_framework?
+    provider_accounts.inject([]) {|all, pa| all += pa.instances.stoppable_inaccessible}
   end
 
   def populate_realms

@@ -114,14 +114,19 @@ class Instance < ActiveRecord::Base
              STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED,
              STATE_ERROR, STATE_VANISHED]
 
+  STOPPABLE_INACCESSIBLE_STATES = [STATE_NEW, STATE_PENDING, STATE_RUNNING, STATE_SHUTTING_DOWN]
+  # States that indicate some sort of failure/problem with an instance:
+  FAILED_STATES = [STATE_CREATE_FAILED, STATE_ERROR, STATE_VANISHED]
+
   scope :deployed,  :conditions => { :state => [STATE_RUNNING, STATE_SHUTTING_DOWN] }
   # FIXME: "pending" is misleading as it doesn't just cover STATE_PENDING
   scope :pending,   :conditions => { :state => [STATE_NEW, STATE_PENDING] }
   # FIXME: "failed" is misleading too...
-  scope :failed,    :conditions => { :state => [STATE_CREATE_FAILED, STATE_ERROR, STATE_VANISHED] }
+  scope :failed,    :conditions => { :state => FAILED_STATES }
   scope :stopped,   :conditions => {:state => STATE_STOPPED}
   scope :not_stopped, :conditions => "state <> 'stopped'"
   scope :stopable,    :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING] }
+  scope :stoppable_inaccessible,    :conditions => { :state => STOPPABLE_INACCESSIBLE_STATES }
   scope :ascending_by_name, :order => 'instances.name ASC'
 
 
@@ -434,12 +439,20 @@ class Instance < ActiveRecord::Base
     not deployment.instances.deployed.any? {|i| i != self}
   end
 
-  def stop
-    do_operation('stop')
+  def stop(user)
+    do_operation(user, 'stop')
   end
 
-  def reboot
-    do_operation('reboot')
+  def reboot(user)
+    do_operation(user, 'reboot')
+  end
+
+  def force_stop(user)
+    self.state = STATE_STOPPED
+    save!
+    event = Event.create!(:source => self, :event_time => Time.now,
+                          :summary => "Instance is not accessible, state changed to stopped",
+                          :status_code => "force_stop")
   end
 
   def deployed?
@@ -466,6 +479,16 @@ class Instance < ActiveRecord::Base
     end
   end
 
+  def self.stoppable_inaccessible_instances(instances)
+    failed_accounts = {}
+    instances.select do |i|
+      next unless STOPPABLE_INACCESSIBLE_STATES.include?(i.state)
+      next unless i.provider_account
+      failed_accounts[i.provider_account.id] =  i.provider_account.connect.nil? unless failed_accounts.has_key?(i.provider_account.id)
+      failed_accounts[i.provider_account.id]
+    end
+  end
+
   private
 
   def self.apply_search_filter(search)
@@ -488,10 +511,10 @@ class Instance < ActiveRecord::Base
     self[:uuid] = UUIDTools::UUID.timestamp_create.to_s
   end
 
-  def do_operation(operation)
-    @task = self.queue_action(@current_user, operation)
+  def do_operation(user, operation)
+    @task = self.queue_action(user, operation)
     unless @task
-      raise I18n.t("instances.errors.#{operation}_not_be_performed")
+      raise I18n.t("instances.errors.#{operation}_invalid_action")
     end
     Taskomatic.send("#{operation}_instance", @task)
   end

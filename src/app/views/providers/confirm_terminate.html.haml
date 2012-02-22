@@ -5,8 +5,9 @@
   %header
     %h2= t(".disable_provider?")
 
-  .content
-    = t ".terminate_instances"
+  .content.confirm_instances_termination
+    .align-center
+      %strong= t('instances.confirm_terminate.terminate_instances_description')
     %ul
       - @instances_to_terminate.each do |i|
         %li= i.name

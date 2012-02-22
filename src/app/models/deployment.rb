@@ -171,6 +171,18 @@ class Deployment < ActiveRecord::Base
     end
   end
 
+  def self.stoppable_inaccessible_instances(deployments)
+    failed_accounts = {}
+    res = []
+    deployments.each do |d|
+      next unless acc = d.provider_account
+      failed_accounts[acc.id] = acc.connect.nil? unless failed_accounts.has_key?(acc.id)
+      next unless failed_accounts[acc.id]
+      res += d.instances.stoppable_inaccessible
+    end
+    res
+  end
+
   def launch_parameters
     @launch_parameters ||= {}
   end
@@ -226,7 +238,7 @@ class Deployment < ActiveRecord::Base
       rescue
         logger.error $!.message
         logger.error $!.backtrace.join("\n    ")
-        status[:errors][assembly.name] = $!.message
+        status[:errors][assembly.name] = $!.message.to_s.split("\n").first
       end
     end
 
@@ -286,7 +298,7 @@ class Deployment < ActiveRecord::Base
       rescue
         logger.error $!.message
         logger.error $!.backtrace.join("\n    ")
-        status[:errors][assembly_name] = $!.message
+        status[:errors][assembly_name] = $!.message.to_s.split("\n").first
       end
     end
     status
@@ -327,6 +339,11 @@ class Deployment < ActiveRecord::Base
   def provider
     inst = instances.joins(:provider_account => :provider).first
     inst && inst.provider_account && inst.provider_account.provider
+  end
+
+  def provider_account
+    inst = instances.joins(:provider_account).first
+    inst && inst.provider_account
   end
 
   # we try to create an instance for each assembly and check
@@ -416,9 +433,9 @@ class Deployment < ActiveRecord::Base
   end
 
   def status
-    if instances.all? {|i| i.state == Instance::STATE_RUNNING}
+    if instances.any? and instances.all? {|i| i.state == Instance::STATE_RUNNING}
       :running
-    elsif instances.all? {|i| [Instance::STATE_STOPPED, Instance::STATE_ERROR, Instance::STATE_CREATE_FAILED].include? i.state}
+    elsif instances.empty? or instances.all? {|i| (Instance::FAILED_STATES + [Instance::STATE_STOPPED]).include?(i.state)}
       :stopped
     else
       :pending

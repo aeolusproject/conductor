@@ -39,6 +39,14 @@ Given /^the instance "([^"]*)" is in the (\w*) state$/ do |instance, state|
   instance.save!
 end
 
+Given /^"([^"]*)" instance's provider is not accessible$/ do |arg1|
+  instance = Instance.find_by_name(arg1)
+  # FIXME: didn't find a way how to create an inaccessible provider
+  # cleanly
+  provider = instance.provider_account.provider
+  provider.update_attribute(:url, 'http://localhost:3002/invalid_api')
+end
+
 When /^I am viewing the pending instance detail$/ do
   visit instance_url(pending_instance)
 end

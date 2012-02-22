@@ -18,6 +18,7 @@ class DeploymentsController < ApplicationController
   before_filter :require_user
   before_filter :load_deployments, :only => [:index, :show]
   before_filter :load_deployment, :only => [:edit, :update]
+  before_filter :check_inaccessible_instances, :only => :multi_stop
 
 
   viewstate :show do |default|
@@ -267,6 +268,7 @@ class DeploymentsController < ApplicationController
   def multi_destroy
     destroyed = []
     failed = []
+
     Deployment.find(params[:deployments_selected] || []).each do |deployment|
       if check_privilege(Privilege::MODIFY, deployment)
         begin
@@ -296,28 +298,28 @@ class DeploymentsController < ApplicationController
   def multi_stop
     notices = []
     errors = []
-    Deployment.find(params[:deployments_selected] || []).each do |deployment|
-      deployment.instances.each do |instance|
-        begin
-          require_privilege(Privilege::USE,instance)
-          unless instance.valid_action?('stop')
-            raise ActionError.new(t('deployments.errors.stop_invalid_action'))
-          end
 
-          #permissons check here
-          @task = instance.queue_action(current_user, 'stop')
-          unless @task
-            raise ActionError.new(t('deployments.errors.cannot_stop'))
+    @deployments_to_stop.each do |deployment|
+      deployment.instances.each do |instance|
+        log_prefix = "#{t('deployments.deployment')}: #{instance.deployment.name}, #{t('instances.instance')}:  #{instance.name}"
+        begin
+          require_privilege(Privilege::USE, instance)
+          if @inaccessible_instances.include?(instance)
+            instance.force_stop(current_user)
+            notices << "#{log_prefix}: #{t('instances.flash.notice.forced_stop')}"
+          else
+            instance.stop(current_user)
+            notices << "#{log_prefix}: #{t('instances.flash.notice.stop')}"
           end
-          Taskomatic.stop_instance(@task)
-          notices << "#{t('deployments.deployment')}: #{instance.deployment.name}, #{t('instances.instance')}:  #{instance.name}: #{t('deployments.flash.notice.stop')}"
         rescue Exception => err
-          errors << "#{t('deployments.deployment')}: #{instance.deployment.name}, #{t('instances.instance')}: #{instance.name}: " + err
+          errors << "#{log_prefix}: #{err}"
+          logger.error err.message
+          logger.error err.backtrace.join("\n ")
         end
       end
     end
     # If nothing is selected, display an error message:
-    errors = t('deployments.flash.error.none_selected') if errors.blank? && notices.blank?
+    errors = t('deployments.flash.error.none_selected') if notices.blank? and errors.blank?
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
     respond_to do |format|
@@ -349,6 +351,19 @@ class DeploymentsController < ApplicationController
   end
 
   private
+
+  def check_inaccessible_instances
+    @deployments_to_stop = Deployment.find(params[:deployments_selected] || [])
+    @inaccessible_instances = Deployment.stoppable_inaccessible_instances(@deployments_to_stop)
+    if params[:terminate].blank? and @inaccessible_instances.any?
+      respond_to do |format|
+        format.html { render :action => :confirm_terminate }
+        format.json { render :json => {:inaccessbile_instances => @inaccessible_instances}, :status => :unprocessable_entity }
+      end
+      return false
+    end
+    return true
+  end
 
   def load_deployments
     @deployments_header = [
