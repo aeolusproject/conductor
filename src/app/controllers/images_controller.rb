@@ -38,6 +38,9 @@ class ImagesController < ApplicationController
   def show
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
     @environment = PoolFamily.where('name' => @image.environment).first
+    @push_started = params[:push_started] == 'true'
+    @pushed_target_image_id = params[:pushed_target_image_id]
+
     if @image.imported?
       begin
         # For an imported image, we only want to show the actual provider account
