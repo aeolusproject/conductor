@@ -134,6 +134,11 @@
                       #{t('images.show.failed_build_attempts', :count => 1 )}
                     </div>
                   {{/if}}
+                {{else !build}}
+                  #{path = image_target_images_path('replace_image_id', :target => 'replace_driver')
+                    path = path.sub('replace_image_id', '${image[\'uuid\']}')
+                    path = path.sub('replace_driver', '${driver}')
+                    button_to(t('images.show.build'), path, :method => :post)}
                 {{else}}
                   &nbsp;
                 {{/if}}
