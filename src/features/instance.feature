@@ -71,6 +71,17 @@ Feature: Manage Instances
     Then I should be on the instances page
     And I should see "mock1: stop action was successfully queued"
 
+  Scenario: Stop inaccessible instance
+    Given there is a "mock1" running instance
+    And I am on the instances page
+    And "mock1" instance's provider is not accessible
+    When I check "mock1" instance
+    And I press "stop_selected_instances"
+    Then I should see "Terminate Instances"
+    And I should see "mock1"
+    When I press "terminate_button"
+    Then I should see "mock1: state changed to stopped"
+
   Scenario: Stop multiple instances
     Given there is a "mock1" running instance
     And there is a "mock2" running instance

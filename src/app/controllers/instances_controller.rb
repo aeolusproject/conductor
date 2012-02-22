@@ -18,6 +18,7 @@ class InstancesController < ApplicationController
   before_filter :require_user
   before_filter :load_instance, :only => [:show, :key, :edit, :update]
   before_filter :set_view_vars, :only => [:show, :index, :export_events]
+  before_filter :check_inaccessible_instances, :only => :multi_stop
 
   def index
     @params = params
@@ -139,27 +140,26 @@ class InstancesController < ApplicationController
   end
 
   def multi_stop
-    notices = ""
-    errors = ""
-    Instance.find(params[:instance_selected] || []).each do |instance|
+    notices = []
+    errors = []
+
+    @instances_to_stop.each do |instance|
       begin
         require_privilege(Privilege::USE,instance)
-        unless instance.valid_action?('stop')
-          raise ActionError.new(t('instances.errors.stop_invalid'))
-        end
 
-        #permissons check here
-        @task = instance.queue_action(current_user, 'stop')
-        unless @task
-          raise ActionError.new(t('instances.errors.stop_not_be_performed'))
+        if @inaccessible_instances.include?(instance)
+          instance.force_stop(current_user)
+          notices << "#{instance.name}: #{t('instances.flash.notice.forced_stop')}"
+        else
+          instance.stop(current_user)
+          notices << "#{instance.name}: #{t('instances.flash.notice.stop')}"
         end
-        Taskomatic.stop_instance(@task)
-        notices << "#{instance.name}: #{t('instances.flash.notice.stop')}"
       rescue Exception => err
         errors << "#{instance.name}: " + err
+        logger.error err.message
+        logger.error err.backtrace.join("\n ")
       end
     end
-    # If nothing is selected, display an error message:
     errors = t('instances.none_selected') if errors.blank? && notices.blank?
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
@@ -176,11 +176,11 @@ class InstancesController < ApplicationController
   end
 
   def stop
-    do_operation(:stop)
+    do_operation(current_user, :stop)
   end
 
   def reboot
-    do_operation(:reboot)
+    do_operation(current_user, :reboot)
   end
 
   def multi_reboot
@@ -189,7 +189,7 @@ class InstancesController < ApplicationController
     Instance.find(params[:instance_selected] || []).each do |instance|
       begin
         require_privilege(Privilege::USE,instance)
-        instance.reboot
+        instance.reboot(current_user)
         notices << "#{instance.name}: #{t('instances.flash.notice.reboot', :name => instance.name)}"
       rescue Exception => err
         errors << "#{instance.name}: " + err
@@ -250,16 +250,16 @@ class InstancesController < ApplicationController
     end
   end
 
-  def do_operation(operation)
-    instance = Instance.find(params[:id])
-    begin
-      instance.send(operation)
-      flash[:notice] = t("instances.flash.notice.#{operation}", :name => instance.name)
-    rescue Exception => err
-      flash[:error] = t('instance.error', :name => instance.name, :err => err)
+  def check_inaccessible_instances
+    @instances_to_stop = Instance.find(params[:instance_selected] || [])
+    @inaccessible_instances = Instance.stoppable_inaccessible_instances(@instances_to_stop)
+    if params[:terminate].blank? and @inaccessible_instances.any?
+      respond_to do |format|
+        format.html { render :action => :confirm_terminate }
+        format.json { render :json => {:inaccessbile_instances => @inaccessible_instances}, :status => :unprocessable_entity }
+      end
+      return false
     end
-    respond_to do |format|
-      format.html { redirect_to deployment_path(instance.deployment, :details_tab => 'instances')}
-    end
+    return true
   end
 end

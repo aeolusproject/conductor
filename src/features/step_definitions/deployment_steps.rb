@@ -38,6 +38,13 @@ Given /^the deployment "([^"]*)" has an instance named "([^"]*)"$/ do |d_name, i
   deployment.instances << FactoryGirl.create(:instance, :name => i_name, :pool => deployment.pool)
 end
 
+Given /^"([^"]*)" deployment's provider is not accessible$/ do |arg1|
+  # FIXME: didn't find a way how to create an inaccessible provider
+  # cleanly
+  provider = @deployment.provider
+  provider.update_attribute(:url, 'http://localhost:3002/invalid_api')
+end
+
 When /^I am viewing the deployment "([^"]*)"$/ do |arg1|
   visit deployment_url(Deployment.find_by_name(arg1))
 end
