@@ -17,6 +17,7 @@
 class ProvidersController < ApplicationController
   before_filter :require_user
   before_filter :load_providers, :only => [:index, :show, :new, :edit, :create, :update]
+  before_filter :load_providers_types, :only => [:new, :edit]
 
   def index
     @params = params
@@ -233,6 +234,10 @@ class ProvidersController < ApplicationController
     end
 
     return alerts
+  end
+
+  def load_providers_types
+    @provider_types = ProviderType.where(:name => ["Mock","Amazon EC2","RHEV-M","VMware vSphere"]).collect {|provider_type| [provider_type.name,provider_type.id]}
   end
 
   def load_provider_tabs

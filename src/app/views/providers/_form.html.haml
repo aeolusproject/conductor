@@ -9,7 +9,7 @@
     = form.text_field :url, :title => t('providers.form.provider_url'), :value => @provider.url, :class => 'long'
   %p
     = form.label :provider_type, t('providers.form.provider_type')
-    = form.select(:provider_type_id, ProviderType.all.collect {|provider_type| [provider_type.name,provider_type.id] }, :prompt => t('providers.form.select_type_of_provider'))
+    = form.select(:provider_type_id, @provider_types, :prompt => t('providers.form.select_type_of_provider'))
   %p
     = form.label :url, t('providers.form.x_deltacloud_provider')
     = form.text_field :deltacloud_provider, :title => t('providers.form.x_deltacloud_provider'), :value => @provider.deltacloud_provider, :class => 'long'
