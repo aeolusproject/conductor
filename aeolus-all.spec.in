@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	33%{?dist}
+Release:	34%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,23 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Wed Feb 22 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-34
+- f02c06c Enable or disable launch button on deployables show page
+- 3b907e5 BZ 790826 change rebuild_all text depending on context
+- f7b2584 BZ 790826 added additional image build text
+- 482675e BZ 791262 added no_results row if search returns no results
+- 5239c6e BZ 791262 added search.no_results
+- e6faaf5 Added check if there is provider account when adding provider account to poolfamily.
+- b48b6c8 BZ790822 administer section form items alignment fix
+- f48f4d1 BZ#795911 added cancel button to poolfamilies#new
+- 34ab810 BZ790830: "Disable" upload button after it has been pressed on images#show (rebased)
+- d87efb8 BZ#795921 Unsupported provider types are not listed in UI
+- c6db2d0 BZ#790832 Don't filter out stopped instances from list view
+- 5823613 BZ790831 Change and remove out of date text in deployable details page
+- f650e46 BZ788612: fix merge conflict in layout.scss
+- d20ded8 BZ790825: fix view inconsistencies between haml and jquery-template in images#show (rebased)
+- ba7fc27 BZ-795909 Title bar on CloudForms Cloud Engine
+
 * Tue Feb 21 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-33
 - 25ddfb7 Add test for file exists before copy in aeolus-configure.spec.in
 - bb1bb9c Decrease amount of time we keep rotated logs.
