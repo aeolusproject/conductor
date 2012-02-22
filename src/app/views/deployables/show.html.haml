@@ -8,10 +8,11 @@
         = link_to t('.edit'), edit_polymorphic_path([@catalog, @deployable]), :class => 'button', :id => 'edit_button'
         = link_to t('.edit_xml'), edit_polymorphic_path([@catalog, @deployable], :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
 
+    - launch_deployment_button_path = launch_time_params_deployments_path(:deployable_id => @deployable.id, :deployment => { :name => @deployable.name, :pool_id => @catalog.pool })
     - if @catalog.present? && @deployable_errors.empty? && @pushed_count > 0
-      = link_to t('.launch'), launch_time_params_deployments_path(:deployable_id => @deployable.id, :deployment => { :name => @deployable.name, :pool_id => @catalog.pool }), :id => :launch_deployment_button
+      = link_to t('.launch'), launch_deployment_button_path, :id => :launch_deployment_button, :'data-path' => launch_deployment_button_path
     -else
-      %a{:id => :launch_deployment_button, :class => 'disabled'}= t('.launch')
+      %a{:id => :launch_deployment_button, :class => 'disabled', :'data-path' => launch_deployment_button_path}= t('.launch')
 
 
 %section.admin-content-section

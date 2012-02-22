@@ -149,6 +149,22 @@ Conductor.Views.DeployablesShow = Backbone.View.extend({
 
     $builds.empty();
     $('#deployableBuildsTemplate').tmpl(this.model.toJSON()).appendTo($builds);
+
+    // get values of all build results
+    var build_results_values = _.flatten(_.values(this.model.get("build_results")));
+    var enable_launch_button = _.any(build_results_values, function(build_results){
+      return build_results.status === "pushed";
+    });
+
+    // toggle "disabled" class
+    $("#launch_deployment_button").toggleClass("disabled", !enable_launch_button);
+    // create or remove href attribute with value from data-path
+    if(enable_launch_button) {
+      $("#launch_deployment_button").attr("href", $("#launch_deployment_button").data("path"));
+    }
+    else{
+      $("#launch_deployment_button").removeAttr("href");
+    }
   }
 });
 
