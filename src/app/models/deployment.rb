@@ -171,6 +171,18 @@ class Deployment < ActiveRecord::Base
     end
   end
 
+  def self.stoppable_inaccessible_instances(deployments)
+    failed_accounts = {}
+    res = []
+    deployments.each do |d|
+      next unless acc = d.provider_account
+      failed_accounts[acc.id] = acc.connect.nil? unless failed_accounts.has_key?(acc.id)
+      next unless failed_accounts[acc.id]
+      res += d.instances.stoppable_inaccessible
+    end
+    res
+  end
+
   def launch_parameters
     @launch_parameters ||= {}
   end
@@ -327,6 +339,11 @@ class Deployment < ActiveRecord::Base
   def provider
     inst = instances.joins(:provider_account => :provider).first
     inst && inst.provider_account && inst.provider_account.provider
+  end
+
+  def provider_account
+    inst = instances.joins(:provider_account).first
+    inst && inst.provider_account
   end
 
   # we try to create an instance for each assembly and check

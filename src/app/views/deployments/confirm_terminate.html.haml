@@ -1,0 +1,16 @@
+%header.page-header
+  %h1{:class => controller.controller_name}= t "instances.confirm_terminate.terminate_instances"
+  .corner &nbsp;
+
+%section.content-section
+  .content.confirm_instances_termination
+    .align-center
+      %strong= t('instances.confirm_terminate.terminate_instances_description')
+    = form_tag multi_stop_deployments_path, :method => :post do
+      - @deployments_to_stop.each do |i|
+        = hidden_field_tag 'deployments_selected[]', i.id
+      %ul
+        - @inaccessible_instances.each do |i|
+          %li= i.name
+      = link_to t('cancel'), pools_path(:view => 'filter', :details_tab => 'deployments'), :class => 'button'
+      = submit_tag t('instances.confirm_terminate.terminate'), :name => 'terminate', :class => 'button', :id => 'terminate_button'

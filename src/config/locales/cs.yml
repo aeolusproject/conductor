@@ -476,7 +476,6 @@ cs:
       invalid_state: okhbeh kigib bog mhknokdmj klonm kcolb ndjhmhk neafi
       no_config_server_available: "%{account_name}: ae hmenoo lidmgk mboinakkm boc cnfcjbli abicnag"
       user_quota_reached: kone bdgjo kbggdbl
-      stop_not_be_performed: cdim lfnggh nk ogldenhne gk mhde makmngjfl
       provider_account_quota_too_low: "%{match_provider_account} ifcjl omcdh lkm dke gi gkcomo efehjbfgnl"
       provider_account_quota_reached: "%{account_name}: boefladm ebbjhmd caidj klmghik"
       image_not_pushed_to_provider: "%{account_name}: ofeif km fef minkbc gc bcei gncmokeo hgeickk"

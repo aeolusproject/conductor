@@ -82,6 +82,18 @@ Feature: Manage Deployments
     And I press "stop_button"
     Then I should see "testdeployment"
 
+  Scenario: Stop inaccessible deployments
+    Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
+    And "testdeployment" deployment's provider is not accessible
+    When I go to the deployments page
+    Then I should see "testdeployment"
+    When I check "testdeployment" deployment
+    And I press "stop_button"
+    Then I should see "Terminate Instances"
+    When I press "terminate_button"
+    Then I should see "state changed to stopped"
+
+
   Scenario: Stop a deployment over XHR
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
     And I request XHR
