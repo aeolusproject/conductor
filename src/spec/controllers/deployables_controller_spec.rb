@@ -123,6 +123,8 @@ describe DeployablesController do
       before do
         @deployable1 = Factory :deployable, :name => "test_delete"
         @deployable2 = Factory :deployable, :name => "test_delete2"
+        @catalog.deployables << @deployable1
+        @catalog.deployables << @deployable2
       end
 
       it "deletes both deployables and shows flash notice" do
@@ -131,16 +133,23 @@ describe DeployablesController do
       end
 
       it "not delete deployable1 but not deployable2 and shows flash notice and error" do
-        Deployable.any_instance.stub(:destroy).and_return(false)
-        delete :multi_destroy, :deployables_selected => [@deployable1.id, @deployable2.id]
+        CatalogEntry.any_instance.stub(:destroy).and_return(false)
+        delete :multi_destroy, :deployables_selected => [@deployable1.id, @deployable2.id], :catalog_id => @catalog.id
         flash[:error].should_not be_empty
       end
-    end
 
-    context "without params[:deployables_selected]" do
-      it "not delete a deployable and shows flash error" do
-        delete :multi_destroy
-        flash[:error].should_not be_empty
+      it "not delete deployable with multiple catalogs" do
+        @catalog2 = FactoryGirl.create(:catalog)
+        @catalog2.deployables << @deployable1
+        delete :multi_destroy, :deployables_selected => [@deployable1.id], :catalog_id => @catalog.id
+        @deployable1.should_not be_nil
+      end
+
+      context "without params[:deployables_selected]" do
+        it "not delete a deployable and shows flash error" do
+          delete :multi_destroy, :catalog_id => @catalog.id
+          flash[:error].should_not be_empty
+        end
       end
     end
   end
