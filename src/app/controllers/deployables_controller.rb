@@ -188,10 +188,13 @@ class DeployablesController < ApplicationController
     deleted = []
     not_deleted = []
     not_deleted_perms = []
+
+    @catalog = Catalog.find(params[:catalog_id])
+
     if params[:deployables_selected]
       Deployable.find(params[:deployables_selected]).to_a.each do |d|
         if check_privilege(Privilege::MODIFY, d)
-          if d.destroy
+          if d.catalog_entries.where(:catalog_id => @catalog.id).first.destroy
             deleted << d.name
           else
             not_deleted << d.name
@@ -211,7 +214,6 @@ class DeployablesController < ApplicationController
       flash[:error] = t("deployables.flash.error.not_selected")
     end
 
-    @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
     if @catalog.present?
       redirect_to catalog_path(@catalog)
     else

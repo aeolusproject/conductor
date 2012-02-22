@@ -22,7 +22,7 @@
 
   .content
     - content_for :form_header do
-      %li= restful_submit_tag t("delete"), "destroy", multi_destroy_catalog_deployables_path(@catalog), 'DELETE', :id => 'delete_button', :class => 'button danger'
+      %li= restful_submit_tag t("remove"), "destroy", multi_destroy_catalog_deployables_path(@catalog), 'DELETE', :id => 'delete_button', :class => 'button danger'
       - if check_privilege(Privilege::CREATE, Deployable)
         %li= link_to t("catalog_entries.new_catalog_entry"), new_catalog_deployable_path(@catalog), :class => 'button', :id => 'new_deployable_button'
 

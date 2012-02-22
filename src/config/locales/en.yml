@@ -914,11 +914,11 @@ en:
         attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"
         no_catalog: "No catalogs selected"
         not_deleted:
-          one: "Deployable %{not_deleted} delete failed!"
-          other: "%{count} deployables %{not_deleted} were not deleted!"
+          one: "Deployable %{not_deleted} removal failed!"
+          other: "%{count} deployables %{not_deleted} were not removed!"
         not_deleted_perms:
-          one: "Insufficient permissions to delete deployable %{not_deleted}!"
-          other: "Insufficient permissions to delete %{count} deployables %{not_deleted}!"
+          one: "Insufficient permissions to remove deployable %{not_deleted}!"
+          other: "Insufficient permissions to remove %{count} deployables %{not_deleted}!"
         not_selected: "No deployable was selected!"
         no_catalog_exists: "No catalog exists! Please create one."
         no_hwp_exists: "No hardware profile exists! Please create one."
@@ -928,8 +928,8 @@ en:
         failed: "Deployable was not created: %{message}"
       notice:
         deleted:
-          one: "Deployable %{deleted} delete successfully!"
-          other: "%{count} deployables %{deleted} were deleted!"
+          one: "Deployable %{deleted} removed successfully!"
+          other: "%{count} deployables %{deleted} were removed!"
     error:
       attribute_not_exists: invalid
       hwp_not_exists: "Hardware profile %{name} specified in XML doesn't exist."

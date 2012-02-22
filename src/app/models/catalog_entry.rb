@@ -35,10 +35,10 @@ class CatalogEntry < ActiveRecord::Base
 
   validates_uniqueness_of :catalog_id, :scope => [:deployable_id]
 
-  before_destroy :check_deployable_references
+  after_destroy :destroy_deployable_if_last
 
-  def check_deployable_references
-    return deployable.catalogs.count > 1
+  def destroy_deployable_if_last
+    deployable.destroy if deployable.catalog_entries.blank?
   end
 
   # This probably goes away once we separate catalog entry creation from deployables
