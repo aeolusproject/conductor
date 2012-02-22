@@ -1,6 +1,6 @@
 Name:		aeolus-all
 Version:	@VERSION@
-Release:	34%{?dist}
+Release:	35%{?dist}
 Summary:	A meta-package to pull in all components for Aeolus
 
 Group:		Applications/Internet
@@ -38,6 +38,17 @@ run aeolus-configure to configure everything.
 %post
 
 %changelog
+* Wed Feb 22 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-35
+- 1296bf8 BZ 790820 remove unsupported cloud provider types
+- 16e2b95 BZ#790434 Check unique assembly names on deployable xml
+- 7b55f8c BZ 770716 added table.properties_table for Andy Fitzsimon
+- 2379431 BZ #790434: Product name override
+- 67da4c6 BZ796098 Fix UI inconsistencies
+- 786c287 BZ #795794 - Don't delete :vanished instances
+- 0e38628 BZ #795891 - Deployment should not show "running" with no instances
+- 9a7e2a8 BZ #795794 - Display a saner error message if launch fails.
+- d79165f BZ 788558 - allow terminate inaccessible instances on 'stop' action
+
 * Wed Feb 22 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-34
 - f02c06c Enable or disable launch button on deployables show page
 - 3b907e5 BZ 790826 change rebuild_all text depending on context
