@@ -179,7 +179,9 @@ for filetype in builder css feature gif haml html ico jpg js json key opts png \
 
     for dir in $dirs; do
         %{__mkdir} -p %{buildroot}%{app_root}/$dir
-        %{__cp} src/$dir/*.$filetype %{buildroot}%{app_root}/$dir
+	for i in $(echo src/$dir/*.$filetype); do
+            test -e "$i" && %{__cp} "$i" %{buildroot}%{app_root}/$dir
+        done
     done
 done
 %{__rm} %{buildroot}%{app_root}/config/initializers/secret_token.rb

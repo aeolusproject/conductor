@@ -1,5 +1,5 @@
 weekly
-rotate 52
+rotate 4
 compress
 missingok
 notifempty
@@ -15,12 +15,5 @@ notifempty
   sharedscripts
   postrotate
       /etc/init.d/conductor-dbomatic restart
-  endscript
-}
-
-/var/log/aeolus-conductor/warehouse_sync.log {
-  sharedscripts
-  postrotate
-      /etc/init.d/conductor-warehouse_sync restart
   endscript
 }
