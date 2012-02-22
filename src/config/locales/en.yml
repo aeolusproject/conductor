@@ -773,6 +773,7 @@ en:
       failed_push_attempts:
         one: '1 failed push attempt'
         other: '%{count} failed push attempts'
+      push_started: 'Push is about to start'
     flash:
       notice:
         deleted: Image Deleted
