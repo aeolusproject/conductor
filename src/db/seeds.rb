@@ -151,11 +151,7 @@ end
 if ProviderType.all.empty?
   ProviderType.create!(:name => "Mock", :deltacloud_driver =>"mock")
   ProviderType.create!(:name => "Amazon EC2", :deltacloud_driver =>"ec2", :ssh_user => "root", :home_dir => "/root")
-  ProviderType.create!(:name => "GoGrid", :deltacloud_driver =>"gogrid")
-  ProviderType.create!(:name => "Rackspace", :deltacloud_driver =>"rackspace")
   ProviderType.create!(:name => "RHEV-M", :deltacloud_driver =>"rhevm")
-  ProviderType.create!(:name => "OpenNebula", :deltacloud_driver =>"opennebula")
-  ProviderType.create!(:name => "Condor Cloud", :deltacloud_driver =>"condor")
   ProviderType.create!(:name => "VMware vSphere", :deltacloud_driver =>"vsphere")
 end
 
