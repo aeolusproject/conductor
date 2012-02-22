@@ -185,7 +185,7 @@ class DeploymentsController < ApplicationController
     @failed_instances = @deployment.failed_instances
     if filter_view?
       @view = 'instances/list'
-      params[:instances_preset_filter] = "other_than_stopped" unless params[:instances_preset_filter]
+      params[:instances_preset_filter] = "" unless params[:instances_preset_filter]
       @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list(sort_column(Instance), sort_direction).where("instances.deployment_id" => @deployment.id)
     else
       @view = 'pretty_view_show'

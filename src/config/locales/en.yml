@@ -8,6 +8,8 @@ en:
       x_hours:
         one: 1 hour
         other: %{count} hours
+  search:
+    no_results: "No matching results."
   users:
     users: "Users"
     return_to: "Return to:"
@@ -636,6 +638,7 @@ en:
         provider_accounts_not_removed: "Could not remove these Provider Accounts"
         select_to_add_accounts: "You must select at least one Provider Account to add."
         select_to_remove_accounts: "You must select at least one Provider Account to remove."
+        no_provider_accounts: "There are no provider accounts available."
   catalog_entries:
     new_catalog_entry: New Deployable
     index:
@@ -753,6 +756,8 @@ en:
       new_deployable_from_image: "New Deployable from Image"
       view_build: View build
       rebuild_all: Rebuild All
+      build_all: Build All
+      rebuild: Rebuild
       build: Build
       delete: Delete
       account: Account
@@ -773,6 +778,7 @@ en:
       failed_push_attempts:
         one: '1 failed push attempt'
         other: '%{count} failed push attempts'
+      push_started: 'Push is about to start'
     flash:
       notice:
         deleted: Image Deleted
@@ -857,7 +863,7 @@ en:
       edit: Edit
       edit_xml: Edit XML
       delete: Delete
-      build: Build
+      build_status: "Build Status"
       start: Start
       rebuild_all: Build missing images
       push_all: Push missing images
@@ -871,9 +877,6 @@ en:
       arch: ARCH
       repair_images: Repair Images
       images_valid: Images Valid
-      build_description:
-        "Allow this deployable's associated image(s) to be built and
-        pushed to cloud resource providers by enabling them below."
       catalog_name: Catalog name
       environment: Environment
       build_statuses_descriptions:
