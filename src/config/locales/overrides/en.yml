@@ -255,7 +255,8 @@ en:
       warning:
         not_valid_or_reachable: Application Blueprint XML file is either invalid or no longer reachable at
         no_url_provided: "No URL provided for the application blueprint XML file."
-        not_valid: "Application Blueprint url doesn't resolve valid XML file"
+        not_valid: "Application Blueprint XML file doesn't resolve valid XML file"
+        not_valid_duplicate_assembly_names: "Application Blueprint XML must contain unique assembly names"
         failed: Application Blueprint was not created.
       notice:
         added: Application Blueprint added to catalog %{catalog}.
