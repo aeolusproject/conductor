@@ -456,3 +456,5 @@ en:
     deployables: Application Blueprints
     deployments: Applications
   provider_realms: Provider Cloud Resource Clusters
+  layout:
+    appname: CloudForms Cloud Engine
