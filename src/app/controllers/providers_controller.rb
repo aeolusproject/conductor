@@ -46,6 +46,7 @@ class ProvidersController < ApplicationController
     require_privilege(Privilege::CREATE, Provider)
     @provider = Provider.new
     @provider.url = Provider::DEFAULT_DELTACLOUD_URL
+    @provider.provider_type = ProviderType.find_by_deltacloud_driver('ec2')
     @title = t("providers.new.new_provider")
   end
 
@@ -237,7 +238,19 @@ class ProvidersController < ApplicationController
   end
 
   def load_providers_types
-    @provider_types = ProviderType.where(:name => ["Mock","Amazon EC2","RHEV-M","VMware vSphere"]).collect {|provider_type| [provider_type.name,provider_type.id]}
+    available_providers = ["Mock","Amazon EC2","RHEV-M","VMware vSphere"]
+    provider_types = ProviderType.where(:name => available_providers).map do |type|
+      begin
+        label = I18n.translate!("providers.form.x_deltacloud_provider.#{type.deltacloud_driver}")
+      rescue
+      end
+
+      { :id => type.id,
+        :label => label,
+        :name => type.name }
+    end
+    @labeled_provider_types = provider_types.select {|type| type[:label]}
+    @provider_type_options = provider_types.map {|type| [type[:name], type[:id]]}
   end
 
   def load_provider_tabs
