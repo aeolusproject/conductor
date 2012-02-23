@@ -8,7 +8,7 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
     if ($('form.filterable-data').length > 0) {
       return 'table'
     }
-    else if ($('.deployment-array').length > 0) {
+    else if ($('#pools-list').length > 0) {
       return 'pretty'
     }
   },
