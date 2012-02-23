@@ -213,7 +213,7 @@ class ImagesController < ApplicationController
       url = params[:image_url]
       begin
         xml_source = RestClient.get(url, :accept => :xml)
-      rescue RestClient::Exception, SocketError, URI::InvalidURIError, Errno::ECONNREFUSED
+      rescue RestClient::Exception, SocketError, URI::InvalidURIError, Errno::ECONNREFUSED, Errno::ETIMEDOUT
         flash.now[:error] = t('images.flash.error.invalid_url')
         render :new and return
       end
