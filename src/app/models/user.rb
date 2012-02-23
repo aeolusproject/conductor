@@ -66,6 +66,8 @@ class User < ActiveRecord::Base
   belongs_to :quota, :autosave => true, :dependent => :destroy
   accepts_nested_attributes_for :quota
 
+  before_validation :strip_whitespace
+
   validates_presence_of :quota
   validates_length_of :first_name, :maximum => 255, :allow_blank => true
   validates_length_of :last_name,  :maximum => 255, :allow_blank => true
@@ -90,6 +92,7 @@ class User < ActiveRecord::Base
   end
 
   def self.authenticate(username, password, ipaddress)
+    username = username.strip unless username.nil?
     return unless u = User.find_by_login(username)
     # FIXME: this is because of tests - encrypted password is submitted,
     # don't know how to get unencrypted version (from factorygirl)
@@ -154,4 +157,7 @@ class User < ActiveRecord::Base
     raise I18n.t('users.errors.has_running_instances', :login => login) if deployments.any?{ |deployment| deployment.any_instance_running? }
   end
 
+  def strip_whitespace
+    self.login = self.login.strip unless self.login.nil?
+  end
 end
