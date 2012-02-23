@@ -27,8 +27,7 @@ class Image
     xml ||= "<image><name>#{img.name}</name></image>" if img.name.present?
     provider = provider_account.provider
     account_id = provider_account.credentials_hash['username']
-    image = Aeolus::Image.import(provider.name, provider.provider_type.deltacloud_driver, image_id, account_id, xml)
-    image.set_attr("environment", environment.name)
+    image = Aeolus::Image.import(provider.name, provider.provider_type.deltacloud_driver, image_id, account_id, environment.name, xml)
     image
   end
 end
