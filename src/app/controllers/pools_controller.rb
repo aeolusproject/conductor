@@ -105,7 +105,7 @@ class PoolsController < ApplicationController
     respond_to do |format|
       format.html { render :action => :show}
       format.js { render :partial => @view }
-      format.json { render :json => @pool.as_json(:with_deployments => true) }
+      format.json { render :json => @pool.as_json(:with_deployments => true, :current_user => current_user) }
     end
   end
 
