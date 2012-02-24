@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  35%{?dist}
+Release:  36%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -362,6 +362,13 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Thu Feb 23 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-36
+- 40bb3e9 Bug 796783: fixes lingering errors w/ image import
+- 00f79de BZ 790828 change 'upload' text to 'push'
+- 11b5ebd Added French dictionary
+- f36474d BZ 796805 - Merge aeolus-all into aeolus-conductor
+- b1ac316 Removed config/database.yml.0 which was added accidentally
+
 * Wed Feb 22 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-35
 - 1296bf8 BZ 790820 remove unsupported cloud provider types
 - 16e2b95 BZ#790434 Check unique assembly names on deployable xml
