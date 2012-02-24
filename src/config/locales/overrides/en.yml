@@ -278,7 +278,7 @@ en:
   images:
     environment: %{environment} Cloud
     import:
-      import_image: Import Component Outline
+      import_image: Import Image
       image_id: Component Outline ID
       name: Component Outline Name
       image_imported: The component outline was imported successfully.
