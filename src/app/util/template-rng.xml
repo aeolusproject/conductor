@@ -1,5 +1,16 @@
 <?xml version="1.0"?>
-<!-- A Relax NG schema for the TDL (template description language) format -->
+<!-- A Relax NG schema for the TDL (template description language) format
+
+#### Important Note
+##
+## This Schema is cloned from the upstream project Oz, it is modified to handle extra content validation.  Please
+## do not use this schema for generating TDL templates, it is likely to change to coincide project specific requirements.
+## Always use the tdl.rng proper defined in the Oz project.
+##
+## The Oz project can be found here: https://github.com/clalancette/oz
+####
+
+-->
 <grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <start>
     <ref name='template'/>
@@ -19,7 +30,39 @@
         <element name='os'>
           <interleave>
             <element name='name'>
-              <text/>
+              <choice>
+                <value>Fedora</value>
+                <value>FedoraCore</value>
+                <value>FC</value>
+                <value>RedHatEnterpriseLinux-2.1</value>
+                <value>RHEL-2.1</value>
+                <value>RedHatEnterpriseLinux-3</value>
+                <value>RHEL-3</value>
+                <value>CentOS-3</value>
+                <value>RedHatEnterpriseLinux-4</value>
+                <value>RHEL-4</value>
+                <value>CentOS-4</value>
+                <value>ScientificLinux-4</value>
+                <value>SL-4</value>
+                <value>RedHatEnterpriseLinux-5</value>
+                <value>RHEL-5</value>
+                <value>CentOS-5</value>
+                <value>ScientificLinux-5</value>
+                <value>SL-5</value>
+                <value>RedHatEnterpriseLinux-6</value>
+                <value>RHEL-6</value>
+                <value>CentOS-6</value>
+                <value>ScientificLinux-6</value>
+                <value>SL-6</value>
+                <value>OracleEnterpriseLinux-6</value>
+                <value>OEL-6</value>
+                <value>Ubuntu</value>
+                <value>Windows</value>
+                <value>RedHatLinux</value>
+                <value>RHL</value>
+                <value>OpenSUSE</value>
+                <value>Debian</value>
+              </choice>
             </element>
             <element name='version'>
               <text/>
