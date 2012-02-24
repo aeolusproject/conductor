@@ -95,6 +95,33 @@ Requires: rubygem(launchy)
 %description devel
 Tests and other development tools for the Aeolus Conductor.
 
+%package -n aeolus-all
+Summary:  A meta-package to pull in all components for Aeolus
+Group:    Applications/Internet
+Requires: aeolus-conductor-daemons = %{version}-%{release}
+Requires: aeolus-conductor-doc = %{version}-%{release}
+Requires: iwhd
+Requires: aeolus-configure
+Requires: imagefactory
+Requires: imagefactory-jeosconf-ec2-fedora
+Requires: imagefactory-jeosconf-ec2-rhel
+Requires: qpid-cpp-server
+Requires: rubygem(aeolus-image)
+Requires: rubygem(aeolus-cli)
+Requires: mongodb-server
+Requires: mod_ssl
+Requires: deltacloud-core
+Requires: deltacloud-core-ec2
+Requires: deltacloud-core-rhevm
+Requires: deltacloud-core-vsphere
+Requires: ntp
+Requires: rsyslog-relp
+
+%description -n aeolus-all
+This is the aeolus meta-package.  If you want to install aeolus and all of its
+dependencies on a single machine, you should install this package and then
+run aeolus-configure to configure everything.
+
 %prep
 %setup -q
 
@@ -331,6 +358,8 @@ fi
 %{app_root}/features
 %{app_root}/script
 %{app_root}/spec
+
+%files -n aeolus-all
 
 %changelog
 * Wed Feb 22 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-35

@@ -42,7 +42,6 @@ endif
 
 dist:
 	sed -e "s|@VERSION@|$(VERSION)|;s|^\(Release:[^%]*\)|\1$(EXTRA_RELEASE)|" aeolus-conductor.spec.in > aeolus-conductor.spec
-	sed -e "s|@VERSION@|$(VERSION)|;s|^\(Release:[^%]*\)|\1$(EXTRA_RELEASE)|" aeolus-all.spec.in > aeolus-all.spec
 
 	mkdir -p dist/aeolus-conductor-$(VERSION)
 	cp -a aeolus-conductor.spec AUTHORS conf COPYING Makefile src \
@@ -52,7 +51,6 @@ dist:
 
 rpms: dist
 	rpmbuild $(RPM_FLAGS) -ta aeolus-conductor-$(VERSION).tar.gz
-	rpmbuild $(RPM_FLAGS) -ba aeolus-all.spec
 
 srpms: dist
 	rpmbuild $(RPM_FLAGS) -ts aeolus-conductor-$(VERSION).tar.gz
@@ -67,6 +65,6 @@ genlangs:
 	cd src && rake updatepo && rake makemo
 
 clean:
-	rm -rf dist aeolus-conductor-$(VERSION).tar.gz aeolus-all.spec aeolus-conductor.spec
+	rm -rf dist aeolus-conductor-$(VERSION).tar.gz aeolus-conductor.spec
 
 .PHONY: dist rpms publish srpms genlangs

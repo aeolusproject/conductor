@@ -50,7 +50,7 @@ class ImagesController < ApplicationController
         type = provider.provider_type
         acct = ProviderAccount.enabled.find_by_provider_name_and_login(provider.name, pimg.provider_account_identifier)
         raise unless acct
-        @account_groups = {type.deltacloud_driver => {:type => type, :accounts => [[acct,@environment.provider_accounts.include?(acct)]]}}
+        @account_groups = {type.deltacloud_driver => {:type => type, :accounts => [{:account => acct,:included => @environment.provider_accounts.include?(acct)}]}}
       rescue Exception => e
         @account_groups = ProviderAccount.enabled.group_by_type(@environment)
       end
