@@ -16,7 +16,7 @@
 
 class InstancesController < ApplicationController
   before_filter :require_user
-  before_filter :load_instance, :only => [:show, :key, :edit, :update]
+  before_filter :load_instance, :only => [:show, :key, :edit, :update, :stop, :reboot]
   before_filter :set_view_vars, :only => [:show, :index, :export_events]
   before_filter :check_inaccessible_instances, :only => :multi_stop
 
@@ -176,11 +176,11 @@ class InstancesController < ApplicationController
   end
 
   def stop
-    do_operation(current_user, :stop)
+    do_operation(:stop)
   end
 
   def reboot
-    do_operation(current_user, :reboot)
+    do_operation(:reboot)
   end
 
   def multi_reboot
@@ -261,5 +261,17 @@ class InstancesController < ApplicationController
       return false
     end
     return true
+  end
+
+  def do_operation(operation)
+    begin
+      @instance.send(operation, current_user)
+      flash[:notice] = t("instances.flash.notice.#{operation}", :name => @instance.name)
+    rescue Exception => err
+      flash[:error] = t("instances.flash.error.#{operation}", :name => @instance.name, :err => err)
+    end
+    respond_to do |format|
+      format.html { redirect_to deployment_path(@instance.deployment, :details_tab => 'instances') }
+    end
   end
 end
