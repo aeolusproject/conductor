@@ -8,7 +8,7 @@
 .deployable_details {
   color: #606060;
   position: relative;
-  max-width: 500px;
+  width: 500px;
   margin: auto;
   background: url(../../images/launch-deployment-icon.png) no-repeat right 75%;
 
@@ -17,6 +17,7 @@
     margin-bottom: 3em;
 
     h2 {
+      width: 400px;
       font-size: 28px;
       font-weight: normal;
       text-align: center;
@@ -28,6 +29,7 @@
       font-size: 13px;
       margin-left: 50px;
       margin-right: 50px;
+      word-wrap: break-word;
     }
   }
 
