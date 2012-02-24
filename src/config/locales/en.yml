@@ -358,7 +358,8 @@ en:
         not_deleted:
           one: "The instance %{list} could not be deleted."
           other: "The instances %{list} could not be deleted."
-        not_rebooted: "The instance %{name} was not rebooted because %{err}"
+        reboot: "The instance %{name} was not rebooted because %{err}"
+        stop: "The instance %{name} was not stopped because %{err}"
       success:
         updated:
           one: "The instance %{list} was successfully updated."
