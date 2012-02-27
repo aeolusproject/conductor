@@ -1,0 +1,31 @@
+en:
+  role_defs:
+    base:
+      deployable:
+        admin: Global Application Blueprint Administrator
+        user: Global Application Blueprint User
+      hwp:
+        admin: Global Profile Administrator
+        user: Global Profile User
+      pool:
+        admin: Global Zone Administrator
+        creator: Global Zone Creator
+        user: Global Zone User
+      realm:
+        admin: Global Cluster Administrator
+    deployable:
+      owner: Application Blueprint Owner
+      user: Application Blueprint User
+    deployment:
+      owner: Application Owner
+      user: Application User
+    pool:
+      admin: Zone Administrator
+      deployable:
+       admin: Zone Application Blueprint Admin
+      user: Zone User
+    pool_family:
+      admin: Cloud Administrator
+      image:
+        admin: Cloud Image Administrator
+      user: Cloud User
