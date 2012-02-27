@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  36%{?dist}
+Release:  37%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -362,6 +362,13 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Mon Feb 27 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-37
+- 5a587b0 BZ 797254 - Quick fix for failure to stop/reboot instances
+- 7b1fc8e BZ 789833 strip login/username whitespace
+- 6636b93 Fix Conductor.Views.PoolsIndex in case no deployment rendered
+- 6e3a2a3 Adding persmission filter when displaying deployment
+- 4419638 Added Japanese dictionary
+
 * Thu Feb 23 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-36
 - 40bb3e9 Bug 796783: fixes lingering errors w/ image import
 - 00f79de BZ 790828 change 'upload' text to 'push'
