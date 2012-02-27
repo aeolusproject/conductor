@@ -109,7 +109,7 @@
                                 - failed_push_count = @builder.failed_push_count(timg.id, account.provider.name, account.credentials_hash['username'])
                                 - if failed_push_count > 0
                                   = t('images.show.failed_push_attempts', :count => failed_push_count)
-                            - elsif pimg
+                            - elsif pimg and not @image.imported?
                               = button_to "", image_provider_image_path(@image.id, pimg.id), :method => :delete, :class => 'delete_image'
                             - else
                               &nbsp;
