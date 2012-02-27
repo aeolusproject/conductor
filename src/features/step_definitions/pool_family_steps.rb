@@ -28,6 +28,11 @@ Given /^there is a pool family named "([^\"]*)"$/ do |name|
   @pool_family = FactoryGirl.create(:pool_family, :name => name)
 end
 
+Given /^there is a pool family named "([^\"]*)" with a pool named "([^\"]*)"$/ do |pool_family, pool|
+  @pool_family = FactoryGirl.create(:pool_family, :name => pool_family)
+  @pool = FactoryGirl.create(:pool, :name => pool, :pool_family => @pool_family)
+end
+
 Given /^there is not a pool family named "([^"]*)"$/ do |name|
   pool_family = PoolFamily.find_by_name(name)
   if pool_family then pool_family.destroy end

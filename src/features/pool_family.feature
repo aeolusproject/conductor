@@ -30,7 +30,7 @@ Feature: Pool Families
   Scenario: Show pool family details
     Given I am an authorised user
     And I am logged in
-    And there is a pool family named "testpoolfamily"
+    And there is a pool family named "testpoolfamily" with a pool named "bob"
     And I am on the pool families page
     When I follow "testpoolfamily"
     Then I should be on the page for the pool family "testpoolfamily"
@@ -54,7 +54,7 @@ Feature: Pool Families
     Given I am an authorised user
     And I am logged in
     And I am on the homepage
-    And there is a pool family named "poolfamily1"
+    And there is a pool family named "poolfamily1" with a pool named "carl"
     When I go to the pool families page
     And I follow "poolfamily1"
     And I press "delete_pool_family_button"
