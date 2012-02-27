@@ -3408,13 +3408,6 @@ body.monitor form.generic{
     font-size: 13px;
   }
 
-  body.administer input[type="text"],input[type="password"]{
-    border: 1px solid #C4C4C4;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.50);
-    -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
-    -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
-  }
-
   input.em{
     font-size: 16px;
     padding: 6px 4px;
@@ -3426,6 +3419,14 @@ body.monitor form.generic{
 
   input.short{
     width: 100px;
+  }
+
+  textarea{
+    padding: 5px 4px;
+    margin: 2px 0px;
+    height: 100px;
+
+    &.long{ width: 400px }
   }
 }
 
