@@ -1,9 +1,10 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  #obj_actions
-    .return_to
-      =t'return_to'
-      = link_to t('users.users'), users_path
+  - if check_privilege(Privilege::VIEW, User)
+    #obj_actions
+      .return_to
+        =t'return_to'
+        = link_to t('users.users'), users_path
 
 %section.admin-content-section.user
   .content
