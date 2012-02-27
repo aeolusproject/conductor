@@ -2,7 +2,7 @@
   %h2=t 'pools.index.your_pools'
   %span.label.badge.dark.count= @pools.length
 
-.content
+.content#pools-list
   - @pools.each do |pool|
     %div.pool.overview{:id => ['pool', pool.id], :class => ('collapsed' unless pool.deployments.count > 0)}
       %header
