@@ -17,7 +17,7 @@
 class ProvidersController < ApplicationController
   before_filter :require_user
   before_filter :load_providers, :only => [:index, :show, :new, :edit, :create, :update]
-  before_filter :load_providers_types, :only => [:new, :edit]
+  before_filter :load_providers_types, :only => [:new, :edit, :update, :create]
 
   def index
     @params = params
@@ -130,6 +130,7 @@ class ProvidersController < ApplicationController
     end
 
     if @provider.save
+      @provider.update_availability
       flash[:notice] = t"providers.flash.notice.updated"
       redirect_to edit_provider_path(@provider)
     else
@@ -167,7 +168,7 @@ class ProvidersController < ApplicationController
 
   def test_connection(provider)
     @provider.errors.clear
-    if @provider.connect
+    if @provider.update_availability
       flash.now[:notice] = t"providers.flash.notice.connected"
     else
       flash.now[:warning] = t"providers.flash.warning.connect_failed"
