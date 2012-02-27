@@ -276,7 +276,7 @@ en:
     preset_filters:
       belongs_to_default_pool: "Belongs to Default Cloud Resource Zone"
   images:
-    environment: %{environment} Cloud
+    environment: "Cloud:"
     import:
       import_image: Import Image
       image_id: Component Outline ID
