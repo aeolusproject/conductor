@@ -173,12 +173,12 @@ Feature: Manage Pools
     And I follow "details_instances"
     And I should see "mock1"
     And I should see "mock2"
-    And I should not see "mock3"
-    When I select "" from "instances_preset_filter"
+    And I should see "mock3"
+    When I select "Non-stopped Instances" from "instances_preset_filter"
     And I press "apply_instances_preset_filter"
     And I should see "mock1"
     And I should see "mock2"
-    And I should see "mock3"
+    And I should not see "mock3"
 
   Scenario: Select Catalog Images on pool detail page
     Given a pool "mockpool" exists
