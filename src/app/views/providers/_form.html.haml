@@ -8,8 +8,24 @@
     = form.label :url, t('providers.form.provider_url')
     = form.text_field :url, :title => t('providers.form.provider_url'), :value => @provider.url, :class => 'long'
   %p
-    = form.label :provider_type, t('providers.form.provider_type')
-    = form.select(:provider_type_id, @provider_types, :prompt => t('providers.form.select_type_of_provider'))
+    = form.label :provider_type_id, t('providers.form.provider_type')
+    = form.select(:provider_type_id, @provider_type_options, :prompt => t('providers.form.select_type_of_provider'))
   %p
-    = form.label :url, t('providers.form.x_deltacloud_provider')
-    = form.text_field :deltacloud_provider, :title => t('providers.form.x_deltacloud_provider'), :value => @provider.deltacloud_provider, :class => 'long'
+    = form.label :deltacloud_provider, t('providers.form.x_deltacloud_provider.generic')
+    = form.text_field :deltacloud_provider, :title => t('providers.form.x_deltacloud_provider.generic'), :value => @provider.deltacloud_provider, :class => 'long'
+  %div#x-deltacloud-provider-legend.clearfix
+    %label= t('providers.form.x_deltacloud_provider_legend')
+    %dl
+      - @labeled_provider_types.each do |type|
+        %dt= type[:name]
+        %dd{ :class => type[:id] }= type[:label]
+:javascript
+  function updateXDeltacloudProviderLabel() {
+    var selected_id = $('#provider_provider_type_id option:selected').val();
+    var label = $('#x-deltacloud-provider-legend .' + selected_id).text();
+    $('label[for=provider_deltacloud_provider]').text(label);
+    $('#provider_deltacloud_provider').toggle(label.length !== 0);
+  }
+  $('#provider_provider_type_id').change(updateXDeltacloudProviderLabel);
+  updateXDeltacloudProviderLabel();
+  $('#x-deltacloud-provider-legend').hide();

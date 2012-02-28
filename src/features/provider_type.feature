@@ -14,10 +14,6 @@ Feature: Manage Providers
     And there should be these provider types:
     | name         | deltacloud_driver    |
     | Mock         | mock                 |
-    | GoGrid       | gogrid               |
-    | Rackspace    | rackspace            |
-    | OpenNebula   | opennebula           |
     | Amazon EC2   | ec2                  |
     | RHEV-M       | rhevm                |
-    | Condor Cloud   | condor             |
     | VMware vSphere | vsphere            |
