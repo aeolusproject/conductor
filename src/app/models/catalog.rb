@@ -32,6 +32,7 @@ class Catalog < ActiveRecord::Base
   include PermissionedObject
 
   belongs_to :pool
+  belongs_to :pool_family
   has_many :catalog_entries, :dependent => :destroy
   has_many :deployables, :through => :catalog_entries
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
@@ -39,11 +40,33 @@ class Catalog < ActiveRecord::Base
            :order => "permissions.id ASC"
 
   before_destroy :destroy_deployables_related_only_to_self
+  before_create :set_pool_family
 
   validates_presence_of :pool
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 1024
+
+  def object_list
+    super + [pool, pool_family]
+  end
+  class << self
+    alias orig_list_for_user_include list_for_user_include
+    alias orig_list_for_user_conditions list_for_user_conditions
+  end
+
+  def self.list_for_user_include
+    orig_list_for_user_include + [ {:pool => :permissions},
+                                   {:pool_family => :permissions} ]
+  end
+
+  def self.list_for_user_conditions
+    "(#{orig_list_for_user_conditions}) or
+     (permissions_pools.user_id=:user and
+      permissions_pools.role_id in (:role_ids)) or
+     (permissions_pool_families.user_id=:user and
+      permissions_pool_families.role_id in (:role_ids))"
+  end
 
   PRESET_FILTERS_OPTIONS = [
     {:title => I18n.t("catalogs.preset_filters.belongs_to_default_pool"), :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}
@@ -51,6 +74,10 @@ class Catalog < ActiveRecord::Base
 
   def destroy_deployables_related_only_to_self
     deployables.each {|d| d.destroy if d.catalogs.count == 1}
+  end
+
+  def set_pool_family
+    self[:pool_family_id] = pool.pool_family_id
   end
 
   private

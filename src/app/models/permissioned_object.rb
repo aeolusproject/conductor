@@ -59,20 +59,20 @@ module PermissionedObject
         self.name.constantize
       end
       def self.list_for_user_include
-        [{:permissions => {:role => :privileges}}]
+        [:permissions]
       end
       def self.list_for_user_conditions
         "permissions.user_id=:user and
-         privileges.target_type=:target_type and
-         privileges.action=:action"
+         permissions.role_id in (:role_ids)"
       end
       def self.list_for_user(user, action, target_type=self.default_privilege_target_type)
         return where("1=0") if user.nil? or action.nil? or target_type.nil?
         if BasePermissionObject.general_permission_scope.has_privilege(user, action, target_type)
           scoped
         else
+          role_ids = Role.includes(:privileges).where("privileges.target_type" => target_type, "privileges.action" => action).collect {|r| r.id}
           include_clause = self.list_for_user_include
-          conditions_hash = {:user => user.id, :target_type => target_type.name, :action => action}
+          conditions_hash = {:user => user.id, :target_type => target_type.name, :action => action, :role_ids => role_ids}
           conditions_str = self.list_for_user_conditions
           includes(include_clause).where(conditions_str, conditions_hash)
         end

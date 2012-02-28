@@ -34,9 +34,11 @@ class Deployable < ActiveRecord::Base
            :order => "permissions.id ASC"
   has_many :catalog_entries, :dependent => :destroy
   has_many :catalogs, :through => :catalog_entries
+  belongs_to :pool_family
 
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   after_create "assign_owner_roles(owner)"
+  before_create :set_pool_family
 
   scope :without_catalog, lambda {
     deployable_ids_in_association = CatalogEntry.select(:deployable_id).map(&:deployable_id)
@@ -44,6 +46,30 @@ class Deployable < ActiveRecord::Base
   }
 
   PRESET_FILTERS_OPTIONS = []
+
+  def object_list
+    super + catalogs + catalogs.collect{|c| c.pool} + [pool_family]
+  end
+  class << self
+    alias orig_list_for_user_include list_for_user_include
+    alias orig_list_for_user_conditions list_for_user_conditions
+  end
+
+  def self.list_for_user_include
+    orig_list_for_user_include + [ {:catalogs => [:permissions,
+                                                  {:pool => :permissions}]},
+                                   {:pool_family => :permissions} ]
+  end
+
+  def self.list_for_user_conditions
+    "(#{orig_list_for_user_conditions}) or
+     (permissions_catalogs.user_id=:user and
+      permissions_catalogs.role_id in (:role_ids)) or
+     (permissions_pools.user_id=:user and
+      permissions_pools.role_id in (:role_ids)) or
+     (permissions_pool_families.user_id=:user and
+      permissions_pool_families.role_id in (:role_ids))"
+  end
 
   def valid_deployable_xml?
     begin
@@ -133,12 +159,12 @@ class Deployable < ActiveRecord::Base
                                     :assembly => assembly.name,
                                     :uuid => assembly.image_id)
       else
-        if image.environment != catalogs.first.pool.pool_family.name
+        if image.environment != pool_family.name
           deployable_errors << I18n.t("deployables.flash.error.wrong_environment",
                                       :assembly => assembly.name,
                                       :uuid => assembly.image_id,
                                       :wrong_env => image.environment,
-                                      :environment => catalogs.first.pool.pool_family.name)
+                                      :environment => pool_family.name)
         end
         images << image
         assembly_hash[:build_and_target_uuids] = get_build_and_target_uuids(image)
@@ -184,6 +210,10 @@ class Deployable < ActiveRecord::Base
     [(image.respond_to?(:uuid) ? image.uuid : nil),
      (latest_build ? latest_build.uuid : nil),
      (latest_build ? latest_build.target_images.collect { |ti| ti.uuid} : nil)]
+  end
+
+  def set_pool_family
+    self[:pool_family_id] = catalogs.first.pool.pool_family_id
   end
 
   private
