@@ -447,12 +447,12 @@ class Instance < ActiveRecord::Base
     do_operation(user, 'reboot')
   end
 
-  def force_stop(user)
+  def forced_stop(user)
     self.state = STATE_STOPPED
     save!
     event = Event.create!(:source => self, :event_time => Time.now,
                           :summary => "Instance is not accessible, state changed to stopped",
-                          :status_code => "force_stop")
+                          :status_code => "forced_stop")
   end
 
   def deployed?
