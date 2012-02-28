@@ -90,7 +90,6 @@ Conductor::Application.routes.draw do
   resources :settings do
     collection do
       get :self_service
-      get :general_settings
     end
   end
   resources :pools do
@@ -169,13 +168,6 @@ Conductor::Application.routes.draw do
 
   resources :roles do
     delete 'multi_destroy', :on => :collection
-  end
-
-  resources :settings do
-    collection do
-      get 'self_service'
-      get 'general_settings'
-    end
   end
 
   resources :pool_families do

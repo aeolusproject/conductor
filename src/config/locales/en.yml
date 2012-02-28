@@ -939,38 +939,13 @@ en:
   settings:
     settings: Settings
     index:
-      general_settings: General Settings
-      general_settings_desc: Enable Self-service Account Registration, Setup Custom Branding, Manage Content Sources
-      define_locales: Define Locales
-      define_locales_desc: View, edit and define the names of locales that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to the geographical locations offered by individual providers.
-      manage_users: Manage Users
-      manage_users_desc: View, edit, create and delete user accounts on Aeolus Conductor. Adjust quotas and privileges for users.
-      define_hardware_profiles: Define Hardware Profiles
-      define_hardware_profiles_desc: View, edit and define the names of the hardware profiles that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to capabilities offered by individual providers.
-      manage_providers: Manage Providers
-      manage_providers_desc: View, edit and add providers of virtual compute resources to Aeolus Conductor. View, edit and add Aeolus Conductor accounts for these providers. Map provider-specific concepts to Aeolus Conductor.
-      define_services:  Define Services
-      define_services_desc: View, edit and define services that Aeolus Conductor will offer. These services will be mapped to individual providers based on their capabilities.
       permissions: Permissions
       permissions_desc: Modify self-service default quota.
     self_service:
       self_service_default: 'User Treatment: Self-service default'
       account: Account
+      instances_quota: "Instances Quota:"
       self_service_settings: "Self-service Settings"
-    general_settings:
-       general_settings: General Settings
-       portal: Portal
-       brand_icon: "Brand Icon:"
-       tag_line: "Tag Line:"
-       allow_self_service: "Allow Self Service Account Creation:"
-       select_treatment: Select User Treatment
-       primary_url_port: "Primary URL Port:"
-       content: Content
-       entitlement_mode: "Entitlement Mode:"
-       user_brings_subscriptions: User Brings Subscriptions
-       system_subscription: System Provides Subscription
-       certificate: "Certitifcate:"
-       content_manager_url: "Content Manager URL:"
     flash:
       warning:
         not_updated_quota: "Could not update the default quota"
