@@ -16,7 +16,6 @@
 
 class ImagesController < ApplicationController
   before_filter :require_user
-  before_filter :check_permissions, :except => [:index, :show]
 
   def index
     set_admin_environments_tabs 'images'
@@ -126,7 +125,10 @@ class ImagesController < ApplicationController
                           :active_pushes => active_pushes,
                           :failed_build_counts => failed_build_counts,
                           :failed_push_counts => failed_push_counts,
-                          :latest_build_id => @latest_build }
+                          :latest_build_id => @latest_build,
+                          :user_can_build => (@environment and
+                                              check_privilege(Privilege::USE,
+                                                              @environment))}
       end
     end
   end
@@ -134,6 +136,7 @@ class ImagesController < ApplicationController
   def rebuild_all
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
     @environment = PoolFamily.where('name' => @image.environment).first
+    check_permissions
     targets = @environment.build_targets
     unless targets.empty?
       factory_image = Aeolus::Image::Factory::Image.new(:id => @image.id)
@@ -147,6 +150,7 @@ class ImagesController < ApplicationController
   def push_all
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
     @environment = PoolFamily.where('name' => @image.environment).first
+    check_permissions
     @build = Aeolus::Image::Warehouse::ImageBuild.find(params[:build_id])
     # only latest builds can be pushed
     unless latest_build?(@build)
@@ -174,6 +178,8 @@ class ImagesController < ApplicationController
 
   def template
     image = Aeolus::Image::Warehouse::Image.find(params[:id])
+    @environment = PoolFamily.where('name' => image.environment).first
+    check_permissions
     template = Aeolus::Image::Warehouse::Template.find(image.template)
     if template
       render :xml => template.body
@@ -185,6 +191,7 @@ class ImagesController < ApplicationController
 
   def new
     @environment = PoolFamily.find(params[:environment])
+    check_permissions
     if 'import' == params[:tab]
       @accounts = @environment.provider_accounts.enabled.list_for_user(current_user, Privilege::USE)
       render :import and return
@@ -195,6 +202,7 @@ class ImagesController < ApplicationController
   def import
     account = ProviderAccount.find(params[:provider_account])
     @environment = PoolFamily.find(params[:environment])
+    check_permissions
 
     xml = "<image><name>#{params[:name]}</name></image>" unless params[:name].blank?
     begin
@@ -216,6 +224,7 @@ class ImagesController < ApplicationController
 
   def edit_xml
     @environment = PoolFamily.find(params[:environment])
+    check_permissions
     @name = params[:name]
 
     if params.has_key? :image_url
@@ -256,6 +265,7 @@ class ImagesController < ApplicationController
 
   def overview
     @environment = PoolFamily.find(params[:environment])
+    check_permissions
     @name = params[:name]
     @xml = params[:image_xml]
 
@@ -276,6 +286,7 @@ class ImagesController < ApplicationController
 
   def create
     @environment = PoolFamily.find(params[:environment])
+    check_permissions
     @name = params[:name]
     @xml = params[:image_xml]
 
@@ -307,13 +318,17 @@ class ImagesController < ApplicationController
   end
 
   def edit
+    check_permissions
   end
 
   def update
+    check_permissions
   end
 
   def destroy
     if image = Aeolus::Image::Warehouse::Image.find(params[:id])
+      @environment = PoolFamily.where('name' => image.environment).first
+      check_permissions
       if image.delete!
         flash[:notice] = t('images.flash.notice.deleted')
       else
@@ -329,6 +344,7 @@ class ImagesController < ApplicationController
     selected_images = params[:images_selected].to_a
     selected_images.each do |uuid|
       image = Aeolus::Image::Warehouse::Image.find(uuid)
+      @environment = PoolFamily.where('name' => image.environment).first
       image.delete!
     end
     redirect_to images_path, :notice => t("images.flash.notice.multiple_deleted", :count => selected_images.count)
@@ -356,7 +372,7 @@ class ImagesController < ApplicationController
 
   # For now, Image permissions hijack the previously-unused PoolFamily USE privilege
   def check_permissions
-    require_privilege(Privilege::USE, PoolFamily)
+    require_privilege(Privilege::USE, @environment)
   end
 
   def latest_build?(build)

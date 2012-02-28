@@ -25,6 +25,5 @@ end
 
 Given /^a catalog entry "([^"]*)" exists for "([^"]*)" catalog$/ do |arg1, catalog_name|
   catalog = Catalog.find_by_name(catalog_name) || FactoryGirl.create(:catalog, :name => catalog_name)
-  deployable = FactoryGirl.create :deployable, :name => arg1
-  entry = FactoryGirl.create :catalog_entry, :deployable => deployable, :catalog => catalog
+  deployable = FactoryGirl.create :deployable, :name => arg1, :catalogs => [catalog]
 end

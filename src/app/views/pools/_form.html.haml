@@ -8,7 +8,10 @@
       = form.text_field :name, :class => 'em long'
     %p
       = form.label :pool_family_id, t("pool_families.pool_family")
-      = form.collection_select :pool_family_id, PoolFamily.all, :id, :name
+      - if @pool_families
+        = form.collection_select :pool_family_id, @pool_families, :id, :name
+      - else
+        = form.label :pool_family_id, @pool.pool_family.name
 
   %fieldset
     %p

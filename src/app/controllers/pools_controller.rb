@@ -112,11 +112,12 @@ class PoolsController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, Pool)
     @title = t('pools.create_new_pool')
     @pool = Pool.new
     @pool.pool_family = PoolFamily.find(params[:pool_family_id]) unless params[:pool_family_id].blank?
+    require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
     @quota = Quota.new
+    @pool_families = PoolFamily.list_for_user(current_user, Privilege::CREATE, Pool)
     respond_to do |format|
       format.html
       format.json { render :json => @pool }
@@ -125,9 +126,8 @@ class PoolsController < ApplicationController
   end
 
   def create
-    require_privilege(Privilege::CREATE, Pool)
-
     @pool = Pool.new(params[:pool])
+    require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
     @pool.quota = @quota = Quota.new
     set_quota
 

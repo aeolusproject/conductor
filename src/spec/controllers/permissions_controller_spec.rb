@@ -27,8 +27,7 @@ describe PermissionsController do
     mock_warden(@admin)
 
     @catalog = FactoryGirl.create(:catalog)
-    @deployable = FactoryGirl.create(:deployable)
-    @catalog.deployables << @deployable
+    @deployable = FactoryGirl.create(:deployable, :catalogs => [@catalog])
 
     @old_role = FactoryGirl.create(:role)
     @new_role = FactoryGirl.create(:role)

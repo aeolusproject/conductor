@@ -22,8 +22,7 @@ FactoryGirl.define do
 
   factory :catalog_with_deployable, :parent => :catalog do |catalog|
     catalog.after_create do |catalog|
-      deployable = Factory :deployable
-      Factory :catalog_entry, :catalog => catalog, :deployable => deployable
+      deployable = Factory :deployable, :catalogs => [catalog]
     end
   end
 end

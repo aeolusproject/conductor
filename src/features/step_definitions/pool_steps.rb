@@ -144,19 +144,13 @@ Given /^"([^"]*)" has catalog "([^"]*)"$/ do |pool_name, catalog_name|
 end
 
 Given /^"([^"]*)" has catalog_entry "([^"]*)"$/ do |catalog_name, catalog_entry_name|
-  deployable = FactoryGirl.create :deployable, :name => catalog_entry_name
-  catalog_entry = FactoryGirl.create :catalog_entry, :deployable => deployable
   catalog = Catalog.find_by_name(catalog_name)
-  catalog_entry.catalog = catalog
-  catalog_entry.save!
+  deployable = FactoryGirl.create :deployable, :name => catalog_entry_name, :catalogs => [catalog]
 end
 
 Given /^"([^"]*)" has catalog_entry with parameters "([^"]*)"$/ do |catalog_name, catalog_entry_name|
-  deployable = FactoryGirl.create :deployable_with_parameters, :name => catalog_entry_name
-  catalog_entry = FactoryGirl.create :catalog_entry_with_parameters, :deployable => deployable
   catalog = Catalog.find_by_name(catalog_name)
-  catalog_entry.catalog = catalog
-  catalog_entry.save!
+  deployable = FactoryGirl.create :deployable_with_parameters, :name => catalog_entry_name, :catalogs => [catalog]
 end
 
 Then /^I should see the quota usage for the "([^"]*)" pool$/ do |pool|

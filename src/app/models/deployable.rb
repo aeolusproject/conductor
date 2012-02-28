@@ -213,7 +213,7 @@ class Deployable < ActiveRecord::Base
   end
 
   def set_pool_family
-    self[:pool_family_id] = catalogs.first.pool.pool_family_id
+    self[:pool_family_id] = catalogs.first.pool_family_id
   end
 
   private

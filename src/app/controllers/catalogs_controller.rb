@@ -21,6 +21,7 @@ class CatalogsController < ApplicationController
     @title = t('catalogs.catalogs')
     clear_breadcrumbs
     @catalogs = Catalog.apply_filters(:preset_filter_id => params[:catalogs_preset_filter], :search_filter => params[:catalogs_search]).list_for_user(current_user, Privilege::VIEW)
+    @can_create = Pool.list_for_user(current_user, Privilege::CREATE, Catalog).present?
     save_breadcrumb(catalogs_path(:viewstate => @viewstate ? @viewstate.id : nil))
     set_header
     set_admin_content_tabs 'catalogs'
@@ -31,10 +32,10 @@ class CatalogsController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, Catalog)
+    load_pools
+    require_privilege(Privilege::CREATE, Catalog, @pools.first)
     @catalog = Catalog.new(params[:catalog]) # ...when should there be params on new?
     @title = t'catalogs.new.add_catalog'
-    load_pools
   end
 
   def show
@@ -51,14 +52,12 @@ class CatalogsController < ApplicationController
   end
 
   def create
-    require_privilege(Privilege::CREATE, Catalog)
     @catalog = Catalog.new(params[:catalog])
-    require_privilege(Privilege::MODIFY, @catalog.pool)
+    require_privilege(Privilege::CREATE, Catalog, @catalog.pool)
     if @catalog.save
       flash[:notice] = t('catalogs.flash.notice.created', :count => 1)
       redirect_to catalogs_path and return
     else
-      load_pools
       render :new and return
     end
   end
@@ -73,7 +72,7 @@ class CatalogsController < ApplicationController
   def update
     @catalog = Catalog.find(params[:id])
     require_privilege(Privilege::MODIFY, @catalog)
-    require_privilege(Privilege::MODIFY, @catalog.pool)
+    require_privilege(Privilege::CREATE, Catalog, @catalog.pool)
 
     if @catalog.update_attributes(params[:catalog])
       flash[:notice] = t('catalogs.flash.notice.updated', :count => 1)
@@ -136,6 +135,6 @@ class CatalogsController < ApplicationController
   end
 
   def load_pools
-    @pools = Pool.list_for_user(current_user, Privilege::MODIFY)
+    @pools = Pool.list_for_user(current_user, Privilege::CREATE, Catalog)
   end
 end
