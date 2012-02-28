@@ -6,11 +6,15 @@
   .content.confirm_instances_termination
     .align-center
       %strong= t('.terminate_instances_description')
-    = form_tag multi_stop_instances_path, :method => :post do
+    - url = @instance ? stop_instance_path(@instance) : multi_stop_instances_path
+    = form_tag url, :method => :post do
       - @instances_to_stop.each do |i|
         = hidden_field_tag 'instance_selected[]', i.id
       %ul
         - @inaccessible_instances.each do |i|
           %li= i.name
-      = link_to t('cancel'), pools_path(:view => 'filter', :details_tab => 'instances'), :class => 'button'
+      - if @instance
+        = link_to t('cancel'), deployment_path(@instance.deployment, :details_tab => 'instances'), :class => 'button'
+      - else
+        = link_to t('cancel'), pools_path(:view => 'filter', :details_tab => 'instances'), :class => 'button'
       = submit_tag t('.terminate'), :name => 'terminate', :class => 'button', :id => 'terminate_button'

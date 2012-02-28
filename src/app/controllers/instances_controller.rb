@@ -18,7 +18,7 @@ class InstancesController < ApplicationController
   before_filter :require_user
   before_filter :load_instance, :only => [:show, :key, :edit, :update, :stop, :reboot]
   before_filter :set_view_vars, :only => [:show, :index, :export_events]
-  before_filter :check_inaccessible_instances, :only => :multi_stop
+  before_filter :check_inaccessible_instances, :only => [:stop, :multi_stop]
 
   def index
     @params = params
@@ -148,7 +148,7 @@ class InstancesController < ApplicationController
         require_privilege(Privilege::USE,instance)
 
         if @inaccessible_instances.include?(instance)
-          instance.force_stop(current_user)
+          instance.forced_stop(current_user)
           notices << "#{instance.name}: #{t('instances.flash.notice.forced_stop')}"
         else
           instance.stop(current_user)
@@ -176,7 +176,11 @@ class InstancesController < ApplicationController
   end
 
   def stop
-    do_operation(:stop)
+    if @inaccessible_instances.include?(@instance)
+      do_operation(:forced_stop)
+    else
+      do_operation(:stop)
+    end
   end
 
   def reboot
@@ -251,7 +255,8 @@ class InstancesController < ApplicationController
   end
 
   def check_inaccessible_instances
-    @instances_to_stop = Instance.find(params[:instance_selected] || [])
+    # @instance is set only on stop action
+    @instances_to_stop = @instance ? @instance.to_a : Instance.find(params[:instance_selected].to_a)
     @inaccessible_instances = Instance.stoppable_inaccessible_instances(@instances_to_stop)
     if params[:terminate].blank? and @inaccessible_instances.any?
       respond_to do |format|

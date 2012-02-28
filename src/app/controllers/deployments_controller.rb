@@ -305,7 +305,7 @@ class DeploymentsController < ApplicationController
         begin
           require_privilege(Privilege::USE, instance)
           if @inaccessible_instances.include?(instance)
-            instance.force_stop(current_user)
+            instance.forced_stop(current_user)
             notices << "#{log_prefix}: #{t('instances.flash.notice.forced_stop')}"
           else
             instance.stop(current_user)
