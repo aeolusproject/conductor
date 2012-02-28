@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  37%{?dist}
+Release:  38%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -362,6 +362,14 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue Feb 28 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-38
+- 00dc1dd BZ797713 added missing translation in edit deployable page
+- 1d1a3fb BZ789853 added rescue connection timeout
+- d9ca535 BZ#790819 Add better labels to X-Deltacloud-Provider field
+- 30dde81 Fix broken Pools cucumber test
+- a38a265 BZ794536 Timeout session after 15 minutes of inactivity
+- 29fabcd BZ 790820 remove unsupported cloud provider types
+
 * Mon Feb 27 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-37
 - 5a587b0 BZ 797254 - Quick fix for failure to stop/reboot instances
 - 7b1fc8e BZ 789833 strip login/username whitespace
