@@ -188,6 +188,7 @@ class ApplicationController < ActionController::Base
         flash[:notice] = t('application_controller.flash.notice.must_be_logged')
         redirect_to login_url
       end
+      format.js { head :unauthorized }
       format.xml { head :unauthorized }
       format.json { head :unauthorized }
     end
