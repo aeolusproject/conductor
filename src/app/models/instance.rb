@@ -369,7 +369,7 @@ class Instance < ActiveRecord::Base
     # try to get architecture of the image associated with this instance
     # for imported images template is empty -> architecture is not set,
     # in this case we omit this check
-    return image.os.arch
+    return image.architecture
   rescue
     logger.warn "failed to get image architecture for instance '#{name}', skipping architecture check: #{$!}"
     logger.warn $!.backtrace.join("\n  ")
