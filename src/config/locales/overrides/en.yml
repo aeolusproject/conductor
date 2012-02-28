@@ -277,6 +277,7 @@ en:
       belongs_to_default_pool: "Belongs to Default Cloud Resource Zone"
   images:
     environment: "Cloud:"
+    environment_header: Cloud
     import:
       import_image: Import Image
       image_id: Component Outline ID
