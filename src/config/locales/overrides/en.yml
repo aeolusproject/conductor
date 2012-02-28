@@ -14,6 +14,10 @@ en:
   updates: Updates
   hw_profiles: Cloud Resource Profiles
   realm_s: Cloud Resource Clusters
+  user_sessions:
+    security:
+      message: "Your connection to CloudForms Cloud Engine at %{host} is currently secure and encrypted using SSL encryption (unknown strength)."
+      message_unencrypted: "Your connection to CloudForms Cloud Engine at %{host} is currently unencrypted. This could lead to potential theft of sensitive information."
   deployments:
     deployments: Applications
     deployment: Application
@@ -386,12 +390,6 @@ en:
       hwp_not_exists: "Cloud resource profile %{name} specified in XML doesn't exist."
     properties:
       edit_deployable_xml: Edit Application Blueprint XML
-  settings:
-    index:
-      define_locales_desc: View, edit and define the names of locales that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to the geographical locations offered by individual cloud resource providers.
-      define_hardware_profiles: Define Cloud Resource Profiles
-      define_hardware_profiles_desc: View, edit and define the names of the cloud resource profiles that Aeolus Conductor will expose to its users. The meaning of the names will be defined by being mapped to capabilities offered by individual cloud resource providers.
-      manage_providers: Manage Cloud Resource Providers
   providers:
     provider: Cloud Resource Provider
     providers: Cloud Resource Providers
