@@ -25,12 +25,6 @@ Feature: Manage Roles
     When I follow "Admiral"
     Then I should be on Admiral's role page
 
-  Scenario: Show default role privileges
-    Given I am on the roles page
-    And there should be a role named "Administrator"
-    When I follow "Administrator"
-    Then I should be on Administrator's role page
-
   Scenario: Delete roles
     Given a role "Admiral" exists
     And I am on the roles page
