@@ -404,6 +404,11 @@ class ProviderAccount < ActiveRecord::Base
     :pushed
   end
 
+  def to_polymorphic_path_param(polymorphic_path_extras)
+    [provider, self]
+  end
+
+
   private
 
   def self.apply_search_filter(search)

@@ -22,3 +22,10 @@
 
   .content
     = render :partial => 'provider_realms/list'
+
+- if check_privilege(Privilege::PERM_VIEW,@permission_object)
+  %section.admin-content-section
+    %header
+      %h2.roles= t('role_assignments')
+    .content
+      = render :partial => 'permissions/permissions'
