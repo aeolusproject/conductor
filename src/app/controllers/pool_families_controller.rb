@@ -114,7 +114,7 @@ class PoolFamiliesController < ApplicationController
 
     @provider_accounts = ProviderAccount.
       list_for_user(current_user, Privilege::USE).
-      where('id not in (?)', @pool_family.provider_accounts.empty? ?
+      where('provider_accounts.id not in (?)', @pool_family.provider_accounts.empty? ?
                                0 : @pool_family.provider_accounts.map(&:id))
 
     load_tab_captions_and_details_tab('provider_accounts')

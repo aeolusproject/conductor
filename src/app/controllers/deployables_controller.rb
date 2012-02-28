@@ -34,13 +34,15 @@ class DeployablesController < ApplicationController
 
   def new
     @deployable = Deployable.new(params[:deployable])
-    require_privilege(Privilege::CREATE, Deployable)
     if params[:create_from_image]
       @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
       @hw_profiles = HardwareProfile.frontend.list_for_user(current_user, Privilege::VIEW)
       @deployable.name = @image.name
       @selected_catalogs = params[:catalog_id].to_a
       load_catalogs
+      @selected_catalogs.each do |catalog_id|
+        require_privilege(Privilege::CREATE, Deployable, Catalog.find_by_id(catalog_id))
+      end
       flasherr = []
       flasherr << t("deployables.flash.error.no_catalog_exists") if @catalogs.empty?
       flasherr << t("deployables.flash.error.no_hwp_exists") if @hw_profiles.empty?
@@ -48,7 +50,7 @@ class DeployablesController < ApplicationController
       flash[:error] = flasherr if not flasherr.empty?
     elsif params[:catalog_id].present?
       @catalog = Catalog.find(params[:catalog_id])
-      require_privilege(Privilege::MODIFY, @catalog)
+      require_privilege(Privilege::CREATE, @catalog, Deployable)
     end
     @form_option= params.has_key?(:from_url) ? 'from_url' : 'upload'
     respond_to do |format|
@@ -65,7 +67,7 @@ class DeployablesController < ApplicationController
     @providers = Provider.all
     @catalogs_options = Catalog.list_for_user(current_user, Privilege::VIEW).select do |c|
       !@deployable.catalogs.include?(c) and
-        @deployable.catalogs.first.pool.pool_family == c.pool.pool_family
+        @deployable.catalogs.first.pool_family == c.pool_family
     end
 
     if @catalog.present?
@@ -81,7 +83,7 @@ class DeployablesController < ApplicationController
 
     @build_results = {}
     @pushed_count = 0
-    ProviderAccount.includes(:provider, :pool_families).where('providers.enabled' => true, 'pool_families.id' => @deployable.catalogs.first.pool.pool_family.id).each do |account|
+    ProviderAccount.includes(:provider, :pool_families).where('providers.enabled' => true, 'pool_families.id' => @deployable.catalogs.first.pool_family.id).each do |account|
       type = account.provider.provider_type.deltacloud_driver
       @build_results[type] ||= []
       status = @deployable.build_status(images, account)
@@ -114,10 +116,12 @@ class DeployablesController < ApplicationController
       return
     end
 
-    require_privilege(Privilege::CREATE, Deployable)
     @deployable = Deployable.new(params[:deployable])
     @selected_catalogs = Catalog.find(params[:catalog_id].to_a)
     @deployable.owner = current_user
+    @selected_catalogs.each do |catalog|
+      require_privilege(Privilege::CREATE, Deployable, catalog)
+    end
 
     if params.has_key? :url
         xml = import_xml_from_url(params[:url])
@@ -135,11 +139,10 @@ class DeployablesController < ApplicationController
     begin
       raise t("deployables.flash.error.no_catalog") if @selected_catalogs.empty?
       @deployable.transaction do
-        @deployable.save!
         @selected_catalogs.each do |catalog|
-          require_privilege(Privilege::MODIFY, catalog)
-          CatalogEntry.create!(:catalog_id => catalog.id, :deployable_id => @deployable.id)
+          @deployable.catalogs << catalog
         end
+        @deployable.save!
         flash[:notice] = t("catalog_entries.flash.notice.added", :catalog => @selected_catalogs.map{|c| c.name}.join(", "))
         if params[:edit_xml]
           redirect_to edit_polymorphic_path([@selected_catalogs.first, @deployable], :edit_xml =>true)
@@ -150,7 +153,11 @@ class DeployablesController < ApplicationController
         end
       end
     rescue => e
-      flash.now[:warning]= t('deployables.flash.warning.failed', :message => e.message) if @deployable.errors.empty?
+      if @deployable.errors.empty?
+        logger.error e.message
+        logger.error e.backtrace.join("\n ")
+        flash.now[:warning]= t('deployables.flash.warning.failed', :message => e.message)
+      end
       if params[:create_from_image].present?
         @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
         load_catalogs
@@ -259,7 +266,7 @@ class DeployablesController < ApplicationController
 
   def load_catalogs
     @pool_family = PoolFamily.where(:name => @image.environment).first
-    @catalogs = Catalog.includes(:pool).list_for_user(current_user, Privilege::MODIFY).where('pools.pool_family_id' => @pool_family.id)
+    @catalogs = Catalog.list_for_user(current_user, Privilege::CREATE, Deployable).where('pool_family_id' => @pool_family.id)
   end
 
   def import_xml_from_url(url)

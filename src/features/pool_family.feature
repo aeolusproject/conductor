@@ -23,9 +23,11 @@ Feature: Pool Families
 
   Scenario: List pool families as unprivileged user
     Given I am logged in
+    And there is a pool family named "hiddenpoolfamily"
     And I can view pool family "testpoolfamily"
     When I go to the pool families page
-    Then I should not see "testpoolfamily"
+    Then I should not see "hiddenpoolfamily"
+    Then I should see "testpoolfamily"
 
   Scenario: Show pool family details
     Given I am an authorised user
