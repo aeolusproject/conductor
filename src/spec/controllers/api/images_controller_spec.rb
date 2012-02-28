@@ -40,7 +40,8 @@ describe Api::ImagesController do
                     :image_builds => [@build],
                     :build => @build,
                     :provider_images => [@provider_image, @provider_image.clone],
-                    :uuid => '94dc260c-5821-11e1-9477-70f395039857'
+                    :uuid => '94dc260c-5821-11e1-9477-70f395039857',
+                    :architecture => 'x86_64'
                     )
       @provider_type = mock(ProviderType,
                     :name => 'mock',
