@@ -137,6 +137,25 @@ class Pool < ActiveRecord::Base
     {:title => I18n.t("pools.preset_filters.with_stopped_instances"), :id => "with_stopped_instances", :query => includes(:deployments => :instances).where("instances.state" => "stopped")}
   ]
 
+  def object_list
+    super + [pool_family]
+  end
+  class << self
+    alias orig_list_for_user_include list_for_user_include
+    alias orig_list_for_user_conditions list_for_user_conditions
+  end
+
+  def self.list_for_user_include
+    orig_list_for_user_include + [ {:pool_family => :permissions} ]
+  end
+
+  def self.list_for_user_conditions
+    "(#{orig_list_for_user_conditions}) or
+     (permissions_pool_families.user_id=:user and
+      permissions_pool_families.role_id in (:role_ids))"
+  end
+
+
   private
 
   def self.apply_search_filter(search)
