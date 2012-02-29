@@ -134,6 +134,8 @@
                 <h3>${group['type']['name']}</h3>
                 {{if build && active_builds[driver]}}
                   <label>${active_builds[driver]['builder']['status']}</label>
+                {{else !build && active_builds_by_image_id[image['uuid']][driver]}}
+                  <label>${active_builds_by_image_id[image['uuid']][driver]['builder']['status']}</label>
                 {{else target_images_by_target[driver]}}
                   #{path = image_target_image_path('replace_image_id', 'replace_target_image_id')
                     path = path.sub('replace_image_id', '${image[\'uuid\']}')
