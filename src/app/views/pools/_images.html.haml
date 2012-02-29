@@ -5,7 +5,7 @@
         =image_tag 'flash_error_icon.png', :alt => 'Errors'
         =flash[:error]
 -else
-  - @pool.catalogs.each do |catalog|
+  - @pool.catalogs.list_for_user(current_user, Privilege::VIEW).each do |catalog|
     %div.catalog_deployments_and_images
       %h1
         = catalog.name
