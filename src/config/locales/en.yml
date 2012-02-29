@@ -167,6 +167,8 @@ en:
   catalog_images: Catalog Images
   quota: Quota
   choose: Choose
+  default_none_selected_message: "Please make a selection first."
+  default_confirm_message: "Are you sure you want to proceed?"
   deployments:
     deployments: Deployments
     deployment: Deployment
