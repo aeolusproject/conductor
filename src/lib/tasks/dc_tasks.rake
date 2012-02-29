@@ -69,11 +69,11 @@ namespace :dc do
       exit(1)
     end
 
-    unless user.permissions.select { |p| p.role.name.eql?('Administrator') }.empty?
+    unless user.permissions.select { |p| p.role.name.eql?('base.admin') }.empty?
       puts "Permission already granted for user #{args.login}"
       exit(1)
     end
-    permission = Permission.new(:role => Role.find_by_name('Administrator'),
+    permission = Permission.new(:role => Role.find_by_name('base.admin'),
                                 :permission_object => BasePermissionObject.general_permission_scope,
                                 :user => user)
     if permission.save

@@ -35,4 +35,19 @@ describe ProvidersController do
     it { assigns[:realm_names].size.should == @provider.realms.size }
     it { response.should render_template(:partial => "providers/_realms") }
   end
+
+  describe "check availability" do
+    context "when provider is not accessible" do
+      before do
+        @provider.update_attribute(:url, "invalid_url")
+      end
+
+      it "should update availability status on test connection" do
+        @provider.available.should_not be_false
+        get :edit, :id => @provider.id, :test_provider => true
+        @provider.reload
+        @provider.available.should be_false
+      end
+    end
+  end
 end

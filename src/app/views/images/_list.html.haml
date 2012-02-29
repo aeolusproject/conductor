@@ -1,8 +1,9 @@
 - content_for :form_header do
   - if @pool_family and check_privilege(Privilege::USE, @pool_family)
     %li= restful_submit_tag t("delete"), "destroy", multi_destroy_images_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
-    %li= link_to t('images.import.import_image'), new_image_path(:tab => 'import', :environment => @pool_family), { :class => 'button primary', :id => 'import_image_button'}
-    %li= link_to t('images.index.new'), new_image_path(:environment => @pool_family), { :class => 'button primary', :id => 'import_image_button'}
+    - if @pool_family.pools.any?
+      %li= link_to t('images.import.import_image'), new_image_path(:tab => 'import', :environment => @pool_family), { :class => 'button primary', :id => 'import_image_button'}
+      %li= link_to t('images.index.new'), new_image_path(:environment => @pool_family), { :class => 'button primary', :id => 'import_image_button'}
 
 = filter_table(@header, @images) do |image|
   - if @pool_family.nil? and image.environment
@@ -28,6 +29,6 @@
       %td
         = image.os.version.empty? ? "N/A" : image.os.version
       %td
-        = image.os.arch.empty? ? "N/A" : image.os.arch
+        = image.architecture.blank? ? "N/A" : image.architecture
       %td
         = Time.at(image.latest_pushed_or_unpushed_build.timestamp.to_f) rescue ''

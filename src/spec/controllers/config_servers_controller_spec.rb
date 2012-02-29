@@ -26,7 +26,7 @@ describe ConfigServersController do
     before(:each) do
       @config_server = Factory :mock_config_server
       @provider_account = @config_server.provider_account
-      @admin_permission = Permission.create :role => Role.find(:first, :conditions => ['name = ?', 'Provider Administrator']),
+      @admin_permission = Permission.create :role => Role.find(:first, :conditions => ['name = ?', 'base.provider.admin']),
                                             :permission_object => @provider_account.provider,
                                             :user => FactoryGirl.create(:provider_admin_user)
       @admin = @admin_permission.user
@@ -49,7 +49,7 @@ describe ConfigServersController do
   context "creating config servers" do
     before(:each) do
       @provider_account = Factory :mock_provider_account
-      @admin_permission = Permission.create :role => Role.find(:first, :conditions => ['name = ?', 'Provider Administrator']),
+      @admin_permission = Permission.create :role => Role.find(:first, :conditions => ['name = ?', 'base.provider.admin']),
                                             :permission_object => @provider_account.provider,
                                             :user => FactoryGirl.create(:provider_admin_user)
       @admin = @admin_permission.user

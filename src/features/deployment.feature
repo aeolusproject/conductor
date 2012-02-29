@@ -12,7 +12,7 @@ Feature: Manage Deployments
     And I am on the pools page
     When I follow link with ID "filter_view"
     And I follow "details_deployments" within "#tab-container-1-nav"
-    Then I should see "MySQL Cluster"
+    Then I should see "MySQL-Cluster"
     And I should see "bob"
 
   Scenario: List deployments over XHR
@@ -21,7 +21,7 @@ Feature: Manage Deployments
     And I request XHR
     When I follow link with ID "filter_view"
     And I follow "details_deployments"
-    Then I should see "MySQL Cluster"
+    Then I should see "MySQL-Cluster"
     And I should see "bob"
 
   #It's difficult to mock out all the dependencies to get the instance launching

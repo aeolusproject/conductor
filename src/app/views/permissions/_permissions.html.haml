@@ -23,9 +23,9 @@
     %td= permission.user.last_name
     %td= permission.user.first_name
     - if check_privilege(Privilege::PERM_SET)
-      %td= select_tag "permission_role_selected[]", options_for_select(@roles.map {|r| [ r.name, "#{permission.id},#{r.id}" ] }, :selected => "#{permission.id},#{permission.role.id}", :disabled => @permission_object.permissions.where(["user_id = ? and role_id != ?", permission.user_id, permission.role_id]).collect {|p| "#{permission.id},#{p.role.id}"}), :id => "permission_role_selected_#{permission.id}"
+      %td= select_tag "permission_role_selected[]", options_for_select(@roles.map {|r| [ t(r.name, :scope=> :role_defs, :default => r.name), "#{permission.id},#{r.id}" ] }, :selected => "#{permission.id},#{permission.role.id}", :disabled => @permission_object.permissions.where(["user_id = ? and role_id != ?", permission.user_id, permission.role_id]).collect {|p| "#{permission.id},#{p.role.id}"}), :id => "permission_role_selected_#{permission.id}"
       :javascript
         $("#permission_role_selected_#{permission.id}").change(function () { $("#perm_edit_button").click(); } );
 
     -else
-      %td= permission.role.name
+      %td= t(permission.role.name, :scope=> :role_defs, :default => permission.role.name)

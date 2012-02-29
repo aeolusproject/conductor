@@ -67,11 +67,10 @@ class Deployment < ActiveRecord::Base
   validates_length_of :name, :maximum => 50
   validates_presence_of :owner_id
   validate :pool_must_be_enabled
-
   before_destroy :destroyable?
   before_create :inject_launch_parameters
   before_create :generate_uuid
-
+  before_save :replace_special_characters_in_name
   USER_MUTABLE_ATTRS = ['name']
   STATE_MIXED = "mixed"
 
@@ -592,5 +591,9 @@ class Deployment < ActiveRecord::Base
 
   def generate_uuid
     self[:uuid] = UUIDTools::UUID.timestamp_create.to_s
+  end
+
+  def replace_special_characters_in_name
+    name.gsub!(/[^a-zA-Z0-9]+/, '-')
   end
 end

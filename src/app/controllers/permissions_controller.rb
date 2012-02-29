@@ -60,10 +60,10 @@ class PermissionsController < ApplicationController
                                     :permission_object => @permission_object)
         if permission.save
           added << t('permissions.flash.fragment.user_and_role', :user => permission.user.login,
-                      :role => permission.role.name)
+                      :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name))
         else
           not_added << t('permissions.flash.fragment.user_and_role', :user => permission.user.login,
-                          :role => permission.role.name)
+                          :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name) )
         end
       end
     end
@@ -98,12 +98,12 @@ class PermissionsController < ApplicationController
           permission.role = role
           if permission.save
             modified << t('permissions.flash.fragment.user_and_role_change', :user => permission.user.login,
-                            :old_role => old_role.name,
-                            :role => permission.role.name)
+                            :old_role => t(old_role.name, :scope=> :role_defs, :default => old_role.name),
+                            :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name))
           else
             not_modified << t('permissions.flash.fragment.user_and_role_change', :user => permission.user.login,
-                            :old_role => old_role.name,
-                            :role => permission.role.name)
+                            :old_role => t(old_role.name, :scope=> :role_defs, :default => old_role.name) ,
+                            :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name))
           end
         end
       end
@@ -133,10 +133,10 @@ class PermissionsController < ApplicationController
     Permission.find(params[:permission_selected]).each do |p|
       if check_privilege(Privilege::PERM_SET, p.permission_object) && p.destroy
         deleted << t('permissions.flash.fragment.user_and_role', :user => p.user.login,
-                      :role => p.role.name)
+                      :role => t(p.role.name, :scope=> :role_defs, :default => p.role.name))
       else
         not_deleted << t('permissions.flash.fragment.user_and_role', :user => p.user.login,
-                      :role => p.role.name)
+                      :role => t(p.role.name, :scope=> :role_defs, :default => p.role.name))
       end
     end
 

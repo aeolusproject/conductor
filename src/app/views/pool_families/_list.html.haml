@@ -13,11 +13,16 @@
         .caption_content
           %header
             %h2
-              = link_to pool_family.name, pool_family
+              - if pool_family.pools.any?
+                = link_to pool_family.name, pool_family
+              - else
+                = pool_family.name
             .section-controls
               #obj_actions
                 = link_to t("pools.new_pool"), new_pool_path(:pool_family_id => pool_family.id), :class => 'pool_family_button'
-                = link_to t("images.new.new_image"), new_image_path( :environment => pool_family.id), :class => 'new_image_button'
+                - if pool_family.pools.any?
+                  = link_to t("images.import.import_image"), new_image_path(:environment => pool_family.id, :tab => 'import'), :class => 'new_image_button'
+                  = link_to t("images.new.new_image"), new_image_path( :environment => pool_family.id), :class => 'new_image_button'
       - unless pool_family.pools.blank?
         %tr
           %th= t("pool_families.index.pool_name")

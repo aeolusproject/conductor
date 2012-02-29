@@ -5,7 +5,7 @@
   %description= image.description
   %os= image.os.name
   %os_version= image.os.version
-  %arch= image.os.arch
+  %arch= image.architecture
   %builds{:type => 'xs:list'}
     - image.image_builds.each do |bld|
       %build{:id => bld.id, :href => api_build_url(bld.id)}

@@ -198,7 +198,8 @@ rhtml="app/views/layouts"
 svg="public/images public/images/icons public/javascripts/jquery-svg"
 ttf="public/fonts"
 txt="public"
-yml="config config/locales config/locales/overrides"
+yml="config config/locales config/locales/overrides config/locales/role_definitions \
+     config/locales/overrides/role_definitions"
 xml="app/util"
 for filetype in builder css feature gif haml html ico jpg js json key opts png \
     rake rb rhtml scss svg ttf txt yml xml; do
