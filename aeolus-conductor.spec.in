@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  38%{?dist}
+Release:  39%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -363,6 +363,21 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed Feb 29 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-39
+- 361d50b BZ #796797: Move Role strings out of seeds.rb to allow overrides
+- 369b094 bug 788148: Removing failing cucumber test for obsolete UI.
+- eb85c8e BZ#795523 Updated tdl.rng to validate OS name
+- ccb766c Updated tdl.rng to set rootpw element to optional
+- 7967c5d BZ#790250 Check Build Status on Show Image
+- bec9399 BZ 790860 - improved availability checking
+- 774cad0 BZ #796797: Move Role strings out of seeds.rb to allow overrides.
+- e3b5bb6 BZ-788547 Unhandled exception or status code , when launching with space in deployments name for RHEV
+- 93ebda8 Fix typo in locales/en.yml
+- 8f674f5 Architecture is displayed for imported images.
+- 87bd40b BZ 796800 - Disallow Environment actions if Environment has no Pools
+- 0305773 BZ 796052 - Fix language on image imports
+- 61370d1 BZ 796052 - Image Import tab added to Environments page
+
 * Tue Feb 28 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-38
 - 00dc1dd BZ797713 added missing translation in edit deployable page
 - 1d1a3fb BZ789853 added rescue connection timeout
