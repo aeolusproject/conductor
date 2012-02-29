@@ -373,9 +373,15 @@ class Deployment < ActiveRecord::Base
         end
       end
 
+      account_matches, errors = common_provider_accounts_for(instances)
+      if account_matches.empty? and not errors.empty?
+        raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), errors)
+      end
+
       deployment_errors = []
       deployment_errors << I18n.t('instances.errors.pool_quota_reached') if not pool.quota.can_start?(instances)
       deployment_errors << I18n.t('instances.errors.pool_family_quota_reached') if not pool.pool_family.quota.can_start?(instances)
+
       if not deployment_errors.empty?
         raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), deployment_errors)
       end
@@ -579,7 +585,7 @@ class Deployment < ActiveRecord::Base
       # also check that the account's quota can handle all the instances
       if not rejected
         if not account.quota.can_start? instances
-          errors << I18n.t('instances.errors.provider_account_quota_too_low', :match_provider_account => account)
+          errors << I18n.t('instances.errors.provider_account_quota_too_low', :match_provider_account => account.name)
           rejected = true
         end
       end
