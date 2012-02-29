@@ -75,6 +75,14 @@ class ImagesController < ApplicationController
           result
         end
 
+        active_builds_by_image_id = @account_groups.keys.inject(Hash.new({}))  do |result, driver|
+          result[@image.id] = {} unless result.has_key?(@image.id)
+          result[@image.id][driver] = @builder.find_active_build_by_imageid(@image.id, driver)
+          result[@image.id][driver].attributes['status'].capitalize! if result[@image.id][driver]
+
+          result
+        end
+
         active_pushes = @account_groups.inject({})  do |result, (driver, group)|
           timg = @target_images_by_target[driver]
           group[:accounts].each do |account|
@@ -114,6 +122,7 @@ class ImagesController < ApplicationController
                           :provider_images => provider_images,
                           :target_images_by_target => @target_images_by_target,
                           :active_builds => active_builds,
+                          :active_builds_by_image_id => active_builds_by_image_id,
                           :active_pushes => active_pushes,
                           :failed_build_counts => failed_build_counts,
                           :failed_push_counts => failed_push_counts,
