@@ -919,7 +919,7 @@ en:
         not_deleted_perms:
           one: "Insufficient permissions to delete deployable %{not_deleted}!"
           other: "Insufficient permissions to delete %{count} deployables %{not_deleted}!"
-        not_selected: "No deployable was not selected!"
+        not_selected: "No deployable was selected!"
         no_catalog_exists: "No catalog exists! Please create one."
         no_hwp_exists: "No hardware profile exists! Please create one."
         missing_image: "%{assembly}: Image (UUID: %{uuid}) doesn't exist"
