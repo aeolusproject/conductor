@@ -139,7 +139,7 @@ class UsersController < ApplicationController
     require_privilege(Privilege::MODIFY, User)
     user = User.find(params[:id])
     if user == current_user
-      flash[:warning] = "#{t('users.flash.warning.not_delete', :login => "#{user.login}")}"
+      flash[:warning] = "#{t('users.flash.warning.not_delete_same_user', :login => "#{user.login}")}"
     else
       user.destroy
       flash[:notice] = t"users.flash.notice.deleted"
