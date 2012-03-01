@@ -3020,10 +3020,14 @@ form.filterable-data{
     font-size: 12px;
     border: 1px solid #ccc;
     border-bottom: none;
-    padding: 7px 5px;
+    padding: 6px 5px;
 
     ul{ list-style: none; }
-    li{ display: inline; vertical-align: middle; }
+    li{
+      @include display_inline_block;
+      vertical-align: middle;
+      padding: 1px 0px;
+    }
     li > *{vertical-align: middle;}
     ul.filter-controls{
       float: right;
@@ -3042,6 +3046,7 @@ form.filterable-data{
     li.more_actions{
       position: relative;
       padding: 8px 0px 8px 0px;
+      display: inline;
       & > span {
         border: 1px solid #bbb;
         border-radius: 3px;
@@ -3056,10 +3061,17 @@ form.filterable-data{
         background: white;
         border: 1px solid #bbb;
         padding: 4px 6px;
-        width: 150px;
+        width: 200px;
         line-height: 1.5;
         li a{ text-decoration: none; }
         li a:hover{ text-decoration: underline; }
+        li input[type="submit"]{
+          border: none;
+          padding: 0px;
+          margin: 0px;
+          background: transparent;
+          font-family: $font-family-primary;
+        }
       }
       &:hover > ul{
         display: block;
