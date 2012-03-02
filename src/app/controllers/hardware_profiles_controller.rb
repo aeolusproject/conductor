@@ -19,7 +19,7 @@ class HardwareProfilesController < ApplicationController
   before_filter :load_hardware_profiles, :only => [:index, :show]
   before_filter :load_hardware_profile, :only => [:show]
   before_filter :setup_new_hardware_profile, :only => [:new]
-  before_filter :setup_hardware_profile, :only => [:new, :create, :edit, :update]
+  before_filter :setup_hardware_profile, :only => [:new, :create, :matching_provider_hardware_profiles, :edit, :update]
 
   def index
     @title = t('hardware_profiles.hardware_profiles')
@@ -32,7 +32,7 @@ class HardwareProfilesController < ApplicationController
       format.js do
         if params[:hardware_profile]
           build_hardware_profile(params[:hardware_profile])
-          matching_provider_hardware_profiles
+          find_matching_provider_hardware_profiles
           render :partial => 'matching_provider_hardware_profiles'
         else
           render :partial => 'list'
@@ -53,7 +53,7 @@ class HardwareProfilesController < ApplicationController
     @tab_captions = [t('hardware_profiles.tab_captions.properties'), t('hardware_profiles.tab_captions.history'), t('hardware_profiles.tab_captions.matching_provider_hwp')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     properties
-    matching_provider_hardware_profiles
+    find_matching_provider_hardware_profiles
     save_breadcrumb(hardware_profile_path(@hardware_profile), @hardware_profile.name)
 
     respond_to do |format|
@@ -81,17 +81,19 @@ class HardwareProfilesController < ApplicationController
     require_privilege(Privilege::CREATE, HardwareProfile)
 
     build_hardware_profile(params[:hardware_profile])
-    if params[:commit] == 'Save'
-      if @hardware_profile.save
-        redirect_to hardware_profiles_path
-      else
-        params.delete :commit
-        render :action => 'new'
-      end
+    if @hardware_profile.save
+      redirect_to hardware_profiles_path
     else
-      matching_provider_hardware_profiles
       render :action => 'new'
     end
+  end
+
+  def matching_provider_hardware_profiles
+    require_privilege(Privilege::CREATE, HardwareProfile)
+
+    build_hardware_profile(params[:hardware_profile])
+    find_matching_provider_hardware_profiles
+    render :action => 'new'
   end
 
   def destroy
@@ -121,7 +123,7 @@ class HardwareProfilesController < ApplicationController
       redirect_to hardware_profile_path(@hardware_profile)
       return
     end
-    matching_provider_hardware_profiles
+    find_matching_provider_hardware_profiles
   end
 
   def update
@@ -133,7 +135,7 @@ class HardwareProfilesController < ApplicationController
 
     if params[:commit] == "Check Matches"
       require_privilege(Privilege::VIEW, HardwareProfile)
-      matching_provider_hardware_profiles
+      find_matching_provider_hardware_profiles
       render :edit and return
     end
 
@@ -183,7 +185,7 @@ class HardwareProfilesController < ApplicationController
                                               :storage => HardwareProfileProperty.new(:name => "storage", :unit => "GB"),
                                               :architecture => HardwareProfileProperty.new(:name => "architecture", :unit => "label"))
     end
-    matching_provider_hardware_profiles
+    find_matching_provider_hardware_profiles
   end
 
   def properties
@@ -195,7 +197,7 @@ class HardwareProfilesController < ApplicationController
   end
 
   #TODO Update this method when moving to new HWP Model
-  def matching_provider_hardware_profiles
+  def find_matching_provider_hardware_profiles
     @provider_hwps_header  = [
       { :name => t('hardware_profiles.provider_hwp_headers.provider_name'), :sort_attr => "provider.name" },
       { :name => t('hardware_profiles.provider_hwp_headers.hwp_name'), :sort_attr => :name },
