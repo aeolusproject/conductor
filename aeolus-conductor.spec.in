@@ -273,7 +273,9 @@ touch %{buildroot}%{_localstatedir}/log/%{name}/dbomatic.log
 # if the user had broken the symlinks and put data in here, it would have been
 # completely ignored *anyway*
 # Generate OAuth configuration:
-pushd %{app_root}; export RAILS_ENV=production; rake dc:oauth_keys --trace; popd
+pushd %{app_root} 2>&1 > /dev/null
+export RAILS_ENV=production; rake dc:oauth_keys 2>&1 > /dev/null
+popd 2>&1 > /dev/null
 
 %{__ln_s} -f %{app_root}/config/environments/development.rb %{_sysconfdir}/%{name}
 %{__ln_s} -f %{app_root}/config/environments/production.rb %{_sysconfdir}/%{name}
