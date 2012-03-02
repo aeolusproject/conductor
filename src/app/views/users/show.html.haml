@@ -1,9 +1,10 @@
 = render :partial => 'layouts/admin_nav'
 %header.admin-page-header
-  #obj_actions
-    .return_to
-      =t'return_to'
-      = link_to t('users.users'), users_path
+  - if check_privilege(Privilege::VIEW, User)
+    #obj_actions
+      .return_to
+        =t'return_to'
+        = link_to t('users.users'), users_path
 
 %section.admin-content-section.user
   .content
@@ -18,7 +19,8 @@
           %dd= @user.login
         #obj_actions.button-group
           = link_to "#{t('users.show.edit')}", edit_user_path(@user), :class => 'button'
-          = button_to "#{t('users.show.delete')}", user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button danger"
+          - unless @user.id == current_user.id
+            = button_to "#{t('users.show.delete')}", user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button danger"
         .clear
     %dl.user_stats
       %ul

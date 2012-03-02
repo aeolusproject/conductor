@@ -66,7 +66,7 @@ class ProviderAccount < ActiveRecord::Base
   validate :validate_presence_of_credentials
   validate :validate_credentials
   validate :validate_unique_username
-  validates :priority, :numericality => { :only_integer => true}, :allow_blank => true
+  validates :priority, :numericality => { :only_integer => true, :greater_than_or_equal_to => -2147483647, :less_than_or_equal_to => 2147483647}, :allow_blank => true
 
   before_create :populate_profiles_and_validate
   after_create :populate_realms_and_validate

@@ -35,14 +35,16 @@ class PoolsController < ApplicationController
     clear_breadcrumbs
     save_breadcrumb(pools_path(:viewstate => viewstate_id))
 
+    # This is primarily relevant to filter_view, but we check @details_tab in other places:
+    @tabs = [{:name => "#{t'pools.pools'}", :view => 'list', :id => 'pools', :pretty_view_toggle => 'enabled'},
+             {:name => "#{t'deployments.deployments'}", :view => 'deployments/list', :id => 'deployments', :pretty_view_toggle => 'enabled'},
+             {:name => "#{t'instances.instances.other'}", :view => 'instances/list', :id => 'instances', :pretty_view_toggle => 'enabled'},
+    ]
+    details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
+    @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
+
     @user_pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
     if filter_view?
-      @tabs = [{:name => "#{t'pools.pools'}", :view => 'list', :id => 'pools', :pretty_view_toggle => 'enabled'},
-               {:name => "#{t'deployments.deployments'}", :view => 'deployments/list', :id => 'deployments', :pretty_view_toggle => 'enabled'},
-               {:name => "#{t'instances.instances.other'}", :view => 'instances/list', :id => 'instances', :pretty_view_toggle => 'enabled'},
-      ]
-      details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
-      @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
       case @details_tab[:id]
       when 'pools'
         @pools = Pool.apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction)
