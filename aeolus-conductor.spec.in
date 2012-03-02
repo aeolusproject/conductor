@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  39%{?dist}
+Release:  40%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -363,6 +363,22 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Fri Mar 02 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-40
+- 9f329e2 BZ 795655 "Return to User" is not required to show for non-admin's
+- 16ded28 BZ#790250 Check Build Status on Show Image - jQuery template
+- 7ae60f4 BZ798570 Fixed filter table action buttons alignment, added more-actions dropdown tables where more than two action buttons occur
+- 8406c70 BZ788048: Fix permission checking on pools/_images
+- 79efbfa BZ 798515 - Render correct error message when deleting user
+- fe54ef0 Do not offer to delete imported provider images
+- 485d0b1 BZ 798347 added breadcrumb back to realms index
+- 5cfa1b7 BZ 799050 - Initialize @details_tab outside of filter_view
+- 528a874 BZ 796695 enforce provider quota for multi instance deployments
+- 7b774b0 BZ 784479 add range validation to priority
+- 2dfe3a6 BZ 798259 - require_user handles XHR requests properly
+- 245f766 BZ790861, BZ788103 Remove only catalog entry when removing deployable from catalog detail page
+- 1e77195 BZ796862 Launch Time Params, if parameter has new lines in its value, its put into textarea instead of text input
+- dfc7155 BZ784474 added word-wrap: break-word to all headers, so long words dont get off the ui
+
 * Wed Feb 29 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-39
 - 361d50b BZ #796797: Move Role strings out of seeds.rb to allow overrides
 - 369b094 bug 788148: Removing failing cucumber test for obsolete UI.
