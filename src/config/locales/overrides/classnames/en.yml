@@ -1,0 +1,8 @@
+en:
+  classnames:
+    deployable: Application Blueprint
+    deployment: Application
+    hardwareprofile: Cloud Resource Profile
+    pool: Cloud Resource Zone
+    poolfamily: Cloud
+    provider: Cloud Resource Provider
