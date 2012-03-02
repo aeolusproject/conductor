@@ -218,7 +218,7 @@ class ImagesController < ApplicationController
       else
         flash[:error] = t("images.import.image_not_imported")
       end
-      redirect_to new_image_url(:tab => 'import')
+      redirect_to new_image_url(:tab => 'import', :environment => @environment)
     end
   end
 
