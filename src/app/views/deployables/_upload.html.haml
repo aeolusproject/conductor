@@ -3,23 +3,23 @@
     = render 'layouts/error_messages', :object => @deployable
   %fieldset
     = hidden_field_tag('form_option', @form_option)
-    %p
+    %p.clearfix
       = label_tag :catalog_id, t('deployables.form.catalog')
       %span.text_instead_input
         -if @catalog.present?
           =@catalog.name
         - else
           %em=t('deployables.new.no_catalog_selected')
-    %p
+    %p.clearfix
       = form.label :name, t('deployables.index.name')
       = form.text_field :name, :class => 'em long'
-    %p
+    %p.clearfix
       = form.label :description, t('deployables.form.description')
       = form.text_area :description, :class => 'long'
-    %p
+    %p.clearfix
       = form.label :xml, t('deployables.form.choose_xml')
       = form.file_field :xml
-    %p
+    %p.clearfix
       = label_tag :edit_xml, t('deployables.form.edit_xml_after_save')
       = check_box_tag(:edit_xml, true, false)
 

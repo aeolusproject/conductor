@@ -12,6 +12,21 @@ Compiled on Wed Jul 13 12:26:53 -0700 2011
   *display: inline;
 }
 
+@mixin clearfix {
+  *zoom: 1;
+  &:before, &:after {
+    display: table;
+    content: "";
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.clearfix {
+  @include clearfix;
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Page Layout -- v.0.0.2 [layout] (reset.css)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -3512,6 +3527,7 @@ body.administer form.generic{
 
   input[type="text"],input[type="password"]{
     padding: 4px;
+    margin: 0px;
     width: 200px;
     font-size: 13px;
     border: 1px solid #C4C4C4;

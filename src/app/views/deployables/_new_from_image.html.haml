@@ -11,15 +11,13 @@
         %h2= t('.title')
         %p= t('.description', :name => @image.name)
         %fieldset
-          %div
+          %div.clearfix
             = form.label :name, t('catalog_entries.new.name')
             = form.text_field :name
-            .clear
-          %div
+          %div.clearfix
             = form.label :hardware_profile, t('catalog_entries.new.hw_profile')
             = select_tag :hardware_profile, options_from_collection_for_select(@hw_profiles, :id, :name, params[:hardware_profile])
-            .clear
-          %div
+          %div.clearfix
             = form.label :catalog_id, t('deployables.form.catalog')
             %span.text_instead_input#checked_catalogs_list= @selected_catalogs.empty? ? t('deployables.form.none') : @selected_catalogs.count > 1 ? t('deployables.form.multiple') : @selected_catalogs.first.name
             %span.catalog_link
@@ -36,7 +34,6 @@
                           = catalog.name
                           .clear
 
-            .clear
       .centered
         %fieldset.align-center
           = link_to t('deployables.form.cancel'), catalogs_path, :class => 'button danger'

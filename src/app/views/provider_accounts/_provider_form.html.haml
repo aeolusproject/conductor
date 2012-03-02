@@ -1,10 +1,10 @@
-%p
+%p.clearfix
   = label :provider_account, t('provider_accounts.index.provider_account_name')
   = text_field :provider_account, :label, :class => 'em long'
 - CredentialDefinition::CREDENTIAL_DEFINITIONS_ORDER.each do |cred_order|
   - @provider_account.all_credentials(@provider).each do |cred|
     - if cred_order == cred.credential_definition.name
-      %p
+      %p.clearfix
         = label_tag cred.credential_definition.label
         - if cred.credential_definition.input_type == "password"
           = password_field_tag "provider_account[credentials_hash][#{cred.credential_definition.name}]", cred.value
@@ -14,10 +14,10 @@
         - else
           = text_field_tag "provider_account[credentials_hash][#{cred.credential_definition.name}]", cred.value
 
-%p
+%p.clearfix
   = label :provider_account, t('provider_accounts.index.priority')
   = text_field :provider_account, :priority, :class => 'em'
-%p
+%p.clearfix
   = label_tag t("quotas.quota")
   = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || t('provider_accounts.properties.unlimited'), :id => "quota_instances"
   (
