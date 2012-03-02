@@ -1,12 +1,12 @@
 - if @pool_family.errors.any?
   = render 'layouts/error_messages', :object => @pool_family
 %fieldset
-  %p
+  %p.clearfix
     = form.label :name, t("pool_families.form.pool_family_name")
     = form.text_field :name, :title => 'pool_family_name', :value => @pool_family.name, :class => 'em long'
 
   = form.fields_for :quota do |quota_form|
-    %p
+    %p.clearfix
       = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
       = quota_form.text_field :maximum_running_instances
 

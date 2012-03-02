@@ -2,30 +2,30 @@
   = render 'layouts/error_messages', :object => @user
 
 %fieldset
-  %p
+  %p.clearfix
     = form.label :first_name, t(:first_name)
     = form.text_field :first_name, :class =>"check_change"
-  %p
+  %p.clearfix
     = form.label :last_name, t(:last_name)
     = form.text_field :last_name, :class =>"check_change"
-  %p
+  %p.clearfix
     = form.label :email, t(:email), :required => true
     = form.text_field :email, :class =>"check_change"
 %fieldset
-  %p
+  %p.clearfix
     = form.label :login, t(:choose_name), :required => true
     = form.text_field :login, :class => "em check_change"
-  %p
+  %p.clearfix
     = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password), :required => form.object.new_record?
     = form.password_field :password
-  %p
+  %p.clearfix
     = form.label :password_confirmation, t(:confirm_password), :required => form.object.new_record?
     = form.password_field :password_confirmation
 
 - if check_privilege(Privilege::MODIFY, User)
   %fieldset
     = form.fields_for :quota do |quota_form|
-      %p
+      %p.clearfix
         = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
         = quota_form.text_field :maximum_running_instances
 

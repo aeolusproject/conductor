@@ -12,13 +12,13 @@
     = form_tag(import_images_path, { :multipart => true, :method => :post, :class => :generic }) do
       = hidden_field_tag :environment, @environment.id
       %fieldset
-        %p
+        %p.clearfix
           = label_tag :provider_account, t('.provider_account')
           = select_tag :provider_account, options_for_select(@accounts.collect{|x| [x.label, x.id]})
-        %p
+        %p.clearfix
           = label_tag :image_id, t('.image_id')
           = text_field_tag :image_id
-        %p
+        %p.clearfix
           = label_tag :name, t('.name')
           = text_field_tag :name
 
