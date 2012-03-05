@@ -2920,6 +2920,10 @@ ul.catalog_pretty {
 /********************************************* Image show view */
 /************************************************************************** */
 
+#push-all-btn {
+  display: inline;
+}
+
 ul.image_builds{
   border: 1px solid #ccc;
   -webkit-border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; border-radius: 7px 7px 7px 7px;
@@ -2971,7 +2975,6 @@ ul.image_builds{
     }
   }
 }
-
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Flat Table Component -- v.0.0.1 [flat_table] (flat_table.scss)
