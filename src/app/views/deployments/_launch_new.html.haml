@@ -41,7 +41,7 @@
           %div#realm-description
 
       %fieldset.options
-        = submit_tag t('.next'), :class => 'button', :id => "next_button"
+        = submit_tag t('.next'), :class => 'button', :id => "next_button", :disabled => true
 
 
 :javascript
@@ -61,6 +61,11 @@
       e.preventDefault();
       $.get('#{check_name_deployments_path}', {name: $('#deployment_name').val() }, function(data) {
         $('#name_avail_indicator').html(data == "false" ? "#{t'deployments.launch_new.already_in_use'}" : "#{t'deployments.launch_new.name_available'}");
+        if(data == "true" && $('#next_button').is(':disabled')){
+         $('#next_button').removeAttr('disabled');
+        }else{
+         $('#next_button').attr("disabled", "disabled");
+        }
       });
     });
 
