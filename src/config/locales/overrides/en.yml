@@ -373,6 +373,8 @@ en:
           other: "Insufficient permissions to delete %{count} application blueprint %{not_deleted}!"
         not_selected: "No application blueprint was selected!"
         no_hwp_exists: "No cloud resource profile exists! Please create one."
+        wrong_environment: "The Application Blueprint '%{deployable}' contains a Component Outline (UUID %{uuid}) in the wrong Cloud ('%{wrong_env}' should be '%{environment}') and cannot be used."
+
       warning:
         failed: "Application Blueprint was not created: %{message}"
       notice:
