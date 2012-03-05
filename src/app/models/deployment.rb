@@ -382,8 +382,9 @@ class Deployment < ActiveRecord::Base
       end
 
       deployment_errors = []
-      deployment_errors << I18n.t('instances.errors.pool_quota_reached') if not pool.quota.can_start?(instances)
-      deployment_errors << I18n.t('instances.errors.pool_family_quota_reached') if not pool.pool_family.quota.can_start?(instances)
+      deployment_errors << I18n.t('instances.errors.pool_quota_reached') unless pool.quota.can_start?(instances)
+      deployment_errors << I18n.t('instances.errors.pool_family_quota_reached') unless pool.pool_family.quota.can_start?(instances)
+      deployment_errors << I18n.t('instances.errors.user_quota_reached') unless user.quota.can_start?(instances)
 
       if not deployment_errors.empty?
         raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), deployment_errors)
