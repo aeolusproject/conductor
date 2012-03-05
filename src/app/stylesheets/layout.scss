@@ -3044,7 +3044,7 @@ form.filterable-data{
     li{
       @include display_inline_block;
       vertical-align: middle;
-      padding: 1px 0px;
+      padding: 0px 0px;
     }
     li > *{vertical-align: middle;}
     ul.filter-controls{
@@ -3063,18 +3063,18 @@ form.filterable-data{
 
     li.more_actions{
       position: relative;
-      padding: 8px 0px 8px 0px;
-      display: inline;
+      padding: 5px 0px 5px 0px;
       & > span {
         border: 1px solid #bbb;
         border-radius: 3px;
         padding: 3px 4px;
         @include gradient-bg($cell_color_base, $cell_color_header);
+        &:after{ content: ""; }
       }
       ul{
         display: none;
         position: absolute;
-        top: 30px;
+        top: 27px;
         left: 0px;
         background: white;
         border: 1px solid #bbb;
