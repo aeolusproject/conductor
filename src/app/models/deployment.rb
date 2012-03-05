@@ -62,6 +62,7 @@ class Deployment < ActiveRecord::Base
 
   scope :ascending_by_name, :order => 'deployments.name ASC'
 
+  before_validation :replace_special_characters_in_name
   validates_presence_of :pool_id
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :pool_id
@@ -71,7 +72,6 @@ class Deployment < ActiveRecord::Base
   before_destroy :destroyable?
   before_create :inject_launch_parameters
   before_create :generate_uuid
-  before_save :replace_special_characters_in_name
   before_create :set_pool_family
 
   USER_MUTABLE_ATTRS = ['name']
@@ -603,7 +603,7 @@ class Deployment < ActiveRecord::Base
   end
 
   def replace_special_characters_in_name
-    name.gsub!(/[^a-zA-Z0-9]+/, '-')
+    name.gsub!(/[^a-zA-Z0-9]+/, '-') if !name.nil?
   end
 
   def set_pool_family
