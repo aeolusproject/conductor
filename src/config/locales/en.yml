@@ -923,7 +923,7 @@ en:
         no_catalog_exists: "No catalog exists! Please create one."
         no_hwp_exists: "No hardware profile exists! Please create one."
         missing_image: "%{assembly}: Image (UUID: %{uuid}) doesn't exist"
-        wrong_environment: "%{assembly}: Image (UUID: %{uuid}) belongs to the wrong environment (%{wrong_env}) instead of %{environment}"
+        wrong_environment: "The deployable '%{deployable}' contains an image (UUID %{uuid}) in the wrong environment ('%{wrong_env}' should be '%{environment}') and cannot be used."
       warning:
         failed: "Deployable was not created: %{message}"
       notice:

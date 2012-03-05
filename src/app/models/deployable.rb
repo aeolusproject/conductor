@@ -135,7 +135,7 @@ class Deployable < ActiveRecord::Base
       else
         if image.environment != catalogs.first.pool.pool_family.name
           deployable_errors << I18n.t("deployables.flash.error.wrong_environment",
-                                      :assembly => assembly.name,
+                                      :deployable => name,
                                       :uuid => assembly.image_id,
                                       :wrong_env => image.environment,
                                       :environment => catalogs.first.pool.pool_family.name)
