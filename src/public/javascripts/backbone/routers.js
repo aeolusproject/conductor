@@ -76,10 +76,23 @@ Conductor.Routers.Deployments = Backbone.Router.extend({
 
 Conductor.Routers.Deployables = Backbone.Router.extend({
   routes: {
-    'catalogs/:catalog_id/deployables/:id': 'show'
+    'catalogs/:catalog_id/deployables/:id': 'show_nested',
+    'deployables/:id': 'show'
   },
 
-  show: function(catalog_id, id) {
+  show: function(id) {
+    id = Conductor.idFromURLFragment(id);
+
+    if(! _.isNumber(id) ) return;
+
+    setInterval(function() {
+      var deployable = new Conductor.Models.Deployable({ id: id });
+      var view = new Conductor.Views.DeployablesShow({ model: deployable });
+      deployable.fetch({ success: function() { view.render(); } })
+    }, Conductor.AJAX_REFRESH_INTERVAL);
+  },
+
+  show_nested: function(catalog_id, id) {
     id = Conductor.idFromURLFragment(id);
     var catalogId = Conductor.idFromURLFragment(catalog_id);
 

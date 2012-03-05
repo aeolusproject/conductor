@@ -39,7 +39,12 @@ Conductor.Models.Deployable = Backbone.Model.extend({
   },
 
   url: function() {
-    return Conductor.prefixedPath('/catalogs/' + this.catalog_id + '/deployables/' + this.id);;
+    if( this.catalog_id == null ){
+      return Conductor.prefixedPath('/deployables/' + this.id);
+    }
+    else{
+      return Conductor.prefixedPath('/catalogs/' + this.catalog_id + '/deployables/' + this.id);
+    }
   }
 });
 
