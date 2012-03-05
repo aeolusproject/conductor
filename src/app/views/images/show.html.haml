@@ -45,8 +45,10 @@
           - if @account_groups.size > 1
             - build_text << '_all'
           = button_to t(build_text), rebuild_all_image_path(@image.id), :class => 'button pill'
-          - if @build and @build.id == @latest_build
-            = button_to t('.push_all'), push_all_image_path(@image.id, :build_id => @build.id), :class => 'button pill'
+          #push-all-btn
+            - if @build and @build.id == @latest_build
+              = button_to t('.push_all'), push_all_image_path(@image.id, :build_id => @build.id), :class => 'button pill'
+
   .content
     %ul.image_builds
       - @account_groups.each do |driver, group|
@@ -257,3 +259,10 @@
         </li>
       {{/if}}
     {{/each}}
+
+%script#pushAllButtonTemplate{ :type => 'text/x-jquery-tmpl' }
+  :plain
+    #{path = push_all_image_path('replace_image_id', :build_id => 'replace_build_id')
+      path = path.sub('replace_image_id', '${image[\'uuid\']}')
+      path = path.sub('replace_build_id', '${build[\'uuid\']}')
+      button_to(t('images.show.push_all'), path, :class => 'button pill')}
