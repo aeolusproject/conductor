@@ -184,6 +184,21 @@ describe Deployment do
     end
   end
 
+  describe ".check_assemblies_matches" do
+    before do
+      admin_perms = FactoryGirl.create :admin_permission
+      @user_for_launch = admin_perms.user
+      @user_for_launch.quota.maximum_running_instances = 1
+      @deployment.stub(:common_provider_accounts_for).and_return(["test","test"])
+    end
+
+    it "return error when user quota was reached" do
+      Instance.any_instance.stub(:matches).and_return(["test","test"])
+      errors = @deployment.check_assemblies_matches(@user_for_launch)
+      errors.should have(2).items
+      errors.last.should include I18n.t('instances.errors.user_quota_reached')
+    end
+  end
 
   describe "using image from iwhd" do
     before do
