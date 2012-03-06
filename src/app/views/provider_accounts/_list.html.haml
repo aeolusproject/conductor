@@ -35,4 +35,4 @@
       %td= account.provider.provider_type.name
       %td= account.priority
       %td{:class => 'center'}= number_to_percentage account.quota.percentage_used, :precision => 0
-      %td{:class => 'center'}= account.quota.maximum_running_instances or 'unlimited'
+      %td{:class => 'center'}= account.quota.maximum_running_instances or t('provider_accounts.properties.unlimited')

@@ -182,19 +182,27 @@ class PoolsController < ApplicationController
   def destroy
     destroyed = []
     failed = []
+    permission_failed = []
     error_messages = []
     Pool.find(ids_list('pools_selected')).each do |pool|
       if pool.id == MetadataObject.lookup("self_service_default_pool").id
         error_messages << t("pools.flash.error.default_pool_not_deleted")
-      elsif check_privilege(Privilege::MODIFY, pool) && pool.destroyable?
+      elsif !check_privilege(Privilege::MODIFY, pool)
+        permission_failed << pool.name
+      elsif !pool.destroyable?
+        failed << pool.name
+      else
         pool.destroy
         destroyed << pool.name
-      else
-        failed << pool.name
       end
     end
+
     flash[:success] = t('pools.flash.success.pool_deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
-    flash[:error] = t('pools.flash.error.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
+    if permission_failed.any?
+      flash[:error] = t('application_controller.permission_denied')
+    elsif failed.any?
+      flash[:error] = t('pools.flash.error.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
+    end
     flash[:warning] = error_messages if error_messages.present?
     respond_to do |format|
       # TODO - What is expected to be returned on an AJAX delete?
@@ -210,6 +218,7 @@ class PoolsController < ApplicationController
   def multi_destroy
     destroyed = []
     failed = []
+    permission_failed = []
     error_messages = []
     Pool.find(params[:pools_selected]).each do |pool|
       # FIXME: remove this check when pools can be assigned to new users
@@ -217,11 +226,13 @@ class PoolsController < ApplicationController
       # to id of 1 and deleting it prevents new users from being created
       if pool.id == MetadataObject.lookup("self_service_default_pool").id
         error_messages << t("pools.flash.error.default_pool_not_deleted")
-      elsif check_privilege(Privilege::MODIFY, pool) && pool.destroyable?
+      elsif !check_privilege(Privilege::MODIFY, pool)
+        permission_failed << pool.name
+      elsif !pool.destroyable?
+        failed << pool.name
+      else
         pool.destroy
         destroyed << pool.name
-      else
-        failed << pool.name
       end
     end
 
@@ -230,6 +241,9 @@ class PoolsController < ApplicationController
     end
     unless failed.empty?
       error_messages << t('pools.flash.error.pool_not_deleted', :count => failed.length, :list => failed.join(', '))
+    end
+    unless permission_failed.empty?
+      error_messages << t('application_controller.permission_denied')
     end
     unless error_messages.empty?
       flash[:error] = error_messages.join('<br />')

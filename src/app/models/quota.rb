@@ -66,7 +66,7 @@ class Quota < ActiveRecord::Base
   RESOURCE_NAMES = [ RESOURCE_RUNNING_INSTANCES, RESOURCE_TOTAL_INSTANCES ]
 
   def set_maximum_running_instances(value)
-    if value.blank? || value == 'unlimited'
+    if value.blank? || value == I18n.t('provider_accounts.properties.unlimited')
       self.maximum_running_instances = Quota::NO_LIMIT
     else
       self.maximum_running_instances = value

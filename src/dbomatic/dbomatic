@@ -193,7 +193,13 @@ def check_one_account(account)
     # optimization; right now we ignore instances that are in the STOPPED state.
     # when we get to stateful instances, this will need to change
     if instance.state != Instance::STATE_NEW and instance.state != Instance::STATE_STOPPED
-      api_instance = connection.instance(instance.external_key)
+      begin
+        api_instance = connection.instance(instance.external_key)
+      rescue Exception => e
+        DBomaticLogger.instance.warn("caught deltacloud exception #{e} when updating instance #{instance.name}")
+        api_instance = nil
+      end
+
       if api_instance
         DBomaticLogger.instance.info("updating instance state for #{instance.name}: #{instance.external_key}")
         instance.state = Taskomatic.dcloud_to_instance_state(api_instance.state)
