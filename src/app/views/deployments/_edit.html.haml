@@ -4,7 +4,7 @@
 = form_for @deployment do
   %ul
     %li
-      = label :deployment, t('name')
+      = label :deployment
       = text_field :deployment, :name
 
   = submit_tag t('cancel'), :name => 'cancel'

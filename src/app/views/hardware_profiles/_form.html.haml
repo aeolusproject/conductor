@@ -1,6 +1,6 @@
 - if @hardware_profile.errors.any?
   = render 'layouts/error_messages', :object => @hardware_profile
-= hwp_form.label :name, t('hardware_profiles.form.name')
+= hwp_form.label :name
 = hwp_form.text_field :name
 %table
   %thead

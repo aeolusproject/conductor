@@ -4,10 +4,10 @@
 
   %fieldset
     %p
-      = form.label :name, t('name'), :class => 'em'
+      = form.label :name, :class => 'em'
       = form.text_field :name, :class => 'em long'
     %p
-      = form.label :pool_family_id, t("pool_families.pool_family")
+      = form.label :pool_family_id
       - if @pool_families
         = form.collection_select :pool_family_id, @pool_families, :id, :name
       - else

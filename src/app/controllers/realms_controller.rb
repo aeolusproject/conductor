@@ -31,7 +31,6 @@ class RealmsController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, Realm)
-    @title = t 'realms.new.create_realm'
     @realm = FrontendRealm.new
     load_backend_realms
   end
