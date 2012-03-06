@@ -18,5 +18,6 @@
             = hwpp_form.select("value", ["i386", "x86_64"], {})
           -else
             = hwpp_form.text_field(:value)
-= hwp_form.submit t('hardware_profiles.form.check_matches'), :class => "submit button", :id => 'check_matches'
+
+= restful_submit_tag t('hardware_profiles.form.check_matches'), 'matching_provider_hardware_profiles', matching_provider_hardware_profiles_hardware_profiles_path, 'POST', :class => 'button danger', :id => 'check_matches', 'data-none_selected' => t('deployments.flash.error.none_selected')
 = hwp_form.submit t('save'), :class => 'submit button', :id => 'save_button'

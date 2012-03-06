@@ -39,7 +39,7 @@ class ImagesController < ApplicationController
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
     @environment = PoolFamily.where('name' => @image.environment).first
     @push_started = params[:push_started] == 'true'
-    @pushed_target_image_id = params[:pushed_target_image_id]
+    @pushed_provider_account = ProviderAccount.find(params[:provider_account_id]) if params[:provider_account_id].present?
 
     if @image.imported?
       begin

@@ -38,7 +38,7 @@ class ProviderImagesController < ApplicationController
       flash[:warning] = t('provider_images.flash.warning.upload_failed')
     end
     redirect_to image_path(params[:image_id], :build => params[:build_id], :push_started => @push_started,
-                           :pushed_target_image_id => @push_started ? @provider_image.target_image_id : nil)
+                           :provider_account_id => @push_started ? provider_account.id : nil)
   end
 
   def destroy
