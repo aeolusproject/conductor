@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  40%{?dist}
+Release:  41%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -366,6 +366,42 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue Mar 06 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-41
+- 87af1bf BZ 788136 add checks to see if accounts exist
+- d591293 BZ 795666 show proper error if user does not have permission to destroy a pool
+- 3d4d3eb Added rspec test for reaching of user's quota
+- e1f832d BZ 799306 User quota not enforced for multi-instance deployment
+- e2f71a3 BZ 798567 use Il8n version of unlimited
+- d8f2de2 BZ 798567 fix to allow Il8n'd version of 'unlimited' to count as unlimited
+- 70afaf5 BZ 798548 - fixed redirect on image import fail
+- 17ede53 BZ798570 reworked more_actions dropdown to align properly
+- 2b8186b BZ #791123 catch deltacloud exceptions in dbomatic
+- ab6847b BZ 799270 perform character replacment in 'name' prior to uniqueness validation
+- eb75c9d BZ #798080: aeolus-conductor RPM outputs to stdout
+- 65b6216 BZ#799913 Removed wrong buttons from edit deployables page
+- 2d774ea Enable ajax update via backbone on /deployables/:id
+- 861a8fc BZ798026 Explicit none_selected messages to deployments and instances lists
+- a2a8f2f BZ798026 Unified popup messages into one js method, enabled translation
+- 9d1fa70 BZ798550 added clearfix to administer section form input wrapper elements, to prevent skipping to the side when label is long
+- 388b602 Revert "BZ794536 Timeout session after 15 minutes of inactivity"
+- b812463 Bug 788148: Moved catalog entry tests to deployables spec
+- e6305cb bug 788148: some permissions checking fixes to enable proper 'environment admin' functionality
+- 3cb14d5 bug 788148: Add permissions pane to provider accounts UI
+- fcd2f30 bug 788148: seeds.rb update to update role definitions https://bugzilla.redhat.com/show_bug.cgi?id=788148
+- c15f925 bug 788148: whitespace changes for readibility
+- 58afc18 bug 788148: Take environment into account for permission inheritance
+- 2926437 BZ 788558 - instance termination for single instance
+- dea36d7 BZ-790026-Deleting a provider with running instances does not show any message
+- ca45908 BZ 799314 - Override wrong_environment en.yml key
+- ff99903 BZ 799314 - Clarify error when a deployable has images in the wrong environment.
+- 74ff94a BZ 798136 - Fix reference to 'Environment'
+- 6b9c697 BZ798574: Separating matching_provider_hardware_profiles action from create
+- fac0ade BZ799492: Fix "push is about to start" message
+- b2cc877 BZ797208: Enable push all button on autoupdate
+- c9d5bf6 BZs #798501 and #798505: Product names should be pulled from mapping file
+- 58a94ec BZs #798501 and #798505: Object names should be pulled from mapping file
+- 2ace270 BZ796562 Fix environment i18n in image properties
+
 * Fri Mar 02 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-40
 - 9f329e2 BZ 795655 "Return to User" is not required to show for non-admin's
 - 16ded28 BZ#790250 Check Build Status on Show Image - jQuery template
