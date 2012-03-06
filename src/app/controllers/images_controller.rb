@@ -194,6 +194,9 @@ class ImagesController < ApplicationController
     check_permissions
     if 'import' == params[:tab]
       @accounts = @environment.provider_accounts.enabled.list_for_user(current_user, Privilege::USE)
+      if !@accounts.any?
+        flash[:error] = t("images.flash.error.no_provider_accounts_for_import")
+      end
       render :import and return
     end
 
