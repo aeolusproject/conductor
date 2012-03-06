@@ -2,8 +2,8 @@
   = render :partial => '/layouts/notification'
 
 - content_for :form_header do
-  %li= restful_submit_tag "#{t'deployments.list.stop_selected'}", 'stop', multi_stop_deployments_path, 'POST', :class => 'button', :id => "stop_button"
-  %li= restful_submit_tag "#{t'deployments.list.delete_selected'}", 'destroy', multi_destroy_deployments_path, 'DELETE', :class => 'button danger', :id => "delete_button"
+  %li= restful_submit_tag "#{t'deployments.list.stop_selected'}", 'stop', multi_stop_deployments_path, 'POST', :class => 'button', :id => "stop_button", 'data-none_selected' => t('deployments.flash.error.none_selected')
+  %li= restful_submit_tag "#{t'deployments.list.delete_selected'}", 'destroy', multi_destroy_deployments_path, 'DELETE', :class => 'button danger', :id => "delete_button", 'data-none_selected' => t('deployments.flash.error.none_selected')
   = hidden_field_tag 'backlink', request.url
 
 - content_for :filter_controls do

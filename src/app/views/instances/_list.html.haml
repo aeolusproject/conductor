@@ -1,6 +1,6 @@
 - content_for :form_header do
-  %li= restful_submit_tag "#{t'instances.list.stop_selected_instances'}", 'stop', multi_stop_instances_path, 'GET', :class => 'button', :id => 'stop_selected_instances'
-  %li= restful_submit_tag "#{t'instances.list.reboot_selected_instances'}", 'reboot', multi_reboot_instances_path, 'GET', :class => 'button', :id => 'reboot_selected_instances'
+  %li= restful_submit_tag "#{t'instances.list.stop_selected_instances'}", 'stop', multi_stop_instances_path, 'GET', :class => 'button', :id => 'stop_selected_instances', 'data-none_selected' => t('instances.none_selected')
+  %li= restful_submit_tag "#{t'instances.list.reboot_selected_instances'}", 'reboot', multi_reboot_instances_path, 'GET', :class => 'button', :id => 'reboot_selected_instances', 'data-none_selected' => t('instances.none_selected_to_reboot')
   %li.more_actions
     %span= image_tag "more_actions_drop.png"
     %ul

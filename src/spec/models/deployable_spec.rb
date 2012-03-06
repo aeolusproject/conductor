@@ -43,4 +43,32 @@ describe Deployable do
     deployable.valid_deployable_xml?
     deployable.errors[:xml].should == [I18n.t('catalog_entries.flash.warning.not_valid_duplicate_assembly_names')]
   end
+
+  it "should have a name of reasonable length" do
+    catalog = FactoryGirl.create :catalog
+    deployable = FactoryGirl.create(:deployable, :catalogs => [catalog])
+    [nil, '', 'x'*1025].each do |invalid_name|
+      deployable.name = invalid_name
+      deployable.should_not be_valid
+    end
+    deployable.name = 'x'*1024
+    deployable.should be_valid
+  end
+
+  it "should have unique name" do
+    catalog = FactoryGirl.create :catalog
+    deployable = FactoryGirl.create :deployable, :catalogs => [catalog]
+    deployable2 = Factory.build(:deployable, :name => deployable.name)
+    deployable2.should_not be_valid
+
+    deployable2.name = 'unique name'
+    deployable2.should be_valid
+  end
+
+  it "should have xml content" do
+    catalog = FactoryGirl.create :catalog
+    deployable = FactoryGirl.create :deployable, :catalogs => [catalog]
+    deployable.xml = ''
+    deployable.should_not be_valid
+  end
 end

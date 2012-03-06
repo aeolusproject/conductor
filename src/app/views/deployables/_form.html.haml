@@ -3,24 +3,24 @@
 %fieldset
   - if params[:edit_xml]
     = hidden_field_tag :edit_xml, true
-    %p
+    %p.clearfix
       %h2= t('.deployable_xml')
       = form.text_area :xml, :class => 'edit_xml'
   - else
-    %p
+    %p.clearfix
       = label_tag :catalog_id, t('.catalog')
       %span.text_instead_input
         - if @catalog.present?
           =@catalog.name
         - else
           %em=t('deployables.new.no_catalog_selected')
-    %p
+    %p.clearfix
       = form.label :name, t('deployables.index.name')
       = form.text_field :name, :class => 'long'
-    %p
+    %p.clearfix
       = form.label :description, t('.description')
       = form.text_area :description, :class => 'long'
-    %p
+    %p.clearfix
       = form.label :xml, t('.deployable_xml')
       %span.text_instead_input= link_to t("deployables.properties.edit_deployable_xml"), edit_polymorphic_path([@catalog, @deployable], :edit_xml=>true)
 

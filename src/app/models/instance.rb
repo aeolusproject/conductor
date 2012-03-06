@@ -70,6 +70,7 @@ class Instance < ActiveRecord::Base
   @@per_page = 15
 
   belongs_to :pool
+  belongs_to :pool_family
   belongs_to :provider_account
   belongs_to :deployment
 
@@ -100,6 +101,7 @@ class Instance < ActiveRecord::Base
   validates_length_of :name, :maximum => 1024
 
   before_create :generate_uuid
+  before_create :set_pool_family
 
   STATE_NEW            = "new"
   STATE_PENDING        = "pending"
@@ -144,7 +146,7 @@ class Instance < ActiveRecord::Base
   USER_MUTABLE_ATTRS = ['name']
 
   def object_list
-    super + [pool, deployment]
+    super + [deployment, pool, pool_family]
   end
   class << self
     alias orig_list_for_user_include list_for_user_include
@@ -152,20 +154,19 @@ class Instance < ActiveRecord::Base
   end
 
   def self.list_for_user_include
-    includes = orig_list_for_user_include
-    includes << { :pool => {:permissions => {:role => :privileges}},
-                  :deployment => {:permissions => {:role => :privileges}}}
-    includes
+    orig_list_for_user_include + [ {:deployment => :permissions},
+                                   {:pool => :permissions},
+                                   {:pool_family => :permissions} ]
   end
 
   def self.list_for_user_conditions
     "(#{orig_list_for_user_conditions}) or
      (permissions_deployments.user_id=:user and
-      privileges_roles.target_type=:target_type and
-      privileges_roles.action=:action) or
+      permissions_deployments.role_id in (:role_ids)) or
      (permissions_pools.user_id=:user and
-      privileges_roles_2.target_type=:target_type and
-      privileges_roles_2.action=:action)"
+      permissions_pools.role_id in (:role_ids)) or
+     (permissions_pool_families.user_id=:user and
+      permissions_pool_families.role_id in (:role_ids))"
   end
 
   def get_action_list(user=nil)
@@ -447,12 +448,12 @@ class Instance < ActiveRecord::Base
     do_operation(user, 'reboot')
   end
 
-  def force_stop(user)
+  def forced_stop(user)
     self.state = STATE_STOPPED
     save!
     event = Event.create!(:source => self, :event_time => Time.now,
                           :summary => "Instance is not accessible, state changed to stopped",
-                          :status_code => "force_stop")
+                          :status_code => "forced_stop")
   end
 
   def deployed?
@@ -509,6 +510,10 @@ class Instance < ActiveRecord::Base
 
   def generate_uuid
     self[:uuid] = UUIDTools::UUID.timestamp_create.to_s
+  end
+
+  def set_pool_family
+    self[:pool_family_id] = pool.pool_family_id
   end
 
   def do_operation(user, operation)

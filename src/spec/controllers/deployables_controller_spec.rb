@@ -121,10 +121,8 @@ describe DeployablesController do
 
     context "with params[:deployables_selected]" do
       before do
-        @deployable1 = Factory :deployable, :name => "test_delete"
-        @deployable2 = Factory :deployable, :name => "test_delete2"
-        @catalog.deployables << @deployable1
-        @catalog.deployables << @deployable2
+        @deployable1 = Factory :deployable, :name => "test_delete", :catalogs => [@catalog]
+        @deployable2 = Factory :deployable, :name => "test_delete2", :catalogs => [@catalog]
       end
 
       it "deletes both deployables and shows flash notice" do

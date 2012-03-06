@@ -44,6 +44,7 @@ class ProviderAccountsController < ApplicationController
       test_account(@provider_account)
       render :action => 'show' and return
     end
+    add_permissions_inline(@provider_account)
 
     respond_to do |format|
       format.html { render :action => 'show'}

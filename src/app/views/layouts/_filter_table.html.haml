@@ -8,10 +8,9 @@
       - if content_for? form_header
         %ul.actions
           = yield form_header
-
       .clear
 
-  %table.flat.checkbox_table
+  %table.flat.checkbox_table{ 'data-none_selected' => t("default_none_selected_message"), 'data-confirm' => t("default_confirm_message") }
     %thead
       %tr
         - columns.each do |column|

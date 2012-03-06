@@ -115,16 +115,13 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def self.list_for_user_include
-    includes = orig_list_for_user_include
-    includes << { :provider => {:permissions => {:role => :privileges}}}
-    includes
+    orig_list_for_user_include + [{ :provider => :permissions}]
   end
 
   def self.list_for_user_conditions
     "(#{orig_list_for_user_conditions}) or
      (permissions_providers.user_id=:user and
-      privileges_roles.target_type=:target_type and
-      privileges_roles.action=:action)"
+      permissions_providers.role_id in (:role_ids))"
   end
 
   def destroyable?
@@ -406,6 +403,11 @@ class ProviderAccount < ActiveRecord::Base
     return :not_pushed unless provider_image
     :pushed
   end
+
+  def to_polymorphic_path_param(polymorphic_path_extras)
+    [provider, self]
+  end
+
 
   private
 

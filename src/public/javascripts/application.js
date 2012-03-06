@@ -117,49 +117,22 @@ $.extend(Conductor, {
     $.ajaxSetup({accepts: acceptsSettings, dataType: 'html'})
   },
 
-  multiDestroyValidation: function() {
-    $('#delete_button').live('click', function(e) {
-      if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
-        alert('Please make a selection before clicking Delete button.');
-        e.preventDefault();
-      }
-      else if (!confirm("Are you sure you want to proceed with deletion?")) {
-        e.preventDefault();
-      }
-    });
-  },
+  multiActionValidation: function() {
+    $('#delete_button, #revoke_button, #stop_button, #stop_selected_instances, #reboot_selected_instances').live('click', function(e) {
 
-  multiRevokeValidation: function() {
-    $('#revoke_button').live('click', function(e) {
-      if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
-        alert('Please make a selection before clicking Revoke Access button.');
-        e.preventDefault();
-      }
-      else if (!confirm("Are you sure you want to proceed?")) {
-        e.preventDefault();
-      }
-    });
-  },
+      var $checkbox_table = $(this).closest("form.filterable-data").find("table.checkbox_table");
+      var confirm_message = $checkbox_table.data('confirm');
+      var none_selected_message = $checkbox_table.data('none_selected');
 
-  multiStopValidation: function() {
-    $('#stop_button, #stop_selected_instances').live('click', function(e) {
-      if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
-        alert('Please make a selection before clicking Stop button.');
-        e.preventDefault();
-      }
-      else if (!confirm("Are you sure you want to proceed?")) {
-        e.preventDefault();
-      }
-    });
-  },
+      //if needed, override default messages with messages defined explicitly on button
+      if ($(this).data('confirm')){ confirm_message = $(this).data('confirm'); }
+      if ($(this).data('none_selected')){ none_selected_message = $(this).data('none_selected'); }
 
-  multiRebootValidation: function() {
-    $('#reboot_selected_instances').live('click', function(e) {
-      if ($(".checkbox_table input[@type=radio]:checked").length == 0) {
-        alert('Please make a selection before clicking Reboot button.');
+      if ($checkbox_table.find("input[@type=radio]:checked").length == 0) {
+        alert(none_selected_message);
         e.preventDefault();
       }
-      else if (!confirm("Are you sure you want to proceed?")) {
+      else if (!confirm(confirm_message)) {
         e.preventDefault();
       }
     });
@@ -398,10 +371,7 @@ $(document).ready(function () {
   Conductor.enhanceListView();
   Conductor.enhanceDetailsTabs();
   Conductor.bind_pretty_toggle();
-  Conductor.multiDestroyValidation();
-  Conductor.multiRevokeValidation();
-  Conductor.multiStopValidation();
-  Conductor.multiRebootValidation();
+  Conductor.multiActionValidation();
   Conductor.closeNotification();
   Conductor.toggleCollapsible();
   Conductor.selectAllCheckboxes();

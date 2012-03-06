@@ -42,6 +42,7 @@ class Deployment < ActiveRecord::Base
   end
 
   belongs_to :pool
+  belongs_to :pool_family
 
   has_many :instances, :dependent => :destroy
 
@@ -71,6 +72,8 @@ class Deployment < ActiveRecord::Base
   before_create :inject_launch_parameters
   before_create :generate_uuid
   before_save :replace_special_characters_in_name
+  before_create :set_pool_family
+
   USER_MUTABLE_ATTRS = ['name']
   STATE_MIXED = "mixed"
 
@@ -105,7 +108,7 @@ class Deployment < ActiveRecord::Base
   end
 
   def object_list
-    super << pool
+    super + [pool, pool_family]
   end
   class << self
     alias orig_list_for_user_include list_for_user_include
@@ -113,16 +116,16 @@ class Deployment < ActiveRecord::Base
   end
 
   def self.list_for_user_include
-    includes = orig_list_for_user_include
-    includes << { :pool => {:permissions => {:role => :privileges}}}
-    includes
+    orig_list_for_user_include + [ {:pool => :permissions},
+                                   {:pool_family => :permissions} ]
   end
 
   def self.list_for_user_conditions
     "(#{orig_list_for_user_conditions}) or
      (permissions_pools.user_id=:user and
-      privileges_roles.target_type=:target_type and
-      privileges_roles.action=:action)"
+      permissions_pools.role_id in (:role_ids)) or
+     (permissions_pool_families.user_id=:user and
+      permissions_pool_families.role_id in (:role_ids))"
   end
 
   def get_action_list(user=nil)
@@ -602,4 +605,9 @@ class Deployment < ActiveRecord::Base
   def replace_special_characters_in_name
     name.gsub!(/[^a-zA-Z0-9]+/, '-')
   end
+
+  def set_pool_family
+    self[:pool_family_id] = pool.pool_family_id
+  end
+
 end
