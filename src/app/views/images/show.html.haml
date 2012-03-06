@@ -108,7 +108,7 @@
                             - if timg and b = @builder.find_active_push(timg.id, account.provider.name, account.credentials_hash['username'])
                               = label_tag b.status
                             - elsif timg and not pimg and @build and @build.id == @latest_build
-                              - if @push_started && @pushed_target_image_id == timg.id
+                              - if @push_started && @pushed_provider_account == account
                                 .light
                                   = t('images.show.push_started')
                               - else
