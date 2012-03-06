@@ -71,8 +71,10 @@ roles =
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Quota           => [VIEW]}]},
    Provider =>
-     {"provider.admin"              => [true,  {Provider        => [VIEW,    MOD,    VPRM,GPRM],
-                                                ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}]},
+     {"provider.admin"              => [true,  {Provider        => [VIEW,USE,MOD,    VPRM,GPRM],
+                                                ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
+      "provider.user"               => [false,  {Provider        => [VIEW,USE],
+                                                ProviderAccount => [             CRE]}]},
    ProviderAccount =>
      {"provider_account.user"       => [false, {ProviderAccount => [VIEW,USE]}],
       "provider_account.owner"      => [true,  {ProviderAccount => [VIEW,USE,MOD,    VPRM,GPRM]}]},
@@ -85,12 +87,11 @@ roles =
      {"deployable.user"             => [false, {Deployable      => [VIEW,USE]}],
       "deployable.owner"            => [true,  {Deployable      => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    BasePermissionObject =>
-     {"base.provider.creator"       => [false, {Provider        => [             CRE]}],
-      "base.provider.admin"         => [false, {Provider        => [VIEW,    MOD,CRE,VPRM,GPRM],
+     {"base.provider.user"          => [false, {Provider        => [VIEW,USE]}],
+      "base.provider.admin"         => [false, {Provider        => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
       "base.hwp.admin"              => [false, {HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM]}],
       "base.realm.admin"            => [false, {Realm           => [     USE,MOD,CRE,VPRM,GPRM]}],
-      "base.pool.creator"           => [false, {Pool            => [             CRE]}],
       "base.pool.admin"             => [false, {Pool            => [VIEW,    MOD,CRE,VPRM,GPRM],
                                                 Instance        => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployment      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
@@ -98,18 +99,21 @@ roles =
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Quota           => [VIEW,    MOD],
                                                 PoolFamily      => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "base.deployable.admin"       => [false, {Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "base.deployable.user"        => [false, {Deployable      => [VIEW,USE]}],
-      "base.catalog.user"           => [false, {Catalog         => [VIEW,USE]}],
+      "base.deployable.admin"       => [false, {PoolFamily      => [VIEW],
+                                                Catalog         => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                                                Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
       "base.hwp.user"               => [false, {HardwareProfile => [VIEW,USE]}],
-      "base.pool.user"              => [false, {Pool            => [VIEW],
+      "base.pool.user"              => [false, {PoolFamily      => [VIEW],
+                                                Pool            => [VIEW],
                                                 Instance        => [             CRE],
                                                 Deployment      => [             CRE],
+                                                Deployable      => [VIEW,USE],
+                                                Catalog         => [VIEW,USE],
                                                 Quota           => [VIEW]}],
       "base.image.admin"            => [false, {PoolFamily      => [VIEW, USE],
                                                 Catalog         => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "base.admin"                  => [false, {Provider        => [VIEW,    MOD,CRE,VPRM,GPRM],
+      "base.admin"                  => [false, {Provider        => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM],
                                                 Realm           => [     USE,MOD,CRE,VPRM,GPRM],
@@ -140,32 +144,27 @@ Role.transaction do
 end
 
 # Set meta objects
-MetadataObject.set("default_pool_family", PoolFamily.find_by_name('default'))
+default_pool_family = PoolFamily.find_by_name('default')
+default_pool_family_role = Role.find_by_name('pool_family.user')
+MetadataObject.set("default_pool_family", default_pool_family)
 
 default_quota = Quota.create
 
 default_pool = Pool.find_by_name("Default")
 default_role = Role.find_by_name("pool.user")
-default_deployable_role = Role.find_by_name("base.deployable.user")
-default_pool_global_user_role = Role.find_by_name("base.pool.user")
-default_catalog_global_user_role = Role.find_by_name("base.catalog.user")
 default_hwp_global_user_role = Role.find_by_name("base.hwp.user")
 
 settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,
   "self_service_default_pool" => default_pool,
   "self_service_default_role" => default_role,
-  "self_service_default_deployable_obj" => BasePermissionObject.general_permission_scope,
-  "self_service_default_deployable_role" => default_deployable_role,
-  "self_service_default_pool_global_user_obj" => BasePermissionObject.general_permission_scope,
-  "self_service_default_pool_global_user_role" => default_pool_global_user_role,
-  "self_service_default_catalog_global_user_obj" => BasePermissionObject.general_permission_scope,
-  "self_service_default_catalog_global_user_role" => default_catalog_global_user_role,
+  "self_service_default_pool_family" => default_pool_family,
+  "self_service_default_pool_family_role" => default_pool_family_role,
   "self_service_default_hwp_global_user_obj" => BasePermissionObject.general_permission_scope,
   "self_service_default_hwp_global_user_role" => default_hwp_global_user_role,
   # perm list in the format:
   #   "[resource1_key, resource1_role], [resource2_key, resource2_role], ..."
-  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_deployable_obj,self_service_default_deployable_role], [self_service_default_pool_global_user_obj,self_service_default_pool_global_user_role], [self_service_default_catalog_global_user_obj,self_service_default_catalog_global_user_role],[self_service_default_hwp_global_user_obj,self_service_default_hwp_global_user_role] "}
+  "self_service_perms_list" => "[self_service_default_pool,self_service_default_role], [self_service_default_pool_family,self_service_default_pool_family_role],[self_service_default_hwp_global_user_obj,self_service_default_hwp_global_user_role] "}
 settings.each_pair do |key, value|
   MetadataObject.set(key, value)
 end
