@@ -2,10 +2,10 @@
   = render 'layouts/error_messages', :object => @realm
 %fieldset
   %p.clearfix
-    = form.label :name, t('realms.form.realm_name')
+    = form.label :name
     = form.text_field :name, :title => 'realm_name', :value => @realm.name, :class => 'em long'
   %p.clearfix
-    = form.label :description, t('.description')
+    = form.label :description
     = form.text_area :description, :title => 'description', :value => @realm.description
 
 %fieldset.options

@@ -2,10 +2,10 @@
   = render 'layouts/error_messages', :object => @catalog
 %fieldset
   %p
-    = form.label :name, t('catalogs.index.name')
+    = form.label :name
     = form.text_field :name, :class => 'em long'
   %p
-    = form.label :pool_id, t('pools.pool')
+    = form.label :pool_id
     = form.select(:pool_id, @pools.collect{|p| [p.name, p.id]}, :prompt =>  t("catalogs.form.select_pool"))
 
 %fieldset.options

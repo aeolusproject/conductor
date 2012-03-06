@@ -1,7 +1,7 @@
 - if @role.errors.any?
   = render 'layouts/error_messages', :object => @role
 %fieldset
-  = form.label :name, t('roles.form.name')
+  = form.label :name
   = form.text_field :name, :class => "em long"
 %fieldset.options
   = form.submit t('save'),  :class => "submit button"

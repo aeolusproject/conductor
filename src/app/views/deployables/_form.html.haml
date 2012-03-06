@@ -15,13 +15,13 @@
         - else
           %em=t('deployables.new.no_catalog_selected')
     %p.clearfix
-      = form.label :name, t('deployables.index.name')
+      = form.label :name
       = form.text_field :name, :class => 'long'
     %p.clearfix
-      = form.label :description, t('.description')
+      = form.label :description
       = form.text_area :description, :class => 'long'
     %p.clearfix
-      = form.label :xml, t('.deployable_xml')
+      = form.label :xml
       %span.text_instead_input= link_to t("deployables.properties.edit_deployable_xml"), edit_polymorphic_path([@catalog, @deployable], :edit_xml=>true)
 
 %fieldset.align-center

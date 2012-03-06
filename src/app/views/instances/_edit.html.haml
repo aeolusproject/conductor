@@ -4,7 +4,7 @@
 = form_for @instance do
   %ul
     %li
-      = label :instance, t('instances.edit.name')
+      = label :instance, :name
       = text_field :instance, :name
 
   = submit_tag t('cancel'), :name => 'cancel'

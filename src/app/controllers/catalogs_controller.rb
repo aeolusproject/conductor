@@ -52,6 +52,7 @@ class CatalogsController < ApplicationController
   end
 
   def create
+    load_pools
     @catalog = Catalog.new(params[:catalog])
     require_privilege(Privilege::CREATE, Catalog, @catalog.pool)
     if @catalog.save
