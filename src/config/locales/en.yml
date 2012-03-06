@@ -7,7 +7,12 @@ en:
     distance_in_words:
       x_hours:
         one: 1 hour
-        other: %{count} hours
+        other: "%{count} hours"
+  errors:
+    template:
+      header:
+        one: 1 error prohibited this record from being saved
+        other: '%{count} errors prohibited this record from being saved'
   search:
     no_results: "No matching results."
   users:
@@ -1264,18 +1269,6 @@ en:
         more_deleted: "These Roles were deleted:"
       error:
         more_not_deleted: "Could not delete these Roles:"
-  date:
-    formats:
-      default: "%Y-%m-%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
-  time:
-    formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      short: "%d %b %H:%M"
-      long: "%d %B, %Y %H:%M"
-    am: "am"
-    pm: "pm"
   navigation:
     first_level:
       monitor: Monitor
@@ -1335,11 +1328,6 @@ en:
       target_image_not_found_for_account: Could not find an appropriate target image for account %{account}
       target_not_found: Could not find Target %{target}
       target_not_found_in_environment: "Target %{target} has no provider accounts in this environment. Valid targets include %{targets}."
-  support:
-    array:
-      words_connector: ', '
-      two_words_connector: ' and '
-      last_word_connector: ', and '
   breadcrumbs:
     pools: Pools
     instances: Instances
