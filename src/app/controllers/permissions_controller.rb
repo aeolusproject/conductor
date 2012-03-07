@@ -37,8 +37,8 @@ class PermissionsController < ApplicationController
       @return_text = t("permissions.new.global_role_grants")
       @summary_text =  t("permissions.new.choose_global_role")
     else
-      @return_text =  "#{@permission_object.name} " + t("classnames.#{@permission_object.class.to_s.downcase}")
-      @summary_text = t('permissions.new.choose_roles') + " " + t("classnames.#{@permission_object.class.to_s.downcase}")
+      @return_text =  "#{@permission_object.name} " + @permission_object.class.model_name.human
+      @summary_text = t('permissions.new.choose_roles') + " " + @permission_object.class.model_name.human
     end
     load_headers
     load_users
