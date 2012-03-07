@@ -215,8 +215,10 @@ Conductor.Views.ImagesShow = Backbone.View.extend({
 
     var buildId = this.model.get("build") ? this.model.get("build")['uuid'] : null;
     var latestBuildId = this.model.get("latest_build_id");
+    var providerImageExists = this.model.get("provider_image_exists");
+    var targetImageExists = this.model.get("target_image_exists");
 
-    if (buildId && buildId == latestBuildId) {
+    if (buildId && buildId == latestBuildId && targetImageExists) {
       $pushAllBtn.html($buttonTemplate.tmpl(this.model.toJSON()));
     }
     else {

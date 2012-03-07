@@ -56,12 +56,14 @@ class ImagesController < ApplicationController
     else
       @account_groups = ProviderAccount.enabled.group_by_type(@environment)
     end
+
     # according to imagefactory Builder.first shouldn't be implemented yet
     # but it does what we need - returns builder object which contains
     # all builds
     @builder = Aeolus::Image::Factory::Builder.first
     load_builds
     load_target_images(@build)
+    @target_image_exists = @target_images_by_target.any?
     flash[:error] = t("images.flash.error.no_provider_accounts") if @account_groups.size == 0
 
     respond_to do |format|
@@ -127,8 +129,8 @@ class ImagesController < ApplicationController
                           :failed_push_counts => failed_push_counts,
                           :latest_build_id => @latest_build,
                           :user_can_build => (@environment and
-                                              check_privilege(Privilege::USE,
-                                                              @environment))}
+                                              check_privilege(Privilege::USE, @environment)),
+                          :target_image_exists => @target_image_exists }
       end
     end
   end

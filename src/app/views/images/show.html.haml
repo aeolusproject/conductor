@@ -46,7 +46,7 @@
             - build_text << '_all'
           = button_to t(build_text), rebuild_all_image_path(@image.id), :class => 'button pill'
           #push-all-btn
-            - if @build and @build.id == @latest_build
+            - if @build && @build.id == @latest_build && @target_image_exists
               = button_to t('.push_all'), push_all_image_path(@image.id, :build_id => @build.id), :class => 'button pill'
 
   .content
