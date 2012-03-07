@@ -1,8 +1,11 @@
 = form_tag multi_destroy_realm_mappings_path(:frontend_realm_id => @realm.id) do
   - if check_privilege(Privilege::MODIFY, Realm)
-    = link_to t('realms.mapping.mapping_realm'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button", :id => 'mapping_to_realm_button'
-    = link_to t('realms.mapping.mapping_provider'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button", :id => 'mapping_to_provider_button'
-    = submit_tag t('delete'), :id => 'delete_button', :class => 'button danger'
+    - if @backend_realms and !@backend_realms.empty?
+      = link_to t('realms.mapping.mapping_realm'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button", :id => 'mapping_to_realm_button'
+    - if @providers and !@providers.empty?
+      = link_to t('realms.mapping.mapping_provider'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button", :id => 'mapping_to_provider_button'
+    - if @realm.realm_backend_targets and !@realm.realm_backend_targets.empty?
+      = submit_tag t('delete'), :id => 'delete_mapping_button', :class => 'button danger', :confirm => t("realms.show.sure_to_delete")
 
 
   - unless @backend_provider_targets.empty?
@@ -10,7 +13,7 @@
     %table.flat.checkbox_table
       - @backend_provider_targets.each do |backend|
         %tr{:class => cycle('nostripe','stripe')}
-          %td= check_box_tag "id[]", backend.id, :id => "backend_id_#{backend.id}"
+          %td= check_box_tag "id[]", backend.id, false, :id => "backend_id_#{backend.id}"
           %td= backend.realm_or_provider.name
 
   - unless @backend_realm_targets.empty?
@@ -18,5 +21,5 @@
     %table.flat.checkbox_table
       - @backend_realm_targets.each do |backend|
         %tr{:class => cycle('nostripe','stripe')}
-          %td= check_box_tag "id[]", backend.id, :id => "backend_id_#{backend.id}"
+          %td= check_box_tag "id[]", backend.id, false, :id => "backend_id_#{backend.id}"
           %td= "#{backend.target_provider.name}: #{backend.target_realm.name}"

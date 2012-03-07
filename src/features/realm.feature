@@ -31,20 +31,18 @@ Feature: Manage Realms
     And there is a realm "testrealm1"
     And a provider "provider1" exists
     When I follow "testrealm1"
+    Then I should see "Add mapping to provider"
     And I follow "mapping_to_provider_button"
     Then I should be on the new realm mapping page
     When I press "realm_backend_target_submit"
     Then I should see a confirmation message
 
-  Scenario: Add a realm mapping w/o selecting backend target
+  Scenario: No 'add mapping to provider' if none exist
     Given I am on the realms page
     And there is a realm "testrealm1"
     And there is no provider
     When I follow "testrealm1"
-    And I follow "mapping_to_provider_button"
-    Then I should be on the new realm mapping page
-    And I press "realm_backend_target_submit"
-    Then I should see "Realm or provider can't be blank"
+    Then I should not see "Add mapping to provider"
 
   Scenario: Change the name
     Given I am on the realms page
@@ -80,10 +78,10 @@ Feature: Manage Realms
     And I should see an error message
 
   Scenario: Delete realm mapping without selecting one
-    Given I am on the realms page
-    And there is a realm "testrealm1"
+    Given a realm "testrealm1" exists mapped to a provider "provider1"
+    And I am on the realms page
     When I follow "testrealm1"
-    And I press "delete_button"
+    And I press "delete_mapping_button"
     Then I should see an error message
 
   Scenario: Search Realms
