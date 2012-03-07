@@ -344,7 +344,7 @@ class Instance < ActiveRecord::Base
   end
 
   def failed?
-    state == Instance::STATE_CREATE_FAILED || state == Instance::STATE_ERROR
+    FAILED_STATES.include?(state)
   end
 
   def requires_config_server?

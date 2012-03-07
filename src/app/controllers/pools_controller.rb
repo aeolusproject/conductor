@@ -313,7 +313,7 @@ class PoolsController < ApplicationController
 
   def statistics
     instances = current_user.owned_instances
-    failed_instances = instances.select {|instance| instance.state == Instance::STATE_CREATE_FAILED || instance.state == Instance::STATE_ERROR}
+    failed_instances = instances.failed
     @statistics = {
               :pools_in_use => @user_pools.select { |pool| pool.instances.pending.count > 0 || pool.instances.deployed.count > 0 }.count,
               :deployments => current_user.deployments.count,
