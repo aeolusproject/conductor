@@ -122,6 +122,7 @@ class ConfigServer < ActiveRecord::Base
 
   def validate_connection
     # for validation hook
+    endpoint.chomp! '/' unless endpoint.nil?
     if not connection_valid?
       errors.add(:base, status.message)
     end
