@@ -12,7 +12,7 @@ en:
       deployment: "Deployment"
       event: "Event"
       frontend_realm: "Frontend Realm"
-      hardware_profile_propertie: "Hardware Profile Propertie"
+      hardware_profile_property: "Hardware Profile Property"
       hardware_profile: "Hardware Profile"
       hook: "Hook"
       icicle: "Icicle"
