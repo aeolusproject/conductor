@@ -190,9 +190,9 @@ def check_one_account(account)
   connection = account.connect
 
   account.instances.each do |instance|
-    # optimization; right now we ignore instances that are in the STOPPED state.
+    # optimization; right now we ignore instances that are in the STOPPED, NEW, or CREATE_FAILED states.
     # when we get to stateful instances, this will need to change
-    if instance.state != Instance::STATE_NEW and instance.state != Instance::STATE_STOPPED
+    unless [Instance::STATE_NEW, Instance::STATE_STOPPED, Instance::STATE_CREATE_FAILED].include?(instance.state)
       begin
         api_instance = connection.instance(instance.external_key)
       rescue Exception => e
