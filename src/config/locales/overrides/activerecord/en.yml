@@ -1,0 +1,68 @@
+en:
+  activerecord:
+    models:
+      catalog_entry: "Application Blueprint"
+      deployable: "Application Blueprint"
+      deployment: "Application"
+      frontend_realm: "Cloud Resource Cluster"
+      hardware_profile_property: "Cloud Resource Profile Property"
+      hardware_profile: "Cloud Resource Profile"
+      instance_hwp: "Instance Res. Profile"
+      pool_family: "Cloud"
+      pool: "Cloud Resource Zone"
+      provider_account: "Cloud Resource Provider Account"
+      provider_type: "Cloud Resource Provider Type"
+      provider: "Cloud Resource Provider"
+      realm_backend_target: "Cloud Resource Cluster Backend Target"
+      realm: "Cloud Resource Cluster"
+    attributes:
+      catalog_entry:
+        deployable_id: "Application Blueprint"
+      catalog:
+        pool_id: "Cloud Resource Zone"
+        pool_family_id: "Cloud"
+      config_server:
+        provider_account_id: "Cloud Resource Provider Account"
+      credential:
+        provider_account_id: "Cloud Resource Provider Account"
+      deployable:
+        xml: "Application Blueprint XML"
+        pool_family_id: "Cloud"
+      deployment:
+        realm_id: "Cloud Resource Cluster"
+        pool_id: "Cloud Resource Zone"
+        frontend_realm_id: "Cloud Resource Cluster"
+        deployable_xml: "Application Blueprint XML"
+        pool_family_id: "Cloud"
+      hardware_profile:
+        provider_id: "Cloud Resource Provider"
+      instance:
+        hardware_profile_id: "Cloud Resource Profile"
+        frontend_realm_id: "Cloud Resource Cluster"
+        pool_id: "Cloudi Resource Zone"
+        provider_account_id: "Cloud Resource Provider Account"
+        instance_hwp_id: "Instance CRProfile"
+        deployment_id: "Application"
+        assembly_xml: "Component Blueprint XML"
+        image_uuid: "Component Outline UUID"
+        image_build_uuid: "Component Outline Build UUID"
+        provider_image_uuid: "Provider Component Outline UUID"
+        pool_family_id: "Cloud"
+      pool_family:
+        name: "Cloud Name"
+      pool:
+        pool_family_id: "Cloud"
+      property_enum_entry:
+        hardware_profile_property_id: "Cloud Resource Profile Property"
+      provider_account:
+        provider_id: "Cloud Resource Provider"
+      provider:
+        name: "Cloud Resource Provider name"
+        url: "Cloud Resource Provider URL"
+        provider_type_id: "Cloud Resource Provider Type"
+      realm_backend_target:
+        realm_or_provider_id: "Cloud Resource Cluster or Cloud Resource Provider"
+        realm_or_provider_type: "Cloud Resource Cluster or Cloud Resource Provider Type"
+        frontend_realm_id: "Cloud Resource Cluster"
+      realm:
+        provider_id: "Cloud Resource Provider"

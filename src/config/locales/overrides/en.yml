@@ -1,13 +1,4 @@
 en:
-  activerecord:
-    models:
-      realm: Cloud Resource Cluster
-      provider: Cloud Resource Provider
-    attributes:
-      realm_backend_target:
-        realm: Cloud Resource Cluster
-        provider: Cloud Resource Provider
-        realm_or_provider: Cloud Resource Cluster or Cloud Resource Provider
   manage_providers: Manage Cloud Resource Providers
   provider_summary: Cloud Resource Provider Summary
   image_imports: Component Outline Imports
@@ -187,13 +178,14 @@ en:
     index:
       realm: Cloud Resource Cluster
       realm_name: Cloud Resource Cluster Name
-    form:
-      realm_name: Cloud Resource Cluster Name
     mapping:
       mapping_realm: Add mapping to cloud resource cluster
       mapping_provider: Add mapping to cloud resource provider
-      realm_mapped_providers: "Cloud Resource Cluster %{name} is mapped to providers:"
-      realm_mapped_realms: "Cloud Resource Cluster %{name} is mapped to provider resource cluster:"
+      realm_mapped_providers: "Cloud Resource Cluster %{name} is mapped to Providers:"
+      realm_mapped_realms: "Cloud Resource Cluster %{name} is mapped to Provider Resource Cluster:"
+      frontend_realms_mapped_to_provider: "Cloud Resource Clusters mapped to Provider %{name}:"
+      frontend_realms_mapped_to_realm: "Cloud Resource Clusters mapped to Provider Resource Cluster %{name}:"
+      provider_accounts_mapped_to_realm: "Provider Accounts mapped to Cloud Resource Cluster %{name}:"
     properties:
       realm_details: Cloud Resource Cluster Details
       realm_name: Cloud Resource Cluster Name
