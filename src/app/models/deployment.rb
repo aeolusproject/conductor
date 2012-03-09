@@ -198,7 +198,6 @@ class Deployment < ActiveRecord::Base
     # then, find a single provider account where all instances can launch
     # then, if a config server is being used
     #   then generate the instance configs for each instance,
-    #   then send the instance configs to the config server,
     # finally, launch the instances
     #
     # TODO: need to be able to handle deployable-level errors
@@ -226,15 +225,12 @@ class Deployment < ActiveRecord::Base
     instances.each do |instance|
       match = all_inst_match.find{|m| m.instance.id == instance.id}
       begin
-        if instance.launch(match, user, config_server, instance_configs[instance.uuid])
-          status[:successes][instance.name] = 'launched'
-        else
-          status[:errors][instance.name] = 'failed'
-        end
+        instance.launch!(match, user, config_server, instance_configs[instance.uuid])
+        status[:successes][instance.name] = 'launched'
       rescue
+        status[:errors][instance.name] = $!.message.to_s.split("\n").first
         logger.error $!.message
         logger.error $!.backtrace.join("\n    ")
-        status[:errors][instance.name] = $!.message.to_s.split("\n").first
       end
     end
     status
