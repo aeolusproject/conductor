@@ -19,6 +19,8 @@ class TargetImagesController < ApplicationController
 
   def create
     wh_image = Aeolus::Image::Warehouse::Image.find(params[:image_id])
+    @environment = PoolFamily.where('name' => wh_image.environment).first
+    require_privilege(Privilege::USE, @environment)
 
     begin
       timage = Aeolus::Image::Factory::Image.new(
@@ -38,6 +40,9 @@ class TargetImagesController < ApplicationController
 
   def destroy
     if image = Aeolus::Image::Warehouse::TargetImage.find(params[:id])
+      wh_image = Aeolus::Image::Warehouse::Image.find(params[:image_id])
+      @environment = PoolFamily.where('name' => wh_image.environment).first
+      require_privilege(Privilege::USE, @environment)
       i = image.build.image
       if i.imported?
         if i.delete!
