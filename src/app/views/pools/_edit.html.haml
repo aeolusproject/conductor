@@ -3,8 +3,6 @@
   #obj_actions.button-container
     - if check_privilege(Privilege::CREATE, Pool)
       = link_to t('pools.new_pool'), new_pool_url, :class => 'button primary', :id => 'new_pool_button'
-    .button-group
-      = link_to t('cancel'), pool_path(@pool), :class => 'button pill danger', :id => 'new_user_button'
   .corner &nbsp;
 
 %section.content-section.user
