@@ -32,9 +32,9 @@ class CatalogsController < ApplicationController
   end
 
   def new
+    @catalog = Catalog.new(params[:catalog]) # ...when should there be params on new?
     load_pools
     require_privilege(Privilege::CREATE, Catalog, @pools.first)
-    @catalog = Catalog.new(params[:catalog]) # ...when should there be params on new?
     @title = t'catalogs.new.add_catalog'
   end
 
@@ -52,8 +52,8 @@ class CatalogsController < ApplicationController
   end
 
   def create
-    load_pools
     @catalog = Catalog.new(params[:catalog])
+    load_pools
     require_privilege(Privilege::CREATE, Catalog, @catalog.pool)
     if @catalog.save
       flash[:notice] = t('catalogs.flash.notice.created', :count => 1)
@@ -74,8 +74,10 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.find(params[:id])
     load_pools
     require_privilege(Privilege::MODIFY, @catalog)
-    require_privilege(Privilege::CREATE, Catalog, @catalog.pool)
-
+    unless @catalog.pool_id == params[:catalog][:pool_id]
+      require_privilege(Privilege::CREATE, Catalog,
+                        Pool.find(params[:catalog][:pool_id]))
+    end
     if @catalog.update_attributes(params[:catalog])
       flash[:notice] = t('catalogs.flash.notice.updated', :count => 1)
       redirect_to catalogs_url
@@ -137,6 +139,13 @@ class CatalogsController < ApplicationController
   end
 
   def load_pools
-    @pools = Pool.list_for_user(current_user, Privilege::CREATE, Catalog)
+    if @catalog.pool_family
+      @pools = @catalog.pool_family.pools.list_for_user(current_user,
+                                                        Privilege::CREATE,
+                                                        Catalog)
+      @pools.unshift(@catalog.pool) unless @pools.include?(@catalog.pool)
+    else
+      @pools = Pool.list_for_user(current_user, Privilege::CREATE, Catalog)
+    end
   end
 end
