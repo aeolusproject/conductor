@@ -350,6 +350,7 @@ class ImagesController < ApplicationController
     selected_images.each do |uuid|
       image = Aeolus::Image::Warehouse::Image.find(uuid)
       @environment = PoolFamily.where('name' => image.environment).first
+      check_permissions
       image.delete!
     end
     redirect_to images_path, :notice => t("images.flash.notice.multiple_deleted", :count => selected_images.count)

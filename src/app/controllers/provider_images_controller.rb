@@ -18,6 +18,9 @@ class ProviderImagesController < ApplicationController
   before_filter :require_user
 
   def create
+    image = Aeolus::Image::Warehouse::Image.find(params[:image_id])
+    @environment = PoolFamily.where('name' => image.environment).first
+    require_privilege(Privilege::USE, @environment)
     provider_account = ProviderAccount.find(params[:account_id])
     @provider_image = Aeolus::Image::Factory::ProviderImage.new(
       :provider => provider_account.provider.name,
@@ -43,6 +46,9 @@ class ProviderImagesController < ApplicationController
 
   def destroy
     if image = Aeolus::Image::Warehouse::ProviderImage.find(params[:id])
+      top_image = Aeolus::Image::Warehouse::Image.find(params[:image_id])
+      @environment = PoolFamily.where('name' => top_image.environment).first
+      require_privilege(Privilege::USE, @environment)
       target_id = image.target_identifier
       provider = image.provider
       i = image.target_image.build.image
