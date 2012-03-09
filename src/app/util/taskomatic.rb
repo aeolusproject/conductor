@@ -16,11 +16,12 @@
 
 module Taskomatic
 
-  def self.create_instance(task, match)
+  def self.create_instance!(task, match, config_server, config)
     begin
       task.state = Task::STATE_PENDING
       task.save!
 
+      task.instance.add_instance_config!(config_server, config) if config_server
       task.instance.provider_account = match.provider_account
       task.instance.create_auth_key unless task.instance.instance_key
 
