@@ -317,8 +317,19 @@ class Instance < ActiveRecord::Base
     (0..(rand(10) + 40)).map { OAUTH_SECRET_SEED[rand(OAUTH_SECRET_SEED.length)] }.join
   end
 
-  def self.generate_user_data(instance, config_server)
-    ["#{USER_DATA_VERSION}|#{config_server.endpoint}|#{instance.uuid}|#{instance.secret}"].pack("m0").delete("\n")
+  def generate_user_data(config_server)
+    ["#{USER_DATA_VERSION}|#{config_server.endpoint}|#{uuid}|#{secret}"].pack("m0").delete("\n")
+  end
+
+  def add_instance_config!(config_server, config)
+    user_data = generate_user_data(config_server)
+    instance_config_xml = config.to_s
+    save!
+    begin
+      config_server.send_config(config)
+    rescue Errno::ECONNREFUSED
+      raise I18n.t 'deployments.errors.config_server_connection'
+    end
   end
 
   def restartable?
@@ -347,22 +358,25 @@ class Instance < ActiveRecord::Base
   end
 
   class Match
-    attr_reader :pool_family, :provider_account, :hwp, :provider_image, :realm
+    attr_reader :pool_family, :provider_account, :hwp, :provider_image, :realm, :instance
 
-    def initialize(pool_family, provider_account, hwp, provider_image, realm)
+    def initialize(pool_family, provider_account, hwp, provider_image, realm, instance)
       @pool_family = pool_family
       @provider_account = provider_account
       @hwp = hwp
       @provider_image = provider_image
       @realm = realm
+      @instance = instance
     end
 
     def ==(other)
+      return self.nil? && other.nil? if (self.nil? || other.nil?)
       self.pool_family == other.pool_family &&
         self.provider_account == other.provider_account &&
         self.hwp == other.hwp &&
         self.provider_image == other.provider_image &&
         self.realm == other.realm
+        self.instance == other.instance
     end
   end
 
@@ -393,12 +407,25 @@ class Instance < ActiveRecord::Base
     return [[], errors] unless errors.empty?
 
     matched = []
-    pool.pool_family.provider_accounts.each do |account|
+    pool.pool_family.provider_accounts.ascending_by_priority.each do |account|
       account.instance_matches(self, matched, errors)
     end
 
     [matched, errors]
   end
+
+  def launch(match, user, config_server, config)
+    if config_server
+      add_instance_config!(config_server, config)
+    end
+    # create a taskomatic task
+    task = InstanceTask.create!({:user        => user,
+                                 :task_target => self,
+                                 :action      => InstanceTask::ACTION_CREATE})
+    Taskomatic.create_instance(task, match)
+    task.state != Task::STATE_FAILED
+  end
+
 
   def self.csv_export(instances)
     csv_string = FasterCSV.generate(:col_sep => ";", :row_sep => "\r\n") do |csv|
