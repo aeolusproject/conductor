@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  41%{?dist}
+Release:  42%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -366,6 +366,11 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Mon Mar 12 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-42
+- 2836626 BZ 801089 always allow user to click through to pool_family details
+- ab5c536 BZ798555 added default translations from rails-i18n gem which should be used in later versions
+- 8324256 BZ798555 added default translations from rails-i18n gem which should be used in later versions
+
 * Tue Mar 06 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-41
 - 87af1bf BZ 788136 add checks to see if accounts exist
 - d591293 BZ 795666 show proper error if user does not have permission to destroy a pool
