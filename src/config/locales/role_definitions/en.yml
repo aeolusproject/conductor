@@ -2,11 +2,8 @@ en:
   role_defs:
     base:
       admin: Global Administrator
-      catalog:
-        user: Global Catalog User
       deployable:
         admin: Global Deployable Administrator
-        user: Global Deployable User
       hwp:
         admin: Global HWP Administrator
         user: Global HWP User
@@ -14,11 +11,10 @@ en:
         admin: Global Image Administrator
       pool:
         admin: Global Pool Administrator
-        creator: Global Pool Creator
         user: Global Pool User
       provider:
         admin: Global Provider Administrator
-        creator: Global Provider Creator
+        user: Global Provider User
       realm:
         admin: Global Realm Administrator
     catalog:
@@ -45,6 +41,7 @@ en:
       user: Pool Family User
     provider:
       admin: Provider Administrator
+      user: Provider User
     provider_account:
       owner: Provider Account Owner
       user: Provider Account User
