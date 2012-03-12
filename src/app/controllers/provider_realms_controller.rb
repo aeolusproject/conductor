@@ -62,7 +62,7 @@ class ProviderRealmsController < ApplicationController
   def load_realms
     @header = [
       {:name => '', :sortable => false},
-      {:name => t("realms.index.realm_name"), :sort_attr => :name},
+      {:name => t("provider_realms.name"), :sort_attr => :name},
     ]
     @realms = Realm.apply_filters(:preset_filter_id => params[:provider_realms_preset_filter], :search_filter => params[:provider_realms_search])
   end

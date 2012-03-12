@@ -16,7 +16,7 @@
 module ProviderRealmsHelper
   def provider_realms_header
     [
-      {:name => t("realms.index.realm_name"), :sort_attr => :name},
+      {:name => t("provider_realms.name"), :sort_attr => :name},
       {:name => t("realms.index.realm_availability")}
     ]
   end

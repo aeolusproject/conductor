@@ -559,12 +559,12 @@ en:
     list:
       delete_selected: Delete Selected
     mapping:
-      mapping_realm: Add mapping to realm
+      mapping_realm: Add mapping to provider realm
       mapping_provider: Add mapping to provider
       realm_mapped_providers: "Realm %{name} is mapped to providers:"
       realm_mapped_realms: "Realm %{name} is mapped to realms:"
-      frontend_realms_mapped_to_provider: "Frontend Realms mapped to Provider %{name}:"
-      frontend_realms_mapped_to_realm: "Frontend Realms mapped to Realm %{name}:"
+      frontend_realms_mapped_to_provider: "Realms mapped to Provider %{name}:"
+      frontend_realms_mapped_to_realm: "Realms mapped to Provider Realm %{name}:"
       provider_accounts_mapped_to_realm: "Provider Accounts mapped to Realm %{name}:"
     properties:
       realm_details: Realm Details
@@ -593,6 +593,13 @@ en:
         more_not_deleted: "Could not delete these Realms:"
     preset_filters:
       all_realms: "All Realms"
+  provider_realms:
+    provider_realms: Provider Realms
+    name: Provider Realm Name
+    show:
+      mapping: Provider Realm Mapping
+      details: Provider Realm Details
+      provider_accounts_mapped: Provider Accounts mapped to Provider Realm %{name}
   pool_families:
     pool_families: Pool Families
     pool_family: Pool Family
@@ -1297,4 +1304,3 @@ en:
     provider_realms: Provider Realms
     deployables: Deployables
     deployments: Deployments
-  provider_realms: Provider Realms
