@@ -56,8 +56,8 @@ Feature: Manage Users
       | Choose a username | testuser2             |
       | Choose a password | secret                |
       | Confirm password  | secret                |
-      | First name        | Joe                   |
-      | Last name         | Tester                |
+      | First Name        | Joe                   |
+      | Last Name         | Tester                |
       | E-mail            | testuser2@example.com |
     And I press "Save"
     Then I should be on the users page
@@ -72,8 +72,8 @@ Feature: Manage Users
       | Choose a username | testuser2             |
       | Choose a password | secret                |
       | Confirm password  | secret                |
-      | First name        | Joe                   |
-      | Last name         | Tester                |
+      | First Name        | Joe                   |
+      | Last Name         | Tester                |
       | E-mail            | testuser2@example.com |
     And I follow "Users"
     Then I should be on the users page

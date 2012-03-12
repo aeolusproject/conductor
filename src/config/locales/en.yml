@@ -7,7 +7,7 @@ en:
     distance_in_words:
       x_hours:
         one: 1 hour
-        other: %{count} hours
+        other: "%{count} hours"
   search:
     no_results: "No matching results."
   users:
@@ -505,7 +505,6 @@ en:
       storage: Storage
       virtual_cpu: Virtual CPU
     form:
-      name: Name
       check_matches: Check Matches
     history:
       history: History
@@ -557,9 +556,6 @@ en:
     tab_captions:
       properties: Properties
       mapping: Mapping
-    form:
-      realm_name: Realm Name
-      description: Description
     list:
       delete_selected: Delete Selected
     mapping:
@@ -624,8 +620,6 @@ en:
       environments: Environments
     edit:
       return_to: "Return to:"
-    form:
-      pool_family_name: Pool Family Name
     flash:
       notice:
         added: "Pool family was added."
@@ -904,7 +898,6 @@ en:
     form:
       choose_xml: Choose Deployable XML file
       catalog: Catalog
-      description: Description
       cancel: Cancel
       save: Save
       deployable_xml: Deployable XML
@@ -1013,9 +1006,6 @@ en:
         ec2: EC2 Region
         rhevm: RHEV-M API_PROVIDER
         vsphere: vSphere API hostname
-      provider_name: Provider Name
-      provider_url: Provider URL
-      provider_type: Provider Type
       select_type_of_provider: Select type of provider
       caution_alt_text: Caution
       enter_correct_url_msg: Please enter a correct URL format.
@@ -1161,10 +1151,6 @@ en:
       new_config_server: New Config Server
     edit:
       edit_config_server: Edit Config Server
-    config_server_form:
-      endpoint: Server Endpoint (URL)
-      key: Consumer Key
-      secret: Consumer Secret
     flash:
       notice:
         test_successful: Test successful
@@ -1241,8 +1227,6 @@ en:
     new_role: New Role
     tab_captions:
       properties: Properties
-    form:
-      name: Name
     list:
       roles_list: Roles List
     properties:
@@ -1264,18 +1248,6 @@ en:
         more_deleted: "These Roles were deleted:"
       error:
         more_not_deleted: "Could not delete these Roles:"
-  date:
-    formats:
-      default: "%Y-%m-%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
-  time:
-    formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      short: "%d %b %H:%M"
-      long: "%d %B, %Y %H:%M"
-    am: "am"
-    pm: "pm"
   navigation:
     first_level:
       monitor: Monitor
@@ -1335,11 +1307,6 @@ en:
       target_image_not_found_for_account: Could not find an appropriate target image for account %{account}
       target_not_found: Could not find Target %{target}
       target_not_found_in_environment: "Target %{target} has no provider accounts in this environment. Valid targets include %{targets}."
-  support:
-    array:
-      words_connector: ', '
-      two_words_connector: ' and '
-      last_word_connector: ', and '
   breadcrumbs:
     pools: Pools
     instances: Instances

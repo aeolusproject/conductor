@@ -2,13 +2,13 @@
   = render 'layouts/error_messages', :object => @provider
 %fieldset
   %p.clearfix
-    = form.label :name, t('providers.form.provider_name')
-    = form.text_field :name, :title => t('providers.form.provider_name'), :value => @provider.name, :class => 'long'
+    = form.label :name
+    = form.text_field :name, :value => @provider.name, :class => 'long'
   %p.clearfix
-    = form.label :url, t('providers.form.provider_url')
-    = form.text_field :url, :title => t('providers.form.provider_url'), :value => @provider.url, :class => 'long'
+    = form.label :url
+    = form.text_field :url, :value => @provider.url, :class => 'long'
   %p.clearfix
-    = form.label :provider_type_id, t('providers.form.provider_type')
+    = form.label :provider_type_id
     = form.select(:provider_type_id, @provider_type_options, :prompt => t('providers.form.select_type_of_provider'))
   %p.clearfix
     = form.label :deltacloud_provider, t('providers.form.x_deltacloud_provider.generic')

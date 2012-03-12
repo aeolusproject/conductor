@@ -5,6 +5,6 @@
         =image_tag 'flash_warning_icon.png', :alt => 'Errors'
       %ul.flashes
         %li
-          %strong= pluralize(object.errors.count, "error") + " prohibited this record from being saved:"
+          %strong= t("errors.template.header", :model => object.class.model_name.human, :count => object.errors.count)
         - object.errors.full_messages.each do |msg|
           %li= msg
