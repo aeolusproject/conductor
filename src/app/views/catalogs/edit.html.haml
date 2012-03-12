@@ -3,8 +3,6 @@
   %h1{:class => controller.controller_name}= @catalog.name
   #obj_actions.button-container
     = link_to t('catalogs.new_catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
-    .button-group
-      = link_to t('catalogs.edit.cancel_editing'), catalogs_path, :class => 'button pill danger', :id => 'cancel_catalog_button'
 
 %section.admin-content-section.user
   %header

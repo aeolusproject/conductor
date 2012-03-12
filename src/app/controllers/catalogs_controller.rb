@@ -72,6 +72,7 @@ class CatalogsController < ApplicationController
 
   def update
     @catalog = Catalog.find(params[:id])
+    load_pools
     require_privilege(Privilege::MODIFY, @catalog)
     require_privilege(Privilege::CREATE, Catalog, @catalog.pool)
 
