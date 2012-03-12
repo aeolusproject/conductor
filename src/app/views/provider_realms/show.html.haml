@@ -4,7 +4,7 @@
   #obj_actions.button_container
     .return_to
       = t('return_to')
-      = link_to t('provider_realms'), edit_provider_path(@realm.provider, :details_tab =>  'realms', :only_tab =>  true), :id =>  'back_to_provider_realms_button'
+      = link_to t('provider_realms.provider_realms'), edit_provider_path(@realm.provider, :details_tab =>  'realms', :only_tab =>  true), :id =>  'back_to_provider_realms_button'
 - unless @realm.available
   %section.admin-content-section
     %header.align-center
@@ -19,7 +19,7 @@
 
 %section.admin-content-section.realm_mapping
   %header
-    %h2= t'realms.show.realm_mapping'
+    %h2= t'provider_realms.show.mapping'
 
   .content
     = render :partial => 'mapping'
