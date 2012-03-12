@@ -241,6 +241,7 @@ en:
       catalog_entry: Application Blueprint
       catalog_entries: Application Blueprints
       deployable_xml: Application Blueprint XML
+      deployable: Application Blueprint
     new:
       add_catalog_entry: Add New Application Blueprint
       choose_option_to_upload: Choose one of the following options to upload application blueprint XML file
