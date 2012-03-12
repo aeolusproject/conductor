@@ -64,7 +64,8 @@ class ImagesController < ApplicationController
     load_builds
     load_target_images(@build)
     @target_image_exists = @target_images_by_target.any?
-    flash[:error] = t("images.flash.error.no_provider_accounts") if @account_groups.size == 0
+    @account_groups_listing = @account_groups.select{ |driver, group| group[:included] || @target_images_by_target[driver] || (@build and @builder.find_active_build(@build.id, driver)) }
+    flash[:error] = t("images.flash.error.no_provider_accounts") if @account_groups_listing.blank?
 
     respond_to do |format|
       format.html

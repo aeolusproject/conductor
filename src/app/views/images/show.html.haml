@@ -40,17 +40,17 @@
             - build_text = '.rebuild'
           - else
             - build_text = '.build'
-          - if @account_groups.size > 1
+          - if @account_groups_listing.size > 1
             - build_text << '_all'
-          = button_to t(build_text), rebuild_all_image_path(@image.id), :class => 'button pill'
+          = button_to t(build_text), rebuild_all_image_path(@image.id), :class => 'button pill' unless @account_groups_listing.blank?
           #push-all-btn
             - if @build && @build.id == @latest_build && @target_image_exists
               = button_to t('.push_all'), push_all_image_path(@image.id, :build_id => @build.id), :class => 'button pill'
 
   .content
-    %ul.image_builds
-      - @account_groups.each do |driver, group|
-        - if group[:included] || @target_images_by_target[driver] || (@build and @builder.find_active_build(@build.id, driver))
+    - if @account_groups_listing.present?
+      - @account_groups_listing.each do |driver, group|
+        %ul.image_builds
           - timg = @target_images_by_target[driver]
           %li
             %dl
@@ -121,6 +121,9 @@
                             - else
                               &nbsp;
             .clear
+    - else
+      .centered.align-center
+        %strong= t("images.flash.error.no_provider_accounts")
 
 :javascript
   $(document).ready(function(){

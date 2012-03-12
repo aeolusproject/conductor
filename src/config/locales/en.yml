@@ -805,7 +805,7 @@ en:
         invalid_url: Could not load the provided URL
         no_file: You must specify the template XML file
         no_template: "The image doesn't have a template because it's been imported."
-        no_provider_accounts: Images cannot be built, as no provider accounts are currently enabled.
+        no_provider_accounts: "Images cannot be built, as there are no enabled Provider Accounts associated to this Environment."
         no_provider_accounts_for_import: Images cannot be imported, as no provider accounts are currently enabled for this environment.
     new:
       new_image: New Image
