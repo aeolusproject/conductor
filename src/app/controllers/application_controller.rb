@@ -328,6 +328,7 @@ class ApplicationController < ActionController::Base
   end
 
   def detect_locale
+    # Processes the HTTP_ACCEPT_LANGUAGE header
     languages = env['HTTP_ACCEPT_LANGUAGE'].split(',')
     prefs = []
     languages.each do |language|
@@ -336,10 +337,19 @@ class ApplicationController < ActionController::Base
       lang_code = lang_code.gsub(/-[a-z]+$/i) { |x| x.upcase }.to_sym
       prefs << [lang_weight, lang_code]
     end
-    # This is slightly abusing array sorting
-    ordered_languages = prefs.sort.reverse.collect{|p| p[1]}
 
-    (ordered_languages & I18n.available_locales).first
+    # Orders the requested languages only by weight
+    ordered_languages = prefs.sort_by{ |weight, code| weight }.reverse.collect{|p| p[1]}.uniq
+
+    # Returns the lang_code if a requested language is a substring of an available language or vice-versa
+    ordered_languages.each do |ordered_lang_code|
+      I18n.available_locales.each do |available_lang_code|
+        return available_lang_code if available_lang_code.to_s[ordered_lang_code.to_s] || ordered_lang_code.to_s[available_lang_code.to_s]
+      end
+    end
+
+    # Returns the default_locale otherwise
+    I18n.default_locale
   end
 
   def set_default_title
