@@ -18,6 +18,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 require 'viewstate.rb'
+require 'util/conductor'
 
 class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
@@ -320,22 +321,6 @@ class ApplicationController < ActionController::Base
       { :name => t('users.index.first_name'), :sortable => false },
       { :name => t("role"), :sort_attr => :role},
     ]
-  end
-
-  # Try to clean up and internationalize certain errors we get from other components
-  # Accepts a string or an Exception
-  def humanize_error(error, options={})
-    error = error.message if error.is_a?(Exception)
-    if error.match("Connection refused - connect\\(2\\)")
-      if options[:context] == :deltacloud
-        return t('deltacloud.unreachable')
-      else
-        return t('connection_refused')
-      end
-    else
-      # Nothing else matched
-      error
-    end
   end
 
   def set_locale
