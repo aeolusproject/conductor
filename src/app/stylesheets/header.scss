@@ -1,0 +1,1008 @@
+@font-face {
+  font-family: 'Overpass';
+  src: url('../fonts/overpass_regular-web.eot');
+  src: local("Overpass"), url('../fonts/overpass_regular-web.eot?#iefix') format("eot"), url('../fonts/overpass_regular-web.woff') format("woff"), url('../fonts/overpass_regular-web.ttf') format("truetype"), url('../fonts/overpass_regular-web.svg#webfontLTZe4IYH') format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+
+@font-face {
+  font-family: 'Overpass';
+  src: url('../fonts/overpass_bold-web.eot');
+  src: local("Overpass Bold"), local("Overpass-Bold"), url('../fonts/overpass_bold-web.eot?#iefix') format("eot"), url('../fonts/overpass_bold-web.woff') format("woff"), url('../fonts/overpass_bold-web.ttf') format("truetype"), url('../fonts/overpass_bold-web.svg#webfontzAU82Ltw') format("svg");
+  font-weight: bold;
+  font-style: normal; }
+
+
+  /*
+
+     ___  _                          _          _   _
+    / (_)| |                |    () | |        | | | |
+   |     | |  __          __|    /\ | |     _  | | | |
+   |     |/  /  \_|   |  /  |   /  \|/ \   |/  |/  |/
+    \___/|__/\__/  \_/|_/\_/|_//(__/|   |_/|__/|__/|__/
+   This will all be converted to scss soon
+  */
+
+/*things to do first */
+
+/*hide the controls when javascript is on  will fix FOUC soon*/
+
+  .shell-design {
+
+  .no-js-controls, .hidden {
+    display: none; }
+
+  section {
+    display: none;
+    &.active {
+      display: block; } }
+
+  /*  Custom Normalize */
+
+  article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+    display: block; }
+
+  audio, canvas, video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1; }
+
+  audio:not([controls]), [hidden] {
+    display: none; }
+
+  html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    font-family: sans-serif;
+    color: #222; }
+
+  button, input, select, textarea {
+    font-family: sans-serif;
+    color: #222; }
+
+  body {
+    margin: 0;
+    font-size: 1em;
+    line-height: 1.5; }
+
+  a {
+    color: #36c;
+    &:visited {
+      color: #36c; }
+    &:hover {
+      color: #000; }
+    &:focus {
+      outline: none;
+      box-shadow: 0 0  3px 3px #fa0; } }
+
+  input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0  3px 3px #fa0; }
+
+  a {
+    &:hover, &:active {
+      outline: none; } }
+
+  abbr[title] {
+    border-bottom: 1px dotted; }
+
+  b, strong {
+    font-weight: bold; }
+
+  blockquote {
+    margin: 1em 40px; }
+
+  dfn {
+    font-style: italic; }
+
+  hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0; }
+
+  ins {
+    background: #ff9;
+    color: #000;
+    text-decoration: none; }
+
+  mark {
+    background: #ff0;
+    color: #000;
+    font-style: italic;
+    font-weight: bold; }
+
+  pre, code, kbd, samp {
+    font-family: monospace, serif;
+    _font-family: 'courier new', monospace;
+    font-size: 1em; }
+
+  pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word; }
+
+  q {
+    quotes: none;
+    &:before, &:after {
+      content: "";
+      content: none; } }
+
+  small {
+    font-size: 85%; }
+
+  sub {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline; }
+
+  sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+    top: -0.5em; }
+
+  sub {
+    bottom: -0.25em; }
+
+  ul, ol {
+    margin: 1em 0;
+    padding: 0 0 0 1em; }
+
+  dd {
+    margin: 0 0 0 40px; }
+  }
+
+  nav.shell-design {
+    ul, ol {
+      list-style: none;
+      list-style-image: none;
+      margin: 0;
+      padding: 0; } }
+
+  .shell-design {
+    img {
+      border: 0;
+      -ms-interpolation-mode: bicubic;
+      vertical-align: middle; }
+
+    svg:not(:root) {
+      overflow: hidden; }
+
+    figure, form {
+      margin: 0; }
+
+    fieldset {
+      border: 0;
+      margin: 0;
+      padding: 0; }
+
+    label {
+      cursor: pointer; }
+
+    legend {
+      border: 0;
+      *margin-left: -7px;
+      padding: 0;
+      white-space: normal; }
+
+    button, input, select, textarea {
+      font-size: 100%;
+      margin: 0;
+      vertical-align: baseline;
+      *vertical-align: middle; }
+
+    button, input {
+      line-height: normal; }
+
+    button {
+      cursor: pointer;
+      -webkit-appearance: button;
+      *overflow: visible; }
+
+    input {
+      &[type="button"], &[type="reset"], &[type="submit"] {
+        cursor: pointer;
+        -webkit-appearance: button;
+        *overflow: visible; } }
+
+    button[disabled] {
+      cursor: default; }
+
+    input {
+      &[disabled] {
+        cursor: default; }
+      &[type="checkbox"], &[type="radio"] {
+        box-sizing: border-box;
+        padding: 0;
+        *width: 13px;
+        *height: 13px; }
+      &[type="search"] {
+        -webkit-appearance: textfield;
+        -moz-box-sizing: content-box;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+
+    button::-moz-focus-inner, input::-moz-focus-inner {
+      border: 0;
+      padding: 0; }
+
+    textarea {
+      overflow: auto;
+      vertical-align: top;
+      resize: vertical; }
+
+    table {
+      border-collapse: collapse;
+      border-spacing: 0; }
+
+    td {
+      vertical-align: top;
+      text-align: left; }
+
+    .browser-warning {
+      margin: 0.2em 0;
+      background: #ccc;
+      color: black;
+      padding: 0.2em 0;
+      /* they probably get this heaps */ }
+
+
+    header {
+      background-color: #1a1f22;
+      position: relative;
+      color: #fff;
+      height: 6.25em;
+      border-bottom: .4em solid #060807;
+      border-top: .4em solid #060807;
+      box-shadow: inset 0em -0.1em #181c1e, inset 0px -2em 5em #101214;
+      h1 {
+        font-size: 1em;
+        text-transform: uppercase;
+        position: absolute;
+        top: .9em;
+        left: 0;
+        line-height: 1.5em;
+        text-indent: 2em;
+        color: #fff;
+        em {
+          border-left: .1em solid #fff;
+          padding-left: .25em;
+          margin-left: .25em;
+          font-style: normal; } }
+      > article {
+        line-height: 2em;
+        position: relative;
+        padding: 0em;
+        padding-left: 20em; }
+      nav#appnav {
+        display: table;
+        font-weight: normal;
+        border: .2em solid #181c1e;
+        border-bottom: none transparent 0px;
+        margin-top: 2.25em;
+        border-radius: .25em .25em 0em 0em;
+        white-space: nowrap;
+        > ul {
+          > li {
+            > ul > li a {
+              color: #777; }
+            display: block;
+            vertical-align: top;
+            float: left;
+            a {
+              display: block;
+              width: 100%;
+              text-decoration: none;
+              clear: both;
+              padding: 0em;
+              text-indent: 1.5em;
+              text-transform: capitalize;
+              position: relative;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis; }
+            > a {
+              color: #bbb;
+              padding: .75em 1em;
+              text-align: center;
+              text-indent: 0em;
+              border-style: none solid;
+              border-width: 0px .1em;
+              border-color: transparent #181c1e;
+              background-color: #1f2123;
+              box-shadow: inset 0px -3.5em 2em -2em #15191b;
+              &.active {
+                color: #fff;
+                background-color: #4a4e50; } } }
+          display: table-row; }
+        > ul > li > a:hover {
+          /*box-shadow*/
+          -webkit-box-shadow: 0em 0em 1em rgba(0, 0, 0, 0.32);
+          -moz-box-shadow: 0em 0em 1em rgba(0, 0, 0, 0.32);
+          box-shadow: 0em 0em 1em rgba(0, 0, 0, 0.32);
+          cursor: pointer; }
+        > ul li {
+          position: relative; } }
+      nav#appnav > ul > li {
+        > a {
+          &:focus, &.active {
+            box-shadow: inset 0px -4em 3em -2em rgba(0, 0, 0, 0.4); } }
+        &:hover > a {
+          box-shadow: inset 0px -4em 3em -2em rgba(0, 0, 0, 0.4); } }
+      nav#appnav > ul > li:hover li:hover > a {
+        background-color: #4a4e50;
+        color: #fff; }
+      nav#appnav > ul {
+        > li:hover > a {
+          background-color: #4a4e50;
+          color: #fff; }
+        > {
+          & li a:hover, li a:focus {
+            background-color: #4a4e50;
+            color: #fff; } } }
+      nav#appnav {
+        > ul > li {
+          &:first-child > a {
+            /*border-radius*/
+            -webkit-border-radius: .225em 0em 0em 0em;
+            -moz-border-radius: .225em 0em 0em 0em;
+            border-radius: .225em 0em 0em 0em;
+            border-left: 0px transparent none; }
+          &:last-child > a {
+            /*border-radius*/
+            -webkit-border-radius: 0em .225em   0em 0em;
+            -moz-border-radius: 0em .225em  0em 0em;
+            border-radius: 0em .225em  0em 0em;
+            border-right: 0px transparent none; }
+          > ul > li:last-child > a {
+            /*border-radius*/
+            -webkit-border-radius: 0em 0em .25em .25em;
+            -moz-border-radius: 0em 0em .25em .25em;
+            border-radius: 0em 0em .25em .25em; } }
+        ul a:after {
+          z-index: 3;
+          content: "";
+          width: 100%;
+          height: 50%;
+          top: 0;
+          left: 0;
+          right: 0;
+          display: block;
+          position: absolute; } }
+      nav#appnav > ul > li {
+        a:focus ~ ul, &:hover ul {
+          background-color: white;
+          /*box-shadow*/
+          -webkit-box-shadow: 0em 0.025em 0.5em rgba(0, 0, 0, 0.5);
+          -moz-box-shadow: 0em 0.025em 0.51em rgba(0, 0, 0, 0.5);
+          box-shadow: 0em 0.025em 0.51em rgba(0, 0, 0, 0.5);
+          /*border-radius*/
+          -webkit-border-radius: 0em 0em .25em .25em;
+          -moz-border-radius: 0em 0em .25em .25em;
+          border-radius: 0em 0em .25em .25em;
+          display: block;
+          width: 100%;
+          top: 0em;
+          left: 0; } } }
+  }
+
+  /*appnav*/
+
+  /*giving that annoying gradient to all links*/
+
+  /*this is what happens when we use hover,
+    now we need to include  the hover:anything  polyfill for IE's s
+    touch devices can't hover with the same behaviour/expectation so we shouldn't do it.
+     */
+
+  .shell-design {
+    .no-boxshadow header nav#appnav > ul > li:hover ul {
+      border: 1px solid #ccc;
+      margin: -0.1px; }
+
+    header {
+      nav#appnav > ul > li {
+        > ul > li:hover {
+          position: relative; }
+        &:hover > ul > li > ul {
+          position: absolute;
+          box-shadow: none;
+          background-color: transparent;
+          top: 0em;
+          left: 100%;
+          padding-top: 0em;
+          > li {
+            display: none; } }
+        a:focus ~ ul, &:hover > ul {
+          z-index: 1;
+          padding-top: 1em;
+          display: block;
+          position: absolute;
+          top: 3.5em;
+          opacity: 1; }
+        a:focus ~ li ul li, &:hover > ul > li:hover > ul > li {
+          display: block; }
+        a:focus ~ li ul, &:hover > ul > li:hover ul {
+          /*box-shadow*/
+          -webkit-box-shadow: 0.025em 0.025em 0.51em rgba(0, 0, 0, 0.5);
+          -moz-box-shadow: 0.025em 0.025em 0.51em rgba(0, 0, 0, 0.5);
+          box-shadow: 0.025em 0.025em 0.51em rgba(0, 0, 0, 0.5);
+          /*border-radius*/
+          -webkit-border-radius: 0em .25em .25em 0em;
+          -moz-border-radius: 0em .25em .25em 0em;
+          border-radius: 0em .25em .25em 0em;
+          background-color: white;
+          z-index: 1;
+          opacity: 1; }
+        > ul {
+          > li {
+            > ul li {
+              &:first-child a {
+                /*border-radius*/
+                -webkit-border-radius: .0em .25em 0em 0em;
+                -moz-border-radius: .0em .25em 0em 0em;
+                border-radius: .0em .25em 0em 0em; }
+              &:last-child a {
+                /*border-radius*/
+                -webkit-border-radius: 0em 0em .25em .0em;
+                -moz-border-radius: 0em 0em .25em .0em;
+                border-radius: 0em 0em .25em .0em; }
+              &:first-child:hover a:after {
+                z-index: 9;
+                display: block;
+                position: absolute;
+                top: .5em;
+                left: 0em;
+                content: "";
+                height: 0;
+                width: 0;
+                border-width: .5em 0em  .5em .5em;
+                border-style: solid none solid solid;
+                border-color: transparent  transparent transparent #fff; } }
+            ul {
+              &:before {
+                z-index: 2;
+                display: block;
+                position: absolute;
+                top: 0em;
+                left: -0.14em;
+                content: "";
+                height: 0;
+                width: 0;
+                border-width: 1em 0em  1em 1em;
+                border-style: solid none solid solid;
+                border-color: transparent  transparent transparent transparent; }
+              &:after {
+                z-index: 1;
+                display: block;
+                position: absolute;
+                top: .5em;
+                left: -1em;
+                content: "";
+                height: 0;
+                width: 0;
+                opacity: 1;
+                z-index: 2;
+                border-width: .5em 0em  .5em .5em;
+                border-style: solid none solid solid;
+                border-color: transparent  transparent transparent #ccc; } }
+            a:hover ~ ul:before, &:hover ul:before {
+              top: 0em;
+              border: solid 1em #4a4e50;
+              left: -1.98em; }
+            a:hover ~ ul:after, &:hover ul:after {
+              top: 0em;
+              border-color: transparent  transparent transparent #4a4e50;
+              left: 0em;
+              content: "";
+              height: 0;
+              width: 0;
+              border-width: 1em 0em  1em 1em;
+              border-style: solid  none solid solid; } }
+          position: absolute;
+          left: 0;
+          display: none;
+          line-height: 2em !important;
+          min-width: 16em;
+          max-width: 22em; }
+        position: relative; }
+      nav#appnav > ul > li > a.active {
+        position: relative;
+        &:after {
+          z-index: 9;
+          position: absolute;
+          top: 3.1em;
+          left: 50%;
+          margin-left: -0.55em;
+          display: block;
+          content: "";
+          width: 0;
+          height: 0;
+          border-width: 0em .55em .55em  .55em;
+          border-style: none solid solid  solid;
+          border-color: transparent transparent #fff transparent; } } }
+
+    /*white-arrow on sublink when hovered*/
+
+    #notifications {
+      position: absolute;
+      right: 0em;
+      min-width: 20em;
+      max-width: 30em;
+      line-height: 1.5em;
+      section {
+        &:before {
+          position: absolute;
+          display: block;
+          content: "";
+          height: 0;
+          width: 0;
+          border-width: 0em .75em .75em .75em;
+          border-style: none solid solid solid;
+          top: -0.79em;
+          right: 6.75em;
+          border-color: transparent transparent #fff transparent; }
+        &:after {
+          position: absolute;
+          display: block;
+          content: "";
+          height: 0;
+          width: 0;
+          border-width: 0em .75em .75em .75em;
+          border-style: none solid solid solid;
+          top: -0.7em;
+          right: 6.75em;
+          border-color: transparent transparent #555 transparent; }
+        a {
+          color: #fff; }
+        /*border-radius*/
+        -webkit-border-radius: .5em;
+        -moz-border-radius: .5em;
+        border-radius: .5em;
+        position: relative;
+        overflow: visible;
+        width: 100%;
+        margin: 0em;
+        right: 0;
+        display: block !important;
+        margin-top: 1em;
+        padding: 1em;
+        top: 0em;
+        background-color: #555;
+        color: #ddd;
+        text-shadow: none;
+        text-indent: 0em;
+        /*box-shadow*/
+        -webkit-box-shadow: 0px 0em 0em 0.1em white, 0px 0.2em 0.5em rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0px 0em 0em 0.1em white, 0px 0.2em 0.5em rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 0em 0em 0.1em white, 0px 0.2em 0.5em rgba(0, 0, 0, 0.1);
+        &.alert {
+          &:after {
+            border-color: transparent transparent #a00 transparent; }
+          background-color: #a00;
+          color: #fff;
+          text-shadow: 0 -1px #990000;
+          /*box-shadow*/
+          -webkit-box-shadow: 0px 0em 0em 0.1em white, 0px 0.2em 0.5em 0.2em rgba(255, 0, 0, 0.21);
+          -moz-box-shadow: 0px 0em 0em 0.1em white, 0px 0.2em 0.5em 0.2em rgba(255, 0, 0, 0.21);
+          box-shadow: 0px 0em 0em 0.1em white, 0px 0.2em 0.5em 0.2em rgba(255, 0, 0, 0.21); } } }
+  }
+
+  .shell-design header > article section:last-child {
+    text-align: right;
+    position: absolute;
+    top: -1.75em;
+    right: 0em;
+    margin: 0 auto;
+    display: block;
+    a {
+      border: 0.1em solid rgba(255, 255, 255, 0.12);
+      color: #ccc !important;
+      border-radius: 0em 0em .5em .5em;
+      color: #fff;
+      text-decoration: none;
+      background-color: #181c1e;
+      box-shadow: inset 0px 1.5em 1em -1em rgba(222, 222, 255, 0.1);
+      display: inline-block;
+      padding: .1em 1em;
+      position: relative;
+      margin: 1.25em .1em;
+      &:last-child {
+        padding-right: 2em;
+        &:after {
+          content: "";
+          display: block;
+          height: 0px;
+          width: 0px;
+          position: absolute;
+          top: .75em;
+          right: .5em;
+          border-style: solid solid none solid;
+          border-width: .5em .5em 0em .5em;
+          border-color: #666 transparent transparent; } }
+      &:first-child {
+        padding-left: 3em;
+        &:after {
+          content: "!";
+          color: #2e4e66;
+          text-align: center;
+          background-color: #ccc !important;
+          width: 1em;
+          height: 1em;
+          border-radius: 50%;
+          position: absolute;
+          top: .25em;
+          left: .5em;
+          line-height: 1em;
+          font-size: 1.5em;
+          display: block;
+          background-color: transparent;
+          z-index: 2; } } } }
+
+  /*body > header > article:last-child a:nth-child(2):before{position:absolute; left:0; top:.5em;content:""; border-style: none solid solid solid;  border-width:0em .7775em  1em .75em; height: 0px;
+  width:0px; border-color: transparent transparent white transparent;}*/
+
+  /* ==|== primary styles =====================================================
+     , __                                                        _
+   /|/  \      o                                   ()          | |
+    |___/ ,_       _  _  _    __,   ,_             /\_|_       | |  _   ,
+    |    /  |  |  / |/ |/ |  /  |  /  |  |   |    /  \|  |   | |/  |/  / \_
+    |       |_/|_/  |  |  |_/\_/|_/   |_/ \_/|/  /(__/|_/ \_/|/|__/|__/ \/
+                                            /|              /|
+                                            \|              \|
+  ========================================================================== */
+
+  .shell-design {
+    * {
+      /*this is life saving but locks us into > ie8 will consider this polyfil for lt-ie8  https://github.com/Schepp/box-sizing-polyfill */
+      -moz-box-sizing: border-box !important;
+      -webkit-box-sizing: border-box !important;
+      box-sizing: border-box !important;
+      background-repeat: no-repeat;
+      vertical-align: middle; }
+
+    body {
+      background-color: #ccc;
+      height: 100%;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      font-size: 12px;
+      font-family: "overpass"; }
+
+    html {
+      height: 100%;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      font-size: 12px;
+      font-family: "overpass";
+      /*forcing scrl*/
+      height: 100%;
+      margin-bottom: 1px !important;
+      overflow-y: scroll; }
+
+    a {
+      &:hover, &:focus, &:active {
+        color: #fa0; } }
+
+    #content, body > footer, header > article {
+      max-width: 80em;
+      margin: 0 auto; }
+
+    a {
+      &:focus {
+        outline: none!important; }
+      &:link {
+        color: #36c; } }
+
+    /* some browsers don't respect outline none without important*/
+
+    body a {
+      &:visited {
+        color: #36c; }
+      &:hover, &:focus, &:active {
+        color: #000; } }
+
+    section {
+      color: #777; }
+
+    table {
+      overflow: hidden;
+      width: 100%;
+      line-height: 2em;
+      th {
+        text-align: left;
+        font-weight: 700;
+        border-bottom: .1em solid #ccc; } }
+
+    /*dont worry i'll replace this stuff with something generic*/
+
+    blockquote.important {
+      color: #fff!important;
+      background-color: #900!important;
+      border-color: #900!important;
+      a {
+        color: #fff; } }
+
+    h1, h2, h3 {
+      font-size: 1em;
+      font-weight: normal;
+      color: #333; }
+
+    h1 {
+      font-size: 2em; }
+
+    .boxshadow article#content {
+      padding: 1em 2em;
+      box-shadow: 0px 0px 1em rgba(0, 0, 0, 0.2);
+      border-style: none;
+      border-radius: 0em 0em .5em .5em; }
+
+    #content {
+      margin: 0 auto;
+      background-color: #fff;
+      section {
+        &.active {
+          min-height: 20em; }
+        h1 {
+          color: transparent; }
+        &.active h1 {
+          padding-top: 3em;
+          color: #ddd;
+          text-align: center;
+          font-weight: normal;
+          text-transform: capitalize; } } }
+
+
+
+    .boxshadow {
+      input, textarea {
+        border-style: none; } }
+
+
+    /*only apply the tiny border if we can support boxshadow */
+
+    .boxshadow.borderradius {
+      input, textarea {
+        /*border-radius*/
+        -webkit-border-radius: .35em;
+        -moz-border-radius: .35em;
+        border-radius: .35em; } }
+
+
+    .boxshadow.borderradius input {
+      &[type="submit"] {}
+      &[type="button"]:hover, &[type="submit"]:hover, &[type="button"]:focus, &[type="submit"]:focus {
+        background-color: #222;
+        color: #fff;
+        border-color: #222; }
+      &[type="button"]:hover, &[type="submit"]:hover, &[type="button"]:focus, &[type="submit"]:focus {
+        /*box-shadow*/
+        -webkit-box-shadow: 0px 0em 0.25em 0.2em #ffaa00, 0 1.5px 2px rgba(0, 0, 0, 0.1), 0 4px 5px rgba(0, 0, 0, 0.2), 0 0 4px rgba(255, 255, 255, 0.7) inset, 0 -5px 10px rgba(0, 0, 0, 0.2) inset;
+        -moz-box-shadow: 0px 0em 0.25em 0.2em #ffaa00, 0 1.5px 2px rgba(0, 0, 0, 0.1), 0 4px 5px rgba(0, 0, 0, 0.2), 0 0 4px rgba(255, 255, 255, 0.7) inset, 0 -5px 10px rgba(0, 0, 0, 0.2) inset;
+        box-shadow: 0px 0em 0.25em 0.2em #ffaa00, 0 1.5px 2px rgba(0, 0, 0, 0.1), 0 4px 5px rgba(0, 0, 0, 0.2), 0 0 4px rgba(255, 255, 255, 0.7) inset, 0 -5px 10px rgba(0, 0, 0, 0.2) inset;
+        text-shadow: 0px -1px rgba(0, 0, 0, 0.4); } }
+
+
+    section {
+      &:before, &:after {
+        content: "";
+        display: table; } }
+
+    article {
+      &:before {
+        content: "";
+        display: table; }
+      &:after {
+        content: "";
+        display: table;
+        clear: both; } }
+
+    section:after {
+      clear: both; }
+
+    /* For IE 6/7 (trigger hasLayout) */
+
+    article, section {
+      zoom: 1; }
+
+    /*Footer*/
+
+    body > footer {
+      padding-top: 2em;
+      > {
+        nav {
+          display: block;
+          height: 4em;
+          line-height: 4em;
+          padding: 0em;
+          margin: 0em; }
+        p:first-child {
+          display: block;
+          height: 4em;
+          line-height: 4em;
+          padding: 0em;
+          margin: 0em;
+          float: left;
+          background-repeat: no-repeat;
+          color: #777;
+          background-position: 2em 40%;
+          background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAAAZCAYAAAB5CNMWAAACzElEQVR42u2YMYrjMBSGfYEF1VOp2lqQMo0uEFA7naqpDbmADrAQSJfKXVoXewBdYEFH0BF8BI0i/gkPSWvL2d0sjOeHn5H8ZCf68t6LJl0I4cuNXhKL1tFjtI8OxBOua6zbtHoACUvGOrNFaCzafYB4iX6Lfo3e3Yz5Ede+EWi4T2wPFEDY6F8VXwHtWs8ysR1Q8A6wasB+kvGhAuyzl+Qp70VvAPU9WkYfZ8B1pcfPCorXGvcPwGjxrg5MPuuDhuXTsuqQlZck8yUf67CGJ8GyeD2LuUEC/BP5rlJir9EdyvBtIdMuWP+SAftPsOwfZpmLlrMlaCoQDGCRpl/CykAf2kpRwixaZOsYiccYVI/zGVg8ex0qGuP0uXhWn8WSJD0qXBeOCru20qSAdVeXQ3ykWYj100w5i0p8qsAacP2E1/Jk4wrzAQ64Jgh4h7EuYFFgxzkQ6xu+mSkdulmLzdD7FAHRRzMy91iD5xSwXJZNI4HOspjGeqisiBJWVm6XB0FZQG+E5ckbHyqZpO8gMIZpefgCVpnRisRrZR0ehjVNUxiGIUEza0CREoTVAixTXiuNmMHYPdDgJYWFZ3nYtsFCMPc4juEma23QWqdMOQDcpQLoUvlfEearYWEDmU9/DRb6GH1vzbD2+72TUgZjTPDeJziMsTT+UN/3dwCc8xTH3+QSODYNNcIayKYLZWUoSAn5NbDo/RBvhhVZ6ECEjEql2KIIuQoLn6BYAUtmoA3JApE1+In+zrYS1pS1hyGD5bK4yIH50KaUUUKIBPQmrfXvfuPqMW6CBSkChFpVjw6AthKWJt/AjsDK+5kle+AUlgrtuoNyztE+d5un2Pl87smB8xFJYjZ7qH1MnBx6axLk+bJWjqcArckypVSCRDR0W9Bto6FBaPrJ0IZAlQ1/CiuE9X0HbQ0YizYN0CZkI+++lMDJaANbMlZb4vAOn/BH4vdQDKAAAAAASUVORK5CYII=);
+          padding-left: 12em; }
+        nav {
+          float: right; } }
+      a {
+        padding: 2em 2em;
+        color: #333 !important; } }
+
+      /*==========================================================================
+
+                ___                              _
+               / (_)  ()   ()                   | |
+              |       /\   /\       __   _  _   | |
+              |      /  \ /  \-----/  \_/ |/ |  |/  |   |
+               \___//(__//(__/     \__/   |  |_/|__/ \_/|/
+                                                       /|
+                                                       \|
+                       o                                 o
+        _  _    __        __,        __,   ,   __   ,_        _ _|_
+       / |/ |  /  \_   | /  |  |  |_/  |  / \_/    /  |  |  |/ \_|
+         |  |_/\__/    |/\_/|_/ \/  \_/|_/ \/ \___/   |_/|_/|__/ |_/
+                      /|                                   /|
+                      \|                                   \|
+
+      CSS-only  NO javascript hacks go here
+
+      */
+
+    .no-js {
+      .no-js-controls {
+        display: block;
+        input, a {
+          position: fixed;
+          bottom: 0;
+          text-transform: capitalize;
+          font-weight: 400 !important;
+          font-size: 1em;
+          background-color: #000;
+          border: 0.00009em solid #000 !important;
+          color: #fff !important;
+          border-bottom-style: none;
+          height: 3em;
+          line-height: 3em;
+          display: block;
+          text-align: center;
+          opacity: .45; }
+        input:focus, a:focus, input:hover, a:hover {
+          opacity: 1; }
+        input {
+          left: 50%;
+          width: 50%;
+          margin-left: -25%;
+          &:hover {
+            background-color: #fa0;
+            border-color: #fa0; } }
+        a {
+          cursor: pointer;
+          text-shadow: none;
+          position: fixed;
+          width: 24%;
+          text-decoration: none;
+          &.top-link {
+            left: 0;
+            /*uncomment for top right*/
+            /* left:none; right:0; top: 0*/ }
+          &.bottom-link {
+            right: 0; }
+          &:hover {
+            color: #fff;
+            background-color: #000;
+            opacity: 0.8;
+            border-color: #000; } } }
+      padding-bottom: 5em  !important;
+      /*make some room  for controls at the bottom of the page */
+      .hidden {
+        display: block!important; } }
+
+    /*show them when javascript is off*/
+
+    /*no-js control buttons*/
+
+      /*==========================================================================
+
+        ,__ __                          __
+       /|  |  |         |  o           /  \                    o
+        |  |  |   _   __|      __,    | __ |          _   ,_       _   ,
+        |  |  |  |/  /  |  |  /  |    |/  \|  |   |  |/  /  |  |  |/  / \_
+        |  |  |_/|__/\_/|_/|_/\_/|_/   \__/\_/ \_/|_/|__/   |_/|_/|__/ \/
+      size exceptions */
+
+    @media only screen and (max-width: 30em) {}
+
+    @media only screen and (max-width: 52em) {
+      body > header {
+        height: 8em;
+        h1 {
+          text-indent: 1em; }
+        > article {
+          padding-left: 0em; }
+        nav#appnav {
+          margin-top: 4em;
+          width: 100%;
+          > ul {}
+          > ul > li {
+            width: 50%; } }
+        > article section:last-child {
+          padding-right: 0.25em;
+          a {
+            margin-right: 0em; } }
+        nav#appnav > ul > li:last-child ul {
+          margin-left: -0.5em !important;
+          ul {
+            margin-left: -30.5em !important;
+            max-width: 15em; } } }
+      header nav#appnav > ul > li {
+        padding: 0em;
+        > a {
+          padding-left: .5em;
+          padding-right: .5em; } }
+      @media only screen and (max-width: 49em) {
+        header nav#appnav > ul > li > a {}
+        body > header h1 {
+          text-indent: 0em; } }
+      @media only screen and (max-width: 44em) {
+        header nav#appnav {
+          min-width: 38em !important;
+          white-space: nowrap;
+          > ul > li > a {} } }
+      /* ==|== non-semantic helper classes ========================================
+         ,          _                     ___  _
+       /|   |     | |                   / (_)| |
+        |___|  _  | |   _   _   ,_     |     | |  __,   ,   ,   _   ,
+        |   |\|/  |/  |/ \_|/  /  |    |     |/  /  |  / \_/ \_|/  / \_
+        |   |/|__/|__/|__/ |__/   |_/   \___/|__/\_/|_/ \/  \/ |__/ \/
+                     /|
+                     \|
+
+      we should never use these, but we probably will someday
+         ========================================================================== */
+      .visuallyhidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+        &.focusable {
+          &:active, &:focus {
+            clip: auto;
+            height: auto;
+            margin: 0;
+            overflow: visible;
+            position: static;
+            width: auto; } } }
+      .invisible {
+        visibility: hidden; }
+      .clearfix {
+        &:before {
+          content: "";
+          display: table; }
+        &:after {
+          content: "";
+          display: table;
+          clear: both; }
+        *zoom: 1; }
+      // hackaroni
+      }
+  }
+}}
