@@ -229,7 +229,7 @@ class PoolFamiliesController < ApplicationController
   def load_pool_family_tabs
     @tabs = [{:name => t('pools.pools'),:view => 'pools', :id => 'pools', :count => @pool_family.pools.count},
              {:name => t('accounts'), :view => 'provider_accounts', :id => 'provider_accounts', :count => @pool_family.provider_accounts.count},
-             {:name => t('images.index.images'), :view => 'images', :id => 'images', :count => @images.count},
+             {:name => t('application_controller.admin_tabs.images'), :view => 'images', :id => 'images', :count => @images.count},
     ]
     add_permissions_tab(@pool_family)
     details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
