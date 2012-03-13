@@ -291,31 +291,21 @@ en:
       blank_id: Component Outline ID cannot be blank.
     index:
       images: Component Outlines
-      new: New Component Outline
     show:
       image_uuid: Component Outline UUID
-      new_deployable_from_image: "New Blueprint from Outline"
+      new_deployable_from_image: "New Blueprint from Image"
       image_uri: Component Outline URI
       provider: Cloud Resource Provider
       template_xml: View XML
     flash:
       notice:
-        deleted: Component Outline Deleted
-        multiple_deleted: "%{count} Component Outlines Deleted"
-        multiple_deleted:
-          one: "%{count} Component Outline Deleted"
-          other: "%{count} Component Outlines deleted"
         created: Component Outline created
-      warning:
-        delete_failed: Unable to Delete Component Outline
-        not_found: Component Outline not found
       error:
         no_file: You must specify the component outline XML file
         no_template: "The image doesn't have a component outline because it's been imported."
     new:
-      new_image: New Component Outline
       description:
-        Choose one of the following options to upload or import an component outline into
+        Choose one of the following options to upload or import a component outline into
         "%{environment} Cloud".
       choose_file: "Choose a component outline file:"
       image_url: "Component Outline URL:"
@@ -442,7 +432,6 @@ en:
     admin_tabs:
       realms: Cloud Resource Clusters
       pool_families: Clouds
-      images: Component Outlines
   realm_mappings:
     new:
       create_new: Create a new Cloud Resource Cluster Mapping
