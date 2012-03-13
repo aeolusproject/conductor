@@ -40,11 +40,11 @@ class ProviderAccountsController < ApplicationController
     require_privilege(Privilege::VIEW, @provider_account)
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
 
+    add_permissions_inline(@provider_account)
     if params.delete :test_account
       test_account(@provider_account)
       render :action => 'show' and return
     end
-    add_permissions_inline(@provider_account)
 
     respond_to do |format|
       format.html { render :action => 'show'}
