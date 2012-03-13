@@ -14,6 +14,8 @@
 #   limitations under the License.
 #
 
+require 'util/conductor'
+
 class Deployable < ActiveRecord::Base
   class << self
     include CommonFilterMethods
@@ -152,8 +154,17 @@ class Deployable < ActiveRecord::Base
     deployable_errors ||= []
     deployable_xml.assemblies.each do |assembly|
       assembly_hash = {}
-      image = Aeolus::Image::Warehouse::Image.find(assembly.image_id)
-      if image.nil?
+
+      begin
+        image = Aeolus::Image::Warehouse::Image.find(assembly.image_id)
+      rescue Exception => e
+        error = humanize_error(e.message)
+      end
+
+      if !error.nil?
+        missing_images << assembly.image_id
+        deployable_errors << error
+      elsif image.nil?
         missing_images << assembly.image_id
         deployable_errors << I18n.t("deployables.flash.error.missing_image",
                                     :assembly => assembly.name,
@@ -191,12 +202,17 @@ class Deployable < ActiveRecord::Base
   end
 
   def build_status(images, account)
-    image_statuses = images.map { |i| account.image_status(i) }
-    return :not_built if image_statuses.any? { |status| status == :not_built }
-    return :building if image_statuses.any? { |status| status == :building }
-    return :pushing if image_statuses.any? { |status| status == :pushing }
-    return :not_pushed if image_statuses.any? { |status| status == :not_pushed }
-    :pushed
+    begin
+      image_statuses = images.map { |i| account.image_status(i) }
+      return :not_built if image_statuses.any? { |status| status == :not_built }
+      return :building if image_statuses.any? { |status| status == :building }
+      return :pushing if image_statuses.any? { |status| status == :pushing }
+      return :not_pushed if image_statuses.any? { |status| status == :not_pushed }
+      :pushed
+    rescue Exception => e
+      error = humanize_error(e.message)
+      return error
+    end
   end
 
   def to_polymorphic_path_param(polymorphic_path_extras)
