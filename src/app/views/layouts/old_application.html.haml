@@ -2,9 +2,7 @@
 %html{"xml:lang" => "en", :lang => "en"}
   %head
     %meta{:charset => 'utf-8'}/
-    %title
-      = t("layout.appname")
-      = "| #{@title}" unless @title.blank?
+    %title= @title
     %link{:rel =>  'shortcut icon', :href => '/favicon.ico'}
     = stylesheet_link_tag '/stylesheets/reset.css'
     = stylesheet_link_tag '/stylesheets/960.css'
@@ -12,11 +10,11 @@
     = stylesheet_link_tag '/stylesheets/compiled/layout.css'
     = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
     = stylesheet_link_tag '/stylesheets/compiled/header.css'
-    = stylesheet_link_tag '/stylesheets/common-header.css'
     /[if lt IE 9]
       = javascript_include_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
     /[if lt IE 8]
       = stylesheet_link_tag '/stylesheets/layout_ie7.css'
+    = stylesheet_link_tag '/stylesheets/compiled/custom.css'
 
     :javascript
       window.Conductor = {}
@@ -40,27 +38,21 @@
     = javascript_include_tag "backbone/views.js"
     = javascript_include_tag "backbone/routers.js"
     = javascript_include_tag "rails.js"
-    = javascript_include_tag "lib/modernizr-custom.js"
+    # = javascript_include_tag 'modernizr.js'
     = csrf_meta_tag
     = yield :scripts
   %body{:class => "#{(["pools" ,"deployments", "instances"].include? controller_name) ? 'monitor' : 'administer'}" }
     #primary-container
 
-      %header.shell-design
-        %article
-          %h1
-            = t("layout.appname")
-          %nav#appnav
-            =render_navigation :level => 1
-          / Notifications and user dropdown -- disable notifications for now
-          %section#usermenu
-            %a{:href => '#'}= current_user.name
-            %ul
-              %li= link_to t('masthead.my_account'), account_path
-              %li= link_to t('masthead.logout'), logout_path
+      %header#masthead
+        = render :partial => 'layouts/masthead'
+
+      = render :partial => '/layouts/new_notification' if flash.present? or content_for?(:error_messages)
+
+      %nav#primary
+        =render_navigation :level => 1
 
       #content
-        = render :partial => '/layouts/new_notification' if flash.present? or content_for?(:error_messages)
         -# works with any 960 container (.container_16 or .container_24)
         = yield
         .clear

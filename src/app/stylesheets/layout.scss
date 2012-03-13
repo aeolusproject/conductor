@@ -924,76 +924,77 @@ header#masthead{
     }
   }
 
-  li#view-user-menu{
-    border: 1px solid #ccc;
-    background: #e7e7e7 url('../../images/button-userdrop.png') no-repeat center 4px;
-    width: 46px;
-    left: 8px;
-    margin: 0px 8px 0px 0px;
-    color: transparent;
-    font-size: 12px; /* match the font-size of the query box, for proper valign */
-    padding: 5px 2px 5px 2px;
-    -webkit-border-radius: 50em;
-    -moz-border-radius: 50em;
-    border-radius: 50em;
-    position: relative;
-    z-index: 3;
-    cursor: pointer;
-    &:hover{
-      border-bottom: none;
-      -webkit-border-radius: 1em 1em 0px 0px;
-      -moz-border-radius: 1em 1em 0px 0px;
-      border-radius: 1em 1em 0px 0px;
-      height: 16px;
-      box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
-      -moz-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
-      -webkit-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
+}
 
-      ul#user-menu{ display: block; }
-    }
-  }
 
-  ul#user-menu {
-    position: absolute;
-    display: none;
-    top: 26px;
-    right: -1px;
-    width: 130px;
-    background: #e7e7e7;
-    border: 1px solid #ccc;
-    //padding: 8px 12px;
-    -webkit-border-radius: 7px 0px 7px 7px;
-    -moz-border-radius: 7px 0px 7px 7px;
-    border-radius: 7px 0px 7px 7px;
+section#usermenu{
+  border: 1px solid #ccc;
+  background: #e7e7e7 url('../../images/button-userdrop.png') no-repeat center 4px;
+  width: 46px;
+  left: 8px;
+  margin: 0px 8px 0px 0px;
+  color: transparent;
+  font-size: 12px; /* match the font-size of the query box, for proper valign */
+  padding: 5px 2px 5px 2px;
+  -webkit-border-radius: 50em;
+  -moz-border-radius: 50em;
+  border-radius: 50em;
+  position: relative;
+  z-index: 3;
+  cursor: pointer;
+  &:hover{
+    border-bottom: none;
+    -webkit-border-radius: 1em 1em 0px 0px;
+    -moz-border-radius: 1em 1em 0px 0px;
+    border-radius: 1em 1em 0px 0px;
+    height: 16px;
     box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
     -moz-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
     -webkit-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
-    li{
-      list-style-type: none;
-      width: 100%;
-      a{
-        padding: 7px 10px;
-        display: block;
-        text-decoration: none;
-      }
-      &:hover{
-        background:#C4E0F0;
-        &:first-child{ -webkit-border-radius: 4px 0px 0px 0px; -moz-border-radius: 4px 0px 0px 0px; border-radius: 4px 0px 0px 0px; }
-        &:last-child{ -webkit-border-radius: 0px 0px 4px 4px; -moz-border-radius: 0px 0px 4px 4px; border-radius: 0px 0px 4px 4px; }
-        &:only-child{ -webkit-border-radius: 4px 0px 4px 4px; -moz-border-radius: 4px 0px 4px 4px; border-radius: 4px 0px 4px 4px; }
-      }
+
+    ul#user-menu{ display: block !important; }
+  }
+}
+
+
+ul#user-menu {
+  position: absolute;
+  /*display: none;*/
+  top: 26px;
+  right: -1px;
+  width: 130px;
+  background: #e7e7e7;
+  //padding: 8px 12px;
+  -webkit-border-radius: 7px 0px 7px 7px;
+  -moz-border-radius: 7px 0px 7px 7px;
+  border-radius: 7px 0px 7px 7px;
+  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
+  -moz-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
+  -webkit-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
+  li{
+    list-style-type: none;
+    width: 100%;
+    a{
+      padding: 7px 10px;
+      display: block;
+      text-decoration: none;
     }
-    &:before{
-      content: "";
-      position: absolute;
-      top: -1px;
-      right: 0px;
-      width: 50px;
-      height: 1px;
-      background: #e5e5e5;
+    &:hover{
+      background:#C4E0F0;
+      &:first-child{ -webkit-border-radius: 4px 0px 0px 0px; -moz-border-radius: 4px 0px 0px 0px; border-radius: 4px 0px 0px 0px; }
+      &:last-child{ -webkit-border-radius: 0px 0px 4px 4px; -moz-border-radius: 0px 0px 4px 4px; border-radius: 0px 0px 4px 4px; }
+      &:only-child{ -webkit-border-radius: 4px 0px 4px 4px; -moz-border-radius: 4px 0px 4px 4px; border-radius: 4px 0px 4px 4px; }
     }
   }
-
+  &:before{
+    content: "";
+    position: absolute;
+    top: -1px;
+    right: 0px;
+    width: 50px;
+    height: 1px;
+    background: #e5e5e5;
+  }
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1001,7 +1002,7 @@ Alert Flash -- v.0.0.1 [flash] (flash.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 #flash-hud{
-  width: 944px;
+  width: 900px;
   margin: 0 auto;
   background-color: #ddd;
   -webkit-border-radius: 0px 0px 7px 7px;
@@ -3620,3 +3621,128 @@ footer.standard{
 
   span.copyright{}
 }
+
+
+/*
+  Styles for new layout
+
+*/
+
+header.shell-design {
+  height: 5.5em !important;
+  > article {
+    max-width: 80em;
+    margin: 0 auto; }
+  nav#appnav > ul > li:hover > ul {
+    z-index: 9999 !important;
+    /*painfully silly hack*/
+    margin-top: -0.25em;
+    padding-top: 0em !important; } }
+
+/* bonus: fix up overview scorecard */
+
+#scoreboard {
+  font-family: overpass;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 7em;
+  width: 100%;
+  padding: 2em 1em 1em 1em;
+  background-color: #f6f6f6;
+  /*box-shadow*/
+  -webkit-box-shadow: inset 0em .06em 1em #ddd;
+  -moz-box-shadow: inset 0em .06em 1em #ddd;
+  box-shadow: inset 0em .06em 1em #ddd;
+  /*border-radius*/
+  -webkit-border-radius: 0em 0em .5em .5em;
+  -moz-border-radius: 0em 0em .5em .5em;
+  border-radius: 0em 0em .5em .5em;
+  ul.groups > li + li {
+    background-image: none;
+    margin: 0em;
+    padding: 0em 1em;
+    border-left: .1em dotted #ddd; } }
+
+/* fixing up the content to work with new header*/
+
+div#content {
+  border-color: #eee;
+  background-image: none;
+  /*box-shadow*/
+  -webkit-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
+  -moz-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
+  box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
+  /*border-radius*/
+  -webkit-border-radius: 0em 0em .5em .5em;
+  -moz-border-radius: 0em 0em .5em .5em;
+  border-radius: 0em 0em .5em .5em;
+  border-top: transparent none 0px; }
+
+/* Page header fixup */
+
+.administer nav#administer_nav {
+  background-image: none;
+  background-color: #ddd;
+  /*box-shadow*/
+  -webkit-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
+  /*border-radius*/
+  -webkit-border-radius: 0em;
+  -moz-border-radius: 0em;
+  border-radius: 0em; }
+
+div#content .page-header {
+  background-image: none;
+  background-color: #ddd;
+  /*box-shadow*/
+  -webkit-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
+  /*border-radius*/
+  -webkit-border-radius: 0em;
+  -moz-border-radius: 0em;
+  border-radius: 0em;
+  h1 {
+    text-shadow: 0px 1px #eee;
+    font-family: overpass;
+    font-weight: normal;
+    &.section-index {
+      background-image: none; } } }
+
+.administer nav#administer_nav {
+  height: 6.5em !important;
+  li a {
+    padding: 4em 2em 2em 2em !important;
+    cursor: pointer; } }
+
+/* sub-tabs were wonky,  fixing them too */
+
+section {
+  &.admin-content-section > header, &.content-section header {
+    /*background-image: none !important;*/
+    /*box-shadow: inset 0px -1em 1em -1em  #dad*/
+    /*box-shadow: inset 0px -1em 1em -1em #dadada;*/
+    /*margin: 2em -1.25em;*/
+    /*padding: 0em 2em; }*/
+  }
+  &.admin-content-section > header nav a, &.content-section header nav a {
+    font-family: overpass;
+    font-size: 1.5em;
+    color: #aaa !important; }
+  &.admin-content-section > header nav a.active, &.content-section header nav a.active {
+    font-weight: normal !important;
+    color: #000  !important; }
+  &.admin-content-section > header nav a:hover, &.content-section header nav a:hover {
+    color: #555 !important; } }
+
+
+/* Navigation tabs should indicate those that are used */
+body.administer nav#appnav li:last-child a{background-color: #444  !important}
+body.monitor nav#appnav li:first-child a{background-color: #444  !important}
+
+
+/* layout 1558 */
