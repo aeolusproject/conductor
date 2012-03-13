@@ -14,6 +14,8 @@
 #   limitations under the License.
 #
 
+require 'i18n'
+
 def gb_to_kb(val_in_gigs)
   return nil if nil_or_empty(val_in_gigs)
   return val_in_gigs.to_i * 1024 * 1024
@@ -38,5 +40,21 @@ def nil_or_empty(val)
     return true
   else
     return false
+  end
+end
+
+# Try to clean up and internationalize certain errors we get from other components
+# Accepts a string or an Exception
+def humanize_error(error, options={})
+  error = error.message if error.is_a?(Exception)
+  if error.match("Connection refused - connect\\(2\\)")
+    if options[:context] == :deltacloud
+        return I18n.translate('deltacloud.unreachable')
+    else
+      return I18n.translate('connection_refused')
+    end
+  else
+    # Nothing else matched
+    error
   end
 end
