@@ -97,6 +97,13 @@ module Conductor
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
 
+    #field_with_errors should be span instead of div
+    #http://www.rabbitcreative.com/2010/09/20/rails-3-still-fucking-up-field_with_errors/
+    ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+      include ActionView::Helpers::RawOutputHelper
+      raw %(<span class="field_with_errors">#{html_tag}</span>)
+    end
+
     config.after_initialize do
       Haml::Template.options[:format] = :html5
     end
