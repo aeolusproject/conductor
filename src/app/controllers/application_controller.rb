@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
   include ApplicationService
   helper_method :current_user, :filter_view?
-  before_filter :read_breadcrumbs, :set_locale, :set_default_title
+  before_filter :read_breadcrumbs, :set_locale
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -350,10 +350,6 @@ class ApplicationController < ActionController::Base
 
     # Returns the default_locale otherwise
     I18n.default_locale
-  end
-
-  def set_default_title
-    @title = t 'layout.appname'
   end
 
   def redirect_to_original(extended_params = {})
