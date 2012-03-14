@@ -31,7 +31,6 @@ Feature: Manage Realms
     And there is a realm "testrealm1"
     And a provider "provider1" exists
     When I follow "testrealm1"
-    Then I should see "Add mapping to provider"
     And I follow "mapping_to_provider_button"
     Then I should be on the new realm mapping page
     When I press "realm_backend_target_submit"
