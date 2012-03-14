@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  42%{?dist}
+Release:  43%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -366,6 +366,27 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed Mar 14 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-43
+- 01c0e60 BZ 798549 removed humanize_error, added in 'require util/conductor'
+- 22f2eb0 BZ 798549 added exception handling and humanize_error to catch connection refused errors
+- db4c031 BZ 798549 added humanize_error
+- 2d184a2 Bug 788465: Don't allow a Realm Admin to map to realms or providers without USE permission on the provider.
+- 1ff3098 BZ800308 removed duplicate cancel button in catalog and pool forms
+- 257faed bug 801106: limit pool selection within pool family for catalog edit
+- 18ae4bc bug 790735: Enforce image permissions on deleting imported images https://bugzilla.redhat.com/show_bug.cgi?id=790735
+- e8c1396 BZ801199: Change latest_build to the latest in time
+- 6ff17f0 BZ802485 Update product name overrides
+- 73ec93c BZ-795902-Provide Unique Names for Cloud Resource Cluster
+- a63f8f6 BZ798575 and BZ798555 product changes
+- 47774c1 BZ#798287 Fix the product name from Aeolus to Cloud Engine
+- 588cc86 BZ796388 Fix product name on Launch Deployment page
+- 80092df bug 800511: update overrides/en.yml for role changes
+- f198670 bug 800511: update roles list and default user roles
+- ff518fa BZ800308 removed duplicate cancel button in catalog and pool forms
+- 64f73f3 BZ 800014 - removed fake czech localization
+- f56f211 BZ798575 removed classnames translations and replaced it with activerecord translations
+- ea4f3b6 BZ798575 added provider_realm mappings translations
+
 * Mon Mar 12 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.0-42
 - 2836626 BZ 801089 always allow user to click through to pool_family details
 - ab5c536 BZ798555 added default translations from rails-i18n gem which should be used in later versions
