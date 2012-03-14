@@ -12,8 +12,7 @@
           = link_to t('.template_xml'), template_image_path(@image.uuid), :class => 'button pill'
         = button_to t("delete"), image_path(@image.id), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete'
 
-- user_can_build = @environment and check_privilege(Privilege::USE, @environment)
-
+- user_can_build = (@environment and check_privilege(Privilege::USE, @environment))
 %section.admin-content-section
   %header
     %h2=t'properties'

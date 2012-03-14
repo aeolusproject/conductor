@@ -13,7 +13,7 @@
         %td= realm.name
 
 - unless @provider_accounts.empty?
-  %h2= t('realms.mapping.provider_accounts_mapped_to_realm', :name=> "#{@realm.name}")
+  %h2= t('provider_realms.show.provider_accounts_mapped', :name=> "#{@realm.name}")
   %table.flat.checkbox_table
     - @provider_accounts.each do |account|
       %tr{:class => cycle('nostripe','stripe')}

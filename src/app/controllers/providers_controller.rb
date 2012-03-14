@@ -260,7 +260,7 @@ class ProvidersController < ApplicationController
     #TODO add links to real data for history,properties,permissions
     @tabs = [{:name => t('connectivity'), :view => 'edit', :id => 'connectivity'},
              {:name => t('accounts'), :view => 'provider_accounts/list', :id => 'accounts', :count => @provider.provider_accounts.count},
-             {:name => t('realm_s'), :view => 'provider_realms/list', :id => 'realms', :count => @realms.count},
+             {:name => t('provider_realms.provider_realms'), :view => 'provider_realms/list', :id => 'realms', :count => @realms.count},
              #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
     ]
     add_permissions_tab(@provider, "edit_")

@@ -117,6 +117,7 @@ class RealmsController < ApplicationController
     @backend_provider_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Provider' }
 
     save_breadcrumb(realm_path(@realm), @realm.name)
+    load_backend_realms
 
     respond_to do |format|
       format.html { render :action => 'show' }
@@ -138,8 +139,11 @@ class RealmsController < ApplicationController
 
   def load_backend_realms
     #TODO: list only realms user has permission on
-    @backend_realms = Realm.all
-    @providers = Provider.list_for_user(current_user, Privilege::VIEW)
+    @backend_realms = Provider.list_for_user(current_user, Privilege::USE).collect do |provider|
+      provider.realms
+    end.flatten
+
+    @providers = Provider.list_for_user(current_user, Privilege::USE)
   end
 
   def load_realms

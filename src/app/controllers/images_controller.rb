@@ -348,6 +348,7 @@ class ImagesController < ApplicationController
     selected_images.each do |uuid|
       image = Aeolus::Image::Warehouse::Image.find(uuid)
       @environment = PoolFamily.where('name' => image.environment).first
+      check_permissions
       image.delete!
     end
     redirect_to images_path, :notice => t("images.flash.notice.multiple_deleted", :count => selected_images.count)
@@ -363,7 +364,7 @@ class ImagesController < ApplicationController
 
   def load_builds
     @builds = @image.image_builds.sort {|a, b| a.timestamp <=> b.timestamp}.reverse
-    @latest_build = @image.latest_pushed_or_unpushed_build.uuid rescue nil
+    @latest_build = @builds.first.uuid if @builds.any?
     @build = if params[:build].present?
                @builds.find {|b| b.id == params[:build]}
              elsif @latest_build
