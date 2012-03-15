@@ -38,6 +38,7 @@ module Aeolus
       class ProviderImageDeleteFailure < Error; end
       class ProviderImageNotFound < Error; end
       class ProviderImageStatusNotFound < Error; end
+      class ServiceUnavailable < Error; end
       class TargetImageDeleteFailure < Error; end
       class TargetImageNotFound < Error; end
       class TargetImageStatusNotFound < Error; end

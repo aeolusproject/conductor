@@ -89,11 +89,15 @@ module Api
             :template => @tpl.uuid,
             :environment => @pool_family.name
           })
-          @image = Aeolus::Image::Factory::Image.new(:id => iwhd_image.id)
-          @image.targets = req[:params][:targets]
-          @image.template = req[:params][:template]
-          @image.save!
-          respond_with(@image)
+          begin
+            @image = Aeolus::Image::Factory::Image.new(:id => iwhd_image.id)
+            @image.targets = req[:params][:targets]
+            @image.template = req[:params][:template]
+            @image.save!
+            respond_with(@image)
+          rescue Errno::ECONNREFUSED
+            raise(Aeolus::Conductor::API::ServiceUnavailable.new(503, 'Imagefactory is dead, Jim!'))
+          end
         elsif req[:type] == :import
           account = ProviderAccount.find_by_label(req[:params][:provider_account_name])
           raise(Aeolus::Conductor::API::ProviderAccountNotFound.new(404, t("api.error_messages.provider_account_not_found",
