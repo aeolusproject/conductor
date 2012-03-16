@@ -95,11 +95,14 @@ class PoolFamiliesController < ApplicationController
   def destroy
     pool_family = PoolFamily.find(params[:id])
     require_privilege(Privilege::MODIFY, pool_family)
-    if pool_family.destroy
+    if pool_family == PoolFamily.default
+      flash[:error] = t("pool_families.flash.error.default_pool_family_not_deleted")
+    elsif pool_family.destroy
       flash[:notice] = t "pool_families.flash.notice.deleted"
     else
       flash[:error] = t "pool_families.flash.error.not_deleted"
     end
+
     redirect_to pool_families_path
   end
 

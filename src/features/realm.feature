@@ -31,18 +31,10 @@ Feature: Manage Realms
     And there is a realm "testrealm1"
     And a provider "provider1" exists
     When I follow "testrealm1"
-    Then I should see "Add mapping to provider"
     And I follow "mapping_to_provider_button"
     Then I should be on the new realm mapping page
     When I press "realm_backend_target_submit"
     Then I should see a confirmation message
-
-  Scenario: No 'add mapping to provider' if none exist
-    Given I am on the realms page
-    And there is a realm "testrealm1"
-    And there is no provider
-    When I follow "testrealm1"
-    Then I should not see "Add mapping to provider"
 
   Scenario: Change the name
     Given I am on the realms page

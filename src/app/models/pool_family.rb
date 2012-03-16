@@ -62,8 +62,8 @@ class PoolFamily < ActiveRecord::Base
   end
 
   def destroyable?
-    # A PoolFamily is destroyable unless it is the default PoolFamily
-    self != PoolFamily.default
+    # A PoolFamily is destroyable if its pools are destroyable and it is not  the default PoolFamily
+    pools.all? {|p| p.destroyable? } && self != PoolFamily.default
   end
 
   def all_providers_disabled?

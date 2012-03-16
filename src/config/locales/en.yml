@@ -603,7 +603,7 @@ en:
   pool_families:
     pool_families: Pool Families
     pool_family: Pool Family
-    confirm_delete: "Are you sure you want to delete?"
+    confirm_delete: "Are you sure you want to delete this pool family? All related pools, catalogs, and deployables will be deleted too!"
     pool_family_details: Pool Family Details
     provider_accounts_for: Provider Accounts for
     choose_provider_accounts: Choose Provider Accounts to enable for this Pool Family
@@ -642,7 +642,8 @@ en:
         creation_failed: "Pool family's creation failed."
       error:
         not_updated: "Pool Family wasn't updated!"
-        not_deleted: "Pool Family cannot be deleted!"
+        not_deleted: "Pool Family cannot be deleted!  Check to make sure all instances are stopped."
+        default_pool_family_not_deleted: "The default Pool Family cannot be deleted!"
         more_not_deleted: "Could not delete the following Pool Families: %{list}."
         provider_accounts_not_added: "Could not add these Provider Accounts"
         provider_accounts_not_removed: "Could not remove these Provider Accounts"
