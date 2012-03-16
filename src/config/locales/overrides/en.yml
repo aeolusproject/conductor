@@ -214,6 +214,7 @@ en:
   pool_families:
     pool_families: Clouds
     pool_family: Cloud
+    confirm_delete: "Are you sure you want to delete this cloud? All related cloud resource zones, catalogs, and application blueprints will be deleted too!"
     pool_family_details: Cloud Details
     choose_provider_accounts: Choose Provider Accounts to enable for this Cloud
     index:
@@ -234,7 +235,8 @@ en:
         creation_failed: "Cloud's creation failed."
       error:
         not_updated: "Cloud wasn't updated!"
-        not_deleted: "Cloud cannot be deleted!"
+        not_deleted: "Cloud cannot be deleted!  Check to make sure all instances are stopped."
+        default_pool_family_not_deleted: "The default Cloud cannot be deleted!"
         more_not_deleted: "Could not delete the following Clouds: %{list}."
   catalog_entries:
     new_catalog_entry: New Application Blueprint
