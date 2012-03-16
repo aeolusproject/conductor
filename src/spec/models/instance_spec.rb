@@ -16,6 +16,8 @@
 
 require 'spec_helper'
 
+require 'csv'
+
 describe Instance do
   before(:each) do
     @quota = FactoryGirl.create :quota
@@ -257,7 +259,9 @@ describe Instance do
   end
 
   it "should return csv header string for export" do
-    reader = CSV::Reader.create(Instance.csv_export([FactoryGirl.create(:instance)]))
+    reader = CSV.const_defined?(:Reader) ?
+               CSV::Reader.create(Instance.csv_export([FactoryGirl.create(:instance)])) :
+               CSV.parse(Instance.csv_export([FactoryGirl.create(:instance)]))
     header = reader.shift
       ['Status_code','Event_time','Summary','Source_type','Description','Source_id'].each do |attribute|
         header[0].split(';').include?(attribute).should be_true

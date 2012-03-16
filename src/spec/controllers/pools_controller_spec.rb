@@ -119,7 +119,10 @@ describe PoolsController do
     describe "#destroy" do
       before do
         @pool = Factory.build(:pool)
-        Pool.stub!(:find).and_return([@pool])
+        @tpool = Factory.build(:tpool)
+        @pool.save!
+        @tpool.save!
+        Pool.stub!(:find).and_return([@pool], @tpool)
         delete :multi_destroy, :pools_selected => [@pool.id], :format => :json
       end
 

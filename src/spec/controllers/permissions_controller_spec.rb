@@ -34,7 +34,7 @@ describe PermissionsController do
     @permission = FactoryGirl.create(:permission, :user => @admin, :role => @old_role, :permission_object => @deployable)
 
     post :multi_update, :permission_object_id => @deployable.id, :permission_object_type => @deployable.class.to_s,
-        :permission_role_selected => "#{@permission.id},#{@new_role.id}", :polymorphic_path_extras => { 'catalog_id' => @catalog.id}
+        :permission_role_selected => ["#{@permission.id},#{@new_role.id}"], :polymorphic_path_extras => { 'catalog_id' => @catalog.id}
 
     response.should redirect_to catalog_deployable_path(@catalog, @deployable)
   end
