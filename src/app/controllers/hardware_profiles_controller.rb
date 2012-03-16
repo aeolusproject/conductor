@@ -15,7 +15,7 @@
 #
 
 class HardwareProfilesController < ApplicationController
-  before_filter :require_user, :except => :matching_profiles
+  before_filter :require_user
   before_filter :load_hardware_profiles, :only => [:index, :show]
   before_filter :load_hardware_profile, :only => [:show]
   before_filter :setup_new_hardware_profile, :only => [:new]
