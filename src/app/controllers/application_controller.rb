@@ -116,7 +116,7 @@ class ApplicationController < ActionController::Base
   # Returns an array of ids from params[:id], params[:ids].
   def ids_list(other_attrs=[])
     other_attrs.each do |attr_key|
-      return params[attr_key].to_a if params.include?(attr_key)
+      return Array(params[attr_key]) if params.include?(attr_key)
     end
     if params[:id].present?
       return Array(params[:id])
@@ -166,7 +166,7 @@ class ApplicationController < ActionController::Base
         hash[:object] = ivar[1, ivar.size]
         hash[:errors] ||= []
         val.errors.each {|key,msg|
-          arr.push([key, msg.to_a].to_a)
+          arr.push([key, Array(msg)].to_a)
         }
         hash[:errors] += arr
       end

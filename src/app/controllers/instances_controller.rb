@@ -218,7 +218,7 @@ class InstancesController < ApplicationController
   private
 
   def load_instance
-    @instance = Instance.find(params[:id].to_a.first)
+    @instance = Instance.find(Array(params[:id]).first)
     require_privilege(Privilege::USE,@instance)
   end
 

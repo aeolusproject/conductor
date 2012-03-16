@@ -38,7 +38,7 @@ class DeployablesController < ApplicationController
       @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
       @hw_profiles = HardwareProfile.frontend.list_for_user(current_user, Privilege::VIEW)
       @deployable.name = @image.name
-      @selected_catalogs = params[:catalog_id].to_a
+      @selected_catalogs = Array(params[:catalog_id])
       load_catalogs
       @selected_catalogs.each do |catalog_id|
         require_privilege(Privilege::CREATE, Deployable, Catalog.find_by_id(catalog_id))
@@ -117,7 +117,7 @@ class DeployablesController < ApplicationController
     end
 
     @deployable = Deployable.new(params[:deployable])
-    @selected_catalogs = Catalog.find(params[:catalog_id].to_a)
+    @selected_catalogs = Catalog.find(Array(params[:catalog_id]))
     @deployable.owner = current_user
     @selected_catalogs.each do |catalog|
       require_privilege(Privilege::CREATE, Deployable, catalog)

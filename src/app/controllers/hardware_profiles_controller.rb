@@ -42,7 +42,7 @@ class HardwareProfilesController < ApplicationController
   end
 
   def show
-    @hardware_profile = HardwareProfile.find(params[:id].to_a.first)
+    @hardware_profile = HardwareProfile.find(Array(params[:id]).first)
     require_privilege(Privilege::VIEW, @hardware_profile)
     @title = if @hardware_profile.provider_hardware_profile?
                t('hardware_profiles.show.backend_hwp', :name => @hardware_profile.name)

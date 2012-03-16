@@ -347,7 +347,7 @@ class ImagesController < ApplicationController
   end
 
   def multi_destroy
-    selected_images = params[:images_selected].to_a
+    selected_images = Array(params[:images_selected])
     selected_images.each do |uuid|
       image = Aeolus::Image::Warehouse::Image.find(uuid)
       @environment = PoolFamily.where('name' => image.environment).first
