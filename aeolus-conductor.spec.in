@@ -3,7 +3,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  43%{?dist}
+Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -366,6 +366,17 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Fri Mar 16 2012 Steve Linabery <slinaber@redhat.com> - 0.8.1-1
+- f6fd3b4 BZ 801911 added checks before destroying a pool family
+- aef0d90 BZ 801911 check that pools are destroyable before destroying a pool family
+- ff32272 BZ 801911 added/clarified text related to pool family deletion
+- 6ce6d44 bug 801193: permissions UI rendering error with 'test account'
+- 5f62666 Removes inapplicable test
+- 8ac5874 Fixes failing test
+- 3ab5bce BZ 802830 updated image tab tag for consistency
+- f804225 BZ 802830 removed unnecessary overrides that mistakenly replaced 'image' with 'component outline'
+- 7facfc3 BZ 801911 added/updated overrides dealing with cloud deletion
+
 * Wed Mar 14 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-43
 - 01c0e60 BZ 798549 removed humanize_error, added in 'require util/conductor'
 - 22f2eb0 BZ 798549 added exception handling and humanize_error to catch connection refused errors
