@@ -167,6 +167,8 @@ class ProvidersController < ApplicationController
     end
   end
 
+  protected
+
   def test_connection(provider)
     @provider.errors.clear
     if @provider.update_availability
@@ -177,7 +179,6 @@ class ProvidersController < ApplicationController
     end
   end
 
-  protected
   def load_providers
     @providers = Provider.list_for_user(current_user, Privilege::VIEW)
   end
