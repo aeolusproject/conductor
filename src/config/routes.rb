@@ -77,13 +77,12 @@ Conductor::Application.routes.draw do
   match 'register',    :to => 'users#new',             :as => 'register'
 
   resource  'account', :to => 'users'
-  resources :templates, :builds
+  resources :templates
   resources :permissions do
     collection do
       get :list
       delete :multi_destroy
       post :multi_update
-      post :filter
     end
   end
 
@@ -93,8 +92,6 @@ Conductor::Application.routes.draw do
     end
   end
   resources :pools do
-    get :hardware_profiles
-    get :realms
     delete :multi_destroy, :on => :collection
     post :filter, :on => :collection
   end
@@ -116,7 +113,6 @@ Conductor::Application.routes.draw do
 
   resources :instances do
     collection do
-      get 'start'
       get 'multi_stop'
       get 'multi_reboot'
       get 'remove_failed'
