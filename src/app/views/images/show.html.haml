@@ -49,8 +49,8 @@
 
   .content
     - if @account_groups_listing.present?
-      - @account_groups_listing.each do |driver, group|
-        %ul.image_builds
+      %ul.image_builds
+        - @account_groups_listing.each do |driver, group|
           - timg = @target_images_by_target[driver]
           %li
             %dl
