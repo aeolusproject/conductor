@@ -35,7 +35,7 @@
               = check_box_tag :edit, 1, true
 
           %fieldset.align-center
-            = link_to t(:cancel), pool_family_path(@environment), :class => "button danger"
+            = link_to t(:cancel), pool_families_path, :class => "button danger"
             = submit_tag t(:continue), :id => "file_button", :class => "button primary"
 
       %section#image-url-form
@@ -53,7 +53,7 @@
               = check_box_tag :edit, 1, true
 
           %fieldset.align-center
-            = link_to t(:cancel), pool_family_path(@environment), :class => "button danger"
+            = link_to t(:cancel), pool_families_path, :class => "button danger"
             = submit_tag t(:continue), :id => "url_button", :class => "button primary"
 
 :javascript
