@@ -38,6 +38,8 @@ Requires: rubygem(pg)
 Requires: rubygem(ruby-net-ldap)
 Requires: rubygem(oauth)
 Requires: rubygem(rake)
+Requires: rubygem(cloudfiles)
+Requires: rubygem(cloudservers)
 Requires: postgresql
 Requires: postgresql-server
 Requires: system-logos
