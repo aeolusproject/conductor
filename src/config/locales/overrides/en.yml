@@ -56,6 +56,7 @@ en:
       warning:
         disabled_pool: "Cannot launch a Application in this Cloud Resource Zone. It has been disabled."
         failed_to_launch: "Application launch failed!"
+        deployable_not_selected: "You need to select Application"
       error:
         not_launched: "Some component blueprints will not be launched:"
         failed_to_launch_assemblies: "Failed to launch following component blueprints:"
