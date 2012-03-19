@@ -240,7 +240,7 @@ class ProvidersController < ApplicationController
   end
 
   def load_providers_types
-    available_providers = ["Mock","Amazon EC2","RHEV-M","VMware vSphere","Rackspace"]
+    available_providers = ["Mock","Amazon EC2","RHEV-M","VMware vSphere","Rackspace","Openstack"]
     provider_types = ProviderType.where(:name => available_providers).map do |type|
       begin
         label = I18n.translate!("providers.form.x_deltacloud_provider.#{type.deltacloud_driver}")

@@ -993,6 +993,7 @@ en:
         rhevm: RHEV-M API_PROVIDER
         vsphere: vSphere API hostname
         rackspace: Rackspace API_PROVIDER
+        openstack: Openstack API_ENTRYPOINT
       select_type_of_provider: Select type of provider
       caution_alt_text: Caution
       enter_correct_url_msg: Please enter a correct URL format.

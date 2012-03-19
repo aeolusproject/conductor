@@ -176,6 +176,7 @@ if ProviderType.all.empty?
   ProviderType.create!(:name => "RHEV-M", :deltacloud_driver =>"rhevm")
   ProviderType.create!(:name => "VMware vSphere", :deltacloud_driver =>"vsphere")
   ProviderType.create!(:name => "Rackspace", :deltacloud_driver => "rackspace")
+  ProviderType.create!(:name => "Openstack", :deltacloud_driver => "openstacl")
 end
 
 # fill table CredentialDefinitions by default values
