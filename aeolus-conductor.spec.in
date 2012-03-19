@@ -23,7 +23,7 @@ Requires: rubygem(rails) >= 3.0.7
 Requires: rubygem(haml) >= 3.1
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate) >= 3.0
-Requires: rubygem(deltacloud-client) >= 0.5.0
+Requires: rubygem(deltacloud-client) >= 0.4.0
 Requires: rubygem(simple-navigation)
 Requires: rubygem(rest-client) >= 1.6.1
 Requires: rubygem(builder)
@@ -114,6 +114,8 @@ Requires: deltacloud-core
 Requires: deltacloud-core-ec2
 Requires: deltacloud-core-rhevm
 Requires: deltacloud-core-vsphere
+Requires: deltacloud-core-openstack
+Requires: deltacloud-core-rackspace
 Requires: ntp
 Requires: rsyslog-relp
 
