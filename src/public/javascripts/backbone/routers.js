@@ -36,6 +36,7 @@ Conductor.Routers.Pools = Backbone.Router.extend({
     setInterval(function() {
       var pool = new Conductor.Models.Pool({ id: id });
       var view = new Conductor.Views.PoolsShow({ model: pool });
+      pool.queryParams = view.queryParams();
 
       if(view.currentTab() !== 'deployments') return;
 

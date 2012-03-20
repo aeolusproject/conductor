@@ -21,12 +21,12 @@
                 %dd
                   %p.provider= deployment.provider.provider_type.name unless deployment.provider.blank?
 
+= render_pagination(@deployments)
+
 :javascript
   Conductor.setupPrettyFilterURL(
-            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter' )}',
-            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty' )}');
-
-
+            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter', :page => params[:page])}',
+            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty', :page => params[:page] )}');
 
 %script#deploymentTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain

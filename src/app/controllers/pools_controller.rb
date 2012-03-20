@@ -47,15 +47,22 @@ class PoolsController < ApplicationController
     if filter_view?
       case @details_tab[:id]
       when 'pools'
-        @pools = Pool.apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction)
+        @pools = Pool.apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).
+                      list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction).
+                      paginate(:page => params[:page], :per_page => PER_PAGE)
       when 'instances'
         params[:instances_preset_filter] = "" unless params[:instances_preset_filter]
-        @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction)
+        @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
+                              list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction).
+                              paginate(:page => params[:page], :per_page => PER_PAGE)
       when 'deployments'
-        @deployments = Deployment.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).list_for_user(current_user, Privilege::VIEW).list(sort_column(Deployment), sort_direction)
+        @deployments = Deployment.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
+                                  list_for_user(current_user, Privilege::VIEW).list(sort_column(Deployment), sort_direction).
+                                  paginate(:page => params[:page], :per_page => PER_PAGE)
       end
     else
-      @pools = Pool.list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction)
+      @pools = Pool.list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction).
+                    paginate(:page => params[:page], :per_page => PER_PAGE)
     end
 
     statistics
@@ -102,12 +109,16 @@ class PoolsController < ApplicationController
 
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
-    @deployments = @pool.deployments.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).list_for_user(current_user, Privilege::VIEW) if @details_tab[:id] == 'deployments'
+    @deployments = @pool.deployments.
+                         apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
+                         list_for_user(current_user, Privilege::VIEW).
+                         paginate(:page => params[:page], :per_page => PER_PAGE) if @details_tab[:id] == 'deployments'
     @view = @details_tab[:view]
     respond_to do |format|
       format.html { render :action => :show}
       format.js { render :partial => @view }
-      format.json { render :json => @pool.as_json(:with_deployments => true, :current_user => current_user) }
+      format.json { render :json => @pool.as_json(:with_deployments => true, :current_user => current_user,
+                                                  :page => params[:page], :per_page => PER_PAGE) }
     end
   end
 

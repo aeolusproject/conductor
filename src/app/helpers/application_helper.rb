@@ -163,6 +163,10 @@ module ApplicationHelper
     keys.reduce(hash) {|h, k| h[k] if (h and h.respond_to? :keys) }
   end
 
+  def render_pagination(collection)
+    will_paginate(@collection, :previous_label => t('will_paginate.previous_label'), :next_label => t('will_paginate.next_label'))
+  end
+
   module_function :count_uptime
 
   class FormBuilderWithRequiredFields < ActionView::Helpers::FormBuilder
