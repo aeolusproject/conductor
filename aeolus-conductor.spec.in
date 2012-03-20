@@ -41,6 +41,7 @@ Requires: rubygem(oauth)
 Requires: rubygem(rake)
 Requires: postgresql
 Requires: postgresql-server
+Requires: system-logos
 
 # to ensure the service is actually started
 # and is accessible in the init script

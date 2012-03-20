@@ -124,12 +124,12 @@ class DeployablesController < ApplicationController
     end
 
     if params.has_key? :url
-        xml = import_xml_from_url(params[:url])
-        unless xml.nil?
-          #store xml_filename for url (i.e. url ends to: foo || foo.xml)
-          @deployable.xml_filename =  File.basename(URI.parse(params[:url]).path)
-          @deployable.xml = xml
-        end
+      xml = import_xml_from_url(params[:url])
+      unless xml.nil?
+        #store xml_filename for url (i.e. url ends to: foo || foo.xml)
+        @deployable.xml_filename =  File.basename(URI.parse(params[:url]).path)
+        @deployable.xml = xml
+      end
     elsif params[:create_from_image].present?
       hw_profile = HardwareProfile.frontend.find(params[:hardware_profile])
       require_privilege(Privilege::VIEW, hw_profile)
@@ -275,7 +275,7 @@ class DeployablesController < ApplicationController
       if response.code == 200
         response
       end
-    rescue RestClient::Exception, SocketError, URI::InvalidURIError
+    rescue RestClient::Exception, SocketError, URI::InvalidURIError, Errno::ECONNREFUSED, Errno::ETIMEDOUT
       if url.present?
         flash[:error] = t('catalog_entries.flash.warning.not_valid_or_reachable', :url => url)
       else
