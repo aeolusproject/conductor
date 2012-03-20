@@ -367,6 +367,12 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Mon Mar 19 2012 Steve Linabery <slinaber@redhat.com> - 0.8.2-1
+- d637efc BZ 798549 added additional rescue cases when trying to import xml from url
+- 61ff2ec bug 802869: Add system-logos dep for favicon.png
+- 6d239a6 BZ 803586 fix provider_realms override
+- 9c3dd9f BZ795239 Typo in en.yml locale file
+
 * Fri Mar 16 2012 Steve Linabery <slinaber@redhat.com> - 0.8.1-1
 - f6fd3b4 BZ 801911 added checks before destroying a pool family
 - aef0d90 BZ 801911 check that pools are destroyable before destroying a pool family
