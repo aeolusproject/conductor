@@ -53,12 +53,15 @@ Conductor.Models.Deployable = Backbone.Model.extend({
 
 Conductor.Models.Deployment = Backbone.Model.extend({
   urlRoot: Conductor.prefixedPath('/deployments'),
-
+  queryParams: {},
   initialize: function() {
     this.instances = new Conductor.Models.Instances();
-    this.instances.url = this.urlRoot + '/' + this.id + '/instances';
+    var self = this;
+    this.instances.url = function() {
+        var path = Conductor.prefixedPath(self.urlRoot + '/' + self.id + '/instances');
+        return Conductor.parameterizedPath(path, self.queryParams);
+    };
   }
-
 });
 
 Conductor.Models.Deployments = Backbone.Collection.extend({

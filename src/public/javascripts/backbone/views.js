@@ -194,6 +194,22 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
     }
   },
 
+  queryParams: function() {
+    var paramsToInclude = ['instances_preset_filter', 'instances_search', 'page'];
+    var result = Conductor.extractQueryParams(paramsToInclude);
+
+    // If there is no URL param for the preset filter, we still need to merge in the preset filter
+    var filter = 'instances_preset_filter';
+    if(result[filter] == undefined) {
+      var filter_selector = '#instances_preset_filter:enabled';
+      if($(filter_selector).val() != undefined) {
+        result[filter] = $(filter_selector).val();
+      }
+    };
+
+    return result;
+  },
+
   render: function() {
     var $instances = this.$('ul.instances-array');
     if($instances.length === 0) {

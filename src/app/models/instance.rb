@@ -126,8 +126,6 @@ class Instance < ActiveRecord::Base
   scope :not_stopped, :conditions => "state <> 'stopped'"
   scope :stopable,    :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING] }
   scope :stoppable_inaccessible,    :conditions => { :state => STOPPABLE_INACCESSIBLE_STATES }
-  scope :ascending_by_name, :order => 'instances.name ASC'
-
 
   SEARCHABLE_COLUMNS = %w(name state)
 

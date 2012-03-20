@@ -65,8 +65,6 @@ class Pool < ActiveRecord::Base
 
   before_destroy :destroyable?
 
-  scope :ascending_by_name, :order => 'pools.name ASC'
-
   def cloud_accounts
     accounts = []
     instances.each do |instance|
