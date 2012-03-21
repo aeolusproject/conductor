@@ -366,6 +366,10 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue Mar 20 2012 Steve Linabery <slinaber@redhat.com> - 0.8.3-1
+- 7cfbd07 BZ 803249 - Remove qpidd as dependency
+- 404d5c1 BZ 802847 - fix hwp matching when there are multiple values for architecture
+
 * Mon Mar 19 2012 Steve Linabery <slinaber@redhat.com> - 0.8.2-1
 - d637efc BZ 798549 added additional rescue cases when trying to import xml from url
 - 61ff2ec bug 802869: Add system-logos dep for favicon.png
