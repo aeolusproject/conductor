@@ -213,27 +213,39 @@ class HardwareProfile < ActiveRecord::Base
     match_hardware_profile_property(front_end_hwp.memory, back_end_hwp.memory) &&
     match_hardware_profile_property(front_end_hwp.cpu, back_end_hwp.cpu) &&
     match_hardware_profile_property(front_end_hwp.storage, back_end_hwp.storage) &&
-    front_end_hwp.architecture.value == back_end_hwp.architecture.value
+    match_hardware_profile_property(front_end_hwp.architecture, back_end_hwp.architecture)
   end
 
   def self.match_hardware_profile_property(front_end_property, back_end_property)
     # if the front_end_property is nil, we don't care about it, so everything matches:
-    return true if front_end_property.nil?
+    return true if front_end_property.nil? || front_end_property.value.to_s.empty?
     # if the back_end_property is nil, it only matches if front-end is also nil:
-    return false if back_end_property.nil?
+    return false if back_end_property.nil? || back_end_property.value.to_s.empty?
     # Otherwise, neither are nil, so compare normally:
     match = false
     case back_end_property.kind
       when "fixed"
-        match = BigDecimal.new(back_end_property.value.to_s) >= BigDecimal.new(front_end_property.value.to_s) ? true : false
+        if !is_numeric(front_end_property.value.to_s) || !is_numeric(back_end_property.value.to_s)
+          if front_end_property.value.to_s == back_end_property.value.to_s
+            match = true
+          end
+        else
+          match = BigDecimal.new(back_end_property.value.to_s) >= BigDecimal.new(front_end_property.value.to_s) ? true : false
+        end
       when "range"
         match = BigDecimal.new(back_end_property.range_last.to_s) >= BigDecimal.new(front_end_property.value.to_s) ? true : false
       when "enum"
         create_array_from_property(back_end_property).each do |value|
-          if front_end_property.value.nil? or BigDecimal.new(value) >= BigDecimal.new(front_end_property.value.to_s)
+        if front_end_property.value.nil?
+          match = true
+        elsif !is_numeric(front_end_property.value.to_s) || !is_numeric(value.to_s)
+          if front_end_property.value.to_s == value.to_s
             match = true
           end
+        elsif BigDecimal.new(value) >= BigDecimal.new(front_end_property.value.to_s)
+          match = true
         end
+      end
     end
     return match
   end
@@ -246,6 +258,10 @@ class HardwareProfile < ActiveRecord::Base
     when 'enum'
       return p.property_enum_entries.map { |enum| enum.value }
     end
+  end
+
+  def self.is_numeric(value)
+    true if Float(value) rescue false
   end
 
 end
