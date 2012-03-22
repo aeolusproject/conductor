@@ -36,7 +36,7 @@
     %td= deployment.created_at
     %td= deployment.deployable_xml.name
     %td= deployment.status
-    %td{:class => 'center'}= deployment.instances.count
+    %td{:class => 'center'}= deployment.instances.size
     %td= link_to deployment.pool.name, pool_path(deployment.pool, :view => :filter)
     %td= owner_name(deployment)
     %td= link_to(deployment.provider.provider_type.name, deployment.provider) if deployment.provider

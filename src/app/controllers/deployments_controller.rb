@@ -383,7 +383,7 @@ class DeploymentsController < ApplicationController
       { :name => t("providers.provider"), :sortable => false }
     ]
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
-    @deployments = Deployment.includes(:owner).
+    @deployments = Deployment.includes(:owner, :pool, :instances).
                               apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
                               list_for_user(current_user, Privilege::VIEW).
                               where('deployments.pool_id' => @pools).
@@ -410,7 +410,7 @@ class DeploymentsController < ApplicationController
   end
 
   def init_new_deployment_attrs
-    @deployables = Deployable.list_for_user(current_user, Privilege::USE).select{|d| d.catalogs.collect {|c| c.pool}.include?(@pool)}
+    @deployables = Deployable.includes({:catalogs => :pool}).list_for_user(current_user, Privilege::USE).select{|d| d.catalogs.collect{|c| c.pool}.include?(@pool)}
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
     @deployable = params[:deployable_id] ? Deployable.find(params[:deployable_id]) : nil
     @realms = FrontendRealm.all

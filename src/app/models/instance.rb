@@ -120,6 +120,7 @@ class Instance < ActiveRecord::Base
   scope :deployed,  :conditions => { :state => [STATE_RUNNING, STATE_SHUTTING_DOWN] }
   # FIXME: "pending" is misleading as it doesn't just cover STATE_PENDING
   scope :pending,   :conditions => { :state => [STATE_NEW, STATE_PENDING] }
+  scope :pending_or_deployed,   :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING, STATE_SHUTTING_DOWN] }
   # FIXME: "failed" is misleading too...
   scope :failed,    :conditions => { :state => FAILED_STATES }
   scope :stopped,   :conditions => {:state => STATE_STOPPED}
@@ -476,6 +477,14 @@ class Instance < ActiveRecord::Base
 
   def deployed?
     [STATE_RUNNING, STATE_SHUTTING_DOWN].include?(state)
+  end
+
+  def stopped?
+    [STATE_STOPPED].include?(state)
+  end
+
+  def pending?
+    [STATE_NEW, STATE_PENDING].include?(state)
   end
 
   def uptime

@@ -47,21 +47,21 @@ class PoolsController < ApplicationController
     if filter_view?
       case @details_tab[:id]
       when 'pools'
-        @pools = Pool.apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).
+        @pools = Pool.includes(:deployments, :instances).apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).
                       list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction).
                       paginate(:page => params[:page], :per_page => PER_PAGE)
       when 'instances'
         params[:instances_preset_filter] = "" unless params[:instances_preset_filter]
-        @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
+        @instances = Instance.includes({:provider_account => :provider}).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
                               list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction).
                               paginate(:page => params[:page], :per_page => PER_PAGE)
       when 'deployments'
-        @deployments = Deployment.apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
+        @deployments = Deployment.includes(:pool, :instances).apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
                                   list_for_user(current_user, Privilege::VIEW).list(sort_column(Deployment), sort_direction).
                                   paginate(:page => params[:page], :per_page => PER_PAGE)
       end
     else
-      @pools = Pool.list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction).
+      @pools = Pool.includes(:deployments, :instances, :quota, :catalogs).list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction).
                     paginate(:page => params[:page], :per_page => PER_PAGE)
     end
 
@@ -109,7 +109,7 @@ class PoolsController < ApplicationController
 
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
-    @deployments = @pool.deployments.
+    @deployments = @pool.deployments.includes(:owner, :pool, :instances, :events).
                          apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
                          list_for_user(current_user, Privilege::VIEW).
                          paginate(:page => params[:page], :per_page => PER_PAGE) if @details_tab[:id] == 'deployments'
@@ -326,7 +326,7 @@ class PoolsController < ApplicationController
     instances = current_user.owned_instances
     failed_instances = instances.failed
     @statistics = {
-              :pools_in_use => @user_pools.select { |pool| pool.instances.pending.count > 0 || pool.instances.deployed.count > 0 }.count,
+              :pools_in_use => @user_pools.select { |pool| pool.instances.pending_or_deployed.count > 0 }.count,
               :deployments => current_user.deployments.count,
               :instances => instances.count,
               :instances_pending => instances.select {|instance| instance.state == Instance::STATE_NEW || instance.state == Instance::STATE_PENDING}.count,

@@ -11,7 +11,7 @@
             %ul
               %li.right
                 %dt.instances.count= t 'instances.instances.other'
-                %dd= deployment.instances.count || 0
+                %dd= deployment.instances.size || 0
 
               %li.left
                 %dt=t :uptime
