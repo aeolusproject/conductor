@@ -27,6 +27,7 @@
     });
 
 = filter_table(@deployments_header, @deployments) do |deployment|
+  - deployment_provider = deployment.provider
   %tr{ :class => cycle('nostripe', 'stripe') }
     %td{:class => 'checkbox'}
       - selected = params[:select] == 'all'
@@ -39,7 +40,7 @@
     %td{:class => 'center'}= deployment.instances.size
     %td= link_to deployment.pool.name, pool_path(deployment.pool, :view => :filter)
     %td= owner_name(deployment)
-    %td= link_to(deployment.provider.provider_type.name, deployment.provider) if deployment.provider
+    %td= link_to(deployment_provider.provider_type.name, deployment_provider) if deployment_provider
 
 :javascript
   Conductor.setupPrettyFilterURL(

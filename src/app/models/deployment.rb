@@ -419,10 +419,11 @@ class Deployment < ActiveRecord::Base
 
     json[:owner] = owner.name if owner.present?
 
-    if provider
+    deployment_provider = provider
+    if deployment_provider
       json[:provider] = {
-        :name => provider.provider_type.name,
-        :id => provider.id,
+        :name => deployment_provider.provider_type.name,
+        :id => deployment_provider.id,
       }
     end
 
