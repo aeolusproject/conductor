@@ -28,7 +28,6 @@ en:
         so will utilize %{quota} of your overall application quota.
       deployable_xml: Application Blueprint XML
       deployable_uri: Application Blueprint URI
-      image_ids: Component Outline IDs
     launch_from_catalog:
       hint: Choose an application blueprint to launch in the "%{pool}" cloud resource zone
       no_catalog_entry: 'No available application blueprint. Please add one first!'
@@ -287,15 +286,9 @@ en:
       import_image: Import Image
       image_id: Component Outline ID
       name: Component Outline Name
-      image_imported: The component outline was imported successfully.
-      image_not_imported: The component outline could not be imported. Check the Image Factory log for further details.
       blank_id: Component Outline ID cannot be blank.
-    index:
-      images: Component Outlines
     show:
-      image_uuid: Component Outline UUID
       new_deployable_from_image: "New Blueprint from Image"
-      image_uri: Component Outline URI
       provider: Cloud Resource Provider
       template_xml: View XML
     flash:
@@ -332,25 +325,16 @@ en:
         other: "Application Blueprints %{list} were not deleted. They have applications associated with them."
     new_from_image:
       title: Create Application Blueprint
-      description: "Creating a application blueprint from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the application blueprint, and define a default cloud resource profile."
+      description: "Creating an application blueprint from the \"%{name}\" image will allow it to be built and launched. Simply choose a catalog in which to store the application blueprint, and define a default cloud resource profile."
     show:
-      images: Component Outlines
       rebuild_all: Build missing component outlines
       push_all: Push missing component outlines
       missing_images: Component Outlines missing from the Image Warehouse
       hw_profile: Cloud Resource Profile
-      repair_images: Repair Component Outlines
-      images_valid: Component Outlines Valid
       build_description:
         "Allow this application blueprint's associated component outlines(s) to be built and
         pushed to cloud resource providers by enabling them below."
       environment: Cloud
-      build_statuses_descriptions:
-        not_built: "Component Outlines are not Built"
-        building: "Component Outlines are being built."
-        not_pushed: "Some of the component outlines are not pushed"
-        pushing: "Component Outlines are being pushed."
-        pushed: "All Component Outlines are pushed and recent."
       image_uuid: "Component Outline UUID: "
       latest_build_uuid: "Latest Build UUID: "
       target_images_uuids: "Target Images UUIDs: "
