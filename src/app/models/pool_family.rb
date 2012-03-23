@@ -70,6 +70,20 @@ class PoolFamily < ActiveRecord::Base
     !provider_accounts.empty? and !provider_accounts.any? {|acc| acc.provider.enabled?}
   end
 
+  def provider_accounts_by_priority
+    provider_accounts.sort {|a,b|
+      if a.priority.nil? and b.priority.nil?
+        0
+      elsif a.priority.nil?
+        1
+      elsif b.priority.nil?
+        -1
+      else
+        a.priority <=> b.priority
+      end
+    }
+  end
+
   def statistics
     max = quota.maximum_running_instances
     total = quota.running_instances

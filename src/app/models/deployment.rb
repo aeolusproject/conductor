@@ -491,7 +491,8 @@ class Deployment < ActiveRecord::Base
       errors = e.map {|e| "#{instance.name}: #{e}"}
       m
     end
-    pool.pool_family.provider_accounts.ascending_by_priority.each do |account|
+
+    pool.pool_family.provider_accounts_by_priority.each do |account|
       matches_by_account = all_matches.map do |m|
         m.find {|m| m.provider_account.id == account.id}
       end

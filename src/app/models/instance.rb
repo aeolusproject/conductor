@@ -403,7 +403,7 @@ class Instance < ActiveRecord::Base
     return [[], errors] unless errors.empty?
 
     matched = []
-    pool.pool_family.provider_accounts.ascending_by_priority.each do |account|
+    pool.pool_family.provider_accounts_by_priority.each do |account|
       account.instance_matches(self, matched, errors)
     end
 

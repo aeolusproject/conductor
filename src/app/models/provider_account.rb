@@ -73,7 +73,6 @@ class ProviderAccount < ActiveRecord::Base
   before_destroy :destroyable?
 
   scope :enabled, lambda { where(:provider_id => Provider.enabled) }
-  scope :ascending_by_priority, :order => 'provider_accounts.priority ASC'
 
   # We set credentials hash as protected so that it is not set during mass assign on new
   # This is to avoid the scenario where the credentials are set before provider which
