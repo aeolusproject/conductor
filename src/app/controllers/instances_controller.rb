@@ -248,14 +248,15 @@ class InstancesController < ApplicationController
 
   def load_instances
     if params[:deployment_id].blank?
-      @instances = Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
-                            list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction).
-                            where("instances.pool_id" => @pools).paginate(:page => params[:page], :per_page => PER_PAGE)
+      @instances = paginate_collection(Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
+                                                list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction).
+                                                where("instances.pool_id" => @pools),
+                                       params[:page], PER_PAGE)
     else
-      @instances = Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
-                            list(sort_column(Instance), sort_direction).list_for_user(current_user, Privilege::VIEW).
-                            where("instances.pool_id" => @pools, "instances.deployment_id" => params[:deployment_id]).
-                            paginate(:page => params[:page], :per_page => PER_PAGE)
+      @instances = paginate_collection(Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
+                                                list(sort_column(Instance), sort_direction).list_for_user(current_user, Privilege::VIEW).
+                                                where("instances.pool_id" => @pools, "instances.deployment_id" => params[:deployment_id]),
+                                       params[:page], PER_PAGE)
     end
   end
 

@@ -44,25 +44,30 @@ class PoolsController < ApplicationController
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 
     @user_pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
+
     if filter_view?
       case @details_tab[:id]
       when 'pools'
-        @pools = Pool.includes(:deployments, :instances).apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).
-                      list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction).
-                      paginate(:page => params[:page], :per_page => PER_PAGE)
+        @pools = paginate_collection(Pool.includes(:deployments, :instances).
+                                          apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).
+                                          list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction),
+                                     params[:page], PER_PAGE)
       when 'instances'
         params[:instances_preset_filter] = "" unless params[:instances_preset_filter]
-        @instances = Instance.includes({:provider_account => :provider}).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
-                              list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction).
-                              paginate(:page => params[:page], :per_page => PER_PAGE)
+        @instances = paginate_collection(Instance.includes({:provider_account => :provider}).
+                                                  apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
+                                                  list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction),
+                                         params[:page], PER_PAGE)
       when 'deployments'
-        @deployments = Deployment.includes(:pool, :instances).apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
-                                  list_for_user(current_user, Privilege::VIEW).list(sort_column(Deployment), sort_direction).
-                                  paginate(:page => params[:page], :per_page => PER_PAGE)
+        @deployments = paginate_collection(Deployment.includes(:pool, :instances).
+                                                      apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
+                                                      list_for_user(current_user, Privilege::VIEW).list(sort_column(Deployment), sort_direction),
+                                           params[:page], PER_PAGE)
       end
     else
-      @pools = Pool.includes(:deployments, :instances, :quota, :catalogs).list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction).
-                    paginate(:page => params[:page], :per_page => PER_PAGE)
+      @pools = paginate_collection(Pool.includes(:deployments, :instances, :quota, :catalogs).
+                                        list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction),
+                                   params[:page], PER_PAGE)
     end
 
     statistics
@@ -109,18 +114,19 @@ class PoolsController < ApplicationController
 
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
-    @deployments = @pool.deployments.includes(:owner, :pool, :instances, :events).
-                         apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
-                         list_for_user(current_user, Privilege::VIEW).
-                         paginate(:page => params[:page], :per_page => PER_PAGE) if @details_tab[:id] == 'deployments'
+    @deployments = paginate_collection(@pool.deployments.includes(:owner, :pool, :instances, :events).
+                                                         apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
+                                                         list_for_user(current_user, Privilege::VIEW),
+                                       params[:page], PER_PAGE) if @details_tab[:id] == 'deployments'
     @view = @details_tab[:view]
     respond_to do |format|
       format.html { render :action => :show}
       format.js { render :partial => @view }
-      format.json { render :json => { :name => @pool.name,
-                                      :deployments => @pool.deployments.list_for_user(current_user, Privilege::VIEW).
-                                                            paginate(:page => params[:page], :per_page => params[:per_page]).
-                                                            map{ |deployment| view_context.deployment_for_mustache(deployment) } } }
+      format.json do
+        deployments = paginate_collection(@pool.deployments.list_for_user(current_user, Privilege::VIEW), params[:page], PER_PAGE).
+                                                            map{ |deployment| view_context.deployment_for_mustache(deployment) }
+        render :json => @pool.as_json.merge({:deployments => deployments})
+      end
     end
   end
 

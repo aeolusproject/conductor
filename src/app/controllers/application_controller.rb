@@ -36,6 +36,7 @@ class ApplicationController < ActionController::Base
   rescue_from Aeolus::Conductor::API::Error, :with => :handle_api_error
 
   helper_method :check_privilege
+  helper_method :paginate_collection
 
   protected
 
@@ -367,6 +368,13 @@ class ApplicationController < ActionController::Base
     path = Rails.application.routes.recognize_path(path)
     original_params = Rack::Utils.parse_nested_query(URI.parse(params[:current_path]).query)
     redirect_to path.merge(original_params).merge(extended_params)
+  end
+
+  def paginate_collection(collection, page = nil, per_page = PER_PAGE)
+    result = collection.paginate(:page => page, :per_page => per_page)
+    result = collection.paginate(:page => result.total_pages, :per_page => per_page) if result.out_of_bounds? && result.total_pages > 0
+
+    result
   end
 
 end

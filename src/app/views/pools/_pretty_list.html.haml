@@ -24,7 +24,7 @@
         %a.control{:href => '#'}
           %span Expand/Collapse
       %div.content
-        - deployments = pool.deployments.includes(:owner, :pool, :instances, :events).list_for_user(current_user, Privilege::VIEW).ascending_by_name.paginate(:page => params[:page], :per_page => PER_PAGE)
+        - deployments = paginate_collection(pool.deployments.includes(:owner, :pool, :instances, :events).list_for_user(current_user, Privilege::VIEW).ascending_by_name, params[:page], PER_PAGE)
         = render :partial => 'deployments', :locals => {:pool => pool, :deployments => deployments}
       %ul.content.actions
         %li
