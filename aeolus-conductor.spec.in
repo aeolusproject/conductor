@@ -180,6 +180,7 @@ jpg="public/images public/stylesheets/images"
 js="public/javascripts public/javascripts/jquery-svg \
     public/javascripts/jquery.ui-1.8.1 \
     public/javascripts/jquery.ui-1.8.1/ui/minified \
+    public/javascripts/lib
     public/javascripts/backbone"
 json="spec/fixtures"
 key="features/upload_files"
@@ -193,15 +194,17 @@ rb="app/models app/controllers app/controllers/api app/helpers app/services app/
     spec/factories spec/helpers spec/models spec/services spec/controllers/api lib/aeolus \
     lib/aeolus/event"
 rhtml="app/views/layouts"
-svg="public/images public/images/icons public/javascripts/jquery-svg"
+svg="public/images public/images/icons public/javascripts/jquery-svg public/fonts"
 ttf="public/fonts"
+eot="public/fonts"
+woff="public/fonts"
 txt="public"
 yml="config config/locales config/locales/defaults config/locales/overrides
      config/locales/role_definitions config/locales/classnames \
      config/locales/overrides/role_definitions"
 xml="app/util"
-for filetype in builder css feature gif haml html ico jpg js json key opts png \
-    rake rb rhtml scss svg ttf txt yml xml; do
+for filetype in builder css eot feature gif haml html ico jpg js json key opts png \
+    rake rb rhtml scss svg ttf txt woff yml xml; do
     dirs=${!filetype}
 
     for dir in $dirs; do
@@ -215,9 +218,9 @@ done
 
 # precompile stylesheets
 %{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
-sass --style compact ./src/app/stylesheets/custom.scss %{buildroot}%{app_root}/public/stylesheets/compiled/custom.css
-sass --style compact ./src/app/stylesheets/layout.scss %{buildroot}%{app_root}/public/stylesheets/compiled/layout.css
-sass --style compact ./src/app/stylesheets/login.scss %{buildroot}%{app_root}/public/stylesheets/compiled/login.css
+for stylesheet in custom layout login header; do
+  sass --style compact ./src/app/stylesheets/$stylesheet.scss %{buildroot}%{app_root}/public/stylesheets/compiled/$stylesheet.css
+done
 
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
