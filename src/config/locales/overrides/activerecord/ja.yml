@@ -1,0 +1,68 @@
+ja:
+  activerecord:
+    attributes:
+      catalog:
+        pool_family_id: クラウド
+        pool_id: クラウドリソースゾーン
+      catalog_entry:
+        deployable_id: アプリケーション設計図
+      config_server:
+        provider_account_id: クラウドリソースプロバイダーアカウント
+      credential:
+        provider_account_id: クラウドリソースプロバイダーアカウント
+      deployable:
+        pool_family_id: クラウド
+        xml: "アプリケーション設計図の XML"
+      deployment:
+        deployable_xml: "アプリケーション設計図の XML"
+        frontend_realm_id: クラウドリソースクラスター
+        pool_family_id: クラウド
+        pool_id: クラウドリソースゾーン
+        realm_id: クラウドリソースクラスター
+      hardware_profile:
+        provider_id: クラウドリソースプロバイダー
+      instance:
+        assembly_xml: "コンポーネント設計図の XML"
+        deployment_id: アプリケーション
+        frontend_realm_id: クラウドリソースクラスター
+        hardware_profile_id: クラウドリソースプロファイル
+        image_build_uuid: "コンポーネント概要のビルド UUID"
+        image_uuid: "コンポーネント概要の UUID"
+        instance_hwp_id: "インスタンスの CRProfile"
+        pool_family_id: クラウド
+        pool_id: クラウドリソースゾーン
+        provider_account_id: クラウドリソースプロバイダーアカウント
+        provider_image_uuid: "プロバイダーコンポーネント概要の UUID"
+      pool:
+        pool_family_id: クラウド
+      pool_family:
+        name: クラウド名
+      property_enum_entry:
+        hardware_profile_property_id: クラウドリソースプロファイルのプロパティ
+      provider:
+        name: クラウドリソースプロバイダー名
+        provider_type_id: クラウドリソースプロバイダーのタイプ
+        url: "クラウドリソースプロバイダーの URL"
+      provider_account:
+        provider_id: クラウドリソースプロバイダー
+      realm:
+        provider_id: クラウドリソースプロバイダー
+      realm_backend_target:
+        frontend_realm_id: クラウドリソースクラスター
+        realm_or_provider_id: クラウドリソースクラスターまたはクラウドリソースプロバイダー
+        realm_or_provider_type: クラウドリソースクラスターまたはクラウドリソースプロバイダーのタイプ
+    models:
+      catalog_entry: アプリケーション設計図
+      deployable: アプリケーション設計図
+      deployment: アプリケーション
+      frontend_realm: クラウドリソースクラスター
+      hardware_profile: クラウドリソースプロファイル
+      hardware_profile_property: クラウドリソースプロファイルのプロパティ
+      instance_hwp: インスタンスリソースプロファイル
+      pool: クラウドリソースゾーン
+      pool_family: クラウド
+      provider: クラウドリソースプロバイダー
+      provider_account: クラウドリソースプロバイダーアカウント
+      provider_type: クラウドリソースプロバイダータイプ
+      realm: クラウドリソースクラスター
+      realm_backend_target: クラウドリソースクラスターのバックエンドターゲット
