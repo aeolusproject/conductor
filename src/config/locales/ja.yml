@@ -1,15 +1,6 @@
 ja:
   about: 情報
   accounts: アカウント
-  activerecord:
-    attributes:
-      realm_backend_target:
-        provider: クラウドリソースプロバイダー
-        realm: クラウドリソースクラスター
-        realm_or_provider: クラウドリソースクラスターまたはクラウドリソースプロバイダー
-    models:
-      provider: クラウドリソースプロバイダー
-      realm: クラウドリソースクラスター
   add: 追加
   administration: 管理
   advanced_search: 高度な検索
@@ -18,25 +9,30 @@ ja:
   alerts_label: 警告
   api:
     error_messages:
+      account_not_found_in_environment: "プロバイダーアカウントの %{account} はこの環境にはありません。 有効なカウントには %{accounts} が含まれます。"
       build_not_found: "ビルド %{build} が見つかりませんでした"
+      environment_not_found: "環境 %{environment} が見つかりませんでした。"
+      environment_required: 環境パラメータが必要です。
       image_not_found: "イメージ %{image} が見つかりませんでした"
-      image_not_found_on_provider: "プロバイダーにイメージ %{image} が見つかりませんでした"
+      image_not_found_on_provider: "プロバイダー上にイメージ %{image} が見つかりませんでした"
       in_grabbing_target_images: "ターゲットイメージの一覧を取得中: %{error}"
       insufficient_privileges: 要求された動作を実行するには十分な権限がありません。
       invalid_parameters_for_account_and_target_image: "アカウントには無効なパラメータ: %{account} ターゲットイメージ: %{targetimage}"
-      invalid_template: "無効なコンポーネント概要: %{errors}"
-      no_image_build_or_target_image: "無効なパラメータ: 要求にイメージ、 ビルド、 またはターゲットイメージがいずれも与えられていません"
-      no_matching_target_image: 一致するターゲットイメージが見つかりませんでした
-      no_provider_account_given: プロバイダーアカウントがありません
-      provider_account_not_found: "名前 %{name} のプロバイダーアカウントは見つかりませんでした"
-      provider_image_not_found: "%{providerimage} というプロバイダーイメージは見つかりませんでした"
-      provider_image_status_not_found: "%{providerimage} というプロバイダーイメージの状態は見つかりませんでした"
-      push_error: "ターゲットイメージ %{targetimage} を %{account} にプッシュできなかったため %{error} のエラーです"
+      invalid_template: "無効なテンプレート: %{errors}"
+      no_image_build_or_target_image: "無効なパラメータ: 要求にイメージ、 ビルドまたはターゲットイメージが与えられていません"
+      no_matching_target_image: 一致するターゲットイメージは見つかりませんでした
+      no_provider_account_given: プロバイダーアカウントが与えられていません
+      provider_account_not_found: "名前が %{name} のプロバイダーアカウントは見つかりませんでした"
+      provider_image_not_found: "プロバイダーイメージ %{providerimage} は見つかりませんでした"
+      provider_image_status_not_found: "プロバイダーイメージ %{providerimage} の状態が見つかりませんでした"
+      push_error: "ターゲットイメージ %{targetimage} を %{account} にプッシュできなかっためエラー %{error} が発生しました"
       specify_a_type_build_or_import: "タイプ、 ビルドまたはインポートを指定してください"
-      target_image_not_found: "%{targetimage} というターゲットイメージは見つかりませんでした"
-      target_image_not_found_for_account: "アカウント %{account} に該当するターゲットイメージは見つかりませんでした"
-      target_image_status_not_found: "%{targetimage} というターゲットイメージの状態は見つかりませんでした"
+      specify_environment: 環境を指定してください
+      target_image_not_found: "ターゲットイメージ %{targetimage} が見つかりませんでした"
+      target_image_not_found_for_account: "アカウント %{account} に適切なターゲットイメージが見つかりませんでした"
+      target_image_status_not_found: "ターゲットイメージ %{targetimage} の状態が見つかりませんでした"
       target_not_found: "ターゲット %{target} が見つかりませんでした"
+      target_not_found_in_environment: "ターゲット %{target} はこの環境内にプロバイダーアカウントを持っていません。 有効なターゲットには %{targets} が含まれます。"
   application_controller:
     access_denied: アクセスが拒否されました
     action_error: 動作エラー
@@ -44,16 +40,16 @@ ja:
       catalogs: カタログ
       groups: グループ
       hardware: ハードウェア
-      images: コンポーネントの概要
+      images: イメージ
       permissions: グローバルロールの付与
-      pool_families: クラウド
-      realms: クラウドリソースのクラスター
+      pool_families: プールファミリー
+      realms: 領域
       users: ユーザー
     flash:
       notice:
         must_be_logged: このページにアクセスするにはログインする必要があります
         must_not_be_logged: このページにアクセスするにはログアウトする必要があります
-        record_not_exist: "アクセスしようとしている記録は存在しません、 削除された可能性があります"
+        record_not_exist: アクセスしようとしている記録は存在しません、削除された可能性があります
     internal_server_error: 内部サーバーエラー
     permission_denied: 選択された動作を実行するには十分な権限がありません。
     some_actions_failed: 失敗した動作がいくつかあります
@@ -64,51 +60,52 @@ ja:
   back: 戻る
   breadcrumbs:
     catalogs: カタログ
-    deployables: アプリケーションの設計図
-    deployments: アプリケーション
-    hardware_profiles: クラウドリソースのプロファイル
+    deployables: 展開可能なアプリ
+    deployments: アプリ展開
+    hardware_profiles: ハードウェアプロファイル
     instances: インスタンス
-    pool_families: クラウド
-    pools: クラウドリソースのゾーン
-    provider_realms: クラウドリソースのクラスター
-    realms: クラウドリソースのクラスター
+    pool_families: プールファミリー
+    pools: プール
+    provider_realms: プロバイダー領域
+    realms: 領域
     roles: ロール
     users: ユーザー
-  browse_objects: オブジェクトを参照
-  browse_packages: パッケージを参照
+  browse_objects: オブジェクトの参照
+  browse_packages: パッケージの参照
   builds: ビルド
   cancel: 取り消し
   catalog_entries:
     edit:
-      editing_catalog_entry: アプリケーション設計図を編集中
+      editing_catalog_entry: 展開可能なアプリを編集中
     flash:
       notice:
-        added: "アプリケーション設計図をカタログ %{catalog} に追加しました。"
-        deleted: "アプリケーション設計図をカタログ %{catalog} から削除しました。"
-        updated: アプリケーション設計図が正常に更新されました。
+        added: "カタログ %{catalog} に展開可能なアプリを追加しました。"
+        deleted: "カタログ %{catalog} から展開可能なアプリを削除しました。"
+        updated: 展開可能なアプリを正しく更新しました。
       warning:
-        failed: アプリケーション設計図は作成されませんでした。
-        no_url_provided: "アプリケーション設計図の XML ファイルに URL が与えられていません。"
-        not_valid: "アプリケーション設計図の URL が有効な XML ファイルを解決しません。"
-        not_valid_or_reachable: "アプリケーション設計図の XML ファイルが無効なファイルであるか、 接続不能になっています。"
+        failed: 展開可能なアプリは作成されませんでした。
+        no_url_provided: "展開可能なアプリの XML ファイルの URL が入力されていません。"
+        not_valid: "展開可能なアプリの XML ファイルが有効な XML を解決できません。"
+        not_valid_duplicate_assembly_names: "展開可能なアプリの XML には固有となる assembly name を含ませる必要があります"
+        not_valid_or_reachable: "展開可能なアプリの XML ファイルが無効になっているか、 %{url} ではアクセスできなくなっています"
     index:
-      catalog_entries: アプリケーションの設計図
-      catalog_entry: アプリケーション設計図
-      deployable_xml: "アプリケーション設計図の XML"
+      catalog_entries: 展開可能なアプリ
+      catalog_entry: 展開可能なアプリ
+      deployable_xml: "展開可能なアプリの XML"
       name: 名前
     list:
-      catalog_entries_list: アプリケーション設計図の一覧
+      catalog_entries_list: 展開可能なアプリの一覧
     new:
-      add_catalog_entry: 新規のアプリケーション設計図を追加
+      add_catalog_entry: 展開可能なアプリを新規に追加
       catalog_detail: "%{name} カタログ"
-      choose_option_to_upload: "アプリケーション設計図の XML ファイルのアップロードに以下のオプションをひとつ選択します。"
+      choose_option_to_upload: "展開可能なアプリの XMLファイルをアップロードする際のオプションを以下からひとつ選択してください"
       from_url: "URL から"
-      hw_profile: デフォルトのクラウドリソースプロファイル
+      hw_profile: デフォルトのハードウェアプロファイル
       name: 名前
       upload: アップロード
-    new_catalog_entry: 新規のアプリケーション設計図
+    new_catalog_entry: 新規の展開可能なアプリ
     preset_filters:
-      all_catalog_entries: すべてのアプリケーション設計図
+      all_catalog_entries: 展開可能な全アプリ
     show:
       build: ビルド
       catalogs: カタログ
@@ -116,69 +113,65 @@ ja:
       delete: 削除
       edit: 編集
       edit_xml: "XML の編集"
-      image: コンポーネント概要
+      image: イメージ
       rebuild_all: すべてのイメージを再ビルド
       roles: ロール
       start: 開始
-  catalog_images: カタログのイメージ
+  catalog_images: カタログイメージ
   catalogs:
     catalog_list:
       no_catalogs: "-- カタログはありません --"
     catalogs: カタログ
     edit:
-      cancel_editing: 編集を取り消し
+      cancel_editing: 編集をキャンセル
       edit_catalog: カタログの編集中
     flash:
       error:
         not_deleted:
-          one: "%{not_deleted} カタログは削除できません。 このカタログに最後の参照を持つアプリケーション設計図があります。"
-          other: "%{not_deleted} のカタログは削除できません。 このカタログに最後の参照を持つアプリケーション設計図が複数あります。"
+          one: "%{not_deleted} カタログは削除できません。 このカタログへの最終参照を持つ展開可能なアプリがあります。"
+          other: "%{not_deleted} のカタログは削除できません。 このカタログへの最終参照を持つ展開可能なアプリが複数あります。"
         not_deleted_perms:
           one: "カタログ %{not_deleted} を削除するには十分なパーミッションがありません。"
           other: "%{count} 個の %{not_deleted} のカタログを削除するには十分なパーミッションがありません。"
-        one_not_deleted: "カタログは削除できません。 このカタログに最後の参照を持つアプリケーション設計図があります。"
+        one_not_deleted: "カタログは削除できません。 このカタログへの最終参照を持つ展開可能なアプリがあります。"
       notice:
         created:
-          one: カタログが作成されました。
-          other: カタログが作成されました。
+          one: カタログが作成されました!
+          other: カタログが作成されました!
         deleted:
-          one: "カタログ %{deleted} が削除されました。"
-          other: "%{count} 個の %{deleted} のカタログが削除されました。"
-        one_deleted: カタログが削除されました。
+          one: "カタログ %{deleted} が削除されました!"
+          other: "%{count} 個の %{deleted} のカタログが削除されました!"
+        one_deleted: カタログが削除されました!
         updated:
-          one: カタログが正常に更新されました。
-          other: カタログが正常に更新されました。
+          one: カタログが正常に更新されました!
+          other: カタログが正常に更新されました!
     form:
-      select_pool: ゾーンの選択
+      select_pool: プールの選択
     index:
       catalog_name: カタログ名
       name: 名前
     new:
       add_catalog: 新規カタログの追加
-    new_catalog: 新規のカタログ
+    new_catalog: 新規カタログ
     preset_filters:
       all_catalogs: すべてのカタログ
-      belongs_to_default_pool: デフォルトのクラウドリソースゾーンに属します
+      belongs_to_default_pool: デフォルトのプールに属する
   change_password: パスワードの変更
   choose: 選択
   choose_name: ユーザー名の選択
   choose_password: パスワードの選択
   choose_treatment: 処理の選択
-  cloud_engine_hardware_profiles: クラウドリソースのプロファイル
-  cloud_providers: クラウドリソースのプロバイダー
+  cloud_engine_hardware_profiles: ハードウェアプロファイル
+  cloud_providers: クラウドのプロバイダー
   config_servers:
     certificate_help: "HTTPS サポートを有効にするため証明書を与える"
-    config_server_form:
-      endpoint: "サーバーエンドポイント (URL)"
-      key: コンシューマーのキー
-      secret: コンシューマーの機密
     edit:
       edit_config_server: 設定サーバーの編集
     errors:
       connection:
-        generic: "設定サーバーの接続を検証できませんでした (url: %{url})。 接続パラメータを確認してからやり直してください。"
-        generic_with_message: "設定サーバーの接続を検証できませんでした (url: %{url})。"
-        unhandled_response: "config サーバーへの接続を検証できませんでした (url: %{url})。HTTP の状態コード: %{code}"
+        generic: "config サーバーへの接続を検証できませんでした (url: %{url})。接続パラメーターを確認してからやり直してください。"
+        generic_with_message: "設定サーバーの接続を検証できませんでした (url: %{url})。 %{msg}"
+        unhandled_response: "設定サーバーの接続を検証できませんでした (url: %{url})。 HTTP の状態コード: %{code}"
     flash:
       error:
         invalid: 設定サーバー情報が無効です。
@@ -197,216 +190,213 @@ ja:
   confirm_password: パスワードの確認
   connection_refused: リモートホストへの接続が拒否されました。
   connectivity: 接続性
-  continue: 続行
+  continue: 続ける
   create_account: アカウントの作成
-  date:
-    formats:
-      default: "%Y-%m-%d"
-      long: "%B %d, %Y"
-      short: "%b %d"
   datetime:
     distance_in_words:
       x_hours:
         one: "1 時間"
         other: "%{count} 時間"
+  default_confirm_message: 本当に続行してもよいですか?
+  default_none_selected_message: まず選択を行ってください。
   define: 定義
   define_locales: ロケールの定義
   define_profiles: プロファイルの定義
   define_services: サービスの定義
   delete: 削除
   deltacloud:
-    unreachable: "Deltacloud にアクセスできません。 Deltacloud が実行しているか確認してください。"
+    unreachable: "Deltacloud にアクセスできません。 実行しているか確認してください。"
   deployables:
     error:
       attribute_not_exists: 無効
-      hwp_not_exists: "XML で指定されたクラウドリソースプロファイル %{name} は存在していません。"
+      hwp_not_exists: "XML で指定されている %{name} ハードウェアプロファイルは存在していません。"
     flash:
       error:
         attribute_not_exist: "XML に足りない属性があります。 ファイルを確認してください。"
+        missing_image: "%{assembly}: (UUID: %{uuid}) イメージは存在していません"
         no_catalog: カタログが選択されていません
-        no_catalog_exists: "カタログがありません。 カタログを作成してください。"
-        no_hwp_exists: "クラウドリソースプロファイルがありません。 クラウドリソースプロファイルを作成してください。"
+        no_catalog_exists: "カタログがありません! カタログを作成してください。"
+        no_hwp_exists: "ハードウェアプロファイルがありません! ハードウェアプロファイルを作成してください。"
         not_deleted:
-          one: "アプリケーション設計図 %{not_deleted} の削除に失敗しました。"
-          other: "%{count} 個の %{not_deleted} のアプリケーション設計図は削除されませんでした。"
+          one: "展開可能なアプリ %{not_deleted} の削除に失敗しました!"
+          other: "%{count} 個の展開可能なアプリ %{not_deleted} が削除されませんでした!"
         not_deleted_perms:
-          one: "アプリケーション設計図 %{not_deleted} を削除するには十分なパーミッションがありません。"
-          other: "%{count} 個の %{not_deleted} のアプリケーション設計図を削除するには十分なパーミッションがありません。"
-        not_selected: 選択されたアプリケーション設計図はありませんでした。
+          one: "展開可能なアプリ %{not_deleted} を削除するには十分なパーミッションがありません!"
+          other: "%{count} 個の展開可能なアプリ %{not_deleted} を削除するには十分なパーミッションがありません!"
+        not_selected: 展開可能なアプリが選択されていません!
+        wrong_environment: "展開可能なアプリ「%{deployable}」は誤った環境 (%{wrong_env}、 正しい環境は %{environment}) 内にイメージ (UUID %{uuid}) を含んでいるため使用できません。"
       notice:
         deleted:
-          one: "アプリケーション設計図 %{deleted} が正常に削除されました。"
-          other: "%{count} 個の %{deleted} のアプリケーション設計図が削除されました。"
+          one: "展開可能なアプリ %{deleted} が正常に削除されました!"
+          other: "%{count} 個の展開可能なアプリ %{deleted} が削除されました!"
       warning:
-        failed: "アプリケーション設計図は作成されませんでした: %{message}"
+        failed: "展開可能なアプリは作成されませんでした: %{message}"
     form:
       cancel: 取り消し
       catalog: カタログ
-      choose_xml: "アプリケーション設計図の XML ファイルを選択"
-      deployable_xml: "アプリケーション設計図の XML"
-      deployable_xml_url: "アプリケーション設計図 XML の URL"
-      description: 詳細
+      choose_xml: "展開可能なアプリの XML ファイルを選択"
+      deployable_xml: "展開可能なアプリの XML"
+      deployable_xml_url: "展開可能なアプリの XML の URL"
       edit_xml_after_save: "保存後に XML ファイルを編集"
       multiple: なし
       none: なし
       save: 保存
     index:
-      base_deployable: ベースのアプリケーション設計図
+      base_deployable: ベースとなる展開可能なアプリ
       deleted:
-        one: "アプリケーション設計図 %{list} は削除されました。"
-        other: "アプリケーション設計図 %{list} は削除されました。"
-      deployable_definition: アプリケーション設計図の定義
-      deployable_url: "アプリケーション設計図の URL"
-      deployable_url_subtext: "(http: // を含む有効な URL でなくてはなりません)"
-      deployables: アプリケーションの設計図
+        one: "展開可能なアプリ %{list} が削除されました。"
+        other: "展開可能なアプリ %{list} が削除されました。"
+      deployable_definition: 展開可能なアプリの定義
+      deployable_url: "展開可能なアプリの URL"
+      deployable_url_subtext: "(http: // を含む有効な URL にしてください)"
+      deployables: 展開可能なアプリ
       description: 詳細
       name: 名前
       not_deleted:
-        one: "アプリケーション設計図 %{list} は削除されませんでした。 この設計図に関連付けされているアプリケーションがあります。"
-        other: "%{list} のアプリケーション設計図は削除されませんでした。 これらの設計図に関連付けされているアプリケーションがあります。"
+        one: "展開可能なアプリ %{list} は削除されませんでした。 これに関連付けられたアプリ展開があります。"
+        other: "展開可能なアプリ %{list} は削除されませんでした。 これらに関連付けられたアプリ展開があります。"
       state: 状態
     new:
       no_catalog_selected: カタログが選択されていません
     new_from_image:
       catalog_entry_name: "%{name}"
-      description: "「%{name}」コンポーネント概要からアプリケーション設計図を作成するとビルド及び起動が可能になります。 アプリケーション設計図を格納するカタログを選択してデフォルトのクラウドリソースプロファイルを指定するだけです。"
+      description: "「%{name}」コンポーネント概要から展開可能なアプリを作成するとビルドと起動が可能になります。 展開可能なアプリを格納するカタログを選択してデフォルトのクラウドリソースプロファイルを定義します。"
       no_available_catalog: カタログがありません
-      title: アプリケーション設計図の作成
+      title: 展開可能なアプリの作成
     properties:
-      edit_deployable_xml: "アプリケーション設計図の XML を編集"
+      edit_deployable_xml: "展開可能なアプリの XML を編集"
     show:
       add_catalog: "追加 +"
       arch: アーキテクチャ
-      build: ビルド
-      build_description: このアプリケーション設計図の関連コンポーネント概要のビルドおよびクラウドリソースのプロバイダーへのプッシュを以下で有効にして許可します。
       build_missing: 不足しているビルド
+      build_status: ビルドの状態
       build_statuses_descriptions:
-        building: コンポーネントの概要がビルドされています。
-        not_built: コンポーネントの概要はビルドされません
-        not_pushed: プッシュされないコンポーネントの概要が複数あります
-        pushed: すべてのコンポーネントが異様がプッシュされ最新です。
-        pushing: コンポーネントの概要がプッシュされています。
+        building: イメージがビルドされます。
+        not_built: イメージはビルドされません。
+        not_pushed: プッシュされないイメージがあります
+        pushed: すべてのイメージがプッシュされ最新の状態です。
+        pushing: イメージがプッシュされています。
       catalog_name: カタログ名
-      choose_catalog: "アクセスを許可するカタログを選択:"
+      choose_catalog: "アクセスを許可するカタログを選択: "
       delete: 削除
       edit: 編集
       edit_xml: "XML の編集"
-      environment: クラウド
+      environment: 環境
       hdd: HDD
-      hw_profile: クラウドリソースプロファイル
-      image_uuid: "コンポーネント概要の UUID:"
-      images: コンポーネントの概要
-      images_valid: コンポーネントの概要は有効です
-      latest_build_uuid: "最新のビルド UUID:"
+      hw_profile: ハードウェアプロファイル
+      image_uuid: "イメージの UUID"
+      images: イメージ
+      images_valid: イメージは有効です
+      latest_build_uuid: "最新のビルド UUID"
       launch: 起動
-      missing_images: イメージウェアハウスにコンポーネントの概要がありません
-      n_a: N/A
+      missing_images: イメージウェアハウスにイメージがありません
+      n_a: 該当なし
       name: 名前
-      push_all: 不足しているコンポーネントの概要をプッシュ
-      push_missing: 不足をプッシュ
+      push_all: 不足しているイメージをプッシュ
+      push_missing: 不足しているものをプッシュ
       ram: RAM
-      rebuild_all: 不足しているコンポーネントの概要をビルド
-      repair_images: コンポーネントの概要を修復
+      rebuild_all: 不足しているイメージをビルド
+      repair_images: イメージの修復
       show_hide_uuids: 表示／非表示
       start: 開始
-      target_images_uuids: "ターゲットイメージの UUID:"
+      target_images_uuids: "ターゲットイメージの UUID"
       uuids: UUID
   deployments:
-    confirm_delete: 本当にこのアプリケーションを削除してよいですか?
-    deployment: アプリケーション
-    deployment_details: アプリケーションの詳細
-    deployment_name: アプリケーション名
-    deployment_name_subtext: (指定するアプリケーションは一意でなければなりません)
-    deployments: アプリケーション
+    confirm_delete: 本当にこのアプリ展開を削除してもよいですか?
+    deployment: アプリ展開
+    deployment_details: アプリ展開の詳細
+    deployment_name: アプリ展開名
+    deployment_name_subtext: (アプリ展開を識別する固有名)
+    deployments: アプリ展開
     edit:
-      edit_deployment: アプリケーションの編集
+      edit_deployment: アプリ展開の編集
     errors:
-      all_stopped: "すべてのインスタンスを停止するか、 実行していなければなりません"
-      cannot_stop: このインスタンスで停止は実行できません。
+      all_stopped: "全インスタンスを停止するか、 全インスタンスを実行している必要があります"
+      cannot_stop: このインスタンスでは停止の動作は行えません。
       config_server_connection: 設定サーバーに接続できません
-      not_valid_deployable_xml: "有効なアプリケーション設計図の XML ではないようです: %{msg}"
-      stop_invalid_action: 停止は無効な動作です。
+      not_valid_deployable_xml: "有効な展開可能なアプリの XML ではないようです: %{msg}"
     flash:
       error:
-        failed_to_launch_assemblies: 次のコンポーネント設計図の起動に失敗しました。
-        none_selected: ひとつ以上のアプリケーションを選択する必要があります。
+        failed_to_launch_assemblies: "次の assembly の起動に失敗しました: "
+        none_selected: アプリ展開をひとつまたは複数選択する必要があります。
         not_deleted:
-          one: "アプリケーション %{list} は削除できませんでした。"
-          other: "%{list} のアプリケーションは削除できませんでした。"
-        not_launched: 起動されないコンポーネント設計図がいくつかあります。
+          one: "%{list} アプリ展開は削除できませんでした。"
+          other: "%{list} のアプリ展開は削除できませんでした。"
+        not_launched: "起動されない assembly があります。"
         not_updated:
-          one: "アプリケーション %{list} は更新できませんでした。"
-          other: "%{list} のアプリケーションは更新できませんでした。"
+          one: "%{list} アプリ展開は更新できませんでした。"
+          other: "%{list} のアプリ展開は更新できませんでした。"
       notice:
-        launched: アプリケーションが起動されました。
-        stop: 停止のアクションが正常にキューに登録されました。
+        launched: アプリ展開が起動されました。
+        stop: 停止の動作が正常にキューに登録されました。
       success:
         deleted:
-          one: "アプリケーション %{list} の削除がスケジュールされました。"
-          other: "%{list} のアプリケーションの削除がスケジュールされました。"
+          one: "%{list} アプリ展開の削除がスケジュールされました。"
+          other: "%{list} のアプリ展開の削除がスケジュールされました。"
         updated:
-          one: "アプリケーション %{list} が正常に更新されました。"
-          other: "%{list} のアプリケーションが正常に更新されました。"
+          one: "%{list} アプリ展開が正常に更新されました。"
+          other: "%{list} のアプリ展開が正常に更新されました。"
       warning:
-        deployable_not_selected: 導入可能なものを選択してください
-        disabled_pool: "このクラウドリソースゾーンではアプリケーションを起動できません。 無効になっています。"
-        failed_to_launch: アプリケーションの起動に失敗しました。
+        deployable_not_selected: 展開可能なアプリを選択する必要があります
+        disabled_pool: "このプールでアプリ展開を起動できません。 プールが無効になっています。"
+        failed_to_launch: アプリ展開の起動に失敗しました!
     launch_from_catalog:
       arch: アーキテクチャ
-      deployable_xml: "アプリケーション設計図の XML"
+      deployable_xml: "展開可能なアプリの XML"
       details: 詳細
       hdd: HDD
-      hint: "「%{pool}」クラウドリソースゾーンで起動するアプリケーション設計図を選択します"
-      image_id: "コンポーネント概要の ID"
-      no_catalog_entry: "使用できるアプリケーション設計図がありません。 アプリケーション設計図を追加してください。"
+      hint: "「%{pool}」プールで起動する展開可能なアプリを選択します"
+      image_id: "イメージの ID"
+      no_catalog_entry: "使用できる展開可能なアプリがありません。 まず展開可能なアプリを追加してください。"
       profile: プロファイル
       ram: RAM
       select: 選択
     launch_new:
-      already_in_use: 個の名前は既に使用されています。
+      already_in_use: この名前は既に使われています。
       autoselect: 自動選択
       load_definition: "XML から定義をロード"
-      name_available: 使用できる名前
+      name_available: 使用可能な名前
       next: 次へ
       other: その他
-      to_pool: "%{name} クラウドリソースゾーンへ"
+      to_pool: "%{name} Pool へ"
     launch_time_params:
-      configure_launch_time_params: "使用しているアプリケーションの起動時間パラメータを設定:"
+      configure_launch_time_params: "アプリ展開に対して起動時パラメータを設定: "
       finalize: 最終決定
       reference: "%{assembly} の返りパラメータへの参照: %{parameter}"
+      title: 起動時パラメータ
     list:
       delete_selected: 削除が選択されました
       stop_selected: 停止が選択されました
-    list_of_events: アプリケーションのイベント一覧
+    list_of_events: アプリ展開のイベント一覧
     new:
+      asseblies_name: "Assembly Name"
       build_id: "ビルド ID"
-      deployable_definition: アプリケーション設計図の定義
-      deployable_details: アプリケーション設計図の詳細
+      deployable_definition: 展開可能なアプリの定義
+      deployable_details: 展開可能なアプリの詳細
       description: "詳細: "
-      hardware_profile: クラウドリソースプロファイル
-      image_id: "コンポーネント概要の ID"
-      launch: このアプリケーションを起動
+      hardware_profile: ハードウェアプロファイル
+      image_id: "イメージの ID"
+      launch: このアプリ展開を起動
       name: "名前: "
       view: 表示
-    new_deployment: 新規のアプリケーション
+    new_deployment: 新規のアプリ展開
     operation:
-      count_of_instances: "インスタンス数:"
+      count_of_instances: "インスタンス数: "
       operational_status: 動作状態
     overview:
-      confirmation: "本当に「%{deployment}」を %{pool} クラウドリソースゾーンに導入してもよいですか? 導入を行うとアプリケーション全体の割り当てのうち %{quota} を使用することになります。"
-      deployable_uri: "アプリケーション設計図の URI"
-      deployable_xml: "アプリケーション設計図の XML"
+      confirmation: "本当に「%{deployment}」を %{pool} プールに展開してもよいですか? これによりアプリ展開割り当ての全体のうち %{quota} を使用することになります。"
+      deployable_xml: "展開可能なアプリの XML"
       description: 詳細
-      header: "「%{deployment}」を %{pool} クラウドリソースゾーンに導入しますか?"
-      image_ids: "コンポーネント概要の ID"
+      header: "「%{deployment}」を %{pool} プールに展開しますか?"
+      image_ids: "イメージの ID"
       launch: 起動
       name: 名前
-      pool_name: "%{pool} クラウドリソースゾーン"
+      pool_name: "%{pool} プール"
     preset_filters:
-      all_deployments: すべてのアプリケーション
+      all_deployments: すべてのアプリ展開
     pretty_view_show:
-      download_key: キーのダウンロード
-      ip_address: "IP アドレス:"
+      download_key: ダウンロードキー
+      ip_address: "IP アドレス: "
       no_ip_address: "-"
       reboot: 再起動
       state: "状態: "
@@ -417,9 +407,11 @@ ja:
       uptime_1st_instance: "実行中の 1 番目のインスタンスのアップタイム"
       value: 値
     provider_services:
-      list_of_services: アプリケーションで必要なサービスの一覧
+      list_of_services: アプリ展開で必要とされるサービスの一覧
     required_services:
-      list_of_required_services: アプリケーションで必要なサービスの一覧
+      list_of_required_services: アプリ展開で必要とされるサービスの一覧
+    show:
+      name: "%{name} アプリ展開"
     state: 状態
     status:
       pending: "実行中のインスタンスがあります (ただし全インスタンスではありません)"
@@ -427,7 +419,7 @@ ja:
       stopped: 現在実行中のインスタンスはありません
   edit: 編集
   edit_user: ユーザーの編集
-  email: E-mail
+  email: メールアドレス
   filter_table:
     apply_filters: フィルターの適用
     results: 結果
@@ -437,45 +429,47 @@ ja:
   general_settings: 全般設定
   hardware_profiles:
     create:
-      check_matching_hwp: 適合するクラウドリソースのプロファイルを確認
+      check_matching_hwp: 適合するハードウェアプロファイルを確認
     edit:
       cancel_editing: 編集を取り消し
-      edit_hwp: クラウドリソースプロファイルの編集
+      edit_hwp: ハードウェアプロファイルの編集
     flash:
       error:
-        not_deleted: クラウドリソースプロファイルは削除されませんでした。
+        more_not_deleted:
+          one: "%{not_deleted} は削除できませんでした"
+          other: "次のハードウェアプロファイルを削除できませんでした: %{not_deleted}"
+        not_deleted: ハードウェアプロファイルは削除されませんでした!
       notice:
-        deleted: クラウドリソースプロファイルが削除されました。
+        deleted: ハードウェアプロファイルが削除されました!
         more_deleted:
-          one: "クラウドリソースプロファイル %{deleted} が削除されました。"
-          other: "%{deleted} のクラウドリソースプロファイルが削除されました。"
-        updated: クラウドリソースプロファイルが更新されました。
+          one: "ハードウェアプロファイル %{deleted} が削除されました。"
+          other: "ハードウェアプロファイル %{deleted} が削除されました。"
+        updated: ハードウェアプロファイルが更新されました!
       warning:
-        cannot_delete_backend_hwp: プロバイダーのクラウドリソースプロファイルを削除できません
-        cannot_edit_backend_hwp: プロバイダーのクラウドリソースプロファイルを変更できません
+        cannot_delete_backend_hwp: プロバイダーのハードウェアプロファイルは削除できません
+        cannot_edit_backend_hwp: プロバイダーのハードウェアプロファイルは変更できません
     form:
-      check_matches: 適合を確認
-      name: 名前
-    hardware: クラウドリソースのプロファイル
-    hardware_profile: クラウドリソースプロファイル
-    hardware_profiles: クラウドリソースのプロファイル
+      check_matches: 一致をチェック
+    hardware: ハードウェア
+    hardware_profile: ハードウェアプロファイル
+    hardware_profiles: ハードウェアのプロファイル
     history:
       history: 履歴
     index:
       architecture: アーキテクチャ
-      hardware_profile_name: クラウドリソースプロファイル名
+      hardware_profile_name: ハードウェアプロファイル名
       memory: メモリー
       storage: ストレージ
       virtual_cpu: "仮想 CPU"
     list:
       delete_selected: 削除が選択されました
-      new_hardware: 新規のクラウドリソースプロファイル
+      new_hardware: 新規のハードウェアプロファイル
     matching_provider_hwp:
-      no_matching_provider_hwp: 適合するプロバイダーのクラウドリソースプロファイルが見つかりませんでした
+      no_matching_provider_hwp: 一致するプロバイダーハードウェアプロファイルは見つかりませんでした
     new:
-      new_hwp: 新規のクラウドリソースプロファイル
+      new_hwp: 新規のハードウェアプロファイル
     preset_filters:
-      all_hardware_profiles: すべてのクラウドリソースプロファイル
+      all_hardware_profiles: すべてのハードウェアプロファイル
       i386architecture: "i368 アーキテクチャ"
       x86_64architecture: "x86_64 アーキテクチャ"
     properties_headers:
@@ -484,153 +478,166 @@ ja:
       unit: 単位
     provider_hwp_headers:
       architecture: アーキテクチャ
-      hwp_name: クラウドリソースプロファイル名
+      hwp_name: ハードウェアプロファイル名
       memory: メモリー
-      provider_name: クラウドリソースプロバイダー名
+      provider_name: プロバイダー名
       storage: ストレージ
       virtual_cpu: "仮想 CPU"
     show:
-      matching_hwp: 適合するプロバイダーのクラウドリソースプロファイル
+      backend_hwp: "%{name} (Provider)"
+      frontend_hwp: "%{name} (Front End)"
+      matching_hwp: 一致するプロバイダーハードウェアプロファイル
     tab_captions:
       history: 履歴
-      matching_provider_hwp: 適合するプロバイダーのクラウドリソースプロファイル
+      matching_provider_hwp: 一致するプロバイダーハードウェアプロファイル
       properties: プロパティ
-  hello: こんにちは
+  hello: Hello
   help: ヘルプ
   history: 履歴
-  hw_profiles: クラウドリソースのプロファイル
-  image_factory: イメージファクトリー
-  image_imports: コンポーネント概要のインポート
+  hw_profiles: "HW プロファイル"
+  image_factory: イメージファクトリ
+  image_imports: イメージのインポート
   images:
     edit_xml:
       edit: 編集
-      save_and_continue: 保存して続行
-    environment: "%{environment} クラウド"
+      save_and_continue: 保存して続ける
+    environment: "環境: "
+    environment_header: 環境
     flash:
       error:
         invalid_url: "入力された URL をロードできませんでした"
-        no_file: "コンポーネント概要の XML ファイルを指定する必要があります"
+        no_file: "テンプレートの XML ファイルを指定してください"
         no_provider_accounts: "現在有効になっているプロバイダーのアカウントがないため、 イメージをビルドできません。"
-        no_template: インポートされたのでイメージにコンポーネント概要がありません。
+        no_provider_accounts_for_import: "この環境に対して現在有効になっているプロバイダーのアカウントがないため、 イメージをビルドできません。"
+        no_template: インポートされたのでこのイメージにはテンプレートがありません。
       notice:
-        created: コンポーネント概要が作成されました
-        deleted: コンポーネント概要が削除されました
+        created: イメージが作成されました
+        deleted: イメージが削除されました
         multiple_deleted:
-          one: "%{count} 個のコンポーネント概要が削除されました"
-          other: "%{count} 個のコンポーネント概要が削除されました"
+          one: "%{count} イメージが削除されました"
+          other: "%{count} イメージが削除されました"
       warning:
-        delete_failed: コンポーネント概要を削除できません
-        not_found: コンポーネント概要が見つかりません
+        delete_failed: イメージを削除できません
+        not_found: イメージが見つかりません
     import:
-      blank_id: "コンポーネント概要の ID を空白のままにしておくことはできません。"
-      image_id: "コンポーネント概要 ID"
-      image_imported: コンポーネント概要が正しくインポートされました。
-      image_not_imported: "コンポーネント概要をインポートできませんでした。 イメージファクトリーのログで詳細を確認してください。"
-      import_image: コンポーネント概要のインポート
-      name: コンポーネント概要名
+      blank_id: "イメージ ID は空白にしないでください。"
+      image_id: "イメージ ID"
+      image_imported: イメージが正常にインポートされました。
+      image_not_imported: "イメージをインポートできませんでした。 詳細はイメージファクトリのログで確認してください。"
+      import_image: イメージのインポート
+      name: イメージ名
       provider_account: プロバイダーアカウント
     index:
       architecture: アーキテクチャ
-      images: コンポーネント概要
+      images: イメージ
       import: インポート
-      last_rebuild: 最終ビルド
+      last_rebuild: 最後の再ビルド
       name: 名前
-      new: 新規のコンポーネント概要
+      new: 新規のイメージ
       os: OS
       os_version: "OS バージョン"
     new:
-      choose_file: "コンポーネント概要ファイルを選択:"
-      description: "以下からオプションをひとつ選択して「%{environment} クラウド」にコンポーネント概要をインポート、 またはアップロードします。"
-      edit_file: "保存する前にこのファイルを編集します:"
+      choose_file: "テンプレートファイルの選択: "
+      description: "イメージを「%{environment} 環境」にアップロードまたはインポートする際のオプションを以下からひとつ選択してください。"
+      edit_file: "保存する前にこのファイルを編集: "
       from_url: "URL から"
-      image_url: "コンポーネント概要の URL: "
+      image_url: "テンプレートの URL: "
       name: "名前: "
-      new_image: 新規のコンポーネント概要
+      new_image: 新規のイメージ
       upload: アップロード
-    not_on_provider: 要求されたコンポーネント概要がプロバイダーで見つかりませんでした。
+    not_on_provider: プロバイダー上に要求されたイメージは見つかりませんでした。
     overview:
       back: 戻る
-      description: "「%{name}」のマークアップとコンポーネント概要の参照の検証がが正しく行われました。 これでコンポーネント概要を保存し、 アプリケーション設計図を作成することができるようになりました。"
-      make_deployable: "自動的に「%{name}」アプリケーション設計図を作成します。"
-      save_template: コンポーネント概要の保存
-      valid_image: 有効なコンポーネント概要
+      description: "「%{name}」内のイメージ参照とマークアップの検証が正しく行われました。 これでイメージを保存し、 展開可能なアプリを作成することができるようになりました。"
+      make_deployable: "自動的に「%{name}」展開可能アプリケーションを作成します。"
+      save_template: テンプレートの保存
+      valid_image: 有効なイメージ
     show:
       account: アカウント
       build: ビルド
+      build_all: すべてビルド
       build_date: ビルド完了日
       build_not_found: ビルドが見つかりません
       can_not_build_imported_image: インポートしたイメージのビルドまたはプッシュができません
       delete: 削除
       failed_build_attempts:
-        one: "失敗したビルドの試行は 1 回"
-        other: "失敗したビルドの試行は %{count} 回"
+        one: "ビルドに失敗した回数 1"
+        other: "ビルドに失敗した回数 %{count} "
       failed_push_attempts:
-        one: "失敗したプッシュの試行は 1 回"
-        other: "失敗したプッシュの試行は %{count} 回"
-      image_uri: "コンポーネント概要の URI"
-      image_uuid: "コンポーネント概要の UUID"
+        one: "プッシュに失敗した回数 1"
+        other: "プッシュに失敗した回数 %{count} "
+      image_uri: "イメージの URI"
+      image_uuid: "イメージの UUID"
       latest: 最新
       missing_build: 先にビルドを選択してください
-      new_deployable_from_image: 概要からの新規の設計図
+      new_deployable_from_image: イメージから展開可能な新規アプリを作成
       not_built: イメージはまだビルドされていません
       only_latest_builds_can_be_pushed: プッシュできるのは最新のビルドのみです
-      provider: クラウドリソースプロバイダー
+      provider: プロバイダー
       provider_account: プロバイダーアカウント
       provider_images: プロバイダーのイメージ
+      push: プッシュ
       push_all: すべてプッシュ
+      push_started: プッシュが開始される時間です
+      rebuild: 再ビルド
       rebuild_all: すべて再ビルド
       select_build: 選択
-      template_xml: "XML の表示"
+      template_xml: "テンプレートの XML を表示"
       upload: アップロード
       view_build: ビルドの表示
   instance_details: インスタンスの詳細
   instance_management: インスタンスの管理
   instances:
+    confirm_terminate:
+      terminate: 終了
+      terminate_instances: インスタンスの終了
+      terminate_instances_description: "プロバイダーにアクセスできないため次のインスタンスの状態が「停止」に変更になりますが、 実際の状態は不明です。"
     edit:
       edit_instance: インスタンスの編集
       name: 名前
     errors:
-      architecture_mismatch: "コンポーネント設計図クラウドリソースプロファイルアーキテクチャ (%{inst_arch}) はクラウドリソースプロファイルアーキテクチャ (%{img_arch}) と一致しません。"
+      architecture_mismatch: "assembly ハードウェアプロファイルのアーキテクチャ (%{inst_arch}) は image ハードウェアプロファイルのアーキテクチャ(%{img_arch}) と一致しません。 "
       cannot_destroy: このインスタンスでは破棄は実行できません。
-      hw_profile_match_not_found: "%{account_name}:  クラウドリソースプロファイルの適合が見つかりません"
-      image_not_found: "UUID が %{b_uuid} のイメージビルドが見つからなかったため、 UUID が %{i_uuid} のコンポーネント概要は見つかりませんでした"
-      image_not_pushed_to_provider: "%{account_name}:  コンポーネント概要がこのプロバイダーアカウントにプッシュされていません"
+      hw_profile_match_not_found: "%{account_name}: ハードウェアプロファイルの一致が見つかりません"
+      image_not_found: "uuid %{b_uuid} のイメージビルドが見つからなかったため、 uuid %{i_uuid} のイメージは見つかりませんでした"
+      image_not_pushed_to_provider: "%{account_name}: このプロバイダーアカウントにはイメージはプッシュされません"
       invalid_state: "エラー、 状態時間を算出できませんでした: 無効な状態"
-      must_be_enabled: "%{account_name}:  プロバイダーを有効にしてください"
-      no_config_server_available: "%{account_name}: プロバイダーアカウントに使用できる設定サーバーがありません"
-      no_provider_accounts: 選択したクラウドリソースゾーンのクラウドに関連付けられているプロバイダーアカウントがありません。
-      pool_family_quota_reached: クラウドの割り当て上限に達しました
-      pool_quota_reached: クラウドリソースゾーンの割り当て上限に達しました
+      must_be_enabled: "%{account_name}: プロバイダーを有効にしてください"
+      no_config_server_available: "%{account_name}: プロバイダーアカウントが使用できる設定サーバーがありません"
+      no_provider_accounts: 選択されたプールのプールファミリーに関連するプロバイダーアカウントはありません。
+      pool_family_quota_reached: プールファミリーの割り当て上限に達しました
+      pool_quota_reached: プールの割り当て上限に達しました
       provider_account_quota_reached: "%{account_name}: プロバイダーアカウントの割り当て上限に達しました"
-      provider_account_quota_too_low: "%{match_provider_account} の割り当て上限が低すぎるためアプリケーション設計図を起動できません。"
-      provider_not_available: "%{account_name}: プロバイダーが利用できません"
-      realm_not_mapped: "%{account_name}: クラウドリソースクラスター %{frontend_realm_name} がいずれのクラウドリソースプロバイダーまたはプロバイダーのクラスターにもマッピングされていません"
-      reboot_not_be_performed: 現在実行していないため再起動できません
-      state_not_monitored: "エラー、 状態時間を算出できませんでした: 状態は監視されていません"
-      stop_invalid: 停止は無効な動作です。
-      stop_not_be_performed: このインスタンスでは停止は実行できません。
+      provider_account_quota_too_low: "展開可能アプリを起動するには %{match_provider_account} の割り当て制限が低すぎます"
+      provider_not_available: "%{account_name}: プロバイダーは利用できません"
+      realm_not_mapped: "%{account_name}:  %{frontend_realm_name} 領域はいずれのアプリケーションプロバイダーやプロバイダー領域にもマッピングされていません。"
+      reboot_invalid_action: 再起動は無効な動作です。
+      state_not_monitored: "エラー、 状態時間を算出できませんでした: 状態はモニターされていません"
+      stop_invalid_action: 停止は無効な動作です。
       user_quota_reached: ユーザーの割り当て上限に達しました
     flash:
       error:
         not_deleted:
-          one: "インスタンス %{list} を削除できませんでした。"
+          one: "%{list} インスタンスを削除できませんでした。"
           other: "%{list} のインスタンスを削除できませんでした。"
-        not_rebooted: "インスタンス %{name} は再起動されませんでした、 %{err} が原因です"
         not_updated:
-          one: "インスタンス %{list} を更新できませんでした。"
+          one: "%{list} インスタンスを更新できませんでした。"
           other: "%{list} のインスタンスを更新できませんでした。"
+        reboot: "インスタンス %{name} は再起動されませんでした、 %{err} が原因です"
+        stop: "インスタンス %{name} は停止されませんでした、 %{err} が原因です"
       notice:
+        forced_stop: 状態が停止に変更されました。
         reboot: "%{name}: 再起動の動作が正常にキューに登録されました。"
         stop: 停止の動作が正常にキューに登録されました。
       success:
         deleted:
-          one: "インスタンス %{list} が正常に削除されました。"
+          one: "%{list} インスタンスが正常に削除されました。"
           other: "%{list} のインスタンスが正常に削除されました。"
         updated:
-          one: "インスタンス %{list} が正常に更新されました。"
+          one: "%{list} インスタンスが正常に更新されました。"
           other: "%{list} のインスタンスが正常に更新されました。"
       warning:
-        ssh_key_not_found: "このインスタンスの SSH キーが見つかりませんでした"
+        ssh_key_not_found: "このインスタンスの SSH キーが見つかりません。"
     headers:
       created_by: 作成者
       provider: プロバイダー
@@ -638,29 +645,29 @@ ja:
       status: 状態
       vm_name: 仮想マシン名
     history:
-      history_for: "履歴:"
+      history_for: "履歴: "
     instance: インスタンス
     instances:
       one: インスタンス
       other: インスタンス
     list:
       export_events: イベントのエクスポート
-      hide_stopped: 非表示が解除されました
+      hide_stopped: 停止インスタンスを隠す
       reboot_selected_instances: 選択したインスタンスの再起動
       show_all: すべて表示
-      showing_all_instances: すべてのインスタンスを表示中
+      showing_all_instances: 全インスタンスを表示中
       stop_selected_instances: 選択したインスタンスの停止
-      stopped_instances_hidden: 停止したインスタンスは非表示になります
+      stopped_instances_hidden: 停止インスタンスは非表示なります
       table:
         name: 名前
         owner: 所有者
-        provider: クラウドリソースプロバイダー
+        provider: プロバイダー
         public_address: パブリックアドレス
         state: 状態
-    none_selected: "停止するインスタンスを 1 つ以上選択する必要があります。"
-    none_selected_to_reboot: "再起動するインスタンスを 1 つ以上選択する必要があります。"
+    none_selected: 停止するインスタンスをひとつまたは複数選択してください。
+    none_selected_to_reboot: 再起動するインスタンスをひとつまたは複数選択してください。
     parameters:
-      config_parameters_for: 設定パラメータ
+      config_parameters: 設定パラメータ
       none: なし
     permissions:
       permissions_for: パーミッション
@@ -672,26 +679,26 @@ ja:
       running: 実行中のインスタンス
       stopped: 停止されたインスタンス
     properties:
-      architecture: "アーキテクチャ:"
-      assembly: "コンポーネント設計図:"
-      console_connection: "コンソール接続:"
-      current_alerts: "現在の警告:"
+      architecture: "アーキテクチャ: "
+      assembly: "Assembly: "
+      console_connection: "コンソール接続: "
+      current_alerts: "現在の警告: "
       download: ダウンロード
       error: "エラー: "
-      instantiation_time: "インスタンス化の時間:"
+      instantiation_time: "インスタンス化の時間: "
       memory: "メモリー: "
-      n_a: N/A
+      n_a: 該当無し
       name: "名前: "
       owner: "所有者: "
-      private_adresses: "プライベートアドレス:"
+      private_adresses: "プライベートアドレス: "
       properties_for: プロパティ
-      provider: "クラウドリソースプロバイダー:"
-      public_addresses: "パブリックアドレス:"
-      shared_to: "共有:"
-      ssh_key: "SSH キー:"
-      ssh_key_name: "SSH キー名:"
+      provider: "プロバイダー: "
+      public_addresses: "パブリックアドレス: "
+      shared_to: "共有: "
+      ssh_key: "SSH キー: "
+      ssh_key_name: "SSH キー名: "
       status: "状態: "
-      storage: "ストレージ:"
+      storage: "ストレージ: "
       via_ssh: "SSH 経由"
     reboot: 再起動
     tab_captions:
@@ -701,10 +708,11 @@ ja:
   last_name: "ラストネーム (姓)"
   launch_instance: インスタンスの起動
   layout:
+    appname: "Aeolus Conductor"
     copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
     dashboard: ダッシュボード
   login: ログイン
-  manage_providers: クラウドリソースのプロバイダーを管理
+  manage_providers: プロバイダーの管理
   manage_users: ユーザーの管理
   map_locales: ロケールのマッピング
   map_profiles: プロファイルのマッピング
@@ -716,11 +724,11 @@ ja:
   navigation:
     first_level:
       administer: 管理
-      monitor: 監視する
+      monitor: モニター
     second_level:
-      cloud_providers: クラウドリソースのプロバイダー
+      cloud_providers: クラウドのプロバイダー
       content: コンテンツ
-      environments: クラウド
+      environments: 環境
       settings: 設定
       users: ユーザー
   new: 新規
@@ -740,129 +748,129 @@ ja:
       notice:
         added: "次のユーザーロールを追加しました: %{list}"
         deleted: "次のパーミッション付与を削除しました: %{list}"
-        modified: "次のユーザーロールの変更に成功しました: %{list}"
+        modified: "次のユーザーロールを正常に変更しました: %{list}"
     form:
       grant_access: アクセスの付与
     new:
       choose_global_role: ユーザーにグローバルロールの割り当てを選択
-      choose_roles: アクセスを付与したいユーザーのロールを選択します
-      global_role_grants: グローバルロール付与
+      choose_roles: 以下に対するアクセスを付与したいユーザーのロールを選択します
+      global_role_grants: グローバルロールの付与
     preset_filters:
       all_permissions: すべてのパーミッション
     revoke_access: アクセスの取り消し
   pool_families:
     add_to_pool_family: "%{name} に追加"
-    choose_provider_accounts: このクラウドに対して有効にするプロバイダーアカウントを選択します
-    confirm_delete: 本当に削除してもよいですか?
+    choose_provider_accounts: このプールファミリーに対して有効にするプロバイダーアカウントを選択します
+    confirm_delete: "本当にこのプールファミリーを削除してもよいですか? 関連するプール、 カタログおよび展開可能なアプリなどもすべて削除されることになります。"
     edit:
       return_to: "戻る: "
     flash:
       error:
-        more_not_deleted: "次のクラウドを削除できませんでした: %{list}。"
-        not_deleted: クラウドは削除できません
-        not_updated: クラウドは更新されませんでした
+        default_pool_family_not_deleted: デフォルトのプールファミリーは削除できません!
+        more_not_deleted: "次のプールファミリーを削除できませんでした: %{list}。"
+        no_provider_accounts: 使用できるプロバイダーアカウントがありません。
+        not_deleted: "プールファミリーを削除できません! 全インスタンスが停止されているか確認してください。"
+        not_updated: プールファミリーは更新されませんでした!
         provider_accounts_not_added: これらのプロバイダーアカウントを追加できませんでした
         provider_accounts_not_removed: これらのプロバイダーアカウントを削除できませんでした
         select_to_add_accounts: 追加するプロバイダーアカウントを少なくともひとつ選択してください。
         select_to_remove_accounts: 削除するプロバイダーアカウントを少なくともひとつ選択してください。
       notice:
-        added: クラウドが追加されました。
-        deleted: クラウドが削除されました。
-        more_deleted: "次のクラウドが削除されました: %{list}。"
+        added: プールファミリーが追加されました。
+        deleted: プールファミリーが削除されました!
+        more_deleted: "次のプールファミリーが削除されました: %{list}"
         provider_accounts_added: これらのプロバイダーアカウントが追加されています
         provider_accounts_removed: これらのプロバイダーアカウントが削除されました
-        updated: クラウドが更新されました
+        updated: プールファミリーが更新されました!
       warning:
-        creation_failed: クラウドの作成に失敗しました。
-    form:
-      pool_family_name: クラウド名
+        creation_failed: プールファミリーの作成が失敗しました。
     index:
       active_instances: アクティブなインスタンス
       answer_no: いいえ
       answer_yes: はい
       available_instances: 使用可能なインスタンス
       catalog: カタログ
-      deployments: アプリケーション
+      deployments: アプリ展開
       enabled: 有効
       failed_instances: 失敗したインスタンス
       name: 名前
-      new_pool_family: 新規のクラウド
+      new_pool_family: 新規のプールファミリー
       pending_instances: 保留中のインスタンス
-      pool_name: クラウドリソースゾーン名
+      pool_name: プール名
       quota_limit: 割り当て制限
       quota_used: 使用中の割り当て
       total_instancies: インスタンスの合計
       total_statistics: 合計
     new:
-      environments: クラウド
-    pool_families: クラウド
-    pool_family: クラウド
-    pool_family_details: クラウドの詳細
+      environments: 環境
+    pool_families: プールファミリー
+    pool_family: プールファミリー
+    pool_family_details: プールファミリーの詳細
     provider_accounts_for: プロバイダーアカウント
     remove_selected: 選択項目を削除
   pools:
-    create_new_pool: 新規のクラウドリソースゾーンを作成
-    edit_pool: クラウドリソースゾーンの編集
+    create_new_pool: 新規のプールを作成
+    edit_pool: "%{pool} プールの編集"
     errors:
       must_be_enabled: 有効にする必要があります
-      providers_disabled: 関連付けされているクラウドリソースのプロバイダーがすべて無効になっています
+      providers_disabled: 関連付けされているプロバイダーがすべて無効になっています
     flash:
       error:
-        default_pool_not_deleted: デフォルトのクラウドリソースゾーンは削除できません
-        iwhd_unavailable: "カタログイメージが使用不可です。 イメージウェアハウスに接続できないようです"
-        not_updated: クラウドリソースゾーンは更新されませんでした。
+        default_pool_not_deleted: デフォルトのプールは削除できません
+        iwhd_unavailable: "カタログのイメージが使用不可になっています。 イメージウェアハウスに接続できないようです"
+        not_updated: プールは更新されませんでした!
         pool_not_deleted:
-          one: "クラウドリソースゾーン %{list} は削除されませんでした。 このゾーンに関連付けられているインスタンスがあります。"
-          other: "%{list} のクラウドリソースゾーンは削除されませんでした。 これらのゾーンに関連付けられたインスタンスがあります。"
+          one: "%{list} プールは削除されませんでした。このプールに関連付けられたインスタンスがあります。"
+          other: "%{list} のプールは削除されませんでした。これらのプールに関連付けられたインスタンスがあります。"
       notice:
-        added: クラウドリソースゾーンが追加されました。
-        updated: クラウドリソースゾーンが更新されました。
+        added: プールが追加されました。
+        updated: " %{list} プールが削除されました。"
       success:
         pool_deleted:
-          one: "クラウドリソースゾーン %{list} が削除されました。"
-          other: "%{list} のクラウドリソースゾーンが削除されました。"
+          one: "%{list} プールが削除されました。"
+          other: "%{list} のプールが削除されました。"
       warning:
-        creation_failed: クラウドリソースゾーンの作成に失敗しました。
+        creation_failed: プールの作成に失敗しました。
     form:
       instance_or: インスタンスまたは
-      pool_enabled: クラウドリソースゾーンが有効になりました
+      pool_enabled: プールが有効になりました
       unlimited: 無制限
     header_show:
-      pool_name: "%{name} クラウドリソースゾーン"
+      pool_name: "%{name} プール"
     images:
       catalog: カタログ
-      catalog_entry: アプリケーション設計図
-      image: "コンポーネント概要:"
+      catalog_entry: 展開可能なアプリ
+      image: "イメージ: "
       pushed: "%{uuid} が %{provider} にプッシュされました"
     index:
-      confirm_delete: "本当にこのクラウドリソースゾーンを削除してよいですか? 関連カタログおよび導入可能なものもすべて削除されることになります。"
-      deployed_on: 導入された日付
+      confirm_delete: "本当にこのプールを削除してもよいですか? 関連するカタログおよび展開可能なアプリなどもすべて削除されることになります。"
+      deployed_on: 展開した日付
       destroy: 破棄
       failed: 失敗
       global_uptime: グローバルアップタイム
       overview: 概要
       owner: 所有者
       pending: 保留
-      pool_details: クラウドリソースゾーンの詳細
-      pool_family: クラウド
-      pool_name: クラウドリソースゾーン名
-      your_pools: ご使用のクラウドリソースゾーン
+      pool_details: プールの詳細
+      pool_family: プールファミリー
+      pool_name: プール名
+      your_pools: ユーザーのプール
     list:
       more_actions: その他の動作
-    new_pool: 新規のクラウドリソースゾーン
-    pool: クラウドリソースゾーン
-    pools: クラウドリソースゾーン
+    new_pool: 新規のプール
+    pool: プール
+    pools: プール
     preset_filters:
-      all_pools: すべてのクラウドリソースゾーン
-      enabled_pools: クラウドリソースゾーンが有効になりました
-      with_create_failed_instances: 失敗したインスタンス付き
-      with_instances: インスタンス付き
-      with_pending_instances: 保留中のインスタンス付き
-      with_running_instances: 実行中のインスタンス付き
-      with_stopped_instances: 停止されたインスタンス付き
+      all_pools: すべてのプール
+      enabled_pools: 有効なプール
+      with_create_failed_instances: 失敗したインスタンスあり
+      with_instances: インスタンスあり
+      with_pending_instances: 保留中のインスタンスあり
+      with_running_instances: 実行中のインスタンスあり
+      with_stopped_instances: 停止インスタンスあり
     properties:
       properties: "%{pool} のプロパティ"
-    valid_format_of_name: "これ以外は含ませられません:  数字、 文字、 空白、 「_」、 「-」"
+    valid_format_of_name: 数字、文字、空白、「_」、「-」以外は含ませないようにしてください。
   privileges: 特権
   properties: プロパティ
   provider_accounts:
@@ -870,71 +878,71 @@ ja:
     credentials:
       credentials_for: 認証情報
     edit:
-      account: "アカウント: "
+      account: "アカウントの編集: %{name}"
       delete_account: アカウントの削除
       edit_provider_account: プロバイダーアカウントの編集
-      file_already_uploaded: "既にアップロードされています。 再度アップロードしますか?"
+      file_already_uploaded: "既にアップロードされています。 再アップロードを行いますか?"
       required_field: 必須フィールドです。
     errors:
       could_not_connect: "プロバイダーアカウントに接続できませんでした。 管理者に連絡してください。"
       exception_while_validating: "プロバイダーの認証情報をチェックする際にエラーが発生しました。 設定を確認してからやり直してください。"
       invalid_credentials: このプロバイダーに対するログイン認証情報が無効です。
-      populate_hardware_profiles_failed: "クラウドリソースプロファイルの投入に失敗しました: %{message}"
-      populate_realms_failed: "クラスターの投入に失敗しました: %{message}"
+      populate_hardware_profiles_failed: "ハードウェアプロファイルの投入に失敗しました: %{message}"
+      populate_realms_failed: "領域の投入に失敗しました: %{message}"
     flash:
       error:
         account_not_added:
-          one: "アカウント %{list} を追加できませんでした。"
-          other: "%{list} のアカウントを追加できませんでした。"
+          one: " %{list} アカウントを追加できませんでした。"
+          other: " %{list} のアカウントを追加できませんでした。"
         account_not_deleted:
-          one: "アカウント %{list} は削除されませんでした。 このアカウントに関連付けられているインスタンスがあります。"
-          other: "%{list} のアカウントは削除されませんでした。 これらのアカウントに関連付けられているインスタンスがあります。"
-        no_provider: "まだプロバイダーを持っていません。 プロバイダーを作成してください。"
+          one: "%{list} アカウントは削除されませんでした。 このアカウントに関連付けられたインスタンスがあります。"
+          other: "%{list} のアカウントは削除されませんでした。 このアカウントに関連付けられたインスタンスがあります。"
+        no_provider: プロバイダーがありません。作成してください!
         not_added: プロバイダーアカウントを追加できません。
-        not_deleted: クラウドリソースプロバイダーアカウントは削除されませんでした。
-        not_updated: プロバイダーアカウントは更新されませんでした。
-        test_connection_failed_invalid: "テスト接続は失敗しました: 無効なアカウント詳細"
-        test_connection_failed_provider: "テスト接続は失敗しました: プロバイダーに接続できませんでした"
+        not_deleted: プロバイダーアカウントは削除されませんでした!
+        not_updated: プロバイダーアカウントは更新されませんでした!
+        test_connection_failed_invalid: "テスト接続に失敗しました: 無効なアカウントの詳細"
+        test_connection_failed_provider: "テスト接続に失敗しました: プロバイダーに接続できませんでした"
       notice:
         account_added:
-          one: "アカウント %{list} が追加されました。"
+          one: "%{list} アカウントが追加されました。"
           other: "%{list} のアカウントが追加されました。"
         account_deleted:
-          one: "アカウント %{list} が削除されました。"
+          one: "%{list} アカウントが削除されました。"
           other: "%{list} のアカウントが削除されました。"
-        deleted: クラウドリソースプロバイダーアカウントが削除されました。
-        test_connection_success: "テスト接続に成功しました: 有効なアカウント詳細"
-        updated: プロバイダーアカウントが更新されました。
+        deleted: プロバイダーアカウントが削除されました!
+        test_connection_success: "テスト接続に成功しました: 有効なアカウントの詳細"
+        updated: プロバイダーアカウントが更新されました!
       warning:
-        must_select_account: 先にアカウントをいくつか選択してください。
-        no_provider: まだクラウドリソースプロバイダーを持っていません。
+        must_select_account: まずアカウントを選択する必要があります。
+        no_provider: プロバイダーがありません
     form:
       account_name: アカウント名
       account_number: "AWS アカウント ID"
       account_private_cert: "EC2 x509 プライベートキー"
       account_public_cert: "EC2 x509 パブリックキー"
-      password: 機密アクセスキー
-      provider_accounts: プロバイダーのアカウント
+      password: シークレットアクセスキー
+      provider_accounts: プロバイダーアカウント
       quota_instances: 割り当てのインスタンス
       test_account: テストアカウント
-      unlimited_quota: 無制限の割り当て
+      unlimited_quota: 割り当て無制限
       user_name: "EC2 アクセスキー"
     history:
       history_for: 履歴
     index:
       config_server_not_saved: 設定サーバーのデータを保存中にエラーが発生しました。
       config_server_saved: 設定サーバーのデータが正常に保存されました。
-      priority: プライオリティ
+      priority: 優先度
       provider_account_name: アカウント名
-      provider_accounts: プロバイダーアカウント
-      provider_name: クラウドリソースプロバイダー名
-      provider_type: クラウドリソースプロバイダーのタイプ
+      provider_accounts: プロバイダーのアカウント
+      provider_name: プロバイダー名
+      provider_type: プロバイダーのタイプ
       quota_limit: 割り当て制限
       username: ユーザー名
     list:
       delete_selected: 削除が選択されました
     new:
-      cloud_providers: クラウドリソースのプロバイダー
+      cloud_providers: クラウドのプロバイダー
       new_provider_account: 新規のプロバイダーアカウント
       required_field: 必須フィールドです。
     new_provider_account: 新規のアカウント
@@ -943,11 +951,11 @@ ja:
     preset_filters:
       all_provider_accounts: すべてのアカウント
     properties:
-      account_number: "アカウント番号:"
-      config_server: "設定サーバー:"
+      account_number: "アカウント番号: "
+      config_server: "設定サーバー: "
       none: なし
       properties_for: プロパティ
-      running_instances_quota: "実行しているインスタンスの割り当て:"
+      running_instances_quota: "実行しているインスタンスの割り当て: "
       sure_to_delete: 本当にこの設定サーバーを削除してよいですか?
       test: テスト
       unlimited: 無制限
@@ -958,7 +966,7 @@ ja:
     rhevm:
       login_form: "RHEV-M 用のログイン形式 (まだ実装されていません)"
     show:
-      account: "アカウント: "
+      account: "アカウント: %{name}"
       test_connection: 接続をテスト
     tab_captions:
       credentials: 認証情報
@@ -969,13 +977,20 @@ ja:
   provider_images:
     flash:
       notice:
-        deleted: "プロバイダーイメージが削除されました。 プロバイダーで格納している実際のイメージを削除したい場合は、 %{provider} の管理コンソールに行き「%{target_id}」イメージを検索します。"
+        deleted: "プロバイダーイメージが削除されました。 プロバイダーで格納している実際のイメージを削除したい場合は、 %{provider} の管理コンソールに行き「%{target_id}」イメージを検索してください。"
         upload_start: プロバイダーイメージのアップロードを開始しました
       warning:
         delete_failed: プロバイダーイメージの削除ができません
         not_found: プロバイダーイメージが見つかりません
         upload_failed: プロバイダーイメージのアップロードができません
-  provider_summary: クラウドリソースプロバイダー要約
+  provider_realms:
+    name: プロバイダー領域名
+    provider_realms: プロバイダー領域
+    show:
+      details: プロバイダー領域の詳細
+      mapping: プロバイダー領域のマッピング
+      provider_accounts_mapped: "プロバイダーアカウントが %{name} プロバイダー領域にマッピングされました"
+  provider_summary: プロバイダーの要約
   providers:
     alerts:
       alert_type:
@@ -989,20 +1004,19 @@ ja:
       type:
         critical: 重大
         warning: 警告
-    choose_a_provider: "プロバイダーを選択してください:"
+    choose_a_provider: "プロバイダーの選択: "
     confirm_delete: 本当にこのプロバイダーを削除してよいですか?
     confirm_terminate:
       disable: 無効
       disabled_provider: プロバイダーを無効にする
-      terminate_instances: "プロバイダーにアクセスできないため次のインスタンスの状態が「停止」に変更になりますが、 実際の状態は不明です。"
-    disable_provider: "プロバイダーを無効にしますか? プロバイダーの全インスタンスが停止されることになります。"
+    disable_provider: "プロバイダーを無効にしますか? プロバイダーの全インスタンスが停止されることになります!"
     edit:
       enable_configure_providers: "プロバイダーを有効にして設定を行うには、 ウィンドウの右上にあるスライドスイッチをクリックします。"
-      provider_disabled: "プロバイダー %{name} は現在無効です。"
-      provider_id_disabled: クラウドリソースプロバイダーは無効です。
-      provider_unavailable: "プロバイダー %{name} は現在使用できません。"
+      provider_disabled: "%{name} プロバイダーは現在無効になっています。"
+      provider_id_disabled: プロバイダーが無効です。
+      provider_unavailable: "%{name} プロバイダーは現在使用できません。"
       toggle_alerts: 警告の切り替え
-    editing_provider: クラウドリソースプロバイダーの編集中
+    editing_provider: プロバイダーの編集中
     enable_provider: プロバイダーを有効にしますか?
     flash:
       error:
@@ -1011,134 +1025,134 @@ ja:
         not_disabled: プロバイダーを無効にできません。
         not_updated: プロバイダーを更新できません。
       notice:
-        added: クラウドリソースプロバイダーが追加されました。
-        connected: クラウドリソースプロバイダーに正しく接続されました
-        deleted: クラウドリソースプロバイダーは正常に削除されています。
-        disabled: クラウドリソースプロバイダーが無効になりました。
-        updated: クラウドリソースプロバイダーが更新されました。
+        added: プロバイダーが追加されました。
+        connected: プロバイダーに正しく接続されました
+        deleted: プロバイダーは正常に削除されました。
+        disabled: プロバイダーが無効になりました。
+        updated: プロバイダーが更新されました。
       warning:
-        connect_failed: クラウドリソースプロバイダーへの接続に失敗しました。
-        not_stopped_instances: "クラウドリソースプロバイダーは無効になりませんでした。 次のインスタンスの停止に失敗しました。"
-        not_terminated_instances: "クラウドリソースプロバイダーは無効になりませんでした。 次のインスタンスの状態を「停止」に変更する際に失敗しました。"
+        connect_failed: プロバイダーへの接続に失敗しました!
+        not_stopped_instances: "プロバイダーが無効になりませんでした。 次のインスタンスの停止に失敗しました: "
+        not_terminated_instances: "プロバイダーが無効になりませんでした。 次のインスタンスの状態を「停止」に変更する際に失敗しました: "
     form:
       caution_alt_text: 注意
       caution_image: 注意
       enter_correct_url_msg: "正しい URL 形式を入力してください。"
-      provider_name: "クラウドリソースプロバイダー名:"
-      provider_type: "クラウドリソースプロバイダーのタイプ:"
-      provider_url: "クラウドリソースプロバイダーの URL:"
       required_field: 必須フィールドです。
       select_type_of_provider: プロバイダーのタイプを選択
       test_connection: 接続をテスト
-      x_deltacloud_provider: "X-Deltacloud-Provider:"
+      x_deltacloud_provider:
+        ec2: "EC2 領域"
+        generic: X-Deltacloud-Provider
+        rhevm: "RHEV-M API_PROVIDER"
+        vsphere: "vSphere API のホスト名"
+      x_deltacloud_provider_legend: "X-Deltacloud-Provider の説明"
     index:
-      create_new_provider: 新規のクラウドリソースプロバイダーを作成
+      create_new_provider: 新規プロバイダーの作成
       create_one: 先に作成してください。
       no_providers_available: 使用できるプロバイダーがありません。
-      provider_name: クラウドリソースプロバイダー名
-      provider_type: クラウドリソースプロバイダーのタイプ
-      provider_url: "クラウドリソースプロバイダーの URL"
+      provider_name: プロバイダー名
+      provider_type: プロバイダーのタイプ
+      provider_url: "プロバイダーの URL"
       x_deltacloud_driver: X-Deltacloud-Driver
       x_deltacloud_provider: X-Deltacloud-Provider
     new:
-      new_provider: 新規のクラウドリソースプロバイダー
-      save_provider: クラウドリソースプロバイダーの保存
-    provider: クラウドリソースプロバイダー
-    providers: クラウドリソースのプロバイダー
+      new_provider: 新規のプロバイダー
+      save_provider: プロバイダーの保存
+    provider: プロバイダー
+    providers: プロバイダー
   quota: 割り当て
   quota_used: 使用中の割り当て
   quotas:
     edit:
       edit_for: 割り当てを編集
-      max_running_instnaces: 最大実行インスタンス
+      max_running_instnaces: 最大実行インスタンス数
     flash:
       error:
         not_updated: "割り当てを更新できませんでした、 入力した値が有効か確認してください"
       notice:
-        updated: 割り当てが更新されました
+        updated: 割り当てが更新されました!
     quota: 割り当て
     show:
       available: 使用可能
       max_capacity: 最大容量
-      no_quota: これには割り当て制限はありません
+      no_quota: これには割り当てがありません
       resource: リソース
       used: 使用中
   realm_mappings:
     new:
-      create_new: 新規クラウドリソースクラスターのマッピングを作成
-  realm_s: クラウドリソースのクラスター
+      create_new: 新しい領域マッピングを作成します
+  realm_s: 領域
   realms:
     edit:
       cancel_editing: 編集の取り消し
       properties: プロパティ
     flash:
       error:
-        more_not_deleted: "以下のクラウドリソースのクラスターを削除できませんでした:"
-        not_deleted: クラウドリソースクラスターは削除されませんでした。
-        select_to_delete: 削除するクラウドリソースクラスターを少なくともひとつ選択してください。
+        more_not_deleted: "次の領域を削除できませんでした: "
+        not_deleted: 領域は削除されませんでした!
+        select_to_delete: 削除する領域を少なくともひとつ選択してください。
         select_to_delete_mapping: 削除するマッピングを少なくともひとつ選択してください。
       notice:
-        added: クラウドリソースクラスターが追加されました。
-        added_mapping: クラウドリソースクラスターのマッピングが追加されました。
-        deleted: クラウドリソースクラスターが削除されました。
-        more_deleted: "以下のクラウドリソースクラスターが削除されました:"
-        updated: クラウドリソースクラスターが正常に更新されました。
-    form:
-      description: 詳細
-      realm_name: クラウドリソースクラスター名
+        added: 領域が追加されました。
+        added_mapping: 領域のマッピングが追加されました。
+        deleted: 領域が削除されました!
+        more_deleted: "次の領域が削除されました: "
+        updated: 領域が正常に更新されました!
     index:
-      realm: クラウドリソースクラスター
+      realm: 領域
       realm_availability: 使用できますか?
       realm_available:
         false_value: いいえ
         true_value: はい
-      realm_name: クラウドリソースクラスター名
+      realm_name: 領域名
     list:
       delete_selected: 削除が選択されました
     mapping:
-      mapping_provider: マッピングをクラスタリソースプロバイダーに追加
-      mapping_realm: マッピングをクラウドリソースクラスターに追加
-      realm_mapped_providers: "クラウドリソースクラスター %{name} は次のプロバイダーにマッピングされます:"
-      realm_mapped_realms: "クラウドリソースクラスター %{name} は次のプロバイダーのリソースクラスターにマッピングされます:"
+      frontend_realms_mapped_to_provider: "%{name} プロバイダーにマッピングされている領域: "
+      frontend_realms_mapped_to_realm: "%{name} プロバイダー領域にマッピングされている領域: "
+      mapping_provider: プロバイダーにマッピングを追加
+      mapping_realm: プロバイダー領域にマッピングを追加
+      provider_accounts_mapped_to_realm: "%{name} 領域にマッピングされているプロバイダーアカウント: "
+      realm_mapped_providers: "%{name} 領域は次のプロバイダーにマッピングされています: "
+      realm_mapped_realms: "%{name} 領域は次の領域にマッピングされています: "
     new:
-      create_realm: 新規のクラウドリソースクラスターを作成
-    new_realm: 新規のクラウドリソースクラスター
+      create_realm: 新規の領域を作成
+    new_realm: 新規の領域
     preset_filters:
-      all_realms: すべてのクラウドリソースクラスター
+      all_realms: すべての領域
     properties:
-      realm_details: クラウドリソースクラスターの詳細
-      realm_name: クラウドリソースクラスター名
-    realms: クラウドリソースのクラスター
+      realm_details: 領域の詳細
+      realm_name: 領域名
+    realms: 領域
     show:
       properties: プロパティ
-      realm_mapping: クラウドリソースクラスターのマッピング
-      realm_unavailable: "範囲 %{name} は現在使用できません。"
-      sure_to_delete: 本当に削除してよいですか?
+      realm_mapping: 領域マッピング
+      realm_unavailable: "%{name} 領域は現在使用できません。"
+      sure_to_delete: 本当に削除してもよいですか?
     tab_captions:
       mapping: マッピング
       properties: プロパティ
   remove: 削除
   reset: リセット
-  resource_management: リソース管理
+  resource_management: リソースの管理
   return_to: 戻る
   role: ロール
   role_assignments: ロールの割り当て
   roles:
     edit:
       cancel_editing: 編集の取り消し
-      editing_role: "ロールの編集中:"
+      editing_role: "ロールの編集中: "
       properties: プロパティ
     flash:
       error:
-        more_not_deleted: "次のロールを削除できませんでした:"
+        more_not_deleted: "次のロールを削除できませんでした: "
       notice:
-        added: ロールが正常に保存されました。
-        more_deleted: "次のロールが削除されました:"
-        updated: ロールが正常に更新されました。
-    form:
-      name: 名前
+        added: ロールが正常に保存されました!
+        more_deleted: "次のロールが削除されました: "
+        updated: ロールが正常に更新されました!
     list:
-      roles_list: ロール一覧
+      roles_list: ロールの一覧
     new_role: 新規のロール
     properties:
       action: 動作
@@ -1147,111 +1161,101 @@ ja:
       target_type: ターゲットのタイプ
     show:
       properties: プロパティ
-      sure_to_delete: 本当にこのロールを削除しよいですか?
+      sure_to_delete: 本当にこのロールを削除してもよいですか?
     tab_captions:
       properties: プロパティ
   runtime: 実行
   save: 保存
   scheduling_policies: ポリシーをスケジュール中
+  search:
+    no_results: 一致する結果はありません。
   searches: 検索
   select:
     all: すべて
     none: なし
     select: 選択
-  self_service_settings: セルフサービス設定
+  self_service_settings: セルフサービスの設定
   services: サービス
   services_provided: 提供されているサービス
   settings:
     flash:
       notice:
-        updated: 設定が更新されました。
+        updated: 設定が更新されました!
       warning:
         not_updated_quota: デフォルトの割り当てを更新できませんでした
     general_settings:
-      allow_self_service: "セルフサービスによるアカウント作成を許可:"
+      allow_self_service: "セルフサービスによるアカウント作成を許可: "
       brand_icon: "ブランドアイコン: "
       certificate: "証明書: "
       content: コンテンツ
-      content_manager_url: "コンテンツマネージャーの URL:"
-      entitlement_mode: "エンタイトルメントモード:"
+      content_manager_url: "コンテンツマネージャーの URL: "
+      entitlement_mode: "エンタイトルメントモード: "
       general_settings: 全般設定
       portal: ポータル
-      primary_url_port: "プライマリー URL ポート:"
+      primary_url_port: "プライマリー URL ポート: "
       select_treatment: ユーザー処理を選択
       system_subscription: サブスクリプションはシステムよって提供されます
       tag_line: "タグライン: "
       user_brings_subscriptions: サブスクリプションはユーザーに付いてきます
     index:
-      define_hardware_profiles: クラウドリソースのプロファイルを定義
-      define_hardware_profiles_desc: "Aeolus Conductor によってユーザーに公開されるクラウドリソースのプロファイル名を表示、 編集、 定義します。 名前の意味は、 各クラウドリソースのプロバイダーから提供される機能にマッピングされることで定義されます。"
+      define_hardware_profiles: ハードウェアプロファイルの定義
+      define_hardware_profiles_desc: "Aeolus Conductor によりユーザーに対して公開されるハードウェアプロファイル名の表示、編集、定義を行います。名前の意味は、個々のプロバイダーから提供される機能に対するマッピングで定義されます。"
       define_locales: ロケールの定義
-      define_locales_desc: "Aeolus Conductor によってユーザーに公開されるロケール名を表示、 編集、 定義します。 名前の意味は、 各クラウドリソースのプロバイダーから提供される地理的な場所にマッピングされることで定義されます。"
+      define_locales_desc: "Aeolus Conductor によりユーザーに対して公開されるロケール名前の表示、編集、定義を行います。 名前の意味は、 個々のプロバイダーから提供される地理的な場所に対するマッピングで定義されます。"
       define_services: サービスの定義
       define_services_desc: "Aeolus Conductor によって提供されるサービスを表示、 編集、 定義します。 これらのサービスは、 その機能に応じて各プロバイダーにマッピングされます。"
       general_settings: 全般設定
-      general_settings_desc: "セルフサービスのアカウント登録を有効にする、 カスタムのブランド機能を設定する、 コンテンツのソースを管理する"
-      manage_providers: クラウドリソースのプロバイダーを管理
-      manage_providers_desc: "Aeolus Conductor に対する仮想コンピューティングリソースのプロバイダーを表示、編集、追加します。 こうしたプロバイダーの Aeolus Conductor アカウントを表示、編集、追加します。 Aeolus Conductor に対してプロバイダー固有の概念をマッピングします。"
+      general_settings_desc: "セルフサービスによるアカウント登録を有効にする、 カスタムのブランド機能を設定する、 コンテンツのソースを管理する"
+      manage_providers: プロバイダーの管理
+      manage_providers_desc: "Aeolus Conductor に仮想コンピューティングリソースを提供するプロバイダーの表示、編集、追加を行います。 こうしたプロバイダー用の Aeolus Conductor アカウントを表示、編集、追加します。 Aeolus Conductor に対してプロバイダー固有の概念をマッピングします。"
       manage_users: ユーザーの管理
-      manage_users_desc: "Aeolus Conductor 上のユーザーアカウントを表示、 編集、 作成、 削除します。 ユーザーの割り当てと特権を調整します。"
+      manage_users_desc: "Aeolus Conductor 上のユーザーアカウントの表示、 編集、 作成、 削除を行います。 ユーザーの割り当てや特権の調整を行います。"
       permissions: パーミッション
-      permissions_desc: セルフサービスのデフォルト割り当てを修正します。
+      permissions_desc: セルフサービスによるデフォルトの割り当てを修正します。
     self_service:
       account: アカウント
-      self_service_default: "ユーザー処理: セルフサービスデフォルト"
+      self_service_default: "ユーザー処理: セルフサービスのデフォルト"
       self_service_settings: セルフサービスの設定
     settings: 設定
   summary: 要約
-  support:
-    array:
-      last_word_connector: "、 および"
-      two_words_connector: および
-      words_connector: 、
   system_settings: システム設定
   target_images:
     flash:
       notice:
-        deleted: ターゲットイメージを削除しました
+        deleted: ターゲットイメージが削除されました
       warning:
         delete_failed: ターゲットイメージを削除できません
         not_found: ターゲットイメージが見つかりません
   template_xml:
     errors:
-      invalid_xml: "有効な XML ではありません:"
+      invalid_xml: "有効な XML ではありません: "
       name_is_not_set: 名前が設定されていません。
       xml_parse_error: "XML の解析に失敗しました。"
-  time:
-    am: am
-    formats:
-      default: "%a, %d %b %Y %H: %M: %S %z"
-      long: "%d %B, %Y %H: %M"
-      short: "%d %b %H: %M"
-    pm: pm
   updates: 更新
   uptime: 使用時間合計
   user: ユーザー
   user_sessions:
     flash:
       notice:
-        login: ログインに成功しました。
-        logout: ログアウトに成功しました。
+        login: ログインに成功しました!
+        logout: ログアウトに成功しました!
       warning:
         login_failed: "ログインに失敗: 入力されたユーザー名とパスワードが一致しません"
     new:
-      help: ヘルプ機能はまだ利用できません
+      help: ヘルプ機能はまだ利用できません。
       login: ログイン
       login_assistance: ログインのヘルプ
-      password: "パスワード:"
+      password: "パスワード: "
       security_info: セキュリティ情報
-      show_password: パスワードの表示
-      username: "ユーザー名:"
+      show_password: パスワードを表示する
+      username: "ユーザー名: "
     security:
       encrypted_connection: 暗号化された接続
       expiration: "有効期限: 不明"
-      issued: "証明書の発行者:"
-      message: "%{host} での Aeolus Conductor への接続は、現在 SSL 暗号を使用して暗号化され安全です (強度は不明)。"
-      message_unencrypted: "%{host} での Aeolus Conductor への接続は、現在暗号化されていません。 機密情報が盗用される恐れがあります。"
-      message_unencrypted2: "これがエラーであると思われる場合は、 ログインしないでください。 システム管理者に速やかに連絡してください。"
+      issued: "証明書の発行者: "
+      message: "%{host} 上の Aeolus Conductor への接続は、現在 SSL を使用して暗号化されており安全です (強度は不明)。"
+      message_unencrypted: "%{host} 上の Aeolus Conductor への接続は、現在暗号化されておりません。 機密情報が盗用される恐れがあります。"
+      message_unencrypted2: これがエラーであると思われる場合は、ログインしないでください。システム管理者に速やかに連絡してください。
       return_to_login: ログインに戻る
       unencrypted_connection: 暗号化されていない接続
       unknown_ca: 不明な証明機関
@@ -1268,21 +1272,21 @@ ja:
         more_deleted:
           one: ユーザーが削除されました
           other: ユーザーが削除されました
-        registered: ユーザーが登録されました。
-        updated: ユーザーが更新されました。
-        you_registred: 正常に登録されました。
+        registered: ユーザーが登録されました!
+        updated: ユーザーが更新されました!
+        you_registred: ユーザーが正常に登録されました!
       warning:
         not_delete: "削除できません: %{reason}"
-        not_delete_same_user: "%{login} を削除できません: このユーザーとしてログインしています"
+        not_delete_same_user: "%{login} を削除できません: このユーザーでログインしています"
     form:
       save_user: ユーザーの保存
       user_status: ユーザーの状態
       user_treatment: ユーザー処理
     index:
-      email: E-mail
+      email: メールアドレス
       first_name: "ファーストネーム (名)"
       last_name: "ラストネーム (姓)"
-      quota_instances: 割り当て上限
+      quota_instances: 割り当て制限
       user_id: "ユーザー ID"
       username: ユーザー名
     list:
@@ -1295,17 +1299,17 @@ ja:
       all_users: すべてのユーザー
       name_starts_with_A: "A で始まる名前"
       name_starts_with_B: "B で始まる名前"
-    quick_jump: "クイックジャンプ:"
+    quick_jump: "クイックジャンプ: "
     return_to: "戻る: "
     show:
       created: 作成日
       delete: 削除
-      e-mail: "E-mail アドレス"
+      e-mail: 電子メールアドレス
       edit: 編集
-      failed_logins: 失敗したログイン数
+      failed_logins: ログインに失敗した回数
       last_login: 最後のログイン
       last_login_ip: "最後のログイン IP"
-      last_updated: 最終更新
-      number_of_logins: ログイン数
+      last_updated: 最終更新日
+      number_of_logins: ログインの回数
       username: ユーザー名
     users: ユーザー
