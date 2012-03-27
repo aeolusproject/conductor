@@ -81,6 +81,12 @@ class HardwareProfilesController < ApplicationController
     require_privilege(Privilege::CREATE, HardwareProfile)
 
     build_hardware_profile(params[:hardware_profile])
+
+    if params[:commit] == t('hardware_profiles.form.check_matches')
+      find_matching_provider_hardware_profiles
+      render :new and return
+    end
+
     if @hardware_profile.save
       redirect_to hardware_profiles_path
     else
@@ -133,7 +139,7 @@ class HardwareProfilesController < ApplicationController
       build_hardware_profile(params[:hardware_profile])
     end
 
-    if params[:commit] == "Check Matches"
+    if params[:commit] == t('hardware_profiles.form.check_matches')
       require_privilege(Privilege::VIEW, HardwareProfile)
       find_matching_provider_hardware_profiles
       render :edit and return
