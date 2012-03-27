@@ -1,0 +1,444 @@
+ja:
+  api:
+    error_messages:
+      invalid_template: "無効なコンポーネント概要: %{errors}"
+  application_controller:
+    admin_tabs:
+      pool_families: クラウド
+      realms: クラウドリソースのクラスター
+  breadcrumbs:
+    deployables: アプリケーションの設計図
+    deployments: アプリケーション
+    hardware_profiles: クラウドリソースのプロファイル
+    pool_families: クラウド
+    pools: クラウドリソースのゾーン
+    provider_realms: クラウドリソースのクラスター
+    realms: クラウドリソースのクラスター
+  catalog_entries:
+    edit:
+      editing_catalog_entry: アプリケーション設計図を編集中
+    flash:
+      notice:
+        added: "アプリケーション設計図をカタログ %{catalog} に追加しました。"
+        deleted: "アプリケーション設計図をカタログ %{catalog} から削除しました。"
+        updated: アプリケーション設計図が正常に更新されました。
+      warning:
+        failed: アプリケーション設計図は作成されませんでした。
+        no_url_provided: "アプリケーション設計図の XML ファイルに URL が与えられていません。"
+        not_valid: "アプリケーション設計図の XML ファイルは有効な XML ファイルを解決しません"
+        not_valid_duplicate_assembly_names: "アプリケーション設計図の XML には固有の assembly name が含まれていなければなりません"
+        not_valid_or_reachable: "アプリケーション設計図の XML ファイルは無効なファイルであるか、 接続不能になっています。"
+    index:
+      catalog_entries: アプリケーションの設計図
+      catalog_entry: アプリケーション設計図
+      deployable: アプリケーション設計図
+      deployable_xml: "アプリケーション設計図の XML"
+    list:
+      catalog_entries_list: アプリケーション設計図の一覧
+    new:
+      add_catalog_entry: 新規のアプリケーション設計図を追加
+      choose_option_to_upload: "アプリケーション設計図の XML ファイルのアップロードに以下のオプションをひとつ選択します。"
+      hw_profile: デフォルトのクラウドリソースプロファイル
+    new_catalog_entry: 新規のアプリケーション設計図
+    preset_filters:
+      all_catalog_entries: すべてのアプリケーション設計図
+    show:
+      image: コンポーネント概要
+  catalogs:
+    flash:
+      error:
+        not_deleted:
+          one: "%{not_deleted} カタログは削除できません。 このカタログに最後の参照を持つアプリケーション設計図があります。"
+          other: "%{not_deleted} のカタログは削除できません。 このカタログに最後の参照を持つアプリケーション設計図が複数あります。"
+        one_not_deleted: "カタログは削除できません。 このカタログに最後の参照を持つアプリケーション設計図があります。"
+    form:
+      select_pool: ゾーンの選択
+    preset_filters:
+      belongs_to_default_pool: デフォルトのクラウドリソースゾーンに属します
+  cloud_engine_hardware_profiles: クラウドリソースのプロファイル
+  cloud_providers: クラウドリソースのプロバイダー
+  deployables:
+    error:
+      hwp_not_exists: "XML で指定されたクラウドリソースプロファイル %{name} は存在していません。"
+    flash:
+      error:
+        no_hwp_exists: "クラウドリソースプロファイルがありません。 クラウドリソースプロファイルを作成してください。"
+        not_deleted:
+          one: "アプリケーション設計図 %{not_deleted} の削除に失敗しました。"
+          other: "%{count} 個の %{not_deleted} のアプリケーション設計図は削除されませんでした。"
+        not_deleted_perms:
+          one: "アプリケーション設計図 %{not_deleted} を削除するには十分なパーミッションがありません。"
+          other: "%{count} 個の %{not_deleted} のアプリケーション設計図を削除するには十分なパーミッションがありません。"
+        not_selected: アプリケーション設計図が選択されていませんでした!
+        wrong_environment: "このアプリケーション設計図「%{deployable}」は誤ったクラウド (「%{wrong_env}」、 正しいクラウドは「%{environment}」) 内にコンポーネント概要 (UUID %{uuid}) が含まれているため、 この設計図は使用できません。"
+      notice:
+        deleted:
+          one: "アプリケーション設計図 %{deleted} が正常に削除されました。"
+          other: "%{count} 個の %{deleted} のアプリケーション設計図が削除されました。"
+      warning:
+        failed: "アプリケーション設計図は作成されませんでした: %{message}"
+    form:
+      choose_xml: "アプリケーション設計図の XML ファイルを選択"
+      deployable_xml: "アプリケーション設計図の XML"
+      deployable_xml_url: "アプリケーション設計図 XML の URL"
+    index:
+      base_deployable: ベースのアプリケーション設計図
+      deleted:
+        one: "アプリケーション設計図 %{list} は削除されました。"
+        other: "アプリケーション設計図 %{list} は削除されました。"
+      deployable_definition: アプリケーション設計図の定義
+      deployable_url: "アプリケーション設計図の URL"
+      deployables: アプリケーションの設計図
+      not_deleted:
+        one: "アプリケーション設計図 %{list} は削除されませんでした。 この設計図に関連付けされているアプリケーションがあります。"
+        other: "%{list} のアプリケーション設計図は削除されませんでした。 これらの設計図に関連付けされているアプリケーションがあります。"
+    new_from_image:
+      description: "「%{name}」コンポーネント概要からアプリケーション設計図を作成するとビルド及び起動が可能になります。 アプリケーション設計図を格納するカタログを選択してデフォルトのクラウドリソースプロファイルを指定するだけです。"
+      title: アプリケーション設計図の作成
+    properties:
+      edit_deployable_xml: "アプリケーション設計図の XML を編集"
+    show:
+      build_description: このアプリケーション設計図の関連コンポーネント概要のビルドおよびクラウドリソースのプロバイダーへのプッシュを以下で有効にして許可します。
+      build_statuses_descriptions:
+        building: コンポーネントの概要がビルドされています。
+        not_built: コンポーネントの概要はビルドされません
+        not_pushed: プッシュされないコンポーネントの概要が複数あります
+        pushed: すべてのコンポーネントが異様がプッシュされ最新です。
+        pushing: コンポーネントの概要がプッシュされています。
+      environment: クラウド
+      hw_profile: クラウドリソースプロファイル
+      image_uuid: "コンポーネント概要の UUID: "
+      images: コンポーネントの概要
+      images_valid: コンポーネントの概要は有効です
+      latest_build_uuid: "最新のビルド UUID: "
+      missing_images: イメージウェアハウスにコンポーネントの概要がありません
+      push_all: 不足しているコンポーネントの概要をプッシュ
+      rebuild_all: 不足しているコンポーネントの概要をビルド
+      repair_images: コンポーネントの概要を修復
+      target_images_uuids: "ターゲットイメージの UUID: "
+  deployments:
+    confirm_delete: 本当にこのアプリケーションを削除してよいですか?
+    deployment: アプリケーション
+    deployment_details: アプリケーションの詳細
+    deployment_name: アプリケーション名
+    deployment_name_subtext: (指定するアプリケーションは一意でなければなりません)
+    deployments: アプリケーション
+    edit:
+      edit_deployment: アプリケーションの編集
+    errors:
+      not_valid_deployable_xml: "有効なアプリケーション設計図の XML ではないようです: %{msg}"
+    flash:
+      error:
+        failed_to_launch_assemblies: 次のコンポーネント設計図の起動に失敗しました。
+        none_selected: ひとつ以上のアプリケーションを選択する必要があります。
+        not_deleted:
+          one: "アプリケーション %{list} は削除できませんでした。"
+          other: "%{list} のアプリケーションは削除できませんでした。"
+        not_launched: 起動されないコンポーネント設計図がいくつかあります。
+        not_updated:
+          one: "アプリケーション %{list} は更新できませんでした。"
+          other: "%{list} のアプリケーションは更新できませんでした。"
+      notice:
+        launched: アプリケーションが起動されました。
+      success:
+        deleted:
+          one: "アプリケーション %{list} の削除がスケジュールされました。"
+          other: "%{list} のアプリケーションの削除がスケジュールされました。"
+        updated:
+          one: "アプリケーション %{list} が正常に更新されました。"
+          other: "%{list} のアプリケーションが正常に更新されました。"
+      warning:
+        deployable_not_selected: アプリケーションを選択してください
+        disabled_pool: "このクラウドリソースゾーンではアプリケーションを起動できません。 無効になっています。"
+        failed_to_launch: アプリケーションの起動に失敗しました。
+    launch_from_catalog:
+      deployable_xml: "アプリケーション設計図の XML"
+      hint: "%{pool} クラウドリソースゾーン内で起動するアプリケーション設計図を選択してください"
+      image_id: "コンポーネント概要の ID"
+      no_catalog_entry: "使用できるアプリケーション設計図がありません。 アプリケーション設計図を追加してください。"
+    launch_new:
+      to_pool: "%{name} クラウドリソースゾーンへ"
+    launch_time_params:
+      configure_launch_time_params: "使用しているアプリケーションの起動時間パラメータを設定: "
+    list_of_events: アプリケーションのイベント一覧
+    new:
+      deployable_definition: アプリケーション設計図の定義
+      deployable_details: アプリケーション設計図の詳細
+      hardware_profile: クラウドリソースプロファイル
+      image_id: "コンポーネント概要の ID"
+      launch: このアプリケーションを起動
+    new_deployment: 新規のアプリケーション
+    overview:
+      confirmation: "本当に %{deployment} を %{pool} クラウドリソースゾーンに展開してもよいですか? 展開するとアプリケーションの全体割り当ての %{quota} を使用することになります。"
+      deployable_uri: "アプリケーション設計図の URI"
+      deployable_xml: "アプリケーション設計図の XML"
+      header: "%{deployment} を %{pool} クラウドリソースゾーンに展開しますか?"
+      image_ids: "コンポーネント概要の ID"
+      pool_name: "%{pool} クラウドリソースゾーン"
+    preset_filters:
+      all_deployments: すべてのアプリケーション
+    provider_services:
+      list_of_services: アプリケーションで必要なサービスの一覧
+    required_services:
+      list_of_required_services: アプリケーションで必要なサービスの一覧
+    show:
+      name: "%{name} アプリケーション"
+  hardware_profiles:
+    create:
+      check_matching_hwp: 適合するクラウドリソースのプロファイルを確認
+    edit:
+      edit_hwp: クラウドリソースプロファイルの編集
+    flash:
+      error:
+        more_not_deleted:
+          one: "%{not_deleted} は削除できませんでした"
+          other: "次のクラウドリソースプロファイルが削除できませんでした: %{not_deleted}"
+        not_deleted: クラウドリソースプロファイルは削除されませんでした。
+      notice:
+        deleted: クラウドリソースプロファイルが削除されました。
+        more_deleted:
+          one: "クラウドリソースプロファイル %{deleted} が削除されました。"
+          other: "%{deleted} のクラウドリソースプロファイルが削除されました。"
+        updated: クラウドリソースプロファイルが更新されました。
+      warning:
+        cannot_delete_backend_hwp: プロバイダーのクラウドリソースプロファイルを削除できません
+        cannot_edit_backend_hwp: プロバイダーのクラウドリソースプロファイルを変更できません
+    hardware: クラウドリソースのプロファイル
+    hardware_profile: クラウドリソースプロファイル
+    hardware_profiles: クラウドリソースのプロファイル
+    index:
+      hardware_profile_name: クラウドリソースプロファイル名
+    list:
+      new_hardware: 新規のクラウドリソースプロファイル
+    matching_provider_hwp:
+      no_matching_provider_hwp: 適合するプロバイダーのクラウドリソースプロファイルが見つかりませんでした
+    new:
+      new_hwp: 新規のクラウドリソースプロファイル
+    preset_filters:
+      all_hardware_profiles: すべてのクラウドリソースプロファイル
+    provider_hwp_headers:
+      hwp_name: クラウドリソースプロファイル名
+      provider_name: クラウドリソースプロバイダー名
+    show:
+      matching_hwp: 適合するプロバイダーのクラウドリソースプロファイル
+    tab_captions:
+      matching_provider_hwp: 適合するプロバイダーのクラウドリソースプロファイル
+  hw_profiles: クラウドリソースのプロファイル
+  image_imports: コンポーネント概要のインポート
+  images:
+    environment: "クラウド: "
+    environment_header: クラウド
+    flash:
+      error:
+        no_file: "コンポーネント概要の XML ファイルを指定する必要があります"
+        no_template: インポートされたのでイメージにコンポーネント概要がありません。
+      notice:
+        created: コンポーネント概要が作成されました
+    import:
+      blank_id: "コンポーネント概要の ID を空白のままにしておくことはできません。"
+      image_id: "コンポーネント概要 ID"
+      image_imported: コンポーネント概要が正しくインポートされました。
+      image_not_imported: "コンポーネント概要をインポートできませんでした。 イメージファクトリーのログで詳細を確認してください。"
+      import_image: イメージのインポート
+      name: コンポーネント概要名
+    index:
+      images: コンポーネント概要
+    new:
+      choose_file: "コンポーネント概要ファイルを選択: "
+      description: "コンポーネント概要を「%{environment} クラウド」にアップロードまたはインポートする際のオプションを以下からひとつ選択します。"
+      image_url: "コンポーネント概要の URL: "
+    not_on_provider: 要求されたコンポーネント概要がプロバイダーで見つかりませんでした。
+    overview:
+      description: "「%{name}」内のコンポーネント概要の参照とマークアップが正しく認証されました。 これでコンポーネント概要を保存してアプリケーション設計図を作成できるようになりました。"
+      make_deployable: "自動的に「%{name}」アプリケーション設計図を作成します。"
+      save_template: コンポーネント概要の保存
+      valid_image: 有効なコンポーネント概要
+    show:
+      image_uri: "コンポーネント概要の URI"
+      image_uuid: "コンポーネント概要の UUID"
+      new_deployable_from_image: イメージから作成する新規の設計図
+      provider: クラウドリソースプロバイダー
+      template_xml: "XML の表示"
+  instances:
+    errors:
+      architecture_mismatch: "コンポーネント設計図クラウドリソースプロファイルアーキテクチャ (%{inst_arch}) はクラウドリソースプロファイルアーキテクチャ (%{img_arch}) と一致しません。"
+      hw_profile_match_not_found: "%{account_name}: クラウドリソースプロファイルの適合が見つかりません"
+      image_not_found: "UUID が %{b_uuid} のイメージビルドが見つからなかったため、 UUID が %{i_uuid} のコンポーネント概要は見つかりませんでした"
+      image_not_pushed_to_provider: "%{account_name}: コンポーネント概要がこのプロバイダーアカウントにプッシュされていません"
+      no_provider_accounts: 選択したクラウドリソースゾーンのクラウドに関連付けられているプロバイダーアカウントがありません。
+      pool_family_quota_reached: クラウドの割り当て上限に達しました
+      pool_quota_reached: クラウドリソースゾーンの割り当て上限に達しました
+      provider_account_quota_too_low: "%{match_provider_account} の割り当て上限が低すぎるためアプリケーション設計図を起動できません。"
+      realm_not_mapped: "%{account_name}: クラウドリソースクラスター %{frontend_realm_name} がいずれのクラウドリソースプロバイダーまたはプロバイダーのクラスターにもマッピングされていません"
+    list:
+      table:
+        provider: クラウドリソースプロバイダー
+    properties:
+      assembly: "コンポーネント設計図: "
+      provider: "クラウドリソースプロバイダー: "
+  layout:
+    appname: "CloudForms Cloud Engine"
+  manage_providers: クラウドリソースのプロバイダーを管理
+  navigation:
+    second_level:
+      cloud_providers: クラウドリソースのプロバイダー
+      environments: クラウド
+  pool_families:
+    choose_provider_accounts: このクラウドに対して有効にするプロバイダーアカウントを選択します
+    confirm_delete: "このクラウドを本当に削除してもよいですか? 関連するクラウドリソースゾーン、 カタログ、 アプリケーション設計図などもすべて削除されることになります。"
+    flash:
+      error:
+        default_pool_family_not_deleted: デフォルトのクラウドは削除できません!
+        more_not_deleted: "次のクラウドを削除できませんでした: %{list}。"
+        not_deleted: "クラウドの削除ができません! すべてのインスタンスが停止されていることを確認してください。"
+        not_updated: クラウドは更新されませんでした!
+      notice:
+        added: クラウドが追加されました。
+        deleted: クラウドが削除されました。
+        more_deleted: "次のクラウドが削除されました: %{list}。"
+        updated: クラウドが更新されました
+      warning:
+        creation_failed: クラウドの作成に失敗しました。
+    form:
+      pool_family_name: クラウド名
+    index:
+      deployments: アプリケーション
+      new_pool_family: 新規のクラウド
+      pool_name: クラウドリソースゾーン名
+    new:
+      environments: クラウド
+    pool_families: クラウド
+    pool_family: クラウド
+    pool_family_details: クラウドの詳細
+  pools:
+    create_new_pool: 新規のクラウドリソースゾーンを作成
+    edit_pool: "クラウドリソースゾーン %{pool} の編集"
+    errors:
+      providers_disabled: 関連付けされているクラウドリソースのプロバイダーがすべて無効になっています
+    flash:
+      error:
+        default_pool_not_deleted: デフォルトのクラウドリソースゾーンは削除できません
+        iwhd_unavailable: "カタログイメージが使用不可です。 イメージウェアハウスに接続できないようです"
+        not_updated: クラウドリソースゾーンは更新されませんでした。
+        pool_not_deleted:
+          one: "クラウドリソースゾーン %{list} は削除されませんでした。 このゾーンに関連付けられているインスタンスがあります。"
+          other: "%{list} のクラウドリソースゾーンは削除されませんでした。 これらのゾーンに関連付けられたインスタンスがあります。"
+      notice:
+        added: クラウドリソースゾーンが追加されました。
+        updated: クラウドリソースゾーンが更新されました。
+      success:
+        pool_deleted:
+          one: "クラウドリソースゾーン %{list} が削除されました。"
+          other: "%{list} のクラウドリソースゾーンが削除されました。"
+      warning:
+        creation_failed: クラウドリソースゾーンの作成に失敗しました。
+    form:
+      pool_enabled: クラウドリソースゾーンの有効化
+    header_show:
+      pool_name: "%{name} クラウドリソースゾーン"
+    images:
+      catalog_entry: アプリケーション設計図
+      image: "コンポーネント概要: "
+    index:
+      confirm_delete: "本当にこのクラウドリソースゾーンを削除してよいですか? 関連カタログおよび展開可能なものもすべて削除されることになります。"
+      pool_details: クラウドリソースゾーンの詳細
+      pool_family: クラウド
+      pool_name: クラウドリソースゾーン名
+      your_pools: ご使用のクラウドリソースゾーン
+    new_pool: 新規のクラウドリソースゾーン
+    pool: クラウドリソースゾーン
+    pools: クラウドリソースゾーン
+    preset_filters:
+      all_pools: すべてのクラウドリソースゾーン
+      enabled_pools: クラウドリソースゾーンが有効になりました
+  provider_accounts:
+    errors:
+      populate_hardware_profiles_failed: "クラウドリソースプロファイルの投入に失敗しました: %{message}"
+      populate_realms_failed: "クラスターの投入に失敗しました: %{message}"
+    flash:
+      error:
+        not_deleted: クラウドリソースプロバイダーアカウントは削除されませんでした。
+      notice:
+        deleted: クラウドリソースプロバイダーアカウントが削除されました。
+      warning:
+        no_provider: まだクラウドリソースプロバイダーを持っていません。
+    index:
+      provider_name: クラウドリソースプロバイダー名
+      provider_type: クラウドリソースプロバイダーのタイプ
+    new:
+      cloud_providers: クラウドリソースのプロバイダー
+  provider_realms:
+    provider_realms: プロバイダーのクラウドリソースのクラスター
+  provider_summary: クラウドリソースプロバイダー要約
+  providers:
+    edit:
+      provider_id_disabled: クラウドリソースプロバイダーは無効です。
+    editing_provider: クラウドリソースプロバイダーの編集中
+    flash:
+      notice:
+        added: クラウドリソースプロバイダーが追加されました。
+        connected: クラウドリソースプロバイダーに正しく接続されました
+        deleted: クラウドリソースプロバイダーは正常に削除されています。
+        disabled: クラウドリソースプロバイダーが無効になりました。
+        updated: クラウドリソースプロバイダーが更新されました。
+      warning:
+        connect_failed: クラウドリソースプロバイダーへの接続に失敗しました。
+        not_stopped_instances: "クラウドリソースプロバイダーは無効になりませんでした。 次のインスタンスの停止に失敗しました。"
+        not_terminated_instances: "クラウドリソースプロバイダーは無効になりませんでした。 次のインスタンスの状態を「停止」に変更する際に失敗しました。"
+    form:
+      provider_name: "クラウドリソースプロバイダー名: "
+      provider_type: "クラウドリソースプロバイダーのタイプ: "
+      provider_url: "クラウドリソースプロバイダーの URL: "
+    index:
+      create_new_provider: 新規のクラウドリソースプロバイダーを作成
+      provider_name: クラウドリソースプロバイダー名
+      provider_type: クラウドリソースプロバイダーのタイプ
+      provider_url: "クラウドリソースプロバイダーの URL"
+    new:
+      new_provider: 新規のクラウドリソースプロバイダー
+      save_provider: クラウドリソースプロバイダーの保存
+    provider: クラウドリソースプロバイダー
+    providers: クラウドリソースのプロバイダー
+  realm_mappings:
+    new:
+      create_new: 新規クラウドリソースクラスターのマッピングを作成
+  realm_s: クラウドリソースのクラスター
+  realms:
+    flash:
+      error:
+        more_not_deleted: "以下のクラウドリソースのクラスターを削除できませんでした: "
+        not_deleted: クラウドリソースクラスターは削除されませんでした。
+        select_to_delete: 削除するクラウドリソースクラスターを少なくともひとつ選択してください。
+      notice:
+        added: クラウドリソースクラスターが追加されました。
+        added_mapping: クラウドリソースクラスターのマッピングが追加されました。
+        deleted: クラウドリソースクラスターが削除されました。
+        more_deleted: "以下のクラウドリソースクラスターが削除されました: "
+        updated: クラウドリソースクラスターが正常に更新されました。
+    index:
+      realm: クラウドリソースクラスター
+      realm_name: クラウドリソースクラスター名
+    mapping:
+      frontend_realms_mapped_to_provider: "プロバイダー %{name} にマッピングされているクラウドリソースのクラスター: "
+      frontend_realms_mapped_to_realm: "プロバイダーのリソースクラスター %{name} にマッピングされているクラウドリソースのクラスター: "
+      mapping_provider: マッピングをクラスタリソースプロバイダーに追加
+      mapping_realm: マッピングをクラウドリソースクラスターに追加
+      provider_accounts_mapped_to_realm: "クラウドリソースクラスター %{name} にマッピングされているプロバイダーのアカウント: "
+      realm_mapped_providers: "クラウドリソースクラスター %{name} は次のプロバイダーにマッピングされています: "
+      realm_mapped_realms: "クラウドリソースクラスター %{name} は次のプロバイダーリソースクラスターにマッピングされています: "
+    new:
+      create_realm: 新規のクラウドリソースクラスターを作成
+    new_realm: 新規のクラウドリソースクラスター
+    preset_filters:
+      all_realms: すべてのクラウドリソースクラスター
+    properties:
+      realm_details: クラウドリソースクラスターの詳細
+      realm_name: クラウドリソースクラスター名
+    realms: クラウドリソースのクラスター
+    show:
+      realm_mapping: クラウドリソースクラスターのマッピング
+  updates: 更新
+  user_sessions:
+    security:
+      message: "%{host} 上の CloudForms Cloud Engine への接続は現在安全あり、 SSL を使用して暗号化されています (不明な強度)。"
+      message_unencrypted: "%{host} 上の CloudForms Cloud Engine への接続は現在、 暗号化されていません。 機密情報が盗用される可能性があります。"
