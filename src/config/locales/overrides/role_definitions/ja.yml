@@ -1,0 +1,29 @@
+ja:
+  role_defs:
+    base:
+      deployable:
+        admin: グローバルのアプリケーション設計図管理者
+        user: グローバルのアプリケーション設計図ユーザー
+      hwp:
+        admin: グローバルのプロファイル管理者
+        user: グローバルのプロファイルユーザー
+      pool:
+        admin: グローバルのゾーン管理者
+        user: グローバルのゾーンユーザー
+      realm:
+        admin: グローバルのクラスター管理者
+    deployable:
+      owner: アプリケーション設計図の所有者
+    deployment:
+      owner: アプリケーションの所有者
+      user: アプリケーションのユーザー
+    pool:
+      admin: ゾーン管理者
+      deployable:
+        admin: ゾーンアプリケーション設計図の管理者
+      user: ゾーンのユーザー
+    pool_family:
+      admin: クラウドの管理者
+      image:
+        admin: クラウドイメージの管理者
+      user: クラウドのユーザー
