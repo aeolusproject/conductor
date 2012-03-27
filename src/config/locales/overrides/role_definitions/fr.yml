@@ -1,0 +1,29 @@
+fr:
+  role_defs:
+    base:
+      deployable:
+        admin: "Administrateur de plans d'application globaux"
+        user: "Utilisateur de plans d'application globaux"
+      hwp:
+        admin: "Administrateur de profils globaux"
+        user: "Utilisateur de profils globaux"
+      pool:
+        admin: "Administrateur de zones globales"
+        user: "Utilisateur de zones globales"
+      realm:
+        admin: "Administrateur de clusters globaux"
+    deployable:
+      owner: "Propriétaire de plans d'application"
+    deployment:
+      owner: "Propriétaire d'applications"
+      user: "Utilisateur d'applications"
+    pool:
+      admin: "Administrateur de zones"
+      deployable:
+        admin: "Administrateur de plans d'application de zones"
+      user: "Utilisateur de zones"
+    pool_family:
+      admin: "Administrateur cloud"
+      image:
+        admin: "Administrateur d'images cloud"
+      user: "Utilisateur cloud"
