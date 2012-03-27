@@ -1,10 +1,10 @@
 %header
   %h2=t 'pools.index.your_pools'
-  %span.label.badge.dark.count= @pools.length
+  %span.label.badge.dark.count= @pools.total_entries
 
 .content#pools-list
   - @pools.each do |pool|
-    %div.pool.overview{:id => ['pool', pool.id], :class => ('collapsed' unless pool.deployments.count > 0)}
+    %div.pool.overview{:id => ['pool', pool.id], :class => ('collapsed' unless pool.deployments.size > 0)}
       %header
         %h3.name
           = link_to pool.name, pool
@@ -12,10 +12,10 @@
           %ul.groups
             %li
               %dt=t 'deployments.deployments'
-              %dd.count.deployment= pool.deployments.count
+              %dd.count.deployment= pool.deployments.size
             %li
               %dt=t 'instances.instances.other'
-              %dd.count.instance= pool.instances.count
+              %dd.count.instance= pool.instances.size
               %dd.count.instance.pending= pool.instances.select {|i| i.state == Instance::STATE_PENDING }.length
               %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR || i.state == Instance::STATE_CREATE_FAILED }.length
             %li
@@ -25,15 +25,19 @@
         %a.control{:href => '#'}
           %span Expand/Collapse
       %div.content
-        = render :partial => 'deployments', :locals => {:pool => pool, :deployments => pool.deployments.list_for_user(current_user, Privilege::VIEW).ascending_by_name}
+        - deployments = pool.deployments.includes(:owner, :pool, :instances, :events).list_for_user(current_user, Privilege::VIEW).ascending_by_name.paginate(:page => params[:page], :per_page => PER_PAGE)
+        = render :partial => 'deployments', :locals => {:pool => pool, :deployments => deployments}
       %ul.content.actions
         %li
-          = link_to ("#{html_escape(pool.name)} " + "#{t'pools.index.pool_details'}" + " &raquo;").html_safe, pool_path(pool), :class =>'pool_details'
+          - pool_details_label = deployments.total_pages > 1 ? t('pools.index.not_all_deployments_displayed_alert_html', :name => pool.name) : t('pools.index.pool_details_html', :name => pool.name)
+          = link_to(pool_details_label, pool_path(pool), :class =>'pool_details')
         %li
           - if check_privilege(Privilege::CREATE, Deployment, pool)
             = link_to t('deployments.new_deployment'), launch_new_deployments_path(:pool_id => pool.id), :class => 'button primary', :id => 'new_deployment_button'
         %li.catalog_link
           = render :partial => 'layouts/catalog_dropdown', :locals => {:catalogs => pool.catalogs}
+
+  = render_pagination(@pools)
 
 :javascript
   $(document).ready(function() {

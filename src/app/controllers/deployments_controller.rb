@@ -187,9 +187,13 @@ class DeploymentsController < ApplicationController
     if filter_view?
       @view = 'instances/list'
       params[:instances_preset_filter] = "" unless params[:instances_preset_filter]
-      @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list(sort_column(Instance), sort_direction).where("instances.deployment_id" => @deployment.id)
+      @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
+                            list(sort_column(Instance), sort_direction).where("instances.deployment_id" => @deployment.id).
+                            paginate(:page => params[:page], :per_page => PER_PAGE)
     else
       @view = 'pretty_view_show'
+      @instances = Instance.list(sort_column(Instance), sort_direction).where("instances.deployment_id" => @deployment.id).
+                            paginate(:page => params[:page], :per_page => PER_PAGE)
     end
     #TODO add links to real data for history, permissions, services
     @tabs = [{:name => t('instances.instances.other'), :view => @view, :id => 'instances', :count => @deployment.instances.count, :pretty_view_toggle => 'enabled'},
@@ -379,7 +383,12 @@ class DeploymentsController < ApplicationController
       { :name => t("providers.provider"), :sortable => false }
     ]
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
-    @deployments = Deployment.includes(:owner).apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).list_for_user(current_user, Privilege::VIEW).where('deployments.pool_id' => @pools).order(sort_column(Deployment, "deployments.name") +' '+ sort_direction).paginate(:page => params[:page] || 1)
+    @deployments = Deployment.includes(:owner, :pool, :instances).
+                              apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
+                              list_for_user(current_user, Privilege::VIEW).
+                              where('deployments.pool_id' => @pools).
+                              order(sort_column(Deployment, "deployments.name") +' '+ sort_direction).
+                              paginate(:page => params[:page], :per_page => PER_PAGE)
   end
 
   def count_additional_quota(deployment)
@@ -401,7 +410,7 @@ class DeploymentsController < ApplicationController
   end
 
   def init_new_deployment_attrs
-    @deployables = Deployable.list_for_user(current_user, Privilege::USE).select{|d| d.catalogs.collect {|c| c.pool}.include?(@pool)}
+    @deployables = Deployable.includes({:catalogs => :pool}).list_for_user(current_user, Privilege::USE).select{|d| d.catalogs.collect{|c| c.pool}.include?(@pool)}
     @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
     @deployable = params[:deployable_id] ? Deployable.find(params[:deployable_id]) : nil
     @realms = FrontendRealm.all

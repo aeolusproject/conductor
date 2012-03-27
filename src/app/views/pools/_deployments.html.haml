@@ -5,13 +5,13 @@
         %li.deployment
           %h3.name
             = link_to deployment.name, deployment_path(deployment)
-          %span{ :class => "status #{deployment.status}", :title => deployment.as_json[:status_description]}
+          %span{ :class => "status #{deployment.status}", :title => t("deployments.status.#{deployment.status}")}
             = deployment.status
           %dl.statistics
             %ul
               %li.right
                 %dt.instances.count= t 'instances.instances.other'
-                %dd= deployment.instances.count || 0
+                %dd= deployment.instances.size || 0
 
               %li.left
                 %dt=t :uptime

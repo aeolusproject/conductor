@@ -66,9 +66,6 @@ class Instance < ActiveRecord::Base
   end
   include PermissionedObject
 
-  cattr_reader :per_page
-  @@per_page = 15
-
   belongs_to :pool
   belongs_to :pool_family
   belongs_to :provider_account
@@ -123,14 +120,13 @@ class Instance < ActiveRecord::Base
   scope :deployed,  :conditions => { :state => [STATE_RUNNING, STATE_SHUTTING_DOWN] }
   # FIXME: "pending" is misleading as it doesn't just cover STATE_PENDING
   scope :pending,   :conditions => { :state => [STATE_NEW, STATE_PENDING] }
+  scope :pending_or_deployed,   :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING, STATE_SHUTTING_DOWN] }
   # FIXME: "failed" is misleading too...
   scope :failed,    :conditions => { :state => FAILED_STATES }
   scope :stopped,   :conditions => {:state => STATE_STOPPED}
   scope :not_stopped, :conditions => "state <> 'stopped'"
   scope :stopable,    :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING] }
   scope :stoppable_inaccessible,    :conditions => { :state => STOPPABLE_INACCESSIBLE_STATES }
-  scope :ascending_by_name, :order => 'instances.name ASC'
-
 
   SEARCHABLE_COLUMNS = %w(name state)
 
@@ -344,7 +340,7 @@ class Instance < ActiveRecord::Base
   end
 
   def failed?
-    state == Instance::STATE_CREATE_FAILED || state == Instance::STATE_ERROR
+    FAILED_STATES.include?(state)
   end
 
   def requires_config_server?
@@ -407,7 +403,7 @@ class Instance < ActiveRecord::Base
     return [[], errors] unless errors.empty?
 
     matched = []
-    pool.pool_family.provider_accounts.ascending_by_priority.each do |account|
+    pool.pool_family.provider_accounts_by_priority.each do |account|
       account.instance_matches(self, matched, errors)
     end
 
@@ -481,6 +477,14 @@ class Instance < ActiveRecord::Base
 
   def deployed?
     [STATE_RUNNING, STATE_SHUTTING_DOWN].include?(state)
+  end
+
+  def stopped?
+    [STATE_STOPPED].include?(state)
+  end
+
+  def pending?
+    [STATE_NEW, STATE_PENDING].include?(state)
   end
 
   def uptime

@@ -23,7 +23,7 @@ SimpleNavigation::Configuration.run do |navigation|
       second_level.item :users, t('navigation.second_level.users'), users_path, :link => { :class => 'users' }, :highlights_on => /\/users|\/roles|\/permissions|\/account/
       second_level.item :environments, t('navigation.second_level.environments'), pool_families_path, :link => { :class => 'environments' }, :highlights_on => /\/pool_families|\/images/
       second_level.item :content, t('navigation.second_level.content'), catalogs_path, :link => { :class => 'content' }, :highlights_on => /\/catalogs|\/catalog_entries|\/realms|\/hardware_profiles|\/realm_mappings|\/deployables/
-      second_level.item :cloud_providers, t('navigation.second_level.cloud_providers'), providers_path, :link => { :class => 'providers' }, :highlights_on => /\/providers|\/provider_realms/
+      second_level.item :cloud_providers, t('navigation.second_level.cloud_providers'), providers_path, :link => { :class => 'providers' }, :highlights_on => /\/providers|\/provider_realms|\/config_servers/
       second_level.item :settings, t('navigation.second_level.settings'), settings_path, :link => { :class => 'settings'}, :highlights_on => /\/settings/
     end
   end

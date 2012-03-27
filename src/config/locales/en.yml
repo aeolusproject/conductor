@@ -432,7 +432,8 @@ en:
       confirm_delete: "Are you sure you want to delete this pool? All related catalogs and deployables will be deleted too!"
       overview: Overview
       your_pools: Your Pools
-      pool_details: Pool details
+      pool_details_html: "%{name} Pool details &raquo;"
+      not_all_deployments_displayed_alert_html: "Not all deployments are displayed! Go to %{name} Pool details for more! &raquo;"
       global_uptime: Global uptime
       destroy: Destroy
     images:

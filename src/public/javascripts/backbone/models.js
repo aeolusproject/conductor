@@ -2,12 +2,15 @@ Conductor.Models = Conductor.Models || {}
 
 
 Conductor.Models.Pool = Backbone.Model.extend({
-  urlRoot: Conductor.prefixedPath('/pools'),
-
   initialize: function() {
     this.deployments = new Conductor.Models.Deployments().filter(function(attributes) {
       return attributes.pool.id == this.id;
     });
+  },
+  queryParams: {},
+  url: function() {
+    var path = Conductor.prefixedPath('/pools/'  + this.id);
+    return Conductor.parameterizedPath(path, this.queryParams);
   }
 });
 
@@ -50,12 +53,15 @@ Conductor.Models.Deployable = Backbone.Model.extend({
 
 Conductor.Models.Deployment = Backbone.Model.extend({
   urlRoot: Conductor.prefixedPath('/deployments'),
-
+  queryParams: {},
   initialize: function() {
     this.instances = new Conductor.Models.Instances();
-    this.instances.url = this.urlRoot + '/' + this.id + '/instances';
+    var self = this;
+    this.instances.url = function() {
+        var path = Conductor.prefixedPath(self.urlRoot + '/' + self.id + '/instances');
+        return Conductor.parameterizedPath(path, self.queryParams);
+    };
   }
-
 });
 
 Conductor.Models.Deployments = Backbone.Collection.extend({

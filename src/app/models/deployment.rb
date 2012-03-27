@@ -419,10 +419,11 @@ class Deployment < ActiveRecord::Base
 
     json[:owner] = owner.name if owner.present?
 
-    if provider
+    deployment_provider = provider
+    if deployment_provider
       json[:provider] = {
-        :name => provider.provider_type.name,
-        :id => provider.id,
+        :name => deployment_provider.provider_type.name,
+        :id => deployment_provider.id,
       }
     end
 
@@ -490,7 +491,8 @@ class Deployment < ActiveRecord::Base
       errors = e.map {|e| "#{instance.name}: #{e}"}
       m
     end
-    pool.pool_family.provider_accounts.ascending_by_priority.each do |account|
+
+    pool.pool_family.provider_accounts_by_priority.each do |account|
       matches_by_account = all_matches.map do |m|
         m.find {|m| m.provider_account.id == account.id}
       end

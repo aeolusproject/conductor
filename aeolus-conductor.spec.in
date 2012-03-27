@@ -107,7 +107,6 @@ Requires: aeolus-configure
 Requires: imagefactory
 Requires: imagefactory-jeosconf-ec2-fedora
 Requires: imagefactory-jeosconf-ec2-rhel
-Requires: qpid-cpp-server
 Requires: rubygem(aeolus-image)
 Requires: rubygem(aeolus-cli)
 Requires: mongodb-server

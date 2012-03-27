@@ -27,6 +27,7 @@
     });
 
 = filter_table(@deployments_header, @deployments) do |deployment|
+  - deployment_provider = deployment.provider
   %tr{ :class => cycle('nostripe', 'stripe') }
     %td{:class => 'checkbox'}
       - selected = params[:select] == 'all'
@@ -36,14 +37,15 @@
     %td= deployment.created_at
     %td= deployment.deployable_xml.name
     %td= deployment.status
-    %td{:class => 'center'}= deployment.instances.count
+    %td{:class => 'center'}= deployment.instances.size
     %td= link_to deployment.pool.name, pool_path(deployment.pool, :view => :filter)
     %td= owner_name(deployment)
-    %td= link_to(deployment.provider.provider_type.name, deployment.provider) if deployment.provider
+    %td= link_to(deployment_provider.provider_type.name, deployment_provider) if deployment_provider
+
 :javascript
   Conductor.setupPrettyFilterURL(
-    '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter' )}',
-    '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty' )}'
+    '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter', :page => params[:page])}',
+    '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty', :page => params[:page])}'
   );
 
 %script#deploymentTemplate{ :type => 'text/x-jquery-tmpl' }

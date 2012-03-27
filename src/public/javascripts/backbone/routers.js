@@ -36,6 +36,7 @@ Conductor.Routers.Pools = Backbone.Router.extend({
     setInterval(function() {
       var pool = new Conductor.Models.Pool({ id: id });
       var view = new Conductor.Views.PoolsShow({ model: pool });
+      pool.queryParams = view.queryParams();
 
       if(view.currentTab() !== 'deployments') return;
 
@@ -47,11 +48,7 @@ Conductor.Routers.Pools = Backbone.Router.extend({
 
 Conductor.Routers.Deployments = Backbone.Router.extend({
   routes: {
-    'deployments': 'index',
     'deployments/:id': 'show'
-  },
-
-  index: function() {
   },
 
   show: function(id) {
@@ -62,6 +59,7 @@ Conductor.Routers.Deployments = Backbone.Router.extend({
       var deployment = new Conductor.Models.Deployment({ id: id });
       var view = new Conductor.Views.DeploymentsShow({ model: deployment,
         collection: deployment.instances });
+      deployment.queryParams = view.queryParams();
 
       if(view.currentTab() !== 'instances') return;
 

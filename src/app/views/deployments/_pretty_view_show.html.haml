@@ -1,5 +1,5 @@
 %ul.instances-array
-  - @deployment.instances.ascending_by_name.each do |instance|
+  - @instances.each do |instance|
     %li.instance
       %h3.name
         = link_to instance.name, instance
@@ -26,10 +26,12 @@
           %li= button_to(t('deployments.pretty_view_show.stop'), stop_instance_path(instance), :disabled => !available_actions.include?(InstanceTask::ACTION_STOP), :class => "button danger")
           %li= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path(instance), :disabled => !available_actions.include?(InstanceTask::ACTION_REBOOT), :class => "button danger")
 
+= render_pagination(@instances)
+
 :javascript
   Conductor.setupPrettyFilterURL(
-            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter' )}',
-            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty' )}');
+            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter', :page => params[:page])}',
+            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty', :page => params[:page])}');
 
 %script#instanceTemplate{:type => 'text/x-jquery-tmpl'}
   :plain

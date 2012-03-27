@@ -1,0 +1,4 @@
+en:
+  will_paginate:
+    next_label: Next &#8594;
+    previous_label: ! '&#8592; Previous'

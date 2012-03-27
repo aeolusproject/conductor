@@ -2,10 +2,11 @@
   - @deployments.in_groups_of(5, false) do |group|
     %ul.deployment-array.large
       - group.each do |deployment|
+        - deployment_provider = deployment.provider
         %li.deployment
           %h3.name
             = link_to deployment.name, deployment_path(deployment)
-          %span{ :class => "status #{deployment.status}", :title => deployment.as_json[:status_description]}
+          %span{ :class => "status #{deployment.status}", :title => t("deployments.status.#{deployment.status}")}
           %dl.statistics
             %ul
               %li.uptime
@@ -19,14 +20,14 @@
               %li.provider
                 %dt.instances.count=t'providers.provider'
                 %dd
-                  %p.provider= deployment.provider.provider_type.name unless deployment.provider.blank?
+                  %p.provider= deployment_provider.provider_type.name unless deployment_provider.blank?
+
+= render_pagination(@deployments)
 
 :javascript
   Conductor.setupPrettyFilterURL(
-            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter' )}',
-            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty' )}');
-
-
+            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter', :page => params[:page])}',
+            '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty', :page => params[:page] )}');
 
 %script#deploymentTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain

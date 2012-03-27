@@ -65,8 +65,6 @@ class Pool < ActiveRecord::Base
 
   before_destroy :destroyable?
 
-  scope :ascending_by_name, :order => 'pools.name ASC'
-
   def cloud_accounts
     accounts = []
     instances.each do |instance|
@@ -80,6 +78,22 @@ class Pool < ActiveRecord::Base
     instances.all? {|i| i.destroyable? }
   end
 
+  def failed_instances
+    instances.select {|instance| instance.failed?}
+  end
+
+  def not_stopped_instances
+    instances.select {|instance| !instance.stopped?}
+  end
+
+  def deployed_instances
+    instances.select {|instance| instance.deployed?}
+  end
+
+  def pending_instances
+    instances.select {|instance| instance.pending?}
+  end
+
   # TODO: Implement Alerts and Updates
   def statistics(user = nil)
     # TODO - Need to set up cache invalidation before this is safe
@@ -87,17 +101,17 @@ class Pool < ActiveRecord::Base
     max = quota.maximum_running_instances
     total = quota.running_instances
     avail = max - total unless max.nil?
-    failed = (user.nil? ? instances.failed :
-              instances.failed.list_for_user(user, Privilege::VIEW))
+    failed = (user.nil? || failed_instances.empty? ? failed_instances :
+              failed_instances.list_for_user(user, Privilege::VIEW))
     statistics = {
-      :cloud_providers => instances.collect{|i| i.provider_account}.uniq.count,
-      :deployments => deployments.count,
-      :total_instances => instances.not_stopped.count,
-      :instances_deployed => instances.deployed.count,
-      :instances_pending => instances.pending.count,
+      :cloud_providers => instances.includes(:provider_account).collect{|i| i.provider_account}.uniq.count,
+      :deployments => deployments.size,
+      :total_instances => not_stopped_instances.count,
+      :instances_deployed => deployed_instances.count,
+      :instances_pending => pending_instances.count,
       :instances_failed => failed,
       :instances_failed_visible_count => failed.count,
-      :instances_failed_count => instances.failed.count,
+      :instances_failed_count => failed_instances.count,
       :used_quota => quota.running_instances,
       :quota_percent => number_to_percentage(quota.percentage_used,
                                              :precision => 0),
@@ -123,7 +137,9 @@ class Pool < ActiveRecord::Base
     })
 
     if options[:with_deployments]
-      result[:deployments] = deployments.list_for_user(options[:current_user], Privilege::VIEW).map {|d| d.as_json}
+      result[:deployments] = deployments.list_for_user(options[:current_user], Privilege::VIEW).
+                                         paginate(:page => options[:page], :per_page => options[:per_page]).
+                                         map {|d| d.as_json}
     end
 
     result

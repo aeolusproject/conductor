@@ -229,6 +229,7 @@ class ApplicationController < ActionController::Base
 
   def clear_breadcrumbs
     session[:breadcrumbs] = []
+    session[:viewstates] = {}
   end
 
   def save_breadcrumb(path, name = controller_name)
