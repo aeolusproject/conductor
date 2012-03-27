@@ -1,15 +1,6 @@
 fr:
   about: "À propos"
   accounts: Comptes
-  activerecord:
-    attributes:
-      realm_backend_target:
-        provider: "Fournisseurs de ressources cloud"
-        realm: "Cluster de ressources cloud"
-        realm_or_provider: "Fournisseurs ou cluster de ressources cloud"
-    models:
-      provider: "Fournisseurs de ressources cloud"
-      realm: "Cluster de ressources cloud"
   add: Ajouter
   administration: Administration
   advanced_search: "Recherche avancée"
@@ -18,13 +9,16 @@ fr:
   alerts_label: Alertes
   api:
     error_messages:
-      build_not_found: "Impossible de trouver la version %{build}"
+      account_not_found_in_environment: "Le compte fournisseur %{account} ne se trouve pas dans cet environnement. Les comptes valides incluent %{accounts}."
+      build_not_found: "Impossible de trouver le build %{build}"
+      environment_not_found: "L'environnement %{environment} est introuvable."
+      environment_required: "Un paramètre d'environnement est requis."
       image_not_found: "Impossible de trouver l'image %{image}"
       image_not_found_on_provider: "Impossible de trouver l'image %{image} sur le fournisseur"
       in_grabbing_target_images: "En saisissant la liste des images cibles : %{error}"
       insufficient_privileges: "Privilèges insuffisants pour effectuer l'action demandée."
-      invalid_parameters_for_account_and_target_image: "Paramètres invalides pour le compte : %{account} TargetImage: %{targetimage}"
-      invalid_template: "Modèle du composant invalide : %{errors}"
+      invalid_parameters_for_account_and_target_image: "Paramètres invalides pour le compte : %{account} TargetImage : %{targetimage}"
+      invalid_template: "Modèle invalide : %{errors}"
       no_image_build_or_target_image: "Paramètres invalides : Image, Build ou TargetImage n'a pas été fourni dans la requête"
       no_matching_target_image: "Aucune image cible (Target Image) correspondante n'a été trouvée"
       no_provider_account_given: "Aucun compte fournisseur fourni"
@@ -33,10 +27,12 @@ fr:
       provider_image_status_not_found: "Statut de ProviderImage %{providerimage} introuvable"
       push_error: "Impossible de pousser TargetImage %{targetimage} vers %{account} et erreur %{error}"
       specify_a_type_build_or_import: "Veuillez spécifier un type, un build ou un import"
+      specify_environment: "Veuillez spécifier un environnement"
       target_image_not_found: "TargetImage %{targetimage} introuvable"
       target_image_not_found_for_account: "Image cible (target image) introuvable pour le compte %{account}"
       target_image_status_not_found: "Statut de TargetImage %{targetimage} introuvable"
       target_not_found: "Target %{target} introuvable"
+      target_not_found_in_environment: "Target %{target} ne possède pas de comptes fournisseurs dans cet environnement. Les cibles valides incluent %{targets}."
   application_controller:
     access_denied: "Accès refusé"
     action_error: "Erreur d'action"
@@ -44,10 +40,10 @@ fr:
       catalogs: Catalogues
       groups: Groupes
       hardware: Matériel
-      images: "Modèles des composants"
-      permissions: "Permissions de rôles globaux"
-      pool_families: Clouds
-      realms: "Clusters de ressources cloud"
+      images: Images
+      permissions: "Octrois de rôles globaux"
+      pool_families: "Gammes de pools"
+      realms: Sphères
       users: Utilisateurs
     flash:
       notice:
@@ -55,7 +51,7 @@ fr:
         must_not_be_logged: "Vous devez être déconnecté pour accéder à cette page"
         record_not_exist: "L'archive que vous avez tenté d'accéder n'existe pas, elle pourrait avoir été supprimée"
     internal_server_error: "Erreur de serveur interne"
-    permission_denied: "Privilèges sont insuffisants pour effectuer l'action sélectionnée."
+    permission_denied: "Vos privilèges sont insuffisants pour effectuer l'action sélectionnée."
     some_actions_failed: "Certaines actions ont échoué"
   apply: Appliquer
   apply_treatment: "Appliquer le traitement de l'utilisateur"
@@ -64,14 +60,14 @@ fr:
   back: Retour
   breadcrumbs:
     catalogs: Catalogues
-    deployables: "Plans des applications"
-    deployments: Applications
-    hardware_profiles: "Profils des ressources cloud"
+    deployables: Déployables
+    deployments: Déploiements
+    hardware_profiles: "Profils matériel"
     instances: Instances
-    pool_families: Clouds
-    pools: "Zones de ressources cloud"
-    provider_realms: "Clusters de ressources cloud"
-    realms: "Clusters de ressource cloud"
+    pool_families: "Gammes de pools"
+    pools: Pools
+    provider_realms: "Sphères de fournisseurs"
+    realms: Sphères
     roles: Rôles
     users: Utilisateurs
   browse_objects: "Rechercher des objets"
@@ -80,35 +76,36 @@ fr:
   cancel: Annuler
   catalog_entries:
     edit:
-      editing_catalog_entry:  "Modifier le plan d'une application"
+      editing_catalog_entry: "Modifier un déployable"
     flash:
       notice:
-        added:  "Plan de l'application ajouté au catalogue %{catalog}."
-        deleted: "Plan de l'application supprimé du catalogue %{catalog}."
-        updated: "Mise à jour du plan de l'application réussie !"
+        added: "Déployable ajouté au catalogue %{catalog}."
+        deleted: "Déployable supprimé du catalogue %{catalog}."
+        updated: "Mise à jour du déployable réussie !"
       warning:
-        failed: "Le plan de l'application n'a pas été créé."
-        no_url_provided: "Aucun URL fourni pour le fichier XML du plan de l'application."
-        not_valid: "L'URL du plan de l'application ne résout pas un fichier XML valide"
-        not_valid_or_reachable: "Le fichier XML du plan de l'application est soit invalide ou ne peut plus être joint sur"
+        failed: "Le déployable n'a pas été créé."
+        no_url_provided: "Aucun URL fourni pour le fichier XML déployable."
+        not_valid: "Le fichier XML déployable ne résout pas de XML valide"
+        not_valid_duplicate_assembly_names: "Le XML déployable doit contenir des noms d'Assembly uniques"
+        not_valid_or_reachable: "Le fichier XML déployable est soit invalide ou n'est plus joignable sur %{url}"
     index:
-      catalog_entries: "Plans des applications"
-      catalog_entry: "Plan d'application"
-      deployable_xml: "XML du plan de l'application"
+      catalog_entries: Déployables
+      catalog_entry: Déployable
+      deployable_xml: "XML du déployable"
       name: Nom
     list:
-      catalog_entries_list: "Liste des plans des applications"
+      catalog_entries_list: "Liste des déployables"
     new:
-      add_catalog_entry: "Ajouter un nouveau plan d'application"
+      add_catalog_entry: "Ajouter un nouveau déployable"
       catalog_detail: "Catalogue %{name}"
-      choose_option_to_upload: "Choisissez l'une des options suivantes pour télécharger le fichier XML du plan de l'application"
+      choose_option_to_upload: "Choisissez l'une des options suivantes pour télécharger le fichier XML déployable"
       from_url: "Depuis l'URL"
-      hw_profile: "Profil de ressources cloud par défaut"
+      hw_profile: "Profil du matériel par défaut"
       name: Nom
       upload: Télécharger
-    new_catalog_entry: "Nouveau plan d'application"
+    new_catalog_entry: "Nouveau déployable"
     preset_filters:
-      all_catalog_entries: "Tous les plans des applications"
+      all_catalog_entries: "Tous les déployables"
     show:
       build: Build
       catalogs: Catalogues
@@ -116,14 +113,14 @@ fr:
       delete: Supprimer
       edit: Modifier
       edit_xml: "Modifier le XML"
-      image: "Modèle du composant"
+      image: Image
       rebuild_all: "Reconstruire toutes les images"
       roles: Rôles
       start: Démarrer
   catalog_images: "Images de catalogue"
   catalogs:
     catalog_list:
-      no_catalogs: "-- Aucun Catalogue --"
+      no_catalogs: "-- Aucun catalogue --"
     catalogs: Catalogues
     edit:
       cancel_editing: "Annuler les modifications"
@@ -131,12 +128,12 @@ fr:
     flash:
       error:
         not_deleted:
-          one: "Le catalogue %{not_deleted} ne peut pas être supprimé ! Un plan d'application possède la dernière référence à ce catalogue !"
-          other: "Les catalogues %{not_deleted} ne peuvent pas être supprimés ! Certains de leurs plans d'applications possèdent la dernière référence à ces catalogues!"
+          one: "Le compte %{list} n'a pas été supprimé. Des instances y sont associées."
+          other: "Les comptes %{list} n'ont pas été supprimés. Des instances leurs sont associées."
         not_deleted_perms:
           one: "Permissions insuffisantes pour supprimer le catalogue %{not_deleted} !"
           other: "Permissions insuffisantes pour supprimer %{count} catalogues %{not_deleted} !"
-        one_not_deleted: "Le catalogue ne peut pas être supprimé ! Un plan d'application possède la dernière référence à ce catalogue!"
+        one_not_deleted: "Le catalogue ne peut pas être supprimé ! Un déployable possède la dernière référence à ce catalogue !"
       notice:
         created:
           one: "Catalogue créé !"
@@ -147,9 +144,9 @@ fr:
         one_deleted: "Catalogue supprimé !"
         updated:
           one: "Mise à jour du catalogue réussie !"
-          other: "Mises à jour des catalogues réussies !"
+          other: "Mise à jour des catalogues réussie !"
     form:
-      select_pool: "Veuillez sélectionner la zone"
+      select_pool: "Sélectionner le pool"
     index:
       catalog_name: "Nom du catalogue"
       name: Nom
@@ -158,207 +155,199 @@ fr:
     new_catalog: "Nouveau catalogue"
     preset_filters:
       all_catalogs: "Tous les catalogues"
-      belongs_to_default_pool:  "Appartient à la zone de ressources cloud par défaut"
+      belongs_to_default_pool: "Appartient au pool par défaut"
   change_password: "Modifier le mot de passe"
   choose: Choisir
   choose_name: "Choisir un nom d'utilisateur"
   choose_password: "Choisir un mot de passe"
   choose_treatment: "Choisir un traitement"
-  cloud_engine_hardware_profiles: "Profils des ressources cloud"
-  cloud_providers: "Fournisseurs de ressources cloud"
+  cloud_engine_hardware_profiles: "Profils de matériel"
+  cloud_providers: "Fournisseurs de cloud"
   config_servers:
     certificate_help: "Fournir un certificat pour activer la prise en charge https"
-    config_server_form:
-      endpoint: "Point de terminaison (URL) du serveur"
-      key: "Clé du consommateur"
-      secret: "Secret du consommateur"
     edit:
       edit_config_server: "Modifier le serveur de configuration"
     errors:
       connection:
         generic: "Impossible de valider la connexion du serveur de configuration (url: %{url}). Veuillez vérifier les paramètres de connexion puis essayez à nouveau."
         generic_with_message: "Impossible de valider la connexion du serveur de configuration (url: %{url}). %{msg}"
-        unhandled_response: "Impossible de valider la connexion du serveur de configuration (url: %{url}). Code état HTTP: %{code}"
+        unhandled_response: "Impossible de valider la connexion du serveur de configuration (url: %{url}). Code statut HTTP : %{code}"
     flash:
       error:
-        invalid:  "Les informations du serveur de configuration sont invalides."
-        not_deleted:   "Le serveur de configuration n'a pas été supprimé"
-        not_updated:   "Le serveur de configuration n'a pas été mis à jour"
+        invalid: "Les informations du serveur de configuration sont invalides."
+        not_deleted: "Le serveur de configuration n'a pas été supprimé"
+        not_updated: "Le serveur de configuration n'a pas été mis à jour"
       notice:
         added: "Serveur de configuration ajouté."
         deleted: "Le serveur de configuration a été supprimé."
         test_successful: "Test réussi"
         updated: "Serveur de configuration mis à jour."
     new:
-      new_config_server:  "Nouveau serveur de configuration"
+      new_config_server: "Nouveau serveur de configuration"
     section_header:
       config_server: "Serveur de configuration"
   configure: Configurer
   confirm_password: "Confirmer le mot de passe"
-  connection_refused:  "La connexion à l'hôte distant a été refusée."
-  connectivity:  Connectivité
+  connection_refused: "La connexion à l'hôte distant a été refusée."
+  connectivity: Connectivité
   continue: Continuer
   create_account: "Créer un compte"
-  date:
-    formats:
-      default: "%Y-%m-%d"
-      long: "%B %d, %Y"
-      short: "%b %d"
   datetime:
     distance_in_words:
       x_hours:
         one: "1 heure"
         other: "%{count} heures"
+  default_confirm_message: "Êtes-vous certain de vouloir continuer ?"
+  default_none_selected_message: "Veuillez commencer par effectuer une sélection."
   define: Définir
   define_locales: "Définir les paramètres régionaux"
   define_profiles: "Définir les profils"
-  define_services:  "Définir les services"
+  define_services: "Définir les services"
   delete: Supprimer
   deltacloud:
     unreachable: "Deltacloud est injoignable. Veuillez vérifier qu'il est en cours d'exécution."
   deployables:
     error:
       attribute_not_exists: invalide
-      hwp_not_exists: "Le profil de ressource cloud %{name} spécifié dans le XML n'existe pas."
+      hwp_not_exists: "Le profil matériel %{name} spécifié dans le XML n'existe pas."
     flash:
       error:
         attribute_not_exist: "Un ou plusieurs attributs ne se trouvent pas dans le XML, veuillez vérifier le fichier !"
-        no_catalog:  "Aucun catalogue sélectionné"
-        no_catalog_exists:  "Il n'existe pas de catalogue ! Veuillez en créer un."
-        no_hwp_exists: "Il n'existe pas de profil de ressources cloud ! Veuillez en créer un."
+        missing_image: "%{assembly}: l'image (UUID: %{uuid}) n'existe pas"
+        no_catalog: "Aucun catalogue sélectionné"
+        no_catalog_exists: "Il n'existe pas de catalogue ! Veuillez en créer un."
+        no_hwp_exists: "Il n'existe pas de profil matériel ! Veuillez en créer un."
         not_deleted:
-          one: "Échec de la suppression du plan d'application %{not_deleted} !"
-          other: "%{count} plans d'applications %{not_deleted} n'ont pas été supprimés !"
+          one: "La suppression du déployable %{not_deleted} a échoué !"
+          other: "%{count} déployables %{not_deleted} n'ont pas été supprimés !"
         not_deleted_perms:
-          one: "Permissions insuffisantes pour supprimer le plan d'application %{not_deleted} !"
-          other: "Permissions insuffisantes pour supprimer %{count} plans d'applications %{not_deleted} !"
-        not_selected: "Aucun plan d'application n'a été sélectionné !"
+          one: "Permissions insuffisantes pour supprimer le déployable %{not_deleted} !"
+          other: "Les comptes %{list} n'ont pas été supprimés. Des instances leurs sont associées."
+        not_selected: "Aucun déployable n'a été sélectionné !"
+        wrong_environment: "Le déployable '%{deployable}' contient une image (UUID %{uuid}) dans le mauvais environnement ('%{wrong_env}' devrait être '%{environment}') et ne peut pas être utilisé."
       notice:
         deleted:
-          one: "Suppression du plan d'application %{deleted} réussie !"
-          other: "%{count} plans d'applications %{deleted} ont été supprimés !"
+          one: "Suppression du déployable %{deleted} réussie !"
+          other: "%{count} déployables %{not_deleted} ont été supprimés !"
       warning:
-        failed: "Le plan d'application n'a pas été créé : %{message}"
+        failed: "Le déployable n'a pas été créé : %{message}"
     form:
       cancel: Annuler
       catalog: Catalogue
-      choose_xml: "Choisir le fichier XML du plan d'application"
-      deployable_xml: "XML du plan de l'application"
-      deployable_xml_url: "URL du XML du plan de l'application"
-      description: Description
+      choose_xml: "Choisir un fichier XML déployable"
+      deployable_xml: "XML déployable"
+      deployable_xml_url: "URL du XML déployable"
       edit_xml_after_save: "Modifier le fichier XML après l'enregistrement"
       multiple: Aucun
       none: Aucun
       save: Enregistrer
     index:
-      base_deployable: "Plan d'application de base"
+      base_deployable: "Déployable de base"
       deleted:
-        one: "%{list} du plan d'application supprimé."
-        other: " %{list} des plans d'applications supprimés."
-      deployable_definition: "Définition du plan d'application"
-      deployable_url: "URL du plan d'application"
-      deployable_url_subtext: "(doit être un URL valide comprenant http://)"
-      deployables: "Plans des applications"
+        one: "Le déployable %{list} a été supprimé."
+        other: "Les déployables %{list} ont été supprimés."
+      deployable_definition: "Définition du déployable"
+      deployable_url: "URL du déployable"
+      deployable_url_subtext: "(doit être un URL valide comprenant http: //)"
+      deployables: Déployables
       description: Description
       name: Nom
       not_deleted:
-        one: "%{list} du plan d'application n'a pas été supprimé. Des applications y sont associées."
-        other: "%{list} des plans d'applications n'ont pas été supprimés. Des applications y sont associées."
+        one:  "Le compte %{list} n'a pas été supprimé. Des instances y sont associées."
+        other:  "Les comptes %{list} n'ont pas été supprimés. Des instances leurs sont associées."
       state: État
     new:
       no_catalog_selected: "aucun catalogue sélectionné"
     new_from_image:
       catalog_entry_name: "%{name}"
-      description: "La création d'un plan d'application depuis le modèle du composant « %{name} » lui permettra d'être construit et lancé. Choisissez simplement un catalogue dans lequel stocker le plan de l'application, puis définissez un profil des ressources cloud par défaut."
+      description: "de la limite du quota des instances en cours d'exécution pour le compte %{name} a été atteint."
       no_available_catalog: "Aucun catalogue"
-      title: "Créer un plan d'application"
+      title: "Créer un déployable"
     properties:
-      edit_deployable_xml: "Modifier le XML du plan d'application"
+      edit_deployable_xml: "Modifier le XML du déployable"
     show:
       add_catalog: "Add +"
       arch: ARCH
-      build: Build
-      build_description: "Autoriser le(s) modèle(s) de composant(s) de ce plan d'application à être construits et poussés vers les fournisseurs de ressources cloud en les activant ci-dessous."
       build_missing: "Build manquant"
+      build_status: "Statut du build"
       build_statuses_descriptions:
-        building: "Les modèles des composants sont en cours de construction."
-        not_built: "Les modèles de composant ne sont pas construits"
-        not_pushed: "Certains des modèles de composant ne sont pas poussés"
-        pushed: "Tous les modèles de composant sont poussés et sont récents."
-        pushing: "Les modèles des composants sont en train d'être poussés."
+        building: "Des images sont en cours de construction."
+        not_built: "Des images ne sont pas construites"
+        not_pushed: "Certaines des images ne sont pas envoyées"
+        pushed: "Toutes les images sont envoyées et sont récentes."
+        pushing: "Des images sont envoyées."
       catalog_name: "Nom du catalogue"
-      choose_catalog: "Choisissez un catalogue pour activer l'accès :"
+      choose_catalog: "Choisissez un catalogue pour activer l'accès : "
       delete: Supprimer
       edit: Modifier
       edit_xml: "Modifier le XML"
-      environment: Cloud
+      environment: Environnement
       hdd: HDD
-      hw_profile: "Profil des ressources cloud"
-      image_uuid: "UUID du modèle du composant :"
-      images: "Modèles de composants"
-      images_valid: "Modèles de composants valides"
-      latest_build_uuid: "Dernier UUID de build :"
+      hw_profile: "Profil HW"
+      image_uuid: "UUID de l'image"
+      images: Images
+      images_valid: "Images valides"
+      latest_build_uuid: "UUID du dernier build : "
       launch: Lancer
-      missing_images: "Modèles de composants manquant à l'entrepôt d'images"
+      missing_images: "Images manquantes dans le Image Warehouse"
       n_a: N/A
       name: Nom
-      push_all: "Pousser les modèles de composants manquants"
-      push_missing: "Pousser les absents"
+      push_all: "Envoyer les images manquantes"
+      push_missing: "Envoyer les absents"
       ram: RAM
-      rebuild_all: "Construire les modèles de composants manquants"
-      repair_images: "Réparer les modèles de composants"
+      rebuild_all: "Construire les images manquantes"
+      repair_images: "Réparer les images"
       show_hide_uuids: Afficher/cacher
       start: Démarrer
-      target_images_uuids: "UUID des images cibles :"
+      target_images_uuids: "UUID des images cibles : "
       uuids: UUID
   deployments:
-    confirm_delete: "Êtes-vous certain de vouloir supprimer cette application ?"
-    deployment: Application
-    deployment_details: "Détails de l'application"
-    deployment_name: "Nom de l'application"
-    deployment_name_subtext: "(identifie de manière unique votre application)"
-    deployments: Applications
+    confirm_delete: "Êtes-vous certain de vouloir supprimer ce déploiement ?"
+    deployment: Déploiement
+    deployment_details: "Détails du déploiement"
+    deployment_name: "Nom du déploiement"
+    deployment_name_subtext: "(identifie votre déploiement de manière unique)"
+    deployments: Déploiements
     edit:
-      edit_deployment: "Modifier l'application"
+      edit_deployment: "Modifier le déploiement"
     errors:
       all_stopped: "Toutes les instances doivent être arrêtées ou en cours d'exécution"
       cannot_stop: "l'action stop ne peut pas être effectuée sur cette instance."
       config_server_connection: "Connexion au serveur de configuration impossible"
-      not_valid_deployable_xml: "semble ne pas être un XML de plan d'application valide : %{msg}"
-      stop_invalid_action: "stop est une action invalide."
+      not_valid_deployable_xml: "semble ne pas être un XML déployable valide : %{msg}"
     flash:
       error:
-        failed_to_launch_assemblies: "Échec du lancement des plans d'applications suivants :"
-        none_selected: "Vous devez sélectionner une ou plusieurs applications."
+        failed_to_launch_assemblies: "Échec du lancement des Assemblies suivantes : "
+        none_selected: "Vous devez sélectionner un ou plusieurs déploiement(s)."
         not_deleted:
-          one: "L'application %{list} n'a pas pu être supprimée."
-          other: "Les applications %{list} n'ont pas pu être supprimées."
-        not_launched: "Certains plans de composants ne seront pas lancés :"
+          one: "Le déploiement %{list} n'a pas pu être supprimé."
+          other: "Les déploiements %{list} n'ont pas pu être supprimés."
+        not_launched: "Certaines Assemblies ne seront pas lancées : "
         not_updated:
-          one: "L'application %{list} n'a pas pu être mise à jour."
-          other: "Les applications %{list} n'ont pas pu être mises à jour."
+          one: "Le déploiement %{list} n'a pas pu être mis à jour."
+          other: "Les déploiements %{list} n'ont pas pu être mis à jour."
       notice:
-        launched: "Application lancées."
-        stop: "l'action stop a été mise en file d'attente avec succès."
+        launched: "Déploiement lancé."
+        stop: "mise en attente de l'action stop réussie."
       success:
         deleted:
-          one: "La suppression de l'application %{list} a été planifiée."
-          other: "La suppression des applications %{list} a été planifiée."
+          one: "La suppression du déploiement %{list} a été planifiée."
+          other: "La suppression des déploiements %{list} a été planifiée."
         updated:
-          one: "L'application %{list} a correctement été mise à jour."
-          other: "Les applications %{list} ont correctement été mises à jour."
+          one: "Le déploiement %{list} a correctement été mis à jour."
+          other: "Les déploiements %{list} ont correctement été mis à jour."
       warning:
         deployable_not_selected: "Vous devez sélectionner un déployable"
-        disabled_pool: "Le lancement d'une application est impossible dans cette zone de ressources cloud. Le lancement a été désactivé."
-        failed_to_launch: "Échec du lancement de l'application !"
+        disabled_pool: "Impossible de lancer un déploiement dans ce pool. Le pool a été désactivé."
+        failed_to_launch: "Le lancement du déploiement a échoué !"
     launch_from_catalog:
       arch: ARCH
-      deployable_xml: "XML du plan de l'application"
+      deployable_xml: "XML déployable"
       details: Détails
       hdd: HDD
-      hint: "Choisissez un plan d'application à lancer dans la zone des ressources cloud « %{pool} »"
-      image_id: "ID du modèle de composant"
-      no_catalog_entry: "Aucun plan d'application disponible. Veuillez en ajouter un avant tout !"
+      hint: "Choisir un déployable à lancer dans le pool \"%{pool}\""
+      image_id: "ID de l'image"
+      no_catalog_entry: "Aucun déployable disponible. Veuillez commencer par en ajouter un !"
       profile: Profil
       ram: RAM
       select: Sélectionner
@@ -369,47 +358,48 @@ fr:
       name_available: "Nom disponible"
       next: Suivant
       other: autre
-      to_pool:  "sur la zone de ressources cloud %{name}"
+      to_pool: "sur le pool %{name}"
     launch_time_params:
-      configure_launch_time_params: "Configurer les paramètres de lancement pour votre application :"
+      configure_launch_time_params: "Configurer les paramètres de lancement pour le déploiement : "
       finalize: Finaliser
       reference: "Référence au paramètre de retour de %{assembly} : %{parameter}"
+      title: "Paramètres de lancement"
     list:
       delete_selected: "Supprimer la sélection"
       stop_selected: "Arrêter la sélection"
-    list_of_events: "Liste des événements de l'application"
+    list_of_events: "Liste des événements du déploiement"
     new:
+      asseblies_name: "Nom de l'Assembly"
       build_id: "ID de build"
-      deployable_definition: "Définition du plan d'application"
-      deployable_details: "Détails du plan d'application"
-      description: "Description :"
-      hardware_profile: "Profil des ressources cloud"
-      image_id: "ID du modèle de composant"
-      launch: "Lancer cette application"
-      name: "Nom :"
+      deployable_definition: "Définition du déployable"
+      deployable_details: "Détails du déployable"
+      description: "Description : "
+      hardware_profile: "Profil matériel"
+      image_id: "ID de l'image"
+      launch: "Lancer ce déploiement"
+      name: "Nom : "
       view: Afficher
-    new_deployment: "Nouvelle application"
+    new_deployment: "Nouveau déploiement"
     operation:
-      count_of_instances: "Décompte des instances :"
-      operational_status: "État opérationnel de"
+      count_of_instances: "Décompte des instances : "
+      operational_status: "Statut opérationnel de"
     overview:
-      confirmation: "Êtes-vous certain de vouloir déployer \"%{deployment}\" sur la zone des ressources cloud %{pool} ? Ce faire utilisera %{quota} de votre quota total d'applications."
-      deployable_uri: "URI du plan de l'application"
-      deployable_xml: "XML du plan de l'application"
+      confirmation: "Êtes-vous certain de vouloir déployer \%{deployment}\ sur le pool %{pool} ? Ce faire utilisera %{quota} de votre quota de déploiement total."
+      deployable_xml: "XML déployable"
       description: Description
-      header: "Déployer \"%{deployment}\" sur la zone des ressources cloud %{pool} ?"
-      image_ids: "ID des modèles de composant"
+      header: "Déployer \"%{deployment}\" sur le pool %{pool} ?"
+      image_ids: "ID des images"
       launch: Lancer
       name: Nom
-      pool_name: "Zone des ressources cloud %{pool}"
+      pool_name: "Pool %{pool}"
     preset_filters:
-      all_deployments: "Toutes les applications"
+      all_deployments: "Tous les déploiements"
     pretty_view_show:
       download_key: "Télécharger la clé"
-      ip_address: "Adresse IP :"
+      ip_address: "Adresse IP : "
       no_ip_address: "-"
       reboot: Redémarrer
-      state: "État :"
+      state: "État : "
       stop: Arrêt
     properties:
       global_uptime: "Temps d'activité global"
@@ -417,14 +407,16 @@ fr:
       uptime_1st_instance: "1ère instance de temps d'activité en cours"
       value: Valeur
     provider_services:
-      list_of_services: "Liste des services requis par l'application"
+      list_of_services: "Liste des services requis par déploiement"
     required_services:
-      list_of_required_services: "Liste des services requis par l'application"
+      list_of_required_services: "Liste des services requis par déploiement"
+    show:
+      name: "Déploiement %{name}"
     state: État
     status:
       pending: "Certaines (mais pas toutes) instances sont en cours d'exécution"
       running: "Toutes les instances sont en cours d'exécution"
-      stopped: "Aucune instance n'est en cours d'exécution"
+      stopped: "Aucune instance n'est actuellement en cours d'exécution"
   edit: Modifier
   edit_user: "Modifier l'utilisateur"
   email: E-mail
@@ -437,45 +429,47 @@ fr:
   general_settings: "Paramètres généraux"
   hardware_profiles:
     create:
-      check_matching_hwp: "Vérifier les profils des ressources cloud correspondants"
+      check_matching_hwp: "Vérifier les profils de matériel correspondants"
     edit:
       cancel_editing: "Annuler les modifications"
-      edit_hwp: "Modifier le profil des ressources cloud"
+      edit_hwp: "Modifier le profil matériel"
     flash:
       error:
-        not_deleted: "Le profil des ressources cloud n'a pas été supprimé !"
+        more_not_deleted:
+          one: "%{not_deleted} n'a pas pu être supprimé"
+          other: "Impossible de supprimer les profils matériel suivants : %{not_deleted}"
+        not_deleted: "Le profil matériel n'a pas été supprimé !"
       notice:
-        deleted: "Le profil des ressources cloud a été supprimé !"
+        deleted: "Le profil matériel a été supprimé !"
         more_deleted:
-          one: "Le profil des ressources cloud %{deleted} a été supprimé !"
-          other: "Les profils des ressources cloud %{deleted} ont été supprimés !"
-        updated: "Profil des ressources cloud mis à jour !"
+          one: "Le profil matériel %{deleted} a été supprimé."
+          other: "Les profils matériels %{deleted} ont été supprimés."
+        updated: "Profil matériel mis à jour !"
       warning:
-        cannot_delete_backend_hwp: "Suppression des profils des ressources cloud de fournisseur impossible"
-        cannot_edit_backend_hwp: "Modification des profils des ressources cloud de fournisseur impossible"
+        cannot_delete_backend_hwp: "Suppression des profils matériel des fournisseurs impossible"
+        cannot_edit_backend_hwp: "Modification des profils matériel des fournisseurs impossible"
     form:
       check_matches: "Vérifier les correspondances"
-      name: Nom
-    hardware: "Profils des ressources cloud"
-    hardware_profile: "Profil des ressources cloud"
-    hardware_profiles: "Profils des ressources cloud"
+    hardware: Matériel
+    hardware_profile: "Profil matériel"
+    hardware_profiles: "Profils de matériel"
     history:
       history: Historique
     index:
       architecture: Architecture
-      hardware_profile_name: "Nom du profil des ressources cloud"
+      hardware_profile_name: "Nom du profil matériel"
       memory: Mémoire
       storage: Stockage
-      virtual_cpu: "CPU virtuel"
+      virtual_cpu: "Processeur virtuel"
     list:
       delete_selected: "Supprimer la sélection"
-      new_hardware: "Nouveau profil des ressources cloud"
+      new_hardware: "Nouveau profil matériel"
     matching_provider_hwp:
-      no_matching_provider_hwp: "Aucun profil de ressources cloud de fournisseur correspondant trouvé"
+      no_matching_provider_hwp: "Aucun profil matériel de fournisseur correspondant trouvé"
     new:
-      new_hwp: "Nouveau profil des ressources cloud"
+      new_hwp: "Nouveau profil matériel"
     preset_filters:
-      all_hardware_profiles: "Tous les profils des ressources cloud"
+      all_hardware_profiles: "Tous les profils de matériel"
       i386architecture: "Architecture i368"
       x86_64architecture: "Architecture x86_64"
     properties_headers:
@@ -484,143 +478,156 @@ fr:
       unit: Unité
     provider_hwp_headers:
       architecture: Architecture
-      hwp_name: "Nom du profil des ressources cloud"
+      hwp_name: "Nom du profil matériel"
       memory: Mémoire
-      provider_name: "Nom du fournisseur des ressources cloud"
+      provider_name: "Nom du fournisseur"
       storage: Stockage
-      virtual_cpu: "CPU virtuel"
+      virtual_cpu: "Processeur virtuel"
     show:
-      matching_hwp: "Profils des ressources cloud de fournisseur correspondants"
+      backend_hwp: "%{name} (Fournisseur)"
+      frontend_hwp: "%{name} (Front End)"
+      matching_hwp: "Profils matériel des fournisseurs correspondants"
     tab_captions:
       history: Historique
-      matching_provider_hwp: "Profils des ressources cloud de fournisseur correspondants"
+      matching_provider_hwp: "Profils matériel des fournisseurs correspondants"
       properties: Propriétés
   hello: Bonjour
   help: Aide
   history: Historique
-  hw_profiles: "Profils des ressources cloud"
-  image_factory: "Usine d'images"
-  image_imports: "Imports des modèles de composant"
+  hw_profiles: "Profils HW"
+  image_factory: "Image Factory"
+  image_imports: "Imports d'images"
   images:
     edit_xml:
       edit: Modifier
       save_and_continue: "Enregistrer et continuer"
-    environment: "Cloud %{environment}"
+    environment: "Environnement : "
+    environment_header: Environnement
     flash:
       error:
         invalid_url: "Impossible de charger l'URL fourni"
-        no_file: "Vous devez spécifier le fichier XML du modèle de composant"
+        no_file: "Vous devez spécifier le fichier XML modèle"
         no_provider_accounts: "Les images ne peuvent pas être construites car aucun compte fournisseur n'est actuellement activé."
-        no_template: "L'image ne possède pas de modèle de composant car elle a été importée."
+        no_provider_accounts_for_import: "Les images ne peuvent pas être importées car aucun compte fournisseur n'est actuellement activé pour cet environnement."
+        no_template: "L'image ne possède pas de modèle car elle a été importée."
       notice:
-        created: "Modèle de composant créé"
-        deleted: "Modèle de composant supprimé"
+        created: "Image créée"
+        deleted: "Image supprimée"
         multiple_deleted:
-          one: "%{count} modèle de composant supprimé"
-          other: "%{count} modèles de composants supprimés"
+          one: "%{count} image supprimée"
+          other: "%{count} images supprimées"
       warning:
-        delete_failed: "Impossible de supprimer le modèle du composant"
-        not_found: "Modèle de composant introuvable"
+        delete_failed: "Suppression de l'image impossible"
+        not_found: "Image introuvable"
     import:
-      blank_id: "L'ID du modèle du composant ne peut pas être vide."
-      image_id: "ID du modèle de composant"
-      image_imported: "Le modèle du composant a été importé avec succès."
-      image_not_imported: "Le modèle du composant n'a pas pu être importé. Vérifiez le journal de l'usine à images pour davantage de détails."
-      import_image: "Importer le modèle du composant"
-      name: "Nom du modèle de composant"
+      blank_id: "L'ID de l'image ne peut pas être vide."
+      image_id: "ID de l'image"
+      image_imported: "L'image a été importée avec succès."
+      image_not_imported: "L'image n'a pas pu être importée. Vérifiez le journal de Image Factory pour obtenir davantage de détails."
+      import_image: "Importer l'image"
+      name: "Nom de l'image"
       provider_account: "Compte fournisseur"
     index:
       architecture: Architecture
-      images: "Modèles des composants"
+      images: Images
       import: Importer
-      last_rebuild: "Dernière reconstruction"
+      last_rebuild: "Dernière reconstruction (rebuild)"
       name: Nom
-      new: "Nouveau modèle de composant"
+      new: "Nouvelle image"
       os: SE
       os_version: "Version du SE"
     new:
-      choose_file: "Choisissez un fichier de modèle de composant : "
-      description: "Choisissez l'une des options suivantes pour télécharger ou importer un modèle de composant dans le \'cloud %{environment}\'."
-      edit_file: "Modifiez ce fichier avant de l'enregistrer :"
+      choose_file: "Choisissez un fichier modèle : "
+      description: "de la limite du quota des instances en cours d'exécution pour le compte %{name} a été atteint."
+      edit_file: "Modifiez ce fichier avant de l'enregistrer : "
       from_url: "Depuis l'URL"
-      image_url: "URL du modèle de composant :"
+      image_url: "URL du modèle : "
       name: "Nom : "
-      new_image: "Nouveau modèle de composant"
+      new_image: "Nouvelle image"
       upload: Télécharger
-    not_on_provider: "Le modèle du composant demandé est introuvable sur le fournisseur."
+    not_on_provider: "L'image requise est introuvable sur le fournisseur."
     overview:
       back: Retour
-      description: "Les références à la balise et au modèle du composant dans \'%{name}\' ont été validées avec succès. Vous pouvez maintenant enregistrer le modèle du composant et créer un plan d'application."
-      make_deployable: "Automatiquement faire de \"%{name}\" un plan d'application."
-      save_template: "Enregistrer le modèle du composant"
-      valid_image: "Modèle de composant valide"
+      description: "de la limite du quota des instances en cours d'exécution pour le compte %{name} a été atteint."
+      make_deployable: "Automatiquement faire de \"%{name}\" un déployable."
+      save_template: "Enregistrer le modèle"
+      valid_image: "Image valide"
     show:
       account: Compte
-      build: Build
-      build_date: "Date de fin du build"
+      build: "Construire (Build)"
+      build_all: "Tout construire (Build All)"
+      build_date: "Date de fin de la construction (Build)"
       build_not_found: "Build introuvable"
-      can_not_build_imported_image: "L'image importée ne peut pas être construite ou poussée"
+      can_not_build_imported_image: "L'image importée ne peut pas être construite ou envoyée"
       delete: Supprimer
       failed_build_attempts:
         one: "1 tentative de construction a échoué"
         other: "%{count} tentatives de construction ont échoués"
       failed_push_attempts:
         one: "1 tentative d'envoi (push) a échoué"
-        other: "%{count} tentatives de construction ont échoués"
-      image_uri: "URI du modèle du composant"
-      image_uuid: "UUID du modèle du composant"
+        other: "%{count} tentatives d'envoi (push) ont échoués"
+      image_uri: "URI de l'image"
+      image_uuid: "UUID de l'image"
       latest: Dernier
       missing_build: "Veuillez commencer par sélectionner une version (build)"
-      new_deployable_from_image: "Nouveau plan à partir du modèle"
+      new_deployable_from_image: "Nouveau déployable à partir de l'image"
       not_built: "L'image n'a pas encore été construite"
-      only_latest_builds_can_be_pushed: "Seul le dernier build peut être poussé"
-      provider: "Fournisseur de ressources cloud"
+      only_latest_builds_can_be_pushed: "Seul le dernier build peut être envoyé"
+      provider: Fournisseur
       provider_account: "Compte fournisseur"
       provider_images: "Images du fournisseur"
-      push_all: "Tout pousser"
+      push: Envoyer
+      push_all: "Tout envoyer"
+      push_started: "L'envoi est sur le point de commencer"
+      rebuild: "Reconstruire (rebuild)"
       rebuild_all: "Tout reconstruire (rebuild)"
       select_build: Sélectionner
-      template_xml: "Afficher le XML"
+      template_xml: "Afficher le XML modèle"
       upload: Télécharger
       view_build: "Afficher la version (build)"
   instance_details: "Détails de l'instance"
   instance_management: "Gestion de l'instance"
   instances:
+    confirm_terminate:
+      terminate: Terminer
+      terminate_instances: "Terminer les instances"
+      terminate_instances_description: "Le fournisseur n'est pas accessible, le statut des instances suivantes sera mis sur « stop », mais leur état réel n'est pas connu."
     edit:
       edit_instance: "Modifier l'instance"
       name: Nom
     errors:
-      architecture_mismatch: "L'architecture du profil des ressources cloud du plan du composant (%{inst_arch}) ne correspond pas à l'architecture du profil des ressources cloud (%{img_arch})."
+      architecture_mismatch: "L'architecture du profil matériel de l'Assembly (%{inst_arch}) ne correspond pas à l'architecture du profil matériel de l'image (%{img_arch})."
       cannot_destroy: "l'action destroy ne peut pas être effectuée sur cette instance."
-      hw_profile_match_not_found: "%{account_name}: correspondance du profil des ressources cloud introuvable"
-      image_not_found: "Aucune build d'image n'a été trouvée avec l'UUID %{b_uuid} et aucun modèle de composant n'a été trouvé avec l'UUID %{i_uuid}"
-      image_not_pushed_to_provider: "%{account_name} : le modèle de composant n'a pas été envoyé sur ce compte fournisseur"
-      invalid_state: "Erreur, heure de l'état incalculable : état invalide"
-      must_be_enabled: "%{account_name}: le fournisseur doit être activé"
-      no_config_server_available: "%{account_name}: aucun serveur de configuration disponible pour le compte fournisseur"
-      no_provider_accounts: "Il n'y a pas de comptes fournisseur associé avec le cloud de la zone des ressources cloud sélectionnée."
-      pool_family_quota_reached: "Quota de cloud atteint"
-      pool_quota_reached: "Quota de la zone des ressources cloud atteint"
-      provider_account_quota_reached: "%{account_name} : quota de comptes fournisseur atteint"
-      provider_account_quota_too_low: "Limite des quotas %{match_provider_account} trop basse pour lancer le plan d'application"
+      hw_profile_match_not_found: "%{account_name} : correspondance du profil matériel introuvable"
+      image_not_found:  "Aucune construction d'image n'a été trouvée avec l'uuid %{b_uuid} et aucune image n'a été trouvée avec l'uuid %{i_uuid}"
+      image_not_pushed_to_provider: "%{account_name} : l'image n'a pas été envoyée sur ce compte fournisseur"
+      invalid_state: "Erreur, impossible de calculer l'heure de l'état : état invalide"
+      must_be_enabled: "%{account_name} : le fournisseur doit être activé"
+      no_config_server_available: "%{account_name} : aucun serveur de configuration disponible pour le compte fournisseur"
+      no_provider_accounts: "Il n'y a pas de compte fournisseur associé à la gamme de pools du pool sélectionné."
+      pool_family_quota_reached: "Quota de la gamme de pools atteint"
+      pool_quota_reached: "Quota de pools atteint"
+      provider_account_quota_reached: "%{account_name} : quota de comptes fournisseurs atteint"
+      provider_account_quota_too_low: "Limite des quotas %{match_provider_account} trop basse pour lancer le déployable"
       provider_not_available: "%{account_name} : le fournisseur n'est pas disponible"
-      realm_not_mapped: "%{account_name}: le cluster de ressources cloud %{frontend_realm_name} n'est mappé à aucun fournisseur de ressources cloud ou cluster de fournisseurs"
-      reboot_not_be_performed: "ne peut pas être redémarré car il n'est pas en cours d'exécution."
-      state_not_monitored: "Erreur, heure de l'état incalculable : état non surveillé"
-      stop_invalid: "stop est une action invalide."
-      stop_not_be_performed: "l'action stop ne peut pas être effectuée sur cette instance."
+      realm_not_mapped: "%{account_name} : la sphère %{frontend_realm_name} n'est mappée à aucun fournisseur ou aucune sphère de fournisseur applicable"
+      reboot_invalid_action: "reboot (redémarrer) est une action invalide."
+      state_not_monitored: "Erreur, impossible de calculer l'heure de l'état : état non surveillé"
+      stop_invalid_action: "stop est une action invalide."
       user_quota_reached: "Quota des utilisateurs atteint"
     flash:
       error:
         not_deleted:
           one: "L'instance %{list} n'a pas pu être supprimée."
           other: "Les instances %{list} n'ont pas pu être supprimées."
-        not_rebooted: "L'instance %{name} n'a pas été redémarrée à cause de %{err}"
         not_updated:
           one: "L'instance %{list} n'a pas pu être mise à jour."
           other: "Les instances %{list} n'ont pas pu être mises à jour."
+        reboot: "L'instance %{name} n'a pas été redémarrée à cause de %{err}"
+        stop: "L'instance %{name} n'a pas été arrêtée à cause de %{err}"
       notice:
-        reboot: "%{name}:  l'action reboot (redémarrage) a été mise en attente avec succès."
+        forced_stop: "état mis sur arrêt."
+        reboot: "%{name} : l'action reboot (redémarrage) a été mise en attente avec succès."
         stop: "mise en attente de l'action stop réussie."
       success:
         deleted:
@@ -638,7 +645,7 @@ fr:
       status: STATUT
       vm_name: "NOM DE LA VM"
     history:
-      history_for: "Historique de :"
+      history_for: "Historique de : "
     instance: Instance
     instances:
       one: Instance
@@ -654,13 +661,13 @@ fr:
       table:
         name: Nom
         owner: Propriétaire
-        provider: "Fournisseurs de ressources cloud"
+        provider: Fournisseur
         public_address: "Adresse publique"
         state: État
-    none_selected: "Vous devez sélectionner une ou plusieurs instances à arrêter."
-    none_selected_to_reboot: "Vous devez sélectionner une ou plusieurs instances à redémarrer."
+    none_selected: "Vous devez sélectionner une ou plusieurs instance(s) à arrêter."
+    none_selected_to_reboot: "Vous devez sélectionner une ou plusieurs instance(s) à redémarrer."
     parameters:
-      config_parameters_for: "Paramètres de configuration pour"
+      config_parameters: "Paramètres de configuration"
       none: Aucun
     permissions:
       permissions_for: "Permissions pour"
@@ -673,25 +680,25 @@ fr:
       stopped: "Instances arrêtées"
     properties:
       architecture: "Architecture : "
-      assembly: "Plan du composant :"
-      console_connection: "Connexion de console :"
-      current_alerts: "Alertes actuelles :"
+      assembly: "Assembly : "
+      console_connection: "Connexion de console : "
+      current_alerts: "Alertes actuelles : "
       download: Télécharger
       error: "Erreur : "
-      instantiation_time: "Temps d'instanciation :"
-      memory: "Mémoire :"
+      instantiation_time: "Temps d'instanciation : "
+      memory: "Mémoire : "
       n_a: N/A
-      name: "Nom :"
-      owner: "Propriétaire :"
-      private_adresses: "Adresses privées :"
+      name: "Nom : "
+      owner: "Propriétaire : "
+      private_adresses: "Adresses privées : "
       properties_for: "Propriétés de "
-      provider: "Fournisseur de ressources cloud :"
-      public_addresses: "Adresses publiques :"
-      shared_to: "Partagé sur :"
-      ssh_key: "Clé SSH :"
-      ssh_key_name: "Nom de la clé SSH :"
-      status: "Statut :"
-      storage: "Stockage :"
+      provider: "Fournisseur : "
+      public_addresses: "Adresses publiques : "
+      shared_to: "Partagé sur : "
+      ssh_key: "Clé SSH : "
+      ssh_key_name: "Nom de la clé SSH : "
+      status: "Statut : "
+      storage: "Stockage : "
       via_ssh: "via SSH"
     reboot: Redémarrer
     tab_captions:
@@ -701,10 +708,11 @@ fr:
   last_name: "Nom de famille"
   launch_instance: "Lancer l'instance"
   layout:
+    appname: "Aeolus Conductor"
     copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
     dashboard: "Tableau de bord"
   login: Connexion
-  manage_providers: "Gérer les fournisseurs de ressources cloud"
+  manage_providers: "Gérer les fournisseurs"
   manage_users: "Gérer les utilisateurs"
   map_locales: "Mapper les paramètres régionaux"
   map_profiles: "Mapper les profils"
@@ -718,9 +726,9 @@ fr:
       administer: Administrer
       monitor: Surveiller
     second_level:
-      cloud_providers: "Fournisseurs de ressources cloud"
+      cloud_providers: "Fournisseurs de cloud"
       content: Contenu
-      environments: Clouds
+      environments: Environnements
       settings: Paramètres
       users: Utilisateurs
   new: Nouveau
@@ -733,133 +741,133 @@ fr:
         no_users_selected: "Aucun utilisateur sélectionné"
         not_add: "Impossible d'ajouter ces rôles d'utilisateurs : %{list}"
         not_added: "Impossible d'ajouter ces rôles d'utilisateurs : %{list}"
-        not_deleted: "Impossible de supprimer ces autorisations : %{list}"
+        not_deleted: "Impossible de supprimer ces octrois de permissions : %{list}"
       fragment:
         user_and_role: "%{user} (%{role})"
         user_and_role_change: "%{user} (de %{old_role} à %{role})"
       notice:
         added: "Les rôles d'utilisateur suivants ont été ajoutés : %{list}"
-        deleted: "Les autorisations suivantes ont été supprimées : %{list}"
+        deleted: "Les octrois de permissions suivantes ont été supprimées : %{list}"
         modified: "Les rôles d'utilisateur suivants ont été modifiés : %{list}"
     form:
       grant_access: "Autoriser l'accès"
     new:
-      choose_global_role: "Choisir les attributions de rôle globaux pour les utilisateurs"
-      choose_roles: "Choisir des rôles pour les utilisateurs auxquels vous souhaitez autoriser l'accès"
-      global_role_grants: "Permissions de rôles globaux"
+      choose_global_role: "Choisir les attributions de rôles globaux pour les utilisateurs"
+      choose_roles: "Choisir des rôles pour les utilisateurs auxquels vous souhaitez autoriser l'accès à "
+      global_role_grants: "Octroi de rôles globaux"
     preset_filters:
       all_permissions: "Toutes les permissions"
     revoke_access: "Révoquer l'accès"
   pool_families:
     add_to_pool_family: "Ajouter à %{name}"
-    choose_provider_accounts: "Choisissez des comptes fournisseurs à activer pour ce cloud"
-    confirm_delete: "Êtes-vous certain de vouloir supprimer ?"
+    choose_provider_accounts: "Choisissez les comptes fournisseurs à activer pour cette gamme de pools"
+    confirm_delete: "Êtes-vous certain de vouloir supprimer cette gamme de pools ? Tous les pools, catalogues et déployables concernés seront aussi supprimés !"
     edit:
       return_to: "Retourner à : "
     flash:
       error:
-        more_not_deleted: "Impossible de supprimer les clouds suivants : %{list}."
-        not_deleted: "Le cloud ne peut pas être supprimé !"
-        not_updated: "Le cloud n'a pas été mis à jour !"
+        default_pool_family_not_deleted: "La gamme de pools par défaut ne peut pas être supprimée !"
+        more_not_deleted: "Impossible de supprimer les gammes de pools suivantes : %{list}."
+        no_provider_accounts: "Aucun compte fournisseur n'est disponible."
+        not_deleted: "Les comptes %{list} n'ont pas été supprimés. Des instances leurs sont associées."
+        not_updated: "La gamme de pools n'a pas été mise à jour !"
         provider_accounts_not_added: "Impossible d'ajouter ces comptes fournisseurs"
         provider_accounts_not_removed: "Impossible de supprimer ces comptes fournisseurs"
         select_to_add_accounts: "Vous devez sélectionner au moins un compte fournisseur à ajouter."
         select_to_remove_accounts: "Vous devez sélectionner au moins un compte fournisseur à supprimer."
       notice:
-        added: "Le cloud a été ajouté."
-        deleted: "Le cloud a été supprimé !"
-        more_deleted: "Suppression des clouds suivants : %{list}."
+        added: "Gamme de pools ajoutée."
+        deleted: "Gamme de pools supprimée !"
+        more_deleted: "Suppression des gammes de pools suivantes : %{list}."
         provider_accounts_added: "Ces comptes fournisseurs ont été ajoutés"
         provider_accounts_removed: "Ces comptes fournisseurs ont été supprimés"
-        updated: "Le cloud a été mis à jour !"
+        updated: "Gamme de pools mise à jour !"
       warning:
-        creation_failed: "Échec de la création du cloud."
-    form:
-      pool_family_name: "Nom du cloud"
+        creation_failed: "Échec de la création de la gamme de pools."
     index:
       active_instances: "Inst. active"
       answer_no: Non
       answer_yes: Oui
       available_instances: "Inst. disponible"
       catalog: Catalogue
-      deployments: Applications
+      deployments: Déploiements
       enabled: Activé
       failed_instances: "Inst. en échec"
       name: Nom
-      new_pool_family: "Nouveau cloud"
+      new_pool_family: "Nouvelle gamme de pools"
       pending_instances: "Inst. en attente"
-      pool_name: "Nom de la zone de ressources cloud"
+      pool_name: "Nom du pool"
       quota_limit: "Limite du quota"
       quota_used: "Quota utilisé"
       total_instancies: "Total des Inst."
       total_statistics: TOTAL
     new:
-      environments: Clouds
-    pool_families: Clouds
-    pool_family: Cloud
-    pool_family_details: "Détails du cloud"
+      environments: Environnements
+    pool_families: "Gammes de pools"
+    pool_family: "Gamme de pools"
+    pool_family_details: "Détails de la gamme de pools"
     provider_accounts_for: "Comptes fournisseurs de "
     remove_selected: "Supprimer la sélection"
   pools:
-    create_new_pool: "Créer une nouvelle zone de ressources cloud"
-    edit_pool: "Modifier la zone des ressources cloud"
+    create_new_pool: "Créer un nouveau pool"
+    edit_pool: "Modifier le pool %{pool}"
     errors:
       must_be_enabled: "doit être activé"
-      providers_disabled: "possède tous les fournisseurs de ressources cloud associés désactivés"
+      providers_disabled: "possède tous ses fournisseurs associés désactivés"
     flash:
       error:
-        default_pool_not_deleted: "La zone de ressources cloud par défaut ne peut pas être supprimée"
-        iwhd_unavailable: "Les images du catalogue sont indisponibles. Il semble que l'usine d'images n'est pas joignable."
-        not_updated: "La zone des ressources cloud n'a pas été mise à jour !"
+        default_pool_not_deleted: "Le pool par défaut ne peut pas être supprimé"
+        iwhd_unavailable: "Les images du catalogue sont indisponibles. Il semble que Image Warehouse n'est pas joignable"
+        not_updated: "Le pool n'a pas été mis à jour !"
         pool_not_deleted:
-          one: "La zone des ressources cloud %{list} n'a pas été supprimée. Des instances y sont associées."
-          other: "Les zones des ressources cloud %{list} n'ont pas été supprimées. Des instances y sont associées."
+          one: "Le pool %{list} n'a pas été supprimé. Des instances y sont associées."
+          other: "Les comptes %{list} n'ont pas été supprimés. Des instances leurs sont associées."
       notice:
-        added: "Zone de ressources cloud ajoutée."
-        updated: "Zone de ressources cloud mise à jour."
+        added: "Pool ajouté."
+        updated: "Pool mis à jour."
       success:
         pool_deleted:
-          one: "La zone de ressources cloud %{list} a été supprimée."
-          other: "Les zones de ressources cloud %{list} ont été supprimées."
+          one: "Le pool %{list} a été supprimé."
+          other: "Les pools %{list} ont été supprimés."
       warning:
-        creation_failed: "Échec de la création de la zone de ressources cloud."
+        creation_failed: "Échec de la création de pool."
     form:
       instance_or: "instance ou"
-      pool_enabled: "Zone de ressources cloud activée"
-      unlimited: illimité(e)
+      pool_enabled: "Pool activé"
+      unlimited: illimité
     header_show:
-      pool_name: "Zone de ressources cloud %{name}"
+      pool_name: "Pool %{name}"
     images:
       catalog: Catalogue
-      catalog_entry: "Plan d'application"
-      image: "Modèle de composant :"
-      pushed: "%{uuid} poussé vers %{provider}"
+      catalog_entry: Déployable
+      image: "Image : "
+      pushed: "%{uuid} envoyé vers %{provider}"
     index:
-      confirm_delete: "Êtes-vous certain de vouloir supprimer cette zone de ressources cloud ? Tous les catalogues et déployables concernés seront aussi supprimés !"
+      confirm_delete: "Êtes-vous certain de vouloir supprimer ce pool ? Tous les catalogues et déployables concernés seront aussi supprimés !"
       deployed_on: "Déployé sur"
-      destroy: Détruire
+      destroy: Destroy
       failed: Échec
       global_uptime: "Temps d'activité global"
       overview: "Vue d'ensemble"
       owner: Propriétaire
       pending: "En attente"
-      pool_details: "Détails de la zone de ressources cloud"
-      pool_family: Cloud
-      pool_name: "Nom de la zone de ressources cloud"
-      your_pools: "Votre zone de ressources cloud"
+      pool_details: "Détails du pool"
+      pool_family: "Gamme de pools"
+      pool_name: "Nom du pool"
+      your_pools: "Vos pools"
     list:
       more_actions: "Actions supplémentaires"
-    new_pool: "Nouvelle zone des ressources cloud"
-    pool: "Zone de ressources cloud"
-    pools: "Zones de ressources cloud"
+    new_pool: "Nouveau pool"
+    pool: Pool
+    pools: Pools
     preset_filters:
-      all_pools: "Toutes les zones de ressources cloud"
-      enabled_pools: "Zones de ressources cloud activées"
-      with_create_failed_instances: "Avec les instances en échec"
-      with_instances: "Avec les instances"
-      with_pending_instances: "Avec les instances en attente"
-      with_running_instances: "Avec les instances en cours d'exécution"
-      with_stopped_instances: "Avec les instances arrêtées"
+      all_pools: "Tous les pools"
+      enabled_pools: "Pools activés"
+      with_create_failed_instances: "Avec des instances en échec"
+      with_instances: "Avec des instances"
+      with_pending_instances: "Avec des instances en attente"
+      with_running_instances: "Avec des instances en cours d'exécution"
+      with_stopped_instances: "Avec des instances arrêtées"
     properties:
       properties: "Propriétés de %{pool}"
     valid_format_of_name: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"
@@ -870,17 +878,17 @@ fr:
     credentials:
       credentials_for: "Informations d’identification de "
     edit:
-      account: "Compte : "
+      account: "Modifier un compte : %{name}"
       delete_account: "Supprimer le compte"
       edit_provider_account: "Modifier le compte fournisseur"
       file_already_uploaded: "Déjà téléchargé. Télécharger à nouveau ?"
       required_field: "Champ requis."
     errors:
-      could_not_connect: "Connexion à ce compte fournisseur impossible. Veuillez contacter un administrateur."
+      could_not_connect: "Connexion au compte fournisseur impossible. Veuillez contacter un administrateur."
       exception_while_validating: "Une erreur s'est produite lors de la vérification des informations d’identification du fournisseur. Veuillez vérifier votre installation puis essayez à nouveau."
       invalid_credentials: "Les informations d’identification de ce fournisseur sont invalides."
-      populate_hardware_profiles_failed: "Échec du remplissage des profils de ressources cloud : %{message}"
-      populate_realms_failed: "Échec du remplissage des clusters : %{message}"
+      populate_hardware_profiles_failed: "Échec du remplissage de hardware_profile : %{message}"
+      populate_realms_failed: "Échec du remplissage des sphères : %{message}"
     flash:
       error:
         account_not_added:
@@ -888,13 +896,13 @@ fr:
           other: "Les comptes %{list} n'ont pas pu être ajoutés"
         account_not_deleted:
           one: "Le compte %{list} n'a pas été supprimé. Des instances y sont associées."
-          other: "Les comptes %{list} n'ont pas été supprimés. Des instances y sont associées."
+          other: "Les comptes %{list} n'ont pas été supprimés. Des instances leurs sont associées."
         no_provider: "Vous ne possédez pas encore de fournisseur. Veuillez en créer un !"
         not_added: "Impossible d'ajouter le compte fournisseur."
-        not_deleted: "Le compte fournisseur de ressources cloud n'a pas été supprimé !"
+        not_deleted: "Le compte fournisseur n'a pas été supprimé !"
         not_updated: "Le compte fournisseur n'a pas été mis à jour !"
-        test_connection_failed_invalid: "Échec de la connexion test : détails du compte invalides"
-        test_connection_failed_provider: "Échec de la connexion test : impossible de se connecter au fournisseur"
+        test_connection_failed_invalid: "Échec de la connexion test : Détails du compte invalides"
+        test_connection_failed_provider: "Échec de la connexion test : Impossible de se connecter au fournisseur"
       notice:
         account_added:
           one: "Le compte %{list} a été ajouté."
@@ -902,12 +910,12 @@ fr:
         account_deleted:
           one: "Le compte %{list} a été supprimé."
           other: "Les comptes %{list} ont été supprimés."
-        deleted: "Le compte fournisseur de ressources cloud a été supprimé !"
-        test_connection_success: "Connexion test réussie : détails du compte valides"
+        deleted: "Le compte fournisseur a été supprimé !"
+        test_connection_success: "Connexion test réussie : Détails de compte valides"
         updated: "Compte fournisseur mis à jour !"
       warning:
         must_select_account: "Vous devez d'abord sélectionner des comptes."
-        no_provider: "Vous ne possédez pas encore de fournisseur de ressources cloud"
+        no_provider: "Vous ne possédez pas encore de fournisseur"
     form:
       account_name: "Nom du compte"
       account_number: "ID du compte AWS"
@@ -927,14 +935,14 @@ fr:
       priority: Priorité
       provider_account_name: "Nom du compte"
       provider_accounts: "Comptes fournisseurs"
-      provider_name: "Nom du fournisseur des ressources cloud"
-      provider_type: "Type du fournisseur des ressources cloud"
+      provider_name: "Nom du fournisseur"
+      provider_type: "Type de fournisseur"
       quota_limit: "Limite du quota"
       username: "Nom d'utilisateur"
     list:
       delete_selected: "Supprimer la sélection"
     new:
-      cloud_providers: "Fournisseurs de ressources cloud"
+      cloud_providers: "Fournisseurs de cloud"
       new_provider_account: "Nouveau compte fournisseur"
       required_field: "Champ requis."
     new_provider_account: "Nouveau compte"
@@ -943,22 +951,22 @@ fr:
     preset_filters:
       all_provider_accounts: "Tous les comptes"
     properties:
-      account_number: "Numéro de compte :"
-      config_server: "Serveur de configuration :"
+      account_number: "Numéro de compte : "
+      config_server: "Serveur de configuration : "
       none: Aucun
       properties_for: "Propriétés de "
-      running_instances_quota: "Quota des instances en cours d'exécution :"
+      running_instances_quota: "Quota des instances en cours d'exécution : "
       sure_to_delete: "Êtes-vous certain de vouloir supprimer ce serveur de configuration ?"
       test: Test
-      unlimited: illimité(e)
+      unlimited: illimité
     provider_selection:
-      cloud_type: "Type de cloud :"
-      provider_name: "Nom du fournisseur :"
+      cloud_type: "Type de cloud : "
+      provider_name: "Nom du fournisseur : "
     remove_provider_accounts: "Supprimer les comptes"
     rhevm:
       login_form: "Formulaire de connexion pour RHEV-M (pas encore implémenté)"
     show:
-      account: "Compte :"
+      account: "Compte : %{name}"
       test_connection: "Connexion test"
     tab_captions:
       credentials: "Informations d'identification"
@@ -969,13 +977,20 @@ fr:
   provider_images:
     flash:
       notice:
-        deleted: "Image du fournisseur supprimée. Si vous souhaitez supprimer l'image stockée par le fournisseur, veuillez vous rendre sur la console de gestion de %{provider} et recherchez l'image \'%{target_id}\'."
+        deleted: "Image du fournisseur supprimée. Si vous souhaitez supprimer l'image stockée par le fournisseur, veuillez vous rendre sur la console de gestion de %{provider} et recherchez l'image \%{target_id}\."
         upload_start: "Téléchargement de l'image du fournisseur lancé"
       warning:
         delete_failed: "Suppression de l'image du fournisseur impossible"
         not_found: "L'image du fournisseur est introuvable"
         upload_failed: "Téléchargement de l'image du fournisseur impossible"
-  provider_summary: "Résumé du fournisseur de ressources cloud"
+  provider_realms:
+    name: "Nom de la sphère du fournisseur"
+    provider_realms: "Sphères des fournisseurs"
+    show:
+      details: "Détails de la sphère du fournisseur"
+      mapping: "Mappage de la sphère du fournisseur"
+      provider_accounts_mapped: "Comptes fournisseur mappés à la sphère du fournisseur %{name}"
+  provider_summary: "Résumé du fournisseur"
   providers:
     alerts:
       alert_type:
@@ -993,58 +1008,59 @@ fr:
     confirm_delete: "Êtes-vous certain de vouloir supprimer ce fournisseur ?"
     confirm_terminate:
       disable: Désactiver
-      disabled_provider: "Désactiver un fournisseur"
-      terminate_instances: "Le fournisseur n'est pas accessible, le statut des instances suivantes sera changé sur « stop », mais leur état réel n'est pas connu."
+      disabled_provider: "Désactiver le fournisseur"
     disable_provider: "Désactiver le fournisseur ? Toutes ses instances seront arrêtées !"
     edit:
       enable_configure_providers: "Pour activer et configurer un fournisseur, cliquez sur l'interrupteur coulissant en haut à droite de cette fenêtre."
       provider_disabled: "Le fournisseur %{name} est actuellement désactivé."
-      provider_id_disabled: "Le fournisseur de ressources cloud est désactivé."
-      provider_unavailable: "Le fournisseur %{name} est n'est pas actuellement disponible."
+      provider_id_disabled: "Le fournisseur est désactivé."
+      provider_unavailable: "Le fournisseur %{name} n'est pas actuellement disponible."
       toggle_alerts: "Activer/Désactiver les alertes"
-    editing_provider: "Modifier le fournisseur de ressources cloud"
+    editing_provider: "Modification du fournisseur"
     enable_provider: "Activer le fournisseur ?"
     flash:
       error:
         not_added: "Impossible d'ajouter le fournisseur."
         not_deleted: "Le fournisseur n'a pas été supprimé"
-        not_disabled: "Impossible de supprimer le fournisseur."
+        not_disabled: "Impossible de désactiver le fournisseur."
         not_updated: "Impossible de mettre à jour le fournisseur."
       notice:
-        added: "Fournisseur de ressources cloud ajouté."
-        connected: "Connexion au fournisseur de ressources cloud réussie"
-        deleted: "Suppression du fournisseur de ressources cloud réussie."
-        disabled: "Fournisseur de ressources cloud désactivé"
-        updated: "Fournisseur de ressources cloud mis à jour."
+        added: "Fournisseur ajouté."
+        connected: "Connexion au fournisseur réussie"
+        deleted: "Suppression du fournisseur réussie."
+        disabled: "Fournisseur désactivé."
+        updated: "Fournisseur mis à jour."
       warning:
-        connect_failed: "Échec de la connexion au fournisseur des ressources cloud !"
-        not_stopped_instances: "Le fournisseur de ressources cloud n'a pas été désactivé, échec de l'arrêt des instances suivantes : "
-        not_terminated_instances: "Le fournisseur de ressources cloud n'a pas été désactivé, échec du changement de statut sur « stop » des instances suivantes : "
+        connect_failed: "Échec de la connexion au fournisseur !"
+        not_stopped_instances: "Le fournisseur n'a pas été désactivé, échec de l'arrêt des instances suivantes : "
+        not_terminated_instances: "Le fournisseur n'a pas été désactivé, échec du changement de statut sur « stop » des instances suivantes : "
     form:
       caution_alt_text: Attention
       caution_image: Attention
       enter_correct_url_msg: "Veuillez saisir un format d'URL correct."
-      provider_name: "Nom du fournisseur des ressources cloud :"
-      provider_type: "Type du fournisseur des ressources cloud :"
-      provider_url: "URL du fournisseur des ressources cloud : "
       required_field: "Champ requis."
       select_type_of_provider: "Sélectionnez le type de fournisseur"
       test_connection: "Connexion test"
-      x_deltacloud_provider: "X-Deltacloud-Provider :"
+      x_deltacloud_provider:
+        ec2: "Région EC2"
+        generic: X-Deltacloud-Provider
+        rhevm: "RHEV-M API_PROVIDER"
+        vsphere: "Nom d'hôte API vSphere"
+      x_deltacloud_provider_legend: "Légende de X-Deltacloud-Provider"
     index:
-      create_new_provider: "Créer un nouveau fournisseur de ressources cloud"
+      create_new_provider: "Créer un nouveau fournisseur"
       create_one: "Veuillez d'abord en créer un."
       no_providers_available: "Aucun fournisseur disponible."
-      provider_name: "Nom du fournisseur des ressources cloud"
-      provider_type: "Type du fournisseur des ressources cloud"
-      provider_url: "URL du fournisseur des ressources cloud"
+      provider_name: "Nom du fournisseur"
+      provider_type: "Type de fournisseur"
+      provider_url: "URL du fournisseur"
       x_deltacloud_driver: X-Deltacloud-Driver
       x_deltacloud_provider: X-Deltacloud-Provider
     new:
-      new_provider: "Nouveau fournisseur de ressources cloud"
-      save_provider: "Enregistrer le fournisseur des ressources cloud"
-    provider: "Fournisseur de ressources cloud"
-    providers: "Fournisseurs de ressources cloud"
+      new_provider: "Nouveau fournisseur"
+      save_provider: "Enregistrer le fournisseur"
+    provider: Fournisseur
+    providers: Fournisseurs
   quota: Quota
   quota_used: "Quota utilisé"
   quotas:
@@ -1060,60 +1076,60 @@ fr:
     show:
       available: Disponible
       max_capacity: "Capacité maximale"
-      no_quota: "Il n'y a pas de quota sur"
+      no_quota: "Il n'y a pas de quota sur "
       resource: Ressource
       used: Utilisé
   realm_mappings:
     new:
-      create_new: "Créer un nouveau mappage du cluster des ressources cloud"
-  realm_s: "Clusters de ressource cloud"
+      create_new: "Créer un nouveau mappage de sphère"
+  realm_s: Sphères
   realms:
     edit:
       cancel_editing: "Annuler les modifications"
       properties: Propriétés
     flash:
       error:
-        more_not_deleted: "Suppression de ces clusters de ressources cloud impossible :"
-        not_deleted: "Le cluster des ressources cloud n'a pas été supprimé !"
-        select_to_delete: "Vous devez sélectionner au moins un cluster de ressources cloud à supprimer."
+        more_not_deleted: "Impossible de supprimer ces sphères : "
+        not_deleted: "La sphère n'a pas été supprimée !"
+        select_to_delete: "Vous devez sélectionner au moins une sphère à supprimer."
         select_to_delete_mapping: "Vous devez sélectionner au moins un mappage à supprimer."
       notice:
-        added: "Le cluster de ressources cloud a été ajouté."
-        added_mapping: "Le mappage du cluster de ressources cloud a été ajouté."
-        deleted: "Le cluster de ressources cloud a été supprimé !"
-        more_deleted: "Les clusters de ressources cloud suivants ont été supprimés :"
-        updated: "Mise à jour du cluster de ressources cloud réussie !"
-    form:
-      description: Description
-      realm_name: "Nom du cluster de ressources cloud"
+        added: "Sphère ajoutée."
+        added_mapping: "Le mappage de sphère a été ajouté."
+        deleted: "La sphère a été supprimée !"
+        more_deleted: "Ces sphères ont été supprimées : "
+        updated: "Mise à jour de la sphère réussie !"
     index:
-      realm: "Cluster de ressources cloud"
+      realm: Sphère
       realm_availability: Disponible ?
       realm_available:
         false_value: Non
         true_value: Oui
-      realm_name: "Nom du cluster de ressources cloud"
+      realm_name: "Nom de la sphère"
     list:
       delete_selected: "Supprimer la sélection"
     mapping:
-      mapping_provider: "Ajouter un mappage au fournisseur de ressources cloud"
-      mapping_realm: "Ajouter un mappage au cluster de ressources cloud"
-      realm_mapped_providers: "Le cluster de ressources cloud %{name} est mappé aux fournisseurs :"
-      realm_mapped_realms: "Le cluster de ressources cloud %{name} est mappé au cluster du fournisseur de ressources :"
+      frontend_realms_mapped_to_provider: "Sphères mappées au fournisseur %{name} : "
+      frontend_realms_mapped_to_realm: "Sphères mappées à la sphère du fournisseur %{name} : "
+      mapping_provider: "Ajouter le mappage au fournisseur"
+      mapping_realm: "Ajouter le mappage à la sphère du fournisseur"
+      provider_accounts_mapped_to_realm: "Comptes fournisseur mappés à la sphère %{name} : "
+      realm_mapped_providers: "La sphère %{name} est mappée aux fournisseurs : "
+      realm_mapped_realms: "La sphère %{name} est mappée aux sphères : "
     new:
-      create_realm: "Créer un nouveau cluster de ressources cloud"
-    new_realm: "Nouveau cluster de ressources cloud"
+      create_realm: "Créer une nouvelle sphère"
+    new_realm: "Nouvelle sphère"
     preset_filters:
-      all_realms: "Tous les clusters de ressources cloud"
+      all_realms: "Toutes les sphères"
     properties:
-      realm_details: "Détails du cluster de ressources cloud"
-      realm_name: "Nom du cluster de ressources cloud"
-    realms: "Clusters de ressources cloud"
+      realm_details: "Détails de la sphère"
+      realm_name: "Nom de la sphère"
+    realms: Sphères
     show:
       properties: Propriétés
-      realm_mapping: "Mappage du cluster de ressources cloud"
+      realm_mapping: "Mappage de sphère"
       realm_unavailable: "La sphère %{name} est n'est pas actuellement disponible."
-      sure_to_delete: "Êtes-vous certain de vouloir supprimer ?"
+      sure_to_delete: "Êtes-vous certain de vouloir supprimer ?"
     tab_captions:
       mapping: Mappage
       properties: Propriétés
@@ -1126,17 +1142,15 @@ fr:
   roles:
     edit:
       cancel_editing: "Annuler les modifications"
-      editing_role: "Modification du rôle :"
+      editing_role: "Modification du rôle : "
       properties: Propriétés
     flash:
       error:
-        more_not_deleted: "Impossible de supprimer ces rôles :"
+        more_not_deleted: "Impossible de supprimer ces rôles : "
       notice:
         added: "Enregistrement du rôle réussi !"
-        more_deleted: "Ces rôles ont été supprimés :"
+        more_deleted: "Ces rôles ont été supprimés : "
         updated: "Mise à jour du rôle réussie !"
-    form:
-      name: Nom
     list:
       roles_list: "Liste des rôles"
     new_role: "Nouveau rôle"
@@ -1153,6 +1167,8 @@ fr:
   runtime: Exécuter
   save: Enregistrer
   scheduling_policies: "Planification des politiques"
+  search:
+    no_results: "Aucun résultat correspondant."
   searches: Recherches
   select:
     all: Tout
@@ -1168,32 +1184,32 @@ fr:
       warning:
         not_updated_quota: "Impossible de mettre à jour le quota par défaut"
     general_settings:
-      allow_self_service: "Autoriser la création de comptes libre-service :"
+      allow_self_service: "Autoriser la création de comptes libre-service : "
       brand_icon: "Icône de marque : "
       certificate: "Certificat : "
       content: Contenu
-      content_manager_url: "URL du gestionnaire de contenus :"
-      entitlement_mode: "Mode de droits d'accès :"
+      content_manager_url: "URL du gestionnaire de contenu : "
+      entitlement_mode: "Mode de droits d'accès : "
       general_settings: "Paramètres généraux"
       portal: Portail
-      primary_url_port: "Port de l'URL principal :"
+      primary_url_port: "Port de l'URL principal : "
       select_treatment: "Sélectionner le traitement de l'utilisateur"
       system_subscription: "Le système fournit l'abonnement"
       tag_line: "Slogan : "
       user_brings_subscriptions: "L'utilisateur amène les abonnements"
     index:
-      define_hardware_profiles: "Définir les profils des ressources cloud"
-      define_hardware_profiles_desc: "Voir, modifier et définir les noms des profils de ressources cloud qu'Aeolus Conductor va exposer à ses utilisateurs. Les significations des noms seront définies en étant mappées aux capacités fournies par les fournisseurs de ressources cloud individuels."
+      define_hardware_profiles: "Définir les profils matériel"
+      define_hardware_profiles_desc: "Afficher, modifier et définir les noms des profils matériels qu'Aeolus Conductor va exposer à ses utilisateurs. Les significations des noms seront définies en étant mappées aux capacités fournies par les fournisseurs individuels."
       define_locales: "Définir les paramètres régionaux"
-      define_locales_desc: "Voir, modifier et définir les noms des paramètres régionaux qu'Aeolus Conductor va exposer à ses utilisateurs. Les significations des noms seront définies en étant mappées aux emplacements géographiques fournis par les fournisseurs de ressources cloud individuels."
+      define_locales_desc: "Afficher, modifier et définir les noms des paramètres régionaux qu'Aeolus Conductor va exposer à ses utilisateurs. Les significations des noms seront définies en étant mappées aux emplacements géographiques fournis par les fournisseurs individuels."
       define_services: "Définir les services"
-      define_services_desc: "Voir, modifier et définir les services qu'Aeolus Conductor va offrir. Ces services seront mappés aux fournisseurs individuels en se basant sur leurs capacités."
+      define_services_desc: "Afficher, modifier et définir les services qu'Aeolus Conductor va offrir. Ces services seront mappés aux fournisseurs individuels en se basant sur leurs capacités."
       general_settings: "Paramètres généraux"
-      general_settings_desc: "Activer l'enregistrement de compte libre-service, l'installation de marques personnalisées, la gestion de sources de contenus"
-      manage_providers: "Gérer les fournisseurs de ressources cloud"
-      manage_providers_desc: "Voir, modifier et ajouter des fournisseurs de ressources de calcul virtuel à Aeolus Conductor. Voir, modifier et ajouter des comptes Aeolus Conductor pour ces fournisseurs. Mapper des concepts spécifiques aux fournisseurs à Aeolus Conductor."
+      general_settings_desc: "Activer l'enregistrement des comptes libre-service, l'installation de marques personnalisées, la gestion de sources de contenus"
+      manage_providers: "Gérer les fournisseurs"
+      manage_providers_desc: "Voir, modifier et ajouter des fournisseurs de ressources de calcul virtuel à Aeolus Conductor. Afficher, modifier et ajouter des comptes Aeolus Conductor pour ces fournisseurs. Mapper des concepts spécifiques aux fournisseurs à Aeolus Conductor."
       manage_users: "Gérer les utilisateurs"
-      manage_users_desc: "Voir, modifier, créer et supprimer des comptes utilisateurs sur Aeolus Conductor. Ajuster les quotas et privilèges pour les utilisateurs."
+      manage_users_desc: "Afficher, modifier, créer et supprimer des comptes utilisateurs sur Aeolus Conductor. Ajuster les quotas et privilèges pour les utilisateurs."
       permissions: Permissions
       permissions_desc: "Modifier le quota libre-service par défaut."
     self_service:
@@ -1202,11 +1218,6 @@ fr:
       self_service_settings: "Paramètres libre-service"
     settings: Paramètres
   summary: Résumé
-  support:
-    array:
-      last_word_connector: ", et"
-      two_words_connector: et
-      words_connector: ", "
   system_settings: "Paramètres système"
   target_images:
     flash:
@@ -1217,16 +1228,9 @@ fr:
         not_found: "Image cible introuvable"
   template_xml:
     errors:
-      invalid_xml: "Le XML est invalide :"
+      invalid_xml: "Le XML est invalide : "
       name_is_not_set: "Le nom n'est pas défini."
       xml_parse_error: "Échec de l'analyse du XML."
-  time:
-    am: am
-    formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      long: "%d %B, %Y %H: %M"
-      short: "%d %b %H: %M"
-    pm: pm
   updates: "Mises à jour"
   uptime: "Temps d'utilisation total"
   user: Utilisateur
@@ -1241,16 +1245,16 @@ fr:
       help: "La fonctionnalité d'aide n'est pas encore disponible."
       login: Connexion
       login_assistance: "Aide à la connexion"
-      password: "Mot de passe :"
+      password: "Mot de passe : "
       security_info: "Informations de sécurité"
       show_password: "Afficher mon mot de passe"
-      username: "Nom d'utilisateur :"
+      username: "Nom d'utilisateur : "
     security:
       encrypted_connection: "Connexion chiffrée"
       expiration: "Expiration : inconnu"
-      issued: "Certificat fournit par :"
-      message: "Votre connexion à Aeolus Conductor sur %{host} est actuellement sécurisée et chiffrée à l'aide du chiffrement SSL (force inconnue)."
-      message_unencrypted: "Votre connexion à Aeolus Conductor sur %{host} est actuellement non-chiffrée. Ceci peut potentiellement conduire au vol d'informations personnelles."
+      issued: "Certificat fournit par  : "
+      message: "Impossible de pousser TargetImage %{targetimage} vers %{account} et erreur %{error}"
+      message_unencrypted: "Si vous pensez qu'il s'agit d'une erreur, ne vous connectez pas. Veuillez contacter votre administrateur système immédiatement."
       message_unencrypted2: "Si vous pensez qu'il s'agit d'une erreur, ne vous connectez pas. Veuillez contacter votre administrateur système immédiatement."
       return_to_login: "Retourner à la connexion"
       unencrypted_connection: "Connexion non-chiffrée"
@@ -1283,7 +1287,7 @@ fr:
       first_name: Prénom
       last_name: "Nom de famille"
       quota_instances: "Limite du quota"
-      user_id: "ID de l'utilisateur"
+      user_id: "ID d'utilisateur"
       username: "Nom d'utilisateur"
     list:
       delete_selected: "Supprimer la sélection"
@@ -1293,8 +1297,8 @@ fr:
       new_user: "Nouvel utilisateur"
     preset_filters:
       all_users: "Tous les utilisateurs"
-      name_starts_with_A: "Le nom commence par un A"
-      name_starts_with_B: "Le nom commence par un B"
+      name_starts_with_A: "Nom commençant par A"
+      name_starts_with_B: "Nom commençant par B"
     quick_jump: "Saut rapide : "
     return_to: "Retourner à : "
     show:
