@@ -1,0 +1,47 @@
+ja:
+  role_defs:
+    base:
+      admin: グローバル管理者
+      deployable:
+        admin: グローバルの展開可能アプリ管理者
+      hwp:
+        admin: グローバルのハードウェアプロファイル管理者
+        user: グローバルのハードウェアプロファイルユーザー
+      image:
+        admin: グローバルのイメージ管理者
+      pool:
+        admin: グローバルのプール管理者
+        user: グローバルのプールユーザー
+      provider:
+        admin: グローバルのプロバイダー管理者
+        user: グローバルのプロバイダーユーザー
+      realm:
+        admin: グローバルの領域管理者
+    catalog:
+      admin: カタログ管理者
+      user: カタログユーザー
+    deployable:
+      owner: 展開可能アプリの所有者
+      user: 展開可能アプリのユーザー
+    deployment:
+      owner: アプリ展開の所有者
+      user: アプリ展開のユーザー
+    instance:
+      owner: インスタンスの所有者
+      user: インスタンスのユーザー
+    pool:
+      admin: プールの管理者
+      deployable:
+        admin: プールの展開可能アプリの管理者
+      user: プールのユーザー
+    pool_family:
+      admin: プールファミリーの管理者
+      image:
+        admin: プールファミリーイメージの管理者
+      user: プールファミリーのユーザー
+    provider:
+      admin: プロバイダーの管理者
+      user: プロバイダーのユーザー
+    provider_account:
+      owner: プロバイダーアカウントの所有者
+      user: プロバイダーアカウントのユーザー
