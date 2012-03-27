@@ -1,0 +1,444 @@
+fr:
+  api:
+    error_messages:
+      invalid_template: "Modèle du composant invalide : %{errors}"
+  application_controller:
+    admin_tabs:
+      pool_families: Clouds
+      realms: "Clusters de ressources cloud"
+  breadcrumbs:
+    deployables: "Plans des applications"
+    deployments: Applications
+    hardware_profiles: "Profils des ressources cloud"
+    pool_families: Clouds
+    pools: "Zones de ressources cloud"
+    provider_realms: "Clusters de ressources cloud"
+    realms: "Clusters de ressource cloud"
+  catalog_entries:
+    edit:
+      editing_catalog_entry: "Modifier le plan d'une application"
+    flash:
+      notice:
+        added: "Plan de l'application ajouté au catalogue %{catalog}."
+        deleted: "Plan de l'application supprimé du catalogue %{catalog}."
+        updated: "Mise à jour du plan de l'application réussie !"
+      warning:
+        failed: "Le plan de l'application n'a pas été créé."
+        no_url_provided: "Aucun URL fourni pour le fichier XML du plan de l'application."
+        not_valid: "Le fichier XML du plan d'application ne résout pas un fichier XML valide"
+        not_valid_duplicate_assembly_names: "Le XML du plan d'application doit contenir des noms d'Assembly uniques"
+        not_valid_or_reachable: "Le fichier XML du plan de l'application est soit invalide ou ne peut plus être joint sur"
+    index:
+      catalog_entries: "Plans des applications"
+      catalog_entry: "Plan d'application"
+      deployable: "Plan d'application"
+      deployable_xml: "XML du plan de l'application"
+    list:
+      catalog_entries_list: "Liste des plans des applications"
+    new:
+      add_catalog_entry: "Ajouter un nouveau plan d'application"
+      choose_option_to_upload: "Choisissez l'une des options suivantes pour télécharger le fichier XML du plan de l'application"
+      hw_profile: "Profil de ressources cloud par défaut"
+    new_catalog_entry: "Nouveau plan d'application"
+    preset_filters:
+      all_catalog_entries: "Tous les plans des applications"
+    show:
+      image: "Modèle du composant"
+  catalogs:
+    flash:
+      error:
+        not_deleted:
+          one: "Le catalogue %{not_deleted} ne peut pas être supprimé ! Un plan d'application possède la dernière référence à ce catalogue !"
+          other: "%{list} des plans d'applications n'ont pas été supprimés. Des applications y sont associées."
+        one_not_deleted: "Le catalogue ne peut pas être supprimé ! Un plan d'application possède la dernière référence à ce catalogue !"
+    form:
+      select_pool: "Veuillez sélectionner la zone"
+    preset_filters:
+      belongs_to_default_pool: "Appartient à la zone de ressources cloud par défaut"
+  cloud_engine_hardware_profiles: "Profils des ressources cloud"
+  cloud_providers: "Fournisseurs de ressources cloud"
+  deployables:
+    error:
+      hwp_not_exists: "Le profil de ressource cloud %{name} spécifié dans le XML n'existe pas."
+    flash:
+      error:
+        no_hwp_exists: "Il n'existe pas de profil de ressources cloud ! Veuillez en créer un."
+        not_deleted:
+          one: "Échec de la suppression du plan d'application %{not_deleted} !"
+          other: "%{count} plans d'applications %{not_deleted} n'ont pas été supprimés !"
+        not_deleted_perms:
+          one: "Permissions insuffisantes pour supprimer le plan d'application %{not_deleted} !"
+          other: "%{list} des plans d'applications n'ont pas été supprimés. Des applications y sont associées."
+        not_selected: "Aucun plan d'application n'a été sélectionné !"
+        wrong_environment: "Le '%{deployable}' du plan d'application contient un modèle de composant (UUID %{uuid}) dans le mauvais cloud ('%{wrong_env}' devrait être '%{environment}') et ne peut pas être utilisé."
+      notice:
+        deleted:
+          one: "Suppression du plan d'application %{deleted} réussie !"
+          other: "%{count} plans d'applications %{deleted} ont été supprimés !"
+      warning:
+        failed: "Le plan d'application n'a pas été créé : %{message}"
+    form:
+      choose_xml: "Choisir le fichier XML du plan d'application"
+      deployable_xml: "XML du plan de l'application"
+      deployable_xml_url: "URL du XML du plan de l'application"
+    index:
+      base_deployable: "Plan d'application de base"
+      deleted:
+        one: "%{list} du plan d'application supprimé."
+        other: " %{list} des plans d'applications supprimés."
+      deployable_definition: "Définition du plan d'application"
+      deployable_url: "URL du plan d'application"
+      deployables: "Plans des applications"
+      not_deleted:
+        one: "Le catalogue %{not_deleted} ne peut pas être supprimé ! Un plan d'application possède la dernière référence à ce catalogue !"
+        other: "%{list} des plans d'applications n'ont pas été supprimés. Des applications y sont associées."
+    new_from_image:
+      description: "La création d'un plan d'application depuis le modèle du composant « %{name} » lui permettra d'être construit et lancé. Choisissez simplement un catalogue dans lequel stocker le plan de l'application, puis définissez un profil des ressources cloud par défaut."
+      title: "Créer un plan d'application"
+    properties:
+      edit_deployable_xml: "Modifier le XML du plan d'application"
+    show:
+      build_description: "Autoriser le(s) modèle(s) de composant(s) de ce plan d'application à être construits et poussés vers les fournisseurs de ressources cloud en les activant ci-dessous."
+      build_statuses_descriptions:
+        building: "Les modèles des composants sont en cours de construction."
+        not_built: "Les modèles de composant ne sont pas construits"
+        not_pushed: "Certains des modèles de composant ne sont pas poussés"
+        pushed: "Tous les modèles de composant sont poussés et sont récents."
+        pushing: "Les modèles des composants sont en train d'être poussés."
+      environment: Cloud
+      hw_profile: "Profil des ressources cloud"
+      image_uuid: "UUID du modèle du composant : "
+      images: "Modèles de composants"
+      images_valid: "Modèles de composants valides"
+      latest_build_uuid: "Dernier UUID de build : "
+      missing_images: "Modèles de composants manquant à l'entrepôt d'images"
+      push_all: "Pousser les modèles de composants manquants"
+      rebuild_all: "Construire les modèles de composants manquants"
+      repair_images: "Réparer les modèles de composants"
+      target_images_uuids: "UUID des images cibles : "
+  deployments:
+    confirm_delete: "Êtes-vous certain de vouloir supprimer cette application ?"
+    deployment: Application
+    deployment_details: "Détails de l'application"
+    deployment_name: "Nom de l'application"
+    deployment_name_subtext: "(identifie de manière unique votre application)"
+    deployments: Applications
+    edit:
+      edit_deployment: "Modifier l'application"
+    errors:
+      not_valid_deployable_xml: "semble ne pas être un XML de plan d'application valide : %{msg}"
+    flash:
+      error:
+        failed_to_launch_assemblies: "Échec du lancement des plans d'applications suivants : "
+        none_selected: "Vous devez sélectionner une ou plusieurs applications."
+        not_deleted:
+          one: "L'application %{list} n'a pas pu être supprimée."
+          other: "Les applications %{list} n'ont pas pu être supprimées."
+        not_launched: "Certains plans de composants ne seront pas lancés : "
+        not_updated:
+          one: "L'application %{list} n'a pas pu être mise à jour."
+          other: "Les applications %{list} n'ont pas pu être mises à jour."
+      notice:
+        launched: "Application lancées."
+      success:
+        deleted:
+          one: "La suppression de l'application %{list} a été planifiée."
+          other: "La suppression des applications %{list} a été planifiée."
+        updated:
+          one: "L'application %{list} a correctement été mise à jour."
+          other: "Les applications %{list} ont correctement été mises à jour."
+      warning:
+        deployable_not_selected: "Vous devez sélectionner l'application."
+        disabled_pool: "Le lancement d'une application est impossible dans cette zone de ressources cloud. Le lancement a été désactivé."
+        failed_to_launch: "Échec du lancement de l'application !"
+    launch_from_catalog:
+      deployable_xml: "XML du plan de l'application"
+      hint:  "Choisissez un plan d'application à lancer dans la zone de ressources cloud %{pool}"
+      image_id: "ID du modèle de composant"
+      no_catalog_entry: "Aucun plan d'application disponible. Veuillez en ajouter un avant tout !"
+    launch_new:
+      to_pool: "sur la zone de ressources cloud %{name}"
+    launch_time_params:
+      configure_launch_time_params: "Configurer les paramètres de lancement pour votre application : "
+    list_of_events: "Liste des événements de l'application"
+    new:
+      deployable_definition: "Définition du plan d'application"
+      deployable_details: "Détails du plan d'application"
+      hardware_profile: "Profil des ressources cloud"
+      image_id: "ID du modèle de composant"
+      launch: "Lancer cette application"
+    new_deployment: "Nouvelle application"
+    overview:
+      confirmation: "Êtes-vous certain de vouloir déployer %{deployment} sur la zone de ressources cloud %{pool} ? Ce faire utilisera %{quota} de votre quota total d'applications."
+      deployable_uri: "URI du plan de l'application"
+      deployable_xml: "XML du plan de l'application"
+      header: "Déployer %{deployment} sur la zone des ressources cloud %{pool} ?"
+      image_ids: "ID des modèles de composant"
+      pool_name: "Zone des ressources cloud %{pool}"
+    preset_filters:
+      all_deployments: "Toutes les applications"
+    provider_services:
+      list_of_services: "Liste des services requis par l'application"
+    required_services:
+      list_of_required_services: "Liste des services requis par l'application"
+    show:
+      name: "Application %{name}"
+  hardware_profiles:
+    create:
+      check_matching_hwp: "Vérifier les profils des ressources cloud correspondants"
+    edit:
+      edit_hwp: "Modifier le profil des ressources cloud"
+    flash:
+      error:
+        more_not_deleted:
+          one: "%{not_deleted} n'a pas pu être supprimé"
+          other: "Impossible de supprimer les profils de ressources cloud suivants : %{not_deleted}"
+        not_deleted: "Le profil des ressources cloud n'a pas été supprimé !"
+      notice:
+        deleted: "Le profil des ressources cloud a été supprimé !"
+        more_deleted:
+          one: "Le profil des ressources cloud %{deleted} a été supprimé !"
+          other: "Les profils des ressources cloud %{deleted} ont été supprimés !"
+        updated: "Profil des ressources cloud mis à jour !"
+      warning:
+        cannot_delete_backend_hwp: "Suppression des profils des ressources cloud de fournisseur impossible"
+        cannot_edit_backend_hwp: "Modification des profils des ressources cloud de fournisseur impossible"
+    hardware: "Profils des ressources cloud"
+    hardware_profile: "Profil des ressources cloud"
+    hardware_profiles: "Profils des ressources cloud"
+    index:
+      hardware_profile_name: "Nom du profil des ressources cloud"
+    list:
+      new_hardware: "Nouveau profil des ressources cloud"
+    matching_provider_hwp:
+      no_matching_provider_hwp: "Aucun profil de ressources cloud de fournisseur correspondant trouvé"
+    new:
+      new_hwp: "Nouveau profil des ressources cloud"
+    preset_filters:
+      all_hardware_profiles: "Tous les profils des ressources cloud"
+    provider_hwp_headers:
+      hwp_name: "Nom du profil des ressources cloud"
+      provider_name: "Nom du fournisseur des ressources cloud"
+    show:
+      matching_hwp: "Profils des ressources cloud de fournisseur correspondants"
+    tab_captions:
+      matching_provider_hwp: "Profils des ressources cloud de fournisseur correspondants"
+  hw_profiles: "Profils des ressources cloud"
+  image_imports: "Imports des modèles de composant"
+  images:
+    environment: "Cloud : "
+    environment_header: Cloud
+    flash:
+      error:
+        no_file: "Vous devez spécifier le fichier XML du modèle de composant"
+        no_template: "L'image ne possède pas de modèle de composant car elle a été importée."
+      notice:
+        created: "Modèle de composant créé"
+    import:
+      blank_id: "L'ID du modèle du composant ne peut pas être vide."
+      image_id: "ID du modèle de composant"
+      image_imported: "Le modèle du composant a été importé avec succès."
+      image_not_imported: "Le modèle du composant n'a pas pu être importé. Vérifiez le journal de l'usine à images pour davantage de détails."
+      import_image: "Importer l'image"
+      name: "Nom du modèle de composant"
+    index:
+      images: "Modèles des composants"
+    new:
+      choose_file: "Choisissez un fichier de modèle de composant : "
+      description: "La création d'un plan d'application depuis le modèle du composant « %{name} » lui permettra d'être construit et lancé. Choisissez simplement un catalogue dans lequel stocker le plan de l'application, puis définissez un profil des ressources cloud par défaut."
+      image_url: "URL du modèle de composant : "
+    not_on_provider: "Le modèle du composant demandé est introuvable sur le fournisseur."
+    overview:
+      description: "Les références à la balise et au modèle du composant dans '%{name}' ont été validées avec succès. Vous pouvez maintenant enregistrer le modèle du composant et créer un plan d'application."
+      make_deployable: "Automatiquement faire de '%{name}' un plan d'application."
+      save_template: "Enregistrer le modèle du composant"
+      valid_image: "Modèle de composant valide"
+    show:
+      image_uri: "URI du modèle du composant"
+      image_uuid: "UUID du modèle du composant"
+      new_deployable_from_image: "Nouveau plan à partir de l'image"
+      provider: "Fournisseur de ressources cloud"
+      template_xml: "Afficher le XML"
+  instances:
+    errors:
+      architecture_mismatch: "L'architecture du profil des ressources cloud du plan du composant (%{inst_arch}) ne correspond pas à l'architecture du profil des ressources cloud (%{img_arch})."
+      hw_profile_match_not_found: "%{account_name}: correspondance du profil des ressources cloud introuvable"
+      image_not_found: "Aucune build d'image n'a été trouvée avec l'UUID %{b_uuid} et aucun modèle de composant n'a été trouvé avec l'UUID %{i_uuid}"
+      image_not_pushed_to_provider: "%{account_name} : le modèle de composant n'a pas été envoyé sur ce compte fournisseur"
+      no_provider_accounts: "Il n'y a pas de comptes fournisseur associé avec le cloud de la zone des ressources cloud sélectionnée."
+      pool_family_quota_reached: "Quota de cloud atteint"
+      pool_quota_reached: "Quota de la zone des ressources cloud atteint"
+      provider_account_quota_too_low: "Limite des quotas %{match_provider_account} trop basse pour lancer le plan d'application"
+      realm_not_mapped: "%{account_name}: le cluster de ressources cloud %{frontend_realm_name} n'est mappé à aucun fournisseur de ressources cloud ou cluster de fournisseurs"
+    list:
+      table:
+        provider: "Fournisseurs de ressources cloud"
+    properties:
+      assembly: "Plan du composant : "
+      provider: "Fournisseur de ressources cloud : "
+  layout:
+    appname: "CloudForms Cloud Engine"
+  manage_providers: "Gérer les fournisseurs de ressources cloud"
+  navigation:
+    second_level:
+      cloud_providers: "Fournisseurs de ressources cloud"
+      environments: Clouds
+  pool_families:
+    choose_provider_accounts: "Choisissez des comptes fournisseurs à activer pour ce cloud"
+    confirm_delete: "Êtes-vous certain de vouloir supprimer cette zone de ressources cloud ? Tous les catalogues et déployables concernés seront aussi supprimés !"
+    flash:
+      error:
+        default_pool_family_not_deleted: "Le cloud par défaut ne peut pas être supprimé !"
+        more_not_deleted: "Impossible de supprimer les clouds suivants : %{list}."
+        not_deleted: "%{list} des plans d'applications n'ont pas été supprimés. Des applications y sont associées."
+        not_updated: "Le cloud n'a pas été mis à jour !"
+      notice:
+        added: "Le cloud a été ajouté."
+        deleted: "Le cloud a été supprimé !"
+        more_deleted: "Suppression des clouds suivants : %{list}."
+        updated: "Le cloud a été mis à jour !"
+      warning:
+        creation_failed: "Échec de la création du cloud."
+    form:
+      pool_family_name: "Nom du cloud"
+    index:
+      deployments: Applications
+      new_pool_family: "Nouveau cloud"
+      pool_name: "Nom de la zone de ressources cloud"
+    new:
+      environments: Clouds
+    pool_families: Clouds
+    pool_family: Cloud
+    pool_family_details: "Détails du cloud"
+  pools:
+    create_new_pool: "Créer une nouvelle zone de ressources cloud"
+    edit_pool: "Modifier la zone de ressources cloud %{pool}"
+    errors:
+      providers_disabled: "possède tous les fournisseurs de ressources cloud associés désactivés"
+    flash:
+      error:
+        default_pool_not_deleted: "La zone de ressources cloud par défaut ne peut pas être supprimée"
+        iwhd_unavailable: "Les images du catalogue sont indisponibles. Il semble que l'usine d'images n'est pas joignable."
+        not_updated: "La zone des ressources cloud n'a pas été mise à jour !"
+        pool_not_deleted:
+          one: "La zone des ressources cloud %{list} n'a pas été supprimée. Des instances y sont associées."
+          other: "%{list} des plans d'applications n'ont pas été supprimés. Des applications y sont associées."
+      notice:
+        added: "Zone de ressources cloud ajoutée."
+        updated: "Zone de ressources cloud mise à jour."
+      success:
+        pool_deleted:
+          one: "La zone de ressources cloud %{list} a été supprimée."
+          other: "Les zones de ressources cloud %{list} ont été supprimées."
+      warning:
+        creation_failed: "Échec de la création de la zone de ressources cloud."
+    form:
+      pool_enabled: "Zone de ressources cloud activée"
+    header_show:
+      pool_name: "Zone de ressources cloud %{name}"
+    images:
+      catalog_entry: "Plan d'application"
+      image: "Modèle de composant : "
+    index:
+      confirm_delete: "Êtes-vous certain de vouloir supprimer cette zone de ressources cloud ? Tous les catalogues et déployables concernés seront aussi supprimés !"
+      pool_details: "Détails de la zone de ressources cloud"
+      pool_family: Cloud
+      pool_name: "Nom de la zone de ressources cloud"
+      your_pools: "Votre zone de ressources cloud"
+    new_pool: "Nouvelle zone des ressources cloud"
+    pool: "Zone de ressources cloud"
+    pools: "Zones de ressources cloud"
+    preset_filters:
+      all_pools: "Toutes les zones de ressources cloud"
+      enabled_pools: "Zones de ressources cloud activées"
+  provider_accounts:
+    errors:
+      populate_hardware_profiles_failed: "Échec du remplissage des profils de ressources cloud : %{message}"
+      populate_realms_failed: "Échec du remplissage des clusters : %{message}"
+    flash:
+      error:
+        not_deleted: "Le compte fournisseur de ressources cloud n'a pas été supprimé !"
+      notice:
+        deleted: "Le compte fournisseur de ressources cloud a été supprimé !"
+      warning:
+        no_provider: "Vous ne possédez pas encore de fournisseur de ressources cloud"
+    index:
+      provider_name: "Nom du fournisseur des ressources cloud"
+      provider_type: "Type du fournisseur des ressources cloud"
+    new:
+      cloud_providers: "Fournisseurs de ressources cloud"
+  provider_realms:
+    provider_realms: "Clusters de ressources cloud du fournisseur"
+  provider_summary: "Résumé du fournisseur de ressources cloud"
+  providers:
+    edit:
+      provider_id_disabled: "Le fournisseur de ressources cloud est désactivé."
+    editing_provider: "Modifier le fournisseur de ressources cloud"
+    flash:
+      notice:
+        added: "Fournisseur de ressources cloud ajouté."
+        connected: "Connexion au fournisseur de ressources cloud réussie"
+        deleted: "Suppression du fournisseur de ressources cloud réussie."
+        disabled: "Fournisseur de ressources cloud désactivé"
+        updated: "Fournisseur de ressources cloud mis à jour."
+      warning:
+        connect_failed: "Échec de la connexion au fournisseur des ressources cloud !"
+        not_stopped_instances: "Le fournisseur de ressources cloud n'a pas été désactivé, échec de l'arrêt des instances suivantes : "
+        not_terminated_instances: "Le fournisseur de ressources cloud n'a pas été désactivé, échec du changement de statut sur « stop » des instances suivantes : "
+    form:
+      provider_name: "Nom du fournisseur des ressources cloud : "
+      provider_type: "Type du fournisseur des ressources cloud : "
+      provider_url: "URL du fournisseur des ressources cloud : "
+    index:
+      create_new_provider: "Créer un nouveau fournisseur de ressources cloud"
+      provider_name: "Nom du fournisseur des ressources cloud"
+      provider_type: "Type du fournisseur des ressources cloud"
+      provider_url: "URL du fournisseur des ressources cloud"
+    new:
+      new_provider: "Nouveau fournisseur de ressources cloud"
+      save_provider: "Enregistrer le fournisseur des ressources cloud"
+    provider: "Fournisseur de ressources cloud"
+    providers: "Fournisseurs de ressources cloud"
+  realm_mappings:
+    new:
+      create_new: "Créer un nouveau mappage du cluster des ressources cloud"
+  realm_s: "Clusters de ressource cloud"
+  realms:
+    flash:
+      error:
+        more_not_deleted: "Suppression de ces clusters de ressources cloud impossible : "
+        not_deleted: "Le cluster des ressources cloud n'a pas été supprimé !"
+        select_to_delete: "Vous devez sélectionner au moins un cluster de ressources cloud à supprimer."
+      notice:
+        added: "Le cluster de ressources cloud a été ajouté."
+        added_mapping: "Le mappage du cluster de ressources cloud a été ajouté."
+        deleted: "Le cluster de ressources cloud a été supprimé !"
+        more_deleted: "Les clusters de ressources cloud suivants ont été supprimés : "
+        updated: "Mise à jour du cluster de ressources cloud réussie !"
+    index:
+      realm: "Cluster de ressources cloud"
+      realm_name: "Nom du cluster de ressources cloud"
+    mapping:
+      frontend_realms_mapped_to_provider: "Clusters de ressources cloud mappés au fournisseur %{name} : "
+      frontend_realms_mapped_to_realm: "Clusters de ressources cloud mappés au cluster de ressources du fournisseur %{name} : "
+      mapping_provider: "Ajouter un mappage au fournisseur de ressources cloud"
+      mapping_realm: "Ajouter un mappage au cluster de ressources cloud"
+      provider_accounts_mapped_to_realm: "Comptes fournisseur mappés au cluster de ressources cloud %{name} : "
+      realm_mapped_providers: "Le cluster de ressources cloud %{name} est mappé aux fournisseurs : "
+      realm_mapped_realms: "Le cluster de ressources cloud %{name} est mappé au cluster de ressources du fournisseur : "
+    new:
+      create_realm: "Créer un nouveau cluster de ressources cloud"
+    new_realm: "Nouveau cluster de ressources cloud"
+    preset_filters:
+      all_realms: "Tous les clusters de ressources cloud"
+    properties:
+      realm_details: "Détails du cluster de ressources cloud"
+      realm_name: "Nom du cluster de ressources cloud"
+    realms: "Clusters de ressources cloud"
+    show:
+      realm_mapping: "Mappage du cluster de ressources cloud"
+  updates: "Mises à jour"
+  user_sessions:
+    security:
+      message:  "Votre connexion à CloudForms Cloud Engine sur %{host} est actuellement sécurisée et chiffrée à l'aide du chiffrement SSL (force inconnue)."
+      message_unencrypted: "Votre connexion à CloudForms Cloud Engine sur %{host} est actuellement non-sécurisée. Ceci peut potentiellement conduire au vol d'informations "
