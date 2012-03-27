@@ -366,6 +366,24 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue Mar 27 2012 Steve Linabery <slinaber@redhat.com> - 0.8.4-1
+- b2ab194 BZ #805586 - HWP match preview fix
+- c79a5cd BZ #805586 - HWP match preview fix
+- cc4e941 Added Japanese activerecord dictionary
+- 6989372 Added Japanese overrides/activerecord dictionary
+- 2a9bd91 Added Japanese dictionary
+- 8c6a0c5 Added overrides Japanese dictionary
+- 0bd4d20 Added Japanese role_definitions dictionary
+- f1bba56 Added Japanese overrides/role_definitions dictionary
+- 7411f66 Added French overrides/role_definitions dictionary
+- 9b1f676 Added French role_definitions dictionary
+- 2652d89 Added overrides French dictionary
+- faa6633 Added French dictionary
+- 332680d Added overrides/activerecord French dictionary
+- 26f8f7b Added activerecord French dictionary
+- dcd63d5 BZ 802830 remove remaining overrides that mistakenly turn 'images' into 'component outlines'
+- 98f96cd BZ 803628 remove non-existent classnames locales; replace them with activerecord locales
+
 * Tue Mar 20 2012 Steve Linabery <slinaber@redhat.com> - 0.8.3-1
 - 7cfbd07 BZ 803249 - Remove qpidd as dependency
 - 404d5c1 BZ 802847 - fix hwp matching when there are multiple values for architecture
