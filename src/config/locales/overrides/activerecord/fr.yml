@@ -1,0 +1,68 @@
+fr:
+  activerecord:
+    attributes:
+      catalog:
+        pool_family_id: Cloud
+        pool_id: "Zone de ressources cloud"
+      catalog_entry:
+        deployable_id: "Plan d'application"
+      config_server:
+        provider_account_id: "Compte fournisseur de ressources cloud"
+      credential:
+        provider_account_id: "Compte fournisseur de ressources cloud"
+      deployable:
+        pool_family_id: Cloud
+        xml: "XML de plan d'application"
+      deployment:
+        deployable_xml: "XML de plan d'application"
+        frontend_realm_id: "Cluster de ressources cloud"
+        pool_family_id: Cloud
+        pool_id: "Zone de ressources cloud"
+        realm_id: "Cluster de ressources cloud"
+      hardware_profile:
+        provider_id: "Fournisseur de ressources cloud"
+      instance:
+        assembly_xml: "XML de modèle d'application"
+        deployment_id: Application
+        frontend_realm_id: "Cluster de ressources cloud"
+        hardware_profile_id: "Profil de ressources cloud"
+        image_build_uuid: "UUID de build du modèle du composant"
+        image_uuid: "UUID de modèle du composant"
+        instance_hwp_id: "Instance CRProfile"
+        pool_family_id: Cloud
+        pool_id: "Zone de ressources cloud"
+        provider_account_id: "Compte fournisseur de ressources cloud"
+        provider_image_uuid: "UUID du fournisseur de modèle du composant"
+      pool:
+        pool_family_id: Cloud
+      pool_family:
+        name: "Nom du cloud"
+      property_enum_entry:
+        hardware_profile_property_id: "Propriété du profil de ressources cloud"
+      provider:
+        name: "Nom du fournisseur de ressources cloud"
+        provider_type_id: "Type du fournisseur de ressources cloud"
+        url: "URL du fournisseur de ressources cloud"
+      provider_account:
+        provider_id: "Fournisseur de ressources cloud"
+      realm:
+        provider_id: "Fournisseur de ressources cloud"
+      realm_backend_target:
+        frontend_realm_id: "Cluster de ressources cloud"
+        realm_or_provider_id: "Fournisseur ou cluster de ressources cloud"
+        realm_or_provider_type: "Type du fournisseur ou cluster de ressources cloud"
+    models:
+      catalog_entry: "Plan d'application"
+      deployable: "Plan d'application"
+      deployment: Application
+      frontend_realm: "Cluster de ressources cloud"
+      hardware_profile: "Profil de ressources cloud"
+      hardware_profile_property: "Propriété du profil de ressources cloud"
+      instance_hwp: "Profil Res. de l'instance"
+      pool: "Zone de ressources cloud"
+      pool_family: Cloud
+      provider: "Fournisseur de ressources cloud"
+      provider_account: "Compte fournisseur de ressources cloud"
+      provider_type: "Type du fournisseur de ressources cloud"
+      realm: "Cluster de ressources cloud"
+      realm_backend_target: "Cible backend du cluster de ressources cloud"
