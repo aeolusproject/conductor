@@ -2,7 +2,7 @@
   = render 'layouts/error_messages', :object => @pool_family
 %fieldset
   %p.clearfix
-    = form.label :name
+    = form.label :name, t('pool_families.index.name')
     = form.text_field :name, :title => 'pool_family_name', :value => @pool_family.name, :class => 'em long'
 
   = form.fields_for :quota do |quota_form|
