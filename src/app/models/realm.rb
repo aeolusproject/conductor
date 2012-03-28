@@ -49,7 +49,10 @@ class Realm < ActiveRecord::Base
 
   CONDUCTOR_REALM_PROVIDER_DELIMITER = ":"
   CONDUCTOR_REALM_ACCOUNT_DELIMITER = "/"
-  PRESET_FILTERS_OPTIONS = []
+
+  def self.preset_filters_options
+    @@preset_filters_options = []
+  end
 
   def name_with_provider
     "#{self.provider.name}: #{self.name}"

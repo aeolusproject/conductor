@@ -133,7 +133,9 @@ class User < ActiveRecord::Base
     new_record? ? !ignore_password : (!password.blank? or !password_confirmation.blank?)
   end
 
-  PRESET_FILTERS_OPTIONS = []
+  def self.preset_filters_options
+    @@preset_filters_options = []
+  end
 
   private
 

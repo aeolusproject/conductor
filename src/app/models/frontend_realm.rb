@@ -47,7 +47,9 @@ class FrontendRealm < ActiveRecord::Base
 
   validates_length_of :description, :maximum => 255, :allow_blank => true
 
-  PRESET_FILTERS_OPTIONS = []
+  def self.preset_filters_options
+    @@preset_filters_options = []
+  end
 
   private
 

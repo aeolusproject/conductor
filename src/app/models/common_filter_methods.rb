@@ -23,7 +23,7 @@ module CommonFilterMethods
 
   def apply_preset_filter(preset_filter_id)
     if preset_filter_id.present?
-      self::PRESET_FILTERS_OPTIONS.select{|item| item[:id] == preset_filter_id}.first[:query]
+      self.preset_filters_options.select{|item| item[:id] == preset_filter_id}.first[:query]
     else
       scoped
     end

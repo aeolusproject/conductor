@@ -311,7 +311,9 @@ class ProviderAccount < ActiveRecord::Base
     doc.to_xml
   end
 
-  PRESET_FILTERS_OPTIONS = []
+  def self.preset_filters_options
+    @@preset_filters_options = []
+  end
 
   def self.group_by_type(pool_family)
     res = {}

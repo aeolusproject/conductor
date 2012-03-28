@@ -129,13 +129,16 @@ class Pool < ActiveRecord::Base
     result
   end
 
-  PRESET_FILTERS_OPTIONS = [
-    {:title => I18n.t("pools.preset_filters.enabled_pools"), :id => "enabled_pools", :query => where("pools.enabled" => true)},
-    {:title => I18n.t("pools.preset_filters.with_pending_instances"), :id => "with_pending_instances", :query => includes(:deployments => :instances).where("instances.state" => "pending")},
-    {:title => I18n.t("pools.preset_filters.with_running_instances"), :id => "with_running_instances", :query => includes(:deployments => :instances).where("instances.state" => "running")},
-    {:title => I18n.t("pools.preset_filters.with_create_failed_instances"), :id => "with_create_failed_instances", :query => includes(:deployments => :instances).where("instances.state" => "create_failed")},
-    {:title => I18n.t("pools.preset_filters.with_stopped_instances"), :id => "with_stopped_instances", :query => includes(:deployments => :instances).where("instances.state" => "stopped")}
-  ]
+  def self.preset_filters_options
+    @@preset_filters_options =
+    [
+      {:title => I18n.t("pools.preset_filters.enabled_pools"), :id => "enabled_pools", :query => where("pools.enabled" => true)},
+      {:title => I18n.t("pools.preset_filters.with_pending_instances"), :id => "with_pending_instances", :query => includes(:deployments => :instances).where("instances.state" => "pending")},
+      {:title => I18n.t("pools.preset_filters.with_running_instances"), :id => "with_running_instances", :query => includes(:deployments => :instances).where("instances.state" => "running")},
+      {:title => I18n.t("pools.preset_filters.with_create_failed_instances"), :id => "with_create_failed_instances", :query => includes(:deployments => :instances).where("instances.state" => "create_failed")},
+      {:title => I18n.t("pools.preset_filters.with_stopped_instances"), :id => "with_stopped_instances", :query => includes(:deployments => :instances).where("instances.state" => "stopped")}
+    ]
+  end
 
   def object_list
     super + [pool_family]
