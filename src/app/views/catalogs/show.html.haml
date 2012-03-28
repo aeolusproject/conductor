@@ -30,7 +30,7 @@
       %li
         = label_tag :deployables_preset_filter, t('filter_table.viewing')
         = hidden_field_tag :current_path, request.fullpath
-        = select_tag(:deployables_preset_filter, preset_filters_options_for_select(Deployable::PRESET_FILTERS_OPTIONS, params[:deployables_preset_filter]), :include_blank => t("catalog_entries.preset_filters.all_catalog_entries"), :disabled => true)
+        = select_tag(:deployables_preset_filter, preset_filters_options_for_select(Deployable.preset_filters_options, params[:deployables_preset_filter]), :include_blank => t("catalog_entries.preset_filters.all_catalog_entries"), :disabled => true)
         = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_catalog_deployables_path(@catalog), 'POST', :class => 'button', :id => 'apply_deployables_preset_filter'
         %span.label.badge.dark= @deployables.count
       %li.table-search-filter

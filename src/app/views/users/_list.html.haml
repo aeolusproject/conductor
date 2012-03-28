@@ -11,7 +11,7 @@
   %li
     = label_tag :users_preset_filter, t('filter_table.viewing')
     = hidden_field_tag :current_path, request.fullpath
-    = select_tag(:users_preset_filter, preset_filters_options_for_select(User::PRESET_FILTERS_OPTIONS, params[:users_preset_filter]), :include_blank => t("users.preset_filters.all_users"), :disabled => true)
+    = select_tag(:users_preset_filter, preset_filters_options_for_select(User.preset_filters_options, params[:users_preset_filter]), :include_blank => t("users.preset_filters.all_users"), :disabled => true)
     = restful_submit_tag t("filter_table.apply_filters"), "index", filter_users_path, 'POST', :class => 'button', :id => 'apply_users_preset_filter'
     %span.label.badge.dark= @users.count
   /  = link_to "Filter", "#", :class => 'button pill'

@@ -11,7 +11,7 @@
 - content_for :filter_controls do
   %li
     = label_tag :instances_preset_filter, t('filter_table.viewing')
-    = select_tag(:instances_preset_filter, preset_filters_options_for_select(Instance::PRESET_FILTERS_OPTIONS, params[:instances_preset_filter]), :include_blank => t("instances.preset_filters.all_instances"))
+    = select_tag(:instances_preset_filter, preset_filters_options_for_select(Instance.preset_filters_options, params[:instances_preset_filter]), :include_blank => t("instances.preset_filters.all_instances"))
     = hidden_field_tag :current_path, request.fullpath
     = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_instances_path, 'POST', :class => 'button', :id => 'apply_instances_preset_filter'
     %span.label.badge.dark= @instances.count
