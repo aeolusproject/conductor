@@ -11,10 +11,10 @@
         - else
           %em=t('deployables.new.no_catalog_selected')
     %p.clearfix
-      = form.label :name
+      = form.label :name, t('deployables.index.name')
       = form.text_field :name, :class => 'em long'
     %p.clearfix
-      = form.label :description
+      = form.label :description, t('deployables.index.description')
       = form.text_area :description, :class => 'long'
     %p.clearfix
       = form.label :xml, t('deployables.form.choose_xml')
