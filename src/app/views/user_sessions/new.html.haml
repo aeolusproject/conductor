@@ -34,7 +34,7 @@
           //we will have to check if status code == 0 in 'complete' callback
           $('#error-content').remove();
           $('#primary-container').prepend('<div id="error-content" class="error" style="opacity: 0; position: relative;"></div>');
-          var text = $.isEmptyObject(response.responseText) ? response.statusText : response.responseText;
+          var text = response.responseText == '' ? response.statusText : response.responseText;
           if(response.status !== 401) text = "Internal Server Error";
           $('#error-content').html('<p class="text">' + text  + '</p>');
           $('#error-content').animate({ 'opacity': 1, 'top': -10 },{queue:false,duration:150});
