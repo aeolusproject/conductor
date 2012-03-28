@@ -365,6 +365,15 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed Mar 28 2012 Steve Linabery <slinaber@redhat.com> - 0.8.6-1
+- 4cc32b8 BZ807436: Fix login error message on IE8
+- 9da9169 BZ807462: Fix filter view detection
+- b65daa9 BZ 803948 Fix of filters options in filter tables
+- da239a4 BZ 803948 Fix of filters options in filter tables
+- b4f044b BZ 804620 added i18n for some fields in form of pools rev.
+- aa574bd BZ 804620 added i18n for some fields in form of pool families
+- 4c97201 BZ 804620 Added i18n for some fields in form of deployables
+
 * Wed Mar 28 2012 Steve Linabery <slinaber@redhat.com> - 0.8.5-1
 - 9b1de4b BZ807727 aeolus-conductor should not depend on rubygem(sqlite3)
 - f8bf08b BZ 807342 added src/config/locales/defaults
