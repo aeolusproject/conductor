@@ -365,6 +365,10 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed Mar 28 2012 Steve Linabery <slinaber@redhat.com> - 0.8.5-1
+- 9b1de4b BZ807727 aeolus-conductor should not depend on rubygem(sqlite3)
+- f8bf08b BZ 807342 added src/config/locales/defaults
+
 * Tue Mar 27 2012 Steve Linabery <slinaber@redhat.com> - 0.8.4-1
 - b2ab194 BZ #805586 - HWP match preview fix
 - c79a5cd BZ #805586 - HWP match preview fix
