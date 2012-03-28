@@ -126,10 +126,12 @@ class ApplicationController < ActionController::Base
 
   # let's suppose that 'pretty' view is default
   def filter_view?
-    if @viewstate
-      @viewstate.state['view'] == 'filter'
-    else
+    if params[:view].present?
       params[:view] == 'filter'
+    elsif params[:details_tab].present?
+      true
+    elsif @viewstate
+      @viewstate.state['view'] == 'filter'
     end
   end
 
@@ -228,11 +230,14 @@ class ApplicationController < ActionController::Base
   end
 
   def clear_breadcrumbs
+    return if request.format == :json
+
     session[:breadcrumbs] = []
-    session[:viewstates] = {}
   end
 
   def save_breadcrumb(path, name = controller_name)
+    return if request.format == :json
+
     session[:breadcrumbs] ||= []
     breadcrumbs = session[:breadcrumbs]
     viewstate = @viewstate ? @viewstate.id : nil
