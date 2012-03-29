@@ -365,6 +365,11 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Thu Mar 29 2012 Steve Linabery <slinaber@redhat.com> - 0.8.7-1
+- 64bd4e1 BZ 803948 Fix of filters options in filter tables
+- 876f609 Reverting changes of BZ 803948 bugfix in models
+- a393e0e Reverting changes of BZ 803948 bugfix in views
+
 * Wed Mar 28 2012 Steve Linabery <slinaber@redhat.com> - 0.8.6-1
 - 4cc32b8 BZ807436: Fix login error message on IE8
 - 9da9169 BZ807462: Fix filter view detection
