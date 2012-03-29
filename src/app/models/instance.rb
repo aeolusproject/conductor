@@ -466,11 +466,11 @@ class Instance < ActiveRecord::Base
 
   PRESET_FILTERS_OPTIONS =
     [
-      {:title => I18n.t("instances.preset_filters.other_than_stopped"), :id => "other_than_stopped", :query => where("instances.state != ?", "stopped")},
-      {:title => I18n.t("instances.preset_filters.create_failed"), :id => "create_failed", :query => where("instances.state" => "create_failed")},
-      {:title => I18n.t("instances.preset_filters.stopped"), :id => "stopped", :query => where("instances.state" => "stopped")},
-      {:title => I18n.t("instances.preset_filters.running"), :id => "running", :query => where("instances.state" => "running")},
-      {:title => I18n.t("instances.preset_filters.pending"), :id => "pending", :query => where("instances.state" => "pending")}
+      {:title => "instances.preset_filters.other_than_stopped", :id => "other_than_stopped", :query => where("instances.state != ?", "stopped")},
+      {:title => "instances.preset_filters.create_failed", :id => "create_failed", :query => where("instances.state" => "create_failed")},
+      {:title => "instances.preset_filters.stopped", :id => "stopped", :query => where("instances.state" => "stopped")},
+      {:title => "instances.preset_filters.running", :id => "running", :query => where("instances.state" => "running")},
+      {:title => "instances.preset_filters.pending", :id => "pending", :query => where("instances.state" => "pending")}
     ]
 
   def destroy_on_provider

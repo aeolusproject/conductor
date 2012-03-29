@@ -158,8 +158,8 @@ class HardwareProfile < ActiveRecord::Base
 
   PRESET_FILTERS_OPTIONS =
     [
-    #{:title => I18n.t("hardware_profiles.preset_filters.i386architecture"), :id => "i386architecture", :query => includes(:architecture).where('architecture.value' => "i386")},
-    #{:title => I18n.t("hardware_profiles.preset_filters.x86_64architecture"), :id => "x86_64architecture", :query => includes(:architecture).where('architecture.value' => "x86_64")}
+    #{:title => "hardware_profiles.preset_filters.i386architecture", :id => "i386architecture", :query => includes(:architecture).where('architecture.value' => "i386")},
+    #{:title => "hardware_profiles.preset_filters.x86_64architecture", :id => "x86_64architecture", :query => includes(:architecture).where('architecture.value' => "x86_64")}
     ]
 
   private
