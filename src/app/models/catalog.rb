@@ -69,7 +69,7 @@ class Catalog < ActiveRecord::Base
   end
 
   PRESET_FILTERS_OPTIONS = [
-    {:title => I18n.t("catalogs.preset_filters.belongs_to_default_pool"), :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}
+    {:title => "catalogs.preset_filters.belongs_to_default_pool", :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}
   ]
 
   def destroy_deployables_related_only_to_self

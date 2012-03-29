@@ -88,7 +88,7 @@ module ApplicationHelper
     else
       preset_filters_options = all_preset_filters_options
     end
-    options_for_select(preset_filters_options.collect{|x| [x[:title], x[:id]]}, :selected => selected)
+    options_for_select(preset_filters_options.collect{|x| [I18n.t(x[:title]), x[:id]]}, :selected => selected)
   end
 
   # Integration of rack-restful_submit convention to be able to call
