@@ -68,11 +68,9 @@ class Catalog < ActiveRecord::Base
       permissions_pool_families.role_id in (:role_ids))"
   end
 
-  def self.preset_filters_options
-    @@preset_filters_options = [
-      {:title => I18n.t("catalogs.preset_filters.belongs_to_default_pool"), :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}
+  PRESET_FILTERS_OPTIONS = [
+      {:title => "catalogs.preset_filters.belongs_to_default_pool", :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}
     ]
-  end
 
   def destroy_deployables_related_only_to_self
     deployables.each {|d| d.destroy if d.catalogs.count == 1}

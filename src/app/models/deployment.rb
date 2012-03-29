@@ -502,9 +502,7 @@ class Deployment < ActiveRecord::Base
     instances.select {|instance| instance.failed?}
   end
 
-  def self.preset_filters_options
-    @@preset_filters_options = []
-  end
+  PRESET_FILTERS_OPTIONS = []
 
   private
 

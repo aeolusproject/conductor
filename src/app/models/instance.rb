@@ -464,8 +464,7 @@ class Instance < ActiveRecord::Base
     deployed? ? (Time.now - time_last_running) : 0
   end
 
-  def self.preset_filters_options
-    @@preset_filters_options =
+  PRESET_FILTERS_OPTIONS =
     [
       {:title => I18n.t("instances.preset_filters.other_than_stopped"), :id => "other_than_stopped", :query => where("instances.state != ?", "stopped")},
       {:title => I18n.t("instances.preset_filters.create_failed"), :id => "create_failed", :query => where("instances.state" => "create_failed")},
@@ -473,7 +472,6 @@ class Instance < ActiveRecord::Base
       {:title => I18n.t("instances.preset_filters.running"), :id => "running", :query => where("instances.state" => "running")},
       {:title => I18n.t("instances.preset_filters.pending"), :id => "pending", :query => where("instances.state" => "pending")}
     ]
-  end
 
   def destroy_on_provider
     if provider_account and destroy_supported?(provider_account) and ![STATE_CREATE_FAILED, STATE_VANISHED].include?(state)

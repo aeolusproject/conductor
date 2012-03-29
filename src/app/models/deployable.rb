@@ -47,9 +47,7 @@ class Deployable < ActiveRecord::Base
     where('id NOT IN (?)', deployable_ids_in_association)
   }
 
-  def self.preset_filters_options
-    @@preset_filters_options = []
-  end
+  PRESET_FILTERS_OPTIONS = []
 
   def object_list
     super + catalogs + catalogs.collect{|c| c.pool} + [pool_family]
