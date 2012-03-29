@@ -6,7 +6,7 @@
 - content_for :filter_controls do
   %li
     = label_tag :pools_preset_filter, t('filter_table.viewing')
-    = select_tag(:pools_preset_filter, preset_filters_options_for_select(Pool.preset_filters_options, params[:pools_preset_filter]), :include_blank => t("pools.preset_filters.all_pools"))
+    = select_tag(:pools_preset_filter, preset_filters_options_for_select(Pool::PRESET_FILTERS_OPTIONS, params[:pools_preset_filter]), :include_blank => t("pools.preset_filters.all_pools"))
     = hidden_field_tag :current_path, request.fullpath
     = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_pools_path, 'POST', :class => 'button', :id => 'apply_pools_preset_filter'
     %span.label.badge.dark= @pools.count
