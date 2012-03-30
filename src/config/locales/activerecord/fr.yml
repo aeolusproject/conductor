@@ -1,0 +1,345 @@
+fr:
+  activerecord:
+    attributes:
+      base_permission_object:
+        created_at: "Créé à"
+        name: Nom
+        updated_at: "Mis à jour à"
+      catalog:
+        created_at: "Créé à"
+        name: Nom
+        pool_family_id: "Gamme de pools"
+        pool_id: Pool
+        updated_at: "Mis à jour à"
+      catalog_entry:
+        catalog_id: Catalogue
+        deployable_id: Déployable
+      config_server:
+        created_at: "Créé à"
+        endpoint: "Point de terminaison (URL) du serveur"
+        key: "Clé du consommateur"
+        provider_account_id: "Compte fournisseur"
+        secret: "Secret du consommateur"
+        updated_at: "Mis à jour à"
+      credential:
+        created_at: "Créé à"
+        credential_definition_id: "Définition des informations d’identification"
+        provider_account_id: "Compte fournisseur"
+        updated_at: "Mis à jour à"
+        value: Valeur
+      credential_definition:
+        created_at: "Créé à"
+        input_type: "Type d'entrée"
+        label: Étiquette
+        name: Nom
+        provider_type_id: "Type de fournisseur"
+        updated_at: "Mis à jour à"
+      delayed_job:
+        attempts: Tentatives
+        created_at: "Créé à"
+        failed_at: "Échec à"
+        handler: Handler
+        last_error: "Dernière erreur"
+        locked_at: "Verrouillé à"
+        locked_by: "Verrouillé par"
+        priority: Priorité
+        run_at: "Exécuté à"
+        updated_at: "Mis à jour à"
+      deployable:
+        description: Description
+        name: Nom
+        owner_id: Propriétaire
+        pool_family_id: "Gamme de pools"
+        xml: "XML du déployable"
+        xml_filename: "Nom de fichier du XML"
+      deployment:
+        created_at: "Créé à"
+        deployable_xml: "XML du déployable"
+        frontend_realm_id: Sphère
+        lock_version: "Version du verrou"
+        name: Nom
+        owner_id: Propriétaire
+        pool_family_id: "Gamme de pools"
+        pool_id: Pool
+        realm_id: "Sphère du fournisseur"
+        scheduled_for_deletion: "Suppression planifiée"
+        updated_at: "Mis à jour à"
+        uuid: Uuid
+      event:
+        created_at: "Créé à"
+        description: Description
+        event_time: "Heure de l'événement"
+        source_id: Source
+        source_type: "Type de source"
+        status_code: "Code de statut"
+        summary: Sommaire
+        updated_at: "Mis à jour à"
+      frontend_realm:
+        created_at: "Créé à"
+        description: Description
+        lock_version: "Version du verrou"
+        name: Nom
+        updated_at: "Mis à jour à"
+      hardware_profile:
+        architecture_id: Architecture
+        cpu_id: Cpu
+        created_at: "Créé à"
+        external_key: "Clé externe"
+        lock_version: "Version du verrou"
+        memory_id: Mémoire
+        name: Nom
+        provider_id: Fournisseur
+        storage_id: Stockage
+        updated_at: "Mis à jour à"
+      hardware_profile_property:
+        created_at: "Créé à"
+        kind: Genre
+        lock_version: "Version du verrou"
+        name: Nom
+        range_first: "Première plage"
+        range_last: "Dernière plage"
+        unit: Unité
+        updated_at: "Mis à jour à"
+        value: Valeur
+      hook:
+        created_at: "Créé à"
+        updated_at: "Mis à jour à"
+        uri: Uri
+        version: Version
+      icicle:
+        created_at: "Créé à"
+        updated_at: "Mis à jour à"
+        uuid: Uuid
+        xml: Xml
+      instance:
+        acc_pending_time: "Temps accumulé de mise en attente"
+        acc_running_time: "Temps accumulé d'exécution"
+        acc_shutting_down_time: "Temps accumulé de fermeture"
+        acc_stopped_time: "Temps accumulé d'arrêt"
+        assembly_xml: "XML de l'Assembly"
+        created_at: "Créé à"
+        deployment_id: Déploiement
+        external_key: "Clé externe"
+        frontend_realm_id: Sphère
+        hardware_profile_id: "Profil du matériel"
+        image_build_uuid: "UUID de build de l'image"
+        image_uuid: "UUID de l'image"
+        instance_config_xml: "XML de configuration de l'image"
+        instance_hwp_id: "Hwp de l'instance"
+        last_error: "Dernière erreur"
+        lock_version: "Version du verrou"
+        name: Nom
+        owner_id: Propriétaire
+        pool_family_id: "Gamme de pools"
+        pool_id: Pool
+        private_addresses: "Adresses privées"
+        provider_account_id: "Compte fournisseur"
+        provider_image_uuid: "UUID d'image de fournisseur"
+        provider_instance_id: "Instance du fournisseur"
+        public_addresses: "Adresses publiques"
+        secret: Secret
+        state: État
+        time_last_pending: "Heure de la dernière mise en attente"
+        time_last_running: "Heure de la dernière exécution"
+        time_last_shutting_down: "Heure de la dernière fermeture"
+        time_last_stopped: "Heure du dernier arrêt"
+        updated_at: "Mis à jour à"
+        user_data: "Données utilisateur"
+        uuid: Uuid
+      instance_hwp:
+        architecture: Architecture
+        cpu: Cpu
+        lock_version: "Version du verrou"
+        memory: Mémoire
+        storage: Stockage
+      instance_key:
+        created_at: "Créé à"
+        instance_id: Instance
+        name: Nom
+        pem: Pem
+        updated_at: "Mis à jour à"
+      instance_parameter:
+        created_at: "Créé à"
+        instance_id: Instance
+        name: Nom
+        service: Service
+        type: Type
+        updated_at: "Mis à jour à"
+        value: Valeur
+      metadata_object:
+        created_at: "Créé à"
+        key: Clé
+        lock_version: "Version du verrou"
+        object_type: "Type d'objet"
+        updated_at: "Mis à jour à"
+        value: Valeur
+      permission:
+        created_at: "Créé à"
+        lock_version: "Version du verrou"
+        permission_object_id: "Objet de permission"
+        permission_object_type: "Type d'objet de permission"
+        role_id: Rôle
+        updated_at: "Mis à jour à"
+        user_id: Utilisateur
+      pool:
+        created_at: "Créé à"
+        enabled: Activé
+        exported_as: "Exporté en tant que"
+        lock_version: "Version du verrou"
+        name: Nom
+        pool_family_id: "Gamme de pools"
+        quota_id: Quota
+        updated_at: "Mis à jour à"
+      pool_family:
+        created_at: "Créé à"
+        description: Description
+        lock_version: "Version du verrou"
+        name: "Nom de gamme de pools"
+        quota_id: Quota
+        updated_at: "Mis à jour à"
+      privilege:
+        action: Action
+        created_at: "Créé à"
+        lock_version: "Version du verrou"
+        role_id: Rôles
+        target_type: "Type de cible"
+        updated_at: "Mis à jour à"
+      property_enum_entry:
+        created_at: "Créé à"
+        hardware_profile_property_id: "Propriété du profil matériel"
+        lock_version: "Version du verrou"
+        updated_at: "Mis à jour à"
+        value: Valeur
+      provider:
+        available: Disponible
+        created_at: "Créé à"
+        deltacloud_provider: "Fournisseur Deltacloud"
+        enabled: Activé
+        lock_version: "Version du verrou"
+        name: "Nom du fournisseur"
+        provider_type_id: "Type de fournisseur"
+        updated_at: "Mis à jour à"
+        url: "URL du fournisseur"
+      provider_account:
+        created_at: "Créé à"
+        label: Étiquette
+        lock_version: "Version du verrou"
+        priority: Priorité
+        provider_id: Fournisseur
+        quota_id: Quota
+        updated_at: "Mis à jour à"
+      provider_type:
+        created_at: "Créé à"
+        deltacloud_driver: "Pilote Deltacloud"
+        home_dir: "Répertoire d'accueil"
+        name: Nom
+        ssh_user: "Utilisateur SSH"
+        updated_at: "Mis à jour à"
+      quota:
+        created_at: "Créé à"
+        lock_version: "Version du verrou"
+        maximum_running_instances: "Nombre maximum d'instances en cours d'exécution"
+        maximum_total_instances: "Instances totales maximum"
+        running_instances: "Instances en cours d'exécution"
+        total_instances: "Total des instances"
+        updated_at: "Mis à jour à"
+      realm:
+        available: Disponible
+        created_at: "Créé à"
+        external_key: "Clé externe"
+        lock_version: "Version du verrou"
+        name: Nom
+        provider_id: Fournisseur
+        updated_at: "Mis à jour à"
+      realm_backend_target:
+        frontend_realm_id: Sphère
+        realm_or_provider_id: "Sphère du fournisseur ou fournisseur"
+        realm_or_provider_type: "Sphère du fournisseur ou type de fournisseur"
+      role:
+        assign_to_owner: "Assigner au propriétaire"
+        created_at: "Créé à"
+        lock_version: "Version du verrou"
+        name: Nom
+        scope: Étendue
+        updated_at: "Mis à jour à"
+      session:
+        created_at: "Créé à"
+        data: Données
+        session_id: Session
+        updated_at: "Mis à jour à"
+      task:
+        action: Action
+        args: Arguments
+        created_at: "Créé à"
+        failure_code: "Code d'échec"
+        lock_version: "Version du verrou"
+        message: Message
+        state: État
+        task_target_id: "Cible de la tâche"
+        task_target_type: "Type de cible de la tâche"
+        time_ended: "Heure de fin"
+        time_started: "Heure de début"
+        time_submitted: "Heure de soumission"
+        type: Type
+        user: Utilisateur
+      user:
+        created_at: "Créé à"
+        crypted_password: "Mot de passe chiffré"
+        current_login_at: "Connexion actuelle à"
+        current_login_ip: "IP de la connexion actuelle"
+        email: Email
+        failed_login_count: "Échec du compte des connexions"
+        first_name: Prénom
+        last_login_at: "Dernière connexion à"
+        last_login_ip: "Dernière adresse IP"
+        last_name: "Nom de famille"
+        last_request_at: "Dernière requête à"
+        login: Connexion
+        login_count: "Compte des connexions"
+        quota_id: Quota
+        updated_at: "Mis à jour à"
+      view_state:
+        action: Action
+        controller: Contrôleur
+        created_at: "Créé à"
+        name: Nom
+        state: État
+        updated_at: "Mis à jour à"
+        user_id: Utilisateur
+    models:
+      base_permission_object: "Objet de permission de base"
+      catalog: Catalogue
+      catalog_entry: "Entrée de catalogue"
+      config_server: "Serveur de configuration"
+      credential: "Informations d'identification"
+      credential_definition: "Définition des informations d’identification"
+      delayed_job: "Tâche différée"
+      deployable: Déployable
+      deployment: Déploiement
+      event: Événement
+      frontend_realm: Sphère
+      hardware_profile: "Profil du matériel"
+      hardware_profile_property: "Propriété du profil matériel"
+      hook: Hook
+      icicle: Icicle
+      instance: Instance
+      instance_hwp: "Hwp de l'instance"
+      instance_key: "Clé de l'instance"
+      instance_parameter: "Paramètre de l'instance"
+      metadata_object: "Objet de métadonnées"
+      permission: Permission
+      pool: Pool
+      pool_family: "Gamme de pools"
+      privilege: Privilège
+      property_enum_entry: "Entrée de l'énumération de propriété"
+      provider: Fournisseur
+      provider_account: "Compte fournisseur"
+      provider_type: "Type de fournisseur"
+      quota: Quota
+      realm: "Sphère du fournisseur"
+      realm_backend_target: "Cible backend de la sphère du fournisseur"
+      role: Rôle
+      session: Session
+      task: Tâche
+      user: Utilisateur
+      view_state: "Afficher l'état"
