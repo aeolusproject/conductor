@@ -112,6 +112,8 @@ Requires: deltacloud-core
 Requires: deltacloud-core-ec2
 Requires: deltacloud-core-rhevm
 Requires: deltacloud-core-vsphere
+Requires: deltacloud-core-openstack
+Requires: deltacloud-core-rackspace
 Requires: ntp
 Requires: rsyslog-relp
 
