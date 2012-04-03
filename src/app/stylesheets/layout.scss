@@ -282,13 +282,6 @@ body{
 
 strong, em, b, i{ font-family: $font-family-em; }
 
-#primary-container{
-  position: relative;
-  min-height: 100%;
-  display: block;
-  margin-bottom: -40px;
-}
-
 .align-center{text-align: center;}
 
 /* Content */
@@ -3576,16 +3569,9 @@ body.administer form.generic{
 Page Footer -- v.0.0.1 [footer] (footer.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-.clearfooter{
-  height: 40px;
-  clear: both;
-}
-
 /* Footer */
 
 footer.standard{
-
-  background: rgba(0, 0, 0, 0.20);
   position: relative;
   height: 40px;
   width: 100%;

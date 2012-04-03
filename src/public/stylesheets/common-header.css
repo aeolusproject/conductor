@@ -560,3 +560,20 @@ section#usermenu > ul  li a{padding:0em; margin:0em; padding: .5em 2em; border-r
 section#usermenu > ul  li a:hover{color:#FFF !important; text-decoration: underline;}
 section#usermenu > ul  li:last-child a{border-radius: 0em 0em .51em .51em}
 section#usermenu > ul  li a:after{content:none;}
+
+
+/* Fix up footer */
+footer.standard div.container, footer.standard , footer.standard div{ background-color:transparent;  color:#333 !important; text-align:center !important; display:block; width: 100%;
+float:none !important; position:relative; }
+
+/* The navigation dropdown shouldn't be black-on-black */
+#usermenu > a:after{content:""; border-radius:0; height:0; width:0; left:85%; position:absolute;  border-width: .35em .35em 0em .35em; top:.5em; background-color:transparent !important;;
+border-color: white transparent transparent transparent ; border-style:solid solid none solid; }
+#usermenu > a{padding-right:3em;}
+#usermenu:hover > ul li a{ display:block;background-color: white; text-align:left;}
+#usermenu ul {display:block !important; opacity:0; -webkit-transition:all .5s ease; -moz-transition: all .5s ease; transition: all .5s ease;}
+#usermenu:hover > ul  {opacity:1 !important;}
+#usermenu:hover > ul li{background-color: white; border-radius:0em ; }
+#usermenu:hover > ul li a:hover{color:#000 !important; ;}
+#usermenu > ul li{ display:block; ; min-height: 3em; margin:0em;  padding:0em}
+#usermenu:hover ul li{box-shadow: 0px 1em 2em  rgba(0,0,0,0.2)!important;  min-height:4em; min-width: 10em;}
