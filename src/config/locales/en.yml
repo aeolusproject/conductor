@@ -346,6 +346,15 @@ en:
       shared_to: "Shared to: "
       error: "Error: "
       n_a: "N/A"
+    states:
+      new: New
+      pending: Pending
+      running: Running
+      shutting_down: Shutting down
+      stopped: Stopped
+      create_failed: Create failed
+      error: Error
+      vanished: Vanished
     confirm_terminate:
       terminate: "Terminate"
       terminate_instances: "Terminate Instances"

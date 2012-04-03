@@ -14,7 +14,7 @@
             %dd= instance.public_addresses.present? ? instance.public_addresses : t('deployments.pretty_view_show.no_ip_address')
           %li
             %dt.state= t('deployments.pretty_view_show.state')
-            %dd= instance.state
+            %dd= t("instances.states.#{instance.state}")
           - if instance.instance_key
             %li
               %dt
@@ -56,7 +56,7 @@
           </li>
           <li>
             <dt class="state">#{t('deployments.pretty_view_show.state')}</dt>
-            <dd>${state}</dd>
+            <dd>${translated_state}</dd>
           </li>
           {{if has_key}}
             <li>

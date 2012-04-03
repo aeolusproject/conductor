@@ -447,6 +447,7 @@ class Instance < ActiveRecord::Base
       :uptime => ApplicationHelper.count_uptime(uptime),
       :stop_enabled => available_actions.include?(InstanceTask::ACTION_STOP),
       :reboot_enabled => available_actions.include?(InstanceTask::ACTION_REBOOT),
+      :translated_state => I18n.t("instances.states.#{state}"),
       :is_failed => failed?
     })
 
