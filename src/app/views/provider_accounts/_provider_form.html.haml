@@ -5,7 +5,7 @@
   - @provider_account.all_credentials(@provider).each do |cred|
     - if cred_order == cred.credential_definition.name
       %p.clearfix
-        = label_tag cred.credential_definition.label
+        = label_tag t("provider_accounts.credentials.labels.#{cred.credential_definition.label}")
         - if cred.credential_definition.input_type == "password"
           = password_field_tag "provider_account[credentials_hash][#{cred.credential_definition.name}]", cred.value
         - elsif cred.credential_definition.input_type == "file"

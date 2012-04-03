@@ -183,16 +183,16 @@ end
 if CredentialDefinition.all.empty?
   ProviderType.all.each do |provider_type|
     unless provider_type.deltacloud_driver == 'ec2'
-      CredentialDefinition.create!(:name => 'username', :label => 'Username', :input_type => 'text', :provider_type_id => provider_type.id)
-      CredentialDefinition.create!(:name => 'password', :label => 'Password', :input_type => 'password', :provider_type_id => provider_type.id)
+      CredentialDefinition.create!(:name => 'username', :label => 'username', :input_type => 'text', :provider_type_id => provider_type.id)
+      CredentialDefinition.create!(:name => 'password', :label => 'password', :input_type => 'password', :provider_type_id => provider_type.id)
     end
   end
 
   #for ec2 provider type
   ec2 = ProviderType.find_by_deltacloud_driver 'ec2'
-  CredentialDefinition.create!(:name => 'username', :label => 'Access Key', :input_type => 'text', :provider_type_id => ec2.id)
-  CredentialDefinition.create!(:name => 'password', :label => 'Secret Access Key', :input_type => 'password', :provider_type_id => ec2.id)
-  CredentialDefinition.create!(:name => 'account_id', :label => 'Account Number', :input_type => 'text', :provider_type_id => ec2.id)
-  CredentialDefinition.create!(:name => 'x509private', :label => 'Key', :input_type => 'file', :provider_type_id => ec2.id)
-  CredentialDefinition.create!(:name => 'x509public', :label => 'Certificate', :input_type => 'file', :provider_type_id => ec2.id)
+  CredentialDefinition.create!(:name => 'username', :label => 'access_key', :input_type => 'text', :provider_type_id => ec2.id)
+  CredentialDefinition.create!(:name => 'password', :label => 'secret_access_key', :input_type => 'password', :provider_type_id => ec2.id)
+  CredentialDefinition.create!(:name => 'account_id', :label => 'account_number', :input_type => 'text', :provider_type_id => ec2.id)
+  CredentialDefinition.create!(:name => 'x509private', :label => 'key', :input_type => 'file', :provider_type_id => ec2.id)
+  CredentialDefinition.create!(:name => 'x509public', :label => 'certificate', :input_type => 'file', :provider_type_id => ec2.id)
 end

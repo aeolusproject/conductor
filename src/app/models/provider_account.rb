@@ -81,7 +81,7 @@ class ProviderAccount < ActiveRecord::Base
 
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
-      errors.add(:base, "#{cd.label} can't be blank") if credentials_hash[cd.name].blank?
+      errors.add(:base, "#{I18n.t("provider_accounts.credentials.labels.#{cd.label}")} #{I18n.t('errors.messages.blank')}") if credentials_hash[cd.name].blank?
     end
   end
 
