@@ -1077,6 +1077,14 @@ en:
       permissions: Permissions
     credentials:
       credentials_for: Credentials for
+      labels:
+        username: 'Username'
+        password: 'Password'
+        access_key: 'Access Key'
+        secret_access_key: 'Secret Access Key'
+        account_number: 'Account Number'
+        key: 'Key'
+        certificate: 'Certificate'
     history:
       history_for: History for
     list:
