@@ -4,7 +4,7 @@
     %span= @instance.name
   %li
     = label_tag :status, t('instances.properties.status')
-    %span= @instance.state
+    %span= t("instances.states.#{@instance.state}")
   %li
     = label_tag :public_addresses, t('instances.properties.public_addresses')
     %span= @instance.public_addresses

@@ -36,7 +36,7 @@
     %td{:class => 'alert'}= instance.failed? ? image_tag("sb_icon_instance_failure.png") : ""
     %td= link_to instance.name, instance_path(instance)
     %td= instance.public_addresses
-    %td= instance.state
+    %td= t("instances.states.#{instance.state}")
     %td= instance.provider_account ? instance.provider_account.provider.name : ''
     %td= owner_name(instance)
 
@@ -56,7 +56,7 @@
       </td>
       <td><a href="#{instance_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
       <td>${public_addresses}</td>
-      <td>${state}</td>
+      <td>${translated_state}</td>
       <td>${provider}</td>
       <td>${owner}</td>
     </tr>

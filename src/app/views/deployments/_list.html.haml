@@ -36,7 +36,7 @@
     %td= link_to(deployment.name, deployment_path(deployment, :view => :filter))
     %td= deployment.created_at
     %td= deployment.deployable_xml.name
-    %td= deployment.status
+    %td= t("instances.states.#{deployment.status}")
     %td{:class => 'center'}= deployment.instances.size
     %td= link_to deployment.pool.name, pool_path(deployment.pool, :view => :filter)
     %td= owner_name(deployment)
@@ -61,7 +61,7 @@
       <td><a href="#{deployment_path('replace_id', :view => :filter).sub('replace_id', '${id}')}">${name}</a></td>
       <td>${created_at}</td>
       <td>${deployable_xml_name}</td>
-      <td>${status}</td>
+      <td>${translated_status}</td>
       <td class="center">${instances_count}</td>
       <td><a href="#{pool_path('replace_id', :view => :filter).sub('replace_id', '${pool.id}')}">${pool.name}</a></td>
       <td>${owner}</td>
