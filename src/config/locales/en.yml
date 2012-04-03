@@ -276,6 +276,7 @@ en:
         not_updated:
           one: "The deployment %{list} could not be updated."
           other: "The deployments %{list} could not be updated."
+        no_hwp_permission: "You do not have sufficient permission to access the %{hwp} hardware profile."
       success:
         deleted:
           one: "The deployment %{list} was scheduled for deletion."
