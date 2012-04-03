@@ -287,7 +287,7 @@ class Deployment < ActiveRecord::Base
     begin
       deployable_xml.assemblies.each do |assembly|
         hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
-        raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
+        raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
         instance = Instance.new(
           :deployment => self,
           :name => "#{name}/#{assembly.name}",
@@ -321,7 +321,7 @@ class Deployment < ActiveRecord::Base
         raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), deployment_errors)
       end
     rescue
-      errs = $!.message
+      errs << $!.message
     end
     errs
   end
@@ -524,7 +524,7 @@ class Deployment < ActiveRecord::Base
     deployable_xml.assemblies.each do |assembly|
       begin
         hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
-        raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
+        raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
         Instance.transaction do
           instance = Instance.create!(
             :deployment => self,
