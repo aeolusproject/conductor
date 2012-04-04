@@ -1,0 +1,345 @@
+pt-BR:
+  activerecord:
+    attributes:
+      base_permission_object:
+        created_at: "Criado Em"
+        name: Nome
+        updated_at: "Atualizado Em"
+      catalog:
+        created_at: "Criado Em"
+        name: Nome
+        pool_family_id: "Família de Pool"
+        pool_id: Pool
+        updated_at: "Atualizado Em"
+      catalog_entry:
+        catalog_id: Catálogo
+        deployable_id: Implementável
+      config_server:
+        created_at: "Criado Em"
+        endpoint: "Servidor Endpoint (URL) "
+        key: "Chave do Consumidor"
+        provider_account_id: "Conta de Provedor"
+        secret: "Segredo do Consumidor"
+        updated_at: "Atualizado Em"
+      credential:
+        created_at: "Criado Em"
+        credential_definition_id: "Definição para Credenciais"
+        provider_account_id: "Conta de Provedor"
+        updated_at: "Atualizado Em"
+        value: Valor
+      credential_definition:
+        created_at: "Criado Em"
+        input_type: "Tipo de Inserção"
+        label: Rótulo
+        name: Nome
+        provider_type_id: "TIpo de Provedor"
+        updated_at: "Atualizado Em"
+      delayed_job:
+        attempts: Tentativa
+        created_at: "Criado Em"
+        failed_at: "Falhou Em"
+        handler: Manuseador
+        last_error: "Último Erro"
+        locked_at: "Bloqueado Em"
+        locked_by: "Bloqueado Por"
+        priority: Prioridade
+        run_at: "Executar Em"
+        updated_at: "Atualizado Em"
+      deployable:
+        description: Descrição
+        name: Nome
+        owner_id: Proprietário
+        pool_family_id: "Família de Pool"
+        xml: "XML Implementável"
+        xml_filename: "Nome de Arquivo do XML"
+      deployment:
+        created_at: "Criado Em"
+        deployable_xml: "XML Implementável"
+        frontend_realm_id: Território
+        lock_version: "Versão de Bloqueio"
+        name: Nome
+        owner_id: Proprietário
+        pool_family_id: "Família de Pool"
+        pool_id: Pool
+        realm_id: "Território do Provedor"
+        scheduled_for_deletion: "Agendado para Remoção"
+        updated_at: "Atualizado Em"
+        uuid: Uuid
+      event:
+        created_at: "Criado Em"
+        description: Descrição
+        event_time: "Horário do Evento"
+        source_id: Fonte
+        source_type: "Tipo de Fonte"
+        status_code: "Código do Status"
+        summary: Sumário
+        updated_at: "Atualizado Em"
+      frontend_realm:
+        created_at: "Criado Em"
+        description: Descrição
+        lock_version: "Versão de Bloqueio"
+        name: Nome
+        updated_at: "Atualizado Em"
+      hardware_profile:
+        architecture_id: Arquitetura
+        cpu_id: Cpu
+        created_at: "Criado Em"
+        external_key: "Chave Externa"
+        lock_version: "Versão de Bloqueio"
+        memory_id: Memória
+        name: Nome
+        provider_id: Provedor
+        storage_id: Armazenamento
+        updated_at: "Atualizado Em"
+      hardware_profile_property:
+        created_at: "Criado Em"
+        kind: Tipo
+        lock_version: "Versão de Bloqueio"
+        name: Nome
+        range_first: "Primeira Classe"
+        range_last: "Última Classe"
+        unit: Unidade
+        updated_at: "Atualizado Em"
+        value: Valor
+      hook:
+        created_at: "Criado Em"
+        updated_at: "Atualizado Em"
+        uri: Uri
+        version: Versão
+      icicle:
+        created_at: "Criado Em"
+        updated_at: "Atualizado Em"
+        uuid: Uuid
+        xml: Xml
+      instance:
+        acc_pending_time: "Horário Pendente do Acc"
+        acc_running_time: "Horário de Execução do Acc"
+        acc_shutting_down_time: "Horário de Fechamento do Acc"
+        acc_stopped_time: "Horário de Interrupção do Acc"
+        assembly_xml: "Xml de Montagem"
+        created_at: "Criado Em"
+        deployment_id: "Implementação "
+        external_key: "Chave Externa"
+        frontend_realm_id: Território
+        hardware_profile_id: "Perfil do Hardware"
+        image_build_uuid: "Uuid de construção da Imagem"
+        image_uuid: "Uuid da Imagem"
+        instance_config_xml: "Xml de Config da Instância"
+        instance_hwp_id: "Hwp da Instância"
+        last_error: "Último Erro"
+        lock_version: "Versão de Bloqueio"
+        name: Nome
+        owner_id: Proprietário
+        pool_family_id: "Família de Pool"
+        pool_id: Pool
+        private_addresses: "Endereços Privados"
+        provider_account_id: "Conta de Provedor"
+        provider_image_uuid: "Uuid da Imagem do Provedor"
+        provider_instance_id: "Instância do Provedor"
+        public_addresses: "Endereços Públicos"
+        secret: Segredo
+        state: Estado
+        time_last_pending: "Horário do Último Pendente"
+        time_last_running: "Horário da Execução do Último"
+        time_last_shutting_down: "Horário do Fechamento do Último"
+        time_last_stopped: "Horário de Interrupção do Último"
+        updated_at: "Atualizado Em"
+        user_data: "Dados de Usuário"
+        uuid: Uuid
+      instance_hwp:
+        architecture: Arquitetura
+        cpu: Cpu
+        lock_version: "Versão de Bloqueio"
+        memory: Memória
+        storage: Armazenamento
+      instance_key:
+        created_at: "Criado Em"
+        instance_id: Instância
+        name: Nome
+        pem: Pem
+        updated_at: "Atualizado Em"
+      instance_parameter:
+        created_at: "Criado Em"
+        instance_id: Instância
+        name: Nome
+        service: Serviço
+        type: Tipo
+        updated_at: "Atualizado Em"
+        value: Valor
+      metadata_object:
+        created_at: "Criado Em"
+        key: Chave
+        lock_version: "Versão de Bloqueio"
+        object_type: "Tipo de Objeto"
+        updated_at: "Atualizado Em"
+        value: Valor
+      permission:
+        created_at: "Criado Em"
+        lock_version: "Versão de Bloqueio"
+        permission_object_id: "Objeto de Permissão"
+        permission_object_type: "Tipo de Objeto de Permissão"
+        role_id: Função
+        updated_at: "Atualizado Em"
+        user_id: Usuário
+      pool:
+        created_at: "Criado Em"
+        enabled: Habilitado
+        exported_as: "Exportado Como"
+        lock_version: "Versão de Bloqueio"
+        name: Nome
+        pool_family_id: "Família de Pool"
+        quota_id: Cota
+        updated_at: "Atualizado Em"
+      pool_family:
+        created_at: "Criado Em"
+        description: Descrição
+        lock_version: "Versão de Bloqueio"
+        name: "Nome da Família de Pool"
+        quota_id: Cota
+        updated_at: "Atualizado Em"
+      privilege:
+        action: Ação
+        created_at: "Criado Em"
+        lock_version: "Versão de Bloqueio"
+        role_id: Função
+        target_type: "Tipo de Alvo"
+        updated_at: "Atualizado Em"
+      property_enum_entry:
+        created_at: "Criado Em"
+        hardware_profile_property_id: "Propriedade do Perfil do Hardware"
+        lock_version: "Versão de Bloqueio"
+        updated_at: "Atualizado Em"
+        value: Valor
+      provider:
+        available: Disponível
+        created_at: "Criado Em"
+        deltacloud_provider: "Provedor Deltacloud "
+        enabled: Habilitado
+        lock_version: "Versão de Bloqueio"
+        name: "Nome do Provedor"
+        provider_type_id: "Tipo de Provedor"
+        updated_at: "Atualizado Em"
+        url: "URL de Provedor"
+      provider_account:
+        created_at: "Criado Em"
+        label: Rótulo
+        lock_version: "Versão de Bloqueio"
+        priority: Prioridade
+        provider_id: Provedor
+        quota_id: Cota
+        updated_at: "Atualizado Em"
+      provider_type:
+        created_at: "Criado Em"
+        deltacloud_driver: "Deltacloud Driver"
+        home_dir: "Diretório Home"
+        name: Nome
+        ssh_user: "Usuário Ssh"
+        updated_at: "Atualizado Em"
+      quota:
+        created_at: "Criado Em"
+        lock_version: "Versão de Bloqueio"
+        maximum_running_instances: "Máximo de Instâncias em Execução"
+        maximum_total_instances: "Total Máximo de Instâncias"
+        running_instances: "Instâncias em Execução"
+        total_instances: "Total de Instâncias"
+        updated_at: "Atualizado Em"
+      realm:
+        available: Disponível
+        created_at: "Criado Em"
+        external_key: "Chave Externa"
+        lock_version: "Versão de Bloqueio"
+        name: Nome
+        provider_id: Provedor
+        updated_at: "Atualizado Em"
+      realm_backend_target:
+        frontend_realm_id: Território
+        realm_or_provider_id: "Território do Provedor Ou Provedor"
+        realm_or_provider_type: "Território do Provedor Ou Tipo de Provedor"
+      role:
+        assign_to_owner: "Atribuir ao Proprietário"
+        created_at: "Criado Em"
+        lock_version: "Versão de Bloqueio"
+        name: Nome
+        scope: Escopo
+        updated_at: "Atualizado Em"
+      session:
+        created_at: "Criado Em"
+        data: Dados
+        session_id: Sessão
+        updated_at: "Atualizado Em"
+      task:
+        action: Ação
+        args: Args
+        created_at: "Criado Em"
+        failure_code: "Código de Falha"
+        lock_version: "Versão de Bloqueio"
+        message: Mensagem
+        state: Estado
+        task_target_id: "Alvo da Tarefa"
+        task_target_type: "Tipo de Alvo da Tarefa"
+        time_ended: "Horário de Término"
+        time_started: "Horário de Início"
+        time_submitted: "Horário Submetido"
+        type: TIpo
+        user: Usuário
+      user:
+        created_at: "Criado Em"
+        crypted_password: "Senha Criptografada"
+        current_login_at: "Login Atual Em"
+        current_login_ip: "Ip de Login Atual"
+        email: Email
+        failed_login_count: "Conta de Login Falhou"
+        first_name: "Primeiro Nome"
+        last_login_at: "Último Login Em"
+        last_login_ip: "Ip do Último Login"
+        last_name: Sobrenome
+        last_request_at: "Última Solicitação Em"
+        login: Login
+        login_count: "Conta de Login"
+        quota_id: Cota
+        updated_at: "Atualizado Em"
+      view_state:
+        action: Ação
+        controller: Controlador
+        created_at: "Criado Em"
+        name: Nome
+        state: Estado
+        updated_at: "Atualizado Em"
+        user_id: Usuário
+    models:
+      base_permission_object: "Objeto de Permissão Base"
+      catalog: Catálogo
+      catalog_entry: "Entrada de Catálogo"
+      config_server: "Servidor de Config"
+      credential: Credencial
+      credential_definition: "Definição para Credenciais"
+      delayed_job: "Job Atrasado"
+      deployable: Implementável
+      deployment: "Implementação "
+      event: Evento
+      frontend_realm: Território
+      hardware_profile: "Perfil do Hardware"
+      hardware_profile_property: "Propriedade do Perfil do Hardware"
+      hook: Hook
+      icicle: Icicle
+      instance: Instância
+      instance_hwp: "Hwp da Instância"
+      instance_key: "Chave da Instância"
+      instance_parameter: "Parâmetro da Instância"
+      metadata_object: "Objeto da Instância"
+      permission: Permissão
+      pool: Pool
+      pool_family: "Família de Pool"
+      privilege: Previlégios
+      property_enum_entry: "Entrada do Enum da Propriedade"
+      provider: Provedor
+      provider_account: "Conta de Provedor"
+      provider_type: "Tipo de Provedor"
+      quota: Cota
+      realm: "Território do Provedor"
+      realm_backend_target: "Alvo de Backend do Território do Provedor"
+      role: Função
+      session: Sessão
+      task: Tarefa
+      user: Usuário
+      view_state: "Visualizar Estado"
