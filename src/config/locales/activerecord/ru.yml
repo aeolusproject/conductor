@@ -1,0 +1,345 @@
+ru:
+  activerecord:
+    attributes:
+      base_permission_object:
+        created_at: Создан
+        name: Имя
+        updated_at: Обновлено
+      catalog:
+        created_at: Создано
+        name: Имя
+        pool_family_id: "Набор зон"
+        pool_id: Зона
+        updated_at: Обновлен
+      catalog_entry:
+        catalog_id: Каталог
+        deployable_id: Шаблон
+      config_server:
+        created_at: Создан
+        endpoint: "Конечная точка (URL)"
+        key: "Ключ клиента"
+        provider_account_id: "Учётная запись провайдера"
+        secret: "Секретный ключ клиента"
+        updated_at: Обновлен
+      credential:
+        created_at: Создано
+        credential_definition_id: Определение
+        provider_account_id: "Учётная запись провайдера"
+        updated_at: Обновлено
+        value: Значение
+      credential_definition:
+        created_at: Создано
+        input_type: "Тип ввода"
+        label: Метка
+        name: Имя
+        provider_type_id: "Тип провайдера"
+        updated_at: Обновлено
+      delayed_job:
+        attempts: Попытки
+        created_at: Создано
+        failed_at: Cбой
+        handler: Обработчик
+        last_error: "Последняя ошибка"
+        locked_at: Заблокировано
+        locked_by: "Заблокировал: "
+        priority: Приоритет
+        run_at: "Время выполнения"
+        updated_at: Обновлено
+      deployable:
+        description: Описание
+        name: Имя
+        owner_id: Владелец
+        pool_family_id: "Набор зон"
+        xml: "XML шаблона"
+        xml_filename: "Файл XML"
+      deployment:
+        created_at: Создан
+        deployable_xml: "XML шаблона"
+        frontend_realm_id: Кластер
+        lock_version: "Версия блокирования"
+        name: Имя
+        owner_id: Владелец
+        pool_family_id: "Набор зон"
+        pool_id: Зона
+        realm_id: "Кластер провайдера"
+        scheduled_for_deletion: "Выбран для удаления"
+        updated_at: Обновлено
+        uuid: UUID
+      event:
+        created_at: Создано
+        description: Описание
+        event_time: "Время события"
+        source_id: Источник
+        source_type: "Тип источника"
+        status_code: Код
+        summary: Сводка
+        updated_at: Обновлено
+      frontend_realm:
+        created_at: Создано
+        description: Описание
+        lock_version: "Версия блокирования"
+        name: Имя
+        updated_at: Обновлен
+      hardware_profile:
+        architecture_id: Архитектура
+        cpu_id: Процессор
+        created_at: Создан
+        external_key: "Внешний ключ"
+        lock_version: "Версия блокирования"
+        memory_id: Память
+        name: Имя
+        provider_id: Провайдер
+        storage_id: Пространство
+        updated_at: Обновлен
+      hardware_profile_property:
+        created_at: Создан
+        kind: Тип
+        lock_version: "Версия блокирования"
+        name: Имя
+        range_first: Начало
+        range_last: Конец
+        unit: Единицы
+        updated_at: Обновлено
+        value: Значение
+      hook:
+        created_at: Создан
+        updated_at: Обновлен
+        uri: URI
+        version: Версия
+      icicle:
+        created_at: Создано
+        updated_at: Обновлено
+        uuid: UUID
+        xml: XML
+      instance:
+        acc_pending_time: "Общее время ожидания"
+        acc_running_time: "Общее время работы"
+        acc_shutting_down_time: "Общее время завершения"
+        acc_stopped_time: "Общее время остановки"
+        assembly_xml: "XML комплекта"
+        created_at: Создан
+        deployment_id: "Развертываемый шаблон"
+        external_key: "Внешний ключ"
+        frontend_realm_id: Кластер
+        hardware_profile_id: "Профиль оборудования"
+        image_build_uuid: "UUID сборки образа"
+        image_uuid: "UUID образа"
+        instance_config_xml: "XML образа"
+        instance_hwp_id: "Профиль образа"
+        last_error: "Последняя ошибка"
+        lock_version: "Версия блокирования"
+        name: Имя
+        owner_id: Владелец
+        pool_family_id: "Набор зон"
+        pool_id: Зона
+        private_addresses: "Закрытые адреса"
+        provider_account_id: "Учётная запись провайдера"
+        provider_image_uuid: "UUID образа провайдера"
+        provider_instance_id: Экземпляр
+        public_addresses: "Открытые адреса"
+        secret: Секрет
+        state: Статус
+        time_last_pending: "Время ожидания"
+        time_last_running: "Время работы"
+        time_last_shutting_down: "Время последнего выключения"
+        time_last_stopped: "Время последней остановки"
+        updated_at: Обновлен
+        user_data: "Данные пользователя"
+        uuid: UUID
+      instance_hwp:
+        architecture: Архитектура
+        cpu: Процессор
+        lock_version: "Версия блокирования"
+        memory: Память
+        storage: Пространство
+      instance_key:
+        created_at: Создан
+        instance_id: Экземпляр
+        name: Имя
+        pem: Pem
+        updated_at: Обновлен
+      instance_parameter:
+        created_at: Создан
+        instance_id: Экземпляр
+        name: Имя
+        service: Служба
+        type: Тип
+        updated_at: Обновлен
+        value: Значение
+      metadata_object:
+        created_at: Создан
+        key: Ключ
+        lock_version: "Версия блокирования"
+        object_type: "Тип объекта"
+        updated_at: Обновлено
+        value: Значение
+      permission:
+        created_at: Создано
+        lock_version: "Версия блокирования"
+        permission_object_id: "Объект разрешений"
+        permission_object_type: Тип
+        role_id: Роль
+        updated_at: Обновлено
+        user_id: Пользователь
+      pool:
+        created_at: Создано
+        enabled: Включено
+        exported_as: "Экспорт в"
+        lock_version: "Версия блокирования"
+        name: Имя
+        pool_family_id: "Набор зон"
+        quota_id: Квота
+        updated_at: Обновлено
+      pool_family:
+        created_at: Создано
+        description: Описание
+        lock_version: "Версия блокирования"
+        name: "Имя набора"
+        quota_id: Квота
+        updated_at: Обновлено
+      privilege:
+        action: Действие
+        created_at: Создано
+        lock_version: "Версия блокирования"
+        role_id: Роль
+        target_type: "Тип цели"
+        updated_at: Обновлено
+      property_enum_entry:
+        created_at: Создано
+        hardware_profile_property_id: "Свойство профиля"
+        lock_version: "Версия блокирования"
+        updated_at: Обновлено
+        value: Значение
+      provider:
+        available: Доступно
+        created_at: Создано
+        deltacloud_provider: "Провайдер Deltracloud"
+        enabled: Включен
+        lock_version: "Версия блокирования"
+        name: "Имя провайдера"
+        provider_type_id: "Тип провайдера"
+        updated_at: Обновлен
+        url: URL
+      provider_account:
+        created_at: Создан
+        label: Метка
+        lock_version: "Версия блокирования"
+        priority: Приоритет
+        provider_id: Провайдер
+        quota_id: Квота
+        updated_at: Обновлен
+      provider_type:
+        created_at: Создан
+        deltacloud_driver: "Драйвер Deltacloud"
+        home_dir: "Домашний каталог"
+        name: Имя
+        ssh_user: "Пользователь SSH"
+        updated_at: Обновлен
+      quota:
+        created_at: Создан
+        lock_version: "Версия блокирования"
+        maximum_running_instances: "Максимальное число активных экземпляров"
+        maximum_total_instances: "Максимальное число экземпляров"
+        running_instances: Активные
+        total_instances: "Всего экземпляров"
+        updated_at: Обновлен
+      realm:
+        available: Доступно
+        created_at: Создан
+        external_key: "Внешний ключ"
+        lock_version: "Версия блокирования"
+        name: Имя
+        provider_id: Провайдер
+        updated_at: Обновлен
+      realm_backend_target:
+        frontend_realm_id: Кластер
+        realm_or_provider_id: "Кластер или провайдер"
+        realm_or_provider_type: Тип
+      role:
+        assign_to_owner: "Назначить владельцу"
+        created_at: Создан
+        lock_version: "Версия блокирования"
+        name: Имя
+        scope: "Область действия"
+        updated_at: Обновлено
+      session:
+        created_at: Создано
+        data: Данные
+        session_id: Сеанс
+        updated_at: Обновлен
+      task:
+        action: Действие
+        args: Аргументы
+        created_at: Создано
+        failure_code: "Код ошибки"
+        lock_version: "Версия блокирования"
+        message: Сообщение
+        state: Статус
+        task_target_id: "Цель задачи"
+        task_target_type: "Тип цели"
+        time_ended: "Время завершения"
+        time_started: "Время начала"
+        time_submitted: "Время получения"
+        type: Тип
+        user: Пользователь
+      user:
+        created_at: Создан
+        crypted_password: "Зашифрованный пароль"
+        current_login_at: Вошёл
+        current_login_ip: "Вход с IP"
+        email: Email
+        failed_login_count: "Число неудачных попыток"
+        first_name: Имя
+        last_login_at: "Последний вход"
+        last_login_ip: "Последний вход с IP"
+        last_name: Фамилия
+        last_request_at: "Последний запрос"
+        login: Вход
+        login_count: "Число удачных попыток входа"
+        quota_id: Квота
+        updated_at: Обновлен
+      view_state:
+        action: Действие
+        controller: Контроллер
+        created_at: Создан
+        name: Имя
+        state: Статус
+        updated_at: Обновлен
+        user_id: Пользователь
+    models:
+      base_permission_object: "Базовый объект разрешений"
+      catalog: Каталог
+      catalog_entry: "Запись каталога"
+      config_server: "Сервер конфигурации"
+      credential: "Реквизиты доступа"
+      credential_definition: Определение
+      delayed_job: "Отложенное задание"
+      deployable: Шаблон
+      deployment: "Развертываемый шаблон"
+      event: Событие
+      frontend_realm: Кластер
+      hardware_profile: "Профиль оборудования"
+      hardware_profile_property: "Свойство профиля"
+      hook: Hook
+      icicle: Icicle
+      instance: Экземпляр
+      instance_hwp: "Профиль экземпляра"
+      instance_key: "Ключ экземпляра"
+      instance_parameter: "Параметр экземпляра"
+      metadata_object: "Объект метаданных"
+      permission: Разрешение
+      pool: Зона
+      pool_family: "Набор зон"
+      privilege: Права
+      property_enum_entry: "Запись набора значений свойства"
+      provider: Провайдер
+      provider_account: "Учётная запись провайдера"
+      provider_type: "Тип провайдера"
+      quota: Квота
+      realm: "Кластер провайдера"
+      realm_backend_target: "Цель основы кластера"
+      role: Роль
+      session: Сеанс
+      task: Задача
+      user: Пользователь
+      view_state: "Показать статус"
