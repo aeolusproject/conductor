@@ -38,6 +38,8 @@ en:
       user_treatment: User Treatment
       save_user: Save User
       user_status: User Status
+      user_status_active: Active
+      user_status_inactive: Inactive
     new:
       new_user: New User
       neccessary_information: "Enter necessary information about your new user and click 'Save User' when you are finished."
