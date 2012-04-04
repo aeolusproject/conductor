@@ -245,7 +245,7 @@ fr:
       images: "Modèles des composants"
     new:
       choose_file: "Choisissez un fichier de modèle de composant : "
-      description: "La création d'un plan d'application depuis le modèle du composant « %{name} » lui permettra d'être construit et lancé. Choisissez simplement un catalogue dans lequel stocker le plan de l'application, puis définissez un profil des ressources cloud par défaut."
+      description: "La création d'un plan d'application depuis le modèle du composant « %{environment} » lui permettra d'être construit et lancé. Choisissez simplement un catalogue dans lequel stocker le plan de l'application, puis définissez un profil des ressources cloud par défaut."
       image_url: "URL du modèle de composant : "
     not_on_provider: "Le modèle du composant demandé est introuvable sur le fournisseur."
     overview:
