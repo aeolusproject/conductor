@@ -1,0 +1,345 @@
+it:
+  activerecord:
+    attributes:
+      base_permission_object:
+        created_at: Creato
+        name: Nome
+        updated_at: Aggiornato
+      catalog:
+        created_at: Creato
+        name: Nome
+        pool_family_id: "Famiglia pool"
+        pool_id: Pool
+        updated_at: Aggiornato
+      catalog_entry:
+        catalog_id: Catalogo
+        deployable_id: Distribuibile
+      config_server:
+        created_at: Creato
+        endpoint: "Punto finale del server (URL)"
+        key: "Chiave utenza"
+        provider_account_id: "Account provider"
+        secret: "Segreto utenza"
+        updated_at: Aggiornato
+      credential:
+        created_at: Creato
+        credential_definition_id: "Definizione credenziali"
+        provider_account_id: "Account provider"
+        updated_at: Aggiornato
+        value: Valore
+      credential_definition:
+        created_at: Creato
+        input_type: "Tipo di input"
+        label: Etichetta
+        name: Nome
+        provider_type_id: "Tipo di provider"
+        updated_at: Aggiornato
+      delayed_job:
+        attempts: Tentativi
+        created_at: Creato
+        failed_at: Fallito
+        handler: Gestore
+        last_error: "Ultimo errore"
+        locked_at: Bloccato
+        locked_by: "Bloccato da"
+        priority: Priorità
+        run_at: Eseguire
+        updated_at: Aggiornato
+      deployable:
+        description: Descrizione
+        name: Nome
+        owner_id: Proprietario
+        pool_family_id: "Famiglia pool"
+        xml: "XML distribuibile"
+        xml_filename: "Filename XML"
+      deployment:
+        created_at: Creato
+        deployable_xml: "XML distribuibile"
+        frontend_realm_id: Realm
+        lock_version: "Versione blocco"
+        name: Nome
+        owner_id: Proprietario
+        pool_family_id: "Famiglia pool"
+        pool_id: Pool
+        realm_id: "Realm provider"
+        scheduled_for_deletion: "Programmato per la rimozione"
+        updated_at: Aggiornato
+        uuid: Uuid
+      event:
+        created_at: Creato
+        description: Descrizione
+        event_time: "Ora evento"
+        source_id: Sorgente
+        source_type: "Tipo sorgente"
+        status_code: "Codice stato"
+        summary: Sommario
+        updated_at: Aggiornato
+      frontend_realm:
+        created_at: Creato
+        description: Descrizione
+        lock_version: "Versione blocco"
+        name: Nome
+        updated_at: Aggiornato
+      hardware_profile:
+        architecture_id: Architettura
+        cpu_id: Cpu
+        created_at: Creato
+        external_key: "Chiave esterna"
+        lock_version: "Versione blocco"
+        memory_id: Memoria
+        name: Nome
+        provider_id: Provider
+        storage_id: Storage
+        updated_at: Aggiornato
+      hardware_profile_property:
+        created_at: Creato
+        kind: Tipo
+        lock_version: "Versione blocco"
+        name: Nome
+        range_first: "Prima l'intervallo"
+        range_last: "Intervallo ultimo"
+        unit: Unità
+        updated_at: Aggiornato
+        value: Valore
+      hook:
+        created_at: Creato
+        updated_at: Aggiornato
+        uri: Uri
+        version: Versione
+      icicle:
+        created_at: Creato
+        updated_at: Aggiornato
+        uuid: Uuid
+        xml: Xml
+      instance:
+        acc_pending_time: "Periodo di sospensione Acc"
+        acc_running_time: "Periodo di esecuzione Acc"
+        acc_shutting_down_time: "Periodi di spegnimento Acc"
+        acc_stopped_time: "Periodo di arresto Acc"
+        assembly_xml: "Xml assembly"
+        created_at: Creato
+        deployment_id: Implementazione
+        external_key: "Chiave esterna"
+        frontend_realm_id: Realm
+        hardware_profile_id: "Profilo hardware"
+        image_build_uuid: "Uuid compilazione immagine"
+        image_uuid: "Uuid immagine"
+        instance_config_xml: "Xml di configurazione istanza"
+        instance_hwp_id: "Hwp istanza"
+        last_error: "Ultimo errore"
+        lock_version: "Versione blocco"
+        name: Nome
+        owner_id: Proprietario
+        pool_family_id: "Famiglia pool"
+        pool_id: Pool
+        private_addresses: "Indirizzi privati"
+        provider_account_id: "Account provider"
+        provider_image_uuid: "Uuid immagine provider"
+        provider_instance_id: "Istanza provider"
+        public_addresses: "Indirizzi pubblici"
+        secret: Segreto
+        state: Stato
+        time_last_pending: "Periodo ultima sospensione"
+        time_last_running: "Periodo ultima esecuzione"
+        time_last_shutting_down: "Periodo ultimo spegnimento"
+        time_last_stopped: "Periodo ultimo arresto"
+        updated_at: Aggiornato
+        user_data: "Dati utente"
+        uuid: Uuid
+      instance_hwp:
+        architecture: Architettura
+        cpu: Cpu
+        lock_version: "Versione blocco"
+        memory: Memoria
+        storage: Storage
+      instance_key:
+        created_at: Creato
+        instance_id: Istanza
+        name: Nome
+        pem: Pem
+        updated_at: Aggiornato
+      instance_parameter:
+        created_at: Creato
+        instance_id: Istanza
+        name: Nome
+        service: Servizio
+        type: Tipo
+        updated_at: Aggiornato
+        value: Valore
+      metadata_object:
+        created_at: Creato
+        key: Chiave
+        lock_version: "Versione blocco"
+        object_type: "Tipo oggetto"
+        updated_at: Aggiornato
+        value: Valore
+      permission:
+        created_at: Creato
+        lock_version: "Versione blocco"
+        permission_object_id: "Oggetto permessi"
+        permission_object_type: "Tipo di oggetto permessi"
+        role_id: Ruolo
+        updated_at: Aggiornato
+        user_id: Utente
+      pool:
+        created_at: Creato
+        enabled: Abilitato
+        exported_as: Esportato
+        lock_version: "Versione blocco"
+        name: Nome
+        pool_family_id: "Famiglia pool"
+        quota_id: Quota
+        updated_at: Aggiornato
+      pool_family:
+        created_at: Creato
+        description: Descrizione
+        lock_version: "Versione blocco"
+        name: "Nome famiglia pool"
+        quota_id: Quota
+        updated_at: Aggiornato
+      privilege:
+        action: Azione
+        created_at: Creato
+        lock_version: "Versione blocco"
+        role_id: Ruolo
+        target_type: "Tipo di target"
+        updated_at: Aggiornato
+      property_enum_entry:
+        created_at: Creato
+        hardware_profile_property_id: "Proprietà profilo hardware"
+        lock_version: "Versione blocco"
+        updated_at: Aggiornato
+        value: Valore
+      provider:
+        available: Disponibile
+        created_at: Creato
+        deltacloud_provider: "Deltacloud Provider"
+        enabled: Abilitato
+        lock_version: "Versione blocco"
+        name: "Nome provider"
+        provider_type_id: "Tipo di provider"
+        updated_at: Aggiornato
+        url: "URL provider"
+      provider_account:
+        created_at: Creato
+        label: Etichetta
+        lock_version: "Versione blocco"
+        priority: Priorità
+        provider_id: Provider
+        quota_id: Quota
+        updated_at: Aggiornato
+      provider_type:
+        created_at: Creato
+        deltacloud_driver: "Deltacloud Driver"
+        home_dir: "Dir home"
+        name: Nome
+        ssh_user: "Utente ssh"
+        updated_at: Aggiornato
+      quota:
+        created_at: Creato
+        lock_version: "Versione blocco"
+        maximum_running_instances: "Istanze massime in esecuzione"
+        maximum_total_instances: "Istanze massime totali"
+        running_instances: "Istanze in esecuzione"
+        total_instances: "Istanze totali"
+        updated_at: Aggiornato
+      realm:
+        available: Disponibile
+        created_at: Creato
+        external_key: "Chiave esterna"
+        lock_version: "Versione blocco"
+        name: Nome
+        provider_id: Provider
+        updated_at: Aggiornato
+      realm_backend_target:
+        frontend_realm_id: Realm
+        realm_or_provider_id: "Realm provider o provider"
+        realm_or_provider_type: "Realm provider o Tipo di provider"
+      role:
+        assign_to_owner: "Assegna al proprietario"
+        created_at: Creato
+        lock_version: "Versione blocco"
+        name: Nome
+        scope: Ambito
+        updated_at: Aggiornato
+      session:
+        created_at: Creato
+        data: Dati
+        session_id: Sessione
+        updated_at: Aggiornato
+      task:
+        action: Azione
+        args: Arg
+        created_at: Creato
+        failure_code: "Codice fallimento"
+        lock_version: "Versione blocco"
+        message: Messaggio
+        state: Stato
+        task_target_id: "Compito target"
+        task_target_type: "Tipo di conpito target"
+        time_ended: "Periodo terminato"
+        time_started: "Periodo iniziato"
+        time_submitted: "Periodo inviato"
+        type: Tipo
+        user: Utente
+      user:
+        created_at: Creato
+        crypted_password: "Password criptata"
+        current_login_at: "Registrazione corrente"
+        current_login_ip: "Ip registrazione corrente"
+        email: Email
+        failed_login_count: "Conteggio registrazioni fallite"
+        first_name: Nome
+        last_login_at: "Ultima registrazione"
+        last_login_ip: "Ip ultima registrazione"
+        last_name: Cognome
+        last_request_at: "Ultima richiesta"
+        login: Registrazione
+        login_count: "Conteggio registrazioni"
+        quota_id: Quota
+        updated_at: Aggiornato
+      view_state:
+        action: Azione
+        controller: Controller
+        created_at: Creato
+        name: Nome
+        state: Stato
+        updated_at: Aggiornato
+        user_id: Utente
+    models:
+      base_permission_object: "Oggetto permesso di base"
+      catalog: Catalog
+      catalog_entry: "Voce catalogo"
+      config_server: "Server di configurazione"
+      credential: Credenziali
+      credential_definition: "Definizione credenziali"
+      delayed_job: "Lavoro ritardato"
+      deployable: Distribuibile
+      deployment: Implementazione
+      event: Evento
+      frontend_realm: Realm
+      hardware_profile: "Profilo hardware"
+      hardware_profile_property: "Proprietà profilo hardware"
+      hook: Gancio
+      icicle: Icicle
+      instance: Istanza
+      instance_hwp: "Hwp istanza"
+      instance_key: "Chiave istanza"
+      instance_parameter: "Parametro istanza"
+      metadata_object: "Oggetto metadati"
+      permission: Permessi
+      pool: Pool
+      pool_family: "Famiglia pool"
+      privilege: Privilegi
+      property_enum_entry: "Voce enum proprietà"
+      provider: Provider
+      provider_account: "Account provider"
+      provider_type: "Tipo di provider"
+      quota: Quota
+      realm: "Realm del provider"
+      realm_backend_target: "Target backend realm del provider"
+      role: Ruolo
+      session: Sessione
+      task: Attività
+      user: Utente
+      view_state: "Visualizza stato"
