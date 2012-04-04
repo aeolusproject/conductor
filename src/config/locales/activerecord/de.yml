@@ -1,0 +1,345 @@
+de:
+  activerecord:
+    attributes:
+      base_permission_object:
+        created_at: "Erstellt am"
+        name: Name
+        updated_at: "Aktualisiert am"
+      catalog:
+        created_at: "Erstellt am"
+        name: Name
+        pool_family_id: Pool-Familie
+        pool_id: Pool
+        updated_at: "Aktualisiert am"
+      catalog_entry:
+        catalog_id: Katalog
+        deployable_id: Deployable
+      config_server:
+        created_at: "Erstellt am"
+        endpoint: "Server-Endpunkt (URL)"
+        key: Verbraucherschlüssel
+        provider_account_id: Provider-Account
+        secret: Verbrauchergeheimnis
+        updated_at: "Aktualisiert am"
+      credential:
+        created_at: "Erstellt am"
+        credential_definition_id: Berechtigungsnachweis-Definition
+        provider_account_id: Provider-Account
+        updated_at: "Aktualisiert am"
+        value: Wert
+      credential_definition:
+        created_at: "Erstellt am"
+        input_type: Eingabetyp
+        label: Label
+        name: Name
+        provider_type_id: Provider-Typ
+        updated_at: "Aktualisiert am"
+      delayed_job:
+        attempts: Versuche
+        created_at: "Erstellt am"
+        failed_at: "Fehlgeschlagen am"
+        handler: Handler
+        last_error: "Letzer Fehler"
+        locked_at: "Gesperrt am"
+        locked_by: "Gesperrt durch"
+        priority: Priorität
+        run_at: "Ausführen am"
+        updated_at: "Aktualisiert am"
+      deployable:
+        description: Beschreibung
+        name: Name
+        owner_id: Besitzer
+        pool_family_id: Pool-Familie
+        xml: Deployable-XML
+        xml_filename: XML-Dateiname
+      deployment:
+        created_at: "Erstellt am"
+        deployable_xml: Deployable-XML
+        frontend_realm_id: Bereich
+        lock_version: Sperr-Version
+        name: Name
+        owner_id: Besitzer
+        pool_family_id: Pool-Familie
+        pool_id: Pool
+        realm_id: Provider-Bereich
+        scheduled_for_deletion: "Zur Löschung eingeplant"
+        updated_at: "Aktualisiert am"
+        uuid: UUID
+      event:
+        created_at: "Erstellt am"
+        description: Beschreibung
+        event_time: Ereigniszeit
+        source_id: Quelle
+        source_type: Quelltyp
+        status_code: Statuscode
+        summary: Zusammenfassung
+        updated_at: "Aktualisiert am"
+      frontend_realm:
+        created_at: "Erstellt am"
+        description: Beschreibung
+        lock_version: Sperr-Version
+        name: Name
+        updated_at: "Aktualisiert am"
+      hardware_profile:
+        architecture_id: Architektur
+        cpu_id: CPU
+        created_at: "Erstellt am"
+        external_key: "Externer Schlüssel"
+        lock_version: Sperr-Version
+        memory_id: Arbeitsspeicher
+        name: Name
+        provider_id: Provider
+        storage_id: Speicherplatz
+        updated_at: "Aktualisiert am"
+      hardware_profile_property:
+        created_at: "Erstellt am"
+        kind: Art
+        lock_version: Sperr-Version
+        name: Name
+        range_first: "Bereich Start"
+        range_last: "Bereich Ende"
+        unit: Einheit
+        updated_at: "Aktualisiert am"
+        value: Wert
+      hook:
+        created_at: "Erstellt am"
+        updated_at: "Aktualisiert am"
+        uri: URI
+        version: Version
+      icicle:
+        created_at: "Erstellt am"
+        updated_at: "Aktualisiert am"
+        uuid: UUID
+        xml: XML
+      instance:
+        acc_pending_time: "Gesamtzeit ausstehend"
+        acc_running_time: "Gesamtzeit ausgeführt"
+        acc_shutting_down_time: "Gesamtzeit heruntergefahren"
+        acc_stopped_time: "Gesamtzeit gestoppt"
+        assembly_xml: Assembly-XML
+        created_at: "Erstellt am"
+        deployment_id: Deployment
+        external_key: "Externer Schlüssel"
+        frontend_realm_id: Bereich
+        hardware_profile_id: Hardware-Profil
+        image_build_uuid: Image-Build-UUID
+        image_uuid: Image-UUID
+        instance_config_xml: Instanzenkonfig-XML
+        instance_hwp_id: Instanzen-Hwp
+        last_error: "Letzer Fehler"
+        lock_version: Sperr-Version
+        name: Name
+        owner_id: Besitzer
+        pool_family_id: Pool-Familie
+        pool_id: Pool
+        private_addresses: "Private Adressen"
+        provider_account_id: Provider-Account
+        provider_image_uuid: Provider-Image-UUID
+        provider_instance_id: Provider-Instanz
+        public_addresses: "Öffentliche Adressen"
+        secret: Geheimnis
+        state: Status
+        time_last_pending: "Zeit zuletzt ausstehend"
+        time_last_running: "Zeit zuletzt ausgeführt"
+        time_last_shutting_down: "Zeit zuletzt heruntergefahren"
+        time_last_stopped: "Zeit zuletzt gestoppt"
+        updated_at: "Aktualisiert am"
+        user_data: Benutzerdaten
+        uuid: UUID
+      instance_hwp:
+        architecture: Architektur
+        cpu: CPU
+        lock_version: Sperr-Version
+        memory: Arbeitsspeicher
+        storage: Speicherplatz
+      instance_key:
+        created_at: "Erstellt am"
+        instance_id: Instanz
+        name: Name
+        pem: Pem
+        updated_at: "Aktualisiert am"
+      instance_parameter:
+        created_at: "Erstellt am"
+        instance_id: Instanz
+        name: Name
+        service: Dienst
+        type: Typ
+        updated_at: "Aktualisiert am"
+        value: Wert
+      metadata_object:
+        created_at: "Erstellt am"
+        key: Schlüssel
+        lock_version: Sperr-Version
+        object_type: Objekttyp
+        updated_at: "Aktualisiert am"
+        value: Wert
+      permission:
+        created_at: "Erstellt am"
+        lock_version: Sperr-Version
+        permission_object_id: Berechtigungsobjekt
+        permission_object_type: Berechtigungsobjekttyp
+        role_id: Rolle
+        updated_at: "Aktualisiert am"
+        user_id: Benutzer
+      pool:
+        created_at: "Erstellt am"
+        enabled: Aktiviert
+        exported_as: "Exportiert als"
+        lock_version: Sperr-Version
+        name: Name
+        pool_family_id: Pool-Familie
+        quota_id: Kontingent
+        updated_at: "Aktualisiert am"
+      pool_family:
+        created_at: "Erstellt am"
+        description: Beschreibung
+        lock_version: Sperr-Version
+        name: Pool-Familien-Name
+        quota_id: Kontingent
+        updated_at: "Aktualisiert am"
+      privilege:
+        action: Aktion
+        created_at: "Erstellt am"
+        lock_version: Sperr-Version
+        role_id: Rolle
+        target_type: Zieltyp
+        updated_at: "Aktualisiert am"
+      property_enum_entry:
+        created_at: "Erstellt am"
+        hardware_profile_property_id: Hardwareprofil-Eigenschaft
+        lock_version: Sperr-Version
+        updated_at: "Aktualisiert am"
+        value: Wert
+      provider:
+        available: Verfügbar
+        created_at: "Erstellt am"
+        deltacloud_provider: Deltacloud-Provider
+        enabled: Aktiviert
+        lock_version: Sperr-Version
+        name: Provider-Name
+        provider_type_id: Provider-Typ
+        updated_at: "Aktualisiert am"
+        url: Provider-URL
+      provider_account:
+        created_at: "Erstellt am"
+        label: Label
+        lock_version: Sperr-Version
+        priority: Priorität
+        provider_id: Provider
+        quota_id: Kontingent
+        updated_at: "Aktualisiert am"
+      provider_type:
+        created_at: "Erstellt am"
+        deltacloud_driver: Deltacloud-Treiber
+        home_dir: Benutzerverz.
+        name: Name
+        ssh_user: SSH-Benutzer
+        updated_at: "Aktualisiert am"
+      quota:
+        created_at: "Erstellt am"
+        lock_version: Sperr-Version
+        maximum_running_instances: "Maximal laufende Instanzen"
+        maximum_total_instances: "Maximale Instanzen insgesamt"
+        running_instances: "Laufende Instanzen"
+        total_instances: "Instanzen insgesamt"
+        updated_at: "Aktualisiert am"
+      realm:
+        available: Verfügbar
+        created_at: "Erstellt am"
+        external_key: "Externer Schlüssel"
+        lock_version: Sperr-Version
+        name: Name
+        provider_id: Provider
+        updated_at: "Aktualisiert am"
+      realm_backend_target:
+        frontend_realm_id: Bereich
+        realm_or_provider_id: "Provider-Bereich oder Provider"
+        realm_or_provider_type: "Provider-Bereich oder Provider-Typ"
+      role:
+        assign_to_owner: "Zuordnen zu Besitzer"
+        created_at: "Erstellt am"
+        lock_version: Sperr-Version
+        name: Name
+        scope: Umfang
+        updated_at: "Aktualisiert am"
+      session:
+        created_at: "Erstellt am"
+        data: Daten
+        session_id: Sitzung
+        updated_at: "Aktualisiert am"
+      task:
+        action: Aktion
+        args: Param.
+        created_at: "Erstellt am"
+        failure_code: Fehlercode
+        lock_version: Sperr-Version
+        message: Nachricht
+        state: Status
+        task_target_id: Aufgabenziel
+        task_target_type: Aufgabenziel-Typ
+        time_ended: "Zeit beendet"
+        time_started: "Zeit gestartet"
+        time_submitted: "Zeit eingereicht"
+        type: Typ
+        user: Benutzer
+      user:
+        created_at: "Erstellt am"
+        crypted_password: "Verschlüsseltes Passwort"
+        current_login_at: "Derzeitige Anmeldung am/um"
+        current_login_ip: "IP der derzeitigen Anmeldung"
+        email: E-Mail
+        failed_login_count: "Anzahl fehlgeschlagener Anmeldungen"
+        first_name: Vorname
+        last_login_at: "Letzte Anmeldung am/um"
+        last_login_ip: "IP der letzten Anmeldung"
+        last_name: Nachname
+        last_request_at: "Letzte Anforderung am/um"
+        login: Anmeldung
+        login_count: "Anzahl Anmeldungen"
+        quota_id: Kontingent
+        updated_at: "Aktualisiert am"
+      view_state:
+        action: Aktion
+        controller: Controller
+        created_at: "Erstellt am"
+        name: Name
+        state: Status
+        updated_at: "Aktualisiert am"
+        user_id: Benutzer
+    models:
+      base_permission_object: Basis-Berechtigungsobjekt
+      catalog: Katalog
+      catalog_entry: Katalogeintrag
+      config_server: Konfig-Server
+      credential: Berechtigungsnachweise
+      credential_definition: Berechtigungsnachweis-Definition
+      delayed_job: "Verspäteter Job"
+      deployable: Deployable
+      deployment: Deployment
+      event: Ereignis
+      frontend_realm: Bereich
+      hardware_profile: Hardware-Profil
+      hardware_profile_property: Hardwareprofil-Eigenschaft
+      hook: Hook
+      icicle: Icicle
+      instance: Instanz
+      instance_hwp: Instanzen-Hwp
+      instance_key: Instanzenschlüssel
+      instance_parameter: Instanzenparameter
+      metadata_object: Metadatenobjekt
+      permission: Berechtigung
+      pool: Pool
+      pool_family: Pool-Familie
+      privilege: Privilegien
+      property_enum_entry: Eigenschafts-Aufzählungseintrag
+      provider: Provider
+      provider_account: Provider-Account
+      provider_type: Provider-Typ
+      quota: Kontingent
+      realm: Provider-Bereich
+      realm_backend_target: "Provider-Bereich Backend-Ziel"
+      role: Rolle
+      session: Sitzung
+      task: Aufgabe
+      user: Benutzer
+      view_state: "Status anzeigen"

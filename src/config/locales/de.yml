@@ -1,0 +1,1315 @@
+de:
+  about: Info
+  accounts: Accounts
+  add: Hinzufügen
+  administration: Verwaltung
+  advanced_search: "Erweiterte Suche"
+  alerts:
+    instance_failure: Instanzenfehler
+  alerts_label: Benachrichtigungen
+  api:
+    error_messages:
+      account_not_found_in_environment: "Provider-Account %{account} ist nicht in dieser Umgebung. Gültige Accounts sind u.a. %{accounts}."
+      build_not_found: "Build %{build} konnte nicht gefunden werden"
+      environment_not_found: "Umgebung %{environment} nicht gefunden."
+      environment_required: "Umgebungsparameter ist erforderlich."
+      image_not_found: "Image %{build} konnte nicht gefunden werden"
+      image_not_found_on_provider: "Image %{build} konnte nicht auf Provider gefunden werden"
+      in_grabbing_target_images: "Beim Abrufen einer Liste mit Ziel-Images: %{error}"
+      insufficient_privileges: "Ungenügende Berechtigungen zum Ausführen der gewünschten Aktion."
+      invalid_parameters_for_account_and_target_image: "Ungültige Parameter für Account: %{account} Ziel-Image: %{targetimage}"
+      invalid_template: "Ungültige Vorlage: %{errors}"
+      no_image_build_or_target_image: "Ungültige Parameter: Kein Image, Build oder Ziel-Image in Anfrage angegeben"
+      no_matching_target_image: "Es konnten keine übereinstimmenden Ziel-Images gefunden werden"
+      no_provider_account_given: "Kein Provider-Account angegeben"
+      provider_account_not_found: "Provider-Account für Name %{name} konnte nicht gefunden werden"
+      provider_image_not_found: "Provider-Image %{providerimage} konnte nicht gefunden werden"
+      provider_image_status_not_found: "Status für Provider-Image %{providerimage} konnte nicht gefunden werden"
+      push_error: "Ziel-Image %{targetimage} konnte nicht nach %{account} übertragen werden, Fehler %{error}"
+      specify_a_type_build_or_import: "Bitte geben Sie einen Typ, Build oder Import an"
+      specify_environment: "Bitte geben Sie eine Umgebung an"
+      target_image_not_found: "Ziel-Image %{targetimage} konnte nicht gefunden werden"
+      target_image_not_found_for_account: "Passendes Ziel-Image für Account %{account} konnte nicht gefunden werden"
+      target_image_status_not_found: "Status für Ziel-Image %{targetimage} konnte nicht gefunden werden"
+      target_not_found: "Ziel %{target} konnte nicht gefunden werden"
+      target_not_found_in_environment: "Ziel %{target} hat keine Provider-Accounts in dieser Umgebung. Gültige Ziele sind u.a. %{targets}."
+  application_controller:
+    access_denied: "Zugriff verweigert"
+    action_error: Aktionsfehler
+    admin_tabs:
+      catalogs: Kataloge
+      groups: Gruppen
+      hardware: Hardware
+      images: Images
+      permissions: "Globale Rollenzuweisungen"
+      pool_families: Pool-Familien
+      realms: Bereiche
+      users: Benutzer
+    flash:
+      notice:
+        must_be_logged: "Sie müssen angemeldet sein, um auf diese Seite zuzugreifen"
+        must_not_be_logged: "Sie müssen abgemeldet sein, um auf diese Seite zuzugreifen"
+        record_not_exist: "Den Eintrag, auf den Sie zuzugreifen versuchten, existiert nicht, möglicherweise wurde er gelöscht"
+    internal_server_error: "Interner Server-Fehler"
+    permission_denied: "Sie haben keine ausreichenden Berechtigungen, um die gewünschte Aktion durchzuführen."
+    some_actions_failed: "Einige Aktionen schlugen fehl"
+  apply: Anwenden
+  apply_treatment: "Benutzerhandhabung anwenden"
+  assistance_requests: Hilfeanfragen
+  audit_report: "Prüfung / Bericht"
+  back: Zurück
+  breadcrumbs:
+    catalogs: Kataloge
+    deployables: Deployables
+    deployments: Deployments
+    hardware_profiles: Hardware-Profile
+    instances: Instanzen
+    pool_families: Pool-Familien
+    pools: Pools
+    provider_realms: Provider-Bereiche
+    realms: Bereiche
+    roles: Rollen
+    users: Benutzer
+  browse_objects: "Objekte durchsuchen"
+  browse_packages: "Pakete durchsuchen"
+  builds: Builds
+  cancel: Abbrechen
+  catalog_entries:
+    edit:
+      editing_catalog_entry: "Deployable bearbeiten"
+    flash:
+      notice:
+        added: "Deployable zu Katalog %{catalog} hinzugefügt."
+        deleted: "Deployable von Katalog %{catalog} entfernt."
+        updated: "Deployable erfolgreich aktualisiert!"
+      warning:
+        failed: "Deployable wurde nicht erstellt."
+        no_url_provided: "Keine URL für die Deployable-XML-Datei angegeben."
+        not_valid: "Deployable-URL löst keine gültige XML-Datei auf"
+        not_valid_duplicate_assembly_names: "Deployable-XML muss eindeutige Assembly-Namen enthalten"
+        not_valid_or_reachable: "Deployable-XML-Datei ist entweder ungültig oder nicht länger verfügbar unter %{url}"
+    index:
+      catalog_entries: Deployables
+      catalog_entry: Deployable
+      deployable_xml: Deployable-XML
+      name: Name
+    list:
+      catalog_entries_list: Deployables-Liste
+    new:
+      add_catalog_entry: "Neue Deployable hinzufügen"
+      catalog_detail: "%{name} Katalog"
+      choose_option_to_upload: "Wählen Sie eine der folgenden Optionen, um Deployable-XML-Datei hochzuladen"
+      from_url: "Von URL"
+      hw_profile: Standard-Hardwareprofil
+      name: Name
+      upload: Hochladen
+    new_catalog_entry: "Neue Deployable"
+    preset_filters:
+      all_catalog_entries: "Alle Deployables"
+    show:
+      build: Build
+      catalogs: Kataloge
+      confirm_delete: "Sind Sie sicher, dass Sie löschen möchten?"
+      delete: Löschen
+      edit: Bearbeiten
+      edit_xml: "XML bearbeiten"
+      image: Image
+      rebuild_all: "Alle Images neu erstellen"
+      roles: Rollen
+      start: Start
+  catalog_images: Katalog-Images
+  catalogs:
+    catalog_list:
+      no_catalogs: "-- Keine Kataloge --"
+    catalogs: Kataloge
+    edit:
+      cancel_editing: "Bearbeiten abbrechen"
+      edit_catalog: "Katalog bearbeiten"
+    flash:
+      error:
+        not_deleted:
+          one: "Deployable %{list} wurde nicht gelöscht. Es gibt damit verknüpfte Deployments."
+          other: "Accounts %{list} wurden nicht gelöscht. Es gibt damit verknüpfte Instanzen."
+        not_deleted_perms:
+          one: "Ungenügende Berechtigungen zum Löschen von Katalog %{not_deleted}!"
+          other: "Ungenügende Berechtigungen zum Löschen von %{count} Katalogen %{not_deleted}!"
+        one_not_deleted: "Katalog kann nicht gelöscht werden! Eine Deployable hat mindestens eine Referenz zu diesem Katalog!"
+      notice:
+        created:
+          one: "Katalog erstellt!"
+          other: "Kataloge erstellt!"
+        deleted:
+          one: "Katalog %{deleted} wurde gelöscht!"
+          other: "%{count} Kataloge %{deleted} wurden gelöscht!"
+        one_deleted: "Katalog gelöscht!"
+        updated:
+          one: "Katalog erfolgreich aktualisiert!"
+          other: "Kataloge erfolgreich aktualisiert!"
+    form:
+      select_pool: "Pool auswählen"
+    index:
+      catalog_name: Katalogname
+      name: Name
+    new:
+      add_catalog: "Neuen Katalog hinzufügen"
+    new_catalog: "Neuer Katalog"
+    preset_filters:
+      all_catalogs: "Alle Kataloge"
+      belongs_to_default_pool: "Gehört zum Standard-Pool"
+  change_password: "Passwort ändern"
+  choose: Wählen
+  choose_name: "Benutzername wählen"
+  choose_password: "Passwort wählen"
+  choose_treatment: "Handhabung wählen"
+  cloud_engine_hardware_profiles: Hardware-Profile
+  cloud_providers: Cloud-Provider
+  config_servers:
+    certificate_help: "Zertifikat angeben, um HTTPS-Unterstützung zu aktivieren"
+    edit:
+      edit_config_server: "Konfig-Server bearbeiten"
+    errors:
+      connection:
+        generic: "Konfig-Server-Verbindung konnte nicht validiert werden (URL: %{url}). Überprüfen Sie die Verbindungsparameter und versuchen Sie es erneut."
+        generic_with_message: "Konfig-Server-Verbindung konnte nicht validiert werden (URL: %{url}). %{msg}"
+        unhandled_response: "Konfig-Server-Verbindung konnte nicht validiert werden (URL: %{url}). HTTP Status-Code: %{code}"
+    flash:
+      error:
+        invalid: "Die Konfig-Server-Daten sind ungültig."
+        not_deleted: "Konfig-Server wurde nicht gelöscht"
+        not_updated: "Konfig-Server wurde nicht aktualisiert"
+      notice:
+        added: "Konfig-Server hinzugefügt."
+        deleted: "Konfig-Server wurde gelöscht."
+        test_successful: "Test erfolgreich"
+        updated: "Konfig-Server aktualisiert."
+    new:
+      new_config_server: "Neuer Konfig-Server"
+    section_header:
+      config_server: Konfig-Server
+  configure: Konfigurieren
+  confirm_password: "Passwort bestätigen"
+  connection_refused: "Die Verbindung zum entfernten Host wurde verweigert."
+  connectivity: Verbindung
+  continue: Fortfahren
+  create_account: "Account erstellen"
+  datetime:
+    distance_in_words:
+      x_hours:
+        one: "1 Stunde"
+        other: "%{count} Stunden"
+  default_confirm_message: "Sind Sie sicher, dass Sie fortfahren möchten?"
+  default_none_selected_message: "Bitte treffen Sie erst eine Auswahl."
+  define: Definieren
+  define_locales: "Gebietsschema definieren"
+  define_profiles: "Profile definieren"
+  define_services: "Dienste definieren"
+  delete: Löschen
+  deltacloud:
+    unreachable: "Deltacloud ist nicht erreichbar. Bitte überprüfen Sie, ob es läuft."
+  deployables:
+    error:
+      attribute_not_exists: ungültig
+      hwp_not_exists: "In XML spezifiziertes Hardware-Profil %{name} existiert nicht."
+    flash:
+      error:
+        attribute_not_exist: "Einige Attribute fehlen in XML, bitte überprüfen Sie die Datei!"
+        missing_image: "%{assembly}: Image (UUID: %{uuid}) existiert nicht"
+        no_catalog: "Keine Kataloge ausgewählt"
+        no_catalog_exists: "Kein Katalog vorhanden! Bitte erstellen Sie einen."
+        no_hwp_exists: "Kein Hardware-Profil vorhanden! Bitte erstellen Sie eines."
+        not_deleted:
+          one: "Entfernen der Deployable %{not_deleted} ist fehlgeschlagen!"
+          other: "%{count} Deployables %{not_deleted} wurden nicht entfernt!"
+        not_deleted_perms:
+          one: "Ungenügende Berechtigungen zum Entfernen von Deployable %{not_deleted}!"
+          other: "Accounts %{list} wurden nicht gelöscht. Es gibt damit verknüpfte Instanzen."
+        not_selected: "Keine Deployable ausgewählt!"
+        wrong_environment: "Die Deployable '%{deployable}' enthält ein Image (UUID %{uuid}) in der falschen Umgebung ('%{wrong_env}' sollte '%{environment}' sein) und kann nicht verwendet werden."
+      notice:
+        deleted:
+          one: "Deployable %{deleted} erfolgreich entfernt!"
+          other: "%{count} Deployables %{deleted} wurden entfernt!"
+      warning:
+        failed: "Deployable wurde nicht erstellt: %{message}"
+    form:
+      cancel: Abbrechen
+      catalog: Katalog
+      choose_xml: "Deployable-XML-Datei wählen"
+      deployable_xml: Deployable-XML
+      deployable_xml_url: "URL der Deployable-XML"
+      edit_xml_after_save: "XML-Datei nach Abspeichern bearbeiten"
+      multiple: Keine
+      none: Keine
+      save: Speichern
+    index:
+      base_deployable: Basis-Deployable
+      deleted:
+        one: "Deployable %{list} wurde gelöscht."
+        other: "Deployables %{list} wurden gelöscht."
+      deployable_definition: Deployable-Definition
+      deployable_url: Deployable-URL
+      deployable_url_subtext: "(muss eine gültige URL sein einschließlich http: //)"
+      deployables: Deployables
+      description: Beschreibung
+      name: Name
+      not_deleted:
+        one: "Deployable %{list} wurde nicht gelöscht. Es gibt damit verknüpfte Deployments."
+        other: "Accounts %{list} wurden nicht gelöscht. Es gibt damit verknüpfte Instanzen."
+      state: Status
+    new:
+      no_catalog_selected: "Kein Katalog ausgewählt"
+    new_from_image:
+      catalog_entry_name: "%{name}"
+      description: "Markup- und Image-Referenzen in \%{name}\ wurden erfolgreich überprüft. Sie können das Image nun speichern und eine Deployable erstellen."
+      no_available_catalog: "Kein Katalog"
+      title: "Deployable erstellen"
+    properties:
+      edit_deployable_xml: "Deployable-XML bearbeiten"
+    show:
+      add_catalog: "Hinzufügen +"
+      arch: ARCH
+      build_missing: "Build fehlt"
+      build_status: Build-Status
+      build_statuses_descriptions:
+        building: "Images werden erstellt."
+        not_built: "Images wurden nicht erstellt"
+        not_pushed: "Einige der Images wurden nicht übertragen"
+        pushed: "Alle Images wurden übertragen und sind aktuell."
+        pushing: "Images werden übertragen."
+      catalog_name: Katalogname
+      choose_catalog: "Wählen Sie einen Katalog, um den Zugriff zu ermöglichen: "
+      delete: Löschen
+      edit: Bearbeiten
+      edit_xml: "XML bearbeiten"
+      environment: Umgebung
+      hdd: HDD
+      hw_profile: HW-Profil
+      image_uuid: Image-UUID
+      images: Images
+      images_valid: "Images gültig"
+      latest_build_uuid: "Neueste Build-UUID: "
+      launch: Starten
+      missing_images: "Images fehlen im Image Warehouse"
+      n_a: N/A
+      name: Name
+      push_all: "In Übertragung fehlen Images"
+      push_missing: "Übertragung fehlt"
+      ram: RAM
+      rebuild_all: "In Build fehlen Images"
+      repair_images: "Images reparieren"
+      show_hide_uuids: Anzeigen/Ausblenden
+      start: Start
+      target_images_uuids: "Ziel-Images UUIDs"
+      uuids: UUIDs
+  deployments:
+    confirm_delete: "Sind Sie sicher, dass Sie dieses Deployment löschen möchten?"
+    deployment: Deployment
+    deployment_details: Deployment-Details
+    deployment_name: Deployment-Name
+    deployment_name_subtext: "(identifiziert Ihr Deployment eindeutig)"
+    deployments: Deployments
+    edit:
+      edit_deployment: "Deployment bearbeiten"
+    errors:
+      all_stopped: "Alle Instanzen müssen gestoppt werden oder laufen"
+      cannot_stop: "Stopp kann auf dieser Instanz nicht ausgeführt werden."
+      config_server_connection: "Verbindung mit Konfig-Server konnte nicht herstellt werden"
+      not_valid_deployable_xml: "Scheint keine gültige Deployable-XML zu sein:  %{msg}"
+    flash:
+      error:
+        failed_to_launch_assemblies: "Folgende Assemblys konnten nicht gestartet werden: "
+        none_selected: "Sie müssen eins oder mehrere Deployments auswählen."
+        not_deleted:
+          one: "Das Deployment %{list} konnte nicht gelöscht werden."
+          other: "Die Deployments %{list} konnten nicht gelöscht werden."
+        not_launched: "Einige Assemblys werden nicht gestartet: "
+        not_updated:
+          one: "Das Deployment %{list} konnte nicht aktualisiert werden."
+          other: "Die Deployments %{list} konnten nicht aktualisiert werden."
+      notice:
+        launched: "Deployment gestartet."
+        stop: "Stoppaktion wurde erfolgreich der Warteschlange hinzugefügt."
+      success:
+        deleted:
+          one: "Das Deployment %{list} wurde zur Löschung eingeplant."
+          other: "Die Deployments %{list} wurden zur Löschung eingeplant."
+        updated:
+          one: "Das Deployment %{list} wurde erfolgreich aktualisiert."
+          other: "Die Deployments %{list} wurden erfolgreich aktualisiert."
+      warning:
+        deployable_not_selected: "Sie müssen eine Deployable auswählen"
+        disabled_pool: "In diesem Pool kann kein Deployment gestartet werden. Der Pool wurde deaktiviert."
+        failed_to_launch: "Deployment-Start fehlgeschlagen!"
+    launch_from_catalog:
+      arch: ARCH
+      deployable_xml: Deployable-XML
+      details: Details
+      hdd: HDD
+      hint: "Deployable zum Start im \"%{pool}\" Pool wählen"
+      image_id: Image-ID
+      no_catalog_entry: "Keine Deployable verfügbar. Bitte fügen Sie erst eine hinzu!"
+      profile: Profil
+      ram: RAM
+      select: Wählen
+    launch_new:
+      already_in_use: "Dieser Name wird bereits verwendet"
+      autoselect: "Automatische Auswahl"
+      load_definition: "Definition von XML laden"
+      name_available: "Name verfügbar"
+      next: Weiter
+      other: andere
+      to_pool: "in %{name} Pool"
+    launch_time_params:
+      configure_launch_time_params: "Konfigurieren von Startzeit-Parametern für Ihr Deployment: "
+      finalize: Fertigstellen
+      reference: "Referenz auf %{assembly}s Rückgabeparameter: %{parameter}"
+      title: Startzeit-Parameter
+    list:
+      delete_selected: "Auswahl löschen"
+      stop_selected: "Auswahl stoppen"
+    list_of_events: "Liste der Deployment-Ereignisse"
+    new:
+      asseblies_name: Assembly-Name
+      build_id: Build-ID
+      deployable_definition: Deployable-Definition
+      deployable_details: Deployable-Details
+      description: "Beschreibung: "
+      hardware_profile: Hardware-Profil
+      image_id: Image-ID
+      launch: "Dieses Deployment starten"
+      name: "Name: "
+      view: Anzeigen
+    new_deployment: "Neues Deployment"
+    operation:
+      count_of_instances: "Anzahl der Instanzen: "
+      operational_status: "Betriebsstatus von"
+    overview:
+      confirmation: "Sind Sie sicher, dass Sie \%{deployment}\ im %{pool} Pool deployen möchten? Dadurch werden %{quota} Ihres gesamten Deployment-Kontingents verbraucht."
+      deployable_xml: Deployable-XML
+      description: Beschreibung
+      header: "\"%{deployment}\" in %{pool} Pool deployen?"
+      image_ids: Image-IDs
+      launch: Starten
+      name: Name
+      pool_name: "%{pool} Pool"
+    preset_filters:
+      all_deployments: "Alle Deployments"
+    pretty_view_show:
+      download_key: "Schlüssel herunterladen"
+      ip_address: "IP-Adresse: "
+      no_ip_address: "-"
+      reboot: Neustarten
+      state: "Status: "
+      stop: Stopp
+    properties:
+      global_uptime: "Globale Betriebszeit"
+      property_name: Eigenschaftsname
+      uptime_1st_instance: "Betriebszeit 1. laufende Instanz"
+      value: Wert
+    provider_services:
+      list_of_services: "Liste der vom Deployment benötigten Dienste"
+    required_services:
+      list_of_required_services: "Liste der vom Deployment benötigten Dienste"
+    show:
+      name: "%{name} Deployment"
+    state: Status
+    status:
+      pending: "Einige (aber nicht alle) Instanzen werden ausgeführt"
+      running: "Alle Instanzen werden ausgeführt"
+      stopped: "Keine Instanzen werden derzeit ausgeführt"
+  edit: Bearbeiten
+  edit_user: "Benutzer bearbeiten"
+  email: E-Mail
+  filter_table:
+    apply_filters: "Filter anwenden"
+    results: Ergebnisse
+    search: Suchen
+    viewing: Anzeigen
+  first_name: Vorname
+  general_settings: "Allgemeine Einstellungen"
+  hardware_profiles:
+    create:
+      check_matching_hwp: "Passende Hardware-Profile prüfen"
+    edit:
+      cancel_editing: "Bearbeiten abbrechen"
+      edit_hwp: "Hardware-Profile bearbeiten"
+    flash:
+      error:
+        more_not_deleted:
+          one: "%{not_deleted} konnte nicht gelöscht werden"
+          other: "Folgende Hardware-Profile konnten nicht gelöscht werden: %{not_deleted}"
+        not_deleted: "Hardware-Profil wurde nicht gelöscht!"
+      notice:
+        deleted: "Hardware-Profil wurde gelöscht!"
+        more_deleted:
+          one: "Hardware-Profil %{deleted} wurde gelöscht."
+          other: "Hardware-Profile %{deleted} wurden gelöscht."
+        updated: "Hardware-Profil aktualisiert!"
+      warning:
+        cannot_delete_backend_hwp: "Hardware-Profile können nicht gelöscht werden"
+        cannot_edit_backend_hwp: "Hardware-Profile können nicht geändert werden"
+    form:
+      check_matches: "Übereinstimmungen prüfen"
+    hardware: Hardware
+    hardware_profile: Hardware-Profil
+    hardware_profiles: Hardware-Profile
+    history:
+      history: Chronik
+    index:
+      architecture: Architektur
+      hardware_profile_name: Hardware-Profilname
+      memory: Arbeitsspeicher
+      storage: Speicherplatz
+      virtual_cpu: "Virtuelle CPU"
+    list:
+      delete_selected: "Auswahl löschen"
+      new_hardware: "Neues Hardware-Profil"
+    matching_provider_hwp:
+      no_matching_provider_hwp: "Keine passenden Provider-Hardware-Profile gefunden"
+    new:
+      new_hwp: "Neues Hardware-Profil"
+    preset_filters:
+      all_hardware_profiles: "Alle Hardware-Profile"
+      i386architecture: i368-Architektur
+      x86_64architecture: x86_64-Architektur
+    properties_headers:
+      min_value: Mindestwert
+      name: Name
+      unit: Einheit
+    provider_hwp_headers:
+      architecture: Architektur
+      hwp_name: Hardware-Profilname
+      memory: Arbeitsspeicher
+      provider_name: Provider-Name
+      storage: Speicherplatz
+      virtual_cpu: "Virtuelle CPU"
+    show:
+      backend_hwp: "%{name} (Provider)"
+      frontend_hwp: "%{name} (Frontend)"
+      matching_hwp: "Passende Provider-Hardware-Profile"
+    tab_captions:
+      history: Chronik
+      matching_provider_hwp: "Passende Provider-Hardware-Profile"
+      properties: Eigenschaften
+  hello: Hallo
+  help: Hilfe
+  history: Chronik
+  hw_profiles: HW-Profile
+  image_factory: "Image Factory"
+  image_imports: Image-Importe
+  images:
+    edit_xml:
+      edit: Bearbeiten
+      save_and_continue: "Speichern und fortfahren"
+    environment: "Umgebung: "
+    environment_header: Umgebung
+    flash:
+      error:
+        invalid_url: "Angegebene URL konnte nicht geladen werden"
+        no_file: "Vorlagen-XML-Datei muss angegeben werden"
+        no_provider_accounts: "Images können nicht erstellt werden, da derzeit keine Provider-Accounts aktiviert sind."
+        no_provider_accounts_for_import: "Images können nicht importiert werden, da derzeit keine Provider-Accounts für diese Umgebung aktiviert sind."
+        no_template: "Das Image hat keine Vorlage, da es importiert wurde."
+      notice:
+        created: "Image erstellt"
+        deleted: "Image gelöscht"
+        multiple_deleted:
+          one: "%{count} Image gelöscht"
+          other: "%{count} Images gelöscht"
+      warning:
+        delete_failed: "Image konnte nicht gelöscht werden"
+        not_found: "Image nicht gefunden"
+    import:
+      blank_id: "Image-ID darf nicht leer sein."
+      image_id: Image-ID
+      image_imported: "Das Image wurde erfolgreich importiert."
+      image_not_imported: "Das Image konnte nicht importiert werden. Prüfen Sie das Image-Factory-Protokoll für weitere Details."
+      import_image: "Image importieren"
+      name: Image-Name
+      provider_account: Provider-Account
+    index:
+      architecture: Architektur
+      images: Images
+      import: Import
+      last_rebuild: "Zuletzt neu erstellt"
+      name: Name
+      new: "Neues Image"
+      os: OS
+      os_version: OS-Version
+    new:
+      choose_file: "Wählen Sie eine Vorlagendatei: "
+      description: "Markup- und Image-Referenzen in \%{name}\ wurden erfolgreich überprüft. Sie können das Image nun speichern und eine Deployable erstellen."
+      edit_file: "Datei vor dem Speichern bearbeiten: "
+      from_url: "Von URL"
+      image_url: "Vorlagen-URL: "
+      name: "Name: "
+      new_image: "Neues Image"
+      upload: Hochladen
+    not_on_provider: "Angefordertes Image konnte nicht auf Provider gefunden werden."
+    overview:
+      back: Zurück
+      description: "Markup- und Image-Referenzen in \%{name}\ wurden erfolgreich überprüft. Sie können das Image nun speichern und eine Deployable erstellen."
+      make_deployable: "Automatisch \"%{name}\" Deployable erstellen."
+      save_template: "Vorlage speichern"
+      valid_image: "Gültiges Image"
+    show:
+      account: Account
+      build: Erstellen
+      build_all: "Alle erstellen"
+      build_date: Build-Erstellungsdatum
+      build_not_found: "Build nicht gefunden"
+      can_not_build_imported_image: "Importiertes Image kann nicht erstellt oder übertragen werden"
+      delete: Löschen
+      failed_build_attempts:
+        one: "1 Build-Erstellungsversuch fehlgeschlagen"
+        other: "%{count} Build-Erstellungsversuche fehlgeschlagen"
+      failed_push_attempts:
+        one: "1 Übertragungsversuch fehlgeschlagen"
+        other: "%{count} Übertragungsversuche fehlgeschlagen"
+      image_uri: Image-URI
+      image_uuid: Image-UUID
+      latest: Neueste
+      missing_build: "Zuerst Build auswählen"
+      new_deployable_from_image: "Neue Deployable von Image"
+      not_built: "Das Image wurde noch nicht erstellt"
+      only_latest_builds_can_be_pushed: "Nur neuester Build kann übertragen werden"
+      provider: Provider
+      provider_account: Provider-Account
+      provider_images: Provider-Images
+      push: Übertragen
+      push_all: "Alle übertragen"
+      push_started: "Übertragung wird gestartet"
+      rebuild: "Neu erstellen"
+      rebuild_all: "Alle neu erstellen"
+      select_build: Wählen
+      template_xml: "Vorlagen-XML anzeigen"
+      upload: Hochladen
+      view_build: "Build anzeigen"
+  instance_details: Instanzendetails
+  instance_management: Instanzenverwaltung
+  instances:
+    confirm_terminate:
+      terminate: Beenden
+      terminate_instances: "Instanzen beenden"
+      terminate_instances_description: "Provider ist nicht erreichbar, der Status der folgenden Instanzen wird auf 'gestoppt' gesetzt, ihr tatsächlicher Status ist jedoch unbekannt."
+    edit:
+      edit_instance: "Instanz bearbeiten"
+      name: Name
+    errors:
+      architecture_mismatch: "Assembly-Hardwareprofil-Architekture (%{inst_arch}) stimmt nicht mit Imageprofil-Architekture (%{img_arch}) überein."
+      cannot_destroy: "Zerstören kann auf dieser Instanz nicht ausgeführt werden."
+      hw_profile_match_not_found: "%{account_name}: Übereinstimmendes Hardware-Profil nicht gefunden"
+      image_not_found: "Kein Image-Build gefunden mit uuid %{b_uuid} und kein Image gefunden mit uuid %{i_uuid}"
+      image_not_pushed_to_provider: "%{account_name}: Image wird nicht auf diesen Provider-Account übertragen"
+      invalid_state: "Fehler, Statuszeit konnte nicht berechnet werden: ungültiger Status"
+      must_be_enabled: "%{account_name}: Provider muss aktiviert sein"
+      no_config_server_available: "%{account_name}: Kein Konfig-Server für Provider-Account verfügbar"
+      no_provider_accounts: "Images können nicht importiert werden, da derzeit keine Provider-Accounts für diese Umgebung aktiviert sind."
+      pool_family_quota_reached: "Pool-Familienkontingent erreicht"
+      pool_quota_reached: "Pool-Kontingent erreicht"
+      provider_account_quota_reached: "%{account_name}: Provider-Account-Kontingent erreicht"
+      provider_account_quota_too_low: "%{match_provider_account} Kontingentgrenze zu gering, um Deployable zu starten"
+      provider_not_available: "%{account_name}: Provider ist nicht verfügbar"
+      realm_not_mapped: "%{account_name}: Bereich %{frontend_realm_name} ist mit keinem anderen gültigen Provider oder Provider-Bereich verknüpft"
+      reboot_invalid_action: "Neustart ist eine ungültige Aktion."
+      state_not_monitored: "Fehler, Statuszeit konnte nicht berechnet werden: Status wird nicht überwacht"
+      stop_invalid_action: "Stopp ist eine ungültige Aktion."
+      user_quota_reached: "Benutzerkontingent erreicht"
+    flash:
+      error:
+        not_deleted:
+          one: "Die Instanz %{list} konnte nicht gelöscht werden."
+          other: "Die Instanzen %{list} konnten nicht gelöscht werden."
+        not_updated:
+          one: "Die Instanz %{list} konnte nicht aktualisiert werden."
+          other: "Die Instanzen %{list} konnten nicht aktualisiert werden."
+        reboot: "Die Instanz %{name} wurde nicht neu gestartet. Grund: %{err}"
+        stop: "Die Instanz %{name} wurde nicht neu gestoppt. Grund: %{err}"
+      notice:
+        forced_stop: "Status auf gestoppt geändert."
+        reboot: "%{name}: Neustartaktion wurde erfolgreich der Warteschlange hinzugefügt."
+        stop: "Stoppaktion wurde erfolgreich der Warteschlange hinzugefügt."
+      success:
+        deleted:
+          one: "Die Instanz %{list} wurde erfolgreich gelöscht."
+          other: "Die Instanzen %{list} wurden erfolgreich gelöscht."
+        updated:
+          one: "Die Instanz %{list} wurde erfolgreich aktualisiert."
+          other: "Die Instanzen %{list} wurden erfolgreich aktualisiert."
+      warning:
+        ssh_key_not_found: "SSH-Schlüssel für diese Instanz nicht gefunden."
+    headers:
+      created_by: "ERSTELLT DURCH"
+      provider: PROVIDER
+      public_address: "ÖFFENTLICHE ADRESSE"
+      status: STATUS
+      vm_name: VM-NAME
+    history:
+      history_for: "Chronik für: "
+    instance: Instanz
+    instances:
+      one: Instanz
+      other: Instanzen
+    list:
+      export_events: "Ereignisse exportieren"
+      hide_stopped: "Gestoppte ausblenden"
+      reboot_selected_instances: "Ausgewählte Instanzen neu starten"
+      show_all: "Alle anzeigen"
+      showing_all_instances: "Alle Instanzen werden angezeigt"
+      stop_selected_instances: "Ausgewählte Instanzen stoppen"
+      stopped_instances_hidden: "Gestoppte Instanzen sind ausgeblendet"
+      table:
+        name: Name
+        owner: Besitzer
+        provider: Provider
+        public_address: "Öffentliche Adresse"
+        state: Status
+    none_selected: "Sie müssen eine oder mehrere Instanzen zum Stoppen auswählen."
+    none_selected_to_reboot: "Sie müssen eine oder mehrere Instanzen zum Neustarten auswählen."
+    parameters:
+      config_parameters: Konfig-Parameter
+      none: Keine
+    permissions:
+      permissions_for: "Berechtigungen für"
+    preset_filters:
+      all_instances: "Alle Instanzen"
+      create_failed: "Fehlgeschlagene Instanzen"
+      other_than_stopped: "Nicht gestoppte Instanzen"
+      pending: "Ausstehende Instanzen"
+      running: "Laufende Instanzen"
+      stopped: "Gestoppte Instanzen"
+    properties:
+      architecture: "Architektur: "
+      assembly: "Assembly: "
+      console_connection: "Konsolenverbindung: "
+      current_alerts: "Aktuelle Benachrichtigungen: "
+      download: Download
+      error: "Fehler: "
+      instantiation_time: "Instantiierungszeit: "
+      memory: "Arbeitsspeicher: "
+      n_a: N/A
+      name: "Name: "
+      owner: "Besitzer: "
+      private_adresses: "Private Adressen: "
+      properties_for: "Eigenschaften für"
+      provider: "Provider: "
+      public_addresses: "Öffentliche Adressen: "
+      shared_to: "Freigegeben für: "
+      ssh_key: "SSH-Schlüssel: "
+      ssh_key_name: "SSH-Schlüsselname: "
+      status: "Status: "
+      storage: "Speicherplatz: "
+      via_ssh: "über SSH"
+    reboot: Neustart
+    tab_captions:
+      history: Chronik
+      permissions: Berechtigungen
+      properties: Eigenschaften
+  last_name: Nachname
+  launch_instance: "Instanz starten"
+  layout:
+    appname: "Aeolus Conductor"
+    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
+    dashboard: Übersicht
+  login: Anmelden
+  manage_providers: "Provider verwalten"
+  manage_users: "Benutzer verwalten"
+  map_locales: "Gebietsschema zuweisen"
+  map_profiles: "Profile zuweisen"
+  masthead:
+    logout: Abmelden
+    my_account: "Mein Account"
+  maximum_running_instances: "Maximal laufende Instanzen"
+  name: Name
+  navigation:
+    first_level:
+      administer: Verwalten
+      monitor: Überwachen
+    second_level:
+      cloud_providers: Cloud-Provider
+      content: Inhalt
+      environments: Umgebungen
+      settings: Einstellungen
+      users: Benutzer
+  new: Neu
+  new_user: "Neuer Benutzer"
+  operation: Ausführen
+  overview: Übersicht
+  permissions:
+    flash:
+      error:
+        no_users_selected: "Keine Benutzer ausgewählt"
+        not_add: "Diese Benutzerrollen konnten nicht hinzugefügt werden: %{list}"
+        not_added: "Diese Benutzerrollen konnten nicht hinzugefügt werden: %{list}"
+        not_deleted: "Diese Berechtigungen konnten nicht gelöscht werden: %{list}"
+      fragment:
+        user_and_role: "%{user} (%{role})"
+        user_and_role_change: "%{user} (von %{old_role} zu %{role})"
+      notice:
+        added: "Die folgenden Benutzerrollen wurden hinzugefügt: %{list}"
+        deleted: "Die folgenden gewährten Berechtigungen wurden gelöscht: %{list}"
+        modified: "Die folgenden Benutzerrollen wurden erfolgreich geändert: %{list}"
+    form:
+      grant_access: "Zugriff gewähren"
+    new:
+      choose_global_role: "Globale Rollenzuweisungen für Benutzer wählen"
+      choose_roles: "Wählen Sie Rollen für Benutzer, denen Sie Zugriff hierauf gewähren möchten"
+      global_role_grants: "Globale Rollenzuweisungen"
+    preset_filters:
+      all_permissions: "Alle Berechtigungen"
+    revoke_access: "Zugriff widerrufen"
+  pool_families:
+    add_to_pool_family: "Hinzufügen zu %{name}"
+    choose_provider_accounts: "Für diese Pool-Familie zu aktivierende Provider-Accounts wählen"
+    confirm_delete: "Sind Sie sicher, dass Sie diese Pool-Familie löschen möchten? Dadurch werden auch alle zugehörigen Pools, Kataloge und Deployables gelöscht."
+    edit:
+      return_to: "Zurück zu: "
+    flash:
+      error:
+        default_pool_family_not_deleted: "Die Standard-Pool-Familie kann nicht gelöscht werden"
+        more_not_deleted: "Die folgenden Pool-Familien konnten nicht gelöscht werden: %{list}."
+        no_provider_accounts: "Es sind keine Provider-Accounts verfügbar."
+        not_deleted: "Accounts %{list} wurden nicht gelöscht. Es gibt damit verknüpfte Instanzen."
+        not_updated: "Pool-Familie wurde nicht aktualisiert!"
+        provider_accounts_not_added: "Diese Provider-Accounts konnten nicht hinzugefügt werden"
+        provider_accounts_not_removed: "Diese Provider-Accounts konnten nicht entfernt werden"
+        select_to_add_accounts: "Sie müssen mindestens einen hinzuzufügenden Provider-Account wählen."
+        select_to_remove_accounts: "Sie müssen mindestens einen zu entfernenden Provider-Account wählen."
+      notice:
+        added: "Pool-Familie wurde hinzugefügt."
+        deleted: "Pool-Familie wurde gelöscht!"
+        more_deleted: "Die folgenden Pool-Familien wurden gelöscht: %{list}."
+        provider_accounts_added: "Diese Provider-Accounts wurden hinzugefügt"
+        provider_accounts_removed: "Diese Provider-Accounts wurden entfernt"
+        updated: "Pool-Familie wurde aktualisiert!"
+      warning:
+        creation_failed: "Erstellung der Pool-Familie ist fehlgeschlagen."
+    index:
+      active_instances: "Aktive Inst."
+      answer_no: Nein
+      answer_yes: Ja
+      available_instances: "Verfügbare Inst."
+      catalog: Katalog
+      deployments: Deployments
+      enabled: Aktiviert
+      failed_instances: "Fehlgeschlagene Inst."
+      name: Name
+      new_pool_family: "Neue Pool-Familie"
+      pending_instances: "Ausstehende Inst."
+      pool_name: Pool-Name
+      quota_limit: Kontingentgrenze
+      quota_used: "Verbrauchtes Kontingent"
+      total_instancies: "Gesamte Inst."
+      total_statistics: GESAMT
+    new:
+      environments: Umgebungen
+    pool_families: Pool-Familien
+    pool_family: Pool-Familie
+    pool_family_details: Pool-Familien-Details
+    provider_accounts_for: "Provider-Accounts für"
+    remove_selected: "Auswahl entfernen"
+  pools:
+    create_new_pool: "Neuen Pool erstellen"
+    edit_pool: "Pool %{pool} bearbeiten"
+    errors:
+      must_be_enabled: "muss aktiviert sein"
+      providers_disabled: "hat alle zugewiesenen Provider deaktiviert"
+    flash:
+      error:
+        default_pool_not_deleted: "Der Standard-Pool kann nicht gelöscht werden"
+        iwhd_unavailable: "Katalog-Images sind nicht verfügbar. Das Image Warehouse ist anscheinend nicht erreichbar"
+        not_updated: "Pool wurde nicht aktualisiert!"
+        pool_not_deleted:
+          one: "Pool %{list} wurde nicht gelöscht. Es gibt damit verknüpfte Instanzen."
+          other: "Accounts %{list} wurden nicht gelöscht. Es gibt damit verknüpfte Instanzen."
+      notice:
+        added: "Pool hinzugefügt."
+        updated: "Pool aktualisiert."
+      success:
+        pool_deleted:
+          one: "Pool %{list} wurde gelöscht."
+          other: "Pools %{list} wurden gelöscht."
+      warning:
+        creation_failed: "Pool-Erstellung fehlgeschlagen."
+    form:
+      instance_or: "Instanz oder"
+      pool_enabled: "Pool aktiviert"
+      unlimited: unbegrenzt
+    header_show:
+      pool_name: "%{name} Pool"
+    images:
+      catalog: Katalog
+      catalog_entry: Deployable
+      image: "Image: "
+      pushed: "%{uuid} übertragen an %{provider}"
+    index:
+      confirm_delete: "Sind Sie sicher, dass Sie diesen Pool löschen möchten? Dadurch werden auch alle zugehörigen Kataloge und Deployables gelöscht."
+      deployed_on: "Deployed auf"
+      destroy: Zerstören
+      failed: Fehlgeschlagen
+      global_uptime: "Globale Betriebszeit"
+      overview: Übersicht
+      owner: Besitzer
+      pending: Ausstehend
+      pool_details: Pool-Details
+      pool_family: Pool-Familie
+      pool_name: Pool-Name
+      your_pools: "Ihre Pools"
+    list:
+      more_actions: "Weitere Aktionen"
+    new_pool: "Neuer Pool"
+    pool: Pool
+    pools: Pools
+    preset_filters:
+      all_pools: "Alle Pools"
+      enabled_pools: "Aktivierte Pools"
+      with_create_failed_instances: "Mit fehlgeschlagenen Instanzen"
+      with_instances: "Mit Instanzen"
+      with_pending_instances: "Mit ausstehenden Instanzen"
+      with_running_instances: "Mit laufenden Instanzen"
+      with_stopped_instances: "Mit gestoppten Instanzen"
+    properties:
+      properties: "Eigenschaften für %{pool}"
+    valid_format_of_name: "darf nur enthalten: Ziffern, Buchstaben, Leerzeichen, '_' und '-'"
+  privileges: Privilegien
+  properties: Eigenschaften
+  provider_accounts:
+    add_provider_account: "Account hinzufügen"
+    credentials:
+      credentials_for: "Berechtigungsnachweise für"
+    edit:
+      account: "Account bearbeiten: %{name}"
+      delete_account: "Account löschen"
+      edit_provider_account: "Provider-Account bearbeiten"
+      file_already_uploaded: "Bereits hochgeladen. Erneut hochladen?"
+      required_field: "Erforderliches Feld."
+    errors:
+      could_not_connect: "Konnte nicht mit Provider-Account verbinden. Bitte setzen Sie sich mit einem Administrator in Verbindung."
+      exception_while_validating: "Beim Überprüfen der Provider-Berechtigungsnachweise trat ein Fehler auf. Bitte prüfen Sie Ihre Einstellungen und versuchen Sie es erneut."
+      invalid_credentials: "Berechtigungsnachweise für diesen Provider sind ungültig."
+      populate_hardware_profiles_failed: "Befüllen der Hardware-Profile ist fehlgeschlagen: %{message}"
+      populate_realms_failed: "Befüllen der Bereiche ist fehlgeschlagen: %{message}"
+    flash:
+      error:
+        account_not_added:
+          one: "Account %{list} konnte nicht hinzugefügt werden"
+          other: "Accounts %{list} konnten nicht hinzugefügt werden"
+        account_not_deleted:
+          one: "Account %{list} wurde nicht gelöscht. Es gibt damit verknüpfte Instanzen."
+          other: "Accounts %{list} wurden nicht gelöscht. Es gibt damit verknüpfte Instanzen."
+        no_provider: "Sie haben noch keinen Provider. Bitte erstellen Sie einen!"
+        not_added: "Provider-Account konnte nicht hinzugefügt werden."
+        not_deleted: "Provider-Account wurde nicht gelöscht!"
+        not_updated: "Provider-Account wurde nicht aktualisiert!"
+        test_connection_failed_invalid: "Testverbindung fehlgeschlagen: Ungültige Account-Details"
+        test_connection_failed_provider: "Testverbindung fehlgeschlagen: Konnte nicht mit Provider verbinden"
+      notice:
+        account_added:
+          one: "Account %{list} wurde hinzugefügt."
+          other: "Accounts %{list} wurden hinzugefügt."
+        account_deleted:
+          one: "Account %{list} wurde gelöscht."
+          other: "Accounts %{list} wurden gelöscht."
+        deleted: "Provider-Account wurde gelöscht!"
+        test_connection_success: "Testverbindung erfolgreich: Gültige Account-Details"
+        updated: "Provider-Account aktualisiert!"
+      warning:
+        must_select_account: "Sie müssen erst einige Accounts auswählen."
+        no_provider: "Sie haben noch keinen Provider"
+    form:
+      account_name: Account-Name
+      account_number: "AWS Account-ID"
+      account_private_cert: "EC2 x509 privater Schlüssel"
+      account_public_cert: "EC2 x509 öffentlicher Schlüssel"
+      password: "Geheimer Zugangsschlüssel"
+      provider_accounts: Provider-Accounts
+      quota_instances: Kontingent-Instanzen
+      test_account: Test-Account
+      unlimited_quota: "Unbegrenztes Kontingent"
+      user_name: "EC2 Zugangsschlüssel"
+    history:
+      history_for: "Chronik für"
+    index:
+      config_server_not_saved: "Beim Speichern der Konfig-Server-Daten trat ein Fehler auf."
+      config_server_saved: "Konfig-Server-Daten wurden erfolgreich gespeichert"
+      priority: Priorität
+      provider_account_name: Account-Name
+      provider_accounts: Provider-Accounts
+      provider_name: Provider-Name
+      provider_type: Provider-Typ
+      quota_limit: Kontingentgrenze
+      username: Benutzername
+    list:
+      delete_selected: "Auswahl löschen"
+    new:
+      cloud_providers: Cloud-Provider
+      new_provider_account: "Neuer Provider-Account"
+      required_field: "Erforderliches Feld."
+    new_provider_account: "Neuer Account"
+    permissions:
+      permissions_for: "Berechtigungen für"
+    preset_filters:
+      all_provider_accounts: "Alle Accounts"
+    properties:
+      account_number: "Account-Nummer: "
+      config_server: "Konfig-Server: "
+      none: Keine
+      properties_for: "Eigenschaften für"
+      running_instances_quota: "Kontingent für laufende Instanzen: "
+      sure_to_delete: "Sind Sie sicher, dass Sie diesen Konfig-Server löschen möchten?"
+      test: Test
+      unlimited: unbegrenzt
+    provider_selection:
+      cloud_type: "Cloud-Typ: "
+      provider_name: "Provider-Name: "
+    remove_provider_accounts: "Accounts entfernen"
+    rhevm:
+      login_form: "Anmeldeformular für RHEV-M (noch nicht implementiert)"
+    show:
+      account: "Account: %{name}"
+      test_connection: Testverbindung
+    tab_captions:
+      credentials: Berechtigungsnachweise
+      history: Chronik
+      permissions: Berechtigungen
+      properties: Eigenschaften
+  provider_accounts_item: Provider-Account
+  provider_images:
+    flash:
+      notice:
+        deleted: "Provider-Image gelöscht. Falls Sie das vom Provider gespeicherte Image selbst entfernen möchten, rufen Sie die Verwaltungskonsole von %{provider} auf und suchen das \%{target_id}\ Image."
+        upload_start: "Upload des Provider-Images gestartet"
+      warning:
+        delete_failed: "Provider-Image konnte nicht gelöscht werden"
+        not_found: "Provider-Image nicht gefunden"
+        upload_failed: "Provider-Image konnte nicht hochgeladen werden"
+  provider_realms:
+    name: Provider-Bereichsname
+    provider_realms: Provider-Bereiche
+    show:
+      details: Provider-Bereichsdetails
+      mapping: Provider-Bereichszuordnung
+      provider_accounts_mapped: "Provider-Accounts zugeordnet zu Provider-Bereich %{name}"
+  provider_summary: Provider-Zusammenfassung
+  providers:
+    alerts:
+      alert_type:
+        quota_exceeded: "Account-Kontingent überschritten"
+        quota_reached: "Account-Kontingent erreicht"
+      description:
+        quota_exceeded: "Kontingentgrenze für laufende Instanzen für %{name} Account wurde überschritten."
+        quota_reached: "der Kontingentgrenze für laufende Instanzen für %{name} Account wurde erreicht."
+      subject:
+        quota: Kontingent
+      type:
+        critical: Kritisch
+        warning: Warnung
+    choose_a_provider: "Wählen Sie einen Provider: "
+    confirm_delete: "Sind Sie sicher, dass Sie diesen Provider löschen möchten?"
+    confirm_terminate:
+      disable: Deaktivieren
+      disabled_provider: "Provider deaktivieren"
+    disable_provider: "Provider deaktivieren? Alle zugehörigen Instanzen werden gestoppt!"
+    edit:
+      enable_configure_providers: "Um Provider zu aktivieren und zu konfigurieren, klicken Sie auf den Schieberegler oben rechts in diesem Fenster."
+      provider_disabled: "Der Provider %{name} ist derzeit deaktiviert."
+      provider_id_disabled: "Provider ist deaktiviert."
+      provider_unavailable: "Der Provider %{name} ist derzeit nicht verfügbar."
+      toggle_alerts: "Benachrichtigungen ändern"
+    editing_provider: "Provider wird bearbeitet"
+    enable_provider: "Provider aktivieren?"
+    flash:
+      error:
+        not_added: "Provider konnte nicht hinzugefügt werden."
+        not_deleted: "Provider wurde nicht gelöscht"
+        not_disabled: "Provider konnte nicht deaktiviert werden."
+        not_updated: "Provider konnte nicht aktualisiert werden."
+      notice:
+        added: "Provider hinzugefügt."
+        connected: "Erfolgreich mit Provider verbunden"
+        deleted: "Provider wurde erfolgreich gelöscht."
+        disabled: "Provider deaktiviert."
+        updated: "Provider aktualisiert."
+      warning:
+        connect_failed: "Verbindung mit Provider fehlgeschlagen!"
+        not_stopped_instances: "Provider wurde nicht deaktiviert, folgende Instanzen konnten nicht gestoppt werden: "
+        not_terminated_instances: "Provider wurde nicht deaktiviert, der Status folgender Instanzen konnte nicht auf 'gestoppt' gesetzt werden: "
+    form:
+      caution_alt_text: Achtung
+      caution_image: Achtung
+      enter_correct_url_msg: "Bitte geben Sie ein korrektes URL-Format ein."
+      required_field: "Erforderliches Feld."
+      select_type_of_provider: "Wählen Sie den Typ des Providers"
+      test_connection: Testverbindung
+      x_deltacloud_provider:
+        ec2: EC2-Region
+        generic: X-Deltacloud-Provider
+        rhevm: "RHEV-M API_PROVIDER"
+        vsphere: "vSphere API Hostname"
+      x_deltacloud_provider_legend: "Legende für X-Deltacloud-Provider"
+    index:
+      create_new_provider: "Neuen Provider erstellen"
+      create_one: "Bitte erstellen Sie erst einen."
+      no_providers_available: "Keine Provider verfügbar."
+      provider_name: Provider-Name
+      provider_type: Provider-Typ
+      provider_url: Provider-URL
+      x_deltacloud_driver: X-Deltacloud-Treiber
+      x_deltacloud_provider: X-Deltacloud-Provider
+    new:
+      new_provider: "Neuer Provider"
+      save_provider: "Provider speichern"
+    provider: Provider
+    providers: Provider
+  quota: Kontingent
+  quota_used: "Verbrauchtes Kontingent"
+  quotas:
+    edit:
+      edit_for: "Kontingent bearbeiten für"
+      max_running_instnaces: "Max laufende Instanzen"
+    flash:
+      error:
+        not_updated: "Kontingent konnte nicht aktualisiert werden, bitte überprüfen Sie, ob Sie gültige Werte angegeben haben"
+      notice:
+        updated: "Kontingent aktualisiert!"
+    quota: Kontingent
+    show:
+      available: Verfügbar
+      max_capacity: "Max Kapazität"
+      no_quota: "Hierauf liegt kein Kontingent vor"
+      resource: Ressource
+      used: Verbraucht
+  realm_mappings:
+    new:
+      create_new: "Neue Bereichszuordnung erstellen"
+  realm_s: Bereiche
+  realms:
+    edit:
+      cancel_editing: "Bearbeiten abbrechen"
+      properties: Eigenschaften
+    flash:
+      error:
+        more_not_deleted: "Diese Bereiche konnten nicht gelöscht werden: "
+        not_deleted: "Bereich wurde nicht gelöscht!"
+        select_to_delete: "Sie müssen mindestens einen Bereich zum Löschen auswählen."
+        select_to_delete_mapping: "Sie müssen mindestens eine Zuordnung zum Löschen auswählen."
+      notice:
+        added: "Bereich wurde hinzugefügt."
+        added_mapping: "Bereichszuordnung wurde hinzugefügt."
+        deleted: "Bereich wurde gelöscht!"
+        more_deleted: "Diese Bereiche wurden gelöscht: "
+        updated: "Bereich erfolgreich aktualisiert!"
+    index:
+      realm: Bereich
+      realm_availability: Verfügbar?
+      realm_available:
+        false_value: Nein
+        true_value: Ja
+      realm_name: Bereichsname
+    list:
+      delete_selected: "Auswahl löschen"
+    mapping:
+      frontend_realms_mapped_to_provider: "Bereiche zugeordnet zu Provider %{name}: "
+      frontend_realms_mapped_to_realm: "Bereiche zugeordnet zu Provider-Bereich %{name}: "
+      mapping_provider: "Zuordnung zu Provider hinzufügen"
+      mapping_realm: "Zuordnung zu Provider-Bereich hinzufügen"
+      provider_accounts_mapped_to_realm: "Provider-Accounts zugeordnet zu Bereich %{name}: "
+      realm_mapped_providers: "Bereich %{name} ist folgenden Providern zugeordnet: "
+      realm_mapped_realms: "Bereich %{name} ist folgenden Bereichen zugeordnet: "
+    new:
+      create_realm: "Neuen Bereich erstellen"
+    new_realm: "Neuer Bereich"
+    preset_filters:
+      all_realms: "Alle Bereiche"
+    properties:
+      realm_details: Bereichsdetails
+      realm_name: Bereichsname
+    realms: Bereiche
+    show:
+      properties: Eigenschaften
+      realm_mapping: Bereichszuordnung
+      realm_unavailable: "Der Bereich %{name} ist derzeit nicht verfügbar."
+      sure_to_delete: "Sind Sie sicher, dass Sie löschen möchten?"
+    tab_captions:
+      mapping: Zuordnung
+      properties: Eigenschaften
+  remove: Entfernen
+  reset: Zurücksetzen
+  resource_management: Ressourcenverwaltung
+  return_to: "Zurück zu: "
+  role: Rolle
+  role_assignments: Rollenzuweisungen
+  roles:
+    edit:
+      cancel_editing: "Bearbeiten abbrechen"
+      editing_role: "Rolle bearbeiten: "
+      properties: Eigenschaften
+    flash:
+      error:
+        more_not_deleted: "Folgende Rollen konnten nicht gelöscht werden: "
+      notice:
+        added: "Rolle erfolgreich gespeichert!"
+        more_deleted: "Diese Rollen wurden gelöscht: "
+        updated: "Rolle erfolgreich aktualisiert!"
+    list:
+      roles_list: Rollenliste
+    new_role: "Neue Rolle"
+    properties:
+      action: Aktion
+      privileges: Privilegien
+      scope: "Umfang: "
+      target_type: Zieltyp
+    show:
+      properties: Eigenschaften
+      sure_to_delete: "Sind Sie sicher, dass Sie diese Rolle löschen möchten?"
+    tab_captions:
+      properties: Eigenschaften
+  runtime: Ausführen
+  save: Speichern
+  scheduling_policies: Planrichtlinien
+  search:
+    no_results: "Keine passenden Ergebnisse."
+  searches: Suchen
+  select:
+    all: Alle
+    none: Keine
+    select: Wählen
+  self_service_settings: "Einstellungen zur Selbstverwaltung"
+  services: Dienste
+  services_provided: "Bereitgestellte Dienste"
+  settings:
+    flash:
+      notice:
+        updated: "Einstellungen aktualisiert!"
+      warning:
+        not_updated_quota: "Standardkontingent konnte nicht aktualisiert werden"
+    general_settings:
+      allow_self_service: "Account-Erstellung in Selbstverwaltung erlauben: "
+      brand_icon: "Markenzeichen: "
+      certificate: Zertifikat
+      content: Inhalt
+      content_manager_url: "Inhalts-Manager URL: "
+      entitlement_mode: "Berechtigungsmodus: "
+      general_settings: "Allgemeine Einstellungen"
+      portal: Portal
+      primary_url_port: "Primärer URL-Port: "
+      select_treatment: "Benutzerhandhabung wählen"
+      system_subscription: "System stellt Subskription bereit"
+      tag_line: "Tag Line: "
+      user_brings_subscriptions: "Benutzer stellt Subskription bereit"
+    index:
+      define_hardware_profiles: "Hardware-Profile definieren"
+      define_hardware_profiles_desc: "Anzeigen, Bearbeiten und Definieren der Namen für Hardware-Profile, die Aeolus Conductor seinen Benutzern anbietet. Die Bedeutung der Namen wird dadurch definiert, dass diese den Fähigkeiten zugeordnet sind, die von einzelnen Providern bereitgestellt werden."
+      define_locales: "Gebietsschemata definieren"
+      define_locales_desc: "Anzeigen, Bearbeiten und Definieren der Namen für Gebietsschemata, die Aeolus Conductor seinen Benutzern anbietet. Die Bedeutung der Namen wird dadurch definiert, dass diese den geografischen Lagen zugeordnet sind, die von einzelnen Providern bereitgestellt werden."
+      define_services: "Dienste definieren"
+      define_services_desc: "Anzeigen, Bearbeiten und Definieren der Dienste, die Aeolus Conductor anbietet. Diese Dienste sind einzelnen Providern zugeordnet, basierend auf deren Fähigkeiten."
+      general_settings: "Allgemeine Einstellungen"
+      general_settings_desc: "Aktivieren der Account-Registrierung in Selbstverwaltung, Einrichten von benutzerdefiniertem Branding, Verwalten von Inhaltsquellen"
+      manage_providers: "Provider verwalten"
+      manage_providers_desc: "Anzeigen, Bearbeiten und Hinzufügen von Providern virtueller Rechenressourcen zum Aeolus Conductor. Anzeigen, Bearbeiten und Hinzufügen von Aeolus Conductor Accounts für diese Provider. Zuordnen von Provider-spezifischen Konzepten zum Aeolus Conductor."
+      manage_users: "Benutzer verwalten"
+      manage_users_desc: "Anzeigen, Bearbeiten, Erstellen und Löschen von Benutzeraccounts im Aeolus Conductor. Anpassen von Kontingenten und Privilegien für Benutzer."
+      permissions: Berechtigungen
+      permissions_desc: "Standardkontingent bei Selbstverwaltung ändern."
+    self_service:
+      account: Account
+      self_service_default: "Benutzerhandhabung: standardmäßig Selbstverwaltung"
+      self_service_settings: "Einstellungen zur Selbstverwaltung"
+    settings: Einstellungen
+  summary: Zusammenfassung
+  system_settings: Systemeinstellungen
+  target_images:
+    flash:
+      notice:
+        deleted: "Ziel-Image gelöscht"
+      warning:
+        delete_failed: "Ziel-Image konnte nicht gelöscht werden"
+        not_found: "Ziel-Image nicht gefunden"
+  template_xml:
+    errors:
+      invalid_xml: "XML ist nicht gültig: "
+      name_is_not_set: "Name ist nicht festgelegt."
+      xml_parse_error: "XML konnte nicht analysiert werden."
+  updates: Aktualisierungen
+  uptime: "Nutzungsdauer insgesamt"
+  user: Benutzer
+  user_sessions:
+    flash:
+      notice:
+        login: "Anmeldung erfolgreich!"
+        logout: "Abmeldung erfolgreich!"
+      warning:
+        login_failed: "Anmeldung fehlgeschlagen: Benutzername und Passwort stimmen nicht überein"
+    new:
+      help: "Hilfefunktion ist noch nicht verfügbar."
+      login: Anmeldung
+      login_assistance: "Hilfe bei der Anmeldung"
+      password: "Passwort: "
+      security_info: Sicherheitsinfo
+      show_password: "Mein Passwort anzeigen"
+      username: "Benutzername: "
+    security:
+      encrypted_connection: "Sichere Verbindung"
+      expiration: "Ablauf: Unbekannt"
+      issued: "Zertifikat ausgestellt durch: "
+      message: "Ihre Verbindung zu Aeolus Conductor auf %{host} ist derzeit unverschlüsselt. Sie riskieren dadurch möglicherweise den Diebstahl sensibler Daten."
+      message_unencrypted: "Ihre Verbindung zu Aeolus Conductor auf %{host} ist derzeit unverschlüsselt. Sie riskieren dadurch möglicherweise den Diebstahl sensibler Daten."
+      message_unencrypted2: "Falls Sie glauben, dass es sich hierbei um einen Fehler handelt, versuchen Sie nicht sich anzumelden; setzen Sie sich stattdessen umgehend mit Ihrem Systemadministrator in Verbindung."
+      return_to_login: "Zurück zur Anmeldung"
+      unencrypted_connection: "Unsichere Verbindung"
+      unknown_ca: "Unbekannte Zertifizierungsstelle"
+  users:
+    confirm_delete: "Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?"
+    edit:
+      edit_account: "Account bearbeiten"
+      edit_user: "Benutzer bearbeiten"
+    errors:
+      has_running_instances: "%{login} hat laufende Instanzen"
+    flash:
+      notice:
+        deleted: "Benutzer wurde erfolgreich gelöscht."
+        more_deleted:
+          one: "Gelöschter Benutzer"
+          other: "Gelöschte Benutzer"
+        registered: "Benutzer registriert!"
+        updated: "Benutzer aktualisiert!"
+        you_registred: "Sie haben sich erfolgreich registriert!"
+      warning:
+        not_delete: "Löschen nicht möglich: %{reason}"
+        not_delete_same_user: "%{login} kann nicht gelöscht werden: Sie sind als dieser Benutzer angemeldet"
+    form:
+      save_user: "Benutzer speichern"
+      user_status: Benutzerstatus
+      user_treatment: Benutzerhandhabung
+    index:
+      email: E-Mail
+      first_name: Vorname
+      last_name: Nachname
+      quota_instances: Kontingentgrenze
+      user_id: Benutzer-ID
+      username: Benutzername
+    list:
+      delete_selected: "Auswahl löschen"
+      unlimited: Unbegrenzt
+    new:
+      neccessary_information: "Geben Sie die notwendigen Informationen über Ihren neuen Benutzer ein und klicken Sie auf \Benutzer speichern\, wenn Sie fertig sind."
+      new_user: "Neuer Benutzer"
+    preset_filters:
+      all_users: "Alle Benutzer"
+      name_starts_with_A: "Name beginnt mit A"
+      name_starts_with_B: "Name beginnt mit B"
+    quick_jump: "Quick Jump: "
+    return_to: "Zurück zu: "
+    show:
+      created: ERSTELLT
+      delete: Löschen
+      e-mail: E-Mail-Adresse
+      edit: Bearbeiten
+      failed_logins: "FEHLGESCHLAGENE ANMELDUNGEN"
+      last_login: "LETZTE ANMELDUNG"
+      last_login_ip: "IP DER LETZTEN ANMELDUNG"
+      last_updated: "ZULETZT AKTUALISIERT"
+      number_of_logins: "ANZAHL DER ANMELDUNGEN"
+      username: Benutzername
+    users: Benutzer
