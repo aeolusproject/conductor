@@ -1,0 +1,47 @@
+it:
+  role_defs:
+    base:
+      admin: "Amministratore globale"
+      deployable:
+        admin: "Amministratore distribuibili globale"
+      hwp:
+        admin: "Amministratore HWP globale"
+        user: "Utente HWP globale"
+      image:
+        admin: "Amministratore immagine globale"
+      pool:
+        admin: "Amministratore pool globale"
+        user: "Utente pool globale"
+      provider:
+        admin: "Amministratore provider globale"
+        user: "Utente provider globale"
+      realm:
+        admin: "Amministratore realm globale"
+    catalog:
+      admin: "Amministratore catalogo"
+      user: "Utente catalogo"
+    deployable:
+      owner: "Proprietario distribuibile"
+      user: "Utente distribuibile"
+    deployment:
+      owner: "Proprietario implementazione"
+      user: "Utente implementazioni"
+    instance:
+      owner: "Proprietario istanza"
+      user: "Utente istanza"
+    pool:
+      admin: "Amministratore pool"
+      deployable:
+        admin: "Ammin distribuibile pool"
+      user: "Utente pool"
+    pool_family:
+      admin: "Amministratore famiglia pool"
+      image:
+        admin: "Amministratore immagine famiglia pool"
+      user: "Utente famiglia pool"
+    provider:
+      admin: "Amministratore provider"
+      user: "Utente provider"
+    provider_account:
+      owner: "Proprietario account provider"
+      user: "Utente account provider"
