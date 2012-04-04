@@ -114,7 +114,7 @@ $.extend(Conductor, {
     */
     var acceptsSettings = $.extend({}, $.ajaxSettings.accepts)
     acceptsSettings.html = "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
-    $.ajaxSetup({accepts: acceptsSettings, dataType: 'html'})
+    $.ajaxSetup({accepts: acceptsSettings, dataType: 'html', cache: false})
   },
 
   multiActionValidation: function() {
