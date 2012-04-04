@@ -1,0 +1,1315 @@
+zh-TW:
+  about: 簡介
+  accounts: 帳號
+  add: 新增
+  administration: 管理
+  advanced_search: 進階搜尋
+  alerts:
+    instance_failure: "Instance 錯誤"
+  alerts_label: 警告
+  api:
+    error_messages:
+      account_not_found_in_environment: "供應方帳號 %{account} 不在此環境中。有效帳號包含了 %{accounts}。"
+      build_not_found: "找不到組建 %{build}"
+      environment_not_found: "找不到環境 %{environment}。"
+      environment_required: 需要環境參數。
+      image_not_found: "找不到映像檔 %{image}"
+      image_not_found_on_provider: "供應方上找不到映像檔 %{image}"
+      in_grabbing_target_images: "擷取目標映像檔清單：%{error}"
+      insufficient_privileges: 權限不足，無法進行指定的動作。
+      invalid_parameters_for_account_and_target_image: "帳號的參數無效：%{account} TargetImage: %{targetimage}"
+      invalid_template: "無效的範本：%{errore}"
+      no_image_build_or_target_image: "無效的參數：請求中未指定 Image、Build、或 TargetImage"
+      no_matching_target_image: "找不到符合的 Target Image"
+      no_provider_account_given: 未提供供應方帳號
+      provider_account_not_found: "找不到名稱為 %{name} 的供應方帳號"
+      provider_image_not_found: "找不到 ProviderImage %{providerimage}"
+      provider_image_status_not_found: "找不到 ProviderImage %{providerimage} 的狀態"
+      push_error: "無法將 TargetImage %{targetimage} 發送至 %{account}，錯誤為 %{error}"
+      specify_a_type_build_or_import: 請指定類型、組建或匯入
+      specify_environment: 請指定環境
+      target_image_not_found: "找不到 TargetImage %{targetimage}"
+      target_image_not_found_for_account: "找不到適合帳號 %{account} 的目標映像檔"
+      target_image_status_not_found: "找不到 TargetImage %{targetimage} 的狀態"
+      target_not_found: "找不到 Target %{target}"
+      target_not_found_in_environment: "目標 %{target} 在此環境中無供應方帳號。有效目標包含了 %{targets}。"
+  application_controller:
+    access_denied: 存取遭拒
+    action_error: 動作錯誤
+    admin_tabs:
+      catalogs: 目錄
+      groups: 群組
+      hardware: 硬體
+      images: 映像檔
+      permissions: 賦予全域角色
+      pool_families: 集區家族
+      realms: 領域
+      users: 使用者
+    flash:
+      notice:
+        must_be_logged: 您必須登入以存取此頁面
+        must_not_be_logged: 您必須登出以存取此頁面
+        record_not_exist: 您試圖存取的紀錄不存在，可能已經被刪除
+    internal_server_error: 伺服器內部錯誤
+    permission_denied: 權限不足，無法進行指定的動作。
+    some_actions_failed: 某些動作失敗了
+  apply: 套用
+  apply_treatment: 套用使用者方式
+  assistance_requests: 協助請求
+  audit_report: 稽核/回報
+  back: 上一步
+  breadcrumbs:
+    catalogs: 目錄
+    deployables: 可建置項目
+    deployments: 建置
+    hardware_profiles: 硬體設定檔
+    instances: Instances
+    pool_families: 集區家族
+    pools: 集區
+    provider_realms: 供應方領域
+    realms: 領域
+    roles: 角色
+    users: 使用者
+  browse_objects: 瀏覽物件
+  browse_packages: 瀏覽套件
+  builds: 組建
+  cancel: 取消
+  catalog_entries:
+    edit:
+      editing_catalog_entry: 編輯可建置項目
+    flash:
+      notice:
+        added: "可建置項目已新增至 %{catalog}。"
+        deleted: "可建置項目已從 %{catalog} 移除。"
+        updated: 已成功更新建置項目！
+      warning:
+        failed: 未建立建置項目。
+        no_url_provided: "未提供 URL 給可建置項目的 XML 檔案。"
+        not_valid: "可建置項目的 XML 檔案無法解析有效的 XML"
+        not_valid_duplicate_assembly_names: "可建置項目的 XML 必須包含獨特的組合名稱"
+        not_valid_or_reachable: "可建置項目的 XML 檔案無效，或是已無法由 %{url} 取得"
+    index:
+      catalog_entries: 可建置項目
+      catalog_entry: 可建置項目
+      deployable_xml: "可建置項目的 XML"
+      name: 名稱
+    list:
+      catalog_entries_list: 可建置項目清單
+    new:
+      add_catalog_entry: 新增可建置項目
+      catalog_detail: "%{name} 目錄"
+      choose_option_to_upload: "請選擇以下選項之一，以上傳可建置項目的 XML 檔案"
+      from_url: "從 URL"
+      hw_profile: 預設的硬體設定檔
+      name: 名稱
+      upload: 上傳
+    new_catalog_entry: 新的可建置項目
+    preset_filters:
+      all_catalog_entries: 所有可建置項目
+    show:
+      build: 組建
+      catalogs: 目錄
+      confirm_delete: 您是否確定要刪除？
+      delete: 刪除
+      edit: 編輯
+      edit_xml: "編輯 XML"
+      image: 映像檔
+      rebuild_all: 重建所有映像檔
+      roles: 角色
+      start: 起始
+  catalog_images: 目錄映像檔
+  catalogs:
+    catalog_list:
+      no_catalogs: "-- 無目錄 --"
+    catalogs: 目錄
+    edit:
+      cancel_editing: 取消編輯
+      edit_catalog: 編輯目錄
+    flash:
+      error:
+        not_deleted:
+          one: "無法刪除 %{not_deleted} 目錄！某些可建置項目依然參照此目錄！"
+          other: "無法刪除這些 %{not_deleted} 目錄！這些目錄的某些可建置項目依然參照它們！"
+        not_deleted_perms:
+          one: "權限不足，無法刪除 %{not_deleted} 目錄！"
+          other: "權限不足，無法刪除 %{count} 個目錄 %{not_deleted}！"
+        one_not_deleted: 無法刪除目錄！某些可建置項目依然參照此目錄！
+      notice:
+        created:
+          one: 目錄已建立！
+          other: 目錄已建立！
+        deleted:
+          one: "目錄 %{deleted} 已刪除！"
+          other: "%{count} 個目錄 %{deleted} 已刪除！"
+        one_deleted: 目錄已刪除！
+        updated:
+          one: 目錄已成功更新！
+          other: 目錄已成功更新！
+    form:
+      select_pool: 選擇集區
+    index:
+      catalog_name: 目錄名稱
+      name: 名稱
+    new:
+      add_catalog: 新增目錄
+    new_catalog: 新目錄
+    preset_filters:
+      all_catalogs: 所有目錄
+      belongs_to_default_pool: 屬於預設集區
+  change_password: 更改密碼
+  choose: 選擇
+  choose_name: 選擇使用者名稱
+  choose_password: 選擇密碼
+  choose_treatment: 選擇方式
+  cloud_engine_hardware_profiles: 硬體設定檔
+  cloud_providers: 雲端供應方
+  config_servers:
+    certificate_help: "提供憑證以啟用 https 功能"
+    edit:
+      edit_config_server: 編輯配置伺服器
+    errors:
+      connection:
+        generic: "無法驗證配置伺服器的連線（url: %{url}）。請檢查連線參數後，再試一次。"
+        generic_with_message: "無法驗證配置伺服器的連線（url: %{url}）。%{msg}"
+        unhandled_response: "無法驗證配置伺服器的連線（url: %{url}）。HTTP 狀態代碼：%{code}"
+    flash:
+      error:
+        invalid: 配置伺服器的資訊無效。
+        not_deleted: 配置伺服器未刪除
+        not_updated: 配置伺服器未更新
+      notice:
+        added: 已新增配置伺服器。
+        deleted: 已刪除配置伺服器。
+        test_successful: 測試成功
+        updated: 已更新配置伺服器。
+    new:
+      new_config_server: 新配置伺服器
+    section_header:
+      config_server: 配置伺服器
+  configure: 配置
+  confirm_password: 確認密碼
+  connection_refused: 遠端主機拒絕連線。
+  connectivity: 連接性
+  continue: 繼續
+  create_account: 建立帳號
+  datetime:
+    distance_in_words:
+      x_hours:
+        one: "1 小時"
+        other: "%{count} 小時"
+  default_confirm_message: 您是否確定要繼續？
+  default_none_selected_message: 請先進行選擇。
+  define: 定義
+  define_locales: 定義語言區域
+  define_profiles: 定義設定檔
+  define_services: 定義服務
+  delete: 刪除
+  deltacloud:
+    unreachable: "無法連上 Deltacloud。請確認它是否處於執行狀態。"
+  deployables:
+    error:
+      attribute_not_exists: 無效
+      hwp_not_exists: "XML 中所指定的硬體設定檔 %{name} 不存在。"
+    flash:
+      error:
+        attribute_not_exist: "XML 中的一些屬性不存在，請檢查檔案！"
+        missing_image: "%{assembly}：映像檔（UUID：%{uuid}）不存在"
+        no_catalog: 未選擇目錄
+        no_catalog_exists: 目錄不存在！請建立目錄。
+        no_hwp_exists: 硬體設定檔不存在！請建立設定檔。
+        not_deleted:
+          one: "移除可建置項目 %{not_deleted} 失敗！"
+          other: "%{count} 個可建置項目 %{not_deleted} 未移除！"
+        not_deleted_perms:
+          one: "權限不足，無法移除可建置項目 %{not_deleted}！"
+          other: "權限不足，無法移除 %{count} 個可建置項目 %{not_deleted}！"
+        not_selected: 未選擇可建置項目！
+        wrong_environment: "可建置項目 '%{deployable}' 包含了一個映像檔（UUID %{uuid}）於錯誤的環境（'%{wrong_env}'，正確環境為 '%{environment}'）中，並且無法使用。"
+      notice:
+        deleted:
+          one: "可建置項目 %{deleted} 已成功移除！"
+          other: "%{count} 可建置項目 %{deleted} 已移除！"
+      warning:
+        failed: "位建立可建置項目：%{message}"
+    form:
+      cancel: 取消
+      catalog: 目錄
+      choose_xml: "選擇可建置項目的 XML 檔案"
+      deployable_xml: "可建置項目的 XML"
+      deployable_xml_url: "可建置項目 XML 的 URL"
+      edit_xml_after_save: "儲存後編輯 XML"
+      multiple: None
+      none: None
+      save: 儲存
+    index:
+      base_deployable: 可建置的基礎項目
+      deleted:
+        one: "已刪除可建置的項目 ${list}。"
+        other: "已刪除可建置的項目 ${list}。"
+      deployable_definition: 可刪除項目的定義
+      deployable_url: "可刪除項目的 URL"
+      deployable_url_subtext: "（必須是組包含了 http: // 的有效 URL）"
+      deployables: 可建置項目
+      description: 描述
+      name: 名稱
+      not_deleted:
+        one: "未刪除可建置的項目 %{list}。尚有與其相聯的建置項目。"
+        other: "未刪除可建置的項目 %{list}。尚有與它們相聯的建置項目。"
+      state: 狀態
+    new:
+      no_catalog_selected: 未選擇目錄
+    new_from_image:
+      catalog_entry_name: "%{name}"
+      description: "從「%{name}」元件概要建立可建置項目，可使其能被建立和啟用。您只要選擇儲存可建置項目的目錄，並定義預設的雲端資源設定檔即可。"
+      no_available_catalog: 無目錄
+      title: 建立可建置項目
+    properties:
+      edit_deployable_xml: "編輯可建置項目的 XML"
+    show:
+      add_catalog: "新增 +"
+      arch: ARCH
+      build_missing: 找不到組建
+      build_status: 組建狀態
+      build_statuses_descriptions:
+        building: 正在建立映像檔。
+        not_built: 未建立映像檔
+        not_pushed: 尚未推送部分映像檔
+        pushed: 所有映像檔皆已推送，並且皆為最新版本。
+        pushing: 正在推送映像檔。
+      catalog_name: 目錄名稱
+      choose_catalog: 選擇欲啟用存取權限的目錄：
+      delete: 刪除
+      edit: 編輯
+      edit_xml: "編輯 XML"
+      environment: 環境
+      hdd: HDD
+      hw_profile: "HW 設定檔"
+      image_uuid: "映像檔 UUID"
+      images: 映像檔
+      images_valid: 有效的映像檔
+      latest_build_uuid: "最新的組建 UUID"
+      launch: 啟動
+      missing_images: "Image Warehouse 中找不到映像檔"
+      n_a: N/A
+      name: 名稱
+      push_all: 推送遺失的映像檔
+      push_missing: 推送遺失的
+      ram: RAM
+      rebuild_all: 建立遺失的映像檔
+      repair_images: 修復映像檔
+      show_hide_uuids: 顯示/隱藏
+      start: 開始
+      target_images_uuids: "目標映像檔 UUID"
+      uuids: UUID
+  deployments:
+    confirm_delete: 確定要刪除此建置項目？
+    deployment: 建置項目
+    deployment_details: 建置詳細資料
+    deployment_name: 建置名稱
+    deployment_name_subtext: （獨一無二的名稱，以辨識您的建置項目）
+    deployments: 建置項目
+    edit:
+      edit_deployment: 編輯建置項目
+    errors:
+      all_stopped: "所有 instance 必須是停止或執行中"
+      cannot_stop: "無法停止此 instance。"
+      config_server_connection: 無法連接配置伺服器
+      not_valid_deployable_xml: "似乎不是正確的可建置項目 XML：%{msg}"
+    flash:
+      error:
+        failed_to_launch_assemblies: 啟動以下組合失敗：
+        none_selected: 您必須選擇一或多項建置項目。
+        not_deleted:
+          one: "無法刪除建置項目 %{list}。"
+          other: "無法刪除建置項目 %{list}。"
+        not_launched: 無法啟動一些組合：
+        not_updated:
+          one: "無法更新建置項目 %{list}。"
+          other: "無法更新建置項目 %{list}。"
+      notice:
+        launched: 已啟動建置項目。
+        stop: 「停止」動作已經成功地加入佇列中。
+      success:
+        deleted:
+          one: "建置項目 %{list} 已經加入刪除排程中。"
+          other: "建置項目 %{list} 已經加入刪除排程中。"
+        updated:
+          one: "已成功更新建置項目 %{list}。"
+          other: "已成功更新建置項目 %{list}。"
+      warning:
+        deployable_not_selected: 您需要選擇可建置的項目
+        disabled_pool: 無法在此集區中啟動建置項目。集區已停用。
+        failed_to_launch: 啟動建置失敗！
+    launch_from_catalog:
+      arch: ARCH
+      deployable_xml: "可建置項目的 XML"
+      details: 詳細資料
+      hdd: HDD
+      hint: "選擇一項可建置項目，以啟動於「%{pool}」集區中"
+      image_id: "映像檔 ID"
+      no_catalog_entry: 沒有可用的可建置項目。請先新增一個可建置項目！
+      profile: 設定檔
+      ram: RAM
+      select: 選擇
+    launch_new:
+      already_in_use: 該名稱已被使用
+      autoselect: 自動選擇
+      load_definition: "從 XML 載入定義"
+      name_available: 可用名稱
+      next: 下一步
+      other: 其它
+      to_pool: "至 %{name} 集區"
+    launch_time_params:
+      configure_launch_time_params: 為您的建置配置啟動時間參數：
+      finalize: 終止化
+      reference: "參照 %{assembly} 的回傳參數：%{parameter}"
+      title: 啟動時間參數
+    list:
+      delete_selected: 刪除已選取的項目
+      stop_selected: 停止已選取的項目
+    list_of_events: 建置事件的清單
+    new:
+      asseblies_name: 組合名稱
+      build_id: "組建 ID"
+      deployable_definition: 可建置項目的定義
+      deployable_details: 可建置項目的詳細資料
+      description: 描述：
+      hardware_profile: 硬體設定檔
+      image_id: "映像檔 ID"
+      launch: 啟動這項建置
+      name: 名稱：
+      view: 檢視
+    new_deployment: 新建置項目
+    operation:
+      count_of_instances: "Instance 數目："
+      operational_status: 可運作狀態
+    overview:
+      confirmation: "確定要建置「%{deployment}」至 %{pool} 集區？這樣會使用整體建置空間的 %{quota}。"
+      deployable_xml: "可建置項目的 XML"
+      description: 描述
+      header: "建置「%{deployment}」至 %{pool} 集區？"
+      image_ids: "映像檔 ID"
+      launch: 啟動
+      name: 名稱
+      pool_name: "%{pool} 集區"
+    preset_filters:
+      all_deployments: 所有建置項目
+    pretty_view_show:
+      download_key: 下載金鑰
+      ip_address: "IP 位址："
+      no_ip_address: "-"
+      reboot: 重新啓動
+      state: 狀態
+      stop: 停止
+    properties:
+      global_uptime: 整體啟動時間
+      property_name: 屬性名稱
+      uptime_1st_instance: "第一項 instance 的啟動時間"
+      value: 值
+    provider_services:
+      list_of_services: 建置項目所需的服務清單
+    required_services:
+      list_of_required_services: 建置項目所需的服務清單
+    show:
+      name: "%{name} 建置項目"
+    state: 狀態
+    status:
+      pending: "部分（而非全部）instance 尚在執行中"
+      running: "所有 instance 皆正在執行中"
+      stopped: "沒有執行中的 instance"
+  edit: 編輯
+  edit_user: 編輯使用者
+  email: 電子郵件
+  filter_table:
+    apply_filters: 套用篩選器
+    results: 結果
+    search: 搜尋
+    viewing: 檢視
+  first_name: 名
+  general_settings: 一般設定
+  hardware_profiles:
+    create:
+      check_matching_hwp: 檢查符合的硬體設定檔
+    edit:
+      cancel_editing: 取消編輯
+      edit_hwp: 編輯硬體設定檔
+    flash:
+      error:
+        more_not_deleted:
+          one: "無法刪除 %{not_deleted}"
+          other: "無法刪除下列硬體設定黨：%{not_deleted}"
+        not_deleted: 未刪除硬體設定檔！
+      notice:
+        deleted: 硬體設定檔已刪除！
+        more_deleted:
+          one: "硬體設定檔 %{deleted} 已刪除。"
+          other: "硬體設定檔 %{deleted} 已刪除。"
+        updated: 硬體設定檔已更新！
+      warning:
+        cannot_delete_backend_hwp: 無法刪除供應方硬體設定檔
+        cannot_edit_backend_hwp: 無法修改供應方硬體設定檔
+    form:
+      check_matches: 檢查符合項目
+    hardware: 硬體
+    hardware_profile: 硬體描述檔
+    hardware_profiles: 硬體設定檔
+    history:
+      history: 歷史
+    index:
+      architecture: 架構
+      hardware_profile_name: 硬體設定檔名稱
+      memory: 記憶體
+      storage: 儲存裝置
+      virtual_cpu: "虛擬 CPU"
+    list:
+      delete_selected: 刪除已選取的項目
+      new_hardware: 新硬體設定檔
+    matching_provider_hwp:
+      no_matching_provider_hwp: 找不到符合供應方的硬體設定檔
+    new:
+      new_hwp: 新硬體設定檔
+    preset_filters:
+      all_hardware_profiles: 所有硬體設定檔
+      i386architecture: "i368 架構"
+      x86_64architecture: "x86_64 架構"
+    properties_headers:
+      min_value: 最小值
+      name: 名稱
+      unit: 單位
+    provider_hwp_headers:
+      architecture: 架構
+      hwp_name: 硬體設定檔名稱
+      memory: 記憶體
+      provider_name: 供應方名稱
+      storage: 儲存裝置
+      virtual_cpu: "虛擬 CPU"
+    show:
+      backend_hwp: "%{name}（供應方） "
+      frontend_hwp: "%{name}（前端）"
+      matching_hwp: 符合供應方的硬體清單
+    tab_captions:
+      history: 歷史
+      matching_provider_hwp: 符合供應方的硬體清單
+      properties: 屬性
+  hello: 哈囉
+  help: 協助
+  history: 歷史
+  hw_profiles: 硬體設定檔
+  image_factory: 映像工廠
+  image_imports: 匯入映像檔
+  images:
+    edit_xml:
+      edit: 編輯
+      save_and_continue: 儲存並繼續
+    environment: 環境：
+    environment_header: 環境
+    flash:
+      error:
+        invalid_url: "無法載入所提供的 URL"
+        no_file: "您必須指定 XML 範本檔案"
+        no_provider_accounts: 無法建立映像，因為目前尚未啟用供應方帳號。
+        no_provider_accounts_for_import: 無法匯入映像檔，因為此環境中目前尚未啟用任何供應方帳號。
+        no_template: 映像檔沒有範本，因為它已被匯出。
+      notice:
+        created: 已建立映像檔
+        deleted: 已刪除映像檔
+        multiple_deleted:
+          one: "%{count} 個已刪除的映像檔"
+          other: "%{count} 個已刪除的映像檔"
+      warning:
+        delete_failed: 無法刪除映像檔
+        not_found: 找不到映像檔
+    import:
+      blank_id: "映像檔 ID 不能是空白的。"
+      image_id: "映像檔 ID"
+      image_imported: 已成功匯入了映像檔。
+      image_not_imported: 無法匯入映像檔。請檢查「映像檔工廠」的記錄，以取得更多相關資訊。
+      import_image: 匯入映像檔
+      name: 映像檔名稱
+      provider_account: 供應方帳號
+    index:
+      architecture: 架構
+      images: 映像檔
+      import: 匯入
+      last_rebuild: 上一次重建
+      name: 名稱
+      new: 新映像檔
+      os: OS
+      os_version: "OS 版本"
+    new:
+      choose_file: 選擇範本檔案：
+      description: "選擇以下選項之一，以將映像檔上傳或匯入至「%{environment} 環境」中。"
+      edit_file: 儲存前編輯此檔案：
+      from_url: "從 URL"
+      image_url: "範本 URL："
+      name: 名稱：
+      new_image: 新映像檔
+      upload: 上傳
+    not_on_provider: 在供應方上找不到請求的映像檔。
+    overview:
+      back: 上一步
+      description: "已成功驗證「%{name}」中的 markup 和映像檔參照。您現在已可儲存映像檔，並建立應用程式藍圖。"
+      make_deployable: "自動製作「%{name}」可建置項目。"
+      save_template: 儲存範本
+      valid_image: 有效映像檔
+    show:
+      account: 帳號
+      build: 組建
+      build_all: 全部組建
+      build_date: 組建完成日期
+      build_not_found: 找不到組建
+      can_not_build_imported_image: 無法建立或推送匯入的映像檔
+      delete: 刪除
+      failed_build_attempts:
+        one: 試圖建立失敗一次
+        other: "試圖建立失敗 %{count} 次"
+      failed_push_attempts:
+        one: 試圖推送失敗一次
+        other: "試圖推送失敗 %{count} 次"
+      image_uri: "映像檔 URI"
+      image_uuid: "映像檔 UUID"
+      latest: 最新的
+      missing_build: 請先選擇組建
+      new_deployable_from_image: 來自於映像檔的新的可建置項目
+      not_built: 尚未建立映像檔
+      only_latest_builds_can_be_pushed: 只能推送最新的組建
+      provider: 供應方
+      provider_account: 供應方帳號
+      provider_images: 供應方映像檔
+      push: 推送
+      push_all: 全部推送
+      push_started: 推送正要開始
+      rebuild: 重建
+      rebuild_all: 全部重建
+      select_build: 選擇
+      template_xml: "檢視範本 XML"
+      upload: 上傳
+      view_build: 檢視組建
+  instance_details: "instance 的詳細資料"
+  instance_management: "管理 instance"
+  instances:
+    confirm_terminate:
+      terminate: 終止
+      terminate_instances: "終止 Instance"
+      terminate_instances_description: "無法存取供應方，以下 instance 的狀態會變為「已停止」，但實際狀況不明。"
+    edit:
+      edit_instance: "編輯 instance"
+      name: 名稱
+    errors:
+      architecture_mismatch: "組合硬體設定檔架構（%{inst_arch}）與硬體設定檔架構（%{img_arch}）不相符。"
+      cannot_destroy: "無法移除此 instance。"
+      hw_profile_match_not_found: "%{account_name}：找不到符合的硬體設定檔"
+      image_not_found: "找不到 uuid %{b_uuid} 的映像檔組建，也找不到 uuid %{i_uuid} 的映像檔。"
+      image_not_pushed_to_provider: "%{account_name}：並未推送映像檔到此供應方帳號"
+      invalid_state: 錯誤，無法計算狀態時間：無效的狀態
+      must_be_enabled: "%{account_name}：必須啟用供應方"
+      no_config_server_available: "%{account_name}：沒有供應方帳號可用的配置伺服器"
+      no_provider_accounts: 所選集區的集區家族沒有與其相聯的提供者帳號。
+      pool_family_quota_reached: 已達集區家族的配額
+      pool_quota_reached: 已達集區配額
+      provider_account_quota_reached: "%{account_name}：已達供應方帳號的配額"
+      provider_account_quota_too_low: "%{match_provider_account} 的配額限制太低，無法啟動建置項目"
+      provider_not_available: "%{account_name}：沒有可用的供應方"
+      realm_not_mapped: "%{account_name}：領域 %{frontend_realm_name} 未對應到任何有效的供應方或供應方領域。"
+      reboot_invalid_action: 「重新啓動」乃不合於規定的動作。
+      state_not_monitored: 錯誤，無法計算狀態時間：並未監控狀態
+      stop_invalid_action: 「停止」乃不合於規定的動作。
+      user_quota_reached: 已達使用者配額
+    flash:
+      error:
+        not_deleted:
+          one: "無法刪除 instance %{list}。"
+          other: "無法刪除 instance %{list}。"
+        not_updated:
+          one: "無法更新 instance %{list}。"
+          other: "無法更新 instance %{list}。"
+        reboot: "並未重新啟動 instance %{name}，因為 %{err}"
+        stop: "Instance %{name} 未停止，因為 %{err}"
+      notice:
+        forced_stop: 狀態更改為「停止」。
+        reboot: "%{name}：「重新啟動」動作已成功地加入佇列中。"
+        stop: 「停止」動作已經成功地加入佇列中。
+      success:
+        deleted:
+          one: "已成功刪除 instance %{list}。"
+          other: "已成功刪除 instance %{list}。"
+        updated:
+          one: "已成功更新 instance %{list}。"
+          other: "已成功更新 instance %{list}。"
+      warning:
+        ssh_key_not_found: "找不到此 instance 使用的 SSH 金鑰。"
+    headers:
+      created_by: 建立者
+      provider: 供應方
+      public_address: 公開位址
+      status: 狀態
+      vm_name: "VM 名稱"
+    history:
+      history_for: 歷史紀錄：
+    instance: Instance
+    instances:
+      one: Instance
+      other: Instance
+    list:
+      export_events: 匯出事件
+      hide_stopped: 隱藏已停止的
+      reboot_selected_instances: "重新啟動所選取的 instance"
+      show_all: 顯示全部
+      showing_all_instances: "顯示所有 instance"
+      stop_selected_instances: "停止所選取的 instance"
+      stopped_instances_hidden: "隱藏已停止的 instance"
+      table:
+        name: 名稱
+        owner: 擁有者
+        provider: 供應方
+        public_address: 公開位址
+        state: 狀態
+    none_selected: "您必須選擇一或多個要停止的 instance。"
+    none_selected_to_reboot: "您必須選擇一或多個要重新啟動的 instance。"
+    parameters:
+      config_parameters: 配置參數
+      none: None
+    permissions:
+      permissions_for: 權限
+    preset_filters:
+      all_instances: "所有 instance"
+      create_failed: "失敗的 instance"
+      other_than_stopped: "非停止中的 instance"
+      pending: "等待處理中的 instance"
+      running: "執行中的 instance"
+      stopped: "已停止的 instance"
+    properties:
+      architecture: 架構
+      assembly: 組合
+      console_connection: 主控台連線：
+      current_alerts: 目前的警示：
+      download: 下載
+      error: 錯誤：
+      instantiation_time: "Instantiation 時間："
+      memory: 記憶體：
+      n_a: N/A
+      name: 名稱：
+      owner: 擁有者：
+      private_adresses: 私有位址：
+      properties_for: 屬性
+      provider: 供應方：
+      public_addresses: 公開位址：
+      shared_to: 共享至：
+      ssh_key: "SSH 金鑰："
+      ssh_key_name: "SSH 金鑰名稱："
+      status: 狀態：
+      storage: 儲存裝置：
+      via_ssh: "透過 SSH"
+    reboot: 重新啟動
+    tab_captions:
+      history: 歷史
+      permissions: 權限
+      properties: 屬性
+  last_name: 姓
+  launch_instance: "啟動 instance"
+  layout:
+    appname: "Aeolus Conductor"
+    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
+    dashboard: 控制面板
+  login: 登入
+  manage_providers: 管理供應方
+  manage_users: 管理使用者
+  map_locales: 對應區域
+  map_profiles: 對應設定檔
+  masthead:
+    logout: 登出
+    my_account: 我的帳號
+  maximum_running_instances: "執行中 instance 的上限"
+  name: 名稱
+  navigation:
+    first_level:
+      administer: 管理
+      monitor: 監控
+    second_level:
+      cloud_providers: 雲端供應方
+      content: 內容
+      environments: 環境
+      settings: 設定
+      users: 使用者
+  new: 新的
+  new_user: 新使用者
+  operation: 操作
+  overview: 概觀
+  permissions:
+    flash:
+      error:
+        no_users_selected: 未選取使用者
+        not_add: "無法新增這些使用者角色：%{list}"
+        not_added: "無法新增這些使用者角色：%{list}"
+        not_deleted: "無法刪除這些賦予的存取權限：%{list}"
+      fragment:
+        user_and_role: "%{user} (%{role})"
+        user_and_role_change: "%{user} (從 %{old_role} 到 %{role})"
+      notice:
+        added: "新增至以下使用者角色：%{list}"
+        deleted: "刪除以下賦予的使用權限：%{list}"
+        modified: "已成功修改以下使用者角色：%{list}"
+    form:
+      grant_access: 賦予存取能力
+    new:
+      choose_global_role: 為使用者選擇要指定的全域角色
+      choose_roles: 為您想要賦予存取能力的使用者選擇角色
+      global_role_grants: 賦予全域角色
+    preset_filters:
+      all_permissions: 所有存取權限
+    revoke_access: 移除存取能力
+  pool_families:
+    add_to_pool_family: "新增至 %{name}"
+    choose_provider_accounts: 選擇供應方帳號，已啟用這個集區家族
+    confirm_delete: 確定要刪除此集區家族？所有相關的集區、目錄與可建置項目也會被刪除！
+    edit:
+      return_to: 傳回至：
+    flash:
+      error:
+        default_pool_family_not_deleted: 無法刪除預設集區家族！
+        more_not_deleted: "無法刪除以下集區家族：%{list}。"
+        no_provider_accounts: 沒有可用的供應方帳號。
+        not_deleted: "無法刪除集區家族！請檢查所有 instance 已經停止。"
+        not_updated: 未更新集區家族！
+        provider_accounts_not_added: 無法新增這些供應方帳號
+        provider_accounts_not_removed: 無法移除這些供應方帳號
+        select_to_add_accounts: 請至少選擇一組要新增的供應方帳號。
+        select_to_remove_accounts: 請至少選擇一組要移除的供應方帳號。
+      notice:
+        added: 已新增集區家族。
+        deleted: 已刪除集區家族！
+        more_deleted: "刪除以下集區家族：%{list}。"
+        provider_accounts_added: 已新增這些供應方帳號
+        provider_accounts_removed: 已移除這些供應方帳號
+        updated: 已更新集區家族！
+      warning:
+        creation_failed: 建立集區家族失敗。
+    index:
+      active_instances: "運作中的 instance"
+      answer_no: 否
+      answer_yes: 是
+      available_instances: "可用的 instance"
+      catalog: 目錄
+      deployments: 建置
+      enabled: 已啟用
+      failed_instances: "失敗的 instance。"
+      name: 名稱
+      new_pool_family: 新集區家族
+      pending_instances: "懸而未決的 instance"
+      pool_name: 集區名稱
+      quota_limit: 配額限制
+      quota_used: 已使用配額
+      total_instancies: "instance 總數"
+      total_statistics: 總數
+    new:
+      environments: 環境
+    pool_families: 集區家族
+    pool_family: 集區家族
+    pool_family_details: 集區家族的詳細資料
+    provider_accounts_for: 負責的供應方
+    remove_selected: 移除所選取的項目
+  pools:
+    create_new_pool: 建立新集區
+    edit_pool: "編輯集區 %{pool}"
+    errors:
+      must_be_enabled: 必須啟用
+      providers_disabled: 已停用所有相關的供應方
+    flash:
+      error:
+        default_pool_not_deleted: 無法刪除預設集區
+        iwhd_unavailable: 無法取得目錄映像。似乎是因為無法連上映像倉儲
+        not_updated: 未更新集區！
+        pool_not_deleted:
+          one: "未刪除集區 %{list}。尚有 instance 與之相關連。"
+          other: "未刪除集區 %{list}。尚有 instance 與之相關連。"
+      notice:
+        added: 已新增集區。
+        updated: 已更新集區。
+      success:
+        pool_deleted:
+          one: "已刪除集區 %{list}。"
+          other: "已刪除集區 %{list}。"
+      warning:
+        creation_failed: 建立集區失敗。
+    form:
+      instance_or: "Instance 或"
+      pool_enabled: 已啟用集區
+      unlimited: 無上限
+    header_show:
+      pool_name: "%{name} 集區"
+    images:
+      catalog: 目錄
+      catalog_entry: 可建置項目
+      image: 映像檔：
+      pushed: "%{uuid} 已推送至 %{provider}"
+    index:
+      confirm_delete: 確定要刪除此集區？所有相關的目錄與可建置項目也會被刪除！
+      deployed_on: 建置於
+      destroy: 完全刪除
+      failed: 失敗
+      global_uptime: 整體啟動時間
+      overview: 概觀
+      owner: 擁有者
+      pending: 懸而未決
+      pool_details: 集區的詳細資料
+      pool_family: 集區家族
+      pool_name: 集區名稱
+      your_pools: 您的集區
+    list:
+      more_actions: 更多動作
+    new_pool: 新集區
+    pool: 集區
+    pools: 集區
+    preset_filters:
+      all_pools: 所有集區
+      enabled_pools: 已啟用集區
+      with_create_failed_instances: "與失敗的 instance"
+      with_instances: "與 instance"
+      with_pending_instances: "與懸而未決的 instance"
+      with_running_instances: "與執行中的 instance"
+      with_stopped_instances: "與停止的 instance"
+    properties:
+      properties: "%{pool} 的屬性"
+    valid_format_of_name: 只能包含文數字、空白字元、底線符號與減號
+  privileges: 特權
+  properties: 屬性
+  provider_accounts:
+    add_provider_account: 新增帳號
+    credentials:
+      credentials_for: 認證
+    edit:
+      account: "編輯帳號：%{name}"
+      delete_account: 刪除帳號
+      edit_provider_account: 編輯提供方帳號
+      file_already_uploaded: 早已上傳。是否重新上傳？
+      required_field: 所需欄位。
+    errors:
+      could_not_connect: 無法連上供應方帳號。請聯絡管理者。
+      exception_while_validating: 檢查供應方認證時發生錯誤。請檢查設定後再試一遍。
+      invalid_credentials: 登入認證不適用於此供應方。
+      populate_hardware_profiles_failed: "無法散佈 hardware_profiles：%{message}"
+      populate_realms_failed: "無法散佈領域：%{message}"
+    flash:
+      error:
+        account_not_added:
+          one: "無法新增帳號 %{list}"
+          other: "無法新增帳號 %{list}"
+        account_not_deleted:
+          one: "未刪除帳號 %{list}。尚有 instance 與之相關連。"
+          other: "未刪除帳號 %{list}。尚有 instance 與之相關連。"
+        no_provider: 您沒有任何供應方。請建立供應方！
+        not_added: 無法新增供應方帳號。
+        not_deleted: 未刪除供應方帳號！
+        not_updated: 未更新供應方帳號！
+        test_connection_failed_invalid: 測試連線失敗：不合乎規定的帳號詳細資料
+        test_connection_failed_provider: 測試連線失敗：連不上提供方
+      notice:
+        account_added:
+          one: "已新增帳號 %{list}。"
+          other: "已新增帳號 %{list}。"
+        account_deleted:
+          one: "已刪除帳號 %{list}。"
+          other: "已刪除帳號 %{list}。"
+        deleted: 已刪除提供方帳號！
+        test_connection_success: 測試連線成功：合乎規定的帳號詳細資料
+        updated: 已更新供應方帳號資料！
+      warning:
+        must_select_account: 請先選擇一些帳號。
+        no_provider: 您尚未擁有供應方
+    form:
+      account_name: 帳號名稱
+      account_number: "AWS 帳號 ID"
+      account_private_cert: "EC2 x509 私密金鑰"
+      account_public_cert: "EC2 x509 公開金鑰"
+      password: 秘密存取金鑰
+      provider_accounts: 提供方帳號
+      quota_instances: "配額 instance"
+      test_account: 測試帳號
+      unlimited_quota: 配額無上限
+      user_name: "EC2 存取金鑰"
+    history:
+      history_for: 歷史
+    index:
+      config_server_not_saved: 儲存配置伺服器資料時發生錯誤。
+      config_server_saved: 成功儲存配置伺服器資料
+      priority: 優先順序
+      provider_account_name: 帳號名稱
+      provider_accounts: 提供方帳號
+      provider_name: 供應方名稱
+      provider_type: 供應方類型
+      quota_limit: 配額限制
+      username: 使用者名稱
+    list:
+      delete_selected: 刪除已選擇項目
+    new:
+      cloud_providers: 雲端供應方
+      new_provider_account: 新提供方帳號
+      required_field: 必填欄位。
+    new_provider_account: 新帳號
+    permissions:
+      permissions_for: 權限
+    preset_filters:
+      all_provider_accounts: 所有帳號
+    properties:
+      account_number: 帳號號碼：
+      config_server: 配置伺服器：
+      none: 無
+      properties_for: 屬性
+      running_instances_quota: "執行中的 instance 之配額："
+      sure_to_delete: 確定要刪除此配置伺服器？
+      test: 測試
+      unlimited: 無上限
+    provider_selection:
+      cloud_type: 雲端類型：
+      provider_name: 供應方名稱：
+    remove_provider_accounts: 移除帳號
+    rhevm:
+      login_form: "RHEV-M 的登入方式（尚未實作完成）"
+    show:
+      account: "帳號：%{name}"
+      test_connection: 測試連線
+    tab_captions:
+      credentials: 認證
+      history: 歷史
+      permissions: 權限
+      properties: 屬性
+  provider_accounts_item: 供應方帳號
+  provider_images:
+    flash:
+      notice:
+        deleted: "已刪除供應方映像。如果您想要移除儲存在供應方的實際映像，請參閱 %{provider} 的管理主控台，並搜尋 %{target_id} 映像。"
+        upload_start: 已開始上傳供應方映像
+      warning:
+        delete_failed: 無法刪除供應方映像
+        not_found: 找不到供應方映像
+        upload_failed: 無法上傳供應方映像
+  provider_realms:
+    name: 供應方領域名稱
+    provider_realms: 供應方領域
+    show:
+      details: 供應方領域的詳細資料
+      mapping: 供應方領域對應
+      provider_accounts_mapped: "供應方帳號已對應至供應方領域 %{name}"
+  provider_summary: 供應方摘要
+  providers:
+    alerts:
+      alert_type:
+        quota_exceeded: 超過帳號配額
+        quota_reached: 已達帳號配額
+      description:
+        quota_exceeded: "已超過 %{name} 帳號的執行 instance 之配額限制。"
+        quota_reached: "已達到 %{name} 帳號的執行 instance 之配額限制。"
+      subject:
+        quota: 配額
+      type:
+        critical: 嚴重
+        warning: 警告
+    choose_a_provider: 選擇供應方：
+    confirm_delete: 確定要刪除此供應方？
+    confirm_terminate:
+      disable: 停用
+      disabled_provider: 停用提供方
+    disable_provider: "停用供應方？所有 instance 都會停止！"
+    edit:
+      enable_configure_providers: 要啟用、配置供應者，請點選此視窗右上角之切換開關。
+      provider_disabled: "目前供應方 %{name} 已停用。"
+      provider_id_disabled: 已停用供應方。
+      provider_unavailable: "目前供應方 %{name} 無法使用。"
+      toggle_alerts: 切換警示
+    editing_provider: 編輯供應方
+    enable_provider: 啟用供應方？
+    flash:
+      error:
+        not_added: 無法新增供應方。
+        not_deleted: 未刪除供應方
+        not_disabled: 無法停用供應方。
+        not_updated: 無法更新供應方。
+      notice:
+        added: 已新增供應方。
+        connected: 已成功連上供應方
+        deleted: 已成功刪除供應方。
+        disabled: 已停用供應方。
+        updated: 已更新供應方。
+      warning:
+        connect_failed: 無法連上供應方！
+        not_stopped_instances: "並未停用供應方，停止以下 instance 失敗："
+        not_terminated_instances: "並未停用供應方，無法改變以下 instance 成為「已停止」："
+    form:
+      caution_alt_text: 注意
+      caution_image: 注意
+      enter_correct_url_msg: "請輸入正確的 URL 格式。"
+      required_field: 所需欄位。
+      select_type_of_provider: 選擇供應方類型
+      test_connection: 測試連線
+      x_deltacloud_provider:
+        ec2: "EC2 區域"
+        generic: X-Deltacloud-供應方：
+        rhevm: "RHEV-M API_PROVIDER"
+        vsphere: "vSphere API 主機名稱"
+      x_deltacloud_provider_legend: "X-Deltacloud-Provider 的圖示"
+    index:
+      create_new_provider: 建立新的供應方
+      create_one: 請先建立一組。
+      no_providers_available: 沒有可用的供應方。
+      provider_name: 供應方名稱
+      provider_type: 供應方類型
+      provider_url: "供應方 URL"
+      x_deltacloud_driver: X-Deltacloud-Driver
+      x_deltacloud_provider: X-Deltacloud-Provider
+    new:
+      new_provider: 新的供應方
+      save_provider: 儲存供應方
+    provider: 供應方
+    providers: 供應方
+  quota: 配額
+  quota_used: 已使用配額
+  quotas:
+    edit:
+      edit_for: 編輯配額
+      max_running_instnaces: "執行中的 instance 之最大值"
+    flash:
+      error:
+        not_updated: 無法更新配額，請檢查您輸入了正確的值
+      notice:
+        updated: 已更新配額！
+    quota: 配額
+    show:
+      available: 可用的
+      max_capacity: 最大容量
+      no_quota: 此處無配額
+      resource: 資源
+      used: 已使用
+  realm_mappings:
+    new:
+      create_new: 建立新的領域對應
+  realm_s: 領域
+  realms:
+    edit:
+      cancel_editing: 取消編輯
+      properties: 屬性
+    flash:
+      error:
+        more_not_deleted: 無法刪除這些領域：
+        not_deleted: 未刪除領域！
+        select_to_delete: 您必須選擇至少一組要刪除的領域。
+        select_to_delete_mapping: 您必須選擇至少一組要刪除的對應。
+      notice:
+        added: 已新增領域。
+        added_mapping: 已新增領域對應。
+        deleted: 已刪除領域！
+        more_deleted: 已刪除以下領域：
+        updated: 成功更新領域！
+    index:
+      realm: 領域
+      realm_availability: 可用？
+      realm_available:
+        false_value: 否
+        true_value: 是
+      realm_name: 領域名稱
+    list:
+      delete_selected: 刪除已選擇項目
+    mapping:
+      frontend_realms_mapped_to_provider: "領域已對應至供應方 %{name}："
+      frontend_realms_mapped_to_realm: "領域已對應至供應方領域 %{name}："
+      mapping_provider: 新增對應至供應者
+      mapping_realm: 新增對應至供應方領域
+      provider_accounts_mapped_to_realm: "供應方帳號已對應至領域 %{name}："
+      realm_mapped_providers: "領域 %{name} 已對應至供應方："
+      realm_mapped_realms: "領域 %{name} 已對應至領域："
+    new:
+      create_realm: 建立新領域
+    new_realm: 新領域
+    preset_filters:
+      all_realms: 所有領域
+    properties:
+      realm_details: 領域的詳細資料
+      realm_name: 領域名稱
+    realms: 領域
+    show:
+      properties: 屬性
+      realm_mapping: 領域對應
+      realm_unavailable: "目前領域 %{name} 無法使用。"
+      sure_to_delete: 確定要刪除？
+    tab_captions:
+      mapping: 對應
+      properties: 屬性
+  remove: 移除
+  reset: 重設
+  resource_management: 資源管理
+  return_to: 傳回至
+  role: 角色
+  role_assignments: 指定角色
+  roles:
+    edit:
+      cancel_editing: 取消編輯
+      editing_role: 編輯角色：
+      properties: 屬性
+    flash:
+      error:
+        more_not_deleted: 無法刪除這些角色：
+      notice:
+        added: 已成功儲存角色！
+        more_deleted: 已刪除這些角色：
+        updated: 已成功更新角色！
+    list:
+      roles_list: 角色清單
+    new_role: 新角色
+    properties:
+      action: 動作
+      privileges: 特權
+      scope: 範圍：
+      target_type: 目標類型
+    show:
+      properties: 屬性
+      sure_to_delete: 確定要刪除這個角色？
+    tab_captions:
+      properties: 屬性
+  runtime: 執行
+  save: 儲存
+  scheduling_policies: 排程政策
+  search:
+    no_results: 沒有相符的結果。
+  searches: 搜尋
+  select:
+    all: 全部
+    none: 無
+    select: 選擇
+  self_service_settings: 自助設定
+  services: 服務
+  services_provided: 所提供的服務
+  settings:
+    flash:
+      notice:
+        updated: 已更新設定！
+      warning:
+        not_updated_quota: 無法更新預設配額
+    general_settings:
+      allow_self_service: 允許建立自助帳號：
+      brand_icon: 品牌圖示：
+      certificate: 憑證：
+      content: 內容
+      content_manager_url: "內容管理員的 URL："
+      entitlement_mode: 權利模式：
+      general_settings: 一般設定
+      portal: 入口網站
+      primary_url_port: "主 URL 連接埠："
+      select_treatment: 選擇使用者方式
+      system_subscription: 系統供應者的訂閱
+      tag_line: 標籤行：
+      user_brings_subscriptions: 使用者帶來訂閱
+    index:
+      define_hardware_profiles: 定義硬體設定檔
+      define_hardware_profiles_desc: "檢視、編輯、並定義 Aeolus Conductor 開放給使用者的硬體設定檔名稱。名稱的意義會由對應到獨立供應者所提供的能力來定義。"
+      define_locales: 定義區域
+      define_locales_desc: "檢視、編輯、並定義 Aeolus Conductor 開放給使用者的區域名稱。名稱的意義會由對應到獨立供應者所提供的地理位置來定義。"
+      define_services: 定義服務
+      define_services_desc: "檢視、編輯、並定義 Aeolus Conductor 所提供的服務。這些服務會根據其能力，對應到獨立供應方。"
+      general_settings: 一般設定
+      general_settings_desc: 啟用註冊自助帳號、設定自訂品牌、管理內容來源
+      manage_providers: 管理供應者
+      manage_providers_desc: "檢視、編輯、並新增虛擬運算資源至 Aeolus Conductor。檢視、編輯、並新增 Aeolus Conductor 帳號至這些供應者。對應供應者特定的概念到 Aeolus Conductor。"
+      manage_users: 管理使用者
+      manage_users_desc: "檢視、編輯、並定義 Aeolus Conductor 上的使用者。為使用者調整配額與特權。"
+      permissions: 權限
+      permissions_desc: 修正自助的預設配額。
+    self_service:
+      account: 帳號
+      self_service_default: 使用者方式：自助的預設
+      self_service_settings: 自助設定
+    settings: 設定
+  summary: 摘要
+  system_settings: 系統設定
+  target_images:
+    flash:
+      notice:
+        deleted: 已刪除目標映像
+      warning:
+        delete_failed: 無法刪除目標映像
+        not_found: 找不到目標映像
+  template_xml:
+    errors:
+      invalid_xml: "XML 不正確："
+      name_is_not_set: 並未設定名稱。
+      xml_parse_error: "無法剖析 XML。"
+  updates: 更新
+  uptime: 總使用時間
+  user: 使用者
+  user_sessions:
+    flash:
+      notice:
+        login: 成功登入！
+        logout: 成功登出！
+      warning:
+        login_failed: 登入失敗：使用者與密碼不相符
+    new:
+      help: 目前無法使用求助功能。
+      login: 登入
+      login_assistance: 登入上的求助
+      password: 密碼：
+      security_info: 安全資訊
+      show_password: 顯示密碼
+      username: 使用者名稱：
+    security:
+      encrypted_connection: 加密連線
+      expiration: 過期日：未知
+      issued: 簽發認證者：
+      message: "%{host} 與 Aeolus Conductor 的連線目前是安全、加密的，加密方式為 SSL（未知的強度）。"
+      message_unencrypted: "%{host} 與 Aeolus Conductor 的連線目前沒有加密。這可能導致敏感資訊被竊取。"
+      message_unencrypted2: 如果您認為有問題，請不要登入；請立即聯絡系統管理員。
+      return_to_login: 回到登入畫面
+      unencrypted_connection: 未加密的連線
+      unknown_ca: 未知的認證單位
+  users:
+    confirm_delete: 確定要刪除這名使用者？
+    edit:
+      edit_account: 編輯帳號
+      edit_user: 編輯使用者
+    errors:
+      has_running_instances: "%{login} 有執行中的 instance"
+    flash:
+      notice:
+        deleted: 已經成功刪除使用者。
+        more_deleted:
+          one: 已刪除的使用者
+          other: 已刪除的使用者
+        registered: 已註冊使用者！
+        updated: 已更新使用者！
+        you_registred: 您已經成功註冊！
+      warning:
+        not_delete: "無法刪除：%{reason}"
+        not_delete_same_user: "無法刪除 %{login}：您現在正以此身份登入"
+    form:
+      save_user: 儲存使用者
+      user_status: 使用者狀態
+      user_treatment: 使用者方式
+    index:
+      email: 電子郵件
+      first_name: 名
+      last_name: 姓
+      quota_instances: 配額限制
+      user_id: "使用者 ID"
+      username: 使用者名稱
+    list:
+      delete_selected: 刪除已選取的項目
+      unlimited: 無上限
+    new:
+      neccessary_information: 輸入新使用者的必要資訊，完成後點選「儲存使用者」。
+      new_user: 新使用者
+    preset_filters:
+      all_users: 所有使用者
+      name_starts_with_A: "以 A 開始的名稱"
+      name_starts_with_B: "以 B 開始的名稱"
+    quick_jump: 快速連至：
+    return_to: 傳回至：
+    show:
+      created: 已建立
+      delete: 刪除
+      e-mail: 電子郵件地址
+      edit: 編輯
+      failed_logins: 失敗的登入
+      last_login: 最近一次登入
+      last_login_ip: "最近一次登入的 IP 位址"
+      last_updated: 最近一次更新
+      number_of_logins: 登入次數
+      username: 使用者名稱
+    users: 使用者
