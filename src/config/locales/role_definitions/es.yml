@@ -1,0 +1,47 @@
+es:
+  role_defs:
+    base:
+      admin: "Gestor global"
+      deployable:
+        admin: "Gestor global de Implementable"
+      hwp:
+        admin: "Gestor global de Perfil de hardware"
+        user: "Usuario global de Perfil de hardware"
+      image:
+        admin: "Gestor global  de imágenes"
+      pool:
+        admin: "Gestor global de grupos"
+        user: "Usuario global  de grupos"
+      provider:
+        admin: "Gestor global de proveedores"
+        user: "Usuario global de proveedores"
+      realm:
+        admin: "Gestor global de reino"
+    catalog:
+      admin: "Gestor de catálogo"
+      user: "Usuario de catálogo"
+    deployable:
+      owner: "Propietario de Implementable"
+      user: "Usuario de Implementable"
+    deployment:
+      owner: "Propietario de Implementación"
+      user: "Usuario de Implementación"
+    instance:
+      owner: "Propietario de instancia"
+      user: "Usuario de instancia"
+    pool:
+      admin: "Gestor de grupos"
+      deployable:
+        admin: "Gestor de Implementable de grupos"
+      user: "Usuario de grupos"
+    pool_family:
+      admin: "Gestor de grupos de familia"
+      image:
+        admin: "Gestor de imagen de grupos de familia"
+      user: "Usuario de grupos de familias"
+    provider:
+      admin: "Gestor de proveedores"
+      user: "Usuario de proveedores"
+    provider_account:
+      owner: "Propietario de cuenta de proveedores"
+      user: "Usuario de cuenta de proveedores\n"
