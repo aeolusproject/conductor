@@ -1,0 +1,345 @@
+zh-TW:
+  activerecord:
+    attributes:
+      base_permission_object:
+        created_at: 建立於
+        name: 名稱
+        updated_at: 更新於
+      catalog:
+        created_at: 建立於
+        name: 名稱
+        pool_family_id: 集區家族
+        pool_id: 集區
+        updated_at: 更新於
+      catalog_entry:
+        catalog_id: 目錄
+        deployable_id: 可建置項目
+      config_server:
+        created_at: 建立於
+        endpoint: 伺服器終端點（URL）
+        key: 消耗者金鑰
+        provider_account_id: 供應方帳號
+        secret: 消耗者密碼
+        updated_at: 更新於
+      credential:
+        created_at: 建立於
+        credential_definition_id: 認證定義
+        provider_account_id: 供應方帳號
+        updated_at: 更新於
+        value: 值
+      credential_definition:
+        created_at: 建立於
+        input_type: 輸入類型
+        label: 標籤
+        name: 名稱
+        provider_type_id: 供應方類型
+        updated_at: 更新於
+      delayed_job:
+        attempts: 嘗試次數
+        created_at: 建立於
+        failed_at: 失敗於
+        handler: 處理程式
+        last_error: 最後發生的錯誤
+        locked_at: 鎖定於
+        locked_by: 由...鎖定
+        priority: 優先順序
+        run_at: 執行於
+        updated_at: 更新於
+      deployable:
+        description: 描述
+        name: 名稱
+        owner_id: 擁有者
+        pool_family_id: 集區家族
+        xml: "可建置的 XML"
+        xml_filename: "XML 檔案名稱"
+      deployment:
+        created_at: 建立於
+        deployable_xml: "可建置的 Xml"
+        frontend_realm_id: 領域
+        lock_version: 鎖定版本
+        name: 名稱
+        owner_id: 擁有者
+        pool_family_id: 集區家族
+        pool_id: 集區
+        realm_id: 供應方領域
+        scheduled_for_deletion: 已排程進行刪除
+        updated_at: 更新於
+        uuid: Uuid
+      event:
+        created_at: 建立於
+        description: 描述
+        event_time: 事件時間
+        source_id: 來源
+        source_type: 來源類型
+        status_code: 狀態碼
+        summary: 概要
+        updated_at: 更新於
+      frontend_realm:
+        created_at: 建立於
+        description: 描述
+        lock_version: 鎖定版本
+        name: 名稱
+        updated_at: 更新於
+      hardware_profile:
+        architecture_id: 架構
+        cpu_id: Cpu
+        created_at: 建立於
+        external_key: 外部金鑰
+        lock_version: 鎖定版本
+        memory_id: 記憶體
+        name: 名稱
+        provider_id: 供應方
+        storage_id: 儲存裝置
+        updated_at: 更新於
+      hardware_profile_property:
+        created_at: 建立於
+        kind: 種類
+        lock_version: 鎖定版本
+        name: 名稱
+        range_first: 起始範圍
+        range_last: 結束範圍
+        unit: 單位
+        updated_at: 更新於
+        value: 值
+      hook:
+        created_at: 建立於
+        updated_at: 更新於
+        uri: Uri
+        version: 版本
+      icicle:
+        created_at: 建立於
+        updated_at: 更新於
+        uuid: Uuid
+        xml: Xml
+      instance:
+        acc_pending_time: "Acc 待處理時間"
+        acc_running_time: "Acc 執行時間"
+        acc_shutting_down_time: "Acc 關閉時間"
+        acc_stopped_time: "Acc 已停止時間"
+        assembly_xml: "組合 Xml"
+        created_at: 建立於
+        deployment_id: 建置
+        external_key: 外部金鑰
+        frontend_realm_id: 領域
+        hardware_profile_id: 硬體設定檔
+        image_build_uuid: "映像檔組建 Uuid"
+        image_uuid: "映像檔 Uuid"
+        instance_config_xml: "Instance 配置 Xml"
+        instance_hwp_id: "Instance Hwp"
+        last_error: 最後發生的錯誤
+        lock_version: 鎖定版本
+        name: 名稱
+        owner_id: 擁有者
+        pool_family_id: 集區家族
+        pool_id: 集區
+        private_addresses: 私有位址
+        provider_account_id: 供應方帳號
+        provider_image_uuid: "供應方映像檔 Uuid"
+        provider_instance_id: "供應方 Instance"
+        public_addresses: 公開位址
+        secret: 秘密
+        state: 狀態
+        time_last_pending: 最後等待處理時間
+        time_last_running: 最後執行時間
+        time_last_shutting_down: 最後關閉時間
+        time_last_stopped: 最後停止時間
+        updated_at: 更新於
+        user_data: 使用者資料
+        uuid: Uuid
+      instance_hwp:
+        architecture: 架構
+        cpu: Cpu
+        lock_version: 鎖定版本
+        memory: 記憶體
+        storage: 儲存裝置
+      instance_key:
+        created_at: 建立於
+        instance_id: Instance
+        name: 名稱
+        pem: Pem
+        updated_at: 更新於
+      instance_parameter:
+        created_at: 建立於
+        instance_id: Instance
+        name: 名稱
+        service: 服務
+        type: 類型
+        updated_at: 更新於
+        value: 值
+      metadata_object:
+        created_at: 建立於
+        key: 金鑰
+        lock_version: 鎖定版本
+        object_type: 物件類型
+        updated_at: 更新於
+        value: 值
+      permission:
+        created_at: 建立於
+        lock_version: 鎖定版本
+        permission_object_id: 權限物件
+        permission_object_type: 權限物件類型
+        role_id: 角色
+        updated_at: 更新於
+        user_id: 使用者
+      pool:
+        created_at: 建立於
+        enabled: 已啟用
+        exported_as: 匯出為
+        lock_version: 鎖定版本
+        name: 名稱
+        pool_family_id: 集區家族
+        quota_id: 配額
+        updated_at: 更新於
+      pool_family:
+        created_at: 建立於
+        description: 描述
+        lock_version: 鎖定版本
+        name: 集區家族名稱
+        quota_id: 配額
+        updated_at: 更新於
+      privilege:
+        action: 動作
+        created_at: 建立於
+        lock_version: 鎖定版本
+        role_id: 角色
+        target_type: 目標類型
+        updated_at: 更新於
+      property_enum_entry:
+        created_at: 建立於
+        hardware_profile_property_id: 硬體設定檔內容
+        lock_version: 鎖定版本
+        updated_at: 更新於
+        value: 值
+      provider:
+        available: 可用的
+        created_at: 建立於
+        deltacloud_provider: "Deltacloud 供應方"
+        enabled: 已啟用
+        lock_version: 鎖定版本
+        name: 供應方名稱
+        provider_type_id: 供應方類型
+        updated_at: 更新於
+        url: "供應方 URL"
+      provider_account:
+        created_at: 建立於
+        label: 標籤
+        lock_version: 鎖定版本
+        priority: 優先順序
+        provider_id: 供應方
+        quota_id: 配額
+        updated_at: 更新於
+      provider_type:
+        created_at: 建立於
+        deltacloud_driver: "Deltacloud 驅動程式"
+        home_dir: "Home 目錄"
+        name: 名稱
+        ssh_user: "Ssh 使用者"
+        updated_at: 更新於
+      quota:
+        created_at: 建立於
+        lock_version: 鎖定版本
+        maximum_running_instances: "最大 Instance 執行數量"
+        maximum_total_instances: "Instance 最大總數量"
+        running_instances: "執行中的 Instance"
+        total_instances: "Instance 總數量"
+        updated_at: 更新於
+      realm:
+        available: 可用的
+        created_at: 建立於
+        external_key: 外部金鑰
+        lock_version: 鎖定版本
+        name: 名稱
+        provider_id: 供應方
+        updated_at: 更新於
+      realm_backend_target:
+        frontend_realm_id: 領域
+        realm_or_provider_id: 供應方領域或供應方
+        realm_or_provider_type: 供應方領域或供應方類型
+      role:
+        assign_to_owner: 指定給擁有者
+        created_at: 建立於
+        lock_version: 鎖定版本
+        name: 名稱
+        scope: 範圍
+        updated_at: 更新於
+      session:
+        created_at: 建立於
+        data: 資料
+        session_id: Session
+        updated_at: 更新於
+      task:
+        action: 動作
+        args: 引數
+        created_at: 建立於
+        failure_code: 錯誤碼
+        lock_version: 鎖定版本
+        message: 訊息
+        state: 狀態
+        task_target_id: 工作目標
+        task_target_type: 工作目標類型
+        time_ended: 結束時間
+        time_started: 起始時間
+        time_submitted: 提交時間
+        type: 類型
+        user: 使用者
+      user:
+        created_at: 建立於
+        crypted_password: 加密的密碼
+        current_login_at: 目前登錄於
+        current_login_ip: "目前登錄 IP"
+        email: 電子郵件
+        failed_login_count: 失敗登錄計數
+        first_name: 名
+        last_login_at: 最後登入於
+        last_login_ip: "最後登入 IP"
+        last_name: 姓
+        last_request_at: 最後請求於
+        login: 登錄名稱
+        login_count: 登錄計數
+        quota_id: 配額
+        updated_at: 更新於
+      view_state:
+        action: 動作
+        controller: 控制器
+        created_at: 建立於
+        name: 名稱
+        state: 狀態
+        updated_at: 更新於
+        user_id: 使用者
+    models:
+      base_permission_object: 基礎權限物件
+      catalog: 目錄
+      catalog_entry: 目錄項目
+      config_server: 配置伺服器
+      credential: 認證
+      credential_definition: 認證定義
+      delayed_job: 延遲的工作
+      deployable: 可建置項目
+      deployment: 建置
+      event: 事件
+      frontend_realm: 領域
+      hardware_profile: 硬體設定檔
+      hardware_profile_property: 硬體設定檔內容
+      hook: Hook
+      icicle: Icicle
+      instance: Instance
+      instance_hwp: "Instance Hwp"
+      instance_key: "Instance 金鑰"
+      instance_parameter: "Instance 參數"
+      metadata_object: "Metadata 物件"
+      permission: 權限
+      pool: 集區
+      pool_family: 集區家族
+      privilege: 特權
+      property_enum_entry: "屬性 Enum 項目"
+      provider: 供應方
+      provider_account: 供應方帳號
+      provider_type: 供應方類型
+      quota: 配額
+      realm: 供應方領域
+      realm_backend_target: 供應方領域後端目標
+      role: 角色
+      session: Session
+      task: 工作
+      user: 使用者
+      view_state: 檢視狀態
