@@ -196,7 +196,7 @@ describe Deployment do
       Instance.any_instance.stub(:matches).and_return(["test","test"])
       @deployment.stub!(:find_match_with_common_account).and_return([[], true, []])
       errors = @deployment.check_assemblies_matches(@user_for_launch)
-      errors.should have(2).items
+      errors.should have(1).items
       errors.last.should include I18n.t('instances.errors.user_quota_reached')
     end
   end
