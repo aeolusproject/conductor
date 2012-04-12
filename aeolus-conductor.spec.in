@@ -365,6 +365,10 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Thu Apr 12 2012 Steve Linabery <slinaber@redhat.com> - 0.8.9-1
+- 141d399 BZ #810404: Some GPL files that should be ASL
+- 91b76e4 BZ 809710 fixed name of interpolated argument for images.new.description
+
 * Thu Apr 12 2012 Steve Linabery <slinaber@redhat.com> - 0.8.8-1
 - 4244f63 BZ#795902 Provide Unique Names for Cloud Resource Cluster
 
