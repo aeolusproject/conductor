@@ -365,6 +365,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Thu Apr 12 2012 Steve Linabery <slinaber@redhat.com> - 0.8.8-1
+- 4244f63 BZ#795902 Provide Unique Names for Cloud Resource Cluster
+
 * Thu Mar 29 2012 Steve Linabery <slinaber@redhat.com> - 0.8.7-1
 - 64bd4e1 BZ 803948 Fix of filters options in filter tables
 - 876f609 Reverting changes of BZ 803948 bugfix in models
