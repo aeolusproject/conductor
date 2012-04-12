@@ -7,7 +7,7 @@ Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
-License:  GPLv2+ and MIT and BSD
+License:  ASL 2.0 and MIT and BSD
 URL:      http://aeolusproject.org
 
 # to build source tarball
@@ -56,7 +56,7 @@ The Aeolus Conductor, a web UI for managing cloud instances.
 %package daemons
 Summary:   Aeolus Conductor daemons
 Group:     Applications/Internet
-License:   GPLv2+
+License:   ASL 2.0
 Requires: %{name} = %{version}-%{release}
 Requires: httpd >= 2.0
 Requires: rubygem(thin) >= 1.2.5
