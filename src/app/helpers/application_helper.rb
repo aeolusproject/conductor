@@ -18,6 +18,9 @@
 # Likewise, all the methods added will be available for all controllers.
 
 module ApplicationHelper
+
+  include MustacheHelper
+
   def number_to_duration(input_num)
     input_int = input_num.to_i
     hours_to_seconds = [input_int/3600 % 24,

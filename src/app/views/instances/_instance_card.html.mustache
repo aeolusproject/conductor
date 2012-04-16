@@ -1,0 +1,58 @@
+<li class="instance">
+  <h3 class="name">
+    <%= link_to('{{name}}', '{{path}}') %>
+  </h3>
+  <hr>
+  <dl class="statistics">
+    <ul>
+      <li>
+        <dt class="uptime"></dt>
+        <dd>{{uptime}}</dd>
+      </li>
+      <li>
+        <dt class="ip_address"><%= t('deployments.pretty_view_show.ip_address') %></dt>
+        <dd>{{public_addresses}}</dd>
+      </li>
+      <li>
+        <dt class="state"><%= t('deployments.pretty_view_show.state') %></dt>
+        <dd>{{translated_state}}</dd>
+      </li>
+    {{#instance_key_present}}
+      <li>
+        <dt></dt>
+        <dd><%= link_to(t('deployments.pretty_view_show.download_key'), key_instance_path('replace_id').sub('replace_id', '{{id}}')) %></dd>
+      </li>
+    {{/instance_key_present}}
+    </ul>
+  </dl>
+  <hr>
+  <div class="actions">
+    <ul>
+      {{#stop_enabled}}
+        <li>
+          <%= button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '{{id}}'),
+                        :disabled => false, :class => 'button danger') %>
+        </li>
+      {{/stop_enabled}}
+      {{^stop_enabled}}
+        <li>
+          <%= button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '{{id}}'),
+                        :disabled => true, :class => 'button danger') %>
+        </li>
+      {{/stop_enabled}}
+
+      {{#reboot_enabled}}
+        <li>
+          <%= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '{{id}}'),
+                        :disabled => false, :class => 'button danger') %>
+        </li>
+      {{/reboot_enabled}}
+      {{^reboot_enabled}}
+        <li>
+          <%= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '{{id}}'),
+                        :disabled => true, :class => 'button danger') %>
+        </li>
+      {{/reboot_enabled}}
+    </ul>
+  </div>
+</li>
