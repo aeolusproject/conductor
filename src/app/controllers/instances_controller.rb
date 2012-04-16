@@ -28,7 +28,7 @@ class InstancesController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
-      format.json { render :json => @instances }
+      format.json { render :json => @instances.map{ |instance| view_context.instance_for_mustache(instance) } }
     end
   end
 

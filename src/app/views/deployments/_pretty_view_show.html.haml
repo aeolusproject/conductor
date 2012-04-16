@@ -1,30 +1,6 @@
 %ul.instances-array
   - @instances.each do |instance|
-    %li.instance
-      %h3.name
-        = link_to instance.name, instance
-      %hr
-      %dl.statistics
-        %ul
-          %li
-            %dt.uptime
-            %dd= count_uptime(instance.uptime)
-          %li
-            %dt.ip_address= t('deployments.pretty_view_show.ip_address')
-            %dd= instance.public_addresses.present? ? instance.public_addresses : t('deployments.pretty_view_show.no_ip_address')
-          %li
-            %dt.state= t('deployments.pretty_view_show.state')
-            %dd= t("instances.states.#{instance.state}")
-          - if instance.instance_key
-            %li
-              %dt
-              %dd= link_to t('deployments.pretty_view_show.download_key'), key_instance_path(instance)
-      %hr
-      .actions
-        %ul
-          - available_actions = instance.get_action_list
-          %li= button_to(t('deployments.pretty_view_show.stop'), stop_instance_path(instance), :disabled => !available_actions.include?(InstanceTask::ACTION_STOP), :class => "button danger")
-          %li= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path(instance), :disabled => !available_actions.include?(InstanceTask::ACTION_REBOOT), :class => "button danger")
+    = render :partial => 'instances/instance_card', :mustache => instance_for_mustache(instance)
 
 = render_pagination(@instances)
 
@@ -33,53 +9,5 @@
             '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter', :page => params[:page])}',
             '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty', :page => params[:page])}');
 
-%script#instanceTemplate{:type => 'text/x-jquery-tmpl'}
-  :plain
-    <li class="instance">
-      <h3 class="name"><a href="#{instance_path('replace_id').sub('replace_id', '${id}')}">${name}</a></h3>
-      <hr>
-      <dl class="statistics">
-        <ul>
-          <li>
-            <dt class="uptime"></dt>
-            <dd>  ${uptime}</dd>
-          </li>
-          <li>
-            <dt class="ip_address">#{t('deployments.pretty_view_show.ip_address')}</dt>
-            <dd>
-              {{if public_addresses}}
-                ${public_addresses}
-              {{else}}
-                #{t('deployments.pretty_view_show.no_ip_address')}
-              {{/if}}
-            </dd>
-          </li>
-          <li>
-            <dt class="state">#{t('deployments.pretty_view_show.state')}</dt>
-            <dd>${translated_state}</dd>
-          </li>
-          {{if has_key}}
-            <li>
-              <dt/>
-              <dd><a href="#{key_instance_path('replace_id').sub('replace_id', '${id}')}">#{t('deployments.pretty_view_show.download_key')}</a></dd>
-            </li>
-          {{/if}}
-        </ul>
-      </dl>
-      <hr>
-      <div class="actions">
-        <ul>
-          {{if stop_enabled}}
-            <li>#{button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => false, :class => 'button danger')}</li>
-          {{else}}
-            <li>#{button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => true, :class => 'button danger')}</li>
-          {{/if}}
-
-          {{if reboot_enabled}}
-            <li>#{button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => false, :class => 'button danger')}</li>
-          {{else}}
-            <li>#{button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '${id}'), :disabled => true, :class => 'button danger')}</li>
-          {{/if}}
-        </ul>
-      </div>
-    </li>
+%script#instanceCardTemplate{ :type => 'text/html' }
+  = render :partial => 'instances/instance_card'

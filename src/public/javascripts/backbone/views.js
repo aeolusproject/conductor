@@ -211,6 +211,9 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
   },
 
   render: function() {
+    $template = $('#instanceCardTemplate');
+    if($template.length === 0) return;
+
     var $instances = this.$('ul.instances-array');
     if($instances.length === 0) {
       $instances = this.$('table.checkbox_table > tbody');
@@ -218,7 +221,12 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
     if($instances.length === 0) return;
 
     $instances.empty();
-    $('#instanceTemplate').tmpl(this.collection.toJSON()).appendTo($instances);
+
+    var instanceCardsHtml = '';
+    $.each(this.collection.toJSON(), function(instanceIndex, instance) {
+      instanceCardsHtml += Mustache.to_html($template.html(), instance);
+    });
+    $instances.html(instanceCardsHtml);
   }
 
 });
