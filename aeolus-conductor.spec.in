@@ -365,6 +365,10 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Mon Apr 16 2012 Steve Linabery <slinaber@redhat.com> - 0.8.10-1
+- 4799400 BZ 786207 - selection validation on launch_new
+- 23de72c BZ 803647 - Persist pool[pool_family_id] on failure during creation
+
 * Thu Apr 12 2012 Steve Linabery <slinaber@redhat.com> - 0.8.9-1
 - 141d399 BZ #810404: Some GPL files that should be ASL
 - 91b76e4 BZ 809710 fixed name of interpolated argument for images.new.description
