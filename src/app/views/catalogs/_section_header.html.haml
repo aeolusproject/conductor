@@ -1,4 +1,4 @@
-%header.admin-page-header
-  %h1{:class => controller.controller_name}=t('catalogs.catalogs')
+%header.page-header
   #obj_actions.button-group
     = link_to t('catalogs.new_catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
+  %h1.no-icon=t('catalogs.catalogs')

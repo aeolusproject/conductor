@@ -1,6 +1,5 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1{:class => controller.controller_name}= @title
+%header.page-header
   #obj_actions.button-container
     - if check_privilege(Privilege::CREATE, HardwareProfile)
       = link_to t('hardware_profiles.list.new_hardware'), new_hardware_profile_url, :class => 'button primary', :id => 'new_role_button'
@@ -8,13 +7,14 @@
       - if check_privilege(Privilege::MODIFY, @hardware_profile) && !@hardware_profile.provider_hardware_profile?
         = link_to t('edit'), edit_hardware_profile_path(@hardware_profile), :class => 'button pill', :id => 'edit_button'
         = button_to t('delete'), hardware_profile_path(@hardware_profile), :method => :delete, :confirm => "Are you sure you want to delete?", :class => 'button pill danger'
-%section.admin-content-section.hardware_profile
+  %h1.hardware_profiles= @title
+%section.content-section.hardware_profile
   %header
     %h2=t 'properties'
   .content
     = render :partial => 'properties'
 - unless @hardware_profile.provider_hardware_profile?
-  %section.admin-content-section.hardware_profile
+  %section.content-section.hardware_profile
     %header
       %h2=t'hardware_profiles.show.matching_hwp'
     .content

@@ -1,24 +1,24 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1{:class => controller.controller_name}=t '.self_service_settings'
+%header.page-header
   #obj_actions.button-group
     .return_to
       = t 'return_to'
       = link_to "Settings", settings_path
+  %h1.settings=t '.self_service_settings'
 
-%section.admin-content-section
+%section.content-section
   %header
     %h2= t('.self_service_default')
 
   .content
-    = form_for @self_service_default_quota, :url => { :action => 'update' }, :html => { :class => 'generic' } do |form|
+    = form_for @self_service_default_quota, :url => { :action => 'update' }, :html => { :class => 'generic horizontal' } do |form|
       - if @self_service_default_quota.errors.any?
         = render 'layouts/error_messages', :object => @self_service_default_quota
       %fieldset
         = hidden_field :self_service_default_quota,  :id
-        %p
-        %label= t('.instances_quota')
-        = text_field :self_service_default_quota, :maximum_running_instances, :class => 'grid_5'
+        .field
+          %label= t('.instances_quota')
+          = text_field :self_service_default_quota, :maximum_running_instances, :class => 'grid_5'
       %fieldset.options
         #obj_actions.button-group
           = link_to t('reset'), self_service_settings_path, :class => 'button pill'

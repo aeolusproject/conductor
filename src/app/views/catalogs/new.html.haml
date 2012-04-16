@@ -1,13 +1,13 @@
 = render :partial => 'layouts/admin_nav'
 
-%header.admin-page-header
-  %h1= @title
+%header.page-header
   #obj_actions
     .return_to
       = t'return_to'
       = link_to t("catalogs.catalogs"), catalogs_path
+  %h1.no-icon= @title
 
-%section.admin-content-section
+%section.content-section
   .content
-    = form_for @catalog, :url => catalogs_path, :html => {:class => 'generic'} do |f|
+    = form_for @catalog, :url => catalogs_path, :html => {:class => 'generic horizontal'} do |f|
       = render :partial => "form", :locals => { :form => f }

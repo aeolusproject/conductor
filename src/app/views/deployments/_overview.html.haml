@@ -1,46 +1,57 @@
 - if @deployment.errors.any?
   = render 'layouts/error_messages', :object => @deployment
-= form_for @deployment do
-  %header.page-header
-    %h1{:class => controller.controller_name}= t('.pool_name', :pool => @pool.name)
-    .corner &nbsp;
+= form_for @deployment, :html => {:class => 'generic horizontal'} do
   = hidden_field :deployment, :pool_id
   = hidden_field :deployment, :frontend_realm_id
   = hidden_field_tag :launch_parameters_encoded, @launch_parameters_encoded
   = hidden_field_tag :deployable_id, params[:deployable_id]
 
-  %section.content-section.deployable_details
-    %header.confirmation
+  %header.page-header
+    %h1.pools= t('.pool_name', :pool => @pool.name)
+
+  %section.content-section
+    %header.align-center
       %h2= t('.header', :deployment => @deployment.name, :pool => @pool.name)
       %p= t('.confirmation', :deployment => @deployment.name, :pool => @pool.name, :quota => number_to_percentage(@additional_quota, :precision => 0))
 
     .content
-      %h3= t('.name')
-      %p= text_field :deployment, :name
+      %fieldset
+        .field
+          = label_tag :name, t('.name'), :class => 'em'
+          .input
+            = text_field :deployment, :name, :class => 'em long'
 
-      - unless @deployment.deployable_xml.description.blank?
-        %h3= t '.description'
-        %p= @deployment.deployable_xml.description
+        - unless @deployment.deployable_xml.description.blank?
+          .field
+            = label_tag :description, t('.description')
+            .input
+              %span.text_instead_input= @deployment.deployable_xml.description
 
-      %h3= t('.deployable_xml')
-      = link_to @deployable.xml_filename, definition_catalog_deployable_path(@deployable.catalogs.first, @deployable)
-      &rArr;
+        .field
+          = label_tag :deployable_xml, t('.deployable_xml')
+          .input
+            %span.text_instead_input
+              = link_to @deployable.xml_filename, definition_catalog_deployable_path(@deployable.catalogs.first, @deployable)
+              &rArr;
 
-      - if @realms.any?
-        %h3= t('realms.index.realm')
-        = select :deployment, :frontend_realm_id, @realm_choices
-        %div#realm-description
+        - if @realms.any?
+          .field
+            = label_tag :realm, t('realms.index.realm')
+            .input
+              = select :deployment, :frontend_realm_id, @realm_choices
+              %div#realm-description
 
-      %h3= t('.image_ids')
-      %ul
-      - @deployment.deployable_xml.assemblies.each do |assembly|
-        %li.image-id
-          = assembly.image_id
-
-  #action-buttons
-    = link_to t(:cancel), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
-    = submit_tag t(:back), :class => 'button', :value => 'back'
-    = submit_tag t('.launch'), :id => 'launch_deployment_button', :disabled => (@errors && @errors.any?)
+        .field
+          = label_tag :image_ids, t('.image_ids')
+          .input
+            %span.text_instead_input
+              %ul
+              - @deployment.deployable_xml.assemblies.each do |assembly|
+                %li.image-id= assembly.image_id
+      %fieldset.options.align-center
+        = link_to t(:cancel), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
+        = submit_tag t(:back), :class => 'button', :value => 'back'
+        = submit_tag t('.launch'), :id => 'launch_deployment_button', :disabled => (@errors && @errors.any?)
 -# Quota checking to go here as well, once I understand how it works with new code
 
 :javascript

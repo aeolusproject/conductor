@@ -2,42 +2,50 @@
   = render 'layouts/error_messages', :object => @user
 
 %fieldset
-  %p.clearfix
+  .field
     = form.label :first_name
-    = form.text_field :first_name, :class =>"check_change"
-  %p.clearfix
+    .input
+      = form.text_field :first_name, :class =>"check_change"
+  .field
     = form.label :last_name
-    = form.text_field :last_name, :class =>"check_change"
-  %p.clearfix
+    .input
+      = form.text_field :last_name, :class =>"check_change"
+  .field
     = form.label :email, t(:email), :required => true
-    = form.text_field :email, :class =>"check_change"
+    .input
+      = form.text_field :email, :class =>"check_change"
 %fieldset
-  %p.clearfix
+  .field
     = form.label :login, t(:choose_name), :required => true
-    = form.text_field :login, :class => "em check_change"
-  %p.clearfix
+    .input
+      = form.text_field :login, :class => "check_change"
+  .field
     = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password), :required => form.object.new_record?
-    = form.password_field :password
-  %p.clearfix
+    .input
+      = form.password_field :password
+  .field
     = form.label :password_confirmation, t(:confirm_password), :required => form.object.new_record?
-    = form.password_field :password_confirmation
+    .input
+      = form.password_field :password_confirmation
 
 - if check_privilege(Privilege::MODIFY, User)
   %fieldset
     = form.fields_for :quota do |quota_form|
-      %p.clearfix
+      .field
         = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
-        = quota_form.text_field :maximum_running_instances
+        .input
+          = quota_form.text_field :maximum_running_instances
 
   %fieldset
     %legend=t'users.form.user_status'
-    %ul.radio-group
-      %li
-        = label_tag "user_status_active", t("users.form.user_status_active")
-        = radio_button_tag "user_status", t("users.form.user_status_active"), true
-      %li
-        = label_tag "user_status_inactive", t("users.form.user_status_inactive")
-        = radio_button_tag "user_status", t("users.form.user_status_inactive"), false, :disabled => true
+    .field
+      %ul.radio-group
+        %li
+          = label_tag "user_status_active", t("users.form.user_status_active")
+          = radio_button_tag "user_status", t("users.form.user_status_active"), true
+        %li
+          = label_tag "user_status_inactive", t("users.form.user_status_inactive")
+          = radio_button_tag "user_status", t("users.form.user_status_inactive"), false, :disabled => true
 
 %fieldset.options
   = form.submit "#{t'users.form.save_user'}",  :class => "submit button pill"

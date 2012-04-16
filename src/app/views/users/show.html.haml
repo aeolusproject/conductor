@@ -1,12 +1,12 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
+%header.page-header
   - if check_privilege(Privilege::VIEW, User)
     #obj_actions
       .return_to
         =t'return_to'
         = link_to t('users.users'), users_path
 
-%section.admin-content-section.user
+%section.content-section.user
   .content
     #user_card.user_stats_card
       %header.user-card-header
@@ -46,14 +46,14 @@
             %dd= @user.last_login_ip
   .clear
 
-/%section.admin-content-section.user
+/%section.content-section.user
 /  %header
 /    %h2.activity Activity
 /
 /  .content
 /    Unimplemented.
 /
-/%section.admin-content-section.user
+/%section.content-section.user
 /  %header
 /    %h2.roles Roles &amp; Permissions
 /

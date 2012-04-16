@@ -1,7 +1,7 @@
 = render :partial => 'layouts/admin_nav'
 = render :partial => 'section_header'
 
-%section.admin-content-section.settings
+%section.content-section.settings
   .content
     %ul.tiles{:class => 'container_16'}
       - if check_privilege(Privilege::MODIFY)

@@ -1,9 +1,8 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %header
-    %h1= @title
+%header.page-header
+  %h1.realms= @title
 
-%section.admin-content-section
+%section.content-section
   - if @realm_target.errors.any?
     = render 'layouts/error_messages', :object => @realm_target
 
@@ -12,7 +11,7 @@
     = f.hidden_field :realm_or_provider_type
 
     %fieldset
-      %p.clearfix
+      .field
         - label_method = @realm_target.realm_or_provider_type == 'Realm' ? 'name_with_provider' : 'name'
         = select_tag 'realm_backend_target[realm_or_provider_id]', options_from_collection_for_select(@backend_targets, 'id', label_method)
 

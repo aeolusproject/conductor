@@ -1,10 +1,10 @@
 = render :partial => 'layouts/admin_nav'
 = render :partial => 'section_header'
 
-%section.admin-content-section.config_server
+%section.content-section.config_server
   %header
     %h2= t('.new_config_server')
 
   .content
-    = form_for @config_server, :url => config_servers_path, :html => {:class => "generic"} do |f|
+    = form_for @config_server, :url => config_servers_path, :html => {:class => "generic horizontal"} do |f|
       = render :partial => 'config_server_form', :locals => {:form => f }

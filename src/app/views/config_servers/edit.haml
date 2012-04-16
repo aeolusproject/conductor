@@ -6,5 +6,5 @@
     %h2= t('.edit_config_server')
 
   .content
-    = form_for @config_server, :url => config_server_path(@config_server), :html => {:method => :put, :class => "generic"} do |f|
+    = form_for @config_server, :url => config_server_path(@config_server), :html => {:method => :put, :class => "generic horizontal"} do |f|
       = render :partial => 'config_server_form', :locals => {:form => f}

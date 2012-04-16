@@ -1,12 +1,14 @@
 - if @catalog.errors.any?
   = render 'layouts/error_messages', :object => @catalog
 %fieldset
-  %p.clearfix
+  .field
     = form.label :name
-    = form.text_field :name, :class => 'em long'
-  %p.clearfix
+    .input
+      = form.text_field :name, :class => 'em long'
+  .field
     = form.label :pool_id
-    = form.select(:pool_id, @pools.collect{|p| [p.name, p.id]}, :prompt =>  t("catalogs.form.select_pool"))
+    .input
+      = form.select(:pool_id, @pools.collect{|p| [p.name, p.id]}, :prompt =>  t("catalogs.form.select_pool"))
 
 %fieldset.options
   = link_to t('cancel'), catalogs_path, :class => 'button danger'

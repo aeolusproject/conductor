@@ -1,6 +1,5 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1{:class => controller.controller_name}= @deployable.name
+%header.page-header
   #obj_actions.button-container
     .button-group
       - if check_privilege(Privilege::MODIFY, @deployable)
@@ -13,9 +12,10 @@
       = link_to t('.launch'), launch_deployment_button_path, :id => :launch_deployment_button, :'data-path' => launch_deployment_button_path
     -else
       %a{:id => :launch_deployment_button, :class => 'disabled', :'data-path' => launch_deployment_button_path}= t('.launch')
+  %h1.catalog_entries= @deployable.name
 
 
-%section.admin-content-section
+%section.content-section
   %header
     %h2.images= t('.images')
   .content
@@ -54,7 +54,7 @@
                 %ul
                   = render :partial => "image_uuids", :locals => {:uuid_arr => assembly[:build_and_target_uuids]}
 
-%section.admin-content-section
+%section.content-section
   - if @missing_images.empty?
     %header
       %h2.build= t('.build_status')
@@ -85,7 +85,7 @@
         - @missing_images.each do |uuid|
           %li= uuid
 
-%section.admin-content-section
+%section.content-section
   %header
     %h2.catalogs= t('.catalogs')
     .section-controls
@@ -112,7 +112,7 @@
             %td= catalog_entry.catalog.pool.pool_family.name
 
 - if check_privilege(Privilege::PERM_VIEW,@permission_object)
-  %section.admin-content-section
+  %section.content-section
     %header
       %h2.roles= t('role_assignments')
     .content

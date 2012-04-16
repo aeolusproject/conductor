@@ -1,15 +1,15 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1= @title
+%header.page-header
   #obj_actions
     .return_to
       = t'return_to'
       = link_to t('provider_accounts.new.cloud_providers'), edit_provider_path(@provider, :details_tab => 'accounts')
+  %h1.provider_accounts= @title
 
-%section.admin-content-section.provider_accounts
+%section.content-section.provider_accounts
   .content
     - unless @providers.empty?
-      = form_for([@provider, @provider_account], :url => provider_provider_accounts_path(@provider), :html => {:multipart => true, :class => 'generic'})  do |f|
+      = form_for([@provider, @provider_account], :url => provider_provider_accounts_path(@provider), :html => {:multipart => true, :class => 'generic horizontal'})  do |f|
         = render :partial => "form", :locals => { :form => f }
         %fieldset.options
-          = f.submit t('save'), :class => "button pill", :id => 'save'
+          = f.submit t('save'), :class => "button", :id => 'save'

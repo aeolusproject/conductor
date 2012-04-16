@@ -1,4 +1,4 @@
-%section.admin-content-section
+%section.content-section
   %header
     %nav.faceted
       %ul#tab-container-1-nav
@@ -8,6 +8,5 @@
               = tab[:name]
             -if tab[:count]
               %span.label.badge.count.dark=tab[:count]
-    .clear
   .content#tab
     = render :partial => 'list'

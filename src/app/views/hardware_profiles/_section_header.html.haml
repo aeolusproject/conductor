@@ -1,4 +1,4 @@
-%header.admin-page-header
-  %h1{:class => controller.controller_name}=t'hardware_profiles.hardware_profiles'
+%header.page-header
   #obj_actions.button-group
     = link_to t('hardware_profiles.list.new_hardware'), new_hardware_profile_url, :class => 'button primary', :id => 'new_hardware_profile_button'
+  %h1.hardware_profiles=t'hardware_profiles.hardware_profiles'

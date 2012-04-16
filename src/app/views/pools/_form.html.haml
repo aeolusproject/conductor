@@ -3,27 +3,22 @@
     = render 'layouts/error_messages', :object => @pool
 
   %fieldset
-    %p
+    .field
       = form.label :name, :class => 'em'
       = form.text_field :name, :class => 'em long'
-    %p
+    .field
       = form.label :pool_family_id
       - if @pool_families
         = form.collection_select :pool_family_id, @pool_families, :id, :name
       - else
         = form.label :pool_family_id, @pool.pool_family.name
         = hidden_field_tag 'pool[pool_family_id]', @pool.pool_family_id
-
-  %fieldset
-    %p
-      %label
-        = t('quota')
+    .field
+      = label_tag :quota, t('quota')
       = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || 10, :id => "quota_instances"
       = check_box_tag :unlimited_quota, 1, @quota.maximum_running_instances.nil?
       = label_tag :unlimited_quota, t('.unlimited'), :class => 'checkbox'
-
-  %fieldset
-    %p
+    .field
       = form.check_box :enabled
       = form.label :enabled, "#{t('pools.form.pool_enabled')}?", :class => 'checkbox'
 

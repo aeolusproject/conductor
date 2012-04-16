@@ -1,6 +1,5 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1{:class => controller.controller_name}= @title
+%header.page-header
   #obj_actions.button-container
     .return_to
       =t'return_to'
@@ -11,15 +10,16 @@
       - if check_privilege(Privilege::MODIFY, Realm)
         = link_to t('edit'), edit_realm_path(@realm), :class => 'button pill', :id => 'edit_realm_button'
         = button_to t('delete'), realm_path(@realm), :method => :delete, :confirm => t("realms.show.sure_to_delete"), :class => 'button pill danger', :id => 'delete_realm_button'
+  %h1.realms= @title
 
-%section.admin-content-section.realm
+%section.content-section.realm
   %header
     %h2= t'realms.show.properties'
 
   .content
     = render :partial => 'properties'
 
-%section.admin-content-section.realm_mapping
+%section.content-section.realm_mapping
   %header
     %h2= t'realms.show.realm_mapping'
 

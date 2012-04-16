@@ -833,6 +833,7 @@ en:
       edit_file: "Edit this file before saving:"
     edit_xml:
       edit: Edit
+      edit_xml: Edit XML
       save_and_continue: Save and Continue
     overview:
       valid_image: Valid Image
