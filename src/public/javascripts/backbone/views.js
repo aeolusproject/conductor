@@ -101,6 +101,15 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
 Conductor.Views.PoolsShow = Backbone.View.extend({
   el: '#content',
 
+  currentView: function() {
+    if ($('form.filterable-data').length > 0) {
+      return 'table'
+    }
+    else if ($('ul.deployable-cards').length > 0) {
+      return 'pretty'
+    }
+  },
+
   currentTab: function() {
     if($('#details_deployments.active').length > 0) {
       return 'deployments';
@@ -110,6 +119,15 @@ Conductor.Views.PoolsShow = Backbone.View.extend({
     }
     else if ($('#details_images.active').length > 0) {
       return 'images';
+    }
+  },
+
+  template: function() {
+    if (this.currentView() == 'table') {
+      return $('#deploymentTemplate');
+    }
+    else if (this.currentView() == 'pretty') {
+      return $('#deploymentCardTemplate');
     }
   },
 
@@ -132,7 +150,7 @@ Conductor.Views.PoolsShow = Backbone.View.extend({
   render: function() {
     this.$('h1.pools').text(this.model.get('name') + ' Pool');
 
-    var $template = $('#deploymentTemplate');
+    var $template = this.template();
     if($template.length === 0) return;
 
     var $table = this.$('table.checkbox_table > tbody');
@@ -146,9 +164,14 @@ Conductor.Views.PoolsShow = Backbone.View.extend({
       var $cards = this.$('ul.deployable-cards').empty()
       var cardsPerRow = 5;
       for(var i = 0; i < deployments.length; i += cardsPerRow) {
+        var deploymentCardHtml = '';
+        $.each(deployments.slice(i, i + cardsPerRow), function(deploymentIndex, deployment) {
+          deploymentCardHtml += Mustache.to_html($template.html(), deployment);
+        });
+
         var $row = this.make('ul',
           {'class': 'deployment-array large'},
-          $template.tmpl(deployments.slice(i, i + cardsPerRow)));
+          deploymentCardHtml);
         $cards.append($row);
       }
     }

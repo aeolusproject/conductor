@@ -2,25 +2,7 @@
   - @deployments.in_groups_of(5, false) do |group|
     %ul.deployment-array.large
       - group.each do |deployment|
-        - deployment_provider = deployment.provider
-        %li.deployment
-          %h3.name
-            = link_to deployment.name, deployment_path(deployment)
-          %span{ :class => "status #{deployment.status}", :title => t("deployments.status.#{deployment.status}")}
-          %dl.statistics
-            %ul
-              %li.uptime
-                %dt.uptime=t'uptime'
-                %dd= count_uptime(deployment.uptime_1st_instance)
-              %li.instances
-                %dt.instances.count=t'instances.instances.other'
-                %dd
-                  = deployment.instances.count || 0
-                  %span.inline-label=t('instances.instances', :count => deployment.instances.count.to_i)
-              %li.provider
-                %dt.instances.count=t'providers.provider'
-                %dd
-                  %p.provider= deployment_provider.provider_type.name unless deployment_provider.blank?
+        = render :partial => 'deployments/deployment_card', :mustache => deployment_for_mustache(deployment)
 
 = render_pagination(@deployments)
 
@@ -29,31 +11,5 @@
             '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter', :page => params[:page])}',
             '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty', :page => params[:page] )}');
 
-%script#deploymentTemplate{ :type => 'text/x-jquery-tmpl' }
-  :plain
-    <li class="deployment">
-      <h3 class="name">
-        <a href="#{deployment_path('replace_id').sub('replace_id', '${id}')}">${name}</a>
-      </h3>
-      <span class="status ${status}" title="${status_description}">${status}</span>
-      <dl class="statistics">
-        <ul>
-          <li class="uptime">
-            <dt class="uptime">#{t'uptime'}</dt>
-            <dd>${uptime}</dd>
-          </li>
-          <li class="instances">
-            <dt class="instances count">#{t'instances.instances.other'}</dt>
-            <dd>${instances_count}
-              <span class="inline-label">${instances_count_text}</span>
-            </dd>
-          </li>
-          <li class="provider">
-            <dt class="instances count">#{t'providers.provider'}</dt>
-            <dd>
-              <p class="provider">{{if provider}} ${provider.name} {{/if}}</p>
-            </dd>
-          </li>
-        </ul>
-      </dl>
-    </li>
+%script#deploymentCardTemplate{ :type => 'text/html' }
+  = render :partial => 'deployments/deployment_card'

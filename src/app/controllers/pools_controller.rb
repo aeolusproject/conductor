@@ -117,8 +117,10 @@ class PoolsController < ApplicationController
     respond_to do |format|
       format.html { render :action => :show}
       format.js { render :partial => @view }
-      format.json { render :json => @pool.as_json(:with_deployments => true, :current_user => current_user,
-                                                  :page => params[:page], :per_page => PER_PAGE) }
+      format.json { render :json => { :name => @pool.name,
+                                      :deployments => @pool.deployments.list_for_user(current_user, Privilege::VIEW).
+                                                            paginate(:page => params[:page], :per_page => params[:per_page]).
+                                                            map{ |deployment| view_context.deployment_for_mustache(deployment) } } }
     end
   end
 
