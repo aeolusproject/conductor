@@ -366,6 +366,10 @@ fi
 
 %changelog
 * Mon Apr 16 2012 Steve Linabery <slinaber@redhat.com> - 0.8.10-1
+- d7f461b BZ 796528 - updated tests
+- a0659d9 BZ 796528 - set CREATE_FAILED status for instances which failed to launch
+- 1542028 BZ 796528 - instance's config params are now handled from taskomatic
+- 08a0394 BZ 796528 - deployment launch refactoring
 - 4799400 BZ 786207 - selection validation on launch_new
 - 23de72c BZ 803647 - Persist pool[pool_family_id] on failure during creation
 
