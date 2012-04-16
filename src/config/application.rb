@@ -30,6 +30,7 @@ else
   require 'deltacloud'
   require 'sass'
   require 'haml'
+  require 'mustache'
   require 'will_paginate'
   require 'nokogiri'
   require 'simple-navigation'

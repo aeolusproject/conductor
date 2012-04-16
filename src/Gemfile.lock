@@ -81,6 +81,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    mustache (0.99.4)
     nokogiri (1.5.0.beta.4)
     oauth (0.4.4)
     pg (0.11.0)
@@ -172,6 +173,7 @@ DEPENDENCIES
   haml
   json
   launchy
+  mustache
   nokogiri
   oauth
   pg
