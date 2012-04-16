@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  @VERSION@
+Version:  0.8.13
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
