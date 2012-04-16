@@ -194,6 +194,7 @@ describe Deployment do
 
     it "return error when user quota was reached" do
       Instance.any_instance.stub(:matches).and_return(["test","test"])
+      @deployment.stub!(:find_match_with_common_account).and_return([[], true, []])
       errors = @deployment.check_assemblies_matches(@user_for_launch)
       errors.should have(2).items
       errors.last.should include I18n.t('instances.errors.user_quota_reached')
@@ -224,7 +225,7 @@ describe Deployment do
       @deployment.save!
       @deployment.instances.should be_empty
 
-      Taskomatic.stub!(:create_instance).and_return(true)
+      Taskomatic.stub!(:create_instance!).and_return(true)
       @deployment.launch(@user_for_launch)[:errors].should be_empty
       @deployment.instances.count.should == 2
     end
@@ -270,15 +271,25 @@ describe Deployment do
       @deployment.instances[1].provider_account.should == @provider_account2
     end
 
-    it "should not launch instances if user has no access to hardware profile" do
+    it "should set create_failed status for instances if match not found" do
       @deployment.save!
       @deployment.instances.should be_empty
-
-      Taskomatic.stub!(:create_instance).and_return(true)
-      @deployment.launch(@user_for_launch)[:errors].should be_empty
-      @deployment.instances.count.should == 2
+      @deployment.pool.pool_family.provider_accounts.destroy_all
+      Taskomatic.stub!(:create_instance!).and_return(true)
+      @deployment.launch(@user_for_launch)
+      @deployment.instances.should_not be_empty
+      @deployment.instances.each {|i| i.state.should == Instance::STATE_CREATE_FAILED}
     end
 
+    it "should set create_failed status for instances if instance's launch raises an exception" do
+      @deployment.save!
+      @deployment.instances.should be_empty
+      Taskomatic.stub!(:create_dcloud_instance).and_raise("an exception")
+      @deployment.launch(@user_for_launch)
+      @deployment.reload
+      @deployment.instances.should_not be_empty
+      @deployment.instances.each {|i| i.state.should == Instance::STATE_CREATE_FAILED}
+    end
   end
 
   describe ".stop_instances_and_destroy!" do
@@ -427,24 +438,25 @@ describe Deployment do
     account1 = FactoryGirl.create(:mock_provider_account, :label => "test_account1")
     account2 = FactoryGirl.create(:mock_provider_account, :label => "test_account2")
     account3 = FactoryGirl.create(:mock_provider_account, :label => "test_account3")
-    possible1 = Instance::Match.new(nil,account1,nil,nil,nil)
-    possible2 = Instance::Match.new(nil,account2,nil,nil,nil)
-    possible3 = Instance::Match.new(nil,account2,nil,nil,nil)
-    possible4 = Instance::Match.new(nil,account3,nil,nil,nil)
-    possible5 = Instance::Match.new(nil,account2,nil,nil,nil)
+    @deployment.pool.pool_family.provider_accounts += [account1, account2, account3]
+    possible1 = Instance::Match.new(nil,account1,nil,nil,nil, nil)
+    possible2 = Instance::Match.new(nil,account2,nil,nil,nil, nil)
+    possible3 = Instance::Match.new(nil,account2,nil,nil,nil, nil)
+    possible4 = Instance::Match.new(nil,account3,nil,nil,nil, nil)
+    possible5 = Instance::Match.new(nil,account2,nil,nil,nil, nil)
 
     # not gonna test the individual instance "machtes" logic again
     # just stub out the behavior
-    instance1 = Factory.build(:instance)
+    @deployment.instances << instance1 = Factory.build(:instance)
     instance1.stub!(:matches).and_return([[possible1, possible2], []])
-    instance2 = Factory.build(:instance)
+    @deployment.instances << instance2 = Factory.build(:instance)
     instance2.stub!(:matches).and_return([[possible3, possible4], []])
-    instance3 = Factory.build(:instance)
+    @deployment.instances << instance3 = Factory.build(:instance)
     instance3.stub!(:matches).and_return([[possible5], []])
 
     instances = [instance1, instance2, instance3]
-    matches, errors = @deployment.send(:common_provider_accounts_for, instances)
-    matches.should_not be_empty
-    matches.keys.first.should eql(account2)
+    match, account, errors = @deployment.send(:find_match_with_common_account)
+    match.should_not be_nil
+    account.should eql(account2)
   end
 end

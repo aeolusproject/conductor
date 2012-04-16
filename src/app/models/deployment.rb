@@ -54,7 +54,7 @@ class Deployment < ActiveRecord::Base
            :order => "permissions.id ASC"
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
 
-  has_many :events, :as => :source
+  has_many :events, :as => :source, :dependent => :destroy
 
   has_many :provider_accounts, :through => :instances
 
@@ -198,109 +198,41 @@ class Deployment < ActiveRecord::Base
     # then, find a single provider account where all instances can launch
     # then, if a config server is being used
     #   then generate the instance configs for each instance,
-    #   then send the instance configs to the config server,
     # finally, launch the instances
     #
     # TODO: need to be able to handle deployable-level errors
     #
     status = { :errors => {}, :successes => {} }
-    assembly_instances = {}
-    deployable_xml.assemblies.each do |assembly|
-      begin
-        hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
-        raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
-        Instance.transaction do
-          instance = Instance.create!(
-            :deployment => self,
-            :name => "#{name}/#{assembly.name}",
-            :frontend_realm => frontend_realm,
-            :pool => pool,
-            :image_uuid => assembly.image_id,
-            :image_build_uuid => assembly.image_build,
-            :assembly_xml => assembly.to_s,
-            :state => Instance::STATE_NEW,
-            :owner => user,
-            :hardware_profile => hw_profile
-          )
-          assembly.services.each do |service|
-            service.parameters.each do |parameter|
-              if not parameter.reference?
-                param = InstanceParameter.create!(
-                  :instance => instance,
-                  :service => service.name,
-                  :name => parameter.name,
-                  :type => parameter.type,
-                  :value => parameter.value
-                )
-              end
-            end
-          end
-          assembly_instances[assembly.name] = instance
-        end
-      rescue
-        logger.error $!.message
-        logger.error $!.backtrace.join("\n    ")
-        status[:errors][assembly.name] = $!.message.to_s.split("\n").first
-      end
-    end
+    status[:errors] = create_instances_with_params(user)
+    all_inst_match, account, errors = find_match_with_common_account
 
-    account_matches, errors = common_provider_accounts_for(assembly_instances.values)
-    if account_matches.empty?
+    unless all_inst_match
       status[:errors][name] = errors
+      # set CREATE_FAILED for all newly created instances
+      instances.each {|i| i.update_attribute(:state, Instance::STATE_CREATE_FAILED)}
       return status
     end
-    # grab the account with the best priority that can launch this deployment
-    account = account_matches.keys.sort do |a,b|
-      if a.priority.nil? and b.priority.nil?
-        0
-      elsif a.priority.nil?
-        1
-      elsif b.priority.nil?
-        -1
-      else
-        a.priority <=> b.priority
-      end
-    end.first
-    instances_matches = account_matches[account]
 
     if deployable_xml.requires_config_server?
       # the instance configurations need to be generated from the entire set of
       # instances (and not each individual instance) in order to do parameter
       # dependency resolution across the set
       config_server = account.config_server
-      instance_configs = ConfigServerUtil.instance_configs(self, assembly_instances.values, config_server)
+      instance_configs = ConfigServerUtil.instance_configs(self, instances, config_server)
+    else
+      config_server = nil
+      instance_configs = {}
     end
 
-    assembly_instances.each do |assembly_name, instance|
-      match = instances_matches[instance]
-      config = instance_configs[instance.uuid] if deployable_xml.requires_config_server?
+    instances.each do |instance|
+      match = all_inst_match.find{|m| m.instance.id == instance.id}
       begin
-        if deployable_xml.requires_config_server?
-          instance.user_data = Instance.generate_user_data(instance, config_server)
-          instance.instance_config_xml = config.to_s
-          instance.save!
-        end
-        # create a taskomatic task
-        task = InstanceTask.create!({:user        => user,
-                                     :task_target => instance,
-                                     :action      => InstanceTask::ACTION_CREATE})
-        if deployable_xml.requires_config_server?
-          begin
-            config_server.send_config(config)
-          rescue Errno::ECONNREFUSED
-            raise I18n.t 'deployments.errors.config_server_connection'
-          end
-        end
-        Taskomatic.create_instance(task, match)
-        if task.state == Task::STATE_FAILED
-          status[:errors][assembly_name] = 'failed'
-        else
-          status[:successes][assembly_name] = 'launched'
-        end
+        instance.launch!(match, user, config_server, instance_configs[instance.uuid])
+        status[:successes][instance.name] = 'launched'
       rescue
+        status[:errors][instance.name] = $!.message.to_s.split("\n").first
         logger.error $!.message
         logger.error $!.backtrace.join("\n    ")
-        status[:errors][assembly_name] = $!.message.to_s.split("\n").first
       end
     end
     status
@@ -352,7 +284,6 @@ class Deployment < ActiveRecord::Base
   # if a match is found
   def check_assemblies_matches(user)
     errs = []
-    instances = []
     begin
       deployable_xml.assemblies.each do |assembly|
         hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
@@ -376,8 +307,8 @@ class Deployment < ActiveRecord::Base
         end
       end
 
-      account_matches, errors = common_provider_accounts_for(instances)
-      if account_matches.empty? and not errors.empty?
+      match, account, errors = find_match_with_common_account
+      if match.nil? and not errors.empty?
         raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), errors)
       end
 
@@ -548,55 +479,29 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  # Find the provider accounts where all the given instances can be launched
-  # Returns a tuple of the form:
-  #   [{account => {instance => match, instance => match},
-  #     account => {instance => match, instance => match}},
-  #    errors]
-  def common_provider_accounts_for(instances)
-    matches = nil
+  # Find account (w/ highest priority) where all instances can be launched.
+  # 1. find all matches for each instance
+  # 2. for each account (ordered by priority) try to find match for each
+  # instance
+  def find_match_with_common_account
     errors = []
-    instance_matches = {}
-    instances.each do |instance|
+    all_matches = instances.map do |instance|
       m, e = instance.matches
-      instance_matches[instance] = m if m and not m.empty?
-      errors << e
+      errors = e.map {|e| "#{instance.name}: #{e}"}
+      m
     end
-    # this series of map-reductions takes the input:
-    #   instance_matches
-    #     {i1 => [m1, m2, m3], i2 => [m4, m5, m6]}
-    # and translates it into the form:
-    #     {a1 => {i1 => m1, i2 => m4},
-    #      a2 => {i1 => m2, i2 => m5},
-    #      a3 => {i1 => m3, i2 => m6}}
-    # where iN is an instance, mN is a match, and aN is an account
-    account_matches = instance_matches.map do |instance, matches|
-      matches.map do |match|
-        {match.provider_account => {instance => match}}
-      end.reduce :merge
-    end.reduce do |account_map, instance_map|
-      account_map.merge!(instance_map) do |key, v1, v2|
-        v1.merge(v2)
+    pool.pool_family.provider_accounts.ascending_by_priority.each do |account|
+      matches_by_account = all_matches.map do |m|
+        m.find {|m| m.provider_account.id == account.id}
       end
-    end || []
-
-    # reject any accounts that cannot launch the entire deployment
-    account_matches.reject! do |account, instance_map|
-      # implies that one or more instance does not have a corresponding image
-      # pushed to this account
-      rejected = instance_map.size < instances.size
-
-      # also check that the account's quota can handle all the instances
-      if not rejected
-        if not account.quota.can_start? instances
-          errors << I18n.t('instances.errors.provider_account_quota_too_low', :match_provider_account => account.name)
-          rejected = true
-        end
+      next if matches_by_account.include?(nil)
+      unless account.quota.can_start? instances
+        errors << I18n.t('instances.errors.provider_account_quota_too_low', :match_provider_account => account)
+        next
       end
-      rejected
-    end if not account_matches.empty?
-
-    [account_matches, errors]
+      return [matches_by_account, account, errors] unless matches_by_account.include?(nil)
+    end
+    [nil, nil, errors]
   end
 
   def generate_uuid
@@ -611,4 +516,46 @@ class Deployment < ActiveRecord::Base
     self[:pool_family_id] = pool.pool_family_id
   end
 
+  def create_instances_with_params(user)
+    errors = {}
+    deployable_xml.assemblies.each do |assembly|
+      begin
+        hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
+        raise "Hardware Profile #{assembly.hwp} not found." unless hw_profile
+        Instance.transaction do
+          instance = Instance.create!(
+            :deployment => self,
+            :name => "#{name}/#{assembly.name}",
+            :frontend_realm => frontend_realm,
+            :pool => pool,
+            :image_uuid => assembly.image_id,
+            :image_build_uuid => assembly.image_build,
+            :assembly_xml => assembly.to_s,
+            :state => Instance::STATE_NEW,
+            :owner => user,
+            :hardware_profile => hw_profile
+          )
+          assembly.services.each do |service|
+            service.parameters.each do |parameter|
+              if not parameter.reference?
+                param = InstanceParameter.create!(
+                  :instance => instance,
+                  :service => service.name,
+                  :name => parameter.name,
+                  :type => parameter.type,
+                  :value => parameter.value
+                )
+              end
+            end
+          end
+          self.instances << instance
+        end
+      rescue
+        logger.error $!.message
+        logger.error $!.backtrace.join("\n    ")
+        errors[assembly.name] = $!.message.to_s.split("\n").first
+      end
+    end
+    errors
+  end
 end
