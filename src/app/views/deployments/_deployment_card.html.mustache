@@ -1,0 +1,33 @@
+<li class="deployment">
+  <h3 class="name">
+    <%= link_to('{{name}}', '{{path}}') %>
+  </h3>
+  <span title="{{translated_state}}" class="status {{status}}">alma</span>
+  <dl class="statistics">
+    <ul>
+      <li class="uptime">
+        <dt class="uptime"><%= t('uptime') %></dt>
+        <dd>{{uptime}}</dd>
+      </li>
+      <li class="instances">
+        <dt class="instances count"><%= t('instances.instances.other') %></dt>
+        <dd>
+          {{instances_count}}
+          <span class="inline-label">{{instances_count_text}}</span>
+        </dd>
+      </li>
+      <li class="provider">
+        <dt class="instances count"><%= t('providers.provider') %></dt>
+        <dd>
+          <p class="provider">
+            {{#provider}}
+              {{#provider_type}}
+                {{name}}
+              {{/provider_type}}
+            {{/provider}}
+          </p>
+        </dd>
+      </li>
+    </ul>
+  </dl>
+</li>

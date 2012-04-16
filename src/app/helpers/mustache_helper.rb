@@ -35,4 +35,21 @@ module MustacheHelper
     }
   end
 
+  def deployment_for_mustache(deployment)
+    {
+      :name                 => deployment.name,
+      :path                 => deployment_path(deployment),
+      :status               => deployment.status,
+      :translated_state     => I18n.t("deployments.status.#{deployment.status}"),
+      :uptime               => count_uptime(deployment.uptime_1st_instance),
+      :instances_count      => deployment.instances.count,
+      :instances_count_text => I18n.t('instances.instances', :count => deployment.instances.count.to_i),
+      :provider => {
+        :provider_type => {
+            :name => deployment.provider.present? ? deployment.provider.provider_type.name : nil,
+          }
+      }
+    }
+  end
+
 end
