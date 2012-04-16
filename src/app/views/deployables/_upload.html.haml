@@ -1,29 +1,34 @@
-= form_for @deployable, :url => polymorphic_path([@catalog, Deployable]), :html => {:class => 'generic', :multipart => true } do |form|
+= form_for @deployable, :url => polymorphic_path([@catalog, Deployable]), :html => {:class => 'generic horizontal', :multipart => true } do |form|
   - if @deployable.errors.any?
     = render 'layouts/error_messages', :object => @deployable
   %fieldset
     = hidden_field_tag('form_option', @form_option)
-    %p.clearfix
+    .field
       = label_tag :catalog_id, t('deployables.form.catalog')
-      %span.text_instead_input
-        -if @catalog.present?
-          =@catalog.name
-        - else
-          %em=t('deployables.new.no_catalog_selected')
-    %p.clearfix
-      = form.label :name
-      = form.text_field :name, :class => 'em long'
-    %p.clearfix
+      .input
+        %span.text_instead_input
+          -if @catalog.present?
+            =@catalog.name
+          - else
+            %em=t('deployables.new.no_catalog_selected')
+    .field
+      = form.label :name, :class => 'em'
+      .input
+        = form.text_field :name, :class => 'em long'
+    .field
       = form.label :description
-      = form.text_area :description, :class => 'long'
-    %p.clearfix
+      .input
+        = form.text_area :description, :class => 'long'
+    .field
       = form.label :xml, t('deployables.form.choose_xml')
-      = form.file_field :xml
-    %p.clearfix
-      = label_tag :edit_xml, t('deployables.form.edit_xml_after_save')
-      = check_box_tag(:edit_xml, true, false)
+      .input
+        = form.file_field :xml
+    .field
+      = label_tag :edit_xml, t('deployables.form.edit_xml_after_save'), :class => 'checkbox'
+      .input
+        = check_box_tag(:edit_xml, true, false)
 
-  %fieldset.align-center
+  %fieldset.options
     -if @catalog.present?
       = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
     -else

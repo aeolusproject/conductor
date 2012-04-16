@@ -1,11 +1,11 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1{:class => controller.controller_name}= @deployable.name
+%header.page-header
+  %h1.catalog_entries= @deployable.name
 
-%section.admin-content-section.user
+%section.content-section.user
   %header
     %h2=t'catalog_entries.edit.editing_catalog_entry'
 
   .content
-    = form_for @deployable, :url => polymorphic_path([@catalog, @deployable]), :html => { :method => :put, :class => 'generic' } do |f|
+    = form_for @deployable, :url => polymorphic_path([@catalog, @deployable]), :html => { :method => :put, :class => params[:edit_xml] ? "generic" : "generic horizontal" } do |f|
       = render :partial => "form", :locals => { :form => f }

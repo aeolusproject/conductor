@@ -1,8 +1,6 @@
 = render :partial => 'layouts/nav_history'
 %header.page-header
-  %h1.deployments
-    = @instance.name
-  .corner &nbsp;
+  %h1.deployments= @instance.name
 
 %section.content-section
   %header#tab-container-1

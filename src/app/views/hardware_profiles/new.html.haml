@@ -1,14 +1,13 @@
 = render :partial => 'layouts/admin_nav'
 
-%header.admin-page-header
-  %header
-  %h1= @title
+%header.page-header
   #obj_actions
     .return_to
       = t'return_to'
       = link_to t('hardware_profiles.hardware_profiles'), hardware_profiles_path
+  %h1.hardware_profiles= @title
 
-%section.admin-content-section
+%section.content-section
   = form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true } do |hwp_form|
     = render :partial => "form", :locals => { :hwp_form => hwp_form }
 

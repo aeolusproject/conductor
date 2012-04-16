@@ -1,24 +1,30 @@
 - if @provider.errors.any?
   = render 'layouts/error_messages', :object => @provider
 %fieldset
-  %p.clearfix
-    = form.label :name
-    = form.text_field :name, :value => @provider.name, :class => 'long'
-  %p.clearfix
+  .field
+    = form.label :name, :class => 'em'
+    .input
+      = form.text_field :name, :value => @provider.name, :class => 'em long'
+  .field
     = form.label :url
-    = form.text_field :url, :value => @provider.url, :class => 'long'
-  %p.clearfix
+    .input
+      = form.text_field :url, :value => @provider.url, :class => 'long'
+  .field
     = form.label :provider_type_id
-    = form.select(:provider_type_id, @provider_type_options, :prompt => t('providers.form.select_type_of_provider'))
-  %p.clearfix
+    .input
+      = form.select(:provider_type_id, @provider_type_options, :prompt => t('providers.form.select_type_of_provider'))
+  .field
     = form.label :deltacloud_provider, t('providers.form.x_deltacloud_provider.generic')
-    = form.text_field :deltacloud_provider, :title => t('providers.form.x_deltacloud_provider.generic'), :value => @provider.deltacloud_provider, :class => 'long'
-  %div#x-deltacloud-provider-legend.clearfix
+    .input
+      = form.text_field :deltacloud_provider, :title => t('providers.form.x_deltacloud_provider.generic'), :value => @provider.deltacloud_provider
+  .field#x-deltacloud-provider-legend
     %label= t('providers.form.x_deltacloud_provider_legend')
-    %dl
-      - @labeled_provider_types.each do |type|
-        %dt= type[:name]
-        %dd{ :class => type[:id] }= type[:label]
+    .input
+      %span.text_instead_input
+        %dl
+          - @labeled_provider_types.each do |type|
+            %dt= type[:name]
+            %dd{ :class => type[:id] }= type[:label]
 :javascript
   function updateXDeltacloudProviderLabel() {
     var selected_id = $('#provider_provider_type_id option:selected').val();

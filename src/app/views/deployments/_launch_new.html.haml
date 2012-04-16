@@ -1,12 +1,11 @@
 = if request.xhr?
   = render :partial => '/layouts/new_notification'
 %header.page-header
+  #obj_actions.button-container
+    = link_to t('cancel'), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
   %h1.deployments
     = @title
     %span= t('deployments.launch_new.to_pool', :name => "#{@pool.name.capitalize}")
-  #obj_actions.button-container
-    = link_to t('cancel'), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
-  .corner &nbsp;
 
 %section.content-section.deployment
   %header
@@ -19,7 +18,7 @@
         = render 'layouts/error_messages', :object => @deployment
       = hidden_field :deployment, :pool_id
       %fieldset
-        %p
+        .field
           %label{:for => 'deployment_name'}
             = t 'deployments.deployment_name'
             %span
@@ -28,13 +27,13 @@
           %span#name_avail_indicator
 
       %fieldset
-        %p
+        .field
           %label{:for => 'deployable_id'}
             = t('catalog_entries.index.deployable')
           = select_tag :deployable_id, options_for_select(@deployables.map {|d| [d.name, d.id]}, params[:deployable_id])
 
       %fieldset
-        %p
+        .field
           %label{:for => 'frontend_realm_id'}
             = t('realms.index.realm')
           = select :deployment, :frontend_realm_id, @realm_choices

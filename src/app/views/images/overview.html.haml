@@ -1,12 +1,12 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1.images= @name
+%header.page-header
   #obj_actions.button-container
     .return_to
       = t :return_to
       = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment)
+  %h1.no-icon= @name
 
-%section.admin-content-section
+%section.content-section
   .content
     = form_tag(images_path, {:method => :post}) do
       = hidden_field_tag :environment, @environment.id

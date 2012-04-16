@@ -1,12 +1,12 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1= @title
+%header.page-header
   #obj_actions
     .return_to
       = t("return_to")
       = link_to t("pool_families.new.environments"), pool_families_path
+  %h1.pool_families= @title
 
-%section.admin-content-section.pool_family
+%section.content-section.pool_family
   .content
-    = form_for @pool_family, :url => pool_families_path, :html => {:class => 'generic'} do |f|
+    = form_for @pool_family, :url => pool_families_path, :html => {:class => 'generic horizontal'} do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => pool_families_path }

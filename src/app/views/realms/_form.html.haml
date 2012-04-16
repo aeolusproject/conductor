@@ -1,12 +1,14 @@
 - if @realm.errors.any?
   = render 'layouts/error_messages', :object => @realm
 %fieldset
-  %p.clearfix
-    = form.label :name
-    = form.text_field :name, :title => 'realm_name', :value => @realm.name, :class => 'em long'
-  %p.clearfix
+  .field
+    = form.label :name, :class => 'em'
+    .input
+      = form.text_field :name, :title => 'realm_name', :value => @realm.name, :class => 'em long'
+  .field
     = form.label :description
-    = form.text_area :description, :title => 'description', :value => @realm.description
+    .input
+      = form.text_area :description, :title => 'description', :value => @realm.description, :class => 'long'
 
 %fieldset.options
-  = form.submit t('save'), :class => "submit button pill"
+  = form.submit t('save'), :class => "submit button"

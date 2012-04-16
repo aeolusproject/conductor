@@ -1,6 +1,5 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1{:class => controller.controller_name}= @title
+%header.page-header
   #obj_actions.button-container
     - if check_privilege(Privilege::CREATE, Catalog)
       = link_to t('catalogs.new_catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
@@ -8,15 +7,16 @@
       - if check_privilege(Privilege::MODIFY, @catalog)
         = link_to t('edit'), edit_catalog_path(@catalog), :class => 'button pill', :id => 'edit_button'
         = button_to t("delete"), catalog_path(@catalog), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete'
+  %h1.no-icon= @title
 
-%section.admin-content-section.user
+%section.content-section.user
   %header
     %h2=t'properties'
 
   .content
     = render :partial => 'properties'
 
-%section.admin-content-section.catalog_entries
+%section.content-section.catalog_entries
   %header
     %h2=t('catalog_entries.index.catalog_entries')
 

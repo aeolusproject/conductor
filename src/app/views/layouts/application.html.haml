@@ -42,30 +42,24 @@
     = javascript_include_tag "lib/modernizr-custom.js"
     = csrf_meta_tag
     = yield :scripts
-  %body{:class => "#{(["pools" ,"deployments", "instances"].include? controller_name) ? 'monitor' : 'administer'}" }
-    #primary-container
+  %body
+    %header.shell-design
+      %article
+        %h1
+          = t("layout.appname")
+        %nav#appnav
+          = render_navigation :level => 1
+        / Notifications and user dropdown -- disable notifications for now
+        %section#usermenu
+          %a{:href => '#'}= current_user.name
+          %ul
+            %li= link_to t('masthead.my_account'), account_path
+            %li= link_to t('masthead.logout'), logout_path
 
-      %header.shell-design
-        %article
-          %h1
-            = t("layout.appname")
-          %nav#appnav
-            =render_navigation :level => 1
-          / Notifications and user dropdown -- disable notifications for now
-          %section#usermenu
-            %a{:href => '#'}= current_user.name
-            %ul
-              %li= link_to t('masthead.my_account'), account_path
-              %li= link_to t('masthead.logout'), logout_path
-
-      #content
-        = render :partial => '/layouts/new_notification' if flash.present? or content_for?(:error_messages)
-        -# works with any 960 container (.container_16 or .container_24)
-        = yield
-        .clear
-      .clearfooter
+    #content
+      = render :partial => '/layouts/new_notification' if flash.present? or content_for?(:error_messages)
+      = yield
+      .clear
     %footer.standard
       .container
-        #legal
-          %nav.footer
-            %span.copyright!= t('layout.copyright')
+        %span.copyright!= t('layout.copyright')

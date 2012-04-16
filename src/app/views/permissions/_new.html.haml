@@ -1,11 +1,11 @@
-%header.admin-page-header
-  %h1{:class => controller.controller_name}= @title
+%header.page-header
   #obj_actions.button-group
     .return_to
       = t'return_to'
       = link_to @return_text, @return_path, :id => 'new_pool_button'
+  %h1.no-icon= @title
 
-%section.admin-content-section.pools
+%section.content-section.pools
   .align-center
     %strong= @summary_text
   .content

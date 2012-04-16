@@ -1,26 +1,29 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1.images= t('.import_image')
+%header.page-header
   #obj_actions.button-container
     .return_to
       = t :return_to
       = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment)
+  %h1.no-icon= t('.import_image')
 
-%section.admin-content-section.image-import
+%section.content-section
 
-  %section#image-file-form
-    = form_tag(import_images_path, { :multipart => true, :method => :post, :class => :generic }) do
+  .content
+    = form_tag(import_images_path, { :multipart => true, :method => :post, :class => 'generic horizontal' }) do
       = hidden_field_tag :environment, @environment.id
       %fieldset
-        %p.clearfix
+        .field
           = label_tag :provider_account, t('.provider_account')
-          = select_tag :provider_account, options_for_select(@accounts.collect{|x| [x.label, x.id]})
-        %p.clearfix
+          .input
+            = select_tag :provider_account, options_for_select(@accounts.collect{|x| [x.label, x.id]})
+        .field
           = label_tag :image_id, t('.image_id')
-          = text_field_tag :image_id
-        %p.clearfix
+          .input
+            = text_field_tag :image_id
+        .field
           = label_tag :name, t('.name')
-          = text_field_tag :name
+          .input
+            = text_field_tag :name
 
-      .buttons.container
+      %fieldset.options
         = submit_tag t(:continue), :id => "file_button", :class => "button primary", :disabled => !@accounts.any?

@@ -1,6 +1,5 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1{:class => controller.controller_name}= @image.imported? ? @image.name + " (Imported)" : @image.name
+%header.page-header
   #obj_actions.button-container.images
     .return_to
       =t'return_to'
@@ -11,9 +10,10 @@
         - unless @image.imported?
           = link_to t('.template_xml'), template_image_path(@image.uuid), :class => 'button pill'
         = button_to t("delete"), image_path(@image.id), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete'
+  %h1.no-icon= @image.imported? ? @image.name + " (Imported)" : @image.name
 
 - user_can_build = (@environment and check_privilege(Privilege::USE, @environment))
-%section.admin-content-section
+%section.content-section
   %header
     %h2=t'properties'
   .content
@@ -22,7 +22,7 @@
         %tr
           %td= t('images.environment', :environment => @image.environment)
 
-%section.admin-content-section
+%section.content-section
   %header
     %h2= t('.provider_images')
     .section-controls

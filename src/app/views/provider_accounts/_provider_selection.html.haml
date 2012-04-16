@@ -1,14 +1,16 @@
 %fieldset#provider_type
-  %p.clearfix
+  .field
     = label_tag :provider_name, t(".provider_name")
-    %span.text_instead_input= @provider.name
-  %p.clearfix
+    .input
+      %span.text_instead_input= @provider.name
+  .field
     = label_tag t('.cloud_type')
-    %span.text_instead_input= @provider.provider_type.name
-    - unless @provider.provider_type.deltacloud_driver.nil?
-      = render :partial => "provider_form", :locals => { :provider_type => @provider.provider_type}
-    - else
-      = flash.now[:warning] = t('provider_accounts.flash.warning.no_provider')
+    .input
+      %span.text_instead_input= @provider.provider_type.name
+  - unless @provider.provider_type.deltacloud_driver.nil?
+    = render :partial => "provider_form", :locals => { :provider_type => @provider.provider_type}
+  - else
+    = flash.now[:warning] = t('provider_accounts.flash.warning.no_provider')
 
 :javascript
   $(document).ready(function(){

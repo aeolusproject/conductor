@@ -1,12 +1,12 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1.images= t('.new_image')
+%header.page-header
   #obj_actions.button-container
     .return_to
       = t(:return_to)
       = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment)
+  %h1.no-icon= t('.new_image')
 
-%section.admin-content-section
+%section.content-section
   .content
     .centered
       %p.description.align-center
@@ -21,36 +21,42 @@
       .clear
 
       %section#image-file-form
-        = form_tag(edit_xml_images_path, { :multipart => true, :class => 'generic' }) do
+        = form_tag(edit_xml_images_path, { :multipart => true, :class => 'generic horizontal' }) do
           = hidden_field_tag :environment, @environment.id
           %fieldset
-            %p.clearfix
-              = label_tag :name, t('.name')
-              = text_field_tag :name, @name
-            %p.clearfix
+            .field
+              = label_tag :name, t('.name'), :class => 'em'
+              .input
+                = text_field_tag :name, @name, :class => 'em'
+            .field
               = label_tag :image_file, t('.choose_file')
-              = file_field_tag :image_file
-            %p.clearfix
-              = label_tag :edit, t('.edit_file')
-              = check_box_tag :edit, 1, true
+              .input
+                = file_field_tag :image_file
+            .field
+              = label_tag :edit, t('.edit_file'), :class => 'checkbox'
+              .input
+                = check_box_tag :edit, 1, true
 
           %fieldset.align-center
             = link_to t(:cancel), pool_families_path, :class => "button danger"
             = submit_tag t(:continue), :id => "file_button", :class => "button primary"
 
       %section#image-url-form
-        = form_tag(edit_xml_images_path, { :multipart => true, :class => 'generic' }) do
+        = form_tag(edit_xml_images_path, { :multipart => true, :class => 'generic horizontal' }) do
           = hidden_field_tag :environment, @environment.id
           %fieldset
-            %p.clearfix
-              = label_tag :name, t('.name')
-              = text_field_tag :name, @name
-            %p.clearfix
+            .field
+              = label_tag :name, t('.name'), :class => 'em'
+              .input
+                = text_field_tag :name, @name, :class => 'em'
+            .field
               = label_tag :image_url, t('.image_url')
-              = text_field_tag :image_url, params[:image_url]
-            %p.clearfix
-              = label_tag :edit, t('.edit_file')
-              = check_box_tag :edit, 1, true
+              .input
+                = text_field_tag :image_url, params[:image_url]
+            .field
+              = label_tag :edit, t('.edit_file'), :class => 'checkbox'
+              .input
+                = check_box_tag :edit, 1, true
 
           %fieldset.align-center
             = link_to t(:cancel), pool_families_path, :class => "button danger"

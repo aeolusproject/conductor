@@ -132,11 +132,6 @@ xmp {
 
 h1,h2,h3,h4,h5,h6{ word-wrap: break-word; }
 
-html,
-body {
-  height: 100%;
-}
-
 article,
 aside,
 details,
@@ -269,8 +264,6 @@ $font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 
 /* body */
 
-html, body{ height: 100%; }
-
 body{
   background: url('../../images/body-bg.png');
   font-family: $font-family-base;
@@ -286,36 +279,24 @@ strong, em, b, i{ font-family: $font-family-em; }
 
 /* Content */
 
-$monitorcontentpadding: 7px;
-$administercontentpadding: 0px 0px 0px 0px;
-
-body.monitor div#content{
-  width: $width - (2 * $monitorcontentpadding);
-  padding: $monitorcontentpadding;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.50);
-  -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
-  -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
-}
-body.administer div#content{
-  width: $width;
-  padding: $administercontentpadding;
-}
-
 div#content{
+  width: $width;
   margin: 0 auto;
   margin-bottom: 58px;
   min-height: 200px;
-  -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+  border: 1px solid #eee;
+  border-top: transparent none 0px;
+  /*border-radius*/
+  -webkit-border-radius: 0em 0em .5em .5em;
+  -moz-border-radius: 0em 0em .5em .5em;
+  border-radius: 0em 0em .5em .5em;
   background-color: #FAFAFA;
-  border: 1px solid #999;
   position: relative;
   z-index: 100;
-
-  div.header{
-    background-color: #ccc;
-    height: 60px;
-  }
-
+  /*box-shadow*/
+  -webkit-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
+  -moz-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
+  box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -884,113 +865,6 @@ $font-family-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-App Masthead -- v.0.0.2 [masthead] (masthead.scss)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-header#masthead{
-  height: 49px;
-  background-color: #E7E7E7;
-  background: url('../../images/masthead-bg.png') repeat-x;
-  position: relative;
-
-  img#logo{
-    position: absolute;
-    top: 8px;
-  }
-
-  div.container{
-    margin: 0 auto;
-    width: 960px;
-  }
-
-  nav#system{
-    float:right;
-    margin-top: 8px;
-    & > ul{
-      list-style: none;
-      & > li{ @include display_inline_block; vertical-align: middle; }
-      & > li{ margin-left: 8px; }
-      & > li.separator{
-        background: url('../../images/masthead-nav-separator.gif') no-repeat left top;
-        padding: 8px 1px 8px 1px;
-      }
-    }
-  }
-
-}
-
-
-section#usermenu{
-  border: 1px solid #ccc;
-  background: #e7e7e7 url('../../images/button-userdrop.png') no-repeat center 4px;
-  width: 46px;
-  left: 8px;
-  margin: 0px 8px 0px 0px;
-  color: transparent;
-  font-size: 12px; /* match the font-size of the query box, for proper valign */
-  padding: 5px 2px 5px 2px;
-  -webkit-border-radius: 50em;
-  -moz-border-radius: 50em;
-  border-radius: 50em;
-  position: relative;
-  z-index: 3;
-  cursor: pointer;
-  &:hover{
-    border-bottom: none;
-    -webkit-border-radius: 1em 1em 0px 0px;
-    -moz-border-radius: 1em 1em 0px 0px;
-    border-radius: 1em 1em 0px 0px;
-    height: 16px;
-    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
-    -moz-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
-    -webkit-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
-
-    ul#user-menu{ display: block !important; }
-  }
-}
-
-
-ul#user-menu {
-  position: absolute;
-  /*display: none;*/
-  top: 26px;
-  right: -1px;
-  width: 130px;
-  background: #e7e7e7;
-  //padding: 8px 12px;
-  -webkit-border-radius: 7px 0px 7px 7px;
-  -moz-border-radius: 7px 0px 7px 7px;
-  border-radius: 7px 0px 7px 7px;
-  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
-  -moz-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
-  -webkit-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
-  li{
-    list-style-type: none;
-    width: 100%;
-    a{
-      padding: 7px 10px;
-      display: block;
-      text-decoration: none;
-    }
-    &:hover{
-      background:#C4E0F0;
-      &:first-child{ -webkit-border-radius: 4px 0px 0px 0px; -moz-border-radius: 4px 0px 0px 0px; border-radius: 4px 0px 0px 0px; }
-      &:last-child{ -webkit-border-radius: 0px 0px 4px 4px; -moz-border-radius: 0px 0px 4px 4px; border-radius: 0px 0px 4px 4px; }
-      &:only-child{ -webkit-border-radius: 4px 0px 4px 4px; -moz-border-radius: 4px 0px 4px 4px; border-radius: 4px 0px 4px 4px; }
-    }
-  }
-  &:before{
-    content: "";
-    position: absolute;
-    top: -1px;
-    right: 0px;
-    width: 50px;
-    height: 1px;
-    background: #e5e5e5;
-  }
-}
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Alert Flash -- v.0.0.1 [flash] (flash.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -1046,88 +920,19 @@ Alert Flash -- v.0.0.1 [flash] (flash.scss)
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Primary Tab Navigation -- v.0.0.2 [nav_primary] (nav_primary.scss)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-/* Primary Nav */
-$font-family-nav-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-
-
-nav#primary {
-  margin-top: 22px;
-
-  ul.container{
-    width: 950px;
-    margin: 0 auto;
-    list-style: none;
-    padding-left: 24px;
-    height: 34px;
-    li{
-      position: relative;
-      @include display_inline_block;
-      background: url('../../images/tab-inactive-right.png') no-repeat right top;
-      height: 34px;
-      margin-right: 6px;
-      z-index: 1;
-      &.selected{
-        z-index: 1000;
-        height: 43px;
-        a{
-          padding: 12px 20px 12px 20px;
-          font-size: 16px;
-          color: #666;
-        }
-      }
-      &.selected.monitor{
-        margin-top: -5px;
-        background: url('../../images/tab-active-right.png') no-repeat right top;
-        a{
-          background:url('../../images/tab-active-left.png') no-repeat left top;
-        }
-      }
-      &.selected.administer{
-        margin-top: -6px;
-        background: url('../../images/administer-tab-active-right.png') no-repeat right top;
-        a{
-          background:url('../../images/administer-tab-active-left.png') no-repeat left top;
-        }
-      }
-
-      a{
-        display: block;
-        background:url('../../images/tab-inactive-left.png') no-repeat left top;
-        padding: 10px 16px 14px 16px;
-        margin-left: -11px;
-        font-family: $font-family-nav-primary;
-        font-size: 12px;
-        letter-spacing: 1px;
-        font-weight: normal;
-        text-transform: uppercase;
-        text-decoration: none;
-        font-weight: bold;
-        color: #fff;
-      }
-    }
-    li + li{
-      margin-right: 6px;
-    }
-  }
-}
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Administer section navigation-- v.0.0.2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 nav#administer_nav {
-  background: transparent url(../../images/administer_nav_bg.png) left bottom repeat-x;
-  -webkit-border-radius: 7px 7px 0px 0px;
-  -moz-border-radius: 7px 7px 0px 0px;
-  border-radius: 7px 7px 0px 0px;
-  padding-top: 7px;
-  min-height: 71px;
+  background-color: #ddd;
+  height: 6.5em;
   position: relative;
   z-index: 3;
   text-align: center;
+  /*box-shadow*/
+  -webkit-box-shadow: inset 0em -1em 2em rgba(0, 0, 0, 0.05), 1px 1px 0px #cccccc, -1px 1px 0px #cccccc;
+  -moz-box-shadow: inset 0em -1em 2em rgba(0, 0, 0, 0.05), 1px 1px 0px #cccccc, -1px 1px 0px #cccccc;
+  box-shadow: inset 0em -1em 2em rgba(0, 0, 0, 0.05), 1px 1px 0px #cccccc, -1px 1px 0px #cccccc;
 
   ul{
     margin: 0 auto;
@@ -1153,7 +958,8 @@ nav#administer_nav {
       text-decoration: none;
       display: block;
       color: black;
-      padding: 45px 10px 12px 10px;
+      padding: 4em 2em 2em 2em;
+      cursor: pointer;
       position: relative;
       background: transparent url("../../images/admin_nav_icons.png") no-repeat;
       &.users{
@@ -1195,26 +1001,29 @@ div#content .page-header{
 
   display: block;
   background: #ccc;
-  height: 56px;
-  width: 952px;
+  width: $width - 12px;
   padding: 6px;
   position: relative;
-  z-index: 900;
-  background: transparent url('../../images/header_bg.png') repeat-x top center;
+  background: #ddd;
+  @include clearfix;
 
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.40);
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.40);
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.40);
+  /*box-shadow*/
+  -webkit-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
+  /*border-radius*/
+  -webkit-border-radius: 0em;
+  -moz-border-radius: 0em;
+  border-radius: 0em;
 
   h1{
-    font-family: $font-family-primary;
-    font-weight: 200;
+    font-family: overpass;
     font-size: 25px;
-    margin-top: 6px;
+    line-height: 38px;
+    font-weight: normal;
     color: #333;
-    text-shadow: 1px 1px 0 #fff;
-    @include display_inline_block;
-    padding: 6px 7px 7px 54px;
+    text-shadow: 0px 1px #eee;
+    padding: 7px 7px 7px 54px;
   }
 
   h1 span{
@@ -1227,7 +1036,6 @@ div#content .page-header{
 
   h1.pools{
     background: transparent url('../../images/header_icon_pools.png') no-repeat 8px center;
-    cursor: pointer;
   }
 
   h1.section-index{
@@ -1278,89 +1086,8 @@ div#content .page-header{
   }
 
   #obj_actions{
-    position: absolute;
-    right: 0px;
-    top: 22px;
-    @include display_inline_block;
-    margin-right: 24px;
-  }
-
-  .corner{
-    background: transparent url('../../images/header_corner.png') no-repeat top center;
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    right: 0px;
-    bottom: -10px;
-    z-index: 1;
-  }
-
-  .button{
-    border-color: #fff;
-  }
-
-}
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Administer Page Header -- v.0.0.1
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-header.admin-page-header{
-  background: #e7e7e7; /* Old browsers */
-  background: -moz-linear-gradient(top, #e7e7e7 0%, #dadada 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e7e7e7), color-stop(100%,#dadada)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* Opera11.10+ */
-  background: -ms-linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* IE10+ */
-  background: linear-gradient(top, #e7e7e7 0%,#dadada 100%); /* W3C */
-
-  border-bottom: 1px solid #C4C4C4;
-  margin: -7px 0px 0px 0px;
-  padding: 7px 15px 6px 6px;
-  position: relative;
-  z-index: 2;
-
-  min-height: 50px;
-
-  h1{
-    font-family: $font-family-primary;
-    font-weight: 200;
-    font-size: 25px;
-    margin-top: 6px;
-    color: #333;
-    text-shadow: 1px 1px 0 #fff;
-    @include display_inline_block;
-    padding: 6px 7px 7px 7px;
-    width: 490px; /* Otherwise we overlap with other components */
-
-    &.disabled{color: #c4c4c4;}
-
-    &.users{
-      padding-left: 54px;
-      background: transparent url('../../images/admin_h1_icons.png') 7px 7px no-repeat;
-    }
-    &.groups{
-      padding-left: 54px;
-      background: transparent url('../../images/admin_h1_icons.png') 7px -34px no-repeat;
-    }
-    &.images{
-      padding-left: 54px;
-      position: relative;
-      &:before{ content: ''; position: absolute; left: 12px; width: 27px; height: 100%; background: transparent url('../../images/buildpush_symbols.png') 0px 0px no-repeat; }
-      width: 350px;
-    }
-  }
-
-  #obj_actions{
-    position: absolute;
-    right: 0px;
-    top: 22px;
-    @include display_inline_block;
-    margin-right: 24px;
-  }
-
-  .button{
-    border-color: #fff;
+    float: right;
+    margin: 13px 7px 12px 24px;
   }
 
   div.return_to{
@@ -1378,14 +1105,12 @@ header.admin-page-header{
     }
   }
 
-
   ul#provider_select{
     @include display_inline_block;
     list-style-type: none;
     position: relative;
     & > li{
-      height: 30px;
-      padding: 0px 15px 0px 0px;
+      padding: 0px 15px 15px 0px;
       margin: 0px 15px 0px 10px;
       background: transparent url('../../images/admin_header_provider_select.png') right 1px no-repeat;
       & > a{
@@ -1454,7 +1179,7 @@ Breadcrumb Navigation -- v.0.0.2 [nav_hist_bar] (nav_hist_bar.scss)
 nav#nav_history{
 
   display: block;
-  margin: 6px 0px 12px 0px;
+  padding: 6px 10px;
 
   ol.nav_hist_bar{
 
@@ -1490,11 +1215,24 @@ $dd_padding: 10px;
 $dd_icon_padding_right: 4px;
 
 #scoreboard{
-
-  background-color: #efefef;
-  @include display_inline_block;
-  padding: 8px $dd_padding 10px $dd_padding;
-  height: 40px;
+  font-family: overpass;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 7em;
+  width: 100%;
+  padding: 2em 1em 1em 1em;
+  background-color: #f6f6f6;
+  /*box-shadow*/
+  -webkit-box-shadow: inset 0em .06em 1em #ddd;
+  -moz-box-shadow: inset 0em .06em 1em #ddd;
+  box-shadow: inset 0em .06em 1em #ddd;
+  /*border-radius*/
+  -webkit-border-radius: 0em 0em .5em .5em;
+  -moz-border-radius: 0em 0em .5em .5em;
+  border-radius: 0em 0em .5em .5em;
 
   /* statistic group list */
   ul.groups{ list-style: none; }
@@ -1504,9 +1242,8 @@ $dd_icon_padding_right: 4px;
     margin: 0px;
   }
   ul.groups > li + li{
-    background: transparent url('../../images/sb_separator.png') repeat-y 0px 0px;
-    padding-left: 2px;
-    margin-left: -6px;
+    padding: 0em 1em;
+    border-left: .1em dotted #ddd;
   }
 
   /* statistic sub-group list */
@@ -1601,85 +1338,11 @@ $font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helve
 $font-family-em: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 $font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 
-
 section.content-section{
-  padding: 4px;
-  margin-bottom: 36px;
-
-  /* Header code */
-  header{
-    background: transparent url('../../images/section-border.png') repeat-x bottom left;
-    position: relative;
-    h2{
-      font-family: $font-family-primary;
-      font-size: 21px;
-      font-weight: 200;
-      @include display_inline_block;
-      vertical-align: middle;
-      margin-bottom: 4px;
-    }
-    .badge{
-    }
-    .section-controls{
-      position: absolute;
-      right: 0px;
-      bottom: 4px;
-      @include display_inline_block;
-      font-size: 11px;
-
-      a.collapse{
-        text-decoration: none;
-        color: #666;
-      }
-    }
-
-    /* nav */
-    nav.faceted{
-      ul{ list-style: none; font-family: $font-family-primary; }
-      li{
-        @include display_inline_block;
-        margin-bottom: 1px;
-      }
-      li + li{ margin-left: 40px; }
-      a{
-        @include display_inline_block;
-        padding-bottom: 6px;
-        text-decoration: none;
-        color: #666;
-        font-weight: 200;
-        font-size: 16px;
-      }
-      a.active{
-        border-bottom: 4px solid #0084b7;
-        font-weight: bold;
-        color: #000;
-      }
-    }
-  }
-
-  /* Content */
-
-  .content{
-    margin-top: 10px;
-  }
-
-  .content.tight{
-    margin-top: 0px;
-  }
-
-}
-
-header.page-header + section.content-section{margin-top: 36px;}
-#scoreboard + section.content-section{ margin-top: 36px; }
-section.content-section + section.content-section {margin-top: 36px;}
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Administer Content Section Container -- v.0.0.1 [section] (section.scss)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-section.admin-content-section{
   padding: 4px 15px 15px 15px;
   border-bottom: 1px solid #C4C4C4;
+  margin-bottom: 10px;
+  @include clearfix;
 
   background: -moz-linear-gradient(top, rgba(255,255,255,0) 50%, rgba(234,234,234,1) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,rgba(255,255,255,0)), color-stop(100%,rgba(234,234,234,1))); /* Chrome,Safari4+ */
@@ -1698,7 +1361,6 @@ section.admin-content-section{
       font-size: 21px;
       font-weight: 200;
       @include display_inline_block;
-      vertical-align: middle;
       margin-bottom: 4px;
       padding: 2px 40px 0px 0px;
 
@@ -1723,15 +1385,12 @@ section.admin-content-section{
 
       &.alerts{color: #c00000;}
     }
-    .badge{
-      vertical-align: 2px;
-    }
+
     .section-controls{
       position: absolute;
       right: 0px;
       bottom: 4px;
       @include display_inline_block;
-      vertical-align: middle;
       font-size: 11px;
 
       a.collapse{
@@ -1739,28 +1398,30 @@ section.admin-content-section{
         color: #666;
       }
     }
-    nav.faceted{
-      float: right;
-    }
   }
 
   /* nav */
   nav.faceted{
-    ul{ list-style: none; @include display_inline_block; font-family: $font-family-primary; }
-    li{ @include display_inline_block; margin-bottom: 1px; }
+    border-bottom: 1px solid #ccc;
+    ul{ list-style: none; font-family: $font-family-primary; }
+    li{
+      @include display_inline_block;
+    }
     li + li{ margin-left: 40px; }
     a{
       @include display_inline_block;
+      font-family: overpass;
+      font-size: 1.3em;
       padding-bottom: 6px;
       text-decoration: none;
-      color: #666;
-      font-weight: 200;
-      font-size: 16px;
+      color: #aaa;
     }
     a.active{
       border-bottom: 4px solid #0084b7;
-      font-weight: bold;
       color: #000;
+    }
+    a:hover{
+      color: #555;
     }
   }
 
@@ -1770,22 +1431,14 @@ section.admin-content-section{
     margin-top: 10px;
   }
 
-  .content.tight{
-    margin-top: 0px;
-  }
-
   p.description{ margin-bottom: 20px }
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Centered div
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  /* Centered div */
   div.centered{
     width: 600px; margin: 10px auto;
   }
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Left aligned div
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  /* Left aligned div */
   div.lefted{
     padding-right: 380px;
     margin: 0px 50px;
@@ -1803,9 +1456,8 @@ Left aligned div
 
 }
 
-header.admin-page-header + section.admin-content-section{margin-top: 10px;}
-section.admin-content-section + section.admin-content-section {margin-top: 10px;}
-section.admin-content-section{ margin-bottom: 10px; }
+header.page-header + section.content-section{margin-top: 26px;}
+#scoreboard + section.content-section{ margin-top: 26px; }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Build Push
@@ -1817,25 +1469,6 @@ div.lefted.image-upload-overview{
 div.lefted.new-catalog-entry-from-image{
   position: relative;
   &:after{ content: ''; position: absolute; top: 0px; right: 100px; width: 185px; height: 100%; background: transparent url('../../images/new_catalog_entry_from_image.png') 0px no-repeat; }
-
-  fieldset > div {
-    min-height: 32px;
-  }
-}
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-New/Edit Provider Form
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-#x-deltacloud-provider-legend {
-
-  dl {
-    margin-left: 190px;
-  }
-
-  dt {
-    margin-top: 1em;
-    font-weight: bold;
-  }
 }
 
 
@@ -3363,30 +2996,28 @@ $font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helve
 $label-font: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 $font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
 
-body.monitor form.generic{
+form.generic{
+
+  div.field{
+    @include clearfix;
+
+    ul.radio-group input{
+      margin: 6px 0px 0px 0px;
+    }
+    ul.radio-group li{
+      display: block;
+      list-style-type: none;
+      overflow: hidden;
+      @include clearfix;
+    }
+  }
+
+  div.field + div.field{
+    margin-top: 10px;
+  }
 
   fieldset{
-    p + p{
-      margin-top: 10px;
-    }
-    p.radio-group label{
-      display: inline;
-    }
-  }
-
-  fieldset.inline p{
-    @include display_inline_block;
-  }
-
-  fieldset.em{
-    padding: 10px;
-    background-color: #dfdfdf;
-    border: 1px solid #999;
-    margin: 10px 0px 10px 0px;
-  }
-
-  fieldset + fieldset{
-    margin-top: 10px;
+    margin-top: 20px;
   }
 
   fieldset legend{
@@ -3408,113 +3039,6 @@ body.monitor form.generic{
     }
   }
 
-  body.administer label{
-    float: left;
-    width: 200px;
-    text-align: right;
-    padding: 6px 7px 5px 0px;
-
-    &.checkbox{
-      padding: 3px 7px 0px 0px;
-    }
-    &.em{
-      padding: 10px 7px 8px 0px;
-    }
-  }
-
-  label span{
-    font-size: 11px;
-    color: #666;
-  }
-
-  input[type="text"],input[type="password"]{
-    padding: 4px;
-    width: 200px;
-    font-size: 13px;
-  }
-
-  input.em{
-    font-size: 16px;
-    padding: 6px 4px;
-  }
-
-  input.long{
-    width: 400px;
-  }
-
-  input.short{
-    width: 100px;
-  }
-
-  textarea{
-    padding: 5px 4px;
-    margin: 2px 0px;
-    height: 100px;
-
-    &.long{ width: 400px }
-  }
-}
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Administer section Form Components -- v.0.0.1 [form] (form.scss)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-$font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-$label-font: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-$font-family-primary: Helvetica, Arial, "Lucida Grande", sans-serif;
-
-body.administer form.generic{
-
-  fieldset{
-    p + p{
-      margin-top: 10px;
-    }
-    ul.radio-group input{
-      margin: 6px 0px 0px 0px;
-    }
-    ul.radio-group li{
-      display: block;
-      list-style-type: none;
-      overflow: hidden;
-    }
-  }
-
-  fieldset.inline p{
-    @include display_inline_block;
-  }
-
-  fieldset.em{
-    padding: 10px;
-    background-color: #dfdfdf;
-    border: 1px solid #999;
-    margin: 10px 0px 10px 0px;
-  }
-
-  fieldset + fieldset{
-    margin-top: 20px;
-  }
-
-  fieldset legend{
-    font-family: $font-family-primary;
-    font-size: 16px;
-    font-weight: light;
-  }
-
-  fieldset.options{
-    text-align: right;
-  }
-
-  label{
-    display: block;
-    float: left;
-    width: 180px;
-    text-align: right;
-    padding: 6px 7px 5px 0px;
-    font-family: $label-font;
-    font-size: 12px;
-    text-shadow: 0px 1px 0px #ffffff;
-    font-weight: normal;
-  }
-
   label span{
     font-size: 11px;
     color: #666;
@@ -3530,7 +3054,11 @@ body.administer form.generic{
     -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
     -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.50);
   }
-  input[type="checkbox"]{ margin: 6px 0px 5px 0px; }
+
+  input.em{
+    font-size: 16px;
+    padding: 6px 4px;
+  }
 
   input.long{
     width: 400px;
@@ -3538,12 +3066,6 @@ body.administer form.generic{
 
   input.short{
     width: 100px;
-  }
-
-  span.text_instead_input{
-    @include display_inline_block;
-    font-weight: bold;
-    padding: 6px 0px;
   }
 
   textarea{
@@ -3565,6 +3087,42 @@ body.administer form.generic{
   }
 }
 
+/* Horizontal form*/
+form.generic.horizontal{
+
+  .input{ margin-left: 210px; }
+
+  label{
+    float: left;
+    width: 200px;
+    text-align: right;
+    padding: 6px 0px 5px 0px;
+
+    &.checkbox{
+      padding: 3px 7px 0px 0px;
+    }
+    &.em{
+      padding: 10px 7px 8px 0px;
+    }
+  }
+
+  input[type="checkbox"]{ margin: 3px 0px 2px 0px; }
+
+  span.text_instead_input{
+    @include display_inline_block;
+    font-weight: bold;
+    padding: 6px 0px;
+  }
+
+}
+
+/* New/Edit Provider Form */
+#x-deltacloud-provider-legend {
+  dd + dt { margin-top: 10px; }
+  dd{ font-weight: normal; }
+}
+
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Page Footer -- v.0.0.1 [footer] (footer.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -3572,162 +3130,16 @@ Page Footer -- v.0.0.1 [footer] (footer.scss)
 /* Footer */
 
 footer.standard{
-  position: relative;
-  height: 40px;
   width: 100%;
   font-size: 11px;
   clear: both;
+  padding-bottom: 10px;
 
   div.container{
-    position: relative;
     margin: 0 auto;
-    width: 946px;
-    background: rgba(0, 0, 0, 0.12);
-    height: 40px;
+    width: $width;
+    text-align: center;
+    color: #333;
   }
-
-  #legal {
-    position: absolute;
-    top: 0;
-    right: 1em;
-    color: #fff;
-  }
-
-  nav.footer{
-    @include display_inline_block;
-    padding: 14px 14px 13px 14px;
-    a{
-      color: #fff;
-      margin-right: 6px;
-      text-decoration: none;
-      border-bottom: 1px dotted;
-    }
-  }
-
-  span.copyright{}
 }
-
-
-/*
-  Styles for new layout
-
-*/
-
-header.shell-design {
-  height: 5.5em !important;
-  > article {
-    max-width: 80em;
-    margin: 0 auto; }
-  nav#appnav > ul > li:hover > ul {
-    z-index: 9999 !important;
-    /*painfully silly hack*/
-    margin-top: -0.25em;
-    padding-top: 0em !important; } }
-
-/* bonus: fix up overview scorecard */
-
-#scoreboard {
-  font-family: overpass;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  min-height: 7em;
-  width: 100%;
-  padding: 2em 1em 1em 1em;
-  background-color: #f6f6f6;
-  /*box-shadow*/
-  -webkit-box-shadow: inset 0em .06em 1em #ddd;
-  -moz-box-shadow: inset 0em .06em 1em #ddd;
-  box-shadow: inset 0em .06em 1em #ddd;
-  /*border-radius*/
-  -webkit-border-radius: 0em 0em .5em .5em;
-  -moz-border-radius: 0em 0em .5em .5em;
-  border-radius: 0em 0em .5em .5em;
-  ul.groups > li + li {
-    background-image: none;
-    margin: 0em;
-    padding: 0em 1em;
-    border-left: .1em dotted #ddd; } }
-
-/* fixing up the content to work with new header*/
-
-div#content {
-  border-color: #eee;
-  background-image: none;
-  /*box-shadow*/
-  -webkit-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
-  -moz-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
-  box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
-  /*border-radius*/
-  -webkit-border-radius: 0em 0em .5em .5em;
-  -moz-border-radius: 0em 0em .5em .5em;
-  border-radius: 0em 0em .5em .5em;
-  border-top: transparent none 0px; }
-
-/* Page header fixup */
-
-.administer nav#administer_nav {
-  background-image: none;
-  background-color: #ddd;
-  /*box-shadow*/
-  -webkit-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
-  /*border-radius*/
-  -webkit-border-radius: 0em;
-  -moz-border-radius: 0em;
-  border-radius: 0em; }
-
-div#content .page-header {
-  background-image: none;
-  background-color: #ddd;
-  /*box-shadow*/
-  -webkit-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
-  /*border-radius*/
-  -webkit-border-radius: 0em;
-  -moz-border-radius: 0em;
-  border-radius: 0em;
-  h1 {
-    text-shadow: 0px 1px #eee;
-    font-family: overpass;
-    font-weight: normal;
-    &.section-index {
-      background-image: none; } } }
-
-.administer nav#administer_nav {
-  height: 6.5em !important;
-  li a {
-    padding: 4em 2em 2em 2em !important;
-    cursor: pointer; } }
-
-/* sub-tabs were wonky,  fixing them too */
-
-section {
-  &.admin-content-section > header, &.content-section header {
-    /*background-image: none !important;*/
-    /*box-shadow: inset 0px -1em 1em -1em  #dad*/
-    /*box-shadow: inset 0px -1em 1em -1em #dadada;*/
-    /*margin: 2em -1.25em;*/
-    /*padding: 0em 2em; }*/
-  }
-  &.admin-content-section > header nav a, &.content-section header nav a {
-    font-family: overpass;
-    font-size: 1.5em;
-    color: #aaa !important; }
-  &.admin-content-section > header nav a.active, &.content-section header nav a.active {
-    font-weight: normal !important;
-    color: #000  !important; }
-  &.admin-content-section > header nav a:hover, &.content-section header nav a:hover {
-    color: #555 !important; } }
-
-
-/* Navigation tabs should indicate those that are used */
-body.administer nav#appnav li:last-child a{background-color: #444  !important}
-body.monitor nav#appnav li:first-child a{background-color: #444  !important}
-
-
 /* layout 1558 */

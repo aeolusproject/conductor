@@ -1,12 +1,12 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1.users= @title
+%header.page-header
   #obj_actions
     .return_to
       =t'return_to'
       = link_to "#{t'users.users'}", users_path
+  %h1.users= @title
 
-%section.admin-content-section.users
+%section.content-section.users
   .content
     .align-center
       %p.description
@@ -22,7 +22,7 @@
           %dd#email &nbsp;
           %dt=t'users.show.username'
           %dd#login &nbsp;
-    = form_for @user, :url => users_path, :builder => ApplicationHelper::FormBuilderWithRequiredFields, :html => {:class => 'generic'} do |f|
+    = form_for @user, :url => users_path, :builder => ApplicationHelper::FormBuilderWithRequiredFields, :html => {:class => 'generic horizontal'} do |f|
       -if current_user
         = render :partial => "form", :locals => { :form => f }
       -else

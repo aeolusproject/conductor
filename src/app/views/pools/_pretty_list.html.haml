@@ -1,6 +1,5 @@
 %header
-  %h2=t 'pools.index.your_pools'
-  %span.label.badge.dark.count= @pools.total_entries
+  %h2.pools=t 'pools.index.your_pools'
 
 .content#pools-list
   - @pools.each do |pool|

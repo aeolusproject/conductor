@@ -1,6 +1,5 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1= @title
+%header.page-header
   #obj_actions
     .return_to
       =t'return_to'
@@ -8,15 +7,16 @@
     .button-group
       = link_to t('edit'), edit_provider_provider_account_path(@provider, @provider_account), :class => "button pill", :title => "Edit Provider Account"
       = link_to t('provider_accounts.show.test_connection'), provider_provider_account_path(@provider, @provider_account, :test_account => true), :class => 'button pill'
+  %h1.provider_accounts= @title
 
-%section.admin-content-section
+%section.content-section
   %header
     %h2=t'properties'
 
   .content
     = render :partial => 'properties'
 
-%section.admin-content-section.realm
+%section.content-section.realm
   %header
     %h2= t'realm_s'
 
@@ -24,7 +24,7 @@
     = render :partial => 'provider_realms/list'
 
 - if check_privilege(Privilege::PERM_VIEW,@permission_object)
-  %section.admin-content-section
+  %section.content-section
     %header
       %h2.roles= t('role_assignments')
     .content

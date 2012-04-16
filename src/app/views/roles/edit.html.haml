@@ -1,12 +1,12 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1{:class => controller.controller_name}= @role.name.titlecase
+%header.page-header
   #obj_actions.button-container
     = link_to t('roles.new_role'), new_role_url, :class => 'button primary', :id => 'new_role_button'
     %div.button-group
       = link_to t('roles.edit.cancel_editing'), role_path(@role), :class => 'button pill danger', :id => 'new_role_button'
+  %h1.no-icon= @role.name.titlecase
 
-%section.admin-content-section.role
+%section.content-section.role
   %header
     %h2=t'roles.edit.properties'
 
@@ -16,5 +16,5 @@
     - else
       %h2=t('roles.edit.editing_role')
 
-    = form_for @role, :url => role_path(@role), :html => { :method => :put, :class => 'generic' } do |f|
+    = form_for @role, :url => role_path(@role), :html => { :method => :put, :class => 'generic horizontal' } do |f|
       = render :partial => "form", :locals => { :form => f }

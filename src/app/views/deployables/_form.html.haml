@@ -3,27 +3,31 @@
 %fieldset
   - if params[:edit_xml]
     = hidden_field_tag :edit_xml, true
-    %p.clearfix
-      %h2= t('.deployable_xml')
+    .field
+      = form.label :xml
       = form.text_area :xml, :class => 'edit_xml'
   - else
-    %p.clearfix
+    .field
       = label_tag :catalog_id, t('.catalog')
-      %span.text_instead_input
-        - if @catalog.present?
-          =@catalog.name
-        - else
-          %em=t('deployables.new.no_catalog_selected')
-    %p.clearfix
-      = form.label :name
-      = form.text_field :name, :class => 'long'
-    %p.clearfix
+      .input
+        %span.text_instead_input
+          - if @catalog.present?
+            =@catalog.name
+          - else
+            %em=t('deployables.new.no_catalog_selected')
+    .field
+      = form.label :name, :class => 'em'
+      .input
+        = form.text_field :name, :class => 'em long'
+    .field
       = form.label :description
-      = form.text_area :description, :class => 'long'
-    %p.clearfix
+      .input
+        = form.text_area :description, :class => 'long'
+    .field
       = form.label :xml
-      %span.text_instead_input= link_to t("deployables.properties.edit_deployable_xml"), edit_polymorphic_path([@catalog, @deployable], :edit_xml=>true)
+      .input
+        %span.text_instead_input= link_to t("deployables.properties.edit_deployable_xml"), edit_polymorphic_path([@catalog, @deployable], :edit_xml=>true)
 
-%fieldset.align-center
+%fieldset.options
   = link_to t('cancel'), polymorphic_path([@catalog, @deployable]), :class => 'button danger'
   = submit_tag t('save'), :name => 'save', :class => 'button', :id => 'save_button'

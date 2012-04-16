@@ -3,7 +3,7 @@
 = render :partial => 'provider_availability'
 
 - unless @provider.enabled
-  %section.admin-content-section
+  %section.content-section
     %header.align-center
       %h2.disabled= t('providers.edit.provider_id_disabled')
     %p.align-center
@@ -11,7 +11,7 @@
       = t("providers.edit.enable_configure_providers")
       = image_tag "provider_enable_hint.png"
 
-%section.admin-content-section.alerts.collapse_entity
+%section.content-section.alerts.collapse_entity
   %header
     %h2.alerts
       = t("alerts_label")
@@ -27,13 +27,13 @@
               %dt.subject{ :class => alert[:class] }= alert[:subject]
               %dd.type= link_to alert[:alert_type], alert[:path]
               %dd.desc= alert[:description]
-/%section.admin-content-section.provider
+/%section.content-section.provider
 /  %header
 /    %h2.activity
 /      Activity
 /  .content
 /    unimplemented
-%section.admin-content-section
+%section.content-section
   %header#tab-container-1
     %h2.settings= t("settings.settings")
     %nav.faceted
@@ -43,6 +43,5 @@
             = link_to tab[:name], edit_provider_path(@provider, :details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"
             -if tab[:count]
               %span.label.badge.count.dark=tab[:count]
-    .clear
   .content#tab
     = render :partial => @view

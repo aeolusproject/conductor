@@ -1,15 +1,15 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  - if check_privilege(Privilege::MODIFY, User)
-    %h1.users= @title
-  - else
-    %h1.users=t'users.edit.edit_account'
+%header.page-header
   #obj_actions
     .return_to
       =t'users.return_to'
       = link_to "#{t'users.users'}", users_path
+  - if check_privilege(Privilege::MODIFY, User)
+    %h1.users= @title
+  - else
+    %h1.users=t'users.edit.edit_account'
 
-%section.admin-content-section.user
+%section.content-section.user
   .content
     #user_card.user_form_card
       %header.user-card-header
@@ -22,5 +22,5 @@
           %dd#email= @user.email
           %dt=t'users.show.username'
           %dd#login= @user.login
-    = form_for @user, :url => user_path(@user), :builder => ApplicationHelper::FormBuilderWithRequiredFields, :html => { :method => :put, :class => 'generic' } do |f|
+    = form_for @user, :url => user_path(@user), :builder => ApplicationHelper::FormBuilderWithRequiredFields, :html => { :method => :put, :class => 'generic horizontal' } do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => users_path }

@@ -1,20 +1,19 @@
 = render :partial => 'layouts/admin_nav'
-%header.admin-page-header
-  %h1= @title
+%header.page-header
   #obj_actions
     .return_to
       =t'return_to'
       = link_to t('provider_accounts.new.cloud_providers'), edit_provider_path(@provider, :details_tab => 'accounts')
+  %h1.provider_accounts= @title
 
-%section.admin-content-section
+%section.content-section
   %header
     %h2.settings=t'settings.settings'
 
   .content
     - unless @providers.empty?
-      = form_for([@provider, @provider_account],  :url => provider_provider_account_path(@provider, @provider_account), :html => {:multipart => true,:method => :put, :class => 'generic'})  do |f|
+      = form_for([@provider, @provider_account],  :url => provider_provider_account_path(@provider, @provider_account), :html => {:multipart => true,:method => :put, :class => 'generic horizontal'})  do |f|
         = render :partial => "form", :locals => { :form => f }
         %fieldset.options
-          .button-group
-            = f.submit t('save'), :class => "button pill", :id => 'save'
-            = link_to t('provider_accounts.edit.delete_account'), provider_provider_account_path(@provider, @provider_account), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger'
+          = f.submit t('save'), :class => "button", :id => 'save'
+          = link_to t('provider_accounts.edit.delete_account'), provider_provider_account_path(@provider, @provider_account), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button danger'
