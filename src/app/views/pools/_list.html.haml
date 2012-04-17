@@ -24,36 +24,13 @@
     });
 
 = filter_table(@header, @pools) do |pool|
-  - pool_stats = pool.statistics
-  %tr{:class => cycle('nostripe','stripe')}
-    %td{:class => 'checkbox'}
-      %input{:name => "pools_selected[]", :type => "checkbox", :value => pool.id, :id => "pool_checkbox_#{pool.id}" }
-    %td{:class => 'alert'}= (@statistics[:instances_failed] & pool.instances).present? ? image_tag("sb_icon_instance_failure.png") : ""
-    %td= link_to(pool.name, pool_path(pool, :view => :filter))
-    %td{:class => 'center'}= pool.deployments.count
-    %td{:class => 'center'}= pool_stats[:total_instances]
-    %td{:class => 'center'}= pool_stats[:instances_pending]
-    %td{:class => 'center'}= pool_stats[:instances_failed_count]
-    %td{:class => 'center'}= pool_stats[:quota_percent]
-    - if check_privilege(Privilege::VIEW, pool.pool_family)
-      %td= link_to(pool.pool_family.name, pool.pool_family)
-    - else
-      %td= pool.pool_family.name
-%script#poolTemplate{ :type => 'text/x-jquery-tmpl' }
-  :plain
-    <tr>
-      <td class="checkbox"><input type="checkbox" id="pool_checkbox_${id}"
-                 name="pools_selected[]" value="${id}"></td>
-      <td class="alert">
-        {{if statistics.instances_failed_count > 0}}
-          #{image_tag("sb_icon_instance_failure.png")}
-        {{/if}}
-      </td>
-      <td><a href="#{pool_path('replace_id', :view => :filter).sub('replace_id', '${id}')}">${name}</a></td>
-      <td class="center">${deployments_count}</td>
-      <td class="center">${statistics.total_instances}</td>
-      <td class="center">${statistics.instances_pending}</td>
-      <td class="center">${statistics.instances_failed_count}</td>
-      <td class="center">${statistics.quota_percent}</td>
-      <td><a href="#{pool_family_path('replace_id').sub('replace_id', '${pool_family.id}')}">${pool_family.name}</a></td>
-    </tr>
+  = render :partial => 'pool_row', :mustache => pool_for_mustache(pool)
+
+:javascript
+  $(document).ready(function(){
+    $('tr:odd').addClass('stripe');
+    $('tr:even').addClass('nostripe');
+  });
+
+%script#poolRowTemplate{ :type => 'text/html' }
+  = render :partial => 'pool_row'

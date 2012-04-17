@@ -78,11 +78,11 @@ class PoolsController < ApplicationController
       format.json do
         case @details_tab[:id]
         when 'pools'
-          render :json => @pools
+          render :json => @pools.map{ |pool| view_context.pool_for_mustache(pool) }
         when 'instances'
           render :json => @instances
         when 'deployments'
-          render :json => @deployments
+          render :json => @deployments.map{ |deployment| view_context.deployment_for_mustache(deployment) }
         end
       end
     end
