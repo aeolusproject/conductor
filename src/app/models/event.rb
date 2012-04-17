@@ -34,6 +34,8 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Event < ActiveRecord::Base
+  acts_as_paranoid
+
   require "#{Rails.root}/lib/aeolus/event.rb"
   belongs_to :source, :polymorphic => true
 
@@ -46,6 +48,10 @@ class Event < ActiveRecord::Base
   scope :lifetime, where(:status_code => [:first_running, :all_running, :some_running, :all_stopped])
   scope :descending_by_created_at, order('created_at DESC')
 
+  def self.all
+    self.unscoped
+  end
+
   # Notifies the Event API if certain conditions are met
   def transmit_event
     # Extract just the old values from change_hash
@@ -57,7 +63,7 @@ class Event < ActiveRecord::Base
     when "Instance"
       if ['running', 'stopped'].include?(status_code)
         # If we look this up through the 'source' association, we end up with it being a stale object.
-        instance = Instance.find(source_id)
+        instance = Instance.unscoped.find(source_id)
         # If we have a time_last_running, use it; otherwise, we just started and it's not populated yet
         start_time = instance.time_last_running || Time.now
         terminate_time = status_code == 'stopped' ? instance.time_last_stopped : nil
@@ -88,7 +94,7 @@ class Event < ActiveRecord::Base
       # There is also a "summary" attribute on state changes, but we don't appear to need to check it
     when "Deployment"
       if ['some_stopped', 'first_running', 'all_stopped', 'all_running'].include?(status_code)
-        deployment = Deployment.find(source_id)
+        deployment = Deployment.unscoped.find(source_id)
         begin
           # TODO - The Cddr method supports a :deployable_id, but we don't implement this at the moment
           e = Aeolus::Event::Cddr.new({

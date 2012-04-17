@@ -36,6 +36,8 @@ require 'util/deployable_xml'
 require 'util/config_server_util'
 
 class Deployment < ActiveRecord::Base
+  acts_as_paranoid
+
   include PermissionedObject
   class << self
     include CommonFilterMethods
@@ -69,7 +71,7 @@ class Deployment < ActiveRecord::Base
   before_validation :replace_special_characters_in_name
   validates_presence_of :pool_id
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :pool_id
+  validates_uniqueness_of :name, :scope => [:pool_id, :deleted_at]
   validates_length_of :name, :maximum => 50
   validates_presence_of :owner_id
   validate :pool_must_be_enabled
@@ -303,12 +305,20 @@ class Deployment < ActiveRecord::Base
   end
 
   def provider
-    inst = instances.joins(:provider_account => :provider).first
+    if deleted?
+      inst = instances.unscoped.joins(:provider_account => :provider).first
+    else
+      inst = instances.joins(:provider_account => :provider).first
+    end
     inst && inst.provider_account && inst.provider_account.provider
   end
 
   def provider_account
-    inst = instances.joins(:provider_account).first
+    if deleted?
+      inst = instances.unscoped.joins(:provider_account).first
+    else
+      inst = instances.joins(:provider_account).first
+    end
     inst && inst.provider_account
   end
 

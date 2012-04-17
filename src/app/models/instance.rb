@@ -61,6 +61,8 @@ require 'util/deployable_xml'
 require 'util/instance_config_xml'
 
 class Instance < ActiveRecord::Base
+  acts_as_paranoid
+
   class << self
     include CommonFilterMethods
   end
@@ -98,7 +100,7 @@ class Instance < ActiveRecord::Base
   #validates_uniqueness_of :external_key, :scope => :provider_id
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :pool_id
+  validates_uniqueness_of :name, :scope => [:pool_id, :deleted_at]
   validates_length_of :name, :maximum => 1024
 
   before_create :generate_uuid
