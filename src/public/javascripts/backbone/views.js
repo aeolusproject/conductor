@@ -124,7 +124,7 @@ Conductor.Views.PoolsShow = Backbone.View.extend({
 
   template: function() {
     if (this.currentView() == 'table') {
-      return $('#deploymentTemplate');
+      return $('#deploymentRowTemplate');
     }
     else if (this.currentView() == 'pretty') {
       return $('#deploymentCardTemplate');
@@ -155,9 +155,20 @@ Conductor.Views.PoolsShow = Backbone.View.extend({
 
     var $table = this.$('table.checkbox_table > tbody');
     var deployments = this.model.get('deployments');
-    if($table.length !== 0) {
+    if(this.currentView() == 'table') {
       var checkboxes = Conductor.saveCheckboxes('td :checkbox', $table);
-      $table.empty().append($template.tmpl(deployments))
+
+      var deplyomentRowsHtml = '';
+      $.each(deployments, function(deploymentIndex, deployment) {
+        deplyomentRowsHtml += Mustache.to_html($template.html(), deployment);
+      });
+
+      $table.empty().append(deplyomentRowsHtml);
+      Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
+
+      $('tr:odd').addClass('stripe');
+      $('tr:even').addClass('nostripe');
+
       Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
     }
     else {
