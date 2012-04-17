@@ -1,0 +1,28 @@
+<tr>
+  <td class="checkbox">
+    <%= check_box_tag("deployments_selected[]", '{{id}}', false, :id => "deployment_checkbox_{{id}}") %>
+  </td>
+  <td class="alert">
+    {{#failed_instances_present}}
+      <%= image_tag("sb_icon_instance_failure.png") %>
+    {{/failed_instances_present}}
+  </td>
+  <td>
+    <%= link_to('{{name}}', '{{filter_view_path}}') %>
+  </td>
+  <td>{{created_at}}</td>
+  <td>{{deployable_xml_name}}</td>
+  <td>{{translated_state}}</td>
+  <td class="center">{{instances_count}}</td>
+  <td>
+    {{#pool}}
+      <%= link_to('{{name}}', '{{filter_view_path}}') %>
+    {{/pool}}
+  </td>
+  <td>{{owner}}</td>
+  <td>
+    {{#provider}}
+      <%= link_to('{{provider_type.name}}', '{{path}}') %>
+    {{/provider}}
+  </td>
+</tr>
