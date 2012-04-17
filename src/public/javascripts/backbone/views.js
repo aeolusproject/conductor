@@ -31,8 +31,8 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
   template: function() {
     if (this.currentView() == 'table') {
       switch(this.currentTab()) {
-        case 'pools': return $('#poolTemplate');
-        case 'deployments': return $('#deploymentTemplate');
+        case 'pools': return $('#poolRowTemplate');
+        case 'deployments': return $('#deploymentRowTemplate');
         case 'instances': return $('#instanceTemplate');
       }
     }
@@ -66,7 +66,13 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
       var $table = this.$('table.checkbox_table > tbody');
       if($table.length === 0 || $template.length === 0) return;
       var checkboxes = Conductor.saveCheckboxes('td :checkbox', $table);
-      $table.empty().append($template.tmpl(this.collection.toJSON()))
+
+      var rowsHtml = '';
+      $.each(this.collection.toJSON(), function(index, value) {
+        rowsHtml += Mustache.to_html($template.html(), value);
+      });
+
+      $table.empty().append(rowsHtml);
       Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
       $table.find('tr:even').addClass('nostripe');
       $table.find('tr:odd').addClass('stripe');

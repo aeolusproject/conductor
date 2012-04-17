@@ -1,0 +1,26 @@
+<tr>
+  <td class="checkbox">
+    <%= check_box_tag("pools_selected[]", '{{id}}', false, :id => "pool_checkbox_{{id}}") %>
+  </td>
+  <td class="alert">
+    {{#failed_instances_present}}
+      <%= image_tag("sb_icon_instance_failure.png") %>
+    {{/failed_instances_present}}
+  </td>
+  <td>
+    <%= link_to('{{name}}', '{{filter_view_path}}') %>
+  </td>
+  <td class="center">{{deployments_count}}</td>
+  <td class="center">{{statistics.total_instances}}</td>
+  <td class="center">{{statistics.instances_pending}}</td>
+  <td class="center">{{statistics.instances_failed_count}}</td>
+  <td class="center">{{statistics.quota_percent}}</td>
+  <td>
+    {{#user_can_access_pool_family}}
+      <%= link_to('{{pool_family.name}}', '{{pool_family.path}}') %>
+    {{/user_can_access_pool_family}}
+    {{^user_can_access_pool_family}}
+      {{pool_family.name}}
+    {{/user_can_access_pool_family}}
+  </td>
+</tr>

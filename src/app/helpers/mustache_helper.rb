@@ -63,4 +63,30 @@ module MustacheHelper
     }
   end
 
+  def pool_for_mustache(pool)
+    pool_statistics = pool.statistics
+    user_can_access_pool_family = check_privilege(Privilege::VIEW, pool.pool_family)
+
+    {
+      :id               => pool.id,
+      :name             => pool.name,
+      :filter_view_path => pool_path(pool, :view => :filter),
+      :failed_instances_present => pool_statistics[:instances_failed_count] > 0,
+      :deployments_count        => pool.deployments.count,
+
+      :statistics => {
+        :total_instances        => pool_statistics[:total_instances],
+        :instances_pending      => pool_statistics[:instances_pending],
+        :instances_failed_count => pool_statistics[:instances_failed_count],
+        :quota_percent          => pool_statistics[:quota_percent],
+      },
+
+      :user_can_access_pool_family => user_can_access_pool_family,
+      :pool_family => {
+        :name => pool.pool_family.name,
+        :path => user_can_access_pool_family ? pool_family_path(pool.pool_family) : nil
+      }
+    }
+  end
+
 end
