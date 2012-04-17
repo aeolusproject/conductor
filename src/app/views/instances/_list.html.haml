@@ -29,34 +29,18 @@
     });
 
 = filter_table(instances_header, @instances) do |instance|
-  %tr{ :class => cycle('nostripe', 'stripe') }
-    %td{:class => 'checkbox'}
-      - selected = params[:select] == 'all'
-      = check_box_tag "instance_selected[]", instance.id, selected, :id => "instance_checkbox_#{instance.id}"
-    %td{:class => 'alert'}= instance.failed? ? image_tag("sb_icon_instance_failure.png") : ""
-    %td= link_to instance.name, instance_path(instance)
-    %td= instance.public_addresses
-    %td= t("instances.states.#{instance.state}")
-    %td= instance.provider_account ? instance.provider_account.provider.name : ''
-    %td= owner_name(instance)
+  = render :partial => 'instances/instance_row', :mustache => instance_for_mustache(instance)
 
 :javascript
   Conductor.setupPrettyFilterURL(
             '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter', :page => params[:page])}',
             '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty', :page => params[:page])}');
 
-%script#instanceTemplate{ :type => 'text/x-jquery-tmpl' }
-  :plain
-    <tr>
-      <td class="checkbox"><input type="checkbox" id="instance_checkbox_${id}" name="instance_selected[]" value="${id}"></td>
-      <td class="alert">
-        {{if is_failed == true}}
-          #{image_tag("sb_icon_instance_failure.png")}
-        {{/if}}
-      </td>
-      <td><a href="#{instance_path('replace_id').sub('replace_id', '${id}')}">${name}</a></td>
-      <td>${public_addresses}</td>
-      <td>${translated_state}</td>
-      <td>${provider}</td>
-      <td>${owner}</td>
-    </tr>
+:javascript
+  $(document).ready(function(){
+    $('tr:odd').addClass('stripe');
+    $('tr:even').addClass('nostripe');
+  });
+
+%script#instanceRowTemplate{ :type => 'text/html' }
+  = render :partial => 'instances/instance_row'

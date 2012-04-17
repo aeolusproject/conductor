@@ -1,0 +1,17 @@
+<tr>
+  <td class="checkbox">
+    <%= check_box_tag("instance_selected[]", '{{id}}', false, :id => "instance_checkbox_{{id}}") %>
+  </td>
+  <td class="alert">
+    {{#failed}}
+      <%= image_tag("sb_icon_instance_failure.png") %>
+    {{/failed}}
+  </td>
+  <td>
+    <%= link_to('{{name}}', '{{path}}') %>
+  </td>
+  <td>{{public_addresses}}</td>
+  <td>{{translated_state}}</td>
+  <td>{{provider.name}}</td>
+  <td>{{owner}}</td>
+</tr>

@@ -27,11 +27,17 @@ module MustacheHelper
       :name     => instance.name,
       :path     => instance_path(instance),
       :uptime   => count_uptime(instance.uptime),
+      :failed   => instance.failed?,
       :translated_state     => t("instances.states.#{instance.state}"),
       :public_addresses     => instance.public_addresses.present? ? instance.public_addresses : I18n.t('deployments.pretty_view_show.no_ip_address'),
       :instance_key_present => instance.instance_key.present?,
       :stop_enabled         => available_actions.include?(InstanceTask::ACTION_STOP),
       :reboot_enabled       => available_actions.include?(InstanceTask::ACTION_REBOOT),
+      :owner                => instance.owner.present? ? instance.owner.name : nil,
+
+      :provider => {
+        :name => instance.provider_account.present? ? instance.provider_account.provider.name : nil
+      }
     }
   end
 
