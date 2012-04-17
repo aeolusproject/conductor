@@ -33,7 +33,7 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
       switch(this.currentTab()) {
         case 'pools': return $('#poolRowTemplate');
         case 'deployments': return $('#deploymentRowTemplate');
-        case 'instances': return $('#instanceTemplate');
+        case 'instances': return $('#instanceRowTemplate');
       }
     }
     else if (this.currentView() == 'pretty') {

@@ -80,7 +80,7 @@ class PoolsController < ApplicationController
         when 'pools'
           render :json => @pools.map{ |pool| view_context.pool_for_mustache(pool) }
         when 'instances'
-          render :json => @instances
+          render :json => @instances.map{ |instance| view_context.instance_for_mustache(instance) }
         when 'deployments'
           render :json => @deployments.map{ |deployment| view_context.deployment_for_mustache(deployment) }
         end
