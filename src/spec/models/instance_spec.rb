@@ -73,6 +73,36 @@ describe Instance do
     end
   end
 
+  it "should allow for a soft delete" do
+    second_instance = Factory.build(:instance,
+                                    :pool_id => @instance.pool_id,
+                                    :name => "soft delete instance",
+                                    :state => Instance::STATE_CREATE_FAILED)
+    second_instance.save!
+    second_instance_id = second_instance.id
+
+    lambda { Instance.find(second_instance_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
+    lambda { Instance.only_deleted.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
+    lambda{ Instance.unscoped.find(second_instance_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
+
+    expect { second_instance.destroy }.to change(Instance, :count).by(-1)
+
+    copy_second_instance = Factory.build(:instance,
+                                    :pool_id => @instance.pool_id,
+                                    :name => "soft delete instance",
+                                    :state => Instance::STATE_CREATE_FAILED)
+    copy_second_instance.should be_valid
+
+    lambda { Instance.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
+    lambda { Instance.only_deleted.find(second_instance_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
+    lambda{ second_instance = Instance.unscoped.find(second_instance_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
+
+    second_instance.destroy!
+
+    lambda { Instance.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
+    lambda { Instance.only_deleted.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
+    lambda{ Instance.unscoped.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
+  end
 
   it "should tell apart valid and invalid actions" do
     @instance.stub!(:get_action_list).and_return(@actions)

@@ -123,6 +123,35 @@ describe Deployment do
       inst1.tasks.last.action.should == 'stop'
       inst3.tasks.last.action.should == 'stop'
     end
+
+    it "should allow for a soft delete" do
+      second_deployment = Factory.build(:deployment,
+                                        :pool_id => @deployment.pool_id,
+                                        :name => "soft delete deployment")
+      second_deployment.save!
+      second_deployment_id = second_deployment.id
+
+      lambda { Deployment.find(second_deployment_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
+      lambda { Deployment.only_deleted.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
+      lambda{ Deployment.unscoped.find(second_deployment_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
+
+      expect { second_deployment.destroy }.to change(Deployment, :count).by(-1)
+
+      copy_second_deployment = Factory.build(:deployment,
+                                        :pool_id => @deployment.pool_id,
+                                        :name => "soft delete deployment")
+      copy_second_deployment.should be_valid
+
+      lambda { Deployment.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
+      lambda { Deployment.only_deleted.find(second_deployment_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
+      lambda{ second_deployment = Deployment.unscoped.find(second_deployment_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
+
+      second_deployment.destroy!
+
+      lambda { Deployment.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
+      lambda { Deployment.only_deleted.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
+      lambda{ Deployment.unscoped.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 
   describe ".provider" do
@@ -428,11 +457,9 @@ describe Deployment do
 
     context "with events" do
       let!(:deployment) { Factory :deployment_with_1st_running_all_stopped }
-      before do
-        Time.stub_chain(:now, :utc).and_return(Time.utc(2012, 1, 22, 21, 26))
-      end
 
       it "return seconds when some instance is deployed" do
+        Time.stub_chain(:now, :utc).and_return(Time.utc(2012, 1, 22, 21, 26))
         deployment.stub_chain(:instances, :deployed).and_return(["bla"])
         deployment.uptime_1st_instance.should == 201147.0
       end
@@ -464,11 +491,9 @@ describe Deployment do
 
     context "with events" do
       let!(:deployment) { Factory :deployment_with_all_running_stopped_some_stopped }
-      before do
-        Time.stub_chain(:now, :utc).and_return(Time.utc(2012, 1, 22, 21, 26))
-      end
 
       it "return seconds when all instances of deployment are running" do
+        Time.stub_chain(:now, :utc).and_return(Time.utc(2012, 1, 22, 21, 26))
         deployment.stub_chain(:instances, :count).and_return(2)
         deployment.stub_chain(:instances, :deployed, :count).and_return(2)
         deployment.uptime_all.should == 201147.0
