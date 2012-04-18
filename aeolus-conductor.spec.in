@@ -365,6 +365,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed Apr 18 2012 Steve Linabery <slinaber@redhat.com> - 0.8.12-1
+- e451adc BZ #813924 - Clean up JavaScript handling of form change events
+
 * Wed Apr 18 2012 Steve Linabery <slinaber@redhat.com> - 0.8.11-1
 - 635ccf3 BZ 800849 - CREATE_FAILED instances will not be marked as vanished
 
