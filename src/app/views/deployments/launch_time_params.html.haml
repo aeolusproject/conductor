@@ -45,6 +45,18 @@
     = submit_tag t('.finalize'), :class => 'button primary', :id => 'submit_params'
 
 :javascript
+  function checkEnteredParams() {
+    $('.launch-time-params .parameters').each(function() {
+      var $parameters = $(this).find('.parameter input');
+      var filledOut = _.all($parameters, function(item) {
+        return ! _.isEmpty($(item).val());
+      });
+      var param_id = $(this).attr('id');
+      $('.labels').find('#' + param_id).toggleClass('filled-out', filledOut);
+      $('#submit_params').attr('disabled', !filledOut);
+    });
+  };
+
   (function () {
     function selectService($service) {
       var old_param_id = $('.service.selected').attr('id');
@@ -60,25 +72,13 @@
           .text($service.next('.description').text());
     }
 
-    function checkEnteredParams() {
-      $('.launch-time-params .parameters').each(function() {
-        var $parameters = $(this).find('.parameter input');
-        var filledOut = _.all($parameters, function(item) {
-          return ! _.isEmpty($(item).val());
-        });
-        var param_id = $(this).attr('id');
-        $('.labels').find('#' + param_id).toggleClass('filled-out', filledOut);
-        $('#submit_params').attr('disabled', !filledOut);
-      });
-    }
-
     var $services = $('.launch-time-params .services .labels h4.service');
     selectService($services.first());
     $services.live('click', function(e) { selectService($(this)); });
 
     $('#submit_params').attr('disabled', true);
-    $('.parameter input').live('keydown', function(e) {
-      checkEnteredParams();
+    $('.parameter input').live('keyup mouseup paste', function(e) {
+      setTimeout("checkEnteredParams()", 10)
     });
     checkEnteredParams();
   })();
