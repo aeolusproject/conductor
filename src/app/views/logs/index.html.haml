@@ -1,0 +1,40 @@
+= render :partial => 'layouts/admin_nav'
+
+%section.content-section
+  %header
+    %h2= t('logs.index.title')
+
+  .content
+    - content_for :filter_controls do
+      %li
+        = label_tag "source_type", t('filter_table.viewing')
+        = hidden_field_tag :current_path, request.fullpath
+        = select_tag "source_type", options_for_select(@source_type_options, @source_type)
+        = select_tag "state", options_for_select(@state_options, @state)
+        = select_tag "pool_select", options_for_select(@pool_options, @pool_select)
+        = select_tag "provider_select", options_for_select(@provider_options, @provider_select)
+        = select_tag "owner_id", options_for_select(@owner_options, @owner_id)
+        = restful_submit_tag t("filter_table.apply_filters"), "index", filter_logs_path, 'POST', :class => 'button', :id => 'apply_logs_filter'
+        %span.label.badge.dark= @events.count
+
+    = filter_table(@header, @paginated_events) do |event|
+      - source = event.source
+      - provider_account = source.nil? ? nil : source.provider_account
+      - state = source.nil? ? nil : (source.class.name == "Deployment" ? source.status : source.state)
+      %tr{:class => cycle('nostripe','stripe')}
+        %td= event.event_time.strftime("%d-%b-%Y %H:%M:%S")
+        %td= source.nil? ? t('logs.index.not_available') : source.name
+        %td= source.nil? ? t('logs.index.not_available') : state
+        %td= source.nil? ? t('logs.index.not_available') : source.pool_family.name + "/" + source.pool.name
+        %td= provider_account.nil? ? t('logs.index.not_available') : provider_account.provider.name + "/" + provider_account.name
+        %td= source.nil? ? t('logs.index.not_available') : source.owner.login
+        %td= event.summary
+        %td
+          - if !source.nil?
+            %a.hoverpopup
+              = image_tag "icon_view.png"
+              %span
+                - if source.class.name == "Deployment"
+                  = render :partial => 'deployment_popup', :locals => {:deployment => source}
+                - elsif source.class.name == "Instance"
+                  = render :partial => 'instance_popup', :locals => {:instance => source}
