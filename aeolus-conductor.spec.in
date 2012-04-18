@@ -365,6 +365,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed Apr 18 2012 Steve Linabery <slinaber@redhat.com> - 0.8.11-1
+- 635ccf3 BZ 800849 - CREATE_FAILED instances will not be marked as vanished
+
 * Mon Apr 16 2012 Steve Linabery <slinaber@redhat.com> - 0.8.10-1
 - d7f461b BZ 796528 - updated tests
 - a0659d9 BZ 796528 - set CREATE_FAILED status for instances which failed to launch
