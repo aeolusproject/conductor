@@ -156,6 +156,10 @@ Conductor::Application.routes.draw do
     post :filter, :on => :collection
   end
 
+  resources :logs do
+    post :filter, :on => :collection
+  end
+
   resources :config_servers do
     member do
       get 'test'
