@@ -340,8 +340,7 @@ class DeploymentsController < ApplicationController
   # TODO - The AJAX calls here have a potential race condition; might want to include params[:name]
   # in the output to help catch this and discard output if appropriate
   def check_name
-    deployment = Deployment.find_by_name(params[:name])
-    render :text => deployment.nil?.to_s
+    render :text => params[:name].empty? ? false : Deployment.find_by_name(params[:name]).nil?
   end
 
   def launch_from_catalog

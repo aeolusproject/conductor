@@ -63,6 +63,7 @@
         $('#name_avail_indicator').html(data == "false" ? "#{t'deployments.launch_new.already_in_use'}" : "#{t'deployments.launch_new.name_available'}");
         if(data == "true" && $('#next_button').is(':disabled')){
          $('#next_button').removeAttr('disabled');
+        }else if(data == "true" && $('#next_button').is_not(':disabled')){
         }else{
          $('#next_button').attr("disabled", "disabled");
         }
