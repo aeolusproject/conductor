@@ -1,0 +1,34 @@
+/* ==|== non-semantic helper classes ========================================
+   ,          _                     ___  _                        
+ /|   |     | |                   / (_)| |                       
+  |___|  _  | |   _   _   ,_     |     | |  __,   ,   ,   _   ,  
+  |   |\|/  |/  |/ \_|/  /  |    |     |/  /  |  / \_/ \_|/  / \_
+  |   |/|__/|__/|__/ |__/   |_/   \___/|__/\_/|_/ \/  \/ |__/ \/ 
+               /|                                                
+               \|                                                
+
+we should never use these, but we probably will someday 
+   ========================================================================== */
+
+.visuallyhidden { 
+  border: 0; 
+  clip: rect(0 0 0 0); 
+  height: 1px; 
+  margin: -1px; 
+  overflow: hidden; 
+  padding: 0; 
+  position: absolute; 
+  width: 1px; 
+} 
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { 
+  clip: auto; 
+  height: auto; 
+  margin: 0; 
+  overflow: visible; 
+  position: static; 
+  width: auto; 
+}
+.invisible { visibility: hidden; } 
+.clearfix:before, .clearfix:after { content: ""; display: table; } 
+.clearfix:after { clear: both; } 
+.clearfix { *zoom: 1; }
