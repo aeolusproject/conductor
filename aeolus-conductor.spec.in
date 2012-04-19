@@ -21,6 +21,7 @@ Requires: ruby >= 1.8.1
 Requires: ruby(abi) = 1.8
 Requires: rubygem(rails) >= 3.0.7
 Requires: rubygem(haml) >= 3.1
+Requires: rubygem(mustache) >= 0.99.4
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate) >= 3.0
 Requires: rubygem(deltacloud-client) >= 0.4.0
@@ -174,6 +175,7 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/api/builds app/views/api/provider_images \
       app/views/api/target_images app/views/api/entrypoint \
       app/views/api/environments"
+mustache="app/views/instances app/views/pools app/views/deployments"
 html="public"
 ico="public"
 jpg="public/images public/stylesheets/images"
@@ -203,7 +205,7 @@ yml="config config/locales config/locales/defaults config/locales/overrides
      config/locales/role_definitions config/locales/classnames \
      config/locales/overrides/role_definitions"
 xml="app/util"
-for filetype in builder css eot feature gif haml html ico jpg js json key opts png \
+for filetype in builder css eot feature gif haml mustache html ico jpg js json key opts png \
     rake rb rhtml scss svg ttf txt woff yml xml; do
     dirs=${!filetype}
 
