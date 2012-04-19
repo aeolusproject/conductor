@@ -16,20 +16,21 @@
         = yield :content
     %footer
       %span
-        #{_("redhat")}
+        = redhat_string.html_safe
       %p.copyright
-        #{_("Copyright &copy; ") + (Time.now).year.to_s + _(" Red Hat, Inc.") }
-      %ul
-        %li
-          %a{ "href" => "#" }
-            #{_("Disclaimer")}
-        %li
-          %a{ "href" => "#" }
-            #{_("Terms of Use")}
-        %li
-          %a{ "href" => "#" }
-            #{_("Support")}
+        = copyright_string.html_safe
+      / mawagner - FIXME - These links should either go somewhere, or be removed.
+      / %ul
+      /   %li
+      /     %a{ "href" => "#" }
+      /       #{_translate("Disclaimer")}
+      /   %li
+      /     %a{ "href" => "#" }
+      /       #{_translate("Terms of Use")}
+      /   %li
+      /     %a{ "href" => "#" }
+      /       #{_translate("Support")}
       = yield :footer
-    
+
     = yield :javascript
     = yield :extra

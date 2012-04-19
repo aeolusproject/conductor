@@ -14,4 +14,22 @@ module LayoutHelper
   def no_template
     _("No Template")
   end
+
+  # This is probably not the best indicator
+  def using_gettext?
+    !!respond_to?('_')
+  end
+
+  def redhat_string
+    using_gettext? ? _('redhat') : 'Red Hat' # No translation in Conductor
+  end
+
+  def copyright_string
+    if using_gettext?
+      "#{_("Copyright &copy; ")} #{(Time.now).year.to_s} #{_(" Red Hat, Inc.")}"
+    else
+      t("layout.copyright")
+    end
+  end
+
 end
