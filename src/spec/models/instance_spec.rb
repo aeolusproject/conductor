@@ -203,7 +203,7 @@ describe Instance do
     quota.running_instances.should == 1
     quota.should be_reached
     # I'm not sure why this line is required, but it is:
-    @instance.reload
+    @instance.pool.pool_family.provider_accounts.first.quota.reload
     @instance.matches.first.should be_empty
   end
 

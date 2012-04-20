@@ -73,7 +73,6 @@ class ProviderAccount < ActiveRecord::Base
   before_destroy :destroyable?
 
   scope :enabled, lambda { where(:provider_id => Provider.enabled) }
-  scope :ascending_by_priority, :order => 'provider_accounts.priority ASC'
 
   # We set credentials hash as protected so that it is not set during mass assign on new
   # This is to avoid the scenario where the credentials are set before provider which
@@ -371,11 +370,11 @@ class ProviderAccount < ActiveRecord::Base
             # backend realm which is available and is accessible for this
             # provider account
             if (brealm_target.target_realm.nil? || (brealm_target.target_realm.available && realms.include?(brealm_target.target_realm)))
-              matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, brealm_target.target_realm, instance)
+              matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, brealm_target.target_realm)
             end
           end
         else
-          matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, nil, instance)
+          matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, nil)
         end
       end
     end
