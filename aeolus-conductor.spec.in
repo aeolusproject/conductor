@@ -365,6 +365,12 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Fri Apr 20 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.13-1
+- 5cda012 Revert "BZ 796528 - deployment launch refactoring"
+- d096251 Revert "BZ 796528 - instance's config params are now handled from taskomatic"
+- 72e9d7d Revert "BZ 796528 - set CREATE_FAILED status for instances which failed to launch"
+- fb49957 Revert "BZ 796528 - updated tests"
+
 * Wed Apr 18 2012 Steve Linabery <slinaber@redhat.com> - 0.8.12-1
 - e451adc BZ #813924 - Clean up JavaScript handling of form change events
 
