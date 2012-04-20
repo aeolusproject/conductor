@@ -414,12 +414,16 @@ class Instance < ActiveRecord::Base
     [matched, errors]
   end
 
-  def launch!(match, user, config_server, config)
+  def launch(match, user, config_server, config)
+    if config_server
+      add_instance_config!(config_server, config)
+    end
     # create a taskomatic task
     task = InstanceTask.create!({:user        => user,
                                  :task_target => self,
                                  :action      => InstanceTask::ACTION_CREATE})
-    Taskomatic.create_instance!(task, match, config_server, config)
+    Taskomatic.create_instance(task, match)
+    task.state != Task::STATE_FAILED
   end
 
 
