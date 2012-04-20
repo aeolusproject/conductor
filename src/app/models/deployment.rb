@@ -208,8 +208,6 @@ class Deployment < ActiveRecord::Base
 
     unless all_inst_match
       status[:errors][name] = errors
-      # set CREATE_FAILED for all newly created instances
-      instances.each {|i| i.update_attribute(:state, Instance::STATE_CREATE_FAILED)}
       return status
     end
 
