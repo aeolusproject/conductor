@@ -196,7 +196,8 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/api/builds app/views/api/provider_images \
       app/views/api/target_images app/views/api/entrypoint \
       app/views/api/environments"
-mustache="app/views/instances app/views/pools app/views/deployments"
+mustache="app/views/instances app/views/pools app/views/deployments \
+          app/views/deployables"
 html="public"
 ico="public"
 jpg="public/images public/stylesheets/images"

@@ -80,25 +80,30 @@ class DeployablesController < ApplicationController
     flash.now[:error] = @deployable_errors unless @deployable_errors.empty?
 
     if @missing_images.empty?
-      @build_results = {}
+      @image_status = []
       @pushed_count = 0
-      ProviderAccount.includes(:provider, :pool_families).where('providers.enabled' => true, 'pool_families.id' => @deployable.catalogs.first.pool_family.id).each do |account|
-        type = account.provider.provider_type.deltacloud_driver
-        @build_results[type] ||= []
-        status = @deployable.build_status(images, account)
-        @pushed_count += 1 if (status == :pushed)
-        @build_results[type] << {
-          :account => account.label,
-          :provider => account.provider.name,
-          :status => status,
+
+      @deployable.pool_family.provider_accounts.includes(:provider).where('providers.enabled' => true).each do |provider_account|
+        deltacloud_driver = provider_account.provider.provider_type.deltacloud_driver
+        build_status = @deployable.build_status(images, provider_account)
+        @pushed_count += 1 if (build_status == :pushed)
+
+        @image_status << {
+          :deltacloud_driver => deltacloud_driver,
+          :provider_account_label => provider_account.label,
+          :provider_name => provider_account.provider.name,
+          :build_status => build_status,
+          :translated_build_status => t("deployables.show.build_statuses_descriptions.#{build_status}")
         }
+
+        @image_status.sort_by{ |image_status_for_account| image_status_for_account[:deltacloud_driver]  }
       end
     end
 
     respond_to do |format|
       format.html
       format.json do
-        render :json => { :build_results => @build_results }
+        render :json => { :image_status => @image_status }
       end
     end
 

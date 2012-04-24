@@ -60,19 +60,8 @@
 
     .content
       %ul#providers-list.catalog_pretty
-        - @build_results.each do |provider_type, results|
-          - results.each do |result|
-            %li
-              .summary
-                .info
-                  %h2= provider_type
-                  %span= result[:provider]
-                  |
-                  %span= result[:account]
-                .controls
-                  .build_status
-                    %span= t(".build_statuses_descriptions.#{result[:status]}")
-                    %div{:class => "build_status_icon #{result[:status]}"}
+        - @image_status.each do |image_status_for_account|
+          = render :partial => 'image_status', :mustache => image_status_for_account
   - else
     %header
       %h2.build= t('.build_status')
@@ -128,35 +117,5 @@
     });
   });
 
-%script#deployableBuildsTemplate{ :type => 'text/x-jquery-tmpl' }
-  :plain
-    {{each(provider_type, results) build_results}}
-      {{each(index, result) results}}
-        <li>
-          <div class="summary">
-            <div class="info">
-              <h2>${provider_type}</h2>
-              <span>${result['provider']}</span>
-              |
-              <span>${result['account']}</span>
-            </div>
-            <div class="controls">
-              <div class="build_status">
-                {{if result['status'] == 'not_built'}}
-                  <span>#{t('deployables.show.build_statuses_descriptions.not_built')}</span>
-                {{else result['status'] == 'building'}}
-                  <span>#{t('deployables.show.build_statuses_descriptions.building')}</span>
-                {{else result['status'] == 'not_pushed'}}
-                  <span>#{t('deployables.show.build_statuses_descriptions.not_pushed')}</span>
-                {{else result['status'] == 'pushing'}}
-                  <span>#{t('deployables.show.build_statuses_descriptions.pushing')}</span>
-                {{else result['status'] == 'pushed'}}
-                  <span>#{t('deployables.show.build_statuses_descriptions.pushed')}</span>
-                {{/if}}
-                <div class="build_status_icon ${result['status']}"></div>
-              </div>
-            </div>
-          </div>
-        </li>
-      {{/each}}
-    {{/each}}
+%script#imageStatusTemplate{ :type => 'text/html' }
+  = render :partial => 'image_status'

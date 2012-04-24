@@ -200,16 +200,25 @@ Conductor.Views.DeployablesShow = Backbone.View.extend({
   el: '#content',
 
   render: function() {
+    var $template = this.$('#imageStatusTemplate');
+    if($template.length === 0) return;
+
     var $builds = this.$('ul#providers-list');
     if($builds.length === 0) return;
-
     $builds.empty();
-    $('#deployableBuildsTemplate').tmpl(this.model.toJSON()).appendTo($builds);
+
+    var imageStatus = this.model.get('image_status');
+    var imageStatusHtml = '';
+    $.each(imageStatus, function(imageStatusIndex, imageStatusForAccount) {
+      imageStatusHtml += Mustache.to_html($template.html(), imageStatusForAccount);
+    });
+
+    $builds.html(imageStatusHtml);
 
     // get values of all build results
-    var build_results_values = _.flatten(_.values(this.model.get("build_results")));
+    var build_results_values = _.flatten(_.values(this.model.get("image_status")));
     var enable_launch_button = _.any(build_results_values, function(build_results){
-      return build_results.status === "pushed";
+      return build_results.build_status === "pushed";
     });
 
     // toggle "disabled" class
