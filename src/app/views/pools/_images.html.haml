@@ -5,21 +5,12 @@
         =image_tag 'flash_error_icon.png', :alt => 'Errors'
         =flash[:error]
 -else
-  - @pool.catalogs.list_for_user(current_user, Privilege::VIEW).each do |catalog|
-    %div.catalog_deployments_and_images
-      %h1
-        = catalog.name
-        = t('.catalog')
-      - catalog.deployables.each do |deployable|
-        %h2
-          = deployable.name
-          = t('.deployable')
-
-        - deployable.fetch_images.compact.each do |image|
-          %h3
-            = t('.image')
-            = "#{image.name} (#{image.uuid})"
-
-          %ul
-            - image.provider_images.each do |provider_image|
-              %li= t('.pushed', :uuid => provider_image.uuid, :provider => provider_image.provider_name)
+  =filter_table(@header, @catalogs)  do |catalog|
+    - catalog.deployables.each do |deployable|
+      - deployable.fetch_images.compact.each do |image|
+        %tr
+          %td= catalog.name
+          %td= deployable.name
+          %td= "#{image.name} (#{image.uuid})"
+          - image.provider_images.each do |provider_image|
+            %td= t('pools.images.pushed', :uuid => provider_image.uuid, :provider => provider_image.provider_name)
