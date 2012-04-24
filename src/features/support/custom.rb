@@ -15,6 +15,8 @@
 #
 #Seed the DB with fixture data
 
+include Warden::Test::Helpers
+Warden.test_mode!
 # We can't stub out these methods properly in cucumber, and we don't want to
 # couple these tests to require the core server be running (connections should be tested
 # in the client code), so override the methods for tests here.

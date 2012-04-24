@@ -17,7 +17,7 @@ Feature: User authentication
     And I should be on the login error page
 
   Scenario: Edit profile
-    Given I am logged in
+    Given I have successfully logged in
     And I am on the root page
     When I want to edit my profile
     Then should see "Edit Account"
@@ -27,7 +27,8 @@ Feature: User authentication
     And I should see "User updated!"
 
   Scenario: log out
-    Given I am logged in
+    Given I am an authorised user
+    And I am logged in
     And I am on the root page
     When I follow "Log out"
     Then I should see "Username:"
@@ -35,7 +36,8 @@ Feature: User authentication
     And I should see "Show my password"
 
   Scenario: Change user login to one with invalid length
-    Given I am logged in
+    Given I am a registered user
+    And I am logged in
     And I am on the root page
     When I want to edit my profile
     Then should see "Edit Account"

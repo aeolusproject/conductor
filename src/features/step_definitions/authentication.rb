@@ -18,7 +18,7 @@ def user
 end
 
 def admin_user
-  @user ||= FactoryGirl.create :admin_user
+  user ||= FactoryGirl.create :admin_user
 end
 
 def login(login, password)
@@ -44,6 +44,12 @@ Given /^I am a registered user$/ do
   user
 end
 
+Given /^I am an authorised user$/ do
+  @admin_permission = FactoryGirl.create :admin_permission
+  @user = @admin_permission.user
+end
+
+
 When /^I login$/ do
   login(user.login, user.password)
 end
@@ -59,6 +65,11 @@ Given /^I am a new user$/ do
 end
 
 Given /^I am logged in$/ do
+  # Warden test helper method
+  login_as user
+end
+
+Given /^I have successfully logged in$/ do
   page.driver.header 'Accept-Language', 'en-US'
   login(user.login, user.password)
   page.should have_content('Login successful!')

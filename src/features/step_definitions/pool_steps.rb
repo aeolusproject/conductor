@@ -13,11 +13,6 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-Given /^I am an authorised user$/ do
-  @admin_permission = FactoryGirl.create :admin_permission
-  @user = @admin_permission.user
-end
-
 Given /^I have Pool Creator permissions on a pool named "([^\"]*)"$/ do |name|
   @pool = FactoryGirl.create(:pool, :name => name)
   FactoryGirl.create(:pool_creator_permission, :user => @user, :permission_object => @pool)

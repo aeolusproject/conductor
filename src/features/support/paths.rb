@@ -174,7 +174,7 @@ module NavigationHelpers
       pool_path(pool, :view => 'filter')
 
     when /^the my user page$/
-      user_path(user) #(User.find_by_login($1))
+      user_path(user)
 
     when /^the (.*)'s edit user page$/
       edit_user_path(User.find_by_login($1))

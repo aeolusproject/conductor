@@ -22,7 +22,8 @@ Feature: Pool Families
     | pool_family3 |
 
   Scenario: List pool families as unprivileged user
-    Given I am logged in
+    Given I am a registered user
+    And I am logged in
     And there is a pool family named "hiddenpoolfamily"
     And I can view pool family "testpoolfamily"
     When I go to the pool families page
