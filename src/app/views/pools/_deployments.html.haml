@@ -2,38 +2,7 @@
   - deployments.in_groups_of(5, false) do |group|
     %ul.deployment-array.small
       - group.each do |deployment|
-        %li.deployment
-          %h3.name
-            = link_to deployment.name, deployment_path(deployment)
-          %span{ :class => "status #{deployment.state}", :title => t("deployments.status_description.#{deployment.state}")}
-            = deployment.state
-          %dl.statistics
-            %ul
-              %li.right
-                %dt.instances.count= t 'instances.instances.other'
-                %dd= deployment.instances.size || 0
+        = render :partial => 'deployments/deployment_card_index', :mustache => deployment_for_mustache(deployment)
 
-              %li.left
-                %dt=t :uptime
-                %dd= count_uptime(deployment.uptime_1st_instance)
-
-%script#deploymentPrettyTemplate{ :type => 'text/x-jquery-tmpl' }
-  :plain
-    <li class="deployment">
-      <h3 class="name">
-        <a href="#{deployment_path('replace_id').sub('replace_id', '${id}')}">${name}</a>
-      </h3>
-      <span class="status ${status}" title="${status_description}">${status}</span>
-      <dl class="statistics">
-        <ul>
-          <li class="right">
-            <dt class="instances count">#{t 'instances.instances.other'}</dt>
-            <dd>${instances_count}</dd>
-          </li>
-          <li class="left">
-            <dt>#{t :uptime}</dt>
-            <dd>${uptime}</dd>
-          </li>
-        </ul>
-      </dl>
-    </li>
+%script#deploymentCardTemplate{ :type => 'text/html' }
+  = render :partial => 'deployments/deployment_card_index'

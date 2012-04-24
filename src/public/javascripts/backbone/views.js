@@ -37,7 +37,7 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
       }
     }
     else if (this.currentView() == 'pretty') {
-      return $('#deploymentPrettyTemplate');
+      return $('#deploymentCardTemplate');
     }
   },
 
@@ -94,9 +94,13 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
           return attributes.pool.id == poolId;
         });
         for(var i = 0; i < poolDeployments.length; i += cardsPerRow) {
-          var $row = this.make('ul',
-            {'class': 'deployment-array small'},
-            $template.tmpl(poolDeployments.slice(i, i + cardsPerRow)));
+
+          var deplyomentCarsHtml = '';
+          $.each(poolDeployments.slice(i, i + cardsPerRow), function(deploymentIndex, deployment) {
+            deplyomentCarsHtml += Mustache.to_html($template.html(), deployment);
+          });
+
+          var $row = this.make('ul', {'class': 'deployment-array small'}, deplyomentCarsHtml);
           $rows.append($row);
         }
       }

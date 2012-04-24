@@ -47,7 +47,7 @@ module MustacheHelper
       :name                 => deployment.name,
       :path                 => deployment_path(deployment),
       :filter_view_path     => deployment_path(deployment, :view => :filter),
-      :status               => deployment.state,
+      :state                => deployment.state,
       :translated_state     => I18n.t("deployments.status_description.#{deployment.state}"),
       :uptime               => count_uptime(deployment.uptime_1st_instance),
       :deployable_xml_name  => deployment.deployable_xml.name,
