@@ -71,4 +71,61 @@ describe Deployable do
     deployable.xml = ''
     deployable.should_not be_valid
   end
+
+  it "should manage permissions on catalog changes" do
+    pool1 = FactoryGirl.create :pool
+    pool2 = FactoryGirl.create :pool
+    catalog1 = FactoryGirl.create :catalog #, :pool => :pool1
+    catalog2 = FactoryGirl.create :catalog
+    catalog1.pool.should_not == catalog2.pool
+    admin = FactoryGirl.create :admin_user
+    pool1_perm = Permission.create(:user => admin,
+                                   :role => Role.first(:conditions =>
+                                                   ['name = ?', 'pool.admin']),
+                                     :permission_object => catalog1.pool)
+    pool2_perm = Permission.create(:user => admin,
+                                   :role => Role.first(:conditions =>
+                                        ['name = ?', 'pool.deployable.admin']),
+                                     :permission_object => catalog2.pool)
+    deployable = FactoryGirl.create :deployable, :catalogs => [catalog1]
+    catalog1.reload
+    catalog2.reload
+    catalog1.pool.permissions.should == [pool1_perm]
+    catalog2.pool.permissions.should == [pool2_perm]
+
+    catalog1.derived_permissions.collect {|p|
+      p.role.name}.should == ["pool.admin"]
+    catalog2.derived_permissions.collect {|p|
+      p.role.name}.should == ["pool.deployable.admin"]
+    deployable.derived_permissions.collect {|p|
+      p.role.name}.include?("pool.admin").should be_true
+    deployable.derived_permissions.collect {|p|
+      p.role.name}.include?("pool.deployable.admin").should be_false
+    deployable.catalogs.should == [catalog1]
+
+    deployable.catalogs << catalog2
+    deployable.reload
+    deployable.catalogs.should == [catalog1, catalog2]
+    deployable.derived_permissions.collect {|p|
+      p.role.name}.include?("pool.admin").should be_true
+    deployable.derived_permissions.collect {|p|
+      p.role.name}.include?("pool.deployable.admin").should be_true
+
+    deployable.catalog_entries.where(:catalog_id => catalog1.id).first.destroy
+    deployable.reload
+    deployable.catalogs.should == [catalog2]
+    deployable.derived_permissions.collect {|p|
+      p.role.name}.include?("pool.admin").should be_false
+    deployable.derived_permissions.collect {|p|
+      p.role.name}.include?("pool.deployable.admin").should be_true
+
+    catalog2.pool = catalog1.pool
+    catalog2.save
+    deployable.reload
+    deployable.catalogs.should == [catalog2]
+    deployable.derived_permissions.collect {|p|
+      p.role.name}.include?("pool.admin").should be_true
+    deployable.derived_permissions.collect {|p|
+      p.role.name}.include?("pool.deployable.admin").should be_false
+  end
 end

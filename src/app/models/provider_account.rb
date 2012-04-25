@@ -48,6 +48,9 @@ class ProviderAccount < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
 
   # validation of credentials is done in provider_account validation, :validate => false prevents nested_attributes from validation
   has_many :credentials, :dependent => :destroy, :validate => false
@@ -106,8 +109,11 @@ class ProviderAccount < ActiveRecord::Base
     return true
   end
 
-  def object_list
-    super << provider
+  def perm_ancestors
+    super + [provider]
+  end
+  def self.additional_privilege_target_types
+    [Quota]
   end
   class << self
     alias orig_list_for_user_include list_for_user_include

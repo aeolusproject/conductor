@@ -41,6 +41,10 @@ class HardwareProfile < ActiveRecord::Base
   end
   include PermissionedObject
   has_many :permissions, :as => :permission_object, :dependent => :destroy
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
+
   has_many :instances
   scope :frontend, :conditions => { :provider_id => nil }
   has_many :provider_instances, :class_name => "Instance",

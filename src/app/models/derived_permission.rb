@@ -14,32 +14,12 @@
 #   limitations under the License.
 #
 
-# == Schema Information
-# Schema version: 20110207110131
-#
-# Table name: permissions
-#
-#  id                     :integer         not null, primary key
-#  role_id                :integer         not null
-#  user_id                :integer         not null
-#  permission_object_id   :integer
-#  permission_object_type :string(255)
-#  lock_version           :integer         default(0)
-#  created_at             :datetime
-#  updated_at             :datetime
-#
+class DerivedPermission < ActiveRecord::Base
+  # the source permission for the denormalized object
+  belongs_to :permission
+  validates_presence_of :permission_id
 
-class Permission < ActiveRecord::Base
-  belongs_to :role
-  belongs_to :user
-
-  validates_presence_of :role_id
-
-  validates_presence_of :user_id
-  validates_uniqueness_of :user_id, :scope => [:permission_object_id,
-                                               :permission_object_type,
-                                               :role_id]
-
+  # this is the object used for permission checks
   belongs_to :permission_object,      :polymorphic => true
   # type-specific associations
   belongs_to :pool_family,            :class_name => "PoolFamily",
@@ -63,34 +43,15 @@ class Permission < ActiveRecord::Base
   belongs_to :base_permission_object, :class_name => "BasePermissionObject",
                                       :foreign_key => "permission_object_id"
 
-  has_many :derived_permissions, :dependent => :destroy
+  # role is copied from source permission
+  belongs_to :role
+  validates_presence_of :role_id
 
-  after_save :update_derived_permissions
+  # user is copied from source permission
+  belongs_to :user
+  validates_presence_of :user_id
 
-  def update_derived_permissions
-    new_derived_permission_objects = permission_object.derived_subtree(role)
-    old_derived_permissions = derived_permissions
-    old_derived_permissions.each do |derived_perm|
-      if new_derived_permission_objects.delete(derived_perm.permission_object)
-        # object is in both old and new list -- update as necessary
-        derived_perm.role = role
-        derived_perm.user_id = user_id
-        derived_perm.save!
-      else
-        # object is in old but not new list -- remove it
-        derived_perm.destroy
-      end
-    end
-    new_derived_permission_objects.each do |perm_obj|
-      unless DerivedPermission.where(:permission_id => id,
-                                     :permission_object_id => perm_obj.id,
-                                     :permission_object_type => perm_obj.class.name).any?
-        derived_perm = DerivedPermission.new(:user_id => user_id,
-                                             :role_id => role_id,
-                                             :permission_object => perm_obj,
-                                             :permission => self)
-        derived_perm.save!
-      end
-    end
-  end
+  validates_uniqueness_of :permission_id, :scope => [:permission_object_id,
+                                                     :permission_object_type]
+
 end

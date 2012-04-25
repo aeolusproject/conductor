@@ -31,6 +31,9 @@ class BasePermissionObject < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -41,5 +44,18 @@ class BasePermissionObject < ActiveRecord::Base
     base_permission = self.find_by_name(GENERAL_PERMISSION_SCOPE)
     base_permission = self.create!(:name => GENERAL_PERMISSION_SCOPE) unless base_permission
     base_permission
+  end
+
+  def derived_subtree(role = nil)
+    subtree = super(role)
+    [Catalog, Deployable, PoolFamily, Pool, Deployment,
+     Instance, Provider, ProviderAccount, HardwareProfile].each do |obj_type|
+      subtree += obj_type.all if (role.nil? or role.privilege_target_match(obj_type))
+    end
+    subtree
+  end
+  def self.additional_privilege_target_types
+    [HardwareProfile, Catalog, Deployable, PoolFamily, Pool,
+     Deployment, Instance, Provider, ProviderAccount]
   end
 end

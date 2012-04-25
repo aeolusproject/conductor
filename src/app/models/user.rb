@@ -59,6 +59,7 @@ class User < ActiveRecord::Base
   attr_accessor :ignore_password
 
   has_many :permissions, :dependent => :destroy
+  has_many :derived_permissions, :dependent => :destroy
   has_many :owned_instances, :class_name => "Instance", :foreign_key => "owner_id"
   has_many :deployments, :foreign_key => "owner_id"
   has_many :view_states

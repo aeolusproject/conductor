@@ -80,6 +80,10 @@ class Instance < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
+
   has_many :events, :as => :source, :dependent => :destroy
   has_many :instance_parameters, :dependent => :destroy
   has_many :tasks, :as =>:task_target, :dependent => :destroy
@@ -141,8 +145,10 @@ class Instance < ActiveRecord::Base
   # changed if called from another Aeolus component, so attr_protected isn't quite what we want:
   USER_MUTABLE_ATTRS = ['name']
 
-  def object_list
-    super + [deployment, pool, pool_family]
+  def perm_ancestors
+    ancestors = super
+    ancestors << deployment unless deployment.nil?
+    ancestors += [pool, pool_family]
   end
   class << self
     alias orig_list_for_user_include list_for_user_include

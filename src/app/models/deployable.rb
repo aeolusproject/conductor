@@ -34,6 +34,10 @@ class Deployable < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
+
   has_many :catalog_entries, :dependent => :destroy
   has_many :catalogs, :through => :catalog_entries
   belongs_to :pool_family
@@ -49,8 +53,8 @@ class Deployable < ActiveRecord::Base
 
   PRESET_FILTERS_OPTIONS = []
 
-  def object_list
-    super + catalogs + catalogs.collect{|c| c.pool} + [pool_family]
+  def perm_ancestors
+    super + catalogs + catalogs.collect{|c| c.pool}.uniq + [pool_family]
   end
   class << self
     alias orig_list_for_user_include list_for_user_include

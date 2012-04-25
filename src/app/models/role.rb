@@ -30,6 +30,7 @@
 
 class Role < ActiveRecord::Base
   has_many :permissions, :dependent => :destroy
+  has_many :derived_permissions, :dependent => :destroy
   has_many :privileges, :dependent => :destroy
 
   validates_presence_of :scope
@@ -39,4 +40,11 @@ class Role < ActiveRecord::Base
   validates_associated :privileges
 
   validates_length_of :name, :maximum => 255
+
+  def privilege_target_types
+    privileges.collect {|x| Kernel.const_get(x.target_type)}.uniq
+  end
+  def privilege_target_match(obj_type)
+    (privilege_target_types & obj_type.active_privilege_target_types).any?
+  end
 end

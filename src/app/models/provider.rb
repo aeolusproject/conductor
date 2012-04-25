@@ -56,8 +56,20 @@ class Provider < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
 
   before_destroy :destroyable?
+
+  def derived_subtree(role = nil)
+    subtree = super(role)
+    subtree += provider_accounts if (role.nil? or role.privilege_target_match(ProviderAccount))
+    subtree
+  end
+  def self.additional_privilege_target_types
+    [ProviderAccount]
+  end
 
   scope :enabled, where("enabled = ?", true)
 

@@ -43,6 +43,14 @@ class PoolFamily < ActiveRecord::Base
   accepts_nested_attributes_for :quota
   has_and_belongs_to_many :provider_accounts, :uniq => true, :order => "provider_accounts.priority asc"
   has_many :permissions, :as => :permission_object, :dependent => :destroy
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
+
+  has_many :catalogs
+  has_many :deployables
+  has_many :instances
+  has_many :deployments
 
   validates_length_of :name, :maximum => 255
   validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
@@ -59,6 +67,19 @@ class PoolFamily < ActiveRecord::Base
 
   def set_as_default
     MetadataObject.set(DEFAULT_POOL_FAMILY_KEY, self)
+  end
+
+  def derived_subtree(role = nil)
+    subtree = super(role)
+    subtree += pools if (role.nil? or role.privilege_target_match(Pool))
+    subtree += deployments if (role.nil? or role.privilege_target_match(Deployment))
+    subtree += instances if (role.nil? or role.privilege_target_match(Instance))
+    subtree += catalogs if (role.nil? or role.privilege_target_match(Deployable))
+    subtree += deployables if (role.nil? or role.privilege_target_match(Deployable))
+    subtree
+  end
+  def self.additional_privilege_target_types
+    [Pool, Quota]
   end
 
   def destroyable?

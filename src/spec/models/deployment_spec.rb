@@ -96,7 +96,7 @@ describe Deployment do
       @deployment.save!
       inst1 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
       inst2 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
-
+      @deployment.reload
       @deployment.should_not be_destroyable
       @deployment.destroy.should == false
 
@@ -117,6 +117,7 @@ describe Deployment do
       inst2.state = Instance::STATE_STOPPED
       inst2.save!
       inst3 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+      @deployment.reload
       Taskomatic.stub!(:stop_instance).and_return(nil)
       @deployment.stop_instances_and_destroy!
       inst1.tasks.last.action.should == 'stop'
@@ -297,6 +298,7 @@ describe Deployment do
       @deployment.save!
       inst1 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
       inst2 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
+      @deployment.reload
 
       @deployment.stop_instances_and_destroy!
 

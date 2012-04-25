@@ -191,6 +191,7 @@ class DeployablesController < ApplicationController
     end
   end
 
+  # the name here is confusing; we may want to rename to multi_remove at some point
   def multi_destroy
     deleted = []
     not_deleted = []

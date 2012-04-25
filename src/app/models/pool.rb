@@ -60,6 +60,9 @@ class Pool < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
 
   has_many :deployments, :dependent => :destroy
 
@@ -148,8 +151,19 @@ class Pool < ActiveRecord::Base
     {:title => "pools.preset_filters.with_stopped_instances", :id => "with_stopped_instances", :query => includes(:deployments => :instances).where("instances.state" => "stopped")}
   ]
 
-  def object_list
+  def perm_ancestors
     super + [pool_family]
+  end
+  def derived_subtree(role = nil)
+    subtree = super(role)
+    subtree += deployments if (role.nil? or role.privilege_target_match(Deployment))
+    subtree += instances if (role.nil? or role.privilege_target_match(Instance))
+    subtree += catalogs if (role.nil? or role.privilege_target_match(Deployable))
+    subtree += catalogs.collect {|c| c.deployables}.flatten.uniq if (role.nil? or role.privilege_target_match(Deployable))
+    subtree
+  end
+  def self.additional_privilege_target_types
+    [Deployment, Instance, Catalog, Quota]
   end
   class << self
     alias orig_list_for_user_include list_for_user_include

@@ -51,14 +51,14 @@ class Privilege < ActiveRecord::Base
               PERM_SET, PERM_VIEW]
   TYPES   = { BasePermissionObject => [MODIFY, PERM_SET, PERM_VIEW],
               Pool => ACTIONS - [USE],
-              PoolFamily => ACTIONS - [USE],
+              PoolFamily => ACTIONS,
               Instance => ACTIONS,
               Deployment => ACTIONS,
-              CatalogEntry => ACTIONS,
+              Deployable => ACTIONS,
               Quota => [VIEW, MODIFY],
-              HardwareProfile => ACTIONS - [USE, VIEW],
+              HardwareProfile => ACTIONS - [USE],
               Realm => ACTIONS - [VIEW],
-              Provider => ACTIONS - [USE],
+              Provider => ACTIONS,
               ProviderAccount => ACTIONS,
               User => [ CREATE, MODIFY, VIEW] }
 

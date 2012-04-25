@@ -52,6 +52,10 @@ class Deployment < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
+
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
 
   has_many :events, :as => :source, :dependent => :destroy
@@ -118,8 +122,16 @@ class Deployment < ActiveRecord::Base
     errors.add(:pool, I18n.t('pools.errors.providers_disabled')) if pool and pool.pool_family.all_providers_disabled?
   end
 
-  def object_list
+  def perm_ancestors
     super + [pool, pool_family]
+  end
+  def derived_subtree(role = nil)
+    subtree = super(role)
+    subtree += instances if (role.nil? or role.privilege_target_match(Instance))
+    subtree
+  end
+  def self.additional_privilege_target_types
+    [Instance]
   end
   class << self
     alias orig_list_for_user_include list_for_user_include

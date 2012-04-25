@@ -36,9 +36,18 @@ class CatalogEntry < ActiveRecord::Base
   validates_uniqueness_of :catalog_id, :scope => [:deployable_id]
 
   after_destroy :destroy_deployable_if_last
+  after_create :update_deployable_permissions
+
+  def update_deployable_permissions
+    deployable.update_derived_permissions_for_ancestors
+  end
 
   def destroy_deployable_if_last
-    deployable.destroy if deployable.catalog_entries.blank?
+    if deployable.catalog_entries.blank?
+      deployable.destroy
+    else
+      deployable.update_derived_permissions_for_ancestors
+    end
   end
 
   # This probably goes away once we separate catalog entry creation from deployables

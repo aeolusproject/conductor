@@ -38,17 +38,29 @@ class Catalog < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
 
   before_destroy :destroy_deployables_related_only_to_self
   before_create :set_pool_family
+  after_update :update_deployable_permissions
 
   validates_presence_of :pool
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 1024
 
-  def object_list
+  def perm_ancestors
     super + [pool, pool_family]
+  end
+  def derived_subtree(role = nil)
+    subtree = super(role)
+    subtree += deployables if (role.nil? or role.privilege_target_match(Deployable))
+    subtree
+  end
+  def self.additional_privilege_target_types
+    [Deployable]
   end
   class << self
     alias orig_list_for_user_include list_for_user_include
@@ -78,6 +90,11 @@ class Catalog < ActiveRecord::Base
 
   def set_pool_family
     self[:pool_family_id] = pool.pool_family_id
+  end
+
+  def update_deployable_permissions
+    update_derived_permissions_for_ancestors
+    deployables.each {|d| d.update_derived_permissions_for_ancestors}
   end
 
   private

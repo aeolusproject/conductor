@@ -209,6 +209,7 @@ describe InstanceObserver do
 
   it "should destroy the instance key when the instance is stopped" do
     @instance = FactoryGirl.create :mock_running_instance
+    @instance_key = FactoryGirl.create :mock_instance_key, :instance => @instance
     @instance.instance_key.should_not be_nil
     @instance.state = Instance::STATE_STOPPED
     @instance.save!
