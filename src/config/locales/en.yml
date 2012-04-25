@@ -10,6 +10,31 @@ en:
         other: "%{count} hours"
   search:
     no_results: "No matching results."
+  logs:
+    options:
+      default_users: All Users
+      default_states: All States
+      default_event_types: All Event Types
+      deployment_event_type: Deployment
+      instance_event_type: Instance
+      default_pools: All Pools
+      default_providers: All Providers
+    index:
+      title: Logs
+      not_available: N/A
+      event_time: Time
+      deployment: Deployment/Instance
+      state: State
+      pool: Pool
+      provider: Provider
+      owner: Owner
+      summary: Summary
+      details: Details
+      uptime: Uptime
+      created_at: Created At
+      frontend_realm: Frontend Realm
+      image: Image
+      hwp: Hardware Profile
   users:
     users: "Users"
     return_to: "Return to:"
