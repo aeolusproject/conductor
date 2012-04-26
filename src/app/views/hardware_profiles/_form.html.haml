@@ -1,23 +1,26 @@
 - if @hardware_profile.errors.any?
   = render 'layouts/error_messages', :object => @hardware_profile
-= hwp_form.label :name
-= hwp_form.text_field :name
-%table
-  %thead
-    %tr
-      - @header.each do |header|
-        %th
-          = header[:name]
-  - [:memory, :cpu, :storage, :architecture].each do |type|
-    = hwp_form.fields_for type do |hwpp_form|
+%fieldset
+  = hwp_form.label :name, :class => 'em'
+  = hwp_form.text_field :name, :class => 'em'
+%fieldset
+  %table
+    %thead
       %tr
-        %td= hwpp_form.text_field(:name, :readonly => "readonly")
-        %td= hwpp_form.text_field(:unit, :size => 5, :readonly => "readonly")
-        %td
-          -if type == :architecture
-            = hwpp_form.select("value", ["i386", "x86_64"], {})
-          -else
-            = hwpp_form.text_field(:value)
+        - @header.each do |header|
+          %th
+            = header[:name]
+    - [:memory, :cpu, :storage, :architecture].each do |type|
+      = hwp_form.fields_for type do |hwpp_form|
+        %tr
+          %td= hwpp_form.text_field(:name, :readonly => "readonly")
+          %td= hwpp_form.text_field(:unit, :size => 5, :readonly => "readonly")
+          %td
+            -if type == :architecture
+              = hwpp_form.select("value", ["i386", "x86_64"], {})
+            -else
+              = hwpp_form.text_field(:value)
 
-= hwp_form.submit t('hardware_profiles.form.check_matches'), :class => 'danger button', :id => 'check_matches'
-= hwp_form.submit t('save'), :class => 'submit button', :id => 'save_button'
+%fieldset.options
+  = hwp_form.submit t('hardware_profiles.form.check_matches'), :class => 'danger button', :id => 'check_matches'
+  = hwp_form.submit t('save'), :class => 'submit button', :id => 'save_button'

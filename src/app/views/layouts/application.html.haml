@@ -6,12 +6,8 @@
       = t("layout.appname")
       = "| #{@title}" unless @title.blank?
     %link{:rel =>  'shortcut icon', :href => '/favicon.ico'}
-    = stylesheet_link_tag '/stylesheets/reset.css'
-    = stylesheet_link_tag '/stylesheets/960.css'
-    = stylesheet_link_tag '/stylesheets/buttons.css'
     = stylesheet_link_tag '/stylesheets/compiled/layout.css'
     = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
-    = stylesheet_link_tag '/stylesheets/compiled/header.css'
     /[if lt IE 9]
       = javascript_include_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
     /[if lt IE 8]
@@ -60,7 +56,6 @@
     #content
       = render :partial => '/layouts/new_notification' if flash.present? or content_for?(:error_messages)
       = yield
-      .clear
     %footer.standard
       .container
         %span.copyright!= t('layout.copyright')

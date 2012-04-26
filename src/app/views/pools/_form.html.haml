@@ -11,7 +11,7 @@
       - if @pool_families
         = form.collection_select :pool_family_id, @pool_families, :id, :name
       - else
-        = form.label :pool_family_id, @pool.pool_family.name
+        %span.text_instead_input= @pool.pool_family.name
         = hidden_field_tag 'pool[pool_family_id]', @pool.pool_family_id
     .field
       = label_tag :quota, t('quota')

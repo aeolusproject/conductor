@@ -1,20 +1,16 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
-  #obj_actions.button-container
+  .obj_actions
     = link_to t('roles.new_role'), new_role_url, :class => 'button primary', :id => 'new_role_button'
-    %div.button-group
-      = link_to t('roles.edit.cancel_editing'), role_path(@role), :class => 'button pill danger', :id => 'new_role_button'
+    = link_to t('roles.edit.cancel_editing'), role_path(@role), :class => 'button pill danger', :id => 'new_role_button'
   %h1.no-icon= @role.name.titlecase
 
 %section.content-section.role
   %header
-    %h2=t'roles.edit.properties'
-
-  .content
     - if check_privilege(Privilege::MODIFY, Role)
       %h2=t('roles.edit.editing_role') + "#{@role.name}"
     - else
       %h2=t('roles.edit.editing_role')
-
+  .content
     = form_for @role, :url => role_path(@role), :html => { :method => :put, :class => 'generic horizontal' } do |f|
       = render :partial => "form", :locals => { :form => f }

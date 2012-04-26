@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
-  #obj_actions.button-group
+  .obj_actions
     .return_to
       = t 'return_to'
       = link_to "Settings", settings_path
@@ -20,6 +20,6 @@
           %label= t('.instances_quota')
           = text_field :self_service_default_quota, :maximum_running_instances, :class => 'grid_5'
       %fieldset.options
-        #obj_actions.button-group
+        .obj_actions.button-group
           = link_to t('reset'), self_service_settings_path, :class => 'button pill'
           = submit_tag t(:save), :class => "button pill"

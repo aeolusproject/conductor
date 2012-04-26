@@ -20,7 +20,7 @@ $.extend(Conductor, {
 
       e.preventDefault();
       var url = $(this).attr('href');
-      $('#tab').html('<span class="loading_tabs"></span>');
+      $('#tab').html('<div class="loading_tabs"></div>');
       $.get(url, function(data) {
         $('#tab').html(data).show();
       })
@@ -85,7 +85,7 @@ $.extend(Conductor, {
   bind_pretty_toggle: function() {
     Conductor.nicelyHookAjaxClick($("#pretty_view"), function() {
       var link_element = this;
-      $('#content .toggle-view').html('<span class="loading_tabs"></span>');
+      $('#content .toggle-view').html('<div class="loading_tabs"></div>');
       $.get($(this).attr("href"), $(this).serialize(), function(result) {
         $('#content .toggle-view').html(result);
         $(link_element).addClass('active');
@@ -94,7 +94,7 @@ $.extend(Conductor, {
     });
     Conductor.nicelyHookAjaxClick($("#filter_view"), function() {
       var link_element = this;
-      $('#content .toggle-view').html('<span class="loading_tabs"></span>');
+      $('#content .toggle-view').html('<div class="loading_tabs"></div>');
       $.get($(this).attr("href"), $(this).serialize(), function(result) {
         $('#content .toggle-view').html(result);
         $('#details-selected').hide();

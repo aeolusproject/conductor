@@ -1,11 +1,11 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
-  #obj_actions.button-container
+  .obj_actions
     .button-group
       - if check_privilege(Privilege::MODIFY, @deployable)
-        = button_to t('.delete'), polymorphic_path([@catalog, @deployable]), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
         = link_to t('.edit'), edit_polymorphic_path([@catalog, @deployable]), :class => 'button', :id => 'edit_button'
         = link_to t('.edit_xml'), edit_polymorphic_path([@catalog, @deployable], :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
+        = button_to t('.delete'), polymorphic_path([@catalog, @deployable]), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
 
     - launch_deployment_button_path = launch_time_params_deployments_path(:deployable_id => @deployable.id, :deployment => { :name => @deployable.name, :pool_id => @catalog.pool })
     - if @catalog.present? && @deployable_errors.empty? && @pushed_count > 0
@@ -87,13 +87,13 @@
 
 %section.content-section
   %header
-    %h2.catalogs= t('.catalogs')
     .section-controls
       = form_for(:catalog_entry, :url => catalog_entries_path) do |f|
         = f.label :catalog_id, t('.choose_catalog')
         = f.select :catalog_id, options_for_select(@catalogs_options.map {|c| [c.name, c.id]})
         = f.hidden_field(:deployable_id, :value => @deployable.id)
         = f.submit t('.add_catalog'), :id => :add_catalog, :class => 'button pill', :disabled => @catalogs_options.empty?
+    %h2.catalogs= t('.catalogs')
   .content
     .centered
       %table.light_table

@@ -11,14 +11,14 @@
       = t("providers.edit.enable_configure_providers")
       = image_tag "provider_enable_hint.png"
 
-%section.content-section.alerts.collapse_entity
-  %header
-    %h2.alerts
-      = t("alerts_label")
-      %span.label.badge.count.alert= @alerts.count
-    .section-controls
-      = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @alerts.blank?
-  - unless @alerts.blank?
+- unless @alerts.blank?
+  %section.content-section.alerts.collapse_entity
+    %header
+      .section-controls
+        = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @alerts.blank?
+      %h2.alerts
+        = t("alerts_label")
+        %span.label.badge.count.alert= @alerts.count
     .content.collapsible
       %dl.alerts
         %ul

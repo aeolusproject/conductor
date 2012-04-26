@@ -2,14 +2,10 @@
 = render :partial => 'section_header'
 
 %section.content-section.settings
+  %header
+    %h2= t('.permissions')
   .content
-    %ul.tiles{:class => 'container_16'}
-      - if check_privilege(Privilege::MODIFY)
-        %li#permissions.grid_8
-          = image_tag "blnk.png", :class => "icon", :alt => ""
-          %h2
-            = t('.permissions')
-          %p
-            = t('.permissions_desc')
-          = link_to t(:continue), self_service_settings_path, :class => 'button'
-      .clear
+    - if check_privilege(Privilege::MODIFY)
+      %p
+        = t('.permissions_desc')
+        = link_to t(:continue), self_service_settings_path, :class => 'button pill'

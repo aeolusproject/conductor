@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
-  #obj_actions.button-container
+  .obj_actions.button-container
     .return_to
       = t :return_to
       = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment)

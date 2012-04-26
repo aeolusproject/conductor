@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
-  #obj_actions.button-container
+  .obj_actions
     - if check_privilege(Privilege::CREATE, HardwareProfile)
       = link_to t('hardware_profiles.list.new_hardware'), new_hardware_profile_url, :class => 'button primary', :id => 'new_role_button'
     .button-group

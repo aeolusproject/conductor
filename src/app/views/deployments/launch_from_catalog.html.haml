@@ -1,6 +1,6 @@
 = render :partial => 'layouts/nav_history'
 %header.page-header
-  #obj_actions.button-container
+  .obj_actions
     = link_to t('edit'), edit_catalog_path(@catalog), :class => 'button', :id => 'edit_button'
   %h1.pools= @catalog.name
 

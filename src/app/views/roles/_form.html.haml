@@ -1,8 +1,10 @@
 - if @role.errors.any?
   = render 'layouts/error_messages', :object => @role
 %fieldset
-  = form.label :name
-  = form.text_field :name, :class => "em long"
+  .field
+    = form.label :name, :class => 'em'
+    .input
+      = form.text_field :name, :class => "em long"
 %fieldset.options
-  = form.submit t('save'),  :class => "submit button"
-  = link_to t(:cancel), roles_path, :class => 'button button'
+  = form.submit t('save'), :class => "button"
+  = link_to t(:cancel), roles_path, :class => 'button danger'

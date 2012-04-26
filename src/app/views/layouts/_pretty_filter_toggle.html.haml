@@ -1,5 +1,3 @@
 %span.view-toggle
-  %a.view-toggle.pretty#pretty_view{:href => pretty_link, :class => (filter_view? ? '' : 'active')}
-    %span Graphic View
-  %a.view-toggle.filter#filter_view{:href => filter_link, :class => (filter_view? ? 'active' : '')}
-    %span Filter View
+  %a.view-toggle.pretty#pretty_view{:href => pretty_link, :class => (filter_view? ? '' : 'active'), :title => "Pretty view"}
+  %a.view-toggle.filter#filter_view{:href => filter_link, :class => (filter_view? ? 'active' : ''), :title => "Filter view"}

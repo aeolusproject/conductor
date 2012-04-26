@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
-  #obj_actions.button-container
+  .obj_actions
     .return_to
       = t(:return_to)
       = link_to t('images.environment', :environment => @environment.name), pool_family_path(@environment)
@@ -18,7 +18,6 @@
             %a{ :href => '#image-file-form', :class => 'active'}= t('.upload')
           %li
             %a{ :href => '#image-url-form'}= t('.from_url')
-      .clear
 
       %section#image-file-form
         = form_tag(edit_xml_images_path, { :multipart => true, :class => 'generic horizontal' }) do

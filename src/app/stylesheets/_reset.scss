@@ -1,5 +1,6 @@
-/* `XHTML, HTML4, HTML5 Reset
-----------------------------------------------------------------------------------------------------*/
+/* ###################################################################################################
+XHTML, HTML4, HTML5 Reset
+################################################################################################### */
 
 a,
 abbr,
@@ -94,11 +95,7 @@ xmp {
   margin: 0;
   padding: 0;
   font-size: 100%;
-}
-
-html,
-body {
-  height: 100%;
+  outline: none;
 }
 
 article,
@@ -169,3 +166,21 @@ svg {
 */
   overflow: hidden;
 }
+
+form{
+  display: inline;
+}
+
+button::-moz-focus-inner, input[type="button"]::-moz-focus-inner, input[type="submit"]::-moz-focus-inner, input[type="reset"]::-moz-focus-inner {
+  padding: 0 !important;
+  border: 0 none !important;
+}
+button, input[type="button"], input[type="submit"], input[type="reset"] {
+  cursor: pointer;
+}
+
+// prevent image UUID's to overflow the layout
+h1,h2,h3,h4,h5,h6{ word-wrap: break-word; }
+
+//rails creates div inside button_to form. Make it inline
+form.button_to > div {display: inline;}

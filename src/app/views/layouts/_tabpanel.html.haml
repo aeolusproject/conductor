@@ -1,17 +1,16 @@
-%section.content-section
-  %header#tab-container-1
-    %nav.faceted
-      %ul#tab-container-1-nav
-        - @tabs.each do |tab|
-          %li
-            %a{ :href => url_for(:details_tab => tab[:id], :view => "filter", :only_tab => true),
-                :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]}",
-                'data-pretty_view_toggle' => tab[:pretty_view_toggle] }
-              = tab[:name]
-    .section-controls
-      -#%a.collapse{'href'=>'#'} Collapse
-  .content.collapsible#tab
-    = render :partial => @details_tab[:view]
+%header#tab-container-1
+  .section-controls
+    -#%a.collapse{'href'=>'#'} Collapse
+  %nav.faceted
+    %ul#tab-container-1-nav
+      - @tabs.each do |tab|
+        %li
+          %a{ :href => url_for(:details_tab => tab[:id], :view => "filter", :only_tab => true),
+              :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]}",
+              'data-pretty_view_toggle' => tab[:pretty_view_toggle] }
+            = tab[:name]
+.content.collapsible#tab
+  = render :partial => @details_tab[:view]
 
 :javascript
   $(document).ready(function() {

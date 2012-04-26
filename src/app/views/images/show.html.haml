@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
-  #obj_actions.button-container.images
+  .obj_actions
     .return_to
       =t'return_to'
       = link_to t('images.index.images'), images_path
@@ -24,17 +24,16 @@
 
 %section.content-section
   %header
-    %h2= t('.provider_images')
     .section-controls
       - if @builds.any?
-        = t'.view_build'
+        %span= t'.view_build'
         - if user_can_build
           = form_tag image_path(@image.id), :method => :get do
             = select_tag :build, options_for_build_select(@builds, @build, @latest_build)
             = submit_tag t('.select_build'), :id => 'select_build_button'
       - if user_can_build
         - if @image.imported?
-          = t('.can_not_build_imported_image')
+          %span= t('.can_not_build_imported_image')
         -else
           - if @builds.any?
             - build_text = '.rebuild'
@@ -46,13 +45,14 @@
           #push-all-btn
             - if @build && @build.id == @latest_build && @target_image_exists
               = button_to t('.push_all'), push_all_image_path(@image.id, :build_id => @build.id), :class => 'button pill'
+    %h2= t('.provider_images')
 
   .content
     - if @account_groups_listing.present?
       %ul.image_builds
         - @account_groups_listing.each do |driver, group|
           - timg = @target_images_by_target[driver]
-          %li
+          %li.clearfix
             %dl
               %dt
                 .build-actions
@@ -120,7 +120,6 @@
                                 = button_to "", image_provider_image_path(@image.id, pimg.id), :method => :delete, :class => 'delete_image'
                             - else
                               &nbsp;
-            .clear
     - else
       .centered.align-center
         %strong= t("images.flash.error.no_provider_accounts")

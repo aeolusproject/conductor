@@ -1,0 +1,30 @@
+/* #######################################################################################################
+MIXINS
+####################################################################################################### */
+
+@mixin display_inline_block {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: top;
+  zoom: 1;
+  *display: inline;
+}
+
+@mixin clearfix {
+  *zoom: 1;
+  &:before, &:after {
+    display: table;
+    content: "";
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin gradient-bg($from, $to){
+  background-color: $cell_color_base;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($from), to($to));
+  background-image: -moz-linear-gradient($from, $to);
+  background-image: -o-linear-gradient($from, $to);
+  background-image: linear-gradient($from, $to);
+}

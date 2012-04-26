@@ -89,7 +89,7 @@ Then /^I should not see the edit button$/ do
 end
 
 Then /^I should not see the delete button$/ do
-  within('#obj_actions') do
+  within('.obj_actions') do
     page.should have_no_selector('input[value=delete]')
   end
 end

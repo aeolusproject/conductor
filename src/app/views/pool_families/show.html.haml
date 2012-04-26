@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
-  #obj_actions.button-container
+  .obj_actions
     .button-group
       = link_to t('edit'), edit_pool_family_path(@pool_family), :class => 'button pill'
       = button_to t('delete'), pool_family_path(@pool_family), :method => :delete, :confirm => t("pool_families.confirm_delete"), :class => "button pill danger", :id => 'delete_pool_family_button'
@@ -17,6 +17,5 @@
               = tab[:name]
             -if tab[:count]
               %span.label.badge.count.dark=tab[:count]
-    .clear
   .content#tab
     = render :partial => @view

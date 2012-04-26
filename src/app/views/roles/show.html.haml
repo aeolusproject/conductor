@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
-  #obj_actions.button-container
+  .obj_actions
     = link_to t('roles.new_role'), new_role_url, :class => 'button primary', :id => 'new_role_button'
     .button-group
       = link_to t('edit'), edit_role_path(@role), :class => 'button pill'

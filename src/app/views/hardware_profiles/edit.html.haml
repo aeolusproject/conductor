@@ -1,18 +1,17 @@
 = render :partial => 'layouts/admin_nav'
 
 %header.page-header
-  #obj_actions.button-container
+  .obj_actions
     = link_to t('hardware_profiles.list.new_hardware'), hardware_profile_url, :class => 'button primary', :id => 'new_user_button'
-    %div.button-group
-      = link_to t('hardware_profiles.edit.cancel_editing'), hardware_profile_path(@hardware_profile), :class => 'button pill danger', :id => 'new_user_button'
+    = link_to t('hardware_profiles.edit.cancel_editing'), hardware_profile_path(@hardware_profile), :class => 'button pill danger', :id => 'new_user_button'
   %h1.hardware_profiles= @title
 
-%section.content-section.hardware_profile
+%section.content-section
   %header
     %h2=t('hardware_profiles.edit.edit_hwp')
 
   .content
-    = form_for @hardware_profile, :url => hardware_profile_path(@hardware_profile), :html => { :multipart => true } do |hwp_form|
+    = form_for @hardware_profile, :url => hardware_profile_path(@hardware_profile), :html => { :multipart => true, :class => 'generic' } do |hwp_form|
       = render :partial => "form", :locals => { :hwp_form => hwp_form }
 
     = render :partial => 'matching_provider_hardware_profiles' if params[:commit] == 'Check Matches'

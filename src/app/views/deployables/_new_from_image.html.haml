@@ -35,7 +35,6 @@
                           .catalog_with_checkbox
                             = check_box_tag 'catalog_id[]', catalog.id, @selected_catalogs.any?{|c| c.id == catalog.id}
                             = catalog.name
-                            .clear
 
       %fieldset.options.align-center
         = link_to t('deployables.form.cancel'), catalogs_path, :class => 'button danger'

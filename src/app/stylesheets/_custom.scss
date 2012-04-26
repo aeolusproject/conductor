@@ -1,21 +1,9 @@
-/*fixes the button_to helper used in button-group problem*/
-.button-group .button_to:not(:only-child) div .button.pill{
-  -webkit-border-radius: 0em 50em;
-  -moz-border-radius: 0em 50em 50em 0em;
-  border-radius: 0em 50em 50em 0em;
-}
-
 .pool_details {
   color: #333;
   text-decoration: none;
 }
 
-.loading_tabs {
-  height: 30px;
-  display:block;
-  background: url(../../images/loading.gif) no-repeat center;
-}
-
+/*launch time params*/
 .hidden {
   display: none;
 }

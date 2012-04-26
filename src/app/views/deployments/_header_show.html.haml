@@ -1,6 +1,5 @@
 %header.page-header
-  #obj_actions.button-container
-    .button-group
-      - if check_privilege(Privilege::MODIFY, @deployment)
-        = button_to t('delete'), deployment_path(@deployment), :method => :delete, :confirm => t("deployments.confirm_delete"), :class => "button danger", :id => 'delete'
+  .obj_actions
+    - if check_privilege(Privilege::MODIFY, @deployment)
+      = button_to t('delete'), deployment_path(@deployment), :method => :delete, :confirm => t("deployments.confirm_delete"), :class => "button danger", :id => 'delete'
   %h1.deployments= @title

@@ -5,6 +5,8 @@
 
 %section.content-section
   %header#tab-container-1
+    .section-controls
+      = pretty_filter_toggle(pool_path(@pool, :view => 'pretty', :details_tab => @details_tab[:id], :page => params[:page]), pool_path(@pool, :view => 'filter', :details_tab => @details_tab[:id], :page => params[:page]))
     %nav.faceted
       %ul#tab-container-1-nav
         - @tabs.each do |tab|
@@ -13,10 +15,5 @@
               = tab[:name]
             -if tab[:count]
               %span.label.badge.count.dark=tab[:count]
-    .section-controls
-      #obj_actions.button-container
-        .button-group
-          = pretty_filter_toggle(pool_path(@pool, :view => 'pretty', :details_tab => @details_tab[:id], :page => params[:page]),
-                                 pool_path(@pool, :view => 'filter', :details_tab => @details_tab[:id], :page => params[:page]))
   .content.collapsible.toggle-view.pools#tab
     = render :partial => @view
