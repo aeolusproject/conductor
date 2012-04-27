@@ -22,6 +22,10 @@ Provider.class_eval do
   def valid_framework?
     true
   end
+
+  def populate_realms
+    true
+  end
 end
 
 ProviderAccount.class_eval do
