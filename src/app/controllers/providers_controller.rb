@@ -104,18 +104,13 @@ class ProvidersController < ApplicationController
       params[:provider][:provider_type_id] = provider_type.id
     end
     @provider = Provider.new(params[:provider])
-    if !@provider.connect
-      flash[:warning] = t"providers.flash.warning.connect_failed"
-      render :action => "new"
+    if @provider.save
+      @provider.assign_owner_roles(current_user)
+      flash[:notice] = t"providers.flash.notice.added"
+      redirect_to edit_provider_path(@provider)
     else
-      if @provider.save
-        @provider.assign_owner_roles(current_user)
-        flash[:notice] = t"providers.flash.notice.added"
-        redirect_to edit_provider_path(@provider)
-      else
-        flash[:warning] = t"providers.flash.error.not_added"
-        render :action => "new"
-      end
+      flash[:warning] = t"providers.flash.error.not_added"
+      render :action => "new"
     end
   end
 

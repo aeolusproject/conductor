@@ -81,6 +81,10 @@ RSpec.configure do |config|
   #  activate_authlogic
   #end
 
+  config.before(:each) do
+    Provider.any_instance.stub(:valid_provider?).and_return(true)
+    Provider.any_instance.stub(:valid_famework?).and_return(true)
+  end
   #config.after(:each, :type => :controller) do
   #  current_user_session.destroy
   #end

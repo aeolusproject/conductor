@@ -23,6 +23,10 @@ Provider.class_eval do
     true
   end
 
+  def valid_provider?
+    true
+  end
+
   def populate_realms
     true
   end

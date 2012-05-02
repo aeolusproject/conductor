@@ -46,27 +46,15 @@ Feature: Manage Providers
     And I should see "Provider URL"
 
   Scenario: Create a new Provider
-    Given I am on the providers page
-    And there is not a provider named "testprovider"
-    When I follow "create_new_provider"
-    Then I should be on the new provider page
-    When I fill in "provider[name]" with "testprovider"
-    And I fill in "provider[url]" with "http://localhost:3002/api"
-    And I select "Amazon EC2" from "provider_provider_type_id"
-    And I press "save"
+    Given I am on the new provider page
+    And I attempt to add a valid provider
     Then I should be on the testprovider's edit provider page
-    And I should see "Provider added"
+    And I should see a confirmation message
     And I should have a provider named "testprovider"
 
   Scenario: Create a new Provider failure when using wrong url
-    Given I am on the providers page
-    And there is not a provider named "testprovider"
-    When I follow "create_new_provider"
-    Then I should be on the new provider page
-    When I fill in "provider[name]" with "testprovider"
-    And I fill in "provider[url]" with "http://localhost:3010/api"
-    And I select "Amazon EC2" from "provider_provider_type_id"
-    And I press "save"
+    Given I am on the new provider page
+    And I attempt to add a provider with an invalid url
     Then I should be on the providers page
     And I should see a warning message
 

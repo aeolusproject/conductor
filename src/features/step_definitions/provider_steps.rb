@@ -13,13 +13,30 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+def new_provider(port,bool)
+  destroy_provider("testprovider")
+  stub_framework(bool)
+  fill_in "provider[name]", :with => "testprovider"
+  fill_in "provider[url]", :with => "http://localhost:#{port}/api"
+  select("Amazon EC2", :from => "provider_provider_type_id")
+  click_button "save"
+end
+
+def destroy_provider(name)
+  provider = Provider.find_by_name(name)
+  if provider then provider.destroy end
+end
+
+def stub_framework(bool)
+  Provider.any_instance.stub(:valid_framework?).and_return(bool)
+end
+
 Given /^there should not exist a provider named "([^\"]*)"$/ do |name|
   Provider.find_by_name(name).should be_nil
 end
 
 Given /^there is not a provider named "([^"]*)"$/ do |name|
-  provider = Provider.find_by_name(name)
-  if provider then provider.destroy end
+  destroy_provider(name)
 end
 
 Given /^there is a provider named "([^\"]*)"$/ do |name|
@@ -27,7 +44,15 @@ Given /^there is a provider named "([^\"]*)"$/ do |name|
 end
 
 Given /^provider "([^"]*)" is not accessible$/ do |arg1|
-  Provider.any_instance.stub(:valid_framework?).and_return(false)
+  stub_framework(false)
+end
+
+Given /^I attempt to add a valid provider$/ do
+  new_provider(3002,true)
+end
+
+Given /^I attempt to add a provider with an invalid url$/ do
+  new_provider(3010,false)
 end
 
 Then /^I should have a provider named "([^\"]*)"$/ do |name|

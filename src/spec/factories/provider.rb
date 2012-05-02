@@ -33,7 +33,6 @@ FactoryGirl.define do
     name 'mock2'
     provider_type { ProviderType.find_by_deltacloud_driver("mock") }
     url 'http://localhost:3002/api'
-    deltacloud_provider 'mock'
     after_create { |p| p.realms << FactoryGirl.create(:realm3, :provider => p) }
   end
 

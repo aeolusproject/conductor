@@ -56,17 +56,21 @@ describe Provider do
       end
     end
 
-    it "should be able to connect to the specified framework" do
-      @provider.should be_valid
-      @provider.connect.should_not be_nil
-
+    it "should set error if unable to connect to specified deltacloud instance" do
+      @provider.stub(:valid_provider?).and_return(true)
       @provider.url = "http://invalid.provider/url"
       @provider.stub(:connect).and_return(nil)
-      deltacloud = @provider.connect
       @provider.should have(1).error_on(:url)
-      @provider.errors[:url].first.should eql("must be a valid provider url")
+      @provider.errors[:url].first.should eql(I18n.t("activerecord.errors.provider.url"))
       @provider.should_not be_valid
-      deltacloud.should be_nil
+    end
+
+    it "should set error if unable to connect to specified deltacloud_provider" do
+      @provider.stub(:valid_provider?).and_return(false)
+      @provider.stub(:valid_framework?).and_return(true)
+      @provider.should have(1).error_on(:deltacloud_provider)
+      @provider.errors[:deltacloud_provider].first.should eql(I18n.t("activerecord.errors.provider.deltacloud_provider"))
+      @provider.should_not be_valid
     end
 
     it "should require unique name" do

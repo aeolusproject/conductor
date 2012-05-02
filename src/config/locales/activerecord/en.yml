@@ -343,3 +343,7 @@ en:
         state: "State"
         created_at: "Created At"
         updated_at: "Updated At"
+    errors:
+      provider:
+        url: "Must be a valid provider uri"
+        deltacloud_provider: "Must be a valid provider identifier"
