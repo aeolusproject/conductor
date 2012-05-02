@@ -40,7 +40,7 @@ else
   require 'pg'
   require 'thin'
   require 'json'
-  require 'fastercsv'
+  require 'fastercsv' if RUBY_VERSION =~ /1\.8\..*/  # no longer needed in ruby 1.9+
   require 'nokogiri'
   #require 'railties'
 

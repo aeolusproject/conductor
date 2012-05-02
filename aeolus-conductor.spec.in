@@ -1,6 +1,14 @@
 %global app_root %{_datadir}/%{name}
 %global doc_root %{_datadir}/%{name}-doc
 
+%if 0%{?fedora} > 16
+%global rubyver 1.9.3
+%global rubyabi 1.9.1
+%else
+%global rubyver 1.8.1
+%global rubyabi 1.8
+%endif
+
 Name:     aeolus-conductor
 Version:  @VERSION@
 Release:  0%{?dist}
@@ -17,8 +25,8 @@ URL:      http://aeolusproject.org
 # cp aeolus-conductor-0.3.0.tar.gz ~/rpmbuild/SOURCES
 Source0:    aeolus-conductor-%{version}.tar.gz
 
-Requires: ruby >= 1.8.1
-Requires: ruby(abi) = 1.8
+Requires: ruby >= %{rubyver}
+Requires: ruby(abi) = %{rubyabi}
 Requires: rubygem(rails) >= 3.0.7
 Requires: rubygem(haml) >= 3.1
 Requires: rubygem(mustache) >= 0.99.4
@@ -41,6 +49,13 @@ Requires: rubygem(rake)
 Requires: postgresql
 Requires: postgresql-server
 Requires: system-logos
+
+%if 0%{?fedora} > 16
+Requires: rubygem(net-ldap)
+%else
+Requires: rubygem(fastercsv)
+Requires: rubygem(ruby-net-ldap)
+%endif
 
 # to ensure the service is actually started
 # and is accessible in the init script
@@ -80,7 +95,6 @@ Summary: Aeolus Conductor development and testing files
 Group:   Applications/Internet
 Requires: %{name} = %{version}-%{release}
 Requires: rubygem(cucumber)
-Requires: rubygem(rspec)
 Requires: rubygem(timecop)
 Requires: rubygem(cucumber-rails)
 Requires: rubygem(rspec-rails) >= 2.6.1
@@ -91,6 +105,7 @@ Requires: rubygem(vcr)
 Requires: rubygem(factory_girl_rails)
 Requires: rubygem(webmock)
 Requires: rubygem(launchy)
+Requires: rubygem(minitest)
 
 %description devel
 Tests and other development tools for the Aeolus Conductor.
