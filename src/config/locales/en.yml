@@ -215,7 +215,7 @@ en:
       arch: ARCH
       deployable_xml: Deployable XML
     show:
-      name: %{name} Deployment
+      name: "%{name} Deployment"
     new:
       launch: Launch this deployment
       deployable_definition: Deployable definition
@@ -535,8 +535,8 @@ en:
     new:
       new_hwp: New Hardware Profile
     show:
-      frontend_hwp: %{name} (Front End)
-      backend_hwp: %{name} (Provider)
+      frontend_hwp: "%{name} (Front End)"
+      backend_hwp: "%{name} (Provider)"
       matching_hwp: Matching Provider Hardware Profiles
     flash:
       notice:

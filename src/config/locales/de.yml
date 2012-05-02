@@ -260,7 +260,7 @@ de:
       no_catalog_selected: "Kein Katalog ausgewählt"
     new_from_image:
       catalog_entry_name: "%{name}"
-      description: "Markup- und Image-Referenzen in \%{name}\ wurden erfolgreich überprüft. Sie können das Image nun speichern und eine Deployable erstellen."
+      description: "Markup- und Image-Referenzen in %{name} wurden erfolgreich überprüft. Sie können das Image nun speichern und eine Deployable erstellen."
       no_available_catalog: "Kein Katalog"
       title: "Deployable erstellen"
     properties:
@@ -384,7 +384,7 @@ de:
       count_of_instances: "Anzahl der Instanzen: "
       operational_status: "Betriebsstatus von"
     overview:
-      confirmation: "Sind Sie sicher, dass Sie \%{deployment}\ im %{pool} Pool deployen möchten? Dadurch werden %{quota} Ihres gesamten Deployment-Kontingents verbraucht."
+      confirmation: "Sind Sie sicher, dass Sie %{deployment} im %{pool} Pool deployen möchten? Dadurch werden %{quota} Ihres gesamten Deployment-Kontingents verbraucht."
       deployable_xml: Deployable-XML
       description: Beschreibung
       header: "\"%{deployment}\" in %{pool} Pool deployen?"
@@ -538,7 +538,7 @@ de:
       os_version: OS-Version
     new:
       choose_file: "Wählen Sie eine Vorlagendatei: "
-      description: "Markup- und Image-Referenzen in \%{name}\ wurden erfolgreich überprüft. Sie können das Image nun speichern und eine Deployable erstellen."
+      description: "Markup- und Image-Referenzen in %{name} wurden erfolgreich überprüft. Sie können das Image nun speichern und eine Deployable erstellen."
       edit_file: "Datei vor dem Speichern bearbeiten: "
       from_url: "Von URL"
       image_url: "Vorlagen-URL: "
@@ -548,7 +548,7 @@ de:
     not_on_provider: "Angefordertes Image konnte nicht auf Provider gefunden werden."
     overview:
       back: Zurück
-      description: "Markup- und Image-Referenzen in \%{name}\ wurden erfolgreich überprüft. Sie können das Image nun speichern und eine Deployable erstellen."
+      description: "Markup- und Image-Referenzen in %{name} wurden erfolgreich überprüft. Sie können das Image nun speichern und eine Deployable erstellen."
       make_deployable: "Automatisch \"%{name}\" Deployable erstellen."
       save_template: "Vorlage speichern"
       valid_image: "Gültiges Image"
@@ -977,7 +977,7 @@ de:
   provider_images:
     flash:
       notice:
-        deleted: "Provider-Image gelöscht. Falls Sie das vom Provider gespeicherte Image selbst entfernen möchten, rufen Sie die Verwaltungskonsole von %{provider} auf und suchen das \%{target_id}\ Image."
+        deleted: "Provider-Image gelöscht. Falls Sie das vom Provider gespeicherte Image selbst entfernen möchten, rufen Sie die Verwaltungskonsole von %{provider} auf und suchen das %{target_id} Image."
         upload_start: "Upload des Provider-Images gestartet"
       warning:
         delete_failed: "Provider-Image konnte nicht gelöscht werden"
@@ -1293,7 +1293,7 @@ de:
       delete_selected: "Auswahl löschen"
       unlimited: Unbegrenzt
     new:
-      neccessary_information: "Geben Sie die notwendigen Informationen über Ihren neuen Benutzer ein und klicken Sie auf \Benutzer speichern\, wenn Sie fertig sind."
+      neccessary_information: "Geben Sie die notwendigen Informationen über Ihren neuen Benutzer ein und klicken Sie auf Benutzer speichern, wenn Sie fertig sind."
       new_user: "Neuer Benutzer"
     preset_filters:
       all_users: "Alle Benutzer"

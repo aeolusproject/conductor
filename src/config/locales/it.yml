@@ -384,7 +384,7 @@ it:
       count_of_instances: "Conteggio delle istanze: "
       operational_status: "Stato operativo di"
     overview:
-      confirmation: "Sei sicuro di voler implementare \%{deployment}\ sul gruppo %{pool}? Così facendo utilizzerete %{quota} del tuo quota totale."
+      confirmation: "Sei sicuro di voler implementare %{deployment} sul gruppo %{pool}? Così facendo utilizzerete %{quota} del tuo quota totale."
       deployable_xml: "XML distribuibile"
       description: Descrizione
       header: "Implementare \"%{deployment}\" sul pool %{pool}?"
@@ -977,7 +977,7 @@ it:
   provider_images:
     flash:
       notice:
-        deleted: "Immagine provider cancellata. Se desideri rimuovere l'immagine archiviata dal provider visitare la console di gestione di %{provider} e trovare l'immagine \%{target_id}\."
+        deleted: "Immagine provider cancellata. Se desideri rimuovere l'immagine archiviata dal provider visitare la console di gestione di %{provider} e trovare l'immagine %{target_id}."
         upload_start: "Caricamento immagine del provider iniziato"
       warning:
         delete_failed: "Impossibile cancellare l'immagine del provider"

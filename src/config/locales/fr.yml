@@ -384,7 +384,7 @@ fr:
       count_of_instances: "Décompte des instances : "
       operational_status: "Statut opérationnel de"
     overview:
-      confirmation: "Êtes-vous certain de vouloir déployer \%{deployment}\ sur le pool %{pool} ? Ce faire utilisera %{quota} de votre quota de déploiement total."
+      confirmation: "Êtes-vous certain de vouloir déployer %{deployment} sur le pool %{pool} ? Ce faire utilisera %{quota} de votre quota de déploiement total."
       deployable_xml: "XML déployable"
       description: Description
       header: "Déployer \"%{deployment}\" sur le pool %{pool} ?"
@@ -977,7 +977,7 @@ fr:
   provider_images:
     flash:
       notice:
-        deleted: "Image du fournisseur supprimée. Si vous souhaitez supprimer l'image stockée par le fournisseur, veuillez vous rendre sur la console de gestion de %{provider} et recherchez l'image \%{target_id}\."
+        deleted: "Image du fournisseur supprimée. Si vous souhaitez supprimer l'image stockée par le fournisseur, veuillez vous rendre sur la console de gestion de %{provider} et recherchez l'image %{target_id}."
         upload_start: "Téléchargement de l'image du fournisseur lancé"
       warning:
         delete_failed: "Suppression de l'image du fournisseur impossible"

@@ -384,7 +384,7 @@ pt-BR:
       count_of_instances: "Contagem das Instâncias: "
       operational_status: "Status operacional de: "
     overview:
-      confirmation: "Você tem certeza de que deseja implementar o Pool \%{deployment}\ to the %{pool}? Isto usará a %{quota} de sua cota de implementação geral."
+      confirmation: "Você tem certeza de que deseja implementar o Pool %{deployment} to the %{pool}? Isto usará a %{quota} de sua cota de implementação geral."
       deployable_xml: "XML Implementável"
       description: Descrição
       header: "Implementar \"%{deployment}\" em %{pool} Pool?"
