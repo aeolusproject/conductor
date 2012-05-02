@@ -12,10 +12,19 @@
   %header
     %h2=t 'properties'
   .content
-    = render :partial => 'properties'
+    %table.flat
+      %thead
+        %tr
+          - @properties_header.each do |header|
+            %th
+              = header[:name]
+      - @hwp_properties.each do |hwpp|
+        %tr
+          %td
+            =hwpp.name.nil? ? "n/a" : hwpp.name
+          %td
+            =hwpp.unit.nil? ? "n/a" : hwpp.unit
+          %td
+            =hwpp.value.nil? ? "n/a" : hwpp.value
 - unless @hardware_profile.provider_hardware_profile?
-  %section.content-section.hardware_profile
-    %header
-      %h2=t'hardware_profiles.show.matching_hwp'
-    .content
-      = render :partial => 'matching_provider_hardware_profiles'
+  = render :partial => 'matching_provider_hardware_profiles'

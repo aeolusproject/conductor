@@ -1,6 +1,9 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
   .obj_actions
+    .return_to
+      = t'return_to'
+      = link_to t("catalogs.catalogs"), catalogs_path
     - if check_privilege(Privilege::CREATE, Catalog)
       = link_to t('catalogs.new_catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
     .button-group
@@ -14,9 +17,16 @@
     %h2=t'properties'
 
   .content
-    = render :partial => 'properties'
+    %table.properties_table
+      %tbody
+        %tr
+          %td= t('catalogs.index.name')
+          %td= @catalog.name
+        %tr
+          %td= t('pools.pool')
+          %td= @catalog.pool.name
 
-%section.content-section.catalog_entries
+%section.content-section
   %header
     %h2=t('catalog_entries.index.catalog_entries')
 

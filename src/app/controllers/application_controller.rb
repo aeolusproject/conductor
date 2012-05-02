@@ -313,7 +313,7 @@ class ApplicationController < ActionController::Base
       @roles = Role.find_all_by_scope(@permission_object.class.name)
       if @tabs
         @tabs << {:name => t('role_assignments'),
-                  :view => 'permissions',
+                  :view => 'permissions/permissions',
                   :id => 'permissions',
                   :count => perm_obj.permissions.count,
                   :pretty_view_toggle => 'disabled'}

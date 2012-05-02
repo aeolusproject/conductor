@@ -74,9 +74,6 @@ module ApplicationHelper
         :filter_controls => options[:filter_controls] || :filter_controls,
         :form_footer => options[:form_footer] || :form_footer,
         :object_count => rows.count,
-        # TODO - We need to support searches and filters below
-        :search_term => nil,
-        :filters => {},
         :columns => columns,
         :lower_class => _class.to_s.tableize,
         :block => block,

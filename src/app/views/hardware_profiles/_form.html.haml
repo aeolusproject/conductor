@@ -1,8 +1,9 @@
 - if @hardware_profile.errors.any?
   = render 'layouts/error_messages', :object => @hardware_profile
 %fieldset
-  = hwp_form.label :name, :class => 'em'
-  = hwp_form.text_field :name, :class => 'em'
+  .field
+    = hwp_form.label :name, :class => 'em'
+    = hwp_form.text_field :name, :class => 'em long'
 %fieldset
   %table
     %thead

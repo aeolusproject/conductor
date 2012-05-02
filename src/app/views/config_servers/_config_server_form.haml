@@ -3,7 +3,7 @@
 %fieldset
   .field
     = hidden_field_tag "provider_account_id", @provider_account.id
-    = form.label :endpoint
+    = form.label :endpoint, :class => 'em'
     .input
       = form.text_field :endpoint, :class => 'em long'
   .field

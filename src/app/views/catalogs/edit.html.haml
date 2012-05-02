@@ -2,12 +2,9 @@
 %header.page-header
   .obj_actions
     = link_to t('catalogs.new_catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
-  %h1.no-icon= @catalog.name
+  %h1.no-icon= @title
 
 %section.content-section.user
-  %header
-    %h2= @title
-
   .content
     = form_for @catalog, :url => catalog_path(@catalog), :html => { :method => :put, :class => 'generic horizontal' } do |f|
       = render :partial => "form", :locals => { :form => f }

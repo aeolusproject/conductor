@@ -251,7 +251,7 @@ class DeployablesController < ApplicationController
   end
 
   def filter
-    redirect_to_original({"catalog_entries_preset_filter" => params[:catalog_entries_preset_filter], "catalog_entries_search" => params[:catalog_entries_search]})
+    redirect_to_original({"deployables_preset_filter" => params[:deployables_preset_filter], "deployables_search" => params[:deployables_search]})
   end
 
   private

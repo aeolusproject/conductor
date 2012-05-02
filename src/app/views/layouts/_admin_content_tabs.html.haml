@@ -4,7 +4,8 @@
       %ul#tab-container-1-nav
         - @tabs.each do |tab|
           %li
-            %a{ :href => tab[:url], :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"}
+            %a{ :href => tab[:url], :id => "details_#{tab[:id]}",
+                :class => "#{'active' if @details_tab[:id] == tab[:id]} show"}
               = tab[:name]
             -if tab[:count]
               %span.label.badge.count.dark=tab[:count]

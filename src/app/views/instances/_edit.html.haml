@@ -1,11 +1,17 @@
-- if @instance.errors.any?
-  = render 'layouts/error_messages', :object => @instance
-%h2= t'instances.edit.edit_instance'
-= form_for @instance do
-  %ul
-    %li
-      = label :instance, :name
-      = text_field :instance, :name
+%header.page-header
+  %h1.no-icon= @instance.name.blank? ? t("instances.edit.edit_instance") : @instance.name
 
-  = submit_tag t('cancel'), :name => 'cancel'
-  = submit_tag t('save'), :name => 'save', :id => 'save'
+%section.content-section
+  %header
+    %h2= t'instances.edit.edit_instance'
+  .content
+    = form_for @instance, :html => {:class => 'generic'} do |form|
+      - if @instance.errors.any?
+        = render 'layouts/error_messages', :object => @instance
+      %fieldset
+        .field
+          = label :instance, :name, :class => 'em'
+          = text_field :instance, :name, :class => 'em long'
+      %fieldset.options
+        = submit_tag t('save'), :name => 'save', :id => 'save', :class => 'button'
+        = link_to t('cancel'), @instance, :class => 'button danger'

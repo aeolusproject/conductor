@@ -29,6 +29,7 @@ class DeploymentsController < ApplicationController
 
   def index
     save_breadcrumb(deployments_path(:viewstate => viewstate_id))
+    @title = t 'deployments.deployments'
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
@@ -187,20 +188,19 @@ class DeploymentsController < ApplicationController
     if filter_view?
       @view = 'instances/list'
       params[:instances_preset_filter] = "" unless params[:instances_preset_filter]
-      @instances = paginate_collection(Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
-                                                list(sort_column(Instance), sort_direction).where("instances.deployment_id" => @deployment.id),
+      @instances = paginate_collection(Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter],
+                                                              :search_filter => params[:instances_search]).
+                                                list(sort_column(Instance), sort_direction).
+                                                where("instances.deployment_id" => @deployment.id),
                                        params[:page], PER_PAGE)
     else
       @view = 'pretty_view_show'
       @instances = paginate_collection(Instance.list(sort_column(Instance), sort_direction).where("instances.deployment_id" => @deployment.id),
                                        params[:page], PER_PAGE)
     end
-    #TODO add links to real data for history, permissions, services
+    #TODO add links to real data for history, services
     @tabs = [{:name => t('instances.instances.other'), :view => @view, :id => 'instances', :count => @deployment.instances.count, :pretty_view_toggle => 'enabled'},
-             #{:name => 'Services', :view => @view, :id => 'services'},
-             #{:name => 'History', :view => 'history', :id => 'history'},
              {:name => t('properties'), :view => 'properties', :id => 'properties', :pretty_view_toggle => 'disabled'}
-    #{:name => 'Permissions', :view => 'permissions', :id => 'permissions'}
     ]
     add_permissions_tab(@deployment)
     details_tab_name = params[:details_tab].blank? ? 'instances' : params[:details_tab]

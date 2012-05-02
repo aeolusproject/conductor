@@ -1194,7 +1194,7 @@ ul.deployment-array.large{
   }
 
   li.deployment + li.deployment{
-    margin-left: 23px;
+    margin-left: 22px;
   }
 
   li.deployment.pending, li.deployment.alert, li.deployment.failure{
@@ -1319,7 +1319,7 @@ ul.deployment-array.small{
   }
 
   li.deployment + li.deployment{
-    margin-left: 14px;
+    margin-left: 12px;
   }
 
   li.deployment.pending, li.deployment.alert, li.deployment.failure{
@@ -1540,15 +1540,17 @@ table.light_table{
   }
 }
 
+
+/* Properties table
+   ========================================================================== */
 table.properties_table {
-  margin-top: 2em;
   th {
     border-bottom: .1em solid #ccc;
     padding-bottom: .5em;
     color: #aaa;
     &:first-child {
       text-align: right;
-      padding-right: 2em;
+      padding-right: 1em;
       width: 18.15em;
     }
     &:last-child {
@@ -1559,9 +1561,9 @@ table.properties_table {
     &:first-child {
       font-weight: bold;
       text-align: right;
-      padding-right: 2em;
+      padding-right: 1em;
       &:after {
-        content: " :";
+        content: ":";
       }
     }
     padding-top: .5em;

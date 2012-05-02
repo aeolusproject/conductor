@@ -22,6 +22,7 @@ class InstancesController < ApplicationController
 
   def index
     @params = params
+    @title = t("instances.instances.other")
     save_breadcrumb(instances_path(:viewstate => viewstate_id))
     load_instances
 
@@ -33,6 +34,10 @@ class InstancesController < ApplicationController
   end
 
   def new
+    respond_to do |format|
+      format.js
+      format.json
+    end
   end
 
   def create

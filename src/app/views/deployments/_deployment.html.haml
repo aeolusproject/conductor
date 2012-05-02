@@ -1,9 +1,0 @@
-%div.deployment_pretty
-  %h3
-    = link_to(deployment.name, deployment)
-  %ul
-    %li
-      = deployment.instances.count
-      Instances
-  %p
-    = deployment.provider.provider_type.name if deployment.provider

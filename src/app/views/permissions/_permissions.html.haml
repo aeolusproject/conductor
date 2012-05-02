@@ -1,4 +1,4 @@
-- content_for :form_header do
+- content_for :permissions_form_header do
   - if not(@show_inherited or @show_global) && check_privilege(Privilege::PERM_SET)
     %li= link_to t('permissions.form.grant_access'), new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id, :path_prefix => @path_prefix, :use_tabs => @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')), { :class => 'button primary', :id => 'new_permission_button'}
     %li= restful_submit_tag t('permissions.revoke_access'), "destroy", multi_destroy_permissions_path, 'DELETE', :id => 'revoke_button', :class => 'button danger'
@@ -24,7 +24,10 @@
         %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button primary', :id => 'inherited_permission_button'}
         %li= link_to t('permissions.global_access'), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button primary', :id => 'global_permission_button'}
 
-= filter_table(@permission_list_header, @permissions) do |permission|
+= filter_table(@permission_list_header,
+               @permissions,
+               :form_header => :permissions_form_header,
+               :filter_controls => :permissions_filter_controls) do |permission|
   %tr{:class => cycle('nostripe','stripe')}
     - if not(@show_inherited or @show_global)
       %td{:class => 'checkbox'}

@@ -1,11 +1,18 @@
-- if @deployment.errors.any?
-  = render 'layouts/error_messages', :object => @deployment
-%h2=t 'deployments.edit.edit_deployment'
-= form_for @deployment do
-  %ul
-    %li
-      = label :deployment
-      = text_field :deployment, :name
+%header.page-header
+  %h1.deployments= @deployment.name.blank? ? t("deployments.deployment") : @deployment.name
 
-  = submit_tag t('cancel'), :name => 'cancel'
-  = submit_tag t('save'), :name => 'save', :id => 'save_button'
+%section.content-section
+  %header
+    %h2= t('deployments.edit.edit_deployment')
+  .content
+    = form_for @deployment, :html => {:class => 'generic'} do |form|
+      - if @deployment.errors.any?
+        = render 'layouts/error_messages', :object => @deployment
+      %fieldset
+        .field
+          = form.label :name, :class => 'em'
+          .input
+            = form.text_field :name, :class => 'em long'
+      %fieldset.options
+        = form.submit t('save'), :class => 'button primary', :id => 'save_button'
+        = link_to t('cancel'), @deployment, :class => 'button danger'

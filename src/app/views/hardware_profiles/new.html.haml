@@ -5,10 +5,10 @@
     .return_to
       = t'return_to'
       = link_to t('hardware_profiles.hardware_profiles'), hardware_profiles_path
-  %h1.hardware_profiles= @title
+  %h1.hardware_profiles= @hardware_profile.name.blank? ? t("hardware_profiles.new.new_hwp") : @hardware_profile.name
 
 %section.content-section
-  = form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true } do |hwp_form|
+  = form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true, :class => 'generic' } do |hwp_form|
     = render :partial => "form", :locals => { :hwp_form => hwp_form }
 
-  = render :partial => 'matching_provider_hardware_profiles' if @matching_hwps.present? && @matching_hwps.any?
+= render :partial => 'matching_provider_hardware_profiles' if @matching_hwps.present? && @matching_hwps.any?

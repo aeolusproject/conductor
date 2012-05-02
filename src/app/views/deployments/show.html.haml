@@ -1,7 +1,19 @@
 = render :partial => 'layouts/nav_history'
-= render :partial => 'header_show'
-= render :partial => 'pools/scoreboard_show', :locals => {:@statistics => @deployment.pool.statistics, :@pool => @deployment.pool}
+
+%header.page-header
+  .obj_actions
+    - if check_privilege(Privilege::MODIFY, @deployment)
+      .button-group
+        = link_to t('edit'), edit_deployment_path(@deployment), :class => 'button pill',
+                                                                :id => 'edit_deployment_button'
+        = button_to t('delete'), deployment_path(@deployment), :method => :delete,
+                                                               :confirm => t("deployments.confirm_delete"),
+                                                               :class => "button pill danger",
+                                                               :id => 'delete'
+  %h1.deployments= @title
+
 = render :partial => 'alerts_show'
+
 %section.content-section
   %header#tab-container-1
     .section-controls

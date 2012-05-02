@@ -1,5 +1,5 @@
 - if request.xhr?
-  = render :partial => '/layouts/notification'
+  = render :partial => '/layouts/new_notification'
 
 - content_for :form_header do
   %li= restful_submit_tag "#{t'deployments.list.stop_selected'}", 'stop', multi_stop_deployments_path, 'POST', :class => 'button', :id => "stop_button", 'data-none_selected' => t('deployments.flash.error.none_selected')

@@ -149,7 +149,6 @@ Feature: Manage Deployments
     And I should see "testdeployment"
     And I follow "Properties"
     Then I should see the following:
-      | Property Name | Value          |
       | Pool	        | Default   |
       | Owner	        | John testuser  |
       | Name	        | testdeployment |

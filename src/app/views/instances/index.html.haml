@@ -1,2 +1,5 @@
 = render :partial => 'layouts/nav_history'
-= render :partial => 'list'
+%header.page-header
+  %h1.no-icon= @title
+%section.content-section
+  = render :partial => 'list'

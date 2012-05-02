@@ -22,7 +22,7 @@ Feature: Manage Catalogs
     Given there is a "Marketing" catalog
     And I am on the catalogs page
     When I follow "Marketing"
-    Then I should see "Name: Marketing"
+    Then I should see "Marketing"
 
   Scenario: Edit a catalog
     Given there is a "Development" catalog
