@@ -55,3 +55,10 @@ Feature: Manage Permissions
     When I delete the permission
     Then I should be on the page for the pool "PermissionPool"
     And I should see "Deleted the following Permission Grants"
+
+  Scenario: View inherited permissions
+    Given I am viewing the pool "PermissionPool"
+    When I follow link with ID "details_permissions"
+    When I follow "Inherited Access"
+    Then I should see "Inherited From"
+    And I should see "Global Administrator"

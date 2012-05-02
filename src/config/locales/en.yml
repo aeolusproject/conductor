@@ -1214,7 +1214,11 @@ en:
     my_account: My Account
     logout: Log out
   permissions:
+    direct_access: "Direct Access"
+    inherited_access: "Inherited Access"
+    inherited_from: "Inherited From"
     revoke_access: "Revoke Access"
+    global: "Global"
     form:
       grant_access: Grant Access
     new:

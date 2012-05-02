@@ -299,9 +299,11 @@ class ApplicationController < ActionController::Base
     @polymorphic_path_extras = polymorphic_path_extras
     @roles = Role.find_all_by_scope(@permission_object.class.name)
     set_permissions_header
+    @inline = true
   end
 
   def add_permissions_tab(perm_obj, path_prefix = '', polymorphic_path_extras = {})
+    @inline = false
     @path_prefix = path_prefix
     @polymorphic_path_extras = polymorphic_path_extras
     if "permissions" == params[:details_tab]
@@ -322,13 +324,22 @@ class ApplicationController < ActionController::Base
   end
 
   def set_permissions_header
-    @permission_list_header = [
-      { :name => 'checkbox', :class => 'checkbox', :sortable => false },
+    @show_inherited = params[:show_inherited]
+    @permission_list_header = []
+    unless @show_inherited
+      @permission_list_header <<
+        { :name => 'checkbox', :class => 'checkbox', :sortable => false }
+    end
+    @permission_list_header += [
       { :name => t('users.index.username') },
       { :name => t('users.index.last_name'), :sortable => false },
       { :name => t('users.index.first_name'), :sortable => false },
       { :name => t("role"), :sort_attr => :role},
     ]
+    if @show_inherited
+      @permission_list_header <<
+        { :name => t('permissions.inherited_from'), :sortable => false }
+    end
   end
 
   def set_locale
