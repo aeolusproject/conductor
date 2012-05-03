@@ -83,6 +83,7 @@ describe DeployablesController do
     context "deletion successfully" do
       before do
         Deployable.any_instance.stub(:destroy).and_return(true)
+        Deployable.any_instance.stub(:has_privilege).and_return(true)
       end
 
       it "deletes a deployable and redirect to deployables#index" do
@@ -99,6 +100,7 @@ describe DeployablesController do
     context "deletion fails" do
       before do
         Deployable.any_instance.stub(:destroy).and_return(false)
+        Deployable.any_instance.stub(:has_privilege).and_return(true)
       end
 
       it "not delete a deployable and redirect to deployables#show" do

@@ -165,21 +165,6 @@ class Pool < ActiveRecord::Base
   def self.additional_privilege_target_types
     [Deployment, Instance, Catalog, Quota]
   end
-  class << self
-    alias orig_list_for_user_include list_for_user_include
-    alias orig_list_for_user_conditions list_for_user_conditions
-  end
-
-  def self.list_for_user_include
-    orig_list_for_user_include + [ {:pool_family => :permissions} ]
-  end
-
-  def self.list_for_user_conditions
-    "(#{orig_list_for_user_conditions}) or
-     (permissions_pool_families.user_id=:user and
-      permissions_pool_families.role_id in (:role_ids))"
-  end
-
 
   private
 

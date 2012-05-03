@@ -62,23 +62,6 @@ class Catalog < ActiveRecord::Base
   def self.additional_privilege_target_types
     [Deployable]
   end
-  class << self
-    alias orig_list_for_user_include list_for_user_include
-    alias orig_list_for_user_conditions list_for_user_conditions
-  end
-
-  def self.list_for_user_include
-    orig_list_for_user_include + [ {:pool => :permissions},
-                                   {:pool_family => :permissions} ]
-  end
-
-  def self.list_for_user_conditions
-    "(#{orig_list_for_user_conditions}) or
-     (permissions_pools.user_id=:user and
-      permissions_pools.role_id in (:role_ids)) or
-     (permissions_pool_families.user_id=:user and
-      permissions_pool_families.role_id in (:role_ids))"
-  end
 
   PRESET_FILTERS_OPTIONS = [
     {:title => "catalogs.preset_filters.belongs_to_default_pool", :id => "belongs_to_default_pool", :query => includes(:pool).where("pools.name" => "Default")}

@@ -19,26 +19,20 @@ module PermissionedObject
   def has_privilege(user, action, target_type=nil)
     return false if user.nil? or action.nil?
     target_type = self.class.default_privilege_target_type if target_type.nil?
-    perm_ancestors.each do |obj|
-      return true if obj and obj.permissions.find(:first,
-                                          :include => [:role => :privileges],
-                                          :conditions =>
-                                          ["permissions.user_id=:user and
-                                            privileges.target_type=:target_type and
-                                            privileges.action=:action",
-                                           { :user => user.id,
-                                             :target_type => target_type.name,
-                                             :action => action}])
-    end
-    return false
+    derived_permissions.includes(:role => :privileges).where(
+      ["derived_permissions.user_id=:user and
+        privileges.target_type=:target_type and
+        privileges.action=:action",
+        { :user => user.id,
+          :target_type => target_type.name,
+          :action => action}]).any?
   end
 
   # Returns the list of objects to check for permissions on -- by default
   # this object plus the Base permission object
   # At the moment, the retuned list is not necessarily ordered
-  # FIXME: remove self once has_privilege stops using this method
   def perm_ancestors
-    [self, BasePermissionObject.general_permission_scope]
+    [BasePermissionObject.general_permission_scope]
   end
   # Returns the list of objects to generate derived permissions for
   # -- by default just this object
@@ -101,23 +95,18 @@ module PermissionedObject
       def self.default_privilege_target_type
         self
       end
-      def self.list_for_user_include
-        [:permissions]
-      end
-      def self.list_for_user_conditions
-        "permissions.user_id=:user and
-         permissions.role_id in (:role_ids)"
-      end
       def self.list_for_user(user, action, target_type=self.default_privilege_target_type)
         return where("1=0") if user.nil? or action.nil? or target_type.nil?
         if BasePermissionObject.general_permission_scope.has_privilege(user, action, target_type)
           scoped
         else
-          role_ids = Role.includes(:privileges).where("privileges.target_type" => target_type, "privileges.action" => action).collect {|r| r.id}
-          include_clause = self.list_for_user_include
-          conditions_hash = {:user => user.id, :target_type => target_type.name, :action => action, :role_ids => role_ids}
-          conditions_str = self.list_for_user_conditions
-          includes(include_clause).where(conditions_str, conditions_hash)
+          includes([:derived_permissions => {:role => :privileges}]).
+            where("derived_permissions.user_id=:user and
+                   privileges.target_type=:target_type and
+                   privileges.action=:action",
+                  {:user => user.id,
+                   :target_type => target_type.name,
+                   :action => action})
         end
       end
     end

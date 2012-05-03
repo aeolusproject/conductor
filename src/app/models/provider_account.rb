@@ -115,20 +115,6 @@ class ProviderAccount < ActiveRecord::Base
   def self.additional_privilege_target_types
     [Quota]
   end
-  class << self
-    alias orig_list_for_user_include list_for_user_include
-    alias orig_list_for_user_conditions list_for_user_conditions
-  end
-
-  def self.list_for_user_include
-    orig_list_for_user_include + [{ :provider => :permissions}]
-  end
-
-  def self.list_for_user_conditions
-    "(#{orig_list_for_user_conditions}) or
-     (permissions_providers.user_id=:user and
-      permissions_providers.role_id in (:role_ids))"
-  end
 
   def destroyable?
     instances.empty? || instances.all? { |i| i.destroyable? }

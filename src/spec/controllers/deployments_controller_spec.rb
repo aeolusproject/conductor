@@ -74,7 +74,7 @@ describe DeploymentsController do
 
     describe "#destroy" do
       before do
-        @deployment = Factory.build(:deployment)
+        @deployment = Factory.create(:deployment)
         Deployment.stub!(:find).and_return([@deployment])
         delete :multi_destroy, :deployments_selected => [@deployment.id], :format => :json
       end

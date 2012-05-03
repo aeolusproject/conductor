@@ -56,26 +56,6 @@ class Deployable < ActiveRecord::Base
   def perm_ancestors
     super + catalogs + catalogs.collect{|c| c.pool}.uniq + [pool_family]
   end
-  class << self
-    alias orig_list_for_user_include list_for_user_include
-    alias orig_list_for_user_conditions list_for_user_conditions
-  end
-
-  def self.list_for_user_include
-    orig_list_for_user_include + [ {:catalogs => [:permissions,
-                                                  {:pool => :permissions}]},
-                                   {:pool_family => :permissions} ]
-  end
-
-  def self.list_for_user_conditions
-    "(#{orig_list_for_user_conditions}) or
-     (permissions_catalogs.user_id=:user and
-      permissions_catalogs.role_id in (:role_ids)) or
-     (permissions_pools.user_id=:user and
-      permissions_pools.role_id in (:role_ids)) or
-     (permissions_pool_families.user_id=:user and
-      permissions_pool_families.role_id in (:role_ids))"
-  end
 
   def valid_deployable_xml?
     begin
