@@ -243,7 +243,7 @@ describe Api::ImagesController do
               image {
                 targets "mock"
                 tdl {
-                  parent.add_child(Nokogiri::XML(tpl).root)
+                  cdata(tpl)
                   target "mock"
                 }
                 environment "default"
@@ -261,7 +261,7 @@ describe Api::ImagesController do
             post :create
           end
 
-          it { response.response_code == 200 }
+          it { response.response_code.should == 200 }
           it { response.headers['Content-Type'].should include("application/xml") }
           it "should have an image with correct attributes" do
             resp = Hash.from_xml(response.body)
@@ -269,6 +269,86 @@ describe Api::ImagesController do
             resp['image']['build']['target_images'].should == "\n"
             resp['image']['build']['id'].should == @build.id
          end
+        end
+
+        context "when trying to build image with incorrect template XML" do
+          before(:each) do
+            tpl =%q{template>
+                      <name>Fedora 15 Template</name>
+                      <os>
+                        <name>Fedora</name>
+                        <version>15</version>
+                        <arch>x86_64</arch>
+                        <install type='url'>
+                          <url>http://download.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/</url>
+                        </install>
+                        <rootpw>p@ssw0rd</rootpw>
+                      </os>
+                      <description>A Fedora 15 Image Factory Template</description>
+                    </template>}
+            xml = Nokogiri::XML::Builder.new do
+              image {
+                targets "mock"
+                tdl {
+                  cdata(tpl)
+                  target "mock"
+                }
+                environment "default"
+              }
+            end
+            Aeolus::Image::Factory::Image.stub(:new).and_return(@image)
+            Aeolus::Image::Warehouse::Image.stub(:create!).and_return(@image)
+            Aeolus::Image::Warehouse::Template.stub(:create!).and_return(@image)
+            @image.stub(:targets=).and_return(@image)
+            @image.stub(:template=).and_return(@image)
+            @image.stub(:save!)
+            Aeolus::Image::Factory::TargetImage.stub(:status).and_return(nil)
+
+            request.env['RAW_POST_DATA'] = xml.to_xml
+            post :create
+          end
+
+          it { response.response_code.should == 400 }
+          it { response.headers['Content-Type'].should include("application/xml") }
+        end
+
+        context "when trying to build image with incorrect template XML without CDATA" do
+          before(:each) do
+            tpl =%q{template>
+                      <name>Fedora 15 Template</name>
+                      <os>
+                        <name>Fedora</name>
+                        <version>15</version>
+                        <arch>x86_64</arch>
+                        <install type='url'>
+                          <url>http://download.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/</url>
+                        </install>
+                        <rootpw>p@ssw0rd</rootpw>
+                      </os>
+                      <description>A Fedora 15 Image Factory Template</description>
+                    </template>}
+            xml = %{<image>
+                      <targets>mock</targets>
+                      <tdl>
+                        #{tpl}
+                        <target>mock</target>
+                      </tdl>
+                      <environment>default</environment>
+                    </image>}
+            Aeolus::Image::Factory::Image.stub(:new).and_return(@image)
+            Aeolus::Image::Warehouse::Image.stub(:create!).and_return(@image)
+            Aeolus::Image::Warehouse::Template.stub(:create!).and_return(@image)
+            @image.stub(:targets=).and_return(@image)
+            @image.stub(:template=).and_return(@image)
+            @image.stub(:save!)
+            Aeolus::Image::Factory::TargetImage.stub(:status).and_return(nil)
+
+            request.env['RAW_POST_DATA'] = xml
+            post :create
+          end
+
+          it { response.response_code.should == 400 }
+          it { response.headers['Content-Type'].should include("application/xml") }
         end
 
         context "when trying to import image" do
