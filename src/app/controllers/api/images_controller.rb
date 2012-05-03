@@ -141,10 +141,17 @@ module Api
     private
     def process_post(body)
       doc = Nokogiri::XML CGI.unescapeHTML(body)
-      if !doc.xpath("/image/targets").empty? && !doc.xpath("/image/tdl/template").empty? && !doc.xpath("/image/environment").empty?
-        { :type => :build, :params => { :template => doc.xpath("/image/tdl/template").to_s,
-                                        :targets => doc.xpath("/image/targets").text,
-                                        :environment => doc.xpath("/image/environment").text}
+
+      if !doc.xpath("/image/targets").empty? &&
+         !doc.xpath("/image/tdl").empty? &&
+         !doc.xpath("/image/environment").empty?
+
+        template = Nokogiri::XML(doc.xpath("/image/tdl").text).xpath("/template")
+
+        { :type => :build,
+          :params => { :template => template.to_s,
+                       :targets => doc.xpath("/image/targets").text,
+                       :environment => doc.xpath("/image/environment").text}
         }
       elsif !doc.xpath("/image/provider_account_name").empty? && !doc.xpath("/image/target_identifier").empty? &&
                  !doc.xpath("/image/image_descriptor").empty? && !doc.xpath("/image/environment").empty?
