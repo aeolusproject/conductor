@@ -91,9 +91,7 @@ Then /^there should not be user with login "([^\"]*)"$/ do |login|
 end
 
 When /^I enter a string of length "([^"]*)" into "([^"]*)"$/ do |length, field_name|
-  valid_chars = [*('a'..'z')] + [*('A'..'Z')] + [*(1..9)] + ['_', '-']
-  string = ""
-  length.to_i.times { string << valid_chars[rand(valid_chars.length)] }
+  string = 'x' * length.to_i
   When "I fill in \"#{field_name}\" with \"#{string}\""
 end
 
