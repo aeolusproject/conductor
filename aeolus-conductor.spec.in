@@ -234,7 +234,7 @@ done
 
 # precompile stylesheets
 %{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
-for stylesheet in custom layout login header; do
+for stylesheet in layout login; do
   sass --style compact ./src/app/stylesheets/$stylesheet.scss %{buildroot}%{app_root}/public/stylesheets/compiled/$stylesheet.css
 done
 
@@ -380,6 +380,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Thu May 03 2012 Martyn Taylor <mtaylor@redhat.com> - 0.9.0-1
+- Updated compilation of new sass files
+
 * Mon Jan 09 2012 Steve Linabery <slinaber@redhat.com> - 0.8.0-2
 - 18ba534 Merge branch 'master' of github.com:aeolusproject/conductor
 - 0a37767 API - Added template checking when creating an image
