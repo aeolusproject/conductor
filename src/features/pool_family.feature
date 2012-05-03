@@ -3,13 +3,13 @@ Feature: Pool Families
   As a user
   I want to manage pool families
 
-  Background:
+  Background: Privileged User
     Given I'm connected to the warehouse
+    And I am an authorised user
+    And I am logged in
 
   Scenario: List pool families
-    Given I am an authorised user
-    And I am logged in
-    And I am on the homepage
+    Given I am on the homepage
     And there are these pool families:
     | name      |
     | pool_family1 |
@@ -21,28 +21,16 @@ Feature: Pool Families
     | pool_family2 |
     | pool_family3 |
 
-  Scenario: List pool families as unprivileged user
-    Given I am a registered user
-    And I am logged in
-    And there is a pool family named "hiddenpoolfamily"
-    And I can view pool family "testpoolfamily"
-    When I go to the pool families page
-    Then I should not see "hiddenpoolfamily"
-    Then I should see "testpoolfamily"
-
   Scenario: Show pool family details
-    Given I am an authorised user
-    And I am logged in
-    And there is a pool family named "testpoolfamily" with a pool named "bob"
+    Given there is a pool family named "testpoolfamily"
+    #with a pool named "bob"
     And I am on the pool families page
     When I follow "testpoolfamily"
     Then I should be on the page for the pool family "testpoolfamily"
     And I should see "testpoolfamily"
 
   Scenario: Create a new Pool family
-    Given I am an authorised user
-    And I am logged in
-    And I am on the pool families page
+    Given I am on the pool families page
     And there is not a pool family named "testpoolfamily"
     When I follow "new_pool_family_button"
     Then I should be on the new pool family page
@@ -54,55 +42,24 @@ Feature: Pool Families
     And I should have a pool family named "testpoolfamily"
 
   Scenario: Delete a pool family
-    Given I am an authorised user
-    And I am logged in
-    And I am on the homepage
-    And there is a pool family named "poolfamily1" with a pool named "carl"
+    Given I am on the homepage
+    And there is a pool family named "poolfamily1"
+    #with a pool named "carl"
     When I go to the pool families page
     And I follow "poolfamily1"
     And I press "delete_pool_family_button"
     Then there should not exist a pool family named "poolfamily1"
 
   Scenario: Disallow deletion of default pool family
-    Given I am an authorised user
-    And I am logged in
-    And I am on the pool families page
+    Given I am on the pool families page
     Then I should see "default"
     When I follow "default"
     And I press "delete_pool_family_button"
     Then I should see an error message
     And I should see "default"
 
-#  Scenario: Search for pool families
-#    Given there are these pool families:
-#    | name      |
-#    | first_family |
-#    | second_family |
-#    | third_family |
-#    Given I am on the pool families page
-#    Then I should see "first_family"
-#    And I should see "second_family"
-#    And I should see "third_family"
-#    When I fill in "q" with "second"
-#    And I press "Search"
-#    Then I should see "second_family"
-#    And I should not see "first_family"
-#    And I should not see "third_family"
-#    When I fill in "q" with "nomatch"
-#    And I press "Search"
-#    Then I should not see "first_family"
-#    And I should not see "second_family"
-#    And I should not see "third_family"
-#    When I fill in "q" with ""
-#    And I press "Search"
-#    Then I should see "first_family"
-#    And I should see "second_family"
-#    And I should see "third_family"
-
   Scenario: Add provider account to pool family
-    Given I am an authorised user
-    And I am logged in
-    And there is a pool family named "testpoolfamily"
+    Given there is a pool family named "testpoolfamily"
     And there is a provider named "testprovider"
     And there is a provider account named "testaccount"
     And I am on the pool family provider accounts page
@@ -114,9 +71,7 @@ Feature: Pool Families
     And I should see "testaccount"
 
   Scenario: Remove provider account from pool family
-    Given I am an authorised user
-    And I am logged in
-    And there is a pool family named "testpoolfamily"
+    Given there is a pool family named "testpoolfamily"
     And there is a provider named "testprovider"
     And there is a provider account named "testaccount"
     And there is a provider account "testaccount" related to pool family "testpoolfamily"
