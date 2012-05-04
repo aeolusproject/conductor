@@ -145,7 +145,10 @@
         <element name="value"><text/></element>
         <element name="reference">
           <attribute name="assembly"><text/></attribute>
-          <attribute name="parameter"><text/></attribute>
+          <choice>
+            <attribute name="parameter"><text/></attribute>
+            <attribute name="service"><text/></attribute>
+          </choice>
         </element>
       </choice>
     </element>

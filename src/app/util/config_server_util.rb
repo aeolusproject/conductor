@@ -70,17 +70,25 @@ module ConfigServerUtil
 
   class ReferenceParameterConfig < ParameterConfig
     attr_accessor :assembly_name, :parameter_name
-    def initialize(name, assembly_name, parameter_name)
-      super(name)
+    def initialize(param, assembly_name)
+      super(param.name)
       @assembly_name = assembly_name
-      @parameter_name = parameter_name
+      @parameter_name = param.reference_parameter
+      @service_name = param.reference_service
     end
 
     protected
     def _xml
-      super do
-        "<reference assembly='#{@assembly_name}'" +
-           " provided-parameter='#{@parameter_name}'/>\n"
+      if @parameter_name
+        super do
+          "<reference assembly='#{@assembly_name}'" +
+            " provided-parameter='#{@parameter_name}'/>\n"
+        end
+      elsif @service_name
+        super do
+          "<reference assembly='#{@assembly_name}'" +
+            " service-parameter='#{@service_name}'/>\n"
+        end
       end
     end
   end
@@ -157,6 +165,8 @@ module ConfigServerUtil
       @deployable_id = deployable_id
       @deployable_name = deployable_name
 
+      @config_xml = nil
+
       @config_server = config_server
 
       @uuid = @instance.uuid
@@ -206,8 +216,7 @@ module ConfigServerUtil
             val = ValueParameterConfig.new(param.name, param.value)
           elsif param.reference?
             assembly_uuid = @assembly_uuids[param.reference_assembly]
-            val = ReferenceParameterConfig.new(param.name,
-                      assembly_uuid, param.reference_parameter)
+            val = ReferenceParameterConfig.new(param, assembly_uuid)
           else
             raise InstanceConfigError, "No value provided for parameter.  " +
               "Assembly: #{@assembly.name}, Service: #{service.name}, " +

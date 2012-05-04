@@ -48,6 +48,10 @@ class ParameterXML
     reference_node['assembly'] if reference?
   end
 
+  def reference_service
+    reference_node['service'] if reference?
+  end
+
   def reference_parameter
     reference_node['parameter'] if reference?
   end
