@@ -26,6 +26,8 @@ else
   require 'vcr_setup_norec'
 end
 
+Dir[File.dirname(__FILE__) + '/matchers/*.rb'].each {|file| require file }
+
 module RequestContentTypeHelper
   def accept_all
     @request.env["HTTP_ACCEPT"] = "*/*"
