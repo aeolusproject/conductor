@@ -5,8 +5,8 @@
         %li.deployment
           %h3.name
             = link_to deployment.name, deployment_path(deployment)
-          %span{ :class => "status #{deployment.status}", :title => t("deployments.status.#{deployment.status}")}
-            = deployment.status
+          %span{ :class => "status #{deployment.state}", :title => t("deployments.status_description.#{deployment.state}")}
+            = deployment.state
           %dl.statistics
             %ul
               %li.right

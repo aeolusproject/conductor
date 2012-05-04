@@ -183,9 +183,27 @@ en:
     list_of_events: List of deployment events
     state: State
     status:
-      running: All instances are running
-      pending: Some (but not all) instances are running
-      stopped: No instances are currently running
+      new: New
+      pending: "Pending"
+      running: "Running"
+      incomplete: "Incomplete"
+      shutting_down: "Shutting down"
+      stopped: "Stopped"
+      failed: "Failed"
+      rollback_in_progress: "Rollback in progress"
+      rollback_complete: "Rollback complete"
+      rollback_failed: "Rollback failed"
+    status_description:
+      new: "Deployment wasn't started"
+      pending: "Deployment is starting up"
+      running: "All instances are running"
+      incomplete: "Some instances are not running"
+      shutting_down: "Deployment is shutting down"
+      stopped: "All instances are stopped"
+      failed: "All instances are in failed state"
+      rollback_in_progress: "Launch failed, rollback is in progress"
+      rollback_complete: "Rollback successfully completed"
+      rollback_failed: "Rollback failed, re-launch terminated"
     launch_time_params:
       title: "Launch-time parameters"
       configure_launch_time_params: "Configure launch-time parameters for your deployment:"

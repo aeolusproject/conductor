@@ -387,16 +387,6 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def status
-    if instances.any? and instances.all? {|i| i.state == Instance::STATE_RUNNING}
-      :running
-    elsif instances.empty? or instances.all? {|i| (Instance::FAILED_STATES + [Instance::STATE_STOPPED]).include?(i.state)}
-      :stopped
-    else
-      :pending
-    end
-  end
-
   # A deployment "starts" when _all_ instances begin to run
   def start_time
     if instances.deployed.count == instances.count && ev = events.find_by_status_code(:all_running)
@@ -419,9 +409,9 @@ class Deployment < ActiveRecord::Base
   def as_json(options={})
     json = super(options).merge({
       :deployable_xml_name => deployable_xml.name,
-      :status => status,
-      :translated_status => I18n.t("instances.states.#{status}"),
-      :status_description => I18n.t("deployments.status.#{status}"),
+      :status => state,
+      :translated_status => I18n.t("deployments.status.#{state}"),
+      :status_description => I18n.t("deployments.status_description.#{state}"),
       :instances_count => instances.count,
       :failed_instances_count => failed_instances.count,
       :instances_count_text => I18n.t('instances.instances', :count => instances.count.to_i),
