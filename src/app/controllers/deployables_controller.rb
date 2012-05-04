@@ -79,20 +79,20 @@ class DeployablesController < ApplicationController
     @images_details, images, @missing_images, @deployable_errors = @deployable.get_image_details
     flash.now[:error] = @deployable_errors unless @deployable_errors.empty?
 
-    return unless @missing_images.empty?
-
-    @build_results = {}
-    @pushed_count = 0
-    ProviderAccount.includes(:provider, :pool_families).where('providers.enabled' => true, 'pool_families.id' => @deployable.catalogs.first.pool_family.id).each do |account|
-      type = account.provider.provider_type.deltacloud_driver
-      @build_results[type] ||= []
-      status = @deployable.build_status(images, account)
-      @pushed_count += 1 if (status == :pushed)
-      @build_results[type] << {
-        :account => account.label,
-        :provider => account.provider.name,
-        :status => status,
-      }
+    if @missing_images.empty?
+      @build_results = {}
+      @pushed_count = 0
+      ProviderAccount.includes(:provider, :pool_families).where('providers.enabled' => true, 'pool_families.id' => @deployable.catalogs.first.pool_family.id).each do |account|
+        type = account.provider.provider_type.deltacloud_driver
+        @build_results[type] ||= []
+        status = @deployable.build_status(images, account)
+        @pushed_count += 1 if (status == :pushed)
+        @build_results[type] << {
+          :account => account.label,
+          :provider => account.provider.name,
+          :status => status,
+        }
+      end
     end
 
     respond_to do |format|

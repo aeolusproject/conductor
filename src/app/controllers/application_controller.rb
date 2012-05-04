@@ -69,7 +69,6 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_general_error(error)
-    flash[:error] = error.message
     handle_error(:error => error, :status => :internal_server_error,
                  :title => t('application_controller.internal_server_error'))
   end
@@ -92,7 +91,7 @@ class ApplicationController < ActionController::Base
       render :partial => 'layouts/popup-error', :status => status,
              :locals => {:title => title, :errmsg => msg}
     else
-      flash[:error] = msg
+      flash.now[:error] = msg
       render :template => 'layouts/error', :layout => 'application',
              :locals => {:title => title, :errmsg => ''}
     end
