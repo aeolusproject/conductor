@@ -343,6 +343,10 @@ class Instance < ActiveRecord::Base
     FAILED_STATES.include?(state)
   end
 
+  def inactive?
+    (FAILED_STATES + [STATE_STOPPED]).include?(state)
+  end
+
   def requires_config_server?
     not instance_config_xml.nil? or assembly_xml.requires_config_server?
   end

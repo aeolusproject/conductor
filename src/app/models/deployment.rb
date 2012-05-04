@@ -76,11 +76,11 @@ class Deployment < ActiveRecord::Base
   before_create :set_new_state
 
   USER_MUTABLE_ATTRS = ['name']
-  STATE_MIXED = "mixed"
 
   STATE_NEW                  = "new"
   STATE_PENDING              = "pending"
   STATE_RUNNING              = "running"
+  STATE_INCOMPLETE           = "incomplete"
   STATE_SHUTTING_DOWN        = "shutting_down"
   STATE_STOPPED              = "stopped"
   STATE_FAILED               = "failed"
@@ -450,6 +450,17 @@ class Deployment < ActiveRecord::Base
     instances.select {|instance| instance.failed?}
   end
 
+  def update_state(changed_instance)
+    transition_method = "state_transition_from_#{state}".to_sym
+    send(transition_method, changed_instance) if self.respond_to?(transition_method, true)
+    if state_changed?
+      save!
+      true
+    else
+      false
+    end
+  end
+
   PRESET_FILTERS_OPTIONS = []
 
   private
@@ -579,5 +590,32 @@ class Deployment < ActiveRecord::Base
 
   def set_new_state
     self.state ||= STATE_NEW
+  end
+
+  def state_transition_from_pending(instance)
+    if instances.all? {|i| i.state == Instance::STATE_RUNNING}
+      self.state = STATE_RUNNING
+    elsif Instance::FAILED_STATES.include?(instance.state)
+      # TODO: initiate rollback. For now if an error occurs, deployment will
+      # stay in pending state
+    end
+  end
+
+  def state_transition_from_running(instance)
+    if instance.state != STATE_RUNNING
+      self.state = STATE_INCOMPLETE
+    end
+  end
+
+  def state_transition_from_incomplete(instance)
+    if instances.all? {|i| i.state == Instance::STATE_RUNNING}
+      self.state = STATE_RUNNING
+    end
+  end
+
+  def state_transition_from_shutting_down(instance)
+    if instance.state == Instance::STATE_STOPPED and instances.all? {|i| i.inactive?}
+      self.state = STATE_STOPPED
+    end
   end
 end

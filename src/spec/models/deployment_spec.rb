@@ -325,20 +325,79 @@ describe Deployment do
     end
   end
 
-  describe "deployment_state" do
-    it "should be pending if only some instances are running" do
-      deployment = Factory.build :deployment
-      instance = Factory.build(:mock_running_instance, :deployment => deployment)
-      instance2 = Factory.build(:mock_pending_instance, :deployment => deployment)
-      deployment.stub(:instances) { [instance, instance2] }
-      deployment.status.should == :pending
+  describe "deployment state" do
+    context "in running state" do
+      before :each do
+        @deployment.state = Deployment::STATE_RUNNING
+        @deployment.save!
+        @inst1 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_RUNNING)
+        @inst2 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_RUNNING)
+        @deployment.instances << @inst1
+        @deployment.instances << @inst2
+      end
+
+      it "should be incomplete if only some instances are running" do
+        @inst1.state = Instance::STATE_ERROR
+        @inst1.save!
+        @deployment.reload
+        @deployment.state.should == Deployment::STATE_INCOMPLETE
+      end
     end
 
-    it "should be stopped if no instances exist" do
-      deployment = Factory.build :deployment
-      deployment.stub(:instances) {[]}
-      deployment.status.should == :stopped
+    context "in pending state" do
+      before :each do
+        @deployment.state = Deployment::STATE_PENDING
+        @deployment.save!
+        @inst1 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_PENDING)
+        @inst2 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_PENDING)
+        @deployment.instances << @inst1
+        @deployment.instances << @inst2
+      end
+
+      it "should be pending if only some instances are running" do
+        @inst1.state = Instance::STATE_RUNNING
+        @inst1.save!
+        @deployment.reload
+        @deployment.state.should == Deployment::STATE_PENDING
+      end
+
+      it "should be running if all instances are running" do
+        @inst1.state = Instance::STATE_RUNNING
+        @inst1.save!
+        @inst2.state = Instance::STATE_RUNNING
+        @inst2.save!
+        @deployment.reload
+        @deployment.state.should == Deployment::STATE_RUNNING
+      end
     end
+
+    context "in incomplete state" do
+      before :each do
+        @deployment.state = Deployment::STATE_INCOMPLETE
+        @deployment.save!
+        @inst1 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_RUNNING)
+        @inst2 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_PENDING)
+        @deployment.instances << @inst1
+        @deployment.instances << @inst2
+      end
+
+      it "should be incomplete if no instances are running" do
+        @inst1.state = Instance::STATE_ERROR
+        @inst1.save!
+        @inst2.state = Instance::STATE_ERROR
+        @inst2.save!
+        @deployment.reload
+        @deployment.state.should == Deployment::STATE_INCOMPLETE
+      end
+
+      it "should be running if all instances are running" do
+        @inst2.state = Instance::STATE_RUNNING
+        @inst2.save!
+        @deployment.reload
+        @deployment.state.should == Deployment::STATE_RUNNING
+      end
+    end
+
   end
 
   describe ".instances.instance_parameters" do
