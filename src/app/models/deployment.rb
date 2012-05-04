@@ -77,6 +77,16 @@ class Deployment < ActiveRecord::Base
   USER_MUTABLE_ATTRS = ['name']
   STATE_MIXED = "mixed"
 
+  STATE_NEW                  = "new"
+  STATE_PENDING              = "pending"
+  STATE_RUNNING              = "running"
+  STATE_SHUTTING_DOWN        = "shutting_down"
+  STATE_STOPPED              = "stopped"
+  STATE_FAILED               = "failed"
+  STATE_ROLLBACK_IN_PROGRESS = "rollback_in_progress"
+  STATE_ROLLBACK_COMPLETE    = "rollback_complete"
+  STATE_ROLLBACK_FAILED      = "rollback_failed"
+
   validate :validate_xml
   validate :validate_launch_parameters
 
