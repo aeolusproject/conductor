@@ -73,6 +73,7 @@ class Deployment < ActiveRecord::Base
   before_create :inject_launch_parameters
   before_create :generate_uuid
   before_create :set_pool_family
+  before_create :set_new_state
 
   USER_MUTABLE_ATTRS = ['name']
   STATE_MIXED = "mixed"
@@ -161,6 +162,8 @@ class Deployment < ActiveRecord::Base
       return
     end
 
+    self.state = Deployment::STATE_SHUTTING_DOWN
+    save!
     if instances.all? {|i| i.destroyable? or i.state == Instance::STATE_RUNNING}
       destroy_deployment_config
       # The deployment will be destroyed from an InstanceObserver callback once
@@ -212,6 +215,8 @@ class Deployment < ActiveRecord::Base
     #
     # TODO: need to be able to handle deployable-level errors
     #
+    self.state = STATE_PENDING
+    save!
     status = { :errors => {}, :successes => {} }
     status[:errors] = create_instances_with_params(user)
     all_inst_match, account, errors = find_match_with_common_account
@@ -570,5 +575,9 @@ class Deployment < ActiveRecord::Base
       end
     end
     errors
+  end
+
+  def set_new_state
+    self.state ||= STATE_NEW
   end
 end

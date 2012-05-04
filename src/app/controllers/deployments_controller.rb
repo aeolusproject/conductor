@@ -304,6 +304,9 @@ class DeploymentsController < ApplicationController
     errors = []
 
     @deployments_to_stop.each do |deployment|
+      # TODO: move all this logic to model
+      deployment.state = Deployment::STATE_SHUTTING_DOWN
+      deployment.save!
       deployment.instances.each do |instance|
         log_prefix = "#{t('deployments.deployment')}: #{instance.deployment.name}, #{t('instances.instance')}:  #{instance.name}"
         begin
