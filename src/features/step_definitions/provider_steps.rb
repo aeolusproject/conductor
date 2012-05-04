@@ -74,6 +74,12 @@ When /^(?:|I )check "([^"]*)" provider$/ do |provider_name|
   check("provider_checkbox_#{provider.id}")
 end
 
+Given /^there are some providers$/ do
+  3.times do
+    FactoryGirl.create :provider
+  end
+end
+
 Given /^there are these providers:$/ do |table|
   table.hashes.each do |hash|
     hash['url'].nil? ? FactoryGirl.create(:mock_provider, :name => hash['name']) : FactoryGirl.create(:mock_provider, :name => hash['name'], :url => hash['url'])
