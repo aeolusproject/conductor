@@ -92,6 +92,11 @@ class Deployment < ActiveRecord::Base
   STATE_ROLLBACK_COMPLETE    = "rollback_complete"
   STATE_ROLLBACK_FAILED      = "rollback_failed"
 
+  STATES = [STATE_NEW, STATE_PENDING, STATE_RUNNING, STATE_INCOMPLETE,
+            STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_FAILED,
+            STATE_ROLLBACK_IN_PROGRESS, STATE_ROLLBACK_COMPLETE,
+            STATE_ROLLBACK_FAILED]
+
   validate :validate_xml
   validate :validate_launch_parameters
 

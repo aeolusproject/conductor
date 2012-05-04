@@ -69,8 +69,7 @@ class LogsController < ApplicationController
 
       # filter by state
       if @state.present?
-        event_state = (source_class == "Deployment" ? event.source.status.to_s : event.source.state)
-        next if event_state != @state
+        next if event.source.state != @state
       end
 
       # filter by pool
@@ -95,7 +94,7 @@ class LogsController < ApplicationController
 
   def load_options
     @source_type_options = [[t('logs.options.default_event_types'), ""], t('logs.options.deployment_event_type'), t('logs.options.instance_event_type')]
-    @state_options = [[t('logs.options.default_states'), ""]] + Instance::STATES
+    @state_options = ([[t('logs.options.default_states'), ""]] + Deployment::STATES + Instance::STATES).uniq
     @pool_options = [[t('logs.options.default_pools'), ""]]
     PoolFamily.list_for_user(current_user, Privilege::VIEW).find(:all, :include => :pools, :order => "name", :select => ["id", "name"]).each do |pool_family|
       @pool_options << [pool_family.name, "pool_family:" + pool_family.id.to_s]
