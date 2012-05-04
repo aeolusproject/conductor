@@ -19,6 +19,7 @@
 
 require 'viewstate.rb'
 require 'util/conductor'
+require 'will_paginate/array'
 
 class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud

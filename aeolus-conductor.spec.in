@@ -39,7 +39,6 @@ Requires: rubygem(builder)
 Requires: rubygem(json)
 Requires: rubygem(rack-restful_submit)
 Requires: rubygem(uuidtools)
-Requires: rubygem(fastercsv)
 Requires: rubygem(rails_warden)
 Requires: rubygem(aeolus-image) >= 0.1.0-4
 Requires: rubygem(pg)
