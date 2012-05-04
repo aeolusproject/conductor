@@ -299,66 +299,6 @@ $.extend(Conductor, {
         }
     });
   };
-  $.fn.buttonSensitivity = function () {
-    var $checkboxes = $(this),
-      $edit = $('.actionsidebar .edit'),
-      $delete = $('.actionsidebar .delete'),
-      $rename = $('.actionsidebar .rename'),
-      $copy = $('.actionsidebar .copy'),
-      $build = $('.actionsidebar .build');
-    return $checkboxes.change(function () {
-      var $checked = $checkboxes.filter(':checked');
-      if ($checked.length === 0) {
-        //disable the build, edit and delete action if there is none selected
-        $build.addClass("disabled");
-        $edit.addClass("disabled");
-        $delete.addClass("disabled");
-        $("input", $build).attr("disabled","disabled");
-        $("input", $edit).attr("disabled","disabled");
-        $("input", $delete).attr("disabled","disabled");
-      } else if ($checked.length > 1) {
-        //disable the build and edit if there is more than one
-        $edit.addClass("disabled");
-        $build.addClass("disabled");
-        $delete.removeClass("disabled");
-        $("input", $build).attr("disabled","disabled");
-        $("input", $edit).attr("disabled","disabled");
-        $("input", $delete).removeAttr("disabled");
-      } else {
-        $("input", $build).removeAttr("disabled");
-        $("input", $edit).removeAttr("disabled");
-        $("input", $delete).removeAttr("disabled");
-        $build.removeClass("disabled");
-        $edit.removeClass("disabled");
-        $delete.removeClass("disabled");
-      }
-    });
-  };
-  $.fn.positionAncestor = function(selector) {
-    var left = 0;
-    var top = 0;
-    this.each(function(index, element) {
-        // check if current element has an ancestor matching a selector
-        // and that ancestor is positioned
-        var $ancestor = $(this).closest(selector);
-        if ($ancestor.length && $ancestor.css("position") !== "static") {
-            var $child = $(this);
-            var childMarginEdgeLeft = $child.offset().left - parseInt($child.css("marginLeft"), 10);
-            var childMarginEdgeTop = $child.offset().top - parseInt($child.css("marginTop"), 10);
-            var ancestorPaddingEdgeLeft = $ancestor.offset().left + parseInt($ancestor.css("borderLeftWidth"), 10);
-            var ancestorPaddingEdgeTop = $ancestor.offset().top + parseInt($ancestor.css("borderTopWidth"), 10);
-            left = childMarginEdgeLeft - ancestorPaddingEdgeLeft;
-            top = childMarginEdgeTop - ancestorPaddingEdgeTop;
-            // we have found the ancestor and computed the position
-            // stop iterating
-            return false;
-        }
-    });
-    return {
-        left:    left,
-        top:    top
-    }
-  };
 })(jQuery);
 
 /* Conductor JS */
