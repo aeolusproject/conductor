@@ -45,6 +45,7 @@ Requires: rubygem(pg)
 Requires: rubygem(ruby-net-ldap)
 Requires: rubygem(oauth)
 Requires: rubygem(rake)
+Requires: rubygem(delayed_job) >= 2.1.4
 Requires: postgresql
 Requires: postgresql-server
 Requires: system-logos
@@ -77,6 +78,10 @@ Requires: rubygem(thin) >= 1.2.5
 Requires(post): chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
+Requires(post): systemd-units
+Requires(preun): systemd-units
+Requires(postun): systemd-units
+
 
 %description daemons
 The configuration and daemons necessary to run and proxy the Aeolus Conductor.
@@ -151,6 +156,7 @@ getent passwd aeolus >/dev/null || \
 %{__mkdir} -p %{buildroot}%{app_root}
 %{__mkdir} -p %{buildroot}%{doc_root}
 %{__mkdir} -p %{buildroot}%{_initrddir}
+%{__mkdir} -p %{buildroot}%{_unitdir}/systemd/system
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/sysconfig
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/httpd/conf.d
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d
@@ -261,6 +267,7 @@ done
 # copy over init scripts and various config
 %{__cp} conf/aeolus-conductor %{buildroot}%{_initrddir}
 %{__cp} conf/conductor-dbomatic %{buildroot}%{_initrddir}
+%{__cp} conf/conductor-delayed_job.systemd %{buildroot}%{_unitdir}/conductor-delayed_job.service
 %{__cp} conf/aeolus-conductor-httpd.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/aeolus-conductor.conf
 %{__cp} conf/aeolus-conductor.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/aeolus-conductor
 %{__cp} conf/aeolus-conductor.sysconf %{buildroot}%{_sysconfdir}/sysconfig/aeolus-conductor
@@ -279,6 +286,10 @@ touch %{buildroot}%{_localstatedir}/log/%{name}/rails.log
 touch %{buildroot}%{_localstatedir}/log/%{name}/dbomatic.log
 
 %{__mkdir} -p %{buildroot}%{app_root}/log
+# delayed_job version 2.1.4 forces the log to be in this location
+# we should be able to change this to /var/log/aeolus-conductor/delayed_job.log
+# with version 3.0
+touch %{buildroot}%{app_root}/log/delayed_job.log
 
 # copy script files over
 %{__cp} -r src/script %{buildroot}%{app_root}
@@ -318,17 +329,32 @@ if [ ! -d %{app_root}/app ]; then
 fi
 
 %post daemons
+if [ $1 -eq 1 ] ; then
+    # Initial installation
+    /bin/systemctl daemon-reload >/dev/null 2>&1
+fi
 # Register the services
 /sbin/chkconfig --add aeolus-conductor
 /sbin/chkconfig --add conductor-dbomatic
 
 %preun daemons
 if [ $1 = 0 ]; then
+   # Package removal, not upgrade
+   /bin/systemctl --no-reload disable conductor-delayed_job.service > /dev/null 2>&1
+   /bin/systemctl stop conductor-delayed_job.service > /dev/null 2>&1
    /sbin/service aeolus-conductor stop > /dev/null 2>&1
    /sbin/chkconfig --del aeolus-conductor
    /sbin/service conductor-dbomatic stop > /dev/null 2>&1
    /sbin/chkconfig --del conductor-dbomatic
 fi
+
+%postun daemons
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart conductor-delayed_job.service >/dev/null 2>&1
+fi
+
 
 %files
 %dir %{app_root}
@@ -358,6 +384,7 @@ fi
 %files daemons
 %{_initrddir}/aeolus-conductor
 %{_initrddir}/conductor-dbomatic
+%{_unitdir}/conductor-delayed_job.service
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/aeolus-conductor
 %config(noreplace) %{_sysconfdir}/sysconfig/conductor-rails
@@ -365,6 +392,7 @@ fi
 %attr(-, aeolus, aeolus) %{_localstatedir}/lib/%{name}
 %attr(-, aeolus, aeolus) %{_localstatedir}/run/%{name}
 %attr(-, aeolus, aeolus) %{_localstatedir}/log/%{name}
+%attr(-, aeolus, aeolus) %{app_root}/log/delayed_job.log
 %doc AUTHORS COPYING
 %{_libdir}/../lib/tmpfiles.d/aeolus.conf
 

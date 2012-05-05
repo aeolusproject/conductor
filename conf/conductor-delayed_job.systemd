@@ -1,0 +1,16 @@
+[Unit]
+Description=aeolus delayed_job
+After=syslog.target
+After=postgresql.service
+
+[Service]
+Type=forking
+User=aeolus
+Environment=RAILS_ENV=production
+WorkingDirectory=/usr/share/aeolus-conductor/
+ExecStart=/usr/share/aeolus-conductor/script/delayed_job start -n 2 --pid-dir=/var/run/aeolus-conductor
+ExecStop=/usr/share/aeolus-conductor/script/delayed_job stop --pid-dir=/var/run/aeolus-conductor
+TimeoutSec=120
+
+[Install]
+WantedBy=multi-user.target

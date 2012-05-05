@@ -22,9 +22,11 @@ gem 'rails_warden'
 gem 'ruby-net-ldap'
 gem 'aeolus-image'
 gem 'oauth'
+gem 'delayed_job'
 platforms :ruby_18 do
   gem 'fastercsv'
 end
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-core'
