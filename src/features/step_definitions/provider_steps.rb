@@ -39,8 +39,17 @@ Given /^there is not a provider named "([^"]*)"$/ do |name|
   destroy_provider(name)
 end
 
+Given /^there is not (?:a )?provider with id "([^"]*)"$/ do |id|
+  provider = Provider.find_by_id(id.to_i)
+  if provider then provider.destroy end
+end
+
 Given /^there is a provider named "([^\"]*)"$/ do |name|
   @provider = FactoryGirl.create(:mock_provider, :name => name)
+end
+
+Given /^there is a provider$/ do
+  @provider = FactoryGirl.create(:mock_provider)
 end
 
 Given /^provider "([^"]*)" is not accessible$/ do |arg1|
