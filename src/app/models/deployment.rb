@@ -410,7 +410,7 @@ class Deployment < ActiveRecord::Base
     json = super(options).merge({
       :deployable_xml_name => deployable_xml.name,
       :status => state,
-      :translated_status => I18n.t("deployments.status.#{state}"),
+      :translated_state => I18n.t("deployments.status.#{state}"),
       :status_description => I18n.t("deployments.status_description.#{state}"),
       :instances_count => instances.count,
       :failed_instances_count => failed_instances.count,
