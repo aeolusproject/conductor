@@ -20,11 +20,24 @@ describe ProvidersController do
 
   render_views
 
+  shared_examples_for "http OK" do
+    context "response status code" do
+      subject { response.status }
+      it { should be_eql(200) }
+    end
+  end
+
+  shared_examples_for "http Not Found" do
+    context "response status code" do
+      subject { response.status }
+      it { should be_eql(404) }
+    end
+  end
+
   shared_examples_for "responding with XML" do
     context "response" do
       subject { response }
 
-      it { should be_success }
       it { should have_content_type("application/xml") }
 
       context "body" do
@@ -36,17 +49,18 @@ describe ProvidersController do
 
   shared_examples_for "having XML with providers" do
     # TODO: implement more attributes checks
-    subject { Hash.from_xml(response.body) }
+    subject { Nokogiri::XML(response.body) }
     context "list of providers" do
-      let(:xml_providers) { [subject['providers']['provider']].flatten.compact }
+      #let(:xml_providers) { [subject['providers']['provider']].flatten.compact }
+      let(:xml_providers) { subject.xpath('//providers/provider') }
       context "number of providers" do
         it { xml_providers.size.should be_eql(number_of_providers) }
       end
       it "should have correct providers" do
         providers.each do |provider|
-          xml_provider = xml_providers.find{|xp| xp['name'] == provider.name}
-          xml_provider['id'].should be_eql(provider.id.to_s)
-          xml_provider['href'].should be_eql(api_provider_url(provider))
+          xml_provider = xml_providers.xpath("//provider[@id=\"#{provider.id}\"]")
+          xml_provider.xpath('name').text.should be_eql(provider.name.to_s)
+          xml_provider.xpath('@href').text.should be_eql(api_provider_url(provider))
         end
       end
     end
@@ -105,6 +119,7 @@ describe ProvidersController do
         describe "#index" do
 
           before(:each) do
+            # really stub this method?
             ProvidersController.stub(:load_providers).and_return(providers)
             get :index
           end
@@ -113,6 +128,7 @@ describe ProvidersController do
 
             let(:providers) { 3.times{ FactoryGirl.create(:mock_provider) }; Provider.all }
 
+            it_behaves_like "http OK"
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -126,6 +142,7 @@ describe ProvidersController do
 
             let(:providers) { FactoryGirl.create(:mock_provider); Provider.all }
 
+            it_behaves_like "http OK"
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -139,6 +156,7 @@ describe ProvidersController do
 
             let(:providers) { Provider.all }
 
+            it_behaves_like "http OK"
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -147,8 +165,60 @@ describe ProvidersController do
             end
 
           end
-        end
-      end
-    end
-  end
+        end # #index
+
+        describe "#show" do
+          context "when requested provider exists" do
+
+            before(:each) do
+              Provider.stub(:find).and_return(provider)
+
+              get :show, :id => 1
+            end
+
+            let(:provider) { FactoryGirl.create(:mock_provider); Provider.last }
+
+            it_behaves_like "http OK"
+            it_behaves_like "responding with XML"
+
+            context "XML body" do
+              # TODO: implement more attributes checks
+              subject { Hash.from_xml(response.body) }
+              let(:xml_provider) { [subject['provider']].flatten.compact.first }
+              it "should have correct provider" do
+                xml_provider['id'].should be_eql(provider.id.to_s)
+                xml_provider['href'].should be_eql(api_provider_url(provider))
+              end
+            end
+
+          end # when requested provider exists
+
+          context "when requested provider does not exist" do
+
+            before(:each) do
+              p = Provider.find_by_id(1)
+              p.delete if p
+              get :show, :id => 1
+            end
+
+            it_behaves_like "http Not Found"
+            it_behaves_like "responding with XML"
+
+            context "XML body" do
+
+              subject { Nokogiri::XML(response.body) }
+
+              it {
+                subject.xpath('//error').size.should be_eql(1)
+                subject.xpath('//error/code').text.should be_eql('RecordNotFound')
+                subject.xpath('//error/message').text.should be_eql("Couldn't find Provider with ID=1")
+              }
+
+            end
+
+          end
+        end # #show
+      end # when using admin credentials
+    end # when requesting XML
+  end # API
 end
