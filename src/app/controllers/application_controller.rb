@@ -105,8 +105,13 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_active_record_not_found_error(error)
-    redirect_to :controller => params[:controller]
-    flash[:notice] = t('application_controller.flash.notice.record_not_exist')
+    respond_to do |format|
+      format.html do
+        redirect_to :controller => params[:controller]
+        flash[:notice] = t('application_controller.flash.notice.record_not_exist')
+      end
+      format.xml { render :template => 'api/error', :locals => {:error => error}, :status => :not_found }
+    end
   end
 
   def handle_api_error(error)
