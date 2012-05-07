@@ -17,11 +17,7 @@
 RSpec::Matchers.define :be_xml do
 
   match do |body|
-    begin
-      Hash.from_xml(body)
-    rescue REXML::ParseException
-      false
-    end
+    Nokogiri::XML(body).children.present?
   end
 
   failure_message_for_should do |body|
