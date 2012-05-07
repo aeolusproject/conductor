@@ -29,15 +29,15 @@ Feature: Manage Providers via API
     When I request a list of providers returned as XML
     Then I should receive list of providers as XML
 
-#  Scenario: Get details for provider as XML
-#    Given there is a provider
-#    When I ask for details of that provider as XML
-#    Then I should recieve details of that provider as XML
-#
-#  Scenario: Get details for non existing provider
-#    When I ask for details of non existing provider
-#    Then I should recieve Not Found error
-#
+  Scenario: Get details for provider as XML
+    Given there is a provider
+    When I ask for details of that provider as XML
+    Then I should recieve details of that provider as XML
+
+  Scenario: Get details for non existing provider
+    When I ask for details of non existing provider as XML
+    Then I should recieve Not Found error
+
 #  Scenario: Create a new provider
 #    When I create provider with correct data
 #    Then I should recieve OK message
