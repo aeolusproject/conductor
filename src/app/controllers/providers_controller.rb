@@ -95,6 +95,7 @@ class ProvidersController < ApplicationController
         end
         render :partial => @details_tab and return
       end
+      format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
     end
   end
 

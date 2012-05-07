@@ -1,0 +1,6 @@
+!!! XML
+%provider{:id => provider.id, :href => api_provider_url(provider)}
+  %name= provider.name
+  %url= provider.url
+  %provider_type= provider.provider_type.deltacloud_driver
+  %deltacloud_provider= provider.deltacloud_provider
