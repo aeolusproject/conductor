@@ -108,13 +108,24 @@ class ProvidersController < ApplicationController
       params[:provider][:provider_type_id] = provider_type.id
     end
     @provider = Provider.new(params[:provider])
+
     if @provider.save
       @provider.assign_owner_roles(current_user)
-      flash[:notice] = t"providers.flash.notice.added"
-      redirect_to edit_provider_path(@provider)
+      respond_to do |format|
+        format.html do
+          flash[:notice] = t"providers.flash.notice.added"
+          redirect_to edit_provider_path(@provider)
+        end
+        format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
+      end
     else
-      flash[:warning] = t"providers.flash.error.not_added"
-      render :action => "new"
+      respond_to do |format|
+        format.html do
+          flash[:warning] = t"providers.flash.error.not_added"
+          render :action => "new"
+        end
+        format.xml { render :template => 'api/validation_error', :locals => { :errors => @provider.errors }, :status => :bad_request }
+      end
     end
   end
 
