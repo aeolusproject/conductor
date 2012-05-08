@@ -31,6 +31,14 @@ def stub_framework(bool)
   Provider.any_instance.stub(:valid_framework?).and_return(bool)
 end
 
+Then /^the provider should be created$/ do
+  Provider.find_by_name_and_url(@provider.name, @provider.url).should_not be_nil
+end
+
+Then /^the provider should not be created$/ do
+  Provider.find_by_name_and_url(@provider.name, @provider.url).should be_nil
+end
+
 Given /^there should not exist a provider named "([^\"]*)"$/ do |name|
   Provider.find_by_name(name).should be_nil
 end

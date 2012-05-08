@@ -22,6 +22,10 @@ FactoryGirl.define do
     url { |p| "http://www." + p.name + ".com/api" }
   end
 
+  factory :invalid_provider, :parent => :mock_provider do
+    name { '' }
+  end
+
   factory :mock_provider, :parent => :provider do
     provider_type {ProviderType.find_by_deltacloud_driver("mock")}
     url 'http://localhost:3002/api'
