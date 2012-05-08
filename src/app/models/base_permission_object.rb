@@ -46,14 +46,12 @@ class BasePermissionObject < ActiveRecord::Base
     base_permission
   end
 
-  def derived_subtree(role = nil)
-    subtree = super(role)
-    [Catalog, Deployable, PoolFamily, Pool, Deployment,
-     Instance, Provider, ProviderAccount, HardwareProfile].each do |obj_type|
-      subtree += obj_type.all if (role.nil? or role.privilege_target_match(obj_type))
-    end
-    subtree
+  def permissions_for_type(obj_type)
+    role_ids = Role.where(:scope => "BasePermissionObject").
+      select { |role| role.privilege_target_match(obj_type)}.collect {|r| r.id}
+    permissions.where("role_id in (:role_ids)", {:role_ids => role_ids})
   end
+
   def self.additional_privilege_target_types
     [HardwareProfile, Catalog, Deployable, PoolFamily, Pool,
      Deployment, Instance, Provider, ProviderAccount]

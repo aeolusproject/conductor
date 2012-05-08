@@ -16,7 +16,6 @@
 
 class PermissionsController < ApplicationController
   before_filter :require_user
-  before_filter :set_permissions_header
 
   def index
     set_permission_object(Privilege::PERM_VIEW)
@@ -170,7 +169,7 @@ class PermissionsController < ApplicationController
 
   def load_users
     sort_order = params[:sort_by].nil? ? "login" : params[:sort_by]
-    @users = User.all(:order => sort_order)
+    @users = paginate_collection(User.all(:order => sort_order), params[:page])
   end
 
   def load_headers
@@ -206,5 +205,6 @@ class PermissionsController < ApplicationController
                                                 :only_tab => true} : {})
     end
     require_privilege(required_role, @permission_object)
+    set_permissions_header
   end
 end

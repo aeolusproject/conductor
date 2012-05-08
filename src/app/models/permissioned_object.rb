@@ -19,20 +19,31 @@ module PermissionedObject
   def has_privilege(user, action, target_type=nil)
     return false if user.nil? or action.nil?
     target_type = self.class.default_privilege_target_type if target_type.nil?
-    derived_permissions.includes(:role => :privileges).where(
+    if derived_permissions.includes(:role => :privileges).where(
       ["derived_permissions.user_id=:user and
         privileges.target_type=:target_type and
         privileges.action=:action",
         { :user => user.id,
           :target_type => target_type.name,
           :action => action}]).any?
+      return true
+    else
+      BasePermissionObject.general_permission_scope.permissions.
+        includes(:role => :privileges).where(
+      ["permissions.user_id=:user and
+        privileges.target_type=:target_type and
+        privileges.action=:action",
+        { :user => user.id,
+          :target_type => target_type.name,
+          :action => action}]).any?
+    end
   end
 
   # Returns the list of objects to check for permissions on -- by default
-  # this object plus the Base permission object
-  # At the moment, the retuned list is not necessarily ordered
+  # this is empty (we don't denormalize Global permissions as they're
+  # handled as a separate case.)
   def perm_ancestors
-    [BasePermissionObject.general_permission_scope]
+    []
   end
   # Returns the list of objects to generate derived permissions for
   # -- by default just this object

@@ -30,6 +30,11 @@ Given /^there is a permission for the user "([^\"]*)" on the pool "([^\"]*)"$/ d
                                          :permission_object => Pool.find_by_name(pool_name))
 end
 
+Given /^there is a permission for the user "([^\"]*)" on the pool family "([^\"]*)"$/ do |login, pool_family_name|
+  @pool_family_admin_permission = FactoryGirl.create(:pool_family_admin_permission, :user_id => @user.id,
+                                         :permission_object => PoolFamily.find_by_name(pool_family_name))
+end
+
 Given /^I delete the permission$/ do
   check "permission_checkbox_#{@pool_user_permission.id}"
   click_button "revoke_button"

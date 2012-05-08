@@ -306,9 +306,9 @@ class ApplicationController < ActionController::Base
     @inline = false
     @path_prefix = path_prefix
     @polymorphic_path_extras = polymorphic_path_extras
+    @permission_object = perm_obj
     if "permissions" == params[:details_tab]
       require_privilege(Privilege::PERM_VIEW, perm_obj)
-      @permission_object = perm_obj
     end
     if perm_obj.has_privilege(current_user, Privilege::PERM_VIEW)
       @roles = Role.find_all_by_scope(@permission_object.class.name)
@@ -324,9 +324,22 @@ class ApplicationController < ActionController::Base
   end
 
   def set_permissions_header
-    @show_inherited = params[:show_inherited]
+    unless @permissions_object == BasePermissionObject.general_permission_scope
+      @show_inherited = params[:show_inherited]
+      @show_global = params[:show_global]
+    end
+    if @show_inherited
+      local_perms = @permission_object.derived_permissions
+    elsif @show_global
+      local_perms = BasePermissionObject.general_permission_scope.
+        permissions_for_type(@permission_object.class)
+    else
+      local_perms = @permission_object.permissions
+    end
+    @permissions = paginate_collection(local_perms, params[:page])
+
     @permission_list_header = []
-    unless @show_inherited
+    unless (@show_inherited or @show_global)
       @permission_list_header <<
         { :name => 'checkbox', :class => 'checkbox', :sortable => false }
     end

@@ -56,4 +56,10 @@ FactoryGirl.define do
     user { |r| r.association(:pool_family_user) }
   end
 
+  factory :pool_family_admin_permission, :parent => :permission do
+    role { |r| Role.first(:conditions => ['name = ?', 'pool_family.admin']) || FactoryGirl.create(:role, :name => 'pool_family.admin') }
+    permission_object { |r| r.association(:pool_family) }
+    user { |r| r.association(:pool_family_user) }
+  end
+
 end

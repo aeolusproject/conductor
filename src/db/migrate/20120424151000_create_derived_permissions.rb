@@ -25,8 +25,15 @@ class CreateDerivedPermissions < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :derived_permissions, :permission_id
+    add_index :derived_permissions,
+      [:permission_object_id, :permission_object_type],
+      :name => 'index_derived_permissions_on_permission_object'
     # create derived permissions for existing records
+    counter = 0
+    total_perms = Permission.count
     Permission.all.each do |permission|
+      puts "updating permision #{counter +=1} of #{total_perms}"
       permission.update_derived_permissions
     end
   end

@@ -1,5 +1,5 @@
 - content_for :form_header do
-  - if not(@show_inherited) && check_privilege(Privilege::PERM_SET)
+  - if not(@show_inherited or @show_global) && check_privilege(Privilege::PERM_SET)
     %li= link_to t('permissions.form.grant_access'), new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id, :path_prefix => @path_prefix, :use_tabs => @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')), { :class => 'button primary', :id => 'new_permission_button'}
     %li= restful_submit_tag t('permissions.revoke_access'), "destroy", multi_destroy_permissions_path, 'DELETE', :id => 'revoke_button', :class => 'button danger'
     %li= restful_submit_tag t('edit'), "multi_update", multi_update_permissions_path, 'POST', :id => 'perm_edit_button', :class => 'hidden'
@@ -13,14 +13,20 @@
     = hidden_field_tag :path_prefix, @path_prefix
     = hidden_field_tag :use_tabs, @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')
   %span{:id => ("tab-container-1-nav" unless @inline)}
-    - if @show_inherited
-      %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false), { :class => 'button primary', :id => 'inherited_permission_button'}
-    - else
-      %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true), { :class => 'button primary', :id => 'inherited_permission_button'}
+    - unless @permission_object == BasePermissionObject.general_permission_scope
+      - if @show_inherited
+        %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button primary', :id => 'direct_permission_button'}
+        %li= link_to t('permissions.global_access'), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button primary', :id => 'global_permission_button'}
+      - elsif @show_global
+        %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button primary', :id => 'direct_permission_button'}
+        %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button primary', :id => 'inherited_permission_button'}
+      - else
+        %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button primary', :id => 'inherited_permission_button'}
+        %li= link_to t('permissions.global_access'), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button primary', :id => 'global_permission_button'}
 
-= filter_table(@permission_list_header, @show_inherited ? @permission_object.derived_permissions : @permission_object.permissions) do |permission|
+= filter_table(@permission_list_header, @permissions) do |permission|
   %tr{:class => cycle('nostripe','stripe')}
-    - if not(@show_inherited)
+    - if not(@show_inherited or @show_global)
       %td{:class => 'checkbox'}
         - if check_privilege(Privilege::PERM_SET)
           - selected = params[:select] == 'all'
@@ -28,7 +34,7 @@
     %td= link_to permission.user.login, user_path(permission.user)
     %td= permission.user.last_name
     %td= permission.user.first_name
-    - if not(@show_inherited) && check_privilege(Privilege::PERM_SET)
+    - if not(@show_inherited or @show_global) && check_privilege(Privilege::PERM_SET)
       %td= select_tag "permission_role_selected[]", options_for_select(@roles.map {|r| [ t(r.name, :scope=> :role_defs, :default => r.name), "#{permission.id},#{r.id}" ] }, :selected => "#{permission.id},#{permission.role.id}", :disabled => @permission_object.permissions.where(["user_id = ? and role_id != ?", permission.user_id, permission.role_id]).collect {|p| "#{permission.id},#{p.role.id}"}), :id => "permission_role_selected_#{permission.id}"
       :javascript
         $("#permission_role_selected_#{permission.id}").change(function () { $("#perm_edit_button").click(); } );
@@ -36,4 +42,4 @@
     -else
       %td= t(permission.role.name, :scope=> :role_defs, :default => permission.role.name)
     - if @show_inherited
-      %td= (permission.permission.permission_object.class == BasePermissionObject) ? t('permission.global') : permission.permission.permission_object.name
+      %td= permission.permission.permission_object.name

@@ -1215,10 +1215,10 @@ en:
     logout: Log out
   permissions:
     direct_access: "Direct Access"
+    global_access: "Global Access"
     inherited_access: "Inherited Access"
     inherited_from: "Inherited From"
     revoke_access: "Revoke Access"
-    global: "Global"
     form:
       grant_access: Grant Access
     new:

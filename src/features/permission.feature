@@ -57,8 +57,13 @@ Feature: Manage Permissions
     And I should see "Deleted the following Permission Grants"
 
   Scenario: View inherited permissions
-    Given I am viewing the pool "PermissionPool"
+    Given there is a pool family named "PermFamily" with a pool named "PermPool"
+    And there is a permission for the user "testuser" on the pool family "PermFamily"
+    And I am on the pool families page
+    When I follow "PermFamily"
+    Then I should be on the page for the pool family "PermFamily"
+    When I follow "PermPool"
     When I follow link with ID "details_permissions"
     When I follow "Inherited Access"
     Then I should see "Inherited From"
-    And I should see "Global Administrator"
+    And I should see "PermFamily"
