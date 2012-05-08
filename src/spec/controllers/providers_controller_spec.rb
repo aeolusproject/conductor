@@ -27,6 +27,13 @@ describe ProvidersController do
     end
   end
 
+  shared_examples_for "http Bad Request" do
+    context "response status code" do
+      subject { response.status }
+      it { should be_eql(400) }
+    end
+  end
+
   shared_examples_for "http Not Found" do
     context "response status code" do
       subject { response.status }
@@ -183,6 +190,7 @@ describe ProvidersController do
 
             context "XML body" do
               # TODO: implement more attributes checks
+              # FIXME: refactor using Nokogiri::XML
               subject { Hash.from_xml(response.body) }
               let(:xml_provider) { [subject['provider']].flatten.compact.first }
               it "should have correct provider" do
@@ -218,6 +226,48 @@ describe ProvidersController do
 
           end
         end # #show
+
+        describe "#create" do
+          before(:each) do
+            post :create, :provider => { :name => provider.name,
+              :url => provider.url,
+              :provider_type_id => provider.provider_type.id
+            }
+          end
+
+          context "with correct parameters" do
+            let(:provider) { FactoryGirl.build(:mock_provider) }
+
+            it_behaves_like "http OK"
+            it_behaves_like "responding with XML"
+
+            context "XML body" do
+              # TODO: implement more attributes checks
+              subject { Nokogiri::XML(response.body) }
+              let(:xml_provider) { subject.xpath('provider').first }
+              it "should have correct provider" do
+                xml_provider.xpath('name').text.should be_eql(provider.name)
+                # how to make it better?
+                xml_provider.xpath('@href').text.should be_eql(api_provider_url(Provider.last))
+              end
+            end
+          end
+
+          context "with incorrect parameters" do
+            let(:provider) { FactoryGirl.build(:invalid_provider) }
+
+            it_behaves_like "http Bad Request"
+            it_behaves_like "responding with XML"
+
+            context "XML body" do
+              subject { Nokogiri::XML(response.body) }
+              it "should have some errors" do
+                subject.xpath('//errors').size.should be_eql(1)
+                subject.xpath('//errors/error').size.should <= 1
+              end
+            end
+         end
+        end # #create
       end # when using admin credentials
     end # when requesting XML
   end # API
