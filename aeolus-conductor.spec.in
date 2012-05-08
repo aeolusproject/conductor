@@ -214,8 +214,8 @@ rake="lib/tasks"
 rb="app/models app/controllers app/controllers/api app/helpers app/services app/util \
     config config/initializers config/environments db db/migrate \
     features/support features/step_definitions lib spec spec/controllers \
-    spec/factories spec/helpers spec/models spec/services spec/controllers/api lib/aeolus \
-    lib/aeolus/event"
+    spec/factories spec/helpers spec/models spec/services spec/controllers/api \
+    spec/aeolus/event spec/aeolus/ext lib/aeolus lib/aeolus/event lib/aeolus/ext"
 rhtml="app/views/layouts"
 svg="public/images public/images/icons public/fonts"
 ttf="public/fonts"
@@ -248,6 +248,8 @@ done
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
 %{__cp} src/config.ru %{buildroot}%{app_root}
+%{__cp} src/Gemfile.in %{buildroot}%{app_root}
+%{__cp} src/spec/fixtures/Gemfile.in %{buildroot}%{app_root}/spec/fixtures
 %{__cp} src/lib/aeolus/debug/aeolus-debug %{buildroot}%{_bindir}
 
 %{__mkdir} -p %{buildroot}%{app_root}/config
@@ -379,6 +381,8 @@ fi
 %{app_root}/log
 %{app_root}/public
 %{app_root}/Rakefile
+%{app_root}/Gemfile.in
+%{app_root}/spec/fixtures/Gemfile.in
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
 
