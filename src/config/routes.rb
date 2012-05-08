@@ -265,7 +265,7 @@ Conductor::Application.routes.draw do
   end
 
   scope "/api" do
-    resources :providers, :as => 'api_providers', :only => [:index, :show]
+    resources :providers, :as => 'api_providers', :only => [:index, :show, :create]
     resources :provider_accounts, :as => 'api_provider_accounts', :only => [:index, :show]
     resources :provider_types, :as => 'api_provider_types', :only => [:index, :show]
   end
