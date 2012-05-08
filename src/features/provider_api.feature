@@ -38,16 +38,16 @@ Feature: Manage Providers via API
     When I ask for details of non existing provider as XML
     Then I should recieve Not Found error
 
-#  Scenario: Create a new provider
-#    When I create provider with correct data
-#    Then I should recieve OK message
-#    And the provider should be created
-#
-#  Scenario: Create a new provider with bad request
-#    When I create provider with incorrect data
-#    Then I should recieve Bad Request message
-#    And the provider should not be created
-#
+  Scenario: Create a new provider
+    When I create provider with correct data via XML
+    Then I should recieve OK message
+    And the provider should be created
+
+  Scenario: Create a new provider with bad request
+    When I create provider with incorrect data via XML
+    Then I should recieve Bad Request message
+    And the provider should not be created
+
 #  Scenario: Update a provider
 #    Given there is a provider
 #    When I update that provider with correct data

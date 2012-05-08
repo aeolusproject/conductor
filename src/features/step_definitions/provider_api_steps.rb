@@ -44,3 +44,49 @@ Then /^I should recieve Not Found error$/ do
   xml_body = Nokogiri::XML(response.body)
   xml_body.xpath('//error').size.should be_eql(1)
 end
+
+When /^I create provider with correct data via XML$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @provider = FactoryGirl.build(:mock_provider)
+
+  xml_provider = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                    <provider>
+                    <name>#{@provider.name}</name>
+                    <url>#{@provider.url}</url>
+                    <provider_type_id>#{@provider.provider_type_id}</provider_type_id>
+                    </provider>
+                    ]
+
+  post api_providers_path, xml_provider
+end
+
+Then /^I should recieve OK message$/ do
+  response = last_response
+  response.headers['Content-Type'].should include('application/xml')
+  response.status.should be_eql(200)
+end
+
+When /^I create provider with incorrect data via XML$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @provider = FactoryGirl.build(:invalid_provider)
+
+  xml_provider = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                    <provider>
+                    <name>#{@provider.name}</name>
+                    <url>#{@provider.url}</url>
+                    <provider_type_id>#{@provider.provider_type_id}</provider_type_id>
+                    </provider>
+                    ]
+
+  post api_providers_path, xml_provider
+end
+
+Then /^I should recieve Bad Request message$/ do
+  response = last_response
+  response.headers['Content-Type'].should include('application/xml')
+  response.status.should be_eql(400)
+end
