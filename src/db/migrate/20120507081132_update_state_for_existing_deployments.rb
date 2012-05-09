@@ -21,7 +21,7 @@ class UpdateStateForExistingDeployments < ActiveRecord::Migration
           Instance::STATE_STOPPED].include?(i.state) }
       Deployment::STATE_SHUTTING_DOWN
     else
-      Deployemnt::STATE_INCOMPLETE
+      Deployment::STATE_INCOMPLETE
     end
   end
 end
