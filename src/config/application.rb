@@ -42,6 +42,7 @@ else
   require 'json'
   require 'fastercsv' if RUBY_VERSION =~ /1\.8\..*/  # no longer needed in ruby 1.9+
   require 'nokogiri'
+  require 'paranoia'
   #require 'railties'
 
   unless (ENV["RAILS_ENV"] == "production")

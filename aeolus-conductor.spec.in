@@ -46,6 +46,7 @@ Requires: rubygem(ruby-net-ldap)
 Requires: rubygem(oauth)
 Requires: rubygem(rake)
 Requires: rubygem(delayed_job) >= 2.1.4
+Requires: rubygem(paranoia)
 Requires: postgresql
 Requires: postgresql-server
 Requires: system-logos

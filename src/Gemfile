@@ -23,6 +23,7 @@ gem 'ruby-net-ldap'
 gem 'aeolus-image'
 gem 'oauth'
 gem 'delayed_job'
+gem 'paranoia'
 platforms :ruby_18 do
   gem 'fastercsv'
 end
