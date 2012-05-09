@@ -122,6 +122,7 @@ class ApplicationController < ActionController::Base
 
   # Returns an array of ids from params[:id], params[:ids].
   def ids_list(other_attrs=[])
+    other_attrs = Array(other_attrs) unless other_attrs.is_a?(Array)
     other_attrs.each do |attr_key|
       return Array(params[attr_key]) if params.include?(attr_key)
     end

@@ -244,7 +244,7 @@ class PoolsController < ApplicationController
     failed = []
     permission_failed = []
     error_messages = []
-    Pool.find(ids_list('pools_selected')).each do |pool|
+    Pool.find(ids_list(['pools_selected'])).each do |pool|
       if pool.id == MetadataObject.lookup("self_service_default_pool").id
         error_messages << t("pools.flash.error.default_pool_not_deleted")
       elsif !check_privilege(Privilege::MODIFY, pool)
