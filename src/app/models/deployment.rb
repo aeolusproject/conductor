@@ -206,26 +206,33 @@ class Deployment < ActiveRecord::Base
     @launch_parameters = launch_parameters
   end
 
-  def launch(user)
-    # first, create the instance and instance_parameter objects
-    # then, find a single provider account where all instances can launch
-    # then, if a config server is being used
-    #   then generate the instance configs for each instance,
-    # finally, launch the instances
-    #
-    # TODO: need to be able to handle deployable-level errors
-    #
+  def create_and_launch(user)
+    begin
+      rollback_active_record_state! do
+        # deployment's attrs are not reset on rollback,
+        # rollback_active_record_state! takes care of this
+        transaction do
+          create_instances_with_params!(user)
+          launch!(user)
+        end
+      end
+      return true
+    rescue
+      errors.add(:base, $!.message)
+      logger.error $!.message
+      logger.error $!.backtrace.join("\n    ")
+    end
+    false
+  end
+
+  def launch!(user)
     self.state = STATE_PENDING
     save!
-    status = { :errors => {}, :successes => {} }
-    status[:errors] = create_instances_with_params(user)
-    all_inst_match, account, errors = find_match_with_common_account
+    all_inst_match, account, errs = find_match_with_common_account
 
     unless all_inst_match
-      status[:errors][name] = errors
-      # set CREATE_FAILED for all newly created instances
-      instances.each {|i| i.update_attribute(:state, Instance::STATE_CREATE_FAILED)}
-      return status
+      raise I18n.t('deployments.errors.match_not_found',
+                   :errors => errs.join(", "))
     end
 
     if deployable_xml.requires_config_server?
@@ -233,24 +240,34 @@ class Deployment < ActiveRecord::Base
       # instances (and not each individual instance) in order to do parameter
       # dependency resolution across the set
       config_server = account.config_server
-      instance_configs = ConfigServerUtil.instance_configs(self, instances, config_server)
+      instance_configs = ConfigServerUtil.instance_configs(self,
+                                                           instances,
+                                                           config_server)
     else
       config_server = nil
       instance_configs = {}
     end
 
+    # TODO: in follow up patch there should be only delayed job call
+    # on this place
+    # For now, we just call DC create intance method on foreground, if an error
+    # occurs (for example DC API is not running, or config server is not
+    # running), then CREATE_FAILED is set in instance.launch!
     instances.each do |instance|
       match = all_inst_match.find{|m| m.instance.id == instance.id}
       begin
-        instance.launch!(match, user, config_server, instance_configs[instance.uuid])
-        status[:successes][instance.name] = 'launched'
+        instance.launch!(match,
+                         user,
+                         config_server,
+                         instance_configs[instance.uuid])
       rescue
-        status[:errors][instance.name] = $!.message.to_s.split("\n").first
+        errors.add(:base,
+                   "#{instance.name}: #{$!.message.to_s.split("\n").first}")
         logger.error $!.message
         logger.error $!.backtrace.join("\n    ")
       end
     end
-    status
+    true
   end
 
   def self.list(order_field, order_dir)
@@ -535,47 +552,40 @@ class Deployment < ActiveRecord::Base
     self[:pool_family_id] = pool.pool_family_id
   end
 
-  def create_instances_with_params(user)
+  def create_instances_with_params!(user)
     errors = {}
     deployable_xml.assemblies.each do |assembly|
-      begin
-        hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
-        raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
-        Instance.transaction do
-          instance = Instance.create!(
-            :deployment => self,
-            :name => "#{name}/#{assembly.name}",
-            :frontend_realm => frontend_realm,
-            :pool => pool,
-            :image_uuid => assembly.image_id,
-            :image_build_uuid => assembly.image_build,
-            :assembly_xml => assembly.to_s,
-            :state => Instance::STATE_NEW,
-            :owner => user,
-            :hardware_profile => hw_profile
-          )
-          assembly.services.each do |service|
-            service.parameters.each do |parameter|
-              if not parameter.reference?
-                param = InstanceParameter.create!(
-                  :instance => instance,
-                  :service => service.name,
-                  :name => parameter.name,
-                  :type => parameter.type,
-                  :value => parameter.value
-                )
-              end
+      hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
+      raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
+      Instance.transaction do
+        instance = Instance.create!(
+          :deployment => self,
+          :name => "#{name}/#{assembly.name}",
+          :frontend_realm => frontend_realm,
+          :pool => pool,
+          :image_uuid => assembly.image_id,
+          :image_build_uuid => assembly.image_build,
+          :assembly_xml => assembly.to_s,
+          :state => Instance::STATE_NEW,
+          :owner => user,
+          :hardware_profile => hw_profile
+        )
+        assembly.services.each do |service|
+          service.parameters.each do |parameter|
+            if not parameter.reference?
+              param = InstanceParameter.create!(
+                :instance => instance,
+                :service => service.name,
+                :name => parameter.name,
+                :type => parameter.type,
+                :value => parameter.value
+              )
             end
           end
-          self.instances << instance
         end
-      rescue
-        logger.error $!.message
-        logger.error $!.backtrace.join("\n    ")
-        errors[assembly.name] = $!.message.to_s.split("\n").first
+        self.instances << instance
       end
     end
-    errors
   end
 
   def set_new_state

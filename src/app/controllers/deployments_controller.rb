@@ -117,63 +117,49 @@ class DeploymentsController < ApplicationController
   end
 
   def create
-    launch_parameters_encoded = params.delete(:launch_parameters_encoded)
-    unless launch_parameters_encoded.blank?
-      decoded_parameters = JSON.load(Base64.decode64(launch_parameters_encoded))
-      params[:deployment][:launch_parameters] = decoded_parameters
-    end
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     require_privilege(Privilege::CREATE, Deployment, @pool)
-    init_new_deployment_attrs
-    @deployment.deployable_xml = @deployable.xml if @deployable && @deployable.xml
-    if params.has_key?(:deployable_id)
-      require_privilege(Privilege::USE, @deployable)
+
+    if params[:launch_parameters_encoded].present?
+      @deployment.launch_parameters = JSON.load(
+        Base64.decode64(params[:launch_parameters_encoded]))
     end
-    img, img2, missing, d_errors = @deployable.get_image_details
+
+    init_new_deployment_attrs
+    require_privilege(Privilege::USE, @deployable)
+    @deployment.deployable_xml = @deployable.xml
+    @deployment.owner = current_user
+
+    if params.delete(:commit) == 'back'
+      load_assemblies_services
+      view = @deployment.launch_parameters.blank? ?
+        'launch_new' : 'launch_time_params'
+      render view
+      return
+    end
+    return unless check_deployable_images
+
     respond_to do |format|
-      unless d_errors.empty?
-        @pool = @deployment.pool
-        flash.now[:warning] = t "deployments.flash.warning.failed_to_launch"
-        flash[:error] = d_errors
-        format.html { render :action => 'overview' }
-        format.js { launch_new }
-        format.json { render :json => d_errors, :status => :unprocessable_entity }
+      if @deployment.create_and_launch(current_user)
+        format.html do
+          flash[:notice] = t "deployments.flash.notice.launched"
+          redirect_to deployment_path(@deployment)
+        end
+        format.js do
+          @deployment_properties = @deployment.properties
+          render :partial => 'properties'
+        end
+        format.json { render :json => @deployment, :status => :created }
       else
-
-        @deployment.owner = current_user
-        load_assemblies_services
-        if params.delete(:commit) == 'back'
-          view = launch_parameters_encoded.blank? ? 'launch_new' : 'launch_time_params'
-          render view and return
-        end
-
-        if @deployment.save
-          status = @deployment.launch(current_user)
-          if status[:errors].empty?
-            flash[:notice] = t "deployments.flash.notice.launched"
-          else
-            flash[:error] = {
-              :summary  => t("deployments.flash.error.failed_to_launch_assemblies"),
-              :failures => status[:errors],
-              :successes => status[:successes]
-            }
-          end
-          format.html { redirect_to deployment_path(@deployment) }
-          format.js do
-            @deployment_properties = @deployment.properties
-            render :partial => 'properties'
-          end
-          format.json { render :json => @deployment, :status => :created }
-        else
-          # We need @pool to re-display the form
-          @pool = @deployment.pool
+        # TODO: put deployment's errors into flash or display inside page?
+        format.html do
           flash.now[:warning] = t "deployments.flash.warning.failed_to_launch"
-          init_new_deployment_attrs
-          format.html { render :action => 'overview' }
-          format.js { launch_new }
-          format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
+          render :action => 'overview'
         end
+        format.js { render :partial => 'overview' }
+        format.json { render :json => @deployment.errors,
+                             :status => :unprocessable_entity }
       end
     end
   end
@@ -433,4 +419,16 @@ class DeploymentsController < ApplicationController
     end
   end
 
+  def check_deployable_images
+    image_details, images, missing_images, deployable_errors = @deployable.get_image_details
+    return true if deployable_errors.empty?
+    respond_to do |format|
+      flash.now[:warning] = t "deployments.flash.warning.failed_to_launch"
+      flash[:error] = deployable_errors
+      format.html { render :action => 'overview' }
+      format.js { render :partial => 'overview' }
+      format.json { render :json => deployable_errors, :status => :unprocessable_entity }
+    end
+    false
+  end
 end

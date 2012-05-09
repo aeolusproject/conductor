@@ -223,11 +223,11 @@ describe Deployment do
     end
 
     it "should launch instances when launching deployment" do
-      @deployment.save!
       @deployment.instances.should be_empty
 
       Taskomatic.stub!(:create_instance!).and_return(true)
-      @deployment.launch(@user_for_launch)[:errors].should be_empty
+      @deployment.create_and_launch(@user_for_launch)
+      @deployment.errors.should be_empty
       @deployment.instances.count.should == 2
     end
 
@@ -239,7 +239,8 @@ describe Deployment do
       Taskomatic.stub!(:create_dcloud_instance).and_return(true)
       Taskomatic.stub!(:handle_dcloud_error).and_return(true)
       Taskomatic.stub!(:handle_instance_state).and_return(true)
-      @deployment.launch(@user_for_launch)[:errors].should be_empty
+      @deployment.create_and_launch(@user_for_launch)
+      @deployment.errors.should be_empty
       @deployment.reload
       @deployment.instances.count.should == 2
       @deployment.instances[0].provider_account.should == @provider_account1
@@ -247,7 +248,8 @@ describe Deployment do
       @provider_account1.priority = 30
       @provider_account1.save!
       deployment2 = Factory.create(:deployment, :pool_id => @pool.id)
-      deployment2.launch(@user_for_launch)[:errors].should be_empty
+      deployment2.create_and_launch(@user_for_launch)
+      deployment2.errors.should be_empty
       deployment2.reload
       deployment2.instances.count.should == 2
       deployment2.instances[0].provider_account.should == @provider_account2
@@ -265,28 +267,27 @@ describe Deployment do
       Taskomatic.stub!(:create_dcloud_instance).and_return(true)
       Taskomatic.stub!(:handle_dcloud_error).and_return(true)
       Taskomatic.stub!(:handle_instance_state).and_return(true)
-      @deployment.launch(@user_for_launch)[:errors].should be_empty
+      @deployment.create_and_launch(@user_for_launch)
+      @deployment.errors.should be_empty
       @deployment.reload
       @deployment.instances.count.should == 2
       @deployment.instances[0].provider_account.should == @provider_account2
       @deployment.instances[1].provider_account.should == @provider_account2
     end
 
-    it "should set create_failed status for instances if match not found" do
-      @deployment.save!
+    it "should not create deployment with instances if match not found" do
       @deployment.instances.should be_empty
       @deployment.pool.pool_family.provider_accounts.destroy_all
       Taskomatic.stub!(:create_instance!).and_return(true)
-      @deployment.launch(@user_for_launch)
-      @deployment.instances.should_not be_empty
-      @deployment.instances.each {|i| i.state.should == Instance::STATE_CREATE_FAILED}
+      @deployment.create_and_launch(@user_for_launch)
+      @deployment.errors.should_not be_empty
+      lambda { Deployment.find(@deployment.id) }.should raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "should set create_failed status for instances if instance's launch raises an exception" do
-      @deployment.save!
       @deployment.instances.should be_empty
       Taskomatic.stub!(:create_dcloud_instance).and_raise("an exception")
-      @deployment.launch(@user_for_launch)
+      @deployment.create_and_launch(@user_for_launch)
       @deployment.reload
       @deployment.instances.should_not be_empty
       @deployment.instances.each {|i| i.state.should == Instance::STATE_CREATE_FAILED}

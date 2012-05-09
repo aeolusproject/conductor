@@ -65,6 +65,7 @@ describe DeploymentsController do
         @catalog = Factory.create(:catalog)
         @deployable = Factory.create(:deployable, :catalogs => [@catalog])
         Deployment.stub!(:new).and_return(@deployment)
+        Deployment.any_instance.stub(:create_and_launch).and_return(true)
         post :create, :deployable_id => @deployable.id
       end
 

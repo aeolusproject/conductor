@@ -333,6 +333,7 @@ en:
       cannot_stop: "stop cannot be performed on this instance."
       all_stopped: "All instances must be stopped or running"
       not_valid_deployable_xml: "seems to be not valid deployable XML: %{msg}"
+      match_not_found: "Match not found: %{errors}"
     preset_filters:
       all_deployments: All Deployments
   instances:
