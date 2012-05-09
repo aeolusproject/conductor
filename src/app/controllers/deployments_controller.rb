@@ -146,10 +146,7 @@ class DeploymentsController < ApplicationController
           flash[:notice] = t "deployments.flash.notice.launched"
           redirect_to deployment_path(@deployment)
         end
-        format.js do
-          @deployment_properties = @deployment.properties
-          render :partial => 'properties'
-        end
+        format.js { render :partial => 'properties' }
         format.json { render :json => @deployment, :status => :created }
       else
         # TODO: put deployment's errors into flash or display inside page?
@@ -191,7 +188,6 @@ class DeploymentsController < ApplicationController
     add_permissions_tab(@deployment)
     details_tab_name = params[:details_tab].blank? ? 'instances' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
-    @deployment_properties = @deployment.properties
     if params[:details_tab]
       @view = @details_tab[:view]
     end
@@ -219,10 +215,7 @@ class DeploymentsController < ApplicationController
       if check_privilege(Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
         flash[:success] = t('deployments.flash.success.updated', :count => 1, :list => @deployment.name)
         format.html { redirect_to @deployment }
-        format.js do
-          @deployment_properties = @deployment.properties
-          render :partial => 'properties'
-        end
+        format.js { render :partial => 'properties' }
         format.json { render :json => @deployment }
       else
         flash[:error] = t('deployments.flash.error.not_updated', :count => 1, :list => @deployment.name)

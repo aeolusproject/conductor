@@ -1,6 +1,6 @@
 %table.properties_table
   %tbody
-  -@deployment_properties.each do |key, value|
+  -@deployment.properties.each do |key, value|
     %tr
       %td=key.to_s.capitalize
       %td=value
