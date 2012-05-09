@@ -22,7 +22,7 @@ When /^I ask for details of that provider as XML$/ do
   get api_provider_path(@provider.id)
 end
 
-Then /^I should recieve details of that provider as XML$/ do
+Then /^I should receive details of that provider as XML$/ do
   response = last_response
   response.headers['Content-Type'].should include('application/xml')
   response.status.should be_eql(200)
@@ -37,7 +37,7 @@ When /^I ask for details of non existing provider as XML$/ do
   get api_provider_path(1)
 end
 
-Then /^I should recieve Not Found error$/ do
+Then /^I should receive Not Found error$/ do
   response = last_response
   response.headers['Content-Type'].should include('application/xml')
   response.status.should be_eql(404)
@@ -62,7 +62,7 @@ When /^I create provider with correct data via XML$/ do
   post api_providers_path, xml_provider
 end
 
-Then /^I should recieve OK message$/ do
+Then /^I should received?(?: an)? OK message$/ do
   response = last_response
   response.headers['Content-Type'].should include('application/xml')
   response.status.should be_eql(200)
@@ -85,7 +85,7 @@ When /^I create provider with incorrect data via XML$/ do
   post api_providers_path, xml_provider
 end
 
-Then /^I should recieve Bad Request message$/ do
+Then /^I should receive Bad Request message$/ do
   response = last_response
   response.headers['Content-Type'].should include('application/xml')
   response.status.should be_eql(400)

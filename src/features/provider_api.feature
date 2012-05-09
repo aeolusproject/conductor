@@ -32,37 +32,37 @@ Feature: Manage Providers via API
   Scenario: Get details for provider as XML
     Given there is a provider
     When I ask for details of that provider as XML
-    Then I should recieve details of that provider as XML
+    Then I should receive details of that provider as XML
 
   Scenario: Get details for non existing provider
     When I ask for details of non existing provider as XML
-    Then I should recieve Not Found error
+    Then I should receive Not Found error
 
   Scenario: Create a new provider
     When I create provider with correct data via XML
-    Then I should recieve OK message
+    Then I should receive OK message
     And the provider should be created
 
   Scenario: Create a new provider with bad request
     When I create provider with incorrect data via XML
-    Then I should recieve Bad Request message
+    Then I should receive Bad Request message
     And the provider should not be created
 
 #  Scenario: Update a provider
 #    Given there is a provider
 #    When I update that provider with correct data
-#    Then I should recieve OK message
+#    Then I should receive OK message
 #    And the provider should be updated
 #
 #  Scenario: Update a provider with bad request
 #    Given there is a provider
 #    When I update that provider with incorrect data
-#    Then I should recieve Bad Request message
+#    Then I should receive Bad Request message
 #    And the provider should not be updated
 #
 #  Scenario: Delete Provider
 #    Given there is a provider
-#    When I delete that provider
+#    When I delete that provider via XML
 #    Then I should received an OK message
 #    And the provider should be deleted
 #
