@@ -33,16 +33,6 @@ class InstancesController < ApplicationController
     end
   end
 
-  def new
-    respond_to do |format|
-      format.js
-      format.json
-    end
-  end
-
-  def create
-  end
-
   def show
     load_instances
     save_breadcrumb(instance_path(@instance), @instance.name)
