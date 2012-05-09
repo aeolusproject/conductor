@@ -65,14 +65,6 @@ describe Provider do
       @provider.should_not be_valid
     end
 
-    it "should set error if unable to connect to specified deltacloud_provider" do
-      @provider.stub(:valid_provider?).and_return(false)
-      @provider.stub(:valid_framework?).and_return(true)
-      @provider.should have(1).error_on(:deltacloud_provider)
-      @provider.errors[:deltacloud_provider].first.should eql(I18n.t("activerecord.errors.provider.deltacloud_provider"))
-      @provider.should_not be_valid
-    end
-
     it "should require unique name" do
       @provider.save!
       provider2 = Factory.build :mock_provider
