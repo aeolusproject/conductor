@@ -1,0 +1,13 @@
+source :rubygems
+
+gem 'deltacloud-client', :require => 'deltacloud'
+gem 'will_paginate', '>= 3.0.pre1'
+gem 'fastercsv' , :platforms => :mri_18
+gem 'cinch' , :platforms => :mri_19
+gem 'foo', :group => :fail
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'vcr'
+  gem 'webmock'
+  gem 'launchy'
+end
