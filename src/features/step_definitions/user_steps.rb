@@ -19,11 +19,6 @@ Given /^there is a user "([^"]*)"$/ do |name|
   end
 end
 
-Given /^I am an authorised user$/ do
-  @admin_permission = FactoryGirl.create :admin_permission
-  @user = @admin_permission.user
-end
-
 Given /^there are (\d+) users$/ do |number|
   User.count.should == number.to_i
 end
