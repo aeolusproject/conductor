@@ -6,9 +6,9 @@
       = link_to t('images.index.images'), images_path
     - if @environment and check_privilege(Privilege::USE, @environment)
       .button-group
-        = link_to t('.new_deployable_from_image'), new_deployable_path(:create_from_image => @image.id), :class => 'button pill'
+        = link_to t('images.show.new_deployable_from_image'), new_deployable_path(:create_from_image => @image.id), :class => 'button pill'
         - unless @image.imported?
-          = link_to t('.template_xml'), template_image_path(@image.uuid), :class => 'button pill'
+          = link_to t('images.show.template_xml'), template_image_path(@image.uuid), :class => 'button pill'
         = button_to t("delete"), image_path(@image.id), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete'
   %h1.no-icon= @image.imported? ? @image.name + " (Imported)" : @image.name
 
@@ -26,103 +26,30 @@
   %header
     .section-controls
       - if @builds.any?
-        %span= t'.view_build'
+        %span= t'images.show.view_build'
         - if user_can_build
           = form_tag image_path(@image.id), :method => :get do
-            = select_tag :build, options_for_build_select(@builds, @build, @latest_build)
-            = submit_tag t('.select_build'), :id => 'select_build_button'
+            = select_tag :build, options_for_build_select(@builds, @build, @latest_build_id)
+            = submit_tag t('images.show.select_build'), :id => 'select_build_button'
       - if user_can_build
         - if @image.imported?
-          %span= t('.can_not_build_imported_image')
+          %span= t('images.show.can_not_build_imported_image')
         -else
           - if @builds.any?
-            - build_text = '.rebuild'
+            - build_text = 'images.show.rebuild'
           - else
-            - build_text = '.build'
+            - build_text = 'images.show.build'
           - if @account_groups_listing.size > 1
             - build_text << '_all'
           = button_to t(build_text), rebuild_all_image_path(@image.id), :class => 'button pill' unless @account_groups_listing.blank?
           #push-all-btn
-            - if @build && @build.id == @latest_build && @target_image_exists
-              = button_to t('.push_all'), push_all_image_path(@image.id, :build_id => @build.id), :class => 'button pill'
-    %h2= t('.provider_images')
+            - if @push_all_enabled
+              = button_to t('images.show.push_all'), push_all_image_path(@image.id, :build_id => @build.id), :class => 'button pill'
+    %h2= t('images.show.provider_images')
 
   .content
-    - if @account_groups_listing.present?
-      %ul.image_builds
-        - @account_groups_listing.each do |driver, group|
-          - timg = @target_images_by_target[driver]
-          %li.clearfix
-            %dl
-              %dt
-                .build-actions
-                  %h3= group[:type].name
-                  - if @build and b = @builder.find_active_build(@build.id, driver)
-                    = label_tag b.status
-                  - elsif !@build and b = @builder.find_active_build_by_imageid(@image.id, driver)
-                    = label_tag b.status
-                  - elsif timg
-                    - if user_can_build
-                      = button_to t('.delete'), image_target_image_path(@image.id, timg.id), :method => :delete
-                  - elsif @build and @build.id == @latest_build
-                    - if user_can_build
-                      = button_to t('.build'), image_target_images_path(@image.id, :target => driver, :build_id => @build ? @build.id : nil), :method => :post
-                    - failed_build_count = @builder.failed_build_count(@build.id, driver)
-                    - if failed_build_count > 0
-                      .light
-                        = t('images.show.failed_build_attempts', :count => failed_build_count)
-                  - elsif !@build
-                    - if user_can_build
-                      = button_to t('.build'), image_target_images_path(@image.id, :target => driver, :build_id => @build ? @build.id : nil), :method => :post
-                  - else
-                    &nbsp;
-              %dd
-                %table.light_table
-                  %thead
-                    %th
-                      %strong= t'.account'
-                    %th
-                      = t'.provider'
-                    %th
-                      = t'.image_uuid'
-                    %th
-                      = t'.image_uri'
-                    %th.image_controls
-                  %tbody
-                    - group[:accounts].each do |account_hash|
-                      - account = account_hash[:account]
-                      - pimg = timg ? timg.find_provider_image_by_provider_and_account(account.provider.name, account.credentials_hash['username']).first : nil
-                      - if account_hash[:included] || (timg and !pimg)
-                        %tr
-                          %td
-                            %strong= account.name
-                          %td.light
-                            = account.provider.name
-                          %td.light
-                            = pimg ? pimg.target_identifier : ''
-                          %td.light
-                            = pimg ? pimg.id : ''
-                          %td.image_controls.light
-                            - if timg and b = @builder.find_active_push(timg.id, account.provider.name, account.credentials_hash['username'])
-                              = label_tag b.status
-                            - elsif timg and not pimg and @build and @build.id == @latest_build
-                              - if @push_started && @pushed_provider_account == account
-                                .light
-                                  = t('images.show.push_started')
-                              - else
-                                - if user_can_build
-                                  = button_to t('.push'), image_provider_images_path(@image.id, :build_id => @build.id, :target_image_id => timg.id, :account_id => account.id), :method => :post, :class => 'upload_image button'
-                                - failed_push_count = @builder.failed_push_count(timg.id, account.provider.name, account.credentials_hash['username'])
-                                - if failed_push_count > 0
-                                  = t('images.show.failed_push_attempts', :count => failed_push_count)
-                            - elsif pimg and not @image.imported?
-                              - if user_can_build
-                                = button_to "", image_provider_image_path(@image.id, pimg.id), :method => :delete, :class => 'delete_image'
-                            - else
-                              &nbsp;
-    - else
-      .centered.align-center
-        %strong= t("images.flash.error.no_provider_accounts")
+    %ul.image_builds
+      = render :partial => 'status', :mustache => {:images => @images_by_provider_type}
 
 :javascript
   $(document).ready(function(){
@@ -132,137 +59,8 @@
     });
   });
 
-%script#imageBuildsTemplate{ :type => 'text/x-jquery-tmpl' }
-  :plain
-    {{each(driver, group) account_groups}}
-      {{if group['included'] || target_images_by_target[driver] || (build && active_builds[driver])}}
-        <li>
-          <dl>
-            <dt>
-              <div class="build-actions">
-                <h3>${group['type']['name']}</h3>
-                {{if build && active_builds[driver]}}
-                  <label>${active_builds[driver]['builder']['status']}</label>
-                {{else !build && active_builds_by_image_id[image['uuid']][driver]}}
-                  <label>${active_builds_by_image_id[image['uuid']][driver]['builder']['status']}</label>
-                {{else target_images_by_target[driver]}}
-                  {{if user_can_build}}
-                    #{path = image_target_image_path('replace_image_id', 'replace_target_image_id')
-                      path = path.sub('replace_image_id', '${image[\'uuid\']}')
-                      path = path.sub('replace_target_image_id', '${target_images_by_target[driver][\'uuid\']}')
-                        button_to(t('images.show.delete'), path, :method => :delete)}
-                  {{/if}}
-                {{else build && build['uuid'] == latest_build_id}}
-                  {{if user_can_build}}
-                    #{path = image_target_images_path('replace_image_id', :target => 'replace_driver', :build_id => 'replace_build_id')
-                      path = path.sub('replace_image_id', '${image[\'uuid\']}')
-                      path = path.sub('replace_driver', '${driver}')
-                      path = path.sub('replace_build_id', '${build[\'uuid\']}')
-                        button_to(t('images.show.build'), path, :method => :post)}
-                  {{/if}}
-                  {{if failed_build_counts[driver] > 1}}
-                    <div class="light">
-                      #{t('images.show.failed_build_attempts', :count => '${failed_build_counts[driver]}')}
-                    </div>
-                  {{else failed_build_counts[driver] == 1}}
-                    <div class="light">
-                      #{t('images.show.failed_build_attempts', :count => 1 )}
-                    </div>
-                  {{/if}}
-                {{else !build}}
-                  {{if user_can_build}}
-                    #{path = image_target_images_path('replace_image_id', :target => 'replace_driver')
-                      path = path.sub('replace_image_id', '${image[\'uuid\']}')
-                      path = path.sub('replace_driver', '${driver}')
-                        button_to(t('images.show.build'), path, :method => :post)}
-                  {{/if}}
-                {{else}}
-                  &nbsp;
-                {{/if}}
-              </div>
-            </dt>
-            <dd>
-              <table class="light_table">
-                <thead>
-                  <tr>
-                    <th>
-                      <strong>#{t'images.show.account'}</strong>
-                    </th>
-                    <th>
-                      #{t'images.show.provider'}
-                    </th>
-                    <th>
-                      #{t'images.show.image_uuid'}
-                    </th>
-                    <th>
-                      #{t'images.show.image_uri'}
-                    </th>
-                    <th class="image_controls"></th>
-                </tr></thead>
+%script#imageStatusTemplate{ :type => 'text/html' }
+  = render :partial => 'status'
 
-                <tbody>
-                  {{each(index, account_hash) group['accounts']}}
-                    {{if account_hash['included'] || (target_images_by_target[driver] || !provider_images[account_hash['account']['id']])}}
-                      <tr>
-                        <td>
-                          <strong>${account_hash['account']['label']}</strong>
-                        </td>
-                        <td class="light">
-                          ${account_hash['account']['provider_name']}
-                        </td>
-                        <td class="light">
-                          {{if provider_images[account_hash['account']['id']]}}
-                            ${provider_images[account_hash['account']['id']]['target_identifier']}
-                          {{/if}}
-                        </td>
-                        <td class="light">
-                          {{if provider_images[account_hash['account']['id']]}}
-                            ${provider_images[account_hash['account']['id']]['uuid']}
-                          {{/if}}
-                        </td>
-                        <td class="image_controls light">
-                          {{if target_images_by_target[driver] && active_pushes[account_hash['account']['id']]}}
-                            <label>${active_pushes[account_hash['account']['id']]['builder']['status']}</label>
-                          {{else target_images_by_target[driver] && !provider_images[account_hash['account']['id']] && build &&  build['uuid'] == latest_build_id}}
-                            {{if user_can_build}}
-                              #{path = image_provider_images_path('replace_image_id', :build_id => 'replace_build_id', :target_image_id => 'replace_target_image_id', :account_id => 'replace_account_id')
-                                path = path.sub('replace_image_id', '${image[\'uuid\']}')
-                                path = path.sub('replace_build_id', '${build[\'uuid\']}')
-                                path = path.sub('replace_target_image_id', '${target_images_by_target[driver][\'uuid\']}')
-                                path = path.sub('replace_account_id', '${account_hash[\'account\'][\'id\']}')
-                                  button_to(t('images.show.push'), path, :method => :post, :class => 'upload_image button')}
-                            {{/if}}
-                            {{if failed_push_counts[account_hash['account']['id']] > 1}}
-                              #{t('images.show.failed_push_attempts', :count => '${failed_push_counts[account_hash[\'account\'][\'id\']]}' )}
-                            {{else failed_push_counts[account_hash['account']['id']] == 1}}
-                              #{t('images.show.failed_push_attempts', :count => 1 )}
-                            {{/if}}
-                          {{else provider_images[account_hash['account']['id']]}}
-                            {{if user_can_build}}
-                              #{path = image_provider_image_path('replace_image_id', 'replace_provider_image_id')
-                                path = path.sub('replace_image_id', '${image[\'uuid\']}')
-                                path = path.sub('replace_provider_image_id', '${provider_images[account_hash[\'account\'][\'id\']][\'uuid\']}')
-                                  button_to("", path, :method => :delete, :class => 'delete_image')}
-                            {{/if}}
-                          {{else}}
-                            &nbsp;
-                          {{/if}}
-                        </td>
-                      </tr>
-                    {{/if}}
-                  {{/each}}
-                </tbody>
-              </table>
-            </dd>
-          </dl>
-          <div class="clear"></div>
-        </li>
-      {{/if}}
-    {{/each}}
-
-%script#pushAllButtonTemplate{ :type => 'text/x-jquery-tmpl' }
-  :plain
-    #{path = push_all_image_path('replace_image_id', :build_id => 'replace_build_id')
-      path = path.sub('replace_image_id', '${image[\'uuid\']}')
-      path = path.sub('replace_build_id', '${build[\'uuid\']}')
-      button_to(t('images.show.push_all'), path, :class => 'button pill')}
+%script#pushAllButtonTemplate{ :type => 'text/html' }
+  = render :partial => 'push_all_button'

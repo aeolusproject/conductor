@@ -298,21 +298,17 @@ Conductor.Views.ImagesShow = Backbone.View.extend({
     var $builds = this.$('ul.image_builds');
     if($builds.length === 0) return;
 
-    $builds.empty();
+    $template = $('#imageStatusTemplate');
+    if($template.length === 0) return;
 
-    $('#imageBuildsTemplate').tmpl(this.model.toJSON()).appendTo($builds);
+    $builds.html(Mustache.to_html($template.html(), this.model.toJSON()));
 
     // Enable/Disable Push All button
     var $buttonTemplate = $('#pushAllButtonTemplate');
     var $pushAllBtn = $('#push-all-btn');
 
-    var buildId = this.model.get("build") ? this.model.get("build")['uuid'] : null;
-    var latestBuildId = this.model.get("latest_build_id");
-    var providerImageExists = this.model.get("provider_image_exists");
-    var targetImageExists = this.model.get("target_image_exists");
-
-    if (buildId && buildId == latestBuildId && targetImageExists) {
-      $pushAllBtn.html($buttonTemplate.tmpl(this.model.toJSON()));
+    if (this.model.get('push_all_enabled')) {
+      $pushAllBtn.html(Mustache.to_html($buttonTemplate.html(), this.model.toJSON()));
     }
     else {
       $pushAllBtn.empty();
