@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  @VERSION@
+Version:  0.8.14
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Thu May  3 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.14-1
+- Build with tito
+
 * Fri Apr 20 2012 John Eckersberg <jeckersb@redhat.com> - 0.8.13-1
 - 5cda012 Revert "BZ 796528 - deployment launch refactoring"
 - d096251 Revert "BZ 796528 - instance's config params are now handled from taskomatic"
