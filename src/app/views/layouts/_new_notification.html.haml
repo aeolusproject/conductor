@@ -27,7 +27,11 @@
           %div.heading
             =image_tag 'flash_warning_icon.png', :alt => 'Warnings'
           %ul.flashes
-            %li= flash[:warning]
+            -if flash[:warning].kind_of?(Array)
+              - flash[:warning].each do |k, v|
+                %li= [k, v.present? ? ": #{v}" : '']
+            -else
+              %li= flash[:warning]
 
     -if flash[:error]
       -if flash[:error].kind_of?(String)

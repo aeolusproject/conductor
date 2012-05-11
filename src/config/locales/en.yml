@@ -993,6 +993,7 @@ en:
         wrong_environment: "The deployable '%{deployable}' contains an image (UUID %{uuid}) in the wrong environment ('%{wrong_env}' should be '%{environment}') and cannot be used."
       warning:
         failed: "Deployable was not created: %{message}"
+        param_type_attr: "Deprecation Warning: Parameter '%{param_name}' in service '%{service_name}' has a type attribute. Remove the type attribute or move it to a child value tag."
       notice:
         deleted:
           one: "Deployable %{deleted} removed successfully!"

@@ -162,6 +162,14 @@ class DeployablesController < ApplicationController
           redirect_to catalog_path(@selected_catalogs.first)
         end
       end
+
+      # check that type attrs on service params are used properly
+      if warnings = @deployable.check_service_params_types
+        flash[:warning] ||= []
+        flash[:warning] = [flash[:warning]] if flash[:warning].kind_of? String
+        flash[:warning]+=warnings
+      end
+
     rescue => e
       if @deployable.errors.empty?
         logger.error e.message
@@ -194,6 +202,13 @@ class DeployablesController < ApplicationController
     params[:deployable].delete(:owner_id) if params[:deployable]
 
     if @deployable.update_attributes(params[:deployable])
+      # check that type attrs on service params are used properly
+      if warnings = @deployable.check_service_params_types
+        flash[:warning] ||= []
+        flash[:warning] = [flash[:warning]] if flash[:warning].kind_of? String
+        flash[:warning]+=warnings
+      end
+
       flash[:notice] = t"catalog_entries.flash.notice.updated"
       redirect_to polymorphic_path([@catalog, @deployable])
     else
@@ -295,4 +310,6 @@ class DeployablesController < ApplicationController
       nil
     end
   end
+
+  
 end

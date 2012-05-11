@@ -86,6 +86,14 @@ class DeploymentsController < ApplicationController
       @additional_quota = count_additional_quota(@deployment)
       render 'overview' and return
     end
+
+    # check that type attrs on service params are used properly
+    if warnings = @deployable.check_service_params_types
+      flash[:warning] ||= []
+      flash[:warning] = [flash[:warning]] if flash[:warning].kind_of? String
+      flash[:warning]+=warnings
+    end
+      
   end
 
   def overview

@@ -131,6 +131,9 @@
   <define name="configuration-parameter-definition">
     <element name="parameter">
       <attribute name="name"><text/></attribute>
+      <!-- type is deprecated here, it's proper use is on the value
+           tag. it can be removed is 1.2 -->
+      <optional>
       <attribute name="type">
         <choice>
           <!-- only supporting scalar and password types for now -->
@@ -140,9 +143,23 @@
           <value>password</value>
         </choice>
       </attribute>
+      </optional>
       <choice>
         <empty/>
-        <element name="value"><text/></element>
+        <element name="value">
+            <text/>
+            <optional>
+            <attribute name="type">
+              <choice>
+                <!-- only supporting scalar and password types for now -->
+                <value>scalar</value>
+                <!-- password types simply indicate that the UI collecting the
+                     value should obscure the input field's value -->
+                <value>password</value>
+              </choice>
+            </attribute>
+            </optional>
+        </element>
         <element name="reference">
           <attribute name="assembly"><text/></attribute>
           <choice>

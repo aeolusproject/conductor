@@ -30,6 +30,16 @@ class ParameterXML
   end
 
   def type
+    if value_node
+      value_node['type'] || @root['type']
+    else
+      "Scalar"
+    end
+  end
+
+  def type_warning
+    # providing a place to see the old placement of the type
+    # attr directly so we can check it and throw warnings.
     @root['type']
   end
 

@@ -227,6 +227,24 @@ class Deployable < ActiveRecord::Base
     self[:pool_family_id] = catalogs.first.pool_family_id
   end
 
+  
+  def check_service_params_types
+    warnings = []
+    deployable_xml = DeployableXML.new(xml)
+    deployable_xml.assemblies.each do |assembly|
+      assembly.services.each do |service|
+        service.parameters.each do |param|
+          if param.type_warning
+            warnings << I18n.translate("deployables.flash.warning.param_type_attr",
+                                 :service_name => service.name,
+                                 :param_name => param.name)
+          end
+        end
+      end 
+    end
+    warnings
+  end
+
   private
 
   def self.apply_search_filter(search)

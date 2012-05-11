@@ -88,8 +88,8 @@
       <file url='file_url'/>
       </files>
       <parameters>
-      <parameter name='launch_parameter_1' type='scalar'/>
-      <parameter name='launch_parameter_2' type='scalar'/>
+      <parameter name='launch_parameter_1'/>
+      <parameter name='launch_parameter_2'/>
       </parameters>
       </service>
       </services>
