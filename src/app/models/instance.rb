@@ -123,6 +123,7 @@ class Instance < ActiveRecord::Base
   STOPPABLE_INACCESSIBLE_STATES = [STATE_NEW, STATE_PENDING, STATE_RUNNING, STATE_SHUTTING_DOWN]
   # States that indicate some sort of failure/problem with an instance:
   FAILED_STATES = [STATE_CREATE_FAILED, STATE_ERROR, STATE_VANISHED]
+  ACTIVE_FAILED_STATES = [STATE_ERROR, STATE_VANISHED]
 
   scope :deployed,  :conditions => { :state => [STATE_RUNNING, STATE_SHUTTING_DOWN] }
   # FIXME: "pending" is misleading as it doesn't just cover STATE_PENDING
@@ -132,7 +133,7 @@ class Instance < ActiveRecord::Base
   scope :failed,    :conditions => { :state => FAILED_STATES }
   scope :stopped,   :conditions => {:state => STATE_STOPPED}
   scope :not_stopped, :conditions => "state <> 'stopped'"
-  scope :stopable,    :conditions => { :state => [STATE_NEW, STATE_PENDING, STATE_RUNNING] }
+  scope :stopable,    :conditions => { :state => [STATE_PENDING, STATE_RUNNING] }
   scope :stoppable_inaccessible,    :conditions => { :state => STOPPABLE_INACCESSIBLE_STATES }
 
   SEARCHABLE_COLUMNS = %w(name state)

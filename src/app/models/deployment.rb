@@ -251,6 +251,7 @@ class Deployment < ActiveRecord::Base
       instance_configs = {}
     end
 
+
     # TODO: in follow up patch there should be only delayed job call
     # on this place
     # For now, we just call DC create intance method on foreground, if an error
@@ -607,8 +608,7 @@ class Deployment < ActiveRecord::Base
     if instances.all? {|i| i.state == Instance::STATE_RUNNING}
       self.state = STATE_RUNNING
     elsif Instance::FAILED_STATES.include?(instance.state)
-      # TODO: initiate rollback. For now if an error occurs, deployment will
-      # stay in pending state
+      deployment_rollback
     end
   end
 
@@ -627,6 +627,47 @@ class Deployment < ActiveRecord::Base
   def state_transition_from_shutting_down(instance)
     if instance.state == Instance::STATE_STOPPED and instances.all? {|i| i.inactive?}
       self.state = STATE_STOPPED
+    end
+  end
+
+  def state_transition_from_rollback_in_progress(instance)
+    # TODO: distinguish if an instance was created on provider side
+    # or error occurred on create_instance request - in such case
+    # the instance has not to be rollbacked
+    if Instance::ACTIVE_FAILED_STATES.include?(instance.state)
+      # if this instance stop failed, whole deployment rollback failed
+      self.state = STATE_ROLLBACK_FAILED
+    elsif instances.all? {|i| i.inactive?}
+      # some other instances might be failed (because their
+      # launch failed), but it shouldn't be a problem if all
+      # running instances stopped correctly
+      self.state = STATE_ROLLBACK_COMPLETE
+    end
+  end
+
+  def deployment_rollback
+    stoppable_instances = instances.stopable
+    if stoppable_instances.empty?
+      self.state = STATE_ROLLBACK_COMPLETE
+      save!
+      return
+    end
+
+    self.state = STATE_ROLLBACK_IN_PROGRESS
+    save!
+    error_occured = false
+    stoppable_instances.each do |instance|
+      begin
+        instance.stop(nil)
+      rescue
+        error_occured = true
+        # TODO: add instance event for this exception
+        logger.error $!.message
+        logger.error $!.backtrace.join("\n  ")
+      end
+    end
+    if error_occured
+      self.state = STATE_ROLLBACK_FAILED
     end
   end
 end

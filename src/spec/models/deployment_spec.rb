@@ -357,7 +357,7 @@ describe Deployment do
     end
   end
 
-  describe "deployment state" do
+  describe "state" do
     context "in running state" do
       before :each do
         @deployment.state = Deployment::STATE_RUNNING
@@ -400,6 +400,35 @@ describe Deployment do
         @inst2.save!
         @deployment.reload
         @deployment.state.should == Deployment::STATE_RUNNING
+      end
+
+      it "should be rollback_in_progress if an instance fails" do
+        @inst2.state = Instance::STATE_ERROR
+        @inst2.save!
+        @deployment.reload
+        @deployment.state.should == Deployment::STATE_ROLLBACK_IN_PROGRESS
+      end
+
+      it "should stop all running instances" do
+        Instance.any_instance.stub(:stop).and_return(true)
+        Instance.any_instance.should_receive(:stop)
+        @inst2.state = Instance::STATE_ERROR
+        @inst2.save!
+      end
+    end
+
+    context "in rollback_in_progress state" do
+      before :each do
+        @deployment.state = Deployment::STATE_ROLLBACK_IN_PROGRESS
+        @deployment.save!
+        @inst1 = Factory.create(:instance,
+                                :deployment => @deployment,
+                                :state => Instance::STATE_ERROR)
+        @inst2 = Factory.create(:instance,
+                                :deployment => @deployment,
+                                :state => Instance::STATE_PENDING)
+        @deployment.instances << @inst1
+        @deployment.instances << @inst2
       end
     end
 
