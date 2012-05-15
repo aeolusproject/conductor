@@ -85,6 +85,17 @@ class Deployable < ActiveRecord::Base
     uuids.map { |uuid| Aeolus::Image::Warehouse::Image.find(uuid) }
   end
 
+  def fetch_unique_images
+    uuids = fetch_image_uuids || []
+    uniq_uuids = uuids.uniq
+    result_hash = {}
+    uniq_uuids.each do |uuid|
+      result_hash[uuid] = { :image => Aeolus::Image::Warehouse::Image.find(uuid), :count => uuids.count(uuid)}
+    end
+    result_hash
+  end
+
+
   def fetch_image_uuids
     deployable = fetch_deployable
     deployable.image_uuids unless deployable.nil?

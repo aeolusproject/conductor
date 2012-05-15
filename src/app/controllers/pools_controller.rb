@@ -105,9 +105,18 @@ class PoolsController < ApplicationController
     save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
     require_privilege(Privilege::VIEW, @pool)
     @statistics = @pool.statistics(current_user)
-    @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view' unless params[:details_tab]
-    if params[:details_tab] == 'deployments'
-      @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
+
+    if params[:details_tab]
+      case params[:details_tab]
+        when 'images'
+          #this case covers fetching of unique images and constructing collection for filter table
+          @header = [{:name => "catalog"}, {:name => "deployable"}, {:name => "image"}, {:name => "provider_image"}]
+          @catalog_images = @pool.catalog_images_collection(@pool.catalogs.list_for_user(current_user, Privilege::VIEW))
+        when 'deployments'
+          @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
+      end      
+    else
+      @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'      
     end
 
     #TODO add links to real data for history,properties,permissions
