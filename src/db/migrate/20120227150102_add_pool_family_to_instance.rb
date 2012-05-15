@@ -5,11 +5,11 @@ class AddPoolFamilyToInstance < ActiveRecord::Migration
     add_column :catalogs, :pool_family_id, :integer
     add_column :deployables, :pool_family_id, :integer
 
-    Deployment.all.each do |deployment|
+    Deployment.unscoped.each do |deployment|
       deployment.pool_family_id = deployment.pool.pool_family_id
       deployment.save!
     end
-    Instance.all.each do |instance|
+    Instance.unscoped.each do |instance|
       instance.pool_family_id = instance.pool.pool_family_id
       instance.save!
     end
