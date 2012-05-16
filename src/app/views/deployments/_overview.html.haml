@@ -42,6 +42,11 @@
               %div#realm-description
 
         .field
+          = label_tag :launch_with_errors , t('.launch_with_errors')
+          .input
+            = check_box :deployment, :partial_launch
+
+        .field
           = label_tag :image_ids, t('.image_ids')
           .input
             %span.text_instead_input

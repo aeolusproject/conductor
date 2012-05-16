@@ -269,6 +269,11 @@ class Deployment < ActiveRecord::Base
                    "#{instance.name}: #{$!.message.to_s.split("\n").first}")
         logger.error $!.message
         logger.error $!.backtrace.join("\n    ")
+
+        # be default launching of instances is terminated if an error occurs,
+        # user can set "partial_launch" attribute - launch request is then
+        # sent for all deployment's instances
+        break unless partial_launch
       end
     end
     true
@@ -607,7 +612,9 @@ class Deployment < ActiveRecord::Base
   def state_transition_from_pending(instance)
     if instances.all? {|i| i.state == Instance::STATE_RUNNING}
       self.state = STATE_RUNNING
-    elsif Instance::FAILED_STATES.include?(instance.state)
+    elsif partial_launch and instances.all? {|i| i.failed_or_running?}
+      self.state = STATE_RUNNING
+    elsif !partial_launch and Instance::FAILED_STATES.include?(instance.state)
       deployment_rollback
     end
   end
@@ -668,6 +675,7 @@ class Deployment < ActiveRecord::Base
     end
     if error_occured
       self.state = STATE_ROLLBACK_FAILED
+      save!
     end
   end
 end

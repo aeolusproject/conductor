@@ -313,13 +313,19 @@ describe Deployment do
       lambda { Deployment.find(@deployment.id) }.should raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it "should set create_failed status for instances if instance's launch raises an exception" do
-      @deployment.instances.should be_empty
-      Taskomatic.stub!(:create_dcloud_instance).and_raise("an exception")
-      @deployment.create_and_launch(@user_for_launch)
-      @deployment.reload
-      @deployment.instances.should_not be_empty
-      @deployment.instances.each {|i| i.state.should == Instance::STATE_CREATE_FAILED}
+    context "partial_launch is enabled" do
+      before :each do
+        @deployment.update_attribute(:partial_launch, true)
+      end
+
+      it "should set create_failed status for instances if instance's launch raises an exception" do
+        @deployment.instances.should be_empty
+        Taskomatic.stub!(:create_dcloud_instance).and_raise("an exception")
+        @deployment.create_and_launch(@user_for_launch)
+        @deployment.reload
+        @deployment.instances.should_not be_empty
+        @deployment.instances.each {|i| i.state.should == Instance::STATE_CREATE_FAILED}
+      end
     end
   end
 
@@ -402,18 +408,38 @@ describe Deployment do
         @deployment.state.should == Deployment::STATE_RUNNING
       end
 
-      it "should be rollback_in_progress if an instance fails" do
-        @inst2.state = Instance::STATE_ERROR
-        @inst2.save!
-        @deployment.reload
-        @deployment.state.should == Deployment::STATE_ROLLBACK_IN_PROGRESS
+      context "partial_launch disabled" do
+        before :each do
+          @deployment.update_attribute(:partial_launch, false)
+        end
+
+        it "should be rollback_in_progress if an instance fails" do
+          Instance.any_instance.stub(:stop).and_return(true)
+          @inst2.state = Instance::STATE_ERROR
+          @inst2.save!
+          @deployment.reload
+          @deployment.state.should == Deployment::STATE_ROLLBACK_IN_PROGRESS
+        end
+
+        it "should stop all running instances if an instance fails" do
+          Instance.any_instance.stub(:stop).and_return(true)
+          Instance.any_instance.should_receive(:stop)
+          @inst2.state = Instance::STATE_ERROR
+          @inst2.save!
+        end
       end
 
-      it "should stop all running instances" do
-        Instance.any_instance.stub(:stop).and_return(true)
-        Instance.any_instance.should_receive(:stop)
-        @inst2.state = Instance::STATE_ERROR
-        @inst2.save!
+      context "partial_launch enabled" do
+        before :each do
+          @deployment.update_attribute(:partial_launch, true)
+        end
+
+        it "should not change deployment's state if an instance fails" do
+          @inst2.state = Instance::STATE_ERROR
+          @inst2.save!
+          @deployment.reload
+          @deployment.state.should == Deployment::STATE_PENDING
+        end
       end
     end
 

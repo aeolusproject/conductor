@@ -245,6 +245,7 @@ en:
       description: Description
       image_ids: Image IDs
       launch: Launch
+      launch_with_errors: Launch with errors
     launch_from_catalog:
       profile: Profile
       hint: Choose a deployable to launch in the "%{pool}" pool
