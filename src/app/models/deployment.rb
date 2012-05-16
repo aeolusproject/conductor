@@ -60,7 +60,8 @@ class Deployment < ActiveRecord::Base
 
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
 
-  has_many :events, :as => :source, :dependent => :destroy
+  has_many :events, :as => :source, :dependent => :destroy,
+           :order => 'events.id ASC'
 
   has_many :provider_accounts, :through => :instances
 

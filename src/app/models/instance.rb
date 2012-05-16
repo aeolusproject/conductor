@@ -86,7 +86,8 @@ class Instance < ActiveRecord::Base
            :include => [:role],
            :order => "derived_permissions.id ASC"
 
-  has_many :events, :as => :source, :dependent => :destroy
+  has_many :events, :as => :source, :dependent => :destroy,
+           :order => 'events.id ASC'
   has_many :instance_parameters, :dependent => :destroy
   has_many :tasks, :as =>:task_target, :dependent => :destroy
   after_create "assign_owner_roles(owner)"
