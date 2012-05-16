@@ -45,6 +45,7 @@ class RealmsController < ApplicationController
   def update
     require_privilege(Privilege::MODIFY, Realm)
     @realm = FrontendRealm.find(params[:id])
+    @title = @realm.name || t("realms.realm")
 
     if params[:commit] == "Reset"
       redirect_to edit_realm_url(@realm) and return

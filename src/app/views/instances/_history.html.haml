@@ -1,4 +1,4 @@
-%ol
+%ol.listing
   - @events.each do |event|
     %li
       = "#{event.event_time.strftime('%d-%b-%Y %H:%M:%S')}: #{event.summary}"

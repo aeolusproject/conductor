@@ -1154,10 +1154,10 @@ en:
       permissions_for: Permissions for
     properties:
       properties_for: Properties for
-      running_instances_quota: "Running instances quota:"
+      running_instances_quota: "Running instances quota"
       unlimited: unlimited
-      account_number: "Account number:"
-      config_server:  "Config Server:"
+      account_number: "Account number"
+      config_server:  "Config Server"
       none: None
       test: Test
       sure_to_delete: "Are you sure you want to delete this config server?"
@@ -1290,7 +1290,7 @@ en:
     list:
       roles_list: Roles List
     properties:
-      scope: "Scope:"
+      scope: "Scope"
       privileges: Privileges
       action: Action
       target_type: Target type

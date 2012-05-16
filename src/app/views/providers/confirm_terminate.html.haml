@@ -1,14 +1,14 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'section_header'
+= render :partial => 'page_header'
 
 %section.content-section
   %header
     %h2= t(".disable_provider?")
 
-  .content.confirm_instances_termination
+  .content
     .align-center
       %strong= t('instances.confirm_terminate.terminate_instances_description')
-    %ul
+    %ul.listing
       - @instances_to_terminate.each do |i|
         %li= i.name
     = link_to t('cancel'), edit_provider_path(@provider), :class => 'button'

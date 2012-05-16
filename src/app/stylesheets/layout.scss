@@ -118,7 +118,7 @@ Alert Flash -- v.0.0.1 [flash] (flash.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 #flash-hud{
-  width: 900px;
+  width: 912px;
   margin: 0 auto;
   background-color: #ddd;
   -webkit-border-radius: 0px 0px 7px 7px;
@@ -126,7 +126,6 @@ Alert Flash -- v.0.0.1 [flash] (flash.scss)
   border-radius: 0px 0px 7px 7px;
   border: 1px solid #999;
   padding: 8px;
-  margin-top: -4px;
 
   a.control{
     float: right;
@@ -1560,6 +1559,7 @@ table.light_table{
 /* Properties table
    ========================================================================== */
 table.properties_table {
+  margin-bottom: 10px;
   th {
     border-bottom: .1em solid #ccc;
     padding-bottom: .5em;
@@ -1567,7 +1567,6 @@ table.properties_table {
     &:first-child {
       text-align: right;
       padding-right: 1em;
-      width: 18.15em;
     }
     &:last-child {
       text-align: left;
@@ -2295,6 +2294,23 @@ form.generic.horizontal{
 #x-deltacloud-provider-legend {
   dd + dt { margin-top: 10px; }
   dd{ font-weight: normal; }
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Lists
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+ul.listing, ol.listing{
+  margin: 15px;
+  li{ margin: 0px 15px; }
+  li + li{ margin-top: 10px; }
+  &.no_list_style{
+    li{
+      list-style-type: none;
+      margin: 0px;
+    }
+    li + li{ margin-top: 10px; }
+  }
 }
 
 

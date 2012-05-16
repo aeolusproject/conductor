@@ -1,12 +1,6 @@
-%table
-  %thead
-    %tr
-      %th.show
-        =t 'realms.properties.realm_details'
-      %th.show
+%table.properties_table
   %tbody
     %tr
-      %td
-        %label= t'realms.properties.realm_name'
+      %td= t'realms.properties.realm_name'
       %td
         = @realm.name

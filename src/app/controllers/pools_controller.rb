@@ -145,6 +145,7 @@ class PoolsController < ApplicationController
   end
 
   def create
+    @title = t('pools.create_new_pool')
     @pool = Pool.new(params[:pool])
     require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
     @pool.quota = @quota = Quota.new

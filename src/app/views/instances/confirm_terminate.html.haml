@@ -2,14 +2,14 @@
   %h1.deployments= t ".terminate_instances"
 
 %section.content-section
-  .content.confirm_instances_termination
+  .content
     .align-center
       %strong= t('.terminate_instances_description')
     - url = @instance ? stop_instance_path(@instance) : multi_stop_instances_path
     = form_tag url, :method => :post do
       - @instances_to_stop.each do |i|
         = hidden_field_tag 'instance_selected[]', i.id
-      %ul
+      %ul.listing
         - @inaccessible_instances.each do |i|
           %li= i.name
       - if @instance

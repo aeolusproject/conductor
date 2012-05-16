@@ -2,7 +2,7 @@
   .obj_actions
     - if check_privilege(Privilege::CREATE, Pool)
       = link_to t('pools.new_pool'), new_pool_url, :class => 'button primary', :id => 'new_pool_button'
-  %h1.pools= @pool.name
+  %h1.pools= @pool.name.blank? ? t("pools.pool") : @pool.name
 
 %section.content-section.user
   %header

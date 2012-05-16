@@ -1,5 +1,13 @@
 = render :partial => 'layouts/nav_history'
-= render :partial => 'header_index'
+%header.page-header
+  .obj_actions
+    .button-group
+      = pretty_filter_toggle(pools_path(:view => 'pretty', :page => params[:page]),
+                             pools_path(:view => 'filter', :page => params[:page]))
+    - if check_privilege(Privilege::CREATE, Pool)
+      = link_to t('pools.new_pool'), new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
+  %h1.section-index= t 'pools.index.overview'
+= render :partial => 'scoreboard_index'
 = render :partial => 'alerts_index'
 %section.content-section.toggle-view.pools
   = render :partial => @view

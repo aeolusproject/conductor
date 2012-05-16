@@ -97,6 +97,7 @@ class ProvidersController < ApplicationController
   end
 
   def create
+    @title = t("providers.new.new_provider")
     require_privilege(Privilege::CREATE, Provider)
     if params[:provider].has_key?(:provider_type_deltacloud_driver)
       provider_type = params[:provider].delete(:provider_type_deltacloud_driver)

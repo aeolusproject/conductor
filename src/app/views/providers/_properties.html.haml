@@ -1,33 +1,17 @@
-%table
-  %thead
-    %tr
-      %th.show
-        =t("catalog_entries.properties.properties_for")
-        = @provider.name
-      %th.show
+%table.properties_table
   %tbody
     %tr
-      %td
-        %label= t("providers.index.provider_name")
-      %td
-        = @provider.name
+      %td= t("providers.index.provider_name")
+      %td= @provider.name
     %tr
-      %td
-        %label= t("providers.index.provider_url")
-      %td
-        = @provider.url
+      %td= t("providers.index.provider_url")
+      %td= @provider.url
     %tr
-      %td
-        %label= t("providers.index.provider_type")
-      %td
-        = @provider.provider_type.name
+      %td= t("providers.index.provider_type")
+      %td= @provider.provider_type.name
     %tr
-      %td
-        %label= t("providers.index.x_deltacloud_driver")
-      %td
-        = @provider.provider_type.deltacloud_driver
+      %td= t("providers.index.x_deltacloud_driver")
+      %td= @provider.provider_type.deltacloud_driver
     %tr
-      %td
-        %label= t("providers.index.x_deltacloud_provider")
-      %td
-        = @provider.deltacloud_provider
+      %td= t("providers.index.x_deltacloud_provider")
+      %td= @provider.deltacloud_provider
