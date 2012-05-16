@@ -176,8 +176,7 @@ getent passwd aeolus >/dev/null || \
 # extension may exist.  For instance cgi="public" means that src/public/*.cgi
 # will be copied from the source into the RPM.
 builder="app/views/errors"
-css="public/stylesheets public/stylesheets/jquery.ui-1.8.1 \
-     public/javascripts/jquery-svg"
+css="public/stylesheets public/stylesheets/jquery.ui-1.8.1"
 feature="features"
 gif="public/images public/stylesheets/images"
 haml="app/views/hardware_profiles app/views/realm_mappings \
@@ -201,7 +200,7 @@ mustache="app/views/instances app/views/pools app/views/deployments"
 html="public"
 ico="public"
 jpg="public/images public/stylesheets/images"
-js="public/javascripts public/javascripts/jquery-svg \
+js="public/javascripts \
     public/javascripts/jquery.ui-1.8.1 \
     public/javascripts/jquery.ui-1.8.1/ui/minified \
     public/javascripts/lib
@@ -218,7 +217,7 @@ rb="app/models app/controllers app/controllers/api app/helpers app/services app/
     spec/factories spec/helpers spec/models spec/services spec/controllers/api lib/aeolus \
     lib/aeolus/event"
 rhtml="app/views/layouts"
-svg="public/images public/images/icons public/javascripts/jquery-svg public/fonts"
+svg="public/images public/images/icons public/fonts"
 ttf="public/fonts"
 eot="public/fonts"
 woff="public/fonts"
