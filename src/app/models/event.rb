@@ -48,10 +48,6 @@ class Event < ActiveRecord::Base
   scope :lifetime, where(:status_code => [:first_running, :all_running, :some_running, :all_stopped])
   scope :descending_by_created_at, order('created_at DESC')
 
-  def self.all
-    self.unscoped
-  end
-
   # Notifies the Event API if certain conditions are met
   def transmit_event
     # Extract just the old values from change_hash
