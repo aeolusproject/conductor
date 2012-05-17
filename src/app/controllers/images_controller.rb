@@ -67,31 +67,44 @@ class ImagesController < ApplicationController
     @account_groups_listing = @account_groups.select{ |driver, group| group[:included] || @target_images_by_target[driver] || (@build and @builder.find_active_build(@build.id, driver)) }
     flash[:error] = t("images.flash.error.no_provider_accounts") if @account_groups_listing.blank?
 
-    @user_can_build = (@environment && check_privilege(Privilege::USE, @environment))
+    @user_can_build =
+      (@environment && check_privilege(Privilege::USE, @environment))
     @is_latest_build = (@build && @build.id == @latest_build_id)
 
     @account_groups_listing = []
     @account_groups.each do |driver, group|
-      if group[:included] || @target_images_by_target[driver] || (@build && @builder.find_active_build(@build.id, driver))
-        @account_groups_listing << { :provider_type => group[:type], :accounts => group[:accounts].map{ |account| account[:account] if account[:included] }.compact }
+      if group[:included] || @target_images_by_target[driver] ||
+         (@build && @builder.find_active_build(@build.id, driver))
+        @account_groups_listing <<
+          { :provider_type => group[:type],
+            :accounts => group[:accounts].map do |account|
+              account[:account] if account[:included]
+            end.compact }
       end
     end
-    flash[:error] = t("images.flash.error.no_provider_accounts") if @account_groups_listing.empty?
+    if @account_groups_listing.empty?
+      flash[:error] = t("images.flash.error.no_provider_accounts")
+    end
 
     @images_by_provider_type = []
     @account_groups_listing.each do |account_group|
       provider_type = account_group[:provider_type]
       target_image = @target_images_by_target[provider_type.deltacloud_driver]
-      @images_by_provider_type << load_build_status_for_target_image(account_group, target_image)
+      @images_by_provider_type <<
+        load_build_status_for_target_image(account_group, target_image)
     end
 
-    @push_all_enabled = (@build && @build.id == @latest_build_id && @target_image_exists)
+    @push_all_enabled =
+      (@build && @build.id == @latest_build_id && @target_image_exists)
 
     respond_to do |format|
       format.html
       format.json do
-        render :json => { :images => @images_by_provider_type, :push_all_enabled => @push_all_enabled,
-                          :push_all_path => @push_all_enabled ? push_all_image_path(@image.id, :build_id => @build.id) : nil }
+        render :json => { :images => @images_by_provider_type,
+                          :push_all_enabled => @push_all_enabled,
+                          :push_all_path => @push_all_enabled ?
+                                              push_all_image_path(@image.id, :build_id => @build.id) :
+                                              nil }
       end
     end
   end
@@ -365,14 +378,21 @@ class ImagesController < ApplicationController
     provider_images_by_provider_account = []
 
     account_group[:accounts].each do |account|
-      provider_images_by_provider_account << load_provider_images(account, target_image)
+      provider_images_by_provider_account <<
+        load_provider_images(account, target_image)
     end
 
-    active_build = @builder.find_active_build(@build.id, provider_type.deltacloud_driver)
+    active_build =
+      @builder.find_active_build(@build.id, provider_type.deltacloud_driver)
     build_status = { :is_active_build => active_build.present?,
-                     :build_action_available => !target_image.present? && (@is_latest_build || !@build),
+                     :build_action_available => !target_image.present? &&
+                                                (@is_latest_build || !@build),
                      :delete_action_available => target_image.present? }
-    build_status[:active_build_status] = active_build.status.capitalize if active_build.present?
+
+    if active_build.present?
+      build_status[:active_build_status] = active_build.status.capitalize
+    end
+
     build_status[:build_action_available] &= @user_can_build
     build_status[:delete_action_available] &= @user_can_build
 
@@ -383,47 +403,99 @@ class ImagesController < ApplicationController
     }
 
     if build_status[:build_action_available]
-      target_image_for_provider_type[:build_target_image_path] = image_target_images_path(@image.id, :target => provider_type.deltacloud_driver,
-                                                                                          :build_id => @build ? @build.id : nil)
-      failed_build_count = @builder.failed_build_count(@build.id, provider_type.deltacloud_driver)
-      build_status[:translated_failed_build_count] = t('images.show.failed_build_attempts', :count => failed_build_count) if failed_build_count > 0
+      target_image_for_provider_type[:build_target_image_path] =
+        image_target_images_path(@image.id,
+                                 :target => provider_type.deltacloud_driver,
+                                 :build_id => @build ? @build.id : nil)
+      failed_build_count =
+        @builder.failed_build_count(@build.id, provider_type.deltacloud_driver)
+
+      if failed_build_count > 0
+        build_status[:translated_failed_build_count] =
+          t('images.show.failed_build_attempts', :count => failed_build_count)
+      end
     end
 
-    target_image_for_provider_type[:delete_target_image_path] = image_target_image_path(@image.id, target_image.id) if build_status[:delete_action_available]
+    if build_status[:delete_action_available]
+      target_image_for_provider_type[:delete_target_image_path] =
+        image_target_image_path(@image.id, target_image.id)
+    end
 
     target_image_for_provider_type
   end
 
   def load_provider_images(account, target_image)
-    provider_image = target_image.find_provider_image_by_provider_and_account(account.provider.name, account.credentials_hash['username']).first if target_image.present?
-    provider_image_details = { :uuid => provider_image.uuid, :target_identifier => provider_image.target_identifier } if provider_image.present?
+    provider_image =
+      if target_image.present?
+        target_image.find_provider_image_by_provider_and_account(account.provider.name,
+                                                                 account.credentials_hash['username']).
+                     first
+      else
+        nil
+      end
 
-    push_started_for_account = (@push_started && @pushed_provider_account == account)
-    active_push = @builder.find_active_push(target_image.id, account.provider.name, account.credentials_hash['username']) if target_image.present?
+    provider_image_details =
+      if provider_image.present?
+        { :uuid => provider_image.uuid,
+          :target_identifier => provider_image.target_identifier }
+      else
+        nil
+      end
+
+    push_started_for_account =
+      (@push_started && @pushed_provider_account == account)
+
+    active_push =
+      if target_image.present?
+        @builder.find_active_push(target_image.id, account.provider.name,
+                                  account.credentials_hash['username'])
+      else
+        nil
+      end
+
     push_status = { :is_active_push =>  active_push.present?,
                     :push_started_for_account => push_started_for_account,
-                    :build_action_available => target_image.present? && !provider_image.present? && @is_latest_build && !push_started_for_account,
-                    :delete_action_available => provider_image.present? && !@image.imported? }
-    push_status[:active_push_status] = active_push.status.capitalize if active_push.present?
+                    :build_action_available => target_image.present? &&
+                                               !provider_image.present? &&
+                                               @is_latest_build &&
+                                               !push_started_for_account,
+                    :delete_action_available => provider_image.present? &&
+                                                !@image.imported? }
+
+    if active_push.present?
+      push_status[:active_push_status] = active_push.status.capitalize
+    end
+
     push_status[:build_action_available] &= @user_can_build
     push_status[:delete_action_available] &= @user_can_build
 
     provider_image_for_provider_account = {
-      :account => { :name => account.name, :provider_name => account.provider.name },
+      :account => { :name => account.name,
+                    :provider_name => account.provider.name },
       :provider_image => provider_image_details,
       :push_status => push_status
     }
 
     if push_status[:build_action_available]
-      provider_image_for_provider_account[:push_provider_image_path] = image_provider_images_path(@image.id, :build_id => @build.id,
-                                                                                                  :target_image_id => target_image.id,
-                                                                                                  :account_id => account.id)
+      provider_image_for_provider_account[:push_provider_image_path] =
+        image_provider_images_path(@image.id, :build_id => @build.id,
+                                   :target_image_id => target_image.id,
+                                   :account_id => account.id)
 
-      failed_push_count = @builder.failed_push_count(target_image.id, account.provider.name, account.credentials_hash['username'])
-      push_status[:translated_failed_push_count] = t('images.show.failed_push_attempts', :count => failed_push_count) if failed_push_count > 0
+      failed_push_count =
+        @builder.failed_push_count(target_image.id, account.provider.name,
+                                   account.credentials_hash['username'])
+
+      if failed_push_count > 0
+        push_status[:translated_failed_push_count] =
+          t('images.show.failed_push_attempts', :count => failed_push_count)
+      end
     end
 
-    provider_image_for_provider_account[:delete_provider_image_path] = image_provider_image_path(@image.id, provider_image.id) if push_status[:delete_action_available]
+    if push_status[:delete_action_available]
+      provider_image_for_provider_account[:delete_provider_image_path] =
+        image_provider_image_path(@image.id, provider_image.id)
+    end
 
     provider_image_for_provider_account
   end
