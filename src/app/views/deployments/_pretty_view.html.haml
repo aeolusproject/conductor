@@ -2,7 +2,8 @@
   - @deployments.in_groups_of(5, false) do |group|
     %ul.deployment-array.large
       - group.each do |deployment|
-        = render :partial => 'deployments/deployment_card_show', :mustache => deployment_for_mustache(deployment)
+        = render :partial => 'deployments/deployment_card_show',
+                 :mustache => deployment_for_mustache(deployment)
 
 = render_pagination(@deployments)
 

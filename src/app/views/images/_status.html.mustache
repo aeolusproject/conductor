@@ -10,14 +10,20 @@
 
           {{^build_status.is_active_build}}
             {{#build_status.build_action_available}}
-              <%= button_to(t('images.show.build'), '{{build_target_image_path}}', :method => :post) %>
+              <%= button_to(t('images.show.build'),
+                            '{{build_target_image_path}}',
+                            :method => :post) %>
               {{#build_status.translated_failed_build_count}}
-                <div class="light">{{build_status.translated_failed_build_count}}</div>
+                <div class="light">
+                  {{build_status.translated_failed_build_count}}
+                </div>
               {{/build_status.translated_failed_build_count}}
             {{/build_status.build_action_available}}
 
             {{#build_status.delete_action_available}}
-              <%= button_to(t('images.show.delete'), '{{delete_target_image_path}}', :method => :delete) %>
+              <%= button_to(t('images.show.delete'),
+                            '{{delete_target_image_path}}',
+                            :method => :delete) %>
             {{/build_status.delete_action_available}}
           {{/build_status.is_active_build}}
         </div>
@@ -69,14 +75,21 @@
                         {{/push_status.push_started_for_account}}
 
                         {{#push_status.build_action_available}}
-                          <%= button_to(t('images.show.push'), '{{push_provider_image_path}}', :method => :post, :class => 'upload_image button') %>
+                          <%= button_to(t('images.show.push'),
+                                        '{{push_provider_image_path}}',
+                                        :method => :post,
+                                        :class => 'upload_image button') %>
                           {{#push_status.translated_failed_push_count}}
-                            <div class="light">{{push_status.translated_failed_push_count}}</div>
+                            <div class="light">
+                              {{push_status.translated_failed_push_count}}
+                            </div>
                           {{/push_status.translated_failed_push_count}}
                         {{/push_status.build_action_available}}
 
                         {{#push_status.delete_action_available}}
-                          <%= button_to('', '{{delete_provider_image_path}}', :method => :delete, :class => 'delete_image') %>
+                          <%= button_to('', '{{delete_provider_image_path}}',
+                                        :method => :delete,
+                                        :class => 'delete_image') %>
                         {{/push_status.delete_action_available}}
                       {{/push_status.is_active_push}}
                   </td>

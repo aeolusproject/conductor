@@ -61,7 +61,8 @@
     .content
       %ul#providers-list.catalog_pretty
         - @image_status.each do |image_status_for_account|
-          = render :partial => 'image_status', :mustache => image_status_for_account
+          = render :partial => 'image_status',
+                   :mustache => image_status_for_account
   - else
     %header
       %h2.build= t('.build_status')

@@ -2,7 +2,8 @@
   - deployments.in_groups_of(5, false) do |group|
     %ul.deployment-array.small
       - group.each do |deployment|
-        = render :partial => 'deployments/deployment_card_index', :mustache => deployment_for_mustache(deployment)
+        = render :partial => 'deployments/deployment_card_index',
+                 :mustache => deployment_for_mustache(deployment)
 
 %script#deploymentCardTemplate{ :type => 'text/html' }
   = render :partial => 'deployments/deployment_card_index'
