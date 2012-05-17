@@ -82,7 +82,7 @@ Requires(preun): initscripts
 Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
-
+BuildRequires: systemd-units
 
 %description daemons
 The configuration and daemons necessary to run and proxy the Aeolus Conductor.
