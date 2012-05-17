@@ -19,6 +19,7 @@ class RolesController < ApplicationController
   before_filter :load_roles, :only => [:show]
 
   def index
+    require_privilege(Privilege::PERM_VIEW)
     clear_breadcrumbs
     save_breadcrumb(roles_path)
     load_roles
