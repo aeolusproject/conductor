@@ -37,12 +37,14 @@ class ConfigServersController < ApplicationController
 
   def test
     config_server = ConfigServer.find(params[:id])
+    provider_account = config_server.provider_account
+    require_privilege(Privilege::VIEW, provider_account)
+
     if not config_server.connection_valid?
       flash[:error] = config_server.connection_error_msg
     else
       flash[:notice] = t('config_servers.flash.notice.test_successful')
     end
-    provider_account = config_server.provider_account
     provider = provider_account.provider
     redirect_to provider_provider_account_path(provider, provider_account)
   end
