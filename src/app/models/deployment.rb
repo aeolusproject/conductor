@@ -81,6 +81,7 @@ class Deployment < ActiveRecord::Base
   before_create :generate_uuid
   before_create :set_pool_family
   before_create :set_new_state
+  after_save :log_state_change
 
   USER_MUTABLE_ATTRS = ['name']
 
@@ -615,6 +616,15 @@ class Deployment < ActiveRecord::Base
     elsif partial_launch and instances.all? {|i| i.failed_or_running?}
       self.state = STATE_RUNNING
     elsif !partial_launch and Instance::FAILED_STATES.include?(instance.state)
+      self.events << Event.create(
+        :source => self,
+        :event_time => DateTime.now,
+        :status_code => 'instance_launch_failed',
+        :summary => "Failed to launch instance #{instance.name}, doing rollback"
+      )
+      # TODO: now this is done in instance's after_update callback - as part
+      # of instance save transaction - this might be done on background by
+      # using delayed_job
       deployment_rollback
     end
   end
@@ -668,7 +678,13 @@ class Deployment < ActiveRecord::Base
         instance.stop(nil)
       rescue
         error_occured = true
-        # TODO: add instance event for this exception
+        self.events << Event.create(
+          :source => self,
+          :event_time => DateTime.now,
+          :status_code => 'instance_stop_failed',
+          :summary => "Failed to stop instance #{instance.name}",
+          :description => $!.message
+        )
         logger.error $!.message
         logger.error $!.backtrace.join("\n  ")
       end
@@ -676,6 +692,17 @@ class Deployment < ActiveRecord::Base
     if error_occured
       self.state = STATE_ROLLBACK_FAILED
       save!
+    end
+  end
+
+  def log_state_change
+    if state_changed?
+      self.events << Event.create(
+        :source => self,
+        :event_time => DateTime.now,
+        :status_code => self.state,
+        :summary => "State changed to #{self.state}"
+      )
     end
   end
 end
