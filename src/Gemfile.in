@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rails', '>= 3.0.7'
+gem 'rails'
 
 gem 'deltacloud-client', :require => 'deltacloud'
 gem 'sass'
@@ -17,22 +17,23 @@ gem 'thin'
 gem 'json'
 gem 'rails_warden'
 gem 'ruby-net-ldap', :require => 'net/ldap'
-gem 'aeolus-image', :require => 'aeolus_image'
+gem 'aeolus-image', '>= 0.4.0', :require => 'aeolus_image'
 gem 'oauth'
-gem 'delayed_job'
+gem 'delayed_job', '~> 2.1.4'
 gem 'paranoia'
+
 platforms :ruby_18 do
   gem 'fastercsv'
 end
 group :development, :test do
   gem 'rspec-rails'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', '~> 1.4.0'
   gem 'timecop'
   gem 'capybara'
   gem 'cucumber'
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
-  gem 'vcr'
+  gem 'vcr', '< 2.0.0'
   gem 'webmock'
   gem 'launchy'
 end

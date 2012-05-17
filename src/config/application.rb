@@ -69,17 +69,16 @@ module Conductor
     config.filter_parameters += [:password, :password_confirmation]
 
     #field_with_errors should be span instead of div
-    #http://www.rabbitcreative.com/2010/09/20/rails-3-still-fucking-up-field_with_errors/
-    ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
-      include ActionView::Helpers::RawOutputHelper
-      raw %(<span class="field_with_errors">#{html_tag}</span>)
+    config.action_view.field_error_proc = Proc.new do |html_tag, instance|
+      "<span class=\"field_with_errors\">#{html_tag}</span>".html_safe
     end
 
     config.after_initialize do
       Haml::Template.options[:format] = :html5
     end
 
-    config.middleware.use Rack::RestfulSubmit
+    #config.middleware.swap Rack::MethodOverride, Rack::RestfulSubmit
+    config.middleware.insert_before(Rack::MethodOverride, Rack::RestfulSubmit)
     ActiveRecord::Base.include_root_in_json = false
   end
 end

@@ -15,7 +15,7 @@
 #
 
 Given /I'm connected to the warehouse/ do
-  use_casette('pool_families')
+  use_cassette('pool_families')
 end
 
 Given /^there are these pool families:$/ do |table|

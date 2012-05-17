@@ -46,9 +46,6 @@ file = merge_cassettes
 VCR.config do |c|
   c.cassette_library_dir = File.dirname(file.path)
   c.stub_with :webmock
-  # FIXME: This is necessary because the setup for each test will reset the database and
-  # invoke db:seed, which triggers Solr to reindex the newly-created objects, which
-  # is done over an HTTP request...
   c.allow_http_connections_when_no_cassette = true
 end
 
