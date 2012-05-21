@@ -30,6 +30,26 @@ namespace :dc do
     end
   end
 
+  desc 'Destroy an existing user'
+  task :destroy_user, [:login] => :environment do |t, args|
+    unless args.login
+      puts "Usage: rake 'dc:destroy_user[login]'"
+      exit(1)
+    end
+
+    user = User.find_by_login(args.login)
+
+    if !user
+      puts "User not found: #{args.login}"
+      exit(1)
+    elsif user.destroy
+      puts "User #{args.login} destroyed"
+    else
+      puts "User destruction failed: #{args.login}"
+      exit(1)
+    end
+  end
+
 
   desc 'Create and register a list of ldap users, separated by ":"'
   task :create_ldap_users, [:logins] => :environment do |t, args|
