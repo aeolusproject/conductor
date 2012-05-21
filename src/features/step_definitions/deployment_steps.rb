@@ -77,3 +77,12 @@ end
 When /^I stop "([^"]*)" deployment$/ do |arg1|
   visit multi_stop_deployments_url('deployments_selected[]' => Deployment.find_by_name(arg1).id)
 end
+
+Given /^deployement "([^"]*)" has associated event "([^"]*)"$/ do |arg1, arg2|
+  depl = Deployment.find_by_name(arg1)
+  depl.events << Event.create(
+    :source => depl,
+    :event_time => DateTime.now,
+    :summary => arg2
+  )
+end

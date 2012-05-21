@@ -156,6 +156,16 @@ Feature: Manage Deployments
     When I follow "details_instances"
     Then I should see "testdeployment"
 
+  Scenario: Show deployment history
+    Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
+    And deployement "testdeployment" has associated event "testevent"
+    When I am on the deployments page
+    And I follow "testdeployment"
+    And I should see "testdeployment"
+    And I follow "History"
+    Then I should see "testdeployment"
+    And I should see "testevent"
+
   Scenario: Delete a deployment
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
     And I am on the pools page

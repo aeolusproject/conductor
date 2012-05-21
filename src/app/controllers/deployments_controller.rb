@@ -182,12 +182,20 @@ class DeploymentsController < ApplicationController
                                        params[:page], PER_PAGE)
     end
     #TODO add links to real data for history, services
-    @tabs = [{:name => t('instances.instances.other'), :view => @view, :id => 'instances', :count => @deployment.instances.count, :pretty_view_toggle => 'enabled'},
-             {:name => t('properties'), :view => 'properties', :id => 'properties', :pretty_view_toggle => 'disabled'}
+    @tabs = [{:name => t('instances.instances.other'), :view => @view,
+               :id => 'instances', :count => @deployment.instances.count,
+               :pretty_view_toggle => 'enabled'},
+             {:name => t('properties'), :view => 'properties',
+               :id => 'properties', :pretty_view_toggle => 'disabled'},
+             {:name => t('history'), :view => 'history', :id => 'history',
+               :pretty_view_toggle => 'disabled'},
     ]
     add_permissions_tab(@deployment)
     details_tab_name = params[:details_tab].blank? ? 'instances' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
+    if @details_tab[:id] == 'history'
+      @events = @deployment.events
+    end
     if params[:details_tab]
       @view = @details_tab[:view]
     end
