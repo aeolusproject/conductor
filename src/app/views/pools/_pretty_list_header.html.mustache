@@ -1,0 +1,24 @@
+<h3 class="name">
+  <%= link_to('{{name}}', '{{view_path}}') %>
+</h3>
+<dl class="statistics">
+  <ul class="groups">
+    <li>
+      <dt><%= t('deployments.deployments')%></dt>
+      <dd class="count deployment">{{deployments_count}}</dd>
+    </li>
+    <li>
+      <dt><%= t('instances.instances.other')%></dt>
+      <dd class="count instance">{{statistics.total_instances}}</dd>
+      <dd class="count instance pending">{{statistics.instances_pending}}</dd>
+      <dd class="count instance failure">{{statistics.instances_failed_count}}</dd>
+    </li>
+    <li>
+      <dt><%= t('quota_used')%></dt>
+      <dd class="percentage_quota">{{statistics.quota_percent}}</dd>
+    </li>
+  </ul>
+</dl>
+<a class="control" href="#">
+  <span>Expand/Collapse</span>
+</a>

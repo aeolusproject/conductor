@@ -1,0 +1,40 @@
+<dl class="statistics">
+  <ul class="groups">
+    <li>
+      <dt><%= t('pools.pools')%></dt>
+      <dd class="count pool">{{user_pools_count}}</dd>
+      <dd class="count pool partial">{{pools_in_use}}</dd>
+    </li>
+    <li>
+      <dt><%= t('deployments.deployments')%></dt>
+      <dd class="count deployment">{{deployments_count}}</dd>
+    </li>
+    <li>
+      <dt><%= t('instances.instances.other')%></dt>
+      <dd class="count instance">{{instances_count}}</dd>
+      <dd class="count instance pending">{{instances_pending_count}}</dd>
+      <dd class="count instance failure">{{instances_failed_count}}</dd>
+    </li>
+    <li>
+      <ul class="subgroup">
+        <li>
+          <dt><%= t('alerts_label')%></dt>
+          <dd class="count alert">{{instances_failed_count}}</dd>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <dt>
+        <%= t('user')%>
+        <%= t('quota_used')%>
+      </dt>
+      <dd class="percentage quota">{{percentage_quota}}</dd>
+      <dd class="fraction instance">
+        <span class="part">{{user_running_instances}}</span>
+        <span class="divider label small caps">of</span>
+        <span class="total"><%= @statistics[:user_available_quota].nil? ? raw('&infin;') : @statistics[:user_available_quota] %></span>
+      </dd>
+    </li>
+  </ul>
+</dl>
+

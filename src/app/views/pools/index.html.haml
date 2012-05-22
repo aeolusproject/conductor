@@ -7,7 +7,13 @@
     - if check_privilege(Privilege::CREATE, Pool)
       = link_to t('pools.new_pool'), new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
   %h1.section-index= t 'pools.index.overview'
-= render :partial => 'scoreboard_index'
+
+%div{:id => 'scoreboard', :class => 'scoreboard'}
+  = render :partial => 'scoreboard_index', :mustache => user_info_for_mustache
+
 = render :partial => 'alerts_index'
 %section.content-section.toggle-view.pools
   = render :partial => @view
+
+%script#poolScoreboardIndexTemplate{ :type => 'text/html' }
+  = render :partial => 'scoreboard_index'

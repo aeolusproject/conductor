@@ -12,13 +12,7 @@ Conductor.Routers.Pools = Backbone.Router.extend({
     setInterval(function() {
       var view = new Conductor.Views.PoolsIndex();
 
-      if (view.currentView() == 'table') {
-        view.collection = new Conductor.Models.Pools();
-      }
-      else if (view.currentView() == 'pretty') {
-        view.collection = new Conductor.Models.Deployments();
-      }
-
+      view.collection = new Conductor.Models.Pools();
       view.collection.queryParams = view.queryParams();
       view.collection.bind('change', function() { view.render() });
 

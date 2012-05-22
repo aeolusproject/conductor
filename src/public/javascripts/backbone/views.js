@@ -79,38 +79,36 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
     }
     else if (this.currentView() == 'pretty') {
       var cardsPerRow = 5;
-      var poolIds = this.collection.models.map(function(model) {
-        return model.attributes.pool.id;
-      });
-      $.unique(poolIds);
-      var deployments = this.collection.models.map(function(model) {
-        return model.attributes;
-      });
 
-      for(var j = 0; j < poolIds.length; j++) {
-        var poolId = poolIds[j];
-        var $rows = this.$('#deployment-arrays-' + poolId).empty();
-        var poolDeployments = deployments.filter(function(attributes) {
-          return attributes.pool.id == poolId;
-        });
+      var self = this;
+      var headerTemplate = $('#poolPrettyListHeaderTemplate');
+      $.each(this.collection.models, function(index, value) {
+        var poolId = value.attributes.id;
+        var $rows = self.$('#deployment-arrays-' + poolId).empty();
+        var poolDeployments = value.attributes.user_deployments;
         for(var i = 0; i < poolDeployments.length; i += cardsPerRow) {
-
-          var deplyomentCarsHtml = '';
+          var deploymentCardsHtml = '';
           $.each(poolDeployments.slice(i, i + cardsPerRow), function(deploymentIndex, deployment) {
-            deplyomentCarsHtml += Mustache.to_html($template.html(), deployment);
+            deploymentCardsHtml += Mustache.to_html($template.html(), deployment);
           });
 
-          var $row = this.make('ul', {'class': 'deployment-array small'}, deplyomentCarsHtml);
+          var $row = self.make('ul', {'class': 'deployment-array small'}, deploymentCardsHtml);
           $rows.append($row);
         }
-      }
+
+        var $header = $('header.pool-header-' + poolId);
+        $header.html(Mustache.to_html(headerTemplate.html(), value.toJSON()));
+      });
     }
+
+    var scoreboardTemplate = $('#poolScoreboardIndexTemplate');
+    var $scoreboard = $('div.scoreboard');
+    $scoreboard.html(Mustache.to_html(scoreboardTemplate.html(), this.collection.userInfo.toJSON()));
   }
 });
 
 Conductor.Views.PoolsShow = Backbone.View.extend({
   el: '#content',
-
   currentView: function() {
     if ($('form.filterable-data').length > 0) {
       return 'table'

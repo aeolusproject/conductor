@@ -19,6 +19,26 @@
 
 module MustacheHelper
 
+  def user_info_for_mustache
+    user_pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment);
+    user_instances = current_user.owned_instances
+    user_available_quota = current_user.quota.maximum_running_instances
+    {
+      :user_pools_count  => user_pools.count,
+      :pools_in_use      => user_pools.select {
+        |pool| pool.instances.pending_or_deployed.count > 0
+      }.count,
+      :deployments_count => current_user.deployments.count,
+      :instances_count   => user_instances.count,
+      :instances_pending_count => user_instances.pending.count,
+      :instances_failed_count  => user_instances.failed.count,
+      :percentage_quota  => number_to_percentage(current_user.quota.percentage_used,
+                                                 :precision => 0),
+      :user_running_instances  => current_user.quota.running_instances,
+      :user_available_quota    => user_available_quota.nil? ? raw('&infin;') : user_available_quota
+    }
+  end
+
   def instance_for_mustache(instance)
     available_actions = instance.get_action_list
 
@@ -71,11 +91,13 @@ module MustacheHelper
 
   def pool_for_mustache(pool)
     pool_statistics = pool.statistics
-    user_can_access_pool_family = check_privilege(Privilege::VIEW, pool.pool_family)
+    user_can_access_pool_family =
+      check_privilege(Privilege::VIEW, pool.pool_family)
 
     {
       :id               => pool.id,
       :name             => pool.name,
+      :view_path => pool_path(pool),
       :filter_view_path => pool_path(pool, :view => :filter),
       :failed_instances_present => pool_statistics[:instances_failed_count] > 0,
       :deployments_count        => pool.deployments.count,
@@ -91,7 +113,11 @@ module MustacheHelper
       :pool_family => {
         :name => pool.pool_family.name,
         :path => user_can_access_pool_family ? pool_family_path(pool.pool_family) : nil
-      }
+      },
+
+      :user_deployments => paginate_collection(pool.deployments.
+                                               list_for_user(current_user, Privilege::VIEW).
+                                               ascending_by_name, params[:page], PER_PAGE)
     }
   end
 

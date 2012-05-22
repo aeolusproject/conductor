@@ -4,25 +4,8 @@
 .content#pools-list
   - @pools.each do |pool|
     %div.pool.overview{:id => ['pool', pool.id], :class => ('collapsed' unless pool.deployments.size > 0)}
-      %header
-        %h3.name
-          = link_to pool.name, pool
-        %dl.statistics
-          %ul.groups
-            %li
-              %dt=t 'deployments.deployments'
-              %dd.count.deployment= pool.deployments.size
-            %li
-              %dt=t 'instances.instances.other'
-              %dd.count.instance= pool.instances.size
-              %dd.count.instance.pending= pool.instances.select {|i| i.state == Instance::STATE_PENDING }.length
-              %dd.count.instance.failure= pool.instances.select {|i| i.state == Instance::STATE_ERROR || i.state == Instance::STATE_CREATE_FAILED }.length
-            %li
-              %dt=t'quota_used'
-              %dd.percentage.quota
-                = number_to_percentage(pool.quota.percentage_used, :precision => 0)
-        %a.control{:href => '#'}
-          %span Expand/Collapse
+      %header{:class => "pool-header-#{pool.id}"}
+        = render :partial => 'pretty_list_header', :mustache => pool_for_mustache(pool)
       %div.content
         - deployments = paginate_collection(pool.deployments.includes(:owner, :pool, :instances, :events).list_for_user(current_user, Privilege::VIEW).ascending_by_name, params[:page], PER_PAGE)
         = render :partial => 'deployments', :locals => {:pool => pool, :deployments => deployments}
@@ -48,3 +31,6 @@
       });
     })
   });
+
+%script#poolPrettyListHeaderTemplate{ :type => 'text/html' }
+  = render :partial => 'pretty_list_header'
