@@ -3,7 +3,7 @@
     %li= link_to t('provider_accounts.add_provider_account'), add_provider_accounts_pool_family_path(@pool_family), { :class => 'button primary', :id => 'add_provider_accounts_button'}
     %li= restful_submit_tag t('provider_accounts.remove_provider_accounts'), "destroy", remove_provider_accounts_pool_family_path(@pool_family), 'POST', :id => 'remove_button', :class => 'button danger'
 
-= filter_table(@provider_accounts_header, @pool_family.provider_accounts) do |account|
+= filter_table(no_alerts_provider_accounts_header, @pool_family.provider_accounts) do |account|
   %tr{:class => cycle('nostripe','stripe')}
     %td{:class => 'checkbox'}
       - if check_privilege(Privilege::MODIFY)
