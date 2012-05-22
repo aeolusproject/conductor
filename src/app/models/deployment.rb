@@ -663,7 +663,7 @@ class Deployment < ActiveRecord::Base
   end
 
   def deployment_rollback
-    stoppable_instances = instances.stopable
+    stoppable_instances = instances.stoppable
     if stoppable_instances.empty?
       self.state = STATE_ROLLBACK_COMPLETE
       save!

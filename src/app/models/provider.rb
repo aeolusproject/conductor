@@ -258,7 +258,7 @@ class Provider < ActiveRecord::Base
   end
 
   def stoppable_instances
-    provider_accounts.inject([]) {|all, pa| all += pa.instances.stopable}
+    provider_accounts.inject([]) {|all, pa| all += pa.instances.stoppable}
   end
 
   def validate_provider
