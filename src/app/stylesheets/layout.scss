@@ -2,7 +2,6 @@
 @import "converge-ui";
 @import "mixins";
 @import "helpers";
-@import "fonts";
 @import "buttons";
 @import "header";
 @import "custom";
@@ -14,6 +13,10 @@ SCSS for Aeolus UI
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Page Layout
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+$font-family-base: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-em: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$font-family-primary: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
 $width: 960px;
 
