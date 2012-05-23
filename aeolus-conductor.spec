@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.16
+Version:  0.8.17
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed May 23 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.17-1
+- a537949 BZ803106 added pagination to images list
+
 * Wed May 23 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.16-1
 - 
 
