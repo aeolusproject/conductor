@@ -20,6 +20,7 @@ class PoolFamiliesController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pool_families, :only =>[:index, :show]
+  before_filter :load_tab_captions_and_details_tab, :only => [:show]
 
   def index
     @title = t("pool_families.pool_families")
@@ -119,6 +120,8 @@ class PoolFamiliesController < ApplicationController
       where('provider_accounts.id not in (?)', @pool_family.provider_accounts.empty? ?
                                0 : @pool_family.provider_accounts.map(&:id))
 
+    load_tab_captions_and_details_tab('provider_accounts')
+
     added = []
     not_added = []
 
@@ -169,6 +172,7 @@ class PoolFamiliesController < ApplicationController
   def remove_provider_accounts
     @pool_family = PoolFamily.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool_family)
+    load_tab_captions_and_details_tab('provider_accounts')
     removed=[]
     not_removed=[]
 
@@ -196,6 +200,21 @@ class PoolFamiliesController < ApplicationController
   end
 
   protected
+
+  def load_tab_captions_and_details_tab(details_tab = 'properties')
+    @tab_captions = ['Properties', 'History', 'Permissions', 'Provider Accounts', 'Pools']
+    @details_tab_name = params[:details_tab].blank? ? details_tab : params[:details_tab]
+    @provider_accounts_header = [
+           { :name => 'checkbox', :sortable => false, :class => 'checkbox' },
+           { :name => t("provider_accounts.index.provider_account_name"), :sortable => false },
+           { :name => t("provider_accounts.index.username"), :sortable => false},
+           { :name => t("provider_accounts.index.provider_name"), :sortable => false },
+           { :name => t("provider_accounts.index.provider_type"), :sortable => false },
+           { :name => t("provider_accounts.index.priority"), :sortable => false, :class => 'center' },
+           { :name => t("quota_used"), :sortable => false, :class => 'center' },
+           { :name => t("provider_accounts.index.quota_limit"), :sortable => false, :class => 'center' }
+                                ]
+  end
 
   def set_params_and_header
     @header = [
