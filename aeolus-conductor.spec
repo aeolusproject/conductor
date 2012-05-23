@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.15
+Version:  0.8.16
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed May 23 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.16-1
+- 
+
 * Wed May 23 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.15-1
 - 878aeec BZ806001 - aeolus-configure will always create an admin user, need to
   key of a uuid not name
