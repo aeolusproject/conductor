@@ -36,7 +36,7 @@
 
           %fieldset.align-center
             = link_to t(:cancel), pool_family_path(@environment), :class => "button danger"
-            = submit_tag t(:continue), :id => "file_button", :class => "button primary"
+            = submit_tag t(:continue), :id => "file_button", :class => "button primary", :disabled => @accounts.empty?
 
       %section#image-url-form
         = form_tag(edit_xml_images_path, { :multipart => true, :class => 'generic' }) do
@@ -54,7 +54,7 @@
 
           %fieldset.align-center
             = link_to t(:cancel), pool_family_path(@environment), :class => "button danger"
-            = submit_tag t(:continue), :id => "url_button", :class => "button primary"
+            = submit_tag t(:continue), :id => "url_button", :class => "button primary", :disabled => @accounts.empty?
 
 :javascript
   (function() {
