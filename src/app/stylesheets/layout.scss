@@ -36,21 +36,21 @@ div#content{
   @include clearfix;
   width: $width;
   margin: 0 auto;
-  margin-bottom: 58px;
+//  margin-bottom: 58px;
   min-height: 200px;
-  border: 1px solid #eee;
-  border-top: transparent none 0px;
+//  border: 1px solid #eee;
+//  border-top: transparent none 0px;
   /*border-radius*/
-  -webkit-border-radius: 0em 0em .5em .5em;
-  -moz-border-radius: 0em 0em .5em .5em;
-  border-radius: 0em 0em .5em .5em;
+//  -webkit-border-radius: 0em 0em .5em .5em;
+//  -moz-border-radius: 0em 0em .5em .5em;
+//  border-radius: 0em 0em .5em .5em;
   background-color: #FAFAFA;
   position: relative;
   z-index: 100;
   /*box-shadow*/
-  -webkit-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
-  -moz-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
-  box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
+//  -webkit-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
+//  -moz-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
+//  box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
 }
 
 
@@ -270,10 +270,6 @@ div#content .page-header{
   background: #ddd;
   @include clearfix;
 
-  /*box-shadow*/
-  -webkit-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0em 0em 0em 1px rgba(0, 0, 0, 0.05), inset 0em 2px 0em rgba(255, 255, 255, 0.5), inset 0em -1em 2em rgba(0, 0, 0, 0.05), 0px 0.6em 0.5em -0.5em rgba(0, 0, 0, 0.3);
   /*border-radius*/
   -webkit-border-radius: 0em;
   -moz-border-radius: 0em;
