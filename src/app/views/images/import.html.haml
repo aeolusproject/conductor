@@ -26,4 +26,4 @@
             = text_field_tag :name
 
       %fieldset.options
-        = submit_tag t(:continue), :id => "file_button", :class => "button primary", :disabled => !@accounts.any?
+        = submit_tag t(:continue), :id => "file_button", :class => "button primary", :disabled => @accounts.empty?
