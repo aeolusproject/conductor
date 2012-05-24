@@ -64,6 +64,7 @@ class ImagesController < ApplicationController
     load_target_images(@build)
     flash[:error] = t("images.flash.error.no_provider_accounts") if @account_groups.size == 0
 
+
     respond_to do |format|
       format.html
       format.json do
@@ -192,14 +193,13 @@ class ImagesController < ApplicationController
   def new
     @environment = PoolFamily.find(params[:environment])
     check_permissions
-    if 'import' == params[:tab]
-      @accounts = @environment.provider_accounts.enabled.list_for_user(current_user, Privilege::USE)
-      if !@accounts.any?
-        flash[:error] = t("images.flash.error.no_provider_accounts_for_import")
-      end
-      render :import and return
+    @accounts = @environment.provider_accounts.enabled.list_for_user(current_user, Privilege::USE)
+    if @accounts.empty?
+      flash.now[:error] = params[:tab] == 'import' ?
+        t("images.flash.error.no_provider_accounts_for_import") :
+        t("images.flash.error.no_provider_accounts")
     end
-
+    render 'import' == params[:tab] ? :import : :new
   end
 
   def import
