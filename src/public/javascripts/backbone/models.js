@@ -1,5 +1,6 @@
 Conductor.Models = Conductor.Models || {}
 
+Conductor.Models.UserInfo = Backbone.Model.extend({});
 
 Conductor.Models.Pool = Backbone.Model.extend({
   urlRoot: Conductor.prefixedPath('/pools'),
@@ -14,6 +15,10 @@ Conductor.Models.Pool = Backbone.Model.extend({
 Conductor.Models.Pools = Backbone.Collection.extend({
   model: Backbone.Model.Pool,
   queryParams: {},
+  parse: function(response) {
+    this.userInfo = new Conductor.Models.UserInfo(response.user_info);
+    return response.collection;
+  },
   url: function() {
     var path = Conductor.prefixedPath('/pools');
     return Conductor.parameterizedPath(path, this.queryParams);

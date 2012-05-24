@@ -1,4 +1,4 @@
-#scoreboard
+%div{:id => 'scoreboard', :class => 'scoreboard'}
   %dl.statistics
     %ul.groups
       %li
@@ -22,8 +22,50 @@
         %dt
           = t("user")
           = t("quota_used")
-        %dd.percentage.quota= number_to_percentage(@statistics[:user_used_percentage], :precision => 0)
+        %dd.percentage.quota= @statistics[:user_used_percentage_string]
         %dd.fraction.instance
           %span.part= @statistics[:user_running_instances]
           %span.divider.label.small.caps of
-          %span.total= @statistics[:user_available_quota].nil? ? raw('&infin;') : @statistics[:user_available_quota]
+          %span.total= @statistics[:user_available_quota_string]
+
+%script#poolScoreboardIndexTemplate{ :type => 'text/x-jquery-tmpl' }
+  :plain
+    <dl class="statistics">
+      <ul class="groups">
+        <li>
+          <dt>#{t 'pools.pools'}</dt>
+           <dd class="count pool">${user_pools_count}</dd>
+           <dd class="count pool partial">${pools_in_use}</dd>
+         </li>
+         <li>
+           <dt>#{t 'deployments.deployments'}</dt>
+           <dd class="count deployment">${deployments}</dd>
+         </li>
+         <li>
+           <dt>#{t 'instances.instances.other'}</dt>
+           <dd class="count instance">${instances}</dd>
+           <dd class="count instance pending">${instances_pending}</dd>
+           <dd class="count instance failure">${instances_failed_count}</dd>
+         </li>
+         <li>
+           <ul class="subgroup">
+             <li>
+               <dt>#{t 'alerts_label'}</dt>
+               <dd class="count alert">${instances_failed_count}</dd>
+             </li>
+           </ul>
+         </li>
+         <li>
+           <dt>
+             #{t 'user'}
+             #{t 'quota_used'}
+           </dt>
+           <dd class="percentage quota">${user_used_percentage_string}</dd>
+           <dd class="fraction instance">
+             <span class="part">${user_running_instances}</span>
+             <span class="divider label small caps">of</span>
+             <span class="total">${user_available_quota_string}</span>
+           </dd>
+         </li>
+      </ul>
+    </dl>

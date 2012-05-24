@@ -14,6 +14,8 @@
 #   limitations under the License.
 #
 
+include ActionView::Helpers::NumberHelper
+
 class PoolsController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
@@ -71,12 +73,16 @@ class PoolsController < ApplicationController
       format.json do
         case @details_tab[:id]
         when 'pools'
-          render :json => @pools
+          json = @pools.map{ |pool| pool.as_json(:with_deployments => true, :current_user => current_user) }
         when 'instances'
-          render :json => @instances
+          json = @instances
         when 'deployments'
-          render :json => @deployments
+          json = @deployments
         end
+        render :json => {
+          :collection => json,
+          :user_info => @statistics
+        }
       end
     end
   end
@@ -323,16 +329,21 @@ class PoolsController < ApplicationController
   def statistics
     instances = current_user.owned_instances
     failed_instances = instances.select {|instance| instance.state == Instance::STATE_CREATE_FAILED || instance.state == Instance::STATE_ERROR}
+    user_used_percentage = current_user.quota.percentage_used
+    user_available_quota = current_user.quota.maximum_running_instances
     @statistics = {
+              :user_pools_count => @user_pools.count,
               :pools_in_use => @user_pools.select { |pool| pool.instances.pending.count > 0 || pool.instances.deployed.count > 0 }.count,
               :deployments => current_user.deployments.count,
               :instances => instances.count,
-              :instances_pending => instances.select {|instance| instance.state == Instance::STATE_NEW || instance.state == Instance::STATE_PENDING}.count,
+              :instances_pending => instances.pending.count,
               :instances_failed => failed_instances,
               :instances_failed_count => failed_instances.count,
-              :user_available_quota => current_user.quota.maximum_running_instances,
+              :user_available_quota => user_available_quota,
+              :user_available_quota_string => user_available_quota.nil? ? '&infin;'.html_safe : user_available_quota,
               :user_running_instances => current_user.quota.running_instances,
-              :user_used_percentage => current_user.quota.percentage_used
+              :user_used_percentage => user_used_percentage,
+              :user_used_percentage_string => number_to_percentage(user_used_percentage, :precision => 0)
               }
   end
 end

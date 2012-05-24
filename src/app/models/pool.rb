@@ -125,7 +125,7 @@ class Pool < ActiveRecord::Base
     })
 
     if options[:with_deployments]
-      result[:deployments] = deployments.list_for_user(options[:current_user], Privilege::VIEW).map {|d| d.as_json}
+      result[:deployments] = deployments.list_for_user(options[:current_user], Privilege::VIEW).order('name asc').map {|d| d.as_json}
     end
 
     result

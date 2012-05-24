@@ -73,28 +73,29 @@ Conductor.Views.PoolsIndex = Backbone.View.extend({
     }
     else if (this.currentView() == 'pretty') {
       var cardsPerRow = 5;
-      var poolIds = this.collection.models.map(function(model) {
-        return model.attributes.pool.id;
-      });
-      $.unique(poolIds);
-      var deployments = this.collection.models.map(function(model) {
-        return model.attributes;
-      });
 
-      for(var j = 0; j < poolIds.length; j++) {
-        var poolId = poolIds[j];
-        var $rows = this.$('#deployment-arrays-' + poolId).empty();
-        var poolDeployments = deployments.filter(function(attributes) {
-          return attributes.pool.id == poolId;
-        });
+      var self = this;
+      var headerTemplate = $('#poolPrettyListHeaderTemplate');
+      $.each(this.collection.models, function(index, value) {
+        var poolId = value.attributes.id;
+        var $rows = self.$('#deployment-arrays-' + poolId).empty();
+        var poolDeployments = value.attributes.deployments;
+
         for(var i = 0; i < poolDeployments.length; i += cardsPerRow) {
-          var $row = this.make('ul',
+          var $row = self.make('ul',
             {'class': 'deployment-array small'},
             $template.tmpl(poolDeployments.slice(i, i + cardsPerRow)));
           $rows.append($row);
         }
-      }
+
+        var $header = $('header.pool-header-' + poolId);
+        $header.html(headerTemplate.tmpl(value.toJSON()));
+      });
     }
+
+    var scoreboardTemplate = $('#poolScoreboardIndexTemplate');
+    var $scoreboard = $('div.scoreboard');
+    $scoreboard.html(scoreboardTemplate.tmpl(this.collection.userInfo.toJSON()));
   }
 });
 
