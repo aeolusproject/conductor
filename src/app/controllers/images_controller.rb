@@ -64,8 +64,6 @@ class ImagesController < ApplicationController
     load_builds
     load_target_images(@build)
     @target_image_exists = @target_images_by_target.any?
-    @account_groups_listing = @account_groups.select{ |driver, group| group[:included] || @target_images_by_target[driver] || (@build and @builder.find_active_build(@build.id, driver)) }
-    flash[:error] = t("images.flash.error.no_provider_accounts") if @account_groups_listing.blank?
 
     @user_can_build =
       (@environment && check_privilege(Privilege::USE, @environment))
@@ -168,14 +166,13 @@ class ImagesController < ApplicationController
   def new
     @environment = PoolFamily.find(params[:environment])
     check_permissions
-    if 'import' == params[:tab]
-      @accounts = @environment.provider_accounts.enabled.list_for_user(current_user, Privilege::USE)
-      if !@accounts.any?
-        flash[:error] = t("images.flash.error.no_provider_accounts_for_import")
-      end
-      render :import and return
+    @accounts = @environment.provider_accounts.enabled.list_for_user(current_user, Privilege::USE)
+    if @accounts.empty?
+      flash.now[:error] = params[:tab] == 'import' ?
+        t("images.flash.error.no_provider_accounts_for_import") :
+        t("images.flash.error.no_provider_accounts")
     end
-
+    render 'import' == params[:tab] ? :import : :new
   end
 
   def import
