@@ -18,7 +18,13 @@ module MustacheTemplate
     end
 
     def render
-      renderer = @view_context.instance_variable_get('@renderer') if @view_context.instance_variable_names.include?('@renderer')
+      renderer =
+        if Rails.version >= '3.1'
+          @view_context.instance_variable_get('@view_renderer').instance_variable_get('@_partial_renderer')
+        else
+          @view_context.instance_variable_get('@renderer') if @view_context.instance_variable_names.include?('@renderer')
+        end
+
       options = renderer.instance_variable_get("@options") if renderer
 
       if options && options.include?(:mustache)
