@@ -28,6 +28,7 @@
           %th= t("pool_families.index.pending_instances")
           %th= t("pool_families.index.failed_instances")
           %th= t("pool_families.index.quota_used")
+          %th= t("pool_families.index.pool_family_quota_used")
           %th= t("pool_families.index.active_instances")
           %th= t("pool_families.index.available_instances")
           %th= t("pool_families.index.enabled")
@@ -42,6 +43,7 @@
             %td= pool_stats[:instances_pending]
             %td= pool_stats[:instances_failed_count]
             %td= pool_stats[:quota_percent]
+            %td= pool_stats[:pool_family_quota_percent]
             %td= pool_stats[:used_quota]
             %td= pool_stats[:available_quota].nil? ? raw('&infin;') : pool_stats[:available_quota]
             %td= pool.enabled? ? t("pool_families.index.answer_yes") : t("pool_families.index.answer_no")
@@ -53,6 +55,7 @@
           %td= family_stats[:total_instances]
           %td= family_stats[:instances_pending]
           %td= family_stats[:instances_failed]
+          %td
           %td= family_stats[:quota_percent]
           %td= family_stats[:used_quota]
           %td= family_stats[:available_quota].nil? ? raw('&infin;') : family_stats[:available_quota]

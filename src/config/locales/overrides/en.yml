@@ -221,6 +221,7 @@ en:
       new_pool_family: New Cloud
       pool_name: Cloud Resource Zone Name
       deployments: Applications
+      pool_family_quota_used: "Cloud Quota Used"
     new:
       environments: Clouds
     form:

@@ -617,6 +617,7 @@ en:
       total_instancies: "Total Inst."
       pending_instances: "Pending Inst."
       quota_used: "Quota Used"
+      pool_family_quota_used: "Pool Family Quota Used"
       active_instances: "Active Inst."
       available_instances: "Available Inst."
       failed_instances: "Failed Inst."

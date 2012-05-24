@@ -89,6 +89,7 @@ class Pool < ActiveRecord::Base
     avail = max - total unless max.nil?
     failed = (user.nil? ? instances.failed :
               instances.failed.list_for_user(user, Privilege::VIEW))
+    pool_family_quota_percent = pool_family.quota.percentage_used quota.running_instances
     statistics = {
       :cloud_providers => instances.collect{|i| i.provider_account}.uniq.count,
       :deployments => deployments.count,
@@ -101,6 +102,7 @@ class Pool < ActiveRecord::Base
       :used_quota => quota.running_instances,
       :quota_percent => number_to_percentage(quota.percentage_used,
                                              :precision => 0),
+      :pool_family_quota_percent => number_to_percentage(pool_family_quota_percent, :precision => 0),
       :available_quota => avail
     }
     #end
