@@ -45,8 +45,9 @@ Given /^I am a registered user$/ do
 end
 
 Given /^I am an authorised user$/ do
-  @admin_permission = FactoryGirl.create :admin_permission
-  @user = @admin_permission.user
+  @admin_user = FactoryGirl.create :admin_user
+  @user = @admin_user
+  @admin_permission = FactoryGirl.create :admin_permission, :entity => @user.entity
 end
 
 
@@ -55,8 +56,7 @@ When /^I login$/ do
 end
 
 When /^I login as authorised user$/ do
-  admin_user = @admin_permission.user
-  login(admin_user.login, admin_user.password)
+  login(@admin_user.login, @admin_user.password)
   page.should have_content('Login successful!')
 end
 
@@ -67,6 +67,7 @@ end
 Given /^I am logged in$/ do
   # Warden test helper method
   login_as user
+  visit path_to("the homepage")
 end
 
 Given /^I have successfully logged in$/ do

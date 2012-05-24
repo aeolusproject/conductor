@@ -228,7 +228,9 @@ class InstancesController < ApplicationController
   end
 
   def init_new_instance_attrs
-    @pools = Pool.list_for_user(current_user, Privilege::CREATE, Instance).where(:enabled => true)
+    @pools = Pool.list_for_user(current_session, current_user,
+                                Privilege::CREATE, Instance).
+      where(:enabled => true)
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
       :include => :architecture,
@@ -248,20 +250,30 @@ class InstancesController < ApplicationController
       {:name => t('instances.headers.created_by'), :sort_attr => 'users.last_name'},
     ]
 
-    @pools = Pool.list_for_user(current_user, Privilege::CREATE, Instance)
+    @pools = Pool.list_for_user(current_session, current_user,
+                                Privilege::CREATE, Instance)
   end
 
   def load_instances
     if params[:deployment_id].blank?
-      @instances = paginate_collection(Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
-                                                list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction).
-                                                where("instances.pool_id" => @pools),
-                                       params[:page], PER_PAGE)
+      @instances = paginate_collection(
+        Instance.includes(:owner).
+          apply_filters(:preset_filter_id => params[:instances_preset_filter],
+                        :search_filter => params[:instances_search]).
+          list_for_user(current_session, current_user, Privilege::VIEW).
+          list(sort_column(Instance), sort_direction).
+          where("instances.pool_id" => @pools),
+        params[:page], PER_PAGE)
     else
-      @instances = paginate_collection(Instance.includes(:owner).apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
-                                                list(sort_column(Instance), sort_direction).list_for_user(current_user, Privilege::VIEW).
-                                                where("instances.pool_id" => @pools, "instances.deployment_id" => params[:deployment_id]),
-                                       params[:page], PER_PAGE)
+      @instances = paginate_collection(
+        Instance.includes(:owner).
+          apply_filters(:preset_filter_id => params[:instances_preset_filter],
+                        :search_filter => params[:instances_search]).
+          list(sort_column(Instance), sort_direction).
+          list_for_user(current_session, current_user, Privilege::VIEW).
+          where("instances.pool_id" => @pools,
+                "instances.deployment_id" => params[:deployment_id]),
+        params[:page], PER_PAGE)
     end
   end
 

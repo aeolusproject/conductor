@@ -27,7 +27,8 @@ class DeployablesController < ApplicationController
       @catalog_entries = @deployables.collect { |d| d.catalog_entries.first }
     else
       save_breadcrumb(deployables_path)
-      @deployables = Deployable.without_catalog.list_for_user(current_user, Privilege::VIEW)
+      @deployables = Deployable.without_catalog.
+        list_for_user(current_session, current_user, Privilege::VIEW)
     end
     set_header
   end
@@ -36,7 +37,8 @@ class DeployablesController < ApplicationController
     @deployable = Deployable.new(params[:deployable])
     if params[:create_from_image]
       @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
-      @hw_profiles = HardwareProfile.frontend.list_for_user(current_user, Privilege::VIEW)
+      @hw_profiles = HardwareProfile.frontend.
+        list_for_user(current_session, current_user, Privilege::VIEW)
       @deployable.name = @image.name
       @selected_catalogs = Array(params[:catalog_id])
       load_catalogs
@@ -65,7 +67,8 @@ class DeployablesController < ApplicationController
     require_privilege(Privilege::VIEW, @deployable)
     save_breadcrumb(polymorphic_path([@catalog, @deployable]), @deployable.name)
     @providers = Provider.all
-    @catalogs_options = Catalog.list_for_user(current_user, Privilege::VIEW).select do |c|
+    @catalogs_options = Catalog.list_for_user(current_session, current_user,
+                                              Privilege::VIEW).select do |c|
       !@deployable.catalogs.include?(c) and
         @deployable.catalogs.first.pool_family == c.pool_family
     end
@@ -179,7 +182,8 @@ class DeployablesController < ApplicationController
       if params[:create_from_image].present?
         @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
         load_catalogs
-        @hw_profiles = HardwareProfile.frontend.list_for_user(current_user, Privilege::VIEW)
+        @hw_profiles = HardwareProfile.frontend.
+          list_for_user(current_session, current_user, Privilege::VIEW)
       else
         @catalog = @selected_catalogs.first
         params.delete(:edit_xml) if params[:edit_xml]
@@ -292,7 +296,9 @@ class DeployablesController < ApplicationController
 
   def load_catalogs
     @pool_family = PoolFamily.where(:name => @image.environment).first
-    @catalogs = Catalog.list_for_user(current_user, Privilege::CREATE, Deployable).where('pool_family_id' => @pool_family.id)
+    @catalogs = Catalog.list_for_user(current_session, current_user,
+                                      Privilege::CREATE, Deployable).
+      where('pool_family_id' => @pool_family.id)
   end
 
   def import_xml_from_url(url)

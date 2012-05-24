@@ -81,7 +81,8 @@ class DeploymentsController < ApplicationController
 
     if @services.empty? or @services.all? {|s, a| s.parameters.empty?}
       # we can skip the launch-time parameters screen
-      @errors = @deployment.check_assemblies_matches(current_user)
+      @errors = @deployment.check_assemblies_matches(current_session,
+                                                     current_user)
       set_errors_flash(@errors)
       @additional_quota = count_additional_quota(@deployment)
       render 'overview' and return
@@ -109,7 +110,8 @@ class DeploymentsController < ApplicationController
 
     respond_to do |format|
       if @deployable.xml && @deployment.valid_deployable_xml?(@deployable.xml) && d_errors.empty?
-        @errors = @deployment.check_assemblies_matches(current_user)
+        @errors = @deployment.check_assemblies_matches(current_session,
+                                                       current_user)
         set_errors_flash(@errors)
         @additional_quota = count_additional_quota(@deployment)
 
@@ -149,7 +151,7 @@ class DeploymentsController < ApplicationController
     return unless check_deployable_images
 
     respond_to do |format|
-      if @deployment.create_and_launch(current_user)
+      if @deployment.create_and_launch(current_session, current_user)
         format.html do
           flash[:notice] = t "deployments.flash.notice.launched"
           redirect_to deployment_path(@deployment)
@@ -343,7 +345,9 @@ class DeploymentsController < ApplicationController
 
   def launch_from_catalog
     @catalog = Catalog.find(params[:catalog_id])
-    @deployables = @catalog.deployables.list_for_user(current_user, Privilege::VIEW).paginate(:page => params[:page] || 1, :per_page => 6)
+    @deployables = @catalog.deployables.
+      list_for_user(current_session, current_user, Privilege::VIEW).
+      paginate(:page => params[:page] || 1, :per_page => 6)
     require_privilege(Privilege::VIEW, @catalog)
   end
 
@@ -379,13 +383,16 @@ class DeploymentsController < ApplicationController
       { :name => t("pools.index.owner"), :sortable => false },
       { :name => t("providers.provider"), :sortable => false }
     ]
-    @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
-    @deployments = paginate_collection(Deployment.includes(:owner, :pool, :instances).
-                                                  apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
-                                                  list_for_user(current_user, Privilege::VIEW).
-                                                  where('deployments.pool_id' => @pools).
-                                                  order(sort_column(Deployment, "deployments.name") +' '+ sort_direction),
-                                       params[:page], PER_PAGE)
+    @pools = Pool.list_for_user(current_session, current_user,
+                                Privilege::CREATE, Deployment)
+    @deployments = paginate_collection(
+      Deployment.includes(:owner, :pool, :instances).
+        apply_filters(:preset_filter_id => params[:deployments_preset_filter],
+                      :search_filter => params[:deployments_search]).
+        list_for_user(current_session, current_user, Privilege::VIEW).
+        where('deployments.pool_id' => @pools).
+        order(sort_column(Deployment, "deployments.name") +' '+ sort_direction),
+      params[:page], PER_PAGE)
   end
 
   def count_additional_quota(deployment)
@@ -407,8 +414,11 @@ class DeploymentsController < ApplicationController
   end
 
   def init_new_deployment_attrs
-    @deployables = Deployable.includes({:catalogs => :pool}).list_for_user(current_user, Privilege::USE).select{|d| d.catalogs.collect{|c| c.pool}.include?(@pool)}
-    @pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
+    @deployables = Deployable.includes({:catalogs => :pool}).
+      list_for_user(current_session, current_user, Privilege::USE).
+      select{|d| d.catalogs.collect{|c| c.pool}.include?(@pool)}
+    @pools = Pool.list_for_user(current_session, current_user,
+                                Privilege::CREATE, Deployment)
     @deployable = params[:deployable_id] ? Deployable.find(params[:deployable_id]) : nil
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(

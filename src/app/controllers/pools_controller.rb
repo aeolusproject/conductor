@@ -43,31 +43,44 @@ class PoolsController < ApplicationController
     details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 
-    @user_pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment)
+    @user_pools = Pool.list_for_user(current_session, current_user,
+                                     Privilege::CREATE, Deployment)
 
     if filter_view?
       case @details_tab[:id]
       when 'pools'
-        @pools = paginate_collection(Pool.includes(:deployments, :instances).
-                                     apply_filters(:preset_filter_id => params[:pools_preset_filter], :search_filter => params[:pools_search]).
-                                     list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction),
-                                     params[:page], PER_PAGE)
+        @pools = paginate_collection(
+          Pool.includes(:deployments, :instances).
+            apply_filters(:preset_filter_id => params[:pools_preset_filter],
+                          :search_filter => params[:pools_search]).
+            list_for_user(current_session, current_user, Privilege::VIEW).
+            list(sort_column(Pool), sort_direction),
+          params[:page], PER_PAGE)
       when 'instances'
         params[:instances_preset_filter] = "" unless params[:instances_preset_filter]
-        @instances = paginate_collection(Instance.includes({:provider_account => :provider}).
-                                         apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
-                                         list_for_user(current_user, Privilege::VIEW).list(sort_column(Instance), sort_direction),
-                                         params[:page], PER_PAGE)
+        @instances = paginate_collection(
+          Instance.includes({:provider_account => :provider}).
+            apply_filters(:preset_filter_id => params[:instances_preset_filter],
+                          :search_filter => params[:instances_search]).
+            list_for_user(current_session, current_user, Privilege::VIEW).
+            list(sort_column(Instance), sort_direction),
+          params[:page], PER_PAGE)
       when 'deployments'
-        @deployments = paginate_collection(Deployment.includes(:pool, :instances).
-                                           apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
-                                           list_for_user(current_user, Privilege::VIEW).list(sort_column(Deployment), sort_direction),
-                                           params[:page], PER_PAGE)
+        @deployments = paginate_collection(
+          Deployment.includes(:pool, :instances).
+            apply_filters(:preset_filter_id =>
+                            params[:deployments_preset_filter],
+                          :search_filter => params[:deployments_search]).
+            list_for_user(current_session, current_user, Privilege::VIEW).
+            list(sort_column(Deployment), sort_direction),
+          params[:page], PER_PAGE)
       end
     else
-      @pools = paginate_collection(Pool.includes(:deployments, :instances, :quota, :catalogs).
-                                   list_for_user(current_user, Privilege::VIEW).list(sort_column(Pool), sort_direction),
-                                   params[:page], PER_PAGE)
+      @pools = paginate_collection(
+        Pool.includes(:deployments, :instances, :quota, :catalogs).
+          list_for_user(current_session, current_user, Privilege::VIEW).
+          list(sort_column(Pool), sort_direction),
+        params[:page], PER_PAGE)
     end
 
     statistics
@@ -104,14 +117,18 @@ class PoolsController < ApplicationController
     @title = t('pools.header_show.pool_name', :name => @pool.name)
     save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
     require_privilege(Privilege::VIEW, @pool)
-    @statistics = @pool.statistics(current_user)
+    @statistics = @pool.statistics(current_session, current_user)
 
     if params[:details_tab]
       case params[:details_tab]
         when 'images'
-          #this case covers fetching of unique images and constructing collection for filter table
-          @header = [{:name => "catalog"}, {:name => "deployable"}, {:name => "image"}, {:name => "provider_image"}]
-          @catalog_images = @pool.catalog_images_collection(@pool.catalogs.list_for_user(current_user, Privilege::VIEW))
+          # this case covers fetching of unique images and constructing
+          # collection for filter table
+          @header = [{:name => "catalog"}, {:name => "deployable"},
+                     {:name => "image"}, {:name => "provider_image"}]
+          @catalog_images = @pool.catalog_images_collection(
+            @pool.catalogs.list_for_user(current_session, current_user,
+                                         Privilege::VIEW))
         when 'deployments'
           @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
       end      
@@ -129,17 +146,24 @@ class PoolsController < ApplicationController
 
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
-    @deployments = paginate_collection(@pool.deployments.includes(:owner, :pool, :instances, :events).
-                                                         apply_filters(:preset_filter_id => params[:deployments_preset_filter], :search_filter => params[:deployments_search]).
-                                                         list_for_user(current_user, Privilege::VIEW),
-                                       params[:page], PER_PAGE) if @details_tab[:id] == 'deployments'
+    if @details_tab[:id] == 'deployments'
+      @deployments = paginate_collection(
+        @pool.deployments.includes(:owner, :pool, :instances, :events).
+          apply_filters(:preset_filter_id => params[:deployments_preset_filter],
+                        :search_filter => params[:deployments_search]).
+          list_for_user(current_session, current_user, Privilege::VIEW),
+        params[:page], PER_PAGE)
+    end
     @view = @details_tab[:view]
     respond_to do |format|
       format.html { render :action => :show}
       format.js { render :partial => @view }
       format.json do
-        deployments = paginate_collection(@pool.deployments.list_for_user(current_user, Privilege::VIEW), params[:page], PER_PAGE).
-                                                            map{ |deployment| view_context.deployment_for_mustache(deployment) }
+        deployments = paginate_collection(
+            @pool.deployments.list_for_user(current_session, current_user,
+                                            Privilege::VIEW),
+            params[:page], PER_PAGE).
+          map{ |deployment| view_context.deployment_for_mustache(deployment) }
         render :json => @pool.as_json.merge({:deployments => deployments})
       end
     end
@@ -151,7 +175,8 @@ class PoolsController < ApplicationController
     @pool.pool_family = PoolFamily.find(params[:pool_family_id]) unless params[:pool_family_id].blank?
     require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
     @quota = Quota.new
-    @pool_families = PoolFamily.list_for_user(current_user, Privilege::CREATE, Pool)
+    @pool_families = PoolFamily.list_for_user(current_session, current_user,
+                                              Privilege::CREATE, Pool)
     respond_to do |format|
       format.html
       format.json { render :json => @pool }
@@ -334,7 +359,9 @@ class PoolsController < ApplicationController
     # (But if it's nil, we want to show all instances)
     params[:state] = 'running' unless params.keys.include?('state')
     conditions = params[:state].present? ? ['state=?', params[:state]] : ''
-    @instances = @pool.instances.list_for_user(current_user, Privilege::VIEW).find(:all, :conditions => conditions)
+    @instances = @pool.instances.list_for_user(current_session, current_user,
+                                               Privilege::VIEW).
+      where(conditions)
   end
 
   def set_quota

@@ -45,7 +45,7 @@ module ApplicationService
     end
     perm_obj=@perm_obj if perm_obj.nil?
     perm_obj=BasePermissionObject.general_permission_scope if perm_obj.nil?
-    perm_obj.has_privilege(current_user, action, target_type)
+    perm_obj.has_privilege(current_session, current_user, action, target_type)
   end
 
   # Require a given privilege level to view this page

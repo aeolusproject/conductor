@@ -39,7 +39,7 @@ class RegistrationService
             obj_key, role_key = x.split(/, ?/)
             default_obj = MetadataObject.lookup(obj_key)
             default_role = MetadataObject.lookup(role_key)
-            Permission.create!(:user => @user, :role => default_role, :permission_object => default_obj)
+            Permission.create!(:entity => @user.entity, :role => default_role, :permission_object => default_obj)
           end
         return true
       rescue ActiveRecord::RecordInvalid => e

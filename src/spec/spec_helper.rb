@@ -56,6 +56,11 @@ def mock_warden(user)
                                        :authenticate! => user,
                                        :user => user,
                                        :raw_session => nil)
+  request.session_options[:id] = 'ee73441902cb9445483e498cb05dc398'
+  @session = ActiveRecord::SessionStore::Session.
+    find_by_session_id('ee73441902cb9445483e498cb05dc398')
+  @session = FactoryGirl.create :session unless @session
+  SessionEntity.update_session(@session, user) if user
 end
 
 RSpec.configure do |config|

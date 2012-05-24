@@ -166,7 +166,8 @@ class ImagesController < ApplicationController
   def new
     @environment = PoolFamily.find(params[:environment])
     check_permissions
-    @accounts = @environment.provider_accounts.enabled.list_for_user(current_user, Privilege::USE)
+    @accounts = @environment.provider_accounts.enabled.
+      list_for_user(current_session, current_user, Privilege::USE)
     if @accounts.empty?
       flash.now[:error] = params[:tab] == 'import' ?
         t("images.flash.error.no_provider_accounts_for_import") :

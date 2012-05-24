@@ -74,5 +74,5 @@ end
 
 Given /^I can view pool family "([^"]*)"$/ do |arg1|
   pool_family = PoolFamily.find_by_name(arg1)  || FactoryGirl.create(:pool_family, :name => arg1)
-  perm = FactoryGirl.create(:pool_family_user_permission, :permission_object => pool_family, :user => @user)
+  perm = FactoryGirl.create(:pool_family_user_permission, :permission_object => pool_family, :entity => @user.entity)
 end

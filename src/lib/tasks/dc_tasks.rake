@@ -95,7 +95,7 @@ namespace :dc do
     end
     permission = Permission.new(:role => Role.find_by_name('base.admin'),
                                 :permission_object => BasePermissionObject.general_permission_scope,
-                                :user => user)
+                                :entity => user.entity)
     if permission.save
       puts "Granting administrator privileges for #{args.login}..."
     else

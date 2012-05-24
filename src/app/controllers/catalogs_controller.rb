@@ -20,8 +20,12 @@ class CatalogsController < ApplicationController
   def index
     @title = t('catalogs.catalogs')
     clear_breadcrumbs
-    @catalogs = Catalog.apply_filters(:preset_filter_id => params[:catalogs_preset_filter], :search_filter => params[:catalogs_search]).list_for_user(current_user, Privilege::VIEW)
-    @can_create = Pool.list_for_user(current_user, Privilege::CREATE, Catalog).present?
+    @catalogs = Catalog.
+      apply_filters(:preset_filter_id => params[:catalogs_preset_filter],
+                    :search_filter => params[:catalogs_search]).
+      list_for_user(current_session, current_user, Privilege::VIEW)
+    @can_create = Pool.list_for_user(current_session, current_user,
+                                     Privilege::CREATE, Catalog).present?
     save_breadcrumb(catalogs_path(:viewstate => @viewstate ? @viewstate.id : nil))
     set_header
     set_admin_content_tabs 'catalogs'
@@ -42,9 +46,9 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.find(params[:id])
     @title = @catalog.name
     @deployables = @catalog.deployables.
-                            list_for_user(current_user, Privilege::VIEW).
-                            apply_filters(:preset_filter_id => params[:deployables_preset_filter],
-                                          :search_filter => params[:deployables_search])
+      list_for_user(current_session, current_user, Privilege::VIEW).
+      apply_filters(:preset_filter_id => params[:deployables_preset_filter],
+                    :search_filter => params[:deployables_search])
     require_privilege(Privilege::VIEW, @catalog)
     save_breadcrumb(catalog_path(@catalog), @catalog.name)
     @header = [
@@ -143,12 +147,12 @@ class CatalogsController < ApplicationController
 
   def load_pools
     if @catalog.pool_family
-      @pools = @catalog.pool_family.pools.list_for_user(current_user,
-                                                        Privilege::CREATE,
-                                                        Catalog)
+      @pools = @catalog.pool_family.pools.
+        list_for_user(current_session, current_user, Privilege::CREATE, Catalog)
       @pools.unshift(@catalog.pool) unless @pools.include?(@catalog.pool)
     else
-      @pools = Pool.list_for_user(current_user, Privilege::CREATE, Catalog)
+      @pools = Pool.list_for_user(current_session, current_user,
+                                  Privilege::CREATE, Catalog)
     end
   end
 end

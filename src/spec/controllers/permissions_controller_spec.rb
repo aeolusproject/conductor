@@ -31,7 +31,7 @@ describe PermissionsController do
 
     @old_role = FactoryGirl.create(:role)
     @new_role = FactoryGirl.create(:role)
-    @permission = FactoryGirl.create(:permission, :user => @admin, :role => @old_role, :permission_object => @deployable)
+    @permission = FactoryGirl.create(:permission, :entity => @admin.entity, :role => @old_role, :permission_object => @deployable)
 
     post :multi_update, :permission_object_id => @deployable.id, :permission_object_type => @deployable.class.to_s,
         :permission_role_selected => ["#{@permission.id},#{@new_role.id}"], :polymorphic_path_extras => { 'catalog_id' => @catalog.id}

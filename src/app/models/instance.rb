@@ -275,14 +275,14 @@ class Instance < ActiveRecord::Base
     end
   end
 
-  def self.get_user_instances_stats(user)
+  def self.get_user_instances_stats(session, user)
     stats = {
       :running_instances => 0,
       :stopped_instances => 0,
     }
 
     instances = []
-    pools = Pool.list_for_user(user, Privilege::VIEW, Instance)
+    pools = Pool.list_for_user(session, user, Privilege::VIEW, Instance)
     pools.each{|pool| pool.instances.each {|i| instances << i}}
     instances.each do |i|
       if i.state == Instance::STATE_RUNNING

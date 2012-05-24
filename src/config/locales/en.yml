@@ -1247,6 +1247,7 @@ en:
     inherited_access: "Inherited Access"
     inherited_from: "Inherited From"
     revoke_access: "Revoke Access"
+    name: Name
     form:
       grant_access: Grant Access
     new:

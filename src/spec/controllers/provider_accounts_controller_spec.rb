@@ -26,7 +26,7 @@ describe ProviderAccountsController do
 
     @admin_permission = Permission.create :role => Role.find(:first, :conditions => ['name = ?', 'base.provider.admin']),
                                           :permission_object => @provider,
-                                          :user => FactoryGirl.create(:provider_admin_user)
+                                          :entity => FactoryGirl.create(:provider_admin_user).entity
     @admin = @admin_permission.user
   end
 

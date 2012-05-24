@@ -29,7 +29,7 @@ Rails.configuration.middleware.use RailsWarden::Manager do |config|
   config.scope_defaults(
     :api,
     :strategies   => [SETTINGS_CONFIG[:auth][:strategy].to_sym],
-    :store        => false,
+    :store        => true,
     :action       => 'unauthenticated'
   )
 end

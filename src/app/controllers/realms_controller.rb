@@ -140,11 +140,13 @@ class RealmsController < ApplicationController
 
   def load_backend_realms
     #TODO: list only realms user has permission on
-    @backend_realms = Provider.list_for_user(current_user, Privilege::USE).collect do |provider|
+    @backend_realms = Provider.list_for_user(current_session, current_user,
+                                             Privilege::USE).collect do |provider|
       provider.realms
     end.flatten
 
-    @providers = Provider.list_for_user(current_user, Privilege::USE)
+    @providers = Provider.list_for_user(current_session, current_user,
+                                        Privilege::USE)
   end
 
   def load_realms

@@ -20,7 +20,8 @@
 module MustacheHelper
 
   def user_info_for_mustache
-    user_pools = Pool.list_for_user(current_user, Privilege::CREATE, Deployment);
+    user_pools = Pool.list_for_user(current_session, current_user,
+                                    Privilege::CREATE, Deployment);
     user_instances = current_user.owned_instances
     user_available_quota = current_user.quota.maximum_running_instances
     {
@@ -116,8 +117,11 @@ module MustacheHelper
       },
 
       :user_deployments => paginate_collection(pool.deployments.
-                                               list_for_user(current_user, Privilege::VIEW).
-                                               ascending_by_name, params[:page], PER_PAGE)
+                                               list_for_user(current_session,
+                                                             current_user,
+                                                             Privilege::VIEW).
+                                               ascending_by_name, params[:page],
+                                               PER_PAGE)
     }
   end
 

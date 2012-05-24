@@ -16,24 +16,30 @@
 
 module PermissionedObject
 
-  def has_privilege(user, action, target_type=nil)
-    return false if user.nil? or action.nil?
+  def has_privilege(session, user, action, target_type=nil)
+    return false if session.nil? or user.nil? or action.nil?
     target_type = self.class.default_privilege_target_type if target_type.nil?
-    if derived_permissions.includes(:role => :privileges).where(
-      ["derived_permissions.user_id=:user and
+    if derived_permissions.includes(:role => :privileges,
+                                    :entity => :session_entities).where(
+      ["session_entities.user_id=:user and
+        session_entities.session_id=:session and
         privileges.target_type=:target_type and
         privileges.action=:action",
         { :user => user.id,
+          :session => session.id,
           :target_type => target_type.name,
           :action => action}]).any?
       return true
     else
       BasePermissionObject.general_permission_scope.permissions.
-        includes(:role => :privileges).where(
-      ["permissions.user_id=:user and
+        includes(:role => :privileges,
+                 :entity => :session_entities).where(
+      ["session_entities.user_id=:user and
+        session_entities.session_id=:session and
         privileges.target_type=:target_type and
         privileges.action=:action",
         { :user => user.id,
+          :session => session.id,
           :target_type => target_type.name,
           :action => action}]).any?
     end
@@ -58,7 +64,7 @@ module PermissionedObject
       perm_obj.permissions.each do |permission|
         if permission.role.privilege_target_match(self.class.default_privilege_target_type)
           unless old_derived_permissions.delete(permission.id)
-            derived_permissions.create(:user_id => permission.user_id,
+            derived_permissions.create(:entity_id => permission.entity_id,
                                        :role_id => permission.role_id,
                                        :permission => permission)
           end
@@ -81,7 +87,8 @@ module PermissionedObject
                                             { :assign => true,
                                               :scope => self.class.default_privilege_target_type.name}])
     roles.each do |role|
-      Permission.create!(:role => role, :user => user, :permission_object => self)
+      Permission.create!(:role => role, :entity => user.entity,
+                         :permission_object => self)
     end
     self.reload
   end
@@ -106,16 +113,23 @@ module PermissionedObject
       def self.default_privilege_target_type
         self
       end
-      def self.list_for_user(user, action, target_type=self.default_privilege_target_type)
-        return where("1=0") if user.nil? or action.nil? or target_type.nil?
-        if BasePermissionObject.general_permission_scope.has_privilege(user, action, target_type)
+      def self.list_for_user(session, user, action,
+                             target_type=self.default_privilege_target_type)
+        if session.nil? or user.nil? or action.nil? or target_type.nil?
+          return where("1=0")
+        end
+        if BasePermissionObject.general_permission_scope.
+            has_privilege(session, user, action, target_type)
           scoped
         else
-          includes([:derived_permissions => {:role => :privileges}]).
-            where("derived_permissions.user_id=:user and
+          includes([:derived_permissions => {:role => :privileges,
+                                             :entity => :session_entities}]).
+            where("session_entities.user_id=:user and
+                   session_entities.session_id=:session and
                    privileges.target_type=:target_type and
                    privileges.action=:action",
                   {:user => user.id,
+                   :session => session.id,
                    :target_type => target_type.name,
                    :action => action})
         end

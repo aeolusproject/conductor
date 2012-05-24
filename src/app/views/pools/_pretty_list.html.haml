@@ -7,7 +7,7 @@
       %header{:class => "pool-header-#{pool.id}"}
         = render :partial => 'pretty_list_header', :mustache => pool_for_mustache(pool)
       %div.content
-        - deployments = paginate_collection(pool.deployments.includes(:owner, :pool, :instances, :events).list_for_user(current_user, Privilege::VIEW).ascending_by_name, params[:page], PER_PAGE)
+        - deployments = paginate_collection(pool.deployments.includes(:owner, :pool, :instances, :events).list_for_user(current_session, current_user, Privilege::VIEW).ascending_by_name, params[:page], PER_PAGE)
         = render :partial => 'deployments', :locals => {:pool => pool, :deployments => deployments}
       %ul.content.actions
         %li

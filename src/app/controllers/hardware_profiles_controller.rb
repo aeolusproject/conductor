@@ -233,13 +233,28 @@ class HardwareProfilesController < ApplicationController
     sort_order = sort_direction
     sort_field = sort_column(HardwareProfile, 'name')
     if sort_field == "name"
-      @hardware_profiles = HardwareProfile.where('provider_id IS NULL', {}).apply_filters(:preset_filter_id => params[:hardware_profiles_preset_filter], :search_filter => params[:hardware_profiles_search]).list_for_user(current_user, Privilege::VIEW).order("hardware_profiles.name #{sort_direction}")
+      @hardware_profiles = HardwareProfile.where('provider_id IS NULL', {}).
+        apply_filters(:preset_filter_id =>
+                        params[:hardware_profiles_preset_filter],
+                      :search_filter => params[:hardware_profiles_search]).
+        list_for_user(current_session, current_user, Privilege::VIEW).
+        order("hardware_profiles.name #{sort_direction}")
     else
-      @hardware_profiles = HardwareProfile.where('provider_id IS NULL', {}).apply_filters(:preset_filter_id => params[:hardware_profiles_preset_filter], :search_filter => params[:hardware_profiles_search]).list_for_user(current_user, Privilege::VIEW)
+      @hardware_profiles = HardwareProfile.where('provider_id IS NULL', {}).
+        apply_filters(:preset_filter_id =>
+                        params[:hardware_profiles_preset_filter],
+                      :search_filter => params[:hardware_profiles_search]).
+        list_for_user(current_session, current_user, Privilege::VIEW)
       if sort_order == "asc"
-        @hardware_profiles.sort! {|x,y| x.get_property_map[sort_field].sort_value(true) <=> y.get_property_map[sort_field].sort_value(true)}
+        @hardware_profiles.sort! do |x,y|
+          x.get_property_map[sort_field].sort_value(true) <=>
+            y.get_property_map[sort_field].sort_value(true)
+        end
       else
-        @hardware_profiles.sort! {|x,y| y.get_property_map[sort_field].sort_value(false) <=> x.get_property_map[sort_field].sort_value(false)}
+        @hardware_profiles.sort! do |x,y|
+          y.get_property_map[sort_field].sort_value(false) <=>
+            x.get_property_map[sort_field].sort_value(false)
+        end
       end
     end
   end

@@ -57,9 +57,11 @@ class LogsController < ApplicationController
                                   {:source => [:pool_family, :pool, :owner]},
                                   :conditions => conditions
                                   )
-    deployments = Deployment.unscoped.list_for_user(current_user,
+    deployments = Deployment.unscoped.list_for_user(current_session,
+                                                    current_user,
                                                     Privilege::VIEW)
-    instances = Instance.unscoped.list_for_user(current_user, Privilege::VIEW)
+    instances = Instance.unscoped.list_for_user(current_session,
+                                                current_user, Privilege::VIEW)
 
     pool_option, pool_option_id = @pool_select.split(":")
     provider_option, provider_option_id = @provider_select.split(":")
@@ -110,7 +112,7 @@ class LogsController < ApplicationController
     @state_options = ([[t('logs.options.default_states'), ""]] +
                       Deployment::STATES + Instance::STATES).uniq
     @pool_options = [[t('logs.options.default_pools'), ""]]
-    PoolFamily.list_for_user(current_user, Privilege::VIEW).
+    PoolFamily.list_for_user(current_session, current_user, Privilege::VIEW).
       find(:all, :include => :pools, :order => "name",
            :select => ["id", "name"]).each do |pool_family|
       @pool_options << [pool_family.name, "pool_family:" + pool_family.id.to_s]
@@ -118,7 +120,7 @@ class LogsController < ApplicationController
         map{|x| [" -- " + x.name, "pool:" + x.id.to_s]}
     end
     @provider_options = [[t('logs.options.default_providers'), ""]]
-    Provider.list_for_user(current_user, Privilege::VIEW).
+    Provider.list_for_user(current_session, current_user, Privilege::VIEW).
       find(:all, :include => :provider_accounts, :order => "name",
            :select => ["id", "name"]).each do |provider|
       @provider_options << [provider.name, "provider:" + provider.id.to_s]

@@ -47,9 +47,9 @@ class DerivedPermission < ActiveRecord::Base
   belongs_to :role
   validates_presence_of :role_id
 
-  # user is copied from source permission
-  belongs_to :user
-  validates_presence_of :user_id
+  # entity is copied from source permission
+  belongs_to :entity
+  validates_presence_of :entity_id
 
   validates_uniqueness_of :permission_id, :scope => [:permission_object_id,
                                                      :permission_object_type]

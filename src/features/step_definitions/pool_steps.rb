@@ -15,7 +15,7 @@
 #
 Given /^I have Pool Creator permissions on a pool named "([^\"]*)"$/ do |name|
   @pool = FactoryGirl.create(:pool, :name => name)
-  FactoryGirl.create(:pool_creator_permission, :user => @user, :permission_object => @pool)
+  FactoryGirl.create(:pool_creator_permission, :entity => @user.entity, :permission_object => @pool)
 end
 
 Then /^there should be (\d+) pools$/ do |number|

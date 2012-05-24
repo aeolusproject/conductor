@@ -24,7 +24,7 @@ require 'will_paginate/array'
 class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
   include ApplicationService
-  helper_method :current_user, :filter_view?
+  helper_method :current_session, :current_user, :filter_view?
   before_filter :read_breadcrumbs, :set_locale
 
   # General error handlers, must be in order from least specific
@@ -99,8 +99,10 @@ class ApplicationController < ActionController::Base
 
   def get_nav_items
     if current_user.present?
-      @providers = Provider.list_for_user(current_user, Privilege::VIEW)
-      @pools = Pool.list_for_user(current_user, Privilege::VIEW)
+      @providers = Provider.list_for_user(current_session, current_user,
+                                          Privilege::VIEW)
+      @pools = Pool.list_for_user(current_session, current_user,
+                                  Privilege::VIEW)
     end
   end
 
@@ -177,11 +179,29 @@ class ApplicationController < ActionController::Base
   def http_auth_user
     return unless request.authorization && request.authorization =~ /^Basic (.*)/m
     authenticate!(:scope => :api)
+    request.session_options = request.session_options.dup
+    request.session_options[:expire_after] = 2.minutes
+    request.session_options.freeze
     # we use :api scope for authentication to avoid saving session.
     # But it's handy to set authenticated user in default scope, so we
     # can use current_user, instead of current_user(:api)
     env['warden'].set_user(user(:api)) if user(:api)
     return user(:api)
+  end
+
+  def current_session
+    @current_session ||= ActiveRecord::SessionStore::Session.
+      find_by_session_id(request.session_options[:id])
+    # FIXME: I shouldn't have to reload sessions here, but for some reason
+    # without reloading it wasn't working for non-admin permissions.
+    # If we ever need to add session_entities for _other_ users to the
+    # current session, this won't work
+    if @current_session and (!@current_session.session_entities.any? or
+                             @current_session.session_entities.first.user != current_user)
+      SessionEntity.update_session(@current_session, current_user)
+      @current_session.reload
+    end
+    @current_session
   end
 
   def require_user
@@ -309,7 +329,7 @@ class ApplicationController < ActionController::Base
     if "permissions" == params[:details_tab]
       require_privilege(Privilege::PERM_VIEW, perm_obj)
     end
-    if perm_obj.has_privilege(current_user, Privilege::PERM_VIEW)
+    if perm_obj.has_privilege(current_session, current_user, Privilege::PERM_VIEW)
       @roles = Role.find_all_by_scope(@permission_object.class.name)
       if @tabs
         @tabs << {:name => t('role_assignments'),
@@ -343,9 +363,7 @@ class ApplicationController < ActionController::Base
         { :name => 'checkbox', :class => 'checkbox', :sortable => false }
     end
     @permission_list_header += [
-      { :name => t('users.index.username') },
-      { :name => t('users.index.last_name'), :sortable => false },
-      { :name => t('users.index.first_name'), :sortable => false },
+      { :name => t('permissions.name')},
       { :name => t("role"), :sort_attr => :role},
     ]
     if @show_inherited

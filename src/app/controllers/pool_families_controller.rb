@@ -115,9 +115,10 @@ class PoolFamiliesController < ApplicationController
     end
 
     @provider_accounts = ProviderAccount.
-      list_for_user(current_user, Privilege::USE).
-      where('provider_accounts.id not in (?)', @pool_family.provider_accounts.empty? ?
-                               0 : @pool_family.provider_accounts.map(&:id))
+      list_for_user(current_session, current_user, Privilege::USE).
+      where('provider_accounts.id not in (?)',
+            @pool_family.provider_accounts.empty? ?
+            0 : @pool_family.provider_accounts.map(&:id))
 
     added = []
     not_added = []
@@ -207,7 +208,9 @@ class PoolFamiliesController < ApplicationController
   end
 
   def load_pool_families
-    @pool_families = PoolFamily.list_for_user(current_user, Privilege::VIEW).order(sort_column(PoolFamily) + ' ' + sort_direction)
+    @pool_families = PoolFamily.list_for_user(current_session, current_user,
+                                              Privilege::VIEW).
+      order(sort_column(PoolFamily) + ' ' + sort_direction)
   end
 
   def load_pool_family_tabs

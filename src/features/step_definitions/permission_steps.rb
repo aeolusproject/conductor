@@ -18,7 +18,7 @@ Given /^a user "([^\"]*)" exists$/ do |login|
 end
 
 Given /^there is not a permission for the user "([^\"]*)"$/ do |login|
-  Permission.first(:include => 'user', :conditions => ['users.login = ?', login]).should be_nil
+  Permission.first(:include => ['entity' => ['session_entities' => 'user']], :conditions => ['users.login = ?', login]).should be_nil
 end
 
 Given /^there is a permission for the user "([^\"]*)"$/ do |login|
@@ -26,12 +26,12 @@ Given /^there is a permission for the user "([^\"]*)"$/ do |login|
 end
 
 Given /^there is a permission for the user "([^\"]*)" on the pool "([^\"]*)"$/ do |login, pool_name|
-  @pool_user_permission = FactoryGirl.create(:pool_user_permission, :user_id => @user.id,
+  @pool_user_permission = FactoryGirl.create(:pool_user_permission, :entity_id => @user.entity.id,
                                          :permission_object => Pool.find_by_name(pool_name))
 end
 
 Given /^there is a permission for the user "([^\"]*)" on the pool family "([^\"]*)"$/ do |login, pool_family_name|
-  @pool_family_admin_permission = FactoryGirl.create(:pool_family_admin_permission, :user_id => @user.id,
+  @pool_family_admin_permission = FactoryGirl.create(:pool_family_admin_permission, :entity_id => @user.entity.id,
                                          :permission_object => PoolFamily.find_by_name(pool_family_name))
 end
 
@@ -42,5 +42,5 @@ end
 
 When /^(?:|I )select "([^"]*)" role for the user "([^"]*)"$/ do |role_name, user_name|
   user = User.find_by_login(user_name)
-  select(role_name, :from => "user_role_selected_#{user.id}")
+  select(role_name, :from => "entity_role_selected_#{user.entity.id}")
 end

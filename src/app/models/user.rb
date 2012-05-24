@@ -58,16 +58,21 @@ class User < ActiveRecord::Base
   # for them
   attr_accessor :ignore_password
 
-  has_many :permissions, :dependent => :destroy
-  has_many :derived_permissions, :dependent => :destroy
+  has_many :permissions, :through => :entity
+  has_many :derived_permissions, :through => :entities
   has_many :owned_instances, :class_name => "Instance", :foreign_key => "owner_id"
   has_many :deployments, :foreign_key => "owner_id"
   has_many :view_states
+  has_and_belongs_to_many :user_groups, :join_table => "members_user_groups",
+                                        :foreign_key => "member_id"
+  has_one :entity, :as => :entity_target, :dependent => :destroy
+  has_many :session_entities, :dependent => :destroy
 
   belongs_to :quota, :autosave => true, :dependent => :destroy
   accepts_nested_attributes_for :quota
 
   before_validation :strip_whitespace
+  after_save :update_entity
 
   validates_presence_of :quota
   validates_length_of :first_name, :maximum => 255, :allow_blank => true
@@ -160,5 +165,11 @@ class User < ActiveRecord::Base
 
   def strip_whitespace
     self.login = self.login.strip unless self.login.nil?
+  end
+
+  def update_entity
+    self.entity = Entity.new(:entity_target => self) unless self.entity
+    self.entity.name = "#{self.first_name} #{self.last_name} (#{self.login})"
+    self.entity.save!
   end
 end

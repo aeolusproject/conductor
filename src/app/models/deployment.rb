@@ -210,13 +210,13 @@ class Deployment < ActiveRecord::Base
     @launch_parameters = launch_parameters
   end
 
-  def create_and_launch(user)
+  def create_and_launch(session, user)
     begin
       rollback_active_record_state! do
         # deployment's attrs are not reset on rollback,
         # rollback_active_record_state! takes care of this
         transaction do
-          create_instances_with_params!(user)
+          create_instances_with_params!(session, user)
           launch!(user)
         end
       end
@@ -332,11 +332,11 @@ class Deployment < ActiveRecord::Base
 
   # we try to create an instance for each assembly and check
   # if a match is found
-  def check_assemblies_matches(user)
+  def check_assemblies_matches(session, user)
     errs = []
     begin
       deployable_xml.assemblies.each do |assembly|
-        hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
+        hw_profile = permissioned_frontend_hwprofile(session, user, assembly.hwp)
         raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
         instance = Instance.new(
           :deployment => self,
@@ -503,8 +503,8 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def permissioned_frontend_hwprofile(user, hwp_name)
-    HardwareProfile.list_for_user(user, Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => hwp_name}).first
+  def permissioned_frontend_hwprofile(session, user, hwp_name)
+    HardwareProfile.list_for_user(session, user, Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => hwp_name}).first
   end
 
   def inject_launch_parameters
@@ -570,10 +570,10 @@ class Deployment < ActiveRecord::Base
     self[:pool_family_id] = pool.pool_family_id
   end
 
-  def create_instances_with_params!(user)
+  def create_instances_with_params!(session, user)
     errors = {}
     deployable_xml.assemblies.each do |assembly|
-      hw_profile = permissioned_frontend_hwprofile(user, assembly.hwp)
+      hw_profile = permissioned_frontend_hwprofile(session, user, assembly.hwp)
       raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
       Instance.transaction do
         instance = Instance.create!(

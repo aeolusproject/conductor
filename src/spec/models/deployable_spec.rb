@@ -79,11 +79,11 @@ describe Deployable do
     catalog2 = FactoryGirl.create :catalog
     catalog1.pool.should_not == catalog2.pool
     admin = FactoryGirl.create :admin_user
-    pool1_perm = Permission.create(:user => admin,
+    pool1_perm = Permission.create(:entity => admin.entity,
                                    :role => Role.first(:conditions =>
                                                    ['name = ?', 'pool.admin']),
                                      :permission_object => catalog1.pool)
-    pool2_perm = Permission.create(:user => admin,
+    pool2_perm = Permission.create(:entity => admin.entity,
                                    :role => Role.first(:conditions =>
                                         ['name = ?', 'pool.deployable.admin']),
                                      :permission_object => catalog2.pool)

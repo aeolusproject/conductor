@@ -40,7 +40,7 @@ class PermissionsController < ApplicationController
       @summary_text = t('permissions.new.choose_roles') + " " + @permission_object.class.model_name.human
     end
     load_headers
-    load_users
+    load_entities
     respond_to do |format|
       format.html
       format.js { render :partial => 'new' }
@@ -51,17 +51,17 @@ class PermissionsController < ApplicationController
     set_permission_object
     added=[]
     not_added=[]
-    params[:user_role_selected].each do |user_role|
-      user_id,role_id = user_role.split(",")
+    params[:entity_role_selected].each do |entity_role|
+      entity_id,role_id = entity_role.split(",")
       unless role_id.nil?
-        permission = Permission.new(:user_id => user_id,
+        permission = Permission.new(:entity_id => entity_id,
                                     :role_id => role_id,
                                     :permission_object => @permission_object)
         if permission.save
-          added << t('permissions.flash.fragment.user_and_role', :user => permission.user.login,
+          added << t('permissions.flash.fragment.user_and_role', :user => permission.entity.name,
                       :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name))
         else
-          not_added << t('permissions.flash.fragment.user_and_role', :user => permission.user.login,
+          not_added << t('permissions.flash.fragment.user_and_role', :user => permission.entity.name,
                           :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name) )
         end
       end
@@ -96,11 +96,11 @@ class PermissionsController < ApplicationController
         unless permission.role == role
           permission.role = role
           if permission.save
-            modified << t('permissions.flash.fragment.user_and_role_change', :user => permission.user.login,
+            modified << t('permissions.flash.fragment.user_and_role_change', :user => permission.entity.name,
                             :old_role => t(old_role.name, :scope=> :role_defs, :default => old_role.name),
                             :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name))
           else
-            not_modified << t('permissions.flash.fragment.user_and_role_change', :user => permission.user.login,
+            not_modified << t('permissions.flash.fragment.user_and_role_change', :user => permission.entity.name,
                             :old_role => t(old_role.name, :scope=> :role_defs, :default => old_role.name) ,
                             :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name))
           end
@@ -131,10 +131,10 @@ class PermissionsController < ApplicationController
 
     Permission.find(params[:permission_selected]).each do |p|
       if check_privilege(Privilege::PERM_SET, p.permission_object) && p.destroy
-        deleted << t('permissions.flash.fragment.user_and_role', :user => p.user.login,
+        deleted << t('permissions.flash.fragment.user_and_role', :user => p.entity.name,
                       :role => t(p.role.name, :scope=> :role_defs, :default => p.role.name))
       else
-        not_deleted << t('permissions.flash.fragment.user_and_role', :user => p.user.login,
+        not_deleted << t('permissions.flash.fragment.user_and_role', :user => p.entity.name,
                       :role => t(p.role.name, :scope=> :role_defs, :default => p.role.name))
       end
     end
@@ -167,17 +167,15 @@ class PermissionsController < ApplicationController
 
   private
 
-  def load_users
-    sort_order = params[:sort_by].nil? ? "login" : params[:sort_by]
-    @users = paginate_collection(User.all(:order => sort_order), params[:page])
+  def load_entities
+    sort_order = params[:sort_by].nil? ? "name" : params[:sort_by]
+    @entities = paginate_collection(Entity.all(:order => sort_order), params[:page])
   end
 
   def load_headers
     @header = [
       { :name => '', :sortable => false },
-      { :name => t('users.index.username') },
-      { :name => t('users.index.last_name'), :sortable => false },
-      { :name => t('users.index.first_name'), :sortable => false },
+      { :name => t('permissions.name') },
       { :name => t('role'), :sortable => false }
     ]
   end
