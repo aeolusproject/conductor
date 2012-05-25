@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.17
+Version:  0.8.18
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,13 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Fri May 25 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.18-1
+- 9ecf4f7 BZ#801971 - Scalability: Catalog Images tab,
+  /conductor/pools/1?details_tab=images&only_tab=true, is slow
+- f7ae8a4 Styling for pool catalog images tab
+- 3911b08 Merge branch '1.0-product' into 1.0.1
+- 8de762a Add releasers.conf for ce-rhel-6
+
 * Wed May 23 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.17-1
 - a537949 BZ803106 added pagination to images list
 
