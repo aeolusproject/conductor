@@ -6,7 +6,7 @@
       %li
         = link_to @provider.name.blank? ? t("providers.editing_provider") : @provider.name, "javascript:void(0)"
         %ul
-          %li= link_to "+" + t("providers.index.create_new_provider"), new_provider_path, :id => "create_new_provider"
+          %li= link_to "+" + t("providers.index.create_new_provider"), new_provider_path, :id => "create_new_provider" if check_privilege(Privilege::CREATE, @provider, ProviderAccount)
           - @providers.each do |provider|
             %li= link_to provider.name, edit_provider_path(provider)
 

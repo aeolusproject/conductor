@@ -55,7 +55,9 @@ class ProvidersController < ApplicationController
     @provider = Provider.find_by_id(params[:id])
     @title = t 'cloud_providers'
     session[:current_provider_id] = @provider.id
-    require_privilege(Privilege::MODIFY, @provider)
+    # requiring VIEW rather than MODIFY since edit doubles as the 'show' page
+    # here -- actions must be hidden explicitly in template
+    require_privilege(Privilege::VIEW, @provider)
 
     @alerts = provider_alerts(@provider)
 

@@ -3,16 +3,16 @@
 %fieldset
   %p.clearfix
     = form.label :name
-    = form.text_field :name, :value => @provider.name, :class => 'long'
+    = form.text_field :name, :value => @provider.name, :class => 'long', :readonly => readonly
   %p.clearfix
     = form.label :url
-    = form.text_field :url, :value => @provider.url, :class => 'long'
+    = form.text_field :url, :value => @provider.url, :class => 'long', :readonly => readonly
   %p.clearfix
     = form.label :provider_type_id
-    = form.select(:provider_type_id, @provider_type_options, :prompt => t('providers.form.select_type_of_provider'))
+    = form.select(:provider_type_id, @provider_type_options, {:prompt => t('providers.form.select_type_of_provider')}, {:disabled => readonly})
   %p.clearfix
     = form.label :deltacloud_provider, t('providers.form.x_deltacloud_provider.generic')
-    = form.text_field :deltacloud_provider, :title => t('providers.form.x_deltacloud_provider.generic'), :value => @provider.deltacloud_provider, :class => 'long'
+    = form.text_field :deltacloud_provider, :title => t('providers.form.x_deltacloud_provider.generic'), :value => @provider.deltacloud_provider, :class => 'long', :readonly => readonly
   %div#x-deltacloud-provider-legend.clearfix
     %label= t('providers.form.x_deltacloud_provider_legend')
     %dl

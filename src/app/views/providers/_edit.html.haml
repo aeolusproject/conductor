@@ -1,8 +1,10 @@
 .content
   = form_for @provider, :url => provider_path(@provider), :html => { :method => :put, :class => 'generic' } do |f|
-    = render :partial => 'form', :locals => { :form => f }
+    - can_edit = check_privilege(Privilege::MODIFY, @provider)
+    = render :partial => 'form', :locals => { :form => f, :readonly => !can_edit }
     %fieldset.options
-      #obj_actions.button-group
-        = f.submit "Save Changes", :class => "submit button pill", :id => 'save'
-        = link_to "Test Connection", edit_provider_path(@provider, :test_provider => true), :class => 'button pill'
-        = link_to 'Delete Provider', provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "button pill danger", :id => "delete"
+      - if can_edit
+        #obj_actions.button-group
+          = f.submit "Save Changes", :class => "submit button pill", :id => 'save'
+          = link_to "Test Connection", edit_provider_path(@provider, :test_provider => true), :class => 'button pill'
+          = link_to 'Delete Provider', provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "button pill danger", :id => "delete"
