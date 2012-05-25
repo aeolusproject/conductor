@@ -4,19 +4,19 @@
   .field
     = form.label :name, :class => 'em'
     .input
-      = form.text_field :name, :value => @provider.name, :class => 'em long'
+      = form.text_field :name, :value => @provider.name, :class => 'em long', :readonly => readonly
   .field
     = form.label :url
     .input
-      = form.text_field :url, :value => @provider.url, :class => 'long'
+      = form.text_field :url, :value => @provider.url, :class => 'long', :readonly => readonly
   .field
     = form.label :provider_type_id
     .input
-      = form.select(:provider_type_id, @provider_type_options, :prompt => t('providers.form.select_type_of_provider'))
+      = form.select(:provider_type_id, @provider_type_options, {:prompt => t('providers.form.select_type_of_provider')}, {:disabled => readonly})
   .field
     = form.label :deltacloud_provider, t('providers.form.x_deltacloud_provider.generic')
     .input
-      = form.text_field :deltacloud_provider, :title => t('providers.form.x_deltacloud_provider.generic'), :value => @provider.deltacloud_provider
+      = form.text_field :deltacloud_provider, :title => t('providers.form.x_deltacloud_provider.generic'), :value => @provider.deltacloud_provider, :readonly => readonly
   .field#x-deltacloud-provider-legend
     %label= t('providers.form.x_deltacloud_provider_legend')
     .input

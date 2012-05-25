@@ -68,6 +68,7 @@ class ProviderAccountsController < ApplicationController
       flash[:error] = t"provider_accounts.flash.error.no_provider"
     else
       @provider = Provider.find(params[:provider_id])
+      require_privilege(Privilege::CREATE, ProviderAccount, @provider)
     end
   end
 

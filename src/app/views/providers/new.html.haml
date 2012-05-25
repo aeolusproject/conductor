@@ -16,6 +16,6 @@
     %h2.settings= t("settings.settings")
   .content
     = form_for @provider, :url => providers_path, :html => {:class => 'generic horizontal'} do |f|
-      = render :partial => "form", :locals => { :form => f, :cancel_path => providers_path }
+      = render :partial => "form", :locals => { :form => f, :cancel_path => providers_path, :readonly => false }
       %fieldset.options
         = f.submit t("providers.new.save_provider"), :class => "submit button pill", :id => 'save'
