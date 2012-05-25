@@ -18,8 +18,8 @@ class InstanceConfigXML
   class ValidationError < RuntimeError; end
 
   def initialize(xmlstr = "")
-    @doc = Nokogiri::XML(xmlstr)
-    @root = @doc.root.at_xpath('/instance-config') if @doc.root
+    doc = Nokogiri::XML(xmlstr)
+    @root = doc.root.at_xpath('/instance-config') if doc.root
   end
 
   def to_s
