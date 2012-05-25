@@ -196,8 +196,8 @@ class DeployableXML
     if xmlstr_or_node.is_a? Nokogiri::XML::Node
       @root = xmlstr_or_node
     elsif xmlstr_or_node.is_a? String
-      @doc = Nokogiri::XML(xmlstr_or_node) { |config| config.strict }
-      @root = @doc.root.at_xpath("/deployable") if @doc.root
+      doc = Nokogiri::XML(xmlstr_or_node) { |config| config.strict }
+      @root = doc.root.at_xpath("/deployable") if doc.root
     end
     @relax_file = "#{File.dirname(File.expand_path(__FILE__))}/deployable-rng.xml"
   end
@@ -233,8 +233,8 @@ class DeployableXML
   def assemblies
     @assemblies ||=
       @root.xpath('/deployable/assemblies/assembly').collect do |assembly_node|
-      AssemblyXML.new(assembly_node)
-    end
+        AssemblyXML.new(assembly_node)
+      end
   end
 
   def image_uuids
