@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.18
+Version:  0.8.19
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,12 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Fri May 25 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.19-1
+- 8552fa5 BZ 806846 Disabled submit_tag in images#new views when no provider
+  are enabled
+- b441ca1 BZ 806846 ImageController: removed duplicate code, fixed flash
+  displaying
+
 * Fri May 25 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.18-1
 - 9ecf4f7 BZ#801971 - Scalability: Catalog Images tab,
   /conductor/pools/1?details_tab=images&only_tab=true, is slow
