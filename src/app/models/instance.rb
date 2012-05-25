@@ -185,9 +185,9 @@ class Instance < ActiveRecord::Base
   end
 
   def provider_images_for_match(provider_account)
-    if (the_build = build)
-      the_build.provider_images_by_provider_and_account(
-       provider_account.provider.name, provider_account.credentials_hash['username'])
+    if build
+      build.provider_images_by_provider_and_account(
+        provider_account.provider.name, provider_account.credentials_hash['username'])
     else
       []
     end
@@ -326,7 +326,7 @@ class Instance < ActiveRecord::Base
   end
 
   def destroyable?
-    (state == STATE_CREATE_FAILED) or (state == STATE_STOPPED and not restartable?) or (state == STATE_VANISHED)
+    (state == STATE_CREATE_FAILED) || (state == STATE_STOPPED && ! restartable?) || (state == STATE_VANISHED)
   end
 
   def failed?
@@ -342,7 +342,7 @@ class Instance < ActiveRecord::Base
   end
 
   def requires_config_server?
-    not instance_config_xml.nil? or assembly_xml.requires_config_server?
+    ! instance_config_xml.nil? || assembly_xml.requires_config_server?
   end
 
   def self.list(order_field, order_dir)
@@ -379,9 +379,9 @@ class Instance < ActiveRecord::Base
     # for imported images template is empty -> architecture is not set,
     # in this case we omit this check
     return image.architecture
-  rescue
-    logger.warn "failed to get image architecture for instance '#{name}', skipping architecture check: #{$!}"
-    logger.warn $!.backtrace.join("\n  ")
+  rescue => e
+    logger.warn "failed to get image architecture for instance '#{name}', skipping architecture check: #{e}"
+    logger.warn e.backtrace.join("\n  ")
     nil
   end
 
@@ -501,9 +501,9 @@ class Instance < ActiveRecord::Base
 
   def destroy_on_provider
     if provider_account and destroy_supported?(provider_account) and ![STATE_CREATE_FAILED, STATE_VANISHED].include?(state)
-      @task = self.queue_action(self.owner, 'destroy')
-      raise I18n.t("instance.errors.cannot_destroy") unless @task
-      Taskomatic.destroy_instance(@task)
+      task = self.queue_action(self.owner, 'destroy')
+      raise I18n.t("instance.errors.cannot_destroy") unless task
+      Taskomatic.destroy_instance(task)
     end
   end
 
@@ -512,7 +512,9 @@ class Instance < ActiveRecord::Base
     instances.select do |i|
       next unless STOPPABLE_INACCESSIBLE_STATES.include?(i.state)
       next unless i.provider_account
-      failed_accounts[i.provider_account.id] =  i.provider_account.connect.nil? unless failed_accounts.has_key?(i.provider_account.id)
+      unless failed_accounts.has_key?(i.provider_account.id)
+        failed_accounts[i.provider_account.id] = i.provider_account.connect.nil?
+      end
       failed_accounts[i.provider_account.id]
     end
   end
@@ -544,11 +546,11 @@ class Instance < ActiveRecord::Base
   end
 
   def do_operation(user, operation)
-    @task = self.queue_action(user, operation)
-    unless @task
+    task = self.queue_action(user, operation)
+    unless task
       raise I18n.t("instances.errors.#{operation}_invalid_action")
     end
-    Taskomatic.send("#{operation}_instance", @task)
+    Taskomatic.send("#{operation}_instance", task)
   end
 
 end
