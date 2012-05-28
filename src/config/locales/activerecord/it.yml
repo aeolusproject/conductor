@@ -343,3 +343,17 @@ it:
       task: Attività
       user: Utente
       view_state: "Visualizza stato"
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "deve contenere solo: numeri, lettere, spazi, '_' e '-'"
+        pool_family:
+          attributes:
+            name:
+              invalid: "deve contenere solo: numeri, lettere, spazi, '_' e '-'"
+        provider:
+          attributes:
+            name:
+              invalid: "deve contenere solo: numeri, lettere, spazi, '_' e '-'"

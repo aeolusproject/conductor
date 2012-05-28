@@ -870,7 +870,6 @@ es:
       with_stopped_instances: "Con instancias detenidas"
     properties:
       properties: "Propiedades para %{pool}"
-    valid_format_of_name: "Debe contener únicamente: números, letras, espacios, '_' y '-'"
   privileges: Privilegios
   properties: "Añadir cuenta"
   provider_accounts:

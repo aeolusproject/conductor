@@ -347,3 +347,16 @@ en:
       provider:
         url: "Must be a valid provider uri"
         deltacloud_provider: "Must be a valid provider identifier"
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "must only contain: numbers, letters, spaces, '_' and '-'"
+        pool_family:
+          attributes:
+            name:
+              invalid: "must only contain: numbers, letters, spaces, '_' and '-'"
+        provider:
+          attributes:
+            name:
+              invalid: "must only contain: numbers, letters, spaces, '_' and '-'"

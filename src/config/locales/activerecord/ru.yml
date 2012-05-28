@@ -343,3 +343,17 @@ ru:
       task: Задача
       user: Пользователь
       view_state: "Показать статус"
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "может содержать буквы, цифры, пробелы, «-», «_»"
+        pool_family:
+          attributes:
+            name:
+              invalid: "может содержать буквы, цифры, пробелы, «-», «_»"
+        provider:
+          attributes:
+            name:
+              invalid: "может содержать буквы, цифры, пробелы, «-», «_»"

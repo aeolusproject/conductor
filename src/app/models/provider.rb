@@ -49,7 +49,7 @@ class Provider < ActiveRecord::Base
   validates_presence_of :provider_type_id
   validates_presence_of :url
 
-  validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
+  validates_format_of :name, :with => /^[\w -]*$/n
   validates_length_of :name,  :maximum => 255
   validate :validate_provider
 

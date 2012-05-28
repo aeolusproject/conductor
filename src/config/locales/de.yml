@@ -870,7 +870,6 @@ de:
       with_stopped_instances: "Mit gestoppten Instanzen"
     properties:
       properties: "Eigenschaften für %{pool}"
-    valid_format_of_name: "darf nur enthalten: Ziffern, Buchstaben, Leerzeichen, '_' und '-'"
   privileges: Privilegien
   properties: Eigenschaften
   provider_accounts:

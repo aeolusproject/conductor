@@ -520,7 +520,6 @@ en:
         iwhd_unavailable: Catalog Images are unavailable. It appears the image warehouse is not reachable
       warning:
         creation_failed: Pool creation failed.
-    valid_format_of_name: "must only contain: numbers, letters, spaces, '_' and '-'"
     list:
       more_actions: More actions
     form:

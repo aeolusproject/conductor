@@ -870,7 +870,6 @@ ru:
       with_stopped_instances: "Включая остановленные"
     properties:
       properties: "Свойства %{pool}"
-    valid_format_of_name: "может содержать буквы, цифры, пробелы, «-», «_»"
   privileges: Права
   properties: "Свойства "
   provider_accounts:

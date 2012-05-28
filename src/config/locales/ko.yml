@@ -870,7 +870,6 @@ ko:
       with_stopped_instances: "중지된 인스턴스로 "
     properties:
       properties: "%{pool}의 속성 "
-    valid_format_of_name: "숫자, 문자, 공백, '_' 및 '-'만 사용할 수 있음 "
   privileges: "권한 "
   properties: "속성 "
   provider_accounts:

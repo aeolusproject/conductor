@@ -343,3 +343,17 @@ es:
       task: Tarea
       user: Usuario
       view_state: "Ver estado"
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "Debe contener únicamente: números, letras, espacios, '_' y '-'"
+        pool_family:
+          attributes:
+            name:
+              invalid: "Debe contener únicamente: números, letras, espacios, '_' y '-'"
+        provider:
+          attributes:
+            name:
+              invalid: "Debe contener únicamente: números, letras, espacios, '_' y '-'"

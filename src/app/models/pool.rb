@@ -55,7 +55,7 @@ class Pool < ActiveRecord::Base
   validates_uniqueness_of :exported_as, :if => :exported_as
   validates_length_of :name, :maximum => 255
 
-  validates_format_of :name, :with => /^[\w -]*$/n, :message => I18n.t('pools.valid_format_of_name')
+  validates_format_of :name, :with => /^[\w -]*$/n
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],

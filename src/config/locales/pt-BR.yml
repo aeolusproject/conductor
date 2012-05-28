@@ -870,7 +870,6 @@ pt-BR:
       with_stopped_instances: "Com Instâncias interrompidas"
     properties:
       properties: "Propriedades para %{pool}"
-    valid_format_of_name: "deve conter: números, letras, espaços, '_' e '-'"
   privileges: Previlégios
   properties: Propriedades
   provider_accounts:

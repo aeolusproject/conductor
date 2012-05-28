@@ -343,3 +343,17 @@ zh-CN:
       task: 任务
       user: 用户
       view_state: 查看状态
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: 只能包含文數字、空白字元、底線符號與減號
+        pool_family:
+          attributes:
+            name:
+              invalid: 只能包含文數字、空白字元、底線符號與減號
+        provider:
+          attributes:
+            name:
+              invalid: 只能包含文數字、空白字元、底線符號與減號

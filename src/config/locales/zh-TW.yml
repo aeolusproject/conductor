@@ -870,7 +870,6 @@ zh-TW:
       with_stopped_instances: "與停止的 instance"
     properties:
       properties: "%{pool} 的屬性"
-    valid_format_of_name: 只能包含文數字、空白字元、底線符號與減號
   privileges: 特權
   properties: 屬性
   provider_accounts:

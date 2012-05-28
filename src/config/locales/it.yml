@@ -870,7 +870,6 @@ it:
       with_stopped_instances: "Con istanze arrestate"
     properties:
       properties: "Proprietà per %{pool}"
-    valid_format_of_name: "deve contenere solo: numeri, lettere, spazi, '_' e '-'"
   privileges: Privilegi
   properties: Proprietà
   provider_accounts:

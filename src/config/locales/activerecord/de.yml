@@ -343,3 +343,17 @@ de:
       task: Aufgabe
       user: Benutzer
       view_state: "Status anzeigen"
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "darf nur enthalten: Ziffern, Buchstaben, Leerzeichen, '_' und '-'"
+        pool_family:
+          attributes:
+            name:
+              invalid: "darf nur enthalten: Ziffern, Buchstaben, Leerzeichen, '_' und '-'"
+        provider:
+          attributes:
+            name:
+              invalid: "darf nur enthalten: Ziffern, Buchstaben, Leerzeichen, '_' und '-'"

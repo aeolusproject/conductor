@@ -870,7 +870,6 @@ zh-CN:
       with_stopped_instances: 包含停止的实例
     properties:
       properties: "%{pool} 属性"
-    valid_format_of_name: "必须只能包含：数字、字母、空格、'_' 和 '-'"
   privileges: 特权
   properties: 属性
   provider_accounts:

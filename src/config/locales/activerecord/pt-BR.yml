@@ -343,3 +343,17 @@ pt-BR:
       task: Tarefa
       user: Usuário
       view_state: "Visualizar Estado"
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "deve conter: números, letras, espaços, '_' e '-'"
+        pool_family:
+          attributes:
+            name:
+              invalid: "deve conter: números, letras, espaços, '_' e '-'"
+        provider:
+          attributes:
+            name:
+              invalid: "deve conter: números, letras, espaços, '_' e '-'"

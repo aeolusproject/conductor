@@ -343,3 +343,17 @@ ko:
       task: "작업 "
       user: "사용자 "
       view_state: "상태 보기 "
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "숫자, 문자, 공백, '_' 및 '-'만 사용할 수 있음 "
+        pool_family:
+          attributes:
+            name:
+              invalid: "숫자, 문자, 공백, '_' 및 '-'만 사용할 수 있음 "
+        provider:
+          attributes:
+            name:
+              invalid: "숫자, 문자, 공백, '_' 및 '-'만 사용할 수 있음 "
