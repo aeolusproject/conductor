@@ -61,7 +61,7 @@ describe Provider do
       @provider.url = "http://invalid.provider/url"
       @provider.stub(:connect).and_return(nil)
       @provider.should have(1).error_on(:url)
-      @provider.errors[:url].first.should eql(I18n.t("activerecord.errors.provider.url"))
+      @provider.errors[:url].first.should eql(I18n.t("activerecord.errors.models.provider.attributes.url.invalid_framework"))
       @provider.should_not be_valid
     end
 
