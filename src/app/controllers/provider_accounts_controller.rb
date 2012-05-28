@@ -41,6 +41,7 @@ class ProviderAccountsController < ApplicationController
     @account_id = @provider_account.credentials_hash['account_id']
     require_privilege(Privilege::VIEW, @provider_account)
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    @details_tab = 'properties' unless ['properties'].include?(@details_tab)
 
     add_permissions_inline(@provider_account)
     if params.delete :test_account
