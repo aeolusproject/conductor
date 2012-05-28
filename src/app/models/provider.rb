@@ -263,8 +263,8 @@ class Provider < ActiveRecord::Base
 
   def validate_provider
     if !nil_or_empty(url)
-      errors.add("url", I18n.t("activerecord.errors.provider.url")) unless valid_framework?
-      #errors.add("deltacloud_provider", I18n.t("activerecord.errors.provider.deltacloud_provider")) unless valid_provider?
+      errors.add('url', :invalid_framework) unless valid_framework?
+      #errors.add('deltacloud_provider', :invalid_provider) unless valid_provider?
     end
   end
 

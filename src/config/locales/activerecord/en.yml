@@ -344,9 +344,6 @@ en:
         created_at: "Created At"
         updated_at: "Updated At"
     errors:
-      provider:
-        url: "Must be a valid provider uri"
-        deltacloud_provider: "Must be a valid provider identifier"
       models:
         pool:
           attributes:
@@ -360,3 +357,7 @@ en:
           attributes:
             name:
               invalid: "must only contain: numbers, letters, spaces, '_' and '-'"
+            url:
+              invalid_framework: "Must be a valid provider uri"
+            deltacloud_provider:
+              invalid_provider: "Must be a valid provider identifier"
