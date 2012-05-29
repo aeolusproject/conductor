@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.21
+Version:  0.8.22
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,10 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue May 29 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.22-1
+- d8e5933 BZ815784 added Pool Family Quota Used column to Pool Families table
+- 4178f9f BZ803106 fix the per_page value in images controller (1.0.1 only)
+
 * Tue May 29 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.21-1
 - 1bbbf78 BZ808393: Fix invalid name error message
 
