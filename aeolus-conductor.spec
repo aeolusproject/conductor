@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.20
+Version:  0.8.21
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue May 29 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.21-1
+- 1bbbf78 BZ808393: Fix invalid name error message
+
 * Tue May 29 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.20-1
 - 13276c7 BZ 796528 - updated tests
 - cb9a146 BZ 796528 - set CREATE_FAILED status for instances which failed to
