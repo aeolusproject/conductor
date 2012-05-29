@@ -343,3 +343,17 @@ fr:
       task: Tâche
       user: Utilisateur
       view_state: "Afficher l'état"
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"
+        pool_family:
+          attributes:
+            name:
+              invalid: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"
+        provider:
+          attributes:
+            name:
+              invalid: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"

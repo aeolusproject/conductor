@@ -45,7 +45,7 @@ class PoolFamily < ActiveRecord::Base
   has_many :permissions, :as => :permission_object, :dependent => :destroy
 
   validates_length_of :name, :maximum => 255
-  validates_format_of :name, :with => /^[\w -]*$/n, :message => "must only contain: numbers, letters, spaces, '_' and '-'"
+  validates_format_of :name, :with => /^[\w -]*$/n
 
   validates_presence_of :name
   validates_uniqueness_of :name

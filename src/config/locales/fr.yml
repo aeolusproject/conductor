@@ -870,7 +870,6 @@ fr:
       with_stopped_instances: "Avec des instances arrêtées"
     properties:
       properties: "Propriétés de %{pool}"
-    valid_format_of_name: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"
   privileges: Privilèges
   properties: Propriétés
   provider_accounts:

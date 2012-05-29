@@ -870,7 +870,6 @@ ja:
       with_stopped_instances: 停止インスタンスあり
     properties:
       properties: "%{pool} のプロパティ"
-    valid_format_of_name: 数字、文字、空白、「_」、「-」以外は含ませないようにしてください。
   privileges: 特権
   properties: プロパティ
   provider_accounts:

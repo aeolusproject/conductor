@@ -343,3 +343,17 @@ en:
         state: "State"
         created_at: "Created At"
         updated_at: "Updated At"
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "must only contain: numbers, letters, spaces, '_' and '-'"
+        pool_family:
+          attributes:
+            name:
+              invalid: "must only contain: numbers, letters, spaces, '_' and '-'"
+        provider:
+          attributes:
+            name:
+              invalid: "must only contain: numbers, letters, spaces, '_' and '-'"
