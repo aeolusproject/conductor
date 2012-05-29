@@ -380,7 +380,12 @@ class ImagesController < ApplicationController
     end
 
     active_build =
-      @builder.find_active_build(@build.id, provider_type.deltacloud_driver)
+      if @build
+        @builder.find_active_build(@build.id, provider_type.deltacloud_driver)
+      else
+        @builder.find_active_build_by_imageid(@image.id, provider_type.deltacloud_driver)
+      end
+
     build_status = { :is_active_build => active_build.present?,
                      :build_action_available => !target_image.present? &&
                                                 (@is_latest_build || !@build),
@@ -405,9 +410,11 @@ class ImagesController < ApplicationController
                                  :target => provider_type.deltacloud_driver,
                                  :build_id => @build ? @build.id : nil)
       failed_build_count =
-        @builder.failed_build_count(@build.id, provider_type.deltacloud_driver)
+        if @build
+          @builder.failed_build_count(@build.id, provider_type.deltacloud_driver)
+        end
 
-      if failed_build_count > 0
+      if failed_build_count.present? && failed_build_count > 0
         build_status[:translated_failed_build_count] =
           t('images.show.failed_build_attempts', :count => failed_build_count)
       end
