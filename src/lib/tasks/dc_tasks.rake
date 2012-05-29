@@ -164,6 +164,22 @@ namespace :dc do
 
   end
 
+  desc 'Data upgrade for conductor'
+  # this should eventually be pulled out into a separate "upgrade everything in here" directory
+  task :upgrade => :environment do
+    Role.transaction do
+      image_admin_role = Role.find_by_name("base.image.admin")
+      if image_admin_role and image_admin_role.privileges.
+          where(:target_type => "ProviderAccount").empty?
+        ["view", "use"].each do |action|
+          Privilege.create!(:role => image_admin_role,
+                            :target_type => "ProviderAccount",
+                            :action => action)
+        end
+      end
+    end
+  end
+
   def get_account(provider_name, account_name)
     unless provider = Provider.find_by_name(provider_name)
       raise "There is no provider with '#{provider_name}' name"
