@@ -401,6 +401,7 @@ fi
 %attr(-, aeolus, aeolus) %{app_root}/log/delayed_job.log
 %doc AUTHORS COPYING
 %{_libdir}/../lib/tmpfiles.d/aeolus.conf
+%{app_root}/script/delayed_job
 
 %files doc
 %{doc_root}
