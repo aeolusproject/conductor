@@ -501,6 +501,7 @@ en:
       not_all_deployments_displayed_alert_html: "Not all deployments are displayed! Go to %{name} Pool details for more! &raquo;"
       global_uptime: Global uptime
       destroy: Destroy
+      pool_toggle: Expand/Collapse
     images:
       catalog: Catalog
       catalog_entry: Deployable
