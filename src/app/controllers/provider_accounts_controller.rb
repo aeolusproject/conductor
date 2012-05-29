@@ -141,9 +141,10 @@ class ProviderAccountsController < ApplicationController
   end
 
   def destroy
+    @provider_account = ProviderAccount.find(params[:id])
     require_privilege(Privilege::MODIFY, @provider_account)
     @provider = Provider.find(params[:provider_id])
-    if ProviderAccount.destroy(params[:id])
+    if @provider_account.destroy
       flash[:notice] = t"provider_accounts.flash.notice.deleted"
     else
       flash[:error] = t"provider_accounts.flash.error.not_deleted"
