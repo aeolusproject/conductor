@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.19
+Version:  0.8.20
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,13 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue May 29 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.20-1
+- 13276c7 BZ 796528 - updated tests
+- cb9a146 BZ 796528 - set CREATE_FAILED status for instances which failed to
+  launch
+- 296b9d2 BZ 796528 - instance's config params are now handled from taskomatic
+- ed77488 BZ 796528 - deployment launch refactoring
+
 * Fri May 25 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.19-1
 - 8552fa5 BZ 806846 Disabled submit_tag in images#new views when no provider
   are enabled
