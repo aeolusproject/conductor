@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.22
+Version:  0.8.23
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,10 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue May 29 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.23-1
+- f21a434 BZ824101 - product-only version of BZ810919; allows for real-time
+  updating of monitor page's header and scoreboard
+
 * Tue May 29 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.22-1
 - d8e5933 BZ815784 added Pool Family Quota Used column to Pool Families table
 - 4178f9f BZ803106 fix the per_page value in images controller (1.0.1 only)
