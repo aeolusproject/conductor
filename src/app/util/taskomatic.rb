@@ -21,7 +21,9 @@ module Taskomatic
       task.state = Task::STATE_PENDING
       task.save!
 
-      task.instance.add_instance_config!(config_server, config) if config_server
+      if config_server and config.present?
+        task.instance.add_instance_config!(config_server, config)
+      end
       task.instance.provider_account = match.provider_account
       task.instance.create_auth_key unless task.instance.instance_key
 
