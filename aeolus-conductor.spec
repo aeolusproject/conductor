@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.23
+Version:  0.8.24
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,10 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed May 30 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.24-1
+- e2ffed6 Bug 807745 add 'use provider accounts' to global image admin role
+- 1ed9b77 bug 808031: allow Global Provider user to view Provider Accounts
+
 * Tue May 29 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.23-1
 - f21a434 BZ824101 - product-only version of BZ810919; allows for real-time
   updating of monitor page's header and scoreboard
