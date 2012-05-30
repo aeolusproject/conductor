@@ -41,7 +41,7 @@
 
 = content_for :widgets do
   %ul#usermenu
-    %li= current_user.name
+    %li= link_to current_user.name, account_path
     %li= link_to t('masthead.my_account'), account_path
     %li= link_to t('masthead.logout'), logout_path
 
