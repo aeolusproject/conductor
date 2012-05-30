@@ -19,12 +19,15 @@ gem 'rails_warden'
 gem 'ruby-net-ldap', :require => 'net/ldap'
 gem 'aeolus-image', '>= 0.4.0', :require => 'aeolus_image'
 gem 'oauth'
+gem 'compass'
+gem 'compass-960-plugin', :require=> 'ninesixty'
 gem 'delayed_job', '~> 2.1.4'
 gem 'paranoia'
 
 platforms :ruby_18 do
   gem 'fastercsv'
 end
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails', '~> 1.4.0'
