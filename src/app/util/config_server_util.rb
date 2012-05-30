@@ -170,6 +170,10 @@ module ConfigServerUtil
       @config_xml ||= to_xml
     end
 
+    def empty?
+      provided_parameters.empty? && services.empty?
+    end
+
     protected
     def _xml
       xml "<instance-config id='#{@uuid}' name='#{@assembly.name}' secret='#{@instance.secret}'>\n"
