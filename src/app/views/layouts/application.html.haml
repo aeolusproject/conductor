@@ -46,12 +46,10 @@
     %li= link_to t('masthead.logout'), logout_path
 
 = content_for :content do
-  #content
-    = render :partial => '/layouts/new_notification' if flash.present? or content_for?(:error_messages)
-    = yield
+  = render :partial => '/layouts/new_notification' if flash.present? or content_for?(:error_messages)
+  = yield
 
 = content_for :footer do
-  %section.maincontent
-    %p.copyright!= t('layout.copyright')
+  %p.copyright!= t('layout.copyright')
 
 = render :file => "/app/views/layouts/converge-ui/shell_layout"

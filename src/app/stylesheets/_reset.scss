@@ -179,8 +179,5 @@ button, input[type="button"], input[type="submit"], input[type="reset"] {
   cursor: pointer;
 }
 
-// prevent image UUID's to overflow the layout
-h1,h2,h3,h4,h5,h6{ word-wrap: break-word; }
-
 //rails creates div inside button_to form. Make it inline
 form.button_to > div {display: inline;}

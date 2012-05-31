@@ -6,7 +6,7 @@
                 launch_new_deployments_path(:pool_id => @pool.id),
                 :class => 'button primary',
                 :id => 'new_deployment_button'
-    %div.catalog_link
+    .catalog_link
       = render :partial => 'layouts/catalog_dropdown', :locals => {:catalogs => @pool.catalogs}
     .button-group
       - if check_privilege(Privilege::MODIFY, @pool)

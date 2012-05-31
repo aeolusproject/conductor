@@ -31,31 +31,15 @@ body{
   a:hover{ text-decoration: none; }
 }
 
-strong, em, b, i{ font-family: $font-family-em; }
-
-/* Content */
-
-div#content{
-  @include clearfix;
-  width: $width;
-  margin: 0 auto;
-//  margin-bottom: 58px;
-  min-height: 200px;
-//  border: 1px solid #eee;
-//  border-top: transparent none 0px;
+/* Maincontent */
+section.maincontent{
   /*border-radius*/
-//  -webkit-border-radius: 0em 0em .5em .5em;
-//  -moz-border-radius: 0em 0em .5em .5em;
-//  border-radius: 0em 0em .5em .5em;
-  background-color: #FAFAFA;
-  position: relative;
-  z-index: 100;
-  /*box-shadow*/
-//  -webkit-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
-//  -moz-box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
-//  box-shadow: inset 0px .25em .25em #aaa, 0px .5em 2em #000 !important;
+  -webkit-border-radius: 0em 0em .5em .5em;
+  -moz-border-radius: 0em 0em .5em .5em;
+  border-radius: 0em 0em .5em .5em;
 }
 
+strong, em, b, i{ font-family: $font-family-em; }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Application Input Controls -- v.0.0.1 [input] (input.scss)
@@ -193,14 +177,15 @@ Administer section navigation-- v.0.0.2
 
 nav#administer_nav {
   background-color: #ddd;
-  height: 6.5em;
+  height: 6.3em;
   position: relative;
   z-index: 3;
   text-align: center;
-  /*box-shadow*/
-  -webkit-box-shadow: inset 0em -1em 2em rgba(0, 0, 0, 0.05), 1px 1px 0px #cccccc, -1px 1px 0px #cccccc;
-  -moz-box-shadow: inset 0em -1em 2em rgba(0, 0, 0, 0.05), 1px 1px 0px #cccccc, -1px 1px 0px #cccccc;
-  box-shadow: inset 0em -1em 2em rgba(0, 0, 0, 0.05), 1px 1px 0px #cccccc, -1px 1px 0px #cccccc;
+  ///*box-shadow*/
+  //-webkit-box-shadow: inset 0em -1em 2em rgba(0, 0, 0, 0.05), 1px 1px 0px #cccccc, -1px 1px 0px #cccccc;
+  //-moz-box-shadow: inset 0em -1em 2em rgba(0, 0, 0, 0.05), 1px 1px 0px #cccccc, -1px 1px 0px #cccccc;
+  //box-shadow: inset 0em -1em 2em rgba(0, 0, 0, 0.05), 1px 1px 0px #cccccc, -1px 1px 0px #cccccc;
+  border-bottom: 1px solid #ccc;
 
   ul{
     margin: 0 auto;
@@ -226,7 +211,7 @@ nav#administer_nav {
       text-decoration: none;
       display: block;
       color: black;
-      padding: 4em 2em 2em 2em;
+      padding: 3.5em 2em 2em 2em;
       cursor: pointer;
       position: relative;
       background: transparent url("../../images/admin_nav_icons.png") no-repeat;
@@ -263,7 +248,7 @@ nav#administer_nav {
 Page Header -- v.0.0.1 [header] (header.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-div#content .page-header{
+#maincontent section.maincontent .page-header{
 
   display: block;
   background: #ccc;
@@ -273,11 +258,6 @@ div#content .page-header{
   background: #ddd;
   @include clearfix;
 
-  /*border-radius*/
-  -webkit-border-radius: 0em;
-  -moz-border-radius: 0em;
-  border-radius: 0em;
-
   h1{
     font-family: $font-family-primary;
     font-size: 25px;
@@ -286,6 +266,7 @@ div#content .page-header{
     color: #333;
     text-shadow: 0px 1px #eee;
     padding: 7px 7px 7px 54px;
+    text-align: left;
   }
 
   h1 span{
@@ -602,11 +583,11 @@ section.content-section{
     zoom: 1; //fix IE float inside relative positioned element disapearing (http://www.satzansatz.de/cssd/rpfloat.html)
     h2{
       font-family: $font-family-primary;
-      font-size: 21px;
+      font-size: 20px;
       font-weight: 200;
       @include display_inline_block;
       vertical-align: middle;
-      padding: 2px 40px 2px 0px;
+      padding: 0px 40px 0px 0px;
       margin-bottom: 4px;
 
       &.activity{ background: transparent url('../../images/admin_h2_icons.png') right 0px no-repeat; }
@@ -1058,9 +1039,8 @@ div.pool.overview{
       @include display_inline_block;
       vertical-align: middle;
     }
-    li + li{
-      margin-left: 14px;
-    }
+    li + li{ margin-left: 14px; }
+    li + li.catalog_link{ margin-left: 2px; }
   }
 
 }
@@ -1679,10 +1659,6 @@ div.build_status{
       display: block;
     }
   }
-}
-
-#content ul.content.actions li.catalog_link {
-  margin-left: 2px;
 }
 
 ul.catalog_pretty {
