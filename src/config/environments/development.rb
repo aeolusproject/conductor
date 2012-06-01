@@ -14,8 +14,6 @@
 #   limitations under the License.
 #
 
-require 'sass/plugin'
-
 Conductor::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
@@ -43,10 +41,4 @@ Conductor::Application.configure do
 
   # Otherwise we eat these connections even outside of tests:
   WebMock.allow_net_connect! if defined?(WebMock)
-
-  Sass::Plugin.options.merge!(
-    :always_update => true,
-    :template_location => 'app/stylesheets',
-    :css_location => 'public/stylesheets/compiled'
-  )
 end
