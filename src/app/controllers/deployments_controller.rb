@@ -154,6 +154,9 @@ class DeploymentsController < ApplicationController
       if @deployment.create_and_launch(current_session, current_user)
         format.html do
           flash[:notice] = t "deployments.flash.notice.launched"
+          if @deployment.errors.present?
+            flash[:error] = @deployment.errors.full_messages
+          end
           redirect_to deployment_path(@deployment)
         end
         format.js { render :partial => 'properties' }
