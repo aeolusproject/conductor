@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.26
+Version:  0.8.27
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -366,6 +366,10 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Fri Jun 01 2012 Steve Linabery <slinaber@redhat.com> 0.8.27-1
+- 65e3352 BZ 827562 - Upgrade from CloudForms 1.0 to CloudForms 1.0.1 requires
+  additional data definition not provided by rails migration
+
 * Thu May 31 2012 Steve Linabery <slinaber@redhat.com> 0.8.26-1
 - 0735156 BZ804543: template relaxng: make rootpw mandatory
 
