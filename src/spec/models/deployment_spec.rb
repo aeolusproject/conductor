@@ -593,11 +593,11 @@ describe Deployment do
     account2 = FactoryGirl.create(:mock_provider_account, :label => "test_account2")
     account3 = FactoryGirl.create(:mock_provider_account, :label => "test_account3")
     @deployment.pool.pool_family.provider_accounts += [account1, account2, account3]
-    possible1 = Instance::Match.new(nil,account1,nil,nil,nil, nil)
-    possible2 = Instance::Match.new(nil,account2,nil,nil,nil, nil)
-    possible3 = Instance::Match.new(nil,account2,nil,nil,nil, nil)
-    possible4 = Instance::Match.new(nil,account3,nil,nil,nil, nil)
-    possible5 = Instance::Match.new(nil,account2,nil,nil,nil, nil)
+    possible1 = FactoryGirl.build(:instance_match, :provider_account => account1)
+    possible2 = FactoryGirl.build(:instance_match, :provider_account => account2)
+    possible3 = FactoryGirl.build(:instance_match, :provider_account => account2)
+    possible4 = FactoryGirl.build(:instance_match, :provider_account => account3)
+    possible5 = FactoryGirl.build(:instance_match, :provider_account => account2)
 
     # not gonna test the individual instance "machtes" logic again
     # just stub out the behavior

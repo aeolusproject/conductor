@@ -89,6 +89,7 @@ class Instance < ActiveRecord::Base
   has_many :events, :as => :source, :dependent => :destroy,
            :order => 'events.id ASC'
   has_many :instance_parameters, :dependent => :destroy
+  has_many :instance_matches, :dependent => :destroy
   has_many :tasks, :as =>:task_target, :dependent => :destroy
   after_create "assign_owner_roles(owner)"
 
@@ -350,29 +351,6 @@ class Instance < ActiveRecord::Base
     #Instance.all(:include => [ :owner ],
     #             :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
     includes(:owner).order((order_field || 'name') +' '+ (order_dir || 'asc'))
-  end
-
-  class Match
-    attr_reader :pool_family, :provider_account, :hwp, :provider_image, :realm, :instance
-
-    def initialize(pool_family, provider_account, hwp, provider_image, realm, instance)
-      @pool_family = pool_family
-      @provider_account = provider_account
-      @hwp = hwp
-      @provider_image = provider_image
-      @realm = realm
-      @instance = instance
-    end
-
-    def ==(other)
-      return self.nil? && other.nil? if (self.nil? || other.nil?)
-      self.pool_family == other.pool_family &&
-        self.provider_account == other.provider_account &&
-        self.hwp == other.hwp &&
-        self.provider_image == other.provider_image &&
-        self.realm == other.realm
-        self.instance == other.instance
-    end
   end
 
   def image_arch

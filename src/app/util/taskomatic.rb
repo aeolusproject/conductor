@@ -142,11 +142,11 @@ module Taskomatic
     client = match.provider_account.connect
     raise I18n.t("provider_accounts.errors.could_not_connect") unless client
 
-    overrides = HardwareProfile.generate_override_property_values(instance.hardware_profile, match.hwp)
+    overrides = HardwareProfile.generate_override_property_values(instance.hardware_profile, match.hardware_profile)
 
-    client_args = {:image_id => match.provider_image.target_identifier,
+    client_args = {:image_id => match.provider_image,
                   :name => instance.name.tr("/", "-"),
-                  :hwp_id => match.hwp.external_key,
+                  :hwp_id => match.hardware_profile.external_key,
                   :hwp_memory => overrides[:memory],
                   :hwp_cpu => overrides[:cpu],
                   :hwp_storage => overrides[:storage],

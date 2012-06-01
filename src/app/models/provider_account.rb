@@ -362,11 +362,25 @@ class ProviderAccount < ActiveRecord::Base
             # backend realm which is available and is accessible for this
             # provider account
             if (brealm_target.target_realm.nil? || (brealm_target.target_realm.available && realms.include?(brealm_target.target_realm)))
-              matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, brealm_target.target_realm, instance)
+              matched << InstanceMatch.new(
+                :pool_family => instance.pool.pool_family,
+                :provider_account => self,
+                :hardware_profile => hwp,
+                :provider_image => pi.target_identifier,
+                :realm => brealm_target.target_realm,
+                :instance => instance
+              )
             end
           end
         else
-          matched << Instance::Match.new(instance.pool.pool_family, self, hwp, pi, nil, instance)
+          matched << InstanceMatch.new(
+            :pool_family => instance.pool.pool_family,
+            :provider_account => self,
+            :hardware_profile => hwp,
+            :provider_image => pi.target_identifier,
+            :realm => nil,
+            :instance => instance
+          )
         end
       end
     end
