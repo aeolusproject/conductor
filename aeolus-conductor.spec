@@ -339,6 +339,7 @@ fi
 %{app_root}/Rakefile
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
+%{app_root}/script/upgrade
 
 %files daemons
 %{_initrddir}/aeolus-conductor

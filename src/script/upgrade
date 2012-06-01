@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cd /usr/share/aeolus-conductor
+aeolus-services stop
+service postgresql start
+RAILS_ENV=production rake dc:upgrade
+aeolus-services start
