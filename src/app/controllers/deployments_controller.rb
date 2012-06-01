@@ -159,6 +159,12 @@ class DeploymentsController < ApplicationController
         format.js { render :partial => 'properties' }
         format.json { render :json => @deployment, :status => :created }
       else
+        # if rollback was done, we create new @deployment object instead of
+        # trying restoring the original @deployment's state
+        # TODO: replace with 'initialize_dup' method after upgrading
+        # to newer Rails
+        @deployment = @deployment.copy_as_new
+
         # TODO: put deployment's errors into flash or display inside page?
         format.html do
           flash.now[:warning] = t "deployments.flash.warning.failed_to_launch"

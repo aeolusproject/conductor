@@ -212,13 +212,13 @@ class Deployment < ActiveRecord::Base
 
   def create_and_launch(session, user)
     begin
-      rollback_active_record_state! do
-        # deployment's attrs are not reset on rollback,
-        # rollback_active_record_state! takes care of this
-        transaction do
-          create_instances_with_params!(session, user)
-          launch!(user)
-        end
+      # this method doesn't restore record state if this transaction
+      # fails, wrapping transaction in rollback_active_record_state!
+      # is not sufficient because restore then doesn't work if
+      # you have some nested save operations inside the transaction
+      transaction do
+        create_instances_with_params!(session, user)
+        launch!(user)
       end
       return true
     rescue
@@ -484,6 +484,12 @@ class Deployment < ActiveRecord::Base
     else
       false
     end
+  end
+
+  def copy_as_new
+    d = Deployment.new(self.attributes)
+    d.errors.merge!(self.errors)
+    d
   end
 
   PRESET_FILTERS_OPTIONS = []
