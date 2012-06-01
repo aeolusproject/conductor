@@ -47,6 +47,8 @@ Requires: rubygem(oauth)
 Requires: rubygem(rake)
 Requires: rubygem(delayed_job) >= 2.1.4
 Requires: rubygem(paranoia)
+Requires: rubygem(compass) >= 0.11.5
+Requires: rubygem(compass-960-plugin) >= 0.10.4
 Requires: postgresql
 Requires: postgresql-server
 Requires: system-logos
@@ -178,7 +180,9 @@ getent passwd aeolus >/dev/null || \
 builder="app/views/errors"
 css="public/stylesheets public/stylesheets/jquery.ui-1.8.1"
 feature="features"
-gif="public/images public/stylesheets/images"
+gif="public/images \
+     public/stylesheets/images \
+     vendor/converge-ui/images"
 haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/users app/views/provider_accounts \
       app/views/roles app/views/providers app/views/settings \
@@ -195,33 +199,41 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/images \
       app/views/api/builds app/views/api/provider_images \
       app/views/api/target_images app/views/api/entrypoint \
-      app/views/api/environments"
+      app/views/api/environments \
+      vendor/converge-ui/rails/layouts"
 mustache="app/views/instances app/views/pools app/views/deployments \
           app/views/deployables app/views/images"
 html="public"
 ico="public"
-jpg="public/images public/stylesheets/images"
+jpg="public/images \
+     public/stylesheets/images \
+     vendor/converge-ui/images"
 js="public/javascripts \
     public/javascripts/jquery.ui-1.8.1 \
     public/javascripts/jquery.ui-1.8.1/ui/minified \
-    public/javascripts/lib
+    public/javascripts/lib \
     public/javascripts/backbone"
 json="spec/fixtures"
 key="features/upload_files"
 opts="spec"
-png="public/images public/images/icons public/stylesheets/images \
-     public/stylesheets/jquery.ui-1.8.1/images"
+png="public/images \
+     public/images/icons \
+     public/stylesheets/images \
+     public/stylesheets/jquery.ui-1.8.1/images \
+     vendor/converge-ui/images \
+     vendor/converge-ui/images/icons"
 rake="lib/tasks"
 rb="app/models app/controllers app/controllers/api app/helpers app/services app/util \
     config config/initializers config/environments db db/migrate \
     features/support features/step_definitions lib spec spec/controllers \
     spec/factories spec/helpers spec/models spec/services spec/controllers/api \
-    spec/aeolus/event spec/aeolus/ext lib/aeolus lib/aeolus/event lib/aeolus/ext"
+    spec/aeolus/event spec/aeolus/ext lib/aeolus lib/aeolus/event lib/aeolus/ext \
+    vendor/converge-ui/rails/helpers"
 rhtml="app/views/layouts"
-svg="public/images public/images/icons public/fonts"
-ttf="public/fonts"
-eot="public/fonts"
-woff="public/fonts"
+svg="public/images public/images/icons public/fonts vendor/converge-ui/fonts"
+ttf="public/fonts vendor/converge-ui/fonts"
+eot="public/fonts vendor/converge-ui/fonts"
+woff="public/fonts vendor/converge-ui/fonts"
 txt="public"
 yml="config config/locales config/locales/defaults config/locales/overrides
      config/locales/role_definitions config/locales/classnames \
@@ -233,7 +245,7 @@ for filetype in builder css eot feature gif haml mustache html ico jpg js json k
 
     for dir in $dirs; do
         %{__mkdir} -p %{buildroot}%{app_root}/$dir
-	for i in $(echo src/$dir/*.$filetype); do
+        for i in $(echo src/$dir/*.$filetype); do
             test -e "$i" && %{__cp} "$i" %{buildroot}%{app_root}/$dir
         done
     done
@@ -242,9 +254,7 @@ done
 
 # precompile stylesheets
 %{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
-for stylesheet in layout login; do
-  sass --style compact ./src/app/stylesheets/$stylesheet.scss %{buildroot}%{app_root}/public/stylesheets/compiled/$stylesheet.css
-done
+compass compile --sass-dir ./src/app/stylesheets --css-dir %{buildroot}%{app_root}/public/stylesheets/compiled
 
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
@@ -317,6 +327,11 @@ popd 2>&1 > /dev/null
 %{__ln_s} -f %{app_root}/config/settings.yml %{_sysconfdir}/%{name}
 %{__ln_s} -f %{app_root}/config/oauth.json %{_sysconfdir}/%{name}
 
+#create converge-ui symlinks
+%{__ln_s} -f %{app_root}/vendor/converge-ui/rails/layouts %{app_root}/app/views/layouts/converge-ui
+%{__ln_s} -f %{app_root}/vendor/converge-ui/fonts %{app_root}/public/fonts/converge-ui
+%{__ln_s} -f %{app_root}/vendor/converge-ui/rails/helpers/layout_helper.rb %{app_root}/app/helpers/layout_helper.rb
+
 %postun
 # kind of a weird construct.  There are two cases where postun gets called;
 # during the removal of a package and during the cleanup after an upgrade.
@@ -384,6 +399,8 @@ fi
 %{app_root}/Rakefile
 %{app_root}/Gemfile.in
 %{app_root}/spec/fixtures/Gemfile.in
+%dir %{app_root}/vendor
+%{app_root}/vendor/converge-ui
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
 %{app_root}/script/upgrade

@@ -46,6 +46,7 @@ dist:
 	mkdir -p dist/aeolus-conductor-$(VERSION)
 	cp -a aeolus-conductor.spec AUTHORS conf COPYING Makefile src \
 		dist/aeolus-conductor-$(VERSION)
+	rm -f dist/aeolus-conductor-$(VERSION)/src/vendor/converge-ui/converge-ui-devel.spec
 	tar -C dist -zcvf aeolus-conductor-$(VERSION).tar.gz aeolus-conductor-$(VERSION)
 
 
