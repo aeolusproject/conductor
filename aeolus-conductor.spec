@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.25
+Version:  0.8.26
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -365,6 +365,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Thu May 31 2012 Steve Linabery <slinaber@redhat.com> 0.8.26-1
+- 0735156 BZ804543: template relaxng: make rootpw mandatory
+
 * Wed May 30 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.25-1
 - d5815d0 If an assambly doesn't define any configserver params, config for
   this assembly is not sent to configserver.
