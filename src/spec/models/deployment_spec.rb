@@ -455,7 +455,7 @@ describe Deployment do
       end
     end
 
-    context "in rollback_in_progress state" do
+    context "in rollback_in_progress" do
       before :each do
         @deployment.state = Deployment::STATE_ROLLBACK_IN_PROGRESS
         @deployment.save!
@@ -467,6 +467,37 @@ describe Deployment do
                                 :state => Instance::STATE_PENDING)
         @deployment.instances << @inst1
         @deployment.instances << @inst2
+      end
+
+      it "should relaunch the deployment if rollback is finished" do
+        Deployment.any_instance.should_receive(:launch!)
+        @inst2.update_attribute(:state, Instance::STATE_STOPPED)
+      end
+
+      describe "on relaunch" do
+        before :each do
+          account = Factory.create(:mock_provider_account)
+          match1 = FactoryGirl.build(:instance_match,
+                                     :provider_account => account,
+                                     :instance_id => @inst1.id)
+          match2 = FactoryGirl.build(:instance_match,
+                                     :provider_account => account,
+                                     :instance_id => @inst2.id)
+          Instance.any_instance.stub(:launch!).and_return(true)
+          Deployment.any_instance.stub(:find_match_with_common_account).
+            and_return([[match1, match2], account, []])
+          @inst2.update_attribute(:state, Instance::STATE_STOPPED)
+        end
+
+        it "should set pending state for the deployment" do
+          @deployment.reload
+          @deployment.state.should == Deployment::STATE_PENDING
+        end
+
+        it "should save instance match for each instance" do
+          @inst1.instance_matches.count.should > 0
+          @inst2.instance_matches.count.should > 0
+        end
       end
     end
 

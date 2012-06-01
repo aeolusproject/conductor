@@ -387,6 +387,10 @@ class Instance < ActiveRecord::Base
     [matched, errors]
   end
 
+  def includes_instance_match?(match)
+    instance_matches.any?{|m| m.equals?(match)}
+  end
+
   def launch!(match, user, config_server, config)
     # create a taskomatic task
     task = InstanceTask.create!({:user        => user,
@@ -496,6 +500,16 @@ class Instance < ActiveRecord::Base
       end
       failed_accounts[i.provider_account.id]
     end
+  end
+
+  def reset_attrs
+    # TODO: is it OK to upload params to config server multiple times?
+    # do we now keep instance config on config server by default?
+    update_attributes(:state => Instance::STATE_NEW,
+                      :provider_account => nil,
+                      :public_addresses => nil,
+                      :private_addresses => nil)
+    instance_key.destroy if instance_key
   end
 
   private

@@ -82,6 +82,7 @@ class Deployment < ActiveRecord::Base
   before_create :set_pool_family
   before_create :set_new_state
   after_save :log_state_change
+  after_save :handle_completed_rollback
 
   USER_MUTABLE_ATTRS = ['name']
 
@@ -230,11 +231,20 @@ class Deployment < ActiveRecord::Base
   end
 
   def launch!(user)
+    self.reload unless self.new_record?
     self.state = STATE_PENDING
     save!
     all_inst_match, account, errs = find_match_with_common_account
 
-    unless all_inst_match
+    if all_inst_match
+      self.events << Event.create(
+        :source => self,
+        :event_time => DateTime.now,
+        :status_code => 'deployment_launch_match',
+        :summary => "Attempting to launch this deployment on provider account "\
+                    "#{account.name}"
+      )
+    else
       raise I18n.t('deployments.errors.match_not_found',
                    :errors => errs.join(", "))
     end
@@ -259,7 +269,9 @@ class Deployment < ActiveRecord::Base
     # occurs (for example DC API is not running, or config server is not
     # running), then CREATE_FAILED is set in instance.launch!
     instances.each do |instance|
+      instance.reset_attrs unless instance.state == Instance::STATE_NEW
       match = all_inst_match.find{|m| m.instance.id == instance.id}
+      instance.instance_matches << match
       begin
         instance.launch!(match,
                          user,
@@ -547,7 +559,8 @@ class Deployment < ActiveRecord::Base
     all_matches = instances.map do |instance|
       m, e = instance.matches
       errors = e.map {|e| "#{instance.name}: #{e}"}
-      m
+      # filter matches we used in previous retries
+      m.select {|inst_match| !instance.includes_instance_match?(inst_match)}
     end
 
     pool.pool_family.provider_accounts_by_priority.each do |account|
@@ -713,6 +726,28 @@ class Deployment < ActiveRecord::Base
         :status_code => self.state,
         :summary => "State changed to #{self.state}"
       )
+    end
+  end
+
+  def handle_completed_rollback
+    if self.state_changed? and self.state == STATE_ROLLBACK_COMPLETE
+      begin
+        if self.events.where(
+            :status_code => 'deployment_launch_match').count > 9
+          raise "There was too many launch retries, aborting"
+        end
+        launch!(self.owner)
+      rescue
+        self.events << Event.create(
+          :source => self,
+          :event_time => DateTime.now,
+          :status_code => 'deployment_launch_failed',
+          :summary => "Failed to launch deployment: #{$!.message}"
+        )
+        update_attribute(:state, STATE_FAILED)
+        logger.error $!.message
+        logger.error $!.backtrace.join("\n    ")
+      end
     end
   end
 end
