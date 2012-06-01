@@ -34,4 +34,7 @@ class Credential < ActiveRecord::Base
   validates_presence_of :credential_definition_id
   validates_presence_of :value
   validates_uniqueness_of :credential_definition_id, :scope => :provider_account_id
+
+  attr_protected :id, :provider_account_id, :created_at
+  attr_accessible :value, :credential_definition_id
 end
