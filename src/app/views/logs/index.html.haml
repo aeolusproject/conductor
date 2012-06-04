@@ -16,6 +16,18 @@
         = select_tag "owner_id", options_for_select(@owner_options, @owner_id)
         = restful_submit_tag t("filter_table.apply_filters"), "index", filter_logs_path, 'POST', :class => 'button', :id => 'apply_logs_filter'
         %span.label.badge.dark= @events.count
+      %br
+        = t('filter_table.from')
+        = select_date @from_date, :prefix => :from_date
+        = t('filter_table.to')
+        = select_date @to_date, :prefix => :to_date
+        = t('filter_table.order_by')
+        = select_tag "order", options_for_select(@order_options, @order)
+        %li.more_actions
+          %span
+            = image_tag "more_actions_drop.png"
+          %ul
+            %li= link_to "#{t'logs.index.export_logs'}", export_logs_logs_path(:source_type => @source_type, :state => @state, :pool_select => @pool_select, :provider_select => @provider_select, :owner_id => @owner_id, :from_date => {:day => @from_date.day, :month => @from_date.month, :year => @from_date.year}, :to_date => {:day => @to_date.day, :month => @to_date.month, :year => @to_date.year}, :order => @order)
 
     = filter_table(@header, @paginated_events) do |event|
       - source = event.source

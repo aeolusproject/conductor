@@ -157,7 +157,10 @@ Conductor::Application.routes.draw do
   end
 
   resources :logs do
-    post :filter, :on => :collection
+    collection do
+      post 'filter'
+      get 'export_logs'
+    end
   end
 
   resources :config_servers do

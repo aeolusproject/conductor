@@ -30,11 +30,42 @@ class LogsController < ApplicationController
   end
 
   def filter
-    redirect_to_original({"source_type" => params[:source_type],
+    redirect_to_original({ "source_type" => params[:source_type],
                            "pool_select" => params[:pool_select],
                            "provider_select" => params[:provider_select],
                            "owner_id" => params[:owner_id],
-                           "state" => params[:state]})
+                           "state" => params[:state],
+                           "from_date" => params[:from_date],
+                           "to_date" => params[:to_date],
+                           "order" => params[:order] })
+  end
+
+  def export_logs
+    load_logs
+    load_headers
+
+    csvm = Object.const_defined?(:FasterCSV) ? FasterCSV : CSV
+    csv_string = csvm.generate(:col_sep => ";", :row_sep => "\r\n") do |csv|
+      csv << @header.map {|header| header[:name].capitalize }
+
+      unless @events.nil?
+        @events.each do |event|
+          source = event.source
+          provider_account = source.nil? ? nil : source.provider_account
+          csv << [ event.event_time.strftime("%d-%b-%Y %H:%M:%S"),
+                   source.nil? ? t('logs.index.not_available') : source.name,
+                   source.nil? ? t('logs.index.not_available') : source.state,
+                   source.nil? ? t('logs.index.not_available') : source.pool_family.name + "/" + source.pool.name,
+                   provider_account.nil? ? t('logs.index.not_available') : provider_account.provider.name + "/" + provider_account.name,
+                   source.nil? ? t('logs.index.not_available') : source.owner.login,
+                   event.summary ]
+        end
+      end
+    end
+
+    send_data(csv_string,
+              :type => 'text/csv; charset=utf-8; header=present',
+              :filename => "export.csv")
   end
 
   protected
@@ -46,16 +77,29 @@ class LogsController < ApplicationController
       params[:provider_select].nil? ? "" : params[:provider_select]
     @owner_id = params[:owner_id].nil? ? "" : params[:owner_id]
     @state = params[:state].nil? ? "" : params[:state]
+    @order = params[:order].nil? ? t('logs.options.time_order') : params[:order]
+    @from_date = params[:from_date].nil? ? Date.today - 7.days :
+      Date.civil(params[:from_date][:year].to_i,
+                 params[:from_date][:month].to_i,
+                 params[:from_date][:day].to_i)
+    @to_date = params[:to_date].nil? ? Date.today + 1.days :
+      Date.civil(params[:to_date][:year].to_i,
+                 params[:to_date][:month].to_i,
+                 params[:to_date][:day].to_i)
 
-    conditions = []
     if @source_type.present?
-      conditions += ["source_type = ?", @source_type]
+      conditions = ["event_time between ? and ? and source_type = ?",
+                    @from_date, @to_date, @source_type]
+    else
+      conditions = ["event_time between ? and ?",
+                    @from_date, @to_date]
     end
 
     @events = Event.unscoped.find(:all,
                                   :include =>
                                   {:source => [:pool_family, :pool, :owner]},
-                                  :conditions => conditions
+                                  :conditions => conditions,
+                                  :order => "event_time asc"
                                   )
     deployments = Deployment.unscoped.list_for_user(current_session,
                                                     current_user,
@@ -102,6 +146,25 @@ class LogsController < ApplicationController
       true
     }
 
+    case @order
+    when t('logs.options.deployment_instance_order')
+      @events = @events.sort_by {|event|
+        (event.source.nil? ? "" : event.source.name)}
+    when t('logs.options.state_order')
+      @events = @events.sort_by {|event|
+        (event.source.nil? ? "" :
+         (event.source.state.nil? ? "" : event.source.state))}
+    when t('logs.options.pool_order')
+      @events = @events.sort_by {|event|
+        (event.source.nil? ? "" : event.source.pool_family.name)}
+    when t('logs.options.provider_order')
+      @events = @events.sort_by {|event|
+        (event.source.nil? ? "" : event.source.provider_account.name)}
+    when t('logs.options.owner_order')
+      @events = @events.sort_by {|event|
+        (event.source.nil? ? "" : event.source.owner.login)}
+    end
+
     @paginated_events = paginate_collection(@events, params[:page], PER_PAGE)
   end
 
@@ -130,6 +193,12 @@ class LogsController < ApplicationController
     @owner_options = [[t('logs.options.default_users'), ""]] +
       User.find(:all, :order => "login",
                 :select => ["id", "login"]).map{|x| [x.login, x.id]}
+    @order_options = [t('logs.options.time_order'),
+                      t('logs.options.deployment_instance_order'),
+                      t('logs.options.state_order'),
+                      t('logs.options.pool_order'),
+                      t('logs.options.provider_order'),
+                      t('logs.options.owner_order')]
   end
 
   def load_headers
@@ -144,4 +213,5 @@ class LogsController < ApplicationController
       { :name => "", :sortable => false },
     ]
   end
+
 end

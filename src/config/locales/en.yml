@@ -19,6 +19,12 @@ en:
       instance_event_type: Instance
       default_pools: All Pools
       default_providers: All Providers
+      time_order: Time
+      deployment_instance_order: Deployment/Instance
+      state_order: State
+      pool_order: Pool
+      provider_order: Provider
+      owner_order: Owner
     index:
       title: Logs
       not_available: N/A
@@ -35,6 +41,7 @@ en:
       frontend_realm: Frontend Realm
       image: Image
       hwp: Hardware Profile
+      export_logs: Export logs
   users:
     users: "Users"
     return_to: "Return to:"
@@ -1235,6 +1242,9 @@ en:
     none: None
   filter_table:
     viewing: Viewing
+    from: From
+    to: To
+    order_by: Order By
     results: Results
     search: Search
     apply_filters: "Apply filters"
