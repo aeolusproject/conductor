@@ -90,3 +90,21 @@ Then /^I should receive Bad Request message$/ do
   response.headers['Content-Type'].should include('application/xml')
   response.status.should be_eql(400)
 end
+
+When /^I delete that provider via XML$/ do
+  header 'Accept', 'application/xml'
+
+  delete api_provider_path(@provider)
+end
+
+When /^I attempt to delete the provider$/ do
+  header 'Accept', 'application/xml'
+
+  delete api_provider_path(@provider)
+end
+
+Then /^I should receive a Provider Not Found error$/ do
+  response = last_response
+  response.headers['Content-Type'].should include('application/xml')
+  response.status.should be_eql(404)
+end
