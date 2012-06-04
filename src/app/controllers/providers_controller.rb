@@ -102,11 +102,21 @@ class ProvidersController < ApplicationController
   def create
     @title = t("providers.new.new_provider")
     require_privilege(Privilege::CREATE, Provider)
+
     if params[:provider].has_key?(:provider_type_deltacloud_driver)
       provider_type = params[:provider].delete(:provider_type_deltacloud_driver)
       provider_type = ProviderType.find_by_deltacloud_driver(provider_type)
       params[:provider][:provider_type_id] = provider_type.id
     end
+
+    # looking for ProviderType based on content of provider_type tag in xml
+    if params[:provider].has_key?(:provider_type) && params[:provider][:provider_type].has_key?(:id)
+      provider_type_hash = params[:provider].delete(:provider_type)
+      provider_type_id = provider_type_hash[:id]
+      provider_type = ProviderType.find_by_id(provider_type_id)
+      params[:provider][:provider_type_id] = provider_type.id
+    end
+
     @provider = Provider.new(params[:provider])
 
     if @provider.save
