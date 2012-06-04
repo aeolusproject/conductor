@@ -231,7 +231,9 @@ describe ProvidersController do
           before(:each) do
             post :create, :provider => { :name => provider.name,
               :url => provider.url,
-              :provider_type_id => provider.provider_type.id
+              :provider_type => {
+                :id => provider.provider_type.id
+              }
             }
           end
 

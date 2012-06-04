@@ -55,7 +55,7 @@ When /^I create provider with correct data via XML$/ do
                     <provider>
                     <name>#{@provider.name}</name>
                     <url>#{@provider.url}</url>
-                    <provider_type_id>#{@provider.provider_type_id}</provider_type_id>
+                    <provider_type id="#{@provider.provider_type_id}" />
                     </provider>
                     ]
 
