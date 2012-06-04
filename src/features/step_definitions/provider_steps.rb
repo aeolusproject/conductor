@@ -39,8 +39,27 @@ Then /^the provider should not be created$/ do
   Provider.find_by_name_and_url(@provider.name, @provider.url).should be_nil
 end
 
+Then /^the provider should be deleted$/ do
+  Provider.find_by_name_and_url(@provider.name, @provider.url).should be_nil
+end
+
+Then /^no provider should be deleted$/ do
+  # FIXME better way to test this?
+  Provider.count.should be_eql(@provider_count)
+end
+
+Then /^the provider should not be deleted$/ do
+  Provider.find_by_name_and_url(@provider.name, @provider.url).should_not be_nil
+end
+
 Given /^there should not exist a provider named "([^\"]*)"$/ do |name|
   Provider.find_by_name(name).should be_nil
+end
+
+Given /^the specified provider does not exist in the system$/ do
+  @provider = FactoryGirl.create(:mock_provider)
+  Provider.delete(@provider.id)
+  @provider_count = Provider.count
 end
 
 Given /^there is not a provider named "([^"]*)"$/ do |name|
