@@ -184,6 +184,8 @@ class ProvidersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to providers_path }
+      # FIXME: what to return in body of response, if anything?
+      format.xml { render :text => '<message>OK</message>', :status => 200 }
     end
   end
 
