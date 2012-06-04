@@ -268,8 +268,47 @@ describe ProvidersController do
                 subject.xpath('//errors/error').size.should <= 1
               end
             end
-         end
+          end
         end # #create
+
+        describe "#destroy" do
+
+          let(:provider) { FactoryGirl.create(:mock_provider) }
+
+          context "existing provider" do
+
+            before(:each) do
+              delete :destroy, :id => provider.id
+            end
+
+            it_behaves_like "http OK"
+            it_behaves_like "responding with XML"
+
+            it { expect { provider.reload }.to raise_error(ActiveRecord::RecordNotFound) }
+
+          end
+
+          context "non existing provider" do
+
+            before(:each) do
+              provider.delete
+              delete :destroy, :id => provider.id
+            end
+
+            it_behaves_like "http Not Found"
+            it_behaves_like "responding with XML"
+
+            context "XML body" do
+              subject { Nokogiri::XML(response.body) }
+
+              it {
+                subject.xpath('//error').size.should be_eql(1)
+                subject.xpath('//error/code').text.should be_eql('RecordNotFound')
+                subject.xpath('//error/message').text.should be_eql("Couldn't find Provider with ID=#{provider.id}")
+              }
+            end
+          end
+        end # #destroy
       end # when using admin credentials
     end # when requesting XML
   end # API
