@@ -65,6 +65,8 @@ Requires: rubygem(ruby-net-ldap)
 Requires: curl
 
 BuildRequires: rubygem(sass)
+BuildRequires: rubygem(compass) >= 0.11.5
+BuildRequires: rubygem(compass-960-plugin) >= 0.10.4
 
 BuildArch: noarch
 
