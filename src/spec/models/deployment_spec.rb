@@ -428,6 +428,8 @@ describe Deployment do
         end
 
         it "should stop all running instances if an instance fails" do
+          @inst1.state = Instance::STATE_RUNNING
+          @inst1.save!
           Instance.any_instance.stub(:stop).and_return(true)
           Instance.any_instance.should_receive(:stop)
           @inst2.state = Instance::STATE_ERROR

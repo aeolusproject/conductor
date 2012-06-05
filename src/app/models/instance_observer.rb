@@ -95,7 +95,6 @@ class InstanceObserver < ActiveRecord::Observer
     # This can get stale, so reload it -- if it exists
     instance.deployment.reload if instance.deployment
     if instance.state_changed?
-      instance.deployment.update_state(instance) if instance.deployment
       event = Event.new(:source => instance, :event_time => DateTime.now,
                         :summary => "state changed to #{instance.state}",
                         :change_hash => instance.changes, :status_code => instance.state)
@@ -126,6 +125,7 @@ class InstanceObserver < ActiveRecord::Observer
           :status_code => 'vanished', :summary => "Instance disappeared from cloud provider"
         )
       end
+      instance.deployment.update_state(instance) if instance.deployment
 
     end
   end
