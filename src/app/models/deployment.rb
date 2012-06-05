@@ -399,7 +399,7 @@ class Deployment < ActiveRecord::Base
   def uptime_1st_instance
     return nil if events.empty?
 
-    first_running = events.find_by_status_code(:first_running)
+    first_running = events.find_last_by_status_code(:first_running)
     if instances.deployed.empty?
       all_stopped = events.find_last_by_status_code(:all_stopped)
       if all_stopped && first_running && all_stopped.event_time > first_running.event_time
@@ -436,7 +436,7 @@ class Deployment < ActiveRecord::Base
 
   # A deployment "starts" when _all_ instances begin to run
   def start_time
-    if instances.deployed.count == instances.count && ev = events.find_by_status_code(:all_running)
+    if instances.deployed.count == instances.count && ev = events.find_last_by_status_code(:all_running)
       ev.event_time
     else
       nil
@@ -445,8 +445,8 @@ class Deployment < ActiveRecord::Base
 
   # A deployment "ends" when one or more instances stop, assuming they were ever all-running
   def end_time
-    if events.find_by_status_code(:all_running)
-      ev = events.find_by_status_code(:some_stopped) || events.find_by_status_code(:all_stopped)
+    if events.find_last_by_status_code(:all_running)
+      ev = events.find_last_by_status_code(:some_stopped) || events.find_last_by_status_code(:all_stopped)
       ev.present? ? ev.event_time : nil
     else
       nil
