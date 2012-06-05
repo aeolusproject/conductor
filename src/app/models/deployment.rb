@@ -654,6 +654,8 @@ class Deployment < ActiveRecord::Base
     if Instance::ACTIVE_FAILED_STATES.include?(instance.state)
       # if this instance stop failed, whole deployment rollback failed
       self.state = STATE_ROLLBACK_FAILED
+    elsif instance.state == Instance::STATE_RUNNING
+      deployment_rollback
     elsif instances.all? {|i| i.inactive?}
       # some other instances might be failed (because their
       # launch failed), but it shouldn't be a problem if all
@@ -663,17 +665,19 @@ class Deployment < ActiveRecord::Base
   end
 
   def deployment_rollback
-    stoppable_instances = instances.stoppable
-    if stoppable_instances.empty?
+    unless self.state == STATE_ROLLBACK_IN_PROGRESS
+      self.state = STATE_ROLLBACK_IN_PROGRESS
+      save!
+    end
+
+    if instances.all? {|i| i.inactive? or i.state == Instance::STATE_NEW}
       self.state = STATE_ROLLBACK_COMPLETE
       save!
       return
     end
 
-    self.state = STATE_ROLLBACK_IN_PROGRESS
-    save!
     error_occured = false
-    stoppable_instances.each do |instance|
+    instances.running.each do |instance|
       begin
         instance.stop(nil)
       rescue
