@@ -26,7 +26,7 @@ module PermissionedObject
         privileges.target_type=:target_type and
         privileges.action=:action",
         { :user => user.id,
-          :session => session.id,
+          :session => session,
           :target_type => target_type.name,
           :action => action}]).any?
       return true
@@ -39,7 +39,7 @@ module PermissionedObject
         privileges.target_type=:target_type and
         privileges.action=:action",
         { :user => user.id,
-          :session => session.id,
+          :session => session,
           :target_type => target_type.name,
           :action => action}]).any?
     end
@@ -129,7 +129,7 @@ module PermissionedObject
                    privileges.target_type=:target_type and
                    privileges.action=:action",
                   {:user => user.id,
-                   :session => session.id,
+                   :session => session,
                    :target_type => target_type.name,
                    :action => action})
         end

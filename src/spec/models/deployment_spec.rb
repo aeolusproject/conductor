@@ -220,14 +220,15 @@ describe Deployment do
       @user_for_launch = admin_perms.user
       @user_for_launch.quota.maximum_running_instances = 1
       @session = FactoryGirl.create :session
-      SessionEntity.update_session(@session, @user_for_launch)
+      @session_id = @session.session_id
+      SessionEntity.update_session(@session_id, @user_for_launch)
       @deployment.stub(:common_provider_accounts_for).and_return(["test","test"])
     end
 
     it "return error when user quota was reached" do
       Instance.any_instance.stub(:matches).and_return(["test","test"])
       @deployment.stub!(:find_match_with_common_account).and_return([[], true, []])
-      errors = @deployment.check_assemblies_matches(@session, @user_for_launch)
+      errors = @deployment.check_assemblies_matches(@session_id, @user_for_launch)
       errors.should have(1).items
       errors.last.should include I18n.t('instances.errors.user_quota_reached')
     end
@@ -246,20 +247,21 @@ describe Deployment do
       admin_perms = FactoryGirl.create :admin_permission
       @user_for_launch = admin_perms.user
       @session = FactoryGirl.create :session
-      SessionEntity.update_session(@session, @user_for_launch)
+      @session_id = @session.session_id
+      SessionEntity.update_session(@session_id, @user_for_launch)
     end
 
     it "should return errors when checking assemblies matches which are not launchable" do
-      @deployment.check_assemblies_matches(@session, @user_for_launch).should be_empty
+      @deployment.check_assemblies_matches(@session_id, @user_for_launch).should be_empty
       @deployment.pool.pool_family.provider_accounts.destroy_all
-      @deployment.check_assemblies_matches(@session, @user_for_launch).should_not be_empty
+      @deployment.check_assemblies_matches(@session_id, @user_for_launch).should_not be_empty
     end
 
     it "should launch instances when launching deployment" do
       @deployment.instances.should be_empty
 
       Taskomatic.stub!(:create_instance!).and_return(true)
-      @deployment.create_and_launch(@session, @user_for_launch)
+      @deployment.create_and_launch(@session_id, @user_for_launch)
       @deployment.errors.should be_empty
       @deployment.instances.count.should == 2
     end
@@ -272,7 +274,7 @@ describe Deployment do
       Taskomatic.stub!(:create_dcloud_instance).and_return(true)
       Taskomatic.stub!(:handle_dcloud_error).and_return(true)
       Taskomatic.stub!(:handle_instance_state).and_return(true)
-      @deployment.create_and_launch(@session, @user_for_launch)
+      @deployment.create_and_launch(@session_id, @user_for_launch)
       @deployment.errors.should be_empty
       @deployment.reload
       @deployment.instances.count.should == 2
@@ -281,7 +283,7 @@ describe Deployment do
       @provider_account1.priority = 30
       @provider_account1.save!
       deployment2 = Factory.create(:deployment, :pool_id => @pool.id)
-      deployment2.create_and_launch(@session, @user_for_launch)
+      deployment2.create_and_launch(@session_id, @user_for_launch)
       deployment2.errors.should be_empty
       deployment2.reload
       deployment2.instances.count.should == 2
@@ -300,7 +302,7 @@ describe Deployment do
       Taskomatic.stub!(:create_dcloud_instance).and_return(true)
       Taskomatic.stub!(:handle_dcloud_error).and_return(true)
       Taskomatic.stub!(:handle_instance_state).and_return(true)
-      @deployment.create_and_launch(@session, @user_for_launch)
+      @deployment.create_and_launch(@session_id, @user_for_launch)
       @deployment.errors.should be_empty
       @deployment.reload
       @deployment.instances.count.should == 2
@@ -312,7 +314,7 @@ describe Deployment do
       @deployment.instances.should be_empty
       @deployment.pool.pool_family.provider_accounts.destroy_all
       Taskomatic.stub!(:create_instance!).and_return(true)
-      @deployment.create_and_launch(@session, @user_for_launch)
+      @deployment.create_and_launch(@session_id, @user_for_launch)
       @deployment.errors.should_not be_empty
       lambda { Deployment.find(@deployment.id) }.should raise_error(ActiveRecord::RecordNotFound)
     end
@@ -325,7 +327,7 @@ describe Deployment do
       it "should set create_failed status for instances if instance's launch raises an exception" do
         @deployment.instances.should be_empty
         Taskomatic.stub!(:create_dcloud_instance).and_raise("an exception")
-        @deployment.create_and_launch(@session, @user_for_launch)
+        @deployment.create_and_launch(@session_id, @user_for_launch)
         @deployment.reload
         @deployment.instances.should_not be_empty
         @deployment.instances.each {|i| i.state.should == Instance::STATE_CREATE_FAILED}
