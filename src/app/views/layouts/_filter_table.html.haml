@@ -20,7 +20,7 @@
       - if !rows.any?
         %tr
           %td{:colspan => columns.size}= t('search.no_results')
-    = rows.collect {|row| capture_haml(row, &block)}.to_s.html_safe
+    = rows.collect {|row| capture_haml(row, &block)}.join.html_safe
 
   - if content_for? form_footer
     %fieldset.options
