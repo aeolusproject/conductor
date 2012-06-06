@@ -16,7 +16,6 @@
 
 class SessionEntity < ActiveRecord::Base
   belongs_to :user
-  belongs_to :session, :class_name => "ActiveRecord::SessionStore::Session"
   belongs_to :entity
 
   validates_presence_of :user_id
@@ -24,22 +23,22 @@ class SessionEntity < ActiveRecord::Base
   validates_presence_of :entity_id
   validates_uniqueness_of :entity_id, :scope => [:user_id, :session_id]
 
-  def self.update_session(session, user)
+  def self.update_session(session_id, user)
     self.transaction do
       # skips callbacks, which should be fine here
-      self.delete_all(:session_id => session.id)
-      self.add_to_session(session, user)
+      self.delete_all(:session_id => session_id)
+      self.add_to_session(session_id, user)
     end
   end
 
-  def self.add_to_session(session, user)
+  def self.add_to_session(session_id, user)
     return unless user
     # create mapping for user-level permissions
-    SessionEntity.create!(:session => session, :user => user,
+    SessionEntity.create!(:session_id => session_id, :user => user,
                           :entity => user.entity)
     # create mappings for local groups
     user.user_groups.each do |ug|
-      SessionEntity.create!(:session => session, :user => user,
+      SessionEntity.create!(:session_id => session_id, :user => user,
                             :entity => ug.entity)
     end
     # TODO: add entities for ldap groups
