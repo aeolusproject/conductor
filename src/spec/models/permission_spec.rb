@@ -32,53 +32,54 @@ describe Permission do
     @provider = @provider_admin_permission.provider
     @pool = @pool_user_permission.pool
     @session = FactoryGirl.create :session
-    SessionEntity.update_session(@session, @admin)
-    SessionEntity.add_to_session(@session, @provider_admin)
-    SessionEntity.add_to_session(@session, @pool_user)
+    @session_id = @session.session_id
+    SessionEntity.update_session(@session_id, @admin)
+    SessionEntity.add_to_session(@session_id, @provider_admin)
+    SessionEntity.add_to_session(@session_id, @pool_user)
   end
 
   it "Admin should be able to create users" do
-    BasePermissionObject.general_permission_scope.has_privilege(@session,
+    BasePermissionObject.general_permission_scope.has_privilege(@session_id,
                                                                 @admin,
                                                                 Privilege::CREATE,
                                                                 User).should be_true
   end
 
   it "Provider Admin should NOT be able to create users" do
-    BasePermissionObject.general_permission_scope.has_privilege(@session,
+    BasePermissionObject.general_permission_scope.has_privilege(@session_id,
                                                                 @provider_admin,
                                                                 Privilege::CREATE,
                                                                 User).should be_false
   end
 
   it "Pool User should NOT be able to create users" do
-    BasePermissionObject.general_permission_scope.has_privilege(@session,
+    BasePermissionObject.general_permission_scope.has_privilege(@session_id,
                                                                 @pool_user,
                                                                 Privilege::CREATE,
                                                                 User).should be_false
   end
 
   it "Provider Admin should be able to edit provider" do
-    @provider.has_privilege(@session, @provider_admin,
+    @provider.has_privilege(@session_id, @provider_admin,
                             Privilege::MODIFY).should be_true
   end
 
   it "Admin should be able to edit provider" do
-    @provider.has_privilege(@session, @admin, Privilege::MODIFY).should be_true
+    @provider.has_privilege(@session_id, @admin, Privilege::MODIFY).should be_true
   end
 
   it "Pool User should NOT be able to edit provider" do
-    @provider.has_privilege(@session, @pool_user,
+    @provider.has_privilege(@session_id, @pool_user,
                             Privilege::MODIFY).should be_false
   end
 
   it "Pool User should be able to create instances in @pool" do
-    @pool.has_privilege(@session, @pool_user,
+    @pool.has_privilege(@session_id, @pool_user,
                         Privilege::CREATE, Instance).should be_true
   end
 
   it "Pool User should NOT be able to create instances in another pool" do
-    FactoryGirl.create(:tpool).has_privilege(@session, @pool_user,
+    FactoryGirl.create(:tpool).has_privilege(@session_id, @pool_user,
                                              Privilege::CREATE, Instance).
       should be_false
   end

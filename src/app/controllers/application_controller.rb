@@ -179,9 +179,10 @@ class ApplicationController < ActionController::Base
   def http_auth_user
     return unless request.authorization && request.authorization =~ /^Basic (.*)/m
     authenticate!(:scope => :api)
-    request.session_options = request.session_options.dup
+    frozen = request.session_options.frozen?
+    request.session_options = request.session_options.dup if frozen
     request.session_options[:expire_after] = 2.minutes
-    request.session_options.freeze
+    request.session_options.freeze if frozen
     # we use :api scope for authentication to avoid saving session.
     # But it's handy to set authenticated user in default scope, so we
     # can use current_user, instead of current_user(:api)
@@ -190,18 +191,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_session
-    @current_session ||= ActiveRecord::SessionStore::Session.
-      find_by_session_id(request.session_options[:id])
-    # FIXME: I shouldn't have to reload sessions here, but for some reason
-    # without reloading it wasn't working for non-admin permissions.
-    # If we ever need to add session_entities for _other_ users to the
-    # current session, this won't work
-    if @current_session and (!@current_session.session_entities.any? or
-                             @current_session.session_entities.first.user != current_user)
-      SessionEntity.update_session(@current_session, current_user)
-      @current_session.reload
-    end
-    @current_session
+    @current_session ||= request.session_options[:id]
   end
 
   def require_user

@@ -38,7 +38,8 @@ describe RegistrationService do
     it "should register a user with default pool/quota/role perms when default settings set" do
       @user = FactoryGirl.create :user
       @session = FactoryGirl.create :session
-      SessionEntity.update_session(@session, @user)
+      @session_id = @session.session_id
+      SessionEntity.update_session(@session_id, @user)
       @pool = MetadataObject.lookup("self_service_default_pool")
       @role = MetadataObject.lookup("self_service_default_role")
       @quota = FactoryGirl.create :quota
@@ -47,7 +48,7 @@ describe RegistrationService do
       @registration_service = RegistrationService.new(@user)
       @registration_service.save
 
-      @pools = Pool.list_for_user(@session, @user, Privilege::CREATE, Instance)
+      @pools = Pool.list_for_user(@session_id, @user, Privilege::CREATE, Instance)
       @pools.length.should == 1
       @pools[0].name.should == "Default"
 
