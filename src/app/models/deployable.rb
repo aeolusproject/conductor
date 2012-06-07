@@ -192,6 +192,8 @@ class Deployable < ActiveRecord::Base
         deployable_errors << "#{assembly_hash[:name]}: " + I18n.t('deployables.error.attribute_not_exist')
       end
       assemblies_array << assembly_hash
+      audrey_error = check_audrey_api_compatibility(image, assembly)
+      deployable_errors << "#{assembly_hash[:name]}: " + audrey_error if not audrey_error.nil?
     end
     [assemblies_array, images, missing_images, deployable_errors]
   end
@@ -243,6 +245,42 @@ class Deployable < ActiveRecord::Base
       end 
     end
     warnings
+  end
+
+  def check_audrey_api_compatibility(image, assembly)
+    # get icicle for agent
+    icicle_uuid = image.latest_pushed_or_unpushed_build.target_images.first.icicle rescue nil
+    icicle = Aeolus::Image::Warehouse::Icicle.find(icicle_uuid) if icicle_uuid
+    agent_v = icicle ? icicle.packages.find_all { |p| p =~ /aeolus-audrey-agent(.*)/ } : ""
+    agent_v = agent_v.first.split('-')[3] if agent_v.present?
+
+    # calculate audrey api version
+    audrey_api_v = if agent_v >= "0.5.0"
+                      1..2
+                    elsif agent_v >= "0.4.0"
+                      1..1
+                    else 0
+                    end
+
+    # initalize compatibility
+    audrey_api_compat = 1
+
+    # do cs_compat
+    ## All agents are compatible with all Config Servers right now
+    ## so no need to check this right now
+    ## this check should call the cs passing the agent_v and validating
+    ## the response the CS sends back
+
+    # audrey api version 2 added service references, lets check for any
+    assembly.services.each do |service|
+      service.parameters.each do |param|
+        audrey_api_compat = 2 if param.reference_service
+      end
+    end
+ 
+    if audrey_api_v != 0
+      audrey_api_v.include?(audrey_api_compat) ? nil : I18n.t('deployables.error.audrey_api_incompatibility')
+    end
   end
 
   private

@@ -1008,6 +1008,7 @@ en:
     error:
       attribute_not_exists: invalid
       hwp_not_exists: "Hardware profile %{name} specified in XML doesn't exist."
+      audrey_api_incompatibility: "The deployable uses features not supported by the audrey agent installed in the latest built image."
     properties:
       edit_deployable_xml: Edit Deployable XML
   name: Name
