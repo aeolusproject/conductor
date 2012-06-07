@@ -435,6 +435,11 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Thu Jun 07 2012 Steve Linabery <slinaber@redhat.com> - 0.10.1-1
+- 81f10a6 Refactor SessionEntity model to work properly with API
+- 1945d37 Fixed deployment rollback
+- 187756e Fix the new Provider Account form error
+
 * Wed Jun 06 2012 Steve Linabery <slinaber@redhat.com> - 0.10.0-1
 - 274fb0b rm3343: credential: make attributes accessible/protected
 - a66fd19 RM 3246: fix smaller issues in instance model
