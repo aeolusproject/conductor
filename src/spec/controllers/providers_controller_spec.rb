@@ -309,6 +309,84 @@ describe ProvidersController do
             end
           end
         end # #destroy
+        describe "#update" do
+
+          let(:orig_provider) { FactoryGirl.create(:mock_provider) }
+
+          context "existing provider" do
+
+            before(:each) do
+              put :update, :id => orig_provider.id, :provider => provider_data
+            end
+
+            context "with correct data" do
+              let(:provider) { FactoryGirl.build(:mock_provider) }
+              let(:provider_data) {
+                {
+                  :name => provider.name,
+                  :url => provider.url,
+                  :provider_type =>
+                    {
+                      :id => provider.provider_type.id
+                    }
+                }
+              }
+
+              it_behaves_like "http OK"
+              it_behaves_like "responding with XML"
+
+              context "XML body" do
+                # TODO: implement more attributes checks
+                subject { Nokogiri::XML(response.body) }
+                let(:xml_provider) { subject.xpath('provider').first }
+                it "should have correct provider" do
+                  xml_provider.xpath('name').text.should be_eql(provider.name)
+                  # how to make it better?
+                  xml_provider.xpath('@href').text.should be_eql(api_provider_url(Provider.last))
+                end
+              end
+            end
+
+            context "with incorrect data" do
+              let(:provider) { FactoryGirl.build(:invalid_provider) }
+              let(:other_provider) { FactoryGirl.create(:mock_provider) }
+              let(:provider_data) {
+                {
+                  :name => other_provider.name,
+                  :provider_type =>
+                    {
+                      :id => provider.provider_type.id
+                    }
+                }
+              }
+
+              it_behaves_like "http Bad Request"
+              it_behaves_like "responding with XML"
+
+            end
+          end # existing provider
+
+          context "non existing provider" do
+
+            before(:each) do
+              orig_provider.delete
+              put :update, :id => orig_provider.id
+            end
+
+            it_behaves_like "http Not Found"
+            it_behaves_like "responding with XML"
+
+            context "XML body" do
+              subject { Nokogiri::XML(response.body) }
+
+              it {
+                subject.xpath('//error').size.should be_eql(1)
+                subject.xpath('//error/code').text.should be_eql('RecordNotFound')
+                subject.xpath('//error/message').text.should be_eql("Couldn't find Provider with ID=#{orig_provider.id}")
+              }
+            end
+          end # non existing provider
+        end # #update
       end # when using admin credentials
     end # when requesting XML
   end # API
