@@ -18,6 +18,7 @@ class ProvidersController < ApplicationController
   before_filter :require_user
   before_filter :load_providers, :only => [:index, :show, :new, :edit, :create, :update]
   before_filter :load_providers_types, :only => [:new, :edit, :update, :create]
+  before_filter :parse_provider_type, :only => [:create, :update]
 
   def index
     @params = params
@@ -52,7 +53,7 @@ class ProvidersController < ApplicationController
   end
 
   def edit
-    @provider = Provider.find_by_id(params[:id])
+    @provider = Provider.find(params[:id])
     @title = t 'cloud_providers'
     session[:current_provider_id] = @provider.id
     # requiring VIEW rather than MODIFY since edit doubles as the 'show' page
@@ -109,13 +110,6 @@ class ProvidersController < ApplicationController
       params[:provider][:provider_type_id] = provider_type.id
     end
 
-    # looking for ProviderType based on content of provider_type tag in xml
-    if params[:provider].has_key?(:provider_type) && params[:provider][:provider_type].has_key?(:id)
-      provider_type_hash = params[:provider].delete(:provider_type)
-      provider_type_id = provider_type_hash[:id]
-      provider_type = ProviderType.find_by_id(provider_type_id)
-      params[:provider][:provider_type_id] = provider_type.id
-    end
 
     @provider = Provider.new(params[:provider])
 
@@ -140,7 +134,7 @@ class ProvidersController < ApplicationController
   end
 
   def update
-    @provider = Provider.find_by_id(params[:id])
+    @provider = Provider.find(params[:id])
     require_privilege(Privilege::MODIFY, @provider)
     @provider.attributes = params[:provider]
     provider_disabled = @provider.enabled_changed? && !@provider.enabled
@@ -152,20 +146,30 @@ class ProvidersController < ApplicationController
 
     if @provider.save
       @provider.update_availability
-      flash[:notice] = t"providers.flash.notice.updated"
-      redirect_to edit_provider_path(@provider)
+      respond_to do |format|
+        format.html do
+          flash[:notice] = t"providers.flash.notice.updated"
+          redirect_to edit_provider_path(@provider)
+        end
+        format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
+      end
     else
       # we reset 'enabled' attribute to real state
       # if save failed
       @provider.reset_enabled!
-      unless @provider.connect
-        flash.now[:warning] = t"providers.flash.warning.connect_failed"
-      else
-        flash[:error] = t"providers.flash.error.not_updated"
+      respond_to do |format|
+        format.html do
+          unless @provider.connect
+            flash.now[:warning] = t"providers.flash.warning.connect_failed"
+          else
+            flash[:error] = t"providers.flash.error.not_updated"
+          end
+          load_provider_tabs
+          @alerts = provider_alerts(@provider)
+          render :action => "edit"
+        end
+        format.xml { render :template => 'api/validation_error', :locals => { :errors => @provider.errors }, :status => :bad_request }
       end
-      load_provider_tabs
-      @alerts = provider_alerts(@provider)
-      render :action => "edit"
     end
   end
 
@@ -190,6 +194,16 @@ class ProvidersController < ApplicationController
   end
 
   protected
+
+    # looking for ProviderType based on content of provider_type tag in xml
+  def parse_provider_type
+    if params.has_key?(:provider) && params[:provider].has_key?(:provider_type) && params[:provider][:provider_type].has_key?(:id)
+      provider_type_hash = params[:provider].delete(:provider_type)
+      provider_type_id = provider_type_hash[:id]
+      provider_type = ProviderType.find_by_id(provider_type_id)
+      params[:provider][:provider_type_id] = provider_type.id
+    end
+  end
 
   def test_connection(provider)
     @provider.errors.clear
