@@ -214,7 +214,8 @@ js="public/javascripts \
     public/javascripts/jquery.ui-1.8.1 \
     public/javascripts/jquery.ui-1.8.1/ui/minified \
     public/javascripts/lib \
-    public/javascripts/backbone"
+    public/javascripts/backbone \
+    vendor/converge-ui/javascripts/lib"
 json="spec/fixtures"
 key="features/upload_files"
 opts="spec"
@@ -333,6 +334,7 @@ popd 2>&1 > /dev/null
 %{__ln_s} -f %{app_root}/vendor/converge-ui/rails/layouts %{app_root}/app/views/layouts/converge-ui
 %{__ln_s} -f %{app_root}/vendor/converge-ui/fonts %{app_root}/public/fonts/converge-ui
 %{__ln_s} -f %{app_root}/vendor/converge-ui/rails/helpers/layout_helper.rb %{app_root}/app/helpers/layout_helper.rb
+%{__ln_s} -f %{app_root}/vendor/converge-ui/javascripts/lib %{app_root}/public/javascripts/lib/converge-ui
 
 %postun
 # kind of a weird construct.  There are two cases where postun gets called;
