@@ -48,17 +48,23 @@ Feature: Manage Providers via API
     Then I should receive Bad Request message
     And the provider should not be created
 
-#  Scenario: Update a provider
-#    Given there is a provider
-#    When I update that provider with correct data
-#    Then I should receive OK message
-#    And the provider should be updated
-#
-#  Scenario: Update a provider with bad request
-#    Given there is a provider
-#    When I update that provider with incorrect data
-#    Then I should receive Bad Request message
-#    And the provider should not be updated
+  Scenario: Update a provider
+    Given there is a provider
+    When I update that provider with correct data via XML
+    Then I should receive OK message
+    And the provider should be updated
+
+  Scenario: Update a provider with bad request
+    Given there is a provider
+    When I update that provider with incorrect data via XML
+    Then I should receive Bad Request message
+    And the provider should not be updated
+
+  Scenario: Attempt to update non existing provider
+    Given the specified provider does not exist in the system
+    When I attempt to update the provider
+    Then I should receive a Provider Not Found error
+    And the provider should not be updated
 
   Scenario: Delete Provider
     Given there is a provider
