@@ -19,12 +19,12 @@ class FixSessionIdForSessionEntities < ActiveRecord::Migration
     add_column :session_entities, :session_id, :string
     SessionEntity.reset_column_information
     SessionEntity.all.each do |se|
-      session = ActiveRecord::SessionStore::Session.find(se.session_db_id)
-      if session
+      begin
+        session = ActiveRecord::SessionStore::Session.find(se.session_db_id)
         se.session_id = session.session_id
         se.save!
-      else
-        se.delete!
+      rescue
+        se.destroy
       end
     end
     remove_column :session_entities, :session_db_id
@@ -40,7 +40,7 @@ class FixSessionIdForSessionEntities < ActiveRecord::Migration
         se.session_db_id = session.id
         se.save!
       else
-        se.delete!
+        se.destroy
       end
     end
     remove_column :session_entities, :session_id
