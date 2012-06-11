@@ -489,6 +489,7 @@ en:
     new_pool: New Pool
     edit_pool: Edit Pool %{pool}
     create_new_pool: Create New Pool
+    logs: Logs
     index:
       pool_name: Pool name
       deployed_on: Deployed on
@@ -1395,3 +1396,4 @@ en:
     provider_realms: Provider Realms
     deployables: Deployables
     deployments: Deployments
+    logs: Logs
