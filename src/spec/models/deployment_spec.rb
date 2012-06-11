@@ -427,8 +427,6 @@ describe Deployment do
           @inst2.save!
           @deployment.reload
           @deployment.state.should == Deployment::STATE_ROLLBACK_IN_PROGRESS
-          @deployment.events.find_by_status_code('instance_launch_failed').
-            should_not be_nil
         end
 
         it "should stop all running instances if an instance fails" do

@@ -234,6 +234,7 @@ class Deployment < ActiveRecord::Base
     self.reload unless self.new_record?
     self.state = STATE_PENDING
     save!
+
     all_inst_match, account, errs = find_match_with_common_account
 
     if all_inst_match
@@ -249,6 +250,11 @@ class Deployment < ActiveRecord::Base
                    :errors => errs.join(", "))
     end
 
+    # Array of InstanceMatches returned by find_match_with_common_account
+    # is converted to hashes because if we use directly instance of
+    # InstanceMatch model, delayed job tries to load this object from DB
+    all_inst_match.map!{|m| m.attributes}
+
     if deployable_xml.requires_config_server?
       # the instance configurations need to be generated from the entire set of
       # instances (and not each individual instance) in order to do parameter
@@ -262,24 +268,28 @@ class Deployment < ActiveRecord::Base
       instance_configs = {}
     end
 
+    delay.send_launch_requests(all_inst_match, config_server,
+                               instance_configs, user)
+  end
 
-    # TODO: in follow up patch there should be only delayed job call
-    # on this place
-    # For now, we just call DC create intance method on foreground, if an error
-    # occurs (for example DC API is not running, or config server is not
-    # running), then CREATE_FAILED is set in instance.launch!
+  def send_launch_requests(all_inst_match, config_server, instance_configs, user)
     instances.each do |instance|
       instance.reset_attrs unless instance.state == Instance::STATE_NEW
-      match = all_inst_match.find{|m| m.instance.id == instance.id}
-      instance.instance_matches << match
+      instance.instance_matches << InstanceMatch.new(
+        all_inst_match.find{|m| m['instance_id'] == instance.id})
       begin
-        instance.launch!(match,
+        instance.launch!(instance.instance_matches.last,
                          user,
                          config_server,
                          instance_configs[instance.uuid])
       rescue
-        errors.add(:base,
-                   "#{instance.name}: #{$!.message.to_s.split("\n").first}")
+        self.events << Event.create(
+          :source => self,
+          :event_time => DateTime.now,
+          :status_code => 'instance_launch_failed',
+          :summary => "#{instance.name}: #{$!.message.to_s.split("\n").first}"
+        )
+
         logger.error $!.message
         logger.error $!.backtrace.join("\n    ")
 
@@ -695,6 +705,10 @@ class Deployment < ActiveRecord::Base
       return
     end
 
+    delay.send_rollback_requests
+  end
+
+  def send_rollback_requests
     error_occured = false
     instances.running.each do |instance|
       begin
