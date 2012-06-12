@@ -19,6 +19,7 @@ en:
       instance_event_type: Instance
       default_pools: All Pools
       default_providers: All Providers
+      default_group_by: All
       time_order: Time
       deployment_instance_order: Deployment/Instance
       state_order: State
@@ -29,6 +30,7 @@ en:
       title: Logs
       not_available: N/A
       event_time: Time
+      grouped_by: Grouped By
       deployment: Deployment/Instance
       state: State
       pool: Pool
