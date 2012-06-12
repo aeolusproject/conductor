@@ -252,7 +252,7 @@ class Deployable < ActiveRecord::Base
     icicle_uuid = image.latest_pushed_or_unpushed_build.target_images.first.icicle rescue nil
     icicle = Aeolus::Image::Warehouse::Icicle.find(icicle_uuid) if icicle_uuid
     agent_v = icicle ? icicle.packages.find_all { |p| p =~ /aeolus-audrey-agent(.*)/ } : ""
-    agent_v = agent_v.first.split('-')[3] if agent_v.present?
+    agent_v = agent_v.present? ? agent_v.first.split('-')[3] : ""
 
     # calculate audrey api version
     audrey_api_v = if agent_v >= "0.5.0"
