@@ -46,7 +46,7 @@ class InstancesController < ApplicationController
   def show
     load_instances
     save_breadcrumb(instance_path(@instance), @instance.name)
-    @events = @instance.events.descending_by_created_at.paginate(:page => params[:page] || 1)
+    @events = @instance.events.paginate(:page => params[:page] || 1)
     @view = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     @tabs = [
       {:name => t('properties'), :view => @view, :id => 'properties'},

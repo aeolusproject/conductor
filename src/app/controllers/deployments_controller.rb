@@ -213,7 +213,7 @@ class DeploymentsController < ApplicationController
     details_tab_name = params[:details_tab].blank? ? 'instances' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
     if @details_tab[:id] == 'history'
-      @events = @deployment.events
+      @events = @deployment.events_of_deployment_and_instances
     end
     if params[:details_tab]
       @view = @details_tab[:view]

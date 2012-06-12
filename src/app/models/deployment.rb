@@ -283,16 +283,6 @@ class Deployment < ActiveRecord::Base
                          config_server,
                          instance_configs[instance.uuid])
       rescue
-        self.events << Event.create(
-          :source => self,
-          :event_time => DateTime.now,
-          :status_code => 'instance_launch_failed',
-          :summary => "#{instance.name}: #{$!.message.to_s.split("\n").first}"
-        )
-
-        logger.error $!.message
-        logger.error $!.backtrace.join("\n    ")
-
         # be default launching of instances is terminated if an error occurs,
         # user can set "partial_launch" attribute - launch request is then
         # sent for all deployment's instances
@@ -514,6 +504,15 @@ class Deployment < ActiveRecord::Base
     d
   end
 
+  def events_of_deployment_and_instances
+    instance_ids = instances.map(&:id)
+    Event.all(:conditions => ["(source_type='Instance' AND source_id in (?))"\
+                              "OR (source_type='Deployment' AND source_id=?)",
+                              instance_ids, self.id],
+              :order => "created_at ASC")
+
+  end
+
   PRESET_FILTERS_OPTIONS = []
 
   private
@@ -645,12 +644,6 @@ class Deployment < ActiveRecord::Base
     elsif partial_launch and instances.all? {|i| i.failed_or_running?}
       self.state = STATE_RUNNING
     elsif !partial_launch and Instance::FAILED_STATES.include?(instance.state)
-      self.events << Event.create(
-        :source => self,
-        :event_time => DateTime.now,
-        :status_code => 'instance_launch_failed',
-        :summary => "Failed to launch instance #{instance.name}, doing rollback"
-      )
       # TODO: now this is done in instance's after_update callback - as part
       # of instance save transaction - this might be done on background by
       # using delayed_job
@@ -716,7 +709,7 @@ class Deployment < ActiveRecord::Base
       rescue
         error_occured = true
         self.events << Event.create(
-          :source => self,
+          :source => instance,
           :event_time => DateTime.now,
           :status_code => 'instance_stop_failed',
           :summary => "Failed to stop instance #{instance.name}",

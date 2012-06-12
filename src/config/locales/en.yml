@@ -267,6 +267,8 @@ en:
       deployable_xml: Deployable XML
     show:
       name: "%{name} Deployment"
+    history:
+      instance: "Instance %{name}"
     new:
       launch: Launch this deployment
       deployable_definition: Deployable definition
