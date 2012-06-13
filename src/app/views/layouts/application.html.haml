@@ -36,7 +36,7 @@
   = javascript_include_tag "lib/converge-ui/jquery/plugins/flot-0.7/excanvas.js"
 
 = content_for :logo do
-  = link_to(image_tag('upstream-logo.png'), root_path)
+  = link_to image_tag('upstream-logo.png', :class => "upstream_logo"), root_path
 
 = content_for :tabs do
   = render_navigation :level => 1

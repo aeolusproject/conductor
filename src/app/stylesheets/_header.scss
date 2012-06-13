@@ -1,21 +1,19 @@
 /* Adapted normalization */
 
 .hidden {
-  display: none; 
+  display: none;
 }
 
 header#header {
   height:60px;
 
-  h1 {
-    bottom:auto;
-    top:15px;
-  }
+  img.upstream_logo{ margin: 20px 0px 0px 30px; }
+
   #appnav {left:388px;}
 
   #widget-container {
     top:27px;
-  
+
   	#usermenu {
   	list-style:none;
   	  li {
