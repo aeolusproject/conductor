@@ -2,7 +2,7 @@
   = t("layout.appname")
   = "| #{@title}" unless @title.blank?
 
-= content_for :stylesheets do
+= content_for :stylesheets_block do
   = stylesheet_link_tag '/stylesheets/compiled/layout.css'
   = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
   /[if lt IE 9]
