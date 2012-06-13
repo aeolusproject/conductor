@@ -201,7 +201,7 @@ fr:
         action: Action
         created_at: "Créé à"
         lock_version: "Version du verrou"
-        role_id: Rôles
+        role_id: Rôle
         target_type: "Type de cible"
         updated_at: "Mis à jour à"
       property_enum_entry:
@@ -306,6 +306,20 @@ fr:
         state: État
         updated_at: "Mis à jour à"
         user_id: Utilisateur
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "doit uniquement contenir :  nombres, lettres, espaces, « _ » et « - »"
+        pool_family:
+          attributes:
+            name:
+              invalid: "doit uniquement contenir :  nombres, lettres, espaces, « _ » et « - »"
+        provider:
+          attributes:
+            name:
+              invalid: "doit uniquement contenir :  nombres, lettres, espaces, « _ » et « - »"
     models:
       base_permission_object: "Objet de permission de base"
       catalog: Catalogue
@@ -343,17 +357,3 @@ fr:
       task: Tâche
       user: Utilisateur
       view_state: "Afficher l'état"
-    errors:
-      models:
-        pool:
-          attributes:
-            name:
-              invalid: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"
-        pool_family:
-          attributes:
-            name:
-              invalid: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"
-        provider:
-          attributes:
-            name:
-              invalid: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"

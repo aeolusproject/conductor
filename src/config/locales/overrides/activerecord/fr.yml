@@ -56,7 +56,7 @@ fr:
       deployable: "Plan d'application"
       deployment: Application
       frontend_realm: "Cluster de ressources cloud"
-      hardware_profile: "Profil de ressources cloud"
+      hardware_profile: "Profil des ressources cloud"
       hardware_profile_property: "Propriété du profil de ressources cloud"
       instance_hwp: "Profil Res. de l'instance"
       pool: "Zone de ressources cloud"

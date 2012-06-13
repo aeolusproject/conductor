@@ -128,7 +128,7 @@ fr:
     flash:
       error:
         not_deleted:
-          one: "Le compte %{list} n'a pas été supprimé. Des instances y sont associées."
+          one: "Le déployable %{list} n'a pas été supprimé. Des déploiements y sont associés."
           other: "Les comptes %{list} n'ont pas été supprimés. Des instances leurs sont associées."
         not_deleted_perms:
           one: "Permissions insuffisantes pour supprimer le catalogue %{not_deleted} !"
@@ -161,7 +161,7 @@ fr:
   choose_name: "Choisir un nom d'utilisateur"
   choose_password: "Choisir un mot de passe"
   choose_treatment: "Choisir un traitement"
-  cloud_engine_hardware_profiles: "Profils de matériel"
+  cloud_engine_hardware_profiles: "Profils du matériel"
   cloud_providers: "Fournisseurs de cloud"
   config_servers:
     certificate_help: "Fournir un certificat pour activer la prise en charge https"
@@ -235,7 +235,7 @@ fr:
       cancel: Annuler
       catalog: Catalogue
       choose_xml: "Choisir un fichier XML déployable"
-      deployable_xml: "XML déployable"
+      deployable_xml: "XML du déployable"
       deployable_xml_url: "URL du XML déployable"
       edit_xml_after_save: "Modifier le fichier XML après l'enregistrement"
       multiple: Aucun
@@ -253,14 +253,14 @@ fr:
       description: Description
       name: Nom
       not_deleted:
-        one:  "Le compte %{list} n'a pas été supprimé. Des instances y sont associées."
-        other:  "Les comptes %{list} n'ont pas été supprimés. Des instances leurs sont associées."
+        one: "Le déployable %{list} n'a pas été supprimé. Des déploiements y sont associés."
+        other: "Les comptes %{list} n'ont pas été supprimés. Des instances leurs sont associées."
       state: État
     new:
       no_catalog_selected: "aucun catalogue sélectionné"
     new_from_image:
       catalog_entry_name: "%{name}"
-      description: "de la limite du quota des instances en cours d'exécution pour le compte %{name} a été atteint."
+      description: "Les références à la balise et à l'image dans \%{name}\ ont été validées avec succès. Vous pouvez maintenant enregistrer l'image et créer un déployable."
       no_available_catalog: "Aucun catalogue"
       title: "Créer un déployable"
     properties:
@@ -298,7 +298,7 @@ fr:
       rebuild_all: "Construire les images manquantes"
       repair_images: "Réparer les images"
       show_hide_uuids: Afficher/cacher
-      start: Démarrer
+      start: Lancer
       target_images_uuids: "UUID des images cibles : "
       uuids: UUID
   deployments:
@@ -342,7 +342,7 @@ fr:
         failed_to_launch: "Le lancement du déploiement a échoué !"
     launch_from_catalog:
       arch: ARCH
-      deployable_xml: "XML déployable"
+      deployable_xml: "XML du déployable"
       details: Détails
       hdd: HDD
       hint: "Choisir un déployable à lancer dans le pool \"%{pool}\""
@@ -385,7 +385,7 @@ fr:
       operational_status: "Statut opérationnel de"
     overview:
       confirmation: "Êtes-vous certain de vouloir déployer \%{deployment}\ sur le pool %{pool} ? Ce faire utilisera %{quota} de votre quota de déploiement total."
-      deployable_xml: "XML déployable"
+      deployable_xml: "XML du déployable"
       description: Description
       header: "Déployer \"%{deployment}\" sur le pool %{pool} ?"
       image_ids: "ID des images"
@@ -451,8 +451,8 @@ fr:
     form:
       check_matches: "Vérifier les correspondances"
     hardware: Matériel
-    hardware_profile: "Profil matériel"
-    hardware_profiles: "Profils de matériel"
+    hardware_profile: "Profil du matériel"
+    hardware_profiles: "Profils du matériel"
     history:
       history: Historique
     index:
@@ -489,7 +489,7 @@ fr:
       matching_hwp: "Profils matériel des fournisseurs correspondants"
     tab_captions:
       history: Historique
-      matching_provider_hwp: "Profils matériel des fournisseurs correspondants"
+      matching_provider_hwp: "Profils du matériel de fournisseur correspondants"
       properties: Propriétés
   hello: Bonjour
   help: Aide
@@ -538,7 +538,7 @@ fr:
       os_version: "Version du SE"
     new:
       choose_file: "Choisissez un fichier modèle : "
-      description: "de la limite du quota des instances en cours d'exécution pour le compte %{name} a été atteint."
+      description: "Les références à la balise et à l'image dans \%{name}\ ont été validées avec succès. Vous pouvez maintenant enregistrer l'image et créer un déployable."
       edit_file: "Modifiez ce fichier avant de l'enregistrer : "
       from_url: "Depuis l'URL"
       image_url: "URL du modèle : "
@@ -547,14 +547,14 @@ fr:
       upload: Télécharger
     not_on_provider: "L'image requise est introuvable sur le fournisseur."
     overview:
-      back: Retour
-      description: "de la limite du quota des instances en cours d'exécution pour le compte %{name} a été atteint."
+      back: Précédent
+      description: "Les références à la balise et à l'image dans \%{name}\ ont été validées avec succès. Vous pouvez maintenant enregistrer l'image et créer un déployable."
       make_deployable: "Automatiquement faire de \"%{name}\" un déployable."
       save_template: "Enregistrer le modèle"
       valid_image: "Image valide"
     show:
       account: Compte
-      build: "Construire (Build)"
+      build: Build
       build_all: "Tout construire (Build All)"
       build_date: "Date de fin de la construction (Build)"
       build_not_found: "Build introuvable"
@@ -599,12 +599,12 @@ fr:
       architecture_mismatch: "L'architecture du profil matériel de l'Assembly (%{inst_arch}) ne correspond pas à l'architecture du profil matériel de l'image (%{img_arch})."
       cannot_destroy: "l'action destroy ne peut pas être effectuée sur cette instance."
       hw_profile_match_not_found: "%{account_name} : correspondance du profil matériel introuvable"
-      image_not_found:  "Aucune construction d'image n'a été trouvée avec l'uuid %{b_uuid} et aucune image n'a été trouvée avec l'uuid %{i_uuid}"
+      image_not_found: "Aucune construction d'image n'a été trouvée avec l'uuid %{b_uuid} et aucune image n'a été trouvée avec l'uuid %{i_uuid}"
       image_not_pushed_to_provider: "%{account_name} : l'image n'a pas été envoyée sur ce compte fournisseur"
       invalid_state: "Erreur, impossible de calculer l'heure de l'état : état invalide"
       must_be_enabled: "%{account_name} : le fournisseur doit être activé"
       no_config_server_available: "%{account_name} : aucun serveur de configuration disponible pour le compte fournisseur"
-      no_provider_accounts: "Il n'y a pas de compte fournisseur associé à la gamme de pools du pool sélectionné."
+      no_provider_accounts: "Les images ne peuvent pas être importées car aucun compte fournisseur n'est actuellement activé pour cet environnement."
       pool_family_quota_reached: "Quota de la gamme de pools atteint"
       pool_quota_reached: "Quota de pools atteint"
       provider_account_quota_reached: "%{account_name} : quota de comptes fournisseurs atteint"
@@ -754,14 +754,14 @@ fr:
     new:
       choose_global_role: "Choisir les attributions de rôles globaux pour les utilisateurs"
       choose_roles: "Choisir des rôles pour les utilisateurs auxquels vous souhaitez autoriser l'accès à "
-      global_role_grants: "Octroi de rôles globaux"
+      global_role_grants: "Permissions de rôles globaux"
     preset_filters:
       all_permissions: "Toutes les permissions"
     revoke_access: "Révoquer l'accès"
   pool_families:
     add_to_pool_family: "Ajouter à %{name}"
     choose_provider_accounts: "Choisissez les comptes fournisseurs à activer pour cette gamme de pools"
-    confirm_delete: "Êtes-vous certain de vouloir supprimer cette gamme de pools ? Tous les pools, catalogues et déployables concernés seront aussi supprimés !"
+    confirm_delete: "Êtes-vous certain de vouloir supprimer ce pool ? Tous les catalogues et déployables concernés seront aussi supprimés !"
     edit:
       return_to: "Retourner à : "
     flash:
@@ -796,6 +796,7 @@ fr:
       name: Nom
       new_pool_family: "Nouvelle gamme de pools"
       pending_instances: "Inst. en attente"
+      pool_family_quota_used: "Quota de la gamme de pools utilisé"
       pool_name: "Nom du pool"
       quota_limit: "Limite du quota"
       quota_used: "Quota utilisé"
@@ -984,7 +985,7 @@ fr:
         upload_failed: "Téléchargement de l'image du fournisseur impossible"
   provider_realms:
     name: "Nom de la sphère du fournisseur"
-    provider_realms: "Sphères des fournisseurs"
+    provider_realms: "Sphères de fournisseurs"
     show:
       details: "Détails de la sphère du fournisseur"
       mapping: "Mappage de la sphère du fournisseur"
@@ -1128,7 +1129,7 @@ fr:
       properties: Propriétés
       realm_mapping: "Mappage de sphère"
       realm_unavailable: "La sphère %{name} est n'est pas actuellement disponible."
-      sure_to_delete: "Êtes-vous certain de vouloir supprimer ?"
+      sure_to_delete: "Êtes-vous certain de vouloir supprimer ?"
     tab_captions:
       mapping: Mappage
       properties: Propriétés
@@ -1252,8 +1253,8 @@ fr:
       encrypted_connection: "Connexion chiffrée"
       expiration: "Expiration : inconnu"
       issued: "Certificat fournit par  : "
-      message: "Impossible de pousser TargetImage %{targetimage} vers %{account} et erreur %{error}"
-      message_unencrypted: "Si vous pensez qu'il s'agit d'une erreur, ne vous connectez pas. Veuillez contacter votre administrateur système immédiatement."
+      message: "Votre connexion à Aeolus Conductor sur %{host} est actuellement non-chiffrée. Ceci peut potentiellement conduire au vol d'informations personnelles."
+      message_unencrypted: "Votre connexion à Aeolus Conductor sur %{host} est actuellement non-chiffrée. Ceci peut potentiellement conduire au vol d'informations personnelles."
       message_unencrypted2: "Si vous pensez qu'il s'agit d'une erreur, ne vous connectez pas. Veuillez contacter votre administrateur système immédiatement."
       return_to_login: "Retourner à la connexion"
       unencrypted_connection: "Connexion non-chiffrée"
