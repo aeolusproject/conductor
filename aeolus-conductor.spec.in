@@ -154,7 +154,7 @@ run aeolus-configure to configure everything.
 getent group aeolus >/dev/null || /usr/sbin/groupadd -g 180 -r aeolus 2>/dev/null || :
 getent passwd aeolus >/dev/null || \
     /usr/sbin/useradd -u 180 -g aeolus -c "aeolus" \
-    -s /sbin/nologin -r -d /var/aeolus aeolus 2> /dev/null || :
+    -s /sbin/nologin -r -m -d /var/aeolus aeolus 2> /dev/null || :
 
 %install
 %{__mkdir} -p %{buildroot}
