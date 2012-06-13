@@ -82,12 +82,12 @@ $.extend(Conductor, {
     });
   },
 
-  bind_pretty_toggle: function() {
+  bindPrettyToggle: function() {
     Conductor.nicelyHookAjaxClick($("#pretty_view"), function() {
       var link_element = this;
       $('#content .toggle-view').html('<div class="loading_tabs"></div>');
       $.get($(this).attr("href"), $(this).serialize(), function(result) {
-        $('#content .toggle-view').html(result);
+        $('.toggle-view').html(result);
         $(link_element).addClass('active');
         $("#filter_view").removeClass('active');
       });
@@ -96,7 +96,7 @@ $.extend(Conductor, {
       var link_element = this;
       $('#content .toggle-view').html('<div class="loading_tabs"></div>');
       $.get($(this).attr("href"), $(this).serialize(), function(result) {
-        $('#content .toggle-view').html(result);
+        $('.toggle-view').html(result);
         $('#details-selected').hide();
         $('#details-view').tabs();
         $(link_element).addClass('active');
@@ -310,7 +310,7 @@ $(document).ready(function () {
   $("#notification").enhanceInteraction();
   Conductor.enhanceListView();
   Conductor.enhanceDetailsTabs();
-  Conductor.bind_pretty_toggle();
+  Conductor.bindPrettyToggle();
   Conductor.multiActionValidation();
   Conductor.closeNotification();
   Conductor.toggleCollapsible();
