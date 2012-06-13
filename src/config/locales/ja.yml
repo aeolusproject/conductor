@@ -267,7 +267,7 @@ ja:
       edit_deployable_xml: "展開可能なアプリの XML を編集"
     show:
       add_catalog: "追加 +"
-      arch: アーキテクチャ
+      arch: アーキテクチャー
       build_missing: 不足しているビルド
       build_status: ビルドの状態
       build_statuses_descriptions:
@@ -341,7 +341,7 @@ ja:
         disabled_pool: "このプールでアプリ展開を起動できません。 プールが無効になっています。"
         failed_to_launch: アプリ展開の起動に失敗しました!
     launch_from_catalog:
-      arch: アーキテクチャ
+      arch: アーキテクチャー
       deployable_xml: "展開可能なアプリの XML"
       details: 詳細
       hdd: HDD
@@ -375,7 +375,7 @@ ja:
       deployable_details: 展開可能なアプリの詳細
       description: "詳細: "
       hardware_profile: ハードウェアプロファイル
-      image_id: "イメージの ID"
+      image_id: "イメージ ID"
       launch: このアプリ展開を起動
       name: "名前: "
       view: 表示
@@ -395,7 +395,7 @@ ja:
     preset_filters:
       all_deployments: すべてのアプリ展開
     pretty_view_show:
-      download_key: ダウンロードキー
+      download_key: キーのダウンロード
       ip_address: "IP アドレス: "
       no_ip_address: "-"
       reboot: 再起動
@@ -431,7 +431,7 @@ ja:
     create:
       check_matching_hwp: 適合するハードウェアプロファイルを確認
     edit:
-      cancel_editing: 編集を取り消し
+      cancel_editing: 編集をキャンセル
       edit_hwp: ハードウェアプロファイルの編集
     flash:
       error:
@@ -452,17 +452,17 @@ ja:
       check_matches: 一致をチェック
     hardware: ハードウェア
     hardware_profile: ハードウェアプロファイル
-    hardware_profiles: ハードウェアのプロファイル
+    hardware_profiles: ハードウェアプロファイル
     history:
       history: 履歴
     index:
-      architecture: アーキテクチャ
+      architecture: アーキテクチャー
       hardware_profile_name: ハードウェアプロファイル名
-      memory: メモリー
+      memory: メモリ
       storage: ストレージ
       virtual_cpu: "仮想 CPU"
     list:
-      delete_selected: 削除が選択されました
+      delete_selected: 選択項目を削除
       new_hardware: 新規のハードウェアプロファイル
     matching_provider_hwp:
       no_matching_provider_hwp: 一致するプロバイダーハードウェアプロファイルは見つかりませんでした
@@ -470,16 +470,16 @@ ja:
       new_hwp: 新規のハードウェアプロファイル
     preset_filters:
       all_hardware_profiles: すべてのハードウェアプロファイル
-      i386architecture: "i368 アーキテクチャ"
-      x86_64architecture: "x86_64 アーキテクチャ"
+      i386architecture: "i368 アーキテクチャー"
+      x86_64architecture: "x86_64 アーキテクチャー"
     properties_headers:
       min_value: 最小値
       name: 名前
       unit: 単位
     provider_hwp_headers:
-      architecture: アーキテクチャ
+      architecture: アーキテクチャー
       hwp_name: ハードウェアプロファイル名
-      memory: メモリー
+      memory: メモリ
       provider_name: プロバイダー名
       storage: ストレージ
       virtual_cpu: "仮想 CPU"
@@ -508,7 +508,7 @@ ja:
         invalid_url: "入力された URL をロードできませんでした"
         no_file: "テンプレートの XML ファイルを指定してください"
         no_provider_accounts: "現在有効になっているプロバイダーのアカウントがないため、 イメージをビルドできません。"
-        no_provider_accounts_for_import: "この環境に対して現在有効になっているプロバイダーのアカウントがないため、 イメージをビルドできません。"
+        no_provider_accounts_for_import: 現在この環境に有効なプロバイダーアカウントがないため、イメージはインポートできません。
         no_template: インポートされたのでこのイメージにはテンプレートがありません。
       notice:
         created: イメージが作成されました
@@ -528,7 +528,7 @@ ja:
       name: イメージ名
       provider_account: プロバイダーアカウント
     index:
-      architecture: アーキテクチャ
+      architecture: アーキテクチャー
       images: イメージ
       import: インポート
       last_rebuild: 最後の再ビルド
@@ -596,7 +596,7 @@ ja:
       edit_instance: インスタンスの編集
       name: 名前
     errors:
-      architecture_mismatch: "assembly ハードウェアプロファイルのアーキテクチャ (%{inst_arch}) は image ハードウェアプロファイルのアーキテクチャ(%{img_arch}) と一致しません。 "
+      architecture_mismatch: "assembly ハードウェアプロファイルのアーキテクチャー (%{inst_arch}) は image ハードウェアプロファイルのアーキテクチャー (%{img_arch}) と一致しません。 "
       cannot_destroy: このインスタンスでは破棄は実行できません。
       hw_profile_match_not_found: "%{account_name}: ハードウェアプロファイルの一致が見つかりません"
       image_not_found: "uuid %{b_uuid} のイメージビルドが見つからなかったため、 uuid %{i_uuid} のイメージは見つかりませんでした"
@@ -610,7 +610,7 @@ ja:
       provider_account_quota_reached: "%{account_name}: プロバイダーアカウントの割り当て上限に達しました"
       provider_account_quota_too_low: "展開可能アプリを起動するには %{match_provider_account} の割り当て制限が低すぎます"
       provider_not_available: "%{account_name}: プロバイダーは利用できません"
-      realm_not_mapped: "%{account_name}:  %{frontend_realm_name} 領域はいずれのアプリケーションプロバイダーやプロバイダー領域にもマッピングされていません。"
+      realm_not_mapped: "%{account_name}: %{frontend_realm_name} 領域はいずれのアプリケーションプロバイダーやプロバイダー領域にもマッピングされていません。"
       reboot_invalid_action: 再起動は無効な動作です。
       state_not_monitored: "エラー、 状態時間を算出できませんでした: 状態はモニターされていません"
       stop_invalid_action: 停止は無効な動作です。
@@ -679,15 +679,15 @@ ja:
       running: 実行中のインスタンス
       stopped: 停止されたインスタンス
     properties:
-      architecture: "アーキテクチャ: "
+      architecture: "アーキテクチャー: "
       assembly: "Assembly: "
       console_connection: "コンソール接続: "
       current_alerts: "現在の警告: "
       download: ダウンロード
       error: "エラー: "
       instantiation_time: "インスタンス化の時間: "
-      memory: "メモリー: "
-      n_a: 該当無し
+      memory: "メモリ: "
+      n_a: 該当なし
       name: "名前: "
       owner: "所有者: "
       private_adresses: "プライベートアドレス: "
@@ -796,6 +796,7 @@ ja:
       name: 名前
       new_pool_family: 新規のプールファミリー
       pending_instances: 保留中のインスタンス
+      pool_family_quota_used: 使用中のプールファミリーの割り当て
       pool_name: プール名
       quota_limit: 割り当て制限
       quota_used: 使用中の割り当て
@@ -933,13 +934,13 @@ ja:
       config_server_saved: 設定サーバーのデータが正常に保存されました。
       priority: 優先度
       provider_account_name: アカウント名
-      provider_accounts: プロバイダーのアカウント
+      provider_accounts: プロバイダーアカウント
       provider_name: プロバイダー名
       provider_type: プロバイダーのタイプ
       quota_limit: 割り当て制限
       username: ユーザー名
     list:
-      delete_selected: 削除が選択されました
+      delete_selected: 選択項目を削除
     new:
       cloud_providers: クラウドのプロバイダー
       new_provider_account: 新規のプロバイダーアカウント
@@ -1084,7 +1085,7 @@ ja:
   realm_s: 領域
   realms:
     edit:
-      cancel_editing: 編集の取り消し
+      cancel_editing: 編集をキャンセル
       properties: プロパティ
     flash:
       error:
@@ -1106,7 +1107,7 @@ ja:
         true_value: はい
       realm_name: 領域名
     list:
-      delete_selected: 削除が選択されました
+      delete_selected: 選択項目を削除
     mapping:
       frontend_realms_mapped_to_provider: "%{name} プロバイダーにマッピングされている領域: "
       frontend_realms_mapped_to_realm: "%{name} プロバイダー領域にマッピングされている領域: "
@@ -1140,7 +1141,7 @@ ja:
   role_assignments: ロールの割り当て
   roles:
     edit:
-      cancel_editing: 編集の取り消し
+      cancel_editing: 編集をキャンセル
       editing_role: "ロールの編集中: "
       properties: プロパティ
     flash:
@@ -1155,7 +1156,7 @@ ja:
     new_role: 新規のロール
     properties:
       action: 動作
-      privileges: 特権
+      privileges: 権限
       scope: "範囲: "
       target_type: ターゲットのタイプ
     show:
@@ -1289,7 +1290,7 @@ ja:
       user_id: "ユーザー ID"
       username: ユーザー名
     list:
-      delete_selected: 削除が選択されました
+      delete_selected: 選択項目を削除
       unlimited: 無制限
     new:
       neccessary_information: "新しいユーザーの必要情報を入力し、 入力が終わったら「ユーザーの保存」をクリックします。"

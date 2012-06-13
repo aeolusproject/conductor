@@ -27,7 +27,7 @@ ja:
         no_url_provided: "アプリケーション設計図の XML ファイルに URL が与えられていません。"
         not_valid: "アプリケーション設計図の XML ファイルは有効な XML ファイルを解決しません"
         not_valid_duplicate_assembly_names: "アプリケーション設計図の XML には固有の assembly name が含まれていなければなりません"
-        not_valid_or_reachable: "アプリケーション設計図の XML ファイルは無効なファイルであるか、 接続不能になっています。"
+        not_valid_or_reachable: "アプリケーション設計図の XML ファイルが無効なファイルであるか、 接続不能になっています。"
     index:
       catalog_entries: アプリケーションの設計図
       catalog_entry: アプリケーション設計図
@@ -93,28 +93,19 @@ ja:
         one: "アプリケーション設計図 %{list} は削除されませんでした。 この設計図に関連付けされているアプリケーションがあります。"
         other: "%{list} のアプリケーション設計図は削除されませんでした。 これらの設計図に関連付けされているアプリケーションがあります。"
     new_from_image:
-      description: "「%{name}」コンポーネント概要からアプリケーション設計図を作成するとビルド及び起動が可能になります。 アプリケーション設計図を格納するカタログを選択してデフォルトのクラウドリソースプロファイルを指定するだけです。"
+      description: "\"%{name}\" イメージからアプリケーション設計図を作成すると、ビルドと起動が可能になります。アプリケーション設計図を格納するカタログを選択して、デフォルトのクラウドリソースプロファイルを定義するだけです。"
       title: アプリケーション設計図の作成
     properties:
       edit_deployable_xml: "アプリケーション設計図の XML を編集"
     show:
       build_description: このアプリケーション設計図の関連コンポーネント概要のビルドおよびクラウドリソースのプロバイダーへのプッシュを以下で有効にして許可します。
-      build_statuses_descriptions:
-        building: コンポーネントの概要がビルドされています。
-        not_built: コンポーネントの概要はビルドされません
-        not_pushed: プッシュされないコンポーネントの概要が複数あります
-        pushed: すべてのコンポーネントが異様がプッシュされ最新です。
-        pushing: コンポーネントの概要がプッシュされています。
       environment: クラウド
       hw_profile: クラウドリソースプロファイル
       image_uuid: "コンポーネント概要の UUID: "
-      images: コンポーネントの概要
-      images_valid: コンポーネントの概要は有効です
       latest_build_uuid: "最新のビルド UUID: "
       missing_images: イメージウェアハウスにコンポーネントの概要がありません
       push_all: 不足しているコンポーネントの概要をプッシュ
       rebuild_all: 不足しているコンポーネントの概要をビルド
-      repair_images: コンポーネントの概要を修復
       target_images_uuids: "ターゲットイメージの UUID: "
   deployments:
     confirm_delete: 本当にこのアプリケーションを削除してよいですか?
@@ -153,7 +144,7 @@ ja:
         failed_to_launch: アプリケーションの起動に失敗しました。
     launch_from_catalog:
       deployable_xml: "アプリケーション設計図の XML"
-      hint: "%{pool} クラウドリソースゾーン内で起動するアプリケーション設計図を選択してください"
+      hint: "「%{pool}」クラウドリソースゾーンで起動するアプリケーション設計図を選択します"
       image_id: "コンポーネント概要の ID"
       no_catalog_entry: "使用できるアプリケーション設計図がありません。 アプリケーション設計図を追加してください。"
     launch_new:
@@ -164,16 +155,15 @@ ja:
     new:
       deployable_definition: アプリケーション設計図の定義
       deployable_details: アプリケーション設計図の詳細
-      hardware_profile: クラウドリソースプロファイル
+      hardware_profile: クラウドリソースのプロファイル
       image_id: "コンポーネント概要の ID"
       launch: このアプリケーションを起動
     new_deployment: 新規のアプリケーション
     overview:
-      confirmation: "本当に %{deployment} を %{pool} クラウドリソースゾーンに展開してもよいですか? 展開するとアプリケーションの全体割り当ての %{quota} を使用することになります。"
+      confirmation: "本当に「%{deployment}」を %{pool} クラウドリソースゾーンに導入してもよいですか? 導入を行うとアプリケーション全体の割り当てのうち %{quota} を使用することになります。"
       deployable_uri: "アプリケーション設計図の URI"
       deployable_xml: "アプリケーション設計図の XML"
-      header: "%{deployment} を %{pool} クラウドリソースゾーンに展開しますか?"
-      image_ids: "コンポーネント概要の ID"
+      header: "「%{deployment}」を %{pool} クラウドリソースゾーンに導入しますか?"
       pool_name: "%{pool} クラウドリソースゾーン"
     preset_filters:
       all_deployments: すべてのアプリケーション
@@ -204,7 +194,7 @@ ja:
         cannot_delete_backend_hwp: プロバイダーのクラウドリソースプロファイルを削除できません
         cannot_edit_backend_hwp: プロバイダーのクラウドリソースプロファイルを変更できません
     hardware: クラウドリソースのプロファイル
-    hardware_profile: クラウドリソースプロファイル
+    hardware_profile: クラウドリソースのプロファイル
     hardware_profiles: クラウドリソースのプロファイル
     index:
       hardware_profile_name: クラウドリソースプロファイル名
@@ -227,7 +217,7 @@ ja:
   image_imports: コンポーネント概要のインポート
   images:
     environment: "クラウド: "
-    environment_header: クラウド
+    environment_header: クライアントウド
     flash:
       error:
         no_file: "コンポーネント概要の XML ファイルを指定する必要があります"
@@ -236,26 +226,20 @@ ja:
         created: コンポーネント概要が作成されました
     import:
       blank_id: "コンポーネント概要の ID を空白のままにしておくことはできません。"
-      image_id: "コンポーネント概要 ID"
-      image_imported: コンポーネント概要が正しくインポートされました。
-      image_not_imported: "コンポーネント概要をインポートできませんでした。 イメージファクトリーのログで詳細を確認してください。"
+      image_id: "コンポーネント概要の ID"
       import_image: イメージのインポート
       name: コンポーネント概要名
-    index:
-      images: コンポーネント概要
     new:
       choose_file: "コンポーネント概要ファイルを選択: "
-      description: "コンポーネント概要を「%{environment} クラウド」にアップロードまたはインポートする際のオプションを以下からひとつ選択します。"
+      description: "「%{environment} クラウド」にコンポーネント概要をアップロードまたはインポートする場合のオプションを以下から一つ選択してください。"
       image_url: "コンポーネント概要の URL: "
     not_on_provider: 要求されたコンポーネント概要がプロバイダーで見つかりませんでした。
     overview:
-      description: "「%{name}」内のコンポーネント概要の参照とマークアップが正しく認証されました。 これでコンポーネント概要を保存してアプリケーション設計図を作成できるようになりました。"
+      description: "「%{name}」のマークアップとコンポーネント概要の参照の検証がが正しく行われました。 これでコンポーネント概要を保存し、 アプリケーション設計図を作成することができるようになりました。"
       make_deployable: "自動的に「%{name}」アプリケーション設計図を作成します。"
       save_template: コンポーネント概要の保存
       valid_image: 有効なコンポーネント概要
     show:
-      image_uri: "コンポーネント概要の URI"
-      image_uuid: "コンポーネント概要の UUID"
       new_deployable_from_image: イメージから作成する新規の設計図
       provider: クラウドリソースプロバイダー
       template_xml: "XML の表示"
@@ -272,7 +256,7 @@ ja:
       realm_not_mapped: "%{account_name}: クラウドリソースクラスター %{frontend_realm_name} がいずれのクラウドリソースプロバイダーまたはプロバイダーのクラスターにもマッピングされていません"
     list:
       table:
-        provider: クラウドリソースプロバイダー
+        provider: クラウドリソースのプロバイダー
     properties:
       assembly: "コンポーネント設計図: "
       provider: "クラウドリソースプロバイダー: "
@@ -291,7 +275,7 @@ ja:
         default_pool_family_not_deleted: デフォルトのクラウドは削除できません!
         more_not_deleted: "次のクラウドを削除できませんでした: %{list}。"
         not_deleted: "クラウドの削除ができません! すべてのインスタンスが停止されていることを確認してください。"
-        not_updated: クラウドは更新されませんでした!
+        not_updated: クラウドは更新されませんでした
       notice:
         added: クラウドが追加されました。
         deleted: クラウドが削除されました。
@@ -304,6 +288,7 @@ ja:
     index:
       deployments: アプリケーション
       new_pool_family: 新規のクラウド
+      pool_family_quota_used: 使用中の割り当て
       pool_name: クラウドリソースゾーン名
     new:
       environments: クラウド
@@ -340,14 +325,14 @@ ja:
       catalog_entry: アプリケーション設計図
       image: "コンポーネント概要: "
     index:
-      confirm_delete: "本当にこのクラウドリソースゾーンを削除してよいですか? 関連カタログおよび展開可能なものもすべて削除されることになります。"
+      confirm_delete: "本当にこのクラウドリソースゾーンを削除してよいですか? 関連カタログおよび導入可能なものもすべて削除されることになります。"
       pool_details: クラウドリソースゾーンの詳細
       pool_family: クラウド
       pool_name: クラウドリソースゾーン名
       your_pools: ご使用のクラウドリソースゾーン
     new_pool: 新規のクラウドリソースゾーン
     pool: クラウドリソースゾーン
-    pools: クラウドリソースゾーン
+    pools: クラウドリソースのゾーン
     preset_filters:
       all_pools: すべてのクラウドリソースゾーン
       enabled_pools: クラウドリソースゾーンが有効になりました
@@ -367,8 +352,6 @@ ja:
       provider_type: クラウドリソースプロバイダーのタイプ
     new:
       cloud_providers: クラウドリソースのプロバイダー
-  provider_realms:
-    provider_realms: プロバイダーのクラウドリソースのクラスター
   provider_summary: クラウドリソースプロバイダー要約
   providers:
     edit:
@@ -397,7 +380,7 @@ ja:
     new:
       new_provider: 新規のクラウドリソースプロバイダー
       save_provider: クラウドリソースプロバイダーの保存
-    provider: クラウドリソースプロバイダー
+    provider: クラウドリソースのプロバイダー
     providers: クラウドリソースのプロバイダー
   realm_mappings:
     new:
@@ -421,7 +404,7 @@ ja:
     mapping:
       frontend_realms_mapped_to_provider: "プロバイダー %{name} にマッピングされているクラウドリソースのクラスター: "
       frontend_realms_mapped_to_realm: "プロバイダーのリソースクラスター %{name} にマッピングされているクラウドリソースのクラスター: "
-      mapping_provider: マッピングをクラスタリソースプロバイダーに追加
+      mapping_provider: マッピングをクラウドリソースプロバイダーに追加
       mapping_realm: マッピングをクラウドリソースクラスターに追加
       provider_accounts_mapped_to_realm: "クラウドリソースクラスター %{name} にマッピングされているプロバイダーのアカウント: "
       realm_mapped_providers: "クラウドリソースクラスター %{name} は次のプロバイダーにマッピングされています: "

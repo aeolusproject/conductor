@@ -306,6 +306,20 @@ ja:
         state: 状態
         updated_at: 更新日時
         user_id: ユーザー
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: 数字、文字、空白、「_」、「-」のみ使用可能です。
+        pool_family:
+          attributes:
+            name:
+              invalid: 数字、文字、空白、「_」、「-」のみ使用可能です。
+        provider:
+          attributes:
+            name:
+              invalid: 数字、文字、空白、「_」、「-」のみ使用可能です。
     models:
       base_permission_object: ベースのパーミッションオブジェクト
       catalog: カタログ
@@ -343,17 +357,3 @@ ja:
       task: タスク
       user: ユーザー
       view_state: 表示状態
-    errors:
-      models:
-        pool:
-          attributes:
-            name:
-              invalid: 数字、文字、空白、「_」、「-」以外は含ませないようにしてください。
-        pool_family:
-          attributes:
-            name:
-              invalid: 数字、文字、空白、「_」、「-」以外は含ませないようにしてください。
-        provider:
-          attributes:
-            name:
-              invalid: 数字、文字、空白、「_」、「-」以外は含ませないようにしてください。

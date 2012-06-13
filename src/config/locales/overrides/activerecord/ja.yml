@@ -44,9 +44,9 @@ ja:
         provider_type_id: クラウドリソースプロバイダーのタイプ
         url: "クラウドリソースプロバイダーの URL"
       provider_account:
-        provider_id: クラウドリソースプロバイダー
+        provider_id: クラウドリソースのプロバイダー
       realm:
-        provider_id: クラウドリソースプロバイダー
+        provider_id: クラウドリソースのプロバイダー
       realm_backend_target:
         frontend_realm_id: クラウドリソースクラスター
         realm_or_provider_id: クラウドリソースクラスターまたはクラウドリソースプロバイダー
@@ -61,8 +61,8 @@ ja:
       instance_hwp: インスタンスリソースプロファイル
       pool: クラウドリソースゾーン
       pool_family: クラウド
-      provider: クラウドリソースプロバイダー
+      provider: クラウドリソースのプロバイダー
       provider_account: クラウドリソースプロバイダーアカウント
-      provider_type: クラウドリソースプロバイダータイプ
+      provider_type: クラウドリソースプロバイダーのタイプ
       realm: クラウドリソースクラスター
       realm_backend_target: クラウドリソースクラスターのバックエンドターゲット
