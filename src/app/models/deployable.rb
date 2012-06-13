@@ -112,7 +112,7 @@ class Deployable < ActiveRecord::Base
   #method used with uploading deployable xml in catalog_entries#new
   def xml=(data)
     #for new
-    if data.instance_variables.include?("@original_filename") && data.instance_variables.include?("@tempfile")
+    if data.is_a?(ActionDispatch::Http::UploadedFile)
       write_attribute :xml_filename, data.original_filename
       write_attribute :xml, data.tempfile.read
     #for update or new from_url
