@@ -309,8 +309,8 @@ class Instance < ActiveRecord::Base
   end
 
   def add_instance_config!(config_server, config)
-    user_data = generate_user_data(config_server)
-    instance_config_xml = config.to_s
+    self.user_data = generate_user_data(config_server)
+    self.instance_config_xml = config.to_s
     save!
     begin
       config_server.send_config(config)
