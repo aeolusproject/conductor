@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.27
+Version:  0.8.28
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -366,6 +366,11 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Thu Jun 14 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.28-1
+- d2b89c1 fix regresion introduced by BZ#801971
+- c8f5a73 Added translated Japanese dictionaries for 1.0.1
+- ad2dac8 Added translated French dictionaries for 1.0.1
+
 * Fri Jun 01 2012 Steve Linabery <slinaber@redhat.com> 0.8.27-1
 - 65e3352 BZ 827562 - Upgrade from CloudForms 1.0 to CloudForms 1.0.1 requires
   additional data definition not provided by rails migration
