@@ -17,7 +17,6 @@
 class HardwareProfilesController < ApplicationController
   before_filter :require_user
   before_filter :load_hardware_profiles, :only => [:index, :show]
-  before_filter :load_hardware_profile, :only => [:show]
   before_filter :setup_new_hardware_profile, :only => [:new]
   before_filter :setup_hardware_profile, :only => [:new, :create, :matching_provider_hardware_profiles, :edit, :update]
 
@@ -217,6 +216,7 @@ class HardwareProfilesController < ApplicationController
 
     begin
       @matching_hwps = HardwareProfile.matching_hardware_profiles(@hardware_profile)
+      @matching_hwps.reject! { |hwp| !check_privilege(Privilege::VIEW, hwp) }
     rescue Exception => e
       @matching_hwps = []
     end
@@ -259,10 +259,8 @@ class HardwareProfilesController < ApplicationController
         end
       end
     end
-  end
 
-  def load_hardware_profile
-    @hardware_profile = HardwareProfile.find(params[:id])
+    @hardware_profiles.reject! { |hwp| !check_privilege(Privilege::VIEW, hwp) }
   end
 
   def build_hardware_profile(params)
