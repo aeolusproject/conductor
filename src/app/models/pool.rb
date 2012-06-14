@@ -172,13 +172,19 @@ class Pool < ActiveRecord::Base
     catalog_list.each do |catalog|
       catalog.deployables.each do |deployable|
         deployable.fetch_unique_images.each do |key,value|
-          row = {:catalog => catalog.name ,:deployable => deployable.name,
-                 :image => "#{value[:image].name} #{value[:image].uuid}", :provider_images =>[] }
+          if value[:image].present?
+            row = {:catalog => catalog.name ,:deployable => deployable.name,
+                   :image => "#{value[:image].name} #{value[:image].uuid}",
+                   :provider_images =>[] }
 
-          value[:image].provider_images.each do |provider_image|
-            row[:provider_images] << I18n.t('pools.images.pushed', :uuid => provider_image.uuid, :provider => provider_image.provider_name)
+            value[:image].provider_images.each do |provider_image|
+              row[:provider_images] << I18n.t('pools.images.pushed',
+                                              :uuid => provider_image.uuid,
+                                              :provider => provider_image.provider_name)
+
+            end
+            value[:count].times { catalog_images << row }
           end
-          value[:count].times {catalog_images << row}
         end
       end
     end
