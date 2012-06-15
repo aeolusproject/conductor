@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.28
+Version:  0.8.29
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -366,6 +366,13 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Fri Jun 15 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.29-1
+- 197dc79 BZ831577 - Fixed regression introduced by 796528
+- 096e258 added pagination to images list
+- bbc3955 Fix render_pagination
+- aeb8132 BZ802772: Add pagination to deployments#show
+- 18c81ac BZ802772: Add pagination to pools#index and pools#show
+
 * Thu Jun 14 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.28-1
 - d2b89c1 fix regresion introduced by BZ#801971
 - c8f5a73 Added translated Japanese dictionaries for 1.0.1
