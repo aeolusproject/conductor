@@ -11,7 +11,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  1%{?dist}
+Release:  2%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -435,6 +435,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed Jun 13 2012 Steve Linabery <slinaber@redhat.com> - 0.10.1-2
+- 5c150ad Create homedir for aeolus user
+
 * Thu Jun 07 2012 Steve Linabery <slinaber@redhat.com> - 0.10.1-1
 - 81f10a6 Refactor SessionEntity model to work properly with API
 - 1945d37 Fixed deployment rollback
