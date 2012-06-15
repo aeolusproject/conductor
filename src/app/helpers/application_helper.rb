@@ -164,7 +164,7 @@ module ApplicationHelper
   end
 
   def render_pagination(collection)
-    will_paginate(@collection, :previous_label => t('will_paginate.previous_label'), :next_label => t('will_paginate.next_label'))
+    will_paginate(collection, :previous_label => t('will_paginate.previous_label'), :next_label => t('will_paginate.next_label'))
   end
 
   module_function :count_uptime
