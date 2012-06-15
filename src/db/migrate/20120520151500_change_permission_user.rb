@@ -19,6 +19,9 @@ class ChangePermissionUser < ActiveRecord::Migration
     add_column :permissions, :entity_id, :integer
     add_column :derived_permissions, :entity_id, :integer
 
+    Permission.reset_column_information
+    DerivedPermission.reset_column_information
+
     Permission.skip_callback(:save, :after, :update_derived_permissions)
     counter = 0
     total_perms = Permission.count
@@ -49,6 +52,9 @@ class ChangePermissionUser < ActiveRecord::Migration
   def self.down
     add_column :permissions, :user_id, :integer
     add_column :derived_permissions, :user_id, :integer
+
+    Permission.reset_column_information
+    DerivedPermission.reset_column_information
 
     Permission.skip_callback(:save, :after, :update_derived_permissions)
     Permission.all.each do |p|
