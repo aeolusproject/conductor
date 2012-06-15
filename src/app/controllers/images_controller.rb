@@ -27,7 +27,7 @@ class ImagesController < ApplicationController
       { :name => t('images.index.architecture'), :sort_attr => :name },
       { :name => t('images.index.last_rebuild'), :sortable => false },
     ]
-    @images = Aeolus::Image::Warehouse::Image.all.paginate(:page => params[:page], :per_page => 15)
+    @images = Aeolus::Image::Warehouse::Image.all.paginate(:page => params[:page], :per_page => PER_PAGE)
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
