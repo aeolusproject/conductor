@@ -187,9 +187,13 @@ class DeploymentsController < ApplicationController
     if filter_view?
       @view = 'instances/list'
       params[:instances_preset_filter] = "" unless params[:instances_preset_filter]
-      @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).list(sort_column(Instance), sort_direction).where("instances.deployment_id" => @deployment.id)
+      @instances = Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter], :search_filter => params[:instances_search]).
+                            list(sort_column(Instance), sort_direction).where("instances.deployment_id" => @deployment.id).
+                            paginate(:page => params[:page], :per_page => PER_PAGE)
     else
       @view = 'pretty_view_show'
+      @instances = Instance.list(sort_column(Instance), sort_direction).where("instances.deployment_id" => @deployment.id).
+                            paginate(:page => params[:page], :per_page => PER_PAGE)
     end
     #TODO add links to real data for history, permissions, services
     @tabs = [{:name => t('instances.instances.other'), :view => @view, :id => 'instances', :count => @deployment.instances.count, :pretty_view_toggle => 'enabled'},

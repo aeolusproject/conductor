@@ -42,11 +42,7 @@ Conductor.Routers.Pools = Backbone.Router.extend({
 
 Conductor.Routers.Deployments = Backbone.Router.extend({
   routes: {
-    'deployments': 'index',
     'deployments/:id': 'show'
-  },
-
-  index: function() {
   },
 
   show: function(id) {
@@ -57,6 +53,7 @@ Conductor.Routers.Deployments = Backbone.Router.extend({
       var deployment = new Conductor.Models.Deployment({ id: id });
       var view = new Conductor.Views.DeploymentsShow({ model: deployment,
         collection: deployment.instances });
+      deployment.queryParams = view.queryParams();
 
       if(view.currentTab() !== 'instances') return;
 

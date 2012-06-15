@@ -42,8 +42,8 @@
 
 :javascript
   Conductor.setupPrettyFilterURL(
-            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter' )}',
-            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty' )}');
+            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'filter', :page => params[:page])}',
+            '#{url_for(:action => :show, :details_tab => 'instances', :view => 'pretty', :page => params[:page])}');
 
 %script#instanceTemplate{ :type => 'text/x-jquery-tmpl' }
   :plain
