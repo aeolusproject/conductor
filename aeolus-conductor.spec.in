@@ -11,7 +11,7 @@
 
 Name:     aeolus-conductor
 Version:  @VERSION@
-Release:  2%{?dist}
+Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
 Group:    Applications/System
@@ -435,6 +435,10 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Fri Jun 15 2012 Steve Linabery <slinaber@redhat.com> - 0.10.2-1
+- a552589 Set aeolus user home directory to /usr/share/aeolus-conductor
+- 47f5639 Fix the filter view toggle after converge-ui layout changes
+
 * Wed Jun 13 2012 Steve Linabery <slinaber@redhat.com> - 0.10.1-2
 - 5c150ad Create homedir for aeolus user
 
