@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.29
+Version:  0.8.30
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -366,6 +366,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Fri Jun 15 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.30-1
+- 22ffc7b bug 831057: fix ambiguous order by name
+
 * Fri Jun 15 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.29-1
 - 197dc79 BZ831577 - Fixed regression introduced by 796528
 - 096e258 added pagination to images list
