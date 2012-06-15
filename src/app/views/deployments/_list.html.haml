@@ -40,10 +40,11 @@
     %td= link_to deployment.pool.name, pool_path(deployment.pool, :view => :filter)
     %td= owner_name(deployment)
     %td= link_to(deployment.provider.provider_type.name, deployment.provider) if deployment.provider
+
 :javascript
   Conductor.setupPrettyFilterURL(
-    '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter' )}',
-    '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty' )}'
+    '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'filter', :page => params[:page])}',
+    '#{url_for(:action => :show, :details_tab => 'deployments', :view => 'pretty', :page => params[:page])}'
   );
 
 %script#deploymentTemplate{ :type => 'text/x-jquery-tmpl' }

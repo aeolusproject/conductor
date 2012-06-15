@@ -66,9 +66,6 @@ class Instance < ActiveRecord::Base
   end
   include PermissionedObject
 
-  cattr_reader :per_page
-  @@per_page = 15
-
   belongs_to :pool
   belongs_to :pool_family
   belongs_to :provider_account

@@ -26,3 +26,6 @@
   - if content_for? form_footer
     %ul.obj_actions
       = yield form_footer
+
+- if rows.is_a?(WillPaginate::Collection)
+  = render_pagination(rows)

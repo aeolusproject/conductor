@@ -1,6 +1,6 @@
 %header
   %h2=t 'pools.index.your_pools'
-  %span.label.badge.dark.count= @pools.length
+  %span.label.badge.dark.count= @pools.total_entries
 
 .content#pools-list
   - @pools.each do |pool|
@@ -25,15 +25,19 @@
         %a.control{:href => '#'}
           %span Expand/Collapse
       %div.content
-        = render :partial => 'deployments', :locals => {:pool => pool, :deployments => pool.deployments.list_for_user(current_user, Privilege::VIEW).ascending_by_name}
+        - deployments = pool.deployments.list_for_user(current_user, Privilege::VIEW).ascending_by_name.paginate(:page => params[:page], :per_page => PER_PAGE)
+        = render :partial => 'deployments', :locals => {:pool => pool, :deployments => deployments}
       %ul.content.actions
         %li
-          = link_to ("#{html_escape(pool.name)} " + "#{t'pools.index.pool_details'}" + " &raquo;").html_safe, pool_path(pool), :class =>'pool_details'
+          - pool_details_label = deployments.total_pages > 1 ? t('pools.index.not_all_deployments_displayed_alert_html', :name => pool.name) : t('pools.index.pool_details_html', :name => pool.name)
+          = link_to(pool_details_label, pool_path(pool), :class =>'pool_details')
         %li
           - if check_privilege(Privilege::CREATE, Deployment, pool)
             = link_to t('deployments.new_deployment'), launch_new_deployments_path(:pool_id => pool.id), :class => 'button primary', :id => 'new_deployment_button'
         %li.catalog_link
           = render :partial => 'layouts/catalog_dropdown', :locals => {:catalogs => pool.catalogs}
+
+  = render_pagination(@pools)
 
 :javascript
   $(document).ready(function() {
