@@ -28,6 +28,8 @@ class ImagesController < ApplicationController
       { :name => t('images.index.last_rebuild'), :sortable => false },
     ]
     @images = paginate_collection(Aeolus::Image::Warehouse::Image.all, params[:page], PER_PAGE)
+    @images.reject! { |i| !check_privilege(Privilege::VIEW, i.environment) }
+
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
@@ -37,8 +39,9 @@ class ImagesController < ApplicationController
   def show
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
     @environment = PoolFamily.where('name' => @image.environment).first
+    require_privilege(Privilege::VIEW, @environment)
     @push_started = params[:push_started] == 'true'
-    @pushed_provider_account = ProviderAccount.find(params[:provider_account_id]) if params[:provider_account_id].present?
+    pushed_provider_account = ProviderAccount.find(params[:provider_account_id]) if params[:provider_account_id].present?
 
     if @image.imported?
       begin
@@ -56,6 +59,8 @@ class ImagesController < ApplicationController
     else
       @account_groups = ProviderAccount.enabled.group_by_type(@environment)
     end
+
+    @account_groups.reject! { |driver, group| !check_privilege(Privilege::VIEW, group[:accounts][:account]) }
 
     # according to imagefactory Builder.first shouldn't be implemented yet
     # but it does what we need - returns builder object which contains
@@ -89,7 +94,7 @@ class ImagesController < ApplicationController
       provider_type = account_group[:provider_type]
       target_image = @target_images_by_target[provider_type.deltacloud_driver]
       @images_by_provider_type <<
-        load_build_status_for_target_image(account_group, target_image)
+        load_build_status_for_target_image(account_group, target_image, pushed_provider_account)
     end
 
     @push_all_enabled =
@@ -134,7 +139,8 @@ class ImagesController < ApplicationController
     accounts = @environment.provider_accounts
     target_images = @build.target_images
     accounts.each do |account|
-      if account.image_status(@image) == :not_pushed
+      if account.image_status(@image) == :not_pushed &&
+         check_privilege(Privilege::USE, account)
         target = account.provider.provider_type.deltacloud_driver
         target_image = target_images.find { |ti| ti.target == target }
         provider_image = Aeolus::Image::Factory::ProviderImage.new(
@@ -180,6 +186,7 @@ class ImagesController < ApplicationController
     account = ProviderAccount.find(params[:provider_account])
     @environment = PoolFamily.find(params[:environment])
     check_permissions
+    require_privilege(Privilege::USE, account)
 
     xml = "<image><name>#{params[:name]}</name></image>" unless params[:name].blank?
     begin
@@ -294,14 +301,6 @@ class ImagesController < ApplicationController
     redirect_to image_path(@image.id)
   end
 
-  def edit
-    check_permissions
-  end
-
-  def update
-    check_permissions
-  end
-
   def destroy
     if image = Aeolus::Image::Warehouse::Image.find(params[:id])
       @environment = PoolFamily.where('name' => image.environment).first
@@ -351,6 +350,7 @@ class ImagesController < ApplicationController
   # For now, Image permissions hijack the previously-unused PoolFamily USE privilege
   def check_permissions
     require_privilege(Privilege::USE, @environment)
+    @environment.provider_accounts.reject! { |a| !check_privilege(Privilege::USE, a) }
   end
 
   def latest_build?(build)
@@ -371,13 +371,13 @@ class ImagesController < ApplicationController
     return true
   end
 
-  def load_build_status_for_target_image(account_group, target_image)
+  def load_build_status_for_target_image(account_group, target_image, pushed_provider_account)
     provider_type = account_group[:provider_type]
     provider_images_by_provider_account = []
 
     account_group[:accounts].each do |account|
       provider_images_by_provider_account <<
-        load_provider_images(account, target_image)
+        load_provider_images(account, target_image, pushed_provider_account)
     end
 
     active_build =
@@ -429,7 +429,7 @@ class ImagesController < ApplicationController
     target_image_for_provider_type
   end
 
-  def load_provider_images(account, target_image)
+  def load_provider_images(account, target_image, pushed_provider_account)
     provider_image =
       if target_image.present?
         target_image.find_provider_image_by_provider_and_account(account.provider.name,
@@ -448,7 +448,7 @@ class ImagesController < ApplicationController
       end
 
     push_started_for_account =
-      (@push_started && @pushed_provider_account == account)
+      (@push_started && pushed_provider_account == account)
 
     active_push =
       if target_image.present?
