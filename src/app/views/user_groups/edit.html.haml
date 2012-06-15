@@ -1,0 +1,14 @@
+= render :partial => 'layouts/admin_nav'
+%header.page-header
+  .obj_actions
+    .return_to
+      =t'return_to'
+      = link_to "#{t'user_groups.groups'}", user_groups_path
+  %h1.users= @title
+
+%section.content-section.user_groups
+  .content
+    .align-center
+    = @user_group.name
+    = form_for @user_group, :url => user_group_path(@user_group), :html => {:class => 'generic horizontal'} do |f|
+      = render :partial => "form", :locals => { :form => f }

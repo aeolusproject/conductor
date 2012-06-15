@@ -15,6 +15,9 @@
 #
 
 class Entity < ActiveRecord::Base
+  class << self
+    include CommonFilterMethods
+  end
   belongs_to :entity_target, :polymorphic => true
   validates_presence_of :entity_target_id
   has_many :session_entities, :dependent => :destroy
@@ -26,4 +29,20 @@ class Entity < ActiveRecord::Base
   belongs_to :user_group, :class_name => "UserGroup",
                           :foreign_key => "entity_target_id"
 
+  PRESET_FILTERS_OPTIONS = [
+    {:title => "user",
+     :id => "users",
+     :where => {"entities.entity_target_type" => "User"}},
+    {:title => "user_group",
+     :id => "user_groups",
+     :where => {"entities.entity_target_type" => "UserGroup"}}
+  ]
+
+  def self.apply_search_filter(search)
+    if search
+      where("lower(entities.name) LIKE :search", :search => "%#{search.downcase}%")
+    else
+      scoped
+    end
+  end
 end

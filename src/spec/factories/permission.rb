@@ -62,4 +62,11 @@ FactoryGirl.define do
     entity { |r| FactoryGirl.create(:pool_family_user).entity }
   end
 
+  factory :group_admin_permission, :parent => :permission do
+    role { |r| Role.first(:conditions => ['name = ?', 'base.admin']) || FactoryGirl.create(:role, :name => 'base.admin') }
+    permission_object { |r| BasePermissionObject.general_permission_scope }
+    entity { |r| FactoryGirl.create(:user_group).entity }
+  end
+
+
 end

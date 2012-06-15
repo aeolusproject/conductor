@@ -102,6 +102,62 @@ en:
       name_starts_with_B: "Name starts with B"
     errors:
       has_running_instances: '%{login} has running instances'
+  user_groups:
+    groups: "User Groups"
+    local: Local
+    ldap: LDAP
+    return_to: "Return to:"
+    confirm_delete: "Are you sure you want to delete this user group?"
+    quick_jump: "Quick Jump:"
+    choose_members: "Choose Users to add to this Group."
+    index:
+      name: Name
+      type: Type
+    show:
+      name: Name
+      type: Type
+      description: Description
+      members: Members
+      add_members: Add Members
+      edit: Edit
+      delete: Delete
+      created: CREATED
+      last_updated: LAST UPDATED
+    form:
+      name: Name
+      type: Type
+      save_user_group: Save User Group
+    new:
+      new_user_group: New User Group
+      neccessary_information: "Enter necessary information about your new user group and click 'Save User Group' when you are finished."
+    list:
+      delete_selected: Delete Selected
+      add_user_group: Add User Group
+    edit:
+      edit_user_group: Edit User Group
+    flash:
+      notice:
+        added: "User Group added"
+        updated: "User Group updated!"
+        deleted: "User Group has been successfully deleted."
+        more_deleted:
+          one: Deleted user group
+          other: Deleted user groups
+        members_added: "These users have been added"
+        members_removed: "These users have been removed"
+      warning:
+        creation_failed: 'Could not create user group'
+        delete_failed: 'Could not delete user group'
+        not_delete: 'Cannot delete: %{reason}'
+      error:
+        members_not_added: "Could not add these users"
+        members_not_removed: "Could not remove these users"
+        not_a_local_group: 'Only locally-managed groups can be managed here.'
+        select_to_add_members: 'You must select at least one user to add.'
+    preset_filters:
+      all_user_groups: "All User Groups"
+      local: "Locally-managed User Groups"
+      ldap: "LDAP-managed User Groups"
   user_sessions:
     new:
       username: "Username:"
@@ -151,6 +207,7 @@ en:
   role: Role
   role_assignments: Role Assignments
   user: User
+  user_group: User Group
   privileges: Privileges
   general_settings: General Settings
   new_user: New User
@@ -1285,7 +1342,10 @@ en:
         user_and_role: "%{user} (%{role})"
         user_and_role_change: "%{user} (from %{old_role} to %{role})"
     preset_filters:
+      all_entities: All Entities
       all_permissions: All Permissions
+      user_permissions: User Permissions
+      group_permissions: Group Permissions
   quotas:
     quota: Quota
     edit:
@@ -1333,6 +1393,7 @@ en:
       administer: Administer
     second_level:
       users: Users
+      user_groups: User Groups
       environments: Environments
       content: Content
       cloud_providers: Cloud Providers
@@ -1353,7 +1414,7 @@ en:
       realms: Realms
       hardware: Hardware
       users: Users
-      groups: Groups
+      user_groups: User Groups
       permissions: Global Role Grants
       pool_families: Pool Families
       images: Images

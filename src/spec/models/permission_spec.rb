@@ -84,4 +84,23 @@ describe Permission do
       should be_false
   end
 
+  it "User added to Admin group should be able to create users" do
+    newuser = FactoryGirl.create(:user)
+    group_admin_permission = FactoryGirl.create(:group_admin_permission)
+    user_group = group_admin_permission.user_group
+    SessionEntity.update_session(@session_id, newuser)
+    BasePermissionObject.general_permission_scope.has_privilege(@session_id,
+                                                                newuser,
+                                                                Privilege::CREATE,
+                                                                User).should be_false
+    user_group.members << newuser
+    newuser.reload
+    SessionEntity.update_session(@session_id, newuser)
+    BasePermissionObject.general_permission_scope.has_privilege(@session_id,
+                                                                newuser,
+                                                                Privilege::CREATE,
+                                                                User).should be_true
+
+  end
+
 end

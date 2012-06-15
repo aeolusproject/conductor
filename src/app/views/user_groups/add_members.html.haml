@@ -1,0 +1,25 @@
+= render :partial => 'layouts/admin_nav'
+%header.page-header
+  .obj_actions
+    .return_to
+      = t'return_to'
+      = link_to @user_group.name, user_group_path(@user_group), :id => 'user_group_button'
+  %h1.user_groups= @user_group.name
+
+%section.content-section.user_groups
+  %header
+    .align-center
+      %strong= t("user_groups.choose_members")
+  .content
+    - content_for :form_footer do
+      = link_to t('cancel'), user_group_path(@user_group), :class => 'button danger'
+      = restful_submit_tag t('user_groups.show.add_members'), "add", add_members_user_group_path(@user_group), 'POST', :id => 'save_button', :class => 'button'
+    = filter_table(members_header, @users) do |user|
+      %tr{:class => cycle('nostripe','stripe')}
+        %td{:class => 'checkbox'}
+          - selected = params[:select] == 'all'
+          = check_box_tag "members_selected[]", user.id, selected, :id => "member_checkbox_#{user.id}"
+        %td
+          = link_to user.login, users_path(user)
+        %td
+          = user.name

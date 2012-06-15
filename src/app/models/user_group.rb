@@ -15,6 +15,9 @@
 #
 
 class UserGroup < ActiveRecord::Base
+  class << self
+    include CommonFilterMethods
+  end
   # name will correspond to the group name if we're using LDAP, otherwise it's
   # entered by the admin creating the group
 
@@ -42,4 +45,13 @@ class UserGroup < ActiveRecord::Base
     self.entity.name = "#{self.name} (#{self.membership_source})"
     self.entity.save!
   end
+
+  def self.apply_search_filter(search)
+    if search
+      where("lower(name) LIKE :search", :search => "%#{search.downcase}%")
+    else
+      scoped
+    end
+  end
+
 end

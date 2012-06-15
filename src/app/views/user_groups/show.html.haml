@@ -1,0 +1,71 @@
+= render :partial => 'layouts/admin_nav'
+%header.page-header
+  .obj_actions
+    .return_to
+      = t'return_to'
+      = link_to t("user_groups.groups"), user_groups_path
+    - if check_privilege(Privilege::CREATE, User)
+      = link_to t('user_groups.new.new_user_group'), new_user_group_url, :class => 'button primary', :id => 'new_user_group_button'
+    .button-group
+      - if check_privilege(Privilege::MODIFY, User)
+        = link_to t('edit'), edit_user_group_path(@user_group), :class => 'button pill', :id => 'edit_button'
+        = button_to t("delete"), user_group_path(@user_group), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete'
+  %h1.no-icon= @title
+
+%section.content-section.user
+  %header
+    %h2=t'properties'
+
+  .content
+    %table.properties_table
+      %tbody
+        %tr
+          %td= t('user_groups.show.type')
+          %td= @user_group.membership_source
+        %tr
+          %td= t('user_groups.show.name')
+          %td= @user_group.name
+        %tr
+          %td= t('user_groups.show.description')
+          %td= @user_group.description
+
+- if @user_group.membership_source == UserGroup::MEMBERSHIP_SOURCE_LOCAL
+  %section.content-section
+    %header
+      %h2=t('user_groups.show.members')
+
+    .content
+      - content_for :form_header do
+        - if check_privilege(Privilege::CREATE, Deployable)
+          %li= restful_submit_tag t("remove"), "destroy", remove_members_user_group_path(@user_group), 'DELETE', :id => 'delete_button', :class => 'button danger'
+          %li= link_to t("user_groups.show.add_members"), add_members_user_group_path(@user_group), :class => 'button', :id => 'add_members_button'
+
+      - content_for :filter_controls do
+        %li
+          = label_tag :members_preset_filter, t('filter_table.viewing')
+          = hidden_field_tag :current_path, request.fullpath
+          = select_tag(:members_preset_filter, preset_filters_options_for_select(Deployable::PRESET_FILTERS_OPTIONS, params[:members_preset_filter]), :include_blank => t("users.preset_filters.all_users"), :disabled => true)
+          = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_members_user_group_path(@user_group), 'POST', :class => 'button', :id => 'apply_members_preset_filter'
+          %span.label.badge.dark= @user_group.members.count
+        %li.table-search-filter
+          = text_field_tag :members_search, params[:members_search], :placeholder => t("filter_table.search")
+          = restful_submit_tag "", "search", filter_members_user_group_path(@user_group), 'POST', :class => 'button', :id => 'apply_members_search'
+
+        :javascript
+          $(document).ready(function(){
+            $("#apply_members_preset_filter").hide();
+            $("#members_preset_filter").change(function() {
+              $("#apply_members_preset_filter").click();
+            });
+            Conductor.clickOnEnterKeypress($('#members_search'), $('#apply_members_search'));
+          });
+
+      = filter_table(members_header, @members) do |member|
+        %tr{:class => cycle('nostripe','stripe')}
+          %td{:class => 'checkbox'}
+            - selected = params[:select] == 'all'
+            = check_box_tag "members_selected[]", member.id, selected, :id => "member_checkbox_#{member.id}"
+          %td
+            = link_to member.login, users_path(member)
+          %td
+            = member.name

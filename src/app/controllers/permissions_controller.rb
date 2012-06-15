@@ -165,11 +165,22 @@ class PermissionsController < ApplicationController
                 :permission_object_id => p.permission_object_id
   end
 
+  def filter
+    redirect_to_original({"permissions_preset_filter" => params[:permissions_preset_filter], "permissions_search" => params[:permissions_search]})
+  end
+
+  def filter_entities
+    redirect_to_original({"entities_preset_filter" => params[:entities_preset_filter], "entities_search" => params[:entities_search]})
+  end
+
   private
 
   def load_entities
     sort_order = params[:sort_by].nil? ? "name" : params[:sort_by]
-    @entities = paginate_collection(Entity.all(:order => sort_column(Entity, sort_order)),
+    @entities = paginate_collection(Entity.
+      order(sort_column(Entity, sort_order)).
+      apply_filters(:preset_filter_id => params[:entities_preset_filter],
+                    :search_filter => params[:entities_search]),
                                     params[:page])
   end
 

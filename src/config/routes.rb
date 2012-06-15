@@ -83,6 +83,8 @@ Conductor::Application.routes.draw do
       get :list
       delete :multi_destroy
       post :multi_update
+      post :filter
+      post :filter_entities
     end
   end
 
@@ -154,6 +156,19 @@ Conductor::Application.routes.draw do
   resources :users do
     delete 'multi_destroy', :on => :collection
     post :filter, :on => :collection
+  end
+
+  resources :user_groups do
+    collection do
+      delete 'multi_destroy'
+      post :filter
+    end
+    member do
+      get 'add_members'
+      post 'add_members'
+      delete 'remove_members'
+      post 'filter_members'
+    end
   end
 
   resources :logs do

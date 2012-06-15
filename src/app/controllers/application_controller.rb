@@ -282,7 +282,7 @@ class ApplicationController < ActionController::Base
 
   def set_admin_users_tabs(tab)
     @tabs = [{:name => t('application_controller.admin_tabs.users'), :url => users_url, :id => 'users'},
-             #{:name => t('application_controller.admin_tabs.groups'), :url => groups_url, :id => 'groups'},
+             {:name => t('application_controller.admin_tabs.user_groups'), :url => user_groups_url, :id => 'user_groups'},
              {:name => t('application_controller.admin_tabs.permissions'), :url => permissions_url, :id => 'permissions'},
     ]
     unless @details_tab = @tabs.find {|t| t[:id] == tab}
@@ -352,7 +352,10 @@ class ApplicationController < ActionController::Base
     else
       local_perms = @permission_object.permissions
     end
-    @permissions = paginate_collection(local_perms, params[:page])
+    @permissions = paginate_collection(local_perms.
+      apply_filters(:preset_filter_id => params[:permissions_preset_filter],
+                    :search_filter => params[:permissions_search]),
+                                       params[:page])
 
     @permission_list_header = []
     unless (@show_inherited or @show_global)

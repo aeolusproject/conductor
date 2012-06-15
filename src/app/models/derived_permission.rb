@@ -15,6 +15,9 @@
 #
 
 class DerivedPermission < ActiveRecord::Base
+  class << self
+    include CommonFilterMethods
+  end
   # the source permission for the denormalized object
   belongs_to :permission
   validates_presence_of :permission_id
@@ -53,5 +56,25 @@ class DerivedPermission < ActiveRecord::Base
 
   validates_uniqueness_of :permission_id, :scope => [:permission_object_id,
                                                      :permission_object_type]
+
+  # :query is handled differently for permission
+  PRESET_FILTERS_OPTIONS = [
+    {:title => "permissions.preset_filters.user_permissions",
+     :id => "user_permissions",
+     :includes => :entity,
+     :where => {"entities.entity_target_type" => "User"}},
+    {:title => "permissions.preset_filters.group_permissions",
+     :id => "group_permissions",
+     :includes => :entity,
+     :where => {"entities.entity_target_type" => "UserGroup"}}
+  ]
+
+  def self.apply_search_filter(search)
+    if search
+      includes("entity").where("lower(entities.name) LIKE :search", :search => "%#{search.downcase}%")
+    else
+      scoped
+    end
+  end
 
 end
