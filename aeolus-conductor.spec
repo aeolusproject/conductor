@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.30
+Version:  0.8.31
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -366,6 +366,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Mon Jun 18 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.31-1
+- f7b516b added config/locales/will_paginate
+
 * Fri Jun 15 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.30-1
 - 22ffc7b bug 831057: fix ambiguous order by name
 
