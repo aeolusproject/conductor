@@ -198,7 +198,7 @@ svg="public/images public/images/icons public/javascripts/jquery-svg"
 ttf="public/fonts"
 txt="public"
 yml="config config/locales config/locales/defaults config/locales/overrides \
-     config/locales/role_definitions config/locales/activerecord \
+     config/locales/role_definitions config/locales/activerecord config/locales/will_paginate \
      config/locales/overrides/role_definitions config/locales/overrides/activerecord"
 xml="app/util"
 for filetype in builder css feature gif haml html ico jpg js json key opts png \
