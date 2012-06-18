@@ -197,7 +197,9 @@ class ProvidersController < ApplicationController
 
     # looking for ProviderType based on content of provider_type tag in xml
   def parse_provider_type
-    if params.has_key?(:provider) && params[:provider].has_key?(:provider_type) && params[:provider][:provider_type].has_key?(:id)
+    if params.has_key?(:provider) && params[:provider].is_a?(Hash) \
+      && params[:provider].has_key?(:provider_type) \
+      && params[:provider][:provider_type].has_key?(:id)
       provider_type_hash = params[:provider].delete(:provider_type)
       provider_type_id = provider_type_hash[:id]
       provider_type = ProviderType.find_by_id(provider_type_id)
