@@ -22,15 +22,15 @@ FactoryGirl.define do
     url { |p| "http://www." + p.name + ".com/api" }
   end
 
-  factory :invalid_provider, :parent => :mock_provider do
-    name { '' }
-  end
-
   factory :mock_provider, :parent => :provider do
     provider_type {ProviderType.find_by_deltacloud_driver("mock")}
     url 'http://localhost:3002/api'
     hardware_profiles { |hp| [hp.association(:mock_hwp1), hp.association(:mock_hwp2)] }
     after_create { |p| p.realms << FactoryGirl.create(:realm1, :provider => p) << FactoryGirl.create(:realm2, :provider => p) }
+  end
+
+  factory :invalid_provider, :parent => :mock_provider do
+    name { '' }
   end
 
   factory :mock_provider2, :parent => :provider do
