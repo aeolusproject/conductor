@@ -60,11 +60,11 @@ Feature: Manage Providers via API
     Then I should receive Bad Request message
     And the provider should not be updated
 
-  Scenario: Attempt to update non existing provider
-    Given the specified provider does not exist in the system
-    When I attempt to update the provider
-    Then I should receive a Provider Not Found error
-    And the provider should not be updated
+    #  Scenario: Attempt to update non existing provider
+    #    Given the specified provider does not exist in the system
+    #    When I attempt to update the provider
+    #    Then I should receive a Provider Not Found error
+    #    And the provider should not be updated
 
   Scenario: Delete Provider
     Given there is a provider
