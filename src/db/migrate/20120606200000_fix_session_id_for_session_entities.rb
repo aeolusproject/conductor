@@ -34,7 +34,7 @@ class FixSessionIdForSessionEntities < ActiveRecord::Migration
   def self.down
     add_column :session_entities, :session_db_id, :integer
     SessionEntity.reset_column_information
-    SessionEntity.each do |se|
+    SessionEntity.all.each do |se|
       session = ActiveRecord::SessionStore::Session.find_by_session_id(se.session_id)
       if session
         se.session_db_id = session.id
