@@ -169,7 +169,8 @@ class PermissionsController < ApplicationController
 
   def load_entities
     sort_order = params[:sort_by].nil? ? "name" : params[:sort_by]
-    @entities = paginate_collection(Entity.all(:order => sort_order), params[:page])
+    @entities = paginate_collection(Entity.all(:order => sort_column(Entity, sort_order)),
+                                    params[:page])
   end
 
   def load_headers

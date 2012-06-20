@@ -300,7 +300,8 @@ class ApplicationController < ActionController::Base
 
   def sort_column(model, default = nil)
     return params[:order_field] if model.column_names.include?(params[:order_field])
-    return default || "#{model.quoted_table_name}.name"
+    return default unless default.nil? || !model.column_names.include?(default)
+    return "#{model.quoted_table_name}.name"
   end
 
   def sort_direction
