@@ -78,13 +78,13 @@ system("rpm -qa | egrep 'aeolus|iwhd|deltacloud|imagefactory|oz' >> #{File.join(
 system("virsh capabilities >> #{File.join(target_dir, 'virsh_capabilities')}")
 
 # Tar the output and log it
-tarfile = target_dir + ".tar.gz"
+tarfile = timename + ".tar.gz"
 pwd = Dir.pwd()
 Dir.chdir(options[:basedir])
 system("tar -czvf #{tarfile} #{timename}")
 Dir.chdir(pwd)
 
-puts "A debug file has been created at #{tarfile}."
+puts "A debug file has been created at #{File.join(options[:basedir],timename)}."
 
 # Clean up
 FileUtils.rm_r(target_dir)
