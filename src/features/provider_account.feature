@@ -56,7 +56,7 @@ Feature: Manage Provider Accounts
     And I fill in "quota[maximum_running_instances]" with "13"
     And I press "Save"
     Then I should see "Cannot add the provider account."
-    Then I should see "An error occurred when checking provider credentials."
+    Then I should see "Login credentials are invalid for this provider"
 
   Scenario: Delete a provider account
     Given there is a provider named "testprovider"
