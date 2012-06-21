@@ -43,15 +43,18 @@
 
 = content_for :widgets do
   %ul#usermenu
-    %li= link_to current_user.name, account_path
-    %li= link_to t('masthead.my_account'), account_path
-    %li= link_to t('masthead.logout'), logout_path
+    - if current_user
+      %li= link_to current_user.name, account_path
+      %li= link_to t('masthead.my_account'), account_path
+      %li= link_to t('masthead.logout'), logout_path
+    - else
+      %li= link_to t('masthead.login'), login_path
 
 = content_for :content do
   = render :partial => '/layouts/new_notification' if flash.present? or content_for?(:error_messages)
   = yield
 
 = content_for :footer do
-  %p.copyright!= t('layout.copyright')
+  = render :partial => 'footer'
 
 = render :file => "app/views/layouts/converge-ui/shell_layout"

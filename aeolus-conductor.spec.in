@@ -230,7 +230,12 @@ js="public/javascripts \
     public/javascripts/jquery.ui-1.8.1/ui/minified \
     public/javascripts/lib \
     public/javascripts/backbone \
-    vendor/converge-ui/javascripts/lib"
+    vendor/converge-ui/javascripts \
+    vendor/converge-ui/javascripts/lib \
+    vendor/converge-ui/javascripts/lib/jquery \
+    vendor/converge-ui/javascripts/lib/jquery/plugins \
+    vendor/converge-ui/javascripts/lib/jquery/plugins/flot-0.7 \
+    vendor/converge-ui/javascripts/lib/jquery/plugins/jquery-svg"
 json="spec/fixtures"
 key="features/upload_files"
 opts="spec"

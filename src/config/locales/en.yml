@@ -1316,6 +1316,7 @@ en:
   masthead:
     my_account: My Account
     logout: Log out
+    login: Login
   permissions:
     direct_access: "Direct Access"
     global_access: "Global Access"
