@@ -197,17 +197,3 @@ if CredentialDefinition.all.empty?
   CredentialDefinition.create!(:name => 'x509private', :label => 'key', :input_type => 'file', :provider_type_id => ec2.id)
   CredentialDefinition.create!(:name => 'x509public', :label => 'certificate', :input_type => 'file', :provider_type_id => ec2.id)
 end
-
-# Default admin user
-user = User.create!(:login => 'admin',
-                    :email => 'root@localhost.localdomain',
-                    :password => 'password',
-                    :password_confirmation => 'password',
-                    :first_name => 'Administrator',
-                    :last_name  => '',
-                    :quota => Quota.new)
-registration = RegistrationService.new(user)
-registration.save
-permission = Permission.create!(:role => Role.find_by_name('base.admin'),
-                                :permission_object => BasePermissionObject.general_permission_scope,
-                                :entity => user.entity)
