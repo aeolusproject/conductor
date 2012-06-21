@@ -48,6 +48,8 @@ class InstancesController < ApplicationController
     save_breadcrumb(instance_path(@instance), @instance.name)
     @events = @instance.events.paginate(:page => params[:page] || 1)
     @view = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    @details_tab = 'properties' unless ['properties', 'history',
+                                        'parameters', 'permissions'].include?(@details_tab)
     @tabs = [
       {:name => t('properties'), :view => @view, :id => 'properties'},
       {:name => t('instances.parameters.config_parameters'), :view => 'parameters', :id => 'parameters'},

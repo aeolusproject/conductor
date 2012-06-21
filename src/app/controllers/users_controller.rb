@@ -72,7 +72,7 @@ class UsersController < ApplicationController
     @quota_resources = @user.quota.quota_resources
     save_breadcrumb(user_path(@user), @user.name)
     @tab_captions = ['Properties']
-    @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    @details_tab = 'properties' # currently the only supported details tab
     respond_to do |format|
       format.html
       format.js do

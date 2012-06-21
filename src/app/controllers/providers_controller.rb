@@ -83,6 +83,9 @@ class ProvidersController < ApplicationController
     require_privilege(Privilege::VIEW, @provider)
     @tab_captions = [t("properties"), t('hw_profiles'), t('realm_s'), t("provider_accounts.index.provider_accounts"), t('services'), t('history'), t('permissions')]
     @details_tab = params[:details_tab].blank? ? t("properties") : params[:details_tab]
+    @details_tab = 'properties' unless ['properties', 'hw_profiles', 'realms',
+                                        'provider_accounts', 'services', 'history',
+                                        'permissions'].include?(@details_tab)
 
     if params.delete :test_provider
       test_connection(@provider)
@@ -305,6 +308,7 @@ class ProvidersController < ApplicationController
     ]
     add_permissions_tab(@provider, "edit_")
     details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
+    details_tab_name = 'connectivity' unless ['connectivity', 'accounts', 'realms'].include?(details_tab_name)
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 
     if @details_tab[:id] == 'accounts'

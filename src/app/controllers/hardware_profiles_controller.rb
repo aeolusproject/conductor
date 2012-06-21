@@ -53,6 +53,8 @@ class HardwareProfilesController < ApplicationController
     @tab_captions = [t('hardware_profiles.tab_captions.properties'), t('hardware_profiles.tab_captions.history'), t('hardware_profiles.tab_captions.matching_provider_hwp')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     properties
+    @details_tab = 'properties' unless['properties', 'history',
+                                       'matching_provider_hardware_profiles'].include?(@details_tab)
     find_matching_provider_hardware_profiles
     save_breadcrumb(hardware_profile_path(@hardware_profile), @hardware_profile.name)
 
