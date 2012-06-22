@@ -122,11 +122,10 @@ class ApplicationController < ActionController::Base
 
   # Returns an array of ids from params[:id], params[:ids].
   def ids_list(other_attrs=[])
-    if other_attrs.is_a?(Enumerable)
-      other_attrs.each do |attr_key|
-        return Array(params[attr_key]) if params.include?(attr_key)
-      end
-    elsif params[:id].present?
+    other_attrs.each do |attr_key|
+      return Array(params[attr_key]) if params.include?(attr_key)
+    end
+    if params[:id].present?
       return Array(params[:id])
     elsif params[:ids].present?
       return Array(params[:ids])
