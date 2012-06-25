@@ -60,7 +60,11 @@ class ImagesController < ApplicationController
       @account_groups = ProviderAccount.enabled.group_by_type(@environment)
     end
 
-    @account_groups.reject! { |driver, group| !check_privilege(Privilege::VIEW, group[:accounts][:account]) }
+    @account_groups.each { |driver, group|
+      group[:accounts].reject! { |acct|
+        !check_privilege(Privilege::VIEW, acct[:account])
+      }
+    }
 
     # according to imagefactory Builder.first shouldn't be implemented yet
     # but it does what we need - returns builder object which contains
