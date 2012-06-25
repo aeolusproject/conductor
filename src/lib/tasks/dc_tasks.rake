@@ -180,6 +180,13 @@ namespace :dc do
     end
   end
 
+  task :admin_exists => :environment do
+    no_admins = BasePermissionObject.general_permission_scope.permissions.includes(:role => :privileges).where("privileges.target_type" => "BasePermissionObject","privileges.action" => Privilege::PERM_SET).empty?
+    if no_admins
+      exit(1)
+    end
+  end
+
   def get_account(provider_name, account_name)
     unless provider = Provider.find_by_name(provider_name)
       raise "There is no provider with '#{provider_name}' name"
