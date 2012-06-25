@@ -23,6 +23,7 @@ class UserSessionsController < ApplicationController
   layout 'login'
 
   def new
+    @title = t('masthead.login')
   end
 
   def create

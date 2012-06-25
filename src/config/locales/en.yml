@@ -160,13 +160,20 @@ en:
       ldap: "LDAP-managed User Groups"
   user_sessions:
     new:
-      username: "Username:"
-      password: "Password:"
+      username: "Username"
+      password: "Password"
       show_password: Show my password
       login_assistance: Login Assistance
       security_info: Security Info
       login: Login
       help: "Help functionality is not yet available."
+      forgot: Forgot
+      or: or
+      login_unknown_info: "If you do not know your username, please enter your email address below and your username information will be sent to you."
+      return_to_login: "Return to log in"
+      send_login: "Send Login"
+      password_unknown_info: "Enter your username and email address below and instructions on resetting your password will be sent to you."
+      reset_password: "Reset Password"
     security:
       encrypted_connection: Encrypted Connection
       unencrypted_connection:  Unencrypted Connection
@@ -182,7 +189,7 @@ en:
         login: "Login successful!"
         logout: "Logout successful!"
       warning:
-        login_failed: "Login failed: The Username and Password you entered do not match"
+        login_failed: "The Username or Password is incorrect, please try again."
   about: About
   configure: Configure
   hello: Hello

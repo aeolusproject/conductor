@@ -1,26 +1,25 @@
-!!! 5
-%html{"xml:lang" => "en", :lang => "en"}
-  %head
-    %meta{:charset => 'utf-8'}/
-    %title Aeolus Conductor : Login
-    %link{:rel =>  'shortcut icon', :href => '/favicon.ico'}
-    = stylesheet_link_tag '/stylesheets/reset.css'
-    = stylesheet_link_tag '/stylesheets/compiled/login.css'
-    /[if lt IE 9]
-      = javascript_include_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
-      = stylesheet_link_tag '/stylesheets/layout_ie.css'
-    = javascript_include_tag "converge-ui/lib/jquery/jquery-1.6.2.min.js"
-    = javascript_include_tag "jquery.showpassword.js"
-    = javascript_include_tag "converge-ui/lib/rails.js"
-    = csrf_meta_tag
-    = yield :scripts
-  %body#auth
-    #stage &nbsp;
-    #primary-container
-      -if flash[:warning]
-        %div.error
-          %p.text= flash[:warning]
-      -if flash[:error]
-        %div.error
-          %p.text= flash[:error]
-      = yield
+= content_for :title do
+  = t("layout.appname")
+  = "| #{@title}" unless @title.blank?
+
+= content_for :stylesheets_block do
+  = stylesheet_link_tag '/stylesheets/compiled/login.css'
+  /[if lt IE 8]
+    = stylesheet_link_tag '/stylesheets/layout_ie7.css'
+
+  = javascript_include_tag "converge-ui/lib/jquery/jquery-1.6.2.js"
+  = javascript_include_tag "converge-ui/login.js"
+  = javascript_include_tag "converge-ui/lib/rails.js"
+  /[if lt IE 9]
+    = javascript_include_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
+
+= content_for :login_logo do
+  = image_tag 'login-card-logo-upstream.png'
+
+= content_for :content do
+  = yield
+
+= content_for :footer do
+  = render :partial => "layouts/footer"
+
+= render :file => "app/views/layouts/converge-ui/user_session_layout"

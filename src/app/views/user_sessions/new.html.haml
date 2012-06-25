@@ -1,70 +1,38 @@
 :javascript
-  /* todo: cleanup soon */
   $(document).ready(function() {
-    $('#password-input').showPassword({'checkbox':'#reveal'});
     $('#username').focus(); // bring the username to focus
 
-    $('#security-btn').click(function(){
-      $('#login').hide();
-      $('#security').animate({ 'left': 0, 'width': 502 },{queue:false,duration:150});
-    });
-
-    $('#show-login').click(function(){
-      $('#security').animate({ 'left': -$('#security').outerWidth() + 143, 'width': 500 },{queue:false,duration:150});
-      $('#login').show();
-    });
-
-    $('#new_user_session').submit(function() {
+    $('#login_form').submit(function() {
       $('#progress-indicator').show();
-      var form_data = $(this).serialize(); /* serialize() is sensitive to disabled elements */
-      $('#login input').each(function(){ $(this).attr('disabled', true); });
-      $.ajax({
-        url: this.action,
-        type: 'POST',
-        accepts: { html: "application/javascript" },
-        dataType: 'html',
-        data: form_data,
-        success: function(data, textStatus, jqXHR) {
-          if(jqXHR.status === 201) window.location = data;
-          else window.location.reload();
-        },
-        error: function(response) {
-          //TODO: for some reason error connection errors are not handled by 'error' callback,
-          //what's worse jquery sets 'textStatus' to success, if we want to catch connection errors
-          //we will have to check if status code == 0 in 'complete' callback
-          $('#error-content').remove();
-          $('#primary-container').prepend('<div id="error-content" class="error" style="opacity: 0; position: relative;"></div>');
-          var text = response.responseText == '' ? response.statusText : response.responseText;
-          if(response.status !== 401) text = "Internal Server Error";
-          $('#error-content').html('<p class="text">' + text  + '</p>');
-          $('#error-content').animate({ 'opacity': 1, 'top': -10 },{queue:false,duration:150});
-          $('#progress-indicator').hide();
-          $('#login input').each(function(){ $(this).removeAttr('disabled'); });
-        },
-      });
-      return false;
     });
   })
 
-#card-surround
-  #card
-    = render :partial => 'security'
-    .panel#login
-      .content
-        = form_tag user_session_path, :id => 'new_user_session' do
-          %fieldset.primary
-            = label_tag :login, t("user_sessions.new.username")
-            = text_field_tag :login, params[:login], :class => 'username'
-          %fieldset.primary
-            = label_tag :password, t("user_sessions.new.password")
-            = password_field_tag :password, params[:password], :class => 'password', :id => 'password-input'
-          %fieldset.reveal_pass
-            %input{:type => 'checkbox', :id => 'reveal'}
-            %label{:for => 'reveal'}= t"user_sessions.new.show_password"
-          %div.group.bottom.left
-            .options
-              %a.security#security-btn{:href => '#'}
-                %span=t"user_sessions.new.security_info"
-          %div.group.bottom.submit
-            = image_tag 'login-spinner.gif', :alt => 'Working...', :id => 'progress-indicator'
-            = submit_tag "#{t('user_sessions.new.login')}", :class => "button", :id => 'login-btn'
+.card
+  -if flash[:warning]
+    %div.error
+      %p.text= flash[:warning]
+  -if flash[:error]
+    %div.error
+      %p.text= flash[:error]
+
+  = form_tag user_session_path, :id => 'login_form' do
+    %fieldset.primary
+      = label_tag :login, t("user_sessions.new.username")
+      = text_field_tag :login, params[:login], :class => 'username', :id => 'username'
+    %fieldset.primary
+      = label_tag :password, t("user_sessions.new.password")
+      = password_field_tag :password, params[:password], :class => 'password', :id => 'password-input'
+    .group.secondary_actions
+      /%input{:type => 'checkbox', :id => 'reveal'}
+      /%label{:for => 'reveal'}= t"user_sessions.new.show_password"
+      %span
+        = t "user_sessions.new.forgot"
+        = link_to t("user_sessions.new.login"), "#", :id => "username_link"
+        = t "user_sessions.new.or"
+        = link_to( t("user_sessions.new.password"), "#", :id => "password_link" ) + "?"
+    = submit_tag "#{t('user_sessions.new.login')}", :class => "button fr", :id => 'login_btn'
+    = image_tag 'login-spinner.gif', :alt => 'Working...', :id => 'progress-indicator'
+
+- unless @disable_password_recovery
+  = render :partial => 'password_recovery'
+  = render :partial => 'username_recovery'
