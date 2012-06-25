@@ -96,7 +96,7 @@ Feature: Manage Users
     Given there is a user "test"
     And I log out
     When I fill login "test" and incorrect password
-    Then I should see "Login failed"
+    Then I should see "The Username or Password is incorrect"
     When I login as authorised user
     And I go to test's user page
     Then "test" user failed login count is more than zero

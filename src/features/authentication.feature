@@ -13,7 +13,7 @@ Feature: User authentication
     Given I am a registered user
     And I am on the login page
     When I forget to enter my password
-    Then I should see "Login failed"
+    Then I should see "The Username or Password is incorrect"
     And I should be on the login error page
 
   Scenario: Edit profile
@@ -31,9 +31,9 @@ Feature: User authentication
     And I am logged in
     And I am on the root page
     When I follow "Log out"
-    Then I should see "Username:"
-    And I should see "Password:"
-    And I should see "Show my password"
+    Then I should see "Username"
+    And I should see "Password"
+    And I should see "Forgot Login or Password?"
 
   Scenario: Change user login to one with invalid length
     Given I am a registered user
@@ -49,5 +49,5 @@ Feature: User authentication
     Given I am a registered user
     And I am on the login page
     When I login with incorrect credentials
-    Then I should see "Login failed"
+    Then I should see "The Username or Password is incorrect"
     And I should be on the login error page

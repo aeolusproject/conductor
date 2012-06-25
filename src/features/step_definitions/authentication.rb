@@ -26,7 +26,7 @@ def login(login, password)
   visit path_to("the login page")
   fill_in "login", :with => login
   fill_in "password", :with => password
-  click_button "login-btn"
+  click_button "login_btn"
 end
 
 def signup

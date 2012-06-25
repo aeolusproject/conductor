@@ -198,7 +198,8 @@ css="public/stylesheets public/stylesheets/jquery.ui-1.8.1"
 feature="features"
 gif="public/images \
      public/stylesheets/images \
-     vendor/converge-ui/images"
+     vendor/converge-ui/images \
+     vendor/converge-ui/images/icons"
 haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/users app/views/provider_accounts \
       app/views/roles app/views/providers app/views/settings \
@@ -356,9 +357,10 @@ popd 2>&1 > /dev/null
 
 #create converge-ui symlinks
 %{__ln_s} -f %{app_root}/vendor/converge-ui/rails/layouts %{app_root}/app/views/layouts/converge-ui
-%{__ln_s} -f %{app_root}/vendor/converge-ui/fonts %{app_root}/public/fonts/converge-ui
-%{__ln_s} -f %{app_root}/vendor/converge-ui/rails/helpers/layout_helper.rb %{app_root}/app/helpers/layout_helper.rb
-%{__ln_s} -f %{app_root}/vendor/converge-ui/javascripts/lib %{app_root}/public/javascripts/lib/converge-ui
+%{__ln_s} -f %{app_root}/vendor/converge-ui/fonts %{app_root}/public/fonts
+%{__ln_s} -f %{app_root}/vendor/converge-ui/images %{app_root}/public/images/converge-ui
+%{__ln_s} -f %{app_root}/vendor/converge-ui/rails/helpers %{app_root}/app/helpers/converge-ui
+%{__ln_s} -f %{app_root}/vendor/converge-ui/javascripts %{app_root}/public/javascripts/converge-ui
 
 %postun
 # kind of a weird construct.  There are two cases where postun gets called;
