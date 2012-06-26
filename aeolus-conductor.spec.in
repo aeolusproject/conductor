@@ -435,6 +435,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue Jun 26 2012 Steve Linabery <slinaber@redhat.com> - 0.10.3-1
+- 91a1e06 BZ831577 - Fixed regression introduced by 796528
+
 * Fri Jun 15 2012 Steve Linabery <slinaber@redhat.com> - 0.10.2-1
 - a552589 Set aeolus user home directory to /usr/share/aeolus-conductor
 - 47f5639 Fix the filter view toggle after converge-ui layout changes
