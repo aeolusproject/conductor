@@ -1,0 +1,30 @@
+language: ruby
+rvm:
+  - 1.8.7
+  - 1.9.3
+gemfile: src/Gemfile
+env: 
+  - SUITE=cucumber
+  - SUITE=spec
+before_install:
+  - sed s/'pg'/'sqlite3'/ src/Gemfile.in > src/Gemfile
+install:
+  - cd src 
+  - bundle install
+before_script:
+  - export USE_BUNDLER=yes
+  - cp config/database.sqlite config/database.yml
+  - rake dc:oauth_keys
+  - rake db:drop
+  - rake db:create
+  - rake db:migrate
+  - rake db:seed
+  - rake db:test:prepare
+script:
+  - rake $SUITE
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#aeolus"
+    use_notice: true
+    skip_join: false
