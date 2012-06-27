@@ -28,7 +28,7 @@ class ImagesController < ApplicationController
       { :name => t('images.index.last_rebuild'), :sortable => false },
     ]
     @images = paginate_collection(Aeolus::Image::Warehouse::Image.all, params[:page], PER_PAGE)
-    @images.reject! { |i| !check_privilege(Privilege::VIEW, i.environment) }
+    @images.reject! { |i| !check_privilege(Privilege::VIEW, PoolFamily.where('name' => i.environment).first) }
 
     respond_to do |format|
       format.html
