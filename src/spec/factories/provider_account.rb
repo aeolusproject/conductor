@@ -37,6 +37,14 @@ FactoryGirl.define do
     end
   end
 
+  factory :mock_provider_account_seq, :parent => :provider_account do
+    association :provider, :factory => :mock_provider2
+    after_build do |acc|
+      acc.credentials << Factory.build(:username_credential_seq)
+      acc.credentials << Factory.build(:password_credential_seq)
+    end
+  end
+
   factory :ec2_provider_account, :parent => :provider_account do
     association :provider, :factory => :ec2_provider
     after_build do |acc|

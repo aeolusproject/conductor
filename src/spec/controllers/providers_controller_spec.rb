@@ -20,40 +20,6 @@ describe ProvidersController do
 
   render_views
 
-  shared_examples_for "http OK" do
-    context "response status code" do
-      subject { response.status }
-      it { should be_eql(200) }
-    end
-  end
-
-  shared_examples_for "http Bad Request" do
-    context "response status code" do
-      subject { response.status }
-      it { should be_eql(400) }
-    end
-  end
-
-  shared_examples_for "http Not Found" do
-    context "response status code" do
-      subject { response.status }
-      it { should be_eql(404) }
-    end
-  end
-
-  shared_examples_for "responding with XML" do
-    context "response" do
-      subject { response }
-
-      it { should have_content_type("application/xml") }
-
-      context "body" do
-        subject { response.body }
-        it { should be_xml }
-      end
-    end
-  end
-
   shared_examples_for "having XML with providers" do
     # TODO: implement more attributes checks
     subject { Nokogiri::XML(response.body) }

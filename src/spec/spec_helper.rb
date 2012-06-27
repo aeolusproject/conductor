@@ -26,6 +26,7 @@ else
   require 'vcr_setup_norec'
 end
 
+Dir[File.dirname(__FILE__) + '/support/*.rb'].each {|file| require file }
 Dir[File.dirname(__FILE__) + '/matchers/*.rb'].each {|file| require file }
 
 module RequestContentTypeHelper

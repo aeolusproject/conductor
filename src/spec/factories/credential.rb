@@ -58,4 +58,12 @@ FactoryGirl.define do
     credential_definition { CredentialDefinition.find_by_name('password',:conditions => {:provider_type_id => ProviderType.find_by_deltacloud_driver('mock')})}
   end
 
+  factory :username_credential_seq, :parent => :username_credential do |ucs|
+      ucs.sequence(:value) { |n| "mockuser#{n}" }
+  end
+
+  factory :password_credential_seq, :parent => :password_credential do |pcs|
+      pcs.sequence(:value) { |n| "mockpassword#{n}" }
+  end
+
 end
