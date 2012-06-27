@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.32
+Version:  0.8.33
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -366,6 +366,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed Jun 27 2012 Steve Linabery <slinaber@redhat.com> 0.8.33-1
+- 9794694 BZ835151 configure errors after upgrade
+
 * Wed Jun 27 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.32-1
 - d94f60e https://bugzilla.redhat.com/show_bug.cgi?id=834632
 
