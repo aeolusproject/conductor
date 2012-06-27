@@ -164,6 +164,10 @@ getent passwd aeolus >/dev/null || \
     /usr/sbin/useradd -u 180 -g aeolus -c "aeolus" \
     -s /sbin/nologin -r -d /usr/share/aeolus-conductor aeolus 2> /dev/null || :
 
+# Previously ~aeolus was set to /var/aeolus
+# If this is an upgrade scenario, fix the home directory
+test ~aeolus == /usr/share/aeolus-conductor || usermod --home /usr/share/aeolus-conductor aeolus
+
 %install
 %{__mkdir} -p %{buildroot}
 %{__mkdir} -p %{buildroot}%{app_root}
