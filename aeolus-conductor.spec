@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.31
+Version:  0.8.32
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -366,6 +366,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed Jun 27 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.32-1
+- d94f60e https://bugzilla.redhat.com/show_bug.cgi?id=834632
+
 * Mon Jun 18 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.31-1
 - f7b516b added config/locales/will_paginate
 
