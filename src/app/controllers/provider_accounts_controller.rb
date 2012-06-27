@@ -16,17 +16,18 @@
 
 class ProviderAccountsController < ApplicationController
   before_filter :require_user
+  before_filter :load_provider, :only => [:index]
   before_filter :load_accounts, :only => [:index,:show]
 
   def index
     clear_breadcrumbs
     save_breadcrumb(provider_accounts_path)
-    load_accounts
 
     respond_to do |format|
       #xml list of provider_accounts for aeolus-image, aeolus-image could work with prov. accounts list for givent provider
       #to resemble html views logic, so this route could be removed (provider_accounts could be user only as nested resource)
-      format.xml { render :text => ProviderAccount.xml_export(@provider_accounts) }
+      #format.xml { render :text => ProviderAccount.xml_export(@provider_accounts) }
+      format.xml { render :partial => 'list.xml', :locals => { :provider_accounts => @provider_accounts, :with_credentials => true } }
     end
   end
 
@@ -213,11 +214,16 @@ class ProviderAccountsController < ApplicationController
     flash.now[:error] = t"provider_accounts.flash.error.test_connection_failed_provider"
   end
 
+  def load_provider
+    @provider = Provider.list_for_user(current_session, current_user, Privilege::VIEW).find(params[:provider_id]) if params[:provider_id]
+  end
+
   def load_accounts
     @provider_accounts = ProviderAccount.
       apply_filters(:preset_filter_id =>
                       params[:provider_accounts_preset_filter],
                     :search_filter => params[:provider_accounts_search]).
       list_for_user(current_session, current_user, Privilege::VIEW)
+    @provider_accounts = @provider_accounts.where(:provider_id => @provider.id) if @provider
   end
 end

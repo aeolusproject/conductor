@@ -264,10 +264,12 @@ Conductor::Application.routes.draw do
     end
   end
 
-  scope "/api" do
-    resources :providers, :as => 'api_providers', :only => [:index, :show, :create, :update, :destroy]
-    resources :provider_accounts, :as => 'api_provider_accounts', :only => [:index, :show]
-    resources :provider_types, :as => 'api_provider_types', :only => [:index, :show]
+  scope "/api", :as => 'api' do
+    resources :providers, :only => [:index, :show, :create, :update, :destroy] do
+      resources :provider_accounts, :only => [:index]
+    end
+    resources :provider_accounts, :only => [:index, :show]
+    resources :provider_types, :only => [:index, :show]
   end
 
   #match 'matching_profiles', :to => '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }, :as =>'matching_profiles'
