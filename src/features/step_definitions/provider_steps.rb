@@ -79,6 +79,10 @@ Given /^there is a provider$/ do
   @provider = FactoryGirl.create(:mock_provider)
 end
 
+Given /^there is another provider$/ do
+  @another_provider = FactoryGirl.create(:mock_provider)
+end
+
 Given /^provider "([^"]*)" is not accessible$/ do |arg1|
   stub_framework(false)
 end

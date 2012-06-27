@@ -128,3 +128,23 @@ Then /^there should be these ec2 provider accounts:$/ do |table|
     p[:provider_type].should == hash[:provider_type]
   end
 end
+
+Given /^there are some provider accounts for given provider$/ do
+  # FIXME: change 3 to constant
+  3.times do
+    pa = FactoryGirl.build(:mock_provider_account_seq, :provider => @provider)
+    pa.stub!(:validate_credentials).and_return(true)
+    pa.save
+  end
+  @provider.provider_accounts.size.should be_eql(3)
+end
+
+Given /^there are some provider accounts for that another provider$/ do
+  # FIXME: change 3 to constant
+  3.times do
+    pa = FactoryGirl.build(:mock_provider_account_seq, :provider => @another_provider)
+    pa.stub!(:validate_credentials).and_return(true)
+    pa.save
+  end
+  @another_provider.provider_accounts.size.should be_eql(3)
+end
