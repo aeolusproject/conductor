@@ -4,3 +4,4 @@ log/*.log
 tmp/**/*
 config/oauth.json
 Gemfile
+*.rbc
