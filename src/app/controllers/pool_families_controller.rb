@@ -78,7 +78,9 @@ class PoolFamiliesController < ApplicationController
     @title = @pool_family.name
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
     require_privilege(Privilege::VIEW, @pool_family)
-    @images = Aeolus::Image::Warehouse::Image.by_environment(@pool_family.name)
+    @all_images = Aeolus::Image::Warehouse::Image.by_environment(@pool_family.name)
+    @images = @all_images.paginate(:page => params[:page], :per_page => PER_PAGE)
+
     load_pool_family_tabs
 
     respond_to do |format|
@@ -232,7 +234,7 @@ class PoolFamiliesController < ApplicationController
   def load_pool_family_tabs
     @tabs = [{:name => t('pools.pools'),:view => 'pools', :id => 'pools', :count => @pool_family.pools.count},
              {:name => t('accounts'), :view => 'provider_accounts', :id => 'provider_accounts', :count => @pool_family.provider_accounts.count},
-             {:name => t('application_controller.admin_tabs.images'), :view => 'images', :id => 'images', :count => @images.count},
+             {:name => t('application_controller.admin_tabs.images'), :view => 'images', :id => 'images', :count => @all_images.count},
     ]
     add_permissions_tab(@pool_family)
     details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
