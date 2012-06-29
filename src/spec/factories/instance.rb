@@ -62,5 +62,4 @@ FactoryGirl.define do
   factory :instance_in_disabled_pool, :parent => :new_instance do
     association :pool, :factory => :disabled_pool
   end
-
 end

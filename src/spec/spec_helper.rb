@@ -66,6 +66,29 @@ def mock_warden(user)
   SessionEntity.update_session(@session_id, user) if user
 end
 
+# Without these here, controller specs fail.  These 2 class_evals can
+# be removed once stubs work and/or are added to the right place.
+Provider.class_eval do
+  def valid_framework?
+    true
+  end
+
+  def valid_provider?
+    true
+  end
+end
+
+ProviderAccount.class_eval do
+
+  def connect
+    nil
+  end
+
+  def valid_credentials?
+    true
+  end
+end
+
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
@@ -89,10 +112,6 @@ RSpec.configure do |config|
   #  activate_authlogic
   #end
 
-  config.before(:each) do
-    Provider.any_instance.stub(:valid_provider?).and_return(true)
-    Provider.any_instance.stub(:valid_famework?).and_return(true)
-  end
   #config.after(:each, :type => :controller) do
   #  current_user_session.destroy
   #end

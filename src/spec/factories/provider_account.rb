@@ -26,6 +26,7 @@ FactoryGirl.define do
     after_build do |acc|
       acc.credentials << Factory.build(:username_credential)
       acc.credentials << Factory.build(:password_credential)
+      acc.pool_families << PoolFamily.find_by_name('default')
     end
   end
 

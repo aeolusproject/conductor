@@ -239,14 +239,7 @@ class Provider < ActiveRecord::Base
     errs = []
     stoppable_instances.each do |instance|
       begin
-        unless instance.valid_action?('stop')
-          raise "stop is an invalid action."
-        end
-
-        unless @task = instance.queue_action(user, 'stop')
-          raise "stop cannot be performed on this instance."
-        end
-        Taskomatic.stop_instance(@task)
+        instance.stop(user)
       rescue Exception => e
         err = "Error while stopping an instance #{instance.name}: #{e.message}"
         errs << err

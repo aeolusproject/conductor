@@ -60,17 +60,18 @@ describe ProvidersController do
     end
 
     describe "check availability" do
-      context "when provider is not accessible" do
-        before do
-          @provider.update_attribute(:url, "invalid_url")
-        end
+      let(:p) { mock_model(Provider).as_null_object }
+      before do
+        Provider.stub(:find).and_return(p)
+      end
 
-        it "should update availability status on test connection" do
-          @provider.available.should_not be_false
-          get :edit, :id => @provider.id, :test_provider => true
-          @provider.reload
-          @provider.available.should be_false
-        end
+      it "should update availability status on test connection" do
+        p.should_receive(:update_availability)
+        get :edit, :id => @provider.id, :test_provider => true
+      end
+      it "should set a flash message" do
+        get :edit, :id => @provider.id, :test_provider => true
+        flash.should_not be_empty
       end
     end
 

@@ -52,11 +52,13 @@ describe PoolFamiliesController do
   it "should allow authorized users to edit pool family" do
     pool_family = FactoryGirl.create :pool_family
     mock_warden(@admin)
+    family = mock_model(PoolFamily).as_null_object
+    PoolFamily.stub(:find).and_return(family)
     put :update, :id => pool_family.id, :pool_family => {
       :name => 'updated pool family',
       :quota_attributes => { :maximum_running_instances => 10 },
     }
-    PoolFamily.find_by_name('updated pool family').should_not be_nil
+    flash[:notice].should eq(I18n.t("pool_families.flash.notice.updated"))
     response.should redirect_to(pool_families_path)
   end
 

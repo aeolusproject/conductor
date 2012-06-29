@@ -118,7 +118,7 @@ describe Deployment do
       inst2.save!
       inst3 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
       @deployment.reload
-      Taskomatic.stub!(:stop_instance).and_return(nil)
+      Instance.any_instance.stub(:get_action_list).and_return(['stop'])
       @deployment.stop_instances_and_destroy!
       inst1.tasks.last.action.should == 'stop'
       inst3.tasks.last.action.should == 'stop'
@@ -341,7 +341,7 @@ describe Deployment do
       inst1 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
       inst2 = Factory.create :mock_running_instance, :deployment_id => @deployment.id
       @deployment.reload
-
+      Instance.any_instance.stub(:get_action_list).and_return(['stop'])
       @deployment.stop_instances_and_destroy!
       inst1.reload
       inst2.reload

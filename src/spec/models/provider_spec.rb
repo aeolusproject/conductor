@@ -57,9 +57,9 @@ describe Provider do
     end
 
     it "should set error if unable to connect to specified deltacloud instance" do
-      @provider.stub(:valid_provider?).and_return(true)
       @provider.url = "http://invalid.provider/url"
       @provider.stub(:connect).and_return(nil)
+      @provider.stub(:valid_framework?).and_return(false)
       @provider.should have(1).error_on(:url)
       @provider.errors[:url].first.should eql(I18n.t("activerecord.errors.models.provider.attributes.url.invalid_framework"))
       @provider.should_not be_valid
@@ -100,6 +100,7 @@ describe Provider do
       pa = FactoryGirl.create(:mock_provider_account, :provider => provider1)
       inst1 = FactoryGirl.create(:instance, :provider_account => pa)
       inst2 = FactoryGirl.create(:instance, :provider_account => pa)
+      Instance.any_instance.stub(:stop).and_return(nil)
       errs = provider1.disable(nil)[:failed_to_stop]
       errs.should be_empty
     end
@@ -108,7 +109,7 @@ describe Provider do
       provider1 = Factory.create(:mock_provider)
       pa = FactoryGirl.create(:mock_provider_account, :provider => provider1)
       inst1 = FactoryGirl.create(:instance, :provider_account => pa)
-      Instance.any_instance.stub(:valid_action?).and_return(false)
+      Instance.any_instance.stub(:stop).and_raise
       errs = provider1.disable(nil)[:failed_to_stop]
       errs.should_not be_empty
       provider1.enabled.should be_true
@@ -147,6 +148,7 @@ describe Provider do
 
     it "should mark provider as unavailable if inaccessible" do
       @provider.available.should be_true
+      @provider.stub(:valid_framework?).and_return(false)
       @provider.populate_realms
       @provider.available.should be_false
     end

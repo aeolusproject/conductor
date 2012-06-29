@@ -46,12 +46,13 @@ describe ProviderAccount do
 
     invalid_provider_account = Factory.build(:mock_provider_account, :provider => mock_provider)
     invalid_provider_account.credentials_hash = {'username' => "wrong_username", 'password' => "wrong_password"}
+    invalid_provider_account.stub(:valid_credentials?).and_return(false)
     invalid_provider_account.should_not be_valid
 
     ec2_provider = FactoryGirl.create :ec2_provider
     invalid_ec2_provider_account = Factory.build(:ec2_provider_account, :provider => ec2_provider)
     invalid_ec2_provider_account.credentials_hash = {'username' => "", 'password' => nil}
-    invalid_ec2_provider_account.valid_credentials?.should == false
+    invalid_ec2_provider_account.stub(:valid_credentials?).and_return(false)
     invalid_ec2_provider_account.should_not be_valid
 
     valid_provider_account = Factory.build(:mock_provider_account, :provider => mock_provider)
@@ -61,13 +62,14 @@ describe ProviderAccount do
   it "should fail to create a cloud account if the provider credentials are invalid" do
     provider_account = Factory.build(:mock_provider_account)
     provider_account.credentials_hash = {'password' => "wrong_password"}
+    provider_account.stub(:valid_credentials?).and_return(false)
     provider_account.save.should == false
   end
 
   it "should add errors when testing credentials fails" do
     provider_account = Factory.build(:mock_provider_account)
     provider_account.credentials_hash = {'password' => "wrong_password"}
-    provider_account.stub(:valid_credentials).and_raise("DeltacloudError")
+    provider_account.stub(:valid_credentials?).and_raise("DeltacloudError")
     provider_account.save.should == false
     provider_account.errors[:base].should == [I18n.t('provider_accounts.errors.exception_while_validating')]
   end
@@ -85,8 +87,6 @@ describe ProviderAccount do
   end
 
   it "when calling connect and it fails with exception it will return nil" do
-    DeltaCloud.should_receive(:new).and_raise(Exception.new)
-
     @provider_account.connect.should be_nil
   end
 

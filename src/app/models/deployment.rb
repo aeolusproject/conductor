@@ -179,12 +179,7 @@ class Deployment < ActiveRecord::Base
       # stop all deployment's instances
       instances.each do |instance|
         next unless instance.state == Instance::STATE_RUNNING
-
-        @task = instance.queue_action(instance.owner, 'stop')
-        unless @task
-          raise I18n.t("deployments.errors.cannot_stop")
-        end
-        Taskomatic.stop_instance(@task)
+        instance.stop(instance.owner)
       end
     else
       raise I18n.t("deployments.errors.all_stopped")

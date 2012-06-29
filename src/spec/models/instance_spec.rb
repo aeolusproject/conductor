@@ -110,10 +110,6 @@ describe Instance do
     @instance.valid_action?('start').should == true
   end
 
-  it "should return action list" do
-    @instance.get_action_list.should eql(["reboot", "stop"])
-  end
-
   it "should be able to queue new actions" do
     @instance.stub!(:get_action_list).and_return(@actions)
     user = User.new
@@ -240,9 +236,10 @@ describe Instance do
   end
 
   it "shouldn't match provider accounts where image is not pushed" do
-    account2 = FactoryGirl.create(:mock_provider_account2, :label => 'testaccount')
-    @pool.pool_family.provider_accounts = [account2]
-    @instance.matches.last.should include(I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => 'testaccount'))
+    inst = Factory.create(:new_instance)
+    inst.stub(:image_build).and_return("foo")
+    inst.stub(:provider_images_for_match).and_return([])
+    inst.matches.last.should include(I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => inst.provider_account.name))
   end
 
   it "shouldn't match provider accounts where matching hardware profile not found" do
@@ -325,6 +322,7 @@ describe Instance do
   it "should not be launchable if its pool's providers are all disabled" do
     instance = FactoryGirl.build(:instance)
     instance.pool.pool_family.provider_accounts << FactoryGirl.create(:disabled_provider_account)
+    instance.pool.pool_family.stub(:all_providers_disabled?).and_return(true)
     instance.should_not be_valid
     instance.errors[:pool].should_not be_empty
     instance.errors[:pool].first.should == I18n.t('pools.errors.providers_disabled')
