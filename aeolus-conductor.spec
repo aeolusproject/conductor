@@ -2,7 +2,7 @@
 %global doc_root %{_datadir}/%{name}-doc
 
 Name:     aeolus-conductor
-Version:  0.8.33
+Version:  0.8.34
 Release:  1%{?dist}
 Summary:  The Aeolus Conductor
 
@@ -366,6 +366,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Fri Jun 29 2012 Tzu-Mainn Chen <tzumainn@redhat.com> 0.8.34-1
+- c562b28 BZ824512: add pagination to images list on pool_families show
+
 * Wed Jun 27 2012 Steve Linabery <slinaber@redhat.com> 0.8.33-1
 - 9794694 BZ835151 configure errors after upgrade
 
