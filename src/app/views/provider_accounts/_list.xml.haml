@@ -10,3 +10,7 @@
       -if local_assigns[:with_credentials]
         = content_tag(provider_type.deltacloud_driver + '_credentials') do
           = render 'credentials', :creds_label_hash => pa.creds_label_hash
+      -if pa.priority
+        %priority= pa.priority
+      %quota_used= number_to_percentage pa.quota.percentage_used, :precision => 0
+      %quota= pa.quota.maximum_running_instances or t('provider_accounts.properties.unlimited')
