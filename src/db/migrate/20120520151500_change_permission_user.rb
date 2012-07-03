@@ -47,6 +47,13 @@ class ChangePermissionUser < ActiveRecord::Migration
 
     Permission.reset_column_information
     DerivedPermission.reset_column_information
+    # create derived permissions for existing records
+    counter = 0
+    total_perms = Permission.count
+    Permission.all.each do |permission|
+      puts "updating permision #{counter +=1} of #{total_perms}"
+      permission.update_derived_permissions
+    end
   end
 
   def self.down
