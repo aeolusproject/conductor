@@ -167,6 +167,8 @@ getent passwd aeolus >/dev/null || \
 # Previously ~aeolus was set to /var/aeolus
 # If this is an upgrade scenario, fix the home directory
 test ~aeolus == /usr/share/aeolus-conductor || usermod --home /usr/share/aeolus-conductor aeolus
+#remove any possible remains after uninstalation from app_root
+%{__rm} -rf %{app_root}/*
 
 %install
 %{__mkdir} -p %{buildroot}
@@ -242,6 +244,7 @@ key="features/upload_files"
 opts="spec"
 png="public/images \
      public/images/icons \
+     public/images/embed \
      public/stylesheets/images \
      public/stylesheets/jquery.ui-1.8.1/images \
      vendor/converge-ui/images \
@@ -254,10 +257,10 @@ rb="app/models app/controllers app/controllers/api app/helpers app/services app/
     spec/aeolus/event spec/aeolus/ext lib/aeolus lib/aeolus/event lib/aeolus/ext \
     vendor/converge-ui/rails/helpers"
 rhtml="app/views/layouts"
-svg="public/images public/images/icons public/fonts vendor/converge-ui/fonts"
-ttf="public/fonts vendor/converge-ui/fonts"
-eot="public/fonts vendor/converge-ui/fonts"
-woff="public/fonts vendor/converge-ui/fonts"
+svg="public/images public/images/icons vendor/converge-ui/fonts"
+ttf="vendor/converge-ui/fonts"
+eot="vendor/converge-ui/fonts"
+woff="vendor/converge-ui/fonts"
 txt="public"
 yml="config config/locales config/locales/defaults config/locales/overrides
      config/locales/role_definitions config/locales/classnames config/locales/will_paginate \
@@ -276,9 +279,19 @@ for filetype in builder css eot feature gif haml mustache html ico jpg js json k
 done
 %{__rm} %{buildroot}%{app_root}/config/initializers/secret_token.rb
 
+#copy the converge-ui symlinks
+%{__cp} -P ./src/app/helpers/converge-ui %{buildroot}%{app_root}/app/helpers
+%{__cp} -P ./src/app/views/layouts/converge-ui %{buildroot}%{app_root}/app/views/layouts
+%{__cp} -P ./src/public/fonts %{buildroot}%{app_root}/public
+%{__cp} -P ./src/public/images/converge-ui %{buildroot}%{app_root}/public/images
+%{__cp} -P ./src/public/javascripts/converge-ui %{buildroot}%{app_root}/public/javascripts
+
 # precompile stylesheets
 %{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
-compass compile --sass-dir ./src/app/stylesheets --css-dir %{buildroot}%{app_root}/public/stylesheets/compiled
+pushd ./src
+compass compile
+popd
+%{__cp} ./src/public/stylesheets/compiled/* %{buildroot}%{app_root}/public/stylesheets/compiled
 
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
@@ -354,13 +367,6 @@ popd 2>&1 > /dev/null
 %{__ln_s} -f %{app_root}/config/database.yml %{_sysconfdir}/%{name}
 %{__ln_s} -f %{app_root}/config/settings.yml %{_sysconfdir}/%{name}
 %{__ln_s} -f %{app_root}/config/oauth.json %{_sysconfdir}/%{name}
-
-#create converge-ui symlinks
-%{__ln_s} -f %{app_root}/vendor/converge-ui/rails/layouts %{app_root}/app/views/layouts/converge-ui
-%{__ln_s} -f %{app_root}/vendor/converge-ui/fonts %{app_root}/public/fonts
-%{__ln_s} -f %{app_root}/vendor/converge-ui/images %{app_root}/public/images/converge-ui
-%{__ln_s} -f %{app_root}/vendor/converge-ui/rails/helpers %{app_root}/app/helpers/converge-ui
-%{__ln_s} -f %{app_root}/vendor/converge-ui/javascripts %{app_root}/public/javascripts/converge-ui
 
 %postun
 # kind of a weird construct.  There are two cases where postun gets called;
