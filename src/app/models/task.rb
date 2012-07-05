@@ -76,6 +76,8 @@ class Task < ActiveRecord::Base
   validates_inclusion_of :state,
     :in => COMPLETED_STATES + WORKING_STATES
 
+  after_initialize :initialize_state
+
   # FIXME validate action depending on type / subclass
   # validate task_target_id, task_type_id, arg, message
   #   depending on subclass, action, state
@@ -88,11 +90,6 @@ class Task < ActiveRecord::Base
                          ["Failed", Task::STATE_FAILED],
                          ["Canceled", Task::STATE_CANCELED, "break"],
                          ["All States", ""]]
-
-  def initialize(params)
-    super
-    self.state = STATE_QUEUED unless self.state
-  end
 
   def cancel
     self[:state] = STATE_CANCELED
@@ -142,5 +139,9 @@ class Task < ActiveRecord::Base
     #errors.add("time_started", "Task ends but does not have the start time set") if time_ended and time_started.nil?
     errors.add("time_ended", "Tasks ends before it's started") unless time_ended.nil? or time_started.nil? or time_ended >= time_started
     errors.add("time_started", "Tasks starts before it's created") unless time_started.nil? or created_at.nil? or time_started >= created_at
+  end
+
+  def initialize_state
+    self.state = STATE_QUEUED unless self.state
   end
 end
