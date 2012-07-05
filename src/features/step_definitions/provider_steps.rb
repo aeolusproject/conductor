@@ -116,7 +116,7 @@ end
 
 Given /^there are some providers$/ do
   3.times do
-    FactoryGirl.create :provider
+    FactoryGirl.create :mock_provider
   end
 end
 
