@@ -70,7 +70,8 @@ class ApplicationController < ActionController::Base
 
   def handle_general_error(error)
     handle_error(:error => error, :status => :internal_server_error,
-                 :title => t('application_controller.internal_server_error'))
+                 :title => t('application_controller.internal_server_error'),
+                 :status => 500)
   end
 
   def handle_error(hash)
@@ -93,7 +94,8 @@ class ApplicationController < ActionController::Base
     else
       flash.now[:error] = msg
       render :template => 'layouts/error', :layout => 'application',
-             :locals => {:title => title, :errmsg => ''}
+             :locals => {:title => title, :errmsg => ''},
+             :status => status
     end
   end
 
