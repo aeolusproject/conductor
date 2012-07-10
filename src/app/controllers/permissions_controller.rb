@@ -201,10 +201,12 @@ class PermissionsController < ApplicationController
     unless obj_type or id
       @permission_object = BasePermissionObject.general_permission_scope
     end
-    if klass = ActiveRecord::Base.send(:subclasses).find{|c| c.name == obj_type}
-      @permission_object = klass.find(id)
-    else
-      raise RuntimeError, "invalid permission object type #{obj_type}"
+    if obj_type && id
+      if klass = ActiveRecord::Base.send(:subclasses).find{|c| c.name == obj_type}
+        @permission_object = klass.find(id)
+      else
+        raise RuntimeError, "invalid permission object type #{obj_type}"
+      end
     end
     raise RuntimeError, "invalid permission object" if @permission_object.nil?
     if @permission_object == BasePermissionObject.general_permission_scope

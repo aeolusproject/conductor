@@ -39,4 +39,11 @@ describe PermissionsController do
     response.should redirect_to catalog_deployable_path(@catalog, @deployable)
   end
 
+  it "should work for global role grants" do
+    mock_warden(@admin)
+    get :index
+    response.should be_success
+  end
+
+
 end
