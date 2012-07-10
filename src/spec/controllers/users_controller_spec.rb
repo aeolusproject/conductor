@@ -25,9 +25,10 @@ describe UsersController do
     @admin = @admin_permission.user
   end
 
-  it "allows user to get to registration form for new user" do
+  it "redirects to login form for new user as self-service user creation is not currently supported" do
+    mock_warden(nil)
     get :new
-    response.should be_success
+    response.should be_redirect
   end
 
   describe "#create" do

@@ -28,6 +28,7 @@ describe UserSessionsController do
   end
 
   it "should call new method" do
+    mock_warden(nil)
     {:get => 'login'}.should route_to(:controller => 'user_sessions', :action => 'new')
     get :new
     response.should be_success

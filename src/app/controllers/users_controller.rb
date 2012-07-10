@@ -15,7 +15,7 @@
 #
 
 class UsersController < ApplicationController
-  before_filter :require_user, :except => [:new, :create]
+  before_filter :require_user
   before_filter :load_users, :only => [:show]
 
   def index
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, User) unless current_user.nil?
+    require_privilege(Privilege::CREATE, User)
     @title = t'users.new.new_user'
     @user = User.new
     @user.quota = Quota.new
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
       redirect_to :action => 'new' and return
     end
 
-    require_privilege(Privilege::MODIFY, User) unless current_user.nil?
+    require_privilege(Privilege::MODIFY, User)
     @user = User.new(params[:user])
     @user.quota ||= Quota.new
 
