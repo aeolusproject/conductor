@@ -311,6 +311,11 @@ class DeploymentsController < ApplicationController
 
     @deployments_to_stop.each do |deployment|
       # TODO: move all this logic to model
+      unless deployment.can_stop?
+        errors << t('deployments.flash.error.cant_stop',
+                    :name => deployment.name)
+        next
+      end
       deployment.state = Deployment::STATE_SHUTTING_DOWN
       deployment.save!
       deployment.instances.each do |instance|

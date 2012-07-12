@@ -160,6 +160,10 @@ class Deployment < ActiveRecord::Base
     instances.all? {|i| i.destroyable? }
   end
 
+  def can_stop?
+    [STATE_RUNNING, STATE_INCOMPLETE].include?(self.state)
+  end
+
   def stop_instances_and_destroy!
     if destroyable?
       destroy_deployment_config
@@ -167,9 +171,8 @@ class Deployment < ActiveRecord::Base
       return
     end
 
-    self.state = Deployment::STATE_SHUTTING_DOWN
-    save!
     if instances.all? {|i| i.destroyable? or i.state == Instance::STATE_RUNNING}
+      self.state = Deployment::STATE_SHUTTING_DOWN
       destroy_deployment_config
       # The deployment will be destroyed from an InstanceObserver callback once
       # all instances are stopped.
@@ -700,20 +703,7 @@ class Deployment < ActiveRecord::Base
   def send_rollback_requests
     error_occured = false
     instances.running.each do |instance|
-      begin
-        instance.stop(nil)
-      rescue
-        error_occured = true
-        self.events << Event.create(
-          :source => instance,
-          :event_time => DateTime.now,
-          :status_code => 'instance_stop_failed',
-          :summary => "Failed to stop instance #{instance.name}",
-          :description => $!.message
-        )
-        logger.error $!.message
-        logger.error $!.backtrace.join("\n  ")
-      end
+      error_occured = true unless instance.stop_with_event(nil)
     end
     if error_occured
       cleanup_failed_launch
