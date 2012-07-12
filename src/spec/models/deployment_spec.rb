@@ -472,29 +472,49 @@ describe Deployment do
         @inst2.update_attribute(:state, Instance::STATE_STOPPED)
       end
 
-      describe "on relaunch" do
-        before :each do
-          account = Factory.create(:mock_provider_account)
-          match1 = FactoryGirl.build(:instance_match,
-                                     :provider_account => account,
-                                     :instance_id => @inst1.id)
-          match2 = FactoryGirl.build(:instance_match,
-                                     :provider_account => account,
-                                     :instance_id => @inst2.id)
-          Instance.any_instance.stub(:launch!).and_return(true)
-          Deployment.any_instance.stub(:find_match_with_common_account).
-            and_return([[match1, match2], account, []])
-          @inst2.update_attribute(:state, Instance::STATE_STOPPED)
+      describe "handle_completed_rollback" do
+        context "next match is found" do
+          before :each do
+            account = Factory.create(:mock_provider_account)
+            match1 = FactoryGirl.build(:instance_match,
+                                       :provider_account => account,
+                                       :instance_id => @inst1.id)
+            match2 = FactoryGirl.build(:instance_match,
+                                       :provider_account => account,
+                                       :instance_id => @inst2.id)
+            Instance.any_instance.stub(:launch!).and_return(true)
+            Deployment.any_instance.stub(:find_match_with_common_account).
+              and_return([[match1, match2], account, []])
+            @inst2.update_attribute(:state, Instance::STATE_STOPPED)
+          end
+
+          it "should set pending state for the deployment" do
+            @deployment.reload
+            @deployment.state.should == Deployment::STATE_PENDING
+          end
+
+          it "should save instance match for each instance" do
+            @inst1.instance_matches.count.should > 0
+            @inst2.instance_matches.count.should > 0
+          end
         end
 
-        it "should set pending state for the deployment" do
-          @deployment.reload
-          @deployment.state.should == Deployment::STATE_PENDING
-        end
+        context "no other match is found" do
+          before :each do
+            Deployment.any_instance.stub(:find_match_with_common_account).
+                and_return([nil, nil, []])
+              @inst1.update_attribute(:state, Instance::STATE_NEW)
+              @inst2.update_attribute(:state, Instance::STATE_STOPPED)
+              @deployment.reload
+          end
 
-        it "should save instance match for each instance" do
-          @inst1.instance_matches.count.should > 0
-          @inst2.instance_matches.count.should > 0
+          it "deployment should be in failed state" do
+            @deployment.state.should == Deployment::STATE_FAILED
+          end
+
+          it "there should not be instances in new state" do
+            @deployment.instances.in_new_state.count.should == 0
+          end
         end
       end
     end
