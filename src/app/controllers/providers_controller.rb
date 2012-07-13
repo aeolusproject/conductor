@@ -21,27 +21,28 @@ class ProvidersController < ApplicationController
   before_filter :parse_provider_type, :only => [:create, :update]
 
   def index
-    @params = params
-    begin
-      @provider = Provider.find(session[:current_provider_id]) if session[:current_provider_id]
-    rescue ActiveRecord::RecordNotFound => exc
-      logger.error(exc.message)
-    ensure
-      @provider ||= @providers.first
-    end
+    @from_date = params[:from_date].nil? ? Date.today - 7.days :
+      Date.civil(params[:from_date][:year].to_i,
+                 params[:from_date][:month].to_i,
+                 params[:from_date][:day].to_i)
+    @to_date = params[:to_date].nil? ? Date.today :
+      Date.civil(params[:to_date][:year].to_i,
+                 params[:to_date][:month].to_i,
+                 params[:to_date][:day].to_i)
+
+    load_headers
+    statistics
 
     respond_to do |format|
-      format.html do
-        if @providers.present?
-          flash.keep
-          redirect_to edit_provider_path(@provider)
-        else
-          render :action => :index
-        end
-      end
+      format.html
+      format.js { render :partial => 'list' }
       format.xml { render :partial => 'list.xml' }
     end
+  end
 
+  def filter
+    redirect_to_original({ "from_date" => params[:from_date],
+                           "to_date" => params[:to_date] })
   end
 
   def new
@@ -221,8 +222,8 @@ class ProvidersController < ApplicationController
   end
 
   def load_providers
-    @providers = Provider.list_for_user(current_session, current_user,
-                                        Privilege::VIEW)
+    @providers = Provider.includes(:provider_type).list_for_user(current_session, current_user,
+                                        Privilege::VIEW).order("name")
   end
 
   def disable_provider
@@ -321,5 +322,162 @@ class ProvidersController < ApplicationController
     #@permissions = @provider.permissions if @details_tab[:id] == 'roles'
 
     @view = @details_tab[:view]
+  end
+
+  def load_headers
+    @header = [
+      { :name => t('providers.index.provider_name'), :class => 'center',
+                 :sortable => false },
+      { :name => t('providers.index.provider_type'), :class => 'center',
+                 :sortable => false },
+      { :name => t('providers.index.running_instances'), :class => 'center',
+                 :sortable => false },
+      { :name => t('providers.index.pending_instances'), :class => 'center',
+                 :sortable => false },
+      { :name => t('providers.index.error_instances'), :class => 'center',
+                 :sortable => false },
+      { :name => t('providers.index.historical_running_instances'), :class => 'center',
+                 :sortable => false },
+      { :name => t('providers.index.historical_error_instances'), :class => 'center',
+                 :sortable => false },
+    ]
+  end
+
+  def statistics
+    @statistics = Hash.new
+    @providers.each do |provider|
+      @statistics[provider.id] = {
+        "running_instances" => 0,
+        "pending_instances" => 0,
+        "error_instances" => 0,
+        "historical_running_instances" => 0,
+        "historical_error_instances" => 0,
+      }
+    end
+
+    # Queries are NOT permissioned by instance, as info is
+    # used purely for statistical purposes.
+
+    # current instances
+    provider_counts = ProviderAccount.joins(:instances).
+      merge(Instance.scoped).
+      select("provider_id, state, count(*) as count").
+      where(:provider_id => @providers.map{|provider| provider.id}).
+      group("provider_id, state")
+
+    provider_counts.each do |provider_count|
+      provider_id = provider_count["provider_id"]
+      state = provider_count["state"]
+      count = provider_count["count"]
+
+      if Instance::FAILED_STATES.include?(state)
+        @statistics[provider_id]["error_instances"] += count.to_i
+      elsif [Instance::STATE_RUNNING, Instance::STATE_SHUTTING_DOWN].
+               include?(state)
+        @statistics[provider_id]["running_instances"] += count.to_i
+      elsif [Instance::STATE_NEW, Instance::STATE_PENDING].
+               include?(state)
+        @statistics[provider_id]["pending_instances"] += count.to_i
+      end
+    end
+
+    # instances that were running between historical date range
+    historical_running_provider_counts = ProviderAccount.joins(:instances).
+      merge(Instance.unscoped).
+      select("provider_id, state, count(*) as count").
+      where(:provider_id => @providers.map{|provider| provider.id}).
+      where("time_last_running <= :to_date and
+             (time_last_stopped is null
+              or time_last_stopped >= :from_date)",
+            :to_date => @to_date.to_datetime.end_of_day,
+            :from_date => @from_date.to_datetime.beginning_of_day
+            ).
+      group("provider_id, state")
+
+    historical_running_provider_counts.each do |provider_count|
+      provider_id = provider_count["provider_id"]
+      count = provider_count["count"]
+
+      @statistics[provider_id]["historical_running_instances"] += count.to_i
+    end
+
+    # instances that threw an error between historical date range
+    historical_error_provider_counts = ProviderAccount.joins(:instances).
+      merge(Instance.unscoped).
+      select("provider_id, count(*) as count").
+      where(:provider_id => @providers.map{|provider| provider.id}).
+      where("instances.state" => Instance::FAILED_STATES).
+      where("instances.updated_at between :from_date and :to_date",
+            :states => Instance::FAILED_STATES,
+            :to_date => @to_date.to_datetime.end_of_day,
+            :from_date => @from_date.to_datetime.beginning_of_day
+            ).
+      group("provider_id")
+
+    historical_error_provider_counts.each do |provider_count|
+      provider_id = provider_count["provider_id"]
+      count = provider_count["count"]
+
+      @statistics[provider_id]["historical_error_instances"] += count.to_i
+    end
+
+    # all running instances during historical date range
+    historical_instances = Instance.unscoped.
+      find(:all,
+           :conditions => ["time_last_running <= ? and
+                             (time_last_stopped is null
+                              or time_last_stopped >= ?)",
+                           @to_date.to_datetime.end_of_day,
+                           @from_date.to_datetime.beginning_of_day],
+           :include => {:provider_account => [:provider]}
+           )
+
+    @datasets = ChartDatasets.new(@from_date, @to_date)
+    events = Array.new
+
+    historical_instances.each do |instance|
+      provider_account = instance.provider_account
+
+      if check_privilege(Privilege::VIEW, provider_account)
+        label = provider_account.nil? ?
+                  'Unknown' :
+                  provider_account.provider.name +
+                  " (" + provider_account.name + ")"
+
+        # see if instance started before from_date
+        if instance.time_last_running <= @from_date.to_datetime.beginning_of_day
+          @datasets.increment_count(label,1)
+          @datasets.increment_count("All",1)
+        else
+          events << {
+            "time" => instance.time_last_running,
+            "label" => label,
+            "increment" => 1
+          }
+        end
+
+        if !instance.time_last_stopped.nil? &&
+            instance.time_last_stopped <= @to_date.to_datetime.end_of_day
+          events << {
+            "time" => instance.time_last_stopped,
+            "label" => label,
+            "increment" => -1
+          }
+        end
+      end
+    end
+
+    @datasets.initialize_datasets
+
+    events.sort_by {|event| event["time"]}.each do |event|
+      timestamp = event["time"].to_i * 1000
+      increment = event["increment"]
+
+      [ event["label"], "All" ].each { |label|
+        @datasets.add_dataset_point(label,timestamp,increment)
+      }
+    end
+
+    @datasets.finalize_datasets
   end
 end

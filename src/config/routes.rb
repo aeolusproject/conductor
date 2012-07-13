@@ -139,6 +139,7 @@ Conductor::Application.routes.draw do
 
   resources :providers do
     delete 'multi_destroy', :on => :collection
+    post :filter, :on => :collection
 
     resources :provider_accounts do
       collection do

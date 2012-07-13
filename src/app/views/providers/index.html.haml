@@ -1,6 +1,49 @@
 = render :partial => 'layouts/admin_nav'
-%section.content-section.provider
-  = t("providers.index.no_providers_available")
-  - if check_privilege(Privilege::CREATE, Provider)
-    = t("providers.index.create_one")
-    = link_to t("providers.index.create_new_provider"), new_provider_path, :class => 'button', :id => "create_new_provider"
+%section.content-section
+  %header
+    %h2.providers #{t'providers.providers'}
+  .content
+    - content_for :form_header do
+      - if check_privilege(Privilege::CREATE, Provider)
+        %li= link_to t("providers.index.create_new_provider"), new_provider_path, :class => 'button', :id => "create_new_provider"
+
+    - content_for :filter_controls do
+      %li
+        = hidden_field_tag :current_path, request.fullpath
+        = t('filter_table.from')
+        = select_date @from_date, :prefix => :from_date
+        = t('filter_table.to')
+        = select_date @to_date, :prefix => :to_date
+        = restful_submit_tag t("filter_table.apply_filters"), "index", filter_providers_path, 'POST', :class => 'button', :id => 'apply_provider_index_filter'
+        %span.label.badge.dark= @providers.count
+    = filter_table(@header, @providers) do |provider|
+      - statistics = @statistics[provider.id]
+      %tr{:class => cycle('nostripe','stripe')}
+        %td= link_to provider.name, edit_provider_path(provider)
+        %td= provider.provider_type.name
+        - if statistics["running_instances"] > 0
+          %td{:class => 'running_instances'}= statistics["running_instances"]
+        - else
+          %td.center= statistics["running_instances"]
+        - if statistics["pending_instances"] > 0
+          %td{:class => 'pending_instances'}= statistics["pending_instances"]
+        - else
+          %td.center= statistics["pending_instances"]
+        - if statistics["error_instances"] > 0
+          %td{:class => 'error_instances'}= statistics["error_instances"]
+        - else
+          %td.center= statistics["error_instances"]
+        - if statistics["historical_running_instances"] > 0
+          %td{:class => 'running_instances'}= statistics["historical_running_instances"]
+        - else
+          %td.center= statistics["historical_running_instances"]
+        - if statistics["historical_error_instances"] > 0
+          %td{:class => 'error_instances'}= statistics["historical_error_instances"]
+        - else
+          %td.center= statistics["historical_error_instances"]
+
+%section.content-section
+  %header
+    %h2.activity #{t'activity.activity'}
+  .content
+    = render :partial => 'charts/time_chart', :locals => { :datasets => @datasets.data, :from_date => @from_date, :to_date => @to_date, :name => 'provider-history-graph' }

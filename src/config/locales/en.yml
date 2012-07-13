@@ -10,6 +10,8 @@ en:
         other: "%{count} hours"
   search:
     no_results: "No matching results."
+  activity:
+    activity: Activity
   logs:
     options:
       default_users: All Users
@@ -1111,6 +1113,11 @@ en:
       provider_name: Provider Name
       provider_url: Provider URL
       provider_type: Provider Type
+      running_instances: Running Instances (Current)
+      pending_instances: Pending (Current)
+      error_instances: Errors (Current)
+      historical_running_instances: Running (Historical)
+      historical_error_instances: Errors (Historical)
       x_deltacloud_driver: X-Deltacloud-Driver
       x_deltacloud_provider: X-Deltacloud-Provider
       no_providers_available: No providers available.

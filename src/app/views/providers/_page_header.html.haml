@@ -12,4 +12,8 @@
     = form_for @provider, :url => provider_path(@provider), :html => { :method => :put, :class => 'generic horizontal' } do |f|
       = f.hidden_field :enabled, :value => !@provider.enabled
       = f.submit "", :confirm => "#{@provider.enabled ? t("providers.disable_provider") : t("providers.enable_provider")}", :class => "provider_toggle #{@provider.enabled ? "on" : "off"}"
+    %br 
+    .return_to
+      =t'return_to'
+      = link_to "#{t'providers.providers'}", providers_path
   %h1.providers{:class => @provider.enabled ? 'enabled' : 'disabled'}= @provider.name.blank? ? t("providers.editing_provider") : @provider.name

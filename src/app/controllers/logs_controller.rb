@@ -99,7 +99,7 @@ class LogsController < ApplicationController
       Date.civil(params[:from_date][:year].to_i,
                  params[:from_date][:month].to_i,
                  params[:from_date][:day].to_i)
-    @to_date = params[:to_date].nil? ? Date.today + 1.days :
+    @to_date = params[:to_date].nil? ? Date.today :
       Date.civil(params[:to_date][:year].to_i,
                  params[:to_date][:month].to_i,
                  params[:to_date][:day].to_i)
@@ -283,27 +283,17 @@ class LogsController < ApplicationController
         find(:all, :conditions => initial_conditions)
     end
 
-    @datasets = Hash.new
-    counts = Hash.new
-
-    counts["All"] = @initial_sources.count
+    @datasets = ChartDatasets.new(@from_date, @to_date)
+    @datasets.increment_count("All",@initial_sources.count)
 
     if @group_options.include?(@group) 
       @initial_sources.each do |source|
         label = get_source_label(source, @group)
-
-        if counts.has_key?(label)
-          counts[label] = counts[label] + 1
-        else
-          counts[label] = 1
-        end
+        @datasets.increment_count(label,1)
       end
     end
 
-    counts.each.map{ |label,count|
-      @datasets[label] = [[@from_date.to_datetime.beginning_of_day.to_i * 1000,
-                           count]]
-    }
+    @datasets.initialize_datasets
 
     @events.each do |event|
       event_timestamp = event.event_time.to_i * 1000
@@ -311,23 +301,21 @@ class LogsController < ApplicationController
       if event.status_code == start_code || event.status_code == end_code
         increment = (event.status_code == end_code) ? -1 : 1
 
-        add_dataset_point("All", event_timestamp, increment, counts)
+        @datasets.add_dataset_point("All", event_timestamp, increment)
 
         if @group_options.include?(@group) 
           label = get_source_label(event.source, @group)
-          add_dataset_point(label, event_timestamp, increment, counts)
+          @datasets.add_dataset_point(label, event_timestamp, increment)
         end
       end
     end
 
-    counts.each.map{ |label,count|
-      @datasets[label] << [@to_date.to_datetime.end_of_day.to_i * 1000, count]
-    }
+    @datasets.finalize_datasets
   end
 
   def get_source_label(source, label_type)
     label = "Unknown"
-    case @group
+    case label_type
     when t('logs.index.pool')
       label = source.pool.name unless source.pool.nil?
     when t('logs.index.provider')
@@ -337,16 +325,5 @@ class LogsController < ApplicationController
     end
 
     label
-  end
-
-  def add_dataset_point(label, timestamp, increment, counts)
-    if !@datasets.has_key?(label)
-      counts[label] = 0
-      @datasets[label] = [ [timestamp - 1, 0] ]
-    end
-
-    @datasets[label] << [timestamp - 1, counts[label]]
-    counts[label] = counts[label] + increment
-    @datasets[label] << [timestamp, counts[label]]
   end
 end

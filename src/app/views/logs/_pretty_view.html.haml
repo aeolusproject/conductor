@@ -14,27 +14,4 @@
         = restful_submit_tag t("filter_table.apply_filters"), "index", filter_logs_path, 'POST', :class => 'button', :id => 'apply_logs_filter'
 %br
 
-%div{:id => 'placeholder', :style => 'width:925px;height:600px;'}
-
-:javascript
-  $(function () {
-    var datasets = [
-      {
-        label: "All",
-        data: [#{ @datasets["All"].each.map{ |p| "[#{p[0]}, #{p[1]}]"}.join(", ") }]
-      },
-      #{ @datasets.reject{|label,data| label == "All"}.each.map{ |label,data| "{
-        label: \"" + label + "\",
-        data: [#{ data.each.map{ |p| "[#{p[0]}, #{p[1]}]"}.join(", ") }]
-      }" }.join(",
-      ") }
-    ];
-
-    $.plot($("#placeholder"), datasets, {
-      xaxis: {
-        mode: "time",
-        min: #{@from_date.to_datetime.beginning_of_day.to_i * 1000},
-        max: #{@to_date.to_datetime.end_of_day.to_i * 1000}
-      }
-    });
-  });
+= render :partial => 'charts/time_chart', :locals => { :datasets => @datasets.data, :from_date => @from_date, :to_date => @to_date, :name => 'log-history-graph' }
