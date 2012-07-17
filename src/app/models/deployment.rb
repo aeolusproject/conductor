@@ -254,23 +254,32 @@ class Deployment < ActiveRecord::Base
     all_inst_match.map!{|m| m.attributes}
 
     if deployable_xml.requires_config_server?
+      config_server_id = account.config_server.id
+    else
+      config_server_id = nil
+    end
+
+    delay.send_launch_requests(all_inst_match,
+                               instances.map{|i| i.id},
+                               config_server_id, user.id)
+  end
+
+  def send_launch_requests(all_inst_match, instance_ids, config_server_id, user_id)
+    user = User.find(user_id)
+    instances = instance_ids.map{|instance_id| Instance.find(instance_id)}
+
+    if config_server_id.nil?
+      config_server = nil
+      instance_configs = {}
+    else
+      config_server = ConfigServer.find(config_server_id)
+
       # the instance configurations need to be generated from the entire set of
       # instances (and not each individual instance) in order to do parameter
       # dependency resolution across the set
-      config_server = account.config_server
-      instance_configs = ConfigServerUtil.instance_configs(self,
-                                                           instances,
-                                                           config_server)
-    else
-      config_server = nil
-      instance_configs = {}
+      instance_configs = ConfigServerUtil.instance_configs(self,instances,config_server)
     end
 
-    delay.send_launch_requests(all_inst_match, config_server,
-                               instance_configs, user)
-  end
-
-  def send_launch_requests(all_inst_match, config_server, instance_configs, user)
     instances.each do |instance|
       instance.reset_attrs unless instance.state == Instance::STATE_NEW
       instance.instance_matches << InstanceMatch.new(
