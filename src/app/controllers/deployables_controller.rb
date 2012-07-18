@@ -167,7 +167,8 @@ class DeployablesController < ApplicationController
       end
 
       # check that type attrs on service params are used properly
-      if warnings = @deployable.check_service_params_types
+      warnings = @deployable.check_service_params_types
+      unless warnings.empty?
         flash[:warning] ||= []
         flash[:warning] = [flash[:warning]] if flash[:warning].kind_of? String
         flash[:warning]+=warnings
@@ -207,7 +208,8 @@ class DeployablesController < ApplicationController
 
     if @deployable.update_attributes(params[:deployable])
       # check that type attrs on service params are used properly
-      if warnings = @deployable.check_service_params_types
+      warnings = @deployable.check_service_params_types
+      unless warnings.empty?
         flash[:warning] ||= []
         flash[:warning] = [flash[:warning]] if flash[:warning].kind_of? String
         flash[:warning]+=warnings
