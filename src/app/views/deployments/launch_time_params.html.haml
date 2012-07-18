@@ -5,7 +5,7 @@
 
 %section.content-section.deployments.launch-time-params
   %h2= t('.configure_launch_time_params')
-  = form_for @deployment, :url => overview_deployments_path, :html => {:method => :post, :class => 'generic'} do
+  = form_for @deployment, :url => overview_deployments_path, :html => {:method => :post, :class => "generic horizontal"} do
     = hidden_field :deployment, :name
     = hidden_field :deployment, :pool_id
     = hidden_field :deployment, :frontend_realm_id
@@ -14,7 +14,7 @@
     %section.services
       .labels
         - @services.each do |service, assembly_name|
-          %h4.service{:id => service.id}= service.name.titleize
+          %h4.service{:id => service.name}= service.name.titleize
           %p.hidden.description= service.description
 
       %header
@@ -23,9 +23,9 @@
 
       .params-container
         - @services.each do |service, assembly_name|
-          .parameters{:id => service.id}
+          .parameters{:id => service.name}
             - service.parameters.each do |parameter|
-              .parameter
+              .parameter.field
                 - if not parameter.reference?
                   - id = "deployment[launch_parameters][#{assembly_name}][#{service.name}][#{parameter.name}]"
                   = label_tag id, parameter.name.titleize + ':'
@@ -33,9 +33,11 @@
                   - if parameter.type == "password"
                     = password_field_tag id, (parameter.value or value)
                   - elsif (parameter.value or value).to_s.include?("\n")
-                    = text_area_tag id, (parameter.value or value), :class => 'long'
+                    .input
+                      = text_area_tag id, (parameter.value or value), :class => 'long'
                   - else
-                    = text_field_tag id, (parameter.value or value)
+                    .input
+                      = text_field_tag id, (parameter.value or value)
                 - else
                   = t('.reference', :assembly => parameter.reference_assembly, :parameter => parameter.reference_parameter)
 
