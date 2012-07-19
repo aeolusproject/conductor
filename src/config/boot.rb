@@ -16,15 +16,16 @@
 
 require 'rubygems'
 
-if ENV['USE_BUNDLER'] == 'yes'
+gemfile = File.expand_path('../../Gemfile', __FILE__)
+if File.exist?(gemfile)
   puts "===== boot.rb will try and use bundler ========="
-  ENV['BUNDLE_GEMFILE'] = File.expand_path('../../Gemfile', __FILE__)
-  require 'bundler' if File.exists?(ENV['BUNDLE_GEMFILE'])
+  ENV['BUNDLE_GEMFILE'] = gemfile
+  require 'bundler'
   begin
     Bundler.setup
   rescue Bundler::GemNotFound => e
     STDERR.puts e.message
-    STDERR.puts "Try running `bundle install`."
+    STDERR.puts "Try running `bundle install --path bundle`."
     exit!
-  end # if File.exist?(gemfile)
+  end
 end

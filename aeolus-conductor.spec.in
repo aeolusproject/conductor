@@ -296,7 +296,7 @@ popd
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
 %{__cp} src/config.ru %{buildroot}%{app_root}
-%{__cp} src/Gemfile.in %{buildroot}%{app_root}
+%{__cp} src/Gemfile %{buildroot}%{app_root}/Gemfile.in
 %{__cp} src/spec/fixtures/Gemfile.in %{buildroot}%{app_root}/spec/fixtures
 %{__cp} src/lib/aeolus/debug/aeolus-debug %{buildroot}%{_bindir}
 

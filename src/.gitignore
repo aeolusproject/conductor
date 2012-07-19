@@ -2,6 +2,7 @@
 db/*.sqlite3
 log/*.log
 tmp/**/*
+bundle/**/*
 config/oauth.json
-Gemfile
+Gemfile.in
 *.rbc

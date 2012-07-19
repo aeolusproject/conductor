@@ -18,14 +18,14 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-require File.join(File.dirname(__FILE__), '..', 'lib', 'aeolus', 'ext')
-if ENV['USE_BUNDLER'] == 'yes'
+if  File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
+  require File.join(File.dirname(__FILE__), '..', 'lib', 'aeolus', 'ext')
+  puts 'Using gem require instead of bundler'
+  Aeolus::Ext::BundlerExt.system_require(File.expand_path('../../Gemfile.in', __FILE__),:default, Rails.env)
+else
   ENV['BUNDLE_GEMFILE'] = File.expand_path('../../Gemfile', __FILE__)
   puts "===== application.rb will try and use bundler ========="
   Bundler.require(:default, Rails.env) if defined?(Bundler)
-else
-  puts 'Using gem require instead of bundler'
-  Aeolus::Ext::BundlerExt.system_require(File.expand_path('../../Gemfile.in', __FILE__),:default, Rails.env)
 end
 
 $: << File.join(File.dirname(__FILE__), "../app")
