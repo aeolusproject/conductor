@@ -242,6 +242,34 @@ describe ProviderAccountsController do
 
           end
         end # #index
+
+        describe "#destroy" do
+          before(:each) do
+            @provider_account = FactoryGirl.create(:mock_provider_account)
+          end
+
+          it "when requested provider account exists" do
+            ProviderAccount.stub(:find).and_return(@provider_account)
+            get :destroy, :id => @provider_account.id
+            response.status.should be_eql(200)
+            response.should have_content_type("application/xml")
+            response.body.should be_xml
+            subject = Nokogiri::XML(response.body)
+            xml_provider_account = subject.xpath("//provider_account[@id=\"#{@provider_account.id}\"]")
+            xml_provider_account.xpath('@id').text.strip.should == "#{@provider_account.id}"
+            xml_provider_account.xpath('status').text.strip.should == "DELETED"
+          end
+
+          it "when requested provider account doesn't exists" do
+            ProviderAccount.stub(:find).and_return(nil)
+            get :destroy, :id => "id_that_does_not_exist"
+            response.status.should be_eql(404)
+            response.should have_content_type("application/xml")
+            response.body.should be_xml
+            subject = Nokogiri::XML(response.body)
+            subject.xpath('//error/code').text.strip.should == "ProviderAccountNotFound"
+          end
+        end #destroy
       end
 
     end

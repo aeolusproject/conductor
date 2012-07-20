@@ -1453,6 +1453,7 @@ en:
       no_matching_target_image: Could not find any matching Target Images
       no_provider_account_given: No provider account given
       provider_account_not_found: Could not find provider account for name %{name}
+      provider_account_not_found_for_id: Could not find provider account for id %{id}
       provider_image_not_found: Could not find ProviderImage %{providerimage}
       provider_image_status_not_found: Could not find status for ProviderImage %{providerimage}
       push_error: "Could not push TargetImage %{targetimage} to %{account} and error %{error}"

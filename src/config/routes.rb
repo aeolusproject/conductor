@@ -284,7 +284,7 @@ Conductor::Application.routes.draw do
     resources :providers, :only => [:index, :show, :create, :update, :destroy] do
       resources :provider_accounts, :only => [:index]
     end
-    resources :provider_accounts, :only => [:index, :show]
+    resources :provider_accounts, :only => [:index, :show, :destroy]
     resources :provider_types, :only => [:index, :show]
   end
 

@@ -144,13 +144,27 @@ class ProviderAccountsController < ApplicationController
   def destroy
     @provider_account = ProviderAccount.find(params[:id])
     require_privilege(Privilege::MODIFY, @provider_account)
-    @provider = Provider.find(params[:provider_id])
-    if @provider_account.destroy
-      flash[:notice] = t"provider_accounts.flash.notice.deleted"
-    else
-      flash[:error] = t"provider_accounts.flash.error.not_deleted"
+    is_deleted = @provider_account && @provider_account.destroy
+
+    respond_to do |format|
+      format.html {
+        if is_deleted
+          flash[:notice] = t"provider_accounts.flash.notice.deleted"
+        else
+          flash[:error] = t"provider_accounts.flash.error.not_deleted"
+        end
+
+        @provider = Provider.find(params[:provider_id])
+        redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
+      }
+      format.xml {
+        if is_deleted
+          render 'destroy', :locals => { :provider_account_id => @provider_account.id }
+        else
+          raise(Aeolus::Conductor::API::ProviderAccountNotFound.new(404, t("api.error_messages.provider_account_not_found_for_id", :id => params[:id])))
+        end
+      }
     end
-    redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
   end
 
   def multi_destroy
