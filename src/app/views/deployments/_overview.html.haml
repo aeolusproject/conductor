@@ -42,7 +42,7 @@
               %div#realm-description
 
         .field
-          = label_tag :launch_with_errors , t('.launch_with_errors')
+          = label_tag :launch_with_errors , t('.launch_with_errors'), :class => 'checkbox'
           .input
             = check_box :deployment, :partial_launch
 
