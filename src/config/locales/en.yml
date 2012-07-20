@@ -325,7 +325,7 @@ en:
       description: Description
       image_ids: Image IDs
       launch: Launch
-      launch_with_errors: Launch with errors
+      launch_with_errors: Ignore Instance errors during launch
     launch_from_catalog:
       profile: Profile
       hint: Choose a Deployable to launch in the "%{pool}" Pool
