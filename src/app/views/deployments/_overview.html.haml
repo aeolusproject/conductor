@@ -11,8 +11,12 @@
 
   %section.content-section
     %header.align-center
-      %h2= t('.header', :deployment => @deployment.name, :pool => @pool.name)
-      %p= t('.confirmation', :deployment => @deployment.name, :pool => @pool.name, :quota => number_to_percentage(@additional_quota, :precision => 0))
+      %h2.no-icon= t('.header', :deployment => @deployment.name, :pool => @pool.name)
+      %p
+        = t('.confirmation_html', :deployment => content_tag(:strong, @deployment.name),
+                                  :pool => @pool.name)
+        - unless @additional_quota == 0
+          = t('.quota_info', :quota => number_to_percentage(@additional_quota, :precision => 0))
 
     .content
       %fieldset
