@@ -41,6 +41,7 @@ section.maincontent{
 }
 
 strong, em, b, i{ font-family: $font-family-em; }
+strong{ font-weight: bold; }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Application Input Controls -- v.0.0.1 [input] (input.scss)
@@ -591,6 +592,7 @@ section.content-section{
       padding: 0px 40px 0px 0px;
       margin-bottom: 4px;
 
+      &.no-icon{ padding: 0px; }
       &.activity{ background: transparent url('../../images/admin_h2_icons.png') right 0px no-repeat; }
       &.roles{ background: transparent url('../../images/admin_h2_icons.png') right -29px no-repeat; }
       &.settings{ background: transparent url('../../images/admin_h2_icons.png') right -56px no-repeat; }
