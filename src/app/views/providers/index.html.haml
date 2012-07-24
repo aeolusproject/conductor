@@ -46,4 +46,4 @@
   %header
     %h2.activity #{t'activity.activity'}
   .content
-    = render :partial => 'charts/time_chart', :locals => { :datasets => @datasets.data, :from_date => @from_date, :to_date => @to_date, :name => 'provider-history-graph' }
+    = render :partial => 'charts/time_chart', :locals => { :datasets => @datasets.to_a, :from_date => @from_date, :to_date => @to_date, :name => 'provider-history-graph' }

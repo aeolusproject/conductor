@@ -14,4 +14,4 @@
         = restful_submit_tag t("filter_table.apply_filters"), "index", filter_logs_path, 'POST', :class => 'button', :id => 'apply_logs_filter'
 %br
 
-= render :partial => 'charts/time_chart', :locals => { :datasets => @datasets.data, :from_date => @from_date, :to_date => @to_date, :name => 'log-history-graph' }
+= render :partial => 'charts/time_chart', :locals => { :datasets => @datasets.to_a, :from_date => @from_date, :to_date => @to_date, :name => 'log-history-graph' }

@@ -15,7 +15,6 @@
 #
 
 class ChartDatasets
-  attr_accessor :data
 
   def initialize(from_date, to_date)
     @data = Hash.new
@@ -56,4 +55,15 @@ class ChartDatasets
     @data[label] << [timestamp, @counts[label]]
   end
 
+  def to_a
+    return @data.to_a.sort{ |a,b|
+      if a[0] == "All"
+        -1
+      elsif b[0] == "All"
+        1
+      else
+        a[0] <=> b[0]
+      end
+    }
+  end
 end

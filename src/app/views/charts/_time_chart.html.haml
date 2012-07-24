@@ -3,12 +3,7 @@
 :javascript
   $(function () {
     var datasets = [
-      #{ datasets.reject{|label,data| label != "All"}.each.map{ |label,data| "{
-        label: \"" + label + "\",
-        data: [#{ data.each.map{ |p| "[#{p[0]}, #{p[1]}]"}.join(", ") }]
-      },
-      "} }
-      #{ datasets.reject{|label,data| label == "All"}.each.map{ |label,data| "{
+      #{ datasets.each.map{ |label,data| "{
         label: \"" + label + "\",
         data: [#{ data.each.map{ |p| "[#{p[0]}, #{p[1]}]"}.join(", ") }]
       }" }.join(",
