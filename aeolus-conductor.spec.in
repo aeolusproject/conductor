@@ -217,6 +217,7 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/api \
       app/views/images \
       app/views/user_groups \
+      app/views/charts \
       app/views/api/builds app/views/api/provider_images \
       app/views/api/target_images app/views/api/entrypoint \
       app/views/api/environments \
