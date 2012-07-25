@@ -7,21 +7,20 @@ env:
   - SUITE=cucumber
   - SUITE=spec
 before_install:
-  - sed s/'pg'/'sqlite3'/ src/Gemfile.in > src/Gemfile
+  - sed -i s/'pg'/'sqlite3'/ src/Gemfile
 install:
   - cd src 
-  - bundle install
+  - bundle install --path bundle
 before_script:
-  - export USE_BUNDLER=yes
   - cp config/database.sqlite config/database.yml
-  - rake dc:oauth_keys
-  - rake db:drop
-  - rake db:create
-  - rake db:migrate
-  - rake db:seed
-  - rake db:test:prepare
+  - bundle exec rake dc:oauth_keys
+  - bundle exec rake db:drop
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+  - bundle exec rake db:seed
+  - bundle exec rake db:test:prepare
 script:
-  - rake $SUITE
+  - bundle exec rake $SUITE
 notifications:
   irc:
     channels:
