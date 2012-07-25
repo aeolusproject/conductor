@@ -186,7 +186,6 @@ describe ProvidersController do
               it {
                 subject.xpath('//error').size.should be_eql(1)
                 subject.xpath('//error/code').text.should be_eql('RecordNotFound')
-                subject.xpath('//error/message').text.should be_eql("Couldn't find Provider with ID=1")
               }
 
             end
@@ -271,7 +270,6 @@ describe ProvidersController do
               it {
                 subject.xpath('//error').size.should be_eql(1)
                 subject.xpath('//error/code').text.should be_eql('RecordNotFound')
-                subject.xpath('//error/message').text.should be_eql("Couldn't find Provider with ID=#{provider.id}")
               }
             end
           end
@@ -349,7 +347,6 @@ describe ProvidersController do
               it {
                 subject.xpath('//error').size.should be_eql(1)
                 subject.xpath('//error/code').text.should be_eql('RecordNotFound')
-                subject.xpath('//error/message').text.should be_eql("Couldn't find Provider with ID=#{orig_provider.id}")
               }
             end
           end # non existing provider
