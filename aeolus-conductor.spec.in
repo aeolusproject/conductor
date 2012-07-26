@@ -435,6 +435,16 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Thu Jul 26 2012 Steve Linabery <slinaber@redhat.com> - 0.10.6-1
+- 4259424 838726 (2) - restrict what deployments can be stopped/removed
+- 91dc667 838726 (1) - mark 'new' instances as create_failed if deployment launch fails
+- e26305b BZ 833767 Fixed css in deployment#launch_time_params view
+- 5470012 BZ 831687 Fixed empty flash warning message on deployments#launch_time_params
+- 4bd8231 BZ 831687 Flash warning message fixed when it's empty
+- 2069a25 fixed bug in session_entites migration that was hit when there was invalid db data
+- 2ea37f1 Revert "838726 (1) - mark 'new' instances as create_failed if deployment launch fails"
+- 2b76d1d 838726 (1) - mark 'new' instances as create_failed if deployment launch fails
+
 * Fri Jun 29 2012 Steve Linabery <slinaber@redhat.com> - 0.10.5-1
 - cff2a4e https://bugzilla.redhat.com/show_bug.cgi?id=834632
 - 21bb090 BZ835151 configure errors after upgrade
