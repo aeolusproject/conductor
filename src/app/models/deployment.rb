@@ -654,13 +654,15 @@ class Deployment < ActiveRecord::Base
     if Instance::ACTIVE_FAILED_STATES.include?(instance.state)
       # if this instance stop failed, whole deployment rollback failed
       self.state = STATE_ROLLBACK_FAILED
+      cleanup_failed_launch
     elsif instance.state == Instance::STATE_RUNNING
       deployment_rollback
-    elsif instances.all? {|i| i.inactive?}
+    elsif instances.all? {|i| i.inactive? or i.state == Instance::STATE_NEW}
       # some other instances might be failed (because their
       # launch failed), but it shouldn't be a problem if all
       # running instances stopped correctly
       self.state = STATE_ROLLBACK_COMPLETE
+      cleanup_failed_launch
     end
   end
 
@@ -670,7 +672,7 @@ class Deployment < ActiveRecord::Base
       save!
     end
 
-    if instances.all? {|i| i.inactive? or i.state == Instance::STATE_NEW}
+    if instances.all? {|i| i.inactive?}
       self.state = STATE_ROLLBACK_COMPLETE
       save!
       return
@@ -697,6 +699,8 @@ class Deployment < ActiveRecord::Base
       self.state = STATE_ROLLBACK_FAILED
       save!
     end
+
+    cleanup_failed_launch
   end
 
   def log_state_change
@@ -707,6 +711,12 @@ class Deployment < ActiveRecord::Base
         :status_code => self.state,
         :summary => "State changed to #{self.state}"
       )
+    end
+  end
+
+  def cleanup_failed_launch
+    instances.in_new_state.each do |instance|
+      instance.update_attribute(:state, Instance::STATE_CREATE_FAILED)
     end
   end
 end
