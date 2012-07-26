@@ -1,6 +1,6 @@
 !!! XML
 %provider_types
   - @provider_types.each do |p|
-    %provider_type
+    %provider_type{:id => p.id}
       %name= p.name
       %deltacloud_driver= p.deltacloud_driver
