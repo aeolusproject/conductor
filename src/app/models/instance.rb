@@ -465,6 +465,22 @@ class Instance < ActiveRecord::Base
     do_operation(user, 'stop')
   end
 
+  def stop_with_event(user)
+    stop(user)
+    true
+  rescue
+    self.events << Event.create(
+      :source => self,
+      :event_time => DateTime.now,
+      :status_code => 'instance_stop_failed',
+      :summary => "Failed to stop instance #{self.name}",
+      :description => $!.message
+    )
+    logger.error $!.message
+    logger.error $!.backtrace.join("\n  ")
+    false
+  end
+
   def reboot(user)
     do_operation(user, 'reboot')
   end

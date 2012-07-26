@@ -38,6 +38,10 @@ Given /^the deployment "([^"]*)" has an instance named "([^"]*)"$/ do |d_name, i
   deployment.instances << FactoryGirl.create(:instance, :name => i_name, :pool => deployment.pool)
 end
 
+Given /^deployment "([^"]*)" is "([^"]*)"$/ do |arg1, arg2|
+  Deployment.find_by_name(arg1).update_attribute(:state, arg2)
+end
+
 Given /^"([^"]*)" deployment's provider is not accessible$/ do |arg1|
   # FIXME: didn't find a way how to create an inaccessible provider
   # cleanly

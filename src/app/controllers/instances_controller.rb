@@ -160,7 +160,7 @@ class InstancesController < ApplicationController
           notices << "#{instance.name}: #{t('instances.flash.notice.stop')}"
         end
       rescue Exception => err
-        errors << "#{instance.name}: " + err
+        errors << "#{instance.name}: " + err.message
         logger.error err.message
         logger.error err.backtrace.join("\n ")
       end

@@ -329,6 +329,7 @@ en:
           one: "The deployment %{list} could not be updated."
           other: "The deployments %{list} could not be updated."
         no_hwp_permission: "You do not have sufficient permission to access the %{hwp} hardware profile."
+        cant_stop: "The deployment %{name} could not be stopped - only running deployments can be stopped."
       success:
         deleted:
           one: "The deployment %{list} was scheduled for deletion."

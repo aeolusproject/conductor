@@ -82,8 +82,18 @@ Feature: Manage Deployments
     And I press "stop_button"
     Then I should see "testdeployment"
 
+  Scenario: Stop pending deployment
+    Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
+    And deployment "testdeployment" is "pending"
+    When I go to the deployments page
+    Then I should see "testdeployment"
+    When I check "testdeployment" deployment
+    And I press "stop_button"
+    Then I should see "deployment testdeployment could not be stopped"
+
   Scenario: Stop inaccessible deployments
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
+    And deployment "testdeployment" is "incomplete"
     And "testdeployment" deployment's provider is not accessible
     When I go to the deployments page
     Then I should see "testdeployment"
