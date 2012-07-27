@@ -1,0 +1,7 @@
+!!!XML
+%hardware_profile{:id => hwp.id, :href => hardware_profile_url(hwp.id)}
+  %name= hwp.name
+  %memory{:id => hwp.memory.id, :unit => hwp.memory.unit}= hwp.memory.value.nil? ? "nil" : hwp.memory.value
+  %storage{:id => hwp.storage.id, :unit => hwp.storage.unit}= hwp.storage.value.nil? ? "nil" : hwp.storage.value
+  %cpu{:id => hwp.cpu.id, :unit => hwp.cpu.unit}= hwp.cpu.value.nil? ? "nil" : hwp.cpu.value
+  %architecture{:id => hwp.architecture.id, :unit => hwp.architecture.unit}= hwp.architecture.value.nil? ? "nil" : hwp.architecture.value
