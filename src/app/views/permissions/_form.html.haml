@@ -31,5 +31,5 @@
     %td
       -# - selected = params[:select] == 'all'
       -#  = check_box_tag "entity_selected[]", entity.id, selected, :id => "entity_checkbox_#{entity.id}"
-    %td= link_to entity.name, (entity.user ? user_path(entity.user) : user_group_path(entity.user_group))
+    %td= link_to entity.name, ((entity.entity_target_type == "User") ? user_path(entity.user) : user_group_path(entity.user_group))
     %td= select_tag "entity_role_selected[]", options_for_select([['', "#{entity.id},"]] + @roles.map {|r| [t(r.name, :scope=> :role_defs, :default => r.name), "#{entity.id},#{r.id}" ] }, :disabled => @permission_object.permissions.where(:entity_id=>entity.id).collect {|p| "#{entity.id},#{p.role.id}"}), :id => "entity_role_selected_#{entity.id}"

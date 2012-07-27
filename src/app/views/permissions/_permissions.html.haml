@@ -54,7 +54,7 @@
         - if check_privilege(Privilege::PERM_SET)
           - selected = params[:select] == 'all'
           = check_box_tag "permission_selected[]", permission.id, selected, :id => "permission_checkbox_#{permission.id}"
-    %td= link_to permission.entity.name, (permission.entity.user ? user_path(permission.entity.user) : user_group_path(permission.entity.user_group))
+    %td= link_to permission.entity.name, ((permission.entity.entity_target_type == "User") ? user_path(permission.entity.user) : user_group_path(permission.entity.user_group))
     - if not(@show_inherited or @show_global) && check_privilege(Privilege::PERM_SET)
       %td= select_tag "permission_role_selected[]", options_for_select(@roles.map {|r| [ t(r.name, :scope=> :role_defs, :default => r.name), "#{permission.id},#{r.id}" ] }, :selected => "#{permission.id},#{permission.role.id}", :disabled => @permission_object.permissions.where(["entity_id = ? and role_id != ?", permission.entity_id, permission.role_id]).collect {|p| "#{permission.id},#{p.role.id}"}), :id => "permission_role_selected_#{permission.id}"
       :javascript
