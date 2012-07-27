@@ -26,11 +26,11 @@ describe OAuthClient do
 
   it "should get authenticated resource with custom header" do
     # These are the proper configurations
-    SETTINGS_CONFIG[:oauth]['http://example.com:5000/api'] = {
+    SETTINGS_CONFIG[:oauth]['http://example.com:5000'] = {
       :consumer_key => 'valid',
       :consumer_secret => 'good_secret'
     }
-    client = OAuthClient.new('http://example.com:5000/api')
+    client = OAuthClient.new('http://example.com:5000')
     consumer = client.instance_variable_get('@consumer')
     # We need to stub out sign! since it's otherwise unique on every request
     consumer.stub('sign!') do |request, *args|
@@ -42,11 +42,11 @@ describe OAuthClient do
   end
 
   it "should return a 401 for invalid credentials" do
-    SETTINGS_CONFIG[:oauth]['http://example.com:5000/api'] = {
+    SETTINGS_CONFIG[:oauth]['http://example.com:5000'] = {
       :consumer_key => 'test',
       :consumer_secret => 'failure'
     }
-    client = OAuthClient.new('http://example.com:5000/api')
+    client = OAuthClient.new('http://example.com:5000')
     consumer = client.instance_variable_get('@consumer')
     consumer.stub('sign!') do |request, *args|
       request['authorization'] = 'OAuth oauth_consumer_key="test", oauth_nonce="zoT39JgdwI0fjqg9ZfJ2xN4QxyJyIghW7wWUHAxfY", oauth_signature="UFM87n9CcQXGsOUbHttPJs9NQOg%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1317068970", oauth_version="1.0"'
