@@ -1,0 +1,4 @@
+!!!XML
+%hardware_profiles
+  - @hardware_profiles.each do |hwp|
+    = render :partial => 'hardware_profile', :locals => {:hwp => hwp}
