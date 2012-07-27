@@ -286,6 +286,7 @@ Conductor::Application.routes.draw do
     end
     resources :provider_accounts, :only => [:index, :show, :destroy]
     resources :provider_types, :only => [:index, :show]
+    resources :hardware_profiles, :only => [:index, :show, :destroy, :create]
   end
 
   #match 'matching_profiles', :to => '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }, :as =>'matching_profiles'
