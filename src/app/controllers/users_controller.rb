@@ -70,6 +70,14 @@ class UsersController < ApplicationController
     require_privilege(Privilege::VIEW, User) unless current_user == @user
     @title = @user.name
     @quota_resources = @user.quota.quota_resources
+    if current_user == user
+      SessionEntity.update_session(current_session, current_user)
+    end
+    @user_groups = @user.all_groups
+    @groups_header = [
+      { :name => t('user_groups.index.name'), :sortable => false },
+      { :name => t('user_groups.index.type'), :sortable => false },
+    ]
     save_breadcrumb(user_path(@user), @user.name)
     @tab_captions = ['Properties']
     @details_tab = 'properties' # currently the only supported details tab

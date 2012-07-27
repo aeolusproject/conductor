@@ -141,6 +141,11 @@ class User < ActiveRecord::Base
 
   PRESET_FILTERS_OPTIONS = []
 
+  def all_groups
+    self.user_groups
+    # pull and create LDAP groups here too
+  end
+
   private
 
   def self.apply_search_filter(search)

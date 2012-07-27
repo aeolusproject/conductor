@@ -37,10 +37,9 @@ class SessionEntity < ActiveRecord::Base
     SessionEntity.create!(:session_id => session_id, :user => user,
                           :entity => user.entity)
     # create mappings for local groups
-    user.user_groups.each do |ug|
+    user.all_groups.each do |ug|
       SessionEntity.create!(:session_id => session_id, :user => user,
                             :entity => ug.entity)
     end
-    # TODO: add entities for ldap groups
   end
 end
