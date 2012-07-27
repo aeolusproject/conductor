@@ -64,6 +64,16 @@ describe UserGroupsController do
     response.should redirect_to(user_groups_url)
   end
 
+  it "allows an admin to create ldap user group" do
+    mock_warden(@admin)
+    lambda do
+      post :create, :user_group => {
+           :name => "user_group5", :membership_source => "LDAP" }
+    end.should change(UserGroup, :count)
+
+    response.should redirect_to(user_groups_url)
+  end
+
   it "should not allow a regular user to create user group" do
     mock_warden(@tuser)
     lambda do

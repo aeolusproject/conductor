@@ -5,7 +5,7 @@
       = t'return_to'
       = link_to t("user_groups.groups"), user_groups_path
     - if check_privilege(Privilege::CREATE, User)
-      = link_to t('user_groups.new.new_user_group'), new_user_group_url, :class => 'button primary', :id => 'new_user_group_button'
+      = link_to t('user_groups.new.new_user_group'), new_user_group_url, :class => 'button primary', :id => 'new_user_group_button' unless UserGroup.active_membership_sources.nil?
     .button-group
       - if check_privilege(Privilege::MODIFY, User)
         = link_to t('edit'), edit_user_group_path(@user_group), :class => 'button pill', :id => 'edit_button'

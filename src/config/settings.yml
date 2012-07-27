@@ -3,6 +3,11 @@
 :auth:
   # supported strategies: database, ldap
   :strategy: database
+:groups:
+  # allows locally-managed groups
+  :enable_local: true
+  # allows ldap-managed groups
+  :enable_ldap: true
 :iwhd:
   :url: http://localhost:9090
   # :oauth:

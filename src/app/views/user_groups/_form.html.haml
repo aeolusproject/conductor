@@ -6,8 +6,7 @@
     = form.label :type
     .input
       - if @user_group.new_record?
-        = form.select(:membership_source, UserGroup::MEMBERSHIP_SOURCES.collect {|x| [t("user_groups.#{x.downcase}"), x]}, {}, {:disabled => true})
-        = form.hidden_field :membership_source
+        = form.select(:membership_source, UserGroup.active_membership_sources.collect {|x| [t("user_groups.#{x.downcase}"), x]}, {})
       - else
         = t("user_groups.#{@user_group.membership_source.downcase}")
   .field

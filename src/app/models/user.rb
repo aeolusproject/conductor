@@ -142,8 +142,27 @@ class User < ActiveRecord::Base
   PRESET_FILTERS_OPTIONS = []
 
   def all_groups
-    self.user_groups
-    # pull and create LDAP groups here too
+    group_list = []
+    group_list += self.user_groups if UserGroup.local_groups_active?
+    if UserGroup.ldap_groups_active?
+      ldap_group_names = Ldap.ldap_groups(self.login)
+      ldap_group_names.each do |group_name|
+        ldap_group = UserGroup.find_by_name_and_membership_source(
+            group_name, UserGroup::MEMBERSHIP_SOURCE_LDAP)
+        if ldap_group
+          # update  group on each login so we can later check/purge groups
+          # that haven't been updated lately (i.e. no recent logins by users
+          # that belong to them)
+          ldap_group.touch
+        else
+          ldap_group = UserGroup.create!(:name => group_name,
+                                         :membership_source =>
+                                           UserGroup::MEMBERSHIP_SOURCE_LDAP)
+        end
+        group_list << ldap_group
+      end
+    end
+    group_list
   end
 
   private

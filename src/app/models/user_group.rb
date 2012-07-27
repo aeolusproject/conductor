@@ -46,6 +46,22 @@ class UserGroup < ActiveRecord::Base
     self.entity.save!
   end
 
+  def self.local_groups_active?
+    SETTINGS_CONFIG[:groups][:enable_local]
+  end
+
+  def self.ldap_groups_active?
+    SETTINGS_CONFIG[:groups][:enable_ldap] &&
+        SETTINGS_CONFIG[:auth][:strategy] == "ldap"
+  end
+
+  def self.active_membership_sources
+    sources = []
+    sources << MEMBERSHIP_SOURCE_LOCAL if self.local_groups_active?
+    sources << MEMBERSHIP_SOURCE_LDAP if self.ldap_groups_active?
+    sources
+  end
+
   def self.apply_search_filter(search)
     if search
       where("lower(name) LIKE :search", :search => "%#{search.downcase}%")

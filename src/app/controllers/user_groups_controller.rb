@@ -55,8 +55,6 @@ class UserGroupsController < ApplicationController
     require_privilege(Privilege::CREATE, User)
     @title = t'user_groups.new.new_user_group'
     @user_group = UserGroup.new
-    # remove when we enable ldap
-    @user_group.membership_source = UserGroup::MEMBERSHIP_SOURCE_LOCAL
   end
 
   def create

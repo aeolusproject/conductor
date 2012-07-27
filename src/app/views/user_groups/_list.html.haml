@@ -3,7 +3,7 @@
 
 - content_for :form_header do
   %li= restful_submit_tag "#{t'user_groups.list.delete_selected'}", "destroy", multi_destroy_user_groups_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
-  %li= link_to t("user_groups.list.add_user_group"), new_user_group_path, :class => 'button', :id => 'add_user_group_button'
+  %li= link_to t("user_groups.list.add_user_group"), new_user_group_path, :class => 'button', :id => 'add_user_group_button' unless UserGroup.active_membership_sources.nil?
 
 - content_for :filter_controls do
   %li
