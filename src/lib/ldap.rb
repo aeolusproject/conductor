@@ -14,33 +14,21 @@
 #   limitations under the License.
 #
 
-require 'net/ldap'
+require 'ldap_fluff'
 
 module Ldap
-  def self.valid_ldap_authentication?(uid, password, ldap_config)
-    ldap = LdapConnection.new(ldap_config)
-    ldap.bind? uid, password
+  def self.valid_ldap_authentication?(uid, password)
+    ldap = LdapFluff.new
+    ldap.authenticate? uid, password
   end
 
-  class LdapConnection
-    attr_reader :ldap, :host, :base
+  def self.ldap_groups(uid)
+    ldap = LdapFluff.new
+    ldap.group_list(uid)
+  end
 
-    def initialize(config)
-      @ldap = Net::LDAP.new
-      @ldap.host = config[:host]
-      @ldap.port = config[:port] || 389
-      @username_dn = config[:username_dn]
-    end
-
-    def bind?(uid, password)
-      begin
-        @ldap.auth(@username_dn % uid, password)
-        @ldap.bind
-      rescue Exception => e
-        Rails.logger.error e.message
-        Rails.logger.error e.backtrace.join("\n  ")
-        false
-      end
-    end
+  def self.is_in_groups(uid, grouplist)
+    ldap = LdapFluff.new
+    ldap.is_in_groups?(uid, grouplist)
   end
 end

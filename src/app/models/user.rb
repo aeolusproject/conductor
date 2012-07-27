@@ -116,7 +116,7 @@ class User < ActiveRecord::Base
   end
 
   def self.authenticate_using_ldap(username, password, ipaddress)
-    if Ldap.valid_ldap_authentication?(username, password, SETTINGS_CONFIG[:auth][:ldap])
+    if Ldap.valid_ldap_authentication?(username, password)
       u = User.find_by_login(username) || create_ldap_user!(username)
       u.login_count += 1
       update_login_attributes(u, ipaddress)

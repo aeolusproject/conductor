@@ -50,6 +50,7 @@ Requires: rubygem(aeolus-image) >= 0.1.0-4
 Requires: rubygem(pg)
 Requires: rubygem(ruby-net-ldap)
 Requires: rubygem(oauth)
+Requires: rubygem(ldap_fluff)
 Requires: rubygem(rake)
 Requires: rubygem(delayed_job) >= 2.1.4
 Requires: rubygem(paranoia)
