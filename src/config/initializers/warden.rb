@@ -81,6 +81,6 @@ Warden::Strategies.add(:ldap) do
     u ? success!(u) : fail!("Username or password is not correct - could not log in")
   end
 end
-Warden::Manager.after_set_user do |user,auth,opts|
+Warden::Manager.after_authentication do |user,auth,opts|
   SessionEntity.update_session(auth.request.session_options[:id], user)
 end
