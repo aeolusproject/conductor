@@ -27,6 +27,7 @@ class HardwareProfilesController < ApplicationController
     @params = params
     set_admin_content_tabs 'hardware_profiles'
     respond_to do |format|
+      format.xml
       format.html
       format.js do
         if params[:hardware_profile]
@@ -58,6 +59,7 @@ class HardwareProfilesController < ApplicationController
     save_breadcrumb(hardware_profile_path(@hardware_profile), @hardware_profile.name)
 
     respond_to do |format|
+      format.xml
       format.html
       format.js do
         if params.delete :details_pane
@@ -89,7 +91,10 @@ class HardwareProfilesController < ApplicationController
     end
 
     if @hardware_profile.save
-      redirect_to hardware_profiles_path
+      respond_to do |format|
+        format.xml
+        format.html {redirect_to hardware_profiles_path}
+      end
     else
       render :action => 'new'
     end
@@ -104,15 +109,20 @@ class HardwareProfilesController < ApplicationController
   end
 
   def destroy
-    hardware_profile = HardwareProfile.find(params[:id])
-    require_privilege(Privilege::MODIFY, hardware_profile)
-    if hardware_profile.provider_hardware_profile?
+    @hardware_profile = HardwareProfile.find(params[:id])
+    require_privilege(Privilege::MODIFY, @hardware_profile)
+    if @hardware_profile.provider_hardware_profile?
       flash[:warning] = t "hardware_profiles.flash.warning.cannot_delete_backend_hwp"
-      redirect_to hardware_profile_path(hardware_profile)
+      redirect_to hardware_profile_path(@hardware_profile)
       return
     end
-    if hardware_profile.destroy
+    if @hardware_profile.destroy
        flash[:notice] = t "hardware_profiles.flash.notice.deleted"
+       respond_to do |format|
+         format.xml
+         format.html { redirect_to hardware_profiles_path }
+       end
+       return
     else
        flash[:error] = t "hardware_profiles.flash.error.not_deleted"
     end
