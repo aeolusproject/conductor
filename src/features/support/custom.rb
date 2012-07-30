@@ -67,3 +67,11 @@ User.class_eval do
     alias authenticate_using_ldap authenticate
   end
 end
+
+# FIXME: For some reason, the session doesn't stick around properly in
+# cucumber without the after_set_user method, so for now, enable it
+# in the test suite.
+#
+Warden::Manager.after_set_user do |user,auth,opts|
+    SessionEntity.update_session(auth.request.session_options[:id], user)
+end
