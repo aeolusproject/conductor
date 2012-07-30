@@ -212,7 +212,7 @@ class LogsController < ApplicationController
                               t('logs.options.instance_event_type')]
       @pool_options = [[t('logs.options.default_pools'), ""]]
       PoolFamily.list_for_user(current_session, current_user, Privilege::VIEW).
-        find(:all, :include => :pools, :order => "name",
+        find(:all, :include => :pools, :order => "pool_families.name",
              :select => ["id", "name"]).each do |pool_family|
         @pool_options << [pool_family.name,
                           "pool_family:" + pool_family.id.to_s]
@@ -221,7 +221,7 @@ class LogsController < ApplicationController
       end
       @provider_options = [[t('logs.options.default_providers'), ""]]
       Provider.list_for_user(current_session, current_user, Privilege::VIEW).
-        find(:all, :include => :provider_accounts, :order => "name",
+        find(:all, :include => :provider_accounts, :order => "providers.name",
              :select => ["id", "name"]).each do |provider|
         @provider_options << [provider.name, "provider:" + provider.id.to_s]
         @provider_options += provider.provider_accounts.
