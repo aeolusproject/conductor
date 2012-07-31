@@ -376,17 +376,45 @@ describe Deployment do
       before :each do
         @deployment.state = Deployment::STATE_RUNNING
         @deployment.save!
-        @inst1 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_RUNNING)
-        @inst2 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_RUNNING)
-        @deployment.instances << @inst1
-        @deployment.instances << @inst2
       end
 
-      it "should be incomplete if only some instances are running" do
-        @inst1.state = Instance::STATE_ERROR
-        @inst1.save!
-        @deployment.reload
-        @deployment.state.should == Deployment::STATE_INCOMPLETE
+      describe "multi-instance deployment" do
+        before :each do
+          @inst1 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_RUNNING)
+          @inst2 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_RUNNING)
+          @deployment.instances << @inst1
+          @deployment.instances << @inst2
+        end
+
+        it "should be incomplete if only some instances are running" do
+          @inst1.state = Instance::STATE_ERROR
+          @inst1.save!
+          @deployment.reload
+          @deployment.state.should == Deployment::STATE_INCOMPLETE
+        end
+
+        it "should be stopped if all instances are stopped" do
+          @inst1.state = Instance::STATE_STOPPED
+          @inst1.save!
+          @inst2.state = Instance::STATE_STOPPED
+          @inst2.save!
+          @deployment.reload
+          @deployment.state.should == Deployment::STATE_STOPPED
+        end
+      end
+
+      describe "single-instance deployment" do
+        before :each do
+          @inst1 = Factory.create(:instance, :deployment => @deployment, :state => Instance::STATE_RUNNING)
+          @deployment.instances << @inst1
+        end
+
+        it "should be stopped if all instances are stopped" do
+          @inst1.state = Instance::STATE_STOPPED
+          @inst1.save!
+          @deployment.reload
+          @deployment.state.should == Deployment::STATE_STOPPED
+        end
       end
     end
 
@@ -543,6 +571,15 @@ describe Deployment do
         @inst2.save!
         @deployment.reload
         @deployment.state.should == Deployment::STATE_RUNNING
+      end
+
+      it "should be stopped if all instances are stopped" do
+        @inst1.state = Instance::STATE_STOPPED
+        @inst1.save!
+        @inst2.state = Instance::STATE_STOPPED
+        @inst2.save!
+        @deployment.reload
+        @deployment.state.should == Deployment::STATE_STOPPED
       end
     end
 
