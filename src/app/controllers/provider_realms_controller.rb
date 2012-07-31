@@ -34,6 +34,7 @@ class ProviderRealmsController < ApplicationController
 
     @tab_captions = [t('realms.tab_captions.properties'), t('realms.tab_captions.mapping')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    @details_tab = 'properties' unless ['properties', 'mapping'].include?(@details_tab)
 
     @frontend_realms_for_provider = @realm.provider.frontend_realms
     @frontend_realms = @realm.frontend_realms
