@@ -20,3 +20,12 @@ Feature: Manage Provider Accounts via API
     Given the specified provider does not exist in the system
     When I request a list of provider accounts for that provider returned as XML
     Then I should receive Not Found error
+
+  Scenario: Get details for provider account as XML
+    Given there is a provider account
+    When I ask for details of that provider account as XML
+    Then I should receive details of that provider account as XML
+
+  Scenario: Get details for non existing provider account
+    When I ask for details of non existing provider account
+    Then I should receive Not Found error
