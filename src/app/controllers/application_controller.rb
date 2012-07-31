@@ -313,6 +313,7 @@ class ApplicationController < ActionController::Base
 
   def add_permissions_inline(perm_obj, path_prefix = '', polymorphic_path_extras = {})
     @permission_object = perm_obj
+    require_privilege(Privilege::VIEW, @permission_object)
     @path_prefix = path_prefix
     @polymorphic_path_extras = polymorphic_path_extras
     @roles = Role.find_all_by_scope(@permission_object.class.name)
@@ -337,8 +338,8 @@ class ApplicationController < ActionController::Base
                   :count => perm_obj.permissions.count,
                   :pretty_view_toggle => 'disabled'}
       end
+      set_permissions_header
     end
-    set_permissions_header
   end
 
   def set_permissions_header
