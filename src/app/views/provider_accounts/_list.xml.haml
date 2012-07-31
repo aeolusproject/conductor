@@ -1,16 +1,4 @@
 !!! XML
 %provider_accounts
-  - provider_accounts.each do |pa|
-    %provider_account{:id => pa.id, :href => api_provider_account_url(pa)}
-      -provider = pa.provider
-      -provider_type = provider.provider_type
-      %name= pa.name
-      %provider{:id => provider.id, :href => api_provider_url(provider)}= provider.name
-      %provider_type= provider_type.deltacloud_driver
-      -if local_assigns[:with_credentials]
-        = content_tag(provider_type.deltacloud_driver + '_credentials') do
-          = render 'credentials', :creds_label_hash => pa.creds_label_hash
-      -if pa.priority
-        %priority= pa.priority
-      %quota_used= number_to_percentage pa.quota.percentage_used, :precision => 0
-      %quota= pa.quota.maximum_running_instances or t('provider_accounts.properties.unlimited')
+  - provider_accounts.each do |provider_account|
+    =render 'detail', :provider_account => provider_account, :with_credentials => with_credentials

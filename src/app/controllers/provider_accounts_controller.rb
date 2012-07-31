@@ -35,7 +35,7 @@ class ProviderAccountsController < ApplicationController
     @tab_captions = [t('provider_accounts.tab_captions.properties'), t('provider_accounts.tab_captions.credentials'), t('provider_accounts.tab_captions.history'), t('provider_accounts.tab_captions.permissions')]
     @provider_account = ProviderAccount.find(params[:id])
     @title = t('provider_accounts.show.account', :name => @provider_account.name)
-    @provider = Provider.find(params[:provider_id])
+    @provider = Provider.find_by_id(params[:provider_id])
     @realms = @provider_account.realms.
                                 apply_filters(:preset_filter_id => params[:provider_realms_preset_filter],
                                               :search_filter => params[:provider_realms_search])
@@ -58,6 +58,7 @@ class ProviderAccountsController < ApplicationController
         end
         render :partial => @details_tab and return
       end
+      format.xml { render 'show', :locals => { :provider_account => @provider_account, :with_credentials => true } }
     end
   end
 
@@ -229,7 +230,9 @@ class ProviderAccountsController < ApplicationController
   end
 
   def load_provider
-    @provider = Provider.list_for_user(current_session, current_user, Privilege::VIEW).find(params[:provider_id]) if params[:provider_id]
+    if params[:provider_id]
+      @provider = Provider.list_for_user(current_session, current_user, Privilege::VIEW).find(params[:provider_id])
+    end
   end
 
   def load_accounts
