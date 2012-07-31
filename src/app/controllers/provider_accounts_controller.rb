@@ -27,7 +27,7 @@ class ProviderAccountsController < ApplicationController
       #xml list of provider_accounts for aeolus-image, aeolus-image could work with prov. accounts list for givent provider
       #to resemble html views logic, so this route could be removed (provider_accounts could be user only as nested resource)
       #format.xml { render :text => ProviderAccount.xml_export(@provider_accounts) }
-      format.xml { render :partial => 'list.xml', :locals => { :provider_accounts => @provider_accounts, :with_credentials => true } }
+      format.xml { render :partial => 'list.xml', :locals => { :provider_accounts => @provider_accounts, :with_credentials => false, :with_quota => false } }
     end
   end
 
@@ -58,7 +58,7 @@ class ProviderAccountsController < ApplicationController
         end
         render :partial => @details_tab and return
       end
-      format.xml { render 'show', :locals => { :provider_account => @provider_account, :with_credentials => true } }
+      format.xml { render 'show', :locals => { :provider_account => @provider_account, :with_credentials => true, :with_quota => true } }
     end
   end
 

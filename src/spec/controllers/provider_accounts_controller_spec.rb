@@ -338,7 +338,6 @@ describe ProviderAccountsController do
               it {
                 subject.xpath('//error').size.should be_eql(1)
                 subject.xpath('//error/code').text.should be_eql('RecordNotFound')
-                subject.xpath('//error/message').text.should be_eql("Couldn't find ProviderAccount with ID=1")
               }
             end
           end
