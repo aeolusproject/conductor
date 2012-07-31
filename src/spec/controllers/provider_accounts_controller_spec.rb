@@ -44,6 +44,16 @@ describe ProviderAccountsController do
     end
   end
 
+  shared_examples_for "having correct set of credentials" do
+    it "should be correct" do
+      provider_account.credentials.each do |credential|
+        label = credential.credential_definition.label
+        value = credential.value
+        xml_provider_account.xpath('//' + label).text.should be_eql(value)
+      end
+    end
+  end
+
   context "UI" do
 
     fixtures :all
@@ -292,6 +302,20 @@ describe ProviderAccountsController do
               it "should have correct provider account" do
                 xml_provider_account.xpath('@href').text.should be_eql(api_provider_account_url(provider_account))
               end
+              context "credentials" do
+
+                context "of mock provider" do
+                  let(:provider_account) { FactoryGirl.create(:mock_provider_account); ProviderAccount.last }
+
+                  it_behaves_like "having correct set of credentials"
+                end
+
+                context "of ec2 provider" do
+                  let(:provider_account) { FactoryGirl.create(:ec2_provider_account); ProviderAccount.last }
+
+                  it_behaves_like "having correct set of credentials"
+                end
+              end
             end
 
           end # when requested provider account exists
@@ -316,9 +340,7 @@ describe ProviderAccountsController do
                 subject.xpath('//error/code').text.should be_eql('RecordNotFound')
                 subject.xpath('//error/message').text.should be_eql("Couldn't find ProviderAccount with ID=1")
               }
-
             end
-
           end
         end # #show
       end
