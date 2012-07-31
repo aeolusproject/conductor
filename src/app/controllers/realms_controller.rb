@@ -113,6 +113,7 @@ class RealmsController < ApplicationController
     @title = @realm.name
     @tab_captions = [t('realms.tab_captions.properties'), t('realms.tab_captions.mapping')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
+    @details_tab = 'properties' unless ['properties', 'mapping'].include?(@details_tab)
 
     @backend_realm_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Realm' }
     @backend_provider_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Provider' }
