@@ -661,13 +661,19 @@ class Deployment < ActiveRecord::Base
 
   def state_transition_from_running(instance)
     if instance.state != STATE_RUNNING
-      self.state = STATE_INCOMPLETE
+      if instances.all? {|i| i.state == Instance::STATE_STOPPED}
+        self.state = STATE_STOPPED
+      else
+        self.state = STATE_INCOMPLETE
+      end
     end
   end
 
   def state_transition_from_incomplete(instance)
     if instances.all? {|i| i.state == Instance::STATE_RUNNING}
       self.state = STATE_RUNNING
+    elsif instances.all? {|i| i.state == Instance::STATE_STOPPED}
+      self.state = STATE_STOPPED
     end
   end
 
