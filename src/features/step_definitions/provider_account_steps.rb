@@ -57,6 +57,10 @@ Given /^there is a provider account named "([^"]*)"$/ do |label|
   @provider_account = FactoryGirl.create(:mock_provider_account, :provider => @provider, :label => label)
 end
 
+Given /^there is a provider account$/ do
+  @provider_account = FactoryGirl.create(:mock_provider_account, :provider => @provider)
+end
+
 Given /^there is a second provider account named "([^"]*)"$/ do |label|
   @provider =  FactoryGirl.create(:provider, :name => 'secondprovider')
   @provider_account = FactoryGirl.create(:provider_account, :provider => @provider, :label => label)
