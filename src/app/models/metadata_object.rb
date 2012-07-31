@@ -43,7 +43,8 @@ class MetadataObject < ActiveRecord::Base
     if metadata_obj.nil?
       nil
     elsif metadata_obj.object_type and !metadata_obj.object_type.empty?
-      metadata_obj.object_type.constantize.find(metadata_obj.value)
+      klass = ActiveRecord::Base.send(:subclasses).find{|c| c.name == metadata_obj.object_type }
+      klass.find(metadata_obj.value)
     else
       metadata_obj.value
     end
