@@ -38,14 +38,6 @@ When /^I ask for details of non existing provider as XML$/ do
   get api_provider_path(1)
 end
 
-Then /^I should receive Not Found error$/ do
-  response = last_response
-  response.headers['Content-Type'].should include('application/xml')
-  response.status.should be_eql(404)
-  xml_body = Nokogiri::XML(response.body)
-  xml_body.xpath('//error').size.should be_eql(1)
-end
-
 When /^I create provider with correct data via XML$/ do
   header 'Accept', 'application/xml'
   header 'Content-Type', 'application/xml'
@@ -104,10 +96,12 @@ When /^I attempt to delete the provider$/ do
   delete api_provider_path(@provider)
 end
 
-Then /^I should receive a Provider Not Found error$/ do
+Then /^I should received?(?: a)?(?: .+)? Not Found error$/ do
   response = last_response
   response.headers['Content-Type'].should include('application/xml')
   response.status.should be_eql(404)
+  xml_body = Nokogiri::XML(response.body)
+  xml_body.xpath('//error').size.should be_eql(1)
 end
 
 When /^I update that provider with correct data via XML$/ do

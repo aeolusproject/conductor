@@ -26,3 +26,23 @@ Then /^I should receive list of provider accounts for that provider as XML$/ do
   xml_body.xpath('//provider_accounts/provider_account').size.should be_eql(3)
   # TODO: test that provider accounts listed is for that provider only
 end
+
+When /^I ask for details of that provider account as XML$/ do
+  header 'Accept', 'application/xml'
+  get api_provider_account_path(@provider_account)
+end
+
+Then /^I should receive details of that provider account as XML$/ do
+  response = last_response
+  response.headers['Content-Type'].should include('application/xml')
+  response.status.should be_eql(200)
+  xml_body = Nokogiri::XML(response.body)
+  xml_body.xpath('//provider_account').size.should be_eql(1)
+end
+
+When /^I ask for details of non existing provider account$/ do
+  header 'Accept', 'application/xml'
+  provider_account = ProviderAccount.find_by_id(1)
+  provider_account.delete if provider_account
+  get api_provider_account_path(1)
+end
