@@ -24,7 +24,6 @@ describe ProviderAccountsController do
     # TODO: implement more attributes checks
     subject { Nokogiri::XML(response.body) }
     context "list of provider accounts" do
-      #let(:xml_provider_accounts) { [subject['provider_accounts']['provider_account']].flatten.compact }
       let(:xml_provider_accounts) { subject.xpath('//provider_accounts/provider_account') }
       context "number of provider accounts" do
         it { xml_provider_accounts.size.should be_eql(number_of_provider_accounts) }
@@ -270,6 +269,58 @@ describe ProviderAccountsController do
             subject.xpath('//error/code').text.strip.should == "ProviderAccountNotFound"
           end
         end #destroy
+
+        describe "#show" do
+          context "when requested provider account exists" do
+
+            before(:each) do
+              ProviderAccount.stub(:find).and_return(provider_account)
+
+              get :show, :id => 1
+            end
+
+            let(:provider_account) { FactoryGirl.create(:mock_provider_account); ProviderAccount.last }
+
+            it_behaves_like "http OK"
+            it_behaves_like "responding with XML"
+
+            context "XML body" do
+              # TODO: implement more attributes checks
+              #subject { Hash.from_xml(response.body) }
+              subject { Nokogiri::XML(response.body) }
+              let(:xml_provider_account) { subject.xpath("//provider_account[@id=\"#{provider_account.id}\"]") }
+              it "should have correct provider account" do
+                xml_provider_account.xpath('@href').text.should be_eql(api_provider_account_url(provider_account))
+              end
+            end
+
+          end # when requested provider account exists
+
+          context "when requested provider account does not exist" do
+
+            before(:each) do
+              pa = ProviderAccount.find_by_id(1)
+              pa.delete if pa
+              get :show, :id => 1
+            end
+
+            it_behaves_like "http Not Found"
+            it_behaves_like "responding with XML"
+
+            context "XML body" do
+
+              subject { Nokogiri::XML(response.body) }
+
+              it {
+                subject.xpath('//error').size.should be_eql(1)
+                subject.xpath('//error/code').text.should be_eql('RecordNotFound')
+                subject.xpath('//error/message').text.should be_eql("Couldn't find ProviderAccount with ID=1")
+              }
+
+            end
+
+          end
+        end # #show
       end
 
     end
