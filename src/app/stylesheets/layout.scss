@@ -1785,6 +1785,73 @@ ul.image_builds{
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Priority Group form
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+#priority-group-form {
+  legend {
+    font-family: $font-family-primary;
+    font-size: 16px;
+  }
+}
+
+ul.priority-groups {
+  li {
+    border: 1px solid #CCCCCC;
+    -webkit-border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; border-radius: 7px 7px 7px 7px;
+    margin: 10px 0 20px 0px;
+
+    .summary {
+      background: -moz-linear-gradient(top, #efefef 0%, #e0e0e0 100%);
+      background: -webkit-linear-gradient(top, #efefef 0%,#e0e0e0 100%);
+      display: table;
+      width: 100%;
+
+      .info {
+        padding: 10px 10px 10px 42px;
+
+        h3 {
+          font-size: 16px
+        }
+      }
+
+      .controls {
+        display: table-cell;
+        padding: 10px;
+        text-align: right;
+        vertical-align: middle;
+      }
+    }
+
+    .details {
+      background: none repeat scroll 0 0 #EEEEEE;
+      border-top: 1px solid #CCCCCC;
+      padding: 10px;
+
+      table {
+        margin: 0 0 0 32px;
+
+        th {
+          border-bottom: 1px solid #CCCCCC;
+        }
+
+        th, td {
+          padding: 10px;
+        }
+
+        td.center {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+#no-provider-account {
+  padding-bottom: 50px;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Flat Table Component -- v.0.0.1 [flat_table] (flat_table.scss)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -2071,6 +2138,7 @@ table.pool_families{
     color: white;
 
     text-decoration: none;
+    white-space: nowrap;
     padding: 3px 6px;
     -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px;
     border: 1px solid #343434;
