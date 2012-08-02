@@ -1,0 +1,14 @@
+= render :partial => 'layouts/admin_nav'
+
+%header.page-header
+  .obj_actions
+    .return_to
+      = t(:return_to)
+      = link_to t('provider_selection.edit_stategy.strategies', :pool => @pool.name), pool_provider_selection_path(@pool)
+  %h1.no-icon= t('provider_selection.show.provider_selection')
+
+%section.content-section
+  %header
+    %h2=t t('provider_selection.show.edit_strategy', :name => @strategy.translated_name)
+  .content
+    = render :partial => "#{@strategy.name}/form"
