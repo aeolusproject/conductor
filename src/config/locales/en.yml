@@ -618,6 +618,15 @@ en:
       with_create_failed_instances: With failed Instances
       with_pending_instances: With pending Instances
       with_stopped_instances: With stopped Instances
+  provider_selection:
+    show:
+      provider_selection: Provider Selection Strategies
+      environment: "Environment: %{environment}"
+      edit_strategy: "Edit %{name} Strategy"
+      strategies:
+        strict_order: 'Strict Order'
+    edit_stategy:
+      strategies: "Provider Selection Strategies for Pool: %{pool}"
   hardware_profiles:
     hardware: Hardware
     hardware_profile: Hardware Profile
@@ -766,6 +775,7 @@ en:
       answer_no: "No"
       catalog: "Catalog"
       total_statistics: TOTAL
+      provider_selection: 'Provider Selection'
     new:
       environments: Environments
     edit:
@@ -1287,6 +1297,32 @@ en:
       populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
       populate_realms_failed: "Failed to populate realms: %{message}"
       could_not_connect: "Could not connect to provider account.  Please contact an administrator."
+  provider_priority_groups:
+    index:
+      add_new: Add new
+      confirm_delete: "Are you sure you want to delete this priority group?"
+      provider_account_name: "Account Name"
+      provider_account_username: "Username"
+      provider_name: "Provider Name"
+      provider_type: "Provider Type"
+      quota_percentage_used: "Quota Used"
+      quota_maximum_running_instances: "Quota Limit"
+      no_priority_group: 'No available priority group to display'
+    new:
+      title: 'Add new Priority Group'
+      back: "Provider Groups for Pool: %{pool}"
+      create: 'Create Priority Group'
+    edit:
+      title: 'Edit Priority Group'
+      back: "Provider Groups for Pool: %{pool}"
+      save: 'Save Priority Group'
+    form:
+      basic_data: "Basic Data"
+      providers_and_provider_accounts: "Providers & Provider Accounts"
+    flash:
+      created: "Priority Group successfully created"
+      updated: "Priority Group successfully updated"
+      deleted: "Priority Group successfully deleted"
   config_servers:
     certificate_help: Provide a certificate to enable https support
     section_header:
@@ -1435,6 +1471,7 @@ en:
       permissions: Global Role Grants
       pool_families: Pool Families
       images: Images
+      provider_selection: Provider Selection
   realm_mappings:
     new:
       create_new: Create a new Realm Mapping

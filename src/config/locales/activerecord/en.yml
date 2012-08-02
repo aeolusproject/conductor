@@ -272,6 +272,9 @@ en:
         deltacloud_provider: "Deltacloud Provider"
         enabled: "Enabled"
         available: "Available"
+      provider_priority_group:
+        name: "Name"
+        score: "Score"
       quota:
         running_instances: "Running Instances"
         total_instances: "Total Instances"
