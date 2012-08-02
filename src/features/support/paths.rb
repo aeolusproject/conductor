@@ -188,7 +188,6 @@ module NavigationHelpers
     when /^the "(.*)" catalog page/
       url_for catalog_path(Catalog.find_by_name($1))
 
-
     when /^the "(.*)" catalog catalog entries page/
       url_for catalog_deployables_path(Catalog.find_by_name($1))
 
@@ -198,6 +197,9 @@ module NavigationHelpers
     when /^the edit deployable page for "(.*)"/
       deployable = Deployable.find_by_name $1
       url_for edit_catalog_deployable_path(deployable.catalogs.first, deployable)
+
+    when /^the (.*)'s provider priority groups page$/
+      pool_provider_selection_provider_priority_groups_path(Pool.find_by_name($1))
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
