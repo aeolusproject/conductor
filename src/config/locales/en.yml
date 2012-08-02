@@ -623,10 +623,12 @@ en:
       provider_selection: Provider Selection Strategies
       environment: "Environment: %{environment}"
       edit_strategy: "Edit %{name} Strategy"
-      strategies:
-        strict_order: 'Strict Order'
-    edit_stategy:
-      strategies: "Provider Selection Strategies for Pool: %{pool}"
+      configure: "Configure"
+    flash:
+      successfully_enabled: "Successfully enabled %{strategy_name} strategy"
+      successfully_disabled: "Successfully disabled %{strategy_name} strategy"
+      failed_to_enable: "Failed to enable %{strategy_name} strategy"
+      failed_to_disable: "Failed to disable %{strategy_name} strategy"
   hardware_profiles:
     hardware: Hardware
     hardware_profile: Hardware Profile
@@ -1313,6 +1315,7 @@ en:
       quota_percentage_used: "Quota Used"
       quota_maximum_running_instances: "Quota Limit"
       no_priority_group: 'No available priority group to display'
+      back_to_strategies: "Provider Selection Strategies for Pool: %{pool}"
     new:
       title: 'Add new Priority Group'
       back: "Provider Groups for Pool: %{pool}"
