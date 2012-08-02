@@ -1,0 +1,71 @@
+.priority-group
+  - if @priority_group.errors.any?
+    = render 'layouts/error_messages', :object => @priority_group
+
+  %fieldset
+    %legend= t('provider_priority_groups.form.basic_data')
+
+    .field
+      = form.label :name
+      .input
+        = form.text_field :name
+    .field
+      = form.label :score
+      .input
+        = form.text_field :score
+
+  %fieldset
+    %legend= t('provider_priority_groups.form.providers_and_provider_accounts')
+
+    - if @providers.any?
+      %ul.priority-groups
+        - @providers.each do |provider|
+          %li
+            .summary
+              .info
+                %h3.name
+                  = check_box_tag("provider_ids[]", provider.id, @priority_group.include?(provider), :class => 'provider-checkbox')
+                  = provider.name
+            .details
+              %table
+                %tr
+                  %th
+                  %th
+                    %strong= t('provider_priority_groups.index.provider_account_name')
+                  %th= t('provider_priority_groups.index.provider_account_username')
+                  %th= ProviderAccount.human_attribute_name(:priority)
+                  %th= t('provider_priority_groups.index.quota_percentage_used')
+                  %th= t('provider_priority_groups.index.quota_maximum_running_instances')
+
+                - provider.provider_accounts.each do |account|
+                  %tr
+                    %td= check_box_tag("provider_account_ids[]", account.id, @priority_group.include?(account), :class => 'provider-account-checkbox')
+                    %td= link_to account.name, provider_provider_account_path(account.provider, account)
+                    %td= account.credentials_hash['username']
+                    %td= account.priority
+                    %td{:class => 'center'}= number_to_percentage account.quota.percentage_used, :precision => 0
+                    %td{:class => 'center'}= account.quota.maximum_running_instances or t('provider_accounts.properties.unlimited')
+    - else
+      #no-provider-account.align-center
+        %strong= t("provider_priority_groups.index.no_priority_group")
+
+:javascript
+  $(document).ready(function() {
+    $(".priority-groups li h3.name").live("click", function(event) {
+      var $providerCheckbox = $(this).find('input.provider-checkbox');
+      var providerAccountCheckboxes = $(this).parents('li').find('input.provider-account-checkbox')
+
+      $.each(providerAccountCheckboxes, function(index, providerAccountCheckbox) {
+        $(providerAccountCheckbox).prop('checked', $providerCheckbox.prop('checked'));
+      });
+    });
+
+    $(".priority-groups li .provider-account-checkbox").live("click", function(event) {
+      var $providerAccountCheckbox = $(this);
+
+      if ($providerAccountCheckbox.prop('checked') == false) {
+        var $providerCheckbox = $(this).parents('li').find('input.provider-checkbox')
+        $providerCheckbox.prop('checked', false);
+      }
+    });
+  });
