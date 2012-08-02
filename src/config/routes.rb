@@ -88,6 +88,7 @@ Conductor::Application.routes.draw do
     end
   end
 
+
   resources :settings do
     collection do
       get :self_service
@@ -96,6 +97,17 @@ Conductor::Application.routes.draw do
   resources :pools do
     delete :multi_destroy, :on => :collection
     post :filter, :on => :collection
+
+    resource :provider_selection, :only => [:show] do
+      resources :provider_priority_groups, :except => [:show]
+
+      collection do
+        get :edit_strategy
+        #post :update_strategy
+      end
+
+      #match ':id', :to => 'provider_selections#show', :as => 'provider_selection_strategy'
+    end
   end
 
   resources :deployments do
