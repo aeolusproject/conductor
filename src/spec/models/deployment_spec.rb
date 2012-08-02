@@ -266,31 +266,6 @@ describe Deployment do
       @deployment.instances.count.should == 2
     end
 
-    it "should match provider accounts according to priority when launching deployment" do
-      @deployment.save!
-      @deployment.instances.should be_empty
-
-      Instance.any_instance.stub(:provider_images_for_match).and_return([@provider_image])
-      Taskomatic.stub!(:create_dcloud_instance).and_return(true)
-      Taskomatic.stub!(:handle_dcloud_error).and_return(true)
-      Taskomatic.stub!(:handle_instance_state).and_return(true)
-      @deployment.create_and_launch(@session_id, @user_for_launch)
-      @deployment.errors.should be_empty
-      @deployment.reload
-      @deployment.instances.count.should == 2
-      @deployment.instances[0].provider_account.should == @provider_account1
-      @deployment.instances[1].provider_account.should == @provider_account1
-      @provider_account1.priority = 30
-      @provider_account1.save!
-      deployment2 = Factory.create(:deployment, :pool_id => @pool.id)
-      deployment2.create_and_launch(@session_id, @user_for_launch)
-      deployment2.errors.should be_empty
-      deployment2.reload
-      deployment2.instances.count.should == 2
-      deployment2.instances[0].provider_account.should == @provider_account2
-      deployment2.instances[1].provider_account.should == @provider_account2
-    end
-
     it "should not fail to launch if a provider account has a nil priority" do
       @deployment.save!
       @deployment.instances.should be_empty
@@ -306,8 +281,6 @@ describe Deployment do
       @deployment.errors.should be_empty
       @deployment.reload
       @deployment.instances.count.should == 2
-      @deployment.instances[0].provider_account.should == @provider_account2
-      @deployment.instances[1].provider_account.should == @provider_account2
     end
 
     it "should not create deployment with instances if match not found" do
