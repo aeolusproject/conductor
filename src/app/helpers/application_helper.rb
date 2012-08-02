@@ -67,7 +67,7 @@ module ApplicationHelper
     end
   end
 
-  def filter_table(columns, rows, options={}, &block)
+  def filter_table(columns, rows, options = {}, &block)
     _class = rows.first.try(:class) || Object
     render :partial => 'layouts/filter_table', :locals => {
         :form_header => options[:form_header] || :form_header,
