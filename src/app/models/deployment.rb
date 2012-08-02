@@ -566,10 +566,6 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  # Find account (w/ highest priority) where all instances can be launched.
-  # 1. find all matches for each instance
-  # 2. for each account (ordered by priority) try to find match for each
-  # instance
   def find_match_with_common_account
     errors = []
     all_matches = instances.map do |instance|
@@ -579,17 +575,22 @@ class Deployment < ActiveRecord::Base
       m.select {|inst_match| !instance.includes_instance_match?(inst_match)}
     end
 
-    pool.pool_family.provider_accounts_by_priority.each do |account|
+    provider_selection_strategy = ProviderSelection::Base.new(instances)
+    pool.provider_selection_strategies.enabled.each do  |strategy|
+      provider_selection_strategy.chain_strategy(strategy.name)
+    end
+
+    match = provider_selection_strategy.next_match
+
+    if match.present?
+      account = match.provider_account
       matches_by_account = all_matches.map do |m|
         m.find {|m| m.provider_account.id == account.id}
       end
-      next if matches_by_account.include?(nil)
-      unless account.quota.can_start? instances
-        errors << I18n.t('instances.errors.provider_account_quota_too_low', :match_provider_account => account)
-        next
-      end
+
       return [matches_by_account, account, errors] unless matches_by_account.include?(nil)
     end
+
     [nil, nil, errors]
   end
 
