@@ -205,6 +205,7 @@ gif="public/images \
      vendor/converge-ui/images/icons"
 haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/users app/views/provider_accounts \
+      app/views/provider_selections app/views/provider_priority_groups \
       app/views/roles app/views/providers app/views/settings \
       app/views/realms app/views/pool_families app/views/layouts\
       app/views/quotas app/views/permissions \
@@ -257,6 +258,8 @@ rb="app/models app/controllers app/controllers/api app/helpers app/services app/
     features/support features/step_definitions lib spec spec/controllers \
     spec/factories spec/helpers spec/models spec/services spec/controllers/api \
     spec/aeolus/event spec/aeolus/ext lib/aeolus lib/aeolus/event lib/aeolus/ext \
+    lib/provider_selection vendor/provider_selection \
+    vendor/provider_selection/strategies/strict_order \
     vendor/converge-ui/rails/helpers"
 rhtml="app/views/layouts"
 svg="public/images public/images/icons vendor/converge-ui/fonts"
@@ -450,6 +453,7 @@ fi
 %{app_root}/spec/fixtures/Gemfile.in
 %dir %{app_root}/vendor
 %{app_root}/vendor/converge-ui
+%{app_root}/vendor/provider_selection
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
 %{app_root}/script/upgrade
