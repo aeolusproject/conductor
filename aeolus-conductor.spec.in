@@ -448,6 +448,7 @@ fi
 %{app_root}/lib
 %{_bindir}/aeolus-debug
 %{app_root}/log
+%exclude %{app_root}/log/delayed_job.log
 %{app_root}/public
 %{app_root}/Rakefile
 %{app_root}/Gemfile.in
