@@ -101,12 +101,7 @@ Conductor::Application.routes.draw do
     resource :provider_selection, :only => [:show] do
       resources :provider_priority_groups, :except => [:show]
 
-      collection do
-        get :edit_strategy
-        #post :update_strategy
-      end
-
-      #match ':id', :to => 'provider_selections#show', :as => 'provider_selection_strategy'
+      match ':strategy_name/toggle', :to => 'provider_selections#toggle_strategy', :as => 'toggle_strategy'
     end
   end
 

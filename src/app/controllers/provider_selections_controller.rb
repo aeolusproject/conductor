@@ -22,12 +22,42 @@ class ProviderSelectionsController < ApplicationController
   def show
     @pool = Pool.find(params[:pool_id])
     @environment = @pool.pool_family
+    @available_strategies = ProviderSelection::Base.strategies
   end
 
-  def edit_strategy
-    @pool = Pool.find(params[:pool_id])
-    @strategy = ProviderSelection::Base.find_strategy_by_name(params[:name])
-    @priority_groups = @pool.provider_priority_groups
+  def toggle_strategy
+    pool = Pool.find(params[:pool_id])
+    strategy = ProviderSelection::Base.find_strategy_by_name(params[:strategy_name])
+
+    if pool.provider_selection_strategies.exists?(:name => strategy.name)
+      provider_selection_strategy = pool.provider_selection_strategies.find_by_name(strategy.name)
+      provider_selection_strategy.enabled = !provider_selection_strategy.enabled
+    else
+      provider_selection_strategy =
+          ProviderSelectionStrategy.new(:name => strategy.name,
+                                        :enabled => true,
+                                        :pool => pool)
+    end
+
+    if provider_selection_strategy.save
+      notice =
+        if provider_selection_strategy.enabled
+          t('provider_selection.flash.successfully_enabled', :strategy_name => strategy.translated_name)
+        else
+          t('provider_selection.flash.successfully_disabled', :strategy_name => strategy.translated_name)
+        end
+
+      redirect_to :back, :notice => notice
+    else
+      notice =
+        if provider_selection_strategy.enabled
+          t('provider_selection.flash.failed_to_enable', :strategy_name => strategy.translated_name)
+        else
+          t('provider_selection.flash.failed_to_disable', :strategy_name => strategy.translated_name)
+        end
+
+      redirect_to :back, :notice => notice
+    end
   end
 
   private
