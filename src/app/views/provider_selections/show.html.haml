@@ -11,12 +11,10 @@
   %header
     %h2=t 'Available Strategies'
   .content
-    %table.flat
-      %thead
-      %tbody
+    %table.provider-selection-strategies
+      - ProviderSelection::Base.strategies.each do |strategy|
         %tr
-          %td= link_to(t('provider_selection.show.strategies.strict_order'), pool_provider_selection_provider_priority_groups_path(@pool))
-        - ProviderSelection::Base.strategies.each do |strategy|
-          - if strategy.include_in_listings
-            %tr
-              %td= link_to(strategy.translated_name, edit_strategy_pool_provider_selection_path(:name => strategy.name))
+          %td.status
+            = link_to('', toggle_strategy_pool_provider_selection_path(@pool, strategy.name), :class => "status-toggle #{strategy_toggle_state(strategy)}")
+          %td= strategy.translated_name
+          %td.right= strategy_actions(strategy)
