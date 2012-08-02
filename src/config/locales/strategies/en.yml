@@ -1,0 +1,4 @@
+en:
+  strategies:
+    strict_order:
+      name: 'Strict Order'
