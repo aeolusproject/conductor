@@ -66,6 +66,8 @@ class Pool < ActiveRecord::Base
 
   has_many :deployments, :dependent => :destroy
 
+  has_many :provider_priority_groups, :dependent => :destroy
+
   before_destroy :destroyable?
 
   def cloud_accounts

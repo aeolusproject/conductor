@@ -59,6 +59,8 @@ class Provider < ActiveRecord::Base
   has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "derived_permissions.id ASC"
+  has_many :provider_priority_group_elements, :as => :value, :dependent => :destroy
+  has_many :provider_priority_groups, :through => :provider_priority_group_elements
 
   before_destroy :destroyable?
 
