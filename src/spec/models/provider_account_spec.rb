@@ -187,7 +187,7 @@ describe ProviderAccount do
       end
 
       it "can be negative integer" do
-        @provider_account.priority = -32767
+        @provider_account.priority = -32
         @provider_account.should be_valid
       end
 
