@@ -1,0 +1,22 @@
+= render :partial => 'layouts/admin_nav'
+
+%header.page-header
+  .obj_actions
+    .return_to
+      = t(:return_to)
+      = link_to t('provider_selection.show.environment', :environment => @environment.name), pool_family_path(@environment)
+  %h1.no-icon= t('provider_selection.show.provider_selection')
+
+%section.content-section
+  %header
+    %h2=t 'Available Strategies'
+  .content
+    %table.flat
+      %thead
+      %tbody
+        %tr
+          %td= link_to(t('provider_selection.show.strategies.strict_order'), pool_provider_selection_provider_priority_groups_path(@pool))
+        - ProviderSelection::Base.strategies.each do |strategy|
+          - if strategy.include_in_listings
+            %tr
+              %td= link_to(strategy.translated_name, edit_strategy_pool_provider_selection_path(:name => strategy.name))
