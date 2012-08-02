@@ -4,7 +4,7 @@
   .obj_actions
     .return_to
       = t(:return_to)
-      = link_to t('provider_selection.edit_stategy.strategies', :pool => @pool.name), pool_provider_selection_path(@pool)
+      = link_to t('provider_priority_groups.index.back_to_strategies', :pool => @pool.name), pool_provider_selection_path(@pool)
   %h1.no-icon= t('provider_selection.show.provider_selection')
 
 %section.content-section
