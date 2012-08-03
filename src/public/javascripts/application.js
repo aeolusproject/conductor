@@ -25,7 +25,12 @@ $.extend(Conductor, {
         $('#tab').html(data).show();
       })
       .error(function(data) {
-        $('#tab').html(data.responseText).show();
+        // If our session has timed out, redirect to the login page:
+        if(data.status == 401) {
+          window.location = Conductor.PATH_PREFIX + "login";
+        } else {
+          $('#tab').html(data.responseText).show();
+        }
       });
 
       Conductor.tabRemoveActiveClass();

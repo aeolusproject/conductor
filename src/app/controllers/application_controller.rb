@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
   include ApplicationService
   helper_method :current_session, :current_user, :filter_view?
-  before_filter :read_breadcrumbs, :set_locale
+  before_filter :read_breadcrumbs, :set_locale, :check_session
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -420,6 +420,13 @@ class ApplicationController < ActionController::Base
     result = collection.paginate(:page => result.total_pages, :per_page => per_page) if result.out_of_bounds? && result.total_pages > 0
 
     result
+  end
+
+  #before filter to invalidate session for backbone
+  def check_session
+    return unless request.format == :json
+    session_entity = SessionEntity.find_by_session_id(current_session)
+    logout if session_entity.present? && session_entity.created_at < 15.minutes.ago
   end
 
 end
