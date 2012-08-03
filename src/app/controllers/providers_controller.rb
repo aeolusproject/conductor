@@ -309,7 +309,8 @@ class ProvidersController < ApplicationController
     ]
     add_permissions_tab(@provider, "edit_")
     details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
-    details_tab_name = 'connectivity' unless ['connectivity', 'accounts', 'realms'].include?(details_tab_name)
+    details_tab_name = 'connectivity' unless
+      ['connectivity', 'accounts', 'realms', 'permissions'].include?(details_tab_name)
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 
     if @details_tab[:id] == 'accounts'
