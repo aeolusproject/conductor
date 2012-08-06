@@ -203,6 +203,8 @@ class ImagesController < ApplicationController
         flash[:error] = t('images.not_on_provider')
       elsif e.is_a?(Aeolus::Conductor::Base::BlankImageId)
         flash[:error] = t('images.import.blank_id')
+      elsif e.is_a?(Errno::ECONNRESET) or e.is_a?(Errno::ECONNREFUSED)
+        flash[:error] = t('images.import.provider_unreachable')
       else
         flash[:error] = t("images.import.image_not_imported")
       end
