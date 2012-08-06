@@ -905,6 +905,7 @@ en:
       image_imported: The image was imported successfully.
       image_not_imported: The image could not be imported. Check the Image Factory log for further details.
       blank_id: Image ID cannot be blank.
+      provider_unreachable: "Conductor could not connect to Image Factory. Please verify that Factory is running and that its configuration matches Conductor's."
     index:
       images: Images
       name: Name
