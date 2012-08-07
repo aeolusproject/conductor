@@ -17,6 +17,16 @@
 require 'spec_helper'
 
 describe Deployable do
+  shared_examples_for "deployable XML with cyclic reference" do
+    it "should not be valid" do
+      @deployable.valid?.should be_false
+    end
+
+    it "should detect one cycle" do
+      @cycles.length.should == 1
+    end
+  end
+
   it "should generate xml when set from image" do
     image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :name => 'image1', :uuid => '3c58e0d6-d11a-4e68-8b12-233783e56d35')
     Aeolus::Image::Warehouse::Image.stub(:find).and_return(image)
@@ -40,7 +50,7 @@ describe Deployable do
 
   it "should not be valid if xml has multiple assemblies with the same name" do
     deployable = FactoryGirl.build(:deployable_unique_name_violation)
-    deployable.valid_deployable_xml?
+    deployable.validate_deployable_xml
     deployable.errors[:xml].should == [I18n.t('catalog_entries.flash.warning.not_valid_duplicate_assembly_names')]
   end
 
@@ -70,6 +80,65 @@ describe Deployable do
     deployable = FactoryGirl.create :deployable, :catalogs => [catalog]
     deployable.xml = ''
     deployable.should_not be_valid
+  end
+
+  describe "validation of deployable_xml with cyclic service references" do
+    before :each do
+      @deployable = FactoryGirl.build(:deployable_with_cyclic_service_references)
+      @cycles = DeployableXML.new(@deployable.xml).dependency_graph.cycles
+    end
+
+    it_behaves_like "deployable XML with cyclic reference"
+
+    it "should detect cycle between services of same assembly" do
+      cycle = @cycles.first
+      cycle.length.should == 2
+      cycle.find {|n| n[:assembly] == 'assembly1' && n[:service] == 'service1'}
+      cycle.find {|n| n[:assembly] == 'assembly1' && n[:service] == 'service2'}
+    end
+  end
+
+  describe "validation of deployable_xml with cyclic assembly references" do
+    before :each do
+      @deployable = FactoryGirl.build(:deployable_with_cyclic_assembly_references)
+      @cycles = DeployableXML.new(@deployable.xml).dependency_graph.cycles
+    end
+
+    it_behaves_like "deployable XML with cyclic reference"
+
+    it "should detect cycle between multiple assmebliess" do
+      cycle = @cycles.first
+      cycle.length.should == 3
+      cycle.find {|n| n[:assembly] == 'assembly1' && n[:service] == 'service1'}
+      cycle.find {|n| n[:assembly] == 'assembly2' && n[:service] == 'service1'}
+      cycle.find {|n| n[:assembly] == 'assembly3' && n[:service] == 'service1'}
+    end
+  end
+
+  describe "validation of deployable_xml with not existing references" do
+    before :each do
+      @deployable = FactoryGirl.build(:deployable_with_not_existing_references)
+      @invalid_refs = DeployableXML.new(@deployable.xml).
+                        dependency_graph.not_existing_references
+    end
+
+    it "should not be valid" do
+      @deployable.should_not be_valid
+    end
+
+    it "should detect reference to not existing assembly" do
+      @invalid_refs.find {|r| r[:assembly] == 'assembly2' &&
+        r[:service] == 'service1' &&
+        r[:reference][:assembly] ==  'assembly3' &&
+        r[:reference][:service] ==  'service1'}.should_not be_nil
+    end
+
+    it "should detect reference to not existing service" do
+      @invalid_refs.find {|r| r[:assembly] == 'assembly1' &&
+        r[:service] == 'service1' &&
+        r[:reference][:assembly] ==  'assembly2' &&
+        r[:reference][:service] ==  'service2'}.should_not be_nil
+    end
   end
 
   it "should manage permissions on catalog changes" do

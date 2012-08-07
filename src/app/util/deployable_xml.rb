@@ -18,6 +18,8 @@
 XML Wrapper objects for the deployable XML format
 =end
 
+require 'tsort'
+
 class ValidationError < RuntimeError; end
 
 class ParameterXML
@@ -96,6 +98,16 @@ class ServiceXML
       ParameterXML.new(param_node)
     end
   end
+
+  def references
+    refs = parameters.map do |param|
+      next unless param.reference?
+      {:assembly => param.reference_assembly,
+       :service => param.reference_service,
+       :param => param.reference_parameter,
+       :from_param => param.name}
+    end.compact
+  end
 end
 
 class AssemblyXML
@@ -164,6 +176,20 @@ class AssemblyXML
 
   def to_s
     @root.to_s
+  end
+
+  def dependency_nodes
+    nodes = services.map do |service|
+      {:assembly => name,
+       :service => service.name,
+       :references => service.references}
+    end
+    # whole assembly is added as a node too because a inter-assembly references
+    # reference whole assembly, not particular service
+    nodes << {:assembly => name,
+              :service => nil,
+              :references => nodes.map {|n|
+                               n[:references]}.flatten}
   end
 
   private
@@ -270,8 +296,76 @@ class DeployableXML
     end
   end
 
+  def dependency_graph
+    @dependency_graph ||= DeployableDependencyGraph.new(assemblies)
+  end
+
   private
+
   def relax
     @relax ||= File.open(@relax_file) {|f| Nokogiri::XML::RelaxNG(f)}
+  end
+end
+
+class DeployableDependencyGraph
+  include TSort
+
+  def initialize(assemblies)
+    @assemblies = assemblies
+  end
+
+  def cycles
+    strongly_connected_components.find_all {|c| c.length > 1}
+  end
+
+  def dependency_nodes
+    @nodes ||= @assemblies.map {|assembly| assembly.dependency_nodes}.flatten
+  end
+
+  def tsort_each_node(&block)
+    dependency_nodes.each(&block)
+  end
+
+  def tsort_each_child(node, &block)
+    node[:references].map do |ref|
+      ref_node = dependency_nodes.find do |n|
+        n[:assembly] == ref[:assembly] && n[:service] == ref[:service]
+      end
+      ref[:not_existing_ref] = true unless ref_node
+      ref_node
+    end.compact.each(&block)
+  end
+
+  def not_existing_references
+    # not_existing references are detected when doing tsort
+    strongly_connected_components
+
+    invalid_refs = []
+    dependency_nodes.each do |node|
+      # skip "whole assembly" nodes
+      next unless node[:service]
+
+      node[:references].each do |ref|
+        if ref[:not_existing_ref]
+          # in this case, the referenced assembly/service doesn't exist
+          # at all
+          invalid_refs << {:assembly => node[:assembly],
+                           :service => node[:service],
+                           :reference => ref}
+        else
+          # in this case, the referenced assembly/service exists, but the
+          # referenced parameter is not listed in <returns> tag of the assembly
+          assembly = @assemblies.find {|a| a.name == ref[:assembly]}
+          next unless assembly # this shouldn't be needed
+          unless assembly.output_parameters.include?(ref[:param])
+            invalid_refs << {:assembly => node[:assembly],
+                             :service => node[:service],
+                             :no_return_param => true,
+                             :reference => ref}
+          end
+        end
+      end
+    end
+    invalid_refs
   end
 end

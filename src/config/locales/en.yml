@@ -826,6 +826,10 @@ en:
         no_url_provided: "No URL provided for the deployable XML file."
         not_valid: "Deployable XML file doesn't resolve valid XML"
         not_valid_duplicate_assembly_names: "Deployable XML must contain unique assembly names"
+        not_valid_cyclic_reference: "Contains cyclic reference between following assemblies or services: %{reference}"
+        not_valid_not_existing_assembly_reference: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing assembly %{to_assembly}"
+        not_valid_not_existing_service_reference: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing assembly %{to_assembly}, service %{to_service}"
+        not_valid_not_existing_param: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references param %{to_param} which is not returned by assembly %{to_assembly}"
         failed: Deployable was not created.
       notice:
         added: Deployable added to catalog %{catalog}.
