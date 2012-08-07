@@ -29,7 +29,8 @@ class Deployable < ActiveRecord::Base
   validates_length_of :name, :maximum => 1024
 
   validates_presence_of :xml
-  validate :valid_deployable_xml?, :if => Proc.new { |deployable| !deployable.xml.blank? }
+  validate :validate_deployable_xml, :if => Proc.new {|deployable|
+                                              !deployable.xml.blank? }
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
@@ -57,7 +58,7 @@ class Deployable < ActiveRecord::Base
     super + catalogs + catalogs.collect{|c| c.pool}.uniq + [pool_family]
   end
 
-  def valid_deployable_xml?
+  def validate_deployable_xml
     begin
       deployable_xml = DeployableXML.new(xml)
       if !deployable_xml.validate!
@@ -65,8 +66,47 @@ class Deployable < ActiveRecord::Base
       elsif !deployable_xml.unique_assembly_names?
         errors.add(:xml, I18n.t('catalog_entries.flash.warning.not_valid_duplicate_assembly_names'))
       end
+      validate_cycles_in_deployable_xml(deployable_xml)
+      validate_references_in_deployable_xml(deployable_xml)
     rescue Nokogiri::XML::SyntaxError => e
       errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{e.message}"))
+    end
+  end
+
+  def validate_cycles_in_deployable_xml(deployable_xml)
+    deployable_xml.dependency_graph.cycles.each do |cycle|
+      cycle_str = cycle.map do |node|
+        str = node[:assembly].to_s
+        str << "[#{node[:service]}]" if node[:service].present?
+        str
+      end.join(' -> ')
+      errors.add(:xml,
+                 I18n.t('catalog_entries.flash.warning.not_valid_cyclic_reference',
+                        :reference => cycle_str))
+    end
+  end
+
+  def validate_references_in_deployable_xml(deployable_xml)
+    deployable_xml.dependency_graph.not_existing_references.each do |reference|
+      locale_params = {:from_assembly => reference[:assembly],
+                       :from_service => reference[:service],
+                       :from_param => reference[:reference][:from_param],
+                       :to_param => reference[:reference][:param],
+                       :to_assembly => reference[:reference][:assembly],
+                       :to_service => reference[:reference][:service]}
+      if reference[:no_return_param]
+        errors.add(:xml,
+                   I18n.t('catalog_entries.flash.warning.not_valid_not_existing_param',
+                          locale_params))
+      elsif reference[:to_service]
+        errors.add(:xml,
+                   I18n.t('catalog_entries.flash.warning.not_valid_not_existing_service_reference',
+                          locale_params))
+      else
+        errors.add(:xml,
+                   I18n.t('catalog_entries.flash.warning.not_valid_not_existing_assembly_reference',
+                          locale_params))
+      end
     end
   end
 
