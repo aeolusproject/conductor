@@ -38,8 +38,8 @@ class TemplateXML
   def self.validate(xmlstr)
     begin
       doc = TemplateXML.new(xmlstr)
-    rescue Nokogiri::XML::SyntaxError
-      return [I18n.t('template_xml.errors.xml_parse_error')]
+    rescue Nokogiri::XML::SyntaxError => e
+      return [e.message]
     end
     return doc.validate
   end
