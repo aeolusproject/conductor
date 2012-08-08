@@ -236,8 +236,8 @@ class ImagesController < ApplicationController
 
     begin
       doc = TemplateXML.new(xml_source)
-    rescue Nokogiri::XML::SyntaxError
-      errors = [t('template_xml.errors.xml_parse_error')]
+    rescue Nokogiri::XML::SyntaxError => e
+      errors = [e.message]
     else
       doc.name = @name unless @name.blank?
       @name = doc.name
@@ -261,8 +261,8 @@ class ImagesController < ApplicationController
 
     begin
       doc = TemplateXML.new(@xml)
-    rescue Nokogiri::XML::SyntaxError
-      errors = [t('template_xml.errors.xml_parse_error')]
+    rescue Nokogiri::XML::SyntaxError => e
+      errors = [e.message]
     else
       @name = doc.name
       errors = doc.validate
