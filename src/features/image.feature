@@ -25,7 +25,7 @@ Feature: Manage Images
     Then I should be on the edit xml images page
     When I fill in "image_xml" with an invalid XML
     And I press "save_image"
-    Then I should see "Failed to parse XML."
+    Then I should see an error message
 
 #
 # FIXME - This test is failing, but fixing it requires fixing a larger bug: we don't
