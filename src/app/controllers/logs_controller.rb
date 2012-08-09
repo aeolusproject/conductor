@@ -293,12 +293,25 @@ class LogsController < ApplicationController
       end
     end
 
+    # these will be needed to handle the case where a source stops without
+    # ever going into the running state
+    start_conditions = ["source_type = ? and status_code = ?",
+                        @source_type, start_code]
+    start_events = Event.unscoped.find(:all,
+                                       :conditions => start_conditions)
+
     @datasets.initialize_datasets
 
     @events.each do |event|
       event_timestamp = event.event_time.to_i * 1000
 
-      if event.status_code == start_code || event.status_code == end_code
+      if event.status_code == start_code ||
+          (event.status_code == end_code &&
+           start_events.any? {|s|
+             s.source_id == event.source_id &&
+             s.event_time <= event.event_time
+           }
+           )
         increment = (event.status_code == end_code) ? -1 : 1
 
         @datasets.add_dataset_point("All", event_timestamp, increment)

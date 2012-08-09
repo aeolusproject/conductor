@@ -458,6 +458,7 @@ class ProvidersController < ApplicationController
         end
 
         if !instance.time_last_stopped.nil? &&
+            instance.time_last_stopped >= instance.time_last_running &&
             instance.time_last_stopped <= @to_date.to_datetime.end_of_day
           events << {
             "time" => instance.time_last_stopped,
