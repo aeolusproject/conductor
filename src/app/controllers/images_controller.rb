@@ -194,7 +194,7 @@ class ImagesController < ApplicationController
 
     xml = "<image><name>#{params[:name]}</name></image>" unless params[:name].blank?
     begin
-      image = Image.import(account, params[:image_id], @environment, xml)
+      image = Image.import(account, params[:image_id].strip, @environment, xml)
       flash[:success] = t("images.import.image_imported")
       redirect_to image_url(image.id) and return
     rescue Exception => e
