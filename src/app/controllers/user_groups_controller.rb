@@ -40,6 +40,7 @@ class UserGroupsController < ApplicationController
     @tab_captions = ['Properties']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     @members = paginate_collection(@user_group.members, params[:page])
+    add_profile_permissions_inline(@user_group.entity)
     respond_to do |format|
       format.html
       format.js do
@@ -222,7 +223,11 @@ class UserGroupsController < ApplicationController
 
   def load_user_groups
     sort_order = params[:sort_by].nil? ? "name" : params[:sort_by]
-    @user_groups = UserGroup.apply_filters(:preset_filter_id => params[:users_preset_filter], :search_filter => params[:user_groups_search]).order(sort_order)
+    @user_groups = UserGroup.apply_filters(:preset_filter_id =>
+                                           params[:user_groups_preset_filter],
+                                           :search_filter =>
+                                           params[:user_groups_search]).
+      order(sort_order)
   end
 
   def load_headers
@@ -231,6 +236,10 @@ class UserGroupsController < ApplicationController
       { :name => t('user_groups.index.name'), :sortable => false },
       { :name => t('user_groups.index.type'), :sortable => false },
     ]
+  end
+
+  def filter
+    redirect_to_original({"user_groups_preset_filter" => params[:user_groups_preset_filter], "user_groups_search" => params[:user_groups_search]})
   end
 
 end

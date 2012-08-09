@@ -40,6 +40,11 @@ class UserGroup < ActiveRecord::Base
   validates_inclusion_of :membership_source, :in => MEMBERSHIP_SOURCES
   after_save :update_entity
 
+  PRESET_FILTERS_OPTIONS = [
+    {:title => "user_groups.preset_filters.local", :id => "local_user_groups", :query => where("user_groups.membership_source = ?", MEMBERSHIP_SOURCE_LOCAL)},
+    {:title => "user_groups.preset_filters.ldap", :id => "ldap_user_groups", :query => where("user_groups.membership_source = ?", MEMBERSHIP_SOURCE_LDAP)}
+  ]
+
   def update_entity
     self.entity = Entity.new(:entity_target => self) unless self.entity
     self.entity.name = "#{self.name} (#{self.membership_source})"

@@ -173,6 +173,14 @@ class PermissionsController < ApplicationController
     redirect_to_original({"entities_preset_filter" => params[:entities_preset_filter], "entities_search" => params[:entities_search]})
   end
 
+  def profile_filter
+    redirect_to_original({"profile_permissions_preset_filter" =>
+                             params[:profile_permissions_preset_filter],
+                          "profile_permissions_search" =>
+                             (params[:profile_permissions_preset_filter].empty? ?
+                              nil : params[:profile_permissions_search])})
+  end
+
   private
 
   def load_entities
@@ -195,6 +203,7 @@ class PermissionsController < ApplicationController
   def set_permission_object (required_role=Privilege::PERM_SET)
     obj_type = params[:permission_object_type]
     id = params[:permission_object_id]
+    @return_path = params[:return_path]
     @path_prefix = params[:path_prefix]
     @polymorphic_path_extras = params[:polymorphic_path_extras]
     @use_tabs = params[:use_tabs]
@@ -209,16 +218,20 @@ class PermissionsController < ApplicationController
       end
     end
     raise RuntimeError, "invalid permission object" if @permission_object.nil?
-    if @permission_object == BasePermissionObject.general_permission_scope
-      @return_path = permissions_path
-      set_admin_users_tabs 'permissions'
-    else
-      @return_path = send("#{@path_prefix}polymorphic_path",
-                          @permission_object.respond_to?(:to_polymorphic_path_param) ?
-                              @permission_object.to_polymorphic_path_param(@polymorphic_path_extras) :
-                              @permission_object,
-                          @use_tabs == "yes" ? {:details_tab => :permissions,
-                                                :only_tab => true} : {})
+    unless @return_path
+      if @permission_object == BasePermissionObject.general_permission_scope
+        @return_path = permissions_path
+        set_admin_users_tabs 'permissions'
+      else
+        @return_path = send("#{@path_prefix}polymorphic_path",
+                            @permission_object.respond_to?(
+                              :to_polymorphic_path_param) ?
+                            @permission_object.to_polymorphic_path_param(
+                              @polymorphic_path_extras) :
+                            @permission_object,
+                            @use_tabs == "yes" ? {:details_tab => :permissions,
+                              :only_tab => true} : {})
+      end
     end
     require_privilege(required_role, @permission_object)
     set_permissions_header

@@ -81,6 +81,7 @@ class UsersController < ApplicationController
     save_breadcrumb(user_path(@user), @user.name)
     @tab_captions = ['Properties']
     @details_tab = 'properties' # currently the only supported details tab
+    add_profile_permissions_inline(@user.entity)
     respond_to do |format|
       format.html
       format.js do

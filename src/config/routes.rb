@@ -85,6 +85,7 @@ Conductor::Application.routes.draw do
       post :multi_update
       post :filter
       post :filter_entities
+      post :profile_filter
     end
   end
 

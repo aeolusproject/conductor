@@ -33,6 +33,13 @@ Feature: Manage Users
     When I follow "testuser"
     Then I should be on testuser's user page
 
+  Scenario: Show user permissions
+    Given a pool "PermissionPool" exists
+    And there is a permission for the user "testuser" on the pool "PermissionPool"
+    And I am on the users page
+    When I follow "testuser"
+    Then I should see "PermissionPool"
+
   Scenario: Delete users
     Given there is a user "testuser"
     And I am on the users page

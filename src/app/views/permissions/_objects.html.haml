@@ -1,0 +1,64 @@
+- content_for :permissions_form_header do
+  - if not(@show_inherited) && check_privilege(Privilege::PERM_SET)
+    %li= restful_submit_tag t('permissions.revoke_access'), "destroy", multi_destroy_permissions_path, 'DELETE', :id => 'revoke_button', :class => 'button danger'
+    %li= restful_submit_tag t('edit'), "multi_update", multi_update_permissions_path, 'POST', :id => 'perm_edit_button', :class => 'hidden'
+    = hidden_field_tag :entity_id, @entity.id
+
+    = hidden_field_tag :path_prefix, @path_prefix
+    = hidden_field_tag :return_path, url_for(@entity.entity_target)
+    = hidden_field_tag :use_tabs, @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')
+  %span{:id => ("tab-container-1-nav" unless @inline)}
+    - if @show_inherited
+      %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :page => 1), { :class => 'button primary', :id => 'direct_permission_button'}
+    - else
+      %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :page => 1), { :class => 'button primary', :id => 'inherited_permission_button'}
+
+- content_for :permissions_filter_controls do
+  %li
+    = label_tag :profile_permissions_preset_filter, t('filter_table.viewing')
+    = select_tag(:profile_permissions_preset_filter, preset_filters_options_for_select(Permission::PROFILE_PRESET_FILTERS_OPTIONS, params[:profile_permissions_preset_filter]), :include_blank => t("permissions.preset_filters.all_permissions"), :disabled => false)
+    = hidden_field_tag :current_path, request.fullpath
+    = restful_submit_tag t("filter_table.apply_filters"), "profile_filter", profile_filter_permissions_path, 'POST', :class => 'button', :id => 'apply_profile_permissions_preset_filter'
+    %span.label.badge.dark= @permissions.count
+  %li.table-search-filter
+    - disable_search = params[:profile_permissions_preset_filter].nil? || params[:profile_permissions_preset_filter].empty?
+    = text_field_tag :profile_permissions_search, (disable_search ? nil : params[:profile_permissions_search]), :placeholder => t("filter_table.search"), :disabled => disable_search
+    = restful_submit_tag "", "search", profile_filter_permissions_path, 'POST', :class => 'button', :id => 'apply_profile_permissions_search'
+
+  :javascript
+    $(document).ready(function(){
+      $("#apply_profile_permissions_preset_filter").hide();
+      $("#profile_permissions_preset_filter").change(function() {
+        $("#apply_profile_permissions_preset_filter").click();
+      });
+      Conductor.clickOnEnterKeypress($('#profile_permissions_search'), $('#apply_profile_permissions_search'));
+    });
+
+= filter_table(@permission_list_header,
+               @permissions,
+               :form_header => :permissions_form_header,
+               :filter_controls => :permissions_filter_controls) do |permission|
+  %tr{:class => cycle('nostripe','stripe')}
+    - if not(@show_inherited)
+      %td{:class => 'checkbox'}
+        - if check_privilege(Privilege::PERM_SET)
+          - selected = params[:select] == 'all'
+          = check_box_tag "permission_selected[]", permission.id, selected, :id => "permission_checkbox_#{permission.id}"
+    - if permission.permission_object.class == BasePermissionObject
+      %td= t'permissions.global'
+      %td
+    - else
+      %td= t("activerecord.models.#{permission.permission_object_type.underscore}")
+      %td= link_to permission.permission_object.name, permission.permission_object
+    - if not(@show_inherited) && check_privilege(Privilege::PERM_SET)
+      %td= select_tag "permission_role_selected[]", options_for_select(@roles[permission.permission_object_type].map {|r| [ t(r.name, :scope=> :role_defs, :default => r.name), "#{permission.id},#{r.id}" ] }, :selected => "#{permission.id},#{permission.role.id}", :disabled => @entity.permissions.where(["entity_id = ? and role_id != ?", permission.entity_id, permission.role_id]).collect {|p| "#{permission.id},#{p.role.id}"}), :id => "permission_role_selected_#{permission.id}"
+      :javascript
+        $("#permission_role_selected_#{permission.id}").change(function () { $("#perm_edit_button").click(); } );
+
+    -else
+      %td= t(permission.role.name, :scope=> :role_defs, :default => permission.role.name)
+    - if @show_inherited
+      - if permission.permission.permission_object.class == BasePermissionObject
+        %td= t'permissions.global'
+      - else
+        %td= link_to permission.permission.permission_object.name, permission.permission.permission_object
