@@ -31,8 +31,7 @@ describe ImagesController do
     it "strips whitespace off the image id provided by the user" do
       ProviderAccount.stub(:find).and_return(@provider_account)
       PoolFamily.stub(:find).and_return(@pool_family)
-      @image = mock('image')
-      @image.stub(:id).and_return('456def')
+      @image = mock_model(Aeolus::Image::Factory::Image)
 
       Image.should_receive(:import).
             with { |provider_account, image_id, pool_family, xml| image_id == 'Mock_mock_123abc' }.
