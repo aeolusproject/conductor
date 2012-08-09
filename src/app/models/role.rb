@@ -47,4 +47,14 @@ class Role < ActiveRecord::Base
   def privilege_target_match(obj_type)
     (privilege_target_types & obj_type.active_privilege_target_types).any?
   end
+
+  def self.all_by_scope
+    roles = self.all
+    role_hash = {}
+    roles.each do |role|
+      role_hash[role.scope] ||= []
+      role_hash[role.scope] << role
+    end
+    role_hash
+  end
 end

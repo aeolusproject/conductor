@@ -9,7 +9,7 @@
   %li
     = label_tag :user_groups_preset_filter, t('filter_table.viewing')
     = hidden_field_tag :current_path, request.fullpath
-    = select_tag(:user_groups_preset_filter, preset_filters_options_for_select(User::PRESET_FILTERS_OPTIONS, params[:user_groups_preset_filter]), :include_blank => t("user_groups.preset_filters.all_user_groups"), :disabled => true)
+    = select_tag(:user_groups_preset_filter, preset_filters_options_for_select(UserGroup::PRESET_FILTERS_OPTIONS, params[:user_groups_preset_filter]), :include_blank => t("user_groups.preset_filters.all_user_groups"))
     = restful_submit_tag t("filter_table.apply_filters"), "index", filter_user_groups_path, 'POST', :class => 'button', :id => 'apply_user_groups_preset_filter'
     %span.label.badge.dark= @user_groups.count
   /  = link_to "Filter", "#", :class => 'button pill'

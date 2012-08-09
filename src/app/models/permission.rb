@@ -81,6 +81,52 @@ class Permission < ActiveRecord::Base
      :includes => :entity,
      :where => {"entities.entity_target_type" => "UserGroup"}}
   ]
+  PROFILE_PRESET_FILTERS_OPTIONS = [
+    {:title => "permissions.global",
+     :id => "base_permission_object_permissions",
+     :includes => [:entity, :base_permission_object],
+     :where => {"permission_object_type" => "BasePermissionObject"}},
+    {:title => "activerecord.models.provider",
+     :id => "provider_permissions",
+     :includes => [:entity, :provider],
+     :where => {"permission_object_type" => "Provider"},
+     :search_fields => ["providers.name"]},
+    {:title => "activerecord.models.provider_account",
+     :id => "provider_account_permissions",
+     :includes => [:entity, {:provider_account => :provider}],
+     :where => {"permission_object_type" => "ProviderAccount"},
+     :search_fields => ["provider_accounts.label", "providers.name"]},
+    {:title => "activerecord.models.pool",
+     :id => "pool_permissions",
+     :includes => [:entity, :pool],
+     :where => {"permission_object_type" => "Pool"},
+     :search_fields => ["pools.name"]},
+    {:title => "activerecord.models.pool_family",
+     :id => "pool_family_permissions",
+     :includes => [:entity, :pool_family],
+     :where => {"permission_object_type" => "PoolFamily"},
+     :search_fields => ["pool_families.name"]},
+    {:title => "activerecord.models.catalog",
+     :id => "catalog_permissions",
+     :includes => [:entity, :catalog],
+     :where => {"permission_object_type" => "Catalog"},
+     :search_fields => ["catalogs.name"]},
+    {:title => "activerecord.models.deployable",
+     :id => "deployable_permissions",
+     :includes => [:entity, :deployable],
+     :where => {"permission_object_type" => "Deployable"},
+     :search_fields => ["deployables.name"]},
+    {:title => "activerecord.models.deployment",
+     :id => "deployment_permissions",
+     :includes => [:entity, :deployment],
+     :where => {"permission_object_type" => "Deployment"},
+     :search_fields => ["deployments.name"]},
+    {:title => "activerecord.models.instance",
+     :id => "instance_permissions",
+     :includes => [:entity, :instance],
+     :where => {"permission_object_type" => "Instance"},
+     :search_fields => ["instances.name"]}
+  ]
   def user
     entity.user
   end
@@ -116,8 +162,21 @@ class Permission < ActiveRecord::Base
   end
 
   def self.apply_search_filter(search)
+    search, preset_filter_id = search
     if search
-      includes("entity").where("lower(entities.name) LIKE :search", :search => "%#{search.downcase}%")
+      if preset_filter_id
+        search_fields = PROFILE_PRESET_FILTERS_OPTIONS.select { |item|
+          item[:id] == preset_filter_id
+        }.first[:search_fields]
+        search_fields = [] if search_fields.nil?
+      else
+        search_fields = []
+      end
+      where_str = "lower(entities.name) LIKE :search OR lower(roles.name) LIKE :search"
+      search_fields.each do |search_field|
+        where_str += " OR lower(#{search_field}) LIKE :search"
+      end
+      includes([:entity, :role]).where(where_str, :search => "%#{search.downcase}%")
     else
       scoped
     end

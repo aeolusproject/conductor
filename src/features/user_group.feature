@@ -15,6 +15,13 @@ Feature: Manage User Groups
     When I follow "testgroup"
     Then I should be on testgroup's user group page
 
+  Scenario: Show user group permissions
+    Given a pool "PermissionPool" exists
+    And there is a permission for the user group "testgroup" on the pool "PermissionPool"
+    And I am on the user groups page
+    When I follow "testgroup"
+    Then I should see "PermissionPool"
+
   Scenario: Delete user groups
     Given there is a user group "testgroup"
     Given there is a user group "testgroup2"

@@ -44,13 +44,18 @@
             %dt=t'users.show.last_login_ip'
             %dd= @user.last_login_ip
 
-%section.content-section.user
+%section.content-section.groups
   %header
     %h2.groups=t'users.groups'
 = filter_table(@groups_header, @user_groups) do |user_group|
   %tr{:class => cycle('nostripe','stripe')}
     %td= link_to user_group.name, user_group_path(user_group)
     %td= t("user_groups.#{user_group.membership_source.downcase}")
+%section.content-section.permissions
+  %header
+    %h2.permissions=t'permissions.index.permissions'
+  .content
+    = render :partial => 'permissions/objects'
 /%section.content-section.user
 /  %header
 /    %h2.activity Activity

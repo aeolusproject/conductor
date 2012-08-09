@@ -1340,6 +1340,9 @@ en:
   permissions:
     direct_access: "Direct Access"
     global_access: "Global Access"
+    global: "Global"
+    resource: "Resource"
+    resource_type: "Resource Type"
     inherited_access: "Inherited Access"
     inherited_from: "Inherited From"
     revoke_access: "Revoke Access"

@@ -16,14 +16,17 @@
 #this module contains functions for filtering table data
 module CommonFilterMethods
   def apply_filters(options = {})
-    apply_preset_filter(options[:preset_filter_id]).apply_search_filter(options[:search_filter])
+    filters_options = options[:preset_filters_options] ||
+      self::PRESET_FILTERS_OPTIONS
+    apply_preset_filter(options[:preset_filter_id], filters_options).
+      apply_search_filter(options[:search_filter])
   end
 
   private
 
-  def apply_preset_filter(preset_filter_id)
+  def apply_preset_filter(preset_filter_id, filters_options)
     if preset_filter_id.present?
-      option = self::PRESET_FILTERS_OPTIONS.select { |item|
+      option = filters_options.select { |item|
         item[:id] == preset_filter_id}.first
       if option[:query]
         option[:query]

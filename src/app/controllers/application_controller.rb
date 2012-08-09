@@ -311,6 +311,44 @@ class ApplicationController < ActionController::Base
     %w[asc desc].include?(params[:order_dir]) ? params[:order_dir] : "asc"
   end
 
+  def add_profile_permissions_inline(entity, path_prefix = '')
+    @entity = entity
+    @path_prefix = path_prefix
+    @roles = Role.all_by_scope
+    @inline = true
+    @show_inherited = params[:show_inherited]
+    @show_global = params[:show_global]
+    if @show_inherited
+      local_perms = @entity.derived_permissions
+    else
+      local_perms = @entity.permissions
+    end
+    @permissions = paginate_collection(local_perms.
+      apply_filters(:preset_filters_options =>
+                      Permission::PROFILE_PRESET_FILTERS_OPTIONS,
+                    :preset_filter_id =>
+                      params[:profile_permissions_preset_filter],
+                    :search_filter =>
+                      [params[:profile_permissions_search],
+                       params[:profile_permissions_preset_filter]]),
+                                       params[:page])
+
+    @permission_list_header = []
+    unless (@show_inherited)
+      @permission_list_header <<
+        { :name => 'checkbox', :class => 'checkbox', :sortable => false }
+    end
+    @permission_list_header += [
+      { :name => t('permissions.resource_type')},
+      { :name => t('permissions.resource')},
+      { :name => t("role"), :sort_attr => :role},
+    ]
+    if @show_inherited
+      @permission_list_header <<
+        { :name => t('permissions.inherited_from'), :sortable => false }
+    end
+  end
+
   def add_permissions_inline(perm_obj, path_prefix = '', polymorphic_path_extras = {})
     @permission_object = perm_obj
     require_privilege(Privilege::VIEW, @permission_object)
