@@ -223,7 +223,7 @@ class ProvidersController < ApplicationController
 
   def load_providers
     @providers = Provider.includes(:provider_type).list_for_user(current_session, current_user,
-                                        Privilege::VIEW).order("name")
+                                        Privilege::VIEW).order("providers.name")
   end
 
   def disable_provider
