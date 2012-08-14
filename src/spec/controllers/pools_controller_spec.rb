@@ -99,6 +99,165 @@ describe PoolsController do
     end
   end
 
+  context "API" do
+    render_views
+
+    before do
+      accept_xml
+      mock_warden(@admin)
+      @test_pool_name = "testpool1"
+      @pool_family = FactoryGirl.create :pool_family
+    end
+
+    def assert_pool_api_success_response(name, familyName, familyId, quota, enabled)
+      response.should be_success
+      response.should have_content_type("application/xml")
+      response.body.should be_xml
+      xml = Nokogiri::XML(response.body)
+      xml.xpath("/pool/name").text.should == name
+      xml.xpath("/pool/pool_family").text.should == familyName
+      xml.xpath("/pool/pool_family/@id").text.should == "#{familyId}"
+      xml.xpath("/pool/quota").text.should == quota
+      xml.xpath("/pool/enabled").text.should == enabled
+    end
+
+    describe "#create" do
+
+      it "post with all expected params" do
+        xmldata = "
+        <pool>
+          <name>#{@test_pool_name}</name>
+          <pool_family_id>#{@pool_family.id}</pool_family_id>
+          <enabled>true</enabled>
+          <quota>
+            <maximum_running_instances>1001</maximum_running_instances>
+          </quota>
+        </pool>"
+        post :create, Hash.from_xml(xmldata)
+
+        assert_pool_api_success_response(@test_pool_name,
+                                         @pool_family.name,
+                                         @pool_family.id,
+                                         "1001",
+                                         "true")
+      end
+
+      it "post missing pool family parameter should result in error message" do
+        xmldata = "
+        <pool>
+          <name>#{@test_pool_name}</name>
+          <!--<pool_family_id>#{@pool_family.id}</pool_family_id>-->
+          <enabled>true</enabled>
+          <quota>
+            <maximum_running_instances>1001</maximum_running_instances>
+          </quota>
+        </pool>"
+        post :create, Hash.from_xml(xmldata)
+
+        response.status.should be_eql(400) # Bad Request
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("/errors/error/message").text.should == "Pool family can't be blank"
+      end
+
+    end
+
+    describe "#show" do
+
+      it "show an existing pool" do
+        @pool = FactoryGirl.create :pool
+
+        get :show, :id => @pool.id
+
+        assert_pool_api_success_response(@pool.name,
+                                         @pool.pool_family.name,
+                                         @pool.pool_family.id,
+                                         "#{@pool.quota.maximum_running_instances}",
+                                         "#{@pool.enabled}")
+      end
+
+      it "show a missing pool" do
+        get :show, :id => -1
+
+        response.status.should be_eql(404)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("/error/message").text.should == "Couldn't find Pool with id=-1"
+      end
+
+    end
+
+    describe "#update" do
+
+      it "update with all expected params" do
+        # we will receive unlimited quota if
+        # maximum_running_instances is not specified
+        # <quota></quota> denotes unlmited quota
+        xmldata = "
+        <pool>
+          <name>#{@test_pool_name}</name>
+          <pool_family_id>#{@pool_family.id}</pool_family_id>
+          <enabled>true</enabled>
+        </pool>"
+        post :create, Hash.from_xml(xmldata)
+
+        assert_pool_api_success_response(@test_pool_name,
+                                         @pool_family.name,
+                                         @pool_family.id,
+                                         "", #unlimited
+                                         "true")
+
+        xml = Nokogiri::XML(response.body)
+        pool_id = xml.xpath("/pool/@id").text
+
+        xmldata = "
+        <pool>
+          <name>pool-updated</name>
+          <pool_family_id>#{@pool_family.id}</pool_family_id>
+          <enabled>false</enabled>
+          <quota>
+            <maximum_running_instances>1002</maximum_running_instances>
+          </quota>
+        </pool>"
+        put :update, :id => pool_id, :pool => Hash.from_xml(xmldata)["pool"]
+
+        assert_pool_api_success_response("pool-updated",
+                                         @pool_family.name,
+                                         @pool_family.id,
+                                         "1002",
+                                         "false")
+      end
+
+      it "update missing pool" do
+        xmldata = "<pool><name>missing-pool</name></pool>"
+        put :update, :id => -1, :pool => Hash.from_xml(xmldata)["pool"]
+
+        response.status.should be_eql(404)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("/error/message").text.should == "Couldn't find Pool with id=-1"
+      end
+
+      it "update with blank name" do
+        @pool = FactoryGirl.create :pool
+        xmldata = "<pool><name></name></pool>"
+        put :update, :id => @pool.id, :pool => Hash.from_xml(xmldata)["pool"]
+
+        response.status.should be_eql(400)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("/errors/error/message").text.should == "Name can't be blank"
+      end
+
+    end
+
+  end
+
+
   context "JSON format responses for " do
     before do
       accept_json
