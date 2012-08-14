@@ -104,6 +104,13 @@ class LogsController < ApplicationController
                  params[:to_date][:month].to_i,
                  params[:to_date][:day].to_i)
 
+    if @to_date < @from_date
+      @events = []
+      @paginated_events = []
+      flash[:error] = t('logs.flash.error.date_range')
+      return
+    end
+
     # modify parameters for pretty view
     if @view == "pretty"
       @state = ""

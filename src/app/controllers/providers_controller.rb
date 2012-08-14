@@ -30,6 +30,10 @@ class ProvidersController < ApplicationController
                  params[:to_date][:month].to_i,
                  params[:to_date][:day].to_i)
 
+    if @to_date < @from_date
+      flash[:error] = t('logs.flash.error.date_range')
+    end
+
     load_headers
     statistics
 
