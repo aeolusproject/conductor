@@ -166,6 +166,7 @@ class PoolsController < ApplicationController
           map{ |deployment| view_context.deployment_for_mustache(deployment) }
         render :json => @pool.as_json.merge({:deployments => deployments})
       end
+      format.xml { render :show, :locals => { :pool => @pool } }
     end
   end
 
@@ -186,6 +187,11 @@ class PoolsController < ApplicationController
 
   def create
     @title = t('pools.create_new_pool')
+    if !params.has_key? :quota and !params[:pool][:quota].nil?
+      params[:quota] = params[:pool][:quota]
+      params[:pool].delete(:quota)
+    end
+
     @pool = Pool.new(params[:pool])
     require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
     @pool.quota = @quota = Quota.new
@@ -197,11 +203,14 @@ class PoolsController < ApplicationController
         flash[:notice] = t "pools.flash.notice.added"
         format.html { redirect_to pools_path }
         format.json { render :json => @pool, :status => :created }
+        format.xml {render :show, :locals => { :pool => @pool }
+        }
       else
         flash.now[:warning] = t "pools.flash.warning.creation_failed"
         format.html { render :new }
         format.js { render :partial => 'new' }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
+        format.xml { render :template => 'api/validation_error', :locals => { :errors => @pool.errors }, :status => :bad_request}
       end
     end
   end
@@ -219,6 +228,10 @@ class PoolsController < ApplicationController
   end
 
   def update
+    if !params.has_key? :quota and !params[:pool][:quota].nil?
+      params[:quota] = params[:pool][:quota]
+      params[:pool].delete(:quota)
+    end
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool)
     set_quota
@@ -230,11 +243,13 @@ class PoolsController < ApplicationController
         format.html { redirect_to :action => 'show', :id => @pool.id }
         format.js { render :partial => 'show', :id => @pool.id }
         format.json { render :json => @pool }
+        format.xml {render :show, :locals => { :pool => @pool } }
       else
         flash[:error] = t "pools.flash.error.not_updated"
         format.html { render :action => :edit }
         format.js { render :partial => 'edit', :id => @pool.id }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
+        format.xml { render :template => 'api/validation_error', :locals => { :errors => @pool.errors }, :status => :bad_request}
       end
     end
   end
