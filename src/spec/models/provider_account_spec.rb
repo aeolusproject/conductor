@@ -87,6 +87,7 @@ describe ProviderAccount do
   end
 
   it "when calling connect and it fails with exception it will return nil" do
+    DeltaCloud.stub(:new).and_raise(Exception)
     @provider_account.connect.should be_nil
   end
 

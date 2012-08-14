@@ -19,7 +19,6 @@ require 'spec_helper'
 describe ProviderAccountsController do
 
   render_views
-
   context "UI" do
 
     fixtures :all
@@ -277,7 +276,12 @@ describe ProviderAccountsController do
                 end
 
                 context "of ec2 provider" do
-                  let(:provider_account) { FactoryGirl.create(:ec2_provider_account); ProviderAccount.last }
+                  let(:provider_account) do
+                    provider_account = FactoryGirl.build(:ec2_provider_account)
+                    DeltaCloud.stub(:valid_credentials?).and_return(true)
+                    provider_account.save
+                    provider_account
+                  end
 
                   it_behaves_like "having correct set of credentials"
                 end
