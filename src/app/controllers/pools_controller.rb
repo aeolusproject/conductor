@@ -259,7 +259,9 @@ class PoolsController < ApplicationController
     failed = []
     permission_failed = []
     error_messages = []
+    pool_id = nil
     Pool.find(ids_list(['pools_selected'])).each do |pool|
+      pool_id = pool.id
       if pool.id == MetadataObject.lookup("self_service_default_pool").id
         error_messages << t("pools.flash.error.default_pool_not_deleted")
       elsif !check_privilege(Privilege::MODIFY, pool)
@@ -287,6 +289,15 @@ class PoolsController < ApplicationController
         render :partial => 'list'
       end
       format.json { render :json => {:success => destroyed, :errors => failed} }
+      format.xml {
+        if failed.present?
+          raise(Aeolus::Conductor::API::Error.new(500, flash[:error]))
+        elsif error_messages.present?
+          raise(Aeolus::Conductor::API::Error.new(500, error_messages))
+        else
+          render :destroy, :locals => { :pool_id => pool_id }
+        end
+      }
     end
   end
 

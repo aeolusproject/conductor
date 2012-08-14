@@ -252,9 +252,43 @@ describe PoolsController do
         xml = Nokogiri::XML(response.body)
         xml.xpath("/errors/error/message").text.should == "Name can't be blank"
       end
-
     end
 
+    describe "#destroy" do
+
+      it "delete an existing pool" do
+        @pool = FactoryGirl.create :pool
+        get :destroy, :id => @pool.id
+
+        response.status.should be_eql(200)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("/pool/@id").text.should == "#{@pool.id}"
+        xml.xpath("/pool/status").text.should == "DELETED"
+      end
+
+      it "delete a missing pool should throw error" do
+        get :destroy, :id => -1
+
+        response.status.should be_eql(404)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("/error/message").text.should == "Couldn't find Pool with id=-1"
+      end
+
+      it "delete default pool should throw error" do
+        @pool = FactoryGirl.create :pool
+        get :destroy, :id => 1
+
+        response.status.should be_eql(500)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("/error/message").text.should == "The default pool cannot be deleted"
+      end
+    end
   end
 
 
