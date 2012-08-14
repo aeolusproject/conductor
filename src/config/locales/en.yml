@@ -46,6 +46,9 @@ en:
       image: Image
       hwp: Hardware Profile
       export_logs: Export logs
+    flash:
+      error:
+        date_range: "'From date' cannot be after 'To date'"
   users:
     users: "Users"
     return_to: "Return to:"
