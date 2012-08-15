@@ -7,10 +7,10 @@
     %td= ApplicationHelper.count_uptime(instance.uptime)
   %tr
     %td= t('logs.index.frontend_realm')
-    %td= instance.frontend_realm.nil? ? t('logs.index.not_available') : instance.frontend_realm.name
+    %td= instance.frontend_realm.nil? ? t('logs.index.none') : instance.frontend_realm.name
   %tr
     %td= t('logs.index.image')
-    %td= instance.image.nil? ? t('logs.index.not_available') : instance.image.name
+    %td= instance.image.nil? ? t('logs.index.none') : instance.image.name
   %tr
     %td= t('logs.index.hwp')
-    %td= instance.instance_hwp.nil? ? t('logs.index.not_available') : instance.instance_hwp.name
+    %td= instance.hardware_profile.nil? ? t('logs.index.none') : instance.hardware_profile.name
