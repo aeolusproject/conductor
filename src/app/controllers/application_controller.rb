@@ -172,7 +172,7 @@ class ApplicationController < ActionController::Base
     arr = Array.new
     instance_variables.each do |ivar|
       val = instance_variable_get(ivar)
-      if val && val.respond_to?(:errors) && val.errors.respond_to(:size) && val.errors.size > 0
+      if val && val.respond_to?(:errors) && val.errors.respond_to?(:size) && val.errors.size > 0
         hash[:object] = ivar[1, ivar.size]
         hash[:errors] ||= []
         val.errors.each {|key,msg|
