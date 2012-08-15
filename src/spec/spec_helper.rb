@@ -115,4 +115,10 @@ RSpec.configure do |config|
   #config.after(:each, :type => :controller) do
   #  current_user_session.destroy
   #end
+
+  config.include Warden::Test::Helpers, :type => :request
+  config.after(:each, :type => :request) do
+    Warden.test_reset!
+  end
+
 end

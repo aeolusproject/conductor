@@ -29,6 +29,7 @@ RSpec::Matchers.define :have_content_type do |content_type|
   end
 
   match do |response|
+    @response = response
     _, content, charset = *content_type_header.match(CONTENT_HEADER_MATCHER).to_a
 
     if @charset
@@ -55,6 +56,6 @@ RSpec::Matchers.define :have_content_type do |content_type|
   end
 
   def content_type_header
-    response.headers['Content-Type']
+    @response.headers['Content-Type']
   end
 end
