@@ -152,3 +152,12 @@ Given /^there are some provider accounts for that another provider$/ do
   end
   @another_provider.provider_accounts.size.should be_eql(3)
 end
+
+
+Then /^the provider account should be created$/ do
+  ProviderAccount.find_by_label(@new_provider_account.label).should_not be_nil
+end
+
+Then /^the provider account should not be created$/ do
+  ProviderAccount.find_by_label(@new_provider_account.label).should be_nil
+end

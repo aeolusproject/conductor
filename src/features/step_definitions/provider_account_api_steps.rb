@@ -46,3 +46,55 @@ When /^I ask for details of non existing provider account$/ do
   provider_account.delete if provider_account
   get api_provider_account_path(1)
 end
+
+When /^I create provider account with correct data$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @new_provider_account = FactoryGirl.build(:mock_provider_account, :provider => @provider)
+
+  credentials_hash = ''
+
+  @new_provider_account.credentials.each do |credential|
+    label = credential.credential_definition.name
+    value = credential.value
+    credentials_hash += "<#{label}>#{value}</#{label}>"
+  end
+
+  xml_provider_account = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                            <provider_account>
+                            <label>#{@new_provider_account.label}</label>
+                            <credentials>
+                            #{credentials_hash}
+                            </credentials>
+                            </provider_account>
+          ]
+
+  post api_provider_provider_accounts_url(@provider), xml_provider_account
+end
+
+When /^I create provider account with incorrect data$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @new_provider_account = FactoryGirl.build(:mock_provider_account, :provider => @provider)
+
+  credentials_hash = ''
+
+  @new_provider_account.credentials.each do |credential|
+    label = credential.credential_definition.name
+    value = credential.value
+    credentials_hash += "<#{label}>#{value}</#{label}>"
+  end
+
+  # missing label to achive incorrect data
+  xml_provider_account = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                            <provider_account>
+                            <credentials>
+                            #{credentials_hash}
+                            </credentials>
+                            </provider_account>
+          ]
+
+  post api_provider_provider_accounts_url(@provider), xml_provider_account
+end

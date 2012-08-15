@@ -29,3 +29,13 @@ Feature: Manage Provider Accounts via API
   Scenario: Get details for non existing provider account
     When I ask for details of non existing provider account
     Then I should receive Not Found error
+
+  Scenario: Create a new provider account
+    When I create provider account with correct data
+    Then I should receive OK message
+    And the provider account should be created
+
+  Scenario: Create a new provider account with bad request
+    When I create provider account with incorrect data
+    Then I should receive Bad Request message
+    And the provider account should not be created
