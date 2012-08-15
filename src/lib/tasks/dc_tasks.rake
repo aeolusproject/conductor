@@ -50,6 +50,29 @@ namespace :dc do
     end
   end
 
+  desc 'Destroy users matching a pattern'
+  task :destroy_users_by_pattern, [:pattern] => :environment do |t, args|
+    unless args.pattern
+      puts "Usage: rake 'dc:destroy_users_by_pattern[pattern]'"
+      exit(1)
+    end
+
+    users = User.find(:all, :conditions => ["login LIKE ?", args.pattern])
+
+    if users.empty?
+      puts "No users match pattern: #{args.pattern}"
+      exit(0)
+    end
+
+    users.each do |user|
+      if user.destroy
+        puts "User #{user.login} destroyed"
+      else
+        puts "User destruction failed: #{user.login}"
+        exit(1)
+      end
+    end
+  end
 
   desc 'Create and register a list of ldap users, separated by ":"'
   task :create_ldap_users, [:logins] => :environment do |t, args|
