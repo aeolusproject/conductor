@@ -7,4 +7,4 @@
     %td= ApplicationHelper.count_uptime(deployment.uptime_all)
   %tr
     %td= t('logs.index.frontend_realm')
-    %td= deployment.frontend_realm.nil? ? t('logs.index.not_available') : deployment.frontend_realm.name
+    %td= deployment.frontend_realm.nil? ? t('logs.index.none') : deployment.frontend_realm.name
