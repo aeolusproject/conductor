@@ -1,7 +1,7 @@
 %provider_account{:id => provider_account.id, :href => api_provider_account_url(provider_account)}
   -provider = provider_account.provider
   -provider_type = provider.provider_type
-  %name= provider_account.name
+  %label= provider_account.name
   %provider{:id => provider.id, :href => api_provider_url(provider)}= provider.name
   %provider_type= provider_type.deltacloud_driver
   -if local_assigns[:with_credentials]
