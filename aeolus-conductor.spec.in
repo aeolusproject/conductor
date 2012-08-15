@@ -353,6 +353,7 @@ touch %{buildroot}%{app_root}/log/delayed_job.log
 
 # copy script files over
 %{__cp} -r src/script %{buildroot}%{app_root}
+%{__cp} -r src/upgrade-scripts %{buildroot}%{app_root}
 
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
 
@@ -456,7 +457,8 @@ fi
 %{app_root}/vendor/provider_selection
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
-%{app_root}/script/upgrade
+%{app_root}/script/aeolus-upgrade
+%{app_root}/upgrade-scripts
 
 %files daemons
 %{_initrddir}/aeolus-conductor
