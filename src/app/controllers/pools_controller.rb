@@ -109,6 +109,9 @@ class PoolsController < ApplicationController
           :user_info => view_context.user_info_for_mustache
         }
       end
+      format.xml do
+        render :partial => 'list.xml'
+      end
     end
   end
 
