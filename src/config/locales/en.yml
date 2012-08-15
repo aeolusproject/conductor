@@ -30,6 +30,7 @@ en:
       owner_order: Owner
     index:
       title: Logs
+      none: None
       not_available: N/A
       event_time: Time
       grouped_by: Grouped By
