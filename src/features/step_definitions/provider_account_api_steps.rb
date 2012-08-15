@@ -62,13 +62,13 @@ When /^I create provider account with correct data$/ do
   end
 
   xml_provider_account = %Q[<?xml version="1.0" encoding="UTF-8"?>
-                            <provider_account>
-                            <label>#{@new_provider_account.label}</label>
-                            <credentials>
-                            #{credentials_hash}
-                            </credentials>
-                            </provider_account>
-          ]
+                              <provider_account>
+                              <label>#{@new_provider_account.label}</label>
+                              <credentials>
+    #{credentials_hash}
+                              </credentials>
+                              </provider_account>
+  ]
 
   post api_provider_provider_accounts_url(@provider), xml_provider_account
 end
@@ -89,12 +89,115 @@ When /^I create provider account with incorrect data$/ do
 
   # missing label to achive incorrect data
   xml_provider_account = %Q[<?xml version="1.0" encoding="UTF-8"?>
-                            <provider_account>
-                            <credentials>
-                            #{credentials_hash}
-                            </credentials>
-                            </provider_account>
-          ]
+                              <provider_account>
+                              <credentials>
+    #{credentials_hash}
+                              </credentials>
+                              </provider_account>
+  ]
 
   post api_provider_provider_accounts_url(@provider), xml_provider_account
+end
+
+
+When /^I update that provider account with correct data$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @new_provider_account = FactoryGirl.build(:mock_provider_account, :provider => @provider)
+
+  credentials_hash = ''
+
+  @new_provider_account.credentials.each do |credential|
+    label = credential.credential_definition.name
+    value = credential.value
+    credentials_hash += "<#{label}>#{value}</#{label}>"
+  end
+
+  xml_provider_account = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                                <provider_account>
+                                <label>#{@new_provider_account.label}</label>
+                                <credentials>
+    #{credentials_hash}
+                                </credentials>
+                                </provider_account>
+  ]
+
+  put api_provider_account_url(@provider_account), xml_provider_account
+end
+
+When /^I update that provider account with incorrect data$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @other_provider_account = FactoryGirl.build(:mock_provider_account_seq, :provider => @provider)
+  @other_provider_account.stub(:validate_credentials).and_return(true)
+  @other_provider_account.save
+  @new_provider_account = FactoryGirl.build(:mock_provider_account_seq, :provider => @provider)
+
+  credentials_hash = ''
+
+  @new_provider_account.credentials.each do |credential|
+    label = credential.credential_definition.name
+    value = credential.value
+    credentials_hash += "<#{label}>#{value}</#{label}>"
+  end
+
+  xml_provider_account = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                                <provider_account>
+                                <label>#{@other_provider_account.label}</label>
+                                <credentials>
+    #{credentials_hash}
+                                </credentials>
+                                </provider_account>
+  ]
+
+  put api_provider_account_url(@provider_account), xml_provider_account
+end
+
+When /^I attempt to update the provider account$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @new_provider_account = FactoryGirl.build(:mock_provider_account, :provider => @provider)
+
+  credentials_hash = ''
+
+  @new_provider_account.credentials.each do |credential|
+    label = credential.credential_definition.name
+    value = credential.value
+    credentials_hash += "<#{label}>#{value}</#{label}>"
+  end
+
+  xml_provider_account = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                                <provider_account>
+                                <label>#{@new_provider_account.label}</label>
+                                <credentials>
+    #{credentials_hash}
+                                </credentials>
+                                </provider_account>
+  ]
+
+  put api_provider_account_url(@provider_account), xml_provider_account
+end
+
+Then /^the provider account should be updated$/ do
+  orig_attrs, current_attrs, updating_attrs  = [ @provider_account.dup, @provider_account.reload, @new_provider_account ].map do |pro|
+    pro.attributes.except("quota_id", "id", "lock_version", "updated_at", "created_at")
+  end
+  current_attrs.should be_eql(updating_attrs)
+  current_attrs.should_not be_eql(orig_attrs)
+end
+
+Then /^the provider account should not be updated$/ do
+  orig_attrs, current_attrs, updating_attrs  = [ @provider_account.dup, @provider_account.reload, @new_provider_account ].map do |pro|
+    pro.attributes.except("quota_id", "id", "lock_version", "updated_at", "created_at")
+  end
+  current_attrs.should_not be_eql(updating_attrs)
+  current_attrs.should be_eql(orig_attrs)
+end
+
+Given /^the specified provider account does not exist in the system$/ do
+  @provider_account = FactoryGirl.create(:mock_provider_account)
+  ProviderAccount.delete(@provider_account.id)
 end
