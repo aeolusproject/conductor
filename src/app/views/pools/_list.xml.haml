@@ -1,0 +1,4 @@
+!!! XML
+%pools
+  - @pools.each do |pool|
+    %pool{:id => pool.id, :name => pool.name, :href => api_pool_url(pool)}
