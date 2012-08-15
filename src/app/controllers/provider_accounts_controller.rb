@@ -87,14 +87,7 @@ class ProviderAccountsController < ApplicationController
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
     params[:provider_account][:provider_id] = @provider.id
     @providers = Provider.all
-    credentials_hash = if params[:provider_account][:credentials]
-                         params[:provider_account].delete( :credentials )
-                       elsif params[:provider_account][:credentials_hash]
-                         params[:provider_account].delete( :credentials_hash )
-                       else
-                         nil
-                       end
-
+    credentials_hash = credentials_hash_prepare
     @provider_account = ProviderAccount.new(params[:provider_account])
     @provider_account.credentials_hash = credentials_hash
     @provider_account.quota = @quota = Quota.new
@@ -150,18 +143,27 @@ class ProviderAccountsController < ApplicationController
     require_privilege(Privilege::MODIFY,@provider_account)
     @quota = @provider_account.quota
     @providers = Provider.find(:all)
-
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @provider_account.quota.set_maximum_running_instances(limit)
-    credentials_hash = params[:provider_account].delete(:credentials_hash)
+    credentials_hash = credentials_hash_prepare
     @provider_account.attributes = params[:provider_account]
     @provider_account.credentials_hash= credentials_hash
     if @provider_account.save
-      flash[:notice] = t"provider_accounts.flash.notice.updated"
-      redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
+      respond_to do |format|
+        format.html do
+          flash[:notice] = t"provider_accounts.flash.notice.updated"
+          redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
+        end
+        format.xml { render 'show', :locals => { :provider_account => @provider_account, :with_credentials => true, :with_quota => true }, :status => :ok }
+      end
     else
-      flash[:error] = t"provider_accounts.flash.error.not_updated"
-      render :action => :edit
+      respond_to do |format|
+        format.html do
+          flash[:error] = t"provider_accounts.flash.error.not_updated"
+          render :action => :edit
+        end
+        format.xml { render 'api/validation_error', :locals => { :errors => @provider_account.errors }, :status => :bad_request }
+      end
     end
   end
 
@@ -265,5 +267,15 @@ class ProviderAccountsController < ApplicationController
                     :search_filter => params[:provider_accounts_search]).
       list_for_user(current_session, current_user, Privilege::VIEW)
     @provider_accounts = @provider_accounts.where(:provider_id => @provider.id) if @provider
+  end
+
+  def credentials_hash_prepare
+    if params[:provider_account][:credentials]
+      params[:provider_account].delete( :credentials )
+    elsif params[:provider_account][:credentials_hash]
+      params[:provider_account].delete( :credentials_hash )
+    else
+      nil
+    end
   end
 end
