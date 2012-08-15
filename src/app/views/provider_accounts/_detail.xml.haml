@@ -5,8 +5,8 @@
   %provider{:id => provider.id, :href => api_provider_url(provider)}= provider.name
   %provider_type= provider_type.deltacloud_driver
   -if local_assigns[:with_credentials]
-    = content_tag(provider_type.deltacloud_driver + '_credentials') do
-      = render 'credentials', :creds_label_hash => provider_account.creds_label_hash
+    = content_tag('credentials') do
+      = render 'credentials', :creds_hash => provider_account.credentials_hash
   -if provider_account.priority
     %priority= provider_account.priority
   -if local_assigns[:with_quota]

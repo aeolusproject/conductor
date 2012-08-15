@@ -26,7 +26,7 @@ end
 shared_examples_for "having correct set of credentials" do
   it "should be correct" do
     provider_account.credentials.each do |credential|
-      label = credential.credential_definition.label
+      label = credential.credential_definition.name
       value = credential.value
       xml_provider_account.xpath('//' + label).text.should be_eql(value)
     end

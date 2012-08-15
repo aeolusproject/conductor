@@ -99,7 +99,7 @@ end
 
 Then /^there should be these mock provider accounts:$/ do |table|
   accounts = @xml_response.root.xpath('/provider_accounts/provider_account').map do |n|
-    {:name => n.xpath('name').text,
+    {:name => n.xpath('label').text,
      :provider  => n.xpath('provider').text,
      :username => n.xpath('username').text,
      :password => n.xpath('password').text,
@@ -117,7 +117,7 @@ end
 
 Then /^there should be these ec2 provider accounts:$/ do |table|
   accounts = @xml_response.root.xpath('/provider_accounts/provider_account').map do |n|
-    {:name => n.xpath('name').text,
+    {:name => n.xpath('label').text,
      :provider  => n.xpath('provider').text,
      :access_key => n.xpath('access_key').text,
      :secret_access_key => n.xpath('secret_access_key').text,
