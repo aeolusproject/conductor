@@ -290,7 +290,7 @@ Conductor::Application.routes.draw do
 
   scope "/api", :as => 'api' do
     resources :providers, :only => [:index, :show, :create, :update, :destroy] do
-      resources :provider_accounts, :only => [:index]
+      resources :provider_accounts, :only => [:index, :create]
     end
     resources :provider_accounts, :only => [:index, :show, :destroy]
     resources :provider_types, :only => [:index, :show]

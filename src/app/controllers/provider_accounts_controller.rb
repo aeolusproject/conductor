@@ -87,8 +87,16 @@ class ProviderAccountsController < ApplicationController
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
     params[:provider_account][:provider_id] = @provider.id
     @providers = Provider.all
+    credentials_hash = if params[:provider_account][:credentials]
+                         params[:provider_account].delete( :credentials )
+                       elsif params[:provider_account][:credentials_hash]
+                         params[:provider_account].delete( :credentials_hash )
+                       else
+                         nil
+                       end
+
     @provider_account = ProviderAccount.new(params[:provider_account])
-    @provider_account.credentials_hash = params[:provider_account][:credentials_hash]
+    @provider_account.credentials_hash = credentials_hash
     @provider_account.quota = @quota = Quota.new
     limit = params[:quota][:maximum_running_instances] if params[:quota]
     @provider_account.quota.set_maximum_running_instances(limit)
@@ -96,17 +104,32 @@ class ProviderAccountsController < ApplicationController
     begin
       if @provider_account.save
         @provider_account.assign_owner_roles(current_user)
-        flash[:notice] = t('provider_accounts.flash.notice.account_added', :list => @provider_account.name, :count => 1)
-        redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
+        respond_to do |format|
+          format.html do
+            flash[:notice] = t('provider_accounts.flash.notice.account_added', :list => @provider_account.name, :count => 1)
+            redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
+          end
+          format.xml { render 'show', :locals => { :provider_account => @provider_account, :with_credentials => true, :with_quota => true }, :status => :ok }
+        end
       else
-        flash[:error] = t"provider_accounts.flash.error.not_added"
-        render :action => 'new' and return
+        respond_to do |format|
+          format.html do
+            flash[:error] = t"provider_accounts.flash.error.not_added"
+            render :action => 'new' and return
+          end
+          format.xml { render 'api/validation_error', :locals => { :errors => @provider_account.errors }, :status => :bad_request }
+        end
       end
     rescue Exception => e
       error = humanize_error(e.message, :context => :deltacloud)
-      flash[:error] = "#{t('provider_accounts.flash.error.account_not_added', :list => @provider_account.name,
-        :count => 1)}: #{error}"
-      render :action => 'new' and return
+      respond_to do |format|
+        format.html do
+          flash[:error] = "#{t('provider_accounts.flash.error.account_not_added', :list => @provider_account.name,
+            :count => 1)}: #{error}"
+            render :action => 'new' and return
+        end
+        format.xml { render 'api/error', :locals => { :error => e }, :status => 500 }
+      end
     end
   end
 
