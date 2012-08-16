@@ -14,7 +14,16 @@
 #   limitations under the License.
 #
 
-# Require files in lib dir
-['match', 'priority_group', 'rank', 'strategy', 'base', 'chainable_strategy', 'chainable_strategy_options'].each do |file_name|
-  require File.join(File.dirname(__FILE__), 'provider_selection', file_name)
+module ProviderSelection
+  module ChainableStrategyOptions
+
+    module ClassMethods
+
+      def properties
+        @properties || {}
+      end
+
+    end
+
+  end
 end

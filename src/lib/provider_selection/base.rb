@@ -28,8 +28,9 @@ module ProviderSelection
       def register_strategy(name, lib_path, options = {})
         # TODO: this require call should be revised in the future considering security aspects
         require lib_path
-        new_klass = "provider_selection/strategies/#{name.to_s}".classify.constantize
-        @strategies << Strategy.new(name, new_klass)
+        base_klass = "provider_selection/strategies/#{name.to_s}/base".classify.constantize
+        strategy_klass = "provider_selection/strategies/#{name.to_s}/strategy".classify.constantize
+        @strategies << Strategy.new(name, base_klass, strategy_klass)
       end
 
       def find_strategy_by_name(name)
@@ -71,7 +72,8 @@ module ProviderSelection
           score = Match::LOWER_LIMIT
         end
 
-        default_priority_group.matches << Match.new(provider_account, score)
+        default_priority_group.matches << Match.new(:provider_account => provider_account,
+                                                    :score => score)
       end
 
       rank
@@ -89,7 +91,9 @@ module ProviderSelection
 
     def chain_strategy(name, options = {})
       @strategy = self.class.find_strategy_by_name(name)
-      @strategy_chain = @strategy.klass.new(@strategy_chain, options)
+      @strategy_chain = @strategy.strategy_klass.new(@strategy_chain, options) unless @strategy.nil?
+
+      @strategy_chain
     end
 
     private

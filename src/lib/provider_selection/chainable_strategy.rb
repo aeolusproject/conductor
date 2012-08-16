@@ -15,14 +15,19 @@
 #
 
 module ProviderSelection
-
   module ChainableStrategy
 
     module InstanceMethods
 
-      def initialize(strategies, options)
+      def initialize(strategies, options = {})
         @strategies = strategies
-        @options = options
+        options ||= {}
+
+        if self.class.methods.include?(:default_options)
+          @options = self.class.default_options.with_indifferent_access.merge(options)
+        else
+          @options = options
+        end
       end
 
       def method_missing(method, *args)
@@ -31,14 +36,5 @@ module ProviderSelection
 
     end
 
-    module ClassMethods
-
-      def properties
-        @properties || {}
-      end
-
-    end
-
   end
-
 end

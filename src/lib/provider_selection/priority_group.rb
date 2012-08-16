@@ -21,7 +21,7 @@ module ProviderSelection
     attr_accessor :matches
     attr_accessor :score
 
-    def initialize(score = nil)
+    def initialize(score)
       @matches = []
       @score = score
     end
@@ -39,7 +39,7 @@ module ProviderSelection
       return nil if possible_provider_accounts.empty?
 
       possible_provider_accounts.each do |provider_account|
-        priority_group.matches << Match.new(provider_account)
+        priority_group.matches << Match.new(:provider_account => provider_account)
       end
 
       priority_group
@@ -64,6 +64,10 @@ module ProviderSelection
       end
 
       nil
+    end
+
+    def delete_matches(attribute, values)
+      matches.delete_if{ |match| values.include?(match.send(attribute)) }
     end
 
   end

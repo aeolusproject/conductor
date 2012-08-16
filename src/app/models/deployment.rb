@@ -577,7 +577,7 @@ class Deployment < ActiveRecord::Base
 
     provider_selection_strategy = ProviderSelection::Base.new(instances)
     pool.provider_selection_strategies.enabled.each do  |strategy|
-      provider_selection_strategy.chain_strategy(strategy.name)
+      provider_selection_strategy.chain_strategy(strategy.name, strategy.config)
     end
 
     match = provider_selection_strategy.next_match
