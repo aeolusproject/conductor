@@ -587,6 +587,7 @@ en:
     properties:
       properties: Properties for %{pool}
     header_show:
+    header_show:
       pool_name: "%{name} Pool"
     flash:
       notice:
@@ -628,11 +629,15 @@ en:
       environment: "Environment: %{environment}"
       edit_strategy: "Edit %{name} Strategy"
       configure: "Configure"
+    edit_strategy:
+      edit: "Edit %{strategy_name} strategy"
+      back_to_strategies: "Provider Selection Strategies for Pool: %{pool}"
     flash:
       successfully_enabled: "Successfully enabled %{strategy_name} strategy"
       successfully_disabled: "Successfully disabled %{strategy_name} strategy"
       failed_to_enable: "Failed to enable %{strategy_name} strategy"
       failed_to_disable: "Failed to disable %{strategy_name} strategy"
+      config_successfully_saved: "Successfully updated %{strategy_name} strategy"
   hardware_profiles:
     hardware: Hardware
     hardware_profile: Hardware Profile
@@ -1311,6 +1316,7 @@ en:
   provider_priority_groups:
     index:
       add_new: Add new
+      edit_strict_order_strategy: 'Edit Strict Order Strategy'
       confirm_delete: "Are you sure you want to delete this priority group?"
       provider_account_name: "Account Name"
       provider_account_username: "Username"

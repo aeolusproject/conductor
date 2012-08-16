@@ -22,7 +22,7 @@ Dir['vendor/provider_selection/strategies/*/'].each do |path|
 end
 
 # Register view path
-#ProviderSelection::Base.add_view_path(File.expand_path(File.join('vendor', 'provider_selection', 'views')))
+ProviderSelection::Base.add_view_path(File.expand_path(File.join('vendor', 'provider_selection', 'views')))
 
 # Extend I18n.load_path
 #I18n.load_path += Dir[File.join(File.dirname(__FILE__), 'config', 'locales', '*.yml')]

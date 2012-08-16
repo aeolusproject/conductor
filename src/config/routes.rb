@@ -103,6 +103,8 @@ Conductor::Application.routes.draw do
       resources :provider_priority_groups, :except => [:show]
 
       match ':strategy_name/toggle', :to => 'provider_selections#toggle_strategy', :as => 'toggle_strategy'
+      match ':strategy_name/edit', :to => 'provider_selections#edit_strategy', :as => 'edit_strategy'
+      match ':strategy_name/save_strategy_options', :to => 'provider_selections#save_strategy_options', :as => 'save_strategy_options'
     end
   end
 
