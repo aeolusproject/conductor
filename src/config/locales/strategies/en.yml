@@ -2,3 +2,10 @@ en:
   strategies:
     strict_order:
       name: 'Strict Order'
+    penalty_for_failure:
+      name: 'Penalty for Failure'
+      views:
+        edit:
+          penalty_percentage: 'Penalty for each failure (in percentage)'
+          time_period_minutes: 'Time period over which the failures are aggregated (in minutes)'
+          failure_count_hard_limit: 'The number of failures over which the provider account should not be used if possible'

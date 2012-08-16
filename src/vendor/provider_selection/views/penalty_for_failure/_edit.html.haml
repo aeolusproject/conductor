@@ -1,0 +1,17 @@
+.strategy-options
+  - if @config.errors.any?
+    = render 'layouts/error_messages', :object => @config
+
+  %fieldset
+    .field
+      = form.label(:penalty_percentage, t('strategies.penalty_for_failure.views.edit.penalty_percentage'))
+      .input
+        = form.text_field(:penalty_percentage)
+    .field
+      = form.label(:time_period_minutes, t('strategies.penalty_for_failure.views.edit.time_period_minutes'))
+      .input
+        = form.text_field(:time_period_minutes)
+    .field
+      = form.label(:failure_count_hard_limit, t('strategies.penalty_for_failure.views.edit.failure_count_hard_limit'))
+      .input
+        = form.text_field(:failure_count_hard_limit)
