@@ -1401,6 +1401,7 @@ en:
         modified: "Successfully modified the following User Roles: %{list}"
         deleted: "Deleted the following Permission Grants: %{list}"
         added: "Added the following User Roles: %{list}"
+        no_change: "All User Roles already set; no changes needed"
       error:
         not_add: "Could not add these User Roles: %{list}"
         no_users_selected: No users selected
