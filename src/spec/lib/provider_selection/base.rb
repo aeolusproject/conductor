@@ -16,7 +16,7 @@
 
 require 'spec_helper'
 
-describe ProviderSelection do
+describe ProviderSelection::Base do
 
   before(:each) do
     @account1 = FactoryGirl.create(:mock_provider_account, :label => "test_account1")
@@ -48,6 +48,11 @@ describe ProviderSelection do
   it "should find common provider account" do
     common_provider_accounts = @provider_selection.send(:find_common_provider_accounts)
     common_provider_accounts.should eql([@account2])
+  end
+
+  it "common provider account should not include any redundant element" do
+    common_provider_accounts = @provider_selection.send(:find_common_provider_accounts)
+    common_provider_accounts.length.should eql(common_provider_accounts.uniq_by(&:to_json).length)
   end
 
   it "should calculate initial rank" do
