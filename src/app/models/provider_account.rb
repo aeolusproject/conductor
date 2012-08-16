@@ -60,6 +60,9 @@ class ProviderAccount < ActiveRecord::Base
 
   has_many :provider_priority_group_elements, :as => :value, :dependent => :destroy
 
+  has_many :events, :as => :source, :dependent => :destroy,
+           :order => 'events.id ASC'
+
   # Helpers
   attr_accessor :x509_cert_priv_file, :x509_cert_pub_file
 
@@ -414,6 +417,20 @@ class ProviderAccount < ActiveRecord::Base
         provider.name, credentials_hash["username"]).first
     return :not_pushed unless provider_image
     :pushed
+  end
+
+  def failure_count(options = {})
+    relation = self.events.where(:status_code => 'provider_account_failure')
+
+    if options[:from].present?
+      relation = relation.where('events.event_time >= :from', :from => options[:from])
+    end
+
+    if options[:to].present?
+      relation = relation.where('events.event_time <= :to', :to => options[:to])
+    end
+
+    relation.count
   end
 
   def to_polymorphic_path_param(polymorphic_path_extras)
