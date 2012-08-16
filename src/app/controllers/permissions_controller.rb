@@ -114,7 +114,7 @@ class PermissionsController < ApplicationController
       flash[:error] = t('permissions.flash.error.not_add', :list => not_modified.to_sentence)
     end
     if modified.empty? and not_modified.empty?
-      flash[:error] = t("permissions.flash.error.no_users_selected")
+      flash[:notice] = t("permissions.flash.notice.no_change")
     end
     respond_to do |format|
       format.html { redirect_to @return_path }
