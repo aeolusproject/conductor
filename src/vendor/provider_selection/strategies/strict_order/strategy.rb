@@ -14,20 +14,29 @@
 #   limitations under the License.
 #
 
-require File.join(File.dirname(__FILE__), 'strategy')
-
-
 module ProviderSelection
   module Strategies
     module StrictOrder
 
-      class Base
+      class Strategy
 
-        extend ProviderSelection::ChainableStrategyOptions::ClassMethods
+        include ProviderSelection::ChainableStrategy::InstanceMethods
 
-        @properties = {
-            :edit_path => 'pool_provider_selection_provider_priority_groups_path'
-        }
+        def calculate
+          rank = @strategies.calculate
+
+          if rank.pool.provider_priority_groups.any?
+            rank.pool.provider_priority_groups.each do |priority_group|
+              new_priority_group =
+                ProviderSelection::PriorityGroup.
+                  create_from_active_record(priority_group,
+                                            rank.default_priority_group.matches)
+              rank.priority_groups << new_priority_group if new_priority_group.present?
+            end
+          end
+
+          rank
+        end
 
       end
 
