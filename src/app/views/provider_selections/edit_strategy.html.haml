@@ -1,0 +1,16 @@
+= render :partial => 'layouts/admin_nav'
+
+%header.page-header
+  .obj_actions
+    .return_to
+      = t(:return_to)
+      = link_to t('provider_selection.edit_strategy.back_to_strategies', :pool => @pool.name), pool_provider_selection_path(@pool)
+  %h1.no-icon= t('provider_selection.edit_strategy.edit', :strategy_name => @strategy.translated_name)
+
+%section.content-section
+  .content#priority-group-form
+    = form_for @config, :as => :config, :builder => ApplicationHelper::FormBuilderWithRequiredFields,
+               :url => save_strategy_options_pool_provider_selection_path(@pool, @strategy.name) do |form|
+      = render :partial => @edit_partial, :locals => { :form => form }
+      %fieldset.options
+        = form.submit(t('save'), :class => "submit button pill")

@@ -18,25 +18,27 @@ class ProviderSelectionsController < ApplicationController
 
   before_filter :require_user
   before_filter :set_view_path
+  before_filter :load_pool
+  before_filter :require_privileged_user_for_modify, :except => :show
 
   def show
-    @pool = Pool.find(params[:pool_id])
+    require_privilege(Privilege::VIEW, @pool)
+
     @environment = @pool.pool_family
     @available_strategies = ProviderSelection::Base.strategies
   end
 
   def toggle_strategy
-    pool = Pool.find(params[:pool_id])
     strategy = ProviderSelection::Base.find_strategy_by_name(params[:strategy_name])
 
-    if pool.provider_selection_strategies.exists?(:name => strategy.name)
-      provider_selection_strategy = pool.provider_selection_strategies.find_by_name(strategy.name)
+    if @pool.provider_selection_strategies.exists?(:name => strategy.name)
+      provider_selection_strategy = @pool.provider_selection_strategies.find_by_name(strategy.name)
       provider_selection_strategy.enabled = !provider_selection_strategy.enabled
     else
       provider_selection_strategy =
           ProviderSelectionStrategy.new(:name => strategy.name,
                                         :enabled => true,
-                                        :pool => pool)
+                                        :pool => @pool)
     end
 
     if provider_selection_strategy.save
@@ -60,12 +62,43 @@ class ProviderSelectionsController < ApplicationController
     end
   end
 
+  def edit_strategy
+    @strategy = ProviderSelection::Base.find_strategy_by_name(params[:strategy_name])
+    @provider_selection_strategy = @pool.provider_selection_strategies.find_by_name(@strategy.name)
+    @config = @strategy.base_klass.properties[:config_klass].new(@provider_selection_strategy.config)
+    @edit_partial = @strategy.base_klass.properties[:edit_partial]
+  end
+
+  def save_strategy_options
+    @strategy = ProviderSelection::Base.find_strategy_by_name(params[:strategy_name])
+    @config = @strategy.base_klass.properties[:config_klass].new(params[:config])
+
+    if @config.valid?
+      @provider_selection_strategy = @pool.provider_selection_strategies.find_by_name(@strategy.name)
+      @provider_selection_strategy.update_attributes(:config => @config.to_hash)
+
+      redirect_to pool_provider_selection_path(@pool),
+                  :notice => t('provider_selection.flash.config_successfully_saved', :strategy_name => @strategy.translated_name)
+    else
+      @edit_partial = @strategy.base_klass.properties[:edit_partial]
+      render :edit_strategy
+    end
+  end
+
   private
 
   def set_view_path
     ProviderSelection::Base.view_paths.each do |view_path|
       append_view_path(view_path)
     end
+  end
+
+  def load_pool
+    @pool = Pool.find(params[:pool_id])
+  end
+
+  def require_privileged_user_for_modify
+    require_privilege(Privilege::MODIFY, @pool)
   end
 
 end
