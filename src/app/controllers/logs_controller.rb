@@ -186,20 +186,23 @@ class LogsController < ApplicationController
     case @order
     when t('logs.options.deployment_instance_order')
       @events = @events.sort_by {|event|
-        (event.source.nil? ? "" : event.source.name)}
+        (event.source.nil? ? "" : event.source.name.downcase)}
     when t('logs.options.state_order')
       @events = @events.sort_by {|event|
         (event.source.nil? ? "" :
-         (event.source.state.nil? ? "" : event.source.state))}
+         (event.source.state.nil? ? "" : event.source.state.downcase))}
     when t('logs.options.pool_order')
       @events = @events.sort_by {|event|
-        (event.source.nil? ? "" : event.source.pool_family.name)}
+        (event.source.nil? ? "" : event.source.pool_family.name.downcase)}
     when t('logs.options.provider_order')
       @events = @events.sort_by {|event|
-        (event.source.nil? ? "" : event.source.provider_account.name)}
+        source = event.source
+        (source.nil? ? "" :
+         (source.provider_account.nil? ? "" :
+          source.provider_account.name.downcase))}
     when t('logs.options.owner_order')
       @events = @events.sort_by {|event|
-        (event.source.nil? ? "" : event.source.owner.login)}
+        (event.source.nil? ? "" : event.source.owner.login.downcase)}
     end
 
     @paginated_events = paginate_collection(@events, params[:page], PER_PAGE)
