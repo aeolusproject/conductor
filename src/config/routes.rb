@@ -158,7 +158,7 @@ Conductor::Application.routes.draw do
     end
   end
 
-  resources :provider_accounts, :only => :index
+  resources :provider_accounts, :only => [ :index, :show ]
 
   resources :provider_types, :only => :index
 
