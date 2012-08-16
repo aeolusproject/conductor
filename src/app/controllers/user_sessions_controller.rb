@@ -31,7 +31,6 @@ class UserSessionsController < ApplicationController
     session[:javascript_enabled] = request.xhr?
     respond_to do |format|
       format.html do
-        flash[:notice] = t"user_sessions.flash.notice.login"
         redirect_back_or_default root_url
       end
       format.js { render :status => 201, :text => session[:return_to] || root_url }
@@ -56,7 +55,6 @@ class UserSessionsController < ApplicationController
   def destroy
     clear_breadcrumbs
     logout
-    flash[:notice] = t"user_sessions.flash.notice.logout"
     redirect_back_or_default login_url
   end
 end

@@ -57,7 +57,6 @@ end
 
 When /^I login as authorised user$/ do
   login(@admin_user.login, @admin_user.password)
-  page.should have_content('Login successful')
 end
 
 Given /^I am a new user$/ do
@@ -73,7 +72,6 @@ end
 Given /^I have successfully logged in$/ do
   page.driver.header 'Accept-Language', 'en-US'
   login(user.login, user.password)
-  page.should have_content('Login successful')
 end
 
 Given /^there are not any roles$/ do
