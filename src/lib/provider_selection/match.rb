@@ -24,9 +24,10 @@ module ProviderSelection
     attr_reader :score
     attr_accessor :provider_account
 
-    def initialize(provider_account, score = nil)
-      @provider_account = provider_account
-      @score = score
+    def initialize(attributes)
+      attributes.each do |name, value|
+        instance_variable_set("@#{name}", value)
+      end
     end
 
     def score=(val)
@@ -43,6 +44,16 @@ module ProviderSelection
       else
         @score
       end
+    end
+
+    def penalize_by(percentage)
+      new_score = calculated_score + ((UPPER_LIMIT - LOWER_LIMIT) * percentage / 100)
+      @score = [(UPPER_LIMIT + 1), new_score].min
+    end
+
+    def reward_by(percentage)
+      new_score = calculated_score - ((UPPER_LIMIT - LOWER_LIMIT) * percentage / 100)
+      @score = [LOWER_LIMIT, new_score].max
     end
 
   end

@@ -19,11 +19,13 @@ module ProviderSelection
   class Strategy
 
     attr_reader :name
-    attr_reader :klass
+    attr_reader :base_klass
+    attr_reader :strategy_klass
 
-    def initialize(name, klass)
+    def initialize(name, base_klass, strategy_klass)
       @name = name
-      @klass = klass
+      @base_klass = base_klass
+      @strategy_klass = strategy_klass
     end
 
     def translated_name
