@@ -11,7 +11,7 @@
   %header
     .section-controls
       = link_to(t('provider_priority_groups.index.add_new'), new_pool_provider_selection_provider_priority_group_path(@pool), :class => 'button pill')
-    %h2= t('provider_selection.show.edit_strategy', :name => 'Stict Order')
+    %h2= t('provider_priority_groups.index.edit_strict_order_strategy')
   .content
     - if @priority_groups.any?
       %ul.priority-groups
