@@ -8,6 +8,7 @@
                 :id => 'new_deployment_button'
     .catalog_link
       = render :partial => 'layouts/catalog_dropdown', :locals => {:catalogs => @pool.catalogs}
+    = link_to t('pool_families.index.provider_selection'), pool_provider_selection_path(@pool), :class => 'button primary'
     .button-group
       - if check_privilege(Privilege::MODIFY, @pool)
         = link_to t('edit'), edit_pool_path(@pool), :class => 'button pill', :id => 'edit_pool_button'
