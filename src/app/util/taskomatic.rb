@@ -135,12 +135,21 @@ module Taskomatic
     Rails.logger.error ex.backtrace.join("\n")
     task.state = Task::STATE_FAILED
     task.instance.state = Instance::STATE_CREATE_FAILED
+
     task.instance.events << Event.create(
       :source => task.instance,
       :event_time => DateTime.now,
       :status_code => 'instance_launch_failed',
       :summary => "#{task.instance.name}: #{ex.message.to_s.split("\n").first}"
     )
+
+    task.instance.provider_account.events << Event.create(
+      :source => task.instance.provider_account,
+      :event_time => DateTime.now,
+      :status_code => 'provider_account_failure',
+      :summary => "#{task.instance.name}: #{ex.message.to_s.split("\n").first}"
+    )
+
     raise ex
   end
 
