@@ -167,6 +167,11 @@ module ApplicationHelper
     will_paginate(collection, :previous_label => t('will_paginate.previous_label'), :next_label => t('will_paginate.next_label'))
   end
 
+  # FIXME: remove this once we remove nested routes for provider accounts.
+  def provider_account_path(account)
+    "/providers/#{account.provider_id}/provider_accounts/#{account.id}"
+  end
+
   module_function :count_uptime
 
   class FormBuilderWithRequiredFields < ActionView::Helpers::FormBuilder
