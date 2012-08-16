@@ -223,7 +223,8 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/api/builds app/views/api/provider_images \
       app/views/api/target_images app/views/api/entrypoint \
       app/views/api/environments \
-      vendor/converge-ui/rails/layouts"
+      vendor/converge-ui/rails/layouts \
+      vendor/provider_selection/views/penalty_for_failure"
 mustache="app/views/instances app/views/pools app/views/deployments \
           app/views/deployables app/views/images"
 html="public"
@@ -260,6 +261,7 @@ rb="app/models app/controllers app/controllers/api app/helpers app/services app/
     spec/aeolus/event spec/aeolus/ext lib/aeolus lib/aeolus/event lib/aeolus/ext \
     lib/provider_selection vendor/provider_selection \
     vendor/provider_selection/strategies/strict_order \
+    vendor/provider_selection/strategies/penalty_for_failure \
     vendor/converge-ui/rails/helpers"
 rhtml="app/views/layouts"
 svg="public/images public/images/icons vendor/converge-ui/fonts"
@@ -269,7 +271,8 @@ woff="vendor/converge-ui/fonts"
 txt="public"
 yml="config config/locales config/locales/defaults config/locales/overrides
      config/locales/role_definitions config/locales/classnames config/locales/will_paginate \
-     config/locales/overrides/role_definitions config/locales/activerecord"
+     config/locales/overrides/role_definitions config/locales/activerecord \
+     config/locales/strategies"
 xml="app/util"
 for filetype in builder css eot feature gif haml mustache html ico jpg js json key opts png \
     rake rb rhtml scss svg ttf txt woff yml xml; do
