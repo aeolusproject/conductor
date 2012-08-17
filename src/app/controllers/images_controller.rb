@@ -38,6 +38,11 @@ class ImagesController < ApplicationController
 
   def show
     @image = Aeolus::Image::Warehouse::Image.find(params[:id])
+    if @image.nil?
+      redirect_to images_path
+      flash[:error] = t('images.flash.error.not_exist')
+      return
+    end
     @environment = PoolFamily.where('name' => @image.environment).first
     require_privilege(Privilege::VIEW, @environment)
     @push_started = params[:push_started] == 'true'
