@@ -31,12 +31,16 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+# FIXME: Is this require here really needed?
+#
 require 'nokogiri'
 
 class ProviderAccount < ActiveRecord::Base
+
   class << self
     include CommonFilterMethods
   end
+
   include PermissionedObject
 
   # Relations
@@ -52,9 +56,11 @@ class ProviderAccount < ActiveRecord::Base
            :include => [:role],
            :order => "derived_permissions.id ASC"
 
-  # validation of credentials is done in provider_account validation, :validate => false prevents nested_attributes from validation
+  # Validation of credentials is done in provider_account validation,
+  # :validate => false prevents nested_attributes from validation
   has_many :credentials, :dependent => :destroy, :validate => false
   accepts_nested_attributes_for :credentials
+
   # eventually, this might be "has_many", but first pass is one-to-one
   has_one :config_server, :dependent => :destroy
 
@@ -90,15 +96,17 @@ class ProviderAccount < ActiveRecord::Base
 
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
-      errors.add(:base, "#{I18n.t("provider_accounts.credentials.labels.#{cd.label}")} #{I18n.t('errors.messages.blank')}") if credentials_hash[cd.name].blank?
+      next unless credentials_hash[cd.name].blank?
+      errors.add(:base, "#{I18n.t("provider_accounts.credentials.labels.#{cd.label}")} "+
+                 " #{I18n.t('errors.messages.blank')}")
     end
   end
 
   def validate_credentials
     begin
-      unless valid_credentials?
-        errors.add(:base, I18n.t('provider_accounts.errors.invalid_credentials'))
-      end
+      errors.add(:base, I18n.t('provider_accounts.errors.invalid_credentials')) unless valid_credentials?
+      # FIXME: The rescue block should have list of exceptions we want to
+      # capture. Otherwise *all* exceptions (including unwanted are captured)
     rescue
       errors.add(:base, I18n.t('provider_accounts.errors.exception_while_validating'))
     end
@@ -128,14 +136,16 @@ class ProviderAccount < ActiveRecord::Base
 
   def connect
     begin
-      opts = {:username => credentials_hash['username'],
-              :password => credentials_hash['password'],
-              :driver => provider.provider_type.deltacloud_driver }
+      opts = {
+        :username => credentials_hash['username'],
+        :password => credentials_hash['password'],
+        :driver => provider.provider_type.deltacloud_driver
+      }
       opts[:provider] = provider.deltacloud_provider if provider.deltacloud_provider
       client = DeltaCloud.new(credentials_hash['username'],
                               credentials_hash['password'],
                               provider.url)
-      return client.with_config(opts)
+      client.with_config(opts)
     rescue Exception => e
       logger.error("Error connecting to framework: #{e.message}")
       logger.error("Backtrace: #{e.backtrace.join("\n")}")
@@ -144,10 +154,7 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def pools
-    pools = []
-    instances.each do |instance|
-      pools << instance.pool
-    end
+    instances.map { |i| i.pool }
   end
 
   def name
@@ -155,9 +162,7 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super(options).merge({
-      :provider_name => provider.name
-    })
+    super(options).merge(:provider_name => provider.name)
   end
 
   def populate_profiles_and_validate
@@ -165,19 +170,17 @@ class ProviderAccount < ActiveRecord::Base
       populate_hardware_profiles
     rescue
       errors.add(:base, I18n.t("provider_accounts.errors.populate_hardware_profiles_failed", :message => $!.message))
-      return false
+      false
     end
-    true
   end
 
   def populate_realms_and_validate
     begin
       populate_realms
-    rescue
+    rescue => e
       errors.add(:base, I18n.t("provider_accounts.errors.populate_realms_failed", :message => $!.message))
-      raise
+      raise e
     end
-    true
   end
 
   def populate_realms
@@ -188,8 +191,8 @@ class ProviderAccount < ActiveRecord::Base
     if credentials_hash['username'].blank? || credentials_hash['password'].blank?
       return false
     end
-      opts = {:driver => provider.provider_type.deltacloud_driver }
-      opts[:provider] = provider.deltacloud_provider if provider.deltacloud_provider
+    opts = {:driver => provider.provider_type.deltacloud_driver }
+    opts[:provider] = provider.deltacloud_provider if provider.deltacloud_provider
     DeltaCloud::valid_credentials?(credentials_hash['username'].to_s,
                                    credentials_hash['password'].to_s,
                                    provider.url,
@@ -197,44 +200,41 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def creds_label_hash
-    label_value_pairs = credentials.map do |c|
-      { :label => c.credential_definition.label.downcase.split.join('_'),
-        :value => c.value }
-    end
-
     # The list is ordered by labels. That way we guarantee that the resulting
     # XML is always the same which makes it easier to verify in tests.
-    label_value_pairs.sort { |a, b| a[:label] <=> b[:label] }
+    credentials.map do |c|
+      { :label => c.credential_definition.label.downcase.split.join('_'),
+        :value => c.value }
+    end.sort { |a, b| a[:label] <=> b[:label] }
   end
 
   def credentials_hash
-      @credentials_hash = {}
-     # Credential.all(:conditions => {:provider_account_id => id}, :include => :credential_definition).each do |cred|
-      credentials.each do |cred|
-        @credentials_hash[cred.credential_definition.name] = cred.value
-      end
-    @credentials_hash
+    credentials.inject({}) do |cred_hash, c|
+      cred_hash[c.credential_definition.name] = c.value
+      cred_hash
+    end
   end
 
   def credentials_hash=(hash={})
-    if provider
-      cred_defs = provider.provider_type.credential_definitions
-      hash.each do |k,v|
-        cred_def = cred_defs.detect {|d| d.name == k.to_s}
-        raise "Key #{k} not found" unless cred_def
-        unless cred = credentials.detect {|c| c.credential_definition_id == cred_def.id}
-            cred = Credential.new(:provider_account_id => id, :credential_definition_id => cred_def.id)
-            credentials << cred
-        end
-        # we need to handle uploaded files:
-        cred.value = v.respond_to?(:read) ? v.read : v
+    return if !provider
+    cred_defs = provider.provider_type.credential_definitions
+    hash.each do |k,v|
+      cred_def = cred_defs.detect {|d| d.name == k.to_s}
+      raise "Key #{k} not found" unless cred_def
+      unless cred = credentials.detect {|c| c.credential_definition_id == cred_def.id}
+        cred = Credential.new(:provider_account_id => id, :credential_definition_id => cred_def.id)
+        credentials << cred
       end
+      # we need to handle uploaded files:
+      cred.value = v.respond_to?(:read) ? v.read : v
     end
   end
 
   def all_credentials(prov)
     prov.provider_type.credential_definitions.map do |cd|
-      credentials.detect {|c| c.credential_definition_id == cd.id} || Credential.new(:credential_definition => cd, :value => nil)
+      credentials.detect do |c|
+        c.credential_definition_id == cd.id
+      end || Credential.new(:credential_definition => cd, :value => nil)
     end
   end
 
@@ -358,16 +358,23 @@ class ProviderAccount < ActiveRecord::Base
     else
       account_images.each do |pi|
         if not instance.frontend_realm.nil?
-          brealms = instance.frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == provider}
+          brealms = instance.frontend_realm.realm_backend_targets.select do |brealm_target|
+            brealm_target.target_provider == provider
+          end
           if brealms.empty?
-            errors << I18n.t('instances.errors.realm_not_mapped', :account_name => name, :frontend_realm_name => instance.frontend_realm.name)
+            errors << I18n.t(
+              'instances.errors.realm_not_mapped',
+              :account_name => name,
+              :frontend_realm_name => instance.frontend_realm.name
+            )
             next
           end
           brealms.each do |brealm_target|
             # add match if realm is mapped to provider or if it's mapped to
             # backend realm which is available and is accessible for this
             # provider account
-            if (brealm_target.target_realm.nil? || (brealm_target.target_realm.available && realms.include?(brealm_target.target_realm)))
+            if (brealm_target.target_realm.nil? ||
+                (brealm_target.target_realm.available && realms.include?(brealm_target.target_realm)))
               matched << InstanceMatch.new(
                 :pool_family => instance.pool.pool_family,
                 :provider_account => self,
@@ -412,22 +419,18 @@ class ProviderAccount < ActiveRecord::Base
 
     provider_image = target_image.find_provider_image_by_provider_and_account(
         provider.name, credentials_hash["username"]).first
-    return :not_pushed unless provider_image
-    :pushed
+
+    provider_image ? :pushed : :not_pushed
   end
 
   def to_polymorphic_path_param(polymorphic_path_extras)
     [provider, self]
   end
 
-
   private
 
   def self.apply_search_filter(search)
-    if search
-      includes(:provider => [:provider_type]).where("lower(provider_accounts.label) LIKE :search OR lower(providers.name) LIKE :search OR lower(provider_types.name) LIKE :search", :search => "%#{search.downcase}%")
-    else
-      scoped
-    end
+    return scoped unless search
+    includes(:provider => [:provider_type]).where("lower(provider_accounts.label) LIKE :search OR lower(providers.name) LIKE :search OR lower(provider_types.name) LIKE :search", :search => "%#{search.downcase}%")
   end
 end

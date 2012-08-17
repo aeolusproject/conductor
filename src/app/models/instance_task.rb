@@ -50,14 +50,8 @@ class InstanceTask < Task
   # FIXME: do we need this for db-omatic?
   ACTION_UPDATE_STATE = "update_state"
 
-
-
   def task_obj
-    if self.instance
-      "Instance;;;#{self.instance.id};;;#{self.instance.name}"
-    else
-      ""
-    end
+    self.instance ? "Instance;;;#{self.instance.id};;;#{self.instance.name}" : ''
   end
 
   # FIXME: sort out pending_state issue w/ instance here including
@@ -82,20 +76,24 @@ class InstanceTask < Task
   end
 
   def self.action_label(action)
-    return ACTIONS[action][:label]
+    ACTIONS[action][:label]
   end
+
   def self.action_icon(action)
-    return ACTIONS[action][:icon]
+    ACTIONS[action][:icon]
   end
+
   def self.label_and_action(action)
-    return [action_label(action), action, action_icon(action)]
+    [action_label(action), action, action_icon(action)]
   end
 
   # FIXME: need to pass in provider to filter start and destroy out for ec2
   def self.get_instance_actions
-    return [["Start", InstanceTask::ACTION_START],
-            ["Stop", InstanceTask::ACTION_STOP],
-            ["Reboot", InstanceTask::ACTION_REBOOT_VM],
-            ["Destroy", InstanceTask::ACTION_DESTROY]]
+    [
+      ["Start", InstanceTask::ACTION_START],
+      ["Stop", InstanceTask::ACTION_STOP],
+      ["Reboot", InstanceTask::ACTION_REBOOT_VM],
+      ["Destroy", InstanceTask::ACTION_DESTROY]
+    ]
   end
 end
