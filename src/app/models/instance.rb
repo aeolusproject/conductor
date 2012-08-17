@@ -161,12 +161,12 @@ class Instance < ActiveRecord::Base
   def get_action_list(user=nil)
     # return empty list rather than nil
     # FIXME: not handling pending state now -- only current state
-    return_val = InstanceTask.valid_actions_for_instance_state(state,
-                                                               self,
-                                                               user) || []
+    #
     # filter actions based on quota
     # FIXME: not doing quota filtering now
-    return_val
+    InstanceTask.valid_actions_for_instance_state(state,
+                                                  self,
+                                                  user) || []
   end
 
   def pool_and_account_enabled_validation
@@ -188,12 +188,11 @@ class Instance < ActiveRecord::Base
   end
 
   def provider_images_for_match(provider_account)
-    if build
-      build.provider_images_by_provider_and_account(
-        provider_account.provider.name, provider_account.credentials_hash['username'])
-    else
-      []
-    end
+    return [] unless build
+    build.provider_images_by_provider_and_account(
+      provider_account.provider.name,
+      provider_account.credentials_hash['username']
+    )
   end
 
   def assembly_xml
@@ -210,7 +209,7 @@ class Instance < ActiveRecord::Base
   # if they want to throw an error of some sort before continuing
   # (ie in service api)
   def valid_action?(action)
-    return get_action_list.include?(action) ? true : false
+    get_action_list.include?(action)
   end
 
   def queue_action(user, action, data = nil)
@@ -220,11 +219,11 @@ class Instance < ActiveRecord::Base
                                   :action      => action,
                                   :args        => data})
 
-    event = Event.create!(:source => self, :event_time => Time.now,
-                          :summary => "#{action} action queued",
-                          :status_code => "#{action}_queued")
+    Event.create!(:source => self, :event_time => Time.now,
+                  :summary => "#{action} action queued",
+                  :status_code => "#{action}_queued")
 
-    return task
+    task
   end
 
   # Returns the total time that this instance has been in the state
@@ -295,11 +294,12 @@ class Instance < ActiveRecord::Base
       end
     end
     stats[:total_instances] = instances.size
-    return stats
+    stats
   end
 
   USER_DATA_VERSION = "1"
   OAUTH_SECRET_SEED = [('a'..'z'),('A'..'Z'),(0..9)].map{|i| i.to_a}.flatten
+
   def self.generate_oauth_secret
     # generates a string of between 40 and 50 characters consisting of a
     # random selection of alphanumeric (upper and lower case) characters
@@ -358,7 +358,7 @@ class Instance < ActiveRecord::Base
     # try to get architecture of the image associated with this instance
     # for imported images template is empty -> architecture is not set,
     # in this case we omit this check
-    return image.architecture
+    image.architecture
   rescue => e
     logger.warn "failed to get image architecture for instance '#{name}', skipping architecture check: #{e}"
     logger.warn e.backtrace.join("\n  ")
@@ -470,9 +470,9 @@ class Instance < ActiveRecord::Base
   def forced_stop(user)
     self.state = STATE_STOPPED
     save!
-    event = Event.create!(:source => self, :event_time => Time.now,
-                          :summary => "Instance is not accessible, state changed to stopped",
-                          :status_code => "forced_stop")
+    Event.create!(:source => self, :event_time => Time.now,
+                  :summary => "Instance is not accessible, state changed to stopped",
+                  :status_code => "forced_stop")
   end
 
   def deployed?
@@ -532,11 +532,8 @@ class Instance < ActiveRecord::Base
   private
 
   def self.apply_search_filter(search)
-    if search
-      where("lower(instances.name) LIKE :search OR lower(instances.state) LIKE :search", :search => "%#{search.downcase}%")
-    else
-      scoped
-    end
+    return scoped unless search
+    where("lower(instances.name) LIKE :search OR lower(instances.state) LIKE :search", :search => "%#{search.downcase}%")
   end
 
   def destroy_supported?(account)
@@ -557,9 +554,7 @@ class Instance < ActiveRecord::Base
 
   def do_operation(user, operation)
     task = self.queue_action(user, operation)
-    unless task
-      raise I18n.t("instances.errors.#{operation}_invalid_action")
-    end
+    raise I18n.t("instances.errors.#{operation}_invalid_action") unless task
     Taskomatic.send("#{operation}_instance", task)
   end
 

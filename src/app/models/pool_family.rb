@@ -76,8 +76,8 @@ class PoolFamily < ActiveRecord::Base
     subtree += instances if (role.nil? or role.privilege_target_match(Instance))
     subtree += catalogs if (role.nil? or role.privilege_target_match(Deployable))
     subtree += deployables if (role.nil? or role.privilege_target_match(Deployable))
-    subtree
   end
+
   def self.additional_privilege_target_types
     [Pool, Quota]
   end
@@ -111,7 +111,7 @@ class PoolFamily < ActiveRecord::Base
     avail = max - total unless max.nil?
     # Don't make repeat calls to the pools association
     cached_pools = pools
-    statistics = {
+    {
       :deployments => cached_pools.collect{|p| p.deployments.count}.sum,
       :total_instances => cached_pools.collect{|p| p.instances.not_stopped.count}.sum,
       :instances_pending => cached_pools.collect{|p| p.instances.pending.count}.sum,
@@ -122,6 +122,7 @@ class PoolFamily < ActiveRecord::Base
       :available_quota => avail,
     }
   end
+
   def build_targets
     targets = []
     ProviderAccount.enabled.group_by_type(self).each do |driver, group|

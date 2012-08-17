@@ -34,15 +34,19 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Pool < ActiveRecord::Base
+
   include PermissionedObject
   include ActionView::Helpers::NumberHelper
+
   class << self
     include CommonFilterMethods
   end
+
   has_many :instances,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   belongs_to :pool_family
   has_many :deployments
+
   # NOTE: Commented out because images table doesn't have pool_id foreign key?!
   #has_many :images,  :dependent => :destroy
   has_many :catalogs, :dependent => :destroy
@@ -72,11 +76,11 @@ class Pool < ActiveRecord::Base
   before_destroy :destroyable?
 
   def cloud_accounts
-    accounts = []
-    instances.each do |instance|
+    instances.inject([]) do |accounts, instance|
       if instance.provider_account and !accounts.include?(instance.provider_account)
         accounts << instance.provider_account
       end
+      accounts
     end
   end
 
@@ -111,7 +115,7 @@ class Pool < ActiveRecord::Base
     failed = (user.nil? || all_failed.empty? ? all_failed :
               all_failed.list_for_user(permission_session, user, Privilege::VIEW))
     pool_family_quota_percent = pool_family.quota.percentage_used quota.running_instances
-    statistics = {
+    {
       :cloud_providers => instances.includes(:provider_account).collect{|i| i.provider_account}.uniq.count,
       :deployments => deployments.size,
       :total_instances => not_stopped_instances.count,
@@ -126,7 +130,6 @@ class Pool < ActiveRecord::Base
       :pool_family_quota_percent => number_to_percentage(pool_family_quota_percent, :precision => 0),
       :available_quota => avail
     }
-    #end
   end
 
   def self.list(order_field, order_dir)
@@ -135,7 +138,7 @@ class Pool < ActiveRecord::Base
   end
 
   def as_json(options={})
-    result = super(options).merge({
+    super(options).merge({
       :statistics => statistics,
       :deployments_count => deployments.count,
       :pool_family => {
@@ -144,8 +147,6 @@ class Pool < ActiveRecord::Base
       },
 
     })
-
-    result
   end
 
   PRESET_FILTERS_OPTIONS = [
@@ -159,17 +160,19 @@ class Pool < ActiveRecord::Base
   def perm_ancestors
     super + [pool_family]
   end
+
   def derived_subtree(role = nil)
     subtree = super(role)
     subtree += deployments if (role.nil? or role.privilege_target_match(Deployment))
     subtree += instances if (role.nil? or role.privilege_target_match(Instance))
     subtree += catalogs if (role.nil? or role.privilege_target_match(Deployable))
     subtree += catalogs.collect {|c| c.deployables}.flatten.uniq if (role.nil? or role.privilege_target_match(Deployable))
-    subtree
   end
+
   def self.additional_privilege_target_types
     [Deployment, Instance, Catalog, Quota]
   end
+
   def catalog_images_collection(catalog_list)
     catalog_images = []
     catalog_list.each do |catalog|
@@ -193,14 +196,12 @@ class Pool < ActiveRecord::Base
     end
     catalog_images
   end
+
   private
 
   def self.apply_search_filter(search)
-    if search
-      includes(:pool_family).where("lower(pools.name) LIKE :search OR lower(pool_families.name) LIKE :search", :search => "%#{search.downcase}%")
-    else
-      scoped
-    end
+    return scoped unless search
+    includes(:pool_family).where("lower(pools.name) LIKE :search OR lower(pool_families.name) LIKE :search", :search => "%#{search.downcase}%")
   end
 
 end

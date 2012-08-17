@@ -39,10 +39,7 @@ class Entity < ActiveRecord::Base
   ]
 
   def self.apply_search_filter(search)
-    if search
-      where("lower(entities.name) LIKE :search", :search => "%#{search.downcase}%")
-    else
-      scoped
-    end
+    return scoped unless scoped
+    where("lower(entities.name) LIKE :search", :search => "%#{search.downcase}%")
   end
 end
