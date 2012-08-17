@@ -462,9 +462,24 @@ class ApplicationController < ActionController::Base
 
   #before filter to invalidate session for backbone
   def check_session
-    return unless request.format == :json
-    session_entity = SessionEntity.find_by_session_id(current_session)
-    logout if session_entity.present? && session_entity.created_at < 15.minutes.ago
+    # FIXME: we really need a better "is it backbone?" test than json format
+    # since other actions (ajax API calls from UI, etc) could also use json
+    if request.format == :json
+      # compare to last non-backbone reqest time
+      last_time = session[:last_active_request]
+      if last_time
+        logout if last_time < 15.minutes.ago
+      else
+        # This isn't really an active reqest, but
+        # boostrapping session time if none set
+        # (should really only happen the first time this code is
+        # introduced and there's a non-expired session
+        session[:last_active_request] = Time.now
+      end
+    else
+      # reset last active request time
+      session[:last_active_request] = Time.now
+    end
   end
 
 end
