@@ -22,6 +22,8 @@ class ProviderPriorityGroup < ActiveRecord::Base
   has_many :provider_accounts, :through => :provider_priority_group_elements, :source => :value, :source_type => 'ProviderAccount'
 
   validates_numericality_of :score, :only_integer => true, :greater_than_or_equal_to => -100, :less_than_or_equal_to => 100
+  validates_uniqueness_of :name, :scope => :pool_id
+  validates_uniqueness_of :score, :scope => :pool_id
 
   def include?(element)
     if element.is_a?(Provider)
