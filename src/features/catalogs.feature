@@ -42,7 +42,7 @@ Feature: Manage Catalogs
     And I press "delete"
     Then I should be on the catalogs page
     And I should not see "Bad"
-    And I should see "Catalog deleted!"
+    And I should see "Catalog deleted"
 
   Scenario: Delete multiple catalogs
     Given there is a "bad" catalog
@@ -52,7 +52,7 @@ Feature: Manage Catalogs
     And I check "worse" catalog
     And I press "delete_button"
     Then I should be on the catalogs page
-    And I should see "2 catalogs bad, worse deleted!"
+    And I should see "2 Catalogs bad, worse deleted"
 
   Scenario: Search catalogs
     Given there is a "mycatalog" catalog

@@ -12,7 +12,7 @@ Feature: Manage System wide Settings
     And I am on the self service settings page
     When I fill in "self_service_default_quota[maximum_running_instances]" with "8"
     And I press "Save"
-    Then I should see "Settings Updated!"
+    Then I should see "Settings Updated"
     And the default quota should be 8
     And I should be on the self service settings page
 

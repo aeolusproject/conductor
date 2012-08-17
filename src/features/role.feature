@@ -17,7 +17,7 @@ Feature: Manage Roles
     Then I should see "Editing Role:"
     When I fill in "role[name]" with "Admiral"
     And I press "Save"
-    Then I should see "Role updated successfully!"
+    Then I should see "Role updated successfully"
 
   Scenario: Show role details
     Given a role "Admiral" exists

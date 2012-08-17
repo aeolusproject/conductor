@@ -25,9 +25,9 @@ Feature: Manage Users
     When I fill in "user[password]" with "new password"
     And I fill in "user[password_confirmation]" with "new password"
     And I press "Save"
-    Then I should see "User updated!"
+    Then I should see "User updated"
 
-  Scenario: Show user detials
+  Scenario: Show user details
     Given I am on the users page
     And there is a user "testuser"
     When I follow "testuser"
@@ -68,7 +68,7 @@ Feature: Manage Users
       | E-mail            | testuser2@example.com |
     And I press "Save"
     Then I should be on the users page
-    And I should see "User registered!"
+    And I should see "User registered"
 
   Scenario: Want to register new user but decide to cancel
     Given I am on the users page
@@ -96,7 +96,7 @@ Feature: Manage Users
     And I fill in "user_first_name" with "Joe"
     When I press "Save"
     Then I should be on testuser's user page
-    And I should see "User updated!"
+    And I should see "User updated"
     And I should see "Joe"
 
   Scenario: Display failed login count

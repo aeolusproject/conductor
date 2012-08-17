@@ -55,8 +55,8 @@ Feature: Manage Provider Accounts
     And I fill in "provider_account[credentials_hash][password]" with "wrongpassword"
     And I fill in "quota[maximum_running_instances]" with "13"
     And I press "Save"
-    Then I should see "Cannot add the provider account."
-    Then I should see "Login credentials are invalid for this provider"
+    Then I should see "Cannot add the Provider Account."
+    Then I should see "Login credentials are invalid for this Provider"
 
   Scenario: Delete a provider account
     Given there is a provider named "testprovider"
@@ -95,7 +95,7 @@ Feature: Manage Provider Accounts
     When I follow "Edit"
     And I fill in "provider_account[label]" with "testaccount_updated"
     And I press "Save"
-    Then I should see "Provider Account updated!" within ".flashes"
+    Then I should see "Provider Account updated" within ".flashes"
 
   Scenario: Edit a existing Provider Account with invalid credentials
     Given there is a provider named "testprovider"
@@ -105,7 +105,7 @@ Feature: Manage Provider Accounts
     When I follow "Edit"
     And I fill in "provider_account[label]" with ""
     And I press "Save"
-    Then I should see "Provider Account wasn't updated!"
+    Then I should see "Provider Account wasn't updated"
 
   Scenario: Display alert when Provider Account Quota is over 70% filled
     Given there is a provider named "testprovider"

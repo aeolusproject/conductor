@@ -89,7 +89,7 @@ Feature: Manage Deployments
     Then I should see "testdeployment"
     When I check "testdeployment" deployment
     And I press "stop_button"
-    Then I should see "deployment testdeployment could not be stopped"
+    Then I should see "The Deployment testdeployment could not be stopped"
 
   Scenario: Stop inaccessible deployments
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"
@@ -101,8 +101,7 @@ Feature: Manage Deployments
     And I press "stop_button"
     Then I should see "Terminate Instances"
     When I press "terminate_button"
-    Then I should see "state changed to stopped"
-
+    Then I should see "state changed to stopped."
 
   Scenario: Stop a deployment over XHR
     Given there is a deployment named "testdeployment" belonging to "testdeployable" owned by "testuser"

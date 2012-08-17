@@ -24,7 +24,7 @@ Feature: User authentication
     When I fill in "E-mail" with "changed@example.com"
     And I press "Save"
     Then I should be on the my user page
-    And I should see "User updated!"
+    And I should see "User updated"
 
   Scenario: log out
     Given I am an authorised user
