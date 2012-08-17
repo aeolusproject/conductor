@@ -49,7 +49,7 @@ describe DeployablesController do
         Catalog.stub(:list_for_user).and_return(Catalog.includes(:pool).where("1=0"))
         HardwareProfile.stub(:list_for_user).and_return([mock(HardwareProfile)])
         get :new, :create_from_image => @image.id
-        flash[:error].should eql(["No catalog exists! Please create one."])
+        flash[:error].should eql(["No Catalog exists. Please create one."])
       end
     end
   end

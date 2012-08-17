@@ -255,7 +255,7 @@ describe Api::ProviderImagesController do
             it "should have error" do
               resp = Hash.from_xml(response.body)
               resp['error']['code'].should == "InsufficientParametersSupplied"
-              resp['error']['message'].should == "No provider account given"
+              resp['error']['message'].should == "No Provider Account given"
             end
           end
         end

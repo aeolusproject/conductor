@@ -88,7 +88,7 @@ describe ConfigServersController do
         }
       response.should be_success
       response.should render_template("new")
-      request.flash[:error].should == "The config server information is invalid."
+      request.flash[:error].should == "The Config Server information is invalid."
     end
 
     it "should fail creating a config server when the endpoint is invalid" do
@@ -103,7 +103,7 @@ describe ConfigServersController do
         }
       response.should be_success
       response.should render_template("new")
-      request.flash[:error].should == "The config server information is invalid."
+      request.flash[:error].should == "The Config Server information is invalid."
     end
 
     it "should require that endpoint is provided" do
@@ -116,7 +116,7 @@ describe ConfigServersController do
         }
       response.should be_success
       response.should render_template("new")
-      request.flash[:error].should == "The config server information is invalid."
+      request.flash[:error].should == "The Config Server information is invalid."
     end
 
     it "should require that key is provided" do
@@ -129,7 +129,7 @@ describe ConfigServersController do
         }
       response.should be_success
       response.should render_template("new")
-      request.flash[:error].should == "The config server information is invalid."
+      request.flash[:error].should == "The Config Server information is invalid."
     end
 
     it "should require that secret is provided" do
@@ -142,7 +142,7 @@ describe ConfigServersController do
         }
       response.should be_success
       response.should render_template("new")
-      request.flash[:error].should == "The config server information is invalid."
+      request.flash[:error].should == "The Config Server information is invalid."
     end
   end
 end

@@ -424,7 +424,7 @@ describe Api::ImagesController do
           it { response.headers['Content-Type'].should include("application/xml") }
           it "should include an error" do
             resp = Hash.from_xml(response.body)
-            resp['error']['message'].should == "Could not find Image tid2 on provider"
+            resp['error']['message'].should == "Could not find Image tid2 on Provider"
          end
 
         end

@@ -47,7 +47,7 @@ describe ConfigServer do
 
     it "should report an error when unauthorized" do
       @config_server.should_not be_valid
-      @config_server.errors.full_messages.join(" ").should include("Could not validate config server connection")
+      @config_server.errors.full_messages.join(" ").should include("Could not validate Config Server connection")
     end
   end
 end
