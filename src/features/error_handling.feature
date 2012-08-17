@@ -18,4 +18,5 @@ Feature: Error Handling
     When another user deletes hardware profile "m1-small"
     And I follow "m1-small"
     Then I should be on the hardware profiles page
-    And I should see "The record you tried to access does not exist, it may have been deleted"
+    And I should see "The record you tried to access does not exist. It may have been deleted"
+

@@ -23,7 +23,7 @@ Feature: Config Servers
     And I fill in "config_server[secret]" with "valid"
     And I press "Save"
     Then I should be on mock's provider mock_account's provider account page
-    And I should see "Config server added"
+    And I should see "Config Server added"
     And I should see "[ Edit ]" within "#config_server_control"
 
   # This is essentially the same scenario as the first, but creates
@@ -41,8 +41,8 @@ Feature: Config Servers
     And I fill in "config_server[key]" with "valid"
     And I fill in "config_server[secret]" with "valid"
     And I press "Save"
-    Then I should see "The config server information is invalid"
-    And I should see "Could not validate config server connection"
+    Then I should see "The Config Server information is invalid"
+    And I should see "Could not validate Config Server connection"
 
   # This is essentially the same scenario as the first, but creates
   # a different stubbed ConfigServer, so it fails
@@ -59,8 +59,8 @@ Feature: Config Servers
     When I fill in "config_server[key]" with "invalid"
     When I fill in "config_server[secret]" with "invalid"
     And I press "Save"
-    Then I should see "The config server information is invalid"
-    And I should see "Could not validate config server connection"
+    Then I should see "The Config Server information is invalid"
+    And I should see "Could not validate Config Server connection"
 
   Scenario: I should be able to edit a config server
     Given I am on the homepage
@@ -71,7 +71,7 @@ Feature: Config Servers
     Then I should be on the edit config server page for account "mock_account"
     And I press "Save"
     Then I should be on mock's provider mock_account's provider account page
-    And I should see "Config server updated"
+    And I should see "Config Server updated"
 
   Scenario: I should be able to delete an existing config server
     Given I am on the homepage
@@ -79,7 +79,7 @@ Feature: Config Servers
     When I go to mock's provider mock_account's provider account page
     Then I should see "[ Delete ]" within "#config_server_control"
     When I follow "Delete" within "#config_server_control"
-    Then I should see "Config server was deleted"
+    Then I should see "Config Server was deleted"
     And I should be on mock's provider mock_account's provider account page
 
   Scenario: I should be able to test a correctly configured and available config server
@@ -97,7 +97,7 @@ Feature: Config Servers
     When I go to mock's provider mock_account's provider account page
     Then I should see "[ Test ]" within "#config_server_control"
     When I follow "Test" within "#config_server_control"
-    Then I should see "Could not validate config server connection"
+    Then I should see "Could not validate Config Server connection"
     And I should see "Unauthorized"
 
   Scenario: I should see an error when I test a config server with an invalid endpoint
@@ -106,5 +106,5 @@ Feature: Config Servers
     When I go to mock's provider mock_account's provider account page
     Then I should see "[ Test ]" within "#config_server_control"
     When I follow "Test" within "#config_server_control"
-    Then I should see "Could not validate config server connection"
+    Then I should see "Could not validate Config Server connection"
     And I should see "Connection timed out"

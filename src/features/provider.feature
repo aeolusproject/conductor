@@ -86,7 +86,7 @@ Feature: Manage Providers
     And provider "provider1" is not accessible
     When I go to the provider1's edit provider page
     And I press "provider_submit"
-    Then I should see "Provider is not accessible, status of following instances will be changed to 'stopped'"
+    Then I should see "Provider is not accessible. The status of following Instances will be changed to 'stopped' but their actual state is unknown."
     When I press "disable_button"
     Then I should be on the provider1's edit provider page
     And I should see "Provider is disabled."

@@ -69,7 +69,7 @@ Feature: Manage Instances
     When I check "mock1" instance
     And I press "stop_selected_instances"
     Then I should be on the instances page
-    And I should see "mock1: stop action was successfully queued"
+    And I should see "mock1: stop action was successfully queued."
 
   Scenario: Stop inaccessible instance
     Given there is a "mock1" running instance
@@ -94,7 +94,7 @@ Feature: Manage Instances
     Then I should be on the instances page
     And I should see "mock1: stop action was successfully queued"
     And I should see "mock2: stop action was successfully queued"
-    And I should see "mock3: stop is an invalid action"
+    And I should see "mock3: Stop is an invalid action"
 
   # not supported in UI now
   #@tag
