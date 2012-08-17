@@ -965,6 +965,7 @@ en:
         no_template: "The Image doesn't have an Image Template because it was originally imported, rather than built in Conductor."
         no_provider_accounts: "Images cannot be built. There are no enabled Provider Accounts associated with this Environment."
         no_provider_accounts_for_import: "Images cannot be imported. No Provider Accounts are currently enabled for this Environment."
+        not_exist: "The Image you tried to access cannot be found. It may have been deleted."
     new:
       new_image: New Image
       description:
