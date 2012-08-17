@@ -69,12 +69,12 @@ en:
       username: Username
       edit: Edit
       delete: Delete
-      created: CREATED
-      number_of_logins: NUMBER OF LOGINS
-      last_login: LAST LOGIN
-      last_updated: LAST UPDATED
-      failed_logins: FAILED LOGINS
-      last_login_ip: LAST LOGIN IP
+      created: Created
+      number_of_logins: Number of Logins
+      last_login: Last Login
+      last_updated: Last Updated
+      failed_logins: Failed Logins
+      last_login_ip: Last Login IP
     form:
       user_treatment: User Treatment
       save_user: Save User
@@ -83,7 +83,7 @@ en:
       user_status_inactive: Inactive
     new:
       new_user: New User
-      neccessary_information: "Enter necessary information about your new user and click 'Save User' when you are finished."
+      neccessary_information: "Please enter the required information, then click 'Save User'."
     list:
       delete_selected: Delete Selected
       add_user: Add User
@@ -93,16 +93,16 @@ en:
       edit_account: Edit Account
     flash:
       notice:
-        registered: "User registered!"
-        you_registred: "You have successfully registered!"
-        updated: "User updated!"
+        registered: "User registered"
+        you_registred: "You have successfully registered."
+        updated: "User updated"
         deleted: "User has been successfully deleted."
         more_deleted:
           one: Deleted user
           other: Deleted users
       warning:
         not_delete: 'Cannot delete: %{reason}'
-        not_delete_same_user: "Cannot delete %{login} : you are logged in as this user"
+        not_delete_same_user: "Cannot delete %{login} : You are logged in as this user"
     preset_filters:
       all_users: "All Users"
       name_starts_with_A: "Name starts with A"
@@ -114,7 +114,7 @@ en:
     local: Local
     ldap: LDAP
     return_to: "Return to:"
-    confirm_delete: "Are you sure you want to delete this user group?"
+    confirm_delete: "Are you sure you want to delete this User Group?"
     quick_jump: "Quick Jump:"
     choose_members: "Choose Users to add to this Group."
     index:
@@ -128,15 +128,15 @@ en:
       add_members: Add Members
       edit: Edit
       delete: Delete
-      created: CREATED
-      last_updated: LAST UPDATED
+      created: Created
+      last_updated: Last Updated
     form:
       name: Name
       type: Type
       save_user_group: Save User Group
     new:
       new_user_group: New User Group
-      neccessary_information: "Enter necessary information about your new user group and click 'Save User Group' when you are finished."
+      neccessary_information: "Please enter information about your new User Group, then click 'Save User Group'."
     list:
       delete_selected: Delete Selected
       add_user_group: Add User Group
@@ -145,7 +145,7 @@ en:
     flash:
       notice:
         added: "User Group added"
-        updated: "User Group updated!"
+        updated: "User Group updated"
         deleted: "User Group has been successfully deleted."
         more_deleted:
           one: Deleted user group
@@ -176,10 +176,10 @@ en:
       help: "Help functionality is not yet available."
       forgot: Forgot
       or: or
-      login_unknown_info: "If you do not know your username, please enter your email address below and your username information will be sent to you."
+      login_unknown_info: "If you do not know your username, please enter your email address below. Your username will be sent."
       return_to_login: "Return to log in"
       send_login: "Send Login"
-      password_unknown_info: "Enter your username and email address below and instructions on resetting your password will be sent to you."
+      password_unknown_info: "Please enter your username and email address below. Instructions on resetting your password will be sent."
       reset_password: "Reset Password"
     security:
       encrypted_connection: Encrypted Connection
@@ -193,8 +193,8 @@ en:
       return_to_login: Return to Login
     flash:
       notice:
-        login: "Login successful!"
-        logout: "Logout successful!"
+        login: "Login successful"
+        logout: "Logout successful"
       warning:
         login_failed: "The Username or Password is incorrect, please try again."
   about: About
@@ -282,10 +282,10 @@ en:
     deployment: Deployment
     deployment_name: Deployment Name
     new_deployment: New Deployment
-    deployment_name_subtext: "(uniquely identifies your deployment)"
+    deployment_name_subtext: "(uniquely identifies your Deployment)"
     deployment_details: Deployment Details
-    confirm_delete: "Are you sure you want to delete this deployment?"
-    list_of_events: List of deployment events
+    confirm_delete: "Are you sure you want to delete this Deployment?"
+    list_of_events: List of Deployment events
     state: State
     status:
       new: New
@@ -301,17 +301,17 @@ en:
     status_description:
       new: "Deployment wasn't started"
       pending: "Deployment is starting up"
-      running: "All instances are running"
-      incomplete: "Some instances are not running"
+      running: "All Instances are running"
+      incomplete: "Some Instances are not running"
       shutting_down: "Deployment is shutting down"
-      stopped: "All instances are stopped"
-      failed: "All instances are in failed state"
+      stopped: "All Instances are stopped"
+      failed: "All Instances are in failed state"
       rollback_in_progress: "Launch failed, rollback is in progress"
       rollback_complete: "Rollback successfully completed"
       rollback_failed: "Rollback failed, re-launch terminated"
     launch_time_params:
       title: "Launch-time parameters"
-      configure_launch_time_params: "Configure launch-time parameters for your deployment:"
+      configure_launch_time_params: "Configure launch-time parameters for your Deployment:"
       finalize: Finalize
       reference: "Reference to %{assembly}'s return parameter: %{parameter}"
     overview:
@@ -319,7 +319,7 @@ en:
       header: Deploy "%{deployment}" to %{pool} Pool?
       confirmation:
         Are you sure you wish to deploy "%{deployment}" to the %{pool} Pool? Doing
-        so will utilize %{quota} of your overall deployment quota.
+        so will utilize %{quota} of your overall quota.
       deployable_xml: Deployable XML
       name: Name
       description: Description
@@ -328,8 +328,8 @@ en:
       launch_with_errors: Launch with errors
     launch_from_catalog:
       profile: Profile
-      hint: Choose a deployable to launch in the "%{pool}" pool
-      no_catalog_entry: 'No available deployable. Please add one first!'
+      hint: Choose a Deployable to launch in the "%{pool}" Pool
+      no_catalog_entry: 'No available Deployable. Please add one first.'
       details: Details
       select: Select
       image_id: Image ID
@@ -343,7 +343,7 @@ en:
     history:
       instance: "Instance %{name}"
     new:
-      launch: Launch this deployment
+      launch: Launch this Deployment
       deployable_definition: Deployable definition
       view: View
       deployable_details: Deployable details
@@ -354,7 +354,7 @@ en:
       image_id: Image ID
       build_id: Build ID
     edit:
-      edit_deployment: Edit deployment
+      edit_deployment: Edit Deployment
     launch_new:
       to_pool: "to %{name} Pool"
       already_in_use: That name is already in use
@@ -370,11 +370,11 @@ en:
       property_name: Property Name
       value: Value
       global_uptime: Global Uptime
-      uptime_1st_instance: Uptime 1st instance running
+      uptime_1st_instance: Uptime 1st Instance running
     provider_services:
-      list_of_services: List of services required by deployment
+      list_of_services: List of services required by Deployment
     required_services:
-      list_of_required_services: List of services required by deployment
+      list_of_required_services: List of services required by Deployment
     list:
       stop_selected: Stop Selected
       delete_selected: Delete Selected
@@ -388,35 +388,35 @@ en:
     flash:
       notice:
         launched: "Deployment launched."
-        stop: "stop action was successfully queued."
+        stop: "Stop action was successfully queued."
       warning:
-        disabled_pool: "Cannot launch a Deployment in this Pool. The pool has been disabled."
-        failed_to_launch: "Deployment launch failed!"
-        deployable_not_selected: "You need to select deployable"
+        disabled_pool: "Cannot launch a Deployment in this Pool. The Pool has been disabled."
+        failed_to_launch: "Deployment launch failed."
+        deployable_not_selected: "You need to select a Deployable"
       error:
-        not_launched: "Some assemblies will not be launched:"
-        failed_to_launch_assemblies: "Failed to launch following assemblies:"
+        not_launched: "Some Assemblies will not be launched:"
+        failed_to_launch_assemblies: "Failed to launch following Assemblies:"
         not_deleted:
-          one: "The deployment %{list} could not be deleted."
-          other: "The deployments %{list} could not be deleted."
-        none_selected: "You must select one or more deployments."
+          one: "The Deployment %{list} could not be deleted."
+          other: "The Deployments %{list} could not be deleted."
+        none_selected: "You must select one or more Deployments."
         not_updated:
-          one: "The deployment %{list} could not be updated."
-          other: "The deployments %{list} could not be updated."
-        no_hwp_permission: "You do not have sufficient permission to access the %{hwp} hardware profile."
-        cant_stop: "The deployment %{name} could not be stopped - only running deployments can be stopped."
+          one: "The Deployment %{list} could not be updated."
+          other: "The Deployments %{list} could not be updated."
+        no_hwp_permission: "You do not have sufficient permission to access the %{hwp} Hardware Profile."
+        cant_stop: "The Deployment %{name} could not be stopped. Only running Deployments can be stopped."
       success:
         deleted:
-          one: "The deployment %{list} was scheduled for deletion."
-          other: "The deployments %{list} were scheduled for deletion."
+          one: "The Deployment %{list} was scheduled for deletion."
+          other: "The Deployments %{list} were scheduled for deletion."
         updated:
-          one: "The deployment %{list} was successfully updated."
-          other: "The deployments %{list} were successfully updated."
+          one: "The Deployment %{list} was successfully updated."
+          other: "The Deployments %{list} were successfully updated."
     errors:
-      config_server_connection: 'Cannot connect to the config server'
-      cannot_stop: "stop cannot be performed on this instance."
-      all_stopped: "All instances must be stopped or running"
-      not_valid_deployable_xml: "seems to be not valid deployable XML: %{msg}"
+      config_server_connection: 'Cannot connect to the Config Server'
+      cannot_stop: "Stop cannot be performed on this instance."
+      all_stopped: "All Instances must be stopped or running"
+      not_valid_deployable_xml: "seems to be not valid Deployable XML: %{msg}"
       match_not_found: "Match not found: %{errors}"
     preset_filters:
       all_deployments: All Deployments
@@ -426,18 +426,18 @@ en:
       other: Instances
     reboot: Reboot
     instance: Instance
-    none_selected: "You must select one or more instances to stop."
-    none_selected_to_reboot: "You must select one or more instances to reboot."
+    none_selected: "You must select one or more Instances to stop."
+    none_selected_to_reboot: "You must select one or more Instances to reboot."
     tab_captions:
       properties: Properties
       history: History
       permissions: Permissions
     list:
       export_events: Export events
-      stop_selected_instances: Stop selected instances
-      reboot_selected_instances: Reboot selected instances
-      stopped_instances_hidden: Stopped instances are hidden
-      showing_all_instances: Showing all instances
+      stop_selected_instances: Stop selected Instances
+      reboot_selected_instances: Reboot selected Instances
+      stopped_instances_hidden: Stopped Instances are hidden
+      showing_all_instances: Showing all Instances
       show_all: show all
       hide_stopped: hide stopped
       table:
@@ -447,7 +447,7 @@ en:
         provider: Provider
         owner: Owner
     edit:
-      edit_instance: Edit instance
+      edit_instance: Edit Instance
       name: Name
     history:
        history_for: "History for: "
@@ -490,26 +490,26 @@ en:
     confirm_terminate:
       terminate: "Terminate"
       terminate_instances: "Terminate Instances"
-      terminate_instances_description: "Provider is not accessible, status of following instances will be changed to 'stopped' but their actual state is unknown."
+      terminate_instances_description: "The Provider is not accessible. The status of following Instances will be changed to 'stopped' but their actual state is unknown."
     flash:
       warning:
         ssh_key_not_found: "SSH Key not found for this Instance."
       error:
         not_updated:
-          one: "The instance %{list} could not be updated."
-          other: "The instances %{list} could not be updated."
+          one: "The Instance %{list} could not be updated."
+          other: "The Instances %{list} could not be updated."
         not_deleted:
-          one: "The instance %{list} could not be deleted."
-          other: "The instances %{list} could not be deleted."
-        reboot: "The instance %{name} was not rebooted because %{err}"
-        stop: "The instance %{name} was not stopped because %{err}"
+          one: "The Instance %{list} could not be deleted."
+          other: "The Instances %{list} could not be deleted."
+        reboot: "The Instance %{name} was not rebooted because %{err}"
+        stop: "The Instance %{name} was not stopped because %{err}"
       success:
         updated:
-          one: "The instance %{list} was successfully updated."
-          other: "The instances %{list} were successfully updated."
+          one: "The Instance %{list} was successfully updated."
+          other: "The Instances %{list} were successfully updated."
         deleted:
-          one: "The instance %{list} was successfully deleted."
-          other: "The instances %{list} were successfully deleted."
+          one: "The Instance %{list} was successfully deleted."
+          other: "The Instances %{list} were successfully deleted."
       notice:
         stop: "stop action was successfully queued."
         forced_stop: "state changed to stopped."
@@ -517,22 +517,22 @@ en:
     errors:
       image_not_found: "No image build was found with uuid %{b_uuid} and no image was found with uuid %{i_uuid}"
       user_quota_reached: "User quota reached"
-      pool_family_quota_reached: "Pool family quota reached"
+      pool_family_quota_reached: "Environment quota reached"
       pool_quota_reached: "Pool quota reached"
-      no_provider_accounts: "There are no provider accounts associated with pool family of selected pool."
+      no_provider_accounts: "There are no Provider Accounts associated with the selected Pool's Environment."
       invalid_state: "Error, could not calculate state time: invalid state"
       state_not_monitored: "Error, could not calculate state time: state is not monitored"
-      hw_profile_match_not_found: "%{account_name}: hardware profile match not found"
-      image_not_pushed_to_provider: "%{account_name}: image is not pushed to this provider account"
-      provider_account_quota_reached:  "%{account_name}: provider account quota reached"
-      no_config_server_available: "%{account_name}: no config server available for provider account"
-      realm_not_mapped: "%{account_name}: realm %{frontend_realm_name} is not mapped to any applicable provider or provider realm"
-      provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch deployable"
-      stop_invalid_action: "stop is an invalid action."
-      reboot_invalid_action: "reboot is an invalid action."
-      must_be_enabled: "%{account_name}: provider must be enabled"
-      provider_not_available: "%{account_name}: provider is not available"
-      cannot_destroy: "destroy cannot be performed on this instance."
+      hw_profile_match_not_found: "%{account_name}: Hardware Profile match not found"
+      image_not_pushed_to_provider: "%{account_name}: Image is not pushed to this Provider Account"
+      provider_account_quota_reached:  "%{account_name}: Provider Account quota reached"
+      no_config_server_available: "%{account_name}: no Config Server available for Provider Account"
+      realm_not_mapped: "%{account_name}: Frontend Realm %{frontend_realm_name} is not mapped to an applicable Provider or Provider Realm"
+      provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch Deployable"
+      stop_invalid_action: "Stop is an invalid action."
+      reboot_invalid_action: "Reboot is an invalid action."
+      must_be_enabled: "%{account_name}: Provider must be enabled"
+      provider_not_available: "%{account_name}: Provider is not available"
+      cannot_destroy: "Destroy cannot be performed on this instance."
       architecture_mismatch: "Assembly hardware profile architecture (%{inst_arch}) doesn't match image hardware profile architecture (%{img_arch})."
     headers:
       vm_name: VM NAME
@@ -567,15 +567,15 @@ en:
     index:
       pool_name: Pool name
       deployed_on: Deployed on
-      pool_family: Pool Family
+      pool_family: Environment
       owner: Owner
       pending: Pending
       failed: Failed
-      confirm_delete: "Are you sure you want to delete this pool? All related catalogs and deployables will be deleted too!"
+      confirm_delete: "Are you sure you want to delete this Pool? All related Catalogs and Deployables will also be deleted."
       overview: Overview
       your_pools: Your Pools
       pool_details_html: "%{name} Pool details &raquo;"
-      not_all_deployments_displayed_alert_html: "Not all deployments are displayed! Go to %{name} Pool details for more! &raquo;"
+      not_all_deployments_displayed_alert_html: "Not all Deployments are displayed. Go to %{name} Pool details for more. &raquo;"
       global_uptime: Global uptime
       destroy: Destroy
       pool_toggle: Expand/Collapse
@@ -598,11 +598,11 @@ en:
           other: Pools %{list} were deleted.
       error:
         pool_not_deleted:
-          one: Pool %{list} was not deleted. There are instances associated with it.
-          other: Pools %{list} were not deleted. They have instances associated with them.
-        not_updated: "Pool wasn't updated!"
-        default_pool_not_deleted: The default pool cannot be deleted
-        iwhd_unavailable: Catalog Images are unavailable. It appears the image warehouse is not reachable
+          one: Pool %{list} was not deleted. There are Instances associated with it.
+          other: Pools %{list} were not deleted. They have Instances associated with them.
+        not_updated: "Pool wasn't updated"
+        default_pool_not_deleted: The default Pool cannot be deleted.
+        iwhd_unavailable: Catalog Images are unavailable. It appears the Image Warehouse is not reachable.
       warning:
         creation_failed: Pool creation failed.
     list:
@@ -612,7 +612,7 @@ en:
       unlimited: unlimited
       pool_enabled: Pool enabled
     errors:
-      providers_disabled: has all associated providers disabled
+      providers_disabled: has all associated Providers disabled
       must_be_enabled: must be enabled
     preset_filters:
       all_pools: All Pools
@@ -680,13 +680,13 @@ en:
       matching_hwp: Matching Provider Hardware Profiles
     flash:
       notice:
-        deleted: "Hardware profile was deleted!"
-        updated: "Hardware Profile updated!"
+        deleted: "Hardware profile was deleted"
+        updated: "Hardware Profile updated"
         more_deleted:
           one: Hardware Profile %{deleted} was deleted.
           other: Hardware Profiles %{deleted} were deleted.
       error:
-        not_deleted: "Hardware profile was not deleted!"
+        not_deleted: "Hardware profile was not deleted"
         more_not_deleted:
           one: "%{not_deleted} could not be deleted"
           other: "Could not delete the following hardware profiles: %{not_deleted}"
@@ -713,10 +713,10 @@ en:
     list:
       delete_selected: Delete Selected
     mapping:
-      mapping_realm: Add mapping to provider realm
-      mapping_provider: Add mapping to provider
-      realm_mapped_providers: "Realm %{name} is mapped to providers:"
-      realm_mapped_realms: "Realm %{name} is mapped to realms:"
+      mapping_realm: Add mapping to Provider Realm
+      mapping_provider: Add mapping to Provider
+      realm_mapped_providers: "Realm %{name} is mapped to Providers:"
+      realm_mapped_realms: "Realm %{name} is mapped to Realms:"
       frontend_realms_mapped_to_provider: "Realms mapped to Provider %{name}:"
       frontend_realms_mapped_to_realm: "Realms mapped to Provider Realm %{name}:"
       provider_accounts_mapped_to_realm: "Provider Accounts mapped to Realm %{name}:"
@@ -732,18 +732,18 @@ en:
       properties: Properties
       realm_mapping: Realm Mapping
       sure_to_delete: Are you sure you want to delete?
-      realm_unavailable: "The realm %{name} is currently not available."
+      realm_unavailable: "The Realm %{name} is currently not available."
     flash:
       notice:
         added_mapping: "Realm mapping was added."
-        updated: "Realm updated successfully!"
-        added: "Realm was added."
-        deleted: "Realm was deleted!"
+        updated: "Realm updated"
+        added: "Realm was added"
+        deleted: "Realm was deleted"
         more_deleted: "These Realms were deleted:"
       error:
         select_to_delete_mapping: "You must select at least one mapping to delete."
-        not_deleted: "Realm was not deleted!"
-        select_to_delete: "You must select at least one realm to delete."
+        not_deleted: "Realm was not deleted"
+        select_to_delete: "You must select at least one Realm to delete."
         more_not_deleted: "Could not delete these Realms:"
     preset_filters:
       all_realms: "All Realms"
@@ -755,24 +755,24 @@ en:
       details: Provider Realm Details
       provider_accounts_mapped: Provider Accounts mapped to Provider Realm %{name}
   pool_families:
-    pool_families: Pool Families
-    pool_family: Pool Family
-    confirm_delete: "Are you sure you want to delete this pool family? All related pools, catalogs, and deployables will be deleted too!"
-    pool_family_details: Pool Family Details
+    pool_families: Environments
+    pool_family: Environments
+    confirm_delete: "Are you sure you want to delete this Environment? All related Pools, Catalogs, and Deployables will be deleted."
+    pool_family_details: Environment Details
     provider_accounts_for: Provider Accounts for
-    choose_provider_accounts: Choose Provider Accounts to enable for this Pool Family
+    choose_provider_accounts: Choose Provider Accounts to enable for this Environment
     remove_selected: Remove selected
     add_to_pool_family: "Add to %{name}"
     index:
       name: Name
       quota_limit: Quota Limit
-      new_pool_family: New Pool Family
+      new_pool_family: New Environment
       pool_name: Pool Name
       deployments: Deployments
       total_instancies: "Total Inst."
       pending_instances: "Pending Inst."
       quota_used: "Quota Used"
-      pool_family_quota_used: "Pool Family Quota Used"
+      pool_family_quota_used: "Environment Quota Used"
       active_instances: "Active Inst."
       available_instances: "Available Inst."
       failed_instances: "Failed Inst."
@@ -780,7 +780,7 @@ en:
       answer_yes: "Yes"
       answer_no: "No"
       catalog: "Catalog"
-      total_statistics: TOTAL
+      total_statistics: Total
       provider_selection: 'Provider Selection'
     new:
       environments: Environments
@@ -788,24 +788,24 @@ en:
       return_to: "Return to:"
     flash:
       notice:
-        added: "Pool family was added."
-        updated: "Pool Family was updated!"
-        deleted: "Pool Family was deleted!"
+        added: "Environment was added."
+        updated: "Environment was updated."
+        deleted: "Environment was deleted."
         provider_accounts_added: "These Provider Account have been added"
         provider_accounts_removed: "These Provider Accounts were removed"
-        more_deleted: "Deleted the following Pool Families: %{list}."
+        more_deleted: "Deleted the following Environments: %{list}."
       warning:
-        creation_failed: "Pool family's creation failed."
+        creation_failed: "Environment creation failed."
       error:
-        not_updated: "Pool Family wasn't updated!"
-        not_deleted: "Pool Family cannot be deleted!  Check to make sure all instances are stopped."
-        default_pool_family_not_deleted: "The default Pool Family cannot be deleted!"
-        more_not_deleted: "Could not delete the following Pool Families: %{list}."
+        not_updated: "Environment wasn't updated."
+        not_deleted: "Environment cannot be deleted. Check that all Instances are stopped."
+        default_pool_family_not_deleted: "The default Environment cannot be deleted."
+        more_not_deleted: "Could not delete the following Environments: %{list}."
         provider_accounts_not_added: "Could not add these Provider Accounts"
         provider_accounts_not_removed: "Could not remove these Provider Accounts"
         select_to_add_accounts: "You must select at least one Provider Account to add."
         select_to_remove_accounts: "You must select at least one Provider Account to remove."
-        no_provider_accounts: "There are no provider accounts available."
+        no_provider_accounts: "There are no Provider Accounts available."
   catalog_entries:
     new_catalog_entry: New Deployable
     index:
@@ -815,7 +815,7 @@ en:
       deployable_xml: Deployable XML
     new:
       add_catalog_entry: Add New Deployable
-      choose_option_to_upload: Choose one of the following options to upload deployable XML file
+      choose_option_to_upload: Choose one of the following options to upload a Deployable XML file
       upload: Upload
       from_url: From URL
       name: Name
@@ -839,18 +839,18 @@ en:
     flash:
       warning:
         not_valid_or_reachable: "Deployable XML file is either invalid or no longer reachable at %{url}"
-        no_url_provided: "No URL provided for the deployable XML file."
-        not_valid: "Deployable XML file doesn't resolve valid XML"
-        not_valid_duplicate_assembly_names: "Deployable XML must contain unique assembly names"
-        not_valid_cyclic_reference: "Contains cyclic reference between following assemblies or services: %{reference}"
-        not_valid_not_existing_assembly_reference: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing assembly %{to_assembly}"
-        not_valid_not_existing_service_reference: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing assembly %{to_assembly}, service %{to_service}"
-        not_valid_not_existing_param: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references param %{to_param} which is not returned by assembly %{to_assembly}"
+        no_url_provided: "No URL provided for the Deployable XML file."
+        not_valid: "The Deployable XML file contains syntax errors"
+        not_valid_duplicate_assembly_names: "Deployable XML must contain unique Assembly names"
+        not_valid_cyclic_reference: "Contains cyclic reference between following Assemblies or services: %{reference}"
+        not_valid_not_existing_assembly_reference: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing Assembly %{to_assembly}"
+        not_valid_not_existing_service_reference: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing Assembly %{to_assembly}, service %{to_service}"
+        not_valid_not_existing_param: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references param %{to_param} which is not returned by Assembly %{to_assembly}"
         failed: Deployable was not created.
       notice:
-        added: Deployable added to catalog %{catalog}.
-        updated: Deployable updated successfully!
-        deleted: Deployable removed from catalog %{catalog}.
+        added: Deployable added to Catalog %{catalog}.
+        updated: Deployable updated successfully
+        deleted: Deployable removed from Catalog %{catalog}.
     preset_filters:
       all_catalog_entries: All Deployables
   catalogs:
@@ -869,23 +869,23 @@ en:
     flash:
       notice:
         updated:
-          one: Catalog updated successfully!
-          other: Catalogs updated successfully!
+          one: Catalog updated successfully
+          other: Catalogs updated successfully
         created:
-          one: Catalog created!
-          other: Catalogs created!
+          one: Catalog created
+          other: Catalogs created
         deleted:
-          one: Catalog %{deleted} deleted!
-          other: "%{count} catalogs %{deleted} deleted!"
-        one_deleted: Catalog deleted!
+          one: Catalog %{deleted} deleted
+          other: "%{count} Catalogs %{deleted} deleted"
+        one_deleted: Catalog deleted
       error:
         not_deleted:
-          one: "Catalog %{not_deleted} cannot be deleted! Some deployable has the last reference to this catalog!"
-          other: "These catalogs %{not_deleted} cannot be deleted! Some of their deployables have the last reference to the catalogs!"
+          one: "Catalog %{not_deleted} cannot be deleted. At least one Deployable has a reference to this Catalog."
+          other: "These Catalogs %{not_deleted} cannot be deleted. Some Deployables still have references to these Catalogs."
         not_deleted_perms:
-          one: "Insufficient permissions to delete catalog %{not_deleted}!"
-          other: "Insufficient permissions to delete %{count} catalogs %{not_deleted}!"
-        one_not_deleted: "Catalog cannot be deleted! Some deployable has the last reference to this catalog!"
+          one: "Insufficient permissions to delete Catalog %{not_deleted}"
+          other: "Insufficient permissions to delete %{count} Catalogs %{not_deleted}"
+        one_not_deleted: "Catalog cannot be deleted. At least one Deployable has a reference to this Catalog."
     preset_filters:
       all_catalogs: "All Catalogs"
       belongs_to_default_pool: "Belongs to Default Pool"
@@ -909,7 +909,7 @@ en:
       image_imported: The image was imported successfully.
       image_not_imported: The image could not be imported. Check the Image Factory log for further details.
       blank_id: Image ID cannot be blank.
-      provider_unreachable: "Conductor could not connect to Image Factory. Please verify that Factory is running and that its configuration matches Conductor's."
+      provider_unreachable: "Conductor could not connect to Image Factory. Please verify that Image Factory is running and is correctly configured."
     index:
       images: Images
       name: Name
@@ -938,13 +938,13 @@ en:
       provider: Provider
       build_date: Build Completion Date
       latest: Latest
-      only_latest_builds_can_be_pushed: "Only latest build can be pushed"
+      only_latest_builds_can_be_pushed: "Only the latest build can be pushed"
       not_built: "The image is not built yet"
       missing_build: "Select a build first"
       push_all: "Push all"
       can_not_build_imported_image: "Imported image can't be built or pushed"
       select_build: Select
-      template_xml: View Template XML
+      template_xml: View Image Template XML
       failed_build_attempts:
         one: '1 failed build attempt'
         other: '%{count} failed build attempts'
@@ -964,20 +964,20 @@ en:
         not_found: Image not found
       error:
         invalid_url: Could not load the provided URL
-        no_file: You must specify the template XML file
-        no_template: "The image doesn't have a template because it's been imported."
-        no_provider_accounts: "Images cannot be built, as there are no enabled Provider Accounts associated to this Environment."
-        no_provider_accounts_for_import: "Images cannot be imported, as no Provider Accounts are currently enabled for this Environment."
+        no_file: You must specify the Image Template XML file
+        no_template: "The Image doesn't have an Image Template because it was originally imported, rather than built in Conductor."
+        no_provider_accounts: "Images cannot be built. There are no enabled Provider Accounts associated with this Environment."
+        no_provider_accounts_for_import: "Images cannot be imported. No Provider Accounts are currently enabled for this Environment."
     new:
       new_image: New Image
       description:
-        Choose one of the following options to upload or import an image into
+        Choose one of the following options to upload or import an image into the 
         "%{environment} Environment".
       upload: Upload
       from_url: From URL
       name: "Name:"
-      choose_file: "Choose a template file:"
-      image_url: "Template URL:"
+      choose_file: "Choose an Image Template file:"
+      image_url: "Image Template URL:"
       edit_file: "Edit this file before saving:"
     edit_xml:
       edit: Edit
@@ -987,11 +987,11 @@ en:
       valid_image: Valid Image
       description:
         The markup and image references in "%{name}" were succesfully
-        validated. You may now save the image, and create a deployable.
-      make_deployable: Automatically make "%{name}" deployable.
+        validated. You may now save the image and create a Deployable.
+      make_deployable: Automatically make "%{name}" Deployable.
       back: Back
-      save_template: Save Template
-    not_on_provider: The requested image was not found on the provider.
+      save_template: Save Image Template
+    not_on_provider: The requested image was not found on the Provider.
   template_xml:
     errors:
       xml_parse_error: Failed to parse XML.
@@ -1001,8 +1001,8 @@ en:
     flash:
       notice:
         deleted:
-          "Provider Image Deleted. If you want to remove the actual image stored
-          by the provider, visit the %{provider}'s management console and seek
+          "Provider Image Deleted. In order to remove the actual image stored
+          by the Provider, visit the %{provider}'s management console and seek
           out the \"%{target_id}\" image."
         upload_start: Provider Image Upload Started
       warning:
@@ -1023,15 +1023,15 @@ en:
         one: "Deployable %{list} was deleted."
         other: "Deployables %{list} were deleted."
       not_deleted:
-        one: "Deployable %{list} was not deleted. There are deployments associated with it."
-        other: "Deployables %{list} were not deleted. They have deployments associated with them."
+        one: "Deployable %{list} was not deleted. There are Deployments associated with it."
+        other: "Deployables %{list} were not deleted. They have Deployments associated with them."
     new:
-      no_catalog_selected: 'no catalog selected'
+      no_catalog_selected: 'no Catalog selected'
     new_from_image:
       catalog_entry_name: "%{name}"
       title: Create Deployable
-      description: "Creating a deployable from the \"%{name}\" component outline will allow it to be built and launched. Simply choose a catalog in which to store the deployable, and define a default cloud resource profile."
-      no_available_catalog: 'No catalog'
+      description: "Creating a Deployable from the \"%{name}\" Image Template will allow it to be built and launched. Simply choose a Catalog in which to store the Deployable, and define a default Hardware Profile."
+      no_available_catalog: 'No Catalog'
     show:
       images: "Images"
       launch: "Launch"
@@ -1043,7 +1043,7 @@ en:
       rebuild_all: Build missing images
       push_all: Push missing images
       missing_images: Images missing from the Image Warehouse
-      choose_catalog: "Choose a catalog to enable access:"
+      choose_catalog: "Choose a Catalog to enable access:"
       add_catalog: "Add +"
       name: Name
       hw_profile: HW Profile
@@ -1080,30 +1080,30 @@ en:
       multiple: None
     flash:
       error:
-        attribute_not_exist: "Some attribute(s) is missing in XML, please check the file!"
-        no_catalog: "No catalogs selected"
+        attribute_not_exist: "Some attribute(s) are missing in the XML. Please check the file."
+        no_catalog: "No Catalogs selected"
         not_deleted:
-          one: "Deployable %{not_deleted} removal failed!"
-          other: "%{count} deployables %{not_deleted} were not removed!"
+          one: "Deployable %{not_deleted} removal failed."
+          other: "%{count} Deployables %{not_deleted} were not removed."
         not_deleted_perms:
-          one: "Insufficient permissions to remove deployable %{not_deleted}!"
-          other: "Insufficient permissions to remove %{count} deployables %{not_deleted}!"
-        not_selected: "No deployable was selected!"
-        no_catalog_exists: "No catalog exists! Please create one."
-        no_hwp_exists: "No hardware profile exists! Please create one."
+          one: "Insufficient permissions to remove Deployable %{not_deleted}."
+          other: "Insufficient permissions to remove %{count} Deployables %{not_deleted}."
+        not_selected: "No Deployable was selected"
+        no_catalog_exists: "No Catalog exists. Please create one."
+        no_hwp_exists: "No Hardware Profile exists. Please create one."
         missing_image: "%{assembly}: Image (UUID: %{uuid}) doesn't exist"
-        wrong_environment: "The deployable '%{deployable}' contains an image (UUID %{uuid}) in the wrong environment ('%{wrong_env}' should be '%{environment}') and cannot be used."
+        wrong_environment: "The Deployable '%{deployable}' contains an image (UUID %{uuid}) in the wrong Environment ('%{wrong_env}' should be '%{environment}') and cannot be used."
       warning:
         failed: "Deployable was not created: %{message}"
         param_type_attr: "Deprecation Warning: Parameter '%{param_name}' in service '%{service_name}' has a type attribute. Remove the type attribute or move it to a child value tag."
       notice:
         deleted:
-          one: "Deployable %{deleted} removed successfully!"
-          other: "%{count} deployables %{deleted} were removed!"
+          one: "Deployable %{deleted} removed successfully."
+          other: "%{count} Deployables %{deleted} were removed."
     error:
       attribute_not_exists: invalid
-      hwp_not_exists: "Hardware profile %{name} specified in XML doesn't exist."
-      audrey_api_incompatibility: "The deployable uses features not supported by the audrey agent installed in the latest built image."
+      hwp_not_exists: "Hardware Profile %{name}, which is specified in XML, does not exist."
+      audrey_api_incompatibility: "The Deployable uses features not supported by the Audrey agent installed in the latest built image."
     properties:
       edit_deployable_xml: Edit Deployable XML
   name: Name
@@ -1122,15 +1122,15 @@ en:
       warning:
         not_updated_quota: "Could not update the default quota"
       notice:
-        updated: "Settings Updated!"
+        updated: "Settings Updated"
   providers:
     provider: Provider
     providers: Providers
-    confirm_delete: "Are you sure you want to delete this provider?"
+    confirm_delete: "Are you sure you want to delete this Provider?"
     editing_provider: Editing Provider
-    choose_a_provider: "Choose a provider:"
-    disable_provider: "Disable provider? All it's instances will be stopped!"
-    enable_provider: "Enable provider?"
+    choose_a_provider: "Choose a Provider:"
+    disable_provider: "Disable Provider? All it's instances will be stopped."
+    enable_provider: "Enable Provider?"
     index:
       provider_name: Provider Name
       provider_url: Provider URL
@@ -1142,7 +1142,7 @@ en:
       historical_error_instances: Errors (Historical)
       x_deltacloud_driver: X-Deltacloud-Driver
       x_deltacloud_provider: X-Deltacloud-Provider
-      no_providers_available: No providers available.
+      no_providers_available: No Providers available.
       create_one: Please create one first.
       create_new_provider: "Create New Provider"
     new:
@@ -1151,9 +1151,9 @@ en:
     edit:
       provider_id_disabled: "Provider is disabled."
       toggle_alerts: Toggle Alerts
-      provider_disabled: "The provider %{name} is currently disabled."
-      enable_configure_providers: "To enable and configure provider, click the slide switch in the upper-right-hand corner of this window."
-      provider_unavailable: "The provider %{name} is currently not available."
+      provider_disabled: "The Provider %{name} is currently disabled."
+      enable_configure_providers: "To enable and configure the Provider, click the slide switch in the upper-right-hand corner of this window."
+      provider_unavailable: "The Provider %{name} is currently not available."
     form:
       x_deltacloud_provider_legend: Legend for X-Deltacloud-Provider
       x_deltacloud_provider:
@@ -1163,7 +1163,7 @@ en:
         vsphere: vSphere API hostname
         rackspace: Rackspace API_PROVIDER
         openstack: Openstack API_ENTRYPOINT
-      select_type_of_provider: Select type of provider
+      select_type_of_provider: Select type of Provider
       caution_alt_text: Caution
       enter_correct_url_msg: Please enter a correct URL format.
       test_connection: Test Connection
@@ -1177,17 +1177,17 @@ en:
         added: "Provider added."
         updated: "Provider updated."
         disabled: "Provider disabled."
-        connected: "Successfully Connected to Provider"
-        deleted: "Provider has been successfully deleted."
+        connected: "Successfully connected to Provider"
+        deleted: "Provider has been deleted."
       error:
-        not_added: "Cannot add the provider."
-        not_updated: "Cannot update the provider."
-        not_disabled: "Cannot disabled the provider."
+        not_added: "Cannot add the Provider."
+        not_updated: "Cannot update the Provider."
+        not_disabled: "Cannot disable the Provider."
         not_deleted: "Provider was not deleted"
       warning:
-        connect_failed: "Failed to connect to Provider!"
-        not_stopped_instances: "Provider was not disabled, failed to stop following instances:"
-        not_terminated_instances: "Provider was not disabled, failed to change status to 'stopped' for following instances:"
+        connect_failed: "Failed to connect to Provider"
+        not_stopped_instances: "Provider was not disabled. Failed to stop following instances:"
+        not_terminated_instances: "Provider was not disabled. Failed to change status to 'stopped' for following instances:"
     alerts:
       type:
         critical: Critical
@@ -1198,8 +1198,8 @@ en:
         quota_exceeded: Account Quota Exceeded
         quota_reached: Account Quota Reached
       description:
-        quota_exceeded: "Quota limit of running instances for %{name} account has been exceeded."
-        quota_reached: "of Quota limit for running instances for %{name} account has been reached."
+        quota_exceeded: "Quota limit of running Instances for %{name} account has been exceeded."
+        quota_reached: "of Quota limit for running Instances for %{name} account has been reached."
   provider_accounts:
     new_provider_account: New Account
     add_provider_account: Add Account
@@ -1269,7 +1269,7 @@ en:
       config_server:  "Config Server"
       none: None
       test: Test
-      sure_to_delete: "Are you sure you want to delete this config server?"
+      sure_to_delete: "Are you sure you want to delete this Config Server?"
     provider_selection:
       cloud_type: "Cloud type: "
       provider_name: "Provider Name: "
@@ -1280,34 +1280,34 @@ en:
         account_added:
           one: "Account %{list} was added."
           other: "Accounts %{list} were added."
-        updated: "Provider Account updated!"
-        deleted: "Provider account was deleted!"
+        updated: "Provider Account updated"
+        deleted: "Provider account was deleted"
         account_deleted:
           one: "Account %{list} was deleted."
           other: "Accounts %{list} were deleted."
         test_connection_success: "Test Connection Success: Valid Account Details"
       error:
-        no_provider: "You don't have any provider yet. Please create one!"
-        not_added: "Cannot add the provider account."
+        no_provider: "You don't have a Provider yet. Please create one."
+        not_added: "Cannot add the Provider Account."
         account_not_added:
           one: "Account %{list} could not be added"
           other: "Accounts %{list} could not be added"
-        not_updated: "Provider Account wasn't updated!"
-        not_deleted: "Provider account was not deleted!"
+        not_updated: "Provider Account wasn't updated"
+        not_deleted: "Provider account was not deleted"
         account_not_deleted:
-          one: "Account %{list} was not deleted. There are instances associated with it."
-          other: "Accounts %{list} were not deleted. They have instances associated with them."
+          one: "Account %{list} was not deleted. There are Instances associated with it."
+          other: "Accounts %{list} were not deleted. They have Instances associated with them."
         test_connection_failed_invalid: "Test Connection Failed: Invalid Account Details"
-        test_connection_failed_provider: "Test Connection Failed: Could not connect to provider"
+        test_connection_failed_provider: "Test Connection Failed: Could not connect to Provider"
       warning:
         must_select_account: "You must select some accounts first."
-        no_provider: "You don't have any provider yet"
+        no_provider: "You don't have a Provider yet"
     errors:
-      exception_while_validating: An error occurred when checking provider credentials. Please check your setup and try again.
-      invalid_credentials: Login credentials are invalid for this provider.
+      exception_while_validating: An error occurred when checking Provider credentials. Please check your setup and try again.
+      invalid_credentials: Login credentials are invalid for this Provider.
       populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
-      populate_realms_failed: "Failed to populate realms: %{message}"
-      could_not_connect: "Could not connect to provider account.  Please contact an administrator."
+      populate_realms_failed: "Failed to populate Realms: %{message}"
+      could_not_connect: "Could not connect to Provider Account.  Please contact an Administrator."
   provider_priority_groups:
     index:
       add_new: Add new
@@ -1346,18 +1346,18 @@ en:
     flash:
       notice:
         test_successful: Test successful
-        added: Config server added.
-        updated: Config server updated.
-        deleted: Config server was deleted.
+        added: Config Server added.
+        updated: Config Server updated.
+        deleted: Config Server was deleted.
       error:
-        invalid: The config server information is invalid.
-        not_updated: Config server was not updated
-        not_deleted: Config server was not deleted
+        invalid: The Config Server information is invalid.
+        not_updated: Config Server was not updated.
+        not_deleted: Config Server was not deleted.
     errors:
       connection:
-        generic: "Could not validate config server connection (url: %{url}).  Check the connection parameters and try again."
-        generic_with_message: "Could not validate config server connection (url: %{url}).  %{msg}"
-        unhandled_response: "Could not validate config server connection (url: %{url}).  HTTP Status Code: %{code}"
+        generic: "Could not validate Config Server connection (url: %{url}). Check the connection parameters and try again."
+        generic_with_message: "Could not validate Config Server connection (url: %{url}).  %{msg}"
+        unhandled_response: "Could not validate Config Server connection (url: %{url}).  HTTP Status Code: %{code}"
   uptime: 'Total Usage Time'
   deltacloud:
     unreachable: "Deltacloud is unreachable. Please verify that it is running."
@@ -1428,9 +1428,9 @@ en:
       available: Available
     flash:
       notice:
-        updated: "Quota updated!"
+        updated: "Quota updated"
       error:
-        not_updated: "Could not update quota, please check you have entered valid values"
+        not_updated: "Could not update quota. Please check you have entered valid values"
   roles:
     new_role: New Role
     tab_captions:
@@ -1451,8 +1451,8 @@ en:
       properties: Properties
     flash:
       notice:
-        added: "Role successfully saved!"
-        updated: "Role updated successfully!"
+        added: "Role successfully saved."
+        updated: "Role updated successfully."
         more_deleted: "These Roles were deleted:"
       error:
         more_not_deleted: "Could not delete these Roles:"
@@ -1475,7 +1475,7 @@ en:
     internal_server_error: Internal Server Error
     flash:
       notice:
-        record_not_exist: "The record you tried to access does not exist, it may have been deleted"
+        record_not_exist: "The record you tried to access does not exist. It may have been deleted"
         must_be_logged: You must be logged in to access this page
         must_not_be_logged: You must be logged out to access this page
     admin_tabs:
@@ -1485,7 +1485,7 @@ en:
       users: Users
       user_groups: User Groups
       permissions: Global Role Grants
-      pool_families: Pool Families
+      pool_families: Environments
       images: Images
       provider_selection: Provider Selection
   realm_mappings:
@@ -1493,35 +1493,35 @@ en:
       create_new: Create a new Realm Mapping
   api:
     error_messages:
-      account_not_found_in_environment: "Provider Account %{account} is not in this environment. Valid accounts include %{accounts}."
+      account_not_found_in_environment: "Provider Account %{account} is not in this Environment. Valid accounts include %{accounts}."
       build_not_found: Could not find Build %{build}
       environment_required: "Environment parameter is required."
       environment_not_found: "Environment %{environment} was not found."
       image_not_found: Could not find Image %{image}
-      image_not_found_on_provider: "Could not find Image %{image} on provider"
+      image_not_found_on_provider: "Could not find Image %{image} on Provider"
       in_grabbing_target_images: "In grabbing list of target images: %{error}"
       insufficient_privileges: Insufficient privileges to perform the requested action.
       invalid_parameters_for_account_and_target_image: "Invalid parameters for Account: %{account} TargetImage: %{targetimage}"
-      invalid_template: "Invalid template: %{errors}"
+      invalid_template: "Invalid Image Template: %{errors}"
       no_image_build_or_target_image: "Invalid Parameters: No Image, Build or TargetImage provided in request"
       no_matching_target_image: Could not find any matching Target Images
-      no_provider_account_given: No provider account given
-      provider_account_not_found: Could not find provider account for name %{name}
-      provider_account_not_found_for_id: Could not find provider account for id %{id}
+      no_provider_account_given: No Provider Account given
+      provider_account_not_found: Could not find Provider Account for name %{name}
+      provider_account_not_found_for_id: Could not find Provider Account for id %{id}
       provider_image_not_found: Could not find ProviderImage %{providerimage}
       provider_image_status_not_found: Could not find status for ProviderImage %{providerimage}
       push_error: "Could not push TargetImage %{targetimage} to %{account} and error %{error}"
       specify_a_type_build_or_import: Please specify a type, build or import
-      specify_environment: Please specify an environment
+      specify_environment: Please specify an Environment
       target_image_status_not_found: Could not find status for TargetImage %{targetimage}
       target_image_not_found: Could not find TargetImage %{targetimage}
       target_image_not_found_for_account: Could not find an appropriate target image for account %{account}
       target_not_found: Could not find Target %{target}
-      target_not_found_in_environment: "Target %{target} has no provider accounts in this environment. Valid targets include %{targets}."
+      target_not_found_in_environment: "Target %{target} has no Provider Accounts in this Environment. Valid targets include %{targets}."
   breadcrumbs:
     pools: Pools
     instances: Instances
-    pool_families: Pool Families
+    pool_families: Environments
     users: Users
     realms: Realms
     roles: Roles
