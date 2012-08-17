@@ -309,7 +309,7 @@ describe Instance do
     pf = instance.pool.pool_family
     pf.provider_accounts = [FactoryGirl.create(:disabled_provider_account)]
     errors = instance.matches.last
-    errors.find {|e| e =~ /provider must be enabled/}.should_not be_nil
+    errors.find {|e| e =~ /provider must be enabled/i}.should_not be_nil
   end
 
   it "should not be launchable if its pool is disabled" do
@@ -374,6 +374,6 @@ describe Instance do
     matches, errors = @instance.matches
     matches.should be_empty
     errors.should_not be_empty
-    errors.select {|e| e.include?("no config server available") }.should_not be_empty
+    errors.select {|e| e.include?("no Config Server available") }.should_not be_empty
   end
 end

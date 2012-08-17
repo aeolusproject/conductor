@@ -48,7 +48,7 @@ describe ProviderAccountsController do
       post :create, :provider_account => {:provider_id => @provider.id, :credentials_hash => {}}, :provider_id => @provider.id
       response.should be_success
       response.should render_template("new")
-      request.flash[:error].should == "Cannot add the provider account."
+      request.flash[:error].should == "Cannot add the Provider Account."
     end
 
     it "should permit users with account modify permission to access edit cloud account interface" do
