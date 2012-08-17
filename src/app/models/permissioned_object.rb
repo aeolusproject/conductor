@@ -51,11 +51,13 @@ module PermissionedObject
   def perm_ancestors
     []
   end
+
   # Returns the list of objects to generate derived permissions for
   # -- by default just this object
   def derived_subtree(role = nil)
     [self]
   end
+
   # on obj creation, set inherited permissions for new object
   def update_derived_permissions_for_ancestors
     # for create hook this should normally be empty
