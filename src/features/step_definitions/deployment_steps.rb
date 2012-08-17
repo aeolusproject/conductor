@@ -1,9 +1,23 @@
+def mock_deltacloud
+  @deltacloud_connection = mock("Deltacloud::API")
+  @deltacloud_state = mock("Deltacloud::API::InstanceState")
+  @transitions = Array.new
+  deltacloud_transition = mock("Deltacloud::API::Transition")
+  deltacloud_transition.stub(:to).and_return('running')
+  deltacloud_transition.stub(:action).and_return('stop')
+  @transitions << deltacloud_transition
+  @deltacloud_state.stub(:transitions).and_return(@transitions)
+  @deltacloud_connection.stub(:instance_state).and_return(@deltacloud_state)
+  ProviderAccount.any_instance.stub(:connect).and_return(@deltacloud_connection)
+end
+
 Given /^there is a deployment named "([^"]*)" belonging to "([^"]*)" owned by "([^"]*)"$/ do |deployment_name, deployable_name, owner_name|
   user = FactoryGirl.create(:user, :login => owner_name, :last_name => owner_name)
   @deployment = Factory.create(:deployment, {:name => deployment_name, :pool => Pool.first, :owner => user})
   instance = Factory.create(:instance, {:deployment => @deployment})
   @deployment.instances << instance
   @deployment.save
+  mock_deltacloud
 end
 
 When /^I check "([^"]*)" deployment/ do |name|
@@ -30,6 +44,7 @@ Given /^a deployment "([^"]*)" exists$/ do |arg1|
     instance = Factory.create(:instance, {:deployment => @deployment})
     @deployment.instances << instance
   end
+  mock_deltacloud
   @deployment
 end
 
@@ -47,6 +62,7 @@ Given /^"([^"]*)" deployment's provider is not accessible$/ do |arg1|
   # cleanly
   provider = @deployment.provider
   provider.update_attribute(:url, 'http://localhost:3002/invalid_api')
+  ProviderAccount.any_instance.stub(:connect).and_return(nil)
 end
 
 When /^I am viewing the deployment "([^"]*)"$/ do |arg1|
