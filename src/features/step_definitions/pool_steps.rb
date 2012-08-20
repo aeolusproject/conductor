@@ -141,6 +141,10 @@ end
 Given /^"([^"]*)" has catalog_entry "([^"]*)"$/ do |catalog_name, catalog_entry_name|
   catalog = Catalog.find_by_name(catalog_name)
   deployable = FactoryGirl.create :deployable, :name => catalog_entry_name, :catalogs => [catalog]
+  Pool.any_instance.stub(:catalog_images_collection) do
+    [{:catalog => catalog.name ,:deployable => deployable.name,
+       :image => "name uuid", :provider_images =>[] }]
+  end
 end
 
 Given /^"([^"]*)" has catalog_entry with parameters "([^"]*)"$/ do |catalog_name, catalog_entry_name|
