@@ -32,7 +32,7 @@
       <dd class="fraction instance">
         <span class="part">{{user_running_instances}}</span>
         <span class="divider label small caps">of</span>
-        <span class="total"><%= @statistics[:user_available_quota].nil? ? raw('&infin;') : @statistics[:user_available_quota] %></span>
+        <span class="total"><%= @user_statistics[:user_available_quota].nil? ? raw('&infin;') : @user_statistics[:user_available_quota] %></span>
       </dd>
     </li>
   </ul>
