@@ -246,6 +246,8 @@ describe Instance do
     account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount')
     account.provider.hardware_profiles.destroy_all
     @pool.pool_family.provider_accounts << account
+    @instance.stub(:image_build).and_return("foo")
+    @instance.stub(:provider_images_for_match).and_return([])
     @instance.matches.last.should include(I18n.t('instances.errors.hw_profile_match_not_found', :account_name => 'testaccount'))
   end
 
