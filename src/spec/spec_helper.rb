@@ -89,9 +89,9 @@ ProviderAccount.class_eval do
     nil
   end
 
-#  def valid_credentials?
-#    true
-#  end
+  def valid_credentials?
+    true
+  end
 end
 
 RSpec.configure do |config|
