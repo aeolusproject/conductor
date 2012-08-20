@@ -209,14 +209,14 @@ class Deployment < ActiveRecord::Base
     @launch_parameters = launch_parameters
   end
 
-  def create_and_launch(session, user)
+  def create_and_launch(permission_session, user)
     begin
       # this method doesn't restore record state if this transaction
       # fails, wrapping transaction in rollback_active_record_state!
       # is not sufficient because restore then doesn't work if
       # you have some nested save operations inside the transaction
       transaction do
-        create_instances_with_params!(session, user)
+        create_instances_with_params!(permission_session, user)
         launch!(user)
       end
       return true
@@ -351,11 +351,12 @@ class Deployment < ActiveRecord::Base
 
   # we try to create an instance for each assembly and check
   # if a match is found
-  def check_assemblies_matches(session, user)
+  def check_assemblies_matches(permission_session, user)
     errs = []
     begin
       deployable_xml.assemblies.each do |assembly|
-        hw_profile = permissioned_frontend_hwprofile(session, user, assembly.hwp)
+        hw_profile = permissioned_frontend_hwprofile(permission_session,
+                                                     user, assembly.hwp)
         raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
         instance = Instance.new(
           :deployment => self,
@@ -537,8 +538,8 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def permissioned_frontend_hwprofile(session, user, hwp_name)
-    HardwareProfile.list_for_user(session, user, Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => hwp_name}).first
+  def permissioned_frontend_hwprofile(permission_session, user, hwp_name)
+    HardwareProfile.list_for_user(permission_session, user, Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => hwp_name}).first
   end
 
   def inject_launch_parameters
@@ -606,10 +607,11 @@ class Deployment < ActiveRecord::Base
     self[:pool_family_id] = pool.pool_family_id
   end
 
-  def create_instances_with_params!(session, user)
+  def create_instances_with_params!(permission_session, user)
     errors = {}
     deployable_xml.assemblies.each do |assembly|
-      hw_profile = permissioned_frontend_hwprofile(session, user, assembly.hwp)
+      hw_profile = permissioned_frontend_hwprofile(permission_session,
+                                                   user, assembly.hwp)
       raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
       Instance.transaction do
         instance = Instance.create!(

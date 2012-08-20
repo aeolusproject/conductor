@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     @title = @user.name
     @quota_resources = @user.quota.quota_resources
     if current_user == user
-      SessionEntity.update_session(current_session, current_user)
+      current_session.update_session_entities(current_user)
     end
     @user_groups = @user.all_groups
     @groups_header = [

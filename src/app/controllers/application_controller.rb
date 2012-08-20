@@ -199,7 +199,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_session
-    @current_session ||= request.session_options[:id]
+    @current_session ||= PermissionSession.find_by_id(session[:permission_session_id])
   end
 
   def require_user

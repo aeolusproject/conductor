@@ -17,29 +17,11 @@
 class SessionEntity < ActiveRecord::Base
   belongs_to :user
   belongs_to :entity
+  belongs_to :permission_session
 
   validates_presence_of :user_id
-  validates_presence_of :session_id
+  validates_presence_of :permission_session_id
   validates_presence_of :entity_id
-  validates_uniqueness_of :entity_id, :scope => [:user_id, :session_id]
+  validates_uniqueness_of :entity_id, :scope => [:user_id, :permission_session_id]
 
-  def self.update_session(session_id, user)
-    self.transaction do
-      # skips callbacks, which should be fine here
-      self.delete_all(:session_id => session_id)
-      self.add_to_session(session_id, user)
-    end
-  end
-
-  def self.add_to_session(session_id, user)
-    return unless user
-    # create mapping for user-level permissions
-    SessionEntity.create!(:session_id => session_id, :user => user,
-                          :entity => user.entity)
-    # create mappings for local groups
-    user.all_groups.each do |ug|
-      SessionEntity.create!(:session_id => session_id, :user => user,
-                            :entity => ug.entity)
-    end
-  end
 end
