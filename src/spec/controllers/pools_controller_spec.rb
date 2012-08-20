@@ -183,8 +183,6 @@ describe PoolsController do
         response.status.should be_eql(404)
         response.should have_content_type("application/xml")
         response.body.should be_xml
-        xml = Nokogiri::XML(response.body)
-        xml.xpath("/error/message").text.should == "Couldn't find Pool with ID=-1"
       end
 
     end
@@ -237,8 +235,6 @@ describe PoolsController do
         response.status.should be_eql(404)
         response.should have_content_type("application/xml")
         response.body.should be_xml
-        xml = Nokogiri::XML(response.body)
-        xml.xpath("/error/message").text.should == "Couldn't find Pool with ID=-1"
       end
 
       it "update with blank name" do
@@ -274,8 +270,6 @@ describe PoolsController do
         response.status.should be_eql(404)
         response.should have_content_type("application/xml")
         response.body.should be_xml
-        xml = Nokogiri::XML(response.body)
-        xml.xpath("/error/message").text.should == "Couldn't find Pool with ID=-1"
       end
 
       it "delete default pool should throw error" do
