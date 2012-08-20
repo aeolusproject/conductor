@@ -1,15 +1,15 @@
-- if @statistics[:instances_failed_count] > 0
+- if @user_statistics[:instances_failed_count] > 0
   %section.content-section.alerts.collapse_entity
     %header
       .section-controls
-        = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @statistics[:instances_failed].blank?
+        = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @user_statistics[:instances_failed].blank?
       %h2.alerts
         =t "alerts_label"
-        %span.label.badge.alert.count= @statistics[:instances_failed_count]
+        %span.label.badge.alert.count= @user_statistics[:instances_failed_count]
     .content.collapsible
       %dl.alerts
         %ul
-          - @statistics[:instances_failed].each do |inst|
+          - @user_statistics[:instances_failed].each do |inst|
             %li.alert
               %dt.subject.critical= inst.name
               %dd.type=t "alerts.instance_failure"
