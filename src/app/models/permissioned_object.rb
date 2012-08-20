@@ -16,17 +16,17 @@
 
 module PermissionedObject
 
-  def has_privilege(session, user, action, target_type=nil)
-    return false if session.nil? or user.nil? or action.nil?
+  def has_privilege(permission_session, user, action, target_type=nil)
+    return false if permission_session.nil? or user.nil? or action.nil?
     target_type = self.class.default_privilege_target_type if target_type.nil?
     if derived_permissions.includes(:role => :privileges,
                                     :entity => :session_entities).where(
       ["session_entities.user_id=:user and
-        session_entities.session_id=:session and
+        session_entities.permission_session_id=:permission_session_id and
         privileges.target_type=:target_type and
         privileges.action=:action",
         { :user => user.id,
-          :session => session,
+          :permission_session_id => permission_session.id,
           :target_type => target_type.name,
           :action => action}]).any?
       return true
@@ -35,11 +35,11 @@ module PermissionedObject
         includes(:role => :privileges,
                  :entity => :session_entities).where(
       ["session_entities.user_id=:user and
-        session_entities.session_id=:session and
+        session_entities.permission_session_id=:permission_session_id and
         privileges.target_type=:target_type and
         privileges.action=:action",
         { :user => user.id,
-          :session => session,
+          :permission_session_id => permission_session,
           :target_type => target_type.name,
           :action => action}]).any?
     end
@@ -113,23 +113,23 @@ module PermissionedObject
       def self.default_privilege_target_type
         self
       end
-      def self.list_for_user(session, user, action,
+      def self.list_for_user(permission_session, user, action,
                              target_type=self.default_privilege_target_type)
-        if session.nil? or user.nil? or action.nil? or target_type.nil?
+        if permission_session.nil? or user.nil? or action.nil? or target_type.nil?
           return where("1=0")
         end
         if BasePermissionObject.general_permission_scope.
-            has_privilege(session, user, action, target_type)
+            has_privilege(permission_session, user, action, target_type)
           scoped
         else
           includes([:derived_permissions => {:role => :privileges,
                                              :entity => :session_entities}]).
             where("session_entities.user_id=:user and
-                   session_entities.session_id=:session and
+                   session_entities.permission_session_id=:permission_session_id and
                    privileges.target_type=:target_type and
                    privileges.action=:action",
                   {:user => user.id,
-                   :session => session,
+                   :permission_session_id => permission_session.id,
                    :target_type => target_type.name,
                    :action => action})
         end

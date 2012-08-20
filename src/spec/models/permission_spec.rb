@@ -33,53 +33,55 @@ describe Permission do
     @pool = @pool_user_permission.pool
     @session = FactoryGirl.create :session
     @session_id = @session.session_id
-    SessionEntity.update_session(@session_id, @admin)
-    SessionEntity.add_to_session(@session_id, @provider_admin)
-    SessionEntity.add_to_session(@session_id, @pool_user)
+    @permission_session = PermissionSession.create!(:user => @admin,
+                                                    :session_id => @session_id)
+    @permission_session.update_session_entities(@admin)
+    @permission_session.add_to_session(@provider_admin)
+    @permission_session.add_to_session(@pool_user)
   end
 
   it "Admin should be able to create users" do
-    BasePermissionObject.general_permission_scope.has_privilege(@session_id,
+    BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
                                                                 @admin,
                                                                 Privilege::CREATE,
                                                                 User).should be_true
   end
 
   it "Provider Admin should NOT be able to create users" do
-    BasePermissionObject.general_permission_scope.has_privilege(@session_id,
+    BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
                                                                 @provider_admin,
                                                                 Privilege::CREATE,
                                                                 User).should be_false
   end
 
   it "Pool User should NOT be able to create users" do
-    BasePermissionObject.general_permission_scope.has_privilege(@session_id,
+    BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
                                                                 @pool_user,
                                                                 Privilege::CREATE,
                                                                 User).should be_false
   end
 
   it "Provider Admin should be able to edit provider" do
-    @provider.has_privilege(@session_id, @provider_admin,
+    @provider.has_privilege(@permission_session, @provider_admin,
                             Privilege::MODIFY).should be_true
   end
 
   it "Admin should be able to edit provider" do
-    @provider.has_privilege(@session_id, @admin, Privilege::MODIFY).should be_true
+    @provider.has_privilege(@permission_session, @admin, Privilege::MODIFY).should be_true
   end
 
   it "Pool User should NOT be able to edit provider" do
-    @provider.has_privilege(@session_id, @pool_user,
+    @provider.has_privilege(@permission_session, @pool_user,
                             Privilege::MODIFY).should be_false
   end
 
   it "Pool User should be able to create instances in @pool" do
-    @pool.has_privilege(@session_id, @pool_user,
+    @pool.has_privilege(@permission_session, @pool_user,
                         Privilege::CREATE, Instance).should be_true
   end
 
   it "Pool User should NOT be able to create instances in another pool" do
-    FactoryGirl.create(:tpool).has_privilege(@session_id, @pool_user,
+    FactoryGirl.create(:tpool).has_privilege(@permission_session, @pool_user,
                                              Privilege::CREATE, Instance).
       should be_false
   end
@@ -88,15 +90,15 @@ describe Permission do
     newuser = FactoryGirl.create(:user)
     group_admin_permission = FactoryGirl.create(:group_admin_permission)
     user_group = group_admin_permission.user_group
-    SessionEntity.update_session(@session_id, newuser)
-    BasePermissionObject.general_permission_scope.has_privilege(@session_id,
+    @permission_session.update_session_entities(newuser)
+    BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
                                                                 newuser,
                                                                 Privilege::CREATE,
                                                                 User).should be_false
     user_group.members << newuser
     newuser.reload
-    SessionEntity.update_session(@session_id, newuser)
-    BasePermissionObject.general_permission_scope.has_privilege(@session_id,
+    @permission_session.update_session_entities(newuser)
+    BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
                                                                 newuser,
                                                                 Privilege::CREATE,
                                                                 User).should be_true

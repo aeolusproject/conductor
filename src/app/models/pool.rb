@@ -101,7 +101,7 @@ class Pool < ActiveRecord::Base
   end
 
   # TODO: Implement Alerts and Updates
-  def statistics(session=nil, user = nil)
+  def statistics(permission_session=nil, user = nil)
     # TODO - Need to set up cache invalidation before this is safe
     #Rails.cache.fetch("pool-#{id}-statistics") do
     max = quota.maximum_running_instances
@@ -109,7 +109,7 @@ class Pool < ActiveRecord::Base
     avail = max - total unless max.nil?
     all_failed = instances.failed
     failed = (user.nil? || all_failed.empty? ? all_failed :
-              all_failed.list_for_user(session, user, Privilege::VIEW))
+              all_failed.list_for_user(permission_session, user, Privilege::VIEW))
     pool_family_quota_percent = pool_family.quota.percentage_used quota.running_instances
     statistics = {
       :cloud_providers => instances.includes(:provider_account).collect{|i| i.provider_account}.uniq.count,

@@ -63,7 +63,12 @@ def mock_warden(user)
   request.session_options[:id] = @session_id
   @session = ActiveRecord::SessionStore::Session.find_by_session_id(@session_id)
   @session = FactoryGirl.create :session unless @session
-  SessionEntity.update_session(@session_id, user) if user
+  if user
+    @permission_session = PermissionSession.create!(:user => user,
+                                                    :session_id => @session_id)
+    request.session[:permission_session_id] = @permission_session.id
+    @permission_session.update_session_entities(user)
+  end
 end
 
 # Without these here, controller specs fail.  These 2 class_evals can
