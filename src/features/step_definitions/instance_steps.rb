@@ -45,6 +45,7 @@ Given /^"([^"]*)" instance's provider is not accessible$/ do |arg1|
   # cleanly
   provider = instance.provider_account.provider
   provider.update_attribute(:url, 'http://localhost:3002/invalid_api')
+  ProviderAccount.any_instance.stub(:connect).and_return(nil)
 end
 
 When /^I am viewing the pending instance detail$/ do
@@ -84,6 +85,7 @@ end
 
 Given /^there is a "([^"]*)" running instance$/ do |name|
   FactoryGirl.create :instance, :name => name, :state => Instance::STATE_RUNNING
+  mock_deltacloud
 end
 
 Given /^there is a "([^"]*)" stopped instance$/ do |name|
