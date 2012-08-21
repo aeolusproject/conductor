@@ -44,3 +44,30 @@ module LocalizationHelpers
   end
 end
 World(LocalizationHelpers)
+
+def mock_deltacloud
+  @deltacloud_connection = mock("Deltacloud::API")
+
+  @running_state = mock("Deltacloud::API::InstanceState")
+  @running_state.stub(:transitions).and_return {
+    [create_deltacloud_transition('running', 'reboot'),
+     create_deltacloud_transition('stopped', 'stop')]}
+  @deltacloud_connection.stub(:instance_state).with("running").and_return(@running_state)
+
+  @stopped_state = mock("Deltacloud::API::InstanceState")
+  @stopped_state.stub(:transitions).and_return {
+    [create_deltacloud_transition('running', 'start'),
+     create_deltacloud_transition('finish', 'destroy')]}
+  @deltacloud_connection.stub(:instance_state).with("stopped").and_return(@stopped_state)
+
+  ProviderAccount.any_instance.stub(:connect).and_return(@deltacloud_connection)
+end
+
+private
+
+def create_deltacloud_transition(to_state, action_to_get_to_state)
+  deltacloud_transition = mock("Deltacloud::API::Transition")
+  deltacloud_transition.stub(:to).and_return(to_state)
+  deltacloud_transition.stub(:action).and_return(action_to_get_to_state)
+  deltacloud_transition
+end
