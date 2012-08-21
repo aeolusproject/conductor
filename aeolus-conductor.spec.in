@@ -269,7 +269,7 @@ woff="vendor/converge-ui/fonts"
 txt="public"
 yml="config config/locales config/locales/defaults config/locales/overrides
      config/locales/role_definitions config/locales/classnames config/locales/will_paginate \
-     config/locales/overrides/role_definitions"
+     config/locales/overrides/role_definitions config/locales/activerecord"
 xml="app/util"
 for filetype in builder css eot feature gif haml mustache html ico jpg js json key opts png \
     rake rb rhtml scss svg ttf txt woff yml xml; do
