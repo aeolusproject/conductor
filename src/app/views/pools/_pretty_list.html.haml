@@ -25,7 +25,7 @@
   $(document).ready(function() {
     $('div.pool').each(function(){
       var this_pool = this;
-      $(this).find('header a.control').click(function(){
+      $(this).find('header a.control').live('click', function(){
         $(this_pool).toggleClass('collapsed');
         return false;
       });
