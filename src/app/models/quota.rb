@@ -110,10 +110,7 @@ class Quota < ActiveRecord::Base
   def can_create?(instances)
     size = (instances.kind_of? Array) ? instances.size : 1
     potential_total_instances = total_instances + size
-    if !Quota.no_limit(maximum_total_instances) && maximum_total_instances < potential_total_instances
-      return false
-    end
-    return true
+    Quota.no_limit(maximum_total_instances) && maximum_total_instances < potential_total_instances
   end
 
   def reached?
@@ -121,8 +118,10 @@ class Quota < ActiveRecord::Base
   end
 
   def quota_resources()
-    quota_resources =  {"running_instances" => QuotaResource.new("Running Instances", running_instances, maximum_running_instances, nil, ""),
-            "total_instances" => QuotaResource.new("Total Instances", total_instances, maximum_total_instances, nil, "")}
+    quota_resources =  {
+      "running_instances" => QuotaResource.new("Running Instances", running_instances, maximum_running_instances, nil, ""),
+      "total_instances" => QuotaResource.new("Total Instances", total_instances, maximum_total_instances, nil, "")
+    }
 
     quota_resources.each_value do |quota_resource|
       if Quota.no_limit(quota_resource.max)
@@ -137,7 +136,7 @@ class Quota < ActiveRecord::Base
       end
     end
 
-    return quota_resources
+    quota_resources
   end
 
   def percentage_used(count=running_instances)
@@ -146,15 +145,12 @@ class Quota < ActiveRecord::Base
     elsif maximum_running_instances == 0
       return 100
     else
-      percentage_used = (count.to_f / maximum_running_instances.to_f) * 100
-      return percentage_used
+      (count.to_f / maximum_running_instances.to_f) * 100
     end
   end
 
   def self.no_limit(resource)
-    if resource.to_s == NO_LIMIT.to_s
-      return true
-    end
-    return false
+    resource.to_s == NO_LIMIT.to_s
   end
+
 end

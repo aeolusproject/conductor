@@ -44,17 +44,16 @@ class Role < ActiveRecord::Base
   def privilege_target_types
     privileges.collect {|x| Kernel.const_get(x.target_type)}.uniq
   end
+
   def privilege_target_match(obj_type)
     (privilege_target_types & obj_type.active_privilege_target_types).any?
   end
 
   def self.all_by_scope
-    roles = self.all
-    role_hash = {}
-    roles.each do |role|
+    all.inject({}) do |roles_hash, role|
       role_hash[role.scope] ||= []
       role_hash[role.scope] << role
+      roles_hash
     end
-    role_hash
   end
 end

@@ -32,6 +32,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Provider < ActiveRecord::Base
+
   require 'util/conductor'
   include PermissionedObject
 
@@ -64,11 +65,14 @@ class Provider < ActiveRecord::Base
 
   before_destroy :destroyable?
 
-  def derived_subtree(role = nil)
-    subtree = super(role)
-    subtree += provider_accounts if (role.nil? or role.privilege_target_match(ProviderAccount))
-    subtree
+  def valid_role?
+    role.nil? or role.privilege_target_match(ProviderAccount)
   end
+
+  def derived_subtree(role = nil)
+    valid_role? ? (super(role) + provider_accounts) : super(role)
+  end
+
   def self.additional_privilege_target_types
     [ProviderAccount]
   end
@@ -80,35 +84,37 @@ class Provider < ActiveRecord::Base
     if deltacloud_provider
       url_extras += ";provider=#{CGI::escape(deltacloud_provider)}"
     end
-    return url + url_extras
+    url + url_extras
   end
+
   # there is a destroy dependency for a cloud accounts association,
   # but a cloud account is silently not destroyed when there is
   # an instance for the cloud account
   def destroyable?
-    unless self.provider_accounts.empty?
-      self.provider_accounts.each do |c|
-        unless c.instances.empty?
-          inst_list = c.instances.map {|i| i.name}.join(', ')
-          self.errors.add(:base, "there are instances for cloud account '#{c.name}': #{inst_list}")
-        end
-      end
+    return if self.provider_accounts.empty?
+    self.provider_accounts.each do |c|
+      next if c.instances.empty?
+      self.errors.add(:base,
+                      'there are instances for cloud account "%s": %s' % [
+                        c.name,
+                        c.instances.map {|i| i.name }.join(', ')
+      ])
     end
-    return self.errors.empty?
+    self.errors.empty?
   end
 
   def connect
     begin
+      client = DeltaCloud.new(nil, nil, url)
       opts = {:username => nil,
               :password => nil,
               :driver => provider_type.deltacloud_driver }
       opts[:provider] = deltacloud_provider if deltacloud_provider
-      client = DeltaCloud.new(nil, nil, url)
-      return client.with_config(opts)
+      client.with_config(opts)
     rescue Exception => e
       logger.error("Error connecting to framework: #{e.message}")
       logger.error("Backtrace: #{e.backtrace.join("\n")}")
-      return nil
+      nil
     end
   end
 
@@ -136,22 +142,20 @@ class Provider < ActiveRecord::Base
           i.update_attributes(:state => Instance::STATE_STOPPED)
           false
         rescue
-          true
           # this should never happen, so display an error only in log file
           logger.warn "failed to stop instance #{i.name}: #{$!.message}"
           logger.warn $!.backtrace.join("\n ")
+          true
         end
       end
     end
-    if res[:failed_to_stop].blank? and res[:failed_to_terminate].blank?
-      update_attribute(:enabled, false)
-    end
+    update_attribute(:enabled, false) if res[:failed_to_stop].blank? and res[:failed_to_terminate].blank?
     res
   end
 
   def instances_to_terminate
     return [] if valid_framework?
-    provider_accounts.inject([]) {|all, pa| all += pa.instances.stoppable_inaccessible}
+    provider_accounts.inject([]) {|all, pa| all << pa.instances.stoppable_inaccessible; all}
   end
 
   def update_availability
@@ -175,6 +179,7 @@ class Provider < ActiveRecord::Base
     deltacloud_realms = []
     dc_acct_realms = {}
     dc_acct_realm_ids = {}
+
     self.transaction do
       provider_accounts.each do |acct|
         # if account is not accessible (but provider is running)
@@ -203,12 +208,13 @@ class Provider < ActiveRecord::Base
       deltacloud_realm_ids = deltacloud_realms.collect{|r| r.id}
       # Delete anything in Conductor that's not in Deltacloud
       conductor_realms = realms
+
+      #FIXME: This variable is unused?
+      #
       conductor_realm_ids = conductor_realms.collect{|r| r.external_key}
+
       conductor_realms.each do |c_realm|
-        unless deltacloud_realm_ids.include?(c_realm.external_key)
-          #c_realm.reload
-          c_realm.destroy
-        end
+        c_realm.destroy unless deltacloud_realm_ids.include?(c_realm.external_key)
       end
 
       # Add anything in Deltacloud to Conductor if it's not already there
@@ -257,16 +263,13 @@ class Provider < ActiveRecord::Base
   end
 
   def validate_provider
-    if !nil_or_empty(url)
-      errors.add('url', :invalid_framework) unless valid_framework?
-      #errors.add('deltacloud_provider', :invalid_provider) unless valid_provider?
-    end
+    errors.add('url', :invalid_framework) if !nil_or_empty(url) and !valid_framework?
   end
 
   private
 
   def valid_framework?
-    connect.nil? ? false : true
+    !connect.nil?
   end
 
   def valid_provider?
