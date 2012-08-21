@@ -191,7 +191,11 @@ class ImagesController < ApplicationController
         t("images.flash.error.no_provider_accounts_for_import") :
         t("images.flash.error.no_provider_accounts")
     end
-    render 'import' == params[:tab] ? :import : :new
+    if 'import' == params[:tab]
+      render :import
+    else
+      render :new, :locals => {:active => "file"}
+    end
   end
 
   def import
@@ -231,17 +235,23 @@ class ImagesController < ApplicationController
     end
 
     if params.has_key? :image_url
-      url = params[:image_url]
-      begin
-        xml_source = RestClient.get(url, :accept => :xml)
-      rescue RestClient::Exception, SocketError, URI::InvalidURIError, Errno::ECONNREFUSED, Errno::ETIMEDOUT
-        errors << t('images.flash.error.invalid_url')
+      xml_source, error = import_xml_from_url(params[:image_url])
+      if error
+        errors << error
+        @accounts = @environment.provider_accounts.enabled.
+                  list_for_user(current_session, current_user, Privilege::USE)
+        flash[:error] = errors
+        render :new, :locals => {:active => "url"} and return
       end
     else
       file = params[:image_file]
       xml_source = file && file.read
       unless xml_source
+        @accounts = @environment.provider_accounts.enabled.
+            list_for_user(current_session, current_user, Privilege::USE)
         errors << t('images.flash.error.no_file')
+        flash[:error] = errors
+        render :new, :locals => {:active => "file"} and return
       end
     end
 

@@ -151,6 +151,26 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def import_xml_from_url(url)
+    if url.blank?
+      error = t('application_controller.flash.error.no_url_provided')
+    elsif not url =~ URI::regexp
+      error = t('application_controller.flash.error.not_valid_url', :url => url)
+    else
+      begin
+        response = RestClient.get(url, :accept => :xml)
+        if response.code == 200
+          return response, nil
+        else
+          error = t('application_controller.flash.error.download_failed')
+        end
+      rescue RestClient::Exception, SocketError, URI::InvalidURIError, Errno::ECONNREFUSED, Errno::ETIMEDOUT
+        error = t('application_controller.flash.error.not_valid_or_reachable', :url => url)
+      end
+    end
+    return nil, error
+  end
+
   private
   def json_error_hash(msg, status)
     json = {}

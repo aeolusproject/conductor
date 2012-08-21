@@ -869,8 +869,6 @@ en:
       catalog_entries_list: Deployables List
     flash:
       warning:
-        not_valid_or_reachable: "Deployable XML file is either invalid or no longer reachable at %{url}"
-        no_url_provided: "No URL provided for the Deployable XML file."
         not_valid: "file contains syntax errors"
         not_valid_duplicate_assembly_names: "must contain unique Assembly names"
         not_valid_cyclic_reference: "Contains cyclic reference between following Assemblies or services: %{reference}"
@@ -1513,6 +1511,11 @@ en:
         record_not_exist: "The record you tried to access does not exist. It may have been deleted"
         must_be_logged: You must be logged in to access this page
         must_not_be_logged: You must be logged out to access this page
+      error:
+        no_url_provided: No URL is provided for XML import
+        not_valid_url: "Provided URL is not valid %{url}"
+        download_failed: Download of XML file failed
+        not_valid_or_reachable: "XML file is either invalid or no longer reachable at %{url}"
     admin_tabs:
       catalogs: Catalogs
       realms: Realms

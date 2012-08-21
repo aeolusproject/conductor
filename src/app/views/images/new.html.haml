@@ -1,4 +1,5 @@
 = render :partial => 'layouts/admin_nav'
+
 %header.page-header
   .obj_actions
     .return_to
@@ -15,9 +16,11 @@
       %nav#image-upload-tabs.faceted
         %ul.tabs
           %li
-            %a{ :href => '#image-file-form', :class => 'active'}= t('.upload')
+            %a{ :href => '#image-file-form', :class => "#{'active' if active == "file"}"}
+              = t('.upload')
           %li
-            %a{ :href => '#image-url-form'}= t('.from_url')
+            %a{ :href => '#image-url-form', :class => "#{'active' if active == "url"}"}
+              = t('.from_url')
 
       %section#image-file-form
         = form_tag(edit_xml_images_path, { :multipart => true, :class => 'generic horizontal' }) do
