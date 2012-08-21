@@ -137,7 +137,7 @@ class DeployablesController < ApplicationController
     end
 
     if params.has_key? :url
-      xml = import_xml_from_url(params[:url])
+      xml, error = import_xml_from_url(params[:url])
       unless xml.nil?
         #store xml_filename for url (i.e. url ends to: foo || foo.xml)
         @deployable.xml_filename =  File.basename(URI.parse(params[:url]).path)
@@ -175,6 +175,7 @@ class DeployablesController < ApplicationController
       end
 
     rescue => e
+      @deployable.errors.add(:url, error) if error
       if @deployable.errors.empty?
         logger.error e.message
         logger.error e.backtrace.join("\n ")
@@ -302,22 +303,4 @@ class DeployablesController < ApplicationController
                                       Privilege::CREATE, Deployable).
       where('pool_family_id' => @pool_family.id)
   end
-
-  def import_xml_from_url(url)
-    begin
-      response = RestClient.get(url, :accept => :xml)
-      if response.code == 200
-        response
-      end
-    rescue RestClient::Exception, SocketError, URI::InvalidURIError, Errno::ECONNREFUSED, Errno::ETIMEDOUT
-      if url.present?
-        flash[:error] = t('catalog_entries.flash.warning.not_valid_or_reachable', :url => url)
-      else
-        flash[:error] = t('catalog_entries.flash.warning.no_url_provided')
-      end
-      nil
-    end
-  end
-
-  
 end
