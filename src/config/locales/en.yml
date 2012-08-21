@@ -906,7 +906,7 @@ en:
     import:
       import_image: Import Image
       provider_account: Provider Account
-      image_id: Image ID
+      image_id: Provider's Image ID
       name: Image Name
       image_imported: The image was imported successfully.
       image_not_imported: The image could not be imported. Check the Image Factory log for further details.
