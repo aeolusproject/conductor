@@ -221,22 +221,32 @@ class ImagesController < ApplicationController
     @environment = PoolFamily.find(params[:environment])
     check_permissions
     @name = params[:name]
+    errors = Array.new
+
+    if @name.empty?
+      errors << t('images.flash.error.no_name')
+    end
 
     if params.has_key? :image_url
       url = params[:image_url]
       begin
         xml_source = RestClient.get(url, :accept => :xml)
       rescue RestClient::Exception, SocketError, URI::InvalidURIError, Errno::ECONNREFUSED, Errno::ETIMEDOUT
-        flash.now[:error] = t('images.flash.error.invalid_url')
-        render :new and return
+        errors << t('images.flash.error.invalid_url')
       end
     else
       file = params[:image_file]
       xml_source = file && file.read
       unless xml_source
-        flash.now[:error] = t('images.flash.error.no_file')
-        render :new and return
+        errors << t('images.flash.error.no_file')
       end
+    end
+
+    if !errors.empty?
+      @accounts = @environment.provider_accounts.enabled.
+        list_for_user(current_session, current_user, Privilege::USE)
+      flash.now[:error] = errors
+      render :new and return
     end
 
     begin
