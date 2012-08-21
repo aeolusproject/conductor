@@ -187,6 +187,7 @@ Given /^this provider has a provider account with (\d+) running instances$/ do |
   arg1.to_i.times do |i|
     FactoryGirl.create(:instance, :provider_account => pa, :state => 'running')
   end
+  mock_deltacloud
 end
 
 When /^I click on the Providers icon in the menu$/ do
