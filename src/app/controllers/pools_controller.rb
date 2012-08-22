@@ -77,7 +77,7 @@ class PoolsController < ApplicationController
       end
     else
       @pools = paginate_collection(
-        Pool.includes(:deployments, :instances, :quota, :catalogs).
+        Pool.includes(:quota, :catalogs).
           list_for_user(current_session, current_user, Privilege::VIEW).
           list(sort_column(Pool), sort_direction),
         params[:page], PER_PAGE)
