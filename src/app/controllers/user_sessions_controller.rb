@@ -20,10 +20,11 @@
 class UserSessionsController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => :destroy
-  layout 'login'
+  layout 'converge-ui/login_layout'
 
   def new
     @title = t('masthead.login')
+    @disable_password_recovery = true
   end
 
   def create
@@ -31,9 +32,11 @@ class UserSessionsController < ApplicationController
     session[:javascript_enabled] = request.xhr?
     respond_to do |format|
       format.html do
-        redirect_back_or_default root_url
+        redirect_to back_or_default_url(root_url)
       end
-      format.js { render :status => 201, :text => session[:return_to] || root_url }
+      format.js do
+        render :js => "window.location.href = '#{back_or_default_url root_url}'"
+      end
     end
   end
 

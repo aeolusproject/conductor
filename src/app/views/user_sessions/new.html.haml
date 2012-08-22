@@ -1,3 +1,42 @@
+:javascript
+  $(document).ready(function() {
+    $('#username').focus(); // bring the username to focus
+
+    $('#login_form').submit(function() {
+      $('#progress-indicator').show();
+    });
+  })
+
+/.card
+/  -if flash[:warning]
+/    %div.error
+/      %p.text= flash[:warning]
+/  -if flash[:error]
+/    %div.error
+/      %p.text= flash[:error]
+/
+/  = form_tag user_session_path, :id => 'login_form' do
+/    %fieldset.primary
+/      = label_tag :login, t("user_sessions.new.username")
+/      = text_field_tag :login, params[:login], :class => 'username', :id => 'username'
+/    %fieldset.primary
+/      = label_tag :password, t("user_sessions.new.password")
+/      = password_field_tag :password, params[:password], :class => 'password', :id => 'password-input'
+/    .group.secondary_actions
+/      /%input{:type => 'checkbox', :id => 'reveal'}
+/      /%label{:for => 'reveal'}= t"user_sessions.new.show_password"
+/      %span
+/        = t "user_sessions.new.forgot"
+/        = link_to t("user_sessions.new.login"), "#", :id => "username_link"
+/        = t "user_sessions.new.or"
+/        = link_to( t("user_sessions.new.password"), "#", :id => "password_link" ) + "?"
+/    = submit_tag "#{t('user_sessions.new.login')}", :class => "button fr", :id => 'login_btn'
+/    = image_tag 'login-spinner.gif', :alt => 'Working...', :id => 'progress-indicator'
+/
+/- unless @disable_password_recovery
+/  = render :partial => 'password_recovery'
+/  = render :partial => 'username_recovery'
+
 = content_for(:stylesheets_block) do
   = stylesheet_link_tag '/stylesheets/compiled/login.css'
   /[if lt IE 8]
@@ -5,8 +44,8 @@
 
 = content_for(:javascripts_block) do
   = javascript_include_tag "converge-ui/vendor/jquery/jquery-1.6.2.js"
-  = javascript_include_tag "converge-ui/vendor/rails.js"
   = javascript_include_tag "converge-ui/login.js"
+  = javascript_include_tag "converge-ui/vendor/rails.js"
   /[if lt IE 9]
     = javascript_include_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
 
@@ -18,13 +57,10 @@
   = render :partial => 'notifications' if flash[:warning].present?
 
 = content_for :login_logo do
-  = image_tag 'login-card-logo-upstream.png'
+  = image_tag 'login-card-logo-product.png'
 
 = content_for(:project_name) do
   = image_tag("logo.png", :alt => get_string(:example_logo))
-
-= content_for(:forgot_password_link) do
-  = link_to get_string(:forgot_username_password), user_session_path #password_resets_path
 
 = content_for(:show_password) do
   = get_string(:show_password)
