@@ -78,9 +78,6 @@ en:
     form:
       user_treatment: User Treatment
       save_user: Save User
-      user_status: User Status
-      user_status_active: Active
-      user_status_inactive: Inactive
     new:
       new_user: New User
       neccessary_information: "Please enter the required information, then click 'Save User'."

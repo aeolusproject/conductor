@@ -36,17 +36,6 @@
         .input
           = quota_form.text_field :maximum_running_instances
 
-  %fieldset
-    %legend=t'users.form.user_status'
-    .field
-      %ul.radio-group
-        %li
-          = label_tag "user_status_active", t("users.form.user_status_active")
-          = radio_button_tag "user_status", t("users.form.user_status_active"), true
-        %li
-          = label_tag "user_status_inactive", t("users.form.user_status_inactive")
-          = radio_button_tag "user_status", t("users.form.user_status_inactive"), false, :disabled => true
-
 %fieldset.options
   = form.submit "#{t'users.form.save_user'}",  :class => "submit button pill"
 
