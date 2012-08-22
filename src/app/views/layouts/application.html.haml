@@ -10,6 +10,7 @@
   /[if lt IE 8]
     = stylesheet_link_tag '/stylesheets/layout_ie7.css'
 
+= content_for :javascripts_block do
   :javascript
     window.Conductor = {}
     window.Conductor.PATH_PREFIX = "#{root_path}"
@@ -19,7 +20,7 @@
     window.history.pushState || (window.history.pushState = function(){});
     window.history.replaceState || (window.history.replaceState = function(){});
 
-  = javascript_include_tag "converge-ui/lib/jquery/jquery-1.6.2.js"
+  = javascript_include_tag "converge-ui/vendor/jquery/jquery-1.6.2.js"
   = javascript_include_tag "jquery.ui-1.8.1/jquery-ui-1.8.1.custom.min.js"
   = javascript_include_tag "mustache.min.js"
   = javascript_include_tag "underscore-min.js"
@@ -30,10 +31,10 @@
   = javascript_include_tag "backbone/models.js"
   = javascript_include_tag "backbone/views.js"
   = javascript_include_tag "backbone/routers.js"
-  = javascript_include_tag "converge-ui/lib/rails.js"
+  = javascript_include_tag "converge-ui/vendor/rails.js"
   = javascript_include_tag "lib/modernizr-custom.js"
-  = javascript_include_tag "converge-ui/lib/jquery/plugins/flot-0.7/jquery.flot.js"
-  = javascript_include_tag "converge-ui/lib/jquery/plugins/flot-0.7/excanvas.js"
+  = javascript_include_tag "converge-ui/vendor/jquery/plugins/flot-0.7/jquery.flot.js"
+  = javascript_include_tag "converge-ui/vendor/jquery/plugins/flot-0.7/excanvas.js"
 
 = content_for :logo do
   = link_to t('layout.appname'), root_path, :class => "logo"

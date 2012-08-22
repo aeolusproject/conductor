@@ -18,4 +18,19 @@
 # Likewise, all the methods added will be available for all controllers.
 
 module UserSessionsHelper
+  # this overrides the rails_translations and translations helpers from converge ui
+  # should be removed when those two helpers are fixed in converge-ui
+  @@translations = {
+    :show_password            => I18n.t("user_sessions.new.show_password"),
+    :example_logo             => I18n.t("logo"),
+    :forgot_username_password => I18n.t("user_sessions.new.forgot_username_password"),
+    :username                 => I18n.t("user_sessions.new.username"),
+    :password                 => I18n.t("user_sessions.new.password"),
+    :login                    => I18n.t("user_sessions.new.login"),
+    :recovery_link            => I18n.t("Forgot %s or %s?")
+  }
+
+  def get_string(text_key)
+    return @@translations[text_key]
+  end
 end

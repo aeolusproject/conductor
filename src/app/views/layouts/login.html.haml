@@ -7,9 +7,9 @@
   /[if lt IE 8]
     = stylesheet_link_tag '/stylesheets/layout_ie7.css'
 
-  = javascript_include_tag "converge-ui/lib/jquery/jquery-1.6.2.js"
+  = javascript_include_tag "converge-ui/vendor/jquery/jquery-1.6.2.js"
   = javascript_include_tag "converge-ui/login.js"
-  = javascript_include_tag "converge-ui/lib/rails.js"
+  = javascript_include_tag "converge-ui/vendor/rails.js"
   /[if lt IE 9]
     = javascript_include_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
 
@@ -22,4 +22,4 @@
 = content_for :footer do
   = render :partial => "layouts/footer"
 
-= render :file => "app/views/layouts/converge-ui/user_session_layout"
+= render :partial => "/layouts/converge-ui/user_session_layout"
