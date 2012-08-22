@@ -35,20 +35,14 @@ class Graph
 
   def self.get_quota_usage_graph_name(resource_name)
     case resource_name
-      when Quota::RESOURCE_RUNNING_INSTANCES
-        return QUOTA_USAGE_RUNNING_INSTANCES
-      when Quota::RESOURCE_RUNNING_MEMORY
-        return QUOTA_USAGE_RUNNING_MEMORY
-      when  Quota::RESOURCE_RUNNING_CPUS
-        return QUOTA_USAGE_RUNNING_CPUS
-      when Quota::RESOURCE_TOTAL_INSTANCES
-        return QUOTA_USAGE_TOTAL_INSTANCES
-      when Quota::RESOURCE_TOTAL_STORAGE
-        return QUOTA_USAGE_TOTAL_STORAGE
-      when Quota::RESOURCE_OVERALL
-        return QUOTA_USAGE_OVERALL
+      when Quota::RESOURCE_RUNNING_INSTANCES then QUOTA_USAGE_RUNNING_INSTANCES
+      when Quota::RESOURCE_RUNNING_MEMORY then QUOTA_USAGE_RUNNING_MEMORY
+      when Quota::RESOURCE_RUNNING_CPUS then QUOTA_USAGE_RUNNING_CPUS
+      when Quota::RESOURCE_TOTAL_INSTANCES then QUOTA_USAGE_TOTAL_INSTANCES
+      when Quota::RESOURCE_TOTAL_STORAGE then QUOTA_USAGE_TOTAL_STORAGE
+      when Quota::RESOURCE_OVERALL then QUOTA_USAGE_OVERALL
       else
-        return nil
+        nil
     end
   end
 end

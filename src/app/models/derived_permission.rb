@@ -115,6 +115,7 @@ class DerivedPermission < ActiveRecord::Base
      :where => {"permission_object_type" => "Instance"},
      :search_fields => ["instances.name"]}
   ]
+
   def self.apply_search_filter(search)
     search, preset_filter_id = search
     if search

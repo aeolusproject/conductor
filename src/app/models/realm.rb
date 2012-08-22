@@ -32,9 +32,11 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Realm < ActiveRecord::Base
+
   class << self
     include CommonFilterMethods
   end
+
   belongs_to :provider
   has_and_belongs_to_many :provider_accounts, :uniq => true
 
@@ -52,16 +54,13 @@ class Realm < ActiveRecord::Base
   PRESET_FILTERS_OPTIONS = []
 
   def name_with_provider
-    "#{self.provider.name}: #{self.name}"
+    "#{provider.name}: #{name}"
   end
 
   private
 
   def self.apply_search_filter(search)
-    if search
-      where("lower(name) LIKE :search", :search => "%#{search.downcase}%")
-    else
-      scoped
-    end
+    return scoped unless search
+    where("lower(name) LIKE :search", :search => "%#{search.downcase}%")
   end
 end
