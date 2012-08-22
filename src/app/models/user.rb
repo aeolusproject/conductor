@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
   class << self
     include CommonFilterMethods
   end
+
   attr_accessor :password
 
   # this attr is used when validating non-local (ldap) users
