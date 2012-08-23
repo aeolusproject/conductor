@@ -37,14 +37,16 @@ describe Api::EntrypointController do
 
       it { response.should be_success }
       it { response.headers['Content-Type'].should include("application/xml") }
-      it {
+      it "should have all resources URLs" do
         resp = Hash.from_xml(response.body)
         api = resp['api']
         api['images']['href'].should == api_images_url
         api['builds']['href'].should == api_builds_url
         api['target_images']['href'].should == api_target_images_url
         api['provider_images']['href'].should == api_provider_images_url
-      }
+        api['providers']['href'].should == api_providers_url
+        api['provider_accounts']['href'].should == api_provider_accounts_url
+      end
     end
   end
 end
