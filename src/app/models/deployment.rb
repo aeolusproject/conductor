@@ -124,7 +124,7 @@ class Deployment < ActiveRecord::Base
           end
         end
       end
-  end
+    end
   end
 
   def pool_must_be_enabled
@@ -153,7 +153,7 @@ class Deployment < ActiveRecord::Base
   end
 
   def valid_action?(action)
-    return get_action_list.include?(action) ? true : false
+    get_action_list.include?(action)
   end
 
   def destroyable?
@@ -219,13 +219,13 @@ class Deployment < ActiveRecord::Base
         create_instances_with_params!(permission_session, user)
         launch!(user)
       end
-      return true
+      true
     rescue
       errors.add(:base, $!.message)
       logger.error $!.message
       logger.error $!.backtrace.join("\n    ")
+      false
     end
-    false
   end
 
   def launch!(user)
@@ -571,7 +571,6 @@ class Deployment < ActiveRecord::Base
     errors = []
     all_matches = instances.map do |instance|
       m, e = instance.matches
-      errors = e.map {|e| "#{instance.name}: #{e}"}
       # filter matches we used in previous retries
       m.select {|inst_match| !instance.includes_instance_match?(inst_match)}
     end
@@ -586,7 +585,7 @@ class Deployment < ActiveRecord::Base
     if match.present?
       account = match.provider_account
       matches_by_account = all_matches.map do |m|
-        m.find {|m| m.provider_account.id == account.id}
+        m.find { |m2| m2.provider_account.id == account.id }
       end
 
       return [matches_by_account, account, errors] unless matches_by_account.include?(nil)
@@ -608,7 +607,6 @@ class Deployment < ActiveRecord::Base
   end
 
   def create_instances_with_params!(permission_session, user)
-    errors = {}
     deployable_xml.assemblies.each do |assembly|
       hw_profile = permissioned_frontend_hwprofile(permission_session,
                                                    user, assembly.hwp)
@@ -629,7 +627,7 @@ class Deployment < ActiveRecord::Base
         assembly.services.each do |service|
           service.parameters.each do |parameter|
             if not parameter.reference?
-              param = InstanceParameter.create!(
+              InstanceParameter.create!(
                 :instance => instance,
                 :service => service.name,
                 :name => parameter.name,

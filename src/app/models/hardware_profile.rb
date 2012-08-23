@@ -83,7 +83,7 @@ class HardwareProfile < ActiveRecord::Base
   validates_associated :architecture
 
   def get_property_map
-    return {'memory' => memory, 'cpu' => cpu, 'architecture' => architecture, 'storage' => storage}
+    {'memory' => memory, 'cpu' => cpu, 'architecture' => architecture, 'storage' => storage}
   end
 
   def provider_hardware_profile?
@@ -157,7 +157,7 @@ class HardwareProfile < ActiveRecord::Base
     property_overrides[:storage] = generate_override_property_value(front_end_hwp.storage, back_end_hwp.storage)
     property_overrides[:cpu] = generate_override_property_value(front_end_hwp.cpu, back_end_hwp.cpu)
     property_overrides[:architecture] = front_end_hwp.architecture.value
-    return property_overrides
+    property_overrides
   end
 
   PRESET_FILTERS_OPTIONS = [
@@ -168,26 +168,22 @@ class HardwareProfile < ActiveRecord::Base
   private
 
   def self.apply_search_filter(search)
-    if search
-      where("lower(name) LIKE :search", :search => "%#{search.downcase}%")
-    else
-      scoped
-    end
+    return scoped unless search
+    where("lower(name) LIKE :search", :search => "%#{search.downcase}%")
   end
 
   def self.generate_override_property_value(front_end_property, back_end_property)
     case back_end_property.kind
-      when "fixed"
-        return back_end_property.value
+      when "fixed" then back_end_property.value
       when "range"
         return back_end_property.value.to_i unless front_end_property.value.present?
         val = front_end_property.value.to_i
         if val < back_end_property.range_first.to_i
-          return back_end_property.range_first.to_i
+          back_end_property.range_first.to_i
         elsif val > back_end_property.range_last.to_i
-          return back_end_property.range_last.to_i
+          back_end_property.range_last.to_i
         else
-          return val
+          val
         end
       when "enum"
         create_array_from_property(back_end_property).sort!.each do |value|
@@ -195,8 +191,10 @@ class HardwareProfile < ActiveRecord::Base
             return value
           end
         end
+        nil
+      else
+        nil
     end
-    return nil
   end
 
   def self.match_hardware_profiles(provider, hardware_profile)
@@ -256,11 +254,8 @@ class HardwareProfile < ActiveRecord::Base
 
   def self.create_array_from_property(p)
     case p.kind
-    when 'fixed'
-      return [p.value]
-
-    when 'enum'
-      return p.property_enum_entries.map { |enum| enum.value }
+      when 'fixed' then [p.value]
+      when 'enum' then p.property_enum_entries.map { |enum| enum.value }
     end
   end
 

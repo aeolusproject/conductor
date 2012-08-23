@@ -19,9 +19,14 @@ class ProviderPriorityGroup < ActiveRecord::Base
   belongs_to :pool
   has_many :provider_priority_group_elements, :dependent => :destroy
   has_many :providers, :through => :provider_priority_group_elements, :source => :value, :source_type => 'Provider'
-  has_many :provider_accounts, :through => :provider_priority_group_elements, :source => :value, :source_type => 'ProviderAccount'
 
-  validates_numericality_of :score, :only_integer => true, :greater_than_or_equal_to => -100, :less_than_or_equal_to => 100
+  has_many :provider_accounts, :through => :provider_priority_group_elements,
+    :source => :value, :source_type => 'ProviderAccount'
+
+  validates_numericality_of :score,
+    :only_integer => true,
+    :greater_than_or_equal_to => -100,
+    :less_than_or_equal_to => 100
 
   def include?(element)
     if element.is_a?(Provider)
@@ -40,11 +45,10 @@ class ProviderPriorityGroup < ActiveRecord::Base
   end
 
   def all_provider_accounts
-    result = providers.inject([]) do |result, provider|
-      result += provider.provider_accounts
-    end
-
-    result += provider_accounts
+    providers.inject([]) do |result, provider|
+      result << provider.provider_accounts
+      result
+    end + provider_accounts
   end
 
 end

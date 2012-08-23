@@ -92,8 +92,7 @@ class Task < ActiveRecord::Base
                          ["All States", ""]]
 
   def cancel
-    self[:state] = STATE_CANCELED
-    save!
+    update_attributes!(:state => STATE_CANCELED)
   end
 
   def self.working_tasks(user = nil)
@@ -113,14 +112,13 @@ class Task < ActiveRecord::Base
   def type_label
     self.class.name[0..-5]
   end
+
   def task_obj
     ""
   end
 
   def action_with_args
-    ret_val = action
-    ret_val += " #{args}" if args
-    ret_val
+    "#{action}#{args.nil? ? '' : " #{args}"}"
   end
 
   def submission_time
@@ -142,6 +140,6 @@ class Task < ActiveRecord::Base
   end
 
   def initialize_state
-    self.state = STATE_QUEUED unless self.state
+    self.state ||= STATE_QUEUED
   end
 end
