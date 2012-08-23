@@ -13,5 +13,5 @@ rake rpms
 cd ../aeolus-cli
 rake rpms
 sudo yum --nogpgcheck -y install ~/rpmbuild/RPMS/noarch/rubygem-* \
-~/rpmbuild/RPMS/noarch/aeolus-* --enablerepo=fedora-aeolus-testing
+~/rpmbuild/RPMS/noarch/aeolus-*
 cd ../conductor/util
