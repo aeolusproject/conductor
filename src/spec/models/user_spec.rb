@@ -111,6 +111,13 @@ describe User do
     u.id.should == user.id
   end
 
+  it "should authenticate a user with valid kerberos ticket" do
+    User.authenticate_using_krb('krbuser', '192.168.1.1').should_not be_nil
+    u = User.find_by_login('krbuser')
+    u.should_not be_nil
+    u.crypted_password.should be_nil
+  end
+
   it "should reject destroy when user has running instances" do
     user = Factory.create(:tuser)
     deployment = Factory.create(:deployment, :owner => user)
