@@ -127,6 +127,14 @@ class User < ActiveRecord::Base
     return u
   end
 
+  def self.authenticate_using_krb(username, ipaddress)
+    u = User.find_by_login(username) || create_krb_user!(username)
+    u.login_count += 1
+    update_login_attributes(u, ipaddress)
+    u.save!
+    u
+  end
+
   def self.update_login_attributes(u, ipaddress)
     u.login_count += 1
     u.last_login_ip = ipaddress
@@ -180,6 +188,10 @@ class User < ActiveRecord::Base
   end
 
   def self.create_ldap_user!(login)
+    User.create!(:login => login, :quota => Quota.new, :ignore_password => true)
+  end
+
+  def self.create_krb_user!(login)
     User.create!(:login => login, :quota => Quota.new, :ignore_password => true)
   end
 
