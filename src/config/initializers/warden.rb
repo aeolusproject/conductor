@@ -81,6 +81,17 @@ Warden::Strategies.add(:ldap) do
     u ? success!(u) : fail!("Username or password is not correct - could not log in")
   end
 end
+
+Warden::Strategies.add(:kerberos) do
+  def authenticate!
+    login = request.env[ 'HTTP_X_FORWARDED_USER' ]
+    Rails.logger.debug("Warden is authenticating #{login} against kerberos")
+    ipaddress = request.env[ 'HTTP_X_FORWARDED_FOR' ] ? request.env[ 'HTTP_X_FORWARDED_FOR' ] : request.remote_ip
+    u = User.authenticate_using_krb(login, ipaddress)
+    u ? success!(u) : fail!("Username or password is not correct - could not log in")
+  end
+end
+
 Warden::Manager.after_authentication do |user,auth,opts|
   current_session_id = auth.request.session_options[:id]
   session = auth.env['rack.session']
