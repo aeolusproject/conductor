@@ -19,3 +19,6 @@
   # :oauth:
   #   :consumer_key: consumer_key_here
   #   :consumer_secret: consumer_secret_here
+
+:session:
+  :timeout: 15 # minutes

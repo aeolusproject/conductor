@@ -468,7 +468,7 @@ class ApplicationController < ActionController::Base
       # compare to last non-backbone reqest time
       last_time = session[:last_active_request]
       if last_time
-        logout if last_time < 15.minutes.ago
+        logout if last_time < SETTINGS_CONFIG[:session][:timeout].minutes.ago
       else
         # This isn't really an active reqest, but
         # boostrapping session time if none set
