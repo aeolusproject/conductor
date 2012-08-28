@@ -17,7 +17,7 @@ gem 'thin'
 gem 'json'
 gem 'rails_warden'
 gem 'ruby-net-ldap', :require => 'net/ldap'
-gem 'aeolus-image', '>= 0.4.0', :require => 'aeolus_image'
+gem 'aeolus-image', :git => "git://github.com/aeolusproject/aeolus-image-rubygem", :require => 'aeolus_image' #'>= 0.4.0',
 gem 'oauth'
 gem 'ldap_fluff'
 gem 'compass'

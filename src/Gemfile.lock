@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/aeolusproject/aeolus-image-rubygem
+  revision: 4bffe3f60ce36a9815b479b6381544cf030d912a
+  specs:
+    aeolus-image (0.6.0)
+      activeresource
+      nokogiri
+      oauth (= 0.4.4)
+      rest-client
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -29,11 +39,6 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.2.8)
-    aeolus-image (0.5.1)
-      activeresource
-      nokogiri
-      oauth
-      rest-client
     arel (3.0.2)
     builder (3.0.0)
     capybara (1.1.2)
@@ -103,7 +108,7 @@ GEM
     mustache (0.99.4)
     net-ldap (0.3.1)
     nokogiri (1.5.2)
-    oauth (0.4.6)
+    oauth (0.4.4)
     paranoia (1.1.0)
       activerecord (>= 3.0.0)
     pg (0.13.2)
@@ -193,7 +198,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aeolus-image (>= 0.4.0)
+  aeolus-image!
   capybara
   compass
   compass-960-plugin
