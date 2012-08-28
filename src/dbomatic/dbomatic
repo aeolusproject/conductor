@@ -188,11 +188,14 @@ end
 
 def check_one_account(account)
   connection = account.connect
+  ignored_states = [Instance::STATE_NEW, Instance::STATE_STOPPED, Instance::STATE_CREATE_FAILED]
 
   account.instances.order("checked_at ASC").each do |instance|
+    # the instance object can be staled
+    instance.reload
     # optimization; right now we ignore instances that are in the STOPPED, NEW, or CREATE_FAILED states.
     # when we get to stateful instances, this will need to change
-    unless [Instance::STATE_NEW, Instance::STATE_STOPPED, Instance::STATE_CREATE_FAILED].include?(instance.state)
+    if !ignored_states.include?(instance.state) or instance.stopped_after_creation?
       instance.update_attribute(:checked_at,Time.now)
 
       begin
@@ -203,7 +206,6 @@ def check_one_account(account)
       end
 
       if api_instance
-        DBomaticLogger.instance.info("updating instance state for #{instance.name}: #{instance.external_key}")
         instance.state = Taskomatic.dcloud_to_instance_state(api_instance.state)
 
         # only update the public and private addresses if they are not nil.
@@ -225,18 +227,19 @@ def check_one_account(account)
 
     # For RHEV, we need to start up the instance after the vm has been created
     # and state changes from PENDING to STOPPED
-    if instance.state == Instance::STATE_STOPPED and instance.total_state_time(Instance::STATE_RUNNING) == 0
-      api_instance = connection.instance(instance.external_key)
-      if api_instance
-        DBomaticLogger.instance.info("starting instance #{instance.name}: #{instance.external_key}")
-        # TODO: do we need to set an actual user here instead of nil?
-        task = instance.queue_action(nil, 'start')
-        unless task
-          raise ActionError.new("start cannot be performed on this instance.")
-        end
-        Taskomatic.start_instance(task)
-        instance.state = Taskomatic.dcloud_to_instance_state(api_instance.state)
-        instance.save!
+    if instance.requires_explicit_start?
+      DBomaticLogger.instance.info("sending explicit start request to #{instance.name}")
+      begin
+        instance.start(nil)
+      rescue
+        DBomaticLogger.instance.info("failed to start instance #{instance.name}: #{$!.message}")
+      end
+    elsif instance.stuck_in_stopping?
+      DBomaticLogger.instance.info("sending second stop request to #{instance.name}, instance is stuck in stopping state")
+      begin
+        instance.stop_with_event(nil)
+      rescue
+        DBomaticLogger.instance.info("failed to stop instance #{instance.name}: #{$!.message}")
       end
     end
   end

@@ -37,4 +37,13 @@ class ProviderType < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :deltacloud_driver
   validates_uniqueness_of :deltacloud_driver
+
+  # TODO: this is little bit hacky, it would be cleaner to ask directly
+  # dc-api in what state instance will be after creation, but
+  # this method is called for each instance in periodic instance check from
+  # dbomatic so it should be fast, we might keep this info as a provider
+  # attribute in future
+  def goes_to_stop_after_creation?
+      %w(rhevm vsphere).include?(deltacloud_driver)
+  end
 end

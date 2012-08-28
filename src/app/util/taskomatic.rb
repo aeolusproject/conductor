@@ -81,6 +81,7 @@ module Taskomatic
       # we also have to handle create_failed state events separately
       if task.instance.state == Instance::STATE_STOPPED && task.action == InstanceTask::ACTION_START &&
           task.instance.provider_account.provider.provider_type.deltacloud_driver == 'rhevm'
+        create_failure_events(task.instance, ex)
         task.instance.update_attributes(:state => Instance::STATE_CREATE_FAILED)
       end
     ensure
@@ -137,20 +138,7 @@ module Taskomatic
     Rails.logger.error ex.backtrace.join("\n")
     task.state = Task::STATE_FAILED
     task.instance.state = Instance::STATE_CREATE_FAILED
-
-    task.instance.events << Event.create(
-      :source => task.instance,
-      :event_time => DateTime.now,
-      :status_code => 'instance_launch_failed',
-      :summary => "#{task.instance.name}: #{ex.message.to_s.split("\n").first}"
-    )
-
-    task.instance.provider_account.events << Event.create(
-      :source => task.instance.provider_account,
-      :event_time => DateTime.now,
-      :status_code => 'provider_account_failure',
-      :summary => "#{task.instance.name}: #{ex.message.to_s.split("\n").first}"
-    )
+    create_failure_events(task.instance, ex)
 
     raise ex
   end
@@ -171,5 +159,21 @@ module Taskomatic
     client_args.merge!({:realm_id => match.realm.external_key}) if (match.realm.external_key.present? rescue false)
     client_args.merge!({:user_data => instance.user_data}) if instance.user_data.present?
     client.create_instance(client_args)
+  end
+
+  def self.create_failure_events(instance, ex)
+    instance.events << Event.create(
+      :source => instance,
+      :event_time => DateTime.now,
+      :status_code => 'instance_launch_failed',
+      :summary => "#{instance.name}: #{ex.message.to_s.split("\n").first}"
+    )
+
+    instance.provider_account.events << Event.create(
+      :source => instance.provider_account,
+      :event_time => DateTime.now,
+      :status_code => 'provider_account_failure',
+      :summary => "#{instance.name}: #{ex.message.to_s.split("\n").first}"
+    )
   end
 end

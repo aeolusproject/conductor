@@ -448,6 +448,11 @@ class Instance < ActiveRecord::Base
     do_operation(user, 'stop')
   end
 
+
+  def start(user)
+    do_operation(user, 'start')
+  end
+
   def stop_with_event(user)
     stop(user)
     true
@@ -490,6 +495,35 @@ class Instance < ActiveRecord::Base
 
   def uptime
     deployed? ? (Time.now - time_last_running) : 0
+  end
+
+  def stopped_after_creation?
+    state == Instance::STATE_STOPPED &&
+      time_last_pending.to_i > time_last_running.to_i &&
+      provider_account &&
+      provider_account.provider.provider_type.goes_to_stop_after_creation?
+  end
+
+  def in_startable_state?
+    # returns true if this instance is part of a deployment and this deployment
+    # is in any of rollback modes
+    return true if deployment.nil?
+    Deployment::INSTANCE_STARTABLE_STATES.include?(deployment.state)
+  end
+
+  def requires_explicit_start?
+    # this is for RHEVM/VSPHERE instances where instance goes to 'stopped' state
+    # after creation - we check if it wasn't running before this stopped state
+    # and if we already did send start request to it
+    in_startable_state? && stopped_after_creation? &&
+      !pending_or_successful_start?
+  end
+
+  def stuck_in_stopping?
+    state == Instance::STATE_SHUTTING_DOWN &&
+      Time.now - time_last_shutting_down > 120 &&
+      provider_account &&
+      provider_account.provider.provider_type.goes_to_stop_after_creation?
   end
 
   PRESET_FILTERS_OPTIONS = [
@@ -568,4 +602,16 @@ class Instance < ActiveRecord::Base
     Taskomatic.send("#{operation}_instance", task)
   end
 
+  def pending_or_successful_start?
+    task = tasks.find_last_by_action('start')
+    return false unless task
+    return true if task.state == Task::STATE_FINISHED
+    # it's possible that start request takes more than 30 secs on rhevm,
+    # but dbomatic kills child process after 30sec by default, so
+    # task may stay in 'pending' state. If task is in pending state for
+    # more than 2 mins, consider previous start request as failed.
+    return true if task.state == Task::STATE_PENDING &&
+      Time.now - task.created_at < 120
+    false
+  end
 end

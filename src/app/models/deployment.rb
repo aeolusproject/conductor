@@ -102,6 +102,10 @@ class Deployment < ActiveRecord::Base
             STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_FAILED,
             STATE_ROLLBACK_IN_PROGRESS, STATE_ROLLBACK_COMPLETE,
             STATE_ROLLBACK_FAILED]
+  # list of states in which it's possible to start single instance
+  INSTANCE_STARTABLE_STATES = [STATE_NEW, STATE_PENDING, STATE_RUNNING,
+                               STATE_INCOMPLETE, STATE_SHUTTING_DOWN,
+                               STATE_STOPPED]
 
   validate :validate_xml
   validate :validate_launch_parameters

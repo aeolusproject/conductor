@@ -271,7 +271,7 @@ class InstancesController < ApplicationController
 
   def check_inaccessible_instances
     # @instance is set only on stop action
-    @instances_to_stop = @instance ? @instance.to_a : Instance.find(params[:instance_selected].to_a)
+    @instances_to_stop = @instance ? Array(@instance) : Instance.find(Array(params[:instance_selected]))
     @instances_to_stop.reject! { |inst| !check_privilege(Privilege::USE, inst) }
     @inaccessible_instances = Instance.stoppable_inaccessible_instances(@instances_to_stop)
     if params[:terminate].blank? and @inaccessible_instances.any?
