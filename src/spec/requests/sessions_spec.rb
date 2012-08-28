@@ -13,22 +13,44 @@ describe "Sessions" do
     before do
       @user = FactoryGirl.create :tuser
       visit root_path
-      fill_in "Username", :with => @user.login
+      fill_in "username", :with => @user.login
       fill_in "password-input", :with => "secret"
       click_button "Login"
     end
 
     it "should be authenticated" do
-      page.status_code.should be(200)
+      visit pools_path
+      page.body.should include 'logout'
     end
 
-    it "should have expired session" do
+    it "should have session expiration" do
+      Timecop.travel(Time.now + (SETTINGS_CONFIG[:session][:timeout] + 1).minutes)
       visit pools_path
-      Timecop.travel(Time.now+16.minutes)
-      visit pools_path
-      page.body.should include "#login"
+      page.body.should_not include 'logout'
       Timecop.return
     end
 
+    it "should have session expiration unaffected by Backbone requests" do
+      original_time = Time.now
+
+      # Make a backbone-like request at about a half of the expiration period.
+      Timecop.travel(original_time + (SETTINGS_CONFIG[:session][:timeout] / 2).minutes)
+      page.driver.get(pools_path, {}, {
+        'HTTP_ACCEPT' => 'application/json',
+        'CONTENT_TYPE' => 'application/json'
+      })
+
+      # Make a backbone-like request right after the expiration period.
+      Timecop.travel(original_time + (SETTINGS_CONFIG[:session][:timeout] + 1).minutes)
+      page.driver.get(pools_path, {}, {
+        'HTTP_ACCEPT' => 'application/json',
+        'CONTENT_TYPE' => 'application/json'
+      })
+
+      # Check that the first request didn't extend the expiration period and
+      # the session is now expired.
+      page.body.should_not include 'logout'
+      Timecop.return
     end
+  end
 end
