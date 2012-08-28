@@ -43,7 +43,7 @@ class UserSessionsController < ApplicationController
     respond_to do |format|
       format.xml { head :unauthorized }
       format.html do
-        flash[:warning] = t"user_sessions.flash.warning.login_failed"
+        flash.now[:warning] = t"user_sessions.flash.warning.login_failed"
         render :action => :new
       end
       format.js { render :status=> 401, :text => "#{t('user_sessions.flash.warning.login_failed')}" }

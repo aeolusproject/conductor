@@ -22,14 +22,6 @@
     %fieldset.primary
       = label_tag :password, t("user_sessions.new.password")
       = password_field_tag :password, params[:password], :class => 'password', :id => 'password-input'
-    .group.secondary_actions
-      /%input{:type => 'checkbox', :id => 'reveal'}
-      /%label{:for => 'reveal'}= t"user_sessions.new.show_password"
-      %span
-        = t "user_sessions.new.forgot"
-        = link_to t("user_sessions.new.login"), "#", :id => "username_link"
-        = t "user_sessions.new.or"
-        = link_to( t("user_sessions.new.password"), "#", :id => "password_link" ) + "?"
     = submit_tag "#{t('user_sessions.new.login')}", :class => "button fr", :id => 'login_btn'
     = image_tag 'login-spinner.gif', :alt => 'Working...', :id => 'progress-indicator'
 
