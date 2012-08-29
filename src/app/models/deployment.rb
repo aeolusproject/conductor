@@ -680,8 +680,10 @@ class Deployment < ActiveRecord::Base
   def state_transition_from_pending(instance)
     if instances.all? {|i| i.state == Instance::STATE_RUNNING}
       self.state = STATE_RUNNING
+    elsif partial_launch and instances.all? {|i| i.failed?}
+      self.state = STATE_FAILED
     elsif partial_launch and instances.all? {|i| i.failed_or_running?}
-      self.state = STATE_RUNNING
+      self.state = STATE_INCOMPLETE
     elsif !partial_launch and Instance::FAILED_STATES.include?(instance.state)
       # TODO: now this is done in instance's after_update callback - as part
       # of instance save transaction - this might be done on background by
