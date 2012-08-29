@@ -234,7 +234,7 @@ class Deployment < ActiveRecord::Base
     self.state = STATE_PENDING
     save!
 
-    all_inst_match, account, errs = find_match_with_common_account
+    all_inst_match, account, errs = pick_provider_selection_match
 
     if all_inst_match
       self.events << Event.create(
@@ -245,11 +245,15 @@ class Deployment < ActiveRecord::Base
                     "#{account.name}"
       )
     else
-      raise I18n.t('deployments.errors.match_not_found',
-                   :errors => errs.join(", "))
+      if errs.any?
+        raise I18n.t('deployments.errors.match_not_found_with_errors',
+                     :errors => errs.join(", "))
+      else
+        raise I18n.t('deployments.errors.match_not_found')
+      end
     end
 
-    # Array of InstanceMatches returned by find_match_with_common_account
+    # Array of InstanceMatches returned by pick_provider_selection_match
     # is converted to hashes because if we use directly instance of
     # InstanceMatch model, delayed job tries to load this object from DB
     all_inst_match.map!{|m| m.attributes}
@@ -378,17 +382,25 @@ class Deployment < ActiveRecord::Base
         end
       end
 
-      match, account, errors = find_match_with_common_account
-      if match.nil? and not errors.empty?
-        raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), errors)
+      deployment_errors = []
+
+      unless provider_selection_match_exists?
+        deployment_errors << I18n.t('deployments.errors.match_not_found')
       end
 
-      deployment_errors = []
-      deployment_errors << I18n.t('instances.errors.pool_quota_reached') unless pool.quota.can_start?(instances)
-      deployment_errors << I18n.t('instances.errors.pool_family_quota_reached') unless pool.pool_family.quota.can_start?(instances)
-      deployment_errors << I18n.t('instances.errors.user_quota_reached') unless user.quota.can_start?(instances)
+      unless pool.quota.can_start?(instances)
+        deployment_errors << I18n.t('instances.errors.pool_quota_reached')
+      end
 
-      if not deployment_errors.empty?
+      unless pool.pool_family.quota.can_start?(instances)
+        deployment_errors << I18n.t('instances.errors.pool_family_quota_reached')
+      end
+
+      unless user.quota.can_start?(instances)
+        deployment_errors << I18n.t('instances.errors.user_quota_reached')
+      end
+
+      if deployment_errors.any?
         raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), deployment_errors)
       end
     rescue
@@ -568,15 +580,16 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def find_match_with_common_account
-    errors = []
-    all_matches = instances.map do |instance|
-      m, e = instance.matches
-      errors = e.map {|e| "#{instance.name}: #{e}"}
-      # filter matches we used in previous retries
-      m.select {|inst_match| !instance.includes_instance_match?(inst_match)}
+  def provider_selection_match_exists?
+    provider_selection_strategy = ProviderSelection::Base.new(instances)
+    pool.provider_selection_strategies.enabled.each do  |strategy|
+      provider_selection_strategy.chain_strategy(strategy.name, strategy.config)
     end
 
+    provider_selection_strategy.match_exists?
+  end
+
+  def pick_provider_selection_match
     provider_selection_strategy = ProviderSelection::Base.new(instances)
     pool.provider_selection_strategies.enabled.each do  |strategy|
       provider_selection_strategy.chain_strategy(strategy.name, strategy.config)
@@ -584,16 +597,21 @@ class Deployment < ActiveRecord::Base
 
     match = provider_selection_strategy.next_match
 
-    if match.present?
-      account = match.provider_account
-      matches_by_account = all_matches.map do |m|
-        m.find {|m| m.provider_account.id == account.id}
-      end
-
-      return [matches_by_account, account, errors] unless matches_by_account.include?(nil)
+    all_matches = instances.map do |instance|
+      matches, errors = instance.matches
+      matches
     end
 
-    [nil, nil, errors]
+    if match.present?
+      provider_account = match.provider_account
+      matches_by_account = all_matches.map do |matches|
+        matches.find {|m| m.provider_account.id == provider_account.id}
+      end
+
+      return [matches_by_account, provider_account, provider_selection_strategy.errors] unless matches_by_account.include?(nil)
+    end
+
+    [nil, nil, provider_selection_strategy.errors]
   end
 
   def generate_uuid
