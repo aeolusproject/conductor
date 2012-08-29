@@ -227,7 +227,7 @@ describe Deployment do
 
     it "return error when user quota was reached" do
       Instance.any_instance.stub(:matches).and_return(["test","test"])
-      @deployment.stub!(:find_match_with_common_account).and_return([[], true, []])
+      @deployment.stub!(:provider_selection_match_exists?).and_return(false)
       errors = @deployment.check_assemblies_matches(@session_id, @user_for_launch)
       errors.should have(1).items
       errors.last.should include I18n.t('instances.errors.user_quota_reached')
@@ -484,7 +484,7 @@ describe Deployment do
                                        :provider_account => account,
                                        :instance_id => @inst2.id)
             Instance.any_instance.stub(:launch!).and_return(true)
-            Deployment.any_instance.stub(:find_match_with_common_account).
+            Deployment.any_instance.stub(:pick_provider_selection_match).
               and_return([[match1, match2], account, []])
             @inst2.update_attribute(:state, Instance::STATE_STOPPED)
           end
@@ -502,7 +502,7 @@ describe Deployment do
 
         context "no other match is found" do
           before :each do
-            Deployment.any_instance.stub(:find_match_with_common_account).
+            Deployment.any_instance.stub(:pick_provider_selection_match).
                 and_return([nil, nil, []])
               @inst1.update_attribute(:state, Instance::STATE_NEW)
               @inst2.update_attribute(:state, Instance::STATE_STOPPED)
@@ -668,7 +668,7 @@ describe Deployment do
     instance3.stub!(:matches).and_return([[possible5], []])
 
     instances = [instance1, instance2, instance3]
-    match, account, errors = @deployment.send(:find_match_with_common_account)
+    match, account, errors = @deployment.send(:pick_provider_selection_match)
     match.should_not be_nil
     account.should eql(account2)
   end
