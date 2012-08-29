@@ -45,6 +45,10 @@ module ProviderSelection
       priority_group
     end
 
+    def match_exists?
+      matches.any?
+    end
+
     def get_random_match
       match_sum_score = @matches.sum do |match|
         (Match::UPPER_LIMIT + 1) - match.calculated_score
