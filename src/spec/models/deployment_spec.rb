@@ -466,6 +466,22 @@ describe Deployment do
           @deployment.reload
           @deployment.state.should == Deployment::STATE_PENDING
         end
+
+        it "should set incomplete status if all instances are failed or running" do
+          @inst1.state = Instance::STATE_RUNNING
+          @inst1.save!
+          @inst2.state = Instance::STATE_CREATE_FAILED
+          @inst2.save!
+          @deployment.reload.state.should == Deployment::STATE_INCOMPLETE
+        end
+
+        it "should set failed status if all instances failed" do
+          @inst1.state = Instance::STATE_CREATE_FAILED
+          @inst1.save!
+          @inst2.state = Instance::STATE_CREATE_FAILED
+          @inst2.save!
+          @deployment.reload.state.should == Deployment::STATE_FAILED
+        end
       end
     end
 
