@@ -193,7 +193,7 @@ class InstancesController < ApplicationController
         instance.reboot(current_user)
         notices << "#{instance.name}: #{t('instances.flash.notice.reboot', :name => instance.name)}"
       rescue Exception => err
-        errors << "#{instance.name}: " + err
+        errors << "#{instance.name}: " + err.message
         logger.error err.message
         logger.error err.backtrace.join("\n ")
       end

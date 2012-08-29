@@ -478,7 +478,12 @@ class Instance < ActiveRecord::Base
   end
 
   def reboot(user)
-    do_operation(user, 'reboot')
+    if tasks.where("action = :action AND time_submitted > :time_ago",
+       {:action => "reboot", :time_ago => 2.minutes.ago}).present?
+      raise I18n.t("instances.errors.reboot_already_scheduled")
+    else
+      do_operation(user, 'reboot')
+    end
   end
 
   def forced_stop(user)
