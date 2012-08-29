@@ -536,6 +536,7 @@ en:
       provider_account_quota_too_low: "%{match_provider_account} quota limit too low to launch Deployable"
       stop_invalid_action: "Stop is an invalid action."
       reboot_invalid_action: "Reboot is an invalid action."
+      reboot_already_scheduled: "reboot is already scheduled."
       must_be_enabled: "%{account_name}: Provider must be enabled"
       provider_not_available: "%{account_name}: Provider is not available"
       cannot_destroy: "Destroy cannot be performed on this instance."
