@@ -52,6 +52,7 @@ Feature: Pool Families
 
   Scenario: Disallow deletion of default pool family
     Given I am on the pool families page
+    And there are no images in "default" pool family
     Then I should see "default"
     When I follow "default"
     And I press "delete_pool_family_button"
