@@ -3,7 +3,7 @@
 
 .content#pools-list
   - @pools.each do |pool|
-    %div.pool.overview{:id => ['pool', pool.id], :class => ('collapsed' unless pool.deployments.size > 0)}
+    %div.pool.overview{:id => ['pool', pool.id], :class => ('collapsed' unless pool.deployments.size > 0 or @pools.count < 2)}
       %header{:class => "pool-header-#{pool.id}"}
         = render :partial => 'pretty_list_header', :mustache => pool_for_mustache(pool)
       %div.content

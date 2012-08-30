@@ -140,6 +140,11 @@ Feature: Manage Pools
     And I follow link with ID "filter_view"
     Then I should see the filter_view contents for pools index
 
+  Scenario: Don't display dropdown toggle in pretty view when there is only one pool
+    Given I am on the pools page
+    Then there should be 1 pools
+    Then I should not see "Expand/Collapse" within ".pool.overview .statistics"
+
   Scenario: Switch from filtred view to pretty view on pools index
     Given I am on the pools page
     And I follow link with ID "filter_view"
