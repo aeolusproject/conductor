@@ -189,9 +189,6 @@ en:
       message_unencrypted2: If you believe this to be an error, please do not attempt to login; contact your system administrator immediately.
       return_to_login: Return to Login
     flash:
-      notice:
-        login: "Login successful"
-        logout: "Logout successful"
       warning:
         login_failed: "The Username or Password is incorrect, please try again."
   about: About
