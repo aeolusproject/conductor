@@ -35,10 +35,10 @@ en:
        admin: Pool Deployable Admin
       user: Pool User
     pool_family:
-      admin: Pool Family Administrator
+      admin: Environment Administrator
       image:
-        admin: Pool Family Image Administrator
-      user: Pool Family User
+        admin: Environment Image Administrator
+      user: Environment User
     provider:
       admin: Provider Administrator
       user: Provider User
