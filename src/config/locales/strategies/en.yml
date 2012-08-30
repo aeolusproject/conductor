@@ -6,6 +6,6 @@ en:
       name: 'Penalty for Failure'
       views:
         edit:
-          penalty_percentage: 'Penalty for each failure (in percentage)'
+          penalty_percentage: Percentage penalty for each failure'
           time_period_minutes: 'Time period over which the failures are aggregated (in minutes)'
-          failure_count_hard_limit: 'The number of failures over which the provider account should not be used if possible'
+          failure_count_hard_limit: 'The number of failures before the Provider Account should not be used'
