@@ -851,8 +851,8 @@ en:
       warning:
         not_valid_or_reachable: "Deployable XML file is either invalid or no longer reachable at %{url}"
         no_url_provided: "No URL provided for the Deployable XML file."
-        not_valid: "The Deployable XML file contains syntax errors"
-        not_valid_duplicate_assembly_names: "Deployable XML must contain unique Assembly names"
+        not_valid: "file contains syntax errors"
+        not_valid_duplicate_assembly_names: "must contain unique Assembly names"
         not_valid_cyclic_reference: "Contains cyclic reference between following Assemblies or services: %{reference}"
         not_valid_not_existing_assembly_reference: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing Assembly %{to_assembly}"
         not_valid_not_existing_service_reference: "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing Assembly %{to_assembly}, service %{to_service}"
