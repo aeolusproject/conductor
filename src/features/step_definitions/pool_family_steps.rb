@@ -26,11 +26,17 @@ end
 
 Given /^there is a pool family named "([^\"]*)"$/ do |name|
   @pool_family = FactoryGirl.create(:pool_family, :name => name)
+  step %{there are no images in "#{@pool_family.name}" pool family}
 end
 
 Given /^there is a pool family named "([^\"]*)" with a pool named "([^\"]*)"$/ do |pool_family, pool|
   @pool_family = FactoryGirl.create(:pool_family, :name => pool_family)
   @pool = FactoryGirl.create(:pool, :name => pool, :pool_family => @pool_family)
+  step %{there are no images in "#{@pool_family.name}" pool family}
+end
+
+Given /^there are no images in "([^\"]*)" pool family$/ do |name|
+  Aeolus::Image::Warehouse::Image.stub(:by_environment).with(name).and_return([])
 end
 
 Given /^there is not a pool family named "([^"]*)"$/ do |name|
