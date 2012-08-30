@@ -311,9 +311,8 @@ en:
     overview:
       pool_name: "%{pool} Pool"
       header: Deploy "%{deployment}" to %{pool} Pool?
-      confirmation:
-        Are you sure you wish to deploy "%{deployment}" to the %{pool} Pool? Doing
-        so will utilize %{quota} of your overall quota.
+      confirmation_html: 'Are you sure you wish to deploy "%{deployment}" to the %{pool} Pool?'
+      quota_info: 'Doing so will utilize %{quota} of your overall deployment quota.'
       deployable_xml: Deployable XML
       name: Name
       description: Description
