@@ -257,6 +257,7 @@ class DeployableXML
   end
 
   def assemblies
+    return [] unless @root
     @assemblies ||=
       @root.xpath('/deployable/assemblies/assembly').collect do |assembly_node|
         AssemblyXML.new(assembly_node)
