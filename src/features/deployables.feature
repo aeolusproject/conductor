@@ -43,6 +43,7 @@ Feature: Manage Catalog Entries
   Scenario: Launch a deployment
     Given there is a "default" catalog
     And a catalog entry "testdepl" exists for "default" catalog
+    And images for "testdepl" catalog entry are pushed
     And there is "front_hwp1" conductor hardware profile
     And there is "front_hwp2" conductor hardware profile
     And I am on testdepl's catalog entry page
