@@ -256,53 +256,84 @@ class DeploymentsController < ApplicationController
 
   def destroy
     deployment = Deployment.find(params[:id])
-    if check_privilege(Privilege::MODIFY, deployment)
-      begin
-        deployment.stop_instances_and_destroy!
-        flash[:success] = t('deployments.flash.success.deleted', :list => deployment.name, :count => 1)
-      rescue
-        flash[:error] = t('deployments.flash.error.not_deleted', :list => deployment.name, :count => 1)
-      end
-    else
-      flash[:error] = t('deployments.flash.error.not_deleted', :list => deployment.name, :count => 1)
+    cant_stop = false
+    errors = []
+    begin
+      require_privilege(Privilege::MODIFY, deployment)
+      deployment.stop_instances_and_destroy!
+    rescue Aeolus::Conductor::Base::NotStoppableDeployment
+      cant_stop = true
+      errors = deployment.not_stoppable_or_destroyable_instances.map {|i|
+                 t('deployments.errors.instance_state',
+                   :name => i.name,
+                   :state => i.state)}
+    rescue
+      errors = t('deployments.flash.error.not_deleted',
+                 :name => deployment.name,
+                 :error => $!.message)
     end
+
     respond_to do |format|
       format.js do
         load_deployments
         render :partial => 'list'
       end
-      format.html { redirect_to pools_url(:view => 'filter', :details_tab => 'deployments') }
-      format.json { render :json => {:success => destroyed, :errors => failed} }
+
+      format.html do
+        if errors.empty?
+          flash[:success] = t('deployments.flash.success.deleted',
+                              :list => deployment.name, :count => 1)
+        elsif cant_stop
+          flash[:error] = {:summary => t('deployments.errors.cannot_stop',
+                                         :name => deployment.name),
+                           :failures => errors}
+        else
+          flash[:error] = errors
+        end
+        redirect_to pools_url(:view => 'filter', :details_tab => 'deployments')
+      end
+
+      format.json { render :json => {:success => errors.empty?,
+                                     :errors => errors} }
     end
   end
 
   def multi_destroy
     destroyed = []
-    failed = []
+    errors = []
 
-    Deployment.find(params[:deployments_selected] || []).each do |deployment|
-      if check_privilege(Privilege::MODIFY, deployment)
-        begin
-          deployment.stop_instances_and_destroy!
-          destroyed << deployment.name
-        rescue
-          failed << deployment.name
-        end
-      else
-        failed << deployment.name
+    ids = Array(params[:deployments_selected])
+    Deployment.find(ids).each do |deployment|
+      begin
+        require_privilege(Privilege::MODIFY, deployment)
+        deployment.stop_instances_and_destroy!
+        destroyed << deployment.name
+      rescue
+        errors << t('deployments.flash.error.not_deleted',
+                    :name => deployment.name,
+                    :error => $!.message)
       end
     end
-    # If nothing is selected, display an error message:
-    flash[:error] = t('deployments.flash.error.none_selected') if failed.blank? && destroyed.blank?
-    flash[:success] = t('deployments.flash.success.deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
-    flash[:error] = t('deployments.flash.error.not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
     respond_to do |format|
-      format.html { redirect_to params[:backlink] || pools_url(:view => 'filter', :details_tab => 'deployments') }
+      format.html do
+        if ids.empty?
+          flash[:error] = t('deployments.flash.error.none_selected')
+        elsif errors.present?
+          flash[:error] = errors
+        end
+        flash[:success] = t('deployments.flash.success.deleted',
+                            :list => destroyed.to_sentence,
+                            :count => destroyed.size) if destroyed.present?
+
+        redirect_to params[:backlink] ||
+          pools_url(:view => 'filter', :details_tab => 'deployments')
+      end
+
       format.js do
         load_deployments
         render :partial => 'list'
       end
-      format.json { render :json => {:success => destroyed, :errors => failed} }
+      format.json { render :json => {:success => destroyed, :errors => errors} }
     end
   end
 

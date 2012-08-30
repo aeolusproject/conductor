@@ -77,6 +77,7 @@ class Deployment < ActiveRecord::Base
   validates_presence_of :owner_id
   validate :pool_must_be_enabled
   before_destroy :destroyable?
+  before_destroy :destroy_deployment_config
   before_create :inject_launch_parameters
   before_create :generate_uuid
   before_create :set_pool_family
@@ -164,28 +165,28 @@ class Deployment < ActiveRecord::Base
     [STATE_RUNNING, STATE_INCOMPLETE].include?(self.state)
   end
 
+  def not_stoppable_or_destroyable_instances
+    instances.find_all {|i| !(i.destroyable? or
+                              i.state == Instance::STATE_RUNNING)}
+  end
+
   def stop_instances_and_destroy!
-    if destroyable?
-      destroy_deployment_config
-      destroy
-      return
+    unless not_stoppable_or_destroyable_instances.empty?
+      raise Aeolus::Conductor::Base::NotStoppableDeployment,
+            I18n.t("deployments.errors.all_stopped")
     end
 
-    if instances.all? {|i| i.destroyable? or i.state == Instance::STATE_RUNNING}
+    if destroyable?
+      destroy
+    else
       self.state = Deployment::STATE_SHUTTING_DOWN
-      destroy_deployment_config
       # The deployment will be destroyed from an InstanceObserver callback once
       # all instances are stopped.
       self.scheduled_for_deletion = true
       self.save!
 
       # stop all deployment's instances
-      instances.each do |instance|
-        next unless instance.state == Instance::STATE_RUNNING
-        instance.stop(instance.owner)
-      end
-    else
-      raise I18n.t("deployments.errors.all_stopped")
+      instances.running.each {|instance| instance.stop(instance.owner)}
     end
   end
 

@@ -389,9 +389,7 @@ en:
       error:
         not_launched: "Some Assemblies will not be launched:"
         failed_to_launch_assemblies: "Failed to launch following Assemblies:"
-        not_deleted:
-          one: "The Deployment %{list} could not be deleted."
-          other: "The Deployments %{list} could not be deleted."
+        not_deleted: "The deployment %{name} could not be deleted: %{error}"
         none_selected: "You must select one or more Deployments."
         not_updated:
           one: "The Deployment %{list} could not be updated."
@@ -407,7 +405,8 @@ en:
           other: "The Deployments %{list} were successfully updated."
     errors:
       config_server_connection: 'Cannot connect to the Config Server'
-      cannot_stop: "Stop cannot be performed on this instance."
+      cannot_stop: "The deployment %{name} can not be deleted because following instances can not be stopped:"
+      instance_state: "The instance %{name} is in state %{state}."
       all_stopped: "All Instances must be stopped or running"
       not_valid_deployable_xml: "seems to be not valid Deployable XML: %{msg}"
       match_not_found: "Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images."
