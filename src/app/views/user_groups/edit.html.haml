@@ -9,6 +9,5 @@
 %section.content-section.user_groups
   .content
     .align-center
-    %h2.user_groups= @user_group.name
     = form_for @user_group, :url => user_group_path(@user_group), :html => {:class => 'generic horizontal'} do |f|
       = render :partial => "form", :locals => { :form => f }
