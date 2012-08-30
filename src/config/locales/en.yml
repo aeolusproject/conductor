@@ -1,7 +1,7 @@
 en:
   layout:
     appname: Aeolus Conductor
-    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
+    copyright: ""
     dashboard: Dashboard
   datetime:
     distance_in_words:
@@ -1415,7 +1415,7 @@ en:
     apply_filters: "Apply filters"
   masthead:
     my_account: My Account
-    logout: Log out
+    logout: Log Out
     login: Login
   permissions:
     direct_access: "Direct Access"
