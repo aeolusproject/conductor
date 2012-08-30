@@ -27,3 +27,12 @@ Given /^a catalog entry "([^"]*)" exists for "([^"]*)" catalog$/ do |arg1, catal
   catalog = Catalog.find_by_name(catalog_name) || FactoryGirl.create(:catalog, :name => catalog_name)
   deployable = FactoryGirl.create :deployable, :name => arg1, :catalogs => [catalog]
 end
+
+Given /^images for "([^"]*)" catalog entry are pushed$/ do |catalog_entry_name|
+  deployable = Deployable.find_by_name(catalog_entry_name)
+  image_uuids = deployable.get_image_details[0].map { |assembly| assembly[:image_uuid] }
+  ProviderAccount.any_instance.
+    stub(:image_status).
+    with { |image| image_uuids.include? image.uuid }.
+    and_return(:pushed)
+end
