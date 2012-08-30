@@ -335,6 +335,16 @@ describe Deployment do
       lambda { Instance.find(inst1.id) }.should raise_error(ActiveRecord::RecordNotFound)
       lambda { Instance.find(inst2.id) }.should raise_error(ActiveRecord::RecordNotFound)
     end
+
+    it "should raise an exception if some instances can not be stopped" do
+      @deployment.save!
+      inst1 = Factory.create(:mock_running_instance,
+                             :state => Instance::STATE_PENDING,
+                             :deployment_id => @deployment.id)
+      @deployment.reload
+      lambda { @deployment.stop_instances_and_destroy!}.should
+        raise_error(Aeolus::Conductor::Base::NotStoppableDeployment)
+    end
   end
 
   describe ".any_instance_running?" do
