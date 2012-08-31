@@ -55,6 +55,6 @@ class UserSessionsController < ApplicationController
   def destroy
     clear_breadcrumbs
     logout
-    redirect_back_or_default login_url
+    redirect_to login_url
   end
 end
