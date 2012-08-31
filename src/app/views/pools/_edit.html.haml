@@ -1,5 +1,7 @@
 %header.page-header
   .obj_actions
+    - if check_privilege(Privilege::MODIFY, Pool)
+      = link_to t('pool_families.index.provider_selection'), pool_provider_selection_path(@pool), :class => 'button primary'
     - if check_privilege(Privilege::CREATE, Pool)
       = link_to t('pools.new_pool'), new_pool_url, :class => 'button primary', :id => 'new_pool_button'
   %h1.pools= @pool.name.blank? ? t("pools.pool") : @pool.name
