@@ -94,7 +94,7 @@ class User < ActiveRecord::Base
   before_destroy :ensure_not_running_any_instances
 
   def name
-    "#{first_name} #{last_name}"
+    "#{first_name} #{last_name}".strip
   end
 
   def self.authenticate(username, password, ipaddress)
