@@ -1,0 +1,4 @@
+!!! XML
+%pool_families
+  - @pool_families.each do |fam|
+    %pool_family{:id => fam.id, :href => api_pool_family_url(fam)}
