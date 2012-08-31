@@ -1,0 +1,9 @@
+#maincontent section.maincontent .page-header .obj_actions {
+overflow:hidden;
+}
+#maincontent section.maincontent .page-header INPUT[type='submit'].on.provider_toggle {
+float:right;
+}
+#maincontent section.maincontent .page-header INPUT[type='submit'].off.provider_toggle {
+float:right;
+}
