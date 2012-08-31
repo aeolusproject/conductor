@@ -633,6 +633,9 @@ en:
     show:
       provider_selection: Provider Selection Strategies
       environment: "Environment: %{environment}"
+      available_strategies: "Available Strategies"
+      available_provider_accounts: "Available Provider Accounts"
+      edit_provider_accounts: "Edit Provider Accounts for Pool Family"
       edit_strategy: "Edit %{name} Strategy"
       configure: "Configure"
     edit_strategy:

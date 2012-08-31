@@ -9,7 +9,24 @@
 
 %section.content-section
   %header
-    %h2=t 'Available Strategies'
+    %h2=t('provider_selection.show.available_provider_accounts')
+  .content
+    - content_for :form_header do
+      %li= link_to t('provider_selection.show.edit_provider_accounts'), pool_family_path(@pool.pool_family, :details_tab => 'provider_accounts'), { :class => 'button primary', :id => 'add_provider_accounts_button'}
+
+    = filter_table(provider_accounts_header(:without_alert => true, :without_checkbox => true), @pool.pool_family.provider_accounts) do |account|
+      %tr{:class => cycle('nostripe','stripe')}
+        %td= link_to account.name, provider_provider_account_path(account.provider, account)
+        %td= account.credentials_hash['username']
+        %td= account.provider.name
+        %td= account.provider.provider_type.name
+        %td= account.priority
+        %td{:class => 'center'}= number_to_percentage account.quota.percentage_used, :precision => 0
+        %td{:class => 'center'}= account.quota.maximum_running_instances or 'unlimited'
+
+%section.content-section
+  %header
+    %h2=t 'provider_selection.show.available_strategies'
   .content
     %table.provider-selection-strategies
       - ProviderSelection::Base.strategies.each do |strategy|

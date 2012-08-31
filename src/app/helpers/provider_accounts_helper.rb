@@ -15,7 +15,11 @@
 #
 module ProviderAccountsHelper
   def provider_accounts_header(options = {})
-    columns = [{ :name => 'checkbox', :sortable => false, :class => 'checkbox' }]
+    columns = []
+
+    unless options[:without_checkbox]
+      columns = [{ :name => 'checkbox', :sortable => false, :class => 'checkbox' }]
+    end
 
     unless options[:without_alert]
       columns << { :name => '', :sortable => false, :class => 'alert' }
