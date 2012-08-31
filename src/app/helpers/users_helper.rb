@@ -18,4 +18,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 module UsersHelper
+  def format_user_name(user)
+    user.name.present? ? user.name : user.login
+  end
 end
