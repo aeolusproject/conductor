@@ -4,7 +4,7 @@
   .field
     = form.label :name, :class => 'em'
     .input
-      = form.text_field :name, :title => 'pool_family_name', :value => @pool_family.name, :class => 'em long'
+      = form.text_field :name, :value => @pool_family.name, :class => 'em long'
 
   = form.fields_for :quota do |quota_form|
     .field
