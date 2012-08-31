@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   def show
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::VIEW, User) unless current_user == @user
-    @title = @user.name
+    @title = @user.name.present? ? @user.name : @user.login
     @quota_resources = @user.quota.quota_resources
     if current_user == user
       SessionEntity.update_session(current_session, current_user)
@@ -78,7 +78,7 @@ class UsersController < ApplicationController
       { :name => t('user_groups.index.name'), :sortable => false },
       { :name => t('user_groups.index.type'), :sortable => false },
     ]
-    save_breadcrumb(user_path(@user), @user.name)
+    save_breadcrumb(user_path(@user), @user.name.present? ? @user.name : @user.login)
     @tab_captions = ['Properties']
     @details_tab = 'properties' # currently the only supported details tab
     add_profile_permissions_inline(@user.entity)

@@ -10,7 +10,7 @@
   .content
     #user_card.user_stats_card
       %header.user-card-header
-        %h2= @title
+        %h2= format_user_name(@user)
       .user-card-content
         %dl
           %dt=t'users.show.e-mail'
