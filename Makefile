@@ -47,6 +47,12 @@ dist:
 	cp -a aeolus-conductor.spec AUTHORS conf COPYING Makefile src \
 		dist/aeolus-conductor-$(VERSION)
 	rm -f dist/aeolus-conductor-$(VERSION)/src/vendor/converge-ui/converge-ui-devel.spec
+
+	util/aeolus_translate.rb src/config/locales/en.yml dist/aeolus-conductor-$(VERSION)/src/config/locales/en.yml
+	util/aeolus_translate.rb src/config/locales/role_definitions/en.yml dist/aeolus-conductor-$(VERSION)/src/config/locales/role_definitions/en.yml
+	util/aeolus_translate.rb src/config/locales/activerecord/en.yml dist/aeolus-conductor-$(VERSION)/src/config/locales/activerecord/en.yml
+	util/aeolus_translate.rb src/config/locales/strategies/en.yml dist/aeolus-conductor-$(VERSION)/src/config/locales/strategies/en.yml
+
 	tar -C dist -zcvf aeolus-conductor-$(VERSION).tar.gz aeolus-conductor-$(VERSION)
 
 
