@@ -43,9 +43,11 @@ module ProviderSelection
     end
 
     attr_reader :instances
+    attr_reader :errors
 
     def initialize(instances)
       @instances = instances
+      @errors = []
       @strategy_chain = self
     end
 
@@ -79,6 +81,15 @@ module ProviderSelection
       rank
     end
 
+    def match_exists?
+      rank = @strategy_chain.calculate
+      rank.priority_groups.each do |priority_group|
+        return true if priority_group.match_exists?
+      end
+
+      false
+    end
+
     def next_match
       rank = @strategy_chain.calculate
       rank.ordered_priority_groups.each do |priority_group|
@@ -100,8 +111,7 @@ module ProviderSelection
 
     def find_common_provider_accounts
       instance_matches_grouped_by_instances = @instances.map do |instance|
-        matches, errors = instance.matches
-        matches
+        filter_instance_matches(instance)
       end
 
       result = []
@@ -114,6 +124,13 @@ module ProviderSelection
       end
 
       result
+    end
+
+    def filter_instance_matches(instance)
+      matches, e = instance.matches
+      @errors += e.map {|e| "#{instance.name}: #{e}"}
+      # filter matches we used in previous retries
+      matches.select {|inst_match| !instance.includes_instance_match?(inst_match)}
     end
 
   end

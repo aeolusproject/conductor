@@ -60,10 +60,19 @@
             %div.heading
               =image_tag 'flash_error_icon.png', :alt => 'Errors'
             %ul.flashes
-              -if !flash[:error][:failures].blank?
-                -flash[:error][:failures].each do |k, v|
-                  %li= v.present? ? "#{k}: #{v}" : k.to_s
-              -else
+              - if !flash[:error][:failures].blank?
+                - flash[:error][:failures].each do |failure|
+                  - if failure.is_a?(Hash)
+                    %li
+                      = failure.key
+                      - if failure.value.present?
+                        = ": #{failure.value}"
+                  - elsif failure.is_a?(Array)
+                    - failure.each do |msg|
+                      %li= msg
+                  -else
+                    %li= flash[:error][:failures]
+              - else
                 -flash[:error].each do |e|
                   %li= e
       -elsif flash[:error].kind_of?(Array)
