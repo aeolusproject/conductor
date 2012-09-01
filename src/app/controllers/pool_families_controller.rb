@@ -17,6 +17,8 @@
 require 'will_paginate/array'
 
 class PoolFamiliesController < ApplicationController
+  include QuotaAware
+
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pool_families, :only =>[:index, :show]
@@ -29,6 +31,9 @@ class PoolFamiliesController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
+      format.xml do
+        render :partial => 'list.xml'
+      end
     end
   end
 
@@ -39,16 +44,24 @@ class PoolFamiliesController < ApplicationController
   end
 
   def create
+    set_quota_param(:pool_family)
     @pool_family = PoolFamily.new(params[:pool_family])
+    @pool_family.quota = @quota = Quota.new
     require_privilege(Privilege::CREATE, PoolFamily)
+    set_quota(@pool_family)
 
-    unless @pool_family.save
-      flash.now[:warning] = t"pool_families.flash.warning.creation_failed"
-      render :new and return
-    else
-      @pool_family.assign_owner_roles(current_user)
-      flash[:notice] = t"pool_families.flash.notice.added"
-      redirect_to pool_families_path
+    respond_to do |format|
+      if @pool_family.save
+        @pool_family.assign_owner_roles(current_user)
+        flash[:notice] = t"pool_families.flash.notice.added"
+        format.html { redirect_to pool_families_path }
+        format.xml {
+          render :show, :locals => { :pool_family => @pool_family }}
+      else
+        flash.now[:warning] = t"pool_families.flash.warning.creation_failed"
+        format.html { render :new and return }
+        format.xml { render :template => 'api/validation_error', :locals => { :errors => @pool_family.errors }, :status => :bad_request}
+      end
     end
   end
 
@@ -60,15 +73,26 @@ class PoolFamiliesController < ApplicationController
   end
 
   def update
+    set_quota_param(:pool_family)
     @pool_family = PoolFamily.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool_family)
+    set_quota(@pool_family)
 
-    unless @pool_family.update_attributes(params[:pool_family])
-      flash[:error] = t "pool_families.flash.error.not_updated"
-      render :action => 'edit' and return
-    else
-      flash[:notice] = t "pool_families.flash.notice.updated"
-      redirect_to pool_families_path
+    respond_to do |format|
+      if @pool_family.update_attributes(params[:pool_family])
+        format.html {
+          flash[:notice] = t "pool_families.flash.notice.updated"
+          redirect_to pool_families_path
+        }
+        format.xml {
+          render :show, :locals => { :pool_family => @pool_family } }
+      else
+        format.html {
+          flash[:error] = t "pool_families.flash.error.not_updated"
+          render :action => 'edit' and return
+        }
+        format.xml { render :template => 'api/validation_error', :locals => { :errors => @pool_family.errors }, :status => :bad_request}
+      end
     end
   end
 
@@ -90,6 +114,7 @@ class PoolFamiliesController < ApplicationController
         end
         render :partial => @view and return
       end
+      format.xml { render :show, :locals => { :pool_family => @pool_family } }
     end
   end
 
@@ -104,7 +129,16 @@ class PoolFamiliesController < ApplicationController
       flash[:error] = t "pool_families.flash.error.not_deleted"
     end
 
-    redirect_to pool_families_path
+    respond_to do |format|
+      format.html { redirect_to pool_families_path }
+      format.xml {
+        if flash[:error].present?
+          raise(Aeolus::Conductor::API::Error.new(500, flash[:error]))
+        else
+          render :destroy, :locals => { :pool_family_id => pool_family.id }
+        end
+      }
+    end
   end
 
   def add_provider_accounts

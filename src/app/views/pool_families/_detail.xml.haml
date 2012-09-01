@@ -1,0 +1,7 @@
+!!! XML
+%pool_family{:id => pool_family.id, :url => api_pool_family_url(pool_family)}
+  %name= pool_family.name
+  %quota= pool_family.quota.maximum_running_instances
+  %pools
+    - pool_family.pools.each do |pool|
+      %pool{:id => pool.id, :href => api_pool_url(pool.id)}
