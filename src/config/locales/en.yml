@@ -816,19 +816,21 @@ en:
         deleted: "Environment was deleted."
         provider_accounts_added: "These Provider Account have been added"
         provider_accounts_removed: "These Provider Accounts were removed"
-        more_deleted: "Deleted the following Environments: %{list}."
       warning:
         creation_failed: "Environment creation failed."
       error:
         not_updated: "Environment wasn't updated."
-        not_deleted: "Environment cannot be deleted. Check that all Instances are stopped."
-        default_pool_family_not_deleted: "The default Environment cannot be deleted."
-        more_not_deleted: "Could not delete the following Environments: %{list}."
+        not_deleted: "Environment cannot be deleted."
+        not_deleted_with_err: "Environment cannot be deleted: %{err}"
         provider_accounts_not_added: "Could not add these Provider Accounts"
         provider_accounts_not_removed: "Could not remove these Provider Accounts"
         select_to_add_accounts: "You must select at least one Provider Account to add."
         select_to_remove_accounts: "You must select at least one Provider Account to remove."
         no_provider_accounts: "There are no Provider Accounts available."
+    errors:
+      not_destroyable_pools: "Can not destroy following pools: %{list}."
+      default_pool_family_not_deleted: "The default Environment cannot be deleted."
+      associated_images: "There are following associated images: %{list}. Delete them first."
   catalog_entries:
     new_catalog_entry: New Deployable
     index:
@@ -1209,6 +1211,7 @@ en:
         not_updated: "Cannot update the Provider."
         not_disabled: "Cannot disable the Provider."
         not_deleted: "Provider was not deleted"
+        not_deleted_with_err: "Provider was not deleted: %{err}"
       warning:
         connect_failed: "Failed to connect to Provider"
         not_stopped_instances: "Provider was not disabled. Failed to stop following instances:"
@@ -1318,10 +1321,7 @@ en:
           one: "Account %{list} could not be added"
           other: "Accounts %{list} could not be added"
         not_updated: "Provider Account wasn't updated"
-        not_deleted: "Provider account was not deleted"
-        account_not_deleted:
-          one: "Account %{list} was not deleted. There are Instances associated with it."
-          other: "Accounts %{list} were not deleted. They have Instances associated with them."
+        not_deleted_with_err: "Account %{account} was not deleted: %{err}"
         test_connection_failed_invalid: "Test Connection Failed: Invalid Account Details"
         test_connection_failed_provider: "Test Connection Failed: Could not connect to Provider"
       warning:
@@ -1333,6 +1333,8 @@ en:
       populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
       populate_realms_failed: "Failed to populate Realms: %{message}"
       could_not_connect: "Could not connect to Provider Account.  Please contact an Administrator."
+      not_destroyable_instances: "Can not destroy following instances: %{instances}"
+      associated_images: "There are following associated provider images: %{images}. Delete them first."
   provider_priority_groups:
     index:
       add_new: Add new
@@ -1495,6 +1497,7 @@ en:
       settings: Settings
   application_controller:
     permission_denied: You have insufficient privileges to perform the selected action.
+    permission_denied_with_prefix: "%{prefix}: You have insufficient privileges to perform the selected action."
     access_denied: Access denied
     some_actions_failed: Some actions failed
     action_error: Action Error

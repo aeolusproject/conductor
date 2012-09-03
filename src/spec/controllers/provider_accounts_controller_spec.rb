@@ -235,13 +235,13 @@ describe ProviderAccountsController do
           end
 
           it "when requested provider account doesn't exists" do
-            ProviderAccount.stub(:find).and_return(nil)
+            ProviderAccount.stub(:find).and_raise(ActiveRecord::RecordNotFound)
             get :destroy, :id => "id_that_does_not_exist"
             response.status.should be_eql(404)
             response.should have_content_type("application/xml")
             response.body.should be_xml
             subject = Nokogiri::XML(response.body)
-            subject.xpath('//error/code').text.strip.should == "ProviderAccountNotFound"
+            subject.xpath('//error/code').text.strip.should == "RecordNotFound"
           end
         end #destroy
 

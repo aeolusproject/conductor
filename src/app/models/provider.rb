@@ -62,8 +62,6 @@ class Provider < ActiveRecord::Base
   has_many :provider_priority_group_elements, :as => :value, :dependent => :destroy
   has_many :provider_priority_groups, :through => :provider_priority_group_elements
 
-  before_destroy :destroyable?
-
   def derived_subtree(role = nil)
     subtree = super(role)
     subtree += provider_accounts if (role.nil? or role.privilege_target_match(ProviderAccount))
@@ -81,20 +79,6 @@ class Provider < ActiveRecord::Base
       url_extras += ";provider=#{CGI::escape(deltacloud_provider)}"
     end
     return url + url_extras
-  end
-  # there is a destroy dependency for a cloud accounts association,
-  # but a cloud account is silently not destroyed when there is
-  # an instance for the cloud account
-  def destroyable?
-    unless self.provider_accounts.empty?
-      self.provider_accounts.each do |c|
-        unless c.instances.empty?
-          inst_list = c.instances.map {|i| i.name}.join(', ')
-          self.errors.add(:base, "there are instances for cloud account '#{c.name}': #{inst_list}")
-        end
-      end
-    end
-    return self.errors.empty?
   end
 
   def connect

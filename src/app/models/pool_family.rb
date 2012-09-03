@@ -36,6 +36,10 @@ class PoolFamily < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   DEFAULT_POOL_FAMILY_KEY = "default_pool_family"
 
+  before_destroy :check_name!
+  before_destroy :check_pools!
+  before_destroy :check_images!
+
   after_update :fix_iwhd_environment_tags
 
   has_many :pools,  :dependent => :destroy
@@ -59,7 +63,6 @@ class PoolFamily < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :quota
 
-  before_destroy :destroyable?
 
   def self.default
     MetadataObject.lookup(DEFAULT_POOL_FAMILY_KEY)
@@ -82,9 +85,39 @@ class PoolFamily < ActiveRecord::Base
     [Pool, Quota]
   end
 
-  def destroyable?
-    # A PoolFamily is destroyable if its pools are destroyable and it is not  the default PoolFamily
-    pools.all? {|p| p.destroyable? } && self != PoolFamily.default
+  def check_pools!
+    cant_destroy = pools.find_all {|p| !p.destroyable?}
+    if cant_destroy.empty?
+      true
+    else
+      raise Aeolus::Conductor::Base::NotDestroyable,
+        I18n.t('pool_families.errors.not_destroyable_pools',
+               :list => cant_destroy.map {|p| p.name}.join(', '))
+    end
+  end
+
+  def check_name!
+    if self == PoolFamily.default
+      raise Aeolus::Conductor::Base::NotDestroyable,
+        I18n.t('pool_families.errors.default_pool_family_not_deleted')
+    else
+      true
+    end
+  end
+
+  def check_images!
+    referenced_images = images
+    if referenced_images.empty?
+      true
+    else
+      raise Aeolus::Conductor::Base::NotDestroyable,
+        I18n.t('pool_families.errors.associated_images',
+               :list => referenced_images.map {|i| i.name}.join(', '))
+    end
+  end
+
+  def images
+    Aeolus::Image::Warehouse::Image.by_environment(self.name)
   end
 
   def all_providers_disabled?

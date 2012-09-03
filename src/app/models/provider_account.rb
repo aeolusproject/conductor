@@ -39,6 +39,9 @@ class ProviderAccount < ActiveRecord::Base
   end
   include PermissionedObject
 
+  before_destroy :check_destroyable_instances!
+  before_destroy :check_provider_images!
+
   # Relations
   belongs_to :provider
   belongs_to :quota, :autosave => true, :dependent => :destroy
@@ -82,7 +85,6 @@ class ProviderAccount < ActiveRecord::Base
 
   before_create :populate_profiles_and_validate
   after_create :populate_realms_and_validate
-  before_destroy :destroyable?
 
   scope :enabled, lambda { where(:provider_id => Provider.enabled) }
 
@@ -125,8 +127,31 @@ class ProviderAccount < ActiveRecord::Base
     [Quota]
   end
 
-  def destroyable?
-    instances.empty? || instances.all? { |i| i.destroyable? }
+  def provider_images
+    Aeolus::Image::Warehouse::ProviderImage.where(
+    "($provider == \"#{provider.name}\" && $provider_account_identifier == \"#{credentials_hash['username']}\")")
+  end
+
+  def check_provider_images!
+    imgs = provider_images.map {|pi| pi.target_image.build.image.name}
+    if imgs.empty?
+      true
+    else
+      raise Aeolus::Conductor::Base::NotDestroyable,
+        I18n.t('provider_accounts.errors.associated_images',
+               :images => imgs.join(', '))
+    end
+  end
+
+  def check_destroyable_instances!
+    not_destroyable_instances = instances.find_all {|i| !i.destroyable?}
+    if not_destroyable_instances.empty?
+      true
+    else
+      raise Aeolus::Conductor::Base::NotDestroyable,
+        I18n.t('provider_accounts.errors.not_destroyable_instances',
+               :instances => not_destroyable_instances.map{|i| i.name}.join(', '))
+    end
   end
 
   def connect

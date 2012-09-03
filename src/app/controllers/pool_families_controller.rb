@@ -105,7 +105,7 @@ class PoolFamiliesController < ApplicationController
     @title = @pool_family.name
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
     require_privilege(Privilege::VIEW, @pool_family)
-    @all_images = Aeolus::Image::Warehouse::Image.by_environment(@pool_family.name)
+    @all_images = @pool_family.images
     @images = paginate_collection(@all_images, params[:page], PER_PAGE)
 
     load_pool_family_tabs
@@ -125,23 +125,21 @@ class PoolFamiliesController < ApplicationController
   def destroy
     pool_family = PoolFamily.find(params[:id])
     require_privilege(Privilege::MODIFY, pool_family)
-    if pool_family == PoolFamily.default
-      flash[:error] = t("pool_families.flash.error.default_pool_family_not_deleted")
-    elsif pool_family.destroy
-      flash[:notice] = t "pool_families.flash.notice.deleted"
-    else
-      flash[:error] = t "pool_families.flash.error.not_deleted"
-    end
 
     respond_to do |format|
-      format.html { redirect_to pool_families_path }
-      format.xml {
-        if flash[:error].present?
-          raise(Aeolus::Conductor::API::Error.new(500, flash[:error]))
-        else
-          render :destroy, :locals => { :pool_family_id => pool_family.id }
+      if pool_family.safe_destroy
+        format.html do
+          flash[:notice] = t("pool_families.flash.notice.deleted")
+          redirect_to pool_families_path
         end
-      }
+        format.xml { render :destroy, :locals => { :pool_family_id => pool_family.id } }
+      else
+        format.html do
+          flash[:error] = pool_family.errors.full_messages
+          redirect_to pool_families_path
+        end
+        format.xml { raise(Aeolus::Conductor::API::Error.new(500, pool_family.errors.full_messages.join(', '))) }
+      end
     end
   end
 
@@ -186,25 +184,6 @@ class PoolFamiliesController < ApplicationController
         format.js { render :partial => 'provider_accounts' }
       end
     end
-  end
-
-  def multi_destroy
-    deleted = []
-    not_deleted = []
-    PoolFamily.find(params[:pool_family_selected]).each do |pool_family|
-      if check_privilege(Privilege::MODIFY, pool_family) && pool_family.destroy
-        deleted << pool_family.name
-      else
-        not_deleted << pool_family.name
-      end
-    end
-    if deleted.size > 0
-      flash[:notice] = t 'pool_families.flash.notice.more_deleted', :list => deleted.join(', ')
-    end
-    if not_deleted.size > 0
-      flash[:error] = t 'pool_families.flash.error.more_not_deleted', :list => not_deleted.join(', ')
-    end
-    redirect_to pool_families_path
   end
 
   def remove_provider_accounts
