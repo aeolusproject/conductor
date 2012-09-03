@@ -493,10 +493,14 @@ class Instance < ActiveRecord::Base
 
   PRESET_FILTERS_OPTIONS = [
     {:title => "instances.preset_filters.other_than_stopped", :id => "other_than_stopped", :query => where("instances.state != ?", "stopped")},
-    {:title => "instances.preset_filters.create_failed", :id => "create_failed", :query => where("instances.state" => "create_failed")},
-    {:title => "instances.preset_filters.stopped", :id => "stopped", :query => where("instances.state" => "stopped")},
+    {:title => "instances.preset_filters.new", :id => "new", :query => where("instances.state" => "new")},
+    {:title => "instances.preset_filters.pending", :id => "pending", :query => where("instances.state" => "pending")},
     {:title => "instances.preset_filters.running", :id => "running", :query => where("instances.state" => "running")},
-    {:title => "instances.preset_filters.pending", :id => "pending", :query => where("instances.state" => "pending")}
+    {:title => "instances.preset_filters.shutting_down", :id => "shutting_down", :query => where("instances.state" => "shutting_down")},
+    {:title => "instances.preset_filters.stopped", :id => "stopped", :query => where("instances.state" => "stopped")},
+    {:title => "instances.preset_filters.create_failed", :id => "create_failed", :query => where("instances.state" => "create_failed")},
+    {:title => "instances.preset_filters.error", :id => "error", :query => where("instances.state" => "error")},
+    {:title => "instances.preset_filters.vanished", :id => "vanished", :query => where("instances.state" => "vanished")}
   ]
 
   def destroy_on_provider
