@@ -24,19 +24,17 @@ describe ProviderAccount do
 
   it "should not be destroyable if it has instance with status other than stopped" do
     @provider_account.instances << Instance.new
-    @provider_account.destroyable?.should be_false
-    @provider_account.destroy.should be_false
+    lambda {@provider_account.destroy}.should
+      raise_error(Aeolus::Conductor::Base::NotDestroyable)
     @provider_account.instances.each { |i| i.state = "stopped" }
-    @provider_account.destroyable?.should be_true
+    @provider_account.check_destroyable_instances!.should be_true
     @provider_account.instances.clear
-    @provider_account.destroyable?.should be_true
+    @provider_account.check_destroyable_instances!.should be_true
     @provider_account.destroy.equal?(@provider_account).should be_true
     @provider_account.should be_frozen
   end
 
   it "should be destroyable if it has a config server" do
-    @provider_account.config_server = ConfigServer.new
-    @provider_account.destroyable?.should be_true
     @provider_account.destroy.equal?(@provider_account).should be_true
     @provider_account.should be_frozen
   end

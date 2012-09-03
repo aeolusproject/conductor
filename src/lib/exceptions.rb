@@ -48,6 +48,7 @@ module Aeolus
       class ImageNotFound < StandardError; end
       class BlankImageId < StandardError; end
       class NotStoppableDeployment < StandardError; end
+      class NotDestroyable < StandardError; end
     end
 
     module MultiError

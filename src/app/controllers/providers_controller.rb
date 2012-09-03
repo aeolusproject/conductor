@@ -184,20 +184,26 @@ class ProvidersController < ApplicationController
   def destroy
     provider = Provider.find(params[:id])
     require_privilege(Privilege::MODIFY, provider)
-    if provider.destroy
-      session[:current_provider_id] = nil
-      flash[:notice] = t("providers.flash.notice.deleted")
-    else
-      flash[:error] = {
-        :summary => t("providers.flash.error.not_deleted"),
-        :failures => provider.errors.values.flatten
-      }
-    end
 
     respond_to do |format|
-      format.html { redirect_to providers_path }
-      # FIXME: what to return in body of response, if anything?
-      format.xml { render :text => '<message>OK</message>', :status => 200 }
+      if provider.safe_destroy
+        session[:current_provider_id] = nil
+        format.html do
+          flash[:notice] = t("providers.flash.notice.deleted")
+          redirect_to providers_path
+        end
+        format.xml { render :text => '<message>OK</message>', :status => 200 }
+      else
+        format.html do
+          flash[:error] = t("providers.flash.error.not_deleted_with_err",
+                            :err => provider.errors.full_messages.join(', '))
+          redirect_to providers_path
+        end
+        # FIXME: what to return in body of response, if anything?
+        format.xml do
+          raise(Aeolus::Conductor::API::Error.new(500, error))
+        end
+      end
     end
   end
 

@@ -170,26 +170,27 @@ class ProviderAccountsController < ApplicationController
   def destroy
     @provider_account = ProviderAccount.find(params[:id])
     require_privilege(Privilege::MODIFY, @provider_account)
-    is_deleted = @provider_account && @provider_account.destroy
 
     respond_to do |format|
-      format.html {
-        if is_deleted
-          flash[:notice] = t"provider_accounts.flash.notice.deleted"
-        else
-          flash[:error] = t"provider_accounts.flash.error.not_deleted"
+      if @provider_account.safe_destroy
+        format.html do
+          flash[:notice] = t("provider_accounts.flash.notice.deleted")
+          redirect_to edit_provider_path(@provider_account.provider,
+                                         :details_tab => 'accounts')
         end
-
-        @provider = Provider.find(params[:provider_id])
-        redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
-      }
-      format.xml {
-        if is_deleted
+        format.xml do
           render 'destroy', :locals => { :provider_account_id => @provider_account.id }
-        else
-          raise(Aeolus::Conductor::API::ProviderAccountNotFound.new(404, t("api.error_messages.provider_account_not_found_for_id", :id => params[:id])))
         end
-      }
+      else
+        format.html do
+          flash[:error] = @provider_account.errors.full_messages
+          redirect_to edit_provider_path(@provider_account.provider,
+                                         :details_tab => 'accounts')
+        end
+        format.xml do
+          raise Aeolus::Conductor::API::Error.new(500, @provider_account.errors.full_messages.join(', '))
+        end
+      end
     end
   end
 
@@ -202,21 +203,25 @@ class ProviderAccountsController < ApplicationController
 
     succeeded = []
     failed = []
-    @provider_accounts = ProviderAccount.find(params[:accounts_selected]).each do |account|
-      if check_privilege(Privilege::MODIFY, account) && account.destroyable?
-        account.destroy
-        succeeded << account.label
+    ProviderAccount.find(params[:accounts_selected]).each do |account|
+      if !check_privilege(Privilege::MODIFY, account)
+        failed << t('application_controller.permission_denied_with_prefix',
+                    :prefix => account.name)
+      elsif account.safe_destroy
+        succeeded << account.name
       else
-        failed << account.label
+        failed << t('provider_accounts.flash.error.not_deleted_with_err',
+                    :account => account.name,
+                    :err => account.errors.full_messages.join(', '))
       end
     end
 
-    unless succeeded.empty?
-      flash[:notice] = t 'provider_accounts.flash.notice.account_deleted', :count => succeeded.length, :list => succeeded.join(', ')
+    if succeeded.present?
+      flash[:notice] = t('provider_accounts.flash.notice.account_deleted',
+                         :count => succeeded.length,
+                         :list => succeeded.join(', '))
     end
-    unless failed.empty?
-      flash[:error] = t 'provider_accounts.flash.error.account_not_deleted', :count => failed.length, :list => failed.join(', ')
-    end
+    flash[:error] = failed if failed.present?
     redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
   end
 
