@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   # FIXME: not sure what we're doing aobut service layer w/ deltacloud
   include ApplicationService
   helper_method :current_session, :current_user, :filter_view?
-  before_filter :read_breadcrumbs, :set_locale, :check_session
+  before_filter :read_breadcrumbs, :set_locale, :check_session_expiration
 
   # General error handlers, must be in order from least specific
   # to most specific
@@ -460,23 +460,18 @@ class ApplicationController < ActionController::Base
     result
   end
 
-  #before filter to invalidate session for backbone
-  def check_session
+  # before filter to invalidate session for backbone
+  def check_session_expiration
+    # if last_active_request not set previously, set it now
+    # so that it can be tracked from now on
+    session[:last_active_request] ||= Time.now
+
+    # compare to last non-backbone reqest time
+    logout if session[:last_active_request] < SETTINGS_CONFIG[:session][:timeout].minutes.ago
+
     # FIXME: we really need a better "is it backbone?" test than json format
     # since other actions (ajax API calls from UI, etc) could also use json
-    if request.format == :json
-      # compare to last non-backbone reqest time
-      last_time = session[:last_active_request]
-      if last_time
-        logout if last_time < SETTINGS_CONFIG[:session][:timeout].minutes.ago
-      else
-        # This isn't really an active reqest, but
-        # boostrapping session time if none set
-        # (should really only happen the first time this code is
-        # introduced and there's a non-expired session
-        session[:last_active_request] = Time.now
-      end
-    else
+    unless request.format == :json
       # reset last active request time
       session[:last_active_request] = Time.now
     end
