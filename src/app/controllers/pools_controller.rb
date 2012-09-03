@@ -290,7 +290,7 @@ class PoolsController < ApplicationController
         if failed.present?
           raise(Aeolus::Conductor::API::Error.new(500, flash[:error]))
         elsif error_messages.present?
-          raise(Aeolus::Conductor::API::Error.new(500, error_messages))
+          raise(Aeolus::Conductor::API::Error.new(500, error_messages.join(' ')))
         else
           render :destroy, :locals => { :pool_id => pool_id }
         end
