@@ -288,7 +288,7 @@ describe PoolsController do
 
     describe "#create" do
       before do
-        @pool_attributes = Factory.attributes_for(:pool)
+        @pool_attributes = FactoryGirl.build(:pool).attributes.symbolize_keys
         post :create, :pool => @pool_attributes
       end
 
