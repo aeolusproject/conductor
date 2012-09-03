@@ -30,7 +30,7 @@ describe "Sessions" do
       Timecop.return
     end
 
-    it "should have session expiration unaffected by Backbone requests" do
+    it "should have session expiration unaffected by Backbone requests (when the expired request is Backbone)" do
       original_time = Time.now
 
       # Make a backbone-like request at about a half of the expiration period.
@@ -46,6 +46,26 @@ describe "Sessions" do
         'HTTP_ACCEPT' => 'application/json',
         'CONTENT_TYPE' => 'application/json'
       })
+
+      # Check that the first request didn't extend the expiration period and
+      # the session is now expired.
+      page.body.should_not include 'logout'
+      Timecop.return
+    end
+
+    it "should have session expiration unaffected by Backbone requests (when the expired request is normal)" do
+      original_time = Time.now
+
+      # Make a backbone-like request at about a half of the expiration period.
+      Timecop.travel(original_time + (SETTINGS_CONFIG[:session][:timeout] / 2).minutes)
+      page.driver.get(pools_path, {}, {
+        'HTTP_ACCEPT' => 'application/json',
+        'CONTENT_TYPE' => 'application/json'
+      })
+
+      # Make a normal request right after the expiration period.
+      Timecop.travel(original_time + (SETTINGS_CONFIG[:session][:timeout] + 1).minutes)
+      visit pools_path
 
       # Check that the first request didn't extend the expiration period and
       # the session is now expired.
