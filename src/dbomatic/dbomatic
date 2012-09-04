@@ -33,7 +33,7 @@ dbomatic_pid_dir = "/var/run/aeolus-conductor"
 # $dbomatic_timeout is also our polling interval between cloud status checks
 $dbomatic_timeout = 60
 $realms_timeout = 300
-$deltacloud_timeout = 30
+$deltacloud_timeout = 50
 optparse = OptionParser.new do |opts|
 
   opts.banner = <<BANNER
@@ -189,10 +189,12 @@ end
 def check_one_account(account)
   connection = account.connect
 
-  account.instances.each do |instance|
+  account.instances.order("checked_at ASC").each do |instance|
     # optimization; right now we ignore instances that are in the STOPPED, NEW, or CREATE_FAILED states.
     # when we get to stateful instances, this will need to change
     unless [Instance::STATE_NEW, Instance::STATE_STOPPED, Instance::STATE_CREATE_FAILED].include?(instance.state)
+      instance.update_attribute(:checked_at,Time.now)
+
       begin
         api_instance = connection.instance(instance.external_key)
       rescue Exception => e
