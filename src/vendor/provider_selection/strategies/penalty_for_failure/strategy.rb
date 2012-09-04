@@ -37,9 +37,9 @@ module ProviderSelection
           # Query the number of failures for each provider account
           failures_count = {}
           rank.default_priority_group.matches.map(&:provider_account).uniq.each do |provider_account|
-            failures_count[provider_account] = provider_account.failure_count
+            failures_count[provider_account] =
+              provider_account.failure_count(:from => Time.now - @options[:time_period_minutes].minutes)
           end
-
 
           # Modify the score of each match in every priority groups
           rank.priority_groups.each do |priority_group|
