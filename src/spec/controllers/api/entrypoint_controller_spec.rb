@@ -48,6 +48,7 @@ describe Api::EntrypointController do
         api['provider_images']['href'].should == api_provider_images_url
         api['providers']['href'].should == api_providers_url
         api['provider_accounts']['href'].should == api_provider_accounts_url
+      end
     end
   end
 end
