@@ -18,7 +18,7 @@ SimpleNavigation::Configuration.run do |navigation|
   navigation.autogenerate_item_ids = false
   navigation.items do |first_level|
     first_level.dom_class = 'container'
-    first_level.item :monitor, t('navigation.first_level.monitor'), pools_path, :class => 'monitor', :link => { :id => 'monitor' }, :highlights_on => /\/deployments|\/pools$|\/pools\/\d$|\/instances|\/logs|\/\z/
+    first_level.item :monitor, t('navigation.first_level.monitor'), pools_path, :class => 'monitor', :link => { :id => 'monitor' }, :highlights_on => /\/deployments|\/pools$|\/pools\/\d$|\/pools\?|\/instances|\/logs|\/\z/
     first_level.item :administer, t('navigation.first_level.administer'), users_path, :class => 'administer' do |second_level|
       second_level.item :users, t('navigation.second_level.users'), users_path, :link => { :class => 'users' }, :highlights_on => /\/users|\/user_groups|\/roles|\/permissions|\/account/
       second_level.item :environments, t('navigation.second_level.environments'), pool_families_path, :link => { :class => 'environments' }, :highlights_on => /\/pool_families|\/images|\/pools\/\d\/provider_selection/
