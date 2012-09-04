@@ -534,7 +534,17 @@ class Deployment < ActiveRecord::Base
 
   end
 
-  PRESET_FILTERS_OPTIONS = []
+  PRESET_FILTERS_OPTIONS = [
+    {:title => "deployments.preset_filters.other_than_stopped", :id => "other_than_stopped", :query => where("deployments.state != ?", "stopped")},
+    {:title => "deployments.preset_filters.new", :id => "new", :query => where("deployments.state" "new")},
+    {:title => "deployments.preset_filters.pending", :id => "pending", :query => where("deployments.state" => "pending")},
+    {:title => "deployments.preset_filters.running", :id => "running", :query => where("deployments.state" => "running")},
+    {:title => "deployments.preset_filters.incomplete", :id => "incomplete", :query => where("deployments.state" => "incomplete")},
+    {:title => "deployments.preset_filters.shutting_down", :id => "shutting_down", :query => where("deployments.state" => "shutting_down")},
+    {:title => "deployments.preset_filters.stopped", :id => "stopped", :query => where("deployments.state" => "stopped")},
+    {:title => "deployments.preset_filters.failed", :id => "failed", :query => where("deployments.state" => "failed")},
+    {:title => "deployments.preset_filters.rollback_failed", :id => "rollback_failed", :query => where("deployments.state" => "rollback_failed")}
+  ]
 
   private
 

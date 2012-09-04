@@ -413,6 +413,15 @@ en:
       match_not_found_with_errors: "Match not found: %{errors}"
     preset_filters:
       all_deployments: All Deployments
+      other_than_stopped: "Non-stopped Deployments"
+      new: "New Deployments"
+      pending: "Pending Deployments"
+      running: "Running Deployments"
+      incomplete: "Incomplete Deployments"
+      shutting_down: "Shutting Down Deployments"
+      stopped: "Stopped Deployments"
+      failed: "Failed Deployments"
+      rollback_failed: "Rollback failed Deployments"
   instances:
     instances:
       one: Instance
@@ -535,11 +544,15 @@ en:
       created_by: CREATED BY
     preset_filters:
       all_instances: All Instances
-      stopped: Stopped Instances
-      running: Running Instances
-      create_failed: Failed Instances
-      pending: Pending Instances
       other_than_stopped: "Non-stopped Instances"
+      new: New Instances
+      pending: Pending Instances
+      running: Running Instances
+      shutting_down: Shutting down Instances
+      stopped: Stopped Instances
+      create_failed: Failed Instances
+      error: Instances in Error state
+      vanished: Vanished Instances
   searches: Searches
   image_factory: Image Factory
   administration: Administration
@@ -971,7 +984,7 @@ en:
     new:
       new_image: New Image
       description:
-        Choose one of the following options to upload or import an image into the 
+        Choose one of the following options to upload or import an image into the
         "%{environment} Environment".
       upload: Upload
       from_url: From URL
