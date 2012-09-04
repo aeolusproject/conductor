@@ -65,6 +65,21 @@ Feature: Manage Deployments
     Then I should see "Created"
     Then I should see "mynewdeployment"
 
+  Scenario: Validate Deployment when creating new
+    Given a pool "mockpool" exists
+    And "mockpool" has catalog "test"
+    And "test" has catalog_entry "test_catalog_entry"
+    And there is "front_hwp1" conductor hardware profile
+    And there is "front_hwp2" conductor hardware profile
+    And there is mock provider account "my_mock_provider"
+    And there is a provider account "my_mock_provider" related to pool family "default"
+    When I am viewing the pool "mockpool"
+    And I follow "new_deployment_button"
+    Then I should be on the launch new deployments page
+    When I select "test_catalog_entry" from "deployable_id"
+    When I press "next_button"
+    Then I should see "Name can't be blank"
+
   Scenario: Launch a deployment in a disabled pool
     Given a pool "Disabled" exists and is disabled
     And there is "front_hwp1" conductor hardware profile
