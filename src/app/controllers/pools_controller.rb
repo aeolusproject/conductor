@@ -15,6 +15,7 @@
 #
 
 class PoolsController < ApplicationController
+  include QuotaAware
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pools, :only => [:show]
@@ -190,15 +191,11 @@ class PoolsController < ApplicationController
 
   def create
     @title = t('pools.create_new_pool')
-    if !params.has_key? :quota and !params[:pool][:quota].nil?
-      params[:quota] = params[:pool][:quota]
-      params[:pool].delete(:quota)
-    end
-
+    set_quota_param(:pool)
     @pool = Pool.new(params[:pool])
     require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
     @pool.quota = @quota = Quota.new
-    set_quota
+    set_quota(@pool)
 
     respond_to do |format|
       if @pool.save
@@ -231,13 +228,10 @@ class PoolsController < ApplicationController
   end
 
   def update
-    if !params.has_key? :quota and !params[:pool][:quota].nil?
-      params[:quota] = params[:pool][:quota]
-      params[:pool].delete(:quota)
-    end
+    set_quota_param(:pool)
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool)
-    set_quota
+    set_quota(@pool)
     @quota = @pool.quota
 
     respond_to do |format|
@@ -391,15 +385,6 @@ class PoolsController < ApplicationController
     @instances = @pool.instances.list_for_user(current_session, current_user,
                                                Privilege::VIEW).
       where(conditions)
-  end
-
-  def set_quota
-    limit = if params.has_key? :quota and not params[:unlimited_quota]
-              params[:quota][:maximum_running_instances]
-            else
-              nil
-            end
-    @pool.quota.set_maximum_running_instances(limit)
   end
 
   def user_statistics
