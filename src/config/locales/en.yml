@@ -945,7 +945,7 @@ en:
       build: Build
       delete: Delete
       account: Account
-      image_uri: Image URI
+      image_uri: "Provider's Image ID"
       provider: Provider
       build_date: Build Completion Date
       latest: Latest
