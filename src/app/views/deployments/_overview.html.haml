@@ -42,7 +42,7 @@
           .field
             = label_tag :realm, t('realms.index.realm')
             .input
-              = select :deployment, :frontend_realm_id, @realm_choices
+              = collection_select :deployment, :frontend_realm_id, @realms, :id, :name, :include_blank => t('deployments.launch_new.autoselect')
               %div#realm-description
 
         .field
