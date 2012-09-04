@@ -117,7 +117,7 @@ describe PoolsController do
       xml.xpath("/pool/name").text.should == name
       xml.xpath("/pool/pool_family").text.should == familyName
       xml.xpath("/pool/pool_family/@id").text.should == "#{familyId}"
-      xml.xpath("/pool/quota").text.should == quota
+      xml.xpath("/pool/quota/@maximum_running_instances").text.should == quota
       xml.xpath("/pool/enabled").text.should == enabled
     end
 
@@ -129,9 +129,7 @@ describe PoolsController do
           <name>#{@test_pool_name}</name>
           <pool_family_id>#{@pool_family.id}</pool_family_id>
           <enabled>true</enabled>
-          <quota>
-            <maximum_running_instances>1001</maximum_running_instances>
-          </quota>
+          <quota maximum_running_instances='1001'></quota>
         </pool>"
         post :create, Hash.from_xml(xmldata)
 
@@ -148,9 +146,7 @@ describe PoolsController do
           <name>#{@test_pool_name}</name>
           <!--<pool_family_id>#{@pool_family.id}</pool_family_id>-->
           <enabled>true</enabled>
-          <quota>
-            <maximum_running_instances>1001</maximum_running_instances>
-          </quota>
+          <quota maximum_running_instances='1001'></quota>
         </pool>"
         post :create, Hash.from_xml(xmldata)
 
@@ -204,7 +200,7 @@ describe PoolsController do
         assert_pool_api_success_response(@test_pool_name,
                                          @pool_family.name,
                                          @pool_family.id,
-                                         "", #unlimited
+                                         I18n.t('pools.form.unlimited'),
                                          "true")
 
         xml = Nokogiri::XML(response.body)
@@ -215,9 +211,7 @@ describe PoolsController do
           <name>pool-updated</name>
           <pool_family_id>#{@pool_family.id}</pool_family_id>
           <enabled>false</enabled>
-          <quota>
-            <maximum_running_instances>1002</maximum_running_instances>
-          </quota>
+          <quota maximum_running_instances='1002'></quota>
         </pool>"
         put :update, :id => pool_id, :pool => Hash.from_xml(xmldata)["pool"]
 

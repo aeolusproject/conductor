@@ -88,7 +88,7 @@ describe PoolFamiliesController do
       response.body.should be_xml
       xml = Nokogiri::XML(response.body)
       xml.xpath("/pool_family/name").text.should == name
-      xml.xpath("/pool_family/quota").text.should == quota
+      xml.xpath("/pool_family/quota/@maximum_running_instances").text.should == quota
       pool_set = xml.xpath('/pool_family/pools/pool')
       pool_set.size.should be_eql(number_of_pools.to_i)
     end
@@ -112,9 +112,7 @@ describe PoolFamiliesController do
         xmldata = "
         <pool_family>
           <name>#{@test_name}</name>
-          <quota>
-            <maximum_running_instances>1001</maximum_running_instances>
-          </quota>
+          <quota maximum_running_instances='1001'></quota>
         </pool_family>"
         post :create, Hash.from_xml(xmldata)
 
@@ -125,9 +123,7 @@ describe PoolFamiliesController do
         xmldata = "
         <pool_family>
           <!--<name>#{@test_name}</name>-->
-          <quota>
-            <maximum_running_instances>1001</maximum_running_instances>
-          </quota>
+          <quota maximum_running_instances='1001'></quota>
         </pool_family>"
         post :create, Hash.from_xml(xmldata)
 
@@ -172,7 +168,7 @@ describe PoolFamiliesController do
         </pool_family>"
         post :create, Hash.from_xml(xmldata)
 
-        assert_pool_api_success_response(@test_name, "", 0)
+        assert_pool_api_success_response(@test_name, I18n.t('pools.form.unlimited'), 0)
 
         xml = Nokogiri::XML(response.body)
         pool_family_id = xml.xpath("/pool_family/@id").text
@@ -180,9 +176,7 @@ describe PoolFamiliesController do
         xmldata = "
         <pool_family>
           <name>pool-family-updated</name>
-          <quota>
-            <maximum_running_instances>1002</maximum_running_instances>
-          </quota>
+          <quota maximum_running_instances='1002'></quota>
         </pool_family>"
         put :update, :id => pool_family_id, :pool_family => Hash.from_xml(xmldata)["pool_family"]
 
