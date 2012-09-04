@@ -2,5 +2,8 @@
 %pool{:id => pool.id, :url => api_pool_url(pool)}
   %name= pool.name
   %pool_family{:id => pool.pool_family.id, :url=> pool_family_url(pool.pool_family)}= pool.pool_family.name
-  %quota= pool.quota.maximum_running_instances
+  -if pool.quota.maximum_running_instances
+    %quota{ :maximum_running_instances => pool.quota.maximum_running_instances}
+  -else
+    %quota{ :maximum_running_instances => t('pools.form.unlimited')}
   %enabled= pool.enabled
