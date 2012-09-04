@@ -1,8 +1,6 @@
 = if request.xhr?
   = render :partial => '/layouts/new_notification'
 %header.page-header
-  .obj_actions
-    = link_to t('cancel'), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
   %h1.deployments
     = @title
     %span= t('deployments.launch_new.to_pool', :name => "#{@pool.name.capitalize}")
@@ -13,34 +11,35 @@
       = t 'deployments.deployment_details'
 
   .content
-    = form_for :deployment, {:url => launch_time_params_deployments_path, :method => :post, :html => {:class => 'generic'}} do
+    = form_for @deployment, {:url => launch_time_params_deployments_path, :method => :post, :html => {:class => 'generic'}} do |f|
       - if @deployment.errors.any?
         = render 'layouts/error_messages', :object => @deployment
-      = hidden_field :deployment, :pool_id
+      = f.hidden_field :pool_id
       %fieldset
         .field
           %label{:for => 'deployment_name'}
             = t 'deployments.deployment_name'
             %span
               = t 'deployments.deployment_name_subtext'
-          = text_field(:deployment, :name, :class => 'em long')
+          = f.text_field(:name, :class => 'em long')
           %span#name_avail_indicator
 
       %fieldset
         .field
           %label{:for => 'deployable_id'}
-            = t('catalog_entries.index.deployable')
-          = select_tag :deployable_id, options_for_select(@deployables.map {|d| [d.name, d.id]}, params[:deployable_id])
+            = t('catalog_entries.index.catalog_entry')
+          = select_tag :deployable_id, options_from_collection_for_select(@deployables, :id, :name, params[:deployable_id])
 
       %fieldset
         .field
           %label{:for => 'frontend_realm_id'}
             = t('realms.index.realm')
-          = select :deployment, :frontend_realm_id, @realm_choices
-          %div#realm-description
+          = f.collection_select :frontend_realm_id, @realms, :id, :name, :include_blank => t('deployments.launch_new.autoselect')
+          %span#realm-description
 
       %fieldset.options
-        = submit_tag t('.next'), :class => 'button', :id => "next_button", :disabled => true
+        = submit_tag t('.next'), :class => 'button', :id => "next_button"
+        = link_to t('cancel'), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
 
 
 :javascript
@@ -49,23 +48,11 @@
   // Might be nice to build something in application.js to guard against this, and that also
   // introduces a ~250ms buffer so we don't do a lookup on every single keystroke...
   $(document).ready(function () {
-    $('#deployable_id').change(function(){
-      if($(this).val() !== 'other'){
-        $('#deployable-url-section').hide();
-      }else{
-        $('#deployable-url-section').show();
-      }
-    });
     $('#deployment_name').blur(function(e) {
       e.preventDefault();
+      $('#name_avail_indicator').empty();
       $.get('#{check_name_deployments_path}', {name: $('#deployment_name').val() }, function(data) {
         $('#name_avail_indicator').html(data == "false" ? "#{t'deployments.launch_new.already_in_use'}" : "#{t'deployments.launch_new.name_available'}");
-        if(data == "true" && $('#next_button').is(':disabled')){
-         $('#next_button').removeAttr('disabled');
-        }else if(data == "true" && $('#next_button').is_not(':disabled')){
-        }else{
-         $('#next_button').attr("disabled", "disabled");
-        }
       });
     });
 

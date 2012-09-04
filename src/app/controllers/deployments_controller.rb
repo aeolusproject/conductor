@@ -60,14 +60,19 @@ class DeploymentsController < ApplicationController
 
   def launch_time_params
     @title = t 'deployments.new_deployment'
-    unless params.has_key?(:deployable_id)
-      flash[:error] = t('deployments.flash.warning.deployable_not_selected')
-      redirect_to launch_new_deployments_path(:pool_id => params[:deployment][:pool_id]) and return
-    end
 
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     init_new_deployment_attrs
+
+    @deployment.deployable_xml = DeployableXML.new(@deployable.xml)
+    @deployment.owner = current_user
+
+    unless @deployment.valid? and params.has_key?(:deployable_id)
+      @deployment.errors.add(:base, t('deployments.flash.warning.deployable_not_selected')) unless params.has_key?(:deployable_id)
+      render :launch_new and return
+    end
+
     require_privilege(Privilege::CREATE, Deployment, @pool)
     require_privilege(Privilege::USE, @deployable)
     img, img2, missing, d_errors = @deployable.get_image_details
@@ -95,7 +100,7 @@ class DeploymentsController < ApplicationController
       flash[:warning] = [flash[:warning]] if flash[:warning].kind_of? String
       flash[:warning]+=warnings
     end
-      
+
   end
 
   def overview
@@ -471,8 +476,6 @@ class DeploymentsController < ApplicationController
         :include => :architecture,
         :conditions => {:provider_id => nil}
     )
-    @realm_choices = @realms.map{|r| [r.name, r.id]}
-    @realm_choices.unshift([I18n.t('deployments.launch_new.autoselect'), ''])
   end
 
   def load_assemblies_services
