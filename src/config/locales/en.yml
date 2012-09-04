@@ -312,7 +312,7 @@ en:
       pool_name: "%{pool} Pool"
       header: Deploy "%{deployment}" to %{pool} Pool?
       confirmation_html: 'Are you sure you wish to deploy "%{deployment}" to the %{pool} Pool?'
-      quota_info: 'Doing so will utilize %{quota} of your overall deployment quota.'
+      quota_info: 'Doing so will utilize %{quota} of your overall Deployment quota.'
       deployable_xml: Deployable XML
       name: Name
       description: Description
@@ -389,7 +389,7 @@ en:
       error:
         not_launched: "Some Assemblies will not be launched:"
         failed_to_launch_assemblies: "Failed to launch following Assemblies:"
-        not_deleted: "The deployment %{name} could not be deleted: %{error}"
+        not_deleted: "The Deployment %{name} could not be deleted: %{error}"
         none_selected: "You must select one or more Deployments."
         not_updated:
           one: "The Deployment %{list} could not be updated."
@@ -405,7 +405,7 @@ en:
           other: "The Deployments %{list} were successfully updated."
     errors:
       config_server_connection: 'Cannot connect to the Config Server'
-      cannot_stop: "The deployment %{name} can not be deleted because following instances can not be stopped:"
+      cannot_stop: "The Deployment %{name} can not be deleted because following instances can not be stopped:"
       instance_state: "The instance %{name} is in state %{state}."
       all_stopped: "All Instances must be stopped or running"
       not_valid_deployable_xml: "seems to be not valid Deployable XML: %{msg}"
