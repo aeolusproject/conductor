@@ -213,7 +213,7 @@ describe InstanceObserver do
     @instance.instance_key.should_not be_nil
     @instance.state = Instance::STATE_STOPPED
     @instance.save!
-    @instance.instance_key.reload
+    @instance.reload
     @instance.instance_key.should be_nil
   end
 
