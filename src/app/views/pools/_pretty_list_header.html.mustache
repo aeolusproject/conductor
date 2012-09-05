@@ -20,6 +20,8 @@
   </ul>
 </dl>
 
-<a class="control" href="#">
-  <span><%= t('pools.index.pool_toggle') %></span>
-</a>
+<% unless @pools.count < 2 %>
+  <a class="control" href="#">
+    <span><%= t('pools.index.pool_toggle') %></span>
+  </a>
+<% end %>
