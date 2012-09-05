@@ -1,17 +1,18 @@
 %provider_account{:id => provider_account.id, :href => api_provider_account_url(provider_account)}
-  -provider = provider_account.provider
-  -provider_type = provider.provider_type
-  %label= provider_account.name
-  %provider{:id => provider.id, :href => api_provider_url(provider)}= provider.name
-  %provider_type= provider_type.deltacloud_driver
-  -if local_assigns[:with_credentials]
-    = content_tag('credentials') do
-      = render 'credentials', :creds_hash => provider_account.credentials_hash
-  -if provider_account.priority
-    %priority= provider_account.priority
-  -if local_assigns[:with_quota]
-    %quota_used= number_to_percentage provider_account.quota.percentage_used, :precision => 0
-    -if provider_account.quota.maximum_running_instances
-      %quota{ :maximum_running_instances => provider_account.quota.maximum_running_instances }
-    -else
-      %quota{ :maximum_running_instances => t('provider_accounts.properties.unlimited') }
+  -if local_assigns[:with_data]
+    -provider = provider_account.provider
+    -provider_type = provider.provider_type
+    %label= provider_account.name
+    %provider{:id => provider.id, :href => api_provider_url(provider)}= provider.name
+    %provider_type= provider_type.deltacloud_driver
+    -if local_assigns[:with_credentials]
+      = content_tag('credentials') do
+        = render 'credentials', :creds_hash => provider_account.credentials_hash
+    -if provider_account.priority
+      %priority= provider_account.priority
+    -if local_assigns[:with_quota]
+      %quota_used= number_to_percentage provider_account.quota.percentage_used, :precision => 0
+      -if provider_account.quota.maximum_running_instances
+        %quota{ :maximum_running_instances => provider_account.quota.maximum_running_instances }
+      -else
+        %quota{ :maximum_running_instances => t('provider_accounts.properties.unlimited') }
