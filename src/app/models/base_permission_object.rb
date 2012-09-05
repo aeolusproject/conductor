@@ -56,4 +56,17 @@ class BasePermissionObject < ActiveRecord::Base
     [HardwareProfile, Catalog, Deployable, PoolFamily, Pool,
      Deployment, Instance, Provider, ProviderAccount]
   end
+
+  def self.global_admin_permission_count
+    self.general_permission_scope.permissions.includes(:role => :privileges).
+      where("privileges.target_type" => "BasePermissionObject",
+            "privileges.action" => Privilege::PERM_SET).size
+  end
+
+  def self.is_global_admin_perm(permission)
+    permission.role.privileges.where("privileges.target_type" =>
+                                       "BasePermissionObject",
+                                     "privileges.action" =>
+                                       Privilege::PERM_SET).size > 0
+  end
 end

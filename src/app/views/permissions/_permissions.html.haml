@@ -1,3 +1,5 @@
+- has_admin_perms = check_privilege(Privilege::PERM_SET)
+- prevent_admin_deletion = has_admin_perms && !(@show_inherited || @show_global) && (@permission_object == BasePermissionObject.general_permission_scope) && (BasePermissionObject.global_admin_permission_count == 1)
 - content_for :permissions_form_header do
   - if not(@show_inherited or @show_global) && check_privilege(Privilege::PERM_SET)
     %li= link_to t('permissions.form.grant_access'), new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id, :path_prefix => @path_prefix, :use_tabs => @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')), { :class => 'button primary', :id => 'new_permission_button'}
@@ -51,11 +53,11 @@
   %tr{:class => cycle('nostripe','stripe')}
     - if not(@show_inherited or @show_global)
       %td{:class => 'checkbox'}
-        - if check_privilege(Privilege::PERM_SET)
+        - if has_admin_perms && !(prevent_admin_deletion && BasePermissionObject.is_global_admin_perm(permission))
           - selected = params[:select] == 'all'
           = check_box_tag "permission_selected[]", permission.id, selected, :id => "permission_checkbox_#{permission.id}"
     %td= link_to permission.entity.name, ((permission.entity.entity_target_type == "User") ? user_path(permission.entity.user) : user_group_path(permission.entity.user_group))
-    - if not(@show_inherited or @show_global) && check_privilege(Privilege::PERM_SET)
+    - if not(@show_inherited or @show_global) && has_admin_perms && !(prevent_admin_deletion && BasePermissionObject.is_global_admin_perm(permission))
       %td= select_tag "permission_role_selected[]", options_for_select(@roles.map {|r| [ t(r.name, :scope=> :role_defs, :default => r.name), "#{permission.id},#{r.id}" ] }, :selected => "#{permission.id},#{permission.role.id}", :disabled => @permission_object.permissions.where(["entity_id = ? and role_id != ?", permission.entity_id, permission.role_id]).collect {|p| "#{permission.id},#{p.role.id}"}), :id => "permission_role_selected_#{permission.id}"
       :javascript
         $("#permission_role_selected_#{permission.id}").change(function () { $("#perm_edit_button").click(); } );

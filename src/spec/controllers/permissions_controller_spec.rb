@@ -36,7 +36,7 @@ describe PermissionsController do
     post :multi_update, :permission_object_id => @deployable.id, :permission_object_type => @deployable.class.to_s,
         :permission_role_selected => ["#{@permission.id},#{@new_role.id}"], :polymorphic_path_extras => { 'catalog_id' => @catalog.id}
 
-    response.should redirect_to catalog_deployable_path(@catalog, @deployable)
+    response.should redirect_to catalog_deployable_path(@catalog, @deployable, :return_from_permission_change => true)
   end
 
   it "should work for global role grants" do

@@ -220,7 +220,7 @@ class PermissionsController < ApplicationController
     raise RuntimeError, "invalid permission object" if @permission_object.nil?
     unless @return_path
       if @permission_object == BasePermissionObject.general_permission_scope
-        @return_path = permissions_path
+        @return_path = permissions_path(:return_from_permission_change => true)
         set_admin_users_tabs 'permissions'
       else
         @return_path = send("#{@path_prefix}polymorphic_path",
@@ -230,7 +230,9 @@ class PermissionsController < ApplicationController
                               @polymorphic_path_extras) :
                             @permission_object,
                             @use_tabs == "yes" ? {:details_tab => :permissions,
-                              :only_tab => true} : {})
+                              :only_tab => true,
+                              :return_from_permission_change => true} :
+                             {:return_from_permission_change => true})
       end
     end
     require_privilege(required_role, @permission_object)
