@@ -1,8 +1,9 @@
 = render :partial => 'layouts/admin_nav'
+- modify_perm = check_privilege(Privilege::MODIFY, @deployable)
 %header.page-header
   .obj_actions
     .button-group
-      - if check_privilege(Privilege::MODIFY, @deployable)
+      - if modify_perm
         = link_to t('.edit'), edit_polymorphic_path([@catalog, @deployable]), :class => 'button', :id => 'edit_button'
         = link_to t('.edit_xml'), edit_polymorphic_path([@catalog, @deployable], :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
         = button_to t('.delete'), polymorphic_path([@catalog, @deployable]), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
@@ -33,7 +34,7 @@
       %tbody
         - @images_details.each do |assembly|
           %tr
-            %td.status= image_valid?(assembly)
+            %td.status= image_valid?(assembly, modify_perm)
             %td
               %strong=assembly[:name]
             %td.align-center=assembly[:images_count]
@@ -77,11 +78,12 @@
 %section.content-section
   %header
     .section-controls
-      = form_for(:catalog_entry, :url => catalog_entries_path) do |f|
-        = f.label :catalog_id, t('.choose_catalog')
-        = f.select :catalog_id, options_for_select(@catalogs_options.map {|c| [c.name, c.id]})
-        = f.hidden_field(:deployable_id, :value => @deployable.id)
-        = f.submit t('.add_catalog'), :id => :add_catalog, :class => 'button pill', :disabled => @catalogs_options.empty?
+      -if modify_perm
+        = form_for(:catalog_entry, :url => catalog_entries_path) do |f|
+          = f.label :catalog_id, t('.choose_catalog')
+          = f.select :catalog_id, options_for_select(@catalogs_options.map {|c| [c.name, c.id]})
+          = f.hidden_field(:deployable_id, :value => @deployable.id)
+          = f.submit t('.add_catalog'), :id => :add_catalog, :class => 'button pill', :disabled => @catalogs_options.empty?
     %h2.catalogs= t('.catalogs')
   .content
     .centered
