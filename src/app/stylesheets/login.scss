@@ -7,13 +7,37 @@ article{
 
   .container section .card{
     div.error{
-      padding: 30px 0px 0px 26px;
-      font-size: 10px;
+      padding: 25px 0 0 0;
+      font-size: 80%;
+
+      p {
+        padding-left: 26px;
+        position: relative;
+        color: rgba(black, 0.48);
+
+        &:before {
+          content: "";
+          display: block;
+          width: 16px;
+          height: 16px;
+          position: absolute;
+          left: 4px;
+          top: -1px;
+          background: url("/images/flash_warning_icon.png") no-repeat 0 0;
+        }
+      }
     }
 
-    fieldset.primary input{
-      &:focus{
-        @include box-shadow(0px 0px 2px $login_link-color);
+    fieldset.primary {
+      label {
+        color: rgba(black, 0.35);
+        @include text-shadow(1px 1px 0 white);
+      }
+
+      input{
+        &:focus{
+          @include box-shadow(0 0 2px $login_link-color);
+        }
       }
     }
 
