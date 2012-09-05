@@ -267,6 +267,11 @@ describe ProviderAccountsController do
               it "should have correct provider account" do
                 xml_provider_account.xpath('@href').text.should be_eql(api_provider_account_url(provider_account))
               end
+              context "quota" do
+                it "should have correct quota node" do
+                  xml_provider_account.xpath('//quota').attr('maximum_running_instances').text.should be_eql(provider_account.quota.maximum_running_instances.to_s)
+                end
+              end
               context "credentials" do
 
                 context "of mock provider" do
