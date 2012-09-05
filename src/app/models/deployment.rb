@@ -788,8 +788,8 @@ class Deployment < ActiveRecord::Base
           :source => self,
           :event_time => DateTime.now,
           :status_code => 'deployment_launch_failed',
-          :summary => I18n.t('deployments.errors.launch_failed',
-                             :msg => $!.message)
+          :summary => I18n.t('deployments.errors.launch_failed'),
+          :description => $!.message
         )
         update_attribute(:state, STATE_FAILED)
         cleanup_failed_launch
