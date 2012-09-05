@@ -5,3 +5,5 @@
       - if event.source_type == 'Instance'
         = link_to t('.instance', :name => event.source.name), instance_path(event.source)
       = event.summary
+      - if event.description.present?
+        = ": #{event.description}"

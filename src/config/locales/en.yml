@@ -411,7 +411,7 @@ en:
       not_valid_deployable_xml: "seems to be not valid Deployable XML: %{msg}"
       match_not_found: "Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images."
       match_not_found_with_errors: "Match not found: %{errors}"
-      launch_failed: "Failed to launch deployment: %{msg}"
+      launch_failed: "Failed to launch deployment"
     events:
       launch_attempt: "Attempting to launch this deployment on provider account %{account}"
       state_changed: "State changed to %{state}"
