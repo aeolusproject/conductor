@@ -296,7 +296,7 @@ class UpgradeProcess
       else
         puts "This script can be run in auto-stop mode with the -a / --auto-stop option to"
         puts "disable services automatically."
-        puts "You may always use `service aeolus-services stop` to stop all the services"
+        puts "You may always use `aeolus-services stop` to stop all the services"
         puts ""
         exit_service_stop
       end
@@ -419,7 +419,7 @@ end
 # system call fails. non catastrophic errors, such as the service
 # already being off
 def stop(service)
-  return system('/sbin/service %s stop' % service)
+  return system('%s stop' % service)
 end
 
 # Parse and return script options
