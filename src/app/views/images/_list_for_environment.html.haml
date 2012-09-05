@@ -12,7 +12,7 @@
     - environment = nil
 
   - if environment.nil? || check_privilege(Privilege::USE, PoolFamily, environment)
-    = render :partial => 'images/image_row', :mustache => image_for_mustache(image)
+    = render :partial => 'images/image_row_for_environment', :mustache => image_for_mustache(image)
 
 :javascript
   $(document).ready(function(){
@@ -21,4 +21,4 @@
   });
 
 %script#imageRowTemplate{ :type => 'text/html' }
-  = render :partial => 'images/image_row'
+  = render :partial => 'images/image_row_for_environment'

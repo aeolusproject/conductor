@@ -315,6 +315,36 @@ Conductor.Views.DeploymentsShow = Backbone.View.extend({
 
 });
 
+Conductor.Views.ImagesIndex = Backbone.View.extend({
+  el: '#content',
+
+  queryParams: function() {
+    var paramsToInclude = ['page'];
+    var result = Conductor.extractQueryParams(paramsToInclude);
+
+    return result;
+  },
+
+  render: function() {
+    var $template = $('#imageRowTemplate');
+
+    var $table = this.$('table.checkbox_table > tbody');
+    if($table.length === 0 || $template.length === 0) return;
+
+    var checkboxes = Conductor.saveCheckboxes('td :checkbox', $table);
+
+    var rowsHtml = '';
+    $.each(this.collection.toJSON(), function(index, value) {
+      rowsHtml += Mustache.to_html($template.html(), value);
+    });
+
+    $table.empty().append(rowsHtml);
+    Conductor.restoreCheckboxes(checkboxes, 'td :checkbox', $table);
+    $table.find('tr:even').addClass('nostripe');
+    $table.find('tr:odd').addClass('stripe');
+  }
+});
+
 Conductor.Views.ImagesShow = Backbone.View.extend({
   el: '#content',
 
