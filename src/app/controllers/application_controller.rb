@@ -44,6 +44,11 @@ class ApplicationController < ActionController::Base
   # permissions checking
 
   def handle_perm_error(error)
+    if params[:return_from_permission_change]
+      flash.now
+      redirect_to account_url
+      return
+    end
     handle_error(:error => error, :status => :forbidden,
                  :title => t('application_controller.access_denied'))
   end
