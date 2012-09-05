@@ -899,6 +899,9 @@ div.pool.overview{
         font-size: 17px;
         color: #666;
         &:hover{color: #333;}
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space:nowrap;
       }
       /* text-shadow: -1px -1px 1px rgba(0,0,0,0.3); */
     }
