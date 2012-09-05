@@ -100,8 +100,24 @@ Conductor.Routers.Deployables = Backbone.Router.extend({
 
 Conductor.Routers.Images = Backbone.Router.extend({
   routes: {
+    'images:query': 'index',
+    'pool_families': 'index',
+    'pool_families/:id': 'index',
     'images/:id': 'show'
   },
+
+  index: function() {
+    setInterval(function() {
+      $imagesLink = $('#details_images');
+      if ($imagesLink.hasClass('active')) {
+        var images = new Conductor.Models.Images();
+        var view = new Conductor.Views.ImagesIndex({ collection: images });
+        view.collection.queryParams = view.queryParams();
+
+        images.fetch({ success: function() { view.render(); } })
+      }
+    }, Conductor.AJAX_REFRESH_INTERVAL);
+},
 
   show: function(id) {
     id = Conductor.uuidFromURLFragment(id);

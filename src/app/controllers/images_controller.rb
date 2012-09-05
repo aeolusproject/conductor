@@ -27,12 +27,15 @@ class ImagesController < ApplicationController
       { :name => t('images.index.architecture'), :sort_attr => :name },
       { :name => t('images.index.last_rebuild'), :sortable => false },
     ]
-    @images = paginate_collection(Aeolus::Image::Warehouse::Image.all, params[:page], PER_PAGE)
+
+    @images = Aeolus::Image::Warehouse::Image.all
     @images.reject! { |i| !check_privilege(Privilege::VIEW, PoolFamily.where('name' => i.environment).first) }
+    @images = paginate_collection(@images, params[:page], PER_PAGE)
 
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
+      format.json { render :json => @images.map{ |image| view_context.image_for_mustache(image) } }
     end
   end
 

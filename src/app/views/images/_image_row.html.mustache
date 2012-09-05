@@ -1,0 +1,16 @@
+<tr>
+  <td><%= link_to('{{name}}', '{{path}}') %></td>
+  <td>
+    {{#environment}}
+      <%= link_to('{{environment.name}}', '{{environment.path}}') %>
+    {{/environment}}
+
+    {{^environment}}
+      N/A
+    {{/environment}}
+  </td>
+  <td>{{os_name}}</td>
+  <td>{{os_version}}</td>
+  <td>{{architecture}}</td>
+  <td>{{last_rebuild}}</td>
+</tr>
