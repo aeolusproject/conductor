@@ -20,25 +20,6 @@ Feature: Manage Providers
     | mock2 |
     | mock3 |
 
-  Scenario: List providers in XML format
-    Given I accept XML
-    And there are these providers:
-    | name      |
-    | provider1 |
-    | provider2 |
-    | provider3 |
-    When I go to the providers page
-    Then I should get a XML document
-    And XML should contain 3 providers
-    And each provider should have "name"
-    And each provider should have "url"
-    And each provider should have "provider_type"
-    And there should be these provider:
-    | name         | url                       | provider_type |
-    | provider1    | http://localhost:3002/api | mock          |
-    | provider2    | http://localhost:3002/api | mock          |
-    | provider3    | http://localhost:3002/api | mock          |
-
   Scenario: Show provider details
     Given there is a provider named "mockprovider"
     When I am on the mockprovider's edit provider page
