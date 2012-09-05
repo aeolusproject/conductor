@@ -466,7 +466,7 @@ class ApplicationController < ActionController::Base
     # so that it can be tracked from now on
     session[:last_active_request] ||= Time.now
 
-    # compare to last non-backbone reqest time
+    # compare to last non-backbone request time
     logout if session[:last_active_request] < SETTINGS_CONFIG[:session][:timeout].minutes.ago
 
     # FIXME: we really need a better "is it backbone?" test than json format
