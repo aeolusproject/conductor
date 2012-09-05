@@ -245,8 +245,8 @@ class Deployment < ActiveRecord::Base
         :source => self,
         :event_time => DateTime.now,
         :status_code => 'deployment_launch_match',
-        :summary => "Attempting to launch this deployment on provider account "\
-                    "#{account.name}"
+        :summary => I18n.t('deployments.events.launch_attempt',
+                           :account => account.name)
       )
     else
       if errs.any?
@@ -771,7 +771,8 @@ class Deployment < ActiveRecord::Base
         :source => self,
         :event_time => DateTime.now,
         :status_code => self.state,
-        :summary => "State changed to #{self.state}"
+        :summary => I18n.t('deployments.events.state_changed',
+                           :state => self.state)
       )
     end
   end
@@ -789,7 +790,8 @@ class Deployment < ActiveRecord::Base
           :source => self,
           :event_time => DateTime.now,
           :status_code => 'deployment_launch_failed',
-          :summary => "Failed to launch deployment: #{$!.message}"
+          :summary => I18n.t('deployments.errors.launch_failed',
+                             :msg => $!.message)
         )
         update_attribute(:state, STATE_FAILED)
         cleanup_failed_launch
