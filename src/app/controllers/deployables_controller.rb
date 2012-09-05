@@ -68,7 +68,7 @@ class DeployablesController < ApplicationController
     save_breadcrumb(polymorphic_path([@catalog, @deployable]), @deployable.name)
     @providers = Provider.all
     @catalogs_options = Catalog.list_for_user(current_session, current_user,
-                                              Privilege::VIEW).select do |c|
+                                              Privilege::MODIFY).select do |c|
       !@deployable.catalogs.include?(c) and
         @deployable.catalogs.first.pool_family == c.pool_family
     end
