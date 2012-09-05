@@ -180,7 +180,7 @@ class HardwareProfilesController < ApplicationController
       flash[:notice] = t('hardware_profiles.flash.notice.more_deleted', :count => deleted.count, :deleted => deleted.join(', '))
     end
     unless not_deleted.empty?
-      flash[:error] = t('hardware_profiles.flash.error.more_not_deleted', :count => not_deleted.count, :not_deleted => not_deleted.join(', '))
+      flash[:error] = t('hardware_profiles.flash.error.not_deleted_perms', :count => not_deleted.count, :not_deleted => not_deleted.join(', '))
     end
 
     redirect_to hardware_profiles_path
