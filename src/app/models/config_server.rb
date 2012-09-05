@@ -84,34 +84,31 @@ class ConfigServer < ActiveRecord::Base
   # generated when testing the connection.
   def connection_valid?
     if status.untested? or (changed? and (changes.keys & @@status_fields).empty?)
+      error_str = nil
       begin
-        test_connection
-        status.success!
-      rescue => e
-        error_str = map_connection_exception_to_error(e)
-        status.fail!(error_str)
+        response = test_connection
+        if "200" == response.code
+          status.success!
+        else
+          error_str = map_response_to_error(response)
+        end
+      rescue => exception
+        error_str = map_exception_to_error(exception)
       end
+      status.fail!(error_str) if error_str
     end
     status.success?
   end
 
   def send_config(instance_config)
-    url = "#{endpoint}/configs/#{API_VERSION}/#{instance_config.uuid}"
-    args = get_connection_args(url, "post")
-    data = CGI::escape(instance_config.to_s)
-    args[:payload] = "data=#{data}"
-    RestClient::Request.execute(args)
+    uri = "/configs/#{API_VERSION}/#{instance_config.uuid}"
+    body = {:data => instance_config.to_s}
+    oauth.post(uri, body)
   end
 
   def delete_deployment_config(deployment_uuid)
-    url = "#{endpoint}/deployment/#{API_VERSION}/#{deployment_uuid}"
-    args = get_connection_args(url, "delete")
-    begin
-      RestClient::Request.execute(args)
-    rescue RestClient::ResourceNotFound => e
-      # allow for 404s, this means that the configs don't exist on this config
-      # server
-    end
+    uri = "/deployment/#{API_VERSION}/#{deployment_uuid}"
+    oauth.delete(uri)
   end
 
   private
@@ -128,32 +125,29 @@ class ConfigServer < ActiveRecord::Base
     end
   end
 
-  def get_connection_args(url, method="get")
-    args = {:method => method.to_sym}
-    args[:url] = url
-    # the :config_server_oauth parameter is inspected by one of the
-    # RestClient#before_execution_procs that gets added in
-    # config/initializers/config_server_oauth.rb.
-    args[:config_server_oauth] = true
-    args[:consumer_key] = key
-    args[:consumer_secret] = secret
-    args
+  def consumer
+    OAuth::Consumer.new(key, secret, :site => endpoint)
   end
 
-  # Test the connection to this config server.  Return nil on success, or throw
-  # an exception on errors.  See
-  # http://rubydoc.info/gems/rest-client/1.6.3/RestClient#STATUSES-constant
-  # for more information on the types of exceptions.
+  def oauth
+    OAuth::AccessToken.new(consumer)
+  end
+
+  # Test the connection to this config server.
+  # Return the http response
   def test_connection
-    args = get_connection_args("#{endpoint}/auth")
-    args[:raw_response] = true
-    RestClient::Request.execute(args)
+    oauth.get("/auth")
   end
 
-  def map_connection_exception_to_error(ex)
-    if ex.kind_of?(RestClient::ExceptionWithResponse) or ex.kind_of?(RestClient::Exception) or ex.class == Errno::ETIMEDOUT
-      error_string = I18n.translate("config_servers.errors.connection.generic_with_message", :url => endpoint, :msg => ex.message)
-    elsif not ex.nil?
+  def map_response_to_error(response)
+    msg = "#{response.code}: #{response.message}"
+    error_string = I18n.translate("config_servers.errors.connection.generic_with_message", :url => endpoint, :msg => msg)
+  end
+
+  def map_exception_to_error(exception)
+    if [Errno::ETIMEDOUT, Errno::ECONNREFUSED].include? exception.class
+      error_string = I18n.translate("config_servers.errors.connection.generic_with_message", :url => endpoint, :msg => exception.message)
+    else
       error_string = I18n.translate("config_servers.errors.connection.generic", :url => endpoint)
     end
   end
