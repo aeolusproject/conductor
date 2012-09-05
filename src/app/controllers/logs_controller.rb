@@ -127,9 +127,10 @@ class LogsController < ApplicationController
                     @to_date.to_datetime.end_of_day,
                     @source_type]
     else
-      conditions = ["event_time between ? and ?",
+      conditions = ["event_time between ? and ? and source_type in (?)",
                     @from_date.to_datetime.beginning_of_day,
-                    @to_date.to_datetime.end_of_day]
+                    @to_date.to_datetime.end_of_day,
+                   ["Deployment", "Instance"]]
     end
 
     @events = Event.unscoped.find(:all,
