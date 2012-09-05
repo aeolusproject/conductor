@@ -116,6 +116,8 @@ module Taskomatic
       return Instance::STATE_STOPPED
     when 'SHUTTING_DOWN'
       return Instance::STATE_SHUTTING_DOWN
+    when 'STOPPING'
+      return Instance::STATE_SHUTTING_DOWN
     else
       return Instance::STATE_PENDING
     end

@@ -113,6 +113,7 @@ class Instance < ActiveRecord::Base
   STATE_RUNNING        = "running"
   STATE_SHUTTING_DOWN  = "shutting_down"
   STATE_STOPPED        = "stopped"
+  STATE_STOPPING       = "stopping"
   STATE_CREATE_FAILED  = "create_failed"
   STATE_ERROR          = "error"
   STATE_VANISHED       = "vanished"

@@ -67,7 +67,7 @@ class InstanceTask < Task
     # FIXME: cloud_account won't always be set here, but we're requiring
     #        front end realm for now.
     if cloud_account = instance.provider_account and
-      conn = cloud_account.connect and c_state = conn.instance_state(state)
+      conn = cloud_account.connect and c_state = conn.instance_state(dc_version_compatible_state(conn,state))
         transitions = c_state.transitions
         transitions.each do |transition|
           # FIXME if we allow actions based on the expected state after
@@ -79,6 +79,16 @@ class InstanceTask < Task
         end
     end
     actions
+  end
+
+  #this method translate states so they are compatible with 0.5.x and 1.x version of dc-core
+  #v0.5.x use state shutting_down, v1.x changed the state to stopping
+  def self.dc_version_compatible_state(connection,state)
+    if state == Instance::STATE_SHUTTING_DOWN && connection.api_version.to_i >= 1
+      Instance::STATE_STOPPING
+    else
+      state
+    end
   end
 
   def self.action_label(action)
