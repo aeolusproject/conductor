@@ -32,8 +32,12 @@ describe ProvidersController do
       it "should have correct providers" do
         providers.each do |provider|
           xml_provider = xml_providers.xpath("//provider[@id=\"#{provider.id}\"]")
-          xml_provider.xpath('name').text.should be_eql(provider.name.to_s)
           xml_provider.xpath('@href').text.should be_eql(api_provider_url(provider))
+          # xml_provider.xpath('name').text.should be_eql(provider.name.to_s)
+          # it should not have details of providers
+          %w{name url provider_type deltacloud_provider}.each do |element|
+            xml_provider.xpath(element).should be_empty
+          end
         end
       end
     end
