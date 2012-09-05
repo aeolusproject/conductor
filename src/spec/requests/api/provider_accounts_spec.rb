@@ -27,7 +27,7 @@ describe "ProviderAccounts" do
     context "with valid" do
       context "mock provider account XML" do
         let(:xml) do
-          "<provider_account><label>mockaccount</label><credentials><username>mockuser</username><password>mockpassword</password></credentials></provider_account>"
+          "<provider_account><label>mockaccount</label><credentials><username>mockuser</username><password>mockpassword</password></credentials><quota><maximum_running_instances>100</maximum_running_instances></quota></provider_account>"
         end
         let(:provider) { FactoryGirl.create(:mock_provider) }
 
@@ -44,6 +44,7 @@ describe "ProviderAccounts" do
             subject.xpath('//provider_account/credentials/username').text.should be_eql("mockuser")
             subject.xpath('//provider_account/credentials/password').size.should be_eql(1)
             subject.xpath('//provider_account/credentials/password').text.should be_eql("mockpassword")
+            subject.xpath('//provider_account/quota').attr('maximum_running_instances').text.should be_eql("100")
           end
         end
       end
@@ -60,6 +61,7 @@ describe "ProviderAccounts" do
               <x509private><![CDATA[ec2x509private]]></x509private>
               <x509public><![CDATA[ec2x509public]]></x509public>
             </credentials>
+            <quota><maximum_running_instances>100</maximum_running_instances></quota>
           </provider_account>"
         end
         let(:provider) { DeltaCloud.stub(:valid_credentials?).and_return(true); FactoryGirl.create(:ec2_provider) }
@@ -79,6 +81,7 @@ describe "ProviderAccounts" do
             subject.xpath('//provider_account/credentials/password').text.should be_eql("ec2password")
             subject.xpath('//provider_account/credentials/x509private').size.should be_eql(1)
             subject.xpath('//provider_account/credentials/x509private').text.should be_eql("ec2x509private")
+            subject.xpath('//provider_account/quota').attr('maximum_running_instances').text.should be_eql("100")
           end
         end
       end
@@ -142,7 +145,7 @@ describe "ProviderAccounts" do
       context "with valid" do
         context "mock provider account XML" do
           let(:xml) do
-            "<provider_account><label>mockaccount</label><credentials><username>mockuser</username><password>mockpassword</password></credentials></provider_account>"
+            "<provider_account><label>mockaccount</label><credentials><username>mockuser</username><password>mockpassword</password></credentials><quota><maximum_running_instances>100</maximum_running_instances></quota></provider_account>"
           end
           let(:provider) { FactoryGirl.create(:mock_provider) }
           let(:provider_account) { FactoryGirl.create(:mock_provider_account, :provider => provider) }
@@ -160,6 +163,7 @@ describe "ProviderAccounts" do
               subject.xpath('//provider_account/credentials/username').text.should be_eql("mockuser")
               subject.xpath('//provider_account/credentials/password').size.should be_eql(1)
               subject.xpath('//provider_account/credentials/password').text.should be_eql("mockpassword")
+              subject.xpath('//provider_account/quota').attr('maximum_running_instances').text.should be_eql("100")
             end
           end
         end
@@ -176,6 +180,7 @@ describe "ProviderAccounts" do
                            <x509private><![CDATA[ec2x509private]]></x509private>
                            <x509public><![CDATA[ec2x509public]]></x509public>
                          </credentials>
+                         <quota><maximum_running_instances>100</maximum_running_instances></quota>
                        </provider_account>"
           end
           let(:provider) { FactoryGirl.create(:ec2_provider) }
@@ -200,6 +205,7 @@ describe "ProviderAccounts" do
               subject.xpath('//provider_account/credentials/x509private').text.should be_eql("ec2x509private")
               subject.xpath('//provider_account/credentials/x509public').size.should be_eql(1)
               subject.xpath('//provider_account/credentials/x509public').text.should be_eql("ec2x509public")
+              subject.xpath('//provider_account/quota').attr('maximum_running_instances').text.should be_eql("100")
             end
           end
         end
