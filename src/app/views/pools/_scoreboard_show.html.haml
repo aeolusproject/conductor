@@ -29,5 +29,5 @@
         %dd.fraction.instance
           %span.part{:title => t('pools.scoreboard.running_instances_quota')}= @statistics[:used_quota]
           %span.divider.label.small.caps of
-          %span.total{:title => t('pools.scoreboard.total_available_instances')}= @statistics[:available_quota] or '&infin;'.html_safe
+          %span.total{:title => t('pools.scoreboard.total_available_instances')}= @pool.quota.maximum_running_instances or '&infin;'.html_safe
 -# TODO: Implement alerts and updates
