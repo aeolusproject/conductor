@@ -40,7 +40,7 @@ class ProvidersController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
-      format.xml { render :partial => 'list.xml' }
+      format.xml { render :partial => 'list.xml' , :locals => { :with_data => false }}
     end
   end
 
