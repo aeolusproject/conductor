@@ -716,6 +716,9 @@ en:
         more_not_deleted:
           one: "%{not_deleted} could not be deleted"
           other: "Could not delete the following hardware profiles: %{not_deleted}"
+        not_deleted_perms:
+          one: "Insufficient permissions to delete hardware profile %{not_deleted}"
+          other: "Insufficient permissions to remove %{count} hardware profiles %{not_deleted}"
       warning:
         cannot_edit_backend_hwp: "Cannot modify Provider Hardware Profiles"
         cannot_delete_backend_hwp: "Cannot delete Provider Hardware Profiles"
