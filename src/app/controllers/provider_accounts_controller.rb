@@ -15,6 +15,7 @@
 #
 
 class ProviderAccountsController < ApplicationController
+  include QuotaAware
   before_filter :require_user
   before_filter :load_provider, :only => [:index]
   before_filter :load_accounts, :only => [:index,:show]
@@ -88,11 +89,11 @@ class ProviderAccountsController < ApplicationController
     params[:provider_account][:provider_id] = @provider.id
     @providers = Provider.all
     credentials_hash = credentials_hash_prepare
+    set_quota_param(:provider_account)
     @provider_account = ProviderAccount.new(params[:provider_account])
     @provider_account.credentials_hash = credentials_hash
     @provider_account.quota = @quota = Quota.new
-    limit = params[:quota][:maximum_running_instances] if params[:quota]
-    @provider_account.quota.set_maximum_running_instances(limit)
+    set_quota(@provider_account)
     @provider_account.pool_families << PoolFamily.default
     begin
       if @provider_account.save
@@ -143,8 +144,8 @@ class ProviderAccountsController < ApplicationController
     require_privilege(Privilege::MODIFY,@provider_account)
     @quota = @provider_account.quota
     @providers = Provider.find(:all)
-    limit = params[:quota][:maximum_running_instances] if params[:quota]
-    @provider_account.quota.set_maximum_running_instances(limit)
+    set_quota_param(:provider_account)
+    set_quota(@provider_account)
     credentials_hash = credentials_hash_prepare
     @provider_account.attributes = params[:provider_account]
     @provider_account.credentials_hash= credentials_hash
