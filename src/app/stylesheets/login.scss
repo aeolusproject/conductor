@@ -1,7 +1,10 @@
 @import "converge-ui/login";
 
 article{
-  .button{ position: relative; }
+  .button {
+    filter:none;
+    position: relative;
+  }
 
   aside img{ margin-left: 30px; }
 
