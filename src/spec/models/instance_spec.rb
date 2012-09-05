@@ -175,7 +175,7 @@ describe Instance do
     cloud_account = Factory.build(:provider_account, :provider => provider)
     cloud_account.stub!(:connect).and_return(nil)
     cloud_account.stub!(:valid_credentials?).and_return(true)
-    instance = Factory.create(:instance, :provider_account => cloud_account)
+    instance = Factory.build(:instance, :provider_account => cloud_account)
     instance.get_action_list.should be_empty
   end
 
