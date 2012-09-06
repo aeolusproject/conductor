@@ -96,7 +96,7 @@ module Api
             @image.save!
             respond_with(@image)
           rescue Errno::ECONNREFUSED
-            raise(Aeolus::Conductor::API::ServiceUnavailable.new(503, 'Imagefactory is dead, Jim!'))
+            raise(Aeolus::Conductor::API::ServiceUnavailable.new(503, 'Imagefactory service is unavailable.'))
           end
         elsif req[:type] == :import
           account = ProviderAccount.find_by_label(req[:params][:provider_account_name])
