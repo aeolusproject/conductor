@@ -53,7 +53,7 @@ Then /^I should have a provider account named "([^"]*)"$/ do |label|
 end
 
 Given /^there is a provider account named "([^"]*)"$/ do |label|
-  @provider = Provider.find_by_name('testprovider')
+  @provider = Provider.find_by_name('mockprovider')
   @provider_account = FactoryGirl.create(:mock_provider_account, :provider => @provider, :label => label)
 end
 
@@ -79,7 +79,7 @@ Given /^that there are these provider accounts:$/ do |table|
 end
 
 Given /^there is ec2 provider account "([^"]*)"$/ do |arg1|
-  provider =  FactoryGirl.create(:ec2_provider, :name => 'ec2provider')
+  provider =  FactoryGirl.create(:ec2_provider, :name => 'ec2-provider')
   FactoryGirl.create(:ec2_provider_account, :label => arg1, :provider => provider)
 end
 

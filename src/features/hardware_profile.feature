@@ -100,14 +100,14 @@ Feature: Manage Hardware Profiles
      | Test Hardware Profile | 1740   | 2 | 250 | i386 |
 
   Scenario: Check New Hardware Profile matching Provider Hardware Profiles
-    Given there is a provider named "provider1"
-    And there is a provider named "provider2"
-    And "provider1" has the following hardware profiles:
+    Given there is a provider named "mockprovider1"
+    And there is a provider named "mockprovider2"
+    And "mockprovider1" has the following hardware profiles:
     | name         | memory | cpu |storage  | architecture |
     | m1-small     | 1740   | 1   | 250     | i386         |
     | m1-medium    | 1740   | 2   | 500     | i386         |
     | m1-large     | 2048   | 4   | 850     | x86_64       |
-    And "provider2" has the following hardware profiles:
+    And "mockprovider2" has the following hardware profiles:
     | name         | memory | cpu |storage  | architecture |
     | m1-small     | 4048   | 4   | 500     | i386         |
     | m1-medium    | 8192   | 4   | 500     | i386         |

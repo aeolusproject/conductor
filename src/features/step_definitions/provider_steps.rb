@@ -14,9 +14,8 @@
 #   limitations under the License.
 #
 def new_provider(port,bool)
-  destroy_provider("testprovider")
   stub_framework(bool)
-  fill_in "provider[name]", :with => "testprovider"
+  fill_in "provider[name]", :with => "ec2-testprovider"
   fill_in "provider[url]", :with => "http://localhost:#{port}/api"
   select("Amazon EC2", :from => "provider_provider_type_id")
   click_button "save"
