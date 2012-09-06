@@ -730,7 +730,7 @@ class Deployment < ActiveRecord::Base
       cleanup_failed_launch
     elsif instance.state == Instance::STATE_RUNNING
       deployment_rollback
-    elsif instances.all? {|i| i.inactive? or i.state == Instance::STATE_NEW}
+    elsif instances.all? {|i| i.finished?}
       # some other instances might be failed (because their
       # launch failed), but it shouldn't be a problem if all
       # running instances stopped correctly

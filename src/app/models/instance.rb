@@ -349,6 +349,14 @@ class Instance < ActiveRecord::Base
     ! instance_config_xml.nil? || assembly_xml.requires_config_server?
   end
 
+  # represents states from which instance doesn't automatically transits
+  # into any other state, also checks that there is no queued 'start' action
+  # for stopped instance (rhevm, vpshere)
+  def finished?
+    return false if state == Instance::STATE_STOPPED && pending_or_successful_start?
+    inactive? || state == Instance::STATE_NEW
+  end
+
   def self.list(order_field, order_dir)
     #Instance.all(:include => [ :owner ],
     #             :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
@@ -603,8 +611,8 @@ class Instance < ActiveRecord::Base
   end
 
   def pending_or_successful_start?
-    task = tasks.find_last_by_action('start')
-    return false unless task
+    task = tasks.last
+    return false if task.nil? || task.action != 'start'
     return true if task.state == Task::STATE_FINISHED
     # it's possible that start request takes more than 30 secs on rhevm,
     # but dbomatic kills child process after 30sec by default, so
