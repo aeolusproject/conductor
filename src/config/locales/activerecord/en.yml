@@ -368,3 +368,5 @@ en:
               invalid_framework: "Must be a valid provider uri"
             deltacloud_provider:
               invalid_provider: "Must be a valid provider identifier"
+            provider_type:
+              does_not_exist: "does not exist"
