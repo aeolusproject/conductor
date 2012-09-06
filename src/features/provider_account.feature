@@ -63,6 +63,7 @@ Feature: Manage Provider Accounts
     And there is a provider account named "testaccount"
     And the account has an instance associated with it
     And I am on the mockprovider's provider accounts page
+    And there is not a provider account with provider images
     When I check the "testaccount" account
     And I press "Delete"
     Then I should be on the mockprovider's edit provider page
@@ -81,6 +82,7 @@ Feature: Manage Provider Accounts
     And the account has an instance associated with it
     And all the account instances are stopped
     And I am on the mockprovider's provider accounts page
+    And there is not a provider account with provider images
     When I check the "testaccount" account
     And I press "Delete"
     Then I should be on the mockprovider's edit provider page

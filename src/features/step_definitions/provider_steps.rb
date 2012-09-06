@@ -138,6 +138,10 @@ Given /^this provider has a provider account$/ do
   FactoryGirl.create(:mock_provider_account, :provider => @provider)
 end
 
+Given /^there is not a provider account with provider images$/ do
+  ProviderAccount.any_instance.stub(:provider_images).and_return([])
+end
+
 Then /^there should not be any hardware profiles$/ do
   HardwareProfile.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
 end
