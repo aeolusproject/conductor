@@ -61,7 +61,7 @@ Feature: Pool Families
 
   Scenario: Add provider account to pool family
     Given there is a pool family named "testpoolfamily"
-    And there is a provider named "testprovider"
+    And there is a provider named "mockprovider"
     And there is a provider account named "testaccount"
     And I am on the pool family provider accounts page
     Then I should see "Account Name"
@@ -73,7 +73,7 @@ Feature: Pool Families
 
   Scenario: Remove provider account from pool family
     Given there is a pool family named "testpoolfamily"
-    And there is a provider named "testprovider"
+    And there is a provider named "mockprovider"
     And there is a provider account named "testaccount"
     And there is a provider account "testaccount" related to pool family "testpoolfamily"
     And I am on the pool family provider accounts page

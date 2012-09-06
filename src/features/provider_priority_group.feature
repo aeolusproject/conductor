@@ -12,7 +12,7 @@ Feature: Manage Provider Priority Groups
 
   Scenario: Create a new Provider Priority Group
     Given a pool "testpool" exists
-    And there is a provider named "testprovider"
+    And there is a provider named "mockprovider"
     And there is a provider account named "testprovideraccount"
     And I am on the testpool's provider priority groups page
     When I follow "Add new"
@@ -24,7 +24,7 @@ Feature: Manage Provider Priority Groups
 
   Scenario: Tries to create a new Provider Priority Group with invalid input data
     Given a pool "testpool" exists
-    And there is a provider named "testprovider"
+    And there is a provider named "mockprovider"
     And there is a provider account named "testprovideraccount"
     And I am on the testpool's provider priority groups page
     When I follow "Add new"

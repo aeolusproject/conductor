@@ -17,7 +17,7 @@
 FactoryGirl.define do
 
   factory :provider do
-    sequence(:name) { |n| "provider#{n}" }
+    sequence(:name) { |n| "mock#{n}" }
     provider_type { Factory.build :provider_type }
     url { |p| "http://www." + p.name + ".com/api" }
     after_build do |p|
@@ -52,7 +52,7 @@ FactoryGirl.define do
   end
 
   factory :ec2_provider, :parent => :provider do
-    name 'amazon-ec2'
+    name 'ec2-amazon'
     provider_type { ProviderType.find_by_deltacloud_driver("ec2") }
     url 'http://localhost:3002/api'
     deltacloud_provider 'ec2-us-east-1'
