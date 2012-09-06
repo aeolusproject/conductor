@@ -45,6 +45,7 @@ Feature: Manage Providers
     And this provider has 5 hardware profiles
     And this provider has a realm
     And this provider has a provider account
+    And there is not a provider account with provider images
     When I go to the mock1's edit provider page
     And I follow "delete"
     Then there should not exist a provider named "mock1"
