@@ -52,6 +52,8 @@ class User < ActiveRecord::Base
     include CommonFilterMethods
   end
 
+  before_destroy :ensure_not_running_any_instances
+
   attr_accessor :password
 
   # this attr is used when validating non-local (ldap) users
@@ -92,7 +94,6 @@ class User < ActiveRecord::Base
   #validates_format_of :email, :with => /^([^\s]+)((?:[-a-z0-9]\.)[a-z]{2,})$/i
 
   before_save :encrypt_password
-  before_destroy :ensure_not_running_any_instances
 
   def name
     "#{first_name} #{last_name}".strip

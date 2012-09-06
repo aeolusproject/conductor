@@ -39,6 +39,9 @@ class Pool < ActiveRecord::Base
   class << self
     include CommonFilterMethods
   end
+
+  before_destroy :destroyable?
+
   has_many :instances,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   belongs_to :pool_family
@@ -68,8 +71,6 @@ class Pool < ActiveRecord::Base
 
   has_many :provider_selection_strategies, :dependent => :destroy
   has_many :provider_priority_groups, :dependent => :destroy
-
-  before_destroy :destroyable?
 
   def cloud_accounts
     accounts = []
