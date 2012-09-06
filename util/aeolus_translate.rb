@@ -28,6 +28,7 @@ SUBS = {
  "Assemblies" => "Component Blueprints",
  "Image Template" => "Component Outline",
  "deployment[!_\:]" => "application",
+ "a Deployable" => "an Application Blueprint",
  "Deployable" => "Application Blueprint",
  "deployable[!_\:]" => "application blueprint",
  "Image ID" => "Component Outline ID", # We can't just s/Image/Component Outline/
