@@ -360,6 +360,10 @@ en:
           attributes:
             name:
               invalid: "must only contain: numbers, letters, spaces, '_' and '-'"
+              not_found_in_config: "was not found in configuration file"
+              config_not_exist: "cannot be verified, configuration file does not exist"
+              start_with_mock: "must start with 'mock'"
+              start_with_ec2: "must start with 'ec2-'"
             url:
               invalid_framework: "Must be a valid provider uri"
             deltacloud_provider:

@@ -62,6 +62,29 @@ class Provider < ActiveRecord::Base
   has_many :provider_priority_group_elements, :as => :value, :dependent => :destroy
   has_many :provider_priority_groups, :through => :provider_priority_group_elements
 
+  before_save :check_name
+
+  def check_name
+    case provider_type.name
+      when "Mock"
+        if name.starts_with?("mock")
+          true
+        else
+          errors.add(:name, :start_with_mock)
+          false
+        end
+      when "RHEV-M"
+        load_rhevm_json(name)
+      when "Amazon EC2"
+        if name.starts_with?("ec2-")
+          true
+        else
+          errors.add(:name, :start_with_ec2)
+          false
+        end
+    end
+  end
+
   def derived_subtree(role = nil)
     subtree = super(role)
     subtree += provider_accounts if (role.nil? or role.privilege_target_match(ProviderAccount))
@@ -128,6 +151,7 @@ class Provider < ActiveRecord::Base
       end
     end
     if res[:failed_to_stop].blank? and res[:failed_to_terminate].blank?
+      Provider.skip_callback :save, :check_name
       update_attribute(:enabled, false)
     end
     res
@@ -260,5 +284,22 @@ class Provider < ActiveRecord::Base
       return false unless client.driver(provider_type.deltacloud_driver).valid_provider? deltacloud_provider
     end
     true
+  end
+
+  def load_rhevm_json(provider_name)
+    path_to_json = "/etc/imagefactory/rhevm.json"
+    if File.exists?(path_to_json)
+      json = File.read(path_to_json)
+      json_hash = ActiveSupport::JSON.decode(json)
+      if json_hash.key?(provider_name)
+        true
+      else
+        errors.add(:name, :not_found_in_config)
+        false
+      end
+    else
+      errors.add(:name, :config_not_exist)
+      false
+    end
   end
 end

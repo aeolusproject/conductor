@@ -121,24 +121,38 @@ class ProvidersController < ApplicationController
 
     @provider = Provider.new(params[:provider])
 
-    if @provider.save
+    begin
+      if @provider.save
+        @provider.assign_owner_roles(current_user)
+        respond_to do |format|
+          format.html do
+            flash[:notice] = t"providers.flash.notice.added"
+            redirect_to edit_provider_path(@provider)
+          end
+          format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
+        end
+      else
+        respond_to do |format|
+          format.html do
+            flash[:warning] = t"providers.flash.error.not_added"
+            render :action => "new"
+          end
+          format.xml { render :template => 'api/validation_error', :locals => { :errors => @provider.errors }, :status => :bad_request }
+        end
+      end
+    rescue Errno::EACCES
+      Provider.skip_callback :save, :check_name
+      @provider.save
       @provider.assign_owner_roles(current_user)
       respond_to do |format|
         format.html do
           flash[:notice] = t"providers.flash.notice.added"
+          flash[:warning] = t"providers.flash.warning.check_config_file"
           redirect_to edit_provider_path(@provider)
         end
-        format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
-      end
-    else
-      respond_to do |format|
-        format.html do
-          flash[:warning] = t"providers.flash.error.not_added"
-          render :action => "new"
-        end
-        format.xml { render :template => 'api/validation_error', :locals => { :errors => @provider.errors }, :status => :bad_request }
       end
     end
+
   end
 
   def update
@@ -152,31 +166,43 @@ class ProvidersController < ApplicationController
       return
     end
 
-    if @provider.save
-      @provider.update_availability
+    begin
+      if @provider.save
+        @provider.update_availability
+        respond_to do |format|
+          format.html do
+            flash[:notice] = t"providers.flash.notice.updated"
+            redirect_to edit_provider_path(@provider)
+          end
+          format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
+        end
+      else
+        # we reset 'enabled' attribute to real state
+        # if save failed
+        @provider.reset_enabled!
+        respond_to do |format|
+          format.html do
+            unless @provider.connect
+              flash.now[:warning] = t"providers.flash.warning.connect_failed"
+            else
+              flash[:error] = t"providers.flash.error.not_updated"
+            end
+            load_provider_tabs
+            @alerts = provider_alerts(@provider)
+            render :action => "edit"
+          end
+          format.xml { render :template => 'api/validation_error', :locals => { :errors => @provider.errors }, :status => :bad_request }
+        end
+      end
+    rescue Errno::EACCES
+      Provider.skip_callback :save, :check_name
+      @provider.save
       respond_to do |format|
         format.html do
           flash[:notice] = t"providers.flash.notice.updated"
+          flash[:warning] = t"providers.flash.warning.check_config_file"
           redirect_to edit_provider_path(@provider)
         end
-        format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
-      end
-    else
-      # we reset 'enabled' attribute to real state
-      # if save failed
-      @provider.reset_enabled!
-      respond_to do |format|
-        format.html do
-          unless @provider.connect
-            flash.now[:warning] = t"providers.flash.warning.connect_failed"
-          else
-            flash[:error] = t"providers.flash.error.not_updated"
-          end
-          load_provider_tabs
-          @alerts = provider_alerts(@provider)
-          render :action => "edit"
-        end
-        format.xml { render :template => 'api/validation_error', :locals => { :errors => @provider.errors }, :status => :bad_request }
       end
     end
   end
