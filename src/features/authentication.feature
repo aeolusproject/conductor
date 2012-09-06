@@ -30,7 +30,7 @@ Feature: User authentication
     Given I am an authorised user
     And I am logged in
     And I am on the root page
-    When I follow "Log out"
+    When I follow "Log Out"
     Then I should see "Username"
     And I should see "Password"
     And I should see "Forgot Login or Password?"
