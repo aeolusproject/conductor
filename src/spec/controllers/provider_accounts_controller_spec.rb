@@ -71,6 +71,7 @@ describe ProviderAccountsController do
 
     it "should allow users with account modify permission to delete a cloud account" do
       mock_warden(@admin)
+      ProviderAccount.any_instance.stub(:provider_images).and_return([])
       lambda do
         post :multi_destroy, :provider_id => @provider_account.provider_id, :accounts_selected => [@provider_account.id]
       end.should change(ProviderAccount, :count).by(-1)
@@ -224,6 +225,7 @@ describe ProviderAccountsController do
 
           it "when requested provider account exists" do
             ProviderAccount.stub(:find).and_return(@provider_account)
+            ProviderAccount.any_instance.stub(:provider_images).and_return([])
             get :destroy, :id => @provider_account.id
             response.status.should be_eql(200)
             response.should have_content_type("application/xml")
