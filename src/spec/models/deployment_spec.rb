@@ -99,6 +99,7 @@ describe Deployment do
       @deployment.reload
       @deployment.should_not be_destroyable
       @deployment.destroy.should == false
+      @deployment.instances.should_not be_empty
 
       inst1.state = Instance::STATE_CREATE_FAILED
       inst1.save!

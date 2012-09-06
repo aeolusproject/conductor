@@ -43,6 +43,8 @@ class Deployment < ActiveRecord::Base
     include CommonFilterMethods
   end
 
+  before_destroy :destroyable?
+
   belongs_to :pool
   belongs_to :pool_family
 
@@ -76,7 +78,6 @@ class Deployment < ActiveRecord::Base
   validates_length_of :name, :maximum => 50
   validates_presence_of :owner_id
   validate :pool_must_be_enabled
-  before_destroy :destroyable?
   before_destroy :destroy_deployment_config
   before_create :inject_launch_parameters
   before_create :generate_uuid

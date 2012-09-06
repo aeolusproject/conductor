@@ -68,6 +68,8 @@ class Instance < ActiveRecord::Base
   end
   include PermissionedObject
 
+  before_destroy :destroyable?
+
   belongs_to :pool
   belongs_to :pool_family
   belongs_to :provider_account
@@ -147,7 +149,6 @@ class Instance < ActiveRecord::Base
 
   validate :pool_and_account_enabled_validation, :on => :create
 
-  before_destroy :destroyable?
   before_destroy :destroy_on_provider
   # A user should only be able to update certain attributes, but the API may permit other attributes to be
   # changed if called from another Aeolus component, so attr_protected isn't quite what we want:

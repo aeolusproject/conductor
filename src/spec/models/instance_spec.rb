@@ -98,6 +98,13 @@ describe Instance do
     lambda{ second_instance = Instance.unscoped.find(second_instance_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
   end
 
+  it "should not destroy associated instance key when instance not destroyable" do
+    @instance.instance_key = FactoryGirl.build(:instance_key, :instance => @instance)
+    @instance.stub(:destroyable?).and_return(false)
+    @instance.destroy
+    @instance.instance_key.should_not be_destroyed
+  end
+
   it "should tell apart valid and invalid actions" do
     @instance.stub!(:get_action_list).and_return(@actions)
     @instance.valid_action?('invalid action').should == false
