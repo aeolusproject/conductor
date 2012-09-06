@@ -114,24 +114,7 @@ module ApplicationHelper
 
   def count_uptime(delta_seconds)
     if delta_seconds
-      seconds = delta_seconds.to_i
-      minutes = seconds / 60
-      hours = minutes / 60
-      days = hours / 24
-      months = days / 31
-
-      case
-      when months > 0
-        I18n.t('datetime.distance_in_words.x_months', :count => months)
-      when days > 0
-        I18n.t('datetime.distance_in_words.x_days', :count => days)
-      when hours > 0
-        I18n.t('datetime.distance_in_words.x_hours', :count => hours)
-      when minutes > 0
-        I18n.t('datetime.distance_in_words.x_minutes', :count => minutes)
-      else
-        I18n.t('datetime.distance_in_words.x_seconds', :count => seconds)
-      end
+      time_ago_in_words delta_seconds.seconds.from_now, true
     else
       "N/A"
     end
