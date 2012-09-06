@@ -242,8 +242,7 @@ class ProvidersController < ApplicationController
       && params[:provider][:provider_type].has_key?(:id)
       provider_type_hash = params[:provider].delete(:provider_type)
       provider_type_id = provider_type_hash[:id]
-      provider_type = ProviderType.find_by_id(provider_type_id)
-      params[:provider][:provider_type_id] = provider_type.id
+      params[:provider][:provider_type_id] = provider_type_id
     end
   end
 
