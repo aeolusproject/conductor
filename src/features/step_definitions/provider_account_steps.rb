@@ -14,7 +14,8 @@
 #   limitations under the License.
 #
 Given /^the account has an instance associated with it$/ do
-  FactoryGirl.create :instance, :provider_account => @provider_account
+  deployment = Factory.create(:deployment)
+  FactoryGirl.create :instance, :provider_account => @provider_account, :deployment => deployment
 end
 
 Given /^all the account instances are stopped$/ do
