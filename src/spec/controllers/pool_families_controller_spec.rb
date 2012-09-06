@@ -207,6 +207,7 @@ describe PoolFamiliesController do
 
       it "delete an existing pool family" do
         @pool_family = FactoryGirl.create :pool_family
+        PoolFamily.any_instance.stub(:images).and_return([])
         get :destroy, :id => @pool_family.id
 
         response.status.should be_eql(200)
