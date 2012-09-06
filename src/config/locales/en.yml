@@ -1219,6 +1219,7 @@ en:
         connect_failed: "Failed to connect to Provider"
         not_stopped_instances: "Provider was not disabled. Failed to stop following instances:"
         not_terminated_instances: "Provider was not disabled. Failed to change status to 'stopped' for following instances:"
+        check_config_file: Cannot check if provider name is right. Please check config file
     alerts:
       type:
         critical: Critical
