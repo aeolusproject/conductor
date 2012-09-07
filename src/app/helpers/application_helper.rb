@@ -140,9 +140,9 @@ module ApplicationHelper
   def owner_name(obj)
     return '' unless obj.owner
     # if last_name is set, use full name,
-    # else use login
+    # else use username
     if obj.owner.last_name.blank?
-      obj.owner.login
+      obj.owner.username
     else
       "#{obj.owner.first_name} #{obj.owner.last_name}"
     end

@@ -20,6 +20,6 @@
           - selected = params[:select] == 'all'
           = check_box_tag "members_selected[]", user.id, selected, :id => "member_checkbox_#{user.id}"
         %td
-          = link_to user.login, users_path(user)
+          = link_to user.username, users_path(user)
         %td
           = user.name

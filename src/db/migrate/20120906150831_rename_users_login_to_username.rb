@@ -14,11 +14,14 @@
 #   limitations under the License.
 #
 
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
+class RenameUsersLoginToUsername < ActiveRecord::Migration
+  def self.up
+    rename_column :users, :login, :username
+    rename_index :users, "index_users_on_login", "index_users_on_username"
+  end
 
-module UsersHelper
-  def format_user_name(user)
-    user.name.present? ? user.name : user.username
+  def self.down
+    rename_column :users, :username, :login
+    rename_index :users, "index_users_on_username", "index_users_on_login"
   end
 end

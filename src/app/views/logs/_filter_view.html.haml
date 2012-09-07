@@ -31,7 +31,7 @@
     %td= source.nil? ? t('logs.index.not_available') : source.state
     %td= source.nil? ? t('logs.index.not_available') : source.pool_family.name + "/" + source.pool.name
     %td= provider_account.nil? ? t('logs.index.not_available') : provider_account.provider.name + "/" + provider_account.name
-    %td= source.nil? ? t('logs.index.not_available') : source.owner.login
+    %td= source.nil? ? t('logs.index.not_available') : source.owner.username
     %td= event.summary
     %td
       - if !source.nil?

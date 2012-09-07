@@ -16,9 +16,9 @@
       = form.text_field :email, :class =>"check_change"
 %fieldset
   .field
-    = form.label :login, t(:choose_name), :required => true
+    = form.label :username, t(:choose_name), :required => true
     .input
-      = form.text_field :login, :class => "check_change"
+      = form.text_field :username, :class => "check_change"
   .field
     = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password), :required => form.object.new_record?
     .input
@@ -52,8 +52,8 @@
       case 'user_email':
         $('dd#email').text(this.value);
         break;
-      case 'user_login':
-        $('dd#login').text(this.value);
+      case 'user_username':
+        $('dd#username').text(this.value);
         break;
     }
   });
