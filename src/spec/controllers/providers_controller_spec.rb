@@ -226,7 +226,15 @@ describe ProvidersController do
           end
 
           context "with incorrect parameters" do
-            let(:provider) { FactoryGirl.build(:invalid_provider) }
+            let(:provider_type_id) do
+              provider_type = FactoryGirl.create(:provider_type)
+              id = provider_type.id
+            end
+            let(:provider) do
+              provider = FactoryGirl.build(:invalid_provider, :provider_type_id => provider_type_id)
+              provider.provider_type.destroy
+              provider
+            end
 
             it_behaves_like "http Bad Request"
             it_behaves_like "responding with XML"
@@ -235,7 +243,7 @@ describe ProvidersController do
               subject { Nokogiri::XML(response.body) }
               it "should have some errors" do
                 subject.xpath('//errors').size.should be_eql(1)
-                subject.xpath('//errors/error').size.should <= 1
+                subject.xpath('//errors/error').size.should >= 1
               end
             end
           end
