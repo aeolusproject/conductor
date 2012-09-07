@@ -145,12 +145,6 @@ describe Deployment do
       lambda { Deployment.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
       lambda { Deployment.only_deleted.find(second_deployment_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
       lambda{ second_deployment = Deployment.unscoped.find(second_deployment_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
-
-      second_deployment.destroy!
-
-      lambda { Deployment.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
-      lambda { Deployment.only_deleted.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
-      lambda{ Deployment.unscoped.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
