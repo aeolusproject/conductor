@@ -26,12 +26,14 @@ class LogsController < ApplicationController
 
     load_options
     load_events
-    load_headers
-    generate_graph
+    load_headers unless @view == "pretty"
+    generate_graph if @view == "pretty"
 
     respond_to do |format|
-      format.html
-      format.js
+      format.html { @partial = filter_view? ? 'filter_view' : 'pretty_view' }
+      format.js { render :partial => filter_view? ?
+        'filter_view' :
+        'pretty_view' }
     end
   end
 
@@ -86,7 +88,7 @@ class LogsController < ApplicationController
   protected
 
   def load_events
-    @source_type = params[:source_type].nil? ? "Deployment" : params[:source_type]
+    @source_type = params[:source_type].nil? ? "" : params[:source_type]
     @pool_select = params[:pool_select].nil? ? "" : params[:pool_select]
     @provider_select =
       params[:provider_select].nil? ? "" : params[:provider_select]
@@ -107,6 +109,16 @@ class LogsController < ApplicationController
       @paginated_events = []
       flash[:error] = t('logs.flash.error.date_range')
       return
+    end
+
+    # modify parameters for pretty view
+    if @view == "pretty"
+      @state = ""
+      @pool_select = ""
+      @provider_select = ""
+      @owner_id = ""
+      @order = t('logs.options.time_order')
+      @source_type = "Deployment" if @source_type == ""
     end
 
     if @source_type.present?
@@ -147,6 +159,11 @@ class LogsController < ApplicationController
       # filter by user
       next if @owner_id.present? && source.owner_id.to_s != @owner_id
 
+      # filter by state
+      if @state.present?
+        next if source.state != @state
+      end
+
       # filter by pool
       if @pool_select.present?
         next if (pool_option == "pool_family" &&
@@ -167,73 +184,72 @@ class LogsController < ApplicationController
       true
     }
 
-    @filtered_events = @events
-    if @state.present?
-      @filtered_events = @filtered_events.find_all{|event|
-        event.source.state = @state
-      }
-    end
-
     case @order
     when t('logs.options.deployment_instance_order')
-      @filtered_events = @filtered_events.sort_by {|event|
+      @events = @events.sort_by {|event|
         (event.source.nil? ? "" : event.source.name.downcase)}
     when t('logs.options.state_order')
-      @filtered_events = @filtered_events.sort_by {|event|
+      @events = @events.sort_by {|event|
         (event.source.nil? ? "" :
          (event.source.state.nil? ? "" : event.source.state.downcase))}
     when t('logs.options.pool_order')
-      @filtered_events = @filtered_events.sort_by {|event|
+      @events = @events.sort_by {|event|
         (event.source.nil? ? "" : event.source.pool_family.name.downcase)}
     when t('logs.options.provider_order')
-      @filtered_events = @filtered_events.sort_by {|event|
+      @events = @events.sort_by {|event|
         source = event.source
         (source.nil? ? "" :
          (source.provider_account.nil? ? "" :
           source.provider_account.name.downcase))}
     when t('logs.options.owner_order')
-      @filtered_events = @filtered_events.sort_by {|event|
+      @events = @events.sort_by {|event|
         (event.source.nil? ? "" : event.source.owner.login.downcase)}
     end
 
-    @paginated_events = paginate_collection(@filtered_events, params[:page], PER_PAGE)
+    @paginated_events = paginate_collection(@events, params[:page], PER_PAGE)
   end
 
   def load_options
-    @group_options = [[t('logs.options.default_group_by'), ""],
-                      t('logs.index.pool'),
-                      t('logs.index.provider'),
-                      t('logs.index.owner')]
-    @source_type_options = [t('logs.options.deployment_event_type'),
-                            t('logs.options.instance_event_type')]
-    @pool_options = [[t('logs.options.default_pools'), ""]]
-    PoolFamily.list_for_user(current_session, current_user, Privilege::VIEW).
-      find(:all, :include => :pools, :order => "pool_families.name",
-           :select => ["id", "name"]).each do |pool_family|
-      @pool_options << [pool_family.name,
-                        "pool_family:" + pool_family.id.to_s]
-      @pool_options += pool_family.pools.
-        map{|x| [" -- " + x.name, "pool:" + x.id.to_s]}
+    if @view == "pretty"
+      @source_type_options = [t('logs.options.deployment_event_type'),
+                              t('logs.options.instance_event_type')]
+      @group_options = [[t('logs.options.default_group_by'), ""],
+                        t('logs.index.pool'),
+                        t('logs.index.provider'),
+                        t('logs.index.owner')]
+    else
+      @source_type_options = [[t('logs.options.default_event_types'), ""],
+                              t('logs.options.deployment_event_type'),
+                              t('logs.options.instance_event_type')]
+      @pool_options = [[t('logs.options.default_pools'), ""]]
+      PoolFamily.list_for_user(current_session, current_user, Privilege::VIEW).
+        find(:all, :include => :pools, :order => "pool_families.name",
+             :select => ["id", "name"]).each do |pool_family|
+        @pool_options << [pool_family.name,
+                          "pool_family:" + pool_family.id.to_s]
+        @pool_options += pool_family.pools.
+          map{|x| [" -- " + x.name, "pool:" + x.id.to_s]}
+      end
+      @provider_options = [[t('logs.options.default_providers'), ""]]
+      Provider.list_for_user(current_session, current_user, Privilege::VIEW).
+        find(:all, :include => :provider_accounts, :order => "providers.name",
+             :select => ["id", "name"]).each do |provider|
+        @provider_options << [provider.name, "provider:" + provider.id.to_s]
+        @provider_options += provider.provider_accounts.
+          map{|x| [" -- " + x.name, "provider_account:" + x.id.to_s]}
+      end
+      @owner_options = [[t('logs.options.default_users'), ""]] +
+        User.find(:all, :order => "login",
+                  :select => ["id", "login"]).map{|x| [x.login, x.id]}
+      @order_options = [t('logs.options.time_order'),
+                        t('logs.options.deployment_instance_order'),
+                        t('logs.options.state_order'),
+                        t('logs.options.pool_order'),
+                        t('logs.options.provider_order'),
+                        t('logs.options.owner_order')]
+      @state_options = ([[t('logs.options.default_states'), ""]] +
+                        Deployment::STATES + Instance::STATES).uniq
     end
-    @provider_options = [[t('logs.options.default_providers'), ""]]
-    Provider.list_for_user(current_session, current_user, Privilege::VIEW).
-      find(:all, :include => :provider_accounts, :order => "providers.name",
-           :select => ["id", "name"]).each do |provider|
-      @provider_options << [provider.name, "provider:" + provider.id.to_s]
-      @provider_options += provider.provider_accounts.
-        map{|x| [" -- " + x.name, "provider_account:" + x.id.to_s]}
-    end
-    @owner_options = [[t('logs.options.default_users'), ""]] +
-      User.find(:all, :order => "login",
-                :select => ["id", "login"]).map{|x| [x.login, x.id]}
-    @order_options = [t('logs.options.time_order'),
-                      t('logs.options.deployment_instance_order'),
-                      t('logs.options.state_order'),
-                      t('logs.options.pool_order'),
-                      t('logs.options.provider_order'),
-                      t('logs.options.owner_order')]
-    @state_options = ([[t('logs.options.default_states'), ""]] +
-                      Deployment::STATES + Instance::STATES).uniq
   end
 
   def load_headers
