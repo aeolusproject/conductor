@@ -8,7 +8,7 @@
     = select_tag "provider_select", options_for_select(@provider_options, @provider_select)
     = select_tag "owner_id", options_for_select(@owner_options, @owner_id)
     = restful_submit_tag t("filter_table.apply_filters"), "index", filter_logs_path, 'POST', :class => 'button', :id => 'apply_logs_filter'
-    %span.label.badge.dark= @events.count
+    %span.label.badge.dark= @filtered_events.count
   %br
     = t('filter_table.from')
     = select_date @from_date, :prefix => :from_date
@@ -16,6 +16,8 @@
     = select_date @to_date, :prefix => :to_date
     = t('filter_table.order_by')
     = select_tag "order", options_for_select(@order_options, @order)
+    = t('filter_table.grouped_by')
+    = select_tag "group", options_for_select(@group_options, @group)
     %li.more_actions
       %span
         = image_tag "more_actions_drop.png"
