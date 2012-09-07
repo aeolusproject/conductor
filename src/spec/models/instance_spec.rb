@@ -96,12 +96,6 @@ describe Instance do
     lambda { Instance.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
     lambda { Instance.only_deleted.find(second_instance_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
     lambda{ second_instance = Instance.unscoped.find(second_instance_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
-
-    second_instance.destroy!
-
-    lambda { Instance.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
-    lambda { Instance.only_deleted.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
-    lambda{ Instance.unscoped.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
   end
 
   it "should tell apart valid and invalid actions" do
