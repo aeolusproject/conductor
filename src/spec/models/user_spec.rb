@@ -32,13 +32,13 @@ describe User do
     user.should_not be_valid
   end
 
-  it "should require unique login" do
+  it "should require unique username" do
     user1 = Factory.create(:tuser)
     user2 = Factory.create(:tuser)
     user1.should be_valid
     user2.should be_valid
 
-    user2.login = user1.login
+    user2.username = user1.username
     user2.should_not be_valid
   end
 
@@ -87,18 +87,18 @@ describe User do
 
   it "should authenticate a user with valid password" do
     user = FactoryGirl.create :tuser
-    User.authenticate(user.login, user.password, user.last_login_ip).should_not be_nil
+    User.authenticate(user.username, user.password, user.last_login_ip).should_not be_nil
   end
 
   it "should not authenticate a user with valid password" do
     user = FactoryGirl.create :tuser
-    User.authenticate(user.login, 'invalid', user.last_login_ip).should be_nil
+    User.authenticate(user.username, 'invalid', user.last_login_ip).should be_nil
   end
 
   it "should authenticate a user against LDAP and create local user w/o password" do
     Ldap.should_receive(:valid_ldap_authentication?).and_return(true)
     User.authenticate_using_ldap('ldapuser', 'random', '192.168.1.1').should_not be_nil
-    u = User.find_by_login('ldapuser')
+    u = User.find_by_username('ldapuser')
     u.should_not be_nil
     u.crypted_password.should be_nil
   end
@@ -106,7 +106,7 @@ describe User do
   it "should authenticate a user against LDAP and return existing user" do
     user = FactoryGirl.create(:tuser, :ignore_password => true, :password => nil)
     Ldap.should_receive(:valid_ldap_authentication?).and_return(true)
-    u = User.authenticate_using_ldap(user.login, 'random', user.last_login_ip)
+    u = User.authenticate_using_ldap(user.username, 'random', user.last_login_ip)
     u.should_not be_nil
     u.id.should == user.id
   end
@@ -115,7 +115,7 @@ describe User do
     user = Factory.create(:tuser)
     deployment = Factory.create(:deployment, :owner => user)
     instance = Factory.create(:mock_running_instance, :deployment_id => deployment.id)
-    lambda { user.destroy }.should raise_error(RuntimeError, "#{user.login} has running instances")
+    lambda { user.destroy }.should raise_error(RuntimeError, "#{user.username} has running instances")
   end
 
 end

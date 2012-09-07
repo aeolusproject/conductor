@@ -99,13 +99,13 @@ en:
           other: Deleted users
       warning:
         not_delete: 'Cannot delete: %{reason}'
-        not_delete_same_user: "Cannot delete %{login} : You are logged in as this user"
+        not_delete_same_user: "Cannot delete %{username} : You are logged in as this user"
     preset_filters:
       all_users: "All Users"
       name_starts_with_A: "Name starts with A"
       name_starts_with_B: "Name starts with B"
     errors:
-      has_running_instances: '%{login} has running instances'
+      has_running_instances: '%{username} has running instances'
   user_groups:
     groups: "User Groups"
     local: Local

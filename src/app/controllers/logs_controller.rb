@@ -74,7 +74,7 @@ class LogsController < ApplicationController
                        provider_account.name,
                    source.nil? ?
                      t('logs.index.not_available') :
-                     source.owner.login,
+                     source.owner.username,
                    event.summary ]
         end
       end
@@ -203,7 +203,7 @@ class LogsController < ApplicationController
           source.provider_account.name.downcase))}
     when t('logs.options.owner_order')
       @events = @events.sort_by {|event|
-        (event.source.nil? ? "" : event.source.owner.login.downcase)}
+        (event.source.nil? ? "" : event.source.owner.username.downcase)}
     end
 
     @paginated_events = paginate_collection(@events, params[:page], PER_PAGE)
@@ -239,8 +239,8 @@ class LogsController < ApplicationController
           map{|x| [" -- " + x.name, "provider_account:" + x.id.to_s]}
       end
       @owner_options = [[t('logs.options.default_users'), ""]] +
-        User.find(:all, :order => "login",
-                  :select => ["id", "login"]).map{|x| [x.login, x.id]}
+        User.find(:all, :order => "username",
+                  :select => ["id", "username"]).map{|x| [x.username, x.id]}
       @order_options = [t('logs.options.time_order'),
                         t('logs.options.deployment_instance_order'),
                         t('logs.options.state_order'),
@@ -275,7 +275,7 @@ class LogsController < ApplicationController
                                    where source_type = '" + @source_type + "'
                                    and source_id = " + @source_type + "s.id
                                    and status_code = '" + start_code + "'
-                                   and event_time <= ?) 
+                                   and event_time <= ?)
                            and not exists (select 1 from events
                                       where source_type = '" + @source_type + "'
                                       and source_id = " + @source_type + "s.id
@@ -288,7 +288,7 @@ class LogsController < ApplicationController
       @initial_sources = Deployment.unscoped.
         list_for_user(current_session, current_user, Privilege::VIEW).
         find(:all, :conditions => initial_conditions)
-    else 
+    else
       @initial_sources = Instance.unscoped.
         list_for_user(current_session, current_user, Privilege::VIEW).
         find(:all, :conditions => initial_conditions)
@@ -297,7 +297,7 @@ class LogsController < ApplicationController
     @datasets = ChartDatasets.new(@from_date, @to_date)
     @datasets.increment_count("All",@initial_sources.count)
 
-    if @group_options.include?(@group) 
+    if @group_options.include?(@group)
       @initial_sources.each do |source|
         label = get_source_label(source, @group)
         @datasets.increment_count(label,1)
@@ -327,7 +327,7 @@ class LogsController < ApplicationController
 
         @datasets.add_dataset_point("All", event_timestamp, increment)
 
-        if @group_options.include?(@group) 
+        if @group_options.include?(@group)
           label = get_source_label(event.source, @group)
           @datasets.add_dataset_point(label, event_timestamp, increment)
         end

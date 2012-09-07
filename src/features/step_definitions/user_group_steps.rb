@@ -34,8 +34,8 @@ When /^I check "([^"]*)" user group$/ do |user_group_name|
   check("user_group_checkbox_#{user_group.id}")
 end
 
-When /^I check the "([^"]*)" member$/ do |login|
-  member = User.find_by_login(login)
+When /^I check the "([^"]*)" member$/ do |username|
+  member = User.find_by_username(username)
   check("member_checkbox_#{member.id}")
 end
 
@@ -44,8 +44,8 @@ Then /^there should be (\d+) user belonging to "([^"]*)"$/ do |count, name|
   user_group.members.count == count
 end
 
-Given /^there is a user "([^"]*)" belonging to user group "([^"]*)"$/ do |login, group_name|
-  member = User.find_by_login(login)
+Given /^there is a user "([^"]*)" belonging to user group "([^"]*)"$/ do |username, group_name|
+  member = User.find_by_username(username)
   user_group = UserGroup.find_by_name(group_name)
   user_group.members << member
 end

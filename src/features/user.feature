@@ -84,7 +84,7 @@ Feature: Manage Users
       | E-mail            | testuser2@example.com |
     And I follow "Users"
     Then I should be on the users page
-    And there should not be user with login "canceluser"
+    And there should not be user with username "canceluser"
 
   Scenario: Edit existing user
     Given I am on the users page
@@ -102,7 +102,7 @@ Feature: Manage Users
   Scenario: Display failed login count
     Given there is a user "test"
     And I log out
-    When I fill login "test" and incorrect password
+    When I fill username "test" and incorrect password
     Then I should see "The Username or Password is incorrect"
     When I login as authorised user
     And I go to test's user page

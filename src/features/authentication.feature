@@ -40,9 +40,9 @@ Feature: User authentication
     And I am on the root page
     When I want to edit my profile
     Then should see "Edit Account"
-    When I enter a string of length "101" into "user[login]"
+    When I enter a string of length "101" into "user[username]"
     And I press "Save"
-    Then I should see "Login is too long (maximum is 100 characters)"
+    Then I should see "Username is too long (maximum is 100 characters)"
 
   Scenario: Log in incorrect details
     Given I am a registered user

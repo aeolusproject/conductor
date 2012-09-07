@@ -37,7 +37,7 @@
     %td{:class => 'checkbox'}
       - selected = params[:select] == 'all'
       = check_box_tag "user_selected[]", user.id, selected, :id => "user_checkbox_#{user.id}"
-    %td= link_to user.login, user_path(user)
+    %td= link_to user.username, user_path(user)
     %td= user.last_name
     %td= user.first_name
     %td{:class => 'center'}= number_to_percentage user.quota.percentage_used, :precision => 0
