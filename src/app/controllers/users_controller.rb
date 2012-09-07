@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   def show
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::VIEW, User) unless current_user == @user
-    @title = @user.name.present? ? @user.name : @user.login
+    @title = @user.name.present? ? @user.name : @user.username
     @quota_resources = @user.quota.quota_resources
     if current_user == user
       current_session.update_session_entities(current_user)
@@ -78,7 +78,7 @@ class UsersController < ApplicationController
       { :name => t('user_groups.index.name'), :sortable => false },
       { :name => t('user_groups.index.type'), :sortable => false },
     ]
-    save_breadcrumb(user_path(@user), @user.name.present? ? @user.name : @user.login)
+    save_breadcrumb(user_path(@user), @user.name.present? ? @user.name : @user.username)
     @tab_captions = ['Properties']
     @details_tab = 'properties' # currently the only supported details tab
     add_profile_permissions_inline(@user.entity)
@@ -125,10 +125,10 @@ class UsersController < ApplicationController
       User.transaction do
         User.find(params[:user_selected]).each do |user|
           if user == current_user
-            flash[:warning] = t('users.flash.warning.not_delete_same_user', :login => "#{user.login}")
+            flash[:warning] = t('users.flash.warning.not_delete_same_user', :username => "#{user.username}")
           else
             user.destroy
-            deleted_users << user.login
+            deleted_users << user.username
           end
         end
       end
@@ -148,7 +148,7 @@ class UsersController < ApplicationController
     require_privilege(Privilege::MODIFY, User)
     user = User.find(params[:id])
     if user == current_user
-      flash[:warning] = "#{t('users.flash.warning.not_delete_same_user', :login => "#{user.login}")}"
+      flash[:warning] = "#{t('users.flash.warning.not_delete_same_user', :username => "#{user.username}")}"
     else
       user.destroy
       flash[:notice] = t"users.flash.notice.deleted"
@@ -167,7 +167,7 @@ class UsersController < ApplicationController
 
   def load_users
     @users = User.includes(:quota).apply_filters(:preset_filter_id => params[:users_preset_filter], :search_filter => params[:users_search])
-    sort_order = params[:sort_by].nil? ? "login" : params[:sort_by]
+    sort_order = params[:sort_by].nil? ? "username" : params[:sort_by]
     # TODO: (lmartinc) Optimize this sort! hell!
     if sort_order == "percentage_quota_used"
       @users.sort! {|x,y| y.quota.percentage_used <=> x.quota.percentage_used }

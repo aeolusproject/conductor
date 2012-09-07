@@ -1,22 +1,22 @@
 namespace :dc do
   desc 'Create and register a new user'
-  task :create_user, [:login, :password, :email, :first_name, :last_name] => :environment do |t, args|
-    unless args.login && args.email && args.password
-      puts "Usage: rake 'dc:create_user[login,password,email,first_name,last_name]'"
+  task :create_user, [:username, :password, :email, :first_name, :last_name] => :environment do |t, args|
+    unless args.username && args.email && args.password
+      puts "Usage: rake 'dc:create_user[username,password,email,first_name,last_name]'"
       exit(1)
     end
 
-    user = User.find_by_login(args.login)
+    user = User.find_by_username(args.username)
 
     if user
-      puts "User already exists: #{args.login}"
+      puts "User already exists: #{args.username}"
       exit(1)
     end
 
     first_name = args.first_name.nil? ? "" : args.first_name
     last_name  = args.last_name.nil?  ? "" : args.last_name
 
-    user = User.new(:login => args.login, :email => args.email,
+    user = User.new(:username => args.username, :email => args.email,
                     :password => args.password,
                     :password_confirmation => args.password,
                     :first_name => first_name,
@@ -24,28 +24,28 @@ namespace :dc do
                     :quota => Quota.new)
     registration = RegistrationService.new(user)
     if registration.save
-      puts "User #{args.login} registered"
+      puts "User #{args.username} registered"
     else
       puts "User registration failed: #{registration.error}"
     end
   end
 
   desc 'Destroy an existing user'
-  task :destroy_user, [:login] => :environment do |t, args|
-    unless args.login
-      puts "Usage: rake 'dc:destroy_user[login]'"
+  task :destroy_user, [:username] => :environment do |t, args|
+    unless args.username
+      puts "Usage: rake 'dc:destroy_user[username]'"
       exit(1)
     end
 
-    user = User.find_by_login(args.login)
+    user = User.find_by_username(args.username)
 
     if !user
-      puts "User not found: #{args.login}"
+      puts "User not found: #{args.username}"
       exit(1)
     elsif user.destroy
-      puts "User #{args.login} destroyed"
+      puts "User #{args.username} destroyed"
     else
-      puts "User destruction failed: #{args.login}"
+      puts "User destruction failed: #{args.username}"
       exit(1)
     end
   end
@@ -57,7 +57,7 @@ namespace :dc do
       exit(1)
     end
 
-    users = User.find(:all, :conditions => ["login LIKE ?", args.pattern])
+    users = User.find(:all, :conditions => ["username LIKE ?", args.pattern])
 
     if users.empty?
       puts "No users match pattern: #{args.pattern}"
@@ -66,31 +66,31 @@ namespace :dc do
 
     users.each do |user|
       if user.destroy
-        puts "User #{user.login} destroyed"
+        puts "User #{user.username} destroyed"
       else
-        puts "User destruction failed: #{user.login}"
+        puts "User destruction failed: #{user.username}"
         exit(1)
       end
     end
   end
 
   desc 'Create and register a list of ldap users, separated by ":"'
-  task :create_ldap_users, [:logins] => :environment do |t, args|
-    unless args.logins
-      puts "Usage: rake 'dc:create_ldap_users[login1:login2:...]'"
+  task :create_ldap_users, [:usernames] => :environment do |t, args|
+    unless args.usernames
+      puts "Usage: rake 'dc:create_ldap_users[username1:username2:...]'"
       exit(1)
     end
 
-    args.logins.split(":").each do |login|
-      user = User.find_by_login(args.login)
+    args.usernames.split(":").each do |username|
+      user = User.find_by_username(args.username)
 
       if user
-        puts "User already exists: #{login}"
+        puts "User already exists: #{username}"
       end
 
       begin
-        user = User.create_ldap_user!(login)
-        puts "User #{login} registered"
+        user = User.create_ldap_user!(username)
+        puts "User #{username} registered"
       rescue Exception => e
         puts "User registration failed: #{e}"
       end
@@ -99,30 +99,30 @@ namespace :dc do
 
 
   desc 'Grant administrator privileges to registred user'
-  task :site_admin, [:login] => :environment do |t, args|
-    unless args.login
+  task :site_admin, [:username] => :environment do |t, args|
+    unless args.username
       puts "Usage: rake dc:site_admin[user]"
       exit(1)
     end
 
-    user = User.find_by_login(args.login)
+    user = User.find_by_username(args.username)
 
     unless user
-      puts "Unknown user: #{args.login}"
+      puts "Unknown user: #{args.username}"
       exit(1)
     end
 
     unless user.permissions.select { |p| p.role.name.eql?('base.admin') }.empty?
-      puts "Permission already granted for user #{args.login}"
+      puts "Permission already granted for user #{args.username}"
       exit(1)
     end
     permission = Permission.new(:role => Role.find_by_name('base.admin'),
                                 :permission_object => BasePermissionObject.general_permission_scope,
                                 :entity => user.entity)
     if permission.save
-      puts "Granting administrator privileges for #{args.login}..."
+      puts "Granting administrator privileges for #{args.username}..."
     else
-      puts "Granting administrator privileges for #{args.login} failed #{permission.errors.to_xml}"
+      puts "Granting administrator privileges for #{args.username} failed #{permission.errors.to_xml}"
       exit(1)
     end
   end
@@ -169,20 +169,20 @@ namespace :dc do
   end
 
   desc "Decrement user's login counter"
-  task :decrement_counter, [:login] => :environment do |t, args|
-    user = User.find_by_login(args.login)
+  task :decrement_counter, [:username] => :environment do |t, args|
+    user = User.find_by_username(args.username)
 
     unless user
-      puts "User '#{args.login}' not found"
+      puts "User '#{args.username}' not found"
       exit(1)
     end
 
     user.login_count = user.login_count > 1 ? user.login_count - 1 : 0
 
     if user.save
-      puts "Login counter for user #{args.login} updated"
+      puts "Login counter for user #{args.username} updated"
     else
-      puts "Failed to update login counter for user #{args.login}: #{user.errors.join(', ')}"
+      puts "Failed to update login counter for user #{args.username}: #{user.errors.join(', ')}"
     end
 
   end

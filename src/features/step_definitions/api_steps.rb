@@ -46,7 +46,7 @@ Then /^this path should have the value "([^"]*)"$/ do |value|
 end
 
 Given /^user "([^"]*)" owns instance "([^"]*)"$/ do |user, instance|
-  user = User.find_by_login(user)
+  user = User.find_by_username(user)
   instance = Instance.find_by_name(instance)
   instance.owner = user
   instance.save!

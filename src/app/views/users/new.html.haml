@@ -21,7 +21,7 @@
           %dt=t'users.show.e-mail'
           %dd#email &nbsp;
           %dt=t'users.show.username'
-          %dd#login &nbsp;
+          %dd#username &nbsp;
     = form_for @user, :url => users_path, :builder => ApplicationHelper::FormBuilderWithRequiredFields, :html => {:class => 'generic horizontal'} do |f|
       -if current_user
         = render :partial => "form", :locals => { :form => f }
@@ -44,7 +44,7 @@
       $('dd#email').text($('input:text#user_email').val());
     }
 
-    if ($('input:text#user_login').val() != "")
+    if ($('input:text#user_username').val() != "")
     {
-      $('dd#login').text($('input:text#user_login').val());
+      $('dd#username').text($('input:text#user_username').val());
     }

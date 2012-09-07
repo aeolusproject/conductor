@@ -13,7 +13,7 @@ describe "Sessions" do
     before do
       @user = FactoryGirl.create :tuser
       visit root_path
-      fill_in "username", :with => @user.login
+      fill_in "username", :with => @user.username
       fill_in "password-input", :with => "secret"
       click_button "Login"
     end
