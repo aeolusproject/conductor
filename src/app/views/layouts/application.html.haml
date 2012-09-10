@@ -10,7 +10,6 @@
   /[if lt IE 8]
     = stylesheet_link_tag '/stylesheets/layout_ie7.css'
 
-= content_for :javascripts_block do
   :javascript
     window.Conductor = {}
     window.Conductor.PATH_PREFIX = "#{root_path}"
@@ -35,6 +34,8 @@
   = javascript_include_tag "lib/modernizr-custom.js"
   = javascript_include_tag "converge-ui/vendor/jquery/plugins/flot-0.7/jquery.flot.js"
   = javascript_include_tag "converge-ui/vendor/jquery/plugins/flot-0.7/excanvas.js"
+
+/= content_for :javascripts_block do
 
 = content_for :logo do
   = link_to t('layout.appname'), root_path, :class => "logo"

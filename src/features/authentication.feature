@@ -33,7 +33,6 @@ Feature: User authentication
     When I follow "Log Out"
     Then I should see "Username"
     And I should see "Password"
-    And I should see "Forgot Login or Password?"
 
   Scenario: Change user login to one with invalid length
     Given I am a registered user
