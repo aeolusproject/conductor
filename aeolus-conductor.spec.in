@@ -74,6 +74,7 @@ Requires: curl
 BuildRequires: rubygem(sass)
 BuildRequires: rubygem(compass) >= 0.11.5
 BuildRequires: rubygem(compass-960-plugin) >= 0.10.4
+BuildRequires: converge-ui-devel >= 1.0.2
 
 BuildArch: noarch
 
@@ -159,6 +160,9 @@ run aeolus-configure to configure everything.
 
 %build
 
+#copy converge-ui from converge-ui-devel
+cp -R /usr/share/converge-ui-devel/* ./src/vendor/converge-ui
+
 %pre
 getent group aeolus >/dev/null || /usr/sbin/groupadd -g 180 -r aeolus 2>/dev/null || :
 getent passwd aeolus >/dev/null || \
@@ -200,9 +204,7 @@ builder="app/views/errors"
 css="public/stylesheets public/stylesheets/jquery.ui-1.8.1"
 feature="features"
 gif="public/images \
-     public/stylesheets/images \
-     vendor/converge-ui/images \
-     vendor/converge-ui/images/icons"
+     public/stylesheets/images"
 haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/users app/views/provider_accounts \
       app/views/provider_selections app/views/provider_priority_groups \
@@ -223,26 +225,18 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/api/builds app/views/api/provider_images \
       app/views/api/target_images app/views/api/entrypoint \
       app/views/api/environments \
-      vendor/converge-ui/rails/layouts \
       vendor/provider_selection/views/penalty_for_failure"
 mustache="app/views/instances app/views/pools app/views/deployments \
           app/views/deployables app/views/images"
 html="public"
 ico="public"
 jpg="public/images \
-     public/stylesheets/images \
-     vendor/converge-ui/images"
+     public/stylesheets/images"
 js="public/javascripts \
     public/javascripts/jquery.ui-1.8.1 \
     public/javascripts/jquery.ui-1.8.1/ui/minified \
     public/javascripts/lib \
-    public/javascripts/backbone \
-    vendor/converge-ui/javascripts \
-    vendor/converge-ui/javascripts/lib \
-    vendor/converge-ui/javascripts/lib/jquery \
-    vendor/converge-ui/javascripts/lib/jquery/plugins \
-    vendor/converge-ui/javascripts/lib/jquery/plugins/flot-0.7 \
-    vendor/converge-ui/javascripts/lib/jquery/plugins/jquery-svg"
+    public/javascripts/backbone"
 json="spec/fixtures"
 key="features/upload_files"
 opts="spec"
@@ -250,9 +244,7 @@ png="public/images \
      public/images/icons \
      public/images/embed \
      public/stylesheets/images \
-     public/stylesheets/jquery.ui-1.8.1/images \
-     vendor/converge-ui/images \
-     vendor/converge-ui/images/icons"
+     public/stylesheets/jquery.ui-1.8.1/images"
 rake="lib/tasks"
 rb="app/models app/controllers app/controllers/api app/helpers app/services app/util \
     config config/initializers config/environments db db/migrate \
@@ -261,13 +253,9 @@ rb="app/models app/controllers app/controllers/api app/helpers app/services app/
     spec/aeolus/event spec/aeolus/ext lib/aeolus lib/aeolus/event lib/aeolus/ext \
     lib/provider_selection vendor/provider_selection \
     vendor/provider_selection/strategies/strict_order \
-    vendor/provider_selection/strategies/penalty_for_failure \
-    vendor/converge-ui/rails/helpers"
+    vendor/provider_selection/strategies/penalty_for_failure"
 rhtml="app/views/layouts"
-svg="public/images public/images/icons vendor/converge-ui/fonts"
-ttf="vendor/converge-ui/fonts"
-eot="vendor/converge-ui/fonts"
-woff="vendor/converge-ui/fonts"
+svg="public/images public/images/icons"
 txt="public"
 yml="config config/locales config/locales/defaults config/locales/overrides
      config/locales/role_definitions config/locales/classnames config/locales/will_paginate \
@@ -286,6 +274,9 @@ for filetype in builder css eot feature gif haml mustache html ico jpg js json k
     done
 done
 %{__rm} %{buildroot}%{app_root}/config/initializers/secret_token.rb
+
+#copy converge-ui - it originates from converge-ui-devel package so we need all of it's files
+%{__cp} -R ./src/vendor/converge-ui %{buildroot}%{app_root}/vendor
 
 #copy the converge-ui symlinks
 %{__cp} -P ./src/app/helpers/converge-ui %{buildroot}%{app_root}/app/helpers
@@ -456,9 +447,7 @@ fi
 %{app_root}/Rakefile
 %{app_root}/Gemfile.in
 %{app_root}/spec/fixtures/Gemfile.in
-%dir %{app_root}/vendor
-%{app_root}/vendor/converge-ui
-%{app_root}/vendor/provider_selection
+%{app_root}/vendor
 %config %{_sysconfdir}/%{name}
 %doc AUTHORS COPYING
 %{app_root}/script/aeolus-upgrade
