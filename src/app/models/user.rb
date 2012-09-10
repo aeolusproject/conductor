@@ -97,22 +97,32 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}".strip
   end
 
+  # FIXME: this is because of tests - encrypted password is submitted,
+  # don't know how to get unencrypted version (from factorygirl)
+  def valid_password?(passwd)
+    retval = (passwd.length == 192) && (self.crypted_password == passwd)
+    retval || Password.check(passwd, self.crypted_password)
+  end
+
+  def record_failed_login!
+    failed_login_count += 1
+    save! && return
+  end
+
   def self.authenticate(username, password, ipaddress)
-    username = username.strip unless username.nil?
+    return if username.nil?
+    username.strip!
+    return if username.empty?
     return unless u = User.find_by_login(username)
-    # FIXME: this is because of tests - encrypted password is submitted,
-    # don't know how to get unencrypted version (from factorygirl)
-    if password.length == 192 and password == u.crypted_password
-      update_login_attributes(u, ipaddress)
-    elsif Password.check(password, u.crypted_password)
-      update_login_attributes(u, ipaddress)
-    else
-      u.failed_login_count += 1
-      u.save!
-      u = nil
+    User.transaction do
+      user = User.find_by_login(username)
+      if valid_password?(password)
+        update_login_attributes(user, ipaddress)
+        u.save! && u
+      else
+        user.record_failed_login!
+      end
     end
-    u.save! unless u.nil?
-    return u
   end
 
   def self.authenticate_using_ldap(username, password, ipaddress)
