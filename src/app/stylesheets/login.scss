@@ -1,20 +1,27 @@
-@import "converge-ui/login";
+@import "compass/reset";
+@import "converge-ui/composites/login";
+@import "helpers";
 
 article{
-  .button {
-    filter:none;
-    position: relative;
-  }
-
   aside img{ margin-left: 30px; }
 
-  .container section .card{
+  #notifications{
+    position: relative;
+
     div.error{
-      padding: 25px 0 0 0;
-      font-size: 80%;
+      position: absolute;
+      bottom: 15px;
+      @include box-sizing(border-box);
+      border: 1px solid #dddddd;
+      @include border-radius(7px);
+      width: $login-container-width;
+      padding: 10px;
+      @include background-image(linear-gradient(top, rgba(255, 255, 255, 0) 40%, $login_base-color 120%));
+      @include box-shadow($login_base-color 0px 12px 15px -8px);
 
       p {
         padding-left: 26px;
+        margin: 0;
         position: relative;
         color: rgba(black, 0.48);
 
@@ -25,11 +32,21 @@ article{
           height: 16px;
           position: absolute;
           left: 4px;
-          top: -1px;
+          top: 0px;
           background: url("/images/flash_warning_icon.png") no-repeat 0 0;
         }
       }
     }
+  }
+
+  .container section .card{
+    .spinner{
+      background: transparent image-url("login-spinner.gif") no-repeat center center;
+      height: 30px;
+      width: 30px;
+      margin-top: 0px;
+    }
+
 
     fieldset.primary {
       label {
@@ -44,9 +61,5 @@ article{
       }
     }
 
-    #progress-indicator{
-      float: right;
-      margin: 7px 10px;
-    }
   }
 }

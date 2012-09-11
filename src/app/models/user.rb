@@ -20,7 +20,7 @@
 # Table name: users
 #
 #  id                  :integer         not null, primary key
-#  login               :string(255)     not null
+#  username            :string(255)     not null
 #  email               :string(255)     not null
 #  crypted_password    :string(255)     not null
 #  password_salt       :string(255)     not null
@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
   class << self
     include CommonFilterMethods
   end
+
   attr_accessor :password
 
   # this attr is used when validating non-local (ldap) users
@@ -77,8 +78,8 @@ class User < ActiveRecord::Base
   validates_presence_of :quota
   validates_length_of :first_name, :maximum => 255, :allow_blank => true
   validates_length_of :last_name,  :maximum => 255, :allow_blank => true
-  validates_uniqueness_of :login
-  validates_length_of :login, :within => 1..100, :allow_blank => false
+  validates_uniqueness_of :username
+  validates_length_of :username, :within => 1..100, :allow_blank => false
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :unless => Proc.new {|u| u.email.nil?}
   validates_confirmation_of :password, :if => Proc.new {|u| u.check_password?}
   validates_length_of :password, :within => 4..255, :if => Proc.new {|u| u.check_password?}
@@ -99,7 +100,7 @@ class User < ActiveRecord::Base
 
   def self.authenticate(username, password, ipaddress)
     username = username.strip unless username.nil?
-    return unless u = User.find_by_login(username)
+    return unless u = User.find_by_username(username)
     # FIXME: this is because of tests - encrypted password is submitted,
     # don't know how to get unencrypted version (from factorygirl)
     if password.length == 192 and password == u.crypted_password
@@ -117,7 +118,7 @@ class User < ActiveRecord::Base
 
   def self.authenticate_using_ldap(username, password, ipaddress)
     if Ldap.valid_ldap_authentication?(username, password)
-      u = User.find_by_login(username) || create_ldap_user!(username)
+      u = User.find_by_username(username) || create_ldap_user!(username)
       u.login_count += 1
       update_login_attributes(u, ipaddress)
     else
@@ -128,7 +129,7 @@ class User < ActiveRecord::Base
   end
 
   def self.authenticate_using_krb(username, ipaddress)
-    u = User.find_by_login(username) || create_krb_user!(username)
+    u = User.find_by_username(username) || create_krb_user!(username)
     u.login_count += 1
     update_login_attributes(u, ipaddress)
     u.save!
@@ -153,7 +154,7 @@ class User < ActiveRecord::Base
     group_list = []
     group_list += self.user_groups if UserGroup.local_groups_active?
     if UserGroup.ldap_groups_active?
-      ldap_group_names = Ldap.ldap_groups(self.login)
+      ldap_group_names = Ldap.ldap_groups(self.username)
       ldap_group_names.each do |group_name|
         ldap_group = UserGroup.find_by_name_and_membership_source(
             group_name, UserGroup::MEMBERSHIP_SOURCE_LDAP)
@@ -177,7 +178,7 @@ class User < ActiveRecord::Base
 
   def self.apply_search_filter(search)
     if search
-      where("lower(first_name) LIKE :search OR lower(last_name) LIKE :search OR lower(login) LIKE :search OR lower(email) LIKE :search", :search => "%#{search.downcase}%")
+      where("lower(first_name) LIKE :search OR lower(last_name) LIKE :search OR lower(username) LIKE :search OR lower(email) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
     end
@@ -187,25 +188,25 @@ class User < ActiveRecord::Base
     self.crypted_password = Password::update(password) unless password.blank?
   end
 
-  def self.create_ldap_user!(login)
-    User.create!(:login => login, :quota => Quota.new, :ignore_password => true)
+  def self.create_ldap_user!(username)
+    User.create!(:username => username, :quota => Quota.new, :ignore_password => true)
   end
 
-  def self.create_krb_user!(login)
-    User.create!(:login => login, :quota => Quota.new, :ignore_password => true)
+  def self.create_krb_user!(username)
+    User.create!(:username => username, :quota => Quota.new, :ignore_password => true)
   end
 
   def ensure_not_running_any_instances
-    raise I18n.t('users.errors.has_running_instances', :login => login) if deployments.any?{ |deployment| deployment.any_instance_running? }
+    raise I18n.t('users.errors.has_running_instances', :username => username) if deployments.any?{ |deployment| deployment.any_instance_running? }
   end
 
   def strip_whitespace
-    self.login = self.login.strip unless self.login.nil?
+    self.username = self.username.strip unless self.username.nil?
   end
 
   def update_entity
     self.entity = Entity.new(:entity_target => self) unless self.entity
-    self.entity.name = "#{self.first_name} #{self.last_name} (#{self.login})"
+    self.entity.name = "#{self.first_name} #{self.last_name} (#{self.username})"
     self.entity.save!
   end
 end

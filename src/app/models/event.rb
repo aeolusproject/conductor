@@ -69,7 +69,7 @@ class Event < ActiveRecord::Base
             :instance_id => instance.id,
             :deployment_id => instance.deployment_id,
             :image_uuid => instance.image_uuid,
-            :owner => instance.owner.login,
+            :owner => instance.owner.username,
             :pool => instance.pool.name,
             :provider => instance.provider_account.provider.name,
             :provider_type => instance.provider_account.provider.provider_type.name,
@@ -94,7 +94,7 @@ class Event < ActiveRecord::Base
           # TODO - The Cddr method supports a :deployable_id, but we don't implement this at the moment
           e = Aeolus::Event::Cddr.new({
             :deployment_id => deployment.id,
-            :owner => deployment.owner.login,
+            :owner => deployment.owner.username,
             :pool => deployment.pool.name,
             :provider => (deployment.provider.name rescue "-nil-"),
             :provider_type => (deployment.provider.provider_type.name rescue "-nil-"),

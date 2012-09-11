@@ -36,7 +36,7 @@ describe UserSessionsController do
 
   it "should create user session" do
     mock_warden(nil)
-    post :create, :user_session => { :login => @tuser.login, :password => "secret" }
+    post :create, :user_session => { :username => @tuser.username, :password => "secret" }
     response.should redirect_to(root_url)
   end
 

@@ -2,7 +2,7 @@ World(Rack::Test::Methods)
 
 # TODO: move to some common file for API
 Given /^I use my authentication credentials in each request$/ do
-  authorize(@user.login, 'secret')
+  authorize(@user.username, 'secret')
 end
 
 When /^I request a list of providers returned as XML$/ do

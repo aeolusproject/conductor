@@ -25,7 +25,7 @@ describe RegistrationService do
   describe "with validations" do
 
     it "should return errors on user when user is missing required fields" do
-      user = User.new(:login => 'baduser')
+      user = User.new(:username => 'baduser')
       user.quota = Quota.new
       r = RegistrationService.new(user)
       r.save.should be_false
