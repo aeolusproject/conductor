@@ -23,7 +23,7 @@ module ProviderSelection
         @strategies = strategies
         options ||= {}
 
-        if self.class.method_names.include?('default_options')
+        if self.class.methods.map(&:to_s).include?('default_options')
           @options = self.class.default_options.with_indifferent_access.merge(options)
         else
           @options = options
