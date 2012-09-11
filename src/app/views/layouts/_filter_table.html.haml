@@ -26,5 +26,12 @@
     %fieldset.options
       = yield form_footer
 
-- if rows.is_a?(WillPaginate::Collection)
+-# With the latest ActiveRecord + will_paginate versions, we
+-#  sometimes get back an ActiveRecord::Relation after pagination,
+-#  so we can't just check if it's a WillPaginate::Collection.
+-#  http://rubydoc.info/gems/will_paginate/3.0.2/file/README.md
+-# Checking for the methods will_paginate adds is the best way
+-#  we have been able to find to check if we're viewing a paginated
+-#  collection or not.
+- if rows.respond_to?(:total_pages)
   = render_pagination(rows)
