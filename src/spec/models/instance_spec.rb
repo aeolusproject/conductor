@@ -96,12 +96,13 @@ describe Instance do
     lambda { Instance.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
     lambda { Instance.only_deleted.find(second_instance_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
     lambda{ second_instance = Instance.unscoped.find(second_instance_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
+  end
 
-    second_instance.destroy!
-
-    lambda { Instance.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
-    lambda { Instance.only_deleted.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
-    lambda{ Instance.unscoped.find(second_instance_id) }.should raise_error(ActiveRecord::RecordNotFound)
+  it "should not destroy associated instance key when instance not destroyable" do
+    @instance.instance_key = FactoryGirl.build(:instance_key, :instance => @instance)
+    @instance.stub(:destroyable?).and_return(false)
+    @instance.destroy
+    @instance.instance_key.should_not be_destroyed
   end
 
   it "should tell apart valid and invalid actions" do
@@ -175,7 +176,7 @@ describe Instance do
     cloud_account = Factory.build(:provider_account, :provider => provider)
     cloud_account.stub!(:connect).and_return(nil)
     cloud_account.stub!(:valid_credentials?).and_return(true)
-    instance = Factory.create(:instance, :provider_account => cloud_account)
+    instance = Factory.build(:instance, :provider_account => cloud_account)
     instance.get_action_list.should be_empty
   end
 

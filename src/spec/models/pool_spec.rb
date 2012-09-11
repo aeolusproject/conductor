@@ -64,6 +64,14 @@ describe Pool do
     pool.should_not be_destroyable
   end
 
+  it "should not destroy associated catalogs when pool not destroyable" do
+    pool = FactoryGirl.build(:pool)
+    pool.catalogs << FactoryGirl.build(:catalog, :pool => pool)
+    pool.stub(:destroyable?).and_return(false)
+    pool.destroy
+    pool.catalogs.should_not be_empty
+  end
+
   it "should require quota to be set" do
     pool = FactoryGirl.create :pool
     pool.should be_valid

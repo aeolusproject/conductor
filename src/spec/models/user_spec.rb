@@ -123,6 +123,7 @@ describe User do
     deployment = Factory.create(:deployment, :owner => user)
     instance = Factory.create(:mock_running_instance, :deployment_id => deployment.id)
     lambda { user.destroy }.should raise_error(RuntimeError, "#{user.login} has running instances")
+    user.entity.should_not be_destroyed
   end
 
 end

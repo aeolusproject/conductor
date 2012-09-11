@@ -67,4 +67,11 @@ describe PoolFamily do
     @pool_family.quota = nil
     @pool_family.should_not be_valid
   end
+
+  it "should not destroy associated pools when pool family not destroyable" do
+    # Stubbing only @pool_family doesn't work well on Rails 3.0 + Ruby 1.8.7
+    PoolFamily.any_instance.stub(:check_name!).and_raise(Aeolus::Conductor::Base::NotDestroyable)
+    lambda { @pool_family.destroy }.should raise_error
+    @pool_family.pools.should_not be_empty
+  end
 end

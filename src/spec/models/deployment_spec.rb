@@ -99,6 +99,7 @@ describe Deployment do
       @deployment.reload
       @deployment.should_not be_destroyable
       @deployment.destroy.should == false
+      @deployment.instances.should_not be_empty
 
       inst1.state = Instance::STATE_CREATE_FAILED
       inst1.save!
@@ -145,12 +146,6 @@ describe Deployment do
       lambda { Deployment.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
       lambda { Deployment.only_deleted.find(second_deployment_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
       lambda{ second_deployment = Deployment.unscoped.find(second_deployment_id) }.should_not raise_error(ActiveRecord::RecordNotFound)
-
-      second_deployment.destroy!
-
-      lambda { Deployment.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
-      lambda { Deployment.only_deleted.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
-      lambda{ Deployment.unscoped.find(second_deployment_id) }.should raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
@@ -254,18 +249,26 @@ describe Deployment do
       @permission_session = PermissionSession.create!(:user => @user_for_launch,
                                                       :session_id => @session_id)
       @permission_session.update_session_entities(@user_for_launch)
+      @instance_match = FactoryGirl.build(:instance_match, :provider_account => @provider_account1)
     end
 
     it "should return errors when checking assemblies matches which are not launchable" do
+      Provider.any_instance.stub(:enabled?).and_return(true)
+      Provider.any_instance.stub(:available?).and_return(true)
+      Instance.any_instance.stub(:provider_images_for_match).and_return([@provider_image])
+      @deployment.stub(:provider_selection_match_exists?).and_return(true)
+
       @deployment.check_assemblies_matches(@permission_session, @user_for_launch).should be_empty
-      @deployment.pool.pool_family.provider_accounts.destroy_all
+      @deployment.pool.pool_family.provider_accounts = []
       @deployment.check_assemblies_matches(@permission_session, @user_for_launch).should_not be_empty
     end
 
     it "should launch instances when launching deployment" do
       @deployment.instances.should be_empty
 
+      @deployment.stub(:pick_provider_selection_match).and_return([[@instance_match], @provider_account1, []])
       Taskomatic.stub!(:create_instance!).and_return(true)
+
       @deployment.create_and_launch(@permission_session, @user_for_launch)
       @deployment.errors.should be_empty
       @deployment.instances.count.should == 2
@@ -290,7 +293,7 @@ describe Deployment do
 
     it "should not create deployment with instances if match not found" do
       @deployment.instances.should be_empty
-      @deployment.pool.pool_family.provider_accounts.destroy_all
+      @deployment.pool.pool_family.provider_accounts = []
       Taskomatic.stub!(:create_instance!).and_return(true)
       @deployment.create_and_launch(@permission_session, @user_for_launch)
       @deployment.errors.should_not be_empty
@@ -304,7 +307,10 @@ describe Deployment do
 
       it "should set create_failed status for instances if instance's launch raises an exception" do
         @deployment.instances.should be_empty
+
+        @deployment.stub(:pick_provider_selection_match).and_return([[@instance_match], @provider_account1, []])
         Taskomatic.stub!(:create_dcloud_instance).and_raise("an exception")
+
         @deployment.create_and_launch(@permission_session, @user_for_launch)
         @deployment.reload
         @deployment.instances.should_not be_empty

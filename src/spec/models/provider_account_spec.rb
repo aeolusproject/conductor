@@ -41,6 +41,14 @@ describe ProviderAccount do
     @provider_account.should be_frozen
   end
 
+  it "should not destroy associated credentials when account not destroyable" do
+    @provider_account.credentials << FactoryGirl.build(:username_credential)
+    @provider_account.save
+    @provider_account.stub(:check_destroyable_instances!).and_return(false)
+    @provider_account.destroy
+    @provider_account.credentials.should_not be_empty
+  end
+
   it "should check the validitiy of the cloud account login credentials" do
     mock_provider = FactoryGirl.create :mock_provider
 
