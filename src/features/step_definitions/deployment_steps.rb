@@ -1,5 +1,5 @@
 Given /^there is a deployment named "([^"]*)" belonging to "([^"]*)" owned by "([^"]*)"$/ do |deployment_name, deployable_name, owner_name|
-  user = FactoryGirl.create(:user, :login => owner_name, :last_name => owner_name)
+  user = FactoryGirl.create(:user, :username => owner_name, :last_name => owner_name)
   @deployment = Factory.create(:deployment, {:name => deployment_name, :pool => Pool.first, :owner => user})
   instance = Factory.create(:instance, {:deployment => @deployment})
   @deployment.instances << instance

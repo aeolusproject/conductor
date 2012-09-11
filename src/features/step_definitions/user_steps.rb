@@ -14,8 +14,8 @@
 #   limitations under the License.
 #
 Given /^there is a user "([^"]*)"$/ do |name|
-  unless User.find_by_login(name)
-    FactoryGirl.create :user, :login => name, :email => "#{name}@example.com"
+  unless User.find_by_username(name)
+    FactoryGirl.create :user, :username => name, :email => "#{name}@example.com"
   end
 end
 
@@ -28,6 +28,6 @@ Then /^there should be (\d+) users?$/ do |number|
 end
 
 When /^(?:|I )check "([^"]*)" user$/ do |user_name|
-  user = User.find_by_login(user_name)
+  user = User.find_by_username(user_name)
   check("user_checkbox_#{user.id}")
 end

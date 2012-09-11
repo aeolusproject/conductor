@@ -33,7 +33,7 @@ module NavigationHelpers
       login_path
 
     when /^(.*)'s user page$/i
-       user_path(User.find_by_login($1))
+       user_path(User.find_by_username($1))
 
     when /^(.*)'s user group page$/i
        user_group_path(UserGroup.find_by_name($1))
@@ -180,7 +180,7 @@ module NavigationHelpers
       user_path(user)
 
     when /^the (.*)'s edit user page$/
-      edit_user_path(User.find_by_login($1))
+      edit_user_path(User.find_by_username($1))
 
     when /^the (.*)'s edit user group page$/
       edit_user_group_path(UserGroup.find_by_name($1))
@@ -205,7 +205,7 @@ module NavigationHelpers
     # Here is an example that pulls values out of the Regexp:
     #
     #   when /^(.*)'s profile page$/i
-    #     user_profile_path(User.find_by_login($1))
+    #     user_profile_path(User.find_by_username($1))
 
     else
       begin

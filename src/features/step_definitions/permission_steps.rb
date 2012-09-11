@@ -13,24 +13,24 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-Given /^a user "([^\"]*)" exists$/ do |login|
-  @user = FactoryGirl.create(:user, :login => login)
+Given /^a user "([^\"]*)" exists$/ do |username|
+  @user = FactoryGirl.create(:user, :username => username)
 end
 
-Given /^there is not a permission for the user "([^\"]*)"$/ do |login|
-  Permission.first(:include => ['entity' => ['session_entities' => 'user']], :conditions => ['users.login = ?', login]).should be_nil
+Given /^there is not a permission for the user "([^\"]*)"$/ do |username|
+  Permission.first(:include => ['entity' => ['session_entities' => 'user']], :conditions => ['users.username = ?', username]).should be_nil
 end
 
-Given /^there is a permission for the user "([^\"]*)"$/ do |login|
+Given /^there is a permission for the user "([^\"]*)"$/ do |username|
   @admin_permission = FactoryGirl.create(:admin_permission, :user_id => @user.id)
 end
 
-Given /^there is a permission for the user "([^\"]*)" on the pool "([^\"]*)"$/ do |login, pool_name|
+Given /^there is a permission for the user "([^\"]*)" on the pool "([^\"]*)"$/ do |username, pool_name|
   @pool_user_permission = FactoryGirl.create(:pool_user_permission, :entity_id => @user.entity.id,
                                          :permission_object => Pool.find_by_name(pool_name))
 end
 
-Given /^there is a permission for the user "([^\"]*)" on the pool family "([^\"]*)"$/ do |login, pool_family_name|
+Given /^there is a permission for the user "([^\"]*)" on the pool family "([^\"]*)"$/ do |username, pool_family_name|
   @pool_family_admin_permission = FactoryGirl.create(:pool_family_admin_permission, :entity_id => @user.entity.id,
                                          :permission_object => PoolFamily.find_by_name(pool_family_name))
 end
@@ -46,6 +46,6 @@ Given /^I delete the permission$/ do
 end
 
 When /^(?:|I )select "([^"]*)" role for the user "([^"]*)"$/ do |role_name, user_name|
-  user = User.find_by_login(user_name)
+  user = User.find_by_username(user_name)
   select(role_name, :from => "entity_role_selected_#{user.entity.id}")
 end
