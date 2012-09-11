@@ -21,6 +21,6 @@
           %dt=t'users.show.e-mail'
           %dd#email= @user.email
           %dt=t'users.show.username'
-          %dd#login= @user.login
+          %dd#username= @user.username
     = form_for @user, :url => user_path(@user), :builder => ApplicationHelper::FormBuilderWithRequiredFields, :html => { :method => :put, :class => 'generic horizontal' } do |f|
       = render :partial => "form", :locals => { :form => f, :cancel_path => users_path }

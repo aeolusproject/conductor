@@ -37,7 +37,7 @@ describe UsersController do
         mock_warden(@admin)
         lambda do
           post :create, :user => {
-            :login => "tuser2", :email => "tuser2@example.com",
+            :username => "tuser2", :email => "tuser2@example.com",
             :password => "testpass",
             :password_confirmation => "testpass" }
         end.should change(User, :count).by(1)
@@ -53,7 +53,7 @@ describe UsersController do
 
         returned_user = assigns[:user]
         returned_user.errors.empty?.should be_false
-        returned_user.should have(1).errors_on(:login)
+        returned_user.should have(1).errors_on(:username)
         #returned_user.should have(1).errors_on(:email)
         returned_user.should have(1).error_on(:password)
 
@@ -66,7 +66,7 @@ describe UsersController do
     mock_warden(@admin)
     lambda do
       post :create, :user => {
-        :login => "tuser3", :email => "tuser3@example.com",
+        :username => "tuser3", :email => "tuser3@example.com",
         :password => "testpass",
         :password_confirmation => "testpass" }
     end.should change(User, :count)
@@ -78,7 +78,7 @@ describe UsersController do
     mock_warden(@tuser)
     lambda do
       post :create, :user => {
-        :login => "tuser4", :email => "tuser4@example.com",
+        :username => "tuser4", :email => "tuser4@example.com",
         :password => "testpass",
         :password_confirmation => "testpass" }
     end.should_not change(User, :count)

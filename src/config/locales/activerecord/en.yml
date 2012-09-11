@@ -323,7 +323,7 @@ en:
         failure_code: "Failure Code"
         lock_version: "Lock Version"
       user:
-        login: "Login"
+        username: "Username"
         email: "Email"
         crypted_password: "Crypted Password"
         first_name: "First Name"
