@@ -94,15 +94,6 @@ ProviderAccount.class_eval do
   end
 end
 
-
-class FakeResponse
-  attr_reader :code, :message
-  def initialize(code, message)
-    @code = code
-    @message = message
-  end
-end
-
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false

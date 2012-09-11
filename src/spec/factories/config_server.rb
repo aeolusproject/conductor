@@ -26,8 +26,7 @@ end
 Factory.define :mock_config_server, :parent => :base_config_server do |f|
   f.association :provider_account, :factory => :mock_provider_account
   f.after_build do |cs|
-    response = FakeResponse.new("200", "OK")
-    cs.stub!(:test_connection).and_return(response) if cs.respond_to? :stub!
+    cs.stub!(:test_connection).and_return(nil) if cs.respond_to? :stub!
   end
 end
 
@@ -39,8 +38,7 @@ Factory.define :invalid_credentials_config_server, :parent => :base_config_serve
     # the default_strategy initialization parameter seemed much better
   end
   f.after_build do |cs|
-    response = FakeResponse.new("401", "Unauthroized")
-    cs.stub!(:test_connection).and_return(response) if cs.respond_to? :stub!
+    cs.stub!(:test_connection).and_raise(RestClient::Unauthorized) if cs.respond_to? :stub!
   end
 end
 

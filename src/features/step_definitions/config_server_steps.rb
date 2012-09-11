@@ -13,8 +13,6 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-require_relative '../../spec/spec_helper'
-
 Given /^I want to add a new config server$/ do
   c = Factory.build(:mock_config_server)
   ConfigServer.stub!(:new).and_return(c)
@@ -45,8 +43,7 @@ Given /^there is a mock config server "(http|https):\/\/(.*)" for account "(.*)"
   @config_server.stub!(:status).and_return(ConfigServer::ConnectionStatus.new())
   case endpoint
     when "bad_credentials"
-      response = FakeResponse.new("401", "Unauthorized")
-      @config_server.stub!(:test_connection).and_return(response)
+      @config_server.stub!(:test_connection).and_raise(RestClient::Unauthorized)
     when "bad_host"
       @config_server.stub!(:test_connection).and_raise(Errno::ETIMEDOUT)
   end
