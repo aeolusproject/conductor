@@ -252,7 +252,6 @@ rb="app/models app/controllers app/controllers/api app/helpers app/services app/
     spec/factories spec/helpers spec/models spec/services spec/controllers/api \
     spec/aeolus/event spec/aeolus/ext lib/aeolus lib/aeolus/event lib/aeolus/ext \
     lib/provider_selection vendor/provider_selection \
-    vendor/provider_selection/strategies/strict_order \
     vendor/provider_selection/strategies/penalty_for_failure"
 rhtml="app/views/layouts"
 svg="public/images public/images/icons"
