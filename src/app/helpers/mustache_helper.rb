@@ -122,7 +122,7 @@ module MustacheHelper
                                                              current_user,
                                                              Privilege::VIEW).
                                                ascending_by_name, params[:page],
-                                               PER_PAGE)
+                                               PER_PAGE).map{ |deployment| deployment_for_mustache(deployment) }
     }
   end
 
