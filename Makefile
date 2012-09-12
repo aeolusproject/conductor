@@ -17,7 +17,7 @@
 
 CONDUCTOR_CACHE_DIR	?= $(HOME)/conductor-cache
 
-VERSION = 0.13.4
+VERSION = 0.13.5
 
 # For Release: 0..., set _conductor_dev=1 so that we get extra_release.GIT-
 # annotated rpm version strings.
