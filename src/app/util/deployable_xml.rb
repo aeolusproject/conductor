@@ -184,12 +184,6 @@ class AssemblyXML
        :service => service.name,
        :references => service.references}
     end
-    # whole assembly is added as a node too because a inter-assembly references
-    # reference whole assembly, not particular service
-    nodes << {:assembly => name,
-              :service => nil,
-              :references => nodes.map {|n|
-                               n[:references]}.flatten}
   end
 
   private
@@ -343,28 +337,31 @@ class DeployableDependencyGraph
 
     invalid_refs = []
     dependency_nodes.each do |node|
-      # skip "whole assembly" nodes
-      next unless node[:service]
-
       node[:references].each do |ref|
-        if ref[:not_existing_ref]
-          # in this case, the referenced assembly/service doesn't exist
-          # at all
-          invalid_refs << {:assembly => node[:assembly],
-                           :service => node[:service],
-                           :reference => ref}
-        else
-          # in this case, the referenced assembly/service exists, but the
-          # referenced parameter is not listed in <returns> tag of the assembly
+        no_return_param = false
+
+        if ref[:service].nil?
           assembly = @assemblies.find {|a| a.name == ref[:assembly]}
-          next unless assembly # this shouldn't be needed
-          unless assembly.output_parameters.include?(ref[:param])
-            invalid_refs << {:assembly => node[:assembly],
-                             :service => node[:service],
-                             :no_return_param => true,
-                             :reference => ref}
+          if assembly
+            if assembly.output_parameters.include?(ref[:param])
+              # if referenced assembly exists and returns referenced param, then
+              # it's valid
+              next
+            else
+              no_return_param = true
+            end
           end
+        else
+          # if a param references another service, then we check if
+          # this service exists or not. For current version of config server
+          # only services from the same assembly can be referenced
+          next unless ref[:not_existing_ref]
         end
+
+        invalid_refs << {:assembly => node[:assembly],
+                         :service => node[:service],
+                         :no_return_param => no_return_param,
+                         :reference => ref}
       end
     end
     invalid_refs

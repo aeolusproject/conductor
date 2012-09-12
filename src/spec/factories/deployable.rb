@@ -73,54 +73,6 @@ FactoryGirl.define do
             </deployable>"
   end
 
-  factory :deployable_with_cyclic_assembly_references, :parent => :deployable do
-    xml "<?xml version=\"1.0\"?>
-            <deployable version='1.0' name='deployable'>
-                <assemblies>
-                  <assembly name='assembly1' hwp='front_hwp1'>
-                    <image id='85653387-88b2-46b0-b7b2-c779d2af06c7'></image>
-                    <services>
-                      <service name='service1'>
-                        <executable url='executable_url'/>
-                        <parameters>
-                          <parameter name='param1'>
-                            <reference assembly='assembly2' parameter='hostname'/>
-                          </parameter>
-                        </parameters>
-                      </service>
-                    </services>
-                  </assembly>
-                  <assembly name='assembly2' hwp='front_hwp1'>
-                    <image id='85653387-88b2-46b0-b7b2-c779d2af06c7'></image>
-                    <services>
-                      <service name='service1'>
-                        <executable url='executable_url'/>
-                        <parameters>
-                          <parameter name='param1'>
-                            <reference assembly='assembly3' parameter='hostname'/>
-                          </parameter>
-                        </parameters>
-                      </service>
-                    </services>
-                  </assembly>
-                  <assembly name='assembly3' hwp='front_hwp1'>
-                    <image id='85653387-88b2-46b0-b7b2-c779d2af06c7'></image>
-                    <services>
-                      <service name='service1'>
-                        <executable url='executable_url'/>
-                        <parameters>
-                          <parameter name='param1'>
-                            <reference assembly='assembly1' parameter='hostname'/>
-                          </parameter>
-                        </parameters>
-                      </service>
-                    </services>
-                  </assembly>
-                </assemblies>
-            </deployable>"
-  end
-
-
   factory :deployable_with_cyclic_service_references, :parent => :deployable do
     xml "<?xml version=\"1.0\"?>
             <deployable version='1.0' name='deployable'>
@@ -161,7 +113,10 @@ FactoryGirl.define do
                         <executable url='executable_url'/>
                         <parameters>
                           <parameter name='param1'>
-                            <reference assembly='assembly2' service='service2'/>
+                            <reference assembly='assembly1' service='service2'/>
+                          </parameter>
+                          <parameter name='param2'>
+                            <reference assembly='assembly2' parameter='param2'/>
                           </parameter>
                         </parameters>
                       </service>

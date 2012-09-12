@@ -98,23 +98,6 @@ describe Deployable do
     end
   end
 
-  describe "validation of deployable_xml with cyclic assembly references" do
-    before :each do
-      @deployable = FactoryGirl.build(:deployable_with_cyclic_assembly_references)
-      @cycles = DeployableXML.new(@deployable.xml).dependency_graph.cycles
-    end
-
-    it_behaves_like "deployable XML with cyclic reference"
-
-    it "should detect cycle between multiple assmebliess" do
-      cycle = @cycles.first
-      cycle.length.should == 3
-      cycle.find {|n| n[:assembly] == 'assembly1' && n[:service] == 'service1'}
-      cycle.find {|n| n[:assembly] == 'assembly2' && n[:service] == 'service1'}
-      cycle.find {|n| n[:assembly] == 'assembly3' && n[:service] == 'service1'}
-    end
-  end
-
   describe "validation of deployable_xml with not existing references" do
     before :each do
       @deployable = FactoryGirl.build(:deployable_with_not_existing_references)
@@ -136,8 +119,16 @@ describe Deployable do
     it "should detect reference to not existing service" do
       @invalid_refs.find {|r| r[:assembly] == 'assembly1' &&
         r[:service] == 'service1' &&
-        r[:reference][:assembly] ==  'assembly2' &&
+        r[:reference][:assembly] ==  'assembly1' &&
         r[:reference][:service] ==  'service2'}.should_not be_nil
+    end
+
+    it "should detect reference to not existing parameter" do
+      @invalid_refs.find {|r| r[:assembly] == 'assembly1' &&
+        r[:service] == 'service1' &&
+        r[:no_return_param] &&
+        r[:reference][:assembly] ==  'assembly2' &&
+        r[:reference][:param] ==  'param2'}.should_not be_nil
     end
   end
 
