@@ -1,5 +1,8 @@
 = content_for(:stylesheets_block) do
   = stylesheet_link_tag '/stylesheets/compiled/login.css'
+  /[if lt IE 9]
+    = javascript_include_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
+    = stylesheet_link_tag '/stylesheets/login_ie8.css'
   /[if lt IE 8]
     = stylesheet_link_tag '/stylesheets/layout_ie7.css'
 
@@ -8,7 +11,6 @@
   = javascript_include_tag "converge-ui/vendor/rails.js"
   = javascript_include_tag "converge-ui/login.js"
   /[if lt IE 9]
-    = javascript_include_tag 'http://html5shiv.googlecode.com/svn/trunk/html5.js'
 
 = content_for :title do
   = t("layout.appname")
