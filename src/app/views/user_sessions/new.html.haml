@@ -22,14 +22,5 @@
 = content_for :login_logo do
   = image_tag 'login-card-logo-upstream.png'
 
-= content_for(:project_name) do
-  = image_tag("logo.png", :alt => get_string(:example_logo))
-
-= content_for(:forgot_password_link) do
-  = link_to get_string(:forgot_username_password), user_session_path #password_resets_path
-
-= content_for(:show_password) do
-  = get_string(:show_password)
-
 = content_for :footer do
   = render :partial => 'layouts/footer'
