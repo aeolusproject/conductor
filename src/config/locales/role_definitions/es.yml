@@ -3,45 +3,45 @@ es:
     base:
       admin: "Gestor global"
       deployable:
-        admin: "Gestor global de Implementable"
+        admin: "Gestor de proyecto de aplicaciones globales"
       hwp:
         admin: "Gestor global de Perfil de hardware"
         user: "Usuario global de Perfil de hardware"
       image:
         admin: "Gestor global  de imágenes"
       pool:
-        admin: "Gestor global de grupos"
-        user: "Usuario global  de grupos"
+        admin: "Gestor de zona de recursos de Cloud global"
+        user: "Gestor de usuario de zona de recursos de Cloud"
       provider:
-        admin: "Gestor global de proveedores"
-        user: "Usuario global de proveedores"
+        admin: "Gestor de proveedor de recursos de Cloud global"
+        user: "Usuario de proveedor de recursos de Cloud global"
       realm:
         admin: "Gestor global de reino"
     catalog:
       admin: "Gestor de catálogo"
       user: "Usuario de catálogo"
     deployable:
-      owner: "Propietario de Implementable"
-      user: "Usuario de Implementable"
+      owner: "Propietario de proyecto de aplicaciones"
+      user: "Usuario de proyectos de aplicaciones"
     deployment:
-      owner: "Propietario de Implementación"
-      user: "Usuario de Implementación"
+      owner: "Propietario de aplicaciones"
+      user: "Usuario de aplicaciones"
     instance:
       owner: "Propietario de instancia"
       user: "Usuario de instancia"
     pool:
-      admin: "Gestor de grupos"
+      admin: "Gestor de zona de recursos de Cloud"
       deployable:
-        admin: "Gestor de Implementable de grupos"
-      user: "Usuario de grupos"
+        admin: "Gestor de proyectos de aplicaciones de zona de recursos de Cloud"
+      user: "Usuario de zona de recursos de Cloud"
     pool_family:
-      admin: "Gestor de grupos de familia"
+      admin: "Gestor de cloud"
       image:
-        admin: "Gestor de imagen de grupos de familia"
-      user: "Usuario de grupos de familias"
+        admin: "Gestor de imagen de Cloud"
+      user: "Usuario de Cloud"
     provider:
-      admin: "Gestor de proveedores"
-      user: "Usuario de proveedores"
+      admin: "Gestor de proveedor de recursos de Cloud"
+      user: "Usuario de proveedor de recursos de Cloud"
     provider_account:
-      owner: "Propietario de cuenta de proveedores"
-      user: "Usuario de cuenta de proveedores\n"
+      owner: "Propietario de cuenta de proveedores de recursos de Cloud"
+      user: "Usuario de cuenta de proveedores de recursos de Cloud"

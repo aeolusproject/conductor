@@ -1,0 +1,11 @@
+es:
+  strategies:
+    penalty_for_failure:
+      name: "Sanción de falla"
+      views:
+        edit:
+          failure_count_hard_limit: "El número de fallas antes de que la cuenta de proveedores de recursos de Cloud sea utilizada"
+          penalty_percentage: "Porcentaje de la sanción de cada  falla"
+          time_period_minutes: "El periodo de tiempo en que se agregan las fallas"
+    strict_order:
+      name: "Orden estricto"

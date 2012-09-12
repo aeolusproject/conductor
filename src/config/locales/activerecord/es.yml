@@ -2,41 +2,41 @@ es:
   activerecord:
     attributes:
       base_permission_object:
-        created_at: "Creado a la(s)"
+        created_at: "lCreado (Fecha y hora)"
         name: Nombre
-        updated_at: "Actualizado a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       catalog:
-        created_at: "Creado a la(s)"
+        created_at: "Creado (Fecha y hora)"
         name: Nombre
-        pool_family_id: "Grupo de familia"
-        pool_id: Grupo
-        updated_at: "Actualizado a la(s)"
+        pool_family_id: "Familia de recursos de Cloud"
+        pool_id: "Zona de recursos de Cloud"
+        updated_at: "Actualizado (Fecha y hora)"
       catalog_entry:
         catalog_id: Catálogo
-        deployable_id: Implementable
+        deployable_id: "Proyecto de aplicaciones"
       config_server:
-        created_at: "Creado a la(s)"
+        created_at: "Creado (Fecha y hora)"
         endpoint: "Extremo de servidor (URL)"
         key: "Clave de usuario"
-        provider_account_id: "Cuenta de proveedor"
+        provider_account_id: "Cuenta de proveedores de recursos de Cloud"
         secret: "Secreto de usuario "
-        updated_at: "Actualizado a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       credential:
-        created_at: "Creado a la(s)"
+        created_at: "Creado  (Fecha y hora)"
         credential_definition_id: "Definición de credenciales"
-        provider_account_id: "Cuentas de proveedores"
-        updated_at: "Actualizado a la(s)"
+        provider_account_id: "Cuenta de proveedores de recursos de Cloud"
+        updated_at: "Actualizado (Fecha y hora)"
         value: Valor
       credential_definition:
-        created_at: "Creado  a la(s)"
+        created_at: "Creado  (Fecha y hora)"
         input_type: "Método de entrada"
         label: Etiqueta
         name: Nombre
-        provider_type_id: "Tipo de proveedor"
-        updated_at: "Actualizado  a la(s)"
+        provider_type_id: "Tipo de proveedor de recursos de Cloud"
+        updated_at: "Actualizado (Fecha y hora)"
       delayed_job:
         attempts: Intentos
-        created_at: "Creado  a la(s)"
+        created_at: "Creado  (Fecha y hora)"
         failed_at: "Falló  a la(s)"
         handler: Manejador
         last_error: "Último error"
@@ -44,98 +44,98 @@ es:
         locked_by: "Bloqueado por"
         priority: Prioridad
         run_at: "Ejecutar  a la(s)"
-        updated_at: "Actualizado a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       deployable:
         description: Descripción
         name: Nombre
         owner_id: Propietario
-        pool_family_id: "Grupo de familia"
-        xml: "URL implementable"
+        pool_family_id: "Familia de recursos de Cloud"
+        xml: "XML de proyecto de aplicaciones"
         xml_filename: "Nombre de archivos XML"
       deployment:
-        created_at: "Creado  a la(s)"
-        deployable_xml: "XML implementable"
+        created_at: "Creado  (Fecha y hora)"
+        deployable_xml: "XML de proyecto de aplicaciones"
         frontend_realm_id: Reino
-        lock_version: "Bloquear Versión"
+        lock_version: "Versión de cerrojo"
         name: Nombre
         owner_id: Propietario
-        pool_family_id: "Grupo de familia"
-        pool_id: Grupo
-        realm_id: "Reino de proveedor"
+        pool_family_id: "Familia de recursos de Cloud"
+        pool_id: "Zona de recursos de Cloud"
+        realm_id: "Reino de proveedor de recursos de Cloud"
         scheduled_for_deletion: "Programado para borrado"
-        updated_at: "Actualizado "
+        updated_at: "Actualizado (Fecha y hora)"
         uuid: Uuid
       event:
-        created_at: "Creado  a la(s)"
+        created_at: "Creado  (Fecha y hora)"
         description: Descripción
         event_time: "Hora del evento"
         source_id: Fuente
         source_type: "Tipo de fuente"
         status_code: "Código de estatus"
         summary: Resumen
-        updated_at: Actualizado
+        updated_at: "Actualizado (Fecha y hora) "
       frontend_realm:
-        created_at: "Creado  a la(s)"
-        description: Descripción
-        lock_version: "Bloquear Versión"
+        created_at: "Creado (Fecha y hora)"
+        description: Descipción
+        lock_version: "Versión de cerrojo"
         name: Nombre
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       hardware_profile:
         architecture_id: Arquitectura
         cpu_id: CPU
-        created_at: "Creado  a la(s)"
+        created_at: "Creado (Fecha y hora)"
         external_key: "Llave externa"
-        lock_version: "Bloquear Versión"
+        lock_version: "Versión de cerrojo"
         memory_id: Memoria
         name: Nombre
-        provider_id: Proveedor
+        provider_id: "Proveedores de recursos de Cloud"
         storage_id: Almacenamiento
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       hardware_profile_property:
-        created_at: "Creado  a la(s)"
+        created_at: "Creado (Fecha y hora)"
         kind: Clase
-        lock_version: "Bloquear Versión"
+        lock_version: "Versión de cerrojo"
         name: Nombre
         range_first: "Primer rango"
         range_last: "Último rango"
         unit: Unidad
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
         value: Valor
       hook:
-        created_at: "Creado  a la(s)"
-        updated_at: "Actualizado  a la(s)"
+        created_at: "Creado (Fecha y hora)"
+        updated_at: "Actualizado (Fecha y hora)"
         uri: URI
         version: Versión
       icicle:
-        created_at: "Creado  a la(s)"
-        updated_at: "Actualizado  a la(s)"
-        uuid: Uuid
-        xml: Xml
+        created_at: "Creado (Fecha y hora)"
+        updated_at: "Actualizado (Fecha y hora)"
+        uuid: UUID
+        xml: XML
       instance:
-        acc_pending_time: "Tiempo en espera acumulado"
+        acc_pending_time: "Tiempo pendiente acumulado"
         acc_running_time: "Tiempo en ejecución acumulado"
         acc_shutting_down_time: "Tiempo de apagado acumulado"
         acc_stopped_time: "Tiempo detenido acumulado"
-        assembly_xml: "Ensamblaje XML (Assembly)"
-        created_at: "Creado  a la(s)"
-        deployment_id: Implementación
-        external_key: "Llave externa"
+        assembly_xml: "XML de proyecto de componentes"
+        created_at: "Creado (Fecha y hora)"
+        deployment_id: Aplicación
+        external_key: "Clave externa"
         frontend_realm_id: Reino
-        hardware_profile_id: "Perfil de hardware"
+        hardware_profile_id: "Perfil de recursos de Cloud"
         image_build_uuid: "Uuid de creación de imagen"
         image_uuid: "Uuid de imagen"
         instance_config_xml: "XML de configuración de instancia"
         instance_hwp_id: "Perfil de hardware de instancia"
         last_error: "Último error"
-        lock_version: "Bloquear Versión"
+        lock_version: "Versión de cerrojo"
         name: Nombre
         owner_id: Propietario
-        pool_family_id: "Grupo de familia"
-        pool_id: Grupo
+        pool_family_id: "Familia de zona de recursos de Cloud"
+        pool_id: "Zona de recursos de Cloud"
         private_addresses: "Direcciones privadas"
-        provider_account_id: "Cuenta de proveedor"
-        provider_image_uuid: "Uuid de imagen de proveedores"
-        provider_instance_id: "Instancia de proveedor"
+        provider_account_id: "Cuenta de proveedores de recursos de Cloud"
+        provider_image_uuid: "UIID de imagen de proveedor de recursos de Cloud"
+        provider_instance_id: "Instancia de proveedor de recursos de Cloud"
         public_addresses: "Direcciones públicas"
         secret: Secreto
         state: Estado
@@ -143,136 +143,139 @@ es:
         time_last_running: "Última hora en ejecución"
         time_last_shutting_down: "Última hora de apagado"
         time_last_stopped: "Última hora detenida"
-        updated_at: "Actualizado a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
         user_data: "Datos de usuario"
-        uuid: Uuid
+        uuid: UIID
       instance_hwp:
         architecture: Arquitectura
         cpu: CPU
-        lock_version: "Bloquear Versión"
+        lock_version: "Versión de cerrojo"
         memory: Memoria
         storage: Almacenamiento
       instance_key:
-        created_at: "Creado a la(s)"
+        created_at: "Creado  (Fecha y hora)"
         instance_id: Instancia
         name: Nombre
         pem: Pem
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado  (Fecha y hora)"
       instance_parameter:
-        created_at: "Creado a la(s)"
+        created_at: "Creado  (Fecha y hora)"
         instance_id: Instancia
         name: Nombre
         service: Servicio
         type: Tipo
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado  (Fecha y hora)"
         value: Valor
       metadata_object:
-        created_at: "Creado a la(s)"
+        created_at: "Creado   (Fecha y hora)"
         key: llave
-        lock_version: "Bloquear Versión"
+        lock_version: "Versión de cerrojo"
         object_type: "Tipo de objeto"
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
         value: Valor
       permission:
-        created_at: "Creado a la(s)"
-        lock_version: "Bloquear Versión"
+        created_at: "Creado (Fecha y hora)"
+        lock_version: "Versión de cerrojo"
         permission_object_id: "Objeto de permisos"
         permission_object_type: "Tipo de objeto de permisos"
-        role_id: rol
-        updated_at: "Actualizado  a la(s)"
+        role_id: Rol
+        updated_at: "Actualizado (Fecha y hora)"
         user_id: Usuario
       pool:
-        created_at: "Creado a la(s)"
+        created_at: "Creado (Fecha y hora)"
         enabled: Habilitado
         exported_as: "Exportado como"
-        lock_version: "Bloquear Versión"
+        lock_version: "Versión de cerrojo"
         name: Nombre
-        pool_family_id: "Grupo de familia"
+        pool_family_id: "Familia de recursos de Cloud"
         quota_id: Cuota
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       pool_family:
-        created_at: "Creado a la(s)"
+        created_at: "Creado (Fecha y hora)"
         description: Descripción
-        lock_version: "Bloquear Versión"
-        name: "Nombre de grupo de familia"
+        lock_version: "Versión de cerrojo"
+        name: "Nombre de familia de zona de recursos de Cloud"
         quota_id: Cuota
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       privilege:
         action: Acción
-        created_at: "Creado a la(s)"
-        lock_version: "Bloquear Versión"
+        created_at: "Creado (Fecha y hora)"
+        lock_version: "Versión de cerrojo"
         role_id: Rol
         target_type: "Tipo de destino"
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado   (Fecha y hora)"
       property_enum_entry:
-        created_at: "Creado a la(s)"
-        hardware_profile_property_id: "Propiedad de perfil de hardware"
-        lock_version: "Bloquear Versión"
-        updated_at: "Actualizado  a la(s)"
+        created_at: "Creado (Fecha y hora)"
+        hardware_profile_property_id: "Propiedad de perfil de recursos de Cloud"
+        lock_version: "Versión de cerrojo"
+        updated_at: "Actualizado   (Fecha y hora)"
         value: Valor
       provider:
         available: Disponible
-        created_at: "Creado a la(s)"
-        deltacloud_provider: "Proveedor de Deltacloud"
+        created_at: "Creado (Fecha y hora)"
+        deltacloud_provider: "Proveedor de recursos de cloud Deltacloud"
         enabled: Habilitado
-        lock_version: "Bloquear Versión"
-        name: "Nombre de proveedor "
-        provider_type_id: "Tipo de proveedor"
-        updated_at: "Actualizado  a la(s)"
-        url: "URL de proveedor"
+        lock_version: "Versión de cerrojo"
+        name: "Nombre de Proveedor de recursos de Cloud"
+        provider_type_id: "Tipo de proveedor de recursos de Cloud"
+        updated_at: "Actualizado   (Fecha y hora)"
+        url: "URL de proveedor de recursos de Cloud"
       provider_account:
-        created_at: "Creado a la(s)"
+        created_at: "Creado (Fecha y hora)"
         label: Etiqueta
-        lock_version: "Bloquear Versión"
+        lock_version: "Versión de cerrojo"
         priority: Prioridad
-        provider_id: Proveedor
+        provider_id: "Proveedor de recursos de Cloud"
         quota_id: Cuota
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado  (Fecha y hora)"
+      provider_priority_group:
+        name: Nombre
+        score: Puntaje
       provider_type:
-        created_at: "Creado a la(s)"
+        created_at: "Creado (Fecha y hora)"
         deltacloud_driver: "Controlador de Deltacloud"
         home_dir: "Directorio principal"
         name: Nombre
         ssh_user: "Usuario de Ssh"
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       quota:
-        created_at: "Creado a la(s)"
-        lock_version: "Bloquear Versión"
+        created_at: "Creado (Fecha y hora)"
+        lock_version: "Versión  de cerrojo"
         maximum_running_instances: "Máximo de instancias en ejecución"
         maximum_total_instances: "Máximo total de instancias en ejecución"
         running_instances: "Instancias en ejecución"
         total_instances: "Total de Instancias"
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado   (Fecha y hora)"
       realm:
         available: Disponible
-        created_at: "Creado a la(s)"
+        created_at: "Creado (Fecha y hora)"
         external_key: "Llave externa"
-        lock_version: "Bloquear Versión"
+        lock_version: "Versión de cerrojo"
         name: Nombre
-        provider_id: Proveedor
-        updated_at: "Actualizado  a la(s)"
+        provider_id: "Proveedor de recursos de Cloud"
+        updated_at: "Actualizado (Fecha y hora)"
       realm_backend_target:
         frontend_realm_id: Reino
-        realm_or_provider_id: "Reino de proveedores o proveedor"
-        realm_or_provider_type: "Reino de proveedor o tipo de proveedor"
+        realm_or_provider_id: "Reino de proveedor de recursos de cloud o Proveedor de recursos de Cloud "
+        realm_or_provider_type: "Reino de proveedor de recursos de Cloud o Tipo de proveedor de recursos de Cloud"
       role:
         assign_to_owner: "Asignar a propietario"
-        created_at: "Creado a la(s)"
-        lock_version: "Bloquear Versión"
+        created_at: "Creado (Fecha y hora)"
+        lock_version: "Versión de cerrojo"
         name: Nombre
         scope: Alcance
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       session:
-        created_at: "Creado a la(s)"
+        created_at: "Creado (Fecha y hora)"
         data: Datos
         session_id: Sesión
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       task:
         action: Acción
         args: Argumentos
-        created_at: "Creado a la(s)"
-        failure_code: "Codo de falla"
-        lock_version: "Bloquear Versión"
+        created_at: "Creado (Fecha y hora)"
+        failure_code: "Código de falla"
+        lock_version: "Versión de  cerrojo "
         message: Mensaje
         state: Estado
         task_target_id: "Tipo de destino"
@@ -283,11 +286,11 @@ es:
         type: Tipo
         user: Usuario
       user:
-        created_at: "Creado a la(s)"
+        created_at: "Creado (Fecha y hora)"
         crypted_password: "Contraseña cifrada"
         current_login_at: "Ingreso actual a la(s)"
         current_login_ip: "IP de ingreso actual"
-        email: "correo-e "
+        email: "Correo-e "
         failed_login_count: "Falló el conteo de ingreso"
         first_name: Nombre
         last_login_at: "Último ingreso a la(s)"
@@ -297,52 +300,15 @@ es:
         login: Ingreso
         login_count: "Conteo de ingreso"
         quota_id: Cuota
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
       view_state:
         action: Acción
         controller: Controlador
-        created_at: "Creado a la(s)"
+        created_at: "Creado (Fecha y hora)"
         name: Nombre
         state: Estado
-        updated_at: "Actualizado  a la(s)"
+        updated_at: "Actualizado (Fecha y hora)"
         user_id: Usuario
-    models:
-      base_permission_object: "Objeto de permiso de base"
-      catalog: Catálogo
-      catalog_entry: "Entrada de catálogo"
-      config_server: "Servidor de configuración"
-      credential: Credencial
-      credential_definition: "Definición de credenciales"
-      delayed_job: "Tarea demorada"
-      deployable: Implementable
-      deployment: Implementación
-      event: Evento
-      frontend_realm: Reino
-      hardware_profile: "Perfil de hardware"
-      hardware_profile_property: "Propiedad de perfil de hardware"
-      hook: Gancho
-      icicle: ICICLE
-      instance: Instancia
-      instance_hwp: "Perfil de hardware de instancia"
-      instance_key: "llave de Instancia"
-      instance_parameter: "Parámetro de instancia"
-      metadata_object: "Objeto de metadatos"
-      permission: Permiso
-      pool: Grupo
-      pool_family: "Grupo de familia"
-      privilege: Privilegio
-      property_enum_entry: "Entrada de enumeración de propiedades"
-      provider: Proveedor
-      provider_account: "Cuenta de proveedores"
-      provider_type: "Tipo de proveedor"
-      quota: Cuota
-      realm: "Reino de proveedores"
-      realm_backend_target: "Destino de segundo plano de reino de proveedor"
-      role: Rol
-      session: Sesión
-      task: Tarea
-      user: Usuario
-      view_state: "Ver estado"
     errors:
       models:
         pool:
@@ -355,5 +321,46 @@ es:
               invalid: "Debe contener únicamente: números, letras, espacios, '_' y '-'"
         provider:
           attributes:
+            deltacloud_provider:
+              invalid_provider: "Debe ser un identificador de proveedor válido"
             name:
               invalid: "Debe contener únicamente: números, letras, espacios, '_' y '-'"
+            url:
+              invalid_framework: "Debe ser una URI de proveedor válida"
+    models:
+      base_permission_object: "Objeto de permiso de base"
+      catalog: Catálogo
+      catalog_entry: "Entrada de catálogo"
+      config_server: "Servidor de configuración"
+      credential: Credencial
+      credential_definition: "Definición de credenciales"
+      delayed_job: "Tarea demorada"
+      deployable: "Proyecto de aplicaciones"
+      deployment: Aplicación
+      event: Evento
+      frontend_realm: Reino
+      hardware_profile: "Perfil de recursos de Cloud"
+      hardware_profile_property: "Propiedad de perfil de recursos de Cloud"
+      hook: Gancho
+      icicle: ICICLE
+      instance: Instancia
+      instance_hwp: "Perfil de hardware de instancia"
+      instance_key: "llave de Instancia"
+      instance_parameter: "Parámetro de instancia"
+      metadata_object: "Objeto de metadatos"
+      permission: Permiso
+      pool: "Zona de recursos de Cloud"
+      pool_family: "Familia de zona de recursos de Cloud"
+      privilege: Privilegio
+      property_enum_entry: "Entrada de enumeración de propiedades"
+      provider: "Proveedor de recursos de Cloud"
+      provider_account: "Cuenta de proveedores de recursos de Cloud"
+      provider_type: "Tipo de proveedor de recursos de Cloud"
+      quota: Cuota
+      realm: "Reino de proveedor de recursos de Cloud"
+      realm_backend_target: "Destino de fondo de reino de proveedor de recursos de Cloud"
+      role: Rol
+      session: Sesión
+      task: Tarea
+      user: Usuario
+      view_state: "Ver estado"
