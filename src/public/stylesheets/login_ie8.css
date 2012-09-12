@@ -1,0 +1,12 @@
+body{
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#efefef, endColorstr=#efefef);
+}
+
+aside{
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#009dcc, endColorstr=#009dcc);
+}
+
+article .container {
+  border-width: 2px;
+  padding: 0;
+}
