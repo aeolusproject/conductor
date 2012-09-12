@@ -3,45 +3,45 @@ pt-BR:
     base:
       admin: "Administrador Global"
       deployable:
-        admin: "Administrador Implementável Global"
+        admin: "Administrador do Projeto do Aplicativo Global"
       hwp:
         admin: "Administrador de HWP Global"
         user: "Usuário de HWP Global"
       image:
         admin: "Administrador de Imagem Global"
       pool:
-        admin: "Administrador de Pool Global"
-        user: "Usuário de Pool Global"
+        admin: "Administrador de Zona de Recurso do Cloud Global"
+        user: "Usuário de Zona de Recurso de Cloud Global"
       provider:
-        admin: "Administrador de Provedor Global"
-        user: "Usuário de Provedor Global"
+        admin: "Administrador de Provedor de Recurso do Cloud Global"
+        user: "Usuário de Provedor de Recurso de Cloud Global"
       realm:
         admin: "Administrador de Território Global"
     catalog:
       admin: "Administrador de Catálogo"
       user: "Usuário de Catálogo"
     deployable:
-      owner: "Proprietário de  Implementável"
-      user: "Usuário de Implementável"
+      owner: "Proprietário do Projeto do Aplicativo"
+      user: "Usuário de Projeto de Aplicativo "
     deployment:
-      owner: "Proprietário de Implementação"
-      user: "Usuário de Implementação"
+      owner: "Proprietário do Aplicativo"
+      user: "Usuário do Aplicativo"
     instance:
       owner: "Proprietário de Instâncias"
       user: "Usuário de Instância"
     pool:
-      admin: "Administrador de Pool"
+      admin: "Administrador de Zona de Recurso do Cloud"
       deployable:
-        admin: "Admin de Implementável de Pool"
-      user: "Usuário de Pool"
+        admin: "Administrador do Projeto do Aplicativo da Zona de Recurso de Cloud"
+      user: "Usuário de Zona de Recurso de Cloud"
     pool_family:
-      admin: "Administrador de Família de Pool"
+      admin: "Administrador do Cloud"
       image:
-        admin: "Administrador de Imagem de Família de Pool"
-      user: "Usuário de Família de Pool"
+        admin: "Administrador da Imagem do Cloud"
+      user: "Usuário do Cloud"
     provider:
-      admin: "Administrador de Provedor"
-      user: "Usuário de Provedor"
+      admin: "Administrador de Provedor de Recurso do Cloud"
+      user: "Usuário de Provedor de Recurso de Cloud"
     provider_account:
-      owner: "Proprietário de Conta de Provedor"
-      user: "Usuário de Conta de Provedor"
+      owner: "Proprietário da Conta de Provedor do Recurso do Cloud"
+      user: "Usuário da Conta de Provedor do Recurso do Cloud"

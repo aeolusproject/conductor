@@ -1,0 +1,11 @@
+pt-BR:
+  strategies:
+    penalty_for_failure:
+      name: "Multa por Falha"
+      views:
+        edit:
+          failure_count_hard_limit: "O número de falhas antes da Conta de Provedor de Recurso do Cloud não deve ser utilizada."
+          penalty_percentage: "Porcentagem de multa por cada falha"
+          time_period_minutes: "Período de tempo para quando as falhas são adicionadas (em minutos)"
+    strict_order:
+      name: "Ordem Severa"

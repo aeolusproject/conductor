@@ -8,23 +8,23 @@ pt-BR:
       catalog:
         created_at: "Criado Em"
         name: Nome
-        pool_family_id: "Família de Pool"
-        pool_id: Pool
+        pool_family_id: "Família da Zona dos Recursos do Cloud"
+        pool_id: "Zona de Recurso do Cloud"
         updated_at: "Atualizado Em"
       catalog_entry:
         catalog_id: Catálogo
-        deployable_id: Implementável
+        deployable_id: "Projeto do Aplicativo"
       config_server:
         created_at: "Criado Em"
         endpoint: "Servidor Endpoint (URL) "
         key: "Chave do Consumidor"
-        provider_account_id: "Conta de Provedor"
+        provider_account_id: "Nome da Conta de Provedor do Recurso do Cloud"
         secret: "Segredo do Consumidor"
         updated_at: "Atualizado Em"
       credential:
         created_at: "Criado Em"
         credential_definition_id: "Definição para Credenciais"
-        provider_account_id: "Conta de Provedor"
+        provider_account_id: "Nome da Conta de Provedor do Recurso do Cloud"
         updated_at: "Atualizado Em"
         value: Valor
       credential_definition:
@@ -32,7 +32,7 @@ pt-BR:
         input_type: "Tipo de Inserção"
         label: Rótulo
         name: Nome
-        provider_type_id: "TIpo de Provedor"
+        provider_type_id: "Tipo do Provedor do Recurso do Cloud"
         updated_at: "Atualizado Em"
       delayed_job:
         attempts: Tentativa
@@ -49,19 +49,19 @@ pt-BR:
         description: Descrição
         name: Nome
         owner_id: Proprietário
-        pool_family_id: "Família de Pool"
-        xml: "XML Implementável"
+        pool_family_id: "Família da Zona dos Recursos do Cloud"
+        xml: "XML do Blueprint da APlicação"
         xml_filename: "Nome de Arquivo do XML"
       deployment:
         created_at: "Criado Em"
-        deployable_xml: "XML Implementável"
+        deployable_xml: "XML do Blueprint da APlicação"
         frontend_realm_id: Território
         lock_version: "Versão de Bloqueio"
         name: Nome
         owner_id: Proprietário
-        pool_family_id: "Família de Pool"
-        pool_id: Pool
-        realm_id: "Território do Provedor"
+        pool_family_id: "Família da Zona dos Recursos do Cloud"
+        pool_id: "Zona dos Recursos do Cloud"
+        realm_id: "Território do Provedor do Recurso do Cloud"
         scheduled_for_deletion: "Agendado para Remoção"
         updated_at: "Atualizado Em"
         uuid: Uuid
@@ -88,7 +88,7 @@ pt-BR:
         lock_version: "Versão de Bloqueio"
         memory_id: Memória
         name: Nome
-        provider_id: Provedor
+        provider_id: "Provedor do Recurso do Cloud"
         storage_id: Armazenamento
         updated_at: "Atualizado Em"
       hardware_profile_property:
@@ -116,12 +116,12 @@ pt-BR:
         acc_running_time: "Horário de Execução do Acc"
         acc_shutting_down_time: "Horário de Fechamento do Acc"
         acc_stopped_time: "Horário de Interrupção do Acc"
-        assembly_xml: "Xml de Montagem"
+        assembly_xml: "XML do Projeto do Aplicativo do Componente"
         created_at: "Criado Em"
-        deployment_id: "Implementação "
+        deployment_id: Aplicativo
         external_key: "Chave Externa"
         frontend_realm_id: Território
-        hardware_profile_id: "Perfil do Hardware"
+        hardware_profile_id: "Perfil dos Recursos do Cloud"
         image_build_uuid: "Uuid de construção da Imagem"
         image_uuid: "Uuid da Imagem"
         instance_config_xml: "Xml de Config da Instância"
@@ -130,12 +130,12 @@ pt-BR:
         lock_version: "Versão de Bloqueio"
         name: Nome
         owner_id: Proprietário
-        pool_family_id: "Família de Pool"
-        pool_id: Pool
+        pool_family_id: "Família da Zona dos Recursos do Cloud"
+        pool_id: "Zona dos Recursos do Cloud"
         private_addresses: "Endereços Privados"
-        provider_account_id: "Conta de Provedor"
-        provider_image_uuid: "Uuid da Imagem do Provedor"
-        provider_instance_id: "Instância do Provedor"
+        provider_account_id: "Nome da Conta de Provedor do Recurso do Cloud"
+        provider_image_uuid: "Uuid da Imagem do Provedor do Recurso do Cloud"
+        provider_instance_id: "Instância do Provedor do Recurso do Cloud"
         public_addresses: "Endereços Públicos"
         secret: Segredo
         state: Estado
@@ -187,47 +187,50 @@ pt-BR:
         exported_as: "Exportado Como"
         lock_version: "Versão de Bloqueio"
         name: Nome
-        pool_family_id: "Família de Pool"
+        pool_family_id: "Família da Zona dos Recursos do Cloud"
         quota_id: Cota
         updated_at: "Atualizado Em"
       pool_family:
         created_at: "Criado Em"
         description: Descrição
         lock_version: "Versão de Bloqueio"
-        name: "Nome da Família de Pool"
+        name: "Nome da Família da Zona dos Recursos do Cloud"
         quota_id: Cota
         updated_at: "Atualizado Em"
       privilege:
         action: Ação
         created_at: "Criado Em"
         lock_version: "Versão de Bloqueio"
-        role_id: Função
+        role_id: Papel
         target_type: "Tipo de Alvo"
         updated_at: "Atualizado Em"
       property_enum_entry:
         created_at: "Criado Em"
-        hardware_profile_property_id: "Propriedade do Perfil do Hardware"
+        hardware_profile_property_id: "Propriedade do Perfil dos Recursos do Cloud"
         lock_version: "Versão de Bloqueio"
         updated_at: "Atualizado Em"
         value: Valor
       provider:
         available: Disponível
         created_at: "Criado Em"
-        deltacloud_provider: "Provedor Deltacloud "
+        deltacloud_provider: "Provedor de Recurso do Cloud do Deltacloud "
         enabled: Habilitado
         lock_version: "Versão de Bloqueio"
-        name: "Nome do Provedor"
-        provider_type_id: "Tipo de Provedor"
+        name: "Nome do Provedor do Recurso do Cloud"
+        provider_type_id: "Tipo do Provedor do Recurso do Cloud"
         updated_at: "Atualizado Em"
-        url: "URL de Provedor"
+        url: "URL do Provedor do Recurso do Cloud:"
       provider_account:
         created_at: "Criado Em"
         label: Rótulo
         lock_version: "Versão de Bloqueio"
         priority: Prioridade
-        provider_id: Provedor
+        provider_id: "Provedor do Recurso do Cloud"
         quota_id: Cota
         updated_at: "Atualizado Em"
+      provider_priority_group:
+        name: Nome
+        score: Pontuação
       provider_type:
         created_at: "Criado Em"
         deltacloud_driver: "Deltacloud Driver"
@@ -249,12 +252,12 @@ pt-BR:
         external_key: "Chave Externa"
         lock_version: "Versão de Bloqueio"
         name: Nome
-        provider_id: Provedor
+        provider_id: "Provedor do Recurso do Cloud"
         updated_at: "Atualizado Em"
       realm_backend_target:
         frontend_realm_id: Território
-        realm_or_provider_id: "Território do Provedor Ou Provedor"
-        realm_or_provider_type: "Território do Provedor Ou Tipo de Provedor"
+        realm_or_provider_id: "Território do Provedor do Recurso do Cloud Ou Provedor de Recurso do Cloud"
+        realm_or_provider_type: "Território do Provedor de Recurso do Cloud Ou Tipo do Provedor do Recurso doCloud"
       role:
         assign_to_owner: "Atribuir ao Proprietário"
         created_at: "Criado Em"
@@ -280,7 +283,7 @@ pt-BR:
         time_ended: "Horário de Término"
         time_started: "Horário de Início"
         time_submitted: "Horário Submetido"
-        type: TIpo
+        type: Tipo
         user: Usuário
       user:
         created_at: "Criado Em"
@@ -306,43 +309,6 @@ pt-BR:
         state: Estado
         updated_at: "Atualizado Em"
         user_id: Usuário
-    models:
-      base_permission_object: "Objeto de Permissão Base"
-      catalog: Catálogo
-      catalog_entry: "Entrada de Catálogo"
-      config_server: "Servidor de Config"
-      credential: Credencial
-      credential_definition: "Definição para Credenciais"
-      delayed_job: "Job Atrasado"
-      deployable: Implementável
-      deployment: "Implementação "
-      event: Evento
-      frontend_realm: Território
-      hardware_profile: "Perfil do Hardware"
-      hardware_profile_property: "Propriedade do Perfil do Hardware"
-      hook: Hook
-      icicle: Icicle
-      instance: Instância
-      instance_hwp: "Hwp da Instância"
-      instance_key: "Chave da Instância"
-      instance_parameter: "Parâmetro da Instância"
-      metadata_object: "Objeto da Instância"
-      permission: Permissão
-      pool: Pool
-      pool_family: "Família de Pool"
-      privilege: Previlégios
-      property_enum_entry: "Entrada do Enum da Propriedade"
-      provider: Provedor
-      provider_account: "Conta de Provedor"
-      provider_type: "Tipo de Provedor"
-      quota: Cota
-      realm: "Território do Provedor"
-      realm_backend_target: "Alvo de Backend do Território do Provedor"
-      role: Função
-      session: Sessão
-      task: Tarefa
-      user: Usuário
-      view_state: "Visualizar Estado"
     errors:
       models:
         pool:
@@ -355,5 +321,46 @@ pt-BR:
               invalid: "deve conter: números, letras, espaços, '_' e '-'"
         provider:
           attributes:
+            deltacloud_provider:
+              invalid_provider: "Deve ser um identificador de provedor válido"
             name:
               invalid: "deve conter: números, letras, espaços, '_' e '-'"
+            url:
+              invalid_framework: "Deve ser um uri de provedor válido"
+    models:
+      base_permission_object: "Objeto de Permissão Base"
+      catalog: Catálogo
+      catalog_entry: "Entrada de Catálogo"
+      config_server: "Servidor de Config"
+      credential: Credencial
+      credential_definition: "Definição para Credenciais"
+      delayed_job: "Job Atrasado"
+      deployable: "Projeto do Aplicativo"
+      deployment: Aplicativo
+      event: Evento
+      frontend_realm: Território
+      hardware_profile: "Perfil dos Recursos do Cloud"
+      hardware_profile_property: "Propriedade do Perfil dos Recursos do Cloud"
+      hook: Hook
+      icicle: Icicle
+      instance: Instância
+      instance_hwp: "Hwp da Instância"
+      instance_key: "Chave da Instância"
+      instance_parameter: "Parâmetro da Instância"
+      metadata_object: "Objeto da Instância"
+      permission: Permissão
+      pool: "Zona dos Recursos do Cloud"
+      pool_family: "Família de Zona de Recuros do Cloud"
+      privilege: Previlégios
+      property_enum_entry: "Entrada do Enum da Propriedade"
+      provider: "Provedor do Recurso do Cloud"
+      provider_account: "Conta de Provedor do Recurso do Cloud"
+      provider_type: "Tipo do Provedor do Recurso do Cloud"
+      quota: Cota
+      realm: "Território do Provedor do Recurso do Cloud"
+      realm_backend_target: "Alvo de Backend do Território do Provedor de Recurso do Cloud"
+      role: Papel
+      session: Sessão
+      task: Tarefa
+      user: Usuário
+      view_state: "Visualizar Estado"
