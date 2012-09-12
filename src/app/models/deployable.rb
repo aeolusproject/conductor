@@ -98,7 +98,7 @@ class Deployable < ActiveRecord::Base
         errors.add(:xml,
                    I18n.t('catalog_entries.flash.warning.not_valid_not_existing_param',
                           locale_params))
-      elsif reference[:to_service]
+      elsif reference[:reference][:service]
         errors.add(:xml,
                    I18n.t('catalog_entries.flash.warning.not_valid_not_existing_service_reference',
                           locale_params))
