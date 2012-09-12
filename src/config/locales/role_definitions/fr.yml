@@ -3,45 +3,45 @@ fr:
     base:
       admin: "Administrateur global"
       deployable:
-        admin: "Administrateur de déployables globaux"
+        admin: "Administrateur de plans d'application globaux"
       hwp:
-        admin: "Administrateur global HWP"
-        user: "Utilisateur global HWP"
+        admin: "Administrateur HWP global"
+        user: "Utilisateur HWP global"
       image:
         admin: "Administrateur d'images globales"
       pool:
-        admin: "Administrateur de pools globaux"
-        user: "Utilisateur de pools globaux"
+        admin: "Administrateur de zones de ressources cloud globales"
+        user: "Utilisateur de zones de ressources cloud globales"
       provider:
-        admin: "Administrateur de fournisseurs globaux"
-        user: "Utilisateur de fournisseurs globaux"
+        admin: "Administrateur des fournisseurs de ressources cloud globales"
+        user: "Utilisateur des fournisseurs de ressources cloud globales"
       realm:
         admin: "Administrateur de sphères globales"
     catalog:
       admin: "Administrateur de catalogues"
       user: "Utilisateur de catalogues"
     deployable:
-      owner: "Propriétaire de déployables"
-      user: "Utilisateur de déployables"
+      owner: "Propriétaire de plans d'application"
+      user: "Utilisateur de plans d'application"
     deployment:
-      owner: "Propriétaire de déployables"
-      user: "Utilisateur de déployables"
+      owner: "Propriétaire d'applications"
+      user: "Utilisateur d'applications"
     instance:
       owner: "Propriétaire d'instances"
       user: "Utilisateur d'instances"
     pool:
-      admin: "Administrateur de pools"
+      admin: "Administrateur de zones de ressources cloud"
       deployable:
-        admin: "Administrateur de déployables de pools"
-      user: "Utilisateur de pools"
+        admin: "Administrateur de plans d'application de zones de ressources cloud"
+      user: "Utilisateur de zones de ressources cloud"
     pool_family:
-      admin: "Administrateur de gamme de pools"
+      admin: "Administrateur cloud"
       image:
-        admin: "Administrateur d'images de gammes de pools"
-      user: "Utilisateur de gammes de pools"
+        admin: "Administrateur d'images cloud"
+      user: "Utilisateur cloud"
     provider:
-      admin: "Administrateur de fournisseurs"
-      user: "Utilisateur de fournisseurs"
+      admin: "Administrateur de fournisseurs de ressources cloud"
+      user: "Utilisateur de fournisseurs de ressources cloud"
     provider_account:
-      owner: "Propriétaire de compte fournisseur"
-      user: "Utilisateur de compte fournisseur"
+      owner: "Propriétaire du compte fournisseur de ressources cloud"
+      user: "Utilisateur du compte fournisseur de ressources cloud"

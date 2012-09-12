@@ -8,23 +8,23 @@ fr:
       catalog:
         created_at: "Créé à"
         name: Nom
-        pool_family_id: "Gamme de pools"
-        pool_id: Pool
+        pool_family_id: "Famille de la zone de ressources cloud"
+        pool_id: "Zone de ressources cloud"
         updated_at: "Mis à jour à"
       catalog_entry:
         catalog_id: Catalogue
-        deployable_id: Déployable
+        deployable_id: "Plan d'application"
       config_server:
         created_at: "Créé à"
         endpoint: "Point de terminaison (URL) du serveur"
         key: "Clé du consommateur"
-        provider_account_id: "Compte fournisseur"
+        provider_account_id: "Compte fournisseur de ressources cloud"
         secret: "Secret du consommateur"
         updated_at: "Mis à jour à"
       credential:
         created_at: "Créé à"
         credential_definition_id: "Définition des informations d’identification"
-        provider_account_id: "Compte fournisseur"
+        provider_account_id: "Compte fournisseur de ressources cloud"
         updated_at: "Mis à jour à"
         value: Valeur
       credential_definition:
@@ -32,7 +32,7 @@ fr:
         input_type: "Type d'entrée"
         label: Étiquette
         name: Nom
-        provider_type_id: "Type de fournisseur"
+        provider_type_id: "Type du fournisseur de ressources cloud"
         updated_at: "Mis à jour à"
       delayed_job:
         attempts: Tentatives
@@ -49,19 +49,19 @@ fr:
         description: Description
         name: Nom
         owner_id: Propriétaire
-        pool_family_id: "Gamme de pools"
-        xml: "XML du déployable"
+        pool_family_id: "Famille de la zone de ressources cloud"
+        xml: "XML de plan d'application"
         xml_filename: "Nom de fichier du XML"
       deployment:
         created_at: "Créé à"
-        deployable_xml: "XML du déployable"
+        deployable_xml: "XML du plan de l'application"
         frontend_realm_id: Sphère
         lock_version: "Version du verrou"
         name: Nom
         owner_id: Propriétaire
-        pool_family_id: "Gamme de pools"
-        pool_id: Pool
-        realm_id: "Sphère du fournisseur"
+        pool_family_id: "Famille de la zone de ressources cloud"
+        pool_id: "Zone de ressources cloud"
+        realm_id: "Sphère du fournisseur des ressources cloud"
         scheduled_for_deletion: "Suppression planifiée"
         updated_at: "Mis à jour à"
         uuid: Uuid
@@ -88,7 +88,7 @@ fr:
         lock_version: "Version du verrou"
         memory_id: Mémoire
         name: Nom
-        provider_id: Fournisseur
+        provider_id: "Fournisseur de ressources cloud"
         storage_id: Stockage
         updated_at: "Mis à jour à"
       hardware_profile_property:
@@ -116,12 +116,12 @@ fr:
         acc_running_time: "Temps accumulé d'exécution"
         acc_shutting_down_time: "Temps accumulé de fermeture"
         acc_stopped_time: "Temps accumulé d'arrêt"
-        assembly_xml: "XML de l'Assembly"
+        assembly_xml: "XML de modèle du composant"
         created_at: "Créé à"
-        deployment_id: Déploiement
+        deployment_id: Application
         external_key: "Clé externe"
         frontend_realm_id: Sphère
-        hardware_profile_id: "Profil du matériel"
+        hardware_profile_id: "Profil de ressources cloud"
         image_build_uuid: "UUID de build de l'image"
         image_uuid: "UUID de l'image"
         instance_config_xml: "XML de configuration de l'image"
@@ -130,12 +130,12 @@ fr:
         lock_version: "Version du verrou"
         name: Nom
         owner_id: Propriétaire
-        pool_family_id: "Gamme de pools"
-        pool_id: Pool
+        pool_family_id: "Famille de la zone de ressources cloud"
+        pool_id: "Zone de ressources cloud"
         private_addresses: "Adresses privées"
-        provider_account_id: "Compte fournisseur"
-        provider_image_uuid: "UUID d'image de fournisseur"
-        provider_instance_id: "Instance du fournisseur"
+        provider_account_id: "Compte fournisseur de ressources cloud"
+        provider_image_uuid: "UUID de l'image du fournisseur de ressources cloud"
+        provider_instance_id: "Instance du fournisseur de ressources cloud"
         public_addresses: "Adresses publiques"
         secret: Secret
         state: État
@@ -187,47 +187,50 @@ fr:
         exported_as: "Exporté en tant que"
         lock_version: "Version du verrou"
         name: Nom
-        pool_family_id: "Gamme de pools"
+        pool_family_id: "Famille de la zone de ressources cloud"
         quota_id: Quota
         updated_at: "Mis à jour à"
       pool_family:
         created_at: "Créé à"
         description: Description
         lock_version: "Version du verrou"
-        name: "Nom de gamme de pools"
+        name: "Nom de la famille de la zone de ressources cloud"
         quota_id: Quota
         updated_at: "Mis à jour à"
       privilege:
         action: Action
         created_at: "Créé à"
         lock_version: "Version du verrou"
-        role_id: Rôles
+        role_id: Rôle
         target_type: "Type de cible"
         updated_at: "Mis à jour à"
       property_enum_entry:
         created_at: "Créé à"
-        hardware_profile_property_id: "Propriété du profil matériel"
+        hardware_profile_property_id: "Propriété du profil de ressources cloud"
         lock_version: "Version du verrou"
         updated_at: "Mis à jour à"
         value: Valeur
       provider:
         available: Disponible
         created_at: "Créé à"
-        deltacloud_provider: "Fournisseur Deltacloud"
+        deltacloud_provider: "Fournisseur de ressources cloud Deltacloud"
         enabled: Activé
         lock_version: "Version du verrou"
-        name: "Nom du fournisseur"
-        provider_type_id: "Type de fournisseur"
+        name: "Nom du fournisseur de ressources cloud"
+        provider_type_id: "Type du fournisseur de ressources cloud"
         updated_at: "Mis à jour à"
-        url: "URL du fournisseur"
+        url: "URL du fournisseur de ressources cloud"
       provider_account:
         created_at: "Créé à"
         label: Étiquette
         lock_version: "Version du verrou"
         priority: Priorité
-        provider_id: Fournisseur
+        provider_id: "Fournisseur de ressources cloud"
         quota_id: Quota
         updated_at: "Mis à jour à"
+      provider_priority_group:
+        name: Nom
+        score: Score
       provider_type:
         created_at: "Créé à"
         deltacloud_driver: "Pilote Deltacloud"
@@ -249,12 +252,12 @@ fr:
         external_key: "Clé externe"
         lock_version: "Version du verrou"
         name: Nom
-        provider_id: Fournisseur
+        provider_id: "Fournisseur de ressources cloud"
         updated_at: "Mis à jour à"
       realm_backend_target:
         frontend_realm_id: Sphère
-        realm_or_provider_id: "Sphère du fournisseur ou fournisseur"
-        realm_or_provider_type: "Sphère du fournisseur ou type de fournisseur"
+        realm_or_provider_id: "Sphère du fournisseur des ressources cloud ou fournisseur de ressources cloud"
+        realm_or_provider_type: "Sphère du fournisseur des ressources cloud ou type du fournisseur de ressources cloud"
       role:
         assign_to_owner: "Assigner au propriétaire"
         created_at: "Créé à"
@@ -306,6 +309,24 @@ fr:
         state: État
         updated_at: "Mis à jour à"
         user_id: Utilisateur
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "doit uniquement contenir : nombres, lettres, espaces, « _ » et « - »"
+        pool_family:
+          attributes:
+            name:
+              invalid: "doit uniquement contenir : nombres, lettres, espaces, « _ » et « - »"
+        provider:
+          attributes:
+            deltacloud_provider:
+              invalid_provider: "Doit être un identifiant de fournisseur valide"
+            name:
+              invalid: "doit uniquement contenir : nombres, lettres, espaces, « _ » et « - »"
+            url:
+              invalid_framework: "Doit être un URI de fournisseur valide"
     models:
       base_permission_object: "Objet de permission de base"
       catalog: Catalogue
@@ -314,12 +335,12 @@ fr:
       credential: "Informations d'identification"
       credential_definition: "Définition des informations d’identification"
       delayed_job: "Tâche différée"
-      deployable: Déployable
-      deployment: Déploiement
+      deployable: "Plan d'application"
+      deployment: Application
       event: Événement
       frontend_realm: Sphère
-      hardware_profile: "Profil du matériel"
-      hardware_profile_property: "Propriété du profil matériel"
+      hardware_profile: "Profil des ressources cloud"
+      hardware_profile_property: "Propriété du profil de ressources cloud"
       hook: Hook
       icicle: Icicle
       instance: Instance
@@ -328,32 +349,18 @@ fr:
       instance_parameter: "Paramètre de l'instance"
       metadata_object: "Objet de métadonnées"
       permission: Permission
-      pool: Pool
-      pool_family: "Gamme de pools"
+      pool: "Zone de ressources cloud"
+      pool_family: "Famille de la zone de ressources cloud"
       privilege: Privilège
       property_enum_entry: "Entrée de l'énumération de propriété"
-      provider: Fournisseur
-      provider_account: "Compte fournisseur"
-      provider_type: "Type de fournisseur"
+      provider: "Fournisseur de ressources cloud"
+      provider_account: "Compte fournisseur de ressources cloud"
+      provider_type: "Type du fournisseur de ressources cloud"
       quota: Quota
-      realm: "Sphère du fournisseur"
-      realm_backend_target: "Cible backend de la sphère du fournisseur"
+      realm: "Sphère du fournisseur des ressources cloud"
+      realm_backend_target: "Cible backend de la sphère du fournisseur de ressources cloud"
       role: Rôle
       session: Session
       task: Tâche
       user: Utilisateur
       view_state: "Afficher l'état"
-    errors:
-      models:
-        pool:
-          attributes:
-            name:
-              invalid: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"
-        pool_family:
-          attributes:
-            name:
-              invalid: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"
-        provider:
-          attributes:
-            name:
-              invalid: "doit uniquement contenir : nombres, lettres, espaces, '_' et '-'"

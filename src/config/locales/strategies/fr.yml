@@ -1,0 +1,11 @@
+fr:
+  strategies:
+    penalty_for_failure:
+      name: "Pénalité pour échec"
+      views:
+        edit:
+          failure_count_hard_limit: "Nombre d'échecs avant que le compte du fournisseur de ressources cloud ne puisse plus être utilisé"
+          penalty_percentage: "Pourcentage de pénalité pour chaque échec"
+          time_period_minutes: "Période de temps pendant laquelle les échecs sont ajoutés les uns aux autres(en minutes)"
+    strict_order:
+      name: "Ordre strict"
