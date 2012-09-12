@@ -1,6 +1,12 @@
 Aeolus Conductor
 ================
 
+
+Build Status
+------------
+[![Build
+Status](https://secure.travis-ci.org/aeolusproject/conductor.png?branch=master)](http://travis-ci.org/aeolusproject/conductor)
+
 About
 -----
 Aeolus Conductor is a Ruby-based web application for cloud management.  It
