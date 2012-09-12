@@ -8,23 +8,23 @@ ja:
       catalog:
         created_at: 作成日時
         name: 名前
-        pool_family_id: プールファミリー
-        pool_id: プール
+        pool_family_id: クラウドリソースゾーンファミリ
+        pool_id: クラウドリソースゾーン
         updated_at: 更新日時
       catalog_entry:
         catalog_id: カタログ
-        deployable_id: 展開可能なアプリ
+        deployable_id: アプリケーション設計図
       config_server:
         created_at: 作成日時
         endpoint: "サーバーエンドポイント (URL)"
         key: コンシューマーのキー
-        provider_account_id: プロバイダーアカウント
+        provider_account_id: クラウドリソースプロバイダーアカウント
         secret: コンシューマーの機密
         updated_at: 更新日時
       credential:
         created_at: 作成日時
         credential_definition_id: 認証情報の定義
-        provider_account_id: プロバイダーアカウント
+        provider_account_id: クラウドリソースプロバイダーアカウント
         updated_at: 更新日時
         value: 値
       credential_definition:
@@ -32,7 +32,7 @@ ja:
         input_type: 入力タイプ
         label: ラベル
         name: 名前
-        provider_type_id: プロバイダーのタイプ
+        provider_type_id: クラウドリソースプロバイダーのタイプ
         updated_at: 更新日時
       delayed_job:
         attempts: 試行回数
@@ -49,19 +49,19 @@ ja:
         description: 詳細
         name: 名前
         owner_id: 所有者
-        pool_family_id: プールファミリー
-        xml: "展開可能なアプリの XML"
+        pool_family_id: クラウドリソースゾーンファミリ
+        xml: "アプリケーション設計図の XML"
         xml_filename: "XML ファイル名"
       deployment:
         created_at: 作成日時
-        deployable_xml: "展開可能なアプリの XML"
+        deployable_xml: "アプリケーション設計図の Xml"
         frontend_realm_id: 領域
         lock_version: ロックのバージョン
         name: 名前
         owner_id: 所有者
-        pool_family_id: プールファミリー
-        pool_id: プール
-        realm_id: プロバイダー流域
+        pool_family_id: クラウドリソースゾーンファミリ
+        pool_id: クラウドリソースゾーン
+        realm_id: クラウドリソースプロバイダーの領域
         scheduled_for_deletion: 削除がスケジュールされました
         updated_at: 更新日時
         uuid: UUID
@@ -81,14 +81,14 @@ ja:
         name: 名前
         updated_at: 更新日時
       hardware_profile:
-        architecture_id: アーキテクチャ
+        architecture_id: アーキテクチャー
         cpu_id: CPU
         created_at: 作成日時
         external_key: 外部キー
         lock_version: ロックのバージョン
-        memory_id: メモリー
+        memory_id: メモリ
         name: 名前
-        provider_id: プロバイダー
+        provider_id: クラウドリソースプロバイダー
         storage_id: ストレージ
         updated_at: 更新日時
       hardware_profile_property:
@@ -116,13 +116,13 @@ ja:
         acc_running_time: 実行時間合計
         acc_shutting_down_time: シャットダウン時間合計
         acc_stopped_time: 停止時間合計
-        assembly_xml: "Assembly Xml"
+        assembly_xml: "コンポーネント設計図の XML"
         created_at: 作成日時
-        deployment_id: アプリ展開
+        deployment_id: アプリケーション
         external_key: 外部キー
         frontend_realm_id: 領域
-        hardware_profile_id: ハードウェアプロファイル
-        image_build_uuid: "イメージビルド UUID"
+        hardware_profile_id: クラウドリソースプロファイル
+        image_build_uuid: "イメージビルドの UUID"
         image_uuid: "イメージの UUID"
         instance_config_xml: "インスタンス構成 XML"
         instance_hwp_id: "インスタンスの HWP"
@@ -130,13 +130,13 @@ ja:
         lock_version: ロックのバージョン
         name: 名前
         owner_id: 所有者
-        pool_family_id: プールファミリー
-        pool_id: プール
-        private_addresses: プライベートのアドレス
-        provider_account_id: プロバイダーアカウント
-        provider_image_uuid: "プロバイダーイメージの UUID"
-        provider_instance_id: プロバイダーインスタンス
-        public_addresses: パブリックのアドレス
+        pool_family_id: クラウドリソースゾーンファミリ
+        pool_id: クラウドリソースゾーン
+        private_addresses: プライベートアドレス
+        provider_account_id: クラウドリソースプロバイダーアカウント
+        provider_image_uuid: "クラウドリソースプロバイダーのイメージ UUID"
+        provider_instance_id: クラウドリソースプロバイダーインスタンス
+        public_addresses: パブリックアドレス
         secret: 機密
         state: 状態
         time_last_pending: 最後の保留時刻
@@ -147,10 +147,10 @@ ja:
         user_data: ユーザーのデータ
         uuid: UUID
       instance_hwp:
-        architecture: アーキテクチャ
+        architecture: アーキテクチャー
         cpu: CPU
         lock_version: ロックのバージョン
-        memory: メモリー
+        memory: メモリ
         storage: ストレージ
       instance_key:
         created_at: 作成日時
@@ -187,14 +187,14 @@ ja:
         exported_as: 名前を付けてエクスポート
         lock_version: ロックのバージョン
         name: 名前
-        pool_family_id: プールファミリー
+        pool_family_id: クラウドリソースゾーンファミリ
         quota_id: 割り当て
         updated_at: 更新日時
       pool_family:
         created_at: 作成日時
         description: 詳細
         lock_version: ロックのバージョン
-        name: プールファミリーの名前
+        name: クラウドリソースゾーンファミリ名
         quota_id: 割り当て
         updated_at: 更新日時
       privilege:
@@ -206,32 +206,35 @@ ja:
         updated_at: 更新日時
       property_enum_entry:
         created_at: 作成日時
-        hardware_profile_property_id: ハードウェアプロファイルのプロパティ
+        hardware_profile_property_id: クラウドリソースプロファイルのプロパティ
         lock_version: ロックのバージョン
         updated_at: 更新日時
         value: 値
       provider:
         available: 利用可能
         created_at: 作成日時
-        deltacloud_provider: "Deltacloud のプロバイダー"
+        deltacloud_provider: "Deltacloud クラウドリソースプロバイダー"
         enabled: 有効
         lock_version: ロックのバージョン
-        name: プロバイダー名
-        provider_type_id: プロバイダーのタイプ
+        name: クラウドリソースプロバイダー名
+        provider_type_id: クラウドリソースプロバイダーのタイプ
         updated_at: 更新日時
-        url: "プロバイダーの URL"
+        url: "クラウドリソースプロバイダーの URL"
       provider_account:
         created_at: 作成日時
         label: ラベル
         lock_version: ロックのバージョン
         priority: 優先度
-        provider_id: プロバイダー
+        provider_id: クラウドリソースプロバイダー
         quota_id: 割り当て
         updated_at: 更新日時
+      provider_priority_group:
+        name: 名前
+        score: スコア
       provider_type:
         created_at: 作成日時
-        deltacloud_driver: "Deltacloud のドライバー"
-        home_dir: ホームのディレクトリ
+        deltacloud_driver: "Deltacloud ドライバー"
+        home_dir: ホームディレクトリ
         name: 名前
         ssh_user: "SSH ユーザー"
         updated_at: 更新日時
@@ -249,12 +252,12 @@ ja:
         external_key: 外部キー
         lock_version: ロックのバージョン
         name: 名前
-        provider_id: プロバイダー
+        provider_id: クラウドリソースプロバイダー
         updated_at: 更新日時
       realm_backend_target:
         frontend_realm_id: 領域
-        realm_or_provider_id: プロバイダー領域またはプロバイダー
-        realm_or_provider_type: プロバイダー領域またはプロバイダーのタイプ
+        realm_or_provider_id: クラウドリソースプロバイダー領域またはクラウドリソースプロバイダー
+        realm_or_provider_type: クラウドリソースプロバイダー領域またはクラウドリソースプロバイダータイプ
       role:
         assign_to_owner: 所有者へ割り当て
         created_at: 作成日時
@@ -306,6 +309,24 @@ ja:
         state: 状態
         updated_at: 更新日時
         user_id: ユーザー
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "数字、文字、空白、アンダースコア (_)、ハイフン (-) のみ使用可能です。"
+        pool_family:
+          attributes:
+            name:
+              invalid: "数字、文字、空白、アンダースコア (_)、ハイフン (-) のみ使用可能です。"
+        provider:
+          attributes:
+            deltacloud_provider:
+              invalid_provider: 有効なプロバイダー識別子にしてください。
+            name:
+              invalid: "数字、文字、空白、アンダースコア (_)、ハイフン (-) のみ使用可能です。"
+            url:
+              invalid_framework: "有効なプロバイダー URI にしてください。"
     models:
       base_permission_object: ベースのパーミッションオブジェクト
       catalog: カタログ
@@ -314,46 +335,32 @@ ja:
       credential: 認証情報
       credential_definition: 認証情報の定義
       delayed_job: 遅延したジョブ
-      deployable: 展開可能なアプリ
-      deployment: アプリ展開
+      deployable: アプリケーション設計図
+      deployment: アプリケーション
       event: イベント
       frontend_realm: 領域
-      hardware_profile: ハードウェアプロファイル
-      hardware_profile_property: ハードウェアプロファイルのプロパティ
+      hardware_profile: クラウドリソースプロファイル
+      hardware_profile_property: クラウドリソースプロファイルのプロパティ
       hook: フック
       icicle: Icicle
       instance: インスタンス
       instance_hwp: "インスタンスの HWP"
       instance_key: インスタンスキー
-      instance_parameter: インスタンスパラメータ
+      instance_parameter: インスタンスパラメーター
       metadata_object: メタデータオブジェクト
       permission: パーミッション
-      pool: プール
-      pool_family: プールファミリー
-      privilege: 特権
+      pool: クラウドリソースゾーン
+      pool_family: クラウドリソースゾーンファミリ
+      privilege: 権限
       property_enum_entry: プロパティの列挙エントリ
-      provider: プロバイダー
-      provider_account: プロバイダーアカウント
-      provider_type: プロバイダーのタイプ
+      provider: クラウドリソースプロバイダー
+      provider_account: クラウドリソースプロバイダーアカウント
+      provider_type: クラウドリソースプロバイダーのタイプ
       quota: 割り当て
-      realm: プロバイダー領域
-      realm_backend_target: プロバイダー領域のバックエンドターゲット
+      realm: クラウドリソースプロバイダー領域
+      realm_backend_target: クラウドリソースプロバイダー領域のバックエンドターゲット
       role: ロール
       session: セッション
       task: タスク
       user: ユーザー
       view_state: 表示状態
-    errors:
-      models:
-        pool:
-          attributes:
-            name:
-              invalid: 数字、文字、空白、「_」、「-」以外は含ませないようにしてください。
-        pool_family:
-          attributes:
-            name:
-              invalid: 数字、文字、空白、「_」、「-」以外は含ませないようにしてください。
-        provider:
-          attributes:
-            name:
-              invalid: 数字、文字、空白、「_」、「-」以外は含ませないようにしてください。

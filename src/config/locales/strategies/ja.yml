@@ -1,0 +1,11 @@
+ja:
+  strategies:
+    penalty_for_failure:
+      name: 障害時のペナルティ
+      views:
+        edit:
+          failure_count_hard_limit:
+          penalty_percentage: 各障害時のペナルティの割合
+          time_period_minutes: "障害が集約された期間 (分単位)"
+    strict_order:
+      name: 順序転送
