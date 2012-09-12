@@ -3,45 +3,45 @@ ko:
     base:
       admin: "글로벌 관리자 "
       deployable:
-        admin: "글로벌 배포 가능한 애플리케이션 관리자 "
+        admin: "글로벌 애플리케이션 설계도 관리자 "
       hwp:
         admin: "글로벌 HWP 관리자 "
         user: "글로벌 HWP 사용자 "
       image:
         admin: "글로벌 이미지 관리자 "
       pool:
-        admin: "글로벌 풀 관리자 "
-        user: "글로벌 풀 사용자 "
+        admin: "글로벌 클라우드 리소스 영역 관리자"
+        user: "글로벌 클라우드 리소스 영역 사용자"
       provider:
-        admin: "글로벌 공급자 관리자 "
-        user: "글로벌 공급자 사용자 "
+        admin: "글로벌 클라우드 리소스 공급자 관리자 "
+        user: "글로벌 클라우드 리소스 공급자 사용자"
       realm:
         admin: "글로벌 영역 관리자 "
     catalog:
       admin: "카탈로그 관리자 "
       user: "카탈로그 사용자 "
     deployable:
-      owner: "배포 가능한 애플리케이션 소유자 "
-      user: "배포 가능한 애플리케이션 사용자 "
+      owner: "애플리케이션 설계도 소유자 "
+      user: "애플리케이션 설계도 사용자"
     deployment:
-      owner: "애플리케이션 배포 소유자 "
-      user: "애플리케이션 배포 사용자 "
+      owner: "애플리케이션 소유자 "
+      user: "애플리케이션 사용자 "
     instance:
       owner: "인스턴스 소유자 "
       user: "인스턴스 사용자 "
     pool:
-      admin: "풀 관리자 "
+      admin: "클라우드 리소스 영역 관리자"
       deployable:
-        admin: "풀 배포 가능한 애플리케이션 관리 "
-      user: "풀 사용자 "
+        admin: "클라우드 리소스 영역 애플리케이션 설계도 관리"
+      user: "클라우드 리소스 영역 사용자"
     pool_family:
-      admin: "풀 제품군 관리자 "
+      admin: "클라우드 관리자"
       image:
-        admin: "풀 제품군 이미지 관리자 "
-      user: "풀 제품군 사용자 "
+        admin: "클라우드 이미지 관리자 "
+      user: "클라우드 사용자 "
     provider:
-      admin: "공급자 관리자 "
-      user: "공급자 사용자 "
+      admin: "클라우드 리소스 공급자 관리자"
+      user: "클라우드 리소스 공급자 사용자"
     provider_account:
-      owner: "공급자 계정 소유자 "
-      user: "공급자 계정 사용자 "
+      owner: "클라우드 리소스 공급자 계정 소유자"
+      user: "클라우드 리소스 공급자 계정 사용자"

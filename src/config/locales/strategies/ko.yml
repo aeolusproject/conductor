@@ -1,0 +1,11 @@
+ko:
+  strategies:
+    penalty_for_failure:
+      name: "장애 발생시 패널티 "
+      views:
+        edit:
+          failure_count_hard_limit:
+          penalty_percentage: "각 장애 발생에 대한 패널티 비율 "
+          time_period_minutes: "장애 발생 수가 집계되는 시간 (분 단위)"
+    strict_order:
+      name: "강순서 관계"
