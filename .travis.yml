@@ -27,3 +27,5 @@ notifications:
       - "irc.freenode.org#aeolus"
     use_notice: true
     skip_join: false
+    on_success: change
+    on_failure: change
