@@ -1,9 +1,37 @@
-#maincontent section.maincontent .page-header .obj_actions {
-overflow:hidden;
+/* Header */
+header#header #appnav ul li a {background: #01536d;}
+header#header #nav-container {bottom:-2px;}
+
+header#header #widget-container #usermenu li {
+  background-color: #01536d;
+  border:.2em solid #01536d;
+  color:#fff;
+  display:inline;
+  list-style:none;
+  margin-right:.8em;
+  padding:0 .8em;
 }
+header#header #widget-container #usermenu li:last-child {margin-right:auto;}
+
+header#header #widget-container #usermenu li a {
+  color:#ffffff;
+  text-decoration:none;
+}
+
+/* Main container */
+article#maincontent {position:relative;}
+section.maincontent {
+  border: #c4c4c4 1px solid;
+  border-top:none;
+}
+
+/* Provider toggle */
+#maincontent section.maincontent .page-header .obj_actions {overflow:hidden;}
+
 #maincontent section.maincontent .page-header INPUT[type='submit'].on.provider_toggle {
-float:right;
+  float:right;
 }
+
 #maincontent section.maincontent .page-header INPUT[type='submit'].off.provider_toggle {
-float:right;
+  float:right;
 }
