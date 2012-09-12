@@ -47,11 +47,11 @@
 = content_for :widgets do
   %ul#usermenu
     - if current_user
-      %li= link_to format_user_name(current_user), account_path
-      %li= link_to t('masthead.my_account'), account_path
-      %li= link_to t('masthead.logout'), logout_path
+      %li.header-widget= link_to format_user_name(current_user), account_path
+      %li.header-widget= link_to t('masthead.my_account'), account_path
+      %li.header-widget= link_to t('masthead.logout'), logout_path
     - else
-      %li= link_to t('masthead.login'), login_path
+      %li.header-widget= link_to t('masthead.login'), login_path
 
 = content_for :content do
   = render :partial => '/layouts/new_notification' if flash.present? or content_for?(:error_messages)
