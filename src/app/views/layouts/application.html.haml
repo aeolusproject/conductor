@@ -45,7 +45,7 @@
   = render_navigation :level => 1
 
 = content_for :widgets do
-  %ul#usermenu
+  %ul
     - if current_user
       %li.header-widget= link_to format_user_name(current_user), account_path
       %li.header-widget= link_to t('masthead.my_account'), account_path
