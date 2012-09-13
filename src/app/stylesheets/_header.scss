@@ -9,7 +9,7 @@ header#header {
 
   .logo{
     width: 223px;
-    bottom: 15px;
+    bottom: 0px;
   }
 
   .header-widget {
@@ -17,24 +17,9 @@ header#header {
   }
 
   #widget-container {
-    top:27px;
-
-  	#usermenu {
-  	list-style:none;
-  	  li {
-  		  background-color: rgba(25, 25, 30, 0.4);
-  		  border: none;
-        -webkit-border-radius: .5em;
-        -moz-border-radius: .5em;
-        border-radius: .5em;
-        color:#fff;
-  		  display:inline;
-  		  list-style:none;
-  		  margin-right:.8em;
-  		  padding:0 .8em;
-    	  &:last-child {margin-right:auto;}
-    	  a {color:#fff;text-decoration:none;}
-  	  }
-  	}
+    li.header-widget a{
+      text-decoration:none;
+      font-family: $screenfont; // $headfont (Overpass) is set for whole header, which aligns wrong in the line
+    }
   }
 }
