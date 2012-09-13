@@ -8,23 +8,23 @@ zh-CN:
       catalog:
         created_at: 创建于
         name: 名称
-        pool_family_id: 池系列
-        pool_id: 池
+        pool_family_id: 云资源区产品线
+        pool_id: 云资源区
         updated_at: 更新于
       catalog_entry:
         catalog_id: 目录
-        deployable_id: 展开
+        deployable_id: 程序蓝图
       config_server:
         created_at: 创建于
         endpoint: 服务器端点（URL）
         key: 用户密钥
-        provider_account_id: 供应商帐户
+        provider_account_id: 云资源供应商帐户
         secret: 用户秘密
         updated_at: 更新于
       credential:
         created_at: 创建于
         credential_definition_id: 证书定义
-        provider_account_id: 供应商帐户
+        provider_account_id: 云资源供应商帐户
         updated_at: 更新于
         value: 值
       credential_definition:
@@ -32,7 +32,7 @@ zh-CN:
         input_type: 输入法类型
         label: 标签
         name: 名称
-        provider_type_id: 供应商类型
+        provider_type_id: 云资源供应商类型
         updated_at: 更新于
       delayed_job:
         attempts: 尝试
@@ -49,19 +49,19 @@ zh-CN:
         description: 描述
         name: 名称
         owner_id: 拥有者
-        pool_family_id: 池系列
-        xml: "展开 XML"
+        pool_family_id: 云资源区产品线
+        xml: "程序蓝图 XML"
         xml_filename: "XML 文件名"
       deployment:
         created_at: 创建于
-        deployable_xml: "展开 Xml"
+        deployable_xml: "程序蓝图 Xml"
         frontend_realm_id: 范围
         lock_version: 锁定版本
         name: 名称
         owner_id: 拥有者
-        pool_family_id: 池系列
-        pool_id: 池
-        realm_id: 供应商范围
+        pool_family_id: 云资源区产品线
+        pool_id: 云资源区
+        realm_id: 云资源供应商范围
         scheduled_for_deletion: 已调度删除
         updated_at: 更新于
         uuid: Uuid
@@ -88,7 +88,7 @@ zh-CN:
         lock_version: 锁定版本
         memory_id: 内存
         name: 名称
-        provider_id: 供应商
+        provider_id: 云资源供应商
         storage_id: 存储
         updated_at: 更新于
       hardware_profile_property:
@@ -116,12 +116,12 @@ zh-CN:
         acc_running_time: 累计运行时间
         acc_shutting_down_time: 累计关机时间
         acc_stopped_time: 累计停止的时间
-        assembly_xml: "编译 Xml"
+        assembly_xml: "组件蓝图 Xml"
         created_at: 创建于
-        deployment_id: 部署
+        deployment_id: 应用程序
         external_key: 外部密钥
         frontend_realm_id: 范围
-        hardware_profile_id: 硬件侧写
+        hardware_profile_id: 云资源侧写
         image_build_uuid: "映像构建 Uuid"
         image_uuid: "映像 Uuid"
         instance_config_xml: "实例配置 Xml"
@@ -130,12 +130,12 @@ zh-CN:
         lock_version: 锁定版本
         name: 名称
         owner_id: 拥有者
-        pool_family_id: 池系列
-        pool_id: 池
+        pool_family_id: 云资源区产品线
+        pool_id: 云资源区
         private_addresses: 专用地址
-        provider_account_id: 供应商帐户
-        provider_image_uuid: "供应商映像 Uuid"
-        provider_instance_id: 供应商实例
+        provider_account_id: 云资源供应商帐户
+        provider_image_uuid: "云资源供应商映像 Uuid"
+        provider_instance_id: 云资源供应商实例
         public_addresses: 公共地址
         secret: 保密
         state: 状态
@@ -187,14 +187,14 @@ zh-CN:
         exported_as: 导出为
         lock_version: 锁定版本
         name: 名称
-        pool_family_id: 池系列
+        pool_family_id: 云资源区产品线
         quota_id: 配额
         updated_at: 更新于
       pool_family:
         created_at: 创建于
         description: 描述
         lock_version: 锁定版本
-        name: 池系列名称
+        name: 云资源区产品线名称
         quota_id: 配额
         updated_at: 更新于
       privilege:
@@ -206,28 +206,31 @@ zh-CN:
         updated_at: 更新于
       property_enum_entry:
         created_at: 创建于
-        hardware_profile_property_id: 硬件侧写属性
+        hardware_profile_property_id: 云资源侧写属性
         lock_version: 锁定版本
         updated_at: 更新于
         value: 值
       provider:
         available: 可用的
         created_at: 创建于
-        deltacloud_provider: "Deltacloud 供应商"
+        deltacloud_provider: "Deltacloud 云资源供应商"
         enabled: 已启用
         lock_version: 锁定版本
-        name: 供应商名称
-        provider_type_id: 供应商类型
+        name: 云资源供应商名称
+        provider_type_id: 云资源供应商类型
         updated_at: 更新于
-        url: "供应商 URL"
+        url: "云资源供应商 URL"
       provider_account:
         created_at: 创建于
         label: 标签
         lock_version: 锁定版本
         priority: 优先权
-        provider_id: 供应商
+        provider_id: 云资源供应商
         quota_id: 配额
         updated_at: 更新于
+      provider_priority_group:
+        name: 名称
+        score: 分数
       provider_type:
         created_at: 创建于
         deltacloud_driver: "Deltacloud 驱动程序"
@@ -240,7 +243,7 @@ zh-CN:
         lock_version: 锁定版本
         maximum_running_instances: 最多运行的实例
         maximum_total_instances: 最多总实例数
-        running_instances: 运行的实例
+        running_instances: 运行中的实例
         total_instances: 总实例
         updated_at: 更新于
       realm:
@@ -249,12 +252,12 @@ zh-CN:
         external_key: 外部密钥
         lock_version: 锁定版本
         name: 名称
-        provider_id: 供应商
+        provider_id: 云资源供应商
         updated_at: 更新于
       realm_backend_target:
         frontend_realm_id: 范围
-        realm_or_provider_id: 供应商范围或供应商
-        realm_or_provider_type: 供应商范围或供应商类型
+        realm_or_provider_id: 云资源供应商范围或者云资源供应商
+        realm_or_provider_type: 云资源供应商范围或者云资源供应商类型
       role:
         assign_to_owner: 分配给拥有者
         created_at: 创建于
@@ -306,20 +309,38 @@ zh-CN:
         state: 状态
         updated_at: 更新于
         user_id: 用户
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: "必须只能包含：数字、字母、空格、'_' 和 '-'"
+        pool_family:
+          attributes:
+            name:
+              invalid: "必须只能包含：数字、字母、空格、'_' 和 '-'"
+        provider:
+          attributes:
+            deltacloud_provider:
+              invalid_provider: 必须是有效供应商识别符
+            name:
+              invalid: "必须只能包含：数字、字母、空格、'_' 和 '-'"
+            url:
+              invalid_framework: "必须是有效供应商 uri"
     models:
       base_permission_object: 基本授权对象
-      catalog: 目录
+      catalog: 分类
       catalog_entry: 目录条目
       config_server: 配置服务器
       credential: 证书
       credential_definition: 证书定义
       delayed_job: 延迟的任务
-      deployable: 展开
-      deployment: 部署
+      deployable: 程序蓝图
+      deployment: 应用程序
       event: 事件
       frontend_realm: 范围
-      hardware_profile: 硬件侧写
-      hardware_profile_property: 硬件侧写属性
+      hardware_profile: 云资源侧写
+      hardware_profile_property: 云资源侧写属性
       hook: Hook
       icicle: Icicle
       instance: 实例
@@ -328,32 +349,18 @@ zh-CN:
       instance_parameter: 实例参数
       metadata_object: 元数据对象
       permission: 权限
-      pool: 池
-      pool_family: 池系列
+      pool: 云资源区
+      pool_family: 云资源区产品线
       privilege: 特权
       property_enum_entry: 属性枚举条目
-      provider: 供应商
-      provider_account: 供应商帐户
-      provider_type: 供应商类型
+      provider: 云资源供应商
+      provider_account: 云资源供应商帐户
+      provider_type: 云资源供应商类型
       quota: 配额
-      realm: 供应商范围
-      realm_backend_target: 供应商范围后端目标
+      realm: 云资源供应商范围
+      realm_backend_target: 云资源供应商范围后端目标
       role: 角色
       session: 会话
       task: 任务
       user: 用户
       view_state: 查看状态
-    errors:
-      models:
-        pool:
-          attributes:
-            name:
-              invalid: 只能包含文數字、空白字元、底線符號與減號
-        pool_family:
-          attributes:
-            name:
-              invalid: 只能包含文數字、空白字元、底線符號與減號
-        provider:
-          attributes:
-            name:
-              invalid: 只能包含文數字、空白字元、底線符號與減號

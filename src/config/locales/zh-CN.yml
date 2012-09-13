@@ -1,6 +1,8 @@
 zh-CN:
   about: 关于
   accounts: 帐户
+  activity:
+    activity: 活动
   add: 添加
   administration: 管理
   advanced_search: 高级搜索
@@ -9,41 +11,43 @@ zh-CN:
   alerts_label: 警告
   api:
     error_messages:
-      account_not_found_in_environment: "供应商帐户 %{account} 不在这个环境中。有效帐户包括 %{account}。"
+      account_not_found_in_environment: "云资源供应商帐户 %{account} 不在这个云中。有效帐户包括 %{accounts}。"
       build_not_found: "无法找到 Build %{build}"
-      environment_not_found: "没有找到环境 %{environment}。"
-      environment_required: 需要环境参数。
+      environment_not_found: "没有找到云 %{environment}。"
+      environment_required: 需要云参数。
       image_not_found: "无法找到 Image %{image}"
-      image_not_found_on_provider: "无法在供应商中找到 Image %{image}"
+      image_not_found_on_provider: "无法在云资源供应商中找到 Image %{image}"
       in_grabbing_target_images: "获取目标映像列表时：%{error}"
       insufficient_privileges: 没有足够的授权执行请求的动作。
       invalid_parameters_for_account_and_target_image: "帐户的无效参数：%{account} TargetImage: %{targetimage}"
-      invalid_template: "无效模板：%{errors}"
+      invalid_template: "无效组件概述：%{errors}"
       no_image_build_or_target_image: "无效参数：在请求中没有提供 Image、Build 或 TargetImage"
       no_matching_target_image: "无法找到匹配的 Target Image"
-      no_provider_account_given: 没有给出供应商帐户
-      provider_account_not_found: "无法找到名为 %{name} 的供应商帐户"
-      provider_image_not_found: "无法找到 ProviderImage %{providerimage}"
-      provider_image_status_not_found: "无法找到 ProviderImage %{providerimage} 状态"
+      no_provider_account_given: 没有给出云资源供应商帐户
+      provider_account_not_found: "无法找到名为 %{name} 的云资源供应商帐户"
+      provider_account_not_found_for_id: "无法找到 id  %{id} 的云资源供应商帐户"
+      provider_image_not_found: "无法找到 Image %{providerimage}"
+      provider_image_status_not_found: "无法找到 Image %{providerimage} 状态"
       push_error: "无法将 TargetImage %{targetimage} 推入 %{account} 并出现错误 %{error}"
       specify_a_type_build_or_import: "请指定 type、build 或 import"
-      specify_environment: 请指定环境
+      specify_environment: 请指定云
       target_image_not_found: "无法找到 TargetImage %{targetimage}"
       target_image_not_found_for_account: "无法为帐户 %{account} 找到适当的目标映像"
       target_image_status_not_found: "无法找到 TargetImage %{targetimage} 状态"
       target_not_found: "无法找到 Target %{target}"
-      target_not_found_in_environment: "目标 %{target} 在这个环境中没有供应商帐户。有效目标包括 %{target}。"
+      target_not_found_in_environment: "目标 %{target} 在这个云中没有云资源供应商帐户。有效目标包括 %{targets}。"
   application_controller:
     access_denied: 访问被拒绝
     action_error: 动作错误
     admin_tabs:
       catalogs: 目录
-      groups: 组
       hardware: 硬件
       images: 映像
       permissions: 全局角色授权
-      pool_families: 池系列
+      pool_families: 云
+      provider_selection: 云资源供应商选择
       realms: 范围
+      user_groups: 用户组
       users: 用户
     flash:
       notice:
@@ -52,6 +56,7 @@ zh-CN:
         record_not_exist: 您尝试访问的记录不存在，可能已被删除。
     internal_server_error: 内部服务器错误
     permission_denied: 没有足够的授权执行所选动作。
+    permission_denied_with_prefix: "%{prefix}：没有足够的授权执行所选动作。"
     some_actions_failed: 有些动作失败
   apply: 应用
   apply_treatment: 应用用户处理
@@ -60,13 +65,14 @@ zh-CN:
   back: 返回
   breadcrumbs:
     catalogs: 目录
-    deployables: 展开
-    deployments: 部署
-    hardware_profiles: 硬件侧写
+    deployables: 程序蓝图
+    deployments: 应用程序
+    hardware_profiles: 云资源侧写
     instances: 实例
-    pool_families: 池系列
-    pools: 池
-    provider_realms: 供应商范围
+    logs: 日志
+    pool_families: 云
+    pools: 云资源区
+    provider_realms: 云资源供应商范围
     realms: 范围
     roles: 角色
     users: 用户
@@ -76,36 +82,40 @@ zh-CN:
   cancel: 取消
   catalog_entries:
     edit:
-      editing_catalog_entry: 编辑展开
+      editing_catalog_entry: 编辑程序蓝图
     flash:
       notice:
-        added: "在目录 %{catalog} 中添加的展开。"
-        deleted: "从目录 %{catalog} 中删除的展开。"
-        updated: 已成功更新展开！
+        added: "添加到目录 %{catalog} 中的程序蓝图。"
+        deleted: "从目录 %{catalog} 中删除的程序蓝图。"
+        updated: 已成功更新程序蓝图
       warning:
-        failed: 没有创建展开！
-        no_url_provided: "没有为可部署 XML 文件提供 URL。"
-        not_valid: "可部署 XML 文件无法解析有效 XML 文件"
-        not_valid_duplicate_assembly_names: "可部署 XML 文件必须包含唯一编译名称"
-        not_valid_or_reachable: "可部署 XML 文件无效或已无法在 %{url} 访问"
+        failed: 没有生成程序蓝图。
+        no_url_provided: "没有为程序蓝图 XML 文件提供 URL。"
+        not_valid: 文件包含语法错误
+        not_valid_cyclic_reference: "在以下组件蓝图或者服务间包含循环参考：%{reference}"
+        not_valid_duplicate_assembly_names: 必须包含唯一组件蓝图名
+        not_valid_not_existing_assembly_reference: "组件蓝图 %{from_assembly}、服务  %{from_service}、参数 %{from_param} 参考不存在的组件蓝图 %{to_assembly}"
+        not_valid_not_existing_param: "组件蓝图 %{from_assembly}、服务  %{from_service}、参数 %{from_param} 参考不是由组件蓝图  %{to_assembly} 返回的参数 %{to_param}"
+        not_valid_not_existing_service_reference: "组件蓝图 %{from_assembly}、服务  %{from_service}、参数 %{from_param} 参考不存在的组件蓝图 %{to_assembly}、服务 %{to_service"
+        not_valid_or_reachable: "组件蓝图 XML 文件无效或者不在 %{url}"
     index:
-      catalog_entries: 可部署
-      catalog_entry: 可部署
-      deployable_xml: "可部署 XML"
+      catalog_entries: 程序蓝图
+      catalog_entry: 程序蓝图
+      deployable_xml: "程序蓝图 XML"
       name: 名称
     list:
-      catalog_entries_list: 可部署列表
+      catalog_entries_list: 程序蓝图列表
     new:
-      add_catalog_entry: 添加新可部署
+      add_catalog_entry: 添加新程序蓝图
       catalog_detail: "%{name} 目录"
-      choose_option_to_upload: "选择以下选项之一上传可部署 XML 文件"
+      choose_option_to_upload: "使用以下选项之一上传程序蓝图 XML 文件"
       from_url: "从 URL"
-      hw_profile: 默认硬件侧写
+      hw_profile: 默认云资源侧写
       name: 名称
       upload: 上传
-    new_catalog_entry: 新可部署
+    new_catalog_entry: 新程序蓝图
     preset_filters:
-      all_catalog_entries: 所有可部署
+      all_catalog_entries: 所有程序蓝图
     show:
       build: 构建
       catalogs: 目录
@@ -128,25 +138,25 @@ zh-CN:
     flash:
       error:
         not_deleted:
-          one: "无法删除目录 %{not_deleted}！有些可部署还要参考这个目录！"
-          other: "无法删除这些目录 %{not_deleted}！它们的一些可部署还要参考这个目录！"
+          one: "无法删除目录 %{not_deleted}！至少有一个程序蓝图还要参考这个目录。"
+          other: "无法删除这些目录 %{not_deleted}！一些程序蓝图还要参考这些目录。"
         not_deleted_perms:
           one: "没有足够的权限删除目录 %{not_deleted}！"
-          other: "没有足够的权限删除 %{count} 目录 %{not_deleted}！"
-        one_not_deleted: 无法删除目录！有些可部署还要参考这个目录！
+          other: "没有足够的权限删除 %{count} 目录 %{not_deleted}"
+        one_not_deleted: 无法删除目录，至少有一个程序蓝图还要参考这个目录。
       notice:
         created:
-          one: 已创建目录！
-          other: 已创建目录！
+          one: 已创建目录
+          other: 已创建目录
         deleted:
-          one: "已删除目录 %{deleted}！"
-          other: "已删除 %{count} 目录 %{deleted}！"
-        one_deleted: 已删除目录！
+          one: "已删除目录 %{deleted}"
+          other: "已删除 %{count} 目录 %{deleted}"
+        one_deleted: 已删除目录
         updated:
-          one: 已成功更新目录！
-          other: 已成功更新目录！
+          one: 已成功更新目录
+          other: 已成功更新目录
     form:
-      select_pool: 选择池
+      select_pool: 选择云资源区
     index:
       catalog_name: 目录名称
       name: 名称
@@ -155,28 +165,28 @@ zh-CN:
     new_catalog: 新目录
     preset_filters:
       all_catalogs: 所有目录
-      belongs_to_default_pool: 属于默认池
+      belongs_to_default_pool: 属于默认云资源区
   change_password: 更改密码
   choose: 选择
   choose_name: 选择用户名
   choose_password: 选择密码
   choose_treatment: 选择处理方法
-  cloud_engine_hardware_profiles: 硬件侧写
-  cloud_providers: 云供应商
+  cloud_engine_hardware_profiles: 云资源侧写
+  cloud_providers: 云资源供应商
   config_servers:
     certificate_help: "提供证书以便启用 https 支持"
     edit:
       edit_config_server: 编辑配置服务器
     errors:
       connection:
-        generic: "无法验证 config 服务器连接（url: %{url}）。请检查连接参数，然后再试一次。"
+        generic: "无法验证配置服务器连接（url: %{url}）。请检查连接参数，然后再试一次。"
         generic_with_message: "无法验证配置服务器连接（url: %{url}）。%{msg}"
         unhandled_response: "无法验证配置服务器连接（url: %{url}）。HTTP 状态代码：%{code}"
     flash:
       error:
         invalid: 配置服务器信息无效。
-        not_deleted: 没有删除配置服务器
-        not_updated: 没有更新配置服务器
+        not_deleted: 没有删除配置服务器。
+        not_updated: 没有更新配置服务器。
       notice:
         added: 已添加配置服务器。
         deleted: 已删除配置服务器。
@@ -209,62 +219,64 @@ zh-CN:
   deployables:
     error:
       attribute_not_exists: 无效
-      hwp_not_exists: "在 XML 中指定的硬件侧写 %{name} 不存在。"
+      audrey_api_incompatibility: "程序蓝图使用那些在上次构建映像中安装的 Audrey 代理不支持的功能。"
+      hwp_not_exists: "XML 中指定的云资源侧写 %{name} 不存在。"
     flash:
       error:
         attribute_not_exist: "XML 中缺少一些属性，请检查这个文件！"
         missing_image: "%{assembly}: Image (UUID: %{uuid}) 不存在"
         no_catalog: 没有选择目录
-        no_catalog_exists: 无目录！请创建一个目录。
-        no_hwp_exists: 无硬件侧写！请先创建一个。
+        no_catalog_exists: 无目录。请创建一个目录。
+        no_hwp_exists: 无云资源侧写。请创建一个。
         not_deleted:
-          one: "删除可部署 %{not_deleted} 失败！"
-          other: "没有删除 %{count} 可部署 %{not_deleted}！"
+          one: "删除程序蓝图  %{not_deleted} 失败。"
+          other: "没有删除 %{count} 个程序蓝图 %{not_deleted}。"
         not_deleted_perms:
-          one: "没有足够的权限删除可部署 %{not_deleted}！"
-          other: "没有足够的权限删除 %{count} 可部署 %{not_deleted}！"
-        not_selected: 没有选择可部署！
-        wrong_environment: "可部署 '%{deployable}' 包含错误环境（'%{wrong_env}' 应为 '%{environment}'）中的映像（UUID %{uuid}），且无法使用。"
+          one: "没有足够授权删除程序蓝图 %{not_deleted}。"
+          other: "没有足够授权删除%{count} 个 程序蓝图 %{not_deleted}。"
+        not_selected: 没有选择程序蓝图
+        wrong_environment: "程序蓝图 '%{deployable}' 包含一个错误云  ('%{wrong_env}'，应为 '%{environment}') 中的映像  (UUID %{uuid})  ，且无法使用。"
       notice:
         deleted:
-          one: "成功删除可部署 %{deleted}！"
-          other: "删除 %{count} 可部署 %{not_deleted}！"
+          one: "成功删除程序蓝图 %{deleted}。"
+          other: "成功删除 %{count} 程序蓝图 %{deleted}。"
       warning:
-        failed: "没有生成可部署：%{message}"
+        failed: "没有生成程序蓝图：%{message}"
+        param_type_attr: "过期警告：服务  '%{service_name}'  中的参数 '%{param_name}'  有一个  type 属性。删除 type 属性或者将其移动到一个子值标签中。"
     form:
       cancel: 取消
       catalog: 目录
-      choose_xml: "选择可部署 XML 文件"
-      deployable_xml: "可部署 XML"
-      deployable_xml_url: "可部署 XML 的 URL"
+      choose_xml: "选择程序蓝图 XML 文件。"
+      deployable_xml: "程序蓝图 XML"
+      deployable_xml_url: "程序蓝图 XML 的 URL"
       edit_xml_after_save: "保存后编辑 XML 文件"
       multiple: 无
       none: 无
       save: 保存
     index:
-      base_deployable: 基本可部署
+      base_deployable: 基本程序蓝图
       deleted:
-        one: "删除了可部署 %{list}。"
-        other: "删除了可部署 %{list}。"
-      deployable_definition: 可部署定义
-      deployable_url: "可部署 URL"
-      deployable_url_subtext: "（必须是有效 URL，包括 http: //）"
-      deployables: 可部署
+        one: "已删除程序蓝图 %{list}。"
+        other: "已删除程序蓝图 %{list}。"
+      deployable_definition: 程序蓝图定义
+      deployable_url: "程序蓝图 URL"
+      deployable_url_subtext: "（必须是有效 URL，包括 http://）"
+      deployables: 程序蓝图
       description: 描述
       name: 名称
       not_deleted:
-        one: "没有删除可部署 %{list}。有与之关联的部署。"
-        other: "没有删除可部署 %{list}。有与之关联的部署。"
+        one: "没有删除程序蓝图 %{list}。有程序与之关联。"
+        other: "没有删除程序蓝图 %{list}。有程序与之关联。"
       state: 状态
     new:
       no_catalog_selected: 没有选择目录
     new_from_image:
       catalog_entry_name: "%{name}"
-      description: "可构建和启动使用 \"%{name}\" 组件概述创建的可部署。只要选择保存该可部署的目录，并定义默认云资源侧写即可。"
-      no_available_catalog: " 无目录"
-      title: 创建可部署
+      description: "可构建和启动使用 \"%{name}\" 组件概述生成程序蓝图。只要选择保存程序蓝图目录，并规定默认云资源侧写即可。"
+      no_available_catalog: 无目录
+      title: 生成程序蓝图
     properties:
-      edit_deployable_xml: "编辑可部署 XML"
+      edit_deployable_xml: "编辑程序蓝图 XML"
     show:
       add_catalog: "添加 +"
       arch: 架构
@@ -281,7 +293,7 @@ zh-CN:
       delete: 删除
       edit: 编辑
       edit_xml: "编辑 XML"
-      environment: 环境
+      environment: 云
       hdd: HDD
       hw_profile: 硬件侧写
       image_uuid: "映像 UUID"
@@ -302,52 +314,57 @@ zh-CN:
       target_images_uuids: "目标映像 UUID"
       uuids: UUID
   deployments:
-    confirm_delete: 您确定要删除这个部署吗？
-    deployment: 部署
-    deployment_details: 部署详情
-    deployment_name: 部署名称
-    deployment_name_subtext: （您的部署的唯一身份识别）
-    deployments: 部署
+    confirm_delete: 您确定要删除这个程序吗？
+    deployment: 应用程序
+    deployment_details: 应用程序详情
+    deployment_name: 应用程序名称
+    deployment_name_subtext: （应用程序的唯一身份识别）
+    deployments: 应用程序
     edit:
-      edit_deployment: 编辑部署
+      edit_deployment: 编辑应用程序
     errors:
-      all_stopped: 所有实例必须是停止或正在运行
-      cannot_stop: "在这个实例中无法执行 stop。"
+      all_stopped: 必须停止或运行所有实例
+      cannot_stop: "由于无法停止以下实例而无法删除程序 %{name}："
       config_server_connection: 无法连接到配置服务器
-      not_valid_deployable_xml: "看似无效展开 XML：%{msg}"
+      instance_state: "实例 %{name} 处于状态 %{state}。"
+      match_not_found: "无法找到合适的云资源供应商帐户托管该程序。请检查该云资源 供应商帐户的配额以及该映像的状态。"
+      match_not_found_with_errors: "没有找到匹配： %{errors}"
+      not_valid_deployable_xml: "好像是无效的程序蓝图 XML：%{msg}"
     flash:
       error:
-        failed_to_launch_assemblies: 无法启动以下编译：
-        none_selected: 您必须选择一个或者多个部署。
-        not_deleted:
-          one: "无法删除部署 %{list}。"
-          other: "无法删除部署 %{list}。"
-        not_launched: 无法启动某些编译：
+        cant_stop: "无法停止程序 %{name}。只能停止运行的程序。"
+        failed_to_launch_assemblies: 启动以下程序蓝图失败：
+        no_hwp_permission: "您没有足够的权限访问 %{hwp} 云资源侧写。"
+        none_selected: 您必须选择一个或者多个程序。
+        not_deleted: "无法删除程序 %{name}：%{error}"
+        not_launched: 无法启动某些组件蓝图：
         not_updated:
-          one: "无法更新部署 %{list}。"
-          other: "无法更新部署 %{list}。"
+          one: "无法更新程序 %{list}。"
+          other: "无法更新程序 %{list}。"
       notice:
-        launched: 启动部署。
+        launched: 已启动程序。
         stop: "已成功将 stop 动作排队。"
       success:
         deleted:
-          one: "已调度删除部署 %{list}。"
-          other: "已调度删除部署 %{list}。"
+          one: "已调度删除程序 %{list}。"
+          other: "已调度删除程序 %{list}。"
         updated:
-          one: "已成功更新部署 %{list}。"
-          other: "已成功更新部署 %{list}。"
+          one: "已成功更新程序 %{list}。"
+          other: "已成功更新程序 %{list}。"
       warning:
-        deployable_not_selected: 您需要选择可部署
-        disabled_pool: 无法在这个池中启动部署。该池已被禁用。
-        failed_to_launch: 启动部署失败！
+        deployable_not_selected: 您需要选择一个程序蓝图
+        disabled_pool: 无法在这个云资源区中启动程序。这个云资源区已被禁用。
+        failed_to_launch: 启动程序失败。
+    history:
+      instance: "实例 %{name}"
     launch_from_catalog:
       arch: 架构
-      deployable_xml: "可部署 XML"
+      deployable_xml: "程序蓝图 XML"
       details: 详情
       hdd: HDD
-      hint: "选择要在 \"%{pool}\" 池中启动的可部署"
-      image_id: "映像 ID"
-      no_catalog_entry: 没有可用可部署。请先添加一个。
+      hint: "选择在 \"%{pool}\" 云资源区中启动的程序蓝图"
+      image_id: "组件概述 ID"
+      no_catalog_entry: 没有可用程序蓝图。请先添加一个。
       profile: 侧写
       ram: RAM
       select: 选择
@@ -358,42 +375,53 @@ zh-CN:
       name_available: 名称可用
       next: 下一步
       other: 其他
-      to_pool: "到 %{name} 池"
+      to_pool: "到 %{name} 云资源区"
     launch_time_params:
-      configure_launch_time_params: 为您的部署配置启动时间参数：
+      configure_launch_time_params: 为您的程序配置启动时参数：
       finalize: 完成
       reference: "请参考 %{assembly} 的返回参数：%{parameter}"
       title: 启动时间参数
     list:
       delete_selected: 删除所选
       stop_selected: 停止所选
-    list_of_events: 部署事件列表
+    list_of_events: 程序事件列表
     new:
-      asseblies_name: 编译名称
+      asseblies_name: 组件蓝图名称
       build_id: "构建 ID"
-      deployable_definition: 可部署定义
-      deployable_details: 可部署详情
+      deployable_definition: 程序蓝图定义
+      deployable_details: 程序蓝图详情
       description: 描述：
-      hardware_profile: 硬件侧写
-      image_id: "映像 ID"
-      launch: 启动这个部署
+      hardware_profile: 云资源侧写
+      image_id: "组件概述 ID"
+      launch: 启动这个程序
       name: 名称：
       view: 查看
-    new_deployment: 新部署
+    new_deployment: 新程序
     operation:
       count_of_instances: 实例数：
       operational_status: 操作状态
     overview:
-      confirmation: "您确定要在 %{pool} 池中部署 \"%{deployment}\" 吗？这样做将消耗您总部署配额的 %{quota}。"
-      deployable_xml: "可部署 XML"
+      confirmation_html: "您确定要在 %{pool} 云资源区中部署 \"%{deployment}\" 吗？"
+      deployable_xml: "程序蓝图 XML"
       description: 描述
-      header: "要在 %{pool} 池中部署 \"%{deployment}\" 吗？"
-      image_ids: "映像 ID"
+      header: "要在 %{pool} 云资源区中部署 \"%{deployment}\" 吗？"
+      image_ids: "组件概述 ID"
       launch: 启动
+      launch_with_errors: 忽略启动过程中的实例错误
       name: 名称
-      pool_name: "%{pool} 池"
+      pool_name: "%{pool} 云资源区"
+      quota_info: "这样做会消耗您全部程序配额的 %{quota}。"
     preset_filters:
-      all_deployments: 所有部署
+      all_deployments: 所有程序
+      failed: 失败的程序
+      incomplete: 未完成的程序
+      new: 新程序
+      other_than_stopped: 不停止的程序
+      pending: 等待处理的程序
+      rollback_failed: 反转失败的程序
+      running: 正在运行的程序
+      shutting_down: 正在关闭程序
+      stopped: 停止的程序
     pretty_view_show:
       download_key: 下载密钥
       ip_address: "IP 地址："
@@ -407,69 +435,90 @@ zh-CN:
       uptime_1st_instance: "Uptime 的第一次实例运行"
       value: 值
     provider_services:
-      list_of_services: 部署所需服务列表
+      list_of_services: 程序所需服务列表
     required_services:
-      list_of_required_services: 部署所需服务列表
+      list_of_required_services: 程序所需服务列表
     show:
-      name: "%{name} 部署"
+      name: "%{name} 应用程序"
     state: 状态
     status:
-      pending: 一些（不是全部）实例正在运行
-      running: 所有实例都在运行
-      stopped: 目前没有任何实例运行
+      failed: 失败的
+      incomplete: 未完成的
+      new: 新建
+      pending: 等待处理
+      rollback_complete: 反转完成
+      rollback_failed: 反转失败的
+      rollback_in_progress: 反转进行中
+      running: 运行中
+      shutting_down: 正在关闭
+      stopped: 停止的
+    status_description:
+      failed: 所有实例都处于失败状态
+      incomplete: 有些实例没有运行
+      new: 没有启动程序
+      pending: 正在启动程序
+      rollback_complete: 成功完成反转
+      rollback_failed: 反转失败，重新启动被终止。
+      rollback_in_progress: 启动失败，反转进行中。
+      running: 所有实例都正在运行。
+      shutting_down: 程序正在关闭。
+      stopped: 已停止所有实例。
   edit: 编辑
   edit_user: 编辑用户
   email: 电子邮件
   filter_table:
     apply_filters: 应用过滤器
+    from: 来自
+    order_by: 买家
     results: 结果
     search: 搜索
+    to: 至
     viewing: 查看中
   first_name: 名
   general_settings: 常规设置
   hardware_profiles:
     create:
-      check_matching_hwp: 检查匹配的硬件侧写
+      check_matching_hwp: 检查匹配的云资源侧写
     edit:
       cancel_editing: 取消编辑
-      edit_hwp: 编辑硬件侧写
+      edit_hwp: 编辑云资源侧写
     flash:
       error:
         more_not_deleted:
           one: "无法删除 %{not_deleted}"
           other: "无法删除以下硬件侧写 %{not_deleted}"
-        not_deleted: 没有删除硬件侧写！
+        not_deleted: 已删除硬件侧写
       notice:
-        deleted: 已删除硬件侧写！
+        deleted: 已删除硬件侧写
         more_deleted:
-          one: "已删除硬件侧写 %{deleted}！"
-          other: "已删除硬件侧写 %{deleted}！"
-        updated: 已更新硬件侧写！
+          one: "已删除云资源侧写 %{deleted}！"
+          other: "已删除云资源侧写 %{deleted}！"
+        updated: 已更新云资源侧写
       warning:
-        cannot_delete_backend_hwp: 无法删除供应商硬件侧写
-        cannot_edit_backend_hwp: 无法修改供应商硬件侧写
+        cannot_delete_backend_hwp: 无法删除云资源供应商云资源侧写
+        cannot_edit_backend_hwp: 无法修改云资源供应商云资源侧写
     form:
       check_matches: 检查匹配
     hardware: 硬件
-    hardware_profile: 硬件侧写
-    hardware_profiles: 硬件侧写
+    hardware_profile: 云资源侧写
+    hardware_profiles: 云资源侧写
     history:
       history: 历史记录
     index:
       architecture: 架构
-      hardware_profile_name: 硬件侧写名称
+      hardware_profile_name: 云资源侧写名称
       memory: 内存
       storage: 存储
       virtual_cpu: "虚拟 CPU"
     list:
       delete_selected: 删除所选
-      new_hardware: 新硬件侧写
+      new_hardware: 新云资源侧写
     matching_provider_hwp:
-      no_matching_provider_hwp: 没有找到匹配的供应商硬件侧写
+      no_matching_provider_hwp: 没有找到匹配的云资源供应商云资源侧写
     new:
-      new_hwp: 新硬件侧写
+      new_hwp: 新云资源侧写
     preset_filters:
-      all_hardware_profiles: 所有硬件侧写
+      all_hardware_profiles: 所有云资源侧写
       i386architecture: "i368 架构"
       x86_64architecture: "x86_64 架构"
     properties_headers:
@@ -478,18 +527,18 @@ zh-CN:
       unit: 单位
     provider_hwp_headers:
       architecture: 架构
-      hwp_name: 硬件侧写名称
+      hwp_name: 云资源侧写名称
       memory: 内存
-      provider_name: 供应商名称
+      provider_name: 云资源侧写名称
       storage: 存储
       virtual_cpu: "虚拟 CPU"
     show:
-      backend_hwp: "%{name}（供应商）"
+      backend_hwp: "到 %{name}（云资源供应商）"
       frontend_hwp: "%{name}（前端）"
-      matching_hwp: 匹配的供应商硬件侧写
+      matching_hwp: 匹配的云资源供应商云资源侧写
     tab_captions:
       history: 历史记录
-      matching_provider_hwp: 匹配的供应商硬件侧写
+      matching_provider_hwp: 匹配的云资源供应商云资源侧写
       properties: 属性
   hello: 您好
   help: 帮助
@@ -500,16 +549,19 @@ zh-CN:
   images:
     edit_xml:
       edit: 编辑
+      edit_xml: "编辑 XML"
       save_and_continue: 保存并继续
-    environment: 环境：
-    environment_header: 环境
+    environment: "云：%{environment}"
+    environment_header: 云
     flash:
       error:
         invalid_url: "无法载入提供的 URL"
-        no_file: "您必须指定模板 XML 文件"
-        no_provider_accounts: 无法构建映像，因为目前没有启用任何供应商帐户。
-        no_provider_accounts_for_import: 无法导入映像，因为目前没有为这个环境启用任何供应商帐户。
-        no_template: 该映像没有模板，因为该映像已被导入。
+        no_file: "您必须指定组件概述 XML 文件"
+        no_name: 您必须指定组件概述名称
+        no_provider_accounts: 无法构建映像。没有已启用的与这个云关联的云资源供应商帐户。
+        no_provider_accounts_for_import: 无法导入映像，因为目前没有为这个云启用任何云资源供应商帐户。
+        no_template: "该映像没有组件概述，因为该映像已被导入，而不是在 Conductor 中构建。"
+        not_exist: 没有找到您尝试访问的映像，可能已被删除。
       notice:
         created: 已创建映像
         deleted: 已删除映像
@@ -520,13 +572,14 @@ zh-CN:
         delete_failed: 无法删除映像
         not_found: 没有找到映像
     import:
-      blank_id: "映像 ID 不能为空"
-      image_id: "映像 ID"
+      blank_id: "组件概述 ID 不能为空。"
+      image_id: "云资源供应商的组件概述 ID"
       image_imported: 已成功导入映像。
       image_not_imported: 无法导入映像。详情请检查映像库日志。
       import_image: 导入映像
       name: 映像名称
-      provider_account: 供应商帐户
+      provider_account: 云资源供应商帐户
+      provider_unreachable: "Conductor 无法连接到映像库。请确定映像库正在运行并已正确配置。"
     index:
       architecture: 架构
       images: 映像
@@ -537,20 +590,20 @@ zh-CN:
       os: 操作系统
       os_version: 操作系统版本
     new:
-      choose_file: 选择模板文件：
-      description: "使用以下选项之一将映像上传或导入 \"%{environment} 环境\"。"
+      choose_file: 选择组件概述文件：
+      description: "使用以下选项之一将映像上传或导入 \"%{environment} 云\"。"
       edit_file: 保存前请编辑此文件：
-      from_url: "使用 URL"
-      image_url: "模板 URL："
+      from_url: "源 URL"
+      image_url: "组件概述 URL："
       name: 名称：
       new_image: 新映像
       upload: 上传
-    not_on_provider: 没有在供应商中找到要求的映像。
+    not_on_provider: 没有在云资源供应商中找到要求的映像。
     overview:
       back: 返回
-      description: "已成功验证 \"%{name}\" 指定的标记和映像。您现在可以保存该映像并生成可部署。"
-      make_deployable: "自动生成 \"%{name}\" 可部署。"
-      save_template: 保存模板
+      description: "已成功验证 \"%{name}\" 指定的标记和映像。您现在可以保存该映像并生成程序蓝图。"
+      make_deployable: "自动生成 \"%{name}\" 程序蓝图。"
+      save_template: 保存组件概述
       valid_image: 有效映像
     show:
       account: 帐户
@@ -570,19 +623,19 @@ zh-CN:
       image_uuid: "映像 UUID"
       latest: 最新的
       missing_build: 请首先选择构建
-      new_deployable_from_image: 映像中的新可部署
+      new_deployable_from_image: 映像中的新程序蓝图
       not_built: 还没有构建该映像
       only_latest_builds_can_be_pushed: 只能推入最新构建
-      provider: 供应商
-      provider_account: 供应商帐户
-      provider_images: 供应商映像
+      provider: 云资源供应商
+      provider_account: 云资源供应商帐户
+      provider_images: 云资源供应商映像
       push: 推入
       push_all: 推入所有
       push_started: 要开始推入
       rebuild: 最新构建
       rebuild_all: 重新构建所有
       select_build: 选择
-      template_xml: "查看模板 XML"
+      template_xml: "查看组件概述 XML"
       upload: 上传
       view_build: 查看构建
   instance_details: 实例详情
@@ -596,24 +649,24 @@ zh-CN:
       edit_instance: 编辑实例
       name: 名称
     errors:
-      architecture_mismatch: "编译硬件侧写架构（%{inst_arch}）与映像硬件侧写架构（%{img_arch}）不匹配。"
+      architecture_mismatch: "组件蓝图硬件侧写架构（%{inst_arch}）与映像硬件侧写架构（%{img_arch}）不匹配。"
       cannot_destroy: 无法消除这个实例。
-      hw_profile_match_not_found: "%{account_name}：没有找到硬件侧写映射"
+      hw_profile_match_not_found: "%{account_name}：没有找到匹配的云资源侧写"
       image_not_found: "没有找到 uuid 为 %{b_uuid} 的映像构建，也没有找到 uuid 为 %{i_uuid} 的映像。"
-      image_not_pushed_to_provider: "%{account_name}：没有将映像推到这个供应商帐户中"
+      image_not_pushed_to_provider: "%{account_name}：没有将映像推到这个云资源供应商帐户中"
       invalid_state: 错误，无法计算状态时间：无效状态
-      must_be_enabled: "%{account_name}：必须启用供应商"
-      no_config_server_available: "%{account_name}：没有可用于这个供应商帐户的配置服务器"
-      no_provider_accounts: 没有供应商帐户与所选池的池系列关联。
-      pool_family_quota_reached: 已达到池系列配额
-      pool_quota_reached: 已达到池配额
-      provider_account_quota_reached: "%{account_name}：达到供应商帐户配额"
-      provider_account_quota_too_low: "%{match_provider_account} 配额限制过低无法启动可部署"
-      provider_not_available: "%{account_name}：供应商不可用"
-      realm_not_mapped: "%{account_name}：范围 %{frontend_realm_name} 与任何可用供应商或者供应商范围都不匹配"
-      reboot_invalid_action: "reboot 是无效动作。"
+      must_be_enabled: "%{account_name}：必须启用云资源供应商"
+      no_config_server_available: "%{account_name}：没有可用于这个云资源供应商帐户的配置服务器"
+      no_provider_accounts: 没有云资源供应商帐户与所选云资源区中的云关联。
+      pool_family_quota_reached: 已达到云配额
+      pool_quota_reached: 已达到云资源区配额
+      provider_account_quota_reached: "%{account_name}：达到云资源供应商帐户配额"
+      provider_account_quota_too_low: "%{match_provider_account} 配额限制过低，无法启动程序蓝图。"
+      provider_not_available: "%{account_name}：云资源供应商不可用"
+      realm_not_mapped: "%{account_name}：云资源集群\n%{frontend_realm_name} 与任何可用云资源供应商或供应商范围都不匹配"
+      reboot_invalid_action: "Reboot 是无效动作。"
       state_not_monitored: 错误，无法计算状态时间：没有监控状态
-      stop_invalid_action: "stop 是无效动作。"
+      stop_invalid_action: "Stop 是无效动作。"
       user_quota_reached: 达到用户配额
     flash:
       error:
@@ -635,7 +688,7 @@ zh-CN:
           other: "成功删除实例 %{list}。"
         updated:
           one: "成功更新实例 %{list}。"
-          other: "成功更新示例 %{list}。"
+          other: "成功更新实例 %{list}。"
       warning:
         ssh_key_not_found: "没有找到这个实例的 SSH 密钥。"
     headers:
@@ -657,14 +710,14 @@ zh-CN:
       show_all: 显示所有
       showing_all_instances: 显示所有实例
       stop_selected_instances: 停止所选实例
-      stopped_instances_hidden: 隐藏的实例
+      stopped_instances_hidden: 隐藏停止的实例
       table:
         name: 名称
         owner: 拥有者
-        provider: 供应商
+        provider: 云资源供应商
         public_address: 公开地址
-        state: 省/自治区/直辖市
-    none_selected: 您必须选择一个或者多个实例停止它们。
+        state: 状态
+    none_selected: 您必须选择一个或者多个实例方可停止。
     none_selected_to_reboot: 您必须选择一个或者多个实例方可重启。
     parameters:
       config_parameters: 配置参数
@@ -674,33 +727,46 @@ zh-CN:
     preset_filters:
       all_instances: 所有实例
       create_failed: 失败的实例
+      error: "处于 Error 状态的实例"
+      new: 新实例
       other_than_stopped: 从不停止的实例
       pending: 等待处理的实例
       running: 运行的实例
+      shutting_down: 正在关闭实例
       stopped: 停止的实例
+      vanished: 消失的实例
     properties:
-      architecture: 架构：
-      assembly: 编译：
-      console_connection: 控制台连接：
-      current_alerts: 当前警告：
+      architecture: 架构
+      assembly: 组件蓝图
+      console_connection: 控制台连接
+      current_alerts: 当前警告
       download: 下载
-      error: 错误：
-      instantiation_time: 示例时间：
-      memory: 内存：
+      error: 错误
+      instantiation_time: 示例时间
+      memory: 内存
       n_a: 无
-      name: 名称：
-      owner: 拥有者：
-      private_adresses: 专用地址：
+      name: 名称
+      owner: 拥有者
+      private_adresses: 专用地址
       properties_for: 属性
-      provider: 供应商
+      provider: 云资源供应商
       public_addresses: 公共地址
-      shared_to: 共享：
-      ssh_key: "SSH 密钥："
-      ssh_key_name: "SSH 密钥名称："
-      status: 状态：
-      storage: 存储：
+      shared_to: 共享
+      ssh_key: "SSH 密钥"
+      ssh_key_name: "SSH 密钥名称"
+      status: 状态
+      storage: 存储
       via_ssh: "使用 SSH"
     reboot: 重启
+    states:
+      create_failed: 创建失败
+      error: 错误
+      new: 新建
+      pending: 等待处理
+      running: 运行中
+      shutting_down: 正在关闭
+      stopped: 停止的
+      vanished: 消失的
     tab_captions:
       history: 历史记录
       permissions: 权限
@@ -708,15 +774,54 @@ zh-CN:
   last_name: 姓
   launch_instance: 启动实例
   layout:
-    appname: "Aeolus Conductor"
+    appname: "CloudForms Cloud Engine"
     copyright: "版权 &copy; 2009-2012 Red Hat, Inc."
     dashboard: 面板
   login: 登录
-  manage_providers: 管理供应商
+  logs:
+    flash:
+      error:
+        date_range: ‘起始日期’不能在‘终止日期’之后
+    index:
+      created_at: 创建于
+      deployment: 程序/实例
+      details: 详情
+      event_time: 时间
+      export_logs: 导出日志
+      frontend_realm: 云资源集群
+      grouped_by: 分组为
+      hwp: 云资源侧写
+      image: 映像
+      none: 无
+      not_available: 无
+      owner: 拥有者
+      pool: 云资源区
+      provider: 云资源供应商
+      state: 状态
+      summary: 小结
+      title: 日志
+      uptime: Uptime
+    options:
+      default_event_types: 所有事件类型
+      default_group_by: 所有
+      default_pools: 所有云资源区
+      default_providers: 所有云资源供应商
+      default_states: 所有状态
+      default_users: 所有用户
+      deployment_event_type: 应用程序
+      deployment_instance_order: 程序/实例
+      instance_event_type: 实例
+      owner_order: 拥有者
+      pool_order: 云资源区
+      provider_order: 云资源供应商
+      state_order: 状态
+      time_order: 时间
+  manage_providers: 管理云资源供应商
   manage_users: 管理用户
   map_locales: 映射位置
   map_profiles: 映射侧写
   masthead:
+    login: 登录
     logout: 退出
     my_account: 我的帐户
   maximum_running_instances: 最多运行的实例
@@ -726,16 +831,18 @@ zh-CN:
       administer: 管理
       monitor: 监视
     second_level:
-      cloud_providers: 云供应商
+      cloud_providers: 云资源供应商
       content: 内容
-      environments: 环境
+      environments: 云
       settings: 设置
+      user_groups: 用户组
       users: 用户
   new: 新建
   new_user: 新用户
   operation: 操作
   overview: 概述
   permissions:
+    direct_access: 直接访问
     flash:
       error:
         no_users_selected: 没有选择用户
@@ -749,120 +856,138 @@ zh-CN:
         added: "添加了以下用户角色：%{list}。"
         deleted: "删除了以下授权：%{list}。"
         modified: "成功修改以下用户角色：%{list}。"
+        no_change: 已设置所有用户角色，不需要更改。
     form:
       grant_access: 授权访问
+    global: 全局
+    global_access: 全局访问
+    inherited_access: 继承的访问
+    inherited_from: 继承自
+    name: 名称
     new:
       choose_global_role: 选择分配给用户的全局角色
       choose_roles: 为那些您要赋予访问授权的用户选择角色
       global_role_grants: 全局角色授权
     preset_filters:
+      all_entities: 所有条目
       all_permissions: 所有权限
+      group_permissions: 组权限
+      user_permissions: 用户权限
+    resource: 资源
+    resource_type: 资源类型
     revoke_access: 解除访问授权
   pool_families:
     add_to_pool_family: "添加到 %{name}"
-    choose_provider_accounts: 选择为这个池系列启用的供应商帐户
-    confirm_delete: 您确定要删除这个池系列吗？同时会删除所有关联的目录和可部署！
+    choose_provider_accounts: 选择为这个云启用的云资源供应商帐户
+    confirm_delete: 您确定要删除这个云吗？同时会删除所有关联的云资源区、目录和程序蓝图！
     edit:
       return_to: 返回到：
+    errors:
+      associated_images: "有以下关联的映像：%{list}。请先删除它们。"
+      default_pool_family_not_deleted: 无法删除默认云。
+      not_destroyable_pools: "已删除以下池：%{list}。"
     flash:
       error:
-        default_pool_family_not_deleted: 无法删除默认池系列！
-        more_not_deleted: "无法删除以下池系列：%{list}。"
-        no_provider_accounts: 没有供应商帐户可用。
-        not_deleted: 无法删除池系列！请检查以确定停止所有实例。
-        not_updated: 没有更新池系列！
-        provider_accounts_not_added: 无法添加这些供应商帐户
-        provider_accounts_not_removed: 无法删除这些供应商帐户
-        select_to_add_accounts: 您必须至少选择一个供应商帐户方可添加。
-        select_to_remove_accounts: 您必须至少选择一个供应商帐户方可删除。
+        no_provider_accounts: 没有可用的云资源供应商帐户。
+        not_deleted: 无法删除的云。
+        not_deleted_with_err: "无法删除的云：%{err}"
+        not_updated: 没有更新云。
+        provider_accounts_not_added: 无法添加这些云资源供应商帐户
+        provider_accounts_not_removed: 无法删除这些云资源供应商帐户
+        select_to_add_accounts: 您必须至少选择一个云资源供应商帐户方可添加。
+        select_to_remove_accounts: 您必须至少选择一个云资源供应商帐户方可删除。
       notice:
-        added: 已添加池系列。
-        deleted: 已删除池系列！
-        more_deleted: "删除了以下池系列：%{list}。"
-        provider_accounts_added: 已添加这些供应商帐户
-        provider_accounts_removed: 已删除这些供应商帐户
-        updated: 已更新池系列！
+        added: 已添加的云。
+        deleted: 已删除的云。
+        provider_accounts_added: 已添加云资源供应商帐户
+        provider_accounts_removed: 已删除这些云资源供应商帐户
+        updated: 已更新云。
       warning:
-        creation_failed: 创建池系列失败。
+        creation_failed: 创建云失败。
     index:
       active_instances: 活动实例。
       answer_no: 否
       answer_yes: 是
       available_instances: 可用实例。
       catalog: 目录
-      deployments: 部署
+      deployments: 应用程序
       enabled: 已启用
       failed_instances: 失败的实例。
       name: 名称
-      new_pool_family: 新池系列
+      new_pool_family: 新云
       pending_instances: 等待处理的实例。
-      pool_name: 池名称
+      pool_family_quota_used: 已使用的云配额
+      pool_name: 云资源区名称
+      provider_selection: 云资源供应商选择
       quota_limit: 配额限制
       quota_used: 使用的配额
       total_instancies: 实例总数。
       total_statistics: 总计
     new:
-      environments: 环境
-    pool_families: 池系列
-    pool_family: 池系列
-    pool_family_details: 池系列详情
-    provider_accounts_for: 供应商帐户
+      environments: 云
+    pool_families: 云
+    pool_family: 云
+    pool_family_details: 云详情
+    provider_accounts_for: 云资源供应商帐户
     remove_selected: 删除所选
   pools:
-    create_new_pool: 创建新池
-    edit_pool: "编辑池 %{pool}"
+    create_new_pool: 创建新云资源区
+    edit_pool: "编辑云资源区 %{pool}"
     errors:
       must_be_enabled: 必须启用
-      providers_disabled: 禁用所有关联的供应商
+      providers_disabled: 禁用所有关联的云资源供应商
     flash:
       error:
-        default_pool_not_deleted: 无法删除默认池
+        default_pool_not_deleted: 无法删除默认云资源区
         iwhd_unavailable: 目录映像不可用。显示无法访问映像库。
-        not_updated: 没有更新池！
+        not_updated: 没有更新云资源区
         pool_not_deleted:
-          one: "没有删除池 %{list}，有些实例与之关联。"
-          other: "没有删除池 %{list}，有些实例与之关联。"
+          one: "没有删除云资源区 %{list}。有实例与之关联。"
+          other: "没有删除云资源区 %{list}。有实例与之关联。"
       notice:
-        added: 已添加池。
-        updated: 已更新池。
+        added: 已添加云资源区。
+        updated: 已更新云资源区。
       success:
         pool_deleted:
-          one: "已删除池 %{list}。"
-          other: "已删除池 %{list}。"
+          one: "已删除云资源区 %{list}。"
+          other: "已删除云资源区 %{list}。"
       warning:
-        creation_failed: 创建池失败。
+        creation_failed: 删除云资源区失败。
     form:
       instance_or: 实例或
-      pool_enabled: 启用的池
+      pool_enabled: 已启用云资源区
       unlimited: 无限的
     header_show:
-      pool_name: "%{name} 池"
+      pool_name: "%{name} 云资源区"
     images:
       catalog: 目录
-      catalog_entry: 可部署
+      catalog_entry: 程序蓝图
       image: 映像：
       pushed: "推入 %{provider} 的 %{uuid} "
     index:
-      confirm_delete: 您确定要删除这个池吗？同时会删除所有关联的目录和可部署！
+      confirm_delete: 您确定要删除这个云资源区吗？同时会删除所有关联的目录和程序蓝图。
       deployed_on: 部署于
       destroy: 消除
       failed: 失败的
       global_uptime: "全局 uptime"
+      not_all_deployments_displayed_alert_html: "没有显示所有程序。进入 %{name} 云资源区详情查看更多信息。 &raquo;"
       overview: 概述
       owner: 拥有者
       pending: 等待处理中
-      pool_details: 池详情
-      pool_family: 池系列
-      pool_name: 池名称
-      your_pools: 您的池
+      pool_details_html: "到 %{name} 云资源区详情 &raquo;"
+      pool_family: 云
+      pool_name: 云资源区名称
+      pool_toggle: 展开/压缩
+      your_pools: 您的云资源区
     list:
       more_actions: 更多动作
-    new_pool: 新池
-    pool: 池
-    pools: 池
+    logs: 日志
+    new_pool: 新云资源区
+    pool: 云资源区
+    pools: 云资源区
     preset_filters:
-      all_pools: 所有池
-      enabled_pools: 启用的池
+      all_pools: 所有云资源区
+      enabled_pools: 启用的云资源区
       with_create_failed_instances: 包含失败的实例
       with_instances: 包含实例
       with_pending_instances: 包含等待处理的实例
@@ -876,16 +1001,26 @@ zh-CN:
     add_provider_account: 添加帐户
     credentials:
       credentials_for: 证书
+      labels:
+        access_key: 访问密钥
+        account_number: 帐户号
+        certificate: 证书
+        key: 密钥
+        password: 密码
+        secret_access_key: 秘密访问密钥
+        username: 用户名
     edit:
       account: "编辑帐户：%{name}"
       delete_account: 删除帐户
-      edit_provider_account: 编辑供应商帐户
+      edit_provider_account: 编辑云资源供应商帐户
       file_already_uploaded: 已上传。要重新上传吗？
       required_field: 所需字段。
     errors:
-      could_not_connect: 无法连接到供应商帐户。请联络管理员。
-      exception_while_validating: 检查供应商认证时出错。请检查您的设置然后再试一次。
-      invalid_credentials: 这个供应商的登录认证无效。
+      associated_images: "有以下关联的一个是映像：%{images}。请先删除它们。"
+      could_not_connect: 无法连接到云资源供应商帐户。请联络管理员。
+      exception_while_validating: 检查云资源供应商认证时出错。请检查您的设置然后再试一次。
+      invalid_credentials: 这个云资源供应商的登录认证无效。
+      not_destroyable_instances: "无法删除以下实例：%{instances}。"
       populate_hardware_profiles_failed: "推广 hardware_profiles 失败：%{message}"
       populate_realms_failed: "推广 realms 失败：%{message}"
     flash:
@@ -893,15 +1028,12 @@ zh-CN:
         account_not_added:
           one: "无法添加帐户 %{list}"
           other: "无法添加帐户 %{list}"
-        account_not_deleted:
-          one: "没有删除帐户 %{list}，有些实例与之关联。"
-          other: "没有删除帐户 %{list}。有实例与之关联。"
-        no_provider: 您还没有任何供应商。请创建一个供应商！
-        not_added: 无法添加供应商帐户。
-        not_deleted: 没有删除供应商帐户！
-        not_updated: 没有更新供应商帐户！
+        no_provider: 您还没有任何云资源供应商。请创建一个供应商！
+        not_added: 无法添加云资源供应商帐户。
+        not_deleted_with_err: "没有删除帐户  %{account}：%{err}"
+        not_updated: 没有更新云资源供应商帐户
         test_connection_failed_invalid: 测试连接失败：无效帐户详情
-        test_connection_failed_provider: 测试连接失败：无法连接到供应商
+        test_connection_failed_provider: 测试连接失败：无法连接到云资源供应商
       notice:
         account_added:
           one: "已添加帐户 %{list}。"
@@ -909,19 +1041,19 @@ zh-CN:
         account_deleted:
           one: "已删除帐户 %{list}。"
           other: "已删除帐户 %{list}。"
-        deleted: 已删除供应商帐户！
+        deleted: 已删除云资源供应商帐户
         test_connection_success: 测试连接成功：有效帐户详情
-        updated: 已更新供应商帐户！
+        updated: 已更新云资源供应商帐户
       warning:
         must_select_account: 您必须首先选择一些帐户。
-        no_provider: 您还没有任何供应商
+        no_provider: 您还没有任何云资源供应商
     form:
       account_name: 帐户名称
       account_number: "AWS 帐户 ID"
       account_private_cert: "EC2 x509 私钥"
       account_public_cert: "EC2 x509 公钥"
       password: 秘密访问密钥
-      provider_accounts: 供应商帐户
+      provider_accounts: 云资源供应商帐户
       quota_instances: 配额实例
       test_account: 测试帐户
       unlimited_quota: 无限配额
@@ -933,16 +1065,16 @@ zh-CN:
       config_server_saved: 成功保存配置服务器数据
       priority: 优先权
       provider_account_name: 帐户名称
-      provider_accounts: 供应商帐户
-      provider_name: 供应商名称
-      provider_type: 供应商类型
+      provider_accounts: 云资源供应商帐户
+      provider_name: 云资源供应商名称
+      provider_type: 云资源供应商名称
       quota_limit: 配额限制
       username: 用户名
     list:
       delete_selected: 删除所选
     new:
-      cloud_providers: 云供应商
-      new_provider_account: 新供应商帐户
+      cloud_providers: 云资源供应商
+      new_provider_account: 新的云资源供应商帐户
       required_field: 所需字段。
     new_provider_account: 新帐户
     permissions:
@@ -950,17 +1082,17 @@ zh-CN:
     preset_filters:
       all_provider_accounts: 所有帐户
     properties:
-      account_number: 帐户号：
-      config_server: 配置服务器：
+      account_number: 帐户号
+      config_server: 配置服务器
       none: 无
       properties_for: 属性
-      running_instances_quota: 运行的实例配额：
+      running_instances_quota: 运行的实例配额
       sure_to_delete: 您确定要删除这个配置服务器吗？
       test: 测试
       unlimited: 无限的
     provider_selection:
       cloud_type: 云类型：
-      provider_name: 供应商名称：
+      provider_name: 云资源供应商名称：
     remove_provider_accounts: 删除帐户
     rhevm:
       login_form: "RHEV-M 的登录形式（尚未实施）"
@@ -972,94 +1104,148 @@ zh-CN:
       history: 历史记录
       permissions: 权限
       properties: 属性
-  provider_accounts_item: 供应商帐户
+  provider_accounts_item: 云资源供应商帐户
   provider_images:
     flash:
       notice:
-        deleted: "已删除供应商映像。如果您要删除该供应商保存的实际映像，请访问 %{provider} 的管理控制台并找出 \"%{target_id}\" 映像。"
-        upload_start: 已开始上传供应商映像
+        deleted: "已删除云资源供应商映像。要删除该云资源供应商保存的实际映像，请访问 %{provider} 的管理控制台并找出 \"%{target_id}\" 映像。"
+        upload_start: 已开始上传云资源供应商映像
       warning:
-        delete_failed: 无法删除供应商映像
-        not_found: 没有找到供应商映像
-        upload_failed: 无法上传供应商映像
+        delete_failed: 无法删除云资源供应商映像
+        not_found: 没有找到云资源供应商映像
+        upload_failed: 无法上传云资源供应商映像
+  provider_priority_groups:
+    edit:
+      back: "云资源区的云资源供应商映像：%{pool}"
+      save: 保存优先组
+      title: 编辑优先组
+    flash:
+      created: 成功创建优先组
+      deleted: 成功删除优先组
+      updated: 成功更新优先组
+    form:
+      basic_data: 基本数据
+      providers_and_provider_accounts: "云资源供应商 & 云资源供应商帐户"
+    index:
+      add_new: 添加新
+      back_to_strategies: "云资源区的云资源供应商选择策略：%{pool}"
+      confirm_delete: 您确定要删除这个优先组吗？
+      edit_strict_order_strategy: 编辑严格顺序策略
+      no_priority_group: 没有可用优先组显示
+      provider_account_name: 帐户名称
+      provider_account_username: 用户名
+      provider_name: 云资源供应商名称
+      provider_type: 云资源供应商类型
+      quota_maximum_running_instances: 配额限制
+      quota_percentage_used: 使用的配额
+    new:
+      back: "云资源区的云资源供应商组：%{pool}"
+      create: 创建优先组
+      title: 添加新优先组
   provider_realms:
-    name: 供应商范围名称
-    provider_realms: 供应商范围
+    name: 云资源供应商范围名称
+    provider_realms: 云资源供应商范围
     show:
-      details: 供应商详情
-      mapping: 供应商范围映射
-      provider_accounts_mapped: "与供应商范围 %{name} 映射的供应商帐户："
-  provider_summary: 供应商概述
+      details: 云资源供应商范围详情
+      mapping: 云资源供应商范围映射
+      provider_accounts_mapped: "与云资源供应商范围 %{name} 映射的云资源供应商帐户"
+  provider_selection:
+    edit_strategy:
+      back_to_strategies: "云资源区的云资源供应商选择策略：%{pool}"
+      edit: "编辑  %{strategy_name} 策略"
+    flash:
+      config_successfully_saved: "成功更新  %{strategy_name} 策略"
+      failed_to_disable: "禁用  %{strategy_name} 策略失败"
+      failed_to_enable: "启用  %{strategy_name} 策略失败"
+      successfully_disabled: "成功禁用  %{strategy_name} 策略"
+      successfully_enabled: "成功启用  %{strategy_name} 策略"
+    show:
+      available_provider_accounts: 可用云资源供应商帐户
+      available_strategies: 可用策略
+      configure: 配置
+      edit_provider_accounts: 为云资源区产品线编辑云资源供应商帐户
+      edit_strategy: "编辑  %{name} 策略"
+      environment: "云：%{environment}"
+      provider_selection: 云资源供应商选择策略
+  provider_summary: 云资源供应商小结
   providers:
     alerts:
       alert_type:
         quota_exceeded: 已超出帐户配额
         quota_reached: 已到达帐户配额
       description:
-        quota_exceeded: "已超过 %{name} 帐户的运行实例配额限制。"
+        quota_exceeded: "已超过 %{name} 帐户的运行事务配额限制。"
         quota_reached: "已到达 %{name} 帐户的运行实例配额限制。"
       subject:
         quota: 配额
       type:
         critical: 关键
         warning: 警告
-    choose_a_provider: 选择供应商：
-    confirm_delete: 您确定要删除这个供应商吗？
+    choose_a_provider: 选择云资源供应商：
+    confirm_delete: 您确定要删除这个云资源供应商吗？
     confirm_terminate:
       disable: 禁用
-      disabled_provider: 禁用供应商
-    disable_provider: 禁用供应商？其所有实例都会停止！
+      disabled_provider: 禁用云资源供应商
+    disable_provider: 禁用供应商？其所有实例都会停止。
     edit:
-      enable_configure_providers: 要启用并配置供应商，请点击这个窗口右上角的滑动开关。
-      provider_disabled: "目前禁用了供应商 %{name}。"
-      provider_id_disabled: 禁用了供应商。
-      provider_unavailable: "目前供应商 %{name} 不可用。"
+      enable_configure_providers: 要启用并配置云资源供应商，请点击这个窗口右上角的滑动开关。
+      provider_disabled: "目前已禁用云资源供应商 %{name}。"
+      provider_id_disabled: 已禁用云资源供应商。
+      provider_unavailable: "目前云资源供应商 %{name} 不可用。"
       toggle_alerts: "Toggle 警告"
-    editing_provider: 编辑供应商
-    enable_provider: 要启用供应商吗？
+    editing_provider: 编辑云资源供应商
+    enable_provider: 启用云资源供应商？
     flash:
       error:
-        not_added: 无法添加该供应商。
-        not_deleted: 没有删除供应商
-        not_disabled: 无法禁用该供应商。
-        not_updated: 无法更新该供应商。
+        not_added: 无法添加云资源供应商。
+        not_deleted: 没有删除云资源供应商
+        not_deleted_with_err: "没有删除云资源供应商： %{err}"
+        not_disabled: 无法禁用云资源供应商。
+        not_updated: 无法更新云资源供应商。
       notice:
-        added: 已添加供应商。
-        connected: 成功连接到供应商
-        deleted: 已成功删除供应商。
-        disabled: 禁用了供应商。
-        updated: 已更新供应商。
+        added: 已添加云资源供应商。
+        connected: 成功连接到云资源供应商
+        deleted: 已删除云资源供应商。
+        disabled: 已禁用云资源供应商。
+        updated: 已更新云资源供应商。
       warning:
-        connect_failed: 连接到供应商失败！
-        not_stopped_instances: 没有禁用云资源供应商，停止以下实例失败！
+        connect_failed: 连接到云资源供应商失败
+        not_stopped_instances: 没有禁用云资源供应商，停止以下实例失败：
         not_terminated_instances: "没有禁用云资源供应商，将以下实例状态改为 ‘stopped’ 失败："
     form:
       caution_alt_text: 注意
-      caution_image: 注意
+      caution_image: 警告
       enter_correct_url_msg: "请输入正确的 URL 格式。"
       required_field: 所需字段。
-      select_type_of_provider: 选择供应商类型
+      select_type_of_provider: 选择云资源供应商类型
       test_connection: 测试连接
       x_deltacloud_provider:
         ec2: "EC2 区域"
-        generic: X-Deltacloud-Provider
+        generic: "X-Deltacloud 云资源供应商"
+        openstack: "Openstack API_ENTRYPOINT"
+        rackspace: "Rackspace API_PROVIDER"
         rhevm: "RHEV-M API_PROVIDER"
         vsphere: "vSphere API 主机名"
-      x_deltacloud_provider_legend: "X-Deltacloud-Provider 图例"
+      x_deltacloud_provider_legend: "X-Deltacloud 云资源供应商图例"
     index:
-      create_new_provider: 创建新供应商
+      create_new_provider: 创建新云资源供应商
       create_one: 请首先创建一个。
-      no_providers_available: 没有供应商可用。
-      provider_name: 供应商名称
-      provider_type: 供应商类型
-      provider_url: "供应商 URL"
+      error_instances: 错误（当前）
+      historical_error_instances: 错误（过去）
+      historical_running_instances: 运行的（过去）
+      no_providers_available: 没有可用云资源供应商
+      pending_instances: 等待处理（当前）
+      provider_name: 云资源供应商名称
+      provider_type: 云资源供应商名称
+      provider_url: "云资源供应商 URL"
+      running_instances: 运行的实例（当前）
       x_deltacloud_driver: "X-Deltacloud 驱动程序"
-      x_deltacloud_provider: "X-Deltacloud 供应商"
+      x_deltacloud_provider: "X-Deltacloud 云资源供应商"
     new:
-      new_provider: 新供应商
-      save_provider: 保存供应商
-    provider: 供应商
-    providers: 供应商
+      new_provider: 新云资源供应商
+      save_provider: 保存云资源供应商
+    provider: 云资源供应商
+    providers: 云资源供应商
   quota: 配额
   quota_used: 使用的配额
   quotas:
@@ -1068,9 +1254,9 @@ zh-CN:
       max_running_instnaces: 最多运行的实例
     flash:
       error:
-        not_updated: 无法更新配额，请检查您输入的有效值
+        not_updated: 无法更新配额，请检查您是否输入了有效值。
       notice:
-        updated: 更新了配额！
+        updated: 已更新配额
     quota: 配额
     show:
       available: 可用的
@@ -1089,15 +1275,15 @@ zh-CN:
     flash:
       error:
         more_not_deleted: 无法删除这些范围：
-        not_deleted: 没有删除范围！
+        not_deleted: 没有删除范围
         select_to_delete: 您必须首选至少选择一个范围方可删除。
         select_to_delete_mapping: 您必须首选至少选择一个映射方可删除。
       notice:
-        added: 已添加范围。
+        added: 已添加范围
         added_mapping: 已添加范围映射。
-        deleted: 已删除范围！
+        deleted: 已删除范围
         more_deleted: 已删除这些范围：
-        updated: 已成功更新范围！
+        updated: 已更新范围
     index:
       realm: 范围
       realm_availability: 可用吗？
@@ -1108,12 +1294,12 @@ zh-CN:
     list:
       delete_selected: 删除所选
     mapping:
-      frontend_realms_mapped_to_provider: "与供应商 %{name} 映射的范围："
-      frontend_realms_mapped_to_realm: "与供应商范围 %{name} 映射的范围："
-      mapping_provider: 在供应商中添加映射
-      mapping_realm: 在供应商范围中添加映射
-      provider_accounts_mapped_to_realm: "与范围 %{name} 映射的供应商帐户："
-      realm_mapped_providers: "映射 %{name} 与供应商匹配："
+      frontend_realms_mapped_to_provider: "与云资源供应商 %{name} 映射的范围："
+      frontend_realms_mapped_to_realm: "与云资源供应商范围 %{name} 映射的范围："
+      mapping_provider: 在云资源供应商中添加映射
+      mapping_realm: 在云资源供应商范围中添加映射
+      provider_accounts_mapped_to_realm: "与范围 %{name} 映射的云资源供应商帐户："
+      realm_mapped_providers: "映射 %{name} 与云资源供应商匹配："
       realm_mapped_realms: "映射 %{name} 与范围匹配："
     new:
       create_realm: 创建新范围
@@ -1127,7 +1313,7 @@ zh-CN:
     show:
       properties: 属性
       realm_mapping: 范围映射
-      realm_unavailable: "目前 realm %{name} 不可用。"
+      realm_unavailable: "目前范围 %{name} 不可用。"
       sure_to_delete: 您确定要删除吗？
     tab_captions:
       mapping: 映射
@@ -1147,16 +1333,16 @@ zh-CN:
       error:
         more_not_deleted: 无法删除这些角色：
       notice:
-        added: 成功保存角色！
+        added: 成功保存角色
         more_deleted: 已删除这些角色：
-        updated: 成功更新角色！
+        updated: 成功更新角色。
     list:
       roles_list: 角色列表
     new_role: 新角色
     properties:
       action: 动作
       privileges: 特权
-      scope: 范围：
+      scope: 范围
       target_type: 目标类型
     show:
       properties: 属性
@@ -1179,42 +1365,17 @@ zh-CN:
   settings:
     flash:
       notice:
-        updated: 已更新设置！
+        updated: 已更新设置
       warning:
         not_updated_quota: 无法更新默认配额
-    general_settings:
-      allow_self_service: 允许生成自助服务帐户：
-      brand_icon: 品牌图标：
-      certificate: 证书：
-      content: 内容
-      content_manager_url: "内容管理器 URL："
-      entitlement_mode: 授权模式：
-      general_settings: 常规设置
-      portal: 门户网站
-      primary_url_port: "主 URL 端口："
-      select_treatment: 选择用户处理
-      system_subscription: 系统提供订阅
-      tag_line: 标签行：
-      user_brings_subscriptions: 用户带来的订阅
     index:
-      define_hardware_profiles: 定义硬件侧写
-      define_hardware_profiles_desc: "查看、编辑并定义 Aeolus Conductor 为用户公开的硬件侧写。名称的含义可由不同供应商提供的功能确定。"
-      define_locales: 定义位置
-      define_locales_desc: "查看、编辑并定义 Aeolus Conductor 为用户公开的硬件侧写。名称的含义可由不同供应商提供的功能确定。"
-      define_services: 定义服务
-      define_services_desc: "查看、编辑并定义 Aeolus Conductor 为用户公开的硬件侧写。名称的含义可由不同供应商提供的功能确定。"
-      general_settings: 常规设置
-      general_settings_desc: 启用自助服务帐户注册、设置自定义品牌、管理内容资源
-      manage_providers: 管理供应商
-      manage_providers_desc: "在 Aeolus Conductor 中查看、编辑和添加虚拟计算资源供应商。为这些供应商查看、编辑和添加 Aeolus Conductor 帐户。将具体供应商概念与 Aeolus Conductor 对应。"
-      manage_users: 管理用户
-      manage_users_desc: "查看、编辑并删除 Aeolus Conductor 中的用户帐户。为用户调整配额和特权。"
       permissions: 权限
       permissions_desc: 修改自助服务默认配额。
     self_service:
       account: 帐户
+      instances_quota: 实例配额：
       self_service_default: 用户处理：默认为自助服务
-      self_service_settings: 自助服务设置
+      self_service_settings: 自助设置
     settings: 设置
   summary: 小结
   system_settings: 系统设置
@@ -1233,27 +1394,88 @@ zh-CN:
   updates: 更新
   uptime: 总使用时间
   user: 用户
+  user_group: 用户组
+  user_groups:
+    choose_members: 选择要添加到这个组中的用户。
+    confirm_delete: 您确定要删除这个用户组吗？
+    edit:
+      edit_user_group: 编辑用户组
+    flash:
+      error:
+        members_not_added: 无法添加这些用户
+        members_not_removed: 无法删除这些用户
+        not_a_local_group: 这里只能管理那些本地管理的组。
+        select_to_add_members: 您必须选择一个用户方可添加。
+      notice:
+        added: 已添加用户组
+        deleted: 已成功删除用户组。
+        members_added: 已添加这些用户
+        members_removed: 已删除这些用户
+        more_deleted:
+          one: 已删除用户组
+          other: 已删除用户组
+        updated: 已更新用户组
+      warning:
+        creation_failed: 无法生成用户组
+        delete_failed: 无法删除用户组
+        not_delete: "无法删除：%{reason}"
+    form:
+      name: 名称
+      save_user_group: 保存用户组
+      type: 类型
+    groups: 用户组
+    index:
+      name: 名称
+      type: 类型
+    ldap: LDAP
+    list:
+      add_user_group: 添加用户组
+      delete_selected: 删除所选
+    local: 本地
+    new:
+      neccessary_information: 请输入新用户组的信息，并在完成时点击‘保存用户组’。
+      new_user_group: 新用户组
+    preset_filters:
+      all_user_groups: 所有用户组
+      ldap: "使用 LDAP 管理的用户组"
+      local: 本地管理的用户组
+    quick_jump: 快速跳至：
+    return_to: 返回到：
+    show:
+      add_members: 添加成员
+      created: 已创建
+      delete: 删除
+      description: 描述
+      edit: 编辑
+      last_updated: 最后一次更新
+      members: 成员
+      name: 名称
+      type: 类型
   user_sessions:
     flash:
-      notice:
-        login: 登录成功！
-        logout: 退出成功！
       warning:
-        login_failed: 登录失败：您输入的用户名和密码不匹配
+        login_failed: 用户名或者密码错误，请再试一次。
     new:
+      forgot: 忘记
       help: 帮助功能还不可用。
       login: 登录
       login_assistance: 登录助手
-      password: 密码：
+      login_unknown_info: 如果您不知道您的用户名，请在下面输入您的电子邮件地址，我们会将用户名发送给您。
+      or: 或者
+      password: 密码
+      password_unknown_info: 请在下面输入您的用户名和电子邮件地址，我们会为您发送重新设定密码的步骤。
+      reset_password: 重新设置密码
+      return_to_login: 返回登录
       security_info: 安全信息
+      send_login: 发送登录
       show_password: 显示我的密码
-      username: 用户名：
+      username: 用户名
     security:
       encrypted_connection: 加密的连接
       expiration: 过期：未知
       issued: 发布的证书：
-      message: "您在 %{host} 到 Aeolus Conductor 的连接目前是使用 SSL 加密法的安全加密连接（未知强度）"
-      message_unencrypted: "您在 %{host} 到 Aeolus Conductor 的连接目前是不加密的。这可能导致敏感信息被盗。"
+      message: "您在 %{host} 到 CloudForms Cloud Engine 的连接目前是使用 SSL 加密法的安全加密连接（未知强度）"
+      message_unencrypted: "您在 %{host} 到 CloudForms Cloud Engine 的连接目前是不加密的。这可能导致敏感信息被盗。"
       message_unencrypted2: 如果您确信这是一个错误。不要尝试登录；请立即联络您的系统管理员。
       return_to_login: 返回登录
       unencrypted_connection: 未加密连接
@@ -1271,28 +1493,29 @@ zh-CN:
         more_deleted:
           one: 删除的用户
           other: 删除的用户
-        registered: 已注册用户！
-        updated: 已更新用户！
-        you_registred: 您已成功注册！
+        registered: 已注册用户
+        updated: 已更新用户
+        you_registred: 您已成功注册。
       warning:
         not_delete: "无法删除：%{reason}"
         not_delete_same_user: "无法删除 %{login}：您已作为这个用户登录"
     form:
       save_user: 保存用户
-      user_status: 用户状态
       user_treatment: 用户处理
+    groups: 组
     index:
       email: 电子邮件
       first_name: 名
       last_name: 姓
       quota_instances: 配额限制
-      user_id: 用户
+      user_id: "用户 ID"
       username: 用户名
     list:
+      add_user: 添加用户
       delete_selected: 删除所选
       unlimited: 无限
     new:
-      neccessary_information: 请输入新用户的必要信息，并在完成时点击‘保存用户’。
+      neccessary_information: 请输入所需信息，并在完成时点击‘保存用户’。
       new_user: 新用户
     preset_filters:
       all_users: 所有用户
@@ -1301,14 +1524,14 @@ zh-CN:
     quick_jump: 快速跳至：
     return_to: 返回到：
     show:
-      created: 创建的
+      created: 已创建
       delete: 删除
       e-mail: 电子邮件地址
       edit: 编辑
       failed_logins: 失败的登录
       last_login: 上次登录
-      last_login_ip: "上次登录 Ip"
-      last_updated: 上次更新
+      last_login_ip: "上次登录 IP"
+      last_updated: 最后一次更新
       number_of_logins: 登录次数
       username: 用户名
     users: 用户

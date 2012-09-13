@@ -1,0 +1,11 @@
+zh-CN:
+  strategies:
+    penalty_for_failure:
+      name: 失败处罚
+      views:
+        edit:
+          failure_count_hard_limit: 在不使用该云资源供应商帐户前可允许的失败次数
+          penalty_percentage: 每次失败的处罚比例
+          time_period_minutes: 失败的时间长度累计（以分钟计）
+    strict_order:
+      name: 严格顺序

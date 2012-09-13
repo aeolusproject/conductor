@@ -3,45 +3,45 @@ zh-CN:
     base:
       admin: 全局区管理员
       deployable:
-        admin: 全局可部署管理员
+        admin: 全局程序蓝图管理员
       hwp:
-        admin: 全局硬件侧写管理员
-        user: 全局硬件侧写用户
+        admin: "全局 HWP 管理员"
+        user: "全局 HWP 用户"
       image:
         admin: 全局映像管理员
       pool:
-        admin: 全局池管理员
-        user: 全局池用户
+        admin: 全局云资源区管理员
+        user: 全局云资源区用户
       provider:
-        admin: 全局供应商管理员
-        user: 全局供应商用户
+        admin: 全局云资源供应商管理员
+        user: 全局云资源供应商用户
       realm:
         admin: 全局范围管理员
     catalog:
       admin: 目录管理员
       user: 目录用户
     deployable:
-      owner: 可部署拥有者
-      user: 可部署用户
+      owner: 程序蓝图拥有者
+      user: 程序蓝图用户
     deployment:
-      owner: 部署拥有者
-      user: 部署用户
+      owner: 程序拥有者
+      user: 程序用户
     instance:
       owner: 实例拥有者
       user: 实例用户
     pool:
-      admin: 池管理员
+      admin: 云资源区管理员
       deployable:
-        admin: 池可部署管理员
-      user: 池用户
+        admin: 云资源区程序蓝图管理员
+      user: 云资源区用户
     pool_family:
-      admin: 池系列管理员
+      admin: 云管理员
       image:
-        admin: 池系列映像管理员
-      user: 池系列用户
+        admin: 云映像管理员
+      user: 云用户
     provider:
-      admin: 供应商管理员
-      user: 供应商用户
+      admin: 云资源供应商管理员
+      user: 云资源供应商用户
     provider_account:
-      owner: 供应商帐户拥有者
-      user: 供应商帐户用户
+      owner: 云资源供应商帐户拥有者
+      user: 云资源供应商帐户用户
