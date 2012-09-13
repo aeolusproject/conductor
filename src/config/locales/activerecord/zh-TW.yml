@@ -8,23 +8,23 @@ zh-TW:
       catalog:
         created_at: 建立於
         name: 名稱
-        pool_family_id: 集區家族
-        pool_id: 集區
+        pool_family_id: "雲端資源區域家族（Cloud Resource Zone Family）"
+        pool_id: 雲端資源區域
         updated_at: 更新於
       catalog_entry:
         catalog_id: 目錄
-        deployable_id: 可建置項目
+        deployable_id: 應用程式藍圖
       config_server:
         created_at: 建立於
         endpoint: 伺服器終端點（URL）
         key: 消耗者金鑰
-        provider_account_id: 供應方帳號
+        provider_account_id: 雲端資源供應方帳號
         secret: 消耗者密碼
         updated_at: 更新於
       credential:
         created_at: 建立於
         credential_definition_id: 認證定義
-        provider_account_id: 供應方帳號
+        provider_account_id: 雲端資源供應方帳號
         updated_at: 更新於
         value: 值
       credential_definition:
@@ -32,7 +32,7 @@ zh-TW:
         input_type: 輸入類型
         label: 標籤
         name: 名稱
-        provider_type_id: 供應方類型
+        provider_type_id: 雲端資源供應方類型
         updated_at: 更新於
       delayed_job:
         attempts: 嘗試次數
@@ -49,19 +49,19 @@ zh-TW:
         description: 描述
         name: 名稱
         owner_id: 擁有者
-        pool_family_id: 集區家族
-        xml: "可建置的 XML"
+        pool_family_id: 雲端資源區域家族
+        xml: "應用程式藍圖 XML"
         xml_filename: "XML 檔案名稱"
       deployment:
         created_at: 建立於
-        deployable_xml: "可建置的 Xml"
+        deployable_xml: "應用程式藍圖 Xml"
         frontend_realm_id: 領域
         lock_version: 鎖定版本
         name: 名稱
         owner_id: 擁有者
-        pool_family_id: 集區家族
-        pool_id: 集區
-        realm_id: 供應方領域
+        pool_family_id: 雲端資源區域家族
+        pool_id: 雲端資源區域
+        realm_id: 雲端資源供應方領域
         scheduled_for_deletion: 已排程進行刪除
         updated_at: 更新於
         uuid: Uuid
@@ -88,7 +88,7 @@ zh-TW:
         lock_version: 鎖定版本
         memory_id: 記憶體
         name: 名稱
-        provider_id: 供應方
+        provider_id: 雲端資源供應方
         storage_id: 儲存裝置
         updated_at: 更新於
       hardware_profile_property:
@@ -116,12 +116,12 @@ zh-TW:
         acc_running_time: "Acc 執行時間"
         acc_shutting_down_time: "Acc 關閉時間"
         acc_stopped_time: "Acc 已停止時間"
-        assembly_xml: "組合 Xml"
+        assembly_xml: "元件藍圖 Xml"
         created_at: 建立於
-        deployment_id: 建置
+        deployment_id: 應用程式
         external_key: 外部金鑰
         frontend_realm_id: 領域
-        hardware_profile_id: 硬體設定檔
+        hardware_profile_id: 雲端資源設定檔
         image_build_uuid: "映像檔組建 Uuid"
         image_uuid: "映像檔 Uuid"
         instance_config_xml: "Instance 配置 Xml"
@@ -130,12 +130,12 @@ zh-TW:
         lock_version: 鎖定版本
         name: 名稱
         owner_id: 擁有者
-        pool_family_id: 集區家族
-        pool_id: 集區
+        pool_family_id: 雲端資源區域家族
+        pool_id: 雲端資源區域
         private_addresses: 私有位址
-        provider_account_id: 供應方帳號
-        provider_image_uuid: "供應方映像檔 Uuid"
-        provider_instance_id: "供應方 Instance"
+        provider_account_id: 雲端資源供應方帳號
+        provider_image_uuid: "雲端資源供應方映像檔 Uuid"
+        provider_instance_id: "雲端資源供應方 Instance"
         public_addresses: 公開位址
         secret: 秘密
         state: 狀態
@@ -151,7 +151,7 @@ zh-TW:
         cpu: Cpu
         lock_version: 鎖定版本
         memory: 記憶體
-        storage: 儲存裝置
+        storage: 儲存
       instance_key:
         created_at: 建立於
         instance_id: Instance
@@ -187,14 +187,14 @@ zh-TW:
         exported_as: 匯出為
         lock_version: 鎖定版本
         name: 名稱
-        pool_family_id: 集區家族
+        pool_family_id: 雲端資源區域家族
         quota_id: 配額
         updated_at: 更新於
       pool_family:
         created_at: 建立於
         description: 描述
         lock_version: 鎖定版本
-        name: 集區家族名稱
+        name: 雲端資源區域家族名稱
         quota_id: 配額
         updated_at: 更新於
       privilege:
@@ -206,28 +206,31 @@ zh-TW:
         updated_at: 更新於
       property_enum_entry:
         created_at: 建立於
-        hardware_profile_property_id: 硬體設定檔內容
+        hardware_profile_property_id: 雲端資源設定檔屬性
         lock_version: 鎖定版本
         updated_at: 更新於
         value: 值
       provider:
         available: 可用的
         created_at: 建立於
-        deltacloud_provider: "Deltacloud 供應方"
+        deltacloud_provider: "Deltacloud 雲端資源供應方"
         enabled: 已啟用
         lock_version: 鎖定版本
-        name: 供應方名稱
-        provider_type_id: 供應方類型
+        name: 雲端資源供應方名稱
+        provider_type_id: 雲端資源供應方類型
         updated_at: 更新於
-        url: "供應方 URL"
+        url: "雲端資源供應方 URL"
       provider_account:
         created_at: 建立於
         label: 標籤
         lock_version: 鎖定版本
         priority: 優先順序
-        provider_id: 供應方
+        provider_id: 雲端資源供應方
         quota_id: 配額
         updated_at: 更新於
+      provider_priority_group:
+        name: 名稱
+        score: 分數
       provider_type:
         created_at: 建立於
         deltacloud_driver: "Deltacloud 驅動程式"
@@ -249,12 +252,12 @@ zh-TW:
         external_key: 外部金鑰
         lock_version: 鎖定版本
         name: 名稱
-        provider_id: 供應方
+        provider_id: 雲端資源供應方
         updated_at: 更新於
       realm_backend_target:
         frontend_realm_id: 領域
-        realm_or_provider_id: 供應方領域或供應方
-        realm_or_provider_type: 供應方領域或供應方類型
+        realm_or_provider_id: 雲端資源供應方領域或是雲端資源供應方
+        realm_or_provider_type: 雲端資源供應方領域或是雲端資源供應方類型
       role:
         assign_to_owner: 指定給擁有者
         created_at: 建立於
@@ -306,6 +309,24 @@ zh-TW:
         state: 狀態
         updated_at: 更新於
         user_id: 使用者
+    errors:
+      models:
+        pool:
+          attributes:
+            name:
+              invalid: 只能包含文數字、空格、「_」與「-」
+        pool_family:
+          attributes:
+            name:
+              invalid: 只能包含文數字、空格、「_」與「-」
+        provider:
+          attributes:
+            deltacloud_provider:
+              invalid_provider: 必須是個有效的供應方識別符號
+            name:
+              invalid: 只能包含文數字、空白字元、「_」與「-」
+            url:
+              invalid_framework: "必須是個有效的供應方 uri"
     models:
       base_permission_object: 基礎權限物件
       catalog: 目錄
@@ -314,12 +335,12 @@ zh-TW:
       credential: 認證
       credential_definition: 認證定義
       delayed_job: 延遲的工作
-      deployable: 可建置項目
-      deployment: 建置
+      deployable: 應用程式藍圖
+      deployment: 應用程式
       event: 事件
       frontend_realm: 領域
-      hardware_profile: 硬體設定檔
-      hardware_profile_property: 硬體設定檔內容
+      hardware_profile: 雲端資源設定檔
+      hardware_profile_property: 雲端資源設定檔屬性
       hook: Hook
       icicle: Icicle
       instance: Instance
@@ -328,32 +349,18 @@ zh-TW:
       instance_parameter: "Instance 參數"
       metadata_object: "Metadata 物件"
       permission: 權限
-      pool: 集區
-      pool_family: 集區家族
+      pool: 雲端資源區域
+      pool_family: 雲端資源區域家族
       privilege: 特權
       property_enum_entry: "屬性 Enum 項目"
-      provider: 供應方
-      provider_account: 供應方帳號
-      provider_type: 供應方類型
+      provider: 雲端資源供應方
+      provider_account: 雲端資源供應方帳號
+      provider_type: 雲端資源供應方類型
       quota: 配額
-      realm: 供應方領域
-      realm_backend_target: 供應方領域後端目標
+      realm: 雲端資源供應方領域
+      realm_backend_target: 雲端資源供應方領域目標
       role: 角色
       session: Session
       task: 工作
       user: 使用者
       view_state: 檢視狀態
-    errors:
-      models:
-        pool:
-          attributes:
-            name:
-              invalid: "必须只能包含：数字、字母、空格、'_' 和 '-'"
-        pool_family:
-          attributes:
-            name:
-              invalid: "必须只能包含：数字、字母、空格、'_' 和 '-'"
-        provider:
-          attributes:
-            name:
-              invalid: "必须只能包含：数字、字母、空格、'_' 和 '-'"

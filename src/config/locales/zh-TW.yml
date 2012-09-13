@@ -1,6 +1,8 @@
 zh-TW:
   about: 簡介
   accounts: 帳號
+  activity:
+    activity: 工作
   add: 新增
   administration: 管理
   advanced_search: 進階搜尋
@@ -9,49 +11,52 @@ zh-TW:
   alerts_label: 警告
   api:
     error_messages:
-      account_not_found_in_environment: "供應方帳號 %{account} 不在此環境中。有效帳號包含了 %{accounts}。"
+      account_not_found_in_environment: "雲端資源供應方帳號 %{account} 不在此雲端中。有效的帳號為 %{accounts}。"
       build_not_found: "找不到組建 %{build}"
-      environment_not_found: "找不到環境 %{environment}。"
-      environment_required: 需要環境參數。
+      environment_not_found: "找不到雲端 %{environment}。"
+      environment_required: 需要雲端參數。
       image_not_found: "找不到映像檔 %{image}"
-      image_not_found_on_provider: "供應方上找不到映像檔 %{image}"
+      image_not_found_on_provider: "雲端資源供應方上找不到 %{image} 映像檔。"
       in_grabbing_target_images: "擷取目標映像檔清單：%{error}"
       insufficient_privileges: 權限不足，無法進行指定的動作。
       invalid_parameters_for_account_and_target_image: "帳號的參數無效：%{account} TargetImage: %{targetimage}"
-      invalid_template: "無效的範本：%{errore}"
+      invalid_template: "無效的元件概要：%{errors}"
       no_image_build_or_target_image: "無效的參數：請求中未指定 Image、Build、或 TargetImage"
       no_matching_target_image: "找不到符合的 Target Image"
-      no_provider_account_given: 未提供供應方帳號
-      provider_account_not_found: "找不到名稱為 %{name} 的供應方帳號"
-      provider_image_not_found: "找不到 ProviderImage %{providerimage}"
-      provider_image_status_not_found: "找不到 ProviderImage %{providerimage} 的狀態"
+      no_provider_account_given: 未提供雲端資源供應方帳號
+      provider_account_not_found: "找不到 %{name} 這組名稱的雲端資源供應方帳號"
+      provider_account_not_found_for_id: "找不到 %{id} 這組 id 的雲端資源供應方帳號"
+      provider_image_not_found: "找不到映像檔 %{providerimage}"
+      provider_image_status_not_found: "找不到映像檔 %{providerimage} 的狀態"
       push_error: "無法將 TargetImage %{targetimage} 發送至 %{account}，錯誤為 %{error}"
       specify_a_type_build_or_import: 請指定類型、組建或匯入
-      specify_environment: 請指定環境
+      specify_environment: 請指定一項雲端
       target_image_not_found: "找不到 TargetImage %{targetimage}"
       target_image_not_found_for_account: "找不到適合帳號 %{account} 的目標映像檔"
       target_image_status_not_found: "找不到 TargetImage %{targetimage} 的狀態"
       target_not_found: "找不到 Target %{target}"
-      target_not_found_in_environment: "目標 %{target} 在此環境中無供應方帳號。有效目標包含了 %{targets}。"
+      target_not_found_in_environment: "目標 %{target} 在此雲端中無雲端資源供應方帳號。有效的目標為 %{targets}。"
   application_controller:
     access_denied: 存取遭拒
     action_error: 動作錯誤
     admin_tabs:
       catalogs: 目錄
-      groups: 群組
       hardware: 硬體
       images: 映像檔
       permissions: 賦予全域角色
-      pool_families: 集區家族
+      pool_families: 雲端
+      provider_selection: 雲端資源供應方選擇
       realms: 領域
+      user_groups: 使用者群組
       users: 使用者
     flash:
       notice:
         must_be_logged: 您必須登入以存取此頁面
         must_not_be_logged: 您必須登出以存取此頁面
-        record_not_exist: 您試圖存取的紀錄不存在，可能已經被刪除
+        record_not_exist: 您嘗試存取的紀錄不存在。它可能已被刪除
     internal_server_error: 伺服器內部錯誤
     permission_denied: 權限不足，無法進行指定的動作。
+    permission_denied_with_prefix: "%{prefix}：您的權限不足，無法進行指定的動作。"
     some_actions_failed: 某些動作失敗了
   apply: 套用
   apply_treatment: 套用使用者方式
@@ -60,13 +65,14 @@ zh-TW:
   back: 上一步
   breadcrumbs:
     catalogs: 目錄
-    deployables: 可建置項目
-    deployments: 建置
-    hardware_profiles: 硬體設定檔
-    instances: Instances
-    pool_families: 集區家族
-    pools: 集區
-    provider_realms: 供應方領域
+    deployables: 應用程式藍圖
+    deployments: 應用程式
+    hardware_profiles: 雲端資源設定檔
+    instances: Instance
+    logs: 日誌
+    pool_families: 雲端
+    pools: 雲端資源區域
+    provider_realms: 雲端資源供應方領域
     realms: 領域
     roles: 角色
     users: 使用者
@@ -76,36 +82,40 @@ zh-TW:
   cancel: 取消
   catalog_entries:
     edit:
-      editing_catalog_entry: 編輯可建置項目
+      editing_catalog_entry: 編輯應用程式藍圖
     flash:
       notice:
-        added: "可建置項目已新增至 %{catalog}。"
-        deleted: "可建置項目已從 %{catalog} 移除。"
-        updated: 已成功更新建置項目！
+        added: "應用程式藍圖已新增至 %{catalog} 目錄。"
+        deleted: "應用程式藍圖已由 %{catalog} 目錄中移除。"
+        updated: 應用程式藍圖已成功更新
       warning:
-        failed: 未建立建置項目。
-        no_url_provided: "未提供 URL 給可建置項目的 XML 檔案。"
-        not_valid: "可建置項目的 XML 檔案無法解析有效的 XML"
-        not_valid_duplicate_assembly_names: "可建置項目的 XML 必須包含獨特的組合名稱"
-        not_valid_or_reachable: "可建置項目的 XML 檔案無效，或是已無法由 %{url} 取得"
+        failed: "未建立應用程式藍圖（Application Blueprint）。"
+        no_url_provided: "未提供應用程式藍圖 XML 檔案的網址。"
+        not_valid: 檔案含有語法錯誤
+        not_valid_cyclic_reference: "包含了下列元件藍圖或服務之間的循環參照：%{reference}"
+        not_valid_duplicate_assembly_names: 必須包含獨特的元件藍圖名稱
+        not_valid_not_existing_assembly_reference: "元件藍圖 %{from_assembly}、服務 %{from_service}、參數 %{from_param} 參照了不存在的元件藍圖 %{to_assembly}"
+        not_valid_not_existing_param: "元件藍圖 %{from_assembly}、服務 %{from_service}、參數 %{from_param} 參照了參數 %{to_param}，此參數並非由元件藍圖 %{to_assembly} 所回傳的。"
+        not_valid_not_existing_service_reference: "元件藍圖 %{from_assembly}、服務 %{from_service}、參數 %{from_param} 參照了不存在的元件藍圖 %{to_assembly}、服務 %{to_service}"
+        not_valid_or_reachable: "應用程式藍圖的 XML 檔案無效，或是已無法再由 %{url} 連上"
     index:
-      catalog_entries: 可建置項目
-      catalog_entry: 可建置項目
-      deployable_xml: "可建置項目的 XML"
+      catalog_entries: 應用程式藍圖
+      catalog_entry: 應用程式藍圖
+      deployable_xml: "應用程式藍圖 XML"
       name: 名稱
     list:
-      catalog_entries_list: 可建置項目清單
+      catalog_entries_list: 應用程式藍圖清單
     new:
-      add_catalog_entry: 新增可建置項目
+      add_catalog_entry: 新增應用程式藍圖
       catalog_detail: "%{name} 目錄"
-      choose_option_to_upload: "請選擇以下選項之一，以上傳可建置項目的 XML 檔案"
+      choose_option_to_upload: "請選擇以下選項之一，以上傳應用程式藍圖的 XML 檔案"
       from_url: "從 URL"
-      hw_profile: 預設的硬體設定檔
+      hw_profile: 預設的雲端資源設定檔
       name: 名稱
       upload: 上傳
-    new_catalog_entry: 新的可建置項目
+    new_catalog_entry: 新增應用程式藍圖
     preset_filters:
-      all_catalog_entries: 所有可建置項目
+      all_catalog_entries: 所有應用程式藍圖
     show:
       build: 組建
       catalogs: 目錄
@@ -128,25 +138,25 @@ zh-TW:
     flash:
       error:
         not_deleted:
-          one: "無法刪除 %{not_deleted} 目錄！某些可建置項目依然參照此目錄！"
-          other: "無法刪除這些 %{not_deleted} 目錄！這些目錄的某些可建置項目依然參照它們！"
+          one: "無法刪除 %{not_deleted} 目錄。至少一項應用程式藍圖參照了此目錄。"
+          other: "無法刪除 %{not_deleted} 這些目錄。某些應用程式藍圖依然參照這些目錄。"
         not_deleted_perms:
-          one: "權限不足，無法刪除 %{not_deleted} 目錄！"
-          other: "權限不足，無法刪除 %{count} 個目錄 %{not_deleted}！"
-        one_not_deleted: 無法刪除目錄！某些可建置項目依然參照此目錄！
+          one: "權限不足，無法刪除 %{not_deleted} 目錄"
+          other: "權限不足，無法刪除 %{count} 個 %{not_deleted} 目錄"
+        one_not_deleted: 無法刪除目錄。至少一項應用程式藍圖參照了此目錄。
       notice:
         created:
-          one: 目錄已建立！
-          other: 目錄已建立！
+          one: 目錄已建立
+          other: 目錄已建立
         deleted:
-          one: "目錄 %{deleted} 已刪除！"
-          other: "%{count} 個目錄 %{deleted} 已刪除！"
-        one_deleted: 目錄已刪除！
+          one: "已刪除 %{deleted} 目錄"
+          other: "已刪除 %{count} 個 %{deleted} 目錄"
+        one_deleted: 目錄已刪除
         updated:
-          one: 目錄已成功更新！
-          other: 目錄已成功更新！
+          one: 目錄已成功更新
+          other: 目錄已成功更新
     form:
-      select_pool: 選擇集區
+      select_pool: 選擇雲端資源區域
     index:
       catalog_name: 目錄名稱
       name: 名稱
@@ -155,14 +165,14 @@ zh-TW:
     new_catalog: 新目錄
     preset_filters:
       all_catalogs: 所有目錄
-      belongs_to_default_pool: 屬於預設集區
+      belongs_to_default_pool: 屬於預設的雲端資源區
   change_password: 更改密碼
   choose: 選擇
   choose_name: 選擇使用者名稱
   choose_password: 選擇密碼
   choose_treatment: 選擇方式
-  cloud_engine_hardware_profiles: 硬體設定檔
-  cloud_providers: 雲端供應方
+  cloud_engine_hardware_profiles: 雲端資源設定檔
+  cloud_providers: 雲端資源供應方
   config_servers:
     certificate_help: "提供憑證以啟用 https 功能"
     edit:
@@ -175,8 +185,8 @@ zh-TW:
     flash:
       error:
         invalid: 配置伺服器的資訊無效。
-        not_deleted: 配置伺服器未刪除
-        not_updated: 配置伺服器未更新
+        not_deleted: 配置伺服器尚未刪除。
+        not_updated: 配置伺服器尚未更新。
       notice:
         added: 已新增配置伺服器。
         deleted: 已刪除配置伺服器。
@@ -209,62 +219,64 @@ zh-TW:
   deployables:
     error:
       attribute_not_exists: 無效
-      hwp_not_exists: "XML 中所指定的硬體設定檔 %{name} 不存在。"
+      audrey_api_incompatibility: "應用程式藍圖使用了安裝於最新組建映像檔中的 Audrey 代理程式所不支援的功能。"
+      hwp_not_exists: "XML 中所指定的雲端資源設定檔 %{name} 不存在。"
     flash:
       error:
-        attribute_not_exist: "XML 中的一些屬性不存在，請檢查檔案！"
+        attribute_not_exist: "XML 中的一些屬性遺失。請檢查檔案。"
         missing_image: "%{assembly}：映像檔（UUID：%{uuid}）不存在"
         no_catalog: 未選擇目錄
-        no_catalog_exists: 目錄不存在！請建立目錄。
-        no_hwp_exists: 硬體設定檔不存在！請建立設定檔。
+        no_catalog_exists: 目錄不存在。請建立之。
+        no_hwp_exists: 雲端資源設定檔不存在。請建立之。
         not_deleted:
-          one: "移除可建置項目 %{not_deleted} 失敗！"
-          other: "%{count} 個可建置項目 %{not_deleted} 未移除！"
+          one: "應用程式藍圖 %{not_deleted} 移除失敗。"
+          other: "%{count} 個應用程式藍圖 %{not_deleted} 未移除。"
         not_deleted_perms:
-          one: "權限不足，無法移除可建置項目 %{not_deleted}！"
-          other: "權限不足，無法移除 %{count} 個可建置項目 %{not_deleted}！"
-        not_selected: 未選擇可建置項目！
-        wrong_environment: "可建置項目 '%{deployable}' 包含了一個映像檔（UUID %{uuid}）於錯誤的環境（'%{wrong_env}'，正確環境為 '%{environment}'）中，並且無法使用。"
+          one: "權限不足，無法移除應用程式藍圖 %{not_deleted}。"
+          other: "權限不足，無法移除 %{count} 個應用程式藍圖 %{not_deleted}。"
+        not_selected: 未選擇應用程式藍圖
+        wrong_environment: "應用程式藍圖 '%{deployable}' 包含了一個映像檔（UUID %{uuid}），此映像檔於錯誤的 Cloud（'%{wrong_env}' 應該是 '%{environment}'）中，並且無法使用。"
       notice:
         deleted:
-          one: "可建置項目 %{deleted} 已成功移除！"
-          other: "%{count} 可建置項目 %{deleted} 已移除！"
+          one: "應用程式藍圖 %{deleted} 已成功刪除。"
+          other: "已刪除 %{count} 個 %{deleted} 應用程式藍圖。"
       warning:
-        failed: "位建立可建置項目：%{message}"
+        failed: "未建立應用程式藍圖：%{message}"
+        param_type_attr: "Deprecation 警告：參數 '%{param_name}'（於 '%{service_name}' 服務中）含有個類型屬性。請移除此類型屬性，或將它移至一個 child value tag 中。"
     form:
       cancel: 取消
       catalog: 目錄
-      choose_xml: "選擇可建置項目的 XML 檔案"
-      deployable_xml: "可建置項目的 XML"
-      deployable_xml_url: "可建置項目 XML 的 URL"
+      choose_xml: "選擇應用程式藍圖的 XML 檔案"
+      deployable_xml: "應用程式藍圖 XML"
+      deployable_xml_url: "應用程式藍圖 XML 的網址"
       edit_xml_after_save: "儲存後編輯 XML"
       multiple: None
-      none: None
+      none: 無
       save: 儲存
     index:
-      base_deployable: 可建置的基礎項目
+      base_deployable: 基礎應用程式藍圖
       deleted:
-        one: "已刪除可建置的項目 ${list}。"
-        other: "已刪除可建置的項目 ${list}。"
-      deployable_definition: 可刪除項目的定義
-      deployable_url: "可刪除項目的 URL"
-      deployable_url_subtext: "（必須是組包含了 http: // 的有效 URL）"
-      deployables: 可建置項目
+        one: "已刪除應用程式藍圖 %{list}。"
+        other: "已刪除應用程式藍圖 %{list}。"
+      deployable_definition: 應用程式藍圖的定義
+      deployable_url: 應用程式藍圖的網址
+      deployable_url_subtext: "（必須是組包含了 http:// 的有效 URL）"
+      deployables: 應用程式藍圖
       description: 描述
       name: 名稱
       not_deleted:
-        one: "未刪除可建置的項目 %{list}。尚有與其相聯的建置項目。"
-        other: "未刪除可建置的項目 %{list}。尚有與它們相聯的建置項目。"
+        one: "未刪除應用程式藍圖 %{list}。仍有應用程式與其相聯。"
+        other: "未刪除應用程式藍圖 %{list}。仍有應用程式與它們相聯。"
       state: 狀態
     new:
       no_catalog_selected: 未選擇目錄
     new_from_image:
       catalog_entry_name: "%{name}"
-      description: "從「%{name}」元件概要建立可建置項目，可使其能被建立和啟用。您只要選擇儲存可建置項目的目錄，並定義預設的雲端資源設定檔即可。"
+      description: "從「%{name}」元件概要建立應用程式藍圖，可使其能被建立、啟用。您只要選擇要儲存應用程式藍圖的目錄，並定義預設的雲端資源設定檔即可。"
       no_available_catalog: 無目錄
-      title: 建立可建置項目
+      title: 建立應用程式藍圖
     properties:
-      edit_deployable_xml: "編輯可建置項目的 XML"
+      edit_deployable_xml: "編輯應用程式藍圖 XML"
     show:
       add_catalog: "新增 +"
       arch: ARCH
@@ -277,11 +289,11 @@ zh-TW:
         pushed: 所有映像檔皆已推送，並且皆為最新版本。
         pushing: 正在推送映像檔。
       catalog_name: 目錄名稱
-      choose_catalog: 選擇欲啟用存取權限的目錄：
+      choose_catalog: 選擇要啟用存取權限的目錄：
       delete: 刪除
       edit: 編輯
       edit_xml: "編輯 XML"
-      environment: 環境
+      environment: 雲端
       hdd: HDD
       hw_profile: "HW 設定檔"
       image_uuid: "映像檔 UUID"
@@ -302,54 +314,59 @@ zh-TW:
       target_images_uuids: "目標映像檔 UUID"
       uuids: UUID
   deployments:
-    confirm_delete: 確定要刪除此建置項目？
-    deployment: 建置項目
-    deployment_details: 建置詳細資料
-    deployment_name: 建置名稱
-    deployment_name_subtext: （獨一無二的名稱，以辨識您的建置項目）
-    deployments: 建置項目
+    confirm_delete: 確定要刪除此應用程式？
+    deployment: 應用程式
+    deployment_details: 應用程式的詳細資料
+    deployment_name: 應用程式名稱
+    deployment_name_subtext: （辨識您的應用程式）
+    deployments: 應用程式
     edit:
-      edit_deployment: 編輯建置項目
+      edit_deployment: 編輯應用程式
     errors:
-      all_stopped: "所有 instance 必須是停止或執行中"
-      cannot_stop: "無法停止此 instance。"
-      config_server_connection: 無法連接配置伺服器
-      not_valid_deployable_xml: "似乎不是正確的可建置項目 XML：%{msg}"
+      all_stopped: "所有 instance 皆必須處於停止或執行狀態"
+      cannot_stop: "無法刪除應用程式 %{name}，因為無法停止下列 instance："
+      config_server_connection: 無法連上配置伺服器
+      instance_state: "%{name} instance 的狀態為 %{state}。"
+      match_not_found: 找不到適合的雲端資源供應方帳號來提供應用程式。請檢查雲端資源供應方帳號的配額，以及映像檔的狀態。
+      match_not_found_with_errors: "找不到符合的項目：%{errors}"
+      not_valid_deployable_xml: "似乎不是有效的應用程式藍圖 XML：%{msg}"
     flash:
       error:
-        failed_to_launch_assemblies: 啟動以下組合失敗：
-        none_selected: 您必須選擇一或多項建置項目。
-        not_deleted:
-          one: "無法刪除建置項目 %{list}。"
-          other: "無法刪除建置項目 %{list}。"
-        not_launched: 無法啟動一些組合：
+        cant_stop: "無法停止 %{name} 應用程式。只有執行中的應用程式能被停止。"
+        failed_to_launch_assemblies: 無法啟動以下元件藍圖：
+        no_hwp_permission: "您的權限不足，無法存取 %{hwp} 雲端資源設定檔。"
+        none_selected: 您必須選擇一或更多個應用程式。
+        not_deleted: "無法刪除 %{name} 應用程式：%{error}"
+        not_launched: 無法啟用部分元件藍圖：
         not_updated:
-          one: "無法更新建置項目 %{list}。"
-          other: "無法更新建置項目 %{list}。"
+          one: "無法更新應用程式 %{list}。"
+          other: "無法更新應用程式 %{list}。"
       notice:
-        launched: 已啟動建置項目。
-        stop: 「停止」動作已經成功地加入佇列中。
+        launched: 已啟動的應用程式。
+        stop: 「停止」動作已成功納入佇列。
       success:
         deleted:
-          one: "建置項目 %{list} 已經加入刪除排程中。"
-          other: "建置項目 %{list} 已經加入刪除排程中。"
+          one: "應用程式 %{list} 已經加入刪除排程中。"
+          other: "應用程式 %{list} 已經加入刪除排程中。"
         updated:
-          one: "已成功更新建置項目 %{list}。"
-          other: "已成功更新建置項目 %{list}。"
+          one: "已成功更新應用程式 %{list}。"
+          other: "已成功更新應用程式 %{list}。"
       warning:
-        deployable_not_selected: 您需要選擇可建置的項目
-        disabled_pool: 無法在此集區中啟動建置項目。集區已停用。
-        failed_to_launch: 啟動建置失敗！
+        deployable_not_selected: 您需要選擇一個應用程式藍圖
+        disabled_pool: 無法在此雲端資源區域中啟用應用程式。雲端資源區域已停用。
+        failed_to_launch: 啟用應用程式失敗。
+    history:
+      instance: "Instance %{name}"
     launch_from_catalog:
-      arch: ARCH
-      deployable_xml: "可建置項目的 XML"
+      arch: 架構
+      deployable_xml: "應用程式藍圖 XML"
       details: 詳細資料
-      hdd: HDD
-      hint: "選擇一項可建置項目，以啟動於「%{pool}」集區中"
-      image_id: "映像檔 ID"
-      no_catalog_entry: 沒有可用的可建置項目。請先新增一個可建置項目！
+      hdd: 硬碟
+      hint: "在「%{pool}」雲端資源區域中，選擇欲啟用的應用程式藍圖。"
+      image_id: "元件概要 ID"
+      no_catalog_entry: 沒有可用的應用程式藍圖。請先建立應用程式藍圖。
       profile: 設定檔
-      ram: RAM
+      ram: 記憶體
       select: 選擇
     launch_new:
       already_in_use: 該名稱已被使用
@@ -358,42 +375,53 @@ zh-TW:
       name_available: 可用名稱
       next: 下一步
       other: 其它
-      to_pool: "至 %{name} 集區"
+      to_pool: "至 %{name} 雲端資源區域"
     launch_time_params:
-      configure_launch_time_params: 為您的建置配置啟動時間參數：
+      configure_launch_time_params: 為您的應用程式配置啟動時間參數：
       finalize: 終止化
       reference: "參照 %{assembly} 的回傳參數：%{parameter}"
       title: 啟動時間參數
     list:
       delete_selected: 刪除已選取的項目
       stop_selected: 停止已選取的項目
-    list_of_events: 建置事件的清單
+    list_of_events: 應用程式事件清單
     new:
-      asseblies_name: 組合名稱
+      asseblies_name: 元件藍圖名稱
       build_id: "組建 ID"
-      deployable_definition: 可建置項目的定義
-      deployable_details: 可建置項目的詳細資料
+      deployable_definition: 應用程式藍圖的定義
+      deployable_details: 應用程式藍圖的詳細資料
       description: 描述：
-      hardware_profile: 硬體設定檔
-      image_id: "映像檔 ID"
-      launch: 啟動這項建置
+      hardware_profile: 雲端資源設定檔
+      image_id: "元件概觀 ID"
+      launch: 啟用此應用程式
       name: 名稱：
       view: 檢視
-    new_deployment: 新建置項目
+    new_deployment: 新應用程式
     operation:
       count_of_instances: "Instance 數目："
       operational_status: 可運作狀態
     overview:
-      confirmation: "確定要建置「%{deployment}」至 %{pool} 集區？這樣會使用整體建置空間的 %{quota}。"
-      deployable_xml: "可建置項目的 XML"
+      confirmation_html: "您是否確定要將「%{deployment}」建置至 %{pool} 雲端資源區域？"
+      deployable_xml: "應用程式藍圖 XML"
       description: 描述
-      header: "建置「%{deployment}」至 %{pool} 集區？"
-      image_ids: "映像檔 ID"
+      header: "建置「%{deployment}」至 %{pool} 雲端資源區域？"
+      image_ids: "元件概要 ID"
       launch: 啟動
+      launch_with_errors: "啟用時忽略 Instance 的錯誤"
       name: 名稱
-      pool_name: "%{pool} 集區"
+      pool_name: "%{proc} 雲端資源區域"
+      quota_info: "這麼作將會使用您應用程式總配額的 %{quota}。"
     preset_filters:
-      all_deployments: 所有建置項目
+      all_deployments: 所有應用程式
+      failed: 失敗的應用程式
+      incomplete: 不完整的應用程式
+      new: 新應用程式
+      other_than_stopped: 未停止的應用程式
+      pending: 正等待處理的應用程式
+      rollback_failed: 回朔失敗的應用程式
+      running: 執行中的應用程式
+      shutting_down: 正在關閉的應用程式
+      stopped: 已停止的應用程式
     pretty_view_show:
       download_key: 下載金鑰
       ip_address: "IP 位址："
@@ -407,69 +435,90 @@ zh-TW:
       uptime_1st_instance: "第一項 instance 的啟動時間"
       value: 值
     provider_services:
-      list_of_services: 建置項目所需的服務清單
+      list_of_services: 應用程式所需的服務之清單
     required_services:
-      list_of_required_services: 建置項目所需的服務清單
+      list_of_required_services: 應用程式所需的服務之清單
     show:
-      name: "%{name} 建置項目"
+      name: "%{name} 應用程式"
     state: 狀態
     status:
-      pending: "部分（而非全部）instance 尚在執行中"
-      running: "所有 instance 皆正在執行中"
-      stopped: "沒有執行中的 instance"
+      failed: 失敗
+      incomplete: 不完整
+      new: 新的
+      pending: 等待處理
+      rollback_complete: 回朔完成
+      rollback_failed: 回朔失敗
+      rollback_in_progress: 回朔中
+      running: 執行中
+      shutting_down: 關閉中
+      stopped: 已停止
+    status_description:
+      failed: "所有 instance 皆處於失敗狀態中"
+      incomplete: "部分 instance 尚未執行"
+      new: 應用程式並未啟用
+      pending: 應用程式正在啟用
+      rollback_complete: 回朔已成功完成
+      rollback_failed: 回朔失敗，重新啟用終止
+      rollback_in_progress: 啟用失敗，正在回朔
+      running: "所有 instance 皆執行中"
+      shutting_down: 應用程式關閉中
+      stopped: 所有應用程式皆已停止
   edit: 編輯
   edit_user: 編輯使用者
   email: 電子郵件
   filter_table:
     apply_filters: 套用篩選器
+    from: 寄件者
+    order_by: 排序
     results: 結果
     search: 搜尋
+    to: 收信者
     viewing: 檢視
   first_name: 名
   general_settings: 一般設定
   hardware_profiles:
     create:
-      check_matching_hwp: 檢查符合的硬體設定檔
+      check_matching_hwp: 檢查符合的雲端資源設定檔
     edit:
       cancel_editing: 取消編輯
-      edit_hwp: 編輯硬體設定檔
+      edit_hwp: 編輯雲端資源設定檔
     flash:
       error:
         more_not_deleted:
           one: "無法刪除 %{not_deleted}"
           other: "無法刪除下列硬體設定黨：%{not_deleted}"
-        not_deleted: 未刪除硬體設定檔！
+        not_deleted: 硬體設定檔未刪除
       notice:
-        deleted: 硬體設定檔已刪除！
+        deleted: 硬體設定檔已刪除
         more_deleted:
-          one: "硬體設定檔 %{deleted} 已刪除。"
-          other: "硬體設定檔 %{deleted} 已刪除。"
-        updated: 硬體設定檔已更新！
+          one: "已刪除雲端資源設定檔 %{deleted}！"
+          other: "已刪除雲端資源設定檔 %{deleted}！"
+        updated: 雲端資源設定檔已更新
       warning:
-        cannot_delete_backend_hwp: 無法刪除供應方硬體設定檔
-        cannot_edit_backend_hwp: 無法修改供應方硬體設定檔
+        cannot_delete_backend_hwp: 無法刪除雲端資源供應方的雲端資源設定檔
+        cannot_edit_backend_hwp: 無法修改雲端資源供應方的雲端資源設定檔
     form:
       check_matches: 檢查符合項目
     hardware: 硬體
-    hardware_profile: 硬體描述檔
-    hardware_profiles: 硬體設定檔
+    hardware_profile: 雲端資源設定檔
+    hardware_profiles: 雲端資源設定檔
     history:
       history: 歷史
     index:
       architecture: 架構
-      hardware_profile_name: 硬體設定檔名稱
+      hardware_profile_name: 雲端資源設定檔名稱
       memory: 記憶體
       storage: 儲存裝置
       virtual_cpu: "虛擬 CPU"
     list:
-      delete_selected: 刪除已選取的項目
-      new_hardware: 新硬體設定檔
+      delete_selected: 刪除已選擇項目
+      new_hardware: 新的雲端資源設定檔
     matching_provider_hwp:
-      no_matching_provider_hwp: 找不到符合供應方的硬體設定檔
+      no_matching_provider_hwp: 找不到符合的雲端資源供應方的雲端資源設定檔
     new:
-      new_hwp: 新硬體設定檔
+      new_hwp: 新的雲端資源設定檔
     preset_filters:
-      all_hardware_profiles: 所有硬體設定檔
+      all_hardware_profiles: 所有雲端資源設定檔
       i386architecture: "i368 架構"
       x86_64architecture: "x86_64 架構"
     properties_headers:
@@ -478,18 +527,18 @@ zh-TW:
       unit: 單位
     provider_hwp_headers:
       architecture: 架構
-      hwp_name: 硬體設定檔名稱
+      hwp_name: 雲端資源設定檔名稱
       memory: 記憶體
-      provider_name: 供應方名稱
-      storage: 儲存裝置
+      provider_name: 雲端資源供應方名稱
+      storage: 儲存
       virtual_cpu: "虛擬 CPU"
     show:
-      backend_hwp: "%{name}（供應方） "
+      backend_hwp: "%{name}（雲端資源供應方）"
       frontend_hwp: "%{name}（前端）"
-      matching_hwp: 符合供應方的硬體清單
+      matching_hwp: 符合的雲端資源供應方的雲端資源設定檔
     tab_captions:
       history: 歷史
-      matching_provider_hwp: 符合供應方的硬體清單
+      matching_provider_hwp: 符合的雲端資源供應方的雲端資源設定檔
       properties: 屬性
   hello: 哈囉
   help: 協助
@@ -500,16 +549,19 @@ zh-TW:
   images:
     edit_xml:
       edit: 編輯
+      edit_xml: "編輯 XML"
       save_and_continue: 儲存並繼續
-    environment: 環境：
-    environment_header: 環境
+    environment: "雲端：%{environment}"
+    environment_header: 雲端
     flash:
       error:
         invalid_url: "無法載入所提供的 URL"
-        no_file: "您必須指定 XML 範本檔案"
-        no_provider_accounts: 無法建立映像，因為目前尚未啟用供應方帳號。
-        no_provider_accounts_for_import: 無法匯入映像檔，因為此環境中目前尚未啟用任何供應方帳號。
-        no_template: 映像檔沒有範本，因為它已被匯出。
+        no_file: "您必須指定元件概要的 XML 檔"
+        no_name: 您必須指定元件概要的名稱
+        no_provider_accounts: 無法建立映像檔。沒有與此雲端相聯、已啟用的雲端資源供應方帳號。
+        no_provider_accounts_for_import: 無法匯入映像檔。此雲端目前沒有啟用中的雲端資源供應方帳號。
+        no_template: "映像檔沒有元件概要，因為它是被匯入的，而非建立於 Conductor 中。"
+        not_exist: 找不到您嘗試存取的映像檔。它可能已被刪除。
       notice:
         created: 已建立映像檔
         deleted: 已刪除映像檔
@@ -520,13 +572,14 @@ zh-TW:
         delete_failed: 無法刪除映像檔
         not_found: 找不到映像檔
     import:
-      blank_id: "映像檔 ID 不能是空白的。"
-      image_id: "映像檔 ID"
+      blank_id: "元件概要 ID 不能留白。"
+      image_id: "雲端資源供應方的元件概要 ID"
       image_imported: 已成功匯入了映像檔。
       image_not_imported: 無法匯入映像檔。請檢查「映像檔工廠」的記錄，以取得更多相關資訊。
-      import_image: 匯入映像檔
+      import_image: 匯入映像
       name: 映像檔名稱
-      provider_account: 供應方帳號
+      provider_account: 雲端資源供應方帳號
+      provider_unreachable: "Conductor 無法連上 Image Factory。請驗證 Image Factory 有在執行，並已正確配置。"
     index:
       architecture: 架構
       images: 映像檔
@@ -537,20 +590,20 @@ zh-TW:
       os: OS
       os_version: "OS 版本"
     new:
-      choose_file: 選擇範本檔案：
-      description: "選擇以下選項之一，以將映像檔上傳或匯入至「%{environment} 環境」中。"
+      choose_file: 選擇一項元件概要檔案：
+      description: "選擇以下選項之一，以將映像檔上傳或匯入至「%{environment} 雲端」中。"
       edit_file: 儲存前編輯此檔案：
       from_url: "從 URL"
-      image_url: "範本 URL："
+      image_url: "元件概要 URL："
       name: 名稱：
       new_image: 新映像檔
       upload: 上傳
-    not_on_provider: 在供應方上找不到請求的映像檔。
+    not_on_provider: 雲端資源供應方上找不到請求的映像檔。
     overview:
       back: 上一步
       description: "已成功驗證「%{name}」中的 markup 和映像檔參照。您現在已可儲存映像檔，並建立應用程式藍圖。"
-      make_deployable: "自動製作「%{name}」可建置項目。"
-      save_template: 儲存範本
+      make_deployable: "自動製作「%{name}」應用程式藍圖。"
+      save_template: 儲存元件概要
       valid_image: 有效映像檔
     show:
       account: 帳號
@@ -570,19 +623,19 @@ zh-TW:
       image_uuid: "映像檔 UUID"
       latest: 最新的
       missing_build: 請先選擇組建
-      new_deployable_from_image: 來自於映像檔的新的可建置項目
+      new_deployable_from_image: 來自於映像檔的新應用程式藍圖
       not_built: 尚未建立映像檔
       only_latest_builds_can_be_pushed: 只能推送最新的組建
-      provider: 供應方
-      provider_account: 供應方帳號
-      provider_images: 供應方映像檔
+      provider: 雲端資源供應方
+      provider_account: 雲端資源供應方帳號
+      provider_images: 雲端資源供應方映像檔
       push: 推送
       push_all: 全部推送
       push_started: 推送正要開始
       rebuild: 重建
       rebuild_all: 全部重建
       select_build: 選擇
-      template_xml: "檢視範本 XML"
+      template_xml: "檢視元件概要 XML"
       upload: 上傳
       view_build: 檢視組建
   instance_details: "instance 的詳細資料"
@@ -591,30 +644,30 @@ zh-TW:
     confirm_terminate:
       terminate: 終止
       terminate_instances: "終止 Instance"
-      terminate_instances_description: "無法存取供應方，以下 instance 的狀態會變為「已停止」，但實際狀況不明。"
+      terminate_instances_description: "無法存取供雲端資源應方，以下 instance 的狀態會改變為「已停止」，但它們的實際狀況不明。"
     edit:
-      edit_instance: "編輯 instance"
+      edit_instance: "編輯 Instance"
       name: 名稱
     errors:
-      architecture_mismatch: "組合硬體設定檔架構（%{inst_arch}）與硬體設定檔架構（%{img_arch}）不相符。"
-      cannot_destroy: "無法移除此 instance。"
-      hw_profile_match_not_found: "%{account_name}：找不到符合的硬體設定檔"
+      architecture_mismatch: "元件藍圖硬體設定檔架構（%{inst_arch}）與映像檔硬體設定檔架構（%{img_arch}）不相符。"
+      cannot_destroy: "無法在此 instance 上進行銷毀動作。"
+      hw_profile_match_not_found: "%{account_name}：找不到相符的雲端資源設定檔"
       image_not_found: "找不到 uuid %{b_uuid} 的映像檔組建，也找不到 uuid %{i_uuid} 的映像檔。"
-      image_not_pushed_to_provider: "%{account_name}：並未推送映像檔到此供應方帳號"
+      image_not_pushed_to_provider: "%{account_name}：並未推送映像檔至此雲端資源供應方帳號"
       invalid_state: 錯誤，無法計算狀態時間：無效的狀態
-      must_be_enabled: "%{account_name}：必須啟用供應方"
-      no_config_server_available: "%{account_name}：沒有供應方帳號可用的配置伺服器"
-      no_provider_accounts: 所選集區的集區家族沒有與其相聯的提供者帳號。
-      pool_family_quota_reached: 已達集區家族的配額
-      pool_quota_reached: 已達集區配額
-      provider_account_quota_reached: "%{account_name}：已達供應方帳號的配額"
-      provider_account_quota_too_low: "%{match_provider_account} 的配額限制太低，無法啟動建置項目"
-      provider_not_available: "%{account_name}：沒有可用的供應方"
-      realm_not_mapped: "%{account_name}：領域 %{frontend_realm_name} 未對應到任何有效的供應方或供應方領域。"
-      reboot_invalid_action: 「重新啓動」乃不合於規定的動作。
+      must_be_enabled: "%{account_name}：雲端資源供應方必須啟用"
+      no_config_server_available: "%{account_name}：雲端資源供應方帳號沒有可用的配置伺服器。"
+      no_provider_accounts: 所選之雲端資源區域的雲端沒有相聯的雲端資源供應方帳號。
+      pool_family_quota_reached: 已達雲端配額
+      pool_quota_reached: 已達雲端資源區域的配額
+      provider_account_quota_reached: "%{account_name}：已達雲端資源供應方帳號的配額限制"
+      provider_account_quota_too_low: "%{match_provider_account} 配額太低，無法啟動應用程式藍圖"
+      provider_not_available: "%{account_name}：沒有可用的雲端資源供應方"
+      realm_not_mapped: "%{account_name}：雲端資源叢集 %{frontend_realm_name} 未對映至一個可用的雲端資源供應方，或是雲端資源供應方領域"
+      reboot_invalid_action: 「重新啓動」乃無效的動作。
       state_not_monitored: 錯誤，無法計算狀態時間：並未監控狀態
-      stop_invalid_action: 「停止」乃不合於規定的動作。
-      user_quota_reached: 已達使用者配額
+      stop_invalid_action: 「停止」乃無效的動作。
+      user_quota_reached: 已達使用者配額限制
     flash:
       error:
         not_deleted:
@@ -649,7 +702,7 @@ zh-TW:
     instance: Instance
     instances:
       one: Instance
-      other: Instance
+      other: Instances
     list:
       export_events: 匯出事件
       hide_stopped: 隱藏已停止的
@@ -657,50 +710,63 @@ zh-TW:
       show_all: 顯示全部
       showing_all_instances: "顯示所有 instance"
       stop_selected_instances: "停止所選取的 instance"
-      stopped_instances_hidden: "隱藏已停止的 instance"
+      stopped_instances_hidden: "已隱藏已停止的 instance"
       table:
         name: 名稱
         owner: 擁有者
-        provider: 供應方
+        provider: 雲端資源供應方
         public_address: 公開位址
         state: 狀態
-    none_selected: "您必須選擇一或多個要停止的 instance。"
-    none_selected_to_reboot: "您必須選擇一或多個要重新啟動的 instance。"
+    none_selected: "您必須選擇一或多個欲停止的 instance。"
+    none_selected_to_reboot: "您必須選擇一或多個欲重新啟動的 instance。"
     parameters:
       config_parameters: 配置參數
-      none: None
+      none: 無
     permissions:
       permissions_for: 權限
     preset_filters:
       all_instances: "所有 instance"
       create_failed: "失敗的 instance"
+      error: "處於錯誤狀態中的 instance"
+      new: "新 instance"
       other_than_stopped: "非停止中的 instance"
       pending: "等待處理中的 instance"
       running: "執行中的 instance"
+      shutting_down: "正在關閉的 instance"
       stopped: "已停止的 instance"
+      vanished: "已消失的 instance"
     properties:
       architecture: 架構
-      assembly: 組合
-      console_connection: 主控台連線：
-      current_alerts: 目前的警示：
+      assembly: 元件藍圖
+      console_connection: 主控台連線
+      current_alerts: 目前的警示
       download: 下載
-      error: 錯誤：
-      instantiation_time: "Instantiation 時間："
-      memory: 記憶體：
-      n_a: N/A
-      name: 名稱：
-      owner: 擁有者：
-      private_adresses: 私有位址：
+      error: 錯誤
+      instantiation_time: "Instantiation 時間"
+      memory: 記憶體
+      n_a: 無
+      name: 名稱
+      owner: 擁有者
+      private_adresses: 私有位址
       properties_for: 屬性
-      provider: 供應方：
-      public_addresses: 公開位址：
-      shared_to: 共享至：
-      ssh_key: "SSH 金鑰："
-      ssh_key_name: "SSH 金鑰名稱："
-      status: 狀態：
-      storage: 儲存裝置：
+      provider: 雲端資源供應方
+      public_addresses: 公開位址
+      shared_to: 共享至
+      ssh_key: "SSH 金鑰"
+      ssh_key_name: "SSH 金鑰名稱"
+      status: 狀態
+      storage: 儲存
       via_ssh: "透過 SSH"
     reboot: 重新啟動
+    states:
+      create_failed: 建立失敗
+      error: 錯誤
+      new: 新的
+      pending: 等待處理
+      running: 執行中
+      shutting_down: 關閉中
+      stopped: 已停止
+      vanished: 已消失
     tab_captions:
       history: 歷史
       permissions: 權限
@@ -708,15 +774,54 @@ zh-TW:
   last_name: 姓
   launch_instance: "啟動 instance"
   layout:
-    appname: "Aeolus Conductor"
+    appname: "CloudForms Cloud Engine"
     copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
     dashboard: 控制面板
   login: 登入
-  manage_providers: 管理供應方
+  logs:
+    flash:
+      error:
+        date_range: "「From date」不可在「To date」之後"
+    index:
+      created_at: 建立於
+      deployment: 應用程式/Instance
+      details: 詳細資料
+      event_time: 時間
+      export_logs: 匯出日誌
+      frontend_realm: 雲端資源叢集
+      grouped_by: 分組方式
+      hwp: 雲端資源設定檔
+      image: 映像檔
+      none: 無
+      not_available: 無
+      owner: 擁有者
+      pool: 雲端資源區域
+      provider: 雲端資源供應方
+      state: 狀態
+      summary: 概要
+      title: 日誌
+      uptime: 開機時間
+    options:
+      default_event_types: 所有事件類型
+      default_group_by: 全部
+      default_pools: 所有雲端資源區域
+      default_providers: 所有雲端資源供應方
+      default_states: 所有狀態
+      default_users: 所有使用者
+      deployment_event_type: 應用程式
+      deployment_instance_order: 應用程式/Instance
+      instance_event_type: Instance
+      owner_order: 擁有者
+      pool_order: 雲端資源區域
+      provider_order: 雲端資源供應方
+      state_order: 狀態
+      time_order: 時間
+  manage_providers: 管理雲端資源供應方
   manage_users: 管理使用者
   map_locales: 對應區域
   map_profiles: 對應設定檔
   masthead:
+    login: 登入
     logout: 登出
     my_account: 我的帳號
   maximum_running_instances: "執行中 instance 的上限"
@@ -726,16 +831,18 @@ zh-TW:
       administer: 管理
       monitor: 監控
     second_level:
-      cloud_providers: 雲端供應方
+      cloud_providers: 雲端資源供應方
       content: 內容
-      environments: 環境
+      environments: 雲端
       settings: 設定
+      user_groups: 使用者群組
       users: 使用者
   new: 新的
   new_user: 新使用者
   operation: 操作
   overview: 概觀
   permissions:
+    direct_access: 直接存取
     flash:
       error:
         no_users_selected: 未選取使用者
@@ -749,120 +856,138 @@ zh-TW:
         added: "新增至以下使用者角色：%{list}"
         deleted: "刪除以下賦予的使用權限：%{list}"
         modified: "已成功修改以下使用者角色：%{list}"
+        no_change: 已設置了所有使用者角色；無需進行任何變更
     form:
       grant_access: 賦予存取能力
+    global: 全域
+    global_access: 全域存取權限
+    inherited_access: 繼承存取權限
+    inherited_from: 繼承於
+    name: 名稱
     new:
       choose_global_role: 為使用者選擇要指定的全域角色
       choose_roles: 為您想要賦予存取能力的使用者選擇角色
       global_role_grants: 賦予全域角色
     preset_filters:
+      all_entities: 所有實體
       all_permissions: 所有存取權限
+      group_permissions: 群組權限
+      user_permissions: 使用者權限
+    resource: 資源
+    resource_type: 資源類型
     revoke_access: 移除存取能力
   pool_families:
     add_to_pool_family: "新增至 %{name}"
-    choose_provider_accounts: 選擇供應方帳號，已啟用這個集區家族
-    confirm_delete: 確定要刪除此集區家族？所有相關的集區、目錄與可建置項目也會被刪除！
+    choose_provider_accounts: 選擇雲端資源供應方帳號，已啟用此雲端
+    confirm_delete: "確定要刪除此 Cloud？所有相關的雲端區域、目錄、以及應用程式藍圖也將被刪除。"
     edit:
       return_to: 傳回至：
+    errors:
+      associated_images: "以下相聯的映像檔存在：%{list}。請先將它們刪除。"
+      default_pool_family_not_deleted: "無法刪除預設的 Cloud。"
+      not_destroyable_pools: "無法刪除以下集區：%{list}。"
     flash:
       error:
-        default_pool_family_not_deleted: 無法刪除預設集區家族！
-        more_not_deleted: "無法刪除以下集區家族：%{list}。"
-        no_provider_accounts: 沒有可用的供應方帳號。
-        not_deleted: "無法刪除集區家族！請檢查所有 instance 已經停止。"
-        not_updated: 未更新集區家族！
-        provider_accounts_not_added: 無法新增這些供應方帳號
-        provider_accounts_not_removed: 無法移除這些供應方帳號
-        select_to_add_accounts: 請至少選擇一組要新增的供應方帳號。
-        select_to_remove_accounts: 請至少選擇一組要移除的供應方帳號。
+        no_provider_accounts: 沒有可用的雲端資源供應方帳號。
+        not_deleted: 無法刪除雲端。
+        not_deleted_with_err: "無法刪除雲端：%{err}"
+        not_updated: 雲端並未更新。
+        provider_accounts_not_added: 無法新增這些雲端資源供應方帳號
+        provider_accounts_not_removed: 無法移除這些雲端資源供應方帳號
+        select_to_add_accounts: 您必須選擇新增至少一個雲端資源供應方帳號。
+        select_to_remove_accounts: 您必須選擇移除至少一個雲端資源供應方帳號。
       notice:
-        added: 已新增集區家族。
-        deleted: 已刪除集區家族！
-        more_deleted: "刪除以下集區家族：%{list}。"
-        provider_accounts_added: 已新增這些供應方帳號
-        provider_accounts_removed: 已移除這些供應方帳號
-        updated: 已更新集區家族！
+        added: 已新增雲端。
+        deleted: 已刪除雲端。
+        provider_accounts_added: 已新增了這些雲端資源供應方帳號
+        provider_accounts_removed: 已移除了這些雲端資源供應方帳號
+        updated: 雲端已更新。
       warning:
-        creation_failed: 建立集區家族失敗。
+        creation_failed: 雲端建立失敗。
     index:
-      active_instances: "運作中的 instance"
+      active_instances: "運作中的 Inst。"
       answer_no: 否
       answer_yes: 是
       available_instances: "可用的 instance"
       catalog: 目錄
-      deployments: 建置
+      deployments: 應用程式
       enabled: 已啟用
       failed_instances: "失敗的 instance。"
       name: 名稱
-      new_pool_family: 新集區家族
+      new_pool_family: "新 Cloud"
       pending_instances: "懸而未決的 instance"
-      pool_name: 集區名稱
+      pool_family_quota_used: 已使用的雲端配額
+      pool_name: 雲端資源區域名稱
+      provider_selection: 雲端資源供應方選擇
       quota_limit: 配額限制
       quota_used: 已使用配額
       total_instancies: "instance 總數"
       total_statistics: 總數
     new:
-      environments: 環境
-    pool_families: 集區家族
-    pool_family: 集區家族
-    pool_family_details: 集區家族的詳細資料
-    provider_accounts_for: 負責的供應方
+      environments: 雲端
+    pool_families: 雲端
+    pool_family: 雲端
+    pool_family_details: 雲端的詳細資料
+    provider_accounts_for: 雲端資源供應方帳號屬於
     remove_selected: 移除所選取的項目
   pools:
-    create_new_pool: 建立新集區
-    edit_pool: "編輯集區 %{pool}"
+    create_new_pool: 建立新的雲端資源區域
+    edit_pool: "編輯雲端資源區域 %{pool}"
     errors:
       must_be_enabled: 必須啟用
-      providers_disabled: 已停用所有相關的供應方
+      providers_disabled: 已停用所有相聯的雲端資源供應方
     flash:
       error:
-        default_pool_not_deleted: 無法刪除預設集區
-        iwhd_unavailable: 無法取得目錄映像。似乎是因為無法連上映像倉儲
-        not_updated: 未更新集區！
+        default_pool_not_deleted: 無法刪除預設的雲端資源區域。
+        iwhd_unavailable: "無法取得目錄映像。似乎是因為無法連上 Image Warehouse。"
+        not_updated: 雲端資源區域並未更新
         pool_not_deleted:
-          one: "未刪除集區 %{list}。尚有 instance 與之相關連。"
-          other: "未刪除集區 %{list}。尚有 instance 與之相關連。"
+          one: "未刪除雲端資源區域 %{list}。尚有 instance 與之相聯。"
+          other: "未刪除雲端資源區域 %{list}。尚有 instance 與之相聯。"
       notice:
-        added: 已新增集區。
-        updated: 已更新集區。
+        added: 已新增雲端資源區域。
+        updated: 已更新雲端資源區域。
       success:
         pool_deleted:
-          one: "已刪除集區 %{list}。"
-          other: "已刪除集區 %{list}。"
+          one: "已刪除雲端資源區域 %{list}。"
+          other: "已刪除雲端資源區域 %{list}。"
       warning:
-        creation_failed: 建立集區失敗。
+        creation_failed: 建立雲端資源區域失敗。
     form:
       instance_or: "Instance 或"
-      pool_enabled: 已啟用集區
+      pool_enabled: 已啟用雲端資源區域
       unlimited: 無上限
     header_show:
-      pool_name: "%{name} 集區"
+      pool_name: "%{name} 雲端資源區域"
     images:
       catalog: 目錄
-      catalog_entry: 可建置項目
+      catalog_entry: 應用程式藍圖
       image: 映像檔：
       pushed: "%{uuid} 已推送至 %{provider}"
     index:
-      confirm_delete: 確定要刪除此集區？所有相關的目錄與可建置項目也會被刪除！
+      confirm_delete: 您是否確定要刪除此雲端資源區域？藍圖上所有相關的目錄和應用程式也將會被刪除。
       deployed_on: 建置於
       destroy: 完全刪除
       failed: 失敗
       global_uptime: 整體啟動時間
+      not_all_deployments_displayed_alert_html: "並未顯示所有應用程式。請至 %{name} 雲端資源區域詳細資訊，以取得更多相關資訊。&raquo;"
       overview: 概觀
       owner: 擁有者
       pending: 懸而未決
-      pool_details: 集區的詳細資料
-      pool_family: 集區家族
-      pool_name: 集區名稱
-      your_pools: 您的集區
+      pool_details_html: "%{name} 雲端資源區域詳細資訊 &raquo;"
+      pool_family: 雲端
+      pool_name: 雲端資源區域名稱
+      pool_toggle: 展開/隱藏
+      your_pools: 您的雲端資源區域
     list:
       more_actions: 更多動作
-    new_pool: 新集區
-    pool: 集區
-    pools: 集區
+    logs: 日誌
+    new_pool: 新的雲端資源區域
+    pool: 雲端資源區域
+    pools: 雲端資源區域
     preset_filters:
-      all_pools: 所有集區
-      enabled_pools: 已啟用集區
+      all_pools: 所有雲端資源區域
+      enabled_pools: 已啟用的雲端資源區域
       with_create_failed_instances: "與失敗的 instance"
       with_instances: "與 instance"
       with_pending_instances: "與懸而未決的 instance"
@@ -876,32 +1001,39 @@ zh-TW:
     add_provider_account: 新增帳號
     credentials:
       credentials_for: 認證
+      labels:
+        access_key: 存取金鑰
+        account_number: 帳號
+        certificate: 認證
+        key: 金鑰
+        password: 密碼
+        secret_access_key: 秘密存取金鑰
+        username: 使用者名稱
     edit:
       account: "編輯帳號：%{name}"
       delete_account: 刪除帳號
-      edit_provider_account: 編輯提供方帳號
+      edit_provider_account: 編輯雲端資源供應方帳號
       file_already_uploaded: 早已上傳。是否重新上傳？
       required_field: 所需欄位。
     errors:
-      could_not_connect: 無法連上供應方帳號。請聯絡管理者。
-      exception_while_validating: 檢查供應方認證時發生錯誤。請檢查設定後再試一遍。
-      invalid_credentials: 登入認證不適用於此供應方。
-      populate_hardware_profiles_failed: "無法散佈 hardware_profiles：%{message}"
-      populate_realms_failed: "無法散佈領域：%{message}"
+      associated_images: "以下相聯的供應方映像檔存在：%{images}。請先刪除它們。"
+      could_not_connect: 雲端無法連上雲端資源供應方帳號。請聯絡管理員。
+      exception_while_validating: 檢查雲端資源供應方認證時發生錯誤。請檢查設定後再試一遍。
+      invalid_credentials: 此雲端資源供應方的登入認證無效。
+      not_destroyable_instances: "無法銷毀下列 instance：%{instances}"
+      populate_hardware_profiles_failed: "無法填入 hardware_profiles：%{message}"
+      populate_realms_failed: "無法填入領域：%{message}"
     flash:
       error:
         account_not_added:
           one: "無法新增帳號 %{list}"
           other: "無法新增帳號 %{list}"
-        account_not_deleted:
-          one: "未刪除帳號 %{list}。尚有 instance 與之相關連。"
-          other: "未刪除帳號 %{list}。尚有 instance 與之相關連。"
-        no_provider: 您沒有任何供應方。請建立供應方！
-        not_added: 無法新增供應方帳號。
-        not_deleted: 未刪除供應方帳號！
-        not_updated: 未更新供應方帳號！
+        no_provider: 您尚未擁有雲端資源供應方。請建立之。
+        not_added: 無法新增雲端資源供應方帳號。
+        not_deleted_with_err: "未刪除 %{account} 帳號：%{err}"
+        not_updated: 雲端資源供應方帳號並未更新
         test_connection_failed_invalid: 測試連線失敗：不合乎規定的帳號詳細資料
-        test_connection_failed_provider: 測試連線失敗：連不上提供方
+        test_connection_failed_provider: 測試連線失敗：連不上雲端資源供應方
       notice:
         account_added:
           one: "已新增帳號 %{list}。"
@@ -909,19 +1041,19 @@ zh-TW:
         account_deleted:
           one: "已刪除帳號 %{list}。"
           other: "已刪除帳號 %{list}。"
-        deleted: 已刪除提供方帳號！
+        deleted: 已刪除雲端資源供應方帳號
         test_connection_success: 測試連線成功：合乎規定的帳號詳細資料
-        updated: 已更新供應方帳號資料！
+        updated: 已更新雲端資源供應方帳號
       warning:
         must_select_account: 請先選擇一些帳號。
-        no_provider: 您尚未擁有供應方
+        no_provider: 您尚未擁有任何雲端資源供應方
     form:
       account_name: 帳號名稱
       account_number: "AWS 帳號 ID"
       account_private_cert: "EC2 x509 私密金鑰"
       account_public_cert: "EC2 x509 公開金鑰"
       password: 秘密存取金鑰
-      provider_accounts: 提供方帳號
+      provider_accounts: 雲端資源供應方帳號
       quota_instances: "配額 instance"
       test_account: 測試帳號
       unlimited_quota: 配額無上限
@@ -933,34 +1065,34 @@ zh-TW:
       config_server_saved: 成功儲存配置伺服器資料
       priority: 優先順序
       provider_account_name: 帳號名稱
-      provider_accounts: 提供方帳號
-      provider_name: 供應方名稱
-      provider_type: 供應方類型
+      provider_accounts: 雲端資源供應方帳號
+      provider_name: 雲端資源供應方名稱
+      provider_type: 雲端資源供應方類型
       quota_limit: 配額限制
       username: 使用者名稱
     list:
       delete_selected: 刪除已選擇項目
     new:
-      cloud_providers: 雲端供應方
-      new_provider_account: 新提供方帳號
-      required_field: 必填欄位。
+      cloud_providers: 雲端資源供應方
+      new_provider_account: 新的雲端資源供應方帳號
+      required_field: 所需欄位。
     new_provider_account: 新帳號
     permissions:
-      permissions_for: 權限
+      permissions_for: 存取權限
     preset_filters:
       all_provider_accounts: 所有帳號
     properties:
-      account_number: 帳號號碼：
-      config_server: 配置伺服器：
+      account_number: 帳號號碼
+      config_server: 配置伺服器
       none: 無
       properties_for: 屬性
-      running_instances_quota: "執行中的 instance 之配額："
+      running_instances_quota: "執行中的 instance 配額"
       sure_to_delete: 確定要刪除此配置伺服器？
       test: 測試
       unlimited: 無上限
     provider_selection:
       cloud_type: 雲端類型：
-      provider_name: 供應方名稱：
+      provider_name: 雲端資源供應方名稱：
     remove_provider_accounts: 移除帳號
     rhevm:
       login_form: "RHEV-M 的登入方式（尚未實作完成）"
@@ -970,26 +1102,72 @@ zh-TW:
     tab_captions:
       credentials: 認證
       history: 歷史
-      permissions: 權限
+      permissions: 存取權限
       properties: 屬性
-  provider_accounts_item: 供應方帳號
+  provider_accounts_item: 雲端資源供應方帳號
   provider_images:
     flash:
       notice:
-        deleted: "已刪除供應方映像。如果您想要移除儲存在供應方的實際映像，請參閱 %{provider} 的管理主控台，並搜尋 %{target_id} 映像。"
-        upload_start: 已開始上傳供應方映像
+        deleted: "已刪除雲端資源供應方映像。要移除儲存在雲端資源供應方的實際映像，請參閱 %{provider} 的管理主控台，並搜尋 %{target_id} 映像。"
+        upload_start: 已開始上傳雲端資源供應方映像
       warning:
-        delete_failed: 無法刪除供應方映像
-        not_found: 找不到供應方映像
-        upload_failed: 無法上傳供應方映像
+        delete_failed: 無法刪除雲端資源供應方映像
+        not_found: 找不到雲端資源供應方映像
+        upload_failed: 無法上傳雲端資源供應方映像
+  provider_priority_groups:
+    edit:
+      back: "雲端資源區域的雲端資源供應方群組：%{pool}"
+      save: 儲存優先群組
+      title: 編輯優先群組
+    flash:
+      created: 已成功建立優先群組
+      deleted: 已成功刪除優先群組
+      updated: 已成功更新優先群組
+    form:
+      basic_data: 基本資料
+      providers_and_provider_accounts: 雲端資源供應方與雲端資源供應方帳號
+    index:
+      add_new: 新增
+      back_to_strategies: "對雲端資源區域的雲端資源供應方的選擇策略：%{pool}"
+      confirm_delete: 確定要刪除此優先群組？
+      edit_strict_order_strategy: 編輯嚴格順序的策略
+      no_priority_group: 沒有可用的優先權組可供顯示
+      provider_account_name: 帳號名稱
+      provider_account_username: 使用者名稱
+      provider_name: 雲端資源供應方名稱
+      provider_type: 雲端資源供應方類型
+      quota_maximum_running_instances: 配額限制
+      quota_percentage_used: 已使用配額
+    new:
+      back: "雲端資源區域的雲端資源供應方群組：%{pool}"
+      create: 建立優先群組
+      title: 新增優先群組
   provider_realms:
-    name: 供應方領域名稱
-    provider_realms: 供應方領域
+    name: 雲端資源供應方領域名稱
+    provider_realms: 雲端資源供應方領域
     show:
-      details: 供應方領域的詳細資料
-      mapping: 供應方領域對應
-      provider_accounts_mapped: "供應方帳號已對應至供應方領域 %{name}"
-  provider_summary: 供應方摘要
+      details: 雲端資源供應方領域的詳細資料
+      mapping: 雲端資源供應方領域的對應
+      provider_accounts_mapped: "已對應至雲端資源供應方領域 %{name} 的雲端資源供應方帳號"
+  provider_selection:
+    edit_strategy:
+      back_to_strategies: "對雲端資源區域的雲端資源供應方的選擇策略：%{pool}"
+      edit: "編輯 %{strategy_name} 策略"
+    flash:
+      config_successfully_saved: "已成功更新 %{strategy_name} 策略"
+      failed_to_disable: "停用 %{strategy_name} 策略失敗"
+      failed_to_enable: "啟用 %{strategy_name} 策略失敗"
+      successfully_disabled: "已成功停用 %{strategy_name} 策略"
+      successfully_enabled: "已成功啟用 %{strategy_name} 策略"
+    show:
+      available_provider_accounts: 可用的雲端資源供應方帳號
+      available_strategies: 可用策略
+      configure: 配置
+      edit_provider_accounts: 為雲端資源區域家族編輯雲端資源供應方帳號
+      edit_strategy: "編輯 %{name} 策略"
+      environment: "雲端：%{environment}"
+      provider_selection: 雲端資源供應方選擇策略
+  provider_summary: 雲端資源供應方摘要
   providers:
     alerts:
       alert_type:
@@ -1003,63 +1181,71 @@ zh-TW:
       type:
         critical: 嚴重
         warning: 警告
-    choose_a_provider: 選擇供應方：
-    confirm_delete: 確定要刪除此供應方？
+    choose_a_provider: 選擇雲端資源供應方：
+    confirm_delete: 確定要刪除此雲端資源供應方？
     confirm_terminate:
       disable: 停用
-      disabled_provider: 停用提供方
-    disable_provider: "停用供應方？所有 instance 都會停止！"
+      disabled_provider: 停用雲端資源供應方
+    disable_provider: "停用雲端資源供應方？所有 instance 都會停止。"
     edit:
-      enable_configure_providers: 要啟用、配置供應者，請點選此視窗右上角之切換開關。
-      provider_disabled: "目前供應方 %{name} 已停用。"
-      provider_id_disabled: 已停用供應方。
-      provider_unavailable: "目前供應方 %{name} 無法使用。"
+      enable_configure_providers: 要啟用、配置雲端資源供應方，請點選此視窗右上角之切換開關。
+      provider_disabled: "目前雲端資源供應方 %{name} 已停用。"
+      provider_id_disabled: 已停用雲端資源供應方。
+      provider_unavailable: "目前雲端資源供應方 %{name} 無法使用。"
       toggle_alerts: 切換警示
-    editing_provider: 編輯供應方
-    enable_provider: 啟用供應方？
+    editing_provider: 編輯雲端資源供應方
+    enable_provider: 啟用雲端資源供應方？
     flash:
       error:
-        not_added: 無法新增供應方。
-        not_deleted: 未刪除供應方
-        not_disabled: 無法停用供應方。
-        not_updated: 無法更新供應方。
+        not_added: 無法新增雲端資源供應方。
+        not_deleted: 未刪除雲端資源供應方！
+        not_deleted_with_err: "未刪除雲端資源供應方：%{err}"
+        not_disabled: 無法停用雲端資源供應方。
+        not_updated: 無法更新雲端資源供應方。
       notice:
-        added: 已新增供應方。
-        connected: 已成功連上供應方
-        deleted: 已成功刪除供應方。
-        disabled: 已停用供應方。
-        updated: 已更新供應方。
+        added: 已新增雲端資源供應方。
+        connected: 已成功連上雲端資源供應方
+        deleted: 已刪除雲端資源供應方。
+        disabled: 已停用雲端資源供應方。
+        updated: 已更新雲端資源供應方。
       warning:
-        connect_failed: 無法連上供應方！
-        not_stopped_instances: "並未停用供應方，停止以下 instance 失敗："
-        not_terminated_instances: "並未停用供應方，無法改變以下 instance 成為「已停止」："
+        connect_failed: 連上雲端資源供應方失敗
+        not_stopped_instances: "並未停用雲端資源供應方，停止以下 instance 失敗："
+        not_terminated_instances: "並未停用雲端資源供應方，無法改變以下 instance 成為「已停止」："
     form:
       caution_alt_text: 注意
       caution_image: 注意
       enter_correct_url_msg: "請輸入正確的 URL 格式。"
       required_field: 所需欄位。
-      select_type_of_provider: 選擇供應方類型
+      select_type_of_provider: 選擇雲端資源供應方類型
       test_connection: 測試連線
       x_deltacloud_provider:
         ec2: "EC2 區域"
-        generic: X-Deltacloud-供應方：
+        generic: "X-Deltacloud-Cloud 雲端資源供應方"
+        openstack: "Openstack API_ENTRYPOINT"
+        rackspace: "Rackspace API_PROVIDER"
         rhevm: "RHEV-M API_PROVIDER"
         vsphere: "vSphere API 主機名稱"
-      x_deltacloud_provider_legend: "X-Deltacloud-Provider 的圖示"
+      x_deltacloud_provider_legend: "X-Deltacloud-Cloud 資源供應方的圖示"
     index:
-      create_new_provider: 建立新的供應方
+      create_new_provider: 建立新的雲端資源供應方
       create_one: 請先建立一組。
-      no_providers_available: 沒有可用的供應方。
-      provider_name: 供應方名稱
-      provider_type: 供應方類型
-      provider_url: "供應方 URL"
+      error_instances: 錯誤（目前）
+      historical_error_instances: 錯誤（歷史紀錄）
+      historical_running_instances: 執行中（歷史紀錄）
+      no_providers_available: 沒有可用的雲端資源供應方
+      pending_instances: 懸而未決（目前）
+      provider_name: 雲端資源供應方名稱
+      provider_type: 雲端資源供應方類型
+      provider_url: "雲端資源供應方 URL"
+      running_instances: "執行中的 Instance（目前）"
       x_deltacloud_driver: X-Deltacloud-Driver
-      x_deltacloud_provider: X-Deltacloud-Provider
+      x_deltacloud_provider: "X-Deltacloud-Cloud 資源供應方"
     new:
-      new_provider: 新的供應方
-      save_provider: 儲存供應方
-    provider: 供應方
-    providers: 供應方
+      new_provider: 新的雲端資源供應方
+      save_provider: 儲存雲端資源供應方
+    provider: 雲端資源供應方
+    providers: 雲端資源供應方
   quota: 配額
   quota_used: 已使用配額
   quotas:
@@ -1070,7 +1256,7 @@ zh-TW:
       error:
         not_updated: 無法更新配額，請檢查您輸入了正確的值
       notice:
-        updated: 已更新配額！
+        updated: 已更新配額
     quota: 配額
     show:
       available: 可用的
@@ -1089,15 +1275,15 @@ zh-TW:
     flash:
       error:
         more_not_deleted: 無法刪除這些領域：
-        not_deleted: 未刪除領域！
+        not_deleted: 未刪除領域
         select_to_delete: 您必須選擇至少一組要刪除的領域。
         select_to_delete_mapping: 您必須選擇至少一組要刪除的對應。
       notice:
-        added: 已新增領域。
+        added: 已新增領域
         added_mapping: 已新增領域對應。
-        deleted: 已刪除領域！
+        deleted: 已刪除領域
         more_deleted: 已刪除以下領域：
-        updated: 成功更新領域！
+        updated: 已更新領域
     index:
       realm: 領域
       realm_availability: 可用？
@@ -1108,12 +1294,12 @@ zh-TW:
     list:
       delete_selected: 刪除已選擇項目
     mapping:
-      frontend_realms_mapped_to_provider: "領域已對應至供應方 %{name}："
-      frontend_realms_mapped_to_realm: "領域已對應至供應方領域 %{name}："
-      mapping_provider: 新增對應至供應者
-      mapping_realm: 新增對應至供應方領域
-      provider_accounts_mapped_to_realm: "供應方帳號已對應至領域 %{name}："
-      realm_mapped_providers: "領域 %{name} 已對應至供應方："
+      frontend_realms_mapped_to_provider: "領域已對應至雲端資源供應方 %{name}："
+      frontend_realms_mapped_to_realm: "領域已對應至雲端資源供應方領域 %{name}："
+      mapping_provider: 新增對應至雲端資源供應方
+      mapping_realm: 新增對應至雲端資源供應方領域
+      provider_accounts_mapped_to_realm: "雲端資源供應方帳號已對應至領域 %{name}："
+      realm_mapped_providers: "領域 %{name} 已對應至雲端資源供應方："
       realm_mapped_realms: "領域 %{name} 已對應至領域："
     new:
       create_realm: 建立新領域
@@ -1147,16 +1333,16 @@ zh-TW:
       error:
         more_not_deleted: 無法刪除這些角色：
       notice:
-        added: 已成功儲存角色！
+        added: 已成功儲存角色。
         more_deleted: 已刪除這些角色：
-        updated: 已成功更新角色！
+        updated: 已成功更新角色。
     list:
       roles_list: 角色清單
     new_role: 新角色
     properties:
       action: 動作
       privileges: 特權
-      scope: 範圍：
+      scope: 範圍
       target_type: 目標類型
     show:
       properties: 屬性
@@ -1179,40 +1365,15 @@ zh-TW:
   settings:
     flash:
       notice:
-        updated: 已更新設定！
+        updated: 已更新設定
       warning:
         not_updated_quota: 無法更新預設配額
-    general_settings:
-      allow_self_service: 允許建立自助帳號：
-      brand_icon: 品牌圖示：
-      certificate: 憑證：
-      content: 內容
-      content_manager_url: "內容管理員的 URL："
-      entitlement_mode: 權利模式：
-      general_settings: 一般設定
-      portal: 入口網站
-      primary_url_port: "主 URL 連接埠："
-      select_treatment: 選擇使用者方式
-      system_subscription: 系統供應者的訂閱
-      tag_line: 標籤行：
-      user_brings_subscriptions: 使用者帶來訂閱
     index:
-      define_hardware_profiles: 定義硬體設定檔
-      define_hardware_profiles_desc: "檢視、編輯、並定義 Aeolus Conductor 開放給使用者的硬體設定檔名稱。名稱的意義會由對應到獨立供應者所提供的能力來定義。"
-      define_locales: 定義區域
-      define_locales_desc: "檢視、編輯、並定義 Aeolus Conductor 開放給使用者的區域名稱。名稱的意義會由對應到獨立供應者所提供的地理位置來定義。"
-      define_services: 定義服務
-      define_services_desc: "檢視、編輯、並定義 Aeolus Conductor 所提供的服務。這些服務會根據其能力，對應到獨立供應方。"
-      general_settings: 一般設定
-      general_settings_desc: 啟用註冊自助帳號、設定自訂品牌、管理內容來源
-      manage_providers: 管理供應者
-      manage_providers_desc: "檢視、編輯、並新增虛擬運算資源至 Aeolus Conductor。檢視、編輯、並新增 Aeolus Conductor 帳號至這些供應者。對應供應者特定的概念到 Aeolus Conductor。"
-      manage_users: 管理使用者
-      manage_users_desc: "檢視、編輯、並定義 Aeolus Conductor 上的使用者。為使用者調整配額與特權。"
-      permissions: 權限
-      permissions_desc: 修正自助的預設配額。
+      permissions: 存取權限
+      permissions_desc: 修正自助服務的預設配額。
     self_service:
       account: 帳號
+      instances_quota: "Instance 配額："
       self_service_default: 使用者方式：自助的預設
       self_service_settings: 自助設定
     settings: 設定
@@ -1233,31 +1394,92 @@ zh-TW:
   updates: 更新
   uptime: 總使用時間
   user: 使用者
+  user_group: 使用者群組
+  user_groups:
+    choose_members: 選擇要加入此群組的使用者。
+    confirm_delete: 確定要刪除此使用者群組？
+    edit:
+      edit_user_group: 編輯使用者群組
+    flash:
+      error:
+        members_not_added: 無法新增這些使用者
+        members_not_removed: 無法移除這些使用者
+        not_a_local_group: 此處只能管理本地管理的群組。
+        select_to_add_members: 請至少選擇一組要新增的使用者。
+      notice:
+        added: 已新增使用者群組
+        deleted: 已成功刪除使用者群組。
+        members_added: 已新增這些使用者
+        members_removed: 已移除這些使用者
+        more_deleted:
+          one: 刪除使用者群組
+          other: 刪除使用者群組
+        updated: 已更新使用者群組
+      warning:
+        creation_failed: 無法建立使用者群組
+        delete_failed: 無法刪除使用者群組
+        not_delete: "無法刪除：%{reason}"
+    form:
+      name: 名稱
+      save_user_group: 儲存使用者群組
+      type: 類型
+    groups: 使用者群組
+    index:
+      name: 名稱
+      type: 類型
+    ldap: LDAP
+    list:
+      add_user_group: 新增使用者群組
+      delete_selected: 刪除已選擇項目
+    local: 本地
+    new:
+      neccessary_information: 請輸入新「使用者群組」之資訊，然後按下「儲存使用者群組」。
+      new_user_group: 新使用者群組
+    preset_filters:
+      all_user_groups: 所有使用者群組
+      ldap: "受 LDAP 管理的使用者群組"
+      local: 本地管理的使用者群組
+    quick_jump: 快速連至：
+    return_to: 回到：
+    show:
+      add_members: 新增成員
+      created: 已建立
+      delete: 刪除
+      description: 描述
+      edit: 編輯
+      last_updated: 最後一次更新
+      members: 新增成員
+      name: 名稱
+      type: 類型
   user_sessions:
     flash:
-      notice:
-        login: 成功登入！
-        logout: 成功登出！
       warning:
-        login_failed: 登入失敗：使用者與密碼不相符
+        login_failed: 使用者名稱或密碼不正確，請再試一次。
     new:
+      forgot: 忘記
       help: 目前無法使用求助功能。
       login: 登入
       login_assistance: 登入上的求助
-      password: 密碼：
+      login_unknown_info: 若您不知道您的使用者名稱為何，請在下方輸入您的電子郵件地址，我們將會把使用者名稱寄給您。
+      or: 或
+      password: 密碼
+      password_unknown_info: 請在下方輸入使用者名稱與電子郵件位址。重設密碼的指示會發送給您。
+      reset_password: 重設密碼
+      return_to_login: 回到登入畫面
       security_info: 安全資訊
+      send_login: 發送登入
       show_password: 顯示密碼
-      username: 使用者名稱：
+      username: 使用者名稱
     security:
       encrypted_connection: 加密連線
       expiration: 過期日：未知
-      issued: 簽發認證者：
-      message: "%{host} 與 Aeolus Conductor 的連線目前是安全、加密的，加密方式為 SSL（未知的強度）。"
-      message_unencrypted: "%{host} 與 Aeolus Conductor 的連線目前沒有加密。這可能導致敏感資訊被竊取。"
+      issued: 簽發憑證者：
+      message: "%{host} 與 CloudForm Cloud Engine 的連線目前是安全、加密的，加密方式為 SSL（未知的強度）。"
+      message_unencrypted: "%{host} 與 CloudForm Cloud Engine 的連線目前沒有加密。這可能導致敏感資訊被竊取。"
       message_unencrypted2: 如果您認為有問題，請不要登入；請立即聯絡系統管理員。
       return_to_login: 回到登入畫面
       unencrypted_connection: 未加密的連線
-      unknown_ca: 未知的認證單位
+      unknown_ca: 未知的憑證單位
   users:
     confirm_delete: 確定要刪除這名使用者？
     edit:
@@ -1271,16 +1493,16 @@ zh-TW:
         more_deleted:
           one: 已刪除的使用者
           other: 已刪除的使用者
-        registered: 已註冊使用者！
-        updated: 已更新使用者！
-        you_registred: 您已經成功註冊！
+        registered: 已註冊使用者
+        updated: 已更新使用者
+        you_registred: 您已經成功註冊。
       warning:
         not_delete: "無法刪除：%{reason}"
         not_delete_same_user: "無法刪除 %{login}：您現在正以此身份登入"
     form:
       save_user: 儲存使用者
-      user_status: 使用者狀態
       user_treatment: 使用者方式
+    groups: 群組
     index:
       email: 電子郵件
       first_name: 名
@@ -1289,26 +1511,27 @@ zh-TW:
       user_id: "使用者 ID"
       username: 使用者名稱
     list:
-      delete_selected: 刪除已選取的項目
+      add_user: 新增使用者
+      delete_selected: 刪除已選擇項目
       unlimited: 無上限
     new:
-      neccessary_information: 輸入新使用者的必要資訊，完成後點選「儲存使用者」。
+      neccessary_information: 請輸入所需資訊，然後按下「儲存使用者」。
       new_user: 新使用者
     preset_filters:
       all_users: 所有使用者
       name_starts_with_A: "以 A 開始的名稱"
       name_starts_with_B: "以 B 開始的名稱"
     quick_jump: 快速連至：
-    return_to: 傳回至：
+    return_to: 回到：
     show:
       created: 已建立
       delete: 刪除
       e-mail: 電子郵件地址
       edit: 編輯
       failed_logins: 失敗的登入
-      last_login: 最近一次登入
-      last_login_ip: "最近一次登入的 IP 位址"
-      last_updated: 最近一次更新
+      last_login: 最後一次登入
+      last_login_ip: "最後登入 IP"
+      last_updated: 最後一次更新
       number_of_logins: 登入次數
       username: 使用者名稱
     users: 使用者

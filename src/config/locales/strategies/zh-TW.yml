@@ -1,0 +1,11 @@
+zh-TW:
+  strategies:
+    penalty_for_failure:
+      name: 失敗的處罰
+      views:
+        edit:
+          failure_count_hard_limit: "不該使用 Cloud 資源供應商帳號之前的失敗次數"
+          penalty_percentage: 每次失敗的處罰百分比
+          time_period_minutes: 失敗聚集的時段（單位為秒）
+    strict_order:
+      name: 嚴格順序

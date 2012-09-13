@@ -3,45 +3,45 @@ zh-TW:
     base:
       admin: 全域管理者
       deployable:
-        admin: 全域可建置項目管理者
+        admin: 全域應用程式藍圖管理者
       hwp:
         admin: "全域 HWP 管理者"
         user: "全域 HWP 使用者"
       image:
         admin: 全域映像檔管理者
       pool:
-        admin: 全域集區管理者
-        user: 全域集區使用者
+        admin: 全域雲端資源區域管理者
+        user: 全域雲端資源區域使用者
       provider:
-        admin: 全域供應方管理者
-        user: 全域供應方使用者
+        admin: 全域雲端資源供應方管理者
+        user: 全域雲端資源供應方使用者
       realm:
         admin: 全域領域管理者
     catalog:
       admin: 目錄管理者
       user: 目錄使用者
     deployable:
-      owner: 可建置項目擁有者
-      user: 可建置項目使用者
+      owner: 應用程式藍圖擁有者
+      user: 應用程式藍圖使用者
     deployment:
-      owner: 可建置項目擁有者
-      user: 可建置項目使用者
+      owner: 應用程式擁有者
+      user: 應用程式使用者
     instance:
       owner: "Instance 擁有者"
       user: "Instance 使用者"
     pool:
-      admin: 集區管理者
+      admin: 雲端資源區域管理者
       deployable:
-        admin: 集區可建置項目管理者
-      user: 集區使用者
+        admin: 雲端資源區域應用程式藍圖管理者
+      user: 雲端資源區域使用者
     pool_family:
-      admin: 集區家族管理者
+      admin: 雲端管理者
       image:
-        admin: 集區家族映像檔管理者
-      user: 集區家族使用者
+        admin: 雲端映像管理者
+      user: 雲端使用者
     provider:
-      admin: 供應方管理者
-      user: 供應方使用者
+      admin: 雲端資源供應方管理者
+      user: 雲端資源供應方使用者
     provider_account:
-      owner: 供應方帳號擁有者
-      user: 供應方帳號使用者
+      owner: 雲端資源供應方帳號擁有者
+      user: 雲端資源供應方帳號使用者
