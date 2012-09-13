@@ -284,9 +284,20 @@ done
 #copy the converge-ui symlinks
 %{__cp} -P ./src/app/helpers/converge-ui %{buildroot}%{app_root}/app/helpers
 %{__cp} -P ./src/app/views/layouts/converge-ui %{buildroot}%{app_root}/app/views/layouts
-%{__cp} -P ./src/public/fonts %{buildroot}%{app_root}/public
 %{__cp} -P ./src/public/images/converge-ui %{buildroot}%{app_root}/public/images
 %{__cp} -P ./src/public/javascripts/converge-ui %{buildroot}%{app_root}/public/javascripts
+
+# fonts previously was a directory, but was changed to a symlink into
+# converge-ui.  RPM does not handle replacing directories with
+# symlinks during upgrade transaction, so we need to link the
+# individual font files into the fonts directory instead of just
+# linking the fonts directory itself.  See
+# https://bugzilla.redhat.com/show_bug.cgi?id=447156 for more info on
+# RPM limitations.
+%{__mkdir} %{buildroot}%{app_root}/public/fonts
+pushd %{buildroot}%{app_root}/public/fonts
+%{__ln_s} ../../vendor/converge-ui/fonts/* .
+popd
 
 # precompile stylesheets
 %{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
