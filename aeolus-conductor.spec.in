@@ -276,6 +276,9 @@ done
 
 #copy converge-ui - it originates from converge-ui-devel package so we need all of it's files
 %{__cp} -R ./src/vendor/converge-ui %{buildroot}%{app_root}/vendor
+#we don't want the .git artifacts from converge-ui
+%{__rm} -rf %{buildroot}%{app_root}/vendor/converge-ui/.git
+%{__rm} -f %{buildroot}%{app_root}/vendor/converge-ui/.gitignore
 
 #copy the converge-ui symlinks
 %{__cp} -P ./src/app/helpers/converge-ui %{buildroot}%{app_root}/app/helpers
