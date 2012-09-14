@@ -226,6 +226,7 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/api/target_images app/views/api/entrypoint \
       app/views/api/environments \
       vendor/provider_selection/views/penalty_for_failure"
+erb="app/views/user_sessions"
 mustache="app/views/instances app/views/pools app/views/deployments \
           app/views/deployables app/views/images"
 html="public"
@@ -262,7 +263,7 @@ yml="config config/locales config/locales/defaults config/locales/overrides
      config/locales/overrides/role_definitions config/locales/activerecord \
      config/locales/strategies"
 xml="app/util"
-for filetype in builder css eot feature gif haml mustache html ico jpg js json key opts png \
+for filetype in builder css eot feature gif haml erb mustache html ico jpg js json key opts png \
     rake rb rhtml scss svg ttf txt woff yml xml; do
     dirs=${!filetype}
 
