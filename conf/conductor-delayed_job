@@ -19,14 +19,14 @@ DJOB_PIDDIR="${DJOB_PIDDIR:-/var/run/aeolus-conductor/}"
 
 DJOB_PATH=$CONDUCTOR_DIR/script/
 DJOB_PROG=delayed_job
-DJOB_PIDFILE=$DJOB_PIDDIR/$DJOB_PROG.pid
+DJOB_DAEMON_COUNT=2
 
 . /etc/init.d/functions
 
 start() {
     echo -n "Starting conductor-delayed_job: "
 
-    daemon --user=$AEOLUS_USER $DJOB_PATH/$DJOB_PROG start -n 2 --pid-dir=$DJOB_PIDDIR
+    daemon --user=$AEOLUS_USER $DJOB_PATH/$DJOB_PROG start -n $DJOB_DAEMON_COUNT --pid-dir=$DJOB_PIDDIR
     RETVAL=$?
     if [ $RETVAL -eq 0 ] && touch $DJOB_LOCKFILE ; then
       echo_success
@@ -62,8 +62,11 @@ case "$1" in
       start
       ;;
     status)
-     status -p $DJOB_PIDFILE $DJOB_PROG
-     RETVAL=$?
+     RETVAL=0
+     for i in $(seq 0 $(($DJOB_DAEMON_COUNT - 1))); do
+         status -p $DJOB_PIDDIR/$DJOB_PROG.$i.pid $DJOB_PROG.$i
+         RETVAL=$(($? | $RETVAL))
+     done
      ;;
     force-reload)
       restart
