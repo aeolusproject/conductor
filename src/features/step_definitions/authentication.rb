@@ -83,7 +83,7 @@ When /^I forget to enter my password$/ do
 end
 
 When /^I want to edit my profile$/ do
-  click_link "My Account"
+  click_link user.name
   click_link "Edit"
 end
 
