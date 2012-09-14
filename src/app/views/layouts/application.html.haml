@@ -48,7 +48,6 @@
   %ul
     - if current_user
       %li.header-widget= link_to format_user_name(current_user), account_path
-      %li.header-widget= link_to t('masthead.my_account'), account_path
       %li.header-widget= link_to t('masthead.logout'), logout_path
     - else
       %li.header-widget= link_to t('masthead.login'), login_path

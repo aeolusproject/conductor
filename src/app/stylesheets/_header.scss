@@ -17,9 +17,10 @@ header#header {
   }
 
   #widget-container {
-    li.header-widget a{
-      text-decoration:none;
-      font-family: $screenfont; // $headfont (Overpass) is set for whole header, which aligns wrong in the line
-    }
+    ul {float:right;}
+      li.header-widget a{
+        text-decoration:none;
+        font-family: $screenfont; // $headfont (Overpass) is set for whole header, which aligns wrong in the line
+      }
   }
 }
