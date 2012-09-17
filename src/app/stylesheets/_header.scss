@@ -7,6 +7,10 @@
 header#header {
   height:60px;
 
+  &:after{
+    display: none; // reset :after declaration coming from converge-ui header
+  }
+
   .logo{
     width: 223px;
     bottom: 0px;
