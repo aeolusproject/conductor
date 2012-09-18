@@ -211,16 +211,16 @@ class LogsController < ApplicationController
 
   def load_options
     if @view == "pretty"
-      @source_type_options = [t('logs.options.deployment_event_type'),
-                              t('logs.options.instance_event_type')]
+      @source_type_options = [[t('logs.options.deployment_event_type'), "Deployment"],
+                              [t('logs.options.instance_event_type'), "Instance"]]
       @group_options = [[t('logs.options.default_group_by'), ""],
                         t('logs.index.pool'),
                         t('logs.index.provider'),
                         t('logs.index.owner')]
     else
       @source_type_options = [[t('logs.options.default_event_types'), ""],
-                              t('logs.options.deployment_event_type'),
-                              t('logs.options.instance_event_type')]
+                              [t('logs.options.deployment_event_type'), "Deployment"],
+                              [t('logs.options.instance_event_type'), "Instance"]]
       @pool_options = [[t('logs.options.default_pools'), ""]]
       PoolFamily.list_for_user(current_session, current_user, Privilege::VIEW).
         find(:all, :include => :pools, :order => "pool_families.name",
@@ -339,13 +339,15 @@ class LogsController < ApplicationController
 
   def get_source_label(source, label_type)
     label = "Unknown"
-    case label_type
-    when t('logs.index.pool')
-      label = source.pool.name unless source.pool.nil?
-    when t('logs.index.provider')
-      label = source.provider_account.name unless source.provider_account.nil?
-    when t('logs.index.owner')
-      label = source.owner.name unless source.owner.nil?
+    if !source.nil?
+      case label_type
+      when t('logs.index.pool')
+        label = source.pool.name unless source.pool.nil?
+      when t('logs.index.provider')
+        label = source.provider_account.name unless source.provider_account.nil?
+      when t('logs.index.owner')
+        label = source.owner.name unless source.owner.nil?
+      end
     end
 
     label
