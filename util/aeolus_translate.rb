@@ -36,12 +36,26 @@ SUBS = {
  "Frontend Realm" => " Cloud Resource Cluster"
 }
 
+# These are some special cases where translation goes
+# awry and needs to be tweaked. Since hashes are unordered
+# in 1.8, we need to do these second, versus just putting
+# them at the end...
+TWEAKS = {
+ "Cloud Cloud" => "Cloud", # BZ 857827
+ "Cloud Resource Provider's Component Outline ID" => "Cloud Resource Provider's Image ID" # BZ 783128
+}
+
 contents = File.read(INPUT)
 
 puts "Read #{contents.size} characters from #{INPUT}"
 
 # Should we just pull the [!_\:] down here?
 SUBS.each do |old,new|
+  contents.gsub!(old, new)
+end
+
+# Then, apply the tweaks
+TWEAKS.each do |old,new|
   contents.gsub!(old, new)
 end
 
