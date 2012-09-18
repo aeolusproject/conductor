@@ -65,6 +65,11 @@ class DeploymentsController < ApplicationController
     @pool = @deployment.pool
     init_new_deployment_attrs
 
+    if @deployable.nil?
+      @deployment.errors.add(:base, t('deployments.flash.warning.deployable_not_selected'))
+      render :launch_new and return
+    end
+
     @deployment.deployable_xml = DeployableXML.new(@deployable.xml)
     @deployment.owner = current_user
 
