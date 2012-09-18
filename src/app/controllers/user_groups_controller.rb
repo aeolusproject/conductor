@@ -39,7 +39,12 @@ class UserGroupsController < ApplicationController
     save_breadcrumb(user_group_path(@user_group), @user_group.name)
     @tab_captions = ['Properties']
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
-    @members = paginate_collection(@user_group.members, params[:page])
+    @members = paginate_collection(@user_group.members.
+                                   apply_filters(:preset_filter_id =>
+                                                 params[:members_preset_filter],
+                                                 :search_filter =>
+                                                 params[:members_search]),
+                                                 params[:page])
     add_profile_permissions_inline(@user_group.entity)
     respond_to do |format|
       format.html
@@ -240,6 +245,10 @@ class UserGroupsController < ApplicationController
 
   def filter
     redirect_to_original({"user_groups_preset_filter" => params[:user_groups_preset_filter], "user_groups_search" => params[:user_groups_search]})
+  end
+
+  def filter_members
+    redirect_to_original({"members_preset_filter" => params[:members_preset_filter], "members_search" => params[:members_search]})
   end
 
 end
