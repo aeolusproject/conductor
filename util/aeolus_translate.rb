@@ -21,7 +21,6 @@ SUBS = {
  "Deployment" => "Application",
  "Pool" => "Cloud Resource Zone",
  "Provider" => "Cloud Resource Provider",
- "Cloud Cloud" => "Cloud",
  "Frontend Realm" => "Cloud Resource Cluster",
  "Hardware Profile" => "Cloud Resource Profile",
  "Assembly" => "Component Blueprint",
