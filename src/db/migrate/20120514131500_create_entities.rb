@@ -25,10 +25,18 @@ class CreateEntities < ActiveRecord::Migration
     end
 
     User.all.each do |u|
-      u.save!
+      unless u.entity
+        entity = Entity.new(:entity_target => u)
+        entity.name = "#{u.first_name} #{u.last_name} (#{u.login})"
+        entity.save!
+      end
     end
     UserGroup.all.each do |ug|
-      ug.save!
+      unless ug.entity
+        entity = Entity.new(:entity_target => ug)
+        entity.name = "#{ug.name} (#{ug.membership_source})"
+        entity.save!
+      end
     end
   end
 
