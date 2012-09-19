@@ -22,7 +22,7 @@
           /  %dd.count.update{:title => t('pools.scoreboard.updates')} 0
       %li
         %dt
-          = t("pool")
+          = t("pools.pool")
           = t("quota_used")
         %dd.percentage.quota{:title => t('pools.scoreboard.quota_usage')}
           = number_to_percentage(@pool.quota.percentage_used, :precision => 0)
