@@ -128,8 +128,10 @@ class PoolsController < ApplicationController
         when 'images'
           # this case covers fetching of unique images and constructing
           # collection for filter table
-          @header = [{:name => "catalog"}, {:name => "deployable"},
-                     {:name => "image"}, {:name => "provider_image"}]
+          # 19sept2012 -- FIXME - These aren't really the correct translation names, but
+          #  this patch is after string freeze so I'm confined to using them. --mawagner
+          @header = [{:name => t("pools.images.catalog")}, {:name => t("catalog_entries.index.catalog_entry")},
+                     {:name => t("logs.index.image")}, {:name => t("images.show.providers_image_id")}]
           @catalog_images = @pool.catalog_images_collection(
             @pool.catalogs.list_for_user(current_session, current_user,
                                          Privilege::VIEW))
