@@ -135,9 +135,9 @@ class PoolsController < ApplicationController
                                          Privilege::VIEW))
         when 'deployments'
           @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
-      end      
+      end
     else
-      @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'      
+      @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
     end
 
     #TODO add links to real data for history,properties,permissions
@@ -329,7 +329,7 @@ class PoolsController < ApplicationController
       error_messages << t('application_controller.permission_denied')
     end
     unless error_messages.empty?
-      flash[:error] = error_messages.join('<br />')
+      flash[:error] = error_messages
     end
     respond_to do |format|
       format.html { redirect_to pools_url }
