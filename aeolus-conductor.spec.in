@@ -499,6 +499,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Wed Sep 19 2012 Steve Linabery <slinaber@redhat.com> - 0.13.9-1
+- import upstream 0.13.9-1
+
 * Fri Sep 14 2012 Steve Linabery <slinaber@redhat.com> - 0.13.7-1
 - import upstream 0.13.7-1
 
