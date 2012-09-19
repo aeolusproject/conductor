@@ -176,8 +176,6 @@ if ProviderType.all.empty?
   ProviderType.create!(:name => "Amazon EC2", :deltacloud_driver =>"ec2", :ssh_user => "root", :home_dir => "/root")
   ProviderType.create!(:name => "RHEV-M", :deltacloud_driver =>"rhevm")
   ProviderType.create!(:name => "VMware vSphere", :deltacloud_driver =>"vsphere")
-  ProviderType.create!(:name => "Rackspace", :deltacloud_driver => "rackspace")
-  ProviderType.create!(:name => "Openstack", :deltacloud_driver => "openstack")
 end
 
 # fill table CredentialDefinitions by default values
