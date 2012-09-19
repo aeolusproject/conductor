@@ -77,7 +77,7 @@ class Deployment < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => [:pool_id, :deleted_at]
   validates_length_of :name, :maximum => 50
   validates_presence_of :owner_id
-  validate :pool_must_be_enabled
+  validate :pool_must_be_enabled, :on => :create
   before_destroy :destroy_deployment_config
   before_create :inject_launch_parameters
   before_create :generate_uuid
