@@ -21,7 +21,6 @@ SUBS = {
  "Deployment" => "Application",
  "Pool" => "Cloud Resource Zone",
  "Provider" => "Cloud Resource Provider",
- "Frontend Realm" => "Cloud Resource Cluster",
  "Hardware Profile" => "Cloud Resource Profile",
  "Assembly" => "Component Blueprint",
  "Assemblies" => "Component Blueprints",
@@ -32,8 +31,8 @@ SUBS = {
  "deployable[!_\:]" => "application blueprint",
  "Image ID" => "Component Outline ID", # We can't just s/Image/Component Outline/
  "Environment" => "Cloud",
- "Frontend Realm" => " Cloud Resource Cluster",
- "Pool Family" => "Cloud"
+ "Pool Family" => "Cloud",
+ "Realm" => "Cloud Resource Cluster"
 }
 
 # These are some special cases where translation goes
@@ -43,7 +42,8 @@ SUBS = {
 TWEAKS = {
  "Cloud Cloud" => "Cloud", # BZ 857827
  "Cloud Resource Provider's Component Outline ID" => "Cloud Resource Provider's Image ID", # BZ 783128
- "Cloud Resource Zone Family" => "Cloud"
+ "Cloud Resource Zone Family" => "Cloud",
+ "Cloud Resource Provider Cloud Resource Cluster" => "Provider Realm" # !!
 }
 
 contents = File.read(INPUT)
