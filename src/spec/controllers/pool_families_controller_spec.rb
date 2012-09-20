@@ -82,7 +82,7 @@ describe PoolFamiliesController do
       @test_name = "spec-pool-family-1"
     end
 
-    def assert_pool_api_success_response(name, quota, number_of_pools)
+    def assert_pool_api_success_response(name, quota, number_of_pools, number_of_provider_accounts)
       response.should be_success
       response.should have_content_type("application/xml")
       response.body.should be_xml
@@ -91,6 +91,8 @@ describe PoolFamiliesController do
       xml.xpath("/pool_family/quota/@maximum_running_instances").text.should == quota
       pool_set = xml.xpath('/pool_family/pools/pool')
       pool_set.size.should be_eql(number_of_pools.to_i)
+      provider_account_set = xml.xpath('/pool_family/provider_accounts/provider_account')
+      provider_account_set.size.should be_eql(number_of_provider_accounts.to_i)
     end
 
     describe "#index" do
@@ -116,7 +118,7 @@ describe PoolFamiliesController do
         </pool_family>"
         post :create, Hash.from_xml(xmldata)
 
-        assert_pool_api_success_response(@test_name, "1001", 0)
+        assert_pool_api_success_response(@test_name, "1001", 0, 0)
       end
 
       it "post missing name parameter should result in error message" do
@@ -133,9 +135,79 @@ describe PoolFamiliesController do
       end
     end
 
+    describe "map provider account to pool family" do
+      it "assert, add, and remove" do
+        @provider_account = FactoryGirl.create :mock_provider_account
+        @provider_account2 = FactoryGirl.create :mock_provider_account
+        @pool_family = FactoryGirl.create :pool_family
+        get :show, :id => @pool_family.id
+        # no accounts should be mapped
+        assert_pool_api_success_response(@pool_family.name, "10", 0, 0)
+
+        xmldata = "<accounts_selected type='array'><option>#{@provider_account.id}</option><option>#{@provider_account2.id}</option></accounts_selected>"
+        post :add_provider_accounts, :id => @pool_family.id, :accounts_selected => Hash.from_xml(xmldata)["accounts_selected"]
+        # two accounts should now be mapped
+        assert_pool_api_success_response(@pool_family.name, "10", 0, 2)
+
+        post :remove_provider_accounts, :id => @pool_family.id, :accounts_selected => Hash.from_xml(xmldata)["accounts_selected"]
+        # two accounts should now be removed
+        assert_pool_api_success_response(@pool_family.name, "10", 0, 0)
+      end
+
+      it "add provider account with malformed xml" do
+        @provider_account = FactoryGirl.create :mock_provider_account
+        @pool_family = FactoryGirl.create :pool_family
+        xmldata = "<not_correct type='array'><option>100</option></not_correct>"
+        post :add_provider_accounts, :id => @pool_family.id, :not_correct => Hash.from_xml(xmldata)["not_correct"]
+        response.status.should be_eql(500)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+      end
+
+      it "add provider account when there are no provider accounts available" do
+        @pool_family = FactoryGirl.create :pool_family
+        xmldata = "<accounts_selected type='array'><option>100</option></accounts_selected>"
+        post :add_provider_accounts, :id => @pool_family.id, :accounts_selected => Hash.from_xml(xmldata)["accounts_selected"]
+        response.status.should be_eql(500)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+      end
+
+      it "add non-existent provider account" do
+        @provider_account = FactoryGirl.create :mock_provider_account
+        @pool_family = FactoryGirl.create :pool_family
+        xmldata = "<accounts_selected type='array'><option>-1</option></accounts_selected>"
+        post :add_provider_accounts, :id => @pool_family.id, :accounts_selected => Hash.from_xml(xmldata)["accounts_selected"]
+        response.status.should be_eql(404)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+      end
+
+      it "remove a provider account that is not mapped" do
+        @provider_account = FactoryGirl.create :mock_provider_account
+        @pool_family = FactoryGirl.create :pool_family
+        xmldata = "<accounts_selected type='array'><option>-1</option></accounts_selected>"
+        post :remove_provider_accounts, :id => @pool_family.id, :accounts_selected => Hash.from_xml(xmldata)["accounts_selected"]
+        response.status.should be_eql(404)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+      end
+
+      it "remove a provider account with malformed xml" do
+        @provider_account = FactoryGirl.create :mock_provider_account
+        @pool_family = FactoryGirl.create :pool_family
+        xmldata = "<not_correct type='array'><option>-1</option></not_correct>"
+        post :remove_provider_accounts, :id => @pool_family.id, :not_correct => Hash.from_xml(xmldata)["not_correct"]
+        response.status.should be_eql(500)
+        response.should have_content_type("application/xml")
+        response.body.should be_xml
+      end
+
+    end
 
      describe "#show" do
       it "show an existing pool family" do
+        @provider_account = FactoryGirl.create :mock_provider_account
         @pool_family = FactoryGirl.create :pool_family
         Aeolus::Image::Warehouse::Image.stub(:by_environment).with(@pool_family.name).and_return([])
         FactoryGirl.create(:pool, :name => "pool1", :pool_family => @pool_family)
@@ -146,7 +218,8 @@ describe PoolFamiliesController do
 
         assert_pool_api_success_response(@pool_family.name,
                                          "#{@pool_family.quota.maximum_running_instances}",
-                                         3)
+                                         3,
+                                         0)
       end
 
       it "show a missing pool family" do
@@ -168,7 +241,7 @@ describe PoolFamiliesController do
         </pool_family>"
         post :create, Hash.from_xml(xmldata)
 
-        assert_pool_api_success_response(@test_name, I18n.t('pools.form.unlimited'), 0)
+        assert_pool_api_success_response(@test_name, I18n.t('pools.form.unlimited'), 0, 0)
 
         xml = Nokogiri::XML(response.body)
         pool_family_id = xml.xpath("/pool_family/@id").text
@@ -180,7 +253,7 @@ describe PoolFamiliesController do
         </pool_family>"
         put :update, :id => pool_family_id, :pool_family => Hash.from_xml(xmldata)["pool_family"]
 
-        assert_pool_api_success_response("pool-family-updated", "1002", 0)
+        assert_pool_api_success_response("pool-family-updated", "1002", 0, 0)
       end
 
       it "update missing pool family" do

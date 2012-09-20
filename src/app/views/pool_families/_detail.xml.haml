@@ -8,3 +8,6 @@
   %pools
     - pool_family.pools.each do |pool|
       %pool{:id => pool.id, :href => api_pool_url(pool.id)}
+  %provider_accounts
+    - pool_family.provider_accounts.each do |pa|
+      %provider_account{:id => pa.id, :href => api_provider_account_url(pa.id)}
