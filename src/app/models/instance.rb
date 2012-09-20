@@ -512,8 +512,20 @@ class Instance < ActiveRecord::Base
   end
 
   def stopped_after_creation?
+    last_task = tasks.last
     state == Instance::STATE_STOPPED &&
-      time_last_pending.to_i > time_last_running.to_i &&
+      # TODO: to keep backward compatibility with dc-core 0.5
+      # time_last_pending can't be used, because pending
+      # state was used instead of shutting_down in older dc-api version.
+      # https://bugzilla.redhat.com/show_bug.cgi?id=857542
+      #time_last_pending.to_i > time_last_running.to_i &&
+      last_task &&
+      [InstanceTask::ACTION_CREATE, InstanceTask::ACTION_START].include?(last_task.action) &&
+      last_task.created_at.to_i > time_last_running.to_i &&
+      # also make sure that the 'create' task was created after
+      # last deployment launch request - instance can be stopped
+      # since previous rollback+retry request
+      last_task.created_at.to_i > last_launch_time.to_i &&
       provider_account &&
       provider_account.provider.provider_type.goes_to_stop_after_creation?
   end
@@ -627,5 +639,11 @@ class Instance < ActiveRecord::Base
     return true if task.state == Task::STATE_PENDING &&
       Time.now - task.created_at < 120
     false
+  end
+
+  def last_launch_time
+    return nil if deployment.nil?
+    event = deployment.events.find_last_by_status_code(:pending)
+    event.nil? ? nil : event.created_at
   end
 end
