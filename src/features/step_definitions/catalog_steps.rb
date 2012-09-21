@@ -21,6 +21,11 @@ Given /^there is a "([^"]*)" catalog with deployable$/ do |name|
   FactoryGirl.create :catalog_with_deployable, :name => name
 end
 
+Given /^there are some catalogs$/ do
+  @catalogs = Catalog.all
+  3.times { @catalogs << FactoryGirl.create(:catalog) }
+end
+
 When /^I check "([^"]*)" catalog$/ do |arg1|
   catalog = Catalog.find_by_name(arg1)
   check("catalog_checkbox_#{catalog.id}")

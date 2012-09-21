@@ -24,7 +24,6 @@ Feature: Manage Catalogs via API
     Given I am an authorised user
     And I use my authentication credentials in each request
 
-  @wip
   Scenario: Get list of catalogs as XML
     Given there are some catalogs
     When I request a list of catalogs returned as XML

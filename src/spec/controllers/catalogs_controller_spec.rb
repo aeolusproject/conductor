@@ -51,4 +51,27 @@ describe CatalogsController do
     end
 
   end
+
+  context "API" do
+    render_views
+
+    before do
+      send_and_accept_xml
+    end
+
+    describe "#index" do
+      before do
+        get :index
+      end
+
+      it_behaves_like "http OK"
+      it_behaves_like "responding with XML"
+
+      it "should print list of catalogs" do
+        xml = Nokogiri::XML(response.body)
+        # contains only default catalog
+        xml.xpath("//catalogs/catalog").size.should == 1
+      end
+    end
+  end
 end

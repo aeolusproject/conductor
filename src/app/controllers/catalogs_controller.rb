@@ -32,6 +32,7 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
+      format.xml
     end
   end
 
