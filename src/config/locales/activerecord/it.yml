@@ -2,41 +2,41 @@ it:
   activerecord:
     attributes:
       base_permission_object:
-        created_at: Creato
+        created_at: "Creato alle"
         name: Nome
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       catalog:
-        created_at: Creato
+        created_at: "Creato alle"
         name: Nome
-        pool_family_id: "Famiglia pool"
-        pool_id: Pool
-        updated_at: Aggiornato
+        pool_family_id: "Famiglia zona di risorse cloud"
+        pool_id: "Zona di risorse cloud"
+        updated_at: "Aggiornato alle"
       catalog_entry:
         catalog_id: Catalogo
-        deployable_id: Distribuibile
+        deployable_id: "Blueprint applicazione "
       config_server:
-        created_at: Creato
+        created_at: "Creato alle"
         endpoint: "Punto finale del server (URL)"
         key: "Chiave utenza"
-        provider_account_id: "Account provider"
+        provider_account_id: "Account provider di risorse cloud"
         secret: "Segreto utenza"
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       credential:
-        created_at: Creato
+        created_at: "Creato alle"
         credential_definition_id: "Definizione credenziali"
-        provider_account_id: "Account provider"
-        updated_at: Aggiornato
+        provider_account_id: "Account provider di risorse cloud"
+        updated_at: "Aggiornato alle"
         value: Valore
       credential_definition:
-        created_at: Creato
+        created_at: "Creato alle"
         input_type: "Tipo di input"
         label: Etichetta
         name: Nome
-        provider_type_id: "Tipo di provider"
-        updated_at: Aggiornato
+        provider_type_id: "Tipo di provider delle risorse cloud"
+        updated_at: "Aggiornato alle"
       delayed_job:
         attempts: Tentativi
-        created_at: Creato
+        created_at: "Creato alle"
         failed_at: Fallito
         handler: Gestore
         last_error: "Ultimo errore"
@@ -44,71 +44,71 @@ it:
         locked_by: "Bloccato da"
         priority: Priorità
         run_at: Eseguire
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       deployable:
         description: Descrizione
         name: Nome
         owner_id: Proprietario
-        pool_family_id: "Famiglia pool"
-        xml: "XML distribuibile"
+        pool_family_id: "Famiglia zona di risorse cloud"
+        xml: "XML blueprint applicazione"
         xml_filename: "Filename XML"
       deployment:
-        created_at: Creato
-        deployable_xml: "XML distribuibile"
+        created_at: "Creato alle"
+        deployable_xml: "XML blueprint applicazione"
         frontend_realm_id: Realm
         lock_version: "Versione blocco"
         name: Nome
         owner_id: Proprietario
-        pool_family_id: "Famiglia pool"
-        pool_id: Pool
-        realm_id: "Realm provider"
+        pool_family_id: "Famiglia zona di risorse cloud"
+        pool_id: "Zona di risorse cloud"
+        realm_id: "Realm del provider di risorse cloud"
         scheduled_for_deletion: "Programmato per la rimozione"
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
         uuid: Uuid
       event:
-        created_at: Creato
+        created_at: "Creato alle"
         description: Descrizione
         event_time: "Ora evento"
         source_id: Sorgente
         source_type: "Tipo sorgente"
         status_code: "Codice stato"
         summary: Sommario
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       frontend_realm:
-        created_at: Creato
+        created_at: "Creato alle"
         description: Descrizione
         lock_version: "Versione blocco"
         name: Nome
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       hardware_profile:
         architecture_id: Architettura
         cpu_id: Cpu
-        created_at: Creato
+        created_at: "Creato alle"
         external_key: "Chiave esterna"
         lock_version: "Versione blocco"
         memory_id: Memoria
         name: Nome
-        provider_id: Provider
+        provider_id: "Provider di risorse cloud"
         storage_id: Storage
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       hardware_profile_property:
-        created_at: Creato
+        created_at: "Creato alle"
         kind: Tipo
         lock_version: "Versione blocco"
         name: Nome
         range_first: "Prima l'intervallo"
         range_last: "Intervallo ultimo"
         unit: Unità
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
         value: Valore
       hook:
-        created_at: Creato
-        updated_at: Aggiornato
+        created_at: "Creato alle"
+        updated_at: "Aggiornato alle"
         uri: Uri
         version: Versione
       icicle:
-        created_at: Creato
-        updated_at: Aggiornato
+        created_at: "Creato alle"
+        updated_at: "Aggiornato alle"
         uuid: Uuid
         xml: Xml
       instance:
@@ -116,12 +116,12 @@ it:
         acc_running_time: "Periodo di esecuzione Acc"
         acc_shutting_down_time: "Periodi di spegnimento Acc"
         acc_stopped_time: "Periodo di arresto Acc"
-        assembly_xml: "Xml assembly"
-        created_at: Creato
-        deployment_id: Implementazione
+        assembly_xml: "XML Blueprint del componente"
+        created_at: "Creato alle"
+        deployment_id: Applicazione
         external_key: "Chiave esterna"
         frontend_realm_id: Realm
-        hardware_profile_id: "Profilo hardware"
+        hardware_profile_id: "Profilo risorsa cloud"
         image_build_uuid: "Uuid compilazione immagine"
         image_uuid: "Uuid immagine"
         instance_config_xml: "Xml di configurazione istanza"
@@ -130,12 +130,12 @@ it:
         lock_version: "Versione blocco"
         name: Nome
         owner_id: Proprietario
-        pool_family_id: "Famiglia pool"
-        pool_id: Pool
+        pool_family_id: "Famiglia zona di risorse cloud"
+        pool_id: "Zona di risorse cloud"
         private_addresses: "Indirizzi privati"
-        provider_account_id: "Account provider"
-        provider_image_uuid: "Uuid immagine provider"
-        provider_instance_id: "Istanza provider"
+        provider_account_id: "Account provider di risorse cloud"
+        provider_image_uuid: "Uuid immagine del provider della risorsa cloud"
+        provider_instance_id: "Istanza del provider della risorsa cloud"
         public_addresses: "Indirizzi pubblici"
         secret: Segreto
         state: Stato
@@ -143,7 +143,7 @@ it:
         time_last_running: "Periodo ultima esecuzione"
         time_last_shutting_down: "Periodo ultimo spegnimento"
         time_last_stopped: "Periodo ultimo arresto"
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
         user_data: "Dati utente"
         uuid: Uuid
       instance_hwp:
@@ -153,137 +153,140 @@ it:
         memory: Memoria
         storage: Storage
       instance_key:
-        created_at: Creato
+        created_at: "Creato alle"
         instance_id: Istanza
         name: Nome
         pem: Pem
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       instance_parameter:
-        created_at: Creato
+        created_at: "Creato alle"
         instance_id: Istanza
         name: Nome
         service: Servizio
         type: Tipo
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
         value: Valore
       metadata_object:
-        created_at: Creato
+        created_at: "Creato alle"
         key: Chiave
         lock_version: "Versione blocco"
         object_type: "Tipo oggetto"
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
         value: Valore
       permission:
-        created_at: Creato
+        created_at: "Creato alle"
         lock_version: "Versione blocco"
         permission_object_id: "Oggetto permessi"
         permission_object_type: "Tipo di oggetto permessi"
         role_id: Ruolo
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
         user_id: Utente
       pool:
-        created_at: Creato
+        created_at: "Creato alle"
         enabled: Abilitato
         exported_as: Esportato
         lock_version: "Versione blocco"
         name: Nome
-        pool_family_id: "Famiglia pool"
+        pool_family_id: "Famiglia zona di risorse cloud"
         quota_id: Quota
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       pool_family:
-        created_at: Creato
+        created_at: "Creato alle"
         description: Descrizione
         lock_version: "Versione blocco"
-        name: "Nome famiglia pool"
+        name: "Nome famiglia della zona delle risorse cloud"
         quota_id: Quota
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       privilege:
         action: Azione
-        created_at: Creato
+        created_at: "Creato alle"
         lock_version: "Versione blocco"
         role_id: Ruolo
         target_type: "Tipo di target"
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       property_enum_entry:
-        created_at: Creato
-        hardware_profile_property_id: "Proprietà profilo hardware"
+        created_at: "Creato alle"
+        hardware_profile_property_id: "Proprietà Profilo della risorse cloud"
         lock_version: "Versione blocco"
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
         value: Valore
       provider:
         available: Disponibile
-        created_at: Creato
-        deltacloud_provider: "Deltacloud Provider"
+        created_at: "Creato alle"
+        deltacloud_provider: "Provider risorse cloud Deltacloud"
         enabled: Abilitato
         lock_version: "Versione blocco"
-        name: "Nome provider"
-        provider_type_id: "Tipo di provider"
-        updated_at: Aggiornato
-        url: "URL provider"
+        name: "Nome provider di risorse cloud"
+        provider_type_id: "Tipo di provider delle risorse cloud"
+        updated_at: "Aggiornato alle"
+        url: "URL del provider di risorse cloud:"
       provider_account:
-        created_at: Creato
+        created_at: "Creato alle"
         label: Etichetta
         lock_version: "Versione blocco"
         priority: Priorità
-        provider_id: Provider
+        provider_id: "Provider di risorse cloud"
         quota_id: Quota
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
+      provider_priority_group:
+        name: Nome
+        score: Punteggio
       provider_type:
-        created_at: Creato
+        created_at: "Creato alle"
         deltacloud_driver: "Deltacloud Driver"
         home_dir: "Dir home"
         name: Nome
         ssh_user: "Utente ssh"
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       quota:
-        created_at: Creato
+        created_at: "Creato alle"
         lock_version: "Versione blocco"
         maximum_running_instances: "Istanze massime in esecuzione"
         maximum_total_instances: "Istanze massime totali"
         running_instances: "Istanze in esecuzione"
         total_instances: "Istanze totali"
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       realm:
         available: Disponibile
-        created_at: Creato
+        created_at: "Creato alle"
         external_key: "Chiave esterna"
         lock_version: "Versione blocco"
         name: Nome
-        provider_id: Provider
-        updated_at: Aggiornato
+        provider_id: "Provider di risorse cloud"
+        updated_at: "Aggiornato alle"
       realm_backend_target:
         frontend_realm_id: Realm
-        realm_or_provider_id: "Realm provider o provider"
-        realm_or_provider_type: "Realm provider o Tipo di provider"
+        realm_or_provider_id: "Realm del provider di risorse cloud o provider di risorse cloud"
+        realm_or_provider_type: "Realm del provider di risorse cloud o Tipo di provider delle risorse cloud"
       role:
         assign_to_owner: "Assegna al proprietario"
-        created_at: Creato
+        created_at: "Creato alle"
         lock_version: "Versione blocco"
         name: Nome
         scope: Ambito
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       session:
-        created_at: Creato
+        created_at: "Creato alle"
         data: Dati
         session_id: Sessione
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       task:
         action: Azione
         args: Arg
-        created_at: Creato
+        created_at: "Creato alle"
         failure_code: "Codice fallimento"
         lock_version: "Versione blocco"
         message: Messaggio
         state: Stato
-        task_target_id: "Compito target"
-        task_target_type: "Tipo di conpito target"
-        time_ended: "Periodo terminato"
-        time_started: "Periodo iniziato"
-        time_submitted: "Periodo inviato"
+        task_target_id: "Target del compito"
+        task_target_type: "Tipo di target del compito"
+        time_ended: "Ora di fine"
+        time_started: "Ora di inizio"
+        time_submitted: "Ora inviata"
         type: Tipo
         user: Utente
       user:
-        created_at: Creato
+        created_at: "Creato alle"
         crypted_password: "Password criptata"
         current_login_at: "Registrazione corrente"
         current_login_ip: "Ip registrazione corrente"
@@ -297,52 +300,15 @@ it:
         login: Registrazione
         login_count: "Conteggio registrazioni"
         quota_id: Quota
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
       view_state:
         action: Azione
         controller: Controller
-        created_at: Creato
+        created_at: "Creato alle"
         name: Nome
         state: Stato
-        updated_at: Aggiornato
+        updated_at: "Aggiornato alle"
         user_id: Utente
-    models:
-      base_permission_object: "Oggetto permesso di base"
-      catalog: Catalog
-      catalog_entry: "Voce catalogo"
-      config_server: "Server di configurazione"
-      credential: Credenziali
-      credential_definition: "Definizione credenziali"
-      delayed_job: "Lavoro ritardato"
-      deployable: Distribuibile
-      deployment: Implementazione
-      event: Evento
-      frontend_realm: Realm
-      hardware_profile: "Profilo hardware"
-      hardware_profile_property: "Proprietà profilo hardware"
-      hook: Gancio
-      icicle: Icicle
-      instance: Istanza
-      instance_hwp: "Hwp istanza"
-      instance_key: "Chiave istanza"
-      instance_parameter: "Parametro istanza"
-      metadata_object: "Oggetto metadati"
-      permission: Permessi
-      pool: Pool
-      pool_family: "Famiglia pool"
-      privilege: Privilegi
-      property_enum_entry: "Voce enum proprietà"
-      provider: Provider
-      provider_account: "Account provider"
-      provider_type: "Tipo di provider"
-      quota: Quota
-      realm: "Realm del provider"
-      realm_backend_target: "Target backend realm del provider"
-      role: Ruolo
-      session: Sessione
-      task: Attività
-      user: Utente
-      view_state: "Visualizza stato"
     errors:
       models:
         pool:
@@ -355,5 +321,46 @@ it:
               invalid: "deve contenere solo: numeri, lettere, spazi, '_' e '-'"
         provider:
           attributes:
+            deltacloud_provider:
+              invalid_provider: "Deve essere un identificatore del provider valido"
             name:
               invalid: "deve contenere solo: numeri, lettere, spazi, '_' e '-'"
+            url:
+              invalid_framework: "Deve essere un uri del provider valido"
+    models:
+      base_permission_object: "Oggetto permesso di base"
+      catalog: Catalogo
+      catalog_entry: "Voce catalogo"
+      config_server: "Server di configurazione"
+      credential: Credenziali
+      credential_definition: "Definizione credenziali"
+      delayed_job: "Lavoro ritardato"
+      deployable: "Blueprint applicazione"
+      deployment: Applicazione
+      event: Evento
+      frontend_realm: Realm
+      hardware_profile: "Profilo risorsa cloud"
+      hardware_profile_property: "Proprietà Profilo della risorsa cloud"
+      hook: Hook
+      icicle: Icicle
+      instance: Istanza
+      instance_hwp: "Hwp istanza"
+      instance_key: "Chiave istanza"
+      instance_parameter: "Parametro istanza"
+      metadata_object: "Oggetto metadati"
+      permission: Permessi
+      pool: "Zona di risorse cloud"
+      pool_family: "Famiglia zona di risorse cloud"
+      privilege: Privilegi
+      property_enum_entry: "Voce enum proprietà"
+      provider: "Provider di risorse cloud"
+      provider_account: "Account provider di risorse cloud"
+      provider_type: "Tipo di provider delle risorse cloud"
+      quota: Quota
+      realm: "Realm del provider di risorse cloud"
+      realm_backend_target: "Target backend realm del provider di risorse cloud"
+      role: Ruolo
+      session: Sessione
+      task: Attività
+      user: Utente
+      view_state: "Visualizza stato"

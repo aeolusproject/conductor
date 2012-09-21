@@ -3,45 +3,45 @@ it:
     base:
       admin: "Amministratore globale"
       deployable:
-        admin: "Amministratore distribuibili globale"
+        admin: "Amministratore blueprint applicazione globale"
       hwp:
         admin: "Amministratore HWP globale"
         user: "Utente HWP globale"
       image:
         admin: "Amministratore immagine globale"
       pool:
-        admin: "Amministratore pool globale"
-        user: "Utente pool globale"
+        admin: "Amministratore zona risorse cloud globale"
+        user: "Utente zona risorse cloud globale"
       provider:
-        admin: "Amministratore provider globale"
-        user: "Utente provider globale"
+        admin: "Amministratore provider delle risorse cloud globale"
+        user: "Utente provider delle risorse cloud globale"
       realm:
         admin: "Amministratore realm globale"
     catalog:
       admin: "Amministratore catalogo"
       user: "Utente catalogo"
     deployable:
-      owner: "Proprietario distribuibile"
-      user: "Utente distribuibile"
+      owner: "Proprietario blueprint applicazione"
+      user: "Utente blueprint dell'applicazione"
     deployment:
-      owner: "Proprietario implementazione"
-      user: "Utente implementazioni"
+      owner: "Proprietario applicazione"
+      user: "Utente applicazione"
     instance:
       owner: "Proprietario istanza"
       user: "Utente istanza"
     pool:
-      admin: "Amministratore pool"
+      admin: "Amministratore zona risorse cloud"
       deployable:
-        admin: "Ammin distribuibile pool"
-      user: "Utente pool"
+        admin: "Ammin blueprint applicazione della zona di risorse cloud"
+      user: "Utente zona risorse cloud"
     pool_family:
-      admin: "Amministratore famiglia pool"
+      admin: "Amministratore cloud"
       image:
-        admin: "Amministratore immagine famiglia pool"
-      user: "Utente famiglia pool"
+        admin: "Amministratore immagine cloud"
+      user: "Utente cloud"
     provider:
-      admin: "Amministratore provider"
-      user: "Utente provider"
+      admin: "Amministratore provider delle risorse cloud"
+      user: "Utente provider delle risorse cloud"
     provider_account:
-      owner: "Proprietario account provider"
-      user: "Utente account provider"
+      owner: "Proprietario account del provider di risorse cloud"
+      user: "Utente account del provider di risorse cloud"

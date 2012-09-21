@@ -1,0 +1,11 @@
+it:
+  strategies:
+    penalty_for_failure:
+      name: "Penalità per un errore"
+      views:
+        edit:
+          failure_count_hard_limit: "Il numero di errori prima che l'account del provider di risorse cloud non deve essere più usato"
+          penalty_percentage: "Percentuale di penalità per ogni errore"
+          time_period_minutes: "Periodo di tempo oltre il quale gli errori verranno aggregati (in minuti)"
+    strict_order:
+      name: "Ordine completo"
