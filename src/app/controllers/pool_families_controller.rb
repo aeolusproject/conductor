@@ -149,7 +149,10 @@ class PoolFamiliesController < ApplicationController
 
     if ProviderAccount.count == 0
       flash[:error] = t('pool_families.flash.error.no_provider_accounts')
-      redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts') and return
+      respond_to do |format|
+        format.html { redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts') and return }
+        format.xml { raise(Aeolus::Conductor::API::Error.new(500, flash[:error])) }
+      end
     end
 
     @provider_accounts = ProviderAccount.
@@ -163,6 +166,10 @@ class PoolFamiliesController < ApplicationController
 
     if params[:accounts_selected].blank?
       flash[:error] = t"pool_families.flash.error.select_to_add_accounts" if request.post?
+      respond_to do |format|
+        format.html
+        format.xml { raise(Aeolus::Conductor::API::Error.new(500, flash[:error])) }
+      end
     else
       ProviderAccount.find(params[:accounts_selected]).each do |provider_account|
         if check_privilege(Privilege::USE, provider_account) and
@@ -182,6 +189,13 @@ class PoolFamiliesController < ApplicationController
       respond_to do |format|
         format.html { redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts') }
         format.js { render :partial => 'provider_accounts' }
+        format.xml {
+          if flash[:error]
+            raise(Aeolus::Conductor::API::Error.new(500, flash[:error]))
+          else
+            render :show, :locals => { :pool_family => @pool_family }
+          end
+        }
       end
     end
   end
@@ -194,6 +208,10 @@ class PoolFamiliesController < ApplicationController
 
     if params[:accounts_selected].blank?
       flash[:error] = t"pool_families.flash.error.select_to_remove_accounts"
+      respond_to do |format|
+        format.html
+        format.xml { raise(Aeolus::Conductor::API::Error.new(500, flash[:error])) }
+      end
     else
       ProviderAccount.find(params[:accounts_selected]).each do |provider_account|
         if @pool_family.provider_accounts.delete provider_account
@@ -212,6 +230,13 @@ class PoolFamiliesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts') }
         format.js { render :partial => 'provider_accounts' }
+      format.xml {
+        if flash[:error]
+          raise(Aeolus::Conductor::API::Error.new(500, flash[:error]))
+        else
+          render :show, :locals => { :pool_family => @pool_family }
+        end
+      }
     end
   end
 

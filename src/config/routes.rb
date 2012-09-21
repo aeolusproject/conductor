@@ -298,7 +298,13 @@ Conductor::Application.routes.draw do
     resources :provider_types, :only => [:index, :show]
     resources :hardware_profiles, :only => [:index, :show, :destroy, :create]
     resources :pools, :only => [:index, :show, :create, :update, :destroy]
-    resources :pool_families, :only => [:index, :show, :create, :update, :destroy]
+    resources :pool_families, :only => [:index, :show, :create, :update, :destroy] do
+      member do
+        post 'add_provider_accounts'
+        post 'remove_provider_accounts'
+      end
+    end
+
   end
 
   #match 'matching_profiles', :to => '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }, :as =>'matching_profiles'
