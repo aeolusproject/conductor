@@ -13,6 +13,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+Given /^there is a catalog$/ do
+  @catalog = FactoryGirl.create :catalog
+end
+
 Given /^there is a "([^"]*)" catalog$/ do |name|
   FactoryGirl.create :catalog, :name => name
 end
@@ -24,6 +28,10 @@ end
 Given /^there are some catalogs$/ do
   @catalogs = Catalog.all
   3.times { @catalogs << FactoryGirl.create(:catalog) }
+end
+
+Given /^the specified catalog does not exist in the system$/ do
+  @catalog = FactoryGirl.build :catalog, :id => 123456, :name => 'non-existent catalog'
 end
 
 When /^I check "([^"]*)" catalog$/ do |arg1|

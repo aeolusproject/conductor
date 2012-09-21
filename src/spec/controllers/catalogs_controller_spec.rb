@@ -73,5 +73,29 @@ describe CatalogsController do
         xml.xpath("//catalogs/catalog").size.should == 1
       end
     end
+
+    describe "#show a catalog with a deployable" do
+      before do
+        @catalog = FactoryGirl.create :catalog_with_deployable, :name => 'test catalog'
+        get :show, :id => @catalog.id
+      end
+
+      it_behaves_like "http OK"
+      it_behaves_like "responding with XML"
+
+      it "should print catalog details" do
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("//catalog/name").text.should == @catalog.name
+        xml.xpath("//catalog/@id").text.should == @catalog.id.to_s
+        xml.xpath("//catalog/@href").text.should == api_catalog_url(@catalog.id)
+        xml.xpath("//catalog/pool/@id").text.should == @catalog.pool_id.to_s
+        xml.xpath("//catalog/pool/@href").text.should == api_pool_url(@catalog.pool_id)
+      end
+
+      it "should list catalog's deployables" do
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("//catalog/deployables/deployable/@id").text.should == @catalog.deployables[0].id.to_s
+      end
+    end
   end
 end

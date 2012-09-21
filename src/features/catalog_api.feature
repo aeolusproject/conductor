@@ -29,13 +29,11 @@ Feature: Manage Catalogs via API
     When I request a list of catalogs returned as XML
     Then I should receive list of catalogs as XML
 
-  @wip
   Scenario: Get details of a catalog as XML
     Given there is a catalog
     When I ask for details of that catalog as XML
     Then I should receive details of that catalog as XML
 
-  @wip
   Scenario: Get details of non-existent catalog
     Given the specified catalog does not exist in the system
     When I ask for details of that catalog as XML

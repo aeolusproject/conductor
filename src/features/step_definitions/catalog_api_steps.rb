@@ -19,10 +19,24 @@ When /^I request a list of catalogs returned as XML$/ do
   get api_catalogs_path
 end
 
+When /^I ask for details of that catalog as XML$/ do
+  header 'Accept', 'application/xml'
+  get api_catalog_path(@catalog.id)
+end
+
 Then /^I should receive list of catalogs as XML$/ do
   response = last_response
   response.headers['Content-Type'].should include('application/xml')
   response.status.should == 200
   xml_body = Nokogiri::XML(response.body)
   xml_body.xpath('//catalogs/catalog').size.should == @catalogs.size
+end
+
+Then /^I should receive details of that catalog as XML$/ do
+  response = last_response
+  response.headers['Content-Type'].should include('application/xml')
+  response.status.should == 200
+  xml_body = Nokogiri::XML(response.body)
+  xml_body.xpath('//catalog').size.should == 1
+  xml_body.xpath('//catalog/name').text.should == @catalog.name
 end
