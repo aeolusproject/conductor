@@ -1,6 +1,8 @@
 ru:
   about: "О программе"
   accounts: "Учётные записи"
+  activity:
+    activity: Активность
   add: Добавить
   administration: Управление
   advanced_search: "Расширенный поиск"
@@ -9,41 +11,43 @@ ru:
   alerts_label: Уведомления
   api:
     error_messages:
-      account_not_found_in_environment: "В этом окружении нет %{account}. Допустимые учетные записи: %{accounts}."
+      account_not_found_in_environment: "В этом облаке нет %{account}. Допустимые учетные записи: %{accounts}."
       build_not_found: "Не найдена сборка %{build}"
-      environment_not_found: "Не найдено окружение %{environment}."
+      environment_not_found: "Не найдено облако %{environment}."
       environment_required: "Необходимо определить параметр окружения."
       image_not_found: "Не найден образ %{image}"
       image_not_found_on_provider: "Провайдер не содержит образ %{image}"
       in_grabbing_target_images: "Не удалось получить список образов: %{error}"
       insufficient_privileges: "Недостаточно полномочий для выполнения операции."
       invalid_parameters_for_account_and_target_image: "Недопустимые параметры учётной записи: %{account}. Образ: %{targetimage}"
-      invalid_template: "Неверный шаблон: %{errors}"
+      invalid_template: "Недопустимый шаблон компонентов: %{errors}"
       no_image_build_or_target_image: "Недопустимые параметры. Запрос должен включать образ, сборку или целевой образ"
       no_matching_target_image: "Не найдены подходящие целевые образы"
-      no_provider_account_given: "Необходимо предоставить учётную запись провайдера"
-      provider_account_not_found: "Не найдена учётная запись на провайдере для %{name}"
-      provider_image_not_found: "Не найден образ %{providerimage}"
+      no_provider_account_given: "Учетная запись провайдера не определена"
+      provider_account_not_found: "Не найдена учётная запись провайдера для %{name}"
+      provider_account_not_found_for_id: "Не найдена учётная запись провайдера для ID %{id}"
+      provider_image_not_found: "Не найден %{providerimage}"
       provider_image_status_not_found: "Не удалось определить статус для %{providerimage}"
       push_error: "Не удалось отправить %{targetimage} в %{account}. Ошибка: %{error}"
       specify_a_type_build_or_import: "Выберите тип, сборку или импорт"
-      specify_environment: "Укажите окружение"
+      specify_environment: "Укажите облако"
       target_image_not_found: "Не найден образ %{targetimage}"
       target_image_not_found_for_account: "Нет подходящего образа для %{account}"
       target_image_status_not_found: "Не удалось определить статус %{targetimage}"
       target_not_found: "Не удалось найти %{target}"
-      target_not_found_in_environment: "Недопустимые параметры учётной записи: %{account}. Образ: %{targetimage}"
+      target_not_found_in_environment: "В этом облаке нет учётных записей для %{target}. Допустимые:  %{targets}."
   application_controller:
     access_denied: "Доступ запрещен"
     action_error: "Ошибка операции"
     admin_tabs:
       catalogs: Каталоги
-      groups: Группы
       hardware: Оборудование
       images: Образы
       permissions: "Глобальные роли"
-      pool_families: "Наборы зон"
+      pool_families: Облака
+      provider_selection: "Выбор провайдера"
       realms: Кластеры
+      user_groups: "Группы пользователей"
       users: Пользователи
     flash:
       notice:
@@ -52,6 +56,7 @@ ru:
         record_not_exist: "Запись не существует (возможно, была удалена)."
     internal_server_error: "Внутренняя ошибка сервера"
     permission_denied: "Недостаточно полномочий для выполнения операции."
+    permission_denied_with_prefix: "%{prefix}. Недостаточно полномочий для выполнения операции."
     some_actions_failed: "Ошибка операций"
   apply: Применить
   apply_treatment: "Применить способ обработки"
@@ -60,13 +65,14 @@ ru:
   back: Назад
   breadcrumbs:
     catalogs: Каталоги
-    deployables: Шаблоны
-    deployments: "Установленные шаблоны"
-    hardware_profiles: "Профили оборудования"
+    deployables: "Программные шаблоны"
+    deployments: Приложения
+    hardware_profiles: "Профили ресурсов"
     instances: Экземпляры
-    pool_families: "Наборы зон"
-    pools: Зоны
-    provider_realms: "Кластеры провайдера"
+    logs: Журналы
+    pool_families: Облака
+    pools: "Зоны ресурсов"
+    provider_realms: "Кластеры провайдеров"
     realms: Кластеры
     roles: Роли
     users: Пользователи
@@ -76,36 +82,40 @@ ru:
   cancel: Отмена
   catalog_entries:
     edit:
-      editing_catalog_entry: "Изменение шаблона"
+      editing_catalog_entry: "Изменение программного шаблона"
     flash:
       notice:
-        added: "Шаблон добавлен в %{catalog}."
-        deleted: "Шаблон удалён из %{catalog}."
+        added: "Программный шаблон добавлен в %{catalog}."
+        deleted: "Программный шаблон удалён из %{catalog}."
         updated: "Шаблон обновлён."
       warning:
-        failed: "Шаблон не создан."
-        no_url_provided: "Не задан адрес файла шаблона XML."
-        not_valid: "Неверный формат шаблона XML"
-        not_valid_duplicate_assembly_names: "Названия элементов «assembly» в XML должны быть уникальны"
-        not_valid_or_reachable: "XML неверный или недоступен по адресу %{url}"
+        failed: "Шаблон не был создан."
+        no_url_provided: "Не указан URL-адрес XML программного шаблона."
+        not_valid: "файл содержит синтаксические ошибки"
+        not_valid_cyclic_reference: "Содержит взаимные ссылки между комплектами компонентов или службами: %{reference}"
+        not_valid_duplicate_assembly_names: "должен содержать уникальные имена комплектов компонентов"
+        not_valid_not_existing_assembly_reference: "Комплект %{from_assembly}, служба %{from_service}, параметр  %{from_param} ссылается на несуществующий комплект %{to_assembly}."
+        not_valid_not_existing_param: "Комплект %{from_assembly}, служба %{from_service}, параметр  %{from_param} ссылается на невозвращаемый комплектом %{to_assembly} параметр %{to_param}."
+        not_valid_not_existing_service_reference: "Комплект %{from_assembly}, служба %{from_service}, параметр  %{from_param} ссылается на несуществующий комплект %{to_assembly} и службу %{to_service}."
+        not_valid_or_reachable: "XML программного шаблона имеет недопустимый формат или  недоступен на %{url}."
     index:
-      catalog_entries: Шаблоны
-      catalog_entry: Шаблон
-      deployable_xml: "XML шаблона"
+      catalog_entries: "Программные шаблоны"
+      catalog_entry: "Программный шаблон"
+      deployable_xml: "XML программного шаблона"
       name: Имя
     list:
-      catalog_entries_list: "Список шаблонов"
+      catalog_entries_list: "Список программных шаблонов"
     new:
-      add_catalog_entry: "Добавить шаблон"
+      add_catalog_entry: "Добавить программный шаблон"
       catalog_detail: "%{name}"
-      choose_option_to_upload: "Выберите способ отправки XML "
+      choose_option_to_upload: "Выберите способ отправки XML-файла"
       from_url: URL
-      hw_profile: "Стандартный профиль оборудования"
+      hw_profile: "Стандартный профиль ресурсов"
       name: Имя
       upload: Отправить
-    new_catalog_entry: "Новый шаблон"
+    new_catalog_entry: "Новый программный шаблон"
     preset_filters:
-      all_catalog_entries: "Все шаблоны"
+      all_catalog_entries: "Все программные шаблоны"
     show:
       build: Сборка
       catalogs: Каталоги
@@ -128,15 +138,15 @@ ru:
     flash:
       error:
         not_deleted:
-          one: "Каталог %{not_deleted} не может быть удалён: на него ссылается установленный шаблон."
-          other: "Каталоги %{not_deleted} не могут быть удалены: на них ссылаются установленные шаблоны."
+          one: "%{not_deleted} не может быть удалён: на него ссылается программный шаблон."
+          other: "Каталоги %{not_deleted} не могут быть удалены: на них ссылаются программные шаблоны."
         not_deleted_perms:
           one: "Недостаточно полномочий для удаления %{not_deleted}."
           other: "Недостаточно полномочий для удаления каталогов %{not_deleted} (всего %{count})."
-        one_not_deleted: "Каталог не может быть удалён: на него ссылается установленный шаблон."
+        one_not_deleted: "Каталог не может быть удалён: на него ссылается программный шаблон."
       notice:
         created:
-          one: "Каталог создан."
+          one: "Каталог создан"
           other: "Каталоги созданы"
         deleted:
           one: "Каталог %{deleted} удалён."
@@ -146,7 +156,7 @@ ru:
           one: "Каталог обновлён."
           other: "Каталоги обновлены."
     form:
-      select_pool: "Выберите зону"
+      select_pool: "Выберите зону ресурсов"
     index:
       catalog_name: "Имя каталога"
       name: Имя
@@ -155,27 +165,27 @@ ru:
     new_catalog: "Новый каталог"
     preset_filters:
       all_catalogs: Все
-      belongs_to_default_pool: "В составе стандартной зоны"
+      belongs_to_default_pool: "Входит в состав стандартной зоны ресурсов"
   change_password: "Изменить пароль"
   choose: Выберите
   choose_name: "Выберите имя пользователя"
   choose_password: "Выберите пароль"
   choose_treatment: "Выберите способ обработки"
-  cloud_engine_hardware_profiles: "Профили оборудования"
-  cloud_providers: Провайдеры
+  cloud_engine_hardware_profiles: "Профили ресурсов"
+  cloud_providers: "Провайдеры ресурсов"
   config_servers:
     certificate_help: "Для поддержки HTTPS необходимо предоставить сертификат"
     edit:
       edit_config_server: "Изменить сервер конфигурации"
     errors:
       connection:
-        generic: "Не удалось проверить соединение с сервером (url: %{url}). Проверьте параметры подключения и повторите попытку."
-        generic_with_message: "Не удалось проверить соединение с сервером (url: %{url}). %{msg}"
-        unhandled_response: "Не удалось проверить соединение с сервером (url: %{url}). Код HTTP: %{code}"
+        generic: "Не удалось проверить соединение с сервером %{url}. Проверьте параметры подключения и повторите попытку."
+        generic_with_message: "Не удалось проверить соединение с сервером %{url}. %{msg}"
+        unhandled_response: "Не удалось проверить соединение с сервером %{url}. Код HTTP: %{code}"
     flash:
       error:
         invalid: "Неверные параметры сервера конфигурации."
-        not_deleted: "Сервер конфигурации не удалён."
+        not_deleted: "Сервер конфигурации не был удалён."
         not_updated: "Сервер конфигурации не обновлён."
       notice:
         added: "Сервер конфигурации добавлен."
@@ -187,7 +197,7 @@ ru:
     section_header:
       config_server: "Сервер конфигурации"
   configure: Настроить
-  confirm_password: "Повтор пароля"
+  confirm_password: "Подтверждение пароля"
   connection_refused: "Отказ доступа к удалённому узлу."
   connectivity: Подключение
   continue: Продолжить
@@ -195,7 +205,7 @@ ru:
   datetime:
     distance_in_words:
       x_hours:
-        one: "1 ч."
+        one: "1 час"
         other: "%{count} ч."
   default_confirm_message: Продолжить?
   default_none_selected_message: "Необходимо сделать выбор."
@@ -209,60 +219,62 @@ ru:
   deployables:
     error:
       attribute_not_exists: недействительно
-      hwp_not_exists: "Профиль %{name} не существует."
+      audrey_api_incompatibility: "Шаблон использует функции, не поддерживаемые агентом Audrey, который был установлен в составе последнего образа."
+      hwp_not_exists: "Указанный в XML профиль %{name} не существует."
     flash:
       error:
         attribute_not_exist: "Недостаточно атрибутов в XML. Проверьте файл."
         missing_image: "%{assembly}: образ (UUID: %{uuid}) не существует"
-        no_catalog: "Каталоги не выбраны"
+        no_catalog: "Не выбраны каталоги"
         no_catalog_exists: "Каталог не существует. Необходимо его создать."
-        no_hwp_exists: "Нет профилей ресурсов. Необходимо их создать."
+        no_hwp_exists: "Профиль ресурсов не существует. Необходимо его создать."
         not_deleted:
-          one: "Не удалось удалить шаблон %{not_deleted}."
+          one: "Не удалось удалить программный шаблон %{not_deleted}."
           other: "Не удалось удалить шаблоны %{not_deleted}  (всего %{count})."
         not_deleted_perms:
           one: "Недостаточно полномочий для удаления %{not_deleted}."
-          other: "Недостаточно полномочий для удаления %{not_deleted} (всего %{count})."
-        not_selected: "Не выбраны шаблоны."
-        wrong_environment: "«%{deployable}» содержит образ (UUID %{uuid}) из окружения «%{wrong_env}» (должно быть -  «%{environment}») и не может использоваться."
+          other: "Недостаточно полномочий для удаления шаблонов %{not_deleted} (всего %{count})."
+        not_selected: "Шаблон не выбран."
+        wrong_environment: "«%{deployable}» содержит образ с UUID %{uuid} из другого облака («%{wrong_env}», должно быть -  «%{environment}») и не может использоваться."
       notice:
         deleted:
-          one: "%{deleted} удалён."
-          other: "%{deleted} удалены  (всего %{count})."
+          one: "Программный шаблон %{deleted} удалён."
+          other: "Шаблоны %{deleted} удалены  (всего %{count})."
       warning:
-        failed: "Шаблон не создан: %{message}"
+        failed: "Программный шаблон не создан: %{message}"
+        param_type_attr: "Устаревший атрибут! Параметр %{param_name} службы %{service_name} содержит атрибут типа. Удалите этот атрибут или переместите его в подчиненный тег value."
     form:
       cancel: Отмена
       catalog: Каталог
-      choose_xml: "Выберите XML шаблона"
-      deployable_xml: "XML шаблона"
-      deployable_xml_url: "URL шаблона XML"
+      choose_xml: "Выберите файл XML"
+      deployable_xml: "XML программного шаблона"
+      deployable_xml_url: "URL XML программного шаблона"
       edit_xml_after_save: "Редактировать XML"
       multiple: Нет
       none: Нет
       save: Сохранить
     index:
-      base_deployable: "Базовый шаблон"
+      base_deployable: "Основной программный шаблон"
       deleted:
-        one: "Шаблон %{list} удалён."
-        other: "%{list} удалены."
-      deployable_definition: "Определение шаблона"
-      deployable_url: URL
-      deployable_url_subtext: "(должен начинаться с http: //)"
-      deployables: Шаблоны
+        one: "Программный шаблон %{list} удалён."
+        other: "Программные шаблоны %{list} удалены."
+      deployable_definition: "Определение программного шаблона"
+      deployable_url: "URL программного шаблона"
+      deployable_url_subtext: "(должен начинаться с http://)"
+      deployables: "Программные шаблоны"
       description: Описание
       name: Имя
       not_deleted:
-        one: "%{list} не удален. С ним связаны другие шаблоны."
-        other: "%{list} не удалены. С ними связаны другие шаблоны."
+        one: "Шаблон %{list} не удалён, так как с ним связаны программы."
+        other: "Шаблоны %{list} не удалены, так как с ними связаны программы."
       state: Статус
     new:
       no_catalog_selected: "не выбран каталог"
     new_from_image:
       catalog_entry_name: "%{name}"
-      description: "Создание шаблона на основе «%{name}» позволит подготовить его к сборке и запуску. Выберите каталог для сохранения шаблона и определите профиль ресурсов, который будет использоваться по умолчанию. "
+      description: "Создание программного шаблона на основе \"%{name}\" позволит подготовить егок сборке и запуску. Выберите каталог для сохранения шаблона и определите профиль ресурсов, который будет использоваться по умолчанию. "
       no_available_catalog: "Нет каталога"
-      title: "Создать шаблон"
+      title: "Создать программный шаблон"
     properties:
       edit_deployable_xml: "Изменить XML шаблона"
     show:
@@ -277,11 +289,11 @@ ru:
         pushed: "Образы переданы успешно."
         pushing: "Образы отправляются."
       catalog_name: "Имя каталога"
-      choose_catalog: "Выберите каталог: "
+      choose_catalog: "Выберите каталог:"
       delete: Удалить
       edit: Изменить
       edit_xml: "Изменить XML"
-      environment: Окружение
+      environment: Облако
       hdd: HDD
       hw_profile: "Профиль оборудования"
       image_uuid: "UUID образа"
@@ -302,52 +314,57 @@ ru:
       target_images_uuids: "UUID целевых образов"
       uuids: UUID
   deployments:
-    confirm_delete: "Удалить шаблон?"
-    deployment: Шаблон
-    deployment_details: "Свойства шаблона"
-    deployment_name: "Имя шаблона"
-    deployment_name_subtext: (уникально)
-    deployments: "Устанавливаемые шаблоны"
+    confirm_delete: "Удалить приложение?"
+    deployment: Приложение
+    deployment_details: "Свойства приложения"
+    deployment_name: "Имя приложения"
+    deployment_name_subtext: (уникальное)
+    deployments: Приложения
     edit:
-      edit_deployment: "Изменить шаблон"
+      edit_deployment: "Изменить приложение"
     errors:
       all_stopped: "Необходимо, чтобы все экземпляры работали или были остановлены"
-      cannot_stop: "Этот экземпляр не может быть остановлен."
-      config_server_connection: "Не удалось подключиться к серверу конфигурации"
-      not_valid_deployable_xml: "неверный XML шаблона: %{msg}"
+      cannot_stop: "Приложение %{name} не может быть удалено, так как не удалось остановить следующие экземпляры:"
+      config_server_connection: "Ошибка подключения к серверу конфигурации"
+      instance_state: "Статус экземпляра %{name}: %{state}."
+      match_not_found: "Не удалось подобрать учётную запись провайдера для размещения приложения. Проверьте квоту учётных записей и статус образов."
+      match_not_found_with_errors: "Нет соответствий: %{errors}"
+      not_valid_deployable_xml: "- неверный XML шаблона: %{msg}"
     flash:
       error:
-        failed_to_launch_assemblies: "Не удалось запустить комплекты: "
-        none_selected: "Необходимо выбрать шаблоны."
-        not_deleted:
-          one: "Не удалось удалить %{list}."
-          other: "Не удалось удалить %{list}."
-        not_launched: "Следующие комплекты не будут запущены: "
+        cant_stop: "Ошибка остановки %{name}. Только работающие приложения могут быть остановлены."
+        failed_to_launch_assemblies: "Не удалось запустить комплекты:"
+        no_hwp_permission: "Недостаточно полномочий для доступа к профилю %{hwp}."
+        none_selected: "Необходимо выбрать приложение."
+        not_deleted: "Ошибка удаления %{name}:  %{error}"
+        not_launched: "Следующие комплекты не будут запущены:"
         not_updated:
           one: "Не удалось обновить %{list}."
           other: "Не удалось обновить %{list}."
       notice:
-        launched: "Установка шаблона началась."
+        launched: "Приложение запущено."
         stop: "Действие остановки поставлено в очередь."
       success:
         deleted:
-          one: "%{list} выбран для удаления."
+          one: "Приложение %{list} выбрано для удаления."
           other: "%{list} выбраны для удаления."
         updated:
-          one: "%{list} успешно обновлен."
-          other: "%{list} успешно обновлены."
+          one: "Приложение %{list} обновлено."
+          other: "%{list} обновлены."
       warning:
-        deployable_not_selected: "Необходимо выбрать шаблон"
-        disabled_pool: "Не удалось развернуть шаблон в этой зоне (зона отключена)."
+        deployable_not_selected: "Необходимо выбрать программный шаблон"
+        disabled_pool: "Не удалось запустить приложение в этой зоне ресурсов, так как она отключена."
         failed_to_launch: "Ошибка запуска."
+    history:
+      instance: "Экземпляр %{name}"
     launch_from_catalog:
       arch: АРХ.
-      deployable_xml: "XML шаблона"
+      deployable_xml: "XML программного шаблона"
       details: Свойства
       hdd: HDD
-      hint: "Выберите шаблон для запуска в «%{pool}»."
-      image_id: "ID образа"
-      no_catalog_entry: "Нет шаблонов. Сначала следует их добавить."
+      hint: "Выберите шаблон для запуска в \"%{pool}\"."
+      image_id: "ID шаблона компонентов"
+      no_catalog_entry: "Нет программных шаблонов. Сначала следует их добавить."
       profile: Профиль
       ram: ОЗУ
       select: Выбрать
@@ -360,46 +377,57 @@ ru:
       other: другие
       to_pool: "в зону %{name}"
     launch_time_params:
-      configure_launch_time_params: "Настройте параметры запуска: "
+      configure_launch_time_params: "Настройте параметры запуска приложения:"
       finalize: Завершить
       reference: "Ссылка на возвращаемый параметр %{assembly}: %{parameter}"
       title: "Параметры запуска"
     list:
       delete_selected: "Удалить выбранные"
       stop_selected: "Остановить выбранные"
-    list_of_events: "Список событий развертывания"
+    list_of_events: "Список событий приложения"
     new:
-      asseblies_name: "Имя комплекта"
+      asseblies_name: "Имя комплекта компонентов"
       build_id: "ID сборки"
-      deployable_definition: "Определение шаблона"
-      deployable_details: Свойства
-      description: "Описание: "
-      hardware_profile: "Профиль оборудования"
-      image_id: "ID образа"
-      launch: "Запустить шаблон"
-      name: "Имя: "
+      deployable_definition: "Определение программного шаблона"
+      deployable_details: "Свойства программного шаблона"
+      description: "Описание:"
+      hardware_profile: "Профиль ресурсов"
+      image_id: "ID шаблона компонентов"
+      launch: "Запустить приложение"
+      name: "Имя:"
       view: Просмотр
-    new_deployment: "Новый шаблон для развертывания"
+    new_deployment: "Новое приложение"
     operation:
-      count_of_instances: "Число экземпляров: "
+      count_of_instances: "Число экземпляров:"
       operational_status: "Рабочий статус"
     overview:
-      confirmation: "Действительно развернуть «%{deployment}» в зоне %{pool}? На это будет потрачена часть квоты: %{quota}."
-      deployable_xml: "XML шаблона"
+      confirmation_html: "Развернуть \"%{deployment}\" в %{pool}?"
+      deployable_xml: "XML программного шаблона"
       description: Описание
-      header: "Развернуть «%{deployment}» в зоне %{pool}?"
-      image_ids: "ID образов"
+      header: "Развернуть \"%{deployment}\" в %{pool}?"
+      image_ids: "ID шаблона компонентов"
       launch: Запуск
+      launch_with_errors: "Игнорировать ошибки экземпляров при запуске"
       name: Имя
       pool_name: "Зона %{pool}"
+      quota_info: "Эта операция использует часть квоты: %{quota}."
     preset_filters:
-      all_deployments: "Все развернутые шаблоны"
+      all_deployments: "Все приложения"
+      failed: Сбойные
+      incomplete: Незавершенные
+      new: Новые
+      other_than_stopped: Неостановленные
+      pending: Ожидающие
+      rollback_failed: "Откат сбойных приложений"
+      running: Работающие
+      shutting_down: Завершаемые
+      stopped: Остановленные
     pretty_view_show:
       download_key: "Загрузить ключ"
-      ip_address: "IP: "
+      ip_address: "IP:"
       no_ip_address: "-"
       reboot: Перезапустить
-      state: "Статус: "
+      state: "Статус:"
       stop: Остановить
     properties:
       global_uptime: "Общее время работы"
@@ -407,32 +435,53 @@ ru:
       uptime_1st_instance: "Время работы первого экземпляра"
       value: Значение
     provider_services:
-      list_of_services: "Список обязательных служб"
+      list_of_services: "Список необходимых служб"
     required_services:
-      list_of_required_services: "Список обязательных служб"
+      list_of_required_services: "Список необходимых служб"
     show:
-      name: "%{name}"
+      name: "Приложение %{name}"
     state: Статус
     status:
-      pending: "Выполняются не все экземпляры"
+      failed: Ошибка
+      incomplete: "Не заверешено"
+      new: Новый
+      pending: Ожидает
+      rollback_complete: "Откат завершен"
+      rollback_failed: "Ошибка отката"
+      rollback_in_progress: "Выполняется откат"
+      running: Выполняется
+      shutting_down: Завершается
+      stopped: Остановлено
+    status_description:
+      failed: "Все экземпляры в сбойном состоянии"
+      incomplete: "Есть нерабочие экземпляры"
+      new: "Приложение не было запущено"
+      pending: "Приложение запускается"
+      rollback_complete: "Откат завершен"
+      rollback_failed: "Ошибка отката. Перезапуск отменен."
+      rollback_in_progress: "Ошибка запуска. Выполняется откат"
       running: "Выполняются все экземпляры"
-      stopped: "Нет активных экземпляров"
+      shutting_down: Завершается
+      stopped: "Все экземпляры остановлены"
   edit: Изменить
   edit_user: "Изменить пользователя"
-  email: "Email: "
+  email: "Email:"
   filter_table:
     apply_filters: "Применить фильтры"
+    from: От
+    order_by: Упорядочить
     results: Результаты
     search: Поиск
+    to: Кому
     viewing: Просмотр
   first_name: Имя
   general_settings: "Общие параметры"
   hardware_profiles:
     create:
-      check_matching_hwp: "Подходящие профили оборудования"
+      check_matching_hwp: "Проверить подходящие профили ресурсов"
     edit:
       cancel_editing: "Отменить изменения"
-      edit_hwp: "Изменить профиль оборудования"
+      edit_hwp: "Изменить профиль ресурсов"
     flash:
       error:
         more_not_deleted:
@@ -444,32 +493,32 @@ ru:
         more_deleted:
           one: "Профиль %{deleted} удалён."
           other: "Профили %{deleted} удалены."
-        updated: "Профиль обновлён."
+        updated: "Профиль ресурсов обновлён."
       warning:
-        cannot_delete_backend_hwp: "Невозможно удалить профили на провайдере."
-        cannot_edit_backend_hwp: "Невозможно изменить профили на провайдере."
+        cannot_delete_backend_hwp: "Не удалось удалить профили ресурсов провайдера"
+        cannot_edit_backend_hwp: "Не удалось изменить профили ресурсов провайдера"
     form:
       check_matches: "Поиск соответствий"
     hardware: Оборудование
-    hardware_profile: "Профиль оборудования"
-    hardware_profiles: "Профили оборудования"
+    hardware_profile: "Профиль ресурсов"
+    hardware_profiles: "Профили ресурсов"
     history:
       history: Журнал
     index:
       architecture: Архитектура
-      hardware_profile_name: "Название профиля"
+      hardware_profile_name: "Имя профиля ресурсов"
       memory: Память
       storage: Пространство
       virtual_cpu: "Вирт. процессор"
     list:
       delete_selected: "Удалить выбранные"
-      new_hardware: "Новый профиль оборудования"
+      new_hardware: "Новый профиль ресурсов"
     matching_provider_hwp:
-      no_matching_provider_hwp: "Нет подходящих профилей оборудования"
+      no_matching_provider_hwp: "Нет подходящих профилей ресурсов провайдера"
     new:
-      new_hwp: "Новый профиль оборудования"
+      new_hwp: "Новый профиль ресурсов"
     preset_filters:
-      all_hardware_profiles: "Все профили"
+      all_hardware_profiles: "Все профили ресурсов"
       i386architecture: i368
       x86_64architecture: x86_64
     properties_headers:
@@ -478,18 +527,18 @@ ru:
       unit: Единицы
     provider_hwp_headers:
       architecture: Архитектура
-      hwp_name: "Название профиля"
+      hwp_name: "Имя профиля ресурсов"
       memory: Память
-      provider_name: "Имя провайдера"
+      provider_name: "Имя провайдера ресурсов"
       storage: Пространство
       virtual_cpu: "Вирт. процессор"
     show:
-      backend_hwp: "%{name} (провайдер)"
+      backend_hwp: "%{name} (провайдер ресурсов)"
       frontend_hwp: "%{name}"
-      matching_hwp: "Подходящие профили оборудования"
+      matching_hwp: "Подходящие профили ресурсов провайдера"
     tab_captions:
       history: Журнал
-      matching_provider_hwp: "Подходящие профили оборудования"
+      matching_provider_hwp: "Подходящие профили ресурсов провайдера"
       properties: "Свойства "
   hello: Здравствуйте
   help: Справка
@@ -500,16 +549,19 @@ ru:
   images:
     edit_xml:
       edit: Изменить
+      edit_xml: "Изменить XML"
       save_and_continue: "Сохранить и продолжить"
-    environment: "Окружение: "
-    environment_header: Окружение
+    environment: "Облако: %{environment}"
+    environment_header: Облако
     flash:
       error:
         invalid_url: "Не удалось открыть URL"
-        no_file: "Необходимо выбрать XML-файл шаблона"
-        no_provider_accounts: "Сборка образа невозможна: нет активных учетных записей провайдера."
-        no_provider_accounts_for_import: "Импорт образов невозможен: нет активных учетных записей провайдера для этого окружения."
-        no_template: "Образ импортирован и не содержит шаблон."
+        no_file: "Необходимо выбрать XML-файл"
+        no_name: "Необходимо указать имя шаблона компонентов"
+        no_provider_accounts: "Импорт образов невозможен: нет активных учетных записей провайдера для этогооблака."
+        no_provider_accounts_for_import: "Импорт образов невозможен: нет активных учетных записей провайдера для этогооблака."
+        no_template: "Образ импортирован и не содержит шаблон компонентов."
+        not_exist: "Образ не найден (возможно, был удалён)."
       notice:
         created: "Образ создан"
         deleted: "Образ удалён"
@@ -520,13 +572,14 @@ ru:
         delete_failed: "Ошибка удаления образа."
         not_found: "Образ не найден"
     import:
-      blank_id: "Идентификатор образа не может быть пустым."
-      image_id: "ID образа"
+      blank_id: "ID шаблона не может быть пустым."
+      image_id: "ID шаблона компонентов провайдера"
       image_imported: "Импорт образа завершен."
       image_not_imported: "Ошибка импорта. Проверьте сообщения в журнале Image Factory."
       import_image: "Импорт образа"
       name: "Имя образа"
-      provider_account: "Учётная запись провайдера"
+      provider_account: "Учетная запись провайдера"
+      provider_unreachable: "Не удалось подключиться к Image Factory. Проверьте настройки Image Factory иубедитесь, что он выполняется."
     index:
       architecture: Архитектура
       images: Образы
@@ -537,24 +590,24 @@ ru:
       os: ОС
       os_version: "Версия ОС"
     new:
-      choose_file: "Выберите файл шаблона: "
-      description: "Выберите способ передачи шаблона в «%{environment}»."
-      edit_file: "Редактировать файл: "
+      choose_file: "Выберите файл шаблона компонентов:"
+      description: "Выберите способ передачи образа в «%{environment}»."
+      edit_file: "Редактировать файл:"
       from_url: URL
-      image_url: "URL шаблона: "
-      name: "Имя: "
+      image_url: "URL шаблона компонентов:"
+      name: "Имя:"
       new_image: "Новый образ"
       upload: Отправить
     not_on_provider: "Провайдер не содержит указанный образ."
     overview:
       back: Назад
       description: "Проверка «%{name}» успешна. Можно его сохранить и на его основе создать программный шаблон."
-      make_deployable: "Автоматически создать развертываемый шаблон «%{name}»."
-      save_template: Сохранить
+      make_deployable: "Автоматически создать программный шаблон «%{name}»."
+      save_template: "Сохранить шаблон"
       valid_image: "Действительный образ"
     show:
       account: "Учётная запись"
-      build: Собрать
+      build: Сборка
       build_all: "Собрать все"
       build_date: "Дата завершения сборки"
       build_not_found: "Сборка не найдена"
@@ -570,19 +623,19 @@ ru:
       image_uuid: "UUID образа"
       latest: Последний
       missing_build: "Выберите сборку"
-      new_deployable_from_image: "Новый шаблон"
+      new_deployable_from_image: "Новый комплект на основе образа"
       not_built: "Образ ещё не собран"
-      only_latest_builds_can_be_pushed: "Можно отправить только последнюю сборку"
-      provider: Провайдер
-      provider_account: "Учётная запись провайдера"
-      provider_images: "Образы провайдеров"
+      only_latest_builds_can_be_pushed: "Только последняя сборка может быть отправлена"
+      provider: "Провайдер ресурсов"
+      provider_account: "Учетная запись провайдера"
+      provider_images: "Образы провайдера"
       push: Отправить
       push_all: "Отправить все"
       push_started: "Отправка скоро начнется."
       rebuild: Создать
       rebuild_all: "Создать все"
       select_build: Выбрать
-      template_xml: "Просмотр XML шаблона"
+      template_xml: "Просмотр XML шаблона компонентов"
       upload: Отправить
       view_build: "Просмотр сборки"
   instance_details: "Свойства экземпляра"
@@ -590,25 +643,25 @@ ru:
   instances:
     confirm_terminate:
       terminate: Прервать
-      terminate_instances: "Остановить экземпляры"
+      terminate_instances: "Прервать работу экземпляров"
       terminate_instances_description: "Провайдер недоступен. Статус его экземпляров будет изменён на «остановлен» независимо от их состояния."
     edit:
       edit_instance: "Изменить экземпляр"
       name: Имя
     errors:
-      architecture_mismatch: "%{inst_arch} не соответствует архитектуре профиля оборудования (%{img_arch})."
+      architecture_mismatch: "Архитектура профиля комплекта %{inst_arch} не соответствует архитектуре профиля оборудования  (%{img_arch})."
       cannot_destroy: "Этот экземпляр не может быть уничтожен."
-      hw_profile_match_not_found: "%{account_name}: подходящие профили не найдены"
+      hw_profile_match_not_found: "%{account_name}: профиль ресурсов не найден"
       image_not_found: "Не найдена сборка с UUID %{b_uuid} и образ %{i_uuid}"
-      image_not_pushed_to_provider: "%{account_name}: образ не передан учётной записи на провайдере"
+      image_not_pushed_to_provider: "%{account_name}: образ не передан учётной записи провайдера"
       invalid_state: "Не удалось рассчитать время: недопустимый статус"
       must_be_enabled: "%{account_name}: необходимо наличие активного провайдера"
-      no_config_server_available: "%{account_name}: нет сервера конфигурации для учётной записи "
-      no_provider_accounts: "С выбранной зоной (набором зон) не связаны учётные записи провайдеров."
-      pool_family_quota_reached: "Достигнута квота для наборов зон"
-      pool_quota_reached: "Достигнута квота для зоны"
-      provider_account_quota_reached: "%{account_name}: достигнута квота учётных записей"
-      provider_account_quota_too_low: "Слишком низкая квота %{match_provider_account} для запуска"
+      no_config_server_available: "%{account_name}: нет сервера конфигурации для учётной записи провайдера"
+      no_provider_accounts: "Облако выбранной зоны не связано с учётной записью провайдера."
+      pool_family_quota_reached: "Достигнута квота облака"
+      pool_quota_reached: "Достигнута квота зоны ресурсов"
+      provider_account_quota_reached: "%{account_name}: достигнута квота для учётной записи провайдера"
+      provider_account_quota_too_low: "Слишком низкая квота %{match_provider_account} для запуска программного шаблона"
       provider_not_available: "%{account_name}: провайдер недоступен"
       realm_not_mapped: "%{account_name}: %{frontend_realm_name} не связан с провайдерами или кластерами"
       reboot_invalid_action: "Недопустимое действие: «перезагрузить»."
@@ -624,15 +677,15 @@ ru:
           one: "Не удалось обновить %{list}."
           other: "Не удалось обновить %{list}."
         reboot: "Не удалось перезагрузить %{name}: %{err}"
-        stop: "Не удалось перезагрузить %{name}: %{err}"
+        stop: "Не удалось остановить %{name}: %{err}"
       notice:
         forced_stop: "Статус изменен на «остановлен»."
         reboot: "%{name}: действие перезагрузки поставлено в очередь."
         stop: "Действие остановки поставлено в очередь."
       success:
         deleted:
-          one: "%{list} успешно удалён."
-          other: "%{list} успешно удалены."
+          one: "Экземпляр %{list} успешно удалён."
+          other: "Экземпляры %{list} успешно удалены."
         updated:
           one: "Экземпляр %{list} успешно обновлён."
           other: "Экземпляры %{list} успешно обновлены."
@@ -645,7 +698,7 @@ ru:
       status: СТАТУС
       vm_name: "ИМЯ VM"
     history:
-      history_for: "Журнал: "
+      history_for: "Журнал:"
     instance: Экземпляр
     instances:
       one: Экземпляр
@@ -655,13 +708,13 @@ ru:
       hide_stopped: "спрятать остановленные"
       reboot_selected_instances: "Перезагрузить выбранные"
       show_all: "показать все"
-      showing_all_instances: "Показать все экземпляры"
+      showing_all_instances: "Все экземпляры"
       stop_selected_instances: "Остановить выбранные"
       stopped_instances_hidden: "Остановленные не показаны"
       table:
         name: Имя
         owner: Владелец
-        provider: Провайдер
+        provider: "Провайдер ресурсов"
         public_address: "Открытый адрес"
         state: Статус
     none_selected: "Выберите экземпляры для остановки."
@@ -674,33 +727,46 @@ ru:
     preset_filters:
       all_instances: "Все экземпляры"
       create_failed: Сбойные
+      error: "Экземпляры в сбойном состоянии"
+      new: "Новые экземпляры"
       other_than_stopped: Неостановленные
       pending: Ожидающие
       running: Работающие
+      shutting_down: Завершаемые
       stopped: Остановленные
+      vanished: "Потерянные экземпляры"
     properties:
-      architecture: "Архитектура: "
-      assembly: "Комплект: "
-      console_connection: "Консольное подключение: "
-      current_alerts: "Текущие уведомления: "
+      architecture: Архитектура
+      assembly: "Комплект компонентов"
+      console_connection: "Консольное подключение"
+      current_alerts: "Текущие уведомления"
       download: Загрузить
-      error: "Ошибка: "
-      instantiation_time: "Время создания экземпляра: "
-      memory: "Память: "
+      error: Ошибка
+      instantiation_time: "Время создания экземпляра"
+      memory: Память
       n_a: нет
-      name: "Имя: "
-      owner: "Владелец: "
-      private_adresses: "Частные адреса: "
+      name: Имя
+      owner: Владелец
+      private_adresses: "Закрытые адреса"
       properties_for: "Свойства "
-      provider: "Провайдер: "
-      public_addresses: "Открытые адреса: "
-      shared_to: "Открыт для: "
-      ssh_key: "Ключ SSH: "
-      ssh_key_name: "Имя ключа SSH: "
-      status: "Статус: "
-      storage: "Пространство: "
+      provider: "Провайдер ресурсов"
+      public_addresses: "Открытые адреса"
+      shared_to: "Общий доступ с "
+      ssh_key: "Ключ SSH"
+      ssh_key_name: "Имя ключа SSH"
+      status: Статус
+      storage: Пространство
       via_ssh: "по SSH"
     reboot: Перезагрузить
+    states:
+      create_failed: "Ошибка создания"
+      error: Ошибка
+      new: Новый
+      pending: Ожидание
+      running: Выполнение
+      shutting_down: Завершается
+      stopped: Остановлен
+      vanished: Потерян
     tab_captions:
       history: Журнал
       permissions: Разрешения
@@ -708,15 +774,54 @@ ru:
   last_name: Фамилия
   launch_instance: "Запустить экземпляр"
   layout:
-    appname: "Aeolus Conductor"
+    appname: "Облачная инфраструктура CloudForms"
     copyright: "&copy; 2009-2012 Red Hat, Inc."
     dashboard: Обзор
   login: Вход
+  logs:
+    flash:
+      error:
+        date_range: "Дата начала не может следовать за датой окончания"
+    index:
+      created_at: Создан
+      deployment: Приложение/экземпляр
+      details: Свойства
+      event_time: Время
+      export_logs: "Экспорт журналов"
+      frontend_realm: "Кластер ресурсов"
+      grouped_by: "Сгруппированы по"
+      hwp: "Профиль ресурсов"
+      image: Образ
+      none: Нет
+      not_available: нет
+      owner: Владелец
+      pool: "Зона ресурсов"
+      provider: "Провайдер ресурсов"
+      state: Статус
+      summary: Сводка
+      title: Журналы
+      uptime: "Время работы"
+    options:
+      default_event_types: "Все типы событий"
+      default_group_by: Все
+      default_pools: "Все зоны ресурсов"
+      default_providers: "Все провайдеры"
+      default_states: "Все статусы"
+      default_users: "Все пользователи"
+      deployment_event_type: Приложение
+      deployment_instance_order: Приложение/экземпляр
+      instance_event_type: Экземпляр
+      owner_order: Владелец
+      pool_order: "Зона ресурсов"
+      provider_order: Провайдер
+      state_order: Статус
+      time_order: Время
   manage_providers: "Управление провайдерами"
   manage_users: "Управление пользователями"
   map_locales: "Связать языки"
   map_profiles: "Связать профили"
   masthead:
+    login: Вход
     logout: Выход
     my_account: "Моя страница"
   maximum_running_instances: "Максимальное число активных экземпляров"
@@ -726,19 +831,21 @@ ru:
       administer: Управление
       monitor: Наблюдение
     second_level:
-      cloud_providers: Провайдеры
+      cloud_providers: "Провайдеры ресурсов"
       content: Содержимое
-      environments: Окружения
+      environments: Облака
       settings: Параметры
+      user_groups: "Группы пользователей"
       users: Пользователи
   new: Новый
   new_user: "Новый пользователь"
   operation: Выполнить
   overview: Обзор
   permissions:
+    direct_access: "Прямой доступ"
     flash:
       error:
-        no_users_selected: "Необходимо выбрать пользователя"
+        no_users_selected: "Пользователи не выбраны"
         not_add: "Не удалось добавить роли: %{list}"
         not_added: "Не удалось добавить роли: %{list}"
         not_deleted: "Не удалось удалить предоставленные разрешения: %{list}"
@@ -749,120 +856,138 @@ ru:
         added: "Добавлены роли: %{list}"
         deleted: "Удалены разрешения: %{list}"
         modified: "Изменены роли: %{list}"
+        no_change: "Роли пользователей уже настроены. Изменения не требуются."
     form:
       grant_access: "Предоставить доступ"
+    global: Глобальный
+    global_access: "Глобальный доступ"
+    inherited_access: "Наследование доступа"
+    inherited_from: "Унаследовано от"
+    name: Имя
     new:
       choose_global_role: "Выберите глобальные роли для пользователей"
-      choose_roles: "Выберите роли для предоставления доступа к ресурсу: "
+      choose_roles: "Выберите роли для предоставления доступа к ресурсу:"
       global_role_grants: "Глобальные роли"
     preset_filters:
+      all_entities: "Все объекты"
       all_permissions: "Все разрешения"
+      group_permissions: "Разрешения групп"
+      user_permissions: "Разрешения пользователей"
+    resource: Ресурс
+    resource_type: "Тип ресурса"
     revoke_access: "Закрыть доступ"
   pool_families:
     add_to_pool_family: "Добавить в %{name}"
     choose_provider_accounts: "Выберите учётные записи провайдера для этого облака"
-    confirm_delete: "Удалить облако? Его зоны, каталоги и шаблоны будут удалены."
+    confirm_delete: "Удалить облако? Его зоны, каталоги и программные шаблоны будут удалены."
     edit:
-      return_to: "Назад: "
+      return_to: "Вернуться:"
+    errors:
+      associated_images: "Сначала необходимо удалить связанные образы: %{list}."
+      default_pool_family_not_deleted: "Текущее облако не может быть удалено."
+      not_destroyable_pools: "Ошибка удаления зон: %{list}."
     flash:
       error:
-        default_pool_family_not_deleted: "Текущая зона не может быть удалена."
-        more_not_deleted: "Не удалось удалить: %{list}."
-        no_provider_accounts: "Нет доступных учётных записей."
-        not_deleted: "Облако не может быть удалено. Убедитесь, что все экземпляры остановлены."
-        not_updated: "Набор зон не был обновлён."
+        no_provider_accounts: "Нет учётных записей."
+        not_deleted: "Облако не может быть удалено."
+        not_deleted_with_err: "Не удалось удалить облако: %{err}"
+        not_updated: "Облако не обновлено."
         provider_accounts_not_added: "Не удалось добавить учётные записи."
         provider_accounts_not_removed: "Не удалось удалить учётные записи."
         select_to_add_accounts: "Выберите учётные записи для добавления."
         select_to_remove_accounts: "Выберите учётные записи для удаления."
       notice:
-        added: "Добавлен набор зон."
-        deleted: "Набор зон удалён."
-        more_deleted: "Удалены: %{list}."
-        provider_accounts_added: "Учётные записи добавлены."
-        provider_accounts_removed: "Учётные записи удалены."
-        updated: "Набор зон обновлён."
+        added: "Облако добавлено."
+        deleted: "Облако удалено."
+        provider_accounts_added: "Учётная запись провайдера добавлена"
+        provider_accounts_removed: "Учётные записи провайдера удалены"
+        updated: "Облако обновлено"
       warning:
-        creation_failed: "Ошибка создания набора."
+        creation_failed: "Ошибка создания облака."
     index:
       active_instances: Активные
       answer_no: Нет
       answer_yes: Да
       available_instances: Доступные
       catalog: Каталог
-      deployments: "Установленные шаблоны"
+      deployments: Приложения
       enabled: Включено
       failed_instances: Сбой
       name: Имя
-      new_pool_family: "Создать набор зон"
+      new_pool_family: "Новое облако"
       pending_instances: Ожидают
-      pool_name: "Имя зоны"
+      pool_family_quota_used: "Достигнута квота облака"
+      pool_name: "Имя зоны ресурсов"
+      provider_selection: "Выбор провайдера"
       quota_limit: Квота
-      quota_used: Использовано
+      quota_used: Квота
       total_instancies: Установлено
-      total_statistics: ВСЕГО
+      total_statistics: Всего
     new:
-      environments: Окружения
-    pool_families: "Наборы зон"
-    pool_family: "Набор зон"
-    pool_family_details: "Свойства набора зон"
-    provider_accounts_for: "Учётные записи для"
+      environments: Облака
+    pool_families: Облака
+    pool_family: Облака
+    pool_family_details: "Свойства облака"
+    provider_accounts_for: "Учётные записи провайдера для"
     remove_selected: "Удалить выбранные"
   pools:
-    create_new_pool: "Создание зоны"
+    create_new_pool: "Создать зону ресурсов"
     edit_pool: "Изменить зону %{pool}"
     errors:
       must_be_enabled: "необходимо включить"
-      providers_disabled: "его провайдеры ресурсов отключены"
+      providers_disabled: "его провайдеры отключены"
     flash:
       error:
-        default_pool_not_deleted: "Текущая зона не может быть удалена."
-        iwhd_unavailable: "Образы каталогов недоступны: ошибка подключения к Image Warehouse."
-        not_updated: "Зона не обновлена."
+        default_pool_not_deleted: "Исходная зона не может быть удалена."
+        iwhd_unavailable: "Образы каталогов недоступны: ошибка доступа к Image Warehouse."
+        not_updated: "Зона ресурсов не обновлена."
         pool_not_deleted:
           one: "Зона %{list} не удалена, так как с ней связаны экземпляры."
-          other: "%{list} не удалены, так как с ними связаны экземпляры."
+          other: "Зоны %{list} не удалены, так как с ними связаны экземпляры."
       notice:
-        added: "Зона добавлена."
-        updated: "Зона обновлена."
+        added: "Зона ресурсов добавлена."
+        updated: "Зона ресурсов обновлена."
       success:
         pool_deleted:
           one: "Зона %{list} удалена."
-          other: "%{list} удалены."
+          other: "Зоны %{list} удалены."
       warning:
-        creation_failed: "Ошибка создания зоны."
+        creation_failed: "Ошибка создания зоны ресурсов."
     form:
       instance_or: "экземпляр или "
-      pool_enabled: "Зона включена"
+      pool_enabled: "Зона ресурсов включена."
       unlimited: неограничено
     header_show:
       pool_name: "Зона %{name}"
     images:
       catalog: Каталог
-      catalog_entry: Шаблон
-      image: "Образ: "
+      catalog_entry: "Программный шаблон"
+      image: "Образ:"
       pushed: "%{uuid} передан провайдеру %{provider}"
     index:
-      confirm_delete: "Удалить зону? Её каталоги и шаблоны будут удалены."
-      deployed_on: "Развёрнуто: "
+      confirm_delete: "Удалить зону? Её каталоги и программные шаблоны будут удалены."
+      deployed_on: "Развёрнуто:"
       destroy: Удалить
       failed: Ошибка
       global_uptime: "Общее время работы"
+      not_all_deployments_displayed_alert_html: "Здесь показаны не все приложения. Подробную информацию можно найти на странице параметров зоны %{name}. &raquo;"
       overview: Обзор
       owner: Владелец
       pending: Ожидание
-      pool_details: "Свойства зоны"
-      pool_family: "Набор зон"
-      pool_name: "Имя зоны"
-      your_pools: "Ваши зоны"
+      pool_details_html: "Свойства зоны %{name} &raquo;"
+      pool_family: Облако
+      pool_name: "Имя зоны ресурсов"
+      pool_toggle: Свернуть/развернуть
+      your_pools: "Ваши зоны ресурсов"
     list:
       more_actions: "Другие действия"
-    new_pool: "Создать зону"
-    pool: Зона
-    pools: Зоны
+    logs: Журналы
+    new_pool: "Новая зона ресурсов"
+    pool: "Зона ресурсов"
+    pools: "Зоны ресурсов"
     preset_filters:
-      all_pools: "Все зоны"
-      enabled_pools: "Активные зоны"
+      all_pools: "Все зоны ресурсов"
+      enabled_pools: "Активные зоны ресурсов"
       with_create_failed_instances: "Включая сбойные"
       with_instances: "Включая экземпляры"
       with_pending_instances: "Включая ожидающие"
@@ -876,6 +1001,14 @@ ru:
     add_provider_account: "Добавить уч.запись"
     credentials:
       credentials_for: "Реквизиты доступа"
+      labels:
+        access_key: "Ключ доступа"
+        account_number: "Номер учётной записи"
+        certificate: Сертификат
+        key: Ключ
+        password: Пароль
+        secret_access_key: "Секретный ключ"
+        username: Пользователь
     edit:
       account: "Изменить учётную запись %{name}"
       delete_account: "Удалить учётную запись"
@@ -883,9 +1016,11 @@ ru:
       file_already_uploaded: "Уже отправлено. Отправить повторно?"
       required_field: "Обязательное поле"
     errors:
+      associated_images: "Сначала необходимо удалить связанные образы: %{images}."
       could_not_connect: "Ошибка подключения к учётной записи. Обратитесь к администратору."
       exception_while_validating: "Ошибка проверки реквизитов доступа к провайдеру. Проверьте параметры и повторите попытку."
       invalid_credentials: "Неверные реквизиты доступа."
+      not_destroyable_instances: "Ошибка уничтожения экземпляров: %{instances}"
       populate_hardware_profiles_failed: "Не удалось заполнить профили: %{message}"
       populate_realms_failed: "Ошибка заполнения кластеров: %{message}"
     flash:
@@ -893,12 +1028,9 @@ ru:
         account_not_added:
           one: "Не удалось добавить учётную запись %{list}"
           other: "Не удалось добавить учётные записи %{list}"
-        account_not_deleted:
-          one: "Учётная запись %{list} не удалена, так как с ней связаны экземпляры."
-          other: "Учётные записи %{list} не удалены, так как с ними связаны экземпляры."
         no_provider: "Нет провайдеров. Необходимо их создать."
-        not_added: "Ошибка добавления учётной записи."
-        not_deleted: "Учётная запись провайдера не удалена."
+        not_added: "Не удалось добавить учётные записи."
+        not_deleted_with_err: "Ошибка удаления учётной записи %{account}: %{err}"
         not_updated: "Учётная запись провайдера не обновлена."
         test_connection_failed_invalid: "Ошибка проверки соединения: неверные данные учётной записи."
         test_connection_failed_provider: "Ошибка проверки соединения: не удалось подключиться к провайдеру."
@@ -909,12 +1041,12 @@ ru:
         account_deleted:
           one: "Учётная запись %{list} удалена."
           other: "Учётные записи %{list} удалены."
-        deleted: "Учётная запись удалена."
+        deleted: "Учётная запись провайдера не удалена."
         test_connection_success: "Проверка успешна: настройки учётной записи определены верно."
         updated: "Учётная запись провайдера обновлена."
       warning:
         must_select_account: "Выберите учётные записи."
-        no_provider: "Нет провайдеров."
+        no_provider: "Нет провайдеров ресурсов."
     form:
       account_name: "Учётная запись"
       account_number: "ID учётной записи AWS"
@@ -923,8 +1055,8 @@ ru:
       password: "Секретный ключ"
       provider_accounts: "Учётные записи провайдера"
       quota_instances: "Квота на экземпляры"
-      test_account: Проверка
-      unlimited_quota: "Квота не ограничена"
+      test_account: "Тестовая учётная запись"
+      unlimited_quota: "Неограниченная квота"
       user_name: "Ключ EC2"
     history:
       history_for: "Журнал для"
@@ -934,15 +1066,15 @@ ru:
       priority: Приоритет
       provider_account_name: "Учётная запись"
       provider_accounts: "Учётные записи провайдера"
-      provider_name: "Имя провайдера"
-      provider_type: "Тип провайдера"
+      provider_name: "Имя провайдера ресурсов"
+      provider_type: "Тип провайдера ресурсов"
       quota_limit: Квота
       username: Пользователь
     list:
       delete_selected: "Удалить выбранные"
     new:
-      cloud_providers: Провайдеры
-      new_provider_account: "Создать учётную запись"
+      cloud_providers: "Провайдеры ресурсов"
+      new_provider_account: "Учетная запись провайдера"
       required_field: "Обязательное поле"
     new_provider_account: "Новая учётная запись"
     permissions:
@@ -950,17 +1082,17 @@ ru:
     preset_filters:
       all_provider_accounts: Все
     properties:
-      account_number: "Номер учётной записи: "
-      config_server: "Сервер конфигурации: "
+      account_number: "Номер учётной записи"
+      config_server: "Сервер конфигурации"
       none: Нет
       properties_for: "Свойства "
-      running_instances_quota: "Квота для активных экземпляров: "
-      sure_to_delete: "Удалить сервер?"
+      running_instances_quota: "Квота для работающих экземпляров"
+      sure_to_delete: "Удалить сервер конфигурации?"
       test: Тест
       unlimited: неограничено
     provider_selection:
-      cloud_type: "Тип облака: "
-      provider_name: "Имя провайдера: "
+      cloud_type: "Тип облака:"
+      provider_name: "Имя провайдера:"
     remove_provider_accounts: "Удалить учётные записи"
     rhevm:
       login_form: "Форма авторизации для RHEV-M (не реализовано)"
@@ -972,67 +1104,114 @@ ru:
       history: Журнал
       permissions: Разрешения
       properties: "Свойства "
-  provider_accounts_item: "Учётная запись провайдера"
+  provider_accounts_item: "Учетная запись провайдера"
   provider_images:
     flash:
       notice:
-        deleted: "Образ провайдера удалён. Если требуется удалить образ, который хранится на стороне провайдера, откройте консоль управления %{provider} и выберите образ «%{target_id}»."
-        upload_start: "Отправляется образ провайдера"
+        deleted: "Образ провайдера удалён. Если требуется удалить образ, который хранится на провайдере, откройте консоль управления %{provider} и выберите образ \"%{target_id}\"."
+        upload_start: "Отправка образа провайдера началась"
       warning:
         delete_failed: "Не удалось удалить образ провайдера"
-        not_found: "Образ не найден."
+        not_found: "Образ провайдера не найден"
         upload_failed: "Не удалось отправить образ провайдера"
+  provider_priority_groups:
+    edit:
+      back: "Группы провайдеров для зоны: %{pool}"
+      save: "Сохранить приоритетную группу"
+      title: "Изменить приоритетную группу"
+    flash:
+      created: "Приоритетная группа создана"
+      deleted: "Приоритетная группа удалена"
+      updated: "Приоритетная группа обновлена"
+    form:
+      basic_data: "Базовые данные"
+      providers_and_provider_accounts: "Провайдеры и учётные записи"
+    index:
+      add_new: "Добавить новые"
+      back_to_strategies: "Стратегии выбора провайдера для зоны: %{pool}"
+      confirm_delete: "Удалить приоритетную группу?"
+      edit_strict_order_strategy: "Изменить стратегию строгого упрорядочивания"
+      no_priority_group: "Нет приоритетных групп"
+      provider_account_name: "Учётная запись"
+      provider_account_username: Пользователь
+      provider_name: "Имя провайдера"
+      provider_type: "Тип провайдера"
+      quota_maximum_running_instances: Квота
+      quota_percentage_used: "Занято квоты"
+    new:
+      back: "Группы провайдеров для зоны: %{pool}"
+      create: "Создать приоритетную группу"
+      title: "Добавить новую приоритетную группу"
   provider_realms:
-    name: "Имя кластера"
+    name: "Имя кластера провайдера"
     provider_realms: "Кластеры провайдеров"
     show:
-      details: "Свойства кластера"
-      mapping: "Сопоставление кластера провайдера"
-      provider_accounts_mapped: "Учётные записи на провайдере связаны с кластером %{name}"
-  provider_summary: "Сводка провайдера"
+      details: "Свойства кластера провайдера"
+      mapping: "Сопоставление провайдера кластеру"
+      provider_accounts_mapped: "Учётные записи провайдера сопоставлены кластеру %{name}:"
+  provider_selection:
+    edit_strategy:
+      back_to_strategies: "Стратегии выбора провайдера для зоны: %{pool}"
+      edit: "Изменить стратегию %{strategy_name}"
+    flash:
+      config_successfully_saved: "Стратегия %{strategy_name} обновлена"
+      failed_to_disable: "Не удалось отменить стратегию %{strategy_name}"
+      failed_to_enable: "Не удалось включить стратегию %{strategy_name}"
+      successfully_disabled: "Стратегия %{strategy_name} отключена"
+      successfully_enabled: "Стратегия %{strategy_name} включена"
+    show:
+      available_provider_accounts: "Доступные учётные записи провайдера"
+      available_strategies: "Доступные стратегии"
+      configure: Настроить
+      edit_provider_accounts: "Изменить учётные записи провайдера для набора зон"
+      edit_strategy: "Изменить стратегию %{name}"
+      environment: "Облако: %{environment}"
+      provider_selection: "Стратегии выбора провайдера"
+  provider_summary: "Сводка провайдера ресурсов"
   providers:
     alerts:
       alert_type:
         quota_exceeded: "Квота превышена"
         quota_reached: "Квота достигнута"
       description:
-        quota_exceeded: "Превышена квота на число активных экземпляров для %{name}."
-        quota_reached: "Достигнута квота на число активных экземпляров для %{name}."
+        quota_exceeded: "Превышена квота на число работающих экземпляров для %{name}."
+        quota_reached: "Достигнута квота на число работающих экземпляров для %{name}."
       subject:
         quota: Квота
       type:
         critical: Критично
         warning: Предупреждение
-    choose_a_provider: "Провайдер: "
+    choose_a_provider: "Выберите провайдер:"
     confirm_delete: "Удалить провайдер?"
     confirm_terminate:
       disable: Отключить
       disabled_provider: "Отключить провайдер"
-    disable_provider: "Отключить? Его экземпляры будут остановлены."
+    disable_provider: "Отключить провайдер? Его экземпляры будут остановлены."
     edit:
-      enable_configure_providers: "Для активации и настройки провайдера измените положение переключателя в правом верхнем углу окна."
+      enable_configure_providers: "Для активации и настройки провайдера используйте переключатель в правом верхнем углу окна."
       provider_disabled: "Провайдер %{name} отключен."
       provider_id_disabled: "Провайдер отключен."
-      provider_unavailable: "%{name} недоступен."
+      provider_unavailable: "Провайдер %{name} недоступен."
       toggle_alerts: "Настроить уведомления"
-    editing_provider: "Изменение провайдера"
-    enable_provider: Включить?
+    editing_provider: "Изменение провайдера ресурсов"
+    enable_provider: "Включить провайдер?"
     flash:
       error:
-        not_added: "Ошибка добавления провайдера."
+        not_added: "Не удалось добавить провайдер."
         not_deleted: "Провайдер не удалён."
+        not_deleted_with_err: "Провайдер не удалён: %{err}"
         not_disabled: "Не удалось отключить провайдер."
         not_updated: "Не удалось обновить провайдер."
       notice:
         added: "Провайдер добавлен."
-        connected: "Успешное соединение с провайдером"
+        connected: "Соединение с провайдером установлено."
         deleted: "Провайдер удалён."
         disabled: "Провайдер отключен."
         updated: "Провайдер обновлён."
       warning:
         connect_failed: "Ошибка соединения с провайдером."
-        not_stopped_instances: "Провайдер не отключен, так как не удалось остановить экземпляры: "
-        not_terminated_instances: "Провайдер не отключен, так как не удалось изменить статус экземпляров на «остановлен»: "
+        not_stopped_instances: "Провайдер не отключен, так как не удалось остановить экземпляры:"
+        not_terminated_instances: "Провайдер не отключен, так как не удалось изменить статус экземпляров на «остановлен»:"
     form:
       caution_alt_text: Внимание
       caution_image: Внимание
@@ -1042,26 +1221,33 @@ ru:
       test_connection: "Проверка соединения"
       x_deltacloud_provider:
         ec2: "Регион EC2"
-        generic: X-Deltacloud-Provider
+        generic: X-Deltacloud-Cloud
+        openstack: "Openstack API_ENTRYPOINT"
+        rackspace: "Rackspace API_PROVIDER"
         rhevm: "RHEV-M API_PROVIDER"
         vsphere: "Хост API vSphere"
-      x_deltacloud_provider_legend: "Легенда X-Deltacloud-Provider"
+      x_deltacloud_provider_legend: "Легенда для провайдера X-Deltacloud-Cloud"
     index:
-      create_new_provider: "Создание провайдера"
+      create_new_provider: "Создать провайдер"
       create_one: "Сначала следует создать провайдер."
-      no_providers_available: "Нет провайдеров."
-      provider_name: "Имя провайдера"
-      provider_type: Тип
-      provider_url: URL
+      error_instances: "Ошибки (текущие)"
+      historical_error_instances: "Ошибки (известные)"
+      historical_running_instances: "Работающие (известные)"
+      no_providers_available: "Нет доступных провайдеров."
+      pending_instances: "Ожидающие (текущие)"
+      provider_name: "Имя провайдера ресурсов"
+      provider_type: "Тип провайдера ресурсов"
+      provider_url: "URL провайдера"
+      running_instances: "Работающие экземпляры (текущие)"
       x_deltacloud_driver: X-Deltacloud-Driver
-      x_deltacloud_provider: X-Deltacloud-Provider
+      x_deltacloud_provider: X-Deltacloud-Cloud
     new:
-      new_provider: "Новый провайдер"
+      new_provider: "Новый провайдер ресурсов"
       save_provider: Сохранить
-    provider: Провайдер
-    providers: Провайдеры
+    provider: "Провайдер ресурсов"
+    providers: "Провайдеры ресурсов"
   quota: Квота
-  quota_used: Использовано
+  quota_used: "Занято квоты"
   quotas:
     edit:
       edit_for: "Изменить квоту для"
@@ -1088,7 +1274,7 @@ ru:
       properties: "Свойства "
     flash:
       error:
-        more_not_deleted: "Не удалось удалить кластеры: "
+        more_not_deleted: "Не удалось удалить кластеры:"
         not_deleted: "Кластер не удалён."
         select_to_delete: "Необходимо выбрать кластер для удаления."
         select_to_delete_mapping: "Необходимо выбрать связь для удаления."
@@ -1096,11 +1282,11 @@ ru:
         added: "Кластер добавлен."
         added_mapping: "Добавлена связь для кластера."
         deleted: "Кластер удалён."
-        more_deleted: "Удалены кластеры: "
+        more_deleted: "Удалены кластеры:"
         updated: "Кластер обновлён."
     index:
       realm: Кластер
-      realm_availability: Доступно?
+      realm_availability: Доступен?
       realm_available:
         false_value: Нет
         true_value: Да
@@ -1108,13 +1294,13 @@ ru:
     list:
       delete_selected: "Удалить выбранные"
     mapping:
-      frontend_realms_mapped_to_provider: "Кластеры связаны с провайдером %{name}: "
-      frontend_realms_mapped_to_realm: "Кластеры связаны с %{name}: "
-      mapping_provider: "Добавить связь с провайдером"
-      mapping_realm: "Добавить связь с кластером"
-      provider_accounts_mapped_to_realm: "Учётные записи на провайдере связаны с кластером %{name}: "
-      realm_mapped_providers: "Кластер %{name} связан с провайдерами: "
-      realm_mapped_realms: "Кластер %{name} связан с кластерами: "
+      frontend_realms_mapped_to_provider: "Кластеры связаны с провайдером %{name}:"
+      frontend_realms_mapped_to_realm: "Кластеры связаны с %{name}:"
+      mapping_provider: "Добавить соответствие для провайдера ресурсов"
+      mapping_realm: "Добавить соответствие для кластера"
+      provider_accounts_mapped_to_realm: "Учётные записи провайдера сопоставлены кластеру %{name}:"
+      realm_mapped_providers: "Кластер %{name} связан с провайдерами:"
+      realm_mapped_realms: "Кластер %{name} связан с кластерами:"
     new:
       create_realm: "Создать кластер"
     new_realm: "Новый кластер"
@@ -1141,22 +1327,22 @@ ru:
   roles:
     edit:
       cancel_editing: "Отменить изменения"
-      editing_role: "Изменить роль: "
-      properties: "Свойства "
+      editing_role: "Изменить роль:"
+      properties: Свойства
     flash:
       error:
-        more_not_deleted: "Не удалось удалить роли: "
+        more_not_deleted: "Не удалось удалить роли:"
       notice:
         added: "Роль сохранена."
-        more_deleted: "Роли удалены: "
-        updated: "Роль обновлена."
+        more_deleted: "Роли удалены:"
+        updated: "Роль изменена."
     list:
       roles_list: "Список ролей"
     new_role: "Новая роль"
     properties:
       action: Действие
       privileges: Права
-      scope: "Область действия: "
+      scope: "Область действия"
       target_type: "Тип цели"
     show:
       properties: "Свойства "
@@ -1167,52 +1353,27 @@ ru:
   save: Сохранить
   scheduling_policies: "Политика планирования"
   search:
-    no_results: "Нет подходящих."
+    no_results: "Нет результатов."
   searches: Поиск
   select:
     all: Все
     none: Нет
-    select: Выбрать
+    select: Выберите
   self_service_settings: "Параметры самообслуживания"
   services: Службы
   services_provided: "Предоставляемые службы"
   settings:
     flash:
       notice:
-        updated: "Параметры обновлены."
+        updated: "Параметры изменены"
       warning:
         not_updated_quota: "Не удалось обновить исходную квоту"
-    general_settings:
-      allow_self_service: "Разрешить самостоятельное создание учётной записи: "
-      brand_icon: "Знак компании: "
-      certificate: "Сертификат: "
-      content: Содержимое
-      content_manager_url: "URL менеджера содержимого: "
-      entitlement_mode: "Режим полномочий: "
-      general_settings: "Общие параметры"
-      portal: Портал
-      primary_url_port: "Главный порт: "
-      select_treatment: "Поведение пользователя"
-      system_subscription: "Подписки системы"
-      tag_line: "Тег: "
-      user_brings_subscriptions: "Подписки пользователя"
     index:
-      define_hardware_profiles: "Настройка профилей оборудования"
-      define_hardware_profiles_desc: "Просмотр и настройка профилей оборудования в Aeolus Conductor, которые будут доступны пользователям. Названия профилей определяются предоставляемыми возможностями."
-      define_locales: "Настройка языка"
-      define_locales_desc: "Просмотр и настройка языков интерфейса Aeolus Conductor. Названия языков привязаны к соответствующим странам."
-      define_services: "Настройка служб"
-      define_services_desc: "Просмотр и настройка служб Aeolus Conductor. Эти службы соответствуют отдельным провайдерам исходя из их возможностей."
-      general_settings: "Общие параметры"
-      general_settings_desc: "Самостоятельная регистрация учётной записи и управление ресурсами."
-      manage_providers: "Управление провайдерами"
-      manage_providers_desc: "Просмотр и настройка провайдеров виртуальных ресурсов. Добавление, просмотр и настройка учётных записей провайдеров."
-      manage_users: "Управление пользователями"
-      manage_users_desc: "Просмотр, изменение и удаление пользователей Aeolus Conductor. Настройка квот и полномочий."
       permissions: Разрешения
       permissions_desc: "Изменение стандартной квоты."
     self_service:
       account: "Учётная запись"
+      instances_quota: "Квота для экземпляров:"
       self_service_default: "По умолчанию самообслуживание"
       self_service_settings: "Параметры самообслуживания"
     settings: Параметры
@@ -1227,37 +1388,98 @@ ru:
         not_found: "Образ не найден"
   template_xml:
     errors:
-      invalid_xml: "Неверный XML: "
+      invalid_xml: "Неверный XML:"
       name_is_not_set: "Имя не определено."
       xml_parse_error: "Ошибка разбора XML."
   updates: Обновления
   uptime: "Время в работе"
   user: Пользователь
+  user_group: "Группа пользователей"
+  user_groups:
+    choose_members: "Выберите пользователей для добавления в группу"
+    confirm_delete: "Удалить эту группу?"
+    edit:
+      edit_user_group: "Изменить группу"
+    flash:
+      error:
+        members_not_added: "Не удалось добавить пользователей"
+        members_not_removed: "Не удалось удалить пользователей"
+        not_a_local_group: "Здесь осуществляется управление локальными группами"
+        select_to_add_members: "Выберите пользователей для добавления."
+      notice:
+        added: "Группа пользователей добавлена"
+        deleted: "Группа пользователей удалена."
+        members_added: "Пользователи добавлены"
+        members_removed: "Пользователи удалены"
+        more_deleted:
+          one: "Удалённая группа пользователей"
+          other: "Удалённые группы пользователей"
+        updated: "Группа изменена"
+      warning:
+        creation_failed: "Не удалось создать группу пользователей"
+        delete_failed: "Не удалось удалить группу"
+        not_delete: "Ошибка удаления: %{reason}"
+    form:
+      name: Имя
+      save_user_group: "Сохранить группу"
+      type: Тип
+    groups: "Группы пользователей"
+    index:
+      name: Имя
+      type: Тип
+    ldap: LDAP
+    list:
+      add_user_group: "Добавить группу"
+      delete_selected: "Удалить выбранные"
+    local: Локально
+    new:
+      neccessary_information: "Заполните форму и нажмите «Сохранить группу»."
+      new_user_group: "Новая группа пользователей"
+    preset_filters:
+      all_user_groups: "Все группы пользователей"
+      ldap: "Группы под управлением LDAP"
+      local: "Локально управляемые группы"
+    quick_jump: "Перейти к:"
+    return_to: "Вернуться к:"
+    show:
+      add_members: "Добавить участников"
+      created: Создана
+      delete: Удалить
+      description: Описание
+      edit: Изменить
+      last_updated: Изменена
+      members: Участники
+      name: Имя
+      type: Тип
   user_sessions:
     flash:
-      notice:
-        login: "Вход выполнен успешно"
-        logout: "Выход успешен"
       warning:
-        login_failed: "Неверное имя пользователя или пароль."
+        login_failed: "Неверное имя пользователя или пароль. Повторите попытку."
     new:
-      help: "Справка ещё не доступна."
+      forgot: Забыли?
+      help: "Справка ещё недоступна."
       login: Вход
       login_assistance: Помощь
-      password: "Пароль: "
+      login_unknown_info: "Если вы забыли имя пользователя, введите электронный адрес, на который будетвыслано напоминание."
+      or: или
+      password: Пароль
+      password_unknown_info: "Введите имя пользователя и адрес, на который будут отправлены инструкции по восстановлению пароля."
+      reset_password: "Восстановить пароль"
+      return_to_login: "Вернуться к авторизации"
       security_info: "Информация о защите"
+      send_login: "Отправить имя пользователя"
       show_password: "Показать пароль"
-      username: "Пользователь: "
+      username: Пользователь
     security:
-      encrypted_connection: "Защищённое подключение"
+      encrypted_connection: "Зашифрованное подключение"
       expiration: "Срок действия: неизвестен"
-      issued: "Сертификат выдан: "
-      message: "Подключение к Aeolus Conductor (%{host}) зашифровано с помощью SSL."
-      message_unencrypted: "Подключение к Aeolus Conductor (%{host}) не зашифровано, что повышает риск хищения  информации."
+      issued: "Сертификат выдан:"
+      message: "Подключение к облачной инфраструктуре CloudForms (%{host}) зашифровано с помощью SSL (уровень защиты неизвестен)."
+      message_unencrypted: "Подключение к облачной инфраструктуре CloudForms (%{host}) не зашифровано, что повышает риск хищения  данных."
       message_unencrypted2: "Если это ошибка, не продолжайте авторизацию, а обратитесь к системному администратору."
-      return_to_login: "Вернуться к окну входа"
+      return_to_login: "Вернуться в окно входа"
       unencrypted_connection: "Незащищённое подключение"
-      unknown_ca: "Неизвестный издатель"
+      unknown_ca: "Неизвестный центр сертификации"
   users:
     confirm_delete: "Удалить пользователя?"
     edit:
@@ -1271,16 +1493,16 @@ ru:
         more_deleted:
           one: "Пользователь удалён"
           other: "Пользователи удалены"
-        registered: "Пользователь зарегистрирован."
-        updated: "Пользователь обновлён."
-        you_registred: "Регистрация завершена."
+        registered: "Пользователь зарегистрирован"
+        updated: "Пользователь обновлён"
+        you_registred: "Регистрация успешна."
       warning:
         not_delete: "Ошибка удаления: %{reason}"
-        not_delete_same_user: "Нельзя удалить %{login}, так как вы вошли в систему под этим именем."
+        not_delete_same_user: "Не удалось удалить пользователя %{login}, так как его сеанс активен."
     form:
       save_user: Сохранить
-      user_status: "Статус пользователя"
       user_treatment: "Поведение пользователя"
+    groups: Группы
     index:
       email: Email
       first_name: Имя
@@ -1289,26 +1511,27 @@ ru:
       user_id: "ID пользователя"
       username: Пользователь
     list:
+      add_user: "Добавить пользователя"
       delete_selected: "Удалить выбранные"
       unlimited: Неограничено
     new:
       neccessary_information: "Заполните форму и нажмите «Сохранить»."
       new_user: "Новый пользователь"
     preset_filters:
-      all_users: Все
+      all_users: "Все пользователи"
       name_starts_with_A: "Имя начинается с «A»"
       name_starts_with_B: "Имя начинается с «B»"
-    quick_jump: "Перейти к: "
-    return_to: "Назад: "
+    quick_jump: "Перейти к:"
+    return_to: "Вернуться к:"
     show:
-      created: СОЗДАН
+      created: Создан
       delete: Удалить
       e-mail: Email
       edit: Изменить
-      failed_logins: "НЕУДАЧНЫЕ ПОПЫТКИ ВХОДА"
-      last_login: "ПОСЛЕДНИЙ ВХОД"
-      last_login_ip: "ПОСЛЕДНИЙ ВХОД С IP"
-      last_updated: ИЗМЕНЕН
-      number_of_logins: ЗАХОДИЛ
+      failed_logins: "Неудачные попытки входа"
+      last_login: "Последний вход"
+      last_login_ip: "Последний вход с IP"
+      last_updated: Обновлено
+      number_of_logins: "Число авторизаций"
       username: Пользователь
     users: Пользователи
