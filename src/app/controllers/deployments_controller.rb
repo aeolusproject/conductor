@@ -40,14 +40,22 @@ class DeploymentsController < ApplicationController
   # It is expected that params[:pool_id] will be set on requests into this method
   def launch_new
     @title = t 'deployments.new_deployment'
-    @pool = Pool.find(params[:pool_id]) or raise "Invalid pool"
+
+    if params[:deployment].present?
+      @deployment = Deployment.new(params[:deployment])
+      @pool = @deployment.pool
+    else
+      @pool = Pool.find(params[:pool_id]) or raise "Invalid pool"
+      @deployment = Deployment.new(:pool_id => @pool.id)
+    end
+
     require_privilege(Privilege::CREATE, Deployment, @pool)
     unless @pool.enabled
       flash[:warning] = t 'deployments.flash.warning.disabled_pool'
       redirect_to pool_path(@pool) and return
     end
 
-    @deployment = Deployment.new(:pool_id => @pool.id)
+
     init_new_deployment_attrs
     respond_to do |format|
       format.html
