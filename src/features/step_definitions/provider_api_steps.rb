@@ -1,10 +1,5 @@
 World(Rack::Test::Methods)
 
-# TODO: move to some common file for API
-Given /^I use my authentication credentials in each request$/ do
-  authorize(@user.username, 'secret')
-end
-
 When /^I request a list of providers returned as XML$/ do
   header 'Accept', 'application/xml'
   get api_providers_path
@@ -55,12 +50,6 @@ When /^I create provider with correct data via XML$/ do
   post api_providers_path, xml_provider
 end
 
-Then /^I should received?(?: an)? OK message$/ do
-  response = last_response
-  response.headers['Content-Type'].should include('application/xml')
-  response.status.should be_eql(200)
-end
-
 When /^I create provider with incorrect data via XML$/ do
   header 'Accept', 'application/xml'
   header 'Content-Type', 'application/xml'
@@ -78,12 +67,6 @@ When /^I create provider with incorrect data via XML$/ do
   post api_providers_path, xml_provider
 end
 
-Then /^I should receive Bad Request message$/ do
-  response = last_response
-  response.headers['Content-Type'].should include('application/xml')
-  response.status.should be_eql(400)
-end
-
 When /^I delete that provider via XML$/ do
   header 'Accept', 'application/xml'
 
@@ -94,14 +77,6 @@ When /^I attempt to delete the provider$/ do
   header 'Accept', 'application/xml'
 
   delete api_provider_path(@provider)
-end
-
-Then /^I should received?(?: a)?(?: .+)? Not Found error$/ do
-  response = last_response
-  response.headers['Content-Type'].should include('application/xml')
-  response.status.should be_eql(404)
-  xml_body = Nokogiri::XML(response.body)
-  xml_body.xpath('//error').size.should be_eql(1)
 end
 
 When /^I update that provider with correct data via XML$/ do

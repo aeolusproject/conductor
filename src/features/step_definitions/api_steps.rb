@@ -13,6 +13,11 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+
+Given /^I use my authentication credentials in each request$/ do
+  authorize(@user.username, 'secret')
+end
+
 Then /^I should see xml element "([^"]*)"$/ do |element|
   Then %{I should see "#{element}"}
 end
@@ -73,6 +78,33 @@ Then /^this path should contain the following elements:$/ do |table|
     rescue Exception => e
     end
   end
+end
+
+Then /^I should receive(?: an?)? (.+) message$/ do |status_name|
+  status_codes = {
+    'OK' => 200,
+    'Created' => 201,
+  }
+
+  response = last_response
+  response.headers['Content-Type'].should include('application/xml')
+  response.status.should be_eql(status_codes[status_name])
+end
+
+Then /^I should receive(?: an?)? (.+) error$/ do |status_name|
+  status_codes = {
+    'Bad Request' => 400,
+    'Not Found' => 404,
+  }
+
+  response = last_response
+  response.headers['Content-Type'].should include('application/xml')
+  response.status.should be_eql(status_codes[status_name])
+  xml_body = Nokogiri::XML(response.body)
+  # FIXME the XPath expectation should be more restrictive once we standardize the API
+  # As of 2012-09-24, some actions return <errors> with multiple <error> inside
+  # and others return just <error>
+  xml_body.xpath('//error').size.should >= 1
 end
 
 def send_xml_get(uri)
