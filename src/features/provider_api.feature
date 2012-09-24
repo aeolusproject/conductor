@@ -45,7 +45,7 @@ Feature: Manage Providers via API
 
   Scenario: Create a new provider with bad request
     When I create provider with incorrect data via XML
-    Then I should receive Bad Request message
+    Then I should receive Bad Request error
     And the provider should not be created
 
   Scenario: Update a provider
@@ -57,7 +57,7 @@ Feature: Manage Providers via API
   Scenario: Update a provider with bad request
     Given there is a provider
     When I update that provider with incorrect data via XML
-    Then I should receive Bad Request message
+    Then I should receive Bad Request error
     And the provider should not be updated
 
     #  Scenario: Attempt to update non existing provider
@@ -69,11 +69,11 @@ Feature: Manage Providers via API
   Scenario: Delete Provider
     Given there is a provider
     When I delete that provider via XML
-    Then I should received an OK message
+    Then I should receive an OK message
     And the provider should be deleted
 
   Scenario: Attempt to delete non-existant provider
     Given the specified provider does not exist in the system
     When I attempt to delete the provider
-    Then I should receive a Provider Not Found error
+    Then I should receive Not Found error
     And no provider should be deleted

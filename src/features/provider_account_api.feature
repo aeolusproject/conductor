@@ -37,7 +37,7 @@ Feature: Manage Provider Accounts via API
 
   Scenario: Create a new provider account with bad request
     When I create provider account with incorrect data
-    Then I should receive Bad Request message
+    Then I should receive Bad Request error
     And the provider account should not be created
 
   Scenario: Update a provider account
@@ -49,10 +49,10 @@ Feature: Manage Provider Accounts via API
   Scenario: Update a provider account with bad request
     Given there is a provider account
     When I update that provider account with incorrect data
-    Then I should receive Bad Request message
+    Then I should receive Bad Request error
     And the provider account should not be updated
 
   Scenario: Attempt to update non existing provider account
     Given the specified provider account does not exist in the system
     When I attempt to update the provider account
-    Then I should receive a Provider Account Not Found error
+    Then I should receive Not Found error
