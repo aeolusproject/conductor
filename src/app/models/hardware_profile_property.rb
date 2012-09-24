@@ -63,10 +63,7 @@ class HardwareProfileProperty < ActiveRecord::Base
 
   validates_presence_of :unit
   validates_numericality_of :value, :greater_than => 0,
-                :if => Proc.new{|p| (p.name == MEMORY or p.name == CPU) and p.value.present?}
-
-  validates_numericality_of :value, :greater_than_or_equal_to => 0,
-                :if => Proc.new{|p| p.name == STORAGE and p.value.present?}
+                :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE or p.name == CPU) and p.value.present?}
 
   validates_numericality_of :range_first, :greater_than => 0,
                 :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE or p.name == CPU) and
