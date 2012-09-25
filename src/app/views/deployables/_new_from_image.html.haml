@@ -48,9 +48,9 @@
         str.push($(this).parent().text());
       });
       if (str.length > 1){
-        return "Multiple";
+        return t('deployables.form.multiple');
       }else if (str.length == 0){
-        return "None";
+        return t('deployables.form.none');
       }else{
         return str.join(', ');
       }
