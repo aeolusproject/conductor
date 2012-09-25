@@ -38,3 +38,11 @@ When /^I check "([^"]*)" catalog$/ do |arg1|
   catalog = Catalog.find_by_name(arg1)
   check("catalog_checkbox_#{catalog.id}")
 end
+
+Then /^the catalog should be created$/ do
+  Catalog.find_by_name(@catalog.name).should_not be_nil
+end
+
+Then /^the catalog should not be created$/ do
+  Catalog.find_by_name(@catalog.name).should be_nil
+end

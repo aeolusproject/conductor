@@ -24,6 +24,37 @@ When /^I ask for details of that catalog as XML$/ do
   get api_catalog_path(@catalog.id)
 end
 
+When /^I create catalog with correct data via XML$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @catalog = FactoryGirl.build(:catalog)
+
+  xml_catalog = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                   <catalog>
+                     <name>#{@catalog.name}</name>
+                     <pool id="#{@catalog.pool_id}" />
+                   </catalog>
+                   ]
+
+  post api_catalogs_path, xml_catalog
+end
+
+When /^I create catalog with incorrect data via XML$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @catalog = FactoryGirl.build(:catalog)
+
+  xml_catalog = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                   <catalog>
+                     <name>#{@catalog.name}</name>
+                   </catalog>
+                   ]
+
+  post api_catalogs_path, xml_catalog
+end
+
 Then /^I should receive list of catalogs as XML$/ do
   response = last_response
   response.headers['Content-Type'].should include('application/xml')

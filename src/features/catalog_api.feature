@@ -39,13 +39,11 @@ Feature: Manage Catalogs via API
     When I ask for details of that catalog as XML
     Then I should receive Not Found error
 
-  @wip
   Scenario: Create a new catalog
     When I create catalog with correct data via XML
     Then I should receive OK message
     And the catalog should be created
 
-  @wip
   Scenario: Create a new catalog with bad request
     When I create catalog with incorrect data via XML
     Then I should receive Bad Request error
