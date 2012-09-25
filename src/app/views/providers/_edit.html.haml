@@ -5,6 +5,6 @@
     %fieldset.options
       - if can_edit
         .button-group
-          = f.submit "Save Changes", :class => "submit button pill", :id => 'save'
-          = link_to "Test Connection", edit_provider_path(@provider, :test_provider => true), :class => 'button pill'
-          = link_to 'Delete Provider', provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "button pill danger", :id => "delete"
+          = f.submit "#{t'providers.form.save_changes'}", :class => "submit button pill", :id => 'save'
+          = link_to "#{t'providers.form.test_connection'}", edit_provider_path(@provider, :test_provider => true), :class => 'button pill'
+          = link_to "#{t'providers.form.delete_provider'}", provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "button pill danger", :id => "delete"

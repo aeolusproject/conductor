@@ -1110,7 +1110,7 @@ en:
       edit_xml_after_save: Edit XML file after save
       deployable_xml_url: URL of Deployable XML
       none: None
-      multiple: None
+      multiple: Multiple
     flash:
       error:
         attribute_not_exist: "Some attribute(s) are missing in the XML. Please check the file."
@@ -1199,7 +1199,9 @@ en:
       select_type_of_provider: Select type of Provider
       caution_alt_text: Caution
       enter_correct_url_msg: Please enter a correct URL format.
+      save_changes: Save Changes
       test_connection: Test Connection
+      delete_provider: Delete Provider
       required_field: Required field.
       caution_image: Caution
     confirm_terminate:
