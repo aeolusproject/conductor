@@ -1,21 +1,9 @@
 /* Header */
 header#header #appnav ul li a {background: #01536d;}
 header#header #nav-container {bottom:-2px;}
-
-header#header #widget-container #usermenu li {
+header#header .header-widget {
   background-color: #01536d;
-  border:.2em solid #01536d;
-  color:#fff;
-  display:inline;
-  list-style:none;
-  margin-right:.8em;
-  padding:0 .8em;
-}
-header#header #widget-container #usermenu li:last-child {margin-right:auto;}
-
-header#header #widget-container #usermenu li a {
-  color:#ffffff;
-  text-decoration:none;
+  filter:none;
 }
 
 /* Main container */
