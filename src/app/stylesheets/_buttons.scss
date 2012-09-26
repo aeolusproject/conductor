@@ -42,9 +42,9 @@ Application Button Set
     *display: inline;
 }
 
-.button:hover,
-.button:focus,
-.button:active,
+.button:not(.disable):hover,
+.button:not(.disable):focus,
+.button:not(.disable):active,
 .button.active {
     border-color: #3072b3;
     border-bottom-color: #2a65a0;
@@ -58,7 +58,7 @@ Application Button Set
     background-image: linear-gradient(#599bdc, #3072b3);
 }
 
-.button:active,
+.button:not(.disable):active,
 .button.active {
     border-color: #2a65a0;
     border-bottom-color: #3884cd;

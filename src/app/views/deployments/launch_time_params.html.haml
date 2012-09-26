@@ -47,15 +47,17 @@
 
 :javascript
   function checkEnteredParams() {
+    var allFilled = true;
     $('.launch-time-params .parameters').each(function() {
       var $parameters = $(this).find('.parameter input');
       var filledOut = _.all($parameters, function(item) {
         return ! _.isEmpty($(item).val());
       });
       var param_id = $(this).attr('id');
+      if (!filledOut) allFilled = false;
       $('.labels').find('#' + param_id).toggleClass('filled-out', filledOut);
-      $('#submit_params').attr('disabled', !filledOut);
     });
+    $('#submit_params').toggleClass('disable', !allFilled).attr('disabled', !allFilled);
   };
 
   (function () {
