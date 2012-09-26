@@ -433,6 +433,7 @@ en:
     events:
       launch_attempt: "Attempting to launch this deployment on provider account %{account}"
       state_changed: "State changed to %{state}"
+      destroy_failed: "Destroy of %{deployment} failed with exception: %{exception}"
     preset_filters:
       all_deployments: All Deployments
       other_than_stopped: "Non-stopped Deployments"

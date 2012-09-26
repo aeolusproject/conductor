@@ -278,13 +278,16 @@ class DeploymentsController < ApplicationController
     errors = []
     begin
       require_privilege(Privilege::MODIFY, deployment)
-      deployment.stop_instances_and_destroy!
-    rescue Aeolus::Conductor::Base::NotStoppableDeployment
-      cant_stop = true
-      errors = deployment.not_stoppable_or_destroyable_instances.map {|i|
-                 t('deployments.errors.instance_state',
-                   :name => i.name,
-                   :state => i.state)}
+      if deployment.not_stoppable_or_destroyable_instances.empty?
+        Delayed::Job.enqueue DeploymentDestroy.new(deployment)
+      else
+        cant_stop = true
+        errors = deployment.not_stoppable_or_destroyable_instances.map {|i|
+          t('deployments.errors.instance_state',
+            :name => i.name,
+            :state => i.state)}
+
+      end
     rescue
       errors = t('deployments.flash.error.not_deleted',
                  :name => deployment.name,
@@ -322,15 +325,16 @@ class DeploymentsController < ApplicationController
 
     ids = Array(params[:deployments_selected])
     Deployment.find(ids).each do |deployment|
-      begin
-        require_privilege(Privilege::MODIFY, deployment)
-        deployment.stop_instances_and_destroy!
+      require_privilege(Privilege::MODIFY, deployment)
+      if deployment.not_stoppable_or_destroyable_instances.empty?
+        Delayed::Job.enqueue DeploymentDestroy.new(deployment)
         destroyed << deployment.name
-      rescue
+      else
         errors << t('deployments.flash.error.not_deleted',
                     :name => deployment.name,
-                    :error => $!.message)
+                    :error => t("deployments.errors.all_stopped"))
       end
+
     end
     respond_to do |format|
       format.html do
