@@ -50,6 +50,19 @@ stop() {
     fi
 }
 
+rh_status() {
+    DEAD=0
+    for i in $(seq 0 $(($DJOB_DAEMON_COUNT - 1))); do
+        status -p $DJOB_PIDDIR/$DJOB_PROG.$i.pid $DJOB_PROG.$i
+        DEAD=$(($? | $DEAD))
+    done
+    return $DEAD
+}
+
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+
 case "$1" in
     start)
       start
@@ -62,12 +75,12 @@ case "$1" in
       start
       ;;
     status)
-     RETVAL=0
-     for i in $(seq 0 $(($DJOB_DAEMON_COUNT - 1))); do
-         status -p $DJOB_PIDDIR/$DJOB_PROG.$i.pid $DJOB_PROG.$i
-         RETVAL=$(($? | $RETVAL))
-     done
-     ;;
+      rh_status
+      ;;
+    condrestart|try-restart)
+      rh_status_q || exit 0
+      restart
+      ;;
     force-reload)
       restart
       ;;
