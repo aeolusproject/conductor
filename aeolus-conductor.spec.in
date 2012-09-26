@@ -430,13 +430,17 @@ if [ $1 = 0 ]; then
 fi
 
 %postun daemons
-#%if %{systemd}
+%if %{systemd}
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%endif
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
+    %if %{systemd}
     /bin/systemctl try-restart conductor-delayed_job.service >/dev/null 2>&1
+    %else
+    /sbin/service conductor-delayed_job condrestart > /dev/null 2>&1
+    %endif
 fi
-#%endif
 
 
 %files
