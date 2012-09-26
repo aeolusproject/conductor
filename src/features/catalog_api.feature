@@ -49,21 +49,18 @@ Feature: Manage Catalogs via API
     Then I should receive Bad Request error
     And the catalog should not be created
 
-  @wip
   Scenario: Update a catalog
     Given there is a catalog
     When I update that catalog with correct data via XML
     Then I should receive OK message
     And the catalog should be updated
 
-  @wip
   Scenario: Update a catalog with bad request
     Given there is a catalog
     When I update that catalog with incorrect data via XML
     Then I should receive Bad Request error
     And the catalog should not be updated
 
-  @wip
   Scenario: Attempt to update a non-existent catalog
     Given the specified catalog does not exist in the system
     When I update that catalog with correct data via XML

@@ -55,6 +55,37 @@ When /^I create catalog with incorrect data via XML$/ do
   post api_catalogs_path, xml_catalog
 end
 
+When /^I update that catalog with correct data via XML$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @catalog.name = 'updated catalog name'
+
+  xml_catalog = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                   <catalog>
+                     <name>#{@catalog.name}</name>
+                     <pool id="#{@catalog.pool_id}" />
+                   </catalog>
+                   ]
+
+  put api_catalog_path(@catalog.id), xml_catalog
+end
+
+When /^I update that catalog with incorrect data via XML$/ do
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  @catalog.name = ''
+
+  xml_catalog = %Q[<?xml version="1.0" encoding="UTF-8"?>
+                   <catalog>
+                     <name>#{@catalog.name}</name>
+                   </catalog>
+                   ]
+
+  put api_catalog_path(@catalog.id), xml_catalog
+end
+
 Then /^I should receive list of catalogs as XML$/ do
   response = last_response
   response.headers['Content-Type'].should include('application/xml')

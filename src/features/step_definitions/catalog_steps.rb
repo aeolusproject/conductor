@@ -46,3 +46,15 @@ end
 Then /^the catalog should not be created$/ do
   Catalog.find_by_name(@catalog.name).should be_nil
 end
+
+Then /^the catalog should be updated/ do
+  Catalog.find_by_id(@catalog.id).name.should == @catalog.name
+end
+
+Then /^the catalog should not be updated/ do
+  Catalog.find_by_id(@catalog.id).name.should_not == @catalog.name
+end
+
+Then /^no catalog should be updated/ do
+  Catalog.all.each { |catalog| catalog.name.should_not == @catalog.name }
+end

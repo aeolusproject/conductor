@@ -92,15 +92,27 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.find(params[:id])
     load_pools
     require_privilege(Privilege::MODIFY, @catalog)
-    unless @catalog.pool_id == params[:catalog][:pool_id]
+    if params[:catalog][:pool_id] && @catalog.pool_id != params[:catalog][:pool_id]
       require_privilege(Privilege::CREATE, Catalog,
                         Pool.find(params[:catalog][:pool_id]))
     end
-    if @catalog.update_attributes(params[:catalog])
-      flash[:notice] = t('catalogs.flash.notice.updated', :count => 1)
-      redirect_to catalogs_url
-    else
-      render :action => 'edit'
+
+    respond_to do |format|
+      if @catalog.update_attributes(params[:catalog])
+        format.html do
+          flash[:notice] = t('catalogs.flash.notice.updated', :count => 1)
+          redirect_to catalogs_url
+        end
+        format.xml do
+          load_deployables
+          render :show
+        end
+      else
+        format.html { render :action => 'edit' }
+        format.xml  { render :template => 'api/validation_error',
+                             :status => :bad_request,
+                             :locals => { :errors => @catalog.errors }}
+      end
     end
   end
 
