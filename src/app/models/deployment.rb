@@ -176,11 +176,6 @@ class Deployment < ActiveRecord::Base
   end
 
   def stop_instances_and_destroy!
-    unless not_stoppable_or_destroyable_instances.empty?
-      raise Aeolus::Conductor::Base::NotStoppableDeployment,
-            I18n.t("deployments.errors.all_stopped")
-    end
-
     if destroyable?
       destroy
     else
