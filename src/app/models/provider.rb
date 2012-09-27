@@ -106,17 +106,21 @@ class Provider < ActiveRecord::Base
 
   def connect
     begin
-      opts = {:username => nil,
-              :password => nil,
-              :driver => provider_type.deltacloud_driver }
-      opts[:provider] = deltacloud_provider if deltacloud_provider
-      client = DeltaCloud.new(nil, nil, url)
-      return client.with_config(opts)
+      connect!
     rescue Exception => e
       logger.error("Error connecting to framework: #{e.message}")
       logger.error("Backtrace: #{e.backtrace.join("\n")}")
       return nil
     end
+  end
+
+  def connect!
+    opts = {:username => nil,
+            :password => nil,
+            :driver => provider_type.deltacloud_driver }
+    opts[:provider] = deltacloud_provider if deltacloud_provider
+    client = DeltaCloud.new(nil, nil, url)
+    client.with_config(opts)
   end
 
   def pools
@@ -278,7 +282,13 @@ class Provider < ActiveRecord::Base
   private
 
   def valid_framework?
-    connect.nil? ? false : true
+    begin
+      connect!.nil?
+    rescue Exception => e
+      logger.error("Error connecting to framework: #{e.message}")
+      logger.error("Backtrace: #{e.backtrace.join("\n")}")
+      e.message =~ /401 : Not authorized/ ? true : false
+    end
   end
 
   def valid_provider?
