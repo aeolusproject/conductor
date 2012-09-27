@@ -47,6 +47,14 @@ class Event < ActiveRecord::Base
 
   scope :lifetime, where(:status_code => [:first_running, :all_running, :some_running, :all_stopped])
 
+  def source
+    case source_type
+      when "Deployment" then Deployment.with_deleted.find(source_id)
+      when "Instance" then Instance.with_deleted.find(source_id)
+      else super
+    end
+  end
+
   # Notifies the Event API if certain conditions are met
   def transmit_event
     # Extract just the old values from change_hash
