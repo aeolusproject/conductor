@@ -46,4 +46,14 @@ class ProviderType < ActiveRecord::Base
   def goes_to_stop_after_creation?
       %w(rhevm vsphere).include?(deltacloud_driver)
   end
+
+  # for ec2 a stopped instance automatically disappears after some time
+  # (a few minutes)
+  # for openstack an instance is automatically deleted (by dc-core)
+  # when sending a stop request. So a running instances which was stopped
+  # disappears from provider almost immediately w/o passing through
+  # shutting_down/stopped states
+  def stopped_instances_disappear?
+    %w(openstack ec2).include?(deltacloud_driver)
+  end
 end

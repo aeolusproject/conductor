@@ -218,6 +218,12 @@ def check_one_account(account)
         end
         # Only update the instance / create an event if anything has changed!
         instance.save! if instance.changed?
+      elsif instance.stop_request_queued? && instance.disappears_after_stop_request?
+        # some providers (openstack, ec2) delete stopped instances
+        # so it probably makes sense to consider vanished instances, which
+        # we sent stop request to, as stopped
+        DBomaticLogger.instance.info("known instance missing from provider but stop request was sent before, marking #{instance.name} as stopped")
+        instance.update_attribute(:state, Instance::STATE_STOPPED)
       else
         # We have an instance in our database, but it didn't come back over the API
         DBomaticLogger.instance.info("known instance missing from provider: #{instance.name} #{instance.external_key}")

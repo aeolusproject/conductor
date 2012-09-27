@@ -594,6 +594,17 @@ class Instance < ActiveRecord::Base
     instance_key.destroy if instance_key
   end
 
+  def stop_request_queued?
+    task = tasks.last
+    task && task.action == InstanceTask::ACTION_STOP &&
+      task.state == Task::STATE_FINISHED
+  end
+
+  def disappears_after_stop_request?
+    provider_account &&
+      provider_account.provider.provider_type.stopped_instances_disappear?
+  end
+
   private
 
   def self.apply_search_filter(search)
