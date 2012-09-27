@@ -56,4 +56,9 @@ class ProviderType < ActiveRecord::Base
   def stopped_instances_disappear?
     %w(openstack ec2).include?(deltacloud_driver)
   end
+
+  def destroy_supported?
+    # dc-core destroys openstack instances on stop request
+    !['ec2', 'mock', 'openstack'].include?(deltacloud_driver)
+  end
 end
