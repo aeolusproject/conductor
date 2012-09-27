@@ -299,6 +299,9 @@ pushd %{buildroot}%{app_root}/public/fonts
 %{__ln_s} ../../vendor/converge-ui/fonts/* .
 popd
 
+# link the redhat logo
+ln -svf %{_sysconfdir}/favicon.png %{buildroot}%{app_root}/public/images/embed/favicon.png
+
 # precompile stylesheets
 %{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
 pushd ./src
