@@ -145,12 +145,22 @@ class CatalogsController < ApplicationController
   def destroy
     catalog = Catalog.find(params[:id])
     require_privilege(Privilege::MODIFY, catalog)
-    if catalog.destroy
-      flash[:notice] = t("catalogs.flash.notice.one_deleted")
-      redirect_to catalogs_path
-    else
-      flash[:error] = t("catalogs.flash.error.one_not_deleted")
-      redirect_to catalog_path(catalog)
+    respond_to do |format|
+      if catalog.destroy
+        format.html do
+          flash[:notice] = t("catalogs.flash.notice.one_deleted")
+          redirect_to catalogs_path
+        end
+        format.xml { render :text => "<message>OK</message>\n", :status => :ok }
+      else
+        format.html do
+          flash[:error] = t("catalogs.flash.error.one_not_deleted")
+          redirect_to catalog_path(catalog)
+        end
+        format.xml  { render :template => 'api/validation_error',
+                             :status => :bad_request,
+                             :locals => { :errors => @catalog.errors }}
+      end
     end
   end
 

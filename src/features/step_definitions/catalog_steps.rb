@@ -58,3 +58,11 @@ end
 Then /^no catalog should be updated/ do
   Catalog.all.each { |catalog| catalog.name.should_not == @catalog.name }
 end
+
+Then /^the catalog should be deleted/ do
+  Catalog.find_by_id(@catalog.id).should be_nil
+end
+
+Then /^no catalog should be deleted/ do
+  Catalog.count.should == @catalog_count
+end

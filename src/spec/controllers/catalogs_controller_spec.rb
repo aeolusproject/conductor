@@ -154,5 +154,21 @@ describe CatalogsController do
         xml.xpath("//catalog/pool/@href").text.should == api_pool_url(@catalog.pool_id)
       end
     end
+
+    describe "#destroy a catalog" do
+      before do
+        @catalog = FactoryGirl.create(:catalog)
+
+        post :destroy, :id => @catalog.id
+      end
+
+      it_behaves_like "http OK"
+      it_behaves_like "responding with XML"
+
+      it "should print OK message" do
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("/message").text.should == 'OK'
+      end
+    end
   end
 end

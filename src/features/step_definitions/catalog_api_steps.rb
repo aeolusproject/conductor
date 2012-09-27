@@ -86,6 +86,17 @@ When /^I update that catalog with incorrect data via XML$/ do
   put api_catalog_path(@catalog.id), xml_catalog
 end
 
+When /^I delete that catalog via XML$/ do
+  # we need to remember catalog count if we want to check for
+  # "no catalog should be deleted"
+  @catalog_count = Catalog.count
+
+  header 'Accept', 'application/xml'
+  header 'Content-Type', 'application/xml'
+
+  delete api_catalog_path(@catalog.id)
+end
+
 Then /^I should receive list of catalogs as XML$/ do
   response = last_response
   response.headers['Content-Type'].should include('application/xml')

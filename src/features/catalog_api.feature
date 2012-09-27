@@ -67,14 +67,12 @@ Feature: Manage Catalogs via API
     Then I should receive Not Found error
     And no catalog should be updated
 
-  @wip
   Scenario: Delete catalog
     Given there is a catalog
     When I delete that catalog via XML
     Then I should receive an OK message
     And the catalog should be deleted
 
-  @wip
   Scenario: Attempt to delete a non-existent catalog
     Given the specified catalog does not exist in the system
     When I delete that catalog via XML
