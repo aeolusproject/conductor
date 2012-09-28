@@ -172,8 +172,6 @@ getent passwd aeolus >/dev/null || \
 # Previously ~aeolus was set to /var/aeolus
 # If this is an upgrade scenario, fix the home directory
 test ~aeolus == /usr/share/aeolus-conductor || usermod --home /usr/share/aeolus-conductor aeolus
-#remove any possible remains after uninstalation from app_root
-%{__rm} -rf %{app_root}/*
 
 %install
 %{__mkdir} -p %{buildroot}
