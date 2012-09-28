@@ -29,6 +29,7 @@
 
 
 require 'cgi'
+require 'uri'
 require 'oauth'
 
 class ConfigServer < ActiveRecord::Base
@@ -101,13 +102,13 @@ class ConfigServer < ActiveRecord::Base
   end
 
   def send_config(instance_config)
-    uri = "/configs/#{API_VERSION}/#{instance_config.uuid}"
+    uri = oauth_endpoint("configs/#{API_VERSION}/#{instance_config.uuid}")
     body = {:data => instance_config.to_s}
     oauth.post(uri, body)
   end
 
   def delete_deployment_config(deployment_uuid)
-    uri = "/deployment/#{API_VERSION}/#{deployment_uuid}"
+    uri = oauth_endpoint("deployment/#{API_VERSION}/#{deployment_uuid}")
     oauth.delete(uri)
   end
 
@@ -133,10 +134,22 @@ class ConfigServer < ActiveRecord::Base
     OAuth::AccessToken.new(consumer)
   end
 
+  def endpoint_as_uri
+    URI.parse(endpoint)
+  end
+
+  def oauth_endpoint(path=nil)
+    uri = endpoint_as_uri.path
+    if path
+      uri = "#{uri}/#{path}"
+    end
+    uri
+  end
+
   # Test the connection to this config server.
   # Return the http response
   def test_connection
-    oauth.get("/auth")
+    oauth.get(oauth_endpoint("auth"))
   end
 
   def map_response_to_error(response)
