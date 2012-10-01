@@ -136,6 +136,7 @@ module ApplicationHelper
       "N/A"
     end
   end
+  module_function :count_uptime
 
   def owner_name(obj)
     return '' unless obj.owner
@@ -172,22 +173,9 @@ module ApplicationHelper
     "/providers/#{account.provider_id}/provider_accounts/#{account.id}"
   end
 
-  module_function :count_uptime
-
-  class FormBuilderWithRequiredFields < ActionView::Helpers::FormBuilder
-
-    def label(method, text = nil, options = {}, &block)
-      text << ' *' if required?(object, method, options)
-      super(method, text, options, &block)
-    end
-
-    private
-
-    def required?(object, attribute, options)
-      return options[:required] if options.has_key?(:required)
-      object.class.validators_on(attribute).map(&:class).include? ActiveModel::Validations::PresenceValidator
-    end
-
+  def conductor_form_for(object, *args, &block)
+    render('layouts/simple_form_error_messages', :object => object) if object.errors.any?
+    simple_form_for(object, *args, &block)
   end
 
 end
