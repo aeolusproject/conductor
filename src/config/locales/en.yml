@@ -362,6 +362,10 @@ en:
     properties:
       property_name: Property Name
       value: Value
+      name: Name
+      created: Created
+      pool: Pool
+      owner: Owner
       global_uptime: Global Uptime
       uptime_1st_instance: Uptime 1st Instance running
     provider_services:
