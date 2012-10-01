@@ -160,7 +160,7 @@ class DeploymentsController < ApplicationController
     @deployment.deployable_xml = @deployable.xml
     @deployment.owner = current_user
 
-    if params.delete(:commit) == 'back'
+    if params.delete(:commit) == t('back')
       load_assemblies_services
       view = @deployment.launch_parameters.blank? ?
         'launch_new' : 'launch_time_params'
