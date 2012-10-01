@@ -1,0 +1,15 @@
+= render :partial => 'layouts/admin_nav'
+
+%header.page-header
+  .obj_actions
+    = link_to t('realms.new_realm'), new_frontend_realm_url, :class => 'button primary', :id => 'new_user_button'
+    = link_to t('realms.edit.cancel_editing'), frontend_realm_path(@realm), :class => 'button pill danger', :id => 'new_user_button'
+  %h1.realms= @title
+
+%section.content-section.realm
+  %header
+    %h2= t'realms.edit.properties'
+
+  .content
+    = form_for @realm, :url => frontend_realm_path(@realm), :html => { :method => :put, :class => 'generic horizontal' } do |f|
+      = render :partial => "form", :locals => { :form => f }
