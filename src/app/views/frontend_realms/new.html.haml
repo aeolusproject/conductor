@@ -3,10 +3,10 @@
   .obj_actions
     .return_to
       =t'return_to'
-      = link_to t('realms.realms'), realms_path
+      = link_to t('realms.realms'), frontend_realms_path
   %h1.realms= t 'realms.new.create_realm'
 
 %section.content-section.users
   .content
-    = form_for @realm, :url => realms_path, :html => {:class => 'generic horizontal'} do |f|
+    = form_for @realm, :url => frontend_realms_path, :html => {:class => 'generic horizontal'} do |f|
       = render :partial => "form", :locals => { :form => f }
