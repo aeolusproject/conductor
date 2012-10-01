@@ -24,6 +24,7 @@ gem 'compass'
 gem 'compass-960-plugin', :require=> 'ninesixty'
 gem 'delayed_job', '~> 2.1.4'
 gem 'paranoia'
+gem 'simple_form', '~> 2.0.3'
 
 platforms :ruby_18 do
   gem 'fastercsv'
