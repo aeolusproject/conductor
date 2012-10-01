@@ -436,7 +436,7 @@ if [ $1 -ge 1 ] ; then
     %if %{systemd}
     /bin/systemctl try-restart conductor-delayed_job.service >/dev/null 2>&1
     %else
-    /sbin/service conductor-delayed_job condrestart > /dev/null 2>&1
+    /sbin/service conductor-delayed_job condrestart > /dev/null 2>&1 || :
     %endif
 fi
 
