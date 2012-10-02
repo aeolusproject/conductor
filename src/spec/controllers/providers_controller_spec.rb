@@ -59,7 +59,7 @@ describe ProvidersController do
       end
 
       it { response.should be_success }
-      it { assigns[:realm_names].size.should == @provider.realms.size }
+      it { assigns[:realm_names].size.should == @provider.provider_realms.size }
       it { response.should render_template(:partial => "providers/_realms") }
     end
 

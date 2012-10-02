@@ -1,7 +1,7 @@
 - content_for :form_header do
   -# If we add per-realm permissions, move delete permission check to controller
   -# (vs. the all-or-nothing check here)
-  - if check_privilege(Privilege::MODIFY, Realm)
+  - if check_privilege(Privilege::MODIFY, ProviderRealm)
     %li= restful_submit_tag t('realms.list.delete_selected'), "destroy", multi_destroy_realms_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
     - if @provider.nil?
       %li= link_to t('realms.new_realm'), new_realm_path, :id => 'new_realm_button', :class => 'button'

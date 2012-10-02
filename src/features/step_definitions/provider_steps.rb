@@ -131,7 +131,7 @@ end
 
 
 Given /^this provider has a realm$/ do
-  FactoryGirl.create(:realm, :provider => @provider)
+  FactoryGirl.create(:provider_realm, :provider => @provider)
 end
 
 Given /^this provider has a provider account$/ do
@@ -151,7 +151,7 @@ Then /^there should not be a provider account$/ do
 end
 
 Then /^there should not be a realm$/ do
-  Realm.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
+  ProviderRealm.find(:all, :conditions => { :provider_id => @provider.id} ).size.should == 0
 end
 
 Given /^I accept XML$/ do

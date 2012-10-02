@@ -18,6 +18,9 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class AddProviderAccountsRealms < ActiveRecord::Migration
+  class Realm < ActiveRecord::Base
+  end
+
   def self.up
     unless ActiveRecord::Base.connection.tables.include?('provider_accounts_realms')
       create_table :provider_accounts_realms, :id => false do |t|

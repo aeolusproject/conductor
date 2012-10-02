@@ -30,20 +30,20 @@ class RealmsController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, Realm)
+    require_privilege(Privilege::CREATE, ProviderRealm)
     @realm = FrontendRealm.new
     load_backend_realms
   end
 
   def edit
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, ProviderRealm)
     @realm = FrontendRealm.find(params[:id])
     @title = @realm.name
     load_backend_realms
   end
 
   def update
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, ProviderRealm)
     @realm = FrontendRealm.find(params[:id])
     @title = @realm.name || t("realms.realm")
 
@@ -61,7 +61,7 @@ class RealmsController < ApplicationController
   end
 
   def create
-    require_privilege(Privilege::CREATE, Realm)
+    require_privilege(Privilege::CREATE, ProviderRealm)
     #@provider = Provider.find(params[:provider_id])
     @realm = FrontendRealm.new(params[:frontend_realm])
     if @realm.save
@@ -74,7 +74,7 @@ class RealmsController < ApplicationController
   end
 
   def destroy
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, ProviderRealm)
     if FrontendRealm.destroy(params[:id])
       flash[:notice] = t "realms.flash.notice.deleted"
     else
@@ -90,7 +90,7 @@ class RealmsController < ApplicationController
       flash[:error] = t"realms.flash.error.select_to_delete"
     else
       FrontendRealm.find(params[:realm_selected]).each do |realm|
-        require_privilege(Privilege::MODIFY, Realm)
+        require_privilege(Privilege::MODIFY, ProviderRealm)
         if realm.destroy
           deleted << realm.name
         else
@@ -143,7 +143,7 @@ class RealmsController < ApplicationController
     #TODO: list only realms user has permission on
     @backend_realms = Provider.list_for_user(current_session, current_user,
                                              Privilege::USE).collect do |provider|
-      provider.realms
+      provider.provider_realms
     end.flatten
 
     @providers = Provider.list_for_user(current_session, current_user,
