@@ -97,6 +97,7 @@ class UsersController < ApplicationController
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::MODIFY, User) unless @user == current_user
     @title = t'users.edit.edit_user'
+    @ldap_user = (SETTINGS_CONFIG[:auth][:strategy] == "ldap")
   end
 
   def update

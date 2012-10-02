@@ -106,6 +106,7 @@ en:
       name_starts_with_B: "Name starts with B"
     errors:
       has_running_instances: '%{username} has running instances'
+      cannot_edit_ldap_user: Cannot edit LDAP user
   user_groups:
     groups: "User Groups"
     local: Local
