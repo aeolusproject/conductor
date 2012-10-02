@@ -256,7 +256,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_location
-    session[:return_to] = request.fullpath
+    session[:return_to] = request.get? ? request.fullpath : request.referer
   end
 
   def back_or_default_url(default)
