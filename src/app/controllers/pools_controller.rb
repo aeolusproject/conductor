@@ -121,6 +121,8 @@ class PoolsController < ApplicationController
     @title = t('pools.header_show.pool_name', :name => @pool.name)
     save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
     require_privilege(Privilege::VIEW, @pool)
+    @catalogs = @pool.catalogs.list_for_user(current_session, current_user,
+                                             Privilege::VIEW)
     @statistics = @pool.statistics(current_session, current_user)
 
     if params[:details_tab]
@@ -132,9 +134,7 @@ class PoolsController < ApplicationController
           #  this patch is after string freeze so I'm confined to using them. --mawagner
           @header = [{:name => t("pools.images.catalog")}, {:name => t("catalog_entries.index.catalog_entry")},
                      {:name => t("logs.index.image")}, {:name => t("images.show.providers_image_id")}]
-          @catalog_images = @pool.catalog_images_collection(
-            @pool.catalogs.list_for_user(current_session, current_user,
-                                         Privilege::VIEW))
+          @catalog_images = @pool.catalog_images_collection(@catalogs)
         when 'deployments'
           @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
       end
@@ -172,7 +172,7 @@ class PoolsController < ApplicationController
           map{ |deployment| view_context.deployment_for_mustache(deployment) }
         render :json => @pool.as_json.merge({:deployments => deployments})
       end
-      format.xml { render :show, :locals => { :pool => @pool } }
+      format.xml { render :show, :locals => { :pool => @pool, :catalogs => @catalogs } }
     end
   end
 
@@ -196,6 +196,8 @@ class PoolsController < ApplicationController
     set_quota_param(:pool)
     @pool = Pool.new(params[:pool])
     require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
+    @catalogs = @pool.catalogs.list_for_user(current_session, current_user,
+                                             Privilege::VIEW)
     @pool.quota = @quota = Quota.new
     set_quota(@pool)
 
@@ -205,7 +207,7 @@ class PoolsController < ApplicationController
         flash[:notice] = t "pools.flash.notice.added"
         format.html { redirect_to pools_path }
         format.json { render :json => @pool, :status => :created }
-        format.xml {render :show, :locals => { :pool => @pool }
+        format.xml {render :show, :locals => { :pool => @pool, :catalogs => @catalogs }
         }
       else
         flash.now[:warning] = t "pools.flash.warning.creation_failed"
@@ -233,6 +235,8 @@ class PoolsController < ApplicationController
     set_quota_param(:pool)
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool)
+    @catalogs = @pool.catalogs.list_for_user(current_session, current_user,
+                                             Privilege::VIEW)
     set_quota(@pool)
     @quota = @pool.quota
 
@@ -242,7 +246,7 @@ class PoolsController < ApplicationController
         format.html { redirect_to :action => 'show', :id => @pool.id }
         format.js { render :partial => 'show', :id => @pool.id }
         format.json { render :json => @pool }
-        format.xml {render :show, :locals => { :pool => @pool } }
+        format.xml {render :show, :locals => { :pool => @pool, :catalogs => @catalogs } }
       else
         flash[:error] = t "pools.flash.error.not_updated"
         format.html { render :action => :edit }

@@ -119,6 +119,7 @@ describe PoolsController do
       xml.xpath("/pool/pool_family/@id").text.should == "#{familyId}"
       xml.xpath("/pool/quota/@maximum_running_instances").text.should == quota
       xml.xpath("/pool/enabled").text.should == enabled
+      xml.xpath("/pool/catalogs").size.should == 1
     end
 
     describe "#create" do
@@ -181,6 +182,19 @@ describe PoolsController do
         response.body.should be_xml
       end
 
+      context "for pool with catalogs" do
+        before do
+          @pool = FactoryGirl.create :pool_with_catalog
+          @catalog = @pool.catalogs[0]
+          get :show, :id => @pool.id
+        end
+
+        it "lists catalogs" do
+          xml = Nokogiri::XML(response.body)
+          xml.xpath("/pool/catalogs/catalog").size.should == 1
+          xml.xpath("/pool/catalogs/catalog/@id").text.should == @catalog.id.to_s
+        end
+      end
     end
 
     describe "#update" do

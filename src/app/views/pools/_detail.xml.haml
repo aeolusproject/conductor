@@ -7,3 +7,6 @@
   -else
     %quota{ :maximum_running_instances => t('pools.form.unlimited')}
   %enabled= pool.enabled
+  %catalogs
+    - catalogs.each do |catalog|
+      %catalog{:id => catalog.id, :href => api_catalog_url(catalog)}
