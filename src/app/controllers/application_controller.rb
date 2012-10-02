@@ -299,7 +299,7 @@ class ApplicationController < ActionController::Base
 
   def set_admin_content_tabs(tab)
     @tabs = [{:name => t('application_controller.admin_tabs.catalogs'), :url => catalogs_url, :id => 'catalogs'},
-             {:name => t('application_controller.admin_tabs.realms'), :url => realms_url, :id => 'realms'},
+             {:name => t('application_controller.admin_tabs.realms'), :url => frontend_realms_url, :id => 'frontend_realms'},
              {:name => t('application_controller.admin_tabs.hardware'), :url => hardware_profiles_url, :id => 'hardware_profiles'},
     ]
     unless @details_tab = @tabs.find {|t| t[:id] == tab}

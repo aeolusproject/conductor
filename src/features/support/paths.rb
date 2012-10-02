@@ -41,8 +41,8 @@ module NavigationHelpers
     when /^(.*)'s role page$/i
        role_path(Role.find_by_name($1))
 
-    when /^(.*)'s realm page$/i
-       realm_path(FrontendRealm.find_by_name($1))
+    when /^(.*)'s frontend realm page$/i
+       frontend_realm_path(FrontendRealm.find_by_name($1))
 
     when /^(.*)'s catalog entry page$/i
       deployable = Deployable.find_by_name($1)
