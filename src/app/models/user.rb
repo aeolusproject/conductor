@@ -77,6 +77,8 @@ class User < ActiveRecord::Base
   before_validation :strip_whitespace
   after_save :update_entity
 
+  validate :validate_ldap_changes, :if => Proc.new {|user|
+    !user.new_record? && SETTINGS_CONFIG[:auth][:strategy] == "ldap"}
   validates_presence_of :quota
   validates_length_of :first_name, :maximum => 255, :allow_blank => true
   validates_length_of :last_name,  :maximum => 255, :allow_blank => true
@@ -182,6 +184,13 @@ class User < ActiveRecord::Base
       where("lower(first_name) LIKE :search OR lower(last_name) LIKE :search OR lower(username) LIKE :search OR lower(email) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
+    end
+  end
+
+  def validate_ldap_changes
+    if self.first_name_changed? || self.last_name_changed? || self.email_changed? ||
+        self.username_changed? || self.crypted_password_changed? then
+      errors.add(:base, I18n.t("users.errors.cannot_edit_ldap_user"))
     end
   end
 

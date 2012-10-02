@@ -5,28 +5,28 @@
   .field
     = form.label :first_name
     .input
-      = form.text_field :first_name, :class =>"check_change"
+      = form.text_field :first_name, :class =>"check_change", :disabled => @ldap_user
   .field
     = form.label :last_name
     .input
-      = form.text_field :last_name, :class =>"check_change"
+      = form.text_field :last_name, :class =>"check_change", :disabled => @ldap_user
   .field
     = form.label :email, t(:email), :required => true
     .input
-      = form.text_field :email, :class =>"check_change"
+      = form.text_field :email, :class =>"check_change", :disabled => @ldap_user
 %fieldset
   .field
     = form.label :username, t(:choose_name), :required => true
     .input
-      = form.text_field :username, :class => "check_change"
+      = form.text_field :username, :class => "check_change", :disabled => @ldap_user
   .field
     = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password), :required => form.object.new_record?
     .input
-      = form.password_field :password
+      = form.password_field :password, :disabled => @ldap_user
   .field
     = form.label :password_confirmation, t(:confirm_password), :required => form.object.new_record?
     .input
-      = form.password_field :password_confirmation
+      = form.password_field :password_confirmation, :disabled => @ldap_user
 
 - if check_privilege(Privilege::MODIFY, User)
   %fieldset

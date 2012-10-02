@@ -64,6 +64,7 @@ end
 # not LDAP
 User.class_eval do
   class << self
+    SETTINGS_CONFIG[:auth][:strategy] = "database"
     alias authenticate_using_ldap authenticate
   end
 end
