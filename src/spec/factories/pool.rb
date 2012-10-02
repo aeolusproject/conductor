@@ -31,4 +31,10 @@ FactoryGirl.define do
     enabled false
   end
 
+  factory :pool_with_catalog, :parent => :pool do |pool|
+    pool.after_create do |pool|
+      Factory :catalog, :pool => pool
+    end
+  end
+
 end

@@ -13,6 +13,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+Given /^there is a catalog$/ do
+  @catalog = FactoryGirl.create :catalog
+end
+
 Given /^there is a "([^"]*)" catalog$/ do |name|
   FactoryGirl.create :catalog, :name => name
 end
@@ -21,7 +25,44 @@ Given /^there is a "([^"]*)" catalog with deployable$/ do |name|
   FactoryGirl.create :catalog_with_deployable, :name => name
 end
 
+Given /^there are some catalogs$/ do
+  @catalogs = Catalog.all
+  3.times { @catalogs << FactoryGirl.create(:catalog) }
+end
+
+Given /^the specified catalog does not exist in the system$/ do
+  @catalog = FactoryGirl.build :catalog, :id => 123456, :name => 'non-existent catalog'
+end
+
 When /^I check "([^"]*)" catalog$/ do |arg1|
   catalog = Catalog.find_by_name(arg1)
   check("catalog_checkbox_#{catalog.id}")
+end
+
+Then /^the catalog should be created$/ do
+  Catalog.find_by_name(@catalog.name).should_not be_nil
+end
+
+Then /^the catalog should not be created$/ do
+  Catalog.find_by_name(@catalog.name).should be_nil
+end
+
+Then /^the catalog should be updated/ do
+  Catalog.find_by_id(@catalog.id).name.should == @catalog.name
+end
+
+Then /^the catalog should not be updated/ do
+  Catalog.find_by_id(@catalog.id).name.should_not == @catalog.name
+end
+
+Then /^no catalog should be updated/ do
+  Catalog.all.each { |catalog| catalog.name.should_not == @catalog.name }
+end
+
+Then /^the catalog should be deleted/ do
+  Catalog.find_by_id(@catalog.id).should be_nil
+end
+
+Then /^no catalog should be deleted/ do
+  Catalog.count.should == @catalog_count
 end

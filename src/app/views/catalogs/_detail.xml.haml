@@ -1,0 +1,8 @@
+!!! XML
+%catalog{:id => catalog.id, :href => api_catalog_url(catalog)}
+  %name= catalog.name
+  %pool{:id => catalog.pool_id, :href => api_pool_url(catalog.pool_id)}
+  %deployables
+    - deployables.each do |deployable|
+      -# TODO: provide hrefs for deployables here when deployables API is available
+      %deployable{:id => deployable.id}

@@ -16,6 +16,7 @@
 
 class CatalogsController < ApplicationController
   before_filter :require_user
+  before_filter :transform_params_pool_id, :only => [:create, :update]
 
   def index
     @title = t('catalogs.catalogs')
@@ -32,6 +33,7 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
+      format.xml
     end
   end
 
@@ -45,10 +47,7 @@ class CatalogsController < ApplicationController
   def show
     @catalog = Catalog.find(params[:id])
     @title = @catalog.name
-    @deployables = @catalog.deployables.
-      list_for_user(current_session, current_user, Privilege::VIEW).
-      apply_filters(:preset_filter_id => params[:deployables_preset_filter],
-                    :search_filter => params[:deployables_search])
+    load_deployables
     require_privilege(Privilege::VIEW, @catalog)
     save_breadcrumb(catalog_path(@catalog), @catalog.name)
     @header = [
@@ -62,11 +61,23 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.new(params[:catalog])
     load_pools
     require_privilege(Privilege::CREATE, Catalog, @catalog.pool)
-    if @catalog.save
-      flash[:notice] = t('catalogs.flash.notice.created', :count => 1)
-      redirect_to catalogs_path and return
-    else
-      render :new and return
+
+    respond_to do |format|
+      if @catalog.save
+        format.html do
+          flash[:notice] = t('catalogs.flash.notice.created', :count => 1)
+          redirect_to catalogs_path and return
+        end
+        format.xml do
+          load_deployables
+          render :show, :status => :ok
+        end
+      else
+        format.html { render :new and return }
+        format.xml  { render :template => 'api/validation_error',
+                             :status => :bad_request,
+                             :locals => { :errors => @catalog.errors }}
+      end
     end
   end
 
@@ -81,15 +92,27 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.find(params[:id])
     load_pools
     require_privilege(Privilege::MODIFY, @catalog)
-    unless @catalog.pool_id == params[:catalog][:pool_id]
+    if params[:catalog][:pool_id] && @catalog.pool_id != params[:catalog][:pool_id]
       require_privilege(Privilege::CREATE, Catalog,
                         Pool.find(params[:catalog][:pool_id]))
     end
-    if @catalog.update_attributes(params[:catalog])
-      flash[:notice] = t('catalogs.flash.notice.updated', :count => 1)
-      redirect_to catalogs_url
-    else
-      render :action => 'edit'
+
+    respond_to do |format|
+      if @catalog.update_attributes(params[:catalog])
+        format.html do
+          flash[:notice] = t('catalogs.flash.notice.updated', :count => 1)
+          redirect_to catalogs_url
+        end
+        format.xml do
+          load_deployables
+          render :show
+        end
+      else
+        format.html { render :action => 'edit' }
+        format.xml  { render :template => 'api/validation_error',
+                             :status => :bad_request,
+                             :locals => { :errors => @catalog.errors }}
+      end
     end
   end
 
@@ -122,12 +145,22 @@ class CatalogsController < ApplicationController
   def destroy
     catalog = Catalog.find(params[:id])
     require_privilege(Privilege::MODIFY, catalog)
-    if catalog.destroy
-      flash[:notice] = t("catalogs.flash.notice.one_deleted")
-      redirect_to catalogs_path
-    else
-      flash[:error] = t("catalogs.flash.error.one_not_deleted")
-      redirect_to catalog_path(catalog)
+    respond_to do |format|
+      if catalog.destroy
+        format.html do
+          flash[:notice] = t("catalogs.flash.notice.one_deleted")
+          redirect_to catalogs_path
+        end
+        format.xml { render :text => "<message>OK</message>\n", :status => :ok }
+      else
+        format.html do
+          flash[:error] = t("catalogs.flash.error.one_not_deleted")
+          redirect_to catalog_path(catalog)
+        end
+        format.xml  { render :template => 'api/validation_error',
+                             :status => :bad_request,
+                             :locals => { :errors => @catalog.errors }}
+      end
     end
   end
 
@@ -137,12 +170,29 @@ class CatalogsController < ApplicationController
 
   private
 
+  def transform_params_pool_id
+    if params.has_key?(:catalog) && params[:catalog].is_a?(Hash) \
+       && params[:catalog].has_key?(:pool) \
+       && params[:catalog][:pool].has_key?(:id)
+
+      pool_hash = params[:catalog].delete(:pool)
+      params[:catalog][:pool_id] = pool_hash[:id]
+    end
+  end
+
   def set_header
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => t("catalogs.index.name"), :sort_attr => :name },
       { :name => t('pools.index.pool_name'), :sortable => false }
     ]
+  end
+
+  def load_deployables
+    @deployables = @catalog.deployables.
+      list_for_user(current_session, current_user, Privilege::VIEW).
+      apply_filters(:preset_filter_id => params[:deployables_preset_filter],
+                    :search_filter => params[:deployables_search])
   end
 
   def load_pools
