@@ -56,6 +56,7 @@ Requires: rubygem(delayed_job) >= 2.1.4
 Requires: rubygem(paranoia)
 Requires: rubygem(compass) >= 0.11.5
 Requires: rubygem(compass-960-plugin) >= 0.10.4
+Requires: rubygem(simple_form) >= 2.0.3
 Requires: postgresql
 Requires: postgresql-server
 Requires: system-logos
@@ -251,6 +252,7 @@ rb="app/models app/controllers app/controllers/api app/helpers app/services app/
     features/support features/step_definitions lib spec spec/controllers \
     spec/factories spec/helpers spec/models spec/services spec/controllers/api \
     spec/aeolus/event spec/aeolus/ext lib/aeolus lib/aeolus/event lib/aeolus/ext \
+    lib/simple_form_extension \
     lib/provider_selection vendor/provider_selection \
     vendor/provider_selection/strategies/strict_order \
     vendor/provider_selection/strategies/penalty_for_failure"
@@ -260,7 +262,7 @@ txt="public"
 yml="config config/locales config/locales/defaults config/locales/overrides
      config/locales/role_definitions config/locales/classnames config/locales/will_paginate \
      config/locales/overrides/role_definitions config/locales/activerecord \
-     config/locales/strategies"
+     config/locales/simple_form config/locales/strategies"
 xml="app/util"
 for filetype in builder css eot feature gif haml erb mustache html ico jpg js json key opts png \
     rake rb rhtml scss svg ttf txt woff yml xml; do
