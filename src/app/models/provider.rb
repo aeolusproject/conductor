@@ -283,7 +283,7 @@ class Provider < ActiveRecord::Base
 
   def valid_framework?
     begin
-      connect!.nil?
+      !! connect!
     rescue Exception => e
       logger.error("Error connecting to framework: #{e.message}")
       logger.error("Backtrace: #{e.backtrace.join("\n")}")
