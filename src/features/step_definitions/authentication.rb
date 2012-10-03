@@ -100,11 +100,6 @@ Then /^there should not be user with username "([^\"]*)"$/ do |username|
   User.find_by_username(username).should be_nil
 end
 
-When /^I enter a string of length "([^"]*)" into "([^"]*)"$/ do |length, field_name|
-  string = 'x' * length.to_i
-  step "I fill in \"#{field_name}\" with \"#{string}\""
-end
-
 When /^I login with incorrect credentials$/ do
   login("wrong_username", "wrong_password")
 end

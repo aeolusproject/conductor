@@ -21,8 +21,8 @@ Feature: User authentication
     And I am on the root page
     When I want to edit my profile
     Then should see "Edit Account"
-    When I fill in "E-mail" with "changed@example.com"
-    And I press "Save"
+    When I fill in "Email" with "changed@example.com"
+    And I press "Update User"
     Then I should be on the my user page
     And I should see "User updated"
 
@@ -34,15 +34,15 @@ Feature: User authentication
     Then I should see "Username"
     And I should see "Password"
 
-  Scenario: Change user login to one with invalid length
+  Scenario: Change user email to one invalid one
     Given I am a registered user
     And I am logged in
     And I am on the root page
     When I want to edit my profile
     Then should see "Edit Account"
-    When I enter a string of length "101" into "user[username]"
-    And I press "Save"
-    Then I should see "Username is too long (maximum is 100 characters)"
+    When I fill in "Email" with "invalid"
+    And I press "Update User"
+    Then I should see "Is invalid"
 
   Scenario: Log in incorrect details
     Given I am a registered user
