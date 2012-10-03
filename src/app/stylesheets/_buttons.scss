@@ -94,9 +94,9 @@ Application Button Set
     color: #900;
 }
 
-.button.danger:hover,
-.button.danger:focus,
-.button.danger:active {
+.button.danger:hover:not(.disable),
+.button.danger:not(.disable):focus,
+.button.danger:not(.disable):active {
     border-color: #b53f3a;
     border-bottom-color: #a0302a;
     color: #fff;
@@ -108,7 +108,7 @@ Application Button Set
     background-image: linear-gradient(#dc5f59, #b33630);
 }
 
-.button.danger:active,
+.button.danger:not(.disable):active,
 .button.danger.active {
     border-color: #a0302a;
     border-bottom-color: #bf4843;
