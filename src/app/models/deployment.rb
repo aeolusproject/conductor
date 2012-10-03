@@ -578,6 +578,7 @@ class Deployment < ActiveRecord::Base
         end
       end
     end
+    self.deployable_xml = deployable_xml.to_s
   end
 
   def destroy_deployment_config
