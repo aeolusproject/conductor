@@ -5,6 +5,7 @@
   = hidden_field :deployment, :frontend_realm_id
   = hidden_field_tag :launch_parameters_encoded, @launch_parameters_encoded
   = hidden_field_tag :deployable_id, params[:deployable_id]
+  = hidden_field_tag :backlink, @backlink
 
   %header.page-header
     %h1.pools= t('.pool_name', :pool => @pool.name)
