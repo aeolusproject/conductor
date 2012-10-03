@@ -19,7 +19,7 @@ class DeploymentsController < ApplicationController
   before_filter :load_deployments, :only => [:index, :show]
   before_filter :load_deployment, :only => [:edit, :update]
   before_filter :check_inaccessible_instances, :only => :multi_stop
-
+  before_filter :set_backlink, :only => [:launch_new, :launch_time_params, :create]
 
   viewstate :show do |default|
     default.merge!({
@@ -512,4 +512,14 @@ class DeploymentsController < ApplicationController
     end
     false
   end
+
+  def set_backlink
+    if params[:backlink].present?
+      Rails.application.routes.recognize_path(params[:backlink])
+      @backlink = params[:backlink]
+    end
+  rescue
+    logger.error "Value of backlink is not recognized by the application routing"
+  end
+
 end
