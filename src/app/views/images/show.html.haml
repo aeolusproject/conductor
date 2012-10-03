@@ -17,10 +17,14 @@
   %header
     %h2=t'properties'
   .content
-    %table
+    %table.properties_table
       %tbody
         %tr
-          %td= t('images.environment', :environment => @image.environment)
+          %td= t('images.environment')
+          %td= @image.environment
+        %tr
+          %td= t('images.show.image_id')
+          %td= @image.uuid
 
 %section.content-section
   %header
