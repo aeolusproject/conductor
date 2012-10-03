@@ -922,7 +922,7 @@ en:
         delete_failed: Unable to Delete Target Image
         not_found: Target Image not found
   images:
-    environment: "Environment: %{environment}"
+    environment: Environment
     environment_header: Environment
     import:
       import_image: Import Image
@@ -945,6 +945,7 @@ en:
     show:
       provider_images: Provider Images
       provider_account: Provider Account
+      image_id: Image ID
       image_uuid: Image UUID
       push: Push
       upload: Upload
