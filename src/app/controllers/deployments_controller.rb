@@ -169,6 +169,8 @@ class DeploymentsController < ApplicationController
     end
     return unless check_deployable_images
 
+    @deployment.save!
+
     respond_to do |format|
       if @deployment.create_and_launch(current_session, current_user)
         format.html do
