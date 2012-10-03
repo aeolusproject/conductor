@@ -595,6 +595,16 @@ describe Deployment do
 
   end
 
+  describe ".inject_launch_parameters" do
+    it "should update deployable_xml with changed parameters before save" do
+      d = Factory.build :deployment_with_launch_parameters
+      d.launch_parameters = { 'assembly_with_launch_parameters' => { 'service_with_launch_parameters' => { 'launch_parameter_1' => 'changedvalue1' }}}
+      d.save!
+      # d.reload
+      Deployment.find(d.id).deployable_xml.to_s.should match("changedvalue1")
+    end
+  end
+
   describe ".instances.instance_parameters" do
     it "should not have any instance parameters" do
       @deployment = Factory.build :deployment
