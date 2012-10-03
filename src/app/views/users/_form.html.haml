@@ -1,59 +1,8 @@
-- if @user.errors.any?
-  = render 'layouts/error_messages', :object => @user
-
-%fieldset
-  .field
-    = form.label :first_name
-    .input
-      = form.text_field :first_name, :class =>"check_change", :disabled => @ldap_user
-  .field
-    = form.label :last_name
-    .input
-      = form.text_field :last_name, :class =>"check_change", :disabled => @ldap_user
-  .field
-    = form.label :email, t(:email), :required => true
-    .input
-      = form.text_field :email, :class =>"check_change", :disabled => @ldap_user
-%fieldset
-  .field
-    = form.label :username, t(:choose_name), :required => true
-    .input
-      = form.text_field :username, :class => "check_change", :disabled => @ldap_user
-  .field
-    = form.label :password, form.object.new_record? ? t(:choose_password) : t(:change_password), :required => form.object.new_record?
-    .input
-      = form.password_field :password, :disabled => @ldap_user
-  .field
-    = form.label :password_confirmation, t(:confirm_password), :required => form.object.new_record?
-    .input
-      = form.password_field :password_confirmation, :disabled => @ldap_user
-
-- if check_privilege(Privilege::MODIFY, User)
-  %fieldset
-    = form.fields_for :quota do |quota_form|
-      .field
-        = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
-        .input
-          = quota_form.text_field :maximum_running_instances
-
-%fieldset.options
-  = form.submit t('users.form.save_user'),  :class => "submit button primary"
-  = link_to t('cancel'), @user, :class => "button danger"
-
-:javascript
-  $('.check_change').change(function(){
-    switch(this.id){
-      case 'user_last_name':
-        $('span#last_name').text(this.value);
-        break;
-      case 'user_first_name':
-        $('span#first_name').text(this.value);
-        break;
-      case 'user_email':
-        $('dd#email').text(this.value);
-        break;
-      case 'user_username':
-        $('dd#username').text(this.value);
-        break;
-    }
-  });
+= form.input :first_name, :disabled => @ldap_user
+= form.input :last_name, :disabled => @ldap_user
+= form.input :email, :disabled => @ldap_user, :required => @user.local_user?
+= form.input :username, :disabled => @ldap_user
+= form.input :password, :disabled => @ldap_user, :required => @user.check_password?
+= form.input :password_confirmation, :disabled => @ldap_user, :required => @user.check_password?
+= form.fields_for :quota do |quota_form|
+  = quota_form.input :maximum_running_instances

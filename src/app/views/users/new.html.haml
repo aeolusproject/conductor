@@ -6,45 +6,8 @@
       = link_to "#{t'users.users'}", users_path
   %h1.users= @title
 
-%section.content-section.users
+%section.content-section.user
   .content
-    .align-center
-      %p.description
-        %strong=t'users.new.neccessary_information'
-    #user_card.user_form_card
-      %header.user-card-header
-        %h2
-          %span#first_name &nbsp;
-          %span#last_name &nbsp;
-      .user-card-content
-        %dl
-          %dt=t'users.show.e-mail'
-          %dd#email &nbsp;
-          %dt=t'users.show.username'
-          %dd#username &nbsp;
-    = form_for @user, :url => users_path, :builder => ApplicationHelper::FormBuilderWithRequiredFields, :html => {:class => 'generic horizontal'} do |f|
-      -if current_user
-        = render :partial => "form", :locals => { :form => f }
-      -else
-        = render :partial => "form", :locals => { :form => f }
-
-:javascript
-    if ($('input:text#user_first_name').val() != "")
-    {
-      $('span#first_name').text($('input:text#user_first_name').val());
-    }
-
-    if ($('input:text#user_last_name').val() != "")
-    {
-      $('span#last_name').text($('input:text#user_last_name').val());
-    }
-
-    if ($('input:text#user_email').val() != "")
-    {
-      $('dd#email').text($('input:text#user_email').val());
-    }
-
-    if ($('input:text#user_username').val() != "")
-    {
-      $('dd#username').text($('input:text#user_username').val());
-    }
+    = conductor_form_for @user do |f|
+      = render :partial => "form", :locals => { :form => f }
+      = f.button :form_buttons, :cancel => users_path

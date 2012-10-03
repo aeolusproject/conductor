@@ -8,8 +8,10 @@ en:
       # You can uncomment the line below if you need to overwrite the whole required html.
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
+    buttons:
+      cancel: 'Cancel'
     error_notification:
-      default_message: "Please review the problems below:"
+      default_message: 'Some errors prevented the %{model} from being saved. Please review the problems below.'
     # Labels and hints examples
     # labels:
     #   defaults:
@@ -24,4 +26,13 @@ en:
     #     username: 'User name to sign in.'
     #     password: 'No special characters, please.'
     notes:
-      note_label: "Note:"
+      note_label: 'Note:'
+    hints:
+      user:
+        first_name: 'Must be at most 255 characters.'
+        last_name: 'Must be at most 255 characters.'
+        email: 'Must be a valid email address.'
+        username: 'Must be a unique username with at least 1 character and at most 100 characters.'
+        password: 'Must be a unique password with at least 4 character and at most 255 characters.'
+      quota:
+        maximum_running_instances: 'Must be a positive whole number less than 2147483647.'
