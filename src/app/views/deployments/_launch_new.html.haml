@@ -15,6 +15,8 @@
       - if @deployment.errors.any?
         = render 'layouts/error_messages', :object => @deployment
       = f.hidden_field :pool_id
+      = hidden_field_tag(:backlink, @backlink)
+
       %fieldset
         .field
           %label{:for => 'deployment_name'}
@@ -39,7 +41,7 @@
 
       %fieldset.options
         = submit_tag t('.next'), :class => 'button', :id => "next_button"
-        = link_to t('cancel'), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
+        = link_to t('cancel'), @backlink || pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
 
 
 :javascript
