@@ -37,18 +37,15 @@ class UsersController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, User)
-    @title = t'users.new.new_user'
+    @title = t('users.new.new_user')
     @user = User.new
     @user.quota = Quota.new_for_user
   end
 
   def create
-    if params[:commit] == "Reset"
-      redirect_to :action => 'new' and return
-    end
-
     require_privilege(Privilege::MODIFY, User)
     @user = User.new(params[:user])
+    @title = t('users.new.new_user')
     @user.quota ||= Quota.new
 
     @registration = RegistrationService.new(@user)
@@ -96,11 +93,12 @@ class UsersController < ApplicationController
   def edit
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::MODIFY, User) unless @user == current_user
-    @title = t'users.edit.edit_user'
+    @title = t('users.edit.edit_user')
     @ldap_user = (SETTINGS_CONFIG[:auth][:strategy] == "ldap")
   end
 
   def update
+    @title = t('users.edit.edit_user')
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::MODIFY, User) unless @user == current_user
 

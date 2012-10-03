@@ -48,18 +48,12 @@ require 'password'
 require 'ldap'
 
 class User < ActiveRecord::Base
+
   class << self
     include CommonFilterMethods
   end
 
   before_destroy :ensure_not_running_any_instances
-
-  attr_accessor :password
-
-  # this attr is used when validating non-local (ldap) users
-  # - these users have blank password, so validation should accept nil password
-  # for them
-  attr_accessor :ignore_password
 
   has_many :permissions, :through => :entity
   has_many :derived_permissions, :through => :entity
@@ -67,35 +61,37 @@ class User < ActiveRecord::Base
   has_many :deployments, :foreign_key => "owner_id"
   has_many :view_states
   has_and_belongs_to_many :user_groups, :join_table => "members_user_groups",
-                                        :foreign_key => "member_id"
+                          :foreign_key => "member_id"
   has_one :entity, :as => :entity_target, :dependent => :destroy
   has_many :session_entities, :dependent => :destroy
-
   belongs_to :quota, :autosave => true, :dependent => :destroy
+
+  attr_accessor :password
+  # this attr is used when validating non-local (ldap) users
+  # - these users have blank password, so validation should accept nil password
+  # for them
+  attr_accessor :ignore_password
   accepts_nested_attributes_for :quota
 
   before_validation :strip_whitespace
+  before_save :encrypt_password
   after_save :update_entity
 
-  validate :validate_ldap_changes, :if => Proc.new {|user|
-    !user.new_record? && SETTINGS_CONFIG[:auth][:strategy] == "ldap"}
-  validates_presence_of :quota
-  validates_length_of :first_name, :maximum => 255, :allow_blank => true
-  validates_length_of :last_name,  :maximum => 255, :allow_blank => true
-  validates_uniqueness_of :username
-  validates_length_of :username, :within => 1..100, :allow_blank => false
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :unless => Proc.new {|u| u.email.nil?}
-  validates_confirmation_of :password, :if => Proc.new {|u| u.check_password?}
-  validates_length_of :password, :within => 4..255, :if => Proc.new {|u| u.check_password?}
-
-  # email validation
-  # http://lindsaar.net/2010/1/31/validates_rails_3_awesome_is_true
-  # TODO: if email is not filled in in LDAP, LDAP user won't be able to login
-  # -> can we suppose that LDAP user is always filled in or should we disable
-  # email checking?
-  #validates_format_of :email, :with => /^([^\s]+)((?:[-a-z0-9]\.)[a-z]{2,})$/i
-
-  before_save :encrypt_password
+  validates :email, :presence => true,
+                    :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i },
+                    :if => Proc.new { |u| u.local_user? }
+  validates :username, :presence => true,
+                       :length => { :within => 1..100 },
+                       :uniqueness => true
+  validates :first_name, :length => { :maximum => 255 }
+  validates :last_name, :length => { :maximum => 255 }
+  validates :password, :presence => true,
+                       :length => { :within => 4..255 },
+                       :confirmation => true,
+                       :if => Proc.new { |u| u.check_password? }
+  validates :quota, :presence => true
+  validate :validate_ldap_changes,
+           :if => Proc.new { |user| !user.new_record? && SETTINGS_CONFIG[:auth][:strategy] == "ldap" }
 
   def name
     "#{first_name} #{last_name}".strip
@@ -152,6 +148,10 @@ class User < ActiveRecord::Base
     # don't check password if it's a new no-local user (ldap)
     # or if a user is updated
     new_record? ? !ignore_password : (!password.blank? or !password_confirmation.blank?)
+  end
+
+  def local_user?
+    new_record? ? !ignore_password : (!crypted_password.blank?)
   end
 
   PRESET_FILTERS_OPTIONS = []

@@ -11,16 +11,6 @@
 
 %section.content-section.user
   .content
-    #user_card.user_form_card
-      %header.user-card-header
-        %h2
-          %span#first_name= @user.first_name
-          %span#last_name= @user.last_name
-      .user-card-content
-        %dl
-          %dt=t'users.show.e-mail'
-          %dd#email= @user.email
-          %dt=t'users.show.username'
-          %dd#username= @user.username
-    = form_for @user, :url => user_path(@user), :builder => ApplicationHelper::FormBuilderWithRequiredFields, :html => { :method => :put, :class => 'generic horizontal' } do |f|
-      = render :partial => "form", :locals => { :form => f, :cancel_path => users_path }
+    = conductor_form_for @user do |f|
+      = render :partial => "form", :locals => { :form => f }
+      = f.button :form_buttons, :cancel => user_path(@user)
