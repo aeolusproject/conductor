@@ -16,15 +16,15 @@ Feature: Manage Users
     Then I should see "Edit User"
     When I fill in "user[password]" with "new password"
     And I fill in "user[password_confirmation]" with ""
-    And I press "Save"
-    Then I should see "Password doesn't match confirmation"
+    And I press "Update User"
+    Then I should see "Doesn't match confirmation."
     When I fill in "user[password]" with ""
     And I fill in "user[password_confirmation]" with "new password"
-    And I press "Save"
-    Then I should see "Password doesn't match confirmation"
+    And I press "Update User"
+    Then I should see "Can't be blank."
     When I fill in "user[password]" with "new password"
     And I fill in "user[password_confirmation]" with "new password"
-    And I press "Save"
+    And I press "Update User"
     Then I should see "User updated"
 
   Scenario: Show user details
@@ -60,13 +60,13 @@ Feature: Manage Users
     Then I should be on the new user page
     And I should see "New User"
     When I fill in the following:
-      | Choose a username | testuser2             |
-      | Choose a password | secret                |
-      | Confirm password  | secret                |
-      | First Name        | Joe                   |
-      | Last Name         | Tester                |
-      | E-mail            | testuser2@example.com |
-    And I press "Save"
+      | Username              | testuser2             |
+      | Password              | secret                |
+      | Password confirmation | secret                |
+      | First Name            | Joe                   |
+      | Last Name             | Tester                |
+      | Email                 | testuser2@example.com |
+    And I press "Create User"
     Then I should be on the users page
     And I should see "User registered"
 
@@ -76,12 +76,12 @@ Feature: Manage Users
     Then I should be on the new user page
     And I should see "New User"
     When I fill in the following:
-      | Choose a username | testuser2             |
-      | Choose a password | secret                |
-      | Confirm password  | secret                |
-      | First Name        | Joe                   |
-      | Last Name         | Tester                |
-      | E-mail            | testuser2@example.com |
+      | Username              | testuser2             |
+      | Password              | secret                |
+      | Password confirmation | secret                |
+      | First Name            | Joe                   |
+      | Last Name             | Tester                |
+      | Email                 | testuser2@example.com |
     And I follow "Users"
     Then I should be on the users page
     And there should not be user with username "canceluser"
@@ -94,7 +94,7 @@ Feature: Manage Users
     When I follow "Edit"
     Then I should be on the testuser's edit user page
     And I fill in "user_first_name" with "Joe"
-    When I press "Save"
+    When I press "Update User"
     Then I should be on testuser's user page
     And I should see "User updated"
     And I should see "Joe"
