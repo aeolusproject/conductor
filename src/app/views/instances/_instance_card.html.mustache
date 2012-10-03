@@ -34,23 +34,11 @@
                         :disabled => false, :class => 'button danger') %>
         </li>
       {{/stop_enabled}}
-      {{^stop_enabled}}
-        <li>
-          <%= button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '{{id}}'),
-                        :disabled => true, :class => 'button danger') %>
-        </li>
-      {{/stop_enabled}}
 
       {{#reboot_enabled}}
         <li>
           <%= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '{{id}}'),
                         :disabled => false, :class => 'button danger') %>
-        </li>
-      {{/reboot_enabled}}
-      {{^reboot_enabled}}
-        <li>
-          <%= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '{{id}}'),
-                        :disabled => true, :class => 'button danger') %>
         </li>
       {{/reboot_enabled}}
     </ul>
