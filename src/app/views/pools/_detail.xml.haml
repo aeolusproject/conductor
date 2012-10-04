@@ -1,7 +1,7 @@
 !!! XML
-%pool{:id => pool.id, :url => api_pool_url(pool)}
+%pool{:id => pool.id, :href => api_pool_url(pool)}
   %name= pool.name
-  %pool_family{:id => pool.pool_family.id, :url=> pool_family_url(pool.pool_family)}= pool.pool_family.name
+  %pool_family{:id => pool.pool_family.id, :href => pool_family_url(pool.pool_family)}= pool.pool_family.name
   -if pool.quota.maximum_running_instances
     %quota{ :maximum_running_instances => pool.quota.maximum_running_instances}
   -else

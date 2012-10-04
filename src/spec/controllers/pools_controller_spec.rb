@@ -115,8 +115,11 @@ describe PoolsController do
       response.body.should be_xml
       xml = Nokogiri::XML(response.body)
       xml.xpath("/pool/name").text.should == name
+      xml.xpath("/pool/@id").size.should == 1
+      xml.xpath("/pool/@href").size.should == 1
       xml.xpath("/pool/pool_family").text.should == familyName
       xml.xpath("/pool/pool_family/@id").text.should == "#{familyId}"
+      xml.xpath("/pool/pool_family/@href").text.should == pool_family_url(familyId)
       xml.xpath("/pool/quota/@maximum_running_instances").text.should == quota
       xml.xpath("/pool/enabled").text.should == enabled
       xml.xpath("/pool/catalogs").size.should == 1
