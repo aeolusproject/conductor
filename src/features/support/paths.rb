@@ -46,9 +46,8 @@ module NavigationHelpers
 
     when /^(.*)'s catalog entry page$/i
       deployable = Deployable.find_by_name($1)
-      catalog_entry = deployable.catalog_entries.first
-      catalog = catalog_entry.catalog
-      catalog_deployable_path(catalog, catalog_entry)
+      catalog = deployable.catalogs.first
+      catalog_deployable_path(catalog, deployable)
 
     when /the account page/
       account_path
