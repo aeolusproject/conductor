@@ -157,4 +157,10 @@ class Quota < ActiveRecord::Base
     end
     return false
   end
+
+  def self.new_for_user
+    self.new(:maximum_running_instances =>
+             MetadataObject.lookup("self_service_default_quota").
+             maximum_running_instances)
+  end
 end

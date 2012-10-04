@@ -191,7 +191,7 @@ class User < ActiveRecord::Base
   end
 
   def self.create_ldap_user!(username)
-    User.create!(:username => username, :quota => Quota.new, :ignore_password => true)
+    User.create!(:username => username, :quota => Quota.new_for_user, :ignore_password => true)
   end
 
   def ensure_not_running_any_instances
