@@ -8,7 +8,7 @@
         = link_to t('.edit_xml'), edit_polymorphic_path([@catalog, @deployable], :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
         = button_to t('.delete'), polymorphic_path([@catalog, @deployable]), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
 
-    - launch_deployment_button_path = launch_new_deployments_path(:deployable_id => @deployable.id, :deployment => { :name => @deployable.name, :pool_id => @catalog.pool }, :backlink => request.env['PATH_INFO'])
+    - launch_deployment_button_path = launch_new_deployments_path(:deployable_id => @deployable.id, :deployment => { :name => @deployable.name, :pool_id => @catalog.pool }, :backlink => request.fullpath)
     - if @catalog.present? && @deployable_errors.empty? && @pushed_count > 0
       = link_to t('.launch'), launch_deployment_button_path, :id => :launch_deployment_button, :'data-path' => launch_deployment_button_path
     -else
