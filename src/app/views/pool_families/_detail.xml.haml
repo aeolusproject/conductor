@@ -1,5 +1,5 @@
 !!! XML
-%pool_family{:id => pool_family.id, :url => api_pool_family_url(pool_family)}
+%pool_family{:id => pool_family.id, :href => api_pool_family_url(pool_family)}
   %name= pool_family.name
   -if pool_family.quota.maximum_running_instances
     %quota{ :maximum_running_instances => pool_family.quota.maximum_running_instances}

@@ -87,6 +87,8 @@ describe PoolFamiliesController do
       response.should have_content_type("application/xml")
       response.body.should be_xml
       xml = Nokogiri::XML(response.body)
+      xml.xpath("/pool_family/@id").size.should == 1
+      xml.xpath("/pool_family/@href").size.should == 1
       xml.xpath("/pool_family/name").text.should == name
       xml.xpath("/pool_family/quota/@maximum_running_instances").text.should == quota
       pool_set = xml.xpath('/pool_family/pools/pool')
