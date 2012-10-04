@@ -23,3 +23,8 @@ section.maincontent {
 #maincontent section.maincontent .page-header INPUT[type='submit'].off.provider_toggle {
   float:right;
 }
+
+/* Provider Selection Strategies */
+table.provider-selection-strategies td {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', endColorstr='#535353',GradientType=0 ); /* IE6-9 */
+}
