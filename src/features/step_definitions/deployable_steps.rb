@@ -14,7 +14,7 @@
 #   limitations under the License.
 #
 When /^I check "([^"]*)" catalog entry$/ do |arg1|
-  dep = CatalogEntry.find_by_deployable_id(Deployable.find_by_name(arg1))
+  dep = Deployable.find_by_name(arg1)
   check("deployable_checkbox_#{dep.id}")
 end
 
