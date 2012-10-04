@@ -1150,10 +1150,10 @@ en:
   settings:
     settings: Settings
     index:
-      permissions: Permissions
-      permissions_desc: Modify self-service default quota.
+      permissions: User defaults
+      permissions_desc: Modify default user settings
     self_service:
-      self_service_default: 'User Treatment: Self-service default'
+      self_service_default: 'Default user settings'
       account: Account
       instances_quota: "Instances Quota:"
       self_service_settings: "Self-service Settings"

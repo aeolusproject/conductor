@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     require_privilege(Privilege::CREATE, User)
     @title = t'users.new.new_user'
     @user = User.new
-    @user.quota = Quota.new
+    @user.quota = Quota.new_for_user
   end
 
   def create
