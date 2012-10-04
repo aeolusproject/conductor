@@ -512,4 +512,14 @@ class DeploymentsController < ApplicationController
     end
     false
   end
+
+  def set_backlink
+    if params[:backlink].present?
+      recognize_path_with_relative_url_root(params[:backlink])
+      @backlink = params[:backlink]
+    end
+  rescue
+    logger.error "Value of backlink is not recognized by the application routing"
+  end
+
 end
