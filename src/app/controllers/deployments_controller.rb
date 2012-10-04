@@ -515,7 +515,7 @@ class DeploymentsController < ApplicationController
 
   def set_backlink
     if params[:backlink].present?
-      Rails.application.routes.recognize_path(params[:backlink])
+      recognize_path_with_relative_url_root(params[:backlink])
       @backlink = params[:backlink]
     end
   rescue
