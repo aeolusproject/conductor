@@ -34,7 +34,7 @@
 
 class Quota < ActiveRecord::Base
 
-  set_table_name "quotas"
+  self.table_name = "quotas"
 
   has_one :pool
   has_one :pool_family
