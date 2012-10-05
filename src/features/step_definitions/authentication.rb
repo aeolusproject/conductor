@@ -102,7 +102,7 @@ end
 
 When /^I enter a string of length "([^"]*)" into "([^"]*)"$/ do |length, field_name|
   string = 'x' * length.to_i
-  When "I fill in \"#{field_name}\" with \"#{string}\""
+  step "I fill in \"#{field_name}\" with \"#{string}\""
 end
 
 When /^I login with incorrect credentials$/ do

@@ -63,7 +63,7 @@ end
 Then /^I should see the following:$/ do |table|
   table.raw.each do |array|
     array.each do |text|
-      Then 'I should see "' + text + '"'
+      step 'I should see "' + text + '"'
     end
   end
 end
