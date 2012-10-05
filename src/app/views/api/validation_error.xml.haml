@@ -1,5 +1,5 @@
 !!!XML
-%errors
-  - errors.full_messages.each do |message_error|
-    %error
-      %message= message_error
+%error
+  %code ValidationError
+  -# Rails error messages don't have dots at the end, we need to append them
+  %message= errors.full_messages.map { |message| message + '.' }.join(' ')
