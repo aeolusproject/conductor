@@ -101,10 +101,9 @@ Then /^I should receive(?: an?)? (.+) error$/ do |status_name|
   response.headers['Content-Type'].should include('application/xml')
   response.status.should be_eql(status_codes[status_name])
   xml_body = Nokogiri::XML(response.body)
-  # FIXME the XPath expectation should be more restrictive once we standardize the API
-  # As of 2012-09-24, some actions return <errors> with multiple <error> inside
-  # and others return just <error>
-  xml_body.xpath('//error').size.should >= 1
+  xml_body.xpath('//error').size.should == 1
+  xml_body.xpath('/error/code').size.should == 1
+  xml_body.xpath('/error/message').text.length.should > 0
 end
 
 def send_xml_get(uri)
