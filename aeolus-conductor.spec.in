@@ -208,6 +208,7 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/provider_selections app/views/provider_priority_groups \
       app/views/roles app/views/providers app/views/settings \
       app/views/realms app/views/pool_families app/views/layouts\
+      app/views/pool_families_to_provider_accounts_associations\
       app/views/quotas app/views/permissions \
       app/views/deployments app/views/pools \
       app/views/instances app/views/user_sessions \

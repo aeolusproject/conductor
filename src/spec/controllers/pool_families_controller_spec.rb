@@ -143,12 +143,17 @@ describe PoolFamiliesController do
         FactoryGirl.create(:pool, :name => "pool1", :pool_family => @pool_family)
         FactoryGirl.create(:pool, :name => "pool2", :pool_family => @pool_family)
         FactoryGirl.create(:pool, :name => "pool3", :pool_family => @pool_family)
+        provider_account = FactoryGirl.create(:mock_provider_account)
+        @pool_family.provider_accounts << provider_account
 
         get :show, :id => @pool_family.id
 
         assert_pool_api_success_response(@pool_family.name,
                                          "#{@pool_family.quota.maximum_running_instances}",
                                          3)
+
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("/pool_family/provider_accounts/provider_account[@id=#{provider_account.id}]/@href").text.should == api_provider_account_url(provider_account.id)
       end
 
       it "show a missing pool family" do
