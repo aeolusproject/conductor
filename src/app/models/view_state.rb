@@ -30,7 +30,7 @@
 #
 
 class ViewState < ActiveRecord::Base
-  set_primary_key :uuid
+  self.primary_key = :uuid
   belongs_to :user
 
   validates_presence_of :name

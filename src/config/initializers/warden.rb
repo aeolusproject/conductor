@@ -50,7 +50,7 @@ module Warden::Mixins::Common
   def get_credentials
     if request.authorization && request.authorization =~ /^Basic (.*)/m
       Rails.logger.debug("Using basic HTTP auth header")
-      ActiveSupport::Base64.decode64($1).split(/:/, 2)
+      Base64.decode64($1).split(/:/, 2)
     else
       [params[:username], params[:password]]
     end
