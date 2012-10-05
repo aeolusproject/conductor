@@ -22,7 +22,8 @@
           .field
             = form.label :catalog_id, t('deployables.form.catalog')
             .input
-              %span.text_instead_input#checked_catalogs_list= @selected_catalogs.empty? ? t('deployables.form.none') : @selected_catalogs.count > 1 ? t('deployables.form.multiple') : @selected_catalogs.first.name
+              %span.text_instead_input#checked_catalogs_list{ "data-none" => t('deployables.form.none'), "data-multiple" => t('deployables.form.multiple') }
+                = @selected_catalogs.empty? ? t('deployables.form.none') : @selected_catalogs.count > 1 ? t('deployables.form.multiple') : @selected_catalogs.first.name
               %span.catalog_link
                 &nbsp
                 %div.catalog_list
@@ -42,15 +43,16 @@
 
 :javascript
   function listChecked() {
-    $("#checked_catalogs_list").text(function(){
+    var $checked_catalogs_list = $("#checked_catalogs_list");
+    $checked_catalogs_list.text(function(){
       var str = [];
       $(".catalog_list input:checked").each(function(){
         str.push($(this).parent().text());
       });
       if (str.length > 1){
-        return t('deployables.form.multiple');
+        return $checked_catalogs_list.data('multiple');
       }else if (str.length == 0){
-        return t('deployables.form.none');
+        return $checked_catalogs_list.data('none');
       }else{
         return str.join(', ');
       }
