@@ -271,6 +271,7 @@ class UpgradeProcess
     process_queue(@upgrade_queue) if @default_queue.empty?
 
     print_result
+    start_services
 
     if finished_step_count < @step_count
       exit_with :general_error
@@ -306,7 +307,7 @@ class UpgradeProcess
   def stop_services
     service = 'aeolus-services'
     puts "We will stop all aeolus services using #{service} stop."
-    if confirm("PROCEED?")
+    if @options[:assume_yes] || confirm("PROCEED?")
       if !stop(service)
         puts "There was an issue stopping your services. Please resolve this manually"
         puts "and try again"
@@ -314,6 +315,22 @@ class UpgradeProcess
       end
     else
       exit_service_stop
+    end
+  end
+
+  def start_services
+    service = 'aeolus-services'
+    puts "Aeolus services were stopped before executing the upgrade."
+    puts "We will start all aeolus services now using '#{service} start'"
+    if @options[:assume_yes] || confirm("START SERVICES?")
+      if !start(service)
+        puts "There was an issue starting your services. Please resolve this manually"
+        puts "and try again."
+        exit_with :general_error
+      end
+    else
+      puts "Aeolus services not started."
+      puts "Remember to start aeolus services using '#{service} start'."
     end
   end
 
@@ -420,6 +437,11 @@ end
 # already being off
 def stop(service)
   return system('%s stop' % service)
+end
+
+# start a given service
+def start(service)
+  return system('%s start' % service)
 end
 
 # Parse and return script options
