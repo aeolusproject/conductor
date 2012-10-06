@@ -111,6 +111,7 @@ describe PoolFamiliesController do
 
     describe "#create" do
       it "post with all expected params" do
+        Aeolus::Image::Warehouse::Image.stub(:by_environment).with("#{@test_name}").and_return([])
         xmldata = "
         <pool_family>
           <name>#{@test_name}</name>
@@ -156,6 +157,19 @@ describe PoolFamiliesController do
         xml.xpath("/pool_family/provider_accounts/provider_account[@id=#{provider_account.id}]/@href").text.should == api_provider_account_url(provider_account.id)
       end
 
+      it "show pool family images" do
+        @pool_family = FactoryGirl.create :pool_family
+        @image = mock(Aeolus::Image::Warehouse::Image,
+                      :id => '100',
+                      :environment => @pool_family.name)
+        Aeolus::Image::Warehouse::Image.stub(:by_environment).with(@pool_family.name).and_return([@image])
+        get :show, :id => @pool_family.id
+        xml = Nokogiri::XML(response.body)
+        xml.xpath("/pool_family/images/image[@id='#{@image.id}']/@href").text.should ==
+          api_image_url(@image.id)
+
+      end
+
       it "show a missing pool family" do
         get :show, :id => -1
 
@@ -185,6 +199,8 @@ describe PoolFamiliesController do
           <name>pool-family-updated</name>
           <quota maximum_running_instances='1002'></quota>
         </pool_family>"
+
+        Aeolus::Image::Warehouse::Image.stub(:by_environment).with("pool-family-updated").and_return([])
         put :update, :id => pool_family_id, :pool_family => Hash.from_xml(xmldata)["pool_family"]
 
         assert_pool_api_success_response("pool-family-updated", "1002", 0)
