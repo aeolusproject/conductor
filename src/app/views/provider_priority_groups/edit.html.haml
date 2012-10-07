@@ -12,4 +12,5 @@
     = form_for @priority_group, :url => pool_provider_selection_provider_priority_group_path(@pool) do |form|
       = render :partial => 'form', :locals => { :form => form }
       %fieldset.options
-        = form.submit(t('provider_priority_groups.edit.save'), :class => "submit button pill")
+        = form.submit(t('provider_priority_groups.edit.save'), :class => "submit button primary")
+        = link_to t('cancel'), pool_provider_selection_provider_priority_groups_path(@pool), :class => "button danger"

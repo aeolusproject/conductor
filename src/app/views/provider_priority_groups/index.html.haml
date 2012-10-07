@@ -10,7 +10,7 @@
 %section.content-section
   %header
     .section-controls
-      = link_to(t('provider_priority_groups.index.add_new'), new_pool_provider_selection_provider_priority_group_path(@pool), :class => 'button pill')
+      = link_to(t('provider_priority_groups.index.add_new'), new_pool_provider_selection_provider_priority_group_path(@pool), :class => 'button')
     %h2= t('provider_priority_groups.index.edit_strict_order_strategy')
   .content
     - if @priority_groups.any?
@@ -22,8 +22,9 @@
                 %h2= priority_group.name
                 %p!= "#{ProviderPriorityGroup.human_attribute_name(:score)}: #{priority_group.score}"
               .controls
-                = link_to(t('edit'), edit_pool_provider_selection_provider_priority_group_path(priority_group.pool, priority_group), :class => "button pill")
-                = link_to(t('delete'), pool_provider_selection_provider_priority_group_path(priority_group.pool, priority_group), :method => :delete, :confirm => t('provider_priority_groups.index.confirm_delete'), :class => "button pill danger")
+                .button-group
+                  = link_to(t('edit'), edit_pool_provider_selection_provider_priority_group_path(priority_group.pool, priority_group), :class => "button")
+                  = link_to(t('delete'), pool_provider_selection_provider_priority_group_path(priority_group.pool, priority_group), :method => :delete, :confirm => t('provider_priority_groups.index.confirm_delete'), :class => "button danger")
             .details
               %table
                 %tr

@@ -37,8 +37,8 @@
           = quota_form.text_field :maximum_running_instances
 
 %fieldset.options
-  = form.submit t('users.form.save_user'),  :class => "submit button pill"
-  = link_to t('cancel'), @user, :class => "button pill danger"
+  = form.submit t('users.form.save_user'),  :class => "submit button primary"
+  = link_to t('cancel'), @user, :class => "button danger"
 
 :javascript
   $('.check_change').change(function(){

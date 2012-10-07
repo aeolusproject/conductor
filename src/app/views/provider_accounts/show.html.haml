@@ -5,8 +5,9 @@
       =t'return_to'
       = link_to t('provider_accounts.new.cloud_providers'), edit_provider_path(@provider, :details_tab => 'accounts')
     .button-group
-      = link_to t('edit'), edit_provider_provider_account_path(@provider, @provider_account), :class => "button pill", :title => "Edit Provider Account"
-      = link_to t('provider_accounts.show.test_connection'), provider_provider_account_path(@provider, @provider_account, :test_account => true), :class => 'button pill'
+      = link_to t('edit'), edit_provider_provider_account_path(@provider, @provider_account), :class => "button", :title => t('edit_provider_account')
+      = link_to t('provider_accounts.show.test_connection'), provider_provider_account_path(@provider, @provider_account, :test_account => true), :class => 'button'
+      = link_to t('provider_accounts.edit.delete_account'), provider_provider_account_path(@provider, @provider_account), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger'
   %h1.provider_accounts= @title
 
 %section.content-section

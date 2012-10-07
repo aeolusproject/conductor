@@ -4,11 +4,11 @@
   .obj_actions
     - if check_privilege(Privilege::MODIFY, @deployment)
       .button-group
-        = link_to t('edit'), edit_deployment_path(@deployment), :class => 'button pill',
+        = link_to t('edit'), edit_deployment_path(@deployment), :class => 'button',
                                                                 :id => 'edit_deployment_button'
         = button_to t('delete'), deployment_path(@deployment), :method => :delete,
                                                                :confirm => t("deployments.confirm_delete"),
-                                                               :class => "button pill danger",
+                                                               :class => "button danger",
                                                                :id => 'delete'
   %h1.deployments= @title
 

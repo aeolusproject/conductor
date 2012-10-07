@@ -13,4 +13,5 @@
                :url => save_strategy_options_pool_provider_selection_path(@pool, @strategy.name) do |form|
       = render :partial => @edit_partial, :locals => { :form => form }
       %fieldset.options
-        = form.submit(t('save'), :class => "submit button pill")
+        = form.submit(t('save'), :class => "submit button primary")
+        = link_to t('cancel'), pool_provider_selection_path(@pool), :class => "button danger"

@@ -11,5 +11,5 @@
       = form.select(:pool_id, @pools.collect{|p| [p.name, p.id]}, :prompt =>  t("catalogs.form.select_pool"))
 
 %fieldset.options
+  = submit_tag t('save'), :name => 'save', :class => 'button primary', :id => 'save_button'
   = link_to t('cancel'), catalogs_path, :class => 'button danger'
-  = submit_tag t('save'), :name => 'save', :class => 'button', :id => 'save_button'

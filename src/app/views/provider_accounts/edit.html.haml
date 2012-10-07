@@ -16,4 +16,4 @@
         = render :partial => "form", :locals => { :form => f }
         %fieldset.options
           = f.submit t('save'), :class => "button", :id => 'save'
-          = link_to t('provider_accounts.edit.delete_account'), provider_provider_account_path(@provider, @provider_account), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button danger'
+          = link_to t('cancel'), provider_provider_account_path(@provider, @provider_account), :class => 'button danger'

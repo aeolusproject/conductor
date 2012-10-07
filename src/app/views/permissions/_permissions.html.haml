@@ -17,14 +17,14 @@
   %span{:id => ("tab-container-1-nav" unless @inline)}
     - unless @permission_object == BasePermissionObject.general_permission_scope
       - if @show_inherited
-        %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button primary', :id => 'direct_permission_button'}
-        %li= link_to t('permissions.global_access'), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button primary', :id => 'global_permission_button'}
+        %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
+        %li= link_to t('permissions.global_access'), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
       - elsif @show_global
-        %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button primary', :id => 'direct_permission_button'}
-        %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button primary', :id => 'inherited_permission_button'}
+        %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
+        %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button', :id => 'inherited_permission_button'}
       - else
-        %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button primary', :id => 'inherited_permission_button'}
-        %li= link_to t('permissions.global_access'), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button primary', :id => 'global_permission_button'}
+        %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button', :id => 'inherited_permission_button'}
+        %li= link_to t('permissions.global_access'), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
 
 - content_for :permissions_filter_controls do
   %li
