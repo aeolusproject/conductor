@@ -31,14 +31,14 @@
       {{#stop_enabled}}
         <li>
           <%= button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '{{id}}'),
-                        :disabled => false, :class => 'button danger') %>
+                        :disabled => false, :class => 'button') %>
         </li>
       {{/stop_enabled}}
 
       {{#reboot_enabled}}
         <li>
           <%= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '{{id}}'),
-                        :disabled => false, :class => 'button danger') %>
+                        :disabled => false, :class => 'button') %>
         </li>
       {{/reboot_enabled}}
     </ul>

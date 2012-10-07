@@ -83,7 +83,7 @@
           = f.label :catalog_id, t('.choose_catalog')
           = f.select :catalog_id, options_for_select(@catalogs_options.map {|c| [c.name, c.id]})
           = f.hidden_field(:deployable_id, :value => @deployable.id)
-          = f.submit t('.add_catalog'), :id => :add_catalog, :class => 'button pill', :disabled => @catalogs_options.empty?
+          = f.submit t('.add_catalog'), :id => :add_catalog, :class => 'button primary', :disabled => @catalogs_options.empty?
     %h2.catalogs= t('.catalogs')
   .content
     .centered

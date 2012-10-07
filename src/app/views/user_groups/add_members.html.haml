@@ -12,8 +12,8 @@
       %strong= t("user_groups.choose_members")
   .content
     - content_for :form_footer do
+      = restful_submit_tag t('user_groups.show.add_members'), "add", add_members_user_group_path(@user_group), 'POST', :id => 'save_button', :class => 'button primary'
       = link_to t('cancel'), user_group_path(@user_group), :class => 'button danger'
-      = restful_submit_tag t('user_groups.show.add_members'), "add", add_members_user_group_path(@user_group), 'POST', :id => 'save_button', :class => 'button'
     = filter_table(members_header, @users) do |user|
       %tr{:class => cycle('nostripe','stripe')}
         %td{:class => 'checkbox'}

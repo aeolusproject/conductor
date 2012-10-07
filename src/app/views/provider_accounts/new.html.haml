@@ -12,4 +12,5 @@
       = form_for([@provider, @provider_account], :url => provider_provider_accounts_path(@provider), :html => {:multipart => true, :class => 'generic horizontal'})  do |f|
         = render :partial => "form", :locals => { :form => f }
         %fieldset.options
-          = f.submit t('save'), :class => "button", :id => 'save'
+          = f.submit t('save'), :class => "button primary", :id => 'save'
+          = link_to t('cancel'), edit_provider_path(@provider, :details_tab => 'accounts'), :class => "button danger"

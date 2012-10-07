@@ -23,5 +23,6 @@
               = hwpp_form.text_field(:value)
 
 %fieldset.options
-  = hwp_form.submit t('hardware_profiles.form.check_matches'), :class => 'danger button', :id => 'check_matches'
-  = hwp_form.submit t('save'), :class => 'submit button', :id => 'save_button'
+  = hwp_form.submit t('save'), :class => 'submit button primary', :id => 'save_button'
+  = hwp_form.submit t('hardware_profiles.form.check_matches'), :class => 'button', :id => 'check_matches'
+  = link_to t('cancel'), hardware_profiles_path, :class => "button danger"

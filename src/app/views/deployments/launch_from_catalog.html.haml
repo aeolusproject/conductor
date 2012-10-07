@@ -17,7 +17,7 @@
               %p= deployable.description
             .controls
               = link_to t(".details"),"#", :class => "collapse"
-              = button_to t(".select"), launch_time_params_deployments_path(:deployment => { :name => deployable.name, :pool_id => @catalog.pool.id }, :deployable_id => deployable.id ), :class=> "button pill"
+              = button_to t(".select"), launch_time_params_deployments_path(:deployment => { :name => deployable.name, :pool_id => @catalog.pool.id }, :deployable_id => deployable.id ), :class=> "button primary"
           .details.collapsible.collapsed
             %p= deployable.description
             %table
@@ -43,4 +43,4 @@
 
   .align-center
     %div= will_paginate @deployables
-    %div= link_to t('cancel'), root_path, :class => 'button pill', :id => 'edit_button'
+    %div= link_to t('cancel'), root_path, :class => 'button danger', :id => 'edit_button'

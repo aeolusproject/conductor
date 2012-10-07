@@ -38,8 +38,8 @@
                             = catalog.name
 
       %fieldset.options.align-center
-        = link_to t('deployables.form.cancel'), catalogs_path, :class => 'button danger'
         = submit_tag "#{t'deployables.form.save'}", :name => 'save', :class => 'button primary', :id => 'save_button', :disabled => @save_disabled
+        = link_to t('deployables.form.cancel'), catalogs_path, :class => 'button danger'
 
 :javascript
   function listChecked() {

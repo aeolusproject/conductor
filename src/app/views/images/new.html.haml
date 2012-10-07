@@ -40,8 +40,8 @@
                 = check_box_tag :edit, 1, true
 
           %fieldset.align-center
-            = link_to t(:cancel), pool_families_path, :class => "button danger"
             = submit_tag t(:continue), :id => "file_button", :class => "button primary", :disabled => @accounts.empty?
+            = link_to t(:cancel), pool_families_path, :class => "button danger"
 
       %section#image-url-form
         = form_tag(edit_xml_images_path, { :multipart => true, :class => 'generic horizontal' }) do
@@ -61,8 +61,8 @@
                 = check_box_tag :edit, 1, true
 
           %fieldset.align-center
-            = link_to t(:cancel), pool_families_path, :class => "button danger"
             = submit_tag t(:continue), :id => "url_button", :class => "button primary", :disabled => @accounts.empty?
+            = link_to t(:cancel), pool_families_path, :class => "button danger"
 
 :javascript
   (function() {

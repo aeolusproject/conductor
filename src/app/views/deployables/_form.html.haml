@@ -29,5 +29,5 @@
         %span.text_instead_input= link_to t("deployables.properties.edit_deployable_xml"), edit_polymorphic_path([@catalog, @deployable], :edit_xml=>true)
 
 %fieldset.options
+  = submit_tag t('save'), :name => 'save', :class => 'button primary', :id => 'save_button'
   = link_to t('cancel'), polymorphic_path([@catalog, @deployable]), :class => 'button danger'
-  = submit_tag t('save'), :name => 'save', :class => 'button', :id => 'save_button'
