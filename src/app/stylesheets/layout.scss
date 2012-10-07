@@ -867,33 +867,31 @@ $dd_icon_padding_right: 4px;
 $bar_height: 37px;
 
 div.pool.overview{
+  background: rgb(230,230,230);
+  border: 1px solid rgb(210,210,210);
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
 
   header{
     position: relative;
     height: $bar_height;
     width: 100%;
-    background-color: #e5e5e5;
-    -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
-    border: 1px solid #bcbcbc;
-
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.20);
-    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.20);
-    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid rgb(195,195,195);
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
 
     h3.name{
       display: block;
       float: left;
       width: 230px;
       height: $bar_height;
-      background: transparent url('../../images/pool_bar_name-bg-normal.png') no-repeat 0px 0px;
-      border-right: 1px solid #a9a9a9;
       vertical-align: top;
 
       a{
         display: block;
-        text-decoration: none;
-        padding: 9px;
-        padding-left: 30px;
+        padding: 9px 10px 10px 10px;
         font-family: $font-family-primary;
         font-size: 17px;
         color: #666;
@@ -933,7 +931,6 @@ div.pool.overview{
     dl.statistics{
       @include display_inline_block;
       height: $bar_height;
-      background: transparent url('../../images/pool_bar_prop-gradient.png') repeat-y 0px 0px;
     }
 
     /* statistic group list */
@@ -1029,16 +1026,23 @@ div.pool.overview{
       background: transparent url('../../images/sb_icon_quota.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
     }
+  }
 
+  & > .content {
+    padding: 10px;
+    margin: 0;
+    width: auto;
+    background: rgb(249,249,249);
   }
 
   ul.actions{
     list-style: none;
     display: block;
     text-align: right;
-    width: 100%;
-    margin: 10px 0px 0px 0px;
     font-size: 11px;
+    -webkit-border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
 
     li{
       @include display_inline_block;
@@ -1047,7 +1051,6 @@ div.pool.overview{
     li + li{ margin-left: 14px; }
     li + li.catalog_link{ margin-left: 2px; }
   }
-
 }
 
 div.pool.overview.alert{
@@ -1061,21 +1064,19 @@ div.pool.overview.alert{
 }
 
 div.pool.overview.collapsed{
-
-  header{
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    border: 1px solid #ccc;
+  header {
+    border-bottom: 0 none;
 
     a.control{
       background-position: 0px -0px;
       &:active{background-position: 0px -28px;}
       &:hover{color: #333;}
     }
-
   }
-  .content{ display: none; }
+
+  .content {
+    display: none;
+  }
 }
 
 div.pool.overview + div.pool.overview{
@@ -1244,12 +1245,12 @@ ul.deployment-array.large + ul.deployment-array.large{
 /************************************************************************** */
 
 $deployment-small-height: 116px;
-$deployment-small-width: 174px;
+$deployment-small-width: 170px;
 $deployment-small-padding: 8px;
 
 ul.deployment-array.small{
 
-  margin-top: 10px;
+  margin-bottom: 10px;
   list-style: none;
   display: table;
   height: 100%;
@@ -1259,7 +1260,7 @@ ul.deployment-array.small{
     display: table-cell;
     float: left;
     border: 1px solid #ccc;
-    background-color: #efefef;
+    background-color: rgb(240,240,240);
     -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
     padding: $deployment-small-padding;
     width: $deployment-small-width - ($deployment-small-padding * 2);
@@ -2166,71 +2167,94 @@ table.flat, form.filterable-data table{
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Pool Families Table
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
 table.pool_families{
-  a{
-    color: white;
-    text-decoration: none;
-    &:hover{ text-decoration: underline; }
-  }
   border-collapse: separate;
   width: 100%;
-  color: white;
   margin-bottom: 20px;
-  border: 1px solid #343434;
-  border-top: none;
-  border-bottom: none;
-
-  -webkit-border-radius: 0px 0px 7px 7px;
-  -moz-border-radius: 0px 0px 7px 7px;
-  border-radius: 0px 0px 7px 7px;
+  border: 1px solid #D1D1D1;
+  border-top: 0 none;
+  border-bottom: 0 none;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
 
   caption{
     width: 100%;
-    background: #686868;
-    border: 1px solid #343434;
-    border-bottom: none;
-    -webkit-border-radius: 7px 7px 0px 0px;
-    -moz-border-radius: 7px 7px 0px 0px;
-    border-radius: 7px 7px 0px 0px;
     box-sizing: border-box; -webkit-box-sizing:border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box;
+    background: rgb(245, 245, 245);
+    border: 1px solid #D1D1D1;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+
+    h2 {
+      font-size: 17px;
+      font-weight: bold;
+      padding-top: 2px;
+      margin: 0;
+    }
+
+    a {
+      color: #666;
+
+      &:hover {
+        color: black;
+      }
+    }
 
     .caption_content{padding: 8px;}
   }
 
   th{
-    background: #686868;
+    background: rgb(225, 225, 225);
     padding: 2px 8px;
     font-size: 10px;
     font-weight: bold;
-    border-bottom: 1px solid #343434;
+    color: #666;
+    font-weight: bold;
+    border-bottom: 1px solid #BFBFBF;
+
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F3F3F3), to(#D2D2D2));
+    background-image: -moz-linear-gradient(#F3F3F3, #D2D2D2);
+    background-image: -o-linear-gradient(#F3F3F3, #D2D2D2);
+    background-image: linear-gradient(#F3F3F3, #D2D2D2);
   }
 
   td{
     padding: 8px;
-    border-top: 1px solid #909090;
-    border-bottom: 1px solid #343434;
     vertical-align: middle;
+    border-bottom: 1px solid #D1D1D1;
 
-    background: #666666; /* Old browsers */
-    background: -moz-linear-gradient(top, #666666 0%, #535353 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#666666), color-stop(100%,#535353)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #666666 0%,#535353 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #666666 0%,#535353 100%); /* Opera11.10+ */
-    background: -ms-linear-gradient(top, #666666 0%,#535353 100%); /* IE10+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', endColorstr='#535353',GradientType=0 ); /* IE6-9 */
-    background: linear-gradient(top, #666666 0%,#535353 100%); /* W3C */
+    a:not(.button) {
+      color: #3286B8;
+    }
+  }
+
+  tr {
+    background: #F3F3F3;
+
+    &.total {
+      background: rgb(225, 225, 225);
+      color: rgb(150, 150, 150);
+    }
+  }
+
+  tr:nth-child(odd):not(.total) {
+    background: #FAFAFA;
   }
 
   tr:last-child{
-    td:first-child{
-      -webkit-border-radius: 0px 0px 0px 7px;
-      -moz-border-radius: 0px 0px 0px 7px;
-      border-radius: 0px 0px 0px 7px;
+    td:first-child {
+      -webkit-border-radius: 0 0 0 5px;
+      -moz-border-radius: 0 0 0 5px;
+      border-radius: 0 0 0 5px;
     }
-    td:last-child{
-      -webkit-border-radius: 0px 0px 7px 0px;
-      -moz-border-radius: 0px 0px 7px 0px;
-      border-radius: 0px 0px 7px 0px;
+
+    td:last-child {
+      -webkit-border-radius: 0 0 5px 0;
+      -moz-border-radius: 0 0 5px 0;
+      border-radius: 0 0 5px 0;
     }
   }
 
@@ -2248,7 +2272,6 @@ table.pool_families{
     text-decoration: none;
     white-space: nowrap;
     padding: 3px 6px;
-    -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px;
     border: 1px solid #343434;
 
     -webkit-box-shadow: 0px 0px 1px 0px #333;
@@ -2281,7 +2304,6 @@ table.pool_families{
     padding: 3px 6px;
     border: 1px solid #3a3a3a;
 
-    -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px;
     -webkit-box-shadow: 0px 0px 1px 0px #333;
     -moz-box-shadow: 0px 0px 1px 0px #333;
     box-shadow: 0px 0px 1px 0px #333;
