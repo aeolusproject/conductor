@@ -13,22 +13,15 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-Then /^there should be these provider types:$/ do |table|
-  types = @xml_response.root.xpath('/provider_types/provider_type').map do |n|
-    {:name              => n.xpath('name').text,
-     :deltacloud_driver => n.xpath('deltacloud_driver').text}
-  end
-  table.hashes.each do |hash|
-    p = types.find {|n| n[:name] == hash[:name]}
-    p.should_not be_nil
-    p[:deltacloud_driver].should == hash[:deltacloud_driver]
-  end
+When /^I request a list of provider types returned as XML$/ do
+  header 'Accept', 'application/xml'
+  get api_provider_types_path
 end
 
-Given /^there are some provider types$/ do
-  ProviderType.destroy_all
-  3.times do
-    FactoryGirl.create(:provider_type)
-  end
-  ProviderType.count.should be_eql(3)
+Then /^I should receive list of provider types as XML$/ do
+  response = last_response
+  response.headers['Content-Type'].should include('application/xml')
+  response.status.should be_eql(200)
+  xml_body = Nokogiri::XML(response.body)
+  xml_body.xpath('//provider_types/provider_type').size.should be_eql(3)
 end
