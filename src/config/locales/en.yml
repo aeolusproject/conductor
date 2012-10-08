@@ -580,6 +580,18 @@ en:
     edit_pool: Edit Pool %{pool}
     create_new_pool: Create New Pool
     logs: Logs
+    scoreboard:
+      cloud_providers_total: Total Cloud Providers
+      pools_total: Total Pools
+      pools_in_use: Pools in use
+      deployments_total: Total Deployments
+      total_instances: Total Instances
+      instances_pending: Instances pending
+      instances_failed: Instances failed
+      alerts: Alerts
+      quota_usage: Quota usage
+      running_instances_quota: Running Instances
+      total_available_instances: Total Instances available
     index:
       pool_name: Pool name
       deployed_on: Deployed on
