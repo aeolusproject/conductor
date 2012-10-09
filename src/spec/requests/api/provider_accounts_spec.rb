@@ -99,9 +99,9 @@ describe "ProviderAccounts" do
         it_behaves_like "responding with XML"
         context "XML body" do
           subject { Nokogiri::XML(response.body) }
-          it "should have some errors" do
-            subject.xpath('//errors').size.should be_eql(1)
-            subject.xpath('//errors/error').size.should <= 1
+          it "should return validation error" do
+            subject.xpath('/error/code').text.should == "ValidationError"
+            subject.xpath('/error/message').text.length.should > 0
           end
         end
 
@@ -127,9 +127,9 @@ describe "ProviderAccounts" do
         it_behaves_like "responding with XML"
         context "XML body" do
           subject { Nokogiri::XML(response.body) }
-          it "should have some errors" do
-            subject.xpath('//errors').size.should be_eql(1)
-            subject.xpath('//errors/error').size.should <= 1
+          it "should return validation error" do
+            subject.xpath('/error/code').text.should == "ValidationError"
+            subject.xpath('/error/message').text.length.should > 0
           end
         end
       end
@@ -224,9 +224,9 @@ describe "ProviderAccounts" do
           it_behaves_like "responding with XML"
           context "XML body" do
             subject { Nokogiri::XML(response.body) }
-            it "should have some errors" do
-              subject.xpath('//errors').size.should be_eql(1)
-              subject.xpath('//errors/error').size.should <= 1
+            it "should return validation error" do
+              subject.xpath('/error/code').text.should == "ValidationError"
+              subject.xpath('/error/message').text.length.should > 0
             end
           end
 
@@ -254,9 +254,9 @@ describe "ProviderAccounts" do
           it_behaves_like "responding with XML"
           context "XML body" do
             subject { Nokogiri::XML(response.body) }
-            it "should have some errors" do
-              subject.xpath('//errors').size.should be_eql(1)
-              subject.xpath('//errors/error').size.should <= 1
+            it "should return validation error" do
+              subject.xpath('/error/code').text.should == "ValidationError"
+              subject.xpath('/error/message').text.length.should > 0
             end
           end
         end

@@ -1,5 +1,4 @@
 !!!XML
-%errors
-  - errors.full_messages.each do |message_error|
-    %error
-      %message= message_error
+%error
+  %code ValidationError
+  %message= errors.full_messages.join(';')
