@@ -1,15 +1,2 @@
-- if @catalog.errors.any?
-  = render 'layouts/error_messages', :object => @catalog
-%fieldset
-  .field
-    = form.label :name
-    .input
-      = form.text_field :name, :class => 'em long'
-  .field
-    = form.label :pool_id
-    .input
-      = form.select(:pool_id, @pools.collect{|p| [p.name, p.id]}, :prompt =>  t("catalogs.form.select_pool"))
-
-%fieldset.options
-  = submit_tag t('save'), :name => 'save', :class => 'button primary', :id => 'save_button'
-  = link_to t('cancel'), catalogs_path, :class => 'button danger'
+= form.input :name
+= form.input :pool_id, :collection => @pools.collect{|p| [p.name, p.id]}
