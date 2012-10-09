@@ -1,9 +1,9 @@
 class EventDescriptionToText < ActiveRecord::Migration
-  def up
+  def self.up
     self.change_column :events, :description, :text
   end
 
-  def down
+  def self.down
     self.change_column :events, :description, :string
   end
 end
