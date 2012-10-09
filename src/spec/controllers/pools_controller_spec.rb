@@ -136,6 +136,7 @@ describe PoolsController do
         </pool>"
         post :create, Hash.from_xml(xmldata)
 
+        response.status.should == 201
         assert_pool_api_success_response(@test_pool_name,
                                          @pool_family.name,
                                          @pool_family.id,

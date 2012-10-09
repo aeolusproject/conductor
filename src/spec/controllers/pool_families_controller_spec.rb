@@ -118,6 +118,7 @@ describe PoolFamiliesController do
         </pool_family>"
         post :create, Hash.from_xml(xmldata)
 
+        response.status.should == 201
         assert_pool_api_success_response(@test_name, "1001", 0)
       end
 

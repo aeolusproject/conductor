@@ -55,8 +55,9 @@ class PoolFamiliesController < ApplicationController
         @pool_family.assign_owner_roles(current_user)
         flash[:notice] = t"pool_families.flash.notice.added"
         format.html { redirect_to pool_families_path }
-        format.xml {
-          render :show, :locals => { :pool_family => @pool_family }}
+        format.xml { render :show,
+                            :status => :created,
+                            :locals => { :pool_family => @pool_family }}
       else
         flash.now[:warning] = t"pool_families.flash.warning.creation_failed"
         format.html { render :new and return }
