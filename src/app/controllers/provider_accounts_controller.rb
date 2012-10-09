@@ -111,7 +111,9 @@ class ProviderAccountsController < ApplicationController
             flash[:error] = t"provider_accounts.flash.error.not_added"
             render :action => 'new' and return
           end
-          format.xml { render 'api/validation_error', :locals => { :errors => @provider_account.errors }, :status => :bad_request }
+          format.xml { render 'api/validation_error',
+                              :locals => { :errors => @provider_account.errors },
+                              :status => :unprocessable_entity }
         end
       end
     rescue Exception => e
@@ -163,7 +165,9 @@ class ProviderAccountsController < ApplicationController
           flash[:error] = t"provider_accounts.flash.error.not_updated"
           render :action => :edit
         end
-        format.xml { render 'api/validation_error', :locals => { :errors => @provider_account.errors }, :status => :bad_request }
+        format.xml { render 'api/validation_error',
+                            :locals => { :errors => @provider_account.errors },
+                            :status => :unprocessable_entity }
       end
     end
   end

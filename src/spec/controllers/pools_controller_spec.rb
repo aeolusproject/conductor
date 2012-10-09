@@ -154,7 +154,7 @@ describe PoolsController do
         </pool>"
         post :create, Hash.from_xml(xmldata)
 
-        response.status.should be_eql(400) # Bad Request
+        response.status.should be_eql(422)
         response.should have_content_type("application/xml")
         response.body.should be_xml
         xml = Nokogiri::XML(response.body)
@@ -253,7 +253,7 @@ describe PoolsController do
         xmldata = "<pool><name></name></pool>"
         put :update, :id => @pool.id, :pool => Hash.from_xml(xmldata)["pool"]
 
-        response.status.should be_eql(400)
+        response.status.should be_eql(422)
         response.should have_content_type("application/xml")
         response.body.should be_xml
         xml = Nokogiri::XML(response.body)

@@ -236,7 +236,7 @@ describe ProvidersController do
               provider
             end
 
-            it_behaves_like "http Bad Request"
+            it_behaves_like "http Unprocessable Entity"
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -337,7 +337,7 @@ describe ProvidersController do
                 }
               }
 
-              it_behaves_like "http Bad Request"
+              it_behaves_like "http Unprocessable Entity"
               it_behaves_like "responding with XML"
 
             end
