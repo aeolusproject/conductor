@@ -46,7 +46,7 @@ dist:
 	mkdir -p dist/aeolus-conductor-$(VERSION)
 	cp -a aeolus-conductor.spec AUTHORS conf COPYING Makefile src \
 		dist/aeolus-conductor-$(VERSION)
-	rm -f dist/aeolus-conductor-$(VERSION)/src/vendor/converge-ui/converge-ui-devel.spec
+	find dist/aeolus-conductor-$(VERSION)/src/vendor/converge-ui/ -mindepth 1 -maxdepth 1 | xargs rm -rf
 
 	util/aeolus_translate.rb src/config/locales/en.yml dist/aeolus-conductor-$(VERSION)/src/config/locales/en.yml
 	util/aeolus_translate.rb src/config/locales/role_definitions/en.yml dist/aeolus-conductor-$(VERSION)/src/config/locales/role_definitions/en.yml
@@ -54,7 +54,6 @@ dist:
 	util/aeolus_translate.rb src/config/locales/strategies/en.yml dist/aeolus-conductor-$(VERSION)/src/config/locales/strategies/en.yml
 
 	tar -C dist -zcvf aeolus-conductor-$(VERSION).tar.gz aeolus-conductor-$(VERSION)
-
 
 rpms: dist
 	rpmbuild $(RPM_FLAGS) -ta aeolus-conductor-$(VERSION).tar.gz
