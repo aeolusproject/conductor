@@ -161,7 +161,8 @@ run aeolus-configure to configure everything.
 %build
 
 #copy converge-ui from converge-ui-devel
-cp -R /usr/share/converge-ui-devel/* ./src/vendor/converge-ui
+%{__rm} -rf ./src/vendor/converge-ui
+%{__cp} -R /usr/share/converge-ui-devel ./src/vendor/converge-ui
 
 %pre
 getent group aeolus >/dev/null || /usr/sbin/groupadd -g 180 -r aeolus 2>/dev/null || :
