@@ -103,7 +103,9 @@ class ProviderAccountsController < ApplicationController
             flash[:notice] = t('provider_accounts.flash.notice.account_added', :list => @provider_account.name, :count => 1)
             redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
           end
-          format.xml { render 'show', :locals => { :provider_account => @provider_account, :with_credentials => true, :with_quota => true }, :status => :ok }
+          format.xml { render 'show',
+                              :locals => { :provider_account => @provider_account, :with_credentials => true, :with_quota => true },
+                              :status => :created }
         end
       else
         respond_to do |format|

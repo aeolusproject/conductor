@@ -31,7 +31,7 @@ describe "ProviderAccounts" do
         end
         let(:provider) { FactoryGirl.create(:mock_provider) }
 
-        it_behaves_like "http OK"
+        it_behaves_like "http Created"
         it_behaves_like "responding with XML"
         context "XML body" do
           subject { Nokogiri::XML(response.body) }
@@ -66,7 +66,7 @@ describe "ProviderAccounts" do
         end
         let(:provider) { DeltaCloud.stub(:valid_credentials?).and_return(true); FactoryGirl.create(:ec2_provider) }
 
-        it_behaves_like "http OK"
+        it_behaves_like "http Created"
         it_behaves_like "responding with XML"
         context "XML body" do
           subject { Nokogiri::XML(response.body) }

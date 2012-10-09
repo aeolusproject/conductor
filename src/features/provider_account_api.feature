@@ -32,7 +32,7 @@ Feature: Manage Provider Accounts via API
 
   Scenario: Create a new provider account
     When I create provider account with correct data
-    Then I should receive OK message
+    Then I should receive Created message
     And the provider account should be created
 
   Scenario: Create a new provider account with bad request

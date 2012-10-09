@@ -207,7 +207,9 @@ class PoolsController < ApplicationController
         flash[:notice] = t "pools.flash.notice.added"
         format.html { redirect_to pools_path }
         format.json { render :json => @pool, :status => :created }
-        format.xml {render :show, :locals => { :pool => @pool, :catalogs => @catalogs }
+        format.xml {render :show,
+                           :status => :created,
+                           :locals => { :pool => @pool, :catalogs => @catalogs }
         }
       else
         flash.now[:warning] = t "pools.flash.warning.creation_failed"

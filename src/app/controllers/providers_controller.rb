@@ -129,7 +129,9 @@ class ProvidersController < ApplicationController
             flash[:notice] = t"providers.flash.notice.added"
             redirect_to edit_provider_path(@provider)
           end
-          format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
+          format.xml { render :partial => 'detail',
+                              :status => :created,
+                              :locals => { :provider => @provider } }
         end
       else
         respond_to do |format|
