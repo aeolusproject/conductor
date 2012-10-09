@@ -504,6 +504,10 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue Oct 09 2012 Steve Linabery <slinaber@redhat.com> - 0.13.18-1
+- build upstream v0.13.18-1
+- this build is to pull in updated converge-ui bits from new build thereof
+
 * Mon Oct 08 2012 Steve Linabery <slinaber@redhat.com> - 0.13.17-1
 - build upstream v0.13.17-1
 
