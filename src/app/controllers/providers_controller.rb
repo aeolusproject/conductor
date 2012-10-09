@@ -137,7 +137,9 @@ class ProvidersController < ApplicationController
             flash[:warning] = t"providers.flash.error.not_added"
             render :action => "new"
           end
-          format.xml { render :template => 'api/validation_error', :locals => { :errors => @provider.errors }, :status => :bad_request }
+          format.xml { render :template => 'api/validation_error',
+                              :locals => { :errors => @provider.errors },
+                              :status => :unprocessable_entity }
         end
       end
     rescue Errno::EACCES
@@ -191,7 +193,9 @@ class ProvidersController < ApplicationController
             @alerts = provider_alerts(@provider)
             render :action => "edit"
           end
-          format.xml { render :template => 'api/validation_error', :locals => { :errors => @provider.errors }, :status => :bad_request }
+          format.xml { render :template => 'api/validation_error',
+                              :locals => { :errors => @provider.errors },
+                              :status => :unprocessable_entity }
         end
       end
     rescue Errno::EACCES

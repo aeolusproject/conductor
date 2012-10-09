@@ -45,7 +45,7 @@ Feature: Manage Providers via API
 
   Scenario: Create a new provider with bad request
     When I create provider with incorrect data via XML
-    Then I should receive Bad Request error
+    Then I should receive Unprocessable Entity error
     And the provider should not be created
 
   Scenario: Update a provider
@@ -57,7 +57,7 @@ Feature: Manage Providers via API
   Scenario: Update a provider with bad request
     Given there is a provider
     When I update that provider with incorrect data via XML
-    Then I should receive Bad Request error
+    Then I should receive Unprocessable Entity error
     And the provider should not be updated
 
     #  Scenario: Attempt to update non existing provider

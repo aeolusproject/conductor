@@ -130,7 +130,7 @@ describe PoolFamiliesController do
         </pool_family>"
         post :create, Hash.from_xml(xmldata)
 
-        response.status.should be_eql(400)
+        response.status.should be_eql(422)
         response.should have_content_type("application/xml")
         response.body.should be_xml
       end
@@ -220,7 +220,7 @@ describe PoolFamiliesController do
         xmldata = "<pool_family><name></name></pool_family>"
         put :update, :id => @pool_family.id, :pool_family => Hash.from_xml(xmldata)["pool_family"]
 
-        response.status.should be_eql(400)
+        response.status.should be_eql(422)
         response.should have_content_type("application/xml")
         response.body.should be_xml
       end
