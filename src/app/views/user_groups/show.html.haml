@@ -8,8 +8,8 @@
       = link_to t('user_groups.new.new_user_group'), new_user_group_url, :class => 'button primary', :id => 'new_user_group_button' unless UserGroup.active_membership_sources.nil?
     .button-group
       - if check_privilege(Privilege::MODIFY, User)
-        = link_to t('edit'), edit_user_group_path(@user_group), :class => 'button pill', :id => 'edit_button'
-        = button_to t("delete"), user_group_path(@user_group), :method => 'delete', :confirm => "Are you sure you want to delete?", :class => 'button pill danger', :id => 'delete'
+        = link_to t('edit'), edit_user_group_path(@user_group), :class => 'button', :id => 'edit_button'
+        = button_to t("delete"), user_group_path(@user_group), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger', :id => 'delete'
   %h1.no-icon= @title
 
 %section.content-section.user
@@ -37,8 +37,8 @@
     .content
       - content_for :form_header do
         - if check_privilege(Privilege::CREATE, Deployable)
+          %li= link_to t("user_groups.show.add_members"), add_members_user_group_path(@user_group), :class => 'button primary', :id => 'add_members_button'
           %li= restful_submit_tag t("remove"), "destroy", remove_members_user_group_path(@user_group), 'DELETE', :id => 'delete_button', :class => 'button danger'
-          %li= link_to t("user_groups.show.add_members"), add_members_user_group_path(@user_group), :class => 'button', :id => 'add_members_button'
 
       - content_for :filter_controls do
         %li

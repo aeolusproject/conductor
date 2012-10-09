@@ -27,3 +27,4 @@
 
       %fieldset.options
         = submit_tag t(:continue), :id => "file_button", :class => "button primary", :disabled => @accounts.empty?
+        = link_to t(:cancel), pool_families_path, :class => "button danger"

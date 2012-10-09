@@ -13,5 +13,5 @@
         = quota_form.text_field :maximum_running_instances
 
 %fieldset.options
+  = form.submit t(:save),  :class => "submit button primary"
   = link_to t('cancel'), pool_families_path, :class => 'button danger'
-  = form.submit t(:save),  :class => "submit button"

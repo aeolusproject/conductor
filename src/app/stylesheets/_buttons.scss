@@ -36,7 +36,9 @@ Application Button Set
     background-image: linear-gradient(#f4f4f4, #ececec);
     -moz-background-clip: padding; /* for Firefox 3.6 */
     background-clip: padding-box;
-    border-radius: 0.2em;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
     /* IE hacks */
     zoom: 1;
     *display: inline;
@@ -46,28 +48,25 @@ Application Button Set
 .button:not(.disable):focus,
 .button:not(.disable):active,
 .button.active {
-    border-color: #3072b3;
-    border-bottom-color: #2a65a0;
-    text-decoration: none;
+    border-color: rgb(100, 100, 100);
+    color: white;
     text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
-    color: #fff;
-    background-color: #3c8dde;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599bdc), to(#3072b3));
-    background-image: -moz-linear-gradient(#599bdc, #3072b3);
-    background-image: -o-linear-gradient(#599bdc, #3072b3);
-    background-image: linear-gradient(#599bdc, #3072b3);
+    background-color: rgb(110, 110, 110);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(125, 125, 125)), to(rgb(95, 95, 95)));
+    background-image: -moz-linear-gradient(rgb(230, 230, 230), rgb(95, 95, 95));
+    background-image: -o-linear-gradient(rgb(230, 230, 230), rgb(95, 95, 95));
+    background-image: linear-gradient(rgb(230, 230, 230), rgb(95, 95, 95));
 }
 
 .button:not(.disable):active,
 .button.active {
-    border-color: #2a65a0;
-    border-bottom-color: #3884cd;
-    background-color: #3072b3;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3072b3), to(#599bdc));
-    background-image: -moz-linear-gradient(#3072b3, #599bdc);
-    background-image: -ms-linear-gradient(#3072b3, #599bdc);
-    background-image: -o-linear-gradient(#3072b3, #599bdc);
-    background-image: linear-gradient(#3072b3, #599bdc);
+    border-color: rgb(80, 80, 80);
+    background-color: rgb(90, 90, 90);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(85, 85, 85)), to(rgb(95, 95, 95)));
+    background-image: -moz-linear-gradient(rgb(85, 85, 85), rgb(95, 95, 95));
+    background-image: -o-linear-gradient(rgb(85, 85, 85), rgb(95, 95, 95));
+    background-image: linear-gradient(rgb(85, 85, 85), rgb(95, 95, 95));
+
 }
 
 /* overrides extra padding on button elements in Firefox */
@@ -84,7 +83,35 @@ Application Button Set
    ========================================================================== */
 
 .button.primary {
-    font-weight: bold;
+  font-weight: bold;
+
+  &:not(.disable):hover,
+  &:not(.disable):focus,
+  &:not(.disable):active,
+  &.active {
+    border-color: #3072b3;
+    border-bottom-color: #2a65a0;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+    color: #fff;
+    background-color: #3c8dde;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599bdc), to(#3072b3));
+    background-image: -moz-linear-gradient(#599bdc, #3072b3);
+    background-image: -o-linear-gradient(#599bdc, #3072b3);
+    background-image: linear-gradient(#599bdc, #3072b3);
+  }
+
+  &:not(.disable):active,
+  &.active {
+    border-color: #2a65a0;
+    border-bottom-color: #3884cd;
+    background-color: #3072b3;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3072b3), to(#599bdc));
+    background-image: -moz-linear-gradient(#3072b3, #599bdc);
+    background-image: -ms-linear-gradient(#3072b3, #599bdc);
+    background-image: -o-linear-gradient(#3072b3, #599bdc);
+    background-image: linear-gradient(#3072b3, #599bdc);
+  }
 }
 
 /* Danger button
@@ -100,6 +127,7 @@ Application Button Set
     border-color: #b53f3a;
     border-bottom-color: #a0302a;
     color: #fff;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
     background-color: #dc5f59;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dc5f59), to(#b33630));
     background-image: -moz-linear-gradient(#dc5f59, #b33630);
@@ -241,6 +269,12 @@ Application Button Set
   -webkit-border-radius: 0em 50em;
   -moz-border-radius: 0em 50em 50em 0em;
   border-radius: 0em 50em 50em 0em;
+}
+
+.button-group .button_to:not(:only-child) div .button{
+  -webkit-border-radius: 0 3px;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
 }
 
 /* Launch deployment button

@@ -1,4 +1,10 @@
 - content_for :permissions_form_header do
+  %span{:id => ("tab-container-1-nav" unless @inline)}
+    - if @show_inherited
+      %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :page => 1), { :class => 'button primary', :id => 'direct_permission_button'}
+    - else
+      %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :page => 1), { :class => 'button primary', :id => 'inherited_permission_button'}
+
   - if not(@show_inherited) && check_privilege(Privilege::PERM_SET)
     %li= restful_submit_tag t('permissions.revoke_access'), "destroy", multi_destroy_permissions_path, 'DELETE', :id => 'revoke_button', :class => 'button danger'
     %li= restful_submit_tag t('edit'), "multi_update", multi_update_permissions_path, 'POST', :id => 'perm_edit_button', :class => 'hidden'
@@ -7,11 +13,6 @@
     = hidden_field_tag :path_prefix, @path_prefix
     = hidden_field_tag :return_path, url_for(@entity.entity_target)
     = hidden_field_tag :use_tabs, @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')
-  %span{:id => ("tab-container-1-nav" unless @inline)}
-    - if @show_inherited
-      %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :page => 1), { :class => 'button primary', :id => 'direct_permission_button'}
-    - else
-      %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :page => 1), { :class => 'button primary', :id => 'inherited_permission_button'}
 
 - content_for :permissions_filter_controls do
   %li

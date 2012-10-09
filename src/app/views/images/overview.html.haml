@@ -19,5 +19,6 @@
 
       .centered
         %fieldset.align-center
-          = submit_tag t('.back'), :name => 'back', :id => 'back_button', :class => 'button'
           = submit_tag t('.save_template'), :name => 'save', :id => 'save_button', :class => 'button primary'
+          = submit_tag t('.edit_xml'), :name => 'back', :id => 'back_button', :class => 'button'
+          = link_to t(:cancel), pool_families_path, :class => 'button danger'

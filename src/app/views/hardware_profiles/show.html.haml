@@ -5,8 +5,8 @@
       = link_to t('hardware_profiles.list.new_hardware'), new_hardware_profile_url, :class => 'button primary', :id => 'new_role_button'
     .button-group
       - if check_privilege(Privilege::MODIFY, @hardware_profile) && !@hardware_profile.provider_hardware_profile?
-        = link_to t('edit'), edit_hardware_profile_path(@hardware_profile), :class => 'button pill', :id => 'edit_button'
-        = button_to t('delete'), hardware_profile_path(@hardware_profile), :method => :delete, :confirm => "Are you sure you want to delete?", :class => 'button pill danger'
+        = link_to t('edit'), edit_hardware_profile_path(@hardware_profile), :class => 'button', :id => 'edit_button'
+        = button_to t('delete'), hardware_profile_path(@hardware_profile), :method => :delete, :confirm => t('general.delete_confirmation'), :class => 'button danger'
   %h1.hardware_profiles= @title
 %section.content-section.hardware_profile
   %header

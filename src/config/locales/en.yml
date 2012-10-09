@@ -203,6 +203,7 @@ en:
   manage_providers: Manage Providers
   provider_summary: Provider Summary
   provider_accounts: Provider Accounts
+  edit_provider_account: Edit Provider Account
   scheduling_policies: Scheduling Policies
   services_provided: Services Provided
   map_profiles: Map Profiles
@@ -1028,7 +1029,7 @@ en:
         The markup and image references in "%{name}" were succesfully
         validated. You may now save the image and create a Deployable.
       make_deployable: Automatically make "%{name}" Deployable.
-      back: Back
+      edit_xml: View and Edit Template XML
       save_template: Save Image Template
     not_on_provider: The requested image was not found on the Provider.
   template_xml:
@@ -1580,3 +1581,5 @@ en:
     deployables: Deployables
     deployments: Deployments
     logs: Logs
+  general:
+    delete_confirmation: "Are you sure you want to delete?"

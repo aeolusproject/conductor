@@ -29,8 +29,8 @@
         = check_box_tag(:edit_xml, true, false)
 
   %fieldset.options
+    = submit_tag t('save'), :name => 'save', :class => 'button primary', :id => 'save_button'
     -if @catalog.present?
       = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
     -else
       = link_to t('cancel'), deployables_path, :class => 'button danger'
-    = submit_tag t('save'), :name => 'save', :class => 'button primary', :id => 'save_button'
