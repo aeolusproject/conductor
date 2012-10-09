@@ -210,7 +210,7 @@ describe ProvidersController do
           context "with correct parameters" do
             let(:provider) { FactoryGirl.build(:mock_provider) }
 
-            it_behaves_like "http OK"
+            it_behaves_like "http Created"
             it_behaves_like "responding with XML"
 
             context "XML body" do

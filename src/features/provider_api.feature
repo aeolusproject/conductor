@@ -40,7 +40,7 @@ Feature: Manage Providers via API
 
   Scenario: Create a new provider
     When I create provider with correct data via XML
-    Then I should receive OK message
+    Then I should receive Created message
     And the provider should be created
 
   Scenario: Create a new provider with bad request
