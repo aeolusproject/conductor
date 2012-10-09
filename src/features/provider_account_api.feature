@@ -37,7 +37,7 @@ Feature: Manage Provider Accounts via API
 
   Scenario: Create a new provider account with bad request
     When I create provider account with incorrect data
-    Then I should receive Bad Request error
+    Then I should receive Unprocessable Entity error
     And the provider account should not be created
 
   Scenario: Update a provider account
@@ -49,7 +49,7 @@ Feature: Manage Provider Accounts via API
   Scenario: Update a provider account with bad request
     Given there is a provider account
     When I update that provider account with incorrect data
-    Then I should receive Bad Request error
+    Then I should receive Unprocessable Entity error
     And the provider account should not be updated
 
   Scenario: Attempt to update non existing provider account

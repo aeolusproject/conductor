@@ -62,7 +62,7 @@ class PoolFamiliesController < ApplicationController
         format.html { render :new and return }
         format.xml { render :template => 'api/validation_error',
           :locals => { :errors => @pool_family.errors },
-          :status => :bad_request}
+          :status => :unprocessable_entity }
       end
     end
   end
@@ -95,7 +95,7 @@ class PoolFamiliesController < ApplicationController
         }
         format.xml { render :template => 'api/validation_error',
           :locals => { :errors => @pool_family.errors },
-          :status => :bad_request}
+          :status => :unprocessable_entity }
       end
     end
   end
