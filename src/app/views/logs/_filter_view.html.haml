@@ -25,11 +25,13 @@
 = filter_table(@header, @paginated_events) do |event|
   - source = event.source
   - provider_account = source.nil? ? nil : source.provider_account
+  - pool_family = source.nil? ? nil : source.pool_family
+  - pool = source.nil? ? nil : source.pool
   %tr{:class => cycle('nostripe','stripe')}
     %td= event.event_time.strftime("%d-%b-%Y %H:%M:%S")
     %td= source.nil? ? t('logs.index.not_available') : source.name
     %td= source.nil? ? t('logs.index.not_available') : source.state
-    %td= source.nil? ? t('logs.index.not_available') : source.pool_family.name + "/" + source.pool.name
+    %td= (pool_family.nil? || pool.nil?) ? t('logs.index.not_available') : pool_family.name + "/" + pool.name
     %td= provider_account.nil? ? t('logs.index.not_available') : provider_account.provider.name + "/" + provider_account.name
     %td= source.nil? ? t('logs.index.not_available') : source.owner.username
     %td= event.summary
