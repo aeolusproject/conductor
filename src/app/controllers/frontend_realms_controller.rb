@@ -14,15 +14,15 @@
 #   limitations under the License.
 #
 
-class RealmsController < ApplicationController
+class FrontendRealmsController < ApplicationController
   before_filter :require_user
   before_filter :load_realms, :only =>[:index, :show]
 
   def index
     @title = t('realms.realms')
     clear_breadcrumbs
-    save_breadcrumb(realms_path)
-    set_admin_content_tabs 'realms'
+    save_breadcrumb(frontend_realms_path)
+    set_admin_content_tabs 'frontend_realms'
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
@@ -53,7 +53,7 @@ class RealmsController < ApplicationController
 
     if @realm.update_attributes(params[:frontend_realm])
       flash[:notice] = t"realms.flash.notice.updated"
-      redirect_to realms_url and return
+      redirect_to frontend_realms_url and return
     end
 
     load_backend_realms
@@ -80,7 +80,7 @@ class RealmsController < ApplicationController
     else
       flash[:error] = t"realms.flash.error.not_deleted"
     end
-    redirect_to realms_path
+    redirect_to frontend_realms_path
   end
 
   def multi_destroy
@@ -105,7 +105,7 @@ class RealmsController < ApplicationController
     unless not_deleted.empty?
       flash[:error] = "#{t('realms.flash.error.more_not_deleted')} #{not_deleted.join(', ')}"
     end
-    redirect_to realms_path
+    redirect_to frontend_realms_path
   end
 
   def show
@@ -118,7 +118,7 @@ class RealmsController < ApplicationController
     @backend_realm_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Realm' }
     @backend_provider_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Provider' }
 
-    save_breadcrumb(realm_path(@realm), @realm.name)
+    save_breadcrumb(frontend_realm_path(@realm), @realm.name)
     load_backend_realms
 
     respond_to do |format|

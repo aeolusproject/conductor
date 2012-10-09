@@ -31,7 +31,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class Realm < ActiveRecord::Base
+class ProviderRealm < ActiveRecord::Base
   class << self
     include CommonFilterMethods
   end

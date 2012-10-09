@@ -17,4 +17,4 @@
 
     %fieldset.options
       = f.submit t("save"),  :class => "submit button"
-      = link_to t(:cancel), realm_path(@realm_target.frontend_realm_id), :class => 'button danger'
+      = link_to t(:cancel), frontend_realm_path(@realm_target.frontend_realm_id), :class => 'button danger'

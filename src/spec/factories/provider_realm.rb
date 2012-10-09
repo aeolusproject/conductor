@@ -16,25 +16,25 @@
 
 FactoryGirl.define do
 
-  factory :realm do
-    sequence(:name) { |n| "realm#{n}" }
+  factory :provider_realm do
+    sequence(:name) { |n| "provider_realm#{n}" }
     sequence(:external_key) { |n| "key#{n}" }
     association(:provider)
   end
 
-  factory :realm1, :parent => :realm do
+  factory :provider_realm1, :parent => :provider_realm do
   end
 
-  factory :realm2, :parent => :realm do
+  factory :provider_realm2, :parent => :provider_realm do
   end
 
-  factory :realm3, :parent => :realm do
+  factory :provider_realm3, :parent => :provider_realm do
   end
 
-  factory :realm4, :parent => :realm do
+  factory :provider_realm4, :parent => :provider_realm do
   end
 
-  factory :backend_realm, :parent => :realm do
+  factory :backend_realm, :parent => :provider_realm do
     name 'backend_name'
     external_key 'backend_key'
   end

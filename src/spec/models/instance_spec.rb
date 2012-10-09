@@ -268,7 +268,7 @@ describe Instance do
   it "shouldn't match frontend realms mapped to unavailable realms" do
     build = @instance.image_build || @instance.image.latest_pushed_build
     provider = FactoryGirl.create(:mock_provider_with_unavailable_realm, :name => build.provider_images.first.provider_name)
-    realm_target = FactoryGirl.create(:realm_backend_target, :realm_or_provider => provider.realms.first)
+    realm_target = FactoryGirl.create(:realm_backend_target, :realm_or_provider => provider.provider_realms.first)
     @instance.frontend_realm = realm_target.frontend_realm
     @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
     @instance.matches.last.should include(I18n.t('instances.errors.realm_not_mapped', :account_name => 'testaccount', :frontend_realm_name => @instance.frontend_realm.name))

@@ -211,7 +211,7 @@ Conductor::Application.routes.draw do
     end
   end
 
-  resources :realms do
+  resources :frontend_realms do
     delete 'multi_destroy', :on => :collection
     post :filter, :on => :collection
   end

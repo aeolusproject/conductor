@@ -16,7 +16,7 @@
 
 require 'spec_helper'
 
-describe Realm do
+describe RealmBackendTarget do
 
   before(:each) do
     @provider = FactoryGirl.create :mock_provider
