@@ -79,5 +79,5 @@ Feature: Pool Families
     And I am on the pool family provider accounts page
     Then I should see "testaccount"
     When I check the "testaccount" account
-    And I press "Remove Accounts"
+    And I press "remove_button"
     Then there should not exist a provider account assigned to "testpoolfamily"

@@ -22,4 +22,5 @@
       = form.text_area :description, :class => 'long'
 
 %fieldset.options
-  = form.submit "#{t'user_groups.form.save_user_group'}",  :class => "submit button pill"
+  = form.submit "#{t'user_groups.form.save_user_group'}",  :class => "submit button primary"
+  = link_to t('cancel'), @user_group, :class => "button danger"

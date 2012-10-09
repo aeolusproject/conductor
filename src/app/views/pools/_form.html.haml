@@ -23,7 +23,7 @@
       = form.label :enabled, "#{t('pools.form.pool_enabled')}?", :class => 'checkbox'
 
   %fieldset.options
-    = form.submit t("save"), :class => 'button', :id => 'save_button'
+    = form.submit t("save"), :class => 'button primary', :id => 'save_button'
     - if @pool.pool_family
       = link_to t('cancel'), pool_families_path, :class => 'button danger'
     - else

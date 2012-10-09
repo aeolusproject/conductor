@@ -5,7 +5,7 @@
   .content
     - content_for :form_header do
       - if check_privilege(Privilege::CREATE, Provider)
-        %li= link_to t("providers.index.create_new_provider"), new_provider_path, :class => 'button', :id => "create_new_provider"
+        %li= link_to t("providers.index.create_new_provider"), new_provider_path, :class => 'button primary', :id => "create_new_provider"
 
     - content_for :filter_controls do
       %li

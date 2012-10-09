@@ -1,6 +1,6 @@
 - content_for :form_header do
   - if check_privilege(Privilege::CREATE, Pool)
-    %li= link_to "#{t'pools.new_pool'}", new_pool_path, { :class => 'button', :id => 'new_pool_button' }
+    %li= link_to "#{t'pools.new_pool'}", new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
   %li= restful_submit_tag "#{t'pools.index.destroy'}", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
 - content_for :filter_controls do

@@ -1,7 +1,7 @@
 %header
   .section-controls
     - if check_privilege(Privilege::CREATE, PoolFamily)
-      = link_to t("pool_families.index.new_pool_family"), new_pool_family_path, :class => 'button pill', :id => 'new_pool_family_button'
+      = link_to t("pool_families.index.new_pool_family"), new_pool_family_path, :class => 'button primary', :id => 'new_pool_family_button'
   %h2.pools= @title
 
 .content
@@ -15,10 +15,11 @@
               = link_to pool_family.name, pool_family
             .section-controls
               - if check_privilege(Privilege::CREATE, Pool, pool_family)
-                = link_to t("pools.new_pool"), new_pool_path(:pool_family_id => pool_family.id), :class => 'pool_family_button'
+                = link_to t("pools.new_pool"), new_pool_path(:pool_family_id => pool_family.id), :class => 'button primary'
               - if pool_family.pools.any? && check_privilege(Privilege::USE, pool_family)
-                = link_to t("images.import.import_image"), new_image_path(:environment => pool_family.id, :tab => 'import'), :class => 'new_image_button'
-                = link_to t("images.new.new_image"), new_image_path( :environment => pool_family.id), :class => 'new_image_button'
+                .button-group
+                  = link_to t("images.import.import_image"), new_image_path(:environment => pool_family.id, :tab => 'import'), :class => 'button primary'
+                  = link_to t("images.new.new_image"), new_image_path( :environment => pool_family.id), :class => 'button primary'
       - unless pool_family.pools.blank?
         %tr
           %th= t("pool_families.index.pool_name")
@@ -50,9 +51,9 @@
             %td= link_to pool.catalogs.first.name, catalog_path(pool.catalogs.first) if pool.catalogs.any?
             %td
               - if check_privilege(Privilege::MODIFY, pool)
-                = link_to t(:edit), edit_pool_path(pool), :class => 'pool_family_button'
-            %td= link_to t('pool_families.index.provider_selection'), pool_provider_selection_path(pool), :class => 'pool_family_button'
-        %tr
+                = link_to t(:edit), edit_pool_path(pool), :class => 'button'
+            %td= link_to t('pool_families.index.provider_selection'), pool_provider_selection_path(pool), :class => 'button'
+        %tr.total
           %td= t("pool_families.index.total_statistics")
           %td= family_stats[:deployments]
           %td= family_stats[:total_instances]

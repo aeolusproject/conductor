@@ -11,4 +11,5 @@
       = form.text_area :description, :title => 'description', :value => @realm.description, :class => 'long'
 
 %fieldset.options
-  = form.submit t('save'), :class => "submit button"
+  = form.submit t('save'), :class => "submit button primary"
+  = link_to t('cancel'), realms_path, :class => 'button danger'
