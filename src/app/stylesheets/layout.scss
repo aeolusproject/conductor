@@ -225,6 +225,10 @@ Page Header -- v.0.0.1 [header] (header.scss)
     padding: 7px;
   }
 
+  h1.catalogs{
+    background: transparent url('../../images/header_icon_catalogs.png') no-repeat 8px center;
+  }
+
   h1.pools{
     background: transparent url('../../images/header_icon_pools.png') no-repeat 8px center;
   }

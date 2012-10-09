@@ -910,12 +910,10 @@ en:
       name: Name
       catalog_name: Catalog Name
     new:
-      add_catalog: Add New Catalog
+      new_catalog: New Catalog
     edit:
-      edit_catalog: Editing Catalog
+      edit_catalog: Edit Catalog
       cancel_editing: Cancel Editing
-    form:
-      select_pool: Select Pool
     flash:
       notice:
         updated:

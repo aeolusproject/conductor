@@ -46,10 +46,8 @@ class Catalog < ActiveRecord::Base
   before_create :set_pool_family
   after_update :update_deployable_permissions
 
-  validates_presence_of :pool
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates_length_of :name, :maximum => 1024
+  validates :pool_id, :presence => true
+  validates :name, :presence => true, :uniqueness => true, :length => { :within => 1..100 }
 
   def perm_ancestors
     super + [pool, pool_family]
