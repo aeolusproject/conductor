@@ -118,7 +118,7 @@ class PoolsController < ApplicationController
 
   def show
     @pool = Pool.find(params[:id])
-    @title = t('pools.header_show.pool_name', :name => @pool.name)
+    @title = @pool.name
     save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
     require_privilege(Privilege::VIEW, @pool)
     @statistics = @pool.statistics(current_session, current_user)
