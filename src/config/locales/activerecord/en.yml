@@ -36,6 +36,7 @@ en:
       session: "Session"
       task: "Task"
       user: "User"
+      user_group: "User Group"
       view_state: "View State"
       user_group: User Group
     attributes:

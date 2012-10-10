@@ -36,5 +36,7 @@ en:
         email: 'Must be a valid email address.'
         username: 'Must be a unique username with at least 1 character and at most 100 characters.'
         password: 'Must be a unique password with at least 4 character and at most 255 characters.'
+      user_group:
+        name: 'Must be a unique name with at least 1 character and at most 100 characters.'
       quota:
         maximum_running_instances: 'Must be a positive whole number less than 2147483647.'
