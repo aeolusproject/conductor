@@ -2224,6 +2224,20 @@ table.pool_families{
     .caption_content{padding: 8px;}
   }
 
+  td,
+  th {
+    text-align: center;
+
+    &:first-child {
+      width: 100%;
+      text-align: left;
+    }
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
   th{
     background: rgb(225, 225, 225);
     padding: 2px 8px;

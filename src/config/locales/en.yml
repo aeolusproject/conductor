@@ -816,7 +816,6 @@ en:
       enabled: Enabled
       answer_yes: "Yes"
       answer_no: "No"
-      catalog: "Catalog"
       total_statistics: Total
       provider_selection: 'Provider Selection'
     new:
