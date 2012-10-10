@@ -8,9 +8,7 @@
   %h1.pool_families= @title
 
 %section.content-section.pool_family
-  %header
-    %h2.settings= t("settings.settings")
-
   .content
-    = form_for @pool_family, :url => pool_family_path(@pool_family), :html => { :method => :put, :class => 'generic horizontal' } do |f|
-      = render :partial => 'form', :locals => { :form => f, :cancel_path => providers_path }
+    = conductor_form_for @pool_family do |f|
+      = render :partial => "form", :locals => { :form => f }
+      = f.button :form_buttons, :cancel => pool_families_path

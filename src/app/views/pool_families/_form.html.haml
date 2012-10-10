@@ -1,17 +1,3 @@
-- if @pool_family.errors.any?
-  = render 'layouts/error_messages', :object => @pool_family
-%fieldset
-  .field
-    = form.label :name, :class => 'em'
-    .input
-      = form.text_field :name, :value => @pool_family.name, :class => 'em long'
-
-  = form.fields_for :quota do |quota_form|
-    .field
-      = quota_form.label :maximum_running_instances, t(:maximum_running_instances)
-      .input
-        = quota_form.text_field :maximum_running_instances
-
-%fieldset.options
-  = form.submit t(:save),  :class => "submit button primary"
-  = link_to t('cancel'), pool_families_path, :class => 'button danger'
+= form.input :name
+= form.fields_for :quota do |quota_form|
+  = quota_form.input :maximum_running_instances, :as => :numeric_input_with_unlimited_check_box
