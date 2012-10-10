@@ -17,6 +17,9 @@
 class RenameRealmToProviderRealm < ActiveRecord::Migration
   def self.up
     rename_table :realms, :provider_realms
+    if ActiveRecord::Base.connection.tables.include?('provider_accounts_provider_realms')
+      drop_table :provider_accounts_provider_realms
+    end
     rename_table :provider_accounts_realms, :provider_accounts_provider_realms
     rename_column :provider_accounts_provider_realms, :realm_id, :provider_realm_id
   end
