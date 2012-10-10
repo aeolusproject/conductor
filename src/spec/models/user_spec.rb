@@ -111,6 +111,23 @@ describe User do
     u.id.should == user.id
   end
 
+  it "should authenticate a existing user against LDAP and increment login count" do
+    user = FactoryGirl.create(:tuser, :ignore_password => true, :password => nil)
+    Ldap.should_receive(:valid_ldap_authentication?).and_return(true)
+    u = User.authenticate_using_ldap(user.username, 'random', user.last_login_ip)
+    u.failed_login_count.should be(0)
+    u.login_count.should be(1)
+  end
+
+  it "should not authenticate a existing user against LDAP and increment failed login count" do
+    user = FactoryGirl.create(:tuser, :ignore_password => true, :password => nil)
+    Ldap.should_receive(:valid_ldap_authentication?).and_return(false)
+    User.authenticate_using_ldap(user.username, 'random', user.last_login_ip)
+    user.reload
+    user.login_count.should be(0)
+    user.failed_login_count.should be(1)
+  end
+
   it "should authenticate a user with valid kerberos ticket" do
     User.authenticate_using_krb('krbuser', '192.168.1.1').should_not be_nil
     u = User.find_by_username('krbuser')

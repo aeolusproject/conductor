@@ -122,9 +122,13 @@ class User < ActiveRecord::Base
   def self.authenticate_using_ldap(username, password, ipaddress)
     if Ldap.valid_ldap_authentication?(username, password)
       u = User.find_by_username(username) || create_ldap_user!(username)
-      u.login_count += 1
       update_login_attributes(u, ipaddress)
     else
+      u = User.find_by_username(username)
+      if u.present?
+        u.failed_login_count += 1
+        u.save!
+      end
       u = nil
     end
     u.save! unless u.nil?
@@ -133,7 +137,6 @@ class User < ActiveRecord::Base
 
   def self.authenticate_using_krb(username, ipaddress)
     u = User.find_by_username(username) || create_krb_user!(username)
-    u.login_count += 1
     update_login_attributes(u, ipaddress)
     u.save!
     u
