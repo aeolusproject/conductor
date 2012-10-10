@@ -1,14 +1,14 @@
 = form_tag multi_destroy_realm_mappings_path(:frontend_realm_id => @realm.id) do
   %header
-    - if check_privilege(Privilege::MODIFY, ProviderRealm)
+    - if check_privilege(Privilege::MODIFY, FrontendRealm)
       .section-controls
         - if @realm.realm_backend_targets and !@realm.realm_backend_targets.empty?
           = submit_tag t('realms.list.delete_selected'), :id => 'delete_mapping_button', :class => 'button pill danger', :confirm => t("realms.show.sure_to_delete")
         .button-group
           - if @backend_realms and !@backend_realms.empty?
-            = link_to t('realms.mapping.mapping_realm'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Realm'), :class => "button pill", :id => 'mapping_to_realm_button'
+            = link_to t('realms.mapping.mapping_realm'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :provider_realm_or_provider_type => 'ProviderRealm'), :class => "button pill", :id => 'mapping_to_realm_button'
           - if @providers and !@providers.empty?
-            = link_to t('realms.mapping.mapping_provider'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :realm_or_provider_type => 'Provider'), :class => "button pill", :id => 'mapping_to_provider_button'
+            = link_to t('realms.mapping.mapping_provider'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :provider_realm_or_provider_type => 'Provider'), :class => "button pill", :id => 'mapping_to_provider_button'
     %h2= t'realms.show.realm_mapping'
 
   .content
@@ -19,7 +19,7 @@
           - @backend_provider_targets.each do |backend|
             %tr{:class => cycle('nostripe','stripe')}
               %td.checkbox= check_box_tag "id[]", backend.id, false, :id => "backend_id_#{backend.id}"
-              %td= backend.realm_or_provider.name
+              %td= backend.provider_realm_or_provider.name
 
     %fieldset
       - unless @backend_realm_targets.empty?

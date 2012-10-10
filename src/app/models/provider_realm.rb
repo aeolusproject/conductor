@@ -38,7 +38,7 @@ class ProviderRealm < ActiveRecord::Base
   belongs_to :provider
   has_and_belongs_to_many :provider_accounts, :uniq => true
 
-  has_many :realm_backend_targets, :as => :realm_or_provider, :dependent => :destroy
+  has_many :realm_backend_targets, :as => :provider_realm_or_provider, :dependent => :destroy
   has_many :frontend_realms, :through => :realm_backend_targets
 
   validates_presence_of :external_key

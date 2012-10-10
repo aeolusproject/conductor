@@ -29,7 +29,7 @@ class ProviderRealmsController < ApplicationController
   end
 
   def show
-    @realm = Realm.find(params[:id])
+    @realm = ProviderRealm.find(params[:id])
     @title = @realm.name
 
     @tab_captions = [t('realms.tab_captions.properties'), t('realms.tab_captions.mapping')]
@@ -65,6 +65,6 @@ class ProviderRealmsController < ApplicationController
       {:name => '', :sortable => false},
       {:name => t("provider_realms.name"), :sort_attr => :name},
     ]
-    @realms = Realm.apply_filters(:preset_filter_id => params[:provider_realms_preset_filter], :search_filter => params[:provider_realms_search])
+    @realms = ProviderRealm.apply_filters(:preset_filter_id => params[:provider_realms_preset_filter], :search_filter => params[:provider_realms_search])
   end
 end

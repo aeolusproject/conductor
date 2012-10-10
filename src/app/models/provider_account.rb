@@ -396,13 +396,13 @@ class ProviderAccount < ActiveRecord::Base
             # add match if realm is mapped to provider or if it's mapped to
             # backend realm which is available and is accessible for this
             # provider account
-            if (brealm_target.target_realm.nil? || (brealm_target.target_realm.available && realms.include?(brealm_target.target_realm)))
+            if (brealm_target.target_realm.nil? || (brealm_target.target_realm.available && provider_realms.include?(brealm_target.target_realm)))
               matched << InstanceMatch.new(
                 :pool_family => instance.pool.pool_family,
                 :provider_account => self,
                 :hardware_profile => hwp,
                 :provider_image => pi.target_identifier,
-                :realm => brealm_target.target_realm,
+                :provider_realm => brealm_target.target_realm,
                 :instance => instance
               )
             end
@@ -413,7 +413,7 @@ class ProviderAccount < ActiveRecord::Base
             :provider_account => self,
             :hardware_profile => hwp,
             :provider_image => pi.target_identifier,
-            :realm => nil,
+            :provider_realm => nil,
             :instance => instance
           )
         end

@@ -8,12 +8,12 @@
 
   = form_for @realm_target, :url => realm_mappings_path, :html => {:class => 'generic'} do |f|
     = f.hidden_field :frontend_realm_id
-    = f.hidden_field :realm_or_provider_type
+    = f.hidden_field :provider_realm_or_provider_type
 
     %fieldset
       .field
-        - label_method = @realm_target.realm_or_provider_type == 'Realm' ? 'name_with_provider' : 'name'
-        = select_tag 'realm_backend_target[realm_or_provider_id]', options_from_collection_for_select(@backend_targets, 'id', label_method)
+        - label_method = @realm_target.provider_realm_or_provider_type == 'ProviderRealm' ? 'name_with_provider' : 'name'
+        = select_tag 'realm_backend_target[provider_realm_or_provider_id]', options_from_collection_for_select(@backend_targets, 'id', label_method)
 
     %fieldset.options
       = f.submit t("save"),  :class => "submit button"

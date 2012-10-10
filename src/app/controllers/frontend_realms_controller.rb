@@ -30,20 +30,20 @@ class FrontendRealmsController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, ProviderRealm)
+    require_privilege(Privilege::CREATE, FrontendRealm)
     @realm = FrontendRealm.new
     load_backend_realms
   end
 
   def edit
-    require_privilege(Privilege::MODIFY, ProviderRealm)
+    require_privilege(Privilege::MODIFY, FrontendRealm)
     @realm = FrontendRealm.find(params[:id])
     @title = @realm.name
     load_backend_realms
   end
 
   def update
-    require_privilege(Privilege::MODIFY, ProviderRealm)
+    require_privilege(Privilege::MODIFY, FrontendRealm)
     @realm = FrontendRealm.find(params[:id])
     @title = @realm.name || t("realms.realm")
 
@@ -61,12 +61,12 @@ class FrontendRealmsController < ApplicationController
   end
 
   def create
-    require_privilege(Privilege::CREATE, ProviderRealm)
+    require_privilege(Privilege::CREATE, FrontendRealm)
     #@provider = Provider.find(params[:provider_id])
     @realm = FrontendRealm.new(params[:frontend_realm])
     if @realm.save
       flash[:notice] = t"realms.flash.notice.added"
-      redirect_to realm_path(@realm)
+      redirect_to frontend_realm_path(@realm)
     else
       load_backend_realms
       render :new
@@ -74,7 +74,7 @@ class FrontendRealmsController < ApplicationController
   end
 
   def destroy
-    require_privilege(Privilege::MODIFY, ProviderRealm)
+    require_privilege(Privilege::MODIFY, FrontendRealm)
     if FrontendRealm.destroy(params[:id])
       flash[:notice] = t "realms.flash.notice.deleted"
     else
@@ -90,7 +90,7 @@ class FrontendRealmsController < ApplicationController
       flash[:error] = t"realms.flash.error.select_to_delete"
     else
       FrontendRealm.find(params[:realm_selected]).each do |realm|
-        require_privilege(Privilege::MODIFY, ProviderRealm)
+        require_privilege(Privilege::MODIFY, FrontendRealm)
         if realm.destroy
           deleted << realm.name
         else
@@ -115,8 +115,8 @@ class FrontendRealmsController < ApplicationController
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     @details_tab = 'properties' unless ['properties', 'mapping'].include?(@details_tab)
 
-    @backend_realm_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Realm' }
-    @backend_provider_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Provider' }
+    @backend_realm_targets = @realm.realm_backend_targets.select { |x| x.provider_realm_or_provider_type == 'ProviderRealm' }
+    @backend_provider_targets = @realm.realm_backend_targets.select { |x| x.provider_realm_or_provider_type == 'Provider' }
 
     save_breadcrumb(frontend_realm_path(@realm), @realm.name)
     load_backend_realms

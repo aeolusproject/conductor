@@ -22,9 +22,25 @@ class RenameRealmToProviderRealm < ActiveRecord::Migration
     end
     rename_table :provider_accounts_realms, :provider_accounts_provider_realms
     rename_column :provider_accounts_provider_realms, :realm_id, :provider_realm_id
+    Privilege.where(:target_type => 'Realm').each do |priv|
+      priv.target_type = 'FrontendRealm'
+      priv.save!
+    end
+    rename_column :realm_backend_targets, :realm_or_provider_id, :provider_realm_or_provider_id
+    rename_column :realm_backend_targets, :realm_or_provider_type, :provider_realm_or_provider_type
+    rename_column :instance_matches, :realm_id, :provider_realm_id
+    rename_column :deployments, :realm_id, :provider_realm_id
   end
 
   def self.down
+    rename_column :deployments, :provider_realm_id, :realm_id
+    rename_column :instance_matches, :provider_realm_id, :realm_id
+    rename_column :realm_backend_targets, :provider_realm_or_provider_type, :realm_or_provider_type
+    rename_column :realm_backend_targets, :provider_realm_or_provider_id, :realm_or_provider_id
+    Privilege.where(:target_type => 'FrontendRealm').each do |priv|
+      priv.target_type = 'Realm'
+      priv.save!
+    end
     rename_column :provider_accounts_provider_realms, :provider_realm_id, :realm_id
     rename_table :provider_accounts_provider_realms, :provider_accounts_realms
     rename_table :provider_realms, :realms
