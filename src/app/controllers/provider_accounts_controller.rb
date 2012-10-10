@@ -37,7 +37,7 @@ class ProviderAccountsController < ApplicationController
     @provider_account = ProviderAccount.find(params[:id])
     @title = t('provider_accounts.show.account', :name => @provider_account.name)
     @provider = Provider.find_by_id(params[:provider_id])
-    @realms = @provider_account.realms.
+    @realms = @provider_account.provider_realms.
                                 apply_filters(:preset_filter_id => params[:provider_realms_preset_filter],
                                               :search_filter => params[:provider_realms_search])
     @account_id = @provider_account.credentials_hash['account_id']

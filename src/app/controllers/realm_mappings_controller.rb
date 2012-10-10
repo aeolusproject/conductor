@@ -18,18 +18,18 @@ class RealmMappingsController < ApplicationController
   before_filter :require_user
 
   def new
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, FrontendRealm)
     @title = t'realm_mappings.new.create_new'
-    @realm_target = RealmBackendTarget.new(:frontend_realm_id => params[:frontend_realm_id], :realm_or_provider_type => params[:realm_or_provider_type])
+    @realm_target = RealmBackendTarget.new(:frontend_realm_id => params[:frontend_realm_id], :provider_realm_or_provider_type => params[:provider_realm_or_provider_type])
     load_backend_targets
   end
 
   def create
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, FrontendRealm)
     @realm_target = RealmBackendTarget.new(params[:realm_backend_target])
     if @realm_target.save
       flash[:notice] = t"realms.flash.notice.added_mapping"
-      redirect_to realm_path(@realm_target.frontend_realm, :details_tab => 'mapping') and return
+      redirect_to frontend_realm_path(@realm_target.frontend_realm, :details_tab => 'mapping') and return
       #redirect_to realms_path and return
     end
 
@@ -38,24 +38,24 @@ class RealmMappingsController < ApplicationController
   end
 
   def multi_destroy
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, FrontendRealm)
     if params[:id].blank?
       flash[:error] = t"realms.flash.error.select_to_delete_mapping"
-      redirect_to realm_path(params[:frontend_realm_id], :details_tab => 'mapping')
+      redirect_to frontend_realm_path(params[:frontend_realm_id], :details_tab => 'mapping')
     else
       # TODO: add permissions checks
       destroyed = RealmBackendTarget.destroy(params[:id])
-      redirect_to realm_path(destroyed.first.frontend_realm_id, :details_tab => 'mapping')
+      redirect_to frontend_realm_path(destroyed.first.frontend_realm_id, :details_tab => 'mapping')
     end
   end
 
   protected
 
   def load_backend_targets
-    @backend_targets = if @realm_target.realm_or_provider_type == 'Realm'
+    @backend_targets = if @realm_target.provider_realm_or_provider_type == 'ProviderRealm'
       Provider.list_for_user(current_session, current_user,
                              Privilege::USE).collect do |provider|
-        provider.realms
+        provider.provider_realms
       end.flatten
     else
       Provider.list_for_user(current_session, current_user, Privilege::USE)

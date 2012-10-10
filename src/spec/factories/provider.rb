@@ -30,7 +30,7 @@ FactoryGirl.define do
     provider_type {ProviderType.find_by_deltacloud_driver("mock")}
     url 'http://localhost:3002/api'
     hardware_profiles { |hp| [hp.association(:mock_hwp1), hp.association(:mock_hwp2)] }
-    after_create { |p| p.realms << FactoryGirl.create(:realm1, :provider => p) << FactoryGirl.create(:realm2, :provider => p) }
+    after_create { |p| p.provider_realms << FactoryGirl.create(:provider_realm1, :provider => p) << FactoryGirl.create(:provider_realm2, :provider => p) }
   end
 
   factory :invalid_provider, :parent => :mock_provider do
@@ -41,14 +41,14 @@ FactoryGirl.define do
     name 'mock2'
     provider_type { ProviderType.find_by_deltacloud_driver("mock") }
     url 'http://localhost:3002/api'
-    after_create { |p| p.realms << FactoryGirl.create(:realm3, :provider => p) }
+    after_create { |p| p.provider_realms << FactoryGirl.create(:provider_realm3, :provider => p) }
   end
 
   factory :mock_provider_with_unavailable_realm, :parent => :provider do
     provider_type {ProviderType.find_by_deltacloud_driver("mock")}
     url 'http://localhost:3002/api'
     hardware_profiles { |hp| [hp.association(:mock_hwp1), hp.association(:mock_hwp2)] }
-    after_create { |p| p.realms << FactoryGirl.create(:realm1, :provider => p, :available => false) }
+    after_create { |p| p.provider_realms << FactoryGirl.create(:provider_realm1, :provider => p, :available => false) }
   end
 
   factory :ec2_provider, :parent => :provider do
@@ -57,7 +57,7 @@ FactoryGirl.define do
     url 'http://localhost:3002/api'
     deltacloud_provider 'ec2-us-east-1'
     hardware_profiles { |hp| [hp.association(:ec2_hwp1)] }
-    after_create { |p| p.realms << FactoryGirl.create(:realm4, :provider => p) }
+    after_create { |p| p.provider_realms << FactoryGirl.create(:provider_realm4, :provider => p) }
   end
 
   factory :disabled_provider, :parent => :mock_provider do

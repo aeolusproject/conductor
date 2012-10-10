@@ -39,8 +39,8 @@ class Provider < ActiveRecord::Base
 
   has_many :provider_accounts, :dependent => :destroy
   has_many :hardware_profiles, :dependent => :destroy
-  has_many :realms, :dependent => :destroy
-  has_many :realm_backend_targets, :as => :realm_or_provider, :dependent => :destroy
+  has_many :provider_realms, :dependent => :destroy
+  has_many :realm_backend_targets, :as => :provider_realm_or_provider, :dependent => :destroy
   has_many :frontend_realms, :through => :realm_backend_targets
   belongs_to :provider_type
 
@@ -202,19 +202,19 @@ class Provider < ActiveRecord::Base
             deltacloud_realms << dc_realm
           end
         end
-        conductor_acct_realms[acct.label] = acct.realms
+        conductor_acct_realms[acct.label] = acct.provider_realms
         conductor_acct_realm_ids[acct.label] = conductor_acct_realms[acct.label].collect{|r| r.external_key}
 
         # Remove any provider account mappings in Conductor that aren't in Deltacloud
         conductor_acct_realms[acct.label].each do |c_realm|
           unless dc_acct_realm_ids[acct.label].include?(c_realm.external_key)
-            acct.realms.delete(c_realm)
+            acct.provider_realms.delete(c_realm)
           end
         end
       end
       deltacloud_realm_ids = deltacloud_realms.collect{|r| r.id}
       # Delete anything in Conductor that's not in Deltacloud
-      conductor_realms = realms
+      conductor_realms = provider_realms
       conductor_realm_ids = conductor_realms.collect{|r| r.external_key}
       conductor_realms.each do |c_realm|
         unless deltacloud_realm_ids.include?(c_realm.external_key)
@@ -226,7 +226,7 @@ class Provider < ActiveRecord::Base
       # Add anything in Deltacloud to Conductor if it's not already there
       deltacloud_realms.each do |d_realm|
         unless ar_realm = conductor_realms.detect {|r| r.external_key == d_realm.id}
-          ar_realm = Realm.new(:external_key => d_realm.id,
+          ar_realm = ProviderRealm.new(:external_key => d_realm.id,
                                  :name => d_realm.name ? d_realm.name : d_realm.id,
                                  :provider_id => id)
         end
@@ -239,7 +239,7 @@ class Provider < ActiveRecord::Base
         next unless dc_acct_realms[acct.label]
         dc_acct_realms[acct.label].each do |d_realm|
           unless conductor_acct_realm_ids[acct.label].include?(d_realm.id)
-            acct.realms << realms.where("external_key" => d_realm.id)
+            acct.provider_realms << provider_realms.where("external_key" => d_realm.id)
           end
         end
       end
