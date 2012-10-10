@@ -69,7 +69,7 @@ Feature: Manage Providers via API
   Scenario: Delete Provider
     Given there is a provider
     When I delete that provider via XML
-    Then I should receive an OK message
+    Then I should receive a No Content message
     And the provider should be deleted
 
   Scenario: Attempt to delete non-existant provider

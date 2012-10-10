@@ -234,12 +234,8 @@ describe PoolFamiliesController do
         PoolFamily.any_instance.stub(:images).and_return([])
         get :destroy, :id => @pool_family.id
 
-        response.status.should be_eql(200)
-        response.should have_content_type("application/xml")
-        response.body.should be_xml
-        xml = Nokogiri::XML(response.body)
-        xml.xpath("/pool_family/@id").text.should == "#{@pool_family.id}"
-        xml.xpath("/pool_family/status").text.should == "DELETED"
+        response.status.should be_eql(204)
+        response.body.strip.should be_empty
       end
 
       it "delete a missing pool family should throw error" do

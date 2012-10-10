@@ -186,7 +186,7 @@ class ProviderAccountsController < ApplicationController
                                          :details_tab => 'accounts')
         end
         format.xml do
-          render 'destroy', :locals => { :provider_account_id => @provider_account.id }
+          render :nothing => true, :status => :no_content
         end
       else
         format.html do

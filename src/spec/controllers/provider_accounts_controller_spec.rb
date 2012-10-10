@@ -227,13 +227,8 @@ describe ProviderAccountsController do
             ProviderAccount.stub(:find).and_return(@provider_account)
             ProviderAccount.any_instance.stub(:provider_images).and_return([])
             get :destroy, :id => @provider_account.id
-            response.status.should be_eql(200)
-            response.should have_content_type("application/xml")
-            response.body.should be_xml
-            subject = Nokogiri::XML(response.body)
-            xml_provider_account = subject.xpath("//provider_account[@id=\"#{@provider_account.id}\"]")
-            xml_provider_account.xpath('@id').text.strip.should == "#{@provider_account.id}"
-            xml_provider_account.xpath('status').text.strip.should == "DELETED"
+            response.status.should be_eql(204)
+            response.body.strip.should be_empty
           end
 
           it "when requested provider account doesn't exists" do
