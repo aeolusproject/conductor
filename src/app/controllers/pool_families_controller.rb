@@ -253,7 +253,6 @@ class PoolFamiliesController < ApplicationController
         {:name => t("pool_families.index.quota_used"), :class => 'center', :sortable => false},
         {:name => t("pool_families.index.active_instances"), :class => 'center', :sortable => false},
         {:name => t("pool_families.index.available_instances"), :class => 'center', :sortable => false},
-        {:name => t("pool_families.index.catalog"), :sortable => false},
         {:name => '', :sortable => false}
       ]
     when @view == 'images'
