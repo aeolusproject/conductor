@@ -1,6 +1,6 @@
 = form_tag multi_destroy_realm_mappings_path(:frontend_realm_id => @realm.id) do
   %header
-    - if check_privilege(Privilege::MODIFY, Realm)
+    - if check_privilege(Privilege::MODIFY, ProviderRealm)
       .section-controls
         - if @realm.realm_backend_targets and !@realm.realm_backend_targets.empty?
           = submit_tag t('realms.list.delete_selected'), :id => 'delete_mapping_button', :class => 'button pill danger', :confirm => t("realms.show.sure_to_delete")

@@ -39,7 +39,7 @@ class Provider < ActiveRecord::Base
 
   has_many :provider_accounts, :dependent => :destroy
   has_many :hardware_profiles, :dependent => :destroy
-  has_many :realms, :dependent => :destroy
+  has_many :provider_realms, :dependent => :destroy
   has_many :realm_backend_targets, :as => :realm_or_provider, :dependent => :destroy
   has_many :frontend_realms, :through => :realm_backend_targets
   belongs_to :provider_type
@@ -214,7 +214,7 @@ class Provider < ActiveRecord::Base
       end
       deltacloud_realm_ids = deltacloud_realms.collect{|r| r.id}
       # Delete anything in Conductor that's not in Deltacloud
-      conductor_realms = realms
+      conductor_realms = provider_realms
       conductor_realm_ids = conductor_realms.collect{|r| r.external_key}
       conductor_realms.each do |c_realm|
         unless deltacloud_realm_ids.include?(c_realm.external_key)

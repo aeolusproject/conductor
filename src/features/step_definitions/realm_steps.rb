@@ -28,7 +28,7 @@ Given /^a realm "([^"]*)" exists mapped to a provider "([^"]*)"$/ do |realm_name
 end
 
 Given /^a provider "([^"]*)" exists$/ do |name|
-  FactoryGirl.create(:mock_provider, :name => name)
+  p = FactoryGirl.create(:mock_provider, :name => name)
 end
 
 Given /^there is a realm "([^"]*)"$/ do |name|
