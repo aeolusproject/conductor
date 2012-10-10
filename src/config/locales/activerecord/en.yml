@@ -22,7 +22,7 @@ en:
       instance: "Instance"
       metadata_object: "Metadata Object"
       permission: "Permission"
-      pool_family: "Pool Family"
+      pool_family: "Environment"
       pool: "Pool"
       privilege: "Privilege"
       property_enum_entry: "Property Enum Entry"
@@ -221,7 +221,7 @@ en:
         created_at: "Created At"
         updated_at: "Updated At"
       pool_family:
-        name: "Environment Name"
+        name: "Name"
         description: "Description"
         lock_version: "Lock Version"
         created_at: "Created At"

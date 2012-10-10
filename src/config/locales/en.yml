@@ -265,6 +265,7 @@ en:
   last_name: Last name
   email: E-mail
   maximum_running_instances: Maximum Running Instances
+  unlimited: Unlimited
   apply_treatment: Apply User Treatment
   choose_treatment: Choose Treatment
   apply: Apply
@@ -843,10 +844,7 @@ en:
         deleted: "Environment was deleted."
         provider_accounts_added: "These Provider Account have been added"
         provider_accounts_removed: "These Provider Accounts were removed"
-      warning:
-        creation_failed: "Environment creation failed."
       error:
-        not_updated: "Environment wasn't updated."
         not_deleted: "Environment cannot be deleted."
         not_deleted_with_err: "Environment cannot be deleted: %{err}"
         provider_accounts_not_added: "Could not add these Provider Accounts"

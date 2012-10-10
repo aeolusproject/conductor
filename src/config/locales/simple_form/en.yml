@@ -30,6 +30,8 @@ en:
     hints:
       catalog:
         name: 'Must be a unique name with at least 1 character and at most 100 characters.'
+      pool_family:
+        name: 'Must be a unique name with at least 1 character and at most 100 characters. You can use letters, numbers, underscore, space and dash characters.'
       user:
         first_name: 'Must be at most 255 characters.'
         last_name: 'Must be at most 255 characters.'

@@ -110,6 +110,25 @@ $.extend(Conductor, {
     });
   },
 
+  bindNumericInputWithUnlimitedCheckboxToggle: function() {
+    var inputValue = "";
+
+    $('.control_group.checkbox.inline .control input[type="checkbox"]').click(function(){
+      var checkbox = $(this);
+      var input = $('.control_group.checkbox.inline .input > input');
+      var isDisabled = checkbox.prop('checked');
+
+      input.attr('disabled', isDisabled);
+
+      if(isDisabled) {
+        inputValue = input.val();
+        input.val('');
+      } else {
+        input.val(inputValue);
+      }
+    });
+  },
+
   setAjaxHeadersForRails: function() {
     /* In the Rails' respond_to block, there is no distinction between
        the regular browser request and jQuery AJAX.
@@ -309,6 +328,7 @@ $(document).ready(function () {
   Conductor.enhanceListView();
   Conductor.enhanceDetailsTabs();
   Conductor.bindPrettyToggle();
+  Conductor.bindNumericInputWithUnlimitedCheckboxToggle();
   Conductor.multiActionValidation();
   Conductor.toggleCollapsible();
   Conductor.selectAllCheckboxes();
