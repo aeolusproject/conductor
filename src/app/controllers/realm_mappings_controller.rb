@@ -18,14 +18,14 @@ class RealmMappingsController < ApplicationController
   before_filter :require_user
 
   def new
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, ProviderRealm)
     @title = t'realm_mappings.new.create_new'
     @realm_target = RealmBackendTarget.new(:frontend_realm_id => params[:frontend_realm_id], :realm_or_provider_type => params[:realm_or_provider_type])
     load_backend_targets
   end
 
   def create
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, ProviderRealm)
     @realm_target = RealmBackendTarget.new(params[:realm_backend_target])
     if @realm_target.save
       flash[:notice] = t"realms.flash.notice.added_mapping"
@@ -38,7 +38,7 @@ class RealmMappingsController < ApplicationController
   end
 
   def multi_destroy
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, ProviderRealm)
     if params[:id].blank?
       flash[:error] = t"realms.flash.error.select_to_delete_mapping"
       redirect_to realm_path(params[:frontend_realm_id], :details_tab => 'mapping')

@@ -29,7 +29,7 @@ Feature: Manage Realms
   Scenario: Add realm mapping
     Given I am on the realms page
     And there is a realm "testrealm1"
-    And a provider "provider1" exists
+    And a provider "mock_provider1" exists
     When I follow "testrealm1"
     And I follow "mapping_to_provider_button"
     Then I should be on the new realm mapping page
@@ -70,7 +70,7 @@ Feature: Manage Realms
     And I should see an error message
 
   Scenario: Delete realm mapping without selecting one
-    Given a realm "testrealm1" exists mapped to a provider "provider1"
+    Given a realm "testrealm1" exists mapped to a provider "mock_provider1"
     And I am on the realms page
     When I follow "testrealm1"
     And I press "delete_mapping_button"

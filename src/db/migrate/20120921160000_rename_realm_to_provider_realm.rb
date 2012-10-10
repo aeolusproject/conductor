@@ -1,5 +1,5 @@
 #
-#   Copyright 2011 Red Hat, Inc.
+#   Copyright 2012 Red Hat, Inc.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -14,28 +14,16 @@
 #   limitations under the License.
 #
 
-FactoryGirl.define do
-
-  factory :realm do
-    sequence(:name) { |n| "realm#{n}" }
-    sequence(:external_key) { |n| "key#{n}" }
-    association(:provider)
+class RenameRealmToProviderRealm < ActiveRecord::Migration
+  def self.up
+    rename_table :realms, :provider_realms
+    rename_table :provider_accounts_realms, :provider_accounts_provider_realms
+    rename_column :provider_accounts_provider_realms, :realm_id, :provider_realm_id
   end
 
-  factory :realm1, :parent => :realm do
-  end
-
-  factory :realm2, :parent => :realm do
-  end
-
-  factory :realm3, :parent => :realm do
-  end
-
-  factory :realm4, :parent => :realm do
-  end
-
-  factory :backend_realm, :parent => :realm do
-    name 'backend_name'
-    external_key 'backend_key'
+  def self.down
+    rename_column :provider_accounts_provider_realms, :provider_realm_id, :realm_id
+    rename_table :provider_accounts_provider_realms, :provider_accounts_realms
+    rename_table :provider_realms, :realms
   end
 end

@@ -15,6 +15,9 @@
 #
 
 class FrontendRealms < ActiveRecord::Migration
+  class Realm < ActiveRecord::Base
+  end
+
   def self.up
     drop_table :realm_map
     create_table :frontend_realms do |t|
