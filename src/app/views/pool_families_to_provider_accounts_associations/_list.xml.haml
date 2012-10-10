@@ -1,0 +1,4 @@
+!!! XML
+%provider_accounts
+  - @pool_family.provider_accounts.each do |acc|
+    %provider_account{:id => acc.id, :href => api_provider_account_url(acc)}
