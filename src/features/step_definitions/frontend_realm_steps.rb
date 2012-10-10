@@ -24,7 +24,7 @@ end
 Given /^a frontend realm "([^"]*)" exists mapped to a provider "([^"]*)"$/ do |realm_name, provider_name|
   @realm = FrontendRealm.find_or_create_by_name(:name => realm_name)
   @provider = FactoryGirl.create(:mock_provider, :name => provider_name)
-  RealmBackendTarget.create!(:frontend_realm => @realm, :realm_or_provider => @provider)
+  RealmBackendTarget.create!(:frontend_realm => @realm, :provider_realm_or_provider => @provider)
 end
 
 Given /^there is a frontend realm "([^"]*)"$/ do |name|

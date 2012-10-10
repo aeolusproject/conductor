@@ -23,8 +23,8 @@ describe ProviderRealm do
     @backend_realm = FactoryGirl.create :backend_realm, :provider => @provider
 
     @frontend_realm1 = FactoryGirl.create :frontend_realm
-    RealmBackendTarget.create!(:frontend_realm => @frontend_realm1, :realm_or_provider => @backend_realm)
-    RealmBackendTarget.create!(:frontend_realm => @frontend_realm1, :realm_or_provider => @provider)
+    RealmBackendTarget.create!(:frontend_realm => @frontend_realm1, :provider_realm_or_provider => @backend_realm)
+    RealmBackendTarget.create!(:frontend_realm => @frontend_realm1, :provider_realm_or_provider => @provider)
   end
 
   it "should validate backend" do

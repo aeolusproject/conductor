@@ -26,12 +26,22 @@ Feature: Manage Frontend Realms
     And I press "frontend_realm_submit"
     Then I should see an error message
 
-  Scenario: Add realm mapping
+  Scenario: Map provider to realm
     Given I am on the frontend realms page
     And there is a frontend realm "testrealm1"
     And a provider "mock_provider1" exists
     When I follow "testrealm1"
     And I follow "mapping_to_provider_button"
+    Then I should be on the new realm mapping page
+    When I press "realm_backend_target_submit"
+    Then I should see a confirmation message
+
+  Scenario: Map provider realm to realm
+    Given I am on the frontend realms page
+    And there is a frontend realm "testrealm1"
+    And a provider "mock_provider1" exists
+    When I follow "testrealm1"
+    And I follow "mapping_to_realm_button"
     Then I should be on the new realm mapping page
     When I press "realm_backend_target_submit"
     Then I should see a confirmation message
