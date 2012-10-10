@@ -70,9 +70,6 @@ class UserGroupsController < ApplicationController
 
     require_privilege(Privilege::MODIFY, User)
     @user_group = UserGroup.new(params[:user_group])
-    unless @user_group.save
-      render :action => 'new' and return
-    end
 
     respond_to do |format|
       if @user_group.save
@@ -80,8 +77,10 @@ class UserGroupsController < ApplicationController
         format.html { redirect_to user_groups_path }
         format.json { render :json => @user_group, :status => :created }
       else
-        flash.now[:warning] = t "user_groups.flash.warning.creation_failed"
-        format.html { render :new }
+        format.html do
+          @title = t'user_groups.new.new_user_group'
+          render :new
+        end
         format.js { render :partial => 'new' }
         format.json { render :json => @user_group.errors, :status => :unprocessable_entity }
       end
@@ -105,6 +104,7 @@ class UserGroupsController < ApplicationController
     redirect_to root_url and return unless @user_group
 
     unless @user_group.update_attributes(params[:user_group])
+      @title = t'user_groups.edit.edit_user_group'
       render :action => 'edit' and return
     else
       flash[:notice] = t"user_groups.flash.notice.updated"

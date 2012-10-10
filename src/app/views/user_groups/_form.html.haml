@@ -1,26 +1,4 @@
-- if @user_group.errors.any?
-  = render 'layouts/error_messages', :object => @user_group
-
-%fieldset
-  .field
-    = form.label :type
-    .input
-      - if @user_group.new_record?
-        = form.select(:membership_source, UserGroup.active_membership_sources.collect {|x| [t("user_groups.#{x.downcase}"), x]}, {})
-      - else
-        = t("user_groups.#{@user_group.membership_source.downcase}")
-  .field
-    = form.label :name
-    .input
-      - if @user_group.new_record? or @user_group.membership_source == UserGroup::MEMBERSHIP_SOURCE_LOCAL
-        = form.text_field :name
-      - else
-        = @user_group.name
-  .field
-    = form.label :description
-    .input
-      = form.text_area :description, :class => 'long'
-
-%fieldset.options
-  = form.submit "#{t'user_groups.form.save_user_group'}",  :class => "submit button primary"
-  = link_to t('cancel'), @user_group, :class => "button danger"
+= form.input :membership_source, :collection => UserGroup.active_membership_sources.collect {|x| [t("user_groups.#{x.downcase}"), x]},
+                                 :readonly => !@user_group.new_record?, :input_html => {:disabled => !@user_group.new_record?}
+= form.input :name, :readonly => !@user_group.new_record? && !@user_group.membership_source == UserGroup::MEMBERSHIP_SOURCE_LOCAL
+= form.input :description

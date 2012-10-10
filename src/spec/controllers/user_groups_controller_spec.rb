@@ -46,7 +46,7 @@ describe UserGroupsController do
 
         returned_user_group = assigns[:user_group]
         returned_user_group.errors.empty?.should be_false
-        returned_user_group.should have(1).errors_on(:name)
+        returned_user_group.should have(2).errors_on(:name)
         returned_user_group.should have(2).errors_on(:membership_source)
 
         response.should render_template('new')
