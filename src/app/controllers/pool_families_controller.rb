@@ -133,7 +133,7 @@ class PoolFamiliesController < ApplicationController
           flash[:notice] = t("pool_families.flash.notice.deleted")
           redirect_to pool_families_path
         end
-        format.xml { render :destroy, :locals => { :pool_family_id => pool_family.id } }
+        format.xml { render :nothing => true, :status => :no_content }
       else
         format.html do
           flash[:error] = pool_family.errors.full_messages

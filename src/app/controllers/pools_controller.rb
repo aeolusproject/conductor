@@ -300,7 +300,7 @@ class PoolsController < ApplicationController
         elsif error_messages.present?
           raise(Aeolus::Conductor::API::Error.new(500, error_messages.join(' ')))
         else
-          render :destroy, :locals => { :pool_id => pool_id }
+          render :nothing => true, :status => :no_content
         end
       }
     end

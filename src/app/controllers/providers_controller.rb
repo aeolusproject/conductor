@@ -224,7 +224,7 @@ class ProvidersController < ApplicationController
           flash[:notice] = t("providers.flash.notice.deleted")
           redirect_to providers_path
         end
-        format.xml { render :text => '<message>OK</message>', :status => 200 }
+        format.xml { render :nothing => true, :status => :no_content }
       else
         format.html do
           flash[:error] = t("providers.flash.error.not_deleted_with_err",

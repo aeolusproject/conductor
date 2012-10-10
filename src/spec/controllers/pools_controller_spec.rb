@@ -254,12 +254,8 @@ describe PoolsController do
         @pool = FactoryGirl.create :pool
         get :destroy, :id => @pool.id
 
-        response.status.should be_eql(200)
-        response.should have_content_type("application/xml")
-        response.body.should be_xml
-        xml = Nokogiri::XML(response.body)
-        xml.xpath("/pool/@id").text.should == "#{@pool.id}"
-        xml.xpath("/pool/status").text.should == "DELETED"
+        response.status.should be_eql(204)
+        response.body.strip.should be_empty
       end
 
       it "delete a missing pool should throw error" do

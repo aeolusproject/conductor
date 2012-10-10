@@ -259,8 +259,7 @@ describe ProvidersController do
               delete :destroy, :id => provider.id
             end
 
-            it_behaves_like "http OK"
-            it_behaves_like "responding with XML"
+            it_behaves_like "http No Content"
 
             it { expect { provider.reload }.to raise_error(ActiveRecord::RecordNotFound) }
 
