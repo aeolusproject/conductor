@@ -84,22 +84,33 @@ Then /^I should receive(?: an?)? (.+) message$/ do |status_name|
   status_codes = {
     'OK' => 200,
     'Created' => 201,
+    'Accepted' => 202,
+    'No Content' => 204,
   }
 
+  raise "Status '#{status_name}' not defined." unless status_codes.keys.include?(status_name)
+
   response = last_response
-  response.headers['Content-Type'].should include('application/xml')
-  response.status.should be_eql(status_codes[status_name])
+  unless status_name == 'No Content'
+    response.headers['Content-Type'].should include('application/xml')
+  end
+  response.status.should == status_codes[status_name]
 end
 
 Then /^I should receive(?: an?)? (.+) error$/ do |status_name|
   status_codes = {
     'Bad Request' => 400,
+    'Forbidden' => 403,
     'Not Found' => 404,
+    'Unprocessable Entity' => 422,
+    'Internal Server Error' => 500,
   }
+
+  raise "Status '#{status_name}' not defined." unless status_codes.keys.include?(status_name)
 
   response = last_response
   response.headers['Content-Type'].should include('application/xml')
-  response.status.should be_eql(status_codes[status_name])
+  response.status.should == status_codes[status_name]
   xml_body = Nokogiri::XML(response.body)
   # FIXME the XPath expectation should be more restrictive once we standardize the API
   # As of 2012-09-24, some actions return <errors> with multiple <error> inside
