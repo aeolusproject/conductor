@@ -21,6 +21,20 @@ shared_examples_for "http OK" do
   end
 end
 
+shared_examples_for "http Created" do
+  context "response status code" do
+    subject { response.status }
+    it { should be_eql(201) }
+  end
+end
+
+shared_examples_for "http No Content" do
+  context "response status code" do
+    subject { response.status }
+    it { should be_eql(204) }
+  end
+end
+
 shared_examples_for "http Bad Request" do
   context "response status code" do
     subject { response.status }
@@ -32,6 +46,20 @@ shared_examples_for "http Not Found" do
   context "response status code" do
     subject { response.status }
     it { should be_eql(404) }
+  end
+end
+
+shared_examples_for "http Unprocessable Entity" do
+  context "response status code" do
+    subject { response.status }
+    it { should be_eql(422) }
+  end
+end
+
+shared_examples_for "http Internal Server Error" do
+  context "response status code" do
+    subject { response.status }
+    it { should be_eql(500) }
   end
 end
 
