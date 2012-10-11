@@ -70,12 +70,12 @@ class CatalogsController < ApplicationController
         end
         format.xml do
           load_deployables
-          render :show, :status => :ok
+          render :show, :status => :created
         end
       else
         format.html { render :new and return }
         format.xml  { render :template => 'api/validation_error',
-                             :status => :bad_request,
+                             :status => :unprocessable_entity,
                              :locals => { :errors => @catalog.errors }}
       end
     end
@@ -110,7 +110,7 @@ class CatalogsController < ApplicationController
       else
         format.html { render :action => 'edit' }
         format.xml  { render :template => 'api/validation_error',
-                             :status => :bad_request,
+                             :status => :unprocessable_entity,
                              :locals => { :errors => @catalog.errors }}
       end
     end
@@ -151,15 +151,15 @@ class CatalogsController < ApplicationController
           flash[:notice] = t("catalogs.flash.notice.one_deleted")
           redirect_to catalogs_path
         end
-        format.xml { render :text => "<message>OK</message>\n", :status => :ok }
+        format.xml { render :nothing => true, :status => :no_content }
       else
         format.html do
           flash[:error] = t("catalogs.flash.error.one_not_deleted")
           redirect_to catalog_path(catalog)
         end
-        format.xml  { render :template => 'api/validation_error',
-                             :status => :bad_request,
-                             :locals => { :errors => @catalog.errors }}
+        format.xml do
+          raise Aeolus::Conductor::API::Error.new(500, @catalog.errors.full_messages.join(', '))
+        end
       end
     end
   end
