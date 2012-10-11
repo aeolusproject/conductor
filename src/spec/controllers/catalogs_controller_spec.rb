@@ -112,7 +112,7 @@ describe CatalogsController do
         }
       end
 
-      it_behaves_like "http OK"
+      it_behaves_like "http Created"
       it_behaves_like "responding with XML"
 
       it "should print catalog details" do
@@ -134,7 +134,7 @@ describe CatalogsController do
       before do
         @catalog = FactoryGirl.create(:catalog)
 
-        post :update, {
+        put :update, {
           :id => @catalog.id,
           :catalog => {
             :name => 'updated name',
@@ -158,16 +158,25 @@ describe CatalogsController do
     describe "#destroy a catalog" do
       before do
         @catalog = FactoryGirl.create(:catalog)
-
-        post :destroy, :id => @catalog.id
       end
 
-      it_behaves_like "http OK"
-      it_behaves_like "responding with XML"
+      context "successfully" do
+        before do
+          delete :destroy, :id => @catalog.id
+        end
 
-      it "should print OK message" do
-        xml = Nokogiri::XML(response.body)
-        xml.xpath("/message").text.should == 'OK'
+        it_behaves_like "http No Content"
+        it { expect { @catalog.reload }.to raise_error(ActiveRecord::RecordNotFound) }
+      end
+
+      context "unsuccessfully" do
+        before do
+          Catalog.any_instance.stub(:destroy).and_return(false)
+          delete :destroy, :id => @catalog.id
+        end
+
+        it_behaves_like "http Internal Server Error"
+        it_behaves_like "responding with XML"
       end
     end
   end

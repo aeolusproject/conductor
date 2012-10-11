@@ -41,12 +41,12 @@ Feature: Manage Catalogs via API
 
   Scenario: Create a new catalog
     When I create catalog with correct data via XML
-    Then I should receive OK message
+    Then I should receive Created message
     And the catalog should be created
 
   Scenario: Create a new catalog with bad request
     When I create catalog with incorrect data via XML
-    Then I should receive Bad Request error
+    Then I should receive Unprocessable Entity error
     And the catalog should not be created
 
   Scenario: Update a catalog
@@ -58,7 +58,7 @@ Feature: Manage Catalogs via API
   Scenario: Update a catalog with bad request
     Given there is a catalog
     When I update that catalog with incorrect data via XML
-    Then I should receive Bad Request error
+    Then I should receive Unprocessable Entity error
     And the catalog should not be updated
 
   Scenario: Attempt to update a non-existent catalog
@@ -70,7 +70,7 @@ Feature: Manage Catalogs via API
   Scenario: Delete catalog
     Given there is a catalog
     When I delete that catalog via XML
-    Then I should receive an OK message
+    Then I should receive a No Content message
     And the catalog should be deleted
 
   Scenario: Attempt to delete a non-existent catalog
