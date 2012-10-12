@@ -90,13 +90,16 @@ class HardwareProfilesController < ApplicationController
       render :new and return
     end
 
-    if @hardware_profile.save
-      respond_to do |format|
-        format.xml
-        format.html {redirect_to hardware_profiles_path}
+    respond_to do |format|
+      if @hardware_profile.save
+        format.html { redirect_to hardware_profiles_path }
+        format.xml  { render :show, :status => :created }
+      else
+        format.html { render :action => 'new' }
+        format.xml  { render :template => 'api/validation_error',
+                             :locals => { :errors => @hardware_profile.errors },
+                             :status => :unprocessable_entity }
       end
-    else
-      render :action => 'new'
     end
   end
 
@@ -111,22 +114,38 @@ class HardwareProfilesController < ApplicationController
   def destroy
     @hardware_profile = HardwareProfile.find(params[:id])
     require_privilege(Privilege::MODIFY, @hardware_profile)
+
     if @hardware_profile.provider_hardware_profile?
-      flash[:warning] = t "hardware_profiles.flash.warning.cannot_delete_backend_hwp"
-      redirect_to hardware_profile_path(@hardware_profile)
+      error_message = t "hardware_profiles.flash.warning.cannot_delete_backend_hwp"
+      respond_to do |format|
+        format.html do
+          flash[:warning] = error_message
+          redirect_to hardware_profile_path(@hardware_profile)
+        end
+        format.xml do
+          raise Aeolus::Conductor::API::Error.new(403, error_message)
+        end
+      end
       return
     end
-    if @hardware_profile.destroy
-       flash[:notice] = t "hardware_profiles.flash.notice.deleted"
-       respond_to do |format|
-         format.xml
-         format.html { redirect_to hardware_profiles_path }
-       end
-       return
-    else
-       flash[:error] = t "hardware_profiles.flash.error.not_deleted"
+
+    respond_to do |format|
+      if @hardware_profile.destroy
+        format.html do
+          flash[:notice] = t "hardware_profiles.flash.notice.deleted"
+          redirect_to hardware_profiles_path
+        end
+        format.xml { render :nothing => true, :status => :no_content }
+      else
+        format.html do
+          flash[:error] = t "hardware_profiles.flash.error.not_deleted"
+          redirect_to hardware_profiles_path
+        end
+        format.xml do
+          raise Aeolus::Conductor::API::Error.new(500, @hardware_profile.errors.full_messages.join(', '))
+        end
+      end
     end
-    redirect_to hardware_profiles_path
   end
 
   def edit
