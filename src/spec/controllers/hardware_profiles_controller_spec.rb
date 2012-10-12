@@ -207,7 +207,6 @@ describe HardwareProfilesController do
             it_behaves_like "responding with XML"
 
             context "XML body" do
-
               subject { Nokogiri::XML(response.body) }
 
               it {
@@ -215,40 +214,71 @@ describe HardwareProfilesController do
                 subject.xpath('//error/code').text.should be_eql('RecordNotFound')
               }
             end
+
           end
+
         end
 
         describe "#create" do
-          before(:each) do
-            post :create, :commit => 'Save', :hardware_profile => {
-              :name => 'test',
-              :memory_attributes => FactoryGirl.attributes_for(:mock_hwp1_memory),
-              :cpu_attributes => FactoryGirl.attributes_for(:mock_hwp1_cpu),
-              :storage_attributes => FactoryGirl.attributes_for(:mock_hwp1_storage),
-              :architecture_attributes => FactoryGirl.attributes_for(:mock_hwp2_memory),
-            }
-          end
 
           context "with correct parameters" do
-            let(:hwp) { FactoryGirl.build(:front_hwp2) }
+            before(:each) do
+              post :create, :hardware_profile => {
+                :name => 'test',
+                :memory_attributes => FactoryGirl.attributes_for(:mock_hwp1_memory),
+                :cpu_attributes => FactoryGirl.attributes_for(:mock_hwp1_cpu),
+                :storage_attributes => FactoryGirl.attributes_for(:mock_hwp1_storage),
+                :architecture_attributes => FactoryGirl.attributes_for(:mock_hwp2_memory),
+              }
+            end
 
-            it_behaves_like "http OK"
+            it_behaves_like "http Created"
             it_behaves_like "responding with XML"
+
+            context "XML body" do
+              subject { Nokogiri::XML(response.body) }
+
+              it "should print hardware profile attributes" do
+                subject.xpath("//hardware_profile/name").text.should == 'test'
+              end
+            end
           end
+
+          context "with wrong parameters" do
+            before(:each) do
+              post :create, :hardware_profile => {
+                :memory_attributes => FactoryGirl.attributes_for(:mock_hwp1_memory),
+                :cpu_attributes => FactoryGirl.attributes_for(:mock_hwp1_cpu),
+                :storage_attributes => FactoryGirl.attributes_for(:mock_hwp1_storage),
+                :architecture_attributes => FactoryGirl.attributes_for(:mock_hwp2_memory),
+              }
+            end
+
+            it_behaves_like "http Unprocessable Entity"
+            it_behaves_like "responding with XML"
+
+            context "XML body" do
+              subject { Nokogiri::XML(response.body) }
+
+              it "should contain error information" do
+                subject.xpath('//errors').size.should == 1
+                subject.xpath('//errors/error').size.should > 0
+              end
+            end
+          end
+
         end
 
         describe "#destroy" do
 
-          let(:hwp) { Factory.create(:front_hwp1) }
-
           context "existing hwp" do
+            let(:hwp) { Factory.create(:front_hwp1) }
 
             before(:each) do
               delete :destroy, :id => hwp.id
             end
 
-            it_behaves_like "http OK"
-            it_behaves_like "responding with XML"
+            it_behaves_like "http No Content"
 
             it { expect { hwp.reload }.to raise_error(ActiveRecord::RecordNotFound) }
 
@@ -257,8 +287,7 @@ describe HardwareProfilesController do
           context "non existing hwp" do
 
             before(:each) do
-              hwp.delete
-              delete :destroy, :id => hwp.id
+              delete :destroy, :id => -1
             end
 
             it_behaves_like "http Not Found"
@@ -273,6 +302,26 @@ describe HardwareProfilesController do
               }
             end
           end
+
+          context "backend hardware profile" do
+            let(:hwp) { Factory.create(:back_hwp_ranged_cpu, :provider => Factory.create(:mock_provider)) }
+
+            before(:each) do
+              delete :destroy, :id => hwp.id
+            end
+
+            it_behaves_like "http Forbidden"
+            it_behaves_like "responding with XML"
+
+            context "XML body" do
+              subject { Nokogiri::XML(response.body) }
+
+              it {
+                subject.xpath('//error').size.should be_eql(1)
+              }
+            end
+          end
+
         end
       end
     end
