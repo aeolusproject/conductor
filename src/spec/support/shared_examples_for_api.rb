@@ -42,6 +42,13 @@ shared_examples_for "http Bad Request" do
   end
 end
 
+shared_examples_for "http Forbidden" do
+  context "response status code" do
+    subject { response.status }
+    it { should be_eql(403) }
+  end
+end
+
 shared_examples_for "http Not Found" do
   context "response status code" do
     subject { response.status }
