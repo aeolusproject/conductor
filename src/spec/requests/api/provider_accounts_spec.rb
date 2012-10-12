@@ -37,8 +37,8 @@ describe "ProviderAccounts" do
           subject { Nokogiri::XML(response.body) }
           it "should have correct nodes" do
             subject.xpath('//provider_account').size.should be_eql(1)
-            subject.xpath('//provider_account/label').size.should be_eql(1)
-            subject.xpath('//provider_account/label').text.should be_eql("mockaccount")
+            subject.xpath('//provider_account/name').size.should be_eql(1)
+            subject.xpath('//provider_account/name').text.should be_eql("mockaccount")
             subject.xpath('//provider_account/credentials').size.should be_eql(1)
             subject.xpath('//provider_account/credentials/username').size.should be_eql(1)
             subject.xpath('//provider_account/credentials/username').text.should be_eql("mockuser")
@@ -72,8 +72,8 @@ describe "ProviderAccounts" do
           subject { Nokogiri::XML(response.body) }
           it "should have correct nodes" do
             subject.xpath('//provider_account').size.should be_eql(1)
-            subject.xpath('//provider_account/label').size.should be_eql(1)
-            subject.xpath('//provider_account/label').text.should be_eql("ec2account")
+            subject.xpath('//provider_account/name').size.should be_eql(1)
+            subject.xpath('//provider_account/name').text.should be_eql("ec2account")
             subject.xpath('//provider_account/credentials').size.should be_eql(1)
             subject.xpath('//provider_account/credentials/username').size.should be_eql(1)
             subject.xpath('//provider_account/credentials/username').text.should be_eql("ec2user")
@@ -156,8 +156,8 @@ describe "ProviderAccounts" do
             subject { Nokogiri::XML(response.body) }
             it "should have correct nodes" do
               subject.xpath('//provider_account').size.should be_eql(1)
-              subject.xpath('//provider_account/label').size.should be_eql(1)
-              subject.xpath('//provider_account/label').text.should be_eql("mockaccount")
+              subject.xpath('//provider_account/name').size.should be_eql(1)
+              subject.xpath('//provider_account/name').text.should be_eql("mockaccount")
               subject.xpath('//provider_account/credentials').size.should be_eql(1)
               subject.xpath('//provider_account/credentials/username').size.should be_eql(1)
               subject.xpath('//provider_account/credentials/username').text.should be_eql("mockuser")
@@ -192,8 +192,8 @@ describe "ProviderAccounts" do
             subject { Nokogiri::XML(response.body) }
             it "should have correct nodes" do
               subject.xpath('//provider_account').size.should be_eql(1)
-              subject.xpath('//provider_account/label').size.should be_eql(1)
-              subject.xpath('//provider_account/label').text.should be_eql("ec2account")
+              subject.xpath('//provider_account/name').size.should be_eql(1)
+              subject.xpath('//provider_account/name').text.should be_eql("ec2account")
               subject.xpath('//provider_account/credentials').size.should be_eql(1)
               subject.xpath('//provider_account/credentials/username').size.should be_eql(1)
               subject.xpath('//provider_account/credentials/username').text.should be_eql("ec2user")
