@@ -8,7 +8,7 @@ pt-BR:
       catalog:
         created_at: "Criado Em"
         name: Nome
-        pool_family_id: "Família da Zona dos Recursos do Cloud"
+        pool_family_id: Cloud
         pool_id: "Zona de Recurso do Cloud"
         updated_at: "Atualizado Em"
       catalog_entry:
@@ -49,19 +49,19 @@ pt-BR:
         description: Descrição
         name: Nome
         owner_id: Proprietário
-        pool_family_id: "Família da Zona dos Recursos do Cloud"
+        pool_family_id: Cloud
         xml: "XML do Blueprint da APlicação"
         xml_filename: "Nome de Arquivo do XML"
       deployment:
         created_at: "Criado Em"
         deployable_xml: "XML do Blueprint da APlicação"
-        frontend_realm_id: Território
+        frontend_realm_id: "Cluster de Recurso de Cloud"
         lock_version: "Versão de Bloqueio"
         name: Nome
         owner_id: Proprietário
-        pool_family_id: "Família da Zona dos Recursos do Cloud"
+        pool_family_id: Cloud
         pool_id: "Zona dos Recursos do Cloud"
-        realm_id: "Território do Provedor do Recurso do Cloud"
+        realm_id: "Território do Provedor"
         scheduled_for_deletion: "Agendado para Remoção"
         updated_at: "Atualizado Em"
         uuid: Uuid
@@ -120,7 +120,7 @@ pt-BR:
         created_at: "Criado Em"
         deployment_id: Aplicativo
         external_key: "Chave Externa"
-        frontend_realm_id: Território
+        frontend_realm_id: "Cluster de Recurso de Cloud"
         hardware_profile_id: "Perfil dos Recursos do Cloud"
         image_build_uuid: "Uuid de construção da Imagem"
         image_uuid: "Uuid da Imagem"
@@ -130,7 +130,7 @@ pt-BR:
         lock_version: "Versão de Bloqueio"
         name: Nome
         owner_id: Proprietário
-        pool_family_id: "Família da Zona dos Recursos do Cloud"
+        pool_family_id: Cloud
         pool_id: "Zona dos Recursos do Cloud"
         private_addresses: "Endereços Privados"
         provider_account_id: "Nome da Conta de Provedor do Recurso do Cloud"
@@ -187,14 +187,14 @@ pt-BR:
         exported_as: "Exportado Como"
         lock_version: "Versão de Bloqueio"
         name: Nome
-        pool_family_id: "Família da Zona dos Recursos do Cloud"
+        pool_family_id: Cloud
         quota_id: Cota
         updated_at: "Atualizado Em"
       pool_family:
         created_at: "Criado Em"
         description: Descrição
         lock_version: "Versão de Bloqueio"
-        name: "Nome da Família da Zona dos Recursos do Cloud"
+        name: "Nome do Cloud"
         quota_id: Cota
         updated_at: "Atualizado Em"
       privilege:
@@ -255,9 +255,9 @@ pt-BR:
         provider_id: "Provedor do Recurso do Cloud"
         updated_at: "Atualizado Em"
       realm_backend_target:
-        frontend_realm_id: Território
-        realm_or_provider_id: "Território do Provedor do Recurso do Cloud Ou Provedor de Recurso do Cloud"
-        realm_or_provider_type: "Território do Provedor de Recurso do Cloud Ou Tipo do Provedor do Recurso doCloud"
+        frontend_realm_id: "Cluster de Recurso de Cloud"
+        realm_or_provider_id: "Território do Provedor Ou Provedor de Recurso do Cloud"
+        realm_or_provider_type: "Território do Provedor Ou Tipo do Provedor do Recurso do Cloud"
       role:
         assign_to_owner: "Atribuir ao Proprietário"
         created_at: "Criado Em"
@@ -297,10 +297,10 @@ pt-BR:
         last_login_ip: "Ip do Último Login"
         last_name: Sobrenome
         last_request_at: "Última Solicitação Em"
-        login: Login
         login_count: "Conta de Login"
         quota_id: Cota
         updated_at: "Atualizado Em"
+        username: "Nome de usuário"
       view_state:
         action: Ação
         controller: Controlador
@@ -324,7 +324,13 @@ pt-BR:
             deltacloud_provider:
               invalid_provider: "Deve ser um identificador de provedor válido"
             name:
+              config_not_exist: "não pode ser verificado, arquivo de configuração não existe"
               invalid: "deve conter: números, letras, espaços, '_' e '-'"
+              not_found_in_config: "não foi encontrado no arquivo de configuração"
+              start_with_ec2: "deve iniciar com 'ec2-'"
+              start_with_mock: "deve iniciar com 'mock'"
+            provider_type:
+              does_not_exist: "não existe"
             url:
               invalid_framework: "Deve ser um uri de provedor válido"
     models:
@@ -338,7 +344,7 @@ pt-BR:
       deployable: "Projeto do Aplicativo"
       deployment: Aplicativo
       event: Evento
-      frontend_realm: Território
+      frontend_realm: "Cluster de Recurso de Cloud"
       hardware_profile: "Perfil dos Recursos do Cloud"
       hardware_profile_property: "Propriedade do Perfil dos Recursos do Cloud"
       hook: Hook
@@ -350,15 +356,15 @@ pt-BR:
       metadata_object: "Objeto da Instância"
       permission: Permissão
       pool: "Zona dos Recursos do Cloud"
-      pool_family: "Família de Zona de Recuros do Cloud"
+      pool_family: Cloud
       privilege: Previlégios
       property_enum_entry: "Entrada do Enum da Propriedade"
       provider: "Provedor do Recurso do Cloud"
       provider_account: "Conta de Provedor do Recurso do Cloud"
       provider_type: "Tipo do Provedor do Recurso do Cloud"
       quota: Cota
-      realm: "Território do Provedor do Recurso do Cloud"
-      realm_backend_target: "Alvo de Backend do Território do Provedor de Recurso do Cloud"
+      realm: "Território do Provedor"
+      realm_backend_target: "Alvo de Backend do Território do Provedor"
       role: Papel
       session: Sessão
       task: Tarefa
