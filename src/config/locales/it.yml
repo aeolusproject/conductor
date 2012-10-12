@@ -26,8 +26,8 @@ it:
       no_provider_account_given: "Nessun account provider di risorse cloud dato"
       provider_account_not_found: "Impossibile trovare l'account del provider di risorse cloud per il nome %{name}"
       provider_account_not_found_for_id: "Impossibile trovare l'account del provider di risorse cloud per l'id %{id}"
-      provider_image_not_found: "Impossibile trovare l'immagine %{providerimage}"
-      provider_image_status_not_found: "Impossibile trovare lo stato per l'immagine %{providerimage}"
+      provider_image_not_found: "Impossibile trovare il ProviderImage della risorsa cloud %{providerimage}"
+      provider_image_status_not_found: "Impossibile trovare lo stato di ProviderImage della risorsa cloud %{providerimage}"
       push_error: "Impossibile passare TargetImage %{targetimage} a %{account} ed errore %{error}"
       specify_a_type_build_or_import: "Specificare un tipo, una compilazione o il tipo di importazione"
       specify_environment: "Specificare un cloud"
@@ -46,10 +46,15 @@ it:
       permissions: "Concessioni ruoli globali"
       pool_families: Cloud
       provider_selection: "Selezione provider di risorse cloud"
-      realms: Realm
+      realms: "Cluster di risorse cloud"
       user_groups: "Gruppi utenti"
       users: Utenti
     flash:
+      error:
+        download_failed: "Download del file XML fallito"
+        no_url_provided: "Nessun URL fornito per l'importazione di XML"
+        not_valid_or_reachable: "Il file XML può essere invalido o non raggiungibile su %{url}"
+        not_valid_url: "L'URL del provider non è valido %{url}"
       notice:
         must_be_logged: "Per accedere questa pagina è necessairo eseguire la registrazione"
         must_not_be_logged: "Per accedere questa pagina è necessario uscire"
@@ -72,8 +77,8 @@ it:
     logs: Log
     pool_families: Cloud
     pools: "Zone di risorse cloud"
-    provider_realms: "Realm del provider di risorse cloud"
-    realms: Realm
+    provider_realms: "Realm del Provider"
+    realms: "Cluster di risorse cloud"
     roles: Ruoli
     users: Utenti
   browse_objects: "Cerca oggetti"
@@ -90,14 +95,12 @@ it:
         updated: "Blueprint applicazione aggiornato con successo"
       warning:
         failed: "Il progetto dell'applicazione non è stato creato."
-        no_url_provided: "Nessun URL fornito per il file XML del blueprint dell'applicazione."
         not_valid: "il file contiene errori di sintassi"
         not_valid_cyclic_reference: "Contiene un riferimento ciclico tra i seguenti Blueprint del componente o servizi: %{reference}"
         not_valid_duplicate_assembly_names: "Deve contenere nomi unici per i Blueprint del componente"
         not_valid_not_existing_assembly_reference: "Blueprint del componente %{from_assembly}, servizio %{from_service}, parametro %{from_param} fanno  riferimento ad un Blueprint del componente %{to_assembly} non esistente"
         not_valid_not_existing_param: "Blueprint del componente %{from_assembly}, servizio %{from_service}, parametro %{from_param} param dei riferimenti %{to_param} non ritornato dal Blueprint dell'applicazione %{to_assembly}"
         not_valid_not_existing_service_reference: "Blueprint del componente %{from_assembly}, servizio %{from_service}, parametro %{from_param} fanno  riferimento ad un Blueprint del componente %{to_assembly}, servizio %{to_service} non esistente"
-        not_valid_or_reachable: "Il file XML del blueprint dell'applicazione è invalido o non è più raggiungibile su %{url}"
     index:
       catalog_entries: "Blueprint applicazione"
       catalog_entry: "Progetto applicazione"
@@ -250,7 +253,7 @@ it:
       deployable_xml: "XML del progetto dell'applicazione"
       deployable_xml_url: "URL per l'XML del progetto dell'applicazione"
       edit_xml_after_save: "Modifica il file XML dopo il salvataggio"
-      multiple: Nessuno
+      multiple: Multiplo
       none: Nessuno
       save: Salva
     index:
@@ -327,9 +330,13 @@ it:
       cannot_stop: "L'applicazione %{name} non può essere cancellata poichè le seguenti istanze non possono essere arrestate:"
       config_server_connection: "Impossibile eseguire un collegamento al server di configurazione"
       instance_state: "L'istanza %{name} presenta uno stato %{state}."
+      launch_failed: "Lancio implementazione fallito"
       match_not_found: "Impossibile trovare un account idoneo del provider di risorse cloud per ospitare l'applicazione. Controllar eil quota degli account e lo stato delleimmagini."
       match_not_found_with_errors: "Corrispondenza non trovata: %{errors}"
       not_valid_deployable_xml: "sembra non essere un XML del blueprint dell'applicazione valido: %{msg}"
+    events:
+      launch_attempt: "Tentativo di lancio di questa implementazione sull'account del provider %{account}"
+      state_changed: "Stato modificato in %{state}"
     flash:
       error:
         cant_stop: "Impossibile arrestare l'applicazione %{name}. Solo le applicazioni in esecuzione possono essere arrestate."
@@ -363,7 +370,7 @@ it:
       details: Dettagli
       hdd: HDD
       hint: "Seleziona un blueprint dell'applicazione da lanciare nella zona di risorse cloud \"%{pool}\""
-      image_id: "ID della struttura del componente"
+      image_id: "ID struttura del componente"
       no_catalog_entry: "Nessun blueprint dell'applicazione disponibile. Aggiungerne prima uno."
       profile: Profilo
       ram: RAM
@@ -430,7 +437,11 @@ it:
       state: "Stato:"
       stop: Arresta
     properties:
+      created: Creato
       global_uptime: "Uptime globale"
+      name: Nome
+      owner: Proprietario
+      pool: "Zona di risorse cloud"
       property_name: "Nome proprietà"
       uptime_1st_instance: "Uptime prima istanza in esecuzione"
       value: Valore
@@ -464,6 +475,7 @@ it:
       shutting_down: "Arresto applicazione in corso"
       stopped: "Tutt ele istanze sono state arrestate"
   edit: Modifica
+  edit_provider_account: "Modifica account del provider di risorse cloud"
   edit_user: "Modifica utente"
   email: E-mail
   filter_table:
@@ -475,6 +487,8 @@ it:
     to: A
     viewing: Visualizzazione
   first_name: Nome
+  general:
+    delete_confirmation: "Sei sicuro di voler cancellare?"
   general_settings: "Impostazioni generali"
   hardware_profiles:
     create:
@@ -488,6 +502,9 @@ it:
           one: "%{not_deleted} non può essere cancellato"
           other: "Impossibile cancellare i seguenti profili hardware: %{not_deleted}"
         not_deleted: "Il profilo hardware non è stato cancellato"
+        not_deleted_perms:
+          one: "Permessi non sufficienti per cancellare il profilo hardware %{not_deleted}"
+          other: "Permessi non sufficienti per rimuovere %{count} profili hardware %{not_deleted}!"
       notice:
         deleted: "Il profilo hardware è stato cancellato"
         more_deleted:
@@ -551,7 +568,7 @@ it:
       edit: Modifica
       edit_xml: "Modifica XML"
       save_and_continue: "Salva e continua"
-    environment: "Cloud: %{environment}"
+    environment: Cloud
     environment_header: Cloud
     flash:
       error:
@@ -573,7 +590,7 @@ it:
         not_found: "Immagine non trovata"
     import:
       blank_id: "ID della struttura del componente non può essere vuoto."
-      image_id: "ID struttura componente del provider di risorse cloud"
+      image_id: "ID immagine del provider di risorse cloud"
       image_imported: "L'immagine è stata importata con successo."
       image_not_imported: "Impossibile importare l'immagine. Controllare il log di Image Factory per maggiori informazioni."
       import_image: "Importa immagine"
@@ -600,8 +617,8 @@ it:
       upload: Carica
     not_on_provider: "L'immagine richiesta non è stata trovata sul provider di risorse cloud."
     overview:
-      back: Indietro
       description: "I riferimenti alla struttura del componente ed il markup in \"%{name}\" sonostati convalidati con successo. È ora possibile salvare l'immagine e creareun blueprint dell'applicazione."
+      edit_xml: "Visualizza e modifica l'XML del template"
       make_deployable: "Crea automaticamente il blueprint dell'applicazione \"%{name}\"."
       save_template: "Salva la struttura del componente"
       valid_image: "Immagine valida"
@@ -619,7 +636,7 @@ it:
       failed_push_attempts:
         one: "1 tentativo di inoltro fallito"
         other: "%{count} tentativi di inoltro falliti"
-      image_uri: "URI immagine"
+      image_id: "ID struttura componente"
       image_uuid: "UUID immagine"
       latest: Ultimissimo
       missing_build: "Seleziona prima una compilazione"
@@ -629,6 +646,7 @@ it:
       provider: "Provider risorse cloud"
       provider_account: "Account provider di risorse cloud"
       provider_images: "Immagini del provider di risorse cloud"
+      providers_image_id: "ID immagine del provider di risorse cloud"
       push: Inoltra
       push_all: "Inoltra tutti"
       push_started: "Push sta per iniziare"
@@ -663,7 +681,8 @@ it:
       provider_account_quota_reached: "%{account_name}: quota account provider raggiunto"
       provider_account_quota_too_low: "%{match_provider_account} limite quota troppo basso per lanciare il blueprint dell'applicazione"
       provider_not_available: "%{account_name}: il provider di risorse cloud non è disponibile"
-      realm_not_mapped: "%{account_name}: Il cluster di risorse cloud  %{frontend_realm_name} non è mappato su alcun provider o realm del provider di risorse cloud applicabili"
+      realm_not_mapped: "%{account_name}: Il cluster di risorse cloud %{frontend_realm_name} non è mappato su alcun provider o realm del provider di risorse cloud applicabili"
+      reboot_already_scheduled: "il processo di riavvio è stato già programmato."
       reboot_invalid_action: "Il riavvio è un'azione invalida."
       state_not_monitored: "Errore, impossibile calcolare il tempo dello stato: lo stato non è monitorato"
       stop_invalid_action: "L'arresto è un'azione invalida."
@@ -775,7 +794,8 @@ it:
   launch_instance: "Lancia istanza"
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
+    copyright:
+      po-header: " "
     dashboard: Dashboard
   login: "Log in"
   logs:
@@ -788,7 +808,7 @@ it:
       details: Dettagli
       event_time: Ora
       export_logs: "Esporta i log"
-      frontend_realm: "Cluster di risorse cloud"
+      frontend_realm: "Cluster di risorse cloud frontend"
       grouped_by: "Raggruppato per"
       hwp: "Profilo risorsa cloud"
       image: Immagine
@@ -995,6 +1015,18 @@ it:
       with_stopped_instances: "Con istanze arrestate"
     properties:
       properties: "Proprietà per %{pool}"
+    scoreboard:
+      alerts: Avvisi
+      cloud_providers_total: "Provider di risorse cloud totali"
+      deployments_total: "Applicazioni totali"
+      instances_failed: "Istanze fallite"
+      instances_pending: "Istanze sospese"
+      pools_in_use: "Zone di risorse cloud in uso"
+      pools_total: "Zone di risorse cloud totali"
+      quota_usage: "Utilizzo del quota"
+      running_instances_quota: "Istanze in esecuzione"
+      total_available_instances: "Istanze totali disponibili"
+      total_instances: "Istanze totali"
   privileges: Privilegi
   properties: Proprietà
   provider_accounts:
@@ -1020,9 +1052,9 @@ it:
       could_not_connect: "Impossibile collegarsi all'account del provider. Contattare un amministratore."
       exception_while_validating: "Si è verificato un errore durante il controllo delle credenziali del provider. Controllare l'impostazione e riprovare."
       invalid_credentials: "Le credenziali per il login di questo provider non sono valide."
-      not_destroyable_instances: "Impossibile eliminare le seguenti istanze: %{instances}"
+      not_destroyable_deployments: "Le seguenti applicazioni non sono state arrestate: %{deployments}"
       populate_hardware_profiles_failed: "Impossibile popolare i _profili hardware: %{message}"
-      populate_realms_failed: "Impossibile popolare i realm: %{message}"
+      populate_realms_failed: "Impossibile popolare i i cluster di risorse cloud: %{message}"
     flash:
       error:
         account_not_added:
@@ -1143,12 +1175,12 @@ it:
       create: "Crea gruppo di priorità"
       title: "Aggiungi nuovo gruppo di priorità"
   provider_realms:
-    name: "Nome del realm per il provider di risorse cloud"
-    provider_realms: "Realm del provider di risorse cloud"
+    name: "Nome del Realm del provider"
+    provider_realms: "Realm del Provider"
     show:
-      details: "Dettagli del realm per il provider di risorse cloud"
-      mapping: "Mappatura del realm per il provider di risorse cloud"
-      provider_accounts_mapped: "Account provider di risorse cloud mappati sul realm del provider di risorse cloud %{name}:"
+      details: "Dettagli Realm del provider"
+      mapping: "Mappatura Realm del provider"
+      provider_accounts_mapped: "Account provider di risorse cloud mappati sul realm del provider %{name}"
   provider_selection:
     edit_strategy:
       back_to_strategies: "Strategie di selezione dei provider per le zone di risorse cloud:  %{pool}"
@@ -1163,7 +1195,7 @@ it:
       available_provider_accounts: "Account provider risorse cloud disponibili"
       available_strategies: "Strategie disponibili"
       configure: Configura
-      edit_provider_accounts: "Modifica gli account dei provider per la famiglia di zone di risorse cloud"
+      edit_provider_accounts: "Modifica gli account del provider per il cloud"
       edit_strategy: "Modifica strategia %{name}"
       environment: "Cloud: %{environment}"
       provider_selection: "Strategia di selezione del provider di risorse cloud"
@@ -1209,14 +1241,17 @@ it:
         disabled: "Provider delle risorse cloud disabilitato."
         updated: "Provider risorse cloud aggiornato."
       warning:
+        check_config_file: "Impossibile controllare la correttezza del nome del provider. Controllare ilfile di config"
         connect_failed: "Connessione al provider di risorse cloud fallita"
         not_stopped_instances: "Il provider delle risorse cloud non è stato disabilitato, arresto delle seguenti istanze fallito:"
         not_terminated_instances: "Il provider delle risorse cloud non è stato disabilitato, modifica stato su 'stopped' delle seguenti istanze fallita:"
     form:
       caution_alt_text: Attenzione
       caution_image: Attenzione
+      delete_provider: "Cancella il provider di risorse cloud"
       enter_correct_url_msg: "Inserire un formato URL corretto."
       required_field: "Campo richiesto."
+      save_changes: "Salva modifiche"
       select_type_of_provider: "Selezionare il tipo di provider di risorse cloud"
       test_connection: "Test connessione"
       x_deltacloud_provider:
@@ -1266,54 +1301,54 @@ it:
       used: Usato
   realm_mappings:
     new:
-      create_new: "Crea una nuova mappatura per il realm"
-  realm_s: Realm
+      create_new: "Crea nuova mappatura per il cluster di risorse cloud"
+  realm_s: "Cluster di risorse cloud"
   realms:
     edit:
       cancel_editing: "Cancella la modifica"
       properties: Proprietà
     flash:
       error:
-        more_not_deleted: "Impossibile cancellare questi realm:"
-        not_deleted: "Il realm non è stato cancellato"
-        select_to_delete: "Selezionare almeno un realm da cancellare."
+        more_not_deleted: "Impossibile cancellare questi cluster di risorse cloud:"
+        not_deleted: "Il cluster di risorse cloud non è stato cancellato"
+        select_to_delete: "Selezionare almeno un cluster di risorse cloud da cancellare."
         select_to_delete_mapping: "Selezionare almeno una mappatura da cancellare."
       notice:
-        added: "Il realm è stato aggiunto"
-        added_mapping: "La mappatura del realm è stata aggiunta. "
-        deleted: "Il realm è stato cancellato"
-        more_deleted: "I seguenti realm sono stati cancellati:"
-        updated: "Realm aggiornato"
+        added: "Aggiunto il cluster di risorse cloud"
+        added_mapping: "Aggiunta la mappatura del cluster di risorse cloud."
+        deleted: "Il cluster di risorse cloud è stato cancellato"
+        more_deleted: "I seguenti cluster di risorse cloud sono stati cancellati:"
+        updated: "Cluster di risorse cloud aggiornato"
     index:
-      realm: Realm
+      realm: "Cluster di risorse cloud"
       realm_availability: Disponibile?
       realm_available:
         false_value: "No"
         true_value: Si
-      realm_name: "Nome realm"
+      realm_name: "Nome del cluster di risorse cloud"
     list:
       delete_selected: "Cancella selezionati"
     mapping:
-      frontend_realms_mapped_to_provider: "Realm mappati sui Provider %{name}:"
-      frontend_realms_mapped_to_realm: "Realm mappati sul realm del Provider %{name}:"
+      frontend_realms_mapped_to_provider: "Cluster risorse cloud mappati sul provider delle risorse %{name}:"
+      frontend_realms_mapped_to_realm: "Cluster di risorse cloud mappati sul realm del provider %{name}:"
       mapping_provider: "Aggiungi mappatura al provider di risorse cloud"
-      mapping_realm: "Aggiungi mappatura al realm del provider di risorse cloud"
-      provider_accounts_mapped_to_realm: "Account provider mappati sul realm %{name}:"
-      realm_mapped_providers: "Il realm %{name} è stato mappato sui provider:"
-      realm_mapped_realms: "Il realm %{name} è stato mappato sui realm:"
+      mapping_realm: "Aggiungi mappatura sul realm del provider"
+      provider_accounts_mapped_to_realm: "Account provider mappati sul cluster di risorse cloud %{name}:"
+      realm_mapped_providers: "Cluster di risorse cloud %{name} mappato sui provider:"
+      realm_mapped_realms: "Cluster risorse cloud %{name} mappato sui cluster di risorse cloud:"
     new:
-      create_realm: "Crea nuovo realm"
-    new_realm: "Nuovo realm"
+      create_realm: "Crea nuovo cluster di risorse cloud"
+    new_realm: "Nuovo cluster di risorse cloud"
     preset_filters:
-      all_realms: "Tutti i realm"
+      all_realms: "Tutti i cluster di risorse cloud"
     properties:
-      realm_details: "Dettagli realm"
-      realm_name: "Nome realm"
-    realms: Realm
+      realm_details: "Dettagli del cluster di risorse cloud"
+      realm_name: "Nome del cluster di risorse cloud"
+    realms: "Cluster di risorse cloud"
     show:
       properties: Proprietà
-      realm_mapping: "Mappatura realm"
-      realm_unavailable: "Il realm %{name} è attualmente non disponibile."
+      realm_mapping: "Mappatura del cluster di risorse cloud"
+      realm_unavailable: "Il cluster di risorse cloud %{name} è attualmente non disponibile."
       sure_to_delete: "Sei sicuro di voler cancellare?"
     tab_captions:
       mapping: Mappatura
@@ -1369,12 +1404,12 @@ it:
       warning:
         not_updated_quota: "Impossibile aggiornare il quota predefinito"
     index:
-      permissions: Permessi
-      permissions_desc: "Modifica il quota predefinito del self-service"
+      permissions: "Impostazioni predefinite dell'utente"
+      permissions_desc: "Modifica le impostazioni predefinite dell'utente"
     self_service:
       account: Account
       instances_quota: "Quota istanze:"
-      self_service_default: "Trattamento utente: Impostazione predefinita self-service"
+      self_service_default: "Impostazioni utente predefinite"
       self_service_settings: "Impostazioni self-service"
     settings: Impostazioni
   summary: Sommario
@@ -1486,7 +1521,8 @@ it:
       edit_account: "Modifica account"
       edit_user: "Modifica utente"
     errors:
-      has_running_instances: "%{login} ha delle istanze in esecuzione"
+      cannot_edit_ldap_user: "Impossibile modificare l'utente LDAP"
+      has_running_instances: "%{username} presenta delle istanze in esecuzione"
     flash:
       notice:
         deleted: "L'utente è stato rimosso con successo."
@@ -1498,7 +1534,7 @@ it:
         you_registred: "Hai eseguito la registrazione con successo."
       warning:
         not_delete: "Impossibile cancellare: %{reason}"
-        not_delete_same_user: "Impossibile cancellare %{login} : hai eseguito una registrazione utilizzandoquesto nome utente"
+        not_delete_same_user: "Impossibile cancellare %{username} : hai eseguito una registrazione utilizzando questo nome utente"
     form:
       save_user: "Salva utente"
       user_treatment: "Trattamento utente"

@@ -16,7 +16,7 @@ it:
         admin: "Amministratore provider delle risorse cloud globale"
         user: "Utente provider delle risorse cloud globale"
       realm:
-        admin: "Amministratore realm globale"
+        admin: "Amministratore cluster di risorse cloud globale"
     catalog:
       admin: "Amministratore catalogo"
       user: "Utente catalogo"

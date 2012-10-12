@@ -8,7 +8,7 @@ it:
       catalog:
         created_at: "Creato alle"
         name: Nome
-        pool_family_id: "Famiglia zona di risorse cloud"
+        pool_family_id: Cloud
         pool_id: "Zona di risorse cloud"
         updated_at: "Aggiornato alle"
       catalog_entry:
@@ -49,19 +49,19 @@ it:
         description: Descrizione
         name: Nome
         owner_id: Proprietario
-        pool_family_id: "Famiglia zona di risorse cloud"
+        pool_family_id: Cloud
         xml: "XML blueprint applicazione"
         xml_filename: "Filename XML"
       deployment:
         created_at: "Creato alle"
         deployable_xml: "XML blueprint applicazione"
-        frontend_realm_id: Realm
+        frontend_realm_id: "Cluster di risorse cloud"
         lock_version: "Versione blocco"
         name: Nome
         owner_id: Proprietario
-        pool_family_id: "Famiglia zona di risorse cloud"
+        pool_family_id: Cloud
         pool_id: "Zona di risorse cloud"
-        realm_id: "Realm del provider di risorse cloud"
+        realm_id: "Realm del provider"
         scheduled_for_deletion: "Programmato per la rimozione"
         updated_at: "Aggiornato alle"
         uuid: Uuid
@@ -120,7 +120,7 @@ it:
         created_at: "Creato alle"
         deployment_id: Applicazione
         external_key: "Chiave esterna"
-        frontend_realm_id: Realm
+        frontend_realm_id: "Cluster di risorse cloud"
         hardware_profile_id: "Profilo risorsa cloud"
         image_build_uuid: "Uuid compilazione immagine"
         image_uuid: "Uuid immagine"
@@ -130,7 +130,7 @@ it:
         lock_version: "Versione blocco"
         name: Nome
         owner_id: Proprietario
-        pool_family_id: "Famiglia zona di risorse cloud"
+        pool_family_id: Cloud
         pool_id: "Zona di risorse cloud"
         private_addresses: "Indirizzi privati"
         provider_account_id: "Account provider di risorse cloud"
@@ -187,14 +187,14 @@ it:
         exported_as: Esportato
         lock_version: "Versione blocco"
         name: Nome
-        pool_family_id: "Famiglia zona di risorse cloud"
+        pool_family_id: Cloud
         quota_id: Quota
         updated_at: "Aggiornato alle"
       pool_family:
         created_at: "Creato alle"
         description: Descrizione
         lock_version: "Versione blocco"
-        name: "Nome famiglia della zona delle risorse cloud"
+        name: "Nome cloud"
         quota_id: Quota
         updated_at: "Aggiornato alle"
       privilege:
@@ -255,9 +255,9 @@ it:
         provider_id: "Provider di risorse cloud"
         updated_at: "Aggiornato alle"
       realm_backend_target:
-        frontend_realm_id: Realm
-        realm_or_provider_id: "Realm del provider di risorse cloud o provider di risorse cloud"
-        realm_or_provider_type: "Realm del provider di risorse cloud o Tipo di provider delle risorse cloud"
+        frontend_realm_id: "Cluster di risorse cloud"
+        realm_or_provider_id: "Realm del provider o provider di risorse cloud"
+        realm_or_provider_type: "Realm del provider o Tipo di provider delle risorse cloud"
       role:
         assign_to_owner: "Assegna al proprietario"
         created_at: "Creato alle"
@@ -297,10 +297,10 @@ it:
         last_login_ip: "Ip ultima registrazione"
         last_name: Cognome
         last_request_at: "Ultima richiesta"
-        login: Registrazione
         login_count: "Conteggio registrazioni"
         quota_id: Quota
         updated_at: "Aggiornato alle"
+        username: "Nome utente"
       view_state:
         action: Azione
         controller: Controller
@@ -324,7 +324,13 @@ it:
             deltacloud_provider:
               invalid_provider: "Deve essere un identificatore del provider valido"
             name:
+              config_not_exist: "impossibile verificarlo, il file di configurazione non esiste"
               invalid: "deve contenere solo: numeri, lettere, spazi, '_' e '-'"
+              not_found_in_config: "non è stato trovato nel file di configurazione"
+              start_with_ec2: "deve iniziare con 'ec2-'"
+              start_with_mock: "deve iniziare con 'mock'"
+            provider_type:
+              does_not_exist: "non esiste"
             url:
               invalid_framework: "Deve essere un uri del provider valido"
     models:
@@ -338,7 +344,7 @@ it:
       deployable: "Blueprint applicazione"
       deployment: Applicazione
       event: Evento
-      frontend_realm: Realm
+      frontend_realm: "Cluster di risorse cloud"
       hardware_profile: "Profilo risorsa cloud"
       hardware_profile_property: "Proprietà Profilo della risorsa cloud"
       hook: Hook
@@ -350,15 +356,15 @@ it:
       metadata_object: "Oggetto metadati"
       permission: Permessi
       pool: "Zona di risorse cloud"
-      pool_family: "Famiglia zona di risorse cloud"
+      pool_family: Cloud
       privilege: Privilegi
       property_enum_entry: "Voce enum proprietà"
       provider: "Provider di risorse cloud"
       provider_account: "Account provider di risorse cloud"
       provider_type: "Tipo di provider delle risorse cloud"
       quota: Quota
-      realm: "Realm del provider di risorse cloud"
-      realm_backend_target: "Target backend realm del provider di risorse cloud"
+      realm: "Realm del provider"
+      realm_backend_target: "Target backend del realm del provider"
       role: Ruolo
       session: Sessione
       task: Attività
