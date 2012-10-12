@@ -16,7 +16,7 @@ zh-CN:
         admin: 全局云资源供应商管理员
         user: 全局云资源供应商用户
       realm:
-        admin: 全局范围管理员
+        admin: 全局云资源集群管理员
     catalog:
       admin: 目录管理员
       user: 目录用户

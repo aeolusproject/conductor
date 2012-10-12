@@ -26,8 +26,8 @@ zh-CN:
       no_provider_account_given: 没有给出云资源供应商帐户
       provider_account_not_found: "无法找到名为 %{name} 的云资源供应商帐户"
       provider_account_not_found_for_id: "无法找到 id  %{id} 的云资源供应商帐户"
-      provider_image_not_found: "无法找到 Image %{providerimage}"
-      provider_image_status_not_found: "无法找到 Image %{providerimage} 状态"
+      provider_image_not_found: "无法找到云资源供应商映像 %{providerimage}"
+      provider_image_status_not_found: "无法找到云资源供应商映像 %{providerimage} 状态"
       push_error: "无法将 TargetImage %{targetimage} 推入 %{account} 并出现错误 %{error}"
       specify_a_type_build_or_import: "请指定 type、build 或 import"
       specify_environment: 请指定云
@@ -46,10 +46,15 @@ zh-CN:
       permissions: 全局角色授权
       pool_families: 云
       provider_selection: 云资源供应商选择
-      realms: 范围
+      realms: 云资源集群
       user_groups: 用户组
       users: 用户
     flash:
+      error:
+        download_failed: "下载 XML 失败"
+        no_url_provided: "没有为 XML 导入提供 URL"
+        not_valid_or_reachable: "XML 文件可能无效或者不再可以从 %{url} 获得 "
+        not_valid_url: "提供的 URL 是无效 %{url}"
       notice:
         must_be_logged: 您必须登录方可访问本页
         must_not_be_logged: 您必须退出方可访问本页
@@ -72,8 +77,8 @@ zh-CN:
     logs: 日志
     pool_families: 云
     pools: 云资源区
-    provider_realms: 云资源供应商范围
-    realms: 范围
+    provider_realms: 供应商范围
+    realms: 云资源集群
     roles: 角色
     users: 用户
   browse_objects: 浏览对象
@@ -90,14 +95,12 @@ zh-CN:
         updated: 已成功更新程序蓝图
       warning:
         failed: 没有生成程序蓝图。
-        no_url_provided: "没有为程序蓝图 XML 文件提供 URL。"
         not_valid: 文件包含语法错误
         not_valid_cyclic_reference: "在以下组件蓝图或者服务间包含循环参考：%{reference}"
         not_valid_duplicate_assembly_names: 必须包含唯一组件蓝图名
         not_valid_not_existing_assembly_reference: "组件蓝图 %{from_assembly}、服务  %{from_service}、参数 %{from_param} 参考不存在的组件蓝图 %{to_assembly}"
         not_valid_not_existing_param: "组件蓝图 %{from_assembly}、服务  %{from_service}、参数 %{from_param} 参考不是由组件蓝图  %{to_assembly} 返回的参数 %{to_param}"
         not_valid_not_existing_service_reference: "组件蓝图 %{from_assembly}、服务  %{from_service}、参数 %{from_param} 参考不存在的组件蓝图 %{to_assembly}、服务 %{to_service"
-        not_valid_or_reachable: "组件蓝图 XML 文件无效或者不在 %{url}"
     index:
       catalog_entries: 程序蓝图
       catalog_entry: 程序蓝图
@@ -108,7 +111,7 @@ zh-CN:
     new:
       add_catalog_entry: 添加新程序蓝图
       catalog_detail: "%{name} 目录"
-      choose_option_to_upload: "使用以下选项之一上传程序蓝图 XML 文件"
+      choose_option_to_upload: "选择以下选项之一上传程序蓝图 XML 文件"
       from_url: "从 URL"
       hw_profile: 默认云资源侧写
       name: 名称
@@ -250,7 +253,7 @@ zh-CN:
       deployable_xml: "程序蓝图 XML"
       deployable_xml_url: "程序蓝图 XML 的 URL"
       edit_xml_after_save: "保存后编辑 XML 文件"
-      multiple: 无
+      multiple: 多个
       none: 无
       save: 保存
     index:
@@ -327,9 +330,13 @@ zh-CN:
       cannot_stop: "由于无法停止以下实例而无法删除程序 %{name}："
       config_server_connection: 无法连接到配置服务器
       instance_state: "实例 %{name} 处于状态 %{state}。"
+      launch_failed: 启动部署失败
       match_not_found: "无法找到合适的云资源供应商帐户托管该程序。请检查该云资源 供应商帐户的配额以及该映像的状态。"
       match_not_found_with_errors: "没有找到匹配： %{errors}"
       not_valid_deployable_xml: "好像是无效的程序蓝图 XML：%{msg}"
+    events:
+      launch_attempt: "尝试在供应商帐户 %{account} 中启动这个部署"
+      state_changed: "将状态改为 %{state}"
     flash:
       error:
         cant_stop: "无法停止程序 %{name}。只能停止运行的程序。"
@@ -430,7 +437,11 @@ zh-CN:
       state: 状态：
       stop: 停止
     properties:
+      created: 已创建
       global_uptime: "全局 Uptime"
+      name: 名称
+      owner: 拥有者
+      pool: 云资源区
       property_name: 属性名称
       uptime_1st_instance: "Uptime 的第一次实例运行"
       value: 值
@@ -464,6 +475,7 @@ zh-CN:
       shutting_down: 程序正在关闭。
       stopped: 已停止所有实例。
   edit: 编辑
+  edit_provider_account: 编辑云资源供应商帐户
   edit_user: 编辑用户
   email: 电子邮件
   filter_table:
@@ -475,6 +487,8 @@ zh-CN:
     to: 至
     viewing: 查看中
   first_name: 名
+  general:
+    delete_confirmation: 您确定要删除吗？
   general_settings: 常规设置
   hardware_profiles:
     create:
@@ -488,6 +502,9 @@ zh-CN:
           one: "无法删除 %{not_deleted}"
           other: "无法删除以下硬件侧写 %{not_deleted}"
         not_deleted: 已删除硬件侧写
+        not_deleted_perms:
+          one: "没有足够的权限删除硬件侧写 %{not_deleted}"
+          other: "没有足够的权限删除 %{count} 硬件侧写 %{not_deleted}"
       notice:
         deleted: 已删除硬件侧写
         more_deleted:
@@ -551,7 +568,7 @@ zh-CN:
       edit: 编辑
       edit_xml: "编辑 XML"
       save_and_continue: 保存并继续
-    environment: "云：%{environment}"
+    environment: 云
     environment_header: 云
     flash:
       error:
@@ -573,7 +590,7 @@ zh-CN:
         not_found: 没有找到映像
     import:
       blank_id: "组件概述 ID 不能为空。"
-      image_id: "云资源供应商的组件概述 ID"
+      image_id: "云资源供应商映像 ID"
       image_imported: 已成功导入映像。
       image_not_imported: 无法导入映像。详情请检查映像库日志。
       import_image: 导入映像
@@ -600,8 +617,8 @@ zh-CN:
       upload: 上传
     not_on_provider: 没有在云资源供应商中找到要求的映像。
     overview:
-      back: 返回
       description: "已成功验证 \"%{name}\" 指定的标记和映像。您现在可以保存该映像并生成程序蓝图。"
+      edit_xml: "查看并编辑模板 XML"
       make_deployable: "自动生成 \"%{name}\" 程序蓝图。"
       save_template: 保存组件概述
       valid_image: 有效映像
@@ -619,7 +636,7 @@ zh-CN:
       failed_push_attempts:
         one: 一次失败的推入尝试
         other: "%{count} 失败的推入尝试"
-      image_uri: "映像 URI"
+      image_id: "组件概述 ID"
       image_uuid: "映像 UUID"
       latest: 最新的
       missing_build: 请首先选择构建
@@ -629,6 +646,7 @@ zh-CN:
       provider: 云资源供应商
       provider_account: 云资源供应商帐户
       provider_images: 云资源供应商映像
+      providers_image_id: "云资源供应商映像 ID"
       push: 推入
       push_all: 推入所有
       push_started: 要开始推入
@@ -663,7 +681,8 @@ zh-CN:
       provider_account_quota_reached: "%{account_name}：达到云资源供应商帐户配额"
       provider_account_quota_too_low: "%{match_provider_account} 配额限制过低，无法启动程序蓝图。"
       provider_not_available: "%{account_name}：云资源供应商不可用"
-      realm_not_mapped: "%{account_name}：云资源集群\n%{frontend_realm_name} 与任何可用云资源供应商或供应商范围都不匹配"
+      realm_not_mapped: "%{account_name}：前端云资源集群\n%{frontend_realm_name} 与任何可用云资源供应商或供应商范围都不匹配"
+      reboot_already_scheduled: 已调度重启。
       reboot_invalid_action: "Reboot 是无效动作。"
       state_not_monitored: 错误，无法计算状态时间：没有监控状态
       stop_invalid_action: "Stop 是无效动作。"
@@ -775,7 +794,8 @@ zh-CN:
   launch_instance: 启动实例
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright: "版权 &copy; 2009-2012 Red Hat, Inc."
+    copyright:
+      po-header: " "
     dashboard: 面板
   login: 登录
   logs:
@@ -788,7 +808,7 @@ zh-CN:
       details: 详情
       event_time: 时间
       export_logs: 导出日志
-      frontend_realm: 云资源集群
+      frontend_realm: 前端云资源集群
       grouped_by: 分组为
       hwp: 云资源侧写
       image: 映像
@@ -995,6 +1015,18 @@ zh-CN:
       with_stopped_instances: 包含停止的实例
     properties:
       properties: "%{pool} 属性"
+    scoreboard:
+      alerts: 警告
+      cloud_providers_total: 云资源供应商总计
+      deployments_total: 应用程序总计
+      instances_failed: 失败的实例
+      instances_pending: 等待处理的实例
+      pools_in_use: 云资源区在使用中
+      pools_total: 云资源区总计
+      quota_usage: 配额用量
+      running_instances_quota: 运行中的实例
+      total_available_instances: 可用实例总计
+      total_instances: 实例总计
   privileges: 特权
   properties: 属性
   provider_accounts:
@@ -1020,9 +1052,9 @@ zh-CN:
       could_not_connect: 无法连接到云资源供应商帐户。请联络管理员。
       exception_while_validating: 检查云资源供应商认证时出错。请检查您的设置然后再试一次。
       invalid_credentials: 这个云资源供应商的登录认证无效。
-      not_destroyable_instances: "无法删除以下实例：%{instances}。"
+      not_destroyable_deployments: "已停止以下应用程序：%{deployments}"
       populate_hardware_profiles_failed: "推广 hardware_profiles 失败：%{message}"
-      populate_realms_failed: "推广 realms 失败：%{message}"
+      populate_realms_failed: "推广云资源集群失败：%{message}"
     flash:
       error:
         account_not_added:
@@ -1143,12 +1175,12 @@ zh-CN:
       create: 创建优先组
       title: 添加新优先组
   provider_realms:
-    name: 云资源供应商范围名称
-    provider_realms: 云资源供应商范围
+    name: 供应商范围名称
+    provider_realms: 供应商范围
     show:
-      details: 云资源供应商范围详情
-      mapping: 云资源供应商范围映射
-      provider_accounts_mapped: "与云资源供应商范围 %{name} 映射的云资源供应商帐户"
+      details: 供应商范围详情
+      mapping: 供应商范围映射
+      provider_accounts_mapped: "与供应商范围 %{name} 映射的云资源供应商"
   provider_selection:
     edit_strategy:
       back_to_strategies: "云资源区的云资源供应商选择策略：%{pool}"
@@ -1163,7 +1195,7 @@ zh-CN:
       available_provider_accounts: 可用云资源供应商帐户
       available_strategies: 可用策略
       configure: 配置
-      edit_provider_accounts: 为云资源区产品线编辑云资源供应商帐户
+      edit_provider_accounts: 为这个云编辑云资源供应商帐户
       edit_strategy: "编辑  %{name} 策略"
       environment: "云：%{environment}"
       provider_selection: 云资源供应商选择策略
@@ -1209,14 +1241,17 @@ zh-CN:
         disabled: 已禁用云资源供应商。
         updated: 已更新云资源供应商。
       warning:
+        check_config_file: 如果供应商名称正确就无法检查。请检查配置文件。
         connect_failed: 连接到云资源供应商失败
         not_stopped_instances: 没有禁用云资源供应商，停止以下实例失败：
         not_terminated_instances: "没有禁用云资源供应商，将以下实例状态改为 ‘stopped’ 失败："
     form:
       caution_alt_text: 注意
       caution_image: 警告
+      delete_provider: 删除云资源供应商
       enter_correct_url_msg: "请输入正确的 URL 格式。"
       required_field: 所需字段。
+      save_changes: 保存更改
       select_type_of_provider: 选择云资源供应商类型
       test_connection: 测试连接
       x_deltacloud_provider:
@@ -1266,54 +1301,54 @@ zh-CN:
       used: 已使用
   realm_mappings:
     new:
-      create_new: 创建新范围映射
-  realm_s: 范围
+      create_new: 创建新云资源集群映射
+  realm_s: 云资源集群
   realms:
     edit:
       cancel_editing: 取消编辑
       properties: 属性
     flash:
       error:
-        more_not_deleted: 无法删除这些范围：
-        not_deleted: 没有删除范围
-        select_to_delete: 您必须首选至少选择一个范围方可删除。
+        more_not_deleted: 无法删除这些云资源集群：
+        not_deleted: 没有删除云资源集群
+        select_to_delete: 您必须首选至少选择一个云资源集群方可删除。
         select_to_delete_mapping: 您必须首选至少选择一个映射方可删除。
       notice:
-        added: 已添加范围
-        added_mapping: 已添加范围映射。
-        deleted: 已删除范围
-        more_deleted: 已删除这些范围：
-        updated: 已更新范围
+        added: 已添加云资源集群
+        added_mapping: 已添加云资源集群映射。
+        deleted: 已删除云资源集群
+        more_deleted: 已删除这些云资源集群：
+        updated: 已更新云资源集群
     index:
-      realm: 范围
+      realm: 云资源集群
       realm_availability: 可用吗？
       realm_available:
         false_value: 否
         true_value: 是
-      realm_name: 范围名称
+      realm_name: 云资源集群名称
     list:
       delete_selected: 删除所选
     mapping:
-      frontend_realms_mapped_to_provider: "与云资源供应商 %{name} 映射的范围："
-      frontend_realms_mapped_to_realm: "与云资源供应商范围 %{name} 映射的范围："
+      frontend_realms_mapped_to_provider: "与云资源供应商 %{name} 映射的云资源集群："
+      frontend_realms_mapped_to_realm: "与供应商范围 %{name} 映射的云资源集群："
       mapping_provider: 在云资源供应商中添加映射
-      mapping_realm: 在云资源供应商范围中添加映射
-      provider_accounts_mapped_to_realm: "与范围 %{name} 映射的云资源供应商帐户："
-      realm_mapped_providers: "映射 %{name} 与云资源供应商匹配："
-      realm_mapped_realms: "映射 %{name} 与范围匹配："
+      mapping_realm: 在供应商范围中添加映射
+      provider_accounts_mapped_to_realm: "与云资源集群 %{name} 映射的云资源供应商帐户："
+      realm_mapped_providers: "云资源集群 %{name} 与云资源供应商映射："
+      realm_mapped_realms: "云资源集群 %{name} 与云资源集群匹配："
     new:
-      create_realm: 创建新范围
-    new_realm: 新范围
+      create_realm: 创建新云资源集群
+    new_realm: 新云资源集群
     preset_filters:
-      all_realms: 所有范围
+      all_realms: 所有云资源集群
     properties:
-      realm_details: 范围详情
-      realm_name: 范围名称
-    realms: 范围
+      realm_details: 云资源集群详情
+      realm_name: 云资源集群名称
+    realms: 云资源集群
     show:
       properties: 属性
-      realm_mapping: 范围映射
-      realm_unavailable: "目前范围 %{name} 不可用。"
+      realm_mapping: 云资源集群映射
+      realm_unavailable: "目前云资源集群 %{name} 不可用。"
       sure_to_delete: 您确定要删除吗？
     tab_captions:
       mapping: 映射
@@ -1369,12 +1404,12 @@ zh-CN:
       warning:
         not_updated_quota: 无法更新默认配额
     index:
-      permissions: 权限
-      permissions_desc: 修改自助服务默认配额。
+      permissions: 用户默认
+      permissions_desc: 修改默认的用户设置
     self_service:
       account: 帐户
       instances_quota: 实例配额：
-      self_service_default: 用户处理：默认为自助服务
+      self_service_default: 默认用户设置
       self_service_settings: 自助设置
     settings: 设置
   summary: 小结
@@ -1486,7 +1521,8 @@ zh-CN:
       edit_account: 编辑帐户
       edit_user: 编辑用户
     errors:
-      has_running_instances: "%{login} 有运行的实例"
+      cannot_edit_ldap_user: "无法编辑 LDAP 用户"
+      has_running_instances: "%{username} 有正在运行的实例"
     flash:
       notice:
         deleted: 已成功删除用户。
@@ -1498,7 +1534,7 @@ zh-CN:
         you_registred: 您已成功注册。
       warning:
         not_delete: "无法删除：%{reason}"
-        not_delete_same_user: "无法删除 %{login}：您已作为这个用户登录"
+        not_delete_same_user: "无法删除 %{username}：您已作为这个用户登录"
     form:
       save_user: 保存用户
       user_treatment: 用户处理
