@@ -2,7 +2,7 @@
   -unless local_assigns[:minimal]
     -provider = provider_account.provider
     -provider_type = provider.provider_type
-    %label= provider_account.name
+    %name= provider_account.name
     %provider{:id => provider.id, :href => api_provider_url(provider)}= provider.name
     %provider_type= provider_type.deltacloud_driver
     -if local_assigns[:with_credentials]
