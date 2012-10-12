@@ -13,7 +13,7 @@ shared_examples_for "having XML with provider accounts" do
         xml_provider_account.xpath('@href').text.should be_eql(api_provider_account_url(provider_account))
         # xml_provider_account.xpath('label').text.should be_eql(provider_account.name.to_s)
 
-        %w{label provider provider_type}.each do |element|
+        %w{name provider provider_type}.each do |element|
           xml_provider_account.xpath(element).should_not be_empty
         end
 
