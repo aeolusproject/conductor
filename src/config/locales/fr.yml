@@ -26,8 +26,8 @@ fr:
       no_provider_account_given: "Aucun compte de fournisseur de ressources cloud donné"
       provider_account_not_found: "Compte du fournisseur de ressources cloud avec le nom %{name} introuvable"
       provider_account_not_found_for_id: "Compte du fournisseur de ressources cloud avec l'ID %{id} introuvable"
-      provider_image_not_found: "Image %{providerimage} introuvable"
-      provider_image_status_not_found: "Statut de l'image %{providerimage} introuvable"
+      provider_image_not_found: "ProviderImage %{providerimage} de la ressource cloud est introuvable"
+      provider_image_status_not_found: "Le statut ProviderImage %{providerimage} de la ressource cloud est introuvable"
       push_error: "Impossible de pousser TargetImage %{targetimage} vers %{account} et erreur %{error}"
       specify_a_type_build_or_import: "Veuillez spécifier un type, un build ou un import"
       specify_environment: "Veuillez spécifier un cloud"
@@ -46,10 +46,15 @@ fr:
       permissions: "Octrois de rôles globaux"
       pool_families: Clouds
       provider_selection: "Sélection de fournisseurs des ressources cloud"
-      realms: Sphères
+      realms: "Grappes de ressources cloud"
       user_groups: "Groupes d'utilisateurs"
       users: Utilisateurs
     flash:
+      error:
+        download_failed: "Échec du téléchargement du fichier XML"
+        no_url_provided: "Aucun URL fourni pour l'importation du XML."
+        not_valid_or_reachable: "Le fichier XML est soit invalide ou n'est plus joignable sur %{url}"
+        not_valid_url: "L'URL fourni n'est pas valide %{url}"
       notice:
         must_be_logged: "Vous devez être connecté pour accéder à cette page"
         must_not_be_logged: "Vous devez être déconnecté pour accéder à cette page"
@@ -72,8 +77,8 @@ fr:
     logs: Journaux
     pool_families: Clouds
     pools: "Zones de ressources cloud"
-    provider_realms: "Sphères de fournisseurs de ressources clouds"
-    realms: Sphères
+    provider_realms: "Sphères du fournisseur"
+    realms: "Grappes de ressources cloud"
     roles: Rôles
     users: Utilisateurs
   browse_objects: "Rechercher des objets"
@@ -90,14 +95,12 @@ fr:
         updated: "Mise à jour du plan de l'application réussie"
       warning:
         failed: "Le plan de l'application n'a pas été créé."
-        no_url_provided: "Aucun URL fourni pour le fichier XML du plan de l'application."
         not_valid: "le fichier contient des erreurs de syntaxe"
         not_valid_cyclic_reference: "Contient des références cycliques entre les plans des composants ou les services suivants : %{reference}"
         not_valid_duplicate_assembly_names: "doit contenir des noms uniques des plans de composants"
         not_valid_not_existing_assembly_reference: "Le plan de composant %{from_assembly}, service %{from_service}, paramètre %{from_param} référencent un plan de composant %{to_assembly} inexistant"
         not_valid_not_existing_param: "Le plan de composant %{from_assembly}, service %{from_service}, paramètre %{from_param} référencent param %{to_param}, qui n'est pas retourné par le plan de composant %{to_assembly}"
         not_valid_not_existing_service_reference: "Le plan de composant %{from_assembly}, service %{from_service}, paramètre %{from_param} référencent un plan de composant %{to_assembly} et service %{to_service} inexistants"
-        not_valid_or_reachable: "Le fichier XML du plan de l'application est soit invalide ou ne peut plus être joint sur %{url}"
     index:
       catalog_entries: "Plans des applications"
       catalog_entry: "Plan d'application"
@@ -108,7 +111,7 @@ fr:
     new:
       add_catalog_entry: "Ajouter un nouveau plan d'application"
       catalog_detail: "Catalogue %{name}"
-      choose_option_to_upload: "Choisissez l'une des options suivantes pour télécharger le fichier XML du plan de l'application"
+      choose_option_to_upload: "Choisissez l'une des options suivantes pour télécharger un fichier XML de plan d'application"
       from_url: "Depuis l'URL"
       hw_profile: "Profil de ressources cloud par défaut"
       name: Nom
@@ -250,7 +253,7 @@ fr:
       deployable_xml: "XML du plan de l'application"
       deployable_xml_url: "URL du XML du plan de l'application"
       edit_xml_after_save: "Modifier le fichier XML après l'enregistrement"
-      multiple: Aucun
+      multiple: Multiple
       none: Aucun
       save: Enregistrer
     index:
@@ -272,7 +275,7 @@ fr:
       no_catalog_selected: "aucun catalogue sélectionné"
     new_from_image:
       catalog_entry_name: "%{name}"
-      description: "La création d'un plan d'application depuis le modèle du composant « %{name} » lui permettra d'être construit et lancé. Choisissez simplement un catalogue dans lequel stocker le plan de l'application, puis définissez un profil des ressources cloud par défaut."
+      description: "La création d'un plan d'application à partir du modèle du composant « %{name} » lui permettra d'être construit et lancé. Choisissez simplement un catalogue dans lequel stocker le plan de l'application, puis définissez un profil des ressources cloud par défaut."
       no_available_catalog: "Aucun catalogue"
       title: "Créer un plan d'application"
     properties:
@@ -327,9 +330,13 @@ fr:
       cannot_stop: "L'application %{name} ne peut pas être supprimée car les instances suivantesne peuvent pas être arrêtées :"
       config_server_connection: "Impossible de se connecter au serveur de configuration"
       instance_state: "L'instance %{name} est dans l'état %{state}."
+      launch_failed: "Échec du lancement du déploiement"
       match_not_found: "Impossible de trouver une compte de fournisseur de ressources cloud approprié pour héberger l'application. Veuillez vérifier le quota des comptes de fournisseurs de ressources cloud et le statut des images."
       match_not_found_with_errors: "Correspondance introuvable : %{errors}"
       not_valid_deployable_xml: "semble ne pas être un XML de plan d'application valide : %{msg}"
+    events:
+      launch_attempt: "Tentative de lancement de ce déploiement sur le compte fournisseur %{account}"
+      state_changed: "État modifié sur %{state}"
     flash:
       error:
         cant_stop: "L'application %{name} n'a pas pu être arrêtée. Seules les applications en cours d'exécution peuvent être arrêtées."
@@ -430,7 +437,11 @@ fr:
       state: "État :"
       stop: Arrêt
     properties:
+      created: Créé
       global_uptime: "Temps d'activité global"
+      name: Nom
+      owner: Propriétaire
+      pool: "Zone de ressources cloud"
       property_name: "Nom de la propriété"
       uptime_1st_instance: "1ère instance de temps d'activité en cours"
       value: Valeur
@@ -464,6 +475,7 @@ fr:
       shutting_down: "Fermeture de l'application"
       stopped: "Toutes les instances sont arrêtées"
   edit: Modifier
+  edit_provider_account: "Modifier le compte de fournisseur de ressources cloud"
   edit_user: "Modifier l'utilisateur"
   email: E-mail
   filter_table:
@@ -475,6 +487,8 @@ fr:
     to: À
     viewing: Afficher
   first_name: Prénom
+  general:
+    delete_confirmation: "Êtes-vous certain de vouloir supprimer ?"
   general_settings: "Paramètres généraux"
   hardware_profiles:
     create:
@@ -488,6 +502,9 @@ fr:
           one: "%{not_deleted} n'a pas pu être supprimé"
           other: "Impossible de supprimer les profils matériel suivants : %{not_deleted}"
         not_deleted: "Le profil matériel n'a pas été supprimé"
+        not_deleted_perms:
+          one: "Permissions insuffisantes pour supprimer du matériel %{not_deleted}"
+          other: "Permissions insuffisantes pour supprimer %{count} profils de matériel %{not_deleted}"
       notice:
         deleted: "Le profil matériel a été supprimé"
         more_deleted:
@@ -551,7 +568,7 @@ fr:
       edit: Modifier
       edit_xml: "Modifier le XML"
       save_and_continue: "Enregistrer et continuer"
-    environment: "Cloud : %{environment}"
+    environment: Cloud
     environment_header: Cloud
     flash:
       error:
@@ -573,7 +590,7 @@ fr:
         not_found: "Image introuvable"
     import:
       blank_id: "L'ID du modèle du composant ne peut pas être vide."
-      image_id: "ID du modèle de composant du fournisseur de ressources cloud"
+      image_id: "ID de l'image du fournisseur de ressources cloud"
       image_imported: "L'image a été importée avec succès."
       image_not_imported: "L'image n'a pas pu être importée. Vérifiez le journal de Image Factory pour obtenir davantage de détails."
       import_image: "Importer l'image"
@@ -600,8 +617,8 @@ fr:
       upload: Télécharger
     not_on_provider: "L'image requise est introuvable sur le fournisseur de ressources cloud."
     overview:
-      back: Précédent
       description: "Les références à la balise et à l'image dans « %{name} » ont été validées avec succès. Vous pouvez maintenant enregistrer l'image et créer un plan d'application."
+      edit_xml: "Afficher et modifier le XML modèle"
       make_deployable: "Automatiquement faire de « %{name} » un plan d'application."
       save_template: "Enregistrer le modèle du composant"
       valid_image: "Image valide"
@@ -619,7 +636,7 @@ fr:
       failed_push_attempts:
         one: "1 tentative d'envoi (push) a échoué"
         other: "%{count} tentatives d'envoi (push) ont échoués"
-      image_uri: "URI de l'image"
+      image_id: "ID du modèle du composant"
       image_uuid: "UUID de l'image"
       latest: Dernier
       missing_build: "Veuillez commencer par sélectionner une version (build)"
@@ -629,6 +646,7 @@ fr:
       provider: "Fournisseur de ressources cloud"
       provider_account: "Compte fournisseur de ressources cloud"
       provider_images: "Image du fournisseur des ressources cloud"
+      providers_image_id: "ID de l'image du fournisseur de ressources cloud"
       push: Envoyer
       push_all: "Tout envoyer"
       push_started: "L'envoi est sur le point de commencer"
@@ -663,7 +681,8 @@ fr:
       provider_account_quota_reached: "%{account_name} : quota de comptes de fournisseurs de ressources cloud atteint"
       provider_account_quota_too_low: "Limite des quotas %{match_provider_account} trop basse pour lancer le plan d'application"
       provider_not_available: "%{account_name} : le fournisseur de ressources cloud n'est pas disponible"
-      realm_not_mapped: "%{account_name}: le cluster de ressources cloud %{frontend_realm_name} n'estmappé à aucun fournisseur de ressources cloud ou sphère de fournisseurs de ressources cloud applicable"
+      realm_not_mapped: "%{account_name} : la grappe de ressources cloud frontal %{frontend_realm_name} n'est mappée à aucun fournisseur de ressources cloud ou à aucune sphère de fournisseur de ressources cloud applicable"
+      reboot_already_scheduled: "le redémarrage est déjà planifié."
       reboot_invalid_action: "Reboot (redémarrer) est une action invalide."
       state_not_monitored: "Erreur, impossible de calculer l'heure de l'état : état non surveillé"
       stop_invalid_action: "Stop est une action invalide."
@@ -775,7 +794,8 @@ fr:
   launch_instance: "Lancer l'instance"
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
+    copyright:
+      po-header: ""
     dashboard: "Tableau de bord"
   login: Connexion
   logs:
@@ -788,7 +808,7 @@ fr:
       details: Détails
       event_time: Heure
       export_logs: "Journaux des exportations"
-      frontend_realm: "Cluster de ressources cloud"
+      frontend_realm: "Grappe de ressources cloud frontale"
       grouped_by: "Groupé par"
       hwp: "Profil de ressources cloud"
       image: Image
@@ -995,6 +1015,18 @@ fr:
       with_stopped_instances: "Avec des instances arrêtées"
     properties:
       properties: "Propriétés de %{pool}"
+    scoreboard:
+      alerts: Alertes
+      cloud_providers_total: "Total des fournisseurs de ressources cloud"
+      deployments_total: "Total des applications"
+      instances_failed: "Instances en échec"
+      instances_pending: "Instances en attente"
+      pools_in_use: "Zones de ressources cloud en cours d'utilisation"
+      pools_total: "Total des zones de ressources cloud"
+      quota_usage: "Utilisation du quota"
+      running_instances_quota: "Instances en cours d'exécution"
+      total_available_instances: "Instances totales disponibles"
+      total_instances: "Total des instances"
   privileges: Privilèges
   properties: Propriétés
   provider_accounts:
@@ -1020,9 +1052,9 @@ fr:
       could_not_connect: "Connexion au compte du fournisseur de ressources cloud impossible. Veuillez contacter un administrateur."
       exception_while_validating: "Une erreur s'est produite lors de la vérification des informations d’identification du fournisseur de ressources cloud. Veuillez vérifier votreinstallation puis essayez à nouveau."
       invalid_credentials: "Les informations d’identification de ce fournisseur de ressources cloud sontinvalides."
-      not_destroyable_instances: "Impossible de détruire les instances suivantes : %{instances}"
+      not_destroyable_deployments: "Les applications suivantes n'ont pas été arrêtées : %{deployments}"
       populate_hardware_profiles_failed: "Échec du remplissage de hardware_profile : %{message}"
-      populate_realms_failed: "Échec du remplissage des sphères : %{message}"
+      populate_realms_failed: "Échec du remplissage des grappes de ressources cloud : %{message}"
     flash:
       error:
         account_not_added:
@@ -1143,12 +1175,12 @@ fr:
       create: "Créer un groupe de priorité"
       title: "Ajouter un nouveau groupe de priorité"
   provider_realms:
-    name: "Nom de la sphère du fournisseur de ressources cloud"
-    provider_realms: "Sphères de fournisseurs de ressources clouds"
+    name: "Nom de la sphère du fournisseur"
+    provider_realms: "Sphères de fournisseurs"
     show:
-      details: "Détails de la sphère du fournisseur de ressources cloud"
-      mapping: "Mappage de la sphère du fournisseur de ressources cloud"
-      provider_accounts_mapped: "Comptes de fournisseurs de ressources cloud mappés à la sphère du fournisseur de ressources cloud %{name}"
+      details: "Détails de la sphère du fournisseur"
+      mapping: "Mappage de la sphère du fournisseur"
+      provider_accounts_mapped: "Comptes de fournisseurs de ressources cloud mappés à la sphère du fournisseur %{name}"
   provider_selection:
     edit_strategy:
       back_to_strategies: "Stratégies de sélection de fournisseurs de ressources cloud pour zone de ressources cloud : %{pool}"
@@ -1163,7 +1195,7 @@ fr:
       available_provider_accounts: "Comptes de fournisseurs de ressources cloud disponibles"
       available_strategies: "Stratégies disponibles"
       configure: Configurer
-      edit_provider_accounts: "Modifier les comptes de fournisseurs de ressources cloud pour une famille dela zone de ressources cloud"
+      edit_provider_accounts: "Modifier des comptes de fournisseurs de ressources cloud le cloud"
       edit_strategy: "Modifier la stratégie %{name}"
       environment: "Cloud : %{environment}"
       provider_selection: "Stratégies de sélection de fournisseurs de ressources cloud"
@@ -1209,14 +1241,17 @@ fr:
         disabled: "Fournisseur de ressources cloud désactivé"
         updated: "Fournisseur de ressources cloud mis à jour."
       warning:
+        check_config_file: "Impossible de vérifier si le nom du fournisseur est correct. Veuillez vérifier le fichier de configuration"
         connect_failed: "Échec de la connexion au fournisseur des ressources cloud"
         not_stopped_instances: "Le fournisseur de ressources cloud n'a pas été désactivé. Échec de l'arrêt des instances suivantes :"
         not_terminated_instances: "Le fournisseur de ressources cloud n'a pas été désactivé. Échec du changement de statut sur « stop » des instances suivantes :"
     form:
       caution_alt_text: Attention
       caution_image: Attention
+      delete_provider: "Supprimer le fournisseur de ressources cloud"
       enter_correct_url_msg: "Veuillez saisir un format d'URL correct."
       required_field: "Champ requis."
+      save_changes: "Enregistrer les modifications"
       select_type_of_provider: "Sélectionnez le type de fournisseur de ressources cloud"
       test_connection: "Connexion test"
       x_deltacloud_provider:
@@ -1266,54 +1301,54 @@ fr:
       used: Utilisé
   realm_mappings:
     new:
-      create_new: "Créer un nouveau mappage de sphère"
-  realm_s: Sphères
+      create_new: "Créer un nouveau mappage de la grappe de ressources cloud"
+  realm_s: "Grappes de ressources cloud"
   realms:
     edit:
       cancel_editing: "Annuler les modifications"
       properties: Propriétés
     flash:
       error:
-        more_not_deleted: "Impossible de supprimer ces sphères :"
-        not_deleted: "La sphère n'a pas été supprimée"
-        select_to_delete: "Vous devez sélectionner au moins une sphère à supprimer."
+        more_not_deleted: "Suppression impossible de ces grappes de ressources cloud  :"
+        not_deleted: "La grappe de ressources cloud n'a pas été supprimée"
+        select_to_delete: "Vous devez sélectionner au moins une grappe de ressources cloud à supprimer."
         select_to_delete_mapping: "Vous devez sélectionner au moins un mappage à supprimer."
       notice:
-        added: "La sphère a été ajoutée"
-        added_mapping: "Le mappage de sphère a été ajouté."
-        deleted: "La sphère a été supprimée"
-        more_deleted: "Ces sphères ont été supprimées :"
-        updated: "Sphère mise à jour"
+        added: "La grappe de ressources cloud a été ajoutée"
+        added_mapping: "Le mappage de la grappe de ressources cloud a été ajouté."
+        deleted: "La grappe de ressources cloud a été supprimée"
+        more_deleted: "Les grappes de ressources cloud suivantes ont été supprimées :"
+        updated: "Grappe de ressources Cloud modifiée"
     index:
-      realm: Sphère
+      realm: "Grappe de ressources cloud"
       realm_availability: Disponible ?
       realm_available:
         false_value: Non
         true_value: Oui
-      realm_name: "Nom de la sphère"
+      realm_name: "Nom de la grappe de ressources cloud"
     list:
       delete_selected: "Supprimer la sélection"
     mapping:
-      frontend_realms_mapped_to_provider: "Sphères mappées au fournisseur de ressources cloud %{name} :"
-      frontend_realms_mapped_to_realm: "Sphères mappées à la sphère du fournisseur de ressources cloud %{name} :"
+      frontend_realms_mapped_to_provider: "Grappe de ressources Cloud mappée au fournisseur de ressources Cloud %{name}:"
+      frontend_realms_mapped_to_realm: "Grappe de ressources Cloud mappée à la sphère du fournisseur %{name} :"
       mapping_provider: "Ajouter le mappage au fournisseur de ressources cloud"
-      mapping_realm: "Ajouter le mappage à la sphère du fournisseur de ressources cloud"
-      provider_accounts_mapped_to_realm: "Comptes de fournisseurs de ressources cloud mappés à la sphère %{name} :"
-      realm_mapped_providers: "La sphère %{name} est mappée aux fournisseurs de ressources cloud :"
-      realm_mapped_realms: "La sphère %{name} est mappée aux sphères :"
+      mapping_realm: "Ajouter le mappage à la sphère du fournisseur"
+      provider_accounts_mapped_to_realm: "Compte de fournisseurs de ressources cloud assigné à la grappe de ressourcesCloud %{name} :"
+      realm_mapped_providers: "La grappe de ressources cloud %{name} est mappée aux fournisseurs de resources cloud :"
+      realm_mapped_realms: "La grappe de ressources cloud %{name} est mappée aux grappes de ressources cloud :"
     new:
-      create_realm: "Créer une nouvelle sphère"
-    new_realm: "Nouvelle sphère"
+      create_realm: "Créer une nouvelle grappe de ressources cloud"
+    new_realm: "Nouvelle grappe de ressources cloud"
     preset_filters:
-      all_realms: "Toutes les sphères"
+      all_realms: "Toutes les grappes de ressources cloud"
     properties:
-      realm_details: "Détails de la sphère"
-      realm_name: "Nom de la sphère"
-    realms: Sphères
+      realm_details: "Détails de la grappe de ressources cloud"
+      realm_name: "Nom de la grappe de ressources cloud"
+    realms: "Grappes de ressources cloud"
     show:
       properties: Propriétés
-      realm_mapping: "Mappage de sphère"
-      realm_unavailable: "La sphère %{name} est n'est pas actuellement disponible."
+      realm_mapping: "Mappage de la grappe de ressources cloud"
+      realm_unavailable: "La grappe de ressources cloud %{name} est actuellement indisponible."
       sure_to_delete: "Êtes-vous certain de vouloir supprimer ?"
     tab_captions:
       mapping: Mappage
@@ -1369,12 +1404,12 @@ fr:
       warning:
         not_updated_quota: "Impossible de mettre à jour le quota par défaut"
     index:
-      permissions: Permissions
-      permissions_desc: "Modifier le quota libre-service par défaut."
+      permissions: "Valeurs par défaut de l'utilisateur"
+      permissions_desc: "Modifier les paramètres par défaut de l'utilisateur"
     self_service:
       account: Compte
       instances_quota: "Quota des instances :"
-      self_service_default: "Traitement de l'utilisateur : libre-service par défaut"
+      self_service_default: "Paramètres par défaut de l'utilisateur"
       self_service_settings: "Paramètres libre-service"
     settings: Paramètres
   summary: Résumé
@@ -1486,7 +1521,8 @@ fr:
       edit_account: "Modifier le compte"
       edit_user: "Modifier l'utilisateur"
     errors:
-      has_running_instances: "%{login} possède des instances en cours d'exécution"
+      cannot_edit_ldap_user: "Impossible de modifier l'utilisateur LDAP"
+      has_running_instances: "%{username} possède des instances en cours d'exécution"
     flash:
       notice:
         deleted: "Suppression de l'utilisateur réussie."
@@ -1498,7 +1534,7 @@ fr:
         you_registred: "Vous vous êtes enregistré avec succès."
       warning:
         not_delete: "Suppression impossible : %{reason}"
-        not_delete_same_user: "Impossible de supprimer %{login} : vous êtes connecté en tant que cet utilisateur"
+        not_delete_same_user: "Impossible de supprimer %{username} : vous êtes connecté sous ce nom utilisateur"
     form:
       save_user: "Enregistrer l'utilisateur"
       user_treatment: "Traitement de l'utilisateur"

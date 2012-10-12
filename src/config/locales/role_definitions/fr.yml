@@ -16,7 +16,7 @@ fr:
         admin: "Administrateur des fournisseurs de ressources cloud globales"
         user: "Utilisateur des fournisseurs de ressources cloud globales"
       realm:
-        admin: "Administrateur de sphères globales"
+        admin: "Administrateur de grappes de ressources cloud globales"
     catalog:
       admin: "Administrateur de catalogues"
       user: "Utilisateur de catalogues"

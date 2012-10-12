@@ -8,7 +8,7 @@ fr:
       catalog:
         created_at: "Créé à"
         name: Nom
-        pool_family_id: "Famille de la zone de ressources cloud"
+        pool_family_id: Cloud
         pool_id: "Zone de ressources cloud"
         updated_at: "Mis à jour à"
       catalog_entry:
@@ -49,19 +49,19 @@ fr:
         description: Description
         name: Nom
         owner_id: Propriétaire
-        pool_family_id: "Famille de la zone de ressources cloud"
+        pool_family_id: Cloud
         xml: "XML de plan d'application"
         xml_filename: "Nom de fichier du XML"
       deployment:
         created_at: "Créé à"
         deployable_xml: "XML du plan de l'application"
-        frontend_realm_id: Sphère
+        frontend_realm_id: "Grappe de ressources cloud"
         lock_version: "Version du verrou"
         name: Nom
         owner_id: Propriétaire
-        pool_family_id: "Famille de la zone de ressources cloud"
+        pool_family_id: Cloud
         pool_id: "Zone de ressources cloud"
-        realm_id: "Sphère du fournisseur des ressources cloud"
+        realm_id: "Sphère du fournisseur"
         scheduled_for_deletion: "Suppression planifiée"
         updated_at: "Mis à jour à"
         uuid: Uuid
@@ -120,7 +120,7 @@ fr:
         created_at: "Créé à"
         deployment_id: Application
         external_key: "Clé externe"
-        frontend_realm_id: Sphère
+        frontend_realm_id: "Grappe de ressources cloud"
         hardware_profile_id: "Profil de ressources cloud"
         image_build_uuid: "UUID de build de l'image"
         image_uuid: "UUID de l'image"
@@ -130,7 +130,7 @@ fr:
         lock_version: "Version du verrou"
         name: Nom
         owner_id: Propriétaire
-        pool_family_id: "Famille de la zone de ressources cloud"
+        pool_family_id: Cloud
         pool_id: "Zone de ressources cloud"
         private_addresses: "Adresses privées"
         provider_account_id: "Compte fournisseur de ressources cloud"
@@ -187,14 +187,14 @@ fr:
         exported_as: "Exporté en tant que"
         lock_version: "Version du verrou"
         name: Nom
-        pool_family_id: "Famille de la zone de ressources cloud"
+        pool_family_id: Cloud
         quota_id: Quota
         updated_at: "Mis à jour à"
       pool_family:
         created_at: "Créé à"
         description: Description
         lock_version: "Version du verrou"
-        name: "Nom de la famille de la zone de ressources cloud"
+        name: "Nom du cloud"
         quota_id: Quota
         updated_at: "Mis à jour à"
       privilege:
@@ -255,9 +255,9 @@ fr:
         provider_id: "Fournisseur de ressources cloud"
         updated_at: "Mis à jour à"
       realm_backend_target:
-        frontend_realm_id: Sphère
-        realm_or_provider_id: "Sphère du fournisseur des ressources cloud ou fournisseur de ressources cloud"
-        realm_or_provider_type: "Sphère du fournisseur des ressources cloud ou type du fournisseur de ressources cloud"
+        frontend_realm_id: "Grappe de ressources cloud"
+        realm_or_provider_id: "Sphère du fournisseur ou fournisseur de ressources cloud"
+        realm_or_provider_type: "Type de la sphère du fournisseur ou du fournisseur de ressources cloud"
       role:
         assign_to_owner: "Assigner au propriétaire"
         created_at: "Créé à"
@@ -297,10 +297,10 @@ fr:
         last_login_ip: "Dernière adresse IP"
         last_name: "Nom de famille"
         last_request_at: "Dernière requête à"
-        login: Connexion
         login_count: "Compte des connexions"
         quota_id: Quota
         updated_at: "Mis à jour à"
+        username: "Nom d'utilisateur"
       view_state:
         action: Action
         controller: Contrôleur
@@ -324,7 +324,13 @@ fr:
             deltacloud_provider:
               invalid_provider: "Doit être un identifiant de fournisseur valide"
             name:
+              config_not_exist: "vérification impossible, le fichier de configuration n'existe pas"
               invalid: "doit uniquement contenir : nombres, lettres, espaces, « _ » et « - »"
+              not_found_in_config: "introuvable dans le fichier de configuration"
+              start_with_ec2: "doit commencer par « ec2- »"
+              start_with_mock: "doit commencer par « mock »"
+            provider_type:
+              does_not_exist: "n'existe pas"
             url:
               invalid_framework: "Doit être un URI de fournisseur valide"
     models:
@@ -338,7 +344,7 @@ fr:
       deployable: "Plan d'application"
       deployment: Application
       event: Événement
-      frontend_realm: Sphère
+      frontend_realm: "Grappe de ressources cloud"
       hardware_profile: "Profil des ressources cloud"
       hardware_profile_property: "Propriété du profil de ressources cloud"
       hook: Hook
@@ -350,15 +356,15 @@ fr:
       metadata_object: "Objet de métadonnées"
       permission: Permission
       pool: "Zone de ressources cloud"
-      pool_family: "Famille de la zone de ressources cloud"
+      pool_family: Cloud
       privilege: Privilège
       property_enum_entry: "Entrée de l'énumération de propriété"
       provider: "Fournisseur de ressources cloud"
       provider_account: "Compte fournisseur de ressources cloud"
       provider_type: "Type du fournisseur de ressources cloud"
       quota: Quota
-      realm: "Sphère du fournisseur des ressources cloud"
-      realm_backend_target: "Cible backend de la sphère du fournisseur de ressources cloud"
+      realm: "Sphère du fournisseur"
+      realm_backend_target: "Cible backend de la sphère du fournisseur"
       role: Rôle
       session: Session
       task: Tâche
