@@ -36,7 +36,7 @@ describe ProvidersController do
           # xml_provider.xpath('name').text.should be_eql(provider.name.to_s)
           # it should not have details of providers
           %w{name url provider_type deltacloud_provider}.each do |element|
-            xml_provider.xpath(element).should be_empty
+            xml_provider.xpath(element).should_not be_empty
           end
         end
       end

@@ -2,7 +2,7 @@
 %providers
   - @providers.each do |p|
     %provider{:id => p.id, :href => api_provider_url(p)}
-      -if local_assigns[:with_data]
+      -unless local_assigns[:minimal]
         %name= p.name
         %url= p.url
         %provider_type= p.provider_type.deltacloud_driver
