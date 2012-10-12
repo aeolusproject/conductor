@@ -8,7 +8,7 @@ ru:
       catalog:
         created_at: Создано
         name: Имя
-        pool_family_id: "Набор зон ресурсов"
+        pool_family_id: Облако
         pool_id: "Зона ресурсов"
         updated_at: Обновлено
       catalog_entry:
@@ -49,17 +49,17 @@ ru:
         description: Описание
         name: Имя
         owner_id: Владелец
-        pool_family_id: "Набор зон ресурсов"
+        pool_family_id: Облако
         xml: "XML программного шаблона"
         xml_filename: "Файл XML"
       deployment:
         created_at: Создано
         deployable_xml: "XML программного шаблона"
-        frontend_realm_id: Кластер
+        frontend_realm_id: "Кластер ресурсов"
         lock_version: "Версия блокирования"
         name: Имя
         owner_id: Владелец
-        pool_family_id: "Набор зон ресурсов"
+        pool_family_id: Облако
         pool_id: "Зона ресурсов"
         realm_id: "Кластер провайдера"
         scheduled_for_deletion: "Выбран для удаления"
@@ -120,7 +120,7 @@ ru:
         created_at: Создано
         deployment_id: Приложение
         external_key: "Внешний ключ"
-        frontend_realm_id: Кластер
+        frontend_realm_id: "Кластер ресурсов"
         hardware_profile_id: "Профиль ресурсов"
         image_build_uuid: "UUID сборки образа"
         image_uuid: "UUID образа"
@@ -130,7 +130,7 @@ ru:
         lock_version: "Версия блокирования"
         name: Имя
         owner_id: Владелец
-        pool_family_id: "Набор зон ресурсов"
+        pool_family_id: Облако
         pool_id: "Зона ресурсов"
         private_addresses: "Закрытые адреса"
         provider_account_id: "Учетная запись провайдера"
@@ -187,14 +187,14 @@ ru:
         exported_as: "Экспорт в"
         lock_version: "Версия блокирования"
         name: Имя
-        pool_family_id: "Набор зон ресурсов"
+        pool_family_id: Облако
         quota_id: Квота
         updated_at: Обновлено
       pool_family:
         created_at: Создано
         description: Описание
         lock_version: "Версия блокирования"
-        name: "Имя набора зон ресурсов"
+        name: "Название облака"
         quota_id: Квота
         updated_at: Обновлено
       privilege:
@@ -255,7 +255,7 @@ ru:
         provider_id: "Провайдер ресурсов"
         updated_at: Обновлен
       realm_backend_target:
-        frontend_realm_id: Кластер
+        frontend_realm_id: "Кластер ресурсов"
         realm_or_provider_id: "Провайдер или кластер"
         realm_or_provider_type: "Тип провайдера или кластера"
       role:
@@ -297,10 +297,10 @@ ru:
         last_login_ip: "Последний вход с IP"
         last_name: Фамилия
         last_request_at: "Последний запрос"
-        login: Вход
         login_count: "Число удачных попыток входа"
         quota_id: Квота
         updated_at: Обновлен
+        username: Пользователь
       view_state:
         action: Действие
         controller: Контроллер
@@ -324,7 +324,13 @@ ru:
             deltacloud_provider:
               invalid_provider: "Необходимо указать действительный идентификатор провайдера"
             name:
+              config_not_exist: "не может быть проверен, так как файл конфигурации не существует"
               invalid: "может содержать буквы, цифры, пробелы, «-», «_»"
+              not_found_in_config: "не найден(о) в файле конфигурации"
+              start_with_ec2: "должен начинаться с «ec2-»"
+              start_with_mock: "должен начинаться с «mock»"
+            provider_type:
+              does_not_exist: "не существует"
             url:
               invalid_framework: "Необходимо указать действительный URI"
     models:
@@ -338,7 +344,7 @@ ru:
       deployable: "Программный шаблон"
       deployment: Приложение
       event: Событие
-      frontend_realm: Кластер
+      frontend_realm: "Кластер ресурсов"
       hardware_profile: "Профиль ресурсов"
       hardware_profile_property: "Свойство профиля"
       hook: Hook
@@ -350,7 +356,7 @@ ru:
       metadata_object: "Объект метаданных"
       permission: Разрешение
       pool: "Зона ресурсов"
-      pool_family: "Набор зон ресурсов"
+      pool_family: Облако
       privilege: Привилегия
       property_enum_entry: "Запись набора значений свойства"
       provider: "Провайдер ресурсов"

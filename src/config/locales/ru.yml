@@ -26,8 +26,8 @@ ru:
       no_provider_account_given: "Учетная запись провайдера не определена"
       provider_account_not_found: "Не найдена учётная запись провайдера для %{name}"
       provider_account_not_found_for_id: "Не найдена учётная запись провайдера для ID %{id}"
-      provider_image_not_found: "Не найден %{providerimage}"
-      provider_image_status_not_found: "Не удалось определить статус для %{providerimage}"
+      provider_image_not_found: "Не найден образ %{providerimage}"
+      provider_image_status_not_found: "Не удалось определить статус образа %{providerimage}"
       push_error: "Не удалось отправить %{targetimage} в %{account}. Ошибка: %{error}"
       specify_a_type_build_or_import: "Выберите тип, сборку или импорт"
       specify_environment: "Укажите облако"
@@ -46,10 +46,15 @@ ru:
       permissions: "Глобальные роли"
       pool_families: Облака
       provider_selection: "Выбор провайдера"
-      realms: Кластеры
+      realms: "Кластеры ресурсов"
       user_groups: "Группы пользователей"
       users: Пользователи
     flash:
+      error:
+        download_failed: "Ошибка загрузки XML"
+        no_url_provided: "Не указан адрес для импорта XML"
+        not_valid_or_reachable: "Файл XML недействительный или недоступен по адресу %{url}"
+        not_valid_url: "Недействительный адрес %{url}"
       notice:
         must_be_logged: "Для доступа к странице требуется авторизация"
         must_not_be_logged: "Для доступа к станице необходимо завершить сеанс"
@@ -72,8 +77,8 @@ ru:
     logs: Журналы
     pool_families: Облака
     pools: "Зоны ресурсов"
-    provider_realms: "Кластеры провайдеров"
-    realms: Кластеры
+    provider_realms: "Кластеры провайдера"
+    realms: "Кластеры ресурсов"
     roles: Роли
     users: Пользователи
   browse_objects: "Обзор объектов"
@@ -90,14 +95,12 @@ ru:
         updated: "Шаблон обновлён."
       warning:
         failed: "Шаблон не был создан."
-        no_url_provided: "Не указан URL-адрес XML программного шаблона."
         not_valid: "файл содержит синтаксические ошибки"
         not_valid_cyclic_reference: "Содержит взаимные ссылки между комплектами компонентов или службами: %{reference}"
         not_valid_duplicate_assembly_names: "должен содержать уникальные имена комплектов компонентов"
         not_valid_not_existing_assembly_reference: "Комплект %{from_assembly}, служба %{from_service}, параметр  %{from_param} ссылается на несуществующий комплект %{to_assembly}."
         not_valid_not_existing_param: "Комплект %{from_assembly}, служба %{from_service}, параметр  %{from_param} ссылается на невозвращаемый комплектом %{to_assembly} параметр %{to_param}."
         not_valid_not_existing_service_reference: "Комплект %{from_assembly}, служба %{from_service}, параметр  %{from_param} ссылается на несуществующий комплект %{to_assembly} и службу %{to_service}."
-        not_valid_or_reachable: "XML программного шаблона имеет недопустимый формат или  недоступен на %{url}."
     index:
       catalog_entries: "Программные шаблоны"
       catalog_entry: "Программный шаблон"
@@ -108,7 +111,7 @@ ru:
     new:
       add_catalog_entry: "Добавить программный шаблон"
       catalog_detail: "%{name}"
-      choose_option_to_upload: "Выберите способ отправки XML-файла"
+      choose_option_to_upload: "Выберите способ передачи XML шаблона"
       from_url: URL
       hw_profile: "Стандартный профиль ресурсов"
       name: Имя
@@ -250,7 +253,7 @@ ru:
       deployable_xml: "XML программного шаблона"
       deployable_xml_url: "URL XML программного шаблона"
       edit_xml_after_save: "Редактировать XML"
-      multiple: Нет
+      multiple: Несколько
       none: Нет
       save: Сохранить
     index:
@@ -272,7 +275,7 @@ ru:
       no_catalog_selected: "не выбран каталог"
     new_from_image:
       catalog_entry_name: "%{name}"
-      description: "Создание программного шаблона на основе \"%{name}\" позволит подготовить егок сборке и запуску. Выберите каталог для сохранения шаблона и определите профиль ресурсов, который будет использоваться по умолчанию. "
+      description: "Создание программного шаблона на основе «%{name}» позволит подготовить его ксборке и запуску. Выберите каталог для размещения шаблона и определите профиль ресурсов, который будет использоваться по умолчанию. "
       no_available_catalog: "Нет каталога"
       title: "Создать программный шаблон"
     properties:
@@ -327,9 +330,13 @@ ru:
       cannot_stop: "Приложение %{name} не может быть удалено, так как не удалось остановить следующие экземпляры:"
       config_server_connection: "Ошибка подключения к серверу конфигурации"
       instance_state: "Статус экземпляра %{name}: %{state}."
+      launch_failed: "Ошибка запуска развертывания шаблона"
       match_not_found: "Не удалось подобрать учётную запись провайдера для размещения приложения. Проверьте квоту учётных записей и статус образов."
       match_not_found_with_errors: "Нет соответствий: %{errors}"
       not_valid_deployable_xml: "- неверный XML шаблона: %{msg}"
+    events:
+      launch_attempt: "Попытка запуска развертывания для учетной записи %{account}"
+      state_changed: "Новый статус:   %{state}"
     flash:
       error:
         cant_stop: "Ошибка остановки %{name}. Только работающие приложения могут быть остановлены."
@@ -362,7 +369,7 @@ ru:
       deployable_xml: "XML программного шаблона"
       details: Свойства
       hdd: HDD
-      hint: "Выберите шаблон для запуска в \"%{pool}\"."
+      hint: "Выберите шаблон для запуска в «%{pool}»."
       image_id: "ID шаблона компонентов"
       no_catalog_entry: "Нет программных шаблонов. Сначала следует их добавить."
       profile: Профиль
@@ -430,7 +437,11 @@ ru:
       state: "Статус:"
       stop: Остановить
     properties:
+      created: Создан
       global_uptime: "Общее время работы"
+      name: Имя
+      owner: Владелец
+      pool: "Зона ресурсов"
       property_name: "Название свойства"
       uptime_1st_instance: "Время работы первого экземпляра"
       value: Значение
@@ -464,6 +475,7 @@ ru:
       shutting_down: Завершается
       stopped: "Все экземпляры остановлены"
   edit: Изменить
+  edit_provider_account: "Изменить учётную запись провайдера"
   edit_user: "Изменить пользователя"
   email: "Email:"
   filter_table:
@@ -475,6 +487,8 @@ ru:
     to: Кому
     viewing: Просмотр
   first_name: Имя
+  general:
+    delete_confirmation: "Действительно удалить?"
   general_settings: "Общие параметры"
   hardware_profiles:
     create:
@@ -488,6 +502,9 @@ ru:
           one: "Не удалось удалить %{not_deleted}"
           other: "Не удалось удалить профили: %{not_deleted}"
         not_deleted: "Профиль не был удалён."
+        not_deleted_perms:
+          one: "Недостаточно полномочий для удаления %{not_deleted}."
+          other: "Недостаточно полномочий для удаления профилей %{not_deleted} (всего %{count})."
       notice:
         deleted: "Профиль удалён."
         more_deleted:
@@ -551,7 +568,7 @@ ru:
       edit: Изменить
       edit_xml: "Изменить XML"
       save_and_continue: "Сохранить и продолжить"
-    environment: "Облако: %{environment}"
+    environment: Облако
     environment_header: Облако
     flash:
       error:
@@ -573,7 +590,7 @@ ru:
         not_found: "Образ не найден"
     import:
       blank_id: "ID шаблона не может быть пустым."
-      image_id: "ID шаблона компонентов провайдера"
+      image_id: "ID образа провайдера"
       image_imported: "Импорт образа завершен."
       image_not_imported: "Ошибка импорта. Проверьте сообщения в журнале Image Factory."
       import_image: "Импорт образа"
@@ -600,8 +617,8 @@ ru:
       upload: Отправить
     not_on_provider: "Провайдер не содержит указанный образ."
     overview:
-      back: Назад
       description: "Проверка «%{name}» успешна. Можно его сохранить и на его основе создать программный шаблон."
+      edit_xml: "Просмотр XML шаблона"
       make_deployable: "Автоматически создать программный шаблон «%{name}»."
       save_template: "Сохранить шаблон"
       valid_image: "Действительный образ"
@@ -619,7 +636,7 @@ ru:
       failed_push_attempts:
         one: "1 неудачная попытка передачи"
         other: "Всего неудачных попыток передачи: %{count}"
-      image_uri: "URI образа"
+      image_id: "ID шаблона компонентов"
       image_uuid: "UUID образа"
       latest: Последний
       missing_build: "Выберите сборку"
@@ -629,6 +646,7 @@ ru:
       provider: "Провайдер ресурсов"
       provider_account: "Учетная запись провайдера"
       provider_images: "Образы провайдера"
+      providers_image_id: "ID образа провайдера"
       push: Отправить
       push_all: "Отправить все"
       push_started: "Отправка скоро начнется."
@@ -664,6 +682,7 @@ ru:
       provider_account_quota_too_low: "Слишком низкая квота %{match_provider_account} для запуска программного шаблона"
       provider_not_available: "%{account_name}: провайдер недоступен"
       realm_not_mapped: "%{account_name}: %{frontend_realm_name} не связан с провайдерами или кластерами"
+      reboot_already_scheduled: "перезагрузка уже назначена."
       reboot_invalid_action: "Недопустимое действие: «перезагрузить»."
       state_not_monitored: "Не удалось определить время в текущем состоянии: не отслеживается"
       stop_invalid_action: "Недопустимое действие: «остановить»."
@@ -775,7 +794,8 @@ ru:
   launch_instance: "Запустить экземпляр"
   layout:
     appname: "Облачная инфраструктура CloudForms"
-    copyright: "&copy; 2009-2012 Red Hat, Inc."
+    copyright:
+      po-header: " "
     dashboard: Обзор
   login: Вход
   logs:
@@ -995,6 +1015,18 @@ ru:
       with_stopped_instances: "Включая остановленные"
     properties:
       properties: "Свойства %{pool}"
+    scoreboard:
+      alerts: Уведомления
+      cloud_providers_total: "Провайдеры ресурсов"
+      deployments_total: "Всего приложений"
+      instances_failed: "Сбойные экземпляры"
+      instances_pending: "Ожидающие экземпляры"
+      pools_in_use: "Занятые зоны ресурсов"
+      pools_total: "Всего зон ресурсов"
+      quota_usage: "Занято квоты"
+      running_instances_quota: Активные
+      total_available_instances: "Всего экземпляров доступно"
+      total_instances: "Всего экземпляров"
   privileges: Права
   properties: "Свойства "
   provider_accounts:
@@ -1020,9 +1052,9 @@ ru:
       could_not_connect: "Ошибка подключения к учётной записи. Обратитесь к администратору."
       exception_while_validating: "Ошибка проверки реквизитов доступа к провайдеру. Проверьте параметры и повторите попытку."
       invalid_credentials: "Неверные реквизиты доступа."
-      not_destroyable_instances: "Ошибка уничтожения экземпляров: %{instances}"
+      not_destroyable_deployments: "Приложения остановлены: %{deployments}"
       populate_hardware_profiles_failed: "Не удалось заполнить профили: %{message}"
-      populate_realms_failed: "Ошибка заполнения кластеров: %{message}"
+      populate_realms_failed: "Не удалось заполнить профили ресурсов: %{message}"
     flash:
       error:
         account_not_added:
@@ -1143,11 +1175,11 @@ ru:
       create: "Создать приоритетную группу"
       title: "Добавить новую приоритетную группу"
   provider_realms:
-    name: "Имя кластера провайдера"
-    provider_realms: "Кластеры провайдеров"
+    name: "Имя кластера"
+    provider_realms: "Кластеры провайдера"
     show:
-      details: "Свойства кластера провайдера"
-      mapping: "Сопоставление провайдера кластеру"
+      details: "Свойства кластера"
+      mapping: "Сопоставление кластера"
       provider_accounts_mapped: "Учётные записи провайдера сопоставлены кластеру %{name}:"
   provider_selection:
     edit_strategy:
@@ -1163,7 +1195,7 @@ ru:
       available_provider_accounts: "Доступные учётные записи провайдера"
       available_strategies: "Доступные стратегии"
       configure: Настроить
-      edit_provider_accounts: "Изменить учётные записи провайдера для набора зон"
+      edit_provider_accounts: "Изменить учётные записи провайдера для этого облака"
       edit_strategy: "Изменить стратегию %{name}"
       environment: "Облако: %{environment}"
       provider_selection: "Стратегии выбора провайдера"
@@ -1209,14 +1241,17 @@ ru:
         disabled: "Провайдер отключен."
         updated: "Провайдер обновлён."
       warning:
+        check_config_file: "Не удалось проверить имя провайдера. Проверьте файл конфигурации."
         connect_failed: "Ошибка соединения с провайдером."
         not_stopped_instances: "Провайдер не отключен, так как не удалось остановить экземпляры:"
         not_terminated_instances: "Провайдер не отключен, так как не удалось изменить статус экземпляров на «остановлен»:"
     form:
       caution_alt_text: Внимание
       caution_image: Внимание
+      delete_provider: "Удалить провайдер"
       enter_correct_url_msg: "Проверьте формат URL."
       required_field: "Обязательное поле"
+      save_changes: Сохранить
       select_type_of_provider: "Выберите тип провайдера"
       test_connection: "Проверка соединения"
       x_deltacloud_provider:
@@ -1233,7 +1268,7 @@ ru:
       error_instances: "Ошибки (текущие)"
       historical_error_instances: "Ошибки (известные)"
       historical_running_instances: "Работающие (известные)"
-      no_providers_available: "Нет доступных провайдеров."
+      no_providers_available: "Нет провайдеров."
       pending_instances: "Ожидающие (текущие)"
       provider_name: "Имя провайдера ресурсов"
       provider_type: "Тип провайдера ресурсов"
@@ -1266,8 +1301,8 @@ ru:
       used: Занято
   realm_mappings:
     new:
-      create_new: "Создать связь для кластера"
-  realm_s: Кластеры
+      create_new: "Создать соответствие для кластера ресурсов"
+  realm_s: "Кластеры ресурсов"
   realms:
     edit:
       cancel_editing: "Отменить изменения"
@@ -1280,12 +1315,12 @@ ru:
         select_to_delete_mapping: "Необходимо выбрать связь для удаления."
       notice:
         added: "Кластер добавлен."
-        added_mapping: "Добавлена связь для кластера."
-        deleted: "Кластер удалён."
-        more_deleted: "Удалены кластеры:"
-        updated: "Кластер обновлён."
+        added_mapping: "Соответствие добавлено."
+        deleted: "Кластер удален."
+        more_deleted: "Кластеры удалены:"
+        updated: "Кластер обновлен"
     index:
-      realm: Кластер
+      realm: "Кластер ресурсов"
       realm_availability: Доступен?
       realm_available:
         false_value: Нет
@@ -1298,22 +1333,22 @@ ru:
       frontend_realms_mapped_to_realm: "Кластеры связаны с %{name}:"
       mapping_provider: "Добавить соответствие для провайдера ресурсов"
       mapping_realm: "Добавить соответствие для кластера"
-      provider_accounts_mapped_to_realm: "Учётные записи провайдера сопоставлены кластеру %{name}:"
+      provider_accounts_mapped_to_realm: "Учётные записи сопоставлены кластеру %{name}:"
       realm_mapped_providers: "Кластер %{name} связан с провайдерами:"
-      realm_mapped_realms: "Кластер %{name} связан с кластерами:"
+      realm_mapped_realms: "%{name} связан с кластером ресурсов провайдера:"
     new:
-      create_realm: "Создать кластер"
-    new_realm: "Новый кластер"
+      create_realm: "Создать кластер ресурсов"
+    new_realm: "Новый кластер ресурсов"
     preset_filters:
-      all_realms: "Все кластеры"
+      all_realms: "Все кластеры ресурсов"
     properties:
-      realm_details: "Свойства кластера"
+      realm_details: "Свойства кластера ресурсов"
       realm_name: "Имя кластера"
-    realms: Кластеры
+    realms: "Кластеры ресурсов"
     show:
-      properties: "Свойства "
-      realm_mapping: "Сопоставление кластера"
-      realm_unavailable: "%{name} недоступен."
+      properties: Свойства
+      realm_mapping: "Соответствие кластера"
+      realm_unavailable: "Кластер %{name} недоступен."
       sure_to_delete: "Действительно удалить?"
     tab_captions:
       mapping: Соответствие
@@ -1369,12 +1404,12 @@ ru:
       warning:
         not_updated_quota: "Не удалось обновить исходную квоту"
     index:
-      permissions: Разрешения
-      permissions_desc: "Изменение стандартной квоты."
+      permissions: "Параметры по умолчанию"
+      permissions_desc: "Изменить стандартные параметры пользователя"
     self_service:
       account: "Учётная запись"
       instances_quota: "Квота для экземпляров:"
-      self_service_default: "По умолчанию самообслуживание"
+      self_service_default: "Параметры пользователя по умолчанию"
       self_service_settings: "Параметры самообслуживания"
     settings: Параметры
   summary: Сводка
@@ -1486,7 +1521,8 @@ ru:
       edit_account: "Изменить учётную запись"
       edit_user: "Изменить пользователя"
     errors:
-      has_running_instances: "У %{login} есть работающие экземпляры."
+      cannot_edit_ldap_user: "Не удалось изменить пользователя LDAP"
+      has_running_instances: "%{username} выполняет экземпляры"
     flash:
       notice:
         deleted: "Пользователь удалён."
@@ -1498,7 +1534,7 @@ ru:
         you_registred: "Регистрация успешна."
       warning:
         not_delete: "Ошибка удаления: %{reason}"
-        not_delete_same_user: "Не удалось удалить пользователя %{login}, так как его сеанс активен."
+        not_delete_same_user: "Не удалось удалить %{username}, так как его сеанс активен."
     form:
       save_user: Сохранить
       user_treatment: "Поведение пользователя"
