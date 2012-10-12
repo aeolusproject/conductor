@@ -156,7 +156,7 @@ Conductor.Views.PoolsShow = Backbone.View.extend({
   },
 
   render: function() {
-    this.$('h1.pools').text(this.model.get('name') + ' Pool');
+    this.$('h1.pools').text(this.model.get('name'));
 
     var $template = this.template();
     if($template.length === 0) return;
