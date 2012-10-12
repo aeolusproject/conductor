@@ -16,7 +16,7 @@ zh-TW:
         admin: 全域雲端資源供應方管理者
         user: 全域雲端資源供應方使用者
       realm:
-        admin: 全域領域管理者
+        admin: 全域雲端資源叢集管理者
     catalog:
       admin: 目錄管理者
       user: 目錄使用者
