@@ -16,7 +16,7 @@ de:
         admin: "Globaler Cloud-Ressourcenprovider-Administrator"
         user: "Globaler Cloud-Ressourcenprovider-Benutzer"
       realm:
-        admin: "Globaler Bereichs-Administrator"
+        admin: "Globaler Cloud-Ressourcencluster-Administrator"
     catalog:
       admin: Katalog-Administrator
       user: Katalog-Benutzer

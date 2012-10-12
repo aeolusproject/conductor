@@ -8,7 +8,7 @@ de:
       catalog:
         created_at: "Erstellt am/um"
         name: Name
-        pool_family_id: Cloud-Ressourcenzonenfamilie
+        pool_family_id: Cloud
         pool_id: Cloud-Ressourcenzone
         updated_at: "Aktualisiert am/um"
       catalog_entry:
@@ -49,19 +49,19 @@ de:
         description: Beschreibung
         name: Name
         owner_id: Besitzer
-        pool_family_id: Cloud-Ressourcenzonenfamilie
+        pool_family_id: Cloud
         xml: Applikationsvorlagen-XML
         xml_filename: XML-Dateiname
       deployment:
         created_at: "Erstellt am/um"
         deployable_xml: Applikationsvorlagen-XML
-        frontend_realm_id: Bereich
+        frontend_realm_id: Cloud-Ressourcen-Cluster
         lock_version: Sperrversion
         name: Name
         owner_id: Besitzer
-        pool_family_id: Cloud-Ressourcenzonenfamilie
+        pool_family_id: Cloud
         pool_id: Cloud-Ressourcenzone
-        realm_id: Cloud-Ressourcenprovider-Bereich
+        realm_id: Provider-Bereich
         scheduled_for_deletion: "Zur Löschung eingeplant"
         updated_at: "Aktualisiert am/um"
         uuid: UUID
@@ -120,7 +120,7 @@ de:
         created_at: "Erstellt am/um"
         deployment_id: Applikation
         external_key: "Externer Schlüssel"
-        frontend_realm_id: Bereich
+        frontend_realm_id: Cloud-Ressourcen-Cluster
         hardware_profile_id: Cloud-Ressourcenprofil
         image_build_uuid: Image-Build-UUID
         image_uuid: Image-UUID
@@ -130,7 +130,7 @@ de:
         lock_version: Sperrversion
         name: Name
         owner_id: Besitzer
-        pool_family_id: Cloud-Ressourcenzonenfamilie
+        pool_family_id: Cloud
         pool_id: Cloud-Ressourcenzone
         private_addresses: "Private Adressen"
         provider_account_id: Cloud-Ressourcenprovider-Account
@@ -187,14 +187,14 @@ de:
         exported_as: "Exportiert als"
         lock_version: Sperrversion
         name: Name
-        pool_family_id: Cloud-Ressourcenzonenfamilie
+        pool_family_id: Cloud
         quota_id: Kontingent
         updated_at: "Aktualisiert am/um"
       pool_family:
         created_at: "Erstellt am/um"
         description: Beschreibung
         lock_version: Sperrversion
-        name: "Name der Cloud-Ressourcenzonenfamilie"
+        name: Cloud-Name
         quota_id: Kontingent
         updated_at: "Aktualisiert am/um"
       privilege:
@@ -255,9 +255,9 @@ de:
         provider_id: Cloud-Ressourcenprovider
         updated_at: "Aktualisiert am/um"
       realm_backend_target:
-        frontend_realm_id: Bereich
-        realm_or_provider_id: "Cloud-Ressourcenprovider-Bereich oder Cloud-Ressourcenprovider"
-        realm_or_provider_type: "Cloud-Ressourcenprovider-Bereich oder Cloud-Ressourcenprovider-Typ"
+        frontend_realm_id: Cloud-Ressourcen-Cluster
+        realm_or_provider_id: "Provider-Bereich oder Cloud-Ressourcenprovider"
+        realm_or_provider_type: "Provider-Bereich oder Cloud-Ressourcenprovider-Typ"
       role:
         assign_to_owner: "Zuordnen zu Besitzer"
         created_at: "Erstellt am/um"
@@ -297,10 +297,10 @@ de:
         last_login_ip: "IP der letzten Anmeldung"
         last_name: Nachname
         last_request_at: "Letzte Anforderung am/um"
-        login: Anmeldung
         login_count: "Anzahl Anmeldungen"
         quota_id: Kontingent
         updated_at: "Aktualisiert am/um"
+        username: Benutzername
       view_state:
         action: Aktion
         controller: Controller
@@ -324,7 +324,13 @@ de:
             deltacloud_provider:
               invalid_provider: "Muss eine gültige Provider-Kennung sein"
             name:
+              config_not_exist: "kann nicht verifiziert werden, Konfigurationsdatei existiert nicht"
               invalid: "darf nur enthalten: Ziffern, Buchstaben, Leerzeichen, '_' und '-'"
+              not_found_in_config: "konnte in Konfigurationsdatei nicht gefunden werden"
+              start_with_ec2: "muss mit 'ec2-' beginnen"
+              start_with_mock: "muss mit 'mock' beginnen"
+            provider_type:
+              does_not_exist: "existiert nicht"
             url:
               invalid_framework: "Muss eine gültige Provider-URI sein"
     models:
@@ -338,7 +344,7 @@ de:
       deployable: Applikationsvorlage
       deployment: Applikation
       event: Ereignis
-      frontend_realm: Bereich
+      frontend_realm: Cloud-Ressourcen-Cluster
       hardware_profile: Cloud-Ressourcenprofil
       hardware_profile_property: Cloud-Ressourcenprofil-Eigenschaft
       hook: Hook
@@ -350,15 +356,15 @@ de:
       metadata_object: Metadatenobjekt
       permission: Berechtigung
       pool: Cloud-Ressourcenzone
-      pool_family: Cloud-Ressourcenzonenfamilie
+      pool_family: Cloud
       privilege: Privilegien
       property_enum_entry: Eigenschafts-Aufzählungseintrag
       provider: Cloud-Ressourcenprovider
       provider_account: Cloud-Ressourcenprovider-Account
       provider_type: Cloud-Ressourcenprovider-Typ
       quota: Kontingent
-      realm: Cloud-Ressourcenprovider-Bereich
-      realm_backend_target: "Backend-Ziel von Cloud-Ressourcenprovider-Bereich"
+      realm: Provider-Bereich
+      realm_backend_target: "Provider-Bereich Backend-Ziel"
       role: Rolle
       session: Sitzung
       task: Aufgabe

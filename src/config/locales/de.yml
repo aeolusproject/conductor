@@ -26,8 +26,8 @@ de:
       no_provider_account_given: "Kein Cloud-Ressourcenprovider-Account angegeben"
       provider_account_not_found: "Es konnte kein Cloud-Ressourcenprovider-Account für Name %{name} gefunden werden"
       provider_account_not_found_for_id: "Es konnte kein Cloud-Ressourcenprovider-Account für ID %{id} gefunden werden"
-      provider_image_not_found: "Image %{providerimage} konnte nicht gefunden werden"
-      provider_image_status_not_found: "Es konnte kein Status für Image %{providerimage} gefunden werden"
+      provider_image_not_found: "Es konnte kein Cloud-Ressourcenprovider-Image %{providerimage} gefunden werden"
+      provider_image_status_not_found: "Es konnte kein Status für Cloud-Ressourcenprovider-Image %{providerimage} gefunden werden"
       push_error: "Ziel-Image %{targetimage} konnte nicht nach %{account} übertragen werden, Fehler %{error}"
       specify_a_type_build_or_import: "Bitte geben Sie einen Typ, Build oder Import an"
       specify_environment: "Bitte geben Sie eine Cloud an"
@@ -46,10 +46,15 @@ de:
       permissions: "Globale Rollenzuweisungen"
       pool_families: Clouds
       provider_selection: Cloud-Ressourcenprovider-Auswahl
-      realms: Bereiche
+      realms: Cloud-Ressourcen-Cluster
       user_groups: Benutzergruppen
       users: Benutzer
     flash:
+      error:
+        download_failed: "Herunterladen der XML-Datei fehlgeschlagen"
+        no_url_provided: "Keine URL für XML-Import angegeben"
+        not_valid_or_reachable: "XML-Datei ist entweder ungültig oder nicht länger verfügbar unter %{url}"
+        not_valid_url: "Angegebene URL ist nicht gültig %{url}"
       notice:
         must_be_logged: "Sie müssen angemeldet sein, um auf diese Seite zuzugreifen"
         must_not_be_logged: "Sie müssen abgemeldet sein, um auf diese Seite zuzugreifen"
@@ -72,8 +77,8 @@ de:
     logs: Protokolle
     pool_families: Clouds
     pools: Cloud-Ressourcenzonen
-    provider_realms: Cloud-Ressourcenprovider-Bereiche
-    realms: Bereiche
+    provider_realms: Provider-Bereiche
+    realms: Cloud-Ressourcen-Cluster
     roles: Rollen
     users: Benutzer
   browse_objects: "Objekte durchsuchen"
@@ -90,14 +95,12 @@ de:
         updated: "Applikationsvorlage erfolgreich aktualisiert"
       warning:
         failed: "Applikationsvorlage wurde nicht erstellt."
-        no_url_provided: "Keine URL für die XML-Datei der Applikationsvorlage angegeben."
         not_valid: "Datei enthält Syntaxfehler"
         not_valid_cyclic_reference: "Enthält Zirkelbezug zwischen den folgenden Komponentenvorlagen oder Diensten: %{reference}"
         not_valid_duplicate_assembly_names: "Muss eindeutige Komponentenvorlagen-Namen enthalten"
         not_valid_not_existing_assembly_reference: "Komponentenvorlage %{from_assembly}, Dienst %{from_service}, Parameter %{from_param} referenziert nicht vorhandene Komponentenvorlage %{to_assembly}"
         not_valid_not_existing_param: "Komponentenvorlage %{from_assembly}, Dienst %{from_service}, Parameter %{from_param} referenziert Parameter %{to_param}, der nicht von Komponentenvorlage %{to_assembly} zurückgegeben wird"
         not_valid_not_existing_service_reference: "Komponentenvorlage %{from_assembly}, Dienst %{from_service}, Parameter %{from_param} referenziert nicht vorhandene Komponentenvorlage %{to_assembly}, Dienst %{to_service}"
-        not_valid_or_reachable: "Applikationsvorlagen-XML-Datei ist entweder ungültig oder nicht länger verfügbar unter %{url}"
     index:
       catalog_entries: Applikationsvorlagen
       catalog_entry: Applikationsvorlage
@@ -220,7 +223,7 @@ de:
     error:
       attribute_not_exists: ungültig
       audrey_api_incompatibility: "Die Applikationsvorlage verwendet Funktionen, die vom Audrey-Agent, der im neuesten Built-Image installiert ist, nicht unterstützt werden."
-      hwp_not_exists:
+      hwp_not_exists: "In XML spezifiziertes Cloud-Ressourcenprofil %{name} existiert nicht."
     flash:
       error:
         attribute_not_exist: "Einige Attribute fehlen in XML. Bitte überprüfen Sie die Datei."
@@ -250,7 +253,7 @@ de:
       deployable_xml: Applikationsvorlagen-XML
       deployable_xml_url: "URL der Applikationsvorlagen-XML"
       edit_xml_after_save: "XML-Datei nach Abspeichern bearbeiten"
-      multiple: Keine
+      multiple: Mehrere
       none: Keine
       save: Speichern
     index:
@@ -327,9 +330,13 @@ de:
       cannot_stop: "Die Applikation %{name} kann nicht gelöscht werden, da die folgenden Instanzen nicht gestoppt werden können:"
       config_server_connection: "Konfig-Server-Verbindung konnte nicht herstellt werden"
       instance_state: "Die Instanz %{name} ist im Status %{state}."
+      launch_failed: "Start des Deployments fehlgeschlagen"
       match_not_found: "Es konnte kein geeigneter Cloud-Ressourcenprovider-Account zum Hosten der Applikation gefunden werden. Überprüfen Sie das Kontingent der Cloud-Ressourcenprovider-Accounts und den Status der Images."
       match_not_found_with_errors: "Übereinstimmung nicht gefunden: %{errors}"
       not_valid_deployable_xml: "Scheint keine gültige Applikationsvorlagen-XML zu sein: %{msg}"
+    events:
+      launch_attempt: "Start dieses Deployments auf Provider-Account %{account} wird versucht"
+      state_changed: "Status geändert auf %{state}"
     flash:
       error:
         cant_stop: "Die Applikation %{name} konnte nicht gestoppt werden. Nur laufende Applikationen können gestoppt werden."
@@ -430,7 +437,11 @@ de:
       state: "Status:"
       stop: Stopp
     properties:
+      created: Erstellt
       global_uptime: "Globale Betriebszeit"
+      name: Name
+      owner: Besitzer
+      pool: Cloud-Ressourcenzone
       property_name: Eigenschaftsname
       uptime_1st_instance: "Betriebszeit 1. laufende Instanz"
       value: Wert
@@ -464,6 +475,7 @@ de:
       shutting_down: "Applikation wird heruntergefahren"
       stopped: "Alle Instanzen sind gestoppt"
   edit: Bearbeiten
+  edit_provider_account: "Cloud-Ressourcenprovider-Account bearbeiten"
   edit_user: "Benutzer bearbeiten"
   email: E-Mail
   filter_table:
@@ -475,6 +487,8 @@ de:
     to: Nach
     viewing: Anzeigen
   first_name: Vorname
+  general:
+    delete_confirmation: "Sind Sie sicher, dass Sie löschen möchten?"
   general_settings: "Allgemeine Einstellungen"
   hardware_profiles:
     create:
@@ -488,6 +502,9 @@ de:
           one: "%{not_deleted} konnte nicht gelöscht werden"
           other: "Folgende Hardware-Profile konnten nicht gelöscht werden: %{not_deleted}"
         not_deleted: "Hardware-Profil wurde nicht gelöscht"
+        not_deleted_perms:
+          one: "Ungenügende Berechtigungen zum Löschen von Hardwareprofil %{not_deleted}"
+          other: "Ungenügende Berechtigungen zum Entfernen von %{count} Hardwareprofilen %{not_deleted}"
       notice:
         deleted: "Hardware-Profil wurde gelöscht"
         more_deleted:
@@ -551,7 +568,7 @@ de:
       edit: Bearbeiten
       edit_xml: "XML bearbeiten"
       save_and_continue: "Speichern und fortfahren"
-    environment: "Cloud: %{environment}"
+    environment: Cloud
     environment_header: Cloud
     flash:
       error:
@@ -573,7 +590,7 @@ de:
         not_found: "Image nicht gefunden"
     import:
       blank_id: "Komponentenskizzen-ID darf nicht leer sein."
-      image_id: "Komponentenskizzen-ID des Cloud-Ressourcenproviders"
+      image_id: "Image-ID des Cloud-Ressourcenproviders"
       image_imported: "Das Image wurde erfolgreich importiert."
       image_not_imported: "Das Image konnte nicht importiert werden. Prüfen Sie das Image-Factory-Protokoll für weitere Details."
       import_image: "Image importieren"
@@ -600,8 +617,8 @@ de:
       upload: Hochladen
     not_on_provider: "Angefordertes Image konnte nicht auf Cloud-Ressourcenprovider gefunden werden."
     overview:
-      back: Zurück
       description: "Markup- und Image-Referenzen in \"%{name}\" wurden erfolgreich überprüft. Sie können das Image nun speichern und eine Applikationsvorlage erstellen."
+      edit_xml: "Vorlagen-XML anzeigen und bearbeiten"
       make_deployable: "\"%{name}\" automatisch zur Applikationsvorlage machen."
       save_template: "Komponentenskizze speichern"
       valid_image: "Gültiges Image"
@@ -619,7 +636,7 @@ de:
       failed_push_attempts:
         one: "1 Übertragungsversuch fehlgeschlagen"
         other: "%{count} Übertragungsversuche fehlgeschlagen"
-      image_uri: Image-URI
+      image_id: Komponentenskizzen-ID
       image_uuid: Image-UUID
       latest: Neueste
       missing_build: "Zuerst Build auswählen"
@@ -629,6 +646,7 @@ de:
       provider: Cloud-Ressourcenprovider
       provider_account: Cloud-Ressourcenprovider-Account
       provider_images: Cloud-Ressourcenprovider-Images
+      providers_image_id: "Image-ID des Cloud-Ressourcenproviders"
       push: Übertragen
       push_all: "Alle übertragen"
       push_started: "Übertragung wird gestartet"
@@ -663,7 +681,8 @@ de:
       provider_account_quota_reached: "%{account_name}: Kontingent des Cloud-Ressourcenprovider-Accounts erreicht"
       provider_account_quota_too_low: "%{match_provider_account} Kontingentgrenze zu gering, um Applikationsvorlagezu starten"
       provider_not_available: "%{account_name}: Cloud-Ressourcenprovider ist nicht verfügbar"
-      realm_not_mapped: "%{account_name}: Cloud-Ressourcencluster %{frontend_realm_name} ist keinem passenden Cloud-Ressourcenprovider oder Cloud-Ressourcenprovider-Bereich zugeordnet"
+      realm_not_mapped: "%{account_name}: Frontend-Cloud-Ressourcencluster %{frontend_realm_name} istkeinem passenden Cloud-Ressourcenprovider oder Provider-Bereich zugeordnet"
+      reboot_already_scheduled: "Neustart ist bereits eingeplant."
       reboot_invalid_action: "Neustart ist eine ungültige Aktion."
       state_not_monitored: "Fehler, Statuszeit konnte nicht berechnet werden: Status wird nicht überwacht"
       stop_invalid_action: "Stopp ist eine ungültige Aktion."
@@ -775,7 +794,8 @@ de:
   launch_instance: "Instanz starten"
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
+    copyright:
+      po-header: ""
     dashboard: Übersicht
   login: Anmelden
   logs:
@@ -788,7 +808,7 @@ de:
       details: Details
       event_time: Zeit
       export_logs: "Protokolle exportieren"
-      frontend_realm: Cloud-Ressourcencluster
+      frontend_realm: Frontend-Cloud-Ressourcen-Cluster
       grouped_by: "Gruppiert nach"
       hwp: Cloud-Ressourcenprofil
       image: Image
@@ -995,6 +1015,18 @@ de:
       with_stopped_instances: "Mit gestoppten Instanzen"
     properties:
       properties: "Eigenschaften für %{pool}"
+    scoreboard:
+      alerts: Benachrichtigungen
+      cloud_providers_total: "Cloud-Ressourcenprovider insgesamt"
+      deployments_total: "Applikationen insgesamt"
+      instances_failed: "Instanzen fehlgeschlagen"
+      instances_pending: "Instanzen ausstehend"
+      pools_in_use: "Cloud-Ressourcenzonen in Gebrauch"
+      pools_total: "Cloud-Ressourcenzonen insgesamt"
+      quota_usage: Kontingentverbrauch
+      running_instances_quota: "Laufende Instanzen"
+      total_available_instances: "Verfügbare Instanzen insgesamt"
+      total_instances: "Instanzen insgesamt"
   privileges: Privilegien
   properties: Eigenschaften
   provider_accounts:
@@ -1020,9 +1052,9 @@ de:
       could_not_connect: "Konnte nicht mit Cloud-Ressourcenprovider-Account verbinden. Bitte setzen Sie sich mit einem Administrator in Verbindung."
       exception_while_validating: "Beim Überprüfen der Berechtigungsnachweise für den Cloud-Ressourcenprovider trat ein Fehler auf. Bitte prüfen Sie Ihre Einstellungen und versuchen Sie es erneut."
       invalid_credentials: "Berechtigungsnachweise für diesen Cloud-Ressourcenprovider sind ungültig."
-      not_destroyable_instances: "Die folgenden Instanzen können nicht zerstört werden: %{instances}"
+      not_destroyable_deployments: "Die folgenden Applikationen wurden nicht gestoppt: %{deployments}"
       populate_hardware_profiles_failed: "Befüllen der Hardware-Profile ist fehlgeschlagen: %{message}"
-      populate_realms_failed: "Befüllen der Bereiche ist fehlgeschlagen: %{message}"
+      populate_realms_failed: "Befüllen der Cloud-Ressourcencluster ist fehlgeschlagen: %{message}"
     flash:
       error:
         account_not_added:
@@ -1143,12 +1175,12 @@ de:
       create: "Prioritätsgruppe erstellen"
       title: "Neue Prioritätsgruppe hinzufügen"
   provider_realms:
-    name: "Name des Cloud-Ressourcenprovider-Bereichs"
-    provider_realms: Cloud-Ressourcenprovider-Bereiche
+    name: Provider-Bereichsname
+    provider_realms: Provider-Bereiche
     show:
-      details: "Details des Cloud-Ressourcenprovider-Bereichs"
-      mapping: "Zuordnung des Cloud-Ressourcenprovider-Bereichs"
-      provider_accounts_mapped: "Cloud-Ressourcenprovider-Accounts zugeordnet zu Cloud-Ressourcenprovider-Bereich %{name}"
+      details: Provider-Bereichsdetails
+      mapping: Provider-Bereichszuordnung
+      provider_accounts_mapped: "Cloud-Ressourcenprovider-Accounts zugewiesen zu Provider-Bereich %{name}"
   provider_selection:
     edit_strategy:
       back_to_strategies: "Auswahlstrategien des Cloud-Ressourcenproviders für Cloud-Ressourcenzone: %{pool}"
@@ -1163,7 +1195,7 @@ de:
       available_provider_accounts: "Verfügbare Cloud-Ressourcenprovider-Accounts"
       available_strategies: "Verfügbare Strategien"
       configure: Konfigurieren
-      edit_provider_accounts: "Cloud-Ressourcenprovider-Accounts für Cloud-Ressourcenzonen-Familie bearbeiten"
+      edit_provider_accounts: "Cloud-Ressourcenprovider-Accounts für Cloud bearbeiten"
       edit_strategy: "%{name} Strategie bearbeiten"
       environment: "Cloud: %{environment}"
       provider_selection: "Auswahlstrategien für Cloud-Ressourcenprovider"
@@ -1209,14 +1241,17 @@ de:
         disabled: "Cloud-Ressourcenprovider deaktiviert."
         updated: "Cloud-Ressourcenprovider aktualisiert."
       warning:
+        check_config_file: "Richtigkeit des Providernamens kann nicht geprüft werden. Bitte prüfen Sie die Konfigurationsdatei"
         connect_failed: "Verbindung mit Cloud-Ressourcenprovider fehlgeschlagen."
         not_stopped_instances: "Cloud-Ressourcenprovider wurde nicht deaktiviert. Folgende Instanzen konntennicht gestoppt werden:"
         not_terminated_instances: "Cloud-Ressourcenprovider wurde nicht deaktiviert. Der Status folgender Instanzen konnte nicht auf 'gestoppt' gesetzt werden:"
     form:
       caution_alt_text: Achtung
       caution_image: Achtung
+      delete_provider: "Cloud-Ressourcenprovider löschen"
       enter_correct_url_msg: "Bitte geben Sie ein korrektes URL-Format ein."
       required_field: "Erforderliches Feld."
+      save_changes: "Änderungen speichern"
       select_type_of_provider: "Typ des Cloud-Ressourcenproviders auswählen"
       test_connection: "Verbindung testen"
       x_deltacloud_provider:
@@ -1266,54 +1301,54 @@ de:
       used: Verbraucht
   realm_mappings:
     new:
-      create_new: "Neue Bereichszuordnung erstellen"
-  realm_s: Bereiche
+      create_new: "Neue Zuordnung für Cloud-Ressourcen-Cluster erstellen"
+  realm_s: Cloud-Ressourcen-Cluster
   realms:
     edit:
       cancel_editing: "Bearbeiten abbrechen"
       properties: Eigenschaften
     flash:
       error:
-        more_not_deleted: "Diese Bereiche konnten nicht gelöscht werden:"
-        not_deleted: "Bereich wurde nicht gelöscht"
-        select_to_delete: "Sie müssen mindestens einen Bereich zum Löschen auswählen."
+        more_not_deleted: "Folgende Cloud-Ressourcen-Cluster konnten nicht gelöscht werden:"
+        not_deleted: "Cloud-Ressourcen-Cluster wurde nicht gelöscht"
+        select_to_delete: "Sie müssen mindestens einen Cloud-Ressourcen-Cluster zum Löschen auswählen."
         select_to_delete_mapping: "Sie müssen mindestens eine Zuordnung zum Löschen auswählen."
       notice:
-        added: "Bereich wurde hinzugefügt"
-        added_mapping: "Bereichszuordnung wurde hinzugefügt."
-        deleted: "Bereich wurde gelöscht"
-        more_deleted: "Diese Bereiche wurden gelöscht:"
-        updated: "Bereich aktualisiert"
+        added: "Cloud-Ressourcen-Cluster wurde hinzugefügt"
+        added_mapping: "Zuordnung für Cloud-Ressourcen-Cluster wurde hinzugefügt."
+        deleted: "Cloud-Ressourcen-Cluster wurde gelöscht"
+        more_deleted: "Folgende Cloud-Ressourcen-Cluster wurden gelöscht:"
+        updated: "Cloud-Ressourcen-Cluster aktualisiert"
     index:
-      realm: Bereich
+      realm: Cloud-Ressourcen-Cluster
       realm_availability: Verfügbar?
       realm_available:
         false_value: Nein
         true_value: Ja
-      realm_name: Bereichsname
+      realm_name: "Name des Cloud-Ressourcen-Clusters "
     list:
       delete_selected: "Auswahl löschen"
     mapping:
-      frontend_realms_mapped_to_provider: "Bereiche zugeordnet zu Cloud-Ressourcenprovider %{name}:"
-      frontend_realms_mapped_to_realm: "Bereiche zugeordnet zu Cloud-Ressourcenprovider-Bereich %{name}:"
+      frontend_realms_mapped_to_provider: "Cloud-Ressourcen-Cluster zugeordnet zu Cloud-Ressourcenprovider %{name}:"
+      frontend_realms_mapped_to_realm: "Cloud-Ressourcen-Cluster zugeordnet zu Provider-Bereich %{name}:"
       mapping_provider: "Zuordnung zu Cloud-Ressourcenprovider hinzufügen"
-      mapping_realm: "Zuordnung zu Cloud-Ressourcenprovider-Bereich hinzufügen"
-      provider_accounts_mapped_to_realm: "Cloud-Ressourcenprovider-Accounts zugeordnet zu Bereich %{name}:"
-      realm_mapped_providers: "Bereich %{name} ist folgenden Cloud-Ressourcenprovidern zugeordnet:"
-      realm_mapped_realms: "Bereich %{name} ist folgenden Bereichen zugeordnet:"
+      mapping_realm: "Zuordnung zu Provider-Bereich hinzufügen"
+      provider_accounts_mapped_to_realm: "Cloud-Ressourcenprovider-Accounts zugeordnet zu Cloud-Ressourcen-Cluster %{name}:"
+      realm_mapped_providers: "Cloud-Ressourcen-Cluster %{name} ist folgenden Cloud-Ressourcenprovidern zugeordnet:"
+      realm_mapped_realms: "Cloud-Ressourcen-Cluster %{name} ist folgenden Cloud-Ressourcen-Clustern zugeordnet:"
     new:
-      create_realm: "Neuen Bereich erstellen"
-    new_realm: "Neuer Bereich"
+      create_realm: "Neuen Cloud-Ressourcen-Cluster erstellen"
+    new_realm: "Neuer Cloud-Ressourcen-Cluster"
     preset_filters:
-      all_realms: "Alle Bereiche"
+      all_realms: "Alle Cloud-Ressourcen-Cluster"
     properties:
-      realm_details: Bereichsdetails
-      realm_name: Bereichsname
-    realms: Bereiche
+      realm_details: "Details des Cloud-Ressourcen-Clusters"
+      realm_name: "Name des Cloud-Ressourcen-Clusters "
+    realms: Cloud-Ressourcen-Cluster
     show:
       properties: Eigenschaften
-      realm_mapping: Bereichszuordnung
-      realm_unavailable: "Der Bereich %{name} ist derzeit nicht verfügbar."
+      realm_mapping: "Zuordnung für Cloud-Ressourcen-Cluster"
+      realm_unavailable: "Der Cloud-Ressourcen-Cluster %{name} ist derzeit nicht verfügbar."
       sure_to_delete: "Sind Sie sicher, dass Sie löschen möchten?"
     tab_captions:
       mapping: Zuordnung
@@ -1369,12 +1404,12 @@ de:
       warning:
         not_updated_quota: "Standardkontingent konnte nicht aktualisiert werden"
     index:
-      permissions: Berechtigungen
-      permissions_desc: "Standardkontingent in Selbstverwaltung ändern."
+      permissions: Benutzerstandards
+      permissions_desc: "Standardmäßige Benutzereinstellungen ändern"
     self_service:
       account: Account
       instances_quota: "Instanzenkontingent:"
-      self_service_default: "Benutzerhandhabung: standardmäßig Selbstverwaltung"
+      self_service_default: "Standardmäßige Benutzereinstellungen"
       self_service_settings: Selbstverwaltungs-Einstellungen
     settings: Einstellungen
   summary: Zusammenfassung
@@ -1486,7 +1521,8 @@ de:
       edit_account: "Account bearbeiten"
       edit_user: "Benutzer bearbeiten"
     errors:
-      has_running_instances: "%{login} hat laufende Instanzen"
+      cannot_edit_ldap_user: "LDAP-Benutzer kann nicht bearbeitet werden"
+      has_running_instances: "%{username} hat laufende Instanzen"
     flash:
       notice:
         deleted: "Benutzer wurde erfolgreich gelöscht."
@@ -1498,7 +1534,7 @@ de:
         you_registred: "Sie haben sich erfolgreich registriert."
       warning:
         not_delete: "Löschen nicht möglich: %{reason}"
-        not_delete_same_user: "%{login} kann nicht gelöscht werden: Sie sind als dieser Benutzer angemeldet"
+        not_delete_same_user: "%{username} kann nicht gelöscht werden: Sie sind als dieser Benutzer angemeldet"
     form:
       save_user: "Benutzer speichern"
       user_treatment: Benutzerhandhabung
