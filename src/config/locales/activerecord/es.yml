@@ -2,13 +2,13 @@ es:
   activerecord:
     attributes:
       base_permission_object:
-        created_at: "lCreado (Fecha y hora)"
+        created_at: "Creado (Fecha y hora)"
         name: Nombre
         updated_at: "Actualizado (Fecha y hora)"
       catalog:
         created_at: "Creado (Fecha y hora)"
         name: Nombre
-        pool_family_id: "Familia de recursos de Cloud"
+        pool_family_id: Cloud
         pool_id: "Zona de recursos de Cloud"
         updated_at: "Actualizado (Fecha y hora)"
       catalog_entry:
@@ -49,19 +49,19 @@ es:
         description: Descripción
         name: Nombre
         owner_id: Propietario
-        pool_family_id: "Familia de recursos de Cloud"
+        pool_family_id: Cloud
         xml: "XML de proyecto de aplicaciones"
         xml_filename: "Nombre de archivos XML"
       deployment:
         created_at: "Creado  (Fecha y hora)"
         deployable_xml: "XML de proyecto de aplicaciones"
-        frontend_realm_id: Reino
+        frontend_realm_id: "Agrupamiento de recursos de Cloud"
         lock_version: "Versión de cerrojo"
         name: Nombre
         owner_id: Propietario
-        pool_family_id: "Familia de recursos de Cloud"
+        pool_family_id: Cloud
         pool_id: "Zona de recursos de Cloud"
-        realm_id: "Reino de proveedor de recursos de Cloud"
+        realm_id: "Reino de proveedor"
         scheduled_for_deletion: "Programado para borrado"
         updated_at: "Actualizado (Fecha y hora)"
         uuid: Uuid
@@ -120,7 +120,7 @@ es:
         created_at: "Creado (Fecha y hora)"
         deployment_id: Aplicación
         external_key: "Clave externa"
-        frontend_realm_id: Reino
+        frontend_realm_id: "Agrupamiento de recursos de Cloud"
         hardware_profile_id: "Perfil de recursos de Cloud"
         image_build_uuid: "Uuid de creación de imagen"
         image_uuid: "Uuid de imagen"
@@ -130,7 +130,7 @@ es:
         lock_version: "Versión de cerrojo"
         name: Nombre
         owner_id: Propietario
-        pool_family_id: "Familia de zona de recursos de Cloud"
+        pool_family_id: Cloud
         pool_id: "Zona de recursos de Cloud"
         private_addresses: "Direcciones privadas"
         provider_account_id: "Cuenta de proveedores de recursos de Cloud"
@@ -187,14 +187,14 @@ es:
         exported_as: "Exportado como"
         lock_version: "Versión de cerrojo"
         name: Nombre
-        pool_family_id: "Familia de recursos de Cloud"
+        pool_family_id: Cloud
         quota_id: Cuota
         updated_at: "Actualizado (Fecha y hora)"
       pool_family:
         created_at: "Creado (Fecha y hora)"
         description: Descripción
         lock_version: "Versión de cerrojo"
-        name: "Nombre de familia de zona de recursos de Cloud"
+        name: "Nombre de Cloud"
         quota_id: Cuota
         updated_at: "Actualizado (Fecha y hora)"
       privilege:
@@ -255,9 +255,9 @@ es:
         provider_id: "Proveedor de recursos de Cloud"
         updated_at: "Actualizado (Fecha y hora)"
       realm_backend_target:
-        frontend_realm_id: Reino
-        realm_or_provider_id: "Reino de proveedor de recursos de cloud o Proveedor de recursos de Cloud "
-        realm_or_provider_type: "Reino de proveedor de recursos de Cloud o Tipo de proveedor de recursos de Cloud"
+        frontend_realm_id: "Agrupamiento de recursos de Cloud"
+        realm_or_provider_id: "Reino de proveedor de recursos de Cloud "
+        realm_or_provider_type: "Reino de proveedor o Tipo de proveedor de recursos de Cloud"
       role:
         assign_to_owner: "Asignar a propietario"
         created_at: "Creado (Fecha y hora)"
@@ -297,10 +297,10 @@ es:
         last_login_ip: "Última IP de ingreso"
         last_name: Apellido
         last_request_at: "Última solicitud  a la(s)"
-        login: Ingreso
         login_count: "Conteo de ingreso"
         quota_id: Cuota
         updated_at: "Actualizado (Fecha y hora)"
+        username: "Nombre de usuario"
       view_state:
         action: Acción
         controller: Controlador
@@ -324,7 +324,13 @@ es:
             deltacloud_provider:
               invalid_provider: "Debe ser un identificador de proveedor válido"
             name:
+              config_not_exist: "No se pudo verificar , el archivo de configuración no existe"
               invalid: "Debe contener únicamente: números, letras, espacios, '_' y '-'"
+              not_found_in_config: "No se encontró el archivo de configuración"
+              start_with_ec2: "Debe iniciar por 'ec2'"
+              start_with_mock: "Debe iniciar por 'mock'"
+            provider_type:
+              does_not_exist: "no existe"
             url:
               invalid_framework: "Debe ser una URI de proveedor válida"
     models:
@@ -338,7 +344,7 @@ es:
       deployable: "Proyecto de aplicaciones"
       deployment: Aplicación
       event: Evento
-      frontend_realm: Reino
+      frontend_realm: "Agrupamiento de recursos de Cloud"
       hardware_profile: "Perfil de recursos de Cloud"
       hardware_profile_property: "Propiedad de perfil de recursos de Cloud"
       hook: Gancho
@@ -350,15 +356,15 @@ es:
       metadata_object: "Objeto de metadatos"
       permission: Permiso
       pool: "Zona de recursos de Cloud"
-      pool_family: "Familia de zona de recursos de Cloud"
+      pool_family: Cloud
       privilege: Privilegio
       property_enum_entry: "Entrada de enumeración de propiedades"
       provider: "Proveedor de recursos de Cloud"
       provider_account: "Cuenta de proveedores de recursos de Cloud"
       provider_type: "Tipo de proveedor de recursos de Cloud"
       quota: Cuota
-      realm: "Reino de proveedor de recursos de Cloud"
-      realm_backend_target: "Destino de fondo de reino de proveedor de recursos de Cloud"
+      realm: "Reino de proveedor"
+      realm_backend_target: "Destino de segundo plano de reino de proveedor"
       role: Rol
       session: Sesión
       task: Tarea

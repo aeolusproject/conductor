@@ -26,8 +26,8 @@ es:
       no_provider_account_given: "No se encontró la cuenta de proveedores de recursos de Cloud provista"
       provider_account_not_found: "No se pudo encontrar cuenta de proveedor de recursos para nombre %{name}"
       provider_account_not_found_for_id: "No se pudo encontrar cuenta de proveedor de recursos para id %{id}"
-      provider_image_not_found: "No se pudo encontrar imagen %{providerimage}"
-      provider_image_status_not_found: "No se pudo encontrar estatus para imagen %{providerimage}"
+      provider_image_not_found: "No se pudo encontrar recurso de Cloud ProviderImage %{providerimage}"
+      provider_image_status_not_found: "No se pudo hallar el estatus de recursos de Cloud ProviderImage %{providerimage}"
       push_error: "No se pudo enviar TargetImage %{targetimage} a %{account} y  error %{error}"
       specify_a_type_build_or_import: "Por favor especifique un tipo, creación o importación"
       specify_environment: "Por favor especifique una Cloud"
@@ -46,17 +46,22 @@ es:
       permissions: "Concesión global de roles"
       pool_families: Clouds
       provider_selection: "Selección de proveedor de recursos de Cloud"
-      realms: Reinos
+      realms: "Agrupamientos de recursos de Cloud"
       user_groups: "Grupos de usuarios"
       users: Usuarios
     flash:
+      error:
+        download_failed: "Falló la descarga de archivo XML "
+        no_url_provided: "No se proporcionó URL para el archivo XML "
+        not_valid_or_reachable: "El archivo XML puede que sea inválido o que no se pueda conectar en %{url}"
+        not_valid_url: "La URL proporcionada es inválida %{url}"
       notice:
         must_be_logged: "Debe estar registrado para poder acceder a esta página"
         must_not_be_logged: "Debe haber salido para poder acceder a esta página"
         record_not_exist: "El registro que está tratando de acceder no existe, pudo haber sido borrado"
     internal_server_error: "Error interno del servidor"
     permission_denied: "Privilegios insuficientes para realizar la acción solicitada."
-    permission_denied_with_prefix:
+    permission_denied_with_prefix: "%{prefix}: Tiene privilegios insuficientes para realizar la acción."
     some_actions_failed: "Algunas acciones fallaron"
   apply: Aplicar
   apply_treatment: "Aplicar tratamiento de usuario"
@@ -72,8 +77,8 @@ es:
     logs: Registros
     pool_families: Clouds
     pools: "Zonas de recursos de Cloud"
-    provider_realms: "Reinos de proveedor de recursos de Cloud"
-    realms: Reinos
+    provider_realms: "Reinos de proveedores"
+    realms: "Agrupamientos de recursos de Cloud"
     roles: Roles
     users: Usuarios
   browse_objects: "Explorar objetos"
@@ -90,14 +95,12 @@ es:
         updated: "Proyecto de aplicaciones actualizados correctamente."
       warning:
         failed: "No fue creado proyecto de aplicaciones."
-        no_url_provided: "No se proporcionó URL para el archivo XML del proyecto de aplicaciones. "
         not_valid: "El archivo contiene errores de sintaxis"
         not_valid_cyclic_reference: "Contiene referencia cíclica entre los siguiente proyectos de componentes para servicios: %{reference}"
         not_valid_duplicate_assembly_names: "Debe contener nombres de proyectos de componentes "
         not_valid_not_existing_assembly_reference: "Proyecto de componente %{from_assembly}, servicio %{from_service}, referencias de parámetro %{from_param} proyectos de componentes no existentes  %{to_assembly}"
         not_valid_not_existing_param: "Proyecto de componentes %{from_assembly}, servicio %{from_service}, parámetro % {from_param} parámetro de referencias  %{to_param} que el proyecto de componentes  %{to_assembly} no retorna."
         not_valid_not_existing_service_reference: "Proyecto de componente %{from_assembly}, servicio %{from_service}, referencias de parámetro %{from_param} proyectos de componentes no existentes  %{to_assembly}, servicio %{to_service}"
-        not_valid_or_reachable: "Archivo XML del Proyecto de aplicaciones no es válido o ya no se puede acceder a %{url}"
     index:
       catalog_entries: "Proyectos de aplicaciones"
       catalog_entry: "Proyecto de aplicaciones"
@@ -108,7 +111,7 @@ es:
     new:
       add_catalog_entry: "Añadir nuevo proyecto de aplicaciones"
       catalog_detail: "%{name} Catálogo"
-      choose_option_to_upload: "Elegir una de las siguientes opciones para cargar el archivo XML del proyecto de aplicaciones"
+      choose_option_to_upload: "Elegir una de las siguientes opciones para cargar unl archivo XML del proyecto de aplicaciones"
       from_url: "Desde URL"
       hw_profile: "Perfil de recursos de cloud predeterminado"
       name: Nombre
@@ -250,7 +253,7 @@ es:
       deployable_xml: "XML de proyecto de aplicaciones"
       deployable_xml_url: "URL de XML de proyecto de aplicaciones"
       edit_xml_after_save: "Modificar archivo XML después de guardar"
-      multiple: Ninguno
+      multiple: Multiple
       none: Ninguno
       save: Guardar
     index:
@@ -272,7 +275,7 @@ es:
       no_catalog_selected: "No fue seleccionado catálogo"
     new_from_image:
       catalog_entry_name: "%{name}"
-      description: "Al crear un proyecto de aplicación desde el perfil de componente \"%{name}\", el resumen de componentes le permitirá construirlo y lanzarlo. Simplemente elija un catálogo para almacenar el proyecto de aplicaciones y define un perfil de recursos de Cloud predeterminado. "
+      description: "La creación de un proyecto de aplicación del perfil de componentes \"%{name}\", le permitirá su construcción y puesta en marcha. Simplemente elija un catálogo en el cual pueda guardar el proyecto de aplicaciones, y defina un perfil de recursos de Cloud predeterminado. "
       no_available_catalog: "No hay  catálogo"
       title: "Crear proyecto de aplicaciones"
     properties:
@@ -327,9 +330,13 @@ es:
       cannot_stop: "La aplicación %{name} no se puede borrar porque las instancias a continuación no se han detenido:"
       config_server_connection: "No se puede conectar al servidor de configuración"
       instance_state: "La instancia %{name} está en estado %{state}"
+      launch_failed: "Falló el lanzamiento de la implementación"
       match_not_found: "No se puede encontrar una cuenta de proveedores de recursos de Cloud para laaplicación del host. Verifique la cuota del proveedor de recursos de Cloud y el estatus de imágenes."
       match_not_found_with_errors: "No se encontró coincidencia:%{errors}"
       not_valid_deployable_xml: "Parece ser un XML de proyecto de aplicaciones inválido: %{msg}"
+    events:
+      launch_attempt: "Intentando lanzar esta implementación en la cuenta de proveedor %{account}"
+      state_changed: "El estado cambió a %{state}"
     flash:
       error:
         cant_stop: "La aplicación %{name} no se pudo detener. Solo las aplicaciones en ejecuciónpueden detenerse."
@@ -352,7 +359,7 @@ es:
           one: "La aplicación %{list} fue actualizada correctamente."
           other: "Las aplicaciones %{list} fueron actualizadas correctamente."
       warning:
-        deployable_not_selected: "Necesita seleccionar proyecto de aplicaciones"
+        deployable_not_selected: "Necesita seleccionar un proyecto de aplicaciones"
         disabled_pool: "No se puede lanzar una aplicación en esta zona de recursos de Cloud. La zonaha sido inhabilitada."
         failed_to_launch: "Falló el lanzamiento de la aplicación."
     history:
@@ -362,7 +369,7 @@ es:
       deployable_xml: "XML de  proyecto de aplicaciones"
       details: Información
       hdd: HDD
-      hint: "Elija un proyecto de aplicación a abrir en la zona de recursos de Cloud \"%{pool}\" "
+      hint: "Elija un proyecto de aplicaciones para lanzar en la zona de recursos de Cloud \"%{pool}\""
       image_id: "ID de resumen de componentes"
       no_catalog_entry: "No hay proyecto de componentes disponibles. Por favor añada uno primero."
       profile: Perfil
@@ -430,7 +437,11 @@ es:
       state: "Estado:"
       stop: Detener
     properties:
+      created: Creado
       global_uptime: "Límite global"
+      name: Nombre
+      owner: Propietario
+      pool: "Zona de recursos de Cloud"
       property_name: "Nombre de propiedad"
       uptime_1st_instance: "Primera instancia de tiempo límite ejecutándose"
       value: Valor
@@ -464,6 +475,7 @@ es:
       shutting_down: "La aplicación se está apagando"
       stopped: "Todas las instancias están detenidas"
   edit: Modificar
+  edit_provider_account: "Modificar cuenta de proveedores de recursos de Cloud"
   edit_user: "Modificar usuario"
   email: "Correo -e"
   filter_table:
@@ -475,6 +487,8 @@ es:
     to: Para
     viewing: Vista
   first_name: Nombre
+  general:
+    delete_confirmation: "¿Está seguro de que desea borrar?"
   general_settings: "Parámetros generales"
   hardware_profiles:
     create:
@@ -488,6 +502,9 @@ es:
           one: "%{not_deleted} no pudieron ser borrados"
           other: "No se pudieron borrar los siguientes perfiles de hardware: %{not_deleted}"
         not_deleted: "No fue borrado el perfil de hardware"
+        not_deleted_perms:
+          one: "¡Permisos insuficientes para borrar perfil de hardware %{not_deleted}!"
+          other: "Permisos insuficientes para retirar  %{count} perfiles dehardware  %{not_deleted}"
       notice:
         deleted: "El perfil de hardware fue borrado"
         more_deleted:
@@ -551,7 +568,7 @@ es:
       edit: Modificar
       edit_xml: "Modificar XML"
       save_and_continue: "Guardar y continuar"
-    environment: "Cloud: %{environment}"
+    environment: Cloud
     environment_header: Cloud
     flash:
       error:
@@ -561,7 +578,7 @@ es:
         no_provider_accounts: "No se pueden construir las imágenes. No hay cuentas de proveedor de recursosde Cloud asociadas a esta Cloud."
         no_provider_accounts_for_import: "No se pueden importar las imágenes. No hay cuentas de proveedor de recursos de Cloud  habilitados para esta Cloud."
         no_template: "La imagen no tiene perfil de componentes porque ha sido importada originalmente, en lugar  de haber ser construida en Conductor."
-        not_exist:
+        not_exist: "La imagen que que intentó acceder no existe. Pudo haber sido borrada."
       notice:
         created: "Imagen creada"
         deleted: "Imagen borrada"
@@ -573,7 +590,7 @@ es:
         not_found: "No se encontró imagen "
     import:
       blank_id: "ID de resumen de componentes no puede estar en blanco."
-      image_id: "ID del perfil de componentes de proveedores de recursos de Cloud."
+      image_id: "ID de imagen de proveedor de recursos de Cloud"
       image_imported: "La imagen ha sido importada correctamente."
       image_not_imported: "La imagen no pudo ser importada. Verifique el registro de Fábrica de imágenes para obtener mayor información."
       import_image: "Importar imagen"
@@ -600,8 +617,8 @@ es:
       upload: Cargar
     not_on_provider: "La imagen solicitada no se encontró  en el proveedor de recursos de Cloud."
     overview:
-      back: Atrás
       description: "Las referencias de marcado en \"%{name}\" fueron validadas correctamente. Ahora puede guardar la imagen y crear un proyecto de aplicaciones."
+      edit_xml: "Ver y modificar la plantilla XML"
       make_deployable: "Crea automáticamente perfil de aplicaciones  \"%{name}\"."
       save_template: "Guardar el resumen de componentes"
       valid_image: "Imagen válida"
@@ -619,7 +636,7 @@ es:
       failed_push_attempts:
         one: " 1 intento de envío falló"
         other: "%{count} intentos de envío fallaron"
-      image_uri: "URI de imagen"
+      image_id: "ID de resumen de componentes"
       image_uuid: "UUID de imagen"
       latest: Último
       missing_build: "Primero cree la seleccionada"
@@ -629,6 +646,7 @@ es:
       provider: "Proveedor de recursos de Cloud"
       provider_account: "Cuenta de proveedores de recursos de Cloud"
       provider_images: "Imagen  de proveedor de recursos de Cloud"
+      providers_image_id: "ID de imagen de proveedor de recursos de Cloud"
       push: Enviar
       push_all: "Enviar toda"
       push_started: "Envío va a comenzar"
@@ -663,7 +681,8 @@ es:
       provider_account_quota_reached: "%{account_name}: cuota de cuenta de proveedor alcanzada"
       provider_account_quota_too_low: "%{match_provider_account} cuota límite demasiado baja para lanzar proyecto de aplicación  "
       provider_not_available: "%{account_name}: proveedor de recursos de Cloud no está disponible"
-      realm_not_mapped: "%{account_name}:Agrupamiento de recursos de Cloud  %{frontend_realm_name} noes asignado a ningún proveedor de recursos de Cloud  o reino de proveedor de recursos de Cloud"
+      realm_not_mapped: "%{account_name}: Agrupamiento de recursos de Cloud  de primer plano %{frontend_realm_name} no se asigna a una proveedor de recursos aplicable o reino de proveedor"
+      reboot_already_scheduled: "El reinicio ya está programado."
       reboot_invalid_action: "Reiniciar es una acción inválida"
       state_not_monitored: "Error, no se pudo calcular el tiempo de estado: estado no es monitorizado"
       stop_invalid_action: "Detener es una acción inválida"
@@ -775,7 +794,8 @@ es:
   launch_instance: "Lanzar instancia"
   layout:
     appname: "Cloud Engine de CloudForms "
-    copyright: "Derechos de autor y copia; 2009-2012 Red Hat, Inc."
+    copyright:
+      po-header: ""
     dashboard: "Panel de estado "
   login: Ingresar
   logs:
@@ -788,7 +808,7 @@ es:
       details: Información
       event_time: Hora
       export_logs: "Exportar registros"
-      frontend_realm: "Agrupamiento de recursos de Cloud"
+      frontend_realm: "Agrupamiento de recursos de Cloud de primer plano"
       grouped_by: "Agrupados por"
       hwp: "Perfil de recursos de Cloud"
       image: Imagen
@@ -995,6 +1015,18 @@ es:
       with_stopped_instances: "Con instancias detenidas"
     properties:
       properties: "Propiedades para %{pool}"
+    scoreboard:
+      alerts: Alertas
+      cloud_providers_total: "Total de proveedores de recursos de Cloud"
+      deployments_total: "Total de aplicaciones"
+      instances_failed: "Instancias fallidas"
+      instances_pending: "Instancias pendientes"
+      pools_in_use: "Zonas de recursos de Cloud en uso"
+      pools_total: "Total de zonas de recursos de Cloud"
+      quota_usage: "Uso de cuota"
+      running_instances_quota: "Instancias en ejecución"
+      total_available_instances: "Total de instancias disponibles"
+      total_instances: "Total de Instancias"
   privileges: Privilegios
   properties: Propiedades
   provider_accounts:
@@ -1020,9 +1052,9 @@ es:
       could_not_connect: "No se pudo conectar a la cuenta de proveedores de recursos de Cloud. Por favor contacte al administrador."
       exception_while_validating: "Ha ocurrido un error al verificar las credenciales del proveedor de recursosde Cloud. Por favor verifique la configuración e intente de nuevo."
       invalid_credentials: "Credenciales de ingreso no son válidas para este proveedor de recursos de Cloud."
-      not_destroyable_instances: "No se pueden destruir las instancias a continuación: %{instances}."
+      not_destroyable_deployments: "Las aplicaciones a continuación no han sido detenidas: %{deployments}"
       populate_hardware_profiles_failed: "Falló llenar perfiles de hardware: %{message}"
-      populate_realms_failed: "Falló al llenar los reinos: %{message}"
+      populate_realms_failed: "Falló la generación de agrupamientos de recursos de Cloud: %{message}"
     flash:
       error:
         account_not_added:
@@ -1143,12 +1175,12 @@ es:
       create: "Crear prioridad de grupo"
       title: "Añadir prioridad de grupo"
   provider_realms:
-    name: "Nombre de reino de proveedor de recursos de Cloud"
-    provider_realms: "Reinos de proveedor de recursos de Cloud"
+    name: "Nombre de reino de proveedor"
+    provider_realms: "Reinos de proveedores"
     show:
-      details: "Detalles de reino de proveedores de recursos de Cloud"
-      mapping: "Asignación de reino de proveedor de recursos de Cloud"
-      provider_accounts_mapped: "Cuentas de proveedores de recursos asignadas a  reino de proveedor de recursos de Cloud % {name}:"
+      details: "Información sobre reino proveedores"
+      mapping: "Asignación de reino de proveedor"
+      provider_accounts_mapped: "Cuentas de proveedores de recursos asignadas a  reino de proveedor % {name}:"
   provider_selection:
     edit_strategy:
       back_to_strategies: "Estrategias de selección de proveedores de recursos de Cloud para zona de recursos de Cloud: %{pool}"
@@ -1163,7 +1195,7 @@ es:
       available_provider_accounts: "Cuentas de  proveedor de recursos de Cloud"
       available_strategies: "Estrategias disponibles"
       configure: Configurar
-      edit_provider_accounts: "Modificar cuentas de proveedores de recursos de Cloud  para familia de zona de recursos de Cloud"
+      edit_provider_accounts: "Modificar cuentas de proveedores de recursos de Cloud para Cloud"
       edit_strategy: "Edite estrategia %{name}"
       environment: "Cloud: %{environment}"
       provider_selection: "Estrategias de selección de proveedor de recursos de Cloud"
@@ -1209,14 +1241,17 @@ es:
         disabled: "Proveedor de recursos de Cloud inhabilitado."
         updated: "Proveedor de recursos de Cloud actualizado."
       warning:
+        check_config_file: "No se puede comprobar si el nombre del proveedor es correcto. Por favor revise el archivo de configuración"
         connect_failed: "Falló la conexión al proveedor de recursos de Cloud."
         not_stopped_instances: "Proveedor de recursos de Cloud no fue inhabilitado. Falló al detener las siguientes instancias:"
         not_terminated_instances: "Proveedor de recursos de Cloud no fue inhabilitado. Falló al cambiar estatusa 'detenido' para las siguientes instancias:"
     form:
       caution_alt_text: Precaución
       caution_image: Precaución
+      delete_provider: "Borrar el proveedor de recursos de Cloud"
       enter_correct_url_msg: "Por favor ingrese un formato de URL correcto."
       required_field: "Campo requerido."
+      save_changes: "Guardar los cambios"
       select_type_of_provider: "Seleccione el tipo de proveedor de recursos de Cloud"
       test_connection: "Conexión de prueba"
       x_deltacloud_provider:
@@ -1266,54 +1301,54 @@ es:
       used: Utilizado
   realm_mappings:
     new:
-      create_new: "Crear una nueva asignación de reinos"
-  realm_s: Reinos
+      create_new: "Crear una nueva asignación de agrupamiento de recursos de Cloud"
+  realm_s: "Agrupamientos de recursos de Cloud"
   realms:
     edit:
       cancel_editing: "Cancelar modificación"
       properties: Propiedades
     flash:
       error:
-        more_not_deleted: "No se pudieron borrar estos reinos:"
-        not_deleted: "Reino no fue borrado."
-        select_to_delete: "Debe seleccionar al menos un reino para borrar"
+        more_not_deleted: "No se pudieron borrar estos agrupamientos de recursos de Cloud:"
+        not_deleted: "El agrupamiento de recursos de Cloud no fue borrado"
+        select_to_delete: "Debe seleccionar al menos un agrupamiento de recursos de Cloud para borrar."
         select_to_delete_mapping: "Debe seleccionar al menos una asignación para borrar."
       notice:
-        added: "Reino fue añadido"
-        added_mapping: "Asignación de reino fue añadida."
-        deleted: "Reino fue borrado"
-        more_deleted: "Estos reinos fueron borrados:"
-        updated: "Reino actualizado"
+        added: "El agrupamiento de recursos de Cloud ha sido añadido"
+        added_mapping: "Asignación de agrupamiento de recursos de Cloud fue añadida."
+        deleted: "El agrupamiento de recursos de Cloud fue borrado"
+        more_deleted: "Estos agrupamientos de recursos de Cloud fueron borrados:"
+        updated: "Agrupamiento de recursos de Cloud ha sido actualizado"
     index:
-      realm: Reino
+      realm: "Agrupamiento de recursos de Cloud"
       realm_availability: ¿Disponible?
       realm_available:
         false_value: "No"
         true_value: Sí
-      realm_name: "Nombre de reino"
+      realm_name: "Nombre de agrupamiento de recursos de Cloud"
     list:
       delete_selected: "Borrar seleccionado"
     mapping:
-      frontend_realms_mapped_to_provider: "Reinos asignados a proveedor de recursos de Cloud %{name}:"
-      frontend_realms_mapped_to_realm: "Reinos asignados a reinio de proveedor de recursos de Cloud %{name}:"
+      frontend_realms_mapped_to_provider: "Agrupamientos de recursos de Cloud  para proveedor de recursos de Cloud %{name}:"
+      frontend_realms_mapped_to_realm: "Agrupamiento de recursos de Cloud asignado a reino de proveedor  %{name}:"
       mapping_provider: "Añadir asignación a proveedor de recursos de Cloud"
-      mapping_realm: "Añadir asignación a reino de proveedor de recursos de Cloud"
-      provider_accounts_mapped_to_realm: "Cuentas de proveedor de recursos de Cloud asignadas a reino %{name}"
-      realm_mapped_providers: "Reino %{name} es asignado a proveedores de recursos de Cloud:"
-      realm_mapped_realms: "Reino %{name} está asignado a reinos:"
+      mapping_realm: "Añadir mapa a reino de proveedor"
+      provider_accounts_mapped_to_realm: "Cuentas de proveedores de Cloud asignadas a agrupamiento de recursos de Cloud % {name}:"
+      realm_mapped_providers: "El agrupamiento de recursos de Cloud %{name} es asignado a proveedores de recursos de Cloud:"
+      realm_mapped_realms: "El agrupamiento de recursos de Cloud %{name} es asignado a agrupamientos de recursos de Cloud: "
     new:
-      create_realm: "Crear nuevo reino"
-    new_realm: "Nuevo reino"
+      create_realm: "Crear un nuevo agrupamiento de recursos de Cloud"
+    new_realm: "Nuevo agrupamiento de recursos de Cloud"
     preset_filters:
-      all_realms: "Todos los reinos"
+      all_realms: "Todos los agrupamientos de recursos de Cloud"
     properties:
-      realm_details: "Información sobre reinos"
-      realm_name: "Nombre de reino"
-    realms: Reinos
+      realm_details: "Información de agrupamiento de recursos de Cloud"
+      realm_name: "Nombre de agrupamiento de recursos de Cloud"
+    realms: "Agrupamientos de recursos de Cloud"
     show:
       properties: Propiedades
-      realm_mapping: "Asignación de reinos"
-      realm_unavailable: "El reino %{name}  no está disponible actualmente."
+      realm_mapping: "Asignación de agrupamiento de recursos de Cloud"
+      realm_unavailable: "El agrupamiento de recursos de Cloud %{name} no está disponible actualmente."
       sure_to_delete: "¿Está seguro de que desea borrar?"
     tab_captions:
       mapping: Asignación
@@ -1369,12 +1404,12 @@ es:
       warning:
         not_updated_quota: "No se pudo actualizar la cuota predeterminada"
     index:
-      permissions: "Permisos "
-      permissions_desc: "Modificar cuota predeterminada de auto-servicio"
+      permissions: "Predeterminados de usuario"
+      permissions_desc: "Modificar los parámetros predeterminados de usuario"
     self_service:
       account: Cuenta
       instances_quota: "Cuota de Instancias:"
-      self_service_default: "Tratamiento de usuario: Auto-servicio predeterminado"
+      self_service_default: "Parámetros predeterminados de usuario"
       self_service_settings: "Parámetros de auto-servicio"
     settings: Parámetros
   summary: Resumen
@@ -1486,7 +1521,8 @@ es:
       edit_account: "Modificar cuenta"
       edit_user: "Modificar usuario"
     errors:
-      has_running_instances: "%{login} tiene instancias en ejecución"
+      cannot_edit_ldap_user: "No se  puede modificar el usuario LDAP"
+      has_running_instances: "%{username} tiene instancias en ejecución"
     flash:
       notice:
         deleted: "Usuario ha sido borrado correctamente."
@@ -1498,7 +1534,7 @@ es:
         you_registred: "Ha sido  registrado con  éxito"
       warning:
         not_delete: "No se puede borrar: %{reason}"
-        not_delete_same_user: "No se puede borrar %{login} : usted ha ingresado como  este  usuario"
+        not_delete_same_user: "No se puede borrar %{username} : usted ha ingresado como este usuario"
     form:
       save_user: "Guardar usuario"
       user_treatment: "Tratamiento de usuario"

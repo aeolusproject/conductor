@@ -16,7 +16,7 @@ es:
         admin: "Gestor de proveedor de recursos de Cloud global"
         user: "Usuario de proveedor de recursos de Cloud global"
       realm:
-        admin: "Gestor global de reino"
+        admin: "Gestor de agrupamiento de recursos de Cloud global"
     catalog:
       admin: "Gestor de catálogo"
       user: "Usuario de catálogo"
