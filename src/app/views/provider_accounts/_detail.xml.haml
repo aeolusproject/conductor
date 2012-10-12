@@ -1,5 +1,5 @@
 %provider_account{:id => provider_account.id, :href => api_provider_account_url(provider_account)}
-  -if local_assigns[:with_data]
+  -unless local_assigns[:minimal]
     -provider = provider_account.provider
     -provider_type = provider.provider_type
     %label= provider_account.name

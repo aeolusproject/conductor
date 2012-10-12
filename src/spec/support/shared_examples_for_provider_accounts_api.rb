@@ -12,8 +12,12 @@ shared_examples_for "having XML with provider accounts" do
         xml_provider_account = xml_provider_accounts.xpath("//provider_account[@id=\"#{provider_account.id}\"]")
         xml_provider_account.xpath('@href').text.should be_eql(api_provider_account_url(provider_account))
         # xml_provider_account.xpath('label').text.should be_eql(provider_account.name.to_s)
-        # it should not have provider accounts details
-        %w{label provider provider_type quota_used quota priority credentials}.each do |element|
+
+        %w{label provider provider_type}.each do |element|
+          xml_provider_account.xpath(element).should_not be_empty
+        end
+
+        %w{quota_used quota priority credentials}.each do |element|
           xml_provider_account.xpath(element).should be_empty
         end
       end
