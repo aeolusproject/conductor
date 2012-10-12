@@ -26,9 +26,9 @@ ko:
       no_provider_account_given: "클라우드 리소스 공급자 계정이 없음"
       provider_account_not_found: "%{name} 이름의 클라우드 리소스 공급자 계정을 찾을 수 없음"
       provider_account_not_found_for_id: "%{id} id의 클라우드 리소스 공급자 계정을 찾을 수 없음"
-      provider_image_not_found: "%{providerimage} 이미지를 찾을 수 없음"
-      provider_image_status_not_found: "%{providerimage} 이미지의 상태를 찾을 수 없음"
-      push_error:
+      provider_image_not_found: "클라우드 리소스 공급자 이미지 %{providerimage}를 찾을 수 없음 "
+      provider_image_status_not_found: "클라우드 리소스 공급자 이미지 %{providerimage}의 상태를 찾을 수 없음 "
+      push_error: "대상 이미지 %{targetimage}를 %{account}로 푸시할 수 없어 오류 %{error} 발생 "
       specify_a_type_build_or_import: "유형, 빌드, 가져오기를 지정하십시오 "
       specify_environment: "클라우드를 지정하십시오"
       target_image_not_found: "대상 이미지 %{targetimage}를 찾을 수 없음 "
@@ -46,17 +46,22 @@ ko:
       permissions: "글로벌 역할 부여 "
       pool_families: "클라우드 "
       provider_selection: "클라우드 리소스 공급자 선택"
-      realms: "영역 "
+      realms: "클라우드 리소스 클러스터 "
       user_groups: "사용자 그룹"
       users: "사용자 "
     flash:
+      error:
+        download_failed: "XML 파일 다운로드를 실패했습니다 "
+        no_url_provided: "XML 가져오기에서 URL이 제공되지 않았습니다 "
+        not_valid_or_reachable: "XML 파일은 유효하지 않거나 더이상 %{url}에 연결할 수 없습니다 "
+        not_valid_url: "지정된 URL은 유효한 %{url}이 아닙니다 "
       notice:
         must_be_logged: "이 페이지에 액세스하려면 로그인해야 합니다 "
         must_not_be_logged: "이 페이지에 액세스하려면 로그 아웃해야 합니다 "
-        record_not_exist:
+        record_not_exist: "액세스하려는 기록이 존재하지 않습니다. 삭제된 것 같습니다."
     internal_server_error: "내부 서버 오류 "
     permission_denied: "선택한 작업을 실행하기에 권한이 충분하지 않습니다. "
-    permission_denied_with_prefix:
+    permission_denied_with_prefix: "%{prefix}: 선택한 작업을 실행하기에 권한이 충분하지 않습니다."
     some_actions_failed: "일부 작업 실패 "
   apply: "적용 "
   apply_treatment: "사용자 처리 방식 적용 "
@@ -72,8 +77,8 @@ ko:
     logs: 로그
     pool_families: "클라우드 "
     pools: "클라우드 리소스 영역 "
-    provider_realms: "클라우드 리소스 공급자 영역"
-    realms: "영역 "
+    provider_realms: "공급자 영역 "
+    realms: "클라우드 리소스 클러스터 "
     roles: "역할 "
     users: "사용자 "
   browse_objects: "객체 검색 "
@@ -90,14 +95,12 @@ ko:
         updated: "애플리케이션 설계도가 성공적으로 업데이트되었습니다"
       warning:
         failed: "애플리케이션 설계도가 생성되지 않았습니다. "
-        no_url_provided: "애플리케이션 설계도 XML 파일의 URL이 제공되지 않았습니다. "
         not_valid: "파일에 구문 오류가 포함되어 있음"
-        not_valid_cyclic_reference:
+        not_valid_cyclic_reference: "다음의 구성 요소 설계도 도는 서비스 간의 순환 참조가 포함되어 있습니다: %{reference}"
         not_valid_duplicate_assembly_names: "고유한 구성 요소 설계도 이름이 들어 있어야 함"
         not_valid_not_existing_assembly_reference: "구성 요소 설계도 %{from_assembly}, 서비스 %{from_service}, 매개 변수 %{from_param}는 기존 구성 요소 설계도 %{to_assembly}를 참조하지 않습니다."
         not_valid_not_existing_param: "구성 요소 설계도 %{from_assembly}, 서비스 %{from_service}, 매개 변수 %{from_param}는 구성 요소 설계도 %{to_assembly}가 반환하지 않은 매개 변수 %{to_param}를 참조합니다."
         not_valid_not_existing_service_reference: "구성 요소 설계도 %{from_assembly}, 서비스 %{from_service}, 매개 변수 %{from_param}는 기존 구성 요소 설계도 %{to_assembly}, 서비스 %{to_service}를 참조하지 않습니다."
-        not_valid_or_reachable:
     index:
       catalog_entries: "애플리케이션 설계도 "
       catalog_entry: "애플리케이션 설계도 "
@@ -108,7 +111,7 @@ ko:
     new:
       add_catalog_entry: "새 애플리케이션 설계도 추가 "
       catalog_detail: "%{name} 카탈로그 "
-      choose_option_to_upload:
+      choose_option_to_upload: "다음 옵션 중 하나를 선택하여 애플리케이션 설계도 XML 파일을 업로드함 "
       from_url: "URL에서 "
       hw_profile: "디폴트 클라우드 리소스 프로파일 "
       name: "이름 "
@@ -143,7 +146,7 @@ ko:
         not_deleted_perms:
           one: "카탈로그 %{not_deleted}를 삭제하기 위한 권한이 충분하지 않습니다"
           other: "%{count} 카탈로그 %{not_deleted}를 삭제하기 위한 권한이 충분하지 않습니다"
-        one_not_deleted:
+        one_not_deleted: "카탈로그를 삭제할 수 없습니다. 최소 하나의 애플리케이션 설계도에는 이 카탈로그로의 참조가 있습니다."
       notice:
         created:
           one: "카탈로그가 생성됨"
@@ -179,9 +182,9 @@ ko:
       edit_config_server: "설정 서버 편집 "
     errors:
       connection:
-        generic:
+        generic: "설정 서버 연결을 확인할 수 없습니다 (url: %{url}). 연결 매개 변수를 확인하고 다시 시도하십시오. "
         generic_with_message: "설정 서버 연결을 확인할 수 없습니다 (url: %{url}). %{msg} "
-        unhandled_response:
+        unhandled_response: "설정 서버 연결을 확인할 수 없습니다 (url: %{url}). HTTP 상태 코드: %{code}"
     flash:
       error:
         invalid: "설정 서버 정보가 유효하지 않습니다. "
@@ -219,8 +222,8 @@ ko:
   deployables:
     error:
       attribute_not_exists: "유효하지 않음 "
-      audrey_api_incompatibility:
-      hwp_not_exists:
+      audrey_api_incompatibility: "애플리케이션 설계도는 최신 빌드 이미지에서 설치된 Audrey 에이전트가 지원하지 않는 기능을 사용합니다."
+      hwp_not_exists: "XML에 지정된 클라우드 리소스 프로파일 %{name}이 존재하지 않습니다. "
     flash:
       error:
         attribute_not_exist: "XML에 일부 속성이 누락되어 있습니다. 파일을 확인해 보십시오."
@@ -232,8 +235,8 @@ ko:
           one: "애플리케이션 설계도 %{not_deleted}를 삭제 실패했습니다."
           other: "%{count} 애플리케이션 설계도 %{not_deleted}가 삭제되지 않았습니다."
         not_deleted_perms:
-          one:
-          other:
+          one: "애플리케이션 설계도 %{not_deleted}를 삭제하기에 권한이 충분하지 않습니다."
+          other: "%{count} 애플리케이션 설계도 %{not_deleted}를 삭제하기에 권한이 충분하지 않습니다."
         not_selected: "애플리케이션 설계도가 선택되지 않았습니다"
         wrong_environment: "애플리케이션 설계도 '%{deployable}'에는 잘못된 클라우드 ('%{wrong_env}'은 '%{environment}'가 되어야함)에 있는 이미지 (UUID %{uuid})가 들어 있기 때문에 사용할 수 없습니다.  "
       notice:
@@ -250,7 +253,7 @@ ko:
       deployable_xml: "애플리케이션 설계도 XML"
       deployable_xml_url: "애플리케이션 설계도 XML의 URL "
       edit_xml_after_save: "저장 후 XML 파일 편집 "
-      multiple: "없음 "
+      multiple: "여러개 "
       none: "없음 "
       save: 저장
     index:
@@ -265,8 +268,8 @@ ko:
       description: "설명 "
       name: "이름 "
       not_deleted:
-        one:
-        other:
+        one: "애플리케이션 설계도 %{list}가 삭제되지 않았습니다. 이와 관련된 애플리케이션이 있습니다. "
+        other: "애플리케이션 설계도 %{list}가 삭제되지 않았습니다. 이와 관련된 애플리케이션이 있습니다. "
       state: "상태 "
     new:
       no_catalog_selected: "카탈로그가 선택되어 있지 않음 "
@@ -324,17 +327,21 @@ ko:
       edit_deployment: "애플리케이션 편집 "
     errors:
       all_stopped: "전체 인스턴스가 중지 또는 실행되어야 함 "
-      cannot_stop:
+      cannot_stop: "다음과 같은 인스턴스를 중지할 수 없으므로 애플리케이션 %{name}을 삭제할 수 없습니다:"
       config_server_connection: "설정 서버에 연결할 수 없음 "
       instance_state: "인스턴스 %{name}의 상태는 %{state}입니다."
+      launch_failed: "배포 시작 실패했습니다"
       match_not_found: "애플리케이션을 호스팅할 적절한 클라우드 리소스 공급자 계정을 찾을 수 없습니다. 클라우드 리소스 공급자 계정의 쿼터 및 이미지 상태를 확인하십시오. "
       match_not_found_with_errors: "적합한 것을 찾을 수 없음: %{errors}"
       not_valid_deployable_xml: "유효한 애플리케이션 설계도 XML이 아닌것 같습니다: %{msg}"
+    events:
+      launch_attempt: "공급자 계정 %{account}에서 배포 시작을 시도하고 있습니다 "
+      state_changed: "상태가 %{state}로 변경되었습니다"
     flash:
       error:
-        cant_stop:
+        cant_stop: "애플리케이션 %{name}을 중지할 수 없습니다. 실행 중인 애플리케이션만 중지할 수 있습니다."
         failed_to_launch_assemblies: "다음과 같은 구성요소 설계도를 시작하지 못했습니다: "
-        no_hwp_permission:
+        no_hwp_permission: "%{hwp} 클라우드 리소스 프로파일에 액세스하기 위한 권한이 충분하지 않습니다."
         none_selected: "하나 이상의 애플리케이션을 선택해야 합니다. "
         not_deleted: "애플리케이션 %{name}을 삭제할 수 없습니다: %{error}"
         not_launched: "일부 구성요소 설계도를 시작할 수 없습니다: "
@@ -353,7 +360,7 @@ ko:
           other: "애플리케이션 %{list}이 성공적으로 업데이트되었습니다. "
       warning:
         deployable_not_selected: "애플리케이션 설계도를 선택해야 합니다"
-        disabled_pool:
+        disabled_pool: "클라우드 리소스 영역에서 애플리케이션을 시작할 수 없습니다. 클라우드 리소스 영역이 비활성화되어 있습니다."
         failed_to_launch: "애플리케이션 시작을 실패했습니다."
     history:
       instance: "인스턴스 %{name}"
@@ -362,7 +369,7 @@ ko:
       deployable_xml: "애플리케이션 설계도 XML"
       details: "상세 정보 "
       hdd: HDD
-      hint:
+      hint: "\"%{pool}\" 클라우드 리소스 영역에서 실행할 애플리케이션 설계도를 선택합니다 "
       image_id: "구성요소 개요 ID "
       no_catalog_entry: "사용 가능한 애플리케이션 설계도가 없습니다. 애플리케이션 설계도를 추가하십시오."
       profile: "프로파일 "
@@ -401,7 +408,7 @@ ko:
       count_of_instances: "인스턴스 수: "
       operational_status: "작동 상태 "
     overview:
-      confirmation_html:
+      confirmation_html: "\"%{deployment}\"를 %{pool} 클라우드 리소스 영역에 배포하시겠습니까? "
       deployable_xml: "애플리케이션 설계도 XML"
       description: "설명 "
       header: "정말로 \"%{deployment}\"를 %{pool} 클라우드 리소스 영역에 배포하시겠습니까? "
@@ -430,7 +437,11 @@ ko:
       state: "상태: "
       stop: "중지 "
     properties:
+      created: 생성됨
       global_uptime: "글로벌 업타임 "
+      name: 이름
+      owner: "소유자 "
+      pool: "클라우드 리소스 영역 "
       property_name: "속성 이름 "
       uptime_1st_instance: "실행중인 첫 번째 인스턴스 업타임 "
       value: "값 "
@@ -464,6 +475,7 @@ ko:
       shutting_down: "애플리케이션 종료 중"
       stopped: "모든 인스턴스가 중지됨"
   edit: "편집 "
+  edit_provider_account: "클라우드 리소스 공급자 계정 편집"
   edit_user: "사용자 편집 "
   email: "이메일 "
   filter_table:
@@ -475,6 +487,8 @@ ko:
     to: "적용 대상"
     viewing: "보기 "
   first_name: "이름 "
+  general:
+    delete_confirmation: "정말로 삭제하시겠습니까? "
   general_settings: "일반 설정 "
   hardware_profiles:
     create:
@@ -488,6 +502,9 @@ ko:
           one: "%{not_deleted}는 삭제할 수 없음 "
           other: "다음의 하드웨어 프로파일을 삭제할 수 없음: %{not_deleted}"
         not_deleted: "하드웨어 프로파일이 삭제되지 않았습니다"
+        not_deleted_perms:
+          one: "하드웨어 프로파일 %{not_deleted}을 삭제하기 위한 권한이 충분하지 않습니다 "
+          other: "%{count} 하드웨어 프로파일 %{not_deleted}을 삭제하기 위한 권한이 충분하지 않습니다 "
       notice:
         deleted: "하드웨어 프로파일이 삭제되었습니다 "
         more_deleted:
@@ -514,7 +531,7 @@ ko:
       delete_selected: "선택한 항목 삭제 "
       new_hardware: "새 클라우드 리소스 프로파일 "
     matching_provider_hwp:
-      no_matching_provider_hwp:
+      no_matching_provider_hwp: "일치하는 클라우드 리소스 공급자 클라우드 리소스 프로파일을 찾을 수 없음 "
     new:
       new_hwp: "새 클라우드 리소스 프로파일 "
     preset_filters:
@@ -551,17 +568,17 @@ ko:
       edit: "편집 "
       edit_xml: "XML 편집 "
       save_and_continue: "저장 및 계속 진행 "
-    environment: "클라우드: %{environment}"
+    environment: "클라우드 "
     environment_header: "클라우드 "
     flash:
       error:
         invalid_url: "제공된 URL을 불러올 수 없음 "
         no_file: "구성요소 개요 XML 파일을 지정해야 합니다 "
         no_name: "구성요소 개요 이름을 지정해야 합니다 "
-        no_provider_accounts:
-        no_provider_accounts_for_import:
-        no_template:
-        not_exist:
+        no_provider_accounts: "이미지를 빌드할 수 없습니다. 이 클라우드에 연결된 활성화된 클라우드 리소스 공급자 계정이 없습니다."
+        no_provider_accounts_for_import: "이미지를 가져오기할 수 없습니다. 이 클라우드에 대해 현재 활성화된 클라우드 리소스 공급자 계정이 없습니다."
+        no_template: "이미지는 Conductor에서 작성된 것이 아니라 가져오기한 것이므로 구성 요소 개요가 없습니다."
+        not_exist: "액세스하려는 이미지가 존재하지 않습니다. 삭제된 것 같습니다."
       notice:
         created: "이미지가 생성됨 "
         deleted: "이미지가 삭제됨 "
@@ -573,9 +590,9 @@ ko:
         not_found: "이미지를 찾을 수 없음 "
     import:
       blank_id: "구성요소 개요 ID를 비워둘 수 없습니다. "
-      image_id: "클라우드 리소스 공급자의 구성요소 개요 ID"
+      image_id: "클라우드 리소스 공급자의 이미지 ID"
       image_imported: "이미지를 성공적으로 가져오기했습니다. "
-      image_not_imported:
+      image_not_imported: "이미지를 가져오기할 수 없습니다. 보다 자세한 내용은 이미지 팩토리 로그를 확인합니다. "
       import_image: "이미지 가져오기 "
       name: "이미지 이름 "
       provider_account: "클라우드 리소스 공급자 계정 "
@@ -591,7 +608,7 @@ ko:
       os_version: "OS 버전 "
     new:
       choose_file: "구성요소 개요 파일을 선택: "
-      description:
+      description: "아래 옵션 중 하나를 선택하여 이미지를 \"%{environment} 클라우드\"로 가져오기하거나 업로드합니다.  "
       edit_file: "저장하기 전 파일을 편집: "
       from_url: "URL에서 "
       image_url: "구성요소 개요 URL:"
@@ -600,8 +617,8 @@ ko:
       upload: "업로드 "
     not_on_provider: "요청한 이미지를 클라우드 리소스 공급자에서 찾을 수 없습니다. "
     overview:
-      back: "뒤로 "
       description: "\"%{name}\"의 마크업 및 이미지가 성공적으로 유효하게 되었습니다. 이제 이미지를 저장하고 애플리케이션 설계도를 생성할 수 있습니다. "
+      edit_xml: "템플릿 XML 보기 및 편집 "
       make_deployable: "자동으로 \"%{name}\" 애플리케이션 설계도를 만듭니다. "
       save_template: "구성요소 개요 저장 "
       valid_image: "유효한 이미지 "
@@ -619,7 +636,7 @@ ko:
       failed_push_attempts:
         one: "실패한 푸시 시도 횟수 1번 "
         other: "실패한 푸시 시도 횟수 %{count}번  "
-      image_uri: "이미지 URI"
+      image_id: "구성요소 개요 ID "
       image_uuid: "이미지 UUID "
       latest: "최신 "
       missing_build: "먼저 빌드를 선택합니다 "
@@ -629,6 +646,7 @@ ko:
       provider: "클라우드 리소스 공급자 "
       provider_account: "클라우드 리소스 공급자 계정 "
       provider_images: "클라우드 리소스 공급자 이미지"
+      providers_image_id: "클라우드 리소스 공급자의 이미지 ID"
       push: "푸시 "
       push_all: "모두 푸시 "
       push_started: "푸시가 시작됩니다 "
@@ -652,18 +670,19 @@ ko:
       architecture_mismatch: "구성요소 설계도 하드웨어 프로파일 아키텍처 (%{inst_arch})는 이미지 하드웨어 프로파일 아키텍처 (%{img_arch})와 일치하지 않습니다. "
       cannot_destroy: "이 인스턴스에서 삭제를 실행할 수 없습니다. "
       hw_profile_match_not_found: "%{account_name}: 일치하는 클라우드 리소스 파일을 찾을 수 없음 "
-      image_not_found:
-      image_not_pushed_to_provider:
+      image_not_found: "uuid %{b_uuid}로 이미지 빌드를 찾을 수 없으며 uuid %{i_uuid}로 이미지를 찾을 수 없음 "
+      image_not_pushed_to_provider: "%{account_name}: 이미지는 클라우드 리소스 공급자 계정에 푸시되지 않음 "
       invalid_state: "오류. 상태 시간을 계산할 수 없음: 잘못된 상태 "
       must_be_enabled: "%{account_name}: 클라우드 리소스 공급자를 활성화해야 함 "
-      no_config_server_available:
-      no_provider_accounts:
+      no_config_server_available: "%{account_name}: 클라우드 리소스 공급자 계정에 대해 사용 가능한 설정 서버가 없음"
+      no_provider_accounts: "선택한 클라우드 리소스 영역의 클라우드와 연결된 클라우드 리소스 공급자 계정이 없습니다."
       pool_family_quota_reached: "클라우드 쿼터에 도달함 "
       pool_quota_reached: "클라우드 리소스 영역 쿼터에 도달함 "
       provider_account_quota_reached: "%{account_name}: 클라우드 리소스 공급자 계정 쿼터에 도달함 "
-      provider_account_quota_too_low:
+      provider_account_quota_too_low: "%{match_provider_account} 쿼터 제한이 낮기 때문에 애플리케이션 설계를 시작할 수 없음 "
       provider_not_available: "%{account_name}: 클라우드 리소스 공급자를 사용할 수 없음 "
-      realm_not_mapped: "%{account_name}:  클라우드 리소스 클러스터 %{frontend_realm_name}는 적용 가능한 클라우드 리소스 공급자 또는 클라우드 리소스 공급자 영역에 매핑되지 않음"
+      realm_not_mapped: "%{account_name}: 프론트앤드 클라우드 리소스 클러스터 %{frontend_realm_name}는 적용 가능한 클라우드 리소스공급자 또는 공급자 영역에 매핑되지 않음"
+      reboot_already_scheduled: "재부팅이 이미 스케줄되어 있습니다."
       reboot_invalid_action: "재부팅은 잘못된 동작입니다. "
       state_not_monitored: "오류, 상태 시간을 계산할 수 없음: 상태는 모니터되지 않음 "
       stop_invalid_action: "중지는 잘못된 동작입니다. "
@@ -775,7 +794,8 @@ ko:
   launch_instance: "인스턴스 시작 "
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright: "Copyright &copy; 2009-2012 Red Hat, Inc."
+    copyright:
+      po-header: ""
     dashboard: "대시보드 "
   login: "로그인 "
   logs:
@@ -788,7 +808,7 @@ ko:
       details: "상세 정보 "
       event_time: "시간 "
       export_logs: "로그 내보내기 "
-      frontend_realm: "클라우드 리소스 클러스터 "
+      frontend_realm: "프론트앤드 클라우드 리소스 클러스터 "
       grouped_by: "그룹화 기준"
       hwp: "클라우드 리소스 프로파일 "
       image: "이미지 "
@@ -879,7 +899,7 @@ ko:
   pool_families:
     add_to_pool_family: "%{name}에 추가 "
     choose_provider_accounts: "클라우드를 활성화하기 위해 클라우드 리소스 공급자 계정 선택 "
-    confirm_delete:
+    confirm_delete: "정말로 이 클라우드를 삭제하시겠습니까? 관련된 모든 클라우드 리소스 영역, 카탈로그, 애플리케이션 설계도가 삭제됩니다."
     edit:
       return_to: "돌아가기: "
     errors:
@@ -895,7 +915,7 @@ ko:
         provider_accounts_not_added: "이러한 클라우드 리소스 공급자 계정을 추가할 수 없음 "
         provider_accounts_not_removed: "이러한 클라우드 리소스 공급자 계정을 제거할 수 없음"
         select_to_add_accounts: "추가할 최소 하나의 클라우드 리소스 공급자 계정을 선택해야 합니다. "
-        select_to_remove_accounts:
+        select_to_remove_accounts: "제거할 최소 하나의 클라우드 리소스 공급자 계정을 선택해야 합니다. "
       notice:
         added: "클라우드가 추가되었습니다. "
         deleted: "클라우드가 삭제되었습니다."
@@ -939,11 +959,11 @@ ko:
     flash:
       error:
         default_pool_not_deleted: "디폴트 클라우드 리소스 영역은 삭제할 수 없습니다."
-        iwhd_unavailable:
+        iwhd_unavailable: "카탈로그 이미지를 사용할 수 없습니다. 이미지 웨어하우스에 연결할 수 없는것 같습니다."
         not_updated: "클라우드 리소스 영역이 업데이트되지 않음 "
         pool_not_deleted:
-          one:
-          other:
+          one: "클라우드 리소스 영역 %{list}이 삭제되지 않았습니다. 이와 관련된 인스턴스가 있습니다. "
+          other: "클라우드 리소스 영역 %{list}이 삭제되지 않았습니다. 이와 관련된 인스턴스가 있습니다. "
       notice:
         added: "클라우드 리소스 영역이 추가되었습니다. "
         updated: "클라우드 리소스 영역이 업데이트되었습니다. "
@@ -965,7 +985,7 @@ ko:
       image: "이미지: "
       pushed: "%{uuid}가 %{provider}에 푸시됨 "
     index:
-      confirm_delete:
+      confirm_delete: "정말로 클라우드 리소스 영역을 삭제하시겠습니까? 관련된 모든 카탈로그와 애플리케이션 설계도도 삭제됩니다. "
       deployed_on: "애플리케이션 배포 위치 "
       destroy: "삭제 "
       failed: "실패 "
@@ -995,6 +1015,18 @@ ko:
       with_stopped_instances: "중지된 인스턴스로 "
     properties:
       properties: "%{pool}의 속성 "
+    scoreboard:
+      alerts: "경고 "
+      cloud_providers_total: "총 클라우드 리소스 공급자 "
+      deployments_total: "총 애플리케이션 "
+      instances_failed: "인스턴스 실패 "
+      instances_pending: "인스턴스 보류 중 "
+      pools_in_use: "사용 중인 클라우드 리소스 영역 "
+      pools_total: "총 클라우드 리소스 영역 "
+      quota_usage: "쿼터 사용 "
+      running_instances_quota: "실행 중인 인스턴스 "
+      total_available_instances: "사용 가능한 총 인스턴스 "
+      total_instances: "총 인스턴스 "
   privileges: "권한 "
   properties: "속성 "
   provider_accounts:
@@ -1016,13 +1048,13 @@ ko:
       file_already_uploaded: "이미 업로드되어 있습니다. 다시 업로드하시겠습니까? "
       required_field: "필수 항목 "
     errors:
-      associated_images:
-      could_not_connect:
-      exception_while_validating:
+      associated_images: "다음과 같은 연결된 공급자 이미지가 있습니다: %{images}. 이를 먼저 삭제합니다."
+      could_not_connect: "클라우드 리소스 공급자 계정에 연결할 수 없습니다. 관리자에게 문의하십시오. "
+      exception_while_validating: "클라우드 리소스 공급자 인증 정보를 확인할 때 오류가 발생했습니다. 설정을 확인하고 다시 시도해 보십시오. "
       invalid_credentials: "이 클라우드 리소스 공급자에 대한 로그인 인증 정보가 잘못되어 있습니다. "
-      not_destroyable_instances: "다음과 같은 인스턴스를 삭제할 수 없음: %{instances}"
+      not_destroyable_deployments: "다음과 같은 애플리케이션이 중지되지 않았습니다: %{deployments}"
       populate_hardware_profiles_failed: "하드웨어 프로파일 배치에 실패했습니다: %{message}"
-      populate_realms_failed: "영역 배치에 실패했습니다: %{message}"
+      populate_realms_failed: "클라우드 리소스 클러스터 배치에 실패했습니다: %{message}"
     flash:
       error:
         account_not_added:
@@ -1128,7 +1160,7 @@ ko:
       providers_and_provider_accounts: "클라우드 리소스 공급자 및 클라우드 리소스 공급자 계정"
     index:
       add_new: "신규 추가"
-      back_to_strategies:
+      back_to_strategies: "클라우드 리소스 영역의 클라우드 리소스 공급자 선택 전략: %{pool}"
       confirm_delete: "정말로 이 우선 순위 그룹을 삭제하시겠습니까?"
       edit_strict_order_strategy: "강순서 관계 전략 편집"
       no_priority_group: "표시할 사용 가능한 우선 순위 그룹이 없음"
@@ -1143,15 +1175,15 @@ ko:
       create: "우선 순위 그룹 생성"
       title: "우선 순위 그룹 추가"
   provider_realms:
-    name: "클라우드 리소스 공급자 영역 이름 "
-    provider_realms: "클라우드 리소스 공급자 영역"
+    name: "공급자 영역 이름 "
+    provider_realms: "공급자 영역 "
     show:
-      details: "클라우드 리소스 공급자 영역 정보"
-      mapping: "클라우드 리소스 공급자 영역 매핑"
-      provider_accounts_mapped:
+      details: "공급자 영역 정보 "
+      mapping: "공급자 영역 매핑 "
+      provider_accounts_mapped: "클라우드 리소스 공급자 계정이 공급자 영역 %{name}에 매핑되었습니다 "
   provider_selection:
     edit_strategy:
-      back_to_strategies:
+      back_to_strategies: "클라우드 리소스 영역의 클라우드 리소스 공급자 선택 전략: %{pool}"
       edit: "%{strategy_name} 전략 편집"
     flash:
       config_successfully_saved: "%{strategy_name} 전략을 성공적으로 업데이트함"
@@ -1163,7 +1195,7 @@ ko:
       available_provider_accounts: "사용 가능한 클라우드 리소스 공급자 계정 "
       available_strategies: "사용 가능한 전략"
       configure: "설정 "
-      edit_provider_accounts: "클라우드 리소스 영역 제품군의 클라우드 리소스 공급자 계정 편집"
+      edit_provider_accounts: "클라우드의 클라우드 리소스 공급자 계정 편집 "
       edit_strategy: "%{name} 전략 편집"
       environment: "클라우드: %{environment}"
       provider_selection: "클라우드 리소스 공급자 선택 전략 "
@@ -1174,8 +1206,8 @@ ko:
         quota_exceeded: "계정 쿼터를 초과함 "
         quota_reached: "계정 쿼터에 도달함 "
       description:
-        quota_exceeded:
-        quota_reached:
+        quota_exceeded: "%{name} 계정에 대해 실행 중인 인스턴스의 쿼터 제한을 초과했습니다. "
+        quota_reached: "%{name} 계정에 대해 실행 중인 인스턴스의 쿼터 제한에 도달했습니다. "
       subject:
         quota: "쿼터 "
       type:
@@ -1188,7 +1220,7 @@ ko:
       disabled_provider: "클라우드 리소스 공급자 비활성화"
     disable_provider: "클라우드 리소스 공급자를 비활성화하시겠습니까? 모든 인스턴스는 중지됩니다! "
     edit:
-      enable_configure_providers:
+      enable_configure_providers: "클라우드 리소스 공급자를 활성화 및 설정하려면 이 창의 오른쪽 상단 코너에 있는 슬라이드 스위치를 클릭합니다. "
       provider_disabled: "클라우드 리소스 공급자 %{name}는 현재 비활성화되어 있습니다"
       provider_id_disabled: "클라우드 리소스 공급자가 비활성화되어 있습니다. "
       provider_unavailable: "현재 클라우드 리소스 공급자 %{name}를 사용할 수 없습니다. "
@@ -1209,14 +1241,17 @@ ko:
         disabled: "클라우드 리소스 공급자가 비활성화되었습니다. "
         updated: "클라우드 리소스 공급자가 업데이트되었습니다. "
       warning:
+        check_config_file: "공급자 이름이 올바른지를 확인할 수 없습니다. 설정 파일을 확인해 보십시오 "
         connect_failed: "클라우드 리소스 공급자로 연결 실패했습니다"
-        not_stopped_instances:
+        not_stopped_instances: "클라우드 리소스 공급자가 비활성화되어 있지 않습니다, 다음과 같은 인스턴스를 중지할 수 없습니다: "
         not_terminated_instances: "클라우드 리소스 공급자가 비활성화되어 있지 않습니다, 다음과 같은 인스턴스에 대해 '중지됨'으로 상태를 변경할 수 없습니다: "
     form:
       caution_alt_text: "주의 "
       caution_image: "주의 "
+      delete_provider: "클라우드 리소스 공급자 삭제 "
       enter_correct_url_msg: "올바른 URL 형식을 입력해 주십시오. "
       required_field: "필수 항목 "
+      save_changes: "변경 사항 저장 "
       select_type_of_provider: "클라우드 리소스 공급자 유형 선택"
       test_connection: "연결 테스트 "
       x_deltacloud_provider:
@@ -1266,54 +1301,54 @@ ko:
       used: "사용됨 "
   realm_mappings:
     new:
-      create_new: "새 영역 매핑 생성 "
-  realm_s: "영역 "
+      create_new: "새 클라우드 리소스 클러스터 매핑 생성 "
+  realm_s: "클라우드 리소스 클러스터 "
   realms:
     edit:
       cancel_editing: "편집 취소 "
       properties: "속성 "
     flash:
       error:
-        more_not_deleted: "이 영역을 삭제할 수 없음: "
-        not_deleted: "영역이 삭제되지 않았습니다"
-        select_to_delete: "삭제할 최소 하나의 영역을 선택해야 합니다. "
+        more_not_deleted: "이 클라우드 리소스 클러스터를 삭제할 수 없음: "
+        not_deleted: "클라우드 리소스 클러스터가 삭제되지 않았습니다"
+        select_to_delete: "삭제할 최소 하나의 클라우드 리소스 클러스터를 선택해야 합니다. "
         select_to_delete_mapping: "삭제할 최소 하나의 매핑을 선택해야 합니다. "
       notice:
-        added: "영역이 추가되었습니다"
-        added_mapping: "영역 매핑이 추가되었습니다. "
-        deleted: "영역이 삭제되었습니다"
-        more_deleted: "이 영역이 삭제되었습니다: "
-        updated: "영역이 업데이트되었습니다"
+        added: "클라우드 리소스 클러스터가 추가되었습니다"
+        added_mapping: "클라우드 리소스 클러스터 매핑이 추가되었습니다. "
+        deleted: "클라우드 리소스 클러스터가 삭제되었습니다 "
+        more_deleted: "이 클라우드 리소스 클러스터가 삭제되었습니다: "
+        updated: "클라우드 리소스 클러스터가 업데이트되었습니다"
     index:
-      realm: "영역 "
+      realm: "클라우드 리소스 클러스터 "
       realm_availability: "사용 가능합니까? "
       realm_available:
         false_value: "아니요 "
         true_value: "예 "
-      realm_name: "영역 이름 "
+      realm_name: "클라우드 리소스 클러스터 이름 "
     list:
       delete_selected: "선택한 항목 삭제 "
     mapping:
-      frontend_realms_mapped_to_provider: "영역이 클라우드 리소스 공급자 %{name}에 매핑되어 있음: "
-      frontend_realms_mapped_to_realm: "영역이 클라우드 리소스 공급자 영역 %{name}에 매핑되어 있음: "
+      frontend_realms_mapped_to_provider: "클라우드 리소스 클러스터가 클러스터 리소스 공급자 %{name}로 매핑되었습니다:"
+      frontend_realms_mapped_to_realm: "클라우드 리소스 클러스터가 공급자 영역 %{name}에 매핑되었습니다:"
       mapping_provider: "클라우드 리소스 공급자에 매핑 추가 "
-      mapping_realm: "클라우드 리소스 공급자 영역에 매핑 추가 "
-      provider_accounts_mapped_to_realm: "클라우드 리소스 공급자 계정이 영역 %{name}에 매핑되어 있음: "
-      realm_mapped_providers: "영역 %{name} 이 클라우드 리소스 공급자에 매핑되어 있음: "
-      realm_mapped_realms: "영역 %{name}이 영역에 매핑됨: "
+      mapping_realm: "공급자 영역에 매핑 추가 "
+      provider_accounts_mapped_to_realm: "클라우드 리소스 공급자 계정이 클라우드 리소스 클러스터 %{name}에 매핑되었습니다:"
+      realm_mapped_providers: "클라우드 리소스 클러스터 %{name}가 클라우드 리소스 공급자에 매핑되어 있습니다:"
+      realm_mapped_realms: "클라우드 리소스 클러스터 %{name}가 클라우드 리소스 클러스터에 매핑되어 있습니다:"
     new:
-      create_realm: "새 영역 생성 "
-    new_realm: "새 영역 "
+      create_realm: "새 클라우드 리소스 클러스터 생성 "
+    new_realm: "새 클라우드 리소스 클러스터 "
     preset_filters:
-      all_realms: "전체 영역 "
+      all_realms: "전체 클라우드 리소스 클러스터 "
     properties:
-      realm_details: "영역 정보 "
-      realm_name: "영역 이름 "
-    realms: "영역 "
+      realm_details: "클라우드 리소스 클러스터 상세 정보 "
+      realm_name: "클라우드 리소스 클러스터 이름 "
+    realms: "클라우드 리소스 클러스터 "
     show:
       properties: "속성 "
-      realm_mapping: "영역 매핑 "
-      realm_unavailable: "영역 %{name}은 현재 사용할 수 없습니다. "
+      realm_mapping: "클라우드 리소스 클러스터 매핑 "
+      realm_unavailable: "현재 클라우드 리소스 클러스터 %{name}를 사용할 수 없습니다. "
       sure_to_delete: "정말로 삭제하시겠습니까? "
     tab_captions:
       mapping: "매핑 "
@@ -1369,12 +1404,12 @@ ko:
       warning:
         not_updated_quota: "디폴트 쿼터를 업데이트할 수 없음 "
     index:
-      permissions: "권한 "
-      permissions_desc: "셀프 서비스 디폴트 쿼터를 수정합니다. "
+      permissions: "사용자 디폴트 "
+      permissions_desc: "사용자 디폴트 설정 수정 "
     self_service:
       account: "계정 "
       instances_quota: "인스턴스 쿼터:"
-      self_service_default: "사용자 처리 방식: 셀프 서비스 디폴트 "
+      self_service_default: "사용자 디폴트 설정 "
       self_service_settings: "셀프 서비스 설정 "
     settings: "설정 "
   summary: "요약 "
@@ -1433,7 +1468,7 @@ ko:
       delete_selected: "선택한 항목 삭제 "
     local: 로컬
     new:
-      neccessary_information:
+      neccessary_information: "새 사용자 그룹에 대해 필요한 정보를 입력한 후 '사용자 그룹 저장'을 클릭합니다. "
       new_user_group: "새 사용자 그룹"
     preset_filters:
       all_user_groups: "모든 사용자 그룹"
@@ -1460,10 +1495,10 @@ ko:
       help: "도움말 기능을 사용할 수 없습니다. "
       login: "로그인 "
       login_assistance: "로그인 도움말 "
-      login_unknown_info:
+      login_unknown_info: "사용자 이름을 모르는 경우 아래에 이메일 주소를 입력합니다. 사용자 이름이 전송됩니다. "
       or: 또는
       password: "암호 "
-      password_unknown_info:
+      password_unknown_info: "아래에 여러분의 사용자명과 이메일 주소를 입력하시면 암호 재설정 방법을 알려 드리겠습니다"
       reset_password: "암호 재설정 "
       return_to_login: "로그인으로 돌아가기"
       security_info: "보안 정보 "
@@ -1476,7 +1511,7 @@ ko:
       issued: "발급된 인증서: "
       message: "%{host}에서 CloudForms Cloud Engine으로의 연결은 현재 SSL 암호 (강도는 알 수 없음)를 사용하여 암호화되어 보안되고 있습니다. "
       message_unencrypted: "%{host}에서 CloudForms Cloud Engine으로의 연결은 현재 암호화되어 있지 않습니다. 이는 기밀 정보가 도용되게 할 수 있습니다. "
-      message_unencrypted2:
+      message_unencrypted2: "이것이 오류라고 생각되시면 로그인을 실행하지 마십시오; 즉시 시스템 관리자에게 문의하십시오. "
       return_to_login: "로그인으로 돌아가기 "
       unencrypted_connection: "암호화되지 않은 연결 "
       unknown_ca: "알 수 없는 인증 기관 "
@@ -1486,7 +1521,8 @@ ko:
       edit_account: "계정 편집 "
       edit_user: "사용자 편집 "
     errors:
-      has_running_instances: "%{login}에는 실행 중인 인스턴스가 있음 "
+      cannot_edit_ldap_user: "LDAP 사용자를 편집할 수 없음 "
+      has_running_instances: "%{username}에는 실행 중인 인스턴스가 있습니다 "
     flash:
       notice:
         deleted: "사용자가 성공적으로 삭제되었습니다. "
@@ -1498,7 +1534,7 @@ ko:
         you_registred: "성공적으로 등록되었습니다."
       warning:
         not_delete: "삭제할 수 없음: %{reason}"
-        not_delete_same_user: "%{login}을 삭제할 수 없음 : 사용자로 로그인되어 있음 "
+        not_delete_same_user: "%{username}을 삭제할 수 없음 : 이 사용자로 로그인되어 있음 "
     form:
       save_user: "사용자 저장 "
       user_treatment: "사용자 처리 방식 "
