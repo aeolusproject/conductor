@@ -1,52 +1,5 @@
-= form_for @pool, :html => {:class => 'generic'} do |form|
-  - if @pool.errors.any?
-    = render 'layouts/error_messages', :object => @pool
-
-  %fieldset
-    .field
-      = form.label :name, :class => 'em'
-      = form.text_field :name, :class => 'em long'
-    .field
-      = form.label :pool_family_id
-      - if @pool_families
-        = form.collection_select :pool_family_id, @pool_families, :id, :name
-      - else
-        %span.text_instead_input= @pool.pool_family.name
-        = hidden_field_tag 'pool[pool_family_id]', @pool.pool_family_id
-    .field
-      = label_tag :quota, t('quota')
-      = text_field :quota, :maximum_running_instances, :title => t('provider_accounts.form.quota_instances'), :value => @quota.maximum_running_instances || 10, :id => "quota_instances"
-      = check_box_tag :unlimited_quota, 1, @quota.maximum_running_instances.nil?
-      = label_tag :unlimited_quota, t('.unlimited'), :class => 'checkbox'
-    .field
-      = form.check_box :enabled
-      = form.label :enabled, "#{t('pools.form.pool_enabled')}?", :class => 'checkbox'
-
-  %fieldset.options
-    = form.submit t("save"), :class => 'button primary', :id => 'save_button'
-    - if @pool.pool_family
-      = link_to t('cancel'), pool_families_path, :class => 'button danger'
-    - else
-      = link_to t('cancel'), pools_path, :class => 'button danger'
-
-:javascript
-  $(document).ready(function(){
-    var previousQuota = '#{@quota.maximum_running_instances || 10}';
-
-    function enhanceQuotaField() {
-      var unlimited = $('#unlimited_quota').prop('checked');
-      var quota = unlimited ? '#{t("pools.form.unlimited")}' : previousQuota;
-
-      if (unlimited) {
-        previousQuota = $('#quota_instances').val();
-      }
-
-      $('#quota_instances').attr('disabled', unlimited);
-      $('#quota_instances').val(quota);
-    }
-
-    $('#unlimited_quota').click(function(){
-      enhanceQuotaField();
-    });
-    enhanceQuotaField();
-  });
+= form.input :name
+= form.input :pool_family_id, :collection => @available_pool_families
+= form.fields_for :quota do |quota_form|
+  = quota_form.input :maximum_running_instances, :as => :numeric_input_with_unlimited_check_box
+= form.input :enabled

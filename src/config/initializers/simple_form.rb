@@ -12,6 +12,8 @@ require File.join(Rails.root, 'lib', 'simple_form_extension', 'boolean_input')
 
 # Default buttons
 require File.join(Rails.root, 'lib', 'simple_form_extension', 'form_buttons')
+require File.join(Rails.root, 'lib', 'simple_form_extension', 'collection_check_boxes_input')
+require File.join(Rails.root, 'lib', 'simple_form_extension', 'boolean_input')
 
 # Use this setup block to configure all options available in SimpleForm.
 SimpleForm.setup do |config|

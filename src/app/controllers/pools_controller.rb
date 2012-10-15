@@ -21,6 +21,7 @@ class PoolsController < ApplicationController
   before_filter :load_pools, :only => [:show]
   before_filter ResourceLinkFilter.new({ :pool => :pool_family }),
                 :only => [:create, :update]
+  before_filter :load_available_pool_families, :only => [:new, :create, :edit, :update]
 
   viewstate :index do |default|
     default.merge!({
@@ -180,12 +181,16 @@ class PoolsController < ApplicationController
 
   def new
     @title = t('pools.create_new_pool')
-    @pool = Pool.new
-    @pool.pool_family = PoolFamily.find(params[:pool_family_id]) unless params[:pool_family_id].blank?
-    require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
     @quota = Quota.new
-    @pool_families = PoolFamily.list_for_user(current_session, current_user,
-                                              Privilege::CREATE, Pool)
+    @pool = Pool.new({:enabled => true, :quota => @quota})
+    if params[:pool_family_id].present?
+      @pool.pool_family =
+        PoolFamily.list_for_user(current_session, current_user,
+                                 Privilege::CREATE, Pool).
+                   find(params[:pool_family_id])
+      require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
+    end
+
     respond_to do |format|
       format.html
       format.json { render :json => @pool }
@@ -194,14 +199,13 @@ class PoolsController < ApplicationController
   end
 
   def create
+    transform_quota_param(:pool)
     @title = t('pools.create_new_pool')
-    set_quota_param(:pool)
     @pool = Pool.new(params[:pool])
+    @pool.quota = Quota.new(params[:pool][:quota_attributes])
     require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
     @catalogs = @pool.catalogs.list_for_user(current_session, current_user,
                                              Privilege::VIEW)
-    @pool.quota = @quota = Quota.new
-    set_quota(@pool)
 
     respond_to do |format|
       if @pool.save
@@ -214,7 +218,6 @@ class PoolsController < ApplicationController
                            :locals => { :pool => @pool, :catalogs => @catalogs }
         }
       else
-        flash.now[:warning] = t "pools.flash.warning.creation_failed"
         format.html { render :new }
         format.js { render :partial => 'new' }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
@@ -227,7 +230,8 @@ class PoolsController < ApplicationController
 
   def edit
     @pool = Pool.find(params[:id])
-    @title = t('pools.edit_pool', :pool => @pool.name)
+
+    @title = t('pools.edit_pool')
     require_privilege(Privilege::MODIFY, @pool)
     @quota = @pool.quota
     respond_to do |format|
@@ -238,12 +242,11 @@ class PoolsController < ApplicationController
   end
 
   def update
-    set_quota_param(:pool)
+    transform_quota_param(:pool)
     @pool = Pool.find(params[:id])
     require_privilege(Privilege::MODIFY, @pool)
     @catalogs = @pool.catalogs.list_for_user(current_session, current_user,
                                              Privilege::VIEW)
-    set_quota(@pool)
     @quota = @pool.quota
 
     respond_to do |format|
@@ -254,8 +257,10 @@ class PoolsController < ApplicationController
         format.json { render :json => @pool }
         format.xml {render :show, :locals => { :pool => @pool, :catalogs => @catalogs } }
       else
-        flash[:error] = t "pools.flash.error.not_updated"
-        format.html { render :action => :edit }
+        format.html do
+          @title = t('pools.edit_pool')
+          render :action => :edit
+        end
         format.js { render :partial => 'edit', :id => @pool.id }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
         format.xml { render :template => 'api/validation_error',
@@ -409,4 +414,10 @@ class PoolsController < ApplicationController
               :user_available_quota => current_user.quota.maximum_running_instances,
               }
   end
+
+  def load_available_pool_families
+    @available_pool_families =
+      PoolFamily.list_for_user(current_session, current_user, Privilege::MODIFY)
+  end
+
 end

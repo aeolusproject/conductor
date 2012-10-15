@@ -14,8 +14,7 @@ Feature: Manage Pools
     Then I should be on the new pool page
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
-    And I fill in "quota_instances" with "unlimited"
-    And I press "save_button"
+    And I press "Create Pool"
     Then I should be on the pools page
     And I should see "mockpool"
     And I should have a pool named "mockpool"
@@ -32,8 +31,8 @@ Feature: Manage Pools
   Scenario: Enter invalid characters into Name field
     Given I am on the new pool page
     When I fill in "pool[name]" with "@%&*())_@!#!"
-    And I press "save_button"
-    Then I should see "Name must only contain: numbers, letters, spaces, '_' and '-'"
+    And I press "Create Pool"
+    Then I should see "Must only contain: numbers, letters, spaces, '_' and '-'."
 
   Scenario: Delete pools
     Given I am on the pools page
@@ -60,7 +59,7 @@ Feature: Manage Pools
     Then I should be on the new pool page
     When I fill in "pool_name" with "mockpool"
     And I select "default" from "pool_pool_family_id"
-    And I press "save_button"
+    And I press "Create Pool"
     Then I should be on the pools page
     And I should see a confirmation message
     And I should see "mockpool"
@@ -70,7 +69,7 @@ Feature: Manage Pools
     Then I should be on the new pool page
     When I fill in "pool_name" with "foopool"
     And I select "default" from "pool_pool_family_id"
-    And I press "save_button"
+    And I press "Create Pool"
     Then I should be on the pools page
     And I should see a confirmation message
     And I should have a pool named "mockpool"
