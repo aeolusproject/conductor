@@ -83,7 +83,7 @@ class ProvidersController < ApplicationController
 
   def show
     @provider = Provider.find(params[:id])
-    @realm_names = @provider.realms.collect { |r| r.name }
+    @realm_names = @provider.provider_realms.collect { |r| r.name }
 
     require_privilege(Privilege::VIEW, @provider)
     @tab_captions = [t("properties"), t('hw_profiles'), t('realm_s'), t("provider_accounts.index.provider_accounts"), t('services'), t('history'), t('permissions')]
@@ -335,7 +335,7 @@ class ProvidersController < ApplicationController
   end
 
   def load_provider_tabs
-    @realms = @provider.realms.apply_filters(:preset_filter_id => params[:provider_realms_preset_filter], :search_filter => params[:provider_realms_search])
+    @realms = @provider.provider_realms.apply_filters(:preset_filter_id => params[:provider_realms_preset_filter], :search_filter => params[:provider_realms_search])
     #TODO add links to real data for history,properties,permissions
     @tabs = [{:name => t('connectivity'), :view => 'edit', :id => 'connectivity'},
              {:name => t('accounts'), :view => 'provider_accounts/list', :id => 'accounts', :count => @provider.provider_accounts.count},

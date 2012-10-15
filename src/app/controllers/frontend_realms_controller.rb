@@ -14,15 +14,15 @@
 #   limitations under the License.
 #
 
-class RealmsController < ApplicationController
+class FrontendRealmsController < ApplicationController
   before_filter :require_user
   before_filter :load_realms, :only =>[:index, :show]
 
   def index
     @title = t('realms.realms')
     clear_breadcrumbs
-    save_breadcrumb(realms_path)
-    set_admin_content_tabs 'realms'
+    save_breadcrumb(frontend_realms_path)
+    set_admin_content_tabs 'frontend_realms'
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
@@ -30,20 +30,20 @@ class RealmsController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, Realm)
+    require_privilege(Privilege::CREATE, FrontendRealm)
     @realm = FrontendRealm.new
     load_backend_realms
   end
 
   def edit
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, FrontendRealm)
     @realm = FrontendRealm.find(params[:id])
     @title = @realm.name
     load_backend_realms
   end
 
   def update
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, FrontendRealm)
     @realm = FrontendRealm.find(params[:id])
     @title = @realm.name || t("realms.realm")
 
@@ -53,7 +53,7 @@ class RealmsController < ApplicationController
 
     if @realm.update_attributes(params[:frontend_realm])
       flash[:notice] = t"realms.flash.notice.updated"
-      redirect_to realms_url and return
+      redirect_to frontend_realms_url and return
     end
 
     load_backend_realms
@@ -61,12 +61,12 @@ class RealmsController < ApplicationController
   end
 
   def create
-    require_privilege(Privilege::CREATE, Realm)
+    require_privilege(Privilege::CREATE, FrontendRealm)
     #@provider = Provider.find(params[:provider_id])
     @realm = FrontendRealm.new(params[:frontend_realm])
     if @realm.save
       flash[:notice] = t"realms.flash.notice.added"
-      redirect_to realm_path(@realm)
+      redirect_to frontend_realm_path(@realm)
     else
       load_backend_realms
       render :new
@@ -74,13 +74,13 @@ class RealmsController < ApplicationController
   end
 
   def destroy
-    require_privilege(Privilege::MODIFY, Realm)
+    require_privilege(Privilege::MODIFY, FrontendRealm)
     if FrontendRealm.destroy(params[:id])
       flash[:notice] = t "realms.flash.notice.deleted"
     else
       flash[:error] = t"realms.flash.error.not_deleted"
     end
-    redirect_to realms_path
+    redirect_to frontend_realms_path
   end
 
   def multi_destroy
@@ -90,7 +90,7 @@ class RealmsController < ApplicationController
       flash[:error] = t"realms.flash.error.select_to_delete"
     else
       FrontendRealm.find(params[:realm_selected]).each do |realm|
-        require_privilege(Privilege::MODIFY, Realm)
+        require_privilege(Privilege::MODIFY, FrontendRealm)
         if realm.destroy
           deleted << realm.name
         else
@@ -105,7 +105,7 @@ class RealmsController < ApplicationController
     unless not_deleted.empty?
       flash[:error] = "#{t('realms.flash.error.more_not_deleted')} #{not_deleted.join(', ')}"
     end
-    redirect_to realms_path
+    redirect_to frontend_realms_path
   end
 
   def show
@@ -115,10 +115,10 @@ class RealmsController < ApplicationController
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     @details_tab = 'properties' unless ['properties', 'mapping'].include?(@details_tab)
 
-    @backend_realm_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Realm' }
-    @backend_provider_targets = @realm.realm_backend_targets.select { |x| x.realm_or_provider_type == 'Provider' }
+    @backend_realm_targets = @realm.realm_backend_targets.select { |x| x.provider_realm_or_provider_type == 'ProviderRealm' }
+    @backend_provider_targets = @realm.realm_backend_targets.select { |x| x.provider_realm_or_provider_type == 'Provider' }
 
-    save_breadcrumb(realm_path(@realm), @realm.name)
+    save_breadcrumb(frontend_realm_path(@realm), @realm.name)
     load_backend_realms
 
     respond_to do |format|
@@ -143,7 +143,7 @@ class RealmsController < ApplicationController
     #TODO: list only realms user has permission on
     @backend_realms = Provider.list_for_user(current_session, current_user,
                                              Privilege::USE).collect do |provider|
-      provider.realms
+      provider.provider_realms
     end.flatten
 
     @providers = Provider.list_for_user(current_session, current_user,

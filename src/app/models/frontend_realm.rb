@@ -39,8 +39,8 @@ class FrontendRealm < ActiveRecord::Base
   # there is a problem with has_many through + polymophic in AR:
   # http://blog.hasmanythrough.com/2006/4/3/polymorphic-through
   # so we define explicitly backend_realms and backend_providers
-  has_many :backend_realms, :through => :realm_backend_targets, :source => :realm, :conditions => "realm_backend_targets.realm_or_provider_type = 'Realm'"
-  has_many :backend_providers, :through => :realm_backend_targets, :source => :provider, :conditions => "realm_backend_targets.realm_or_provider_type = 'Provider'"
+  has_many :backend_realms, :through => :realm_backend_targets, :source => :provider_realm, :conditions => "realm_backend_targets.provider_realm_or_provider_type = 'ProviderRealm'"
+  has_many :backend_providers, :through => :realm_backend_targets, :source => :provider, :conditions => "realm_backend_targets.provider_realm_or_provider_type = 'Provider'"
 
   validates_presence_of :name
   validates_uniqueness_of :name

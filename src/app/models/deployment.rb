@@ -50,7 +50,7 @@ class Deployment < ActiveRecord::Base
 
   has_many :instances, :dependent => :destroy
 
-  belongs_to :realm
+  belongs_to :provider_realm
   belongs_to :frontend_realm
 
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
