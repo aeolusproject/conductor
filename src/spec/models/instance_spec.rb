@@ -246,7 +246,7 @@ describe Instance do
   it "shouldn't match provider accounts where matching hardware profile not found" do
     account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount')
     account.provider.hardware_profiles.destroy_all
-    @pool.pool_family.provider_accounts << account
+    @pool.pool_family.provider_accounts |= [account]
     @instance.stub(:image_build).and_return("foo")
     @instance.stub(:provider_images_for_match).and_return([])
     @instance.matches.last.should include(I18n.t('instances.errors.hw_profile_match_not_found', :account_name => 'testaccount'))
@@ -324,7 +324,7 @@ describe Instance do
 
   it "should not be launchable if its pool's providers are all disabled" do
     instance = FactoryGirl.build(:instance)
-    instance.pool.pool_family.provider_accounts << FactoryGirl.create(:disabled_provider_account)
+    instance.pool.pool_family.provider_accounts |= [ FactoryGirl.create(:disabled_provider_account) ]
     instance.pool.pool_family.stub(:all_providers_disabled?).and_return(true)
     instance.should_not be_valid
     instance.errors[:pool].should_not be_empty
