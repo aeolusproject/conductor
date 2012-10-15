@@ -347,7 +347,7 @@ describe Api::ProviderImagesController do
         context "when trying to build image" do
           before(:each) do
             @provider_account = FactoryGirl.create :mock_provider_account
-            @provider_account.pool_families << PoolFamily.find_by_name('default')
+            @provider_account.pool_families = [ PoolFamily.find_by_name('default') ]
             xml = Nokogiri::XML::Builder.new do |x|
               x.provider_image {
                 x.image_id "17"

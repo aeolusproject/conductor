@@ -29,7 +29,7 @@ end
 Given /^a pool "([^"]*)" exists$/ do |pool_name|
   pool_family = PoolFamily.find_by_name('default') || FactoryGirl.create(:pool_family)
   @provider_account ||= FactoryGirl.create(:mock_provider_for_vcr_data).provider_accounts.first
-  pool_family.provider_accounts << @provider_account
+  pool_family.provider_accounts |= [ @provider_account ]
   quota = FactoryGirl.create(:quota)
   Pool.create!(:name => pool_name, :pool_family => pool_family, :quota => quota, :enabled => true)
 end
