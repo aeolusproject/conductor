@@ -43,7 +43,7 @@ class Privilege < ActiveRecord::Base
                              #   Assembly: add this assembly to a deployable
                              #   Deployable: choose this deployable to launch
                              #   Instance: may perform actions on this instance
-                             #   Realm: may map this realm
+                             #   FrontendRealm: may map this provider realm
                              #   ProviderAccount: May add this account to PoolFamily
 
 
@@ -57,7 +57,7 @@ class Privilege < ActiveRecord::Base
               Deployable => ACTIONS,
               Quota => [VIEW, MODIFY],
               HardwareProfile => ACTIONS - [USE],
-              Realm => ACTIONS - [VIEW],
+              FrontendRealm => ACTIONS - [VIEW],
               Provider => ACTIONS,
               ProviderAccount => ACTIONS,
               User => [ CREATE, MODIFY, VIEW] }
@@ -129,7 +129,7 @@ class Privilege < ActiveRecord::Base
   #   view_perms  Can view permissions
   #   set_perms   Can set permissions
   #
-  # Realm This Realm (or realms within this provider)
+  # FrontendRealm This Realm (or realms within this provider)
   #   use         (for provider Realm) can map realm or provider to aeolus realm
   #   modify      (for Aeolus realms) Can modify
   #   create      Can create (within this Pool)

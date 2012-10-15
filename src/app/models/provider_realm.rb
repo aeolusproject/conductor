@@ -31,14 +31,14 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class Realm < ActiveRecord::Base
+class ProviderRealm < ActiveRecord::Base
   class << self
     include CommonFilterMethods
   end
   belongs_to :provider
   has_and_belongs_to_many :provider_accounts, :uniq => true
 
-  has_many :realm_backend_targets, :as => :realm_or_provider, :dependent => :destroy
+  has_many :realm_backend_targets, :as => :provider_realm_or_provider, :dependent => :destroy
   has_many :frontend_realms, :through => :realm_backend_targets
 
   validates_presence_of :external_key
