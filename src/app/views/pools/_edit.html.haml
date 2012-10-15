@@ -1,12 +1,8 @@
 %header.page-header
-  .obj_actions
-    - if check_privilege(Privilege::CREATE, Pool)
-      = link_to t('pools.new_pool'), new_pool_url, :class => 'button primary', :id => 'new_pool_button'
-  %h1.pools= @pool.name.blank? ? t("pools.pool") : @pool.name
+  %h1.pools= @title
 
 %section.content-section.user
-  %header
-    %h2= @title
-
   .content
-    = render :partial => 'form'
+    = conductor_form_for @pool do |f|
+      = render :partial => "form", :locals => { :form => f }
+      = f.button :form_buttons, :cancel => pool_families_path

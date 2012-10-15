@@ -593,8 +593,8 @@ en:
     pool: Pool
     pools: Pools
     new_pool: New Pool
-    edit_pool: Edit Pool %{pool}
-    create_new_pool: Create New Pool
+    edit_pool: Edit Pool
+    create_new_pool: New Pool
     logs: Logs
     scoreboard:
       cloud_providers_total: Total Cloud Providers
@@ -645,7 +645,6 @@ en:
         pool_not_deleted:
           one: Pool %{list} was not deleted. There are Instances associated with it.
           other: Pools %{list} were not deleted. They have Instances associated with them.
-        not_updated: "Pool wasn't updated"
         default_pool_not_deleted: The default Pool cannot be deleted.
         iwhd_unavailable: Catalog Images are unavailable. It appears the Image Warehouse is not reachable.
       warning:

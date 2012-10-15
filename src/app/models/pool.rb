@@ -34,6 +34,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Pool < ActiveRecord::Base
+
   include PermissionedObject
   include ActionView::Helpers::NumberHelper
   class << self
@@ -45,32 +46,44 @@ class Pool < ActiveRecord::Base
   has_many :instances,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   belongs_to :pool_family
-  has_many :deployments
-  # NOTE: Commented out because images table doesn't have pool_id foreign key?!
-  #has_many :images,  :dependent => :destroy
-  has_many :catalogs, :dependent => :destroy
-
-  validates_presence_of :name
-  validates_presence_of :quota
-  validates_presence_of :pool_family
-  validates_inclusion_of :enabled, :in => [true, false]
-  validates_uniqueness_of :name
-  validates_uniqueness_of :exported_as, :if => :exported_as
-  validates_length_of :name, :maximum => 255
-
-  validates_format_of :name, :with => /^[\w -]*$/n
-
-  has_many :permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "permissions.id ASC"
-  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "derived_permissions.id ASC"
-
   has_many :deployments, :dependent => :destroy
-
+  has_many :catalogs, :dependent => :destroy
   has_many :provider_selection_strategies, :dependent => :destroy
   has_many :provider_priority_groups, :dependent => :destroy
+  has_many :permissions, :as => :permission_object, :dependent => :destroy,
+                         :include => [:role],
+                         :order => "permissions.id ASC"
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+                                 :include => [:role],
+                                 :order => "derived_permissions.id ASC"
+
+  accepts_nested_attributes_for :quota
+
+  validates :name, :presence => true,
+                   :uniqueness => { :scope => :pool_family_id },
+                   :length => { :within => 1..100 },
+                   :format => { :with => /^[\w -]*$/n }
+  validates :quota, :presence => true
+  validates :pool_family_id, :presence => true
+  validates :enabled, :inclusion => [true, false]
+  validates :exported_as, :uniqueness => true, :allow_blank => true
+
+  PRESET_FILTERS_OPTIONS = [
+      {:title => "pools.preset_filters.enabled_pools", :id => "enabled_pools", :query => where("pools.enabled" => true)},
+      {:title => "pools.preset_filters.with_pending_instances", :id => "with_pending_instances", :query => includes(:deployments => :instances).where("instances.state" => "pending")},
+      {:title => "pools.preset_filters.with_running_instances", :id => "with_running_instances", :query => includes(:deployments => :instances).where("instances.state" => "running")},
+      {:title => "pools.preset_filters.with_create_failed_instances", :id => "with_create_failed_instances", :query => includes(:deployments => :instances).where("instances.state" => "create_failed")},
+      {:title => "pools.preset_filters.with_stopped_instances", :id => "with_stopped_instances", :query => includes(:deployments => :instances).where("instances.state" => "stopped")}
+  ]
+
+  def self.additional_privilege_target_types
+    [Deployment, Instance, Catalog, Quota]
+  end
+
+  def self.list(order_field, order_dir)
+    Pool.all(:include => [ :quota, :pool_family ],
+             :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
+  end
 
   def cloud_accounts
     accounts = []
@@ -130,11 +143,6 @@ class Pool < ActiveRecord::Base
     #end
   end
 
-  def self.list(order_field, order_dir)
-    Pool.all(:include => [ :quota, :pool_family ],
-             :order => (order_field || 'name') +' '+ (order_dir || 'asc'))
-  end
-
   def as_json(options={})
     result = super(options).merge({
       :statistics => statistics,
@@ -149,17 +157,10 @@ class Pool < ActiveRecord::Base
     result
   end
 
-  PRESET_FILTERS_OPTIONS = [
-    {:title => "pools.preset_filters.enabled_pools", :id => "enabled_pools", :query => where("pools.enabled" => true)},
-    {:title => "pools.preset_filters.with_pending_instances", :id => "with_pending_instances", :query => includes(:deployments => :instances).where("instances.state" => "pending")},
-    {:title => "pools.preset_filters.with_running_instances", :id => "with_running_instances", :query => includes(:deployments => :instances).where("instances.state" => "running")},
-    {:title => "pools.preset_filters.with_create_failed_instances", :id => "with_create_failed_instances", :query => includes(:deployments => :instances).where("instances.state" => "create_failed")},
-    {:title => "pools.preset_filters.with_stopped_instances", :id => "with_stopped_instances", :query => includes(:deployments => :instances).where("instances.state" => "stopped")}
-  ]
-
   def perm_ancestors
     super + [pool_family]
   end
+
   def derived_subtree(role = nil)
     subtree = super(role)
     subtree += deployments if (role.nil? or role.privilege_target_match(Deployment))
@@ -168,9 +169,7 @@ class Pool < ActiveRecord::Base
     subtree += catalogs.collect {|c| c.deployables}.flatten.uniq if (role.nil? or role.privilege_target_match(Deployable))
     subtree
   end
-  def self.additional_privilege_target_types
-    [Deployment, Instance, Catalog, Quota]
-  end
+
   def catalog_images_collection(catalog_list)
     catalog_images = []
     catalog_list.each do |catalog|
@@ -194,6 +193,7 @@ class Pool < ActiveRecord::Base
     end
     catalog_images
   end
+
   private
 
   def self.apply_search_filter(search)
