@@ -37,6 +37,7 @@ en:
       task: "Task"
       user: "User"
       view_state: "View State"
+      user_group: User Group
     attributes:
       base_permission_object:
         name: "Name"
@@ -338,6 +339,10 @@ en:
         last_login_ip: "Last Login Ip"
         created_at: "Created At"
         updated_at: "Updated At"
+      user_group:
+        type: Type
+        name: Name
+        description: Description
       view_state:
         user_id: "User"
         name: "Name"
