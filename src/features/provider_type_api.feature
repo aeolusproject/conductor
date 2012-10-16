@@ -12,3 +12,12 @@ Feature: Manage Provider Types via API
     Given there are some provider types
     When I request a list of provider types returned as XML
     Then I should receive list of provider types as XML
+
+  Scenario: Get details for provider type as XML
+    Given there is a provider type
+    When I ask for details of that provider type as XML
+    Then I should receive details of that provider type as XML
+
+  Scenario: Get details for non existing provider type
+    When I ask for details of non existing provider type
+    Then I should receive Not Found error
