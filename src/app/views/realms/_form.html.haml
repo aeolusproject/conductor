@@ -2,13 +2,13 @@
   = render 'layouts/error_messages', :object => @realm
 %fieldset
   .field
-    = form.label :name, :class => 'em'
+    = form.label :name
     .input
       = form.text_field :name, :value => @realm.name, :class => 'em long'
   .field
     = form.label :description
     .input
-      = form.text_area :description, :title => 'description', :value => @realm.description, :class => 'long'
+      = form.text_area :description, :title => t("activerecord.attributes.frontend_realm.description"), :value => @realm.description, :class => 'long'
 
 %fieldset.options
   = form.submit t('save'), :class => "submit button primary"
