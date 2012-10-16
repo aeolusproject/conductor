@@ -32,3 +32,8 @@ Given /^there are some provider types$/ do
   end
   ProviderType.count.should be_eql(3)
 end
+
+Given /^there is a provider type$/ do
+  ProviderType.destroy_all
+  @provider_type = FactoryGirl.create(:provider_type)
+end
