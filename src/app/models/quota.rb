@@ -46,14 +46,14 @@ class Quota < ActiveRecord::Base
                             :less_than_or_equal_to => 2147483647,
                             :only_integer => true,
                             :allow_nil => true,
-                            :message => "must be a positive whole number less than 2147483647"
+                            :message => I18n.t("quotas.flash.error.must_be_positive")
 
   validates_numericality_of :maximum_running_instances,
                             :greater_than_or_equal_to => 0,
                             :less_than_or_equal_to => 2147483647,
                             :only_integer => true,
                             :allow_nil => true,
-                            :message => "must be a positive whole number less than 2147483647"
+                            :message => I18n.t("quotas.flash.error.must_be_positive")
 
   QuotaResource = Struct.new(:name, :used, :max, :available, :unit)
 

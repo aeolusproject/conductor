@@ -1,7 +1,7 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
   .obj_actions
-    %span.label.light Choose a provider:
+    %span.label.light=t("providers.choose_a_provider")
     %ul#provider_select
       %li
         = link_to t("providers.index.create_new_provider"), "javascript:void(0)"

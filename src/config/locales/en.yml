@@ -1478,6 +1478,7 @@ en:
         updated: "Quota updated"
       error:
         not_updated: "Could not update quota. Please check you have entered valid values"
+        must_be_positive: "must be a positive whole number less than 2147483647"
   roles:
     new_role: New Role
     tab_captions:
