@@ -794,8 +794,7 @@ it:
   launch_instance: "Lancia istanza"
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright:
-      po-header: " "
+    copyright: ""
     dashboard: Dashboard
   login: "Log in"
   logs:

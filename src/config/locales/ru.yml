@@ -794,8 +794,7 @@ ru:
   launch_instance: "Запустить экземпляр"
   layout:
     appname: "Облачная инфраструктура CloudForms"
-    copyright:
-      po-header: " "
+    copyright: ""
     dashboard: Обзор
   login: Вход
   logs:

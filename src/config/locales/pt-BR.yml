@@ -794,8 +794,7 @@ pt-BR:
   launch_instance: "Lançar instâncias"
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright:
-      po-header: ""
+    copyright: ""
     dashboard: Dashboard
   login: Autenticar
   logs:

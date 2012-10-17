@@ -794,8 +794,7 @@ ko:
   launch_instance: "인스턴스 시작 "
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright:
-      po-header: ""
+    copyright: ""
     dashboard: "대시보드 "
   login: "로그인 "
   logs:

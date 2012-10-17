@@ -794,8 +794,7 @@ fr:
   launch_instance: "Lancer l'instance"
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright:
-      po-header: ""
+    copyright: ""
     dashboard: "Tableau de bord"
   login: Connexion
   logs:

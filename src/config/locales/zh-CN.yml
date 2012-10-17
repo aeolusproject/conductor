@@ -794,8 +794,7 @@ zh-CN:
   launch_instance: 启动实例
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright:
-      po-header: " "
+    copyright: ""
     dashboard: 面板
   login: 登录
   logs:

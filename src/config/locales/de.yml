@@ -794,8 +794,7 @@ de:
   launch_instance: "Instanz starten"
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright:
-      po-header: ""
+    copyright: ""
     dashboard: Übersicht
   login: Anmelden
   logs:

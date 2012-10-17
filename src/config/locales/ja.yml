@@ -794,8 +794,7 @@ ja:
   launch_instance: インスタンスの起動
   layout:
     appname: "CloudForms Cloud Engine"
-    copyright:
-      po-header: ""
+    copyright: ""
     dashboard: ダッシュボード
   login: ログイン
   logs:
