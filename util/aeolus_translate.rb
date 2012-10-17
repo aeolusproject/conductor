@@ -13,6 +13,14 @@ require 'yaml'
 INPUT	= ARGV[0] || "config/locales/en.yml"
 OUTPUT	= ARGV[1] || "config/locales/en_product.yml"
 
+# Strings that should never be touched. We change them to a
+# placeholder before beginning, and then convert them back at the end.
+# This is a little bit of a hack...
+EXCEPTIONS = {
+ "X-Deltacloud-Provider" => "PLACEHOLDER_XDP"
+}
+
+
 # You know, this makes it pretty clear what the differences are.
 # [!_\:] is an ugly hack to not update YAML keys where it's a risk
 SUBS = {
@@ -51,13 +59,12 @@ contents = File.read(INPUT)
 puts "Read #{contents.size} characters from #{INPUT}"
 
 # Should we just pull the [!_\:] down here?
-SUBS.each do |old,new|
-  contents.gsub!(old, new)
-end
-
-# Then, apply the tweaks
-TWEAKS.each do |old,new|
-  contents.gsub!(old, new)
+# Apply, in order, our exceptions, substitutions, the fix-up
+# tweaks, and then undo the exception place-holders.
+[EXCEPTIONS, SUBS, TWEAKS, EXCEPTIONS.invert].each do |hash|
+  hash.each do |old,new|
+    contents.gsub!(old, new)
+  end
 end
 
 puts "Writing modified version to #{OUTPUT}"
