@@ -31,4 +31,11 @@ FactoryGirl.define do
     deltacloud_driver 'ec2'
   end
 
+  factory :provider_type_with_credential_definitions, :parent => :provider_type do
+    after_create do |provider_type|
+      provider_type.credential_definitions << FactoryGirl.create(:text_credential_definition, :provider_type => provider_type)
+      provider_type.credential_definitions << FactoryGirl.create(:password_credential_definition, :provider_type => provider_type)
+    end
+  end
+
 end
