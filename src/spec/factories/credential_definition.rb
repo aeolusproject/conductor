@@ -21,4 +21,12 @@ FactoryGirl.define do
     input_type 'text'
     association :provider_type
   end
+
+  factory :text_credential_definition, :parent => :credential_definition do
+    input_type 'text'
+  end
+
+  factory :password_credential_definition, :parent => :credential_definition do
+    input_type 'password'
+  end
 end
