@@ -102,8 +102,8 @@ Conductor.Routers.Images = Backbone.Router.extend({
   routes: {
     'images:query': 'index',
     'pool_families': 'index',
-    'pool_families/:id': 'index',
-    'images/:id': 'show'
+    'images/:id': 'show',
+    'pool_families/:id': 'environmentImageList'
   },
 
   index: function() {
@@ -130,6 +130,20 @@ Conductor.Routers.Images = Backbone.Router.extend({
       view.model.queryParams = view.queryParams();
 
       image.fetch({ success: function() { view.render(); } })
+    }, Conductor.AJAX_REFRESH_INTERVAL);
+  },
+
+  environmentImageList: function(id) {
+    setInterval(function() {
+      $imagesLink = $('#details_images');
+      if ($imagesLink.hasClass('active')) {
+        var images = new Conductor.Models.Images();
+        var view = new Conductor.Views.ImagesIndex({ collection: images });
+        view.collection.queryParams = view.queryParams();
+        view.collection.queryParams['pool_family_id'] = id;
+
+        images.fetch({ success: function() { view.render(); } })
+      }
     }, Conductor.AJAX_REFRESH_INTERVAL);
   }
 });
