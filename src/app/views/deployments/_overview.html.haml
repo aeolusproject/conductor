@@ -1,11 +1,13 @@
 - if @deployment.errors.any?
   = render 'layouts/error_messages', :object => @deployment
 = form_for @deployment, :html => {:class => 'generic horizontal'} do
+  = hidden_field :deployment, :name
   = hidden_field :deployment, :pool_id
   = hidden_field :deployment, :frontend_realm_id
   = hidden_field_tag :launch_parameters_encoded, @launch_parameters_encoded
   = hidden_field_tag :deployable_id, params[:deployable_id]
   = hidden_field_tag :backlink, @backlink
+
 
   %header.page-header
     %h1.pools= t('.pool_name', :pool => @pool.name)
@@ -24,7 +26,7 @@
         .field
           = label_tag :name, t('.name'), :class => 'em'
           .input
-            = text_field :deployment, :name, :class => 'em long'
+            %span.text_instead_input= @deployment.name
 
         - unless @deployment.deployable_xml.description.blank?
           .field
@@ -43,8 +45,11 @@
           .field
             = label_tag :realm, t('realms.index.realm')
             .input
-              = collection_select :deployment, :frontend_realm_id, @realms, :id, :name, :include_blank => t('deployments.launch_new.autoselect')
-              %div#realm-description
+              %span.text_instead_input
+                - if @deployment.frontend_realm.present?
+                  = @deployment.frontend_realm.name
+                - else
+                  = t('deployments.launch_new.autoselect')
 
         .field
           = label_tag :launch_with_errors , t('.launch_with_errors'), :class => 'checkbox'
