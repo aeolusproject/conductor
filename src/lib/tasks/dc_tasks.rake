@@ -142,8 +142,15 @@ namespace :dc do
     drop_db = STDIN.gets.chomp
     unless drop_db.strip.eql?('no')
       Rake::Task[:'db:migrate:reset'].invoke
+
+      # Reload model classes so that they reflect changes of model attributes
+      # made by migrations.
+      ActionDispatch::Reloader.cleanup!
+      ActionDispatch::Reloader.prepare!
+
       Rake::Task[:'db:seed'].invoke
     end
+
     Rake::Task[:'dc:create_admin_user'].invoke
   end
 
