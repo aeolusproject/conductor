@@ -203,8 +203,8 @@ PLATFORMS
 DEPENDENCIES
   aeolus-image!
   capybara
-  compass
-  compass-960-plugin
+  compass (>= 0.11.5, < 0.12)
+  compass-960-plugin (>= 0.10.4)
   cucumber
   cucumber-rails
   database_cleaner
