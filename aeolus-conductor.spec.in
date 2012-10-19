@@ -172,7 +172,19 @@ getent passwd aeolus >/dev/null || \
 
 # Previously ~aeolus was set to /var/aeolus
 # If this is an upgrade scenario, fix the home directory
-test ~aeolus == /usr/share/aeolus-conductor || usermod --home /usr/share/aeolus-conductor aeolus
+if [ ~aeolus != /usr/share/aeolus-conductor ]; then
+  usermod --home /usr/share/aeolus-conductor aeolus > /dev/null 2>&1
+  if [ $? -eq 8 ]; then # usermod returned with E_USER_BUSY
+    service conductor-delayed_job stop > /dev/null 2>&1
+    service aeolus-conductor stop > /dev/null 2>&1
+    usermod --home /usr/share/aeolus-conductor aeolus > /dev/null 2>&1
+    if [ $? -eq 8 ]; then # something went wrong stopping services
+      echo "Unable to modify the aeolus user's home directory."
+      echo "Please ensure the aeolus user has no active processes and try upgrading again."
+      exit 8
+    fi
+  fi
+fi
 
 %install
 %{__mkdir} -p %{buildroot}
