@@ -19,6 +19,7 @@ class ImagesController < ApplicationController
 
   def index
     set_admin_environments_tabs 'images'
+
     @header = [
       { :name => t('images.index.name'), :sort_attr => :name },
       { :name => t('images.environment_header'), :sort_attr => :name },
@@ -28,7 +29,13 @@ class ImagesController < ApplicationController
       { :name => t('images.index.last_rebuild'), :sortable => false },
     ]
 
-    @images = Aeolus::Image::Warehouse::Image.all
+    if params[:pool_family_id].present?
+      pool_family = PoolFamily.find(params[:pool_family_id])
+      @images = pool_family.images
+    else
+      @images = Aeolus::Image::Warehouse::Image.all
+    end
+
     @images.reject! { |i| !check_privilege(Privilege::VIEW, PoolFamily.where('name' => i.environment).first) }
     @images = paginate_collection(@images, params[:page], PER_PAGE)
 
