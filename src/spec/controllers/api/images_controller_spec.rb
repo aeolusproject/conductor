@@ -226,8 +226,7 @@ describe Api::ImagesController do
 
         context "when trying to build image" do
           before(:each) do
-            tpl =%q{<template>
-                      <name>Fedora 15 Template</name>
+            tpl =%q{<name>Fedora 15 Template</name>
                       <os>
                         <name>Fedora</name>
                         <version>15</version>
@@ -237,13 +236,12 @@ describe Api::ImagesController do
                         </install>
                         <rootpw>p@ssw0rd</rootpw>
                       </os>
-                      <description>A Fedora 15 Image Factory Template</description>
-                    </template>}
+                      <description>A Fedora 15 Image Factory Template</description>}
             xml = Nokogiri::XML::Builder.new do
               image {
                 targets "mock"
                 tdl {
-                  cdata(tpl)
+                  template tpl
                   target "mock"
                 }
                 environment "default"
@@ -305,45 +303,6 @@ describe Api::ImagesController do
             Aeolus::Image::Factory::TargetImage.stub(:status).and_return(nil)
 
             request.env['RAW_POST_DATA'] = xml.to_xml
-            post :create
-          end
-
-          it { response.response_code.should == 400 }
-          it { response.headers['Content-Type'].should include("application/xml") }
-        end
-
-        context "when trying to build image with incorrect template XML without CDATA" do
-          before(:each) do
-            tpl =%q{template>
-                      <name>Fedora 15 Template</name>
-                      <os>
-                        <name>Fedora</name>
-                        <version>15</version>
-                        <arch>x86_64</arch>
-                        <install type='url'>
-                          <url>http://download.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/x86_64/os/</url>
-                        </install>
-                        <rootpw>p@ssw0rd</rootpw>
-                      </os>
-                      <description>A Fedora 15 Image Factory Template</description>
-                    </template>}
-            xml = %{<image>
-                      <targets>mock</targets>
-                      <tdl>
-                        #{tpl}
-                        <target>mock</target>
-                      </tdl>
-                      <environment>default</environment>
-                    </image>}
-            Aeolus::Image::Factory::Image.stub(:new).and_return(@image)
-            Aeolus::Image::Warehouse::Image.stub(:create!).and_return(@image)
-            Aeolus::Image::Warehouse::Template.stub(:create!).and_return(@image)
-            @image.stub(:targets=).and_return(@image)
-            @image.stub(:template=).and_return(@image)
-            @image.stub(:save!)
-            Aeolus::Image::Factory::TargetImage.stub(:status).and_return(nil)
-
-            request.env['RAW_POST_DATA'] = xml
             post :create
           end
 
