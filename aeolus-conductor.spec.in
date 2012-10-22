@@ -175,6 +175,7 @@ getent passwd aeolus >/dev/null || \
 if [ ~aeolus != /usr/share/aeolus-conductor ]; then
   usermod --home /usr/share/aeolus-conductor aeolus > /dev/null 2>&1
   if [ $? -eq 8 ]; then # usermod returned with E_USER_BUSY
+    service conductor-dbomatic stop > /dev/null 2>&1
     service conductor-delayed_job stop > /dev/null 2>&1
     service aeolus-conductor stop > /dev/null 2>&1
     usermod --home /usr/share/aeolus-conductor aeolus > /dev/null 2>&1
