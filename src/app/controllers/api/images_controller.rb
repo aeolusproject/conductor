@@ -150,10 +150,10 @@ module Api
          !doc.xpath("/image/tdl").empty? &&
          !doc.xpath("/image/environment").empty?
 
-        template = Nokogiri::XML(doc.xpath("/image/tdl").text).xpath("/template")
+        template = doc.xpath("/image/tdl/template").to_xml
 
         { :type => :build,
-          :params => { :template => template.to_s,
+          :params => { :template => template,
                        :targets => doc.xpath("/image/targets").text,
                        :environment => doc.xpath("/image/environment").text}
         }
