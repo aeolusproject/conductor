@@ -74,7 +74,9 @@ class Provider < ActiveRecord::Base
           false
         end
       when "RHEV-M"
-        load_rhevm_json(name)
+        load_json(name, "rhevm")
+      when "VMware vSphere"
+        load_json(name, "vsphere")
       when "Amazon EC2"
         if name.starts_with?("ec2-")
           true
@@ -290,8 +292,8 @@ class Provider < ActiveRecord::Base
     true
   end
 
-  def load_rhevm_json(provider_name)
-    path_to_json = "/etc/imagefactory/rhevm.json"
+  def load_json(provider_name, provider_type)
+    path_to_json = "/etc/imagefactory/#{provider_type}.json"
     if File.exists?(path_to_json)
       json = File.read(path_to_json)
       json_hash = ActiveSupport::JSON.decode(json)
