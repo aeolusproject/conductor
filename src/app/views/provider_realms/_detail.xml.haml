@@ -1,0 +1,11 @@
+!!! XML
+%provider_realm{:id => provider_realm.id, :href => api_provider_realm_url(provider_realm)}
+  %name= provider_realm.name
+  %external_key= provider_realm.external_key
+  %provider_accounts
+    - @provider_accounts.each do |paccount|
+      %provider_account{:id => paccount.id, :href => api_provider_account_url(paccount)}
+  %frontend_realms
+    - @frontend_realms.each do |frontend_realm|
+      %frontend_realm{:id => frontend_realm.id}
+  %provider{:id => provider_realm.provider.id, :href => api_provider_url(provider_realm.provider)}

@@ -21,26 +21,27 @@ class ProviderRealmsController < ApplicationController
   def index
     clear_breadcrumbs
     save_breadcrumb(provider_realms_path)
-    set_admin_content_tabs 'realms'
+    set_admin_content_tabs 'frontend_realms'
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
+      format.xml { render :partial => 'list.xml' }
     end
   end
 
   def show
-    @realm = ProviderRealm.find(params[:id])
-    @title = @realm.name
+    @provider_realm = ProviderRealm.find(params[:id])
+    @title = @provider_realm.name
 
     @tab_captions = [t('realms.tab_captions.properties'), t('realms.tab_captions.mapping')]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     @details_tab = 'properties' unless ['properties', 'mapping'].include?(@details_tab)
 
-    @frontend_realms_for_provider = @realm.provider.frontend_realms
-    @frontend_realms = @realm.frontend_realms
-    @provider_accounts = @realm.provider_accounts
+    @frontend_realms_for_provider = @provider_realm.provider.frontend_realms
+    @frontend_realms = @provider_realm.frontend_realms
+    @provider_accounts = @provider_realm.provider_accounts
 
-    save_breadcrumb(provider_realm_path(@realm), @realm.name)
+    save_breadcrumb(provider_realm_path(@provider_realm), @provider_realm.name)
 
     respond_to do |format|
       format.html { render :action => 'show' }
@@ -50,7 +51,8 @@ class ProviderRealmsController < ApplicationController
         end
         render :partial => @details_tab
       end
-      format.json { render :json => @realm }
+      format.json { render :json => @provider_realm }
+      format.xml { render :show, :locals => { :provider_realm => @provider_realm } }
     end
   end
 
@@ -65,6 +67,6 @@ class ProviderRealmsController < ApplicationController
       {:name => '', :sortable => false},
       {:name => t("provider_realms.name"), :sort_attr => :name},
     ]
-    @realms = ProviderRealm.apply_filters(:preset_filter_id => params[:provider_realms_preset_filter], :search_filter => params[:provider_realms_search])
+    @provider_realms = ProviderRealm.apply_filters(:preset_filter_id => params[:provider_realms_preset_filter], :search_filter => params[:provider_realms_search])
   end
 end
