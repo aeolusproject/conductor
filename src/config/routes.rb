@@ -302,6 +302,7 @@ Conductor::Application.routes.draw do
       resources :provider_accounts, :controller => "pool_families_to_provider_accounts_associations", :only => [:index, :show, :update, :destroy]
     end
     resources :catalogs, :only => [:index, :show, :create, :update, :destroy]
+    resources :provider_realms, :only => [:index, :show]
   end
 
   #match 'matching_profiles', :to => '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }, :as =>'matching_profiles'
