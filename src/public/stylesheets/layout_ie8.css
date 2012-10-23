@@ -28,3 +28,6 @@ section.maincontent {
 table.provider-selection-strategies td {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', endColorstr='#535353',GradientType=0 ); /* IE6-9 */
 }
+
+/* Launch deployment button */
+#launch_deployment_button { padding: 13px 29px 9px 29px; }

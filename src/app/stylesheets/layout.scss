@@ -1,8 +1,6 @@
 @import "reset";
 @import "compass/reset";
 @import "converge-ui/composites/shell";
-@import "converge-ui/components/forms";
-@import "converge-ui/components/buttons";
 @import "mixins";
 @import "helpers";
 @import "buttons";
@@ -335,6 +333,7 @@ Page Header -- v.0.0.1 [header] (header.scss)
     & > *{ vertical-align: middle; }
     float: right;
     margin: 13px 7px 12px 24px;
+    min-height: 18px;
   }
 
   ul#provider_select{
@@ -2042,6 +2041,7 @@ form.filterable-data{
         padding: 3px 4px;
         @include gradient-bg($cell_color_base, $cell_color_header);
         &:after{ content: ""; }
+	        img {vertical-align:middle;}
       }
       ul{
         display: none;

@@ -5,6 +5,8 @@
 = content_for :stylesheets_block do
   = stylesheet_link_tag '/stylesheets/compiled/layout.css'
   = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
+  /[if lt IE 10]
+    = stylesheet_link_tag '/stylesheets/layout_ie9.css'
   /[if lt IE 9]
     = javascript_include_tag 'https://html5shiv.googlecode.com/svn/trunk/html5.js'
     = stylesheet_link_tag '/stylesheets/layout_ie8.css'

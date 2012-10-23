@@ -298,7 +298,6 @@ Application Button Set
   background: url(../../images/deployment_large_icon_provider_white.png) 12px center no-repeat, -o-linear-gradient(top, #ace3ac 0%,#5ab45c 100%); /* Opera 11.10+ */
   background: url(../../images/deployment_large_icon_provider_white.png) 12px center no-repeat, -ms-linear-gradient(top, #ace3ac 0%,#5ab45c 100%); /* IE10+ */
   background: url(../../images/deployment_large_icon_provider_white.png) 12px center no-repeat, linear-gradient(top, #ace3ac 0%,#5ab45c 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ace3ac', endColorstr='#5ab45c',GradientType=0 ); /* IE6-9 */
   &:active{
     background: #458944; /* Old browsers */
     background: url(../../images/deployment_large_icon_provider_white.png) 12px center no-repeat, -moz-linear-gradient(top, #9ecc9b 0%, #458944 100%); /* FF3.6+ */
