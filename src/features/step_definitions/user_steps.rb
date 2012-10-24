@@ -23,6 +23,13 @@ Given /^there are (\d+) users$/ do |number|
   User.count.should == number.to_i
 end
 
+Given /^user "([^"]*)" has valid password reset token "([^"]*)"$/ do |username, password_reset_token|
+  user = User.find_by_username(username)
+  user.password_reset_token = password_reset_token
+  user.password_reset_sent_at = Time.zone.now
+  user.save
+end
+
 Then /^there should be (\d+) users?$/ do |number|
   User.count.should == number.to_i
 end

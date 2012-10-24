@@ -32,6 +32,9 @@ module NavigationHelpers
     when /the login page/
       login_path
 
+    when /the password reset page with token "([^"]*)"$/i
+      edit_password_reset_path($1)
+
     when /^(.*)'s user page$/i
        user_path(User.find_by_username($1))
 
@@ -53,7 +56,7 @@ module NavigationHelpers
       account_path
 
     when /the login error page/
-      user_session_path
+      user_sessions_path
 
     when /the providers page/
       url_for :controller => 'providers', :action => 'index', :only_path => true
