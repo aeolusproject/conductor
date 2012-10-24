@@ -40,3 +40,13 @@ shared_examples_for "having correct set of credentials" do
     end
   end
 end
+
+shared_examples_for "having correct set of provider realms" do
+  it "should be correct" do
+    provider_account.provider_realms.size.should > 0
+    provider_account.provider_realms.each do |prealm|
+      xml_provider_account.xpath("//provider_account/provider_realms/provider_realm[@id='#{prealm.id}']/@href").
+        text.should == api_provider_realm_url(prealm.id)
+    end
+  end
+end

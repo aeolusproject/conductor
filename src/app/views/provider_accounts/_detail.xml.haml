@@ -16,3 +16,6 @@
         %quota{ :maximum_running_instances => provider_account.quota.maximum_running_instances }
       -else
         %quota{ :maximum_running_instances => t('provider_accounts.properties.unlimited') }
+    %provider_realms
+      - provider_account.provider_realms.each do |prealm|
+        %provider_realm{:id => prealm.id, :href => api_provider_realm_url(prealm.id)}
