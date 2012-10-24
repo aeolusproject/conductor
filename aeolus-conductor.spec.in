@@ -225,7 +225,8 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/pool_families_to_provider_accounts_associations\
       app/views/quotas app/views/permissions \
       app/views/deployments app/views/pools \
-      app/views/instances app/views/user_sessions \
+      app/views/instances app/views/user_sessions app/views/password_resets \
+      app/views/user_mailer
       app/views/deployables app/views/catalogs \
       app/views/provider_types app/views/api/images \
       app/views/config_servers app/views/provider_realms \
@@ -239,7 +240,7 @@ haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/api/target_images app/views/api/entrypoint \
       app/views/api/environments \
       vendor/provider_selection/views/penalty_for_failure"
-erb="app/views/user_sessions"
+erb="app/views/username_recoveries app/views/password_resets"
 mustache="app/views/instances app/views/pools app/views/deployments \
           app/views/deployables app/views/images"
 html="public"
@@ -260,7 +261,7 @@ png="public/images \
      public/stylesheets/images \
      public/stylesheets/jquery.ui-1.8.1/images"
 rake="lib/tasks"
-rb="app/models app/controllers app/controllers/api app/helpers app/services app/util \
+rb="app/models app/controllers app/controllers/api app/helpers app/mailers app/services app/util \
     config config/initializers config/environments db db/migrate \
     features/support features/step_definitions lib spec spec/controllers \
     spec/factories spec/helpers spec/models spec/services spec/controllers/api \
@@ -272,7 +273,7 @@ rb="app/models app/controllers app/controllers/api app/helpers app/services app/
 rhtml="app/views/layouts"
 svg="public/images public/images/icons"
 txt="public"
-yml="config config/locales config/locales/defaults config/locales/overrides
+yml="config config/locales config/locales/defaults config/locales/emails config/locales/overrides
      config/locales/role_definitions config/locales/classnames config/locales/will_paginate \
      config/locales/overrides/role_definitions config/locales/activerecord \
      config/locales/simple_form config/locales/strategies"
