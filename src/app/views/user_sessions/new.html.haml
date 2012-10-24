@@ -1,33 +1,13 @@
-= content_for(:stylesheets_block) do
-  = stylesheet_link_tag '/stylesheets/compiled/login.css'
-  /[if lt IE 9]
-    = javascript_include_tag 'https://html5shiv.googlecode.com/svn/trunk/html5.js'
-    = stylesheet_link_tag '/stylesheets/login_ie8.css'
-  /[if lt IE 8]
-    = stylesheet_link_tag '/stylesheets/layout_ie7.css'
-
-= content_for(:javascripts_block) do
-  = javascript_include_tag "converge-ui/vendor/jquery/jquery-1.6.2.js"
-  = javascript_include_tag "converge-ui/vendor/rails.js"
-  = javascript_include_tag "converge-ui/login.js"
-  :javascript
-    $(document).ready(function() {
-      $("#login_form").bind("ajax:error", function(event, data, status, xhr) {
-        $("#notifications").html("<div class=\'error\'>\n <p class=\'text\'>#{t("user_sessions.flash.warning.login_failed")}<\/p>\n<\/div>\n");
-        $('form .spinner').fadeOut('fast');
-      });
-    });
-  /[if lt IE 9]
-
-= content_for :title do
-  = t("layout.appname")
-  = "| #{@title}" unless @title.blank?
-
-= content_for :notifications do
-  = render :partial => 'notifications' if flash[:warning].present?
-
-= content_for :login_logo do
-  = image_tag 'login-card-logo-upstream.png'
-
-= content_for :footer do
-  = render :partial => 'layouts/footer'
+= content_for(:content) do
+  = render :partial => "layouts/converge-ui/login_layout",
+           :locals => { :login_form_path_string => user_sessions_path,
+                        :recovery_strings => t("user_sessions.recovery_link_html",
+                                               :username => link_to( t("user_sessions.username"),
+                                                                     login_path(:card => :username_recovery),
+                                                                     :id => 'username_link' ),
+                                               :password => link_to( t("user_sessions.password"),
+                                                                     login_path(:card => :password_reset),
+                                                                     :id => 'password_link' )),
+                        :login_path_string => login_path,
+                        :new_username_recoveries_form_path_string => username_recoveries_path,
+                        :new_password_resets_form_path_string => password_resets_path }

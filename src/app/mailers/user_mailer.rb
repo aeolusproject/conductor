@@ -14,4 +14,16 @@
 #   limitations under the License.
 #
 
-SETTINGS_CONFIG = YAML.load_file("#{::Rails.root.to_s}/config/settings.yml")
+class UserMailer < ActionMailer::Base
+
+  def password_reset(user_id)
+    @user = User.find(user_id)
+    mail(:to => @user.email, :subject => t("user_mailer.password_reset.subject"))
+  end
+
+  def send_usernames(users_ids)
+    @users = User.find(users_ids)
+    @email = @users.first.email
+    mail(:to => @email, :subject => t("user_mailer.send_usernames.subject"))
+  end
+end

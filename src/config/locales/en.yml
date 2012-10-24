@@ -164,21 +164,12 @@ en:
       local: "Locally-managed User Groups"
       ldap: "LDAP-managed User Groups"
   user_sessions:
-    new:
-      username: "Username"
-      password: "Password"
-      show_password: Show my password
-      login_assistance: Login Assistance
-      security_info: Security Info
-      login: Login
-      help: "Help functionality is not yet available."
-      forgot: Forgot
-      or: or
-      login_unknown_info: "If you do not know your username, please enter your email address below. Your username will be sent."
-      return_to_login: "Return to log in"
-      send_login: "Send Login"
-      password_unknown_info: "Please enter your username and email address below. Instructions on resetting your password will be sent."
-      reset_password: "Reset Password"
+    noscript: "Please enable Javascript for full functionality."
+    username: "Username"
+    password: "Password"
+    login: Login
+    recovery_link_html: "Forgot %{username} or %{password}?"
+
     security:
       encrypted_connection: Encrypted Connection
       unencrypted_connection:  Unencrypted Connection
@@ -192,6 +183,27 @@ en:
     flash:
       warning:
         login_failed: "The Username or Password is incorrect, please try again."
+
+  password_resets:
+    reset_instructions_sent: "Instructions for resetting your password have been emailed."
+    reset_password: "Reset Password"
+    password_unknown: "Forgot your password?"
+    password_unknown_info: "Enter your username and email address below and instructions on resetting your password will be sent to you."
+    email_address: "Email"
+    change_password: "Change Password"
+    change_password_info: "Enter your new password to change your password."
+    new_password: "New password"
+    confirm_password: "Confirm Password"
+    passwords_do_not_match: "Passwords do not match."
+    password_reset_success: "Password has been successfuly reset. Please log in."
+    password_reset_expired: "Your Password reset link has expired. Please re-apply for the new password reset by filling the form below."
+    invalid_token: "The Password Reset link is no longer valid. Please re-apply for the new link by completing the form below."
+  username_recoveries:
+    recover_usernames: "Recover Usernames"
+    username_unknown: "Username unknown?"
+    username_unknown_info: "If you do not know your username, please enter your email address below and usernames bound to your email will be sent to you."
+    usernames_sent: "Usernames have been sent to given e-mail address."
+
   about: About
   configure: Configure
   hello: Hello
