@@ -4,3 +4,6 @@
   %url= provider.url
   %provider_type= provider.provider_type.deltacloud_driver
   %deltacloud_provider= provider.deltacloud_provider
+  %provider_realms
+    - provider.provider_realms.each do |prealm|
+      %provider_realm{:id => prealm.id, :href => api_provider_realm_url(prealm.id)}
