@@ -1,0 +1,10 @@
+en:
+  user_mailer:
+    password_reset:
+      subject: "Password reset"
+      request_received: "A request has been received to reset the Conductor password for user %{username}. In order to reset this password, click the URL below."
+      ignore: "If you did not request this password to be reset, just ignore this email and the password will stay the same."
+    send_usernames:
+      subject: "Conductor Usernames"
+      request_received: "A request has been received by Conductor server %{url} to retrieve the logins for email %{email}. The following is a list of those logins:"
+

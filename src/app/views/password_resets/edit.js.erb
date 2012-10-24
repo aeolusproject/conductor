@@ -1,0 +1,4 @@
+<% if @user.errors.any? %>
+  <%= render 'user_sessions/error_messages', :object => @user %>
+  $('#notifications').html("<%= escape_javascript render(:partial => 'user_sessions/notifications') %>");
+<% end %>

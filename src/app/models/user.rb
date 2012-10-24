@@ -147,7 +147,14 @@ class User < ActiveRecord::Base
   def check_password?
     # don't check password if it's a new no-local user (ldap)
     # or if a user is updated
-    new_record? ? !ignore_password : (!password.blank? or !password_confirmation.blank?)
+    new_record? ? !ignore_password : !(password.blank? && password_confirmation.blank?)
+  end
+
+  def send_password_reset
+    generate_token(:password_reset_token)
+    self.password_reset_sent_at = Time.zone.now
+    save!
+    UserMailer.delay.password_reset(self.id)
   end
 
   def local_user?
@@ -195,6 +202,12 @@ class User < ActiveRecord::Base
         self.username_changed? || self.crypted_password_changed? then
       errors.add(:base, I18n.t("users.errors.cannot_edit_ldap_user"))
     end
+  end
+
+  def generate_token(column)
+    begin
+      self[column] = SecureRandom.urlsafe_base64
+    end while User.exists?(column => self[column])
   end
 
   def encrypt_password

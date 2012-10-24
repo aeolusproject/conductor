@@ -65,6 +65,9 @@ module Conductor
     require File.dirname(__FILE__) + '/../lib/exceptions'
     require File.dirname(__FILE__) + '/../lib/image'
 
+    # Read settings config (accessible at Conductor::Application::SETTINGS_CONFIG)
+    ::SETTINGS_CONFIG = YAML.load_file("#{::Rails.root.to_s}/config/settings.yml")
+
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
 
