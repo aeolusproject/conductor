@@ -5,7 +5,7 @@ ru:
       views:
         edit:
           failure_count_hard_limit: "Число неудачных попыток, после чего учётная запись будет признана нерабочей"
-          penalty_percentage: "Штрафной коэффициент за сбой (в %)"
-          time_period_minutes: "Интервал агрегации сбоев (мин.)"
+          penalty_percentage: "Штрафной коэффициент за сбой (%)"
+          time_period_minutes: "Интервал сбоев (мин.)"
     strict_order:
       name: "Строгий порядок"

@@ -116,7 +116,7 @@ ru:
       hw_profile: "Стандартный профиль ресурсов"
       name: Имя
       upload: Отправить
-    new_catalog_entry: "Новый программный шаблон"
+    new_catalog_entry: Создать
     preset_filters:
       all_catalog_entries: "Все программные шаблоны"
     show:
@@ -159,7 +159,7 @@ ru:
           one: "Каталог обновлён."
           other: "Каталоги обновлены."
     form:
-      select_pool: "Выберите зону ресурсов"
+      select_pool: "Выберите зону"
     index:
       catalog_name: "Имя каталога"
       name: Имя
@@ -171,8 +171,8 @@ ru:
       belongs_to_default_pool: "Входит в состав стандартной зоны ресурсов"
   change_password: "Изменить пароль"
   choose: Выберите
-  choose_name: "Выберите имя пользователя"
-  choose_password: "Выберите пароль"
+  choose_name: "Имя пользователя"
+  choose_password: Пароль
   choose_treatment: "Выберите способ обработки"
   cloud_engine_hardware_profiles: "Профили ресурсов"
   cloud_providers: "Провайдеры ресурсов"
@@ -251,7 +251,7 @@ ru:
       catalog: Каталог
       choose_xml: "Выберите файл XML"
       deployable_xml: "XML программного шаблона"
-      deployable_xml_url: "URL XML программного шаблона"
+      deployable_xml_url: "URL XML-файла"
       edit_xml_after_save: "Редактировать XML"
       multiple: Несколько
       none: Нет
@@ -353,7 +353,7 @@ ru:
         stop: "Действие остановки поставлено в очередь."
       success:
         deleted:
-          one: "Приложение %{list} выбрано для удаления."
+          one: "Приложение %{list} будет удалено."
           other: "%{list} выбраны для удаления."
         updated:
           one: "Приложение %{list} обновлено."
@@ -390,7 +390,7 @@ ru:
       title: "Параметры запуска"
     list:
       delete_selected: "Удалить выбранные"
-      stop_selected: "Остановить выбранные"
+      stop_selected: Остановить
     list_of_events: "Список событий приложения"
     new:
       asseblies_name: "Имя комплекта компонентов"
@@ -479,12 +479,12 @@ ru:
   edit_user: "Изменить пользователя"
   email: "Email:"
   filter_table:
-    apply_filters: "Применить фильтры"
-    from: От
+    apply_filters: Применить
+    from: C
     order_by: Упорядочить
     results: Результаты
     search: Поиск
-    to: Кому
+    to: до
     viewing: Просмотр
   first_name: Имя
   general:
@@ -529,7 +529,7 @@ ru:
       virtual_cpu: "Вирт. процессор"
     list:
       delete_selected: "Удалить выбранные"
-      new_hardware: "Новый профиль ресурсов"
+      new_hardware: "Создать профиль"
     matching_provider_hwp:
       no_matching_provider_hwp: "Нет подходящих профилей ресурсов провайдера"
     new:
@@ -546,16 +546,16 @@ ru:
       architecture: Архитектура
       hwp_name: "Имя профиля ресурсов"
       memory: Память
-      provider_name: "Имя провайдера ресурсов"
+      provider_name: "Имя провайдера"
       storage: Пространство
       virtual_cpu: "Вирт. процессор"
     show:
       backend_hwp: "%{name} (провайдер ресурсов)"
       frontend_hwp: "%{name}"
-      matching_hwp: "Подходящие профили ресурсов провайдера"
+      matching_hwp: "Подходящие профили"
     tab_captions:
       history: Журнал
-      matching_provider_hwp: "Подходящие профили ресурсов провайдера"
+      matching_provider_hwp: "Подходящие профили"
       properties: "Свойства "
   hello: Здравствуйте
   help: Справка
@@ -608,13 +608,13 @@ ru:
       os_version: "Версия ОС"
     new:
       choose_file: "Выберите файл шаблона компонентов:"
-      description: "Выберите способ передачи образа в «%{environment}»."
+      description: "Выберите способ добавления образа в «%{environment}»."
       edit_file: "Редактировать файл:"
       from_url: URL
       image_url: "URL шаблона компонентов:"
       name: "Имя:"
       new_image: "Новый образ"
-      upload: Отправить
+      upload: Файл
     not_on_provider: "Провайдер не содержит указанный образ."
     overview:
       description: "Проверка «%{name}» успешна. Можно его сохранить и на его основе создать программный шаблон."
@@ -646,7 +646,7 @@ ru:
       provider: "Провайдер ресурсов"
       provider_account: "Учетная запись провайдера"
       provider_images: "Образы провайдера"
-      providers_image_id: "ID образа провайдера"
+      providers_image_id: "ID образа"
       push: Отправить
       push_all: "Отправить все"
       push_started: "Отправка скоро начнется."
@@ -725,10 +725,10 @@ ru:
     list:
       export_events: "Экспорт событий"
       hide_stopped: "спрятать остановленные"
-      reboot_selected_instances: "Перезагрузить выбранные"
+      reboot_selected_instances: Перезагрузить
       show_all: "показать все"
       showing_all_instances: "Все экземпляры"
-      stop_selected_instances: "Остановить выбранные"
+      stop_selected_instances: Остановить
       stopped_instances_hidden: "Остановленные не показаны"
       table:
         name: Имя
@@ -753,7 +753,7 @@ ru:
       running: Работающие
       shutting_down: Завершаемые
       stopped: Остановленные
-      vanished: "Потерянные экземпляры"
+      vanished: "Утерянные экземпляры"
     properties:
       architecture: Архитектура
       assembly: "Комплект компонентов"
@@ -785,7 +785,7 @@ ru:
       running: Выполнение
       shutting_down: Завершается
       stopped: Остановлен
-      vanished: Потерян
+      vanished: Утерян
     tab_captions:
       history: Журнал
       permissions: Разрешения
@@ -793,7 +793,7 @@ ru:
   last_name: Фамилия
   launch_instance: "Запустить экземпляр"
   layout:
-    appname: "Облачная инфраструктура CloudForms"
+    appname: "CloudForms Cloud Engine"
     copyright: ""
     dashboard: Обзор
   login: Вход
@@ -870,14 +870,14 @@ ru:
         not_deleted: "Не удалось удалить предоставленные разрешения: %{list}"
       fragment:
         user_and_role: "%{user} (%{role})"
-        user_and_role_change: "%{user} (из %{old_role} в %{role})"
+        user_and_role_change: "%{user} (с «%{old_role}» на «%{role}»)"
       notice:
         added: "Добавлены роли: %{list}"
         deleted: "Удалены разрешения: %{list}"
         modified: "Изменены роли: %{list}"
         no_change: "Роли пользователей уже настроены. Изменения не требуются."
     form:
-      grant_access: "Предоставить доступ"
+      grant_access: Добавить
     global: Глобальный
     global_access: "Глобальный доступ"
     inherited_access: "Наследование доступа"
@@ -888,13 +888,13 @@ ru:
       choose_roles: "Выберите роли для предоставления доступа к ресурсу:"
       global_role_grants: "Глобальные роли"
     preset_filters:
-      all_entities: "Все объекты"
+      all_entities: Все
       all_permissions: "Все разрешения"
       group_permissions: "Разрешения групп"
       user_permissions: "Разрешения пользователей"
     resource: Ресурс
     resource_type: "Тип ресурса"
-    revoke_access: "Закрыть доступ"
+    revoke_access: Удалить
   pool_families:
     add_to_pool_family: "Добавить в %{name}"
     choose_provider_accounts: "Выберите учётные записи провайдера для этого облака"
@@ -913,27 +913,27 @@ ru:
         not_updated: "Облако не обновлено."
         provider_accounts_not_added: "Не удалось добавить учётные записи."
         provider_accounts_not_removed: "Не удалось удалить учётные записи."
-        select_to_add_accounts: "Выберите учётные записи для добавления."
-        select_to_remove_accounts: "Выберите учётные записи для удаления."
+        select_to_add_accounts: "Выберите записи для добавления."
+        select_to_remove_accounts: "Выберите записи для удаления."
       notice:
         added: "Облако добавлено."
         deleted: "Облако удалено."
-        provider_accounts_added: "Учётная запись провайдера добавлена"
+        provider_accounts_added: "Учётная запись добавлена"
         provider_accounts_removed: "Учётные записи провайдера удалены"
         updated: "Облако обновлено"
       warning:
         creation_failed: "Ошибка создания облака."
     index:
-      active_instances: Активные
+      active_instances: Активно
       answer_no: Нет
       answer_yes: Да
-      available_instances: Доступные
+      available_instances: Доступно
       catalog: Каталог
       deployments: Приложения
       enabled: Включено
       failed_instances: Сбой
       name: Имя
-      new_pool_family: "Новое облако"
+      new_pool_family: "Создать облако"
       pending_instances: Ожидают
       pool_family_quota_used: "Достигнута квота облака"
       pool_name: "Имя зоны ресурсов"
@@ -974,8 +974,8 @@ ru:
         creation_failed: "Ошибка создания зоны ресурсов."
     form:
       instance_or: "экземпляр или "
-      pool_enabled: "Зона ресурсов включена."
-      unlimited: неограничено
+      pool_enabled: "Зона ресурсов включена"
+      unlimited: "не ограничено"
     header_show:
       pool_name: "Зона %{name}"
     images:
@@ -993,15 +993,15 @@ ru:
       overview: Обзор
       owner: Владелец
       pending: Ожидание
-      pool_details_html: "Свойства зоны %{name} &raquo;"
+      pool_details_html: "Свойства %{name} &raquo;"
       pool_family: Облако
       pool_name: "Имя зоны ресурсов"
       pool_toggle: Свернуть/развернуть
-      your_pools: "Ваши зоны ресурсов"
+      your_pools: "Ваши зоны"
     list:
       more_actions: "Другие действия"
     logs: Журналы
-    new_pool: "Новая зона ресурсов"
+    new_pool: "Создать зону ресурсов"
     pool: "Зона ресурсов"
     pools: "Зоны ресурсов"
     preset_filters:
@@ -1022,14 +1022,14 @@ ru:
       instances_pending: "Ожидающие экземпляры"
       pools_in_use: "Занятые зоны ресурсов"
       pools_total: "Всего зон ресурсов"
-      quota_usage: "Занято квоты"
-      running_instances_quota: Активные
+      quota_usage: Квота
+      running_instances_quota: Активно
       total_available_instances: "Всего экземпляров доступно"
       total_instances: "Всего экземпляров"
   privileges: Права
   properties: "Свойства "
   provider_accounts:
-    add_provider_account: "Добавить уч.запись"
+    add_provider_account: Добавить
     credentials:
       credentials_for: "Реквизиты доступа"
       labels:
@@ -1087,7 +1087,7 @@ ru:
       provider_accounts: "Учётные записи провайдера"
       quota_instances: "Квота на экземпляры"
       test_account: "Тестовая учётная запись"
-      unlimited_quota: "Неограниченная квота"
+      unlimited_quota: "Не ограничено"
       user_name: "Ключ EC2"
     history:
       history_for: "Журнал для"
@@ -1097,8 +1097,8 @@ ru:
       priority: Приоритет
       provider_account_name: "Учётная запись"
       provider_accounts: "Учётные записи провайдера"
-      provider_name: "Имя провайдера ресурсов"
-      provider_type: "Тип провайдера ресурсов"
+      provider_name: "Имя провайдера"
+      provider_type: "Тип провайдера"
       quota_limit: Квота
       username: Пользователь
     list:
@@ -1107,7 +1107,7 @@ ru:
       cloud_providers: "Провайдеры ресурсов"
       new_provider_account: "Учетная запись провайдера"
       required_field: "Обязательное поле"
-    new_provider_account: "Новая учётная запись"
+    new_provider_account: Создать
     permissions:
       permissions_for: "Разрешения для"
     preset_filters:
@@ -1120,7 +1120,7 @@ ru:
       running_instances_quota: "Квота для работающих экземпляров"
       sure_to_delete: "Удалить сервер конфигурации?"
       test: Тест
-      unlimited: неограничено
+      unlimited: "не ограничено"
     provider_selection:
       cloud_type: "Тип облака:"
       provider_name: "Имя провайдера:"
@@ -1166,9 +1166,9 @@ ru:
       provider_account_name: "Учётная запись"
       provider_account_username: Пользователь
       provider_name: "Имя провайдера"
-      provider_type: "Тип провайдера"
+      provider_type: Тип
       quota_maximum_running_instances: Квота
-      quota_percentage_used: "Занято квоты"
+      quota_percentage_used: Квота
     new:
       back: "Группы провайдеров для зоны: %{pool}"
       create: "Создать приоритетную группу"
@@ -1185,7 +1185,7 @@ ru:
       back_to_strategies: "Стратегии выбора провайдера для зоны: %{pool}"
       edit: "Изменить стратегию %{strategy_name}"
     flash:
-      config_successfully_saved: "Стратегия %{strategy_name} обновлена"
+      config_successfully_saved: "Свойства обновлены: %{strategy_name}"
       failed_to_disable: "Не удалось отменить стратегию %{strategy_name}"
       failed_to_enable: "Не удалось включить стратегию %{strategy_name}"
       successfully_disabled: "Стратегия %{strategy_name} отключена"
@@ -1212,7 +1212,7 @@ ru:
       type:
         critical: Критично
         warning: Предупреждение
-    choose_a_provider: "Выберите провайдер:"
+    choose_a_provider: "Провайдер:"
     confirm_delete: "Удалить провайдер?"
     confirm_terminate:
       disable: Отключить
@@ -1220,7 +1220,7 @@ ru:
     disable_provider: "Отключить провайдер? Его экземпляры будут остановлены."
     edit:
       enable_configure_providers: "Для активации и настройки провайдера используйте переключатель в правом верхнем углу окна."
-      provider_disabled: "Провайдер %{name} отключен."
+      provider_disabled: "%{name} отключен."
       provider_id_disabled: "Провайдер отключен."
       provider_unavailable: "Провайдер %{name} недоступен."
       toggle_alerts: "Настроить уведомления"
@@ -1247,7 +1247,7 @@ ru:
     form:
       caution_alt_text: Внимание
       caution_image: Внимание
-      delete_provider: "Удалить провайдер"
+      delete_provider: Удалить
       enter_correct_url_msg: "Проверьте формат URL."
       required_field: "Обязательное поле"
       save_changes: Сохранить
@@ -1262,16 +1262,16 @@ ru:
         vsphere: "Хост API vSphere"
       x_deltacloud_provider_legend: "Легенда для X-Deltacloud-Provider"
     index:
-      create_new_provider: "Создать провайдер"
+      create_new_provider: Создать
       create_one: "Сначала следует создать провайдер."
       error_instances: "Ошибки (текущие)"
       historical_error_instances: "Ошибки (известные)"
       historical_running_instances: "Работающие (известные)"
       no_providers_available: "Нет провайдеров."
       pending_instances: "Ожидающие (текущие)"
-      provider_name: "Имя провайдера ресурсов"
-      provider_type: "Тип провайдера ресурсов"
-      provider_url: "URL провайдера"
+      provider_name: "Имя провайдера"
+      provider_type: "Тип провайдера"
+      provider_url: URL
       running_instances: "Работающие экземпляры (текущие)"
       x_deltacloud_driver: X-Deltacloud-Driver
       x_deltacloud_provider: X-Deltacloud-Provider
@@ -1281,7 +1281,7 @@ ru:
     provider: "Провайдер ресурсов"
     providers: "Провайдеры ресурсов"
   quota: Квота
-  quota_used: "Занято квоты"
+  quota_used: Квота
   quotas:
     edit:
       edit_for: "Изменить квоту для"
@@ -1311,7 +1311,7 @@ ru:
         more_not_deleted: "Не удалось удалить кластеры:"
         not_deleted: "Кластер не удалён."
         select_to_delete: "Необходимо выбрать кластер для удаления."
-        select_to_delete_mapping: "Необходимо выбрать связь для удаления."
+        select_to_delete_mapping: "Необходимо выбрать соответствие."
       notice:
         added: "Кластер добавлен."
         added_mapping: "Соответствие добавлено."
@@ -1334,10 +1334,10 @@ ru:
       mapping_realm: "Добавить соответствие для кластера"
       provider_accounts_mapped_to_realm: "Учётные записи сопоставлены кластеру %{name}:"
       realm_mapped_providers: "Кластер %{name} связан с провайдерами:"
-      realm_mapped_realms: "%{name} связан с кластером ресурсов провайдера:"
+      realm_mapped_realms: "%{name} связан с кластерами:"
     new:
       create_realm: "Создать кластер ресурсов"
-    new_realm: "Новый кластер ресурсов"
+    new_realm: Создать
     preset_filters:
       all_realms: "Все кластеры ресурсов"
     properties:
@@ -1353,7 +1353,7 @@ ru:
       mapping: Соответствие
       properties: "Свойства "
   remove: Удалить
-  reset: Сброс
+  reset: Отмена
   resource_management: "Управление ресурсами"
   return_to: "Назад "
   role: Роль
@@ -1408,7 +1408,7 @@ ru:
     self_service:
       account: "Учётная запись"
       instances_quota: "Квота для экземпляров:"
-      self_service_default: "Параметры пользователя по умолчанию"
+      self_service_default: "Параметры по умолчанию"
       self_service_settings: "Параметры самообслуживания"
     settings: Параметры
   summary: Сводка
@@ -1463,14 +1463,14 @@ ru:
       type: Тип
     ldap: LDAP
     list:
-      add_user_group: "Добавить группу"
+      add_user_group: Добавить
       delete_selected: "Удалить выбранные"
-    local: Локально
+    local: Локальный
     new:
       neccessary_information: "Заполните форму и нажмите «Сохранить группу»."
       new_user_group: "Новая группа пользователей"
     preset_filters:
-      all_user_groups: "Все группы пользователей"
+      all_user_groups: "Все группы"
       ldap: "Группы под управлением LDAP"
       local: "Локально управляемые группы"
     quick_jump: "Перейти к:"
@@ -1508,8 +1508,8 @@ ru:
       encrypted_connection: "Зашифрованное подключение"
       expiration: "Срок действия: неизвестен"
       issued: "Сертификат выдан:"
-      message: "Подключение к облачной инфраструктуре CloudForms (%{host}) зашифровано с помощью SSL (уровень защиты неизвестен)."
-      message_unencrypted: "Подключение к облачной инфраструктуре CloudForms (%{host}) не зашифровано, что повышает риск хищения  данных."
+      message: "Подключение к СloudForms (%{host}) зашифровано с помощью SSL (уровень защитынеизвестен)."
+      message_unencrypted: "Подключение к CloudForms (%{host}) не зашифровано, что повышает риск хищенияданных."
       message_unencrypted2: "Если это ошибка, не продолжайте авторизацию, а обратитесь к системному администратору."
       return_to_login: "Вернуться в окно входа"
       unencrypted_connection: "Незащищённое подключение"
@@ -1526,7 +1526,7 @@ ru:
       notice:
         deleted: "Пользователь удалён."
         more_deleted:
-          one: "Пользователь удалён"
+          one: "Удален пользователь"
           other: "Пользователи удалены"
         registered: "Пользователь зарегистрирован"
         updated: "Пользователь обновлён"
@@ -1546,9 +1546,9 @@ ru:
       user_id: "ID пользователя"
       username: Пользователь
     list:
-      add_user: "Добавить пользователя"
+      add_user: Добавить
       delete_selected: "Удалить выбранные"
-      unlimited: Неограничено
+      unlimited: "Не ограничено"
     new:
       neccessary_information: "Заполните форму и нажмите «Сохранить»."
       new_user: "Новый пользователь"
@@ -1567,6 +1567,6 @@ ru:
       last_login: "Последний вход"
       last_login_ip: "Последний вход с IP"
       last_updated: Обновлено
-      number_of_logins: "Число авторизаций"
+      number_of_logins: "Успешный вход"
       username: Пользователь
     users: Пользователи
