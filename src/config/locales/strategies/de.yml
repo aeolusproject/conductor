@@ -4,7 +4,7 @@ de:
       name: "Strafe für Ausfall"
       views:
         edit:
-          failure_count_hard_limit: "Anzahl der Ausfälle, bevor der Cloud-Ressourcenprovider-Account nicht längerverwendet werden sollte"
+          failure_count_hard_limit: "Anzahl der Ausfälle, nach denen der Cloud-Ressourcenprovider-Account nicht länger verwendet werden sollte"
           penalty_percentage: "Prozentstrafe für jeden Ausfall"
           time_period_minutes: "Zeitspanne, während der Ausfälle aggregiert werden (in Minuten)"
     strict_order:

@@ -58,7 +58,7 @@ de:
       notice:
         must_be_logged: "Sie müssen angemeldet sein, um auf diese Seite zuzugreifen"
         must_not_be_logged: "Sie müssen abgemeldet sein, um auf diese Seite zuzugreifen"
-        record_not_exist: "Den Eintrag, auf den Sie zuzugreifen versuchten, existiert nicht. Möglicherweise wurde er gelöscht."
+        record_not_exist: "Der Eintrag, auf den Sie zuzugreifen versuchten, existiert nicht. Möglicherweise wurde er gelöscht."
     internal_server_error: "Interner Server-Fehler"
     permission_denied: "Sie haben keine ausreichenden Berechtigungen, um die gewünschte Aktion durchzuführen."
     permission_denied_with_prefix: "%{prefix}: Sie haben keine ausreichenden Berechtigungen, um die gewünschte Aktion durchzuführen."
@@ -203,7 +203,7 @@ de:
   confirm_password: "Passwort bestätigen"
   connection_refused: "Die Verbindung zum entfernten Host wurde verweigert."
   connectivity: Verbindung
-  continue: Fortfahren
+  continue: Weiter
   create_account: "Account erstellen"
   datetime:
     distance_in_words:
@@ -292,7 +292,7 @@ de:
         pushed: "Alle Images wurden übertragen und sind aktuell."
         pushing: "Images werden übertragen."
       catalog_name: Katalogname
-      choose_catalog: "Wählen Sie einen Katalog, um den Zugriff zu ermöglichen:"
+      choose_catalog: "Wählen Sie einen Katalog, dem Zugriff zu gewähren ist:"
       delete: Löschen
       edit: Bearbeiten
       edit_xml: "XML bearbeiten"
@@ -408,10 +408,10 @@ de:
       count_of_instances: "Anzahl der Instanzen:"
       operational_status: "Betriebsstatus von"
     overview:
-      confirmation_html: "Sind Sie sicher, dass Sie \"%{deployment}\" nach %{pool} Cloud-Ressourcenzone deployen möchten?"
+      confirmation_html: "Sind Sie sicher, dass Sie \"%{deployment}\" in der %{pool} Cloud-Ressourcenzone starten möchten?"
       deployable_xml: Applikationsvorlagen-XML
       description: Beschreibung
-      header: "\"%{deployment}\" nach %{pool} Cloud-Ressourcenzone deployen?"
+      header: "\"%{deployment}\" in %{pool} Cloud-Ressourcenzone starten?"
       image_ids: Komponentenskizzen-IDs
       launch: Starten
       launch_with_errors: "Fehler beim Instanzenstart ignorieren"
@@ -435,7 +435,7 @@ de:
       no_ip_address: "-"
       reboot: Neustarten
       state: "Status:"
-      stop: Stopp
+      stop: Stoppen
     properties:
       created: Erstellt
       global_uptime: "Globale Betriebszeit"
@@ -480,12 +480,12 @@ de:
   email: E-Mail
   filter_table:
     apply_filters: "Filter anwenden"
-    from: Ab
+    from: Vom
     order_by: "Ordnen nach"
     results: Ergebnisse
     search: Suchen
-    to: Nach
-    viewing: Anzeigen
+    to: bis
+    viewing: Zeige
   first_name: Vorname
   general:
     delete_confirmation: "Sind Sie sicher, dass Sie löschen möchten?"
@@ -638,7 +638,7 @@ de:
         other: "%{count} Übertragungsversuche fehlgeschlagen"
       image_id: Komponentenskizzen-ID
       image_uuid: Image-UUID
-      latest: Neueste
+      latest: Neuester
       missing_build: "Zuerst Build auswählen"
       new_deployable_from_image: "Neue Applikationsvorlage aus Image"
       not_built: "Das Image wurde noch nicht erstellt"
@@ -840,7 +840,7 @@ de:
   map_locales: "Gebietsschema zuweisen"
   map_profiles: "Profile zuweisen"
   masthead:
-    login: Anmeldung
+    login: Anmelden
     logout: Abmelden
     my_account: "Mein Account"
   maximum_running_instances: "Maximal laufende Instanzen"
@@ -865,9 +865,9 @@ de:
     flash:
       error:
         no_users_selected: "Keine Benutzer ausgewählt"
-        not_add: "Diese Benutzerrollen konnten nicht hinzugefügt werden: %{list}"
-        not_added: "Diese Benutzerrollen konnten nicht hinzugefügt werden: %{list}"
-        not_deleted: "Diese Berechtigungen konnten nicht gelöscht werden: %{list}"
+        not_add: "Die folgenden Benutzerrollen konnten nicht hinzugefügt werden: %{list}"
+        not_added: "Die folgenden Benutzerrollen konnten nicht hinzugefügt werden: %{list}"
+        not_deleted: "Die folgenden Berechtigungen konnten nicht gelöscht werden: %{list}"
       fragment:
         user_and_role: "%{user} (%{role})"
         user_and_role_change: "%{user} (von %{old_role} zu %{role})"
@@ -885,7 +885,7 @@ de:
     name: Name
     new:
       choose_global_role: "Globale Rollenzuweisungen für Benutzer wählen"
-      choose_roles: "Wählen Sie Rollen für Benutzer, denen Sie Zugriff hierauf gewähren möchten"
+      choose_roles: "Wählen Sie Rollen für Benutzer, denen Sie Zugriff gewähren möchten auf diese(n,s):"
       global_role_grants: "Globale Rollenzuweisungen"
     preset_filters:
       all_entities: "Alle Objekte"
@@ -897,7 +897,7 @@ de:
     revoke_access: "Zugriff widerrufen"
   pool_families:
     add_to_pool_family: "Hinzufügen zu %{name}"
-    choose_provider_accounts: "Für diese Cloud zu aktivierende Cloud-Ressourcenprovider-Accounts wählen"
+    choose_provider_accounts: "Wählen Sie die Cloud-Ressourcenprovider-Accounts, die Sie für diese Cloud aktivieren möchten"
     confirm_delete: "Sind Sie sicher, dass Sie diese Cloud löschen möchten? Dadurch werden alle zugehörigen Cloud-Ressourcenzonen, Kataloge und Applikationsvorlagen gelöscht."
     edit:
       return_to: "Zurück zu:"
@@ -911,15 +911,15 @@ de:
         not_deleted: "Cloud kann nicht gelöscht werden."
         not_deleted_with_err: "Cloud kann nicht gelöscht werden: %{err}"
         not_updated: "Cloud wurde nicht aktualisiert."
-        provider_accounts_not_added: "Diese Cloud-Ressourcenprovider-Accounts konnten nicht hinzugefügt werden"
-        provider_accounts_not_removed: "Diese Cloud-Ressourcenprovider-Accounts konnten nicht entfernt werden"
+        provider_accounts_not_added: "Die folgenden Cloud-Ressourcenprovider-Accounts konnten nicht hinzugefügt werden"
+        provider_accounts_not_removed: "Die folgenden Cloud-Ressourcenprovider-Accounts konnten nicht entfernt werden"
         select_to_add_accounts: "Sie müssen mindestens einen hinzuzufügenden Cloud-Ressourcenprovider-Accountwählen."
         select_to_remove_accounts: "Sie müssen mindestens einen zu entfernenden Cloud-Ressourcenprovider-Accountwählen."
       notice:
         added: "Cloud wurde hinzugefügt."
         deleted: "Cloud wurde gelöscht."
-        provider_accounts_added: "Diese Cloud-Ressourcenprovider-Accounts wurden hinzugefügt"
-        provider_accounts_removed: "Diese Cloud-Ressourcenprovider-Accounts wurden entfernt"
+        provider_accounts_added: "Die folgenden Cloud-Ressourcenprovider-Accounts wurden hinzugefügt"
+        provider_accounts_removed: "Die folgenden Cloud-Ressourcenprovider-Accounts wurden entfernt"
         updated: "Cloud wurde aktualisiert."
       warning:
         creation_failed: "Cloud-Erstellung fehlgeschlagen."
@@ -935,7 +935,7 @@ de:
       name: Name
       new_pool_family: "Neue Cloud"
       pending_instances: "Ausstehende Instanzen"
-      pool_family_quota_used: "Cloud-Kontingent verbraucht"
+      pool_family_quota_used: "Verbrauchtes Cloud-Kontingent"
       pool_name: Cloud-Ressourcenzonen-Name
       provider_selection: Cloud-Ressourcenprovider-Auswahl
       quota_limit: Kontingentgrenze
@@ -985,7 +985,7 @@ de:
       pushed: "%{uuid} übertragen an %{provider}"
     index:
       confirm_delete: "Sind Sie sicher, dass Sie diese Cloud-Ressourcenzone löschen möchten? Dadurch werden auch alle zugehörigen Kataloge und Applikationsvorlagen gelöscht."
-      deployed_on: "Deployed auf"
+      deployed_on: "Gestartet auf"
       destroy: Löschen
       failed: Fehlgeschlagen
       global_uptime: "Globale Betriebszeit"
@@ -1266,7 +1266,7 @@ de:
       create_one: "Bitte erstellen Sie erst einen."
       error_instances: "Fehler (aktuell)"
       historical_error_instances: "Fehler (Chronik)"
-      historical_running_instances: "Läuft (Chronik)"
+      historical_running_instances: "Laufen (Chronik)"
       no_providers_available: "Keine Cloud-Ressourcenprovider verfügbar."
       pending_instances: "Ausstehend (aktuell)"
       provider_name: Cloud-Ressourcenprovider-Name
@@ -1308,7 +1308,7 @@ de:
       properties: Eigenschaften
     flash:
       error:
-        more_not_deleted: "Folgende Cloud-Ressourcen-Cluster konnten nicht gelöscht werden:"
+        more_not_deleted: "Die folgenden Cloud-Ressourcen-Cluster konnten nicht gelöscht werden:"
         not_deleted: "Cloud-Ressourcen-Cluster wurde nicht gelöscht"
         select_to_delete: "Sie müssen mindestens einen Cloud-Ressourcen-Cluster zum Löschen auswählen."
         select_to_delete_mapping: "Sie müssen mindestens eine Zuordnung zum Löschen auswählen."
@@ -1316,7 +1316,7 @@ de:
         added: "Cloud-Ressourcen-Cluster wurde hinzugefügt"
         added_mapping: "Zuordnung für Cloud-Ressourcen-Cluster wurde hinzugefügt."
         deleted: "Cloud-Ressourcen-Cluster wurde gelöscht"
-        more_deleted: "Folgende Cloud-Ressourcen-Cluster wurden gelöscht:"
+        more_deleted: "Die folgenden Cloud-Ressourcen-Cluster wurden gelöscht:"
         updated: "Cloud-Ressourcen-Cluster aktualisiert"
     index:
       realm: Cloud-Ressourcen-Cluster
@@ -1365,10 +1365,10 @@ de:
       properties: Eigenschaften
     flash:
       error:
-        more_not_deleted: "Folgende Rollen konnten nicht gelöscht werden:"
+        more_not_deleted: "Die folgenden Rollen konnten nicht gelöscht werden:"
       notice:
         added: "Rolle erfolgreich gespeichert."
-        more_deleted: "Diese Rollen wurden gelöscht:"
+        more_deleted: "Die folgenden Rollen wurden gelöscht:"
         updated: "Rolle erfolgreich aktualisiert."
     list:
       roles_list: Rollenliste
@@ -1436,15 +1436,15 @@ de:
       edit_user_group: "Benutzergruppe bearbeiten"
     flash:
       error:
-        members_not_added: "Diese Benutzer konnten nicht hinzugefügt werden"
-        members_not_removed: "Diese Benutzer konnten nicht entfernt werden"
+        members_not_added: "Die folgenden Benutzer konnten nicht hinzugefügt werden"
+        members_not_removed: "Die folgenden Benutzer konnten nicht entfernt werden"
         not_a_local_group: "Nur lokal verwaltete Gruppen können hier verwaltet werden."
         select_to_add_members: "Sie müssen mindestens einen hinzuzufügenden Benutzer wählen."
       notice:
         added: "Benutzergruppe hinzugefügt"
         deleted: "Benutzergruppe wurde erfolgreich gelöscht."
-        members_added: "Die Benutzer wurden hinzugefügt"
-        members_removed: "Diese Benutzer wurden entfernt"
+        members_added: "Die folgenden Benutzer wurden hinzugefügt"
+        members_removed: "Die folgenden Benutzer wurden entfernt"
         more_deleted:
           one: "Gelöschte Benutzergruppe"
           other: "Gelöschte Benutzergruppen"
@@ -1492,7 +1492,7 @@ de:
     new:
       forgot: Vergessen
       help: "Hilfefunktion ist noch nicht verfügbar."
-      login: Anmeldung
+      login: Anmelden
       login_assistance: "Hilfe bei der Anmeldung"
       login_unknown_info: "Falls Sie Ihren Benutzernamen nicht wissen, geben Sie unten bitte Ihre E-Mail-Adresse ein. Sie erhalten dann eine E-Mail mit Ihrem Benutzernamen."
       or: oder
@@ -1526,7 +1526,7 @@ de:
       notice:
         deleted: "Benutzer wurde erfolgreich gelöscht."
         more_deleted:
-          one: "Gelöschter Benutzer"
+          one: "Benutzer gelöscht"
           other: "Gelöschte Benutzer"
         registered: "Benutzer registriert"
         updated: "Benutzer aktualisiert"
