@@ -21,8 +21,8 @@ fr:
       admin: "Administrateur de catalogues"
       user: "Utilisateur de catalogues"
     deployable:
-      owner: "Propriétaire de plans d'application"
-      user: "Utilisateur de plans d'application"
+      owner: "Propriétaire du plan d'application"
+      user: "Utilisateur du plan d'application"
     deployment:
       owner: "Propriétaire d'applications"
       user: "Utilisateur d'applications"

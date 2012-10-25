@@ -408,10 +408,10 @@ fr:
       count_of_instances: "Décompte des instances :"
       operational_status: "Statut opérationnel de"
     overview:
-      confirmation_html: "Êtes-vous certain de vouloir déployer « %{deployment} » sur la zone des ressources cloud %{pool} ?"
+      confirmation_html: "Êtes-vous certain de vouloir déployer « %{deployment} » sur la zone de ressources cloud %{pool} ?"
       deployable_xml: "XML du plan de l'application"
       description: Description
-      header: "Déployer \"%{deployment}\" sur la zone des ressources cloud %{pool} ?"
+      header: "Déployer \"%{deployment}\" sur la zone de ressources cloud %{pool} ?"
       image_ids: "ID des modèles de composant"
       launch: Lancer
       launch_with_errors: "Ignorer les erreurs d'instances pendant le lancement"
@@ -480,11 +480,11 @@ fr:
   email: E-mail
   filter_table:
     apply_filters: "Appliquer les filtres"
-    from: De
+    from: Du
     order_by: "Ordre par"
     results: Résultats
     search: Rechercher
-    to: À
+    to: Au
     viewing: Afficher
   first_name: Prénom
   general:
@@ -593,7 +593,7 @@ fr:
       image_id: "ID de l'image du fournisseur de ressources cloud"
       image_imported: "L'image a été importée avec succès."
       image_not_imported: "L'image n'a pas pu être importée. Vérifiez le journal de Image Factory pour obtenir davantage de détails."
-      import_image: "Importer l'image"
+      import_image: "Importer une image"
       name: "Nom de l'image"
       provider_account: "Compte fournisseur de ressources cloud"
       provider_unreachable: "Conductor n'a pas pu se connecter à Image Factory. Veuillez vérifier qu'Image Factory est en cours d'exécution et est correctement configuré."
@@ -806,7 +806,7 @@ fr:
       deployment: Application/Instance
       details: Détails
       event_time: Heure
-      export_logs: "Journaux des exportations"
+      export_logs: "Exporter les journaux"
       frontend_realm: "Grappe de ressources cloud frontale"
       grouped_by: "Groupé par"
       hwp: "Profil de ressources cloud"
@@ -885,7 +885,7 @@ fr:
     name: Nom
     new:
       choose_global_role: "Choisir les attributions de rôles globaux pour les utilisateurs"
-      choose_roles: "Choisir des rôles pour les utilisateurs auxquels vous souhaitez autoriser l'accès à "
+      choose_roles: "Choisir des rôles pour les utilisateurs auxquels vous souhaitez autoriser l'accès à ce"
       global_role_grants: "Permissions de rôles globaux"
     preset_filters:
       all_entities: "Toutes les entités"
@@ -1194,7 +1194,7 @@ fr:
       available_provider_accounts: "Comptes de fournisseurs de ressources cloud disponibles"
       available_strategies: "Stratégies disponibles"
       configure: Configurer
-      edit_provider_accounts: "Modifier des comptes de fournisseurs de ressources cloud le cloud"
+      edit_provider_accounts: "Modifier des comptes de fournisseurs de ressources cloud de ce cloud"
       edit_strategy: "Modifier la stratégie %{name}"
       environment: "Cloud : %{environment}"
       provider_selection: "Stratégies de sélection de fournisseurs de ressources cloud"
@@ -1463,7 +1463,7 @@ fr:
       type: Type
     ldap: LDAP
     list:
-      add_user_group: "Ajouter le groupe d'utilisateurs"
+      add_user_group: "Ajouter un groupe d'utilisateurs"
       delete_selected: "Supprimer la sélection"
     local: Local
     new:
