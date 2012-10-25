@@ -4,7 +4,7 @@ ko:
       name: "장애 발생시 패널티 "
       views:
         edit:
-          failure_count_hard_limit:
+          failure_count_hard_limit: "클라우드 리소스 공급자 계정 이전의 장애 발생 횟수는 사용하지 않음 "
           penalty_percentage: "각 장애 발생에 대한 패널티 비율 "
           time_period_minutes: "장애 발생 수가 집계되는 시간 (분 단위)"
     strict_order:

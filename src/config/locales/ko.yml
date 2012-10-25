@@ -87,11 +87,11 @@ ko:
   cancel: 취소
   catalog_entries:
     edit:
-      editing_catalog_entry: "애플리케이션 설계도 편집 중 "
+      editing_catalog_entry: "애플리케이션 설계도 편집하기  "
     flash:
       notice:
         added: "애플리케이션 설계도가 카탈로그 %{catalog}에 추가되었습니다."
-        deleted: "애플리케이션 설계도가 카탈로드 %{catalog}에서 제거되었습니다."
+        deleted: "애플리케이션 설계도가 카탈로그 %{catalog}에서 제거되었습니다."
         updated: "애플리케이션 설계도가 성공적으로 업데이트되었습니다"
       warning:
         failed: "애플리케이션 설계도가 생성되지 않았습니다. "
@@ -382,7 +382,7 @@ ko:
       name_available: "사용 가능한 이름 "
       next: "다음 "
       other: "기타 "
-      to_pool: "%{name} 클라우드 리소스 영역에 "
+      to_pool: "(%{name} 클라우드 리소스 영역에)"
     launch_time_params:
       configure_launch_time_params: "애플리케이션의 시작 시간 매개 변수를 설정합니다: "
       finalize: "완료 "
@@ -480,11 +480,11 @@ ko:
   email: "이메일 "
   filter_table:
     apply_filters: "필터 적용 "
-    from: 적용자
+    from: "다음 날짜에서 "
     order_by: 순서
     results: "결과 "
     search: "검색 "
-    to: "적용 대상"
+    to: "다음 날짜까지 "
     viewing: "보기 "
   first_name: "이름 "
   general:
@@ -911,15 +911,15 @@ ko:
         not_deleted: "클라우드를 삭제할 수 없습니다."
         not_deleted_with_err: "클라우드를 삭제할 수 없습니다: %{err}"
         not_updated: "클라우드를 업데이트할 수 없습니다."
-        provider_accounts_not_added: "이러한 클라우드 리소스 공급자 계정을 추가할 수 없음 "
-        provider_accounts_not_removed: "이러한 클라우드 리소스 공급자 계정을 제거할 수 없음"
+        provider_accounts_not_added: "다음과 같은 클라우드 리소스 공급자 계정을 추가할 수 없음 "
+        provider_accounts_not_removed: "다음과 같은 클라우드 리소스 공급자 계정을 제거할 수 없음"
         select_to_add_accounts: "추가할 최소 하나의 클라우드 리소스 공급자 계정을 선택해야 합니다. "
         select_to_remove_accounts: "제거할 최소 하나의 클라우드 리소스 공급자 계정을 선택해야 합니다. "
       notice:
         added: "클라우드가 추가되었습니다. "
         deleted: "클라우드가 삭제되었습니다."
-        provider_accounts_added: "이러한 클라우드 리소스 공급자 계정이 추가됨"
-        provider_accounts_removed: "이러한 클라우드 리소스 공급자 계정이 제거됨"
+        provider_accounts_added: "다음과 같은 클라우드 리소스 공급자 계정이 추가됨"
+        provider_accounts_removed: "다음과 같은 클라우드 리소스 공급자 계정이 제거됨"
         updated: "클라우드가 업데이트되었습니다."
       warning:
         creation_failed: "클라우드 생성을 실패했습니다. "
@@ -1007,19 +1007,19 @@ ko:
     preset_filters:
       all_pools: "전체 클라우드 리소스 영역 "
       enabled_pools: "활성화된 클라우드 리소스 영역 "
-      with_create_failed_instances: "실패한 인스턴스로 "
+      with_create_failed_instances: "실패한 인스턴스"
       with_instances: "인스턴스로 "
-      with_pending_instances: "보류중인 인스턴스로 "
-      with_running_instances: "실행 중인 인스턴스로 "
-      with_stopped_instances: "중지된 인스턴스로 "
+      with_pending_instances: "보류 중인 인스턴스"
+      with_running_instances: "실행 중인 인스턴스"
+      with_stopped_instances: "중지된 인스턴스"
     properties:
       properties: "%{pool}의 속성 "
     scoreboard:
       alerts: "경고 "
       cloud_providers_total: "총 클라우드 리소스 공급자 "
       deployments_total: "총 애플리케이션 "
-      instances_failed: "인스턴스 실패 "
-      instances_pending: "인스턴스 보류 중 "
+      instances_failed: "실패한 인스턴스 "
+      instances_pending: "보류 중인 인스턴스 "
       pools_in_use: "사용 중인 클라우드 리소스 영역 "
       pools_total: "총 클라우드 리소스 영역 "
       quota_usage: "쿼터 사용 "
@@ -1223,7 +1223,7 @@ ko:
       provider_disabled: "클라우드 리소스 공급자 %{name}는 현재 비활성화되어 있습니다"
       provider_id_disabled: "클라우드 리소스 공급자가 비활성화되어 있습니다. "
       provider_unavailable: "현재 클라우드 리소스 공급자 %{name}를 사용할 수 없습니다. "
-      toggle_alerts: "경고 토글 "
+      toggle_alerts: "경고 숨기기/보여주기"
     editing_provider: "클라우드 리소스 공급자 편집 "
     enable_provider: "클라우드 리소스 공급자를 활성화하시겠습니까? "
     flash:
