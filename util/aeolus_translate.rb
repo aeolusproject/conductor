@@ -17,7 +17,8 @@ OUTPUT	= ARGV[1] || "config/locales/en_product.yml"
 # placeholder before beginning, and then convert them back at the end.
 # This is a little bit of a hack...
 EXCEPTIONS = {
- "X-Deltacloud-Provider" => "PLACEHOLDER_XDP"
+ "X-Deltacloud-Provider" => "PLACEHOLDER_XDP",
+ "X-Deltacloud-Driver" => "PLACEHOLDER_XDD"
 }
 
 
