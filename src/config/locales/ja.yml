@@ -87,17 +87,17 @@ ja:
   cancel: 取り消し
   catalog_entries:
     edit:
-      editing_catalog_entry: アプリケーションブループリントを編集中
+      editing_catalog_entry: アプリケーションブループリントを編集する
     flash:
       notice:
-        added: "アプリケーションブループリントをカタログ %{catalog} に追加しました。"
-        deleted: "アプリケーションブループリントをカタログ %{catalog} から削除しました。"
+        added: "アプリケーションブループリントをカタログ「%{catalog}」に追加しました。"
+        deleted: "アプリケーションブループリントをカタログ「%{catalog}」から削除しました。"
         updated: アプリケーションブループリントが正常に更新されました。
       warning:
         failed: アプリケーションブループリントは作成されませんでした。
         not_valid: ファイルには構文エラーが含まれています。
         not_valid_cyclic_reference: "次のコンポーネントブループリントまたはサービス間に循環参照が含まれています: %{reference}"
-        not_valid_duplicate_assembly_names: 一意のコンポーネントブループリント名を含むようにしてください。
+        not_valid_duplicate_assembly_names: コンポーネントブループリントの名前は固有にしてください
         not_valid_not_existing_assembly_reference: "コンポーネントブループリント %{from_assembly}、サービス %{from_service}、パラメーター %{from_param} は既存のコンポーネントブループリント %{to_assembly} を参照しません。"
         not_valid_not_existing_param: "コンポーネントブループリント %{from_assembly}、サービス %{from_service}、パラメーター %{from_param} は、コンポーネントブループリント %{to_assembly} から返されないパラメーター %{to_param} を参照します。"
         not_valid_not_existing_service_reference: "コンポーネントブループリント %{from_assembly}、サービス %{from_service}、パラメーター %{from_param} は既存のコンポーネントブループリント %{to_assembly}、サービス %{to_service} を参照しません。"
@@ -130,19 +130,19 @@ ja:
       rebuild_all: すべてのイメージを再ビルド
       roles: ロール
       start: 開始
-  catalog_images: カタログイメージ
+  catalog_images: カタログのイメージ
   catalogs:
     catalog_list:
       no_catalogs: "-- カタログはありません --"
     catalogs: カタログ
     edit:
       cancel_editing: 編集をキャンセル
-      edit_catalog: カタログの編集中
+      edit_catalog: カタログを編集する
     flash:
       error:
         not_deleted:
-          one: "カタログ %{not_deleted} を削除できません。このカタログを参照するアプリケーションブループリントが少なくとも 1 つあります。"
-          other: "これらのカタログ %{not_deleted} を削除できません。これらのカタログを参照するアプリケーションブループリントが複数あります。"
+          one: "カタログ「%{not_deleted}」を削除できません。このカタログを参照するアプリケーションブループリントが少なくとも 1 つあります。"
+          other: "これらのカタログ「%{not_deleted}」を削除できません。これらのカタログを参照するアプリケーションブループリントが複数あります。"
         not_deleted_perms:
           one: "カタログ %{not_deleted} を削除する十分なパーミッションがありません。"
           other: "%{count} 個の %{not_deleted} のカタログを削除する十分なパーミッションがありません。"
@@ -232,16 +232,16 @@ ja:
         no_catalog_exists: カタログがありません。作成してください。
         no_hwp_exists: クラウドリソースプロファイルがありません。作成してください。
         not_deleted:
-          one: "アプリケーションブループリント %{not_deleted} の削除に失敗しました。"
+          one: "アプリケーションブループリント「%{not_deleted}」の削除に失敗しました。"
           other: "%{count} 個の %{not_deleted} のアプリケーションブループリントは削除されませんでした。"
         not_deleted_perms:
-          one: "アプリケーションブループリント %{not_deleted} を削除する十分なパーミッションがありません。"
+          one: "アプリケーションブループリント「%{not_deleted}」を削除する十分なパーミッションがありません。"
           other: "%{count} 個の %{not_deleted} アプリケーションブループリントを削除する十分なパーミッションがありません。"
         not_selected: アプリケーションブループリントが選択されていませんでした。
         wrong_environment: "アプリケーションブループリント「%{deployable}」には、誤ったクラウド ('%{wrong_env}' は正しくは '%{environment}') にイメージ (UUID %{uuid}) が含まれているため、使用できません。"
       notice:
         deleted:
-          one: "アプリケーションブループリント %{deleted} が正常に削除されました。"
+          one: "アプリケーションブループリント「%{deleted}」が正常に削除されました。"
           other: "%{count} 個の %{deleted} のアプリケーションブループリントが削除されました。"
       warning:
         failed: "アプリケーションブループリントは作成されませんでした: %{message}"
@@ -317,11 +317,11 @@ ja:
       target_images_uuids: "ターゲットイメージの UUID"
       uuids: UUID
   deployments:
-    confirm_delete: 本当にこのアプリケーションを削除してよろしいですか?
+    confirm_delete: 本当にこのアプリケーションを削除してもよいですか?
     deployment: アプリケーション
     deployment_details: アプリケーションの詳細
     deployment_name: アプリケーション名
-    deployment_name_subtext: (指定するアプリケーションは一意でなければなりません)
+    deployment_name_subtext: (固有の名前にしてください)
     deployments: アプリケーション
     edit:
       edit_deployment: アプリケーションの編集
@@ -382,7 +382,7 @@ ja:
       name_available: 使用可能な名前
       next: 次へ
       other: その他
-      to_pool: "%{name} クラウドリソースゾーンへ"
+      to_pool: "（「%{name}」クラウドリソースゾーン）"
     launch_time_params:
       configure_launch_time_params: "使用しているアプリケーションの起動時間パラメーターを設定:"
       finalize: 最終決定
@@ -390,7 +390,7 @@ ja:
       title: 起動時パラメーター
     list:
       delete_selected: 選択項目を削除
-      stop_selected: 選択項目を停止
+      stop_selected: 選択項目を停止する
     list_of_events: アプリケーションのイベント一覧
     new:
       asseblies_name: コンポーネントブループリント名
@@ -408,7 +408,7 @@ ja:
       count_of_instances: "インスタンス数:"
       operational_status: 動作状態
     overview:
-      confirmation_html: "本当に「%{deployment}」をクラウドリソースゾーン %{pool} に導入してもよろしいですか?"
+      confirmation_html: "本当に「%{deployment}」をクラウドリソースゾーン %{pool} に導入してもよいですか?"
       deployable_xml: "アプリケーションブループリントの XML"
       description: 詳細
       header: "「%{deployment}」を %{pool} クラウドリソースゾーンに導入しますか?"
@@ -464,16 +464,16 @@ ja:
       shutting_down: シャットダウンしています。
       stopped: 停止中
     status_description:
-      failed: すべてのインスタンスはエラー状態です。
-      incomplete: 一部のインスタンスは実行していません。
+      failed: すべてのインスタンスがエラーの状態です
+      incomplete: 一部のインスタンスが実行していません
       new: アプリケーションは起動しませんでした。
-      pending: アプリケーションが起動しています。
+      pending: アプリケーションが起動しています
       rollback_complete: ロールバックは正常に完了しました。
       rollback_failed: ロールバックが失敗し、再起動が終了しました。
       rollback_in_progress: 起動が失敗しました。ロールバックが進行中です。
-      running: すべてのインスタンスが実行中です。
+      running: すべてのインスタンスが実行中です
       shutting_down: アプリケーションがシャットダウンしています。
-      stopped: すべてのインスタンスは停止しています。
+      stopped: すべてのインスタンスが停止しています
   edit: 編集
   edit_provider_account: クラウドリソースプロバイダーアカウントの編集
   edit_user: ユーザーの編集
@@ -640,7 +640,7 @@ ja:
       image_uuid: "イメージの UUID"
       latest: 最新
       missing_build: 先にビルドを選択してください
-      new_deployable_from_image: イメージから作成する新規のアプリケーションブループリント
+      new_deployable_from_image: イメージから新規のアプリケーションブループリントを作成する
       not_built: イメージはまだビルドされていません
       only_latest_builds_can_be_pushed: 最新のビルドのみプッシュされます。
       provider: クラウドリソースプロバイダー
@@ -698,7 +698,7 @@ ja:
         reboot: "インスタンス %{name} を再起動できませんでした。%{err} が原因です。"
         stop: "インスタンス %{name} を停止できませんでした。%{err} が原因です。"
       notice:
-        forced_stop: 状態が停止に変更されました。
+        forced_stop: 状態が停止に変わりました
         reboot: "%{name}: 再起動の動作が正常にキューに登録されました。"
         stop: 停止の動作が正常にキューに登録されました。
       success:
@@ -778,14 +778,14 @@ ja:
       via_ssh: "SSH 経由"
     reboot: 再起動
     states:
-      create_failed: 作成が失敗しました。
+      create_failed: 作成に失敗しました
       error: エラー
       new: 新規
       pending: 保留中
       running: 実行中
       shutting_down: シャットダウンしています
       stopped: 停止中
-      vanished: 消滅済み
+      vanished: 消滅しました
     tab_captions:
       history: 履歴
       permissions: パーミッション
@@ -817,7 +817,7 @@ ja:
       pool: クラウドリソースゾーン
       provider: クラウドリソースプロバイダー
       state: 状態
-      summary: サマリ
+      summary: 要約
       title: ログ
       uptime: アップタイム
     options:
@@ -885,7 +885,7 @@ ja:
     name: 名前
     new:
       choose_global_role: ユーザーにグローバルロールの割り当てを選択
-      choose_roles: 以下に対するアクセスを付与したいユーザーのロールを選択します
+      choose_roles: "アクセスを付与したいユーザーにそのロールを選択します - "
       global_role_grants: グローバルロールの付与
     preset_filters:
       all_entities: すべてのエンティティ
@@ -898,7 +898,7 @@ ja:
   pool_families:
     add_to_pool_family: "%{name} に追加"
     choose_provider_accounts: このクラウドに対して有効にするクラウドリソースプロバイダーアカウントを選択
-    confirm_delete: "このクラウドを本当に削除してもよろしいですか? すべての関連するクラウドリソースゾーン、カタログ、アプリケーションブループリントも削除されます。"
+    confirm_delete: "このクラウドを本当に削除してもよいですか? 関連するクラウドリソースゾーン、カタログ、アプリケーションブループリントなどがすべて削除されます。"
     edit:
       return_to: "戻る:"
     errors:
@@ -918,8 +918,8 @@ ja:
       notice:
         added: クラウドが追加されました。
         deleted: クラウドが削除されました。
-        provider_accounts_added: これらのクラウドリソースプロバイダーアカウントが追加されました。
-        provider_accounts_removed: これらのクラウドリソースプロバイダーアカウントが削除されました。
+        provider_accounts_added: 次のクラウドリソースプロバイダーアカウントが追加されました
+        provider_accounts_removed: 次のクラウドリソースプロバイダーアカウントが削除されました
         updated: クラウドが更新されました。
       warning:
         creation_failed: クラウドの作成が失敗しました。
@@ -951,7 +951,7 @@ ja:
     remove_selected: 選択項目を削除
   pools:
     create_new_pool: 新規のクラウドリソースゾーンを作成
-    edit_pool: "クラウドリソースゾーン %{pool} の編集"
+    edit_pool: "クラウドリソースゾーン「%{pool}」の編集"
     errors:
       must_be_enabled: 有効にする必要があります
       providers_disabled: 関連付けられているクラウドリソースプロバイダーがすべて無効になっています。
@@ -984,12 +984,12 @@ ja:
       image: "イメージ:"
       pushed: "%{uuid} が %{provider} にプッシュされました"
     index:
-      confirm_delete: "本当にこのクラウドリソースゾーンを削除してもよろしいですか? すべての関連するカタログおよびアプリケーションブループリントも削除されます。"
+      confirm_delete: "本当にこのクラウドリソースゾーンを削除してもよいですか? 関連するカタログおよびアプリケーションブループリントがすべて削除されます。"
       deployed_on: 展開した日付
       destroy: 破棄
       failed: 失敗
       global_uptime: グローバルアップタイム
-      not_all_deployments_displayed_alert_html: "表示されているアプリケーションがすべてではありません。他のアプリケーションは、%{name} クラウドリソースゾーンの詳細を参照してください。&raquo;"
+      not_all_deployments_displayed_alert_html: "表示されているアプリケーションがすべてではありません。他のアプリケーションについては、%{name} クラウドリソースゾーンの詳細を参照してください。&raquo;"
       overview: 概要
       owner: 所有者
       pending: 保留
@@ -1006,12 +1006,12 @@ ja:
     pools: クラウドリソースゾーン
     preset_filters:
       all_pools: すべてのクラウドリソースゾーン
-      enabled_pools: クラウドリソースゾーンが有効になりました
-      with_create_failed_instances: 失敗したインスタンスあり
-      with_instances: インスタンスあり
-      with_pending_instances: 保留中のインスタンスあり
-      with_running_instances: 実行中のインスタンスあり
-      with_stopped_instances: 停止インスタンスあり
+      enabled_pools: 有効になっているクラウドリソースゾーン
+      with_create_failed_instances: 失敗したインスタンスがある
+      with_instances: インスタンスがある
+      with_pending_instances: 保留中のインスタンスがある
+      with_running_instances: 実行中のインスタンスがある
+      with_stopped_instances: 停止しているインスタンスがある
     properties:
       properties: "%{pool} のプロパティ"
     scoreboard:
@@ -1049,7 +1049,7 @@ ja:
     errors:
       associated_images: "次のプロバイダーイメージが関連付けられています: %{images}。これらをまず削除してください。"
       could_not_connect: クラウドリソースプロバイダーアカウントに接続できませんでした。管理者にお問い合わせください。
-      exception_while_validating: クラウドリソースプロバイダーの認証情報をチェックする際にエラーが発生しました。設定を確認してからやり直してください。
+      exception_while_validating: クラウドリソースプロバイダーの認証情報を確認する際にエラーが発生しました。設定を確認してからやり直してください。
       invalid_credentials: このクラウドリソースプロバイダーに対するログイン認証情報が無効です。
       not_destroyable_deployments: "以下のアプリケーションが停止していません: %{deployments}"
       populate_hardware_profiles_failed: "ハードウェアプロファイルの投入に失敗しました: %{message}"
@@ -1118,7 +1118,7 @@ ja:
       none: なし
       properties_for: プロパティ
       running_instances_quota: 実行中のインスタンス割り当て
-      sure_to_delete: 本当にこの設定サーバーを削除してもよろしいですか?
+      sure_to_delete: 本当にこの設定サーバーを削除してもよいですか?
       test: テスト
       unlimited: 無制限
     provider_selection:
@@ -1147,7 +1147,7 @@ ja:
         upload_failed: クラウドリソースプロバイダーのイメージをアップロードできません。
   provider_priority_groups:
     edit:
-      back: "クラウドリソースゾーン: %{pool} のクラウドリソースプロバイダーグループ"
+      back: "クラウドリソースゾーン「%{pool}」のクラウドリソースプロバイダーグループ"
       save: 優先グループの保存
       title: 優先グループの編集
     flash:
@@ -1159,9 +1159,9 @@ ja:
       providers_and_provider_accounts: "クラウドリソースプロバイダー & クラウドリソースプロバイダーアカウント"
     index:
       add_new: 新規追加
-      back_to_strategies: "クラウドリソースゾーン: %{pool} のクラウドリソースプロバイダー選択の戦略"
-      confirm_delete: 本当にこの優先グループを削除してもよろしいですか?
-      edit_strict_order_strategy: 順序転送の戦略の編集
+      back_to_strategies: "クラウドリソースゾーン「%{pool} 」のクラウドリソースプロバイダー選択ストラテジー"
+      confirm_delete: 本当にこの優先グループを削除してもよいですか?
+      edit_strict_order_strategy: 優先順位のストラテジーを編集
       no_priority_group: 表示する優先グループはありません。
       provider_account_name: アカウント名
       provider_account_username: ユーザー名
@@ -1170,7 +1170,7 @@ ja:
       quota_maximum_running_instances: 割り当て制限
       quota_percentage_used: 使用済み割り当て
     new:
-      back: "クラウドリソースゾーン: %{pool} のクラウドリソースプロバイダーグループ"
+      back: "クラウドリソースゾーン「%{pool}」のクラウドリソースプロバイダーグループ"
       create: 優先グループの作成
       title: 新規の優先グループの追加
   provider_realms:
@@ -1182,22 +1182,22 @@ ja:
       provider_accounts_mapped: "プロバイダー領域 %{name} にマッピングされているクラウドリソースプロバイダーアカウント"
   provider_selection:
     edit_strategy:
-      back_to_strategies: "クラウドリソースゾーン: %{pool} のクラウドリソースプロバイダー選択の戦略"
-      edit: "%{strategy_name} 戦略の編集"
+      back_to_strategies: "クラウドリソースゾーン「%{pool}」のクラウドリソースプロバイダー選択ストラテジー"
+      edit: "%{strategy_name} ストラテジーの編集"
     flash:
-      config_successfully_saved: "%{strategy_name} 戦略が正常に更新されました。"
-      failed_to_disable: "%{strategy_name} 戦略を無効にできませんでした。"
-      failed_to_enable: "%{strategy_name} 戦略を有効にできませんでした。"
-      successfully_disabled: "%{strategy_name} 戦略が正常に無効にされました。"
-      successfully_enabled: "%{strategy_name} 戦略が正常に有効にされました。"
+      config_successfully_saved: "%{strategy_name} ストラテジーが正常に更新されました"
+      failed_to_disable: "%{strategy_name} ストラテジーを無効にできませんでした"
+      failed_to_enable: "%{strategy_name} ストラテジーを有効にできませんでした"
+      successfully_disabled: "%{strategy_name} ストラテジーが正しく無効化されました"
+      successfully_enabled: "%{strategy_name} ストラテジーが正しく有効化されました"
     show:
       available_provider_accounts: 利用可能なクラウドリソースプロバイダーアカウント
-      available_strategies: 利用可能な戦略
+      available_strategies: 利用可能なストラテジー
       configure: 設定
       edit_provider_accounts: クラウドのクラウドリソースプロバイダーアカウントを編集
-      edit_strategy: "%{name} 戦略の編集"
+      edit_strategy: "%{name} ストラテジーの編集"
       environment: "クラウド: %{environment}"
-      provider_selection: クラウドリソースプロバイダー選択の戦略
+      provider_selection: クラウドリソースプロバイダー選択のストラテジー
   provider_summary: クラウドリソースプロバイダー要約
   providers:
     alerts:
@@ -1213,18 +1213,18 @@ ja:
         critical: クリティカル
         warning: 警告
     choose_a_provider: "クラウドリソースプロバイダーの選択:"
-    confirm_delete: 本当にこのクラウドリソースプロバイダーを削除してもよろしいですか?
+    confirm_delete: 本当にこのクラウドリソースプロバイダーを削除してもよいですか?
     confirm_terminate:
       disable: 無効
       disabled_provider: クラウドリソースプロバイダーを無効
-    disable_provider: "本当にクラウドリソースプロバイダーを無効にしますか? そのすべてのインスタンスは停止します。"
+    disable_provider: "本当にクラウドリソースプロバイダーを無効にしますか? このプロバイダーの全インスタンスが停止することになります。"
     edit:
-      enable_configure_providers: クラウドリソースプロバイダーを有効、設定するには、このウィンドウの右上隅にあるスライドスイッチをクリックしてください。
+      enable_configure_providers: "クラウドリソースプロバイダーを有効にして設定を行う場合は、 このウィンドウの右上にあるスライドスイッチをクリックします。"
       provider_disabled: "クラウドリソースプロバイダー %{name} は現在無効です。"
       provider_id_disabled: クラウドリソースプロバイダーは無効です。
       provider_unavailable: "クラウドリソースプロバイダー %{name} は現在利用できません。"
       toggle_alerts: 警告の切り替え
-    editing_provider: クラウドリソースプロバイダーの編集中
+    editing_provider: クラウドリソースプロバイダーを編集する
     enable_provider: クラウドリソースプロバイダーを有効にしますか?
     flash:
       error:
@@ -1334,7 +1334,7 @@ ja:
       mapping_realm: プロバイダー領域にマッピングを追加
       provider_accounts_mapped_to_realm: "クラウドリソースクラスター %{name} にマッピングされているクラウドリソースプロバイダーアカウント:"
       realm_mapped_providers: "クラウドリソースクラスター %{name} はクラウドリソースプロバイダーにマッピングされています:"
-      realm_mapped_realms: "クラウドリソースクラスター %{name} はクラウドリソースクラスターにマッピングされています:"
+      realm_mapped_realms: "クラウドリソースクラスターの「%{name}」は次のクラウドリソースクラスター群にマッピングされます:"
     new:
       create_realm: 新規のクラウドリソースクラスターを作成
     new_realm: 新規のクラウドリソースクラスター
@@ -1431,7 +1431,7 @@ ja:
   user_group: ユーザーグループ
   user_groups:
     choose_members: このグループに追加するユーザーを選択
-    confirm_delete: 本当にこのユーザーグループを削除してもよろしいですか?
+    confirm_delete: 本当にこのユーザーグループを削除してもよいですか?
     edit:
       edit_user_group: ユーザーグループの編集
     flash:
@@ -1443,8 +1443,8 @@ ja:
       notice:
         added: ユーザーグループが追加されました。
         deleted: ユーザーグループが正常に削除されました。
-        members_added: これらのユーザーが追加されました。
-        members_removed: これらのユーザーが削除されました。
+        members_added: 次のユーザーが追加されました
+        members_removed: 次のユーザーが削除されました
         more_deleted:
           one: ユーザーグループが削除されました。
           other: ユーザーグループが削除されました。
@@ -1515,7 +1515,7 @@ ja:
       unencrypted_connection: 暗号化されていない接続
       unknown_ca: 不明な証明機関
   users:
-    confirm_delete: 本当にこのユーザーを削除してよろしいですか?
+    confirm_delete: 本当にこのユーザーを削除してもよいですか?
     edit:
       edit_account: アカウントの編集
       edit_user: ユーザーの編集

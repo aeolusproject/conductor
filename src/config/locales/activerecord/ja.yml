@@ -314,11 +314,11 @@ ja:
         pool:
           attributes:
             name:
-              invalid: "数字、文字、空白、アンダースコア (_)、ハイフン (-) のみ使用可能です。"
+              invalid: "使用できるのは数字、文字、空白、下線 (_)、ハイフン (-) のみになります。"
         pool_family:
           attributes:
             name:
-              invalid: "数字、文字、空白、アンダースコア (_)、ハイフン (-) のみ使用可能です。"
+              invalid: "使用できるのは数字、文字、空白、下線 (_)、ハイフン (-) のみになります。"
         provider:
           attributes:
             deltacloud_provider:

@@ -4,7 +4,7 @@ ja:
       name: 障害時のペナルティ
       views:
         edit:
-          failure_count_hard_limit:
+          failure_count_hard_limit: "障害発生数: この回数障害が発生するまでクラウドリソースプロバイダーアカウントを使用しない"
           penalty_percentage: 各障害時のペナルティの割合
           time_period_minutes: "障害が集約された期間 (分単位)"
     strict_order:
