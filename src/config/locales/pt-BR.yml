@@ -110,7 +110,7 @@ pt-BR:
       catalog_entries_list: "Lista do Projeto do Aplicativo"
     new:
       add_catalog_entry: "Adicionar um Novo Projeto do Aplicativo"
-      catalog_detail: "%{name} Catalogo"
+      catalog_detail: "%{name} Catálogo"
       choose_option_to_upload: "Escolha uma das seguintes opçõeos para carregar um arquivo de XML de Projetode Aplicativo"
       from_url: "A partir da URL"
       hw_profile: "Perfis dos Recursos do Cloud Padrão"
