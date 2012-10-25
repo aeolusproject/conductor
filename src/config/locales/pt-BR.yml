@@ -1255,12 +1255,12 @@ pt-BR:
       test_connection: "Conexão Teste:"
       x_deltacloud_provider:
         ec2: "EC2 Region"
-        generic: "Provedor de Recurso do X-Deltacloud-Cloud "
+        generic: "X-Deltacloud-Provider"
         openstack: "Openstack API_ENTRYPOINT"
         rackspace: "Rackspace API_PROVIDER"
         rhevm: "RHEV-M API_PROVIDER"
         vsphere: "vSphere API hostname"
-      x_deltacloud_provider_legend: "Legenda para o Provedor de Recurso do X-Deltacloud-Cloud"
+      x_deltacloud_provider_legend: "Legenda para X-Deltacloud-Provider"
     index:
       create_new_provider: "Criar Novo Provedor de Recurso de Cloud "
       create_one: "Por favor criar um primeiro"
@@ -1274,7 +1274,7 @@ pt-BR:
       provider_url: "URL do Provedor do Recurso do Cloud:"
       running_instances: "Instâncias em Execução (Atual)"
       x_deltacloud_driver: X-Deltacloud-Driver
-      x_deltacloud_provider: "Provedor de Recurso do X-Deltacloud-Cloud "
+      x_deltacloud_provider: "X-Deltacloud-Provider"
     new:
       new_provider: "Novo Provedor do Recurso do Cloud"
       save_provider: "Salvar Provedor do Recurso do Cloud"

@@ -1255,12 +1255,12 @@ ko:
       test_connection: "연결 테스트 "
       x_deltacloud_provider:
         ec2: "EC2 영역 "
-        generic: "X-Deltacloud-Cloud 리소스 공급자"
+        generic: "X-Deltacloud-Provider"
         openstack: "Openstack API_ENTRYPOINT"
         rackspace: "Rackspace API_PROVIDER"
         rhevm: "RHEV-M API_PROVIDER"
         vsphere: "vSphere API 호스트이름 "
-      x_deltacloud_provider_legend: "X-Deltacloud-Cloud 리소스 공급자 설명"
+      x_deltacloud_provider_legend: "X-Deltacloud-Provider에 대한 전설"
     index:
       create_new_provider: "새 클라우드 리소스 공급자 생성 "
       create_one: "이를 먼저 생성하십시오. "
@@ -1274,7 +1274,7 @@ ko:
       provider_url: "클라우드 리소스 공급자 URL"
       running_instances: "실행 중인 인스턴스 (현재)"
       x_deltacloud_driver: X-Deltacloud-Driver
-      x_deltacloud_provider: "X-Deltacloud-Cloud 리소스 공급자"
+      x_deltacloud_provider: "X-Deltacloud-Provider"
     new:
       new_provider: "새 클라우드 리소스 공급자 "
       save_provider: "클라우드 리소스 공급자 저장 "

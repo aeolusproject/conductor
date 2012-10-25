@@ -1255,12 +1255,12 @@ zh-CN:
       test_connection: 测试连接
       x_deltacloud_provider:
         ec2: "EC2 区域"
-        generic: "X-Deltacloud 云资源供应商"
+        generic: "X-Deltacloud-Provider"
         openstack: "Openstack API_ENTRYPOINT"
         rackspace: "Rackspace API_PROVIDER"
         rhevm: "RHEV-M API_PROVIDER"
         vsphere: "vSphere API 主机名"
-      x_deltacloud_provider_legend: "X-Deltacloud 云资源供应商图例"
+      x_deltacloud_provider_legend: "傳說為X-Deltacloud-Provider"
     index:
       create_new_provider: 创建新云资源供应商
       create_one: 请首先创建一个。
@@ -1273,8 +1273,8 @@ zh-CN:
       provider_type: 云资源供应商名称
       provider_url: "云资源供应商 URL"
       running_instances: 运行的实例（当前）
-      x_deltacloud_driver: "X-Deltacloud 驱动程序"
-      x_deltacloud_provider: "X-Deltacloud 云资源供应商"
+      x_deltacloud_driver: "X-Deltacloud-Driver"
+      x_deltacloud_provider: "X-Deltacloud-Provider"
     new:
       new_provider: 新云资源供应商
       save_provider: 保存云资源供应商

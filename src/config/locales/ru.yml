@@ -1255,12 +1255,12 @@ ru:
       test_connection: "Проверка соединения"
       x_deltacloud_provider:
         ec2: "Регион EC2"
-        generic: X-Deltacloud-Cloud
+        generic: X-Deltacloud-Provider
         openstack: "Openstack API_ENTRYPOINT"
         rackspace: "Rackspace API_PROVIDER"
         rhevm: "RHEV-M API_PROVIDER"
         vsphere: "Хост API vSphere"
-      x_deltacloud_provider_legend: "Легенда для провайдера X-Deltacloud-Cloud"
+      x_deltacloud_provider_legend: "Легенда для X-Deltacloud-Provider"
     index:
       create_new_provider: "Создать провайдер"
       create_one: "Сначала следует создать провайдер."
@@ -1274,7 +1274,7 @@ ru:
       provider_url: "URL провайдера"
       running_instances: "Работающие экземпляры (текущие)"
       x_deltacloud_driver: X-Deltacloud-Driver
-      x_deltacloud_provider: X-Deltacloud-Cloud
+      x_deltacloud_provider: X-Deltacloud-Provider
     new:
       new_provider: "Новый провайдер ресурсов"
       save_provider: Сохранить

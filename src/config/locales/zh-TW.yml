@@ -1255,12 +1255,12 @@ zh-TW:
       test_connection: 測試連線
       x_deltacloud_provider:
         ec2: "EC2 區域"
-        generic: "X-Deltacloud-Cloud 雲端資源供應方"
+        generic: "X-Deltacloud-Provider"
         openstack: "Openstack API_ENTRYPOINT"
         rackspace: "Rackspace API_PROVIDER"
         rhevm: "RHEV-M API_PROVIDER"
         vsphere: "vSphere API 主機名稱"
-      x_deltacloud_provider_legend: "X-Deltacloud-Cloud 資源供應方的圖示"
+      x_deltacloud_provider_legend: "傳說為X-Deltacloud-Provider"
     index:
       create_new_provider: 建立新的雲端資源供應方
       create_one: 請先建立一組。
@@ -1274,7 +1274,7 @@ zh-TW:
       provider_url: "雲端資源供應方 URL"
       running_instances: "執行中的 Instance（目前）"
       x_deltacloud_driver: X-Deltacloud-Driver
-      x_deltacloud_provider: "X-Deltacloud-Cloud 資源供應方"
+      x_deltacloud_provider: "X-Deltacloud-Provider"
     new:
       new_provider: 新的雲端資源供應方
       save_provider: 儲存雲端資源供應方
