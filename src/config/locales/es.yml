@@ -881,7 +881,7 @@ es:
     global: Global
     global_access: "Acceso global"
     inherited_access: "Acceso heredado"
-    inherited_from: "Heredado desde"
+    inherited_from: "Heredado de"
     name: Nombre
     new:
       choose_global_role: "Elegir rol de tareas globales para usuarios"
@@ -1153,7 +1153,7 @@ es:
     flash:
       created: "Fue creado con éxito prioridad de grupo"
       deleted: "Fue borrado con éxito prioridad de grupo"
-      updated: "Fue creado con éxito prioridad de grupo"
+      updated: "Fue creada con éxito prioridad de grupo"
     form:
       basic_data: "Datos básicos"
       providers_and_provider_accounts: "Proveedores de recursos de Cloud y Cuentas de proveedores de recursos de Cloud"
@@ -1191,7 +1191,7 @@ es:
       successfully_disabled: "Estrategia %{strategy_name} inhabilitada con éxito"
       successfully_enabled: "Estrategia  %{strategy_name} habilitada con éxito"
     show:
-      available_provider_accounts: "Cuentas de  proveedor de recursos de Cloud"
+      available_provider_accounts: "Cuentas de proveedor de recursos de Cloud"
       available_strategies: "Estrategias disponibles"
       configure: Configurar
       edit_provider_accounts: "Modificar cuentas de proveedores de recursos de Cloud para Cloud"
@@ -1387,7 +1387,7 @@ es:
   save: Guardar
   scheduling_policies: "Políticas programadas"
   search:
-    no_results: "\nNo hay resultados coincidentes."
+    no_results: "No hay resultados coincidentes."
   searches: Búsquedas
   select:
     all: Todas
