@@ -249,7 +249,7 @@ zh-CN:
     form:
       cancel: 取消
       catalog: 目录
-      choose_xml: "选择程序蓝图 XML 文件。"
+      choose_xml: "选择程序蓝图 XML 文件"
       deployable_xml: "程序蓝图 XML"
       deployable_xml_url: "程序蓝图 XML 的 URL"
       edit_xml_after_save: "保存后编辑 XML 文件"
@@ -428,7 +428,7 @@ zh-CN:
       rollback_failed: 反转失败的程序
       running: 正在运行的程序
       shutting_down: 正在关闭程序
-      stopped: 停止的程序
+      stopped: 已停止程序
     pretty_view_show:
       download_key: 下载密钥
       ip_address: "IP 地址："
@@ -462,7 +462,7 @@ zh-CN:
       rollback_in_progress: 反转进行中
       running: 运行中
       shutting_down: 正在关闭
-      stopped: 停止的
+      stopped: 已停止
     status_description:
       failed: 所有实例都处于失败状态
       incomplete: 有些实例没有运行
@@ -471,21 +471,21 @@ zh-CN:
       rollback_complete: 成功完成反转
       rollback_failed: 反转失败，重新启动被终止。
       rollback_in_progress: 启动失败，反转进行中。
-      running: 所有实例都正在运行。
+      running: 所有实例都正在运行
       shutting_down: 程序正在关闭。
-      stopped: 已停止所有实例。
+      stopped: 已停止所有实例
   edit: 编辑
   edit_provider_account: 编辑云资源供应商帐户
   edit_user: 编辑用户
   email: 电子邮件
   filter_table:
     apply_filters: 应用过滤器
-    from: 来自
+    from: 自
     order_by: 买家
     results: 结果
     search: 搜索
     to: 至
-    viewing: 查看中
+    viewing: 查看
   first_name: 名
   general:
     delete_confirmation: 您确定要删除吗？
@@ -752,7 +752,7 @@ zh-CN:
       pending: 等待处理的实例
       running: 运行的实例
       shutting_down: 正在关闭实例
-      stopped: 停止的实例
+      stopped: 已停止实例
       vanished: 消失的实例
     properties:
       architecture: 架构
@@ -784,7 +784,7 @@ zh-CN:
       pending: 等待处理
       running: 运行中
       shutting_down: 正在关闭
-      stopped: 停止的
+      stopped: 已停止
       vanished: 消失的
     tab_captions:
       history: 历史记录
@@ -848,7 +848,7 @@ zh-CN:
   navigation:
     first_level:
       administer: 管理
-      monitor: 监视
+      monitor: 监控
     second_level:
       cloud_providers: 云资源供应商
       content: 内容
@@ -900,7 +900,7 @@ zh-CN:
     choose_provider_accounts: 选择为这个云启用的云资源供应商帐户
     confirm_delete: 您确定要删除这个云吗？同时会删除所有关联的云资源区、目录和程序蓝图！
     edit:
-      return_to: 返回到：
+      return_to: 返回：
     errors:
       associated_images: "有以下关联的映像：%{list}。请先删除它们。"
       default_pool_family_not_deleted: 无法删除默认云。
@@ -924,23 +924,23 @@ zh-CN:
       warning:
         creation_failed: 创建云失败。
     index:
-      active_instances: 活动实例。
+      active_instances: 活动实例
       answer_no: 否
       answer_yes: 是
-      available_instances: 可用实例。
+      available_instances: 可用实例
       catalog: 目录
       deployments: 应用程序
       enabled: 已启用
-      failed_instances: 失败的实例。
+      failed_instances: 失败的实例
       name: 名称
       new_pool_family: 新云
-      pending_instances: 等待处理的实例。
+      pending_instances: 等待处理的实例
       pool_family_quota_used: 已使用的云配额
       pool_name: 云资源区名称
       provider_selection: 云资源供应商选择
       quota_limit: 配额限制
       quota_used: 使用的配额
-      total_instancies: 实例总数。
+      total_instancies: 实例总数
       total_statistics: 总计
     new:
       environments: 云
@@ -1355,7 +1355,7 @@ zh-CN:
   remove: 删除
   reset: 重置
   resource_management: 资源管理
-  return_to: 返回到
+  return_to: 返回
   role: 角色
   role_assignments: 角色分配
   roles:
@@ -1474,7 +1474,7 @@ zh-CN:
       ldap: "使用 LDAP 管理的用户组"
       local: 本地管理的用户组
     quick_jump: 快速跳至：
-    return_to: 返回到：
+    return_to: 返回：
     show:
       add_members: 添加成员
       created: 已创建
@@ -1526,8 +1526,8 @@ zh-CN:
       notice:
         deleted: 已成功删除用户。
         more_deleted:
-          one: 删除的用户
-          other: 删除的用户
+          one: 已删除用户
+          other: 已删除用户
         registered: 已注册用户
         updated: 已更新用户
         you_registred: 您已成功注册。
@@ -1557,7 +1557,7 @@ zh-CN:
       name_starts_with_A: "以 A 开始的名称"
       name_starts_with_B: "以 B 开始的名称"
     quick_jump: 快速跳至：
-    return_to: 返回到：
+    return_to: 返回：
     show:
       created: 已创建
       delete: 删除
