@@ -32,6 +32,7 @@ class UserGroup < ActiveRecord::Base
   MEMBERSHIP_SOURCES = [MEMBERSHIP_SOURCE_LOCAL, MEMBERSHIP_SOURCE_LDAP]
 
   validates_presence_of :name
+  validates :name, :description, :length => { :maximum   => 255 }
   # scope name by membership_source to prevent errors if users are later added
   # to external ldap groups that have the same name as local groups
   validates_uniqueness_of :name, :scope => :membership_source
