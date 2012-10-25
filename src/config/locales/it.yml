@@ -109,14 +109,14 @@ it:
     list:
       catalog_entries_list: "Elenco dei progetti dell'applicazione"
     new:
-      add_catalog_entry: "Aggiungi un nuovo progetto applicazione"
+      add_catalog_entry: "Aggiungi un nuovo Blueprint dell'applicazione"
       catalog_detail: "Catalogo %{name}"
       choose_option_to_upload: "Selezionare una delle seguenti opzioni per caricare il file XML per il blueprint dell'applicazione"
       from_url: "Da URL"
       hw_profile: "Profilo delle risorse cloud predefinito"
       name: Nome
       upload: Carica
-    new_catalog_entry: "Nuovo progetto applicazione"
+    new_catalog_entry: "Nuovo Blueprint dell'applicazione"
     preset_filters:
       all_catalog_entries: "Tutti i progetti dell'applicazione"
     show:
@@ -739,7 +739,7 @@ it:
     none_selected: "Selezionare una o più istanze da arrestare."
     none_selected_to_reboot: "Selezionare una o più istanze da riavviare."
     parameters:
-      config_parameters: "Paramatri di configurazione"
+      config_parameters: "Parametri di configurazione"
       none: Nessuno
     permissions:
       permissions_for: "Permessi per"
@@ -1266,7 +1266,7 @@ it:
       create_one: "Creane prima uno."
       error_instances: "Errori (Correnti)"
       historical_error_instances: "Errori (Cronologia)"
-      historical_running_instances: "Esecuzione (Crinologia)"
+      historical_running_instances: "Esecuzione (Cronologia)"
       no_providers_available: "Nessun provider di risorse cloud disponibile."
       pending_instances: "In attesa (Corrente)"
       provider_name: "Nome provider di risorsa cloud"
