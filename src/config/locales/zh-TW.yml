@@ -416,7 +416,7 @@ zh-TW:
       launch: 啟動
       launch_with_errors: "啟用時忽略 Instance 的錯誤"
       name: 名稱
-      pool_name: "%{proc} 雲端資源區域"
+      pool_name: "%{pool} 雲端資源區域"
       quota_info: "這麼作將會使用您應用程式總配額的 %{quota}。"
     preset_filters:
       all_deployments: 所有應用程式
@@ -924,14 +924,14 @@ zh-TW:
       warning:
         creation_failed: 雲端建立失敗。
     index:
-      active_instances: "運作中的 Inst。"
+      active_instances: "運作中的 Instance"
       answer_no: 否
       answer_yes: 是
       available_instances: "可用的 instance"
       catalog: 目錄
       deployments: 應用程式
       enabled: 已啟用
-      failed_instances: "失敗的 instance。"
+      failed_instances: "失敗的 instance"
       name: 名稱
       new_pool_family: "新 Cloud"
       pending_instances: "懸而未決的 instance"
