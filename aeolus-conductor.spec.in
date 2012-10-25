@@ -473,8 +473,6 @@ fi
 %{app_root}/dbomatic
 %{app_root}/lib
 %{_bindir}/aeolus-debug
-%{app_root}/log
-%exclude %{app_root}/log/delayed_job.log
 %{app_root}/public
 %{app_root}/Rakefile
 %{app_root}/Gemfile.in
@@ -499,8 +497,12 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %attr(-, aeolus, aeolus) %{_localstatedir}/lib/%{name}
 %attr(-, aeolus, aeolus) %{_localstatedir}/run/%{name}
-%attr(-, aeolus, aeolus) %{_localstatedir}/log/%{name}
-%attr(-, aeolus, aeolus) %{app_root}/log/delayed_job.log
+%attr(750, aeolus, aeolus) %dir %{_localstatedir}/log/%{name}
+%attr(640, aeolus, aeolus) %ghost %{_localstatedir}/log/%{name}/thin.log
+%attr(640, aeolus, aeolus) %ghost %{_localstatedir}/log/%{name}/rails.log
+%attr(640, aeolus, aeolus) %ghost %{_localstatedir}/log/%{name}/dbomatic.log
+%attr(750, aeolus, aeolus) %dir %{app_root}/log
+%attr(640, aeolus, aeolus) %ghost %{app_root}/log/delayed_job.log
 %doc AUTHORS COPYING
 %{_libdir}/../lib/tmpfiles.d/aeolus.conf
 %{app_root}/script/delayed_job
