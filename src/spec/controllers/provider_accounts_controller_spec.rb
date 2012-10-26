@@ -288,8 +288,18 @@ describe ProviderAccountsController do
                   it_behaves_like "having correct set of credentials"
                 end
               end
-            end
 
+              context "provider realms" do
+                let(:provider_account) {
+                  provider = FactoryGirl.create(:mock_provider)
+                  provider_account = FactoryGirl.create(:mock_provider_account)
+                  provider_realm = FactoryGirl.create(:provider_realm1, :provider => provider)
+                  provider_account.provider_realms << provider_realm
+                  provider_account
+                }
+                  it_behaves_like "having correct set of provider realms"
+              end
+            end
           end # when requested provider account exists
 
           context "when requested provider account does not exist" do

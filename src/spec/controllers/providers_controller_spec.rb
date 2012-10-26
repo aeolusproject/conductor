@@ -168,6 +168,16 @@ describe ProvidersController do
                 xml_provider['id'].should be_eql(provider.id.to_s)
                 xml_provider['href'].should be_eql(api_provider_url(provider))
               end
+
+              it "should have provider realms listed" do
+                xml = Nokogiri::XML(response.body).xpath("/provider[@id='#{provider.id}']")
+                provider.provider_realms.size.should > 0
+                provider.provider_realms.each do |prealm|
+                   xml.xpath("/provider/provider_realms/provider_realm[@id='#{prealm.id}']/@href").
+                    text.should == api_provider_realm_url(prealm.id)
+                end
+              end
+
             end
 
           end # when requested provider exists

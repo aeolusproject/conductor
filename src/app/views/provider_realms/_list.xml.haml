@@ -1,0 +1,4 @@
+!!! XML
+%provider_realms
+  - @provider_realms.each do |prealm|
+    %provider_realm{:id => prealm.id, :href => api_provider_realm_url(prealm)}
