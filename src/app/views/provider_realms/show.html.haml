@@ -3,7 +3,7 @@
   .obj_actions
     .return_to
       = t('return_to')
-      = link_to t('provider_realms.provider_realms'), edit_provider_path(@provider_realm.provider, :details_tab =>  'frontend_realms', :only_tab =>  true), :id =>  'back_to_provider_realms_button'
+      = link_to t('provider_realms.provider_realms'), edit_provider_path(@provider_realm.provider, :details_tab =>  'realms', :only_tab =>  true), :id =>  'back_to_provider_realms_button'
   %h1.realms= @title
 
 - unless @provider_realm.available
