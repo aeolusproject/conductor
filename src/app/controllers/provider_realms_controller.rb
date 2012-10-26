@@ -21,7 +21,6 @@ class ProviderRealmsController < ApplicationController
   def index
     clear_breadcrumbs
     save_breadcrumb(provider_realms_path)
-    set_admin_content_tabs 'frontend_realms'
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
