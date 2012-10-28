@@ -1000,6 +1000,7 @@ en:
         delete_failed: Unable to Delete Image
         not_found: Image not found
       error:
+        too_large: The provided image template is too large. Please provide an XML template.
         invalid_url: Could not load the provided URL
         no_name: You must specify the Image Template name
         no_file: You must specify the Image Template XML file

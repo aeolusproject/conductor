@@ -16,6 +16,7 @@
 
 class ImagesController < ApplicationController
   before_filter :require_user
+  before_filter :check_request_size, :only=> :edit_xml
 
   def index
     set_admin_environments_tabs 'images'
@@ -369,6 +370,12 @@ class ImagesController < ApplicationController
   end
 
   protected
+  def check_request_size
+    if request.headers["CONTENT_LENGTH"].to_i > 31457280
+      redirect_to request.referrer, :flash => { :error => t('images.flash.error.too_large') }
+    end
+  end
+
   def load_target_images(build)
     @target_images_by_target = {}
     return unless build and @latest_build_id.present?
