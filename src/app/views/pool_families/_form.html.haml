@@ -2,7 +2,7 @@
   = render 'layouts/error_messages', :object => @pool_family
 %fieldset
   .field
-    = form.label :name, :class => 'em'
+    = form.label t("pool_families.new.environment_name"), :class => 'em'
     .input
       = form.text_field :name, :value => @pool_family.name, :class => 'em long'
 
