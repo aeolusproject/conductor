@@ -820,6 +820,7 @@ en:
       provider_selection: 'Provider Selection'
     new:
       environments: Environments
+      environment_name: 'Environment Name'
     edit:
       return_to: "Return to:"
     flash:
