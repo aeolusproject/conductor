@@ -939,7 +939,7 @@ ja:
       pool_name: クラウドリソースゾーン名
       provider_selection: クラウドリソースプロバイダーの選択
       quota_limit: 割り当て制限
-      quota_used: 使用中の割り当て
+      quota_used: ゾーンで使用中の割り当て
       total_instancies: インスタンスの合計
       total_statistics: 合計
     new:
@@ -1168,7 +1168,7 @@ ja:
       provider_name: クラウドリソースプロバイダー名
       provider_type: クラウドリソースプロバイダーのタイプ
       quota_maximum_running_instances: 割り当て制限
-      quota_percentage_used: 使用済み割り当て
+      quota_percentage_used: ゾーンで使用中の割り当て
     new:
       back: "クラウドリソースゾーン「%{pool}」のクラウドリソースプロバイダーグループ"
       create: 優先グループの作成
@@ -1255,12 +1255,12 @@ ja:
       test_connection: 接続をテスト
       x_deltacloud_provider:
         ec2: "EC2 領域"
-        generic: "X-Deltacloud-Provider"
+        generic: "X-Deltacloud-Cloud リソースプロバイダー"
         openstack: "Openstack API_ENTRYPOINT"
         rackspace: "Rackspace API_PROVIDER"
         rhevm: "RHEV-M API_PROVIDER"
         vsphere: "vSphere API のホスト名"
-      x_deltacloud_provider_legend: "X-Deltacloud-Providerの伝説"
+      x_deltacloud_provider_legend: "X-Deltacloud-Cloud リソースプロバイダーの凡例"
     index:
       create_new_provider: 新規のクラウドリソースプロバイダーを作成
       create_one: 先に作成してください。
@@ -1274,7 +1274,7 @@ ja:
       provider_url: "クラウドリソースプロバイダーの URL"
       running_instances: "実行中のインスタンス (現在)"
       x_deltacloud_driver: X-Deltacloud-Driver
-      x_deltacloud_provider: "X-Deltacloud-Provider"
+      x_deltacloud_provider: "X-Deltacloud-Cloud リソースプロバイダー"
     new:
       new_provider: 新規のクラウドリソースプロバイダー
       save_provider: クラウドリソースプロバイダーの保存
