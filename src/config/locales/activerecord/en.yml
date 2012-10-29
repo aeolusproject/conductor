@@ -220,7 +220,7 @@ en:
         created_at: "Created At"
         updated_at: "Updated At"
       pool_family:
-        name: "Pool Family Name"
+        name: "Environment Name"
         description: "Description"
         lock_version: "Lock Version"
         created_at: "Created At"
