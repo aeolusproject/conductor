@@ -24,7 +24,7 @@ namespace :dc do
                     :quota => Quota.new)
     registration = RegistrationService.new(user)
     if registration.save
-      puts "User #{args.username} registered"
+      puts "User '#{args.username}' with password '#{args.password}' registered"
     else
       puts "User registration failed: #{registration.error}"
     end
