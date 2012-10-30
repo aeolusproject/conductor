@@ -120,6 +120,9 @@ class ProviderAccountsController < ApplicationController
       end
     rescue Exception => e
       error = humanize_error(e.message, :context => :deltacloud)
+      logger.warn "***************************"
+      logger.warn "Exception caught: #{e.message}"
+      logger.warn "#{e.backtrace.join("  \n")}"
       respond_to do |format|
         format.html do
           flash[:error] = "#{t('provider_accounts.flash.error.account_not_added', :list => @provider_account.name,
