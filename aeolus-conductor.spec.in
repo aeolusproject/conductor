@@ -519,6 +519,9 @@ fi
 %files -n aeolus-all
 
 %changelog
+* Tue Oct 30 2012 Steve Linabery <slinaber@redhat.com> - 0.13.24-1
+- build upstream v0.13.24-1
+
 * Mon Oct 29 2012 Steve Linabery <slinaber@redhat.com> - 0.13.23-1
 - build upstream v0.13.23-1
 
