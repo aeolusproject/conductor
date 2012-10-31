@@ -30,8 +30,20 @@ Conductor::Application.configure do
   #config.action_view.debug_rjs             = true
   config.action_controller.perform_caching = false
 
+  #Mailer configuration
+  config.action_mailer.delivery_method = SETTINGS_CONFIG[:action_mailer][:delivery_method].to_sym
+  if SETTINGS_CONFIG[:smtp_settings] == :smtp
+    config.action_mailer.smtp_settings = SETTINGS_CONFIG[:action_mailer][:smtp_settings]
+  end
+
+  ActionMailer::Base.default :from => SETTINGS_CONFIG[:action_mailer][:default_from]
+  config.action_mailer.perform_deliveries = true
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = {
+    :protocol => SETTINGS_CONFIG[:action_mailer][:default_url_options][:protocol],
+    :host => SETTINGS_CONFIG[:action_mailer][:default_url_options][:host]
+  }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -41,4 +53,5 @@ Conductor::Application.configure do
 
   # Otherwise we eat these connections even outside of tests:
   WebMock.allow_net_connect! if defined?(WebMock)
+
 end

@@ -1,0 +1,4 @@
+$('.card#password_reset').animate({ 'left' : '-360px' }, 'slow', function(){
+  $(this).css('z-index', -1);
+});
+$('#notifications').html("<%= escape_javascript render(:partial => 'user_sessions/notifications') %>");
