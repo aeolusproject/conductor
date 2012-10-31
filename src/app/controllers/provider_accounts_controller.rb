@@ -19,6 +19,8 @@ class ProviderAccountsController < ApplicationController
   before_filter :require_user
   before_filter :load_provider, :only => [:index]
   before_filter :load_accounts, :only => [:index,:show]
+  before_filter ResourceLinkFilter.new({ :provider_account => :provider }),
+                :only => [:create, :update]
 
   def index
     clear_breadcrumbs
@@ -77,14 +79,7 @@ class ProviderAccountsController < ApplicationController
   end
 
   def create
-    if params[:provider_account][:provider].present?
-      @provider = Provider.find_by_name(params[:provider_account][:provider])
-      params[:provider_account][:provider] = @provider
-      params[:provider_id] = @provider.id
-    else
-      @provider = Provider.find(params[:provider_id])
-      params[:provider_account][:provider] = @provider
-    end
+    @provider = Provider.find(params[:provider_id] || params[:provider_account][:provider_id])
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
     params[:provider_account][:provider_id] = @provider.id
     @providers = Provider.all
