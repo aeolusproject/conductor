@@ -264,7 +264,7 @@ rake="lib/tasks"
 rb="app/models app/controllers app/controllers/api app/helpers app/mailers app/services app/util \
     config config/initializers config/environments db db/migrate \
     features/support features/step_definitions lib spec spec/controllers \
-    spec/factories spec/helpers spec/models spec/services spec/controllers/api \
+    spec/factories spec/helpers spec/models spec/services spec/util spec/controllers/api \
     spec/aeolus/event spec/aeolus/ext lib/aeolus lib/aeolus/event lib/aeolus/ext \
     lib/simple_form_extension \
     lib/provider_selection vendor/provider_selection \

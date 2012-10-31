@@ -131,7 +131,7 @@ describe PoolsController do
         xmldata = "
         <pool>
           <name>#{@test_pool_name}</name>
-          <pool_family_id>#{@pool_family.id}</pool_family_id>
+          <pool_family id='#{@pool_family.id}'/>
           <enabled>true</enabled>
           <quota maximum_running_instances='1001'></quota>
         </pool>"
@@ -149,7 +149,7 @@ describe PoolsController do
         xmldata = "
         <pool>
           <name>#{@test_pool_name}</name>
-          <!--<pool_family_id>#{@pool_family.id}</pool_family_id>-->
+          <!--<pool_family id='#{@pool_family.id}'/>-->
           <enabled>true</enabled>
           <quota maximum_running_instances='1001'></quota>
         </pool>"
@@ -210,7 +210,7 @@ describe PoolsController do
         xmldata = "
         <pool>
           <name>#{@test_pool_name}</name>
-          <pool_family_id>#{@pool_family.id}</pool_family_id>
+          <pool_family id='#{@pool_family.id}'/>
           <enabled>true</enabled>
         </pool>"
         post :create, Hash.from_xml(xmldata)
@@ -227,7 +227,7 @@ describe PoolsController do
         xmldata = "
         <pool>
           <name>pool-updated</name>
-          <pool_family_id>#{@pool_family.id}</pool_family_id>
+          <pool_family id='#{@pool_family.id}'/>
           <enabled>false</enabled>
           <quota maximum_running_instances='1002'></quota>
         </pool>"
