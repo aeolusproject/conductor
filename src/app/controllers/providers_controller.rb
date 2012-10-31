@@ -18,7 +18,8 @@ class ProvidersController < ApplicationController
   before_filter :require_user
   before_filter :load_providers, :only => [:index, :show, :new, :edit, :create, :update]
   before_filter :load_providers_types, :only => [:new, :edit, :update, :create]
-  before_filter :parse_provider_type, :only => [:create, :update]
+  before_filter ResourceLinkFilter.new({ :provider => :provider_type }),
+                :only => [:create, :update]
 
   def index
     @from_date = params[:from_date].nil? ? Date.today - 7.days :
@@ -240,17 +241,6 @@ class ProvidersController < ApplicationController
   end
 
   protected
-
-    # looking for ProviderType based on content of provider_type tag in xml
-  def parse_provider_type
-    if params.has_key?(:provider) && params[:provider].is_a?(Hash) \
-      && params[:provider].has_key?(:provider_type) \
-      && params[:provider][:provider_type].has_key?(:id)
-      provider_type_hash = params[:provider].delete(:provider_type)
-      provider_type_id = provider_type_hash[:id]
-      params[:provider][:provider_type_id] = provider_type_id
-    end
-  end
 
   def test_connection(provider)
     @provider.errors.clear
