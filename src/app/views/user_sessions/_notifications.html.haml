@@ -1,3 +1,11 @@
 -if flash[:warning]
-  %div.error
+  .error
     %p.text= flash[:warning]
+- if flash[:notice]
+  .notice
+    %p.text= flash[:notice]
+- if flash[:alert]
+  .alert
+    %p.text= flash[:alert]
+- if content_for?(:error_messages)
+  = yield :error_messages

@@ -1,0 +1,6 @@
+- content_for :error_messages do
+  .error
+    %p.text= t("errors.template.header", :model => object.class.model_name.human, :count => object.errors.count)
+    %ul.messages
+      - object.errors.full_messages.each do |msg|
+        %li= msg

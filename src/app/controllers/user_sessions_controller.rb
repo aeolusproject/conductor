@@ -14,35 +14,26 @@
 #   limitations under the License.
 #
 
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
-
 class UserSessionsController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => :destroy
-  layout 'converge-ui/login_layout'
+  layout 'login'
 
   def new
     @title = t('masthead.login')
-    @disable_password_recovery = true
   end
 
   def create
     authenticate!
     session[:javascript_enabled] = request.xhr?
     respond_to do |format|
-      format.html do
-        redirect_to back_or_default_url(root_url)
-      end
-      format.js do
-        render :js => "window.location.href = '#{back_or_default_url root_url}'"
-      end
+      format.html { redirect_to back_or_default_url(root_url) }
+      format.js { render :js => "window.location.href = '#{back_or_default_url root_url}'" }
     end
   end
 
   def unauthenticated
     Rails.logger.warn "Request is unauthenticated for #{request.remote_ip}"
-    @disable_password_recovery = true
 
     respond_to do |format|
       format.xml { head :unauthorized }

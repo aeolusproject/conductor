@@ -1,0 +1,8 @@
+= content_for(:content) do
+  = render :partial => "layouts/converge-ui/change_password_layout",
+           :locals => { :edit_password_reset_form_path_string => password_reset_path(params[:id]),
+                        :login_path_string => login_path }
+
+- if @user.errors.any?
+  = render 'user_sessions/error_messages', :object => @user
+

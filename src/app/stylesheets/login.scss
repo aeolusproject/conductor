@@ -8,16 +8,16 @@ article{
   #notifications{
     position: relative;
 
-    div.error{
+    div.error, div.notice, div.alert{
       position: absolute;
       bottom: 15px;
       @include box-sizing(border-box);
       border: 1px solid #dddddd;
       @include border-radius(7px);
-      width: $login-container-width;
+      width: $login_container_width;
       padding: 10px;
-      @include background-image(linear-gradient(top, rgba(255, 255, 255, 0) 40%, $login_base-color 120%));
-      @include box-shadow($login_base-color 0px 12px 15px -8px);
+      @include background-image(linear-gradient(top, rgba(255, 255, 255, 0) 40%, $login_base_color 120%));
+      @include box-shadow($login_base_color 0px 12px 15px -8px);
 
       p {
         padding-left: 26px;
@@ -33,10 +33,16 @@ article{
           position: absolute;
           left: 4px;
           top: 0px;
-          background: image-url("flash_warning_icon.png") no-repeat 0 0;
+          background: image-url("converge-ui/icons/error_icon.png") no-repeat 0 0;
         }
       }
+      ul.messages li{
+        padding-left: 26px;
+        color: rgba(black, 0.48);
+      }
     }
+    div.notice p:before{ background: image-url("converge-ui/icons/success_icon.png") no-repeat 0 0; }
+    div.alert p:before{ background: image-url("converge-ui/icons/warning_icon.png") no-repeat 0 0; }
   }
 
   .container section .card{
@@ -52,12 +58,6 @@ article{
       label {
         color: rgba(black, 0.35);
         @include text-shadow(1px 1px 0 white);
-      }
-
-      input{
-        &:focus{
-          @include box-shadow(0 0 2px $login_link-color);
-        }
       }
     }
 

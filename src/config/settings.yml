@@ -22,3 +22,20 @@
 
 :session:
   :timeout: 15 # minutes
+
+:action_mailer:
+  :delivery_method: sendmail # or smtp
+  # use this configuration if you use smtp as delivery_method
+  # :smtp_settings:
+  #   :address: smtp.gmail.com
+  #   :port: 587
+  #   :domain: example.aeolusproject.org
+  #   :user_name: <username>,
+  #   :password: <password>
+  #   :authentication: plain
+  #   :enable_starttls_auto: true
+  :default_url_options:
+    :host: localhost/conductor
+    :protocol: https
+  :default_from: admin@aeolusproject.org
+  :password_reset_token_timeout: 120 #minutes

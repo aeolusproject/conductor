@@ -51,8 +51,19 @@ Conductor::Application.configure do
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
 
+  #Mailer configuration
+  config.action_mailer.delivery_method = SETTINGS_CONFIG[:action_mailer][:delivery_method].to_sym
+  if SETTINGS_CONFIG[:smtp_settings] == :smtp
+    config.action_mailer.smtp_settings = SETTINGS_CONFIG[:action_mailer][:smtp_settings]
+  end
+  ActionMailer::Base.default :from => SETTINGS_CONFIG[:action_mailer][:default_from]
+  config.action_mailer.perform_deliveries = true
   # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = {
+    :protocol => SETTINGS_CONFIG[:action_mailer][:default_url_options][:protocol],
+    :host => SETTINGS_CONFIG[:action_mailer][:default_url_options][:host]
+  }
 
   # Enable threaded mode
   # config.threadsafe!
