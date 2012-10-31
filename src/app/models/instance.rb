@@ -564,7 +564,7 @@ class Instance < ActiveRecord::Base
   def destroy_on_provider
     if provider_account and provider_account.provider.provider_type.destroy_supported? and ![STATE_CREATE_FAILED, STATE_VANISHED].include?(state)
       task = self.queue_action(self.owner, 'destroy')
-      raise I18n.t("instance.errors.cannot_destroy") unless task
+      raise I18n.t("instances.errors.cannot_destroy") unless task
       Taskomatic.destroy_instance(task)
     end
   end
