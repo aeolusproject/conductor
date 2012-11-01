@@ -78,7 +78,6 @@ class Instance < ActiveRecord::Base
   belongs_to :hardware_profile
   belongs_to :frontend_realm
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
-  belongs_to :instance_hwp
 
   has_one :instance_key, :dependent => :destroy
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
