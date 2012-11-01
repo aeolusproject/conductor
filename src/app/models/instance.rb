@@ -412,7 +412,7 @@ class Instance < ActiveRecord::Base
 
 
   def self.csv_export(instances)
-    csvm = Object.const_defined?(:FasterCSV) ? FasterCSV : CSV
+    csvm = get_csv_class
     csv_string = csvm.generate(:col_sep => ";", :row_sep => "\r\n") do |csv|
       event_attributes = Event.new.attributes.keys.reject {|key| key if key == "created_at" || key == "updated_at"}
 
