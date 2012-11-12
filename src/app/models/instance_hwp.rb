@@ -31,7 +31,8 @@
 # Likewise, all the methods added will be available for all controllers.
 #
 class InstanceHwp < ActiveRecord::Base
-
   has_one :instance
+  belongs_to :hardware_profile
 
+  attr_accessible :storage, :memory, :cpu, :architecture, :hardware_profile
 end
