@@ -1,8 +1,5 @@
 - content_for :error_messages do
-  .error.flash-group
-    .flash-subset
-      %div.heading
-        =image_tag 'flash_warning_icon.png', :alt => 'Errors'
-      %ul.flashes
-        %li
-          %strong= t("simple_form.error_notification.default_message", :model => object.class.model_name.human)
+  .flash_hud
+    %a.control{ :href => "#", :title => t("close") }
+    %ul.flash_messages.error
+      %li= t("simple_form.error_notification.default_message", :model => object.class.model_name.human)
