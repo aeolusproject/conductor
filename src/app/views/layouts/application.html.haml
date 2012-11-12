@@ -23,6 +23,7 @@
     window.history.replaceState || (window.history.replaceState = function(){});
 
   = javascript_include_tag "converge-ui/vendor/jquery/jquery-1.6.2.js"
+  = javascript_include_tag "converge-ui/flash_messages.js"
   = javascript_include_tag "jquery.ui-1.8.1/jquery-ui-1.8.1.custom.min.js"
   = javascript_include_tag "mustache.min.js"
   = javascript_include_tag "underscore-min.js"
@@ -53,7 +54,7 @@
       %li.header-widget= link_to t('masthead.login'), login_path
 
 = content_for :content do
-  = render :partial => '/layouts/new_notification' if flash.present? or content_for?(:error_messages)
+  = render :partial => '/layouts/new_notification'# if flash.present? or content_for?(:error_messages)
   = yield
 
 = content_for :footer do

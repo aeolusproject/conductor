@@ -1,10 +1,8 @@
 - content_for :error_messages do
-  .error.flash-group
-    .flash-subset
-      %div.heading
-        =image_tag 'flash_warning_icon.png', :alt => 'Errors'
-      %ul.flashes
-        %li
-          %strong= t("errors.template.header", :model => object.class.model_name.human, :count => object.errors.count)
+  .flash_hud
+    %a.control{ :href => "#", :title => t("close") }
+    %ul.flash_messages.error
+      %li= t("errors.template.header", :model => object.class.model_name.human, :count => object.errors.count)
+      %ul
         - object.errors.full_messages.each do |msg|
           %li= msg

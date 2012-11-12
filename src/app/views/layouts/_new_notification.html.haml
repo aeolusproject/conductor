@@ -1,88 +1,81 @@
-#flash-hud
-  = link_to "Close","#", :class => "control"
-  - unless flash.empty?
-    -if flash[:success]
-      .notice.flash-group
-        .flash-subset
-          %div.heading
-            =image_tag 'flash_notice_icon.png', :alt => 'Notices'
-          %ul.flashes
-            %li= flash[:success]
+-# Possible flash message possible structures:
+-# flash[:warning] = "warning message"
+-# flash[:warning] = ["warning message", "warning message"]
+-# flash[:notice] = "notice message"
+-# flash[:notice] = ["notice message", "notice message"]
+-# flash[:success] = "success message"
+-# flash[:success] = ["success message", "notice message"]
+-# flash[:error] = "error message"
+-# flash[:error] = [t("error message"), t("error message")]
+-# flash[:error] = {
+-#   :summary => "error message summary",
+-#   :failures => [ "error message", "error message", "error message" ]
+-#   or
+-#   :failures => { :a => "error message", :b => "error message", :c => "error message" }
+-#   or
+-#   :failures => "error message"
+-# }
 
-    -if flash[:notice]
-      .notice.flash-group
-        .flash-subset
-          %div.heading
-            =image_tag 'flash_notice_icon.png', :alt => 'Notices'
-          %ul.flashes
-            -if flash[:notice].kind_of?(Array)
-              -flash[:notice].each do |msg|
-                %li= msg
-            -else flash[:notice]
-              %li= flash[:notice]
+- unless flash.empty?
+  - if flash[:success]
+    .flash_hud
+      %a.control{ :href => "#", :title => t("close") }
+      %ul.error_messages.success
+        - if flash[:success].kind_of?(Array)
+          -flash[:success].each do |msg|
+            %li= msg
+        - else
+          %li= flash[:success]
 
-    -if flash[:warning]
-      .warning.flash-group
-        .flash-subset
-          %div.heading
-            =image_tag 'flash_warning_icon.png', :alt => 'Warnings'
-          %ul.flashes
-            -if flash[:warning].kind_of?(Array)
-              - flash[:warning].each do |k, v|
-                %li= [k, v.present? ? ": #{v}" : '']
-            -else
-              %li= flash[:warning]
+  - if flash[:notice]
+    .flash_hud
+      %a.control{ :href => "#", :title => t("close") }
+      %ul.error_messages.success
+        - if flash[:notice].kind_of?(Array)
+          -flash[:notice].each do |msg|
+            %li= msg
+        - else
+          %li= flash[:notice]
 
-    -if flash[:error]
-      -if flash[:error].kind_of?(String)
-        .error.flash-group
-          .flash-subset
-            %div.heading
-              =image_tag 'flash_error_icon.png', :alt => 'Errors'
-            =flash[:error]
-      -elsif flash[:error].kind_of?(Hash)
-        -unless flash[:error][:successes].blank?
-          .notice.flash-group
-            .flash-subset
-              %div.heading
-                =image_tag 'flash_notice_icon.png', :alt => 'Notices'
-              %ul.flashes
-                - flash[:error][:successes].each do |k, v|
-                  %li= [k, v.present? ? ": #{v}" : '']
-        .error.flash-group
-          -if !flash[:error][:summary].blank?
-            .flash-subset
-              %div.heading
-                =image_tag 'flash_warning_icon.png', :alt => 'Warnings'
-              %ul.flashes
-                %li= flash[:error][:summary]
-          .flash-subset
-            %div.heading
-              =image_tag 'flash_error_icon.png', :alt => 'Errors'
-            %ul.flashes
-              - if !flash[:error][:failures].blank?
-                - flash[:error][:failures].each do |failure|
-                  - if failure.is_a?(Hash)
-                    %li
-                      = failure.key
-                      - if failure.value.present?
-                        = ": #{failure.value}"
-                  - elsif failure.is_a?(Array)
-                    - failure.each do |msg|
-                      %li= msg
-                  -else
-                    %li= flash[:error][:failures]
+  - if flash[:warning]
+    .flash_hud
+      %a.control{ :href => "#", :title => t("close") }
+      %ul.flash_messages.warning
+        - if flash[:warning].kind_of?(Array)
+          - flash[:warning].each do |msg|
+            %li= msg
+        - else
+          %li= flash[:warning]
+
+  - if flash[:error]
+    .flash_hud
+      %a.control{ :href => "#", :title => t("close") }
+      - if flash[:error].kind_of?(Hash)
+        %ul.flash_messages.error
+          - if flash[:error][:summary].present?
+            %li= flash[:error][:summary]
+          %ul
+            - if flash[:error][:failures].present?
+              - if flash[:error][:failures].is_a?(Hash)
+                - flash[:error][:failures].each do |key, value|
+                  %li
+                    = key
+                    = ": #{value}" if value.present?
+              - elsif flash[:error][:failures].is_a?(Array)
+                - flash[:error][:failures].each do |msg|
+                  %li= msg
               - else
-                -flash[:error].each do |e|
-                  %li= e
-      -elsif flash[:error].kind_of?(Array)
-        .error.flash-group
-          .flash-subset
-            %div.heading
-              =image_tag 'flash_error_icon.png', :alt => 'Errors'
-            %ul.flashes
-              -flash[:error].each do |msg|
-                %li= msg
+                %li= flash[:error][:failures]
+            - else
+              -flash[:error].each do |e|
+                %li= e
+      - elsif flash[:error].kind_of?(Array)
+        %ul.flash_messages.error
+          - flash[:error].each do |msg|
+            %li= msg
+      - else
+        %ul.flash_messages.error
+          %li= flash[:error]
 
-  - if content_for? :error_messages
-    = yield :error_messages
+- if content_for? :error_messages
+  = yield :error_messages
