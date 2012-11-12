@@ -41,12 +41,8 @@ class TemplateXML
   end
 
   def self.validate(xmlstr)
-    begin
-      doc = TemplateXML.new(xmlstr)
-    rescue Nokogiri::XML::SyntaxError => e
-      return [e.message]
-    end
-    return doc.validate
+    doc = TemplateXML.new(xmlstr)
+    doc.validate[:failures].to_a
   end
 
   def name=(name)
