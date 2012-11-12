@@ -20,7 +20,7 @@
   - if flash[:success]
     .flash_hud
       %a.control{ :href => "#", :title => t("close") }
-      %ul.error_messages.success
+      %ul.flash_messages.success
         - if flash[:success].kind_of?(Array)
           -flash[:success].each do |msg|
             %li= msg
@@ -30,7 +30,7 @@
   - if flash[:notice]
     .flash_hud
       %a.control{ :href => "#", :title => t("close") }
-      %ul.error_messages.success
+      %ul.flash_messages.success
         - if flash[:notice].kind_of?(Array)
           -flash[:notice].each do |msg|
             %li= msg

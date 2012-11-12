@@ -1,11 +1,11 @@
--if flash[:warning]
+-if flash[:error]
   .error
-    %p.text= flash[:warning]
+    %p.text= flash[:error]
 - if flash[:notice]
   .notice
     %p.text= flash[:notice]
-- if flash[:alert]
-  .alert
-    %p.text= flash[:alert]
+- if flash[:warning]
+  .warning
+    %p.text= flash[:warning]
 - if content_for?(:error_messages)
   = yield :error_messages

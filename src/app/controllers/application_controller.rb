@@ -232,7 +232,9 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html do
         store_location
-        flash[:notice] = t('application_controller.flash.notice.must_be_logged')
+        unless session[:return_to] == root_path # don't display notice if going to root
+          flash[:warning] = t('application_controller.flash.notice.must_be_logged')
+        end
         redirect_to login_url
       end
       format.js { head :unauthorized }
