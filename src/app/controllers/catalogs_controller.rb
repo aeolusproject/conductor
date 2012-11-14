@@ -16,7 +16,8 @@
 
 class CatalogsController < ApplicationController
   before_filter :require_user
-  before_filter :transform_params_pool_id, :only => [:create, :update]
+  before_filter ResourceLinkFilter.new({ :catalog => :pool }),
+                :only => [:create, :update]
 
   def index
     @title = t('catalogs.catalogs')
@@ -169,16 +170,6 @@ class CatalogsController < ApplicationController
   end
 
   private
-
-  def transform_params_pool_id
-    if params.has_key?(:catalog) && params[:catalog].is_a?(Hash) \
-       && params[:catalog].has_key?(:pool) \
-       && params[:catalog][:pool].has_key?(:id)
-
-      pool_hash = params[:catalog].delete(:pool)
-      params[:catalog][:pool_id] = pool_hash[:id]
-    end
-  end
 
   def set_header
     @header = [

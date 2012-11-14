@@ -19,15 +19,15 @@ describe "ProviderAccounts" do
   #    it_behaves_like "responding with XML"
   #  end
 
-  describe "POST /api/providers/:provider_id/provider_accounts" do
+  describe "POST /api/provider_accounts" do
     before(:each) do
-      post "/api/providers/#{provider.id}/provider_accounts", xml, headers
+      post "/api/provider_accounts", xml, headers
     end
 
     context "with valid" do
       context "mock provider account XML" do
         let(:xml) do
-          "<provider_account><label>mockaccount</label><credentials><username>mockuser</username><password>mockpassword</password></credentials><quota><maximum_running_instances>100</maximum_running_instances></quota></provider_account>"
+          "<provider_account><label>mockaccount</label><provider id='#{provider.id}'/><credentials><username>mockuser</username><password>mockpassword</password></credentials><quota><maximum_running_instances>100</maximum_running_instances></quota></provider_account>"
         end
         let(:provider) { FactoryGirl.create(:mock_provider) }
 
@@ -54,6 +54,7 @@ describe "ProviderAccounts" do
           DeltaCloud.stub(:valid_credentials?).and_return(true)
           "<provider_account>
             <label>ec2account</label>
+            <provider id='#{provider.id}'/>
             <credentials>
               <username>ec2user</username>
               <password>ec2password</password>
@@ -91,7 +92,7 @@ describe "ProviderAccounts" do
       context "mock provider account XML" do
         # omit label
         let(:xml) do
-          "<provider_account><label></label><credentials><username>mockuser</username><password>mockpassword</password></credentials></provider_account>"
+          "<provider_account><label></label><provider id='#{provider.id}'/><credentials><username>mockuser</username><password>mockpassword</password></credentials></provider_account>"
         end
         let(:provider) { FactoryGirl.create(:mock_provider) }
 
@@ -112,6 +113,7 @@ describe "ProviderAccounts" do
         let(:xml) do
           DeltaCloud.stub(:valid_credentials?).and_return(true)
           "<provider_account>
+          <provider id='#{provider.id}'/>
           <credentials>
             <username>ec2user</username>
             <password>ec2password</password>
