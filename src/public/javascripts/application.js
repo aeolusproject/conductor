@@ -143,13 +143,6 @@ $.extend(Conductor, {
     });
   },
 
-  closeNotification: function() {
-    $('.control').click(function(e) {
-      e.preventDefault();
-      $('#flash-hud').slideUp(100).fadeOut(100);
-    });
-  },
-
   toggleCollapsible: function() {
     $('.collapse').click(function(e) {
       e.preventDefault();
@@ -317,7 +310,6 @@ $(document).ready(function () {
   Conductor.enhanceDetailsTabs();
   Conductor.bindPrettyToggle();
   Conductor.multiActionValidation();
-  Conductor.closeNotification();
   Conductor.toggleCollapsible();
   Conductor.selectAllCheckboxes();
   Conductor.tabAjaxRequest();

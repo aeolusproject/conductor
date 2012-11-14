@@ -104,60 +104,6 @@ Textual Labels -- v.0.0.1 [label] (label.scss)
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Alert Flash -- v.0.0.1 [flash] (flash.scss)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-#flash-hud{
-  width: 912px;
-  margin: 0 auto;
-  background-color: #ddd;
-  -webkit-border-radius: 0px 0px 7px 7px;
-  -moz-border-radius: 0px 0px 7px 7px;
-  border-radius: 0px 0px 7px 7px;
-  border: 1px solid #999;
-  padding: 8px;
-
-  a.control{
-    float: right;
-    color: #999;
-    font-size: 11px;
-  }
-
-  .flash-group{
-    display: table;
-  }
-
-  .flash-subset{
-    display: table-row;
-
-    div.heading{
-      display: inline;
-      text-align: right;
-      border-right: 1px solid #ccc;
-      padding-right: 8px;
-      width: 20px;
-    }
-
-    ul{
-      @include display_inline_block;
-      font-size: 12px;
-      padding-left: 8px;
-      list-style: none;
-
-      li + li{
-        margin-top: 6px;
-      }
-    }
-
-  }
-
-  .flash-group + .flash-group{
-    margin-top: 10px;
-  }
-
-}
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Hover link popup-- v.0.0.1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
