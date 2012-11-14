@@ -23,4 +23,11 @@ class ProviderTypesController < ApplicationController
       format.xml { render :partial => 'list.xml' }
     end
   end
+
+  def show
+    @provider_type = ProviderType.find(params[:id])
+    respond_to do |format|
+      format.xml
+    end
+  end
 end
