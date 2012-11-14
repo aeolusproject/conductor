@@ -1,0 +1,6 @@
+%provider_type{:id => provider_type.id, :href => api_provider_type_url(provider_type)}
+  %name= provider_type.name
+  %deltacloud_driver= provider_type.deltacloud_driver
+  %ssh_user= provider_type.ssh_user
+  %home_dir= provider_type.home_dir
+  =render 'credential_definitions', :credential_definitions => provider_type.credential_definitions
