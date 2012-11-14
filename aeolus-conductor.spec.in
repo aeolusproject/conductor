@@ -271,7 +271,10 @@ rb="app/models app/controllers app/controllers/api app/helpers app/mailers app/s
     vendor/provider_selection/strategies/strict_order \
     vendor/provider_selection/strategies/penalty_for_failure"
 rhtml="app/views/layouts"
-svg="public/images public/images/icons"
+svg="public/fonts public/images public/images/icons"
+ttf="public/fonts"
+eot="public/fonts"
+woff="public/fonts"
 txt="public"
 yml="config config/locales config/locales/defaults config/locales/emails config/locales/overrides
      config/locales/role_definitions config/locales/classnames config/locales/will_paginate \
@@ -302,18 +305,7 @@ done
 %{__cp} -P ./src/app/views/layouts/converge-ui %{buildroot}%{app_root}/app/views/layouts
 %{__cp} -P ./src/public/images/converge-ui %{buildroot}%{app_root}/public/images
 %{__cp} -P ./src/public/javascripts/converge-ui %{buildroot}%{app_root}/public/javascripts
-
-# fonts previously was a directory, but was changed to a symlink into
-# converge-ui.  RPM does not handle replacing directories with
-# symlinks during upgrade transaction, so we need to link the
-# individual font files into the fonts directory instead of just
-# linking the fonts directory itself.  See
-# https://bugzilla.redhat.com/show_bug.cgi?id=447156 for more info on
-# RPM limitations.
-%{__mkdir} %{buildroot}%{app_root}/public/fonts
-pushd %{buildroot}%{app_root}/public/fonts
-%{__ln_s} ../../vendor/converge-ui/fonts/* .
-popd
+%{__cp} -P ./src/public/fonts/converge-ui %{buildroot}%{app_root}/public/fonts
 
 # precompile stylesheets
 %{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
