@@ -19,6 +19,8 @@ class PoolsController < ApplicationController
   before_filter :require_user
   before_filter :set_params_and_header, :only => [:index, :show]
   before_filter :load_pools, :only => [:show]
+  before_filter ResourceLinkFilter.new({ :pool => :pool_family }),
+                :only => [:create, :update]
 
   viewstate :index do |default|
     default.merge!({
