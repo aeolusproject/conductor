@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   def handle_perm_error(error)
     if params[:return_from_permission_change]
       flash.now
-      redirect_to account_url
+      redirect_to main_app.account_url
       return
     end
     handle_error(:error => error, :status => :forbidden,
@@ -236,6 +236,7 @@ class ApplicationController < ActionController::Base
           flash[:warning] = t('application_controller.flash.notice.must_be_logged')
         end
         redirect_to login_url
+        redirect_to main_app.login_url
       end
       format.js { head :unauthorized }
       format.xml { head :unauthorized }
@@ -254,7 +255,7 @@ class ApplicationController < ActionController::Base
     return true unless current_user
     store_location
     flash[:notice] = t('application_controller.flash.notice.must_not_be_logged')
-    redirect_to account_url
+    redirect_to main_app.account_url
   end
 
   def store_location
@@ -300,9 +301,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_admin_content_tabs(tab)
-    @tabs = [{:name => t('application_controller.admin_tabs.catalogs'), :url => catalogs_url, :id => 'catalogs'},
-             {:name => t('application_controller.admin_tabs.realms'), :url => frontend_realms_url, :id => 'frontend_realms'},
-             {:name => t('application_controller.admin_tabs.hardware'), :url => hardware_profiles_url, :id => 'hardware_profiles'},
+    @tabs = [{:name => t('application_controller.admin_tabs.catalogs'), :url => main_app.catalogs_url, :id => 'catalogs'},
+             {:name => t('application_controller.admin_tabs.realms'), :url => main_app.frontend_realms_url, :id => 'frontend_realms'},
+             {:name => t('application_controller.admin_tabs.hardware'), :url => main_app.hardware_profiles_url, :id => 'hardware_profiles'},
     ]
     unless @details_tab = @tabs.find {|t| t[:id] == tab}
       raise "Tab '#{tab}' doesn't exist"
@@ -310,9 +311,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_admin_users_tabs(tab)
-    @tabs = [{:name => t('application_controller.admin_tabs.users'), :url => users_url, :id => 'users'},
-             {:name => t('application_controller.admin_tabs.user_groups'), :url => user_groups_url, :id => 'user_groups'},
-             {:name => t('application_controller.admin_tabs.permissions'), :url => permissions_url, :id => 'permissions'},
+    @tabs = [{:name => t('application_controller.admin_tabs.users'), :url => main_app.users_url, :id => 'users'},
+             {:name => t('application_controller.admin_tabs.user_groups'), :url => main_app.user_groups_url, :id => 'user_groups'},
+             {:name => t('application_controller.admin_tabs.permissions'), :url => main_app.permissions_url, :id => 'permissions'},
     ]
     unless @details_tab = @tabs.find {|t| t[:id] == tab}
       raise "Tab '#{tab}' doesn't exist"
@@ -320,8 +321,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_admin_environments_tabs(tab)
-    @tabs = [{:name => t('application_controller.admin_tabs.pool_families'), :url => pool_families_url, :id => 'pool_families'},
-             {:name => t('application_controller.admin_tabs.images'), :url => images_url, :id => 'images'},
+    @tabs = [{:name => t('application_controller.admin_tabs.pool_families'), :url => main_app.pool_families_url, :id => 'pool_families'},
+             {:name => t('application_controller.admin_tabs.images'), :url => main_app.images_url, :id => 'images'},
     ]
     unless @details_tab = @tabs.find {|t| t[:id] == tab}
       raise "Tab '#{tab}' doesn't exist"
