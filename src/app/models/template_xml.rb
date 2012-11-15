@@ -19,7 +19,7 @@ class TemplateXML
   attr_reader :errors, :doc
 
   def initialize(xmlstr)
-    @errors = []
+    @errors = {}
     @xml = Nokogiri::XML(xmlstr) { |config| config.strict }
     @relax_file = "#{::Rails.root.to_s}/app/util/template-rng.xml"
   end
@@ -28,20 +28,21 @@ class TemplateXML
     xsd = Nokogiri::XML::RelaxNG(File.read(@relax_file))
     errors = xsd.validate(@xml).map {|err| err.message}
     if errors.any?
-      @errors << I18n.t('template_xml.errors.invalid_xml')
-      @errors += errors
+      @errors[:summary] = I18n.t('template_xml.errors.invalid_xml')
+      @errors[:failures] = errors
     end
-    @errors << I18n.t('template_xml.errors.name_is_not_set') if @xml.xpath('/template/name').text.empty?
+    # TODO would be much better to validate name presence using rng template^
+    if @xml.xpath('/template/name').text.empty?
+      @errors[:summary] ||= I18n.t('template_xml.errors.invalid_xml')
+      @errors[:failures] ||= []
+      @errors[:failures] << I18n.t('template_xml.errors.name_is_not_set')
+    end
     @errors
   end
 
   def self.validate(xmlstr)
-    begin
-      doc = TemplateXML.new(xmlstr)
-    rescue Nokogiri::XML::SyntaxError => e
-      return [e.message]
-    end
-    return doc.validate
+    doc = TemplateXML.new(xmlstr)
+    doc.validate[:failures].to_a
   end
 
   def name=(name)

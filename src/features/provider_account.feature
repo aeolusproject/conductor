@@ -84,7 +84,7 @@ Feature: Manage Provider Accounts
     When I follow "Edit"
     And I fill in "provider_account[label]" with "testaccount_updated"
     And I press "Save"
-    Then I should see "Provider Account updated" within ".flashes"
+    Then I should see "Provider Account updated" within ".flash_hud .flash_messages"
 
   Scenario: Edit a existing Provider Account with invalid credentials
     Given there is a provider named "mockprovider"

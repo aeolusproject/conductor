@@ -255,6 +255,7 @@ en:
   reset: Reset
   create_account: Create Account
   cancel: Cancel
+  close: Close
   back: Back
   choose_name: Choose a username
   choose_password: Choose a password
@@ -1534,7 +1535,7 @@ en:
     flash:
       notice:
         record_not_exist: "The record you tried to access does not exist. It may have been deleted"
-        must_be_logged: You must be logged in to access this page
+        must_be_logged: "Please log in first."
         must_not_be_logged: You must be logged out to access this page
       error:
         no_url_provided: No URL is provided for XML import

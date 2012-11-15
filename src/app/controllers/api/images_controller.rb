@@ -45,7 +45,7 @@ module Api
     end
 
     def create
-      @errors=[]
+      @errors = []
       req = process_post(request.body.read)
       begin
         if req[:type] == :failed
