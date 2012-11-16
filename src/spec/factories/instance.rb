@@ -23,7 +23,9 @@ FactoryGirl.define do
     association :provider_account, :factory => :mock_provider_account
     association :pool, :factory => :pool
     association :owner, :factory => :user
-    state "running"
+    state Instance::STATE_RUNNING
+    public_addresses "server1.example.org"
+    private_addresses "0.0.0.1"
     after_build do |instance|
       deployment = Factory.build :deployment
       assembly = deployment.deployable_xml.assemblies[0]
@@ -38,7 +40,7 @@ FactoryGirl.define do
   end
 
   factory :mock_running_instance, :parent => :instance do
-    instance_key { |k| k.association(:mock_instance_key)}
+    association :instance_key, :factory => :mock_instance_key
   end
 
   factory :mock_pending_instance, :parent => :instance do

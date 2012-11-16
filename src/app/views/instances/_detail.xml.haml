@@ -1,0 +1,29 @@
+!!! XML
+%instance{:id => instance.id, :href => api_instance_url(instance)}
+  %name= instance.name
+  %external_key= instance.external_key
+  %state= instance.state
+  %hardware_profile{:id => instance.hardware_profile.id, :href=> api_hardware_profile_url(instance.hardware_profile)}
+  %owner_id= instance.owner_id
+  %pool{:id => instance.pool.id, :href=> api_pool_url(instance.pool)}
+  %provider_account{:id => instance.provider_account.id, :href=> api_provider_account_url(instance.provider_account)}
+  %public_addresses= instance.public_addresses
+  %private_addresses= instance.private_addresses
+  %created_at= instance.created_at
+  %updated_at= instance.updated_at
+  - # TODO add deployment
+  %assembly_xml= instance.assembly_xml
+  %instance_config_xml= instance.instance_config_xml
+  %image_uuid= instance.image_uuid
+  %image_build_uuid= instance.image_build_uuid
+  %provider_image_uuid= instance.provider_image_uuid
+  %provider_instance_id= instance.provider_instance_id
+  %user_data= instance.user_data
+  - if instance.instance_key
+    %ssh_key{:href => key_instance_url(instance.instance_key)}
+    %ssh_key_name= instance.instance_key.name
+  %history
+    - @events.each do |event|
+      %entry
+        %time= event.event_time
+        %message= event.summary

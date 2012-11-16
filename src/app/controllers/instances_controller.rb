@@ -30,6 +30,7 @@ class InstancesController < ApplicationController
       format.html
       format.js { render :partial => 'list' }
       format.json { render :json => @instances.map{ |instance| view_context.instance_for_mustache(instance) } }
+      format.xml { render :partial => 'list.xml' }
     end
   end
 
@@ -55,6 +56,7 @@ class InstancesController < ApplicationController
         render :partial => @details_tab[:view] and return
       end
       format.json { render :json => @instance }
+      format.xml { render :show, :locals => { :instance => @instance } }
     end
   end
 
