@@ -945,7 +945,7 @@ en:
       warning:
         delete_failed: Unable to Delete Target Image
         not_found: Target Image not found
-  images:
+  imagesold:
     environment: Environment
     environment_header: Environment
     import:
@@ -1596,8 +1596,18 @@ en:
     delete_confirmation: "Are you sure you want to delete?"
   tim:
     base_images:
+      environment: Environment
+      environment_header: Environment
+      import:
+        import_image: Import Image
+        provider_account: Provider Account
+        image_id: Provider's Image ID
+        name: Image Name
+        image_imported: The image was imported successfully.
+        image_not_imported: The image could not be imported. Check the Image Factory log for further details.
+        blank_id: Image ID cannot be blank.
+        provider_unreachable: "Conductor could not connect to Image Factory. Please verify that Image Factory is running and is correctly configured."
       index:
-        environment_header: Environment
         images: Images
         name: Name
         os: OS
@@ -1606,5 +1616,79 @@ en:
         last_rebuild: Last Rebuild
         import: Import
         new: New Image
-      import:
-        import_image: Import Image
+      show:
+        provider_images: Provider Images
+        provider_account: Provider Account
+        image_id: Image ID
+        image_uuid: Image UUID
+        push: Push
+        upload: Upload
+        build_not_found: "Build not found"
+        new_deployable_from_image: "New Deployable from Image"
+        view_build: View build
+        rebuild_all: Rebuild All
+        build_all: Build All
+        rebuild: Rebuild
+        build: Build
+        delete: Delete
+        account: Account
+        providers_image_id: "Provider's Image ID"
+        provider: Provider
+        build_date: Build Completion Date
+        latest: Latest
+        only_latest_builds_can_be_pushed: "Only the latest build can be pushed"
+        not_built: "The image is not built yet"
+        missing_build: "Select a build first"
+        push_all: "Push all"
+        can_not_build_imported_image: "Imported image can't be built or pushed"
+        select_build: Select
+        template_xml: View Image Template XML
+        failed_build_attempts:
+          one: '1 failed build attempt'
+          other: '%{count} failed build attempts'
+        failed_push_attempts:
+          one: '1 failed push attempt'
+          other: '%{count} failed push attempts'
+        push_started: 'Push is about to start'
+      flash:
+        notice:
+          deleted: Image Deleted
+          multiple_deleted:
+            one: "%{count} Image Deleted"
+            other: "%{count} Images deleted"
+          created: Image created
+        warning:
+          delete_failed: Unable to Delete Image
+          not_found: Image not found
+        error:
+          invalid_url: Could not load the provided URL
+          no_name: You must specify the Image Template name
+          no_file: You must specify the Image Template XML file
+          no_template: "The Image doesn't have an Image Template because it was originally imported, rather than built in Conductor."
+          no_provider_accounts: "Images cannot be built. There are no enabled Provider Accounts associated with this Environment."
+          no_provider_accounts_for_import: "Images cannot be imported. No Provider Accounts are currently enabled for this Environment."
+          not_exist: "The Image you tried to access cannot be found. It may have been deleted."
+      new:
+        new_image: New Image
+        description:
+          Choose one of the following options to upload or import an image into the
+          "%{environment} Environment".
+        upload: Upload
+        from_url: From URL
+        name: "Name:"
+        choose_file: "Choose an Image Template file:"
+        template_url: "Image Template URL:"
+        edit_file: "Edit this file before saving:"
+      edit_xml:
+        edit: Edit
+        edit_xml: Edit XML
+        save_and_continue: Save and Continue
+      overview:
+        valid_image: Valid Image
+        description:
+          The markup and image references in "%{name}" were succesfully
+          validated. You may now save the image and create a Deployable.
+        make_deployable: Automatically make "%{name}" Deployable.
+        edit_xml: View and Edit Template XML
+        save_template: Save Image Template
+      not_on_provider: The requested image was not found on the Provider.

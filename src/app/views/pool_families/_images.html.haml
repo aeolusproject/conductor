@@ -3,8 +3,8 @@
     / FIXME: why image new/import is displayed only if a pool exists
     / also there should be some error message in such case
     - if @pool_family.pools.any?
-      %li= link_to t('tim.base_images.import.import_image'), tim.new_base_image_path(:tab => 'import', :environment => @pool_family), { :class => 'button primary', :id => 'import_image_button'}
-      %li= link_to t('tim.base_images.index.new'), tim.new_base_image_path(:environment => @pool_family), { :class => 'button primary', :id => 'import_image_button'}
+      %li= link_to t('tim.base_images.import.import_image'), tim.new_base_image_path(:tab => 'import', 'base_image[pool_family_id]' => @pool_family.id), { :class => 'button primary', :id => 'import_image_button'}
+      %li= link_to t('tim.base_images.index.new'), tim.new_base_image_path('base_image[pool_family_id]' => @pool_family.id), { :class => 'button primary', :id => 'import_image_button'}
   - if check_privilege(Privilege::MODIFY, Tim::BaseImage, @pool_family)
     %li= restful_submit_tag t("delete"), "destroy", multi_destroy_images_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 

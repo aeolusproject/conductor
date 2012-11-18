@@ -14,4 +14,5 @@ Tim::Template.class_eval do
   def perm_ancestors
     super + [pool_family]
   end
+
 end
