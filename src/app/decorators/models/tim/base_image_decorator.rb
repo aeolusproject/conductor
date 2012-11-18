@@ -1,6 +1,8 @@
 Tim::BaseImage.class_eval do
   include PermissionedObject
 
+  attr_reader :template_url, :template_file
+
   belongs_to :pool_family
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
@@ -10,6 +12,14 @@ Tim::BaseImage.class_eval do
            :order => "derived_permissions.id ASC"
 
   validates_presence_of :pool_family_id
+
+  def template_url=(url)
+    init_template(import_xml_from_url(url))
+  end
+
+  def template_file=(file)
+    init_template(file.read)
+  end
 
   def perm_ancestors
     super + [pool_family]

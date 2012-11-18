@@ -72,6 +72,14 @@ Conductor::Application.routes.draw do
   # match ':controller(/:action(/:id(.:format)))'
 
   mount Tim::Engine, :at => "tim"
+  Tim::Engine.routes.draw do
+    resources :base_images do
+      collection do
+        post 'edit_xml'
+        post 'overview'
+      end
+    end
+  end
 
   resource :user_sessions
   match 'login',       :to => 'user_sessions#new',     :as => 'login'

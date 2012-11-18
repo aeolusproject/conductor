@@ -1,0 +1,26 @@
+= render :partial => 'layouts/admin_nav'
+%header.page-header
+  .obj_actions
+    .return_to
+      = t :return_to
+      = link_to t('images.environment', :environment => @base_image.pool_family.name), main_app.pool_family_path(@base_image.pool_family.id)
+  %h1.no-icon= @base_image.name
+
+%section.content-section
+  .content
+    = form_for @base_image, :url => tim.base_images_path, :html => {:method => :post} do |f|
+      = f.hidden_field :pool_family_id
+      = f.hidden_field :name
+      = f.fields_for :template do |tpl_form|
+        = tpl_form.hidden_field :xml
+        = tpl_form.hidden_field :pool_family_id
+
+      .lefted.image-upload-overview
+        %h2= t('.valid_image')
+        %p.description= t('.description', :name => @base_image.name)
+
+      .centered
+        %fieldset.align-center
+          = f.submit t('.save_template'), :name => 'save', :id => 'save_button', :class => 'button primary'
+          = f.submit t('.edit_xml'), :name => 'back', :id => 'back_button', :class => 'button'
+          = link_to t(:cancel), main_app.pool_families_path, :class => 'button danger'
