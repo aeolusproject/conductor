@@ -6,6 +6,8 @@ Tim::BaseImagesController.class_eval do
   before_filter :check_modify_permission, :only => [:edit, :update, :destroy]
   before_filter :check_create_permission, :only => [:new, :create]
 
+  before_filter :set_tabs_and_headers, :only => [:index]
+
   private
 
   def load_permissioned_images
@@ -27,5 +29,17 @@ Tim::BaseImagesController.class_eval do
   def check_create_permission
     @base_image = Tim::BaseImage.new(params[:base_image])
     require_privilege(Privilege::CREATE, Tim::BaseImage, @base_image.pool_family)
+  end
+
+  def set_tabs_and_headers
+    set_admin_environments_tabs 'images'
+    @header = [
+      { :name => t('tim.base_images.index.name'), :sort_attr => :name },
+      { :name => t('tim.base_images.index.environment_header'), :sort_attr => :name },
+      { :name => t('tim.base_images.index.os'), :sort_attr => :name },
+      { :name => t('tim.base_images.index.os_version'), :sort_attr => :name },
+      { :name => t('tim.base_images.index.architecture'), :sort_attr => :name },
+      { :name => t('tim.base_images.index.last_rebuild'), :sortable => false },
+    ]
   end
 end

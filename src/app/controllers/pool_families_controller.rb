@@ -109,8 +109,8 @@ class PoolFamiliesController < ApplicationController
     @title = @pool_family.name
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
     require_privilege(Privilege::VIEW, @pool_family)
-    @all_images = @pool_family.images
-    @images = paginate_collection(@all_images, params[:page], PER_PAGE)
+    @all_images = @pool_family.base_images
+    @base_images = paginate_collection(@all_images, params[:page], PER_PAGE)
 
     load_pool_family_tabs
 

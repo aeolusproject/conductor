@@ -14,4 +14,9 @@ Tim::BaseImage.class_eval do
   def perm_ancestors
     super + [pool_family]
   end
+
+  def imported?
+    # TODO: implement this
+    false
+  end
 end

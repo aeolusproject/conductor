@@ -16,10 +16,10 @@
             .section-controls
               - if check_privilege(Privilege::CREATE, Pool, pool_family)
                 = link_to t("pools.new_pool"), new_pool_path(:pool_family_id => pool_family.id), :class => 'button primary'
-              - if pool_family.pools.any? && check_privilege(Privilege::USE, pool_family)
+              - if pool_family.pools.any? &&  check_privilege(Privilege::CREATE, Tim::BaseImage, pool_family)
                 .button-group
-                  = link_to t("images.import.import_image"), new_image_path(:environment => pool_family.id, :tab => 'import'), :class => 'button primary'
-                  = link_to t("images.new.new_image"), new_image_path( :environment => pool_family.id), :class => 'button primary'
+                  = link_to t("tim.base_images.import.import_image"), tim.new_base_image_path(:environment => pool_family.id, :tab => 'import'), :class => 'button primary'
+                  = link_to t("tim.base_images.new.new_image"), tim.new_base_image_path( :environment => pool_family.id), :class => 'button primary'
       - unless pool_family.pools.blank?
         %tr
           %th= t("pool_families.index.pool_name")
