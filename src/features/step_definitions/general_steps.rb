@@ -18,15 +18,15 @@ Then /^I should see an input "([^\"]*)"$/ do |value|
 end
 
 Then /^I should see a confirmation message$/ do
-  page.should have_selector '.flash-group.notice .flash-subset'
+  page.should have_selector '.flash_hud .flash_messages.success'
 end
 
 Then /^I should see a warning message$/ do
-  page.should have_selector '.flash-group.warning .flash-subset'
+  page.should have_selector '.flash_hud .flash_messages.warning'
 end
 
 Then /^I should see an error message$/ do
-  page.should have_selector '.flash-group.error .flash-subset'
+  page.should have_selector '.flash_hud .flash_messages.error'
 end
 
 module LocalizationHelpers

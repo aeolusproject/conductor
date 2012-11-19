@@ -235,7 +235,7 @@ class ImagesController < ApplicationController
     @environment = PoolFamily.find(params[:environment])
     check_permissions
     @name = params[:name]
-    errors = Array.new
+    errors = []
 
     if @name.empty?
       errors << t('images.flash.error.no_name')
