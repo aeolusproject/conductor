@@ -1520,6 +1520,7 @@ en:
         image_not_imported: The image could not be imported. Check the Image Factory log for further details.
         blank_id: Image ID cannot be blank.
         provider_unreachable: "Conductor could not connect to Image Factory. Please verify that Image Factory is running and is correctly configured."
+        not_on_provider: The requested image was not found on the Provider.
       index:
         images: Images
         name: Name
@@ -1604,4 +1605,3 @@ en:
         make_deployable: Automatically make "%{name}" Deployable.
         edit_xml: View and Edit Template XML
         save_template: Save Image Template
-      not_on_provider: The requested image was not found on the Provider.
