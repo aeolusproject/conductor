@@ -7,6 +7,11 @@ Given /^there is a deployment named "([^"]*)" belonging to "([^"]*)" owned by "(
   mock_deltacloud
 end
 
+Given /^there are some deployments$/ do
+  @deployments = []
+  2.times { @deployments << FactoryGirl.create(:deployment, { :pool => Pool.first, :owner => @user }) }
+end
+
 When /^I check "([^"]*)" deployment/ do |name|
   deployment = Deployment.find_by_name(name)
   check("deployment_checkbox_#{deployment.id}")
