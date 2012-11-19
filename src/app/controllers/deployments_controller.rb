@@ -34,6 +34,7 @@ class DeploymentsController < ApplicationController
       format.html
       format.js { render :partial => 'list' }
       format.json { render :json => @deployments }
+      format.xml
     end
   end
 
@@ -453,14 +454,20 @@ class DeploymentsController < ApplicationController
     ]
     @pools = Pool.list_for_user(current_session, current_user,
                                 Privilege::CREATE, Deployment)
-    @deployments = paginate_collection(
-      Deployment.includes(:owner, :pool, :instances).
-        apply_filters(:preset_filter_id => params[:deployments_preset_filter],
-                      :search_filter => params[:deployments_search]).
-        list_for_user(current_session, current_user, Privilege::VIEW).
-        where('deployments.pool_id' => @pools).
-        order(sort_column(Deployment, "deployments.name") +' '+ sort_direction),
-      params[:page], PER_PAGE)
+
+    unpaginated_deployments = Deployment.includes(:owner, :pool, :instances).
+      apply_filters(:preset_filter_id => params[:deployments_preset_filter],
+                    :search_filter => params[:deployments_search]).
+      list_for_user(current_session, current_user, Privilege::VIEW).
+      where('deployments.pool_id' => @pools).
+      order(sort_column(Deployment, "deployments.name") +' '+ sort_direction)
+
+    # pagination is currently not used for XML REST API
+    @deployments = if request.format.xml?
+                     unpaginated_deployments
+                   else
+                     paginate_collection(unpaginated_deployments, params[:page], PER_PAGE)
+                   end
   end
 
   def count_additional_quota(deployment)

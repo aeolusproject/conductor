@@ -1,0 +1,4 @@
+!!! XML
+%deployments
+  - deployments.each do |deployment|
+    =render 'detail', :deployment => deployment, :shallow => shallow
