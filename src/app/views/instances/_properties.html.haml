@@ -1,57 +1,57 @@
 %table.properties_table
   %tr
-    %td= t('instances.properties.name')
+    %td= _("Name")
     %td= @instance.name
   %tr
-    %td= t('instances.properties.status')
+    %td= _("Status")
     %td= t("instances.states.#{@instance.state}")
   %tr
-    %td= t('instances.properties.public_addresses')
+    %td= _("Public Addresses")
     %td= @instance.public_addresses
   %tr
-    %td= t('instances.properties.private_adresses')
+    %td= _("Private Addresses")
     %td= @instance.private_addresses
   %tr
-    %td= t('instances.properties.assembly')
+    %td= _("Assembly")
     %td= @instance.assembly_xml.name
   %tr
-    %td= t('instances.properties.provider')
+    %td= _("Provider")
     %td= @instance.provider_account.provider.name if @instance.provider_account
   %tr
-    %td= t('instances.properties.architecture')
+    %td= _("Architecture")
     %td= @instance.hardware_profile.architecture.value
   %tr
-    %td= t('instances.properties.memory')
+    %td= _("Memory")
     %td= @instance.hardware_profile.memory.value
   %tr
-    %td= t('instances.properties.storage')
+    %td= _("Storage")
     %td= @instance.hardware_profile.storage.value
   %tr
-    %td= t('instances.properties.instantiation_time')
+    %td= _("Instantiation Time")
     %td= @instance.created_at.strftime("%d-%b-%Y %H:%M:%S")
   %tr
-    %td= t('instances.properties.current_alerts')
+    %td= _("Current Alerts")
     %td= 0
   %tr
-    %td= t('instances.properties.console_connection')
-    %td= t('instances.properties.via_ssh')
+    %td= _("Console Connection")
+    %td= _("via SSH")
   - if @instance.instance_key
     %tr
-      %td= t('instances.properties.ssh_key')
-      %td= link_to t('instances.properties.download'), key_instance_path(@instance), :id =>'download_ssh_key'
+      %td= _("SSH key")
+      %td= link_to _("Download"), key_instance_path(@instance), :id =>'download_ssh_key'
     %tr
-      %td= t('instances.properties.ssh_key_name')
+      %td= _("SSH key name")
       %td= @instance.instance_key.name
   %tr
-    %td= t('instances.properties.owner')
+    %td= _("Owner")
     %td= "#{@instance.owner.first_name} #{@instance.owner.last_name}"
   %tr
-    %td= t('instances.properties.shared_to')
-    %td= t('instances.properties.n_a')
+    %td= _("Shared to")
+    %td= _("N/A")
   %tr
     %td= t 'instances.properties.cost_estimate'
     %td=@instance.cost.nil? ? t('instances.properties.n_a') : '%.3f' % @instance.cost
   - if @instance.state == Instance::STATE_ERROR
     %tr
-      %td= t('instances.properties.error')
+      %td= _("Error")
       %td= @instance.last_error

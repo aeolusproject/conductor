@@ -20,7 +20,7 @@ class UserSessionsController < ApplicationController
   layout 'login'
 
   def new
-    @title = t('masthead.login')
+    @title = _("Login")
   end
 
   def create
@@ -38,7 +38,7 @@ class UserSessionsController < ApplicationController
     respond_to do |format|
       format.xml { head :unauthorized }
       format.html do
-        flash.now[:warning] = t "user_sessions.flash.warning.login_failed"
+        flash.now[:warning] = _("The Username or Password is incorrect, please try again.")
         render :action => :new
       end
       format.js { head :unauthorized }

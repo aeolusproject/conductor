@@ -16,5 +16,5 @@
       = password_field_tag "config_server[secret]", @config_server.secret
 
 %fieldset.options
-  = submit_tag t(:save), :name => "save", :class => "button primary", :id => "save_button"
-  = link_to t(:cancel), provider_provider_account_path(@provider_account.provider, @provider_account), :class => "button danger"
+  = submit_tag _("Save"), :name => "save", :class => "button primary", :id => "save_button"
+  = link_to _("Cancel"), provider_provider_account_path(@provider_account.provider, @provider_account), :class => "button danger"

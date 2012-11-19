@@ -1,14 +1,14 @@
 %header.page-header
-  %h1.catalog_entries=t'catalog_entries.new.add_catalog_entry'
+  %h1.catalog_entries=_("Add New Deployable")
 
 %section.content-section
   %header
     %nav#image-upload-tabs.faceted
       %ul.tabs
         %li
-          = link_to t('catalog_entries.new.upload'), new_polymorphic_path([@catalog, Deployable]), :id => "upload", :class => "#{'active' if @form_option == 'upload'}"
+          = link_to _("Upload"), new_polymorphic_path([@catalog, Deployable]), :id => "upload", :class => "#{'active' if @form_option == 'upload'}"
         %li
-          = link_to t('catalog_entries.new.from_url'), new_polymorphic_path([@catalog, Deployable], :from_url => true), :id => "from_url", :class => "#{'active' if @form_option == 'from_url'}"
+          = link_to _("From URL"), new_polymorphic_path([@catalog, Deployable], :from_url => true), :id => "from_url", :class => "#{'active' if @form_option == 'from_url'}"
 
   .content
     .form_option

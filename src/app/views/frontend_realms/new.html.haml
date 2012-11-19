@@ -2,9 +2,9 @@
 %header.page-header
   .obj_actions
     .return_to
-      =t'return_to'
-      = link_to t('realms.realms'), frontend_realms_path
-  %h1.realms= t 'realms.new.create_realm'
+      =_("Return to:")
+      = link_to _("Realms"), frontend_realms_path
+  %h1.realms= _("Create New Realm")
 
 %section.content-section
   .content

@@ -2,13 +2,13 @@
 %header.page-header
   .obj_actions
     .return_to
-      = t'return_to'
+      = _("Return to:")
       = link_to @pool_family.name, pool_family_path(@pool_family, :details_tab => 'provider_accounts'), :id => 'new_pool_button'
   %h1.pool_families= @pool_family.name
 
 %section.content-section.pool_families
   %header
     .align-center
-      %strong= t("pool_families.choose_provider_accounts")
+      %strong= _("Choose Provider Accounts to enable for this Environment")
   .content
     = render :partial => 'add_provider_accounts_form'

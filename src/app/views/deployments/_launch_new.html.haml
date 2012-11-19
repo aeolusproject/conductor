@@ -8,7 +8,7 @@
 %section.content-section.deployment
   %header
     %h2
-      = t 'deployments.deployment_details'
+      = _("Deployment Details")
 
   .content
     = form_for @deployment, {:url => launch_time_params_deployments_path, :method => :post, :html => {:class => 'generic'}} do |f|
@@ -20,28 +20,28 @@
       %fieldset
         .field
           %label{:for => 'deployment_name'}
-            = t 'deployments.deployment_name'
+            = _("Deployment Name")
             %span
-              = t 'deployments.deployment_name_subtext'
+              = _("(uniquely identifies your Deployment)")
           = f.text_field(:name, :class => 'em long')
           %span#name_avail_indicator
 
       %fieldset
         .field
           %label{:for => 'deployable_id'}
-            = t('catalog_entries.index.catalog_entry')
+            = _("Deployable")
           = select_tag :deployable_id, options_from_collection_for_select(@deployables, :id, :name, params[:deployable_id])
 
       %fieldset
         .field
           %label{:for => 'frontend_realm_id'}
-            = t('realms.index.realm')
-          = f.collection_select :frontend_realm_id, @realms, :id, :name, :include_blank => t('deployments.launch_new.autoselect')
+            = _("Realm")
+          = f.collection_select :frontend_realm_id, @realms, :id, :name, :include_blank => _("Auto-select")
           %span#realm-description
 
       %fieldset.options
-        = submit_tag t('.next'), :class => 'button primary', :id => "next_button"
-        = link_to t('cancel'), @backlink || pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
+        = submit_tag _("Next"), :class => 'button primary', :id => "next_button"
+        = link_to _("Cancel"), @backlink || pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
 
 
 :javascript
@@ -54,7 +54,7 @@
       e.preventDefault();
       $('#name_avail_indicator').empty();
       $.get('#{check_name_deployments_path}', {name: $('#deployment_name').val() }, function(data) {
-        $('#name_avail_indicator').html(data == "false" ? "#{t'deployments.launch_new.already_in_use'}" : "#{t'deployments.launch_new.name_available'}");
+        $('#name_avail_indicator').html(data == "false" ? "#{_("That name is already in use")}" : "#{_("Name available")}");
       });
     });
 

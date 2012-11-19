@@ -1,17 +1,17 @@
 - content_for :form_header do
-  %li= restful_submit_tag "#{t'deployments.list.stop_selected'}", 'stop', multi_stop_deployments_path, 'POST', :class => 'button', :id => "stop_button", 'data-none_selected' => t('deployments.flash.error.none_selected')
-  %li= restful_submit_tag "#{t'delete'}", 'destroy', multi_destroy_deployments_path, 'DELETE', :class => 'button danger', :id => "delete_button", 'data-none_selected' => t('deployments.flash.error.none_selected')
+  %li= restful_submit_tag "#{_("Stop Selected")}", 'stop', multi_stop_deployments_path, 'POST', :class => 'button', :id => "stop_button", 'data-none_selected' => _("You must select one or more Deployments.")
+  %li= restful_submit_tag "#{_("Delete")}", 'destroy', multi_destroy_deployments_path, 'DELETE', :class => 'button danger', :id => "delete_button", 'data-none_selected' => _("You must select one or more Deployments.")
   = hidden_field_tag 'backlink', request.url
 
 - content_for :filter_controls do
   %li
-    = label_tag :deployments_preset_filter, t('filter_table.viewing')
-    = select_tag(:deployments_preset_filter, preset_filters_options_for_select(Deployment::PRESET_FILTERS_OPTIONS, params[:deployments_preset_filter]), :prompt => t("deployments.preset_filters.all_deployments"))
+    = label_tag :deployments_preset_filter, _("Viewing")
+    = select_tag(:deployments_preset_filter, preset_filters_options_for_select(Deployment::PRESET_FILTERS_OPTIONS, params[:deployments_preset_filter]), :prompt => _("All Deployments"))
     = hidden_field_tag :current_path, request.fullpath
-    = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_deployments_path, 'POST', :class => 'button', :id => 'apply_deployments_preset_filter'
+    = restful_submit_tag _("Apply filters"), "filter", filter_deployments_path, 'POST', :class => 'button', :id => 'apply_deployments_preset_filter'
     %span.label.badge.dark= @deployments.count
   %li.table-search-filter
-    = text_field_tag :deployments_search, params[:deployments_search], :placeholder => t("filter_table.search")
+    = text_field_tag :deployments_search, params[:deployments_search], :placeholder => _("Search")
     = restful_submit_tag "", "search", filter_deployments_path, 'POST', :class => 'button', :id => 'apply_deployments_search'
 
   :javascript

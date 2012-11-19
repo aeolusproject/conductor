@@ -2,15 +2,15 @@
   %h2#user_groups.groups= @title
 
 - content_for :form_header do
-  %li= link_to t("user_groups.list.add_user_group"), new_user_group_path, :class => 'button primary', :id => 'add_user_group_button' unless UserGroup.active_membership_sources.nil?
-  %li= restful_submit_tag "#{t'delete'}", "destroy", multi_destroy_user_groups_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+  %li= link_to _("Add User Group"), new_user_group_path, :class => 'button primary', :id => 'add_user_group_button' unless UserGroup.active_membership_sources.nil?
+  %li= restful_submit_tag "#{_("Delete")}", "destroy", multi_destroy_user_groups_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
 - content_for :filter_controls do
   %li
-    = label_tag :user_groups_preset_filter, t('filter_table.viewing')
+    = label_tag :user_groups_preset_filter, _("Viewing")
     = hidden_field_tag :current_path, request.fullpath
-    = select_tag(:user_groups_preset_filter, preset_filters_options_for_select(UserGroup::PRESET_FILTERS_OPTIONS, params[:user_groups_preset_filter]), :include_blank => t("user_groups.preset_filters.all_user_groups"))
-    = restful_submit_tag t("filter_table.apply_filters"), "index", filter_user_groups_path, 'POST', :class => 'button', :id => 'apply_user_groups_preset_filter'
+    = select_tag(:user_groups_preset_filter, preset_filters_options_for_select(UserGroup::PRESET_FILTERS_OPTIONS, params[:user_groups_preset_filter]), :include_blank => _("All User Groups"))
+    = restful_submit_tag _("Apply filters"), "index", filter_user_groups_path, 'POST', :class => 'button', :id => 'apply_user_groups_preset_filter'
     %span.label.badge.dark= @user_groups.count
   /  = link_to "Filter", "#", :class => 'button pill'
   /%li
@@ -20,7 +20,7 @@
   /    %li= link_to "Add/Remove Columns", "#"
   /    %li= link_to "Freeze Column", "#"
   %li.table-search-filter
-    = text_field_tag :user_groups_search, params[:user_groups_search], :placeholder => t("filter_table.search")
+    = text_field_tag :user_groups_search, params[:user_groups_search], :placeholder => _("Search")
     = restful_submit_tag "", "index", filter_user_groups_path, 'POST', :class => 'button', :id => 'apply_user_groups_search'
 
   :javascript

@@ -3,13 +3,13 @@
 
 %section.content-section
   %header
-    %h2= t(".disable_provider")
+    %h2= _("Disable Provider? All it's instances will be stopped.")
 
   .content
     .align-center
-      %strong= t('instances.confirm_terminate.terminate_instances_description')
+      %strong= _("The Provider is not accessible. The status of following Instances will be changed to 'stopped' but their actual state is unknown.")
     %ul.listing
       - @instances_to_terminate.each do |i|
         %li= i.name
-    = link_to t('cancel'), edit_provider_path(@provider), :class => 'button'
+    = link_to _("Cancel"), edit_provider_path(@provider), :class => 'button'
     = button_to "Disable", provider_path(@provider, :terminate => true, :provider => {:enabled => false}), :class => 'button', :method => :put, :id => 'disable_button'

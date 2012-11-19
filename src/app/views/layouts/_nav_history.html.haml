@@ -2,7 +2,7 @@
   %nav#nav_history
     %span.label.light.small
       &laquo;
-      =t ('return_to')
+      =_("Return to:")
     %ol.nav_hist_bar
       - @read_breadcrumbs.each do |breadcrumb|
         %li{:class => breadcrumb[:class]}

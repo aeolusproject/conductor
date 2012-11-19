@@ -1,19 +1,19 @@
 %header.page-header
   .obj_actions
-    %span.label.light= t("providers.choose_a_provider")
+    %span.label.light= _("Choose a Provider:")
     %ul#provider_select
       %li
-        = link_to @provider.name.blank? ? t("providers.editing_provider") : @provider.name, "javascript:void(0)"
+        = link_to @provider.name.blank? ? _("Editing Provider") : @provider.name, "javascript:void(0)"
         %ul
-          %li= link_to "+" + t("providers.index.create_new_provider"), new_provider_path, :id => "create_new_provider" if check_privilege(Privilege::CREATE, @provider, ProviderAccount)
+          %li= link_to "+" + _("Create New Provider"), new_provider_path, :id => "create_new_provider" if check_privilege(Privilege::CREATE, @provider, ProviderAccount)
           - @providers.each do |provider|
             %li= link_to provider.name, edit_provider_path(provider)
 
     = form_for @provider, :url => provider_path(@provider), :html => { :method => :put, :class => 'generic horizontal' } do |f|
       = f.hidden_field :enabled, :value => !@provider.enabled
-      = f.submit "", :confirm => "#{@provider.enabled ? t("providers.disable_provider") : t("providers.enable_provider")}", :class => "provider_toggle #{@provider.enabled ? "on" : "off"}"
+      = f.submit "", :confirm => "#{@provider.enabled ? _("Disable Provider? All it's instances will be stopped.") : _("Enable Provider?")}", :class => "provider_toggle #{@provider.enabled ? "on" : "off"}"
     %br
     .return_to
-      =t'return_to'
-      = link_to "#{t'providers.providers'}", providers_path
-  %h1.providers{:class => @provider.enabled ? 'enabled' : 'disabled'}= @provider.name.blank? ? t("providers.editing_provider") : @provider.name
+      =_("Return to:")
+      = link_to "#{_("Providers")}", providers_path
+  %h1.providers{:class => @provider.enabled ? 'enabled' : 'disabled'}= @provider.name.blank? ? _("Editing Provider") : @provider.name

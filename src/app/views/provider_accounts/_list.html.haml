@@ -1,18 +1,18 @@
 .content
   - content_for :form_header do
     - if check_privilege(Privilege::CREATE, ProviderAccount, @provider)
-      %li= link_to t('provider_accounts.new_provider_account'), new_provider_provider_account_path(@provider), :id => 'new_provider_account', :class => 'button primary'
-    %li= restful_submit_tag t('delete'), "destroy", multi_destroy_provider_provider_accounts_path(@provider), 'DELETE', :id => 'delete_button', :class => 'button danger'
+      %li= link_to _("New Account"), new_provider_provider_account_path(@provider), :id => 'new_provider_account', :class => 'button primary'
+    %li= restful_submit_tag _("Delete"), "destroy", multi_destroy_provider_provider_accounts_path(@provider), 'DELETE', :id => 'delete_button', :class => 'button danger'
 
   - content_for :filter_controls do
     %li
-      = label_tag :provider_accounts_preset_filter, t('filter_table.viewing')
-      = select_tag(:provider_accounts_preset_filter, preset_filters_options_for_select(ProviderAccount::PRESET_FILTERS_OPTIONS, params[:provider_accounts_preset_filter]), :include_blank => t("provider_accounts.preset_filters.all_provider_accounts"), :disabled => true)
+      = label_tag :provider_accounts_preset_filter, _("Viewing")
+      = select_tag(:provider_accounts_preset_filter, preset_filters_options_for_select(ProviderAccount::PRESET_FILTERS_OPTIONS, params[:provider_accounts_preset_filter]), :include_blank => _("All Accounts"), :disabled => true)
       = hidden_field_tag :current_path, request.fullpath
-      = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_provider_provider_accounts_path(@provider), 'POST', :class => 'button', :id => 'apply_provider_accounts_preset_filter'
+      = restful_submit_tag _("Apply filters"), "filter", filter_provider_provider_accounts_path(@provider), 'POST', :class => 'button', :id => 'apply_provider_accounts_preset_filter'
       %span.label.badge.dark= @provider_accounts.count
     %li.table-search-filter
-      = text_field_tag :provider_accounts_search, params[:provider_accounts_search], :placeholder => t("filter_table.search")
+      = text_field_tag :provider_accounts_search, params[:provider_accounts_search], :placeholder => _("Search")
       = restful_submit_tag "", "search", filter_provider_provider_accounts_path(@provider), 'POST', :class => 'button', :id => 'apply_provider_accounts_search'
 
     :javascript
@@ -36,4 +36,4 @@
       %td= account.provider.provider_type.name
       %td= account.priority
       %td{:class => 'center'}= number_to_percentage account.quota.percentage_used, :precision => 0
-      %td{:class => 'center'}= account.quota.maximum_running_instances or t('provider_accounts.properties.unlimited')
+      %td{:class => 'center'}= account.quota.maximum_running_instances or _("unlimited")

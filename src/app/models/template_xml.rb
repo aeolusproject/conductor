@@ -28,14 +28,14 @@ class TemplateXML
     xsd = Nokogiri::XML::RelaxNG(File.read(@relax_file))
     errors = xsd.validate(@xml).map {|err| err.message}
     if errors.any?
-      @errors[:summary] = I18n.t('template_xml.errors.invalid_xml')
+      @errors[:summary] = _("XML is not valid:")
       @errors[:failures] = errors
     end
     # TODO would be much better to validate name presence using rng template^
     if @xml.xpath('/template/name').text.empty?
-      @errors[:summary] ||= I18n.t('template_xml.errors.invalid_xml')
+      @errors[:summary] ||= _("XML is not valid:")
       @errors[:failures] ||= []
-      @errors[:failures] << I18n.t('template_xml.errors.name_is_not_set')
+      @errors[:failures] << _("Name is not set.")
     end
     @errors
   end

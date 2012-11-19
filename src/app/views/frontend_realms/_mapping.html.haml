@@ -3,13 +3,13 @@
     - if check_privilege(Privilege::MODIFY, FrontendRealm)
       .section-controls
         - if @realm.realm_backend_targets and !@realm.realm_backend_targets.empty?
-          = submit_tag t('realms.list.delete_selected'), :id => 'delete_mapping_button', :class => 'button danger', :confirm => t("realms.show.sure_to_delete")
+          = submit_tag _("Delete Selected"), :id => 'delete_mapping_button', :class => 'button danger', :confirm => _("Are you sure you want to delete?")
         .button-group
           - if @backend_realms and !@backend_realms.empty?
-            = link_to t('realms.mapping.mapping_realm'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :provider_realm_or_provider_type => 'ProviderRealm'), :class => "button", :id => 'mapping_to_realm_button'
+            = link_to _("Add mapping to Provider Realm"), new_realm_mapping_path(:frontend_realm_id => @realm.id, :provider_realm_or_provider_type => 'ProviderRealm'), :class => "button", :id => 'mapping_to_realm_button'
           - if @providers and !@providers.empty?
-            = link_to t('realms.mapping.mapping_provider'), new_realm_mapping_path(:frontend_realm_id => @realm.id, :provider_realm_or_provider_type => 'Provider'), :class => "button", :id => 'mapping_to_provider_button'
-    %h2= t'realms.show.realm_mapping'
+            = link_to _("Add mapping to Provider"), new_realm_mapping_path(:frontend_realm_id => @realm.id, :provider_realm_or_provider_type => 'Provider'), :class => "button", :id => 'mapping_to_provider_button'
+    %h2= _("Realm Mapping")
 
   .content
     %fieldset

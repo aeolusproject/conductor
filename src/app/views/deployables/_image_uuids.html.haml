@@ -2,20 +2,20 @@
   %tbody
     %tr
       %td
-        %strong="#{t("deployables.show.image_uuid")}"
+        %strong="#{_("Image UUID")}"
       %td
-        ="#{(uuid_arr[0].nil? ? t('deployables.show.n_a') : uuid_arr[0])}"
+        ="#{(uuid_arr[0].nil? ? _("N/A") : uuid_arr[0])}"
     %tr
       %td
-        %strong="#{t("deployables.show.latest_build_uuid")}"
+        %strong="#{_("Latest Build UUID")}"
       %td
-        ="#{(uuid_arr[1].nil? ? t("deployables.show.n_a") : uuid_arr[1])}"
+        ="#{(uuid_arr[1].nil? ? _("N/A") : uuid_arr[1])}"
     %tr
       %td
-        %strong="#{t("deployables.show.target_images_uuids")}"
+        %strong="#{_("Target Images UUIDs")}"
       %td
         - if uuid_arr[2].nil?
-          =t'deployables.show.n_a'
+          =_("N/A")
         - else
           %ul
             - uuid_arr[2].each do |image_uuid|

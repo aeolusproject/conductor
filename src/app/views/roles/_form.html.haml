@@ -6,5 +6,5 @@
     .input
       = form.text_field :name, :class => "em long"
 %fieldset.options
-  = form.submit t('save'), :class => "button"
-  = link_to t(:cancel), roles_path, :class => 'button danger'
+  = form.submit _("Save"), :class => "button"
+  = link_to _("Cancel"), roles_path, :class => 'button danger'

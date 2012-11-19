@@ -40,9 +40,9 @@ class PoolsController < ApplicationController
     save_breadcrumb(pools_path(:viewstate => viewstate_id))
 
     # This is primarily relevant to filter_view, but we check @details_tab in other places:
-    @tabs = [{:name => "#{t'pools.pools'}", :view => 'list', :id => 'pools', :pretty_view_toggle => 'enabled'},
-             {:name => "#{t'deployments.deployments'}", :view => 'deployments/list', :id => 'deployments', :pretty_view_toggle => 'enabled'},
-             {:name => "#{t'instances.instances.other'}", :view => 'instances/list', :id => 'instances', :pretty_view_toggle => 'enabled'},
+    @tabs = [{:name => "#{_("Pools")}", :view => 'list', :id => 'pools', :pretty_view_toggle => 'enabled'},
+             {:name => "#{_("Deployments")}", :view => 'deployments/list', :id => 'deployments', :pretty_view_toggle => 'enabled'},
+             {:name => "#{_("Instances")}", :view => 'instances/list', :id => 'instances', :pretty_view_toggle => 'enabled'},
     ]
     details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
@@ -135,8 +135,8 @@ class PoolsController < ApplicationController
           # collection for filter table
           # 19sept2012 -- FIXME - These aren't really the correct translation names, but
           #  this patch is after string freeze so I'm confined to using them. --mawagner
-          @header = [{:name => t("pools.images.catalog")}, {:name => t("catalog_entries.index.catalog_entry")},
-                     {:name => t("logs.index.image")}, {:name => t("images.show.providers_image_id")}]
+          @header = [{:name => _("Catalog")}, {:name => _("Deployable")},
+                     {:name => _("Image")}, {:name => _("Provider's Image ID")}]
           @catalog_images = @pool.catalog_images_collection(@catalogs)
         when 'deployments'
           @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
@@ -146,10 +146,10 @@ class PoolsController < ApplicationController
     end
 
     #TODO add links to real data for history,properties,permissions
-    @tabs = [{:name => "#{t'deployments.deployments'}",:view => @view, :id => 'deployments', :count => @pool.deployments.count, :pretty_view_toggle => 'enabled'},
+    @tabs = [{:name => "#{_("Deployments")}",:view => @view, :id => 'deployments', :count => @pool.deployments.count, :pretty_view_toggle => 'enabled'},
              #{:name => 'History',        :view => @view,         :id => 'history'},
-             {:name => "#{t'properties'}", :view => 'properties', :id => 'properties'},
-             {:name => "#{t'catalog_images'}", :view => 'images', :id => 'images'}
+             {:name => "#{_("Properties")}", :view => 'properties', :id => 'properties'},
+             {:name => "#{_("Catalog Images")}", :view => 'images', :id => 'images'}
     ]
     add_permissions_tab(@pool)
 
@@ -184,7 +184,10 @@ class PoolsController < ApplicationController
   end
 
   def new
-    @title = t('pools.create_new_pool')
+    @title = _("Create New Pool")
+    @pool = Pool.new
+    @pool.pool_family = PoolFamily.find(params[:pool_family_id]) unless params[:pool_family_id].blank?
+    require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
     @quota = Quota.new
     @pool = Pool.new({:enabled => true, :quota => @quota})
     if params[:pool_family_id].present?
@@ -204,7 +207,7 @@ class PoolsController < ApplicationController
 
   def create
     transform_quota_param(:pool)
-    @title = t('pools.create_new_pool')
+    @title = _("Create New Pool")
     @pool = Pool.new(params[:pool])
     @pool.quota = Quota.new(params[:pool][:quota_attributes])
     require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
@@ -214,7 +217,7 @@ class PoolsController < ApplicationController
     respond_to do |format|
       if @pool.save
         @pool.assign_owner_roles(current_user)
-        flash[:notice] = t "pools.flash.notice.added"
+        flash[:notice] = _("Pool added.")
         format.html { redirect_to pools_path }
         format.json { render :json => @pool, :status => :created }
         format.xml do
@@ -259,7 +262,7 @@ class PoolsController < ApplicationController
 
     respond_to do |format|
       if @pool.update_attributes(params[:pool])
-        flash[:notice] = t "pools.flash.notice.updated"
+        flash[:notice] = _("Pool updated.")
         format.html { redirect_to :action => 'show', :id => @pool.id }
         format.js { render :partial => 'show', :id => @pool.id }
         format.json { render :json => @pool }
@@ -293,7 +296,7 @@ class PoolsController < ApplicationController
     Pool.find(ids_list(['pools_selected'])).each do |pool|
       pool_id = pool.id
       if pool.id == MetadataObject.lookup("self_service_default_pool").id
-        error_messages << t("pools.flash.error.default_pool_not_deleted")
+        error_messages << _("The default Pool cannot be deleted.")
       elsif !check_privilege(Privilege::MODIFY, pool)
         permission_failed << pool.name
       elsif !pool.destroyable?
@@ -306,7 +309,7 @@ class PoolsController < ApplicationController
 
     flash[:success] = t('pools.flash.success.pool_deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
     if permission_failed.any?
-      flash[:error] = t('application_controller.permission_denied')
+      flash[:error] = _("You have insufficient privileges to perform the selected action.")
     elsif failed.any?
       flash[:error] = t('pools.flash.error.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
     end
@@ -341,7 +344,7 @@ class PoolsController < ApplicationController
       # default_pool cannot be deleted because metadata object has it tied
       # to id of 1 and deleting it prevents new users from being created
       if pool.id == MetadataObject.lookup("self_service_default_pool").id
-        error_messages << t("pools.flash.error.default_pool_not_deleted")
+        error_messages << _("The default Pool cannot be deleted.")
       elsif !check_privilege(Privilege::MODIFY, pool)
         permission_failed << pool.name
       elsif !pool.destroyable?
@@ -359,7 +362,7 @@ class PoolsController < ApplicationController
       error_messages << t('pools.flash.error.pool_not_deleted', :count => failed.length, :list => failed.join(', '))
     end
     unless permission_failed.empty?
-      error_messages << t('application_controller.permission_denied')
+      error_messages << _("You have insufficient privileges to perform the selected action.")
     end
     unless error_messages.empty?
       flash[:error] = error_messages
@@ -380,26 +383,26 @@ class PoolsController < ApplicationController
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => '', :class => 'alert', :sortable => false },
-      { :name => t("pools.index.pool_name"), :sort_attr => :name },
-      { :name => t("deployments.deployments"), :class => 'center', :sortable => false },
-      { :name => t("instances.instances.other"), :class => 'center', :sortable => false },
-      { :name => t("pools.index.pending"), :class => 'center', :sortable => false },
-      { :name => t("pools.index.failed"), :class => 'center', :sortable => false },
-      { :name => t("quota_used"), :class => 'center', :sortable => false },
-      { :name => t("pools.index.pool_family"), :sortable => false },
+      { :name => _("Pool name"), :sort_attr => :name },
+      { :name => _("Deployments"), :class => 'center', :sortable => false },
+      { :name => _("Instances"), :class => 'center', :sortable => false },
+      { :name => _("Pending"), :class => 'center', :sortable => false },
+      { :name => _("Failed"), :class => 'center', :sortable => false },
+      { :name => _("Quota Used"), :class => 'center', :sortable => false },
+      { :name => _("Environment"), :sortable => false },
 
     ]
     @deployments_header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => '', :class => 'alert', :sortable => false },
-      { :name => t("deployments.deployment_name"), :sortable => false },
-      { :name => t("pools.index.deployed_on"), :sortable => false },
-      { :name => t("deployables.index.base_deployable"), :sortable => false },
-      { :name => t("deployables.index.state"), :sortable => false },
-      { :name => t("instances.instances.other"), :class => 'center', :sortable => false },
-      { :name => t("pools.pool"), :sortable => false },
-      { :name => t("pools.index.owner"), :sortable => false },
-      { :name => t("providers.provider"), :sortable => false }
+      { :name => _("Deployment Name"), :sortable => false },
+      { :name => _("Deployed on"), :sortable => false },
+      { :name => _("Base Deployable"), :sortable => false },
+      { :name => _("State"), :sortable => false },
+      { :name => _("Instances"), :class => 'center', :sortable => false },
+      { :name => _("Pool"), :sortable => false },
+      { :name => _("Owner"), :sortable => false },
+      { :name => _("Provider"), :sortable => false }
     ]
   end
 

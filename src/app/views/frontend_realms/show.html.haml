@@ -2,19 +2,19 @@
 %header.page-header
   .obj_actions
     .return_to
-      =t'return_to'
-      = link_to t('realms.realms'), frontend_realms_path
+      =_("Return to:")
+      = link_to _("Realms"), frontend_realms_path
     - if check_privilege(Privilege::CREATE, FrontendRealm)
-      = link_to t('realms.new_realm'), new_frontend_realm_url, :class => 'button primary', :id => 'new_realm_button'
+      = link_to _("New Realm"), new_frontend_realm_url, :class => 'button primary', :id => 'new_realm_button'
     .button-group
       - if check_privilege(Privilege::MODIFY, FrontendRealm)
-        = link_to t('edit'), edit_frontend_realm_path(@realm), :class => 'button', :id => 'edit_realm_button'
-        = button_to t('delete'), frontend_realm_path(@realm), :method => :delete, :confirm => t("realms.show.sure_to_delete"), :class => 'button danger', :id => 'delete_realm_button'
+        = link_to _("Edit"), edit_frontend_realm_path(@realm), :class => 'button', :id => 'edit_realm_button'
+        = button_to _("Delete"), frontend_realm_path(@realm), :method => :delete, :confirm => _("Are you sure you want to delete?"), :class => 'button danger', :id => 'delete_realm_button'
   %h1.realms= @title
 
 %section.content-section.realm
   %header
-    %h2= t'realms.show.properties'
+    %h2= _("Properties")
 
   .content
     = render :partial => 'properties'

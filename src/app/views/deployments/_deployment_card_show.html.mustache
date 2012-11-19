@@ -6,18 +6,18 @@
   <dl class="statistics">
     <ul>
       <li class="uptime">
-        <dt class="uptime"><%= t('uptime') %></dt>
+        <dt class="uptime"><%= _("Uptime") %></dt>
         <dd>{{uptime}}</dd>
       </li>
       <li class="instances">
-        <dt class="instances count"><%= t('instances.instances.other') %></dt>
+        <dt class="instances count"><%= _("Instances") %></dt>
         <dd>
           {{instances_count}}
           <span class="inline-label">{{instances_count_text}}</span>
         </dd>
       </li>
       <li class="provider">
-        <dt class="instances count"><%= t('providers.provider') %></dt>
+        <dt class="instances count"><%= _("Provider") %></dt>
         <dd>
           <p class="provider">
             {{#provider}}

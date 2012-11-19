@@ -18,12 +18,12 @@ class UserMailer < ActionMailer::Base
 
   def password_reset(user_id)
     @user = User.find(user_id)
-    mail(:to => @user.email, :subject => t("user_mailer.password_reset.subject"))
+    mail(:to => @user.email, :subject => _("Password reset"))
   end
 
   def send_usernames(users_ids)
     @users = User.find(users_ids)
     @email = @users.first.email
-    mail(:to => @email, :subject => t("user_mailer.send_usernames.subject"))
+    mail(:to => @email, :subject => _("Conductor Usernames"))
   end
 end

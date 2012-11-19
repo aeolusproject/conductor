@@ -2,13 +2,13 @@
 %header.page-header
   .obj_actions
     .return_to
-      = t 'return_to'
-      = link_to t("settings.settings"), settings_path
-  %h1.settings=t '.self_service_settings'
+      = _("Return to:")
+      = link_to _("Settings"), settings_path
+  %h1.settings=_("Self-service Settings")
 
 %section.content-section
   %header
-    %h2= t('.self_service_default')
+    %h2= _("Default user settings")
 
   .content
     = form_for @self_service_default_quota, :url => { :action => 'update' }, :html => { :class => 'generic horizontal' } do |form|
@@ -17,9 +17,9 @@
       %fieldset
         = hidden_field :self_service_default_quota,  :id
         .field
-          %label= t('.instances_quota')
+          %label= _("Instances Quota:")
           = text_field :self_service_default_quota, :maximum_running_instances, :class => 'grid_5'
       %fieldset.options
         .obj_actions
-          = submit_tag t(:save), :class => "button primary"
-          = link_to t('reset'), self_service_settings_path, :class => 'button danger'
+          = submit_tag _("Save"), :class => "button primary"
+          = link_to _("Reset"), self_service_settings_path, :class => 'button danger'

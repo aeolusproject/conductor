@@ -1,16 +1,16 @@
 %table.properties_table
   %tr
-    %td= t 'roles.properties.scope'
+    %td= _("Scope")
     %td= @role.scope
 %table.properties_table
   %thead
     %tr
-      %th=t 'roles.properties.privileges'
+      %th=_("Privileges")
       %th
   %tbody
     %tr
-      %td= t'roles.properties.action'
-      %td= t'roles.properties.target_type'
+      %td= _("Action")
+      %td= _("Target type")
     -@role.privileges.each do |privilege|
       %tr
         %td= privilege.action

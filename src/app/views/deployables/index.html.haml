@@ -3,7 +3,7 @@
 %header.page-header
   .obj_actions
     - if check_privilege(Privilege::CREATE, Deployable)
-      = link_to "#{t'catalog_entries.new_catalog_entry'}", new_polymorphic_path([@catalog, Deployable]), :class => 'button primary', :id => 'new_catalog_entry_button'
-  %h1.catalog_entries=t'catalog_entries.index.catalog_entries'
+      = link_to "#{_("New Deployable")}", new_polymorphic_path([@catalog, Deployable]), :class => 'button primary', :id => 'new_catalog_entry_button'
+  %h1.catalog_entries=_("Deployables")
 
 = render :partial => 'list'

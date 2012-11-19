@@ -2,10 +2,10 @@
   <section class="content-section alerts collapse_entity">
     <header>
       <div class="section-controls">
-        <%= link_to(t('providers.edit.toggle_alerts'), '#', :class => 'collapse alerts') %>
+        <%= link_to(_("Toggle Alerts"), '#', :class => 'collapse alerts') %>
       </div>
       <h2 class="alerts">
-        <%= t('alerts_label') %>
+        <%= _("Alerts") %>
         <span class="label badge alert count">{{failed_instances_count}}</span>
       </h2>
     </header>
@@ -15,7 +15,7 @@
           {{#failed_instances}}
             <li class="alert">
               <dt class="subject critical">{{name}}</dt>
-              <dd class="type"><%= t('alerts.instance_failure') %></dd>
+              <dd class="type"><%= _("Instance Failure") %></dd>
               <dd class="desc">
                 {{#last_error}}
                   {{last_error}}

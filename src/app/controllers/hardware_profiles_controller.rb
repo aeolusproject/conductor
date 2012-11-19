@@ -22,7 +22,7 @@ class HardwareProfilesController < ApplicationController
   before_filter :set_edit_cost_variables, :only => [:edit_cost_billing, :edit_cost]
 
   def index
-    @title = t('hardware_profiles.hardware_profiles')
+    @title = _("Hardware Profiles")
     clear_breadcrumbs
     save_breadcrumb(hardware_profiles_path)
     @params = params
@@ -51,7 +51,7 @@ class HardwareProfilesController < ApplicationController
                t('hardware_profiles.show.frontend_hwp', :name => @hardware_profile.name)
              end
 
-    @tab_captions = [t('hardware_profiles.tab_captions.properties'), t('hardware_profiles.tab_captions.history'), t('hardware_profiles.tab_captions.matching_provider_hwp')]
+    @tab_captions = [_("Properties"), _("History"), _("Matching Provider Hardware Profiles")]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     properties
     @details_tab = 'properties' unless['properties', 'history',
@@ -73,7 +73,7 @@ class HardwareProfilesController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, HardwareProfile)
-    @title = t'hardware_profiles.new.new_hwp'
+    @title = _("New Hardware Profile")
 
     respond_to do |format|
       format.html { render :action => 'new'}
@@ -86,7 +86,7 @@ class HardwareProfilesController < ApplicationController
 
     build_hardware_profile(params[:hardware_profile])
 
-    if params[:commit] == t('hardware_profiles.form.check_matches')
+    if params[:commit] == _("Check Matches")
       find_matching_provider_hardware_profiles
       render :new and return
     end
@@ -117,7 +117,7 @@ class HardwareProfilesController < ApplicationController
     require_privilege(Privilege::MODIFY, @hardware_profile)
 
     if @hardware_profile.provider_hardware_profile?
-      error_message = t "hardware_profiles.flash.warning.cannot_delete_backend_hwp"
+      error_message = _("Cannot delete Provider Hardware Profiles")
       respond_to do |format|
         format.html do
           flash[:warning] = error_message
@@ -133,13 +133,13 @@ class HardwareProfilesController < ApplicationController
     respond_to do |format|
       if @hardware_profile.destroy
         format.html do
-          flash[:notice] = t "hardware_profiles.flash.notice.deleted"
+          flash[:notice] = _("Hardware profile was deleted")
           redirect_to hardware_profiles_path
         end
         format.xml { render :nothing => true, :status => :no_content }
       else
         format.html do
-          flash[:error] = t "hardware_profiles.flash.error.not_deleted"
+          flash[:error] = _("Hardware profile was not deleted")
           redirect_to hardware_profiles_path
         end
         format.xml do
@@ -156,7 +156,7 @@ class HardwareProfilesController < ApplicationController
     require_privilege(Privilege::MODIFY, @hardware_profile)
     @title = @hardware_profile.name.titlecase
     if @hardware_profile.provider_hardware_profile?
-      flash[:warning] = t "hardware_profiles.flash.warning.cannot_edit_backend_hwp"
+      flash[:warning] = _("Cannot modify Provider Hardware Profiles")
       redirect_to hardware_profile_path(@hardware_profile)
       return
     end
@@ -170,7 +170,7 @@ class HardwareProfilesController < ApplicationController
       build_hardware_profile(params[:hardware_profile])
     end
 
-    if params[:commit] == t('hardware_profiles.form.check_matches')
+    if params[:commit] == _("Check Matches")
       require_privilege(Privilege::VIEW, HardwareProfile)
       find_matching_provider_hardware_profiles
       render :edit and return
@@ -179,7 +179,7 @@ class HardwareProfilesController < ApplicationController
     unless @hardware_profile.save
       render :action => 'edit' and return
     else
-      flash[:notice] = t"hardware_profiles.flash.notice.updated"
+      flash[:notice] = _("Hardware Profile updated")
       redirect_to hardware_profiles_path
     end
   end
@@ -338,23 +338,23 @@ class HardwareProfilesController < ApplicationController
 
   def properties
     @properties_header = [
-      { :name => t('hardware_profiles.properties_headers.name'), :sort_attr => :name},
-      { :name => t('hardware_profiles.properties_headers.unit'), :sort_attr => :unit},
-      { :name => t('hardware_profiles.properties_headers.value'), :sort_attr => :value}]
-    @properties_header << { :name => t('hardware_profiles.properties_headers.cost'), :sort_attr => :value} if @hardware_profile.provider_hardware_profile?
+      { :name => _("Name"), :sort_attr => :name},
+      { :name => _("Unit"), :sort_attr => :unit},
+      { :name => _("Value"), :sort_attr => :value}]
+    @properties_header << { :name => _("Cost per Unit"), :sort_attr => :value} if @hardware_profile.provider_hardware_profile?
     @hwp_properties = [@hardware_profile.memory, @hardware_profile.cpu, @hardware_profile.storage, @hardware_profile.architecture]
   end
 
   #TODO Update this method when moving to new HWP Model
   def find_matching_provider_hardware_profiles
-    @provider_hwps_header = [
-      { :name => t('hardware_profiles.provider_hwp_headers.provider_name'), :sort_attr => "provider.name" },
-      { :name => t('hardware_profiles.provider_hwp_headers.hwp_name'), :sort_attr => :name },
-      { :name => t('hardware_profiles.provider_hwp_headers.architecture'), :sort_attr => :architecture },
-      { :name => t('hardware_profiles.provider_hwp_headers.memory'), :sort_attr => :memory},
-      { :name => t('hardware_profiles.provider_hwp_headers.storage'), :sort_attr => :storage },
-      { :name => t('hardware_profiles.provider_hwp_headers.virtual_cpu'), :sort_attr => :cpu},
-      { :name => t('hardware_profiles.provider_hwp_headers.minimal_cost'), :sort_attr => :cost}
+    @provider_hwps_header  = [
+      { :name => _("Provider Name"), :sort_attr => "provider.name" },
+      { :name => _("Hardware Profile Name"), :sort_attr => :name },
+      { :name => _("Architecture"), :sort_attr => :architecture },
+      { :name => _("Memory"), :sort_attr => :memory},
+      { :name => _("Storage"), :sort_attr => :storage },
+      { :name => _("Virtual CPU"), :sort_attr => :cpu},
+      { :name => _("Minimal Cost"), :sort_attr => :cost}
     ]
 
     begin
@@ -366,12 +366,12 @@ class HardwareProfilesController < ApplicationController
   end
 
   def setup_hardware_profile
-    @tab_captions = [t('hardware_profiles.tab_captions.matching_provider_hwp')]
+    @tab_captions = [_("Matching Provider Hardware Profiles")]
     @details_tab = 'matching_provider_hardware_profiles'
     @header  = [
-      { :name => t('hardware_profiles.properties_headers.name'), :sort_attr => :name},
-      { :name => t('hardware_profiles.properties_headers.unit'), :sort_attr => :unit},
-      { :name => t('hardware_profiles.properties_headers.min_value'), :sort_attr => :value}]
+      { :name => _("Name"), :sort_attr => :name},
+      { :name => _("Unit"), :sort_attr => :unit},
+      { :name => _("Minimum Value"), :sort_attr => :value}]
   end
 
   def load_hardware_profiles

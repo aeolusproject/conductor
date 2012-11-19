@@ -1,33 +1,33 @@
 %table.properties_table
   %tbody
     %tr
-      %td= t'provider_accounts.properties.running_instances_quota'
-      %td= @provider_account.quota.maximum_running_instances or t('provider_accounts.properties.unlimited')
+      %td= _("Running instances quota")
+      %td= @provider_account.quota.maximum_running_instances or _("unlimited")
     %tr
-      %td= t'provider_accounts.index.priority'
+      %td= _("Priority")
       %td= @provider_account.priority
     - if @account_id
       %tr
-        %td= t('provider_accounts.properties.account_number')
+        %td= _("Account number")
         %td= @account_id
     %tr
-      %td= t'provider_accounts.properties.config_server'
+      %td= _("Config Server")
       %td
         - missing_config_server = @provider_account.config_server.nil?
         %span#config_server
-          = missing_config_server ? t('provider_accounts.properties.none') : @provider_account.config_server.endpoint
+          = missing_config_server ? _("None") : @provider_account.config_server.endpoint
         %span#config_server_control
           - if missing_config_server
             [
-            = link_to t('add'), new_config_server_url + "?provider_account_id=#{@provider_account.id}"
+            = link_to _("Add"), new_config_server_url + "?provider_account_id=#{@provider_account.id}"
             ]
           - else
             [
-            = link_to t('edit'), edit_config_server_path(@provider_account.config_server)
+            = link_to _("Edit"), edit_config_server_path(@provider_account.config_server)
             ]
             [
-            = link_to t('provider_accounts.properties.test'), test_config_server_path(@provider_account.config_server)
+            = link_to _("Test"), test_config_server_path(@provider_account.config_server)
             ]
             [
-            = link_to t('delete'), config_server_path(@provider_account.config_server), :method => 'delete', :confirm => t('provider_accounts.properties.sure_to_delete')
+            = link_to _("Delete"), config_server_path(@provider_account.config_server), :method => 'delete', :confirm => _("Are you sure you want to delete this Config Server?")
             ]

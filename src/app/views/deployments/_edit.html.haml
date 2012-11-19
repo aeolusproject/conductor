@@ -1,9 +1,9 @@
 %header.page-header
-  %h1.deployments= @deployment.name.blank? ? t("deployments.deployment") : @deployment.name
+  %h1.deployments= @deployment.name.blank? ? _("Deployment") : @deployment.name
 
 %section.content-section
   %header
-    %h2= t('deployments.edit.edit_deployment')
+    %h2= _("Edit Deployment")
   .content
     = form_for @deployment, :html => {:class => 'generic'} do |form|
       - if @deployment.errors.any?
@@ -14,5 +14,5 @@
           .input
             = form.text_field :name, :class => 'em long'
       %fieldset.options
-        = form.submit t('save'), :class => 'button primary', :id => 'save_button'
-        = link_to t('cancel'), @deployment, :class => 'button danger'
+        = form.submit _("Save"), :class => 'button primary', :id => 'save_button'
+        = link_to _("Cancel"), @deployment, :class => 'button danger'

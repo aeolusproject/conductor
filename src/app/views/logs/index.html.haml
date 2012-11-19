@@ -5,7 +5,7 @@
     .button-group
       = pretty_filter_toggle(logs_path(:view => 'pretty'),
                              logs_path(:view => 'filter'))
-  %h1.section-index= t('logs.index.title')
+  %h1.section-index= _("Logs")
 
 %section.content-section.toggle-view.logs
   = render :partial => @partial

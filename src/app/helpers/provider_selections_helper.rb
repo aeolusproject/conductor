@@ -29,10 +29,10 @@ module ProviderSelectionsHelper
     if provider_selection_strategy.present? && provider_selection_strategy.enabled
       if strategy.base_klass.properties.has_key?(:edit_path)
         strategy_edit_path = send(strategy.base_klass.properties[:edit_path])
-        link_to(t('provider_selection.show.configure'), strategy_edit_path, :class => 'button')
+        link_to(_("Configure"), strategy_edit_path, :class => 'button')
       elsif strategy.base_klass.properties.has_key?(:config_klass)
         strategy_edit_path = edit_strategy_pool_provider_selection_path(@pool, strategy.name)
-        link_to(t('provider_selection.show.configure'), strategy_edit_path, :class => 'button')
+        link_to(_("Configure"), strategy_edit_path, :class => 'button')
       end
     end
   end

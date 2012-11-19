@@ -13,14 +13,14 @@
   :javascript
     $(document).ready(function() {
       $("#login_form").bind("ajax:error", function(event, data, status, xhr) {
-        $("#notifications").html("<div class=\'error\'>\n <p class=\'text\'>#{t("user_sessions.flash.warning.login_failed")}<\/p>\n<\/div>\n");
+        $("#notifications").html("<div class=\'error\'>\n <p class=\'text\'>#{_("The Username or Password is incorrect, please try again.")}<\/p>\n<\/div>\n");
         $('form .spinner').fadeOut('fast');
       });
     });
   /[if lt IE 9]
 
 = content_for :title do
-  = t("layout.appname")
+  = _("Aeolus Conductor")
   = "| #{@title}" unless @title.blank?
 
 = content_for :notifications do

@@ -1,20 +1,20 @@
 %section.content-section
   %header
-    %h2=t'catalog_entries.list.catalog_entries_list'
+    %h2=_("Deployables List")
 
   .content
     - content_for :form_header do
-      %li= restful_submit_tag t("catalog_entries.show.delete"), "destroy", polymorphic_path([@catalog, Deployable], :action => 'multi_destroy'), 'DELETE', :id => 'delete_button', :class => 'button danger'
+      %li= restful_submit_tag _("Delete"), "destroy", polymorphic_path([@catalog, Deployable], :action => 'multi_destroy'), 'DELETE', :id => 'delete_button', :class => 'button danger'
 
     - content_for :filter_controls do
       %li
-        = label_tag :catalog_entries_preset_filter, t('filter_table.viewing')
+        = label_tag :catalog_entries_preset_filter, _("Viewing")
         = hidden_field_tag :current_path, request.fullpath
-        = select_tag(:catalog_entries_preset_filter, preset_filters_options_for_select(Deployable::PRESET_FILTERS_OPTIONS, params[:catalog_entries_preset_filter]), :include_blank => t("catalog_entries.preset_filters.all_catalog_entries"), :disabled => true)
-        = restful_submit_tag t("filter_table.apply_filters"), "filter", polymorphic_path([@catalog, Deployable], :action => 'filter'), 'POST', :class => 'button', :id => 'apply_catalog_entries_preset_filter'
+        = select_tag(:catalog_entries_preset_filter, preset_filters_options_for_select(Deployable::PRESET_FILTERS_OPTIONS, params[:catalog_entries_preset_filter]), :include_blank => _("All Deployables"), :disabled => true)
+        = restful_submit_tag _("Apply filters"), "filter", polymorphic_path([@catalog, Deployable], :action => 'filter'), 'POST', :class => 'button', :id => 'apply_catalog_entries_preset_filter'
         %span.label.badge.dark= @deployables.count
       %li.table-search-filter
-        = text_field_tag :catalog_entries_search, params[:catalog_entries_search], :placeholder => t("filter_table.search")
+        = text_field_tag :catalog_entries_search, params[:catalog_entries_search], :placeholder => _("Search")
         = restful_submit_tag "", "search", polymorphic_path([@catalog, Deployable], :action => 'filter'), 'POST', :class => 'button', :id => 'apply_catalog_entries_search'
 
       :javascript

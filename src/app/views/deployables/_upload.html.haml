@@ -4,13 +4,13 @@
   %fieldset
     = hidden_field_tag('form_option', @form_option)
     .field
-      = label_tag :catalog_id, t('deployables.form.catalog')
+      = label_tag :catalog_id, _("Catalog")
       .input
         %span.text_instead_input
           -if @catalog.present?
             =@catalog.name
           - else
-            %em=t('deployables.new.no_catalog_selected')
+            %em=_("no Catalog selected")
     .field
       = form.label :name, :class => 'em'
       .input
@@ -20,17 +20,17 @@
       .input
         = form.text_area :description, :class => 'long'
     .field
-      = form.label :xml, t('deployables.form.choose_xml')
+      = form.label :xml, _("Choose Deployable XML file")
       .input
         = form.file_field :xml
     .field
-      = label_tag :edit_xml, t('deployables.form.edit_xml_after_save'), :class => 'checkbox'
+      = label_tag :edit_xml, _("Edit XML file after save"), :class => 'checkbox'
       .input
         = check_box_tag(:edit_xml, true, false)
 
   %fieldset.options
-    = submit_tag t('save'), :name => 'save', :class => 'button primary', :id => 'save_button'
+    = submit_tag _("Save"), :name => 'save', :class => 'button primary', :id => 'save_button'
     -if @catalog.present?
-      = link_to t('cancel'), catalog_path(@catalog), :class => 'button danger'
+      = link_to _("Cancel"), catalog_path(@catalog), :class => 'button danger'
     -else
-      = link_to t('cancel'), deployables_path, :class => 'button danger'
+      = link_to _("Cancel"), deployables_path, :class => 'button danger'

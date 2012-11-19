@@ -2,15 +2,15 @@
   %h2#users.users= @title
 
 - content_for :form_header do
-  %li= link_to t("users.list.add_user"), new_user_path, :class => 'button primary', :id => 'add_user_button'
-  %li= restful_submit_tag "#{t'delete'}", "destroy", multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+  %li= link_to _("Add User"), new_user_path, :class => 'button primary', :id => 'add_user_button'
+  %li= restful_submit_tag "#{_("Delete")}", "destroy", multi_destroy_users_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
 - content_for :filter_controls do
   %li
-    = label_tag :users_preset_filter, t('filter_table.viewing')
+    = label_tag :users_preset_filter, _("Viewing")
     = hidden_field_tag :current_path, request.fullpath
-    = select_tag(:users_preset_filter, preset_filters_options_for_select(User::PRESET_FILTERS_OPTIONS, params[:users_preset_filter]), :include_blank => t("users.preset_filters.all_users"), :disabled => true)
-    = restful_submit_tag t("filter_table.apply_filters"), "index", filter_users_path, 'POST', :class => 'button', :id => 'apply_users_preset_filter'
+    = select_tag(:users_preset_filter, preset_filters_options_for_select(User::PRESET_FILTERS_OPTIONS, params[:users_preset_filter]), :include_blank => _("All Users"), :disabled => true)
+    = restful_submit_tag _("Apply filters"), "index", filter_users_path, 'POST', :class => 'button', :id => 'apply_users_preset_filter'
     %span.label.badge.dark= @users.count
   /  = link_to "Filter", "#", :class => 'button pill'
   /%li
@@ -20,7 +20,7 @@
   /    %li= link_to "Add/Remove Columns", "#"
   /    %li= link_to "Freeze Column", "#"
   %li.table-search-filter
-    = text_field_tag :users_search, params[:users_search], :placeholder => t("filter_table.search")
+    = text_field_tag :users_search, params[:users_search], :placeholder => _("Search")
     = restful_submit_tag "", "index", filter_users_path, 'POST', :class => 'button', :id => 'apply_users_search'
 
   :javascript
@@ -41,5 +41,5 @@
     %td= user.last_name
     %td= user.first_name
     %td{:class => 'center'}= number_to_percentage user.quota.percentage_used, :precision => 0
-    %td{:class => 'center'}= user.quota.maximum_running_instances or "#{t'users.list.unlimited'}"
+    %td{:class => 'center'}= user.quota.maximum_running_instances or "#{_("Unlimited")}"
     %td= user.email

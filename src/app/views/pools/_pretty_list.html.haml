@@ -1,5 +1,5 @@
 %header
-  %h2.pools=t 'pools.index.your_pools'
+  %h2.pools=_("Your Pools")
 
 .content#pools-list
   - @pools.each do |pool|
@@ -15,7 +15,7 @@
           = link_to(pool_details_label, pool_path(pool), :class =>'pool_details')
         %li
           - if check_privilege(Privilege::CREATE, Deployment, pool)
-            = link_to t('deployments.new_deployment'), launch_new_deployments_path(:pool_id => pool.id), :class => 'button primary', :id => 'new_deployment_button'
+            = link_to _("New Deployment"), launch_new_deployments_path(:pool_id => pool.id), :class => 'button primary', :id => 'new_deployment_button'
         %li.catalog_link
           = render :partial => 'layouts/catalog_dropdown', :locals => {:catalogs => pool.catalogs}
 

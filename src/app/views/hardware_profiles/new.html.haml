@@ -3,9 +3,9 @@
 %header.page-header
   .obj_actions
     .return_to
-      = t'return_to'
-      = link_to t('hardware_profiles.hardware_profiles'), hardware_profiles_path
-  %h1.hardware_profiles= @hardware_profile.name.blank? ? t("hardware_profiles.new.new_hwp") : @hardware_profile.name
+      = _("Return to:")
+      = link_to _("Hardware Profiles"), hardware_profiles_path
+  %h1.hardware_profiles= @hardware_profile.name.blank? ? _("New Hardware Profile") : @hardware_profile.name
 
 %section.content-section
   = form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true, :class => 'generic' } do |hwp_form|

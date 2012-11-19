@@ -1,7 +1,7 @@
 = render :partial => 'layouts/nav_history'
 %header.page-header
   .obj_actions
-    = link_to t('edit'), edit_catalog_path(@catalog), :class => 'button', :id => 'edit_button'
+    = link_to _("Edit"), edit_catalog_path(@catalog), :class => 'button', :id => 'edit_button'
   %h1.pools= @catalog.name
 
 %section.content-section
@@ -16,20 +16,20 @@
               %h2= deployable.name
               %p= deployable.description
             .controls
-              = link_to t(".details"),"#", :class => "collapse"
-              = button_to t(".select"), launch_new_deployments_path(:deployment => { :name => deployable.name, :pool_id => @catalog.pool.id }, :deployable_id => deployable.id ), :class=> "button primary"
+              = link_to _("Details"),"#", :class => "collapse"
+              = button_to _("Select"), launch_new_deployments_path(:deployment => { :name => deployable.name, :pool_id => @catalog.pool.id }, :deployable_id => deployable.id ), :class=> "button primary"
           .details.collapsible.collapsed
             %p= deployable.description
             %table
               %tr
                 %th
-                  %strong= t'.image_id'
-                %th=t'.profile'
-                %th=t'.hdd'
-                %th=t'.ram'
-                %th=t'.arch'
+                  %strong= _("Image ID")
+                %th=_("Profile")
+                %th=_("HDD")
+                %th=_("RAM")
+                %th=_("ARCH")
                 %th
-                  %strong=t'.deployable_xml'
+                  %strong=_("Deployable Xml")
               -deployable.get_image_details.first.each do |assembly|
                 %tr
                   %td
@@ -39,8 +39,8 @@
                     %td= link_to deployable.xml_filename, catalog_deployable_path(deployable.catalogs.first, deployable.id, :deployable_xml => true)
   - else
     #no-catalog-entry.align-center
-      %strong= t(".no_catalog_entry")
+      %strong= _("No available Deployable. Please add one first.")
 
   .align-center
     %div= will_paginate @deployables
-    %div= link_to t('cancel'), root_path, :class => 'button danger', :id => 'edit_button'
+    %div= link_to _("Cancel"), root_path, :class => 'button danger', :id => 'edit_button'

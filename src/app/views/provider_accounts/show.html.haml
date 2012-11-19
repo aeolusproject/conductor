@@ -2,24 +2,24 @@
 %header.page-header
   .obj_actions
     .return_to
-      =t'return_to'
-      = link_to t('provider_accounts.new.cloud_providers'), edit_provider_path(@provider, :details_tab => 'accounts')
+      =_("Return to:")
+      = link_to _("Cloud Providers"), edit_provider_path(@provider, :details_tab => 'accounts')
     .button-group
-      = link_to t('edit'), edit_provider_provider_account_path(@provider, @provider_account), :class => "button", :title => t('edit_provider_account')
-      = link_to t('provider_accounts.show.test_connection'), provider_provider_account_path(@provider, @provider_account, :test_account => true), :class => 'button'
-      = link_to t('provider_accounts.edit.delete_account'), provider_provider_account_path(@provider, @provider_account), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger'
+      = link_to _("Edit"), edit_provider_provider_account_path(@provider, @provider_account), :class => "button", :title => _("Edit Provider Account")
+      = link_to _("Test Connection"), provider_provider_account_path(@provider, @provider_account, :test_account => true), :class => 'button'
+      = link_to _("Delete Account"), provider_provider_account_path(@provider, @provider_account), :method => 'delete', :confirm => _("Are you sure you want to delete?"), :class => 'button danger'
   %h1.provider_accounts= @title
 
 %section.content-section
   %header
-    %h2=t'properties'
+    %h2=_("Properties")
 
   .content
     = render :partial => 'properties'
 
 %section.content-section.realm
   %header
-    %h2= t'realm_s'
+    %h2= _("Realms")
 
   .content
     = render :partial => 'provider_realms/list'
@@ -27,6 +27,6 @@
 - if check_privilege(Privilege::PERM_VIEW,@permission_object)
   %section.content-section
     %header
-      %h2.roles= t('role_assignments')
+      %h2.roles= _("Role Assignments")
     .content
       = render :partial => 'permissions/permissions'

@@ -17,7 +17,7 @@ module RolesHelper
   def roles_header
     [
       { :name => '', :sortable => false },
-      { :name => t("roles.index.role_name"), :sortable => :name },
+      { :name => _("Role Name"), :sortable => :name },
     ]
   end
 end

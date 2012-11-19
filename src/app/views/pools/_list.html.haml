@@ -1,17 +1,17 @@
 - content_for :form_header do
   - if check_privilege(Privilege::CREATE, Pool)
-    %li= link_to "#{t'pools.new_pool'}", new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
-  %li= restful_submit_tag "#{t'pools.index.destroy'}", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+    %li= link_to "#{_("New Pool")}", new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
+  %li= restful_submit_tag "#{_("Destroy")}", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
 - content_for :filter_controls do
   %li
-    = label_tag :pools_preset_filter, t('filter_table.viewing')
-    = select_tag(:pools_preset_filter, preset_filters_options_for_select(Pool::PRESET_FILTERS_OPTIONS, params[:pools_preset_filter]), :include_blank => t("pools.preset_filters.all_pools"))
+    = label_tag :pools_preset_filter, _("Viewing")
+    = select_tag(:pools_preset_filter, preset_filters_options_for_select(Pool::PRESET_FILTERS_OPTIONS, params[:pools_preset_filter]), :include_blank => _("All Pools"))
     = hidden_field_tag :current_path, request.fullpath
-    = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_pools_path, 'POST', :class => 'button', :id => 'apply_pools_preset_filter'
+    = restful_submit_tag _("Apply filters"), "filter", filter_pools_path, 'POST', :class => 'button', :id => 'apply_pools_preset_filter'
     %span.label.badge.dark= @pools.count
   %li.table-search-filter
-    = text_field_tag :pools_search, params[:pools_search], :placeholder => t("filter_table.search")
+    = text_field_tag :pools_search, params[:pools_search], :placeholder => _("Search")
     = restful_submit_tag "", "search", filter_pools_path, 'POST', :class => 'button', :id => 'apply_pools_search', :name => "apply_search"
 
   :javascript

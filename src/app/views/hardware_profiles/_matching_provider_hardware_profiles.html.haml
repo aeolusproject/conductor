@@ -1,6 +1,6 @@
 %section.content-section
   %header
-    %h2=t'hardware_profiles.show.matching_hwp'
+    %h2=_("Matching Provider Hardware Profiles")
   .content
     - if @matching_hwps.size > 0
       %table.flat
@@ -37,4 +37,4 @@
               =hwp.default_cost_per_hour.nil? ? "N/A" : "%.3f" % hwp.default_cost_per_hour
     - else
       %h3
-        = t'hardware_profiles.matching_provider_hwp.no_matching_provider_hwp'
+        = _("No Matching Provider Hardware Profiles Could be found")

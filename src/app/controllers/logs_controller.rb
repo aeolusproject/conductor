@@ -63,17 +63,17 @@ class LogsController < ApplicationController
           source = event.source
           provider_account = source.nil? ? nil : source.provider_account
           csv << [ event.event_time.strftime("%d-%b-%Y %H:%M:%S"),
-                   source.nil? ? t('logs.index.not_available') : source.name,
-                   source.nil? ? t('logs.index.not_available') : source.state,
+                   source.nil? ? _("N/A") : source.name,
+                   source.nil? ? _("N/A") : source.state,
                    source.nil? ?
-                     t('logs.index.not_available') :
+                     _("N/A") :
                      source.pool_family.name + "/" + source.pool.name,
                    provider_account.nil? ?
-                     t('logs.index.not_available') :
+                     _("N/A") :
                      provider_account.provider.name + "/" +
                        provider_account.name,
                    source.nil? ?
-                     t('logs.index.not_available') :
+                     _("N/A") :
                      source.owner.username,
                    event.summary ]
         end
@@ -94,7 +94,7 @@ class LogsController < ApplicationController
       params[:provider_select].nil? ? "" : params[:provider_select]
     @owner_id = params[:owner_id].nil? ? "" : params[:owner_id]
     @state = params[:state].nil? ? "" : params[:state]
-    @order = params[:order].nil? ? t('logs.options.time_order') : params[:order]
+    @order = params[:order].nil? ? _("Time") : params[:order]
     @from_date = params[:from_date].nil? ? Date.today - 7.days :
       Date.civil(params[:from_date][:year].to_i,
                  params[:from_date][:month].to_i,
@@ -107,7 +107,7 @@ class LogsController < ApplicationController
     if @to_date < @from_date
       @events = []
       @paginated_events = []
-      flash[:error] = t('logs.flash.error.date_range')
+      flash[:error] = _("'From date' cannot be after 'To date'")
       return
     end
 
@@ -117,7 +117,7 @@ class LogsController < ApplicationController
       @pool_select = ""
       @provider_select = ""
       @owner_id = ""
-      @order = t('logs.options.time_order')
+      @order = _("Time")
       @source_type = "Deployment" if @source_type == ""
     end
 
@@ -185,23 +185,23 @@ class LogsController < ApplicationController
     }
 
     case @order
-    when t('logs.options.deployment_instance_order')
+    when _("Deployment/Instance")
       @events = @events.sort_by {|event|
         (event.source.nil? ? "" : event.source.name.downcase)}
-    when t('logs.options.state_order')
+    when _("State")
       @events = @events.sort_by {|event|
         (event.source.nil? ? "" :
          (event.source.state.nil? ? "" : event.source.state.downcase))}
-    when t('logs.options.pool_order')
+    when _("Pool")
       @events = @events.sort_by {|event|
         (event.source.nil? ? "" : event.source.pool_family.name.downcase)}
-    when t('logs.options.provider_order')
+    when _("Provider")
       @events = @events.sort_by {|event|
         source = event.source
         (source.nil? ? "" :
          (source.provider_account.nil? ? "" :
           source.provider_account.name.downcase))}
-    when t('logs.options.owner_order')
+    when _("Owner")
       @events = @events.sort_by {|event|
         (event.source.nil? ? "" : event.source.owner.username.downcase)}
     end
@@ -211,17 +211,17 @@ class LogsController < ApplicationController
 
   def load_options
     if @view == "pretty"
-      @source_type_options = [[t('logs.options.deployment_event_type'), "Deployment"],
-                              [t('logs.options.instance_event_type'), "Instance"]]
-      @group_options = [[t('logs.options.default_group_by'), ""],
-                        t('logs.index.pool'),
-                        t('logs.index.provider'),
-                        t('logs.index.owner')]
+      @source_type_options = [[_("Deployment"), "Deployment"],
+                              [_("Instance"), "Instance"]]
+      @group_options = [[_("All"), ""],
+                        _("Pool"),
+                        _("Provider"),
+                        _("Owner")]
     else
-      @source_type_options = [[t('logs.options.default_event_types'), ""],
-                              [t('logs.options.deployment_event_type'), "Deployment"],
-                              [t('logs.options.instance_event_type'), "Instance"]]
-      @pool_options = [[t('logs.options.default_pools'), ""]]
+      @source_type_options = [[_("All Event Types"), ""],
+                              [_("Deployment"), "Deployment"],
+                              [_("Instance"), "Instance"]]
+      @pool_options = [[_("All Pools"), ""]]
       PoolFamily.list_for_user(current_session, current_user, Privilege::VIEW).
         find(:all, :include => :pools, :order => "pool_families.name",
              :select => ["id", "name"]).each do |pool_family|
@@ -230,7 +230,7 @@ class LogsController < ApplicationController
         @pool_options += pool_family.pools.
           map{|x| [" -- " + x.name, "pool:" + x.id.to_s]}
       end
-      @provider_options = [[t('logs.options.default_providers'), ""]]
+      @provider_options = [[_("All Providers"), ""]]
       Provider.list_for_user(current_session, current_user, Privilege::VIEW).
         find(:all, :include => :provider_accounts, :order => "providers.name",
              :select => ["id", "name"]).each do |provider|
@@ -238,29 +238,29 @@ class LogsController < ApplicationController
         @provider_options += provider.provider_accounts.
           map{|x| [" -- " + x.name, "provider_account:" + x.id.to_s]}
       end
-      @owner_options = [[t('logs.options.default_users'), ""]] +
+      @owner_options = [[_("All Users"), ""]] +
         User.find(:all, :order => "username",
                   :select => ["id", "username"]).map{|x| [x.username, x.id]}
-      @order_options = [t('logs.options.time_order'),
-                        t('logs.options.deployment_instance_order'),
-                        t('logs.options.state_order'),
-                        t('logs.options.pool_order'),
-                        t('logs.options.provider_order'),
-                        t('logs.options.owner_order')]
-      @state_options = ([[t('logs.options.default_states'), ""]] +
+      @order_options = [_("Time"),
+                        _("Deployment/Instance"),
+                        _("State"),
+                        _("Pool"),
+                        _("Provider"),
+                        _("Owner")]
+      @state_options = ([[_("All States"), ""]] +
                         Deployment::STATES + Instance::STATES).uniq
     end
   end
 
   def load_headers
     @header = [
-      { :name => t('logs.index.event_time'), :sortable => false },
-      { :name => t('logs.index.deployment'), :sortable => false },
-      { :name => t('logs.index.state'), :sortable => false },
-      { :name => t('logs.index.pool'), :sortable => false },
-      { :name => t('logs.index.provider'), :sortable => false },
-      { :name => t('logs.index.owner'), :sortable => false },
-      { :name => t('logs.index.summary'), :sortable => false },
+      { :name => _("Time"), :sortable => false },
+      { :name => _("Deployment/Instance"), :sortable => false },
+      { :name => _("State"), :sortable => false },
+      { :name => _("Pool"), :sortable => false },
+      { :name => _("Provider"), :sortable => false },
+      { :name => _("Owner"), :sortable => false },
+      { :name => _("Summary"), :sortable => false },
       { :name => "", :sortable => false },
     ]
   end
@@ -341,11 +341,11 @@ class LogsController < ApplicationController
     label = "Unknown"
     if !source.nil?
       case label_type
-      when t('logs.index.pool')
+      when _("Pool")
         label = source.pool.name unless source.pool.nil?
-      when t('logs.index.provider')
+      when _("Provider")
         label = source.provider_account.name unless source.provider_account.nil?
-      when t('logs.index.owner')
+      when _("Owner")
         label = source.owner.name unless source.owner.nil?
       end
     end

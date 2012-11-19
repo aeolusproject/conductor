@@ -1,6 +1,6 @@
 - content_for :form_footer do
-  = link_to t('cancel'), pool_family_path(@pool_family, :details_tab => 'provider_accounts'), :class => 'button danger'
-  = restful_submit_tag t('provider_accounts.add_provider_account'), "create", add_provider_accounts_pool_family_path(@pool_family), 'POST', :id => 'save_button', :class => 'button'
+  = link_to _("Cancel"), pool_family_path(@pool_family, :details_tab => 'provider_accounts'), :class => 'button danger'
+  = restful_submit_tag _("Add Account"), "create", add_provider_accounts_pool_family_path(@pool_family), 'POST', :id => 'save_button', :class => 'button'
 = filter_table(provider_accounts_header(:without_alert => true), @provider_accounts) do |account|
   %tr{:class => cycle('nostripe','stripe')}
     %td{:class => 'checkbox'}

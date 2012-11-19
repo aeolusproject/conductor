@@ -1,17 +1,17 @@
 - content_for :form_header do
   - if check_privilege(Privilege::CREATE, HardwareProfile)
-    %li= link_to t('hardware_profiles.list.new_hardware'), new_hardware_profile_path, :id => 'new_hardware_profile_button', :class => 'button primary'
-  %li= restful_submit_tag t('delete'), "destroy", multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+    %li= link_to _("New Hardware Profile"), new_hardware_profile_path, :id => 'new_hardware_profile_button', :class => 'button primary'
+  %li= restful_submit_tag _("Delete"), "destroy", multi_destroy_hardware_profiles_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
 - content_for :filter_controls do
   %li
-    = label_tag :hardware_profiles_preset_filter, t('filter_table.viewing')
+    = label_tag :hardware_profiles_preset_filter, _("Viewing")
     = hidden_field_tag :current_path, request.fullpath
-    = select_tag(:hardware_profiles_preset_filter, preset_filters_options_for_select(HardwareProfile::PRESET_FILTERS_OPTIONS, params[:hardware_profiles_preset_filter]), :include_blank => t("hardware_profiles.preset_filters.all_hardware_profiles"), :disabled => true)
-    = restful_submit_tag t("filter_table.apply_filters"), "index", filter_hardware_profiles_path, 'POST', :class => 'button', :id => 'apply_hardware_profiles_preset_filter'
+    = select_tag(:hardware_profiles_preset_filter, preset_filters_options_for_select(HardwareProfile::PRESET_FILTERS_OPTIONS, params[:hardware_profiles_preset_filter]), :include_blank => _("All Hardware Profiles"), :disabled => true)
+    = restful_submit_tag _("Apply filters"), "index", filter_hardware_profiles_path, 'POST', :class => 'button', :id => 'apply_hardware_profiles_preset_filter'
     %span.label.badge.dark= @hardware_profiles.count
   %li.table-search-filter
-    = text_field_tag :hardware_profiles_search, params[:hardware_profiles_search], :placeholder => t("filter_table.search")
+    = text_field_tag :hardware_profiles_search, params[:hardware_profiles_search], :placeholder => _("Search")
     = restful_submit_tag "", "index", filter_hardware_profiles_path, 'POST', :class => 'button', :id => 'apply_hardware_profiles_search'
 
   :javascript

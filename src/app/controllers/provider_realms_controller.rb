@@ -32,7 +32,7 @@ class ProviderRealmsController < ApplicationController
     @provider_realm = ProviderRealm.find(params[:id])
     @title = @provider_realm.name
 
-    @tab_captions = [t('realms.tab_captions.properties'), t('realms.tab_captions.mapping')]
+    @tab_captions = [_("Properties"), _("Mapping")]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     @details_tab = 'properties' unless ['properties', 'mapping'].include?(@details_tab)
 
@@ -64,7 +64,7 @@ class ProviderRealmsController < ApplicationController
   def load_realms
     @header = [
       {:name => '', :sortable => false},
-      {:name => t("provider_realms.name"), :sort_attr => :name},
+      {:name => _("Provider Realm Name"), :sort_attr => :name},
     ]
     @provider_realms = ProviderRealm.apply_filters(:preset_filter_id => params[:provider_realms_preset_filter], :search_filter => params[:provider_realms_search])
   end

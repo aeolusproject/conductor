@@ -5,7 +5,7 @@
     .return_to
       = t(:return_to)
       = link_to t('provider_selection.show.environment', :environment => @environment.name), pool_family_path(@environment)
-  %h1.no-icon= t('provider_selection.show.provider_selection')
+  %h1.no-icon= _("Provider Selection Strategies")
 
 %section.content-section
   %header

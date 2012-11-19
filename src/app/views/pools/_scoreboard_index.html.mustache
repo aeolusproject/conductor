@@ -1,38 +1,38 @@
 <dl class="statistics">
   <ul class="groups">
     <li>
-      <dt><%= t('pools.pools')%></dt>
-      <dd class="count pool" title="<%= t('pools.scoreboard.pools_total') %>">{{user_pools_count}}</dd>
-      <dd class="count pool partial" title="<%= t('pools.scoreboard.pools_in_use') %>">{{pools_in_use}}</dd>
+      <dt><%= _("Pools")%></dt>
+      <dd class="count pool" title="<%= _("Total Pools") %>">{{user_pools_count}}</dd>
+      <dd class="count pool partial" title="<%= _("Pools in use") %>">{{pools_in_use}}</dd>
     </li>
     <li>
-      <dt><%= t('deployments.deployments')%></dt>
-      <dd class="count deployment" title="<%= t('pools.scoreboard.deployments_total') %>">{{deployments_count}}</dd>
+      <dt><%= _("Deployments")%></dt>
+      <dd class="count deployment" title="<%= _("Total Deployments") %>">{{deployments_count}}</dd>
     </li>
     <li>
-      <dt><%= t('instances.instances.other')%></dt>
-      <dd class="count instance" title="<%= t('pools.scoreboard.total_instances') %>">{{instances_count}}</dd>
-      <dd class="count instance pending" title="<%= t('pools.scoreboard.instances_pending') %>">{{instances_pending_count}}</dd>
-      <dd class="count instance failure" title="<%= t('pools.scoreboard.instances_failed') %>">{{instances_failed_count}}</dd>
+      <dt><%= _("Instances")%></dt>
+      <dd class="count instance" title="<%= _("Total Instances") %>">{{instances_count}}</dd>
+      <dd class="count instance pending" title="<%= _("Instances pending") %>">{{instances_pending_count}}</dd>
+      <dd class="count instance failure" title="<%= _("Instances failed") %>">{{instances_failed_count}}</dd>
     </li>
     <li>
       <ul class="subgroup">
         <li>
-          <dt><%= t('alerts_label')%></dt>
-          <dd class="count alert" title="<%= t('pools.scoreboard.alerts') %>">{{instances_failed_count}}</dd>
+          <dt><%= _("Alerts")%></dt>
+          <dd class="count alert" title="<%= _("Alerts") %>">{{instances_failed_count}}</dd>
         </li>
       </ul>
     </li>
     <li>
       <dt>
-        <%= t('user')%>
-        <%= t('quota_used')%>
+        <%= _("User")%>
+        <%= _("Quota Used")%>
       </dt>
-      <dd class="percentage quota" title="<%= t('pools.scoreboard.quota_usage') %>">{{percentage_quota}}</dd>
+      <dd class="percentage quota" title="<%= _("Quota usage") %>">{{percentage_quota}}</dd>
       <dd class="fraction instance">
-        <span class="part" title="<%= t('pools.scoreboard.running_instances_quota') %>">{{user_running_instances}}</span>
+        <span class="part" title="<%= _("Running Instances") %>">{{user_running_instances}}</span>
         <span class="divider label small caps">of</span>
-        <span class="total" title="<%= t('pools.scoreboard.total_available_instances') %>"><%= @user_statistics[:user_available_quota].nil? ? raw('&infin;') : @user_statistics[:user_available_quota] %></span>
+        <span class="total" title="<%= _("Total Instances available") %>"><%= @user_statistics[:user_available_quota].nil? ? raw('&infin;') : @user_statistics[:user_available_quota] %></span>
       </dd>
     </li>
   </ul>

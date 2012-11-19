@@ -24,18 +24,18 @@
     .content
       %fieldset
         .field
-          = label_tag :name, t('.name')
+          = label_tag :name, _("Name")
           .input
             %span.text_instead_input= @deployment.name
 
         - unless @deployment.deployable_xml.description.blank?
           .field
-            = label_tag :description, t('.description')
+            = label_tag :description, _("Description")
             .input
               %span.text_instead_input= @deployment.deployable_xml.description
 
         .field
-          = label_tag :deployable_xml, t('.deployable_xml')
+          = label_tag :deployable_xml, _("Deployable Xml")
           .input
             %span.text_instead_input
               = link_to @deployable.xml_filename, definition_catalog_deployable_path(@deployable.catalogs.first, @deployable)
@@ -43,30 +43,30 @@
 
         - if @realms.any?
           .field
-            = label_tag :realm, t('realms.index.realm')
+            = label_tag :realm, _("Realm")
             .input
               %span.text_instead_input
                 - if @deployment.frontend_realm.present?
                   = @deployment.frontend_realm.name
                 - else
-                  = t('deployments.launch_new.autoselect')
+                  = _("Auto-select")
 
         .field
-          = label_tag :launch_with_errors , t('.launch_with_errors'), :class => 'checkbox'
+          = label_tag :launch_with_errors , _("Ignore Instance errors during launch"), :class => 'checkbox'
           .input
             = check_box :deployment, :partial_launch
 
         .field
-          = label_tag :image_ids, t('.image_ids')
+          = label_tag :image_ids, _("Image IDs")
           .input
             %span.text_instead_input
               %ul
               - @deployment.deployable_xml.assemblies.each do |assembly|
                 %li.image-id= assembly.image_id
       %fieldset.options.align-center
-        = submit_tag t(:back), :class => 'button'
-        = link_to t(:cancel), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
-        = submit_tag t('.launch'), :id => 'launch_deployment_button', :disabled => (@errors && @errors.any?)
+        = submit_tag _("Back"), :class => 'button'
+        = link_to _("Cancel"), pool_path(@pool), :class => 'button danger', :id => 'cancel_deployment_button'
+        = submit_tag _("Launch"), :id => 'launch_deployment_button', :disabled => (@errors && @errors.any?)
 -# Quota checking to go here as well, once I understand how it works with new code
 
 :javascript

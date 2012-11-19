@@ -4,7 +4,7 @@
     = t('pools.header_show.pool_name', :name => @deployment.pool.name)
 
 %section.content-section.deployments.launch-time-params
-  %h2= t('.configure_launch_time_params')
+  %h2= _("Configure launch-time parameters for your Deployment:")
   = form_for @deployment, :url => overview_deployments_path, :html => {:method => :post, :class => "generic horizontal"} do
     = hidden_field :deployment, :name
     = hidden_field :deployment, :pool_id
@@ -43,7 +43,7 @@
 
       #service-headers
 
-    = submit_tag t('.finalize'), :class => 'button primary', :id => 'submit_params'
+    = submit_tag _("Finalize"), :class => 'button primary', :id => 'submit_params'
 
 :javascript
   function checkEnteredParams() {

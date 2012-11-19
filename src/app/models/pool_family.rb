@@ -102,7 +102,7 @@ class PoolFamily < ActiveRecord::Base
   def check_name!
     if self == PoolFamily.default
       raise Aeolus::Conductor::Base::NotDestroyable,
-        I18n.t('pool_families.errors.default_pool_family_not_deleted')
+        _("The default Environment cannot be deleted.")
     else
       true
     end

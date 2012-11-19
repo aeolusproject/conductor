@@ -2,8 +2,8 @@
 %header.page-header
   .obj_actions
     .return_to
-      = t('return_to')
-      = link_to t('provider_realms.provider_realms'), edit_provider_path(@provider_realm.provider, :details_tab =>  'realms', :only_tab =>  true), :id =>  'back_to_provider_realms_button'
+      = _("Return to:")
+      = link_to _("Provider Realms"), edit_provider_path(@provider_realm.provider, :details_tab =>  'realms', :only_tab =>  true), :id =>  'back_to_provider_realms_button'
   %h1.realms= @title
 
 - unless @provider_realm.available
@@ -13,14 +13,14 @@
 
 %section.content-section.realm
   %header
-    %h2= t'realms.show.properties'
+    %h2= _("Properties")
 
   .content
     = render :partial => 'properties'
 
 %section.content-section.realm_mapping
   %header
-    %h2= t'provider_realms.show.mapping'
+    %h2= _("Provider Realm Mapping")
 
   .content
     = render :partial => 'mapping'

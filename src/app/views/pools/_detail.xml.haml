@@ -5,7 +5,7 @@
   -if pool.quota.maximum_running_instances
     %quota{ :maximum_running_instances => pool.quota.maximum_running_instances}
   -else
-    %quota{ :maximum_running_instances => t('pools.form.unlimited')}
+    %quota{ :maximum_running_instances => _("unlimited")}
   %enabled= pool.enabled
   %catalogs
     - catalogs.each do |catalog|

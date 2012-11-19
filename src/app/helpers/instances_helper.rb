@@ -22,11 +22,11 @@ module InstancesHelper
     [
       {:name => 'checkbox', :class => 'checkbox', :sortable => false },
       {:name => '', :class => 'alert', :sortable => false },
-      {:name => t('instances.list.table.name'), :sortable => false },
-      {:name => t('instances.list.table.public_address'), :sortable => false },
-      {:name => t('instances.list.table.state'), :sortable => false },
-      {:name => t('instances.list.table.provider'), :sortable => false },
-      {:name => t('instances.list.table.owner'), :sortable => false }
+      {:name => _("Name"), :sortable => false },
+      {:name => _("Public Address"), :sortable => false },
+      {:name => _("State"), :sortable => false },
+      {:name => _("Provider"), :sortable => false },
+      {:name => _("Owner"), :sortable => false }
     ]
   end
 

@@ -1,17 +1,17 @@
 - content_for :form_header do
   - if @can_create
-    %li= link_to t("catalogs.new_catalog"), new_catalog_path, :id => 'new_catalog_button', :class => 'button primary'
-  %li= restful_submit_tag t("delete"), "destroy", multi_destroy_catalogs_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+    %li= link_to _("New Catalog"), new_catalog_path, :id => 'new_catalog_button', :class => 'button primary'
+  %li= restful_submit_tag _("Delete"), "destroy", multi_destroy_catalogs_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
 - content_for :filter_controls do
   %li
-    = label_tag :catalogs_preset_filter, t('filter_table.viewing')
+    = label_tag :catalogs_preset_filter, _("Viewing")
     = hidden_field_tag :current_path, request.fullpath
-    = select_tag(:catalogs_preset_filter, preset_filters_options_for_select(Catalog::PRESET_FILTERS_OPTIONS, params[:catalogs_preset_filter]), :include_blank => t("catalogs.preset_filters.all_catalogs"))
-    = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_catalogs_path, 'POST', :class => 'button', :id => 'apply_catalogs_preset_filter'
+    = select_tag(:catalogs_preset_filter, preset_filters_options_for_select(Catalog::PRESET_FILTERS_OPTIONS, params[:catalogs_preset_filter]), :include_blank => _("All Catalogs"))
+    = restful_submit_tag _("Apply filters"), "filter", filter_catalogs_path, 'POST', :class => 'button', :id => 'apply_catalogs_preset_filter'
     %span.label.badge.dark= @catalogs.count
   %li.table-search-filter
-    = text_field_tag :catalogs_search, params[:catalogs_search], :placeholder => t("filter_table.search")
+    = text_field_tag :catalogs_search, params[:catalogs_search], :placeholder => _("Search")
     = restful_submit_tag "", "search", filter_catalogs_path, 'POST', :class => 'button', :id => 'apply_catalogs_search'
 
   :javascript

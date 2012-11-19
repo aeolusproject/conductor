@@ -1,19 +1,19 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
   .obj_actions
-    %span.label.light=t("providers.choose_a_provider")
+    %span.label.light=_("Choose a Provider:")
     %ul#provider_select
       %li
-        = link_to t("providers.index.create_new_provider"), "javascript:void(0)"
+        = link_to _("Create New Provider"), "javascript:void(0)"
         %ul
-          %li= link_to "+ " + t("providers.index.create_new_provider"), new_provider_path, :id => "create_new_provider"
+          %li= link_to "+ " + _("Create New Provider"), new_provider_path, :id => "create_new_provider"
           - @providers.each do |provider|
             %li= link_to provider.name, edit_provider_path(provider)
   %h1.providers= @title
 
 %section.content-section.users
   %header
-    %h2.settings= t("settings.settings")
+    %h2.settings= _("Settings")
   .content
     = conductor_form_for @provider do |f|
       = render :partial => "form", :locals => { :form => f, :readonly => false }

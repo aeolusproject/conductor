@@ -19,7 +19,7 @@ class FrontendRealmsController < ApplicationController
   before_filter :load_realms, :only =>[:index, :show]
 
   def index
-    @title = t('realms.realms')
+    @title = _("Realms")
     clear_breadcrumbs
     save_breadcrumb(frontend_realms_path)
     set_admin_content_tabs 'frontend_realms'
@@ -47,10 +47,10 @@ class FrontendRealmsController < ApplicationController
   def update
     require_privilege(Privilege::MODIFY, FrontendRealm)
     @realm = FrontendRealm.find(params[:id])
-    @title = @realm.name || t("realms.index.realm")
+    @title = @realm.name || _("Realm")
 
     if @realm.update_attributes(params[:frontend_realm])
-      flash[:notice] = t"realms.flash.notice.updated"
+      flash[:notice] = _("Realm updated")
       redirect_to frontend_realms_url and return
     end
 
@@ -63,7 +63,7 @@ class FrontendRealmsController < ApplicationController
     #@provider = Provider.find(params[:provider_id])
     @realm = FrontendRealm.new(params[:frontend_realm])
     if @realm.save
-      flash[:notice] = t"realms.flash.notice.added"
+      flash[:notice] = _("Realm was added")
       redirect_to frontend_realm_path(@realm)
     else
       load_backend_realms
@@ -74,9 +74,9 @@ class FrontendRealmsController < ApplicationController
   def destroy
     require_privilege(Privilege::MODIFY, FrontendRealm)
     if FrontendRealm.destroy(params[:id])
-      flash[:notice] = t "realms.flash.notice.deleted"
+      flash[:notice] = _("Realm was deleted")
     else
-      flash[:error] = t"realms.flash.error.not_deleted"
+      flash[:error] = _("Realm was not deleted")
     end
     redirect_to frontend_realms_path
   end
@@ -85,7 +85,7 @@ class FrontendRealmsController < ApplicationController
     deleted = []
     not_deleted = []
     if params[:realm_selected].blank?
-      flash[:error] = t"realms.flash.error.select_to_delete"
+      flash[:error] = _("You must select at least one Realm to delete.")
     else
       FrontendRealm.find(params[:realm_selected]).each do |realm|
         require_privilege(Privilege::MODIFY, FrontendRealm)
@@ -98,10 +98,10 @@ class FrontendRealmsController < ApplicationController
     end
 
     unless deleted.empty?
-      flash[:notice] = "#{t('realms.flash.notice.more_deleted')} #{deleted.join(', ')}"
+      flash[:notice] = "#{_("These Realms were deleted:")} #{deleted.join(', ')}"
     end
     unless not_deleted.empty?
-      flash[:error] = "#{t('realms.flash.error.more_not_deleted')} #{not_deleted.join(', ')}"
+      flash[:error] = "#{_("Could not delete these Realms:")} #{not_deleted.join(', ')}"
     end
     redirect_to frontend_realms_path
   end
@@ -109,7 +109,7 @@ class FrontendRealmsController < ApplicationController
   def show
     @realm = FrontendRealm.find(params[:id])
     @title = @realm.name
-    @tab_captions = [t('realms.tab_captions.properties'), t('realms.tab_captions.mapping')]
+    @tab_captions = [_("Properties"), _("Mapping")]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     @details_tab = 'properties' unless ['properties', 'mapping'].include?(@details_tab)
 
@@ -152,7 +152,7 @@ class FrontendRealmsController < ApplicationController
   def load_realms
     @header = [
       {:name => '', :sortable => false},
-      {:name => t("realms.index.realm_name"), :sort_attr => :name},
+      {:name => _("Realm Name"), :sort_attr => :name},
     ]
     @realms = FrontendRealm.apply_filters(:preset_filter_id => params[:realms_preset_filter], :search_filter => params[:realms_search])
   end

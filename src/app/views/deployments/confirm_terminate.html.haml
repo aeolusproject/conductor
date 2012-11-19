@@ -1,15 +1,15 @@
 %header.page-header
-  %h1.deployments= t "instances.confirm_terminate.terminate_instances"
+  %h1.deployments= _("Terminate Instances")
 
 %section.content-section
   .content
     .align-center
-      %strong= t('instances.confirm_terminate.terminate_instances_description')
+      %strong= _("The Provider is not accessible. The status of following Instances will be changed to 'stopped' but their actual state is unknown.")
     = form_tag multi_stop_deployments_path, :method => :post do
       - @deployments_to_stop.each do |i|
         = hidden_field_tag 'deployments_selected[]', i.id
       %ul.listing
         - @inaccessible_instances.each do |i|
           %li= i.name
-      = link_to t('cancel'), pools_path(:view => 'filter', :details_tab => 'deployments'), :class => 'button'
-      = submit_tag t('instances.confirm_terminate.terminate'), :name => 'terminate', :class => 'button', :id => 'terminate_button'
+      = link_to _("Cancel"), pools_path(:view => 'filter', :details_tab => 'deployments'), :class => 'button'
+      = submit_tag _("Terminate"), :name => 'terminate', :class => 'button', :id => 'terminate_button'

@@ -5,19 +5,19 @@
 - unless @provider.enabled
   %section.content-section
     %header.align-center
-      %h2.disabled= t('providers.edit.provider_id_disabled')
+      %h2.disabled= _("Provider is disabled.")
     %p.align-center
       = t("providers.edit.provider_disabled", :name => @provider.name)
-      = t("providers.edit.enable_configure_providers")
+      = _("To enable and configure the Provider, click the slide switch in the upper-right-hand corner of this window.")
       = image_tag "provider_enable_hint.png"
 
 - unless @alerts.blank?
   %section.content-section.alerts.collapse_entity
     %header
       .section-controls
-        = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @alerts.blank?
+        = link_to _("Toggle Alerts"), "#", :class => 'collapse alerts' unless @alerts.blank?
       %h2.alerts
-        = t("alerts_label")
+        = _("Alerts")
         %span.label.badge.count.alert= @alerts.count
     .content.collapsible
       %dl.alerts
@@ -30,7 +30,7 @@
 
 %section.content-section
   %header#tab-container-1
-    %h2.settings= t("settings.settings")
+    %h2.settings= _("Settings")
     %nav.faceted
       %ul#tab-container-1-nav
         - @tabs.each do |tab|

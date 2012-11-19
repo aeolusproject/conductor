@@ -1,20 +1,20 @@
 = render :partial => 'layouts/admin_nav'
 %section.content-section
   %header
-    %h2.providers #{t'providers.providers'}
+    %h2.providers #{_("Providers")}
   .content
     - content_for :form_header do
       - if check_privilege(Privilege::CREATE, Provider)
-        %li= link_to t("providers.index.create_new_provider"), new_provider_path, :class => 'button primary', :id => "create_new_provider"
+        %li= link_to _("Create New Provider"), new_provider_path, :class => 'button primary', :id => "create_new_provider"
 
     - content_for :filter_controls do
       %li
         = hidden_field_tag :current_path, request.fullpath
-        = t('filter_table.from')
+        = _("From")
         = select_date @from_date, :prefix => :from_date
-        = t('filter_table.to')
+        = _("To")
         = select_date @to_date, :prefix => :to_date
-        = restful_submit_tag t("filter_table.apply_filters"), "index", filter_providers_path, 'POST', :class => 'button', :id => 'apply_provider_index_filter'
+        = restful_submit_tag _("Apply filters"), "index", filter_providers_path, 'POST', :class => 'button', :id => 'apply_provider_index_filter'
         %span.label.badge.dark= @providers.count
     = filter_table(@header, @providers) do |provider|
       - statistics = @statistics[provider.id]
@@ -44,6 +44,6 @@
 
 %section.content-section
   %header
-    %h2.activity #{t'activity.activity'}
+    %h2.activity #{_("Activity")}
   .content
     = render :partial => 'charts/time_chart', :locals => { :datasets => @datasets.to_a, :from_date => @from_date, :to_date => @to_date, :name => 'provider-history-graph' }

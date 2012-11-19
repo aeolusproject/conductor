@@ -2,7 +2,7 @@
 %header.page-header
   .obj_actions
     - if check_privilege(Privilege::MODIFY, @instance)
-      = link_to t('edit'), edit_instance_path(@instance), :class => 'button',
+      = link_to _("Edit"), edit_instance_path(@instance), :class => 'button',
                                                           :id => 'edit_instance_button'
   %h1.deployments= @instance.name
 

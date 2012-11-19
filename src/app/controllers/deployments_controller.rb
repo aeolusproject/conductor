@@ -29,7 +29,7 @@ class DeploymentsController < ApplicationController
 
   def index
     save_breadcrumb(deployments_path(:viewstate => viewstate_id))
-    @title = t 'deployments.deployments'
+    @title = _("Deployments")
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
@@ -40,7 +40,7 @@ class DeploymentsController < ApplicationController
 
   # It is expected that params[:pool_id] will be set on requests into this method
   def launch_new
-    @title = t 'deployments.new_deployment'
+    @title = _("New Deployment")
 
     if params[:deployment].present?
       @deployment = Deployment.new(params[:deployment])
@@ -52,7 +52,7 @@ class DeploymentsController < ApplicationController
 
     require_privilege(Privilege::CREATE, Deployment, @pool)
     unless @pool.enabled
-      flash[:warning] = t 'deployments.flash.warning.disabled_pool'
+      flash[:warning] = _("Cannot launch a Deployment in this Pool. The Pool has been disabled.")
       redirect_to pool_path(@pool) and return
     end
 
@@ -68,14 +68,14 @@ class DeploymentsController < ApplicationController
 
 
   def launch_time_params
-    @title = t 'deployments.new_deployment'
+    @title = _("New Deployment")
 
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     init_new_deployment_attrs
 
     if @deployable.nil?
-      @deployment.errors.add(:base, t('deployments.flash.warning.deployable_not_selected'))
+      @deployment.errors.add(:base, _("You need to select a Deployable"))
       render :launch_new and return
     end
 
@@ -83,7 +83,7 @@ class DeploymentsController < ApplicationController
     @deployment.owner = current_user
 
     unless @deployment.valid? and params.has_key?(:deployable_id)
-      @deployment.errors.add(:base, t('deployments.flash.warning.deployable_not_selected')) unless params.has_key?(:deployable_id)
+      @deployment.errors.add(:base, _("You need to select a Deployable")) unless params.has_key?(:deployable_id)
       render :launch_new and return
     end
 
@@ -118,7 +118,7 @@ class DeploymentsController < ApplicationController
   end
 
   def overview
-    @title = t 'deployments.new_deployment'
+    @title = _("New Deployment")
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     init_new_deployment_attrs
@@ -161,7 +161,7 @@ class DeploymentsController < ApplicationController
     @deployment.deployable_xml = @deployable.xml
     @deployment.owner = current_user
 
-    if params.delete(:commit) == t('back')
+    if params.delete(:commit) == _("Back")
       load_assemblies_services
       view = @deployment.launch_parameters.blank? ?
         'launch_new' : 'launch_time_params'
@@ -173,7 +173,7 @@ class DeploymentsController < ApplicationController
     respond_to do |format|
       if @deployment.create_and_launch(current_session, current_user)
         format.html do
-          flash[:notice] = t "deployments.flash.notice.launched"
+          flash[:notice] = _("Deployment launched.")
           if @deployment.errors.present?
             flash[:error] = @deployment.errors.full_messages
           end
@@ -190,7 +190,7 @@ class DeploymentsController < ApplicationController
 
         # TODO: put deployment's errors into flash or display inside page?
         format.html do
-          flash.now[:warning] = t "deployments.flash.warning.failed_to_launch"
+          flash.now[:warning] = _("Deployment launch failed.")
           render :action => 'overview'
         end
         format.js { render :partial => 'overview' }
@@ -221,12 +221,12 @@ class DeploymentsController < ApplicationController
                                        params[:page], PER_PAGE)
     end
     #TODO add links to real data for history, services
-    @tabs = [{:name => t('instances.instances.other'), :view => @view,
+    @tabs = [{:name => _("Instances"), :view => @view,
                :id => 'instances', :count => @deployment.instances.count,
                :pretty_view_toggle => 'enabled'},
-             {:name => t('properties'), :view => 'properties',
+             {:name => _("Properties"), :view => 'properties',
                :id => 'properties', :pretty_view_toggle => 'disabled'},
-             {:name => t('history'), :view => 'history', :id => 'history',
+             {:name => _("History"), :view => 'history', :id => 'history',
                :pretty_view_toggle => 'disabled'},
     ]
     add_permissions_tab(@deployment)
@@ -341,7 +341,7 @@ class DeploymentsController < ApplicationController
     respond_to do |format|
       format.html do
         if ids.empty?
-          flash[:error] = t('deployments.flash.error.none_selected')
+          flash[:error] = _("You must select one or more Deployments.")
         elsif errors.present?
           flash[:error] = errors
         end
@@ -375,15 +375,15 @@ class DeploymentsController < ApplicationController
       deployment.state = Deployment::STATE_SHUTTING_DOWN
       deployment.save!
       deployment.instances.each do |instance|
-        log_prefix = "#{t('deployments.deployment')}: #{instance.deployment.name}, #{t('instances.instance')}:  #{instance.name}"
+        log_prefix = "#{_("Deployment")}: #{instance.deployment.name}, #{_("Instance")}:  #{instance.name}"
         begin
           require_privilege(Privilege::USE, instance)
           if @inaccessible_instances.include?(instance)
             instance.forced_stop(current_user)
-            notices << "#{log_prefix}: #{t('instances.flash.notice.forced_stop')}"
+            notices << "#{log_prefix}: #{_("state changed to stopped.")}"
           else
             instance.stop(current_user)
-            notices << "#{log_prefix}: #{t('instances.flash.notice.stop')}"
+            notices << "#{log_prefix}: #{_("stop action was successfully queued.")}"
           end
         rescue Exception => ex
           errors << "#{log_prefix}: #{ex}"
@@ -392,7 +392,7 @@ class DeploymentsController < ApplicationController
       end
     end
     # If nothing is selected, display an error message:
-    errors = t('deployments.flash.error.none_selected') if notices.blank? and errors.blank?
+    errors = _("You must select one or more Deployments.") if notices.blank? and errors.blank?
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
     respond_to do |format|
@@ -443,14 +443,14 @@ class DeploymentsController < ApplicationController
     @deployments_header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
       { :name => '', :class => 'alert', :sortable => false },
-      { :name => t("deployments.deployment_name"), :sortable => false },
-      { :name => t("pools.index.deployed_on"), :sortable => false },
-      { :name => t("deployables.index.base_deployable"), :sortable => false },
-      { :name => t("deployables.index.state"), :sortable => false },
-      { :name => t("instances.instances.other"), :class => 'center', :sortable => false },
-      { :name => t("pools.pool"), :sortable => false },
-      { :name => t("pools.index.owner"), :sortable => false },
-      { :name => t("providers.provider"), :sortable => false }
+      { :name => _("Deployment Name"), :sortable => false },
+      { :name => _("Deployed on"), :sortable => false },
+      { :name => _("Base Deployable"), :sortable => false },
+      { :name => _("State"), :sortable => false },
+      { :name => _("Instances"), :class => 'center', :sortable => false },
+      { :name => _("Pool"), :sortable => false },
+      { :name => _("Owner"), :sortable => false },
+      { :name => _("Provider"), :sortable => false }
     ]
 
     pool_scope = params[:pool_id] ? Pool.where(:id => params[:pool_id]) : Pool
@@ -517,7 +517,7 @@ class DeploymentsController < ApplicationController
     image_details, images, missing_images, deployable_errors = @deployable.get_image_details
     return true if deployable_errors.empty?
     respond_to do |format|
-      flash.now[:warning] = t "deployments.flash.warning.failed_to_launch"
+      flash.now[:warning] = _("Deployment launch failed.")
       flash[:error] = deployable_errors
       format.html { render :action => 'overview' }
       format.js { render :partial => 'overview' }

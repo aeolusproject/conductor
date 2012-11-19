@@ -47,10 +47,10 @@ class QuotasController < ApplicationController
     @quota = @parent.quota
     @name = get_parent_name(@parent, @parent_type)
     if @quota.update_attributes(params[:quota])
-      flash[:notice] = t"quotas.flash.notice.updated"
+      flash[:notice] = _("Quota updated")
       redirect_to :action => 'show', :id => @parent, :parent_type => @parent_type
     else
-      flash[:warning] = t"quotas.flash.error.not_updated"
+      flash[:warning] = _("Could not update quota. Please check you have entered valid values")
       render :action => "edit"
     end
   end
@@ -65,7 +65,7 @@ class QuotasController < ApplicationController
     @quota.maximum_total_instances = Quota::NO_LIMIT
 
     if @quota.save!
-      flash[:notice] = t"quotas.flash.notice.updated"
+      flash[:notice] = _("Quota updated")
     end
       redirect_to :action => 'show', :id => @parent, :parent_type => @parent_type
   end

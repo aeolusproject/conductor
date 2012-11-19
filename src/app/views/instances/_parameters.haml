@@ -1,6 +1,6 @@
 %ul.listing
   - if @instance.instance_parameters.empty?
-    %li= t("instances.parameters.none")
+    %li= _("None")
   - else
     - @instance.instance_parameters.each do |parameter|
       %li

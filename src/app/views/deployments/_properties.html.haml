@@ -5,10 +5,10 @@
       %td= t "deployments.properties.#{key}"
       %td=value
   %tr
-    %td= t 'deployments.properties.global_uptime'
+    %td= _("Global Uptime")
     %td=count_uptime(@deployment.uptime_all)
   %tr
-    %td= t 'deployments.properties.uptime_1st_instance'
+    %td= _("Uptime 1st Instance running")
     %td=count_uptime(@deployment.uptime_1st_instance)
   %tr
     %td= t 'deployments.properties.cost_estimate'

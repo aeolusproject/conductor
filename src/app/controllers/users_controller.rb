@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     if !check_privilege(Privilege::VIEW, User)
       redirect_to account_url and return
     end
-    @title = t'users.users'
+    @title = _("Users")
     clear_breadcrumbs
     save_breadcrumb(users_path)
     set_admin_users_tabs 'users'
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, User)
-    @title = t('users.new.new_user')
+    @title = _("New User")
     @user = User.new
     @user.quota = Quota.new_for_user
   end
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
   def create
     require_privilege(Privilege::MODIFY, User)
     @user = User.new(params[:user])
-    @title = t('users.new.new_user')
+    @title = _("New User")
     @user.quota ||= Quota.new
 
     @registration = RegistrationService.new(@user)
@@ -54,10 +54,10 @@ class UsersController < ApplicationController
     end
 
     if current_user != @user
-      flash[:notice] = t"users.flash.notice.registered"
+      flash[:notice] = _("User registered")
       redirect_to users_url
     else
-      flash[:notice] = t"users.flash.notice.you_registred"
+      flash[:notice] = _("You have successfully registered.")
       redirect_to root_url
     end
   end
@@ -72,8 +72,8 @@ class UsersController < ApplicationController
     end
     @user_groups = @user.all_groups
     @groups_header = [
-      { :name => t('user_groups.index.name'), :sortable => false },
-      { :name => t('user_groups.index.type'), :sortable => false },
+      { :name => _("Name"), :sortable => false },
+      { :name => _("Type"), :sortable => false },
     ]
     save_breadcrumb(user_path(@user), @user.name.present? ? @user.name : @user.username)
     @tab_captions = ['Properties']
@@ -93,12 +93,12 @@ class UsersController < ApplicationController
   def edit
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::MODIFY, User) unless @user == current_user
-    @title = t('users.edit.edit_user')
+    @title = _("Edit User")
     @ldap_user = (SETTINGS_CONFIG[:auth][:strategy] == "ldap")
   end
 
   def update
-    @title = t('users.edit.edit_user')
+    @title = _("Edit User")
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::MODIFY, User) unless @user == current_user
     # A user should not be able to edit their own quota:
@@ -113,7 +113,7 @@ class UsersController < ApplicationController
     unless @user.update_attributes(params[:user])
       render :action => 'edit' and return
     else
-      flash[:notice] = t"users.flash.notice.updated"
+      flash[:notice] = _("User updated")
       redirect_to user_path(@user)
     end
   end
@@ -152,7 +152,7 @@ class UsersController < ApplicationController
       flash[:warning] = "#{t('users.flash.warning.not_delete_same_user', :username => "#{user.username}")}"
     else
       user.destroy
-      flash[:notice] = t"users.flash.notice.deleted"
+      flash[:notice] = _("User has been successfully deleted.")
     end
 
     respond_to do |format|
@@ -182,12 +182,12 @@ class UsersController < ApplicationController
   def load_headers
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-      { :name => t('users.index.user_id'), :sortable => false },
-      { :name => t('users.index.last_name'), :sortable => false },
-      { :name => t('users.index.first_name'), :sortable => false },
-      { :name => t('quota_used'), :class => 'center', :sortable => false },
-      { :name => t('users.index.quota_instances'), :class => 'center', :sortable => false },
-      { :name => t('users.index.email'), :sortable => false },
+      { :name => _("User ID"), :sortable => false },
+      { :name => _("Last Name"), :sortable => false },
+      { :name => _("First Name"), :sortable => false },
+      { :name => _("Quota Used"), :class => 'center', :sortable => false },
+      { :name => _("Quota Limit"), :class => 'center', :sortable => false },
+      { :name => _("e-mail"), :sortable => false },
     ]
   end
 

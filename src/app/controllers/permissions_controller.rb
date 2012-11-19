@@ -29,15 +29,15 @@ class PermissionsController < ApplicationController
 
   def new
     set_permission_object
-    @title = t'permissions.form.grant_access'
+    @title = _("Grant Access")
     @users = User.all
     @roles = Role.find_all_by_scope(@permission_object.class.name)
     if @permission_object == BasePermissionObject.general_permission_scope
-      @return_text = t("permissions.new.global_role_grants")
-      @summary_text =  t("permissions.new.choose_global_role")
+      @return_text = _("Global Role Grants")
+      @summary_text =  _("Choose global role assignments for users")
     else
       @return_text =  "#{@permission_object.name} " + @permission_object.class.model_name.human
-      @summary_text = t('permissions.new.choose_roles') + " " + @permission_object.class.model_name.human
+      @summary_text = _("Choose roles for users you would like to grant access to this") + " " + @permission_object.class.model_name.human
     end
     load_headers
     load_entities
@@ -73,7 +73,7 @@ class PermissionsController < ApplicationController
       flash[:error] = t('permissions.flash.error.not_added', :list => not_added.to_sentence)
     end
     if added.empty? and not_added.empty?
-      flash[:error] = t "permissions.flash.error.no_users_selected"
+      flash[:error] = _("No users selected")
     end
     respond_to do |format|
       format.html { redirect_to @return_path }
@@ -114,7 +114,7 @@ class PermissionsController < ApplicationController
       flash[:error] = t('permissions.flash.error.not_add', :list => not_modified.to_sentence)
     end
     if modified.empty? and not_modified.empty?
-      flash[:notice] = t("permissions.flash.notice.no_change")
+      flash[:notice] = _("All User Roles already set; no changes needed")
     end
     respond_to do |format|
       format.html { redirect_to @return_path }
@@ -195,8 +195,8 @@ class PermissionsController < ApplicationController
   def load_headers
     @header = [
       { :name => '', :sortable => false },
-      { :name => t('permissions.name') },
-      { :name => t('role'), :sortable => false }
+      { :name => _("Name") },
+      { :name => _("Role"), :sortable => false }
     ]
   end
 

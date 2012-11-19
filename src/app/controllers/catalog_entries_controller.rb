@@ -24,7 +24,7 @@ class CatalogEntriesController < ApplicationController
     if @catalog_entry.save
       redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry.deployable), :notice => t('catalog_entries.flash.notice.added', :catalog => @catalog_entry.catalog.name)
     else
-      flash[:warning] = t('catalog_entries.flash.warning.failed')
+      flash[:warning] = _("Deployable was not created.")
       redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry.deployable)
     end
   end

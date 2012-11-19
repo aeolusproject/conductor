@@ -2,29 +2,29 @@
   %dl.statistics
     %ul.groups
       %li
-        %dt=t'cloud_providers'
-        %dd.count.provider{:title => t('pools.scoreboard.cloud_providers_total')}= @statistics[:cloud_providers]
+        %dt=_("Cloud Providers")
+        %dd.count.provider{:title => _("Total Cloud Providers")}= @statistics[:cloud_providers]
       %li
-        %dt=t'deployments.deployments'
-        %dd.count.deployment{:title => t('pools.scoreboard.deployments_total')}= @statistics[:deployments]
+        %dt=_("Deployments")
+        %dd.count.deployment{:title => _("Total Deployments")}= @statistics[:deployments]
       %li
-        %dt=t'instances.instances.other'
-        %dd.count.instance{:title => t('pools.scoreboard.total_instances')}= @statistics[:instances_deployed]
-        %dd.count.instance.pending{:title => t('pools.scoreboard.instances_pending')}= @statistics[:instances_pending]
-        %dd.count.instance.failure{:title => t('pools.scoreboard.instances_failed')}= @statistics[:instances_failed_count]
+        %dt=_("Instances")
+        %dd.count.instance{:title => _("Total Instances")}= @statistics[:instances_deployed]
+        %dd.count.instance.pending{:title => _("Instances pending")}= @statistics[:instances_pending]
+        %dd.count.instance.failure{:title => _("Instances failed")}= @statistics[:instances_failed_count]
       %li
         %ul.subgroup
           %li
-            %dt=t'alerts_label'
-            %dd.count.alert{:title => t('pools.scoreboard.alerts')}= @statistics[:instances_failed_count]
+            %dt=_("Alerts")
+            %dd.count.alert{:title => _("Alerts")}= @statistics[:instances_failed_count]
       %li
         %dt
-          = t("pools.pool")
-          = t("quota_used")
-        %dd.percentage.quota{:title => t('pools.scoreboard.quota_usage')}
+          = _("Pool")
+          = _("Quota Used")
+        %dd.percentage.quota{:title => _("Quota usage")}
           = number_to_percentage(@pool.quota.percentage_used, :precision => 0)
         %dd.fraction.instance
-          %span.part{:title => t('pools.scoreboard.running_instances_quota')}= @statistics[:used_quota]
+          %span.part{:title => _("Running Instances")}= @statistics[:used_quota]
           %span.divider.label.small.caps of
-          %span.total{:title => t('pools.scoreboard.total_available_instances')}= @pool.quota.maximum_running_instances or '&infin;'.html_safe
+          %span.total{:title => _("Total Instances available")}= @pool.quota.maximum_running_instances or '&infin;'.html_safe
 -# TODO: Implement alerts and updates

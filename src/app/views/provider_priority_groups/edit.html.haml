@@ -5,12 +5,12 @@
     .return_to
       = t(:return_to)
       = link_to t('provider_priority_groups.edit.back', :pool => @pool.name), pool_provider_selection_provider_priority_groups_path(@pool)
-  %h1.no-icon= t('provider_priority_groups.edit.title')
+  %h1.no-icon= _("Edit Priority Group")
 
 %section.content-section
   .content#priority-group-form
     = form_for @priority_group, :url => pool_provider_selection_provider_priority_group_path(@pool) do |form|
       = render :partial => 'form', :locals => { :form => form }
       %fieldset.options
-        = form.submit(t('provider_priority_groups.edit.save'), :class => "submit button primary")
-        = link_to t('cancel'), pool_provider_selection_provider_priority_groups_path(@pool), :class => "button danger"
+        = form.submit(_("Save Priority Group"), :class => "submit button primary")
+        = link_to _("Cancel"), pool_provider_selection_provider_priority_groups_path(@pool), :class => "button danger"

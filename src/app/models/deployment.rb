@@ -134,8 +134,8 @@ class Deployment < ActiveRecord::Base
   end
 
   def pool_must_be_enabled
-    errors.add(:pool, I18n.t('pools.errors.must_be_enabled')) unless pool and pool.enabled?
-    errors.add(:pool, I18n.t('pools.errors.providers_disabled')) if pool and pool.pool_family.all_providers_disabled?
+    errors.add(:pool, _("must be enabled")) unless pool and pool.enabled?
+    errors.add(:pool, _("has all associated Providers disabled")) if pool and pool.pool_family.all_providers_disabled?
   end
 
   def perm_ancestors
@@ -249,7 +249,7 @@ class Deployment < ActiveRecord::Base
         raise I18n.t('deployments.errors.match_not_found_with_errors',
                      :errors => errs.join(", "))
       else
-        raise I18n.t('deployments.errors.match_not_found')
+        raise _("Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images.")
       end
     end
 
@@ -378,30 +378,30 @@ class Deployment < ActiveRecord::Base
         instances << instance
         possibles, errors = instance.matches
         if possibles.empty? and not errors.empty?
-          raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), errors)
+          raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(_("Some Assemblies will not be launched:"), errors)
         end
       end
 
       deployment_errors = []
 
       unless provider_selection_match_exists?
-        deployment_errors << I18n.t('deployments.errors.match_not_found')
+        deployment_errors << _("Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images.")
       end
 
       unless pool.quota.can_start?(instances)
-        deployment_errors << I18n.t('instances.errors.pool_quota_reached')
+        deployment_errors << _("Pool quota reached")
       end
 
       unless pool.pool_family.quota.can_start?(instances)
-        deployment_errors << I18n.t('instances.errors.pool_family_quota_reached')
+        deployment_errors << _("Environment quota reached")
       end
 
       unless user.quota.can_start?(instances)
-        deployment_errors << I18n.t('instances.errors.user_quota_reached')
+        deployment_errors << _("User quota reached")
       end
 
       if deployment_errors.any?
-        raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), deployment_errors)
+        raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(_("Some Assemblies will not be launched:"), deployment_errors)
       end
     rescue
       errs << $!.message
@@ -782,7 +782,7 @@ class Deployment < ActiveRecord::Base
           :source => self,
           :event_time => DateTime.now,
           :status_code => 'deployment_launch_failed',
-          :summary => I18n.t('deployments.errors.launch_failed'),
+          :summary => _("Failed to launch deployment"),
           :description => $!.message
         )
         update_attribute(:state, STATE_FAILED)

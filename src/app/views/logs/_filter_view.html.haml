@@ -1,26 +1,26 @@
 - content_for :filter_controls do
   %li
-    = label_tag "source_type", t('filter_table.viewing')
+    = label_tag "source_type", _("Viewing")
     = hidden_field_tag :current_path, request.fullpath
     = select_tag "source_type", options_for_select(@source_type_options, @source_type)
     = select_tag "state", options_for_select(@state_options, @state)
     = select_tag "pool_select", options_for_select(@pool_options, @pool_select)
     = select_tag "provider_select", options_for_select(@provider_options, @provider_select)
     = select_tag "owner_id", options_for_select(@owner_options, @owner_id)
-    = restful_submit_tag t("filter_table.apply_filters"), "index", filter_logs_path, 'POST', :class => 'button', :id => 'apply_logs_filter'
+    = restful_submit_tag _("Apply filters"), "index", filter_logs_path, 'POST', :class => 'button', :id => 'apply_logs_filter'
     %span.label.badge.dark= @events.count
   %br
-    = t('filter_table.from')
+    = _("From")
     = select_date @from_date, :prefix => :from_date
-    = t('filter_table.to')
+    = _("To")
     = select_date @to_date, :prefix => :to_date
-    = t('filter_table.order_by')
+    = _("Order By")
     = select_tag "order", options_for_select(@order_options, @order)
     %li.more_actions
       %span
         = image_tag "more_actions_drop.png"
       %ul
-        %li= link_to "#{t'logs.index.export_logs'}", export_logs_logs_path(:source_type => @source_type, :state => @state, :pool_select => @pool_select, :provider_select => @provider_select, :owner_id => @owner_id, :from_date => {:day => @from_date.day, :month => @from_date.month, :year => @from_date.year}, :to_date => {:day => @to_date.day, :month => @to_date.month, :year => @to_date.year}, :order => @order)
+        %li= link_to "#{_("Export logs")}", export_logs_logs_path(:source_type => @source_type, :state => @state, :pool_select => @pool_select, :provider_select => @provider_select, :owner_id => @owner_id, :from_date => {:day => @from_date.day, :month => @from_date.month, :year => @from_date.year}, :to_date => {:day => @to_date.day, :month => @to_date.month, :year => @to_date.year}, :order => @order)
 
 = filter_table(@header, @paginated_events) do |event|
   - source = event.source
@@ -29,11 +29,11 @@
   - pool = source.nil? ? nil : source.pool
   %tr{:class => cycle('nostripe','stripe')}
     %td= event.event_time.strftime("%d-%b-%Y %H:%M:%S")
-    %td= source.nil? ? t('logs.index.not_available') : source.name
-    %td= source.nil? ? t('logs.index.not_available') : source.state
-    %td= (pool_family.nil? || pool.nil?) ? t('logs.index.not_available') : pool_family.name + "/" + pool.name
-    %td= provider_account.nil? ? t('logs.index.not_available') : provider_account.provider.name + "/" + provider_account.name
-    %td= source.nil? ? t('logs.index.not_available') : source.owner.username
+    %td= source.nil? ? _("N/A") : source.name
+    %td= source.nil? ? _("N/A") : source.state
+    %td= (pool_family.nil? || pool.nil?) ? _("N/A") : pool_family.name + "/" + pool.name
+    %td= provider_account.nil? ? _("N/A") : provider_account.provider.name + "/" + provider_account.name
+    %td= source.nil? ? _("N/A") : source.owner.username
     %td= event.summary
     %td
       - if !source.nil?

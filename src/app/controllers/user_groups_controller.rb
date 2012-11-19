@@ -19,7 +19,7 @@ class UserGroupsController < ApplicationController
 
   def index
     require_privilege(Privilege::VIEW, User)
-    @title = t'user_groups.groups'
+    @title = _("User Groups")
     clear_breadcrumbs
     save_breadcrumb(user_groups_path)
     set_admin_users_tabs 'user_groups'
@@ -59,7 +59,7 @@ class UserGroupsController < ApplicationController
 
   def new
     require_privilege(Privilege::CREATE, User)
-    @title = t'user_groups.new.new_user_group'
+    @title = _("New User Group")
     @user_group = UserGroup.new
   end
 
@@ -73,7 +73,7 @@ class UserGroupsController < ApplicationController
 
     respond_to do |format|
       if @user_group.save
-        flash[:notice] = t "user_groups.flash.notice.added"
+        flash[:notice] = _("User Group added")
         format.html { redirect_to user_groups_path }
         format.json { render :json => @user_group, :status => :created }
       else
@@ -90,7 +90,7 @@ class UserGroupsController < ApplicationController
   def edit
     @user_group = UserGroup.find(params[:id])
     require_privilege(Privilege::MODIFY, User)
-    @title = t'user_groups.edit.edit_user_group'
+    @title = _("Edit User Group")
   end
 
   def update
@@ -107,7 +107,7 @@ class UserGroupsController < ApplicationController
       @title = t'user_groups.edit.edit_user_group'
       render :action => 'edit' and return
     else
-      flash[:notice] = t"user_groups.flash.notice.updated"
+      flash[:notice] = _("User Group updated")
       redirect_to user_group_path(@user_group)
     end
   end
@@ -140,9 +140,9 @@ class UserGroupsController < ApplicationController
     require_privilege(Privilege::MODIFY, User)
     user_group = UserGroup.find(params[:id])
     if user_group.destroy
-      flash[:notice] = t"user_groups.flash.notice.deleted"
+      flash[:notice] = _("User Group has been successfully deleted.")
     else
-      flash[:notice] = t"user_groups.flash.warning.delete_failed"
+      flash[:notice] = _("Could not delete user group")
     end
 
     respond_to do |format|
@@ -155,7 +155,7 @@ class UserGroupsController < ApplicationController
     require_privilege(Privilege::MODIFY, User)
 
     unless @user_group.membership_source == UserGroup::MEMBERSHIP_SOURCE_LOCAL
-      flash[:error] = t('user_groups.flash.error.not_a_local_group')
+      flash[:error] = _("Only locally-managed groups can be managed here.")
       redirect_to user_group_path(@user_group) and return
     end
 
@@ -168,7 +168,7 @@ class UserGroupsController < ApplicationController
     not_added = []
 
     if params[:members_selected].blank?
-      flash[:error] = t"user_groups.flash.error.select_to_add_members" if request.post?
+      flash[:error] = _("You must select at least one user to add.") if request.post?
     else
       User.find(params[:members_selected]).each do |member|
         if !@user_group.members.include?(member) and
@@ -179,10 +179,10 @@ class UserGroupsController < ApplicationController
         end
       end
       unless added.empty?
-        flash[:notice] = "#{t('user_groups.flash.notice.members_added')}: #{added.join(', ')}"
+        flash[:notice] = "#{_("These users have been added")}: #{added.join(', ')}"
       end
       unless not_added.empty?
-        flash[:error] = "#{t('user_groups.flash.error.members_not_added')}: #{not_added.join(', ')}"
+        flash[:error] = "#{_("Could not add these users")}: #{not_added.join(', ')}"
       end
       respond_to do |format|
         format.html { redirect_to user_group_path(@user_group) }
@@ -195,7 +195,7 @@ class UserGroupsController < ApplicationController
     require_privilege(Privilege::MODIFY, User)
 
     unless @user_group.membership_source == UserGroup::MEMBERSHIP_SOURCE_LOCAL
-      flash[:error] = t('user_groups.flash.error.not_a_local_group')
+      flash[:error] = _("Only locally-managed groups can be managed here.")
       redirect_to user_group_path(@user_group) and return
     end
 
@@ -204,7 +204,7 @@ class UserGroupsController < ApplicationController
 
     if params[:members_selected].blank?
       if request.post?
-        flash[:error] = t"user_groups.flash.error.select_to_remove_members"
+        flash[:error] = _("You must select at least one user to remove")
       end
     else
       User.find(params[:members_selected]).each do |member|
@@ -215,10 +215,10 @@ class UserGroupsController < ApplicationController
         end
       end
       unless removed.empty?
-        flash[:notice] = "#{t('user_groups.flash.notice.members_removed')}: #{removed.join(', ')}"
+        flash[:notice] = "#{_("These users have been removed")}: #{removed.join(', ')}"
       end
       unless not_removed.empty?
-        flash[:error] = "#{t('user_groups.flash.error.members_not_removed')}: #{not_removed.join(', ')}"
+        flash[:error] = "#{_("Could not remove these users")}: #{not_removed.join(', ')}"
       end
     end
     respond_to do |format|
@@ -238,8 +238,8 @@ class UserGroupsController < ApplicationController
   def load_headers
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-      { :name => t('user_groups.index.name'), :sortable => false },
-      { :name => t('user_groups.index.type'), :sortable => false },
+      { :name => _("Name"), :sortable => false },
+      { :name => _("Type"), :sortable => false },
     ]
   end
 

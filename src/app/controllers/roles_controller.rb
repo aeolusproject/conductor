@@ -38,7 +38,7 @@ class RolesController < ApplicationController
     @role.scope = BasePermissionObject.to_s if @role.scope.nil?
 
     if @role.save
-      flash[:notice] = t"roles.flash.notice.added"
+      flash[:notice] = _("Role successfully saved.")
       redirect_to roles_path and return
     end
 
@@ -49,7 +49,7 @@ class RolesController < ApplicationController
     require_privilege(Privilege::PERM_VIEW)
     @role = Role.find(params[:id])
 
-    @tab_captions = [t('roles.tab_captions.properties')]
+    @tab_captions = [_("Properties")]
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     save_breadcrumb(role_path(@role), @role.name)
     respond_to do |format|
@@ -77,7 +77,7 @@ class RolesController < ApplicationController
     end
 
     if @role.update_attributes(params[:role])
-      flash[:notice] = t"roles.flash.notice.updated"
+      flash[:notice] = _("Role updated successfully.")
       redirect_to roles_url and return
     end
 
@@ -97,10 +97,10 @@ class RolesController < ApplicationController
     end
 
     unless deleted.empty?
-      flash[:notice] = "#{t('roles.flash.notice.more_deleted')} #{deleted.join(', ')}"
+      flash[:notice] = "#{_("These Roles were deleted:")} #{deleted.join(', ')}"
     end
     unless not_deleted.empty?
-      flash[:error] = "#{t('roles.flash.error.more_not_deleted')} #{not_deleted.join(', ')}"
+      flash[:error] = "#{_("Could not delete these Roles:")} #{not_deleted.join(', ')}"
     end
 
     redirect_to roles_url

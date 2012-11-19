@@ -3,7 +3,7 @@
   %ul.more
     - if catalogs.empty?
       %li.catalog
-        %a= t("catalogs.catalog_list.no_catalogs")
+        %a= _("-- No Catalogs --")
     - else
       - catalogs.each do |catalog|
         %li.catalog= link_to catalog.name, launch_from_catalog_deployments_path(:catalog_id => catalog.id)

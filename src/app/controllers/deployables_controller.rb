@@ -77,8 +77,8 @@ class DeployablesController < ApplicationController
         require_privilege(Privilege::CREATE, Deployable, Catalog.find_by_id(catalog_id))
       end
       flasherr = []
-      flasherr << t("deployables.flash.error.no_catalog_exists") if @catalogs.empty?
-      flasherr << t("deployables.flash.error.no_hwp_exists") if @hw_profiles.empty?
+      flasherr << _("No Catalog exists. Please create one.") if @catalogs.empty?
+      flasherr << _("No Hardware Profile exists. Please create one.") if @hw_profiles.empty?
       @save_disabled = !(flasherr.empty?)
       flash[:error] = flasherr if not flasherr.empty?
     elsif params[:catalog_id].present?
@@ -192,7 +192,7 @@ class DeployablesController < ApplicationController
     end
 
     begin
-      raise t("deployables.flash.error.no_catalog") if @selected_catalogs.empty?
+      raise _("No Catalogs selected") if @selected_catalogs.empty?
       @deployable.transaction do
         @selected_catalogs.each do |catalog|
           @deployable.catalogs << catalog
@@ -256,7 +256,7 @@ class DeployablesController < ApplicationController
         flash[:warning]+=warnings
       end
 
-      flash[:notice] = t"catalog_entries.flash.notice.updated"
+      flash[:notice] = _("Deployable updated successfully")
       redirect_to polymorphic_path([@catalog, @deployable])
     else
       render :action => 'edit', :edit_xml => params[:edit_xml]
@@ -291,7 +291,7 @@ class DeployablesController < ApplicationController
       end
       flash[:notice] = t("deployables.flash.notice.deleted", :count => deleted.count, :deleted => deleted.join(', ')) unless deleted.empty?
     else
-      flash[:error] = t("deployables.flash.error.not_selected")
+      flash[:error] = _("No Deployable was selected")
     end
 
     if @catalog.present?
@@ -340,9 +340,9 @@ class DeployablesController < ApplicationController
   def set_header
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-      { :name => t("catalog_entries.index.name"), :sort_attr => :name },
-      { :name => t("catalogs.index.catalog_name"), :sortable => false },
-      { :name => t("catalog_entries.index.deployable_xml"), :sortable => :url }
+      { :name => _("Name"), :sort_attr => :name },
+      { :name => _("Catalog Name"), :sortable => false },
+      { :name => _("Deployable XML"), :sortable => :url }
     ]
   end
 

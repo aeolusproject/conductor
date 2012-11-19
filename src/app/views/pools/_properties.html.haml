@@ -1,7 +1,7 @@
 %h3
   = t('.properties', :pool => @pool.name)
 - if check_privilege(Privilege::MODIFY, @pool)
-  = link_to t(:edit), edit_pool_path(@pool), { :class => 'button' }
+  = link_to _("Edit"), edit_pool_path(@pool), { :class => 'button' }
 
 :javascript
   Conductor.setupPrettyFilterURL(

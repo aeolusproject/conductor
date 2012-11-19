@@ -3,8 +3,8 @@
   .obj_actions
     - if check_privilege(Privilege::VIEW, User)
       .return_to
-        =t'return_to'
-        = link_to t('users.users'), users_path
+        =_("Return to:")
+        = link_to _("Users"), users_path
 
 %section.content-section.user
   .content
@@ -13,40 +13,40 @@
         %h2= format_user_name(@user)
       .user-card-content
         %dl
-          %dt=t'users.show.e-mail'
+          %dt=_("E-mail Address")
           %dd= @user.email
-          %dt=t'users.show.username'
+          %dt=_("Username")
           %dd= @user.username
         .button-group
-          = link_to "#{t('users.show.edit')}", edit_user_path(@user), :class => 'button'
+          = link_to "#{_("Edit")}", edit_user_path(@user), :class => 'button'
           - unless @user.id == current_user.id
-            = button_to "#{t('users.show.delete')}", user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button danger"
+            = button_to "#{_("Delete")}", user_path(@user), :method => :delete, :confirm => _("Are you sure you want to delete this user?"), :class => "button danger"
     %dl.user_stats
       %ul
         %div
           %li
-            %dt=t'users.show.created'
+            %dt=_("Created")
             %dd= l(@user.created_at.to_date, :format => :long) if @user.created_at
           %li
-            %dt=t'users.show.number_of_logins'
+            %dt=_("Number of Logins")
             %dd= @user.login_count
           %li
-            %dt=t'users.show.last_login'
+            %dt=_("Last Login")
             %dd= l(@user.last_login_at, :format => :long) if @user.last_login_at
         %div
           %li
-            %dt=t'users.show.last_updated'
+            %dt=_("Last Updated")
             %dd= l(@user.updated_at, :format => :long) if @user.updated_at
           %li
-            %dt=t'users.show.failed_logins'
+            %dt=_("Failed Logins")
             %dd= @user.failed_login_count
           %li
-            %dt=t'users.show.last_login_ip'
+            %dt=_("Last Login IP")
             %dd= @user.last_login_ip
 
 %section.content-section.groups
   %header
-    %h2.groups=t'users.groups'
+    %h2.groups=_("Groups")
   .content
     = filter_table(@groups_header, @user_groups) do |user_group|
       %tr{:class => cycle('nostripe','stripe')}
@@ -54,7 +54,7 @@
         %td= t("user_groups.#{user_group.membership_source.downcase}")
 %section.content-section.permissions
   %header
-    %h2.permissions=t'instances.tab_captions.permissions'
+    %h2.permissions=_("Permissions")
   .content
     = render :partial => 'permissions/objects'
 /%section.content-section.user

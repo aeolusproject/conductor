@@ -8,7 +8,7 @@
       - if @deployable.errors.any?
         = render 'layouts/error_messages', :object => @deployable
       .lefted.new-catalog-entry-from-image
-        %h2= t('.title')
+        %h2= _("Logs")
         %p= t('.description', :name => @image.name)
         %fieldset
           .field
@@ -16,20 +16,20 @@
             .input
               = form.text_field :name, :class => 'em'
           .field
-            = form.label :hardware_profile, t('catalog_entries.new.hw_profile')
+            = form.label :hardware_profile, _("Default Hardware Profile")
             .input
               = select_tag :hardware_profile, options_from_collection_for_select(@hw_profiles, :id, :name, params[:hardware_profile])
           .field
-            = form.label :catalog_id, t('deployables.form.catalog')
+            = form.label :catalog_id, _("Catalog")
             .input
-              %span.text_instead_input#checked_catalogs_list{ "data-none" => t('deployables.form.none'), "data-multiple" => t('deployables.form.multiple') }
-                = @selected_catalogs.empty? ? t('deployables.form.none') : @selected_catalogs.count > 1 ? t('deployables.form.multiple') : @selected_catalogs.first.name
+              %span.text_instead_input#checked_catalogs_list{ "data-none" => _("None"), "data-multiple" => _("Multiple") }
+                = @selected_catalogs.empty? ? _("None") : @selected_catalogs.count > 1 ? _("Multiple") : @selected_catalogs.first.name
               %span.catalog_link
                 &nbsp
                 %div.catalog_list
                   %ul.more
                     - if @catalogs.empty?
-                      = t('deployables.new_from_image.no_available_catalog')
+                      = _("No Catalog")
                     - else
                       - @catalogs.each do |catalog|
                         %li.catalog
@@ -38,8 +38,8 @@
                             = catalog.name
 
       %fieldset.options.align-center
-        = submit_tag "#{t'deployables.form.save'}", :name => 'save', :class => 'button primary', :id => 'save_button', :disabled => @save_disabled
-        = link_to t('deployables.form.cancel'), catalogs_path, :class => 'button danger'
+        = submit_tag "#{_("Save")}", :name => 'save', :class => 'button primary', :id => 'save_button', :disabled => @save_disabled
+        = link_to _("Cancel"), catalogs_path, :class => 'button danger'
 
 :javascript
   function listChecked() {

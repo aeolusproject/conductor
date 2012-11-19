@@ -62,9 +62,9 @@ class Deployable < ActiveRecord::Base
     begin
       deployable_xml = DeployableXML.new(xml)
       if !deployable_xml.validate!
-        errors.add(:xml, I18n.t('catalog_entries.flash.warning.not_valid'))
+        errors.add(:xml, _("file contains syntax errors"))
       elsif !deployable_xml.unique_assembly_names?
-        errors.add(:xml, I18n.t('catalog_entries.flash.warning.not_valid_duplicate_assembly_names'))
+        errors.add(:xml, _("must contain unique Assembly names"))
       end
       validate_cycles_in_deployable_xml(deployable_xml)
       validate_references_in_deployable_xml(deployable_xml)
@@ -223,7 +223,7 @@ class Deployable < ActiveRecord::Base
           deployable_errors << "#{assembly_hash[:name]}: " + I18n.t('deployables.error.hwp_not_exists', :name => assembly.hwp)
         end
       else
-        deployable_errors << "#{assembly_hash[:name]}: " + I18n.t('deployables.error.attribute_not_exist')
+        deployable_errors << "#{assembly_hash[:name]}: " + _("invalid")
       end
       assemblies_array << assembly_hash
       # TODO: check_audrey_api_compatibility uses icicle object which is not

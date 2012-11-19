@@ -2,9 +2,9 @@
   %section.content-section.alerts.collapse_entity
     %header
       .section-controls
-        = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @user_statistics[:instances_failed].blank?
+        = link_to _("Toggle Alerts"), "#", :class => 'collapse alerts' unless @user_statistics[:instances_failed].blank?
       %h2.alerts
-        =t "alerts_label"
+        =_("Alerts")
         %span.label.badge.alert.count= @user_statistics[:instances_failed_count]
     .content.collapsible
       %dl.alerts
@@ -12,5 +12,5 @@
           - @user_statistics[:instances_failed].each do |inst|
             %li.alert
               %dt.subject.critical= inst.name
-              %dd.type=t "alerts.instance_failure"
+              %dd.type=_("Instance Failure")
               %dd.desc= "#{inst.last_error.blank? ? inst.state : inst.last_error}"

@@ -3,7 +3,7 @@
     .return_to
       = t(:return_to)
       = link_to t('tim.base_images.environment', :environment => @base_image.pool_family.name), main_app.pool_family_path(@base_image.pool_family)
-  %h1.no-icon= t('.new_image')
+  %h1.no-icon= _("New Image")
 
 %section.content-section
   .content
@@ -16,10 +16,10 @@
           - active = params[:tab].to_s == 'url' ? 'url' : 'file'
           %li
             %a{ :href => '#image-file-form', :class => "#{'active' if active == "file"}"}
-              = t('.upload')
+              = _("Upload")
           %li
             %a{ :href => '#image-url-form', :class => "#{'active' if active == "url"}"}
-              = t('.from_url')
+              = _("From URL")
 
       %section#image-file-form
         = form_for @base_image, :url => tim.edit_xml_base_images_path, :html => { :multipart => true, :class => 'generic horizontal' } do |f|
@@ -27,21 +27,21 @@
           = hidden_field_tag :tab, 'file'
           %fieldset
             .field
-              = label_tag :name, t('.name'), :class => 'em'
+              = label_tag :name, _("Name"), :class => 'em'
               .input
                 = f.text_field :name, :class => 'em'
             .field
-              = label_tag :template_source, t('.choose_file')
+              = label_tag :template_source, _("Choose an Image Template file:")
               .input
                 = file_field_tag :template_source, :id => 'template_file'
             .field
-              = label_tag :edit, t('.edit_file'), :class => 'checkbox'
+              = label_tag :edit, _("Edit this file before saving:"), :class => 'checkbox'
               .input
                 = check_box_tag :edit, 1, true
 
           %fieldset.align-center
-            = f.submit t(:continue), :id => "file_button", :class => "button primary", :disabled => @accounts.empty?
-            = link_to t(:cancel), main_app.pool_families_path, :class => "button danger"
+            = f.submit _("Continue"), :id => "file_button", :class => "button primary", :disabled => @accounts.empty?
+            = link_to _("Cancel"), main_app.pool_families_path, :class => "button danger"
 
       %section#image-url-form
         = form_for @base_image, :url => tim.edit_xml_base_images_path, :html => { :multipart => true, :class => 'generic horizontal' } do |f|
@@ -49,21 +49,21 @@
           = hidden_field_tag :tab, 'url'
           %fieldset
             .field
-              = label_tag :name, t('.name'), :class => 'em'
+              = label_tag :name, _("Name"), :class => 'em'
               .input
                 = f.text_field :name, :class => 'em'
             .field
-              = label_tag :template_source, t('.template_url')
+              = label_tag :template_source, _("Image Template URL:")
               .input
                 = text_field_tag :template_source, nil, :id => 'template_url'
             .field
-              = label_tag :edit, t('.edit_file'), :class => 'checkbox'
+              = label_tag :edit, _("Edit this file before saving:"), :class => 'checkbox'
               .input
                 = check_box_tag :edit, 1, true
 
           %fieldset.align-center
-            = f.submit t(:continue), :id => "url_button", :class => "button primary", :disabled => @accounts.empty?
-            = link_to t(:cancel), main_app.pool_families_path, :class => "button danger"
+            = f.submit _("Continue"), :id => "url_button", :class => "button primary", :disabled => @accounts.empty?
+            = link_to _("Cancel"), main_app.pool_families_path, :class => "button danger"
 
 :javascript
   (function() {

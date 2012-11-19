@@ -1,7 +1,7 @@
 %header.page-header
   .obj_actions
     .return_to
-      = t'return_to'
+      = _("Return to:")
       = link_to @return_text, @return_path, :id => 'new_pool_button'
   %h1.no-icon= @title
 
@@ -10,6 +10,6 @@
     %strong= @summary_text
   .content
     %header
-      %h2#users.users= t'users.users'
+      %h2#users.users= _("Users")
 
     = render :partial => 'form'

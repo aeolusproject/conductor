@@ -56,7 +56,7 @@ class ProviderPriorityGroupsController < ApplicationController
     end
 
     redirect_to pool_provider_selection_provider_priority_groups_path(@priority_group.pool),
-                :notice => t('provider_priority_groups.flash.created')
+                :notice => _("Priority Group successfully created")
   end
 
   def edit
@@ -87,12 +87,12 @@ class ProviderPriorityGroupsController < ApplicationController
     end
 
     redirect_to pool_provider_selection_provider_priority_groups_path(@priority_group.pool),
-                :notice => t('provider_priority_groups.flash.updated')
+                :notice => _("Priority Group successfully updated")
   end
 
   def destroy
     @pool.provider_priority_groups.find(params[:id]).destroy
-    redirect_to :back, :notice => t('provider_priority_groups.flash.deleted')
+    redirect_to :back, :notice => _("Priority Group successfully deleted")
   end
 
   private

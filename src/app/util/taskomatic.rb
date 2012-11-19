@@ -153,7 +153,7 @@ module Taskomatic
 
   def self.create_dcloud_instance(instance, match)
     client = match.provider_account.connect
-    raise I18n.t("provider_accounts.errors.could_not_connect") unless client
+    raise _("Could not connect to Provider Account.  Please contact an Administrator.") unless client
 
     client_args = {
       :image_id    => match.provider_image,

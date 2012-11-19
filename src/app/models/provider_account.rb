@@ -143,17 +143,17 @@ class ProviderAccount < ActiveRecord::Base
 
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
-      errors.add(:base, "#{I18n.t("provider_accounts.credentials.labels.#{cd.label}")} #{I18n.t('errors.messages.blank')}") if credentials_hash[cd.name].blank?
+      errors.add(:base, "#{I18n.t("provider_accounts.credentials.labels.#{cd.label}")}" + _("can't be blank")) if credentials_hash[cd.name].blank?
     end
   end
 
   def validate_credentials
     begin
       unless valid_credentials?
-        errors.add(:base, I18n.t('provider_accounts.errors.invalid_credentials'))
+        errors.add(:base, _("Login credentials are invalid for this Provider."))
       end
     rescue
-      errors.add(:base, I18n.t('provider_accounts.errors.exception_while_validating'))
+      errors.add(:base, _("An error occurred when checking Provider credentials. Please check your setup and try again."))
     end
   end
 

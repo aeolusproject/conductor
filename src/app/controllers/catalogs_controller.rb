@@ -20,7 +20,7 @@ class CatalogsController < ApplicationController
                 :only => [:create, :update]
 
   def index
-    @title = t('catalogs.catalogs')
+    @title = _("Catalogs")
     clear_breadcrumbs
     @catalogs = Catalog.
       apply_filters(:preset_filter_id => params[:catalogs_preset_filter],
@@ -42,7 +42,8 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.new(params[:catalog]) # ...when should there be params on new?
     load_pools
     require_privilege(Privilege::CREATE, Catalog, @pools.first)
-    @title = t('catalogs.new.new_catalog')
+    @title = _("Add New Catalog")
+
   end
 
   def show
@@ -53,8 +54,8 @@ class CatalogsController < ApplicationController
     save_breadcrumb(catalog_path(@catalog), @catalog.name)
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-      { :name => t("catalog_entries.index.name"), :sort_attr => :name },
-      { :name => t('catalog_entries.index.deployable_xml'), :sortable => false }
+      { :name => _("Name"), :sort_attr => :name },
+      { :name => _("Deployable XML"), :sortable => false }
     ]
   end
 
@@ -87,7 +88,7 @@ class CatalogsController < ApplicationController
 
   def edit
     @catalog = Catalog.find(params[:id])
-    @title = t('catalogs.edit.edit_catalog')
+    @title = _("Editing Catalog")
     load_pools
     require_privilege(Privilege::MODIFY, @catalog)
   end
@@ -157,13 +158,13 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       if catalog.destroy
         format.html do
-          flash[:notice] = t("catalogs.flash.notice.one_deleted")
+          flash[:notice] = _("Catalog deleted")
           redirect_to catalogs_path
         end
         format.xml { render :nothing => true, :status => :no_content }
       else
         format.html do
-          flash[:error] = t("catalogs.flash.error.one_not_deleted")
+          flash[:error] = _("Catalog cannot be deleted. At least one Deployable has a reference to this Catalog.")
           redirect_to catalog_path(catalog)
         end
         format.xml do
@@ -182,8 +183,8 @@ class CatalogsController < ApplicationController
   def set_header
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-      { :name => t("catalogs.index.name"), :sort_attr => :name },
-      { :name => t('pools.index.pool_name'), :sortable => false }
+      { :name => _("Name"), :sort_attr => :name },
+      { :name => _("Pool name"), :sortable => false }
     ]
   end
 
