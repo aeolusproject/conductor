@@ -153,8 +153,6 @@ Conductor::Application.routes.draw do
     resources :instance_parameters
   end
 
-  resources :image_imports
-
   resources :hardware_profiles do
     delete 'multi_destroy', :on => :collection
     post :filter, :on => :collection
