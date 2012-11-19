@@ -81,6 +81,8 @@ Conductor::Application.routes.draw do
     end
   end
 
+  resources :image_imports, :only => [:new, :create]
+
   resource :user_sessions
   match 'login',       :to => 'user_sessions#new',     :as => 'login'
   match 'logout',      :to => 'user_sessions#destroy', :as => 'logout'
@@ -152,8 +154,6 @@ Conductor::Application.routes.draw do
     end
     resources :instance_parameters
   end
-
-  resources :image_imports
 
   resources :hardware_profiles do
     delete 'multi_destroy', :on => :collection

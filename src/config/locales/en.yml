@@ -1594,6 +1594,8 @@ en:
     logs: Logs
   general:
     delete_confirmation: "Are you sure you want to delete?"
+  image_importer:
+    not_on_provider: The requested image was not found on the Provider.
   tim:
     base_images:
       environment: Environment
@@ -1691,4 +1693,3 @@ en:
         make_deployable: Automatically make "%{name}" Deployable.
         edit_xml: View and Edit Template XML
         save_template: Save Image Template
-      not_on_provider: The requested image was not found on the Provider.

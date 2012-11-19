@@ -1,0 +1,30 @@
+= render :partial => 'layouts/admin_nav'
+%header.page-header
+  .obj_actions.button-container
+    .return_to
+      = t :return_to
+      = link_to t('images.environment', :environment => @pool_family.name), pool_family_path(@pool_family)
+  %h1.no-icon= t('.import_image')
+
+%section.content-section
+
+  .content
+    = form_for @importer, :url => image_imports_path, :html => { :multipart => true, :class => 'generic horizontal' } do |f|
+      = f.hidden_field :pool_family_id
+      %fieldset
+        .field
+          = label_tag :provider_account_id, t('.provider_account')
+          .input
+            = f.select :provider_account_id, options_for_select(@accounts.collect{|x| [x.label, x.id]})
+        .field
+          = label_tag :image_id, t('.image_id')
+          .input
+            = f.text_field :image_id
+        .field
+          = label_tag :name, t('.name')
+          .input
+            = f.text_field :name
+
+      %fieldset.options
+        = f.submit t(:continue), :id => "file_button", :class => "button primary", :disabled => @accounts.empty?
+        = link_to t(:cancel), pool_families_path, :class => "button danger"

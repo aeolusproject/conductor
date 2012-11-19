@@ -80,10 +80,6 @@ Tim::BaseImagesController.class_eval do
     @base_image.template ||= Tim::Template.new
     @accounts = @base_image.pool_family.provider_accounts.enabled.
       list_for_user(current_session, current_user, Privilege::USE)
-    if @accounts.empty?
-      flash.now[:error] = params[:tab] == 'import' ?
-        t("tim.base_images.flash.error.no_provider_accounts_for_import") :
-        t("tim.base_images.flash.error.no_provider_accounts")
-    end
+    t("tim.base_images.flash.error.no_provider_accounts") if @accounts.empty?
   end
 end
