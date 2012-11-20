@@ -43,6 +43,7 @@ describe ProviderSelection::Base do
   it "should give back valid match" do
     match = @provider_selection.next_match
     match.provider_account.should eql(@account2)
+    match.hardware_profile.should_not be_nil
   end
 
   it "should find common provider account" do
