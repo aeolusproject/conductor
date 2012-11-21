@@ -53,6 +53,8 @@ class PoolFamily < ActiveRecord::Base
   has_many :deployables
   has_many :instances
   has_many :deployments
+  has_many :base_images, :class_name => "Tim::BaseImage"
+  has_many :templates, :class_name => "Tim::Template"
 
   accepts_nested_attributes_for :quota
 
@@ -73,7 +75,7 @@ class PoolFamily < ActiveRecord::Base
   end
 
   def self.additional_privilege_target_types
-    [Pool, Quota]
+    [Pool, Quota, Tim::BaseImage, Tim::Template]
   end
 
   def derived_subtree(role = nil)
@@ -83,6 +85,8 @@ class PoolFamily < ActiveRecord::Base
     subtree += instances if (role.nil? or role.privilege_target_match(Instance))
     subtree += catalogs if (role.nil? or role.privilege_target_match(Deployable))
     subtree += deployables if (role.nil? or role.privilege_target_match(Deployable))
+    subtree += base_images if (role.nil? or role.privilege_target_match(Tim::BaseImage))
+    subtree += templates if (role.nil? or role.privilege_target_match(Tim::Template))
     subtree
   end
 
