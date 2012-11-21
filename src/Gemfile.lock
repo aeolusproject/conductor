@@ -232,7 +232,7 @@ DEPENDENCIES
   paranoia
   pg
   rack-restful_submit
-  rails (= 3.2.8)
+  rails
   rails_warden
   rest-client
   rspec-rails
