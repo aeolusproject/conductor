@@ -45,3 +45,10 @@ en:
     provider_account:
       owner: Provider Account Owner
       user: Provider Account User
+    tim:
+      base_image:
+        owner: Image Owner
+        user: Image User
+      template:
+        owner: Template Owner
+        user: Template User
