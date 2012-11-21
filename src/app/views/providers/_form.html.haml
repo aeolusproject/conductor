@@ -12,7 +12,7 @@
   .field
     = form.label :provider_type_id
     .input
-      = form.select(:provider_type_id, @provider_type_options, {:prompt => t('providers.form.select_type_of_provider')}, {:disabled => readonly})
+      = form.select(:provider_type_id, @provider_type_options, {:include_blank => t('providers.form.select_type_of_provider')}, {:disabled => readonly})
   .field
     = form.label :deltacloud_provider, t('providers.form.x_deltacloud_provider.generic')
     .input
