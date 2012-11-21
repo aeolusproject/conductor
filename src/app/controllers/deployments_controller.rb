@@ -242,6 +242,7 @@ class DeploymentsController < ApplicationController
       format.html { render :action => 'show'}
       format.js   { render :partial => @details_tab[:view] }
       format.json { render :json => @deployment }
+      format.xml
     end
   end
 
