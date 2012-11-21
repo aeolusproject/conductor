@@ -71,6 +71,8 @@ Conductor::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 
+  mount Tim::Engine, :at => "tim"
+
   resource :user_sessions
   match 'login',       :to => 'user_sessions#new',     :as => 'login'
   match 'logout',      :to => 'user_sessions#destroy', :as => 'logout'
