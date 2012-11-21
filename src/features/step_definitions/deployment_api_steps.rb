@@ -19,10 +19,24 @@ When /^I request a list of deployments returned as XML$/ do
   get api_deployments_path
 end
 
+When /^I ask for details of that deployment as XML$/ do
+  header 'Accept', 'application/xml'
+  get api_deployment_path(@deployment.id)
+end
+
 Then /^I should receive list of those deployments as XML$/ do
   response = last_response
   response.headers['Content-Type'].should include('application/xml')
   response.status.should == 200
   xml_body = Nokogiri::XML(response.body)
   xml_body.xpath('//deployments/deployment').size.should == @deployments.size
+end
+
+Then /^I should receive details of that deployment as XML$/ do
+  response = last_response
+  response.headers['Content-Type'].should include('application/xml')
+  response.status.should == 200
+  xml_body = Nokogiri::XML(response.body)
+  xml_body.xpath('//deployment').size.should == 1
+  xml_body.xpath('//deployment/name').text.should == @deployment.name
 end

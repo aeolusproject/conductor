@@ -306,7 +306,7 @@ Conductor::Application.routes.draw do
       resources :provider_accounts, :controller => "pool_families_to_provider_accounts_associations", :only => [:index, :show, :update, :destroy]
     end
     resources :catalogs, :only => [:index, :show, :create, :update, :destroy]
-    resources :deployments, :only => [:index]
+    resources :deployments, :only => [:index, :show]
     resources :provider_realms, :only => [:index, :show]
   end
 

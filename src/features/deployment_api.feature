@@ -28,3 +28,13 @@ Feature: Manage Deployments via API
     Given there are some deployments
     When I request a list of deployments returned as XML
     Then I should receive list of those deployments as XML
+
+  Scenario: Get details of a deployment as XML
+    Given there is a deployment
+    When I ask for details of that deployment as XML
+    Then I should receive details of that deployment as XML
+
+  Scenario: Get details of non-existent deployment
+    Given the specified deployment does not exist in the system
+    When I ask for details of that deployment as XML
+    Then I should receive Not Found error
