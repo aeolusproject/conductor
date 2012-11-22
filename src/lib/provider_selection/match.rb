@@ -23,6 +23,7 @@ module ProviderSelection
 
     attr_reader :score
     attr_accessor :provider_account
+    attr_accessor :hardware_profile
 
     def initialize(attributes)
       attributes.each do |name, value|
