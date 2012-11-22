@@ -12,6 +12,11 @@ Given /^there are some deployments$/ do
   2.times { @deployments << FactoryGirl.create(:deployment, { :pool => Pool.first, :owner => @user }) }
 end
 
+Given /^there are some deployments in that pool$/ do
+  @deployments = []
+  2.times { @deployments << FactoryGirl.create(:deployment, { :pool => @pool, :owner => @user }) }
+end
+
 Given /^there is a deployment$/ do
   @deployment = FactoryGirl.create(:deployment, { :pool => Pool.first, :owner => @user })
 end

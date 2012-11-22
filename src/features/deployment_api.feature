@@ -29,6 +29,13 @@ Feature: Manage Deployments via API
     When I request a list of deployments returned as XML
     Then I should receive list of those deployments as XML
 
+  Scenario: Get list of deployments in a pool as XML
+    Given there are some deployments
+    And I have Pool Creator permissions on a pool named "Deployment Pool"
+    And there are some deployments in that pool
+    When I request a list of deployments in that pool returned as XML
+    Then I should receive list of those deployments as XML
+
   Scenario: Get details of a deployment as XML
     Given there is a deployment
     When I ask for details of that deployment as XML
