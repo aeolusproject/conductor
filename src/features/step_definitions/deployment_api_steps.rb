@@ -19,6 +19,11 @@ When /^I request a list of deployments returned as XML$/ do
   get api_deployments_path
 end
 
+When /^I request a list of deployments in that pool returned as XML$/ do
+  header 'Accept', 'application/xml'
+  get api_pool_deployments_path(@pool)
+end
+
 When /^I ask for details of that deployment as XML$/ do
   header 'Accept', 'application/xml'
   get api_deployment_path(@deployment.id)

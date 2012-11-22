@@ -453,8 +453,10 @@ class DeploymentsController < ApplicationController
       { :name => t("pools.index.owner"), :sortable => false },
       { :name => t("providers.provider"), :sortable => false }
     ]
-    @pools = Pool.list_for_user(current_session, current_user,
-                                Privilege::CREATE, Deployment)
+
+    pool_scope = params[:pool_id] ? Pool.where(:id => params[:pool_id]) : Pool
+    @pools = pool_scope.list_for_user(current_session, current_user,
+                                      Privilege::CREATE, Deployment)
 
     unpaginated_deployments = Deployment.includes(:owner, :pool, :instances).
       apply_filters(:preset_filter_id => params[:deployments_preset_filter],
