@@ -125,7 +125,7 @@ module ProviderSelection
           common_accounts = accounts
         else
           provider_accounts = accounts.map(&:provider_account)
-          common_accounts.delete_if{ |pair| ! provider_accounts.include?(pair.provider_account) }
+          common_accounts.delete_if{ |pair| !provider_accounts.include?(pair.provider_account) }
         end
       end
 
