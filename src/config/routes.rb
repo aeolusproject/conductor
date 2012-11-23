@@ -103,6 +103,12 @@ Conductor::Application.routes.draw do
     delete :multi_destroy, :on => :collection
     post :filter, :on => :collection
 
+    resources :deployables do
+      member do
+        get :definition
+      end
+    end
+
     resource :provider_selection, :only => [:show] do
       resources :provider_priority_groups, :except => [:show]
 
