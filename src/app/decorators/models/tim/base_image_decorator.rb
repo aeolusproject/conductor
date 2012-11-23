@@ -35,7 +35,12 @@ Tim::BaseImage.class_eval do
   def last_built_image_version
     # TODO: returns latest image version for which there is at least one target
     # image (we don't care about build status)
-    image_versions.joins(:target_images).order('created_at DESC')
+    image_versions.joins(:target_images).order('created_at DESC').first
+  end
+
+  def last_provider_image(account)
+    Tim::ProviderImage.find_by_provider_account_and_image(account, self).
+      order('tim_image_versions.created_at DESC').first
   end
 
   private
