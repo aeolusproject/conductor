@@ -25,12 +25,28 @@ class DeployablesController < ApplicationController
       @catalog = Catalog.find(params[:catalog_id])
       @deployables = @catalog.deployables
       @catalog_entries = @deployables.collect { |d| d.catalog_entries.first }
+    elsif params[:pool_id].present?
+      # possible enumeration attack? as well as ^^
+      # * should list only those user can VIEW
+      # * do we allow traversing unpriviledged resources?
+      #   i.e. when user doesn't have VIEW perm for Catalog or Pool
+      catalogs = Catalog.find_all_by_pool_id(params[:pool_id])
+      deployables = catalogs.map { |_c| _c.deployables }.reduce(&:+)
+
+      perm_deployables = Deployable.
+        list_for_user(current_session, current_user, Privilege::VIEW)
+
+      @deployables = deployables.to_set & perm_deployables.to_set
     else
       save_breadcrumb(deployables_path)
       @deployables = Deployable.without_catalog.
         list_for_user(current_session, current_user, Privilege::VIEW)
     end
     set_header
+    respond_to do |format|
+      format.html
+      format.xml { render :partial => 'list.xml', :locals => {:deployables => @deployables}}
+    end
   end
 
   def new
