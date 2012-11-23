@@ -37,4 +37,10 @@ FactoryGirl.define do
     end
   end
 
+  factory :pool_with_deployment, :parent => :pool do |pool|
+    pool.after_create do |pool|
+      Factory :deployment, :pool => pool
+    end
+  end
+
 end
