@@ -199,6 +199,20 @@ describe PoolsController do
           xml.xpath("/pool/catalogs/catalog/@id").text.should == @catalog.id.to_s
         end
       end
+
+      context "for pool with deployments" do
+        before do
+          @pool = FactoryGirl.create :pool_with_deployment
+          @deployment = @pool.deployments[0]
+          get :show, :id => @pool.id
+        end
+
+        it "lists deployments" do
+          xml = Nokogiri::XML(response.body)
+          xml.xpath("/pool/deployments/deployment").size.should == 1
+          xml.xpath("/pool/deployments/deployment/@id").text.should == @deployment.id.to_s
+        end
+      end
     end
 
     describe "#update" do

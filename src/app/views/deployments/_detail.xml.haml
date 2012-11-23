@@ -1,0 +1,11 @@
+!!! XML
+%deployment{:id => deployment.id, :href => api_deployment_url(deployment)}
+  - unless shallow
+    %name= deployment.name
+    - if deployment.pool && deployment.pool.id
+      %pool{:id => deployment.pool.id, :href => api_pool_url(deployment.pool)}
+    -# TODO: uncomment this and update specs when frontend realms are reachable via API:
+    -# - if deployment.frontend_realm && deployment.frontend_realm.id
+    -#   %frontend_realm{:id => deployment.frontend_realm.id, :href => api_frontend_realm_url(deployment.frontend_realm)}
+    %uuid= deployment.uuid
+    %scheduled_for_deletion= deployment.scheduled_for_deletion

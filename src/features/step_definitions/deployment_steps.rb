@@ -7,6 +7,25 @@ Given /^there is a deployment named "([^"]*)" belonging to "([^"]*)" owned by "(
   mock_deltacloud
 end
 
+Given /^there are some deployments$/ do
+  @deployments = []
+  2.times { @deployments << FactoryGirl.create(:deployment, { :pool => Pool.first, :owner => @user }) }
+end
+
+Given /^there are some deployments in that pool$/ do
+  @deployments = []
+  2.times { @deployments << FactoryGirl.create(:deployment, { :pool => @pool, :owner => @user }) }
+end
+
+Given /^there is a deployment$/ do
+  @deployment = FactoryGirl.create(:deployment, { :pool => Pool.first, :owner => @user })
+end
+
+
+Given /^the specified deployment does not exist in the system$/ do
+  @deployment = FactoryGirl.build(:deployment, { :id => -1 })
+end
+
 When /^I check "([^"]*)" deployment/ do |name|
   deployment = Deployment.find_by_name(name)
   check("deployment_checkbox_#{deployment.id}")

@@ -17,56 +17,56 @@
 shared_examples_for "http OK" do
   context "response status code" do
     subject { response.status }
-    it { should be_eql(200) }
+    it { should == 200 }
   end
 end
 
 shared_examples_for "http Created" do
   context "response status code" do
     subject { response.status }
-    it { should be_eql(201) }
+    it { should == 201 }
   end
 end
 
 shared_examples_for "http No Content" do
   context "response status code" do
     subject { response.status }
-    it { should be_eql(204) }
+    it { should == 204 }
   end
 end
 
 shared_examples_for "http Bad Request" do
   context "response status code" do
     subject { response.status }
-    it { should be_eql(400) }
+    it { should == 400 }
   end
 end
 
 shared_examples_for "http Forbidden" do
   context "response status code" do
     subject { response.status }
-    it { should be_eql(403) }
+    it { should == 403 }
   end
 end
 
 shared_examples_for "http Not Found" do
   context "response status code" do
     subject { response.status }
-    it { should be_eql(404) }
+    it { should == 404 }
   end
 end
 
 shared_examples_for "http Unprocessable Entity" do
   context "response status code" do
     subject { response.status }
-    it { should be_eql(422) }
+    it { should == 422 }
   end
 end
 
 shared_examples_for "http Internal Server Error" do
   context "response status code" do
     subject { response.status }
-    it { should be_eql(500) }
+    it { should == 500 }
   end
 end
 

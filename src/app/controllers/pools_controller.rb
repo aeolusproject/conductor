@@ -154,18 +154,17 @@ class PoolsController < ApplicationController
 
     details_tab_name = params[:details_tab].blank? ? 'deployments' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
-    if @details_tab[:id] == 'deployments'
-      @deployments = paginate_collection(
-        @pool.deployments.includes(:owner, :pool, :instances, :events).
-          apply_filters(:preset_filter_id => params[:deployments_preset_filter],
-                        :search_filter => params[:deployments_search]).
-          list_for_user(current_session, current_user, Privilege::VIEW),
-        params[:page], PER_PAGE)
-    end
+
     @view = @details_tab[:view]
     respond_to do |format|
-      format.html { render :action => :show}
-      format.js { render :partial => @view }
+      format.html do
+        load_deployments if @details_tab[:id] == 'deployments'
+        render :action => :show
+      end
+      format.js do
+        load_deployments if @details_tab[:id] == 'deployments'
+        render :partial => @view
+      end
       format.json do
         deployments = paginate_collection(
             @pool.deployments.list_for_user(current_session, current_user,
@@ -174,7 +173,12 @@ class PoolsController < ApplicationController
           map{ |deployment| view_context.deployment_for_mustache(deployment) }
         render :json => @pool.as_json.merge({:deployments => deployments})
       end
-      format.xml { render :show, :locals => { :pool => @pool, :catalogs => @catalogs } }
+      format.xml do
+        load_deployments
+        render :show, :locals => { :pool => @pool,
+                                   :catalogs => @catalogs,
+                                   :deployments => @deployments }
+      end
     end
   end
 
@@ -209,10 +213,14 @@ class PoolsController < ApplicationController
         flash[:notice] = t "pools.flash.notice.added"
         format.html { redirect_to pools_path }
         format.json { render :json => @pool, :status => :created }
-        format.xml {render :show,
-                           :status => :created,
-                           :locals => { :pool => @pool, :catalogs => @catalogs }
-        }
+        format.xml do
+          load_deployments
+          render :show,
+                 :status => :created,
+                 :locals => { :pool => @pool,
+                              :catalogs => @catalogs,
+                              :deployments => @deployments }
+        end
       else
         flash.now[:warning] = t "pools.flash.warning.creation_failed"
         format.html { render :new }
@@ -252,7 +260,13 @@ class PoolsController < ApplicationController
         format.html { redirect_to :action => 'show', :id => @pool.id }
         format.js { render :partial => 'show', :id => @pool.id }
         format.json { render :json => @pool }
-        format.xml {render :show, :locals => { :pool => @pool, :catalogs => @catalogs } }
+        format.xml do
+          load_deployments
+          render :show,
+                 :locals => { :pool => @pool,
+                              :catalogs => @catalogs,
+                              :deployments => @deployments }
+        end
       else
         flash[:error] = t "pools.flash.error.not_updated"
         format.html { render :action => :edit }
@@ -399,6 +413,19 @@ class PoolsController < ApplicationController
     @instances = @pool.instances.list_for_user(current_session, current_user,
                                                Privilege::VIEW).
       where(conditions)
+  end
+
+  def load_deployments
+    unpaginated_deployments = @pool.deployments.includes(:owner, :pool, :instances, :events).
+        apply_filters(:preset_filter_id => params[:deployments_preset_filter],
+                      :search_filter => params[:deployments_search]).
+        list_for_user(current_session, current_user, Privilege::VIEW)
+
+    @deployments = if request.format.xml?
+                     unpaginated_deployments
+                   else
+                     paginate_collection(unpaginated_deployments, params[:page], PER_PAGE)
+                   end
   end
 
   def user_statistics
