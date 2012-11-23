@@ -13,6 +13,8 @@ Tim::BaseImage.class_eval do
 
   validates_presence_of :pool_family_id
 
+  before_create :generate_uuid
+
   def template_url=(url)
     init_template(import_xml_from_url(url))
   end
@@ -60,4 +62,7 @@ Tim::BaseImage.class_eval do
     return nil
   end
 
+  def generate_uuid
+    self[:uuid] = UUIDTools::UUID.timestamp_create.to_s
+  end
 end
