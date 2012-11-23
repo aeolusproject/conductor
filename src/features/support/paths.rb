@@ -91,6 +91,9 @@ module NavigationHelpers
     when /the show pool page/
       pool_path
 
+    when /the provider selection page for "([^"]*)" pool/
+      pool_provider_selection_path Pool.where(:name => $1).first
+
     when /the page for the pool "([^"]*)"/
       pool_path(Pool.find_by_name($1))
 
