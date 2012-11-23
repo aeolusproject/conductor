@@ -175,3 +175,7 @@ end
 Then /^I should see the pretty_view contents for pools index$/ do
   within("section.pools") { localized_text_present('pools.index.your_pools') }
 end
+
+When /^I click "([^"]*)" toggle$/ do |toggle|
+  find(:xpath,"//a[contains(@href,'#{toggle}')]").click
+end
