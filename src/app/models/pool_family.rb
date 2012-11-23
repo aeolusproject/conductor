@@ -111,18 +111,13 @@ class PoolFamily < ActiveRecord::Base
   end
 
   def check_images!
-    referenced_images = images
-    if referenced_images.empty?
+    if base_images.empty?
       true
     else
       raise Aeolus::Conductor::Base::NotDestroyable,
         I18n.t('pool_families.errors.associated_images',
-               :list => referenced_images.map {|i| i.name}.join(', '))
+               :list => base_images.map {|i| i.name}.join(', '))
     end
-  end
-
-  def images
-    Aeolus::Image::Warehouse::Image.by_environment(self.name)
   end
 
   def all_providers_disabled?
@@ -166,13 +161,5 @@ class PoolFamily < ActiveRecord::Base
       targets << driver if group[:included]
     end
     targets
-  end
-
-  def fix_iwhd_environment_tags
-    if name_changed?
-      Aeolus::Image::Warehouse::Image.by_environment(name_was).each do |image|
-        image.set_attr("environment", name)
-      end
-    end
   end
 end

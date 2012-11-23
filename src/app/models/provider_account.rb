@@ -65,6 +65,7 @@ class ProviderAccount < ActiveRecord::Base
 
   has_many :events, :as => :source, :dependent => :destroy,
            :order => 'events.id ASC'
+  has_many :provider_images, :class_name => "Tim::ProviderImage"
 
   # Helpers
   attr_accessor :x509_cert_priv_file, :x509_cert_pub_file
@@ -125,11 +126,6 @@ class ProviderAccount < ActiveRecord::Base
   end
   def self.additional_privilege_target_types
     [Quota]
-  end
-
-  def provider_images
-    Aeolus::Image::Warehouse::ProviderImage.where(
-    "($provider == \"#{provider.name}\" && $provider_account_identifier == \"#{credentials_hash['username']}\")")
   end
 
   def check_provider_images!
@@ -399,7 +395,7 @@ class ProviderAccount < ActiveRecord::Base
                 :pool_family => instance.pool.pool_family,
                 :provider_account => self,
                 :hardware_profile => hwp,
-                :provider_image => account_image.target_identifier,
+                :provider_image => account_image.external_image_id,
                 :provider_realm => brealm_target.target_realm,
                 :instance => instance
               )
@@ -411,36 +407,12 @@ class ProviderAccount < ActiveRecord::Base
           :pool_family => instance.pool.pool_family,
           :provider_account => self,
           :hardware_profile => hwp,
-          :provider_image => account_image.target_identifier,
+          :provider_image => account_image.external_image_id,
           :provider_realm => nil,
           :instance => instance
         )
       end
     end
-  end
-
-  # TODO: it would be much better to have this method in image model,
-  # but we don't have suitable image model ATM.
-  def image_status(image)
-    target = provider.provider_type.deltacloud_driver
-
-    builder = Aeolus::Image::Factory::Builder.first
-    return :building if builder.find_active_build_by_imageid(image.id, target)
-
-    build = image.latest_pushed_or_unpushed_build
-    return :not_built unless build
-
-    target_image = build.target_images.find { |ti| ti.target == target }
-    return :not_built unless target_image
-
-    return :pushing if builder.find_active_push(target_image.id,
-                                                provider.name,
-                                                credentials_hash["username"])
-
-    provider_image = target_image.find_provider_image_by_provider_and_account(
-        provider.name, credentials_hash["username"]).first
-    return :not_pushed unless provider_image
-    :pushed
   end
 
   def failure_count(options = {})
