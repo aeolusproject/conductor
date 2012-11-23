@@ -65,7 +65,9 @@ class DeployablesController < ApplicationController
   def new
     @deployable = Deployable.new(params[:deployable])
     if params[:create_from_image]
-      @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
+      # TODO - pass id instead of uuid once links pointing to this action are
+      # fixed
+      @image = Tim::BaseImage.find(params[:create_from_image])
       @hw_profiles = HardwareProfile.frontend.
         list_for_user(current_session, current_user, Privilege::VIEW)
       @deployable.name = @image.name
@@ -215,7 +217,7 @@ class DeployablesController < ApplicationController
         flash.now[:warning]= t('deployables.flash.warning.failed', :message => e.message)
       end
       if params[:create_from_image].present?
-        @image = Aeolus::Image::Warehouse::Image.find(params[:create_from_image])
+        @image = Tim::BaseImage.find(params[:create_from_image])
         load_catalogs
         @hw_profiles = HardwareProfile.frontend.
           list_for_user(current_session, current_user, Privilege::VIEW)
@@ -340,7 +342,7 @@ class DeployablesController < ApplicationController
   end
 
   def load_catalogs
-    @pool_family = PoolFamily.where(:name => @image.environment).first
+    @pool_family = @image.pool_family
     @catalogs = Catalog.list_for_user(current_session, current_user,
                                       Privilege::CREATE, Deployable).
       where('pool_family_id' => @pool_family.id)
