@@ -119,18 +119,12 @@ class Deployable < ActiveRecord::Base
     end
   end
 
-  # Round up Catalog Entries, fetch their Deployables, and extract image UUIDs.
-  def fetch_images
-    uuids = fetch_image_uuids || []
-    uuids.map { |uuid| Aeolus::Image::Warehouse::Image.find(uuid) }
-  end
-
   def fetch_unique_images
     uuids = fetch_image_uuids || []
     uniq_uuids = uuids.uniq
     result_hash = {}
     uniq_uuids.each do |uuid|
-      result_hash[uuid] = { :image => Aeolus::Image::Warehouse::Image.find(uuid), :count => uuids.count(uuid)}
+      result_hash[uuid] = { :image => Tim::BaseImage.find_by_uuid(uuid), :count => uuids.count(uuid)}
     end
     result_hash
   end
@@ -162,7 +156,7 @@ class Deployable < ActiveRecord::Base
   end
 
   def set_from_image(image_id, name, hw_profile)
-    image = Aeolus::Image::Warehouse::Image.find(image_id)
+    image = Tim::BaseImage.find(image_id)
     doc = Nokogiri::XML ''
     doc.root = doc.create_element('deployable', :version => DeployableXML.version, :name => name)
     description = doc.create_element('description')
@@ -191,7 +185,7 @@ class Deployable < ActiveRecord::Base
       assembly_hash = {}
 
       begin
-        image = Aeolus::Image::Warehouse::Image.find(assembly.image_id)
+        image = Tim::BaseImage.find_by_uuid(assembly.image_id)
       rescue Exception => e
         error = humanize_error(e.message)
       end
@@ -205,11 +199,11 @@ class Deployable < ActiveRecord::Base
                                     :assembly => assembly.name,
                                     :uuid => assembly.image_id)
       else
-        if image.environment != pool_family.name
+        if image.pool_family != pool_family
           deployable_errors << I18n.t("deployables.flash.error.wrong_environment",
                                       :deployable => name,
                                       :uuid => assembly.image_id,
-                                      :wrong_env => image.environment,
+                                      :wrong_env => image.pool_family.name,
                                       :environment => pool_family.name)
         end
         images << image
@@ -232,7 +226,10 @@ class Deployable < ActiveRecord::Base
         deployable_errors << "#{assembly_hash[:name]}: " + I18n.t('deployables.error.attribute_not_exist')
       end
       assemblies_array << assembly_hash
-      audrey_error = check_audrey_api_compatibility(image, assembly)
+      # TODO: check_audrey_api_compatibility uses icicle object which is not
+      # supported in Tim yet
+      #audrey_error = check_audrey_api_compatibility(image, assembly)
+      audrey_error = nil
       deployable_errors << "#{assembly_hash[:name]}: " + audrey_error if not audrey_error.nil?
     end
     [assemblies_array, images, missing_images, deployable_errors]

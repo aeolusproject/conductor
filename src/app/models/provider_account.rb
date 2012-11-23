@@ -65,6 +65,7 @@ class ProviderAccount < ActiveRecord::Base
 
   has_many :events, :as => :source, :dependent => :destroy,
            :order => 'events.id ASC'
+  has_many :provider_images, :class_name => "Tim::ProviderImage"
 
   # Helpers
   attr_accessor :x509_cert_priv_file, :x509_cert_pub_file
@@ -125,11 +126,6 @@ class ProviderAccount < ActiveRecord::Base
   end
   def self.additional_privilege_target_types
     [Quota]
-  end
-
-  def provider_images
-    Aeolus::Image::Warehouse::ProviderImage.where(
-    "($provider == \"#{provider.name}\" && $provider_account_identifier == \"#{credentials_hash['username']}\")")
   end
 
   def check_provider_images!

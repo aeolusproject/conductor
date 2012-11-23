@@ -65,6 +65,7 @@ class User < ActiveRecord::Base
   has_one :entity, :as => :entity_target, :dependent => :destroy
   has_many :session_entities, :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
+  has_many :base_images, :class_name => "Tim::BaseImage"
 
   attr_accessor :password
   # this attr is used when validating non-local (ldap) users

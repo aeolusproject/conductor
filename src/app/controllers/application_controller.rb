@@ -235,7 +235,6 @@ class ApplicationController < ActionController::Base
         unless session[:return_to] == root_path # don't display notice if going to root
           flash[:warning] = t('application_controller.flash.notice.must_be_logged')
         end
-        redirect_to login_url
         redirect_to main_app.login_url
       end
       format.js { head :unauthorized }

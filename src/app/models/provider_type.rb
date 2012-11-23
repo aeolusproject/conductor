@@ -32,6 +32,7 @@ class ProviderType < ActiveRecord::Base
 
   has_many :providers
   has_many :credential_definitions, :dependent => :destroy
+  has_many :target_images, :class_name => "Tim::TargetImage"
 
   validates_presence_of :name
   validates_uniqueness_of :name
