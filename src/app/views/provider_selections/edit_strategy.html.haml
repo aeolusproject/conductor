@@ -9,9 +9,7 @@
 
 %section.content-section
   .content#priority-group-form
-    = form_for @config, :as => :config, :builder => ApplicationHelper::FormBuilderWithRequiredFields,
-               :url => save_strategy_options_pool_provider_selection_path(@pool, @strategy.name) do |form|
-      = render :partial => @edit_partial, :locals => { :form => form }
-      %fieldset.options
-        = form.submit(t('save'), :class => "submit button primary")
-        = link_to t('cancel'), pool_provider_selection_path(@pool), :class => "button danger"
+    = conductor_form_for(@config, :as => :config,
+                         :url => save_strategy_options_pool_provider_selection_path(@pool, @strategy.name)) do |f|
+      = render :partial => @edit_partial, :locals => { :form => f }
+      = f.button :form_buttons, :cancel => pool_provider_selection_path(@pool)
