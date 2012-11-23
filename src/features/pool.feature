@@ -218,3 +218,13 @@ Feature: Manage Pools
     And I press "apply_pools_search"
     Then I should see "mypool"
     And I should not see "somepool"
+
+  Scenario: Change Provider Selection settings
+    Given a pool "mockpool" exists
+    Given I am viewing the pool "mockpool"
+    And I follow "Provider Selection"
+    Then I should be on the provider selection page for "mockpool" pool
+    When I click "penalty_for_failure" toggle
+    Then I should be on the provider selection page for "mockpool" pool
+    When I follow "Configure"
+    Then I should see "Edit Penalty for Failure strategy"
