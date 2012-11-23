@@ -1,0 +1,4 @@
+!!! XML
+%deployables
+  - deployables.each do |dep|
+    %deployable{:href => deployable_url(dep), :id => dep.id}
