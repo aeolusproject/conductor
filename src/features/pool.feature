@@ -7,6 +7,17 @@ Feature: Manage Pools
     Given I am an authorised user
     And I am logged in
 
+  Scenario: Change Provider Selection
+    Given a pool "mockpool" exists
+    Given I am viewing the pool "mockpool"
+    And I follow "provider_selection_button"
+    Then I should be on the provider selection page for "mockpool" pool
+    When I click "penalty_for_failure" toggle
+    Then I should be on the provider selection page for "mockpool" pool
+    When I follow link with text "Configure" 
+    Then I should not see "uninitialized constant"
+# this test is to be alter to check for some text on the page when the bug is fixed
+
   Scenario: Create a new Pool
     Given I am on the pools page
     And there is not a pool named "mockpool"

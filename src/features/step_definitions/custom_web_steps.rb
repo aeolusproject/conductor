@@ -13,6 +13,6 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-When /^(?:|I )follow link with ID "([^"]*)"$/ do |link_id|
+When /^(?:|I )follow link with (?:ID|text) "([^"]*)"$/ do |link_id|
   click_link(link_id)
 end
