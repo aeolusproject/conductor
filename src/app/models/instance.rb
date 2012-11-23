@@ -178,23 +178,22 @@ class Instance < ActiveRecord::Base
 
 
   def image
-    @image ||= Aeolus::Image::Warehouse::Image.find(image_uuid) if image_uuid
+    @image ||= Tim::BaseImage.find_by_uuid(image_uuid) if image_uuid
   end
 
   def image_build
-    @image_build ||= Aeolus::Image::Warehouse::ImageBuild.find(image_build_uuid) if image_build_uuid
+    @image_build ||= Tim::ImageVersion.find(image_build_uuid) if image_build_uuid
   end
 
-  def build
-    image_build || (image.nil? ? nil : image.latest_pushed_build)
-  end
-
-  def provider_images_for_match(provider_account)
-    if build
-      build.provider_images_by_provider_and_account(
-        provider_account.provider.name, provider_account.credentials_hash['username'])
+  def provider_image_for_account(provider_account)
+    if image_build
+      Tim::ProviderImage.find_by_provider_account_and_image_version(
+        provider_account, image_build).first
+    elsif image
+      Tim::ProviderImage.find_by_provider_account_and_image(
+        provider_account, image).order('created_at DESC').first
     else
-      []
+      nil
     end
   end
 
