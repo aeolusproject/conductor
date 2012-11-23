@@ -50,6 +50,7 @@ describe "Deployments API" do
         # subject.xpath("frontend_realm/@id").text.should == deployment.frontend_realm.id.to_s
         # subject.xpath("frontend_realm/@href").text.should == api_frontend_realm_url(deployment.frontend_realm)
         subject.xpath("uuid").text.should == deployment.uuid
+        subject.xpath("scheduled_for_deletion").text.should == deployment.scheduled_for_deletion.to_s
 
         # TODO implement and test these once it's clear how states should be represented,
         # what date/time format to use etc.:
@@ -58,7 +59,6 @@ describe "Deployments API" do
         # subject.xpath("updated_at").text.should
         # subject.xpath("uptime_1st_instance_running").text.should
         # subject.xpath("global_uptime").text.should
-        # subject.xpath("scheduled_for_deletion").text.should
         # subject.xpath("deployable-xml").text.should
         # subject.xpath("history").text.should
         # subject.xpath("instances/instance").count.should
