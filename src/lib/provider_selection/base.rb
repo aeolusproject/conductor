@@ -55,26 +55,25 @@ module ProviderSelection
       pool = @instances.first.pool
       rank = Rank.new(pool)
 
-      provider_accounts = find_common_provider_accounts.map do |provider_account|
-        provider_account if provider_account.quota.can_start?(@instances)
-      end.uniq.compact
-
       # Adding a priority of 100000 to the default priority group which contains
       # all the available provider accounts.
       # The user defined priority groups has a score between -100 and +100.
       default_priority_group = PriorityGroup.new(100000)
       rank.default_priority_group = default_priority_group
 
-      provider_accounts.each do |provider_account|
+      find_common_provider_accounts.each do |acc_with_hwp|
+        next unless acc_with_hwp.provider_account.quota.can_start?(@instances)
+
         # Rescale to provider account priority to the [-100, 100] interval
-        score = provider_account.priority
+        score = acc_with_hwp.provider_account.priority
         if score.present? && score > Match::UPPER_LIMIT
           score = Match::UPPER_LIMIT
         elsif score.present? && score < Match::LOWER_LIMIT
           score = Match::LOWER_LIMIT
         end
 
-        default_priority_group.matches << Match.new(:provider_account => provider_account,
+        default_priority_group.matches << Match.new(:provider_account => acc_with_hwp.provider_account,
+                                                    :hardware_profile => acc_with_hwp.hardware_profile,
                                                     :score => score)
       end
 
@@ -107,23 +106,30 @@ module ProviderSelection
       @strategy_chain
     end
 
-    private
+    ProviderAccWithHwp = Struct.new(:provider_account, :hardware_profile)
 
+    private
     def find_common_provider_accounts
+
       instance_matches_grouped_by_instances = @instances.map do |instance|
         filter_instance_matches(instance)
       end
 
-      result = []
+      common_accounts = []
       instance_matches_grouped_by_instances.each_with_index do |instance_matches, index|
+        accounts = instance_matches.collect do |instance_match| 
+          ProviderAccWithHwp.new(instance_match.provider_account, instance_match.hardware_profile)
+        end
+
         if index == 0
-          result += instance_matches.map(&:provider_account)
+          common_accounts = accounts
         else
-          result &= instance_matches.map(&:provider_account)
+          provider_accounts = accounts.map(&:provider_account)
+          common_accounts.delete_if{ |pair| !provider_accounts.include?(pair.provider_account) }
         end
       end
 
-      result
+      common_accounts
     end
 
     def filter_instance_matches(instance)
