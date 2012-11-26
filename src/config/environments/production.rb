@@ -64,7 +64,7 @@ Conductor::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( login.css layout.css )
+  config.assets.precompile += %w( login.css layout.css application.js login.js )
 
   #Mailer configuration
   config.action_mailer.delivery_method = SETTINGS_CONFIG[:action_mailer][:delivery_method].to_sym
