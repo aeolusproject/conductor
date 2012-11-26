@@ -144,10 +144,10 @@ nav#administer_nav {
     text-align: center;
     list-style-type: none;
     &:hover{
-      background: transparent url(../../images/administer_nav_bg_hover.png) center bottom no-repeat;
+      background: transparent image-url("administer_nav_bg_hover.png") center bottom no-repeat;
     }
     &.selected{
-      background: transparent url(../../images/administer_nav_bg_hover.png) center bottom no-repeat;
+      background: transparent image-url("administer_nav_bg_hover.png") center bottom no-repeat;
       a.users{ background-position: center -424px; }
       a.environments{ background-position: center -494px; }
       a.content{ background-position: center -564px; }
@@ -162,7 +162,7 @@ nav#administer_nav {
       padding: 3.5em 2em 2em 2em;
       cursor: pointer;
       position: relative;
-      background: transparent url("../../images/admin_nav_icons.png") no-repeat;
+      background: transparent image-url("admin_nav_icons.png") no-repeat;
       &.users{
         position: relative;
         background-position: center -74px;
@@ -230,54 +230,54 @@ Page Header -- v.0.0.1 [header] (header.scss)
   }
 
   h1.pools{
-    background: transparent url('../../images/header_icon_pools.png') no-repeat 8px center;
+    background: transparent url('header_icon_pools.png') no-repeat 8px center;
   }
 
   h1.section-index{
-    background: transparent url('../../images/header_icon_section-index.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_section-index.png') no-repeat 8px center;
   }
 
   h1.users{
-    background: transparent url('../../images/header_icon_users.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_users.png') no-repeat 8px center;
   }
 
   h1.roles{
-    background: transparent url('../../images/header_icon_roles.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_roles.png') no-repeat 8px center;
   }
 
   h1.providers{
-    background: transparent url('../../images/header_icon_providers.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_providers.png') no-repeat 8px center;
   }
 
   h1.provider_accounts{
-    background: transparent url('../../images/header_icon_provider-accounts.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_provider-accounts.png') no-repeat 8px center;
     padding: 6px 7px 7px 60px;
   }
 
   h1.hardware_profiles{
-    background: transparent url('../../images/header_icon_hardware-profiles.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_hardware-profiles.png') no-repeat 8px center;
     padding: 6px 7px 7px 46px;
   }
 
   h1.realms{
-    background: transparent url('../../images/header_icon_realms.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_realms.png') no-repeat 8px center;
   }
 
   h1.pool_families{
-    background: transparent url('../../images/header_icon_pool-families.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_pool-families.png') no-repeat 8px center;
     padding: 6px 7px 7px 54px;
   }
 
   h1.catalog_entries{
-    background: transparent url('../../images/header_icon_deployables.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_deployables.png') no-repeat 8px center;
   }
 
   h1.deployments{
-    background: transparent url('../../images/header_icon_deployments.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_deployments.png') no-repeat 8px center;
   }
 
   h1.settings{
-    background: transparent url('../../images/header_icon_settings.png') no-repeat 8px center;
+    background: transparent image-url('header_icon_settings.png') no-repeat 8px center;
   }
 
   .obj_actions{
@@ -295,7 +295,7 @@ Page Header -- v.0.0.1 [header] (header.scss)
     & > li{
       padding: 7px 15px 7px 0px;
       margin: 0px 15px 0px 10px;
-      background: transparent url('../../images/admin_header_provider_select.png') right center no-repeat;
+      background: transparent image-url('admin_header_provider_select.png') right center no-repeat;
       & > a{
         color: black;
         text-decoration: none;
@@ -346,10 +346,10 @@ Page Header -- v.0.0.1 [header] (header.scss)
     height: 21px;
 
     &.on{
-      background: transparent url('../../images/provider_on_off.png') left center;
+      background: transparent image-url('provider_on_off.png') left center;
     }
     &.off{
-      background: transparent url('../../images/provider_on_off.png') right center;
+      background: transparent image-url('provider_on_off.png') right center;
     }
   }
 
@@ -461,52 +461,52 @@ $dd_icon_padding_right: 4px;
   /* icons */
 
   dd.pool{
-    background: transparent url('../../images/sb_icon_pool.png') no-repeat $dd_padding 4px;
+    background: transparent image-url('sb_icon_pool.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
 
   dd.pool.partial{
-    background: transparent url('../../images/sb_icon_poolsemi.png') no-repeat $dd_padding 4px;
+    background: transparent image-url('sb_icon_poolsemi.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
 
   dd.provider{
-    background: transparent url('../../images/sb_icon_provider.png') no-repeat $dd_padding 4px;
+    background: transparent image-url('sb_icon_provider.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 22px;
   }
 
   dd.deployment{
-    background: transparent url('../../images/sb_icon_deployment.png') no-repeat $dd_padding 4px;
+    background: transparent image-url('sb_icon_deployment.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 23px;
   }
 
   dd.instance{
-    background: transparent url('../../images/sb_icon_instance.png') no-repeat $dd_padding 4px;
+    background: transparent image-url('sb_icon_instance.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
   }
 
   dd.instance.pending{
-    background: transparent url('../../images/sb_icon_instance_pending.png') no-repeat $dd_padding 4px;
+    background: transparent image-url('sb_icon_instance_pending.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
   }
 
   dd.instance.failure{
-    background: transparent url('../../images/sb_icon_instance_failure.png') no-repeat $dd_padding 4px;
+    background: transparent image-url('sb_icon_instance_failure.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
   }
 
   dd.alert{
-    background: transparent url('../../images/sb_icon_alert.png') no-repeat $dd_padding 4px;
+    background: transparent image-url('sb_icon_alert.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 29px;
   }
 
   dd.update{
-    background: transparent url('../../images/sb_icon_update.png') no-repeat $dd_padding 4px;
+    background: transparent image-url('sb_icon_update.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
   }
 
   dd.quota{
-    background: transparent url('../../images/sb_icon_quota.png') no-repeat $dd_padding 4px;
+    background: transparent image-url('sb_icon_quota.png') no-repeat $dd_padding 4px;
     padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
   }
 
@@ -544,23 +544,23 @@ section.content-section{
       margin-bottom: 4px;
 
       &.no-icon{ padding: 0px; }
-      &.activity{ background: transparent url('../../images/admin_h2_icons.png') right 0px no-repeat; }
-      &.roles{ background: transparent url('../../images/admin_h2_icons.png') right -29px no-repeat; }
-      &.settings{ background: transparent url('../../images/admin_h2_icons.png') right -56px no-repeat; }
-      &.pools{ background: transparent url('../../images/admin_h2_icons.png') right -84px no-repeat; }
-      &.users{ background: transparent url('../../images/admin_h2_icons.png') right -112px no-repeat; }
-      &.groups{ background: transparent url('../../images/admin_h2_icons.png') right -140px no-repeat; }
+      &.activity{ background: transparent image-url('admin_h2_icons.png') right 0px no-repeat; }
+      &.roles{ background: transparent image-url('admin_h2_icons.png') right -29px no-repeat; }
+      &.settings{ background: transparent image-url('admin_h2_icons.png') right -56px no-repeat; }
+      &.pools{ background: transparent image-url('admin_h2_icons.png') right -84px no-repeat; }
+      &.users{ background: transparent image-url('admin_h2_icons.png') right -112px no-repeat; }
+      &.groups{ background: transparent image-url('admin_h2_icons.png') right -140px no-repeat; }
       &.images{
         position: relative;
-        &:after{ content: ''; position: absolute; right: 12px; width: 20px; height: 100%; background: transparent url('../../images/buildpush_symbols.png') -73px 3px no-repeat; }
+        &:after{ content: ''; position: absolute; right: 12px; width: 20px; height: 100%; background: transparent image-url('buildpush_symbols.png') -73px 3px no-repeat; }
       }
       &.build{
         position: relative;
-        &:after{ content: ''; position: absolute; right: 15px; width: 16px; height: 100%; background: transparent url('../../images/buildpush_symbols.png') -56px 0px no-repeat; }
+        &:after{ content: ''; position: absolute; right: 15px; width: 16px; height: 100%; background: transparent image-url('buildpush_symbols.png') -56px 0px no-repeat; }
       }
       &.catalogs{
         position: relative;
-        &:after{ content: ''; position: absolute; right: 15px; width: 20px; height: 100%; background: transparent url('../../images/buildpush_symbols.png') -93px 0px no-repeat; }
+        &:after{ content: ''; position: absolute; right: 15px; width: 20px; height: 100%; background: transparent image-url('buildpush_symbols.png') -93px 0px no-repeat; }
       }
 
       &.alerts{color: #c00000;}
@@ -607,7 +607,7 @@ section.content-section{
 
   div.loading_tabs{
     height: 60px;
-    background: transparent url("../../images/loading.gif") no-repeat center center;
+    background: transparent image-url("loading.gif") no-repeat center center;
   }
 
   /* Content */
@@ -650,11 +650,11 @@ Build Push
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 div.lefted.image-upload-overview{
   position: relative;
-  &:after{ content: ''; position: absolute; top: 0px; right: 143px; width: 107px; height: 100%; background: transparent url('../../images/template-valid.png') -111px 0px no-repeat; }
+  &:after{ content: ''; position: absolute; top: 0px; right: 143px; width: 107px; height: 100%; background: transparent image-url('template-valid.png') -111px 0px no-repeat; }
 }
 div.lefted.new-catalog-entry-from-image{
   position: relative;
-  &:after{ content: ''; position: absolute; top: 0px; right: 100px; width: 185px; height: 100%; background: transparent url('../../images/new_catalog_entry_from_image.png') 0px no-repeat; }
+  &:after{ content: ''; position: absolute; top: 0px; right: 100px; width: 185px; height: 100%; background: transparent image-url('new_catalog_entry_from_image.png') 0px no-repeat; }
 }
 
 
@@ -688,7 +688,7 @@ div#user_card{
     h2{
       color: white;
       padding: 15px 10px 10px 60px;
-      background: transparent url('../../images/user_card_icon.png') no-repeat 12px 10px;
+      background: transparent image-url('user_card_icon.png') no-repeat 12px 10px;
     }
   }
 
@@ -773,12 +773,12 @@ dl.alerts{
 
     dt.subject.warning{
       padding-left: $alert_padding*2 + 16px;
-      background: transparent url('../../images/alert_icon_warn.png') no-repeat $alert_padding 8px;
+      background: transparent image-url('alert_icon_warn.png') no-repeat $alert_padding 8px;
     }
 
     dt.subject.critical{
       padding-left: $alert_padding*2 + 16px;
-      background: transparent url('../../images/alert_icon_critical.png') no-repeat $alert_padding 8px;
+      background: transparent image-url('alert_icon_critical.png') no-repeat $alert_padding 8px;
     }
 
     dd{
@@ -869,7 +869,7 @@ div.pool.overview{
       color: transparent;
       height: 28px;
       width: 28px;
-      background: transparent url('../../images/pool_bar_expand-btn.png') no-repeat 0px -56px;
+      background: transparent image-url('pool_bar_expand-btn.png') no-repeat 0px -56px;
       &:active{
         background-position: 0px -84px;
       };
@@ -893,7 +893,7 @@ div.pool.overview{
       margin: 0px;
     }
     ul.groups > li + li{
-      background: transparent url('../../images/sb_separator.png') repeat-y 0px 0px;
+      background: transparent image-url('sb_separator.png') repeat-y 0px 0px;
       padding-left: $dd_padding;
       margin-left: -6px;
     }
@@ -930,52 +930,52 @@ div.pool.overview{
     $icon_y: 2px;
 
     dd.pool{
-      background: transparent url('../../images/sb_icon_pool.png') no-repeat $dd_padding $icon_y;
+      background: transparent image-url('sb_icon_pool.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
     }
 
     dd.pool.partial{
-      background: transparent url('../../images/sb_icon_poolsemi.png') no-repeat $dd_padding $icon_y;
+      background: transparent image-url('sb_icon_poolsemi.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
     }
 
     dd.provider{
-      background: transparent url('../../images/sb_icon_provider.png') no-repeat $dd_padding $icon_y;
+      background: transparent image-url('sb_icon_provider.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 22px;
     }
 
     dd.deployment{
-      background: transparent url('../../images/sb_icon_deployment.png') no-repeat $dd_padding $icon_y;
+      background: transparent image-url('sb_icon_deployment.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 23px;
     }
 
     dd.instance{
-      background: transparent url('../../images/sb_icon_instance.png') no-repeat $dd_padding $icon_y;
+      background: transparent image-url('sb_icon_instance.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
     }
 
     dd.instance.pending{
-      background: transparent url('../../images/sb_icon_instance_pending.png') no-repeat $dd_padding $icon_y;
+      background: transparent image-url('sb_icon_instance_pending.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 15px;
     }
 
     dd.instance.failure{
-      background: transparent url('../../images/sb_icon_instance_failure.png') no-repeat $dd_padding $icon_y;
+      background: transparent image-url('sb_icon_instance_failure.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
     }
 
     dd.alert{
-      background: transparent url('../../images/sb_icon_alert.png') no-repeat $dd_padding $icon_y;
+      background: transparent image-url('sb_icon_alert.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 29px;
     }
 
     dd.update{
-      background: transparent url('../../images/sb_icon_update.png') no-repeat $dd_padding $icon_y;
+      background: transparent image-url('sb_icon_update.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 14px;
     }
 
     dd.quota{
-      background: transparent url('../../images/sb_icon_quota.png') no-repeat $dd_padding $icon_y;
+      background: transparent image-url('sb_icon_quota.png') no-repeat $dd_padding $icon_y;
       padding-left: ($dd_padding + $dd_icon_padding_right) + 16px;
     }
   }
@@ -1007,7 +1007,7 @@ div.pool.overview{
 
 div.pool.overview.alert{
   header{
-    h3.name{ background: transparent url('../../images/pool_bar_name-bg-alert.png') no-repeat 0px 0px; }
+    h3.name{ background: transparent image-url('pool_bar_name-bg-alert.png') no-repeat 0px 0px; }
     h3.name a{
       color: #FF6666;
       &:hover{ color: #ff0000;};
@@ -1101,7 +1101,7 @@ ul.deployment-array.large{
     .status {
       text-indent: -3000px;
       display: block;
-      background: url('../../images/build_status.png') no-repeat;
+      background: image-url('build_status.png') no-repeat;
       width: 18px;
       height: 18px;
       position: absolute;
@@ -1117,10 +1117,10 @@ ul.deployment-array.large{
       margin-top: 8px;
       ul{list-style: none; margin-left: 0px;}
       li{display: block; height: 24px; padding-left: 26px; padding-top: 1px;}
-      li.uptime{ background: transparent url('../../images/deployment_large_uptime.png') no-repeat 6px 0px; }
-      li.instances{ background: transparent url('../../images/deployment_large_instances.png') no-repeat 6px 0px; }
+      li.uptime{ background: transparent image-url('deployment_large_uptime.png') no-repeat 6px 0px; }
+      li.instances{ background: transparent image-url('deployment_large_instances.png') no-repeat 6px 0px; }
       li.provider{
-        background: transparent url('../../images/deployment_large_icon_provider.png') no-repeat 0px 0px;
+        background: transparent image-url('deployment_large_icon_provider.png') no-repeat 0px 0px;
         position: absolute;
         bottom: 0px;
       }
@@ -1171,14 +1171,14 @@ ul.deployment-array.large{
 
     span.alert.warn{
       padding-left: 20px;
-      background: transparent url('../../images/alert_icon_warn_white.png') no-repeat 0px 0px;
+      background: transparent image-url('alert_icon_warn_white.png') no-repeat 0px 0px;
     }
 
     dl.statistics{
-      li.uptime{ background: transparent url('../../images/deployment_large_uptime_white.png') no-repeat 6px 0px; }
-      li.instances{ background: transparent url('../../images/deployment_large_instances_white.png') no-repeat 6px 0px; }
+      li.uptime{ background: transparent image-url('deployment_large_uptime_white.png') no-repeat 6px 0px; }
+      li.instances{ background: transparent image-url('deployment_large_instances_white.png') no-repeat 6px 0px; }
       li.provider{
-        background: transparent url('../../images/deployment_large_icon_provider_white.png') no-repeat 0px 0px;
+        background: transparent image-url('deployment_large_icon_provider_white.png') no-repeat 0px 0px;
         position: absolute;
         bottom: 0px;
       }
@@ -1229,7 +1229,7 @@ ul.deployment-array.small{
     .status {
       text-indent: -3000px;
       display: block;
-      background: url('../../images/build_status.png') no-repeat;
+      background: image-url('build_status.png') no-repeat;
       width: 18px;
       height: 18px;
       position: absolute;
@@ -1256,11 +1256,11 @@ ul.deployment-array.small{
       dt{font-size: 9px; text-transform: uppercase; padding: 4px; color: #999; display: block; margin-bottom: 4px;}
       dt.uptime{
         padding-left: 20px;
-        background: url('../../images/deployment_small_icon_uptime.png') no-repeat top left;
+        background: image-url('deployment_small_icon_uptime.png') no-repeat top left;
       }
       dt.count.instances{
         padding-right: 20px;
-        background: url('../../images/deployment_small_icon_instances.png') no-repeat top right;
+        background: image-url('deployment_small_icon_instances.png') no-repeat top right;
       }
       dd{
         font-family: $font-family-primary;
@@ -1281,7 +1281,7 @@ ul.deployment-array.small{
 
   /* pending */
   li.deployment.pending{
-    background: #efefef url('../../images/deployment_small_pending_bg.png') no-repeat bottom right;
+    background: #efefef image-url('deployment_small_pending_bg.png') no-repeat bottom right;
     h3.name{color: #333;}
     span.status{
       font-family: $font-family-primary;
@@ -1292,7 +1292,7 @@ ul.deployment-array.small{
 
   /* alert */
   li.deployment.alert{
-    background: url('../../images/deployment_small_alert_bg.png') no-repeat bottom right;
+    background: image-url('deployment_small_alert_bg.png') no-repeat bottom right;
     span.alert-type{display: block; font-size: 13px; color: #fff; font-weight: normal;}
     span.occurred-at{
       font-family: $font-family-primary;
@@ -1303,7 +1303,7 @@ ul.deployment-array.small{
 
   /* failure */
   li.deployment.failure{
-    background: url('../../images/deployment_small_failure_bg.png') no-repeat bottom right;
+    background: image-url('deployment_small_failure_bg.png') no-repeat bottom right;
     span.failure-type{display: block; font-size: 13px; color: #fff; font-weight: normal;}
     span.occurred-at{
       font-family: $font-family-primary;
@@ -1380,7 +1380,7 @@ ul.instances-array{
         color: #999;
       }
       dt.uptime{
-        background: url('../../images/deployment_small_icon_uptime.png') no-repeat top right;
+        background: image-url('deployment_small_icon_uptime.png') no-repeat top right;
       }
       dd{
         margin-left: 95px;
@@ -1477,7 +1477,7 @@ table.light_table{
   th.remove_catalog{ text-align: right; border-bottom: none; }
   td.remove_catalog{ text-align: right; }
   td.remove_catalog input.remove_catalog{
-    background: transparent url(../../images/buildpush_symbols.png) -112px 2px no-repeat;
+    background: transparent image-url("buildpush_symbols.png") -112px 2px no-repeat;
     cursor: pointer;
     border: none;
     width: 16px;
@@ -1485,7 +1485,7 @@ table.light_table{
   }
   th.image_controls{ border-bottom: none; }
   td.image_controls input.delete_image{
-    background: transparent url(../../images/buildpush_symbols.png) -112px 2px no-repeat;
+    background: transparent image-url("buildpush_symbols.png") -112px 2px no-repeat;
     cursor: pointer;
     border: none;
     width: 16px;
@@ -1531,11 +1531,11 @@ div.build_status{
     width: 18px; height: 18px;
     margin-left: 10px;
 
-    &.not_built{ background: transparent url(../../images/build_status.png) no-repeat left center; }
-    &.building{ background: transparent url(../../images/spinner.gif) no-repeat center center; }
-    &.not_pushed{ background: transparent url(../../images/build_status.png) no-repeat center center; }
-    &.pushing{ background: transparent url(../../images/spinner.gif) no-repeat center center; }
-    &.pushed{ background: transparent url(../../images/build_status.png) no-repeat right center; }
+    &.not_built{ background: transparent image-url("build_status.png") no-repeat left center; }
+    &.building{ background: transparent image-url("spinner.gif") no-repeat center center; }
+    &.not_pushed{ background: transparent image-url("build_status.png") no-repeat center center; }
+    &.pushing{ background: transparent image-url("spinner.gif") no-repeat center center; }
+    &.pushed{ background: transparent image-url("build_status.png") no-repeat right center; }
   }
 }
 
@@ -1544,7 +1544,7 @@ div.build_status{
 /************************************************************************** */
 
 .catalog_link{
-  background: #ececec url(../../images/deployment-button.png) no-repeat 1px 1px;
+  background: #ececec image-url("deployment-button.png") no-repeat 1px 1px;
   border: 1px solid #D4D4D4;
   border-radius: 2px;
   font:11px/normal sans-serif;
@@ -1606,7 +1606,7 @@ div.build_status{
   }
   &:hover{
     border-color: #999;
-    background: #ececec url(../../images/deployment-button-pressed.png) no-repeat 2px 0px;
+    background: #ececec image-url("deployment-button-pressed.png") no-repeat 2px 0px;
     padding: 0.5em 14px 0.5em 14px;
     vertical-align: top;
     box-shadow: 0 7px 7px rgba(0, 0, 0, 0.50);
@@ -1656,7 +1656,7 @@ ul.catalog_pretty {
 
       div.info{
         padding: 10px 10px 10px 42px;
-        background: transparent url('../../images/deployment_large_icon_provider.png') no-repeat 10px center;
+        background: transparent image-url('deployment_large_icon_provider.png') no-repeat 10px center;
         h2{ font-size: 16px; }
         p{ width: 600px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         display: table-cell;
@@ -1713,7 +1713,7 @@ ul.image_builds{
         border-right: 1px solid #ccc;
         padding: 25px 10px 25px 58px;
         position: relative;
-        &:before{ content: ''; position: absolute; left: 20px; width: 28px; height: 20px; background: transparent url('../../images/buildpush_symbols.png') -28px 1px no-repeat; }
+        &:before{ content: ''; position: absolute; left: 20px; width: 28px; height: 20px; background: transparent image-url('buildpush_symbols.png') -28px 1px no-repeat; }
         h3{
           font-size: 18px;
           font-weight: 200;
@@ -1791,10 +1791,10 @@ table.provider-selection-strategies {
         border: none;
 
         &.on{
-          background: transparent url('../../images/provider_selection_strategy_toggle.png') left center;
+          background: transparent image-url('provider_selection_strategy_toggle.png') left center;
         }
         &.off{
-          background: transparent url('../../images/provider_selection_strategy_toggle.png') right center;
+          background: transparent image-url('provider_selection_strategy_toggle.png') right center;
         }
       }
     }
@@ -2033,14 +2033,14 @@ form.filterable-data{
       }
       input[type="submit"]{
         display:inline;
-        background: transparent url('../../images/button-search.png') no-repeat 5px center;
+        background: transparent image-url('button-search.png') no-repeat 5px center;
         border: 0px;
         height: 25px;
         width: 30px;
         outline: none;
         cursor: pointer;
-        &:hover{ background: transparent url('../../images/button-search-over.png') no-repeat 5px center; }
-        &:active{ background: transparent url('../../images/button-search-down.png') no-repeat 5px center; }
+        &:hover{ background: transparent image-url('button-search-over.png') no-repeat 5px center; }
+        &:active{ background: transparent image-url('button-search-down.png') no-repeat 5px center; }
       }
     }
 

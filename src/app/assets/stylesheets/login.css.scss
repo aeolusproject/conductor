@@ -33,7 +33,7 @@ article{
           position: absolute;
           left: 4px;
           top: 0px;
-          background: image-url("converge-ui/icons/error_icon.png") no-repeat 0 0;
+          background: image-url("alchemy/icons/error_icon.png") no-repeat 0 0;
         }
       }
       ul.messages li{
@@ -41,8 +41,8 @@ article{
         color: rgba(black, 0.48);
       }
     }
-    div.notice p:before{ background: image-url("converge-ui/icons/success_icon.png") no-repeat 0 0; }
-    div.warning p:before{ background: image-url("converge-ui/icons/warning_icon.png") no-repeat 0 0; }
+    div.notice p:before{ background: image-url("alchemy/icons/success_icon.png") no-repeat 0 0; }
+    div.warning p:before{ background: image-url("alchemy/icons/warning_icon.png") no-repeat 0 0; }
   }
 
   .container section .card{

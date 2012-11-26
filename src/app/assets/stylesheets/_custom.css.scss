@@ -65,7 +65,7 @@ form.generic section.services {
         cursor: default;
       }
       &.filled-out {
-        background-image: url('../../images/filled_out_params_indicator.png');
+        background-image: image-url('filled_out_params_indicator.png');
         background-repeat: no-repeat;
         background-position: 8px center;
       }
@@ -86,7 +86,7 @@ form.generic section.services {
   #service-headers {
     position: absolute;
     z-index: 0;
-    background: transparent url('../../images/services_bg.png') repeat top center;
+    background: transparent image-url('services_bg.png') repeat top center;
     top: 0;
     left: 0;
     height: 100%;
