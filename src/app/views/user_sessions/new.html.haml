@@ -1,5 +1,5 @@
 = content_for(:content) do
-  = render :partial => "layouts/converge-ui/login_layout",
+  = render :partial => "alchemy/layouts/login_layout",
            :locals => { :login_form_path_string => user_sessions_path,
                         :recovery_strings => t("user_sessions.recovery_link_html",
                                                :username => link_to( t("user_sessions.username"),
