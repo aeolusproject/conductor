@@ -54,4 +54,9 @@ Conductor::Application.configure do
   # Otherwise we eat these connections even outside of tests:
   WebMock.allow_net_connect! if defined?(WebMock)
 
+  # Do not compress assets
+  config.assets.compress = false
+
+  # Expands the lines which load the assets
+  config.assets.debug = true
 end
