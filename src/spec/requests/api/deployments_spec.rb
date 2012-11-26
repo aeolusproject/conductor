@@ -29,7 +29,7 @@ describe "Deployments API" do
         deployments.each do |deployment|
           xml_deployment = subject.xpath("/deployments/deployment[@id=\"#{deployment.id}\"]")
           xml_deployment.size.should == 1
-          xml_deployment.xpath("@href").text.should == api_deployment_url(deployment)
+          check_deployment_xml_fields(xml_deployment, deployment)
         end
       end
     end
@@ -41,31 +41,35 @@ describe "Deployments API" do
 
       it "is printed correctly" do
         subject.size.should == 1
-        subject.xpath("@id").text.should == deployment.id.to_s
-        subject.xpath("@href").text.should == api_deployment_url(deployment)
-        subject.xpath("name").text.should == deployment.name
-        subject.xpath("pool/@id").text.should == deployment.pool.id.to_s
-        subject.xpath("pool/@href").text.should == api_pool_url(deployment.pool)
-        # TODO: implement when frontend realms are available via API
-        # subject.xpath("frontend_realm/@id").text.should == deployment.frontend_realm.id.to_s
-        # subject.xpath("frontend_realm/@href").text.should == api_frontend_realm_url(deployment.frontend_realm)
-        subject.xpath("uuid").text.should == deployment.uuid
-        subject.xpath("scheduled_for_deletion").text.should == deployment.scheduled_for_deletion.to_s
-
-        # TODO implement and test these once it's clear how states should be represented,
-        # what date/time format to use etc.:
-        # subject.xpath("state").text.should
-        # subject.xpath("created_at").text.should
-        # subject.xpath("updated_at").text.should
-        # subject.xpath("uptime_1st_instance_running").text.should
-        # subject.xpath("global_uptime").text.should
-        # subject.xpath("deployable-xml").text.should
-        # subject.xpath("history").text.should
-        # subject.xpath("instances/instance").count.should
-        # subject.xpath("instances/instance").each...
-        # subject.xpath("user[@rel=owner]")
+        check_deployment_xml_fields(subject, deployment)
       end
     end
+  end
+
+  def check_deployment_xml_fields(xml_deployment, deployment)
+    xml_deployment.xpath("@id").text.should == deployment.id.to_s
+    xml_deployment.xpath("@href").text.should == api_deployment_url(deployment)
+    xml_deployment.xpath("name").text.should == deployment.name
+    xml_deployment.xpath("pool/@id").text.should == deployment.pool.id.to_s
+    xml_deployment.xpath("pool/@href").text.should == api_pool_url(deployment.pool)
+    # TODO: implement when frontend realms are available via API
+    # xml_deployment.xpath("frontend_realm/@id").text.should == deployment.frontend_realm.id.to_s
+    # xml_deployment.xpath("frontend_realm/@href").text.should == api_frontend_realm_url(deployment.frontend_realm)
+    xml_deployment.xpath("uuid").text.should == deployment.uuid
+    xml_deployment.xpath("scheduled_for_deletion").text.should == deployment.scheduled_for_deletion.to_s
+
+    # TODO implement and test these once it's clear how states should be represented,
+    # what date/time format to use etc.:
+    # xml_deployment.xpath("state").text.should
+    # xml_deployment.xpath("created_at").text.should
+    # xml_deployment.xpath("updated_at").text.should
+    # xml_deployment.xpath("uptime_1st_instance_running").text.should
+    # xml_deployment.xpath("global_uptime").text.should
+    # xml_deployment.xpath("deployable-xml").text.should
+    # xml_deployment.xpath("history").text.should
+    # xml_deployment.xpath("instances/instance").count.should
+    # xml_deployment.xpath("instances/instance").each...
+    # xml_deployment.xpath("user[@rel=owner]")
   end
 
   let(:headers) { {
