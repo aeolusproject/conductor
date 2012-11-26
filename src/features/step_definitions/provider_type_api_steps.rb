@@ -47,3 +47,13 @@ When /^I ask for details of non existing provider type$/ do
   provider_type.delete if provider_type
   get api_provider_type_path(1)
 end
+
+When /^I delete that provider type via XML$/ do
+  header 'Accept', 'application/xml'
+  delete api_provider_type_path(@provider_type)
+end
+
+When /^I attempt to delete the provider type$/ do
+  header 'Accept', 'application/xml'
+  delete api_provider_type_path(@provider_type)
+end
