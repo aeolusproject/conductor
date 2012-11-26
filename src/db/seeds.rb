@@ -70,6 +70,8 @@ roles =
                                                 Catalog         => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Quota           => [VIEW]}]},
+   ProviderType =>
+     {"provider_type.owner"         => [true,  {ProviderType    => [MOD]}]},
    Provider =>
      {"provider.admin"              => [true,  {Provider        => [VIEW,USE,MOD,    VPRM,GPRM],
                                                 ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
@@ -114,7 +116,8 @@ roles =
                                                 Catalog         => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 ProviderAccount => [VIEW,USE]}],
-      "base.admin"                  => [false, {Provider        => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+      "base.admin"                  => [false, {ProviderType    => [MOD],
+                                                Provider        => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM],
                                                 FrontendRealm   => [     USE,MOD,CRE,VPRM,GPRM],
