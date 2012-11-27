@@ -14,4 +14,6 @@ class InstanceMatch < ActiveRecord::Base
       self.provider_realm_id == other.provider_realm_id &&
       self.instance_id == other.instance_id
   end
+
+  include CostEngine::Mixins::InstanceMatch
 end

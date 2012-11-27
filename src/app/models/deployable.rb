@@ -269,7 +269,6 @@ class Deployable < ActiveRecord::Base
     self[:pool_family_id] = catalogs.first.pool_family_id
   end
 
-  
   def check_service_params_types
     warnings = []
     deployable_xml = DeployableXML.new(xml)
@@ -282,7 +281,7 @@ class Deployable < ActiveRecord::Base
                                  :param_name => param.name)
           end
         end
-      end 
+      end
     end
     warnings
   end
@@ -317,7 +316,7 @@ class Deployable < ActiveRecord::Base
         audrey_api_compat = 2 if param.reference_service
       end
     end
- 
+
     if audrey_api_v != 0
       audrey_api_v.include?(audrey_api_compat) ? nil : I18n.t('deployables.error.audrey_api_incompatibility')
     end

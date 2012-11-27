@@ -33,6 +33,8 @@
               =hwp.storage.to_s
             %td
               =hwp.cpu.to_s
+            %td
+              =hwp.default_cost_per_hour.nil? ? "N/A" : "%.3f" % hwp.default_cost_per_hour
     - else
       %h3
         = t'hardware_profiles.matching_provider_hwp.no_matching_provider_hwp'

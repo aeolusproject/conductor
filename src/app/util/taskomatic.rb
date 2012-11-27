@@ -27,6 +27,7 @@ module Taskomatic
       task.instance.provider_account = match.provider_account
       task.instance.create_auth_key unless task.instance.instance_key
 
+      task.instance.instance_hwp = create_instance_hwp(task.instance.hardware_profile, match.hardware_profile)
       dcloud_instance = create_dcloud_instance(task.instance, match)
 
       handle_dcloud_error(dcloud_instance)
@@ -143,24 +144,27 @@ module Taskomatic
     raise ex
   end
 
+  def self.create_instance_hwp(frontend_hardware_profile, backend_hardware_profile)
+    overrides = HardwareProfile.generate_override_property_values(frontend_hardware_profile, backend_hardware_profile)
+    ihwp = InstanceHwp.new(overrides)
+    ihwp.hardware_profile = backend_hardware_profile
+    ihwp.save!
+    ihwp
+  end
+
   def self.create_dcloud_instance(instance, match)
     client = match.provider_account.connect
     raise I18n.t("provider_accounts.errors.could_not_connect") unless client
 
-    overrides = HardwareProfile.generate_override_property_values(instance.hardware_profile, match.hardware_profile)
-
-    ihwp = InstanceHwp.new( overrides )
-    ihwp.hardware_profile = match.hardware_profile
-    ihwp.save
-    instance.instance_hwp = ihwp
-
-    client_args = {:image_id => match.provider_image,
-                  :name => instance.name.tr("/", "-"),
-                  :hwp_id => match.hardware_profile.external_key,
-                  :hwp_memory => overrides[:memory],
-                  :hwp_cpu => overrides[:cpu],
-                  :hwp_storage => overrides[:storage],
-                  :keyname => (instance.instance_key.name rescue nil)}
+    client_args = {
+      :image_id    => match.provider_image,
+      :hwp_id      => match.hardware_profile.external_key,
+      :name        => instance.name.tr("/", "-"),
+      :hwp_memory  => instance.instance_hwp.memory,
+      :hwp_cpu     => instance.instance_hwp.cpu,
+      :hwp_storage => instance.instance_hwp.storage,
+      :keyname     => (instance.instance_key.name rescue nil)
+    }
     client_args.merge!({:realm_id => match.realm.external_key}) if (match.realm.external_key.present? rescue false)
     client_args.merge!({:user_data => instance.user_data}) if instance.user_data.present?
     client.create_instance(client_args)

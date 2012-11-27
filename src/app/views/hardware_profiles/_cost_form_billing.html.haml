@@ -1,0 +1,11 @@
+- if @hardware_profile.errors.any?
+  = render 'layouts/error_messages', :object => @hardware_profile
+%fieldset
+  .field
+    = fields_for @hwp_cost do |cost_form|
+      = cost_form.label :billing_model, :class => 'em'
+      = cost_form.select(:billing_model, options_for_select(CostEngine::BillingModel::options_for_select, @hwp_cost.billing_model))
+
+%fieldset.options
+  = hwp_form.submit t('save'), :class => 'submit button primary', :id => 'save_button'
+  = link_to t('cancel'), hardware_profiles_path, :class => "button danger"

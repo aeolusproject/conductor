@@ -176,6 +176,7 @@ Feature: Manage Deployments
       | Pool	        | Default   |
       | Owner	        | John testuser  |
       | Name	        | testdeployment |
+      | Cost Estimate	| N/A |
 
     When I follow "details_instances"
     Then I should see "testdeployment"

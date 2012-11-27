@@ -231,7 +231,25 @@ describe HardwareProfile do
     overrides[:cpu].is_a?(Integer).should be_true
   end
 
+  it "should not return default_cost_per_hour and cost_now given no cost is assigned" do
+    back_end_hardware_profile1 = FactoryGirl.create(:back_hwp_ranged_cpu)
+    back_end_hardware_profile1.default_cost_per_hour.should be_nil
+    back_end_hardware_profile1.cost_now.should be_nil
+  end
 
+  it "should return default_cost_per_hour and given cost is assigned until the cost is closed" do
+    back_end_hardware_profile1 = FactoryGirl.create(:back_hwp_ranged_cpu)
+
+    cost1 = FactoryGirl.create(:cost,
+      :chargeable_id => back_end_hardware_profile1.id)
+
+    back_end_hardware_profile1.default_cost_per_hour.should_not be_nil
+    back_end_hardware_profile1.cost_now.should == cost1
+
+    cost1.close
+    back_end_hardware_profile1.default_cost_per_hour.should be_nil
+    back_end_hardware_profile1.cost_now.should be_nil
+  end
 
   def create_hwpp_enum(value_array, properties = {})
     hwpp_enum = FactoryGirl.create(:hwpp_enum, properties)
