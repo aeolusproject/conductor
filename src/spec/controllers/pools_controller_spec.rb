@@ -159,7 +159,7 @@ describe PoolsController do
         response.should have_content_type("application/xml")
         response.body.should be_xml
         xml = Nokogiri::XML(response.body)
-        xml.xpath("/errors/error/message").text.should == "Pool family can't be blank"
+        xml.xpath("/errors/error/message").text.should == "Pool Family can't be blank"
       end
 
     end
@@ -272,7 +272,7 @@ describe PoolsController do
         response.should have_content_type("application/xml")
         response.body.should be_xml
         xml = Nokogiri::XML(response.body)
-        xml.xpath("/errors/error/message").text.should == "Name can't be blank"
+        xml.xpath("/errors/error/message").map(&:text).should include("Name can't be blank")
       end
     end
 

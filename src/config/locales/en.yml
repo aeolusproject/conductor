@@ -265,6 +265,7 @@ en:
   last_name: Last name
   email: E-mail
   maximum_running_instances: Maximum Running Instances
+  unlimited: Unlimited
   apply_treatment: Apply User Treatment
   choose_treatment: Choose Treatment
   apply: Apply
@@ -592,8 +593,8 @@ en:
     pool: Pool
     pools: Pools
     new_pool: New Pool
-    edit_pool: Edit Pool %{pool}
-    create_new_pool: Create New Pool
+    edit_pool: Edit Pool
+    create_new_pool: New Pool
     logs: Logs
     scoreboard:
       cloud_providers_total: Total Cloud Providers
@@ -644,7 +645,6 @@ en:
         pool_not_deleted:
           one: Pool %{list} was not deleted. There are Instances associated with it.
           other: Pools %{list} were not deleted. They have Instances associated with them.
-        not_updated: "Pool wasn't updated"
         default_pool_not_deleted: The default Pool cannot be deleted.
         iwhd_unavailable: Catalog Images are unavailable. It appears the Image Warehouse is not reachable.
       warning:
@@ -843,10 +843,7 @@ en:
         deleted: "Environment was deleted."
         provider_accounts_added: "These Provider Account have been added"
         provider_accounts_removed: "These Provider Accounts were removed"
-      warning:
-        creation_failed: "Environment creation failed."
       error:
-        not_updated: "Environment wasn't updated."
         not_deleted: "Environment cannot be deleted."
         not_deleted_with_err: "Environment cannot be deleted: %{err}"
         provider_accounts_not_added: "Could not add these Provider Accounts"
@@ -910,12 +907,10 @@ en:
       name: Name
       catalog_name: Catalog Name
     new:
-      add_catalog: Add New Catalog
+      new_catalog: New Catalog
     edit:
-      edit_catalog: Editing Catalog
+      edit_catalog: Edit Catalog
       cancel_editing: Cancel Editing
-    form:
-      select_pool: Select Pool
     flash:
       notice:
         updated:

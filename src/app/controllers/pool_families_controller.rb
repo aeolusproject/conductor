@@ -44,11 +44,10 @@ class PoolFamiliesController < ApplicationController
   end
 
   def create
-    set_quota_param(:pool_family)
+    transform_quota_param(:pool_family)
     @pool_family = PoolFamily.new(params[:pool_family])
-    @pool_family.quota = @quota = Quota.new
+    @pool_family.quota = Quota.new(params[:pool_family][:quota_attributes])
     require_privilege(Privilege::CREATE, PoolFamily)
-    set_quota(@pool_family)
 
     respond_to do |format|
       if @pool_family.save
@@ -59,8 +58,10 @@ class PoolFamiliesController < ApplicationController
                             :status => :created,
                             :locals => { :pool_family => @pool_family }}
       else
-        flash.now[:warning] = t"pool_families.flash.warning.creation_failed"
-        format.html { render :new and return }
+        format.html do
+          @title = t("pool_families.index.new_pool_family")
+          render :new
+        end
         format.xml { render :template => 'api/validation_error',
           :locals => { :errors => @pool_family.errors },
           :status => :unprocessable_entity }
@@ -76,27 +77,29 @@ class PoolFamiliesController < ApplicationController
   end
 
   def update
-    set_quota_param(:pool_family)
+    transform_quota_param(:pool_family)
     @pool_family = PoolFamily.find(params[:id])
+    @title = @pool_family.name
     require_privilege(Privilege::MODIFY, @pool_family)
-    set_quota(@pool_family)
 
     respond_to do |format|
       if @pool_family.update_attributes(params[:pool_family])
-        format.html {
+        format.html do
           flash[:notice] = t "pool_families.flash.notice.updated"
           redirect_to pool_families_path
-        }
-        format.xml {
-          render :show, :locals => { :pool_family => @pool_family } }
+        end
+        format.xml do
+          render :show, :locals => { :pool_family => @pool_family }
+        end
       else
-        format.html {
-          flash[:error] = t "pool_families.flash.error.not_updated"
-          render :action => 'edit' and return
-        }
-        format.xml { render :template => 'api/validation_error',
-          :locals => { :errors => @pool_family.errors },
-          :status => :unprocessable_entity }
+        format.html do
+          render :action => 'edit'
+        end
+        format.xml do
+          render :template => 'api/validation_error',
+                 :locals => { :errors => @pool_family.errors },
+                 :status => :unprocessable_entity
+        end
       end
     end
   end

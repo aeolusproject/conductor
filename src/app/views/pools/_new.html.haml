@@ -1,9 +1,8 @@
 %header.page-header
-  %h1.pools= t('pools.pools')
+  %h1.pools= @title
 
 %section.content-section.pools
-  %header
-    %h2= @title
-
   .content
-    = render :partial => 'form'
+    = conductor_form_for @pool do |f|
+      = render :partial => "form", :locals => { :form => f }
+      = f.button :form_buttons, :cancel => pool_families_path

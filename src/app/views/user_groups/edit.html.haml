@@ -4,10 +4,10 @@
     .return_to
       =t'return_to'
       = link_to "#{t'user_groups.groups'}", user_groups_path
-  %h1.user_groups= @title
+  %h1.users= @title
 
 %section.content-section.user_groups
   .content
-    .align-center
-    = form_for @user_group, :url => user_group_path(@user_group), :html => {:class => 'generic horizontal'} do |f|
+    = conductor_form_for @user_group do |f|
       = render :partial => "form", :locals => { :form => f }
+      = f.button :form_buttons, :cancel => user_groups_path
