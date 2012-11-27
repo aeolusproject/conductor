@@ -1,7 +1,19 @@
+# Custom components
 require File.join(Rails.root, 'lib', 'simple_form_extension', 'label_with_help')
 require File.join(Rails.root, 'lib', 'simple_form_extension', 'note')
 require File.join(Rails.root, 'lib', 'simple_form_extension', 'validation_message_sentence')
+
+# Custom inputs
+require File.join(Rails.root, 'lib', 'simple_form_extension', 'numeric_input_with_unlimited_check_box_input')
+
+# Input overrides
+require File.join(Rails.root, 'lib', 'simple_form_extension', 'collection_check_boxes_input')
+require File.join(Rails.root, 'lib', 'simple_form_extension', 'boolean_input')
+
+# Default buttons
 require File.join(Rails.root, 'lib', 'simple_form_extension', 'form_buttons')
+require File.join(Rails.root, 'lib', 'simple_form_extension', 'collection_check_boxes_input')
+require File.join(Rails.root, 'lib', 'simple_form_extension', 'boolean_input')
 
 # Use this setup block to configure all options available in SimpleForm.
 SimpleForm.setup do |config|
@@ -145,8 +157,8 @@ SimpleForm.setup do |config|
   config.wrappers 'converge-ui-forms', :tag => 'div', :class => 'control_group', :error_class => 'error' do |b|
     b.use :html5
     b.use :maxlength
-    b.optional :min_max
-    b.optional :pattern
+    b.use :min_max
+    b.use :pattern
 
     b.wrapper :label_wrapper, :tag => 'div', :class => 'label' do |label|
       label.use :label_with_help

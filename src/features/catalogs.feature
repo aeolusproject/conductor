@@ -11,10 +11,10 @@ Feature: Manage Catalogs
     Given I am on the catalogs page
     And a pool "default" exists
     And I follow "new_catalog_button"
-    Then I should see "Add New Catalog"
+    Then I should see "New Catalog"
     And I fill in "catalog_name" with "Finance"
     And I select "default" from "catalog_pool_id"
-    And I press "Save"
+    And I press "Create Catalog"
     Then I should be on the catalogs page
     And I should see "Finance"
 
@@ -30,7 +30,7 @@ Feature: Manage Catalogs
     When I follow "Development"
     And I follow "edit_button"
     And I fill in "Engineering" for "catalog[name]"
-    And I press "Save"
+    And I press "Update Catalog"
     Then I should be on the catalogs page
     And I should see "Engineering"
     And I should not see "Development"

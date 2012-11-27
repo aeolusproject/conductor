@@ -8,5 +8,6 @@
 
 %section.content-section.pool_family
   .content
-    = form_for @pool_family, :url => pool_families_path, :html => {:class => 'generic horizontal'} do |f|
-      = render :partial => "form", :locals => { :form => f, :cancel_path => pool_families_path }
+    = conductor_form_for @pool_family do |f|
+      = render :partial => "form", :locals => { :form => f }
+      = f.button :form_buttons, :cancel => pool_families_path

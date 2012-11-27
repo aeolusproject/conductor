@@ -38,9 +38,10 @@ Feature: Manage User Groups
     When I follow "add_user_group_button"
     Then I should be on the new user group page
     And I should see "New User Group"
-    When I fill in the following:
+    When I select "Local" from "Membership source"
+    And I fill in the following:
       | Name  | testgroup3             |
-    And I press "Save"
+    And I press "Create User Group"
     Then I should be on the user groups page
     And I should see "User Group added"
 
@@ -52,7 +53,7 @@ Feature: Manage User Groups
     When I follow "Edit"
     Then I should be on the testgroup's edit user group page
     And I fill in "user_group_name" with "newname"
-    When I press "Save"
+    When I press "Update User Group"
     Then I should be on newname's user group page
     And I should see "User Group updated"
     And I should see "newname"

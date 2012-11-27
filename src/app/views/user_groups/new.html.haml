@@ -8,6 +8,6 @@
 
 %section.content-section.user_groups
   .content
-    .align-center
-    = form_for @user_group, :url => user_groups_path, :html => {:class => 'generic horizontal'} do |f|
+    = conductor_form_for @user_group do |f|
       = render :partial => "form", :locals => { :form => f }
+      = f.button :form_buttons, :cancel => user_groups_path

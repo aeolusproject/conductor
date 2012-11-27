@@ -42,7 +42,7 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.new(params[:catalog]) # ...when should there be params on new?
     load_pools
     require_privilege(Privilege::CREATE, Catalog, @pools.first)
-    @title = t'catalogs.new.add_catalog'
+    @title = t('catalogs.new.new_catalog')
   end
 
   def show
@@ -74,7 +74,10 @@ class CatalogsController < ApplicationController
           render :show, :status => :created
         end
       else
-        format.html { render :new and return }
+        format.html do
+          @title = t('catalogs.new.new_catalog')
+          render :new
+        end
         format.xml  { render :template => 'api/validation_error',
                              :status => :unprocessable_entity,
                              :locals => { :errors => @catalog.errors }}
@@ -109,10 +112,15 @@ class CatalogsController < ApplicationController
           render :show
         end
       else
-        format.html { render :action => 'edit' }
-        format.xml  { render :template => 'api/validation_error',
-                             :status => :unprocessable_entity,
-                             :locals => { :errors => @catalog.errors }}
+        format.html do
+          @title = t('catalogs.edit.edit_catalog')
+          render :action => 'edit'
+        end
+        format.xml  do
+          render :template => 'api/validation_error',
+                 :status => :unprocessable_entity,
+                 :locals => { :errors => @catalog.errors }
+          end
       end
     end
   end
