@@ -173,9 +173,14 @@ module ApplicationHelper
     "/providers/#{account.provider_id}/provider_accounts/#{account.id}"
   end
 
-  def conductor_form_for(object, *args, &block)
-    render('layouts/simple_form_error_messages', :object => object) if object.errors.any?
-    simple_form_for(object, *args, &block)
+  def conductor_form_for(object, options={}, &block)
+    error_partial = 'layouts/simple_form_error_messages'
+    if options.has_key?(:error_partial)
+      error_partial = options.delete(:error_partial)
+    end
+
+    render(error_partial, :object => object) if object.errors.any?
+    simple_form_for(object, options, &block)
   end
 
 end

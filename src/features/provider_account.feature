@@ -22,10 +22,10 @@ Feature: Manage Provider Accounts
     Then I should be on mockprovider's new provider account page
     And I should see "New Provider Account"
     When I fill in "provider_account[label]" with "testaccount"
-    And I fill in "provider_account[credentials_hash][username]" with "mockuser"
-    And I fill in "provider_account[credentials_hash][password]" with "mockpassword"
-    And I fill in "quota[maximum_running_instances]" with "13"
-    And I press "Save"
+    And I fill in "provider_account[credentials_attributes][username]" with "mockuser"
+    And I fill in "provider_account[credentials_attributes][password]" with "mockpassword"
+    And I fill in "provider_account[quota_attributes][maximum_running_instances]" with "13"
+    And I press "Create Provider Account"
     Then I should be on the mockprovider's edit provider page
     And I should see "Account testaccount was added."
     And I should have a provider account named "testaccount"
@@ -38,12 +38,12 @@ Feature: Manage Provider Accounts
     Then I should be on mockprovider's new provider account page
     And I should see "New Provider Account"
     And I fill in "provider_account[label]" with "testaccount"
-    When I fill in "provider_account[credentials_hash][username]" with "mockuser"
-    And I fill in "provider_account[credentials_hash][password]" with "wrongpassword"
-    And I fill in "quota[maximum_running_instances]" with "13"
-    And I press "Save"
-    Then I should see "Cannot add the Provider Account."
-    Then I should see "Login credentials are invalid for this Provider"
+    When I fill in "provider_account[credentials_attributes][username]" with "mockuser"
+    And I fill in "provider_account[credentials_attributes][password]" with "wrongpassword"
+    And I fill in "provider_account[quota_attributes][maximum_running_instances]" with "13"
+    And I press "Create Provider Account"
+    Then I should see "1 error prohibited this Provider Account from being saved"
+    Then I should see "Login credentials are invalid for this Provider."
 
   Scenario: Delete a provider account
     Given there is a provider named "mockprovider"
@@ -83,7 +83,8 @@ Feature: Manage Provider Accounts
     And I follow "testaccount"
     When I follow "Edit"
     And I fill in "provider_account[label]" with "testaccount_updated"
-    And I press "Save"
+    And I fill in "provider_account[credentials_attributes][password]" with "mockpassword"
+    And I press "Update Provider Account"
     Then I should see "Provider Account updated" within ".flash_hud .flash_messages"
 
   Scenario: Edit a existing Provider Account with invalid credentials
@@ -93,7 +94,7 @@ Feature: Manage Provider Accounts
     And I follow "testaccount"
     When I follow "Edit"
     And I fill in "provider_account[label]" with ""
-    And I press "Save"
+    And I press "Update Provider Account"
     Then I should see "Provider Account wasn't updated"
 
   Scenario: Display alert when Provider Account Quota is over 70% filled
@@ -103,8 +104,9 @@ Feature: Manage Provider Accounts
     And I am on the mockprovider's provider accounts page
     When I follow "testaccount"
     And I follow "Edit"
-    And I fill in "quota[maximum_running_instances]" with "1"
-    And I press "save"
+    And I fill in "provider_account[quota_attributes][maximum_running_instances]" with "1"
+    And I fill in "provider_account[credentials_attributes][password]" with "mockpassword"
+    And I press "Update Provider Account"
     Then I should be on the mockprovider's edit provider page
     And I should see "Account Quota Reached"
 
@@ -115,8 +117,9 @@ Feature: Manage Provider Accounts
     And I am on the mockprovider's provider accounts page
     When I follow "testaccount"
     And I follow "Edit"
-    And I fill in "quota[maximum_running_instances]" with "0"
-    And I press "save"
+    And I fill in "provider_account[quota_attributes][maximum_running_instances]" with "0"
+    And I fill in "provider_account[credentials_attributes][password]" with "mockpassword"
+    And I press "Update Provider Account"
     Then I should be on the mockprovider's edit provider page
     And I should see "Account Quota Exceeded"
 

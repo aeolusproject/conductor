@@ -45,10 +45,10 @@ describe ProviderAccountsController do
 
     it "doesn't allow to save provider's account if not valid credentials" do
       mock_warden(@admin)
-      post :create, :provider_account => {:provider_id => @provider.id, :credentials_hash => {}}, :provider_id => @provider.id
+      post :create, :provider_account => {:provider_id => @provider.id, :credentials_attributes => {}}, :provider_id => @provider.id
       response.should be_success
       response.should render_template("new")
-      request.flash[:error].should == "Cannot add the Provider Account."
+      response.body.should include("errors prohibited this Provider Account from being saved")
     end
 
     it "should permit users with account modify permission to access edit cloud account interface" do
@@ -64,7 +64,7 @@ describe ProviderAccountsController do
       @provider_account.stub!(:valid_credentials?).and_return(true)
       @provider_account.quota = Quota.new
       @provider_account.save.should be_true
-      post :update, :id => @provider_account.id, :provider_account => { :credentials_hash => {:username => 'mockuser', :password => 'mockpassword'} }
+      post :update, :id => @provider_account.id, :provider_account => { :credentials_attributes => {:username => 'mockuser', :password => 'mockpassword'} }
       response.should redirect_to edit_provider_path(@provider_account.provider_id, :details_tab => 'accounts')
       ProviderAccount.find(@provider_account.id).credentials_hash['password'].should == "mockpassword"
     end

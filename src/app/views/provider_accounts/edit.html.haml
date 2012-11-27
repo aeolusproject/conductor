@@ -11,9 +11,6 @@
     %h2.settings=t'settings.settings'
 
   .content
-    - unless @providers.empty?
-      = form_for([@provider, @provider_account],  :url => provider_provider_account_path(@provider, @provider_account), :html => {:multipart => true,:method => :put, :class => 'generic horizontal'})  do |f|
-        = render :partial => "form", :locals => { :form => f }
-        %fieldset.options
-          = f.submit t('save'), :class => "button", :id => 'save'
-          = link_to t('cancel'), provider_provider_account_path(@provider, @provider_account), :class => 'button danger'
+    = conductor_form_for(@provider_account, :error_partial => 'layouts/error_messages', :url => provider_provider_account_path(@provider_account)) do |f|
+      = render :partial => "form", :locals => { :form => f }
+      = f.button :form_buttons, :cancel => edit_provider_path(@provider, :details_tab => 'accounts')

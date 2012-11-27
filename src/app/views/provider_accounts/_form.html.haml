@@ -1,3 +1,9 @@
-- if @provider_account.errors.any?
-  = render 'layouts/error_messages', :object => @provider_account
-= render :partial => 'provider_selection'
+= form.input :label
+= form.fields_for(:credentials, :include_id => false) do |credentials_form|
+  = credentials_form.input :value, :as => credentials_form.object.credential_definition.input_type,
+                           :label => t("provider_accounts.credentials.labels.#{credentials_form.object.credential_definition.label.downcase}"),
+                           :input_html => { :name => "provider_account[credentials_attributes][#{credentials_form.object.credential_definition.name}]" },
+                           :include_id => false
+= form.fields_for :quota do |quota_form|
+  = quota_form.input :maximum_running_instances, :as => :numeric_input_with_unlimited_check_box
+= form.input :priority

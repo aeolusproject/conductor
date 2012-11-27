@@ -30,27 +30,4 @@ module QuotaAware
     end
   end
 
-  # In XML requests, the quota is embedded as a node in the container object,
-  # because more than one root nodes are not allowed.
-  #
-  # In other types of requests, the quota param is in the "root" and the
-  # controllers are written to expect that.
-  #
-  # For XML requests we need to move the quota params back to the "root".
-  def set_quota_param(node_where_quota_is_embedded)
-    if !params.has_key? :quota and !params[node_where_quota_is_embedded][:quota].nil?
-      params[:quota] = params[node_where_quota_is_embedded][:quota]
-      params[node_where_quota_is_embedded].delete(:quota)
-    end
-  end
-
-  def set_quota(quota_aware_model)
-    limit = if params.has_key? :quota and not params[:unlimited_quota]
-              params[:quota][:maximum_running_instances]
-            else
-              nil
-            end
-    quota_aware_model.quota.set_maximum_running_instances(limit)
-  end
-
 end

@@ -14,7 +14,7 @@ module SimpleForm
       protected
 
       def error_text
-        "#{options[:error_prefix]} #{errors.first.capitalize!}.".lstrip.html_safe
+        "#{options[:error_prefix]} #{errors.first.capitalize}.".lstrip.html_safe
       end
 
       def errors
