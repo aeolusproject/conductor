@@ -1,4 +1,10 @@
 Tim::ProviderImage.class_eval do
+  belongs_to :provider_account
+
+  validates_presence_of :provider_account
+
+  before_create :set_credentials
+
   STATUS_COMPLETE = 'COMPLETE'
 
   def self.find_by_images(images)
@@ -22,5 +28,11 @@ Tim::ProviderImage.class_eval do
 
   def base_image
     target_image.base_image
+  end
+
+  private
+
+  def set_credentials
+    @credentials = provider_account.to_xml(:with_credentials => true)
   end
 end
