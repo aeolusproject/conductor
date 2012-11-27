@@ -209,6 +209,7 @@ describe PoolsController do
 
         it "lists deployments" do
           xml = Nokogiri::XML(response.body)
+          xml.xpath("/pool/deployments/@href").text.should == api_pool_deployments_url(@pool)
           xml.xpath("/pool/deployments/deployment").size.should == 1
           xml.xpath("/pool/deployments/deployment/@id").text.should == @deployment.id.to_s
         end

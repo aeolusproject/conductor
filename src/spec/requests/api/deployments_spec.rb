@@ -18,16 +18,23 @@ require 'spec_helper'
 
 describe "Deployments API" do
   shared_examples_for "listing deployments in XML" do
-    subject { Nokogiri::XML(response.body) }
+    subject { Nokogiri::XML(response.body).xpath("/deployments") }
+
+    context "collection URL" do
+      it do
+        collection_url = defined?(pool) ? api_pool_deployments_url(pool) : api_deployments_url
+        subject.xpath("@href").text.should == collection_url
+      end
+    end
 
     context "number of deployments" do
-      it { subject.xpath("/deployments/deployment").size.should == deployments.size }
+      it { subject.xpath("deployment").size.should == deployments.size }
     end
 
     context "deployment elements data" do
       it "is printed correctly" do
         deployments.each do |deployment|
-          xml_deployment = subject.xpath("/deployments/deployment[@id=\"#{deployment.id}\"]")
+          xml_deployment = subject.xpath("deployment[@id=\"#{deployment.id}\"]")
           xml_deployment.size.should == 1
           check_deployment_xml_fields(xml_deployment, deployment)
         end

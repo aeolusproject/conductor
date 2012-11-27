@@ -10,6 +10,7 @@
   %catalogs
     - catalogs.each do |catalog|
       %catalog{:id => catalog.id, :href => api_catalog_url(catalog)}
-  %deployments
-    - deployments.each do |deployment|
-      %deployment{:id => deployment.id, :href => api_deployment_url(deployment)}
+  =render '/deployments/list',                                |
+          :deployments => deployments,                        |
+          :shallow => true,                                   |
+          :deployments_href => api_pool_deployments_url(pool) |
