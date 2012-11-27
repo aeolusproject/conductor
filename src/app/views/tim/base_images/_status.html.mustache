@@ -1,0 +1,37 @@
+{{#images}}
+  <li class="clearfix">
+    <dl>
+      <dt>
+        <div class="build-actions">
+          <h3>{{target}}</h3>
+        </div>
+      </dt>
+      <dd>
+        <table class="light_table">
+          <thead>
+            <tr><th>
+              <strong><%= t('tim.base_images.show.account') %></strong>
+            </th>
+            <th>
+              <%= t('tim.base_images.show.provider') %>
+            </th>
+            <th>
+              <%= t('tim.base_images.show.providers_image_id') %>
+            </th>
+            <th class="image_controls"></th>
+          </tr></thead>
+          <tbody>
+          {{#combined_images}}
+            {{#provider_images}}
+              <tr>
+                <td><strong> {{provider_account.name}} </strong></td>
+                <td class="light">{{provider_account.provider_name }} </td>
+                <td class="light">{{factory_id}}</td>
+            {{/provider_images}}
+          {{/combined_images}}
+          </tbody>
+        </table>
+      </dd>
+    </dl>
+  </li>
+{{/images}}

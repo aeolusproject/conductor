@@ -1,0 +1,54 @@
+= render :partial => 'layouts/admin_nav'
+
+%header.page-header
+  .obj_actions
+    .return_to
+      =t'return_to'
+      = link_to t('tim.base_images.index.images'), base_images_path
+    - if @base_image.pool_family and check_privilege(Privilege::USE, @base_image.pool_family)
+      .button-group
+        = link_to t('tim.base_images.show.new_deployable_from_image'), main_app.new_deployable_path(:create_from_image => @base_image.id), :class => 'button' # mawagner -- See if this exists
+        - unless @base_image.imported?
+          = link_to t('tim.base_images.show.template_xml'), main_app.template_image_path(@base_image.uuid), :class => 'button' # See if this link works
+        = button_to t("delete"), base_image_path(@base_image.id), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger', :id => 'delete'
+  %h1.no-icon= image_name(@base_image)
+
+- user_can_build = (@base_image.pool_family and check_privilege(Privilege::USE, @base_image.pool_family))
+%section.content-section
+  %header
+    %h2=t'properties'
+  .content
+    %table.properties_table
+      %tbody
+        %tr
+          %td= t('tim.base_images.environment')
+          %td= @base_image.pool_family.name
+        %tr
+          %td= t('tim.base_images.show.image_id')
+          %td= @base_image.uuid
+
+%section.content-section
+  %header
+    .section-controls
+      - if @versions.any?
+        %span= t'tim.base_images.show.view_build'
+        - if user_can_build
+          = form_tag image_path(@base_image.id), :method => :get do
+            = select_tag :build, options_for_build_select(@versions, @version, @latest_image_version)
+            = submit_tag t('tim.base_images.show.select_build'), :id => 'select_build_button'
+    %h2= t('tim.base_images.show.provider_images')
+
+  .content
+    %ul.image_builds
+      = render :partial => 'status', :mustache => {:images => image_builds_for_mustache(@targets)}
+
+:javascript
+  $(document).ready(function(){
+    $("#select_build_button").hide();
+    $("#build").change(function() {
+      $("#select_build_button").click();
+    });
+  });
+
+%script#imageStatusTemplate{ :type => 'text/html' }
+  = render :partial => 'status'

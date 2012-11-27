@@ -148,4 +148,17 @@ module MustacheHelper
     result
   end
 
+  def image_builds_for_mustache(base_image)
+    retval = []
+    base_image.each_pair do |target,target_images|
+      timg_hash = {:target => target, :combined_images => []} 
+      target_images.each do |timg|
+        timg_hash [:combined_images] << {:target_image => timg, 
+                                         :provider_images => timg.provider_images}
+      end
+      retval << timg_hash
+    end
+    retval
+  end
+
 end
