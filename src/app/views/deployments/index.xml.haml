@@ -1,2 +1,3 @@
 !!! XML
-=render 'list', :deployments => @deployments, :shallow => false
+=render 'list', :deployments => @deployments, :shallow => false,
+        :deployments_href => api_deployments_collection_href(@pool)

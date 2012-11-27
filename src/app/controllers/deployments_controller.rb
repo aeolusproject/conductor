@@ -34,7 +34,7 @@ class DeploymentsController < ApplicationController
       format.html
       format.js { render :partial => 'list' }
       format.json { render :json => @deployments }
-      format.xml
+      format.xml { @pool = @pools.first if params[:pool_id] }
     end
   end
 
