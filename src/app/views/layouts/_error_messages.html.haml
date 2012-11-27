@@ -1,6 +1,6 @@
 - content_for :error_messages do
   .flash_hud
-    %a.control{ :href => "#", :title => t("close") }
+    %a.control{ :href => "#", :title => _("Close") }
     %ul.flash_messages.error
       %li= t("errors.template.header", :model => object.class.model_name.human, :count => object.errors.count)
       %ul

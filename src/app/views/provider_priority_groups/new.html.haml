@@ -4,7 +4,7 @@
   .obj_actions
     .return_to
       = t(:return_to)
-      = link_to t('provider_priority_groups.new.back', :pool => @pool.name), pool_provider_selection_provider_priority_groups_path(@pool)
+      = link_to _("Provider Groups for Pool: %s") % @pool.name, pool_provider_selection_provider_priority_groups_path(@pool)
   %h1.no-icon= _("Add new Priority Group")
 
 %section.content-section

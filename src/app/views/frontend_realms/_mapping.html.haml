@@ -14,7 +14,7 @@
   .content
     %fieldset
       - unless @backend_provider_targets.empty?
-        %h3= t('realms.mapping.realm_mapped_providers', :name=> "#{@realm.name}")
+        %h3= _("Realm %s is mapped to Providers:") % @realm.name
         %table.flat.checkbox_table
           - @backend_provider_targets.each do |backend|
             %tr{:class => cycle('nostripe','stripe')}
@@ -23,7 +23,7 @@
 
     %fieldset
       - unless @backend_realm_targets.empty?
-        %h3= t('realms.mapping.realm_mapped_realms', :name=> "#{@realm.name}")
+        %h3= _("Realm %s is mapped to Realms:") % @realm.name
         %table.flat.checkbox_table
           - @backend_realm_targets.each do |backend|
             %tr{:class => cycle('nostripe','stripe')}

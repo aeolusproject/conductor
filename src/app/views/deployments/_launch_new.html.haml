@@ -3,7 +3,7 @@
 %header.page-header
   %h1.deployments
     = @title
-    %span= t('deployments.launch_new.to_pool', :name => "#{@pool.name.capitalize}")
+    %span= _("to %s Pool") % @pool.name.capitalize
 
 %section.content-section.deployment
   %header

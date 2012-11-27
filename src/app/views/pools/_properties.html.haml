@@ -1,5 +1,5 @@
 %h3
-  = t('.properties', :pool => @pool.name)
+  = _("Properties for %s") % @pool.name
 - if check_privilege(Privilege::MODIFY, @pool)
   = link_to _("Edit"), edit_pool_path(@pool), { :class => 'button' }
 

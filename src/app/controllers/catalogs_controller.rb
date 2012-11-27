@@ -76,7 +76,7 @@ class CatalogsController < ApplicationController
         end
       else
         format.html do
-          @title = t('catalogs.new.new_catalog')
+          @title = _("New Catalog")
           render :new
         end
         format.xml  { render :template => 'api/validation_error',
@@ -114,7 +114,7 @@ class CatalogsController < ApplicationController
         end
       else
         format.html do
-          @title = t('catalogs.edit.edit_catalog')
+          @title = _("Edit Catalog")
           render :action => 'edit'
         end
         format.xml  do

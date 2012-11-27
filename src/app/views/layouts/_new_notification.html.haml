@@ -19,7 +19,7 @@
 - unless flash.empty?
   - if flash[:success]
     .flash_hud
-      %a.control{ :href => "#", :title => t("close") }
+      %a.control{ :href => "#", :title => _("Close") }
       %ul.flash_messages.success
         - if flash[:success].kind_of?(Array)
           -flash[:success].each do |msg|
@@ -29,7 +29,7 @@
 
   - if flash[:notice]
     .flash_hud
-      %a.control{ :href => "#", :title => t("close") }
+      %a.control{ :href => "#", :title => _("Close") }
       %ul.flash_messages.success
         - if flash[:notice].kind_of?(Array)
           -flash[:notice].each do |msg|
@@ -39,7 +39,7 @@
 
   - if flash[:warning]
     .flash_hud
-      %a.control{ :href => "#", :title => t("close") }
+      %a.control{ :href => "#", :title => _("Close") }
       %ul.flash_messages.warning
         - if flash[:warning].kind_of?(Array)
           - flash[:warning].each do |msg|
@@ -49,7 +49,7 @@
 
   - if flash[:error]
     .flash_hud
-      %a.control{ :href => "#", :title => t("close") }
+      %a.control{ :href => "#", :title => _("Close") }
       - if flash[:error].kind_of?(Hash)
         %ul.flash_messages.error
           - if flash[:error][:summary].present?

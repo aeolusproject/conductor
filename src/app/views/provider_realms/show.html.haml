@@ -9,7 +9,7 @@
 - unless @provider_realm.available
   %section.content-section
     %header.align-center
-      %h2.disabled= t('realms.show.realm_unavailable', :name => @provider_realm.name)
+      %h2.disabled= _("The Realm %s is currently not available.") % @provider_realm.name
 
 %section.content-section.realm
   %header

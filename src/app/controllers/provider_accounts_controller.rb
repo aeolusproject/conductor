@@ -132,7 +132,7 @@ class ProviderAccountsController < ApplicationController
 
   def edit
     @provider_account = ProviderAccount.find(params[:id])
-    @title = _("Account %s could not be added") % @provider_account.name
+    @title = _("Edit Account: %s") % @provider_account.name
     require_privilege(Privilege::MODIFY,@provider_account)
     load_provider
   end
@@ -213,14 +213,11 @@ class ProviderAccountsController < ApplicationController
     failed = []
     ProviderAccount.find(params[:accounts_selected]).each do |account|
       if !check_privilege(Privilege::MODIFY, account)
-        failed << t('application_controller.permission_denied_with_prefix',
-                    :prefix => account.name)
+        failed << _("%s: You have insufficient privileges to perform the selected action.") % account.name
       elsif account.safe_destroy
         succeeded << account.name
       else
-        failed << t('provider_accounts.flash.error.not_deleted_with_err',
-                    :account => account.name,
-                    :err => account.errors.full_messages.join(', '))
+        failed << _("Account %s was not deleted: %s") % [account.name, account.errors.full_messages.join(', ')]
       end
     end
 

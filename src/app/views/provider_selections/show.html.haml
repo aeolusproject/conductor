@@ -4,12 +4,12 @@
   .obj_actions
     .return_to
       = t(:return_to)
-      = link_to t('provider_selection.show.environment', :environment => @environment.name), pool_family_path(@environment)
+      = link_to _("Environment: %s") % @environment.name, pool_family_path(@environment)
   %h1.no-icon= _("Provider Selection Strategies")
 
 %section.content-section
   %header
-    %h2=t 'Available Strategies'
+    %h2= _("Available Strategies")
   .content
     %table.provider-selection-strategies
       - ProviderSelection::Base.strategies.each do |strategy|

@@ -22,7 +22,7 @@ class CatalogEntriesController < ApplicationController
     require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
 
     if @catalog_entry.save
-      redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry.deployable), :notice => t('catalog_entries.flash.notice.added', :catalog => @catalog_entry.catalog.name)
+      redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry.deployable), :notice => _("Deployable added to Catalog %s.") % @catalog_entry.catalog.name
     else
       flash[:warning] = _("Deployable was not created.")
       redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry.deployable)
@@ -39,9 +39,9 @@ class CatalogEntriesController < ApplicationController
     @catalog_entry.destroy
 
     if deployable.destroyed?
-      redirect_to catalog_path(catalog), :notice => t('catalog_entries.flash.notice.deleted', :catalog => catalog.name)
+      redirect_to catalog_path(catalog), :notice => _("Deployable removed from Catalog %s.") % catalog.name
     else
-      redirect_to deployable_path(deployable), :notice => t('catalog_entries.flash.notice.deleted', :catalog => catalog.name)
+      redirect_to deployable_path(deployable), :notice => _("Deployable removed from Catalog %s.") % catalog.name
     end
   end
 

@@ -10,16 +10,15 @@
 
 
   %header.page-header
-    %h1.pools= t('.pool_name', :pool => @pool.name)
+    %h1.pools= _("%s Pool") % @pool.name
 
   %section.content-section
     %header.align-center
-      %h2.no-icon= t('.header', :deployment => @deployment.name, :pool => @pool.name)
+      %h2.no-icon= _("Deploy %s to %s Pool?") % [@deployment.name, @pool.name]
       %p
-        = t('.confirmation_html', :deployment => content_tag(:strong, @deployment.name),
-                                  :pool => @pool.name)
+        = _("Are you sure you wish to deploy %s to the %s Pool?") % [content_tag(:strong, @deployment.name), @pool.name]
         - unless @additional_quota == 0
-          = t('.quota_info', :quota => number_to_percentage(@additional_quota, :precision => 0))
+          = _("Doing so will utilize %s of your overall Deployment quota.") % number_to_percentage(@additional_quota, :precision => 0)
 
     .content
       %fieldset

@@ -7,7 +7,7 @@
 %section.content-section
   - if @deployables.any?
     .align-center
-      %strong= t(".hint", :pool =>  @catalog.pool.name)
+      %strong= _("Choose a Deployable to launch in the %s Pool") %  @catalog.pool.name
     %ul.catalog_pretty
       - @deployables.each do |deployable|
         %li.collapse_entity

@@ -1,7 +1,7 @@
 = render :partial => 'layouts/nav_history'
 %header.page-header
   %h1.deployments
-    = t('pools.header_show.pool_name', :name => @deployment.pool.name)
+    = _("%s Pool") % @deployment.pool.name
 
 %section.content-section.deployments.launch-time-params
   %h2= _("Configure launch-time parameters for your Deployment:")
@@ -39,7 +39,7 @@
                     .input
                       = text_field_tag id, (parameter.value or value)
                 - else
-                  = t('.reference', :assembly => parameter.reference_assembly, :parameter => parameter.reference_parameter)
+                  = _("Reference to %s's return parameter: %s") % [parameter.reference_assembly, parameter.reference_parameter]
 
       #service-headers
 

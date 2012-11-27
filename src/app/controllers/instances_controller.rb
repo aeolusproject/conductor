@@ -192,7 +192,7 @@ class InstancesController < ApplicationController
       begin
         require_privilege(Privilege::USE,instance)
         instance.reboot(current_user)
-        notices << "#{instance.name}: #{t('instances.flash.notice.reboot', :name => instance.name)}"
+        notices << "#{instance.name}: " +  _("%s: reboot action was successfully queued.") % instance.name
       rescue Exception => ex
         errors << "#{instance.name}: " + ex.message
         log_backtrace(ex)

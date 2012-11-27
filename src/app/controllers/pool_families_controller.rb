@@ -59,7 +59,7 @@ class PoolFamiliesController < ApplicationController
                             :locals => { :pool_family => @pool_family }}
       else
         format.html do
-          @title = t("pool_families.index.new_pool_family")
+          @title = _("New Environment")
           render :new
         end
         format.xml { render :template => 'api/validation_error',

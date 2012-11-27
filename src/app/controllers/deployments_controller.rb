@@ -202,7 +202,7 @@ class DeploymentsController < ApplicationController
 
   def show
     @deployment = Deployment.find(params[:id])
-    @title = t('deployments.show.name', :name => @deployment.name)
+    @title = _("%s Deployment") % @deployment.name
     require_privilege(Privilege::VIEW, @deployment)
     init_new_deployment_attrs
     save_breadcrumb(deployment_path(@deployment, :viewstate => viewstate_id), @deployment.name)
@@ -285,15 +285,11 @@ class DeploymentsController < ApplicationController
       else
         cant_stop = true
         errors = deployment.not_stoppable_or_destroyable_instances.map {|i|
-          t('deployments.errors.instance_state',
-            :name => i.name,
-            :state => i.state)}
+          _("The instance %s is in state %s.") % [i.name, i.state]}
 
       end
     rescue
-      errors = t('deployments.flash.error.not_deleted',
-                 :name => deployment.name,
-                 :error => $!.message)
+      errors = _("The Deployment %s could not be deleted: %s") % [deployment.name, $!.message]
     end
 
     respond_to do |format|
@@ -307,8 +303,7 @@ class DeploymentsController < ApplicationController
           flash[:success] = t('deployments.flash.success.deleted',
                               :list => deployment.name, :count => 1)
         elsif cant_stop
-          flash[:error] = {:summary => t('deployments.errors.cannot_stop',
-                                         :name => deployment.name),
+          flash[:error] = {:summary => _("The Deployment %s can not be deleted because following instances can not be stopped:") % deployment.name,
                            :failures => errors}
         else
           flash[:error] = errors
@@ -332,9 +327,7 @@ class DeploymentsController < ApplicationController
         Delayed::Job.enqueue DeploymentDestroy.new(deployment)
         destroyed << deployment.name
       else
-        errors << t('deployments.flash.error.not_deleted',
-                    :name => deployment.name,
-                    :error => t("deployments.errors.all_stopped"))
+        errors << _("The Deployment %s could not be deleted: %s") % [deployment.name, _("All Instances must be stopped or running")]
       end
 
     end
@@ -368,8 +361,7 @@ class DeploymentsController < ApplicationController
     @deployments_to_stop.each do |deployment|
       # TODO: move all this logic to model
       unless deployment.can_stop?
-        errors << t('deployments.flash.error.cant_stop',
-                    :name => deployment.name)
+        errors << _("The Deployment %s could not be stopped. Only running Deployments can be stopped.") % deployment.name
         next
       end
       deployment.state = Deployment::STATE_SHUTTING_DOWN

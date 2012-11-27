@@ -242,7 +242,7 @@ class PoolsController < ApplicationController
   def edit
     @pool = Pool.find(params[:id])
 
-    @title = t('pools.edit_pool')
+    @title = _("Edit Pool")
     require_privilege(Privilege::MODIFY, @pool)
     @quota = @pool.quota
     respond_to do |format|
@@ -275,7 +275,7 @@ class PoolsController < ApplicationController
         end
       else
         format.html do
-          @title = t('pools.edit_pool')
+          @title = _("Edit Pool")
           render :action => :edit
         end
         format.js { render :partial => 'edit', :id => @pool.id }

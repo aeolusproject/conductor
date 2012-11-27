@@ -7,7 +7,7 @@
     %header.align-center
       %h2.disabled= _("Provider is disabled.")
     %p.align-center
-      = t("providers.edit.provider_disabled", :name => @provider.name)
+      = _("The Provider %s is currently disabled.") % @provider.name
       = _("To enable and configure the Provider, click the slide switch in the upper-right-hand corner of this window.")
       = image_tag "provider_enable_hint.png"
 

@@ -78,7 +78,7 @@ class UserGroupsController < ApplicationController
         format.json { render :json => @user_group, :status => :created }
       else
         format.html do
-          @title = t'user_groups.new.new_user_group'
+          @title = _("New User Group")
           render :new
         end
         format.js { render :partial => 'new' }
@@ -104,7 +104,7 @@ class UserGroupsController < ApplicationController
     redirect_to root_url and return unless @user_group
 
     unless @user_group.update_attributes(params[:user_group])
-      @title = t'user_groups.edit.edit_user_group'
+      @title = _("Edit User Group")
       render :action => 'edit' and return
     else
       flash[:notice] = _("User Group updated")
@@ -130,7 +130,7 @@ class UserGroupsController < ApplicationController
       end
 
     rescue => ex
-      flash[:warning] = t('user_groups.flash.warning.not_delete', :reason => ex.message)
+      flash[:warning] = _("Cannot delete: %s") % ex.message
     end
 
     redirect_to user_groups_url

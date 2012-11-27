@@ -46,9 +46,9 @@ class HardwareProfilesController < ApplicationController
     @hardware_profile = HardwareProfile.find(Array(params[:id]).first)
     require_privilege(Privilege::VIEW, @hardware_profile)
     @title = if @hardware_profile.provider_hardware_profile?
-               t('hardware_profiles.show.backend_hwp', :name => @hardware_profile.name)
+               _("%s (Provider)") % @hardware_profile.name
              else
-               t('hardware_profiles.show.frontend_hwp', :name => @hardware_profile.name)
+               _("%s (Front End)") % @hardware_profile.name
              end
 
     @tab_captions = [_("Properties"), _("History"), _("Matching Provider Hardware Profiles")]
