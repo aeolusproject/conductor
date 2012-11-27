@@ -1692,3 +1692,4 @@ en:
         make_deployable: Automatically make "%{name}" Deployable.
         edit_xml: View and Edit Template XML
         save_template: Save Image Template
+      imported_parenthetical: "(Imported)"

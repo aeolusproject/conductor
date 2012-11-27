@@ -8,6 +8,8 @@ Tim::BaseImagesController.class_eval do
 
   before_filter :set_tabs_and_headers, :only => [:index]
   before_filter :set_new_form_variables, :only => [:new]
+  before_filter :set_image_versions, :only => :show
+  before_filter :set_provider_accounts, :only => :show
 
   # FIXME: whole create method is overriden just because of
   # setting flash error and new_form_variables if creation fails
@@ -103,4 +105,21 @@ Tim::BaseImagesController.class_eval do
       )]
     end
   end
+
+  def set_image_versions
+    @versions = @base_image.image_versions.order('created_at DESC')
+    @latest_version = @versions.first # because we sorted above
+    # @version is the specific image version we're viewing
+    @version = if params[:version]
+      @versions.find{|v| v.id == params[:version]} || @latest_version
+    else
+      @latest_version
+    end
+  end
+
+  def set_provider_accounts
+    target_images = @version.target_images(:include => :provider_images) # don't do multiple queries
+    @targets = target_images.group_by{|ti| ti.target}
+  end
+
 end
