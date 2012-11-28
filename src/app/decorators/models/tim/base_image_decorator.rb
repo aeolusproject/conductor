@@ -32,6 +32,12 @@ Tim::BaseImage.class_eval do
     false
   end
 
+  def last_built_image_version
+    # TODO: returns latest image version for which there is at least one target
+    # image (we don't care about build status)
+    image_versions.joins(:target_images).order('created_at DESC')
+  end
+
   private
 
   def init_template(xml)

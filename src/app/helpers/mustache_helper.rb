@@ -128,7 +128,7 @@ module MustacheHelper
   end
 
   def image_for_mustache(image)
-    last_rebuild = I18n.l(Time.at(image.latest_pushed_or_unpushed_build.timestamp.to_f)) rescue ''
+    last_rebuild = I18n.l(Time.at(image.last_built_image_version.created_at.to_f)) rescue ''
 
     result = {
       :id   => image.id,
