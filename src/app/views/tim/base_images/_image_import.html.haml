@@ -1,0 +1,33 @@
+%header.page-header
+  .obj_actions.button-container
+    .return_to
+      = t :return_to
+      = link_to t('images.environment', :environment => @base_image.pool_family.name), main_app.pool_family_path(@base_image.pool_family)
+  %h1.no-icon= t('.import_image')
+
+%section.content-section
+
+  .content
+    = form_for @base_image, :url => tim.base_images_path, :html => { :multipart => true, :class => 'generic horizontal' } do |f|
+      = f.hidden_field :pool_family_id
+      = f.hidden_field :import
+      %fieldset
+        = f.fields_for :image_versions do |ver_form|
+          = ver_form.fields_for :target_images do |timg_form|
+            = timg_form.fields_for :provider_images do |pimg_form|
+              .field
+                = label_tag :provider_account_id, t('.provider_account')
+                .input
+                  = pimg_form.select :provider_account_id, options_for_select(@accounts.collect{|x| [x.label, x.id]})
+              .field
+                = label_tag :external_image_id, t('.image_id')
+                .input
+                  = pimg_form.text_field :external_image_id
+        .field
+          = label_tag :name, t('.name')
+          .input
+            = f.text_field :name
+
+      %fieldset.options
+        = f.submit t(:continue), :id => "file_button", :class => "button primary", :disabled => @accounts.empty?
+        = link_to t(:cancel), main_app.pool_families_path, :class => "button danger"

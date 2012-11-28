@@ -3,7 +3,19 @@ Tim::TargetImage.class_eval do
 
   validates_presence_of :provider_type
 
+  before_validation :set_provider_type
   before_create :set_target
+
+  def set_provider_type
+    # if provider_type is not set but provider_image is set, get provider
+    # type from provider image's provider account
+    if provider_type.nil? and provider_images.present? and
+      provider_images.first.provider_account
+
+      self.provider_type = provider_images.first.provider_account.
+        provider.provider_type
+    end
+  end
 
   def self.find_by_images(images)
     TargetImage.joins(:image_version).
@@ -18,6 +30,6 @@ Tim::TargetImage.class_eval do
 
   def set_target
     # TODO: codenames have changed in new imagefactory
-    @target = provider_type.codename
+    @target = provider_type.name
   end
 end

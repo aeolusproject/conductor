@@ -9,7 +9,20 @@ Tim::BaseImagesController.class_eval do
   before_filter :set_tabs_and_headers, :only => [:index]
   before_filter :set_new_form_variables, :only => [:new]
 
- def edit_xml
+  # FIXME: whole create method is overriden just because of
+  # setting flash error and new_form_variables if creation fails
+  def create
+    @base_image = Tim::BaseImage.new(params[:base_image]) unless defined? @base_image
+    if @base_image.save
+      flash[:notice] = "Successfully created Base Image"
+    else
+      set_new_form_variables
+      flash[:error] = @base_image.errors.full_messages
+    end
+    respond_with @base_image
+  end
+
+  def edit_xml
     @base_image = Tim::BaseImage.new(params[:base_image])
 
     #TODO: template fetching sets image.errors
@@ -29,7 +42,7 @@ Tim::BaseImagesController.class_eval do
     render :overview unless params[:edit]
   end
 
- def overview
+  def overview
     @base_image = Tim::BaseImage.new(params[:base_image])
     unless @base_image.valid?
       @base_image.template ||= Tim::Template.new
@@ -37,7 +50,7 @@ Tim::BaseImagesController.class_eval do
       render :edit_xml
       return
     end
- end
+  end
 
   private
 
@@ -75,11 +88,19 @@ Tim::BaseImagesController.class_eval do
   end
 
   def set_new_form_variables
-    @base_image = Tim::BaseImage.new(params[:base_image])
+    @base_image ||= Tim::BaseImage.new(params[:base_image])
     # FIXME: remove this:
     @base_image.template ||= Tim::Template.new
     @accounts = @base_image.pool_family.provider_accounts.enabled.
       list_for_user(current_session, current_user, Privilege::USE)
     t("tim.base_images.flash.error.no_provider_accounts") if @accounts.empty?
+
+    if @base_image.import and @base_image.image_versions.empty?
+      @base_image.image_versions = [Tim::ImageVersion.new(
+        :target_images => [Tim::TargetImage.new(
+          :provider_images => [Tim::ProviderImage.new]
+        )]
+      )]
+    end
   end
 end
