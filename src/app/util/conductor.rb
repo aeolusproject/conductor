@@ -58,3 +58,10 @@ def humanize_error(error, options={})
     error
   end
 end
+
+# Find a class for CSV generation
+def get_csv_class
+   return FasterCSV if Object.const_defined?(:FasterCSV)
+   Object.const_defined?(:CSV) or require 'csv'
+   CSV
+end

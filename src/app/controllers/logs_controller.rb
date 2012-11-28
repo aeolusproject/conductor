@@ -54,7 +54,7 @@ class LogsController < ApplicationController
     load_events
     load_headers
 
-    csvm = Object.const_defined?(:FasterCSV) ? FasterCSV : CSV
+    csvm = get_csv_class
     csv_string = csvm.generate(:col_sep => ";", :row_sep => "\r\n") do |csv|
       csv << @header.map {|header| header[:name].capitalize }
 
