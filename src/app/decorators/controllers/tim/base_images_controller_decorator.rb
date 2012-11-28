@@ -22,6 +22,7 @@ Tim::BaseImagesController.class_eval do
   before_filter :check_modify_permission, :only => [:edit, :update, :destroy]
   before_filter :check_create_permission, :only => [:new, :create]
 
+  before_filter :check_request_size, :only=> :edit_xml
   before_filter :set_tabs_and_headers, :only => [:index]
   before_filter :set_new_form_variables, :only => [:new]
 
@@ -75,6 +76,12 @@ Tim::BaseImagesController.class_eval do
   end
 
   private
+
+  def check_request_size
+    if request.headers["CONTENT_LENGTH"].to_i > 31457280
+      redirect_to request.referrer, :flash => { :error => t('tim.base_images.flash.error.too_large') }
+    end
+  end
 
   def load_permissioned_images
     @base_images = Tim::BaseImage.list_for_user(current_session,
