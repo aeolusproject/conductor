@@ -62,4 +62,15 @@ class ProviderType < ActiveRecord::Base
     # dc-core destroys openstack instances on stop request
     !['ec2', 'mock', 'openstack'].include?(deltacloud_driver)
   end
+
+  # FIXME: temporary translation table for new imagefactory
+  # which translates deltacloud_driver to imagefactory target
+  def imagefactory_target_name
+    targets = {
+      'mock' => 'MockSphere',
+      'openstack' => 'openstack-kvm',
+    }
+
+    targets[deltacloud_driver] || deltacloud_driver
+  end
 end

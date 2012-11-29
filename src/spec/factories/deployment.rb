@@ -20,7 +20,8 @@ FactoryGirl.define do
     association :pool, :factory => :pool
     association :owner, :factory => :user
     after_build do |deployment|
-      deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable1.xml")
+      deployable = FactoryGirl.create(:deployable, :catalogs => [FactoryGirl.create(:catalog)])
+      deployment.deployable_xml = deployable.xml
     end
   end
   factory :deployment_with_launch_parameters, :parent => :deployment do
