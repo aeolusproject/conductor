@@ -194,7 +194,7 @@ class ProviderAccount < ActiveRecord::Base
       raise Aeolus::Conductor::Base::NotDestroyable,
         I18n.t('provider_accounts.errors.not_destroyable_deployments',
                :deployments => not_destroyable_instances.
-               map{|i| i.deployment.name}.uniq.join(', '))
+               map{|i| i.deployment.nil? ? i.name : i.deployment.name}.uniq.join(', '))
     end
   end
 

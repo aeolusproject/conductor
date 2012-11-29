@@ -14,7 +14,7 @@
 #   limitations under the License.
 #
 Given /^there is an image$/ do
-  @image = Aeolus::Image::Warehouse::Image.first
+  @image = FactoryGirl.create(:base_image_with_template)
 end
 
 When /^I click on the image$/ do

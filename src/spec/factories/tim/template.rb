@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :template, :class => Tim::Template do
-    association :pool_family
+    # association :pool_family
+    pool_family { PoolFamily.find_by_name('default') }
     xml "<template>
            <name>Fedora 15</name>
              <description>desc</description>
