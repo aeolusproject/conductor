@@ -182,7 +182,7 @@ class Instance < ActiveRecord::Base
   end
 
   def image_build
-    @image_build ||= Tim::ImageVersion.find(image_build_uuid) if image_build_uuid
+    @image_build ||= Tim::ImageVersion.find_by_uuid(image_build_uuid) if image_build_uuid
   end
 
   def provider_image_for_account(provider_account)
