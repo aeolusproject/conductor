@@ -211,6 +211,9 @@ describe Deployment do
 
   describe ".check_assemblies_matches" do
     before do
+      base_image = Tim::BaseImage.find_by_uuid(@deployment.deployable_xml.image_uuids.first)
+      @provider_image = Tim::ProviderImage.find_by_images([base_image]).first
+      @provider_account1 = @provider_image.provider_account
       admin_perms = FactoryGirl.create :admin_permission
       @user_for_launch = admin_perms.user
       @user_for_launch.quota.maximum_running_instances = 1
@@ -234,14 +237,9 @@ describe Deployment do
 
   describe "using image from iwhd" do
     before do
-      image_id = @deployment.deployable_xml.assemblies.first.image_id
-      @provider_image = provider_name = Aeolus::Image::Warehouse::Image.find(image_id).latest_pushed_build.provider_images.first
-      provider_name = @provider_image.provider_name
-      provider1 = FactoryGirl.create(:mock_provider, :name => provider_name)
-      provider2 = FactoryGirl.create(:mock_provider)
-      @provider_account1 = FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider1, :priority => 10)
-      @provider_account2 = FactoryGirl.create(:mock_provider_account, :label => 'testaccount2', :provider => provider2, :priority => 20)
-      @deployment.pool.pool_family.provider_accounts = [@provider_account2, @provider_account1]
+      base_image = Tim::BaseImage.find_by_uuid(@deployment.deployable_xml.image_uuids.first)
+      @provider_image = Tim::ProviderImage.find_by_images([base_image]).first
+      @provider_account1 = @provider_image.provider_account
       admin_perms = FactoryGirl.create :admin_permission
       @user_for_launch = admin_perms.user
       @session = FactoryGirl.create :session
@@ -249,13 +247,12 @@ describe Deployment do
       @permission_session = PermissionSession.create!(:user => @user_for_launch,
                                                       :session_id => @session_id)
       @permission_session.update_session_entities(@user_for_launch)
-      @instance_match = FactoryGirl.build(:instance_match, :provider_account => @provider_account1)
+      @instance_match = FactoryGirl.build(:instance_match)
     end
 
     it "should return errors when checking assemblies matches which are not launchable" do
       Provider.any_instance.stub(:enabled?).and_return(true)
       Provider.any_instance.stub(:available?).and_return(true)
-      Instance.any_instance.stub(:provider_images_for_match).and_return([@provider_image])
       @deployment.stub(:provider_selection_match_exists?).and_return(true)
 
       @deployment.check_assemblies_matches(@permission_session, @user_for_launch).should be_empty
@@ -281,7 +278,7 @@ describe Deployment do
       @provider_account1.priority = nil
       @provider_account1.save!
 
-      Instance.any_instance.stub(:provider_images_for_match).and_return([@provider_image])
+      Instance.any_instance.stub(:provider_image_for_match).and_return(@provider_image)
       Taskomatic.stub!(:create_dcloud_instance).and_return(true)
       Taskomatic.stub!(:handle_dcloud_error).and_return(true)
       Taskomatic.stub!(:handle_instance_state).and_return(true)

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :base_image, :class => Tim::BaseImage do
-    name "test base image"
+    name "baseimage"
     description "description of test image"
     #association :pool_family
     # make sure that template and image have same pool family

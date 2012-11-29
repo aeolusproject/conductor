@@ -58,8 +58,6 @@ class PoolFamily < ActiveRecord::Base
 
   accepts_nested_attributes_for :quota
 
-  after_update :fix_iwhd_environment_tags
-
   validates :name, :presence => true,
                    :uniqueness => true,
                    :length => { :within => 1..100 },
