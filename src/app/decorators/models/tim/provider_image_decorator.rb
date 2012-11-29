@@ -9,7 +9,7 @@ Tim::ProviderImage.class_eval do
   STATUS_COMPLETE = 'COMPLETE'
 
   def self.find_by_images(images)
-    ProviderImage.joins(:target_image => :image_version).
+    Tim::ProviderImage.joins(:target_image => :image_version).
       where(:tim_image_versions => {:base_image_id => [images.map(&:id)]})
   end
 

@@ -36,7 +36,7 @@ Given /^there is a pool family named "([^\"]*)" with a pool named "([^\"]*)"$/ d
 end
 
 Given /^there are no images in "([^\"]*)" pool family$/ do |name|
-  Aeolus::Image::Warehouse::Image.stub(:by_environment).with(name).and_return([])
+  PoolFamily.find_by_name(name).base_images.destroy
 end
 
 Given /^there is not a pool family named "([^"]*)"$/ do |name|

@@ -32,8 +32,6 @@ Feature: Manage Deployments
     And "test" has catalog_entry "test_catalog_entry"
     And there is "front_hwp1" conductor hardware profile
     And there is "front_hwp2" conductor hardware profile
-    And there is mock provider account "my_mock_provider"
-    And there is a provider account "my_mock_provider" related to pool family "default"
     When I am viewing the pool "mockpool"
     And I follow "new_deployment_button"
     Then I should be on the launch new deployments page

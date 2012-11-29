@@ -12,7 +12,8 @@ describe "Sessions" do
   describe "User logged in" do
     before do
       @user = FactoryGirl.create :tuser
-      visit root_path
+      # TODO: main_app prefix shouldn't be required here
+      visit main_app.root_path
       fill_in "username", :with => @user.username
       fill_in "password-input", :with => "secret"
       click_button "Login"

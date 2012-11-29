@@ -111,7 +111,7 @@ describe PoolFamiliesController do
 
     describe "#create" do
       it "post with all expected params" do
-        Aeolus::Image::Warehouse::Image.stub(:by_environment).with("#{@test_name}").and_return([])
+        #Aeolus::Image::Warehouse::Image.stub(:by_environment).with("#{@test_name}").and_return([])
         xmldata = "
         <pool_family>
           <name>#{@test_name}</name>
@@ -141,7 +141,7 @@ describe PoolFamiliesController do
      describe "#show" do
       it "show an existing pool family" do
         @pool_family = FactoryGirl.create :pool_family
-        Aeolus::Image::Warehouse::Image.stub(:by_environment).with(@pool_family.name).and_return([])
+        #Aeolus::Image::Warehouse::Image.stub(:by_environment).with(@pool_family.name).and_return([])
         FactoryGirl.create(:pool, :name => "pool1", :pool_family => @pool_family)
         FactoryGirl.create(:pool, :name => "pool2", :pool_family => @pool_family)
         FactoryGirl.create(:pool, :name => "pool3", :pool_family => @pool_family)
@@ -160,14 +160,13 @@ describe PoolFamiliesController do
 
       it "show pool family images" do
         @pool_family = FactoryGirl.create :pool_family
-        @image = mock(Aeolus::Image::Warehouse::Image,
-                      :id => '100',
-                      :environment => @pool_family.name)
-        Aeolus::Image::Warehouse::Image.stub(:by_environment).with(@pool_family.name).and_return([@image])
+        @image = FactoryGirl.create('base_image_with_template',
+                                    :pool_family => @pool_family)
+        #Aeolus::Image::Warehouse::Image.stub(:by_environment).with(@pool_family.name).and_return([@image])
         get :show, :id => @pool_family.id
         xml = Nokogiri::XML(response.body)
         xml.xpath("/pool_family/images/image[@id='#{@image.id}']/@href").text.should ==
-          api_image_url(@image.id)
+          tim_route(:base_image_url, @image.id)
 
       end
 
@@ -183,7 +182,7 @@ describe PoolFamiliesController do
     describe "#update" do
 
       it "update with all expected params" do
-        Aeolus::Image::Warehouse::Image.stub(:by_environment).with("#{@test_name}").and_return([])
+        #Aeolus::Image::Warehouse::Image.stub(:by_environment).with("#{@test_name}").and_return([])
         xmldata = "
         <pool_family>
           <name>#{@test_name}</name>
@@ -201,7 +200,7 @@ describe PoolFamiliesController do
           <quota maximum_running_instances='1002'></quota>
         </pool_family>"
 
-        Aeolus::Image::Warehouse::Image.stub(:by_environment).with("pool-family-updated").and_return([])
+        #Aeolus::Image::Warehouse::Image.stub(:by_environment).with("pool-family-updated").and_return([])
         put :update, :id => pool_family_id, :pool_family => Hash.from_xml(xmldata)["pool_family"]
 
         assert_pool_api_success_response("pool-family-updated", "1002", 0)
