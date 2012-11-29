@@ -30,6 +30,7 @@ Tim::TargetImage.class_eval do
 
   def set_target
     # TODO: codenames have changed in new imagefactory
-    @target = provider_type.name
+    #@target = provider_type.name
+    @target = 'MockSphere'
   end
 end

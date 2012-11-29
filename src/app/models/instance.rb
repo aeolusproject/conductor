@@ -188,10 +188,10 @@ class Instance < ActiveRecord::Base
   def provider_image_for_account(provider_account)
     if image_build
       Tim::ProviderImage.find_by_provider_account_and_image_version(
-        provider_account, image_build).first
+        provider_account, image_build).where(:status => 'COMPLETED').first
     elsif image
       Tim::ProviderImage.find_by_provider_account_and_image(
-        provider_account, image).order('created_at DESC').first
+        provider_account, image).where(:status => 'COMPLETED').order('created_at DESC').first
     else
       nil
     end

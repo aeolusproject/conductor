@@ -237,12 +237,10 @@ class Deployable < ActiveRecord::Base
 
   def build_status(images, account)
     begin
-      image_statuses = images.map { |i| account.image_status(i) }
-      return :not_built if image_statuses.any? { |status| status == :not_built }
-      return :building if image_statuses.any? { |status| status == :building }
-      return :pushing if image_statuses.any? { |status| status == :pushing }
-      return :not_pushed if image_statuses.any? { |status| status == :not_pushed }
-      :pushed
+      pimgs = images.map { |i| i.last_provider_image(account) }
+      return :pushing if pimgs.any? { |pimg| pimg == 'PUSHING' }
+      return :pushed if pimgs.any? { |pimg| pimg.status == 'COMPLETED' }
+      :not_pushed
     rescue Exception => e
       error = humanize_error(e.message)
       return error
@@ -256,10 +254,10 @@ class Deployable < ActiveRecord::Base
   end
 
   def get_build_and_target_uuids(image)
-    latest_build = image.respond_to?(:latest_pushed_build) ? image.latest_pushed_build : nil
-    [(image.respond_to?(:uuid) ? image.uuid : nil),
+    latest_build = image.last_built_image_version
+    [image.uuid,
      (latest_build ? latest_build.uuid : nil),
-     (latest_build ? latest_build.target_images.collect { |ti| ti.uuid} : nil)]
+     (latest_build ? latest_build.target_images.collect { |ti| ti.factory_id} : nil)]
   end
 
   def set_pool_family
