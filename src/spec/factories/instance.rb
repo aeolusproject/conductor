@@ -24,12 +24,19 @@ FactoryGirl.define do
     association :pool, :factory => :pool
     association :owner, :factory => :user
     state "running"
+  end
+
+  factory :instance_with_provider_image, :parent => :instance do
     after_build do |instance|
-      deployment = Factory.build :deployment
-      assembly = deployment.deployable_xml.assemblies[0]
-      instance.image_uuid = assembly.image_id
-      instance.image_build_uuid = assembly.image_build
-      instance.assembly_xml = assembly.to_s
+      #deployment = Factory.build :deployment
+      #assembly = deployment.deployable_xml.assemblies[0]
+      pimg = FactoryGirl.create(:provider_image, :status => 'COMPLETED')
+      instance.image_uuid = pimg.target_image.image_version.base_image.uuid
+      instance.image_build_uuid = pimg.target_image.image_version.uuid
+      instance.provider_account = pimg.provider_account
+      instance.assembly_xml = "<assembly name='frontend' hwp='front_hwp1'>
+                                 <image id='#{instance.image_uuid}' build='#{instance.image_build_uuid}'></image>
+                               </assembly>"
     end
   end
 

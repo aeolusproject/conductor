@@ -20,9 +20,11 @@ require 'csv'
 
 describe Instance do
   before(:each) do
+    Tim::ProviderImage.any_instance.stub(:create_factory_provider_image).and_return(true)
+    Tim::TargetImage.any_instance.stub(:create_factory_target_image).and_return(true)
     @quota = FactoryGirl.create :quota
     @pool = FactoryGirl.create(:pool, :quota_id => @quota.id)
-    @instance = Factory.build(:instance, :pool_id => @pool.id)
+    @instance = Factory.build(:instance_with_provider_image, :pool_id => @pool.id)
     @actions = ['start', 'stop']
   end
 
@@ -211,14 +213,9 @@ describe Instance do
   it "should not return matches if account quota is exceeded" do
     # Other tests expect that @instance is built but not created, but we need it saved:
     @instance.save!
-    build = @instance.image_build || @instance.image.latest_pushed_build
-    provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
-    account = FactoryGirl.create(:mock_provider_account, :provider => provider, :label => 'testaccount')
-    @pool.pool_family.provider_accounts = [account]
-    @pool.pool_family.save!
-    @instance.provider_account = account
-    @instance.save!
-    quota = account.quota
+    @pool.pool_family.provider_accounts = [@instance.provider_account]
+    quota = @instance.provider_account.quota
+    quota.running_instances = 0
     quota.maximum_running_instances = 1
     quota.save!
 
@@ -238,8 +235,7 @@ describe Instance do
 
   it "shouldn't match provider accounts where image is not pushed" do
     inst = Factory.create(:new_instance)
-    inst.stub(:image_build).and_return("foo")
-    inst.stub(:provider_images_for_match).and_return([])
+    inst.stub(:provider_image_for_account).and_return(nil)
     inst.matches.last.should include(I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => inst.provider_account.name))
   end
 
@@ -247,30 +243,22 @@ describe Instance do
     account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount')
     account.provider.hardware_profiles.destroy_all
     @pool.pool_family.provider_accounts |= [account]
-    @instance.stub(:image_build).and_return("foo")
-    @instance.stub(:provider_images_for_match).and_return([])
+    @instance.stub(:provider_images_for_account).and_return([])
     @instance.matches.last.should include(I18n.t('instances.errors.hw_profile_match_not_found', :account_name => 'testaccount'))
   end
 
   it "shouldn't match frontend realms mapped to unavailable providers" do
-    build = @instance.image_build || @instance.image.latest_pushed_build
-    provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
-    realm_target = FactoryGirl.create(:realm_backend_target, :provider_realm_or_provider => provider)
-    @instance.frontend_realm = realm_target.frontend_realm
-    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+    @pool.pool_family.provider_accounts = [@instance.provider_account]
     # provider's available flag can be changed when a provider account is
     # created (populate_realms is called from after_create callback)
-    provider.available = false
-    provider.save!
-    @instance.matches.last.should include(I18n.t('instances.errors.provider_not_available', :account_name => 'testaccount'))
+    @instance.provider_account.provider.update_attribute(:available, false)
+    @instance.matches.last.should include(I18n.t('instances.errors.provider_not_available', :account_name => @instance.provider_account.name))
   end
 
   it "shouldn't match frontend realms mapped to unavailable realms" do
-    build = @instance.image_build || @instance.image.latest_pushed_build
-    provider = FactoryGirl.create(:mock_provider_with_unavailable_realm, :name => build.provider_images.first.provider_name)
-    realm_target = FactoryGirl.create(:realm_backend_target, :provider_realm_or_provider => provider.provider_realms.first)
+    realm_target = FactoryGirl.create(:realm_backend_target, :provider_realm_or_provider => @instance.provider_account.provider.provider_realms.first)
     @instance.frontend_realm = realm_target.frontend_realm
-    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+    @pool.pool_family.provider_accounts = [@instance.provider_account]
     @instance.matches.last.should include(I18n.t('instances.errors.realm_not_mapped', :account_name => 'testaccount', :frontend_realm_name => @instance.frontend_realm.name))
   end
 
@@ -282,9 +270,7 @@ describe Instance do
   end
 
   it "should return a match if all requirements are satisfied" do
-    build = @instance.image_build || @instance.image.latest_pushed_build
-    provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
-    @pool.pool_family.provider_accounts = [FactoryGirl.create(:mock_provider_account, :label => 'testaccount', :provider => provider)]
+    @pool.pool_family.provider_accounts = [@instance.provider_account]
     @instance.matches.first.should_not be_empty
   end
 
@@ -353,24 +339,18 @@ describe Instance do
     end
   end
   it "should match if the account has a config server and the instance has configs" do
-    build = @instance.image_build || @instance.image.latest_pushed_build
-    provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
-    account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount_config_server', :provider => provider)
-    config_server = FactoryGirl.create(:mock_config_server, :provider_account => account)
-    @pool.pool_family.provider_accounts = [account]
+    config_server = FactoryGirl.create(:mock_config_server, :provider_account => @instance.provider_account)
+    @pool.pool_family.provider_accounts = [@instance.provider_account]
 
     @instance.stub!(:requires_config_server?).and_return(true)
 
     matches, errors = @instance.matches
     matches.should_not be_empty
-    matches.first.provider_account.should eql(account)
+    matches.first.provider_account.should eql(@instance.provider_account)
   end
 
   it "should not match if the account does not have a config server and the instance has configs" do
-    build = @instance.image_build || @instance.image.latest_pushed_build
-    provider = FactoryGirl.create(:mock_provider, :name => build.provider_images.first.provider_name)
-    account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount_no_config_server', :provider => provider)
-    @pool.pool_family.provider_accounts = [account]
+    @pool.pool_family.provider_accounts = [@instance.provider_account]
 
     @instance.stub!(:requires_config_server?).and_return(true)
 
