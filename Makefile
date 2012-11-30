@@ -46,7 +46,10 @@ dist:
 	mkdir -p dist/aeolus-conductor-$(VERSION)
 	cp -a aeolus-conductor.spec AUTHORS conf COPYING Makefile src \
 		dist/aeolus-conductor-$(VERSION)
-	find dist/aeolus-conductor-$(VERSION)/src/vendor/converge-ui/ -mindepth 1 -maxdepth 1 | xargs rm -rf
+
+	#bundle and .bundle folders removed to make bundler use system gems
+	find dist/aeolus-conductor-$(VERSION)/src/.bundle -mindepth 1 -maxdepth 1 | xargs rm -rf
+	find dist/aeolus-conductor-$(VERSION)/src/bundle -mindepth 1 -maxdepth 1 | xargs rm -rf
 	tar -C dist -zcvf aeolus-conductor-$(VERSION).tar.gz aeolus-conductor-$(VERSION)
 
 
