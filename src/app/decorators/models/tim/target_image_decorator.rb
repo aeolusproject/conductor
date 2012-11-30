@@ -42,6 +42,10 @@ Tim::TargetImage.class_eval do
     image_version.base_image
   end
 
+  def built?
+    status == 'COMPLETED' || imported?
+  end
+
   private
 
   def set_target
