@@ -117,9 +117,25 @@ Tim::BaseImagesController.class_eval do
     end
   end
 
+  # I'm neglecting permissions for now, but they probably need consideration too
   def set_provider_accounts
-    target_images = @version.target_images(:include => :provider_images) # don't do multiple queries
-    @targets = target_images.group_by{|ti| ti.target}
+    @targets = {}
+    # we need to look stuff up ugly ways, so do some preloading
+    target_images = @version.target_images(:include => :provider_images)
+    all_provider_images = target_images.collect{|x| x.provider_images.to_a}.flatten
+    all_prov_accts = @base_image.pool_family.provider_accounts.includes(:provider => :provider_type)
+    # Now, put it all together
+    all_prov_accts.each do |provider_account|
+      provider_type = provider_account.provider_type
+      images_for_type = all_provider_images.select{|pi| pi.provider.provider_type == provider_type}
+      # I think thats right, but is it what we want?
+      if targets(provider_account.provider_type)
+        #foo
+      else
+        #bar
+      end
+    end
+    @targets
   end
 
 end
