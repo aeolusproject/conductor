@@ -222,9 +222,7 @@ class ProviderAccountsController < ApplicationController
     end
 
     if succeeded.present?
-      flash[:notice] = t('provider_accounts.flash.notice.account_deleted',
-                         :count => succeeded.length,
-                         :list => succeeded.join(', '))
+      flash[:notice] = n_("Account %s was deleted.","Accounts %s were deleted.",succeeded.length) % succeeded.join(', ')
     end
     flash[:error] = failed if failed.present?
     redirect_to edit_provider_path(@provider, :details_tab => 'accounts')

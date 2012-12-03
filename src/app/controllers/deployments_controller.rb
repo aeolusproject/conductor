@@ -261,12 +261,12 @@ class DeploymentsController < ApplicationController
     params[:deployment].each_pair{|k,v| attrs[k] = v if Deployment::USER_MUTABLE_ATTRS.include?(k)}
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
-        flash[:success] = t('deployments.flash.success.updated', :list => @deployment.name)
+        flash[:success] = _("The Deployment %s was successfully updated.") % @deployment.name
         format.html { redirect_to @deployment }
         format.js { render :partial => 'properties' }
         format.json { render :json => @deployment }
       else
-        flash[:error] = t('deployments.flash.error.not_updated', :list => @deployment.name)
+        flash[:error] = _("The Deployment %s could not be updated.") % @deployment.name
         format.html { render :action => :edit }
         format.js { render :partial => 'edit' }
         format.json { render :json => @deployment.errors, :status => :unprocessable_entity }
@@ -300,8 +300,7 @@ class DeploymentsController < ApplicationController
 
       format.html do
         if errors.empty?
-          flash[:success] = t('deployments.flash.success.deleted',
-                              :list => deployment.name, :count => 1)
+          flash[:success] = _("The Deployment %s was scheduled for deletion.") % deployment.name
         elsif cant_stop
           flash[:error] = {:summary => _("The Deployment %s can not be deleted because following instances can not be stopped:") % deployment.name,
                            :failures => errors}
@@ -338,10 +337,7 @@ class DeploymentsController < ApplicationController
         elsif errors.present?
           flash[:error] = errors
         end
-        flash[:success] = t('deployments.flash.success.deleted',
-                            :list => destroyed.to_sentence,
-                            :count => destroyed.size) if destroyed.present?
-
+        flash[:success] = n_("The Deployment %s was scheduled for deletion.","The Deployments %s were scheduled for deletion.",destroyed.size) % destroyed.to_sentence if destroyed.present?
         redirect_to params[:backlink] ||
           pools_url(:view => 'filter', :details_tab => 'deployments')
       end

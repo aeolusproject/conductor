@@ -4,7 +4,7 @@
     %td= @instance.name
   %tr
     %td= _("Status")
-    %td= t("instances.states.#{@instance.state}")
+    %td= _(@instance.state)
   %tr
     %td= _("Public Addresses")
     %td= @instance.public_addresses

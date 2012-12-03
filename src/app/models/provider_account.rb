@@ -77,6 +77,14 @@ class ProviderAccount < ActiveRecord::Base
   # will result in an exception.
   attr_protected :credentials_hash
 
+  N_("Username")
+  N_("Password")
+  N_("Access Key")
+  N_("Secret Access Key")
+  N_("Account Number")
+  N_("Key")
+  N_("Certificate")
+
   # Validations
   validates :label, :presence => true,
                     :uniqueness => true,
@@ -143,7 +151,7 @@ class ProviderAccount < ActiveRecord::Base
 
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
-      errors.add(:base, "#{I18n.t("provider_accounts.credentials.labels.#{cd.label}")}" + _("can't be blank")) if credentials_hash[cd.name].blank?
+      errors.add(:base, _(cd.label.capitalize) + " " +_("can't be blank")) if credentials_hash[cd.name].blank?
     end
   end
 

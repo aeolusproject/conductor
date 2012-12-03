@@ -67,7 +67,7 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       if @catalog.save
         format.html do
-          flash[:notice] = t('catalogs.flash.notice.created')
+          flash[:notice] = _("Catalog created")
           redirect_to catalogs_path and return
         end
         format.xml do
@@ -105,7 +105,7 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       if @catalog.update_attributes(params[:catalog])
         format.html do
-          flash[:notice] = t('catalogs.flash.notice.updated')
+          flash[:notice] = _("Catalog updated successfully")
           redirect_to catalogs_url
         end
         format.xml do
@@ -142,11 +142,11 @@ class CatalogsController < ApplicationController
         not_deleted_perms << catalog.name
       end
     end
-    flash[:notice] = t("catalogs.flash.notice.deleted", :count => deleted.count, :deleted => deleted.join(', ')) unless deleted.empty?
+    flash[:notice] = n_("Catalog %{deleted} deleted","%{count} Catalogs %{deleted} deleted",deleted.count) % {:deleted => deleted.join(', '), :count => deleted.count} unless deleted.empty?
     unless not_deleted.empty? and not_deleted_perms.empty?
       flasherr = []
-      flasherr = t("catalogs.flash.error.not_deleted", :count => not_deleted.count, :not_deleted => not_deleted.join(', ')) unless not_deleted.empty?
-      flasherr = t("catalogs.flash.error.not_deleted_perms", :count => not_deleted_perms.count, :not_deleted => not_deleted_perms.join(', ')) unless not_deleted_perms.empty?
+      flasherr = n_("Catalog %{not_deleted} cannot be deleted. At least one Deployable has a reference to this Catalog.", "These Catalogs %{not_deleted} cannot be deleted. Some Deployables still have references to these Catalogs.",not_deleted.count) % {:not_deleted => not_deleted.join(', ')} unless not_deleted.empty?
+      flasherr = n_("Insufficient permissions to delete Catalog %{not_deleted}","Insufficient permissions to delete %{count} Catalogs %{not_deleted}",not_deleted_perms.count) % {:count => not_deleted_perms.count,:not_deleted => not_deleted_perms.join(', ')} unless not_deleted_perms.empty?
       flash[:error] = flasherr
     end
     redirect_to catalogs_path

@@ -476,11 +476,11 @@ class Deployment < ActiveRecord::Base
     json = super(options).merge({
       :deployable_xml_name => deployable_xml.name,
       :status => state,
-      :translated_state => I18n.t("deployments.status.#{state}"),
-      :status_description => I18n.t("deployments.status_description.#{state}"),
+      :translated_state => _(state),
+      :status_description => state_description,
       :instances_count => instances.count,
       :failed_instances_count => failed_instances.count,
-      :instances_count_text => I18n.t('instances.instances', :count => instances.count.to_i),
+      :instances_count_text => n_("Instance","Instances",instances.count),
       :uptime => ApplicationHelper.count_uptime(uptime_1st_instance),
       :pool => {
         :name => pool.name,
@@ -530,6 +530,31 @@ class Deployment < ActiveRecord::Base
                               instance_ids, self.id],
               :order => "created_at ASC")
 
+  end
+
+  def state_description
+    case state
+      when STATE_NEW
+        _("Deployment wasn't started")
+      when STATE_PENDING
+        _("Deployment is starting up")
+      when STATE_RUNNING
+        _("All Instances are running")
+      when STATE_INCOMPLETE
+        _("Some Instances are not running")
+      when STATE_SHUTTING_DOWN
+        _("Deployment is shutting down")
+      when STATE_STOPPED
+        _("All Instances are stopped")
+      when STATE_FAILED
+        _("All Instances are in failed state")
+      when STATE_ROLLBACK_IN_PROGRESS
+        _("Launch failed, rollback is in progress")
+      when STATE_ROLLBACK_COMPLETE
+        _("Rollback successfully completed")
+      when STATE_ROLLBACK_FAILED
+        _("Rollback failed, re-launch terminated")
+    end
   end
 
   PRESET_FILTERS_OPTIONS = [

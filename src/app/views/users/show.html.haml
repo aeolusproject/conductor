@@ -51,7 +51,7 @@
     = filter_table(@groups_header, @user_groups) do |user_group|
       %tr{:class => cycle('nostripe','stripe')}
         %td= link_to user_group.name, user_group_path(user_group)
-        %td= t("user_groups.#{user_group.membership_source.downcase}")
+        %td= _(user_group.membership_source)
 %section.content-section.permissions
   %header
     %h2.permissions=_("Permissions")

@@ -307,11 +307,11 @@ class PoolsController < ApplicationController
       end
     end
 
-    flash[:success] = t('pools.flash.success.pool_deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
+    flash[:success] = n_("Pool %s was deleted.","Pools %s were deleted.",destroyed.size) % destroyed.to_sentence if destroyed.present?
     if permission_failed.any?
       flash[:error] = _("You have insufficient privileges to perform the selected action.")
     elsif failed.any?
-      flash[:error] = t('pools.flash.error.pool_not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
+      flash[:error] = n_("Pool %s was not deleted. There are Instances associated with it.","Pools %s were not deleted. They have Instances associated with them.",failed.size) % failed.to_sentence if failed.present?
     end
     flash[:warning] = error_messages if error_messages.present?
     respond_to do |format|
@@ -356,10 +356,10 @@ class PoolsController < ApplicationController
     end
 
     unless destroyed.empty?
-      flash[:notice] = t('pools.flash.success.pool_deleted', :count => destroyed.length, :list => destroyed.join(', '))
+      flash[:notice] = n_("Pool %s was deleted.","Pools %s were deleted.",destroyed.size) % destroyed.to_sentence
     end
     unless failed.empty?
-      error_messages << t('pools.flash.error.pool_not_deleted', :count => failed.length, :list => failed.join(', '))
+      error_messages <<  n_("Pool %s was not deleted. There are Instances associated with it.","Pools %s were not deleted. They have Instances associated with them.",failed.size) % failed.to_sentence
     end
     unless permission_failed.empty?
       error_messages << _("You have insufficient privileges to perform the selected action.")

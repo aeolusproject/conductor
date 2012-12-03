@@ -197,10 +197,10 @@ class HardwareProfilesController < ApplicationController
     end
 
     unless deleted.empty?
-      flash[:notice] = t('hardware_profiles.flash.notice.more_deleted', :count => deleted.count, :deleted => deleted.join(', '))
+      flash[:notice] = n_("Hardware Profile %s was deleted.","Hardware Profiles %s were deleted.",deleted.count) % deleted.join(', ')
     end
     unless not_deleted.empty?
-      flash[:error] = t('hardware_profiles.flash.error.not_deleted_perms', :count => not_deleted.count, :not_deleted => not_deleted.join(', '))
+      flash[:error] = n_("Insufficient permissions to delete hardware profile %{not_deleted}","Insufficient permissions to remove %{count} hardware profiles %{not_deleted}",not_deleted.count) % {:count => not_deleted.count, :not_deleted => not_deleted.join(', ')}
     end
 
     redirect_to hardware_profiles_path

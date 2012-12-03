@@ -2,7 +2,7 @@
   %tbody
   -@deployment.properties.each do |key, value|
     %tr
-      %td= t "deployments.properties.#{key}"
+      %td= _("#{key}".capitalize)
       %td=value
   %tr
     %td= _("Global Uptime")

@@ -273,7 +273,7 @@ class ApplicationController < ActionController::Base
       breadcrumbs.slice!(index, breadcrumbs.length)
     end
     read_breadcrumbs
-    name = t("breadcrumbs.#{name}") if self.controller_name.eql?(name)
+    name = _(name) if self.controller_name.eql?(name)
     breadcrumbs.push({:name => name, :path => path, :viewstate => viewstate, :class => self.controller_name})
 
     session[:breadcrumbs] = breadcrumbs

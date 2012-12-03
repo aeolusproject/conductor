@@ -126,7 +126,7 @@ class UserGroupsController < ApplicationController
       end
 
       unless deleted_user_groups.empty?
-        flash[:notice] =  "#{t('user_groups.flash.notice.more_deleted', :count => deleted_user_groups.length)} #{deleted_user_groups.join(', ')}"
+        flash[:notice] =  n_("Deleted user group","Deleted user groups",deleted_user_groups.length)
       end
 
     rescue => ex

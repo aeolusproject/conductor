@@ -77,12 +77,12 @@ class InstancesController < ApplicationController
     params[:instance].each_pair{|k,v| attrs[k] = v if Instance::USER_MUTABLE_ATTRS.include?(k)}
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @instance) and @instance.update_attributes(attrs)
-        flash[:success] = t('instances.flash.success.updated', :list => @instance.name)
+        flash[:success] = _("The Instance %s was successfully updated.") % @instance.name
         format.html { redirect_to @instance }
         format.js { render :partial => 'properties' }
         format.json { render :json => @instance }
       else
-        flash[:error] = t('instances.flash.error.not_updated', :list => @instance.name)
+        flash[:error] = _("The Instance %s could not be updated.") % @instance.name
         format.html { render :action => :edit }
         format.js { render :partial => 'edit' }
         format.json { render :json => @instance.errors, :status => :unprocessable_entity }
@@ -101,8 +101,8 @@ class InstancesController < ApplicationController
         failed << instance.name
       end
     end
-    flash[:success] = t('instances.flash.success.deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
-    flash[:error] = t('instances.flash.error.not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
+    flash[:success] = n_("The Instance %s was successfully deleted.","The Instances %s were successfully deleted.",destroyed.size) % destroyed.to_sentence  if destroyed.present?
+    flash[:error] = n_("The Instance %s could not be deleted.","The Instances %s could not be deleted.",failed.size) % failed.to_sentence if failed.present?
     respond_to do |format|
       # FIXME: _list does not show flash messages, but I'm not sure that showing _list is proper anyway
       format.html { render :action => :show }
@@ -287,9 +287,23 @@ class InstancesController < ApplicationController
   def do_operation(operation)
     begin
       @instance.send(operation, current_user)
-      flash[:notice] = t("instances.flash.notice.#{operation}", :name => @instance.name)
+      flash[:notice] =
+          case operation
+            when :forced_stop
+              _("state changed to stopped.")
+            when :stop
+              _("stop action was successfully queued.")
+            when :reboot
+              _("%s: reboot action was successfully queued.") % @instance.name
+          end
     rescue Exception => err
-      flash[:error] = t("instances.flash.error.#{operation}", :name => @instance.name, :err => err)
+      flash[:error] =
+          case operation
+            when :stop
+              _("The Instance %{name} was not stopped because %{err}") % {:name => @instance.name, :err => err}
+            when :reboot
+              _("The Instance %{name} was not rebooted because %{err}") % {:name => @instance.name, :err => err}
+          end
     end
     respond_to do |format|
       format.html { redirect_to deployment_path(@instance.deployment, :details_tab => 'instances') }

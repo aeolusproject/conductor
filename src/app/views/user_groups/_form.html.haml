@@ -1,4 +1,4 @@
-= form.input :membership_source, :collection => UserGroup.active_membership_sources.collect {|x| [t("user_groups.#{x.downcase}"), x]},
+= form.input :membership_source, :collection => UserGroup.active_membership_sources.collect {|x| [_(x), x]},
                                  :readonly => !@user_group.new_record?, :input_html => {:disabled => !@user_group.new_record?}
 = form.input :name, :readonly => !@user_group.new_record? && !@user_group.membership_source == UserGroup::MEMBERSHIP_SOURCE_LOCAL
 = form.input :description, :input_html => { :rows => 2 }
