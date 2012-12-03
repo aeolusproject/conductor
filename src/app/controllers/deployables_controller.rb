@@ -308,6 +308,17 @@ class DeployablesController < ApplicationController
           redirect_to deployables_path
         end
       end
+
+      format.xml do
+        if deployable.destroyed?
+          render :text => '', :status => :no_content
+        else
+          # TODO: this is wrong'n'ugly, please come with smtg better
+          render :xml => "<error>\n<code>Forbidden</code>\n<message>\
+#{t('deployables.flash.error.not_deleted.one', :not_deleted => deployable.name)}\
+</message></error>", :status => :forbidden
+        end
+      end
     end
   end
 
