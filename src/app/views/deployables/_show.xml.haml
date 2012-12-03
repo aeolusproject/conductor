@@ -1,0 +1,16 @@
+!!! XML
+%deployable{:id => deployable.id, :href => deployable_url(deployable)}
+  %name= deployable.name
+  %description= deployable.description
+  %xml
+    :cdata
+      "#{deployable.xml}"
+  %xml_filename= deployable.xml_filename
+  %owner{:id => deployable.owner.id, :href => user_url(deployable.owner)}
+  %catalog{:id => catalog.id, :href=>catalog_url(catalog)}
+  %pool_family{:id => deployable.pool_family.id,
+  :href => pool_family_url(deployable.pool_family)}
+  %images
+    - images.each do |image|
+      %image{:id => image.id, :href => images_url(images)}
+
