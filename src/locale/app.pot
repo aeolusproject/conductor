@@ -1,0 +1,2903 @@
+#   Copyright 2012 Red Hat, Inc.
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: version 0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-04 18:59+0100\n"
+"PO-Revision-Date: 2012-11-27 21:44+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+msgid "%s"
+msgstr ""
+
+msgid "%s (Front End)"
+msgstr ""
+
+msgid "%s (Provider)"
+msgstr ""
+
+msgid "%s Deployment"
+msgstr ""
+
+msgid "%s Pool"
+msgstr ""
+
+msgid "%s Pool details &raquo;"
+msgstr ""
+
+msgid "%s failed build attempt"
+msgid_plural "%s failed build attempts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s failed push attempt"
+msgid_plural "%s failed push attempts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s has running instances"
+msgstr ""
+
+msgid "%s pushed to %s"
+msgstr ""
+
+msgid "%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm"
+msgstr ""
+
+msgid "%s: Hardware Profile match not found"
+msgstr ""
+
+msgid "%s: Image (UUID: %s) doesn't exist"
+msgstr ""
+
+msgid "%s: Image is not pushed to this Provider Account"
+msgstr ""
+
+msgid "%s: Provider Account quota reached"
+msgstr ""
+
+msgid "%s: Provider is not available"
+msgstr ""
+
+msgid "%s: Provider must be enabled"
+msgstr ""
+
+msgid "%s: You have insufficient privileges to perform the selected action."
+msgstr ""
+
+msgid "%s: no Config Server available for Provider Account"
+msgstr ""
+
+msgid "%s: reboot action was successfully queued."
+msgstr ""
+
+msgid "%{count} Image deleted"
+msgid_plural "%{count} Images deleted"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "&#8592; Previous"
+msgstr ""
+
+msgid "'From date' cannot be after 'To date'"
+msgstr ""
+
+msgid "(uniquely identifies your Deployment)"
+msgstr ""
+
+msgid "-"
+msgstr ""
+
+msgid "-- No Catalogs --"
+msgstr ""
+
+msgid "A request has been received by Conductor server %s to retrieve the logins for email %s. The following is a list of those logins:"
+msgstr ""
+
+msgid "A request has been received to reset the Conductor password for user %s. In order to reset this password, click the URL below."
+msgstr ""
+
+msgid "ARCH"
+msgstr ""
+
+msgid "Access Key"
+msgstr ""
+
+msgid "Access denied"
+msgstr ""
+
+msgid "Account %s was added."
+msgstr ""
+
+msgid "Account %s was deleted."
+msgid_plural "Accounts %s were deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Account %s was not deleted: %s"
+msgstr ""
+
+msgid "Account Name"
+msgstr ""
+
+msgid "Account Number"
+msgstr ""
+
+msgid "Account number"
+msgstr ""
+
+msgid "Account: %s"
+msgstr ""
+
+msgid "Accounts"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Action Error"
+msgstr ""
+
+msgid "Active Inst."
+msgstr ""
+
+msgid "Activity"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Add Account"
+msgstr ""
+
+msgid "Add Members"
+msgstr ""
+
+msgid "Add New Catalog"
+msgstr ""
+
+msgid "Add New Deployable"
+msgstr ""
+
+msgid "Add User"
+msgstr ""
+
+msgid "Add User Group"
+msgstr ""
+
+msgid "Add mapping to Provider"
+msgstr ""
+
+msgid "Add mapping to Provider Realm"
+msgstr ""
+
+msgid "Add new"
+msgstr ""
+
+msgid "Add new Priority Group"
+msgstr ""
+
+msgid "Added the following User Roles: %s"
+msgstr ""
+
+msgid "Aeolus Conductor"
+msgstr ""
+
+msgid "Alerts"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "All Accounts"
+msgstr ""
+
+msgid "All Catalogs"
+msgstr ""
+
+msgid "All Deployables"
+msgstr ""
+
+msgid "All Deployments"
+msgstr ""
+
+msgid "All Entities"
+msgstr ""
+
+msgid "All Event Types"
+msgstr ""
+
+msgid "All Hardware Profiles"
+msgstr ""
+
+msgid "All Images are pushed and recent."
+msgstr ""
+
+msgid "All Instances"
+msgstr ""
+
+msgid "All Instances are in failed state"
+msgstr ""
+
+msgid "All Instances are running"
+msgstr ""
+
+msgid "All Instances are stopped"
+msgstr ""
+
+msgid "All Instances must be stopped or running"
+msgstr ""
+
+msgid "All Permissions"
+msgstr ""
+
+msgid "All Pools"
+msgstr ""
+
+msgid "All Providers"
+msgstr ""
+
+msgid "All Realms"
+msgstr ""
+
+msgid "All States"
+msgstr ""
+
+msgid "All User Groups"
+msgstr ""
+
+msgid "All User Roles already set; no changes needed"
+msgstr ""
+
+msgid "All Users"
+msgstr ""
+
+msgid "Already uploaded. Reupload?"
+msgstr ""
+
+msgid "An error occurred when checking Provider credentials. Please check your setup and try again."
+msgstr ""
+
+msgid "Apply filters"
+msgstr ""
+
+msgid "Architecture"
+msgstr ""
+
+msgid "Are you sure you want to delete this Config Server?"
+msgstr ""
+
+msgid "Are you sure you want to delete this Deployment?"
+msgstr ""
+
+msgid "Are you sure you want to delete this Environment? All related Pools, Catalogs, and Deployables will be deleted."
+msgstr ""
+
+msgid "Are you sure you want to delete this Pool? All related Catalogs and Deployables will also be deleted."
+msgstr ""
+
+msgid "Are you sure you want to delete this Provider?"
+msgstr ""
+
+msgid "Are you sure you want to delete this priority group?"
+msgstr ""
+
+msgid "Are you sure you want to delete this role?"
+msgstr ""
+
+msgid "Are you sure you want to delete this user?"
+msgstr ""
+
+msgid "Are you sure you want to delete?"
+msgstr ""
+
+msgid "Are you sure you want to proceed?"
+msgstr ""
+
+msgid "Are you sure you wish to deploy %s to the %s Pool?"
+msgstr ""
+
+msgid "Assembly"
+msgstr ""
+
+msgid "Assembly %s, service %s, parameter %s references not existing Assembly %s"
+msgstr ""
+
+msgid "Assembly %s, service %s, parameter %s references not existing Assembly %s, service %s"
+msgstr ""
+
+msgid "Assembly %s, service %s, parameter %s references param %s which is not returned by Assembly %s"
+msgstr ""
+
+msgid "Assembly hardware profile architecture (%s) doesn't match image hardware profile architecture (%s)."
+msgstr ""
+
+msgid "Attempting to launch this deployment on provider account %s"
+msgstr ""
+
+msgid "Auto-select"
+msgstr ""
+
+msgid "Available"
+msgstr ""
+
+msgid "Available Inst."
+msgstr ""
+
+msgid "Available Strategies"
+msgstr ""
+
+msgid "Available?"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Base Deployable"
+msgstr ""
+
+msgid "Base permission object"
+msgstr ""
+
+msgid "BasePermissionObject|Name"
+msgstr ""
+
+msgid "Basic Data"
+msgstr ""
+
+msgid "Build Status"
+msgstr ""
+
+msgid "CREATED BY"
+msgstr ""
+
+msgid "Can not destroy following pools: %s."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Cancel Editing"
+msgstr ""
+
+msgid "Cannot add the Provider Account."
+msgstr ""
+
+msgid "Cannot add the Provider."
+msgstr ""
+
+msgid "Cannot check if provider name is right. Please check config file"
+msgstr ""
+
+msgid "Cannot connect to the Config Server"
+msgstr ""
+
+msgid "Cannot delete %s : You are logged in as this user"
+msgstr ""
+
+msgid "Cannot delete Provider Hardware Profiles"
+msgstr ""
+
+msgid "Cannot delete: %s"
+msgstr ""
+
+msgid "Cannot edit LDAP user"
+msgstr ""
+
+msgid "Cannot launch a Deployment in this Pool. The Pool has been disabled."
+msgstr ""
+
+msgid "Cannot modify Provider Hardware Profiles"
+msgstr ""
+
+msgid "Cannot update the Provider."
+msgstr ""
+
+msgid "Catalog"
+msgstr ""
+
+msgid "Catalog %{deleted} deleted"
+msgid_plural "%{count} Catalogs %{deleted} deleted"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Catalog %{not_deleted} cannot be deleted. At least one Deployable has a reference to this Catalog."
+msgid_plural "These Catalogs %{not_deleted} cannot be deleted. Some Deployables still have references to these Catalogs."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Catalog Name"
+msgstr ""
+
+msgid "Catalog cannot be deleted. At least one Deployable has a reference to this Catalog."
+msgstr ""
+
+msgid "Catalog created"
+msgstr ""
+
+msgid "Catalog deleted"
+msgstr ""
+
+msgid "Catalog updated successfully"
+msgstr ""
+
+msgid "Catalogs"
+msgstr ""
+
+msgid "Catalog|Name"
+msgstr ""
+
+msgid "Certificate"
+msgstr ""
+
+msgid "Change Password"
+msgstr ""
+
+msgid "Check Matches"
+msgstr ""
+
+msgid "Choose Deployable XML file"
+msgstr ""
+
+msgid "Choose Provider Accounts to enable for this Environment"
+msgstr ""
+
+msgid "Choose Users to add to this Group."
+msgstr ""
+
+msgid "Choose a Catalog to enable access:"
+msgstr ""
+
+msgid "Choose a Deployable to launch in the %s Pool"
+msgstr ""
+
+msgid "Choose a Provider:"
+msgstr ""
+
+msgid "Choose an Image Template file:"
+msgstr ""
+
+msgid "Choose global role assignments for users"
+msgstr ""
+
+msgid "Choose one of the following options to upload or import an image into the %s Environment."
+msgstr ""
+
+msgid "Choose roles for users you would like to grant access to this"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Cloud Providers"
+msgstr ""
+
+msgid "Cloud type: "
+msgstr ""
+
+msgid "Conductor Usernames"
+msgstr ""
+
+msgid "Conductor could not connect to Image Factory. Please verify that Image Factory is running and is correctly configured."
+msgstr ""
+
+msgid "Config Parameters"
+msgstr ""
+
+msgid "Config Server"
+msgstr ""
+
+msgid "Config Server added."
+msgstr ""
+
+msgid "Config Server updated."
+msgstr ""
+
+msgid "Config Server was deleted."
+msgstr ""
+
+msgid "Config Server was not deleted."
+msgstr ""
+
+msgid "Config Server was not updated."
+msgstr ""
+
+msgid "Config server"
+msgstr ""
+
+msgid "ConfigServer|Endpoint"
+msgstr ""
+
+msgid "ConfigServer|Key"
+msgstr ""
+
+msgid "ConfigServer|Secret"
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Configure launch-time parameters for your Deployment:"
+msgstr ""
+
+msgid "Confirm Password"
+msgstr ""
+
+msgid "Connectivity"
+msgstr ""
+
+msgid "Console Connection"
+msgstr ""
+
+msgid "Contains cyclic reference between following Assemblies or services: %s"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid "Could not add these User Roles: %s"
+msgstr ""
+
+msgid "Could not connect to Provider Account.  Please contact an Administrator."
+msgstr ""
+
+msgid "Could not delete these Permission Grants: %s"
+msgstr ""
+
+msgid "Could not delete user group"
+msgstr ""
+
+msgid "Could not find Build %s"
+msgstr ""
+
+msgid "Could not find Image %s"
+msgstr ""
+
+msgid "Could not find Image %s on Provider"
+msgstr ""
+
+msgid "Could not find Provider Account for name %s"
+msgstr ""
+
+msgid "Could not find ProviderImage %s"
+msgstr ""
+
+msgid "Could not find Target %s"
+msgstr ""
+
+msgid "Could not find TargetImage %s"
+msgstr ""
+
+msgid "Could not find an appropriate target image for account %s"
+msgstr ""
+
+msgid "Could not find any matching Target Images"
+msgstr ""
+
+msgid "Could not find status for ProviderImage %s"
+msgstr ""
+
+msgid "Could not find status for TargetImage %s"
+msgstr ""
+
+msgid "Could not push TargetImage %s to %s and error %s"
+msgstr ""
+
+msgid "Could not update quota. Please check you have entered valid values"
+msgstr ""
+
+msgid "Could not update the default quota"
+msgstr ""
+
+msgid "Create New Pool"
+msgstr ""
+
+msgid "Create New Provider"
+msgstr ""
+
+msgid "Create New Realm"
+msgstr ""
+
+msgid "Create Priority Group"
+msgstr ""
+
+msgid "Create a new Realm Mapping"
+msgstr ""
+
+msgid "Created"
+msgstr ""
+
+msgid "Created At"
+msgstr ""
+
+msgid "Credential"
+msgstr ""
+
+msgid "Credential definition"
+msgstr ""
+
+msgid "CredentialDefinition|Input type"
+msgstr ""
+
+msgid "CredentialDefinition|Label"
+msgstr ""
+
+msgid "CredentialDefinition|Name"
+msgstr ""
+
+msgid "Credentials"
+msgstr ""
+
+msgid "Credential|Value"
+msgstr ""
+
+msgid "Current Alerts"
+msgstr ""
+
+msgid "Default Hardware Profile"
+msgstr ""
+
+msgid "Default user settings"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete Account"
+msgstr ""
+
+msgid "Delete Provider"
+msgstr ""
+
+msgid "Delete Selected"
+msgstr ""
+
+msgid "Deleted the following Permission Grants: %s"
+msgstr ""
+
+msgid "Deleted user"
+msgid_plural "Deleted users"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Deleted user group"
+msgid_plural "Deleted user groups"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Deploy %s to %s Pool?"
+msgstr ""
+
+msgid "Deployable"
+msgstr ""
+
+msgid "Deployable %s removal failed."
+msgstr ""
+
+msgid "Deployable %s removed successfully."
+msgstr ""
+
+msgid "Deployable %{deleted} removed successfully."
+msgid_plural "%{count} Deployables %{deleted} were removed."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Deployable %{not_deleted} removal failed."
+msgid_plural "%{count} Deployables %{not_deleted} were not removed."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Deployable XML"
+msgstr ""
+
+msgid "Deployable Xml"
+msgstr ""
+
+msgid "Deployable added to Catalog %s."
+msgstr ""
+
+msgid "Deployable removed from Catalog %s."
+msgstr ""
+
+msgid "Deployable updated successfully"
+msgstr ""
+
+msgid "Deployable was not created."
+msgstr ""
+
+msgid "Deployable was not created: %s"
+msgstr ""
+
+msgid "Deployables"
+msgstr ""
+
+msgid "Deployables List"
+msgstr ""
+
+msgid "Deployable|Description"
+msgstr ""
+
+msgid "Deployable|Name"
+msgstr ""
+
+msgid "Deployable|Xml"
+msgstr ""
+
+msgid "Deployable|Xml filename"
+msgstr ""
+
+msgid "Deployed on"
+msgstr ""
+
+msgid "Deployment"
+msgstr ""
+
+msgid "Deployment Details"
+msgstr ""
+
+msgid "Deployment Name"
+msgstr ""
+
+msgid "Deployment is shutting down"
+msgstr ""
+
+msgid "Deployment is starting up"
+msgstr ""
+
+msgid "Deployment launch failed."
+msgstr ""
+
+msgid "Deployment launched."
+msgstr ""
+
+msgid "Deployment wasn't started"
+msgstr ""
+
+msgid "Deployment/Instance"
+msgstr ""
+
+msgid "Deployments"
+msgstr ""
+
+msgid "Deployment|Deleted at"
+msgstr ""
+
+msgid "Deployment|Deployable xml"
+msgstr ""
+
+msgid "Deployment|Lock version"
+msgstr ""
+
+msgid "Deployment|Name"
+msgstr ""
+
+msgid "Deployment|Partial launch"
+msgstr ""
+
+msgid "Deployment|Scheduled for deletion"
+msgstr ""
+
+msgid "Deployment|State"
+msgstr ""
+
+msgid "Deployment|Uuid"
+msgstr ""
+
+msgid "Derived permission"
+msgstr ""
+
+msgid "DerivedPermission|Lock version"
+msgstr ""
+
+msgid "DerivedPermission|Permission object type"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Destroy"
+msgstr ""
+
+msgid "Destroy cannot be performed on this instance."
+msgstr ""
+
+msgid "Destroy of %s failed with exception: %s"
+msgstr ""
+
+msgid "Details"
+msgstr ""
+
+msgid "Direct Access"
+msgstr ""
+
+msgid "Disable Provider? All it's instances will be stopped."
+msgstr ""
+
+msgid "Doing so will utilize %s of your overall Deployment quota."
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Download of XML file failed"
+msgstr ""
+
+msgid "E-mail Address"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit %s strategy"
+msgstr ""
+
+msgid "Edit Account"
+msgstr ""
+
+msgid "Edit Account: %s"
+msgstr ""
+
+msgid "Edit Catalog"
+msgstr ""
+
+msgid "Edit Config Server"
+msgstr ""
+
+msgid "Edit Deployable XML"
+msgstr ""
+
+msgid "Edit Deployment"
+msgstr ""
+
+msgid "Edit Hardware Profile"
+msgstr ""
+
+msgid "Edit Instance"
+msgstr ""
+
+msgid "Edit Pool"
+msgstr ""
+
+msgid "Edit Priority Group"
+msgstr ""
+
+msgid "Edit Provider Account"
+msgstr ""
+
+msgid "Edit Quota for"
+msgstr ""
+
+msgid "Edit Strict Order Strategy"
+msgstr ""
+
+msgid "Edit User"
+msgstr ""
+
+msgid "Edit User Group"
+msgstr ""
+
+msgid "Edit XML"
+msgstr ""
+
+msgid "Edit XML file after save"
+msgstr ""
+
+msgid "Edit this file before saving:"
+msgstr ""
+
+msgid "Editing Catalog"
+msgstr ""
+
+msgid "Editing Deployable"
+msgstr ""
+
+msgid "Editing Provider"
+msgstr ""
+
+msgid "Editing Role:"
+msgstr ""
+
+msgid "Email Address"
+msgstr ""
+
+msgid "Enable Provider?"
+msgstr ""
+
+msgid "Enabled"
+msgstr ""
+
+msgid "Enter your username and email address below and instructions on resetting your password will be sent to you."
+msgstr ""
+
+msgid "Entity"
+msgstr ""
+
+msgid "Entity|Entity target type"
+msgstr ""
+
+msgid "Entity|Lock version"
+msgstr ""
+
+msgid "Entity|Name"
+msgstr ""
+
+msgid "Environment"
+msgstr ""
+
+msgid "Environment %s was not found."
+msgstr ""
+
+msgid "Environment Quota Used"
+msgstr ""
+
+msgid "Environment parameter is required."
+msgstr ""
+
+msgid "Environment quota reached"
+msgstr ""
+
+msgid "Environment was added."
+msgstr ""
+
+msgid "Environment was deleted."
+msgstr ""
+
+msgid "Environment was updated."
+msgstr ""
+
+msgid "Environment: %s"
+msgstr ""
+
+msgid "Environment: %{environment}"
+msgstr ""
+
+msgid "Environments"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Error, could not calculate state time: invalid state"
+msgstr ""
+
+msgid "Error, could not calculate state time: state is not monitored"
+msgstr ""
+
+msgid "Errors (Current)"
+msgstr ""
+
+msgid "Errors (Historical)"
+msgstr ""
+
+msgid "Event"
+msgstr ""
+
+msgid "Event|Deleted at"
+msgstr ""
+
+msgid "Event|Description"
+msgstr ""
+
+msgid "Event|Event time"
+msgstr ""
+
+msgid "Event|Source type"
+msgstr ""
+
+msgid "Event|Status code"
+msgstr ""
+
+msgid "Event|Summary"
+msgstr ""
+
+msgid "Export events"
+msgstr ""
+
+msgid "Export logs"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "Failed Inst."
+msgstr ""
+
+msgid "Failed Logins"
+msgstr ""
+
+msgid "Failed to connect to Provider"
+msgstr ""
+
+msgid "Failed to disable %s strategy"
+msgstr ""
+
+msgid "Failed to enable %s strategy"
+msgstr ""
+
+msgid "Failed to launch deployment"
+msgstr ""
+
+msgid "Failed to populate Realms: %s"
+msgstr ""
+
+msgid "Failed to populate hardware_profiles: %s"
+msgstr ""
+
+msgid "Finalize"
+msgstr ""
+
+msgid "First Name"
+msgstr ""
+
+msgid "Forgot %s or %s?"
+msgstr ""
+
+msgid "Forgot Username or Password?"
+msgstr ""
+
+msgid "From"
+msgstr ""
+
+msgid "From URL"
+msgstr ""
+
+msgid "Frontend Realm"
+msgstr ""
+
+msgid "Frontend realm"
+msgstr ""
+
+msgid "FrontendRealm|Description"
+msgstr ""
+
+msgid "FrontendRealm|Lock version"
+msgstr ""
+
+msgid "FrontendRealm|Name"
+msgstr ""
+
+msgid "Global"
+msgstr ""
+
+msgid "Global Access"
+msgstr ""
+
+msgid "Global Role Grants"
+msgstr ""
+
+msgid "Global Uptime"
+msgstr ""
+
+msgid "Grant Access"
+msgstr ""
+
+msgid "Grouped By"
+msgstr ""
+
+msgid "Groups"
+msgstr ""
+
+msgid "HDD"
+msgstr ""
+
+msgid "HW Profiles"
+msgstr ""
+
+msgid "Hardware"
+msgstr ""
+
+msgid "Hardware Profile"
+msgstr ""
+
+msgid "Hardware Profile %s was deleted."
+msgid_plural "Hardware Profiles %s were deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Hardware Profile %s, which is specified in XML, does not exist."
+msgstr ""
+
+msgid "Hardware Profile Name"
+msgstr ""
+
+msgid "Hardware Profile updated"
+msgstr ""
+
+msgid "Hardware Profiles"
+msgstr ""
+
+msgid "Hardware profile"
+msgstr ""
+
+msgid "Hardware profile property"
+msgstr ""
+
+msgid "Hardware profile was deleted"
+msgstr ""
+
+msgid "Hardware profile was not deleted"
+msgstr ""
+
+msgid "HardwareProfileProperty|Kind"
+msgstr ""
+
+msgid "HardwareProfileProperty|Lock version"
+msgstr ""
+
+msgid "HardwareProfileProperty|Name"
+msgstr ""
+
+msgid "HardwareProfileProperty|Range first"
+msgstr ""
+
+msgid "HardwareProfileProperty|Range last"
+msgstr ""
+
+msgid "HardwareProfileProperty|Unit"
+msgstr ""
+
+msgid "HardwareProfileProperty|Value"
+msgstr ""
+
+msgid "HardwareProfile|External key"
+msgstr ""
+
+msgid "HardwareProfile|Lock version"
+msgstr ""
+
+msgid "HardwareProfile|Name"
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+msgid "Hook"
+msgstr ""
+
+msgid "Hook|Uri"
+msgstr ""
+
+msgid "Hook|Version"
+msgstr ""
+
+msgid "I remembered my login credentials."
+msgstr ""
+
+msgid "If you did not request this password to be reset, just ignore this email and the password will stay the same."
+msgstr ""
+
+msgid "If you do not know your username, please enter your email address below and your username information will be sent to you."
+msgstr ""
+
+msgid "Ignore Instance errors during launch"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Image Deleted"
+msgstr ""
+
+msgid "Image ID"
+msgstr ""
+
+msgid "Image ID cannot be blank."
+msgstr ""
+
+msgid "Image IDs"
+msgstr ""
+
+msgid "Image Template URL:"
+msgstr ""
+
+msgid "Image UUID"
+msgstr ""
+
+msgid "Image created"
+msgstr ""
+
+msgid "Image not found"
+msgstr ""
+
+msgid "Images"
+msgstr ""
+
+msgid "Images are being built."
+msgstr ""
+
+msgid "Images are being pushed."
+msgstr ""
+
+msgid "Images are not Built"
+msgstr ""
+
+msgid "Images cannot be built. There are no enabled Provider Accounts associated with this Environment."
+msgstr ""
+
+msgid "Images cannot be imported. No Provider Accounts are currently enabled for this Environment."
+msgstr ""
+
+msgid "Images missing from the Image Warehouse"
+msgstr ""
+
+msgid "Import Image"
+msgstr ""
+
+msgid "Imported image can't be built or pushed"
+msgstr ""
+
+msgid "In grabbing list of target images: %s"
+msgstr ""
+
+msgid "Inherited Access"
+msgstr ""
+
+msgid "Inherited From"
+msgstr ""
+
+msgid "Instance"
+msgid_plural "Instances"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Instance Failure"
+msgstr ""
+
+msgid "Instance hwp"
+msgstr ""
+
+msgid "Instance key"
+msgstr ""
+
+msgid "Instance match"
+msgstr ""
+
+msgid "Instance parameter"
+msgstr ""
+
+msgid "InstanceHwp|Architecture"
+msgstr ""
+
+msgid "InstanceHwp|Cpu"
+msgstr ""
+
+msgid "InstanceHwp|Lock version"
+msgstr ""
+
+msgid "InstanceHwp|Memory"
+msgstr ""
+
+msgid "InstanceHwp|Storage"
+msgstr ""
+
+msgid "InstanceKey|Name"
+msgstr ""
+
+msgid "InstanceKey|Pem"
+msgstr ""
+
+msgid "InstanceMatch|Error"
+msgstr ""
+
+msgid "InstanceMatch|Provider image"
+msgstr ""
+
+msgid "InstanceParameter|Name"
+msgstr ""
+
+msgid "InstanceParameter|Service"
+msgstr ""
+
+msgid "InstanceParameter|Value"
+msgstr ""
+
+msgid "Instances"
+msgstr ""
+
+msgid "Instances Quota:"
+msgstr ""
+
+msgid "Instances failed"
+msgstr ""
+
+msgid "Instances pending"
+msgstr ""
+
+msgid "Instance|Acc pending time"
+msgstr ""
+
+msgid "Instance|Acc running time"
+msgstr ""
+
+msgid "Instance|Acc shutting down time"
+msgstr ""
+
+msgid "Instance|Acc stopped time"
+msgstr ""
+
+msgid "Instance|Assembly xml"
+msgstr ""
+
+msgid "Instance|Checked at"
+msgstr ""
+
+msgid "Instance|Deleted at"
+msgstr ""
+
+msgid "Instance|External key"
+msgstr ""
+
+msgid "Instance|Image build uuid"
+msgstr ""
+
+msgid "Instance|Image uuid"
+msgstr ""
+
+msgid "Instance|Instance config xml"
+msgstr ""
+
+msgid "Instance|Last error"
+msgstr ""
+
+msgid "Instance|Lock version"
+msgstr ""
+
+msgid "Instance|Name"
+msgstr ""
+
+msgid "Instance|Private addresses"
+msgstr ""
+
+msgid "Instance|Provider image uuid"
+msgstr ""
+
+msgid "Instance|Public addresses"
+msgstr ""
+
+msgid "Instance|Secret"
+msgstr ""
+
+msgid "Instance|State"
+msgstr ""
+
+msgid "Instance|Time last pending"
+msgstr ""
+
+msgid "Instance|Time last running"
+msgstr ""
+
+msgid "Instance|Time last shutting down"
+msgstr ""
+
+msgid "Instance|Time last stopped"
+msgstr ""
+
+msgid "Instance|User data"
+msgstr ""
+
+msgid "Instance|Uuid"
+msgstr ""
+
+msgid "Instantiation Time"
+msgstr ""
+
+msgid "Instructions for resetting your password have been emailed."
+msgstr ""
+
+msgid "Insufficient permissions to delete Catalog %{not_deleted}"
+msgid_plural "Insufficient permissions to delete %{count} Catalogs %{not_deleted}"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Insufficient permissions to delete hardware profile %{not_deleted}"
+msgid_plural "Insufficient permissions to remove %{count} hardware profiles %{not_deleted}"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Insufficient permissions to remove Deployable %{not_deleted}."
+msgid_plural "Insufficient permissions to remove %{count} Deployables %{not_deleted}."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Insufficient privileges to perform the requested action."
+msgstr ""
+
+msgid "Internal Server Error"
+msgstr ""
+
+msgid "Invalid Image Template: %s"
+msgstr ""
+
+msgid "Invalid Parameters: No Image, Build or TargetImage provided in request"
+msgstr ""
+
+msgid "Invalid parameters for Account: %s TargetImage: %s"
+msgstr ""
+
+msgid "Javascript must be enabled for this application to work properly."
+msgstr ""
+
+msgid "Key"
+msgstr ""
+
+msgid "LDAP"
+msgstr ""
+
+msgid "Last Login"
+msgstr ""
+
+msgid "Last Login IP"
+msgstr ""
+
+msgid "Last Name"
+msgstr ""
+
+msgid "Last Rebuild"
+msgstr ""
+
+msgid "Last Updated"
+msgstr ""
+
+msgid "Latest Build UUID"
+msgstr ""
+
+msgid "Launch"
+msgstr ""
+
+msgid "Launch failed, rollback is in progress"
+msgstr ""
+
+msgid "Legend for X-Deltacloud-Provider"
+msgstr ""
+
+msgid "Local"
+msgstr ""
+
+msgid "Log Out"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Login Information"
+msgstr ""
+
+msgid "Login credentials are invalid for this Provider."
+msgstr ""
+
+msgid "Login form for RHEV-M (not implemented yet)"
+msgstr ""
+
+msgid "Logo"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+msgid "Mapping"
+msgstr ""
+
+msgid "Match not found: %s"
+msgstr ""
+
+msgid "Matching Provider Hardware Profiles"
+msgstr ""
+
+msgid "Max Capacity"
+msgstr ""
+
+msgid "Max Running Instances"
+msgstr ""
+
+msgid "Members"
+msgstr ""
+
+msgid "Memory"
+msgstr ""
+
+msgid "Metadata object"
+msgstr ""
+
+msgid "MetadataObject|Key"
+msgstr ""
+
+msgid "MetadataObject|Lock version"
+msgstr ""
+
+msgid "MetadataObject|Object type"
+msgstr ""
+
+msgid "MetadataObject|Value"
+msgstr ""
+
+msgid "Minimum Value"
+msgstr ""
+
+msgid "Modify default user settings"
+msgstr ""
+
+msgid "Multiple"
+msgstr ""
+
+msgid "N/A"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Name available"
+msgstr ""
+
+msgid "Name is not set."
+msgstr ""
+
+msgid "New Account"
+msgstr ""
+
+msgid "New Catalog"
+msgstr ""
+
+msgid "New Config Server"
+msgstr ""
+
+msgid "New Deployable"
+msgstr ""
+
+msgid "New Deployable from Image"
+msgstr ""
+
+msgid "New Deployment"
+msgstr ""
+
+msgid "New Environment"
+msgstr ""
+
+msgid "New Hardware Profile"
+msgstr ""
+
+msgid "New Image"
+msgstr ""
+
+msgid "New Pool"
+msgstr ""
+
+msgid "New Provider"
+msgstr ""
+
+msgid "New Provider Account"
+msgstr ""
+
+msgid "New Realm"
+msgstr ""
+
+msgid "New Role"
+msgstr ""
+
+msgid "New User"
+msgstr ""
+
+msgid "New User Group"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Next &#8594;"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "No Catalog"
+msgstr ""
+
+msgid "No Catalog exists. Please create one."
+msgstr ""
+
+msgid "No Catalogs selected"
+msgstr ""
+
+msgid "No Deployable was selected"
+msgstr ""
+
+msgid "No Hardware Profile exists. Please create one."
+msgstr ""
+
+msgid "No Matching Provider Hardware Profiles Could be found"
+msgstr ""
+
+msgid "No Provider Account given"
+msgstr ""
+
+msgid "No Template"
+msgstr ""
+
+msgid "No URL is provided for XML import"
+msgstr ""
+
+msgid "No available Deployable. Please add one first."
+msgstr ""
+
+msgid "No available priority group to display"
+msgstr ""
+
+msgid "No image build was found with uuid %s and no image was found with uuid %s"
+msgstr ""
+
+msgid "No matching results."
+msgstr ""
+
+msgid "No users selected"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Not all Deployments are displayed. Go to %s Pool details for more. &raquo;"
+msgstr ""
+
+msgid "Number of Logins"
+msgstr ""
+
+msgid "OS"
+msgstr ""
+
+msgid "OS Version"
+msgstr ""
+
+msgid "Only locally-managed groups can be managed here."
+msgstr ""
+
+msgid "Only the latest build can be pushed"
+msgstr ""
+
+msgid "Order By"
+msgstr ""
+
+msgid "Overview"
+msgstr ""
+
+msgid "Owner"
+msgstr ""
+
+msgid "PROVIDER"
+msgstr ""
+
+msgid "PUBLIC ADDRESS"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Password Unknown"
+msgstr ""
+
+msgid "Password has been successfuly reset. Please log in."
+msgstr ""
+
+msgid "Password reset"
+msgstr ""
+
+msgid "Passwords do not match."
+msgstr ""
+
+msgid "Passwords match."
+msgstr ""
+
+msgid "Pending"
+msgstr ""
+
+msgid "Pending (Current)"
+msgstr ""
+
+msgid "Pending Inst."
+msgstr ""
+
+msgid "Permission"
+msgstr ""
+
+msgid "Permission session"
+msgstr ""
+
+msgid "PermissionSession|Lock version"
+msgstr ""
+
+msgid "Permissions"
+msgstr ""
+
+msgid "Permission|Lock version"
+msgstr ""
+
+msgid "Permission|Permission object type"
+msgstr ""
+
+msgid "Please make a selection first."
+msgstr ""
+
+msgid "Please specify a type, build or import"
+msgstr ""
+
+msgid "Please specify an Environment"
+msgstr ""
+
+msgid "Pool"
+msgstr ""
+
+msgid "Pool %s was deleted."
+msgid_plural "Pools %s were deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Pool %s was not deleted. There are Instances associated with it."
+msgid_plural "Pools %s were not deleted. They have Instances associated with them."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Pool Name"
+msgstr ""
+
+msgid "Pool added."
+msgstr ""
+
+msgid "Pool family"
+msgstr ""
+
+msgid "Pool name"
+msgstr ""
+
+msgid "Pool quota reached"
+msgstr ""
+
+msgid "Pool updated."
+msgstr ""
+
+msgid "PoolFamily|Description"
+msgstr ""
+
+msgid "PoolFamily|Lock version"
+msgstr ""
+
+msgid "PoolFamily|Name"
+msgstr ""
+
+msgid "Pools"
+msgstr ""
+
+msgid "Pool|Enabled"
+msgstr ""
+
+msgid "Pool|Exported as"
+msgstr ""
+
+msgid "Pool|Lock version"
+msgstr ""
+
+msgid "Pool|Name"
+msgstr ""
+
+msgid "Priority"
+msgstr ""
+
+msgid "Priority Group successfully created"
+msgstr ""
+
+msgid "Priority Group successfully deleted"
+msgstr ""
+
+msgid "Priority Group successfully updated"
+msgstr ""
+
+msgid "Private Addresses"
+msgstr ""
+
+msgid "Privilege"
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
+msgid "Privilege|Action"
+msgstr ""
+
+msgid "Privilege|Lock version"
+msgstr ""
+
+msgid "Privilege|Target type"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "Properties"
+msgstr ""
+
+msgid "Properties for %s"
+msgstr ""
+
+msgid "Property enum entry"
+msgstr ""
+
+msgid "PropertyEnumEntry|Lock version"
+msgstr ""
+
+msgid "PropertyEnumEntry|Value"
+msgstr ""
+
+msgid "Provided URL is not valid %s"
+msgstr ""
+
+msgid "Provider"
+msgstr ""
+
+msgid "Provider Account"
+msgstr ""
+
+msgid "Provider Account %s is not in this Environment. Valid accounts include %s."
+msgstr ""
+
+msgid "Provider Account updated"
+msgstr ""
+
+msgid "Provider Account wasn't updated"
+msgstr ""
+
+msgid "Provider Accounts"
+msgstr ""
+
+msgid "Provider Accounts mapped to Provider Realm %s"
+msgstr ""
+
+msgid "Provider Groups for Pool: %s"
+msgstr ""
+
+msgid "Provider Image Deleted. In order to remove the actual image stored by the Provider, visit the %s's management console and seek out the %s image."
+msgstr ""
+
+msgid "Provider Image Upload Started"
+msgstr ""
+
+msgid "Provider Image not found"
+msgstr ""
+
+msgid "Provider Images"
+msgstr ""
+
+msgid "Provider Name"
+msgstr ""
+
+msgid "Provider Realm Mapping"
+msgstr ""
+
+msgid "Provider Realm Name"
+msgstr ""
+
+msgid "Provider Realms"
+msgstr ""
+
+msgid "Provider Selection"
+msgstr ""
+
+msgid "Provider Selection Strategies"
+msgstr ""
+
+msgid "Provider Selection Strategies for Pool: %s"
+msgstr ""
+
+msgid "Provider Type"
+msgstr ""
+
+msgid "Provider URL"
+msgstr ""
+
+msgid "Provider account"
+msgstr ""
+
+msgid "Provider account was deleted"
+msgstr ""
+
+msgid "Provider added."
+msgstr ""
+
+msgid "Provider disabled."
+msgstr ""
+
+msgid "Provider has been deleted."
+msgstr ""
+
+msgid "Provider is disabled."
+msgstr ""
+
+msgid "Provider priority group"
+msgstr ""
+
+msgid "Provider priority group element"
+msgstr ""
+
+msgid "Provider realm"
+msgstr ""
+
+msgid "Provider selection strategy"
+msgstr ""
+
+msgid "Provider type"
+msgstr ""
+
+msgid "Provider updated."
+msgstr ""
+
+msgid "Provider was not deleted: %s"
+msgstr ""
+
+msgid "Provider was not disabled. Failed to change status to 'stopped' for following instances:"
+msgstr ""
+
+msgid "Provider was not disabled. Failed to stop following instances:"
+msgstr ""
+
+msgid "Provider's Image ID"
+msgstr ""
+
+msgid "ProviderAccount|Label"
+msgstr ""
+
+msgid "ProviderAccount|Lock version"
+msgstr ""
+
+msgid "ProviderAccount|Priority"
+msgstr ""
+
+msgid "ProviderPriorityGroupElement|Value type"
+msgstr ""
+
+msgid "ProviderPriorityGroup|Name"
+msgstr ""
+
+msgid "ProviderPriorityGroup|Score"
+msgstr ""
+
+msgid "ProviderRealm|Available"
+msgstr ""
+
+msgid "ProviderRealm|External key"
+msgstr ""
+
+msgid "ProviderRealm|Lock version"
+msgstr ""
+
+msgid "ProviderRealm|Name"
+msgstr ""
+
+msgid "ProviderSelectionStrategy|Config"
+msgstr ""
+
+msgid "ProviderSelectionStrategy|Enabled"
+msgstr ""
+
+msgid "ProviderSelectionStrategy|Name"
+msgstr ""
+
+msgid "ProviderType|Deltacloud driver"
+msgstr ""
+
+msgid "ProviderType|Home dir"
+msgstr ""
+
+msgid "ProviderType|Name"
+msgstr ""
+
+msgid "ProviderType|Ssh user"
+msgstr ""
+
+msgid "Providers"
+msgstr ""
+
+msgid "Providers & Provider Accounts"
+msgstr ""
+
+msgid "Provider|Available"
+msgstr ""
+
+msgid "Provider|Deltacloud provider"
+msgstr ""
+
+msgid "Provider|Enabled"
+msgstr ""
+
+msgid "Provider|Lock version"
+msgstr ""
+
+msgid "Provider|Name"
+msgstr ""
+
+msgid "Provider|Url"
+msgstr ""
+
+msgid "Public Address"
+msgstr ""
+
+msgid "Public Addresses"
+msgstr ""
+
+msgid "Push all"
+msgstr ""
+
+msgid "Quota"
+msgstr ""
+
+msgid "Quota Instances"
+msgstr ""
+
+msgid "Quota Limit"
+msgstr ""
+
+msgid "Quota Used"
+msgstr ""
+
+msgid "Quota limit of running Instances for %s account has been exceeded."
+msgstr ""
+
+msgid "Quota updated"
+msgstr ""
+
+msgid "Quota usage"
+msgstr ""
+
+msgid "Quota|Lock version"
+msgstr ""
+
+msgid "Quota|Maximum running instances"
+msgstr ""
+
+msgid "Quota|Maximum total instances"
+msgstr ""
+
+msgid "Quota|Running instances"
+msgstr ""
+
+msgid "Quota|Total instances"
+msgstr ""
+
+msgid "RAM"
+msgstr ""
+
+msgid "Realm"
+msgstr ""
+
+msgid "Realm %s is mapped to Providers:"
+msgstr ""
+
+msgid "Realm %s is mapped to Realms:"
+msgstr ""
+
+msgid "Realm Mapping"
+msgstr ""
+
+msgid "Realm Name"
+msgstr ""
+
+msgid "Realm backend target"
+msgstr ""
+
+msgid "Realm mapping was added."
+msgstr ""
+
+msgid "Realm updated"
+msgstr ""
+
+msgid "Realm was added"
+msgstr ""
+
+msgid "Realm was deleted"
+msgstr ""
+
+msgid "Realm was not deleted"
+msgstr ""
+
+msgid "RealmBackendTarget|Provider realm or provider type"
+msgstr ""
+
+msgid "Realms"
+msgstr ""
+
+msgid "Realms mapped to Provider %s:"
+msgstr ""
+
+msgid "Realms mapped to Provider Realm %s:"
+msgstr ""
+
+msgid "Reboot is an invalid action."
+msgstr ""
+
+msgid "Reboot selected Instances"
+msgstr ""
+
+msgid "Reference to %s's return parameter: %s"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Reset Password"
+msgstr ""
+
+msgid "Resource"
+msgstr ""
+
+msgid "Resource Type"
+msgstr ""
+
+msgid "Return to log in."
+msgstr ""
+
+msgid "Return to:"
+msgstr ""
+
+msgid "Revoke Access"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Role Assignments"
+msgstr ""
+
+msgid "Role Name"
+msgstr ""
+
+msgid "Role successfully saved."
+msgstr ""
+
+msgid "Role updated successfully."
+msgstr ""
+
+msgid "Roles List"
+msgstr ""
+
+msgid "Role|Assign to owner"
+msgstr ""
+
+msgid "Role|Lock version"
+msgstr ""
+
+msgid "Role|Name"
+msgstr ""
+
+msgid "Role|Scope"
+msgstr ""
+
+msgid "Rollback failed, re-launch terminated"
+msgstr ""
+
+msgid "Rollback successfully completed"
+msgstr ""
+
+msgid "Running (Historical)"
+msgstr ""
+
+msgid "Running Instances"
+msgstr ""
+
+msgid "Running Instances (Current)"
+msgstr ""
+
+msgid "Running instances quota"
+msgstr ""
+
+msgid "SSH Key not found for this Instance."
+msgstr ""
+
+msgid "SSH key"
+msgstr ""
+
+msgid "SSH key name"
+msgstr ""
+
+msgid "STATUS"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Save Changes"
+msgstr ""
+
+msgid "Save Image Template"
+msgstr ""
+
+msgid "Save Priority Group"
+msgstr ""
+
+msgid "Save Provider"
+msgstr ""
+
+msgid "Save and Continue"
+msgstr ""
+
+msgid "Scope"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Secret Access Key"
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+msgid "Select a build first"
+msgstr ""
+
+msgid "Select type of Provider"
+msgstr ""
+
+msgid "Self-service Settings"
+msgstr ""
+
+msgid "Send Login"
+msgstr ""
+
+msgid "Services"
+msgstr ""
+
+msgid "Session entity"
+msgstr ""
+
+msgid "SessionEntity|Lock version"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Settings Updated"
+msgstr ""
+
+msgid "Shared to"
+msgstr ""
+
+msgid "Show My Password"
+msgstr ""
+
+msgid "Show/Hide"
+msgstr ""
+
+msgid "Some Assemblies will not be launched:"
+msgstr ""
+
+msgid "Some Instances are not running"
+msgstr ""
+
+msgid "Some actions failed"
+msgstr ""
+
+msgid "Some errors prevented the %s from being saved. Please review the problems below."
+msgstr ""
+
+msgid "Some of the images are not pushed"
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "State changed to %s"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Stop Selected"
+msgstr ""
+
+msgid "Stop is an invalid action."
+msgstr ""
+
+msgid "Stop selected Instances"
+msgstr ""
+
+msgid "Storage"
+msgstr ""
+
+msgid "Successfully connected to Provider"
+msgstr ""
+
+msgid "Successfully disabled %s strategy"
+msgstr ""
+
+msgid "Successfully enabled %s strategy"
+msgstr ""
+
+msgid "Successfully modified the following User Roles: %s"
+msgstr ""
+
+msgid "Successfully updated %s strategy"
+msgstr ""
+
+msgid "Summary"
+msgstr ""
+
+msgid "Target %s has no Provider Accounts in this Environment. Valid targets include %s."
+msgstr ""
+
+msgid "Target Image Deleted"
+msgstr ""
+
+msgid "Target Image not found"
+msgstr ""
+
+msgid "Target Images UUIDs"
+msgstr ""
+
+msgid "Target type"
+msgstr ""
+
+msgid "Task"
+msgstr ""
+
+msgid "Task|Action"
+msgstr ""
+
+msgid "Task|Args"
+msgstr ""
+
+msgid "Task|Failure code"
+msgstr ""
+
+msgid "Task|Lock version"
+msgstr ""
+
+msgid "Task|Message"
+msgstr ""
+
+msgid "Task|State"
+msgstr ""
+
+msgid "Task|Task target type"
+msgstr ""
+
+msgid "Task|Time ended"
+msgstr ""
+
+msgid "Task|Time started"
+msgstr ""
+
+msgid "Task|Time submitted"
+msgstr ""
+
+msgid "Task|User"
+msgstr ""
+
+msgid "Terminate"
+msgstr ""
+
+msgid "Terminate Instances"
+msgstr ""
+
+msgid "Test"
+msgstr ""
+
+msgid "Test Connection"
+msgstr ""
+
+msgid "Test Connection Failed: Could not connect to Provider"
+msgstr ""
+
+msgid "Test Connection Failed: Invalid Account Details"
+msgstr ""
+
+msgid "Test Connection Success: Valid Account Details"
+msgstr ""
+
+msgid "Test successful"
+msgstr ""
+
+msgid "That name is already in use"
+msgstr ""
+
+msgid "The Config Server information is invalid."
+msgstr ""
+
+msgid "The Deployable '%s' contains an image (UUID %s) in the wrong Environment ('%s' should be '%s') and cannot be used."
+msgstr ""
+
+msgid "The Deployable uses features not supported by the Audrey agent installed in the latest built image."
+msgstr ""
+
+msgid "The Deployment %s can not be deleted because following instances can not be stopped:"
+msgstr ""
+
+msgid "The Deployment %s could not be deleted: %s"
+msgstr ""
+
+msgid "The Deployment %s could not be stopped. Only running Deployments can be stopped."
+msgstr ""
+
+msgid "The Deployment %s could not be updated."
+msgstr ""
+
+msgid "The Deployment %s was scheduled for deletion."
+msgid_plural "The Deployments %s were scheduled for deletion."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "The Deployment %s was successfully updated."
+msgstr ""
+
+msgid "The Image doesn't have an Image Template because it was originally imported, rather than built in Conductor."
+msgstr ""
+
+msgid "The Image you tried to access cannot be found. It may have been deleted."
+msgstr ""
+
+msgid "The Instance %s could not be deleted."
+msgid_plural "The Instances %s could not be deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "The Instance %s could not be updated."
+msgstr ""
+
+msgid "The Instance %s was successfully deleted."
+msgid_plural "The Instances %s were successfully deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "The Instance %s was successfully updated."
+msgstr ""
+
+msgid "The Instance %{name} was not rebooted because %{err}"
+msgstr ""
+
+msgid "The Instance %{name} was not stopped because %{err}"
+msgstr ""
+
+msgid "The Password Reset link is no longer valid. Please re-apply for the new link by completing the form below."
+msgstr ""
+
+msgid "The Provider %s is currently disabled."
+msgstr ""
+
+msgid "The Provider %s is currently not available."
+msgstr ""
+
+msgid "The Provider is not accessible. The status of following Instances will be changed to 'stopped' but their actual state is unknown."
+msgstr ""
+
+msgid "The Realm %s is currently not available."
+msgstr ""
+
+msgid "The Username or Password is incorrect, please try again."
+msgstr ""
+
+msgid "The default Environment cannot be deleted."
+msgstr ""
+
+msgid "The default Pool cannot be deleted."
+msgstr ""
+
+msgid "The following Deployments have not been stopped: %s"
+msgstr ""
+
+msgid "The image could not be imported. Check the Image Factory log for further details."
+msgstr ""
+
+msgid "The image is not built yet"
+msgstr ""
+
+msgid "The image was imported successfully."
+msgstr ""
+
+msgid "The instance %s is in state %s."
+msgstr ""
+
+msgid "The record you tried to access does not exist. It may have been deleted"
+msgstr ""
+
+msgid "The requested image was not found on the Provider."
+msgstr ""
+
+msgid "There are following associated images: %s. Delete them first."
+msgstr ""
+
+msgid "There are following associated provider images: %s. Delete them first."
+msgstr ""
+
+msgid "There are no Provider Accounts associated with the selected Pool's Environment."
+msgstr ""
+
+msgid "There are no Provider Accounts available."
+msgstr ""
+
+msgid "There is no Quota on this"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "To"
+msgstr ""
+
+msgid "To enable and configure the Provider, click the slide switch in the upper-right-hand corner of this window."
+msgstr ""
+
+msgid "Toggle Alerts"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Total Cloud Providers"
+msgstr ""
+
+msgid "Total Deployments"
+msgstr ""
+
+msgid "Total Inst."
+msgstr ""
+
+msgid "Total Instances"
+msgstr ""
+
+msgid "Total Instances available"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "URL of Deployable XML"
+msgstr ""
+
+msgid "UUIDs"
+msgstr ""
+
+msgid "Unable to Delete Image"
+msgstr ""
+
+msgid "Unable to Delete Provider Image"
+msgstr ""
+
+msgid "Unable to Delete Target Image"
+msgstr ""
+
+msgid "Unable to Upload Provider Image"
+msgstr ""
+
+msgid "Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images."
+msgstr ""
+
+msgid "Unit"
+msgstr ""
+
+msgid "Unlimited"
+msgstr ""
+
+msgid "Unlimited Quota"
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "Uptime"
+msgstr ""
+
+msgid "Uptime 1st Instance running"
+msgstr ""
+
+msgid "Used"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "User Group added"
+msgstr ""
+
+msgid "User Group has been successfully deleted."
+msgstr ""
+
+msgid "User Group updated"
+msgstr ""
+
+msgid "User Groups"
+msgstr ""
+
+msgid "User ID"
+msgstr ""
+
+msgid "User group"
+msgstr ""
+
+msgid "User has been successfully deleted."
+msgstr ""
+
+msgid "User quota reached"
+msgstr ""
+
+msgid "User registered"
+msgstr ""
+
+msgid "User updated"
+msgstr ""
+
+msgid "UserGroup|Description"
+msgstr ""
+
+msgid "UserGroup|Lock version"
+msgstr ""
+
+msgid "UserGroup|Membership source"
+msgstr ""
+
+msgid "UserGroup|Name"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Username Unknown?"
+msgstr ""
+
+msgid "Usernames have been sent to given e-mail address."
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "User|Crypted password"
+msgstr ""
+
+msgid "User|Current login at"
+msgstr ""
+
+msgid "User|Current login ip"
+msgstr ""
+
+msgid "User|Email"
+msgstr ""
+
+msgid "User|Failed login count"
+msgstr ""
+
+msgid "User|First name"
+msgstr ""
+
+msgid "User|Last login at"
+msgstr ""
+
+msgid "User|Last login ip"
+msgstr ""
+
+msgid "User|Last name"
+msgstr ""
+
+msgid "User|Last request at"
+msgstr ""
+
+msgid "User|Login count"
+msgstr ""
+
+msgid "User|Password reset sent at"
+msgstr ""
+
+msgid "User|Password reset token"
+msgstr ""
+
+msgid "User|Username"
+msgstr ""
+
+msgid "VM NAME"
+msgstr ""
+
+msgid "Valid Image"
+msgstr ""
+
+msgid "View Image Template XML"
+msgstr ""
+
+msgid "View build"
+msgstr ""
+
+msgid "View state"
+msgstr ""
+
+msgid "ViewState|Action"
+msgstr ""
+
+msgid "ViewState|Controller"
+msgstr ""
+
+msgid "ViewState|Name"
+msgstr ""
+
+msgid "ViewState|State"
+msgstr ""
+
+msgid "ViewState|Uuid"
+msgstr ""
+
+msgid "Viewing"
+msgstr ""
+
+msgid "Virtual CPU"
+msgstr ""
+
+msgid "X-Deltacloud-Driver"
+msgstr ""
+
+msgid "X-Deltacloud-Provider"
+msgstr ""
+
+msgid "XML file is either invalid or no longer reachable at %s"
+msgstr ""
+
+msgid "XML is not valid:"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "You do not have sufficient permission to access the %s Hardware Profile."
+msgstr ""
+
+msgid "You don't have a Provider yet"
+msgstr ""
+
+msgid "You don't have a Provider yet. Please create one."
+msgstr ""
+
+msgid "You have insufficient privileges to perform the selected action."
+msgstr ""
+
+msgid "You have successfully registered."
+msgstr ""
+
+msgid "You must be logged in to access this page"
+msgstr ""
+
+msgid "You must be logged out to access this page"
+msgstr ""
+
+msgid "You must select at least one Provider Account to add."
+msgstr ""
+
+msgid "You must select at least one Provider Account to remove."
+msgstr ""
+
+msgid "You must select at least one Realm to delete."
+msgstr ""
+
+msgid "You must select at least one mapping to delete."
+msgstr ""
+
+msgid "You must select at least one user to add."
+msgstr ""
+
+msgid "You must select at least one user to remove"
+msgstr ""
+
+msgid "You must select one or more Deployments."
+msgstr ""
+
+msgid "You must select one or more Instances to reboot."
+msgstr ""
+
+msgid "You must select one or more Instances to stop."
+msgstr ""
+
+msgid "You must select some accounts first."
+msgstr ""
+
+msgid "You must specify the Image Template XML file"
+msgstr ""
+
+msgid "You must specify the Image Template name"
+msgstr ""
+
+msgid "You need to select a Deployable"
+msgstr ""
+
+msgid "Your Password reset link has expired. Please re-apply for the new password reset by filling the form below."
+msgstr ""
+
+msgid "Your Pools"
+msgstr ""
+
+msgid "can't be blank"
+msgstr ""
+
+msgid "create_failed"
+msgstr ""
+
+msgid "e-mail"
+msgstr ""
+
+msgid "error"
+msgstr ""
+
+msgid "file contains syntax errors"
+msgstr ""
+
+msgid "has all associated Providers disabled"
+msgstr ""
+
+msgid "invalid"
+msgstr ""
+
+msgid "must be a positive whole number less than 2147483647"
+msgstr ""
+
+msgid "must be enabled"
+msgstr ""
+
+msgid "must contain unique Assembly names"
+msgstr ""
+
+msgid "new"
+msgstr ""
+
+msgid "no Catalog selected"
+msgstr ""
+
+msgid "of Quota limit for running Instances for %s account has been reached."
+msgstr ""
+
+msgid "pending"
+msgstr ""
+
+msgid "reboot is already scheduled."
+msgstr ""
+
+msgid "running"
+msgstr ""
+
+msgid "seems to be not valid Deployable XML: %s"
+msgstr ""
+
+msgid "shutting_down"
+msgstr ""
+
+msgid "state changed to stopped."
+msgstr ""
+
+msgid "stop action was successfully queued."
+msgstr ""
+
+msgid "stopped"
+msgstr ""
+
+msgid "stopping"
+msgstr ""
+
+msgid "to %s Pool"
+msgstr ""
+
+msgid "unlimited"
+msgstr ""
+
+msgid "vanished"
+msgstr ""
+
+msgid "via SSH"
+msgstr ""
