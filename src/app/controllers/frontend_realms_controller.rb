@@ -47,10 +47,6 @@ class FrontendRealmsController < ApplicationController
     @realm = FrontendRealm.find(params[:id])
     @title = @realm.name || t("realms.realm")
 
-    if params[:commit] == "Reset"
-      redirect_to edit_realm_url(@realm) and return
-    end
-
     if @realm.update_attributes(params[:frontend_realm])
       flash[:notice] = t"realms.flash.notice.updated"
       redirect_to frontend_realms_url and return

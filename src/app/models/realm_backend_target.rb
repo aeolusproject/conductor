@@ -26,13 +26,14 @@
 #
 
 class RealmBackendTarget < ActiveRecord::Base
+
   belongs_to :frontend_realm
   belongs_to :provider_realm_or_provider, :polymorphic =>true
   belongs_to :provider_realm,  :class_name => 'ProviderRealm', :foreign_key => 'provider_realm_or_provider_id'
   belongs_to :provider,  :class_name => 'Provider', :foreign_key => 'provider_realm_or_provider_id'
 
-  validates_uniqueness_of :frontend_realm_id, :scope => [:provider_realm_or_provider_id, :provider_realm_or_provider_type]
-  validates_presence_of :provider_realm_or_provider
+  validates :provider_realm_or_provider_id, :presence => true,
+                                            :uniqueness => { :scope => [:frontend_realm_id, :provider_realm_or_provider_type] }
 
   def target_realm
     (provider_realm_or_provider_type == "ProviderRealm") ? provider_realm : nil

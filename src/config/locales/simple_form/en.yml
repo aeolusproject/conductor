@@ -32,6 +32,8 @@ en:
     hints:
       catalog:
         name: 'Must be a unique name with at least 1 character and at most 100 characters.'
+      frontend_realm:
+        name: 'Must be a unique name with at least 1 character and at most 100 characters.'
       user:
         first_name: 'Must be at most 255 characters.'
         last_name: 'Must be at most 255 characters.'
