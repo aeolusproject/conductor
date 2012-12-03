@@ -1243,8 +1243,6 @@ en:
         connected: "Successfully connected to Provider"
         deleted: "Provider has been deleted."
       error:
-        not_added: "Cannot add the Provider."
-        not_updated: "Cannot update the Provider."
         not_disabled: "Cannot disable the Provider."
         not_deleted: "Provider was not deleted"
         not_deleted_with_err: "Provider was not deleted: %{err}"
