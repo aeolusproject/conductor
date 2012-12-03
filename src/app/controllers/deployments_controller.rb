@@ -261,12 +261,12 @@ class DeploymentsController < ApplicationController
     params[:deployment].each_pair{|k,v| attrs[k] = v if Deployment::USER_MUTABLE_ATTRS.include?(k)}
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
-        flash[:success] = t('deployments.flash.success.updated', :count => 1, :list => @deployment.name)
+        flash[:success] = t('deployments.flash.success.updated', :list => @deployment.name)
         format.html { redirect_to @deployment }
         format.js { render :partial => 'properties' }
         format.json { render :json => @deployment }
       else
-        flash[:error] = t('deployments.flash.error.not_updated', :count => 1, :list => @deployment.name)
+        flash[:error] = t('deployments.flash.error.not_updated', :list => @deployment.name)
         format.html { render :action => :edit }
         format.js { render :partial => 'edit' }
         format.json { render :json => @deployment.errors, :status => :unprocessable_entity }

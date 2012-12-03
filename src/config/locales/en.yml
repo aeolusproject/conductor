@@ -414,18 +414,14 @@ en:
         failed_to_launch_assemblies: "Failed to launch following Assemblies:"
         not_deleted: "The Deployment %{name} could not be deleted: %{error}"
         none_selected: "You must select one or more Deployments."
-        not_updated:
-          one: "The Deployment %{list} could not be updated."
-          other: "The Deployments %{list} could not be updated."
+        not_updated: "The Deployment %{list} could not be updated."
         no_hwp_permission: "You do not have sufficient permission to access the %{hwp} Hardware Profile."
         cant_stop: "The Deployment %{name} could not be stopped. Only running Deployments can be stopped."
       success:
         deleted:
           one: "The Deployment %{list} was scheduled for deletion."
           other: "The Deployments %{list} were scheduled for deletion."
-        updated:
-          one: "The Deployment %{list} was successfully updated."
-          other: "The Deployments %{list} were successfully updated."
+        updated: "The Deployment %{list} was successfully updated."
     errors:
       config_server_connection: 'Cannot connect to the Config Server'
       cannot_stop: "The Deployment %{name} can not be deleted because following instances can not be stopped:"
@@ -526,18 +522,14 @@ en:
       warning:
         ssh_key_not_found: "SSH Key not found for this Instance."
       error:
-        not_updated:
-          one: "The Instance %{list} could not be updated."
-          other: "The Instances %{list} could not be updated."
+        not_updated: "The Instance %{list} could not be updated."
         not_deleted:
           one: "The Instance %{list} could not be deleted."
           other: "The Instances %{list} could not be deleted."
         reboot: "The Instance %{name} was not rebooted because %{err}"
         stop: "The Instance %{name} was not stopped because %{err}"
       success:
-        updated:
-          one: "The Instance %{list} was successfully updated."
-          other: "The Instances %{list} were successfully updated."
+        updated: "The Instance %{list} was successfully updated."
         deleted:
           one: "The Instance %{list} was successfully deleted."
           other: "The Instances %{list} were successfully deleted."
@@ -924,12 +916,8 @@ en:
       cancel_editing: Cancel Editing
     flash:
       notice:
-        updated:
-          one: Catalog updated successfully
-          other: Catalogs updated successfully
-        created:
-          one: Catalog created
-          other: Catalogs created
+        updated: Catalog updated successfully
+        created: Catalog created
         deleted:
           one: Catalog %{deleted} deleted
           other: "%{count} Catalogs %{deleted} deleted"

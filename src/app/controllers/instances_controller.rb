@@ -77,12 +77,12 @@ class InstancesController < ApplicationController
     params[:instance].each_pair{|k,v| attrs[k] = v if Instance::USER_MUTABLE_ATTRS.include?(k)}
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @instance) and @instance.update_attributes(attrs)
-        flash[:success] = t('instances.flash.success.updated', :count => 1, :list => @instance.name)
+        flash[:success] = t('instances.flash.success.updated', :list => @instance.name)
         format.html { redirect_to @instance }
         format.js { render :partial => 'properties' }
         format.json { render :json => @instance }
       else
-        flash[:error] = t('instances.flash.error.not_updated', :count =>1, :list => @instance.name)
+        flash[:error] = t('instances.flash.error.not_updated', :list => @instance.name)
         format.html { render :action => :edit }
         format.js { render :partial => 'edit' }
         format.json { render :json => @instance.errors, :status => :unprocessable_entity }

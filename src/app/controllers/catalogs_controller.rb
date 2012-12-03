@@ -67,7 +67,7 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       if @catalog.save
         format.html do
-          flash[:notice] = t('catalogs.flash.notice.created', :count => 1)
+          flash[:notice] = t('catalogs.flash.notice.created')
           redirect_to catalogs_path and return
         end
         format.xml do
@@ -105,7 +105,7 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       if @catalog.update_attributes(params[:catalog])
         format.html do
-          flash[:notice] = t('catalogs.flash.notice.updated', :count => 1)
+          flash[:notice] = t('catalogs.flash.notice.updated')
           redirect_to catalogs_url
         end
         format.xml do
