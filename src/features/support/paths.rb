@@ -127,12 +127,12 @@ module NavigationHelpers
     when /the pool family provider accounts page/
       url_for pool_family_path(@pool_family, :details_tab => 'provider_accounts')
 
-    when /the image's show page/
-      url_for image_path(@image.id)
-
     when /the new image page for "(\w*)"$/
       pool_family = PoolFamily.find_by_name($1)
-      url_for new_image_path(:environment => pool_family)
+      url_for tim.new_base_image_path(:base_image => {:pool_family_id  => pool_family.id})
+
+    when /the edit xml images page/
+      url_for tim.edit_xml_base_images_path
 
     when /the self service settings page/
       url_for :action => 'self_service', :controller => 'settings', :only_path => true
