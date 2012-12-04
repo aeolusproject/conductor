@@ -148,32 +148,4 @@ module MustacheHelper
     result
   end
 
-  def old_image_builds_for_mustache(base_image)
-    retval = []
-    base_image.each_pair do |target,target_images|
-      timg_hash = {:target => target, :combined_images => []} 
-      target_images.each do |timg|
-        timg_hash[:combined_images] << {:target_image => timg, 
-                                         :provider_images => timg.provider_images}
-      end
-      retval << timg_hash
-    end
-    retval
-  end
-
-  def new_image_builds_for_mustache(base_image)
-    retval = []
-    base_image.each_pair do |prov_acct_name,prov_img_data|
-      # Maybe we need to reimagine what we're even displaying here...
-    end
-    retval
-  end
-
-  # This should obviously be removed...
-  def image_builds_for_mustache(base_image)
-    old_image_builds_for_mustache(base_image)
-  end
-
-
-
 end
