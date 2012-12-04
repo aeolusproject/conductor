@@ -1,0 +1,36 @@
+{{#images}}
+  <li class="clearfix">
+    <dl>
+      <dt>
+        <div class="build-actions">
+          <h3>{{provider_type.name}}</h3>
+        </div>
+      </dt>
+      <dd>
+        <table class="light_table">
+          <thead>
+            <tr><th>
+              <strong><%= t('tim.base_images.show.account') %></strong>
+            </th>
+            <th>
+              <%= t('tim.base_images.show.provider') %>
+            </th>
+            <th>
+              <%= t('tim.base_images.show.providers_image_id') %>
+            </th>
+            <th class="image_controls"></th>
+          </tr></thead>
+          <tbody>
+          {{#provider_images}}
+            <tr>
+              <td><strong> {{provider_account.name}} </strong></td>
+              <td class="light">{{provider.name }} </td>
+              <td class="light">{{provider_image.external_image_id}}</td>
+            </tr>
+          {{/provider_images}}
+          </tbody>
+        </table>
+      </dd>
+    </dl>
+  </li>
+{{/images}}

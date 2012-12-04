@@ -17,5 +17,18 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-module ImagesHelper
+module Tim::BaseImagesHelper
+  def image_name(base_image)
+    base_image.imported? ? "#{base_image.name} (Imported)" : base_image.name
+  end
+
+  def options_for_build_select(builds, selected, latest)
+      options_for_select(builds.map do |b|
+        label = Time.at(b.created_at.to_f).to_s
+        label += " (#{t'images.show.latest'})" if b.uuid == latest
+        [label, b.uuid]
+      end, selected ? selected.uuid : nil)
+  end
+
+
 end

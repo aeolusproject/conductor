@@ -7,6 +7,7 @@ Tim::ProviderImage.class_eval do
   before_create :set_credentials
 
   STATUS_COMPLETE = 'COMPLETE'
+  STATUS_IMPORTED = 'IMPORTED'
 
   def self.find_by_images(images)
     ProviderImage.joins(:target_image => :image_version).
@@ -40,6 +41,15 @@ Tim::ProviderImage.class_eval do
     end
 
     true
+  end
+
+  # This is a misnomer -- a TargetImage is built, and a ProviderImage is pushed.
+  def built?
+    target_image.built?
+  end
+
+  def pushed?
+    status == STATUS_COMPLETE || imported?
   end
 
   private
