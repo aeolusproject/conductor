@@ -263,43 +263,9 @@ Conductor::Application.routes.draw do
     end
   end
 
-  resources :images do
-    member do
-      post 'rebuild_all'
-      post 'push_all'
-      get 'template'
-    end
-    collection do
-      post 'edit_xml'
-      post 'overview'
-      delete 'multi_destroy'
-      post 'import'
-    end
-    resources :target_images
-    resources :provider_images
-  end
-
   get 'api', :controller => 'api/entrypoint', :action => 'index'
   namespace :api do
-    resources :images do
-      resources :builds
-    end
-    resources :builds do
-      resources :target_images
-    end
-
-    resources :target_images do
-      resources :provider_images
-    end
-
-    resources :provider_images
-   # :except => [:new, :edit]
-
     resources :hooks
-
-    resources :environments do
-      resources :images
-    end
   end
 
   scope "/api", :as => 'api' do
