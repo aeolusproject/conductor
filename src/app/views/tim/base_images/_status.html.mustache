@@ -3,7 +3,7 @@
     <dl>
       <dt>
         <div class="build-actions">
-          <h3>{{target}}</h3>
+          <h3>{{provider_type.name}}</h3>
         </div>
       </dt>
       <dd>
@@ -21,14 +21,13 @@
             <th class="image_controls"></th>
           </tr></thead>
           <tbody>
-          {{#combined_images}}
-            {{#provider_images}}
-              <tr>
-                <td><strong> {{provider_account.name}} </strong></td>
-                <td class="light">{{provider_account.provider.name }} </td>
-                <td class="light">{{factory_id}}</td>
-            {{/provider_images}}
-          {{/combined_images}}
+          {{#provider_images}}
+            <tr>
+              <td><strong> {{provider_account.name}} </strong></td>
+              <td class="light">{{provider.name }} </td>
+              <td class="light">{{provider_image.external_image_id}}</td>
+            </tr>
+          {{/provider_images}}
           </tbody>
         </table>
       </dd>

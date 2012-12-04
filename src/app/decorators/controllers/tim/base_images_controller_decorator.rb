@@ -9,7 +9,7 @@ Tim::BaseImagesController.class_eval do
   before_filter :set_tabs_and_headers, :only => [:index]
   before_filter :set_new_form_variables, :only => [:new]
   before_filter :set_image_versions, :only => :show
-  before_filter :set_provider_accounts, :only => :show
+  before_filter :set_targets, :only => :show
 
   # FIXME: whole create method is overriden just because of
   # setting flash error and new_form_variables if creation fails
@@ -117,25 +117,61 @@ Tim::BaseImagesController.class_eval do
     end
   end
 
-  # I'm neglecting permissions for now, but they probably need consideration too
-  def set_provider_accounts
-    @targets = {}
-    # we need to look stuff up ugly ways, so do some preloading
-    target_images = @version.target_images(:include => :provider_images)
-    all_provider_images = target_images.collect{|x| x.provider_images.to_a}.flatten
+  def set_targets
+    return [] unless @version # Otherwise, there's no point
+    @targets = []
+
+    # Preload up some data
     all_prov_accts = @base_image.pool_family.provider_accounts.includes(:provider => :provider_type)
-    # Now, put it all together
-    all_prov_accts.each do |provider_account|
-      provider_type = provider_account.provider_type
-      images_for_type = all_provider_images.select{|pi| pi.provider.provider_type == provider_type}
-      # I think thats right, but is it what we want?
-      if targets(provider_account.provider_type)
-        #foo
-      else
-        #bar
+    provider_types = available_provider_types_for_base_image(@base_image)
+    target_images = @version.target_images(:include => :provider_images)
+    
+    # Run over all provider types
+    provider_types.each do |provider_type|
+      target_image = target_images.select{|ti| ti.provider_type_id == provider_type.id}.first
+      _targetinfo = {
+        :provider_type => provider_type,
+        :target_image => target_image,
+        :user_can_push => false, # some magic
+        :user_can_delete => false, # some magic
+        :provider_images => []
+      }
+      provider_accounts = accounts_for_provider_type(provider_type, all_prov_accts)
+      provider_accounts.each do |provider_account|
+        provider_image = target_image.provider_images.select{|pi| pi.factory_provider_account_id == provider_account.id}.first
+        provider_image_data = {
+          :provider_account => provider_account,
+          :provider => provider_account.provider,
+          :provider_image => provider_image
+        }
+        _targetinfo[:provider_images] << provider_image_data
       end
+      @targets << _targetinfo
     end
-    @targets
+  end
+
+  private
+
+  # We need this above. For a base image, find all _available_ ProviderTypes,
+  # whether or not we have built for it.
+  # This was too messy to do above, but feels too arcane to put in the BaseImage model,
+  # especially since it's so tangentially related to BaseImages at all.
+  def available_provider_types_for_base_image(base_image)
+    all_types = []
+    # Eager load all the data we'll need, rather than doing a bunch of one-off queries:
+    prov_accts = @base_image.pool_family.provider_accounts.includes(:provider => :provider_type)
+    prov_accts.each do |provider_account|
+      type = provider_account.provider.provider_type
+      all_types << type unless all_types.include?(type)
+    end
+    all_types
+  end
+
+  # Another weird one-off with no good home...
+  # Find all provider accounts (in a given set, though we could look it up)
+  # that have a given provider type.
+  def accounts_for_provider_type(provider_type, provider_accounts)
+    provider_accounts.select{|pa| pa.provider.provider_type_id == provider_type.id}
   end
 
 end
