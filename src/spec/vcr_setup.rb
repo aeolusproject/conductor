@@ -25,23 +25,6 @@ VCR.config do |c|
   c.allow_http_connections_when_no_cassette = true
 end
 
-# Mock all iwhd requests
-Aeolus::Image::Warehouse::Connection.class_eval do
-  def do_request(path = '', opts={})
-    opts[:method]  ||= :get
-    opts[:content] ||= ''
-    opts[:plain]   ||= false
-    opts[:headers] ||= {}
-    result=nil
-    VCR.use_cassette('iwhd_connection', :record => :new_episodes, :match_requests_on => [:method, :uri, :body]) do
-      result = RestClient::Request.execute :method => opts[:method], :url => @uri + path, :payload => opts[:content], :headers => opts[:headers]
-    end
-
-    return Nokogiri::XML result unless opts[:plain]
-    return result
-  end
-end
-
 # Mock request for deployable xml
 DeployableXML.class_eval do
   def self.import_xml_from_url(url)
