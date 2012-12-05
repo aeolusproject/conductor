@@ -5,15 +5,15 @@
     .return_to
       =t'return_to'
       = link_to t('tim.base_images.index.images'), base_images_path
-    - if @base_image.pool_family and check_privilege(Privilege::USE, @base_image.pool_family)
+    - if check_privilege(Privilege::MODIFY, @base_image)
       .button-group
-        = link_to t('tim.base_images.show.new_deployable_from_image'), main_app.new_deployable_path(:create_from_image => @base_image.id), :class => 'button' # mawagner -- See if this exists
+        = link_to t('tim.base_images.show.new_deployable_from_image'), main_app.new_deployable_path(:create_from_image => @base_image.id), :class => 'button'
         - unless @base_image.imported?
-          = link_to t('tim.base_images.show.template_xml'), main_app.template_image_path(@base_image.uuid), :class => 'button' # See if this link works
+          = link_to t('tim.base_images.show.template_xml'), main_app.template_image_path(@base_image.uuid), :class => 'button' # FIXME: This needs to be reimplemented
         = button_to t("delete"), base_image_path(@base_image.id), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger', :id => 'delete'
   %h1.no-icon= image_name(@base_image)
 
-- user_can_build = (@base_image.pool_family and check_privilege(Privilege::USE, @base_image.pool_family))
+- user_can_build = (check_privilege(Privilege::MODIFY, @base_image))
 %section.content-section
   %header
     %h2=t'properties'
