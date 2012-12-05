@@ -137,8 +137,8 @@ Tim::BaseImagesController.class_eval do
     @versions = @base_image.image_versions.order('created_at DESC')
     @latest_version = @versions.first # because we sorted above
     # @version is the specific image version we're viewing
-    @version = if params[:version]
-      @versions.find{|v| v.id == params[:version]} || @latest_version
+    @version = if params[:build]
+      @versions.find{|v| v.uuid == params[:build]} || @latest_version
     else
       @latest_version
     end
