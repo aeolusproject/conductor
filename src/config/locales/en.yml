@@ -832,6 +832,8 @@ en:
       answer_no: "No"
       total_statistics: Total
       provider_selection: 'Provider Selection'
+    images:
+      
     new:
       environments: Environments
     edit:
@@ -1592,3 +1594,17 @@ en:
     logs: Logs
   general:
     delete_confirmation: "Are you sure you want to delete?"
+  tim:
+    base_images:
+      index:
+        environment_header: Environment
+        images: Images
+        name: Name
+        os: OS
+        os_version: OS Version
+        architecture: Architecture
+        last_rebuild: Last Rebuild
+        import: Import
+        new: New Image
+      import:
+        import_image: Import Image

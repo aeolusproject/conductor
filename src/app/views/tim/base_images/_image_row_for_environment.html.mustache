@@ -1,0 +1,10 @@
+<tr>
+  <td class="checkbox">
+    <%= check_box_tag("images_selected[]", '{{id}}', false, :id => "image_checkbox_{{id}}") %>
+  </td>
+  <td><%= link_to('{{name}}', '{{path}}') %></td>
+  <td>{{os_name}}</td>
+  <td>{{os_version}}</td>
+  <td>{{architecture}}</td>
+  <td>{{last_rebuild}}</td>
+</tr>

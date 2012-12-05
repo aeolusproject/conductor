@@ -1,0 +1,11 @@
+= filter_table(@header, @base_images) do |image|
+  = render :partial => 'image_row', :mustache => image_for_mustache(image)
+
+:javascript
+  $(document).ready(function(){
+    $('tr:odd').addClass('stripe');
+    $('tr:even').addClass('nostripe');
+  });
+
+%script#imageRowTemplate{ :type => 'text/html' }
+  = render :partial => 'tim/base_images/image_row'
