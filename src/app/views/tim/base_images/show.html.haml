@@ -33,7 +33,7 @@
       - if @versions.any?
         %span= t'tim.base_images.show.view_build'
         - if user_can_build
-          = form_tag image_path(@base_image.id), :method => :get do
+          = form_tag base_image_path(@base_image.id), :method => :get do
             = select_tag :build, options_for_build_select(@versions, @version, @latest_image_version)
             = submit_tag t('tim.base_images.show.select_build'), :id => 'select_build_button'
     %h2= t('tim.base_images.show.provider_images')
