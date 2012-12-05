@@ -322,7 +322,7 @@ class ApplicationController < ActionController::Base
 
   def set_admin_environments_tabs(tab)
     @tabs = [{:name => t('application_controller.admin_tabs.pool_families'), :url => main_app.pool_families_url, :id => 'pool_families'},
-             {:name => t('application_controller.admin_tabs.images'), :url => main_app.images_url, :id => 'images'},
+             {:name => t('application_controller.admin_tabs.images'), :url => tim.base_images_url, :id => 'images'},
     ]
     unless @details_tab = @tabs.find {|t| t[:id] == tab}
       raise "Tab '#{tab}' doesn't exist"
