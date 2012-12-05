@@ -128,25 +128,22 @@ module MustacheHelper
   end
 
   def image_for_mustache(image)
-    last_rebuild = I18n.l(Time.at(image.latest_pushed_or_unpushed_build.timestamp.to_f)) rescue ''
+    last_rebuild = I18n.l(Time.at(image.last_built_image_version.created_at.to_f)) rescue ''
+    os = image.template ? image.template.os : nil
 
     result = {
       :id   => image.id,
       :name => image.imported? ? "#{image.name} (Imported)" : image.name,
-      :path => image_path(image.id),
-      :os_name      => image.os.name.empty? ? "N/A" : image.os.name,
-      :os_version   => image.os.version.empty? ? "N/A" : image.os.version,
-      :architecture => image.architecture.blank? ? "N/A" : image.architecture,
-      :last_rebuild => last_rebuild
-    }
-
-    environment = PoolFamily.find_by_name(image.environment)
-    if environment
-      result[:environment] = {
-        :name => environment.name,
-        :path => pool_family_path(environment, :details_tab => 'images')
+      :path => tim.base_image_path(image.id),
+      :os_name      => os && os.name.present? ? os.name : "N/A",
+      :os_version   => os && os.version.present? ? os.version : "N/A",
+      :architecture => os && os.arch.present? ? os.arch : "N/A",
+      #:last_rebuild => last_rebuild
+      :environment => {
+        :name => image.pool_family.name,
+        :path => main_app.pool_family_path(image.pool_family, :details_tab => 'images')
       }
-    end
+    }
 
     result
   end
