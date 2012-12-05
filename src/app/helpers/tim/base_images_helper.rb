@@ -19,7 +19,8 @@
 
 module Tim::BaseImagesHelper
   def image_name(base_image)
-    base_image.imported? ? "#{base_image.name} (Imported)" : base_image.name
+    base_image.imported? ? "#{t('tim.base_images.imported_image_with_name', 
+      :image_name => base_image.name)}" : base_image.name
   end
 
   def options_for_build_select(builds, selected, latest)
