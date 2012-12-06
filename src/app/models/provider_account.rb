@@ -390,7 +390,11 @@ class ProviderAccount < ActiveRecord::Base
       errors << I18n.t('instances.errors.no_config_server_available', :account_name => name)
     else
       if not instance.frontend_realm.nil?
-        brealms = instance.frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == provider}
+        brealms = instance.frontend_realm.realm_backend_targets.select do |brealm_target|
+          brealm_target.target_provider == provider &&
+            (brealm_target.target_realm.nil? || (brealm_target.target_realm.available &&
+                                                 provider_realms.include?(brealm_target.target_realm)))
+        end
         if brealms.empty?
           errors << I18n.t('instances.errors.realm_not_mapped', :account_name => name, :frontend_realm_name => instance.frontend_realm.name)
         else
@@ -398,16 +402,14 @@ class ProviderAccount < ActiveRecord::Base
             # add match if realm is mapped to provider or if it's mapped to
             # backend realm which is available and is accessible for this
             # provider account
-            if (brealm_target.target_realm.nil? || (brealm_target.target_realm.available && provider_realms.include?(brealm_target.target_realm)))
-              matched << InstanceMatch.new(
-                :pool_family => instance.pool.pool_family,
-                :provider_account => self,
-                :hardware_profile => hwp,
-                :provider_image => account_image.external_image_id,
-                :provider_realm => brealm_target.target_realm,
-                :instance => instance
-              )
-            end
+            matched << InstanceMatch.new(
+              :pool_family => instance.pool.pool_family,
+              :provider_account => self,
+              :hardware_profile => hwp,
+              :provider_image => account_image.external_image_id,
+              :provider_realm => brealm_target.target_realm,
+              :instance => instance
+            )
           end
         end
       else
