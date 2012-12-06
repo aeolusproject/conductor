@@ -44,22 +44,4 @@ article{
     div.notice p:before{ background: image-url("alchemy/icons/success_icon.png") no-repeat 0 0; }
     div.warning p:before{ background: image-url("alchemy/icons/warning_icon.png") no-repeat 0 0; }
   }
-
-  .container section .card{
-    .spinner{
-      background: transparent image-url("login-spinner.gif") no-repeat center center;
-      height: 30px;
-      width: 30px;
-      margin-top: 0px;
-    }
-
-
-    fieldset.primary {
-      label {
-        color: rgba(black, 0.35);
-        @include text-shadow(1px 1px 0 white);
-      }
-    }
-
-  }
 }
