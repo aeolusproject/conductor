@@ -9,7 +9,7 @@
       .button-group
         = link_to t('tim.base_images.show.new_deployable_from_image'), main_app.new_deployable_path(:create_from_image => @base_image.id), :class => 'button'
         - unless @base_image.imported?
-          = link_to t('tim.base_images.show.template_xml'), main_app.template_image_path(@base_image.uuid), :class => 'button' # FIXME: This needs to be reimplemented
+          = link_to t('tim.base_images.show.template_xml'), tim.template_path(@base_image.template.id, :format => :xml), :class => 'button'
         = button_to t("delete"), base_image_path(@base_image.id), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger', :id => 'delete'
   %h1.no-icon= image_name(@base_image)
 
