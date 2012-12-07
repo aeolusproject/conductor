@@ -159,7 +159,12 @@ Tim::BaseImagesController.class_eval do
       _targetinfo = {
         :provider_type => provider_type,
         :target_image => target_image,
-        :provider_images => []
+        :provider_images => [],
+        :can_delete => target_image.present? && check_privilege(Privilege::MODIFY, @base_image),
+        :can_build => target_image.nil? && check_privilege(Privilege::MODIFY, @base_image),
+        :delete_url => target_image ? tim.target_image_path(target_image.id) : '',
+        :build_url => tim.target_images_path(:target_image => {:provider_type_id => provider_type.id,
+          :image_version_id => @version.id})
       }
       provider_accounts = accounts_for_provider_type(provider_type, all_prov_accts)
       provider_accounts.each do |provider_account|
@@ -168,7 +173,14 @@ Tim::BaseImagesController.class_eval do
         provider_image_data = {
           :provider_account => provider_account,
           :provider => provider_account.provider,
-          :provider_image => provider_image
+          :provider_image => provider_image,
+          :can_push => target_image && provider_image.nil? && check_privilege(Privilege::MODIFY, @base_image),
+          :can_delete => provider_image && check_privilege(Privilege::MODIFY, @base_image),
+          :push_url => target_image.nil? ? '' : tim.provider_images_path(:provider_image => {
+            :provider_account_id => provider_account.id,
+            :target_image_id => target_image.id
+          }),
+          :delete_url => provider_image ? tim.provider_image_path(provider_image.id) : ''
         }
         _targetinfo[:provider_images] << provider_image_data
       end
