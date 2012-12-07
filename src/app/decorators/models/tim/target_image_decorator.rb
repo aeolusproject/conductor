@@ -34,7 +34,7 @@ Tim::TargetImage.class_eval do
   end
 
   def self.find_by_images(images)
-    TargetImage.joins(:image_version).
+    Tim::TargetImage.joins(:image_version).
       where(:tim_image_versions => {:base_image_id => [images.map(&:id)]})
   end
 

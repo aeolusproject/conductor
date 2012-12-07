@@ -49,9 +49,9 @@ Tim::ProviderImage.class_eval do
     account = ProviderAccount.find(provider_account_id)
     conn = provider_account.connect
 
-    dc_image = conn.image(image_id) rescue nil
+    dc_image = conn.image(external_image_id) rescue nil
     if dc_image.blank?
-      errors.add(:base, t('tim.base_images.import.not_on_provider'))
+      errors.add(:base, I18n.t('tim.base_images.import.not_on_provider'))
       return false
     end
 
