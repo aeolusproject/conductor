@@ -177,7 +177,7 @@ class Deployment < ActiveRecord::Base
 
   def stop_instances_and_destroy!
     if destroyable?
-      destroy
+      destroy!
     else
       self.state = Deployment::STATE_SHUTTING_DOWN
       # The deployment will be destroyed from an InstanceObserver callback once
