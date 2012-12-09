@@ -592,38 +592,33 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def provider_selection_match_exists?
-    provider_selection_strategy = ProviderSelection::Base.new(instances)
-    pool.provider_selection_strategies.enabled.each do  |strategy|
-      provider_selection_strategy.chain_strategy(strategy.name, strategy.config)
+  def init_provider_selection
+    provider_selection = ProviderSelection::Base.new(instances)
+    pool.provider_selection_strategies.enabled.each do |strategy|
+      provider_selection.chain_strategy(strategy.name, strategy.config)
     end
+    provider_selection
+  end
 
-    provider_selection_strategy.match_exists?
+  def provider_selection_match_exists?
+    init_provider_selection.match_exists?
   end
 
   def pick_provider_selection_match
-    provider_selection_strategy = ProviderSelection::Base.new(instances)
-    pool.provider_selection_strategies.enabled.each do  |strategy|
-      provider_selection_strategy.chain_strategy(strategy.name, strategy.config)
+    provider_selection = init_provider_selection
+    match = provider_selection.next_match
+
+    return_error = proc { return [nil, nil, provider_selection.errors] }
+    return_error.call unless match.present?
+
+    all_matches = instances.map { |instance| instance.matches[0] }
+    provider_account = match.provider_account
+    matches_by_account = all_matches.map do |matches|
+      matches.find { |m| m.provider_account.id == provider_account.id }
     end
 
-    match = provider_selection_strategy.next_match
-
-    all_matches = instances.map do |instance|
-      matches, errors = instance.matches
-      matches
-    end
-
-    if match.present?
-      provider_account = match.provider_account
-      matches_by_account = all_matches.map do |matches|
-        matches.find {|m| m.provider_account.id == provider_account.id}
-      end
-
-      return [matches_by_account, provider_account, provider_selection_strategy.errors] unless matches_by_account.include?(nil)
-    end
-
-    [nil, nil, provider_selection_strategy.errors]
+    return_error.call if matches_by_account.include?(nil)
+    [matches_by_account, provider_account, provider_selection.errors]
   end
 
   def generate_uuid
