@@ -23,6 +23,30 @@ module ApiHelper
       xmlschema_seconds_string(datetime.strftime('%S.%N'))
   end
 
+  # Serializes into http://www.w3.org/TR/xmlschema-2/#duration
+  # e.g. "P432D14H34M45.023S"
+  # Uses units only upto days, because bigger units (months, years) are
+  # ambiguous). Always prints days, hours, minutes and seconds, even though
+  # the standard allows ommiting.
+  def xmlschema_absolute_duration(total_seconds)
+    seconds_in_day = 86400
+    seconds_in_hour = 3600
+    seconds_in_minute = 60
+
+    days, seconds_minus_days = total_seconds.abs.divmod(seconds_in_day)
+    hours, seconds_minus_hours = seconds_minus_days.divmod(seconds_in_hour)
+    minutes, seconds = seconds_minus_hours.divmod(seconds_in_minute)
+
+    time = ''
+    time << '-' if total_seconds < 0
+    time << 'P' <<
+            '%iD' % days <<
+            'T' <<
+            '%iH' % hours <<
+            '%iM' % minutes <<
+            '%sS' % xmlschema_seconds_string(seconds.to_s)
+  end
+
   private
 
   # Takes a string specifying number of seconds (e.g. "04.2500") and converts

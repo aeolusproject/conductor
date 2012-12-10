@@ -37,4 +37,49 @@ describe ApiHelper do
     end
   end
 
+  describe "xmlschema_absolute_duration" do
+    subject { api_helper.xmlschema_absolute_duration(duration) }
+
+    context "zero duration" do
+      let(:duration) { 0 }
+
+      it { should == "P0DT0H0M0S" }
+    end
+
+    context "decimal duration" do
+      let(:duration) { 3.14159 }
+
+      it { should == "P0DT0H0M3.14159S" }
+    end
+
+    context "decimal duration with no decimal places" do
+      let(:duration) { 1.0 }
+
+      it "should print 1S, not 1.0S" do
+        subject.should == "P0DT0H0M1S"
+      end
+    end
+
+    context "long duration" do
+      let(:duration) { 456 * 24 * 60 * 60 + # days
+                       8 * 60 * 60 + # hours
+                       57 * 60 + # minutes
+                       3 } # seconds
+
+      it { should == "P456DT8H57M3S" }
+    end
+
+    context "BigDecimal duration" do
+      let(:duration) { BigDecimal.new('0.123123123123123123') }
+
+      it { should == "P0DT0H0M0.123123123123123123S" }
+    end
+
+    context "seconds end with zero, no decimal point" do
+      let(:duration) { BigDecimal.new('10') }
+
+      it { should == "P0DT0H0M10S" }
+    end
+  end
+
 end
