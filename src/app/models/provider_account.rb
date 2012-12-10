@@ -65,6 +65,7 @@ class ProviderAccount < ActiveRecord::Base
 
   has_many :events, :as => :source, :dependent => :destroy,
            :order => 'events.id ASC'
+  has_many :provider_images, :class_name => "Tim::ProviderImage"
 
   # Helpers
   attr_accessor :x509_cert_priv_file, :x509_cert_pub_file
@@ -127,11 +128,6 @@ class ProviderAccount < ActiveRecord::Base
     [Quota]
   end
 
-  def provider_images
-    Aeolus::Image::Warehouse::ProviderImage.where(
-    "($provider == \"#{provider.name}\" && $provider_account_identifier == \"#{credentials_hash['username']}\")")
-  end
-
   def check_provider_images!
     imgs = provider_images.map {|pi| pi.target_image.build.image.name}
     if imgs.empty?
@@ -151,7 +147,7 @@ class ProviderAccount < ActiveRecord::Base
       raise Aeolus::Conductor::Base::NotDestroyable,
         I18n.t('provider_accounts.errors.not_destroyable_deployments',
                :deployments => not_destroyable_instances.
-               map{|i| i.deployment.name}.uniq.join(', '))
+               map{|i| i.deployment.nil? ? i.name : i.deployment.name}.uniq.join(', '))
     end
   end
 
@@ -380,69 +376,45 @@ class ProviderAccount < ActiveRecord::Base
     # hardware_profile that can satisfy the input hardware_profile
     elsif !(hwp = HardwareProfile.match_provider_hardware_profile(provider, instance.hardware_profile))
       errors << I18n.t('instances.errors.hw_profile_match_not_found', :account_name => name)
-    elsif (account_images = instance.provider_images_for_match(self)).empty?
+    elsif !(account_image = instance.provider_image_for_account(self))
       errors << I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => name)
     elsif instance.requires_config_server? and config_server.nil?
       errors << I18n.t('instances.errors.no_config_server_available', :account_name => name)
     else
-      account_images.each do |pi|
-        if not instance.frontend_realm.nil?
-          brealms = instance.frontend_realm.realm_backend_targets.select {|brealm_target| brealm_target.target_provider == provider}
-          if brealms.empty?
-            errors << I18n.t('instances.errors.realm_not_mapped', :account_name => name, :frontend_realm_name => instance.frontend_realm.name)
-            next
-          end
+      if not instance.frontend_realm.nil?
+        brealms = instance.frontend_realm.realm_backend_targets.select do |brealm_target|
+          brealm_target.target_provider == provider &&
+            (brealm_target.target_realm.nil? || (brealm_target.target_realm.available &&
+                                                 provider_realms.include?(brealm_target.target_realm)))
+        end
+        if brealms.empty?
+          errors << I18n.t('instances.errors.realm_not_mapped', :account_name => name, :frontend_realm_name => instance.frontend_realm.name)
+        else
           brealms.each do |brealm_target|
             # add match if realm is mapped to provider or if it's mapped to
             # backend realm which is available and is accessible for this
             # provider account
-            if (brealm_target.target_realm.nil? || (brealm_target.target_realm.available && provider_realms.include?(brealm_target.target_realm)))
-              matched << InstanceMatch.new(
-                :pool_family => instance.pool.pool_family,
-                :provider_account => self,
-                :hardware_profile => hwp,
-                :provider_image => pi.target_identifier,
-                :provider_realm => brealm_target.target_realm,
-                :instance => instance
-              )
-            end
+            matched << InstanceMatch.new(
+              :pool_family => instance.pool.pool_family,
+              :provider_account => self,
+              :hardware_profile => hwp,
+              :provider_image => account_image.external_image_id,
+              :provider_realm => brealm_target.target_realm,
+              :instance => instance
+            )
           end
-        else
-          matched << InstanceMatch.new(
-            :pool_family => instance.pool.pool_family,
-            :provider_account => self,
-            :hardware_profile => hwp,
-            :provider_image => pi.target_identifier,
-            :provider_realm => nil,
-            :instance => instance
-          )
         end
+      else
+        matched << InstanceMatch.new(
+          :pool_family => instance.pool.pool_family,
+          :provider_account => self,
+          :hardware_profile => hwp,
+          :provider_image => account_image.external_image_id,
+          :provider_realm => nil,
+          :instance => instance
+        )
       end
     end
-  end
-
-  # TODO: it would be much better to have this method in image model,
-  # but we don't have suitable image model ATM.
-  def image_status(image)
-    target = provider.provider_type.deltacloud_driver
-
-    builder = Aeolus::Image::Factory::Builder.first
-    return :building if builder.find_active_build_by_imageid(image.id, target)
-
-    build = image.latest_pushed_or_unpushed_build
-    return :not_built unless build
-
-    target_image = build.target_images.find { |ti| ti.target == target }
-    return :not_built unless target_image
-
-    return :pushing if builder.find_active_push(target_image.id,
-                                                provider.name,
-                                                credentials_hash["username"])
-
-    provider_image = target_image.find_provider_image_by_provider_and_account(
-        provider.name, credentials_hash["username"]).first
-    return :not_pushed unless provider_image
-    :pushed
   end
 
   def failure_count(options = {})

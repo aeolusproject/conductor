@@ -109,8 +109,8 @@ class PoolFamiliesController < ApplicationController
     @title = @pool_family.name
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
     require_privilege(Privilege::VIEW, @pool_family)
-    @all_images = @pool_family.images
-    @images = paginate_collection(@all_images, params[:page], PER_PAGE)
+    @all_images = @pool_family.base_images
+    @base_images = paginate_collection(@all_images, params[:page], PER_PAGE)
 
     load_pool_family_tabs
 
@@ -239,7 +239,7 @@ class PoolFamiliesController < ApplicationController
   def load_pool_family_tabs
     @tabs = [{:name => t('pools.pools'),:view => 'pools', :id => 'pools', :count => @pool_family.pools.count},
              {:name => t('accounts'), :view => 'provider_accounts', :id => 'provider_accounts', :count => @pool_family.provider_accounts.count},
-             {:name => t('images.index.images'), :view => 'images', :id => 'images', :count => @all_images.count},
+             {:name => t('tim.base_images.index.images'), :view => 'images', :id => 'images', :count => @all_images.count},
     ]
     add_permissions_tab(@pool_family)
     details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
@@ -262,11 +262,11 @@ class PoolFamiliesController < ApplicationController
     when @view == 'images'
       @header = [
         { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-        { :name => t('images.index.name'), :sort_attr => :name },
-        { :name => t('images.index.os'), :sort_attr => :name },
-        { :name => t('images.index.os_version'), :sort_attr => :name },
-        { :name => t('images.index.architecture'), :sort_attr => :name },
-        { :name => t('images.index.last_rebuild'), :sortable => false },
+        { :name => t('tim.base_images.index.name'), :sort_attr => :name },
+        { :name => t('tim.base_images.index.os'), :sort_attr => :name },
+        { :name => t('tim.base_images.index.os_version'), :sort_attr => :name },
+        { :name => t('tim.base_images.index.architecture'), :sort_attr => :name },
+        { :name => t('tim.base_images.index.last_rebuild'), :sortable => false },
       ]
     end
 
