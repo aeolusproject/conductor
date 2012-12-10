@@ -34,7 +34,7 @@ class RegistrationService
         @user.save!
         # perm list in the format:
         #   "[resource1_key, resource1_role], [resource2_key, resource2_role], ..."
-        MetadataObject.lookup("self_service_perms_list").split(/[\]],? ?|[\[]/).
+        MetadataObject.lookup("self_service_perms_list").to_s.split(/[\]],? ?|[\[]/).
           select {|x| !x.empty? }.each do |x|
             obj_key, role_key = x.split(/, ?/)
             default_obj = MetadataObject.lookup(obj_key)
