@@ -1353,6 +1353,7 @@ en:
         no_provider: "You don't have a Provider yet"
     errors:
       exception_while_validating: An error occurred when checking Provider credentials. Please check your setup and try again.
+      username_taken: Username has already been taken
       invalid_credentials: Login credentials are invalid for this Provider.
       populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
       populate_realms_failed: "Failed to populate Realms: %{message}"

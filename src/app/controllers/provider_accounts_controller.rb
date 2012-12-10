@@ -66,108 +66,111 @@ class ProviderAccountsController < ApplicationController
   end
 
   def new
-    @provider_account = ProviderAccount.new
     @title = t'provider_accounts.new.new_provider_account'
-    @quota = Quota.new
-    @providers = Provider.all
-    if @providers.empty?
-      flash[:error] = t"provider_accounts.flash.error.no_provider"
-    else
-      @provider = Provider.find(params[:provider_id])
-      require_privilege(Privilege::CREATE, ProviderAccount, @provider)
-    end
+    @provider = Provider.find(params[:provider_id])
+    require_privilege(Privilege::CREATE, ProviderAccount, @provider)
+
+    @provider_account = ProviderAccount.new(:quota => Quota.new,
+                                            :provider => @provider)
+    @provider_account.build_credentials
   end
 
   def create
     @provider = Provider.find(params[:provider_id] || params[:provider_account][:provider_id])
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
-    params[:provider_account][:provider_id] = @provider.id
-    @providers = Provider.all
     credentials_hash = credentials_hash_prepare
-    set_quota_param(:provider_account)
+
+    transform_quota_param(:provider_account)
     @provider_account = ProviderAccount.new(params[:provider_account])
+    @provider_account.provider = @provider
     @provider_account.credentials_hash = credentials_hash
-    @provider_account.quota = @quota = Quota.new
-    set_quota(@provider_account)
+    @provider_account.quota = Quota.new(params[:provider_account][:quota_attributes])
     @provider_account.pool_families << PoolFamily.default
-    begin
-      if @provider_account.save
-        @provider_account.assign_owner_roles(current_user)
-        respond_to do |format|
-          format.html do
-            flash[:notice] = t('provider_accounts.flash.notice.account_added', :list => @provider_account.name, :count => 1)
-            redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
-          end
-          format.xml { render 'show',
-                              :locals => { :provider_account => @provider_account, :with_credentials => true, :with_quota => true },
-                              :status => :created }
-        end
-      else
-        respond_to do |format|
-          format.html do
-            flash[:error] = t"provider_accounts.flash.error.not_added"
-            render :action => 'new' and return
-          end
-          format.xml { render 'api/validation_error',
-                              :locals => { :errors => @provider_account.errors },
-                              :status => :unprocessable_entity }
-        end
-      end
-    rescue Exception => e
-      error = humanize_error(e.message, :context => :deltacloud)
-      logger.warn "***************************"
-      logger.warn "Exception caught: #{e.message}"
-      logger.warn "#{e.backtrace.join("  \n")}"
+
+    if @provider_account.save
+      @provider_account.assign_owner_roles(current_user)
+
       respond_to do |format|
         format.html do
-          flash[:error] = "#{t('provider_accounts.flash.error.account_not_added', :list => @provider_account.name,
-            :count => 1)}: #{error}"
-            render :action => 'new' and return
+          flash[:notice] = t('provider_accounts.flash.notice.account_added', :list => @provider_account.name, :count => 1)
+          redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
         end
-        format.xml { render 'api/error', :locals => { :error => e }, :status => 500 }
+        format.xml do
+          render('show',
+                 :locals => { :provider_account => @provider_account,
+                              :with_credentials => true,
+                              :with_quota => true },
+                 :status => :created)
+        end
       end
+    else
+      respond_to do |format|
+        format.html do
+          @title = t'provider_accounts.new.new_provider_account'
+          render :action => 'new'
+        end
+        format.xml do
+          render('api/validation_error',
+                 :locals => { :errors => @provider_account.errors },
+                 :status => :unprocessable_entity)
+        end
+      end
+    end
+  rescue Exception => e
+    logger.warn "Exception caught: #{e.message}"
+    logger.warn "#{e.backtrace.join("\n")}"
+
+    respond_to do |format|
+      format.html do
+        error = humanize_error(e.message, :context => :deltacloud)
+        flash[:error] = t('provider_accounts.flash.error.account_not_added',
+                          :list => @provider_account.name, :count => 1) + ": #{error}"
+        render :action => 'new'
+      end
+      format.xml { render 'api/error', :locals => { :error => e }, :status => 500 }
     end
   end
 
   def edit
     @provider_account = ProviderAccount.find(params[:id])
     @title = t('provider_accounts.edit.account', :name => @provider_account.name)
-    @provider = Provider.find(params[:provider_id])
-    @selected_provider = @provider_account.provider
-    @quota = @provider_account.quota
-    @providers = Provider.find(:all)
     require_privilege(Privilege::MODIFY,@provider_account)
   end
 
   def update
     @provider_account = ProviderAccount.find(params[:id])
-    @selected_provider = @provider = @provider_account.provider
-    require_privilege(Privilege::MODIFY, @provider)
-    require_privilege(Privilege::MODIFY,@provider_account)
-    @quota = @provider_account.quota
-    @providers = Provider.find(:all)
-    set_quota_param(:provider_account)
-    set_quota(@provider_account)
+    require_privilege(Privilege::MODIFY, @provider_account.provider)
+    require_privilege(Privilege::MODIFY, @provider_account)
     credentials_hash = credentials_hash_prepare
-    @provider_account.attributes = params[:provider_account]
-    @provider_account.credentials_hash= credentials_hash
+    transform_quota_param(:provider_account)
+    @provider_account.assign_attributes(params[:provider_account])
+    @provider_account.credentials_hash = credentials_hash
+
     if @provider_account.save
       respond_to do |format|
         format.html do
-          flash[:notice] = t"provider_accounts.flash.notice.updated"
-          redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
+          flash[:notice] = t("provider_accounts.flash.notice.updated")
+          redirect_to edit_provider_path(@provider_account.provider, :details_tab => 'accounts')
         end
-        format.xml { render 'show', :locals => { :provider_account => @provider_account, :with_credentials => true, :with_quota => true }, :status => :ok }
+        format.xml do
+          render 'show',
+                 :locals => { :provider_account => @provider_account,
+                              :with_credentials => true,
+                              :with_quota => true },
+                 :status => :ok
+        end
       end
     else
       respond_to do |format|
         format.html do
-          flash[:error] = t"provider_accounts.flash.error.not_updated"
+          flash[:error] = t("provider_accounts.flash.error.not_updated")
           render :action => :edit
         end
-        format.xml { render 'api/validation_error',
-                            :locals => { :errors => @provider_account.errors },
-                            :status => :unprocessable_entity }
+        format.xml do
+          render 'api/validation_error',
+                 :locals => { :errors => @provider_account.errors },
+                 :status => :unprocessable_entity
+        end
       end
     end
   end
@@ -256,12 +259,12 @@ class ProviderAccountsController < ApplicationController
 
   def test_account(account)
     if account.valid_credentials?
-      flash.now[:notice] = t"provider_accounts.flash.notice.test_connection_success"
+      flash.now[:notice] = t("provider_accounts.flash.notice.test_connection_success")
     else
-      flash.now[:error] = t"provider_accounts.flash.error.test_connection_failed_invalid"
+      flash.now[:error] = t("provider_accounts.flash.error.test_connection_failed_invalid")
     end
   rescue
-    flash.now[:error] = t"provider_accounts.flash.error.test_connection_failed_provider"
+    flash.now[:error] = t("provider_accounts.flash.error.test_connection_failed_provider")
   end
 
   def load_provider
@@ -281,9 +284,9 @@ class ProviderAccountsController < ApplicationController
 
   def credentials_hash_prepare
     if params[:provider_account][:credentials]
-      params[:provider_account].delete( :credentials )
-    elsif params[:provider_account][:credentials_hash]
-      params[:provider_account].delete( :credentials_hash )
+      params[:provider_account].delete(:credentials)
+    elsif params[:provider_account][:credentials_attributes]
+      params[:provider_account].delete(:credentials_attributes)
     else
       nil
     end

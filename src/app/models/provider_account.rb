@@ -34,6 +34,7 @@
 require 'nokogiri'
 
 class ProviderAccount < ActiveRecord::Base
+
   class << self
     include CommonFilterMethods
   end
@@ -54,44 +55,88 @@ class ProviderAccount < ActiveRecord::Base
   has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "derived_permissions.id ASC"
-
-  # validation of credentials is done in provider_account validation, :validate => false prevents nested_attributes from validation
-  has_many :credentials, :dependent => :destroy, :validate => false
-  accepts_nested_attributes_for :credentials
+  has_many :credentials, :dependent => :destroy
   # eventually, this might be "has_many", but first pass is one-to-one
   has_one :config_server, :dependent => :destroy
-
   has_many :provider_priority_group_elements, :as => :value, :dependent => :destroy
+  has_many :events, :as => :source, :dependent => :destroy, :order => 'events.id ASC'
 
-  has_many :events, :as => :source, :dependent => :destroy,
-           :order => 'events.id ASC'
+  # Scopes
+  scope :enabled, lambda { where(:provider_id => Provider.enabled) }
 
   # Helpers
   attr_accessor :x509_cert_priv_file, :x509_cert_pub_file
-
-  # Validations
-  validates_presence_of :provider
-  validates_presence_of :label
-  validates_uniqueness_of :label
-  validates_presence_of :quota
-  validate :validate_presence_of_credentials
-  validate :validate_credentials
-  validate :validate_unique_username
-  validates :priority,
-            :numericality => { :only_integer => true,
-                               :greater_than_or_equal_to => -100,
-                               :less_than_or_equal_to => 100 },
-            :allow_blank => true
-
-  before_create :populate_profiles_and_validate
-  after_create :populate_realms_and_validate
-
-  scope :enabled, lambda { where(:provider_id => Provider.enabled) }
+  accepts_nested_attributes_for :credentials
+  accepts_nested_attributes_for :quota
 
   # We set credentials hash as protected so that it is not set during mass assign on new
   # This is to avoid the scenario where the credentials are set before provider which
   # will result in an exception.
   attr_protected :credentials_hash
+
+  # Validations
+  validates :label, :presence => true,
+                    :uniqueness => true,
+                    :length => { :within => 1..100 }
+  validates :priority,
+            :numericality => { :only_integer => true,
+                               :greater_than_or_equal_to => -100,
+                               :less_than_or_equal_to => 100 },
+            :allow_blank => true
+  validates :provider, :presence => true
+  validates :quota, :presence => true
+  validate :validate_presence_of_credentials
+  validate :validate_credentials
+  validate :validate_unique_username
+
+  # Callbacks
+  before_create :populate_profiles_and_validate
+  after_create :populate_realms_and_validate
+
+  def self.additional_privilege_target_types
+    [Quota]
+  end
+
+  def self.xml_export(accounts)
+    doc = Nokogiri::XML('')
+    doc.root = Nokogiri::XML::Node.new('provider_accounts', doc)
+    root = doc.root.at_xpath('/provider_accounts')
+    accounts.each do |account|
+      root << account.to_xml
+    end
+    doc.to_xml
+  end
+
+  PRESET_FILTERS_OPTIONS = []
+
+  def self.group_by_type(pool_family)
+    res = {}
+    family_accounts = pool_family.nil? ? [] : pool_family.provider_accounts
+    ProviderAccount.enabled.each do |account|
+      ptype = account.provider.provider_type
+      res[ptype.deltacloud_driver] ||= {:type => ptype, :accounts => []}
+      res[ptype.deltacloud_driver][:accounts] << {:account => account,
+                                                  :included => family_accounts.include?(account)}
+    end
+    res.each do |driver, group|
+      group[:included] = (group[:accounts].count{|a| a[:included]} > 0)
+    end
+    res
+  end
+
+  # This is to allow us to look up the ProviderAccount for a given provider image
+  def self.find_by_provider_name_and_login(provider_name, login)
+    begin
+      provider = Provider.find_by_name(provider_name)
+      credential_definition = CredentialDefinition.find_by_provider_type_id_and_name(provider.provider_type.id, 'username')
+      where_hash = {:credential_definition_id => credential_definition.id, :value => login}
+      cred = Credential.where(where_hash).includes(:provider_account).where('provider_accounts.provider_id' => provider.id)
+      # The above should always return an array with zero (if an error) or one element, but rescue nil to be safe:
+      cred.first.provider_account rescue nil
+    rescue
+      nil
+    end
+  end
 
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
@@ -110,21 +155,21 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def validate_unique_username
-    cid = CredentialDefinition.find_by_name('username', :conditions => {:provider_type_id => provider.provider_type.id})
-    Credential.all(:conditions => {:value => credentials_hash['username'], :credential_definition_id => cid}).each do |c|
-      if c.provider_account.provider == self.provider && c.provider_account_id != self.id
-        errors.add(:base, "Username has already been taken")
-        return false
-      end
+    username_cred_def = CredentialDefinition.where(:name => 'username', :provider_type_id => provider.provider_type.id).first!
+    username_cred = credentials.detect{ |credential| credential.credential_definition_id = username_cred_def.id }
+    same_username_creds =
+      Credential.where(:credential_definition_id => username_cred_def.id,
+                       :value => username_cred.value).
+                 where("credentials.id != ?", username_cred.id).all
+
+    if same_username_creds.any?{ |c| c.provider_account.provider_id == username_cred.provider_account.provider_id  }
+      username_cred.errors.add(:value, I18n.t('provider_accounts.errors.username_taken'))
+      errors.add(:base, I18n.t('provider_accounts.errors.username_taken'))
     end
-    return true
   end
 
   def perm_ancestors
     super + [provider]
-  end
-  def self.additional_privilege_target_types
-    [Quota]
   end
 
   def provider_images
@@ -251,7 +296,7 @@ class ProviderAccount < ActiveRecord::Base
       hash.each do |k,v|
         cred_def = cred_defs.detect {|d| d.name == k.to_s}
         raise "Key #{k} not found" unless cred_def
-        unless cred = credentials.detect {|c| c.credential_definition_id == cred_def.id}
+        unless cred = credentials.detect{ |c| c.credential_definition_id == cred_def.id }
             cred = Credential.new(:provider_account_id => id, :credential_definition_id => cred_def.id)
             credentials << cred
         end
@@ -261,9 +306,14 @@ class ProviderAccount < ActiveRecord::Base
     end
   end
 
-  def all_credentials(prov)
-    prov.provider_type.credential_definitions.map do |cd|
-      credentials.detect {|c| c.credential_definition_id == cd.id} || Credential.new(:credential_definition => cd, :value => nil)
+  def build_credentials
+    creds = provider.provider_type.credential_definitions.map do |cd|
+      cred = credentials.detect {|c| c.credential_definition_id == cd.id}
+      cred ||= Credential.new(:credential_definition => cd, :value => nil)
+    end
+
+    self.credentials = creds.sort_by do |cred|
+      CredentialDefinition::CREDENTIAL_DEFINITIONS_ORDER.index(cred.credential_definition.name)
     end
   end
 
@@ -326,47 +376,6 @@ class ProviderAccount < ActiveRecord::Base
     end
 
     doc.root.to_xml
-  end
-
-  def self.xml_export(accounts)
-    doc = Nokogiri::XML('')
-    doc.root = Nokogiri::XML::Node.new('provider_accounts', doc)
-    root = doc.root.at_xpath('/provider_accounts')
-    accounts.each do |account|
-      root << account.to_xml
-    end
-    doc.to_xml
-  end
-
-  PRESET_FILTERS_OPTIONS = []
-
-  def self.group_by_type(pool_family)
-    res = {}
-    family_accounts = pool_family.nil? ? [] : pool_family.provider_accounts
-    ProviderAccount.enabled.each do |account|
-      ptype = account.provider.provider_type
-      res[ptype.deltacloud_driver] ||= {:type => ptype, :accounts => []}
-      res[ptype.deltacloud_driver][:accounts] << {:account => account,
-                                                  :included => family_accounts.include?(account)}
-    end
-    res.each do |driver, group|
-      group[:included] = (group[:accounts].count{|a| a[:included]} > 0)
-    end
-    res
-  end
-
-  # This is to allow us to look up the ProviderAccount for a given provider image
-  def self.find_by_provider_name_and_login(provider_name, login)
-    begin
-      provider = Provider.find_by_name(provider_name)
-      credential_definition = CredentialDefinition.find_by_provider_type_id_and_name(provider.provider_type.id, 'username')
-      where_hash = {:credential_definition_id => credential_definition.id, :value => login}
-      cred = Credential.where(where_hash).includes(:provider_account).where('provider_accounts.provider_id' => provider.id)
-      # The above should always return an array with zero (if an error) or one element, but rescue nil to be safe:
-      cred.first.provider_account rescue nil
-    rescue
-      nil
-    end
   end
 
   def instance_matches(instance, matched, errors)
@@ -462,7 +471,6 @@ class ProviderAccount < ActiveRecord::Base
   def to_polymorphic_path_param(polymorphic_path_extras)
     [provider, self]
   end
-
 
   private
 
