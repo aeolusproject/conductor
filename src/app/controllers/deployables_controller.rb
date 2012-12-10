@@ -30,13 +30,18 @@ class DeployablesController < ApplicationController
       # * should list only those user can VIEW
       # * do we allow traversing unpriviledged resources?
       #   i.e. when user doesn't have VIEW perm for Catalog or Pool
-      catalogs = Catalog.find_all_by_pool_id(params[:pool_id])
-      deployables = catalogs.map { |_c| _c.deployables }.reduce(&:+)
 
-      perm_deployables = Deployable.
-        list_for_user(current_session, current_user, Privilege::VIEW)
+      Deployable.transaction do
+        Pool.find(params[:pool_id])
+        # only for it's side effect of raising exception in case of 404
+        catalogs = Catalog.find_all_by_pool_id(params[:pool_id])
+        deployables = catalogs.map { |_c| _c.deployables }.reduce([], &:+)
 
-      @deployables = deployables.to_set & perm_deployables.to_set
+        perm_deployables = Deployable.
+          list_for_user(current_session, current_user, Privilege::VIEW)
+
+        @deployables = deployables.to_set & perm_deployables.to_set
+      end
     else
       respond_to do |format|
         format.html {
