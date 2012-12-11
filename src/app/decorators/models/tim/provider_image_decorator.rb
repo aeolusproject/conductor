@@ -18,7 +18,7 @@ Tim::ProviderImage.class_eval do
   belongs_to :provider_account
 
   validates_presence_of :provider_account
-  validate :valid_external_image_id?, :if => :imported?
+  validate :valid_external_image_id?, :if => :should_validate_external_image?
 
   before_create :set_credentials
 
@@ -45,13 +45,17 @@ Tim::ProviderImage.class_eval do
     target_image.base_image
   end
 
+  def should_validate_external_image?
+    imported? && external_image_id.present?
+  end
+
   def valid_external_image_id?
     account = ProviderAccount.find(provider_account_id)
     conn = provider_account.connect
 
     dc_image = conn.image(external_image_id) rescue nil
     if dc_image.blank?
-      errors.add(:base, I18n.t('tim.base_images.import.not_on_provider'))
+      errors.add(:external_image_id, I18n.t('tim.base_images.import.not_on_provider'))
       return false
     end
 

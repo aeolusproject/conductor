@@ -1501,15 +1501,19 @@ en:
       environment: Environment
       environment_header: Environment
       import:
-        import_image: Import Image
-        provider_account: Provider Account
-        image_id: Provider's Image ID
-        name: Image Name
-        image_imported: The image was imported successfully.
-        image_not_imported: The image could not be imported. Check the Image Factory log for further details.
-        blank_id: Image ID cannot be blank.
+        import_image: "Import Image"
+        provider_account: "Provider Account"
+        image_id: "Provider's Image ID"
+        name: "Image Name"
+        image_imported: "The image was imported successfully."
+        image_not_imported: "The image could not be imported. Check the Image Factory log for further details."
+        blank_id: "Image ID cannot be blank."
         provider_unreachable: "Conductor could not connect to Image Factory. Please verify that Image Factory is running and is correctly configured."
-        not_on_provider: The requested image was not found on the Provider.
+        not_on_provider: "was not found on the Provider."
+        image_versions:
+          target_images:
+            provider_images:
+              external_image_id: "Image ID"
       index:
         images: Images
         name: Name
