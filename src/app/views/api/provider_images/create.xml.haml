@@ -1,6 +1,0 @@
-!!! XML
-%provider_images
-  - @provider_images.each do |provider_image|
-    = render :partial => "factory_provider_image", :locals => {:provider_image => provider_image}
-  - @errors.each do |error|
-    %error=error

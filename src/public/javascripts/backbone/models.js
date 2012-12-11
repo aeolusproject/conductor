@@ -81,7 +81,7 @@ Conductor.Models.Deployments = Backbone.Collection.extend({
 Conductor.Models.Images = Backbone.Model.extend({
   queryParams: {},
   url: function() {
-    var path = Conductor.prefixedPath('/images/');
+    var path = Conductor.prefixedPath('/tim/base_images/');
     return Conductor.parameterizedPath(path, this.queryParams);
   }
 });
@@ -89,7 +89,7 @@ Conductor.Models.Images = Backbone.Model.extend({
 Conductor.Models.Image = Backbone.Model.extend({
   queryParams: {},
   url: function() {
-    var path = Conductor.prefixedPath('/images/' + this.id);
+    var path = Conductor.prefixedPath('/tim/base_images/' + this.id);
     return Conductor.parameterizedPath(path, this.queryParams);
   }
 });

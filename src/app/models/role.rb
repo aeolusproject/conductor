@@ -42,7 +42,8 @@ class Role < ActiveRecord::Base
   validates_length_of :name, :maximum => 255
 
   def privilege_target_types
-    privileges.collect {|x| Kernel.const_get(x.target_type)}.uniq
+    #privileges.collect {|x| Kernel.const_get(x.target_type)}.uniq
+    privileges.collect {|x| x.target_type.constantize}.uniq
   end
   def privilege_target_match(obj_type)
     (privilege_target_types & obj_type.active_privilege_target_types).any?

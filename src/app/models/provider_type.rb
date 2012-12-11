@@ -32,6 +32,7 @@ class ProviderType < ActiveRecord::Base
 
   has_many :providers
   has_many :credential_definitions, :dependent => :destroy
+  has_many :target_images, :class_name => "Tim::TargetImage"
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -60,5 +61,16 @@ class ProviderType < ActiveRecord::Base
   def destroy_supported?
     # dc-core destroys openstack instances on stop request
     !['ec2', 'mock', 'openstack'].include?(deltacloud_driver)
+  end
+
+  # FIXME: temporary translation table for new imagefactory
+  # which translates deltacloud_driver to imagefactory target
+  def imagefactory_target_name
+    targets = {
+      'mock' => 'MockSphere',
+      'openstack' => 'openstack-kvm',
+    }
+
+    targets[deltacloud_driver] || deltacloud_driver
   end
 end
