@@ -1,0 +1,66 @@
+{{#images}}
+  <li class="clearfix">
+    <dl>
+      <dt>
+        <div class="build-actions">
+          <h3>{{provider_type.name}}</h3>
+          {{#target_image.present?}}
+            {{#can_delete}}
+              <%= button_to(t('tim.base_images.show.delete'),
+                '{{delete_url}}',
+                :method => :delete) %>
+            {{/can_delete}}
+          {{/target_image.present?}}
+          {{^target_image.present?}}
+            {{#can_build}}
+              <%= button_to(t('tim.base_images.show.build'),
+                '{{build_url}}',
+                :method => :post) %>
+            {{/can_build}}
+          {{/target_image.present?}}
+        </div>
+      </dt>
+      <dd>
+        <table class="light_table">
+          <thead>
+            <tr><th>
+              <strong><%= t('tim.base_images.show.account') %></strong>
+            </th>
+            <th>
+              <%= t('tim.base_images.show.provider') %>
+            </th>
+            <th>
+              <%= t('tim.base_images.show.providers_image_id') %>
+            </th>
+            <th class="image_controls"></th>
+          </tr></thead>
+          <tbody>
+          {{#provider_images}}
+            <tr>
+              <td><strong> {{provider_account.name}} </strong></td>
+              <td class="light">{{provider.name }} </td>
+              <td class="light">{{provider_image.external_image_id}}</td>
+              <td class="light">
+              {{#provider_image.pushed?}}
+                {{#can_delete}}
+                <%= button_to(t('tim.base_images.show.delete'),
+                  '{{delete_url}}',
+                  :method => :delete) %>
+                {{/can_delete}}
+              {{/provider_image.pushed?}}
+              {{^provider_image.pushed?}}
+                {{#can_push}}
+                  <%= button_to(t('tim.base_images.show.push'),
+                    '{{push_url}}',
+                    :method => :post) %>
+                {{/can_push}}
+              {{/provider_image.pushed?}}
+              </td>
+            </tr>
+          {{/provider_images}}
+          </tbody>
+        </table>
+      </dd>
+    </dl>
+  </li>
+{{/images}}
