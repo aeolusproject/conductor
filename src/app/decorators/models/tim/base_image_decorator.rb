@@ -31,6 +31,15 @@ Tim::BaseImage.class_eval do
 
   before_create :generate_uuid
 
+  # TODO: Tim uses nested_attributes heavily, when importing an image
+  # whole stack of nested objects is created/validated, but then validation
+  # attribute name looks like:
+  # image_versions.target_images.provider_images.external_image_id
+  # More human readable translations are defined in localization file.
+  def self.human_attribute_name(attr, opts = {})
+    I18n.t("tim.base_images.import.#{attr}", :default => opts[:default])
+  end
+
   def template_url=(url)
     init_template(import_xml_from_url(url))
   end
