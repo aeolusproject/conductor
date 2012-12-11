@@ -23,6 +23,43 @@ module ApiHelper
       xmlschema_seconds_string(datetime.strftime('%S.%N'))
   end
 
+  # Serializes into http://www.w3.org/TR/xmlschema-2/#duration
+  # e.g. "P432D14H34M45.023S"
+  # Uses units only upto days, because bigger units (months, years) are
+  # ambiguous). Always prints days, hours, minutes and seconds, even though
+  # the standard allows ommiting.
+  #
+  # Argument max_decimal_places is set to 9 (nanoseconds) by default, can be
+  # set to nil when using BigDecimal total_seconds, then the precision is
+  # unlimited (will print the BigDecimal precisely).
+  def xmlschema_absolute_duration(total_seconds, max_decimal_places = 9)
+    seconds_in_day = 86400
+    seconds_in_hour = 3600
+    seconds_in_minute = 60
+
+    days, seconds_minus_days = total_seconds.abs.divmod(seconds_in_day)
+    hours, seconds_minus_hours = seconds_minus_days.divmod(seconds_in_hour)
+    minutes, seconds = seconds_minus_hours.divmod(seconds_in_minute)
+
+    raw_seconds_string =
+      if max_decimal_places
+        "%.#{max_decimal_places}f" % seconds
+      elsif seconds.kind_of? BigDecimal
+        seconds.to_s
+      else
+        raise ArgumentError, "max_decimal_places can be nil only when total_seconds is BigDecimal"
+      end
+
+    time = ''
+    time << '-' if total_seconds < 0
+    time << 'P' <<
+            '%iD' % days <<
+            'T' <<
+            '%iH' % hours <<
+            '%iM' % minutes <<
+            '%sS' % xmlschema_seconds_string(raw_seconds_string)
+  end
+
   private
 
   # Takes a string specifying number of seconds (e.g. "04.2500") and converts
