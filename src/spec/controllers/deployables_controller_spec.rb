@@ -30,8 +30,7 @@ describe DeployablesController do
     context "with params[:create_from_image]" do
       before do
         @deployable = stub_model(Deployable, :name => "test_new", :id => 1)
-        @image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :name => 'image1', :uuid => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :environment => "default")
-        Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
+        @image = FactoryGirl.create(:base_image_with_template)
       end
 
       it "returns flash[:error] when no hardware profile exists" do
@@ -56,8 +55,7 @@ describe DeployablesController do
 
   describe "#create" do
     before(:each) do
-      @image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :name => 'image1', :uuid => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :environment => "default")
-      Aeolus::Image::Warehouse::Image.stub(:find).and_return(@image)
+      @image = FactoryGirl.create(:base_image_with_template)
     end
 
     it "creates new deployable from image via UI" do

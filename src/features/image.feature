@@ -10,7 +10,7 @@ Feature: Manage Images
   Scenario: Uploading a template without specifying the file
     Given there is a pool family named "testpoolfamily"
     And I am on the new image page for "testpoolfamily"
-    When I fill in "name" with "my template"
+    When I fill in "base_image_name" with "my template"
     And I press "file_button"
     Then I should see an error message
 
@@ -18,12 +18,12 @@ Feature: Manage Images
     Given there is a pool family named "testpoolfamily"
     And I am on the pool families page
     And I am on the new image page for "testpoolfamily"
-    When I fill in "name" with "my template"
-    And I attach the file "features/upload_files/template.xml" to "image_file"
+    When I fill in "base_image_name" with "my template"
+    And I attach the file "features/upload_files/template.xml" to "base_image_template_file"
     And I check "edit"
     And I press "file_button"
     Then I should be on the edit xml images page
-    When I fill in "image_xml" with an invalid XML
+    When I fill in "base_image_template_attributes_xml" with an invalid XML
     And I press "save_image"
     Then I should see an error message
 

@@ -4,13 +4,13 @@ Feature: User sessions
   I must first log in
 
   Scenario: Accessing page without logging in redirects to login page
-    When I visit the images page
+    When I visit the providers page
     Then I should be on the login page
 
   Scenario: Login returns user to previous page
-    Given I visit the images page
+    Given I visit the providers page
     And I login
-    Then I should be on the images page
+    Then I should be on the providers page
 
   Scenario: Retrieve forgotten username
     Given there is a user "admin"

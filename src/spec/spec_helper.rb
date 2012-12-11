@@ -103,10 +103,21 @@ class FakeResponse
   end
 end
 
+# TODO: didn't find simple way how to make available engine's routes
+# in spec/controllers/* tests. Including helpers by:
+# config.include Tim::Engine.routes.url_helpers
+# doesn't work properly because the include overrides root_* helpers
+# which are defined in Tim engine too
+def tim_route(path_sym, params)
+  Tim::Engine.routes.url_helpers.send(path_sym, params)
+end
+
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
   config.fixture_path = Rails.root.join("spec/fixtures")
+
+  Tim::Engine.routes.default_url_options = {:host => 'test.host'}
 
   #
   # == Mock Framework
@@ -134,5 +145,4 @@ RSpec.configure do |config|
   config.after(:each, :type => :request) do
     Warden.test_reset!
   end
-
 end

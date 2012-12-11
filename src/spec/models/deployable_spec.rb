@@ -28,8 +28,7 @@ describe Deployable do
   end
 
   it "should generate xml when set from image" do
-    image = mock(Aeolus::Image::Warehouse::Image, :id => '3c58e0d6-d11a-4e68-8b12-233783e56d35', :name => 'image1', :uuid => '3c58e0d6-d11a-4e68-8b12-233783e56d35')
-    Aeolus::Image::Warehouse::Image.stub(:find).and_return(image)
+    image = FactoryGirl.create(:base_image_with_template)
     hw_profile = FactoryGirl.build(:front_hwp1)
     deployable = FactoryGirl.build(:deployable)
     deployable.set_from_image(image, deployable.name, hw_profile)

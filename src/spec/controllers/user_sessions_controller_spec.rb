@@ -18,7 +18,6 @@ require 'spec_helper'
 include Warden::Test::Helpers
 
 describe UserSessionsController do
-
   fixtures :all
   before(:each) do
     @tuser = FactoryGirl.create :tuser

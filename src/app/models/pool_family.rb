@@ -53,10 +53,10 @@ class PoolFamily < ActiveRecord::Base
   has_many :deployables
   has_many :instances
   has_many :deployments
+  has_many :base_images, :class_name => "Tim::BaseImage"
+  has_many :templates, :class_name => "Tim::Template"
 
   accepts_nested_attributes_for :quota
-
-  after_update :fix_iwhd_environment_tags
 
   validates :name, :presence => true,
                    :uniqueness => true,
@@ -73,7 +73,7 @@ class PoolFamily < ActiveRecord::Base
   end
 
   def self.additional_privilege_target_types
-    [Pool, Quota]
+    [Pool, Quota, Tim::BaseImage, Tim::Template]
   end
 
   def derived_subtree(role = nil)
@@ -83,6 +83,8 @@ class PoolFamily < ActiveRecord::Base
     subtree += instances if (role.nil? or role.privilege_target_match(Instance))
     subtree += catalogs if (role.nil? or role.privilege_target_match(Deployable))
     subtree += deployables if (role.nil? or role.privilege_target_match(Deployable))
+    subtree += base_images if (role.nil? or role.privilege_target_match(Tim::BaseImage))
+    subtree += templates if (role.nil? or role.privilege_target_match(Tim::Template))
     subtree
   end
 
@@ -107,18 +109,13 @@ class PoolFamily < ActiveRecord::Base
   end
 
   def check_images!
-    referenced_images = images
-    if referenced_images.empty?
+    if base_images.empty?
       true
     else
       raise Aeolus::Conductor::Base::NotDestroyable,
         I18n.t('pool_families.errors.associated_images',
-               :list => referenced_images.map {|i| i.name}.join(', '))
+               :list => base_images.map {|i| i.name}.join(', '))
     end
-  end
-
-  def images
-    Aeolus::Image::Warehouse::Image.by_environment(self.name)
   end
 
   def all_providers_disabled?
@@ -162,13 +159,5 @@ class PoolFamily < ActiveRecord::Base
       targets << driver if group[:included]
     end
     targets
-  end
-
-  def fix_iwhd_environment_tags
-    if name_changed?
-      Aeolus::Image::Warehouse::Image.by_environment(name_was).each do |image|
-        image.set_attr("environment", name)
-      end
-    end
   end
 end
