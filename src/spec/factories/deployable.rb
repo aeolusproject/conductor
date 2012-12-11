@@ -17,21 +17,26 @@
 FactoryGirl.define do
   factory :deployable do
     sequence(:name) { |n| "deployable#{n}" }
-    xml "<?xml version=\"1.0\"?>
+    xml {
+      # FIXME: should be on better place
+      Tim::ProviderImage.any_instance.stub(:create_factory_provider_image).and_return(true)
+      Tim::TargetImage.any_instance.stub(:create_factory_target_image).and_return(true)
+      pimg = FactoryGirl.create(:provider_image, :status => 'COMPLETED')
+      "<?xml version=\"1.0\"?>
             <deployable version='1.0' name='my'>
               <description>This is my testing image</description>
               <assemblies>
                 <assembly name='frontend' hwp='front_hwp1'>
-                  <image id='53d2a281-448b-4872-b1b0-680edaad5922' build='63838705-8608-44c6-aded-7c243137172c'></image>
+                  <image id='#{pimg.target_image.image_version.base_image.uuid}' build='#{pimg.target_image.image_version.uuid}'></image>
                 </assembly>
                 <assembly name='backend' hwp='front_hwp2'>
-                  <image id='53d2a281-448b-4872-b1b0-680edaad5922' build='63838705-8608-44c6-aded-7c243137172c'></image>
+                  <image id='#{pimg.target_image.image_version.base_image.uuid}' build='#{pimg.target_image.image_version.uuid}'></image>
                 </assembly>
               </assemblies>
             </deployable>"
+    }
     description "deployable description"
     association :owner, :factory => :user
-
   end
 
   factory :deployable_unique_name_violation, :parent => :deployable do
@@ -50,12 +55,16 @@ FactoryGirl.define do
   end
 
   factory :deployable_with_parameters, :parent => :deployable do
-    xml "<?xml version=\"1.0\"?>
+    xml {
+      Tim::ProviderImage.any_instance.stub(:create_factory_provider_image).and_return(true)
+      Tim::TargetImage.any_instance.stub(:create_factory_target_image).and_return(true)
+      pimg = FactoryGirl.create(:provider_image)
+      "<?xml version=\"1.0\"?>
             <deployable version='1.0' name='deployable_with_launch_parameters'>
               <description>A Deployable with launch parameters</description>
                 <assemblies>
                   <assembly name='assembly_with_launch_parameters' hwp='front_hwp1'>
-                    <image id='85653387-88b2-46b0-b7b2-c779d2af06c7' build='c5fc000b-829a-4bb5-9df1-bb228da2c7ec'></image>
+                    <image id='#{pimg.target_image.image_version.base_image.uuid}' build='#{pimg.target_image.image_version.uuid}'></image>
                     <services>
                       <service name='service_with_launch_parameters'>
                         <executable url='executable_url'/>
@@ -71,6 +80,7 @@ FactoryGirl.define do
                   </assembly>
                 </assemblies>
             </deployable>"
+    }
   end
 
   factory :deployable_with_cyclic_service_references, :parent => :deployable do

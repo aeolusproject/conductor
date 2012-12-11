@@ -71,6 +71,16 @@ Conductor::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 
+  mount Tim::Engine, :at => "tim"
+  Tim::Engine.routes.draw do
+    resources :base_images do
+      collection do
+        post 'edit_xml'
+        post 'overview'
+      end
+    end
+  end
+
   resource :user_sessions
   match 'login',       :to => 'user_sessions#new',     :as => 'login'
   match 'logout',      :to => 'user_sessions#destroy', :as => 'logout'
@@ -142,8 +152,6 @@ Conductor::Application.routes.draw do
     end
     resources :instance_parameters
   end
-
-  resources :image_imports
 
   resources :hardware_profiles do
     delete 'multi_destroy', :on => :collection
@@ -255,43 +263,9 @@ Conductor::Application.routes.draw do
     end
   end
 
-  resources :images do
-    member do
-      post 'rebuild_all'
-      post 'push_all'
-      get 'template'
-    end
-    collection do
-      post 'edit_xml'
-      post 'overview'
-      delete 'multi_destroy'
-      post 'import'
-    end
-    resources :target_images
-    resources :provider_images
-  end
-
   get 'api', :controller => 'api/entrypoint', :action => 'index'
   namespace :api do
-    resources :images do
-      resources :builds
-    end
-    resources :builds do
-      resources :target_images
-    end
-
-    resources :target_images do
-      resources :provider_images
-    end
-
-    resources :provider_images
-   # :except => [:new, :edit]
-
     resources :hooks
-
-    resources :environments do
-      resources :images
-    end
   end
 
   scope "/api", :as => 'api' do
