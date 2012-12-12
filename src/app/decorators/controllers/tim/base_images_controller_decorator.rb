@@ -149,7 +149,9 @@ Tim::BaseImagesController.class_eval do
     @targets = []
 
     # Preload up some data
-    all_prov_accts = @base_image.pool_family.provider_accounts.includes(:provider => :provider_type)
+    all_prov_accts = @base_image.pool_family.provider_accounts.
+      list_for_user(current_session, current_user, Privilege::USE).
+      includes(:provider => :provider_type)
     provider_types = available_provider_types_for_base_image(@base_image)
     target_images = @version.target_images(:include => :provider_images)
 
