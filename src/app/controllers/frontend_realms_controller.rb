@@ -26,6 +26,7 @@ class FrontendRealmsController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
+      format.xml { render :partial => 'list.xml' }
     end
   end
 
@@ -126,6 +127,7 @@ class FrontendRealmsController < ApplicationController
         render :partial => @details_tab
       end
       format.json { render :json => @realm }
+      format.xml { render :show, :locals => { :frontend_realm => @realm } }
     end
   end
 
