@@ -100,9 +100,9 @@ Conductor.Routers.Deployables = Backbone.Router.extend({
 
 Conductor.Routers.Images = Backbone.Router.extend({
   routes: {
-    'images:query': 'index',
+    'tim/base_images:query': 'index',
     'pool_families': 'index',
-    'images/:id': 'show',
+    'tim/base_images/:id': 'show',
     'pool_families/:id': 'environmentImageList'
   },
 

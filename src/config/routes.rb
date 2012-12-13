@@ -78,6 +78,9 @@ Conductor::Application.routes.draw do
         post 'edit_xml'
         post 'overview'
       end
+      member do
+        post 'build_all'
+      end
     end
   end
 

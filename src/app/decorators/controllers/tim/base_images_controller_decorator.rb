@@ -19,11 +19,13 @@ Tim::BaseImagesController.class_eval do
 
   before_filter :load_permissioned_images, :only => :index
   before_filter :check_view_permission, :only => [:show]
-  before_filter :check_modify_permission, :only => [:edit, :update, :destroy]
+  before_filter :check_modify_permission, :only => [:edit, :update, :destroy, :build_all]
   before_filter :check_create_permission, :only => [:new, :create]
 
   before_filter :set_tabs_and_headers, :only => [:index]
   before_filter :set_new_form_variables, :only => [:new]
+  before_filter :set_image_versions, :only => :show
+  before_filter :set_targets, :only => :show
 
   # FIXME: whole create method is overriden just because of
   # setting flash error and new_form_variables if creation fails
@@ -72,6 +74,24 @@ Tim::BaseImagesController.class_eval do
       render :edit_xml
       return
     end
+  end
+
+  # At this time, this will _only_ do builds, but not a push.
+  # This is largely due to the latter relying on callbacks working
+  # properly in Conductor.
+  def build_all
+    raise t('tim.base_images.flash.error.not_exist') unless @base_image
+    if @base_image.imported?
+      flash[:error] = t('tim.base_images.show.can_not_build_imported_image')
+      redirect_to @base_image and return
+    end
+    @version = @base_image.image_versions.create!
+    available_provider_types_for_base_image(@base_image).each do |type|
+      @version.target_images.create!({
+        :provider_type => type
+      })
+    end
+    redirect_to @base_image
   end
 
   private
@@ -130,4 +150,88 @@ Tim::BaseImagesController.class_eval do
       )]
     end
   end
+
+  def set_image_versions
+    @versions = @base_image.image_versions.order('created_at DESC')
+    @latest_version = @versions.first # because we sorted above
+    # @version is the specific image version we're viewing
+    @version = if params[:build]
+      @versions.find{|v| v.uuid == params[:build]} || @latest_version
+    else
+      @latest_version
+    end
+  end
+
+  def set_targets
+    return [] unless @version # Otherwise, there's no point
+    @targets = []
+
+    # Preload up some data
+    all_prov_accts = @base_image.pool_family.provider_accounts.
+      list_for_user(current_session, current_user, Privilege::USE).
+      includes(:provider => :provider_type)
+    provider_types = available_provider_types_for_base_image(@base_image)
+    target_images = @version.target_images(:include => :provider_images)
+
+    # Run over all provider types
+    provider_types.each do |provider_type|
+      target_image = target_images.select{|ti| ti.provider_type_id == provider_type.id}.first
+      _targetinfo = {
+        :provider_type => provider_type,
+        :target_image => target_image,
+        :provider_images => [],
+        :can_delete => target_image.present? && check_privilege(Privilege::MODIFY, @base_image),
+        :can_build => !@base_image.imported? && target_image.nil? &&
+          check_privilege(Privilege::MODIFY, @base_image),
+        :delete_url => target_image ? tim.target_image_path(target_image.id) : '',
+        :build_url => tim.target_images_path(:target_image => {:provider_type_id => provider_type.id,
+          :image_version_id => @version.id})
+      }
+      provider_accounts = accounts_for_provider_type(provider_type, all_prov_accts)
+      provider_accounts.each do |provider_account|
+        provider_image = target_image.provider_images.select{|pi|
+          pi.factory_provider_account_id == provider_account.id}.first if target_image.present?
+        provider_image_data = {
+          :provider_account => provider_account,
+          :provider => provider_account.provider,
+          :provider_image => provider_image,
+          :can_push => !@base_image.imported? && target_image && provider_image.nil? &&
+            check_privilege(Privilege::MODIFY, @base_image),
+          :can_delete => provider_image && check_privilege(Privilege::MODIFY, @base_image),
+          :push_url => target_image.nil? ? '' : tim.provider_images_path(:provider_image => {
+            :provider_account_id => provider_account.id,
+            :target_image_id => target_image.id
+          }),
+          :delete_url => provider_image ? tim.provider_image_path(provider_image.id) : ''
+        }
+        _targetinfo[:provider_images] << provider_image_data
+      end
+      @targets << _targetinfo
+    end
+  end
+
+  private
+
+  # We need this above. For a base image, find all _available_ ProviderTypes,
+  # whether or not we have built for it.
+  # This was too messy to do above, but feels too arcane to put in the BaseImage model,
+  # especially since it's so tangentially related to BaseImages at all.
+  def available_provider_types_for_base_image(base_image)
+    all_types = []
+    # Eager load all the data we'll need, rather than doing a bunch of one-off queries:
+    prov_accts = @base_image.pool_family.provider_accounts.includes(:provider => :provider_type)
+    prov_accts.each do |provider_account|
+      type = provider_account.provider.provider_type
+      all_types << type unless all_types.include?(type)
+    end
+    all_types
+  end
+
+  # Another weird one-off with no good home...
+  # Find all provider accounts (in a given set, though we could look it up)
+  # that have a given provider type.
+  def accounts_for_provider_type(provider_type, provider_accounts)
+    provider_accounts.select{|pa| pa.provider.provider_type_id == provider_type.id}
+  end
+
 end

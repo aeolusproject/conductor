@@ -53,8 +53,7 @@ Tim::BaseImage.class_eval do
   end
 
   def imported?
-    # TODO: implement this
-    false
+    !!import
   end
 
   def last_built_image_version

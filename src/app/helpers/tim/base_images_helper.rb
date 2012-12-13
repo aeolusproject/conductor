@@ -1,5 +1,5 @@
 #
-#   Copyright 2011 Red Hat, Inc.
+#   Copyright 2012 Red Hat, Inc.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -17,5 +17,19 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-module ImagesHelper
+module Tim::BaseImagesHelper
+  def image_name(base_image)
+    base_image.imported? ? "#{t('tim.base_images.imported_image_with_name',
+      :image_name => base_image.name)}" : base_image.name
+  end
+
+  def options_for_build_select(builds, selected, latest)
+      options_for_select(builds.map do |b|
+        label = Time.at(b.created_at.to_f).to_s
+        label += " (#{t'images.show.latest'})" if b.uuid == latest
+        [label, b.uuid]
+      end, selected ? selected.uuid : nil)
+  end
+
+
 end
