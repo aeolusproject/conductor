@@ -42,8 +42,8 @@ module Taskomatic
     rescue Exception => ex
       handle_create_instance_error(task, ex)
     ensure
-      task.instance.save!
-      task.save!
+      task.instance.save! if task.instance.changed?
+      task.save! if task.changed?
     end
   end
 
