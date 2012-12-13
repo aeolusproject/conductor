@@ -70,10 +70,10 @@ describe "Deployments API" do
       api_helper.xmlschema_absolute_duration(deployment.uptime_1st_instance)
     xml_deployment.xpath("uptime_all").text.should ==
       api_helper.xmlschema_absolute_duration(deployment.uptime_all)
+    xml_deployment.xpath("deployable_xml").inner_html.should == deployment.deployable_xml.to_s
 
     # TODO implement and test these
     # xml_deployment.xpath("state").text.should
-    # xml_deployment.xpath("deployable-xml").text.should
     # xml_deployment.xpath("instances/instance").count.should
     # xml_deployment.xpath("instances/instance").each...
     # xml_deployment.xpath("user[@rel=owner]")
@@ -110,7 +110,8 @@ describe "Deployments API" do
       deployment = Factory.create(:deployment, {
         :pool => Pool.first,
         :owner => @user,
-        :frontend_realm => Factory.create(:frontend_realm)
+        :frontend_realm => Factory.create(:frontend_realm),
+        :deployable_xml => '<deployable name="mock deployable"></deployable>',
       })
       deployment.stub(:uptime_1st_instance).and_return(40)
       deployment.stub(:uptime_all).and_return(10)
