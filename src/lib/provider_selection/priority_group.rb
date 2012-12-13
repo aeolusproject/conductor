@@ -30,10 +30,11 @@ module ProviderSelection
       possible_provider_accounts = obj.all_provider_accounts
 
       matches = []
-      allowed_matches.each do |match| 
+      allowed_matches.each do |match|
         if possible_provider_accounts.include?(match.provider_account)
           matches << Match.new(:provider_account => match.provider_account,
-                               :hardware_profile => match.hardware_profile)
+                               :hardware_profile => match.hardware_profile,
+                               :instance_hwp     => match.instance_hwp)
         end
       end
 

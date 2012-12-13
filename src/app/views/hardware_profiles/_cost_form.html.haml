@@ -1,0 +1,31 @@
+- if @hardware_profile.errors.any?
+  = render 'layouts/error_messages', :object => @hardware_profile
+%fieldset
+  .field
+    = fields_for @hwp_cost do |cost_form|
+      = t('billing_model') + ': ' + CostEngine::BillingModel::find_name(@hwp_cost.billing_model)
+      = link_to t('change'), edit_cost_billing_hardware_profile_path, :class => "button", :id => 'change_bm_button'
+      = cost_form.hidden_field :billing_model
+      - if @hwp_cost.billing_model != 'per_property'
+        = cost_form.label :profile_cost, :class => 'em'
+        = cost_form.text_field :price, :class => 'em'
+
+- if @hwp_cost.billing_model == 'per_property'
+  %fieldset
+    %table
+      %thead
+        %tr
+          - @header.each do |header|
+            %th
+              = header[:name]
+      - HardwareProfile::chargeables.each do |type|
+        = hwp_form.fields_for type do |hwpp_form|
+          %tr
+            %td= hwpp_form.text_field(:name, :readonly => "readonly")
+            %td= select_tag( type.to_s + '_billing_model',
+              options_for_select(CostEngine::BillingModel::options_for_select.no_parts.with_none, @hwp_prop_costs[type].billing_model), {})
+            %td= text_field_tag(type.to_s + '_cost', @hwp_prop_costs[type].price)
+
+%fieldset.options
+  = hwp_form.submit t('save'), :class => 'submit button primary', :id => 'save_button'
+  = link_to t('cancel'), hardware_profiles_path, :class => "button danger"

@@ -134,11 +134,11 @@ class HardwareProfileProperty < ActiveRecord::Base
 
   def sort_value(ascending)
     case kind
-      when "fixed"
+      when FIXED
          sort_value =  value
-      when "range"
+      when RANGE
         sort_value = ascending ? range_first : range_last
-      when "enum"
+      when ENUM
         entries = (property_enum_entries.map { |enum| enum.value }).sort!
         sort_value = ascending ? entries.first : entries.last
     end
@@ -150,5 +150,7 @@ class HardwareProfileProperty < ActiveRecord::Base
     # If the form isn't filled out, it comes in as "", which we treat as nil:
     self.value = nil if self.value==""
   end
+
+  include CostEngine::Mixins::HardwareProfileProperty
 end
 

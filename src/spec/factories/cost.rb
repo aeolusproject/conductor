@@ -13,6 +13,15 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-When /^(?:|I )follow link with (?:ID|text) "([^"]*)"$/ do |link_id|
-  click_link(link_id)
+
+FactoryGirl.define do
+  factory :cost do
+    chargeable_id 1
+    chargeable_type 1
+    price 0.1
+    valid_from Time.now
+    valid_to Time.now + 1.day
+    billing_model 'hour'
+  end
+
 end

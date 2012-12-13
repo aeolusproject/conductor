@@ -653,4 +653,6 @@ class Instance < ActiveRecord::Base
     event = deployment.events.find_last_by_status_code(:pending)
     event.nil? ? nil : event.created_at
   end
+
+  include CostEngine::Mixins::Instance
 end

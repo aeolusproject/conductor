@@ -276,6 +276,7 @@ en:
   quota_used: Quota Used
   return_to: Return to
   properties: Properties
+  cost: Cost
   hw_profiles: HW Profiles
   services: Services
   history: History
@@ -384,6 +385,7 @@ en:
       owner: Owner
       global_uptime: Global Uptime
       uptime_1st_instance: Uptime 1st Instance running
+      cost_estimate: Cost Estimate
     provider_services:
       list_of_services: List of services required by Deployment
     required_services:
@@ -503,6 +505,7 @@ en:
       download: Download
       owner: "Owner"
       shared_to: "Shared to"
+      cost_estimate: "Cost Estimate"
       error: "Error"
       n_a: "N/A"
     states:
@@ -682,6 +685,7 @@ en:
       failed_to_disable: "Failed to disable %{strategy_name} strategy"
       config_successfully_saved: "Successfully updated %{strategy_name} strategy"
   hardware_profiles:
+    edit_cost: Edit Cost
     hardware: Hardware
     hardware_profile: Hardware Profile
     hardware_profiles: Hardware Profiles
@@ -698,7 +702,10 @@ en:
     properties_headers:
       name: Name
       unit: Unit
+      value: Value
       min_value: Minimum Value
+      cost: Cost per Unit
+      billing_model: Billing Model
     provider_hwp_headers:
       provider_name: Provider Name
       hwp_name: Hardware Profile Name
@@ -706,6 +713,7 @@ en:
       memory: Memory
       storage: Storage
       virtual_cpu: Virtual CPU
+      minimal_cost: Minimal Cost
     form:
       check_matches: Check Matches
     history:
@@ -720,6 +728,8 @@ en:
     edit:
       cancel_editing: Cancel Editing
       edit_hwp: Edit Hardware Profile
+      edit_hwp_cost: Assign Costs to Hardware Profile
+      edit_hwp_billing_model: Select Billing Model for Hardware Profile
     new:
       new_hwp: New Hardware Profile
     show:
@@ -730,10 +740,12 @@ en:
       notice:
         deleted: "Hardware profile was deleted"
         updated: "Hardware Profile updated"
+        cost_updated: "Hardware Profile cost updated"
         more_deleted:
           one: Hardware Profile %{deleted} was deleted.
           other: Hardware Profiles %{deleted} were deleted.
       error:
+        failed_to_update_cost: "Failed to update Hardware Profile cost %{message}"
         not_deleted: "Hardware profile was not deleted"
         more_not_deleted:
           one: "%{not_deleted} could not be deleted"

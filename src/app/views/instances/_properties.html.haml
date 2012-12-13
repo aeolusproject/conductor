@@ -48,6 +48,9 @@
   %tr
     %td= t('instances.properties.shared_to')
     %td= t('instances.properties.n_a')
+  %tr
+    %td= t 'instances.properties.cost_estimate'
+    %td=@instance.cost.nil? ? t('instances.properties.n_a') : @instance.cost
   - if @instance.state == Instance::STATE_ERROR
     %tr
       %td= t('instances.properties.error')

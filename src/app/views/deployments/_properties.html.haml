@@ -10,6 +10,9 @@
   %tr
     %td= t 'deployments.properties.uptime_1st_instance'
     %td=count_uptime(@deployment.uptime_1st_instance)
+  %tr
+    %td= t 'deployments.properties.cost_estimate'
+    %td=@deployment.cost.nil? ? "N/A" : @deployment.cost
 
 :javascript
   Conductor.setupPrettyFilterURL(

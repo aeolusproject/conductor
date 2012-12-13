@@ -7,6 +7,18 @@ Feature: Manage Pools
     Given I am an authorised user
     And I am logged in
 
+  Scenario: Change Cost Order Provider Selection Params
+    Given a pool "mockpool" exists
+    Given I am viewing the pool "mockpool"
+    And I follow "provider_selection_button"
+    Then I should be on the provider selection page for "mockpool" pool
+    When I click "cost_order" toggle
+    Then I should be on the provider selection page for "mockpool" pool
+    When I follow link with text "Configure"
+    Then I should see "Impact"
+    When I press "config_submit"
+    Then I should see "Successfully updated Cost Order strategy"
+
   Scenario: Create a new Pool
     Given I am on the pools page
     And there is not a pool named "mockpool"
