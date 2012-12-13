@@ -36,6 +36,10 @@
           = form_tag base_image_path(@base_image.id), :method => :get do
             = select_tag :build, options_for_build_select(@versions, @version, @latest_image_version)
             = submit_tag t('tim.base_images.show.select_build'), :id => 'select_build_button'
+      - if user_can_build && !@base_image.imported?
+        |
+        = form_tag build_all_base_image_path(@base_image.id), :method => :post do
+          = submit_tag t('tim.base_images.show.build_all'), :id => 'build_all_button'
     %h2= t('tim.base_images.show.provider_images')
 
   .content
