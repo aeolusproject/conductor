@@ -19,7 +19,7 @@ Tim::BaseImagesController.class_eval do
 
   before_filter :load_permissioned_images, :only => :index
   before_filter :check_view_permission, :only => [:show]
-  before_filter :check_modify_permission, :only => [:edit, :update, :destroy]
+  before_filter :check_modify_permission, :only => [:edit, :update, :destroy, :build_all]
   before_filter :check_create_permission, :only => [:new, :create]
 
   before_filter :set_tabs_and_headers, :only => [:index]
@@ -74,6 +74,24 @@ Tim::BaseImagesController.class_eval do
       render :edit_xml
       return
     end
+  end
+
+  # At this time, this will _only_ do builds, but not a push.
+  # This is largely due to the latter relying on callbacks working
+  # properly in Conductor.
+  def build_all
+    raise t('tim.base_images.flash.error.not_exist') unless @base_image
+    if @base_image.imported?
+      flash[:error] = t('tim.base_images.show.can_not_build_imported_image')
+      redirect_to @base_image and return
+    end
+    @version = @base_image.image_versions.create!
+    available_provider_types_for_base_image(@base_image).each do |type|
+      @version.target_images.create!({
+        :provider_type => type
+      })
+    end
+    redirect_to @base_image
   end
 
   private
