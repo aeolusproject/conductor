@@ -1,0 +1,14 @@
+= render :partial => 'layouts/admin_nav'
+
+%header.page-header
+  .obj_actions
+    = link_to t('hardware_profiles.edit.cancel_editing'), hardware_profile_path(@hardware_profile), :class => 'button pill danger', :id => 'new_user_button'
+  %h1.hardware_profiles= @hardware_profile.name.blank? ? t("hardware_profiles.hardware_profile") : @hardware_profile.name
+
+%section.content-section
+  %header
+    %h2=t('hardware_profiles.edit.edit_hwp_billing_model')
+
+  .content
+    = form_for @hardware_profile, :url => update_cost_billing_hardware_profile_path(@hardware_profile), :html => { :multipart => true, :class => 'generic' } do |hwp_form|
+      = render :partial => "cost_form_billing", :locals => { :hwp_form => hwp_form }

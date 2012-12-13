@@ -74,6 +74,7 @@ module ProviderSelection
 
         default_priority_group.matches << Match.new(:provider_account => acc_with_hwp.provider_account,
                                                     :hardware_profile => acc_with_hwp.hardware_profile,
+                                                    :instance_hwp     => acc_with_hwp.instance_hwp,
                                                     :score => score)
       end
 
@@ -106,7 +107,7 @@ module ProviderSelection
       @strategy_chain
     end
 
-    ProviderAccWithHwp = Struct.new(:provider_account, :hardware_profile)
+    ProviderAccWithHwp = Struct.new(:provider_account, :hardware_profile, :instance_hwp)
 
     private
     def find_common_provider_accounts
@@ -117,8 +118,8 @@ module ProviderSelection
 
       common_accounts = []
       instance_matches_grouped_by_instances.each_with_index do |instance_matches, index|
-        accounts = instance_matches.collect do |instance_match| 
-          ProviderAccWithHwp.new(instance_match.provider_account, instance_match.hardware_profile)
+        accounts = instance_matches.collect do |instance_match|
+          ProviderAccWithHwp.new(instance_match.provider_account, instance_match.hardware_profile, instance_match.instance.instance_hwp)
         end
 
         if index == 0

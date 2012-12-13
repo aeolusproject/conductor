@@ -29,11 +29,11 @@ Feature: Manage Hardware Profiles
     And I am on the the hardware profiles page
     When I follow "m1-small"
     Then I should see the following:
-    | Name         | Minimum Value | Unit  |
-    | memory       | 1740          | MB    |
-    | cpu          | 2             | count |
-    | storage      | 160           | GB    |
-    | architecture | i386          | label |
+    | Name         | Value | Unit  |
+    | memory       | 1740  | MB    |
+    | cpu          | 2     | count |
+    | storage      | 160   | GB    |
+    | architecture | i386  | label |
 
   Scenario: View a Front End Hardware Profiles Matching Provider Hardware Profiles
     Given there are the following conductor hardware profiles:
@@ -47,6 +47,24 @@ Feature: Manage Hardware Profiles
     Then I should see the following:
     | Name      | Memory | CPU | Storage  | Architecture |
     | m1-small  | 1740   | 2   | 160      | i386         |
+
+  Scenario: Set cost for backend hardware profile
+    Given there are the following conductor hardware profiles:
+    | name      | memory | cpu |storage  | architecture |
+    | m1-small  | 1740   | 2   | 160     | i386         |
+    And the Hardare Profile "m1-small" has the following Provider Hardware Profiles:
+    | name      | memory | cpu |storage  | architecture |
+    | m1-small  | 1740   | 2   | 160     | i386         |
+    And I am on the hardware profiles page
+    When I follow "m1-small"
+    When I follow "m1-small"
+    Then I should see "Cost"
+    When I follow "edit_cost_button"
+    Then I should see "Assign Costs to Hardware Profile"
+    When I follow "change_bm_button"
+    Then I should see "Select Billing Model for Hardware Profile"
+    When I press "save_button"
+    Then I should see "Hardware Profile cost updated"
 
 #  Scenario: Search for hardware profiles
 #    Given there are the following conductor hardware profiles:

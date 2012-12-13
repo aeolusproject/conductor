@@ -268,4 +268,6 @@ class HardwareProfile < ActiveRecord::Base
     true if Float(value) rescue false
   end
 
+  include CostEngine::Mixins::HardwareProfile
+  extend CostEngine::Mixins::HardwareProfileClass
 end

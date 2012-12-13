@@ -35,4 +35,6 @@ class InstanceHwp < ActiveRecord::Base
   belongs_to :hardware_profile
 
   attr_accessible :storage, :memory, :cpu, :architecture, :hardware_profile
+
+  include CostEngine::Mixins::InstanceHwp
 end

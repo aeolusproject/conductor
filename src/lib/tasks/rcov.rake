@@ -7,20 +7,20 @@ begin
 
   task :rcov      => [ 'rcov:all' ]
 
-  namespace :rcov do 
-    
+  namespace :rcov do
+
     # Use single quotes here so that regexp argument is not munged.
     R_RCOV_AGGREG_FILE    = 'coverage.data'
-    
+
     R_RCOV_EXCLUDE_DIR    = 'lib\/ruby,lib64\/ruby,features,spec,test'
-    
+
     R_RCOV_OUTPUT_DIR     = 'test_coverage'
 
     R_RCOV_AGGREG_OPTS    = "--aggregate #{R_RCOV_AGGREG_FILE} " +
                             "--text-summary --no-html "
 
-    R_RCOV_BASIC_OPTS     = "--rails  --exclude #{R_RCOV_EXCLUDE_DIR} " 
-    
+    R_RCOV_BASIC_OPTS     = "--rails  --exclude #{R_RCOV_EXCLUDE_DIR} "
+
     R_RCOV_FINAL_OPTS     = "--aggregate #{R_RCOV_AGGREG_FILE} "
 
     # make the output directory an array.

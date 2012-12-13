@@ -1,5 +1,7 @@
 en:
   strategies:
+    cost_order:
+      name: 'Cost Order'
     strict_order:
       name: 'Strict Order'
     penalty_for_failure:

@@ -130,7 +130,7 @@ class Deployment < ActiveRecord::Base
           end
         end
       end
-  end
+    end
   end
 
   def pool_must_be_enabled
@@ -804,4 +804,6 @@ class Deployment < ActiveRecord::Base
       instance.update_attribute(:state, Instance::STATE_CREATE_FAILED)
     end
   end
+
+  include CostEngine::Mixins::Deployment
 end
