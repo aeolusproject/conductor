@@ -103,6 +103,8 @@ Conductor::Application.routes.draw do
     delete :multi_destroy, :on => :collection
     post :filter, :on => :collection
 
+    resources :deployables, :only => [:index]
+
     resource :provider_selection, :only => [:show] do
       resources :provider_priority_groups, :except => [:show]
 
@@ -303,12 +305,16 @@ Conductor::Application.routes.draw do
     resources :hardware_profiles, :only => [:index, :show, :destroy, :create]
     resources :pools, :only => [:index, :show, :create, :update, :destroy] do
       resources :deployments, :only => [:index]
+      resources :deployables, :only => [:index]
     end
     resources :pool_families, :only => [:index, :show, :create, :update, :destroy] do
       resources :provider_accounts, :controller => "pool_families_to_provider_accounts_associations", :only => [:index, :show, :update, :destroy]
     end
-    resources :catalogs, :only => [:index, :show, :create, :update, :destroy]
+    resources :catalogs, :only => [:index, :show, :create, :update, :destroy] do
+      resources :deployables, :only => [:index]
+    end
     resources :deployments, :only => [:index, :show]
+    resources :deployables, :only => [:index]
     resources :provider_realms, :only => [:index, :show]
   end
 
