@@ -238,8 +238,8 @@ class Deployable < ActiveRecord::Base
   def build_status(images, account)
     begin
       pimgs = images.map { |i| i.last_provider_image(account) }
-      return :pushing if pimgs.any? { |pimg| pimg == 'PUSHING' }
-      return :pushed if pimgs.any? { |pimg| pimg.status == 'COMPLETED' }
+      return :pushing if pimgs.any? { |pimg| pimg.pushing? }
+      return :pushed if pimgs.all? { |pimg| pimg.pushed? }
       :not_pushed
     rescue Exception => e
       error = humanize_error(e.message)
