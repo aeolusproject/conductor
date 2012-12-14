@@ -18,7 +18,10 @@ module ApiHelper
 
   # Serializes into http://www.w3.org/TR/xmlschema-2/#dateTime
   # e.g. "2012-11-05T09:15:53+01:00"
-  def xmlschema_datetime(datetime)
+  def xmlschema_datetime(datetime_param)
+    return '' if datetime_param.nil?
+    datetime = datetime_param.to_datetime
+
     datetime.strftime('%FT%H:%M:%%s%:z') %
       xmlschema_seconds_string(datetime.strftime('%S.%N'))
   end
@@ -33,6 +36,8 @@ module ApiHelper
   # set to nil when using BigDecimal total_seconds, then the precision is
   # unlimited (will print the BigDecimal precisely).
   def xmlschema_absolute_duration(total_seconds, max_decimal_places = 9)
+    return '' if total_seconds.nil?
+
     seconds_in_day = 86400
     seconds_in_hour = 3600
     seconds_in_minute = 60
