@@ -15,6 +15,12 @@
 #
 
 Tim::ProviderImage.class_eval do
+  STATUS_NEW       = 'NEW'
+  STATUS_PUSHING   = 'PUSHING'
+  STATUS_FAILED    = 'FAILED'
+  STATUS_COMPLETE  = 'COMPLETE'
+  STATUS_IMPORTED  = 'IMPORTED'
+
   belongs_to :provider_account
 
   validates_presence_of :provider_account
@@ -22,8 +28,7 @@ Tim::ProviderImage.class_eval do
 
   before_create :set_credentials
 
-  STATUS_COMPLETE = 'COMPLETED'
-  STATUS_IMPORTED = 'IMPORTED'
+  scope :complete,    :conditions => { :status => [STATUS_COMPLETE, STATUS_IMPORTED] }
 
   def self.find_by_images(images)
     Tim::ProviderImage.joins(:target_image => :image_version).
