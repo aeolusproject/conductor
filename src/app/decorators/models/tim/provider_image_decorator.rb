@@ -27,6 +27,7 @@ Tim::ProviderImage.class_eval do
   validate :valid_external_image_id?, :if => :should_validate_external_image?
 
   before_create :set_credentials
+  before_create :set_provider
 
   scope :complete,    :conditions => { :status => [STATUS_COMPLETE, STATUS_IMPORTED] }
 
@@ -81,5 +82,11 @@ Tim::ProviderImage.class_eval do
 
   def set_credentials
     @credentials = provider_account.to_xml(:with_credentials => true)
+  end
+
+  # this is useless in conductor, but imagefactory requires provider
+  # attr to be set
+  def set_provider
+    self.provider = provider_account.provider.name
   end
 end
