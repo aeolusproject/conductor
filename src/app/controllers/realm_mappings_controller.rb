@@ -29,12 +29,12 @@ class RealmMappingsController < ApplicationController
     @realm_target = RealmBackendTarget.new(params[:realm_backend_target])
     if @realm_target.save
       flash[:notice] = t"realms.flash.notice.added_mapping"
-      redirect_to frontend_realm_path(@realm_target.frontend_realm, :details_tab => 'mapping') and return
-      #redirect_to realms_path and return
+      redirect_to frontend_realm_path(@realm_target.frontend_realm, :details_tab => 'mapping')
+    else
+      @title = t'realm_mappings.new.create_new'
+      load_backend_targets
+      render :new
     end
-
-    load_backend_targets
-    render :new
   end
 
   def multi_destroy

@@ -102,7 +102,7 @@ describe "ProviderAccounts" do
           subject { Nokogiri::XML(response.body) }
           it "should have some errors" do
             subject.xpath('//errors').size.should be_eql(1)
-            subject.xpath('//errors/error').size.should <= 1
+            subject.xpath('//errors/error').size.should be_eql(2)
           end
         end
 
@@ -131,7 +131,7 @@ describe "ProviderAccounts" do
           subject { Nokogiri::XML(response.body) }
           it "should have some errors" do
             subject.xpath('//errors').size.should be_eql(1)
-            subject.xpath('//errors/error').size.should <= 1
+            subject.xpath('//errors/error').size.should be_eql(2)
           end
         end
       end
@@ -228,7 +228,7 @@ describe "ProviderAccounts" do
             subject { Nokogiri::XML(response.body) }
             it "should have some errors" do
               subject.xpath('//errors').size.should be_eql(1)
-              subject.xpath('//errors/error').size.should <= 1
+              subject.xpath('//errors/error').size.should be_eql(2)
             end
           end
 
@@ -258,7 +258,7 @@ describe "ProviderAccounts" do
             subject { Nokogiri::XML(response.body) }
             it "should have some errors" do
               subject.xpath('//errors').size.should be_eql(1)
-              subject.xpath('//errors/error').size.should <= 1
+              subject.xpath('//errors/error').size.should be_eql(2)
             end
           end
         end

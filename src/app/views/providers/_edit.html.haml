@@ -1,9 +1,11 @@
 .content
-  = form_for @provider, :url => provider_path(@provider), :html => { :method => :put, :class => 'generic horizontal' } do |f|
-    - can_edit = check_privilege(Privilege::MODIFY, @provider)
-    = render :partial => 'form', :locals => { :form => f, :readonly => !can_edit }
-    %fieldset.options
-      - if can_edit
-        = f.submit "#{t'providers.form.save_changes'}", :class => "submit button primary", :id => 'save'
-        = link_to "#{t'providers.form.test_connection'}", edit_provider_path(@provider, :test_provider => true), :class => 'button'
-        = link_to "#{t'providers.form.delete_provider'}", provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "button danger", :id => "delete"
+  - can_edit = check_privilege(Privilege::MODIFY, @provider)
+  = conductor_form_for @provider do |f|
+    = render :partial => "form", :locals => { :form => f, :readonly => !can_edit }
+    - if can_edit
+      .control_group.buttons
+        .input
+          = f.submit :class => 'btn primary'
+          = link_to(I18n.t('simple_form.buttons.cancel'), providers_path, :class => 'btn')
+          = link_to(I18n.t('providers.form.test_connection'), edit_provider_path(@provider, :test_provider => true), :class => "btn")
+          = link_to(I18n.t('providers.form.delete_provider'), provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "btn warning")

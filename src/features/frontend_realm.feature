@@ -14,7 +14,7 @@ Feature: Manage Frontend Realms
     When I follow "new_realm_button"
     Then I should be on the new frontend realm page
     When I fill in "frontend_realm_name" with "testrealm2"
-    And I press "Save"
+    And I press "Create Realm"
     Then I should see a confirmation message
 
   Scenario: Validate unique frontend realm name
@@ -33,7 +33,8 @@ Feature: Manage Frontend Realms
     When I follow "testrealm1"
     And I follow "mapping_to_provider_button"
     Then I should be on the new realm mapping page
-    When I press "realm_backend_target_submit"
+    When I select "mock_provider1" from "realm_backend_target[provider_realm_or_provider_id]"
+    And I press "Create Realm Mapping"
     Then I should see a confirmation message
 
   Scenario: Map provider realm to realm
@@ -43,7 +44,8 @@ Feature: Manage Frontend Realms
     When I follow "testrealm1"
     And I follow "mapping_to_realm_button"
     Then I should be on the new realm mapping page
-    When I press "realm_backend_target_submit"
+    When I select "mock_provider1" from "realm_backend_target[provider_realm_or_provider_id]"
+    And I press "Create Realm Mapping"
     Then I should see a confirmation message
 
   Scenario: Change the name

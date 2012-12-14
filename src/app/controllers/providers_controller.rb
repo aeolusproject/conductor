@@ -61,7 +61,6 @@ class ProvidersController < ApplicationController
   def edit
     @provider = Provider.find(params[:id])
     @title = t 'cloud_providers'
-    session[:current_provider_id] = @provider.id
     # requiring VIEW rather than MODIFY since edit doubles as the 'show' page
     # here -- actions must be hidden explicitly in template
     require_privilege(Privilege::VIEW, @provider)
@@ -112,58 +111,51 @@ class ProvidersController < ApplicationController
   def create
     @title = t("providers.new.new_provider")
     require_privilege(Privilege::CREATE, Provider)
-
-    if params[:provider].has_key?(:provider_type_deltacloud_driver)
-      provider_type = params[:provider].delete(:provider_type_deltacloud_driver)
-      provider_type = ProviderType.find_by_deltacloud_driver(provider_type)
-      params[:provider][:provider_type_id] = provider_type.id
-    end
-
-
     @provider = Provider.new(params[:provider])
 
-    begin
-      if @provider.save
-        @provider.assign_owner_roles(current_user)
-        respond_to do |format|
-          format.html do
-            flash[:notice] = t"providers.flash.notice.added"
-            redirect_to edit_provider_path(@provider)
-          end
-          format.xml { render :partial => 'detail',
-                              :status => :created,
-                              :locals => { :provider => @provider } }
-        end
-      else
-        respond_to do |format|
-          format.html do
-            flash[:warning] = t"providers.flash.error.not_added"
-            render :action => "new"
-          end
-          format.xml { render :template => 'api/validation_error',
-                              :locals => { :errors => @provider.errors },
-                              :status => :unprocessable_entity }
-        end
-      end
-    rescue Errno::EACCES
-      Provider.skip_callback :save, :check_name
-      @provider.save
+    if @provider.save
       @provider.assign_owner_roles(current_user)
       respond_to do |format|
         format.html do
-          flash[:notice] = t"providers.flash.notice.added"
-          flash[:warning] = t"providers.flash.warning.check_config_file"
+          flash[:notice] = t("providers.flash.notice.added")
           redirect_to edit_provider_path(@provider)
+        end
+        format.xml do
+          render :partial => 'detail',
+                 :status => :created,
+                 :locals => { :provider => @provider }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html do
+          render :action => "new"
+        end
+        format.xml do
+          render :template => 'api/validation_error',
+                 :locals => { :errors => @provider.errors },
+                 :status => :unprocessable_entity
         end
       end
     end
-
+  rescue Errno::EACCES
+    Provider.skip_callback :save, :check_name
+    @provider.save
+    @provider.assign_owner_roles(current_user)
+    respond_to do |format|
+      format.html do
+        flash[:notice] = t("providers.flash.notice.added")
+        flash[:warning] = t("providers.flash.warning.check_config_file")
+        redirect_to edit_provider_path(@provider)
+      end
+    end
   end
 
   def update
     @provider = Provider.find(params[:id])
     require_privilege(Privilege::MODIFY, @provider)
-    @provider.attributes = params[:provider]
+
+    @provider.assign_attributes(params[:provider])
     provider_disabled = @provider.enabled_changed? && !@provider.enabled
 
     if provider_disabled
@@ -171,45 +163,40 @@ class ProvidersController < ApplicationController
       return
     end
 
-    begin
-      if @provider.save
-        @provider.update_availability
-        respond_to do |format|
-          format.html do
-            flash[:notice] = t"providers.flash.notice.updated"
-            redirect_to edit_provider_path(@provider)
-          end
-          format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
-        end
-      else
-        # we reset 'enabled' attribute to real state
-        # if save failed
-        @provider.reset_enabled!
-        respond_to do |format|
-          format.html do
-            unless @provider.connect
-              flash.now[:warning] = t"providers.flash.warning.connect_failed"
-            else
-              flash[:error] = t"providers.flash.error.not_updated"
-            end
-            load_provider_tabs
-            @alerts = provider_alerts(@provider)
-            render :action => "edit"
-          end
-          format.xml { render :template => 'api/validation_error',
-                              :locals => { :errors => @provider.errors },
-                              :status => :unprocessable_entity }
-        end
-      end
-    rescue Errno::EACCES
-      Provider.skip_callback :save, :check_name
-      @provider.save
+    if @provider.save
+      @provider.update_availability
       respond_to do |format|
         format.html do
-          flash[:notice] = t"providers.flash.notice.updated"
-          flash[:warning] = t"providers.flash.warning.check_config_file"
+          flash[:notice] = t("providers.flash.notice.updated")
           redirect_to edit_provider_path(@provider)
         end
+        format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
+      end
+    else
+      # we reset 'enabled' attribute to real state
+      # if save failed
+      @provider.reset_enabled!
+      respond_to do |format|
+        format.html do
+          load_provider_tabs
+          @alerts = provider_alerts(@provider)
+          render :action => "edit"
+        end
+        format.xml do
+          render :template => 'api/validation_error',
+                 :locals => { :errors => @provider.errors },
+                 :status => :unprocessable_entity
+        end
+      end
+    end
+  rescue Errno::EACCES
+    Provider.skip_callback :save, :check_name
+    @provider.save
+    respond_to do |format|
+      format.html do
+        flash[:notice] = t"providers.flash.notice.updated"
+        flash[:warning] = t"providers.flash.warning.check_config_file"
+        redirect_to edit_provider_path(@provider)
       end
     end
   end

@@ -37,7 +37,7 @@ Feature: Manage Providers
     Given I am on the new provider page
     And I attempt to add a provider with an invalid url
     Then I should be on the providers page
-    And I should see a warning message
+    And I should see an error message
 
   Scenario: Delete a provider
     Given I am on the homepage
@@ -47,7 +47,7 @@ Feature: Manage Providers
     And this provider has a provider account
     And there is not a provider account with provider images
     When I go to the mock1's edit provider page
-    And I follow "delete"
+    And I follow "Delete Provider"
     Then there should not exist a provider named "mock1"
     And there should not be any hardware profiles
     And there should not be a provider account
