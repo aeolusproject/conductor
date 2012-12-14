@@ -23,10 +23,11 @@ class FrontendRealmsController < ApplicationController
     clear_breadcrumbs
     save_breadcrumb(frontend_realms_path)
     set_admin_content_tabs 'frontend_realms'
+    load_backend_realms
     respond_to do |format|
       format.html
       format.js { render :partial => 'list' }
-      format.xml { render :partial => 'list.xml' }
+      format.xml { @provider_realm = @backend_realms.first if params[:provider_realm_id] }
     end
   end
 

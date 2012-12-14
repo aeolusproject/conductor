@@ -1,10 +1,11 @@
 !!! XML
 %frontend_realm{:id => frontend_realm.id, :href => api_frontend_realm_url(frontend_realm)}
-  %name= frontend_realm.name
-  %description= frontend_realm.description
-  %provider_realms
-    - frontend_realm.backend_realms.each do |prealm|
-      %provider_realm{:id => prealm.id, :href => api_provider_realm_url(prealm)}
-  %providers
-    - frontend_realm.backend_providers.each do |provider|
-      %provider{:id => provider.id, :href=> api_provider_url(provider)}
+  - unless shallow
+    %name= frontend_realm.name
+    %description= frontend_realm.description
+    %provider_realms
+      - frontend_realm.backend_realms.each do |prealm|
+        %provider_realm{:id => prealm.id, :href => api_provider_realm_url(prealm)}
+    %providers
+      - frontend_realm.backend_providers.each do |provider|
+        %provider{:id => provider.id, :href=> api_provider_url(provider)}
