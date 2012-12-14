@@ -24,6 +24,23 @@ describe "FrontendRealms" do
       @frontend_realm.realm_backend_targets << realm_backend_target
     end
 
+    def check_frontend_realm_xml(xml_frontend_realm, frontend_realm)
+      xml_frontend_realm.xpath("@id").text.should == frontend_realm.id.to_s
+      xml_frontend_realm.xpath("@href").text.should == api_frontend_realm_url(frontend_realm)
+      xml_frontend_realm.xpath("name").text.should == frontend_realm.name
+      xml_frontend_realm.xpath("description").text.should == frontend_realm.description.to_s
+
+      frontend_realm.backend_realms.each do |prealm|
+        xml_frontend_realm.xpath("provider_realms/provider_realm[@id='#{prealm.id}']/@href").
+          text.should == api_provider_realm_url(prealm)
+      end
+
+      frontend_realm.backend_providers.each do |provider|
+        xml_frontend_realm.xpath("providers/provider[@id='#{provider.id}']/@href").
+          text.should == api_provider_url(provider)
+      end
+    end
+
     describe "#index" do
 
       it "get index" do
@@ -39,6 +56,8 @@ describe "FrontendRealms" do
         FrontendRealm.all.each do |frontend_realm|
           xml.xpath("/frontend_realms/frontend_realm[@id='#{frontend_realm.id}']/@href").
             text.should == api_frontend_realm_url(frontend_realm.id)
+          frontend_realm_xml = xml.xpath("/frontend_realms/frontend_realm[@id='#{frontend_realm.id}']")
+          check_frontend_realm_xml(frontend_realm_xml, frontend_realm)
         end
       end
     end
@@ -55,20 +74,7 @@ describe "FrontendRealms" do
         response.body.should be_xml
         xml = Nokogiri::XML(response.body)
 
-        xml.xpath("/frontend_realm/@id").text.should == @frontend_realm.id.to_s
-        xml.xpath("/frontend_realm/@href").text.should == api_frontend_realm_url(@frontend_realm)
-        xml.xpath("/frontend_realm/name").text.should == @frontend_realm.name
-        xml.xpath("/frontend_realm/description").text.should == @frontend_realm.description.to_s
-
-        @frontend_realm.backend_realms.each do |prealm|
-          xml.xpath("/frontend_realm/provider_realms/provider_realm[@id='#{prealm.id}']/@href").
-            text.should == api_provider_realm_url(prealm)
-        end
-
-        @frontend_realm.backend_providers.each do |provider|
-          xml.xpath("/frontend_realm/providers/provider[@id='#{provider.id}']/@href").
-            text.should == api_provider_url(provider)
-        end
+        check_frontend_realm_xml(xml.xpath("/frontend_realm"), @frontend_realm)
       end
 
       it "show nonexistent frontend realm" do

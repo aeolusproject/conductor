@@ -315,7 +315,9 @@ Conductor::Application.routes.draw do
     end
     resources :catalogs, :only => [:index, :show, :create, :update, :destroy]
     resources :deployments, :only => [:index, :show]
-    resources :provider_realms, :only => [:index, :show]
+    resources :provider_realms, :only => [:index, :show] do
+      resources :frontend_realms, :only => [:index]
+    end
     resources :frontend_realms, :only => [:index, :show]
   end
 
