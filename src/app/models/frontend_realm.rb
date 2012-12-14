@@ -30,22 +30,22 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class FrontendRealm < ActiveRecord::Base
+
   class << self
     include CommonFilterMethods
   end
+
   has_many :realm_backend_targets, :dependent => :destroy
   has_many :instances
-
   # there is a problem with has_many through + polymophic in AR:
   # http://blog.hasmanythrough.com/2006/4/3/polymorphic-through
   # so we define explicitly backend_realms and backend_providers
   has_many :backend_realms, :through => :realm_backend_targets, :source => :provider_realm, :conditions => "realm_backend_targets.provider_realm_or_provider_type = 'ProviderRealm'"
   has_many :backend_providers, :through => :realm_backend_targets, :source => :provider, :conditions => "realm_backend_targets.provider_realm_or_provider_type = 'Provider'"
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
-
-  validates_length_of :description, :maximum => 255, :allow_blank => true
+  validates :name, :presence => true,
+                   :uniqueness => true,
+                   :length => { :within => 1..100 }
 
   PRESET_FILTERS_OPTIONS = []
 

@@ -32,7 +32,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class Provider < ActiveRecord::Base
-  require 'util/conductor'
+
   include PermissionedObject
 
   DEFAULT_DELTACLOUD_URL = SETTINGS_CONFIG[:default_deltacloud_url]
@@ -43,16 +43,6 @@ class Provider < ActiveRecord::Base
   has_many :realm_backend_targets, :as => :provider_realm_or_provider, :dependent => :destroy
   has_many :frontend_realms, :through => :realm_backend_targets
   belongs_to :provider_type
-
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates_presence_of :provider_type_id
-  validates_presence_of :url
-
-  validates_format_of :name, :with => /^[\w -]*$/n
-  validates_length_of :name,  :maximum => 255
-  validate :validate_provider
-
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "permissions.id ASC"
@@ -62,7 +52,22 @@ class Provider < ActiveRecord::Base
   has_many :provider_priority_group_elements, :as => :value, :dependent => :destroy
   has_many :provider_priority_groups, :through => :provider_priority_group_elements
 
+  scope :enabled, where("enabled = ?", true)
+
+  validates :name, :presence => true,
+                   :uniqueness => true,
+                   :format => {:with => /^[\w -]*$/n},
+                   :length => { :within => 1..100 }
+  validates :url, :presence => true,
+                  :length => { :within => 1..100 }
+  validates :provider_type_id, :presence => true
+  validate :validate_provider
+
   before_save :check_name
+
+  def self.additional_privilege_target_types
+    [ProviderAccount]
+  end
 
   def check_name
     case provider_type.name
@@ -92,11 +97,7 @@ class Provider < ActiveRecord::Base
     subtree += provider_accounts if (role.nil? or role.privilege_target_match(ProviderAccount))
     subtree
   end
-  def self.additional_privilege_target_types
-    [ProviderAccount]
-  end
 
-  scope :enabled, where("enabled = ?", true)
 
   def encoded_url_with_driver_and_provider
     url_extras = ";driver=#{provider_type.deltacloud_driver}"
@@ -127,12 +128,6 @@ class Provider < ActiveRecord::Base
 
   def pools
     cloud_accounts.collect {|account| account.pools}.flatten.uniq
-  end
-
-  # TODO: implement or remove - this is meant to contain a hash of
-  # supported provider_types to use in populating form, though if we
-  # infer that field, we don't need this.
-  def supported_types
   end
 
   def disable(user)

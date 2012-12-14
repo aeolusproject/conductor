@@ -1243,8 +1243,6 @@ en:
         connected: "Successfully connected to Provider"
         deleted: "Provider has been deleted."
       error:
-        not_added: "Cannot add the Provider."
-        not_updated: "Cannot update the Provider."
         not_disabled: "Cannot disable the Provider."
         not_deleted: "Provider was not deleted"
         not_deleted_with_err: "Provider was not deleted: %{err}"
@@ -1366,6 +1364,7 @@ en:
         no_provider: "You don't have a Provider yet"
     errors:
       exception_while_validating: An error occurred when checking Provider credentials. Please check your setup and try again.
+      username_taken: Username has already been taken
       invalid_credentials: Login credentials are invalid for this Provider.
       populate_hardware_profiles_failed: "Failed to populate hardware_profiles: %{message}"
       populate_realms_failed: "Failed to populate Realms: %{message}"
