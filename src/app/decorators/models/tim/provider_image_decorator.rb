@@ -74,8 +74,20 @@ Tim::ProviderImage.class_eval do
     target_image.built?
   end
 
+  def pushing?
+    [STATUS_NEW, STATUS_PUSHING].include?(status)
+  end
+
   def pushed?
-    status == STATUS_COMPLETE || imported?
+    self.status == STATUS_COMPLETE || imported?
+  end
+
+
+  # imagefactory states are not standardized and it can return both
+  # COMPLETE and COMPLETED states
+  def status=(state)
+    state = STATUS_COMPLETE if state == 'COMPLETED'
+    write_attribute(:status, state)
   end
 
   private
