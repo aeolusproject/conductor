@@ -15,15 +15,21 @@
 #
 
 Tim::ProviderImage.class_eval do
+  STATUS_NEW       = 'NEW'
+  STATUS_PUSHING   = 'PUSHING'
+  STATUS_FAILED    = 'FAILED'
+  STATUS_COMPLETE  = 'COMPLETE'
+  STATUS_IMPORTED  = 'IMPORTED'
+
   belongs_to :provider_account
 
   validates_presence_of :provider_account
   validate :valid_external_image_id?, :if => :should_validate_external_image?
 
   before_create :set_credentials
+  before_create :set_provider
 
-  STATUS_COMPLETE = 'COMPLETED'
-  STATUS_IMPORTED = 'IMPORTED'
+  scope :complete,    :conditions => { :status => [STATUS_COMPLETE, STATUS_IMPORTED] }
 
   def self.find_by_images(images)
     Tim::ProviderImage.joins(:target_image => :image_version).
@@ -68,13 +74,31 @@ Tim::ProviderImage.class_eval do
     target_image.built?
   end
 
+  def pushing?
+    [STATUS_NEW, STATUS_PUSHING].include?(status)
+  end
+
   def pushed?
-    status == STATUS_COMPLETE || imported?
+    self.status == STATUS_COMPLETE || imported?
+  end
+
+
+  # imagefactory states are not standardized and it can return both
+  # COMPLETE and COMPLETED states
+  def status=(state)
+    state = STATUS_COMPLETE if state == 'COMPLETED'
+    write_attribute(:status, state)
   end
 
   private
 
   def set_credentials
     @credentials = provider_account.to_xml(:with_credentials => true)
+  end
+
+  # this is useless in conductor, but imagefactory requires provider
+  # attr to be set
+  def set_provider
+    self.provider = provider_account.provider.name
   end
 end

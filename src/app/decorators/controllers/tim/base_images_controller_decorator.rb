@@ -189,8 +189,8 @@ Tim::BaseImagesController.class_eval do
       }
       provider_accounts = accounts_for_provider_type(provider_type, all_prov_accts)
       provider_accounts.each do |provider_account|
-        provider_image = target_image.provider_images.select{|pi|
-          pi.factory_provider_account_id == provider_account.id}.first if target_image.present?
+        provider_image = target_image.provider_images.where(
+          :provider_account_id => provider_account.id).first if target_image.present?
         provider_image_data = {
           :provider_account => provider_account,
           :provider => provider_account.provider,
