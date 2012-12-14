@@ -54,6 +54,8 @@ describe "Deployments API" do
   end
 
   def check_deployment_xml_fields(xml_deployment, deployment)
+    api_helper = Object.new.extend(ApiHelper)
+
     xml_deployment.xpath("@id").text.should == deployment.id.to_s
     xml_deployment.xpath("@href").text.should == api_deployment_url(deployment)
     xml_deployment.xpath("name").text.should == deployment.name
@@ -64,16 +66,14 @@ describe "Deployments API" do
     # xml_deployment.xpath("frontend_realm/@href").text.should == api_frontend_realm_url(deployment.frontend_realm)
     xml_deployment.xpath("uuid").text.should == deployment.uuid
     xml_deployment.xpath("scheduled_for_deletion").text.should == deployment.scheduled_for_deletion.to_s
+    xml_deployment.xpath("uptime_1st_instance").text.should ==
+      api_helper.xmlschema_absolute_duration(deployment.uptime_1st_instance)
+    xml_deployment.xpath("uptime_all").text.should ==
+      api_helper.xmlschema_absolute_duration(deployment.uptime_all)
 
-    # TODO implement and test these once it's clear how states should be represented,
-    # what date/time format to use etc.:
+    # TODO implement and test these
     # xml_deployment.xpath("state").text.should
-    # xml_deployment.xpath("created_at").text.should
-    # xml_deployment.xpath("updated_at").text.should
-    # xml_deployment.xpath("uptime_1st_instance_running").text.should
-    # xml_deployment.xpath("global_uptime").text.should
     # xml_deployment.xpath("deployable-xml").text.should
-    # xml_deployment.xpath("history").text.should
     # xml_deployment.xpath("instances/instance").count.should
     # xml_deployment.xpath("instances/instance").each...
     # xml_deployment.xpath("user[@rel=owner]")
@@ -107,14 +107,18 @@ describe "Deployments API" do
 
   describe "GET /api/deployments/:id" do
     let!(:deployment) {
-      Factory.create(:deployment, {
+      deployment = Factory.create(:deployment, {
         :pool => Pool.first,
         :owner => @user,
         :frontend_realm => Factory.create(:frontend_realm)
       })
+      deployment.stub(:uptime_1st_instance).and_return(40)
+      deployment.stub(:uptime_all).and_return(10)
+      deployment
     }
 
     before :each do
+      Deployment.stub(:find).with(deployment.id.to_s).and_return(deployment)
       get "/api/deployments/#{deployment.id}", nil, headers
     end
 
