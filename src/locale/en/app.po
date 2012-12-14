@@ -979,7 +979,7 @@ msgid "Hardware Profiles"
 msgstr "Hardware Profiles"
 
 msgid "Hardware profile"
-msgstr "Hardware profile"
+msgstr "Hardware Profile"
 
 msgid "Hardware profile property"
 msgstr "Hardware profile property"
