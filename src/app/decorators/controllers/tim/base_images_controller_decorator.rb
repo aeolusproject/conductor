@@ -168,7 +168,6 @@ Tim::BaseImagesController.class_eval do
 
   def set_targets
     return [] unless @version # Otherwise, there's no point
-    @targets = []
 
     # Preload up some data
     all_prov_accts = @base_image.pool_family.provider_accounts.
@@ -178,43 +177,100 @@ Tim::BaseImagesController.class_eval do
     target_images = @version.target_images(:include => :provider_images)
 
     # Run over all provider types
-    provider_types.each do |provider_type|
-      target_image = target_images.select{|ti| ti.provider_type_id == provider_type.id}.first
-      _targetinfo = {
-        :provider_type => provider_type,
-        :target_image => target_image,
-        :provider_images => [],
-        :can_delete => target_image.present? && check_privilege(Privilege::MODIFY, @base_image),
-        :can_build => !@base_image.imported? && target_image.nil? &&
-          check_privilege(Privilege::MODIFY, @base_image),
-        :delete_url => target_image ? tim.target_image_path(target_image.id) : '',
-        :build_url => tim.target_images_path(:target_image => {:provider_type_id => provider_type.id,
-          :image_version_id => @version.id})
-      }
-      provider_accounts = accounts_for_provider_type(provider_type, all_prov_accts)
-      provider_accounts.each do |provider_account|
-        provider_image = target_image.provider_images.where(
-          :provider_account_id => provider_account.id).first if target_image.present?
-        provider_image_data = {
-          :provider_account => provider_account,
-          :provider => provider_account.provider,
-          :provider_image => provider_image,
-          :can_push => !@base_image.imported? && target_image && provider_image.nil? &&
-            check_privilege(Privilege::MODIFY, @base_image),
-          :can_delete => provider_image && check_privilege(Privilege::MODIFY, @base_image),
-          :push_url => target_image.nil? ? '' : tim.provider_images_path(:provider_image => {
-            :provider_account_id => provider_account.id,
-            :target_image_id => target_image.id
-          }),
-          :delete_url => provider_image ? tim.provider_image_path(provider_image.id) : ''
-        }
-        _targetinfo[:provider_images] << provider_image_data
-      end
-      @targets << _targetinfo
+    @targets = provider_types.map do |provider_type|
+      target_images_for_type = target_images.select{|ti|
+        ti.provider_type_id == provider_type.id}
+      get_target_info(target_images_for_type, provider_type, all_prov_accts)
     end
   end
 
   private
+
+  def get_provider_image_data(provider_images, provider_account, target_image)
+    # use last push - there can be multiple provider images with failed status
+    provider_image = provider_images.last
+    provider_image_data = {
+      :provider_account => provider_account,
+      :provider => provider_account.provider,
+      :provider_image => provider_image,
+      :status => provider_image && provider_image.status,
+      :pimg_progress => provider_image && provider_image.progress,
+    }
+
+    if (provider_image.nil? || provider_image.status == Tim::ProviderImage::STATUS_FAILED) &&
+      check_privilege(Privilege::MODIFY, @base_image) && target_image &&
+      target_image.built?
+
+        provider_image_data[:pimg_push_url] = tim.provider_images_path(
+          :provider_image => {
+            :provider_account_id => provider_account.id,
+            :target_image_id => target_image.id
+          }
+        )
+    elsif provider_image && provider_image.destroyable? &&
+      check_privilege(Privilege::MODIFY, @base_image)
+
+        provider_image_data[:pimg_delete_url] = tim.provider_image_path(provider_image.id)
+    else
+      provider_image_data[:pimg_only_status] = true
+    end
+
+    if provider_image && provider_image.status == Tim::ProviderImage::STATUS_FAILED
+      provider_image_data[:pimg_failed_attempts] = t('tim.base_images.show.failed_push_attempts',
+                                 :count => provider_images.find_all {|i|
+                                   i.status == Tim::ProviderImage::STATUS_FAILED
+                                  }.count)
+    end
+
+    provider_image_data
+  end
+
+
+  def get_target_info(target_images, provider_type, all_prov_accts)
+    # use last build - there can be multiple target images with failed status
+    target_image = target_images.last
+    info = {
+      :provider_type => provider_type,
+      :target_image => target_image,
+      :provider_images => [],
+      :status => target_image && target_image.human_status,
+      :progress => target_image && target_image.progress,
+    }
+
+    if (target_image.nil? || target_image.status == Tim::TargetImage::STATUS_FAILED) &&
+      check_privilege(Privilege::MODIFY, @base_image)
+
+        info[:build_url] = tim.target_images_path(:target_image => {
+          :provider_type_id => provider_type.id,
+          :image_version_id => @version.id
+        })
+    elsif target_image.present? && target_image.destroyable? &&
+      check_privilege(Privilege::MODIFY, @base_image)
+
+        info[:delete_url] = tim.target_image_path(target_image.id)
+    else
+      info[:only_status] = true
+    end
+
+    if target_image && target_image.status == Tim::TargetImage::STATUS_FAILED
+      info[:failed_attempts] = t('tim.base_images.show.failed_build_attempts',
+                                 :count => target_images.find_all {|i|
+                                   i.status == Tim::TargetImage::STATUS_FAILED
+                                 }.count)
+    end
+
+    provider_accounts = accounts_for_provider_type(provider_type, all_prov_accts)
+    provider_accounts.each do |provider_account|
+      provider_images = target_image.present? ?
+        target_image.provider_images.where(
+          :provider_account_id => provider_account.id) : []
+      info[:provider_images] << get_provider_image_data(provider_images,
+                                                        provider_account,
+                                                        target_image)
+    end
+
+    info
+  end
 
   # We need this above. For a base image, find all _available_ ProviderTypes,
   # whether or not we have built for it.
