@@ -15,6 +15,11 @@
 #
 
 Tim::TargetImage.class_eval do
+  STATUS_NEW       = 'NEW'
+  STATUS_BUILDING  = 'BUILDING'
+  STATUS_FAILED    = 'FAILED'
+  STATUS_COMPLETE  = 'COMPLETE'
+
   belongs_to :provider_type
 
   validates_presence_of :provider_type
@@ -43,7 +48,29 @@ Tim::TargetImage.class_eval do
   end
 
   def built?
-    status == 'COMPLETED' || imported?
+    status == STATUS_COMPLETE || imported?
+  end
+
+  def destroyable?
+    status == STATUS_FAILED || built?
+  end
+
+  def human_status
+    if built?
+      I18n.t('tim.base_images.target_images.statuses.complete')
+    elsif status == STATUS_FAILED
+      I18n.t('tim.base_images.target_images.statuses.failed')
+    else
+      # TODO: is it OK to consider nil status as building?
+      I18n.t('tim.base_images.target_images.statuses.building')
+    end
+  end
+
+  # imagefactory states are not standardized and it can return both
+  # COMPLETE and COMPLETED states
+  def status=(state)
+    state = STATUS_COMPLETE if state == 'COMPLETED'
+    write_attribute(:status, state)
   end
 
   private
