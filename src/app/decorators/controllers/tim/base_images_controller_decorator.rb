@@ -41,7 +41,11 @@ Tim::BaseImagesController.class_eval do
       flash[:notice] = "Successfully created Base Image"
     else
       set_new_form_variables
-      flash.now[:error] = @base_image.errors.full_messages
+      # TODO: this is temporary fix until this bug is fixed:
+      # https://github.com/aeolus-incubator/tim/issues/69
+      # we display errors only for selected fields about which we know these are
+      # on the page:
+      flash.now[:error] = filtered_errors(@base_image)
     end
     respond_with @base_image
   end
@@ -234,4 +238,15 @@ Tim::BaseImagesController.class_eval do
     provider_accounts.select{|pa| pa.provider.provider_type_id == provider_type.id}
   end
 
+  def filtered_errors(obj)
+    obj.errors.map do |attr, error|
+      next unless [
+        :name,
+        :base,
+        :"image_versions.target_images.provider_images.external_image_id",
+        :"image_versions.target_images.provider_type_id"
+      ].include?(attr)
+      obj.errors.full_message(attr, error)
+    end.uniq
+  end
 end
