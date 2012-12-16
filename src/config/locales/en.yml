@@ -1557,6 +1557,16 @@ en:
           one: '1 failed push attempt'
           other: '%{count} failed push attempts'
         push_started: 'Push is about to start'
+      target_images:
+        statuses:
+          complete: Complete
+          failed: Failed
+          building: Building
+      provider_images:
+        statuses:
+          complete: Complete
+          failed: Failed
+          pushing: Pushing
       flash:
         notice:
           deleted: Image Deleted
