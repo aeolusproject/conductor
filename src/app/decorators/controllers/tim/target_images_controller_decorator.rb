@@ -21,8 +21,16 @@ Tim::TargetImagesController.class_eval do
   before_filter :check_view_permission, :only => [:show]
   before_filter :check_modify_permission, :only => [:edit, :update, :destroy]
   before_filter :check_create_permission, :only => [:new, :create]
+  before_filter :redirect_to_base_image, :only => [:create, :destroy]
 
   private
+
+  def redirect_to_base_image
+    @respond_options = {
+      :location  => tim.base_image_path(@target_image.base_image),
+      :responder => Tim::RedirResponder
+    } if request.format == :html
+  end
 
   def load_permissioned_target_images
     images = Tim::BaseImage.list_for_user(current_session,
