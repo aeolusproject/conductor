@@ -370,7 +370,6 @@ class Instance < ActiveRecord::Base
     return image.template.os.arch
   rescue => e
     logger.warn "failed to get image architecture for instance '#{name}', skipping architecture check: #{e}"
-    logger.warn e.backtrace.join("\n  ")
     nil
   end
 
